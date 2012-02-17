@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# update caches
+
+kextcache -system-cache
+
+exit 0
