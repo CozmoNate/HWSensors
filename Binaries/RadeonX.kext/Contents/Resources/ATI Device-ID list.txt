@@ -1,0 +1,113 @@
+// June 2010
+
+//  {“ ATI Vendor ID: 0x1002” “}
+
+// Retail name, ASIC, Device ID
+
+VENDOR ID 1002 
+Product ASIC Table
+
+{ “ATI All-in-Wonder HD" , RV630, 9598”} 
+{ “ATI Radeon HD 2350" , RV610, 94C7”}
+{ “ATI Radeon HD 2350 Series" , RV610, 94C3”} 
+{ “ATI Radeon HD 2400 Series" , RV610, 94C3”}
+{ “ATI Radeon HD 2400 Series " , RV610, 94C1”}
+{ “ATI Radeon HD 2400 Series  " , RV610, 94CC”}
+{ “ATI Radeon HD 2400 LE " , RV610, 94C3”} 
+{ “ATI Radeon HD 2400 PRO         " , RV610, 94C3”} 
+{ “ATI Radeon HD 2400 XT " , RV610, 94C1”} 
+{ “ATI Radeon HD 2600 PRO" , RV630, 9589”}
+{ “ATI Radeon HD 2600 X2 Series" , RV630, 958A”}
+{ “ATI Radeon HD 2600 XT" , RV630, 9588”}
+{ “ATI Radeon HD 2900 GT" , R600, 9405”}
+{ “ATI Radeon HD 2900 XT " , R600, 9400”}
+{ “ATI Radeon HD 2900 PRO" , R600, 9400”} 
+{ “ATI Radeon HD 2900 XT" , R600, 9400”}
+{ “ATI Radeon 3100 Graphics" , RS780, 9611”}
+{ “ATI Radeon HD 3200 Graphics" , RS780, 9610”}
+{ “ATI Radeon HD 3300 Graphics" , RS780D, 9614”}
+{ “ATI Radeon HD 3400 Series" , RV610, 95C0”}
+{ “ATI Radeon HD 3400 Series " , RV610, 95C5”}
+{ “ATI Radeon HD 3410" , RV610, 94C3”} 
+{ “ATI Radeon HD 3450" , RV610, 95C5”} 
+{ “ATI Radeon HD 3550  " , RV610, 95C0”} 
+{ “ATI Radeon HD 3550 " , RV610, 95C5”} 
+{ “ATI Radeon HD 3570" , RV610, 95C0”} 
+{ “ATI Radeon HD 3600 Series  " , RV630, 9598”}
+{ “ATI Radeon HD 3600 Series" , RV630, 9589”} 
+{ “ATI Radeon HD 3610" , RV630, 9589”} 
+{ “ATI Radeon HD 3690  " , RV630, 9501”} 
+{ “ATI Radeon HD 3690   " , RV630, 9505”} 
+{ “ATI Radeon HD 3730" , RV630, 9598”} 
+{ “ATI Radeon HD3750" , RV630, 9598”} 
+{ “ATI Radeon HD 3800 Series" , RV630, 9501”}
+{ “ATI Radeon HD 3800 Series " , RV630, 9505”}
+{ “ATI Radeon HD 3830" , RV630, 9507”}
+{ “ATI Radeon HD 3850 " , RV630, 9505”} 
+{ “ATI Radeon HD 3850 X2" , RV630, 9513”}
+{ “ATI Radeon HD 3870" , RV630, 9501”} 
+{ “ATI Radeon HD 3870 X2" , RV630, 950F”}
+{ “ATI Radeon HD 4200" , RS880, 9710”}
+{ “ATI Radeon HD 4230" , RV610, 95C5”} 
+{ “ATI Radeon HD 4250  " , RV610, 95C5”} 
+{ “ATI Radeon HD 4250      " , RS880, 9715”}
+{ “ATI Radeon HD 4290" , RS880, 9714”}
+{ “ATI Radeon HD 4300/4500 Series" , R710, 954F”}
+{ “ATI Radeon HD 4520" , R710, 954F”} 
+{ “ATI Radeon HD 4550  " , R710, 9540”}
+{ “ATI Radeon HD 4450" , R710, 954F”} 
+{ “ATI Radeon HD 4570   " , RV630, 9598”} 
+{ “ATI Radeon HD 4580 " , RV630, 9598”} 
+{ “ATI Radeon HD 4590 " , R730, 9540”} 
+{ “ATI Radeon HD 4600 Series " , R730, 9490”}
+{ “ATI Radeon HD 4600 Series" , R730, 9498”} 
+{ “ATI Radeon HD 4610 " , RV630, 9598”} 
+{ “ATI Radeon HD 4650" , R730, 9498”} 
+{ “ATI Radeon HD 4670" , R730, 9498”} 
+{ “ATI Radeon HD 4700 Series " , RV770, 944E”}
+{ “ATI Radeon HD 4700 Series  " , RV740, 94B4”}
+{ “ATI Radeon HD 4700" , R730, 9498”} 
+{ “ATI Radeon HD 4710" , R730, 9490”} 
+{ “ATI Radeon HD 4720" , R730, 9498”} 
+{ “ATI Radeon HD 4730 Series" , RV770, 944E”} 
+{ “ATI Radeon HD 4730" , RV630, 9505”} 
+{ “ATI Radeon HD 4750   " , RV630, 9501”} 
+{ “ATI Radeon HD 4750    " , RV630, 9505”} 
+{ “ATI Radeon HD 4770" , RV740, 94B3”} 
+{ “ATI Radeon HD 4770  " , RV740, 94B5”}
+{ “ATI Radeon HD 4800 Series        " , RV770, 9440”}
+{ “ATI Radeon HD 4800 Series         " , RV770, 9442”}
+{ “ATI Radeon HD 4800 Series          " , RV770, 944C”}
+{ “ATI Radeon HD 4800 Series           " , RV790, 9460”}
+{ “ATI Radeon HD 4800 Series            " , RV790, 9462”}
+{ “ATI Radeon HD 4800 Series     " , M98, 944A”} 
+{ “ATI Radeon HD 4810 Series  " , RV770, 944E”} 
+{ “ATI Radeon HD 4820" , RV770, 944E”} 
+{ “ATI Radeon HD 4830" , RV770, 944C”} 
+{ “ATI Radeon HD 4850 X2" , RV700, 9443”}
+{ “ATI Radeon HD 4850" , RV770, 9442”} 
+{ “ATI Radeon HD 4870" , RV770, 9440”} 
+{ “ATI Radeon HD 4870 X2 " , RV700, 9441”}
+{ “ATI Radeon HD 5400 Series" , EvergreenC, 68F9”} 
+{ “ATI Radeon HD 5470" , EvergreenC, 68F9”} 
+{ “ATI Radeon HD 5490 " , EvergreenC, 68F9”} 
+{ “ATI Radeon HD 5500 Series" , Evergreen, 68D9”}
+{ “ATI Radeon HD 5500 Series " , Evergreen, 68DA”}
+{ “ATI Radeon HD 5530" , EvergreenC, 68F9”} 
+{ “ATI Radeon HD 5600 Series" , Evergreen, 68D8”}
+{ “ATI Radeon HD 5600 Series " , Evergreen, 68B9”}
+{ “ATI Radeon HD 5630   " , Evergreen, 68D9”} 
+{ “ATI Radeon HD 5630  " , Evergreen, 68DA”} 
+{ “ATI Radeon HD 5690" , Evergreen, 68D8”} 
+{ “ATI Radeon HD 5730" , Evergreen, 68D8”} 
+{ “ATI Radeon HD 5700 Series" , Evergreen, 68B8”}
+{ “ATI Radeon HD 5700 Series " , Evergreen, 68BE”}
+{ “ATI Radeon HD 5800 Series" , Evergreen, 6898”}
+{ “ATI Radeon HD 5800 Series " , Evergreen, 6899”}
+{ “ATI Radeon HD 5800 Series  " , Evergreen, 689E”}
+{ “ATI Radeon HD 5900 Series" , EvergreenH, 689C”} 
+{"AMD 760G" , RS780, 9616”}
+{"AMD FireStream 9170" , RV630, 9519”}
+{"AMD FireStream 9250" , RV770, 9452”}
+{"AMD FireStream 9270" , RV770, 9450”}
+
