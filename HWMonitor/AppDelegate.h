@@ -36,7 +36,6 @@ typedef struct ATASmartVendorSpecific1Data
     
     NSMutableArray *        sensorsList;
     NSDictionary *          driveTemperatures;
-    NSTimer *               updatedriveTemperaturesTimer;
     
     BOOL                    isMenuVisible;
     int                     menusCount;

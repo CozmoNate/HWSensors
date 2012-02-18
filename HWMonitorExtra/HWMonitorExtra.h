@@ -41,7 +41,6 @@ typedef struct ATASmartVendorSpecific1Data
     
     NSMutableArray *    sensorsList;
     NSDictionary *      driveTemperatures;
-    NSTimer *           updatedriveTemperaturesTimer;
     
     NSFont *            statusBarFont;
     NSFont *            statusMenuFont;
