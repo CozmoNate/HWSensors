@@ -9,8 +9,9 @@
 #import "HWMonitorExtra.h"
 #import "HWMonitorView.h"
 
-#include "FakeSMCDefinitions.h"
 #include <IOKit/storage/ata/ATASMARTLib.h>
+#include "NSString+TruncateToWidth.h"
+#include "FakeSMCDefinitions.h"
 
 @implementation HWMonitorExtra
 
@@ -29,7 +30,7 @@
         
         while (sensor = (HWMonitorSensor *)[enumerator nextObject]) {
             if (force || [self isMenuDown] || [sensor favorite]) {
-                CFTypeRef name = (CFTypeRef) CFStringCreateWithCString(kCFAllocatorDefault, [[sensor key] cStringUsingEncoding:NSASCIIStringEncoding], kCFStringEncodingASCII);
+                CFTypeRef name = (CFTypeRef) CFStringCreateWithCString(kCFAllocatorDefault, [[sensor key] cStringUsingEncoding:NSUTF16StringEncoding], kCFStringEncodingUTF16);
                 
                 CFArrayAppendValue(list, name);
                 
@@ -55,10 +56,13 @@
                         NSString * value = [sensor formateValue:[values objectForKey:[sensor key]]];
                         
                         if (force || [self isMenuDown]) {
-                            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[[NSString alloc] initWithFormat:@"%S\t%S",[[sensor caption] cStringUsingEncoding:NSUTF16StringEncoding],[value cStringUsingEncoding:NSUTF16StringEncoding]] attributes:statusMenuAttributes];
+                            NSString * value = [sensor formateValue:[values objectForKey:[sensor key]]];
+                            NSString * caption = [[sensor caption] stringByTruncatingToWidth:145.0 withFont:statusMenuFont];
+                            
+                            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[[NSString alloc] initWithFormat:@"%S\t%S",[caption cStringUsingEncoding:NSUTF16StringEncoding],[value cStringUsingEncoding:NSUTF16StringEncoding]] attributes:statusMenuAttributes];
                             
                             [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
-
+                            
                             // Update menu item title
                             [(NSMenuItem *)[sensor object] setAttributedTitle:title];
                         }
@@ -331,20 +335,19 @@
     
     [self insertFooterAndTitle:@"MULTIPLIERS"];
     
-    // Voltages
-    
-    [self addSensorWithKey:@"VC0C" andCaption:@"CPU Voltage" intoGroup:VoltageSensorGroup];
-    [self addSensorWithKey:@"VM0R" andCaption:@"DIMM Voltage" intoGroup:VoltageSensorGroup];
-    
-    [self insertFooterAndTitle:@"VOLTAGES"];
-    
     // Fans
     
     for (int i=0; i<10; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@"F%XAc",i] andCaption:[[NSString alloc] initWithFormat:@"Fan %X",i] intoGroup:TachometerSensorGroup];
     
     [self insertFooterAndTitle:@"FANS"];
-
+    
+    // Voltages
+    
+    [self addSensorWithKey:@"VC0C" andCaption:@"CPU Voltage" intoGroup:VoltageSensorGroup];
+    [self addSensorWithKey:@"VM0R" andCaption:@"DIMM Voltage" intoGroup:VoltageSensorGroup];
+    
+    [self insertFooterAndTitle:@"VOLTAGES"];
     
     if ([sensorsList count] == 0) {
         NSMenuItem * item = [[NSMenuItem alloc]initWithTitle:@"No sensors found or FakeSMCDevice unavailable" action:nil keyEquivalent:@""];
