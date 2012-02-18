@@ -16,7 +16,10 @@
 
 - (HWMonitorSensor *)addSensorWithKey:(NSString *)key andCaption:(NSString *)caption intoGroup:(SensorGroup)group
 {
-    if (group == SMARTTemperatureSensorGroup || [HWMonitorSensor populateValueForKey:key]) {       
+    if (group == SMARTTemperatureSensorGroup || [HWMonitorSensor populateValueForKey:key]) {   
+        
+        caption = [caption stringByTruncatingToWidth:145.0f withFont:statusItemFont]; 
+        
         HWMonitorSensor * sensor = [[HWMonitorSensor alloc] initWithKey:key andGroup:group withCaption:caption];
         
         [sensor setFavorite:[[NSUserDefaults standardUserDefaults] boolForKey:key]];
@@ -60,79 +63,86 @@
     CFDictionaryRef matching = IOServiceMatching("IOBlockStorageDevice");
     io_iterator_t iterator = IO_OBJECT_NULL;
     
-    if (kIOReturnSuccess == IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator)) {
-        io_service_t service = MACH_PORT_NULL;
+    if (kIOReturnSuccess == IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator)) {     
         
-        NSMutableDictionary * result = [[NSMutableDictionary alloc] init];
+        if (IO_OBJECT_NULL != iterator) {
         
-        while (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
+            io_service_t service = MACH_PORT_NULL;
             
-            CFBooleanRef capable = (CFBooleanRef)IORegistryEntryCreateCFProperty(service, CFSTR(kIOPropertySMARTCapableKey), kCFAllocatorDefault, 0);
+            NSMutableDictionary * result = [[NSMutableDictionary alloc] init];
             
-            if (capable != IO_OBJECT_NULL) {
-                if (CFBooleanGetValue(capable)) {
-                    
-                    NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
-                    
-                    if (characteristics) {
+            while (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
+                
+                CFBooleanRef capable = (CFBooleanRef)IORegistryEntryCreateCFProperty(service, CFSTR(kIOPropertySMARTCapableKey), kCFAllocatorDefault, 0);
+                
+                if (capable != IO_OBJECT_NULL) {
+                    if (CFBooleanGetValue(capable)) {
                         
-                        NSString * name = [characteristics objectForKey:@"Product Name"];
+                        NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
                         
-                        if (name) {
+                        if (characteristics) {
                             
-                            /*UInt16 t = 0;
-                             
-                             [result setObject:[NSData dataWithBytes:&t length:2] forKey:name];*/
+                            NSString * name = [characteristics objectForKey:@"Product Name"];
                             
-                            IOCFPlugInInterface ** pluginInterface = NULL;
-                            IOATASMARTInterface ** smartInterface = NULL;
-                            SInt32 score = 0;
-                            HRESULT res = S_OK;
-                            
-                            if (kIOReturnSuccess == IOCreatePlugInInterfaceForService(service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
+                            if (name) {
                                 
-                                res = (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes( kIOATASMARTInterfaceID), (LPVOID)&smartInterface);
+                                /*UInt16 t = 0;
+                                 
+                                 [result setObject:[NSData dataWithBytes:&t length:2] forKey:name];*/
                                 
-                                if (res == S_OK) {
-                                    ATASMARTData data;
-                                    ATASmartVendorSpecific1Data specific1;
+                                IOCFPlugInInterface ** pluginInterface = NULL;
+                                IOATASMARTInterface ** smartInterface = NULL;
+                                SInt32 score = 0;
+                                HRESULT res = S_OK;
+                                
+                                if (kIOReturnSuccess == IOCreatePlugInInterfaceForService(service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
                                     
-                                    bzero(&data, sizeof(data));
-                                    bzero(&specific1, sizeof(specific1));
+                                    res = (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes( kIOATASMARTInterfaceID), (LPVOID)&smartInterface);
                                     
-                                    if(kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true))
-                                        if (kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true))
-                                            if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &data)) 
-                                                if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &data)) {
-                                                    
-                                                    specific1 = *((ATASmartVendorSpecific1Data*)&(data.vendorSpecific1));
-                                                    
-                                                    for (int index = 0; index < kATASmartVendorSpecific1AttributesCount; index++) {
+                                    if (res == S_OK) {
+                                        ATASMARTData data;
+                                        ATASmartVendorSpecific1Data specific1;
+                                        
+                                        bzero(&data, sizeof(data));
+                                        bzero(&specific1, sizeof(specific1));
+                                        
+                                        if(kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true))
+                                            if (kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true))
+                                                if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &data)) 
+                                                    if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &data)) {
                                                         
-                                                        ATASmartAttribute attribute = specific1.vendorAttributes[index];
+                                                        specific1 = *((ATASmartVendorSpecific1Data*)&(data.vendorSpecific1));
                                                         
-                                                        if (attribute.attributeId == kATASmartVendorSpecific1TemperatureAttribute)
-                                                            [result setObject:[NSData dataWithBytes:&attribute.rawvalue[0] length:2] forKey:name];
+                                                        for (int index = 0; index < kATASmartVendorSpecific1AttributesCount; index++) {
+                                                            
+                                                            ATASmartAttribute attribute = specific1.vendorAttributes[index];
+                                                            
+                                                            if (attribute.attributeId == kATASmartVendorSpecific1TemperatureAttribute)
+                                                                [result setObject:[NSData dataWithBytes:&attribute.rawvalue[0] length:2] forKey:name];
+                                                        }
                                                     }
-                                                }
+                                        
+                                        (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, false);
+                                        (*smartInterface)->SMARTEnableDisableOperations(smartInterface, false);
+                                    }   
                                     
-                                    (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, false);
-                                    (*smartInterface)->SMARTEnableDisableOperations(smartInterface, false);
-                                }   
-                                
-                                (*smartInterface )->Release(smartInterface);
-                                IODestroyPlugInInterface(pluginInterface);
+                                    (*smartInterface )->Release(smartInterface);
+                                    IODestroyPlugInInterface(pluginInterface);
+                                }
                             }
                         }
                     }
+                    
+                    CFRelease(capable);
                 }
-                CFRelease(capable);
+                
+                IOObjectRelease(service);
             }
             
-            IOObjectRelease(service);
+            IOObjectRelease(iterator);
+            
+            driveTemperatures = [NSDictionary dictionaryWithDictionary:result];
         }
-        
-        driveTemperatures = [NSDictionary dictionaryWithDictionary:result];
     }
 }
 
@@ -176,9 +186,8 @@
                     
                     if (isMenuVisible) {
                         NSString * value = [sensor formateValue:[values objectForKey:[sensor key]]];
-                        NSString * caption = [[sensor caption] stringByTruncatingToWidth:145.0 withFont:statusItemFont];
                              
-                        NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[[NSString alloc] initWithFormat:@"%S\t%S",[caption cStringUsingEncoding:NSUTF16StringEncoding],[value cStringUsingEncoding:NSUTF16StringEncoding]] attributes:statusMenuAttributes];
+                        NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[[NSString alloc] initWithFormat:@"%S\t%S",[[sensor caption] cStringUsingEncoding:NSUTF16StringEncoding],[value cStringUsingEncoding:NSUTF16StringEncoding]] attributes:statusMenuAttributes];
 
                         [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
                         
@@ -242,13 +251,23 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    // Main sensors timer
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
                                 [self methodSignatureForSelector:@selector(updateTitles)]];
     [invocation setTarget:self];
     [invocation setSelector:@selector(updateTitles)];
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     [self updateTitles];
+    
+    // Main SMART timer
+    invocation = [NSInvocation invocationWithMethodSignature:
+                  [self methodSignatureForSelector:@selector(updateDrivesTemperatures)]];
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(updateDrivesTemperatures)];
+    
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
 }
 
 - (void)awakeFromNib
@@ -344,8 +363,6 @@
         
         [statusMenu insertItem:item atIndex:0];
     }
-    
-    updatedriveTemperaturesTimer = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(updateDrivesTemperatures) userInfo:nil repeats:YES];
 }
 
 @end
