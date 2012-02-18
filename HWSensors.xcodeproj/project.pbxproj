@@ -14,9 +14,6 @@
 		1D05AC0313ED0E2E00EADBF6 /* FakeSMCKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D05ABFD13ED0E2E00EADBF6 /* FakeSMCKey.cpp */; };
 		1D05AC0413ED0E2E00EADBF6 /* FakeSMCKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D05ABFE13ED0E2E00EADBF6 /* FakeSMCKey.h */; };
 		1D05AC0613ED0E8D00EADBF6 /* FakeSMC-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 1D05AC0513ED0E8D00EADBF6 /* FakeSMC-Prefix.pch */; };
-		1D05AC1813ED0FA900EADBF6 /* cpuid.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D05AC1413ED0FA900EADBF6 /* cpuid.h */; };
-		1D05AC1913ED0FA900EADBF6 /* TigerAdditionals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D05AC1513ED0FA900EADBF6 /* TigerAdditionals.cpp */; };
-		1D05AC1A13ED0FA900EADBF6 /* TigerAdditionals.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D05AC1613ED0FA900EADBF6 /* TigerAdditionals.h */; };
 		1D05AC2813ED100D00EADBF6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D05AC2613ED100D00EADBF6 /* InfoPlist.strings */; };
 		1D05AC3713ED109200EADBF6 /* IntelThermal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D05AC3513ED109200EADBF6 /* IntelThermal.cpp */; };
 		1D05AC3813ED109200EADBF6 /* IntelThermal.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D05AC3613ED109200EADBF6 /* IntelThermal.h */; };
@@ -121,9 +118,6 @@
 		1D05AC0513ED0E8D00EADBF6 /* FakeSMC-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FakeSMC-Prefix.pch"; sourceTree = "<group>"; };
 		1D05AC0813ED0E9600EADBF6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1D05AC0A13ED0E9D00EADBF6 /* FakeSMC-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FakeSMC-Info.plist"; sourceTree = "<group>"; };
-		1D05AC1413ED0FA900EADBF6 /* cpuid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cpuid.h; path = Utils/cpuid.h; sourceTree = "<group>"; };
-		1D05AC1513ED0FA900EADBF6 /* TigerAdditionals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TigerAdditionals.cpp; path = Utils/TigerAdditionals.cpp; sourceTree = "<group>"; };
-		1D05AC1613ED0FA900EADBF6 /* TigerAdditionals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TigerAdditionals.h; path = Utils/TigerAdditionals.h; sourceTree = "<group>"; };
 		1D05AC2213ED100D00EADBF6 /* IntelThermal.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntelThermal.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D05AC2713ED100D00EADBF6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1D05AC2D13ED100D00EADBF6 /* IntelThermal-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IntelThermal-Prefix.pch"; sourceTree = "<group>"; };
@@ -251,6 +245,9 @@
 		6A979D8814DC802700D65073 /* HWMonitorSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorSensor.m; sourceTree = "<group>"; };
 		6A9955BE14EFAD360052C702 /* NSString+TruncateToWidth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+TruncateToWidth.h"; sourceTree = "<group>"; };
 		6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+TruncateToWidth.m"; sourceTree = "<group>"; };
+		6A9955C214EFAEE50052C702 /* cpuid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpuid.h; sourceTree = "<group>"; };
+		6A9955C314EFAEE50052C702 /* TigerAdditionals.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TigerAdditionals.cpp; sourceTree = "<group>"; };
+		6A9955C414EFAEE50052C702 /* TigerAdditionals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TigerAdditionals.h; sourceTree = "<group>"; };
 		6A9A244814E65E9C0088F3AA /* SuperIOMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuperIOMonitor.cpp; sourceTree = "<group>"; };
 		6A9A244914E65E9C0088F3AA /* SuperIOMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIOMonitor.h; sourceTree = "<group>"; };
 		6A9C468814E657EE0083E5E6 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
@@ -365,7 +362,6 @@
 		1D05ABAD13ED0D7000EADBF6 = {
 			isa = PBXGroup;
 			children = (
-				1D05AC1313ED0F7100EADBF6 /* Utils */,
 				6A9955BD14EFAD360052C702 /* Shared */,
 				1D05ABE913ED0DAD00EADBF6 /* FakeSMC */,
 				1D05AC3113ED101200EADBF6 /* Plug-Ins */,
@@ -441,16 +437,6 @@
 				1DA9624F13ED34430096F8A5 /* License.txt */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		1D05AC1313ED0F7100EADBF6 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				1D05AC1413ED0FA900EADBF6 /* cpuid.h */,
-				1D05AC1613ED0FA900EADBF6 /* TigerAdditionals.h */,
-				1D05AC1513ED0FA900EADBF6 /* TigerAdditionals.cpp */,
-			);
-			name = Utils;
 			sourceTree = "<group>";
 		};
 		1D05AC2313ED100D00EADBF6 /* IntelThermal */ = {
@@ -775,6 +761,9 @@
 		6A9955BD14EFAD360052C702 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				6A9955C214EFAEE50052C702 /* cpuid.h */,
+				6A9955C314EFAEE50052C702 /* TigerAdditionals.cpp */,
+				6A9955C414EFAEE50052C702 /* TigerAdditionals.h */,
 				6A9955BE14EFAD360052C702 /* NSString+TruncateToWidth.h */,
 				6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */,
 			);
@@ -790,8 +779,6 @@
 			files = (
 				6A9C468F14E657EE0083E5E6 /* FakeSMCUtils.h in Headers */,
 				6A9C468C14E657EE0083E5E6 /* FakeSMCDefinitions.h in Headers */,
-				1D05AC1813ED0FA900EADBF6 /* cpuid.h in Headers */,
-				1D05AC1A13ED0FA900EADBF6 /* TigerAdditionals.h in Headers */,
 				1D05AC0013ED0E2E00EADBF6 /* FakeSMC.h in Headers */,
 				1D05AC0213ED0E2E00EADBF6 /* FakeSMCDevice.h in Headers */,
 				1D05AC0413ED0E2E00EADBF6 /* FakeSMCKey.h in Headers */,
@@ -1376,7 +1363,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D05AC1913ED0FA900EADBF6 /* TigerAdditionals.cpp in Sources */,
 				1D05ABFF13ED0E2E00EADBF6 /* FakeSMC.cpp in Sources */,
 				1D05AC0113ED0E2E00EADBF6 /* FakeSMCDevice.cpp in Sources */,
 				1D05AC0313ED0E2E00EADBF6 /* FakeSMCKey.cpp in Sources */,
