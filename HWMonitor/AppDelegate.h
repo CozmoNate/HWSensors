@@ -10,25 +10,6 @@
 
 #include "HWMonitorSensor.h"
 
-#define kATASmartVendorSpecific1AttributesCount         30
-#define kATASmartVendorSpecific1TemperatureAttribute    0xC2
-
-typedef struct ATASmartAttribute
-{
-    UInt8 			attributeId;
-    UInt16			flag;  
-    UInt8 			current;
-    UInt8 			worst;
-    UInt8 			rawvalue[6];
-    UInt8 			reserv;
-}  __attribute__ ((packed)) ATASmartAttribute;
-
-typedef struct ATASmartVendorSpecific1Data
-{
-    UInt16 					revisonNumber;
-    ATASmartAttribute		vendorAttributes [kATASmartVendorSpecific1AttributesCount];
-} __attribute__ ((packed)) ATASmartVendorSpecific1Data;
-
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     NSStatusItem *          statusItem;
     NSFont *                statusItemFont;

@@ -11,6 +11,7 @@
 
 #include <IOKit/storage/ata/ATASMARTLib.h>
 #include "FakeSMCDefinitions.h"
+#include "SMART.h"
 
 @implementation AppDelegate
 
@@ -117,8 +118,15 @@
                                                             
                                                             ATASmartAttribute attribute = specific1.vendorAttributes[index];
                                                             
-                                                            if (attribute.attributeId == kATASmartVendorSpecific1TemperatureAttribute)
-                                                                [result setObject:[NSData dataWithBytes:&attribute.rawvalue[0] length:2] forKey:name];
+                                                            switch (attribute.attributeId) {
+                                                                case kATASmartVendorSpecific1Temperature:
+                                                                case kATASmartVendorSpecific1Temperature2:
+                                                                    [result setObject:[NSData dataWithBytes:&attribute.rawvalue[0] length:2] forKey:name];
+                                                                    break;
+                                                                    
+                                                                default:
+                                                                    break;
+                                                            }
                                                         }
                                                     }
                                         

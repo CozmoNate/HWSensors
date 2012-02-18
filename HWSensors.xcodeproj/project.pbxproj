@@ -255,6 +255,7 @@
 		6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCPlugin.h; sourceTree = "<group>"; };
 		6A9C468B14E657EE0083E5E6 /* FakeSMCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCUtils.h; sourceTree = "<group>"; };
 		6AAF618814D40262006E8573 /* default.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = default.icns; sourceTree = "<group>"; };
+		6AE6A3FD14F00AA100590D18 /* SMART.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMART.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -766,6 +767,7 @@
 				6A9955C414EFAEE50052C702 /* TigerAdditionals.h */,
 				6A9955BE14EFAD360052C702 /* NSString+TruncateToWidth.h */,
 				6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */,
+				6AE6A3FD14F00AA100590D18 /* SMART.h */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
