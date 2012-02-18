@@ -8,95 +8,12 @@
 
 #import "HWMonitorExtra.h"
 #import "HWMonitorView.h"
+#import "NSString+TruncateToWidth.h"
 
 #include <IOKit/storage/ata/ATASMARTLib.h>
-#include "NSString+TruncateToWidth.h"
 #include "FakeSMCDefinitions.h"
 
 @implementation HWMonitorExtra
-
-- (void)updateTitles:(BOOL)force
-{
-    io_service_t service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
-    
-    if (service) {
-        
-        NSEnumerator * enumerator = nil;
-        HWMonitorSensor * sensor = nil;
-        
-        CFMutableArrayRef list = (CFMutableArrayRef)CFArrayCreateMutable(kCFAllocatorDefault, 0, nil);
-        
-        enumerator = [sensorsList  objectEnumerator];
-        
-        while (sensor = (HWMonitorSensor *)[enumerator nextObject]) {
-            if (force || [self isMenuDown] || [sensor favorite]) {
-                CFTypeRef name = (CFTypeRef) CFStringCreateWithCString(kCFAllocatorDefault, [[sensor key] cStringUsingEncoding:NSUTF16StringEncoding], kCFStringEncodingUTF16);
-                
-                CFArrayAppendValue(list, name);
-                
-                //CFRelease(name);
-            }
-        }
-        
-        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDevicePopulateList), list)) 
-        {           
-            NSMutableDictionary * values = (__bridge_transfer NSMutableDictionary *)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
-            
-            if (values) {
-                
-                [values addEntriesFromDictionary:driveTemperatures];
-                
-                NSMutableArray * favorites = [[NSMutableArray alloc] init];
-                
-                enumerator = [sensorsList  objectEnumerator];
-                
-                while (sensor = (HWMonitorSensor *)[enumerator nextObject]) {
-                    if (force || [self isMenuDown] || [sensor favorite]) {
-                        
-                        NSString * value = [sensor formateValue:[values objectForKey:[sensor key]]];
-                        
-                        if (force || [self isMenuDown]) {
-                            NSString * value = [sensor formateValue:[values objectForKey:[sensor key]]];
-                            NSString * caption = [[sensor caption] stringByTruncatingToWidth:145.0 withFont:statusMenuFont];
-                            
-                            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[[NSString alloc] initWithFormat:@"%S\t%S",[caption cStringUsingEncoding:NSUTF16StringEncoding],[value cStringUsingEncoding:NSUTF16StringEncoding]] attributes:statusMenuAttributes];
-                            
-                            [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
-                            
-                            // Update menu item title
-                            [(NSMenuItem *)[sensor object] setAttributedTitle:title];
-                        }
-                        
-                        if ([sensor favorite])
-                            [favorites addObject:[[NSString alloc] initWithFormat:@"%S", [value cStringUsingEncoding:NSUTF16StringEncoding]]];
-                    }
-                }
-        
-                if ([favorites count] > 0)
-                    [view setTitles:favorites];
-                else 
-                    [view setTitles:nil];
-                
-                [view setNeedsDisplay:YES];
-            }
-        }
-        
-        CFArrayRemoveAllValues(list);
-        CFRelease(list);
-        
-        IOObjectRelease(service);
-    }
-}
-
-- (void)updateTitlesForced
-{
-    [self updateTitles:YES];
-}
-
-- (void)updateTitlesDefault
-{
-    [self updateTitles:NO];
-}
 
 - (HWMonitorSensor *)addSensorWithKey:(NSString *)key andCaption:(NSString *)caption intoGroup:(SensorGroup)group
 {
@@ -138,7 +55,7 @@
         NSMutableAttributedString * atributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:statusMenuAttributes];
         
         [atributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
-               
+        
         NSMenuItem * titleItem = [[NSMenuItem alloc] initWithTitle:title action:nil keyEquivalent:@""];
         
         [titleItem setEnabled:FALSE];
@@ -182,8 +99,8 @@
                         if (name) {
                             
                             /*UInt16 t = 0;
-                            
-                            [result setObject:[NSData dataWithBytes:&t length:2] forKey:name];*/
+                             
+                             [result setObject:[NSData dataWithBytes:&t length:2] forKey:name];*/
                             
                             IOCFPlugInInterface ** pluginInterface = NULL;
                             IOATASMARTInterface ** smartInterface = NULL;
@@ -240,6 +157,89 @@
     }
 }
 
+- (void)updateTitles:(BOOL)force
+{
+    io_service_t service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
+    
+    if (service) {
+        
+        NSEnumerator * enumerator = nil;
+        HWMonitorSensor * sensor = nil;
+        
+        CFMutableArrayRef list = (CFMutableArrayRef)CFArrayCreateMutable(kCFAllocatorDefault, 0, nil);
+        
+        enumerator = [sensorsList  objectEnumerator];
+        
+        while (sensor = (HWMonitorSensor *)[enumerator nextObject]) {
+            if (force || [self isMenuDown] || [sensor favorite]) {
+                CFTypeRef name = (CFTypeRef) CFStringCreateWithCString(kCFAllocatorDefault, [[sensor key] cStringUsingEncoding:NSUTF8StringEncoding], kCFStringEncodingUTF8);
+                
+                CFArrayAppendValue(list, name);
+                
+                //CFRelease(name);
+            }
+        }
+        
+        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDevicePopulateList), list)) 
+        {           
+            NSMutableDictionary * values = (__bridge_transfer NSMutableDictionary *)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
+            
+            if (values) {
+                
+                [values addEntriesFromDictionary:driveTemperatures];
+                
+                NSMutableArray * favorites = [[NSMutableArray alloc] init];
+                
+                enumerator = [sensorsList  objectEnumerator];
+                
+                while (sensor = (HWMonitorSensor *)[enumerator nextObject]) {
+                    if (force || [self isMenuDown] || [sensor favorite]) {
+                        
+                        NSString * value = [sensor formateValue:[values objectForKey:[sensor key]]];
+                        
+                        if (force || [self isMenuDown]) {
+                            NSString * value = [sensor formateValue:[values objectForKey:[sensor key]]];
+                            NSString * caption = [[sensor caption] stringByTruncatingToWidth:145.0 withFont:statusBarFont];
+                            
+                            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[[NSString alloc] initWithFormat:@"%S\t%S",[caption cStringUsingEncoding:NSUTF16StringEncoding],[value cStringUsingEncoding:NSUTF16StringEncoding]] attributes:statusMenuAttributes];
+                            
+                            [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
+                            
+                            // Update menu item title
+                            [(NSMenuItem *)[sensor object] setAttributedTitle:title];
+                        }
+                        
+                        if ([sensor favorite])
+                            [favorites addObject:[[NSString alloc] initWithFormat:@"%S", [value cStringUsingEncoding:NSUTF16StringEncoding]]];
+                    }
+                }
+        
+                if ([favorites count] > 0)
+                    [view setTitles:favorites];
+                else 
+                    [view setTitles:nil];
+                
+                [view setNeedsDisplay:YES];
+            }
+        }
+        
+        CFArrayRemoveAllValues(list);
+        CFRelease(list);
+        
+        IOObjectRelease(service);
+    }
+}
+
+- (void)updateTitlesForced
+{
+    [self updateTitles:YES];
+}
+
+- (void)updateTitlesDefault
+{
+    [self updateTitles:NO];
+}
+
 - (void)menuItemClicked:(id)sender 
 {
     NSMenuItem * menuItem = (NSMenuItem *)sender;
@@ -287,7 +287,7 @@
     style = [[NSMutableParagraphStyle alloc] init];
     [style setTabStops:[NSArray array]];
     [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:190.0]];
-    //[style setDefaultTabInterval:390.0];
+
     statusMenuAttributes = [NSDictionary dictionaryWithObject:style forKey:NSParagraphStyleAttributeName];
     
     // Init sensors
