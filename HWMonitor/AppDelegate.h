@@ -48,12 +48,11 @@ typedef struct ATASmartVendorSpecific1Data
     NSDictionary*           statusMenuAttributes;
 }
 
-- (void)updateTitles;
-- (HWMonitorSensor *)addSensorWithKey:(NSString *)key andCaption:(NSString *)caption intoGroup:(SensorGroup)group;
-- (void)insertFooterAndTitle:(NSString *)title;
+- (HWMonitorSensor *)   addSensorWithKey:(NSString *)key andCaption:(NSString *)caption intoGroup:(SensorGroup)group;
+- (void)                insertFooterAndTitle:(NSString *)title;
+- (void)                updateDrivesTemperatures;
+- (void)                updateTitles;
 
-- (void)updateDrivesTemperatures;
-
-- (void)menuItemClicked:(id)sender;
+- (void)                menuItemClicked:(id)sender;
 
 @end
