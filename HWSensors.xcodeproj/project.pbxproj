@@ -87,6 +87,7 @@
 		6A0F328014DD6A6800AA5598 /* NuvotonNCT677x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A0F327F14DD6A6800AA5598 /* NuvotonNCT677x.cpp */; };
 		6A302DA114DC179E0032C548 /* thermo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A302D9F14DC179E0032C548 /* thermo.png */; };
 		6A302DA214DC179E0032C548 /* thermotemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A302DA014DC179E0032C548 /* thermotemplate.png */; };
+		6A62185514F1802C0058C396 /* NSSmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* NSSmartReporter.m */; };
 		6A85F85414DBEF5000F863A9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9F8320144FF24000EEEFEB /* Cocoa.framework */; };
 		6A85F85E14DBEF5000F863A9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A85F85C14DBEF5000F863A9 /* InfoPlist.strings */; };
 		6A85F86714DBF12900F863A9 /* SystemUIPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A85F86614DBF12900F863A9 /* SystemUIPlugin.framework */; };
@@ -104,6 +105,7 @@
 		6A9C468E14E657EE0083E5E6 /* FakeSMCPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */; };
 		6A9C468F14E657EE0083E5E6 /* FakeSMCUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9C468B14E657EE0083E5E6 /* FakeSMCUtils.h */; };
 		6AAF618914D40262006E8573 /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6AAF618814D40262006E8573 /* default.icns */; };
+		6AB5B4EE14F2C47B0062D2D0 /* NSSmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* NSSmartReporter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -230,6 +232,8 @@
 		6A302D9E14DC135C0032C548 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A302D9F14DC179E0032C548 /* thermo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thermo.png; sourceTree = "<group>"; };
 		6A302DA014DC179E0032C548 /* thermotemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thermotemplate.png; sourceTree = "<group>"; };
+		6A62185214F17D640058C396 /* NSSmartReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSSmartReporter.h; sourceTree = "<group>"; };
+		6A62185314F17D640058C396 /* NSSmartReporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSSmartReporter.m; sourceTree = "<group>"; };
 		6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HWMonitorExtra.menu; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A85F85814DBEF5000F863A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6A85F85B14DBEF5000F863A9 /* HWMonitorExtra-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HWMonitorExtra-Info.plist"; sourceTree = "<group>"; };
@@ -768,6 +772,8 @@
 				6A9955BE14EFAD360052C702 /* NSString+TruncateToWidth.h */,
 				6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */,
 				6AE6A3FD14F00AA100590D18 /* SMART.h */,
+				6A62185214F17D640058C396 /* NSSmartReporter.h */,
+				6A62185314F17D640058C396 /* NSSmartReporter.m */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1418,6 +1424,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9955C014EFAD760052C702 /* NSString+TruncateToWidth.m in Sources */,
+				6AB5B4EE14F2C47B0062D2D0 /* NSSmartReporter.m in Sources */,
 				1D9F832C144FF24000EEEFEB /* main.m in Sources */,
 				1D9F8333144FF24000EEEFEB /* AppDelegate.m in Sources */,
 				1D978C951452CFDE00F83827 /* HWMonitorSensor.m in Sources */,
@@ -1486,6 +1493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9955C114EFAD7B0052C702 /* NSString+TruncateToWidth.m in Sources */,
+				6A62185514F1802C0058C396 /* NSSmartReporter.m in Sources */,
 				6A979D8914DC802700D65073 /* HWMonitorSensor.m in Sources */,
 				6A85F86B14DBF21700F863A9 /* HWMonitorExtra.m in Sources */,
 				6A85F86E14DBF37800F863A9 /* HWMonitorView.m in Sources */,

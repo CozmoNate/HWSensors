@@ -9,11 +9,12 @@
 #ifndef HWSensors_SMART_h
 #define HWSensors_SMART_h
 
-#define kATASmartVendorSpecific1AttributesCount 30
-#define kATASmartVendorSpecific1Temperature     0xC2
-#define kATASmartVendorSpecific1Temperature2    0xE7
+#define kATASMARTVendorSpecific1AttributesCount     30
 
-typedef struct ATASmartAttribute
+#define kATASMARTAttributeTemperature               0xC2
+#define kATASMARTAttributeTemperature2              0xE7
+
+typedef struct ATASMARTAttribute
 {
     UInt8 			attributeId;
     UInt16			flag;  
@@ -21,12 +22,12 @@ typedef struct ATASmartAttribute
     UInt8 			worst;
     UInt8 			rawvalue[6];
     UInt8 			reserv;
-}  __attribute__ ((packed)) ATASmartAttribute;
+}  __attribute__ ((packed)) ATASMARTAttribute;
 
-typedef struct ATASmartVendorSpecific1Data
+typedef struct ATASMARTVendorSpecific1Data
 {
     UInt16 					revisonNumber;
-    ATASmartAttribute		vendorAttributes [kATASmartVendorSpecific1AttributesCount];
-} __attribute__ ((packed)) ATASmartVendorSpecific1Data;
+    ATASMARTAttribute		vendorAttributes [kATASMARTVendorSpecific1AttributesCount];
+} __attribute__ ((packed)) ATASMARTVendorSpecific1Data;
 
 #endif

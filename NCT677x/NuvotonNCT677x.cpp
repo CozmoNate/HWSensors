@@ -238,12 +238,12 @@ bool NCT677x::probePort()
     
     IOSleep(50);
     
-    UInt16 vendor = (UInt16)(listenPortByte(NUVOTON_VENDOR_ID_HIGH_REGISTER) << 8) | listenPortByte(NUVOTON_VENDOR_ID_LOW_REGISTER);
+    UInt16 vendor = (UInt16)(readByte(NUVOTON_VENDOR_ID_HIGH_REGISTER) << 8) | readByte(NUVOTON_VENDOR_ID_LOW_REGISTER);
     
     if (vendor != NUVOTON_VENDOR_ID)
     {
         WarningLog("wrong vendor id (0x%x), continue loading...", vendor);
-        //return false;
+        return false;
     }
     
 	return true;
