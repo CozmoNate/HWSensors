@@ -49,6 +49,7 @@ bool ATICard::initialize()
 	switch (rinfo->ChipFamily) {
 		case CHIP_FAMILY_R600:
 		case CHIP_FAMILY_RV610:
+		case CHIP_FAMILY_RV620:
 		case CHIP_FAMILY_RV630:
 		case CHIP_FAMILY_RV670:
 			//setup_R6xx();
@@ -56,9 +57,11 @@ bool ATICard::initialize()
 			break;
 		case CHIP_FAMILY_R700:
 		case CHIP_FAMILY_R710:
+    case CHIP_FAMILY_RV710:  
 		case CHIP_FAMILY_R730:
 		case CHIP_FAMILY_RV740:
 		case CHIP_FAMILY_RV770:
+    case CHIP_FAMILY_RS780:  
 		case CHIP_FAMILY_RV790:
 			//setup_R7xx();
 			tempFamily = R7xx;
