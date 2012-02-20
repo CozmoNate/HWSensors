@@ -93,7 +93,7 @@
                         if (characteristics) {
                             NSString * type = [characteristics objectForKey:@"Medium Type"];
                             
-                            if (type != nil && [type isEqualToString:@"Rotational"]) {
+                            if (type && [type isEqualToString:@"Rotational"]) {
                             
                                 NSString * name = [characteristics objectForKey:@"Product Name"];
                                 

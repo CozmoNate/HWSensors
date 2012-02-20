@@ -455,7 +455,7 @@ bool W836x::probePort()
     
     if (vendor != WINBOND_VENDOR_ID)
     {
-        WarningLog("wrong vendor id (0x%x), continue loading...", vendor);
+        WarningLog("wrong vendor ID=0x%x", vendor);
         return false;
     }
     
