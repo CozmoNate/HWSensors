@@ -82,60 +82,64 @@
                         NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
                         
                         if (characteristics) {
+                            NSString * type = [characteristics objectForKey:@"Medium Type"];
                             
-                            NSString * name = [characteristics objectForKey:@"Product Name"];
-                            
-                            if (name) {
+                            if (type != nil && [type isEqualToString:@"Rotational"]) {
                                 
-                                /*UInt16 t = 0;
-                                 
-                                 [result setObject:[NSData dataWithBytes:&t length:2] forKey:name];*/
+                                NSString * name = [characteristics objectForKey:@"Product Name"];
                                 
-                                IOCFPlugInInterface ** pluginInterface = NULL;
-                                IOATASMARTInterface ** smartInterface = NULL;
-                                SInt32 score = 0;
-                                HRESULT res = S_OK;
-                                
-                                if (kIOReturnSuccess == IOCreatePlugInInterfaceForService(service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
+                                if (name) {
                                     
-                                    res = (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes( kIOATASMARTInterfaceID), (LPVOID)&smartInterface);
+                                    /*UInt16 t = 0;
+                                     
+                                     [result setObject:[NSData dataWithBytes:&t length:2] forKey:name];*/
                                     
-                                    if (res == S_OK) {
-                                        ATASMARTData data;
-                                        ATASmartVendorSpecific1Data specific1;
+                                    IOCFPlugInInterface ** pluginInterface = NULL;
+                                    IOATASMARTInterface ** smartInterface = NULL;
+                                    SInt32 score = 0;
+                                    HRESULT res = S_OK;
+                                    
+                                    if (kIOReturnSuccess == IOCreatePlugInInterfaceForService(service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
                                         
-                                        bzero(&data, sizeof(data));
-                                        bzero(&specific1, sizeof(specific1));
+                                        res = (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes( kIOATASMARTInterfaceID), (LPVOID)&smartInterface);
                                         
-                                        if(kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true))
-                                            if (kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true))
-                                                if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &data)) 
-                                                    if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &data)) {
-                                                        
-                                                        specific1 = *((ATASmartVendorSpecific1Data*)&(data.vendorSpecific1));
-                                                        
-                                                        for (int index = 0; index < kATASmartVendorSpecific1AttributesCount; index++) {
+                                        if (res == S_OK) {
+                                            ATASMARTData data;
+                                            ATASMARTVendorSpecific1Data specific1;
+                                            
+                                            bzero(&data, sizeof(data));
+                                            bzero(&specific1, sizeof(specific1));
+                                            
+                                            if(kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true))
+                                                if (kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true))
+                                                    if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &data)) 
+                                                        if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &data)) {
                                                             
-                                                            ATASmartAttribute attribute = specific1.vendorAttributes[index];
+                                                            specific1 = *((ATASMARTVendorSpecific1Data*)&(data.vendorSpecific1));
                                                             
-                                                            switch (attribute.attributeId) {
-                                                                case kATASmartVendorSpecific1Temperature:
-                                                                case kATASmartVendorSpecific1Temperature2:
-                                                                    [result setObject:[NSData dataWithBytes:&attribute.rawvalue[0] length:2] forKey:name];
-                                                                    break;
-                                                                    
-                                                                default:
-                                                                    break;
+                                                            for (int index = 0; index < kATASMARTVendorSpecific1AttributesCount; index++) {
+                                                                
+                                                                ATASMARTAttribute attribute = specific1.vendorAttributes[index];
+                                                                
+                                                                switch (attribute.attributeId) {
+                                                                    case kATASMARTAttributeTemperature:
+                                                                    case kATASMARTAttributeTemperature2:
+                                                                        [result setObject:[NSData dataWithBytes:&attribute.rawvalue[0] length:2] forKey:name];
+                                                                        break;
+                                                                        
+                                                                    default:
+                                                                        break;
+                                                                }
                                                             }
                                                         }
-                                                    }
+                                            
+                                            (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, false);
+                                            (*smartInterface)->SMARTEnableDisableOperations(smartInterface, false);
+                                        }   
                                         
-                                        (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, false);
-                                        (*smartInterface)->SMARTEnableDisableOperations(smartInterface, false);
-                                    }   
-                                    
-                                    (*smartInterface )->Release(smartInterface);
-                                    IODestroyPlugInInterface(pluginInterface);
+                                        (*smartInterface )->Release(smartInterface);
+                                        IODestroyPlugInInterface(pluginInterface);
+                                    }
                                 }
                             }
                         }
@@ -352,8 +356,13 @@
     
     // Fans
     
-    for (int i=0; i<10; i++)
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"F%XAc",i] andCaption:[[NSString alloc] initWithFormat:@"Fan %X",i] intoGroup:TachometerSensorGroup];
+    for (int i=0; i<10; i++) {
+        NSString * caption = [[NSString alloc] initWithData:[HWMonitorSensor populateValueForKey:[[NSString alloc] initWithFormat:@"F%XID",i] ]encoding: NSUTF8StringEncoding];
+        if ([caption length]<=0) 
+            caption = [[NSString alloc] initWithFormat:@"Fan %d",i];
+        
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"F%XAc",i] andCaption:caption intoGroup:TachometerSensorGroup ];
+    }
     
     [self insertFooterAndTitle:@"FANS"];
     

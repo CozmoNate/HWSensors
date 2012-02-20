@@ -451,12 +451,12 @@ bool W836x::probePort()
     
     IOSleep(50);
     
-    UInt16 vendor = (UInt16)(listenPortByte(WINBOND_VENDOR_ID_REGISTER) << 8) | listenPortByte(WINBOND_VENDOR_ID_REGISTER);
+    UInt16 vendor = (UInt16)(readByte(WINBOND_VENDOR_ID_REGISTER) << 8) | readByte(WINBOND_VENDOR_ID_REGISTER);
     
     if (vendor != WINBOND_VENDOR_ID)
     {
         WarningLog("wrong vendor id (0x%x), continue loading...", vendor);
-        //return false;
+        return false;
     }
     
 	return true;
