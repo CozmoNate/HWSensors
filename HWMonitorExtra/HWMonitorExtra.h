@@ -10,6 +10,7 @@
 #import "SystemUIPlugin.h"
 #import "HWMonitorSensor.h"
 #import "HWMonitorView.h"
+#import "NSSmartReporter.h"
 
 @interface HWMonitorExtra : NSMenuExtra
 
@@ -21,7 +22,10 @@
     int                 lastMenusCount;
     
     NSMutableArray *    sensorsList;
+    
+    NSSmartReporter *   smartReporter;
     NSDictionary *      driveTemperatures;
+    NSDictionary *      driveRemainingLifes;
     
     NSFont *            statusBarFont;
     NSFont *            statusMenuFont;

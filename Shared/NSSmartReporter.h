@@ -47,12 +47,17 @@ typedef struct ATASMARTVendorSpecificData
 @interface NSSmartReporter : NSObject
 {
 @private
-    NSDictionary * services;
+    NSDictionary *hardDrives;
+    NSDictionary *solidStateDrives;
     
 @public
-    
 }
 
-- (NSDictionary*)diskoverDrives;
+@property (readonly) NSDictionary *hardDrives;
+@property (readonly) NSDictionary *solidStateDrives;
+
++(NSSmartReporter*)smartReporterByDiscoveringDrives;
+
+-(NSDictionary*)diskoverDrives;
 
 @end

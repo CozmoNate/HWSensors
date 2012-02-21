@@ -70,9 +70,23 @@
 
 @implementation NSSmartReporter
 
+@synthesize hardDrives;
+@synthesize solidStateDrives;
+
++(NSSmartReporter*)smartReporterByDiscoveringDrives
+{
+    NSSmartReporter* me = [[NSSmartReporter alloc] init];
+        
+    if (me)
+        [me diskoverDrives];
+    
+    return me;
+}
+
 - (NSDictionary*)diskoverDrives
 {
-    //NSMutableDictionary * result = [NSMutableDictionary dictionary];
+    NSMutableDictionary * hdds = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary * ssds = [[NSMutableDictionary alloc] init];
     
     CFDictionaryRef matching = IOServiceMatching("IOBlockStorageDevice");
     io_iterator_t iterator = IO_OBJECT_NULL;
@@ -92,25 +106,26 @@
                         NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
                         
                         if (characteristics) {
+                            NSString * name = [characteristics objectForKey:@"Product Name"];
                             
-                            NSString * value = nil;
-                            
-                            value = [characteristics objectForKey:@"Medium Type"];
-                            
-                            if (value) {
+                            if (name) {
+                                NSString * medium = [characteristics objectForKey:@"Medium Type"];
                                 
-                            }
-                            
-                            value = [characteristics objectForKey:@"Product Name"];
-                            
-                            if (value) {
-                                
+                                if (medium) {
+                                    if ([medium isEqualToString:@"Rotational"]) {
+                                        [hdds setObject:[NSGenericDisk genericDiskWithService: service] forKey:name];
+                                    }
+                                    else if (medium && [medium isEqualToString:@"Solid State"])
+                                    {
+                                        [ssds setObject:[NSGenericDisk genericDiskWithService: service] forKey:name];
+                                    }
+                                }
                             }
                         }
                     }
+                    
+                    CFRelease(capable);
                 }
-                
-                CFRelease(capable);
             }
             
             IOObjectRelease(service);
@@ -119,9 +134,10 @@
         IOObjectRelease(iterator);
     }
     
-    //services
+    hardDrives = [NSDictionary dictionaryWithDictionary:hdds];
+    solidStateDrives = [NSDictionary dictionaryWithDictionary:ssds];
     
-    return nil;
+    return hdds;
 }
 
 @end
