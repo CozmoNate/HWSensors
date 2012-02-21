@@ -110,6 +110,16 @@
                 return [[NSString alloc] initWithFormat:@"%d°",t];
                 
             } break;
+            
+            case SMARTRemainingLifeSensorGroup:
+            {
+                unsigned int life = 0;
+                
+                bcopy([value bytes], &life, 2);
+                              
+                return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
+                
+            } break;
                 
             case VoltageSensorGroup:
             {

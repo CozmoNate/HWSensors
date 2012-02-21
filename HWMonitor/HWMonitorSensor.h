@@ -15,6 +15,7 @@ enum {
     FrequencySensorGroup =          4,
     MultiplierSensorGroup =         5,
     SMARTTemperatureSensorGroup =   6,
+    SMARTRemainingLifeSensorGroup = 7,
 };
 typedef NSUInteger SensorGroup;
 

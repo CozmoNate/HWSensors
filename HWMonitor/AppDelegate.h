@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "NSSmartReporter.h"
 
 #include "HWMonitorSensor.h"
 
@@ -16,7 +17,9 @@
     NSDictionary*           statusItemAttributes;
     
     NSMutableArray *        sensorsList;
+    NSSmartReporter *       smartReporter;
     NSDictionary *          driveTemperatures;
+    NSDictionary *          driveRemainingLifes;
     
     BOOL                    isMenuVisible;
     int                     menusCount;
@@ -30,7 +33,7 @@
 
 - (HWMonitorSensor *)   addSensorWithKey:(NSString *)key andCaption:(NSString *)caption intoGroup:(SensorGroup)group;
 - (void)                insertFooterAndTitle:(NSString *)title;
-- (void)                updateDrivesTemperatures;
+- (void)                updateSMARTData;
 - (void)                updateTitles;
 
 - (void)                menuItemClicked:(id)sender;

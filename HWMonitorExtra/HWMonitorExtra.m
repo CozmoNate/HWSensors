@@ -12,7 +12,6 @@
 
 #include <IOKit/storage/ata/ATASMARTLib.h>
 #include "FakeSMCDefinitions.h"
-#include "SMART.h"
 
 @implementation HWMonitorExtra
 
@@ -71,99 +70,29 @@
 
 - (void)updateDrivesTemperatures; 
 {
-    CFDictionaryRef matching = IOServiceMatching("IOBlockStorageDevice");
-    io_iterator_t iterator = IO_OBJECT_NULL;
-    
-    if (kIOReturnSuccess == IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator)) {        
-        if (IO_OBJECT_NULL != iterator) {
+    if ([smartReporter hardDrives]) {
+        NSMutableDictionary * result = [[NSMutableDictionary alloc] init];
+        
+        NSEnumerator *enumerator = [[smartReporter hardDrives] keyEnumerator];
+        
+        NSString *key;
+        
+        while (key = (NSString*)[enumerator nextObject]) {
             
-            io_service_t service = MACH_PORT_NULL;
+            NSGenericDisk *disk = [[smartReporter hardDrives] objectForKey:key];
             
-            NSMutableDictionary * result = [[NSMutableDictionary alloc] init];
-            
-            while (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
+            if (disk) {
+                ATASMARTAttribute * temperature = nil;
                 
-                CFBooleanRef capable = (CFBooleanRef)IORegistryEntryCreateCFProperty(service, CFSTR(kIOPropertySMARTCapableKey), kCFAllocatorDefault, 0);
+                [disk readSMARTData];
                 
-                if (capable != IO_OBJECT_NULL) {
-                    if (CFBooleanGetValue(capable)) {
-                        
-                        NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
-                        
-                        if (characteristics) {
-                            NSString * type = [characteristics objectForKey:@"Medium Type"];
-                            
-                            if (type && [type isEqualToString:@"Rotational"]) {
-                            
-                                NSString * name = [characteristics objectForKey:@"Product Name"];
-                                
-                                if (name) {
-                                    
-                                    /*UInt16 t = 0;
-                                     
-                                     [result setObject:[NSData dataWithBytes:&t length:2] forKey:name];*/
-                                    
-                                    IOCFPlugInInterface ** pluginInterface = NULL;
-                                    IOATASMARTInterface ** smartInterface = NULL;
-                                    SInt32 score = 0;
-                                    HRESULT res = S_OK;
-                                    
-                                    if (kIOReturnSuccess == IOCreatePlugInInterfaceForService(service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
-                                        
-                                        res = (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes( kIOATASMARTInterfaceID), (LPVOID)&smartInterface);
-                                        
-                                        if (res == S_OK) {
-                                            ATASMARTData data;
-                                            ATASMARTVendorSpecific1Data specific1;
-                                            
-                                            bzero(&data, sizeof(data));
-                                            bzero(&specific1, sizeof(specific1));
-                                            
-                                            if(kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true))
-                                                if (kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true))
-                                                    if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &data)) 
-                                                        if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &data)) {
-                                                            
-                                                            specific1 = *((ATASMARTVendorSpecific1Data*)&(data.vendorSpecific1));
-                                                            
-                                                            for (int index = 0; index < kATASMARTVendorSpecific1AttributesCount; index++) {
-                                                                
-                                                                ATASMARTAttribute attribute = specific1.vendorAttributes[index];
-                                                                
-                                                                switch (attribute.attributeId) {
-                                                                    case kATASMARTAttributeTemperature:
-                                                                    case kATASMARTAttributeTemperature2:
-                                                                        [result setObject:[NSData dataWithBytes:&attribute.rawvalue[0] length:2] forKey:name];
-                                                                        break;
-                                                                        
-                                                                    default:
-                                                                        break;
-                                                                }
-                                                            }
-                                                        }
-                                            
-                                            (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, false);
-                                            (*smartInterface)->SMARTEnableDisableOperations(smartInterface, false);
-                                        }   
-                                        
-                                        (*smartInterface )->Release(smartInterface);
-                                        IODestroyPlugInInterface(pluginInterface);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    CFRelease(capable);
-                }
-                
-                IOObjectRelease(service);
+                if ((temperature = [disk getSMARTAttributeByIdentifier:kATASMARTAttributeTemperature]) || 
+                    (temperature = [disk getSMARTAttributeByIdentifier:kATASMARTAttributeTemperature2]))
+                    [result setObject:[NSData dataWithBytes:&temperature->rawvalue[0] length:2] forKey:key];
             }
-            
-            IOObjectRelease(iterator);
-            
-            driveTemperatures = [NSDictionary dictionaryWithDictionary:result];
         }
+        
+        driveTemperatures = [NSDictionary dictionaryWithDictionary:result];
     }
 }
 
@@ -322,16 +251,18 @@
     
     // Hard Drive Temperatures
     
-    [self updateDrivesTemperatures];
+    smartReporter = [NSSmartReporter smartReporterByDiscoveringDrives];
     
-    if (driveTemperatures) {
-        NSEnumerator * enumerator = [driveTemperatures keyEnumerator];
+    if ([smartReporter hardDrives]) {
+        NSEnumerator * enumerator = [[smartReporter hardDrives] keyEnumerator];
         
         NSString * key;
         
         while (key = (NSString*)[enumerator nextObject])
             [self addSensorWithKey:key andCaption:key intoGroup:SMARTTemperatureSensorGroup];
     }
+    
+    [self updateDrivesTemperatures];
     
     [self insertFooterAndTitle:@"HARD DRIVE TEMPERATURES"];
     
