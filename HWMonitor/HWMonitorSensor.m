@@ -104,9 +104,7 @@
                 unsigned int t = 0;
                 
                 bcopy([value bytes], &t, 2);
-                
-                //t = [NSSensor swapBytes:t] >> 8;
-                
+                                
                 return [[NSString alloc] initWithFormat:@"%d°",t];
                 
             } break;

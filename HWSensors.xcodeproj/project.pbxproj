@@ -43,9 +43,6 @@
 		1DA9620B13ED30E40096F8A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1DA9620913ED30E40096F8A5 /* InfoPlist.strings */; };
 		1DA9621913ED31280096F8A5 /* FintekF718x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DA9621713ED31280096F8A5 /* FintekF718x.cpp */; };
 		1DA9621A13ED31280096F8A5 /* FintekF718x.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA9621813ED31280096F8A5 /* FintekF718x.h */; };
-		1DA9622913ED331D0096F8A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1DA9622713ED331D0096F8A5 /* InfoPlist.strings */; };
-		1DA9623613ED33540096F8A5 /* NSCPC8739x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DA9623413ED33540096F8A5 /* NSCPC8739x.cpp */; };
-		1DA9623713ED33540096F8A5 /* NSCPC8739x.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA9623513ED33540096F8A5 /* NSCPC8739x.h */; };
 		1DA9624613ED34070096F8A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1DA9624413ED34070096F8A5 /* InfoPlist.strings */; };
 		1DA9625013ED34430096F8A5 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1DA9624F13ED34430096F8A5 /* License.txt */; };
 		1DA9626C13ED347B0096F8A5 /* adt7473.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DA9625213ED347B0096F8A5 /* adt7473.cpp */; };
@@ -173,12 +170,6 @@
 		1DA9621513ED311E0096F8A5 /* FintekF718x-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FintekF718x-Info.plist"; sourceTree = "<group>"; };
 		1DA9621713ED31280096F8A5 /* FintekF718x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FintekF718x.cpp; sourceTree = "<group>"; };
 		1DA9621813ED31280096F8A5 /* FintekF718x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FintekF718x.h; sourceTree = "<group>"; };
-		1DA9622313ED331D0096F8A5 /* NSCPC8739x.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NSCPC8739x.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		1DA9622813ED331D0096F8A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1DA9622E13ED331D0096F8A5 /* NSCPC8739x-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSCPC8739x-Prefix.pch"; sourceTree = "<group>"; };
-		1DA9623213ED334C0096F8A5 /* NSCPC8739x-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "NSCPC8739x-Info.plist"; sourceTree = "<group>"; };
-		1DA9623413ED33540096F8A5 /* NSCPC8739x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSCPC8739x.cpp; sourceTree = "<group>"; };
-		1DA9623513ED33540096F8A5 /* NSCPC8739x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCPC8739x.h; sourceTree = "<group>"; };
 		1DA9624013ED34070096F8A5 /* NVClockX.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NVClockX.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DA9624513ED34070096F8A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1DA9624B13ED34070096F8A5 /* NVClockX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NVClockX-Prefix.pch"; sourceTree = "<group>"; };
@@ -322,13 +313,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1DA9621E13ED331D0096F8A5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1DA9623B13ED34070096F8A5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -385,7 +369,6 @@
 				1D05AC5B13ED123D00EADBF6 /* ITEIT87x.kext */,
 				1D05AC7613ED131B00EADBF6 /* WinbondW836x.kext */,
 				1DA9620513ED30E40096F8A5 /* FintekF718x.kext */,
-				1DA9622313ED331D0096F8A5 /* NSCPC8739x.kext */,
 				1DA9624013ED34070096F8A5 /* NVClockX.kext */,
 				1DA962A513ED36030096F8A5 /* RadeonX.kext */,
 				1D6FE3BB13FEBDA700376E64 /* X3100.kext */,
@@ -472,7 +455,6 @@
 				1D05AC5C13ED123D00EADBF6 /* ITEIT87x */,
 				1D05AC7713ED131B00EADBF6 /* WinbondW836x */,
 				1DA9620613ED30E40096F8A5 /* FintekF718x */,
-				1DA9622413ED331D0096F8A5 /* NSCPC8739x */,
 				6A0F327814DD6A6800AA5598 /* NuvotonNCT677x */,
 				1DA9624113ED34070096F8A5 /* NVClockX */,
 				1DA962A613ED36030096F8A5 /* RadeonX */,
@@ -606,26 +588,6 @@
 				1DA9621513ED311E0096F8A5 /* FintekF718x-Info.plist */,
 				1DA9620913ED30E40096F8A5 /* InfoPlist.strings */,
 				1DA9621013ED30E40096F8A5 /* FintekF718x-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		1DA9622413ED331D0096F8A5 /* NSCPC8739x */ = {
-			isa = PBXGroup;
-			children = (
-				1DA9623513ED33540096F8A5 /* NSCPC8739x.h */,
-				1DA9623413ED33540096F8A5 /* NSCPC8739x.cpp */,
-				1DA9622513ED331D0096F8A5 /* Supporting Files */,
-			);
-			path = NSCPC8739x;
-			sourceTree = "<group>";
-		};
-		1DA9622513ED331D0096F8A5 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				1DA9623213ED334C0096F8A5 /* NSCPC8739x-Info.plist */,
-				1DA9622713ED331D0096F8A5 /* InfoPlist.strings */,
-				1DA9622E13ED331D0096F8A5 /* NSCPC8739x-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -844,14 +806,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1DA9621F13ED331D0096F8A5 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1DA9623713ED33540096F8A5 /* NSCPC8739x.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1DA9623C13ED34070096F8A5 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1039,25 +993,6 @@
 			productReference = 1DA9620513ED30E40096F8A5 /* FintekF718x.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
-		1DA9622213ED331D0096F8A5 /* NSCPC8739x */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1DA9622F13ED331D0096F8A5 /* Build configuration list for PBXNativeTarget "NSCPC8739x" */;
-			buildPhases = (
-				1DA9621D13ED331D0096F8A5 /* Sources */,
-				1DA9621E13ED331D0096F8A5 /* Frameworks */,
-				1DA9621F13ED331D0096F8A5 /* Headers */,
-				1DA9622013ED331D0096F8A5 /* Resources */,
-				1DA9622113ED331D0096F8A5 /* Rez */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = NSCPC8739x;
-			productName = NSCPC8739x;
-			productReference = 1DA9622313ED331D0096F8A5 /* NSCPC8739x.kext */;
-			productType = "com.apple.product-type.kernel-extension";
-		};
 		1DA9623F13ED34070096F8A5 /* NVClockX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DA9624C13ED34070096F8A5 /* Build configuration list for PBXNativeTarget "NVClockX" */;
@@ -1162,7 +1097,6 @@
 				1D05AC5A13ED123D00EADBF6 /* ITEIT87x */,
 				1D05AC7513ED131B00EADBF6 /* WinbondW836x */,
 				1DA9620413ED30E40096F8A5 /* FintekF718x */,
-				1DA9622213ED331D0096F8A5 /* NSCPC8739x */,
 				6A0F327414DD6A6800AA5598 /* NuvotonNCT677x */,
 				1D9F831D144FF24000EEEFEB /* HWMonitor */,
 				6A85F85214DBEF5000F863A9 /* HWMonitorExtra */,
@@ -1238,14 +1172,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DA9620B13ED30E40096F8A5 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1DA9622013ED331D0096F8A5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1DA9622913ED331D0096F8A5 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1330,13 +1256,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1DA9620313ED30E40096F8A5 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1DA9622113ED331D0096F8A5 /* Rez */ = {
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1436,14 +1355,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DA9621913ED31280096F8A5 /* FintekF718x.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1DA9621D13ED331D0096F8A5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1DA9623613ED33540096F8A5 /* NSCPC8739x.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1579,14 +1490,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				1DA9620A13ED30E40096F8A5 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		1DA9622713ED331D0096F8A5 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1DA9622813ED331D0096F8A5 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -2092,61 +1995,6 @@
 			};
 			name = Release;
 		};
-		1DA9623013ED331D0096F8A5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1.0.0d1;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "NSCPC8739x/NSCPC8739x-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "NSCPC8739x/NSCPC8739x-Info.plist";
-				MODULE_NAME = org.slice.NSCPC8739x;
-				MODULE_VERSION = 1.0.0d1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = kext;
-			};
-			name = Debug;
-		};
-		1DA9623113ED331D0096F8A5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 1.0.0d1;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "NSCPC8739x/NSCPC8739x-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "NSCPC8739x/NSCPC8739x-Info.plist";
-				MODULE_NAME = org.slice.NSCPC8739x;
-				MODULE_VERSION = 1.0.0d1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = kext;
-			};
-			name = Release;
-		};
 		1DA9624D13ED34070096F8A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2458,15 +2306,6 @@
 			buildConfigurations = (
 				1DA9621113ED30E40096F8A5 /* Debug */,
 				1DA9621213ED30E40096F8A5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1DA9622F13ED331D0096F8A5 /* Build configuration list for PBXNativeTarget "NSCPC8739x" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1DA9623013ED331D0096F8A5 /* Debug */,
-				1DA9623113ED331D0096F8A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

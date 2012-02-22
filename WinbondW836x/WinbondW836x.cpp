@@ -451,7 +451,7 @@ bool W836x::probePort()
     
     IOSleep(50);
     
-    UInt16 vendor = (UInt16)(readByte(WINBOND_VENDOR_ID_REGISTER) << 8) | readByte(WINBOND_VENDOR_ID_REGISTER);
+    UInt16 vendor = (UInt16)(readByte(0, WINBOND_VENDOR_ID_REGISTER) << 8) | readByte(0, WINBOND_VENDOR_ID_REGISTER);
     
     if (vendor != WINBOND_VENDOR_ID)
     {
