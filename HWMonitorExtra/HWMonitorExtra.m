@@ -17,7 +17,7 @@
 
 - (HWMonitorSensor *)addSensorWithKey:(NSString *)key andCaption:(NSString *)caption intoGroup:(SensorGroup)group
 {
-    if (group == SMARTTemperatureSensorGroup || [HWMonitorSensor populateValueForKey:key]) {
+    if (group == SMARTTemperatureSensorGroup || group == SMARTRemainingLifeSensorGroup || [HWMonitorSensor populateValueForKey:key]) {
         
         caption = [caption stringByTruncatingToWidth:130.0f withFont:statusBarFont]; 
         
@@ -68,31 +68,46 @@
     }
 }
 
-- (void)updateDrivesTemperatures; 
+- (void)updateSMARTData; 
 {
-    if ([smartReporter hardDrives]) {
-        NSMutableDictionary * result = [[NSMutableDictionary alloc] init];
+    if ([smartReporter drives]) {
+        NSMutableDictionary * temperatures = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary * lifes = [[NSMutableDictionary alloc] init];
         
-        NSEnumerator *enumerator = [[smartReporter hardDrives] keyEnumerator];
+        NSEnumerator *enumerator = [[smartReporter drives] keyEnumerator];
         
         NSString *key;
         
         while (key = (NSString*)[enumerator nextObject]) {
             
-            NSGenericDisk *disk = [[smartReporter hardDrives] objectForKey:key];
+            NSATAGenericDisk *disk = [[smartReporter drives] objectForKey:key];
             
             if (disk) {
-                ATASMARTAttribute * temperature = nil;
-                
-                [disk readSMARTData];
-                
-                if ((temperature = [disk getSMARTAttributeByIdentifier:kATASMARTAttributeTemperature]) || 
-                    (temperature = [disk getSMARTAttributeByIdentifier:kATASMARTAttributeTemperature2]))
-                    [result setObject:[NSData dataWithBytes:&temperature->rawvalue[0] length:2] forKey:key];
+                if ([disk rotational]) {
+                    ATASMARTAttribute * temperature = nil;
+                    
+                    [disk readSMARTData];
+                    
+                    if ((temperature = [disk getSMARTAttributeByIdentifier:kATASMARTAttributeTemperature]) || 
+                        (temperature = [disk getSMARTAttributeByIdentifier:kATASMARTAttributeTemperature2]))
+                        [temperatures setObject:[NSData dataWithBytes:&temperature->rawvalue[0] length:2] forKey:key];
+                }
+                else {
+                    ATASMARTAttribute * life = nil;
+                    
+                    [disk readSMARTData];
+                    
+                    if ((life = [disk getSMARTAttributeByIdentifier:0xB4]) ||
+                        (life = [disk getSMARTAttributeByIdentifier:0xD1]) ||
+                        (life = [disk getSMARTAttributeByIdentifier:0xE8]) ||
+                        (life = [disk getSMARTAttributeByIdentifier:0xE7]))
+                        [lifes setObject:[NSData dataWithBytes:&life->rawvalue[0] length:2] forKey:key];
+                }
             }
         }
         
-        driveTemperatures = [NSDictionary dictionaryWithDictionary:result];
+        driveTemperatures = [NSDictionary dictionaryWithDictionary:temperatures];
+        driveRemainingLifes = [NSDictionary dictionaryWithDictionary:lifes];
     }
 }
 
@@ -123,9 +138,13 @@
         {           
             NSMutableDictionary * values = (__bridge_transfer NSMutableDictionary *)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
             
+            if (!values) 
+                values = [[NSMutableDictionary alloc] init];
+            
             if (values) {
                 
                 [values addEntriesFromDictionary:driveTemperatures];
+                [values addEntriesFromDictionary:driveRemainingLifes];
                 
                 NSMutableArray * favorites = [[NSMutableArray alloc] init];
                 
@@ -251,20 +270,46 @@
     
     // Hard Drive Temperatures
     
-    smartReporter = [NSSmartReporter smartReporterByDiscoveringDrives];
+    smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
     
-    if ([smartReporter hardDrives]) {
-        NSEnumerator * enumerator = [[smartReporter hardDrives] keyEnumerator];
+    if ([smartReporter drives]) {
+        NSArray * keys = [[smartReporter drives] allKeys];
+        NSArray * values = [[smartReporter drives] allValues];
         
-        NSString * key;
-        
-        while (key = (NSString*)[enumerator nextObject])
-            [self addSensorWithKey:key andCaption:key intoGroup:SMARTTemperatureSensorGroup];
+        for (int i = 0; i < [keys count]; i++) {
+            NSATAGenericDisk * disk = [values objectAtIndex:i];
+            
+            if (disk && [disk rotational]) {
+                NSString * key = [keys objectAtIndex:i];
+                
+                [self addSensorWithKey:key andCaption:key intoGroup:SMARTTemperatureSensorGroup];
+            }
+        }
     }
     
-    [self updateDrivesTemperatures];
-    
     [self insertFooterAndTitle:@"HARD DRIVE TEMPERATURES"];
+    
+    // SSD Remaining Life
+    
+    if ([smartReporter drives]) {
+        NSArray * keys = [[smartReporter drives] allKeys];
+        NSArray * values = [[smartReporter drives] allValues];
+        
+        for (int i = 0; i < [keys count]; i++) {
+            NSATAGenericDisk * disk = [values objectAtIndex:i];
+            
+            if (disk && ![disk rotational]) {
+                NSString * key = [keys objectAtIndex:i];
+                
+                [self addSensorWithKey:key andCaption:key intoGroup:SMARTRemainingLifeSensorGroup];
+            }
+        }
+    }
+    
+    [self insertFooterAndTitle:@"SSD REMAINING LIFE"];
+    
+    // Update SMART data
+    [self updateSMARTData];
     
     //Multipliers
     
@@ -311,9 +356,9 @@
         
         // Main SMART timer
         invocation = [NSInvocation invocationWithMethodSignature:
-                      [self methodSignatureForSelector:@selector(updateDrivesTemperatures)]];
+                      [self methodSignatureForSelector:@selector(updateSMARTData)]];
         [invocation setTarget:self];
-        [invocation setSelector:@selector(updateDrivesTemperatures)];
+        [invocation setSelector:@selector(updateSMARTData)];
         
         [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
         

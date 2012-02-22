@@ -10,37 +10,35 @@
 #import "SystemUIPlugin.h"
 #import "HWMonitorSensor.h"
 #import "HWMonitorView.h"
-#import "NSSmartReporter.h"
+#import "NSATASmartReporter.h"
 
 @interface HWMonitorExtra : NSMenuExtra
 
 {
-    HWMonitorView *     view;
-    IBOutlet NSMenu *   menu;
+    HWMonitorView *view;
+    IBOutlet NSMenu *menu;
     
-    int                 menusCount;
-    int                 lastMenusCount;
+    int menusCount;
+    int lastMenusCount;
     
-    NSMutableArray *    sensorsList;
+    NSMutableArray *sensorsList;
     
-    NSSmartReporter *   smartReporter;
-    NSDictionary *      driveTemperatures;
-    NSDictionary *      driveRemainingLifes;
+    NSATASmartReporter *smartReporter;
+    NSDictionary *driveTemperatures;
+    NSDictionary *driveRemainingLifes;
     
-    NSFont *            statusBarFont;
-    NSFont *            statusMenuFont;
-    NSDictionary*       statusMenuAttributes;
+    NSFont *statusBarFont;
+    NSFont *statusMenuFont;
+    NSDictionary *statusMenuAttributes;
 }
 
-- (HWMonitorSensor *)   addSensorWithKey:(NSString *)key andCaption:(NSString *)caption intoGroup:(SensorGroup)group;
-- (void)                insertFooterAndTitle:(NSString *)title;
-- (void)                updateDrivesTemperatures;
-- (void)                updateTitles:(BOOL)forced;
-- (void)                updateTitlesForced;
-- (void)                updateTitlesDefault;
+- (HWMonitorSensor *)addSensorWithKey:(NSString *)key andCaption:(NSString *)caption intoGroup:(SensorGroup)group;
+- (void)insertFooterAndTitle:(NSString *)title;
+- (void)updateSMARTData;
+- (void)updateTitles:(BOOL)forced;
+- (void)updateTitlesForced;
+- (void)updateTitlesDefault;
 
-
-
-- (void)                menuItemClicked:(id)sender;
+- (void)menuItemClicked:(id)sender;
 
 @end
