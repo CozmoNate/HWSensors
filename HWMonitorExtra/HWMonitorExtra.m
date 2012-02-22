@@ -116,13 +116,11 @@
     io_service_t service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
     
     if (service) {
-        
-        NSEnumerator * enumerator = nil;
-        HWMonitorSensor * sensor = nil;
-        
         CFMutableArrayRef list = (CFMutableArrayRef)CFArrayCreateMutable(kCFAllocatorDefault, 0, nil);
         
-        enumerator = [sensorsList  objectEnumerator];
+        NSEnumerator * enumerator = [sensorsList  objectEnumerator];
+        
+        HWMonitorSensor * sensor = nil;
         
         while (sensor = (HWMonitorSensor *)[enumerator nextObject]) {
             if (force || [self isMenuDown] || [sensor favorite]) {
@@ -175,8 +173,6 @@
                     [view setTitles:favorites];
                 else 
                     [view setTitles:nil];
-                
-                [view setNeedsDisplay:YES];
             }
         }
         
