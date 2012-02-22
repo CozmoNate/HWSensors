@@ -10,6 +10,8 @@
 
 #include <IOKit/storage/ata/ATASMARTLib.h>
 
+// NSATAGenericDisk
+
 @implementation NSATAGenericDisk
 
 @synthesize rotational;
@@ -70,6 +72,8 @@
 }
 
 @end
+
+// NSATASmartReporter
 
 @implementation NSATASmartReporter
 
