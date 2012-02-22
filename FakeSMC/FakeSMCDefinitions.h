@@ -104,6 +104,7 @@
 // Types
 #define TYPE_FPE2                               "fpe2"
 #define TYPE_FP2E                               "fp2e"
+#define TYPE_FP4C                               "fp4c"
 #define TYPE_CH8                                "ch8*"
 #define TYPE_SP78                               "sp78"
 #define TYPE_UI8                                "ui8"
