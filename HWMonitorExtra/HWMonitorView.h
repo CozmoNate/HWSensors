@@ -11,11 +11,13 @@
 @interface HWMonitorView : NSMenuExtraView
 
 {
-    NSMenuExtra *                   menu;
+    NSMenuExtra *menu;
     
-    NSImage *                       image;
-    NSImage *                       altImage;
-    NSArray *                       titles;
+    NSFont *font;
+    
+    NSImage *image;
+    NSImage *altImage;
+    NSArray *titles;
 }
 
 - (void)setTitles:(NSMutableArray*)newTitles;

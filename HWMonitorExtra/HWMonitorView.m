@@ -23,6 +23,8 @@
 - (void)setTitles:(NSMutableArray*)newTitles
 {
     titles = [[NSArray alloc] initWithArray:newTitles];
+    
+    [self setNeedsDisplay:YES];
 }
 
 - initWithFrame:(NSRect)rect menuExtra:m
@@ -33,6 +35,7 @@
         return nil;
     
     menu = m;
+    font = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
     
     return self;
 }
@@ -53,7 +56,7 @@
     if (!titles && !icon)
         return;
         
-    if (down) [menu drawMenuBackground:YES];
+    /*if (down)*/ [menu drawMenuBackground:YES];
     
     if (icon) {
         [icon drawAtPoint:NSMakePoint(0,2) fromRect:NSMakeRect(0,0,11,19) operation:NSCompositeSourceOver fraction:1.0];
@@ -68,14 +71,14 @@
         for (int i = 0; i < [titles count]; i++) {
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:(NSString*)[titles objectAtIndex:i]];
             
-            [title addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Lucida Grande Bold" size:9.0f] range:NSMakeRange(0, [title length])];
+            [title addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [title length])];
             [title addAttribute:NSForegroundColorAttributeName value:(down ? [NSColor whiteColor] : [NSColor blackColor]) range:NSMakeRange(0,[title length])];
             
             int row = i % 2;
             
             [title drawAtPoint:NSMakePoint(size, [titles count] == 1 ? 6 : row == 0 ? 10 : 1)];
             
-            int width = [title size].width + 5;
+            int width = [title size].width + 4;
             
             if (row == 1) {
                 lastWidth = width > lastWidth ? width : lastWidth;
@@ -89,7 +92,7 @@
         }
     }
     
-    [self setFrameSize:NSMakeSize(size - 4, [self frame].size.height)];
+    [self setFrameSize:NSMakeSize(size, [self frame].size.height)];
     //snow leopard icon & text problem        
     [menu setLength:([self frame].size.width)];
 }
