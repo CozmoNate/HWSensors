@@ -14,10 +14,16 @@ inline UInt16 swap_value(UInt16 value)
 
 inline UInt16 encode_fp2e(UInt16 value)
 {
-	UInt16 dec = (float)value / 1000.0f;
-	UInt16 frc = value - (dec * 1000);
-	
-	return swap_value((dec << 14) | (frc << 4));
+    UInt32 tmp = value;
+    tmp = (tmp << 14) / 1000;
+    return swap_value((UInt16)(tmp & 0xfffc));
+}
+
+inline UInt16 encode_fp4c(UInt16 value)
+{    
+    UInt32 tmp = value;
+    tmp = (tmp << 12) / 1000;
+    return swap_value((UInt16)(tmp & 0xfffc));
 }
 
 inline UInt16 encode_fpe2(UInt16 value)

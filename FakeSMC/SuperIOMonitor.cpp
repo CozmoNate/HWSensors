@@ -229,6 +229,9 @@ bool SuperIOMonitor::updateSensor(const char *key, const char *type, unsigned ch
 	if (strcmp(type, TYPE_FP2E) == 0) {
 		value = encode_fp2e(value);
 	}
+    else if (strcmp(type, TYPE_FP4C) == 0) {
+		value = encode_fp4c(value);
+	}
 	else if (strcmp(type, TYPE_FPE2) == 0) {
 		value = encode_fpe2(value);
 	}
