@@ -67,24 +67,6 @@
     return value;
 }
 
-/*+ (NSData *) readValueForKey:(NSString *)key
-{
-    NSData * value = NULL;
-    
-    io_service_t service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
-    
-    if (service) {
-        NSDictionary * values = (__bridge_transfer NSDictionary *)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
-        
-        if (values) 
-            value = [values objectForKey:key];
-
-        IOObjectRelease(service);
-    }
-    
-    return value;
-}*/
-
 - (HWMonitorSensor *)initWithKey:(NSString *)aKey andGroup:(NSUInteger)aGroup withCaption:(NSString *)aCaption
 {
     key = aKey;

@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "NSSmartReporter.h"
+#import "NSATASmartReporter.h"
 
 #include "HWMonitorSensor.h"
 
@@ -17,7 +17,7 @@
     NSDictionary*           statusItemAttributes;
     
     NSMutableArray *        sensorsList;
-    NSSmartReporter *       smartReporter;
+    NSATASmartReporter *    smartReporter;
     NSDictionary *          driveTemperatures;
     NSDictionary *          driveRemainingLifes;
     

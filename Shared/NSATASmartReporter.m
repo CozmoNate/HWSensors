@@ -6,18 +6,21 @@
 //  Copyright (c) 2012 natan.zalkin@gmail.com. All rights reserved.
 //
 
-#import "NSSmartReporter.h"
+#import "NSATASmartReporter.h"
 
 #include <IOKit/storage/ata/ATASMARTLib.h>
 
-@implementation NSGenericDisk
+@implementation NSATAGenericDisk
 
-+(NSGenericDisk*)genericDiskWithService:(io_service_t) s
+@synthesize rotational;
+
++(NSATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice isRotational:(BOOL)isHardDrive
 {
-    if (MACH_PORT_NULL != s) {
-        NSGenericDisk* me = [[NSGenericDisk alloc] init];
+    if (MACH_PORT_NULL != ioservice) {
+        NSATAGenericDisk* me = [[NSATAGenericDisk alloc] init];
         
-        me->service = s;
+        me->service = ioservice;
+        me->rotational = isHardDrive;
         
         return me;
     }
@@ -68,14 +71,13 @@
 
 @end
 
-@implementation NSSmartReporter
+@implementation NSATASmartReporter
 
-@synthesize hardDrives;
-@synthesize solidStateDrives;
+@synthesize drives;
 
-+(NSSmartReporter*)smartReporterByDiscoveringDrives
++(NSATASmartReporter*)smartReporterByDiscoveringDrives
 {
-    NSSmartReporter* me = [[NSSmartReporter alloc] init];
+    NSATASmartReporter* me = [[NSATASmartReporter alloc] init];
         
     if (me)
         [me diskoverDrives];
@@ -83,10 +85,9 @@
     return me;
 }
 
-- (NSDictionary*)diskoverDrives
+- (void)diskoverDrives
 {
-    NSMutableDictionary * hdds = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary * ssds = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary * list = [[NSMutableDictionary alloc] init];
     
     CFDictionaryRef matching = IOServiceMatching("IOBlockStorageDevice");
     io_iterator_t iterator = IO_OBJECT_NULL;
@@ -113,11 +114,11 @@
                                 
                                 if (medium) {
                                     if ([medium isEqualToString:@"Rotational"]) {
-                                        [hdds setObject:[NSGenericDisk genericDiskWithService: service] forKey:name];
+                                        [list setObject:[NSATAGenericDisk genericDiskWithService: service isRotational:TRUE] forKey:name];
                                     }
                                     else if (medium && [medium isEqualToString:@"Solid State"])
                                     {
-                                        [ssds setObject:[NSGenericDisk genericDiskWithService: service] forKey:name];
+                                        [list setObject:[NSATAGenericDisk genericDiskWithService: service isRotational:FALSE] forKey:name];
                                     }
                                 }
                             }
@@ -134,10 +135,7 @@
         IOObjectRelease(iterator);
     }
     
-    hardDrives = [NSDictionary dictionaryWithDictionary:hdds];
-    solidStateDrives = [NSDictionary dictionaryWithDictionary:ssds];
-    
-    return hdds;
+    drives = [NSDictionary dictionaryWithDictionary:list];
 }
 
 @end

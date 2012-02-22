@@ -31,33 +31,34 @@ typedef struct ATASMARTVendorSpecificData
     ATASMARTAttribute		vendorAttributes [kATASMARTVendorSpecificAttributesCount];
 } __attribute__ ((packed)) ATASmartVendorSpecificData;
 
-@interface NSGenericDisk : NSObject
+@interface NSATAGenericDisk : NSObject
 {
 @private
     io_service_t service;
+    BOOL rotational;
     struct ATASMARTVendorSpecificData data;
 }
-+(NSGenericDisk*)genericDiskWithService:(io_service_t) s;
+@property (readonly) BOOL rotational;
+
++(NSATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice isRotational:(BOOL)isHardDrive;
 
 -(BOOL)readSMARTData;
--(ATASMARTAttribute*)getSMARTAttributeByIdentifier:(UInt8) identifier;
+-(ATASMARTAttribute*)getSMARTAttributeByIdentifier:(UInt8)identifier;
 
 @end
 
-@interface NSSmartReporter : NSObject
+@interface NSATASmartReporter : NSObject
 {
 @private
-    NSDictionary *hardDrives;
-    NSDictionary *solidStateDrives;
+    NSDictionary *drives;
     
 @public
 }
 
-@property (readonly) NSDictionary *hardDrives;
-@property (readonly) NSDictionary *solidStateDrives;
+@property (readonly) NSDictionary *drives;
 
-+(NSSmartReporter*)smartReporterByDiscoveringDrives;
++(NSATASmartReporter*)smartReporterByDiscoveringDrives;
 
--(NSDictionary*)diskoverDrives;
+-(void)diskoverDrives;
 
 @end
