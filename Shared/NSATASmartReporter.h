@@ -31,6 +31,8 @@ typedef struct ATASMARTVendorSpecificData
     ATASMARTAttribute		vendorAttributes [kATASMARTVendorSpecificAttributesCount];
 } __attribute__ ((packed)) ATASmartVendorSpecificData;
 
+// NSATAGenericDisk
+
 @interface NSATAGenericDisk : NSObject
 {
 @private
@@ -38,6 +40,7 @@ typedef struct ATASMARTVendorSpecificData
     BOOL rotational;
     struct ATASMARTVendorSpecificData data;
 }
+
 @property (readonly) BOOL rotational;
 
 +(NSATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice isRotational:(BOOL)isHardDrive;
@@ -46,6 +49,8 @@ typedef struct ATASMARTVendorSpecificData
 -(ATASMARTAttribute*)getSMARTAttributeByIdentifier:(UInt8)identifier;
 
 @end
+
+// NSATASmartReporter
 
 @interface NSATASmartReporter : NSObject
 {

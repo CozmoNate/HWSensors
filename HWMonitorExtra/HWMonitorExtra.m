@@ -256,7 +256,7 @@
     for (int i=0; i<0xA; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@"TC%XD",i] andCaption:[[NSString alloc] initWithFormat:@"CPU %X",i] intoGroup:TemperatureSensorGroup];
     
-    [self addSensorWithKey:@"Th0H" andCaption:[bundle localizedStringForKey:@"CPU Heatsink" value:nil table:nil] intoGroup:TemperatureSensorGroup];
+    [self addSensorWithKey:@"Th0H" andCaption:@"CPU Heatsink" intoGroup:TemperatureSensorGroup];
     [self addSensorWithKey:@"TN0P" andCaption:@"Motherboard" intoGroup:TemperatureSensorGroup];
     [self addSensorWithKey:@"TA0P" andCaption:@"Ambient" intoGroup:TemperatureSensorGroup];
     
