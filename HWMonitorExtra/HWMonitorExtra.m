@@ -278,7 +278,7 @@
             if (disk && [disk isRotational]) {
                 NSString * key = [keys objectAtIndex:i];
                 
-                [self addSensorWithKey:key andCaption:[disk productName] intoGroup:SMARTTemperatureSensorGroup];
+                [self addSensorWithKey:key andCaption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] intoGroup:SMARTTemperatureSensorGroup];
             }
         }
     }
@@ -297,7 +297,7 @@
             if (disk && ![disk isRotational]) {
                 NSString * key = [keys objectAtIndex:i];
                 
-                [self addSensorWithKey:key andCaption:[disk productName] intoGroup:SMARTRemainingLifeSensorGroup];
+                [self addSensorWithKey:key andCaption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] intoGroup:SMARTRemainingLifeSensorGroup];
             }
         }
     }
