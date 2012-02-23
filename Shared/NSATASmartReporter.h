@@ -37,13 +37,18 @@ typedef struct ATASMARTVendorSpecificData
 {
 @private
     io_service_t service;
-    BOOL rotational;
     struct ATASMARTVendorSpecificData data;
+
+    NSString    *productName;
+    NSString    *serialNumber;
+    BOOL        isRotational;
 }
 
-@property (readonly) BOOL rotational;
+@property (readonly) NSString   *productName;
+@property (readonly) NSString   *serialNumber;
+@property (readonly) BOOL       isRotational;
 
-+(NSATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice isRotational:(BOOL)isHardDrive;
++(NSATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name serialNumber:(NSString*)serial isRotational:(BOOL)rotational;
 
 -(BOOL)readSMARTData;
 -(ATASMARTAttribute*)getSMARTAttributeByIdentifier:(UInt8)identifier;

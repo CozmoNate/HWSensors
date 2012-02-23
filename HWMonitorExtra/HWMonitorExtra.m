@@ -83,7 +83,7 @@
             NSATAGenericDisk *disk = [[smartReporter drives] objectForKey:key];
             
             if (disk) {
-                if ([disk rotational]) {
+                if ([disk isRotational]) {
                     ATASMARTAttribute * temperature = nil;
                     
                     [disk readSMARTData];
@@ -275,10 +275,10 @@
         for (int i = 0; i < [keys count]; i++) {
             NSATAGenericDisk * disk = [values objectAtIndex:i];
             
-            if (disk && [disk rotational]) {
+            if (disk && [disk isRotational]) {
                 NSString * key = [keys objectAtIndex:i];
                 
-                [self addSensorWithKey:key andCaption:key intoGroup:SMARTTemperatureSensorGroup];
+                [self addSensorWithKey:key andCaption:[disk productName] intoGroup:SMARTTemperatureSensorGroup];
             }
         }
     }
@@ -294,10 +294,10 @@
         for (int i = 0; i < [keys count]; i++) {
             NSATAGenericDisk * disk = [values objectAtIndex:i];
             
-            if (disk && ![disk rotational]) {
+            if (disk && ![disk isRotational]) {
                 NSString * key = [keys objectAtIndex:i];
                 
-                [self addSensorWithKey:key andCaption:key intoGroup:SMARTRemainingLifeSensorGroup];
+                [self addSensorWithKey:key andCaption:[disk productName] intoGroup:SMARTRemainingLifeSensorGroup];
             }
         }
     }

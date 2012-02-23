@@ -14,15 +14,20 @@
 
 @implementation NSATAGenericDisk
 
-@synthesize rotational;
+@synthesize productName;
+@synthesize serialNumber;
+@synthesize isRotational;
 
-+(NSATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice isRotational:(BOOL)isHardDrive
++(NSATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name serialNumber:(NSString*)serial isRotational:(BOOL)rotational
 {
     if (MACH_PORT_NULL != ioservice) {
         NSATAGenericDisk* me = [[NSATAGenericDisk alloc] init];
         
         me->service = ioservice;
-        me->rotational = isHardDrive;
+
+        me->productName = name;
+        me->serialNumber = serial;
+        me->isRotational = rotational;
         
         return me;
     }
@@ -111,19 +116,17 @@
                         NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
                         
                         if (characteristics) {
-                            NSString * name = [characteristics objectForKey:@"Product Name"];
+                            NSString *name = [characteristics objectForKey:@"Product Name"];
+                            NSString *serial = [characteristics objectForKey:@"Serial Number"];
+                            NSString *medium = [characteristics objectForKey:@"Medium Type"];
                             
-                            if (name) {
-                                NSString * medium = [characteristics objectForKey:@"Medium Type"];
-                                
-                                if (medium) {
-                                    if ([medium isEqualToString:@"Rotational"]) {
-                                        [list setObject:[NSATAGenericDisk genericDiskWithService: service isRotational:TRUE] forKey:name];
-                                    }
-                                    else if (medium && [medium isEqualToString:@"Solid State"])
-                                    {
-                                        [list setObject:[NSATAGenericDisk genericDiskWithService: service isRotational:FALSE] forKey:name];
-                                    }
+                            if (name && serial && medium) {
+                                if ([medium isEqualToString:@"Rotational"]) {
+                                    [list setObject:[NSATAGenericDisk genericDiskWithService:service productName:name serialNumber:serial isRotational:TRUE] forKey:serial];
+                                }
+                                else if ([medium isEqualToString:@"Solid State"])
+                                {
+                                    [list setObject:[NSATAGenericDisk genericDiskWithService:service productName:name serialNumber:serial isRotational:FALSE] forKey:serial];
                                 }
                             }
                         }
