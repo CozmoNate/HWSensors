@@ -475,7 +475,9 @@ bool W836x::startPlugin()
 	OSBoolean* tempin0forced = configuration ? OSDynamicCast(OSBoolean, configuration->getObject("TEMPIN0FORCED")) : 0;
 	OSBoolean* tempin1forced = configuration ? OSDynamicCast(OSBoolean, configuration->getObject("TEMPIN1FORCED")) : 0;
 	
-	if (OSNumber* fanlimit = configuration ? OSDynamicCast(OSNumber, configuration->getObject("FANINLIMIT")) : 0)
+    OSNumber* fanlimit = configuration ? OSDynamicCast(OSNumber, configuration->getObject("FANINLIMIT")) : NULL; 
+    
+	if (fanlimit && fanlimit->unsigned8BitValue() > 0)
 		fanLimit = fanlimit->unsigned8BitValue();
 	
 	cpuid_update_generic_info();
