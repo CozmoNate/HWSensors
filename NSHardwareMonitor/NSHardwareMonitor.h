@@ -15,6 +15,7 @@
 {
 @private
     io_service_t service;
+    NSBundle* bundle;
     NSATASmartReporter *smartReporter;
     NSMutableArray *sensors;
     NSMutableDictionary *keys;
@@ -31,6 +32,7 @@
 - (NSHardwareMonitorSensor*)addSMARTSensorWithGenericDisk:(NSATAGenericDisk*)disk group:(NSUInteger)group;
 
 - (id)init;
+- (id)initWithBundle:(NSBundle*)mainBundle;
 - (void)dealloc;
 
 - (void)rebuildSensorsList;

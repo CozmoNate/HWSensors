@@ -15,13 +15,16 @@
 
 @implementation HWMonitorExtra
 
+#define GetLocalizedString(key) \
+[[self bundle] localizedStringForKey:(key) value:@"" table:nil]
+
 - (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
 {
     if (list && [list count] > 0) {
         if ([[menu itemArray] count] > 0)
             [menu addItem:[NSMenuItem separatorItem]];
         
-        NSMenuItem *titleItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(title, nil) action:nil keyEquivalent:@""];
+        NSMenuItem *titleItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(title) action:nil keyEquivalent:@""];
         
         [titleItem setEnabled:FALSE];
         
@@ -35,7 +38,7 @@
             if ([sensor disk])
                 [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:130.0f withFont:statusBarFont]];
             
-            NSMenuItem * sensorItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString((NSString*)[sensor caption], nil) action:@selector(menuItemClicked:) keyEquivalent:@""];
+            NSMenuItem * sensorItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString((NSString*)[sensor caption]) action:@selector(menuItemClicked:) keyEquivalent:@""];
             
             [sensor setMenuItem:sensorItem];
             
@@ -137,7 +140,7 @@
     
     // Init sensors
     
-    monitor = [NSHardwareMonitor hardwareMonitor];
+    monitor = [[NSHardwareMonitor alloc] initWithBundle:bundle];
     
     [monitor rebuildSensorsList];
     
@@ -169,7 +172,7 @@
         [self performSelector:@selector(updateTitlesForced) withObject:nil afterDelay:0.0];
     }
     else {
-        NSMenuItem * item = [[NSMenuItem alloc]initWithTitle:NSLocalizedString(@"No sensors found or FakeSMCDevice unavailable", nil) action:nil keyEquivalent:@""];
+        NSMenuItem * item = [[NSMenuItem alloc]initWithTitle:NSLocalizedString(@"No sensors found", nil) action:nil keyEquivalent:@""];
         
         [item setEnabled:FALSE];
         
