@@ -9,33 +9,27 @@
 #import <Cocoa/Cocoa.h>
 #import "NSATASmartReporter.h"
 
-#include "HWMonitorSensor.h"
+#import "NSHardwareMonitor.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
-    NSStatusItem *          statusItem;
-    NSFont *                statusItemFont;
-    NSDictionary*           statusItemAttributes;
+    NSStatusItem *statusItem;
+    NSFont *statusItemFont;
+    NSDictionary *statusItemAttributes;
     
-    NSMutableArray *        sensorsList;
-    NSATASmartReporter *    smartReporter;
-    NSDictionary *          driveTemperatures;
-    NSDictionary *          driveRemainingLifes;
+    IBOutlet NSMenu *statusMenu;
+    NSFont *statusMenuFont;
+    NSDictionary *statusMenuAttributes;
     
-    BOOL                    isMenuVisible;
-    int                     menusCount;
-    int                     lastMenusCount;
-    int                     smartMenusCount;
+    NSHardwareMonitor *monitor;
     
-    IBOutlet NSMenu *       statusMenu;
-    NSFont *                statusMenuFont;
-    NSDictionary*           statusMenuAttributes;
+    BOOL isMenuVisible;
 }
 
-- (HWMonitorSensor *)   addSensorWithKey:(NSString *)key andCaption:(NSString *)caption intoGroup:(SensorGroup)group;
-- (void)                insertFooterAndTitle:(NSString *)title;
-- (void)                updateSMARTData;
-- (void)                updateTitles;
+- (void)insertMenuGroupWithTitle:(NSString *)title sensors:(NSArray*)list;
 
-- (void)                menuItemClicked:(id)sender;
+- (void)updateSMARTData;
+- (void)updateTitles;
+
+- (void)menuItemClicked:(id)sender;
 
 @end

@@ -2,6 +2,8 @@
 //  NSSmartReporter.h
 //  HWSensors
 //
+//  Based on code by OldNavi
+//
 //  Created by Natan Zalkin on 19/02/12.
 //  Copyright (c) 2012 natan.zalkin@gmail.com. All rights reserved.
 //
@@ -51,7 +53,9 @@ typedef struct ATASMARTVendorSpecificData
 +(NSATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name serialNumber:(NSString*)serial isRotational:(BOOL)rotational;
 
 -(BOOL)readSMARTData;
--(ATASMARTAttribute*)getSMARTAttributeByIdentifier:(UInt8)identifier;
+-(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8)identifier;
+-(NSData*)getTemperature;
+-(NSData*)getRemainingLife;
 
 @end
 
@@ -60,12 +64,12 @@ typedef struct ATASMARTVendorSpecificData
 @interface NSATASmartReporter : NSObject
 {
 @private
-    NSDictionary *drives;
+    NSArray *drives;
     
 @public
 }
 
-@property (readonly) NSDictionary *drives;
+@property (readonly) NSArray *drives;
 
 +(NSATASmartReporter*)smartReporterByDiscoveringDrives;
 

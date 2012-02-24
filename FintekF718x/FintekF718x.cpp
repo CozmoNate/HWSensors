@@ -149,7 +149,7 @@ void F718x::exit()
 
 bool F718x::probePort()
 {
-	UInt8 logicalDeviceNumber = 0;
+	UInt8 logicalDeviceNumber = FINTEK_HARDWARE_MONITOR_LDN;
 	
 	UInt8 id = listenPortByte(SUPERIO_CHIP_ID_REGISTER);
 	UInt8 revision = listenPortByte(SUPERIO_CHIP_REVISION_REGISTER);
@@ -169,7 +169,6 @@ bool F718x::probePort()
 					break;
 				case 0x41:
 					model = F71882;
-					logicalDeviceNumber = FINTEK_HARDWARE_MONITOR_LDN;
 					break;              
 			}
 		} break;
@@ -179,7 +178,6 @@ bool F718x::probePort()
 			{
 				case 0x01:
 					model = F71862;
-					logicalDeviceNumber = FINTEK_HARDWARE_MONITOR_LDN;
 					break;              
 			} 
 		} break;
@@ -189,7 +187,6 @@ bool F718x::probePort()
 			{
 				case 0x23:
 					model = F71889F;
-					logicalDeviceNumber = FINTEK_HARDWARE_MONITOR_LDN;
 					break;              
 			} 
 		} break;
@@ -199,7 +196,6 @@ bool F718x::probePort()
 			{
 				case 0x14:
 					model = F71869;
-					logicalDeviceNumber = FINTEK_HARDWARE_MONITOR_LDN;
 					break;              
 			}
 		} break;
@@ -207,16 +203,23 @@ bool F718x::probePort()
 		{
 			switch (revision)
 			{
-                case 0x01:                                                      /*Add F71808 */
-                    model = F71808;                                         /*Add F71808 */
-                    logicalDeviceNumber = FINTEK_HARDWARE_MONITOR_LDN;         /*Add F71808 */
-                    break;                                                    /*Add F71808 */
+                case 0x01:                                                      
+                    model = F71808;                                         
+                    break;                                                    
 				case 0x09:
 					model = F71889ED;
-					logicalDeviceNumber = FINTEK_HARDWARE_MONITOR_LDN;
 					break;              
 			}
 		} break;
+        case 0x10:
+        {
+            switch (revision)
+			{
+                case 0x07:                                                      
+                    model = F71869A;                                         
+                    break;      
+            }
+        } break;
 	}
 	
 	if (!model)
@@ -312,6 +315,7 @@ const char *F718x::getModelName()
         case F71858: return "F71858";
         case F71862: return "F71862";
         case F71869: return "F71869";
+        case F71869A: return "F71869A";
         case F71882: return "F71882";
         case F71889ED: return "F71889ED";
         case F71889F: return "F71889F";

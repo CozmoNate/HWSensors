@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  HWSensors
+
+  Created by Natan Zalkin on 24/02/12.
+  Copyright (c) 2012 natan.zalkin@gmail.com. All rights reserved.
+*/
+
+"TEMPERATURES" = "ТЕМПЕРАТУРЫ";
+"DRIVES TEMPERATURES" = "ТЕМПЕРАТУРЫ ДИСКОВ";
+"SSD REMAINING LIFE" = "ВРЕМЯ ЖИЗНИ SSD";
+"MULTIPLIERS" = "МНОЖИТЕЛИ";
+"VOLTAGES" = "НАПРЯЖЕНИЯ";
+"FANS" = "ВЕНТИЛЯТОРЫ";
+"CPU Heatsink" = "Радиатор ЦП";
+"GPU %X Board" = "Радиатор видеокарты %X";
+"Motherboard" = "Чипсет";
+"CPU Package" = "ЦП";
+"CPU %X" = "ЦП %X";
+"FAN %X" = "Вентилятор %X";
+"CPU" = "Шина ЦП";
+"DIMM Modules" = "Модули DIMM";
+"Quit HWMonitor" = "Закрыть HWMonitor";
