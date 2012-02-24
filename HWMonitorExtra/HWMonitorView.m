@@ -78,7 +78,7 @@
             
             [title drawAtPoint:NSMakePoint(size, [titles count] == 1 ? 6 : row == 0 ? 10 : 1)];
             
-            int width = [title size].width + 4;
+            int width = [title size].width + (i + 1 == [titles count] ? 1 : 4);
             
             if (row == 1) {
                 lastWidth = width > lastWidth ? width : lastWidth;

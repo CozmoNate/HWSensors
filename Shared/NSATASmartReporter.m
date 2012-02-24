@@ -2,6 +2,8 @@
 //  NSSmartReporter.m
 //  HWSensors
 //
+//  Based on code by OldNavi
+//
 //  Created by Natan Zalkin on 19/02/12.
 //  Copyright (c) 2012 natan.zalkin@gmail.com. All rights reserved.
 //
@@ -67,12 +69,40 @@
     return result;
 }
 
--(ATASMARTAttribute*)getSMARTAttributeByIdentifier:(UInt8) identifier
+-(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8) identifier
 {
     for (int index = 0; index < kATASMARTVendorSpecificAttributesCount; index++) 
         if (data.vendorAttributes[index].attributeId == identifier)
             return &data.vendorAttributes[index];
             
+    return nil;
+}
+
+-(NSData*)getTemperature
+{
+    [self readSMARTData];
+    
+    ATASMARTAttribute * temperature = nil;
+    
+    if ((temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature]) || 
+        (temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature2]))
+        return [NSData dataWithBytes:&temperature->rawvalue[0] length:1];
+    
+    return nil;
+}
+
+-(NSData*)getRemainingLife
+{
+    ATASMARTAttribute * life = nil;
+    
+    [self readSMARTData];
+    
+    if ((life = [self getAttributeByIdentifier:0xB4]) ||
+        (life = [self getAttributeByIdentifier:0xD1]) ||
+        (life = [self getAttributeByIdentifier:0xE8]) ||
+        (life = [self getAttributeByIdentifier:0xE7]))
+        return [NSData dataWithBytes:&life->rawvalue[0] length:1];
+    
     return nil;
 }
 
@@ -96,7 +126,7 @@
 
 - (void)diskoverDrives
 {
-    NSMutableDictionary * list = [[NSMutableDictionary alloc] init];
+    NSMutableArray * list = [[NSMutableArray alloc] init];
     
     CFDictionaryRef matching = IOServiceMatching("IOBlockStorageDevice");
     io_iterator_t iterator = IO_OBJECT_NULL;
@@ -122,11 +152,11 @@
                             
                             if (name && serial && medium) {
                                 if ([medium isEqualToString:@"Rotational"]) {
-                                    [list setObject:[NSATAGenericDisk genericDiskWithService:service productName:name serialNumber:serial isRotational:TRUE] forKey:serial];
+                                    [list addObject:[NSATAGenericDisk genericDiskWithService:service productName:name serialNumber:serial isRotational:TRUE]];
                                 }
                                 else if ([medium isEqualToString:@"Solid State"])
                                 {
-                                    [list setObject:[NSATAGenericDisk genericDiskWithService:service productName:name serialNumber:serial isRotational:FALSE] forKey:serial];
+                                    [list addObject:[NSATAGenericDisk genericDiskWithService:service productName:name serialNumber:serial isRotational:FALSE]];
                                 }
                             }
                         }
@@ -142,7 +172,7 @@
         IOObjectRelease(iterator);
     }
     
-    drives = [NSDictionary dictionaryWithDictionary:list];
+    drives = [NSArray arrayWithArray:list];
 }
 
 @end

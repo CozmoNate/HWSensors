@@ -15,182 +15,74 @@
 
 @implementation HWMonitorExtra
 
-- (HWMonitorSensor *)addSensorWithKey:(NSString *)key andCaption:(NSString *)caption intoGroup:(SensorGroup)group
+- (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
 {
-    if (group == SMARTTemperatureSensorGroup || group == SMARTRemainingLifeSensorGroup || [HWMonitorSensor populateValueForKey:key]) {
+    if (list && [list count] > 0) {
+        if ([[menu itemArray] count] > 0)
+            [menu addItem:[NSMenuItem separatorItem]];
         
-        caption = [caption stringByTruncatingToWidth:130.0f withFont:statusBarFont]; 
-        
-        HWMonitorSensor * sensor = [[HWMonitorSensor alloc] initWithKey:key andGroup:group withCaption:caption];
-        
-        [sensor setFavorite:[[NSUserDefaults standardUserDefaults] boolForKey:key]];
-        
-        NSMenuItem * menuItem = [[NSMenuItem alloc] initWithTitle:caption action:@selector(menuItemClicked:) keyEquivalent:@""];
-        
-        [menuItem setTarget:self];
-        [menuItem setRepresentedObject:sensor];
-        
-        if ([sensor favorite]) [menuItem setState:TRUE];
-        
-        [menu insertItem:menuItem atIndex:menusCount++];
-        
-        [sensor setObject:menuItem];
-        
-        [sensorsList addObject:sensor];
-        
-        return sensor;
-    }
-    
-    return NULL;
-}
-
-- (void)insertFooterAndTitle:(NSString *)title
-{
-    if (lastMenusCount < menusCount) {
-        NSMutableAttributedString * atributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:statusMenuAttributes];
-        
-        [atributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
-        
-        NSMenuItem * titleItem = [[NSMenuItem alloc] initWithTitle:title action:nil keyEquivalent:@""];
+        NSMenuItem *titleItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(title, nil) action:nil keyEquivalent:@""];
         
         [titleItem setEnabled:FALSE];
-        [titleItem setAttributedTitle:atributedTitle];
         
-        [menu insertItem:titleItem atIndex:lastMenusCount]; 
-        menusCount++;
+        [menu addItem:titleItem];
         
-        if (lastMenusCount > 0) {
-            [menu insertItem:[NSMenuItem separatorItem] atIndex:lastMenusCount];
-            menusCount++;
+        for (int i = 0; i < [list count]; i++) {
+            NSHardwareMonitorSensor *sensor = (NSHardwareMonitorSensor*)[list objectAtIndex:i];
+            
+            [sensor setFavorite:[[NSUserDefaults standardUserDefaults] boolForKey:[sensor key]]];
+            
+            if ([sensor disk])
+                [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:130.0f withFont:statusBarFont]];
+            
+            NSMenuItem * sensorItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString((NSString*)[sensor caption], nil) action:@selector(menuItemClicked:) keyEquivalent:@""];
+            
+            [sensor setMenuItem:sensorItem];
+            
+            [sensorItem setTarget:self];
+            [sensorItem setRepresentedObject:sensor];
+            
+            if ([sensor favorite]) [sensorItem setState:TRUE]; 
+            
+            [menu addItem:sensorItem];
         }
-        
-        lastMenusCount = menusCount;
     }
 }
 
 - (void)updateSMARTData; 
 {
-    if ([smartReporter drives]) {
-        NSMutableDictionary * temperatures = [[NSMutableDictionary alloc] init];
-        NSMutableDictionary * lifes = [[NSMutableDictionary alloc] init];
-        
-        NSEnumerator *enumerator = [[smartReporter drives] keyEnumerator];
-        
-        NSString *key;
-        
-        while (key = (NSString*)[enumerator nextObject]) {
-            
-            NSATAGenericDisk *disk = [[smartReporter drives] objectForKey:key];
-            
-            if (disk) {
-                if ([disk isRotational]) {
-                    ATASMARTAttribute * temperature = nil;
-                    
-                    [disk readSMARTData];
-                    
-                    if ((temperature = [disk getSMARTAttributeByIdentifier:kATASMARTAttributeTemperature]) || 
-                        (temperature = [disk getSMARTAttributeByIdentifier:kATASMARTAttributeTemperature2]))
-                        [temperatures setObject:[NSData dataWithBytes:&temperature->rawvalue[0] length:2] forKey:key];
-                }
-                else {
-                    ATASMARTAttribute * life = nil;
-                    
-                    [disk readSMARTData];
-                    
-                    if ((life = [disk getSMARTAttributeByIdentifier:0xB4]) ||
-                        (life = [disk getSMARTAttributeByIdentifier:0xD1]) ||
-                        (life = [disk getSMARTAttributeByIdentifier:0xE8]) ||
-                        (life = [disk getSMARTAttributeByIdentifier:0xE7]))
-                        [lifes setObject:[NSData dataWithBytes:&life->rawvalue[0] length:2] forKey:key];
-                }
-            }
-        }
-        
-        driveTemperatures = [NSDictionary dictionaryWithDictionary:temperatures];
-        driveRemainingLifes = [NSDictionary dictionaryWithDictionary:lifes];
-    }
+    [monitor updateSMARTSensorsValues];
 }
 
-- (void)updateTitles:(BOOL)force
+- (void)updateTitles
 {
-    io_service_t service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
+    [monitor updateGenericSensorsValuesButOnlyFavorits:![self isMenuDown]];
     
-    if (service) {
-        CFMutableArrayRef list = (CFMutableArrayRef)CFArrayCreateMutable(kCFAllocatorDefault, 0, nil);
+    NSMutableArray * favorites = [[NSMutableArray alloc] init];
+    
+    NSArray *sensors = [monitor sensors];
+    
+    for (int i = 0; i < [sensors count]; i++) {
+        NSHardwareMonitorSensor *sensor = (NSHardwareMonitorSensor*)[sensors objectAtIndex:i];
         
-        NSEnumerator * enumerator = [sensorsList  objectEnumerator];
-        
-        HWMonitorSensor * sensor = nil;
-        
-        while (sensor = (HWMonitorSensor *)[enumerator nextObject]) {
-            if (force || [self isMenuDown] || [sensor favorite]) {
-                CFTypeRef name = (CFTypeRef) CFStringCreateWithCString(kCFAllocatorDefault, [[sensor key] cStringUsingEncoding:NSUTF8StringEncoding], kCFStringEncodingUTF8);
-                
-                CFArrayAppendValue(list, name);
-                
-                //CFRelease(name);
-            }
+        if ([self isMenuDown]) {
+            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[[NSString alloc] initWithFormat:@"%S\t%S",[[sensor caption] cStringUsingEncoding:NSUTF16StringEncoding],[[sensor formatValue] cStringUsingEncoding:NSUTF16StringEncoding]] attributes:statusMenuAttributes];
+            
+            [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
+            
+            // Update menu item title
+            [[sensor menuItem] setAttributedTitle:title];
         }
         
-        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDevicePopulateList), list)) 
-        {           
-            NSMutableDictionary * values = (__bridge_transfer NSMutableDictionary *)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
-            
-            if (!values) 
-                values = [[NSMutableDictionary alloc] init];
-            
-            if (values) {
-                
-                [values addEntriesFromDictionary:driveTemperatures];
-                [values addEntriesFromDictionary:driveRemainingLifes];
-                
-                NSMutableArray * favorites = [[NSMutableArray alloc] init];
-                
-                enumerator = [sensorsList  objectEnumerator];
-                
-                while (sensor = (HWMonitorSensor *)[enumerator nextObject]) {
-                    if (force || [self isMenuDown] || [sensor favorite]) {
-                        
-                        NSString * value = [sensor formateValue:[values objectForKey:[sensor key]]];
-                        
-                        if (force || [self isMenuDown]) {
-                            NSString * value = [sensor formateValue:[values objectForKey:[sensor key]]];
-
-                            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[[NSString alloc] initWithFormat:@"%S\t%S",[[sensor caption] cStringUsingEncoding:NSUTF16StringEncoding],[value cStringUsingEncoding:NSUTF16StringEncoding]] attributes:statusMenuAttributes];
-                            
-                            [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
-                            
-                            // Update menu item title
-                            [(NSMenuItem *)[sensor object] setAttributedTitle:title];
-                        }
-                        
-                        if ([sensor favorite])
-                            [favorites addObject:[[NSString alloc] initWithFormat:@"%S", [value cStringUsingEncoding:NSUTF16StringEncoding]]];
-                    }
-                }
-        
-                if ([favorites count] > 0)
-                    [view setTitles:favorites];
-                else 
-                    [view setTitles:nil];
-            }
-        }
-        
-        CFArrayRemoveAllValues(list);
-        CFRelease(list);
-        
-        IOObjectRelease(service);
+        if ([sensor favorite])
+            [favorites addObject:[[NSString alloc] initWithFormat:@"%S", [[sensor formatValue] cStringUsingEncoding:NSUTF16StringEncoding]]];
     }
-}
-
-- (void)updateTitlesForced
-{
-    [self updateTitles:YES];
-}
-
-- (void)updateTitlesDefault
-{
-    [self updateTitles:NO];
+    
+    // Update status bar title
+    if ([favorites count] > 0)
+        [view setTitles:favorites];
+    else 
+        [view setTitles:nil];
 }
 
 - (void)menuItemClicked:(id)sender 
@@ -199,11 +91,11 @@
     
     [menuItem setState:![menuItem state]];
     
-    HWMonitorSensor * sensor = (HWMonitorSensor *)[menuItem representedObject];
+    NSHardwareMonitorSensor *sensor = (NSHardwareMonitorSensor*)[menuItem representedObject];
     
     [sensor setFavorite:[menuItem state]];
     
-    [self updateTitlesDefault];
+    [self updateTitles];
     
     [[NSUserDefaults standardUserDefaults] setBool:[menuItem state] forKey:[sensor key]];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -244,110 +136,26 @@
     statusMenuAttributes = [NSDictionary dictionaryWithObject:style forKey:NSParagraphStyleAttributeName];
     
     // Init sensors
-    sensorsList = [[NSMutableArray alloc] init];
-    lastMenusCount = menusCount;
     
-    //Temperatures
+    monitor = [NSHardwareMonitor hardwareMonitor];
     
-    for (int i=0; i<0xA; i++)
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"TC%XD",i] andCaption:[[NSString alloc] initWithFormat:@"CPU %X",i] intoGroup:TemperatureSensorGroup];
+    [monitor rebuildSensorsList];
     
-    [self addSensorWithKey:@"Th0H" andCaption:@"CPU Heatsink" intoGroup:TemperatureSensorGroup];
-    [self addSensorWithKey:@"TN0P" andCaption:@"Motherboard" intoGroup:TemperatureSensorGroup];
-    [self addSensorWithKey:@"TA0P" andCaption:@"Ambient" intoGroup:TemperatureSensorGroup];
-    
-    for (int i=0; i<0xA; i++) {
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"TG%XD",i] andCaption:[[NSString alloc] initWithFormat:@"GPU %X Core",i] intoGroup:TemperatureSensorGroup];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"TG%XH",i] andCaption:[[NSString alloc] initWithFormat:@"GPU %X Board",i] intoGroup:TemperatureSensorGroup];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"TG%XP",i] andCaption:[[NSString alloc] initWithFormat:@"GPU %X Proximity",i] intoGroup:TemperatureSensorGroup];
-    }
-    
-    [self insertFooterAndTitle:@"TEMPERATURES"];
-    
-    // Hard Drive Temperatures
-    
-    smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
-    
-    if ([smartReporter drives]) {
-        NSArray * keys = [[smartReporter drives] allKeys];
-        NSArray * values = [[smartReporter drives] allValues];
+    if ([[monitor sensors] count] > 0) {
+        [self insertMenuGroupWithTitle:@"TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kHWTemperatureGroup]];
+        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kHWSMARTTemperatureGroup]];
+        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" sensors:[monitor getAllSensorsInGroup:kHWSMARTRemainingLifeGroup]];
+        [self insertMenuGroupWithTitle:@"MULTIPLIERS" sensors:[monitor getAllSensorsInGroup:kHWMultiplierGroup]];
+        [self insertMenuGroupWithTitle:@"FANS" sensors:[monitor getAllSensorsInGroup:kHWTachometerGroup]];
+        [self insertMenuGroupWithTitle:@"VOLTAGES" sensors:[monitor getAllSensorsInGroup:kHWVoltageGroup]];
         
-        for (int i = 0; i < [keys count]; i++) {
-            NSATAGenericDisk * disk = [values objectAtIndex:i];
-            
-            if (disk && [disk isRotational]) {
-                NSString * key = [keys objectAtIndex:i];
-                
-                [self addSensorWithKey:key andCaption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] intoGroup:SMARTTemperatureSensorGroup];
-            }
-        }
-    }
-    
-    [self insertFooterAndTitle:@"HARD DRIVE TEMPERATURES"];
-    
-    // SSD Remaining Life
-    
-    if ([smartReporter drives]) {
-        NSArray * keys = [[smartReporter drives] allKeys];
-        NSArray * values = [[smartReporter drives] allValues];
+        [self updateTitles];
         
-        for (int i = 0; i < [keys count]; i++) {
-            NSATAGenericDisk * disk = [values objectAtIndex:i];
-            
-            if (disk && ![disk isRotational]) {
-                NSString * key = [keys objectAtIndex:i];
-                
-                [self addSensorWithKey:key andCaption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] intoGroup:SMARTRemainingLifeSensorGroup];
-            }
-        }
-    }
-    
-    [self insertFooterAndTitle:@"SSD REMAINING LIFE"];
-    
-    // Update SMART data
-    [self updateSMARTData];
-    
-    //Multipliers
-    
-    for (int i=0; i<0xA; i++)
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"MC%XC",i] andCaption:[[NSString alloc] initWithFormat:@"CPU %X",i] intoGroup:MultiplierSensorGroup];
-    
-    [self addSensorWithKey:@"MPkC" andCaption:@"CPU Package" intoGroup:MultiplierSensorGroup];
-    
-    [self insertFooterAndTitle:@"MULTIPLIERS"];
-    
-    // Fans
-    
-    for (int i=0; i<10; i++){
-        NSString * caption = [[NSString alloc] initWithData:[HWMonitorSensor populateValueForKey:[[NSString alloc] initWithFormat:@"F%XID",i] ]encoding: NSUTF8StringEncoding];
-        if ([caption length]<=0) 
-            caption = [[NSString alloc] initWithFormat:@"Fan %d",i];
-        
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"F%XAc",i] andCaption:caption intoGroup:TachometerSensorGroup ];
-    }
-    
-    [self insertFooterAndTitle:@"FANS"];
-    
-    // Voltages
-    
-    [self addSensorWithKey:@"VC0C" andCaption:@"CPU Voltage" intoGroup:VoltageSensorGroup];
-    [self addSensorWithKey:@"VM0R" andCaption:@"DIMM Voltage" intoGroup:VoltageSensorGroup];
-    
-    [self insertFooterAndTitle:@"VOLTAGES"];
-    
-    if ([sensorsList count] == 0) {
-        NSMenuItem * item = [[NSMenuItem alloc]initWithTitle:@"No sensors found or FakeSMCDevice unavailable" action:nil keyEquivalent:@""];
-        
-        [item setEnabled:FALSE];
-        
-        [menu insertItem:item atIndex:0];
-    }
-    else {
         // Main sensors timer
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
-                                    [self methodSignatureForSelector:@selector(updateTitlesDefault)]];
+                                    [self methodSignatureForSelector:@selector(updateTitles)]];
         [invocation setTarget:self];
-        [invocation setSelector:@selector(updateTitlesDefault)];
+        [invocation setSelector:@selector(updateTitles)];
         [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
         
         // Main SMART timer
@@ -359,6 +167,13 @@
         [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
         
         [self performSelector:@selector(updateTitlesForced) withObject:nil afterDelay:0.0];
+    }
+    else {
+        NSMenuItem * item = [[NSMenuItem alloc]initWithTitle:NSLocalizedString(@"No sensors found or FakeSMCDevice unavailable", nil) action:nil keyEquivalent:@""];
+        
+        [item setEnabled:FALSE];
+        
+        [menu addItem:item];
     }
     
     return self;

@@ -8,9 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SystemUIPlugin.h"
-#import "HWMonitorSensor.h"
 #import "HWMonitorView.h"
-#import "NSATASmartReporter.h"
+#import "NSHardwareMonitor.h"
 
 @interface HWMonitorExtra : NSMenuExtra
 
@@ -18,26 +17,17 @@
     HWMonitorView *view;
     IBOutlet NSMenu *menu;
     
-    int menusCount;
-    int lastMenusCount;
-    
-    NSMutableArray *sensorsList;
-    
-    NSATASmartReporter *smartReporter;
-    NSDictionary *driveTemperatures;
-    NSDictionary *driveRemainingLifes;
-    
     NSFont *statusBarFont;
     NSFont *statusMenuFont;
     NSDictionary *statusMenuAttributes;
+    
+    NSHardwareMonitor *monitor;
 }
 
-- (HWMonitorSensor *)addSensorWithKey:(NSString *)key andCaption:(NSString *)caption intoGroup:(SensorGroup)group;
-- (void)insertFooterAndTitle:(NSString *)title;
+- (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
+
 - (void)updateSMARTData;
-- (void)updateTitles:(BOOL)forced;
-- (void)updateTitlesForced;
-- (void)updateTitlesDefault;
+- (void)updateTitles;
 
 - (void)menuItemClicked:(id)sender;
 
