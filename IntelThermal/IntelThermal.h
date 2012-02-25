@@ -111,7 +111,9 @@ private:
     UInt8                   tjmax[INTEL_THERMAL_MAX_CPU];
     IOWorkLoop *			workloop;
 	IOTimerEventSource *	timersource;
-    UInt16                  timercounter;
+    
+    UInt8                   thermCounter;
+    UInt8                   perfCounter;
     
     IOReturn                loopTimerEvent(void);
 	void                    readTjmaxFromMSR();

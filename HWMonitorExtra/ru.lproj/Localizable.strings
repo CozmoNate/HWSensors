@@ -14,7 +14,9 @@
 "FANS" = "ВЕНТИЛЯТОРЫ";
 "CPU Heatsink" = "Радиатор процессора";
 "GPU %X Board" = "Радиатор видеокарты %X";
-"Motherboard" = "Чипсет";
+"GPU %X Core" = "Ядро видеокарты %X";
+"GPU %X Proximity" = "Видеокарта %X";
+"Motherboard" = "Системный чипсет";
 "CPU Package" = "Процессор";
 "CPU %X" = "Ядро %X";
 "Fan %X" = "Вентилятор %X";
