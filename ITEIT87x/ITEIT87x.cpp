@@ -85,7 +85,7 @@ long IT87x::readTemperature(unsigned long index)
 
 long IT87x::readVoltage(unsigned long index)
 {
-    return readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain;
+    return readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain * voltageSpecificGain[index];
 }
 
 long IT87x::readTachometer(unsigned long index)
@@ -185,10 +185,15 @@ bool IT87x::probePort()
     
     UInt8 version = readByte(ITE_VERSION_REGISTER) & 0x0F;
     
-    if (id == IT8712F && version < 8)
+    /*if (id == IT8712F && version < 8)
         has16bitFanCounter = false;
     else
-        has16bitFanCounter = true;
+        has16bitFanCounter = true;*/
+    
+    has16bitFanCounter = !(id == IT8712F && version < 8);
+    
+    for (int i = 0; i < 9; i++)
+        voltageSpecificGain[i] = 1;
 	
 	return true;
 }
@@ -255,6 +260,47 @@ bool IT87x::startPlugin()
 					if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
 						WarningLog("error adding memory voltage sensor");
 				}
+                else if (name->isEqualTo("AVCC")) {
+                    if (!addSensor(KEY_AVCC_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
+                        WarningLog("ERROR Adding AVCC Voltage Sensor!");
+                    }
+                }
+                /*else if (name->isEqualTo("+12V")) {
+                    if (addSensor(KEY_12V_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i)) {
+                        voltageSpecificGain[i] = 3;
+                    }
+                    else WarningLog("ERROR Adding 12V Voltage Sensor!");
+                }*/        
+                else if (name->isEqualTo("+3.3V VCC")) {
+                    if (!addSensor(KEY_3VCC_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
+                        WarningLog("ERROR Adding 3VCC Voltage Sensor!");
+                    }
+                }
+                else if (name->isEqualTo("VRM1")) {
+                    if (!addSensor(KEY_CPU_VRM_SUPPLY0, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
+                        WarningLog("ERROR Adding UNKN1 Voltage Sensor!");
+                    }
+                }
+                else if (name->isEqualTo("VRM2")) {
+                    if (!addSensor(KEY_CPU_VRM_SUPPLY1, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
+                        WarningLog("ERROR Adding UNKN2 Voltage Sensor!");
+                    }
+                }
+                else if (name->isEqualTo("VRM3")) {
+                    if (!addSensor(KEY_CPU_VRM_SUPPLY2, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
+                        WarningLog("ERROR Adding UNKN3 Voltage Sensor!");
+                    }
+                }
+                else if (name->isEqualTo("+3.3V VSB")) {
+                    if (!addSensor(KEY_3VSB_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
+                        WarningLog("ERROR Adding 3VSB Voltage Sensor!");
+                    }
+                }
+                else if (name->isEqualTo("Battery")) {
+                    if (!addSensor(KEY_VBAT_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
+                        WarningLog("ERROR Adding battery Voltage Sensor!");
+                    }
+                }
 			}
 		}
 	}

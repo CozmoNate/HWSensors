@@ -69,23 +69,23 @@
 					<key>TEMPIN2</key>
 					<string>Auxiliary</string>
 					<key>VIN0</key>
-					<string>CPU</string>
+					<string>Processor</string>
 					<key>VIN1</key>
 					<string>+12V</string>
 					<key>VIN2</key>
 					<string>AVCC</string>
 					<key>VIN3</key>
-					<string>3VCC</string>
+					<string>+3.3V VCC</string>
 					<key>VIN4</key>
-					<string>UNKN0</string>
+					<string>VRM1</string>
 					<key>VIN5</key>
-					<string>UNKN1</string>
+					<string>VRM2</string>
 					<key>VIN6</key>
-					<string>UNKN2</string>
+					<string>VRM3</string>
 					<key>VIN7</key>
-					<string>3VSB</string>
+					<string>+3.3V VSB</string>
 					<key>VIN8</key>
-					<string>VBAT</string>
+					<string>Battery</string>
 				</dict>
 			</dict>
 		</dict>

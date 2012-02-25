@@ -8,6 +8,42 @@
 
 #import "NSHardwareMonitorSensor.h"
 
+#include "FakeSMCDefinitions.h"
+
+UInt16 swap_value(UInt16 value)
+{
+	return ((value & 0xff00) >> 8) | ((value & 0xff) << 8);
+};
+
+UInt8 get_index(char c)
+{
+	return c >= 'a' ? c - 87 : c >= 'A' ? c - 55 : c - 48;
+};
+
+float decode_float(const char * type, UInt16 encoded)
+{
+    UInt8 i = 0, f = 0;
+    
+    encoded = swap_value(encoded);
+    
+    if (type[0] == 's' || type[0] == 'f') {
+        if (type[1] == 'p') {
+            i = get_index(type[2]);
+            f = get_index(type[3]);
+            
+            if (i + f != (type[0] == 's' ? 15 : 16) ) 
+                return encoded;
+        }
+        else return encoded;
+        
+        float value = (float)encoded / (float)(0x1 << f);
+        
+        return value;
+    }
+    
+    return encoded;
+}
+
 @implementation NSHardwareMonitorSensor
 
 @synthesize key;
@@ -18,12 +54,6 @@
 
 @synthesize menuItem;
 @synthesize favorite;
-
-
-+ (unsigned int)swapBytes:(unsigned int)value
-{
-    return ((value & 0xff00) >> 8) | ((value & 0xff) << 8);
-}
 
 + (NSHardwareMonitorSensor*)sensor
 {
@@ -41,56 +71,52 @@
             case kHWTemperatureGroup:
             case kHWSMARTTemperatureGroup:
             {
-                unsigned int t = 0;
+                UInt16 encoded = 0;
                 
-                bcopy([value bytes], &t, 2);
+                bcopy([value bytes], &encoded, 2);
                 
-                return [[NSString alloc] initWithFormat:@"%d°",t];
+                return [[NSString alloc] initWithFormat:@"%1.0f°",decode_float(TYPE_SP78, encoded)];
                 
             } break;
                 
             case kHWSMARTRemainingLifeGroup:
             {
-                unsigned int life = 0;
+                UInt64 life = 0;
                 
-                bcopy([value bytes], &life, 2);
+                bcopy([value bytes], &life, [value length]);
                 
-                return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
+                //return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
+                return [[NSString alloc] initWithFormat:@"(%d)",life];
                 
             } break;
                 
             case kHWVoltageGroup:
             {
-                unsigned int encoded = 0;
+                UInt16 encoded = 0;
                 
                 bcopy([value bytes], &encoded, 2);
                 
-                encoded = [NSHardwareMonitorSensor swapBytes:encoded];
+                return [[NSString alloc] initWithFormat:@"%1.2fV",decode_float(TYPE_FP2E, encoded)];
                 
-                float v = ((encoded & 0xc000) >> 14) + ((encoded & 0x3fff) >> 4) / 1000.0;
-                
-                return [[NSString alloc] initWithFormat:@"%1.3fV",v];
             } break;
                 
             case kHWTachometerGroup:
             {
-                unsigned int rpm = 0;
+                UInt16 encoded = 0;
                 
-                bcopy([value bytes], &rpm, 2);
-                
-                rpm = [NSHardwareMonitorSensor swapBytes:rpm] >> 2;
-                
-                return [[NSString alloc] initWithFormat:@"%drpm",rpm];
+                bcopy([value bytes], &encoded, 2);
+                    
+                return [[NSString alloc] initWithFormat:@"%1.0frpm",decode_float(TYPE_FPE2, encoded)];
                 
             } break;
                 
             case kHWMultiplierGroup:
             {
-                unsigned int mlt = 0;
+                UInt16 mlt = 0;
                 
                 bcopy([value bytes], &mlt, 2);
                 
-                return [[NSString alloc] initWithFormat:@"x%1.1f",(float)mlt / 10.0];
+                return [[NSString alloc] initWithFormat:@"x%1.1f",(float)mlt / 10.0f];
                 
             } break;
         }

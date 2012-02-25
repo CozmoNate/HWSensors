@@ -707,10 +707,10 @@
 		6A58E1E614F6C7F9001F2C50 /* NSHardwareMonitor */ = {
 			isa = PBXGroup;
 			children = (
-				6A00BB5914F8CCF000337DF8 /* NSHardwareMonitor.h */,
-				6A00BB5A14F8CCF000337DF8 /* NSHardwareMonitor.m */,
 				6A00BB5B14F8CCF000337DF8 /* NSHardwareMonitorSensor.h */,
 				6A00BB5C14F8CCF000337DF8 /* NSHardwareMonitorSensor.m */,
+				6A00BB5914F8CCF000337DF8 /* NSHardwareMonitor.h */,
+				6A00BB5A14F8CCF000337DF8 /* NSHardwareMonitor.m */,
 			);
 			name = NSHardwareMonitor;
 			path = ..;
@@ -746,8 +746,8 @@
 			isa = PBXGroup;
 			children = (
 				6A9955C214EFAEE50052C702 /* cpuid.h */,
-				6A9955C314EFAEE50052C702 /* TigerAdditionals.cpp */,
 				6A9955C414EFAEE50052C702 /* TigerAdditionals.h */,
+				6A9955C314EFAEE50052C702 /* TigerAdditionals.cpp */,
 				6AA3A26B14F6D7C1007A7084 /* NSString+TruncateToWidth */,
 				6AA3A26A14F6D7AC007A7084 /* NSATASmartReporter */,
 				6A58E1E614F6C7F9001F2C50 /* NSHardwareMonitor */,

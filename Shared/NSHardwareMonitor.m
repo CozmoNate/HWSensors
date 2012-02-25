@@ -180,16 +180,16 @@
     //Temperatures
     
     for (int i=0; i<0xA; i++)
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"TC%XD",i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i] group:kHWTemperatureGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i] group:kHWTemperatureGroup];
     
-    [self addSensorWithKey:@"Th0H" caption:GetLocalizedString(@"CPU Heatsink") group:kHWTemperatureGroup];
-    [self addSensorWithKey:@"TN0P" caption:GetLocalizedString(@"Motherboard") group:kHWTemperatureGroup];
-    [self addSensorWithKey:@"TA0P" caption:GetLocalizedString(@"Ambient") group:kHWTemperatureGroup];
+    [self addSensorWithKey:@KEY_CPU_HEATSINK_TEMPERATURE caption:GetLocalizedString(@"CPU Heatsink") group:kHWTemperatureGroup];
+    [self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"Motherboard") group:kHWTemperatureGroup];
+    [self addSensorWithKey:@KEY_AMBIENT_TEMPERATURE caption:GetLocalizedString(@"Ambient") group:kHWTemperatureGroup];
     
     for (int i=0; i<0xA; i++) {
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"TG%XD",i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Core"),i] group:kHWTemperatureGroup];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"TG%XH",i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Board"),i] group:kHWTemperatureGroup];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"TG%XP",i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Proximity"),i] group:kHWTemperatureGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Core"),i] group:kHWTemperatureGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_BOARD_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Board"),i] group:kHWTemperatureGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Proximity"),i] group:kHWTemperatureGroup];
     }
     
     if ([smartReporter drives]) {
@@ -217,24 +217,32 @@
     //Multipliers
     
     for (int i=0; i<0xA; i++)
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"MC%XC",i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i] group:kHWMultiplierGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_NON_APPLE_CPU_MULTIPLIER,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i] group:kHWMultiplierGroup];
     
-    [self addSensorWithKey:@"MPkC" caption:GetLocalizedString(@"CPU Package") group:kHWMultiplierGroup];
+    [self addSensorWithKey:@KEY_NON_APPLE_PACKAGE_MULTIPLIER caption:GetLocalizedString(@"CPU Package") group:kHWMultiplierGroup];
     
     // Fans
     
     for (int i=0; i<10; i++) {
-        NSString * caption = [[NSString alloc] initWithData:[NSHardwareMonitor populateValueForKey:[[NSString alloc] initWithFormat:@"F%XID",i] ]encoding: NSUTF8StringEncoding];
+        NSString * caption = [[NSString alloc] initWithData:[NSHardwareMonitor populateValueForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i] ]encoding: NSUTF8StringEncoding];
         if ([caption length]<=0) 
             caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i];
         
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@"F%XAc",i] caption:caption group:kHWTachometerGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWTachometerGroup];
     }
     
     // Voltages
     
-    [self addSensorWithKey:@"VC0C" caption:GetLocalizedString(@"CPU") group:kHWVoltageGroup];
-    [self addSensorWithKey:@"VM0R" caption:GetLocalizedString(@"DIMM Modules") group:kHWVoltageGroup];
+    [self addSensorWithKey:@KEY_CPU_VOLTAGE caption:GetLocalizedString(@"CPU") group:kHWVoltageGroup];
+    [self addSensorWithKey:@KEY_MEMORY_VOLTAGE caption:GetLocalizedString(@"DIMM Modules") group:kHWVoltageGroup];
+    [self addSensorWithKey:@KEY_12V_VOLTAGE caption:GetLocalizedString(@"+12V") group:kHWVoltageGroup ];
+    [self addSensorWithKey:@KEY_AVCC_VOLTAGE caption:GetLocalizedString(@"AVCC") group:kHWVoltageGroup ];
+    [self addSensorWithKey:@KEY_3VCC_VOLTAGE caption:GetLocalizedString(@"+3.3V VCC") group:kHWVoltageGroup ];
+    [self addSensorWithKey:@KEY_3VSB_VOLTAGE caption:GetLocalizedString(@"+3.3V VSB") group:kHWVoltageGroup ];
+    [self addSensorWithKey:@KEY_VBAT_VOLTAGE caption:GetLocalizedString(@"Battery") group:kHWVoltageGroup ];
+    [self addSensorWithKey:@KEY_CPU_VRM_SUPPLY0 caption:GetLocalizedString(@"VRM Supply 0") group:kHWVoltageGroup ];
+    [self addSensorWithKey:@KEY_CPU_VRM_SUPPLY1 caption:GetLocalizedString(@"VRM Supply 1") group:kHWVoltageGroup ];
+    [self addSensorWithKey:@KEY_CPU_VRM_SUPPLY2 caption:GetLocalizedString(@"VRM Supply 2") group:kHWVoltageGroup ];
 }
 
 - (void)updateSMARTSensorsValues

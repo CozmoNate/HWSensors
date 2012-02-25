@@ -80,28 +80,28 @@
 
 -(NSData*)getTemperature
 {
-    [self readSMARTData];
-    
-    ATASMARTAttribute * temperature = nil;
-    
-    if ((temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature]) || 
-        (temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature2]))
-        return [NSData dataWithBytes:&temperature->rawvalue[0] length:1];
+    if ([self readSMARTData]) {    
+        ATASMARTAttribute * temperature = nil;
+        
+        if ((temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature]) || 
+            (temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature2]))
+            return [NSData dataWithBytes:&temperature->rawvalue[0] length:1];
+    }
     
     return nil;
 }
 
 -(NSData*)getRemainingLife
 {
-    ATASMARTAttribute * life = nil;
-    
-    [self readSMARTData];
-    
-    if ((life = [self getAttributeByIdentifier:0xB4]) ||
-        (life = [self getAttributeByIdentifier:0xD1]) ||
-        (life = [self getAttributeByIdentifier:0xE8]) ||
-        (life = [self getAttributeByIdentifier:0xE7]))
-        return [NSData dataWithBytes:&life->rawvalue[0] length:1];
+    if ([self readSMARTData]) {
+        ATASMARTAttribute * life = nil;
+        
+        if ((life = [self getAttributeByIdentifier:0xB4]) ||
+            (life = [self getAttributeByIdentifier:0xD1]) ||
+            (life = [self getAttributeByIdentifier:0xE8]) ||
+            (life = [self getAttributeByIdentifier:0xE7]))
+            return [NSData dataWithBytes:&life->rawvalue[0] length:1];
+    }
     
     return nil;
 }
