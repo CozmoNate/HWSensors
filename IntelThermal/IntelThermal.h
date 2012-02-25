@@ -68,11 +68,6 @@ static UInt8  cpu_thermal[INTEL_THERMAL_MAX_CPU];
 static UInt16 cpu_performance[INTEL_THERMAL_MAX_CPU];
 
 
-inline UInt8 get_index(char c)
-{
-	return c >= 'A' ? c - 55 : c - 48;
-};
-
 inline UInt32 get_cpu_number()
 {
     // I found information that reading from 1-4 cores gives the same result as reading from 5-8 cores for 4-cores 8-threads CPU. Needs more investigation

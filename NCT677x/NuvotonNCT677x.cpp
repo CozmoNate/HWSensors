@@ -294,51 +294,54 @@ bool NCT677x::startPlugin()
         
         OSString* name = configuration ? OSDynamicCast(OSString, configuration->getObject(key)) : 0;
         
-        if ((name && name->isEqualTo("CPU")) || (!configuration && i==0)) 
+        if ((name && name->isEqualTo("Processor")) || (!configuration && i==0)) 
         {
             if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR Adding CPU Voltage Sensor!");
+                WarningLog("ERROR adding processor voltage Sensor!");
         }
-        else if ((name && name->isEqualTo("+12V")) || (!configuration && i==1)) 
+        else if (name->isEqualTo("Memory")) {
+            if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
+                WarningLog("ERROR adding memory voltage sensor");
+        }
+        /*else if ((name && name->isEqualTo("+12V")) || (!configuration && i==1)) 
         {
-            if (!addSensor(KEY_12V_VOLTAGE, TYPE_FP2E/*TYPE_FP4C*/, 2, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR Adding +12 Voltage Sensor!");
-        }
+            if (!addSensor(KEY_12V_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i))
+                WarningLog("ERROR adding +12V Voltage Sensor!");
+        }*/
         else if ((name && name->isEqualTo("AVCC")) || (!configuration && i==2)) 
         {
             if (!addSensor(KEY_AVCC_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
                 WarningLog("ERROR Adding AVCC Voltage Sensor!");
         }
-        else if ((name && name->isEqualTo("3VCC")) || (!configuration && i==3)) 
+        else if ((name && name->isEqualTo("+3.3V VCC")) || (!configuration && i==3)) 
         {
             if (!addSensor(KEY_3VCC_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR Adding 3VCC Voltage Sensor!");
+                WarningLog("ERROR Adding +3.3V VCC Voltage Sensor!");
         }
-        else if ((name && name->isEqualTo("UNKN0")) || (!configuration && i==4)) 
+        else if ((name && name->isEqualTo("VRM1")) || (!configuration && i==4)) 
         {
             if (!addSensor(KEY_CPU_VRM_SUPPLY0, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
                 WarningLog("ERROR Adding UNKN0 Voltage Sensor!");
         }
-        else if ((name && name->isEqualTo("UNKN1")) || (!configuration && i==5)) 
+        else if ((name && name->isEqualTo("VRM2")) || (!configuration && i==5)) 
         {
             if (!addSensor(KEY_CPU_VRM_SUPPLY1, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
                 WarningLog("ERROR Adding UNKN1 Voltage Sensor!");
         }
-        
-        else if ((name && name->isEqualTo("UNKN2")) || (!configuration && i==6)) 
+        else if ((name && name->isEqualTo("VRM1")) || (!configuration && i==6)) 
         {
             if (!addSensor(KEY_CPU_VRM_SUPPLY2, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
                 WarningLog("ERROR Adding UNKN2 Voltage Sensor!");
         }
-        else if ((name && name->isEqualTo("3VSB")) || (!configuration && i==7)) 
+        else if ((name && name->isEqualTo("+3.3V VSB")) || (!configuration && i==7)) 
         {
             if (!addSensor(KEY_3VSB_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR Adding 3VSB Voltage Sensor!");
+                WarningLog("ERROR Adding 3+3.3V VSBSB Voltage Sensor!");
         }
-        else if ((name && name->isEqualTo("VBAT")) || (!configuration && i==8)) 
+        else if ((name && name->isEqualTo("Battery")) || (!configuration && i==8)) 
         {
             if (!addSensor(KEY_VBAT_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR Adding VBAT Voltage Sensor!");
+                WarningLog("ERROR adding battery voltage sensor!");
         }
     }
     

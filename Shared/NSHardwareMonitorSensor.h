@@ -10,6 +10,10 @@
 
 #include "NSATASmartReporter.h"
 
+UInt16 swap_value(UInt16 value);
+UInt8 get_index(char c);
+float decode_float(const char * type, UInt16 encoded);
+
 enum {
     kHWTemperatureGroup =        1,
     kHWVoltageGroup =            2,
@@ -31,7 +35,6 @@ enum {
 @property (readwrite, retain) NSMenuItem *menuItem;
 @property (readwrite, assign) BOOL favorite;
 
-+ (unsigned int)swapBytes:(unsigned int)value;
 + (NSHardwareMonitorSensor*)sensor;
 
 - (NSString*)formatValue;

@@ -64,29 +64,22 @@ unsigned long SuperIOSensor::getIndex()
 
 long SuperIOSensor::getValue()
 {
-	UInt16 value = 0;
+	long value = 0;
 	
 	switch (group) {
 		case kSuperIOTemperatureSensor:
-			value = owner->readTemperature(index);
+			value = encode_long(type, owner->readTemperature(index));
 			break;
 		case kSuperIOVoltageSensor:
-			value = owner->readVoltage(index);
+			value = encode_float(type, owner->readVoltage(index));
 			break;
 		case kSuperIOTachometerSensor:
-			value = owner->readTachometer(index);
+			value = encode_long(type, owner->readTachometer(index));
 			break;
 		default:
 			break;
 	}
-	
-	if (*((uint32_t*)type) == *((uint32_t*)TYPE_FP2E)) {
-		value = encode_fp2e(value);
-	}
-	else if (*((uint32_t*)type) == *((uint32_t*)TYPE_FPE2)) {
-		value = encode_fpe2(value);
-	}
-	
+
 	return value;
 }
 
@@ -214,26 +207,16 @@ bool SuperIOMonitor::updateSensor(const char *key, const char *type, unsigned ch
 	
 	switch (group) {
 		case kSuperIOTemperatureSensor:
-			value = readTemperature(index);
+			value =  encode_long(type, readTemperature(index));
 			break;
 		case kSuperIOVoltageSensor:
-			value = readVoltage(index);
+			value =  encode_float(type, readVoltage(index));
 			break;
 		case kSuperIOTachometerSensor:
-			value = readTachometer(index);
+			value =  encode_long(type, readTachometer(index));
 			break;
 		default:
 			break;
-	}
-
-	if (strcmp(type, TYPE_FP2E) == 0) {
-		value = encode_fp2e(value);
-	}
-    else if (strcmp(type, TYPE_FP4C) == 0) {
-		value = encode_fp4c(value);
-	}
-	else if (strcmp(type, TYPE_FPE2) == 0) {
-		value = encode_fpe2(value);
 	}
 	
 	if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void*)key, (void*)size, (void*)&value, 0))

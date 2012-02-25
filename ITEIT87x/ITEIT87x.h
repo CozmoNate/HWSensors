@@ -100,7 +100,9 @@ class IT87x : public SuperIOMonitor
     OSDeclareDefaultStructors(IT87x)
 	
 private:
-    long                    voltageGain;
+    UInt8                   voltageGain;
+    UInt8                   voltageSpecificGain[9];
+    
     bool                    has16bitFanCounter;
     
 	UInt8					readByte(UInt8 reg);
