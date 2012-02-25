@@ -79,6 +79,10 @@
 		1DA962C513ED37D90096F8A5 /* RadeonChipsets.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA962C313ED37D90096F8A5 /* RadeonChipsets.h */; };
 		1DA962C713ED389E0096F8A5 /* AtomBIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA962C613ED389E0096F8A5 /* AtomBIOS.h */; };
 		1DBB87F11458B90A00C4B56E /* thermotemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DBB87F01458B90A00C4B56E /* thermotemplate.png */; };
+		6A00BB5D14F8CCF000337DF8 /* NSHardwareMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5A14F8CCF000337DF8 /* NSHardwareMonitor.m */; };
+		6A00BB5E14F8CCF000337DF8 /* NSHardwareMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5A14F8CCF000337DF8 /* NSHardwareMonitor.m */; };
+		6A00BB5F14F8CCF000337DF8 /* NSHardwareMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5C14F8CCF000337DF8 /* NSHardwareMonitorSensor.m */; };
+		6A00BB6014F8CCF000337DF8 /* NSHardwareMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5C14F8CCF000337DF8 /* NSHardwareMonitorSensor.m */; };
 		6A0F327D14DD6A6800AA5598 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A0F327B14DD6A6800AA5598 /* InfoPlist.strings */; };
 		6A0F328014DD6A6800AA5598 /* NuvotonNCT677x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A0F327F14DD6A6800AA5598 /* NuvotonNCT677x.cpp */; };
 		6A302DA114DC179E0032C548 /* thermo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A302D9F14DC179E0032C548 /* thermo.png */; };
@@ -89,22 +93,18 @@
 		6A85F86714DBF12900F863A9 /* SystemUIPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A85F86614DBF12900F863A9 /* SystemUIPlugin.framework */; };
 		6A85F86B14DBF21700F863A9 /* HWMonitorExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A85F86A14DBF21700F863A9 /* HWMonitorExtra.m */; };
 		6A85F86E14DBF37800F863A9 /* HWMonitorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A85F86D14DBF37800F863A9 /* HWMonitorView.m */; };
-		6A97943514F6D37C005ADC14 /* NSHardwareMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58E1E914F6C834001F2C50 /* NSHardwareMonitor.m */; };
 		6A979D8A14DC810A00D65073 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D757E5414502CED0003045C /* IOKit.framework */; };
 		6A979D8B14DC811F00D65073 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D757E5614502CF90003045C /* CoreFoundation.framework */; };
 		6A9955C014EFAD760052C702 /* NSString+TruncateToWidth.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */; };
 		6A9955C114EFAD7B0052C702 /* NSString+TruncateToWidth.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */; };
 		6A99C75B14F7A7A600CF1EF5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A99C75D14F7A7A600CF1EF5 /* Localizable.strings */; };
 		6A99C76614F7C5B600CF1EF5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A99C76814F7C5B600CF1EF5 /* Localizable.strings */; };
-		6A99C76A14F7C8A300CF1EF5 /* NSHardwareMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58E1E914F6C834001F2C50 /* NSHardwareMonitor.m */; };
-		6A99C76B14F7C8B800CF1EF5 /* NSHardwareMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58E1EB14F6CB80001F2C50 /* NSHardwareMonitorSensor.m */; };
 		6A9A244A14E65E9C0088F3AA /* SuperIOMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A244814E65E9C0088F3AA /* SuperIOMonitor.cpp */; };
 		6A9A244B14E65E9C0088F3AA /* SuperIOMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9A244914E65E9C0088F3AA /* SuperIOMonitor.h */; };
 		6A9C468C14E657EE0083E5E6 /* FakeSMCDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9C468814E657EE0083E5E6 /* FakeSMCDefinitions.h */; };
 		6A9C468D14E657EE0083E5E6 /* FakeSMCPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */; };
 		6A9C468E14E657EE0083E5E6 /* FakeSMCPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */; };
 		6A9C468F14E657EE0083E5E6 /* FakeSMCUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9C468B14E657EE0083E5E6 /* FakeSMCUtils.h */; };
-		6AA3A26C14F6D992007A7084 /* NSHardwareMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A58E1EB14F6CB80001F2C50 /* NSHardwareMonitorSensor.m */; };
 		6AAF618914D40262006E8573 /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6AAF618814D40262006E8573 /* default.icns */; };
 		6AB5B4EE14F2C47B0062D2D0 /* NSATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* NSATASmartReporter.m */; };
 /* End PBXBuildFile section */
@@ -215,6 +215,10 @@
 		1DA962C313ED37D90096F8A5 /* RadeonChipsets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonChipsets.h; sourceTree = "<group>"; };
 		1DA962C613ED389E0096F8A5 /* AtomBIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtomBIOS.h; sourceTree = "<group>"; };
 		1DBB87F01458B90A00C4B56E /* thermotemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thermotemplate.png; sourceTree = "<group>"; };
+		6A00BB5914F8CCF000337DF8 /* NSHardwareMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSHardwareMonitor.h; path = Shared/NSHardwareMonitor.h; sourceTree = "<group>"; };
+		6A00BB5A14F8CCF000337DF8 /* NSHardwareMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSHardwareMonitor.m; path = Shared/NSHardwareMonitor.m; sourceTree = "<group>"; };
+		6A00BB5B14F8CCF000337DF8 /* NSHardwareMonitorSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSHardwareMonitorSensor.h; path = Shared/NSHardwareMonitorSensor.h; sourceTree = "<group>"; };
+		6A00BB5C14F8CCF000337DF8 /* NSHardwareMonitorSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSHardwareMonitorSensor.m; path = Shared/NSHardwareMonitorSensor.m; sourceTree = "<group>"; };
 		6A0F327514DD6A6800AA5598 /* NuvotonNCT677x.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NuvotonNCT677x.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A0F327714DD6A6800AA5598 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 		6A0F327A14DD6A6800AA5598 /* NuvotonNCT677x-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NuvotonNCT677x-Info.plist"; sourceTree = "<group>"; };
@@ -225,10 +229,6 @@
 		6A302D9E14DC135C0032C548 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A302D9F14DC179E0032C548 /* thermo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thermo.png; sourceTree = "<group>"; };
 		6A302DA014DC179E0032C548 /* thermotemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thermotemplate.png; sourceTree = "<group>"; };
-		6A58E1E814F6C834001F2C50 /* NSHardwareMonitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NSHardwareMonitor.h; path = NSHardwareMonitor/NSHardwareMonitor.h; sourceTree = "<group>"; };
-		6A58E1E914F6C834001F2C50 /* NSHardwareMonitor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NSHardwareMonitor.m; path = NSHardwareMonitor/NSHardwareMonitor.m; sourceTree = "<group>"; };
-		6A58E1EA14F6CB80001F2C50 /* NSHardwareMonitorSensor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NSHardwareMonitorSensor.h; path = NSHardwareMonitor/NSHardwareMonitorSensor.h; sourceTree = "<group>"; };
-		6A58E1EB14F6CB80001F2C50 /* NSHardwareMonitorSensor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NSHardwareMonitorSensor.m; path = NSHardwareMonitor/NSHardwareMonitorSensor.m; sourceTree = "<group>"; };
 		6A62185214F17D640058C396 /* NSATASmartReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSATASmartReporter.h; sourceTree = "<group>"; };
 		6A62185314F17D640058C396 /* NSATASmartReporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSATASmartReporter.m; sourceTree = "<group>"; };
 		6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HWMonitorExtra.menu; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -707,10 +707,10 @@
 		6A58E1E614F6C7F9001F2C50 /* NSHardwareMonitor */ = {
 			isa = PBXGroup;
 			children = (
-				6A58E1EA14F6CB80001F2C50 /* NSHardwareMonitorSensor.h */,
-				6A58E1EB14F6CB80001F2C50 /* NSHardwareMonitorSensor.m */,
-				6A58E1E814F6C834001F2C50 /* NSHardwareMonitor.h */,
-				6A58E1E914F6C834001F2C50 /* NSHardwareMonitor.m */,
+				6A00BB5914F8CCF000337DF8 /* NSHardwareMonitor.h */,
+				6A00BB5A14F8CCF000337DF8 /* NSHardwareMonitor.m */,
+				6A00BB5B14F8CCF000337DF8 /* NSHardwareMonitorSensor.h */,
+				6A00BB5C14F8CCF000337DF8 /* NSHardwareMonitorSensor.m */,
 			);
 			name = NSHardwareMonitor;
 			path = ..;
@@ -1379,10 +1379,10 @@
 			files = (
 				6A9955C014EFAD760052C702 /* NSString+TruncateToWidth.m in Sources */,
 				6AB5B4EE14F2C47B0062D2D0 /* NSATASmartReporter.m in Sources */,
-				6AA3A26C14F6D992007A7084 /* NSHardwareMonitorSensor.m in Sources */,
-				6A97943514F6D37C005ADC14 /* NSHardwareMonitor.m in Sources */,
 				1D9F832C144FF24000EEEFEB /* main.m in Sources */,
 				1D9F8333144FF24000EEEFEB /* AppDelegate.m in Sources */,
+				6A00BB5D14F8CCF000337DF8 /* NSHardwareMonitor.m in Sources */,
+				6A00BB5F14F8CCF000337DF8 /* NSHardwareMonitorSensor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1441,10 +1441,10 @@
 			files = (
 				6A9955C114EFAD7B0052C702 /* NSString+TruncateToWidth.m in Sources */,
 				6A62185514F1802C0058C396 /* NSATASmartReporter.m in Sources */,
-				6A99C76B14F7C8B800CF1EF5 /* NSHardwareMonitorSensor.m in Sources */,
-				6A99C76A14F7C8A300CF1EF5 /* NSHardwareMonitor.m in Sources */,
 				6A85F86B14DBF21700F863A9 /* HWMonitorExtra.m in Sources */,
 				6A85F86E14DBF37800F863A9 /* HWMonitorView.m in Sources */,
+				6A00BB5E14F8CCF000337DF8 /* NSHardwareMonitor.m in Sources */,
+				6A00BB6014F8CCF000337DF8 /* NSHardwareMonitorSensor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

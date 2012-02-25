@@ -72,12 +72,11 @@ IOReturn IntelThermal::loopTimerEvent(void)
 {
     UInt8 index;
     
-    if (timercounter < 5) {
-        timercounter++;
-        
+    if (thermCounter++ < 5)
         for (UInt8 i = 0; i < cpuid_info()->core_count; i++)
             mp_rendezvous_no_intrs(read_cpu_thermal, &index);
         
+    if (perfCounter++ < 5) {
         mp_rendezvous_no_intrs(read_cpu_performance, &index);
         
         switch (cpuid_info()->cpuid_cpufamily) {
@@ -313,7 +312,8 @@ bool IntelThermal::start(IOService *provider)
             
     }
     
-    timercounter = 4;
+    thermCounter = 4;
+    perfCounter = 4;
     
     loopTimerEvent();
     
@@ -330,13 +330,14 @@ IOReturn IntelThermal::callPlatformFunction(const OSSymbol *functionName, bool w
 		
 		if (name && data) {
             
-            timercounter = 0;
-            
 			switch (name[0]) {
 				case 'T': {
 					UInt8 index = get_index(name[2]);
 					
 					if (index < cpuid_info()->core_count) {
+                        
+                        thermCounter = 0;
+                        
 						UInt16 t = tjmax[index] - cpu_thermal[index];
                         						
 						bcopy(&t, data, 2);
@@ -350,6 +351,9 @@ IOReturn IntelThermal::callPlatformFunction(const OSSymbol *functionName, bool w
                     UInt16 value = 0;
                     
                     if (strcasecmp(name, KEY_NON_APPLE_PACKAGE_MULTIPLIER) == 0) {
+                        
+                        perfCounter = 0;
+                        
                         switch (cpuid_info()->cpuid_cpufamily) {
                             case CPUFAMILY_INTEL_NEHALEM:
                             case CPUFAMILY_INTEL_WESTMERE:
@@ -365,6 +369,9 @@ IOReturn IntelThermal::callPlatformFunction(const OSSymbol *functionName, bool w
                         UInt8 index = get_index(name[2]);
                         
                         if (index < cpuid_info()->core_count) {
+                            
+                            perfCounter = 0;
+                            
                             float mult = ((float)(((cpu_performance[index] >> 8) & 0x1f)) + 0.5f * (float)((cpu_performance[index] >> 14) & 1)) * 10.0f;
                                     
                             value = mult;
