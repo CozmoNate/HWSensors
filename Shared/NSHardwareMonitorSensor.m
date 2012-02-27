@@ -10,26 +10,38 @@
 
 #include "FakeSMCDefinitions.h"
 
-UInt16 swap_value(UInt16 value)
+inline UInt8 get_index(char c)
 {
-	return ((value & 0xff00) >> 8) | ((value & 0xff) << 8);
+	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
 };
 
-UInt8 get_index(char c)
-{
-	return c >= 'a' ? c - 87 : c >= 'A' ? c - 55 : c - 48;
-};
+@implementation NSHardwareMonitorSensor
 
-float decode_float(const char * type, UInt16 encoded)
+@synthesize key;
+@synthesize type;
+@synthesize group;
+@synthesize caption;
+@synthesize value;
+@synthesize disk;
+
+@synthesize menuItem;
+@synthesize favorite;
+
++ (int)getIndexOfHexChar:(char)c
+{
+	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
+}
+
++ (float)decodeSMCFloatOfType:(const char*)type fraction:(UInt16) encoded;
 {
     UInt8 i = 0, f = 0;
     
-    encoded = swap_value(encoded);
+    encoded = ((encoded & 0xff00) >> 8) | ((encoded & 0xff) << 8);
     
     if (type[0] == 's' || type[0] == 'f') {
         if (type[1] == 'p') {
-            i = get_index(type[2]);
-            f = get_index(type[3]);
+            i = [NSHardwareMonitorSensor getIndexOfHexChar:type[2]];
+            f = [NSHardwareMonitorSensor getIndexOfHexChar:type[3]];
             
             if (i + f != (type[0] == 's' ? 15 : 16) ) 
                 return encoded;
@@ -38,22 +50,11 @@ float decode_float(const char * type, UInt16 encoded)
         
         float value = (float)encoded / (float)(0x1 << f);
         
-        return value;
+        return value * (type[0] == 's' && encoded & 0x8000 ? -1 : 1);
     }
     
     return encoded;
 }
-
-@implementation NSHardwareMonitorSensor
-
-@synthesize key;
-@synthesize group;
-@synthesize caption;
-@synthesize value;
-@synthesize disk;
-
-@synthesize menuItem;
-@synthesize favorite;
 
 + (NSHardwareMonitorSensor*)sensor
 {
@@ -68,14 +69,13 @@ float decode_float(const char * type, UInt16 encoded)
 {
     if (value != NULL) {
         switch (group) {
-            case kHWTemperatureGroup:
             case kHWSMARTTemperatureGroup:
             {
-                UInt16 encoded = 0;
+                UInt16 t = 0;
                 
-                bcopy([value bytes], &encoded, 2);
+                bcopy([value bytes], &t, 2);
                 
-                return [[NSString alloc] initWithFormat:@"%1.0f°",decode_float(TYPE_SP78, encoded)];
+                return [[NSString alloc] initWithFormat:@"%d°",t];
                 
             } break;
                 
@@ -90,13 +90,23 @@ float decode_float(const char * type, UInt16 encoded)
                 
             } break;
                 
+            case kHWTemperatureGroup:
+            {
+                UInt16 encoded = 0;
+                
+                bcopy([value bytes], &encoded, 2);
+                
+                return [[NSString alloc] initWithFormat:@"%1.0f°",[NSHardwareMonitorSensor decodeSMCFloatOfType:[type cStringUsingEncoding:NSASCIIStringEncoding] fraction:encoded]];
+                
+            } break;
+                
             case kHWVoltageGroup:
             {
                 UInt16 encoded = 0;
                 
                 bcopy([value bytes], &encoded, 2);
                 
-                return [[NSString alloc] initWithFormat:@"%1.2fV",decode_float(TYPE_FP2E, encoded)];
+                return [[NSString alloc] initWithFormat:@"%1.2fV",[NSHardwareMonitorSensor decodeSMCFloatOfType:[type cStringUsingEncoding:NSASCIIStringEncoding] fraction:encoded]];
                 
             } break;
                 
@@ -106,7 +116,7 @@ float decode_float(const char * type, UInt16 encoded)
                 
                 bcopy([value bytes], &encoded, 2);
                     
-                return [[NSString alloc] initWithFormat:@"%1.0frpm",decode_float(TYPE_FPE2, encoded)];
+                return [[NSString alloc] initWithFormat:@"%1.0frpm",[NSHardwareMonitorSensor decodeSMCFloatOfType:[type cStringUsingEncoding:NSASCIIStringEncoding] fraction:encoded]];
                 
             } break;
                 

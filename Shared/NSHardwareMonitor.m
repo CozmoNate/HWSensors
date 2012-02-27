@@ -28,29 +28,9 @@
     return me;
 }
 
-+ (NSDictionary*)populateValues;
++ (NSArray*)populateInfoForKey:(NSString*)key
 {
-    NSDictionary * values = NULL;
-    
-    io_service_t service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
-    
-    if (service) { 
-        CFTypeRef message = (CFTypeRef) CFStringCreateWithCString(kCFAllocatorDefault, "magic", kCFStringEncodingASCII);
-        
-        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDevicePopulateValues), message))
-            values = (__bridge_transfer NSDictionary *)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
-        
-        CFRelease(message);
-        IOObjectRelease(service);
-    }
-    
-    return values;
-    
-}
-
-+ (NSData*)populateValueForKey:(NSString*)key
-{
-    NSData * value = NULL;
+    NSArray * info = NULL;
     
     io_service_t service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
     
@@ -59,23 +39,40 @@
         
         if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDeviceUpdateKeyValue), message)) 
         {
-            NSDictionary * values = (__bridge_transfer NSDictionary *)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
+            NSDictionary *values = (__bridge_transfer NSDictionary *)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
             
             if (values)
-                value = [values objectForKey:key];
+                info = [values objectForKey:key];
         }
         
         CFRelease(message);
         IOObjectRelease(service);
     }
     
-    return value;
+    return info;
+}
+
++ (NSString*)getTypeFromKeyInfo:(NSArray*)info
+{
+    if (info && [info count] == 2) 
+        return (NSString*)[info objectAtIndex:0];
+        
+    return nil;
+}
+
++ (NSData*)getValueFromKeyInfo:(NSArray*)info
+{
+    if (info && [info count] == 2)
+        return (NSData*)[info objectAtIndex:1];
+    
+    return nil;
 }
 
 - (NSHardwareMonitorSensor*)addSensorWithKey:(NSString*)key caption:(NSString*)caption group:(NSUInteger)group
 {
     NSHardwareMonitorSensor *sensor = nil;
-    NSData * value = nil;
+    NSString *type = nil;
+    NSData *value = nil;
     
     switch (group) {
         case kHWSMARTTemperatureGroup:
@@ -85,18 +82,23 @@
             
             break;
             
-        default:
-            value = [NSHardwareMonitor populateValueForKey:key];
+        default: {
+            NSArray *info = [NSHardwareMonitor populateInfoForKey:key];
             
-            if (!value)
+            type = [NSHardwareMonitor getTypeFromKeyInfo:info];
+            value = [NSHardwareMonitor getValueFromKeyInfo:info];
+            
+            if (!type || !value)
                 return nil;
             
             break;
+        }
     }
     
     sensor = [NSHardwareMonitorSensor sensor];
     
     [sensor setKey:key];
+    [sensor setType:type];
     [sensor setCaption:caption];
     [sensor setValue:value];
     [sensor setGroup:group];
@@ -219,12 +221,12 @@
     for (int i=0; i<0xA; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_NON_APPLE_CPU_MULTIPLIER,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i] group:kHWMultiplierGroup];
     
-    [self addSensorWithKey:@KEY_NON_APPLE_PACKAGE_MULTIPLIER caption:GetLocalizedString(@"CPU Package") group:kHWMultiplierGroup];
+    [self addSensorWithKey:@KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER caption:GetLocalizedString(@"CPU Package") group:kHWMultiplierGroup];
     
     // Fans
     
     for (int i=0; i<10; i++) {
-        NSString * caption = [[NSString alloc] initWithData:[NSHardwareMonitor populateValueForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i] ]encoding: NSUTF8StringEncoding];
+        NSString * caption = [[NSString alloc] initWithData:[NSHardwareMonitor getValueFromKeyInfo:[NSHardwareMonitor populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
         if ([caption length]<=0) 
             caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i];
         
@@ -291,7 +293,7 @@
                 }
         }
         
-        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDevicePopulateList), list)) 
+        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDevicePopulateValues), list)) 
         {           
             NSDictionary *values = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
             
@@ -303,8 +305,12 @@
                 while (key = (NSString*)[enumerator nextObject]) {
                     NSHardwareMonitorSensor *sensor = [keys objectForKey:key];
                     
-                    if (sensor)
-                        [sensor setValue:(NSData*)[values objectForKey:key]];
+                    if (sensor) {
+                        NSArray *keyInfo = [values objectForKey:key];
+                        
+                        [sensor setType:[NSHardwareMonitor getTypeFromKeyInfo:keyInfo]];
+                        [sensor setValue:[NSHardwareMonitor getValueFromKeyInfo:keyInfo]];
+                    }
                 }
             }
         }

@@ -85,9 +85,9 @@
 #define KEY_CPU_VCORE_VTT_CURRENT               "IC0R"
 
 // Power (Watts)
-#define KEY_CPU_PACKAGE_CORE                    "PCPC" // SNB
-#define KEY_CPU_PACKAGE_GFX                     "PCPG" // SNB
-#define KEY_CPU_PACKAGE_TOTAL                   "PCPT" // SNB
+#define KEY_CPU_PACKAGE_CORE_POWER              "PCPC" // SNB
+#define KEY_CPU_PACKAGE_GFX_POWER               "PCPG" // SNB
+#define KEY_CPU_PACKAGE_TOTAL_POWER             "PCPT" // SNB
 
 // FAN's
 #define KEY_FAN_NUMBER                          "FNum"
@@ -95,11 +95,11 @@
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
 
 // Other
-#define KEY_FORMAT_NON_APPLE_CPU_FREQUENCY		"FRC%X"
-#define KEY_FORMAT_NON_APPLE_CPU_MULTIPLIER		"MC%XC"
-#define KEY_FORMAT_NON_APPLE_GPU_FREQUENCY      "FGC%X"
+#define KEY_FORMAT_NON_APPLE_CPU_FREQUENCY		"CKC%X"
+#define KEY_FORMAT_NON_APPLE_GPU_FREQUENCY      "CKG%X"
 
-#define KEY_NON_APPLE_PACKAGE_MULTIPLIER        "MPkC"
+#define KEY_FORMAT_NON_APPLE_CPU_MULTIPLIER		"MU%XC"
+#define KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER    "MUCP"
 
 // Types
 #define TYPE_FPE2                               "fpe2"
@@ -112,15 +112,12 @@
 #define TYPE_UI32                               "ui32"
 #define TYPE_SI16                               "si16"
 #define TYPE_FLAG                               "flag"
-#define TYPE_FREQ                               "freq"
 
 // Protocol
 #define kFakeSMCDeviceService                   "FakeSMCDevice"
 #define kFakeSMCDeviceValues                    "Values"
 #define kFakeSMCDeviceUpdateKeyValue            "updateKeyValue"
 #define kFakeSMCDevicePopulateValues            "populateValues"
-#define kFakeSMCDevicePopulateList              "populateList"
-#define kFakeSMCDeviceKeysList                  "KeysList"
 
 #define kFakeSMCAddKeyValue                     "FakeSMC_AddKeyValue"
 #define kFakeSMCAddKeyHandler                   "FakeSMC_AddKeyHandler"

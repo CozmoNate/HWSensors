@@ -25,8 +25,9 @@
 
 + (NSHardwareMonitor*)hardwareMonitor;
 
-+ (NSDictionary*)populateValues;
-+ (NSData*)populateValueForKey:(NSString *)key;
++ (NSArray*)populateInfoForKey:(NSString *)key;
++ (NSString*)getTypeFromKeyInfo:(NSArray*)info;
++ (NSData*)getValueFromKeyInfo:(NSArray*)info;
 
 - (NSHardwareMonitorSensor*)addSensorWithKey:(NSString*)key caption:(NSString*)caption group:(NSUInteger)group;
 - (NSHardwareMonitorSensor*)addSMARTSensorWithGenericDisk:(NSATAGenericDisk*)disk group:(NSUInteger)group;

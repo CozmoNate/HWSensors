@@ -303,11 +303,11 @@ bool NCT677x::startPlugin()
             if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
                 WarningLog("ERROR adding memory voltage sensor");
         }
-        /*else if ((name && name->isEqualTo("+12V")) || (!configuration && i==1)) 
+        else if ((name && name->isEqualTo("+12V")) || (!configuration && i==1)) 
         {
             if (!addSensor(KEY_12V_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i))
                 WarningLog("ERROR adding +12V Voltage Sensor!");
-        }*/
+        }
         else if ((name && name->isEqualTo("AVCC")) || (!configuration && i==2)) 
         {
             if (!addSensor(KEY_AVCC_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
