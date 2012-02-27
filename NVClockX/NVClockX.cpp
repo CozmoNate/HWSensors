@@ -33,7 +33,7 @@ NVCard* nv_card;
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(NVClockX, FakeSMCPlugin)
 
-bool is_digit(char c)
+inline bool is_digit(char c)
 {
 	if (((c>='0')&&(c<='9'))||((c>='a')&&(c<='f'))||((c>='A')&&(c<='F')))
 		return true;
@@ -225,15 +225,14 @@ bool NVClockX::start(IOService * provider)
 		
         InfoLog("Adding frequency sensor");
 		snprintf(key, 5, KEY_FORMAT_NON_APPLE_GPU_FREQUENCY, index);
-		this->addSensor(key, TYPE_FREQ, 2, index);
+		this->addSensor(key, TYPE_UI16, 2, index);
 		
-		
-        InfoLog("Overclocking...");
-        
 		OSNumber* fanKey = OSDynamicCast(OSNumber, getProperty("FanSpeedPercentage"));
 		
-		if((fanKey!=NULL)&(nv_card->set_fanspeed!=NULL)) 
+		if((fanKey!=NULL)&(nv_card->set_fanspeed!=NULL)) {
+            InfoLog("Changing fan speed to %d", fanKey->unsigned8BitValue());
 			nv_card->set_fanspeed(fanKey->unsigned8BitValue());
+        }
 		
 		OSNumber* speedKey=OSDynamicCast(OSNumber, getProperty("GPUSpeed"));
 		
@@ -315,9 +314,9 @@ IOReturn NVClockX::callPlatformFunction(const OSSymbol *functionName, bool waitF
 							switch (key[2]) {
 								case 'A':
 									if (nv_card->caps & I2C_FANSPEED_MONITORING)
-										value = encode_fp2e(nv_card->get_i2c_fanspeed_rpm(nv_card->sensor));
+										value = encode_long(TYPE_FP2E, nv_card->get_i2c_fanspeed_rpm(nv_card->sensor));
 									else if(nv_card->caps & GPU_FANSPEED_MONITORING)
-										value = encode_fp2e((UInt16)nv_card->get_fanspeed());
+										value = encode_long(TYPE_FP2E, (UInt16)nv_card->get_fanspeed());
 									else value = 0;
 									
 									//bcopy(&value, data, 2);

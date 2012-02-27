@@ -265,12 +265,12 @@ bool IT87x::startPlugin()
                         WarningLog("ERROR Adding AVCC Voltage Sensor!");
                     }
                 }
-                /*else if (name->isEqualTo("+12V")) {
+                else if (name->isEqualTo("+12V")) {
                     if (addSensor(KEY_12V_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i)) {
                         voltageSpecificGain[i] = 3;
                     }
                     else WarningLog("ERROR Adding 12V Voltage Sensor!");
-                }*/        
+                }        
                 else if (name->isEqualTo("+3.3V VCC")) {
                     if (!addSensor(KEY_3VCC_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding 3VCC Voltage Sensor!");

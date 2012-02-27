@@ -302,7 +302,7 @@ bool IntelThermal::start(IOService *provider)
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE: {
-            if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)KEY_NON_APPLE_PACKAGE_MULTIPLIER, (void *)TYPE_UI16, (void *)2, this)) {
+            if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER, (void *)TYPE_UI16, (void *)2, this)) {
                 WarningLog("Can't add key to fake SMC device");
                 //return false;
             }
@@ -350,7 +350,7 @@ IOReturn IntelThermal::callPlatformFunction(const OSSymbol *functionName, bool w
 				case 'M': {
                     UInt16 value = 0;
                     
-                    if (strcasecmp(name, KEY_NON_APPLE_PACKAGE_MULTIPLIER) == 0) {
+                    if (strcasecmp(name, KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER) == 0) {
                         
                         perfCounter = 0;
                         

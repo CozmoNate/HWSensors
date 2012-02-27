@@ -408,37 +408,37 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
         if (OSString * name = OSDynamicCast(OSString, message->getObject(kFakeSMCDeviceUpdateKeyValue))) {
             if (FakeSMCKey * key = getKey(name->getCStringNoCopy())) {
                 
-                values->setObject(key->getName(), OSData::withBytes(key->getValue(), key->getSize()));
+                OSArray *info = OSArray::withCapacity(0);
+                
+                info->setObject(OSString::withCString(key->getType()));
+                info->setObject(OSData::withBytes(key->getValue(), key->getSize()));
+                
+                values->setObject(key->getName(), info);
                 
                 this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(values));
                 
                 return kIOReturnSuccess;
             }
         }
-        else if ((OSString *)OSDynamicCast(OSString, message->getObject(kFakeSMCDevicePopulateValues))) {
-            if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
-                while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject()))
-                    values->setObject(key->getName(), OSData::withBytes(key->getValue(), key->getSize()));
+        else if (OSArray * list = OSDynamicCast(OSArray, message->getObject(kFakeSMCDevicePopulateValues))) {
+            if (OSIterator *iterator = OSCollectionIterator::withCollection(list)) {
+                while (const OSSymbol *name = (const OSSymbol *)iterator->getNextObject())
+                    if (FakeSMCKey * key = getKey(name->getCStringNoCopy())) { 
+                        
+                        OSArray *info = OSArray::withCapacity(0);
+                        
+                        info->setObject(OSString::withCString(key->getType()));
+                        info->setObject(OSData::withBytes(key->getValue(), key->getSize()));
+                        
+                        values->setObject(key->getName(), info);
+                    }
+                
+                this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(values));
                 
                 iterator->release();
+                
+                return kIOReturnSuccess;
             }
-            
-            this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(values));
-                    
-            return kIOReturnSuccess;
-        }
-        else if (OSArray * list = OSDynamicCast(OSArray, message->getObject(kFakeSMCDevicePopulateList))) {
-                if (OSIterator *iterator = OSCollectionIterator::withCollection(list)) {
-                    while (const OSSymbol *name = (const OSSymbol *)iterator->getNextObject())
-                        if (FakeSMCKey * key = getKey(name->getCStringNoCopy())) 
-                            values->setObject(key->getName(), OSData::withBytes(key->getValue(), key->getSize()));
-                    
-                    this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(values));
-                    
-                    iterator->release();
-                    
-                    return kIOReturnSuccess;
-                }
         }
     }
 	

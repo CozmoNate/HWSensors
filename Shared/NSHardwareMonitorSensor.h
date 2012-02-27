@@ -10,10 +10,6 @@
 
 #include "NSATASmartReporter.h"
 
-UInt16 swap_value(UInt16 value);
-UInt8 get_index(char c);
-float decode_float(const char * type, UInt16 encoded);
-
 enum {
     kHWTemperatureGroup =        1,
     kHWVoltageGroup =            2,
@@ -27,6 +23,7 @@ enum {
 @interface NSHardwareMonitorSensor : NSObject
 
 @property (readwrite, retain) NSString *key;
+@property (readwrite, retain) NSString *type;
 @property (readwrite, assign) NSUInteger group;
 @property (readwrite, retain) NSString *caption;
 @property (readwrite, retain) NSData *value;
@@ -34,6 +31,9 @@ enum {
 
 @property (readwrite, retain) NSMenuItem *menuItem;
 @property (readwrite, assign) BOOL favorite;
+
++ (int)getIndexOfHexChar:(char)c;
++ (float)decodeSMCFloatOfType:(const char*)type fraction:(UInt16) encoded;
 
 + (NSHardwareMonitorSensor*)sensor;
 
