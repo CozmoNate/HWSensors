@@ -11,8 +11,8 @@
 
 #include <architecture/i386/pio.h>
 
-#include "FakeSMC.h"
-#include "FakeSMCUtils.h"
+#include "FakeSMCDefinitions.h"
+#include "FakeSMCValueEncoder.h"
 
 #define Debug FALSE
 
@@ -25,7 +25,7 @@
 
 OSDefineMetaClassAndStructors(SuperIOSensor, OSObject)
 
-SuperIOSensor *SuperIOSensor::withOwner(SuperIOMonitor *aOwner, const char* aKey, const char* aType, unsigned char aSize, SuperIOSensorGroup aGroup, unsigned long aIndex)
+SuperIOSensor *SuperIOSensor::withOwner(SuperIOMonitor *aOwner, const char* aKey, const char* aType, UInt8 aSize, SuperIOSensorGroup aGroup, UInt32 aIndex)
 {
 	SuperIOSensor *me = new SuperIOSensor;
 	
@@ -47,7 +47,7 @@ const char *SuperIOSensor::getType()
 	return type;
 }
 
-unsigned char SuperIOSensor::getSize()
+UInt8 SuperIOSensor::getSize()
 {
 	return size;
 }
@@ -57,33 +57,28 @@ SuperIOSensorGroup SuperIOSensor::getGroup()
 	return group;
 }
 
-unsigned long SuperIOSensor::getIndex()
+UInt32 SuperIOSensor::getIndex()
 {
 	return index;
 }
 
-long SuperIOSensor::getValue()
+UInt16 SuperIOSensor::getValue()
 {
-	long value = 0;
-	
 	switch (group) {
 		case kSuperIOTemperatureSensor:
-			value = encode_long(type, owner->readTemperature(index));
-			break;
+			return encode_16bit_fractional(type, owner->readTemperature(index));
+            
 		case kSuperIOVoltageSensor:
-			value = encode_float(type, owner->readVoltage(index));
-			break;
+			return encode_16bit_fractional(type, (float)owner->readVoltage(index) / 1000.0f);
+            
 		case kSuperIOTachometerSensor:
-			value = encode_long(type, owner->readTachometer(index));
-			break;
-		default:
-			break;
+			return  encode_16bit_fractional(type, owner->readTachometer(index));
 	}
 
-	return value;
+	return 0;
 }
 
-bool SuperIOSensor::initWithOwner(SuperIOMonitor *aOwner, const char* aKey, const char* aType, unsigned char aSize, SuperIOSensorGroup aGroup, unsigned long aIndex)
+bool SuperIOSensor::initWithOwner(SuperIOMonitor *aOwner, const char* aKey, const char* aType, UInt8 aSize, SuperIOSensorGroup aGroup, UInt32 aIndex)
 {
 	if (!OSObject::init())
 		return false;
@@ -155,7 +150,7 @@ bool SuperIOMonitor::getLogicalDeviceAddress(UInt8 reg)
 	return address == listenPortWord(reg);
 }
 
-int SuperIOMonitor::getPortsCount() 
+UInt8 SuperIOMonitor::getPortsCount() 
 { 
 	return 2; 
 };
@@ -176,17 +171,17 @@ bool SuperIOMonitor::startPlugin()
     return true;
 };
 
-long SuperIOMonitor::readVoltage(unsigned long index)
+UInt16 SuperIOMonitor::readTemperature(UInt32 index)
 {
 	return 0;
 }
 
-long SuperIOMonitor::readTachometer(unsigned long index)
+UInt16 SuperIOMonitor::readVoltage(UInt32 index)
 {
 	return 0;
 }
 
-long SuperIOMonitor::readTemperature(unsigned long index)
+UInt16 SuperIOMonitor::readTachometer(UInt32 index)
 {
 	return 0;
 }
@@ -201,36 +196,12 @@ void SuperIOMonitor::exit()
 	//
 };
 
-bool SuperIOMonitor::updateSensor(const char *key, const char *type, unsigned char size, SuperIOSensorGroup group, unsigned long index)
-{
-	long value = 0;
-	
-	switch (group) {
-		case kSuperIOTemperatureSensor:
-			value =  encode_long(type, readTemperature(index));
-			break;
-		case kSuperIOVoltageSensor:
-			value =  encode_float(type, readVoltage(index));
-			break;
-		case kSuperIOTachometerSensor:
-			value =  encode_long(type, readTachometer(index));
-			break;
-		default:
-			break;
-	}
-	
-	if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void*)key, (void*)size, (void*)&value, 0))
-		return false;
-	
-	return true;
-}
-
 const char *SuperIOMonitor::getModelName()
 {
 	return "Unknown";
 }
 
-SuperIOSensor *SuperIOMonitor::addSensor(const char* name, const char* type, unsigned char size, SuperIOSensorGroup group, unsigned long index)
+SuperIOSensor *SuperIOMonitor::addSensor(const char* name, const char* type, UInt8 size, SuperIOSensorGroup group, UInt32 index)
 {
 	if (NULL != getSensor(name))
 		return 0;
@@ -243,7 +214,7 @@ SuperIOSensor *SuperIOMonitor::addSensor(const char* name, const char* type, uns
 	return 0;
 }
 
-SuperIOSensor *SuperIOMonitor::addTachometer(unsigned long index, const char* id)
+SuperIOSensor *SuperIOMonitor::addTachometer(UInt32 index, const char* id)
 {
 	UInt8 length = 0;
 	void * data = 0;

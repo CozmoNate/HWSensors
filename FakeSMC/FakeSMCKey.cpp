@@ -78,9 +78,7 @@ bool FakeSMCKey::init(const char * aName, const char * aType, unsigned char aSiz
 				break;
 		}
 	}
-	else {
-		copySymbol(aType, type);
-	}
+	else copySymbol(aType, type);
 	
 	if (size == 0)
 		size++;
@@ -116,7 +114,7 @@ const char *FakeSMCKey::getName() { return name; };
 
 const char *FakeSMCKey::getType() { return type; };
 
-unsigned char FakeSMCKey::getSize() { return size; };
+UInt8 FakeSMCKey::getSize() const { return size; };
 
 const void *FakeSMCKey::getValue() 
 { 
@@ -131,9 +129,9 @@ const void *FakeSMCKey::getValue()
             
             if (kIOReturnSuccess != result)
                 WarningLog("value update request callback error for key %s, return 0x%x", name, result);
+            else             
+                lastcall = secs;
         }
-        
-        lastcall = secs;
 	}
 
 	return value; 
@@ -141,7 +139,7 @@ const void *FakeSMCKey::getValue()
 
 const IOService *FakeSMCKey::getHandler() { return handler; };
 
-bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, unsigned char aSize)
+bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
 {
 	if (!aBuffer || aSize == 0) 
 		return false;
@@ -158,18 +156,11 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, unsigned char aSize)
 	
 	bcopy(aBuffer, value, size);
 	
-	if (handler) {
-        clock_sec_t secs = 0;
-        clock_usec_t usecs = 0;
-        
-        clock_get_system_microtime(&secs, &usecs);
-        
+	if (handler) {       
 		IOReturn result = handler->callPlatformFunction(kFakeSMCSetValueCallback, true, (void *)name, (void *)value, (void *)size, 0);
 		
 		if (kIOReturnSuccess != result)
 			WarningLog("value changed event callback error for key %s, return 0x%x", name, result);
-        
-        lastcall = secs;
 	}
 	
 	return true;

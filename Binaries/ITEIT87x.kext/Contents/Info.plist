@@ -73,7 +73,7 @@
 					<key>VIN1</key>
 					<string>Memory</string>
 					<key>VIN2</key>
-					<string>AVCC</string>
+					<string></string>
 					<key>VIN3</key>
 					<string>+3.3V VCC</string>
 					<key>VIN4</key>
@@ -110,7 +110,7 @@
 					<key>VIN1</key>
 					<string>Memory</string>
 					<key>VIN2</key>
-					<string>AVCC</string>
+					<string></string>
 					<key>VIN3</key>
 					<string></string>
 					<key>VIN8</key>

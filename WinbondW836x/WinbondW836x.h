@@ -125,10 +125,10 @@ private:
 	virtual void			enter();
 	virtual void			exit();
     
-	virtual long			readTemperature(unsigned long index);
-	virtual long			readVoltage(unsigned long index);
+	virtual UInt16			readTemperature(UInt32 index);
+	virtual UInt16			readVoltage(UInt32 index);
 	void					updateTachometers();
-	virtual long			readTachometer(unsigned long index);
+	virtual UInt16			readTachometer(UInt32 index);
 	
 	virtual const char *	getModelName();
 	

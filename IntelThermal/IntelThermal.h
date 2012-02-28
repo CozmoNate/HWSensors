@@ -67,6 +67,10 @@ extern "C" int cpu_number(void);
 static UInt8  cpu_thermal[INTEL_THERMAL_MAX_CPU];
 static UInt16 cpu_performance[INTEL_THERMAL_MAX_CPU];
 
+inline UInt8 get_index(char c)
+{
+	return c >= 'a' ? c - 87 : c >= 'A' ? c - 55 : c - 48;
+};
 
 inline UInt32 get_cpu_number()
 {

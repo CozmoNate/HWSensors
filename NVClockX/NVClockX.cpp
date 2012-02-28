@@ -11,8 +11,11 @@
  */
 
 #include "NVClockX.h"
-#include "FakeSMC.h"
-#include "FakeSMCUtils.h"
+
+#include "FakeSMCDefinitions.h"
+#include "FakeSMCValueEncoder.h"
+
+#include <IOKit/pci/IOPCIDevice.h>
 
 #include <stdarg.h>
 #include <string.h>
@@ -311,26 +314,23 @@ IOReturn NVClockX::callPlatformFunction(const OSSymbol *functionName, bool waitF
 							
 							break;
 						case 'F':
-							switch (key[2]) {
-								case 'A':
-									if (nv_card->caps & I2C_FANSPEED_MONITORING)
-										value = encode_long(TYPE_FP2E, nv_card->get_i2c_fanspeed_rpm(nv_card->sensor));
-									else if(nv_card->caps & GPU_FANSPEED_MONITORING)
-										value = encode_long(TYPE_FP2E, (UInt16)nv_card->get_fanspeed());
-									else value = 0;
-									
-									//bcopy(&value, data, 2);
-									memcpy(data, &value, 2);
-									
-									break;
-								case 'C':
-									value=(UInt16)nv_card->get_gpu_speed();
-									
-									//bcopy(&value, data, 2);
-									memcpy(data, &value, 2);
-									
-									break;
-							}
+                            if (nv_card->caps & I2C_FANSPEED_MONITORING)
+                                value = encode_16bit_fractional(TYPE_FP2E, nv_card->get_i2c_fanspeed_rpm(nv_card->sensor));
+                            else if(nv_card->caps & GPU_FANSPEED_MONITORING)
+                                value = encode_16bit_fractional(TYPE_FP2E, (UInt16)nv_card->get_fanspeed());
+                            else value = 0;
+                            
+                            //bcopy(&value, data, 2);
+                            memcpy(data, &value, 2);
+                            
+                            break;
+                        case 'C':
+                            value=(UInt16)nv_card->get_gpu_speed();
+                            
+                            //bcopy(&value, data, 2);
+                            memcpy(data, &value, 2);
+                            
+                            break;
 					}
 					return kIOReturnSuccess;					
 				}

@@ -48,9 +48,10 @@
 
 #include "WinbondW836x.h"
 
+#include "FakeSMCDefinitions.h"
+
 #include <architecture/i386/pio.h>
 #include "cpuid.h"
-#include "FakeSMC.h"
 
 #define Debug FALSE
 
@@ -89,7 +90,7 @@ UInt64 W836x::setBit(UInt64 target, UInt16 bit, UInt32 value)
 	return value;
 }
 
-long W836x::readTemperature(unsigned long index)
+UInt16 W836x::readTemperature(UInt32 index)
 {
 	UInt32 value = readByte(WINBOND_TEMPERATURE_BANK[index], WINBOND_TEMPERATURE[index]) << 1;
 	
@@ -101,7 +102,7 @@ long W836x::readTemperature(unsigned long index)
 	return temperature <= 125 && temperature >= -55 ? temperature : 0;
 }
 
-long W836x::readVoltage(unsigned long index)
+UInt16 W836x::readVoltage(UInt32 index)
 {
 	float voltage = 0;
 	float gain = 1;
@@ -183,7 +184,7 @@ void W836x::updateTachometers()
 }
 
 
-long W836x::readTachometer(unsigned long index)
+UInt16 W836x::readTachometer(UInt32 index)
 {
 	if (fanValueObsolete[index])
 		updateTachometers();

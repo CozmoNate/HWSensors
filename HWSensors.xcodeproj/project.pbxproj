@@ -101,10 +101,10 @@
 		6A99C76614F7C5B600CF1EF5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A99C76814F7C5B600CF1EF5 /* Localizable.strings */; };
 		6A9A244A14E65E9C0088F3AA /* SuperIOMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A244814E65E9C0088F3AA /* SuperIOMonitor.cpp */; };
 		6A9A244B14E65E9C0088F3AA /* SuperIOMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9A244914E65E9C0088F3AA /* SuperIOMonitor.h */; };
+		6A9BB4D414FC9DF000BC1821 /* FakeSMCValueEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9BB4D314FC9DF000BC1821 /* FakeSMCValueEncoder.h */; };
 		6A9C468C14E657EE0083E5E6 /* FakeSMCDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9C468814E657EE0083E5E6 /* FakeSMCDefinitions.h */; };
 		6A9C468D14E657EE0083E5E6 /* FakeSMCPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */; };
 		6A9C468E14E657EE0083E5E6 /* FakeSMCPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */; };
-		6A9C468F14E657EE0083E5E6 /* FakeSMCUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9C468B14E657EE0083E5E6 /* FakeSMCUtils.h */; };
 		6AAF618914D40262006E8573 /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6AAF618814D40262006E8573 /* default.icns */; };
 		6AB5B4EE14F2C47B0062D2D0 /* NSATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* NSATASmartReporter.m */; };
 /* End PBXBuildFile section */
@@ -253,10 +253,10 @@
 		6A99C76914F7C5BB00CF1EF5 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A9A244814E65E9C0088F3AA /* SuperIOMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuperIOMonitor.cpp; sourceTree = "<group>"; };
 		6A9A244914E65E9C0088F3AA /* SuperIOMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIOMonitor.h; sourceTree = "<group>"; };
+		6A9BB4D314FC9DF000BC1821 /* FakeSMCValueEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCValueEncoder.h; sourceTree = "<group>"; };
 		6A9C468814E657EE0083E5E6 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMCPlugin.cpp; sourceTree = "<group>"; };
 		6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCPlugin.h; sourceTree = "<group>"; };
-		6A9C468B14E657EE0083E5E6 /* FakeSMCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCUtils.h; sourceTree = "<group>"; };
 		6AAF618814D40262006E8573 /* default.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = default.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -407,7 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				6A9C468814E657EE0083E5E6 /* FakeSMCDefinitions.h */,
-				6A9C468B14E657EE0083E5E6 /* FakeSMCUtils.h */,
+				6A9BB4D314FC9DF000BC1821 /* FakeSMCValueEncoder.h */,
 				1D05ABFA13ED0E2E00EADBF6 /* FakeSMC.h */,
 				1D05ABF913ED0E2E00EADBF6 /* FakeSMC.cpp */,
 				1D05ABFC13ED0E2E00EADBF6 /* FakeSMCDevice.h */,
@@ -780,7 +780,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A9C468F14E657EE0083E5E6 /* FakeSMCUtils.h in Headers */,
 				6A9C468C14E657EE0083E5E6 /* FakeSMCDefinitions.h in Headers */,
 				1D05AC0013ED0E2E00EADBF6 /* FakeSMC.h in Headers */,
 				1D05AC0213ED0E2E00EADBF6 /* FakeSMCDevice.h in Headers */,
@@ -788,6 +787,7 @@
 				6A9C468E14E657EE0083E5E6 /* FakeSMCPlugin.h in Headers */,
 				6A9A244B14E65E9C0088F3AA /* SuperIOMonitor.h in Headers */,
 				1D05AC0613ED0E8D00EADBF6 /* FakeSMC-Prefix.pch in Headers */,
+				6A9BB4D414FC9DF000BC1821 /* FakeSMCValueEncoder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
