@@ -48,8 +48,7 @@
  */
 
 #include "IntelThermal.h"
-#include "FakeSMC.h"
-#include "FakeSMCUtils.h"
+#include "FakeSMCDefinitions.h"
 
 #define Debug TRUE
 

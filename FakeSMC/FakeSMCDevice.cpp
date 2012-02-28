@@ -47,11 +47,7 @@ void FakeSMCDevice::applesmc_io_cmd_writeb(void *opaque, uint32_t addr, uint32_t
 
 void FakeSMCDevice::applesmc_fill_data(struct AppleSMCStatus *s)
 {
-	char name[5];
-	
-	snprintf(name, 5, "%c%c%c%c", s->key[0], s->key[1], s->key[2], s->key[3]);
-	
-	if (FakeSMCKey *key = getKey(name)) {
+	if (FakeSMCKey *key = getKey((char*)s->key)) {
 		bcopy(key->getValue(), s->value, key->getSize());
 		return;
 	}
@@ -78,7 +74,7 @@ const char * FakeSMCDevice::applesmc_get_key_by_index(uint32_t index, struct App
 
 void FakeSMCDevice::applesmc_fill_info(struct AppleSMCStatus *s)
 {
-	if (FakeSMCKey *key = getKey((char *)s->key)) {
+	if (FakeSMCKey *key = getKey((char*)s->key)) {
 		s->key_info[0] = key->getSize();
 		s->key_info[5] = 0;
 		
@@ -533,11 +529,11 @@ FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type,
 	return 0;
 }
 
-FakeSMCKey *FakeSMCDevice::getKey(const char * name)
+FakeSMCKey *FakeSMCDevice::getKey(const char *name)
 {
 	if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
-		UInt32 key1 = *((uint32_t*)name);
 		while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
+            UInt32 key1 = *((uint32_t*)name);
 			UInt32 key2 = *((uint32_t*)key->getName());
 			if (key1 == key2) {
 				iterator->release();
@@ -609,7 +605,7 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
 {
 	if (functionName->isEqualTo(kFakeSMCSetKeyValue)) {
 		const char *name = (const char *)param1;
-		unsigned char size = (UInt64)param2;
+		UInt8 size = (UInt64)param2;
 		const void *data = (const void *)param3;
 		
 		if (name && data && size > 0) {
@@ -626,7 +622,7 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
 	else if (functionName->isEqualTo(kFakeSMCAddKeyHandler)) {
 		const char *name = (const char *)param1;
 		const char *type = (const char *)param2;
-		unsigned char size = (UInt64)param3;
+		UInt8 size = (UInt64)param3;
 		IOService *handler = (IOService *)param4;
 		
 		if (name && type && size > 0) {
@@ -644,7 +640,7 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
 	else if (functionName->isEqualTo(kFakeSMCAddKeyValue)) {
 		const char *name = (const char *)param1;
 		const char *type = (const char *)param2;
-		unsigned char size = (UInt64)param3;
+		UInt8 size = (UInt64)param3;
 		const void *value = (const void *)param4;
 		
 		if (name && type && size > 0) {

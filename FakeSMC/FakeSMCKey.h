@@ -22,7 +22,7 @@ inline void copySymbol(const char *from, char* to)
 {
 	bzero(to, 5);
 	
-	UInt64 len = strlen(from);
+	UInt8 len = (UInt8)strlen(from);
 	
 	bcopy(from, to, len > 4 ? 4 : len);
 }
@@ -36,7 +36,7 @@ protected:
 	
     char *			name;
     char *			type;
-	unsigned char	size;
+	UInt8           size;
 	void *			value;
 	IOService *		handler;
     
@@ -53,11 +53,11 @@ public:
 	
 	const char *getName();
 	const char *getType();
-	unsigned char getSize();
+	UInt8 getSize() const;
 	const void *getValue();
     const IOService *getHandler();
 	
-	bool setValueFromBuffer(const void *aBuffer, unsigned char aSize);
+	bool setValueFromBuffer(const void *aBuffer, UInt8 aSize);
 	bool setHandler(IOService *aHandler);
 	
 	bool isEqualTo(const char *aKey);

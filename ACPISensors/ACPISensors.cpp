@@ -8,8 +8,9 @@
  */
 
 #include "ACPISensors.h"
-#include "FakeSMC.h"
-#include "FakeSMCUtils.h"
+
+#include "FakeSMCDefinitions.h"
+#include "FakeSMCValueEncoder.h"
 
 #define Debug FALSE
 
@@ -283,7 +284,7 @@ IOReturn ACPIMonitor::callPlatformFunction(const OSSymbol *functionName, bool wa
 				OSObject * params[1];
 				if (key->getChar(0) == 'F') {
 					//val = decode_fpe2(*(UInt16*)data);
-                    val = decode_to_long(TYPE_FPE2, *(UInt16*)data);
+                    val = decode_16bit_fractional(TYPE_FPE2, *(UInt16*)data);
 				} else {
 					val = *(UInt16*)data;
 				}
@@ -315,16 +316,16 @@ IOReturn ACPIMonitor::callPlatformFunction(const OSSymbol *functionName, bool wa
 					
 					if (key->getChar(0) == 'V') {
 						//val = encode_fp2e(value);
-                        val = encode_float(TYPE_FP2E, value);
+                        val = encode_16bit_fractional(TYPE_FP2E, value);
 					}
 					else if (key->getChar(0) == 'F') {
 						if (key->getChar(1) == 'A') {
 							//val = encode_fpe2(value);
-                            val = encode_float(TYPE_FPE2, value);
+                            val = encode_16bit_fractional(TYPE_FPE2, value);
 						} else 
 							if (key->getChar(1) == 'T') {
 								//val = encode_fpe2(MEGA10 / value);
-                                val = encode_float(TYPE_FPE2, MEGA10 / value);
+                                val = encode_16bit_fractional(TYPE_FPE2, MEGA10 / value);
 							} else {
 							val = value;
 						}

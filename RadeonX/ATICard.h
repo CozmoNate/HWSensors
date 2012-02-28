@@ -12,7 +12,7 @@
 
 #include <IOKit/IOService.h>
 #include <IOKit/pci/IOPCIDevice.h>
-#include "FakeSMC.h"
+#include "FakeSMCDefinitions.h"
 #include "RadeonChipsets.h"
 
 #define GPU_OVERCLOCKING (1<<0)

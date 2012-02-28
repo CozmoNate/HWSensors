@@ -35,25 +35,25 @@ class SuperIOSensor : public OSObject {
 	 OSDeclareDefaultStructors(SuperIOSensor)
 	
 protected:
-	SuperIOMonitor *	owner;
-	char *				name;
-	char *				type;
-	unsigned char		size;
+	SuperIOMonitor      *owner;
+	char                *name;
+	char                *type;
+	UInt8               size;
 	SuperIOSensorGroup	group;
-	unsigned long		index;
+	UInt32              index;
 	
 public:
-	static SuperIOSensor *withOwner(SuperIOMonitor *aOwner, const char* aKey, const char* aType, unsigned char aSize, SuperIOSensorGroup aGroup, unsigned long aIndex);
+	static SuperIOSensor *withOwner(SuperIOMonitor *aOwner, const char* aKey, const char* aType, UInt8 aSize, SuperIOSensorGroup aGroup, UInt32 aIndex);
+    
+   	virtual bool		initWithOwner(SuperIOMonitor *aOwner, const char* aKey, const char* aType, UInt8 aSize, SuperIOSensorGroup aGroup, UInt32 aIndex);
+   	virtual void		free();
 	
 	const char *		getName();
 	const char *		getType();
-	unsigned char		getSize();
+	UInt8               getSize();
 	SuperIOSensorGroup	getGroup();
-	unsigned long		getIndex();
-	
-	virtual bool		initWithOwner(SuperIOMonitor *aOwner, const char* aKey, const char* aType, unsigned char aSize, SuperIOSensorGroup aGroup, unsigned long aIndex);
-	virtual long		getValue();
-	virtual void		free();
+	UInt32              getIndex();
+	virtual UInt16		getValue();
 };
 
 class SuperIOMonitor : public IOService {
@@ -74,12 +74,10 @@ protected:
 	
 	UInt8					listenPortByte(UInt16 reg);
 	UInt16					listenPortWord(UInt16 reg);
-//    UInt8					listenPortByte16(UInt16 reg);
-//	UInt16					listenPortWord16(UInt16 reg);
 	void					selectLogicalDevice(UInt8 num);
 	bool					getLogicalDeviceAddress(UInt8 reg = SUPERIO_BASE_ADDRESS_REGISTER);
 	
-	virtual int				getPortsCount();
+	virtual UInt8			getPortsCount();
 	virtual void			selectPort(unsigned char index);
 	virtual void			enter();
 	virtual void			exit();
@@ -88,15 +86,14 @@ protected:
 	
 	virtual const char *	getModelName();
 	
-	SuperIOSensor *			addSensor(const char* key, const char* type, unsigned char size, SuperIOSensorGroup group, unsigned long index);
-	SuperIOSensor *			addTachometer(unsigned long index, const char* id = 0);
+	SuperIOSensor *			addSensor(const char* key, const char* type, UInt8 size, SuperIOSensorGroup group, UInt32 index);
+	SuperIOSensor *			addTachometer(UInt32 index, const char* id = 0);
 	SuperIOSensor *			getSensor(const char* key);
-	virtual bool			updateSensor(const char *key, const char *type, unsigned char size, SuperIOSensorGroup group, unsigned long index);
 		
 public:
-	virtual long			readTemperature(unsigned long index);
-	virtual long			readVoltage(unsigned long index);
-	virtual long			readTachometer(unsigned long index);
+	virtual UInt16			readTemperature(UInt32 index);
+	virtual UInt16			readVoltage(UInt32 index);
+	virtual UInt16			readTachometer(UInt32 index);
 	
 	virtual bool			init(OSDictionary *properties=0);
 	virtual IOService*		probe(IOService *provider, SInt32 *score);

@@ -49,7 +49,7 @@
 #include "FintekF718x.h"
 
 #include <architecture/i386/pio.h>
-#include "FakeSMC.h"
+#include "FakeSMCDefinitions.h"
 
 #define Debug FALSE
 
@@ -67,7 +67,7 @@ UInt8 F718x::readByte(UInt8 reg)
 	return inb(address + FINTEK_DATA_REGISTER_OFFSET);
 } 
 
-long F718x::readTemperature(unsigned long index)
+UInt16 F718x::readTemperature(UInt32 index)
 {
 	float value;
 	
@@ -111,7 +111,7 @@ long F718x::readTemperature(unsigned long index)
 	return value;
 }
 
-long F718x::readVoltage(unsigned long index)
+UInt16 F718x::readVoltage(UInt32 index)
 {
 	//UInt16 raw = readByte(FINTEK_VOLTAGE_BASE_REG + index);
 	
@@ -122,13 +122,13 @@ long F718x::readVoltage(unsigned long index)
 	return V;
 }
 
-long F718x::readTachometer(unsigned long index)
+UInt16 F718x::readTachometer(UInt32 index)
 {
-	int value = readByte(FINTEK_FAN_TACHOMETER_REG[index]) << 8;
+	long value = readByte(FINTEK_FAN_TACHOMETER_REG[index]) << 8;
 	value |= readByte(FINTEK_FAN_TACHOMETER_REG[index] + 1);
 	
 	if (value > 0)
-		value = (value < 0x0fff) ? 1.5e6f / value : 0;
+		value = (value < 0x0fff) ? 1.5e6f / (float)value : 0;
 	
 	return value;
 }

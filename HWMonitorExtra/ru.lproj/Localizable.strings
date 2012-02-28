@@ -21,6 +21,6 @@
 "CPU %X" = "Ядро %X";
 "Fan %X" = "Вентилятор %X";
 "CPU" = "Процессор";
-"DIMM Modules" = "Модули памяти";
+"DIMM Modules" = "Память";
 "Quit HWMonitor" = "Закрыть HWMonitor";
 "No sensors found" = "Нет доступных сенсоров";

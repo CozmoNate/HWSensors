@@ -8,7 +8,7 @@
  */
 
 #include "X3100.h"
-#include "FakeSMC.h"
+#include "FakeSMCDefinitions.h"
 
 #define kGenericPCIDevice "IOPCIDevice"
 #define kTimeoutMSecs 1000
