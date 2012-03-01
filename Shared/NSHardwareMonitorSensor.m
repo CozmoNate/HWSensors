@@ -32,11 +32,11 @@ inline UInt8 get_index(char c)
 	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
 }
 
-+ (float)decodeSMCFloatOfType:(const char*)type fraction:(UInt16) encoded;
++ (float)decodeSMCFloatOfType:(const char*)type fraction:(UInt16) encoded
 {
     UInt8 i = 0, f = 0;
-    
-    encoded = ((encoded & 0xff00) >> 8) | ((encoded & 0xff) << 8);
+
+    encoded = OSSwapBigToHostInt16(encoded);
     
     if (type[0] == 's' || type[0] == 'f') {
         if (type[1] == 'p') {
@@ -65,7 +65,88 @@ inline UInt8 get_index(char c)
     return nil;
 }
 
-- (NSString*)formatValue;
+- (float)decodeValue
+{
+    if (value != NULL) {
+        if ([type characterAtIndex:0] == 'u' && [type characterAtIndex:1] == 'i') {
+            switch ([type characterAtIndex:3]) {
+                case '8':
+                    if ([type characterAtIndex:4] == '\0' && [value length] == 1) {
+                        UInt8 encoded = 0;
+                        
+                        bcopy([value bytes], &encoded, 1);
+                        
+                        return encoded;
+                    }
+                    break;
+                    
+                case '1':
+                    if ([type characterAtIndex:4] == '6' && [value length] == 2) {
+                        UInt16 encoded = 0;
+                        
+                        bcopy([value bytes], &encoded, 2);
+                        
+                        return OSSwapBigToHostInt16(encoded);
+                    }
+                    break;
+                    
+                case '3':
+                    if ([type characterAtIndex:4] == '2' && [value length] == 4) {
+                        UInt32 encoded = 0;
+                        
+                        bcopy([value bytes], &encoded, 4);
+                        
+                        return OSSwapBigToHostInt32(encoded);
+                    }
+                    break;
+            }
+        }
+        else if ([type characterAtIndex:0] == 's' && [type characterAtIndex:1] == 'i') {
+            switch ([type characterAtIndex:3]) {
+                case '8':
+                    if ([type characterAtIndex:4] == '\0' && [value length] == 1) {
+                        SInt8 encoded = 0;
+                        
+                        bcopy([value bytes], &encoded, 1);
+                        
+                        return encoded;
+                    }
+                    break;
+                    
+                case '1':
+                    if ([type characterAtIndex:4] == '6' && [type length] == 2) {
+                        SInt16 encoded = 0;
+                        
+                        bcopy([value bytes], &encoded, 2);
+                        
+                        return OSSwapBigToHostInt16(encoded);
+                    }
+                    break;
+                    
+                case '3':
+                    if ([type characterAtIndex:4] == '2' && [value length] == 4) {
+                        SInt32 encoded = 0;
+                        
+                        bcopy([value bytes], &encoded, 4);
+                        
+                        return OSSwapBigToHostInt32(encoded);
+                    }
+                    break;
+            }
+        }
+        else if (([type characterAtIndex:0] == 'f' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'p' && [value length] == 2) {
+            UInt16 encoded = 0;
+            
+            bcopy([value bytes], &encoded, 2);
+            
+            return [NSHardwareMonitorSensor decodeSMCFloatOfType:[type cStringUsingEncoding:NSASCIIStringEncoding] fraction:encoded];
+        }
+    }
+    
+    return 0;
+}
+
+- (NSString*)formatValue
 {
     if (value != NULL) {
         switch (group) {
@@ -77,7 +158,7 @@ inline UInt8 get_index(char c)
                 
                 return [[NSString alloc] initWithFormat:@"%d°",t];
                 
-            } break;
+            }
                 
             case kHWSMARTRemainingLifeGroup:
             {
@@ -88,47 +169,19 @@ inline UInt8 get_index(char c)
                 //return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
                 return [[NSString alloc] initWithFormat:@"(%d)",life];
                 
-            } break;
+            }
                 
             case kHWTemperatureGroup:
-            {
-                UInt16 encoded = 0;
-                
-                bcopy([value bytes], &encoded, 2);
-                
-                return [[NSString alloc] initWithFormat:@"%1.0f°",[NSHardwareMonitorSensor decodeSMCFloatOfType:[type cStringUsingEncoding:NSASCIIStringEncoding] fraction:encoded]];
-                
-            } break;
+                return [[NSString alloc] initWithFormat:@"%1.0f°",[self decodeValue]];
                 
             case kHWVoltageGroup:
-            {
-                UInt16 encoded = 0;
-                
-                bcopy([value bytes], &encoded, 2);
-                
-                return [[NSString alloc] initWithFormat:@"%1.2fV",[NSHardwareMonitorSensor decodeSMCFloatOfType:[type cStringUsingEncoding:NSASCIIStringEncoding] fraction:encoded]];
-                
-            } break;
+                return [[NSString alloc] initWithFormat:@"%1.2fV",[self decodeValue]];
                 
             case kHWTachometerGroup:
-            {
-                UInt16 encoded = 0;
-                
-                bcopy([value bytes], &encoded, 2);
-                    
-                return [[NSString alloc] initWithFormat:@"%1.0frpm",[NSHardwareMonitorSensor decodeSMCFloatOfType:[type cStringUsingEncoding:NSASCIIStringEncoding] fraction:encoded]];
-                
-            } break;
+                return [[NSString alloc] initWithFormat:@"%1.0frpm",[self decodeValue]];
                 
             case kHWMultiplierGroup:
-            {
-                UInt16 mlt = 0;
-                
-                bcopy([value bytes], &mlt, 2);
-                
-                return [[NSString alloc] initWithFormat:@"x%1.1f",(float)mlt / 10.0f];
-                
-            } break;
+                return [[NSString alloc] initWithFormat:@"x%1.1f",[self decodeValue]];
         }
     }
     

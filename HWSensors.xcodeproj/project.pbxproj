@@ -220,7 +220,6 @@
 		6A00BB5B14F8CCF000337DF8 /* NSHardwareMonitorSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSHardwareMonitorSensor.h; path = Shared/NSHardwareMonitorSensor.h; sourceTree = "<group>"; };
 		6A00BB5C14F8CCF000337DF8 /* NSHardwareMonitorSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSHardwareMonitorSensor.m; path = Shared/NSHardwareMonitorSensor.m; sourceTree = "<group>"; };
 		6A0F327514DD6A6800AA5598 /* NuvotonNCT677x.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NuvotonNCT677x.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A0F327714DD6A6800AA5598 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 		6A0F327A14DD6A6800AA5598 /* NuvotonNCT677x-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NuvotonNCT677x-Info.plist"; sourceTree = "<group>"; };
 		6A0F327C14DD6A6800AA5598 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A0F327E14DD6A6800AA5598 /* NuvotonNCT677x.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NuvotonNCT677x.h; sourceTree = "<group>"; };
@@ -398,7 +397,6 @@
 				1D757E5614502CF90003045C /* CoreFoundation.framework */,
 				6A85F85814DBEF5000F863A9 /* Foundation.framework */,
 				6A85F86614DBF12900F863A9 /* SystemUIPlugin.framework */,
-				6A0F327614DD6A6800AA5598 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -673,14 +671,6 @@
 				1DA962B413ED36440096F8A5 /* ATI Device-ID list.txt */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		6A0F327614DD6A6800AA5598 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6A0F327714DD6A6800AA5598 /* Kernel.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		6A0F327814DD6A6800AA5598 /* NuvotonNCT677x */ = {

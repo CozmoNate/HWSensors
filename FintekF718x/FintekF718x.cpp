@@ -104,7 +104,7 @@ UInt16 F718x::readTemperature(UInt32 index)
 		} break;
 		default: 
 		{
-            value = readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * (index + 1));
+            value = readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * (index + 1)) ^ 0x8000;
 		} break;
 	}
 	
@@ -215,6 +215,9 @@ bool F718x::probePort()
         {
             switch (revision)
 			{
+                case 0x05:
+                    model = F71889AD;
+                    break;
                 case 0x07:                                                      
                     model = F71869A;                                         
                     break;      
@@ -317,6 +320,7 @@ const char *F718x::getModelName()
         case F71869: return "F71869";
         case F71869A: return "F71869A";
         case F71882: return "F71882";
+        case F71889AD: return "F71889AD";
         case F71889ED: return "F71889ED";
         case F71889F: return "F71889F";
 		case F71808:  return "F71808";	

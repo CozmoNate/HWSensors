@@ -9,6 +9,7 @@
 
 #include "FakeSMCDevice.h"
 #include "FakeSMCDefinitions.h"
+#include "FakeSMCValueEncoder.h"
 
 #define Debug FALSE
 
@@ -533,8 +534,8 @@ FakeSMCKey *FakeSMCDevice::getKey(const char *name)
 {
 	if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
 		while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
-            UInt32 key1 = *((uint32_t*)name);
-			UInt32 key2 = *((uint32_t*)key->getName());
+            UInt32 key1 = key_to_int(name);
+			UInt32 key2 = key_to_int(key->getName());
 			if (key1 == key2) {
 				iterator->release();
 				return key;

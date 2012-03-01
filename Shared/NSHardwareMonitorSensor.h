@@ -37,6 +37,7 @@ enum {
 
 + (NSHardwareMonitorSensor*)sensor;
 
+- (float)decodeValue;
 - (NSString*)formatValue;
 
 @end

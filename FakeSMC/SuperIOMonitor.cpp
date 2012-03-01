@@ -252,13 +252,9 @@ SuperIOSensor *SuperIOMonitor::addTachometer(UInt32 index, const char* id)
 SuperIOSensor *	SuperIOMonitor::getSensor(const char* key) 
 {
 	if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(sensors)) {
-		
-		//UInt32 key1 = *((uint32_t*)key);
-		UInt32 key1 = *((uint32_t*)key);
-		
-		
 		while (SuperIOSensor *sensor = OSDynamicCast(SuperIOSensor, iterator->getNextObject())) {
-			UInt32 key2 = *((uint32_t*)sensor->getName());
+            UInt32 key1 = key_to_int(key);
+			UInt32 key2 = key_to_int(sensor->getName());
 			
 			if (key1 == key2)
 				return sensor;
