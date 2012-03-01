@@ -49,6 +49,7 @@
 
 #include "IntelThermal.h"
 #include "FakeSMCDefinitions.h"
+#include "FakeSMCValueEncoder.h"
 
 #define Debug TRUE
 
@@ -59,6 +60,42 @@
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(IntelThermal, FakeSMCPlugin)
+
+inline UInt8 get_hex_index(char c)
+{
+	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
+};
+
+inline UInt32 get_cpu_number()
+{
+    // I found information that reading from 1-4 cores gives the same result as reading from 5-8 cores for 4-cores 8-threads CPU. Needs more investigation
+    return cpu_number() % cpuid_info()->core_count;
+}
+
+inline void read_cpu_thermal(void* cpu_index)
+{
+    UInt8 * cpn = (UInt8 *)cpu_index;
+    
+	*cpn = get_cpu_number();
+    
+	if(*cpn < INTEL_THERMAL_MAX_CPU) {
+		UInt64 msr = rdmsr64(MSR_IA32_THERM_STS);
+		if (msr & 0x80000000) 
+            cpu_thermal[*cpn] = (msr >> 16) & 0x7F;
+	}
+};
+
+inline void read_cpu_performance(void* cpu_index)
+{
+    UInt8 * cpn = (UInt8 *)cpu_index;
+    
+	*cpn = get_cpu_number();
+    
+	if(*cpn < INTEL_THERMAL_MAX_CPU) {
+		UInt64 msr = rdmsr64(MSR_IA32_PERF_STS);
+		cpu_performance[*cpn] = msr & 0xFFFF;
+	}
+};
 
 void IntelThermal::readTjmaxFromMSR()
 {
@@ -92,7 +129,7 @@ IOReturn IntelThermal::loopTimerEvent(void)
     return kIOReturnSuccess;
 }
 
-IOService* IntelThermal::probe(IOService *provider, SInt32 *score)
+IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
 {
     if (super::probe(provider, score) != this) 
         return 0;
@@ -269,15 +306,13 @@ bool IntelThermal::start(IOService *provider)
         
         if (i >= INTEL_THERMAL_MAX_CPU) 
             break;
-        
-		char key[5];
+                
+        char key[5];
 		
 		snprintf(key, 5, KEY_FORMAT_CPU_DIODE_TEMPERATURE, i);
-		
-		if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)key, (void *)TYPE_SP78, (void *)2, this)) {
-			WarningLog("Can't add key to fake SMC device");
-			//return false;
-		}
+        
+        if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, i))
+			WarningLog("Can't add temperature sensor");
 		
         switch (cpuid_info()->cpuid_cpufamily) {
             case CPUFAMILY_INTEL_NEHALEM:
@@ -288,10 +323,8 @@ bool IntelThermal::start(IOService *provider)
             default:
                 snprintf(key, 5, KEY_FORMAT_NON_APPLE_CPU_MULTIPLIER, i);
                 
-                if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)key, (void *)TYPE_UI16, (void *)2, this)) {
-                    WarningLog("Can't add key to fake SMC device");
-                    //return false;
-                }
+                if (!addSensor(key, "fp88", 2, kFakeSMCMultiplierSensor, i))
+                    WarningLog("Can't add multiplier sensor");
                 
                 break;
         }
@@ -300,15 +333,10 @@ bool IntelThermal::start(IOService *provider)
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
-        case CPUFAMILY_INTEL_SANDYBRIDGE: {
-            if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER, (void *)TYPE_UI16, (void *)2, this)) {
-                WarningLog("Can't add key to fake SMC device");
-                //return false;
-            }
-            
-            break;
-        }
-            
+        case CPUFAMILY_INTEL_SANDYBRIDGE:
+            if (!addSensor(KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER, "fp88", 2, kIntelThermalPackageMultiplierSensor, 0))
+                WarningLog("Can't add package multiplier sensor");            
+            break;            
     }
     
     thermCounter = 4;
@@ -321,79 +349,37 @@ bool IntelThermal::start(IOService *provider)
     return true;
 }
 
-IOReturn IntelThermal::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
+float IntelThermal::getSensorValue(FakeSMCSensor *sensor)
 {
-	if (functionName->isEqualTo(kFakeSMCGetValueCallback)) {
-		const char* name = (const char*)param1;
-		void * data = param2;
-		
-		if (name && data) {
+    switch (sensor->getGroup()) {
+        case kFakeSMCTemperatureSensor:
+            if (sensor->getIndex() < cpuid_info()->core_count) {
+                thermCounter = 0;
+                return tjmax[sensor->getIndex()] - cpu_thermal[sensor->getIndex()];
+            }	
+            break;
             
-			switch (name[0]) {
-				case 'T': {
-					UInt8 index = get_index(name[2]);
-					
-					if (index < cpuid_info()->core_count) {
-                        
-                        thermCounter = 0;
-                        
-						UInt16 t = tjmax[index] - cpu_thermal[index];
-                        						
-						bcopy(&t, data, 2);
-						
-						return kIOReturnSuccess;
-					}			
-					
-				} break;
-					
-				case 'M': {
-                    UInt16 value = 0;
+        case kFakeSMCMultiplierSensor: {
+            if (sensor->getIndex() < cpuid_info()->core_count) {
+                perfCounter = 0;
+                return (float)(((cpu_performance[sensor->getIndex()] >> 8) & 0x1f)) + 0.5f * (float)((cpu_performance[sensor->getIndex()] >> 14) & 1);
+            }
+            break;
+        }
+            
+        case kIntelThermalPackageMultiplierSensor:{
+            switch (cpuid_info()->cpuid_cpufamily) {
+                case CPUFAMILY_INTEL_NEHALEM:
+                case CPUFAMILY_INTEL_WESTMERE:
+                    perfCounter = 0;
+                    return cpu_performance[0];
                     
-                    if (strcasecmp(name, KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER) == 0) {
-                        
-                        perfCounter = 0;
-                        
-                        switch (cpuid_info()->cpuid_cpufamily) {
-                            case CPUFAMILY_INTEL_NEHALEM:
-                            case CPUFAMILY_INTEL_WESTMERE:
-                                value = cpu_performance[0] * 10;
-                                break;
-                                
-                            case CPUFAMILY_INTEL_SANDYBRIDGE:
-                                value = (cpu_performance[0] >> 8) * 10;
-                                break;
-                        }
-                    }
-                    else {
-                        UInt8 index = get_index(name[2]);
-                        
-                        if (index < cpuid_info()->core_count) {
-                            
-                            perfCounter = 0;
-                            
-                            float mult = ((float)(((cpu_performance[index] >> 8) & 0x1f)) + 0.5f * (float)((cpu_performance[index] >> 14) & 1)) * 10.0f;
-                                    
-                            value = mult;
-                        }
-                        else return kIOReturnBadArgument;
-                    }
-                    
-                    bcopy(&value, data, 2);
-                    
-                    return kIOReturnSuccess;
-					
-				} break;
-			}
-			
-			//DebugLog("cpu index out of bounds");
-			
-			return kIOReturnBadArgument;
-		}
-		
-		//DebugLog("bad argument key name or data");
-		
-		return kIOReturnBadArgument;
-	}
-	
-	return super::callPlatformFunction(functionName, waitForFunction, param1, param2, param3, param4);
+                case CPUFAMILY_INTEL_SANDYBRIDGE:
+                    perfCounter = 0;
+                    return cpu_performance[0] >> 8;
+            }
+        }
+    }
+    
+    return 0;
 }

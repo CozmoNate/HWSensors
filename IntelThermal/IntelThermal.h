@@ -61,47 +61,13 @@
 
 #define INTEL_THERMAL_MAX_CPU 8
 
+#define kIntelThermalPackageMultiplierSensor    1000
+
 extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);
 extern "C" int cpu_number(void);
 
 static UInt8  cpu_thermal[INTEL_THERMAL_MAX_CPU];
 static UInt16 cpu_performance[INTEL_THERMAL_MAX_CPU];
-
-inline UInt8 get_index(char c)
-{
-	return c >= 'a' ? c - 87 : c >= 'A' ? c - 55 : c - 48;
-};
-
-inline UInt32 get_cpu_number()
-{
-    // I found information that reading from 1-4 cores gives the same result as reading from 5-8 cores for 4-cores 8-threads CPU. Needs more investigation
-    return cpu_number() % cpuid_info()->core_count;
-}
-
-inline void read_cpu_thermal(void* cpu_index)
-{
-    UInt8 * cpn = (UInt8 *)cpu_index;
-    
-	*cpn = get_cpu_number();
-
-	if(*cpn < INTEL_THERMAL_MAX_CPU) {
-		UInt64 msr = rdmsr64(MSR_IA32_THERM_STS);
-		if (msr & 0x80000000) 
-            cpu_thermal[*cpn] = (msr >> 16) & 0x7F;
-	}
-};
-
-inline void read_cpu_performance(void* cpu_index)
-{
-    UInt8 * cpn = (UInt8 *)cpu_index;
-    
-	*cpn = get_cpu_number();
-    
-	if(*cpn < INTEL_THERMAL_MAX_CPU) {
-		UInt64 msr = rdmsr64(MSR_IA32_PERF_STS);
-		cpu_performance[*cpn] = msr & 0xFFFF;
-	}
-};
 
 class IntelThermal : public FakeSMCPlugin
 {
@@ -118,9 +84,8 @@ private:
 	void                    readTjmaxFromMSR();
     
 public:
+    virtual float           getSensorValue(FakeSMCSensor *sensor);
+    
     virtual IOService*		probe(IOService *provider, SInt32 *score);
     virtual bool			start(IOService *provider);
-    
-	virtual IOReturn	callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 ); 
-	
 };

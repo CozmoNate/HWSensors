@@ -10,6 +10,7 @@
 
 #include <IOKit/IOLib.h>
 #include "FakeSMCDefinitions.h"
+#include "FakeSMCValueEncoder.h"
 
 #define Debug FALSE
 
@@ -18,15 +19,211 @@
 #define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
 #define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
 
+// Sensor
+
+OSDefineMetaClassAndStructors(FakeSMCSensor, OSObject)
+
+FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex)
+{
+	FakeSMCSensor *me = new FakeSMCSensor;
+	
+    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex)) {
+        me->release();
+        return 0;
+    }
+	
+    return me;
+}
+
+const char *FakeSMCSensor::getType()
+{
+	return type;
+}
+
+UInt8 FakeSMCSensor::getSize()
+{
+	return size;
+}
+
+UInt32 FakeSMCSensor::getGroup()
+{
+	return group;
+}
+
+UInt32 FakeSMCSensor::getIndex()
+{
+	return index;
+}
+
+bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex)
+{
+	if (!OSObject::init())
+		return false;
+	
+	if (!(owner = aOwner))
+		return false;
+    
+    if (!(key = (char *)IOMalloc(5)))
+		return false;
+
+	bzero(key, 5);
+    bcopy(aKey, key, 4);
+    
+	if (!(type = (char *)IOMalloc(5)))
+		return false;
+	
+    bzero(type, 5);
+	bcopy(aType, type, 4);
+	
+	size = aSize;
+	group = aGroup;
+	index = aIndex;
+	
+	return true;
+}
+
+void FakeSMCSensor::encodeValue(float value, void *outBuffer)
+{
+    if (type[0] == 'u' && type[1] == 'i') {
+        switch (type[3]) {
+            case '8':
+                if (type[4] == '\0' && size == 1) {
+                    UInt8 out = (UInt8)value;
+                    bcopy(&out, outBuffer, 1);
+                }
+                break;
+                
+            case '1':
+                if (type[4] == '6' && size == 2) {
+                    UInt16 out = OSSwapHostToBigInt16((UInt16)value);
+                    bcopy(&out, outBuffer, 2);
+                }
+                break;
+                
+            case '3':
+                if (type[4] == '2' && size == 4) {
+                    UInt32 out = OSSwapHostToBigInt32((UInt32)value);
+                    bcopy(&out, outBuffer, 4);
+                }
+                break;
+        }
+    }
+    else if (type[0] == 's' && type[1] == 'i') {
+        switch (type[3]) {
+            case '8':
+                if (type[4] == '\0' && size == 1) {
+                    SInt8 out = (SInt8)value;
+                    bcopy(&out, outBuffer, 1);
+                }
+                break;
+                
+            case '1':
+                if (type[4] == '6' && size == 2) {
+                    SInt16 out = OSSwapHostToBigInt16((SInt16)value);
+                    bcopy(&out, outBuffer, 2);
+                }
+                break;
+                
+            case '3':
+                if (type[4] == '2' && size == 4) {
+                    SInt32 out = OSSwapHostToBigInt32((SInt32)value);
+                    bcopy(&out, outBuffer, 4);
+                }
+                break;
+        }
+    }
+    else if ((type[0] == 'f' || type[0] == 's') && type[1] == 'p') {
+        UInt16 out = encode_16bit_fractional(type, value);
+        bcopy(&out, outBuffer, 2);
+    }
+}
+
+void FakeSMCSensor::free()
+{	
+    if (key)
+		IOFree(key, 5);
+    
+	if (type)
+		IOFree(type, 5);
+	
+	OSObject::free();
+}
+
+// Plug-In
 
 #define super IOService
 OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)
+
+FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
+{
+    if (getSensor(key))
+		return NULL;
+	
+	if(kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)key, (void *)type, (void *)size, (void *)this)){
+        if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index)) {
+            if (sensors->setObject(key, sensor)) {
+                return sensor;
+            }
+            else sensor->release();
+        }
+    }
+	
+	return NULL;
+}
+
+FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
+{
+    UInt8 length = 0;
+	void * data = 0;
+	
+	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
+		length = 0;
+		
+		bcopy(data, &length, 1);
+		
+		char key[5];
+		
+		snprintf(key, 5, KEY_FORMAT_FAN_SPEED, length); 
+		
+		if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, 2, kFakeSMCTachometerSensor, index)) {
+			if (name) {
+				snprintf(key, 5, KEY_FORMAT_FAN_ID, length); 
+				
+				if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
+					WarningLog("error adding tachometer id value");
+			}
+			
+			length++;
+			
+			if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)1, (void *)&length, 0))
+				WarningLog("error updating FNum value");
+			
+			return sensor;
+		}
+	}
+	else WarningLog("error reading FNum value");
+	
+	return 0;
+}
+
+FakeSMCSensor *FakeSMCPlugin::getSensor(const char* key)
+{
+	return OSDynamicCast(FakeSMCSensor, sensors->getObject(key));
+}
+
+float FakeSMCPlugin::getSensorValue(FakeSMCSensor *sensor)
+{
+    return 0;
+}
 
 bool FakeSMCPlugin::init(OSDictionary *properties)
 {
 	DebugLog("initialising...");
 	
     isActive = false;
+    
+    if (!(sensors = OSDictionary::withCapacity(0)))
+        return false;
     
 	return super::init(properties);
 }
@@ -49,7 +246,7 @@ bool FakeSMCPlugin::start(IOService *provider)
         return false;
     
 	if (!(fakeSMC = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
-		WarningLog("can't locate fake SMC device");
+		WarningLog("can't locate FakeSMCDevice");
 		return false;
 	}
 	
@@ -61,6 +258,8 @@ void FakeSMCPlugin::stop(IOService* provider)
 	DebugLog("stoping...");
     
     fakeSMC->callPlatformFunction(kFakeSMCRemoveHandler, true, this, NULL, NULL, NULL);
+    
+    sensors->flushCollection();
 	
 	super::stop(provider);
 }
@@ -68,11 +267,28 @@ void FakeSMCPlugin::stop(IOService* provider)
 void FakeSMCPlugin::free()
 {
 	DebugLog("freeing...");
+    
+    sensors->release();
 	
 	super::free();
 }
 
 IOReturn FakeSMCPlugin::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
 {
-    return super::callPlatformFunction(functionName, waitForFunction, param1, param2, param3, param4);
+    if (functionName->isEqualTo(kFakeSMCGetValueCallback)) {
+		const char *name = (const char*)param1;
+		void *data = param2;
+		UInt8 size = (UInt64)param3;
+		
+		if (name && data)
+			if (FakeSMCSensor *sensor = getSensor(name))
+                if (size == sensor->getSize()) {
+                    sensor->encodeValue(getSensorValue(sensor), data);
+                    return kIOReturnSuccess;
+                }
+		
+		return kIOReturnBadArgument;
+	}
+    
+	return super::callPlatformFunction(functionName, waitForFunction, param1, param2, param3, param4);
 }

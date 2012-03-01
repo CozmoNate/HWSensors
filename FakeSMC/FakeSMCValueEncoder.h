@@ -9,15 +9,10 @@
 #ifndef HWSensors_FakeSMCValueEncoder_h
 #define HWSensors_FakeSMCValueEncoder_h
 
-inline UInt16 swap_bytes(UInt16 value)
+inline uint32_t key_to_int(const char *name)
 {
-	return ((value & 0xff00) >> 8) | ((value & 0xff) << 8);
+    return *((uint32_t*)name);
 }
-
-/*inline UInt8 get_index(char c)
-{
-	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
-};*/
 
 inline UInt8 get_index(char c)
 {
@@ -40,7 +35,7 @@ inline UInt16 encode_16bit_fractional(const char *type, float value)
         
         UInt64 mult = value * 1000;
         
-        return swap_bytes(((mult << f) / 1000) & 0xffff);
+        return OSSwapHostToBigInt16(((mult << f) / 1000) & 0xffff);
     }
     
     return value; // leave as is
@@ -50,7 +45,7 @@ inline float decode_16bit_fractional(const char* type, UInt16 encoded)
 {
     UInt8 i = 0, f = 0;
     
-    encoded = swap_bytes(encoded);
+    encoded = OSSwapBigToHostInt16(encoded);
     
     if (type[0] == 's' || type[0] == 'f') {
         if (type[1] == 'p') {
