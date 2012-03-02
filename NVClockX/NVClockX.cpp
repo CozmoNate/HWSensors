@@ -176,14 +176,14 @@ bool NVClockX::start(IOService * provider)
         char name[5];
         
         for (UInt8 i = 0; i < 0xf; i++) {
+            
             snprintf(name, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, i); 
             
-            IOService *handler = 0;
-            
-            if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)name, (void *)&handler, 0, 0)) {
+            if (!isKeyHandled(name)) {
+                
                 snprintf(name, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, i); 
                 
-                if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)name, (void *)&handler, 0, 0)) {
+                if (!isKeyHandled(name)) {
                     cardIndex = i;
                     break;
                 }
@@ -194,14 +194,14 @@ bool NVClockX::start(IOService * provider)
             InfoLog("Adding temperature sensors");
             
             if(nv_card->caps & BOARD_TEMP_MONITORING) {
-                snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, cardIndex + index);
+                snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, cardIndex);
                 addSensor(key, TYPE_SP78, 2, kNVCLockDiodeTemperatureSensor, index);
                 
-				snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex + index);
+				snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex);
 				addSensor(key, TYPE_SP78, 2, kNVCLockBoardTemperatureSensor, index);
 			}
             else {
-                snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex + index);
+                snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex);
                 addSensor(key, TYPE_SP78, 2, kNVCLockBoardTemperatureSensor, index);
             }
 		}
@@ -211,7 +211,7 @@ bool NVClockX::start(IOService * provider)
             
             char name[6]; 
             
-            snprintf (name, 6, "GPU %X", cardIndex + index);
+            snprintf (name, 6, "GPU %X", cardIndex);
             
 			addTachometer(index, name);
 		}

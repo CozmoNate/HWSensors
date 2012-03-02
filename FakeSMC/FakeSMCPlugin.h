@@ -53,6 +53,8 @@ protected:
     
     bool                    isActive;
     
+    bool                    isKeyHandled(const char *key);
+    
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index);
     virtual bool            addSensor(FakeSMCSensor *sensor);
 	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0);
@@ -60,7 +62,7 @@ protected:
     
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
-public:    
+public:
 	virtual bool			init(OSDictionary *properties=0);
 	virtual IOService       *probe(IOService *provider, SInt32 *score);
     virtual bool			start(IOService *provider);

@@ -142,6 +142,16 @@ void FakeSMCSensor::encodeValue(float value, void *outBuffer)
 #define super IOService
 OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)
 
+bool FakeSMCPlugin::isKeyHandled(const char *key)
+{
+    if (fakeSMC) {
+        IOService *handler = 0;
+        return kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)&handler, 0, 0);
+    }
+    
+    return false;
+}
+
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
 {   
     if (getSensor(key)) {
@@ -172,32 +182,37 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
     UInt8 length = 0;
 	void * data = 0;
     
-	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
+	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
 		length = 0;
 		
 		bcopy(data, &length, 1);
 		
-		char key[5];
-		
-		snprintf(key, 5, KEY_FORMAT_FAN_SPEED, length); 
-		
-		if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, 2, kFakeSMCTachometerSensor, index)) {
-			if (name) {
-				snprintf(key, 5, KEY_FORMAT_FAN_ID, length); 
-				
-				if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
-					WarningLog("error adding tachometer id value");
-			}
-			
-			length++;
-			
-			if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)1, (void *)&length, 0))
-				WarningLog("error updating FNum value");
-			
-			return sensor;
-		}
+        for (int i = 0; i <= 0xf; i++) {
+            char key[5];
+            
+            snprintf(key, 5, KEY_FORMAT_FAN_SPEED, i); 
+            
+            if (!isKeyHandled(key)) {
+                if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, 2, kFakeSMCTachometerSensor, index)) {
+                    if (name) {
+                        snprintf(key, 5, KEY_FORMAT_FAN_ID, i); 
+                        
+                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
+                            WarningLog("can't add tachometer name for key %s", key);
+                    }
+                    
+                    length++;
+                    
+                    if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)1, (void *)&length, 0))
+                        WarningLog("can't update FNum value");
+                    
+                    return sensor;
+                }
+                else WarningLog("can't add tachometer sensor for key %s", key);
+            }
+        }
 	}
-	else WarningLog("error reading FNum value");
+	else WarningLog("can't read FNum value");
 	
 	return 0;
 }
