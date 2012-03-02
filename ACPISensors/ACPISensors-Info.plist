@@ -13,11 +13,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2.0.0</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>ACPI Monitoring Plugin</key>
@@ -95,7 +95,7 @@
 		<key>com.apple.iokit.IOACPIFamily</key>
 		<string>1.2.0</string>
 		<key>org.netkas.FakeSMC</key>
-		<string>4.0.0</string>
+		<string>4.2.0</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

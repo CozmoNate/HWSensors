@@ -13,11 +13,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.4</string>
+	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.4</string>
+	<string>2.0.0</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>ITE IT87x Monitor Plugin</key>
@@ -137,7 +137,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 		<key>org.netkas.FakeSMC</key>
-		<string>4.0.0</string>
+		<string>4.2.0</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>
