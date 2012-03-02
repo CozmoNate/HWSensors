@@ -63,7 +63,7 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
-			<key>Keys Association</key>
+			<key>Keys Associations</key>
 			<dict>
 				<key>Voltages</key>
 				<dict>
@@ -79,7 +79,7 @@
 					<string>VIN4</string>
 				</dict>
 			</dict>
-			<key>Keys Association - disabled</key>
+			<key>Keys Associations (disabled)</key>
 			<dict>
 				<key>Temperatures</key>
 				<dict>
