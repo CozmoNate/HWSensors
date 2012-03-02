@@ -109,10 +109,9 @@ bool ACPIMonitor::start(IOService * provider)
         
         iterator->reset();
         
-        OSString *method = NULL;
+        OSString *method = OSDynamicCast(OSString, iterator->getNextObject());
         
-        do {
-            method = OSDynamicCast(OSString, iterator->getNextObject());
+        while (method) {
             
             OSString *key = OSDynamicCast(OSString, temperatures->getObject(method));
             
@@ -120,28 +119,30 @@ bool ACPIMonitor::start(IOService * provider)
                 if (!addSensor(key->getCStringNoCopy(), TYPE_FP4C, 2, kFakeSMCTemperatureSensor, 0))
                     WarningLog("can't add voltage sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
             
-        } while (method);
+            method = OSDynamicCast(OSString, iterator->getNextObject());
+        };
     }
         
     // Fans
     OSArray* fanNames = OSDynamicCast(OSArray, getProperty("Fan Names"));
     
-    for (int i=0; i<10; i++) 
-    {
-        char key[5];
-        
-        snprintf(key, 5, ACPI_NAME_FORMAT_TACHOMETER, i);
-        
-        if (kIOReturnSuccess == acpiDevice->validateObject(key)) {
-            OSString* name = NULL;
+    if (fanNames)
+        for (int i=0; i<10; i++) 
+        {
+            char key[5];
             
-            if (fanNames)
-                name = OSDynamicCast(OSString, fanNames->getObject(i));
+            snprintf(key, 5, ACPI_NAME_FORMAT_TACHOMETER, i);
             
-            if (!addTachometer(i, name ? name->getCStringNoCopy() : 0))
-                WarningLog("Can't add tachometer sensor %d", i);
+            if (kIOReturnSuccess == acpiDevice->validateObject(key)) {
+                OSString* name = NULL;
+                
+                if (fanNames)
+                    name = OSDynamicCast(OSString, fanNames->getObject(i));
+                
+                if (!addTachometer(i, name ? name->getCStringNoCopy() : 0))
+                    WarningLog("Can't add tachometer sensor %d", i);
+            }
         }
-    }
 
 	registerService(0);
 
