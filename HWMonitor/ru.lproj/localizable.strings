@@ -6,21 +6,22 @@
   Copyright (c) 2012 natan.zalkin@gmail.com. All rights reserved.
 */
 
-"TEMPERATURES" = "ТЕМПЕРАТУРЫ";
-"DRIVES TEMPERATURES" = "ТЕМПЕРАТУРЫ ДИСКОВ";
+"TEMPERATURES" = "ДАТЧИКИ ТЕМПЕРАТУРЫ";
+"DRIVES TEMPERATURES" = "ТЕМПЕРАТУРА ДИСКОВ";
 "SSD REMAINING LIFE" = "ВРЕМЯ ЖИЗНИ SSD";
 "MULTIPLIERS" = "МНОЖИТЕЛИ";
-"VOLTAGES" = "НАПРЯЖЕНИЯ";
+"VOLTAGES" = "ДАТЧИКИ НАПРЯЖЕНИЯ";
 "FANS" = "ВЕНТИЛЯТОРЫ";
 "CPU Heatsink" = "Радиатор процессора";
 "GPU %X Board" = "Радиатор видеокарты %X";
-"GPU %X Core" = "Ядро видеокарты %X";
+"GPU %X Core" = "Диод видеокарты %X";
 "GPU %X Proximity" = "Видеокарта %X";
 "Motherboard" = "Системный чипсет";
 "CPU Package" = "Процессор";
-"CPU %X" = "Ядро %X";
+"CPU %X" = "Диод %X процессора";
 "Fan %X" = "Вентилятор %X";
 "CPU" = "Процессор";
-"DIMM Modules" = "Память";
+"DIMM Modules" = "Модули памяти";
+"Power/Battery" = "Питание/Батарея";
 "Quit HWMonitor" = "Закрыть HWMonitor";
 "No sensors found" = "Нет доступных сенсоров";

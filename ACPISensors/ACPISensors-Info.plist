@@ -47,10 +47,22 @@
 				<string>Fan 9</string>
 				<string>Fan 10</string>
 			</array>
-			<key>keysToAdd</key>
+			<key>Keys Association</key>
 			<dict>
-				<key>TCRK</key>
-				<string>TW0P</string>
+				<key>Temperatures</key>
+				<dict>
+					<key>Th0H</key>
+					<string>TCPU</string>
+					<key>TN0P</key>
+					<string>TSYS</string>
+				</dict>
+				<key>Voltages</key>
+				<dict>
+					<key>VC0C</key>
+					<string>VCPU</string>
+					<key>VM0R</key>
+					<string>VMEM</string>
+				</dict>
 			</dict>
 		</dict>
 	</dict>

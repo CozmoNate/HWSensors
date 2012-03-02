@@ -52,7 +52,7 @@
 
 #include "FakeSMCDefinitions.h"
 
-#define Debug TRUE
+#define Debug FALSE
 
 #define LogPrefix "IT87x: "
 #define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)

@@ -54,6 +54,7 @@ protected:
     bool                    isActive;
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index);
+    virtual bool            addSensor(FakeSMCSensor *sensor);
 	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0);
 	virtual FakeSMCSensor   *getSensor(const char *key);
     

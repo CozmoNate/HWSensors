@@ -12,7 +12,7 @@
 #include "FakeSMCDefinitions.h"
 #include "FakeSMCValueEncoder.h"
 
-#define Debug TRUE
+#define Debug FALSE
 
 #define LogPrefix "FakeSMCPlugin: "
 #define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
@@ -149,16 +149,22 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8
 		return NULL;
     }
 	
-	if(kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)key, (void *)type, (void *)size, (void *)this)){
-        if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index)) {
-            if (sensors->setObject(key, sensor))
-                return sensor;
-            else 
-                sensor->release();
-        }
+    if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index)) {
+        if (addSensor(sensor))
+           return sensor;
+        else 
+            sensor->release();
     }
 	
 	return NULL;
+}
+
+bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
+{
+    if(sensor && kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)sensor->getKey(), (void *)sensor->getType(), (void *)sensor->getSize(), (void *)this))
+        return sensors->setObject(sensor->getKey(), sensor);
+    
+    return false;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
