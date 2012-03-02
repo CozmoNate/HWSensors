@@ -72,6 +72,7 @@ static UInt16 cpu_performance[INTEL_THERMAL_MAX_CPU];
 class IntelThermal : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(IntelThermal)    
+    
 private:
     UInt8                   tjmax[INTEL_THERMAL_MAX_CPU];
     IOWorkLoop *			workloop;
@@ -83,9 +84,10 @@ private:
     IOReturn                loopTimerEvent(void);
 	void                    readTjmaxFromMSR();
     
-public:
+protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
+public:
     virtual IOService*		probe(IOService *provider, SInt32 *score);
     virtual bool			start(IOService *provider);
 };

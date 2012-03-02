@@ -52,7 +52,7 @@
 
 #include "FakeSMCDefinitions.h"
 
-#define Debug FALSE
+#define Debug TRUE
 
 #define LogPrefix "IT87x: "
 #define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
@@ -78,17 +78,17 @@ void IT87x::writeByte(UInt8 reg, UInt8 value)
 	outb(address + ITE_DATA_REGISTER_OFFSET, value);
 }
 
-UInt16 IT87x::readTemperature(UInt32 index)
+SInt32 IT87x::readTemperature(UInt32 index)
 {
 	return readByte(ITE_TEMPERATURE_BASE_REG + index);
 }
 
-UInt16 IT87x::readVoltage(UInt32 index)
+float IT87x::readVoltage(UInt32 index)
 {
-    return readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain * voltageSpecificGain[index];
+    return (float)(readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain * voltageSpecificGain[index]) / 1000.0f;
 }
 
-UInt16 IT87x::readTachometer(UInt32 index)
+SInt32 IT87x::readTachometer(UInt32 index)
 {
     long value;
     
@@ -207,7 +207,7 @@ bool IT87x::startPlugin()
 	
     if (list && !configuration) 
         configuration = OSDynamicCast(OSDictionary, list->getObject("Default"));
-    
+        
 	// Temperature Sensors
 	if (configuration) {
 		for (int i = 0; i < 4; i++) 
@@ -216,12 +216,13 @@ bool IT87x::startPlugin()
 			
 			snprintf(key, 8, "TEMPIN%X", i);
 			
-			if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key)))
+			if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
 				if (name->isEqualTo("Processor")) {
 					if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, i))
 						WarningLog("error adding heatsink temperature sensor");
 				}
 				else if (name->isEqualTo("System")) {				
+                    //addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
 					if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor,i))
 						WarningLog("error adding system temperature sensor");
 				}
@@ -229,9 +230,13 @@ bool IT87x::startPlugin()
 					if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor,i))
 						WarningLog("error adding auxiliary temperature sensor");
 				}
+            }
 		}
 	}
 	else {
+        
+        DebugLog("adding default temperature sensors");
+        
 		if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 0))
 			WarningLog("error adding heatsink temperature sensor");
 		
@@ -241,11 +246,12 @@ bool IT87x::startPlugin()
 		if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 2))
 			WarningLog("error adding system temperature sensor");
 	}
-	
+    
+    DebugLog("adding voltage sensors");
 	
 	// Voltage
 	if (configuration) {
-		for (int i = 0; i < 9; i++) //Zorglub
+		for (int i = 0; i < 9; i++)
 		{				
 			char key[5];
 			
@@ -305,6 +311,8 @@ bool IT87x::startPlugin()
 		}
 	}
 	
+    DebugLog("adding tachometer sensors");
+    
 	// Tachometers
 	for (int i = 0; i < 5; i++) {
 		OSString* name = NULL;

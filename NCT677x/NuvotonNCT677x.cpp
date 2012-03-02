@@ -133,7 +133,7 @@ void NCT677x::writeByte(UInt16 reg, UInt8 value)
         temperatureIsObsolete[i] = false;
 }*/
 
-UInt16 NCT677x::readTemperature(UInt32 index)
+SInt32 NCT677x::readTemperature(UInt32 index)
 {
     if (index < 2) {
         
@@ -148,11 +148,11 @@ UInt16 NCT677x::readTemperature(UInt32 index)
 	return 0;
 }
 
-UInt16 NCT677x::readVoltage(UInt32 index)
+float NCT677x::readVoltage(UInt32 index)
 {
     if (index < 9) {
         
-        float value = readByte(NUVOTON_VOLTAGE_REG[index]) * (NUVOTON_VOLTAGE_SCALE[index]);
+        float value = readByte(NUVOTON_VOLTAGE_REG[index]) * (NUVOTON_VOLTAGE_SCALE[index]) * 0.001f;
         
         bool valid = value > 0;
         
@@ -167,7 +167,7 @@ UInt16 NCT677x::readVoltage(UInt32 index)
     return 0;
 }
 
-UInt16 NCT677x::readTachometer(UInt32 index)
+SInt32 NCT677x::readTachometer(UInt32 index)
 {
     if (index < 5) {
         UInt8 high = readByte(NUVOTON_FAN_RPM_REG[index]);

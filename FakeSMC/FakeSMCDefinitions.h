@@ -122,6 +122,7 @@
 #define kFakeSMCAddKeyHandler                   "FakeSMC_AddKeyHandler"
 #define kFakeSMCSetKeyValue                     "FakeSMC_SetKeyValue"
 #define kFakeSMCGetKeyValue                     "FakeSMC_GetKeyValue"
+#define kFakeSMCGetKeyHandler                   "FakeSMC_GetKeyHandler"
 #define kFakeSMCGetValueCallback                "FakeSMC_GetValueCallback"
 #define kFakeSMCSetValueCallback                "FakeSMC_SetValueCallback"
 #define kFakeSMCRemoveHandler                   "FakeSMC_RemoveHandler"

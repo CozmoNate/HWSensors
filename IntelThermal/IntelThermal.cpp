@@ -51,7 +51,7 @@
 #include "FakeSMCDefinitions.h"
 #include "FakeSMCValueEncoder.h"
 
-#define Debug TRUE
+#define Debug FALSE
 
 #define LogPrefix "IntelThermal: "
 #define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
@@ -127,6 +127,41 @@ IOReturn IntelThermal::loopTimerEvent(void)
     timersource->setTimeoutMS(2000);
     
     return kIOReturnSuccess;
+}
+
+float IntelThermal::getSensorValue(FakeSMCSensor *sensor)
+{
+    switch (sensor->getGroup()) {
+        case kFakeSMCTemperatureSensor:
+            if (sensor->getIndex() < cpuid_info()->core_count) {
+                thermCounter = 0;
+                return tjmax[sensor->getIndex()] - cpu_thermal[sensor->getIndex()];
+            }	
+            break;
+            
+        case kFakeSMCMultiplierSensor: {
+            if (sensor->getIndex() < cpuid_info()->core_count) {
+                perfCounter = 0;
+                return (float)(((cpu_performance[sensor->getIndex()] >> 8) & 0x1f)) + 0.5f * (float)((cpu_performance[sensor->getIndex()] >> 14) & 1);
+            }
+            break;
+        }
+            
+        case kIntelThermalPackageMultiplierSensor:{
+            switch (cpuid_info()->cpuid_cpufamily) {
+                case CPUFAMILY_INTEL_NEHALEM:
+                case CPUFAMILY_INTEL_WESTMERE:
+                    perfCounter = 0;
+                    return cpu_performance[0];
+                    
+                case CPUFAMILY_INTEL_SANDYBRIDGE:
+                    perfCounter = 0;
+                    return cpu_performance[0] >> 8;
+            }
+        }
+    }
+    
+    return 0;
 }
 
 IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
@@ -347,39 +382,4 @@ bool IntelThermal::start(IOService *provider)
     registerService(0);
     
     return true;
-}
-
-float IntelThermal::getSensorValue(FakeSMCSensor *sensor)
-{
-    switch (sensor->getGroup()) {
-        case kFakeSMCTemperatureSensor:
-            if (sensor->getIndex() < cpuid_info()->core_count) {
-                thermCounter = 0;
-                return tjmax[sensor->getIndex()] - cpu_thermal[sensor->getIndex()];
-            }	
-            break;
-            
-        case kFakeSMCMultiplierSensor: {
-            if (sensor->getIndex() < cpuid_info()->core_count) {
-                perfCounter = 0;
-                return (float)(((cpu_performance[sensor->getIndex()] >> 8) & 0x1f)) + 0.5f * (float)((cpu_performance[sensor->getIndex()] >> 14) & 1);
-            }
-            break;
-        }
-            
-        case kIntelThermalPackageMultiplierSensor:{
-            switch (cpuid_info()->cpuid_cpufamily) {
-                case CPUFAMILY_INTEL_NEHALEM:
-                case CPUFAMILY_INTEL_WESTMERE:
-                    perfCounter = 0;
-                    return cpu_performance[0];
-                    
-                case CPUFAMILY_INTEL_SANDYBRIDGE:
-                    perfCounter = 0;
-                    return cpu_performance[0] >> 8;
-            }
-        }
-    }
-    
-    return 0;
 }

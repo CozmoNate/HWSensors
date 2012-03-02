@@ -71,8 +71,6 @@
 		1DA9628513ED347B0096F8A5 /* NVClockX.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA9626B13ED347B0096F8A5 /* NVClockX.h */; };
 		1DA962AB13ED36030096F8A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1DA962A913ED36030096F8A5 /* InfoPlist.strings */; };
 		1DA962B513ED36440096F8A5 /* ATI Device-ID list.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1DA962B413ED36440096F8A5 /* ATI Device-ID list.txt */; };
-		1DA962BC13ED368C0096F8A5 /* ATICard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DA962B813ED368C0096F8A5 /* ATICard.cpp */; };
-		1DA962BD13ED368C0096F8A5 /* ATICard.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA962B913ED368C0096F8A5 /* ATICard.h */; };
 		1DA962BE13ED368C0096F8A5 /* RadeonX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DA962BA13ED368C0096F8A5 /* RadeonX.cpp */; };
 		1DA962BF13ED368C0096F8A5 /* RadeonX.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA962BB13ED368C0096F8A5 /* RadeonX.h */; };
 		1DA962C413ED37D90096F8A5 /* RadeonChipinfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA962C213ED37D90096F8A5 /* RadeonChipinfo.h */; };
@@ -207,8 +205,6 @@
 		1DA962B013ED36030096F8A5 /* RadeonX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RadeonX-Prefix.pch"; sourceTree = "<group>"; };
 		1DA962B413ED36440096F8A5 /* ATI Device-ID list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ATI Device-ID list.txt"; sourceTree = "<group>"; };
 		1DA962B613ED364E0096F8A5 /* RadeonX-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RadeonX-Info.plist"; sourceTree = "<group>"; };
-		1DA962B813ED368C0096F8A5 /* ATICard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ATICard.cpp; sourceTree = "<group>"; };
-		1DA962B913ED368C0096F8A5 /* ATICard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATICard.h; sourceTree = "<group>"; };
 		1DA962BA13ED368C0096F8A5 /* RadeonX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadeonX.cpp; sourceTree = "<group>"; };
 		1DA962BB13ED368C0096F8A5 /* RadeonX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonX.h; sourceTree = "<group>"; };
 		1DA962C213ED37D90096F8A5 /* RadeonChipinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonChipinfo.h; sourceTree = "<group>"; };
@@ -653,8 +649,6 @@
 				1DA962C613ED389E0096F8A5 /* AtomBIOS.h */,
 				1DA962C313ED37D90096F8A5 /* RadeonChipsets.h */,
 				1DA962C213ED37D90096F8A5 /* RadeonChipinfo.h */,
-				1DA962B913ED368C0096F8A5 /* ATICard.h */,
-				1DA962B813ED368C0096F8A5 /* ATICard.cpp */,
 				1DA962BB13ED368C0096F8A5 /* RadeonX.h */,
 				1DA962BA13ED368C0096F8A5 /* RadeonX.cpp */,
 				1DA962A713ED36030096F8A5 /* Supporting Files */,
@@ -850,7 +844,6 @@
 			files = (
 				1DA962C513ED37D90096F8A5 /* RadeonChipsets.h in Headers */,
 				1DA962C413ED37D90096F8A5 /* RadeonChipinfo.h in Headers */,
-				1DA962BD13ED368C0096F8A5 /* ATICard.h in Headers */,
 				1DA962BF13ED368C0096F8A5 /* RadeonX.h in Headers */,
 				1DA962C713ED389E0096F8A5 /* AtomBIOS.h in Headers */,
 			);
@@ -1412,7 +1405,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DA962BC13ED368C0096F8A5 /* ATICard.cpp in Sources */,
 				1DA962BE13ED368C0096F8A5 /* RadeonX.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

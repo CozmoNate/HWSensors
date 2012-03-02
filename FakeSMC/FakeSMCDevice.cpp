@@ -620,6 +620,24 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
 		
 		return kIOReturnBadArgument;
 	}
+    if (functionName->isEqualTo(kFakeSMCGetKeyHandler)) {
+		const char *name = (const char *)param1;
+		IOService *handler = (IOService *)param2;
+		
+		if (name && handler) {
+            
+			if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name))) {
+				if (key->getHandler()) {
+                    handler = (IOService *)key->getHandler();
+                    return kIOReturnSuccess;
+                }
+                
+                return kIOReturnError;
+            }
+		}
+		
+		return kIOReturnBadArgument;
+	}
 	else if (functionName->isEqualTo(kFakeSMCAddKeyHandler)) {
 		const char *name = (const char *)param1;
 		const char *type = (const char *)param2;

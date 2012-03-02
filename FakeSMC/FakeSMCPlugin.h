@@ -24,8 +24,8 @@ class FakeSMCSensor : public OSObject {
 	
 protected:
 	FakeSMCPlugin       *owner;
-    char                *key;
-	char                *type;
+    char                key[5];
+	char                type[5];
     UInt8               size;
 	UInt32              group;
 	UInt32              index;
@@ -42,8 +42,6 @@ public:
 	UInt32              getIndex();
     
     void                encodeValue(float value, void *outBuffer);
-
-   	virtual void		free();	
 };
 
 class FakeSMCPlugin : public IOService {
@@ -55,13 +53,13 @@ protected:
     
     bool                    isActive;
     
-public:
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index);
 	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0);
 	virtual FakeSMCSensor   *getSensor(const char *key);
     
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
+public:    
 	virtual bool			init(OSDictionary *properties=0);
 	virtual IOService       *probe(IOService *provider, SInt32 *score);
     virtual bool			start(IOService *provider);

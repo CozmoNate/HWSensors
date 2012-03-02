@@ -14,112 +14,15 @@
 #include "FakeSMCDefinitions.h"
 #include "FakeSMCValueEncoder.h"
 
-#define Debug FALSE
+#define Debug TRUE
 
 #define LogPrefix "SuperIOMonitor: "
 #define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
 #define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
 #define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
 
-// Sensor
-
-OSDefineMetaClassAndStructors(SuperIOSensor, OSObject)
-
-SuperIOSensor *SuperIOSensor::withOwner(SuperIOMonitor *aOwner, const char* aKey, const char* aType, UInt8 aSize, SuperIOSensorGroup aGroup, UInt32 aIndex)
-{
-	SuperIOSensor *me = new SuperIOSensor;
-	
-    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex)) {
-        me->release();
-        return 0;
-    }
-	
-    return me;
-}
-
-const char *SuperIOSensor::getName()
-{
-	return name;
-}
-
-const char *SuperIOSensor::getType()
-{
-	return type;
-}
-
-UInt8 SuperIOSensor::getSize()
-{
-	return size;
-}
-
-SuperIOSensorGroup SuperIOSensor::getGroup()
-{
-	return group;
-}
-
-UInt32 SuperIOSensor::getIndex()
-{
-	return index;
-}
-
-UInt16 SuperIOSensor::getValue()
-{
-	switch (group) {
-		case kSuperIOTemperatureSensor:
-			return encode_16bit_fractional(type, owner->readTemperature(index));
-            
-		case kSuperIOVoltageSensor:
-			return encode_16bit_fractional(type, (float)owner->readVoltage(index) / 1000.0f);
-            
-		case kSuperIOTachometerSensor:
-			return  encode_16bit_fractional(type, owner->readTachometer(index));
-	}
-
-	return 0;
-}
-
-bool SuperIOSensor::initWithOwner(SuperIOMonitor *aOwner, const char* aKey, const char* aType, UInt8 aSize, SuperIOSensorGroup aGroup, UInt32 aIndex)
-{
-	if (!OSObject::init())
-		return false;
-	
-	if (!(owner = aOwner))
-		return false;
-	
-	if (!(name = (char *)IOMalloc(5)))
-		return false;
-	
-	bcopy(aKey, name, 4);
-	name[5] = '\0';
-	
-	if (!(type = (char *)IOMalloc(5)))
-		return false;
-	
-	bcopy(aType, type, 4);
-	type[5] = '\0';
-	
-	size = aSize;
-	group = aGroup;
-	index = aIndex;
-	
-	return true;
-}
-
-void SuperIOSensor::free()
-{
-	if (name)
-		IOFree(name, 5);
-	
-	if (type)
-		IOFree(type, 5);
-	
-	OSObject::free();
-}
-
-// Monitor
-
-#define super IOService
-OSDefineMetaClassAndAbstractStructors(SuperIOMonitor, IOService)
+#define super FakeSMCPlugin
+OSDefineMetaClassAndAbstractStructors(SuperIOMonitor, FakeSMCPlugin)
 
 UInt8 SuperIOMonitor::listenPortByte(UInt16 reg)
 {
@@ -171,17 +74,17 @@ bool SuperIOMonitor::startPlugin()
     return true;
 };
 
-UInt16 SuperIOMonitor::readTemperature(UInt32 index)
+SInt32 SuperIOMonitor::readTemperature(UInt32 index)
 {
 	return 0;
 }
 
-UInt16 SuperIOMonitor::readVoltage(UInt32 index)
+float SuperIOMonitor::readVoltage(UInt32 index)
 {
 	return 0;
 }
 
-UInt16 SuperIOMonitor::readTachometer(UInt32 index)
+SInt32 SuperIOMonitor::readTachometer(UInt32 index)
 {
 	return 0;
 }
@@ -201,68 +104,20 @@ const char *SuperIOMonitor::getModelName()
 	return "Unknown";
 }
 
-SuperIOSensor *SuperIOMonitor::addSensor(const char* name, const char* type, UInt8 size, SuperIOSensorGroup group, UInt32 index)
+float SuperIOMonitor::getSensorValue(FakeSMCSensor *sensor)
 {
-	if (NULL != getSensor(name))
-		return 0;
-	
-	if (SuperIOSensor *sensor = SuperIOSensor::withOwner(this, name, type, size, group, index))
-		if (sensors->setObject(sensor))
-			if(kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)name, (void *)type, (void *)size, (void *)this))
-				return sensor;
-	
-	return 0;
-}
-
-SuperIOSensor *SuperIOMonitor::addTachometer(UInt32 index, const char* id)
-{
-	UInt8 length = 0;
-	void * data = 0;
-	
-	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
-		length = 0;
-		
-		bcopy(data, &length, 1);
-		
-		char name[5];
-		
-		snprintf(name, 5, KEY_FORMAT_FAN_SPEED, length); 
-		
-		if (SuperIOSensor *sensor = addSensor(name, TYPE_FPE2, 2, kSuperIOTachometerSensor, index)) {
-			if (id) {
-				snprintf(name, 5, KEY_FORMAT_FAN_ID, length); 
-				
-				if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)name, (void *)TYPE_CH8, (void *)((UInt64)strlen(id)), (void *)id))
-					WarningLog("error adding tachometer id value");
-			}
-			
-			length++;
-			
-			if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)1, (void *)&length, 0))
-				WarningLog("error updating FNum value");
-			
-			return sensor;
-		}
-	}
-	else WarningLog("error reading FNum value");
-	
-	return 0;
-}
-		
-SuperIOSensor *	SuperIOMonitor::getSensor(const char* key) 
-{
-	if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(sensors)) {
-		while (SuperIOSensor *sensor = OSDynamicCast(SuperIOSensor, iterator->getNextObject())) {
-            UInt32 key1 = key_to_int(key);
-			UInt32 key2 = key_to_int(sensor->getName());
-			
-			if (key1 == key2)
-				return sensor;
-		}
-        
-        iterator->release();
-	}
-	
+    if (sensor)
+        switch (sensor->getGroup()) {
+            case kSuperIOTemperatureSensor:
+                return readTemperature(sensor->getIndex());
+                
+            case kSuperIOVoltageSensor:
+                return readVoltage(sensor->getIndex());
+                
+            case kFakeSMCTachometerSensor:
+                return readTachometer(sensor->getIndex());
+        }
+    
 	return 0;
 }
 
@@ -271,11 +126,6 @@ bool SuperIOMonitor::init(OSDictionary *properties)
 	DebugLog("initialising...");
 	
 	if (!super::init(properties))
-		return false;
-
-    isActive = false;
-    
-	if (!(sensors = OSArray::withCapacity(0)))
 		return false;
 	
 	model = 0;
@@ -319,66 +169,11 @@ bool SuperIOMonitor::start(IOService *provider)
 {		
 	DebugLog("starting...");
 	
-	if (!super::start(provider)) return false;
-    
-    if (!isActive) return true;
-	
-	if (!(fakeSMC = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
-		WarningLog("can't locate fake SMC device, kext will not load");
-		return false;
-	}
+	if (!super::start(provider)) 
+        return false;
     
     if (startPlugin())
         registerService(0);
 	
 	return true;
-}
-
-void SuperIOMonitor::stop(IOService* provider)
-{
-	DebugLog("stoping...");
-    
-    fakeSMC->callPlatformFunction(kFakeSMCRemoveHandler, true, this, NULL, NULL, NULL);
-    
-    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(sensors)) {
-		while (SuperIOSensor *sensor = OSDynamicCast(SuperIOSensor, iterator->getNextObject()))
-			sensor->release();
-        
-        iterator->release();
-    }
-    
-    sensors->flushCollection();
-	
-	super::stop(provider);
-}
-
-void SuperIOMonitor::free()
-{
-	DebugLog("freeing...");
-    
-	sensors->release();
-	
-	super::free();
-}
-
-IOReturn SuperIOMonitor::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
-{
-	if (functionName->isEqualTo(kFakeSMCGetValueCallback)) {
-		const char* name = (const char*)param1;
-		void * data = param2;
-		//UInt32 size = (UInt64)param3;
-		
-		if (name && data)
-			if (SuperIOSensor *sensor = getSensor(name)) {
-				UInt16 value = sensor->getValue();
-				
-				bcopy(&value, data, 2);
-				
-				return kIOReturnSuccess;
-			}
-		
-		return kIOReturnBadArgument;
-	}
-
-	return super::callPlatformFunction(functionName, waitForFunction, param1, param2, param3, param4);
 }

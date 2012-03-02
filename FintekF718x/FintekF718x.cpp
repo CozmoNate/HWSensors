@@ -67,10 +67,8 @@ UInt8 F718x::readByte(UInt8 reg)
 	return inb(address + FINTEK_DATA_REGISTER_OFFSET);
 } 
 
-UInt16 F718x::readTemperature(UInt32 index)
+SInt32 F718x::readTemperature(UInt32 index)
 {
-	float value;
-	
 	switch (model) 
 	{
 		case F71858: 
@@ -97,34 +95,21 @@ UInt16 F718x::readTemperature(UInt32 index)
 				
 				return (float)val / 128.0f;
 			} 
-			else 
-			{
-                return 0;
-			}
-		} break;
-		default: 
-		{
-            value = readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * (index + 1)) ^ 0x8000;
-		} break;
+			else return 0;
+		}
 	}
 	
-	return value;
+	return (SInt8)readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * (index + 1));
 }
 
-UInt16 F718x::readVoltage(UInt32 index)
+float F718x::readVoltage(UInt32 index)
 {
-	//UInt16 raw = readByte(FINTEK_VOLTAGE_BASE_REG + index);
-	
-	//if (index == 0) m_RawVCore = raw;
-	
-	float V = (index == 1 ? 0.5f : 1.0f) * (readByte(FINTEK_VOLTAGE_BASE_REG + index) << 4); // * 0.001f Exclude by trauma
-	
-	return V;
+	return (index == 1 ? 0.5f : 1.0f) * (readByte(FINTEK_VOLTAGE_BASE_REG + index) << 4) * 0.001f;
 }
 
-UInt16 F718x::readTachometer(UInt32 index)
+SInt32 F718x::readTachometer(UInt32 index)
 {
-	long value = readByte(FINTEK_FAN_TACHOMETER_REG[index]) << 8;
+	SInt32 value = readByte(FINTEK_FAN_TACHOMETER_REG[index]) << 8;
 	value |= readByte(FINTEK_FAN_TACHOMETER_REG[index] + 1);
 	
 	if (value > 0)

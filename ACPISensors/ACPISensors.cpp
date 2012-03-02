@@ -22,61 +22,11 @@
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(ACPIMonitor, FakeSMCPlugin)
 
-bool ACPIMonitor::addSensor(const char* method, const char* key, const char* type, unsigned char size)
+float ACPIMonitor::getSensorValue(FakeSMCSensor *sensor)
 {
-	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)key, (void *)type, (void *)size, (void *)this))
-		if (sensors->setObject(key, OSString::withCString(method))) {
-			InfoLog("%s registered", method);
-			return true;
-		}
-	
-	return false;
-}
-
-bool ACPIMonitor::addTachometer(const char* method, const char* caption)
-{
-	UInt8 length = 0;
-	void * data = 0;
-	
-	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
-		length = 0;
-		
-		bcopy(data, &length, 1);
-		
-		char name[5];
-		
-		snprintf(name, 5, KEY_FORMAT_FAN_SPEED, length); 
-		
-		if (addSensor(method, name, TYPE_FPE2, 2)) {
-			if (caption) {
-				snprintf(name, 5, KEY_FORMAT_FAN_ID, length); 
-				
-				if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)name, (void *)TYPE_CH8, (void *)((UInt64)strlen(caption)), (void *)caption))
-					WarningLog("error adding tachometer id value");
-			}			
-			
-			length++;
-			
-			if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)1, (void *)&length, 0))
-				WarningLog("error updating FNum value");
-			
-			return true;
-		}
-	}
-	else WarningLog("error reading FNum value");
-	
-	return false;
-}
-
-bool ACPIMonitor::init(OSDictionary *properties)
-{
-    if (!super::init(properties))
-		return false;
-	
-	if (!(sensors = OSDictionary::withCapacity(0)))
-		return false;
-	
-	return true;
+    
+    
+    return 0;
 }
 
 bool ACPIMonitor::start(IOService * provider)
@@ -101,7 +51,7 @@ bool ACPIMonitor::start(IOService * provider)
 			if (fanNames )
 				name = OSDynamicCast(OSString, fanNames->getObject(i));
 			
-			if (!addTachometer(key, name ? name->getCStringNoCopy() : 0))
+			if (!addTachometer(*((UInt32 *)key), name ? name->getCStringNoCopy() : 0))
 				WarningLog("Can't add tachometer sensor, key %s", key);
 		} 
 		else {
@@ -112,7 +62,7 @@ bool ACPIMonitor::start(IOService * provider)
 				if (fanNames )
 					name = OSDynamicCast(OSString, fanNames->getObject(i));
 				
-				if (!addTachometer(key, name ? name->getCStringNoCopy() : 0))
+				if (!addTachometer(*((UInt32 *)key), name ? name->getCStringNoCopy() : 0))
 					WarningLog("Can't add tachometer sensor, key %s", key);
 			} 
 			else
@@ -122,19 +72,19 @@ bool ACPIMonitor::start(IOService * provider)
 
 	//Next step - temperature keys
 	if (kIOReturnSuccess == acpiDevice->validateObject("TCPU"))
-		addSensor("TCPU", KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2);
+		addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2, kFakeSMCTemperatureSensor, *((UInt32 *)"TCPU"));
 
 	if (kIOReturnSuccess == acpiDevice->validateObject("TSYS"))
-		addSensor("TSYS", KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2);
+		addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2, kFakeSMCTemperatureSensor, *((UInt32 *)"TSYS"));
 
 	if (kIOReturnSuccess == acpiDevice->validateObject("TDIM"))
-		addSensor("TDIM", KEY_DIMM_TEMPERATURE, TYPE_SP78, 2);
+		addSensor(KEY_DIMM_TEMPERATURE, TYPE_SP78, 2, kFakeSMCTemperatureSensor, *((UInt32 *)"TDIM"));
 		
 	if (kIOReturnSuccess == acpiDevice->validateObject("TAMB"))
-		addSensor("TAMB", KEY_AMBIENT_TEMPERATURE, TYPE_SP78, 2);
+		addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, 2, kFakeSMCTemperatureSensor, *((UInt32 *)"TAMB"));
 	
     if (kIOReturnSuccess == acpiDevice->validateObject("TCPP"))
-        addSensor("TCPP", KEY_CPU_PROXIMITY_TEMPERATURE, TYPE_SP78, 2);
+        addSensor(KEY_CPU_PROXIMITY_TEMPERATURE, TYPE_SP78, 2, kFakeSMCTemperatureSensor, *((UInt32 *)"TCPP"));
 	// We should add also GPU reading stuff for those who has no supported plug in but have the value on EC registers
 	
 	
@@ -172,7 +122,7 @@ bool ACPIMonitor::start(IOService * provider)
 	if (kIOReturnSuccess == acpiDevice->validateObject("PSN0"))
 		addSensor("PSN0", "PC0C", TYPE_UI16, 2);
 
-	if (kIOReturnSuccess == acpiDevice->validateObject("PSN1"))
+	/*if (kIOReturnSuccess == acpiDevice->validateObject("PSN1"))
 		addSensor("PSN1", "PC1C", TYPE_UI16, 2);
 	
 	// AC Power/Battery
@@ -192,14 +142,12 @@ bool ACPIMonitor::start(IOService * provider)
         addSensor("BAK0", "B0AC", TYPE_SI16, 2);
 	
     if (kIOReturnSuccess == acpiDevice->validateObject("BAK1")) // Battery 0 Voltage
-        addSensor("BAK1", "B0AV", TYPE_UI16, 2);
+        addSensor("BAK1", "B0AV", TYPE_UI16, 2);*/
 	
 	//Keys from info.plist
-	OSString *tmpString = 0;
+	/*OSString *tmpString = 0;
 	OSData   *tmpObj = 0;
 	
-//	UInt32 tmpUI32;
-//	char tmpCString[7];
 	char acpiName[5];
 	char aKey[5];
 	
@@ -242,25 +190,11 @@ bool ACPIMonitor::start(IOService * provider)
 
 	} else {
 		WarningLog(" keysToAdd not found");
-	}
+	}*/
 
 	registerService(0);
 
 	return true;	
-}
-
-void ACPIMonitor::stop (IOService* provider)
-{
-    super::stop(provider);
-    
-    sensors->flushCollection();
-}
-
-void ACPIMonitor::free ()
-{
-	sensors->release();
-	
-	super::free();
 }
 
 #define MEGA10 10000000ull

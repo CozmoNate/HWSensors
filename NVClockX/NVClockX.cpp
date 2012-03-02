@@ -23,12 +23,12 @@
 #include "nvclock.h"
 #include "backend.h"
 
-/*#define Debug FALSE
+#define Debug FALSE
 
 #define LogPrefix "NVClockX: "
 #define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
 #define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
+#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
 
 NVClock nvclock;
 NVCard* nv_card;
@@ -44,66 +44,42 @@ inline bool is_digit(char c)
 	return false;
 }
 
-bool NVClockX::addSensor(const char* key, const char* type, unsigned char size, int index)
+float NVClockX::getSensorValue(FakeSMCSensor *sensor)
 {
-	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, true, (void *)key, (void *)type, (void *)size, (void *)this)) {
-		if (sensors->setObject(key, OSNumber::withNumber(index, 32))) {
-            return true;
-        } else {
-            WarningLog("%s key sensor not set", key);
-            return 0;
-        }
-    }
+    switch (sensor->getGroup()) {
+        case kNVCLockDiodeTemperatureSensor:
+            if (set_card(sensor->getIndex()) && nv_card->caps & GPU_TEMP_MONITORING)
+                return nv_card->get_gpu_temp(nv_card->sensor);
+            break;
+        case kNVCLockBoardTemperatureSensor:
+            if (set_card(sensor->getIndex())) {
+                if (nv_card->caps & BOARD_TEMP_MONITORING)
+                    return nv_card->get_board_temp(nv_card->sensor);
+                else 
+                    return nv_card->get_gpu_temp(nv_card->sensor);
+            }
+            break;
+                  
+        case kFakeSMCTachometerSensor:
+            if (set_card(sensor->getIndex())) {
+                if (nv_card->caps & I2C_FANSPEED_MONITORING)
+                    return nv_card->get_i2c_fanspeed_rpm(nv_card->sensor);
+                else if (nv_card->caps & GPU_FANSPEED_MONITORING)
+                    return nv_card->get_fanspeed();
+            }
+            break;
             
-	WarningLog("%s key sensor not added", key);
+        case kFakeSMCFrequencySensor:
+            return nv_card->get_gpu_speed();
+    }
     
-	return 0;
-}
-
-int NVClockX::addTachometer(int index)
-{
-	UInt8 length = 0;
-	void * data = 0;
-	
-	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
-		length = 0;
-		
-		bcopy(data, &length, 1);
-		
-		char name[5];
-		
-		snprintf(name, 5, KEY_FORMAT_FAN_SPEED, length); 
-		
-		if (addSensor(name, TYPE_FPE2, 2, index)) {
-		
-			length++;
-			
-			if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)1, (void *)&length, 0))
-				WarningLog("error updating FNum value");
-			
-			return length-1;
-		}
-	}
-	else WarningLog("error reading FNum value");
-		
-	return -1;
-}
-
-bool NVClockX::init(OSDictionary *properties)
-{
-	DebugLog("Initialising...");
-	
-    if (!super::init(properties))
-		return false;
-	
-	if (!(sensors = OSDictionary::withCapacity(0)))
-		return false;
-	
-	return true;
+    return 0;
 }
 
 IOService* NVClockX::probe(IOService *provider, SInt32 *score)
 {
+    DebugLog("Probing...");
+    
     if (super::probe(provider, score) != this) 
         return 0;
     
@@ -158,6 +134,8 @@ IOService* NVClockX::probe(IOService *provider, SInt32 *score)
         
         nvclock.num_cards++;
         
+        isActive = true;
+        
         return this;
     }
 	
@@ -177,10 +155,10 @@ bool NVClockX::start(IOService * provider)
 	
 	for (int index = 0; index < nvclock.num_cards; index++) {
 		/* set the card object to the requested card */
-		if(!set_card(index)){
+		if (!set_card(index)){
 			char buf[80];
 			WarningLog("%s", get_error(buf, 80));
-			return 0;
+			return this;
 		}
         
 		nvbios* bios=read_bios("");
@@ -194,43 +172,55 @@ bool NVClockX::start(IOService * provider)
 			WarningLog("continuing anyway");
 		}
         
+        UInt8 cardIndex = 0;
+        char name[5];
+        
+        for (UInt8 i = 0; i < 0xf; i++) {
+            snprintf(name, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, i); 
+            
+            IOService *handler = 0;
+            
+            if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)name, (void *)&handler, 0, 0)) {
+                snprintf(name, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, i); 
+                
+                if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)name, (void *)&handler, 0, 0)) {
+                    cardIndex = i;
+                    break;
+                }
+            }
+        }
+        
 		if(nv_card->caps & (GPU_TEMP_MONITORING)) {
             InfoLog("Adding temperature sensors");
             
             if(nv_card->caps & BOARD_TEMP_MONITORING) {
-                snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, index);
-                this->addSensor(key, TYPE_SP78, 2, index);
+                snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, cardIndex + index);
+                addSensor(key, TYPE_SP78, 2, kNVCLockDiodeTemperatureSensor, index);
                 
-				snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, index);
-				this->addSensor(key, TYPE_SP78, 2, index);
+				snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex + index);
+				addSensor(key, TYPE_SP78, 2, kNVCLockBoardTemperatureSensor, index);
 			}
             else {
-                snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, index);
-                this->addSensor(key, TYPE_SP78, 2, index);
+                snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex + index);
+                addSensor(key, TYPE_SP78, 2, kNVCLockBoardTemperatureSensor, index);
             }
 		}
 		
 		if (nv_card->caps & (I2C_FANSPEED_MONITORING | GPU_FANSPEED_MONITORING)){
             InfoLog("Adding tachometer sensor");
             
-			int fanIndex = addTachometer(index);
-			
-			if (fanIndex > -1) {
-				snprintf(key, 5, KEY_FORMAT_FAN_ID, fanIndex);
-				
-				char name[6]; 
-				
-				snprintf (name, 6, "GPU %X", index);
-				
-				fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)TYPE_CH8, (void *)strlen(name), (void *)name);
-			}
+            char name[6]; 
+            
+            snprintf (name, 6, "GPU %X", cardIndex + index);
+            
+			addTachometer(index, name);
 		}
 		
-        InfoLog("Adding frequency sensor");
+        /*InfoLog("Adding frequency sensor");
 		snprintf(key, 5, KEY_FORMAT_NON_APPLE_GPU_FREQUENCY, index);
-		this->addSensor(key, TYPE_UI16, 2, index);
+		this->addSensor(key, TYPE_UI16, 2, index);*/
 		
-		OSNumber* fanKey = OSDynamicCast(OSNumber, getProperty("FanSpeedPercentage"));
+		/*OSNumber* fanKey = OSDynamicCast(OSNumber, getProperty("FanSpeedPercentage"));
 		
 		if((fanKey!=NULL)&(nv_card->set_fanspeed!=NULL)) {
             InfoLog("Changing fan speed to %d", fanKey->unsigned8BitValue());
@@ -244,103 +234,10 @@ bool NVClockX::start(IOService * provider)
 			//InfoLog("%d", speedKey->unsigned16BitValue());
 			nv_card->set_gpu_speed(speedKey->unsigned16BitValue());
 			InfoLog("Overclocked to %d", (UInt16)nv_card->get_gpu_speed());
-		}
+		}*/
 	}
     
     registerService(0);
 	
 	return true;
-}
-
-void NVClockX::stop (IOService* provider)
-{
-	DebugLog("Stoping...");
-    
-    fakeSMC->callPlatformFunction(kFakeSMCRemoveHandler, true, this, NULL, NULL, NULL);
-	
-	sensors->flushCollection();
-	
-	super::stop(provider);
-}
-
-void NVClockX::free ()
-{
-	DebugLog("Freeing...");
-	
-	sensors->release();
-	
-	super::free();
-}
-
-IOReturn NVClockX::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
-{
-	if (functionName->isEqualTo(kFakeSMCGetValueCallback)) {
-		const char* key = (const char*)param1;
-		char * data = (char*)param2;
-		//UInt32 size = (UInt64)param3;
-		
-		if (key && data) {
-			if (OSNumber *number = OSDynamicCast(OSNumber, sensors->getObject(key))) {
-				
-				UInt32 index = number->unsigned16BitValue();
-				
-				if (index < nvclock.num_cards) {
-					
-					if (!set_card(index)){
-						char buf[80];
-						WarningLog("%s", get_error(buf, 80));
-						return kIOReturnSuccess;
-					}
-					
-					UInt16 value = 0;
-					
-					switch (key[0]) {
-						case 'T':
-							switch (key[3]) {
-								case 'D':
-									if (nv_card->caps & GPU_TEMP_MONITORING)
-                                        value = nv_card->get_gpu_temp(nv_card->sensor);
-									break;
-								case 'H':
-									if (nv_card->caps & BOARD_TEMP_MONITORING)
-										value = nv_card->get_board_temp(nv_card->sensor);
-                                    else 
-                                        value = nv_card->get_gpu_temp(nv_card->sensor);
-									break;
-							}
-							
-							//bcopy(&value, data, 2);
-							memcpy(data, &value, 2);
-							
-							break;
-						case 'F':
-                            if (nv_card->caps & I2C_FANSPEED_MONITORING)
-                                value = encode_16bit_fractional(TYPE_FP2E, nv_card->get_i2c_fanspeed_rpm(nv_card->sensor));
-                            else if(nv_card->caps & GPU_FANSPEED_MONITORING)
-                                value = encode_16bit_fractional(TYPE_FP2E, (UInt16)nv_card->get_fanspeed());
-                            else value = 0;
-                            
-                            //bcopy(&value, data, 2);
-                            memcpy(data, &value, 2);
-                            
-                            break;
-                        case 'C':
-                            value=(UInt16)nv_card->get_gpu_speed();
-                            
-                            //bcopy(&value, data, 2);
-                            memcpy(data, &value, 2);
-                            
-                            break;
-					}
-					return kIOReturnSuccess;					
-				}
-			}
-			
-			return kIOReturnBadArgument;
-		}
-		
-		return kIOReturnBadArgument;
-	}
-	
-	return super::callPlatformFunction(functionName, waitForFunction, param1, param2, param3, param4);
 }
