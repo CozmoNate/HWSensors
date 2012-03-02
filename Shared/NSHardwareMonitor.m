@@ -185,8 +185,8 @@
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWTemperatureGroup];
     
     [self addSensorWithKey:@KEY_CPU_HEATSINK_TEMPERATURE caption:GetLocalizedString(@"CPU Heatsink") group:kHWTemperatureGroup];
-    [self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"Northbridge") group:kHWTemperatureGroup];
-    [self addSensorWithKey:@KEY_PCH_DIE_TEMPERATURE caption:GetLocalizedString(@"System Chipset") group:kHWTemperatureGroup];
+    //[self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"Northbridge") group:kHWTemperatureGroup];
+    [self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"System Chipset") group:kHWTemperatureGroup];
     [self addSensorWithKey:@KEY_AMBIENT_TEMPERATURE caption:GetLocalizedString(@"Ambient") group:kHWTemperatureGroup];
     
     for (int i=0; i<0xA; i++) {
