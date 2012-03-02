@@ -12,9 +12,9 @@
 "MULTIPLIERS" = "МНОЖИТЕЛИ";
 "VOLTAGES" = "ДАТЧИКИ НАПРЯЖЕНИЯ";
 "FANS" = "ВЕНТИЛЯТОРЫ";
-"CPU Heatsink" = "Радиатор процессора";
-"GPU %X Board" = "Радиатор видеокарты %X";
-"GPU %X Core" = "Ядро видеокарты %X";
+"CPU Heatsink" = "Процессор, радиатор";
+"GPU %X Board" = "Видеокарта %X, радиатор ";
+"GPU %X Core" = "Видеокарта %X, ядро ";
 "GPU %X Proximity" = "Видеокарта %X";
 "Northbridge" = "Северный мост";
 "System Chipset" = "Системный чипсет";

@@ -86,6 +86,8 @@ bool ACPIMonitor::start(IOService * provider)
         temperatures = OSDynamicCast(OSDictionary, config->getObject("Temperatures"));
         
         if (temperatures) {
+            UInt16 count = 0;
+            
             OSCollectionIterator *iterator = OSCollectionIterator::withCollection(temperatures);
             
             iterator->reset();
@@ -94,10 +96,14 @@ bool ACPIMonitor::start(IOService * provider)
                 
                 OSString *method = OSDynamicCast(OSString, temperatures->getObject(key));
                 
-                if (method && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy())) 
+                if (method && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy())) {
                     if (!addSensor(key->getCStringNoCopy(), TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
                         WarningLog("can't add temperature sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
+                    else count++;
+                }
             };
+            
+            InfoLog("%d temperature sensor(s) added", count);
         }
         
         
@@ -105,6 +111,8 @@ bool ACPIMonitor::start(IOService * provider)
         voltages = OSDynamicCast(OSDictionary, config->getObject("Voltages"));
         
         if (voltages) {
+            UInt16 count = 0;
+            
             OSCollectionIterator *iterator = OSCollectionIterator::withCollection(voltages);
             
             iterator->reset();
@@ -117,10 +125,15 @@ bool ACPIMonitor::start(IOService * provider)
                     if (!addSensor(key->getCStringNoCopy(), TYPE_FP4C, 2, kFakeSMCVoltageSensor, 0))
                         WarningLog("can't add voltage sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
             };
+            
+            InfoLog("%d voltage sensor(s) added", count);
         }
         
         // Fans
         if (OSArray* fanNames = OSDynamicCast(OSArray, getProperty("Fan Names"))) {
+            
+            UInt16 count = 0;
+            
             for (int i=0; i<10; i++) 
             {
                 char key[5];
@@ -135,8 +148,11 @@ bool ACPIMonitor::start(IOService * provider)
                     
                     if (!addTachometer(i, name ? name->getCStringNoCopy() : 0))
                         WarningLog("Can't add tachometer sensor %d", i);
+                    else count++;
                 }
             }
+            
+            InfoLog("%d ttachometer sensor(s) added", count);
         }
     }
     
