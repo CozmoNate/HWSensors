@@ -628,7 +628,7 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
             
 			if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name))) {
 				if (key->getHandler()) {
-                    handler = (IOService *)key->getHandler();
+                    bcopy(key->getHandler(), handler, sizeof(handler));
                     return kIOReturnSuccess;
                 }
                 

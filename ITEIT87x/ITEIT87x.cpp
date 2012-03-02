@@ -223,7 +223,7 @@ bool IT87x::startPlugin()
 				}
 				else if (name->isEqualTo("System")) {				
                     //addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
-					if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor,i))
+					if (!addSensor(KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor,i))
 						WarningLog("error adding system temperature sensor");
 				}
 				else if (name->isEqualTo("Auxiliary")) {				
@@ -259,15 +259,15 @@ bool IT87x::startPlugin()
 			
 			if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
 				if (name->isEqualTo("Processor")) {
-					if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i))
+					if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
 						WarningLog("error adding CPU voltage sensor");
 				}
 				else if (name->isEqualTo("Memory")) {
-					if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i))
+					if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
 						WarningLog("error adding memory voltage sensor");
 				}
                 else if (name->isEqualTo("AVCC")) {
-                    if (!addSensor(KEY_DCIN_3V3_S5_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i)) {
+                    if (!addSensor(KEY_DCIN_3V3_S5_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding AVCC Voltage Sensor!");
                     }
                 }
@@ -278,7 +278,7 @@ bool IT87x::startPlugin()
                     else WarningLog("ERROR Adding 12V Voltage Sensor!");
                 }        
                 else if (name->isEqualTo("+3.3V VCC")) {
-                    if (!addSensor(KEY_CPU_VCCSA_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i)) {
+                    if (!addSensor(KEY_CPU_VCCSA_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding 3VCC Voltage Sensor!");
                     }
                 }
@@ -298,12 +298,12 @@ bool IT87x::startPlugin()
                     }
                 }
                 else if (name->isEqualTo("+3.3V VSB")) {
-                    if (!addSensor(KEY_CPU_VCCIO_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i)) {
+                    if (!addSensor(KEY_CPU_VCCIO_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding 3VSB Voltage Sensor!");
                     }
                 }
                 else if (name->isEqualTo("Battery")) {
-                    if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i)) {
+                    if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding battery Voltage Sensor!");
                     }
                 }
