@@ -65,6 +65,22 @@
 			<string>IOACPIPlatformDevice</string>
 			<key>Keys Association</key>
 			<dict>
+				<key>Voltages</key>
+				<dict>
+					<key>VDPR</key>
+					<string>VIN0</string>
+					<key>Vp0C</key>
+					<string>VIN1</string>
+					<key>Vp1C</key>
+					<string>VIN2</string>
+					<key>Vp2C</key>
+					<string>VIN3</string>
+					<key>Vp3C</key>
+					<string>VIN4</string>
+				</dict>
+			</dict>
+			<key>Keys Association - disabled</key>
+			<dict>
 				<key>Temperatures</key>
 				<dict>
 					<key>TN0P</key>

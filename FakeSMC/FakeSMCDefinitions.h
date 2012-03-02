@@ -46,18 +46,21 @@
 // Voltage (Volts)
 // CPU
 #define KEY_CPU_VOLTAGE                         "VC0C" // CPU 0 Core
+#define KEY_FORMAT_CPU_VOLTAGE                  "VC%XC" // CPU X Core
 #define KEY_CPU_VOLTAGE_RAW                     "VC0c" // CPU 0 V-Sense
 #define KEY_CPU_VCCIO_VOLTAGE                   "VC1C" // CPU VccIO PP1V05
 #define KEY_CPU_VCCSA_VOLTAGE                   "VC2C" // CPU VCCSA
 #define KEY_CPU_DRAM_VOLTAGE                    "VC5R" // VCSR-DIMM 1.5V S0
 #define KEY_CPU_PLL_VOLTAGE                     "VC8R" // CPU 1.8V S0
-#define KEY_CPU_VRMSUPPLY0_VOLTAGE              "VS0C" 
-#define KEY_CPU_VRMSUPPLY1_VOLTAGE              "VS1C"
-#define KEY_CPU_VRMSUPPLY2_VOLTAGE              "VS2C"
+#define KEY_CPU_VRMSUPPLY0_VOLTAGE              "VS0C" // VRM Supply 1
+#define KEY_CPU_VRMSUPPLY1_VOLTAGE              "VS1C" // VRM Supply 2
+#define KEY_CPU_VRMSUPPLY2_VOLTAGE              "VS2C" // VRM Supply 3
+#define KEY_CPU_VRMSUPPLY3_VOLTAGE              "VS3C" // VRM Supply 4
+#define KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE        "VS%XC" // Power Supply X
 
 // GPU
-#define KEY_GPU0_VOLTAGE                        "VC0G" // GPU 0 Core
-#define KEY_GPU1_VOLTAGE                        "VC1G" // GPU 1 Core
+#define KEY_GPU_VOLTAGE                         "VC0G" // GPU 0 Core
+#define KEY_FORMAT_GPU_VOLTAGE                  "VC%XG" // GPU X Core
 
 #define KEY_NORTHBRIDGE_VOLTAGE                 "VN0C" // 
 #define KEY_PCH_VOLTAGE                         "VN1C" // PCH 1.05V S0, VS1C-PP1V05 S0 SB, VV1R-1.05 S0
@@ -71,6 +74,7 @@
 #define KEY_POWERSUPPLY2_VOLTAGE                "Vp1C" // Power Supply 2
 #define KEY_POWERSUPPLY3_VOLTAGE                "Vp2C" // Power Supply 3
 #define KEY_POWERSUPPLY4_VOLTAGE                "Vp3C" // Power Supply 4
+#define KEY_FORMAT_POWERSUPPLY_VOLTAGE          "Vp%XC" // Power Supply X
 
 // Current (Amps)
 #define KEY_CPU_CURRENT                         "IC0C" // CPU 0 Core

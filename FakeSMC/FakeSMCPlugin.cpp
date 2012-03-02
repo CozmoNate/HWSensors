@@ -172,7 +172,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
     UInt8 length = 0;
 	void * data = 0;
     
-	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
+	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
 		length = 0;
 		
 		bcopy(data, &length, 1);

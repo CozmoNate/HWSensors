@@ -46,7 +46,7 @@ OSDefineMetaClassAndStructors(X3100monitor, FakeSMCPlugin)
 float X3100monitor::getSensorValue(FakeSMCSensor *sensor)
 {    
     if (sensor->getGroup() == kFakeSMCTemperatureSensor) {
-        short value;
+        short value = 0;
         
         if (mmio_base) {
             

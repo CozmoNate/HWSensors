@@ -24,18 +24,23 @@ OSDefineMetaClassAndStructors(ACPIMonitor, FakeSMCPlugin)
 
 float ACPIMonitor::getSensorValue(FakeSMCSensor *sensor)
 {
+#if __LP64__
     UInt64 value;
+#else
+    UInt32 value;
+#endif
     
     switch(sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
-            if (acpiDevice->evaluateInteger(OSDynamicCast(OSSymbol, temperatures->getObject(sensor->getKey())), &value))
+            if (kIOReturnSuccess == acpiDevice->evaluateInteger(OSDynamicCast(OSString, temperatures->getObject(sensor->getKey()))->getCStringNoCopy(), &value))
                 return (float)value;
 
             break;
         case kFakeSMCVoltageSensor:
-            if (acpiDevice->evaluateInteger(OSDynamicCast(OSSymbol, temperatures->getObject(sensor->getKey())), &value))
+            if (kIOReturnSuccess == acpiDevice->evaluateInteger(OSDynamicCast(OSString, voltages->getObject(sensor->getKey()))->getCStringNoCopy(), &value))
                 // all floating point values returned from ACPI should be 
-                // multiplied to 1000 (simple integer encoding)
+                // multiplied to 1000 (simple integer encoding and native 
+                // format for most monitoring devices)
                 return (float)value * 0.001f; 
                 
             break;
@@ -76,74 +81,65 @@ bool ACPIMonitor::start(IOService * provider)
         return true;
     }
     
-    OSDictionary *config = OSDynamicCast(OSDictionary, getProperty("Keys Association"));
-    
-    // Temperatures
-    temperatures = OSDynamicCast(OSDictionary, config->getObject("Temperatures"));
-    
-    if (temperatures) {
-        OSCollectionIterator *iterator = OSCollectionIterator::withCollection(temperatures);
+    if (OSDictionary *config = OSDynamicCast(OSDictionary, getProperty("Keys Association"))) {
+        // Temperatures
+        temperatures = OSDynamicCast(OSDictionary, config->getObject("Temperatures"));
         
-        iterator->reset();
-        
-        OSString *method = NULL;
-        
-        do {
-            method = OSDynamicCast(OSString, iterator->getNextObject());
+        if (temperatures) {
+            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(temperatures);
             
-            OSString *key = OSDynamicCast(OSString, temperatures->getObject(method));
+            iterator->reset();
             
-            if (key) 
-                if (!addSensor(key->getCStringNoCopy(), TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
-                    WarningLog("can't add temperature sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
-            
-        } while (method);
-    }
-        
-        
-    // Voltages
-    voltages = OSDynamicCast(OSDictionary, config->getObject("Voltages"));
-    
-    if (voltages) {
-        OSCollectionIterator *iterator = OSCollectionIterator::withCollection(temperatures);
-        
-        iterator->reset();
-        
-        OSString *method = OSDynamicCast(OSString, iterator->getNextObject());
-        
-        while (method) {
-            
-            OSString *key = OSDynamicCast(OSString, temperatures->getObject(method));
-            
-            if (key) 
-                if (!addSensor(key->getCStringNoCopy(), TYPE_FP4C, 2, kFakeSMCTemperatureSensor, 0))
-                    WarningLog("can't add voltage sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
-            
-            method = OSDynamicCast(OSString, iterator->getNextObject());
-        };
-    }
-        
-    // Fans
-    OSArray* fanNames = OSDynamicCast(OSArray, getProperty("Fan Names"));
-    
-    if (fanNames)
-        for (int i=0; i<10; i++) 
-        {
-            char key[5];
-            
-            snprintf(key, 5, ACPI_NAME_FORMAT_TACHOMETER, i);
-            
-            if (kIOReturnSuccess == acpiDevice->validateObject(key)) {
-                OSString* name = NULL;
+            while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
                 
-                if (fanNames)
-                    name = OSDynamicCast(OSString, fanNames->getObject(i));
+                OSString *method = OSDynamicCast(OSString, temperatures->getObject(key));
                 
-                if (!addTachometer(i, name ? name->getCStringNoCopy() : 0))
-                    WarningLog("Can't add tachometer sensor %d", i);
+                if (method && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy())) 
+                    if (!addSensor(key->getCStringNoCopy(), TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
+                        WarningLog("can't add temperature sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
+            };
+        }
+        
+        
+        // Voltages
+        voltages = OSDynamicCast(OSDictionary, config->getObject("Voltages"));
+        
+        if (voltages) {
+            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(voltages);
+            
+            iterator->reset();
+            
+            while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
+                
+                OSString *method = OSDynamicCast(OSString, voltages->getObject(key));
+                
+                if (method && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy())) 
+                    if (!addSensor(key->getCStringNoCopy(), TYPE_FP4C, 2, kFakeSMCVoltageSensor, 0))
+                        WarningLog("can't add voltage sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
+            };
+        }
+        
+        // Fans
+        if (OSArray* fanNames = OSDynamicCast(OSArray, getProperty("Fan Names"))) {
+            for (int i=0; i<10; i++) 
+            {
+                char key[5];
+                
+                snprintf(key, 5, ACPI_NAME_FORMAT_TACHOMETER, i);
+                
+                if (kIOReturnSuccess == acpiDevice->validateObject(key)) {
+                    OSString* name = NULL;
+                    
+                    if (fanNames)
+                        name = OSDynamicCast(OSString, fanNames->getObject(i));
+                    
+                    if (!addTachometer(i, name ? name->getCStringNoCopy() : 0))
+                        WarningLog("Can't add tachometer sensor %d", i);
+                }
             }
         }
-
+    }
+    
 	registerService(0);
 
 	return true;	
