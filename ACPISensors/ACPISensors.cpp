@@ -81,7 +81,7 @@ bool ACPIMonitor::start(IOService * provider)
         return true;
     }
     
-    if (OSDictionary *config = OSDynamicCast(OSDictionary, getProperty("Keys Association"))) {
+    if (OSDictionary *config = OSDynamicCast(OSDictionary, getProperty("Keys Associations"))) {
         // Temperatures
         temperatures = OSDynamicCast(OSDictionary, config->getObject("Temperatures"));
         
