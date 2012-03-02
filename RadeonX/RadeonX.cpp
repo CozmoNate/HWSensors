@@ -61,34 +61,34 @@ bool RadeonMonitor::initCard()
 		return false;
     
 	switch (rinfo->ChipFamily) {
-		case CHIP_FAMILY_R600:
-		case CHIP_FAMILY_RV610:
-		case CHIP_FAMILY_RV620:
-		case CHIP_FAMILY_RV630:
-		case CHIP_FAMILY_RV670:
-			//setup_R6xx();
-			tempFamily = R6xx;
-			break;
-		case CHIP_FAMILY_R700:
-		case CHIP_FAMILY_R710:
+        case CHIP_FAMILY_R600:
+        case CHIP_FAMILY_RV610:
+        case CHIP_FAMILY_RV620:
+        case CHIP_FAMILY_RV630:
+        case CHIP_FAMILY_RV670:
+            //setup_R6xx();
+            tempFamily = R6xx;
+            break;
+        case CHIP_FAMILY_R700:
+        case CHIP_FAMILY_R710:
         case CHIP_FAMILY_RV710:  
-		case CHIP_FAMILY_R730:
-		case CHIP_FAMILY_RV740:
-		case CHIP_FAMILY_RV770:
+        case CHIP_FAMILY_R730:
+        case CHIP_FAMILY_RV740:
+        case CHIP_FAMILY_RV770:
         case CHIP_FAMILY_RS780:  
-		case CHIP_FAMILY_RV790:
-			//setup_R7xx();
-			tempFamily = R7xx;
-			break;
-		case CHIP_FAMILY_Evergreen:
-			//setup_Evergreen();
-			tempFamily = R8xx;
-			break;
-			
-		default:
-			InfoLog("sorry, but your card %04lx is not supported!\n", (long unsigned int)(rinfo->device_id));
-			return false;
-	}
+        case CHIP_FAMILY_RV790:
+            //setup_R7xx();
+            tempFamily = R7xx;
+            break;
+        case CHIP_FAMILY_Evergreen:
+            //setup_Evergreen();
+            tempFamily = R8xx;
+            break;
+            
+        default:
+            InfoLog("sorry, but your card %04lx is not supported!\n", (long unsigned int)(rinfo->device_id));
+            return false;
+    }
 	
 	return true;
 }
@@ -280,12 +280,13 @@ bool RadeonMonitor::start(IOService * provider)
 	
     char name[5];
     
-    for (UInt8 i = 0; i < 0xf; i++) {
+    for (UInt8 i = 0; i <= 0xf; i++) {
         snprintf(name, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, i); 
         
         IOService *handler = 0;
         
         if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)name, (void *)&handler, 0, 0)) {
+            
             snprintf(name, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, i); 
             
             if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)name, (void *)&handler, 0, 0)) {

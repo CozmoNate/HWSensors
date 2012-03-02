@@ -15,7 +15,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.0d1</string>
+	<string>2.0.0</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Radeon Cards Monitoring Plugin</key>
@@ -45,7 +45,7 @@
 		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>2.6</string>
 		<key>org.netkas.FakeSMC</key>
-		<string>4.0.0</string>
+		<string>4.2.0</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>
