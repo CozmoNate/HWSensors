@@ -222,8 +222,7 @@ bool IT87x::startPlugin()
 						WarningLog("error adding heatsink temperature sensor");
 				}
 				else if (name->isEqualTo("System")) {				
-                    //addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
-					if (!addSensor(KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor,i))
+					if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor,i))
 						WarningLog("error adding system temperature sensor");
 				}
 				else if (name->isEqualTo("Auxiliary")) {				
