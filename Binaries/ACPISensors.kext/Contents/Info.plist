@@ -63,10 +63,22 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
-			<key>keysToAdd</key>
+			<key>Keys Association</key>
 			<dict>
-				<key>TCRK</key>
-				<string>TW0P</string>
+				<key>Temperatures</key>
+				<dict>
+					<key>TN0P</key>
+					<string>TSYS</string>
+					<key>Th0H</key>
+					<string>TCPU</string>
+				</dict>
+				<key>Voltages</key>
+				<dict>
+					<key>VC0C</key>
+					<string>VCPU</string>
+					<key>VM0R</key>
+					<string>VMEM</string>
+				</dict>
 			</dict>
 		</dict>
 	</dict>

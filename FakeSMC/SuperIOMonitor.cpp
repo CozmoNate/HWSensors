@@ -14,7 +14,7 @@
 #include "FakeSMCDefinitions.h"
 #include "FakeSMCValueEncoder.h"
 
-#define Debug TRUE
+#define Debug FALSE
 
 #define LogPrefix "SuperIOMonitor: "
 #define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)

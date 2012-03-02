@@ -182,16 +182,16 @@
     //Temperatures
     
     for (int i=0; i<0xA; i++)
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i] group:kHWTemperatureGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i + 1] group:kHWTemperatureGroup];
     
     [self addSensorWithKey:@KEY_CPU_HEATSINK_TEMPERATURE caption:GetLocalizedString(@"CPU Heatsink") group:kHWTemperatureGroup];
     [self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"Motherboard") group:kHWTemperatureGroup];
     [self addSensorWithKey:@KEY_AMBIENT_TEMPERATURE caption:GetLocalizedString(@"Ambient") group:kHWTemperatureGroup];
     
     for (int i=0; i<0xA; i++) {
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Core"),i] group:kHWTemperatureGroup];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_BOARD_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Board"),i] group:kHWTemperatureGroup];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Proximity"),i] group:kHWTemperatureGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Core"),i + 1] group:kHWTemperatureGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_BOARD_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Board"),i + 1] group:kHWTemperatureGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Proximity"),i + 1] group:kHWTemperatureGroup];
     }
     
     if ([smartReporter drives]) {
@@ -228,7 +228,7 @@
     for (int i=0; i<10; i++) {
         NSString * caption = [[NSString alloc] initWithData:[NSHardwareMonitor getValueFromKeyInfo:[NSHardwareMonitor populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
         if ([caption length]<=0) 
-            caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i];
+            caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
         
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWTachometerGroup];
     }
@@ -241,7 +241,7 @@
     [self addSensorWithKey:@KEY_DCIN_3V3_S5_VOLTAGE caption:GetLocalizedString(@"AVCC") group:kHWVoltageGroup ];
     [self addSensorWithKey:@KEY_CPU_VCCSA_VOLTAGE caption:GetLocalizedString(@"+3.3V VCC") group:kHWVoltageGroup ];
     [self addSensorWithKey:@KEY_CPU_VCCIO_VOLTAGE caption:GetLocalizedString(@"+3.3V VSB") group:kHWVoltageGroup ];
-    [self addSensorWithKey:@KEY_POWERBATTERY_VOLTAGE caption:GetLocalizedString(@"Battery") group:kHWVoltageGroup ];
+    [self addSensorWithKey:@KEY_POWERBATTERY_VOLTAGE caption:GetLocalizedString(@"Power/Battery") group:kHWVoltageGroup ];
     [self addSensorWithKey:@KEY_CPU_VRMSUPPLY0_VOLTAGE caption:GetLocalizedString(@"VRM Supply 0") group:kHWVoltageGroup ];
     [self addSensorWithKey:@KEY_CPU_VRMSUPPLY1_VOLTAGE caption:GetLocalizedString(@"VRM Supply 1") group:kHWVoltageGroup ];
     [self addSensorWithKey:@KEY_CPU_VRMSUPPLY2_VOLTAGE caption:GetLocalizedString(@"VRM Supply 2") group:kHWVoltageGroup ];

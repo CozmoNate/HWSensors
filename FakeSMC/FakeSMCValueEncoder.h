@@ -2,6 +2,8 @@
 //  FakeSMCValueEncoder.h
 //  HWSensors
 //
+//  Special thanks to OldNavi for encoding/decoding method
+//
 //  Created by kozlek on 28/02/12.
 //  Copyright (c) 2012 kozlek. All rights reserved.
 //

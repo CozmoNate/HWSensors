@@ -12,19 +12,32 @@
 
 #include "FakeSMCPlugin.h"
 
+#define ACPI_NAME_CPU_HEATSINK          "TCPU"
+#define ACPI_NAME_PCH_HEATSINK          "TPCH"
+#define ACPI_NAME_AMBIENT_TEMPERATURE   "TAMB"
+#define ACPI_NAME_PROXIMITY_TEMPERATURE "TPRX"
+
+#define ACPI_NAME_CPU_VOLTAGE           "VCPU"
+#define ACPI_NAME_PCH_VOLTAGE           "VPCH"
+#define ACPI_NAME_MEMORY_VOLTAGE        "VMEM"
+#define ACPI_NAME_BATTERY_VOLTAGE       "VBAT"
+
+#define ACPI_NAME_FORMAT_TACHOMETER     "RPM%X"
+
 class ACPIMonitor : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(ACPIMonitor)
     
 private:
-	IOACPIPlatformDevice *	acpiDevice;
+	IOACPIPlatformDevice    *acpiDevice;
+    
+    OSDictionary            *temperatures;
+    OSDictionary            *voltages;
     
 protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
 public:
-    virtual bool			init(OSDictionary *properties=0);
+    virtual IOService*		probe(IOService *provider, SInt32 *score);
     virtual bool			start(IOService *provider);
-
-	virtual IOReturn        callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 ); 
 };

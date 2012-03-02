@@ -62,7 +62,6 @@
 #define KEY_NORTHBRIDGE_VOLTAGE                 "VN0C" // 
 #define KEY_PCH_VOLTAGE                         "VN1C" // PCH 1.05V S0, VS1C-PP1V05 S0 SB, VV1R-1.05 S0
 
-#define KEY_POWER_BATTERY_VOLTAGE               "VP0R" // Power/Battery (iStat)
 #define KEY_DCIN_12V_S0_VOLTAGE                 "VDPR" // VD2R-Power Supply 12V S0 VD0R DC In VDPR AC/DC
 #define KEY_DCIN_3V3_S5_VOLTAGE                 "VS8C" // PP3V3 S5 SB
 
