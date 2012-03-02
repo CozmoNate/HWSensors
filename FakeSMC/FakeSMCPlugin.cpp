@@ -201,10 +201,12 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
                             WarningLog("can't add tachometer name for key %s", key);
                     }
                     
-                    length++;
-                    
-                    if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)1, (void *)&length, 0))
-                        WarningLog("can't update FNum value");
+                    if (i + 1 > length) {
+                        length++;
+                        
+                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)1, (void *)&length, 0))
+                            WarningLog("can't update FNum value");
+                    }
                     
                     return sensor;
                 }
