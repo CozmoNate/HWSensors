@@ -107,15 +107,15 @@ private:
     
 	UInt8					readByte(UInt8 reg);
 	void					writeByte(UInt8 reg, UInt8 value);
-	
+
 	virtual void			enter();
 	virtual void			exit();
     virtual bool			probePort();
     virtual bool			startPlugin();
 	
-	virtual UInt16			readTemperature(UInt32 index);
-	virtual UInt16			readVoltage(UInt32 index);
-	virtual UInt16			readTachometer(UInt32 index);
+	virtual SInt32			readTemperature(UInt32 index);
+	virtual float			readVoltage(UInt32 index);
+	virtual SInt32			readTachometer(UInt32 index);
 	
     virtual UInt8			getPortsCount();
 	virtual const char *	getModelName();

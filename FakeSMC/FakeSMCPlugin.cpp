@@ -12,7 +12,7 @@
 #include "FakeSMCDefinitions.h"
 #include "FakeSMCValueEncoder.h"
 
-#define Debug FALSE
+#define Debug TRUE
 
 #define LogPrefix "FakeSMCPlugin: "
 #define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
@@ -33,6 +33,11 @@ FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey,
     }
 	
     return me;
+}
+
+const char *FakeSMCSensor::getKey()
+{
+	return key;
 }
 
 const char *FakeSMCSensor::getType()
@@ -62,16 +67,10 @@ bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const
 	
 	if (!(owner = aOwner))
 		return false;
-    
-    if (!(key = (char *)IOMalloc(5)))
-		return false;
 
 	bzero(key, 5);
     bcopy(aKey, key, 4);
-    
-	if (!(type = (char *)IOMalloc(5)))
-		return false;
-	
+    	
     bzero(type, 5);
 	bcopy(aType, type, 4);
 	
@@ -138,33 +137,24 @@ void FakeSMCSensor::encodeValue(float value, void *outBuffer)
     }
 }
 
-void FakeSMCSensor::free()
-{	
-    if (key)
-		IOFree(key, 5);
-    
-	if (type)
-		IOFree(type, 5);
-	
-	OSObject::free();
-}
-
 // Plug-In
 
 #define super IOService
 OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)
 
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
-{
-    if (getSensor(key))
+{   
+    if (getSensor(key)) {
+        DebugLog("will not add sensor for key %s, key handler already assigned", key);
 		return NULL;
+    }
 	
 	if(kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)key, (void *)type, (void *)size, (void *)this)){
         if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index)) {
-            if (sensors->setObject(key, sensor)) {
+            if (sensors->setObject(key, sensor))
                 return sensor;
-            }
-            else sensor->release();
+            else 
+                sensor->release();
         }
     }
 	
@@ -175,7 +165,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
 {
     UInt8 length = 0;
 	void * data = 0;
-	
+    
 	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
 		length = 0;
 		
@@ -219,13 +209,18 @@ float FakeSMCPlugin::getSensorValue(FakeSMCSensor *sensor)
 bool FakeSMCPlugin::init(OSDictionary *properties)
 {
 	DebugLog("initialising...");
+    
+    if (!super::init(properties))
+        return false;
 	
     isActive = false;
     
-    if (!(sensors = OSDictionary::withCapacity(0)))
+    sensors = OSDictionary::withCapacity(0);
+    
+    if (!sensors)
         return false;
     
-	return super::init(properties);
+	return true;
 }
 
 IOService * FakeSMCPlugin::probe(IOService *provider, SInt32 *score)
@@ -244,6 +239,8 @@ bool FakeSMCPlugin::start(IOService *provider)
 	
 	if (!super::start(provider)) 
         return false;
+    
+    if (!isActive) return true;
     
 	if (!(fakeSMC = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
 		WarningLog("can't locate FakeSMCDevice");

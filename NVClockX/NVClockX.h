@@ -13,28 +13,20 @@
 #define kGenericPCIDevice "IOPCIDevice"
 #define kNVGraphicsDevice "IONDRVDevice"
 
-//NVClock nvclock;
-//NVCard* nv_card;
+#define kNVCLockBoardTemperatureSensor  1201
+#define kNVCLockDiodeTemperatureSensor  1202
 
 class NVClockX : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(NVClockX)    
 	
 private:
-	OSDictionary *	sensors;
-	
-	IOMemoryMap *	nvio;
-	
-	bool			addSensor(const char* key, const char* type, unsigned char size, int index);
-	int				addTachometer(int index);
-	
+	IOMemoryMap *       nvio;
+
+protected:
+    virtual float       getSensorValue(FakeSMCSensor *sensor);
+    
 public:
-	virtual bool		init(OSDictionary *properties=0);
     virtual IOService*	probe(IOService *provider, SInt32 *score);
     virtual bool		start(IOService *provider);
-	virtual void		stop(IOService *provider);
-	virtual void		free(void);
-	
-	virtual IOReturn	callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 ); 
-	
 };

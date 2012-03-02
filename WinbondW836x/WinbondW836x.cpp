@@ -90,7 +90,7 @@ UInt64 W836x::setBit(UInt64 target, UInt16 bit, UInt32 value)
 	return value;
 }
 
-UInt16 W836x::readTemperature(UInt32 index)
+SInt32 W836x::readTemperature(UInt32 index)
 {
 	UInt32 value = readByte(WINBOND_TEMPERATURE_BANK[index], WINBOND_TEMPERATURE[index]) << 1;
 	
@@ -102,7 +102,7 @@ UInt16 W836x::readTemperature(UInt32 index)
 	return temperature <= 125 && temperature >= -55 ? temperature : 0;
 }
 
-UInt16 W836x::readVoltage(UInt32 index)
+float W836x::readVoltage(UInt32 index)
 {
 	float voltage = 0;
 	float gain = 1;
@@ -125,7 +125,7 @@ UInt16 W836x::readVoltage(UInt32 index)
 		voltage = (V << 3) * gain;
 	}
 	
-	return voltage;
+	return voltage * 0.001f;
 }
 
 void W836x::updateTachometers()
@@ -184,7 +184,7 @@ void W836x::updateTachometers()
 }
 
 
-UInt16 W836x::readTachometer(UInt32 index)
+SInt32 W836x::readTachometer(UInt32 index)
 {
 	if (fanValueObsolete[index])
 		updateTachometers();

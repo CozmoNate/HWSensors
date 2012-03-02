@@ -94,9 +94,9 @@ private:
 	virtual void			enter();
 	virtual void			exit();
 	
-	virtual UInt16			readTemperature(UInt32 index);
-	virtual UInt16			readVoltage(UInt32 index);
-	virtual UInt16			readTachometer(UInt32 index);
+	virtual SInt32			readTemperature(UInt32 index);
+	virtual float			readVoltage(UInt32 index);
+	virtual SInt32			readTachometer(UInt32 index);
 	
 	virtual const char *	getModelName();
 	
