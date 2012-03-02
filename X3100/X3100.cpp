@@ -125,14 +125,13 @@ bool X3100monitor::start(IOService * provider)
 	char name[5];
     
     for (UInt8 i = 0; i < 0xf; i++) {
+        
         snprintf(name, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, i); 
         
-        IOService *handler = 0;
-        
-        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)name, (void *)&handler, 0, 0)) {
+        if (!isKeyHandled(name)) {
             snprintf(name, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, i); 
             
-            if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)name, (void *)&handler, 0, 0)) {
+            if (!isKeyHandled(name)) {
                 if (!addSensor(name, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
                     WarningLog("Can't add temperature sensor for key %s", name);
                 break;
