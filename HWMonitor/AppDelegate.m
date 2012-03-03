@@ -125,7 +125,7 @@
     
     [statusItem setMenu:statusMenu];
     [statusItem setHighlightMode:YES];
-    [statusItem setImage:[NSImage imageNamed:@"thermo"]];
+    [statusItem setImage:[NSImage imageNamed:@"thermobump"]];
     [statusItem setAlternateImage:[NSImage imageNamed:@"thermotemplate"]];
     
     statusItemFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0];
