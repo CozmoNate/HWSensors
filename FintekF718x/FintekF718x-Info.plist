@@ -34,6 +34,10 @@
 			<string>ACPI</string>
 			<key>Sensors Configuration</key>
 			<dict>
+				<key>TEMPIN0</key>
+				<string>CPU</string>
+				<key>TEMPIN1</key>
+				<string>System</string>
 				<key>FANIN0</key>
 				<string></string>
 				<key>FANIN1</key>
@@ -44,6 +48,8 @@
 				<string></string>
 				<key>FANIN4</key>
 				<string></string>
+				<key>VIN0</key>
+				<string>CPU</string>
 			</dict>
 		</dict>
 	</dict>

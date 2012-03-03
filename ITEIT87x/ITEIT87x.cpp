@@ -78,6 +78,21 @@ void IT87x::writeByte(UInt8 reg, UInt8 value)
 	outb(address + ITE_DATA_REGISTER_OFFSET, value);
 }
 
+UInt8 IT87x::temperatureSensorsLimit()
+{
+    return 3;
+}
+
+UInt8 IT87x::voltageSensorsLimit()
+{
+    return 9;
+}
+
+UInt8 IT87x::tachometerSensorsLimit()
+{
+    return 5;
+}
+
 SInt32 IT87x::readTemperature(UInt32 index)
 {
 	return readByte(ITE_TEMPERATURE_BASE_REG + index);
@@ -196,142 +211,6 @@ bool IT87x::probePort()
         voltageSpecificGain[i] = 1;
 	
 	return true;
-}
-
-bool IT87x::startPlugin()
-{
-    InfoLog("found ITE %s", getModelName());
-	
-	OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"));
-    OSDictionary* configuration = list ? OSDynamicCast(OSDictionary, list->getObject(getModelName())) : 0;
-	
-    if (list && !configuration) 
-        configuration = OSDynamicCast(OSDictionary, list->getObject("Default"));
-        
-	// Temperature Sensors
-	if (configuration) {
-		for (int i = 0; i < 4; i++) 
-		{				
-			char key[8];
-			
-			snprintf(key, 8, "TEMPIN%X", i);
-			
-			if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
-				if (name->isEqualTo("Processor")) {
-					if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
-						WarningLog("error adding heatsink temperature sensor");
-				}
-				else if (name->isEqualTo("System")) {				
-					if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
-						WarningLog("error adding system temperature sensor");
-				}
-				else if (name->isEqualTo("Auxiliary")) {				
-					if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
-						WarningLog("error adding auxiliary temperature sensor");
-				}
-            }
-		}
-	}
-	else {
-        
-        DebugLog("adding default temperature sensors");
-        
-		if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 0))
-			WarningLog("error adding heatsink temperature sensor");
-		
-		if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 1))
-			WarningLog("error adding auxiliary temperature sensor");
-		
-		if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 2))
-			WarningLog("error adding system temperature sensor");
-	}
-    
-    DebugLog("adding voltage sensors");
-	
-	// Voltage
-	if (configuration) {
-		for (int i = 0; i < 9; i++)
-		{				
-			char key[5];
-			
-			snprintf(key, 5, "VIN%X", i);
-			
-			if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
-				if (name->isEqualTo("Processor")) {
-					if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-						WarningLog("error adding CPU voltage sensor");
-				}
-				else if (name->isEqualTo("Memory")) {
-					if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-						WarningLog("error adding memory voltage sensor");
-				}
-                else if (name->isEqualTo("AVCC")) {
-                    if (!addSensor(KEY_DCIN_3V3_S5_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
-                        WarningLog("ERROR Adding AVCC Voltage Sensor!");
-                    }
-                }
-                else if (name->isEqualTo("+12V")) {
-                    if (addSensor(KEY_DCIN_12V_S0_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
-                        //voltageSpecificGain[i] = 3;
-                    }
-                    else WarningLog("ERROR Adding 12V Voltage Sensor!");
-                }        
-                else if (name->isEqualTo("+3.3V VCC")) {
-                    if (!addSensor(KEY_CPU_VCCSA_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
-                        WarningLog("ERROR Adding 3VCC Voltage Sensor!");
-                    }
-                }
-                else if (name->isEqualTo("VRM1")) {
-                    if (!addSensor(KEY_CPU_VRMSUPPLY0_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
-                        WarningLog("ERROR Adding UNKN1 Voltage Sensor!");
-                    }
-                }
-                else if (name->isEqualTo("VRM2")) {
-                    if (!addSensor(KEY_CPU_VRMSUPPLY1_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
-                        WarningLog("ERROR Adding UNKN2 Voltage Sensor!");
-                    }
-                }
-                else if (name->isEqualTo("VRM3")) {
-                    if (!addSensor(KEY_CPU_VRMSUPPLY2_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
-                        WarningLog("ERROR Adding UNKN3 Voltage Sensor!");
-                    }
-                }
-                else if (name->isEqualTo("+3.3V VSB")) {
-                    if (!addSensor(KEY_CPU_VCCIO_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
-                        WarningLog("ERROR Adding 3VSB Voltage Sensor!");
-                    }
-                }
-                else if (name->isEqualTo("Battery")) {
-                    if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
-                        WarningLog("ERROR Adding battery Voltage Sensor!");
-                    }
-                }
-			}
-		}
-	}
-	
-    DebugLog("adding tachometer sensors");
-    
-	// Tachometers
-	for (int i = 0; i < 5; i++) {
-		OSString* name = NULL;
-		
-		if (configuration) {
-			char key[7];
-			
-			snprintf(key, 7, "FANIN%X", i);
-			
-			name = OSDynamicCast(OSString, configuration->getObject(key));
-		}
-		
-		UInt64 nameLength = name ? name->getLength() : 0;
-		
-		if (readTachometer(i) > 10 || nameLength > 0)
-			if (!addTachometer(i, (nameLength > 0 ? name->getCStringNoCopy() : 0)))
-				WarningLog("error adding tachometer sensor %d", i);
-	}
-    
-    return true;
 }
 
 UInt8 IT87x::getPortsCount()

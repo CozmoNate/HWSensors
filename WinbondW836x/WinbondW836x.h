@@ -121,14 +121,19 @@ private:
     UInt64                  setBit(UInt64 target, UInt16 bit, UInt32 value);
 	
 	virtual bool			probePort();
-    virtual bool			startPlugin();
 	virtual void			enter();
 	virtual void			exit();
     
-   	void					updateTachometers();
+    virtual bool            addTemperatureSensors(OSDictionary *configuration);
+    virtual bool            addTachometerSensors(OSDictionary *configuration);
+    
+    virtual UInt8           temperatureSensorsLimit();
+    virtual UInt8           voltageSensorsLimit();
+    virtual UInt8           tachometerSensorsLimit();
     
 	virtual SInt32			readTemperature(UInt32 index);
 	virtual float			readVoltage(UInt32 index);
+    void					updateTachometers();
 	virtual SInt32			readTachometer(UInt32 index);
 	
 	virtual const char *	getModelName();

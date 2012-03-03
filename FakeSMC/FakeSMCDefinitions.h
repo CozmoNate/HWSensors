@@ -45,11 +45,9 @@
 
 // Voltage (Volts)
 // CPU
-#define KEY_CPU_VOLTAGE                         "VC0C" // CPU 0 Core
-#define KEY_FORMAT_CPU_VOLTAGE                  "VC%XC" // CPU X Core
+#define KEY_CPU_VOLTAGE                         "VC0C" // CPU 0
+#define KEY_FORMAT_CPU_VOLTAGE                  "VC%XC" // CPU X
 #define KEY_CPU_VOLTAGE_RAW                     "VC0c" // CPU 0 V-Sense
-#define KEY_CPU_VCCIO_VOLTAGE                   "VC1C" // CPU VccIO PP1V05
-#define KEY_CPU_VCCSA_VOLTAGE                   "VC2C" // CPU VCCSA
 #define KEY_CPU_DRAM_VOLTAGE                    "VC5R" // VCSR-DIMM 1.5V S0
 #define KEY_CPU_PLL_VOLTAGE                     "VC8R" // CPU 1.8V S0
 #define KEY_CPU_VRMSUPPLY0_VOLTAGE              "VS0C" // VRM Supply 1

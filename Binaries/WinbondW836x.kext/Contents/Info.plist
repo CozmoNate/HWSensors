@@ -64,10 +64,14 @@
 					<string></string>
 					<key>FANINLIMIT</key>
 					<integer>0</integer>
-					<key>TEMPIN0FORCED</key>
-					<false/>
-					<key>TEMPIN1FORCED</key>
-					<false/>
+					<key>TEMPIN0</key>
+					<string>CPU</string>
+					<key>TEMPIN1</key>
+					<string>System</string>
+					<key>TEMPIN3</key>
+					<string>Ambient</string>
+					<key>VIN0</key>
+					<string>CPU</string>
 				</dict>
 			</dict>
 		</dict>

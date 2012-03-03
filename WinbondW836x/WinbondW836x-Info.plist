@@ -36,6 +36,14 @@
 			<dict>
 				<key>Default</key>
 				<dict>
+					<key>TEMPIN0</key>
+					<string>CPU</string>
+					<key>TEMPIN1</key>
+					<string>System</string>
+					<key>TEMPIN3</key>
+					<string>Ambient</string>
+					<key>FANINLIMIT</key>
+					<integer>0</integer>
 					<key>FANIN0</key>
 					<string></string>
 					<key>FANIN1</key>
@@ -46,12 +54,8 @@
 					<string></string>
 					<key>FANIN4</key>
 					<string></string>
-					<key>FANINLIMIT</key>
-					<integer>0</integer>
-					<key>TEMPIN0FORCED</key>
-					<false/>
-					<key>TEMPIN1FORCED</key>
-					<false/>
+					<key>VIN0</key>
+					<string>CPU</string>
 				</dict>
 			</dict>
 		</dict>

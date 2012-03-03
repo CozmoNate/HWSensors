@@ -90,9 +90,12 @@ private:
 	UInt8					readByte(UInt8 reg);	
 	
 	virtual bool			probePort();
-    virtual bool			startPlugin();
 	virtual void			enter();
 	virtual void			exit();
+    
+    virtual UInt8           temperatureSensorsLimit();
+    virtual UInt8           voltageSensorsLimit();
+    virtual UInt8           tachometerSensorsLimit();
 	
 	virtual SInt32			readTemperature(UInt32 index);
 	virtual float			readVoltage(UInt32 index);

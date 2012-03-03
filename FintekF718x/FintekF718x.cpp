@@ -67,6 +67,27 @@ UInt8 F718x::readByte(UInt8 reg)
 	return inb(address + FINTEK_DATA_REGISTER_OFFSET);
 } 
 
+UInt8 F718x::temperatureSensorsLimit()
+{
+    return 3;
+}
+
+UInt8 F718x::voltageSensorsLimit()
+{
+    switch (model) 
+	{
+        case F71858:
+			return 0;
+        default:
+			return 9;
+	};
+}
+
+UInt8 F718x::tachometerSensorsLimit()
+{
+    return (model == F71882 || model == F71858 ? 4 : 3);
+}
+
 SInt32 F718x::readTemperature(UInt32 index)
 {
 	if (model == F71858) 
@@ -250,66 +271,19 @@ bool F718x::probePort()
 	return true;
 }
 
-bool F718x::startPlugin()
-{
-    InfoLog("found Fintek %s", getModelName());
-	
-	OSDictionary* configuration = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"));
-	
-	// Heatsink
-	if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 0))
-		WarningLog("error adding heatsink temperature sensor");
-	// Northbridge
-	if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 1))
-		WarningLog("error adding system temperature sensor");
-	
-	// Voltage
-	switch (model) 
-	{
-        case F71858:
-			break;
-        default:
-			// CPU Vcore
-			if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, 1))
-				WarningLog("error adding CPU voltage sensor");
-			break;
-	}
-	
-	// Tachometers
-	for (int i = 0; i < (model == F71882 || model == F71858 ? 4 : 3); i++) {
-		OSString* name = 0;
-		
-		if (configuration) {
-			char key[7];
-			
-			snprintf(key, 7, "FANIN%X", i);
-			
-			name = OSDynamicCast(OSString, configuration->getObject(key));
-		}
-		
-		UInt32 nameLength = name ? name->getLength() : 0;
-		
-		if (readTachometer(i) > 10 || nameLength > 0)
-			if (!addTachometer(i, (nameLength > 0 ? name->getCStringNoCopy() : 0)))
-				WarningLog("error adding tachometer sensor %d", i);
-	}
-	
-	return true;
-}
-
 const char *F718x::getModelName()
 {
 	switch (model) 
 	{
-        case F71858: return "F71858";
-        case F71862: return "F71862";
-        case F71869: return "F71869";
-        case F71869A: return "F71869A";
-        case F71882: return "F71882";
-        case F71889AD: return "F71889AD";
-        case F71889ED: return "F71889ED";
-        case F71889F: return "F71889F";
-		case F71808:  return "F71808";	
+        case F71858:    return "F71858";
+        case F71862:    return "F71862";
+        case F71869:    return "F71869";
+        case F71869A:   return "F71869A";
+        case F71882:    return "F71882";
+        case F71889AD:  return "F71889AD";
+        case F71889ED:  return "F71889ED";
+        case F71889F:   return "F71889F";
+		case F71808:    return "F71808";	
 	}
 	
 	return "unknown";

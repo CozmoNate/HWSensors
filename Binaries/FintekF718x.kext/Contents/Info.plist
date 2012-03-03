@@ -60,6 +60,12 @@
 				<string></string>
 				<key>FANIN4</key>
 				<string></string>
+				<key>TEMPIN0</key>
+				<string>CPU</string>
+				<key>TEMPIN1</key>
+				<string>System</string>
+				<key>VIN0</key>
+				<string>CPU</string>
 			</dict>
 		</dict>
 	</dict>

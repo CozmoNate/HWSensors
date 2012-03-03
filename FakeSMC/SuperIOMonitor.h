@@ -43,15 +43,22 @@ protected:
 	UInt16					listenPortWord(UInt16 reg);
 	void					selectLogicalDevice(UInt8 num);
 	bool					getLogicalDeviceAddress(UInt8 reg = SUPERIO_BASE_ADDRESS_REGISTER);
-	
+    
 	virtual UInt8			getPortsCount();
 	virtual void			selectPort(unsigned char index);
 	virtual void			enter();
 	virtual void			exit();
 	virtual bool			probePort();
-   	virtual bool			startPlugin();
+    
+    virtual bool            addTemperatureSensors(OSDictionary *configuration);
+    virtual bool            addVoltageSensors(OSDictionary *configuration);
+    virtual bool            addTachometerSensors(OSDictionary *configuration);
 	
 	virtual const char *	getModelName();
+    
+    virtual UInt8           temperatureSensorsLimit();
+    virtual UInt8           voltageSensorsLimit();
+    virtual UInt8           tachometerSensorsLimit();
     
     virtual SInt32			readTemperature(UInt32 index);
 	virtual float			readVoltage(UInt32 index);

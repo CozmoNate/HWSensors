@@ -136,9 +136,12 @@ private:
     void					writeByte(UInt16 reg, UInt8 value);
 	
 	virtual bool			probePort();
-    virtual bool			startPlugin();
 	virtual void			enter();
 	virtual void			exit();
+    
+    virtual UInt8           temperatureSensorsLimit();
+    virtual UInt8           voltageSensorsLimit();
+    virtual UInt8           tachometerSensorsLimit();
     
     //void					updateTemperatures();
     
