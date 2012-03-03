@@ -115,7 +115,7 @@
     [self setView:view];
     
     // Set status bar icon
-    [view setImage:[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"thermo" ofType:@"png"]]];
+    [view setImage:[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"thermobump" ofType:@"png"]]];
     [view setAlternateImage:[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"thermotemplate" ofType:@"png"]]];
     [view setFrameSize:NSMakeSize(80, [view frame].size.height)];
     

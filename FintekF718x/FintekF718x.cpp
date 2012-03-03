@@ -69,34 +69,32 @@ UInt8 F718x::readByte(UInt8 reg)
 
 SInt32 F718x::readTemperature(UInt32 index)
 {
-	switch (model) 
+	if (model == F71858) 
 	{
-		case F71858: 
-		{
-			int tableMode = 0x3 & readByte(FINTEK_TEMPERATURE_CONFIG_REG);
-			int high = readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * index);
-			int low = readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * index + 1);      
-			
-			if (high != 0xbb && high != 0xcc) 
-			{
-                int bits = 0;
-				
-                switch (tableMode) 
-				{
-					case 0: bits = 0; break;
-					case 1: bits = 0; break;
-					case 2: bits = (high & 0x80) << 8; break;
-					case 3: bits = (low & 0x01) << 15; break;
-                }
-                bits |= high << 7;
-                bits |= (low & 0xe0) >> 1;
-				
-                short val = (short)(bits & 0xfff0);
-				
-				return (float)val / 128.0f;
-			} 
-			else return 0;
-		}
+        int tableMode = 0x3 & readByte(FINTEK_TEMPERATURE_CONFIG_REG);
+        int high = readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * index);
+        int low = readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * index + 1);      
+        
+        if (high != 0xbb && high != 0xcc) 
+        {
+            int bits = 0;
+            
+            switch (tableMode) 
+            {
+                case 0: bits = 0; break;
+                case 1: bits = 0; break;
+                case 2: bits = (high & 0x80) << 8; break;
+                case 3: bits = (low & 0x01) << 15; break;
+            }
+            bits |= high << 7;
+            bits |= (low & 0xe0) >> 1;
+            
+            short val = (short)(bits & 0xfff0);
+            
+            return (float)val / 128.0f;
+        } 
+        
+        return 0;
 	}
 	
 	return (SInt8)readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * (index + 1));
@@ -104,7 +102,8 @@ SInt32 F718x::readTemperature(UInt32 index)
 
 float F718x::readVoltage(UInt32 index)
 {
-	return (index == 1 ? 0.5f : 1.0f) * (readByte(FINTEK_VOLTAGE_BASE_REG + index) << 4) * 0.001f;
+	//return (index == 1 ? 0.5f : 1.0f) * (readByte(FINTEK_VOLTAGE_BASE_REG + index) << 4) * 0.001f;
+    return (float)(readByte(FINTEK_VOLTAGE_BASE_REG + index)) * 0.008f;
 }
 
 SInt32 F718x::readTachometer(UInt32 index)
@@ -275,7 +274,7 @@ bool F718x::startPlugin()
 	}
 	
 	// Tachometers
-	for (int i = 0; i < (model == F71882 ? 4 : 3); i++) {
+	for (int i = 0; i < (model == F71882 || model == F71858 ? 4 : 3); i++) {
 		OSString* name = 0;
 		
 		if (configuration) {
