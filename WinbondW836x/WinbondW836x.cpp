@@ -51,7 +51,6 @@
 #include "FakeSMCDefinitions.h"
 
 #include <architecture/i386/pio.h>
-#include "cpuid.h"
 
 #define Debug FALSE
 
@@ -88,6 +87,21 @@ UInt64 W836x::setBit(UInt64 target, UInt16 bit, UInt32 value)
 	}
 	
 	return value;
+}
+
+UInt8 W836x::temperatureSensorsLimit()
+{
+    return 3;
+}
+
+UInt8 W836x::voltageSensorsLimit()
+{
+    return 9;
+}
+
+UInt8 W836x::tachometerSensorsLimit()
+{
+    return fanLimit;
 }
 
 SInt32 W836x::readTemperature(UInt32 index)
@@ -183,7 +197,6 @@ void W836x::updateTachometers()
 	}
 }
 
-
 SInt32 W836x::readTachometer(UInt32 index)
 {
 	if (fanValueObsolete[index])
@@ -192,6 +205,90 @@ SInt32 W836x::readTachometer(UInt32 index)
 	fanValueObsolete[index] = true;
 	
 	return fanValue[index];
+}
+
+bool W836x::addTemperatureSensors(OSDictionary *configuration)
+{
+        
+    UInt8 flag = 0;
+    
+    switch (model) 
+    {
+        case W83667HG:
+        case W83667HGB:
+            // do not add temperature sensor registers that read PECI
+            flag = readByte(0, WINBOND_TEMPERATURE_SOURCE_SELECT_REG);
+            break;
+            
+        case W83627DHG:        
+        case W83627DHGP:
+            // do not add temperature sensor registers that read PECI
+            flag = readByte(0, WINBOND_TEMPERATURE_SOURCE_SELECT_REG);
+            break;                
+    }
+
+    for (int i = 0; i < temperatureSensorsLimit(); i++) 
+    {				
+        char key[8];
+        
+        snprintf(key, 8, "TEMPIN%X", i);
+        
+        if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
+            
+            switch (model) 
+            {
+                case W83667HG:
+                case W83667HGB:
+                    if (i == 0 && (flag & 0x04) == 0)
+                    {
+                        i++;
+                    }
+                    else if (i == 1 && (flag & 0x40) == 0)
+                    {
+                        i++;
+                    }
+                    break;
+                    
+                case W83627DHG:        
+                case W83627DHGP:
+                    if (i == 0 && (flag & 0x07) == 0) 
+                    {
+                        i++;
+                    }
+                    else if (i == 1 && (flag & 0x70) == 0)
+                    {
+                        i++;
+                    }
+                    break;
+            }
+            
+             
+            if (name->isEqualTo("CPU")) {
+                if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
+                    WarningLog("can't add CPU temperature sensor");
+            }
+            else if (name->isEqualTo("System")) {				
+                if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
+                    WarningLog("can't add System temperature sensor");
+            }
+            else if (name->isEqualTo("Ambient")) {				
+                if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
+                    WarningLog("can't add Ambient temperature sensor");
+            }
+        }
+    }
+	    
+    return true;
+}
+
+bool W836x::addTachometerSensors(OSDictionary *configuration)
+{
+    OSNumber* fanlimit = OSDynamicCast(OSNumber, configuration->getObject("FANINLIMIT")); 
+    
+	if (fanlimit && fanlimit->unsigned8BitValue() > 0)
+		fanLimit = fanlimit->unsigned8BitValue();
+
+    return super::addTachometerSensors(configuration);
 }
 
 void W836x::enter()
@@ -460,161 +557,6 @@ bool W836x::probePort()
         return false;
     }
     
-	return true;
-}
-
-bool W836x::startPlugin()
-{
-    InfoLog("found Winbond %s", getModelName());
-	
-    OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"));
-    OSDictionary* configuration = list ? OSDynamicCast(OSDictionary, list->getObject(getModelName())) : 0;
-	
-    if (list && !configuration) 
-        configuration = OSDynamicCast(OSDictionary, list->getObject("Default"));
-	
-	OSBoolean* tempin0forced = configuration ? OSDynamicCast(OSBoolean, configuration->getObject("TEMPIN0FORCED")) : 0;
-	OSBoolean* tempin1forced = configuration ? OSDynamicCast(OSBoolean, configuration->getObject("TEMPIN1FORCED")) : 0;
-	
-    OSNumber* fanlimit = configuration ? OSDynamicCast(OSNumber, configuration->getObject("FANINLIMIT")) : NULL; 
-    
-	if (fanlimit && fanlimit->unsigned8BitValue() > 0)
-		fanLimit = fanlimit->unsigned8BitValue();
-	
-	cpuid_update_generic_info();
-	
-	bool isCpuCore_i = false;
-	
-	if (strcmp(cpuid_info()->cpuid_vendor, CPUID_VID_INTEL) != 0) 
-	{
-		switch (cpuid_info()->cpuid_family)
-		{
-			case 0x6:
-			{
-				switch (cpuid_info()->cpuid_model)
-				{
-					case 0x1A: // Intel Core i7 LGA1366 (45nm)
-					case 0x1E: // Intel Core i5, i7 LGA1156 (45nm)
-					case 0x25: // Intel Core i3, i5, i7 LGA1156 (32nm)
-					case 0x2C: // Intel Core i7 LGA1366 (32nm) 6 Core
-						isCpuCore_i = true;
-						break;
-				}
-			}	break;
-		}
-	}
-	
-	if (isCpuCore_i)
-	{
-		// Heatsink
-		if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 2))
-			return false;
-	}
-	else 
-	{	
-		switch (model) 
-		{
-			case W83667HG:
-			case W83667HGB:
-			{
-				// do not add temperature sensor registers that read PECI
-				UInt8 flag = readByte(0, WINBOND_TEMPERATURE_SOURCE_SELECT_REG);
-				
-				if ((flag & 0x04) == 0 || (tempin0forced && tempin0forced->getValue()))
-				{
-					// Heatsink
-					if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 0))
-						WarningLog("error adding heatsink temperature sensor");
-				}
-				else if ((flag & 0x40) == 0 || (tempin1forced && tempin1forced->getValue()))
-				{
-					// Ambient
-					if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 1))
-						WarningLog("error adding ambient temperature sensor");
-				}
-				
-				// Northbridge
-				if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 2))
-					WarningLog("error adding system temperature sensor");
-				
-				break;
-			}
-				
-			case W83627DHG:        
-			case W83627DHGP:
-			{
-				// do not add temperature sensor registers that read PECI
-				UInt8 sel = readByte(0, WINBOND_TEMPERATURE_SOURCE_SELECT_REG);
-				
-				if ((sel & 0x07) == 0 || (tempin0forced && tempin0forced->getValue())) 
-				{
-					// Heatsink
-					if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 0))
-						WarningLog("error adding heatsink temperature sensor");
-				}
-				else if ((sel & 0x70) == 0 || (tempin1forced && tempin1forced->getValue()))
-				{
-					// Ambient
-					if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 1))
-						WarningLog("error adding ambient temperature sensor");
-				}
-				
-				// Northbridge
-				if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 2))
-					WarningLog("error adding system temperature sensor");
-				
-				break;
-			}
-				
-			default:
-			{
-				// no PECI support, add all sensors
-				
-				// Heatsink
-				if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 0))
-					WarningLog("error adding heatsink temperature sensor");
-				// Ambient
-                
-				if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 1))
-					WarningLog("error adding ambient temperature sensor");
-                
-				// Northbridge
-				if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 2))
-					WarningLog("error adding system temperature sensor");
-				
-				break;
-			}
-		}
-	}
-	
-	// CPU Vcore
-	if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, 0))
-		WarningLog("error adding CPU voltage sensor");
-	
-	// FANs
-	for (int i = 0; i < fanLimit; i++) 
-		fanValueObsolete[i] = true;
-	
-	updateTachometers();
-	
-	for (int i = 0; i < fanLimit; i++) {
-		OSString* name = 0;
-		
-		if (configuration) {
-			char key[7];
-			
-			snprintf(key, 7, "FANIN%X", i);
-			
-			name = OSDynamicCast(OSString, configuration->getObject(key));
-		}
-		
-		UInt64 nameLength = name ? name->getLength() : 0;
-		
-		if (readTachometer(i) > 10 || nameLength > 0)
-			if (!addTachometer(i, (nameLength > 0 ? name->getCStringNoCopy() : 0)))
-				WarningLog("error adding tachometer sensor %d", i);
-	}
-	
 	return true;
 }
 

@@ -68,10 +68,142 @@ bool SuperIOMonitor::probePort()
 	return true; 
 };
 
-bool SuperIOMonitor::startPlugin()
+bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
 {
+    for (int i = 0; i < temperatureSensorsLimit(); i++) 
+    {				
+        char key[8];
+        
+        snprintf(key, 8, "TEMPIN%X", i);
+        
+        if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
+            if (name->isEqualTo("CPU")) {
+                if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
+                    WarningLog("can't add CPU temperature sensor");
+            }
+            else if (name->isEqualTo("System")) {				
+                if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
+                    WarningLog("can't add System temperature sensor");
+            }
+            else if (name->isEqualTo("Ambient")) {				
+                if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
+                    WarningLog("can't add Ambient temperature sensor");
+            }
+        }
+    }
+
     return true;
-};
+}
+
+bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
+{
+
+    for (int i = 0; i < voltageSensorsLimit(); i++)
+    {				
+        char key[5];
+        
+        snprintf(key, 5, "VIN%X", i);
+        
+        if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
+            if (name->isEqualTo("CPU")) {
+                if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add  CPU voltage sensor");
+            }
+            else if (name->isEqualTo("Memory")) {
+                if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add  memory voltage sensor");
+            }
+            else if (name->isEqualTo("DCIN_3V")) {
+                if (!addSensor(KEY_DCIN_3V3_S5_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add  DCIN_3V voltage Sensor!");
+            }
+            else if (name->isEqualTo("DCIN_12V")) {
+                if (!addSensor(KEY_DCIN_12V_S0_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add  DCIN_12V voltage Sensor!");
+            }        
+            else if (name->isEqualTo("CPU_PLL")) {
+                if (!addSensor(KEY_CPU_PLL_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add CPU_PLL voltage Sensor!");
+            }
+            else if (name->isEqualTo("Battery")) {
+                if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add Battery voltage sensor!");
+            }
+            else if (name->isEqualTo("VRM1")) {
+                if (!addSensor(KEY_CPU_VRMSUPPLY0_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add VRM1 voltage Sensor!");
+            }
+            else if (name->isEqualTo("VRM2")) {
+                if (!addSensor(KEY_CPU_VRMSUPPLY1_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add VRM2 voltage sensor!");
+            }
+            else if (name->isEqualTo("VRM3")) {
+                if (!addSensor(KEY_CPU_VRMSUPPLY2_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add VRM3 voltage sensor!");
+            }
+            else if (name->isEqualTo("VRM4")) {
+                if (!addSensor(KEY_CPU_VRMSUPPLY3_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add VRM4 voltage sensor!");
+            }
+            else if (name->isEqualTo("PWR1")) {
+                if (!addSensor(KEY_POWERSUPPLY1_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add PWR1 voltage Sensor!");
+            }
+            else if (name->isEqualTo("PWR2")) {
+                if (!addSensor(KEY_POWERSUPPLY2_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add PWR2 voltage sensor!");
+            }
+            else if (name->isEqualTo("PWR3")) {
+                if (!addSensor(KEY_POWERSUPPLY3_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add PWR3 voltage sensor!");
+            }
+            else if (name->isEqualTo("PWR4")) {
+                if (!addSensor(KEY_POWERSUPPLY4_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    WarningLog("can't add PWR4 voltage sensor!");
+            }
+        }
+    }
+
+    return true;
+}
+
+bool SuperIOMonitor::addTachometerSensors(OSDictionary *configuration)
+{
+    for (int i = 0; i < tachometerSensorsLimit(); i++) {
+        OSString* name = NULL;
+        
+        if (configuration) {
+            char key[7];
+            
+            snprintf(key, 7, "FANIN%X", i);
+            
+            name = OSDynamicCast(OSString, configuration->getObject(key));
+        }
+        
+        UInt64 nameLength = name ? name->getLength() : 0;
+        
+        if (readTachometer(i) > 10 || nameLength > 0)
+            if (!addTachometer(i, (nameLength > 0 ? name->getCStringNoCopy() : 0)))
+                WarningLog("error adding tachometer sensor %d", i);
+    }
+    
+    return true;
+}
+
+UInt8 SuperIOMonitor::temperatureSensorsLimit()
+{
+    return 3;
+}
+
+UInt8 SuperIOMonitor::voltageSensorsLimit()
+{
+    return 9;
+}
+
+UInt8 SuperIOMonitor::tachometerSensorsLimit()
+{
+    return 5;
+}
 
 SInt32 SuperIOMonitor::readTemperature(UInt32 index)
 {
@@ -170,9 +302,22 @@ bool SuperIOMonitor::start(IOService *provider)
 	
 	if (!super::start(provider)) 
         return false;
-    
-    if (startPlugin())
-        registerService(0);
+        
+    InfoLog("found %s", getModelName());
+        
+    OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"));
+    OSDictionary* configuration = list ? OSDynamicCast(OSDictionary, list->getObject(getModelName())) : 0;
 	
+    if (list && !configuration) 
+        configuration = OSDynamicCast(OSDictionary, list->getObject("Default"));
+    
+	if (configuration) {    
+        addTemperatureSensors(configuration);
+        addVoltageSensors(configuration);
+        addTachometerSensors(configuration);
+    }
+        
+    registerService(0);
+
 	return true;
 }

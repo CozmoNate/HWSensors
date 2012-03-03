@@ -83,6 +83,21 @@ void NCT677x::writeByte(UInt16 reg, UInt8 value)
     outb((UInt16)(address + NUVOTON_DATA_REGISTER_OFFSET), value);
 }
 
+UInt8 NCT677x::temperatureSensorsLimit()
+{
+    return 2;
+}
+
+UInt8 NCT677x::voltageSensorsLimit()
+{
+    return 9;
+}
+
+UInt8 NCT677x::tachometerSensorsLimit()
+{
+    return 5;
+}
+
 /*void NCT677x::updateTemperatures()
 {
     for (int i = 0; i < 9; i++)
@@ -135,7 +150,7 @@ void NCT677x::writeByte(UInt16 reg, UInt8 value)
 
 SInt32 NCT677x::readTemperature(UInt32 index)
 {
-    if (index < 2) {
+    if (index < temperatureSensorsLimit()) {
         
         int value = readByte(NUVOTON_TEMPERATURE_REG[index]) << 1;
         
@@ -150,7 +165,7 @@ SInt32 NCT677x::readTemperature(UInt32 index)
 
 float NCT677x::readVoltage(UInt32 index)
 {
-    if (index < 9) {
+    if (index < voltageSensorsLimit()) {
         
         float value = readByte(NUVOTON_VOLTAGE_REG[index]) * (NUVOTON_VOLTAGE_SCALE[index]) * 0.001f;
         
@@ -169,7 +184,7 @@ float NCT677x::readVoltage(UInt32 index)
 
 SInt32 NCT677x::readTachometer(UInt32 index)
 {
-    if (index < 5) {
+    if (index < tachometerSensorsLimit()) {
         UInt8 high = readByte(NUVOTON_FAN_RPM_REG[index]);
         UInt8 low = readByte(NUVOTON_FAN_RPM_REG[index] + 1);
         
@@ -247,124 +262,6 @@ bool NCT677x::probePort()
     }
     
 	return true;
-}
-
-bool NCT677x::startPlugin()
-{
-    InfoLog("found Nuvoton %s", getModelName());
-    
-    OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"));
-    OSDictionary* configuration = list ? OSDynamicCast(OSDictionary, list->getObject(getModelName())) : 0;
-	
-    if (list && !configuration) 
-        configuration = OSDynamicCast(OSDictionary, list->getObject("Default"));
-    
-    // Temperatures
-    for (int i = 0; i < 2; i++) {        
-        char key[8];
-        
-        snprintf(key, 8, "TEMPIN%X", i);
-        
-        OSString  *name = configuration ? OSDynamicCast(OSString, configuration->getObject(key)) : 0;
-        
-        if ((name && name->isEqualTo("System")) || (!configuration && i==0)) {
-            if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i)) {
-                WarningLog("ERROR adding System temperature sensor");
-            }
-        }
-        else if ((name && name->isEqualTo("Processor")) || (!configuration && i==1)) {
-            if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i)) {
-                WarningLog("ERROR adding Processor temperature sensor");
-            }
-        }
-        /*else if ((name && name->isEqualTo("Auxiliary"))) {
-            if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor,i)) {
-                WarningLog("ERROR adding Processor temperature sensor");
-            }
-        }*/
-    }
-    
-    // Voltage ??? we have 9 inputs, which is which ???
-    // Voltages
-    for (int i = 0; i < 9; i++)
-    {
-        char key[5];
-        
-        snprintf(key, 5, "VIN%X", i);
-        
-        OSString* name = configuration ? OSDynamicCast(OSString, configuration->getObject(key)) : 0;
-        
-        if ((name && name->isEqualTo("Processor")) || (!configuration && i==0)) 
-        {
-            if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR adding processor voltage Sensor!");
-        }
-        else if (name->isEqualTo("Memory")) {
-            if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR adding memory voltage sensor");
-        }
-        else if ((name && name->isEqualTo("+12V")) || (!configuration && i==1)) 
-        {
-            if (!addSensor(KEY_DCIN_12V_S0_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR adding +12V Voltage Sensor!");
-        }
-        else if ((name && name->isEqualTo("AVCC")) || (!configuration && i==2)) 
-        {
-            if (!addSensor(KEY_DCIN_3V3_S5_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR Adding AVCC Voltage Sensor!");
-        }
-        else if ((name && name->isEqualTo("+3.3V VCC")) || (!configuration && i==3)) 
-        {
-            if (!addSensor(KEY_CPU_VCCSA_CURRENT, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR Adding +3.3V VCC Voltage Sensor!");
-        }
-        else if ((name && name->isEqualTo("VRM1")) || (!configuration && i==4)) 
-        {
-            if (!addSensor(KEY_CPU_VRMSUPPLY0_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR Adding UNKN0 Voltage Sensor!");
-        }
-        else if ((name && name->isEqualTo("VRM2")) || (!configuration && i==5)) 
-        {
-            if (!addSensor(KEY_CPU_VRMSUPPLY1_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR Adding UNKN1 Voltage Sensor!");
-        }
-        else if ((name && name->isEqualTo("VRM1")) || (!configuration && i==6)) 
-        {
-            if (!addSensor(KEY_CPU_VRMSUPPLY2_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR Adding UNKN2 Voltage Sensor!");
-        }
-        else if ((name && name->isEqualTo("+3.3V VSB")) || (!configuration && i==7)) 
-        {
-            if (!addSensor(KEY_CPU_VCCIO_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR Adding 3+3.3V VSBSB Voltage Sensor!");
-        }
-        else if ((name && name->isEqualTo("Battery")) || (!configuration && i==8)) 
-        {
-            if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                WarningLog("ERROR adding battery voltage sensor!");
-        }
-    }
-    
-    // Tachometers
-	for (int i = 0; i < 5; i++) {
-        OSString* name = 0;
-		
-		if (configuration) {
-			char key[7];
-			
-			snprintf(key, 7, "FANIN%X", i);
-			
-			name = OSDynamicCast(OSString, configuration->getObject(key));
-		}
-		
-		UInt64 nameLength = name ? name->getLength() : 0;
-		
-		if (readTachometer(i) > minFanRPM || nameLength > 0)
-			if (!addTachometer(i, (nameLength > 0 ? name->getCStringNoCopy() : 0)))
-				WarningLog("error adding tachometer sensor %d", i);
-	}
-    
-    return true;
 }
 
 const char *NCT677x::getModelName()

@@ -39,9 +39,9 @@
 					<key>TEMPIN0</key>
 					<string>System</string>
 					<key>TEMPIN1</key>
-					<string>Processor</string>
+					<string>CPU</string>
 					<key>TEMPIN2</key>
-					<string>Auxiliary</string>
+					<string>Ambient</string>
 					<key>FANIN0</key>
 					<string></string>
 					<key>FANIN1</key>
@@ -53,21 +53,21 @@
 					<key>FANIN4</key>
 					<string></string>
 					<key>VIN0</key>
-					<string>Processor</string>
+					<string>CPU</string>
 					<key>VIN1</key>
-					<string>+12V</string>
+					<string>Memory</string>
 					<key>VIN2</key>
-					<string>AVCC</string>
+					<string>DCIN_3V</string>
 					<key>VIN3</key>
-					<string>+3.3V VCC</string>
+					<string>DCIN_12V</string>
 					<key>VIN4</key>
-					<string>VRM1</string>
+					<string>CPU_PLL</string>
 					<key>VIN5</key>
-					<string>VRM2</string>
+					<string>VRM1</string>
 					<key>VIN6</key>
-					<string>VRM3</string>
+					<string>PWR1</string>
 					<key>VIN7</key>
-					<string>+3.3V VSB</string>
+					<string>PWR2</string>
 					<key>VIN8</key>
 					<string>Battery</string>
 				</dict>
