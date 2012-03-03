@@ -218,15 +218,15 @@ bool IT87x::startPlugin()
 			
 			if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
 				if (name->isEqualTo("Processor")) {
-					if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, i))
+					if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
 						WarningLog("error adding heatsink temperature sensor");
 				}
 				else if (name->isEqualTo("System")) {				
-					if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor,i))
+					if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
 						WarningLog("error adding system temperature sensor");
 				}
 				else if (name->isEqualTo("Auxiliary")) {				
-					if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor,i))
+					if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
 						WarningLog("error adding auxiliary temperature sensor");
 				}
             }
@@ -236,13 +236,13 @@ bool IT87x::startPlugin()
         
         DebugLog("adding default temperature sensors");
         
-		if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 0))
+		if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 0))
 			WarningLog("error adding heatsink temperature sensor");
 		
-		if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 1))
+		if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 1))
 			WarningLog("error adding auxiliary temperature sensor");
 		
-		if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 2))
+		if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 2))
 			WarningLog("error adding system temperature sensor");
 	}
     
@@ -258,51 +258,51 @@ bool IT87x::startPlugin()
 			
 			if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
 				if (name->isEqualTo("Processor")) {
-					if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
+					if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
 						WarningLog("error adding CPU voltage sensor");
 				}
 				else if (name->isEqualTo("Memory")) {
-					if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i))
+					if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
 						WarningLog("error adding memory voltage sensor");
 				}
                 else if (name->isEqualTo("AVCC")) {
-                    if (!addSensor(KEY_DCIN_3V3_S5_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
+                    if (!addSensor(KEY_DCIN_3V3_S5_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding AVCC Voltage Sensor!");
                     }
                 }
                 else if (name->isEqualTo("+12V")) {
-                    if (addSensor(KEY_DCIN_12V_S0_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i)) {
+                    if (addSensor(KEY_DCIN_12V_S0_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
                         //voltageSpecificGain[i] = 3;
                     }
                     else WarningLog("ERROR Adding 12V Voltage Sensor!");
                 }        
                 else if (name->isEqualTo("+3.3V VCC")) {
-                    if (!addSensor(KEY_CPU_VCCSA_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
+                    if (!addSensor(KEY_CPU_VCCSA_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding 3VCC Voltage Sensor!");
                     }
                 }
                 else if (name->isEqualTo("VRM1")) {
-                    if (!addSensor(KEY_CPU_VRMSUPPLY0_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i)) {
+                    if (!addSensor(KEY_CPU_VRMSUPPLY0_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding UNKN1 Voltage Sensor!");
                     }
                 }
                 else if (name->isEqualTo("VRM2")) {
-                    if (!addSensor(KEY_CPU_VRMSUPPLY1_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i)) {
+                    if (!addSensor(KEY_CPU_VRMSUPPLY1_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding UNKN2 Voltage Sensor!");
                     }
                 }
                 else if (name->isEqualTo("VRM3")) {
-                    if (!addSensor(KEY_CPU_VRMSUPPLY2_VOLTAGE, TYPE_FP4C, 2, kSuperIOVoltageSensor, i)) {
+                    if (!addSensor(KEY_CPU_VRMSUPPLY2_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding UNKN3 Voltage Sensor!");
                     }
                 }
                 else if (name->isEqualTo("+3.3V VSB")) {
-                    if (!addSensor(KEY_CPU_VCCIO_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
+                    if (!addSensor(KEY_CPU_VCCIO_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding 3VSB Voltage Sensor!");
                     }
                 }
                 else if (name->isEqualTo("Battery")) {
-                    if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, i)) {
+                    if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i)) {
                         WarningLog("ERROR Adding battery Voltage Sensor!");
                     }
                 }

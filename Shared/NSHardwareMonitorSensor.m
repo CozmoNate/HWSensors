@@ -34,11 +34,10 @@ inline UInt8 get_index(char c)
 
 + (float)decodeSMCFloatOfType:(const char*)type fraction:(UInt16) encoded
 {
-    UInt8 i = 0, f = 0;
-
-    encoded = OSSwapBigToHostInt16(encoded);
-    
     if (type[0] == 's' || type[0] == 'f') {
+        
+        UInt8 i = 0, f = 0;
+        
         if (type[1] == 'p') {
             i = [NSHardwareMonitorSensor getIndexOfHexChar:type[2]];
             f = [NSHardwareMonitorSensor getIndexOfHexChar:type[3]];
@@ -48,9 +47,15 @@ inline UInt8 get_index(char c)
         }
         else return encoded;
         
-        float value = (float)encoded / (float)(0x1 << f);
+        UInt16 swapped = OSSwapBigToHostInt16(encoded);
         
-        return value * (type[0] == 's' && encoded & 0x8000 ? -1 : 1);
+        BOOL minus = (swapped | 0x8000) > 0;
+        
+        swapped = swapped & 0x7fff;
+        
+        float value = (float)swapped / (float)(0x1 << f);
+        
+        return value * (type[0] == 's' && minus ? -1 : 1);
     }
     
     return encoded;
@@ -68,68 +73,42 @@ inline UInt8 get_index(char c)
 - (float)decodeValue
 {
     if (value != NULL) {
-        if ([type characterAtIndex:0] == 'u' && [type characterAtIndex:1] == 'i') {
-            switch ([type characterAtIndex:3]) {
+        if (([type characterAtIndex:0] == 'u' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'i') {
+            
+            BOOL signd = [type characterAtIndex:0] == 's';
+            
+            switch ([type characterAtIndex:2]) {
                 case '8':
-                    if ([type characterAtIndex:4] == '\0' && [value length] == 1) {
+                    if ([type characterAtIndex:3] == '\0' && [value length] == 1) {
                         UInt8 encoded = 0;
                         
                         bcopy([value bytes], &encoded, 1);
-                        
-                        return encoded;
+                                                
+                        return (signd && encoded & 0x80 ? -encoded : encoded);
                     }
                     break;
                     
                 case '1':
-                    if ([type characterAtIndex:4] == '6' && [value length] == 2) {
+                    if ([type characterAtIndex:3] == '6' && [value length] == 2) {
                         UInt16 encoded = 0;
                         
                         bcopy([value bytes], &encoded, 2);
                         
-                        return OSSwapBigToHostInt16(encoded);
+                        encoded = OSSwapBigToHostInt16(encoded);
+                        
+                        return (signd && encoded & 0x8000 ? -encoded : encoded);
                     }
                     break;
                     
                 case '3':
-                    if ([type characterAtIndex:4] == '2' && [value length] == 4) {
+                    if ([type characterAtIndex:3] == '2' && [value length] == 4) {
                         UInt32 encoded = 0;
                         
                         bcopy([value bytes], &encoded, 4);
                         
-                        return OSSwapBigToHostInt32(encoded);
-                    }
-                    break;
-            }
-        }
-        else if ([type characterAtIndex:0] == 's' && [type characterAtIndex:1] == 'i') {
-            switch ([type characterAtIndex:3]) {
-                case '8':
-                    if ([type characterAtIndex:4] == '\0' && [value length] == 1) {
-                        SInt8 encoded = 0;
+                        encoded = OSSwapBigToHostInt32(encoded);
                         
-                        bcopy([value bytes], &encoded, 1);
-                        
-                        return encoded;
-                    }
-                    break;
-                    
-                case '1':
-                    if ([type characterAtIndex:4] == '6' && [type length] == 2) {
-                        SInt16 encoded = 0;
-                        
-                        bcopy([value bytes], &encoded, 2);
-                        
-                        return OSSwapBigToHostInt16(encoded);
-                    }
-                    break;
-                    
-                case '3':
-                    if ([type characterAtIndex:4] == '2' && [value length] == 4) {
-                        SInt32 encoded = 0;
-                        
-                        bcopy([value bytes], &encoded, 4);
-                        
-                        return OSSwapBigToHostInt32(encoded);
+                        return (signd && encoded & 0x80000000 ? -encoded : encoded);
                     }
                     break;
             }
@@ -139,7 +118,20 @@ inline UInt8 get_index(char c)
             
             bcopy([value bytes], &encoded, 2);
             
-            return [NSHardwareMonitorSensor decodeSMCFloatOfType:[type cStringUsingEncoding:NSASCIIStringEncoding] fraction:encoded];
+            UInt8 i = [NSHardwareMonitorSensor getIndexOfHexChar:[type characterAtIndex:2]];
+            UInt8 f = [NSHardwareMonitorSensor getIndexOfHexChar:[type characterAtIndex:3]];
+                
+            if (i + f != ([type characterAtIndex:0] == 's' ? 15 : 16) ) 
+                return 0;
+            
+            UInt16 swapped = OSSwapBigToHostInt16(encoded);
+            
+            BOOL minus = swapped & 0x8000;
+            
+            if (minus) 
+                swapped = swapped & 0x7fff;
+
+            return ((float)swapped / (float)(0x1 << f)) * ([type characterAtIndex:0] == 's' && minus ? -1 : 1);
         }
     }
     

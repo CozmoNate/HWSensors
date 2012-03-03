@@ -49,7 +49,6 @@
 
 #include "IntelThermal.h"
 #include "FakeSMCDefinitions.h"
-#include "FakeSMCValueEncoder.h"
 
 #define Debug FALSE
 
@@ -346,7 +345,7 @@ bool IntelThermal::start(IOService *provider)
 		
 		snprintf(key, 5, KEY_FORMAT_CPU_DIODE_TEMPERATURE, i);
         
-        if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, i))
+        if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i))
 			WarningLog("Can't add temperature sensor");
 		
         switch (cpuid_info()->cpuid_cpufamily) {
@@ -358,7 +357,7 @@ bool IntelThermal::start(IOService *provider)
             default:
                 snprintf(key, 5, KEY_FORMAT_NON_APPLE_CPU_MULTIPLIER, i);
                 
-                if (!addSensor(key, "fp88", 2, kFakeSMCMultiplierSensor, i))
+                if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, i))
                     WarningLog("Can't add multiplier sensor");
                 
                 break;
@@ -369,7 +368,7 @@ bool IntelThermal::start(IOService *provider)
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
-            if (!addSensor(KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER, "fp88", 2, kIntelThermalPackageMultiplierSensor, 0))
+            if (!addSensor(KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kIntelThermalPackageMultiplierSensor, 0))
                 WarningLog("Can't add package multiplier sensor");            
             break;            
     }

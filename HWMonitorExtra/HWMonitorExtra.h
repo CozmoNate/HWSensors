@@ -27,7 +27,9 @@
 - (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
 
 - (void)updateSMARTData;
-- (void)updateTitles;
+- (void)updateTitlesForceAllSensors:(BOOL)allSensors;
+- (void)updateTitlesForced;
+- (void)updateTitlesDefault;
 
 - (void)menuItemClicked:(id)sender;
 

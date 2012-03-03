@@ -57,9 +57,9 @@
     [monitor updateSMARTSensorsValues];
 }
 
-- (void)updateTitles
+- (void)updateTitlesForceAllSensors:(BOOL)allSensors
 {
-    [monitor updateGenericSensorsValuesButOnlyFavorits:![self isMenuDown]];
+    [monitor updateGenericSensorsValuesButOnlyFavorits:!allSensors && ![self isMenuDown]];
     
     NSMutableArray * favorites = [[NSMutableArray alloc] init];
     
@@ -68,7 +68,7 @@
     for (int i = 0; i < [sensors count]; i++) {
         NSHardwareMonitorSensor *sensor = (NSHardwareMonitorSensor*)[sensors objectAtIndex:i];
         
-        if ([self isMenuDown]) {
+        if ([self isMenuDown] || allSensors) {
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[[NSString alloc] initWithFormat:@"%S\t%S",[[sensor caption] cStringUsingEncoding:NSUTF16StringEncoding],[[sensor formatValue] cStringUsingEncoding:NSUTF16StringEncoding]] attributes:statusMenuAttributes];
             
             [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
@@ -88,6 +88,16 @@
         [view setTitles:nil];
 }
 
+- (void)updateTitlesForced
+{
+    [self updateTitlesForceAllSensors:YES];
+}
+
+- (void)updateTitlesDefault
+{
+    [self updateTitlesForceAllSensors:NO];
+}
+
 - (void)menuItemClicked:(id)sender 
 {
     NSMenuItem * menuItem = (NSMenuItem *)sender;
@@ -98,7 +108,7 @@
     
     [sensor setFavorite:[menuItem state]];
     
-    [self updateTitles];
+    [self updateTitlesDefault];
     
     [[NSUserDefaults standardUserDefaults] setBool:[menuItem state] forKey:[sensor key]];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -152,13 +162,13 @@
         [self insertMenuGroupWithTitle:@"FANS" sensors:[monitor getAllSensorsInGroup:kHWTachometerGroup]];
         [self insertMenuGroupWithTitle:@"VOLTAGES" sensors:[monitor getAllSensorsInGroup:kHWVoltageGroup]];
         
-        [self updateTitles];
+        [self updateTitlesForced];
         
         // Main sensors timer
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
-                                    [self methodSignatureForSelector:@selector(updateTitles)]];
+                                    [self methodSignatureForSelector:@selector(updateTitlesDefault)]];
         [invocation setTarget:self];
-        [invocation setSelector:@selector(updateTitles)];
+        [invocation setSelector:@selector(updateTitlesDefault)];
         [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
         
         // Main SMART timer

@@ -9,7 +9,6 @@
 
 #include "FakeSMCDevice.h"
 #include "FakeSMCDefinitions.h"
-#include "FakeSMCValueEncoder.h"
 
 #define Debug FALSE
 
@@ -528,6 +527,11 @@ FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type,
 	WarningLog("can't create key %s", name);
 	
 	return 0;
+}
+
+inline uint32_t key_to_int(const char *name)
+{
+    return *((uint32_t*)name);
 }
 
 FakeSMCKey *FakeSMCDevice::getKey(const char *name)
