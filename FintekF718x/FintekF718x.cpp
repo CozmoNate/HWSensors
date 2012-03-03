@@ -96,8 +96,10 @@ SInt32 F718x::readTemperature(UInt32 index)
         
         return 0;
 	}
+    
+    SInt8 value = readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * (index + 1));
 	
-	return (SInt8)readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * (index + 1));
+	return value < 0 ? -value : value;
 }
 
 float F718x::readVoltage(UInt32 index)
@@ -255,10 +257,10 @@ bool F718x::startPlugin()
 	OSDictionary* configuration = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"));
 	
 	// Heatsink
-	if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 0))
+	if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 0))
 		WarningLog("error adding heatsink temperature sensor");
 	// Northbridge
-	if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 1))
+	if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 1))
 		WarningLog("error adding system temperature sensor");
 	
 	// Voltage
@@ -268,7 +270,7 @@ bool F718x::startPlugin()
 			break;
         default:
 			// CPU Vcore
-			if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, 1))
+			if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, 1))
 				WarningLog("error adding CPU voltage sensor");
 			break;
 	}

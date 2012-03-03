@@ -13,7 +13,6 @@
 #include "NVClockX.h"
 
 #include "FakeSMCDefinitions.h"
-#include "FakeSMCValueEncoder.h"
 
 #include <IOKit/pci/IOPCIDevice.h>
 

@@ -507,7 +507,7 @@ bool W836x::startPlugin()
 	if (isCpuCore_i)
 	{
 		// Heatsink
-		if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 2))
+		if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 2))
 			return false;
 	}
 	else 
@@ -523,18 +523,18 @@ bool W836x::startPlugin()
 				if ((flag & 0x04) == 0 || (tempin0forced && tempin0forced->getValue()))
 				{
 					// Heatsink
-					if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 0))
+					if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 0))
 						WarningLog("error adding heatsink temperature sensor");
 				}
 				else if ((flag & 0x40) == 0 || (tempin1forced && tempin1forced->getValue()))
 				{
 					// Ambient
-					if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 1))
+					if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 1))
 						WarningLog("error adding ambient temperature sensor");
 				}
 				
 				// Northbridge
-				if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 2))
+				if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 2))
 					WarningLog("error adding system temperature sensor");
 				
 				break;
@@ -549,18 +549,18 @@ bool W836x::startPlugin()
 				if ((sel & 0x07) == 0 || (tempin0forced && tempin0forced->getValue())) 
 				{
 					// Heatsink
-					if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 0))
+					if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 0))
 						WarningLog("error adding heatsink temperature sensor");
 				}
 				else if ((sel & 0x70) == 0 || (tempin1forced && tempin1forced->getValue()))
 				{
 					// Ambient
-					if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 1))
+					if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 1))
 						WarningLog("error adding ambient temperature sensor");
 				}
 				
 				// Northbridge
-				if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 2))
+				if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 2))
 					WarningLog("error adding system temperature sensor");
 				
 				break;
@@ -571,15 +571,15 @@ bool W836x::startPlugin()
 				// no PECI support, add all sensors
 				
 				// Heatsink
-				if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 0))
+				if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 0))
 					WarningLog("error adding heatsink temperature sensor");
 				// Ambient
                 
-				if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 1))
+				if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 1))
 					WarningLog("error adding ambient temperature sensor");
                 
 				// Northbridge
-				if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, 2, kSuperIOTemperatureSensor, 2))
+				if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, 2))
 					WarningLog("error adding system temperature sensor");
 				
 				break;
@@ -588,7 +588,7 @@ bool W836x::startPlugin()
 	}
 	
 	// CPU Vcore
-	if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, 2, kSuperIOVoltageSensor, 0))
+	if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, 0))
 		WarningLog("error adding CPU voltage sensor");
 	
 	// FANs

@@ -10,7 +10,7 @@
 #include "ACPISensors.h"
 
 #include "FakeSMCDefinitions.h"
-#include "FakeSMCValueEncoder.h"
+
 
 #define Debug FALSE
 
@@ -97,7 +97,7 @@ bool ACPIMonitor::start(IOService * provider)
                 OSString *method = OSDynamicCast(OSString, temperatures->getObject(key));
                 
                 if (method && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy())) {
-                    if (!addSensor(key->getCStringNoCopy(), TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
+                    if (!addSensor(key->getCStringNoCopy(), TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, 0))
                         WarningLog("can't add temperature sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
                     else count++;
                 }
@@ -122,7 +122,7 @@ bool ACPIMonitor::start(IOService * provider)
                 OSString *method = OSDynamicCast(OSString, voltages->getObject(key));
                 
                 if (method && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy())) 
-                    if (!addSensor(key->getCStringNoCopy(), TYPE_FP4C, 2, kFakeSMCVoltageSensor, 0))
+                    if (!addSensor(key->getCStringNoCopy(), TYPE_FP4C, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0))
                         WarningLog("can't add voltage sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
             };
             

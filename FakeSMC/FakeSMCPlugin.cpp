@@ -10,7 +10,6 @@
 
 #include <IOKit/IOLib.h>
 #include "FakeSMCDefinitions.h"
-#include "FakeSMCValueEncoder.h"
 
 #define Debug FALSE
 
@@ -81,59 +80,63 @@ bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const
 	return true;
 }
 
+inline UInt8 get_index(char c)
+{
+	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
+};
+
 void FakeSMCSensor::encodeValue(float value, void *outBuffer)
 {
-    if (type[0] == 'u' && type[1] == 'i') {
-        switch (type[3]) {
-            case '8':
-                if (type[4] == '\0' && size == 1) {
-                    UInt8 out = (UInt8)value;
-                    bcopy(&out, outBuffer, 1);
-                }
-                break;
-                
-            case '1':
-                if (type[4] == '6' && size == 2) {
-                    UInt16 out = OSSwapHostToBigInt16((UInt16)value);
-                    bcopy(&out, outBuffer, 2);
-                }
-                break;
-                
-            case '3':
-                if (type[4] == '2' && size == 4) {
-                    UInt32 out = OSSwapHostToBigInt32((UInt32)value);
-                    bcopy(&out, outBuffer, 4);
-                }
-                break;
+    if ((type[0] == 'u' || type[0] == 's') && type[1] == 'i') {
+
+        bool minus = value < 0;
+        
+        if (type[0] == 'u' && minus) {
+            value = -value;
+            minus = false;
         }
-    }
-    else if (type[0] == 's' && type[1] == 'i') {
-        switch (type[3]) {
+        
+        switch (type[2]) {
             case '8':
-                if (type[4] == '\0' && size == 1) {
-                    SInt8 out = (SInt8)value;
+                if (type[3] == '\0' && size == 1) {
+                    UInt8 out = minus ? (UInt8)(-value) | 0x80 : (UInt8)value;
                     bcopy(&out, outBuffer, 1);
                 }
                 break;
                 
             case '1':
-                if (type[4] == '6' && size == 2) {
-                    SInt16 out = OSSwapHostToBigInt16((SInt16)value);
+                if (type[3] == '6' && size == 2) {
+                    UInt16 out = OSSwapHostToBigInt16(minus ? (UInt16)(-value) | 0x8000 : (UInt16)value);
                     bcopy(&out, outBuffer, 2);
                 }
                 break;
                 
             case '3':
-                if (type[4] == '2' && size == 4) {
-                    SInt32 out = OSSwapHostToBigInt32((SInt32)value);
+                if (type[3] == '2' && size == 4) {
+                    UInt32 out = OSSwapHostToBigInt32(minus ? (UInt32)(-value) | 0x80000000 : (UInt32)value);
                     bcopy(&out, outBuffer, 4);
                 }
                 break;
+                
+            default:
+                return;
         }
     }
     else if ((type[0] == 'f' || type[0] == 's') && type[1] == 'p') {
-        UInt16 out = encode_16bit_fractional(type, value);
-        bcopy(&out, outBuffer, 2);
+        
+        bool minus = value < 0;
+        UInt8 i = get_index(type[2]);
+        UInt8 f = get_index(type[3]);
+             
+        if (i + f == (type[0] == 'f' ? 16 : 15)) {
+            
+            UInt64 mult = (minus ? -value : value) * 1000 ;
+            UInt64 encoded = ((mult << f) / 1000) & 0xffff;
+        
+            UInt16 out = OSSwapHostToBigInt16(minus ? (UInt16)(encoded | 0x8000) : (UInt16)encoded);
+        
+            bcopy(&out, outBuffer, 2);
+        }
     }
 }
 

@@ -12,7 +12,6 @@
 #include <architecture/i386/pio.h>
 
 #include "FakeSMCDefinitions.h"
-#include "FakeSMCValueEncoder.h"
 
 #define Debug FALSE
 
@@ -109,13 +108,13 @@ float SuperIOMonitor::getSensorValue(FakeSMCSensor *sensor)
     if (sensor)
         switch (sensor->getGroup()) {
             case kSuperIOTemperatureSensor:
-                return readTemperature(sensor->getIndex());
+                return (float)readTemperature(sensor->getIndex());
                 
             case kSuperIOVoltageSensor:
                 return readVoltage(sensor->getIndex());
                 
             case kFakeSMCTachometerSensor:
-                return readTachometer(sensor->getIndex());
+                return (float)readTachometer(sensor->getIndex());
         }
     
 	return 0;
