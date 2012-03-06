@@ -68,10 +68,12 @@ const UInt8 WINBOND_TEMPERATURE_SOURCE_SELECT_REG	= 0x49;
 const UInt8 WINBOND_TEMPERATURE[]					= { 0x50, 0x50, 0x27 };
 const UInt8 WINBOND_TEMPERATURE_BANK[]				= { 1,    2,    0 };
 
-const UInt8 WINBOND_VOLTAGE							= 0x20;
+const UInt8 WINBOND_VOLTAGE_VBAT                    = 0x51;
+const UInt8 WINBOND_VOLTAGE[]                       = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x50, 0x51, 0x52 };
+const UInt8 WINBOND_VOLTAGE_BANK[]                  = {    0,    0,    0,    0,    0,    0,    0,    5,    5,    5 };
 
 const UInt8 WINBOND_TACHOMETER[]					= { 0x28, 0x29, 0x2A, 0x3F, 0x53 };
-const UInt8 WINBOND_TACHOMETER_BANK[]				= { 0, 0, 0, 0, 5 };
+const UInt8 WINBOND_TACHOMETER_BANK[]				= {    0,    0,    0,    0,    5 };
 
 const UInt8 WINBOND_TACHOMETER_DIV0[]				= { 0x47, 0x47, 0x4B, 0x59, 0x59 };
 const UInt8 WINBOND_TACHOMETER_DIV0_BIT[]			= { 4,    6,    6,    0,    2 };
@@ -113,6 +115,7 @@ class W836x : public SuperIOMonitor
 	
 private:
 	UInt8					fanLimit;
+    float                   voltageGain;
 	UInt16					fanValue[5];
 	bool					fanValueObsolete[5];
 	

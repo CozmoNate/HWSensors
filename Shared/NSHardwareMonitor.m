@@ -241,10 +241,7 @@
     [self addSensorWithKey:@KEY_MEMORY_VOLTAGE caption:GetLocalizedString(@"DIMM Modules") group:kHWVoltageGroup];
     [self addSensorWithKey:@KEY_DCIN_12V_S0_VOLTAGE caption:GetLocalizedString(@"+12V") group:kHWVoltageGroup ];
     [self addSensorWithKey:@KEY_DCIN_3V3_S5_VOLTAGE caption:GetLocalizedString(@"AVCC") group:kHWVoltageGroup ];
-    [self addSensorWithKey:@KEY_CPU_VCCSA_VOLTAGE caption:GetLocalizedString(@"+3.3V VCC") group:kHWVoltageGroup ];
-    [self addSensorWithKey:@KEY_CPU_VCCIO_VOLTAGE caption:GetLocalizedString(@"+3.3V VSB") group:kHWVoltageGroup ];
     [self addSensorWithKey:@KEY_POWERBATTERY_VOLTAGE caption:GetLocalizedString(@"Power/Battery") group:kHWVoltageGroup ];
-    [self addSensorWithKey:@KEY_DCIN_12V_S0_VOLTAGE caption:GetLocalizedString(@"AC/DC") group:kHWVoltageGroup ];
     
     for (int i = 0; i <= 0xf; i++)        
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"VRM Supply %X"),i + 1] group:kHWVoltageGroup];

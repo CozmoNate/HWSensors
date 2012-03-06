@@ -70,6 +70,8 @@ bool SuperIOMonitor::probePort()
 
 bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
 {
+    DebugLog("adding temperature sensors...");
+    
     for (int i = 0; i < temperatureSensorsLimit(); i++) 
     {				
         char key[8];
@@ -97,7 +99,8 @@ bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
 
 bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
 {
-
+    DebugLog("adding voltage sensors...");
+    
     for (int i = 0; i < voltageSensorsLimit(); i++)
     {				
         char key[5];
@@ -129,37 +132,24 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
                 if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
                     WarningLog("can't add Battery voltage sensor!");
             }
-            else if (name->isEqualTo("VRM1")) {
-                if (!addSensor(KEY_CPU_VRMSUPPLY0_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                    WarningLog("can't add VRM1 voltage Sensor!");
-            }
-            else if (name->isEqualTo("VRM2")) {
-                if (!addSensor(KEY_CPU_VRMSUPPLY1_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                    WarningLog("can't add VRM2 voltage sensor!");
-            }
-            else if (name->isEqualTo("VRM3")) {
-                if (!addSensor(KEY_CPU_VRMSUPPLY2_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                    WarningLog("can't add VRM3 voltage sensor!");
-            }
-            else if (name->isEqualTo("VRM4")) {
-                if (!addSensor(KEY_CPU_VRMSUPPLY3_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                    WarningLog("can't add VRM4 voltage sensor!");
-            }
-            else if (name->isEqualTo("PWR1")) {
-                if (!addSensor(KEY_POWERSUPPLY1_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                    WarningLog("can't add PWR1 voltage Sensor!");
-            }
-            else if (name->isEqualTo("PWR2")) {
-                if (!addSensor(KEY_POWERSUPPLY2_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                    WarningLog("can't add PWR2 voltage sensor!");
-            }
-            else if (name->isEqualTo("PWR3")) {
-                if (!addSensor(KEY_POWERSUPPLY3_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                    WarningLog("can't add PWR3 voltage sensor!");
-            }
-            else if (name->isEqualTo("PWR4")) {
-                if (!addSensor(KEY_POWERSUPPLY4_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                    WarningLog("can't add PWR4 voltage sensor!");
+            
+            for (int j = 0; j <= 0xf; j++) {
+                
+                snprintf(key, 5, "VRM%X", j);
+                
+                if (name->isEqualTo(key)) {
+                    snprintf(key, 5, KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE, j);
+                    if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                        WarningLog("can't add VRM%X voltage Sensor!", j);
+                }
+                else {
+                    snprintf(key, 5, "PWR%X", j);
+                    if (name->isEqualTo(key)) {
+                        snprintf(key, 5, KEY_FORMAT_POWERSUPPLY_VOLTAGE, j);
+                        if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                            WarningLog("can't add PWR%X voltage Sensor!", j);
+                    }
+                }
             }
         }
     }
@@ -169,16 +159,16 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
 
 bool SuperIOMonitor::addTachometerSensors(OSDictionary *configuration)
 {
+    DebugLog("adding tachometer sensors...");
+    
     for (int i = 0; i < tachometerSensorsLimit(); i++) {
         OSString* name = NULL;
         
-        if (configuration) {
-            char key[7];
+        char key[7];
             
-            snprintf(key, 7, "FANIN%X", i);
+        snprintf(key, 7, "FANIN%X", i);
             
-            name = OSDynamicCast(OSString, configuration->getObject(key));
-        }
+        name = OSDynamicCast(OSString, configuration->getObject(key));
         
         UInt64 nameLength = name ? name->getLength() : 0;
         

@@ -23,17 +23,17 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
-	<string>4D502</string>
+	<string>4E109</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>11C63</string>
+	<string>11D50a</string>
 	<key>DTSDKName</key>
 	<string>macosx10.7</string>
 	<key>DTXcode</key>
-	<string>0421</string>
+	<string>0430</string>
 	<key>DTXcodeBuild</key>
-	<string>4D502</string>
+	<string>4E109</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Fintek F718x Monitor Plugin</key>
@@ -68,6 +68,22 @@
 					<string>System</string>
 					<key>VIN0</key>
 					<string>CPU</string>
+					<key>VIN1</key>
+					<string>PWR1</string>
+					<key>VIN2</key>
+					<string>PWR2</string>
+					<key>VIN3</key>
+					<string>PWR3</string>
+					<key>VIN4</key>
+					<string>PWR4</string>
+					<key>VIN5</key>
+					<string>PWR5</string>
+					<key>VIN6</key>
+					<string>PWR6</string>
+					<key>VIN7</key>
+					<string>PWR7</string>
+					<key>VIN8</key>
+					<string>PWR8</string>
 				</dict>
 			</dict>
 		</dict>

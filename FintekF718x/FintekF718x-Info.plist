@@ -52,6 +52,22 @@
 					<string></string>
 					<key>VIN0</key>
 					<string>CPU</string>
+					<key>VIN1</key>
+					<string>PWR1</string>
+					<key>VIN2</key>
+					<string>PWR2</string>
+					<key>VIN3</key>
+					<string>PWR3</string>
+					<key>VIN4</key>
+					<string>PWR4</string>
+					<key>VIN5</key>
+					<string>PWR5</string>
+					<key>VIN6</key>
+					<string>PWR6</string>
+					<key>VIN7</key>
+					<string>PWR7</string>
+					<key>VIN8</key>
+					<string>PWR8</string>
 				</dict>
 			</dict>
 		</dict>
