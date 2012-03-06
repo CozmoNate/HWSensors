@@ -96,7 +96,22 @@ UInt8 W836x::temperatureSensorsLimit()
 
 UInt8 W836x::voltageSensorsLimit()
 {
-    return 9;
+    switch (model) 
+    {
+        case W83627EHF:
+            return 10;
+        case W83627DHG:
+        case W83627DHGP:        
+        case W83667HG:
+        case W83667HGB:
+            return 9;
+        case W83627HF:
+        case W83627THF:
+        case W83687THF:
+            return 7;
+    }
+    
+    return 7;
 }
 
 UInt8 W836x::tachometerSensorsLimit()
@@ -118,28 +133,30 @@ SInt32 W836x::readTemperature(UInt32 index)
 
 float W836x::readVoltage(UInt32 index)
 {
-	float voltage = 0;
-	float gain = 1;
+    float voltage = 0;
+    
+    if (WINBOND_VOLTAGE[index] != WINBOND_VOLTAGE_VBAT) {
+        
+        UInt16 V = readByte(WINBOND_VOLTAGE_BANK[index], WINBOND_VOLTAGE[index]);
+        
+        if (index == 0 && (model == W83627HF || model == W83627THF || model == W83687THF)) 
+        {
+            UInt8 vrmConfiguration = readByte(0, 0x18);
+            
+            if ((vrmConfiguration & 0x01) == 0)
+                voltage = 0.016f * V; // VRM8 formula
+            else
+                voltage = 0.00488f * V + 0.69f; // VRM9 formula
+        }
+        else voltage = V * voltageGain;
+    }
+	else {
+        // Battery voltage
+        if ((readByte(0, 0x5D) & 0x01) > 0)
+            voltage = readByte(5, WINBOND_VOLTAGE_VBAT) * voltageGain;
+    }
 	
-	UInt16 V = readByte(0, WINBOND_VOLTAGE + index);
-	
-	if (index == 0 && (model == W83627HF || model == W83627THF || model == W83687THF)) 
-	{
-		UInt8 vrmConfiguration = readByte(0, 0x18);
-		
-		if ((vrmConfiguration & 0x01) == 0)
-			voltage = 16.0f * V; // VRM8 formula
-		else
-			voltage = 4.88f * V + 690.0f; // VRM9 formula
-	}
-	else 
-	{
-		if (index == 3) gain = 2;
-		
-		voltage = (V << 3) * gain;
-	}
-	
-	return voltage * 0.001f;
+	return voltage;
 }
 
 void W836x::updateTachometers()
@@ -209,29 +226,28 @@ SInt32 W836x::readTachometer(UInt32 index)
 
 bool W836x::addTemperatureSensors(OSDictionary *configuration)
 {
-        
+    DebugLog("adding temperature sensors...");
+    
     UInt8 flag = 0;
     
     switch (model) 
     {
         case W83667HG:
         case W83667HGB:
-            // do not add temperature sensor registers that read PECI
-            flag = readByte(0, WINBOND_TEMPERATURE_SOURCE_SELECT_REG);
-            break;
-            
         case W83627DHG:        
         case W83627DHGP:
             // do not add temperature sensor registers that read PECI
             flag = readByte(0, WINBOND_TEMPERATURE_SOURCE_SELECT_REG);
             break;                
     }
+    
+    int index = 0;
 
     for (int i = 0; i < temperatureSensorsLimit(); i++) 
     {				
         char key[8];
         
-        snprintf(key, 8, "TEMPIN%X", i);
+        snprintf(key, 8, "TEMPIN%X", index);
         
         if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
             
@@ -239,30 +255,17 @@ bool W836x::addTemperatureSensors(OSDictionary *configuration)
             {
                 case W83667HG:
                 case W83667HGB:
-                    if (i == 0 && (flag & 0x04) == 0)
-                    {
-                        i++;
-                    }
-                    else if (i == 1 && (flag & 0x40) == 0)
-                    {
-                        i++;
-                    }
+                    if ((i == 0 && (flag & 0x04) == 0) || (i == 1 && (flag & 0x40) == 0))
+                        continue;
                     break;
                     
                 case W83627DHG:        
                 case W83627DHGP:
-                    if (i == 0 && (flag & 0x07) == 0) 
-                    {
-                        i++;
-                    }
-                    else if (i == 1 && (flag & 0x70) == 0)
-                    {
-                        i++;
-                    }
+                    if ((i == 0 && (flag & 0x07) == 0) || (i == 1 && (flag & 0x70) == 0)) 
+                        continue;
                     break;
             }
             
-             
             if (name->isEqualTo("CPU")) {
                 if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
                     WarningLog("can't add CPU temperature sensor");
@@ -275,6 +278,8 @@ bool W836x::addTemperatureSensors(OSDictionary *configuration)
                 if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
                     WarningLog("can't add Ambient temperature sensor");
             }
+            
+            index++;
         }
     }
 	    
@@ -283,6 +288,8 @@ bool W836x::addTemperatureSensors(OSDictionary *configuration)
 
 bool W836x::addTachometerSensors(OSDictionary *configuration)
 {
+    DebugLog("setting fanLimit value...");
+    
     OSNumber* fanlimit = OSDynamicCast(OSNumber, configuration->getObject("FANINLIMIT")); 
     
 	if (fanlimit && fanlimit->unsigned8BitValue() > 0)
@@ -314,9 +321,7 @@ bool W836x::probePort()
 	
 	if (id == 0 || id == 0xff || revision == 0 || revision == 0xff)
 		return false;
-	
-	fanLimit = 3;
-	
+		
 	switch (id) 
 	{		
 		case 0x52:
@@ -355,7 +360,6 @@ bool W836x::probePort()
 			{
 				case 0x10:
 					model = W83697HF;
-					fanLimit = 2;
 					break;						
 			}
 			break;
@@ -378,7 +382,6 @@ bool W836x::probePort()
 			{
 				case 0x10:
 					model = W83697SF;
-					fanLimit = 2;
 					break;						
 			}
 			break;
@@ -390,7 +393,6 @@ bool W836x::probePort()
 			{
 				case 0x80:
 					model = W83637HF;
-					fanLimit = 5;
 					break;						
 			}
 			break;
@@ -427,7 +429,6 @@ bool W836x::probePort()
 				case 0x50:
 				case 0x60:
 					model = W83627EHF;
-					fanLimit = 5;
 					break;
 			}
 			break;
@@ -459,7 +460,6 @@ bool W836x::probePort()
 			{
 				case 0x20: 
 					model = W83627DHG;
-					fanLimit = 5;
 					break;   
 			}
 			break;
@@ -471,7 +471,6 @@ bool W836x::probePort()
 			{
 				case 0x30: 
 					model = W83627UHG; 
-					fanLimit = 2;
 					break;   
 			}
 			break;
@@ -483,7 +482,6 @@ bool W836x::probePort()
 			{
 				case 0x10:
 					model = W83667HG;
-					fanLimit = 2;
 					break;
 			}
 			break;
@@ -495,7 +493,6 @@ bool W836x::probePort()
 			{
 				case 0x70:
 					model = W83627DHGP;
-					fanLimit = 5;
 					break;
 			}
 			break;
@@ -507,7 +504,6 @@ bool W836x::probePort()
 			{
 				case 0x50:
 					model = W83667HGB;
-                    fanLimit = 4;
 					break;
 			}
 			break; 
@@ -531,6 +527,18 @@ bool W836x::probePort()
 			 }
 			 }*/
 	}
+    
+    switch (model) 
+    {
+        case W83627HF:
+        case W83627THF:
+        case W83687THF:
+            voltageGain = 0.016f;
+            fanLimit = 3;
+        default:
+            voltageGain = 0.008f;
+            fanLimit = 5;
+    } 
 	
 	if (!model)
 	{

@@ -23,17 +23,17 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
-	<string>4D502</string>
+	<string>4E109</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>11C63</string>
+	<string>11D50a</string>
 	<key>DTSDKName</key>
 	<string>macosx10.7</string>
 	<key>DTXcode</key>
-	<string>0421</string>
+	<string>0430</string>
 	<key>DTXcodeBuild</key>
-	<string>4D502</string>
+	<string>4E109</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Nuvoton NCT677x Monitor Plugin</key>
@@ -73,17 +73,17 @@
 					<key>VIN1</key>
 					<string>Memory</string>
 					<key>VIN2</key>
-					<string>DCIN_3V</string>
-					<key>VIN3</key>
-					<string>DCIN_12V</string>
-					<key>VIN4</key>
-					<string>CPU_PLL</string>
-					<key>VIN5</key>
-					<string>VRM1</string>
-					<key>VIN6</key>
 					<string>PWR1</string>
-					<key>VIN7</key>
+					<key>VIN3</key>
 					<string>PWR2</string>
+					<key>VIN4</key>
+					<string>PWR3</string>
+					<key>VIN5</key>
+					<string>PWR4</string>
+					<key>VIN6</key>
+					<string>PWR5</string>
+					<key>VIN7</key>
+					<string>PWR6</string>
 					<key>VIN8</key>
 					<string>Battery</string>
 				</dict>
