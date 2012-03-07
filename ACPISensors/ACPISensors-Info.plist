@@ -27,7 +27,7 @@
 			<key>IOClass</key>
 			<string>ACPIMonitor</string>
 			<key>IOMatchCategory</key>
-			<string>FakeSMCPlugin</string>
+			<string>ACPIMonitor</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>monitor</string>

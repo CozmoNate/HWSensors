@@ -55,6 +55,7 @@ protected:
     virtual bool            addTachometerSensors(OSDictionary *configuration);
 	
 	virtual const char *	getModelName();
+    virtual const char *	getVendorName();
     
     virtual UInt8           temperatureSensorsLimit();
     virtual UInt8           voltageSensorsLimit();

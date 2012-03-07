@@ -288,3 +288,8 @@ const char *F718x::getModelName()
 	
 	return "unknown";
 }
+
+const char *F718x::getVendorName()
+{
+    return "Fintek";
+}

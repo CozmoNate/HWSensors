@@ -122,6 +122,7 @@ private:
 	
     virtual UInt8			getPortsCount();
 	virtual const char *	getModelName();
+    virtual const char *	getVendorName();
 	
 public:
 	

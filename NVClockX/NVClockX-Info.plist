@@ -27,7 +27,7 @@
 			<key>IOClass</key>
 			<string>NVClockX</string>
 			<key>IOMatchCategory</key>
-			<string>FakeSMCPlugin</string>
+			<string>NVClockX</string>
 			<key>IOPCIClassMatch</key>
 			<string>0x03000000&amp;0xff000000</string>
 			<key>IOPCIMatch</key>

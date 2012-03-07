@@ -478,7 +478,7 @@ void FakeSMCDevice::updateSharpKey()
 {	
 	UInt32 count = keys->getCount();
 	
-	char value[] = { count << 24, count << 16, count << 8, count };
+	char value[] = { static_cast<char>(count << 24), static_cast<char>(count << 16), static_cast<char>(count << 8), static_cast<char>(count) };
 	
 	sharpKEY->setValueFromBuffer(value, 4);
 }

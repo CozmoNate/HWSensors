@@ -39,7 +39,7 @@
 	<key>DTXcodeBuild</key>
 	<string>4E109</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.6</string>
+	<string>10.7</string>
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>

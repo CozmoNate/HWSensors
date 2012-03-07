@@ -146,10 +146,8 @@ bool IT87x::probePort()
 {	
 	UInt16 id = listenPortWord(SUPERIO_CHIP_ID_REGISTER);
 	
-	if (id == 0 || id == 0xffff) {
-        WarningLog("invalid super I/O chip ID=0x%x", id);
+	if (id == 0 || id == 0xffff)
 		return false;
-    }
 	
 	switch (id)
 	{
@@ -200,11 +198,6 @@ bool IT87x::probePort()
     
     UInt8 version = readByte(ITE_VERSION_REGISTER) & 0x0F;
     
-    /*if (id == IT8712F && version < 8)
-        has16bitFanCounter = false;
-    else
-        has16bitFanCounter = true;*/
-    
     has16bitFanCounter = !(id == IT8712F && version < 8);
     
     for (int i = 0; i < 9; i++)
@@ -235,4 +228,9 @@ const char *IT87x::getModelName()
 	}
 	
 	return "unknown";
+}
+
+const char *IT87x::getVendorName()
+{
+    return "ITE";
 }
