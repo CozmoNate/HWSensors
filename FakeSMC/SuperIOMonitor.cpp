@@ -222,7 +222,12 @@ void SuperIOMonitor::exit()
 
 const char *SuperIOMonitor::getModelName()
 {
-	return "Unknown";
+	return "Unknown Model";
+}
+
+const char *SuperIOMonitor::getVendorName()
+{
+    return "Unknown Vendor";
 }
 
 float SuperIOMonitor::getSensorValue(FakeSMCSensor *sensor)
@@ -283,17 +288,17 @@ IOService *SuperIOMonitor::probe(IOService *provider, SInt32 *score)
         IOSleep(100);
     }
 	
-	return this;
+	return 0;
 }
 
 bool SuperIOMonitor::start(IOService *provider)
 {		
 	DebugLog("starting...");
 	
-	if (!super::start(provider)) 
+	if (!super::start(provider) || model == 0) 
         return false;
-        
-    InfoLog("found %s", getModelName());
+    
+    InfoLog("found %s %s", getVendorName(), getModelName());
         
     OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"));
     OSDictionary* configuration = list ? OSDynamicCast(OSDictionary, list->getObject(getModelName())) : 0;

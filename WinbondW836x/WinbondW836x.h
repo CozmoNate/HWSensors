@@ -123,10 +123,6 @@ private:
 	UInt8					readByte(UInt8 bank, UInt8 reg);
     UInt64                  setBit(UInt64 target, UInt16 bit, UInt32 value);
 	
-	virtual bool			probePort();
-	virtual void			enter();
-	virtual void			exit();
-    
     virtual bool            addTemperatureSensors(OSDictionary *configuration);
     virtual bool            addTachometerSensors(OSDictionary *configuration);
     
@@ -138,9 +134,14 @@ private:
 	virtual float			readVoltage(UInt32 index);
     void					updateTachometers();
 	virtual SInt32			readTachometer(UInt32 index);
+    
+	virtual bool			probePort();
+	virtual void			enter();
+	virtual void			exit();
 	
 	virtual const char *	getModelName();
-	
+	virtual const char *	getVendorName();
+    
 public:
 	
 };

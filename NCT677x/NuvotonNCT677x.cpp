@@ -274,3 +274,8 @@ const char *NCT677x::getModelName()
 	
 	return "unknown";
 }
+
+const char *NCT677x::getVendorName()
+{
+    return "Nuvoton";
+}

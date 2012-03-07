@@ -307,13 +307,11 @@ void W836x::enter()
 void W836x::exit()
 {
 	outb(registerPort, 0xAA);
-	//outb(registerPort, SUPERIO_CONFIGURATION_CONTROL_REGISTER);
-	//outb(valuePort, 0x02);
 }
 
 bool W836x::probePort()
 {
-	UInt8 id =listenPortByte(SUPERIO_CHIP_ID_REGISTER);
+	UInt8 id = listenPortByte(SUPERIO_CHIP_ID_REGISTER);
     
     IOSleep(50);
     
@@ -334,13 +332,6 @@ bool W836x::probePort()
 				case 0x41:
 					model = W83627HF;
 					break;
-					/*case 0x70:
-					 model = W83977CTF;
-					 break;
-					 case 0xf0:
-					 model = W83977EF;
-					 break;*/
-					
 			}
 		}
 		case 0x59:
@@ -364,18 +355,7 @@ bool W836x::probePort()
 			}
 			break;
 		}
-			
-			/*case 0x61:
-			 {
-			 switch (revision & 0xf0)
-			 {
-			 case 0x00:
-			 model = W83L517D;
-			 break;						
-			 }
-			 break;
-			 }*/
-			
+        
 		case 0x68:
 		{
 			switch (revision & 0xf0)
@@ -416,7 +396,6 @@ bool W836x::probePort()
 			{
 				case 0x41:
 					model = W83687THF;
-					// No datasheet
 					break;
 			}
 			break;
@@ -433,26 +412,6 @@ bool W836x::probePort()
 			}
 			break;
 		}
-			
-			/*case 0x97:
-			 {
-			 switch (revision)
-			 {
-			 case 0x71:
-			 model = W83977FA;
-			 break;
-			 case 0x73:
-			 model = W83977TF;
-			 break;
-			 case 0x74:
-			 model = W83977ATF;
-			 break;
-			 case 0x77:
-			 model = W83977AF;
-			 break;
-			 }
-			 break;
-			 }*/	
 			
 		case 0xA0:
 		{
@@ -508,24 +467,12 @@ bool W836x::probePort()
 			}
 			break; 
 		}
-			
-			/*default: 
-			 {
-			 switch (id & 0x0f) {
-			 case 0x0a:
-			 model = W83877F;
-			 break;
-			 case 0x0b:
-			 model = W83877AF;
-			 break;
-			 case 0x0c:
-			 model = W83877TF;
-			 break;
-			 case 0x0d:
-			 model = W83877ATF;
-			 break;
-			 }
-			 }*/
+	}
+	
+	if (model == 0)
+	{
+		WarningLog("found unsupported chip ID=0x%x REVISION=0x%x", id, revision);
+		return false;
 	}
     
     switch (model) 
@@ -539,12 +486,6 @@ bool W836x::probePort()
             voltageGain = 0.008f;
             fanLimit = 5;
     } 
-	
-	if (!model)
-	{
-		WarningLog("found unsupported chip ID=0x%x REVISION=0x%x", id, revision);
-		return false;
-	}
     
 	selectLogicalDevice(WINBOND_HARDWARE_MONITOR_LDN);
 	
@@ -588,4 +529,9 @@ const char *W836x::getModelName()
 	}
 	
 	return "unknown";
+}
+
+const char *W836x::getVendorName()
+{
+    return "Winbond";
 }

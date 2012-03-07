@@ -25,7 +25,7 @@
 			<key>IOClass</key>
 			<string>RadeonMonitor</string>
 			<key>IOMatchCategory</key>
-			<string>FakeSMCPlugin</string>
+			<string>RadeonMonitor</string>
 			<key>IOPCIClassMatch</key>
 			<string>0x03000000&amp;0xFF000000</string>
 			<key>IOPCIMatch</key>

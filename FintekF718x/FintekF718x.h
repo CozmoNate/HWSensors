@@ -102,6 +102,7 @@ private:
 	virtual SInt32			readTachometer(UInt32 index);
 	
 	virtual const char *	getModelName();
+    virtual const char *	getVendorName();
 	
 public:
 	

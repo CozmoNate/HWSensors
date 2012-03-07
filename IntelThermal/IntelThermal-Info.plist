@@ -27,7 +27,7 @@
 			<key>IOClass</key>
 			<string>IntelThermal</string>
 			<key>IOMatchCategory</key>
-			<string>FakeSMCPlugin</string>
+			<string>IntelThermal</string>
 			<key>IOProviderClass</key>
 			<string>FakeSMC</string>
 			<key>IOResourceMatch</key>

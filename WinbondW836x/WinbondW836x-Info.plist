@@ -71,6 +71,8 @@
 					<key>VIN7</key>
 					<string>PWR7</string>
 					<key>VIN8</key>
+					<string>Battery</string>
+					<key>VIN9</key>
 					<string>PWR8</string>
 				</dict>
 			</dict>

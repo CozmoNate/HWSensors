@@ -21,7 +21,7 @@
 	<key>CFBundleVersion</key>
 	<string>2.0.0</string>
 	<key>DTCompiler</key>
-	<string>com.apple.compilers.llvmgcc42</string>
+	<string></string>
 	<key>DTPlatformBuild</key>
 	<string>4E109</string>
 	<key>DTPlatformVersion</key>
@@ -56,7 +56,7 @@
 			<key>IOClass</key>
 			<string>ACPIMonitor</string>
 			<key>IOMatchCategory</key>
-			<string>FakeSMCPlugin</string>
+			<string>ACPIMonitor</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>monitor</string>

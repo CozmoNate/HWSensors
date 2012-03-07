@@ -27,7 +27,7 @@
 			<key>IOClass</key>
 			<string>X3100monitor</string>
 			<key>IOMatchCategory</key>
-			<string>FakeSMCPlugin</string>
+			<string>X3100monitor</string>
 			<key>IOPCIClassMatch</key>
 			<string>0x06000000&amp;0xfff000000</string>
 			<key>IOPCIPrimaryMatch</key>
