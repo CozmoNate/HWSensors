@@ -26,6 +26,22 @@ inline UInt8 get_index(char c)
 
 @synthesize menuItem;
 @synthesize favorite;
+@synthesize exceeded;
+@synthesize recentlyExceeded;
+
+- (BOOL)exceeded
+{
+    recentlyExceeded = false;
+    
+    return exceeded;
+}
+
+- (void)setExceeded:(BOOL)isExceeded
+{
+    recentlyExceeded = exceeded != isExceeded;
+    
+    exceeded = isExceeded;
+}
 
 + (int)getIndexOfHexChar:(char)c
 {
@@ -142,38 +158,45 @@ inline UInt8 get_index(char c)
 {
     if (value != NULL) {
         switch (group) {
-            case kHWSMARTTemperatureGroup:
-            {
+            case kHWSMARTTemperatureGroup: {
                 UInt16 t = 0;
                 
                 bcopy([value bytes], &t, 2);
+                
+                [self setExceeded:exceeded = exceeded || (t >= 50)];
                 
                 return [[NSString alloc] initWithFormat:@"%d°",t];
                 
             }
                 
-            case kHWSMARTRemainingLifeGroup:
-            {
+            case kHWSMARTRemainingLifeGroup: {
                 UInt64 life = 0;
                 
                 bcopy([value bytes], &life, [value length]);
+               
+                [self setExceeded:exceeded || (life >= 80)];
                 
                 return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
                 //return [[NSString alloc] initWithFormat:@"(%d)",life];
                 
             }
                 
-            case kHWTemperatureGroup:
-                return [[NSString alloc] initWithFormat:@"%1.0f°",[self decodeValue]];
+            case kHWTemperatureGroup: {
+                float t = [self decodeValue];
+                
+                [self setExceeded:t >= 60];
+                
+                return [[NSString alloc] initWithFormat:@"%1.0f°", t];
+            }
                 
             case kHWVoltageGroup:
-                return [[NSString alloc] initWithFormat:@"%1.2fV",[self decodeValue]];
+                return [[NSString alloc] initWithFormat:@"%1.2fV", [self decodeValue]];
                 
             case kHWTachometerGroup:
-                return [[NSString alloc] initWithFormat:@"%1.0frpm",[self decodeValue]];
+                return [[NSString alloc] initWithFormat:@"%1.0frpm", [self decodeValue]];
                 
             case kHWMultiplierGroup:
-                return [[NSString alloc] initWithFormat:@"x%1.1f",[self decodeValue]];
+                return [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
         }
     }
     

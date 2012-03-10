@@ -22,9 +22,16 @@
     NSDictionary *statusMenuAttributes;
     
     HWMonitorEngine *monitor;
+    
+    NSImage *gemClear;
+    NSImage *gemGreen;
+    NSImage *gemRed;
+    NSImage *gemYellow;
 }
 
-- (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
+- (void)setGemForMenuItem:(NSMenuItem*)menuItem Sensor:(HWMonitorSensor*)sensor;
+
+- (void)insertMenuGroupWithTitle:(NSString*)title sensors:(NSArray*)list;
 
 - (void)updateSMARTData;
 - (void)updateTitlesForceAllSensors:(BOOL)allSensors;

@@ -19,6 +19,7 @@
 @synthesize productName;
 @synthesize serialNumber;
 @synthesize isRotational;
+@synthesize isExceeded;
 
 +(ATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name serialNumber:(NSString*)serial isRotational:(BOOL)rotational
 {
@@ -51,12 +52,19 @@
             bzero(&smartData, sizeof(smartData));
             
             if(kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true))
-                if (kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true))
+                if (kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true)) {
+                    
+                    Boolean conditionExceeded = false;
+                    
+                    if (kIOReturnSuccess == (*smartInterface)->SMARTReturnStatus(smartInterface, &conditionExceeded))
+                        isExceeded = conditionExceeded;
+                    
                     if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &smartData)) 
                         if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &smartData)) {
                             bcopy(&smartData.vendorSpecific1, &data, sizeof(data));
                             result = true;
                         }
+                }
             
             (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, false);
             (*smartInterface)->SMARTEnableDisableOperations(smartInterface, false);
