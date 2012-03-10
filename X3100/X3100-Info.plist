@@ -27,13 +27,11 @@
 			<key>IOClass</key>
 			<string>X3100monitor</string>
 			<key>IOMatchCategory</key>
-			<string>X3100monitor</string>
+			<string>FakeSMCPlugin</string>
 			<key>IOPCIClassMatch</key>
 			<string>0x06000000&amp;0xfff000000</string>
 			<key>IOPCIPrimaryMatch</key>
 			<string>0x2a008086</string>
-			<key>IOProbeScore</key>
-			<integer>1000</integer>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 		</dict>

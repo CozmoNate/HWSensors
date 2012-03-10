@@ -49,8 +49,6 @@
 #include <IOKit/IOService.h>
 #include "SuperIOMonitor.h"
 
-const UInt8 WINBOND_HARDWARE_MONITOR_LDN			= 0x0B;
-
 const UInt16 WINBOND_VENDOR_ID						= 0x5CA3;
 const UInt8 WINBOND_HIGH_BYTE						= 0x80;
 
@@ -93,22 +91,6 @@ const UInt8 WINBOND_FAN_CONTROL_BIT[]				= { 0x02, 0x04, 0x01, 0x04 };
 const UInt8 WINBOND_FAN_MODE_BIT[]					= { 0x00, 0x01, 0x00, 0x06 };
 const UInt8 WINBOND_FAN_OUTPUT[]					= { 0x01, 0x03, 0x11, 0x61 };
 
-enum W836xModel {
-	W83627DHG	= 0xA020,
-	W83627UHG	= 0xA230,
-    W83627DHGP	= 0xB070,
-    W83627EHF	= 0x8800,    
-    W83627HF	= 0x5200,
-	W83627THF	= 0x8280,
-	W83627SF	= 0x5950,
-	W83637HF	= 0x7080,
-    W83667HG	= 0xA510,
-    W83667HGB	= 0xB350,
-    W83687THF	= 0x8541,
-	W83697HF	= 0x6010,
-	W83697SF	= 0x6810
-};
-
 class W836x : public SuperIOMonitor
 {
     OSDeclareDefaultStructors(W836x)
@@ -122,10 +104,7 @@ private:
 	void					writeByte(UInt8 bank, UInt8 reg, UInt8 value);
 	UInt8					readByte(UInt8 bank, UInt8 reg);
     UInt64                  setBit(UInt64 target, UInt16 bit, UInt32 value);
-	
-    virtual bool            addTemperatureSensors(OSDictionary *configuration);
-    virtual bool            addTachometerSensors(OSDictionary *configuration);
-    
+
     virtual UInt8           temperatureSensorsLimit();
     virtual UInt8           voltageSensorsLimit();
     virtual UInt8           tachometerSensorsLimit();
@@ -135,12 +114,10 @@ private:
     void					updateTachometers();
 	virtual SInt32			readTachometer(UInt32 index);
     
-	virtual bool			probePort();
-	virtual void			enter();
-	virtual void			exit();
-	
-	virtual const char *	getModelName();
-	virtual const char *	getVendorName();
+    virtual bool            addTemperatureSensors(OSDictionary *configuration);
+    virtual bool            addTachometerSensors(OSDictionary *configuration);
+    
+    virtual bool            initialize();
     
 public:
 	

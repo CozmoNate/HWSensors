@@ -31,7 +31,7 @@
         [menu addItem:titleItem];
         
         for (int i = 0; i < [list count]; i++) {
-            NSHardwareMonitorSensor *sensor = (NSHardwareMonitorSensor*)[list objectAtIndex:i];
+            HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
             
             [sensor setFavorite:[[NSUserDefaults standardUserDefaults] boolForKey:[sensor key]]];
             
@@ -66,7 +66,7 @@
     NSArray *sensors = [monitor sensors];
     
     for (int i = 0; i < [sensors count]; i++) {
-        NSHardwareMonitorSensor *sensor = (NSHardwareMonitorSensor*)[sensors objectAtIndex:i];
+        HWMonitorSensor *sensor = (HWMonitorSensor*)[sensors objectAtIndex:i];
         
         if ([self isMenuDown] || allSensors) {
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[[NSString alloc] initWithFormat:@"%S\t%S",[[sensor caption] cStringUsingEncoding:NSUTF16StringEncoding],[[sensor formatValue] cStringUsingEncoding:NSUTF16StringEncoding]] attributes:statusMenuAttributes];
@@ -104,7 +104,7 @@
     
     [menuItem setState:![menuItem state]];
     
-    NSHardwareMonitorSensor *sensor = (NSHardwareMonitorSensor*)[menuItem representedObject];
+    HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
     
     [sensor setFavorite:[menuItem state]];
     
@@ -150,7 +150,7 @@
     
     // Init sensors
     
-    monitor = [[NSHardwareMonitor alloc] initWithBundle:bundle];
+    monitor = [[HWMonitorEngine alloc] initWithBundle:bundle];
     
     [monitor rebuildSensorsList];
     

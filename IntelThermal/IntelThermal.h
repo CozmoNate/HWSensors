@@ -74,6 +74,8 @@ class IntelThermal : public FakeSMCPlugin
     OSDeclareDefaultStructors(IntelThermal)    
     
 private:
+    bool                    isActive;
+    
     UInt8                   tjmax[INTEL_THERMAL_MAX_CPU];
     IOWorkLoop *			workloop;
 	IOTimerEventSource *	timersource;
@@ -88,6 +90,7 @@ protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
 public:
+    
     virtual IOService*		probe(IOService *provider, SInt32 *score);
     virtual bool			start(IOService *provider);
 };

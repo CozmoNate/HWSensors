@@ -56,7 +56,21 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1D05AC5A13ED123D00EADBF6"
+               BlueprintIdentifier = "6A9EF214150AB2D700CFDB15"
+               BuildableName = "SuperIOFamily.kext"
+               BlueprintName = "SuperIOFamily"
+               ReferencedContainer = "container:HWSensors.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6A9EF200150AB20F00CFDB15"
                BuildableName = "ITEIT87x.kext"
                BlueprintName = "ITEIT87x"
                ReferencedContainer = "container:HWSensors.xcodeproj">
@@ -87,20 +101,6 @@
                BlueprintIdentifier = "1DA9620413ED30E40096F8A5"
                BuildableName = "FintekF718x.kext"
                BlueprintName = "FintekF718x"
-               ReferencedContainer = "container:HWSensors.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1DA9622213ED331D0096F8A5"
-               BuildableName = "NSCPC8739x.kext"
-               BlueprintName = "NSCPC8739x"
                ReferencedContainer = "container:HWSensors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -172,7 +172,7 @@
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"

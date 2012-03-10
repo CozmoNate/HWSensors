@@ -47,9 +47,8 @@
  */
 
 #include "FintekF718x.h"
-
-#include <architecture/i386/pio.h>
 #include "FakeSMCDefinitions.h"
+#include "SuperIO.h"
 
 #define Debug FALSE
 
@@ -140,156 +139,15 @@ SInt32 F718x::readTachometer(UInt32 index)
 	return value;
 }
 
-
-void F718x::enter()
-{
-	outb(registerPort, 0x87);
-	outb(registerPort, 0x87);
-}
-
-void F718x::exit()
-{
-	outb(registerPort, 0xAA);
-	//outb(registerPort, SUPERIO_CONFIGURATION_CONTROL_REGISTER);
-	//outb(valuePort, 0x02);
-}
-
-bool F718x::probePort()
-{
-	UInt8 logicalDeviceNumber = FINTEK_HARDWARE_MONITOR_LDN;
-	
-	UInt8 id = listenPortByte(SUPERIO_CHIP_ID_REGISTER);
-	UInt8 revision = listenPortByte(SUPERIO_CHIP_REVISION_REGISTER);
-	
-	if (id == 0 || id == 0xff || revision == 0 || revision == 0xff)
-		return false;
-	
-	switch (id) 
-	{
-		case 0x05:
-		{
-			switch (revision) 
-			{
-				case 0x07:
-					model = F71858;
-					logicalDeviceNumber = F71858_HARDWARE_MONITOR_LDN;
-					break;
-				case 0x41:
-					model = F71882;
-					break;              
-			}
-		} break;
-		case 0x06:
-		{
-			switch (revision) 
-			{
-				case 0x01:
-					model = F71862;
-					break;              
-			} 
-		} break;
-		case 0x07:
-		{
-			switch (revision)
-			{
-				case 0x23:
-					model = F71889F;
-					break;              
-			} 
-		} break;
-		case 0x08:
-		{
-			switch (revision)
-			{
-				case 0x14:
-					model = F71869;
-					break;              
-			}
-		} break;
-		case 0x09:
-		{
-			switch (revision)
-			{
-                case 0x01:                                                      
-                    model = F71808;                                         
-                    break;                                                    
-				case 0x09:
-					model = F71889ED;
-					break;              
-			}
-		} break;
-        case 0x10:
-        {
-            switch (revision)
-			{
-                case 0x05:
-                    model = F71889AD;
-                    break;
-                case 0x07:                                                      
-                    model = F71869A;                                         
-                    break;      
-            }
-        } break;
-	}
-	
-	if (!model)
-	{
-		WarningLog("found unsupported chip ID=0x%x REVISION=0x%x", id, revision);
-		return false;
-	} 
-	
-	selectLogicalDevice(logicalDeviceNumber);
-    
-    IOSleep(50);
-	
-	address = listenPortWord(SUPERIO_BASE_ADDRESS_REGISTER);
-	
-	IOSleep(250);
-	
-	if (address != listenPortWord(SUPERIO_BASE_ADDRESS_REGISTER)) {
-        WarningLog("can't get monitoring logical device address");
-		return false;
-    }
-    
-    // some Fintek chips have address register offset 0x05 added already
-    if ((address & 0x07) == 0x05)
-        address &= 0xFFF8;
-    
-    if (address < 0x100 || (address & 0xF007) != 0)
-		return false;
-    
-    IOSleep(50);
-    
-    UInt16 vendor = listenPortWord(FINTEK_VENDOR_ID_REGISTER);
+bool F718x::initialize()
+{    
+    UInt16 vendor = listen_port_word(port, FINTEK_VENDOR_ID_REGISTER);
     
     if (vendor != FINTEK_VENDOR_ID)
     {
-        WarningLog("wrong vendor chip ID=0x%x REVISION=0x%x VENDORID=0x%x", id, revision, vendor);
+        WarningLog("wrong vendor id=0x%x", vendor);
         return false;
     }
 	
 	return true;
-}
-
-const char *F718x::getModelName()
-{
-	switch (model) 
-	{
-        case F71858:    return "F71858";
-        case F71862:    return "F71862";
-        case F71869:    return "F71869";
-        case F71869A:   return "F71869A";
-        case F71882:    return "F71882";
-        case F71889AD:  return "F71889AD";
-        case F71889ED:  return "F71889ED";
-        case F71889F:   return "F71889F";
-		case F71808:    return "F71808";	
-	}
-	
-	return "unknown";
-}
-
-const char *F718x::getVendorName()
-{
-    return "Fintek";
 }

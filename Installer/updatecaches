@@ -2,6 +2,7 @@
 
 # update caches
 
-kextcache -system-cache
+rm -R ${targetVolume}/System/Library/Caches/
+kextcache -update-volume ${targetVolume} -f
 
 exit 0

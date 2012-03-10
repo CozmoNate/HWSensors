@@ -27,7 +27,7 @@
 			<key>IOClass</key>
 			<string>ACPIMonitor</string>
 			<key>IOMatchCategory</key>
-			<string>ACPIMonitor</string>
+			<string>IODefaultMatchCategory</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>monitor</string>

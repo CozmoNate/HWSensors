@@ -1,4 +1,6 @@
+
 #include "FakeSMC.h"
+#include "FakeSMCDefinitions.h"
 
 #define Debug FALSE
 
@@ -14,6 +16,14 @@ bool FakeSMC::init(OSDictionary *dictionary)
 {	
 	if (!super::init(dictionary))
 		return false;
+    
+    InfoLog("Opensource SMC device emulator. Copyright 2009 netkas. All rights reserved.");
+	InfoLog("Supports hardware monitoring plugins. Copyright 2012 kozlek, usr-sse2, slice. All rights reserved.");
+    
+    if (!(smcDevice = new FakeSMCDevice)) {
+		InfoLog("failed to create SMC device");
+		return false;
+	}
 		
 	return true;
 }
@@ -23,27 +33,21 @@ IOService *FakeSMC::probe(IOService *provider, SInt32 *score)
     if (!super::probe(provider, score))
 		return 0;
 	
-	InfoLog("opensource SMC device emulator by netkas (C) 2009");
-	InfoLog("plugins & plugins support modifications by mozodojo, usr-sse2, slice (C) 2010");
-	
 	return this;
 }
 
 bool FakeSMC::start(IOService *provider)
 {
-	if (!super::start(provider)) return false;
-			
-	if (!(smcDevice = new FakeSMCDevice)) {
-		InfoLog("failed to create smcDevice");
-		return false;
-	}
-		
-	if (!smcDevice->init(provider, OSDynamicCast(OSDictionary, getProperty("Configuration")))) {
-		InfoLog("failed to init smcDevice");
-		return false;
-	}
+	if (!super::start(provider)) 
+        return false;
 	
+	if (!smcDevice->init(provider, OSDynamicCast(OSDictionary, getProperty("Configuration")))) {
+		InfoLog("failed to initialize SMC device");
+		return false;
+	}
+
 	smcDevice->registerService();
+    
 	registerService();
 		
 	return true;

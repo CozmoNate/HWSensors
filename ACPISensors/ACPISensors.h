@@ -38,6 +38,5 @@ protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
 public:
-    virtual IOService*		probe(IOService *provider, SInt32 *score);
     virtual bool			start(IOService *provider);
 };

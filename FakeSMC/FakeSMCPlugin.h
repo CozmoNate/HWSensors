@@ -51,8 +51,6 @@ protected:
 	IOService               *fakeSMC;
     OSDictionary            *sensors;
     
-    bool                    isActive;
-    
     bool                    isKeyHandled(const char *key);
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index);

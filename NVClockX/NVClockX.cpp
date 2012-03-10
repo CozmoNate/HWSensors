@@ -133,8 +133,6 @@ IOService* NVClockX::probe(IOService *provider, SInt32 *score)
         
         nvclock.num_cards++;
         
-        isActive = true;
-        
         return this;
     }
 	
@@ -208,11 +206,11 @@ bool NVClockX::start(IOService * provider)
 		if (nv_card->caps & (I2C_FANSPEED_MONITORING | GPU_FANSPEED_MONITORING)){
             InfoLog("Adding tachometer sensor");
             
-            char name[6]; 
+            char title[6]; 
             
-            snprintf (name, 6, "GPU %X", cardIndex);
+            snprintf (title, 6, "GPU %X", cardIndex);
             
-			addTachometer(index, name);
+			addTachometer(index, title);
 		}
 		
         /*InfoLog("Adding frequency sensor");
@@ -236,7 +234,7 @@ bool NVClockX::start(IOService * provider)
 		}*/
 	}
     
-    registerService(0);
+    registerService();
 	
 	return true;
 }

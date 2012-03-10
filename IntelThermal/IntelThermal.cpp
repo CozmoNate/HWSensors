@@ -168,6 +168,8 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
     if (super::probe(provider, score) != this) 
         return 0;
     
+    isActive = false;
+    
     cpuid_update_generic_info();
 	
 	if (strcmp(cpuid_info()->cpuid_vendor, CPUID_VID_INTEL) != 0)	{
@@ -378,7 +380,7 @@ bool IntelThermal::start(IOService *provider)
     
     loopTimerEvent();
     
-    registerService(0);
+    registerService();
     
     return true;
 }

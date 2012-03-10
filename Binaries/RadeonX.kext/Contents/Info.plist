@@ -21,7 +21,7 @@
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
-	<string>4E109</string>
+	<string>4E1019</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -29,9 +29,9 @@
 	<key>DTSDKName</key>
 	<string>macosx10.7</string>
 	<key>DTXcode</key>
-	<string>0430</string>
+	<string>0431</string>
 	<key>DTXcodeBuild</key>
-	<string>4E109</string>
+	<string>4E1019</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Radeon Cards Monitoring Plugin</key>
@@ -41,13 +41,11 @@
 			<key>IOClass</key>
 			<string>RadeonMonitor</string>
 			<key>IOMatchCategory</key>
-			<string>RadeonMonitor</string>
+			<string>FakeSMCPlugin</string>
 			<key>IOPCIClassMatch</key>
 			<string>0x03000000&amp;0xFF000000</string>
 			<key>IOPCIMatch</key>
 			<string>0x00001002&amp;0x0000FFFF</string>
-			<key>IOProbeScore</key>
-			<integer>1000</integer>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 		</dict>

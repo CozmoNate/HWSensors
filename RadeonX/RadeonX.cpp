@@ -268,7 +268,10 @@ IOService* RadeonMonitor::probe(IOService *provider, SInt32 *score)
     
 	chipID = data ? *(UInt32*)data->getBytesNoCopy() : 0;	
 
-	isActive = initCard();
+	if (!initCard()) {
+        WarningLog("can't initialize driver");
+        return 0;
+    }
     
     return this;
 }
@@ -297,7 +300,7 @@ bool RadeonMonitor::start(IOService * provider)
         }
     }
     
-    registerService(0);
+    registerService();
     
     return true;
 }

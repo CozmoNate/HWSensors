@@ -25,13 +25,11 @@
 			<key>IOClass</key>
 			<string>RadeonMonitor</string>
 			<key>IOMatchCategory</key>
-			<string>RadeonMonitor</string>
+			<string>FakeSMCPlugin</string>
 			<key>IOPCIClassMatch</key>
 			<string>0x03000000&amp;0xFF000000</string>
 			<key>IOPCIMatch</key>
 			<string>0x00001002&amp;0x0000FFFF</string>
-			<key>IOProbeScore</key>
-			<integer>1000</integer>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 		</dict>

@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>WinbondW836x</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.mozodojo.WinbondW836x</string>
+	<string>org.kozlek.WinbondW836x</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -23,7 +23,7 @@
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
-	<string>4E109</string>
+	<string>4E1019</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -31,21 +31,37 @@
 	<key>DTSDKName</key>
 	<string>macosx10.7</string>
 	<key>DTXcode</key>
-	<string>0430</string>
+	<string>0431</string>
 	<key>DTXcodeBuild</key>
-	<string>4E109</string>
+	<string>4E1019</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>Winbond W836x Monitor Plugin</key>
+		<key>Winbond W836x Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.mozodojo.WinbondW836x</string>
+			<string>org.kozlek.WinbondW836x</string>
 			<key>IOClass</key>
 			<string>W836x</string>
 			<key>IOMatchCategory</key>
 			<string>SuperIOMonitor</string>
+			<key>IONameMatch</key>
+			<array>
+				<string>Winbond,W83627DHG</string>
+				<string>Winbond,W83627UHG</string>
+				<string>Winbond,W83627DHGP</string>
+				<string>Winbond,W83627EHF</string>
+				<string>Winbond,W83627HF</string>
+				<string>Winbond,W83627THF</string>
+				<string>Winbond,W83627SF</string>
+				<string>Winbond,W83637HF</string>
+				<string>Winbond,W83667HG</string>
+				<string>Winbond,W83667HGB</string>
+				<string>Winbond,W83687THF</string>
+				<string>Winbond,W83697HF</string>
+				<string>Winbond,W83697SF</string>
+			</array>
 			<key>IOProviderClass</key>
-			<string>FakeSMC</string>
+			<string>SuperIO</string>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
 			<key>Sensors Configuration</key>
@@ -104,6 +120,8 @@
 		<string>10.0.0</string>
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
+		<key>org.kozlek.SuperIO</key>
+		<string>1.0.0</string>
 		<key>org.netkas.FakeSMC</key>
 		<string>4.2.0</string>
 	</dict>

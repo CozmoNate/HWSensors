@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.mozodojo.${PRODUCT_NAME}</string>
+	<string>org.kozlek.${PRODUCT_NAME}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -23,13 +23,18 @@
 		<key>Intel Thermal Monitor Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.mozodojo.${PRODUCT_NAME}</string>
+			<string>org.kozlek.${PRODUCT_NAME}</string>
 			<key>IOClass</key>
 			<string>IntelThermal</string>
 			<key>IOMatchCategory</key>
-			<string>IntelThermal</string>
+			<string>FakeSMCPlugin</string>
+			<key>IOPropertyMatch</key>
+			<dict>
+				<key>IOCPUNumber</key>
+				<integer>0</integer>
+			</dict>
 			<key>IOProviderClass</key>
-			<string>FakeSMC</string>
+			<string>AppleACPICPU</string>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
 			<key>Tjmax</key>
