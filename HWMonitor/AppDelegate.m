@@ -26,7 +26,7 @@
         [statusMenu addItem:titleItem];
         
         for (int i = 0; i < [list count]; i++) {
-            NSHardwareMonitorSensor *sensor = (NSHardwareMonitorSensor*)[list objectAtIndex:i];
+            HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
             
             [sensor setFavorite:[[NSUserDefaults standardUserDefaults] boolForKey:[sensor key]]];
             
@@ -63,7 +63,7 @@
     NSMutableString * statusString = [[NSMutableString alloc] init];
     
     for (int i = 0; i < [sensors count]; i++) {
-        NSHardwareMonitorSensor *sensor = (NSHardwareMonitorSensor*)[sensors objectAtIndex:i];
+        HWMonitorSensor *sensor = (HWMonitorSensor*)[sensors objectAtIndex:i];
         
         if (isMenuVisible) {
             NSString * value = [sensor formatValue];
@@ -109,7 +109,7 @@
     
     [menuItem setState:![menuItem state]];
     
-    NSHardwareMonitorSensor *sensor = (NSHardwareMonitorSensor*)[menuItem representedObject];
+    HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
     
     [sensor setFavorite:[menuItem state]];
     
@@ -146,7 +146,7 @@
     statusMenuAttributes = [NSDictionary dictionaryWithObject:style forKey:NSParagraphStyleAttributeName];
     
     // Init sensors
-    monitor = [NSHardwareMonitor hardwareMonitor];
+    monitor = [HWMonitorEngine hardwareMonitor];
     
     [monitor rebuildSensorsList];
     

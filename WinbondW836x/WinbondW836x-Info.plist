@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.mozodojo.${PRODUCT_NAME}</string>
+	<string>org.kozlek.${PRODUCT_NAME}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -20,16 +20,32 @@
 	<string>2.0.0</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>Winbond W836x Monitor Plugin</key>
+		<key>Winbond W836x Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.mozodojo.${PRODUCT_NAME}</string>
+			<string>org.kozlek.${PRODUCT_NAME}</string>
 			<key>IOClass</key>
 			<string>W836x</string>
 			<key>IOMatchCategory</key>
 			<string>SuperIOMonitor</string>
 			<key>IOProviderClass</key>
-			<string>FakeSMC</string>
+			<string>SuperIO</string>
+			<key>IONameMatch</key>
+			<array>
+				<string>Winbond,W83627DHG</string>
+				<string>Winbond,W83627UHG</string>
+				<string>Winbond,W83627DHGP</string>
+				<string>Winbond,W83627EHF</string>
+				<string>Winbond,W83627HF</string>
+				<string>Winbond,W83627THF</string>
+				<string>Winbond,W83627SF</string>
+				<string>Winbond,W83637HF</string>
+				<string>Winbond,W83667HG</string>
+				<string>Winbond,W83667HGB</string>
+				<string>Winbond,W83687THF</string>
+				<string>Winbond,W83697HF</string>
+				<string>Winbond,W83697SF</string>
+			</array>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
 			<key>Sensors Configuration</key>
@@ -90,6 +106,8 @@
 		<string>10.0.0</string>
 		<key>org.netkas.FakeSMC</key>
 		<string>4.2.0</string>
+		<key>org.kozlek.SuperIO</key>
+		<string>1.0.0</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

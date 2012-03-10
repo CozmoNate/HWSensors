@@ -7,9 +7,9 @@
 //
 
 #include "FakeSMCPlugin.h"
+#include "FakeSMCDefinitions.h"
 
 #include <IOKit/IOLib.h>
-#include "FakeSMCDefinitions.h"
 
 #define Debug FALSE
 
@@ -200,14 +200,14 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
                     if (name) {
                         snprintf(key, 5, KEY_FORMAT_FAN_ID, i); 
                         
-                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
+                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
                             WarningLog("can't add tachometer name for key %s", key);
                     }
                     
                     if (i + 1 > length) {
                         length++;
                         
-                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)1, (void *)&length, 0))
+                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)(UInt8)1, (void *)&length, 0))
                             WarningLog("can't update FNum value");
                     }
                     
@@ -234,12 +234,8 @@ float FakeSMCPlugin::getSensorValue(FakeSMCSensor *sensor)
 
 bool FakeSMCPlugin::init(OSDictionary *properties)
 {
-	DebugLog("initialising...");
-    
     if (!super::init(properties))
         return false;
-	
-    isActive = false;
     
     sensors = OSDictionary::withCapacity(0);
     
@@ -250,9 +246,7 @@ bool FakeSMCPlugin::init(OSDictionary *properties)
 }
 
 IOService * FakeSMCPlugin::probe(IOService *provider, SInt32 *score)
-{
-	DebugLog("probing...");
-	
+{	
 	if (super::probe(provider, score) != this) 
 		return 0;
     
@@ -260,14 +254,10 @@ IOService * FakeSMCPlugin::probe(IOService *provider, SInt32 *score)
 }
 
 bool FakeSMCPlugin::start(IOService *provider)
-{		
-	DebugLog("starting...");
-	
+{	
 	if (!super::start(provider)) 
         return false;
-    
-    if (!isActive) return true;
-    
+
 	if (!(fakeSMC = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
 		WarningLog("can't locate FakeSMCDevice");
 		return false;
@@ -278,8 +268,6 @@ bool FakeSMCPlugin::start(IOService *provider)
 
 void FakeSMCPlugin::stop(IOService* provider)
 {
-	DebugLog("stoping...");
-    
     fakeSMC->callPlatformFunction(kFakeSMCRemoveHandler, true, this, NULL, NULL, NULL);
     
     sensors->flushCollection();
@@ -288,11 +276,8 @@ void FakeSMCPlugin::stop(IOService* provider)
 }
 
 void FakeSMCPlugin::free()
-{
-	DebugLog("freeing...");
-    
-    sensors->release();
-	
+{   
+    sensors->release();	
 	super::free();
 }
 

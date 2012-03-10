@@ -7,10 +7,10 @@
  *
  */
 
-#include "FakeSMC.h"
+#include "FakeSMCKey.h"
+#include "FakeSMCDefinitions.h"
 
 #include <IOKit/IOLib.h>
-#include <libkern/c++/OSSerialize.h>
 
 #define Debug FALSE
 

@@ -9,9 +9,11 @@
 	<key>CFBundleExecutable</key>
 	<string>ITEIT87x</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.mozodojo.ITEIT87x</string>
+	<string>org.kozlek.ITEIT87x</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>ITEIT87x</string>
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
@@ -19,11 +21,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.0.0</string>
+	<string>2</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
-	<string>4E109</string>
+	<string>4E1019</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -31,23 +33,34 @@
 	<key>DTSDKName</key>
 	<string>macosx10.7</string>
 	<key>DTXcode</key>
-	<string>0430</string>
+	<string>0431</string>
 	<key>DTXcodeBuild</key>
-	<string>4E109</string>
+	<string>4E1019</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>ITE IT87x Monitor Plugin</key>
+		<key>ITE IT87x Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.mozodojo.ITEIT87x</string>
+			<string>org.kozlek.ITEIT87x</string>
 			<key>IOClass</key>
 			<string>IT87x</string>
 			<key>IOMatchCategory</key>
 			<string>SuperIOMonitor</string>
+			<key>IONameMatch</key>
+			<array>
+				<string>ITE,IT8512F</string>
+				<string>ITE,IT8712F</string>
+				<string>ITE,IT8716F</string>
+				<string>ITE,IT8718F</string>
+				<string>ITE,IT8720F</string>
+				<string>ITE,IT8721F</string>
+				<string>ITE,IT8726F</string>
+				<string>ITE,IT8728F</string>
+				<string>ITE,IT8752F</string>
+				<string>ITE,IT8772E</string>
+			</array>
 			<key>IOProviderClass</key>
-			<string>FakeSMC</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
+			<string>SuperIO</string>
 			<key>Sensors Configuration</key>
 			<dict>
 				<key>Default</key>
@@ -136,6 +149,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2012 kozlek. All rights reserved.</string>
 	<key>OSBundleLibraries</key>
 	<dict>
 		<key>com.apple.kpi.iokit</key>
@@ -146,6 +161,8 @@
 		<string>10.0.0</string>
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
+		<key>org.kozlek.SuperIO</key>
+		<string>1.0.0</string>
 		<key>org.netkas.FakeSMC</key>
 		<string>4.2.0</string>
 	</dict>

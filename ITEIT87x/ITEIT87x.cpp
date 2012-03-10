@@ -47,10 +47,8 @@
  */
 
 #include "ITEIT87x.h"
-
-#include <architecture/i386/pio.h>
-
 #include "FakeSMCDefinitions.h"
+#include "SuperIO.h"
 
 #define Debug FALSE
 
@@ -100,7 +98,7 @@ SInt32 IT87x::readTemperature(UInt32 index)
 
 float IT87x::readVoltage(UInt32 index)
 {
-    return (float)(readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain * voltageSpecificGain[index]) / 1000.0f;
+    return (float)(readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain) / 1000.0f;
 }
 
 SInt32 IT87x::readTachometer(UInt32 index)
@@ -128,109 +126,30 @@ SInt32 IT87x::readTachometer(UInt32 index)
     }
 }
 
-void IT87x::enter()
-{
-	outb(registerPort, 0x87);
-	outb(registerPort, 0x01);
-	outb(registerPort, 0x55);
-	outb(registerPort, 0x55);
-}
-
-void IT87x::exit()
-{
-	outb(registerPort, SUPERIO_CONFIGURATION_CONTROL_REGISTER);
-	outb(valuePort, 0x02);
-}
-
-bool IT87x::probePort()
-{	
-	UInt16 id = listenPortWord(SUPERIO_CHIP_ID_REGISTER);
-	
-	if (id == 0 || id == 0xffff)
-		return false;
-	
-	switch (id)
-	{
-		case IT8512F:
-		case IT8712F:
-		case IT8716F:
-		case IT8718F:
-		case IT8720F: 
-		case IT8721F: 
-		case IT8726F:
-		case IT8728F:
-		case IT8752F:
-        case IT8772E:
-			model = id; 
-			break; 
-		default:
-			WarningLog("found unsupported chip ID=0x%x", id);
-			return false;
-	}
-    
-    selectLogicalDevice(ITE_ENVIRONMENT_CONTROLLER_LDN);
-        
-    IOSleep(50);
-        
-    if (!getLogicalDeviceAddress()) {
-        WarningLog("can't get monitoring logical device address");
-        return false;
-    }
-        
-    IOSleep(50);
-		
-	UInt8 vendor = readByte(ITE_VENDOR_ID_REGISTER);
+bool IT87x::initialize()
+{   
+    UInt8 vendor = readByte(ITE_VENDOR_ID_REGISTER);
 	
 	if (vendor != ITE_VENDOR_ID) {
         WarningLog("invalid vendor ID=0x%x", vendor);
-		return false;
+        model = 0;
+		return this;
     }
 	
 	if ((readByte(ITE_CONFIGURATION_REGISTER) & 0x10) == 0) {
         WarningLog("invalid configuration register value");
-		return false;
+        model = 0;
+		return this;
     }
 	
-    if (id == IT8721F || id == IT8728F || id == IT8772E)
+    if (model == IT8721F || model == IT8728F || model == IT8772E)
         voltageGain = 12;
     else
         voltageGain = 16;
     
     UInt8 version = readByte(ITE_VERSION_REGISTER) & 0x0F;
     
-    has16bitFanCounter = !(id == IT8712F && version < 8);
+    has16bitFanCounter = !(model == IT8712F && version < 8);
     
-    for (int i = 0; i < 9; i++)
-        voltageSpecificGain[i] = 1;
-	
-	return true;
-}
-
-UInt8 IT87x::getPortsCount()
-{
-    return 1;
-}
-
-const char *IT87x::getModelName()
-{
-	switch (model) 
-	{
-        case IT8512F: return "IT8512F";
-        case IT8712F: return "IT8712F";
-        case IT8716F: return "IT8716F";
-        case IT8718F: return "IT8718F";
-        case IT8720F: return "IT8720F";
-        case IT8721F: return "IT8721F";
-        case IT8726F: return "IT8726F";
-		case IT8728F: return "IT8728F";
-        case IT8752F: return "IT8752F";
-        case IT8772E: return "IT8772E";
-	}
-	
-	return "unknown";
-}
-
-const char *IT87x::getVendorName()
-{
-    return "ITE";
+    return this;
 }

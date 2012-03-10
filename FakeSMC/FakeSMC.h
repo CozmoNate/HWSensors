@@ -1,14 +1,9 @@
 #ifndef _VIRTUALSMC_H
 #define _VIRTUALSMC_H
 
-#include <IOKit/IOService.h>
-#include <IOKit/pci/IOPCIDevice.h>
-#include <IOKit/IOTimerEventSource.h>
-#include <IOKit/acpi/IOACPIPlatformDevice.h>
 #include "FakeSMCDevice.h"
-#include "FakeSMCKey.h"
-#include "FakeSMCDefinitions.h"
 
+#include <IOKit/IOService.h>
 
 class FakeSMC : public IOService
 {

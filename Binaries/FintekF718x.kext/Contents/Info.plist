@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>FintekF718x</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.mozodojo.FintekF718x</string>
+	<string>org.kozlek.FintekF718x</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -23,7 +23,7 @@
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
-	<string>4E109</string>
+	<string>4E1019</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -31,21 +31,33 @@
 	<key>DTSDKName</key>
 	<string>macosx10.7</string>
 	<key>DTXcode</key>
-	<string>0430</string>
+	<string>0431</string>
 	<key>DTXcodeBuild</key>
-	<string>4E109</string>
+	<string>4E1019</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>Fintek F718x Monitor Plugin</key>
+		<key>Fintek F718x Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.mozodojo.FintekF718x</string>
+			<string>org.kozlek.FintekF718x</string>
 			<key>IOClass</key>
 			<string>F718x</string>
 			<key>IOMatchCategory</key>
 			<string>SuperIOMonitor</string>
+			<key>IONameMatch</key>
+			<array>
+				<string>Fintek,F71858</string>
+				<string>Fintek,F71862</string>
+				<string>Fintek,F71869</string>
+				<string>Fintek,F71869A</string>
+				<string>Fintek,F71882</string>
+				<string>Fintek,F71889AD</string>
+				<string>Fintek,F71889ED</string>
+				<string>Fintek,F71889F</string>
+				<string>Fintek,F71808</string>
+			</array>
 			<key>IOProviderClass</key>
-			<string>FakeSMC</string>
+			<string>SuperIO</string>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
 			<key>Sensors Configuration</key>
@@ -98,6 +110,8 @@
 		<string>10.0.0</string>
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
+		<key>org.kozlek.SuperIO</key>
+		<string>1.0.0</string>
 		<key>org.netkas.FakeSMC</key>
 		<string>4.2.0</string>
 	</dict>

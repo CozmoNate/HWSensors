@@ -21,7 +21,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 natan.zalkin@gmail.com. All rights reserved.</string>
+	<string>Copyright © 2012 kozlek. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>HWMonitorExtra</string>
 </dict>

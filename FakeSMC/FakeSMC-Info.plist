@@ -26,6 +26,14 @@
 		<dict>
 			<key>CFBundleIdentifier</key>
 			<string>org.netkas.${PRODUCT_NAME}</string>
+			<key>IOClass</key>
+			<string>${PRODUCT_NAME}</string>
+			<key>IOMatchCategory</key>
+			<string>IOACPIPlatformDevice</string>
+			<key>IOProviderClass</key>
+			<string>AppleACPIPlatformExpert</string>
+			<key>IOResourceMatch</key>
+			<string>ACPI</string>
 			<key>Configuration</key>
 			<dict>
 				<key>Keys</key>
@@ -126,14 +134,6 @@
 				<key>smc-compatible</key>
 				<string>smc-napa</string>
 			</dict>
-			<key>IOClass</key>
-			<string>${PRODUCT_NAME}</string>
-			<key>IOMatchCategory</key>
-			<string>IOACPIPlatformDevice</string>
-			<key>IOProviderClass</key>
-			<string>AppleACPIPlatformExpert</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
 		</dict>
 	</dict>
 	<key>OSBundleCompatibleVersion</key>

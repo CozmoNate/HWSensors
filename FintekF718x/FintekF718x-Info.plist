@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.mozodojo.${PRODUCT_NAME}</string>
+	<string>org.kozlek.${PRODUCT_NAME}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -20,16 +20,28 @@
 	<string>2.0.0</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>Fintek F718x Monitor Plugin</key>
+		<key>Fintek F718x Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.mozodojo.${PRODUCT_NAME}</string>
+			<string>org.kozlek.${PRODUCT_NAME}</string>
 			<key>IOClass</key>
 			<string>F718x</string>
 			<key>IOMatchCategory</key>
 			<string>SuperIOMonitor</string>
 			<key>IOProviderClass</key>
-			<string>FakeSMC</string>
+			<string>SuperIO</string>
+			<key>IONameMatch</key>
+			<array>
+				<string>Fintek,F71858</string>
+				<string>Fintek,F71862</string>
+				<string>Fintek,F71869</string>
+				<string>Fintek,F71869A</string>
+				<string>Fintek,F71882</string>
+				<string>Fintek,F71889AD</string>
+				<string>Fintek,F71889ED</string>
+				<string>Fintek,F71889F</string>
+				<string>Fintek,F71808</string>
+			</array>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
 			<key>Sensors Configuration</key>
@@ -84,6 +96,8 @@
 		<string>10.0.0</string>
 		<key>org.netkas.FakeSMC</key>
 		<string>4.2.0</string>
+		<key>org.kozlek.SuperIO</key>
+		<string>1.0.0</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

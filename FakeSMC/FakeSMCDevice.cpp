@@ -400,8 +400,8 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 
 IOReturn FakeSMCDevice::setProperties(OSObject * properties)
 {
-    if (OSDictionary * message = OSDynamicCast(OSDictionary, properties)) {
-        if (OSString * name = OSDynamicCast(OSString, message->getObject(kFakeSMCDeviceUpdateKeyValue))) {
+    if (OSDictionary * msg = OSDynamicCast(OSDictionary, properties)) {
+        if (OSString * name = OSDynamicCast(OSString, msg->getObject(kFakeSMCDeviceUpdateKeyValue))) {
             if (FakeSMCKey * key = getKey(name->getCStringNoCopy())) {
                 
                 OSArray *info = OSArray::withCapacity(0);
@@ -416,10 +416,10 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
                 return kIOReturnSuccess;
             }
         }
-        else if (OSArray * list = OSDynamicCast(OSArray, message->getObject(kFakeSMCDevicePopulateValues))) {
+        else if (OSArray * list = OSDynamicCast(OSArray, msg->getObject(kFakeSMCDevicePopulateValues))) {
             if (OSIterator *iterator = OSCollectionIterator::withCollection(list)) {
-                while (const OSSymbol *name = (const OSSymbol *)iterator->getNextObject())
-                    if (FakeSMCKey * key = getKey(name->getCStringNoCopy())) { 
+                while (const OSSymbol *keyName = (const OSSymbol *)iterator->getNextObject())
+                    if (FakeSMCKey * key = getKey(keyName->getCStringNoCopy())) { 
                         
                         OSArray *info = OSArray::withCapacity(0);
                         

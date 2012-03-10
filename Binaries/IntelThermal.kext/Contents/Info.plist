@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>IntelThermal</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.mozodojo.IntelThermal</string>
+	<string>org.kozlek.IntelThermal</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -23,7 +23,7 @@
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
-	<string>4E109</string>
+	<string>4E1019</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -31,21 +31,26 @@
 	<key>DTSDKName</key>
 	<string>macosx10.7</string>
 	<key>DTXcode</key>
-	<string>0430</string>
+	<string>0431</string>
 	<key>DTXcodeBuild</key>
-	<string>4E109</string>
+	<string>4E1019</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Intel Thermal Monitor Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.mozodojo.IntelThermal</string>
+			<string>org.kozlek.IntelThermal</string>
 			<key>IOClass</key>
 			<string>IntelThermal</string>
 			<key>IOMatchCategory</key>
-			<string>IntelThermal</string>
+			<string>FakeSMCPlugin</string>
+			<key>IOPropertyMatch</key>
+			<dict>
+				<key>IOCPUNumber</key>
+				<integer>0</integer>
+			</dict>
 			<key>IOProviderClass</key>
-			<string>FakeSMC</string>
+			<string>AppleACPICPU</string>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
 			<key>Tjmax</key>

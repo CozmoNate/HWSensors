@@ -59,16 +59,6 @@ float ACPIMonitor::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-IOService *ACPIMonitor::probe(IOService *provider, SInt32 *score)
-{
-    if (super::probe(provider, score) != this) 
-        return 0;
-    
-    isActive = true;
-    
-    return this;
-}
-
 bool ACPIMonitor::start(IOService * provider)
 {
 	if (!super::start(provider)) 
@@ -156,7 +146,7 @@ bool ACPIMonitor::start(IOService * provider)
         }
     }
     
-	registerService(0);
+	registerService();
 
 	return true;	
 }

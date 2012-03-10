@@ -111,9 +111,7 @@ IOService* X3100monitor::probe(IOService *provider, SInt32 *score)
 			return this;
 		}			
 	}	
-    
-	isActive = true;
-    
+
 	return this;
 }
 
@@ -139,7 +137,7 @@ bool X3100monitor::start(IOService * provider)
         }
     }
     
-    registerService(0);
+    registerService();
 	
 	return true;	
 }

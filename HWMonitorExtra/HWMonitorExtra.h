@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SystemUIPlugin.h"
 #import "HWMonitorView.h"
-#import "NSHardwareMonitor.h"
+#import "HWMonitorEngine.h"
 
 @interface HWMonitorExtra : NSMenuExtra
 
@@ -21,7 +21,7 @@
     NSFont *statusMenuFont;
     NSDictionary *statusMenuAttributes;
     
-    NSHardwareMonitor *monitor;
+    HWMonitorEngine *monitor;
 }
 
 - (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;

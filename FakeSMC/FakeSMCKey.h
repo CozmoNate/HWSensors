@@ -10,13 +10,7 @@
 #ifndef _FAKESMCKEY_H
 #define _FAKESMCKEY_H
 
-#include <libkern/c++/OSObject.h>
-#include <libkern/c++/OSSymbol.h>
-#include <libkern/c++/OSNumber.h>
-#include <libkern/c++/OSData.h>
 #include <IOKit/IOService.h>
-
-#include <kern/clock.h>
 
 inline void copySymbol(const char *from, char* to)
 {

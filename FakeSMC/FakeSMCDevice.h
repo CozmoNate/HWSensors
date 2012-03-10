@@ -10,9 +10,9 @@
 #ifndef _FAKESMCDEVICE_h
 #define _FAKESMCDEVICE_h
 
-#include <IOKit/acpi/IOACPIPlatformDevice.h>
-#include <IOKit/IOService.h>
 #include "FakeSMCKey.h"
+
+#include <IOKit/acpi/IOACPIPlatformDevice.h>
 
 #define APPLESMC_DATA_PORT				0x300
 

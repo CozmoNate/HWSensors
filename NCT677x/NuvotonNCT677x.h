@@ -48,8 +48,6 @@
 #include <IOKit/IOService.h>
 #include "SuperIOMonitor.h"
 
-const UInt8 NUVOTON_HARDWARE_MONITOR_LDN		= 0x0B;
-
 const UInt8 NUVOTON_ADDRESS_REGISTER_OFFSET     = 0x05;
 const UInt8 NUVOTON_DATA_REGISTER_OFFSET        = 0x06;
 const UInt8 NUVOTON_BANK_SELECT_REGISTER        = 0x4E;
@@ -71,8 +69,7 @@ const UInt16 NUVOTON_FAN_PWM_OUT_REG[]          = { 0x001, 0x003, 0x011 };
 const UInt16 NUVOTON_FAN_PWM_COMMAND_REG[]      = { 0x109, 0x209, 0x309 };
 const UInt16 NUVOTON_FAN_CONTROL_MODE_REG[]     = { 0x102, 0x202, 0x302 };
 
-
-const UInt8 NCT6771F_SOURCE_SYSTIN                  = 1;
+/*const UInt8 NCT6771F_SOURCE_SYSTIN                  = 1;
 const UInt8 NCT6771F_SOURCE_CPUTIN                  = 2;
 const UInt8 NCT6771F_SOURCE_AUXTIN                  = 3;
 const UInt8 NCT6771F_SOURCE_SMBUSMASTER             = 4;
@@ -115,12 +112,7 @@ const UInt8 NCT6776F_SOURCE_PCH_DIM0_TEMP           = 18;
 const UInt8 NCT6776F_SOURCE_PCH_DIM1_TEMP           = 19;
 const UInt8 NCT6776F_SOURCE_PCH_DIM2_TEMP           = 20;
 const UInt8 NCT6776F_SOURCE_PCH_DIM3_TEMP           = 21;
-const UInt8 NCT6776F_SOURCE_BYTE_TEMP               = 22;
-
-enum NCT677xModel {
-	NCT6771F = 0xB470,
-    NCT6776F = 0xC330
-};
+const UInt8 NCT6776F_SOURCE_BYTE_TEMP               = 22;*/
 
 class NCT677x : public SuperIOMonitor
 {
@@ -135,22 +127,16 @@ private:
    	UInt8					readByte(UInt16 reg);
     void					writeByte(UInt16 reg, UInt8 value);
 	
-	virtual bool			probePort();
-	virtual void			enter();
-	virtual void			exit();
-    
     virtual UInt8           temperatureSensorsLimit();
     virtual UInt8           voltageSensorsLimit();
     virtual UInt8           tachometerSensorsLimit();
-    
     //void					updateTemperatures();
     
 	virtual SInt32          readTemperature(UInt32 index);
 	virtual float			readVoltage(UInt32 index);
 	virtual SInt32			readTachometer(UInt32 index);
-	
-	virtual const char *	getModelName();
-    virtual const char *	getVendorName();
+    
+	virtual bool			initialize();
 	
 public:
 	

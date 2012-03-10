@@ -46,9 +46,8 @@
  */
 
 #include "NuvotonNCT677x.h"
-
-#include <architecture/i386/pio.h>
 #include "FakeSMCDefinitions.h"
+#include "SuperIO.h"
 
 #define Debug FALSE
 
@@ -196,64 +195,9 @@ SInt32 NCT677x::readTachometer(UInt32 index)
     return 0;
 }
 
-void NCT677x::enter()
+bool NCT677x::initialize()
 {
-	outb(registerPort, 0x87);
-	outb(registerPort, 0x87);
-}
-
-void NCT677x::exit()
-{
-	outb(registerPort, 0xAA);
-}
-
-bool NCT677x::probePort()
-{
-    UInt8 id =listenPortByte(SUPERIO_CHIP_ID_REGISTER);
-    
-    IOSleep(50);
-    
-	UInt8 revision = listenPortByte(SUPERIO_CHIP_REVISION_REGISTER);
-	
-	if (id == 0 || id == 0xff || revision == 0 || revision == 0xff)
-		return false;
-    
-	switch (id) 
-	{		
-        case 0xB4:
-            switch (revision & 0xF0) {
-                case 0x70:
-                    model = NCT6771F;
-                    minFanRPM = (int)(1.35e6 / 0xFFFF);
-                    break;
-            } break;
-        case 0xC3:
-            switch (revision & 0xF0) {
-                case 0x30:
-                    model = NCT6776F;
-                    minFanRPM = (int)(1.35e6 / 0x1FFF);
-                    break;
-            } break;
-    }
-    
-    if (!model)
-	{
-		WarningLog("found unsupported chip ID=0x%x REVISION=0x%x", id, revision);
-		return false;
-	}
-    
-	selectLogicalDevice(NUVOTON_HARDWARE_MONITOR_LDN);
-	
-    IOSleep(50);
-    
-	if (!getLogicalDeviceAddress()) {
-        WarningLog("can't get monitoring logical device address");
-		return false;
-    }
-    
-    IOSleep(50);
-    
-    UInt16 vendor = (UInt16)(readByte(NUVOTON_VENDOR_ID_HIGH_REGISTER) << 8) | readByte(NUVOTON_VENDOR_ID_LOW_REGISTER);
+   UInt16 vendor = (UInt16)(readByte(NUVOTON_VENDOR_ID_HIGH_REGISTER) << 8) | readByte(NUVOTON_VENDOR_ID_LOW_REGISTER);
     
     if (vendor != NUVOTON_VENDOR_ID)
     {
@@ -262,20 +206,4 @@ bool NCT677x::probePort()
     }
     
 	return true;
-}
-
-const char *NCT677x::getModelName()
-{
-	switch (model) 
-	{
-        case NCT6771F:    return "NCT6771F";
-        case NCT6776F:    return "NCT6776F";
-	}
-	
-	return "unknown";
-}
-
-const char *NCT677x::getVendorName()
-{
-    return "Nuvoton";
 }

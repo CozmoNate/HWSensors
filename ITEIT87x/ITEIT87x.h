@@ -46,10 +46,8 @@
  
  */
 
-#include <IOKit/IOService.h>
 #include "SuperIOMonitor.h"
-
-const UInt8 ITE_ENVIRONMENT_CONTROLLER_LDN				= 0x04;
+#include <IOKit/IOService.h>
 
 // ITE
 const UInt8 ITE_VENDOR_ID								= 0x90;
@@ -80,37 +78,17 @@ const UInt8 ITE_SMARTGUARDIAN_START_PWM[5]				= { 0x63, 0x6b, 0x73, 0x93, 0x9b }
 const UInt8 ITE_SMARTGUARDIAN_CONTROL[5]				= { 0x64, 0x6c, 0x74, 0x94, 0x9c };
 //const UInt8 ITE_SMARTGUARDIAN_TEMPERATURE_FULL_OFF[5]	= { 0x65, 0x6d, 0x75, 0x95, 0x9d };
 
-enum IT87xModel
-{
-	IT8512F = 0x8512,
-    IT8712F = 0x8712,
-    IT8716F = 0x8716,
-    IT8718F = 0x8718,
-    IT8720F = 0x8720,
-    IT8721F = 0x8721,
-    IT8726F = 0x8726,
-	IT8728F = 0x8728,
-	IT8752F = 0x8752,
-    IT8772E = 0x8772
-};
-
-
 class IT87x : public SuperIOMonitor
 {
     OSDeclareDefaultStructors(IT87x)
 	
 private:
     UInt8                   voltageGain;
-    UInt8                   voltageSpecificGain[9];
     
     bool                    has16bitFanCounter;
     
 	UInt8					readByte(UInt8 reg);
 	void					writeByte(UInt8 reg, UInt8 value);
-
-	virtual void			enter();
-	virtual void			exit();
-    virtual bool			probePort();
     
     virtual UInt8           temperatureSensorsLimit();
     virtual UInt8           voltageSensorsLimit();
@@ -119,11 +97,9 @@ private:
 	virtual SInt32			readTemperature(UInt32 index);
 	virtual float			readVoltage(UInt32 index);
 	virtual SInt32			readTachometer(UInt32 index);
-	
-    virtual UInt8			getPortsCount();
-	virtual const char *	getModelName();
-    virtual const char *	getVendorName();
-	
+
+    virtual bool            initialize();
+    
 public:
 	
 };

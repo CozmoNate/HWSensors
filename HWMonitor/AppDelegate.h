@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "NSATASmartReporter.h"
+#import "ATASmartReporter.h"
 
-#import "NSHardwareMonitor.h"
+#import "HWMonitorEngine.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     NSStatusItem *statusItem;
@@ -20,7 +20,7 @@
     NSFont *statusMenuFont;
     NSDictionary *statusMenuAttributes;
     
-    NSHardwareMonitor *monitor;
+    HWMonitorEngine *monitor;
     
     BOOL isMenuVisible;
 }
