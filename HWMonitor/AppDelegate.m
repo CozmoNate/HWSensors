@@ -16,6 +16,22 @@
 #define GetLocalizedString(key) \
 [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
+- (void)setGemForMenuItem:(NSMenuItem*)menuItem Sensor:(HWMonitorSensor*)sensor
+{
+    if ([sensor favorite]) {
+        if ([sensor exceeded])
+            [menuItem setImage:gemYellow];
+        else
+            [menuItem setImage:gemGreen];
+    }
+    else {
+        if ([sensor exceeded])
+            [menuItem setImage:gemRed];
+        else
+            [menuItem setImage:gemClear];
+    }
+}
+
 - (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
 {
     if (list && [list count] > 0) {
@@ -40,7 +56,7 @@
             [sensorItem setTarget:self];
             [sensorItem setRepresentedObject:sensor];
             
-            if ([sensor favorite]) [sensorItem setState:TRUE]; 
+            [self setGemForMenuItem:sensorItem Sensor:sensor];
             
             [statusMenu addItem:sensorItem];
         }
@@ -74,6 +90,9 @@
             
             // Update menu item title
             [[sensor menuItem] setAttributedTitle:title];
+            
+            if ([sensor recentlyExceeded])
+                [self setGemForMenuItem:[sensor menuItem] Sensor:sensor];
         }
         
         if ([sensor favorite]) {
@@ -107,11 +126,11 @@
 - (void)menuItemClicked:(id)sender {
     NSMenuItem * menuItem = (NSMenuItem *)sender;
     
-    [menuItem setState:![menuItem state]];
-    
     HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
     
-    [sensor setFavorite:[menuItem state]];
+    [sensor setFavorite:![sensor favorite]];
+    
+    [self setGemForMenuItem:menuItem Sensor:sensor];
     
     [self updateTitles];
     
@@ -121,6 +140,11 @@
 
 - (void)awakeFromNib
 {
+    gemClear = [NSImage imageNamed:@"SmallLEDClear"];
+    gemGreen = [NSImage imageNamed:@"SmallLEDGreen"];;
+    gemRed = [NSImage imageNamed:@"SmallLEDRed"];;
+    gemYellow = [NSImage imageNamed:@"SmallLEDYellow"];;
+    
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     
     [statusItem setMenu:statusMenu];

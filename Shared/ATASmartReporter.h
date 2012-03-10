@@ -44,11 +44,13 @@ typedef struct ATASMARTVendorSpecificData
     NSString    *productName;
     NSString    *serialNumber;
     BOOL        isRotational;
+    BOOL        isExceeded;
 }
 
 @property (readonly) NSString   *productName;
 @property (readonly) NSString   *serialNumber;
 @property (readonly) BOOL       isRotational;
+@property (readonly) BOOL       isExceeded;
 
 +(ATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name serialNumber:(NSString*)serial isRotational:(BOOL)rotational;
 

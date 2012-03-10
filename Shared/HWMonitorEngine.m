@@ -21,9 +21,7 @@
 {
     HWMonitorEngine *me = [[HWMonitorEngine alloc] init];
     
-    if (me) {
-        [me rebuildSensorsList];
-    }
+    if (me) [me rebuildSensorsList];
     
     return me;
 }
@@ -120,6 +118,7 @@
                 HWMonitorSensor *sensor = [self addSensorWithKey:[disk serialNumber] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:kHWSMARTTemperatureGroup];
                 [sensor setValue:value];
                 [sensor setDisk:disk];
+                [sensor setExceeded:[disk isExceeded]];
             }
             break;
             
@@ -129,6 +128,7 @@
                 HWMonitorSensor *sensor = [self addSensorWithKey:[disk serialNumber] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:kHWSMARTRemainingLifeGroup];
                 [sensor setValue:value];
                 [sensor setDisk:disk];
+                [sensor setExceeded:[disk isExceeded]];
             }
             break;
             

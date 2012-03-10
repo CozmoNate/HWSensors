@@ -100,6 +100,14 @@
 		6AA172D1150B415200A77CF2 /* FakeSMCKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA172CA150B415200A77CF2 /* FakeSMCKey.h */; };
 		6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */; };
 		6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA2D0D3150B4B99004757C5 /* FakeSMC.h */; };
+		6AAC4916150BBDEE0047B379 /* SmallLEDClear.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAC4914150BBDEE0047B379 /* SmallLEDClear.png */; };
+		6AAC4917150BBDEE0047B379 /* SmallLEDClear.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAC4914150BBDEE0047B379 /* SmallLEDClear.png */; };
+		6AAC4918150BBDEE0047B379 /* SmallLEDGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAC4915150BBDEE0047B379 /* SmallLEDGreen.png */; };
+		6AAC4919150BBDEE0047B379 /* SmallLEDGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAC4915150BBDEE0047B379 /* SmallLEDGreen.png */; };
+		6AAC4926150BCACA0047B379 /* SmallLEDRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAC4924150BCACA0047B379 /* SmallLEDRed.png */; };
+		6AAC4927150BCACA0047B379 /* SmallLEDRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAC4924150BCACA0047B379 /* SmallLEDRed.png */; };
+		6AAC4928150BCACA0047B379 /* SmallLEDYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAC4925150BCACA0047B379 /* SmallLEDYellow.png */; };
+		6AAC4929150BCACA0047B379 /* SmallLEDYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAC4925150BCACA0047B379 /* SmallLEDYellow.png */; };
 		6AB5B4EE14F2C47B0062D2D0 /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
 /* End PBXBuildFile section */
 
@@ -252,6 +260,10 @@
 		6AA172CA150B415200A77CF2 /* FakeSMCKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCKey.h; sourceTree = "<group>"; };
 		6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMC.cpp; sourceTree = "<group>"; };
 		6AA2D0D3150B4B99004757C5 /* FakeSMC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMC.h; sourceTree = "<group>"; };
+		6AAC4914150BBDEE0047B379 /* SmallLEDClear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDClear.png; sourceTree = "<group>"; };
+		6AAC4915150BBDEE0047B379 /* SmallLEDGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDGreen.png; sourceTree = "<group>"; };
+		6AAC4924150BCACA0047B379 /* SmallLEDRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDRed.png; sourceTree = "<group>"; };
+		6AAC4925150BCACA0047B379 /* SmallLEDYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDYellow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -665,6 +677,10 @@
 		6A1DF980150201BF00C34729 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6AAC4914150BBDEE0047B379 /* SmallLEDClear.png */,
+				6AAC4915150BBDEE0047B379 /* SmallLEDGreen.png */,
+				6AAC4924150BCACA0047B379 /* SmallLEDRed.png */,
+				6AAC4925150BCACA0047B379 /* SmallLEDYellow.png */,
 				6A1DF981150201D100C34729 /* default.icns */,
 				6A1DF982150201D100C34729 /* thermobump.png */,
 				6A1DF983150201D100C34729 /* thermotemplate.png */,
@@ -1252,6 +1268,10 @@
 				6A1DF9941502022500C34729 /* thermobump.png in Resources */,
 				6A1DF9951502022500C34729 /* thermotemplate.png in Resources */,
 				6A1DF9981502022D00C34729 /* Localizable.strings in Resources */,
+				6AAC4916150BBDEE0047B379 /* SmallLEDClear.png in Resources */,
+				6AAC4918150BBDEE0047B379 /* SmallLEDGreen.png in Resources */,
+				6AAC4926150BCACA0047B379 /* SmallLEDRed.png in Resources */,
+				6AAC4928150BCACA0047B379 /* SmallLEDYellow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1295,6 +1315,10 @@
 				6A1DF98B1502020800C34729 /* Localizable.strings in Resources */,
 				6A1DF98C1502020800C34729 /* thermobump.png in Resources */,
 				6A1DF98D1502020800C34729 /* thermotemplate.png in Resources */,
+				6AAC4917150BBDEE0047B379 /* SmallLEDClear.png in Resources */,
+				6AAC4919150BBDEE0047B379 /* SmallLEDGreen.png in Resources */,
+				6AAC4927150BCACA0047B379 /* SmallLEDRed.png in Resources */,
+				6AAC4929150BCACA0047B379 /* SmallLEDYellow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

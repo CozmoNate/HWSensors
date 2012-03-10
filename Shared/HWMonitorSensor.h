@@ -31,6 +31,8 @@ enum {
 
 @property (readwrite, retain) NSMenuItem *menuItem;
 @property (readwrite, assign) BOOL favorite;
+@property (readwrite, assign) BOOL exceeded;
+@property (readonly) BOOL recentlyExceeded;
 
 + (int)getIndexOfHexChar:(char)c;
 + (float)decodeSMCFloatOfType:(const char*)type fraction:(UInt16) encoded;

@@ -18,6 +18,22 @@
 #define GetLocalizedString(key) \
 [[self bundle] localizedStringForKey:(key) value:@"" table:nil]
 
+- (void)setGemForMenuItem:(NSMenuItem*)menuItem Sensor:(HWMonitorSensor*)sensor
+{
+    if ([sensor favorite]) {
+        if ([sensor exceeded])
+            [menuItem setImage:gemYellow];
+        else
+            [menuItem setImage:gemGreen];
+    }
+    else {
+        if ([sensor exceeded])
+            [menuItem setImage:gemRed];
+        else
+            [menuItem setImage:gemClear];
+    }
+}
+
 - (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
 {
     if (list && [list count] > 0) {
@@ -45,7 +61,7 @@
             [sensorItem setTarget:self];
             [sensorItem setRepresentedObject:sensor];
             
-            if ([sensor favorite]) [sensorItem setState:TRUE]; 
+            [self setGemForMenuItem:sensorItem Sensor:sensor];
             
             [menu addItem:sensorItem];
         }
@@ -75,6 +91,9 @@
             
             // Update menu item title
             [[sensor menuItem] setAttributedTitle:title];
+            
+            if ([sensor recentlyExceeded])
+                [self setGemForMenuItem:[sensor menuItem] Sensor:sensor];
         }
         
         if ([sensor favorite])
@@ -102,11 +121,13 @@
 {
     NSMenuItem * menuItem = (NSMenuItem *)sender;
     
-    [menuItem setState:![menuItem state]];
+    //[menuItem setState:![menuItem state]];
     
     HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
     
-    [sensor setFavorite:[menuItem state]];
+    [sensor setFavorite:![sensor favorite]];
+    
+    [self setGemForMenuItem:menuItem Sensor:sensor];
     
     [self updateTitlesDefault];
     
@@ -119,6 +140,11 @@
     self = [super initWithBundle:bundle];
     
     if (self == nil) return nil;
+    
+    gemClear = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"SmallLEDClear" ofType:@"png"]];
+    gemGreen = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"SmallLEDGreen" ofType:@"png"]];
+    gemRed = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"SmallLEDRed" ofType:@"png"]];
+    gemYellow = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"SmallLEDYellow" ofType:@"png"]];
     
     view = [[HWMonitorView alloc] initWithFrame: [[self view] frame] menuExtra:self];
     
