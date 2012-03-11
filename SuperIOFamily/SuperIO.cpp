@@ -111,47 +111,50 @@ bool SuperIO::start(IOService *provider)
             
             IOSleep(50);
             
-            ite_family_enter(port);
-            
-            id = listen_port_word(port, CHIP_ID_REGISTER);
-            
-            ldn = 0;
-            vendor = "";
-            
-            switch (id) {
-                case IT8512F:
-                case IT8712F:
-                case IT8716F:
-                case IT8718F:
-                case IT8720F:
-                case IT8721F:
-                case IT8726F:
-                case IT8728F:
-                case IT8752F:
-                case IT8772E:
-                    model = id;
-                    ldn = FINTEK_ITE_HARDWARE_MONITOR_LDN;
-                    vendor = "ITE";
-                    break;
-            }
-            
-            if (model != 0 && ldn != 0) {
-                select_device(port, ldn);
+            // IT87XX can enter only on port 0x2E
+            if (port == 0x2E) {
+                ite_family_enter(port);
                 
-                address = listen_port_word(port, BASE_ADDRESS_REGISTER);
+                id = listen_port_word(port, CHIP_ID_REGISTER);
                 
-                IOSleep(50);
+                ldn = 0;
+                vendor = "";
                 
-                verify = listen_port_word(port, BASE_ADDRESS_REGISTER);
+                switch (id) {
+                    case IT8512F:
+                    case IT8712F:
+                    case IT8716F:
+                    case IT8718F:
+                    case IT8720F:
+                    case IT8721F:
+                    case IT8726F:
+                    case IT8728F:
+                    case IT8752F:
+                    case IT8772E:
+                        model = id;
+                        ldn = FINTEK_ITE_HARDWARE_MONITOR_LDN;
+                        vendor = "ITE";
+                        break;
+                }
                 
-                ite_family_exit(port);
-                
-                if (address != verify || address < 0x100 || (address & 0xF007) != 0)
+                if (model != 0 && ldn != 0) {
+                    select_device(port, ldn);
+                    
+                    address = listen_port_word(port, BASE_ADDRESS_REGISTER);
+                    
+                    IOSleep(50);
+                    
+                    verify = listen_port_word(port, BASE_ADDRESS_REGISTER);
+                    
+                    ite_family_exit(port);
+                    
+                    if (address != verify || address < 0x100 || (address & 0xF007) != 0)
+                        continue;
+                }
+                else {
+                    ite_family_exit(port);
                     continue;
-            }
-            else {
-                ite_family_exit(port);
-                continue;
+                }
             }
         }
         

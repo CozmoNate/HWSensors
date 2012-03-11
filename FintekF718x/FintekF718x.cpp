@@ -150,7 +150,7 @@ bool F718x::initialize()
     if (vendor != FINTEK_VENDOR_ID)
     {
         WarningLog("wrong vendor id=0x%x", vendor);
-        //return false;
+        return false;
     }
 	
 	return true;
