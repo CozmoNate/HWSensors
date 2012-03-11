@@ -141,12 +141,16 @@ SInt32 F718x::readTachometer(UInt32 index)
 
 bool F718x::initialize()
 {    
+    winbond_family_enter(port);
+    
     UInt16 vendor = listen_port_word(port, FINTEK_VENDOR_ID_REGISTER);
+    
+    winbond_family_exit(port);
     
     if (vendor != FINTEK_VENDOR_ID)
     {
         WarningLog("wrong vendor id=0x%x", vendor);
-        return false;
+        //return false;
     }
 	
 	return true;
