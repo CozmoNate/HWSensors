@@ -67,8 +67,12 @@ const UInt8 WINBOND_TEMPERATURE[]					= { 0x50, 0x50, 0x27 };
 const UInt8 WINBOND_TEMPERATURE_BANK[]				= { 1,    2,    0 };
 
 const UInt8 WINBOND_VOLTAGE_VBAT                    = 0x51;
+
 const UInt8 WINBOND_VOLTAGE[]                       = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x50, 0x51, 0x52 };
 const UInt8 WINBOND_VOLTAGE_BANK[]                  = {    0,    0,    0,    0,    0,    0,    0,    5,    5,    5 };
+
+const UInt8 WINBOND_VOLTAGE1[]                      = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x50, 0x51 };
+const UInt8 WINBOND_VOLTAGE1_BANK[]                 = {    0,    0,    0,    0,    0,    5,    5 };
 
 const UInt8 WINBOND_TACHOMETER[]					= { 0x28, 0x29, 0x2A, 0x3F, 0x53 };
 const UInt8 WINBOND_TACHOMETER_BANK[]				= {    0,    0,    0,    0,    5 };
@@ -97,6 +101,7 @@ class W836x : public SuperIOMonitor
 	
 private:
 	UInt8					fanLimit;
+    UInt8					voltageLimit;
     float                   voltageGain;
 	UInt16					fanValue[5];
 	bool					fanValueObsolete[5];
@@ -109,10 +114,10 @@ private:
     virtual UInt8           voltageSensorsLimit();
     virtual UInt8           tachometerSensorsLimit();
     
-	virtual SInt32			readTemperature(UInt32 index);
+	virtual float			readTemperature(UInt32 index);
 	virtual float			readVoltage(UInt32 index);
     void					updateTachometers();
-	virtual SInt32			readTachometer(UInt32 index);
+	virtual float			readTachometer(UInt32 index);
     
     virtual bool            addTemperatureSensors(OSDictionary *configuration);
     virtual bool            addTachometerSensors(OSDictionary *configuration);

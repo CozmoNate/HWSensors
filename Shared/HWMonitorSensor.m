@@ -174,10 +174,10 @@ inline UInt8 get_index(char c)
                 
                 bcopy([value bytes], &life, [value length]);
                
-                [self setExceeded:exceeded || (life >= 80)];
+                //[self setExceeded:exceeded || (life >= 80)];
                 
-                return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
-                //return [[NSString alloc] initWithFormat:@"(%d)",life];
+                //return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
+                return [[NSString alloc] initWithFormat:@"[%d]",life];
                 
             }
                 

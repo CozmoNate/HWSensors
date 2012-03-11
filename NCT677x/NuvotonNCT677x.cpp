@@ -147,7 +147,7 @@ UInt8 NCT677x::tachometerSensorsLimit()
         temperatureIsObsolete[i] = false;
 }*/
 
-SInt32 NCT677x::readTemperature(UInt32 index)
+float NCT677x::readTemperature(UInt32 index)
 {
     if (index < temperatureSensorsLimit()) {
         
@@ -181,7 +181,7 @@ float NCT677x::readVoltage(UInt32 index)
     return 0;
 }
 
-SInt32 NCT677x::readTachometer(UInt32 index)
+float NCT677x::readTachometer(UInt32 index)
 {
     if (index < tachometerSensorsLimit()) {
         UInt8 high = readByte(NUVOTON_FAN_RPM_REG[index]);

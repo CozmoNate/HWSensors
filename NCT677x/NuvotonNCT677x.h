@@ -132,9 +132,9 @@ private:
     virtual UInt8           tachometerSensorsLimit();
     //void					updateTemperatures();
     
-	virtual SInt32          readTemperature(UInt32 index);
+	virtual float           readTemperature(UInt32 index);
 	virtual float			readVoltage(UInt32 index);
-	virtual SInt32			readTachometer(UInt32 index);
+	virtual float			readTachometer(UInt32 index);
     
 	virtual bool			initialize();
 	

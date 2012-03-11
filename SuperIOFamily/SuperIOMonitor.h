@@ -48,9 +48,9 @@ protected:
     virtual UInt8           voltageSensorsLimit();
     virtual UInt8           tachometerSensorsLimit();
     
-    virtual SInt32			readTemperature(UInt32 index);
+    virtual float			readTemperature(UInt32 index);
 	virtual float			readVoltage(UInt32 index);
-	virtual SInt32			readTachometer(UInt32 index);
+	virtual float			readTachometer(UInt32 index);
     
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     

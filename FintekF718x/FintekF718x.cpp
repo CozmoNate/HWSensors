@@ -87,7 +87,7 @@ UInt8 F718x::tachometerSensorsLimit()
     return (model == F71882 || model == F71858 ? 4 : 3);
 }
 
-SInt32 F718x::readTemperature(UInt32 index)
+float F718x::readTemperature(UInt32 index)
 {
 	if (model == F71858) 
 	{
@@ -128,7 +128,7 @@ float F718x::readVoltage(UInt32 index)
     return (float)(readByte(FINTEK_VOLTAGE_BASE_REG + index)) * 0.008f;
 }
 
-SInt32 F718x::readTachometer(UInt32 index)
+float F718x::readTachometer(UInt32 index)
 {
 	SInt32 value = readByte(FINTEK_FAN_TACHOMETER_REG[index]) << 8;
 	value |= readByte(FINTEK_FAN_TACHOMETER_REG[index] + 1);
