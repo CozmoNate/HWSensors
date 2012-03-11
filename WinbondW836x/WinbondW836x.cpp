@@ -94,22 +94,7 @@ UInt8 W836x::temperatureSensorsLimit()
 
 UInt8 W836x::voltageSensorsLimit()
 {
-    switch (model) 
-    {
-        case W83627EHF:
-            return 10;
-        case W83627DHG:
-        case W83627DHGP:        
-        case W83667HG:
-        case W83667HGB:
-            return 9;
-        case W83627HF:
-        case W83627THF:
-        case W83687THF:
-            return 7;
-    }
-    
-    return 7;
+    return voltageLimit;
 }
 
 UInt8 W836x::tachometerSensorsLimit()
@@ -117,7 +102,7 @@ UInt8 W836x::tachometerSensorsLimit()
     return fanLimit;
 }
 
-SInt32 W836x::readTemperature(UInt32 index)
+float W836x::readTemperature(UInt32 index)
 {
 	UInt32 value = readByte(WINBOND_TEMPERATURE_BANK[index], WINBOND_TEMPERATURE[index]) << 1;
 	
@@ -135,18 +120,34 @@ float W836x::readVoltage(UInt32 index)
     
     if (WINBOND_VOLTAGE[index] != WINBOND_VOLTAGE_VBAT) {
         
-        UInt16 V = readByte(WINBOND_VOLTAGE_BANK[index], WINBOND_VOLTAGE[index]);
+        UInt16 V = 0;
+        
+        switch (model) 
+        {
+            case W83627EHF:
+            case W83627DHG:
+            case W83627DHGP:        
+            case W83667HG:
+            case W83667HGB:
+                V = readByte(WINBOND_VOLTAGE_BANK[index], WINBOND_VOLTAGE[index]);
+                break;
+            case W83627HF:
+            case W83627THF:
+            case W83687THF:
+                V = readByte(WINBOND_VOLTAGE1_BANK[index], WINBOND_VOLTAGE1[index]);
+                break;
+        }
         
         if (index == 0 && (model == W83627HF || model == W83627THF || model == W83687THF)) 
         {
             UInt8 vrmConfiguration = readByte(0, 0x18);
             
             if ((vrmConfiguration & 0x01) == 0)
-                voltage = 0.016f * V; // VRM8 formula
+                voltage = 0.016f * (float)V; // VRM8 formula
             else
-                voltage = 0.00488f * V + 0.69f; // VRM9 formula
+                voltage = 0.00488f * (float)V + 0.69f; // VRM9 formula
         }
-        else voltage = V * voltageGain;
+        else voltage = (float)V * voltageGain;
     }
 	else {
         // Battery voltage
@@ -212,7 +213,7 @@ void W836x::updateTachometers()
 	}
 }
 
-SInt32 W836x::readTachometer(UInt32 index)
+float W836x::readTachometer(UInt32 index)
 {
 	if (fanValueObsolete[index])
 		updateTachometers();
@@ -303,6 +304,30 @@ bool W836x::initialize()
     if (vendor != WINBOND_VENDOR_ID) {
         WarningLog("wrong vendor ID=0x%x", vendor);
         return false;
+    }
+    
+    switch (model) 
+    {
+        case W83627EHF:
+            voltageLimit = 10;
+            fanLimit = 5;
+            voltageGain = 0.008f;
+            break;
+        case W83627DHG:
+        case W83627DHGP:        
+        case W83667HG:
+        case W83667HGB:
+            voltageLimit = 9;
+            fanLimit = 5;
+            voltageGain = 0.008f;
+            break;
+        case W83627HF:
+        case W83627THF:
+        case W83687THF:
+            voltageLimit = 7;
+            fanLimit = 3;
+            voltageGain = 0.016f;
+            break;
     }
     
 	return true;

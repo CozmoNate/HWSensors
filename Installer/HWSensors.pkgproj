@@ -6988,7 +6988,20 @@
 								<array>
 									<dict>
 										<key>DESCRIPTION</key>
-										<array/>
+										<array>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>English</string>
+												<key>VALUE</key>
+												<string>Basic resolver for presented Super I/O chip provides  all necessary information to run monitoring plugins</string>
+											</dict>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>Russian</string>
+												<key>VALUE</key>
+												<string></string>
+											</dict>
+										</array>
 										<key>OPTIONS</key>
 										<dict>
 											<key>HIDDEN</key>
@@ -7581,6 +7594,11 @@
 			<key>PAYLOAD_ONLY</key>
 			<false/>
 		</dict>
+	</dict>
+	<key>SHARED_GLOBAL_DATA</key>
+	<dict>
+		<key>IC_REQUIREMENT_JAVASCRIPT_SHARED_SOURCE_CODE</key>
+		<string></string>
 	</dict>
 	<key>TYPE</key>
 	<integer>0</integer>

@@ -150,7 +150,7 @@ UInt8 SuperIOMonitor::tachometerSensorsLimit()
     return 5;
 }
 
-SInt32 SuperIOMonitor::readTemperature(UInt32 index)
+float SuperIOMonitor::readTemperature(UInt32 index)
 {
 	return 0;
 }
@@ -160,7 +160,7 @@ float SuperIOMonitor::readVoltage(UInt32 index)
 	return 0;
 }
 
-SInt32 SuperIOMonitor::readTachometer(UInt32 index)
+float SuperIOMonitor::readTachometer(UInt32 index)
 {
 	return 0;
 }
@@ -170,13 +170,13 @@ float SuperIOMonitor::getSensorValue(FakeSMCSensor *sensor)
     if (sensor)
         switch (sensor->getGroup()) {
             case kSuperIOTemperatureSensor:
-                return (float)readTemperature(sensor->getIndex());
+                return readTemperature(sensor->getIndex());
                 
             case kSuperIOVoltageSensor:
                 return readVoltage(sensor->getIndex());
                 
             case kFakeSMCTachometerSensor:
-                return (float)readTachometer(sensor->getIndex());
+                return readTachometer(sensor->getIndex());
         }
     
 	return 0;

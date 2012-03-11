@@ -91,7 +91,7 @@ UInt8 IT87x::tachometerSensorsLimit()
     return 5;
 }
 
-SInt32 IT87x::readTemperature(UInt32 index)
+float IT87x::readTemperature(UInt32 index)
 {
 	return readByte(ITE_TEMPERATURE_BASE_REG + index);
 }
@@ -101,7 +101,7 @@ float IT87x::readVoltage(UInt32 index)
     return (float)(readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain) / 1000.0f;
 }
 
-SInt32 IT87x::readTachometer(UInt32 index)
+float IT87x::readTachometer(UInt32 index)
 {
     long value;
     
