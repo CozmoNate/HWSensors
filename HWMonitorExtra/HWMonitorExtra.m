@@ -131,7 +131,7 @@
     
     [self updateTitlesDefault];
     
-    [[NSUserDefaults standardUserDefaults] setBool:[menuItem state] forKey:[sensor key]];
+    [[NSUserDefaults standardUserDefaults] setBool:[sensor favorite] forKey:[sensor key]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
