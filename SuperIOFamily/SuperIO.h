@@ -5,17 +5,17 @@
 #include <architecture/i386/pio.h>
 
 // Ports
-const UInt8 SUPERIO_PORT[]                          = {0x2e, 0x4e};
+
 
 // Registers
-const UInt8 CONFIGURATION_CONTROL_REGISTER          = 0x02;
-const UInt8 CHIP_ID_REGISTER                        = 0x20;
-const UInt8 BASE_ADDRESS_REGISTER                   = 0x60;
-const UInt8 DEVCIE_SELECT_REGISTER                  = 0x07;
+const UInt8 kSuperIOConfigControlRegister = 0x02;
+const UInt8 kSuperIOChipIDRegister        = 0x20;
+const UInt8 kSuperIOBaseAddressRegister   = 0x60;
+const UInt8 kSuperIODeviceSelectRegister  = 0x07;
 
-const UInt8 WINBOND_NUVOTON_HARDWARE_MONITOR_LDN    = 0x0B;
-const UInt8 F71858_HARDWARE_MONITOR_LDN             = 0x02;
-const UInt8 FINTEK_ITE_HARDWARE_MONITOR_LDN         = 0x04;
+const UInt8 kWinbondHardwareMonitorLDN    = 0x0B;
+const UInt8 kF71858HardwareMonitorLDN     = 0x02;
+const UInt8 kFintekITEHardwareMonitorLDN  = 0x04;
 
 enum SuperIOModel
 {
@@ -63,20 +63,20 @@ enum SuperIOModel
     NCT6776F    = 0xC330
 };
 
-inline UInt8 listen_port_byte(i386_ioport_t port, UInt8 reg)
+inline UInt8 superio_listen_port_byte(i386_ioport_t port, UInt8 reg)
 {
 	outb(port, reg);
 	return inb(port + 1);
 }
 
-inline UInt16 listen_port_word(i386_ioport_t port, UInt8 reg)
+inline UInt16 superio_listen_port_word(i386_ioport_t port, UInt8 reg)
 {
-	return ((listen_port_byte(port, reg) << 8) | listen_port_byte(port, reg + 1));
+	return ((superio_listen_port_byte(port, reg) << 8) | superio_listen_port_byte(port, reg + 1));
 }
 
-inline void select_device(i386_ioport_t port, UInt8 reg)
+inline void superio_select_logical_device(i386_ioport_t port, UInt8 reg)
 {
-	outb(port, DEVCIE_SELECT_REGISTER);
+	outb(port, kSuperIODeviceSelectRegister);
 	outb(port + 1, reg);
 }
 
@@ -90,7 +90,7 @@ inline void ite_family_enter(i386_ioport_t port)
 
 inline void ite_family_exit(i386_ioport_t port)
 {
-    outb(port, CONFIGURATION_CONTROL_REGISTER);
+    outb(port, kSuperIOConfigControlRegister);
 	outb(port + 1, 0x02);
 }
 
@@ -105,7 +105,7 @@ inline void winbond_family_exit(i386_ioport_t port)
     outb(port, 0xAA);
 }
 
-inline const char* get_model_name(UInt16 model)
+inline const char* superio_get_model_name(UInt16 model)
 {
     switch (model) {
         case IT8512F: return "IT8512F";

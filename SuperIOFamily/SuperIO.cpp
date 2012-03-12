@@ -22,12 +22,14 @@ bool SuperIO::start(IOService *provider)
 {
 	if (!super::start(provider)) return false;
     
+    const UInt8 ports[] = {0x2e, 0x4e};
+    
     for (int i = 0; i < 2; i++) {
-        i386_ioport_t port = SUPERIO_PORT[i];
+        i386_ioport_t port = ports[i];
         
         winbond_family_enter(port);
         
-        UInt16 id = listen_port_word(port, CHIP_ID_REGISTER);
+        UInt16 id = superio_listen_port_word(port, kSuperIOChipIDRegister);
         
         UInt16 model = 0;
         UInt8 ldn = 0;
@@ -48,14 +50,14 @@ bool SuperIO::start(IOService *provider)
             case W83697HF:
             case W83697SF:
                 model = id;
-                ldn = WINBOND_NUVOTON_HARDWARE_MONITOR_LDN;
+                ldn = kWinbondHardwareMonitorLDN;
                 vendor = "Winbond";
                 break;
                 
                 // Fintek
             case F71858:
                 model = id;
-                ldn = F71858_HARDWARE_MONITOR_LDN;
+                ldn = kF71858HardwareMonitorLDN;
                 vendor = "Fintek";
                 break;
                 
@@ -68,7 +70,7 @@ bool SuperIO::start(IOService *provider)
             case F71889F:
             case F71808:
                 model = id;
-                ldn = FINTEK_ITE_HARDWARE_MONITOR_LDN;
+                ldn = kFintekITEHardwareMonitorLDN;
                 vendor = "Fintek";
                 break;
                 
@@ -76,7 +78,7 @@ bool SuperIO::start(IOService *provider)
             case NCT6771F:
             case NCT6776F:
                 model = id;
-                ldn = WINBOND_NUVOTON_HARDWARE_MONITOR_LDN;
+                ldn = kWinbondHardwareMonitorLDN;
                 vendor = "Nuvoton";
                 break;
         }
@@ -86,13 +88,13 @@ bool SuperIO::start(IOService *provider)
         
         if (model != 0 && ldn != 0) {
             
-            select_device(port, ldn);
+            superio_select_logical_device(port, ldn);
             
-            address = listen_port_word(port, BASE_ADDRESS_REGISTER);
+            address = superio_listen_port_word(port, kSuperIOBaseAddressRegister);
             
             IOSleep(50);
             
-            verify = listen_port_word(port, BASE_ADDRESS_REGISTER);
+            verify = superio_listen_port_word(port, kSuperIOBaseAddressRegister);
             
             winbond_family_exit(port);
             
@@ -115,7 +117,7 @@ bool SuperIO::start(IOService *provider)
             if (port == 0x2E) {
                 ite_family_enter(port);
                 
-                id = listen_port_word(port, CHIP_ID_REGISTER);
+                id = superio_listen_port_word(port, kSuperIOChipIDRegister);
                 
                 ldn = 0;
                 vendor = "";
@@ -132,19 +134,19 @@ bool SuperIO::start(IOService *provider)
                     case IT8752F:
                     case IT8772E:
                         model = id;
-                        ldn = FINTEK_ITE_HARDWARE_MONITOR_LDN;
+                        ldn = kFintekITEHardwareMonitorLDN;
                         vendor = "ITE";
                         break;
                 }
                 
                 if (model != 0 && ldn != 0) {
-                    select_device(port, ldn);
+                    superio_select_logical_device(port, ldn);
                     
-                    address = listen_port_word(port, BASE_ADDRESS_REGISTER);
+                    address = superio_listen_port_word(port, kSuperIOBaseAddressRegister);
                     
                     IOSleep(50);
                     
-                    verify = listen_port_word(port, BASE_ADDRESS_REGISTER);
+                    verify = superio_listen_port_word(port, kSuperIOBaseAddressRegister);
                     
                     ite_family_exit(port);
                     
@@ -161,11 +163,11 @@ bool SuperIO::start(IOService *provider)
         if (model == 0) 
             return false;
         
-        IOLog("%s: found %s %s on port=0x%x address=0x%x\n", getName(), vendor, get_model_name(model), port, address);
+        IOLog("%s: found %s %s on port=0x%x address=0x%x\n", getName(), vendor, superio_get_model_name(model), port, address);
         
         char string[128];
         
-        snprintf(string, sizeof(string), "%s,%s", vendor, get_model_name(model));
+        snprintf(string, sizeof(string), "%s,%s", vendor, superio_get_model_name(model));
         
         setName(string);
         
@@ -175,7 +177,7 @@ bool SuperIO::start(IOService *provider)
         setProperty("port", port, 8);
         setProperty("model", model, 16);
 
-        setProperty("model-name", get_model_name(model));
+        setProperty("model-name", superio_get_model_name(model));
         setProperty("vendor-name", vendor);
         
         registerService();

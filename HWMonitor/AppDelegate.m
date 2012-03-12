@@ -16,21 +16,31 @@
 #define GetLocalizedString(key) \
 [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
-- (void)setGemForMenuItem:(NSMenuItem*)menuItem Sensor:(HWMonitorSensor*)sensor
+/*- (void)setGemForSensor:(HWMonitorSensor*)sensor
 {
-    if ([sensor favorite]) {
-        if ([sensor exceeded])
-            [menuItem setImage:gemYellow];
-        else
-            [menuItem setImage:gemGreen];
+    switch ([sensor level]) {
+        case kHWSensorLevelDisabled:
+            [[sensor menuItem] setImage:gemClear];
+            break;
+            
+        case kHWSensorLevelNormal:
+            [[sensor menuItem] setImage:gemGreen];
+            break;
+            
+        case kHWSensorLevelModerate:
+            [[sensor menuItem] setImage:gemYellow];
+            break;
+            
+        case kHWSensorLevelHigh:
+        case kHWSensorLevelExceeded:
+            [[sensor menuItem] setImage:gemRed];
+            break;
+            
+        default:
+            [[sensor menuItem] setImage:nil];
+            break;
     }
-    else {
-        if ([sensor exceeded])
-            [menuItem setImage:gemRed];
-        else
-            [menuItem setImage:gemClear];
-    }
-}
+}*/
 
 - (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
 {
@@ -55,8 +65,8 @@
             
             [sensorItem setTarget:self];
             [sensorItem setRepresentedObject:sensor];
-            
-            [self setGemForMenuItem:sensorItem Sensor:sensor];
+            [sensorItem setState:[sensor favorite]];
+            [sensorItem setOnStateImage:stateGem];
             
             [statusMenu addItem:sensorItem];
         }
@@ -90,9 +100,6 @@
             
             // Update menu item title
             [[sensor menuItem] setAttributedTitle:title];
-            
-            if ([sensor recentlyExceeded])
-                [self setGemForMenuItem:[sensor menuItem] Sensor:sensor];
         }
         
         if ([sensor favorite]) {
@@ -130,7 +137,7 @@
     
     [sensor setFavorite:![sensor favorite]];
     
-    [self setGemForMenuItem:menuItem Sensor:sensor];
+    [menuItem setState:[sensor favorite]];
     
     [self updateTitles];
     
@@ -139,11 +146,8 @@
 }
 
 - (void)awakeFromNib
-{
-    gemClear = [NSImage imageNamed:@"SmallLEDClear"];
-    gemGreen = [NSImage imageNamed:@"SmallLEDGreen"];;
-    gemRed = [NSImage imageNamed:@"SmallLEDRed"];;
-    gemYellow = [NSImage imageNamed:@"SmallLEDYellow"];;
+{    
+    stateGem = [NSImage imageNamed:@"StateGem"];
     
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     
@@ -175,12 +179,12 @@
     [monitor rebuildSensorsList];
     
     if ([[monitor sensors] count] > 0) {
-        [self insertMenuGroupWithTitle:@"TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kHWTemperatureGroup]];
-        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kHWSMARTTemperatureGroup]];
-        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" sensors:[monitor getAllSensorsInGroup:kHWSMARTRemainingLifeGroup]];
-        [self insertMenuGroupWithTitle:@"MULTIPLIERS" sensors:[monitor getAllSensorsInGroup:kHWMultiplierGroup]];
-        [self insertMenuGroupWithTitle:@"FANS" sensors:[monitor getAllSensorsInGroup:kHWTachometerGroup]];
-        [self insertMenuGroupWithTitle:@"VOLTAGES" sensors:[monitor getAllSensorsInGroup:kHWVoltageGroup]];
+        [self insertMenuGroupWithTitle:@"TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
+        [self insertMenuGroupWithTitle:@"MULTIPLIERS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
+        [self insertMenuGroupWithTitle:@"FANS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer]];
+        [self insertMenuGroupWithTitle:@"VOLTAGES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
         
         [self updateTitles];
     }

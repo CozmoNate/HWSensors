@@ -23,13 +23,8 @@
     
     HWMonitorEngine *monitor;
     
-    NSImage *gemClear;
-    NSImage *gemGreen;
-    NSImage *gemRed;
-    NSImage *gemYellow;
+    NSImage *stateGem;
 }
-
-- (void)setGemForMenuItem:(NSMenuItem*)menuItem Sensor:(HWMonitorSensor*)sensor;
 
 - (void)insertMenuGroupWithTitle:(NSString*)title sensors:(NSArray*)list;
 

@@ -67,6 +67,8 @@
 		6A00BB5E14F8CCF000337DF8 /* HWMonitorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5A14F8CCF000337DF8 /* HWMonitorEngine.m */; };
 		6A00BB5F14F8CCF000337DF8 /* HWMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5C14F8CCF000337DF8 /* HWMonitorSensor.m */; };
 		6A00BB6014F8CCF000337DF8 /* HWMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5C14F8CCF000337DF8 /* HWMonitorSensor.m */; };
+		6A01503F150E8679000CAC9C /* StateGem.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A01503E150E8679000CAC9C /* StateGem.png */; };
+		6A015040150E8679000CAC9C /* StateGem.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A01503E150E8679000CAC9C /* StateGem.png */; };
 		6A0F327D14DD6A6800AA5598 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A0F327B14DD6A6800AA5598 /* InfoPlist.strings */; };
 		6A0F328014DD6A6800AA5598 /* NuvotonNCT677x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A0F327F14DD6A6800AA5598 /* NuvotonNCT677x.cpp */; };
 		6A10C19A1506B2A4005E0897 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10C18F1506B2A4005E0897 /* IOKit.framework */; };
@@ -199,6 +201,7 @@
 		6A00BB5A14F8CCF000337DF8 /* HWMonitorEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HWMonitorEngine.m; path = Shared/HWMonitorEngine.m; sourceTree = "<group>"; };
 		6A00BB5B14F8CCF000337DF8 /* HWMonitorSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorSensor.h; path = Shared/HWMonitorSensor.h; sourceTree = "<group>"; };
 		6A00BB5C14F8CCF000337DF8 /* HWMonitorSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HWMonitorSensor.m; path = Shared/HWMonitorSensor.m; sourceTree = "<group>"; };
+		6A01503E150E8679000CAC9C /* StateGem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StateGem.png; sourceTree = "<group>"; };
 		6A0F327514DD6A6800AA5598 /* NuvotonNCT677x.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NuvotonNCT677x.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A0F327A14DD6A6800AA5598 /* NuvotonNCT677x-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NuvotonNCT677x-Info.plist"; sourceTree = "<group>"; };
 		6A0F327C14DD6A6800AA5598 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -677,6 +680,7 @@
 		6A1DF980150201BF00C34729 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6A01503E150E8679000CAC9C /* StateGem.png */,
 				6AAC4914150BBDEE0047B379 /* SmallLEDClear.png */,
 				6AAC4915150BBDEE0047B379 /* SmallLEDGreen.png */,
 				6AAC4924150BCACA0047B379 /* SmallLEDRed.png */,
@@ -1272,6 +1276,7 @@
 				6AAC4918150BBDEE0047B379 /* SmallLEDGreen.png in Resources */,
 				6AAC4926150BCACA0047B379 /* SmallLEDRed.png in Resources */,
 				6AAC4928150BCACA0047B379 /* SmallLEDYellow.png in Resources */,
+				6A01503F150E8679000CAC9C /* StateGem.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1319,6 +1324,7 @@
 				6AAC4919150BBDEE0047B379 /* SmallLEDGreen.png in Resources */,
 				6AAC4927150BCACA0047B379 /* SmallLEDRed.png in Resources */,
 				6AAC4929150BCACA0047B379 /* SmallLEDYellow.png in Resources */,
+				6A015040150E8679000CAC9C /* StateGem.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
