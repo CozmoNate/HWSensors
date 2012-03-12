@@ -73,10 +73,10 @@
     NSData *value = nil;
     
     switch (group) {
-        case kHWSMARTTemperatureGroup:
+        case kSMARTSensorGroupTemperature:
             
             break;
-        case kHWSMARTRemainingLifeGroup:
+        case kSMARTSensorGroupRemainingLife:
             
             break;
             
@@ -88,6 +88,15 @@
             
             if (!type || !value)
                 return nil;
+            
+            switch (group) {
+                case kHWSensorGroupTemperature:
+                    [sensor setLevel:kHWSensorLevelDisabled];
+                    break;
+                default:
+                    [sensor setLevel:kHWSensorLevelUnused];
+                    break;
+            }
             
             break;
         }
@@ -112,23 +121,23 @@
     NSData * value = nil;
     
     switch (group) {
-        case kHWSMARTTemperatureGroup:
+        case kSMARTSensorGroupTemperature:
             value = [disk getTemperature];
             if (value) {
-                HWMonitorSensor *sensor = [self addSensorWithKey:[disk serialNumber] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:kHWSMARTTemperatureGroup];
+                HWMonitorSensor *sensor = [self addSensorWithKey:[disk serialNumber] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:kSMARTSensorGroupTemperature];
                 [sensor setValue:value];
                 [sensor setDisk:disk];
-                [sensor setExceeded:[disk isExceeded]];
+                if ([disk isExceeded]) [sensor setLevel:kHWSensorLevelExceeded];
             }
             break;
             
-        case kHWSMARTRemainingLifeGroup:
+        case kSMARTSensorGroupRemainingLife:
             value = [disk getRemainingLife];
             if (value) {
-                HWMonitorSensor *sensor = [self addSensorWithKey:[disk serialNumber] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:kHWSMARTRemainingLifeGroup];
+                HWMonitorSensor *sensor = [self addSensorWithKey:[disk serialNumber] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:kSMARTSensorGroupRemainingLife];
                 [sensor setValue:value];
                 [sensor setDisk:disk];
-                [sensor setExceeded:[disk isExceeded]];
+                if ([disk isExceeded]) [sensor setLevel:kHWSensorLevelExceeded];
             }
             break;
             
@@ -182,17 +191,17 @@
     //Temperatures
     
     for (int i=0; i<0xA; i++)
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWTemperatureGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupTemperature];
     
-    [self addSensorWithKey:@KEY_CPU_HEATSINK_TEMPERATURE caption:GetLocalizedString(@"CPU Heatsink") group:kHWTemperatureGroup];
-    //[self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"Northbridge") group:kHWTemperatureGroup];
-    [self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"System Chipset") group:kHWTemperatureGroup];
-    [self addSensorWithKey:@KEY_AMBIENT_TEMPERATURE caption:GetLocalizedString(@"Ambient") group:kHWTemperatureGroup];
+    [self addSensorWithKey:@KEY_CPU_HEATSINK_TEMPERATURE caption:GetLocalizedString(@"CPU Heatsink") group:kHWSensorGroupTemperature];
+    //[self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"Northbridge") group:kHWSensorGroupTemperature];
+    [self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"System Chipset") group:kHWSensorGroupTemperature];
+    [self addSensorWithKey:@KEY_AMBIENT_TEMPERATURE caption:GetLocalizedString(@"Ambient") group:kHWSensorGroupTemperature];
     
     for (int i=0; i<0xA; i++) {
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Core"),i + 1] group:kHWTemperatureGroup];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_BOARD_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Board"),i + 1] group:kHWTemperatureGroup];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Proximity"),i + 1] group:kHWTemperatureGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Core"),i + 1] group:kHWSensorGroupTemperature];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_BOARD_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Board"),i + 1] group:kHWSensorGroupTemperature];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Proximity"),i + 1] group:kHWSensorGroupTemperature];
     }
     
     if ([smartReporter drives]) {
@@ -203,7 +212,7 @@
             ATAGenericDisk * disk = [[smartReporter drives] objectAtIndex:i];
             
             if (disk) 
-                [self addSMARTSensorWithGenericDisk:disk group:kHWSMARTTemperatureGroup];
+                [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupTemperature];
         }
     
         // SSD Remaining Life
@@ -212,7 +221,7 @@
             ATAGenericDisk * disk = [[smartReporter drives] objectAtIndex:i];
             
             if (disk && ![disk isRotational]) 
-                [self addSMARTSensorWithGenericDisk:disk group:kHWSMARTRemainingLifeGroup];
+                [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupRemainingLife];
         }
     }
     
@@ -220,9 +229,9 @@
     //Multipliers
     
     for (int i=0; i<0xA; i++)
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_NON_APPLE_CPU_MULTIPLIER,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWMultiplierGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_NON_APPLE_CPU_MULTIPLIER,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupMultiplier];
     
-    [self addSensorWithKey:@KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER caption:GetLocalizedString(@"CPU Package") group:kHWMultiplierGroup];
+    [self addSensorWithKey:@KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER caption:GetLocalizedString(@"CPU Package") group:kHWSensorGroupMultiplier];
     
     // Fans
     
@@ -231,23 +240,23 @@
         if ([caption length]<=0) 
             caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
         
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWTachometerGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWSensorGroupTachometer];
     }
     
     // Voltages
     for (int i = 0; i <= 0xf; i++)        
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i + 1] group:kHWVoltageGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i + 1] group:kHWSensorGroupVoltage];
     
-    [self addSensorWithKey:@KEY_MEMORY_VOLTAGE caption:GetLocalizedString(@"DIMM Modules") group:kHWVoltageGroup];
-    [self addSensorWithKey:@KEY_DCIN_12V_S0_VOLTAGE caption:GetLocalizedString(@"+12V") group:kHWVoltageGroup ];
-    [self addSensorWithKey:@KEY_DCIN_3V3_S5_VOLTAGE caption:GetLocalizedString(@"AVCC") group:kHWVoltageGroup ];
-    [self addSensorWithKey:@KEY_POWERBATTERY_VOLTAGE caption:GetLocalizedString(@"Power/Battery") group:kHWVoltageGroup ];
-    
-    for (int i = 0; i <= 0xf; i++)        
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"VRM Supply %X"),i + 1] group:kHWVoltageGroup];
+    [self addSensorWithKey:@KEY_MEMORY_VOLTAGE caption:GetLocalizedString(@"DIMM Modules") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_DCIN_12V_S0_VOLTAGE caption:GetLocalizedString(@"+12V") group:kHWSensorGroupVoltage ];
+    [self addSensorWithKey:@KEY_DCIN_3V3_S5_VOLTAGE caption:GetLocalizedString(@"AVCC") group:kHWSensorGroupVoltage ];
+    [self addSensorWithKey:@KEY_POWERBATTERY_VOLTAGE caption:GetLocalizedString(@"Power/Battery") group:kHWSensorGroupVoltage ];
     
     for (int i = 0; i <= 0xf; i++)        
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_POWERSUPPLY_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"Power Supply %X"),i + 1] group:kHWVoltageGroup];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"VRM Supply %X"),i + 1] group:kHWSensorGroupVoltage];
+    
+    for (int i = 0; i <= 0xf; i++)        
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_POWERSUPPLY_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"Power Supply %X"),i + 1] group:kHWSensorGroupVoltage];
 }
 
 - (void)updateSMARTSensorsValues
@@ -257,11 +266,11 @@
             HWMonitorSensor *sensor = [sensors objectAtIndex:i];
             
             switch ([sensor group]) {
-                case kHWSMARTTemperatureGroup:
+                case kSMARTSensorGroupTemperature:
                     if ([sensor disk]) [sensor setValue:[[sensor disk] getTemperature]];                    
                     break;
 
-                case kHWSMARTRemainingLifeGroup: {
+                case kSMARTSensorGroupRemainingLife: {
                     if ([sensor disk]) [sensor setValue:[[sensor disk] getRemainingLife]];                   
                     break;
                 }
@@ -282,8 +291,8 @@
             
             if ((updateOnlyFavorites && [sensor favorite]) || !updateOnlyFavorites)
                 switch ([sensor group]) {
-                    case kHWSMARTTemperatureGroup:
-                    case kHWSMARTRemainingLifeGroup:
+                    case kSMARTSensorGroupTemperature:
+                    case kSMARTSensorGroupRemainingLife:
                         break;
                         
                     default: {

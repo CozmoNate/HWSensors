@@ -24,57 +24,29 @@ inline UInt8 get_index(char c)
 @synthesize value;
 @synthesize disk;
 
-@synthesize menuItem;
 @synthesize favorite;
-@synthesize exceeded;
-@synthesize recentlyExceeded;
+@synthesize level;
+@synthesize levelHasBeenChanged;
 
-- (BOOL)exceeded
+@synthesize menuItem;
+
+- (NSUInteger)level
 {
-    recentlyExceeded = false;
+    levelHasBeenChanged = false;
     
-    return exceeded;
+    return level;
 }
 
-- (void)setExceeded:(BOOL)isExceeded
+- (void)setLevel:(NSUInteger)newLevel
 {
-    recentlyExceeded = exceeded != isExceeded;
+    levelHasBeenChanged = level != newLevel;
     
-    exceeded = isExceeded;
+    level = newLevel;
 }
 
 + (int)getIndexOfHexChar:(char)c
 {
 	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
-}
-
-+ (float)decodeSMCFloatOfType:(const char*)type fraction:(UInt16) encoded
-{
-    if (type[0] == 's' || type[0] == 'f') {
-        
-        UInt8 i = 0, f = 0;
-        
-        if (type[1] == 'p') {
-            i = [HWMonitorSensor getIndexOfHexChar:type[2]];
-            f = [HWMonitorSensor getIndexOfHexChar:type[3]];
-            
-            if (i + f != (type[0] == 's' ? 15 : 16) ) 
-                return encoded;
-        }
-        else return encoded;
-        
-        UInt16 swapped = OSSwapBigToHostInt16(encoded);
-        
-        BOOL minus = (swapped | 0x8000) > 0;
-        
-        swapped = swapped & 0x7fff;
-        
-        float value = (float)swapped / (float)(0x1 << f);
-        
-        return value * (type[0] == 's' && minus ? -1 : 1);
-    }
-    
-    return encoded;
 }
 
 + (HWMonitorSensor*)sensor
@@ -158,18 +130,19 @@ inline UInt8 get_index(char c)
 {
     if (value != NULL) {
         switch (group) {
-            case kHWSMARTTemperatureGroup: {
+            case kSMARTSensorGroupTemperature: {
                 UInt16 t = 0;
                 
                 bcopy([value bytes], &t, 2);
                 
-                [self setExceeded:exceeded = exceeded || (t >= 50)];
+                if (level != kHWSensorLevelExceeded)
+                    [self setLevel:t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
                 return [[NSString alloc] initWithFormat:@"%d°",t];
                 
             }
                 
-            case kHWSMARTRemainingLifeGroup: {
+            case kSMARTSensorGroupRemainingLife: {
                 UInt64 life = 0;
                 
                 bcopy([value bytes], &life, [value length]);
@@ -181,21 +154,21 @@ inline UInt8 get_index(char c)
                 
             }
                 
-            case kHWTemperatureGroup: {
+            case kHWSensorGroupTemperature: {
                 float t = [self decodeValue];
                 
-                [self setExceeded:t >= 60];
+                [self setLevel:t >= 70 ? kHWSensorLevelHigh : t >= 60 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
                 return [[NSString alloc] initWithFormat:@"%1.0f°", t];
             }
                 
-            case kHWVoltageGroup:
+            case kHWSensorGroupVoltage:
                 return [[NSString alloc] initWithFormat:@"%1.2fV", [self decodeValue]];
                 
-            case kHWTachometerGroup:
+            case kHWSensorGroupTachometer:
                 return [[NSString alloc] initWithFormat:@"%1.0frpm", [self decodeValue]];
                 
-            case kHWMultiplierGroup:
+            case kHWSensorGroupMultiplier:
                 return [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
         }
     }

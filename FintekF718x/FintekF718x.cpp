@@ -143,7 +143,7 @@ bool F718x::initialize()
 {    
     winbond_family_enter(port);
     
-    UInt16 vendor = listen_port_word(port, FINTEK_VENDOR_ID_REGISTER);
+    UInt16 vendor = superio_listen_port_word(port, FINTEK_VENDOR_ID_REGISTER);
     
     winbond_family_exit(port);
     

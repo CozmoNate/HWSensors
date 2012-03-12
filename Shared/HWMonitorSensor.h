@@ -10,15 +10,21 @@
 
 #include "ATASmartReporter.h"
 
-enum {
-    kHWTemperatureGroup =        1,
-    kHWVoltageGroup =            2,
-    kHWTachometerGroup =         3,
-    kHWFrequencySensor =          4,
-    kHWMultiplierGroup =         5,
-    kHWSMARTTemperatureGroup =   6,
-    kHWSMARTRemainingLifeGroup = 7,
-};
+
+#define kHWSensorGroupTemperature       1
+#define kHWSensorGroupVoltage           2
+#define kHWSensorGroupTachometer        3
+#define kHWSensorGroupFrequency         4
+#define kHWSensorGroupMultiplier        5
+#define kSMARTSensorGroupTemperature    6
+#define kSMARTSensorGroupRemainingLife  7
+
+#define kHWSensorLevelUnused            0
+#define kHWSensorLevelDisabled          1
+#define kHWSensorLevelNormal            2
+#define kHWSensorLevelModerate          3
+#define kHWSensorLevelHigh              4
+#define kHWSensorLevelExceeded          1000
 
 @interface HWMonitorSensor : NSObject
 
@@ -29,14 +35,13 @@ enum {
 @property (readwrite, retain) NSData *value;
 @property (readwrite, retain) ATAGenericDisk *disk;
 
-@property (readwrite, retain) NSMenuItem *menuItem;
 @property (readwrite, assign) BOOL favorite;
-@property (readwrite, assign) BOOL exceeded;
-@property (readonly) BOOL recentlyExceeded;
+@property (readwrite, assign) NSUInteger level;
+@property (readonly) BOOL levelHasBeenChanged;
+
+@property (readwrite, retain) NSMenuItem *menuItem;
 
 + (int)getIndexOfHexChar:(char)c;
-+ (float)decodeSMCFloatOfType:(const char*)type fraction:(UInt16) encoded;
-
 + (HWMonitorSensor*)sensor;
 
 - (float)decodeValue;

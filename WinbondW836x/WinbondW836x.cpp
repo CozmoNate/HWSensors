@@ -244,27 +244,26 @@ bool W836x::addTemperatureSensors(OSDictionary *configuration)
 
     for (int i = 0; i < temperatureSensorsLimit(); i++) 
     {				
+        switch (model) 
+        {
+            case W83667HG:
+            case W83667HGB:
+                if ((i == 0 && (flag & 0x04) == 0) || (i == 1 && (flag & 0x40) == 0))
+                    continue;
+                break;
+                
+            case W83627DHG:        
+            case W83627DHGP:
+                if ((i == 0 && (flag & 0x07) == 0) || (i == 1 && (flag & 0x70) == 0)) 
+                    continue;
+                break;
+        }
+        
         char key[8];
         
-        snprintf(key, 8, "TEMPIN%X", index);
+        snprintf(key, 8, "TEMPIN%X", index++);
         
         if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
-            
-            switch (model) 
-            {
-                case W83667HG:
-                case W83667HGB:
-                    if ((i == 0 && (flag & 0x04) == 0) || (i == 1 && (flag & 0x40) == 0))
-                        continue;
-                    break;
-                    
-                case W83627DHG:        
-                case W83627DHGP:
-                    if ((i == 0 && (flag & 0x07) == 0) || (i == 1 && (flag & 0x70) == 0)) 
-                        continue;
-                    break;
-            }
-            
             if (name->isEqualTo("CPU")) {
                 if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
                     WarningLog("can't add CPU temperature sensor");
@@ -277,8 +276,6 @@ bool W836x::addTemperatureSensors(OSDictionary *configuration)
                 if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
                     WarningLog("can't add Ambient temperature sensor");
             }
-            
-            index++;
         }
     }
 	    
