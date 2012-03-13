@@ -35,25 +35,72 @@ bool SuperIO::start(IOService *provider)
         UInt8 ldn = 0;
         const char* vendor = "";
         
-        switch (id) {
-            case W83627DHG:
-            case W83627UHG:
-            case W83627DHGP:
-            case W83627EHF:
-            case W83627HF:
-            case W83627THF:
-            case W83627SF:
-            case W83637HF:
-            case W83667HG:
-            case W83667HGB:
-            case W83687THF:
-            case W83697HF:
-            case W83697SF:
-                model = id;
-                ldn = kWinbondHardwareMonitorLDN;
-                vendor = "Winbond";
+        // Winbond
+        switch (id >> 8) {
+            case 0x52:
+                switch (id & 0xff) {
+                    case 0x17:
+                    case 0x3A:
+                    case 0x41:
+                        model = W83627HF;
+                        ldn = kWinbondHardwareMonitorLDN;
+                        vendor = "Winbond";
+                    break;
+                } 
                 break;
-                
+            case 0x82:
+                switch (id & 0xf0) {
+                    case 0x80:
+                        model = W83627THF;
+                        ldn = kWinbondHardwareMonitorLDN;
+                        vendor = "Winbond";
+                } break;
+            case 0x85:
+                switch (id & 0xff) {
+                    case 0x41:
+                        model = W83687THF;
+                        ldn = kWinbondHardwareMonitorLDN;
+                        vendor = "Winbond";
+                } break;
+            case 0x88:
+                switch (id & 0xf0) {
+                    case 0x50:
+                    case 0x60:
+                        model = W83627EHF;
+                        ldn = kWinbondHardwareMonitorLDN;
+                        vendor = "Winbond";
+                } break;
+            case 0xA0:
+                switch (id & 0xf0) {
+                    case 0x20:
+                        model = W83627DHG;
+                        ldn = kWinbondHardwareMonitorLDN;
+                        vendor = "Winbond";
+                } break;
+            case 0xA5:
+                switch (id & 0xf0) {
+                    case 0x10:
+                        model = W83667HG;
+                        ldn = kWinbondHardwareMonitorLDN;
+                        vendor = "Winbond";
+                } break;
+            case 0xB0:
+                switch (id & 0xf0) {
+                    case 0x70:
+                        model = W83627DHGP;
+                        ldn = kWinbondHardwareMonitorLDN;
+                        vendor = "Winbond";
+                } break;
+            case 0xB3:
+                switch (id & 0xf0) {
+                    case 0x50:
+                        model = W83667HGB;
+                        ldn = kWinbondHardwareMonitorLDN;
+                        vendor = "Winbond";
+                } break;
+        }
+        
+        switch (id) {   
                 // Fintek
             case F71858:
                 model = id;
