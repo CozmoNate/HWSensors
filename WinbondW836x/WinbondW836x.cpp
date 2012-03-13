@@ -290,6 +290,12 @@ bool W836x::addTachometerSensors(OSDictionary *configuration)
     
 	if (fanlimit && fanlimit->unsigned8BitValue() > 0)
 		fanLimit = fanlimit->unsigned8BitValue();
+    
+    // Be sure readTachometer will report correct values 
+    updateTachometers();
+    
+    for (int i = 0; i < fanLimit; i++)
+        readTachometer(i);
 
     return super::addTachometerSensors(configuration);
 }
