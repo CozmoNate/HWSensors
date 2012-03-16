@@ -62,6 +62,7 @@
 #define INTEL_THERMAL_MAX_CPU 8
 
 #define kIntelThermalPackageMultiplierSensor    1000
+#define kIntelThermalPackageFrequencySensor     1001
 
 extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);
 extern "C" int cpu_number(void);
@@ -82,6 +83,8 @@ private:
     
     UInt8                   thermCounter;
     UInt8                   perfCounter;
+    
+    UInt32                  busClock;
     
     IOReturn                loopTimerEvent(void);
 	void                    readTjmaxFromMSR();

@@ -27,7 +27,7 @@
         ATAGenericDisk* me = [[ATAGenericDisk alloc] init];
         
         me->service = ioservice;
-
+        
         me->productName = name;
         me->serialNumber = serial;
         me->isRotational = rotational;
@@ -82,7 +82,7 @@
     for (int index = 0; index < kATASMARTVendorSpecificAttributesCount; index++) 
         if (data.vendorAttributes[index].attributeId == identifier)
             return &data.vendorAttributes[index];
-            
+    
     return nil;
 }
 
@@ -125,7 +125,7 @@
 +(NSATASmartReporter*)smartReporterByDiscoveringDrives
 {
     NSATASmartReporter* me = [[NSATASmartReporter alloc] init];
-        
+    
     if (me)
         [me diskoverDrives];
     
@@ -143,7 +143,7 @@
         if (IO_OBJECT_NULL != iterator) {
             
             io_service_t service = MACH_PORT_NULL;
-                        
+            
             while (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
                 
                 CFBooleanRef capable = (CFBooleanRef)IORegistryEntryCreateCFProperty(service, CFSTR(kIOPropertySMARTCapableKey), kCFAllocatorDefault, 0);

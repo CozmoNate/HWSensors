@@ -58,7 +58,7 @@ float NVClockX::getSensorValue(FakeSMCSensor *sensor)
                     return nv_card->get_gpu_temp(nv_card->sensor);
             }
             break;
-                  
+            
         case kFakeSMCTachometerSensor:
             if (set_card(sensor->getIndex())) {
                 if (nv_card->caps & I2C_FANSPEED_MONITORING)
@@ -145,7 +145,7 @@ bool NVClockX::start(IOService * provider)
 	
 	if (!super::start(provider)) 
         return false;
-
+    
 	char key[7];
 	
 	nvclock.dpy = NULL;
@@ -214,24 +214,24 @@ bool NVClockX::start(IOService * provider)
 		}
 		
         /*InfoLog("Adding frequency sensor");
-		snprintf(key, 5, KEY_FORMAT_NON_APPLE_GPU_FREQUENCY, index);
-		this->addSensor(key, TYPE_UI16, 2, index);*/
+         snprintf(key, 5, KEY_FORMAT_NON_APPLE_GPU_FREQUENCY, index);
+         this->addSensor(key, TYPE_UI16, 2, index);*/
 		
 		/*OSNumber* fanKey = OSDynamicCast(OSNumber, getProperty("FanSpeedPercentage"));
-		
-		if((fanKey!=NULL)&(nv_card->set_fanspeed!=NULL)) {
-            InfoLog("Changing fan speed to %d", fanKey->unsigned8BitValue());
-			nv_card->set_fanspeed(fanKey->unsigned8BitValue());
-        }
-		
-		OSNumber* speedKey=OSDynamicCast(OSNumber, getProperty("GPUSpeed"));
-		
-		if ((speedKey!=NULL)&(nv_card->caps&GPU_OVERCLOCKING)) {
-			InfoLog("Default speed %d", (UInt16)nv_card->get_gpu_speed());
-			//InfoLog("%d", speedKey->unsigned16BitValue());
-			nv_card->set_gpu_speed(speedKey->unsigned16BitValue());
-			InfoLog("Overclocked to %d", (UInt16)nv_card->get_gpu_speed());
-		}*/
+         
+         if((fanKey!=NULL)&(nv_card->set_fanspeed!=NULL)) {
+         InfoLog("Changing fan speed to %d", fanKey->unsigned8BitValue());
+         nv_card->set_fanspeed(fanKey->unsigned8BitValue());
+         }
+         
+         OSNumber* speedKey=OSDynamicCast(OSNumber, getProperty("GPUSpeed"));
+         
+         if ((speedKey!=NULL)&(nv_card->caps&GPU_OVERCLOCKING)) {
+         InfoLog("Default speed %d", (UInt16)nv_card->get_gpu_speed());
+         //InfoLog("%d", speedKey->unsigned16BitValue());
+         nv_card->set_gpu_speed(speedKey->unsigned16BitValue());
+         InfoLog("Overclocked to %d", (UInt16)nv_card->get_gpu_speed());
+         }*/
 	}
     
     registerService();

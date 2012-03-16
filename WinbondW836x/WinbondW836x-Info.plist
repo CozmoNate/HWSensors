@@ -25,7 +25,7 @@
 			<key>CFBundleIdentifier</key>
 			<string>org.kozlek.${PRODUCT_NAME}</string>
 			<key>IOClass</key>
-			<string>W836x</string>
+			<string>W836xMonitor</string>
 			<key>IOMatchCategory</key>
 			<string>SuperIOMonitor</string>
 			<key>IOProviderClass</key>

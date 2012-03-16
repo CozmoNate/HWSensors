@@ -186,6 +186,7 @@
         [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
         [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
         [self insertMenuGroupWithTitle:@"MULTIPLIERS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
+        [self insertMenuGroupWithTitle:@"FREQUENCIES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency]];
         [self insertMenuGroupWithTitle:@"FANS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer]];
         [self insertMenuGroupWithTitle:@"VOLTAGES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
         

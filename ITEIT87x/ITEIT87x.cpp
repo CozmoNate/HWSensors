@@ -52,15 +52,15 @@
 
 #define Debug FALSE
 
-#define LogPrefix "IT87x: "
+#define LogPrefix "IT87xMonitor: "
 #define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
 #define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
 #define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
 
 #define super SuperIOMonitor
-OSDefineMetaClassAndStructors(IT87x, SuperIOMonitor)
+OSDefineMetaClassAndStructors(IT87xMonitor, SuperIOMonitor)
 
-UInt8 IT87x::readByte(UInt8 reg)
+UInt8 IT87xMonitor::readByte(UInt8 reg)
 {
 	outb(address + ITE_ADDRESS_REGISTER_OFFSET, reg);
 	
@@ -70,38 +70,38 @@ UInt8 IT87x::readByte(UInt8 reg)
 	return value;
 }
 
-void IT87x::writeByte(UInt8 reg, UInt8 value)
+void IT87xMonitor::writeByte(UInt8 reg, UInt8 value)
 {
 	outb(address + ITE_ADDRESS_REGISTER_OFFSET, reg);
 	outb(address + ITE_DATA_REGISTER_OFFSET, value);
 }
 
-UInt8 IT87x::temperatureSensorsLimit()
+UInt8 IT87xMonitor::temperatureSensorsLimit()
 {
     return 3;
 }
 
-UInt8 IT87x::voltageSensorsLimit()
+UInt8 IT87xMonitor::voltageSensorsLimit()
 {
     return 9;
 }
 
-UInt8 IT87x::tachometerSensorsLimit()
+UInt8 IT87xMonitor::tachometerSensorsLimit()
 {
     return 5;
 }
 
-float IT87x::readTemperature(UInt32 index)
+float IT87xMonitor::readTemperature(UInt32 index)
 {
 	return readByte(ITE_TEMPERATURE_BASE_REG + index);
 }
 
-float IT87x::readVoltage(UInt32 index)
+float IT87xMonitor::readVoltage(UInt32 index)
 {
     return (float)(readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain) / 1000.0f;
 }
 
-float IT87x::readTachometer(UInt32 index)
+float IT87xMonitor::readTachometer(UInt32 index)
 {
     long value;
     
@@ -126,7 +126,7 @@ float IT87x::readTachometer(UInt32 index)
     }
 }
 
-bool IT87x::initialize()
+bool IT87xMonitor::initialize()
 {   
     UInt8 vendor = readByte(ITE_VENDOR_ID_REGISTER);
 	

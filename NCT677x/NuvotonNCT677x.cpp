@@ -51,15 +51,15 @@
 
 #define Debug FALSE
 
-#define LogPrefix "NCT677x: "
+#define LogPrefix "NCT677xMonitor: "
 #define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
 #define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
 #define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
 
 #define super SuperIOMonitor
-OSDefineMetaClassAndStructors(NCT677x, SuperIOMonitor)
+OSDefineMetaClassAndStructors(NCT677xMonitor, SuperIOMonitor)
 
-UInt8 NCT677x::readByte(UInt16 reg) 
+UInt8 NCT677xMonitor::readByte(UInt16 reg) 
 {
     UInt8 bank = reg >> 8;
     UInt8 regi = reg & 0xFF;
@@ -71,7 +71,7 @@ UInt8 NCT677x::readByte(UInt16 reg)
     return inb((UInt16)(address + NUVOTON_DATA_REGISTER_OFFSET));
 }
 
-void NCT677x::writeByte(UInt16 reg, UInt8 value)
+void NCT677xMonitor::writeByte(UInt16 reg, UInt8 value)
 {
 	UInt8 bank = reg >> 8;
     UInt8 regi = reg & 0xFF;
@@ -82,72 +82,22 @@ void NCT677x::writeByte(UInt16 reg, UInt8 value)
     outb((UInt16)(address + NUVOTON_DATA_REGISTER_OFFSET), value);
 }
 
-UInt8 NCT677x::temperatureSensorsLimit()
+UInt8 NCT677xMonitor::temperatureSensorsLimit()
 {
     return 2;
 }
 
-UInt8 NCT677x::voltageSensorsLimit()
+UInt8 NCT677xMonitor::voltageSensorsLimit()
 {
     return 9;
 }
 
-UInt8 NCT677x::tachometerSensorsLimit()
+UInt8 NCT677xMonitor::tachometerSensorsLimit()
 {
     return 5;
 }
 
-/*void NCT677x::updateTemperatures()
-{
-    for (int i = 0; i < 9; i++)
-	{
-        int value = readByte(NUVOTON_TEMPERATURE_REG[i]) << 1;
-        
-        if (NUVOTON_TEMPERATURE_HALF_BIT[i] > 0) {
-            value |= ((readByte(NUVOTON_TEMPERATURE_HALF_REG[i]) >> NUVOTON_TEMPERATURE_HALF_BIT[i]) & 0x1);
-        }
-        
-        UInt8 source = readByte(NUVOTON_TEMPERATURE_SRC_REG[i]);
-        
-        float t = 0.5f * (float)value;
-        
-        if (t > 125 || t < -55)
-            t = 0;
-        
-        switch (model) {
-            case NCT6771F:
-                switch (source) {
-                    case NCT6771F_SOURCE_CPUTIN: 
-                        temperature[0] = t; 
-                        break;
-                    case NCT6771F_SOURCE_AUXTIN: 
-                        temperature[1] = t; 
-                        break;
-                    case NCT6771F_SOURCE_SYSTIN: 
-                        temperature[2] = t; 
-                        break;
-                        
-                } break;
-            case NCT6776F:
-                switch (source) {
-                    case NCT6776F_SOURCE_CPUTIN: 
-                        temperature[0] = t; 
-                        break;
-                    case NCT6776F_SOURCE_AUXTIN: 
-                        temperature[1] = t; 
-                        break;
-                    case NCT6776F_SOURCE_SYSTIN: 
-                        temperature[2] = t; 
-                        break;              
-                } break;
-        }  
-    }
-    
-    for (int i = 0; i < 3; i++)
-        temperatureIsObsolete[i] = false;
-}*/
-
-float NCT677x::readTemperature(UInt32 index)
+float NCT677xMonitor::readTemperature(UInt32 index)
 {
     if (index < temperatureSensorsLimit()) {
         
@@ -157,12 +107,12 @@ float NCT677x::readTemperature(UInt32 index)
         
         return t <= 125 && t >= -55 ? t : 0;
     }
-
+    
     
 	return 0;
 }
 
-float NCT677x::readVoltage(UInt32 index)
+float NCT677xMonitor::readVoltage(UInt32 index)
 {
     if (index < voltageSensorsLimit()) {
         
@@ -181,7 +131,7 @@ float NCT677x::readVoltage(UInt32 index)
     return 0;
 }
 
-float NCT677x::readTachometer(UInt32 index)
+float NCT677xMonitor::readTachometer(UInt32 index)
 {
     if (index < tachometerSensorsLimit()) {
         UInt8 high = readByte(NUVOTON_FAN_RPM_REG[index]);
@@ -195,9 +145,9 @@ float NCT677x::readTachometer(UInt32 index)
     return 0;
 }
 
-bool NCT677x::initialize()
+bool NCT677xMonitor::initialize()
 {
-   UInt16 vendor = (UInt16)(readByte(NUVOTON_VENDOR_ID_HIGH_REGISTER) << 8) | readByte(NUVOTON_VENDOR_ID_LOW_REGISTER);
+    UInt16 vendor = (UInt16)(readByte(NUVOTON_VENDOR_ID_HIGH_REGISTER) << 8) | readByte(NUVOTON_VENDOR_ID_LOW_REGISTER);
     
     if (vendor != NUVOTON_VENDOR_ID)
     {

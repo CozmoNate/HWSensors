@@ -40,7 +40,7 @@ typedef struct ATASMARTVendorSpecificData
 @private
     io_service_t service;
     struct ATASMARTVendorSpecificData data;
-
+    
     NSString    *productName;
     NSString    *serialNumber;
     BOOL        isRotational;
