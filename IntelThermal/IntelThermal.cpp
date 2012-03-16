@@ -131,6 +131,23 @@ IOReturn IntelThermal::loopTimerEvent(void)
     return kIOReturnSuccess;
 }
 
+float IntelThermal::calculateMultiplier(UInt8 cpu_index)
+{
+    switch (cpuid_info()->cpuid_cpufamily) {
+        case CPUFAMILY_INTEL_NEHALEM:
+        case CPUFAMILY_INTEL_WESTMERE:
+            return cpu_performance[0];
+            
+        case CPUFAMILY_INTEL_SANDYBRIDGE:
+            return cpu_performance[0] >> 8;
+
+        default:
+            return (float)(((cpu_performance[cpu_index] >> 8) & 0x1f)) + 0.5f * (float)((cpu_performance[cpu_index] >> 14) & 1);
+    }
+    
+    return 0;
+}
+
 float IntelThermal::getSensorValue(FakeSMCSensor *sensor)
 {
     switch (sensor->getGroup()) {
@@ -141,46 +158,19 @@ float IntelThermal::getSensorValue(FakeSMCSensor *sensor)
             }	
             break;
             
-        case kFakeSMCMultiplierSensor: {
+        case kFakeSMCMultiplierSensor: 
             if (sensor->getIndex() < cpuid_info()->core_count) {
                 perfCounter = 0;
-                return (float)(((cpu_performance[sensor->getIndex()] >> 8) & 0x1f)) + 0.5f * (float)((cpu_performance[sensor->getIndex()] >> 14) & 1);
+                return calculateMultiplier(sensor->getIndex());
             }
             break;
-        }
-        case kFakeSMCFrequencySensor: {
+        
+        case kFakeSMCFrequencySensor:
             if (sensor->getIndex() < cpuid_info()->core_count) {
                 perfCounter = 0;
-                return ((float)(((cpu_performance[sensor->getIndex()] >> 8) & 0x1f)) + 0.5f * (float)((cpu_performance[sensor->getIndex()] >> 14) & 1)) * (float)busClock;
+                return calculateMultiplier(sensor->getIndex()) * (float)busClock;
             }
             break;
-        }
-            
-        case kIntelThermalPackageMultiplierSensor:{
-            switch (cpuid_info()->cpuid_cpufamily) {
-                case CPUFAMILY_INTEL_NEHALEM:
-                case CPUFAMILY_INTEL_WESTMERE:
-                    perfCounter = 0;
-                    return cpu_performance[0];
-                    
-                case CPUFAMILY_INTEL_SANDYBRIDGE:
-                    perfCounter = 0;
-                    return cpu_performance[0] >> 8;
-            }
-        }
-            
-        case kIntelThermalPackageFrequencySensor:{
-            switch (cpuid_info()->cpuid_cpufamily) {
-                case CPUFAMILY_INTEL_NEHALEM:
-                case CPUFAMILY_INTEL_WESTMERE:
-                    perfCounter = 0;
-                    return cpu_performance[0] * busClock;
-                    
-                case CPUFAMILY_INTEL_SANDYBRIDGE:
-                    perfCounter = 0;
-                    return (cpu_performance[0] >> 8) * busClock;
-            }
-        }
     }
     
     return 0;
@@ -298,8 +288,8 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
 						break;
 						
 					default:
-						WarningLog("Unsupported Intel processor found, kext will not load");
-						return 0;
+						WarningLog("unsupported Intel processor found");
+						return this;
 				}
 			} break;
                 
@@ -320,7 +310,7 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
             } break;
 				
 			default:
-				WarningLog("Unknown Intel family processor found");
+				WarningLog("unknown Intel family processor found");
 				return this;
 		}
 	}
@@ -406,9 +396,9 @@ bool IntelThermal::start(IOService *provider)
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
-            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kIntelThermalPackageMultiplierSensor, 0))
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
                 WarningLog("Can't add package multiplier sensor");
-            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kIntelThermalPackageFrequencySensor, 0))
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
                 WarningLog("Can't add package frequency sensor");
             break;
             
