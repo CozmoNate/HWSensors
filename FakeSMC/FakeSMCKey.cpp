@@ -50,17 +50,17 @@ bool FakeSMCKey::init(const char * aName, const char * aType, unsigned char aSiz
 {
     if (!super::init())
         return false;
-		
+    
 	if (!aName || strlen(aName) == 0 || !(name = (char *)IOMalloc(5))) 
 		return false;
 	
 	copySymbol(aName, name);
-		
+    
 	size = aSize;
 	
 	if (!(type = (char *)IOMalloc(5)))
 		return false;
-			
+    
 	if (!aType || strlen(aType) == 0) {
 		switch (size) 
 		{
@@ -82,7 +82,7 @@ bool FakeSMCKey::init(const char * aName, const char * aType, unsigned char aSiz
 	
 	if (size == 0)
 		size++;
-		
+    
 	if (!(value = IOMalloc(size)))
 		return false;
 	
@@ -133,7 +133,7 @@ const void *FakeSMCKey::getValue()
                 lastcall = secs;
         }
 	}
-
+    
 	return value; 
 };
 
@@ -190,6 +190,6 @@ bool FakeSMCKey::isEqualTo(const OSMetaClassBase *anObject)
 {
     if (FakeSMCKey *aKey = OSDynamicCast(FakeSMCKey, anObject))
         return isEqualTo(aKey);
-
+    
     return false;
 }

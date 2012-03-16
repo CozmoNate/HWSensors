@@ -170,6 +170,15 @@ inline UInt8 get_index(char c)
                 
             case kHWSensorGroupMultiplier:
                 return [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
+                
+            case kHWSensorGroupFrequency: {
+                float f = [self decodeValue];
+                
+                if (f > 1000) {
+                    return [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1000.0f];
+                }
+                else return [[NSString alloc] initWithFormat:@"%1.1fMHz", f]; 
+            }
         }
     }
     

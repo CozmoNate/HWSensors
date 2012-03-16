@@ -43,7 +43,7 @@
 			<key>CFBundleIdentifier</key>
 			<string>org.kozlek.ITEIT87x</string>
 			<key>IOClass</key>
-			<string>IT87x</string>
+			<string>IT87xMonitor</string>
 			<key>IOMatchCategory</key>
 			<string>SuperIOMonitor</string>
 			<key>IONameMatch</key>

@@ -45,7 +45,7 @@ bool SuperIO::start(IOService *provider)
                         model = W83627HF;
                         ldn = kWinbondHardwareMonitorLDN;
                         vendor = "Winbond";
-                    break;
+                        break;
                 } 
                 break;
             case 0x82:
@@ -100,35 +100,36 @@ bool SuperIO::start(IOService *provider)
                 } break;
         }
         
-        switch (id) {   
-                // Fintek
-            case F71858:
-                model = id;
-                ldn = kF71858HardwareMonitorLDN;
-                vendor = "Fintek";
-                break;
-                
-            case F71862:
-            case F71869:
-            case F71869A:
-            case F71882:
-            case F71889AD:
-            case F71889ED:
-            case F71889F:
-            case F71808:
-                model = id;
-                ldn = kFintekITEHardwareMonitorLDN;
-                vendor = "Fintek";
-                break;
-                
-                // Nuvoton
-            case NCT6771F:
-            case NCT6776F:
-                model = id;
-                ldn = kWinbondHardwareMonitorLDN;
-                vendor = "Nuvoton";
-                break;
-        }
+        if (model == 0)
+            switch (id) {   
+                    // Fintek
+                case F71858:
+                    model = id;
+                    ldn = kF71858HardwareMonitorLDN;
+                    vendor = "Fintek";
+                    break;
+                    
+                case F71862:
+                case F71869:
+                case F71869A:
+                case F71882:
+                case F71889AD:
+                case F71889ED:
+                case F71889F:
+                case F71808:
+                    model = id;
+                    ldn = kFintekITEHardwareMonitorLDN;
+                    vendor = "Fintek";
+                    break;
+                    
+                    // Nuvoton
+                case NCT6771F:
+                case NCT6776F:
+                    model = id;
+                    ldn = kWinbondHardwareMonitorLDN;
+                    vendor = "Nuvoton";
+                    break;
+            }
         
         UInt16 address = 0;
         UInt16 verify = 0;
@@ -223,7 +224,7 @@ bool SuperIO::start(IOService *provider)
         setProperty("address", address, 16);
         setProperty("port", port, 8);
         setProperty("model", model, 16);
-
+        
         setProperty("model-name", superio_get_model_name(model));
         setProperty("vendor-name", vendor);
         

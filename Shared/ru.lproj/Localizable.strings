@@ -6,12 +6,13 @@
   Copyright (c) 2012 kozlek. All rights reserved.
 */
 
-"TEMPERATURES" = "ДАТЧИКИ ТЕМПЕРАТУРЫ";
+"TEMPERATURES" = "ТЕМПЕРАТУРНЫЕ ДАТЧИКИ";
 "DRIVES TEMPERATURES" = "ТЕМПЕРАТУРА ДИСКОВ";
 "SSD REMAINING LIFE" = "ВРЕМЯ ЖИЗНИ SSD";
 "MULTIPLIERS" = "МНОЖИТЕЛИ";
+"FREQUENCIES" = "ЧАСТОТЫ";
 "VOLTAGES" = "ДАТЧИКИ НАПРЯЖЕНИЯ";
-"FANS" = "ВЕНТИЛЯТОРЫ";
+"FANS" = "ОБОРОТЫ ВЕНТИЛЯТОРОВ";
 "CPU Heatsink" = "Радиатор ЦП";
 "GPU %X Board" = "Видеокарта %X";
 "GPU %X Core" = "Ядро видеокарты %X";

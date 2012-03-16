@@ -41,7 +41,7 @@
 			<key>CFBundleIdentifier</key>
 			<string>org.kozlek.FintekF718x</string>
 			<key>IOClass</key>
-			<string>F718x</string>
+			<string>F718xMonitor</string>
 			<key>IOMatchCategory</key>
 			<string>SuperIOMonitor</string>
 			<key>IONameMatch</key>

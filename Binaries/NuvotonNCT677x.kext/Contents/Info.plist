@@ -41,7 +41,7 @@
 			<key>CFBundleIdentifier</key>
 			<string>org.kozlek.NuvotonNCT677x</string>
 			<key>IOClass</key>
-			<string>NCT677x</string>
+			<string>NCT677xMonitor</string>
 			<key>IOMatchCategory</key>
 			<string>SuperIOMonitor</string>
 			<key>IONameMatch</key>

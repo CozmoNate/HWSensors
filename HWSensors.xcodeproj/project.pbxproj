@@ -237,8 +237,6 @@
 		6A9955BE14EFAD360052C702 /* NSString+TruncateToWidth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+TruncateToWidth.h"; sourceTree = "<group>"; };
 		6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+TruncateToWidth.m"; sourceTree = "<group>"; };
 		6A9955C214EFAEE50052C702 /* cpuid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpuid.h; sourceTree = "<group>"; };
-		6A9955C314EFAEE50052C702 /* TigerAdditionals.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TigerAdditionals.cpp; sourceTree = "<group>"; };
-		6A9955C414EFAEE50052C702 /* TigerAdditionals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TigerAdditionals.h; sourceTree = "<group>"; };
 		6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMCPlugin.cpp; sourceTree = "<group>"; };
 		6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCPlugin.h; sourceTree = "<group>"; };
 		6A9EF201150AB20F00CFDB15 /* ITEIT87x.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ITEIT87x.kext; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -474,13 +472,14 @@
 			name = "Plug-Ins";
 			sourceTree = "<group>";
 		};
-		1D05AC7713ED131B00EADBF6 /* WinbondW836x */ = {
+		1D05AC7713ED131B00EADBF6 /* (Winbond) W836xMonitor */ = {
 			isa = PBXGroup;
 			children = (
 				1D05AC8813ED135400EADBF6 /* WinbondW836x.h */,
 				1D05AC8713ED135400EADBF6 /* WinbondW836x.cpp */,
 				1D05AC7813ED131B00EADBF6 /* Supporting Files */,
 			);
+			name = "(Winbond) W836xMonitor";
 			path = WinbondW836x;
 			sourceTree = "<group>";
 		};
@@ -561,13 +560,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		1DA9620613ED30E40096F8A5 /* FintekF718x */ = {
+		1DA9620613ED30E40096F8A5 /* (Fintek) F718xMonitor */ = {
 			isa = PBXGroup;
 			children = (
 				1DA9621813ED31280096F8A5 /* FintekF718x.h */,
 				1DA9621713ED31280096F8A5 /* FintekF718x.cpp */,
 				1DA9620713ED30E40096F8A5 /* Supporting Files */,
 			);
+			name = "(Fintek) F718xMonitor";
 			path = FintekF718x;
 			sourceTree = "<group>";
 		};
@@ -656,14 +656,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6A0F327814DD6A6800AA5598 /* NuvotonNCT677x */ = {
+		6A0F327814DD6A6800AA5598 /* (Nuvoton) NCT677xMonitor */ = {
 			isa = PBXGroup;
 			children = (
 				6A0F327E14DD6A6800AA5598 /* NuvotonNCT677x.h */,
 				6A0F327F14DD6A6800AA5598 /* NuvotonNCT677x.cpp */,
 				6A0F327914DD6A6800AA5598 /* Supporting Files */,
 			);
-			name = NuvotonNCT677x;
+			name = "(Nuvoton) NCT677xMonitor";
 			path = NCT677x;
 			sourceTree = "<group>";
 		};
@@ -697,19 +697,12 @@
 			isa = PBXGroup;
 			children = (
 				6A9EF216150AB2D700CFDB15 /* SuperIOFamily */,
-				6A9EF202150AB20F00CFDB15 /* ITEIT87x */,
-				1D05AC7713ED131B00EADBF6 /* WinbondW836x */,
-				1DA9620613ED30E40096F8A5 /* FintekF718x */,
-				6A0F327814DD6A6800AA5598 /* NuvotonNCT677x */,
+				6A9EF202150AB20F00CFDB15 /* (ITE) IT87xMonitor */,
+				1D05AC7713ED131B00EADBF6 /* (Winbond) W836xMonitor */,
+				1DA9620613ED30E40096F8A5 /* (Fintek) F718xMonitor */,
+				6A0F327814DD6A6800AA5598 /* (Nuvoton) NCT677xMonitor */,
 			);
 			name = "Super I/O";
-			sourceTree = "<group>";
-		};
-		6A3CA2EB1502265C00B75BC2 /* CorePlot */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = CorePlot;
 			sourceTree = "<group>";
 		};
 		6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */ = {
@@ -753,9 +746,6 @@
 			isa = PBXGroup;
 			children = (
 				6A9955C214EFAEE50052C702 /* cpuid.h */,
-				6A9955C414EFAEE50052C702 /* TigerAdditionals.h */,
-				6A9955C314EFAEE50052C702 /* TigerAdditionals.cpp */,
-				6A3CA2EB1502265C00B75BC2 /* CorePlot */,
 				6AA3A26B14F6D7C1007A7084 /* NSString+TruncateToWidth */,
 				6AA3A26A14F6D7AC007A7084 /* ATASmartReporter */,
 				6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */,
@@ -764,13 +754,14 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		6A9EF202150AB20F00CFDB15 /* ITEIT87x */ = {
+		6A9EF202150AB20F00CFDB15 /* (ITE) IT87xMonitor */ = {
 			isa = PBXGroup;
 			children = (
 				6A9EF208150AB20F00CFDB15 /* ITEIT87x.h */,
 				6A9EF209150AB20F00CFDB15 /* ITEIT87x.cpp */,
 				6A9EF203150AB20F00CFDB15 /* Supporting Files */,
 			);
+			name = "(ITE) IT87xMonitor";
 			path = ITEIT87x;
 			sourceTree = "<group>";
 		};
@@ -1703,8 +1694,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = Binaries;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/**/**";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -1714,8 +1704,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = Binaries;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/**/**";
 				SDKROOT = macosx;
 			};
 			name = Release;

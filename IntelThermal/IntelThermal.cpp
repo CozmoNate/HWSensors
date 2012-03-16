@@ -50,6 +50,9 @@
 #include "IntelThermal.h"
 #include "FakeSMCDefinitions.h"
 
+#include <IOKit/IODeviceTreeSupport.h>
+#include <IOKit/IORegistryEntry.h>
+
 #define Debug FALSE
 
 #define LogPrefix "IntelThermal: "
@@ -110,7 +113,7 @@ IOReturn IntelThermal::loopTimerEvent(void)
     if (thermCounter++ < 5)
         for (UInt8 i = 0; i < cpuid_info()->core_count; i++)
             mp_rendezvous_no_intrs(read_cpu_thermal, &index);
-        
+    
     if (perfCounter++ < 5) {
         mp_rendezvous_no_intrs(read_cpu_performance, &index);
         
@@ -145,6 +148,13 @@ float IntelThermal::getSensorValue(FakeSMCSensor *sensor)
             }
             break;
         }
+        case kFakeSMCFrequencySensor: {
+            if (sensor->getIndex() < cpuid_info()->core_count) {
+                perfCounter = 0;
+                return ((float)(((cpu_performance[sensor->getIndex()] >> 8) & 0x1f)) + 0.5f * (float)((cpu_performance[sensor->getIndex()] >> 14) & 1)) * (float)busClock;
+            }
+            break;
+        }
             
         case kIntelThermalPackageMultiplierSensor:{
             switch (cpuid_info()->cpuid_cpufamily) {
@@ -156,6 +166,19 @@ float IntelThermal::getSensorValue(FakeSMCSensor *sensor)
                 case CPUFAMILY_INTEL_SANDYBRIDGE:
                     perfCounter = 0;
                     return cpu_performance[0] >> 8;
+            }
+        }
+            
+        case kIntelThermalPackageFrequencySensor:{
+            switch (cpuid_info()->cpuid_cpufamily) {
+                case CPUFAMILY_INTEL_NEHALEM:
+                case CPUFAMILY_INTEL_WESTMERE:
+                    perfCounter = 0;
+                    return cpu_performance[0] * busClock;
+                    
+                case CPUFAMILY_INTEL_SANDYBRIDGE:
+                    perfCounter = 0;
+                    return (cpu_performance[0] >> 8) * busClock;
             }
         }
     }
@@ -314,6 +337,14 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
             break;
     }
     
+    if (IORegistryEntry *regEntry = fromPath("/efi/platform", gIODTPlane))
+        if (OSData *data = OSDynamicCast(OSData, regEntry->getProperty("FSBFrequency")))
+            busClock = *((UInt64*) data->getBytesNoCopy()) / 1e6;
+    
+    if (!busClock)
+        busClock = (gPEClockFrequencyInfo.bus_frequency_max_hz >> 2) / 1e6;
+    
+    
     if (!(workloop = getWorkLoop())) 
 		return this;
 	
@@ -342,7 +373,7 @@ bool IntelThermal::start(IOService *provider)
         
         if (i >= INTEL_THERMAL_MAX_CPU) 
             break;
-                
+        
         char key[5];
 		
 		snprintf(key, 5, KEY_FORMAT_CPU_DIODE_TEMPERATURE, i);
@@ -357,10 +388,15 @@ bool IntelThermal::start(IOService *provider)
                 break;
                 
             default:
-                snprintf(key, 5, KEY_FORMAT_NON_APPLE_CPU_MULTIPLIER, i);
+                snprintf(key, 5, KEY_FORMAT_FAKESMC_CPU_MULTIPLIER, i);
                 
                 if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, i))
                     WarningLog("Can't add multiplier sensor");
+                
+                snprintf(key, 5, KEY_FORMAT_FAKESMC_CPU_FREQUENCY, i);
+                
+                if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, i))
+                    WarningLog("Can't add frequency sensor");
                 
                 break;
         }
@@ -370,9 +406,14 @@ bool IntelThermal::start(IOService *provider)
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
-            if (!addSensor(KEY_NON_APPLE_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kIntelThermalPackageMultiplierSensor, 0))
-                WarningLog("Can't add package multiplier sensor");            
-            break;            
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kIntelThermalPackageMultiplierSensor, 0))
+                WarningLog("Can't add package multiplier sensor");
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kIntelThermalPackageFrequencySensor, 0))
+                WarningLog("Can't add package frequency sensor");
+            break;
+            
+        default:
+            break;
     }
     
     thermCounter = 4;

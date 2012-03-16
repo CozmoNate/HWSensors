@@ -95,9 +95,9 @@ const UInt8 WINBOND_FAN_CONTROL_BIT[]				= { 0x02, 0x04, 0x01, 0x04 };
 const UInt8 WINBOND_FAN_MODE_BIT[]					= { 0x00, 0x01, 0x00, 0x06 };
 const UInt8 WINBOND_FAN_OUTPUT[]					= { 0x01, 0x03, 0x11, 0x61 };
 
-class W836x : public SuperIOMonitor
+class W836xMonitor : public SuperIOMonitor
 {
-    OSDeclareDefaultStructors(W836x)
+    OSDeclareDefaultStructors(W836xMonitor)
 	
 private:
 	UInt8					fanLimit;
@@ -109,7 +109,7 @@ private:
 	void					writeByte(UInt8 bank, UInt8 reg, UInt8 value);
 	UInt8					readByte(UInt8 bank, UInt8 reg);
     UInt64                  setBit(UInt64 target, UInt16 bit, UInt32 value);
-
+    
     virtual UInt8           temperatureSensorsLimit();
     virtual UInt8           voltageSensorsLimit();
     virtual UInt8           tachometerSensorsLimit();
