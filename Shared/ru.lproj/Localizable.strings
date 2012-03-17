@@ -19,11 +19,11 @@
 "GPU %X Proximity" = "Датчик видеокарты %X";
 "Northbridge" = "Северный мост";
 "System Chipset" = "Системный чипсет";
-"CPU Package" = "Процессор";
+"CPU Package" = "Центральный процессор";
 "CPU %X" = "Процессор %X";
 "CPU Core %X" = "Ядро ЦП %X";
 "Fan %X" = "Вентилятор %X";
-"CPU" = "Процессор";
+"CPU" = "Центральный процессор";
 "Memory" = "Модули памяти";
 "Power/Battery" = "Питание/Батарея";
 "Quit HWMonitor" = "Закрыть HWMonitor";

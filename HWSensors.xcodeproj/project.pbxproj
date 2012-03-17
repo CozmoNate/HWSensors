@@ -235,6 +235,7 @@
 		6A85F86A14DBF21700F863A9 /* HWMonitorExtra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorExtra.m; sourceTree = "<group>"; };
 		6A85F86C14DBF37800F863A9 /* HWMonitorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorView.h; sourceTree = "<group>"; };
 		6A85F86D14DBF37800F863A9 /* HWMonitorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorView.m; sourceTree = "<group>"; };
+		6A8DFFA3151527A000B51486 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A9955BE14EFAD360052C702 /* NSString+TruncateToWidth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+TruncateToWidth.h"; sourceTree = "<group>"; };
 		6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+TruncateToWidth.m"; sourceTree = "<group>"; };
 		6A9955C214EFAEE50052C702 /* cpuid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpuid.h; sourceTree = "<group>"; };
@@ -1190,6 +1191,7 @@
 				en,
 				ru,
 				fr,
+				es,
 			);
 			mainGroup = 1D05ABAD13ED0D7000EADBF6;
 			productRefGroup = 1D05ABE513ED0DAD00EADBF6 /* Products */;
@@ -1651,6 +1653,7 @@
 				6A1DF985150201DE00C34729 /* en */,
 				6A1DF986150201E500C34729 /* ru */,
 				6A4702C11514CEE000606293 /* fr */,
+				6A8DFFA3151527A000B51486 /* es */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
