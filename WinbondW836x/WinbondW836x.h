@@ -55,27 +55,19 @@ const UInt8 WINBOND_HIGH_BYTE						= 0x80;
 // Winbond Hardware Monitor
 const UInt8 WINBOND_ADDRESS_REGISTER_OFFSET			= 0x05;
 const UInt8 WINBOND_DATA_REGISTER_OFFSET			= 0x06;
-
-// Winbond Hardware Monitor Registers
 const UInt8 WINBOND_BANK_SELECT_REGISTER			= 0x4E;
+
 const UInt8 WINBOND_VENDOR_ID_REGISTER              = 0x4F;
 const UInt8 WINBOND_TEMPERATURE_SOURCE_SELECT_REG	= 0x49;
 
-//private string[] TEMPERATURE_NAME = 
-//new string[] {"CPU", "Auxiliary", "System"};
-const UInt8 WINBOND_TEMPERATURE[]					= { 0x50, 0x50, 0x27 };
-const UInt8 WINBOND_TEMPERATURE_BANK[]				= { 1,    2,    0 };
+const UInt16 WINBOND_TEMPERATURE[]					= { 0x0150, 0x0250, 0x0027 };
 
-const UInt8 WINBOND_VOLTAGE_VBAT                    = 0x51;
+const UInt16 WINBOND_VOLTAGE_VBAT                   = 0x0551;
 
-const UInt8 WINBOND_VOLTAGE[]                       = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x50, 0x51, 0x52 };
-const UInt8 WINBOND_VOLTAGE_BANK[]                  = {    0,    0,    0,    0,    0,    0,    0,    5,    5,    5 };
+const UInt16 WINBOND_VOLTAGE[]                      = { 0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025, 0x0026, 0x0550, 0x0551, 0x0552 };
+const UInt16 WINBOND_VOLTAGE1[]                     = { 0x0020, 0x0021, 0x0022, 0x0023, 0x0024,                 0x0550, 0x0551 };
 
-const UInt8 WINBOND_VOLTAGE1[]                      = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x50, 0x51 };
-const UInt8 WINBOND_VOLTAGE1_BANK[]                 = {    0,    0,    0,    0,    0,    5,    5 };
-
-const UInt8 WINBOND_TACHOMETER[]					= { 0x28, 0x29, 0x2A, 0x3F, 0x53 };
-const UInt8 WINBOND_TACHOMETER_BANK[]				= {    0,    0,    0,    0,    5 };
+const UInt16 WINBOND_TACHOMETER[]					= { 0x0028, 0x0029, 0x002A, 0x003F, 0x0553 };
 
 const UInt8 WINBOND_TACHOMETER_DIV0[]				= { 0x47, 0x47, 0x4B, 0x59, 0x59 };
 const UInt8 WINBOND_TACHOMETER_DIV0_BIT[]			= { 4,    6,    6,    0,    2 };
@@ -84,10 +76,10 @@ const UInt8 WINBOND_TACHOMETER_DIV1_BIT[]			= { 5,    7,    7,    1,    3 };
 const UInt8 WINBOND_TACHOMETER_DIV2[]				= { 0x5D, 0x5D, 0x5D, 0x4C, 0x59 };
 const UInt8 WINBOND_TACHOMETER_DIV2_BIT[]			= { 5,    6,    7,    7,    7 };
 
-const UInt8 WINBOND_TACHOMETER_DIVISOR[]			= { 0x47, 0x4B, 0x4C, 0x59, 0x5D };
-const UInt8 WINBOND_TACHOMETER_DIVISOR0[]			= { 36, 38, 30, 8, 10 };
-const UInt8 WINBOND_TACHOMETER_DIVISOR1[]			= { 37, 39, 31, 9, 11 };
-const UInt8 WINBOND_TACHOMETER_DIVISOR2[]			= { 5, 6, 7, 23, 15 };
+const UInt16 WINBOND_TACHOMETER_DIVISOR[]			= { 0x0047, 0x004B, 0x004C, 0x0059, 0x005D };
+const UInt8 WINBOND_TACHOMETER_DIVISOR0[]			= {     36,     38,     30,      8,     10 };
+const UInt8 WINBOND_TACHOMETER_DIVISOR1[]			= {     37,     39,     31,      9,     11 };
+const UInt8 WINBOND_TACHOMETER_DIVISOR2[]			= {      5,      6,      7,     23,     15 };
 
 // Fan Control
 const UInt8 WINBOND_FAN_CONFIG[]					= { 0x04, 0x04, 0x12, 0x62 };
@@ -106,8 +98,9 @@ private:
 	UInt16					fanValue[5];
 	bool					fanValueObsolete[5];
 	
-	void					writeByte(UInt8 bank, UInt8 reg, UInt8 value);
-	UInt8					readByte(UInt8 bank, UInt8 reg);
+	void					writeByte(UInt16 reg, UInt8 value);
+	UInt8					readByte(UInt16 reg);
+    
     UInt64                  setBit(UInt64 target, UInt16 bit, UInt32 value);
     
     virtual UInt8           temperatureSensorsLimit();

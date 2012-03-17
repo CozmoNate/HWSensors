@@ -57,6 +57,7 @@
 				<string>ITE,IT8726F</string>
 				<string>ITE,IT8728F</string>
 				<string>ITE,IT8752F</string>
+				<string>ITE,IT8771E</string>
 				<string>ITE,IT8772E</string>
 			</array>
 			<key>IOProviderClass</key>
@@ -86,17 +87,17 @@
 					<key>VIN1</key>
 					<string>Memory</string>
 					<key>VIN2</key>
-					<string>PWR1</string>
+					<string>Main 3.3V</string>
 					<key>VIN3</key>
-					<string>PWR2</string>
+					<string>Main 5V</string>
 					<key>VIN4</key>
-					<string>PWR3</string>
+					<string>Main 12V</string>
 					<key>VIN5</key>
-					<string>PWR4</string>
+					<string>Power Supply 5</string>
 					<key>VIN6</key>
-					<string>PWR5</string>
+					<string>Power Supply 6</string>
 					<key>VIN7</key>
-					<string>PWR6</string>
+					<string>Power Supply 7</string>
 					<key>VIN8</key>
 					<string>Battery</string>
 				</dict>
@@ -120,6 +121,18 @@
 					<string>CPU</string>
 					<key>VIN1</key>
 					<string>Memory</string>
+					<key>VIN2</key>
+					<string>Main 3.3V</string>
+					<key>VIN3</key>
+					<string>Main 5V</string>
+					<key>VIN4</key>
+					<string>Main 12V</string>
+					<key>VIN5</key>
+					<string>Auxiliary 3.3V</string>
+					<key>VIN6</key>
+					<string>PCIe 12V</string>
+					<key>VIN7</key>
+					<string>Standby 5V</string>
 					<key>VIN8</key>
 					<string>Battery</string>
 				</dict>

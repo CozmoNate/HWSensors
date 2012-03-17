@@ -141,8 +141,10 @@ float IntelThermal::calculateMultiplier(UInt8 cpu_index)
         case CPUFAMILY_INTEL_SANDYBRIDGE:
             return cpu_performance[0] >> 8;
 
-        default:
-            return (float)(((cpu_performance[cpu_index] >> 8) & 0x1f)) + 0.5f * (float)((cpu_performance[cpu_index] >> 14) & 1);
+        default: {
+            UInt8 fid = cpu_performance[cpu_index] >> 8;
+            return (float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1);
+        }
     }
     
     return 0;
@@ -278,12 +280,8 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
 					case CPUID_MODEL_WESTMERE:
 					case CPUID_MODEL_NEHALEM_EX:
 					case CPUID_MODEL_WESTMERE_EX:
-						//arch = Nehalem;
-						readTjmaxFromMSR();
-						break;
 					case CPUID_MODEL_SANDYBRIDGE:	
 					case CPUID_MODEL_JAKETOWN:
-						//arch = SandyBridge;
 						readTjmaxFromMSR();
 						break;
 						

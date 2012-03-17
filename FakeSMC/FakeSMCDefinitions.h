@@ -47,31 +47,27 @@
 // CPU
 #define KEY_CPU_VOLTAGE                         "VC0C" // CPU 0
 #define KEY_FORMAT_CPU_VOLTAGE                  "VC%XC" // CPU X
-#define KEY_CPU_VOLTAGE_RAW                     "VC0c" // CPU 0 V-Sense
-#define KEY_CPU_DRAM_VOLTAGE                    "VC5R" // VCSR-DIMM 1.5V S0
-#define KEY_CPU_PLL_VOLTAGE                     "VC8R" // CPU 1.8V S0
-#define KEY_CPU_VRMSUPPLY0_VOLTAGE              "VS0C" // VRM Supply 1
-#define KEY_CPU_VRMSUPPLY1_VOLTAGE              "VS1C" // VRM Supply 2
-#define KEY_CPU_VRMSUPPLY2_VOLTAGE              "VS2C" // VRM Supply 3
-#define KEY_CPU_VRMSUPPLY3_VOLTAGE              "VS3C" // VRM Supply 4
+
+#define KEY_CPU_VCORE_VOLTAGE                   "VDPR"//"VC0C" // CPU 0
+#define KEY_CPU_1V8_S0_VOLTAGE                  "VC8R" // CPU 1.8V S0
 #define KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE        "VS%XC" // Power Supply X
 
 // GPU
 #define KEY_GPU_VOLTAGE                         "VC0G" // GPU 0 Core
 #define KEY_FORMAT_GPU_VOLTAGE                  "VC%XG" // GPU X Core
 
-#define KEY_NORTHBRIDGE_VOLTAGE                 "VN0C" // 
-#define KEY_PCH_VOLTAGE                         "VN1C" // PCH 1.05V S0, VS1C-PP1V05 S0 SB, VV1R-1.05 S0
+#define KEY_NORTHBRIDGE_VOLTAGE                 "VN0R"  
+#define KEY_MCH_VOLTAGE                         "VN1C"
+#define KEY_POWERBATTERY_VOLTAGE                "VP0R" // Power/Battery
 
-#define KEY_DCIN_12V_S0_VOLTAGE                 "VDPR" // VD2R-Power Supply 12V S0 VD0R DC In VDPR AC/DC
-#define KEY_DCIN_3V3_S5_VOLTAGE                 "VS8C" // PP3V3 S5 SB
+#define KEY_MAIN_12V_VOLTAGE                    "VV9S"
+#define KEY_PCIE_12V_VOLTAGE                    "VeES"
+#define KEY_MAIN_3V3_VOLTAGE                    "VV2S"
+#define KEY_AUXILIARY_3V3V_VOLTAGE              "VV7S"
+#define KEY_MAIN_5V_VOLTAGE                     "VV1S"
+#define KEY_STANDBY_5V_VOLTAGE                  "VV8S"
 
 #define KEY_MEMORY_VOLTAGE                      "VM0R" // Memory
-#define KEY_POWERBATTERY_VOLTAGE                "VP0R" // Power/Battery
-#define KEY_POWERSUPPLY1_VOLTAGE                "Vp0C" // Power Supply 1
-#define KEY_POWERSUPPLY2_VOLTAGE                "Vp1C" // Power Supply 2
-#define KEY_POWERSUPPLY3_VOLTAGE                "Vp2C" // Power Supply 3
-#define KEY_POWERSUPPLY4_VOLTAGE                "Vp3C" // Power Supply 4
 #define KEY_FORMAT_POWERSUPPLY_VOLTAGE          "Vp%XC" // Power Supply X
 
 // Current (Amps)

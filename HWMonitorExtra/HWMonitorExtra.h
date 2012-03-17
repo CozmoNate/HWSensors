@@ -32,6 +32,7 @@
 - (void)updateTitlesForceAllSensors:(BOOL)allSensors;
 - (void)updateTitlesForced;
 - (void)updateTitlesDefault;
+- (void)rebuildSensors;
 
 - (void)menuItemClicked:(id)sender;
 

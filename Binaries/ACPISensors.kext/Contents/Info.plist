@@ -67,16 +67,16 @@
 			<dict>
 				<key>Voltages</key>
 				<dict>
-					<key>VDPR</key>
-					<string>VIN0</string>
-					<key>Vp0C</key>
-					<string>VIN1</string>
-					<key>Vp1C</key>
-					<string>VIN2</string>
-					<key>Vp2C</key>
-					<string>VIN3</string>
-					<key>Vp3C</key>
+					<key>VVAS</key>
 					<string>VIN4</string>
+					<key>VVBS</key>
+					<string>VIN0</string>
+					<key>VVCS</key>
+					<string>VIN1</string>
+					<key>VVDS</key>
+					<string>VIN2</string>
+					<key>VVFS</key>
+					<string>VIN3</string>
 				</dict>
 			</dict>
 			<key>Keys Associations (disabled)</key>
