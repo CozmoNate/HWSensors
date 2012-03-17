@@ -223,6 +223,7 @@
 		6A1DF9921502022500C34729 /* thermotemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = thermotemplate.png; path = Shared/thermotemplate.png; sourceTree = SOURCE_ROOT; };
 		6A1DF9971502022D00C34729 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Shared/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		6A1DF9991502023100C34729 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Shared/ru.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		6A4702C11514CEE000606293 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A62185214F17D640058C396 /* ATASmartReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATASmartReporter.h; sourceTree = "<group>"; };
 		6A62185314F17D640058C396 /* ATASmartReporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATASmartReporter.m; sourceTree = "<group>"; };
 		6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HWMonitorExtra.menu; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1188,6 +1189,7 @@
 			knownRegions = (
 				en,
 				ru,
+				fr,
 			);
 			mainGroup = 1D05ABAD13ED0D7000EADBF6;
 			productRefGroup = 1D05ABE513ED0DAD00EADBF6 /* Products */;
@@ -1648,6 +1650,7 @@
 			children = (
 				6A1DF985150201DE00C34729 /* en */,
 				6A1DF986150201E500C34729 /* ru */,
+				6A4702C11514CEE000606293 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1695,7 +1698,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = Binaries;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**/**";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -1705,14 +1708,13 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = Binaries;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/**/**";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
 		1D05ABF513ED0DAD00EADBF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 3.1.0d1;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1740,7 +1742,6 @@
 				MODULE_NAME = org.mozodojo.FakeSMC;
 				MODULE_VERSION = 3.1.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -1748,7 +1749,6 @@
 		1D05ABF613ED0DAD00EADBF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 3.1.0d1;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1769,7 +1769,6 @@
 				MODULE_NAME = org.mozodojo.FakeSMC;
 				MODULE_VERSION = 3.1.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
@@ -1777,7 +1776,6 @@
 		1D05AC2F13ED100D00EADBF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1805,7 +1803,6 @@
 				MODULE_NAME = org.mozodojo.IntelThermal;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -1813,7 +1810,6 @@
 		1D05AC3013ED100D00EADBF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1834,7 +1830,6 @@
 				MODULE_NAME = org.mozodojo.IntelThermal;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
@@ -1842,7 +1837,6 @@
 		1D05AC8313ED131B00EADBF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1870,7 +1864,6 @@
 				MODULE_NAME = org.mozodojo.WinbondW836x;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -1878,7 +1871,6 @@
 		1D05AC8413ED131B00EADBF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1899,7 +1891,6 @@
 				MODULE_NAME = org.mozodojo.WinbondW836x;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
@@ -1907,7 +1898,6 @@
 		1D6FE3C813FEBDA700376E64 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1935,7 +1925,6 @@
 				MODULE_NAME = org.slice.X3100;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -1943,7 +1932,6 @@
 		1D6FE3C913FEBDA700376E64 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1964,7 +1952,6 @@
 				MODULE_NAME = org.slice.X3100;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
@@ -1972,7 +1959,6 @@
 		1D6FE3FB13FEBFF200376E64 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2000,7 +1986,6 @@
 				MODULE_NAME = org.slice.ACPISensors;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -2008,7 +1993,6 @@
 		1D6FE3FC13FEBFF200376E64 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -2029,7 +2013,6 @@
 				MODULE_NAME = org.slice.ACPISensors;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
@@ -2079,7 +2062,6 @@
 		1DA9621113ED30E40096F8A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2107,7 +2089,6 @@
 				MODULE_NAME = org.mozodojo.FintekF718x;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -2115,7 +2096,6 @@
 		1DA9621213ED30E40096F8A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -2136,7 +2116,6 @@
 				MODULE_NAME = org.mozodojo.FintekF718x;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
@@ -2144,7 +2123,6 @@
 		1DA9624D13ED34070096F8A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1.0.1d1;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2172,7 +2150,6 @@
 				MODULE_NAME = org.usrsse2.NVClockX;
 				MODULE_VERSION = 1.0.1d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -2180,7 +2157,6 @@
 		1DA9624E13ED34070096F8A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1.0.1d1;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -2201,7 +2177,6 @@
 				MODULE_NAME = org.usrsse2.NVClockX;
 				MODULE_VERSION = 1.0.1d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
@@ -2209,7 +2184,6 @@
 		1DA962B213ED36030096F8A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2237,7 +2211,6 @@
 				MODULE_NAME = org.slice.RadeonX;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -2245,7 +2218,6 @@
 		1DA962B313ED36030096F8A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -2266,7 +2238,6 @@
 				MODULE_NAME = org.slice.RadeonX;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
@@ -2274,7 +2245,6 @@
 		6A0F328314DD6A6800AA5598 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2302,7 +2272,6 @@
 				MODULE_NAME = org.mozodojo.NCT677x;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -2310,7 +2279,6 @@
 		6A0F328414DD6A6800AA5598 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -2331,7 +2299,6 @@
 				MODULE_NAME = org.mozodojo.NCT677x;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;

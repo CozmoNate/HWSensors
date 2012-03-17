@@ -29,6 +29,7 @@ enum SuperIOModel
     IT8726F     = 0x8726,
 	IT8728F     = 0x8728,
 	IT8752F     = 0x8752,
+    IT8771E     = 0x8771,
     IT8772E     = 0x8772,
     
     // Winbond
@@ -117,6 +118,7 @@ inline const char* superio_get_model_name(UInt16 model)
         case IT8726F: return "IT8726F";
         case IT8728F: return "IT8728F";
         case IT8752F: return "IT8752F";
+        case IT8771E: return "IT8771E";
         case IT8772E: return "IT8772E";
             
         case W83627DHG: return "W83627DHG";

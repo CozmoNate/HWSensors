@@ -98,7 +98,7 @@ float IT87xMonitor::readTemperature(UInt32 index)
 
 float IT87xMonitor::readVoltage(UInt32 index)
 {
-    return (float)(readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain) / 1000.0f;
+    return (float)readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain;
 }
 
 float IT87xMonitor::readTachometer(UInt32 index)
@@ -111,7 +111,7 @@ float IT87xMonitor::readTachometer(UInt32 index)
         
         value |= readByte(ITE_FAN_TACHOMETER_EXT_REG[index]) << 8;
         
-        return value > 0x3f && value < 0xffff ? (float)(1350000 + value) / (float)(value * 2) : 0;
+        return value > 0x3f && value < 0xffff ? (float)(1.35e6f + value) / (float)(value * 2) : 0;
     }
     else
     {
@@ -122,7 +122,7 @@ float IT87xMonitor::readTachometer(UInt32 index)
         if (index < 2) 
             divisor = 1 << ((readByte(ITE_FAN_TACHOMETER_DIVISOR_REGISTER) >> (3 * index)) & 0x7);
         
-        return value > 0 && value < 0xff ? 1350000.0f / (float)(value * divisor) : 0; 
+        return value > 0 && value < 0xff ? 1.35e6f / (float)(value * divisor) : 0; 
     }
 }
 
@@ -142,10 +142,20 @@ bool IT87xMonitor::initialize()
 		return this;
     }
 	
-    if (model == IT8721F || model == IT8728F || model == IT8772E)
-        voltageGain = 12;
-    else
-        voltageGain = 16;
+    // IT8721F, IT8728F and IT8772E use a 12mV resultion ADC, all others 16mV
+    switch (model) {
+        case IT8721F:
+        case IT8728F:
+        case IT8752F:
+        case IT8771E:
+        case IT8772E:
+            voltageGain = 0.012f;
+            break;
+            
+        default:
+            voltageGain = 0.016f;
+            break;
+    }
     
     UInt8 version = readByte(ITE_VERSION_REGISTER) & 0x0F;
     

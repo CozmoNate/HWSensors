@@ -60,19 +60,25 @@
 #define super SuperIOMonitor
 OSDefineMetaClassAndStructors(W836xMonitor, SuperIOMonitor)
 
-UInt8 W836xMonitor::readByte(UInt8 bank, UInt8 reg) 
+UInt8 W836xMonitor::readByte(UInt16 reg) 
 {
+    UInt8 bank = reg >> 8;
+    UInt8 regi = reg & 0xFF;
+    
 	outb((UInt16)(address + WINBOND_ADDRESS_REGISTER_OFFSET), WINBOND_BANK_SELECT_REGISTER);
 	outb((UInt16)(address + WINBOND_DATA_REGISTER_OFFSET), bank);
-	outb((UInt16)(address + WINBOND_ADDRESS_REGISTER_OFFSET), reg);
+	outb((UInt16)(address + WINBOND_ADDRESS_REGISTER_OFFSET), regi);
 	return inb((UInt16)(address + WINBOND_DATA_REGISTER_OFFSET));
 }
 
-void W836xMonitor::writeByte(UInt8 bank, UInt8 reg, UInt8 value)
+void W836xMonitor::writeByte(UInt16 reg, UInt8 value)
 {
+    UInt8 bank = reg >> 8;
+    UInt8 regi = reg & 0xFF;
+    
 	outb((UInt16)(address + WINBOND_ADDRESS_REGISTER_OFFSET), WINBOND_BANK_SELECT_REGISTER);
 	outb((UInt16)(address + WINBOND_DATA_REGISTER_OFFSET), bank);
-	outb((UInt16)(address + WINBOND_ADDRESS_REGISTER_OFFSET), reg);
+	outb((UInt16)(address + WINBOND_ADDRESS_REGISTER_OFFSET), regi);
 	outb((UInt16)(address + WINBOND_DATA_REGISTER_OFFSET), value); 
 }
 
@@ -104,10 +110,10 @@ UInt8 W836xMonitor::tachometerSensorsLimit()
 
 float W836xMonitor::readTemperature(UInt32 index)
 {
-	UInt32 value = readByte(WINBOND_TEMPERATURE_BANK[index], WINBOND_TEMPERATURE[index]) << 1;
+	UInt32 value = readByte(WINBOND_TEMPERATURE[index]) << 1;
 	
-	if (WINBOND_TEMPERATURE_BANK[index] > 0) 
-		value |= readByte(WINBOND_TEMPERATURE_BANK[index], (UInt8)(WINBOND_TEMPERATURE[index] + 1)) >> 7;
+	if ((WINBOND_TEMPERATURE[index] >> 8) > 0) 
+		value |= readByte((WINBOND_TEMPERATURE[index] + 1)) >> 7;
 	
 	float temperature = (float)value / 2.0f;
 	
@@ -129,18 +135,18 @@ float W836xMonitor::readVoltage(UInt32 index)
             case W83627DHGP:        
             case W83667HG:
             case W83667HGB:
-                V = readByte(WINBOND_VOLTAGE_BANK[index], WINBOND_VOLTAGE[index]);
+                V = readByte(WINBOND_VOLTAGE[index]);
                 break;
             case W83627HF:
             case W83627THF:
             case W83687THF:
-                V = readByte(WINBOND_VOLTAGE1_BANK[index], WINBOND_VOLTAGE1[index]);
+                V = readByte(WINBOND_VOLTAGE1[index]);
                 break;
         }
         
         if (index == 0 && (model == W83627HF || model == W83627THF || model == W83687THF)) 
         {
-            UInt8 vrmConfiguration = readByte(0, 0x18);
+            UInt8 vrmConfiguration = readByte(0x0018);
             
             if ((vrmConfiguration & 0x01) == 0)
                 voltage = 0.016f * (float)V; // VRM8 formula
@@ -151,8 +157,8 @@ float W836xMonitor::readVoltage(UInt32 index)
     }
 	else {
         // Battery voltage
-        if ((readByte(0, 0x5D) & 0x01) > 0)
-            voltage = readByte(5, WINBOND_VOLTAGE_VBAT) * voltageGain;
+        if ((readByte(0x005D) & 0x01) > 0)
+            voltage = readByte(WINBOND_VOLTAGE_VBAT) * voltageGain;
     }
 	
 	return voltage;
@@ -164,7 +170,7 @@ void W836xMonitor::updateTachometers()
 	
 	for (int i = 0; i < 5; i++)
 	{
-		bits = (bits << 8) | readByte(0, WINBOND_TACHOMETER_DIVISOR[i]);
+		bits = (bits << 8) | readByte(WINBOND_TACHOMETER_DIVISOR[i]);
 	}
 	
 	UInt64 newBits = bits;
@@ -177,7 +183,7 @@ void W836xMonitor::updateTachometers()
 		((bits >> WINBOND_TACHOMETER_DIVISOR0[i]) & 1);
 		
 		UInt8 divisor = 1 << offset;
-		UInt8 count = readByte(WINBOND_TACHOMETER_BANK[i], WINBOND_TACHOMETER[i]);
+		UInt8 count = readByte(WINBOND_TACHOMETER[i]);
 		
 		// update fan divisor
 		if (count > 192 && offset < 7)
@@ -205,7 +211,7 @@ void W836xMonitor::updateTachometers()
 		
 		if (oldByte != newByte)
 		{
-			writeByte(0, WINBOND_TACHOMETER_DIVISOR[i], newByte);
+			writeByte(WINBOND_TACHOMETER_DIVISOR[i], newByte);
 		}
 		
 		bits = bits >> 8;
@@ -236,7 +242,7 @@ bool W836xMonitor::addTemperatureSensors(OSDictionary *configuration)
         case W83627DHG:        
         case W83627DHGP:
             // do not add temperature sensor registers that read PECI
-            flag = readByte(0, WINBOND_TEMPERATURE_SOURCE_SELECT_REG);
+            flag = readByte(WINBOND_TEMPERATURE_SOURCE_SELECT_REG);
             break;                
     }
     
@@ -302,7 +308,7 @@ bool W836xMonitor::addTachometerSensors(OSDictionary *configuration)
 
 bool W836xMonitor::initialize()
 {
-    UInt16 vendor = (UInt16)(readByte(0x80, WINBOND_VENDOR_ID_REGISTER) << 8) | readByte(0, WINBOND_VENDOR_ID_REGISTER);
+    UInt16 vendor = (UInt16)(readByte((WINBOND_HIGH_BYTE << 8) | WINBOND_VENDOR_ID_REGISTER) << 8) | readByte(WINBOND_VENDOR_ID_REGISTER);
     
     if (vendor != WINBOND_VENDOR_ID) {
         WarningLog("wrong vendor ID=0x%x", vendor);

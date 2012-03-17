@@ -62,17 +62,17 @@
 					<key>VIN1</key>
 					<string>Memory</string>
 					<key>VIN2</key>
-					<string>PWR1</string>
+					<string>Power Supply 1</string>
 					<key>VIN3</key>
-					<string>PWR2</string>
+					<string>Power Supply 2</string>
 					<key>VIN4</key>
-					<string>PWR3</string>
+					<string>Power Supply 3</string>
 					<key>VIN5</key>
-					<string>PWR4</string>
+					<string>Power Supply 4</string>
 					<key>VIN6</key>
-					<string>PWR5</string>
+					<string>Power Supply 5</string>
 					<key>VIN7</key>
-					<string>PWR6</string>
+					<string>Power Supply 6</string>
 					<key>VIN8</key>
 					<string>Battery</string>
 				</dict>

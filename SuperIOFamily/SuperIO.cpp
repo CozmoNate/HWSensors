@@ -180,6 +180,7 @@ bool SuperIO::start(IOService *provider)
                     case IT8726F:
                     case IT8728F:
                     case IT8752F:
+                    case IT8771E:
                     case IT8772E:
                         model = id;
                         ldn = kFintekITEHardwareMonitorLDN;

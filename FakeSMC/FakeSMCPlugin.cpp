@@ -22,11 +22,11 @@
 
 OSDefineMetaClassAndStructors(FakeSMCSensor, OSObject)
 
-FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex)
+FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aGain)
 {
 	FakeSMCSensor *me = new FakeSMCSensor;
 	
-    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex)) {
+    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex, aGain)) {
         me->release();
         return 0;
     }
@@ -59,7 +59,7 @@ UInt32 FakeSMCSensor::getIndex()
 	return index;
 }
 
-bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex)
+bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aGain)
 {
 	if (!OSObject::init())
 		return false;
@@ -76,6 +76,7 @@ bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const
 	size = aSize;
 	group = aGroup;
 	index = aIndex;
+    gain = aGain;
 	
 	return true;
 }
@@ -155,14 +156,14 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
     return false;
 }
 
-FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
+FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float gain)
 {   
     if (getSensor(key)) {
         DebugLog("will not add sensor for key %s, key handler already assigned", key);
 		return NULL;
     }
 	
-    if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index)) {
+    if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index, gain)) {
         if (addSensor(sensor))
            return sensor;
         else 
@@ -196,7 +197,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
             snprintf(key, 5, KEY_FORMAT_FAN_SPEED, i); 
             
             if (!isKeyHandled(key)) {
-                if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, 2, kFakeSMCTachometerSensor, index)) {
+                if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, 2, kFakeSMCTachometerSensor, index, 1.0f)) {
                     if (name) {
                         snprintf(key, 5, KEY_FORMAT_FAN_ID, i); 
                         

@@ -19,30 +19,30 @@
 [[self bundle] localizedStringForKey:(key) value:@"" table:nil]
 
 /*- (void)setGemForSensor:(HWMonitorSensor*)sensor
-{
-    switch ([sensor level]) {
-        case kHWSensorLevelDisabled:
-            [[sensor menuItem] setImage:gemClear];
-            break;
-            
-        case kHWSensorLevelNormal:
-            [[sensor menuItem] setImage:gemGreen];
-            break;
-            
-        case kHWSensorLevelModerate:
-            [[sensor menuItem] setImage:gemYellow];
-            break;
-            
-        case kHWSensorLevelHigh:
-        case kHWSensorLevelExceeded:
-            [[sensor menuItem] setImage:gemRed];
-            break;
-
-        default:
-            [[sensor menuItem] setImage:nil];
-            break;
-    }
-}*/
+ {
+ switch ([sensor level]) {
+ case kHWSensorLevelDisabled:
+ [[sensor menuItem] setImage:gemClear];
+ break;
+ 
+ case kHWSensorLevelNormal:
+ [[sensor menuItem] setImage:gemGreen];
+ break;
+ 
+ case kHWSensorLevelModerate:
+ [[sensor menuItem] setImage:gemYellow];
+ break;
+ 
+ case kHWSensorLevelHigh:
+ case kHWSensorLevelExceeded:
+ [[sensor menuItem] setImage:gemRed];
+ break;
+ 
+ default:
+ [[sensor menuItem] setImage:nil];
+ break;
+ }
+ }*/
 
 - (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
 {
@@ -124,6 +124,38 @@
     [self updateTitlesForceAllSensors:NO];
 }
 
+- (void)rebuildSensors
+{
+    if (!monitor)
+        monitor = [[HWMonitorEngine alloc] initWithBundle:[self bundle]];
+    
+    [[self menu] removeAllItems];
+    
+    [monitor rebuildSensorsList];
+    
+    if ([[monitor sensors] count] > 0) {
+        [self insertMenuGroupWithTitle:@"TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
+        [self insertMenuGroupWithTitle:@"MULTIPLIERS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
+        [self insertMenuGroupWithTitle:@"FREQUENCIES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency]];
+        [self insertMenuGroupWithTitle:@"FANS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer]];
+        [self insertMenuGroupWithTitle:@"VOLTAGES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
+        
+        /*[menu addItem:[NSMenuItem separatorItem]];
+        [menu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Refresh sensors", nil) action:@selector(rebuildSensors:) keyEquivalent:@""]];*/
+        
+        [self updateTitlesForced];
+    }
+    else {
+        NSMenuItem * item = [[NSMenuItem alloc]initWithTitle:NSLocalizedString(@"No sensors found", nil) action:nil keyEquivalent:@""];
+        
+        [item setEnabled:FALSE];
+        
+        [menu addItem:item];
+    }
+}
+
 - (void)menuItemClicked:(id)sender 
 {
     NSMenuItem * menuItem = (NSMenuItem *)sender;
@@ -172,50 +204,34 @@
     style = [[NSMutableParagraphStyle alloc] init];
     [style setTabStops:[NSArray array]];
     [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:190.0]];
-
+    
     statusMenuAttributes = [NSDictionary dictionaryWithObject:style forKey:NSParagraphStyleAttributeName];
     
-    // Init sensors
+    // Main sensors timer
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+                                [self methodSignatureForSelector:@selector(updateTitlesDefault)]];
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(updateTitlesDefault)];
     
-    monitor = [[HWMonitorEngine alloc] initWithBundle:bundle];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
-    [monitor rebuildSensorsList];
+    // Main SMART timer
+    invocation = [NSInvocation invocationWithMethodSignature:
+                  [self methodSignatureForSelector:@selector(updateSMARTData)]];
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(updateSMARTData)];
     
-    if ([[monitor sensors] count] > 0) {
-        [self insertMenuGroupWithTitle:@"TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
-        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
-        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
-        [self insertMenuGroupWithTitle:@"MULTIPLIERS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
-        [self insertMenuGroupWithTitle:@"FREQUENCIES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency]];
-        [self insertMenuGroupWithTitle:@"FANS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer]];
-        [self insertMenuGroupWithTitle:@"VOLTAGES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
-        
-        [self updateTitlesForced];
-        
-        // Main sensors timer
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
-                                    [self methodSignatureForSelector:@selector(updateTitlesDefault)]];
-        [invocation setTarget:self];
-        [invocation setSelector:@selector(updateTitlesDefault)];
-        [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
-        
-        // Main SMART timer
-        invocation = [NSInvocation invocationWithMethodSignature:
-                      [self methodSignatureForSelector:@selector(updateSMARTData)]];
-        [invocation setTarget:self];
-        [invocation setSelector:@selector(updateSMARTData)];
-        
-        [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
-        
-        [self performSelector:@selector(updateTitlesForced) withObject:nil afterDelay:0.0];
-    }
-    else {
-        NSMenuItem * item = [[NSMenuItem alloc]initWithTitle:NSLocalizedString(@"No sensors found", nil) action:nil keyEquivalent:@""];
-        
-        [item setEnabled:FALSE];
-        
-        [menu addItem:item];
-    }
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    
+    // Rebuild sensors timer
+    invocation = [NSInvocation invocationWithMethodSignature:
+                  [self methodSignatureForSelector:@selector(rebuildSensors)]];
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(rebuildSensors)];
+    
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:3600.0 invocation:invocation repeats:YES] forMode:NSDefaultRunLoopMode];
+    
+    [self performSelector:@selector(rebuildSensors) withObject:nil afterDelay:0.5];
     
     return self;
 }
