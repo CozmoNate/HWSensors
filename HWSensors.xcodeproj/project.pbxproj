@@ -11,9 +11,6 @@
 		1D05AC2813ED100D00EADBF6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D05AC2613ED100D00EADBF6 /* InfoPlist.strings */; };
 		1D05AC3713ED109200EADBF6 /* IntelThermal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D05AC3513ED109200EADBF6 /* IntelThermal.cpp */; };
 		1D05AC3813ED109200EADBF6 /* IntelThermal.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D05AC3613ED109200EADBF6 /* IntelThermal.h */; };
-		1D05AC7C13ED131B00EADBF6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D05AC7A13ED131B00EADBF6 /* InfoPlist.strings */; };
-		1D05AC8913ED135400EADBF6 /* WinbondW836x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D05AC8713ED135400EADBF6 /* WinbondW836x.cpp */; };
-		1D05AC8A13ED135400EADBF6 /* WinbondW836x.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D05AC8813ED135400EADBF6 /* WinbondW836x.h */; };
 		1D6FE3C113FEBDA700376E64 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D6FE3BF13FEBDA700376E64 /* InfoPlist.strings */; };
 		1D6FE3CE13FEBDF900376E64 /* X3100.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D6FE3CC13FEBDF900376E64 /* X3100.cpp */; };
 		1D6FE3CF13FEBDF900376E64 /* X3100.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D6FE3CD13FEBDF900376E64 /* X3100.h */; };
@@ -26,9 +23,6 @@
 		1D9F8330144FF24000EEEFEB /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1D9F832E144FF24000EEEFEB /* Credits.rtf */; };
 		1D9F8333144FF24000EEEFEB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D9F8332144FF24000EEEFEB /* AppDelegate.m */; };
 		1D9F8336144FF24100EEEFEB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D9F8334144FF24000EEEFEB /* MainMenu.xib */; };
-		1DA9620B13ED30E40096F8A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1DA9620913ED30E40096F8A5 /* InfoPlist.strings */; };
-		1DA9621913ED31280096F8A5 /* FintekF718x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DA9621713ED31280096F8A5 /* FintekF718x.cpp */; };
-		1DA9621A13ED31280096F8A5 /* FintekF718x.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA9621813ED31280096F8A5 /* FintekF718x.h */; };
 		1DA9624613ED34070096F8A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1DA9624413ED34070096F8A5 /* InfoPlist.strings */; };
 		1DA9625013ED34430096F8A5 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1DA9624F13ED34430096F8A5 /* License.txt */; };
 		1DA9626C13ED347B0096F8A5 /* adt7473.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DA9625213ED347B0096F8A5 /* adt7473.cpp */; };
@@ -69,8 +63,6 @@
 		6A00BB6014F8CCF000337DF8 /* HWMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5C14F8CCF000337DF8 /* HWMonitorSensor.m */; };
 		6A01503F150E8679000CAC9C /* StateGem.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A01503E150E8679000CAC9C /* StateGem.png */; };
 		6A015040150E8679000CAC9C /* StateGem.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A01503E150E8679000CAC9C /* StateGem.png */; };
-		6A0F327D14DD6A6800AA5598 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A0F327B14DD6A6800AA5598 /* InfoPlist.strings */; };
-		6A0F328014DD6A6800AA5598 /* NuvotonNCT677x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A0F327F14DD6A6800AA5598 /* NuvotonNCT677x.cpp */; };
 		6A10C19A1506B2A4005E0897 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10C18F1506B2A4005E0897 /* IOKit.framework */; };
 		6A10C19B1506B2A4005E0897 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10C18F1506B2A4005E0897 /* IOKit.framework */; };
 		6A1DF98B1502020800C34729 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF9871502020800C34729 /* Localizable.strings */; };
@@ -89,8 +81,6 @@
 		6A9955C114EFAD7B0052C702 /* NSString+TruncateToWidth.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */; };
 		6A9C468D14E657EE0083E5E6 /* FakeSMCPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */; };
 		6A9C468E14E657EE0083E5E6 /* FakeSMCPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */; };
-		6A9EF207150AB20F00CFDB15 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9EF205150AB20F00CFDB15 /* InfoPlist.strings */; };
-		6A9EF20A150AB20F00CFDB15 /* ITEIT87x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9EF209150AB20F00CFDB15 /* ITEIT87x.cpp */; };
 		6A9EF21B150AB2D700CFDB15 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9EF219150AB2D700CFDB15 /* InfoPlist.strings */; };
 		6A9EF21E150AB2D700CFDB15 /* SuperIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9EF21D150AB2D700CFDB15 /* SuperIO.cpp */; };
 		6A9EF225150AB31400CFDB15 /* SuperIOMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9EF223150AB31400CFDB15 /* SuperIOMonitor.cpp */; };
@@ -111,6 +101,14 @@
 		6AAC4928150BCACA0047B379 /* SmallLEDYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAC4925150BCACA0047B379 /* SmallLEDYellow.png */; };
 		6AAC4929150BCACA0047B379 /* SmallLEDYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAC4925150BCACA0047B379 /* SmallLEDYellow.png */; };
 		6AB5B4EE14F2C47B0062D2D0 /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
+		6AB700F715190E9900E50AAD /* ITEIT87x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB700F515190E9800E50AAD /* ITEIT87x.cpp */; };
+		6AB700F815190E9900E50AAD /* ITEIT87x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB700F615190E9800E50AAD /* ITEIT87x.h */; };
+		6AB700FB15190EA100E50AAD /* WinbondW836x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB700F915190EA100E50AAD /* WinbondW836x.cpp */; };
+		6AB700FC15190EA100E50AAD /* WinbondW836x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB700FA15190EA100E50AAD /* WinbondW836x.h */; };
+		6AB700FF15190EAE00E50AAD /* FintekF718x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB700FD15190EAE00E50AAD /* FintekF718x.cpp */; };
+		6AB7010015190EAE00E50AAD /* FintekF718x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB700FE15190EAE00E50AAD /* FintekF718x.h */; };
+		6AB7010315190EB600E50AAD /* NuvotonNCT677x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB7010115190EB600E50AAD /* NuvotonNCT677x.cpp */; };
+		6AB7010415190EB600E50AAD /* NuvotonNCT677x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB7010215190EB600E50AAD /* NuvotonNCT677x.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -125,11 +123,6 @@
 		1D05AC3613ED109200EADBF6 /* IntelThermal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntelThermal.h; sourceTree = "<group>"; };
 		1D05AC3913ED10A600EADBF6 /* IntelThermal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "IntelThermal-Info.plist"; sourceTree = "<group>"; };
 		1D05AC7613ED131B00EADBF6 /* WinbondW836x.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WinbondW836x.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		1D05AC7B13ED131B00EADBF6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1D05AC8113ED131B00EADBF6 /* WinbondW836x-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WinbondW836x-Prefix.pch"; sourceTree = "<group>"; };
-		1D05AC8513ED134E00EADBF6 /* WinbondW836x-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WinbondW836x-Info.plist"; sourceTree = "<group>"; };
-		1D05AC8713ED135400EADBF6 /* WinbondW836x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WinbondW836x.cpp; sourceTree = "<group>"; };
-		1D05AC8813ED135400EADBF6 /* WinbondW836x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinbondW836x.h; sourceTree = "<group>"; };
 		1D6FE3BB13FEBDA700376E64 /* X3100.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = X3100.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D6FE3C013FEBDA700376E64 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1D6FE3C613FEBDA700376E64 /* X3100-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "X3100-Prefix.pch"; sourceTree = "<group>"; };
@@ -152,11 +145,6 @@
 		1D9F8332144FF24000EEEFEB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D9F8335144FF24000EEEFEB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1DA9620513ED30E40096F8A5 /* FintekF718x.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FintekF718x.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		1DA9620A13ED30E40096F8A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1DA9621013ED30E40096F8A5 /* FintekF718x-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FintekF718x-Prefix.pch"; sourceTree = "<group>"; };
-		1DA9621513ED311E0096F8A5 /* FintekF718x-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FintekF718x-Info.plist"; sourceTree = "<group>"; };
-		1DA9621713ED31280096F8A5 /* FintekF718x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FintekF718x.cpp; sourceTree = "<group>"; };
-		1DA9621813ED31280096F8A5 /* FintekF718x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FintekF718x.h; sourceTree = "<group>"; };
 		1DA9624013ED34070096F8A5 /* NVClockX.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NVClockX.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DA9624513ED34070096F8A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1DA9624B13ED34070096F8A5 /* NVClockX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NVClockX-Prefix.pch"; sourceTree = "<group>"; };
@@ -203,11 +191,6 @@
 		6A00BB5C14F8CCF000337DF8 /* HWMonitorSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HWMonitorSensor.m; path = Shared/HWMonitorSensor.m; sourceTree = "<group>"; };
 		6A01503E150E8679000CAC9C /* StateGem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StateGem.png; sourceTree = "<group>"; };
 		6A0F327514DD6A6800AA5598 /* NuvotonNCT677x.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NuvotonNCT677x.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A0F327A14DD6A6800AA5598 /* NuvotonNCT677x-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NuvotonNCT677x-Info.plist"; sourceTree = "<group>"; };
-		6A0F327C14DD6A6800AA5598 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A0F327E14DD6A6800AA5598 /* NuvotonNCT677x.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NuvotonNCT677x.h; sourceTree = "<group>"; };
-		6A0F327F14DD6A6800AA5598 /* NuvotonNCT677x.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NuvotonNCT677x.cpp; sourceTree = "<group>"; };
-		6A0F328114DD6A6800AA5598 /* NCT677x-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NCT677x-Prefix.pch"; sourceTree = "<group>"; };
 		6A10C18F1506B2A4005E0897 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		6A1DF981150201D100C34729 /* default.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = default.icns; sourceTree = "<group>"; };
 		6A1DF982150201D100C34729 /* thermobump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thermobump.png; sourceTree = "<group>"; };
@@ -242,11 +225,6 @@
 		6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMCPlugin.cpp; sourceTree = "<group>"; };
 		6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCPlugin.h; sourceTree = "<group>"; };
 		6A9EF201150AB20F00CFDB15 /* ITEIT87x.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ITEIT87x.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A9EF204150AB20F00CFDB15 /* ITEIT87x-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ITEIT87x-Info.plist"; sourceTree = "<group>"; };
-		6A9EF206150AB20F00CFDB15 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A9EF208150AB20F00CFDB15 /* ITEIT87x.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ITEIT87x.h; sourceTree = "<group>"; };
-		6A9EF209150AB20F00CFDB15 /* ITEIT87x.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ITEIT87x.cpp; sourceTree = "<group>"; };
-		6A9EF20B150AB20F00CFDB15 /* ITEIT87x-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ITEIT87x-Prefix.pch"; sourceTree = "<group>"; };
 		6A9EF215150AB2D700CFDB15 /* SuperIOFamily.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperIOFamily.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A9EF218150AB2D700CFDB15 /* SuperIOFamily-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuperIOFamily-Info.plist"; sourceTree = "<group>"; };
 		6A9EF21A150AB2D700CFDB15 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -267,6 +245,14 @@
 		6AAC4915150BBDEE0047B379 /* SmallLEDGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDGreen.png; sourceTree = "<group>"; };
 		6AAC4924150BCACA0047B379 /* SmallLEDRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDRed.png; sourceTree = "<group>"; };
 		6AAC4925150BCACA0047B379 /* SmallLEDYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDYellow.png; sourceTree = "<group>"; };
+		6AB700F515190E9800E50AAD /* ITEIT87x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ITEIT87x.cpp; sourceTree = "<group>"; };
+		6AB700F615190E9800E50AAD /* ITEIT87x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITEIT87x.h; sourceTree = "<group>"; };
+		6AB700F915190EA100E50AAD /* WinbondW836x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WinbondW836x.cpp; sourceTree = "<group>"; };
+		6AB700FA15190EA100E50AAD /* WinbondW836x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinbondW836x.h; sourceTree = "<group>"; };
+		6AB700FD15190EAE00E50AAD /* FintekF718x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FintekF718x.cpp; sourceTree = "<group>"; };
+		6AB700FE15190EAE00E50AAD /* FintekF718x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FintekF718x.h; sourceTree = "<group>"; };
+		6AB7010115190EB600E50AAD /* NuvotonNCT677x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NuvotonNCT677x.cpp; sourceTree = "<group>"; };
+		6AB7010215190EB600E50AAD /* NuvotonNCT677x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NuvotonNCT677x.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -466,33 +452,12 @@
 			children = (
 				1D05AC2313ED100D00EADBF6 /* IntelThermal */,
 				1D6FE3EF13FEBFF200376E64 /* ACPISensors */,
-				6A26C0E9150A153E00C859D2 /* Super I/O */,
+				6A9EF216150AB2D700CFDB15 /* SuperIOFamily */,
 				1DA9624113ED34070096F8A5 /* NVClockX */,
 				1DA962A613ED36030096F8A5 /* RadeonX */,
 				1D6FE3BC13FEBDA700376E64 /* GMAX3100 */,
 			);
 			name = "Plug-Ins";
-			sourceTree = "<group>";
-		};
-		1D05AC7713ED131B00EADBF6 /* (Winbond) W836xMonitor */ = {
-			isa = PBXGroup;
-			children = (
-				1D05AC8813ED135400EADBF6 /* WinbondW836x.h */,
-				1D05AC8713ED135400EADBF6 /* WinbondW836x.cpp */,
-				1D05AC7813ED131B00EADBF6 /* Supporting Files */,
-			);
-			name = "(Winbond) W836xMonitor";
-			path = WinbondW836x;
-			sourceTree = "<group>";
-		};
-		1D05AC7813ED131B00EADBF6 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				1D05AC8513ED134E00EADBF6 /* WinbondW836x-Info.plist */,
-				1D05AC7A13ED131B00EADBF6 /* InfoPlist.strings */,
-				1D05AC8113ED131B00EADBF6 /* WinbondW836x-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		1D6FE3BC13FEBDA700376E64 /* GMAX3100 */ = {
@@ -558,27 +523,6 @@
 				6A1DF9901502022500C34729 /* default.icns */,
 				6A1DF9911502022500C34729 /* thermobump.png */,
 				6A1DF9921502022500C34729 /* thermotemplate.png */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		1DA9620613ED30E40096F8A5 /* (Fintek) F718xMonitor */ = {
-			isa = PBXGroup;
-			children = (
-				1DA9621813ED31280096F8A5 /* FintekF718x.h */,
-				1DA9621713ED31280096F8A5 /* FintekF718x.cpp */,
-				1DA9620713ED30E40096F8A5 /* Supporting Files */,
-			);
-			name = "(Fintek) F718xMonitor";
-			path = FintekF718x;
-			sourceTree = "<group>";
-		};
-		1DA9620713ED30E40096F8A5 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				1DA9621513ED311E0096F8A5 /* FintekF718x-Info.plist */,
-				1DA9620913ED30E40096F8A5 /* InfoPlist.strings */,
-				1DA9621013ED30E40096F8A5 /* FintekF718x-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -658,27 +602,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6A0F327814DD6A6800AA5598 /* (Nuvoton) NCT677xMonitor */ = {
-			isa = PBXGroup;
-			children = (
-				6A0F327E14DD6A6800AA5598 /* NuvotonNCT677x.h */,
-				6A0F327F14DD6A6800AA5598 /* NuvotonNCT677x.cpp */,
-				6A0F327914DD6A6800AA5598 /* Supporting Files */,
-			);
-			name = "(Nuvoton) NCT677xMonitor";
-			path = NCT677x;
-			sourceTree = "<group>";
-		};
-		6A0F327914DD6A6800AA5598 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6A0F327A14DD6A6800AA5598 /* NuvotonNCT677x-Info.plist */,
-				6A0F327B14DD6A6800AA5598 /* InfoPlist.strings */,
-				6A0F328114DD6A6800AA5598 /* NCT677x-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		6A1DF980150201BF00C34729 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,18 +616,6 @@
 				6A1DF984150201DE00C34729 /* Localizable.strings */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		6A26C0E9150A153E00C859D2 /* Super I/O */ = {
-			isa = PBXGroup;
-			children = (
-				6A9EF216150AB2D700CFDB15 /* SuperIOFamily */,
-				6A9EF202150AB20F00CFDB15 /* (ITE) IT87xMonitor */,
-				1D05AC7713ED131B00EADBF6 /* (Winbond) W836xMonitor */,
-				1DA9620613ED30E40096F8A5 /* (Fintek) F718xMonitor */,
-				6A0F327814DD6A6800AA5598 /* (Nuvoton) NCT677xMonitor */,
-			);
-			name = "Super I/O";
 			sourceTree = "<group>";
 		};
 		6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */ = {
@@ -756,27 +667,6 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		6A9EF202150AB20F00CFDB15 /* (ITE) IT87xMonitor */ = {
-			isa = PBXGroup;
-			children = (
-				6A9EF208150AB20F00CFDB15 /* ITEIT87x.h */,
-				6A9EF209150AB20F00CFDB15 /* ITEIT87x.cpp */,
-				6A9EF203150AB20F00CFDB15 /* Supporting Files */,
-			);
-			name = "(ITE) IT87xMonitor";
-			path = ITEIT87x;
-			sourceTree = "<group>";
-		};
-		6A9EF203150AB20F00CFDB15 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6A9EF204150AB20F00CFDB15 /* ITEIT87x-Info.plist */,
-				6A9EF205150AB20F00CFDB15 /* InfoPlist.strings */,
-				6A9EF20B150AB20F00CFDB15 /* ITEIT87x-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		6A9EF216150AB2D700CFDB15 /* SuperIOFamily */ = {
 			isa = PBXGroup;
 			children = (
@@ -784,6 +674,10 @@
 				6A9EF21D150AB2D700CFDB15 /* SuperIO.cpp */,
 				6A9EF224150AB31400CFDB15 /* SuperIOMonitor.h */,
 				6A9EF223150AB31400CFDB15 /* SuperIOMonitor.cpp */,
+				6AA484F41519131400F1AD57 /* IT87xMonitor */,
+				6AA484F51519132100F1AD57 /* W836xMonitor */,
+				6AA484F61519132F00F1AD57 /* F718xMonitor */,
+				6AA484F71519133A00F1AD57 /* NCT677xMonitor */,
 				6A9EF217150AB2D700CFDB15 /* Supporting Files */,
 			);
 			path = SuperIOFamily;
@@ -825,6 +719,42 @@
 			name = "NSString+TruncateToWidth";
 			sourceTree = "<group>";
 		};
+		6AA484F41519131400F1AD57 /* IT87xMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				6AB700F515190E9800E50AAD /* ITEIT87x.cpp */,
+				6AB700F615190E9800E50AAD /* ITEIT87x.h */,
+			);
+			name = IT87xMonitor;
+			sourceTree = "<group>";
+		};
+		6AA484F51519132100F1AD57 /* W836xMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				6AB700F915190EA100E50AAD /* WinbondW836x.cpp */,
+				6AB700FA15190EA100E50AAD /* WinbondW836x.h */,
+			);
+			name = W836xMonitor;
+			sourceTree = "<group>";
+		};
+		6AA484F61519132F00F1AD57 /* F718xMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				6AB700FD15190EAE00E50AAD /* FintekF718x.cpp */,
+				6AB700FE15190EAE00E50AAD /* FintekF718x.h */,
+			);
+			name = F718xMonitor;
+			sourceTree = "<group>";
+		};
+		6AA484F71519133A00F1AD57 /* NCT677xMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				6AB7010115190EB600E50AAD /* NuvotonNCT677x.cpp */,
+				6AB7010215190EB600E50AAD /* NuvotonNCT677x.h */,
+			);
+			name = NCT677xMonitor;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -853,7 +783,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D05AC8A13ED135400EADBF6 /* WinbondW836x.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -877,7 +806,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DA9621A13ED31280096F8A5 /* FintekF718x.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -926,6 +854,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9EF226150AB31400CFDB15 /* SuperIOMonitor.h in Headers */,
+				6AB700F815190E9900E50AAD /* ITEIT87x.h in Headers */,
+				6AB700FC15190EA100E50AAD /* WinbondW836x.h in Headers */,
+				6AB7010015190EAE00E50AAD /* FintekF718x.h in Headers */,
+				6AB7010415190EB600E50AAD /* NuvotonNCT677x.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1237,7 +1169,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D05AC7C13ED131B00EADBF6 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1279,7 +1210,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DA9620B13ED30E40096F8A5 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1304,7 +1234,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A0F327D14DD6A6800AA5598 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1327,7 +1256,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A9EF207150AB20F00CFDB15 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1445,7 +1373,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D05AC8913ED135400EADBF6 /* WinbondW836x.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1482,7 +1409,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DA9621913ED31280096F8A5 /* FintekF718x.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1522,7 +1448,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A0F328014DD6A6800AA5598 /* NuvotonNCT677x.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1543,7 +1468,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A9EF20A150AB20F00CFDB15 /* ITEIT87x.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1553,6 +1477,10 @@
 			files = (
 				6A9EF21E150AB2D700CFDB15 /* SuperIO.cpp in Sources */,
 				6A9EF225150AB31400CFDB15 /* SuperIOMonitor.cpp in Sources */,
+				6AB700F715190E9900E50AAD /* ITEIT87x.cpp in Sources */,
+				6AB700FB15190EA100E50AAD /* WinbondW836x.cpp in Sources */,
+				6AB700FF15190EAE00E50AAD /* FintekF718x.cpp in Sources */,
+				6AB7010315190EB600E50AAD /* NuvotonNCT677x.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1571,14 +1499,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				1D05AC2713ED100D00EADBF6 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		1D05AC7A13ED131B00EADBF6 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1D05AC7B13ED131B00EADBF6 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1615,14 +1535,6 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
-		1DA9620913ED30E40096F8A5 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1DA9620A13ED30E40096F8A5 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		1DA9624413ED34070096F8A5 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1635,14 +1547,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				1DA962AA13ED36030096F8A5 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		6A0F327B14DD6A6800AA5598 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6A0F327C14DD6A6800AA5598 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1674,14 +1578,6 @@
 				6A1DF9991502023100C34729 /* ru */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		6A9EF205150AB20F00CFDB15 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6A9EF206150AB20F00CFDB15 /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		6A9EF219150AB2D700CFDB15 /* InfoPlist.strings */ = {

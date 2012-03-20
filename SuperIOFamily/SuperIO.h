@@ -4,7 +4,12 @@
 #include <IOKit/IOService.h>
 #include <architecture/i386/pio.h>
 
-// Ports
+#define kSuperIOHWMAddress  "monitor-address"
+#define kSuperIOControlPort "control-port"
+#define kSuperIOModelValue  "model"
+
+#define kSuperIOModelName   "model-name"
+#define kSuperIOVendorName  "vendor-name"
 
 
 // Registers

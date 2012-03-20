@@ -222,12 +222,12 @@ bool SuperIO::start(IOService *provider)
         
         //setProperty("name", &string, (UInt32)strlen(string) + 1);
         
-        setProperty("address", address, 16);
-        setProperty("port", port, 8);
-        setProperty("model", model, 16);
+        setProperty(kSuperIOHWMAddress, address, 16);
+        setProperty(kSuperIOControlPort, port, 8);
+        setProperty(kSuperIOModelValue, model, 16);
         
-        setProperty("model-name", superio_get_model_name(model));
-        setProperty("vendor-name", vendor);
+        setProperty(kSuperIOModelName, superio_get_model_name(model));
+        setProperty(kSuperIOVendorName, vendor);
         
         registerService();
         

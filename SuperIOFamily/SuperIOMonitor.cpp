@@ -12,6 +12,7 @@
 #include <architecture/i386/pio.h>
 
 #include "FakeSMCDefinitions.h"
+#include "SuperIO.h"
 
 #define Debug FALSE
 
@@ -224,35 +225,35 @@ bool SuperIOMonitor::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
     
-    OSNumber *number = OSDynamicCast(OSNumber, provider->getProperty("address"));
+    OSNumber *number = OSDynamicCast(OSNumber, provider->getProperty(kSuperIOHWMAddress));
     
     if (!number || !(address = number->unsigned16BitValue())) {
         WarningLog("wrong address provided");
         return false;
     }
     
-    number = OSDynamicCast(OSNumber, provider->getProperty("port"));
+    number = OSDynamicCast(OSNumber, provider->getProperty(kSuperIOControlPort));
     
     if (!number || !(port = number->unsigned8BitValue())) {
         WarningLog("wrong port provided");
         return false;
     }
     
-    number = OSDynamicCast(OSNumber, provider->getProperty("model"));
+    number = OSDynamicCast(OSNumber, provider->getProperty(kSuperIOModelValue));
     
     if (!number || !(model = number->unsigned16BitValue())) {
         WarningLog("wrong model provided");
         return false;
     }
     
-    OSString *string = OSDynamicCast(OSString, provider->getProperty("model-name"));
+    OSString *string = OSDynamicCast(OSString, provider->getProperty(kSuperIOModelName));
     
     if (!string || !(modelName = string->getCStringNoCopy())) {
         WarningLog("wrong model name provided");
         return false;
     }
     
-    string = OSDynamicCast(OSString, provider->getProperty("vendor-name"));
+    string = OSDynamicCast(OSString, provider->getProperty(kSuperIOVendorName));
     
     if (!string || !(vendorName = string->getCStringNoCopy())) {
         WarningLog("wrong vendor name provided");
