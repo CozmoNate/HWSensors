@@ -84,7 +84,7 @@ void NCT677xMonitor::writeByte(UInt16 reg, UInt8 value)
 
 UInt8 NCT677xMonitor::temperatureSensorsLimit()
 {
-    return 2;
+    return 9;
 }
 
 UInt8 NCT677xMonitor::voltageSensorsLimit()
@@ -102,6 +102,9 @@ float NCT677xMonitor::readTemperature(UInt32 index)
     if (index < temperatureSensorsLimit()) {
         
         int value = readByte(NUVOTON_TEMPERATURE_REG[index]) << 1;
+        
+        if (NUVOTON_TEMPERATURE_HALF_BIT[index] > 0)
+            value |= ((readByte(NUVOTON_TEMPERATURE_HALF_REG[index]) >> NUVOTON_TEMPERATURE_HALF_BIT[index]) & 0x1);
         
         float t = 0.5f * (float)value;
         
