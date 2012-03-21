@@ -229,7 +229,7 @@
     [invocation setTarget:self];
     [invocation setSelector:@selector(rebuildSensors)];
     
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:3600.0 invocation:invocation repeats:YES] forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1800.0 invocation:invocation repeats:YES] forMode:NSDefaultRunLoopMode];
     
     [self performSelector:@selector(rebuildSensors) withObject:nil afterDelay:0.5];
     

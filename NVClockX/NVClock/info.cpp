@@ -650,6 +650,7 @@ static const struct pci_ids ids[] =
 	
 	// 1040 - 107F
 	{ 0x1050, "GF100 [GeForce GT 520M]", MOBILE },
+    { 0x1051, "GF100 [GeForce GT 520MX]", MOBILE },
 	{ 0x1054, "GF100 [GeForce GT 410M]", MOBILE },
 	{ 0x1056, "GF100 [NVS 4200M]", MOBILE },
 	{ 0x1057, "GF100 [NVS 4200M]", MOBILE },

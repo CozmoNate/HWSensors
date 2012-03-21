@@ -313,6 +313,18 @@
 					<string>CPU</string>
 					<key>TEMPIN2</key>
 					<string>Ambient</string>
+					<key>TEMPIN3</key>
+					<string></string>
+					<key>TEMPIN4</key>
+					<string></string>
+					<key>TEMPIN5</key>
+					<string></string>
+					<key>TEMPIN6</key>
+					<string></string>
+					<key>TEMPIN7</key>
+					<string></string>
+					<key>TEMPIN8</key>
+					<string></string>
 					<key>FANIN0</key>
 					<string></string>
 					<key>FANIN1</key>
