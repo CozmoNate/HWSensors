@@ -68,6 +68,8 @@
 		6A1DF9931502022500C34729 /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF9901502022500C34729 /* default.icns */; };
 		6A1DF9941502022500C34729 /* thermobump.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF9911502022500C34729 /* thermobump.png */; };
 		6A1DF9951502022500C34729 /* thermotemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF9921502022500C34729 /* thermotemplate.png */; };
+		6A2F7DC0151A64EE0081BADC /* thermobump.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF982150201D100C34729 /* thermobump.png */; };
+		6A2F7DC2151A64F20081BADC /* thermotemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF983150201D100C34729 /* thermotemplate.png */; };
 		6A62185514F1802C0058C396 /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
 		6A85F85414DBEF5000F863A9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9F8320144FF24000EEEFEB /* Cocoa.framework */; };
 		6A85F86714DBF12900F863A9 /* SystemUIPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A85F86614DBF12900F863A9 /* SystemUIPlugin.framework */; };
@@ -1070,6 +1072,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A2F7DC2151A64F20081BADC /* thermotemplate.png in Resources */,
+				6A2F7DC0151A64EE0081BADC /* thermobump.png in Resources */,
 				6A015040150E8679000CAC9C /* StateGem.png in Resources */,
 				6A877FEE1519937400D18B57 /* Localizable.strings in Resources */,
 			);
@@ -1179,10 +1183,10 @@
 			files = (
 				6A9955C014EFAD760052C702 /* NSString+TruncateToWidth.m in Sources */,
 				6AB5B4EE14F2C47B0062D2D0 /* ATASmartReporter.m in Sources */,
+				6A00BB5F14F8CCF000337DF8 /* HWMonitorSensor.m in Sources */,
+				6A00BB5D14F8CCF000337DF8 /* HWMonitorEngine.m in Sources */,
 				1D9F832C144FF24000EEEFEB /* main.m in Sources */,
 				1D9F8333144FF24000EEEFEB /* AppDelegate.m in Sources */,
-				6A00BB5D14F8CCF000337DF8 /* HWMonitorEngine.m in Sources */,
-				6A00BB5F14F8CCF000337DF8 /* HWMonitorSensor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
