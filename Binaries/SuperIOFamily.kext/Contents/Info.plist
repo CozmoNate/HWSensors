@@ -23,7 +23,7 @@
 	<key>CFBundleVersion</key>
 	<string>2.0.0</string>
 	<key>DTCompiler</key>
-	<string>com.apple.compilers.llvm.clang.1_0</string>
+	<string></string>
 	<key>DTPlatformBuild</key>
 	<string>4E2002</string>
 	<key>DTPlatformVersion</key>
