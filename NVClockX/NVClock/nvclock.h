@@ -264,7 +264,7 @@ typedef struct {
 
 	/* Hardware monitoring */
 	short num_busses; /* Number of available i2c busses */
-	I2CBusPtr busses[3]; /* I2C busses on the videocard; this bus is needed for communication with sensor chips */
+	I2CBusPtr busses[4]; /* I2C busses on the videocard; this bus is needed for communication with sensor chips */
 	I2CDevPtr sensor; /* When a sensor chip is available, this device pointer can be used to access it */
 	char *sensor_name; /* Name of the sensor; although sensor contains the name too, we add sensor_name because of the builtin temperature sensor used on various NV4x cards */
 	int (*get_board_temp)(I2CDevPtr dev); /* Temperature of the sensor chip or for example the ram chips */
