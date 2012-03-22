@@ -103,19 +103,23 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
             
             for (int j = 0; j <= 0xf; j++) {
                 
-                snprintf(key, 5, "CPU VRM Supply %X", j);
+                char caption[32];
                 
-                if (name->isEqualTo(key)) {
-                    snprintf(key, 5, KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE, j);
+                snprintf(caption, 15, "Power Supply %X", j);
+                
+                if (name->isEqualTo(caption)) {
+                    snprintf(key, 5, KEY_FORMAT_POWERSUPPLY_VOLTAGE, j);
                     if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                        WarningLog("can't add VRM%X voltage Sensor!", j);
+                        WarningLog("can't add PWR%X voltage Sensor!", j);
                 }
                 else {
-                    snprintf(key, 5, "Power Supply %X", j);
-                    if (name->isEqualTo(key)) {
-                        snprintf(key, 5, KEY_FORMAT_POWERSUPPLY_VOLTAGE, j);
+                
+                    snprintf(caption, 17, "CPU VRM Supply %X", j);
+                    
+                    if (name->isEqualTo(caption)) {
+                        snprintf(key, 5, KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE, j);
                         if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                            WarningLog("can't add PWR%X voltage Sensor!", j);
+                            WarningLog("can't add VRM%X voltage Sensor!", j);
                     }
                 }
             }

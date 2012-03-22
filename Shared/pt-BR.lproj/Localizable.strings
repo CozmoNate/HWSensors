@@ -1,0 +1,39 @@
+/* 
+  Localizable.strings
+  HWSensors
+
+  Created by kozlek on 24/02/12.
+  Copyright (c) 2012 PiSToLBR from www.insanelymac.com. All rights reserved.
+*/
+
+"TEMPERATURES" = "TEMPERATURAS";
+"DRIVES TEMPERATURES" = "TEMPERATURAS DOS DISCOS";
+"SSD REMAINING LIFE" = "DURAÇÃO PREVISTA DO SSD";
+"MULTIPLIERS" = "MULTIPLICADORES";
+"FREQUENCIES" = "FREQUêNCIAS";
+"VOLTAGES" = "VOLTAGENS";
+"FANS" = "VENTILADORES";
+"CPU Heatsink" = "Dissipador da CPU";
+"GPU %X Board" = "GPU %X Placa";
+"GPU %X Core" = "GPU %X Núcleo";
+"GPU %X Proximity" = "Sensor %X da GPU";
+"Northbridge" = "Northbridge";
+"System Chipset" = "Chipset do Sistema";
+"Ambient" = "Ambiente";
+"CPU Package" = "CPU";
+"CPU %X" = "CPU %X";
+"CPU Core %X" = "Núcleo da Cpu %X";
+"Fan %X" = "Ventilador %X";
+"CPU" = "CPU";
+"Memory" = "Memoria RAM";
+"Power/Battery" = "AlimentaÇÃo/Bateria";
+"Quit HWMonitor" = "Sair do HWMonitor";
+"No sensors found" = "NÃo há sensores disponíveis";
+"Main 12V" = "Principal 12V";
+"PCIe 12V" = "PCIe 12V";
+"Main 5V" = "Principal 5V";
+"Standby 5V" = "Repouso 5V";
+"Main 3.3V" = "Principal 3,3V";
+"Auxiliary 3.3V" = "Auxiliar 3,3V";
+"VRM Supply %X" = "AlimentaÇÃo VRM %X";
+"Power Supply %X" = "Fonte de alimentaÇÃo %X"; 
