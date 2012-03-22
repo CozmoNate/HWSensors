@@ -223,7 +223,7 @@
 					<key>VIN8</key>
 					<string>Battery</string>
 					<key>VIN9</key>
-					<string>PWR8</string>
+					<string>Power Supply 8</string>
 				</dict>
 			</dict>
 		</dict>
@@ -284,7 +284,7 @@
 					<key>VIN7</key>
 					<string>Power Supply 7</string>
 					<key>VIN8</key>
-					<string>PWR8</string>
+					<string>Power Supply 8</string>
 				</dict>
 			</dict>
 		</dict>

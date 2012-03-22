@@ -92,6 +92,8 @@
 		6AA172D1150B415200A77CF2 /* FakeSMCKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA172CA150B415200A77CF2 /* FakeSMCKey.h */; };
 		6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */; };
 		6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA2D0D3150B4B99004757C5 /* FakeSMC.h */; };
+		6AACE028151BB780002A8364 /* HWMonitor-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D9F8327144FF24000EEEFEB /* HWMonitor-Info.plist */; };
+		6AACE02A151BB789002A8364 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A877FE81519937400D18B57 /* Localizable.strings */; };
 		6AB5B4EE14F2C47B0062D2D0 /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
 		6AB700F715190E9900E50AAD /* ITEIT87x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB700F515190E9800E50AAD /* ITEIT87x.cpp */; };
 		6AB700F815190E9900E50AAD /* ITEIT87x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB700F615190E9800E50AAD /* ITEIT87x.h */; };
@@ -240,6 +242,9 @@
 		6AAC4915150BBDEE0047B379 /* SmallLEDGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDGreen.png; sourceTree = "<group>"; };
 		6AAC4924150BCACA0047B379 /* SmallLEDRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDRed.png; sourceTree = "<group>"; };
 		6AAC4925150BCACA0047B379 /* SmallLEDYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDYellow.png; sourceTree = "<group>"; };
+		6AACE026151BB728002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6AACE027151BB780002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Shared/pt-BR.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
+		6AACE029151BB789002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Shared/pt-BR.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
 		6AB700F515190E9800E50AAD /* ITEIT87x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ITEIT87x.cpp; sourceTree = "<group>"; };
 		6AB700F615190E9800E50AAD /* ITEIT87x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITEIT87x.h; sourceTree = "<group>"; };
 		6AB700F915190EA100E50AAD /* WinbondW836x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WinbondW836x.cpp; sourceTree = "<group>"; };
@@ -984,6 +989,7 @@
 				fr,
 				es,
 				it,
+				"pt-BR",
 			);
 			mainGroup = 1D05ABAD13ED0D7000EADBF6;
 			productRefGroup = 1D05ABE513ED0DAD00EADBF6 /* Products */;
@@ -1048,6 +1054,7 @@
 				6A1DF9951502022500C34729 /* thermotemplate.png in Resources */,
 				6A01503F150E8679000CAC9C /* StateGem.png in Resources */,
 				6A877FDF1519933D00D18B57 /* Localizable.strings in Resources */,
+				6AACE028151BB780002A8364 /* HWMonitor-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1076,6 +1083,7 @@
 				6A2F7DC0151A64EE0081BADC /* thermobump.png in Resources */,
 				6A015040150E8679000CAC9C /* StateGem.png in Resources */,
 				6A877FEE1519937400D18B57 /* Localizable.strings in Resources */,
+				6AACE02A151BB789002A8364 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1323,6 +1331,7 @@
 				6A4702C11514CEE000606293 /* fr */,
 				6A8DFFA3151527A000B51486 /* es */,
 				6A877FC21519920C00D18B57 /* it */,
+				6AACE026151BB728002A8364 /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1335,6 +1344,7 @@
 				6A877FE21519936400D18B57 /* es */,
 				6A877FE31519936400D18B57 /* fr */,
 				6A877FE41519936400D18B57 /* it */,
+				6AACE027151BB780002A8364 /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1347,6 +1357,7 @@
 				6A877FEB1519937400D18B57 /* fr */,
 				6A877FEC1519937400D18B57 /* it */,
 				6A877FED1519937400D18B57 /* ru */,
+				6AACE029151BB789002A8364 /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1631,6 +1642,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -1649,6 +1661,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
@@ -1787,6 +1800,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitorExtra/HWMonitorExtra-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = menu;
 			};
 			name = Debug;
@@ -1806,6 +1820,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitorExtra/HWMonitorExtra-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = menu;
 			};
 			name = Release;
