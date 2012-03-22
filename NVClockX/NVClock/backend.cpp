@@ -69,7 +69,7 @@ int set_card_info(int number)
 
 	/*if(!nv_card->mem_mapped)
 		if(!map_mem(nv_card->dev_name))
-			return 0; /* map_mem already took care of the error */
+			return 0; // map_mem already took care of the error */
     
 	return 1;
 }
