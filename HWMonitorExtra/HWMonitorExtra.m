@@ -95,8 +95,44 @@
         HWMonitorSensor *sensor = (HWMonitorSensor*)[sensors objectAtIndex:i];
         
         if ([self isMenuDown] || allSensors) {
-            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[[NSString alloc] initWithFormat:@"%S\t%S",[[sensor caption] cStringUsingEncoding:NSUTF16StringEncoding],[[sensor formatValue] cStringUsingEncoding:NSUTF16StringEncoding]] attributes:statusMenuAttributes];
+            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
             
+            NSDictionary *captionColor;
+            NSDictionary *valueColor;
+            
+            switch ([sensor level]) {
+                    /*case kHWSensorLevelDisabled:
+                     break;
+                     
+                     case kHWSensorLevelNormal:
+                     break;*/
+                    
+                case kHWSensorLevelModerate:
+                    captionColor = blackColorAttribute;
+                    valueColor = orangeColorAttribute;
+                    break;
+                    
+                case kHWSensorLevelHigh:
+                    captionColor = blackColorAttribute;
+                    valueColor = redColorAttribute;
+                    break;
+                    
+                case kHWSensorLevelExceeded:
+                    captionColor = redColorAttribute;
+                    valueColor = redColorAttribute;
+                    break;
+                    
+                default:
+                    captionColor = blackColorAttribute;
+                    valueColor = blackColorAttribute;
+                    break;
+            }
+            
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor caption] attributes:captionColor]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t" attributes:captionColor]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor formatValue] attributes:valueColor]];
+            
+            [title addAttributes:statusMenuAttributes range:NSMakeRange(0, [title length])];
             [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
             
             // Update menu item title
@@ -206,6 +242,10 @@
     [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:190.0]];
     
     statusMenuAttributes = [NSDictionary dictionaryWithObject:style forKey:NSParagraphStyleAttributeName];
+    
+    blackColorAttribute = [NSDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+    orangeColorAttribute = [NSDictionary dictionaryWithObject:[NSColor orangeColor] forKey:NSForegroundColorAttributeName];
+    redColorAttribute = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
     
     // Main sensors timer
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:

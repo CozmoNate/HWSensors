@@ -103,8 +103,8 @@ float NCT677xMonitor::readTemperature(UInt32 index)
         
         int value = readByte(NUVOTON_TEMPERATURE_REG[index]) << 1;
         
-        if (NUVOTON_TEMPERATURE_HALF_BIT[index] > 0)
-            value |= ((readByte(NUVOTON_TEMPERATURE_HALF_REG[index]) >> NUVOTON_TEMPERATURE_HALF_BIT[index]) & 0x1);
+        //if (NUVOTON_TEMPERATURE_HALF_BIT[index] > 0)
+            //value |= ((readByte(NUVOTON_TEMPERATURE_HALF_REG[index]) >> NUVOTON_TEMPERATURE_HALF_BIT[index]) & 0x1);
         
         float t = 0.5f * (float)value;
         

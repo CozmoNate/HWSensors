@@ -150,8 +150,11 @@ inline UInt8 get_index(char c)
                 //[self setExceeded:exceeded || (life >= 80)];
                 
                 //return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
-                return [[NSString alloc] initWithFormat:@"[%d]",life];
                 
+                if (life == 0)
+                    return [NSString stringWithString:@"-"];
+                
+                return [[NSString alloc] initWithFormat:@"[%d]",life];
             }
                 
             case kHWSensorGroupTemperature: {
@@ -165,8 +168,14 @@ inline UInt8 get_index(char c)
             case kHWSensorGroupVoltage:
                 return [[NSString alloc] initWithFormat:@"%1.2fV", [self decodeValue]];
                 
-            case kHWSensorGroupTachometer:
-                return [[NSString alloc] initWithFormat:@"%1.0frpm", [self decodeValue]];
+            case kHWSensorGroupTachometer: {
+                
+                float rpm = [self decodeValue];
+                                
+                [self setLevel:rpm == 0 ? kHWSensorLevelExceeded : kHWSensorLevelNormal];
+                
+                return [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
+            }
                 
             case kHWSensorGroupMultiplier:
                 return [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
