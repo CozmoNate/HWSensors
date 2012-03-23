@@ -20,6 +20,9 @@
     NSFont *statusBarFont;
     NSFont *statusMenuFont;
     NSDictionary *statusMenuAttributes;
+    NSDictionary * blackColorAttribute;
+    NSDictionary * orangeColorAttribute;
+    NSDictionary * redColorAttribute;
     
     HWMonitorEngine *monitor;
     

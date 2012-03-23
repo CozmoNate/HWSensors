@@ -91,7 +91,6 @@
 		6AA172D1150B415200A77CF2 /* FakeSMCKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA172CA150B415200A77CF2 /* FakeSMCKey.h */; };
 		6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */; };
 		6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA2D0D3150B4B99004757C5 /* FakeSMC.h */; };
-		6AACE028151BB780002A8364 /* HWMonitor-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D9F8327144FF24000EEEFEB /* HWMonitor-Info.plist */; };
 		6AACE02A151BB789002A8364 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A877FE81519937400D18B57 /* Localizable.strings */; };
 		6AB5B4EE14F2C47B0062D2D0 /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
 		6AB700F715190E9900E50AAD /* ITEIT87x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB700F515190E9800E50AAD /* ITEIT87x.cpp */; };
@@ -180,6 +179,8 @@
 		6A00BB5B14F8CCF000337DF8 /* HWMonitorSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorSensor.h; path = Shared/HWMonitorSensor.h; sourceTree = "<group>"; };
 		6A00BB5C14F8CCF000337DF8 /* HWMonitorSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HWMonitorSensor.m; path = Shared/HWMonitorSensor.m; sourceTree = "<group>"; };
 		6A01503E150E8679000CAC9C /* StateGem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StateGem.png; sourceTree = "<group>"; };
+		6A0D50B3151C904C00A6FC60 /* loadmenuextra */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = loadmenuextra; path = Installer/loadmenuextra; sourceTree = "<group>"; };
+		6A0D50B4151C904C00A6FC60 /* updatecaches */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = updatecaches; path = Installer/updatecaches; sourceTree = "<group>"; };
 		6A10C18F1506B2A4005E0897 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		6A1DF981150201D100C34729 /* default.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = default.icns; sourceTree = "<group>"; };
 		6A1DF982150201D100C34729 /* thermobump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thermobump.png; sourceTree = "<group>"; };
@@ -336,6 +337,7 @@
 				1D05AC3113ED101200EADBF6 /* Plug-Ins */,
 				1D9F8325144FF24000EEEFEB /* HWMonitor */,
 				6A85F85914DBEF5000F863A9 /* HWMonitorExtra */,
+				6A0D508D151C902B00A6FC60 /* Installer */,
 				1D05ABE613ED0DAD00EADBF6 /* Frameworks */,
 				1D05ABE513ED0DAD00EADBF6 /* Products */,
 			);
@@ -568,6 +570,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		6A0D508D151C902B00A6FC60 /* Installer */ = {
+			isa = PBXGroup;
+			children = (
+				6A0D50B3151C904C00A6FC60 /* loadmenuextra */,
+				6A0D50B4151C904C00A6FC60 /* updatecaches */,
+			);
+			name = Installer;
+			sourceTree = "<group>";
+		};
 		6A1DF980150201BF00C34729 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -638,8 +649,7 @@
 			children = (
 				6A9EF21C150AB2D700CFDB15 /* SuperIO.h */,
 				6A9EF21D150AB2D700CFDB15 /* SuperIO.cpp */,
-				6A9EF224150AB31400CFDB15 /* SuperIOMonitor.h */,
-				6A9EF223150AB31400CFDB15 /* SuperIOMonitor.cpp */,
+				6AB6BF26151C4A92000BBA7F /* SuperIOMonitor */,
 				6AA484F41519131400F1AD57 /* IT87xMonitor */,
 				6AA484F51519132100F1AD57 /* W836xMonitor */,
 				6AA484F61519132F00F1AD57 /* F718xMonitor */,
@@ -724,6 +734,15 @@
 				6AB7010115190EB600E50AAD /* NuvotonNCT677x.cpp */,
 			);
 			name = NCT677xMonitor;
+			sourceTree = "<group>";
+		};
+		6AB6BF26151C4A92000BBA7F /* SuperIOMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				6A9EF224150AB31400CFDB15 /* SuperIOMonitor.h */,
+				6A9EF223150AB31400CFDB15 /* SuperIOMonitor.cpp */,
+			);
+			name = SuperIOMonitor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1056,7 +1075,6 @@
 				6A1DF9951502022500C34729 /* thermotemplate.png in Resources */,
 				6A01503F150E8679000CAC9C /* StateGem.png in Resources */,
 				6A877FDF1519933D00D18B57 /* Localizable.strings in Resources */,
-				6AACE028151BB780002A8364 /* HWMonitor-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

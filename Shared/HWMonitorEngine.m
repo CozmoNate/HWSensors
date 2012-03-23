@@ -239,6 +239,9 @@
     
     [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_FREQUENCY caption:GetLocalizedString(@"CPU Package") group:kHWSensorGroupFrequency];
     
+    for (int i=0; i<0xA; i++)
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_GPU_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupFrequency];
+    
     // Fans
     
     for (int i=0; i<10; i++) {

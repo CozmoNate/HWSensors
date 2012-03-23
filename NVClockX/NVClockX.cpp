@@ -164,7 +164,7 @@ bool NVClockX::start(IOService * provider)
 		
 		/* Check if the card is supported, if not print a message. */
 		if(nvclock.card[index].gpu == UNKNOWN){
-			WarningLog("it seems your card isn't officialy supported in FakeSMCnVclockPort yet");
+			WarningLog("it seems your card isn't officialy supported yet");
 			WarningLog("please tell the author the pci_id of the card for further investigation");
 			WarningLog("continuing anyway");
 		}
@@ -203,7 +203,7 @@ bool NVClockX::start(IOService * provider)
             }
 		}
 		
-		if (nv_card->caps & (I2C_FANSPEED_MONITORING | GPU_FANSPEED_MONITORING)){
+		if (nv_card->caps & I2C_FANSPEED_MONITORING || nv_card->caps & GPU_FANSPEED_MONITORING){
             InfoLog("Adding tachometer sensor");
             
             char title[6]; 
@@ -214,8 +214,8 @@ bool NVClockX::start(IOService * provider)
 		}
 		
         /*InfoLog("Adding frequency sensor");
-         snprintf(key, 5, KEY_FORMAT_NON_APPLE_GPU_FREQUENCY, index);
-         this->addSensor(key, TYPE_UI16, 2, index);*/
+        snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, index);
+        addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, index);*/
 		
 		/*OSNumber* fanKey = OSDynamicCast(OSNumber, getProperty("FanSpeedPercentage"));
          
