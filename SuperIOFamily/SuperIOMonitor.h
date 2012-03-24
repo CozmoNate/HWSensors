@@ -15,16 +15,6 @@
 
 #include "FakeSMCPlugin.h"
 
-// Ports
-const UInt8 SUPERIO_STANDART_PORT[]					= { 0x2e, 0x4e };
-
-// Registers
-const UInt8 SUPERIO_CONFIGURATION_CONTROL_REGISTER	= 0x02;
-const UInt8 SUPERIO_DEVICE_SELECT_REGISTER			= 0x07;
-const UInt8 SUPERIO_CHIP_ID_REGISTER				= 0x20;
-const UInt8 SUPERIO_CHIP_REVISION_REGISTER			= 0x21;
-const UInt8 SUPERIO_BASE_ADDRESS_REGISTER			= 0x60;
-
 // cool values (:
 #define kSuperIOTemperatureSensor   1501 
 #define kSuperIOVoltageSensor       1502

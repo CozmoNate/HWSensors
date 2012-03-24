@@ -11,22 +11,15 @@
 
 #include <IOKit/IOLib.h>
 
-#define Debug FALSE
-
-#define LogPrefix "FakeSMCPlugin: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
-
 // Sensor
 
 OSDefineMetaClassAndStructors(FakeSMCSensor, OSObject)
 
-FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aGain)
+FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference, float aGain, float aOffset)
 {
 	FakeSMCSensor *me = new FakeSMCSensor;
 	
-    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex, aGain)) {
+    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex, aReference, aGain, aOffset)) {
         me->release();
         return 0;
     }
@@ -59,24 +52,41 @@ UInt32 FakeSMCSensor::getIndex()
 	return index;
 }
 
-bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aGain)
+float FakeSMCSensor::getReference()
+{
+    return reference;
+}
+
+float FakeSMCSensor::getGain()
+{
+    return gain;
+}
+
+float FakeSMCSensor::getOffset()
+{
+    return offset;
+}
+
+bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference, float aGain, float aOffset)
 {
 	if (!OSObject::init())
 		return false;
 	
 	if (!(owner = aOwner))
 		return false;
-
+    
 	bzero(key, 5);
     bcopy(aKey, key, 4);
-    	
+    
     bzero(type, 5);
 	bcopy(aType, type, 4);
 	
 	size = aSize;
 	group = aGroup;
 	index = aIndex;
+    reference = aReference;
     gain = aGain;
+    offset = aOffset;
 	
 	return true;
 }
@@ -89,7 +99,7 @@ inline UInt8 get_index(char c)
 void FakeSMCSensor::encodeValue(float value, void *outBuffer)
 {
     if ((type[0] == 'u' || type[0] == 's') && type[1] == 'i') {
-
+        
         bool minus = value < 0;
         
         if (type[0] == 'u' && minus) {
@@ -128,20 +138,27 @@ void FakeSMCSensor::encodeValue(float value, void *outBuffer)
         bool minus = value < 0;
         UInt8 i = get_index(type[2]);
         UInt8 f = get_index(type[3]);
-             
+        
         if (i + f == (type[0] == 'f' ? 16 : 15)) {
             
             UInt64 mult = (minus ? -value : value) * 1000 ;
             UInt64 encoded = ((mult << f) / 1000) & 0xffff;
-        
+            
             UInt16 out = OSSwapHostToBigInt16(minus ? (UInt16)(encoded | 0x8000) : (UInt16)encoded);
-        
+            
             bcopy(&out, outBuffer, 2);
         }
     }
 }
 
-// Plug-In
+// Plugin
+
+#define Debug FALSE
+
+#define LogPrefix "FakeSMCPlugin: "
+#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
+#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
+#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
 
 #define super IOService
 OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)
@@ -156,14 +173,14 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
     return false;
 }
 
-FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float gain)
+FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {   
     if (getSensor(key)) {
         DebugLog("will not add sensor for key %s, key handler already assigned", key);
 		return NULL;
     }
 	
-    if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index, gain)) {
+    if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index, reference, gain, offset)) {
         if (addSensor(sensor))
            return sensor;
         else 

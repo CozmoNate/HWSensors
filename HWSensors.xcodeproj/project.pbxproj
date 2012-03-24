@@ -60,8 +60,6 @@
 		6A00BB5E14F8CCF000337DF8 /* HWMonitorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5A14F8CCF000337DF8 /* HWMonitorEngine.m */; };
 		6A00BB5F14F8CCF000337DF8 /* HWMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5C14F8CCF000337DF8 /* HWMonitorSensor.m */; };
 		6A00BB6014F8CCF000337DF8 /* HWMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5C14F8CCF000337DF8 /* HWMonitorSensor.m */; };
-		6A01503F150E8679000CAC9C /* StateGem.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A01503E150E8679000CAC9C /* StateGem.png */; };
-		6A015040150E8679000CAC9C /* StateGem.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A01503E150E8679000CAC9C /* StateGem.png */; };
 		6A10C19A1506B2A4005E0897 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10C18F1506B2A4005E0897 /* IOKit.framework */; };
 		6A10C19B1506B2A4005E0897 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10C18F1506B2A4005E0897 /* IOKit.framework */; };
 		6A1DF9931502022500C34729 /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF9901502022500C34729 /* default.icns */; };
@@ -91,6 +89,8 @@
 		6AA172D1150B415200A77CF2 /* FakeSMCKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA172CA150B415200A77CF2 /* FakeSMCKey.h */; };
 		6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */; };
 		6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA2D0D3150B4B99004757C5 /* FakeSMC.h */; };
+		6AAA1683151DB838002927F3 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAA1682151DB838002927F3 /* favorite.png */; };
+		6AAA1684151DB838002927F3 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAA1682151DB838002927F3 /* favorite.png */; };
 		6AACE02A151BB789002A8364 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A877FE81519937400D18B57 /* Localizable.strings */; };
 		6AB5B4EE14F2C47B0062D2D0 /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
 		6AB700F715190E9900E50AAD /* ITEIT87x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB700F515190E9800E50AAD /* ITEIT87x.cpp */; };
@@ -178,7 +178,6 @@
 		6A00BB5A14F8CCF000337DF8 /* HWMonitorEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HWMonitorEngine.m; path = Shared/HWMonitorEngine.m; sourceTree = "<group>"; };
 		6A00BB5B14F8CCF000337DF8 /* HWMonitorSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorSensor.h; path = Shared/HWMonitorSensor.h; sourceTree = "<group>"; };
 		6A00BB5C14F8CCF000337DF8 /* HWMonitorSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HWMonitorSensor.m; path = Shared/HWMonitorSensor.m; sourceTree = "<group>"; };
-		6A01503E150E8679000CAC9C /* StateGem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StateGem.png; sourceTree = "<group>"; };
 		6A0D50B3151C904C00A6FC60 /* loadmenuextra */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = loadmenuextra; path = Installer/loadmenuextra; sourceTree = "<group>"; };
 		6A0D50B4151C904C00A6FC60 /* updatecaches */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = updatecaches; path = Installer/updatecaches; sourceTree = "<group>"; };
 		6A10C18F1506B2A4005E0897 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -240,10 +239,7 @@
 		6AA172CA150B415200A77CF2 /* FakeSMCKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCKey.h; sourceTree = "<group>"; };
 		6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMC.cpp; sourceTree = "<group>"; };
 		6AA2D0D3150B4B99004757C5 /* FakeSMC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMC.h; sourceTree = "<group>"; };
-		6AAC4914150BBDEE0047B379 /* SmallLEDClear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDClear.png; sourceTree = "<group>"; };
-		6AAC4915150BBDEE0047B379 /* SmallLEDGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDGreen.png; sourceTree = "<group>"; };
-		6AAC4924150BCACA0047B379 /* SmallLEDRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDRed.png; sourceTree = "<group>"; };
-		6AAC4925150BCACA0047B379 /* SmallLEDYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmallLEDYellow.png; sourceTree = "<group>"; };
+		6AAA1682151DB838002927F3 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
 		6AACE026151BB728002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6AACE027151BB780002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Shared/pt-BR.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
 		6AACE029151BB789002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Shared/pt-BR.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
@@ -378,8 +374,7 @@
 				6AA172C4150B415200A77CF2 /* FakeSMCDevice.cpp */,
 				6AA2D0D3150B4B99004757C5 /* FakeSMC.h */,
 				6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */,
-				6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */,
-				6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */,
+				6AAF9FB6151DC8D1007EACE2 /* FakeSMCPlugin */,
 				1D05ABEA13ED0DAD00EADBF6 /* Supporting Files */,
 			);
 			path = FakeSMC;
@@ -583,14 +578,10 @@
 			isa = PBXGroup;
 			children = (
 				6A1DF984150201DE00C34729 /* Localizable.strings */,
-				6A01503E150E8679000CAC9C /* StateGem.png */,
-				6AAC4914150BBDEE0047B379 /* SmallLEDClear.png */,
-				6AAC4915150BBDEE0047B379 /* SmallLEDGreen.png */,
-				6AAC4924150BCACA0047B379 /* SmallLEDRed.png */,
-				6AAC4925150BCACA0047B379 /* SmallLEDYellow.png */,
 				6A1DF981150201D100C34729 /* default.icns */,
 				6A1DF982150201D100C34729 /* thermobump.png */,
 				6A1DF983150201D100C34729 /* thermotemplate.png */,
+				6AAA1682151DB838002927F3 /* favorite.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -734,6 +725,15 @@
 				6AB7010115190EB600E50AAD /* NuvotonNCT677x.cpp */,
 			);
 			name = NCT677xMonitor;
+			sourceTree = "<group>";
+		};
+		6AAF9FB6151DC8D1007EACE2 /* FakeSMCPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */,
+				6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */,
+			);
+			name = FakeSMCPlugin;
 			sourceTree = "<group>";
 		};
 		6AB6BF26151C4A92000BBA7F /* SuperIOMonitor */ = {
@@ -1073,8 +1073,8 @@
 				6A1DF9931502022500C34729 /* default.icns in Resources */,
 				6A1DF9941502022500C34729 /* thermobump.png in Resources */,
 				6A1DF9951502022500C34729 /* thermotemplate.png in Resources */,
-				6A01503F150E8679000CAC9C /* StateGem.png in Resources */,
 				6A877FDF1519933D00D18B57 /* Localizable.strings in Resources */,
+				6AAA1683151DB838002927F3 /* favorite.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1101,9 +1101,9 @@
 			files = (
 				6A2F7DC2151A64F20081BADC /* thermotemplate.png in Resources */,
 				6A2F7DC0151A64EE0081BADC /* thermobump.png in Resources */,
-				6A015040150E8679000CAC9C /* StateGem.png in Resources */,
 				6A877FEE1519937400D18B57 /* Localizable.strings in Resources */,
 				6AACE02A151BB789002A8364 /* Localizable.strings in Resources */,
+				6AAA1684151DB838002927F3 /* favorite.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
