@@ -26,10 +26,17 @@
     
     HWMonitorEngine *monitor;
     
-    NSImage *stateGem;
+    NSImage *favoritsIcon;
+    NSImage *temperaturesIcon;
+    NSImage *hddtemperaturesIcon;
+    NSImage *ssdlifeIcon;
+    NSImage *multipliersIcon;
+    NSImage *frequenciesIcon;
+    NSImage *tachometersIcon;
+    NSImage *voltagesIcon;
 }
 
-- (void)insertMenuGroupWithTitle:(NSString*)title sensors:(NSArray*)list;
+- (void)insertMenuGroupWithTitle:(NSString*)title Icon:(NSImage*)image Sensors:(NSArray*)list;
 
 - (void)updateSMARTData;
 - (void)updateTitlesForceAllSensors:(BOOL)allSensors;

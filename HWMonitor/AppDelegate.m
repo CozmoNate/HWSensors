@@ -16,33 +16,7 @@
 #define GetLocalizedString(key) \
 [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
-/*- (void)setGemForSensor:(HWMonitorSensor*)sensor
-{
-    switch ([sensor level]) {
-        case kHWSensorLevelDisabled:
-            [[sensor menuItem] setImage:gemClear];
-            break;
-            
-        case kHWSensorLevelNormal:
-            [[sensor menuItem] setImage:gemGreen];
-            break;
-            
-        case kHWSensorLevelModerate:
-            [[sensor menuItem] setImage:gemYellow];
-            break;
-            
-        case kHWSensorLevelHigh:
-        case kHWSensorLevelExceeded:
-            [[sensor menuItem] setImage:gemRed];
-            break;
-            
-        default:
-            [[sensor menuItem] setImage:nil];
-            break;
-    }
-}*/
-
-- (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
+- (void)insertMenuGroupWithTitle:(NSString*)title Icon:(NSImage*)image Sensors:(NSArray*)list;
 {
     if (list && [list count] > 0) {
         NSMenuItem *titleItem = [[NSMenuItem alloc] init];
@@ -55,6 +29,7 @@
         [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
         
         [titleItem setAttributedTitle:attributedTitle];
+        [titleItem setImage:image];
         
         [statusMenu addItem:titleItem];
         
@@ -240,13 +215,13 @@
     [monitor rebuildSensorsList];
     
     if ([[monitor sensors] count] > 0) {
-        [self insertMenuGroupWithTitle:@"TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
-        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
-        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
-        [self insertMenuGroupWithTitle:@"MULTIPLIERS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
-        [self insertMenuGroupWithTitle:@"FREQUENCIES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency]];
-        [self insertMenuGroupWithTitle:@"FANS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer]];
-        [self insertMenuGroupWithTitle:@"VOLTAGES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
+        [self insertMenuGroupWithTitle:@"TEMPERATURES" Icon:[NSImage imageNamed:@"temperatures"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" Icon:[NSImage imageNamed:@"hddtemperatures"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" Icon:[NSImage imageNamed:@"ssdlife"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
+        [self insertMenuGroupWithTitle:@"MULTIPLIERS" Icon:[NSImage imageNamed:@"multipliers"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
+        [self insertMenuGroupWithTitle:@"FREQUENCIES" Icon:[NSImage imageNamed:@"frequencies"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency]];
+        [self insertMenuGroupWithTitle:@"FANS" Icon:[NSImage imageNamed:@"tachometers"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer]];
+        [self insertMenuGroupWithTitle:@"VOLTAGES" Icon:[NSImage imageNamed:@"voltages"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
         
         [self updateTitles];
     }

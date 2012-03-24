@@ -31,7 +31,7 @@
     NSImage *stateGem;
 }
 
-- (void)insertMenuGroupWithTitle:(NSString *)title sensors:(NSArray*)list;
+- (void)insertMenuGroupWithTitle:(NSString *)title Icon:(NSImage*)image Sensors:(NSArray*)list;
 
 - (void)updateSMARTData;
 - (void)updateTitles;
