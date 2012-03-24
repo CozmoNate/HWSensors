@@ -7,11 +7,8 @@
  *
  */
 
-#include "SuperIOMonitor.h"
-
-#include <architecture/i386/pio.h>
-
 #include "FakeSMCDefinitions.h"
+#include "SuperIOMonitor.h"
 #include "SuperIO.h"
 
 #define Debug FALSE
@@ -24,6 +21,28 @@
 #define super FakeSMCPlugin
 OSDefineMetaClassAndAbstractStructors(SuperIOMonitor, FakeSMCPlugin)
 
+inline bool process_sensor_entry(OSObject *object, OSString **name, float *reference, float *gain, float *offset)
+{
+    if ((*name = OSDynamicCast(OSString, object))) {
+        return true;
+    }
+    else if (OSDictionary *dictionary = OSDynamicCast(OSDictionary, object))
+        if ((*name = OSDynamicCast(OSString, dictionary->getObject("name")))) {
+            if (OSNumber *number = OSDynamicCast(OSNumber, dictionary->getObject("reference")))
+                *reference = (float)number->unsigned64BitValue() / 1000.0f;
+            
+            if (OSNumber *number = OSDynamicCast(OSNumber, dictionary->getObject("gain")))
+                *gain = (float)number->unsigned64BitValue() / 1000.0f;
+            
+            if (OSNumber *number = OSDynamicCast(OSNumber, dictionary->getObject("offset")))
+                *offset = (float)number->unsigned64BitValue() / 1000.0f;
+            
+            return true;
+        }
+    
+    return false;
+}
+
 bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
 {
     DebugLog("adding temperature sensors...");
@@ -31,20 +50,24 @@ bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
     for (int i = 0; i < temperatureSensorsLimit(); i++) 
     {				
         char key[8];
-        
+        OSString* name;
+        float reference = 0.0f;
+        float gain = 0.0f;
+        float offset = 0.0f;
+
         snprintf(key, 8, "TEMPIN%X", i);
         
-        if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
+        if (process_sensor_entry(configuration->getObject(key), &name, &reference, &gain, &offset)) {
             if (name->isEqualTo("CPU")) {
-                if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
+                if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                     WarningLog("can't add CPU temperature sensor");
             }
             else if (name->isEqualTo("System")) {				
-                if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
+                if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                     WarningLog("can't add System temperature sensor");
             }
             else if (name->isEqualTo("Ambient")) {				
-                if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
+                if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                     WarningLog("can't add Ambient temperature sensor");
             }
         }
@@ -60,44 +83,48 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
     for (int i = 0; i < voltageSensorsLimit(); i++)
     {				
         char key[5];
+        OSString* name;
+        float reference = 0.0f;
+        float gain = 0.0f;
+        float offset = 0.0f;
         
         snprintf(key, 5, "VIN%X", i);
         
-        if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
+        if (process_sensor_entry(configuration->getObject(key), &name, &reference, &gain, &offset)) {
             if (name->isEqualTo("CPU")) {
-                if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     WarningLog("can't add  CPU voltage sensor");
             }
             else if (name->isEqualTo("Memory")) {
-                if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     WarningLog("can't add Memory voltage sensor");
             }
             else if (name->isEqualTo("Main 12V")) {
-                if (!addSensor(KEY_MAIN_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                if (!addSensor(KEY_MAIN_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     WarningLog("can't add Main 12V voltage sensor");
             }
             else if (name->isEqualTo("PCIe 12V")) {
-                if (!addSensor(KEY_PCIE_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                if (!addSensor(KEY_PCIE_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     WarningLog("can't add PCIe 12V voltage sensor");
             }
             else if (name->isEqualTo("Main 5V")) {
-                if (!addSensor(KEY_MAIN_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                if (!addSensor(KEY_MAIN_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     WarningLog("can't add Main 5V voltage sensor");
             }
             else if (name->isEqualTo("Standby 5V")) {
-                if (!addSensor(KEY_STANDBY_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                if (!addSensor(KEY_STANDBY_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     WarningLog("can't add Standby 5V voltage sensor");
             }
             else if (name->isEqualTo("Main 3.3V")) {
-                if (!addSensor(KEY_MAIN_3V3_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                if (!addSensor(KEY_MAIN_3V3_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     WarningLog("can't add Main 3.3V voltage sensor");
             }
             else if (name->isEqualTo("Auxiliary 3.3V")) {
-                if (!addSensor(KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                if (!addSensor(KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     WarningLog("can't add Auxiliary 3.3V voltage sensor");
             }
             else if (name->isEqualTo("Battery")) {
-                if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     WarningLog("can't add Battery voltage sensor!");
             }
             
@@ -109,7 +136,7 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
                 
                 if (name->isEqualTo(caption)) {
                     snprintf(key, 5, KEY_FORMAT_POWERSUPPLY_VOLTAGE, j);
-                    if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                    if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                         WarningLog("can't add PWR%X voltage Sensor!", j);
                 }
                 else {
@@ -118,7 +145,7 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
                     
                     if (name->isEqualTo(caption)) {
                         snprintf(key, 5, KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE, j);
-                        if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
+                        if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                             WarningLog("can't add VRM%X voltage Sensor!", j);
                     }
                 }
@@ -184,19 +211,26 @@ float SuperIOMonitor::readTachometer(UInt32 index)
 
 float SuperIOMonitor::getSensorValue(FakeSMCSensor *sensor)
 {
+    float value = 0;
+    
     if (sensor)
         switch (sensor->getGroup()) {
             case kSuperIOTemperatureSensor:
-                return readTemperature(sensor->getIndex());
+                value = readTemperature(sensor->getIndex());
+                break;
                 
             case kSuperIOVoltageSensor:
-                return readVoltage(sensor->getIndex());
+                value = readVoltage(sensor->getIndex());
+                break;
                 
             case kFakeSMCTachometerSensor:
-                return readTachometer(sensor->getIndex());
+                value = readTachometer(sensor->getIndex());
+                break;
         }
     
-	return 0;
+    value = sensor->getOffset() + value + (value - sensor->getReference()) * sensor->getGain();
+    
+	return value;
 }
 
 bool SuperIOMonitor::initialize()

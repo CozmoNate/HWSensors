@@ -258,14 +258,13 @@
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i + 1] group:kHWSensorGroupVoltage];
     
     [self addSensorWithKey:@KEY_MEMORY_VOLTAGE caption:GetLocalizedString(@"Memory") group:kHWSensorGroupVoltage];
-    [self addSensorWithKey:@KEY_POWERBATTERY_VOLTAGE caption:GetLocalizedString(@"Power/Battery") group:kHWSensorGroupVoltage];
-    
-    [self addSensorWithKey:@KEY_MAIN_12V_VOLTAGE caption:GetLocalizedString(@"Main 12V") group:kHWSensorGroupVoltage];
-    [self addSensorWithKey:@KEY_PCIE_12V_VOLTAGE caption:GetLocalizedString(@"PCIe 12V") group:kHWSensorGroupVoltage];
-    [self addSensorWithKey:@KEY_MAIN_5V_VOLTAGE caption:GetLocalizedString(@"Main 5V") group:kHWSensorGroupVoltage];
-    [self addSensorWithKey:@KEY_STANDBY_5V_VOLTAGE caption:GetLocalizedString(@"Standby 5V") group:kHWSensorGroupVoltage];
     [self addSensorWithKey:@KEY_MAIN_3V3_VOLTAGE caption:GetLocalizedString(@"Main 3.3V") group:kHWSensorGroupVoltage];
     [self addSensorWithKey:@KEY_AUXILIARY_3V3V_VOLTAGE caption:GetLocalizedString(@"Auxiliary 3.3V") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_MAIN_5V_VOLTAGE caption:GetLocalizedString(@"Main 5V") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_STANDBY_5V_VOLTAGE caption:GetLocalizedString(@"Standby 5V") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_MAIN_12V_VOLTAGE caption:GetLocalizedString(@"Main 12V") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_PCIE_12V_VOLTAGE caption:GetLocalizedString(@"PCIe 12V") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_POWERBATTERY_VOLTAGE caption:GetLocalizedString(@"Power/Battery") group:kHWSensorGroupVoltage];
     
     for (int i = 0; i <= 0xf; i++)        
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"VRM Supply %X"),i + 1] group:kHWSensorGroupVoltage];

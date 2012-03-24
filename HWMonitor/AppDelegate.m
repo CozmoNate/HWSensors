@@ -45,9 +45,16 @@
 - (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
 {
     if (list && [list count] > 0) {
-        NSMenuItem *titleItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(title) action:nil keyEquivalent:@""];
+        NSMenuItem *titleItem = [[NSMenuItem alloc] init];
         
         [titleItem setEnabled:FALSE];
+        
+        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
+        
+        [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
+        [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
+        
+        [titleItem setAttributedTitle:attributedTitle];
         
         [statusMenu addItem:titleItem];
         
@@ -86,50 +93,49 @@
     
     NSArray *sensors = [monitor sensors];
     
-    NSMutableString * statusString = [[NSMutableString alloc] init];
+    NSMutableAttributedString * statusString = [[NSMutableAttributedString alloc] init];
     
     for (int i = 0; i < [sensors count]; i++) {
         HWMonitorSensor *sensor = (HWMonitorSensor*)[sensors objectAtIndex:i];
         
+        NSDictionary *captionColor;
+        NSDictionary *valueColor;
+        
+        NSString * value = [sensor formatValue];
+        
+        switch ([sensor level]) {
+                /*case kHWSensorLevelDisabled:
+                 break;
+                 
+                 case kHWSensorLevelNormal:
+                 break;*/
+                
+            case kHWSensorLevelModerate:
+                captionColor = blackColorAttribute;
+                valueColor = orangeColorAttribute;
+                break;
+                
+            case kHWSensorLevelHigh:
+                captionColor = blackColorAttribute;
+                valueColor = redColorAttribute;
+                break;
+                
+            case kHWSensorLevelExceeded:
+                captionColor = redColorAttribute;
+                valueColor = redColorAttribute;
+                break;
+                
+            default:
+                captionColor = blackColorAttribute;
+                valueColor = blackColorAttribute;
+                break;
+        }
+        
         if (isMenuVisible) {
-            
-            NSString * value = [sensor formatValue];
-            
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
             
-            NSDictionary *captionColor;
-            NSDictionary *valueColor;
-            
-            switch ([sensor level]) {
-                /*case kHWSensorLevelDisabled:
-                    break;
-                    
-                case kHWSensorLevelNormal:
-                    break;*/
-                    
-                case kHWSensorLevelModerate:
-                    captionColor = blackColorAttribute;
-                    valueColor = orangeColorAttribute;
-                    break;
-                    
-                case kHWSensorLevelHigh:
-                    captionColor = blackColorAttribute;
-                    valueColor = redColorAttribute;
-                    break;
-                    
-                case kHWSensorLevelExceeded:
-                    captionColor = redColorAttribute;
-                    valueColor = redColorAttribute;
-                    break;
-                    
-                default:
-                    captionColor = blackColorAttribute;
-                    valueColor = blackColorAttribute;
-                    break;
-            }
-            
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor caption] attributes:captionColor]];
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t" attributes:captionColor]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t"]];
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
             
             [title addAttributes:statusMenuAttributes range:NSMakeRange(0, [title length])];
@@ -142,15 +148,19 @@
         if ([sensor favorite]) {
             NSString * value =[[NSString alloc] initWithString:[sensor formatValue]];
             
-            [statusString appendString:@" "];
-            [statusString appendString:value];
+            [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+            
+            if (!isMenuVisible && valueColor != blackColorAttribute)
+                [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
+            else
+                [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:value]];
         }
     }
     
     // Update status bar title
-    NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:statusString attributes:statusItemAttributes];
+    NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithAttributedString:statusString];
     
-    [title addAttribute:NSFontAttributeName value:statusItemFont range:NSMakeRange(0, [title length])];
+    [title addAttributes:statusItemAttributes range:NSMakeRange(0, [title length])];
     
     [statusItem setAttributedTitle:title];
 }
@@ -184,7 +194,7 @@
 
 - (void)awakeFromNib
 {    
-    stateGem = [NSImage imageNamed:@"StateGem"];
+    stateGem = [NSImage imageNamed:@"favorite"];
     
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     
@@ -197,8 +207,13 @@
 
     NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
     [style setLineSpacing:0];
+    
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 
-    statusItemAttributes = [NSDictionary dictionaryWithObject:style forKey:NSParagraphStyleAttributeName];
+    [dictionary setObject:style forKey:NSParagraphStyleAttributeName];
+    [dictionary setObject:statusItemFont forKey:NSFontAttributeName];
+    
+    statusItemAttributes = [NSDictionary dictionaryWithDictionary:dictionary];
     
     statusMenuFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10];
     [statusMenu setFont:statusMenuFont];
@@ -208,7 +223,12 @@
     [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:190.0]];
     [style setLineBreakMode:NSLineBreakByTruncatingTail];
 
-    statusMenuAttributes = [NSDictionary dictionaryWithObject:style forKey:NSParagraphStyleAttributeName];
+    dictionary = [[NSMutableDictionary alloc] init];
+    
+    [dictionary setObject:style forKey:NSParagraphStyleAttributeName];
+    [dictionary setObject:statusMenuFont forKey:NSFontAttributeName];
+    
+    statusMenuAttributes = [NSDictionary dictionaryWithDictionary:dictionary];
     
     blackColorAttribute = [NSDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     orangeColorAttribute = [NSDictionary dictionaryWithObject:[NSColor orangeColor] forKey:NSForegroundColorAttributeName];

@@ -26,5 +26,13 @@
 "CPU" = "Центральный процессор";
 "Memory" = "Модули памяти";
 "Power/Battery" = "Питание/Батарея";
+"Main 12V" = "Основной 12V";
+"PCIe 12V" = "PCIe 12V";
+"Main 5V" =  "Основной 5V";
+"Standby 5V" =  "Резерв 5V";
+"Main 3.3V" =  "Основной 3.3V";
+"Auxiliary 3.3V" =  "Дополнительный 3.3V";
+"VRM Supply %X" =  "Питание VRM %X";
+"Power Supply %X" =  "Источник питания %X";
 "Quit HWMonitor" = "Закрыть HWMonitor";
 "No sensors found" = "Нет доступных сенсоров";

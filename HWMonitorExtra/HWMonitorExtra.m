@@ -18,41 +18,22 @@
 #define GetLocalizedString(key) \
 [[self bundle] localizedStringForKey:(key) value:@"" table:nil]
 
-/*- (void)setGemForSensor:(HWMonitorSensor*)sensor
- {
- switch ([sensor level]) {
- case kHWSensorLevelDisabled:
- [[sensor menuItem] setImage:gemClear];
- break;
- 
- case kHWSensorLevelNormal:
- [[sensor menuItem] setImage:gemGreen];
- break;
- 
- case kHWSensorLevelModerate:
- [[sensor menuItem] setImage:gemYellow];
- break;
- 
- case kHWSensorLevelHigh:
- case kHWSensorLevelExceeded:
- [[sensor menuItem] setImage:gemRed];
- break;
- 
- default:
- [[sensor menuItem] setImage:nil];
- break;
- }
- }*/
-
 - (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
 {
     if (list && [list count] > 0) {
         if ([[menu itemArray] count] > 0)
             [menu addItem:[NSMenuItem separatorItem]];
         
-        NSMenuItem *titleItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(title) action:nil keyEquivalent:@""];
+        NSMenuItem *titleItem = [[NSMenuItem alloc] init];
         
         [titleItem setEnabled:FALSE];
+        
+        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
+        
+        [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
+        [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
+        
+        [titleItem setAttributedTitle:attributedTitle];
         
         [menu addItem:titleItem];
         
@@ -133,7 +114,6 @@
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor formatValue] attributes:valueColor]];
             
             [title addAttributes:statusMenuAttributes range:NSMakeRange(0, [title length])];
-            [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
             
             // Update menu item title
             [[sensor menuItem] setAttributedTitle:title];
@@ -213,7 +193,7 @@
     
     if (self == nil) return nil;
     
-    stateGem = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"StateGem" ofType:@"png"]];
+    stateGem = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"favorite" ofType:@"png"]];
     
     view = [[HWMonitorView alloc] initWithFrame: [[self view] frame] menuExtra:self];
     
@@ -241,7 +221,12 @@
     [style setTabStops:[NSArray array]];
     [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:190.0]];
     
-    statusMenuAttributes = [NSDictionary dictionaryWithObject:style forKey:NSParagraphStyleAttributeName];
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+    
+    [dictionary setObject:style forKey:NSParagraphStyleAttributeName];
+    [dictionary setObject:statusMenuFont forKey:NSFontAttributeName];
+    
+    statusMenuAttributes = [NSDictionary dictionaryWithDictionary:dictionary];
     
     blackColorAttribute = [NSDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     orangeColorAttribute = [NSDictionary dictionaryWithObject:[NSColor orangeColor] forKey:NSForegroundColorAttributeName];

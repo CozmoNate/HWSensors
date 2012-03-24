@@ -11,6 +11,8 @@
 #define kSuperIOModelName   "model-name"
 #define kSuperIOVendorName  "vendor-name"
 
+// Entering ports
+const UInt8 kSuperIOPorts[]               = {0x2e, 0x4e};
 
 // Registers
 const UInt8 kSuperIOConfigControlRegister = 0x02;
@@ -18,6 +20,7 @@ const UInt8 kSuperIOChipIDRegister        = 0x20;
 const UInt8 kSuperIOBaseAddressRegister   = 0x60;
 const UInt8 kSuperIODeviceSelectRegister  = 0x07;
 
+// Logical device number
 const UInt8 kWinbondHardwareMonitorLDN    = 0x0B;
 const UInt8 kF71858HardwareMonitorLDN     = 0x02;
 const UInt8 kFintekITEHardwareMonitorLDN  = 0x04;

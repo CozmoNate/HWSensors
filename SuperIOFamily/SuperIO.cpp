@@ -22,10 +22,8 @@ bool SuperIO::start(IOService *provider)
 {
 	if (!super::start(provider)) return false;
     
-    const UInt8 ports[] = {0x2e, 0x4e};
-    
     for (int i = 0; i < 2; i++) {
-        i386_ioport_t port = ports[i];
+        i386_ioport_t port = kSuperIOPorts[i];
         
         winbond_family_enter(port);
         

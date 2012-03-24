@@ -67,8 +67,6 @@ const UInt8 ITE_FAN_TACHOMETER_REG[5]					= { 0x0d, 0x0e, 0x0f, 0x80, 0x82 };
 const UInt8 ITE_FAN_TACHOMETER_EXT_REG[5]				= { 0x18, 0x19, 0x1a, 0x81, 0x83 };
 const UInt8 ITE_VOLTAGE_BASE_REG						= 0x20;
 
-const float ITE_VOLTAGE_GAIN[]							= {1, 1, 1, (6.8f / 10 + 1), 1, 1, 1, 1, 1 };
-
 const UInt8 ITE_SMARTGUARDIAN_MAIN_CONTROL				= 0x13;
 const UInt8 ITE_SMARTGUARDIAN_PWM_CONTROL[5]			= { 0x15, 0x16, 0x17, 0x88, 0x89 };
 const UInt8 ITE_SMARTGUARDIAN_TEMPERATURE_STOP[5]		= { 0x60, 0x68, 0x70, 0x90, 0x98 };
