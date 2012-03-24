@@ -194,7 +194,7 @@
 						<integer>0</integer>
 					</dict>
 					<key>VIN4</key>
-					<string>Power Supply 4</string>
+					<string></string>
 					<key>VIN5</key>
 					<dict>
 						<key>gain</key>
@@ -207,7 +207,7 @@
 						<integer>0</integer>
 					</dict>
 					<key>VIN6</key>
-					<string>Power Supply 6</string>
+					<string></string>
 					<key>VIN7</key>
 					<string>Power Supply 7</string>
 					<key>VIN8</key>

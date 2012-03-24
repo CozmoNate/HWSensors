@@ -18,7 +18,7 @@
 #define GetLocalizedString(key) \
 [[self bundle] localizedStringForKey:(key) value:@"" table:nil]
 
-- (void)insertMenuGroupWithTitle:(NSString*)title  sensors:(NSArray*)list;
+- (void)insertMenuGroupWithTitle:(NSString*)title Icon:(NSImage*)image Sensors:(NSArray*)list;
 {
     if (list && [list count] > 0) {
         if ([[menu itemArray] count] > 0)
@@ -34,6 +34,7 @@
         [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
         
         [titleItem setAttributedTitle:attributedTitle];
+        [titleItem setImage:image];
         
         [menu addItem:titleItem];
         
@@ -52,7 +53,7 @@
             [sensorItem setTarget:self];
             [sensorItem setRepresentedObject:sensor];
             [sensorItem setState:[sensor favorite]];
-            [sensorItem setOnStateImage:stateGem];
+            [sensorItem setOnStateImage:favoritsIcon];
             
             [menu addItem:sensorItem];
         }
@@ -150,13 +151,13 @@
     [monitor rebuildSensorsList];
     
     if ([[monitor sensors] count] > 0) {
-        [self insertMenuGroupWithTitle:@"TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
-        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
-        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
-        [self insertMenuGroupWithTitle:@"MULTIPLIERS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
-        [self insertMenuGroupWithTitle:@"FREQUENCIES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency]];
-        [self insertMenuGroupWithTitle:@"FANS" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer]];
-        [self insertMenuGroupWithTitle:@"VOLTAGES" sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
+        [self insertMenuGroupWithTitle:@"TEMPERATURES" Icon:temperaturesIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" Icon:hddtemperaturesIcon Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" Icon:ssdlifeIcon Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
+        [self insertMenuGroupWithTitle:@"MULTIPLIERS" Icon:multipliersIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
+        [self insertMenuGroupWithTitle:@"FREQUENCIES" Icon:frequenciesIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency]];
+        [self insertMenuGroupWithTitle:@"FANS" Icon:tachometersIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer]];
+        [self insertMenuGroupWithTitle:@"VOLTAGES" Icon:voltagesIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
         
         /*[menu addItem:[NSMenuItem separatorItem]];
         [menu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Refresh sensors", nil) action:@selector(rebuildSensors:) keyEquivalent:@""]];*/
@@ -193,7 +194,14 @@
     
     if (self == nil) return nil;
     
-    stateGem = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"favorite" ofType:@"png"]];
+    favoritsIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"favorite" ofType:@"png"]];
+    temperaturesIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"temperatures" ofType:@"png"]];
+    hddtemperaturesIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"hddtemperatures" ofType:@"png"]];
+    ssdlifeIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"ssdlife" ofType:@"png"]];
+    multipliersIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"multipliers" ofType:@"png"]];
+    frequenciesIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"frequencies" ofType:@"png"]];
+    tachometersIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"tachometers" ofType:@"png"]];
+    voltagesIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"voltages" ofType:@"png"]];
     
     view = [[HWMonitorView alloc] initWithFrame: [[self view] frame] menuExtra:self];
     

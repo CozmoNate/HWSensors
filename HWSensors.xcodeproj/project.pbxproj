@@ -92,6 +92,8 @@
 		6AAA1683151DB838002927F3 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAA1682151DB838002927F3 /* favorite.png */; };
 		6AAA1684151DB838002927F3 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAA1682151DB838002927F3 /* favorite.png */; };
 		6AACE02A151BB789002A8364 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A877FE81519937400D18B57 /* Localizable.strings */; };
+		6AAD810E151E083300CBD70C /* temperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAD810D151E083300CBD70C /* temperatures.png */; };
+		6AAD810F151E083300CBD70C /* temperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAD810D151E083300CBD70C /* temperatures.png */; };
 		6AB5B4EE14F2C47B0062D2D0 /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
 		6AB700F715190E9900E50AAD /* ITEIT87x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB700F515190E9800E50AAD /* ITEIT87x.cpp */; };
 		6AB700F815190E9900E50AAD /* ITEIT87x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB700F615190E9800E50AAD /* ITEIT87x.h */; };
@@ -101,6 +103,18 @@
 		6AB7010015190EAE00E50AAD /* FintekF718x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB700FE15190EAE00E50AAD /* FintekF718x.h */; };
 		6AB7010315190EB600E50AAD /* NuvotonNCT677x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB7010115190EB600E50AAD /* NuvotonNCT677x.cpp */; };
 		6AB7010415190EB600E50AAD /* NuvotonNCT677x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB7010215190EB600E50AAD /* NuvotonNCT677x.h */; };
+		6AE5FC2E151E1EC6005F9929 /* hddtemperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */; };
+		6AE5FC2F151E1EC6005F9929 /* hddtemperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */; };
+		6AE5FC32151E1F63005F9929 /* ssdlife.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC31151E1F62005F9929 /* ssdlife.png */; };
+		6AE5FC33151E1F63005F9929 /* ssdlife.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC31151E1F62005F9929 /* ssdlife.png */; };
+		6AE5FC35151E2232005F9929 /* multipliers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC34151E2232005F9929 /* multipliers.png */; };
+		6AE5FC36151E2232005F9929 /* multipliers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC34151E2232005F9929 /* multipliers.png */; };
+		6AE5FC38151E23CD005F9929 /* frequencies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC37151E23CD005F9929 /* frequencies.png */; };
+		6AE5FC39151E23CD005F9929 /* frequencies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC37151E23CD005F9929 /* frequencies.png */; };
+		6AE5FC3E151E269C005F9929 /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC3D151E269C005F9929 /* voltages.png */; };
+		6AE5FC3F151E269C005F9929 /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC3D151E269C005F9929 /* voltages.png */; };
+		6AE5FC41151E298E005F9929 /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
+		6AE5FC42151E298E005F9929 /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -243,6 +257,7 @@
 		6AACE026151BB728002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6AACE027151BB780002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Shared/pt-BR.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
 		6AACE029151BB789002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Shared/pt-BR.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
+		6AAD810D151E083300CBD70C /* temperatures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = temperatures.png; sourceTree = "<group>"; };
 		6AB700F515190E9800E50AAD /* ITEIT87x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ITEIT87x.cpp; sourceTree = "<group>"; };
 		6AB700F615190E9800E50AAD /* ITEIT87x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITEIT87x.h; sourceTree = "<group>"; };
 		6AB700F915190EA100E50AAD /* WinbondW836x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WinbondW836x.cpp; sourceTree = "<group>"; };
@@ -251,6 +266,12 @@
 		6AB700FE15190EAE00E50AAD /* FintekF718x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FintekF718x.h; sourceTree = "<group>"; };
 		6AB7010115190EB600E50AAD /* NuvotonNCT677x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NuvotonNCT677x.cpp; sourceTree = "<group>"; };
 		6AB7010215190EB600E50AAD /* NuvotonNCT677x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NuvotonNCT677x.h; sourceTree = "<group>"; };
+		6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hddtemperatures.png; sourceTree = "<group>"; };
+		6AE5FC31151E1F62005F9929 /* ssdlife.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ssdlife.png; sourceTree = "<group>"; };
+		6AE5FC34151E2232005F9929 /* multipliers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = multipliers.png; sourceTree = "<group>"; };
+		6AE5FC37151E23CD005F9929 /* frequencies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frequencies.png; sourceTree = "<group>"; };
+		6AE5FC3D151E269C005F9929 /* voltages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voltages.png; sourceTree = "<group>"; };
+		6AE5FC40151E298E005F9929 /* tachometers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tachometers.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -582,6 +603,13 @@
 				6A1DF982150201D100C34729 /* thermobump.png */,
 				6A1DF983150201D100C34729 /* thermotemplate.png */,
 				6AAA1682151DB838002927F3 /* favorite.png */,
+				6AAD810D151E083300CBD70C /* temperatures.png */,
+				6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */,
+				6AE5FC31151E1F62005F9929 /* ssdlife.png */,
+				6AE5FC34151E2232005F9929 /* multipliers.png */,
+				6AE5FC37151E23CD005F9929 /* frequencies.png */,
+				6AE5FC40151E298E005F9929 /* tachometers.png */,
+				6AE5FC3D151E269C005F9929 /* voltages.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1075,6 +1103,13 @@
 				6A1DF9951502022500C34729 /* thermotemplate.png in Resources */,
 				6A877FDF1519933D00D18B57 /* Localizable.strings in Resources */,
 				6AAA1683151DB838002927F3 /* favorite.png in Resources */,
+				6AAD810E151E083300CBD70C /* temperatures.png in Resources */,
+				6AE5FC2E151E1EC6005F9929 /* hddtemperatures.png in Resources */,
+				6AE5FC32151E1F63005F9929 /* ssdlife.png in Resources */,
+				6AE5FC35151E2232005F9929 /* multipliers.png in Resources */,
+				6AE5FC38151E23CD005F9929 /* frequencies.png in Resources */,
+				6AE5FC3E151E269C005F9929 /* voltages.png in Resources */,
+				6AE5FC41151E298E005F9929 /* tachometers.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1104,6 +1139,13 @@
 				6A877FEE1519937400D18B57 /* Localizable.strings in Resources */,
 				6AACE02A151BB789002A8364 /* Localizable.strings in Resources */,
 				6AAA1684151DB838002927F3 /* favorite.png in Resources */,
+				6AAD810F151E083300CBD70C /* temperatures.png in Resources */,
+				6AE5FC2F151E1EC6005F9929 /* hddtemperatures.png in Resources */,
+				6AE5FC33151E1F63005F9929 /* ssdlife.png in Resources */,
+				6AE5FC36151E2232005F9929 /* multipliers.png in Resources */,
+				6AE5FC39151E23CD005F9929 /* frequencies.png in Resources */,
+				6AE5FC3F151E269C005F9929 /* voltages.png in Resources */,
+				6AE5FC42151E298E005F9929 /* tachometers.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
