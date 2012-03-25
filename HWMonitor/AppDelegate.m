@@ -23,13 +23,14 @@
         
         [titleItem setEnabled:FALSE];
         
-        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
+        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:@" %@", GetLocalizedString(title)]];
         
         [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
         [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
         
         [titleItem setAttributedTitle:attributedTitle];
-        [titleItem setImage:image];
+        [titleItem setOnStateImage:image];
+        [titleItem setState:YES];
         
         [statusMenu addItem:titleItem];
         
@@ -48,7 +49,8 @@
             [sensorItem setTarget:self];
             [sensorItem setRepresentedObject:sensor];
             [sensorItem setState:[sensor favorite]];
-            [sensorItem setOnStateImage:stateGem];
+            [sensorItem setOnStateImage:favoriteIcon];
+            [sensorItem setOffStateImage:disabledIcon];
             
             [statusMenu addItem:sensorItem];
         }
@@ -169,7 +171,8 @@
 
 - (void)awakeFromNib
 {    
-    stateGem = [NSImage imageNamed:@"favorite"];
+    favoriteIcon = [NSImage imageNamed:@"favorite"];
+    disabledIcon = [NSImage imageNamed:@"disabled"];
     
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     
@@ -178,7 +181,7 @@
     [statusItem setImage:[NSImage imageNamed:@"thermobump"]];
     [statusItem setAlternateImage:[NSImage imageNamed:@"thermotemplate"]];
     
-    statusItemFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0];
+    statusItemFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
 
     NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
     [style setLineSpacing:0];
@@ -190,7 +193,7 @@
     
     statusItemAttributes = [NSDictionary dictionaryWithDictionary:dictionary];
     
-    statusMenuFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10];
+    statusMenuFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
     [statusMenu setFont:statusMenuFont];
     
     style = [[NSMutableParagraphStyle alloc] init];
