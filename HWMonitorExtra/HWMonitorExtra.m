@@ -28,13 +28,14 @@
         
         [titleItem setEnabled:FALSE];
         
-        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
+        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:@" %@", GetLocalizedString(title)]];
         
         [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
         [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
         
         [titleItem setAttributedTitle:attributedTitle];
-        [titleItem setImage:image];
+        [titleItem setOnStateImage:image];
+        [titleItem setState:YES];
         
         [menu addItem:titleItem];
         
@@ -53,7 +54,8 @@
             [sensorItem setTarget:self];
             [sensorItem setRepresentedObject:sensor];
             [sensorItem setState:[sensor favorite]];
-            [sensorItem setOnStateImage:favoritsIcon];
+            [sensorItem setOnStateImage:favoriteIcon];
+            [sensorItem setOffStateImage:disabledIcon];
             
             [menu addItem:sensorItem];
         }
@@ -194,7 +196,8 @@
     
     if (self == nil) return nil;
     
-    favoritsIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"favorite" ofType:@"png"]];
+    favoriteIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"favorite" ofType:@"png"]];
+    disabledIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"disabled" ofType:@"png"]];
     temperaturesIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"temperatures" ofType:@"png"]];
     hddtemperaturesIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"hddtemperatures" ofType:@"png"]];
     ssdlifeIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"ssdlife" ofType:@"png"]];

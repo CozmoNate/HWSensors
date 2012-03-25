@@ -26,7 +26,8 @@
     
     HWMonitorEngine *monitor;
     
-    NSImage *favoritsIcon;
+    NSImage *favoriteIcon;
+    NSImage *disabledIcon;
     NSImage *temperaturesIcon;
     NSImage *hddtemperaturesIcon;
     NSImage *ssdlifeIcon;
