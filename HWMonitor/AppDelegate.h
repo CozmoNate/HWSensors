@@ -29,7 +29,9 @@
     BOOL isMenuVisible;
     
     NSImage *favoriteIcon;
+    NSImage *altFavoriteIcon;
     NSImage *disabledIcon;
+    NSImage *altDisabledIcon;
 }
 
 - (void)insertMenuGroupWithTitle:(NSString *)title Icon:(NSImage*)image Sensors:(NSArray*)list;
