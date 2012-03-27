@@ -56,9 +56,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6A9EF214150AB2D700CFDB15"
-               BuildableName = "SuperIOFamily.kext"
-               BlueprintName = "SuperIOFamily"
+               BlueprintIdentifier = "6A4E4738152178A00038C5DE"
+               BuildableName = "SuperIOSensors.kext"
+               BlueprintName = "SuperIOSensors"
                ReferencedContainer = "container:HWSensors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

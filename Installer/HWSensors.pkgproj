@@ -454,7 +454,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>com.mozo.pkg.FakeSMC</string>
+				<string>org.kozlek.pkg.FakeSMC</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -961,7 +961,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>com.mozo.pkg.IntelThermal</string>
+				<string>org.kozlek.pkg.IntelThermal</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -969,7 +969,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.0.1</string>
+				<string>2.0</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -1477,7 +1477,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>com.mozo.pkg.ACPISensors</string>
+				<string>org.kozlek.pkg.ACPISensors</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -1485,7 +1485,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.0</string>
+				<string>2.0</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -1984,7 +1984,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>com.mozo.pkg.NVClockX</string>
+				<string>org.usrsse2.pkg.NVClockX</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -1992,7 +1992,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.0</string>
+				<string>2.0</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -2491,7 +2491,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>com.mozo.pkg.RadeonX</string>
+				<string>org.slice.pkg.RadeonX</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -2499,7 +2499,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.0</string>
+				<string>2.0</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -2998,7 +2998,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>com.mozo.pkg.X3100</string>
+				<string>org.slice.pkg.X3100</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -3006,7 +3006,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.0</string>
+				<string>2.0</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -3462,7 +3462,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>0</integer>
 				<key>IDENTIFIER</key>
-				<string>com.mozo.pkg.HWMonitor</string>
+				<string>org.kozlek.pkg.HWMonitor</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -3999,7 +3999,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>0</integer>
 				<key>IDENTIFIER</key>
-				<string>com.mozo.pkg.HWMonitorMenu</string>
+				<string>org.kozlek.pkg.HWMonitorMenu</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -4353,7 +4353,7 @@
 																			<key>GID</key>
 																			<integer>0</integer>
 																			<key>PATH</key>
-																			<string>../Binaries/SuperIOFamily.kext</string>
+																			<string>../Binaries/SuperIOSensors.kext</string>
 																			<key>PATH_TYPE</key>
 																			<integer>1</integer>
 																			<key>PERMISSIONS</key>
@@ -4499,6 +4499,15 @@
 				<key>VERSION</key>
 				<integer>2</integer>
 			</dict>
+			<key>PACKAGE_SCRIPTS</key>
+			<dict>
+				<key>POSTINSTALL_PATH</key>
+				<dict/>
+				<key>PREINSTALL_PATH</key>
+				<dict/>
+				<key>RESOURCES</key>
+				<array/>
+			</dict>
 			<key>PACKAGE_SETTINGS</key>
 			<dict>
 				<key>AUTHENTICATION</key>
@@ -4506,11 +4515,11 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>com.kozlek.pkg.SuperIOFamily</string>
+				<string>org.kozlek.pkg.SuperIOSensors</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
-				<string>SuperIOFamily</string>
+				<string>SuperIOSensors</string>
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
@@ -4608,13 +4617,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>This will install HWMonitor Menu Extra utility showing in system status bar</string>
+												<string>This will install HWMonitorExtra utility showing in system status bar only and running automaticaly</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>Устанавливает утилиту HWMonitor Menu которая будет отображаться в системном меню</string>
+												<string>Устанавливает утилиту HWMonitorExtra которая будет отображаться в системном меню</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>
@@ -4751,13 +4760,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>ACPISensors plugin by slice requires extensive DSDT editing and understanding in ACPI programming</string>
+												<string>ACPISensors plugin requires extensive DSDT editing and understanding in ACPI programming</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>Плугин ACPISensors от slice позволяет читать показания сенсоров через предопределенные функции в ACPI таблицах. Для его использования необходимо понимание в программировании ACPI т.к. требует внесения изменений в DSDT</string>
+												<string>Плугин ACPISensors позволяет читать показания сенсоров через предопределенные функции в ACPI таблицах. Для его использования необходимо понимание в программировании ACPI т.к. требует внесения изменений в DSDT</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>
@@ -4787,13 +4796,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string></string>
+												<string>SuperIOSensors provides information about temperature, voltage and tachometer sensors. Super I/O chipsets supported: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string></string>
+												<string>SuperIOSensors позволяет получать показания датчиков температуры, напряжения и оборотов вентиляторов, расположенных на материнской плате. Поддерживаемые чипы Super I/O: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>
