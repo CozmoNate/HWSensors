@@ -65,8 +65,21 @@
 		6A1DF9931502022500C34729 /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF9901502022500C34729 /* default.icns */; };
 		6A1DF9941502022500C34729 /* thermobump.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF9911502022500C34729 /* thermobump.png */; };
 		6A1DF9951502022500C34729 /* thermotemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF9921502022500C34729 /* thermotemplate.png */; };
+		6A2B4E3E152179700093A217 /* FintekF718x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E32152179700093A217 /* FintekF718x.cpp */; };
+		6A2B4E3F152179700093A217 /* FintekF718x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2B4E33152179700093A217 /* FintekF718x.h */; };
+		6A2B4E40152179700093A217 /* ITEIT87x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E34152179700093A217 /* ITEIT87x.cpp */; };
+		6A2B4E41152179700093A217 /* ITEIT87x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2B4E35152179700093A217 /* ITEIT87x.h */; };
+		6A2B4E42152179700093A217 /* NuvotonNCT677x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E36152179700093A217 /* NuvotonNCT677x.cpp */; };
+		6A2B4E43152179700093A217 /* NuvotonNCT677x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2B4E37152179700093A217 /* NuvotonNCT677x.h */; };
+		6A2B4E44152179700093A217 /* SuperIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E38152179700093A217 /* SuperIO.cpp */; };
+		6A2B4E45152179700093A217 /* SuperIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2B4E39152179700093A217 /* SuperIO.h */; };
+		6A2B4E46152179700093A217 /* SuperIOMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E3A152179700093A217 /* SuperIOMonitor.cpp */; };
+		6A2B4E47152179700093A217 /* SuperIOMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2B4E3B152179700093A217 /* SuperIOMonitor.h */; };
+		6A2B4E48152179700093A217 /* WinbondW836x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E3C152179700093A217 /* WinbondW836x.cpp */; };
+		6A2B4E49152179700093A217 /* WinbondW836x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2B4E3D152179700093A217 /* WinbondW836x.h */; };
 		6A2F7DC0151A64EE0081BADC /* thermobump.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF982150201D100C34729 /* thermobump.png */; };
 		6A2F7DC2151A64F20081BADC /* thermotemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF983150201D100C34729 /* thermotemplate.png */; };
+		6A4E473F152178A00038C5DE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A4E473D152178A00038C5DE /* InfoPlist.strings */; };
 		6A5DCA60151F8E2800209B36 /* disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5DCA5F151F8E2800209B36 /* disabled.png */; };
 		6A5DCA61151F8E2800209B36 /* disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5DCA5F151F8E2800209B36 /* disabled.png */; };
 		6A62185514F1802C0058C396 /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
@@ -80,10 +93,6 @@
 		6A9955C114EFAD7B0052C702 /* NSString+TruncateToWidth.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */; };
 		6A9C468D14E657EE0083E5E6 /* FakeSMCPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */; };
 		6A9C468E14E657EE0083E5E6 /* FakeSMCPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */; };
-		6A9EF21B150AB2D700CFDB15 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9EF219150AB2D700CFDB15 /* InfoPlist.strings */; };
-		6A9EF21E150AB2D700CFDB15 /* SuperIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9EF21D150AB2D700CFDB15 /* SuperIO.cpp */; };
-		6A9EF225150AB31400CFDB15 /* SuperIOMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9EF223150AB31400CFDB15 /* SuperIOMonitor.cpp */; };
-		6A9EF226150AB31400CFDB15 /* SuperIOMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9EF224150AB31400CFDB15 /* SuperIOMonitor.h */; };
 		6AA172CB150B415200A77CF2 /* FakeSMCDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA172C4150B415200A77CF2 /* FakeSMCDevice.cpp */; };
 		6AA172CC150B415200A77CF2 /* FakeSMCDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA172C5150B415200A77CF2 /* FakeSMCDevice.h */; };
 		6AA172CD150B415200A77CF2 /* FakeSMCDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA172C6150B415200A77CF2 /* FakeSMCDefinitions.h */; };
@@ -97,14 +106,6 @@
 		6AAD810E151E083300CBD70C /* temperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAD810D151E083300CBD70C /* temperatures.png */; };
 		6AAD810F151E083300CBD70C /* temperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAD810D151E083300CBD70C /* temperatures.png */; };
 		6AB5B4EE14F2C47B0062D2D0 /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
-		6AB700F715190E9900E50AAD /* ITEIT87x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB700F515190E9800E50AAD /* ITEIT87x.cpp */; };
-		6AB700F815190E9900E50AAD /* ITEIT87x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB700F615190E9800E50AAD /* ITEIT87x.h */; };
-		6AB700FB15190EA100E50AAD /* WinbondW836x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB700F915190EA100E50AAD /* WinbondW836x.cpp */; };
-		6AB700FC15190EA100E50AAD /* WinbondW836x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB700FA15190EA100E50AAD /* WinbondW836x.h */; };
-		6AB700FF15190EAE00E50AAD /* FintekF718x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB700FD15190EAE00E50AAD /* FintekF718x.cpp */; };
-		6AB7010015190EAE00E50AAD /* FintekF718x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB700FE15190EAE00E50AAD /* FintekF718x.h */; };
-		6AB7010315190EB600E50AAD /* NuvotonNCT677x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AB7010115190EB600E50AAD /* NuvotonNCT677x.cpp */; };
-		6AB7010415190EB600E50AAD /* NuvotonNCT677x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AB7010215190EB600E50AAD /* NuvotonNCT677x.h */; };
 		6AE5FC2E151E1EC6005F9929 /* hddtemperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */; };
 		6AE5FC2F151E1EC6005F9929 /* hddtemperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */; };
 		6AE5FC32151E1F63005F9929 /* ssdlife.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC31151E1F62005F9929 /* ssdlife.png */; };
@@ -207,7 +208,23 @@
 		6A1DF9901502022500C34729 /* default.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = default.icns; path = Shared/default.icns; sourceTree = SOURCE_ROOT; };
 		6A1DF9911502022500C34729 /* thermobump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = thermobump.png; path = Shared/thermobump.png; sourceTree = SOURCE_ROOT; };
 		6A1DF9921502022500C34729 /* thermotemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = thermotemplate.png; path = Shared/thermotemplate.png; sourceTree = SOURCE_ROOT; };
+		6A2B4E32152179700093A217 /* FintekF718x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FintekF718x.cpp; sourceTree = "<group>"; };
+		6A2B4E33152179700093A217 /* FintekF718x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FintekF718x.h; sourceTree = "<group>"; };
+		6A2B4E34152179700093A217 /* ITEIT87x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ITEIT87x.cpp; sourceTree = "<group>"; };
+		6A2B4E35152179700093A217 /* ITEIT87x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITEIT87x.h; sourceTree = "<group>"; };
+		6A2B4E36152179700093A217 /* NuvotonNCT677x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NuvotonNCT677x.cpp; sourceTree = "<group>"; };
+		6A2B4E37152179700093A217 /* NuvotonNCT677x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NuvotonNCT677x.h; sourceTree = "<group>"; };
+		6A2B4E38152179700093A217 /* SuperIO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuperIO.cpp; sourceTree = "<group>"; };
+		6A2B4E39152179700093A217 /* SuperIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIO.h; sourceTree = "<group>"; };
+		6A2B4E3A152179700093A217 /* SuperIOMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuperIOMonitor.cpp; sourceTree = "<group>"; };
+		6A2B4E3B152179700093A217 /* SuperIOMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIOMonitor.h; sourceTree = "<group>"; };
+		6A2B4E3C152179700093A217 /* WinbondW836x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WinbondW836x.cpp; sourceTree = "<group>"; };
+		6A2B4E3D152179700093A217 /* WinbondW836x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinbondW836x.h; sourceTree = "<group>"; };
 		6A4702C11514CEE000606293 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A4E4739152178A00038C5DE /* SuperIOSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperIOSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A4E473C152178A00038C5DE /* SuperIOSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuperIOSensors-Info.plist"; sourceTree = "<group>"; };
+		6A4E473E152178A00038C5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6A4E4743152178A00038C5DE /* SuperIOSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SuperIOSensors-Prefix.pch"; sourceTree = "<group>"; };
 		6A5DCA5F151F8E2800209B36 /* disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disabled.png; sourceTree = "<group>"; };
 		6A62185214F17D640058C396 /* ATASmartReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATASmartReporter.h; sourceTree = "<group>"; };
 		6A62185314F17D640058C396 /* ATASmartReporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATASmartReporter.m; sourceTree = "<group>"; };
@@ -240,14 +257,6 @@
 		6A9955C214EFAEE50052C702 /* cpuid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpuid.h; sourceTree = "<group>"; };
 		6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMCPlugin.cpp; sourceTree = "<group>"; };
 		6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCPlugin.h; sourceTree = "<group>"; };
-		6A9EF215150AB2D700CFDB15 /* SuperIOFamily.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperIOFamily.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A9EF218150AB2D700CFDB15 /* SuperIOFamily-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuperIOFamily-Info.plist"; sourceTree = "<group>"; };
-		6A9EF21A150AB2D700CFDB15 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A9EF21C150AB2D700CFDB15 /* SuperIO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SuperIO.h; sourceTree = "<group>"; };
-		6A9EF21D150AB2D700CFDB15 /* SuperIO.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SuperIO.cpp; sourceTree = "<group>"; };
-		6A9EF21F150AB2D700CFDB15 /* SuperIOFamily-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SuperIOFamily-Prefix.pch"; sourceTree = "<group>"; };
-		6A9EF223150AB31400CFDB15 /* SuperIOMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuperIOMonitor.cpp; sourceTree = "<group>"; };
-		6A9EF224150AB31400CFDB15 /* SuperIOMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIOMonitor.h; sourceTree = "<group>"; };
 		6A9F7268150A23C600279E79 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 		6AA172C4150B415200A77CF2 /* FakeSMCDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMCDevice.cpp; sourceTree = "<group>"; };
 		6AA172C5150B415200A77CF2 /* FakeSMCDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCDevice.h; sourceTree = "<group>"; };
@@ -261,14 +270,6 @@
 		6AACE027151BB780002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Shared/pt-BR.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
 		6AACE029151BB789002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Shared/pt-BR.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
 		6AAD810D151E083300CBD70C /* temperatures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = temperatures.png; sourceTree = "<group>"; };
-		6AB700F515190E9800E50AAD /* ITEIT87x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ITEIT87x.cpp; sourceTree = "<group>"; };
-		6AB700F615190E9800E50AAD /* ITEIT87x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITEIT87x.h; sourceTree = "<group>"; };
-		6AB700F915190EA100E50AAD /* WinbondW836x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WinbondW836x.cpp; sourceTree = "<group>"; };
-		6AB700FA15190EA100E50AAD /* WinbondW836x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinbondW836x.h; sourceTree = "<group>"; };
-		6AB700FD15190EAE00E50AAD /* FintekF718x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FintekF718x.cpp; sourceTree = "<group>"; };
-		6AB700FE15190EAE00E50AAD /* FintekF718x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FintekF718x.h; sourceTree = "<group>"; };
-		6AB7010115190EB600E50AAD /* NuvotonNCT677x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NuvotonNCT677x.cpp; sourceTree = "<group>"; };
-		6AB7010215190EB600E50AAD /* NuvotonNCT677x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NuvotonNCT677x.h; sourceTree = "<group>"; };
 		6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hddtemperatures.png; sourceTree = "<group>"; };
 		6AE5FC31151E1F62005F9929 /* ssdlife.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ssdlife.png; sourceTree = "<group>"; };
 		6AE5FC34151E2232005F9929 /* multipliers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = multipliers.png; sourceTree = "<group>"; };
@@ -329,6 +330,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6A4E4734152178A00038C5DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6A85F85014DBEF5000F863A9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -336,13 +344,6 @@
 				6A85F85414DBEF5000F863A9 /* Cocoa.framework in Frameworks */,
 				6A85F86714DBF12900F863A9 /* SystemUIPlugin.framework in Frameworks */,
 				6A10C19B1506B2A4005E0897 /* IOKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6A9EF210150AB2D700CFDB15 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,7 +375,7 @@
 				1D6FE3EE13FEBFF200376E64 /* ACPISensors.kext */,
 				1D9F831E144FF24000EEEFEB /* HWMonitor.app */,
 				6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */,
-				6A9EF215150AB2D700CFDB15 /* SuperIOFamily.kext */,
+				6A4E4739152178A00038C5DE /* SuperIOSensors.kext */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -440,7 +441,7 @@
 			children = (
 				1D05AC2313ED100D00EADBF6 /* IntelThermal */,
 				1D6FE3EF13FEBFF200376E64 /* ACPISensors */,
-				6A9EF216150AB2D700CFDB15 /* SuperIOFamily */,
+				6A4E473A152178A00038C5DE /* SuperIOSensors */,
 				1DA9624113ED34070096F8A5 /* NVClockX */,
 				1DA962A613ED36030096F8A5 /* RadeonX */,
 				1D6FE3BC13FEBDA700376E64 /* GMAX3100 */,
@@ -618,6 +619,84 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		6A2B4E4A152179840093A217 /* Super I/O Nub */ = {
+			isa = PBXGroup;
+			children = (
+				6A2B4E39152179700093A217 /* SuperIO.h */,
+				6A2B4E38152179700093A217 /* SuperIO.cpp */,
+			);
+			name = "Super I/O Nub";
+			sourceTree = "<group>";
+		};
+		6A2B4E4B152179960093A217 /* ITE IT87xx Monitor */ = {
+			isa = PBXGroup;
+			children = (
+				6A2B4E35152179700093A217 /* ITEIT87x.h */,
+				6A2B4E34152179700093A217 /* ITEIT87x.cpp */,
+			);
+			name = "ITE IT87xx Monitor";
+			sourceTree = "<group>";
+		};
+		6A2B4E4C152179A80093A217 /* SuperIOMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				6A2B4E3B152179700093A217 /* SuperIOMonitor.h */,
+				6A2B4E3A152179700093A217 /* SuperIOMonitor.cpp */,
+			);
+			name = SuperIOMonitor;
+			sourceTree = "<group>";
+		};
+		6A2B4E4D152179C40093A217 /* Winbond W636xx Monitor */ = {
+			isa = PBXGroup;
+			children = (
+				6A2B4E3D152179700093A217 /* WinbondW836x.h */,
+				6A2B4E3C152179700093A217 /* WinbondW836x.cpp */,
+			);
+			name = "Winbond W636xx Monitor";
+			sourceTree = "<group>";
+		};
+		6A2B4E4E152179D40093A217 /* Fintek F718x Monitor */ = {
+			isa = PBXGroup;
+			children = (
+				6A2B4E33152179700093A217 /* FintekF718x.h */,
+				6A2B4E32152179700093A217 /* FintekF718x.cpp */,
+			);
+			name = "Fintek F718x Monitor";
+			sourceTree = "<group>";
+		};
+		6A2B4E4F152179E10093A217 /* Nuvoton NCT677x Monitor */ = {
+			isa = PBXGroup;
+			children = (
+				6A2B4E37152179700093A217 /* NuvotonNCT677x.h */,
+				6A2B4E36152179700093A217 /* NuvotonNCT677x.cpp */,
+			);
+			name = "Nuvoton NCT677x Monitor";
+			sourceTree = "<group>";
+		};
+		6A4E473A152178A00038C5DE /* SuperIOSensors */ = {
+			isa = PBXGroup;
+			children = (
+				6A2B4E4A152179840093A217 /* Super I/O Nub */,
+				6A2B4E4C152179A80093A217 /* SuperIOMonitor */,
+				6A2B4E4B152179960093A217 /* ITE IT87xx Monitor */,
+				6A2B4E4D152179C40093A217 /* Winbond W636xx Monitor */,
+				6A2B4E4E152179D40093A217 /* Fintek F718x Monitor */,
+				6A2B4E4F152179E10093A217 /* Nuvoton NCT677x Monitor */,
+				6A4E473B152178A00038C5DE /* Supporting Files */,
+			);
+			path = SuperIOSensors;
+			sourceTree = "<group>";
+		};
+		6A4E473B152178A00038C5DE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6A4E473C152178A00038C5DE /* SuperIOSensors-Info.plist */,
+				6A4E473D152178A00038C5DE /* InfoPlist.strings */,
+				6A4E4743152178A00038C5DE /* SuperIOSensors-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */ = {
 			isa = PBXGroup;
 			children = (
@@ -667,31 +746,6 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		6A9EF216150AB2D700CFDB15 /* SuperIOFamily */ = {
-			isa = PBXGroup;
-			children = (
-				6A9EF21C150AB2D700CFDB15 /* SuperIO.h */,
-				6A9EF21D150AB2D700CFDB15 /* SuperIO.cpp */,
-				6AB6BF26151C4A92000BBA7F /* SuperIOMonitor */,
-				6AA484F41519131400F1AD57 /* IT87xMonitor */,
-				6AA484F51519132100F1AD57 /* W836xMonitor */,
-				6AA484F61519132F00F1AD57 /* F718xMonitor */,
-				6AA484F71519133A00F1AD57 /* NCT677xMonitor */,
-				6A9EF217150AB2D700CFDB15 /* Supporting Files */,
-			);
-			path = SuperIOFamily;
-			sourceTree = "<group>";
-		};
-		6A9EF217150AB2D700CFDB15 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6A9EF218150AB2D700CFDB15 /* SuperIOFamily-Info.plist */,
-				6A9EF219150AB2D700CFDB15 /* InfoPlist.strings */,
-				6A9EF21F150AB2D700CFDB15 /* SuperIOFamily-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		6A9F7267150A23C600279E79 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -723,42 +777,6 @@
 			name = "NSString+TruncateToWidth";
 			sourceTree = "<group>";
 		};
-		6AA484F41519131400F1AD57 /* IT87xMonitor */ = {
-			isa = PBXGroup;
-			children = (
-				6AB700F615190E9800E50AAD /* ITEIT87x.h */,
-				6AB700F515190E9800E50AAD /* ITEIT87x.cpp */,
-			);
-			name = IT87xMonitor;
-			sourceTree = "<group>";
-		};
-		6AA484F51519132100F1AD57 /* W836xMonitor */ = {
-			isa = PBXGroup;
-			children = (
-				6AB700FA15190EA100E50AAD /* WinbondW836x.h */,
-				6AB700F915190EA100E50AAD /* WinbondW836x.cpp */,
-			);
-			name = W836xMonitor;
-			sourceTree = "<group>";
-		};
-		6AA484F61519132F00F1AD57 /* F718xMonitor */ = {
-			isa = PBXGroup;
-			children = (
-				6AB700FE15190EAE00E50AAD /* FintekF718x.h */,
-				6AB700FD15190EAE00E50AAD /* FintekF718x.cpp */,
-			);
-			name = F718xMonitor;
-			sourceTree = "<group>";
-		};
-		6AA484F71519133A00F1AD57 /* NCT677xMonitor */ = {
-			isa = PBXGroup;
-			children = (
-				6AB7010215190EB600E50AAD /* NuvotonNCT677x.h */,
-				6AB7010115190EB600E50AAD /* NuvotonNCT677x.cpp */,
-			);
-			name = NCT677xMonitor;
-			sourceTree = "<group>";
-		};
 		6AAF9FB6151DC8D1007EACE2 /* FakeSMCPlugin */ = {
 			isa = PBXGroup;
 			children = (
@@ -766,15 +784,6 @@
 				6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */,
 			);
 			name = FakeSMCPlugin;
-			sourceTree = "<group>";
-		};
-		6AB6BF26151C4A92000BBA7F /* SuperIOMonitor */ = {
-			isa = PBXGroup;
-			children = (
-				6A9EF224150AB31400CFDB15 /* SuperIOMonitor.h */,
-				6A9EF223150AB31400CFDB15 /* SuperIOMonitor.cpp */,
-			);
-			name = SuperIOMonitor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -843,15 +852,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A9EF211150AB2D700CFDB15 /* Headers */ = {
+		6A4E4735152178A00038C5DE /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A9EF226150AB31400CFDB15 /* SuperIOMonitor.h in Headers */,
-				6AB700F815190E9900E50AAD /* ITEIT87x.h in Headers */,
-				6AB700FC15190EA100E50AAD /* WinbondW836x.h in Headers */,
-				6AB7010015190EAE00E50AAD /* FintekF718x.h in Headers */,
-				6AB7010415190EB600E50AAD /* NuvotonNCT677x.h in Headers */,
+				6A2B4E3F152179700093A217 /* FintekF718x.h in Headers */,
+				6A2B4E41152179700093A217 /* ITEIT87x.h in Headers */,
+				6A2B4E43152179700093A217 /* NuvotonNCT677x.h in Headers */,
+				6A2B4E45152179700093A217 /* SuperIO.h in Headers */,
+				6A2B4E47152179700093A217 /* SuperIOMonitor.h in Headers */,
+				6A2B4E49152179700093A217 /* WinbondW836x.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -989,6 +999,25 @@
 			productReference = 1DA962A513ED36030096F8A5 /* RadeonX.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
+		6A4E4738152178A00038C5DE /* SuperIOSensors */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A4E4744152178A00038C5DE /* Build configuration list for PBXNativeTarget "SuperIOSensors" */;
+			buildPhases = (
+				6A4E4733152178A00038C5DE /* Sources */,
+				6A4E4734152178A00038C5DE /* Frameworks */,
+				6A4E4735152178A00038C5DE /* Headers */,
+				6A4E4736152178A00038C5DE /* Resources */,
+				6A4E4737152178A00038C5DE /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SuperIOSensors;
+			productName = SuperIOSensors;
+			productReference = 6A4E4739152178A00038C5DE /* SuperIOSensors.kext */;
+			productType = "com.apple.product-type.kernel-extension";
+		};
 		6A85F85214DBEF5000F863A9 /* HWMonitorExtra */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A85F86014DBEF5000F863A9 /* Build configuration list for PBXNativeTarget "HWMonitorExtra" */;
@@ -1005,25 +1034,6 @@
 			productName = HWMonitorExtra;
 			productReference = 6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */;
 			productType = "com.apple.product-type.bundle";
-		};
-		6A9EF214150AB2D700CFDB15 /* SuperIOFamily */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6A9EF220150AB2D700CFDB15 /* Build configuration list for PBXNativeTarget "SuperIOFamily" */;
-			buildPhases = (
-				6A9EF20F150AB2D700CFDB15 /* Sources */,
-				6A9EF210150AB2D700CFDB15 /* Frameworks */,
-				6A9EF211150AB2D700CFDB15 /* Headers */,
-				6A9EF212150AB2D700CFDB15 /* Resources */,
-				6A9EF213150AB2D700CFDB15 /* Rez */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SuperIOFamily;
-			productName = SuperIOFamily;
-			productReference = 6A9EF215150AB2D700CFDB15 /* SuperIOFamily.kext */;
-			productType = "com.apple.product-type.kernel-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -1056,7 +1066,7 @@
 				1DA9623F13ED34070096F8A5 /* NVClockX */,
 				1DA962A413ED36030096F8A5 /* RadeonX */,
 				1D6FE3BA13FEBDA700376E64 /* X3100 */,
-				6A9EF214150AB2D700CFDB15 /* SuperIOFamily */,
+				6A4E4738152178A00038C5DE /* SuperIOSensors */,
 				1D9F831D144FF24000EEEFEB /* HWMonitor */,
 				6A85F85214DBEF5000F863A9 /* HWMonitorExtra */,
 			);
@@ -1135,6 +1145,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6A4E4736152178A00038C5DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A4E473F152178A00038C5DE /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6A85F85114DBEF5000F863A9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1152,14 +1170,6 @@
 				6AE5FC3F151E269C005F9929 /* voltages.png in Resources */,
 				6AE5FC42151E298E005F9929 /* tachometers.png in Resources */,
 				6A5DCA61151F8E2800209B36 /* disabled.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6A9EF212150AB2D700CFDB15 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6A9EF21B150AB2D700CFDB15 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1208,7 +1218,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A9EF213150AB2D700CFDB15 /* Rez */ = {
+		6A4E4737152178A00038C5DE /* Rez */ = {
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1298,6 +1308,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6A4E4733152178A00038C5DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A2B4E3E152179700093A217 /* FintekF718x.cpp in Sources */,
+				6A2B4E40152179700093A217 /* ITEIT87x.cpp in Sources */,
+				6A2B4E42152179700093A217 /* NuvotonNCT677x.cpp in Sources */,
+				6A2B4E44152179700093A217 /* SuperIO.cpp in Sources */,
+				6A2B4E46152179700093A217 /* SuperIOMonitor.cpp in Sources */,
+				6A2B4E48152179700093A217 /* WinbondW836x.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6A85F84F14DBEF5000F863A9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1308,19 +1331,6 @@
 				6A85F86E14DBF37800F863A9 /* HWMonitorView.m in Sources */,
 				6A00BB5E14F8CCF000337DF8 /* HWMonitorEngine.m in Sources */,
 				6A00BB6014F8CCF000337DF8 /* HWMonitorSensor.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6A9EF20F150AB2D700CFDB15 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6A9EF21E150AB2D700CFDB15 /* SuperIO.cpp in Sources */,
-				6A9EF225150AB31400CFDB15 /* SuperIOMonitor.cpp in Sources */,
-				6AB700F715190E9900E50AAD /* ITEIT87x.cpp in Sources */,
-				6AB700FB15190EA100E50AAD /* WinbondW836x.cpp in Sources */,
-				6AB700FF15190EAE00E50AAD /* FintekF718x.cpp in Sources */,
-				6AB7010315190EB600E50AAD /* NuvotonNCT677x.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1396,6 +1406,14 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
+		6A4E473D152178A00038C5DE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6A4E473E152178A00038C5DE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		6A877FDD1519933D00D18B57 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1420,14 +1438,6 @@
 				6AACE029151BB789002A8364 /* pt-BR */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		6A9EF219150AB2D700CFDB15 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6A9EF21A150AB2D700CFDB15 /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1869,6 +1879,55 @@
 			};
 			name = Release;
 		};
+		6A4E4745152178A00038C5DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SuperIOSensors/SuperIOSensors-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "SuperIOSensors/SuperIOSensors-Info.plist";
+				MODULE_NAME = org.kozlek.SuperIOSensors;
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Debug;
+		};
+		6A4E4746152178A00038C5DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SuperIOSensors/SuperIOSensors-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "SuperIOSensors/SuperIOSensors-Info.plist";
+				MODULE_NAME = org.kozlek.SuperIOSensors;
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Release;
+		};
 		6A85F86114DBEF5000F863A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1916,65 +1975,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = menu;
-			};
-			name = Release;
-		};
-		6A9EF221150AB2D700CFDB15 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1.0.0d1;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SuperIOFamily/SuperIOFamily-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "SuperIOFamily/SuperIOFamily-Info.plist";
-				MODULE_NAME = org.kozlek.SuperIOFamily;
-				MODULE_VERSION = 1.0.0d1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = kext;
-			};
-			name = Debug;
-		};
-		6A9EF222150AB2D700CFDB15 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1.0.0d1;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SuperIOFamily/SuperIOFamily-Prefix.pch";
-				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "SuperIOFamily/SuperIOFamily-Info.plist";
-				MODULE_NAME = org.kozlek.SuperIOFamily;
-				MODULE_VERSION = 1.0.0d1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
 		};
@@ -2053,20 +2053,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		6A4E4744152178A00038C5DE /* Build configuration list for PBXNativeTarget "SuperIOSensors" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A4E4745152178A00038C5DE /* Debug */,
+				6A4E4746152178A00038C5DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6A85F86014DBEF5000F863A9 /* Build configuration list for PBXNativeTarget "HWMonitorExtra" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A85F86114DBEF5000F863A9 /* Debug */,
 				6A85F86214DBEF5000F863A9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		6A9EF220150AB2D700CFDB15 /* Build configuration list for PBXNativeTarget "SuperIOFamily" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6A9EF221150AB2D700CFDB15 /* Debug */,
-				6A9EF222150AB2D700CFDB15 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
