@@ -7,21 +7,15 @@
 //
 
 #import "SystemUIPlugin.h"
+#import "HWMonitorEngine.h"
 
 @interface HWMonitorView : NSMenuExtraView
 
 {
     NSMenuExtra *menu;
-    
     NSFont *font;
-    
-    NSImage *image;
-    NSImage *altImage;
-    NSArray *titles;
 }
 
-- (void)setTitles:(NSMutableArray*)newTitles;
-- (void)setImage:(NSImage*)newImage;
-- (void)setAlternateImage:(NSImage*)newAlternateImage;
+@property (readwrite, retain) HWMonitorEngine *monitor;
 
 @end
