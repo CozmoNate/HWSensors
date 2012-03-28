@@ -28,7 +28,8 @@
         
         [titleItem setEnabled:FALSE];
         
-        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:@" %@", GetLocalizedString(title)]];
+        //NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:@" %@", GetLocalizedString(title)]];
+        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
         
         [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
         [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
@@ -71,7 +72,10 @@
 {
     [monitor updateGenericSensorsValuesButOnlyFavorits:!allSensors && ![self isMenuDown]];
     
-    NSMutableArray * favorites = [[NSMutableArray alloc] init];
+    [view setNeedsDisplay:YES];
+    
+    if (!allSensors && ![self isMenuDown])
+        return;
     
     NSArray *sensors = [monitor sensors];
     
@@ -114,23 +118,14 @@
             
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor caption] attributes:captionColor]];
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t" attributes:captionColor]];
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor formatValue] attributes:valueColor]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor formattedValue] attributes:valueColor]];
             
             [title addAttributes:statusMenuAttributes range:NSMakeRange(0, [title length])];
             
             // Update menu item title
             [[sensor menuItem] setAttributedTitle:title];
         }
-        
-        if ([sensor favorite])
-            [favorites addObject:[[NSString alloc] initWithFormat:@"%S", [[sensor formatValue] cStringUsingEncoding:NSUTF16StringEncoding]]];
     }
-    
-    // Update status bar title
-    if ([favorites count] > 0)
-        [view setTitles:favorites];
-    else 
-        [view setTitles:nil];
 }
 
 - (void)updateTitlesForced
@@ -151,6 +146,8 @@
     [[self menu] removeAllItems];
     
     [monitor rebuildSensorsList];
+    
+    [view setMonitor:monitor];
     
     if ([[monitor sensors] count] > 0) {
         [self insertMenuGroupWithTitle:@"TEMPERATURES" Icon:temperaturesIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];

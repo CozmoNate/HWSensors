@@ -126,15 +126,15 @@ inline UInt8 get_index(char c)
     return 0;
 }
 
-- (NSString*)formatValue
+- (NSString*)formattedValue
 {
     if (value != NULL) {
         switch (group) {
             case kSMARTSensorGroupTemperature: {
                 UInt16 t = 0;
-                
-                bcopy([value bytes], &t, 2);
-                
+
+                [value getBytes:&t length:2];
+                               
                 if (level != kHWSensorLevelExceeded)
                     [self setLevel:t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
@@ -145,7 +145,7 @@ inline UInt8 get_index(char c)
             case kSMARTSensorGroupRemainingLife: {
                 UInt64 life = 0;
                 
-                bcopy([value bytes], &life, [value length]);
+                [value getBytes:&life length:[value length]];
                
                 //[self setExceeded:exceeded || (life >= 80)];
                 

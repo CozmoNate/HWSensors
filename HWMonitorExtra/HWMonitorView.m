@@ -10,22 +10,7 @@
 
 @implementation HWMonitorView
 
-- (void)setImage:(NSImage*)newImage
-{
-    image = newImage;
-}
-
-- (void)setAlternateImage:(NSImage*)newAlternateImage
-{
-    altImage = newAlternateImage;
-}
-
-- (void)setTitles:(NSMutableArray*)newTitles
-{
-    titles = [[NSArray alloc] initWithArray:newTitles];
-    
-    [self setNeedsDisplay:YES];
-}
+@synthesize monitor;
 
 - initWithFrame:(NSRect)rect menuExtra:m
 {
@@ -41,19 +26,19 @@
 }
 
 - (void)drawRect:(NSRect)rect
-{
-    NSImage * icon;
-    
+{   
     [super drawRect:rect]; // not sure about this...
     
     BOOL down = [menu isMenuDown];
     
-    if (down)
-        icon = altImage;
-    else
-        icon = image;
+    NSImage * icon = nil;
     
-    if (!titles && !icon)
+    if (down)
+        icon = _alternateImage;
+    else
+        icon = _image;
+    
+    if (!monitor && !icon)
         return;
         
     /*if (down)*/ [menu drawMenuBackground:YES];
@@ -64,27 +49,63 @@
     
     int size = (icon ? 11 + 3 : 1);
     
-    if (titles && [titles count] > 0) {
+    if (monitor && [[monitor sensors] count] > 0) {
         
         int lastWidth = 0;
         
-        for (int i = 0; i < [titles count]; i++) {
-            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:(NSString*)[titles objectAtIndex:i]];
+        NSEnumerator *enumerator = [[monitor sensors] objectEnumerator];
+        
+        HWMonitorSensor *sensor = nil;
+        NSMutableArray *favorites = [[NSMutableArray alloc] init];
+        
+        while (sensor = (HWMonitorSensor*)[enumerator nextObject]) 
+            if ([sensor favorite])
+                [favorites addObject:sensor];
+        
+        for (int i = 0; i < [favorites count]; i++) {
+            
+            sensor = (HWMonitorSensor*)[favorites objectAtIndex:i];
+            
+            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[sensor formattedValue]];
             
             [title addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [title length])];
-            [title addAttribute:NSForegroundColorAttributeName value:(down ? [NSColor whiteColor] : [NSColor blackColor]) range:NSMakeRange(0,[title length])];
+            
+            NSColor *valueColor;
+            
+            switch ([sensor level]) {
+                    /*case kHWSensorLevelDisabled:
+                     break;
+                     
+                     case kHWSensorLevelNormal:
+                     break;*/
+                    
+                case kHWSensorLevelModerate:
+                    valueColor = [NSColor orangeColor];
+                    break;
+                    
+                case kHWSensorLevelHigh:
+                case kHWSensorLevelExceeded:
+                    valueColor = [NSColor redColor];
+                    break;
+                    
+                default:
+                    valueColor = [NSColor blackColor];
+                    break;
+            }
+            
+            [title addAttribute:NSForegroundColorAttributeName value:(down ? [NSColor whiteColor] : valueColor) range:NSMakeRange(0,[title length])];
             
             int row = i % 2;
             
-            [title drawAtPoint:NSMakePoint(size, [titles count] == 1 ? 6 : row == 0 ? 10 : 1)];
+            [title drawAtPoint:NSMakePoint(size, [favorites count] == 1 ? 6 : row == 0 ? 10 : 1)];
             
-            int width = [title size].width + (i + 1 == [titles count] ? 1 : 4);
+            int width = [title size].width + ([favorites count] == i + 1 ? 1 : 4);
             
             if (row == 1) {
                 lastWidth = width > lastWidth ? width : lastWidth;
                 size = size + lastWidth;
             }
-            else if (i + 1 == [titles count]) {
+            else if (i + 1 == [favorites count]) {
                 size = size + width;
             }
             

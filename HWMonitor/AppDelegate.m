@@ -23,7 +23,8 @@
         
         [titleItem setEnabled:FALSE];
         
-        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:@" %@", GetLocalizedString(title)]];
+        //NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:@" %@", GetLocalizedString(title)]];
+        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
         
         [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
         [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
@@ -78,7 +79,7 @@
         NSDictionary *captionColor;
         NSDictionary *valueColor;
         
-        NSString * value = [sensor formatValue];
+        NSString * value = [sensor formattedValue];
         
         switch ([sensor level]) {
                 /*case kHWSensorLevelDisabled:
@@ -123,7 +124,7 @@
         }
         
         if ([sensor favorite]) {
-            NSString * value =[[NSString alloc] initWithString:[sensor formatValue]];
+            NSString * value =[[NSString alloc] initWithString:[sensor formattedValue]];
             
             [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
             
@@ -181,7 +182,7 @@
     [statusItem setImage:[NSImage imageNamed:@"thermobump"]];
     [statusItem setAlternateImage:[NSImage imageNamed:@"thermotemplate"]];
     
-    statusItemFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
+    statusItemFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
 
     NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
     [style setLineSpacing:0];

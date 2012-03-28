@@ -45,6 +45,6 @@
 + (HWMonitorSensor*)sensor;
 
 - (float)decodeValue;
-- (NSString*)formatValue;
+- (NSString*)formattedValue;
 
 @end
