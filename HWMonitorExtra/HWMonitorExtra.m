@@ -35,8 +35,9 @@
         [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
         
         [titleItem setAttributedTitle:attributedTitle];
-        [titleItem setOnStateImage:image];
-        [titleItem setState:YES];
+        [titleItem setImage:image];
+        //[titleItem setOnStateImage:image];
+        //[titleItem setState:YES];
         
         [menu addItem:titleItem];
         
