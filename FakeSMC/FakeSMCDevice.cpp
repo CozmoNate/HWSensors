@@ -332,7 +332,7 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	interrupt_handler=0;
 	
 	keys = OSArray::withCapacity(0);
-    values = OSDictionary::withCapacity(0);
+    exposedValues = OSDictionary::withCapacity(0);
 	
 	sharpKEY = FakeSMCKey::withValue("#KEY", "ui8", 4, "\1");
 	keys->setObject(sharpKEY);
@@ -409,9 +409,9 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
                 info->setObject(OSString::withCString(key->getType()));
                 info->setObject(OSData::withBytes(key->getValue(), key->getSize()));
                 
-                values->setObject(key->getName(), info);
+                exposedValues->setObject(key->getName(), info);
                 
-                this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(values));
+                this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(exposedValues));
                 
                 return kIOReturnSuccess;
             }
@@ -426,10 +426,10 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
                         info->setObject(OSString::withCString(key->getType()));
                         info->setObject(OSData::withBytes(key->getValue(), key->getSize()));
                         
-                        values->setObject(key->getName(), info);
+                        exposedValues->setObject(key->getName(), info);
                     }
                 
-                this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(values));
+                this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(exposedValues));
                 
                 iterator->release();
                 

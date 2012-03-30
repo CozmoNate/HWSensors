@@ -166,7 +166,7 @@ inline UInt8 get_index(char c)
             }
                 
             case kHWSensorGroupVoltage:
-                return [[NSString alloc] initWithFormat:@"%1.2fV", [self decodeValue]];
+                return [[NSString alloc] initWithFormat:@"%1.3fV", [self decodeValue]];
                 
             case kHWSensorGroupTachometer: {
                 
