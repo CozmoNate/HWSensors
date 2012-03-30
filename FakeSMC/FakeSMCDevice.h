@@ -53,8 +53,9 @@ private:
 	struct ApleSMCStatus	*status;
 	
 	OSArray				*keys;
-    OSDictionary        *values;
 	FakeSMCKey			*sharpKEY;
+    
+    OSDictionary        *exposedValues;
 	
 	bool				debug;
 	

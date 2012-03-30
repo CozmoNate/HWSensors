@@ -38,7 +38,7 @@
 	<string>4E2002</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>Fintek F718x Monitoring Plugin</key>
+		<key>Fintek F718x Monitor</key>
 		<dict>
 			<key>IOClass</key>
 			<string>F718xMonitor</string>
@@ -99,7 +99,7 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>ITE IT87x Monitoring Plugin</key>
+		<key>ITE IT87x Monitor</key>
 		<dict>
 			<key>IOClass</key>
 			<string>IT87xMonitor</string>
@@ -198,7 +198,7 @@
 					<key>VIN5</key>
 					<dict>
 						<key>gain</key>
-						<integer>2966</integer>
+						<integer>2964</integer>
 						<key>name</key>
 						<string>Main 12V</string>
 						<key>offset</key>
@@ -238,7 +238,7 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>Nuvoton NCT677x Monitoring Plugin</key>
+		<key>Nuvoton NCT677x Monitor</key>
 		<dict>
 			<key>IOClass</key>
 			<string>NCT677xMonitor</string>
@@ -319,7 +319,7 @@
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
 		</dict>
-		<key>Winbond W836x Monitoring Plugin</key>
+		<key>Winbond W836x Monitor</key>
 		<dict>
 			<key>IOClass</key>
 			<string>W836xMonitor</string>
