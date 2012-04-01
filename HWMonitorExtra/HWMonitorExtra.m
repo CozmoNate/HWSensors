@@ -18,6 +18,11 @@
 #define GetLocalizedString(key) \
 [[self bundle] localizedStringForKey:(key) value:@"" table:nil]
 
+- (NSMenu *)menu
+{
+    return menu;
+}
+
 - (void)insertMenuGroupWithTitle:(NSString*)title Icon:(NSImage*)image Sensors:(NSArray*)list;
 {
     if (list && [list count] > 0) {
@@ -47,7 +52,7 @@
             [sensor setFavorite:[[NSUserDefaults standardUserDefaults] boolForKey:[sensor key]]];
             
             if ([sensor disk])
-                [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:130.0f withFont:statusBarFont]];
+                [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:statusMenuFont]];
             
             NSMenuItem * sensorItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString((NSString*)[sensor caption]) action:@selector(menuItemClicked:) keyEquivalent:@""];
             
@@ -213,8 +218,6 @@
     [view setAlternateImage:[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"thermotemplate" ofType:@"png"]]];
     [view setFrameSize:NSMakeSize(80, [view frame].size.height)];
     
-    statusBarFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
-    
     menu = [[NSMenu alloc] init];
     
     [menu setAutoenablesItems: NO];
@@ -223,7 +226,8 @@
     NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
     [style setLineSpacing:0];
     
-    statusMenuFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
+    //statusMenuFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
+    statusMenuFont = [NSFont boldSystemFontOfSize:10.0];
     [menu setFont:statusMenuFont];
     
     style = [[NSMutableParagraphStyle alloc] init];
@@ -268,11 +272,6 @@
     [self performSelector:@selector(rebuildSensors) withObject:nil afterDelay:0.5];
     
     return self;
-}
-
-- (NSMenu *)menu
-{
-    return menu;
 }
 
 @end

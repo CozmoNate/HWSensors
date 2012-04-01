@@ -42,7 +42,7 @@
             [sensor setFavorite:[[NSUserDefaults standardUserDefaults] boolForKey:[sensor key]]];
             
             if ([sensor disk])
-                [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:130.0f withFont:statusItemFont]];
+                [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:statusMenuFont]];
             
             NSMenuItem *sensorItem = [[NSMenuItem alloc] initWithTitle:[sensor caption] action:@selector(menuItemClicked:) keyEquivalent:@""];
             
@@ -141,6 +141,9 @@
     
     [title addAttributes:statusItemAttributes range:NSMakeRange(0, [title length])];
     
+    if (!isMenuVisible) 
+        [title addAttribute:NSShadowAttributeName value:statusItemShadow range:NSMakeRange(0,[title length])];
+         
     [statusItem setAttributedTitle:title];
 }
 
@@ -183,7 +186,8 @@
     [statusItem setImage:[NSImage imageNamed:@"thermobump"]];
     [statusItem setAlternateImage:[NSImage imageNamed:@"thermotemplate"]];
     
-    statusItemFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
+    //statusItemFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
+    statusItemFont = [NSFont boldSystemFontOfSize:9.0];
 
     NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
     [style setLineSpacing:0];
@@ -195,7 +199,14 @@
     
     statusItemAttributes = [NSDictionary dictionaryWithDictionary:dictionary];
     
-    statusMenuFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
+    statusItemShadow = [[NSShadow alloc] init];
+    
+    [statusItemShadow setShadowColor:[NSColor colorWithSRGBRed:1 green:1 blue:1 alpha:0.6]];
+    [statusItemShadow setShadowOffset:CGSizeMake(0, -1.0)];
+    [statusItemShadow setShadowBlurRadius:0.5];
+    
+    //statusMenuFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
+    statusMenuFont = [NSFont boldSystemFontOfSize:10.0f];
     [statusMenu setFont:statusMenuFont];
     
     style = [[NSMutableParagraphStyle alloc] init];
