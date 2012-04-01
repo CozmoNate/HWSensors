@@ -26,7 +26,7 @@
     
     [shadow setShadowColor:[NSColor colorWithSRGBRed:1 green:1 blue:1 alpha:0.6]];
     [shadow setShadowOffset:CGSizeMake(0, -1.0)];
-    [shadow setShadowBlurRadius:0.5];
+    [shadow setShadowBlurRadius:1.0];
     
     return self;
 }

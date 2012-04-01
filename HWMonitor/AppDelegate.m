@@ -203,7 +203,7 @@
     
     [statusItemShadow setShadowColor:[NSColor colorWithSRGBRed:1 green:1 blue:1 alpha:0.6]];
     [statusItemShadow setShadowOffset:CGSizeMake(0, -1.0)];
-    [statusItemShadow setShadowBlurRadius:0.5];
+    [statusItemShadow setShadowBlurRadius:1.0];
     
     //statusMenuFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
     statusMenuFont = [NSFont boldSystemFontOfSize:10.0f];
