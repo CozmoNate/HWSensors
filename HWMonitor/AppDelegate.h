@@ -15,6 +15,7 @@
     NSStatusItem *statusItem;
     NSFont *statusItemFont;
     NSDictionary *statusItemAttributes;
+    NSShadow *statusItemShadow;
     
     IBOutlet NSMenu *statusMenu;
     NSFont *statusMenuFont;

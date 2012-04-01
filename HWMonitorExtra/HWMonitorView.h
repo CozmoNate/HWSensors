@@ -14,6 +14,7 @@
 {
     NSMenuExtra *menu;
     NSFont *font;
+    NSShadow *shadow;
 }
 
 @property (readwrite, retain) HWMonitorEngine *monitor;

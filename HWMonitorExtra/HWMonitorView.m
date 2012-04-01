@@ -20,7 +20,13 @@
         return nil;
     
     menu = m;
-    font = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
+    //font = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
+    font = [NSFont boldSystemFontOfSize:9.0f];
+    shadow = [[NSShadow alloc] init];
+    
+    [shadow setShadowColor:[NSColor colorWithSRGBRed:1 green:1 blue:1 alpha:0.6]];
+    [shadow setShadowOffset:CGSizeMake(0, -1.0)];
+    [shadow setShadowBlurRadius:0.5];
     
     return self;
 }
@@ -94,6 +100,9 @@
             }
             
             [title addAttribute:NSForegroundColorAttributeName value:(down ? [NSColor whiteColor] : valueColor) range:NSMakeRange(0,[title length])];
+            
+            if (!down) 
+                [title addAttribute:NSShadowAttributeName value:shadow range:NSMakeRange(0,[title length])];
             
             int row = i % 2;
             
