@@ -18,6 +18,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>2.0.0</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2012 kozlek. All rights reserved.</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Intel Thermal Monitor Plugin</key>

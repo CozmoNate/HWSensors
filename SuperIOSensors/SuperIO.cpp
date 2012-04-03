@@ -2,6 +2,15 @@
 
 #include <IOKit/IOLib.h>
 
+#include "OemInfo.h"
+
+#define Debug FALSE
+
+#define LogPrefix "SuperIO: "
+#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
+#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
+#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
+
 #define super IOService
 OSDefineMetaClassAndStructors(SuperIO, IOService)
 
@@ -210,7 +219,7 @@ bool SuperIO::start(IOService *provider)
         if (model == 0) 
             return false;
         
-        IOLog("%s: found %s %s on port=0x%x address=0x%x\n", getName(), vendor, superio_get_model_name(model), port, address);
+        InfoLog("found %s %s on port=0x%x address=0x%x", vendor, superio_get_model_name(model), port, address);
         
         char string[128];
         
@@ -226,6 +235,9 @@ bool SuperIO::start(IOService *provider)
         
         setProperty(kSuperIOModelName, superio_get_model_name(model));
         setProperty(kSuperIOVendorName, vendor);
+        
+        if (!setOemProperties(this))
+            WarningLog("can't read OEM data");
         
         registerService();
         

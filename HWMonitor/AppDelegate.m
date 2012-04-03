@@ -186,8 +186,9 @@
     [statusItem setImage:[NSImage imageNamed:@"thermobump"]];
     [statusItem setAlternateImage:[NSImage imageNamed:@"thermotemplate"]];
     
-    //statusItemFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
-    statusItemFont = [NSFont boldSystemFontOfSize:9.0];
+    statusItemFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
+    //statusItemFont = [NSFont boldSystemFontOfSize:9.0];
+    //statusItemFont = [NSFont menuBarFontOfSize:9.0];
 
     NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
     [style setLineSpacing:0];
@@ -207,6 +208,8 @@
     
     //statusMenuFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
     statusMenuFont = [NSFont boldSystemFontOfSize:10.0f];
+    //statusMenuFont = [NSFont menuFontOfSize:10.0f];
+    
     [statusMenu setFont:statusMenuFont];
     
     style = [[NSMutableParagraphStyle alloc] init];
