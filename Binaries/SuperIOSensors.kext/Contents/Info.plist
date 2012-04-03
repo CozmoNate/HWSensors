@@ -286,17 +286,6 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>OEM Information Provider</key>
-		<dict>
-			<key>IOClass</key>
-			<string>OemInfo</string>
-			<key>IOMatchCategory</key>
-			<string>OemInfo</string>
-			<key>IONameMatch</key>
-			<string>bios</string>
-			<key>IOProviderClass</key>
-			<string>IOPlatformDevice</string>
-		</dict>
 		<key>Super I/O Nub</key>
 		<dict>
 			<key>IOClass</key>
