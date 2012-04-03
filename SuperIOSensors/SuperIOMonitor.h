@@ -12,6 +12,7 @@
 
 #include <IOKit/IOLib.h>
 #include <IOKit/IOService.h>
+#include <IOKit/IOTimerEventSource.h>
 
 #include "FakeSMCPlugin.h"
 
@@ -22,7 +23,11 @@
 class SuperIOMonitor : public FakeSMCPlugin {
 	OSDeclareAbstractStructors(SuperIOMonitor)
 	
+private:
+
+    
 protected:
+    
 	UInt16					address;
 	UInt8					port;
 	UInt32					model;

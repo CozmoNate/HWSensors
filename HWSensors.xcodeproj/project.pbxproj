@@ -100,6 +100,9 @@
 		6AA172D1150B415200A77CF2 /* FakeSMCKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA172CA150B415200A77CF2 /* FakeSMCKey.h */; };
 		6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */; };
 		6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA2D0D3150B4B99004757C5 /* FakeSMC.h */; };
+		6AA710BA152B7D180006E62C /* OemInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA710B7152B7D180006E62C /* OemInfo.cpp */; };
+		6AA710BB152B7D180006E62C /* OemInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA710B8152B7D180006E62C /* OemInfo.h */; };
+		6AA710BC152B7D180006E62C /* SMBIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA710B9152B7D180006E62C /* SMBIOS.h */; };
 		6AAA1683151DB838002927F3 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAA1682151DB838002927F3 /* favorite.png */; };
 		6AAA1684151DB838002927F3 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAA1682151DB838002927F3 /* favorite.png */; };
 		6AACE02A151BB789002A8364 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A877FE81519937400D18B57 /* Localizable.strings */; };
@@ -265,6 +268,9 @@
 		6AA172CA150B415200A77CF2 /* FakeSMCKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCKey.h; sourceTree = "<group>"; };
 		6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMC.cpp; sourceTree = "<group>"; };
 		6AA2D0D3150B4B99004757C5 /* FakeSMC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMC.h; sourceTree = "<group>"; };
+		6AA710B7152B7D180006E62C /* OemInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OemInfo.cpp; sourceTree = "<group>"; };
+		6AA710B8152B7D180006E62C /* OemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OemInfo.h; sourceTree = "<group>"; };
+		6AA710B9152B7D180006E62C /* SMBIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBIOS.h; sourceTree = "<group>"; };
 		6AAA1682151DB838002927F3 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
 		6AACE026151BB728002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6AACE027151BB780002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Shared/pt-BR.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
@@ -622,6 +628,9 @@
 		6A2B4E4A152179840093A217 /* Super I/O Nub */ = {
 			isa = PBXGroup;
 			children = (
+				6AA710B9152B7D180006E62C /* SMBIOS.h */,
+				6AA710B8152B7D180006E62C /* OemInfo.h */,
+				6AA710B7152B7D180006E62C /* OemInfo.cpp */,
 				6A2B4E39152179700093A217 /* SuperIO.h */,
 				6A2B4E38152179700093A217 /* SuperIO.cpp */,
 			);
@@ -676,6 +685,7 @@
 		6A4E473A152178A00038C5DE /* SuperIOSensors */ = {
 			isa = PBXGroup;
 			children = (
+				6AA710B5152B7CFF0006E62C /* OemInfo */,
 				6A2B4E4A152179840093A217 /* Super I/O Nub */,
 				6A2B4E4C152179A80093A217 /* SuperIOMonitor */,
 				6A2B4E4B152179960093A217 /* ITE IT87xx Monitor */,
@@ -777,6 +787,13 @@
 			name = "NSString+TruncateToWidth";
 			sourceTree = "<group>";
 		};
+		6AA710B5152B7CFF0006E62C /* OemInfo */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = OemInfo;
+			sourceTree = "<group>";
+		};
 		6AAF9FB6151DC8D1007EACE2 /* FakeSMCPlugin */ = {
 			isa = PBXGroup;
 			children = (
@@ -856,12 +873,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A2B4E3F152179700093A217 /* FintekF718x.h in Headers */,
-				6A2B4E41152179700093A217 /* ITEIT87x.h in Headers */,
-				6A2B4E43152179700093A217 /* NuvotonNCT677x.h in Headers */,
+				6AA710BC152B7D180006E62C /* SMBIOS.h in Headers */,
+				6AA710BB152B7D180006E62C /* OemInfo.h in Headers */,
 				6A2B4E45152179700093A217 /* SuperIO.h in Headers */,
 				6A2B4E47152179700093A217 /* SuperIOMonitor.h in Headers */,
+				6A2B4E41152179700093A217 /* ITEIT87x.h in Headers */,
 				6A2B4E49152179700093A217 /* WinbondW836x.h in Headers */,
+				6A2B4E3F152179700093A217 /* FintekF718x.h in Headers */,
+				6A2B4E43152179700093A217 /* NuvotonNCT677x.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1312,12 +1331,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A2B4E3E152179700093A217 /* FintekF718x.cpp in Sources */,
-				6A2B4E40152179700093A217 /* ITEIT87x.cpp in Sources */,
-				6A2B4E42152179700093A217 /* NuvotonNCT677x.cpp in Sources */,
+				6AA710BA152B7D180006E62C /* OemInfo.cpp in Sources */,
 				6A2B4E44152179700093A217 /* SuperIO.cpp in Sources */,
 				6A2B4E46152179700093A217 /* SuperIOMonitor.cpp in Sources */,
+				6A2B4E40152179700093A217 /* ITEIT87x.cpp in Sources */,
 				6A2B4E48152179700093A217 /* WinbondW836x.cpp in Sources */,
+				6A2B4E3E152179700093A217 /* FintekF718x.cpp in Sources */,
+				6A2B4E42152179700093A217 /* NuvotonNCT677x.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

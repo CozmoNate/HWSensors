@@ -4724,42 +4724,6 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>IntelThermal plugin provides information about CPU core temperatures. Only for Intel CPUs</string>
-											</dict>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>Russian</string>
-												<key>VALUE</key>
-												<string>IntelThermal получает значения температур ядер для процессоров от Intel</string>
-											</dict>
-										</array>
-										<key>OPTIONS</key>
-										<dict>
-											<key>HIDDEN</key>
-											<false/>
-											<key>STATE</key>
-											<integer>1</integer>
-										</dict>
-										<key>PACKAGE_UUID</key>
-										<string>2FBCA419-78DF-4E69-ACF6-9096711B3F29</string>
-										<key>REQUIREMENTS</key>
-										<array/>
-										<key>TITLE</key>
-										<array/>
-										<key>TOOLTIP</key>
-										<array/>
-										<key>TYPE</key>
-										<integer>0</integer>
-										<key>UUID</key>
-										<string>E3E16132-EE62-44C2-9FA6-E825BAF01A77</string>
-									</dict>
-									<dict>
-										<key>DESCRIPTION</key>
-										<array>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>English</string>
-												<key>VALUE</key>
 												<string>ACPISensors plugin requires extensive DSDT editing and understanding in ACPI programming</string>
 											</dict>
 											<dict>
@@ -4788,6 +4752,42 @@
 										<integer>0</integer>
 										<key>UUID</key>
 										<string>20249259-4661-46CC-86C4-5F295DAD5F10</string>
+									</dict>
+									<dict>
+										<key>DESCRIPTION</key>
+										<array>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>English</string>
+												<key>VALUE</key>
+												<string>IntelThermal plugin provides information about CPU core temperatures. Only for Intel CPUs</string>
+											</dict>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>Russian</string>
+												<key>VALUE</key>
+												<string>IntelThermal получает значения температур ядер для процессоров от Intel</string>
+											</dict>
+										</array>
+										<key>OPTIONS</key>
+										<dict>
+											<key>HIDDEN</key>
+											<false/>
+											<key>STATE</key>
+											<integer>1</integer>
+										</dict>
+										<key>PACKAGE_UUID</key>
+										<string>2FBCA419-78DF-4E69-ACF6-9096711B3F29</string>
+										<key>REQUIREMENTS</key>
+										<array/>
+										<key>TITLE</key>
+										<array/>
+										<key>TOOLTIP</key>
+										<array/>
+										<key>TYPE</key>
+										<integer>0</integer>
+										<key>UUID</key>
+										<string>E3E16132-EE62-44C2-9FA6-E825BAF01A77</string>
 									</dict>
 									<dict>
 										<key>DESCRIPTION</key>
@@ -4825,6 +4825,149 @@
 										<key>UUID</key>
 										<string>0465E3A4-AEB1-4D4B-A1FE-443DEA14021B</string>
 									</dict>
+									<dict>
+										<key>CHILDREN</key>
+										<array>
+											<dict>
+												<key>DESCRIPTION</key>
+												<array>
+													<dict>
+														<key>LANGUAGE</key>
+														<string>English</string>
+														<key>VALUE</key>
+														<string>NVClockX plugin is the NVClock port from Linux. Supports wide range of nVidia videocards. Reported instability on some hardware configurations.</string>
+													</dict>
+													<dict>
+														<key>LANGUAGE</key>
+														<string>Russian</string>
+														<key>VALUE</key>
+														<string>Плугин NVClockX - порт NVClock с Linux. Поддерживает множество видеокарт от nVidia</string>
+													</dict>
+												</array>
+												<key>OPTIONS</key>
+												<dict>
+													<key>HIDDEN</key>
+													<false/>
+													<key>STATE</key>
+													<integer>2</integer>
+												</dict>
+												<key>PACKAGE_UUID</key>
+												<string>5AEEBB9E-888A-42D6-8425-FB224F154D2F</string>
+												<key>REQUIREMENTS</key>
+												<array/>
+												<key>TITLE</key>
+												<array/>
+												<key>TOOLTIP</key>
+												<array/>
+												<key>TYPE</key>
+												<integer>0</integer>
+												<key>UUID</key>
+												<string>EABD0D28-3A07-4038-BB1A-5114B5D4692B</string>
+											</dict>
+											<dict>
+												<key>DESCRIPTION</key>
+												<array>
+													<dict>
+														<key>LANGUAGE</key>
+														<string>English</string>
+														<key>VALUE</key>
+														<string>RadeonX plugin by provides sensors monitoring for AMD Radeon GPUs</string>
+													</dict>
+													<dict>
+														<key>LANGUAGE</key>
+														<string>Russian</string>
+														<key>VALUE</key>
+														<string>Плугин RadeonX позволяет снимать показания сенсоров видеокарт AMD Radeon</string>
+													</dict>
+												</array>
+												<key>OPTIONS</key>
+												<dict>
+													<key>HIDDEN</key>
+													<false/>
+													<key>STATE</key>
+													<integer>2</integer>
+												</dict>
+												<key>PACKAGE_UUID</key>
+												<string>35150F5C-CAEC-459E-9933-73AE772F52C0</string>
+												<key>REQUIREMENTS</key>
+												<array/>
+												<key>TITLE</key>
+												<array/>
+												<key>TOOLTIP</key>
+												<array/>
+												<key>TYPE</key>
+												<integer>0</integer>
+												<key>UUID</key>
+												<string>961EA3D7-B5AB-432A-AE4B-FB6EB7E0AD29</string>
+											</dict>
+											<dict>
+												<key>DESCRIPTION</key>
+												<array>
+													<dict>
+														<key>LANGUAGE</key>
+														<string>English</string>
+														<key>VALUE</key>
+														<string>Intel X3100 GPU sensors monitoring plugin by slice</string>
+													</dict>
+													<dict>
+														<key>LANGUAGE</key>
+														<string>Russian</string>
+														<key>VALUE</key>
+														<string>Плугин для чтения показаний сенсоров видеокарт Intel X3100</string>
+													</dict>
+												</array>
+												<key>OPTIONS</key>
+												<dict>
+													<key>HIDDEN</key>
+													<false/>
+													<key>STATE</key>
+													<integer>2</integer>
+												</dict>
+												<key>PACKAGE_UUID</key>
+												<string>9CEF9178-2406-422D-B640-96566403263C</string>
+												<key>REQUIREMENTS</key>
+												<array/>
+												<key>TITLE</key>
+												<array/>
+												<key>TOOLTIP</key>
+												<array/>
+												<key>TYPE</key>
+												<integer>0</integer>
+												<key>UUID</key>
+												<string>1E3D6F46-778A-42C6-998B-941C7328124D</string>
+											</dict>
+										</array>
+										<key>DESCRIPTION</key>
+										<array/>
+										<key>OPTIONS</key>
+										<dict>
+											<key>HIDDEN</key>
+											<false/>
+											<key>HIDE_CHILDREN</key>
+											<false/>
+											<key>STATE</key>
+											<integer>4</integer>
+										</dict>
+										<key>TITLE</key>
+										<array>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>English</string>
+												<key>VALUE</key>
+												<string>Graphics Card Plug-Ins</string>
+											</dict>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>Russian</string>
+												<key>VALUE</key>
+												<string>Расширения для видеокарт</string>
+											</dict>
+										</array>
+										<key>TYPE</key>
+										<integer>1</integer>
+										<key>UUID</key>
+										<string>36A2415C-18E9-403F-AF6D-CBF84823306A</string>
+									</dict>
 								</array>
 								<key>DESCRIPTION</key>
 								<array/>
@@ -4843,162 +4986,19 @@
 										<key>LANGUAGE</key>
 										<string>English</string>
 										<key>VALUE</key>
-										<string>Misc Plug-Ins</string>
+										<string>FakeSMC Plugins</string>
 									</dict>
 									<dict>
 										<key>LANGUAGE</key>
 										<string>Russian</string>
 										<key>VALUE</key>
-										<string>Плагины</string>
+										<string>Расширения FakeSMC</string>
 									</dict>
 								</array>
 								<key>TYPE</key>
 								<integer>1</integer>
 								<key>UUID</key>
-								<string>CD83AE6E-804E-4402-BF91-230F77A16A43</string>
-							</dict>
-							<dict>
-								<key>CHILDREN</key>
-								<array>
-									<dict>
-										<key>DESCRIPTION</key>
-										<array>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>English</string>
-												<key>VALUE</key>
-												<string>NVClockX plugin by usr-sse2 is the NVClock port from Linux by alphamerik. Supports wide range of nVidia videocards up to GTX4xx Fermi family. Reported instability on some hardware configurations.</string>
-											</dict>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>Russian</string>
-												<key>VALUE</key>
-												<string>Плугин NVClockX от гык-sse2. Порт NVClock с Linux от alphamerik. Поддерживает множество видеокарт от nVidia, включая серию GTX 400 (Fermi)</string>
-											</dict>
-										</array>
-										<key>OPTIONS</key>
-										<dict>
-											<key>HIDDEN</key>
-											<false/>
-											<key>STATE</key>
-											<integer>2</integer>
-										</dict>
-										<key>PACKAGE_UUID</key>
-										<string>5AEEBB9E-888A-42D6-8425-FB224F154D2F</string>
-										<key>REQUIREMENTS</key>
-										<array/>
-										<key>TITLE</key>
-										<array/>
-										<key>TOOLTIP</key>
-										<array/>
-										<key>TYPE</key>
-										<integer>0</integer>
-										<key>UUID</key>
-										<string>EABD0D28-3A07-4038-BB1A-5114B5D4692B</string>
-									</dict>
-									<dict>
-										<key>DESCRIPTION</key>
-										<array>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>English</string>
-												<key>VALUE</key>
-												<string>RadeonX plugin by slice provides sensors monitoring for AMD Radeon GPUs</string>
-											</dict>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>Russian</string>
-												<key>VALUE</key>
-												<string>Плугин RadeonX от slice позволяет снимать показания сенсоров видеокарт AMD Radeon</string>
-											</dict>
-										</array>
-										<key>OPTIONS</key>
-										<dict>
-											<key>HIDDEN</key>
-											<false/>
-											<key>STATE</key>
-											<integer>2</integer>
-										</dict>
-										<key>PACKAGE_UUID</key>
-										<string>35150F5C-CAEC-459E-9933-73AE772F52C0</string>
-										<key>REQUIREMENTS</key>
-										<array/>
-										<key>TITLE</key>
-										<array/>
-										<key>TOOLTIP</key>
-										<array/>
-										<key>TYPE</key>
-										<integer>0</integer>
-										<key>UUID</key>
-										<string>961EA3D7-B5AB-432A-AE4B-FB6EB7E0AD29</string>
-									</dict>
-									<dict>
-										<key>DESCRIPTION</key>
-										<array>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>English</string>
-												<key>VALUE</key>
-												<string>Intel X3100 GPU sensors monitoring plugin by slice</string>
-											</dict>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>Russian</string>
-												<key>VALUE</key>
-												<string>Плугин от slice для чтения показаний сенсоров видеокарт Intel X3100</string>
-											</dict>
-										</array>
-										<key>OPTIONS</key>
-										<dict>
-											<key>HIDDEN</key>
-											<false/>
-											<key>STATE</key>
-											<integer>2</integer>
-										</dict>
-										<key>PACKAGE_UUID</key>
-										<string>9CEF9178-2406-422D-B640-96566403263C</string>
-										<key>REQUIREMENTS</key>
-										<array/>
-										<key>TITLE</key>
-										<array/>
-										<key>TOOLTIP</key>
-										<array/>
-										<key>TYPE</key>
-										<integer>0</integer>
-										<key>UUID</key>
-										<string>1E3D6F46-778A-42C6-998B-941C7328124D</string>
-									</dict>
-								</array>
-								<key>DESCRIPTION</key>
-								<array/>
-								<key>OPTIONS</key>
-								<dict>
-									<key>HIDDEN</key>
-									<false/>
-									<key>HIDE_CHILDREN</key>
-									<false/>
-									<key>STATE</key>
-									<integer>4</integer>
-								</dict>
-								<key>TITLE</key>
-								<array>
-									<dict>
-										<key>LANGUAGE</key>
-										<string>English</string>
-										<key>VALUE</key>
-										<string>Graphics Card Plug-Ins</string>
-									</dict>
-									<dict>
-										<key>LANGUAGE</key>
-										<string>Russian</string>
-										<key>VALUE</key>
-										<string>Плагины для видеокарт</string>
-									</dict>
-								</array>
-								<key>TYPE</key>
-								<integer>1</integer>
-								<key>UUID</key>
-								<string>36A2415C-18E9-403F-AF6D-CBF84823306A</string>
+								<string>9B1D270D-22EA-44A4-B3FB-013FEB88C050</string>
 							</dict>
 						</array>
 						<key>REMOVED</key>

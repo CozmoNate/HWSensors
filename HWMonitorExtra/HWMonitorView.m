@@ -20,8 +20,10 @@
         return nil;
     
     menu = m;
-    //font = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
-    font = [NSFont boldSystemFontOfSize:9.0f];
+    
+    font = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
+    //font = [NSFont boldSystemFontOfSize:9.0f];
+    
     shadow = [[NSShadow alloc] init];
     
     [shadow setShadowColor:[NSColor colorWithSRGBRed:1 green:1 blue:1 alpha:0.6]];

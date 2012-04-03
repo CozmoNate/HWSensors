@@ -75,6 +75,7 @@ private:
     bool                    isActive;
     
     UInt8                   tjmax[INTEL_THERMAL_MAX_CPU];
+    
     IOWorkLoop *			workloop;
 	IOTimerEventSource *	timersource;
     

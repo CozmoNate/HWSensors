@@ -15,13 +15,24 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0</string>
+	<string>2.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.0.0</string>
+	<string>2.1</string>
 	<key>IOKitPersonalities</key>
 	<dict>
+		<key>OEM Information Provider</key>
+		<dict>
+			<key>IOClass</key>
+			<string>OemInfo</string>
+			<key>IOMatchCategory</key>
+			<string>OemInfo</string>
+			<key>IONameMatch</key>
+			<string>bios</string>
+			<key>IOProviderClass</key>
+			<string>IOPlatformDevice</string>
+		</dict>
 		<key>Super I/O Nub</key>
 		<dict>
 			<key>IOClass</key>
@@ -59,28 +70,61 @@
 			<string>SuperIO</string>
 			<key>Sensors Configuration</key>
 			<dict>
-				<key>IT8728F</key>
+				<key>Gigabyte Technology Co., Ltd.</key>
 				<dict>
-					<key>FANIN0</key>
-					<string></string>
-					<key>FANIN1</key>
-					<string></string>
-					<key>FANIN2</key>
-					<string></string>
-					<key>FANIN3</key>
-					<string></string>
-					<key>FANIN4</key>
-					<string></string>
-					<key>TEMPIN0</key>
-					<string>System</string>
-					<key>TEMPIN1</key>
-					<string></string>
-					<key>TEMPIN2</key>
-					<string>CPU</string>
-					<key>VIN5</key>
-					<string>CPU</string>
-					<key>VIN6</key>
-					<string>Memory</string>
+					<key>P55-USB3</key>
+					<dict>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string></string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>System</string>
+						<key>TEMPIN2</key>
+						<string>CPU</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string>Memory</string>
+						<key>VIN2</key>
+						<string>Main 3.3V</string>
+						<key>VIN3</key>
+						<dict>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>680</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN4</key>
+						<string></string>
+						<key>VIN5</key>
+						<dict>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>2964</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN6</key>
+						<string></string>
+						<key>VIN7</key>
+						<string></string>
+						<key>VIN8</key>
+						<string>Battery</string>
+					</dict>
 				</dict>
 				<key>Default</key>
 				<dict>
@@ -116,59 +160,6 @@
 					<string>Power Supply 6</string>
 					<key>VIN7</key>
 					<string>Power Supply 7</string>
-					<key>VIN8</key>
-					<string>Battery</string>
-				</dict>
-				<key>IT8720F</key>
-				<dict>
-					<key>FANIN0</key>
-					<string></string>
-					<key>FANIN1</key>
-					<string></string>
-					<key>FANIN2</key>
-					<string></string>
-					<key>FANIN3</key>
-					<string></string>
-					<key>FANIN4</key>
-					<string></string>
-					<key>TEMPIN0</key>
-					<string>System</string>
-					<key>TEMPIN2</key>
-					<string>CPU</string>
-					<key>VIN0</key>
-					<string>CPU</string>
-					<key>VIN1</key>
-					<string>Memory</string>
-					<key>VIN2</key>
-					<string>Main 3.3V</string>
-					<key>VIN3</key>
-					<dict>
-						<key>name</key>
-						<string>Main 5V</string>
-						<key>reference</key>
-						<integer>0</integer>
-						<key>gain</key>
-						<integer>680</integer>
-						<key>offset</key>
-						<integer>0</integer>
-					</dict>
-					<key>VIN4</key>
-					<string></string>
-					<key>VIN5</key>
-					<dict>
-						<key>name</key>
-						<string>Main 12V</string>
-						<key>reference</key>
-						<integer>0</integer>
-						<key>gain</key>
-						<integer>2964</integer>
-						<key>offset</key>
-						<integer>0</integer>
-					</dict>
-					<key>VIN6</key>
-					<string></string>
-					<key>VIN7</key>
-					<string></string>
 					<key>VIN8</key>
 					<string>Battery</string>
 				</dict>
@@ -376,7 +367,7 @@
 		</dict>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 kozlek. All rights reserved.</string>
+	<string>Copyright © 2012 kozlek, slice, usr-sse2, navi. All rights reserved.</string>
 	<key>OSBundleCompatibleVersion</key>
 	<string>2.0.0</string>
 	<key>OSBundleRequired</key>

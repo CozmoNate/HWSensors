@@ -255,7 +255,7 @@ bool SuperIOMonitor::init(OSDictionary *properties)
 
 IOService *SuperIOMonitor::probe(IOService *provider, SInt32 *score)
 {
-	return super::probe(provider, score);
+    return super::probe(provider, score);
 }
 
 bool SuperIOMonitor::start(IOService *provider)
@@ -301,21 +301,36 @@ bool SuperIOMonitor::start(IOService *provider)
     if (!initialize())
         return false;
     
-    //InfoLog("found %s %s", vendorName, getModelName());
+    OSDictionary* configuration = NULL;
+
+    OSString * mb_manufacturer = OSDynamicCast(OSString, provider->getProperty("mb-manufacturer"));
+    OSString * mb_product = OSDynamicCast(OSString, provider->getProperty("mb-product"));
         
-    OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"));
-    OSDictionary* configuration = list ? OSDynamicCast(OSDictionary, list->getObject(modelName)) : 0;
-	
-    if (list && !configuration) 
-        configuration = OSDynamicCast(OSDictionary, list->getObject("Default"));
+    if (mb_manufacturer && mb_product)
+        if (OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration")))
+            if (OSDictionary *manufacturer = OSDynamicCast(OSDictionary, list->getObject(mb_manufacturer)))
+                configuration = OSDynamicCast(OSDictionary, manufacturer->getObject(mb_product));
+
+    if (!configuration) {
+        InfoLog("loading default configuration");
+        
+        OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"));
+        
+        configuration = list ? OSDynamicCast(OSDictionary, list->getObject(modelName)) : 0;
+        
+        if (list && !configuration) 
+            configuration = OSDynamicCast(OSDictionary, list->getObject("Default"));
+    }
     
 	if (configuration) {    
         addTemperatureSensors(configuration);
         addVoltageSensors(configuration);
         addTachometerSensors(configuration);
+        registerService();
     }
-        
-    registerService();
+    else {
+        WarningLog("no default configuration provided");
+    }
 
 	return true;
 }

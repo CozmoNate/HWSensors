@@ -38,7 +38,6 @@
 // Misc
 #define KEY_ACDC_TEMPERATURE                    "Tp0C" // PSMI Supply AC/DC Supply 1
 #define KEY_AMBIENT_TEMPERATURE                 "TA0P"
-#define KEY_AMBIENT1_TEMPERATURE                "TA1P"
 #define KEY_DIMM_TEMPERATURE                    "Tm0P" // MLB Proximity/DC In Proximity Airflow
 #define KEY_AIRVENT_TEMPERATURE                 "TV0P" // Air Vent Exit
 #define KEY_AIRPORT_TEMPERATURE                 "TW0P"
