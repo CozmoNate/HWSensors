@@ -307,9 +307,13 @@ bool SuperIOMonitor::start(IOService *provider)
     OSString * mb_product = OSDynamicCast(OSString, provider->getProperty("mb-product"));
         
     if (mb_manufacturer && mb_product)
-        if (OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration")))
-            if (OSDictionary *manufacturer = OSDynamicCast(OSDictionary, list->getObject(mb_manufacturer)))
+        if (OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"))) {
+            if (OSString *link = OSDynamicCast(OSString, list->getObject(mb_manufacturer))) {
+                configuration = OSDynamicCast(OSDictionary, list->getObject(link));
+            }
+            else if (OSDictionary *manufacturer = OSDynamicCast(OSDictionary, list->getObject(mb_manufacturer)))
                 configuration = OSDynamicCast(OSDictionary, manufacturer->getObject(mb_product));
+        }
 
     if (!configuration) {
         InfoLog("loading default configuration");
