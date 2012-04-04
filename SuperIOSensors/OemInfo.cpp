@@ -334,6 +334,64 @@ void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBo
     if (baseBoard->header.length <8)
         return;
     
-    strings->setStringProperty(provider, "mb-manufacturer",  baseBoard->manufacturer);
+    OSString *manufacturer = NULL;
+
+    if (OSString *name = OSString::withCString(strings->stringAtIndex(baseBoard->manufacturer))) {
+        if (name->isEqualTo("Alienware")) 
+            manufacturer = OSString::withCString("Alienware");
+        if (name->isEqualTo("Apple Inc.")) 
+            manufacturer = OSString::withCString("Apple");
+        if (name->isEqualTo("ASRock")) 
+            manufacturer = OSString::withCString("ASRock");
+        if (name->isEqualTo("ASUSTeK Computer INC.") || name->isEqualTo("ASUSTeK COMPUTER INC.")) 
+            manufacturer = OSString::withCString("ASUS");
+        if (name->isEqualTo("Dell Inc.")) 
+            manufacturer = OSString::withCString("Dell");
+        if (name->isEqualTo("DFI") || name->isEqualTo("DFI Inc.")) 
+            manufacturer = OSString::withCString("DFI");
+        if (name->isEqualTo("ECS")) 
+            manufacturer = OSString::withCString("ECS");
+        if (name->isEqualTo("EPoX COMPUTER CO., LTD")) 
+            manufacturer = OSString::withCString("EPoX");
+        if (name->isEqualTo("EVGA")) 
+            manufacturer = OSString::withCString("EVGA");
+        if (name->isEqualTo("First International Computer, Inc.")) 
+            manufacturer = OSString::withCString("FIC");
+        if (name->isEqualTo("FUJITSU") || name->isEqualTo("FUJITSU SIEMENS")) 
+            manufacturer = OSString::withCString("FUJITSU");
+        if (name->isEqualTo("Gigabyte Technology Co., Ltd.")) 
+            manufacturer = OSString::withCString("Gigabyte");
+        if (name->isEqualTo("Hewlett-Packard")) 
+            manufacturer = OSString::withCString("HP");
+        if (name->isEqualTo("IBM")) 
+            manufacturer = OSString::withCString("IBM");
+        if (name->isEqualTo("Intel") || name->isEqualTo("Intel Corp.") || 
+            name->isEqualTo("Intel Corporation")|| name->isEqualTo("INTEL Corporation")) manufacturer = OSString::withCString("Intel");
+        if (name->isEqualTo("Lenovo") || name->isEqualTo("LENOVO")) 
+            manufacturer = OSString::withCString("Lenovo");
+        if (name->isEqualTo("Micro-Star International") || 
+            name->isEqualTo("MICRO-STAR INTERNATIONAL CO., LTD") || 
+            name->isEqualTo("MICRO-STAR INTERNATIONAL CO.,LTD") ||
+            name->isEqualTo("MSI"))
+            manufacturer = OSString::withCString("MSI");
+        if (name->isEqualTo("Shuttle")) 
+            manufacturer = OSString::withCString("Shuttle");
+        if (name->isEqualTo("TOSHIBA")) 
+            manufacturer = OSString::withCString("TOSHIBA");
+        if (name->isEqualTo("XFX")) 
+            manufacturer = OSString::withCString("XFX");
+        
+        if (!manufacturer && !name->isEqualTo("To be filled by O.E.M.")) 
+            manufacturer = OSString::withString(name);
+            
+        name->release();
+    }
+    
+    if (manufacturer) {
+        provider->setProperty("mb-manufacturer", manufacturer);
+        manufacturer->release();
+    }
+    
+    //strings->setStringProperty(provider, "mb-manufacturer",  baseBoard->manufacturer);
     strings->setStringProperty(provider, "mb-product",  baseBoard->product);
 }
