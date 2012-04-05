@@ -258,6 +258,33 @@ IOService *SuperIOMonitor::probe(IOService *provider, SInt32 *score)
     return super::probe(provider, score);
 }
 
+OSDictionary *SuperIOMonitor::getConfiguration(OSDictionary *root, OSString *name)
+{
+    OSDictionary *configuration = 0;
+    
+    if (root) {
+        // First try to get dictionary by name
+        if (name && !(configuration = OSDynamicCast(OSDictionary, root->getObject(name))))
+            // Maybe this is the link
+            if (OSString *linkedName = OSDynamicCast(OSString, root->getObject(name)))
+                configuration = getConfiguration(root, linkedName); // Use link name as the name for desired configuration node
+        
+        // Nothing found
+        if (!configuration) {
+            OSString *modelNode = OSString::withCStringNoCopy(modelName);
+            
+            // Maybe SuperIO model configuration exits in the current root node
+            if (!(configuration = getConfiguration(root, modelNode)))
+                configuration = OSDynamicCast(OSDictionary, root->getObject("Default")); // Try to obtain default configuration dictionary
+            
+            modelNode->release();
+            modelNode = 0;
+        }
+    }
+    
+    return configuration;
+}
+
 bool SuperIOMonitor::start(IOService *provider)
 {	
 	if (!super::start(provider)) 
@@ -301,28 +328,25 @@ bool SuperIOMonitor::start(IOService *provider)
     if (!initialize())
         return false;
     
-    OSDictionary* configuration = NULL;
+    OSDictionary* configuration = 0;
 
     OSString * mb_manufacturer = OSDynamicCast(OSString, provider->getProperty("mb-manufacturer"));
     OSString * mb_product = OSDynamicCast(OSString, provider->getProperty("mb-product"));
         
-    if (mb_manufacturer && mb_product)
-        if (OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"))) {
+    if (OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"))) {
+        if (mb_manufacturer)
             if (OSDictionary *manufacturer = OSDynamicCast(OSDictionary, list->getObject(mb_manufacturer)))
-                if (!(configuration = OSDynamicCast(OSDictionary, manufacturer->getObject(mb_product)))) 
-                    if (OSString *link = OSDynamicCast(OSString, manufacturer->getObject(mb_product)))
-                        configuration = OSDynamicCast(OSDictionary, manufacturer->getObject(link));
+                configuration = getConfiguration(manufacturer, mb_product);
+        
+        if (!configuration) {
+            OSString *modelNode = OSString::withCStringNoCopy(modelName);
+            
+            if (!(configuration = getConfiguration(list, modelNode)))
+                configuration = OSDynamicCast(OSDictionary, list->getObject("Default"));
+            
+            modelNode->release();
+            modelNode = 0;
         }
-
-    if (!configuration) {
-        InfoLog("loading default configuration");
-        
-        OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"));
-        
-        configuration = list ? OSDynamicCast(OSDictionary, list->getObject(modelName)) : 0;
-        
-        if (list && !configuration) 
-            configuration = OSDynamicCast(OSDictionary, list->getObject("Default"));
     }
     
 	if (configuration) {    
@@ -331,9 +355,7 @@ bool SuperIOMonitor::start(IOService *provider)
         addTachometerSensors(configuration);
         registerService();
     }
-    else {
-        WarningLog("no default configuration provided");
-    }
+    else WarningLog("no sensors configuration provided");
 
 	return true;
 }

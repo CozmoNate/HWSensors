@@ -24,7 +24,7 @@ class SuperIOMonitor : public FakeSMCPlugin {
 	OSDeclareAbstractStructors(SuperIOMonitor)
 	
 private:
-
+    OSDictionary            *getConfiguration(OSDictionary *root, OSString *name);
     
 protected:
     
