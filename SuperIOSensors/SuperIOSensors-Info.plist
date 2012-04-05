@@ -59,8 +59,454 @@
 			<string>SuperIO</string>
 			<key>Sensors Configuration</key>
 			<dict>
+				<key>ECS</key>
+				<dict>
+					<key>IT8721F</key>
+					<string>IT8772E</string>
+					<key>IT8728F</key>
+					<string>IT8772E</string>
+					<key>IT8771E</key>
+					<string>IT8772E</string>
+					<key>IT8772E</key>
+					<dict>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string></string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN1</key>
+						<string>Ambient</string>
+						<key>TEMPIN2</key>
+						<string>System</string>
+						<key>VIN0</key>
+						<string>Power Supply 0</string>
+						<key>VIN1</key>
+						<string>Power Supply 1</string>
+						<key>VIN2</key>
+						<string>Power Supply 2</string>
+						<key>VIN3</key>
+						<dict>
+							<key>name</key>
+							<string>Auxiliary 3.3V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN7</key>
+						<dict>
+							<key>name</key>
+							<string>Auxiliary 3.3V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<dict>
+							<key>name</key>
+							<string>Battery</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+					</dict>
+					<key>A890GXM-A</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>CPU Fan</string>
+						<key>FANIN1</key>
+						<string>System Fan</string>
+						<key>FANIN2</key>
+						<string>Power Fan</string>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN1</key>
+						<string>Ambient</string>
+						<key>TEMPIN2</key>
+						<string>System</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string>Memory</string>
+						<key>VIN2</key>
+						<string>CPU VRM Supply 2</string>
+						<key>VIN3</key>
+						<dict>
+							<key>name</key>
+							<string>Main 3.3V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN7</key>
+						<dict>
+							<key>name</key>
+							<string>Auxiliary 3.3V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<dict>
+							<key>name</key>
+							<string>Battery</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+					</dict>
+				</dict>
+				<key>DFI</key>
+				<dict>
+					<key>IT8712F</key>
+					<string>IT8726F</string>
+					<key>IT8718F</key>
+					<string>IT8726F</string>
+					<key>IT8720F</key>
+					<string>IT8726F</string>
+					<key>IT8726F</key>
+					<dict>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string></string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>System</string>
+						<key>TEMPIN1</key>
+						<string>Ambient</string>
+						<key>TEMPIN2</key>
+						<string>CPU</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string>CPU VRM Supply 1</string>
+						<key>VIN2</key>
+						<string>Main 3.3V</string>
+						<key>VIN3</key>
+						<dict>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>680</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN4</key>
+						<dict>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>3000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
+						<string>CPU VRM Supply 5</string>
+						<key>VIN6</key>
+						<string>Memory</string>
+						<key>VIN7</key>
+						<dict>
+							<key>name</key>
+							<string>Standby 5V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>680</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<string>VBAT</string>
+					</dict>
+					<key>LP BI P45-T2RS Elite</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>Fan #1</string>
+						<key>FANIN1</key>
+						<string>Fan #2</string>
+						<key>FANIN2</key>
+						<string>Fan #3</string>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN1</key>
+						<string>Ambient</string>
+						<key>TEMPIN2</key>
+						<string>System</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string>CPU VRM Supply 1</string>
+						<key>VIN2</key>
+						<string>Main 3.3V</string>
+						<key>VIN3</key>
+						<dict>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>680</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN4</key>
+						<dict>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>3000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
+						<string>Power Supply 5</string>
+						<key>VIN6</key>
+						<string>Memory</string>
+						<key>VIN7</key>
+						<dict>
+							<key>name</key>
+							<string>Standby 5V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>680</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<string>Battery</string>
+					</dict>
+					<key>LP DK P55-T3eH9</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>Fan #1</string>
+						<key>FANIN1</key>
+						<string>Fan #1</string>
+						<key>FANIN2</key>
+						<string>Fan #1</string>
+						<key>TEMPIN0</key>
+						<string>System</string>
+						<key>TEMPIN1</key>
+						<string>Ambient</string>
+						<key>TEMPIN2</key>
+						<string>CPU</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string>CPU VRM Supply 1</string>
+						<key>VIN2</key>
+						<string>Main 3.3V</string>
+						<key>VIN3</key>
+						<dict>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>680</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN4</key>
+						<dict>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>3000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
+						<string>CPU VRM Supply 5</string>
+						<key>VIN6</key>
+						<string>Memory</string>
+						<key>VIN7</key>
+						<dict>
+							<key>name</key>
+							<string>Standby 5V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>680</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<string>VBAT</string>
+					</dict>
+				</dict>
+				<key>ASRock</key>
+				<dict>
+					<key>Default</key>
+					<dict>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string></string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>System</string>
+						<key>TEMPIN1</key>
+						<string>CPU</string>
+						<key>TEMPIN2</key>
+						<string>Ambient</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string>Power Supply 1</string>
+						<key>VIN2</key>
+						<string>Power Supply 2</string>
+						<key>VIN3</key>
+						<string>Power Supply 3</string>
+						<key>VIN4</key>
+						<string>Power Supply 4</string>
+						<key>VIN5</key>
+						<string>Power Supply 5</string>
+						<key>VIN6</key>
+						<string>Power Supply 6</string>
+						<key>VIN7</key>
+						<string>Power Supply 7</string>
+						<key>VIN8</key>
+						<string>Battery</string>
+					</dict>
+					<key>P55 Deluxe</key>
+					<dict>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string></string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN1</key>
+						<string>System</string>
+						<key>TEMPIN2</key>
+						<string></string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string></string>
+						<key>VIN2</key>
+						<string>Main 3.3V</string>
+						<key>VIN3</key>
+						<string></string>
+						<key>VIN4</key>
+						<dict>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>3000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
+						<dict>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>680</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN6</key>
+						<string></string>
+						<key>VIN7</key>
+						<string></string>
+						<key>VIN8</key>
+						<string>Battery</string>
+					</dict>
+				</dict>
 				<key>Asus</key>
 				<dict>
+					<key>Default</key>
+					<dict>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string></string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>System</string>
+						<key>TEMPIN1</key>
+						<string>CPU</string>
+						<key>TEMPIN2</key>
+						<string>Ambient</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string>Power Supply 1</string>
+						<key>VIN2</key>
+						<string>Power Supply 2</string>
+						<key>VIN3</key>
+						<string>Power Supply 3</string>
+						<key>VIN4</key>
+						<string>Power Supply 4</string>
+						<key>VIN5</key>
+						<string>Power Supply 5</string>
+						<key>VIN6</key>
+						<string>Power Supply 6</string>
+						<key>VIN7</key>
+						<string>Power Supply 7</string>
+						<key>VIN8</key>
+						<string>Battery</string>
+					</dict>
 					<key>M4A79XTD EVO</key>
 					<dict>
 						<key>FANIN0</key>
@@ -148,6 +594,157 @@
 				</dict>
 				<key>Gigabyte</key>
 				<dict>
+					<key>IT8712F</key>
+					<string>IT8726F</string>
+					<key>IT8716F</key>
+					<string>IT8726F</string>
+					<key>IT8718F</key>
+					<string>IT8726F</string>
+					<key>IT8720F</key>
+					<string>IT8726F</string>
+					<key>IT8726F</key>
+					<dict>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string></string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>Ambient</string>
+						<key>TEMPIN1</key>
+						<string>CPU</string>
+						<key>TEMPIN2</key>
+						<string>System</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string>Memory</string>
+						<key>VIN2</key>
+						<string>Main 3.3V</string>
+						<key>VIN3</key>
+						<dict>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>680</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN4</key>
+						<string>Power Supply 4</string>
+						<key>VIN5</key>
+						<string>Power Supply 5</string>
+						<key>VIN6</key>
+						<string>Power Supply 6</string>
+						<key>VIN7</key>
+						<string>Power Supply 7</string>
+						<key>VIN8</key>
+						<string>Battery</string>
+					</dict>
+					<key>IT8721F</key>
+					<string>IT8772E</string>
+					<key>IT8728F</key>
+					<string>IT8772E</string>
+					<key>IT8771E</key>
+					<string>IT8772E</string>
+					<key>IT8772E</key>
+					<dict>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string></string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>System</string>
+						<key>TEMPIN1</key>
+						<string>CPU</string>
+						<key>TEMPIN2</key>
+						<string>Ambient</string>
+						<key>VIN0</key>
+						<string>Power Supply 0</string>
+						<key>VIN1</key>
+						<string>Power Supply 1</string>
+						<key>VIN2</key>
+						<string>Power Supply 2</string>
+						<key>VIN3</key>
+						<string>Power Supply 3</string>
+						<key>VIN4</key>
+						<string>Power Supply 4</string>
+						<key>VIN5</key>
+						<string>Power Supply 5</string>
+						<key>VIN6</key>
+						<string>Power Supply 6</string>
+						<key>VIN7</key>
+						<dict>
+							<key>name</key>
+							<string>Auxiliary 3.3V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<string>Battery</string>
+					</dict>
+					<key>P31-ES3G</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>CPU Fan</string>
+						<key>FANIN1</key>
+						<string>System Fan #2</string>
+						<key>FANIN2</key>
+						<string>Power Fan</string>
+						<key>FANIN3</key>
+						<string>System Fan #1</string>
+						<key>TEMPIN0</key>
+						<string>System</string>
+						<key>TEMPIN2</key>
+						<string>CPU</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string>Memory</string>
+						<key>VIN2</key>
+						<string>Main 3.3V</string>
+						<key>VIN3</key>
+						<dict>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>680</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN7</key>
+						<dict>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>reference</key>
+							<integer>0</integer>
+							<key>gain</key>
+							<integer>2964</integer>
+							<key>offset</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<string>Battery</string>
+					</dict>
 					<key>Z68X-UD7-B3</key>
 					<dict>
 						<key>FANIN0</key>
@@ -674,9 +1271,9 @@
 						<key>VIN8</key>
 						<string>Battery</string>
 					</dict>
-					<key>P55M-UD4</key>
-					<string>P55-UD4</string>
 					<key>P55-USB3</key>
+					<string>P55M-UD4</string>
+					<key>P55M-UD4</key>
 					<string>P55-UD4</string>
 					<key>P55-UD4</key>
 					<dict>
@@ -791,6 +1388,148 @@
 			<string>ACPI</string>
 			<key>Sensors Configuration</key>
 			<dict>
+				<key>W83627EHF</key>
+				<string>W83667HGB</string>
+				<key>W83627DHG</key>
+				<string>W83667HGB</string>
+				<key>W83627DHGP</key>
+				<string>W83667HGB</string>
+				<key>W83667HG</key>
+				<string>W83667HGB</string>
+				<key>W83667HGB</key>
+				<dict>
+					<key>TEMPIN0</key>
+					<string>CPU</string>
+					<key>TEMPIN1</key>
+					<string>Ambient</string>
+					<key>TEMPIN3</key>
+					<string>System</string>
+					<key>FANINLIMIT</key>
+					<integer>0</integer>
+					<key>FANIN0</key>
+					<string>System Fan</string>
+					<key>FANIN1</key>
+					<string>CPU Fan</string>
+					<key>FANIN2</key>
+					<string>Auxiliary</string>
+					<key>FANIN3</key>
+					<string>CPU Fan 2</string>
+					<key>FANIN4</key>
+					<string>Auxiliary Fan 2</string>
+					<key>VIN0</key>
+					<string>CPU</string>
+					<key>VIN1</key>
+					<string>Power Supply 1</string>
+					<key>VIN2</key>
+					<dict>
+						<key>name</key>
+						<string>CPU VRM Supply 2</string>
+						<key>gain</key>
+						<integer>1000</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
+					<key>VIN3</key>
+					<dict>
+						<key>name</key>
+						<string>Main 3.3V</string>
+						<key>gain</key>
+						<integer>1000</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
+					<key>VIN4</key>
+					<string>Power Supply 4</string>
+					<key>VIN5</key>
+					<string>Power Supply 5</string>
+					<key>VIN6</key>
+					<string>Power Supply 6</string>
+					<key>VIN7</key>
+					<dict>
+						<key>name</key>
+						<string>Auxiliary 3.3V</string>
+						<key>gain</key>
+						<integer>1000</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
+					<key>VIN8</key>
+					<dict>
+						<key>name</key>
+						<string>Battery</string>
+						<key>gain</key>
+						<integer>1000</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
+					<key>VIN9</key>
+					<string>Power Supply 8</string>
+				</dict>
+				<key>W83627HF</key>
+				<string>W83687THF</string>
+				<key>W83627THF</key>
+				<string>W83687THF</string>
+				<key>W83687THF</key>
+				<dict>
+					<key>TEMPIN0</key>
+					<string>CPU</string>
+					<key>TEMPIN1</key>
+					<string>Ambient</string>
+					<key>TEMPIN3</key>
+					<string>System</string>
+					<key>FANINLIMIT</key>
+					<integer>0</integer>
+					<key>FANIN0</key>
+					<string>System Fan</string>
+					<key>FANIN1</key>
+					<string>CPU Fan</string>
+					<key>FANIN2</key>
+					<string>Auxiliary</string>
+					<key>FANIN3</key>
+					<string>CPU Fan 2</string>
+					<key>FANIN4</key>
+					<string>Auxiliary Fan 2</string>
+					<key>VIN0</key>
+					<string>CPU</string>
+					<key>VIN1</key>
+					<string>Power Supply 1</string>
+					<key>VIN2</key>
+					<string>Power Supply 2</string>
+					<key>VIN3</key>
+					<dict>
+						<key>name</key>
+						<string>CPU VRM Supply 0</string>
+						<key>gain</key>
+						<integer>666</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
+					<key>VIN4</key>
+					<string>Power Supply 4</string>
+					<key>VIN5</key>
+					<dict>
+						<key>name</key>
+						<string>Main 5V</string>
+						<key>gain</key>
+						<integer>666</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
+					<key>VIN6</key>
+					<string>Battery</string>
+				</dict>
 				<key>Default</key>
 				<dict>
 					<key>TEMPIN0</key>
@@ -858,6 +1597,70 @@
 			<string>ACPI</string>
 			<key>Sensors Configuration</key>
 			<dict>
+				<key>F71858</key>
+				<dict>
+					<key>TEMPIN0</key>
+					<string>CPU</string>
+					<key>TEMPIN1</key>
+					<string>System</string>
+					<key>TEMPIN2</key>
+					<string>Ambient</string>
+					<key>FANIN0</key>
+					<string></string>
+					<key>FANIN1</key>
+					<string></string>
+					<key>FANIN2</key>
+					<string></string>
+					<key>FANIN3</key>
+					<string></string>
+					<key>FANIN4</key>
+					<string></string>
+					<key>VIN0</key>
+					<dict>
+						<key>name</key>
+						<string>Main 3.3V</string>
+						<key>gain</key>
+						<integer>1000</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
+					<key>VIN1</key>
+					<dict>
+						<key>name</key>
+						<string>Auxiliary 3.3V</string>
+						<key>gain</key>
+						<integer>1000</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
+					<key>VIN2</key>
+					<dict>
+						<key>name</key>
+						<string>Battery</string>
+						<key>gain</key>
+						<integer>1000</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
+					<key>VIN3</key>
+					<string>Power Supply 3</string>
+					<key>VIN4</key>
+					<string>Power Supply 4</string>
+					<key>VIN5</key>
+					<string>Power Supply 5</string>
+					<key>VIN6</key>
+					<string>Power Supply 6</string>
+					<key>VIN7</key>
+					<string>Power Supply 7</string>
+					<key>VIN8</key>
+					<string>Power Supply 8</string>
+				</dict>
 				<key>MSI</key>
 				<dict>
 					<key>H67MA-E35 (MS-7680)</key>
@@ -934,6 +1737,187 @@
 						</dict>
 					</dict>
 				</dict>
+				<key>EVGA</key>
+				<dict>
+					<key>X58 SLI Classified</key>
+					<dict>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN1</key>
+						<string>Ambient</string>
+						<key>TEMPIN2</key>
+						<string>System</string>
+						<key>FANIN0</key>
+						<string>CPU Fan</string>
+						<key>FANIN1</key>
+						<string>Power Fan</string>
+						<key>FANIN2</key>
+						<string>Chasis Fan</string>
+						<key>VIN0</key>
+						<dict>
+							<key>name</key>
+							<string>Main 3.3V</string>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN1</key>
+						<dict>
+							<key>name</key>
+							<string>CPU</string>
+							<key>gain</key>
+							<integer>470</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN2</key>
+						<dict>
+							<key>name</key>
+							<string>Memory</string>
+							<key>gain</key>
+							<integer>470</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN3</key>
+						<dict>
+							<key>name</key>
+							<string>CPU VRM Supply 0</string>
+							<key>gain</key>
+							<integer>240</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN4</key>
+						<dict>
+							<key>name</key>
+							<string>CPU VRM Supply 1</string>
+							<key>gain</key>
+							<integer>240</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
+						<dict>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>gain</key>
+							<integer>4250</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN6</key>
+						<dict>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>gain</key>
+							<integer>8235</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN7</key>
+						<dict>
+							<key>name</key>
+							<string>Auxiliary 3.3V</string>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<dict>
+							<key>name</key>
+							<string>Battery</string>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+					</dict>
+					<key>Default</key>
+					<dict>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN1</key>
+						<string>System</string>
+						<key>TEMPIN2</key>
+						<string>Ambient</string>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string></string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>VIN0</key>
+						<dict>
+							<key>name</key>
+							<string>Main 3.3V</string>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN1</key>
+						<string>CPU</string>
+						<key>VIN2</key>
+						<string>Power Supply 2</string>
+						<key>VIN3</key>
+						<string>Power Supply 3</string>
+						<key>VIN4</key>
+						<string>Power Supply 4</string>
+						<key>VIN5</key>
+						<string>Power Supply 5</string>
+						<key>VIN6</key>
+						<string>Power Supply 6</string>
+						<key>VIN7</key>
+						<dict>
+							<key>name</key>
+							<string>Auxiliary 3.3V</string>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<dict>
+							<key>name</key>
+							<string>Battery</string>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+					</dict>
+				</dict>
 				<key>Default</key>
 				<dict>
 					<key>TEMPIN0</key>
@@ -991,13 +1975,13 @@
 				<key>Default</key>
 				<dict>
 					<key>TEMPIN0</key>
-					<string>System</string>
-					<key>TEMPIN1</key>
 					<string>CPU</string>
+					<key>TEMPIN1</key>
+					<string></string>
 					<key>TEMPIN2</key>
 					<string>Ambient</string>
 					<key>TEMPIN3</key>
-					<string></string>
+					<string>System</string>
 					<key>TEMPIN4</key>
 					<string></string>
 					<key>TEMPIN5</key>
@@ -1021,21 +2005,57 @@
 					<key>VIN0</key>
 					<string>CPU</string>
 					<key>VIN1</key>
-					<string>Memory</string>
-					<key>VIN2</key>
 					<string>Power Supply 1</string>
+					<key>VIN2</key>
+					<dict>
+						<key>name</key>
+						<string>CPU VRM Supply 0</string>
+						<key>gain</key>
+						<integer>1000</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
 					<key>VIN3</key>
-					<string>Power Supply 2</string>
+					<dict>
+						<key>name</key>
+						<string>Main 3.3V</string>
+						<key>gain</key>
+						<integer>1000</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
 					<key>VIN4</key>
-					<string>Power Supply 3</string>
-					<key>VIN5</key>
 					<string>Power Supply 4</string>
-					<key>VIN6</key>
+					<key>VIN5</key>
 					<string>Power Supply 5</string>
-					<key>VIN7</key>
+					<key>VIN6</key>
 					<string>Power Supply 6</string>
+					<key>VIN7</key>
+					<dict>
+						<key>name</key>
+						<string>Auxiliary 3.3V</string>
+						<key>gain</key>
+						<integer>1000</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
 					<key>VIN8</key>
-					<string>Battery</string>
+					<dict>
+						<key>name</key>
+						<string>Battery</string>
+						<key>gain</key>
+						<integer>1000</integer>
+						<key>offset</key>
+						<integer>0</integer>
+						<key>reference</key>
+						<integer>0</integer>
+					</dict>
 				</dict>
 			</dict>
 		</dict>
