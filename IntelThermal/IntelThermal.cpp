@@ -80,7 +80,7 @@ inline void read_cpu_thermal(void* cpu_index)
     
 	*cpn = get_cpu_number();
     
-	if(*cpn < INTEL_THERMAL_MAX_CPU) {
+	if(*cpn < kIntelThermaxMaxCpus) {
 		UInt64 msr = rdmsr64(MSR_IA32_THERM_STS);
 		if (msr & 0x80000000) 
             cpu_thermal[*cpn] = (msr >> 16) & 0x7F;
@@ -93,7 +93,7 @@ inline void read_cpu_performance(void* cpu_index)
     
 	*cpn = get_cpu_number();
     
-	if(*cpn < INTEL_THERMAL_MAX_CPU) {
+	if(*cpn < kIntelThermaxMaxCpus) {
 		UInt64 msr = rdmsr64(MSR_IA32_PERF_STS);
 		cpu_performance[*cpn] = msr & 0xFFFF;
 	}
@@ -359,7 +359,7 @@ bool IntelThermal::start(IOService *provider)
 	
 	for (int i = 0; i < cpuid_info()->core_count; i++) {
         
-        if (i >= INTEL_THERMAL_MAX_CPU) 
+        if (i >= kIntelThermaxMaxCpus) 
             break;
         
         char key[5];

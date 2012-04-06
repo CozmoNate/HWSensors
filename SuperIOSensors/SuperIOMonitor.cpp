@@ -338,15 +338,9 @@ bool SuperIOMonitor::start(IOService *provider)
             if (OSDictionary *manufacturer = OSDynamicCast(OSDictionary, list->getObject(mb_manufacturer)))
                 configuration = getConfiguration(manufacturer, mb_product);
         
-        if (!configuration) {
-            OSString *modelNode = OSString::withCStringNoCopy(modelName);
-            
-            if (!(configuration = getConfiguration(list, modelNode)))
-                configuration = OSDynamicCast(OSDictionary, list->getObject("Default"));
-            
-            modelNode->release();
-            modelNode = 0;
-        }
+        // Try to load default configuration from "Sensors Configuration" root node
+        if (!configuration) 
+            getConfiguration(list, 0);
     }
     
 	if (configuration) {    

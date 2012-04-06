@@ -186,7 +186,13 @@
 
 - (void)rebuildSensorsList
 {
-    [sensors removeAllObjects];
+    if (sensors) {
+        // Memory leak with ARC fix 
+        for (int i = 0; i < [sensors count]; i++)
+            [[sensors objectAtIndex:i] setMenuItem:nil];
+        
+        [sensors removeAllObjects];
+    }
     
     //Temperatures
     
