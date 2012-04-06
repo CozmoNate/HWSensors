@@ -1861,6 +1861,10 @@
 						<string>Power Fan</string>
 						<key>FANIN2</key>
 						<string>Chasis Fan</string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
 						<key>VIN0</key>
 						<dict>
 							<key>name</key>
@@ -1897,7 +1901,7 @@
 						<key>VIN3</key>
 						<dict>
 							<key>name</key>
-							<string>CPU VRM Supply 0</string>
+							<string>CPU VRM Supply 3</string>
 							<key>gain</key>
 							<integer>240</integer>
 							<key>offset</key>
@@ -1908,7 +1912,7 @@
 						<key>VIN4</key>
 						<dict>
 							<key>name</key>
-							<string>CPU VRM Supply 1</string>
+							<string>CPU VRM Supply 4</string>
 							<key>gain</key>
 							<integer>240</integer>
 							<key>offset</key>

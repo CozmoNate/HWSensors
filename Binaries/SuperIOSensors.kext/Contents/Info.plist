@@ -171,6 +171,10 @@
 						<string>Power Fan</string>
 						<key>FANIN2</key>
 						<string>Chasis Fan</string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
 						<key>TEMPIN0</key>
 						<string>CPU</string>
 						<key>TEMPIN1</key>
@@ -215,7 +219,7 @@
 							<key>gain</key>
 							<integer>240</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 0</string>
+							<string>CPU VRM Supply 3</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -226,7 +230,7 @@
 							<key>gain</key>
 							<integer>240</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 1</string>
+							<string>CPU VRM Supply 4</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>

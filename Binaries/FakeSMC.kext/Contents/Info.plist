@@ -126,7 +126,9 @@
 					<key>NATi</key>
 					<array>
 						<string>ui16</string>
-						<string>0000</string>
+						<data>
+						MDAwMA==
+						</data>
 					</array>
 					<key>NTOK</key>
 					<array>
@@ -168,7 +170,9 @@
 					<key>RPlt</key>
 					<array>
 						<string>ch8*</string>
-						<string>m82</string>
+						<data>
+						bTgy
+						</data>
 					</array>
 				</dict>
 				<key>debug</key>
