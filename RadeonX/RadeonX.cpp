@@ -53,7 +53,7 @@ bool RadeonMonitor::initCard()
 	} 
 	else
 	{
-		InfoLog(" have no mmio\n ");
+		InfoLog("have no mmio");
 		return false;
 	}
 	
@@ -107,13 +107,13 @@ bool RadeonMonitor::getRadeonInfo()
 			family = devices->ChipFamily;
 			rinfo->igp = devices->igp;
 			rinfo->is_mobility = devices->is_mobility;
-			IOLog(" Found ATI Radeon %04lx\n", (long unsigned int)devID);
+			InfoLog("found ATI Radeon %04lx", (long unsigned int)devID);
 			return true;
 		}
 		devices++;
 	}
     
-	InfoLog("Unknown DeviceID!\n");
+	WarningLog("unknown device id");
 	return false;
 }
 
@@ -293,7 +293,7 @@ bool RadeonMonitor::start(IOService * provider)
             
             if (!isKeyHandled(name)) {
                 if (!addSensor(name, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
-                    WarningLog("Can't add temperature sensor for key %s", name);
+                    WarningLog("can't add temperature sensor for key %s", name);
                 
                 break;
             }

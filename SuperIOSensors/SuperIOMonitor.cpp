@@ -260,38 +260,29 @@ IOService *SuperIOMonitor::probe(IOService *provider, SInt32 *score)
 
 OSDictionary *SuperIOMonitor::lookupConfiguration(OSDictionary *root, OSString *name)
 {
-    OSDictionary *configuration = 0;
+    OSDictionary *configuration = NULL;
     
     if (root && name) {
-        // First try to get dictionary by name
-        if (name && !(configuration = OSDynamicCast(OSDictionary, root->getObject(name))))
-            // Maybe this is the link
-            if (OSString *linkedName = OSDynamicCast(OSString, root->getObject(name)))
-                // Use link name as the name for desired configuration node
-                configuration = lookupConfiguration(root, linkedName);
+        DebugLog("looking up for configuration node: %s", name->getCStringNoCopy());
+        
+        if (!(configuration = OSDynamicCast(OSDictionary, root->getObject(name))))
+            if (OSString *link = OSDynamicCast(OSString, root->getObject(name)))
+                configuration = lookupConfiguration(root, link);    
     }
-    
-    if (!configuration)
-        // Try to load SuperIO model configuration in the current root node
-        if (!name->isEqualTo(modelName) && !(configuration = lookupConfiguration(root, modelName)))
-            // Try to obtain default configuration dictionary
-            if (!name->isEqualTo("Default"))
-                configuration = lookupConfiguration(root, "Default"); 
     
     return configuration;
 }
 
 OSDictionary *SuperIOMonitor::lookupConfiguration(OSDictionary *root, const char *name)
 {
-    OSDictionary *configuration = 0;
+    OSDictionary *configuration = NULL;
     
-    if (name && strlen(name) > 0) {
+    if (root && name) {
         OSString *nameNode = OSString::withCStringNoCopy(name);
         
         configuration = lookupConfiguration(root, nameNode);
         
-        nameNode->release();
-        nameNode = 0;
+        OSSafeReleaseNULL(nameNode);
     }
     
     return configuration;
@@ -339,22 +330,23 @@ bool SuperIOMonitor::start(IOService *provider)
     
     if (!initialize())
         return false;
-    
-    OSDictionary* configuration = 0;
 
-    OSString * mb_manufacturer = OSDynamicCast(OSString, provider->getProperty("mb-manufacturer"));
-    OSString * mb_product = OSDynamicCast(OSString, provider->getProperty("mb-product"));
-        
-    if (OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"))) {
-        if (mb_manufacturer)
-            if (OSDictionary *manufacturer = OSDynamicCast(OSDictionary, list->getObject(mb_manufacturer)))
-                configuration = lookupConfiguration(manufacturer, mb_product);
-        
-        // Try to load default configuration from "Sensors Configuration" root node
-        if (!configuration) 
-            lookupConfiguration(list, modelName);
-    }
+    OSString *manufacturerName = OSDynamicCast(OSString, provider->getProperty("mb-manufacturer"));
+    OSString *productName = OSDynamicCast(OSString, provider->getProperty("mb-product"));
     
+    OSDictionary *configuration = NULL;
+    
+    if (OSDictionary *list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration")))
+    {
+        if (OSDictionary *manufacturer = OSDynamicCast(OSDictionary, list->getObject(manufacturerName)))
+            if (!(configuration = lookupConfiguration(manufacturer, productName)))
+                if (!(configuration = lookupConfiguration(manufacturer, modelName)))
+                    configuration = lookupConfiguration(manufacturer, "Default");
+        
+        if (!configuration && !(configuration = lookupConfiguration(list, modelName)))
+            configuration = lookupConfiguration(list, "Default");
+    }
+
 	if (configuration) {    
         addTemperatureSensors(configuration);
         addVoltageSensors(configuration);
