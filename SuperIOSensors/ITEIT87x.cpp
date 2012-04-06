@@ -142,18 +142,17 @@ bool IT87xMonitor::initialize()
 		return this;
     }
 	
-    // IT8721F, IT8728F and IT8772E use a 12mV resultion ADC, all others 16mV
     switch (model) {
-        case IT8721F:
-        case IT8728F:
-        case IT8752F:
-        case IT8771E:
-        case IT8772E:
-            voltageGain = 0.012f;
+        case IT8512F:
+        case IT8712F:
+        case IT8716F:
+        case IT8718F:
+        case IT8720F:
+            voltageGain = 0.016f;
             break;
             
         default:
-            voltageGain = 0.016f;
+            voltageGain = 0.012f;
             break;
     }
     

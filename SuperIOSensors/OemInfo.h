@@ -24,13 +24,12 @@
 #define _OEM_INFO_H
 
 #include <IOKit/IOService.h>
-#include "SMBIOS.h"
 
-class SMBPackedStrings;
+//class SMBPackedStrings;
     
 bool setOemProperties(IOService *provider);
-void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16 tableLength, UInt16 structureCount);
+/*void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16 tableLength, UInt16 structureCount);
 void decodeSMBIOSStructure(IOService *provider, const SMBStructHeader *structureHeader, const void *tableBoundary);
-void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBoard, SMBPackedStrings *strings);
+void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBoard, SMBPackedStrings *strings);*/
 
 #endif /* !_OEM_INFO_H */

@@ -258,28 +258,40 @@ IOService *SuperIOMonitor::probe(IOService *provider, SInt32 *score)
     return super::probe(provider, score);
 }
 
-OSDictionary *SuperIOMonitor::getConfiguration(OSDictionary *root, OSString *name)
+OSDictionary *SuperIOMonitor::lookupConfiguration(OSDictionary *root, OSString *name)
 {
     OSDictionary *configuration = 0;
     
-    if (root) {
+    if (root && name) {
         // First try to get dictionary by name
         if (name && !(configuration = OSDynamicCast(OSDictionary, root->getObject(name))))
             // Maybe this is the link
             if (OSString *linkedName = OSDynamicCast(OSString, root->getObject(name)))
-                configuration = getConfiguration(root, linkedName); // Use link name as the name for desired configuration node
+                // Use link name as the name for desired configuration node
+                configuration = lookupConfiguration(root, linkedName);
+    }
+    
+    if (!configuration)
+        // Try to load SuperIO model configuration in the current root node
+        if (!name->isEqualTo(modelName) && !(configuration = lookupConfiguration(root, modelName)))
+            // Try to obtain default configuration dictionary
+            if (!name->isEqualTo("Default"))
+                configuration = lookupConfiguration(root, "Default"); 
+    
+    return configuration;
+}
+
+OSDictionary *SuperIOMonitor::lookupConfiguration(OSDictionary *root, const char *name)
+{
+    OSDictionary *configuration = 0;
+    
+    if (name && strlen(name) > 0) {
+        OSString *nameNode = OSString::withCStringNoCopy(name);
         
-        // Nothing found
-        if (!configuration) {
-            OSString *modelNode = OSString::withCStringNoCopy(modelName);
-            
-            // Maybe SuperIO model configuration exits in the current root node
-            if (!(configuration = getConfiguration(root, modelNode)))
-                configuration = OSDynamicCast(OSDictionary, root->getObject("Default")); // Try to obtain default configuration dictionary
-            
-            modelNode->release();
-            modelNode = 0;
-        }
+        configuration = lookupConfiguration(root, nameNode);
+        
+        nameNode->release();
+        nameNode = 0;
     }
     
     return configuration;
@@ -336,11 +348,11 @@ bool SuperIOMonitor::start(IOService *provider)
     if (OSDictionary* list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration"))) {
         if (mb_manufacturer)
             if (OSDictionary *manufacturer = OSDynamicCast(OSDictionary, list->getObject(mb_manufacturer)))
-                configuration = getConfiguration(manufacturer, mb_product);
+                configuration = lookupConfiguration(manufacturer, mb_product);
         
         // Try to load default configuration from "Sensors Configuration" root node
         if (!configuration) 
-            getConfiguration(list, 0);
+            lookupConfiguration(list, modelName);
     }
     
 	if (configuration) {    

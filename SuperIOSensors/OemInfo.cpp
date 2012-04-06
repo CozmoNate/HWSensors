@@ -21,6 +21,7 @@
  */
 
 #include "OemInfo.h"
+#include "SMBIOS.h"
 
 #define SIGNATURE_16(A,B)             ((A) | (B<<8))
 #define SIGNATURE_32(A,B,C,D)         (SIGNATURE_16(A,B)     | (SIGNATURE_16(C,D)     << 16))
@@ -158,6 +159,160 @@ static UInt8 checksum8( void * start, UInt length )
     return csum;
 }
 
+void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBoard, SMBPackedStrings *strings)
+{
+    if (baseBoard->header.length <8)
+        return;
+    
+    OSString *manufacturer = NULL;
+    
+    if (OSString *name = OSString::withCString(strings->stringAtIndex(baseBoard->manufacturer))) {
+        if (name->isEqualTo("Alienware")) 
+            manufacturer = OSString::withCString("Alienware");
+        if (name->isEqualTo("Apple Inc.")) 
+            manufacturer = OSString::withCString("Apple");
+        if (name->isEqualTo("ASRock")) 
+            manufacturer = OSString::withCString("ASRock");
+        if (name->isEqualTo("ASUSTeK Computer INC.") || name->isEqualTo("ASUSTeK COMPUTER INC.")) 
+            manufacturer = OSString::withCString("ASUS");
+        if (name->isEqualTo("Dell Inc.")) 
+            manufacturer = OSString::withCString("Dell");
+        if (name->isEqualTo("DFI") || name->isEqualTo("DFI Inc.")) 
+            manufacturer = OSString::withCString("DFI");
+        if (name->isEqualTo("ECS")) 
+            manufacturer = OSString::withCString("ECS");
+        if (name->isEqualTo("EPoX COMPUTER CO., LTD")) 
+            manufacturer = OSString::withCString("EPoX");
+        if (name->isEqualTo("EVGA")) 
+            manufacturer = OSString::withCString("EVGA");
+        if (name->isEqualTo("First International Computer, Inc.")) 
+            manufacturer = OSString::withCString("FIC");
+        if (name->isEqualTo("FUJITSU") || name->isEqualTo("FUJITSU SIEMENS")) 
+            manufacturer = OSString::withCString("FUJITSU");
+        if (name->isEqualTo("Gigabyte Technology Co., Ltd.")) 
+            manufacturer = OSString::withCString("Gigabyte");
+        if (name->isEqualTo("Hewlett-Packard")) 
+            manufacturer = OSString::withCString("HP");
+        if (name->isEqualTo("IBM")) 
+            manufacturer = OSString::withCString("IBM");
+        if (name->isEqualTo("Intel") || name->isEqualTo("Intel Corp.") || 
+            name->isEqualTo("Intel Corporation")|| name->isEqualTo("INTEL Corporation")) manufacturer = OSString::withCString("Intel");
+        if (name->isEqualTo("Lenovo") || name->isEqualTo("LENOVO")) 
+            manufacturer = OSString::withCString("Lenovo");
+        if (name->isEqualTo("Micro-Star International") || 
+            name->isEqualTo("MICRO-STAR INTERNATIONAL CO., LTD") || 
+            name->isEqualTo("MICRO-STAR INTERNATIONAL CO.,LTD") ||
+            name->isEqualTo("MSI"))
+            manufacturer = OSString::withCString("MSI");
+        if (name->isEqualTo("Shuttle")) 
+            manufacturer = OSString::withCString("Shuttle");
+        if (name->isEqualTo("TOSHIBA")) 
+            manufacturer = OSString::withCString("TOSHIBA");
+        if (name->isEqualTo("XFX")) 
+            manufacturer = OSString::withCString("XFX");
+        
+        if (!manufacturer && !name->isEqualTo("To be filled by O.E.M.")) 
+            manufacturer = OSString::withString(name);
+        
+        name->release();
+    }
+    
+    if (manufacturer) {
+        provider->setProperty("mb-manufacturer", manufacturer);
+        manufacturer->release();
+    }
+    
+    //strings->setStringProperty(provider, "mb-manufacturer",  baseBoard->manufacturer);
+    strings->setStringProperty(provider, "mb-product",  baseBoard->product);
+}
+
+void decodeSMBIOSStructure(IOService *provider, const SMBStructHeader *structureHeader, const void *tableBoundary)
+{
+    const union SMBStructUnion {
+        SMBBIOSInformation      bios;
+        SMBSystemInformation    system;
+		SMBBaseBoard			baseBoard;
+        SMBMemoryModule         memoryModule;
+        SMBSystemSlot           slot;
+        SMBPhysicalMemoryArray  memoryArray;
+        SMBMemoryDevice         memoryDevice;
+		SMBFirmwareVolume       fv;
+		SMBMemorySPD            spd;
+    } * u = (const SMBStructUnion *) structureHeader;
+    
+    SMBPackedStrings strings = SMBPackedStrings( structureHeader,
+                                                tableBoundary );
+    
+    switch ( structureHeader->type )
+    {
+        case kSMBTypeBIOSInformation:
+            //processSMBIOSStructureType0( &u->bios, &strings );
+            break;
+            
+        case kSMBTypeSystemInformation:
+            //processSMBIOSStructureType1( &u->system, &strings );
+            break;
+            
+		case kSMBTypeBaseBoard:
+			processSMBIOSStructureType2(provider, &u->baseBoard, &strings );
+			break;
+			
+        case kSMBTypeMemoryModule:
+            //            processSMBIOSStructureType6( &u->memoryModule, &strings );
+            break;
+            
+        case kSMBTypeSystemSlot:
+            //            processSMBIOSStructureType9( &u->slot, &strings );
+            break;
+            
+        case kSMBTypePhysicalMemoryArray:
+            //            processSMBIOSStructureType16( &u->memoryArray, &strings );
+            break;
+            
+        case kSMBTypeMemoryDevice:
+            //            processSMBIOSStructureType17( &u->memoryDevice, &strings );
+            break;
+            
+        case kSMBTypeFirmwareVolume:
+            //			processSMBIOSStructureType128( &u->fv, &strings );
+			break;
+            
+		case kSMBTypeMemorySPD:
+            //			processSMBIOSStructureType130( &u->spd, &strings );
+			break;
+    }
+}
+
+void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16 tableLength, UInt16 structureCount)
+{
+    const SMBStructHeader * header;
+    const UInt8 *           next = (const UInt8 *) tableData;
+    const UInt8 *           end  = next + tableLength;
+    
+    while ( structureCount-- && (end > next + sizeof(SMBStructHeader)) )
+    {
+        header = (const SMBStructHeader *) next;
+        if (header->length > end - next) break;
+        
+        decodeSMBIOSStructure(provider, header, end );
+        
+        // Skip the formatted area of the structure.
+        
+        next += header->length;
+        
+        // Skip the unformatted structure area at the end (strings).
+        // Look for a terminating double NULL.
+        
+        for ( ; end > next + sizeof(SMBStructHeader); next++ )
+        {
+            if ( next[0] == 0 && next[1] == 0 )
+            {
+                next += 2; break;
+            }
+        }
+    }
+}
+
 bool setOemProperties(IOService *provider)
 {
     SMBEntryPoint			* eps;
@@ -240,158 +395,4 @@ bool setOemProperties(IOService *provider)
     }
     
     return true;
-}
-
-void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16 tableLength, UInt16 structureCount)
-{
-    const SMBStructHeader * header;
-    const UInt8 *           next = (const UInt8 *) tableData;
-    const UInt8 *           end  = next + tableLength;
-    
-    while ( structureCount-- && (end > next + sizeof(SMBStructHeader)) )
-    {
-        header = (const SMBStructHeader *) next;
-        if (header->length > end - next) break;
-        
-        decodeSMBIOSStructure(provider, header, end );
-        
-        // Skip the formatted area of the structure.
-        
-        next += header->length;
-        
-        // Skip the unformatted structure area at the end (strings).
-        // Look for a terminating double NULL.
-        
-        for ( ; end > next + sizeof(SMBStructHeader); next++ )
-        {
-            if ( next[0] == 0 && next[1] == 0 )
-            {
-                next += 2; break;
-            }
-        }
-    }
-}
-
-void decodeSMBIOSStructure(IOService *provider, const SMBStructHeader *structureHeader, const void *tableBoundary)
-{
-    const union SMBStructUnion {
-        SMBBIOSInformation      bios;
-        SMBSystemInformation    system;
-		SMBBaseBoard			baseBoard;
-        SMBMemoryModule         memoryModule;
-        SMBSystemSlot           slot;
-        SMBPhysicalMemoryArray  memoryArray;
-        SMBMemoryDevice         memoryDevice;
-		SMBFirmwareVolume       fv;
-		SMBMemorySPD            spd;
-    } * u = (const SMBStructUnion *) structureHeader;
-    
-    SMBPackedStrings strings = SMBPackedStrings( structureHeader,
-                                                tableBoundary );
-    
-    switch ( structureHeader->type )
-    {
-        case kSMBTypeBIOSInformation:
-            //processSMBIOSStructureType0( &u->bios, &strings );
-            break;
-            
-        case kSMBTypeSystemInformation:
-            //processSMBIOSStructureType1( &u->system, &strings );
-            break;
-            
-		case kSMBTypeBaseBoard:
-			processSMBIOSStructureType2(provider, &u->baseBoard, &strings );
-			break;
-			
-        case kSMBTypeMemoryModule:
-            //            processSMBIOSStructureType6( &u->memoryModule, &strings );
-            break;
-            
-        case kSMBTypeSystemSlot:
-            //            processSMBIOSStructureType9( &u->slot, &strings );
-            break;
-            
-        case kSMBTypePhysicalMemoryArray:
-            //            processSMBIOSStructureType16( &u->memoryArray, &strings );
-            break;
-            
-        case kSMBTypeMemoryDevice:
-            //            processSMBIOSStructureType17( &u->memoryDevice, &strings );
-            break;
-            
-        case kSMBTypeFirmwareVolume:
-            //			processSMBIOSStructureType128( &u->fv, &strings );
-			break;
-            
-		case kSMBTypeMemorySPD:
-            //			processSMBIOSStructureType130( &u->spd, &strings );
-			break;
-    }
-}
-
-void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBoard, SMBPackedStrings *strings)
-{
-    if (baseBoard->header.length <8)
-        return;
-    
-    OSString *manufacturer = NULL;
-
-    if (OSString *name = OSString::withCString(strings->stringAtIndex(baseBoard->manufacturer))) {
-        if (name->isEqualTo("Alienware")) 
-            manufacturer = OSString::withCString("Alienware");
-        if (name->isEqualTo("Apple Inc.")) 
-            manufacturer = OSString::withCString("Apple");
-        if (name->isEqualTo("ASRock")) 
-            manufacturer = OSString::withCString("ASRock");
-        if (name->isEqualTo("ASUSTeK Computer INC.") || name->isEqualTo("ASUSTeK COMPUTER INC.")) 
-            manufacturer = OSString::withCString("ASUS");
-        if (name->isEqualTo("Dell Inc.")) 
-            manufacturer = OSString::withCString("Dell");
-        if (name->isEqualTo("DFI") || name->isEqualTo("DFI Inc.")) 
-            manufacturer = OSString::withCString("DFI");
-        if (name->isEqualTo("ECS")) 
-            manufacturer = OSString::withCString("ECS");
-        if (name->isEqualTo("EPoX COMPUTER CO., LTD")) 
-            manufacturer = OSString::withCString("EPoX");
-        if (name->isEqualTo("EVGA")) 
-            manufacturer = OSString::withCString("EVGA");
-        if (name->isEqualTo("First International Computer, Inc.")) 
-            manufacturer = OSString::withCString("FIC");
-        if (name->isEqualTo("FUJITSU") || name->isEqualTo("FUJITSU SIEMENS")) 
-            manufacturer = OSString::withCString("FUJITSU");
-        if (name->isEqualTo("Gigabyte Technology Co., Ltd.")) 
-            manufacturer = OSString::withCString("Gigabyte");
-        if (name->isEqualTo("Hewlett-Packard")) 
-            manufacturer = OSString::withCString("HP");
-        if (name->isEqualTo("IBM")) 
-            manufacturer = OSString::withCString("IBM");
-        if (name->isEqualTo("Intel") || name->isEqualTo("Intel Corp.") || 
-            name->isEqualTo("Intel Corporation")|| name->isEqualTo("INTEL Corporation")) manufacturer = OSString::withCString("Intel");
-        if (name->isEqualTo("Lenovo") || name->isEqualTo("LENOVO")) 
-            manufacturer = OSString::withCString("Lenovo");
-        if (name->isEqualTo("Micro-Star International") || 
-            name->isEqualTo("MICRO-STAR INTERNATIONAL CO., LTD") || 
-            name->isEqualTo("MICRO-STAR INTERNATIONAL CO.,LTD") ||
-            name->isEqualTo("MSI"))
-            manufacturer = OSString::withCString("MSI");
-        if (name->isEqualTo("Shuttle")) 
-            manufacturer = OSString::withCString("Shuttle");
-        if (name->isEqualTo("TOSHIBA")) 
-            manufacturer = OSString::withCString("TOSHIBA");
-        if (name->isEqualTo("XFX")) 
-            manufacturer = OSString::withCString("XFX");
-        
-        if (!manufacturer && !name->isEqualTo("To be filled by O.E.M.")) 
-            manufacturer = OSString::withString(name);
-            
-        name->release();
-    }
-    
-    if (manufacturer) {
-        provider->setProperty("mb-manufacturer", manufacturer);
-        manufacturer->release();
-    }
-    
-    //strings->setStringProperty(provider, "mb-manufacturer",  baseBoard->manufacturer);
-    strings->setStringProperty(provider, "mb-product",  baseBoard->product);
 }
