@@ -95,7 +95,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 		<key>com.apple.iokit.IOACPIFamily</key>
-		<string>1.2.0</string>
+		<string>1.0.0b1</string>
 		<key>org.netkas.FakeSMC</key>
 		<string>4.2.0</string>
 	</dict>
