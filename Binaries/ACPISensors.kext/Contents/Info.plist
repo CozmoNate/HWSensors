@@ -65,22 +65,6 @@
 			<string>IOACPIPlatformDevice</string>
 			<key>Keys Associations</key>
 			<dict>
-				<key>Voltages</key>
-				<dict>
-					<key>VVAS</key>
-					<string>VIN4</string>
-					<key>VVBS</key>
-					<string>VIN0</string>
-					<key>VVCS</key>
-					<string>VIN1</string>
-					<key>VVDS</key>
-					<string>VIN2</string>
-					<key>VVFS</key>
-					<string>VIN3</string>
-				</dict>
-			</dict>
-			<key>Keys Associations (disabled)</key>
-			<dict>
 				<key>Temperatures</key>
 				<dict>
 					<key>TN0P</key>
@@ -94,6 +78,22 @@
 					<string>VCPU</string>
 					<key>VM0R</key>
 					<string>VMEM</string>
+				</dict>
+			</dict>
+			<key>Keys Associations (from test)</key>
+			<dict>
+				<key>Voltages</key>
+				<dict>
+					<key>VVAS</key>
+					<string>VIN4</string>
+					<key>VVBS</key>
+					<string>VIN0</string>
+					<key>VVCS</key>
+					<string>VIN1</string>
+					<key>VVDS</key>
+					<string>VIN2</string>
+					<key>VVFS</key>
+					<string>VIN3</string>
 				</dict>
 			</dict>
 		</dict>

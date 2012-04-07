@@ -71,7 +71,7 @@ inline UInt8 get_index(char c)
                         UInt8 encoded = 0;
                         
                         bcopy([value bytes], &encoded, 1);
-                                                
+                        
                         return (signd && encoded & 0x80 ? -encoded : encoded);
                     }
                     break;
@@ -108,7 +108,7 @@ inline UInt8 get_index(char c)
             
             UInt8 i = [HWMonitorSensor getIndexOfHexChar:[type characterAtIndex:2]];
             UInt8 f = [HWMonitorSensor getIndexOfHexChar:[type characterAtIndex:3]];
-                
+            
             if (i + f != ([type characterAtIndex:0] == 's' ? 15 : 16) ) 
                 return 0;
             
@@ -118,7 +118,7 @@ inline UInt8 get_index(char c)
             
             if (minus) 
                 swapped = swapped & 0x7fff;
-
+            
             return ((float)swapped / (float)(0x1 << f)) * ([type characterAtIndex:0] == 's' && minus ? -1 : 1);
         }
     }
@@ -132,9 +132,9 @@ inline UInt8 get_index(char c)
         switch (group) {
             case kSMARTSensorGroupTemperature: {
                 UInt16 t = 0;
-
+                
                 [value getBytes:&t length:2];
-                               
+                
                 if (level != kHWSensorLevelExceeded)
                     [self setLevel:t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
@@ -146,7 +146,7 @@ inline UInt8 get_index(char c)
                 UInt64 life = 0;
                 
                 [value getBytes:&life length:[value length]];
-               
+                
                 //[self setExceeded:exceeded || (life >= 80)];
                 
                 //return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
@@ -171,7 +171,7 @@ inline UInt8 get_index(char c)
             case kHWSensorGroupTachometer: {
                 
                 float rpm = [self decodeValue];
-                                
+                
                 [self setLevel:rpm == 0 ? kHWSensorLevelExceeded : kHWSensorLevelNormal];
                 
                 return [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
@@ -183,10 +183,10 @@ inline UInt8 get_index(char c)
             case kHWSensorGroupFrequency: {
                 float f = [self decodeValue];
                 
-                if (f > 1000) {
+                if (f > 1000)
                     return [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1000.0f];
-                }
-                else return [[NSString alloc] initWithFormat:@"%1.1fMHz", f]; 
+                else 
+                    return [[NSString alloc] initWithFormat:@"%1.1fMHz", f]; 
             }
         }
     }

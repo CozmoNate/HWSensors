@@ -49,7 +49,7 @@
 				<string>Fan 9</string>
 				<string>Fan 10</string>
 			</array>
-			<key>Keys Associations (disabled)</key>
+			<key>Keys Associations</key>
 			<dict>
 				<key>Temperatures</key>
 				<dict>
@@ -66,7 +66,7 @@
 					<string>VMEM</string>
 				</dict>
 			</dict>
-			<key>Keys Associations</key>
+			<key>Keys Associations (from test)</key>
 			<dict>
 				<key>Voltages</key>
 				<dict>
