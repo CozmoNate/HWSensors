@@ -1707,6 +1707,109 @@
 			<dict>
 				<key>ASUS</key>
 				<dict>
+					<key>P8H67-M PRO</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>CPU Fan</string>
+						<key>FANIN1</key>
+						<string>Power Fan</string>
+						<key>FANIN2</key>
+						<string>Chassis Fan</string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN1</key>
+						<string></string>
+						<key>TEMPIN2</key>
+						<string></string>
+						<key>TEMPIN3</key>
+						<string>System</string>
+						<key>TEMPIN4</key>
+						<string></string>
+						<key>TEMPIN5</key>
+						<string></string>
+						<key>TEMPIN6</key>
+						<string></string>
+						<key>TEMPIN7</key>
+						<string></string>
+						<key>TEMPIN8</key>
+						<string></string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<dict>
+							<key>gain</key>
+							<integer>11000</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN2</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Main 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN3</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>CPU VRM Supply 3</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN4</key>
+						<dict>
+							<key>gain</key>
+							<integer>4000</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
+						<string></string>
+						<key>VIN6</key>
+						<string></string>
+						<key>VIN7</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Auxiliary 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Power/Battery</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+					</dict>
 					<key>P8P67</key>
 					<string>P8P67 PRO</string>
 					<key>P8P67 EVO</key>
