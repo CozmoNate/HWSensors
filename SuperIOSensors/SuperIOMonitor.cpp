@@ -93,7 +93,7 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
         if (process_sensor_entry(configuration->getObject(key), &name, &reference, &gain, &offset)) {
             if (name->isEqualTo("CPU")) {
                 if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add  CPU voltage sensor");
+                    WarningLog("can't add CPU voltage sensor");
             }
             else if (name->isEqualTo("Memory")) {
                 if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
@@ -115,17 +115,17 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
                 if (!addSensor(KEY_STANDBY_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     WarningLog("can't add Standby 5V voltage sensor");
             }
-            else if (name->isEqualTo("Main 3.3V")) {
+            else if (name->isEqualTo("Main 3V")) {
                 if (!addSensor(KEY_MAIN_3V3_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add Main 3.3V voltage sensor");
+                    WarningLog("can't add Main 3V voltage sensor");
             }
-            else if (name->isEqualTo("Auxiliary 3.3V")) {
+            else if (name->isEqualTo("Auxiliary 3V")) {
                 if (!addSensor(KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add Auxiliary 3.3V voltage sensor");
+                    WarningLog("can't add Auxiliary 3V voltage sensor");
             }
-            else if (name->isEqualTo("Battery")) {
+            else if (name->isEqualTo("Power/Battery")) {
                 if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add Battery voltage sensor!");
+                    WarningLog("can't add Power/Battery voltage sensor");
             }
             
             for (int j = 0; j <= 0xf; j++) {
@@ -137,7 +137,7 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
                 if (name->isEqualTo(caption)) {
                     snprintf(key, 5, KEY_FORMAT_POWERSUPPLY_VOLTAGE, j);
                     if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                        WarningLog("can't add PWR%X voltage Sensor!", j);
+                        WarningLog("can't add PWR%X voltage sensor", j);
                 }
                 else {
                 
@@ -146,7 +146,7 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
                     if (name->isEqualTo(caption)) {
                         snprintf(key, 5, KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE, j);
                         if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                            WarningLog("can't add VRM%X voltage Sensor!", j);
+                            WarningLog("can't add VRM%X voltage sensor", j);
                     }
                 }
             }

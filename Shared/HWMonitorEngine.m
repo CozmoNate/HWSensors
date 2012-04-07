@@ -33,17 +33,13 @@
     io_service_t service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
     
     if (service) {
-        CFTypeRef message = (CFTypeRef) CFStringCreateWithCString(kCFAllocatorDefault, [key cStringUsingEncoding:NSASCIIStringEncoding], kCFStringEncodingASCII);
-        
-        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDeviceUpdateKeyValue), message)) 
-        {
+        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDeviceUpdateKeyValue), (__bridge CFTypeRef)key)) {
             NSDictionary *values = (__bridge_transfer NSDictionary *)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
             
             if (values)
                 info = [values objectForKey:key];
         }
         
-        CFRelease(message);
         IOObjectRelease(service);
     }
     
@@ -54,7 +50,7 @@
 {
     if (info && [info count] == 2) 
         return (NSString*)[info objectAtIndex:0];
-        
+    
     return nil;
 }
 
@@ -220,7 +216,7 @@
             if (disk) 
                 [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupTemperature];
         }
-    
+        
         // SSD Remaining Life
         
         for (int i = 0; i < [[smartReporter drives] count]; i++) {
@@ -289,7 +285,7 @@
                 case kSMARTSensorGroupTemperature:
                     if ([sensor disk]) [sensor setValue:[[sensor disk] getTemperature]];                    
                     break;
-
+                    
                 case kSMARTSensorGroupRemainingLife: {
                     if ([sensor disk]) [sensor setValue:[[sensor disk] getRemainingLife]];                   
                     break;
