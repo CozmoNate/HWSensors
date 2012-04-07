@@ -22,7 +22,7 @@
 	<string>Copyright © 2012 kozlek. All rights reserved.</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>Intel Thermal Monitor Plugin</key>
+		<key>Intel Thermal Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
 			<string>org.kozlek.${PRODUCT_NAME}</string>
@@ -39,7 +39,7 @@
 			<string>AppleACPICPU</string>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
-			<key>Tjmax</key>
+			<key>TjmaxForced</key>
 			<integer>0</integer>
 		</dict>
 	</dict>
