@@ -2162,14 +2162,43 @@
 			<key>IOClass</key>
 			<string>SuperIO</string>
 			<key>IOMatchCategory</key>
-			<string>SuperIONub</string>
+			<string>SuperIO</string>
 			<key>IOPCIClassMatch</key>
 			<string>0x06010000&amp;0xffffff00</string>
-			<key>IOPropertyMatch</key>
-			<dict>
-				<key>class-code</key>
-				<data>AAEGAA==</data>
-			</dict>
+			<key>IONameMatch</key>
+			<array>
+				<string>pci8086,1c42</string>
+				<string>pci8086,1c44</string>
+				<string>pci8086,1c4e</string>
+				<string>pci8086,1c4c</string>
+				<string>pci8086,1c50</string>
+				<string>pci8086,1c4a</string>
+				<string>pci8086,1c46</string>
+				<string>pci8086,1c5c</string>
+				<string>pci8086,1c52</string>
+				<string>pci8086,1c54</string>
+				<string>pci8086,1c56</string>
+				<string>pci8086,1c43</string>
+				<string>pci8086,1c4f</string>
+				<string>pci8086,1c47</string>
+				<string>pci8086,1c4b</string>
+				<string>pci8086,1c49</string>
+				<string>pci8086,1c41</string>
+				<string>pci8086,1c4d</string>
+				<string>pci8086,2811</string>
+				<string>pci8086,2815</string>
+				<string>pci8086,27b9</string>
+				<string>pci8086,27bd</string>
+				<string>pci8086,2670</string>
+				<string>pci8086,8119</string>
+				<string>pci8086,2916</string>
+				<string>pci8086,3a18</string>
+				<string>pci8086,3b00</string>
+				<string>pci8086,3b01</string>
+				<string>pci8086,3b02</string>
+				<string>pci8086,3b06</string>
+				<string>pci8086,3b09</string>
+			</array>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 			<key>IOResourceMatch</key>
@@ -2581,11 +2610,11 @@
 		<string>1.8</string>
 		<key>com.apple.kpi.iokit</key>
 		<string>8.0.0b3</string>
+		<key>com.apple.kpi.unsupported</key>
+		<string>8.0.0b3</string>
 		<key>com.apple.kpi.libkern</key>
 		<string>8.0.0b3</string>
 		<key>com.apple.kpi.mach</key>
-		<string>8.0.0b3</string>
-		<key>com.apple.kpi.unsupported</key>
 		<string>8.0.0b3</string>
 		<key>org.netkas.FakeSMC</key>
 		<string>4.2.0</string>

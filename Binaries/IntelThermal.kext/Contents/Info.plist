@@ -36,7 +36,7 @@
 	<string>4E2002</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>Intel Thermal Monitor Plugin</key>
+		<key>Intel Thermal Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
 			<string>org.kozlek.IntelThermal</string>
@@ -53,7 +53,7 @@
 			<string>AppleACPICPU</string>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
-			<key>Tjmax</key>
+			<key>TjmaxForced</key>
 			<integer>0</integer>
 		</dict>
 	</dict>

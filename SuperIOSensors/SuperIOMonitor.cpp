@@ -166,7 +166,7 @@ bool SuperIOMonitor::addTachometerSensors(OSDictionary *configuration)
         char key[7];
             
         snprintf(key, 7, "FANIN%X", i);
-            
+
         name = OSDynamicCast(OSString, configuration->getObject(key));
         
         UInt64 nameLength = name ? name->getLength() : 0;

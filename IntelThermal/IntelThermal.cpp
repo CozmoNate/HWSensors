@@ -64,7 +64,7 @@
 OSDefineMetaClassAndStructors(IntelThermal, FakeSMCPlugin)
 
 inline UInt8 get_hex_index(char c)
-{
+{       
 	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
 };
 
@@ -140,7 +140,7 @@ float IntelThermal::calculateMultiplier(UInt8 cpu_index)
             
         case CPUFAMILY_INTEL_SANDYBRIDGE:
             return cpu_performance[0] >> 8;
-
+            
         default: {
             UInt8 fid = cpu_performance[cpu_index] >> 8;
             return (float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1);
@@ -166,7 +166,7 @@ float IntelThermal::getSensorValue(FakeSMCSensor *sensor)
                 return calculateMultiplier(sensor->getIndex());
             }
             break;
-        
+            
         case kFakeSMCFrequencySensor:
             if (sensor->getIndex() < cpuid_info()->core_count) {
                 perfCounter = 0;
@@ -206,7 +206,7 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
 	UInt32 CpuModel = cpuid_info()->cpuid_model;
 	UInt32 CpuStepping =  cpuid_info()->cpuid_stepping;
 	
-	if (OSNumber* number = OSDynamicCast(OSNumber, getProperty("Tjmax"))) {
+	if (OSNumber* number = OSDynamicCast(OSNumber, getProperty("TjmaxForced"))) {
 		// User defined Tjmax
 		tjmax[0] = number->unsigned32BitValue();
 		
@@ -214,7 +214,7 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
             for (int i = 1; i < cpuid_info()->core_count; i++)
 				tjmax[i] = tjmax[0];
             
-            InfoLog("using predefined Tjmax value: %d", tjmax[0]);
+            InfoLog("force Tjmax value to %d", tjmax[0]);
         }
 	} 
     
@@ -223,55 +223,68 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
 		switch (CpuFamily)
 		{
 			case 0x06: 
-			{
 				switch (CpuModel) 
 				{
 					case CPUID_MODEL_MEROM: // Intel Core (65nm)
-						//arch = Core;
 						switch (CpuStepping) 
-                    {
-                        case 0x02: // G0
-                            tjmax[0] = 95; break;
-                        case 0x06: // B2
-                            switch (cpuid_info()->core_count) 
                         {
-                            case 2:
-                                tjmax[0] = 80; break;
-                            case 4:
-                                tjmax[0] = 90; break;
+                            case 0x02: // G0
+                                tjmax[0] = 100; 
+                                break;
+                                
+                            case 0x06: // B2
+                                switch (cpuid_info()->core_count) 
+                                {
+                                    case 2:
+                                        tjmax[0] = 80; 
+                                        break;
+                                    case 4:
+                                        tjmax[0] = 90; 
+                                        break;
+                                    default:
+                                        tjmax[0] = 85; 
+                                        break;
+                                }
+                                //tjmax[0] = 80; 
+                                break;
+                                
+                            case 0x0B: // G0
+                                tjmax[0] = 90; 
+                                break;
+                                
+                            case 0x0D: // M0
+                                tjmax[0] = 85; 
+                                break;
+                                
                             default:
-                                tjmax[0] = 85; break;
-                        }
-                            tjmax[0] = 80; break;
-                        case 0x0B: // G0
-                            tjmax[0] = 90; break;
-                        case 0x0D: // M0
-                            tjmax[0] = 85; break;
-                        default:
-                            tjmax[0] = 85; break;
-                    } break;
+                                tjmax[0] = 85; 
+                                break;
+                                
+                        } 
+                        break;
 						
 					case CPUID_MODEL_PENRYN: // Intel Core (45nm)
-						//arch = Core;
-						// Mobile CPU ?
-						if (rdmsr64(0x17) & (1<<28)) {
-							tjmax[0] = 105; break;
-						}
-						else {
-							tjmax[0] = 100; break;
-						}
+                        // Mobile CPU ?
+						if (rdmsr64(0x17) & (1<<28))
+							tjmax[0] = 105;
+						else
+							tjmax[0] = 100; 
+                        break;
 						
 					case CPUID_MODEL_ATOM: // Intel Atom (45nm)
-						//arch = Atom;
 						switch (CpuStepping)
-                    {
-                        case 0x02: // C0
-                            tjmax[0] = 90; break;
-                        case 0x0A: // A0, B0
-                            tjmax[0] = 100; break;
-                        default:
-                            tjmax[0] = 90; break;
-                    } break;
+                        {
+                            case 0x02: // C0
+                                tjmax[0] = 90; 
+                                break;
+                            case 0x0A: // A0, B0
+                                tjmax[0] = 100; 
+                                break;
+                            default:
+                                tjmax[0] = 90; 
+                                break;
+                        } 
+                        break;
 						
 					case CPUID_MODEL_NEHALEM:
 					case CPUID_MODEL_FIELDS:
@@ -289,10 +302,9 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
 						WarningLog("unsupported Intel processor found");
 						return this;
 				}
-			} break;
+                break;
                 
             case 0x0F: 
-            {
                 switch (CpuModel) 
                 {
                     case 0x00: // Pentium 4 (180nm)
@@ -301,11 +313,10 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
                     case 0x03: // Pentium 4, Celeron D (90nm)
                     case 0x04: // Pentium 4, Pentium D, Celeron D (90nm)
                     case 0x06: // Pentium 4, Pentium D, Celeron D (65nm)
-                        //arch = NetBurst;
                         tjmax[0] = 100;
                         break;
                 }
-            } break;
+                break;
 				
 			default:
 				WarningLog("unknown Intel family processor found");

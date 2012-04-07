@@ -330,6 +330,7 @@ bool setOemProperties(IOService *provider)
     if(biosMemory)
     {
         biosMap = biosMemory->map();
+        
         if(biosMap)
         {
             biosAddress = (UInt8 *) biosMap->getVirtualAddress();
@@ -345,6 +346,7 @@ bool setOemProperties(IOService *provider)
                 continue;
             }
         }
+    
     if(eps)
         if (memcmp(eps->anchor, "_SM_", 4) == 0)
         {
@@ -353,14 +355,14 @@ bool setOemProperties(IOService *provider)
             csum = checksum8(eps, sizeof(SMBEntryPoint));
             
             /*DebugLog("DMI checksum       = 0x%x", csum);
-            DebugLog("DMI tableLength    = %d",
-                      eps->dmi.tableLength);
-            DebugLog("DMI tableAddress   = 0x%x",
-                      (uint32_t) eps->dmi.tableAddress);
-            DebugLog("DMI structureCount = %d",
-                      eps->dmi.structureCount);
-            DebugLog("DMI bcdRevision    = %x",
-                      eps->dmi.bcdRevision);*/
+             DebugLog("DMI tableLength    = %d",
+             eps->dmi.tableLength);
+             DebugLog("DMI tableAddress   = 0x%x",
+             (uint32_t) eps->dmi.tableAddress);
+             DebugLog("DMI structureCount = %d",
+             eps->dmi.structureCount);
+             DebugLog("DMI bcdRevision    = %x",
+             eps->dmi.bcdRevision);*/
             
             if (csum == 0 && eps->dmi.tableLength &&
                 eps->dmi.structureCount)
@@ -371,25 +373,30 @@ bool setOemProperties(IOService *provider)
                                                                     kIODirectionOutIn );
             }
             /*else
-            {
-                DebugLog("no DMI structure found");
-            }*/
+             {
+             DebugLog("no DMI structure found");
+             }*/
         }
-    if(biosMemory)
+    
+    if (biosMap) {
+        biosMap->release();
+        biosMap = 0;
+    }
+    
+    if(biosMemory) {
         biosMemory->release();  
+        biosMemory = 0;
+    }
     
     if ( dmiMemory )
     {
-        if (IOMemoryMap *fDMIMemoryMap = dmiMemory->map())
-        {
-			//void *SMBIOSTable = (void *) fDMIMemoryMap->getVirtualAddress();
-			//UInt16 SMBIOSTableLength =  fDMIMemoryMap->getLength();
-			
+        if (IOMemoryMap *fDMIMemoryMap = dmiMemory->map())        {
             decodeSMBIOSTable(provider, (void *) fDMIMemoryMap->getVirtualAddress(), fDMIMemoryMap->getLength(), dmiStructureCount );
             
             fDMIMemoryMap->release();
             fDMIMemoryMap = 0;
         }
+        
         dmiMemory->release();
         dmiMemory = 0;
     }

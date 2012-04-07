@@ -685,7 +685,6 @@
 		6A4E473A152178A00038C5DE /* SuperIOSensors */ = {
 			isa = PBXGroup;
 			children = (
-				6AA710B5152B7CFF0006E62C /* OemInfo */,
 				6A2B4E4A152179840093A217 /* Super I/O Nub */,
 				6A2B4E4C152179A80093A217 /* SuperIOMonitor */,
 				6A2B4E4B152179960093A217 /* ITE IT87xx Monitor */,
@@ -785,13 +784,6 @@
 				6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */,
 			);
 			name = "NSString+TruncateToWidth";
-			sourceTree = "<group>";
-		};
-		6AA710B5152B7CFF0006E62C /* OemInfo */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = OemInfo;
 			sourceTree = "<group>";
 		};
 		6AAF9FB6151DC8D1007EACE2 /* FakeSMCPlugin */ = {
