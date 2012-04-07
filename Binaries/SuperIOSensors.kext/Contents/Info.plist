@@ -1603,6 +1603,8 @@
 						<key>VIN8</key>
 						<string>Power/Battery</string>
 					</dict>
+					<key>Z68A-D3H-B3</key>
+					<string>Z68X-UD7-B3</string>
 					<key>Z68X-UD7-B3</key>
 					<dict>
 						<key>FANIN0</key>
