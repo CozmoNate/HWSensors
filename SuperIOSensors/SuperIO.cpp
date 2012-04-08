@@ -41,7 +41,7 @@ bool SuperIO::start(IOService *provider)
         UInt16 model = 0;
         UInt8 ldn = 0;
         const char* vendor = "";
-
+        
         // Fintek
         switch (id) {   
             case F71858:
@@ -64,107 +64,116 @@ bool SuperIO::start(IOService *provider)
                 break;
                 
             default:
-                // Nuvoton
-                switch (id & 0xFFF0) {
-                    case NCT6771F:
-                    case NCT6776F:
-                        model = id;
-                        ldn = kWinbondHardwareMonitorLDN;
-                        vendor = "Nuvoton";
-                        break;
-                        
-                    default:
-                        // Winbond
-                        switch (id >> 8) {
-                            case 0x52:
-                                switch (id & 0xff) {
-                                    case 0x17:
-                                    case 0x3A:
-                                    case 0x41:
-                                        model = W83627HF;
-                                        ldn = kWinbondHardwareMonitorLDN;
-                                        vendor = "Winbond";
-                                        break;
-                                } 
-                                break;
-                                
-                            case 0x82:
-                                switch (id & 0xf0) {
-                                    case 0x80:
-                                        model = W83627THF;
-                                        ldn = kWinbondHardwareMonitorLDN;
-                                        vendor = "Winbond";
-                                        break;
-                                } 
-                                break;
-                                
-                            case 0x85:
-                                switch (id & 0xff) {
-                                    case 0x41:
-                                        model = W83687THF;
-                                        ldn = kWinbondHardwareMonitorLDN;
-                                        vendor = "Winbond";
-                                        break;
-                                } 
-                                break;
-                                
-                            case 0x88:
-                                switch (id & 0xf0) {
-                                    case 0x50:
-                                    case 0x60:
-                                        model = W83627EHF;
-                                        ldn = kWinbondHardwareMonitorLDN;
-                                        vendor = "Winbond";
-                                        break;
-                                } 
-                                break;
-                                
-                            case 0xA0:
-                                switch (id & 0xf0) {
-                                    case 0x20:
-                                        model = W83627DHG;
-                                        ldn = kWinbondHardwareMonitorLDN;
-                                        vendor = "Winbond";
-                                        break;
-                                } 
-                                break;
-                                
-                            case 0xA5:
-                                switch (id & 0xf0) {
-                                    case 0x10:
-                                        model = W83667HG;
-                                        ldn = kWinbondHardwareMonitorLDN;
-                                        vendor = "Winbond";
-                                        break;
-                                } 
-                                break;
-                                
-                            case 0xB0:
-                                switch (id & 0xf0) {
-                                    case 0x70:
-                                        model = W83627DHGP;
-                                        ldn = kWinbondHardwareMonitorLDN;
-                                        vendor = "Winbond";
-                                        break;
-                                } 
-                                break;
-                                
-                            case 0xB3:
-                                switch (id & 0xf0) {
-                                    case 0x50:
-                                        model = W83667HGB;
-                                        ldn = kWinbondHardwareMonitorLDN;
-                                        vendor = "Winbond";
-                                        break;
-                                } 
+                switch (id >> 8) {
+                    // Winbond
+                    case 0x52:
+                        switch (id & 0xff) {
+                            case 0x17:
+                            case 0x3A:
+                            case 0x41:
+                                model = W83627HF;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Winbond";
                                 break;
                         } 
                         break;
-                }
+                        
+                    case 0x82:
+                        switch (id & 0xf0) {
+                            case 0x80:
+                                model = W83627THF;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Winbond";
+                                break;
+                        } 
+                        break;
+                        
+                    case 0x85:
+                        switch (id & 0xff) {
+                            case 0x41:
+                                model = W83687THF;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Winbond";
+                                break;
+                        } 
+                        break;
+                        
+                    case 0x88:
+                        switch (id & 0xf0) {
+                            case 0x50:
+                            case 0x60:
+                                model = W83627EHF;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Winbond";
+                                break;
+                        } 
+                        break;
+                        
+                    case 0xA0:
+                        switch (id & 0xf0) {
+                            case 0x20:
+                                model = W83627DHG;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Winbond";
+                                break;
+                        } 
+                        break;
+                        
+                    case 0xA5:
+                        switch (id & 0xf0) {
+                            case 0x10:
+                                model = W83667HG;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Winbond";
+                                break;
+                        } 
+                        break;
+                        
+                    case 0xB0:
+                        switch (id & 0xf0) {
+                            case 0x70:
+                                model = W83627DHGP;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Winbond";
+                                break;
+                        } 
+                        break;
+                        
+                    case 0xB3:
+                        switch (id & 0xf0) {
+                            case 0x50:
+                                model = W83667HGB;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Winbond";
+                                break;
+                        } 
+                        break;
+                        
+                    // Nuvoton 
+                    case 0xB4:
+                        switch (id & 0xf0) {
+                            case 0x70:
+                                model = NCT6771F;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Nuvoton";
+                                break;
+                        } 
+                        break;
+                        
+                    case 0xC3:
+                        switch (id & 0xf0) {
+                            case 0x30:
+                                model = NCT6776F;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Nuvoton";
+                                break;
+                        } 
+                        break;
+                } 
                 break;
         }
         
-                   
+        
         
         UInt16 address = 0;
         UInt16 verify = 0;
