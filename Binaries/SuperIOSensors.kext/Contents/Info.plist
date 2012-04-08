@@ -40,6 +40,8 @@
 	<dict>
 		<key>Fintek F718x Monitor</key>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>org.kozlek.SuperIOSensors</string>
 			<key>IOClass</key>
 			<string>F718xMonitor</string>
 			<key>IOMatchCategory</key>
@@ -426,6 +428,8 @@
 		</dict>
 		<key>ITE IT87x Monitor</key>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>org.kozlek.SuperIOSensors</string>
 			<key>IOClass</key>
 			<string>IT87xMonitor</string>
 			<key>IOMatchCategory</key>
@@ -1690,6 +1694,8 @@
 		</dict>
 		<key>Nuvoton NCT677x Monitor</key>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>org.kozlek.SuperIOSensors</string>
 			<key>IOClass</key>
 			<string>NCT677xMonitor</string>
 			<key>IOMatchCategory</key>
@@ -2280,6 +2286,8 @@
 		</dict>
 		<key>Super I/O Nub</key>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>org.kozlek.SuperIOSensors</string>
 			<key>IOClass</key>
 			<string>SuperIO</string>
 			<key>IOMatchCategory</key>
@@ -2291,6 +2299,8 @@
 		</dict>
 		<key>Winbond W836x Monitor</key>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>org.kozlek.SuperIOSensors</string>
 			<key>IOClass</key>
 			<string>W836xMonitor</string>
 			<key>IOMatchCategory</key>
