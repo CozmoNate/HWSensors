@@ -42,8 +42,8 @@ bool SuperIO::start(IOService *provider)
         UInt8 ldn = 0;
         const char* vendor = "";
         
-        // Fintek
         switch (id) {   
+            // Fintek
             case F71858:
                 model = id;
                 ldn = kF71858HardwareMonitorLDN;
@@ -172,8 +172,6 @@ bool SuperIO::start(IOService *provider)
                 } 
                 break;
         }
-        
-        
         
         UInt16 address = 0;
         UInt16 verify = 0;

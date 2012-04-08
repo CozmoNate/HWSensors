@@ -158,5 +158,15 @@ bool NCT677xMonitor::initialize()
         return false;
     }
     
+    switch (model) {
+        case NCT6771F:
+            minFanRPM = (int)(1.35e6 / 0xFFFF);
+            break;
+            
+        case NCT6776F:
+            minFanRPM = (int)(1.35e6 / 0x1FFF);
+            break;
+    }
+    
 	return true;
 }
