@@ -2280,21 +2280,14 @@
 		</dict>
 		<key>Super I/O Nub</key>
 		<dict>
-			<key>Disabled</key>
-			<dict>
-				<key>IOPCIClassMatch</key>
-				<string>0x06010000&amp;0xffff0000</string>
-				<key>IOProviderClass</key>
-				<string>IOPCIDevice</string>
-			</dict>
 			<key>IOClass</key>
 			<string>SuperIO</string>
 			<key>IOMatchCategory</key>
 			<string>SuperIO</string>
+			<key>IOPCIClassMatch</key>
+			<string>0x06010000&amp;0xffff0000</string>
 			<key>IOProviderClass</key>
-			<string>AppleACPIPlatformExpert</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
+			<string>IOPCIDevice</string>
 		</dict>
 		<key>Winbond W836x Monitor</key>
 		<dict>
@@ -2698,7 +2691,7 @@
 	<string>2.0.0</string>
 	<key>OSBundleLibraries</key>
 	<dict>
-		<key>com.apple.iokit.IOACPIFamily</key>
+		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>1.0.0b1</string>
 		<key>com.apple.kpi.iokit</key>
 		<string>10.0.0</string>

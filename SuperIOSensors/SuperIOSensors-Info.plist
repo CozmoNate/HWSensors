@@ -29,16 +29,9 @@
 			<key>IOMatchCategory</key>
 			<string>SuperIO</string>
 			<key>IOProviderClass</key>
-			<string>AppleACPIPlatformExpert</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
-			<key>Disabled</key>
-			<dict>
-				<key>IOProviderClass</key>
-				<string>IOPCIDevice</string>
-				<key>IOPCIClassMatch</key>
-				<string>0x06010000&amp;0xffff0000</string>
-			</dict>
+			<string>IOPCIDevice</string>
+			<key>IOPCIClassMatch</key>
+			<string>0x06010000&amp;0xffff0000</string>
 		</dict>
 		<key>Fintek F718x Monitor</key>
 		<dict>
@@ -2690,7 +2683,7 @@
 		<string>10.0.0</string>
 		<key>com.apple.kpi.mach</key>
 		<string>10.0.0</string>
-		<key>com.apple.iokit.IOACPIFamily</key>
+		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>1.0.0b1</string>
 		<key>org.netkas.FakeSMC</key>
 		<string>4.2.0</string>

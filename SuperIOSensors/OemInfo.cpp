@@ -196,7 +196,8 @@ void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBo
         if (name->isEqualTo("IBM")) 
             manufacturer = OSString::withCString("IBM");
         if (name->isEqualTo("Intel") || name->isEqualTo("Intel Corp.") || 
-            name->isEqualTo("Intel Corporation")|| name->isEqualTo("INTEL Corporation")) manufacturer = OSString::withCString("Intel");
+            name->isEqualTo("Intel Corporation")|| name->isEqualTo("INTEL Corporation")) 
+            manufacturer = OSString::withCString("Intel");
         if (name->isEqualTo("Lenovo") || name->isEqualTo("LENOVO")) 
             manufacturer = OSString::withCString("Lenovo");
         if (name->isEqualTo("Micro-Star International") || 
