@@ -384,39 +384,39 @@ struct SMBMemorySPD {
 	SMBWord           Data[];
 };
 
-static const char *
-SMBMemoryDeviceTypes[] =
-{
-    "RAM",          /* 00h  Undefined */
-    "RAM",          /* 01h  Other */
-    "RAM",          /* 02h  Unknown */
-    "DRAM",         /* 03h  DRAM */
-    "EDRAM",        /* 04h  EDRAM */
-    "VRAM",         /* 05h  VRAM */
-    "SRAM",         /* 06h  SRAM */
-    "RAM",          /* 07h  RAM */
-    "ROM",          /* 08h  ROM */
-    "FLASH",        /* 09h  FLASH */
-    "EEPROM",       /* 0Ah  EEPROM */
-    "FEPROM",       /* 0Bh  FEPROM */
-    "EPROM",        /* 0Ch  EPROM */
-    "CDRAM",        /* 0Dh  CDRAM */
-    "3DRAM",        /* 0Eh  3DRAM */
-    "SDRAM",        /* 0Fh  SDRAM */
-    "SGRAM",        /* 10h  SGRAM */
-    "RDRAM",        /* 11h  RDRAM */
-    "DDR SDRAM",    /* 12h  DDR */
-    "DDR2 SDRAM",   /* 13h  DDR2 */
-    "DDR2 FB-DIMM", /* 14h  DDR2 FB-DIMM */
-    "RAM",			/* 15h  unused */
-    "RAM",			/* 16h  unused */
-    "RAM",			/* 17h  unused */
-    "DDR3",			/* 18h  DDR3, chosen in [5776134] */
-};
+//static const char *
+//SMBMemoryDeviceTypes[] =
+//{
+//    "RAM",          /* 00h  Undefined */
+//    "RAM",          /* 01h  Other */
+//    "RAM",          /* 02h  Unknown */
+//    "DRAM",         /* 03h  DRAM */
+//    "EDRAM",        /* 04h  EDRAM */
+//    "VRAM",         /* 05h  VRAM */
+//    "SRAM",         /* 06h  SRAM */
+//    "RAM",          /* 07h  RAM */
+//    "ROM",          /* 08h  ROM */
+//    "FLASH",        /* 09h  FLASH */
+//    "EEPROM",       /* 0Ah  EEPROM */
+//    "FEPROM",       /* 0Bh  FEPROM */
+//    "EPROM",        /* 0Ch  EPROM */
+//    "CDRAM",        /* 0Dh  CDRAM */
+//    "3DRAM",        /* 0Eh  3DRAM */
+//    "SDRAM",        /* 0Fh  SDRAM */
+//    "SGRAM",        /* 10h  SGRAM */
+//    "RDRAM",        /* 11h  RDRAM */
+//    "DDR SDRAM",    /* 12h  DDR */
+//    "DDR2 SDRAM",   /* 13h  DDR2 */
+//    "DDR2 FB-DIMM", /* 14h  DDR2 FB-DIMM */
+//    "RAM",			/* 15h  unused */
+//    "RAM",			/* 16h  unused */
+//    "RAM",			/* 17h  unused */
+//    "DDR3",			/* 18h  DDR3, chosen in [5776134] */
+//};
 
-static const int
-kSMBMemoryDeviceTypeCount = sizeof(SMBMemoryDeviceTypes)   /
-                            sizeof(SMBMemoryDeviceTypes[0]);
+//static const int
+//kSMBMemoryDeviceTypeCount = sizeof(SMBMemoryDeviceTypes)   /
+//                            sizeof(SMBMemoryDeviceTypes[0]);
 
 //
 // OEM Processor Type (Apple Specific - Type 131)

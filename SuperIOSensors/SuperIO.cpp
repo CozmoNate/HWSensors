@@ -55,20 +55,27 @@ bool SuperIO::start(IOService *provider)
                         break;
                 } 
                 break;
+                
             case 0x82:
                 switch (id & 0xf0) {
                     case 0x80:
                         model = W83627THF;
                         ldn = kWinbondHardwareMonitorLDN;
                         vendor = "Winbond";
-                } break;
+                        break;
+                } 
+                break;
+                
             case 0x85:
                 switch (id & 0xff) {
                     case 0x41:
                         model = W83687THF;
                         ldn = kWinbondHardwareMonitorLDN;
                         vendor = "Winbond";
-                } break;
+                        break;
+                } 
+                break;
+                
             case 0x88:
                 switch (id & 0xf0) {
                     case 0x50:
@@ -76,35 +83,49 @@ bool SuperIO::start(IOService *provider)
                         model = W83627EHF;
                         ldn = kWinbondHardwareMonitorLDN;
                         vendor = "Winbond";
-                } break;
+                        break;
+                } 
+                break;
+                
             case 0xA0:
                 switch (id & 0xf0) {
                     case 0x20:
                         model = W83627DHG;
                         ldn = kWinbondHardwareMonitorLDN;
                         vendor = "Winbond";
-                } break;
+                        break;
+                } 
+                break;
+                
             case 0xA5:
                 switch (id & 0xf0) {
                     case 0x10:
                         model = W83667HG;
                         ldn = kWinbondHardwareMonitorLDN;
                         vendor = "Winbond";
-                } break;
+                        break;
+                } 
+                break;
+                
             case 0xB0:
                 switch (id & 0xf0) {
                     case 0x70:
                         model = W83627DHGP;
                         ldn = kWinbondHardwareMonitorLDN;
                         vendor = "Winbond";
-                } break;
+                        break;
+                } 
+                break;
+                
             case 0xB3:
                 switch (id & 0xf0) {
                     case 0x50:
                         model = W83667HGB;
                         ldn = kWinbondHardwareMonitorLDN;
                         vendor = "Winbond";
-                } break;
+                        break;
+                } 
+                break;
         }
         
         if (model == 0)
@@ -216,8 +237,10 @@ bool SuperIO::start(IOService *provider)
             }
         }
         
-        if (model == 0) 
+        if (model == 0) {
+            WarningLog("no supported hardware found");
             return false;
+        }
         
         InfoLog("found %s %s on port=0x%x address=0x%x", vendor, superio_get_model_name(model), port, address);
         
