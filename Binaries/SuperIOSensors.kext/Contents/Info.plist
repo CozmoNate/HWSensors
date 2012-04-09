@@ -2230,29 +2230,11 @@
 					<key>VIN0</key>
 					<string>CPU</string>
 					<key>VIN1</key>
-					<string>Power Supply 1</string>
+					<string>Memory</string>
 					<key>VIN2</key>
-					<dict>
-						<key>gain</key>
-						<integer>1000</integer>
-						<key>name</key>
-						<string>CPU VRM Supply 0</string>
-						<key>offset</key>
-						<integer>0</integer>
-						<key>reference</key>
-						<integer>0</integer>
-					</dict>
+					<string>Power Supply 2</string>
 					<key>VIN3</key>
-					<dict>
-						<key>gain</key>
-						<integer>1000</integer>
-						<key>name</key>
-						<string>Main 3V</string>
-						<key>offset</key>
-						<integer>0</integer>
-						<key>reference</key>
-						<integer>0</integer>
-					</dict>
+					<string>Power Supply 3</string>
 					<key>VIN4</key>
 					<string>Power Supply 4</string>
 					<key>VIN5</key>
@@ -2260,27 +2242,9 @@
 					<key>VIN6</key>
 					<string>Power Supply 6</string>
 					<key>VIN7</key>
-					<dict>
-						<key>gain</key>
-						<integer>1000</integer>
-						<key>name</key>
-						<string>Auxiliary 3V</string>
-						<key>offset</key>
-						<integer>0</integer>
-						<key>reference</key>
-						<integer>0</integer>
-					</dict>
+					<string>Power Supply 7</string>
 					<key>VIN8</key>
-					<dict>
-						<key>gain</key>
-						<integer>1000</integer>
-						<key>name</key>
-						<string>Power/Battery</string>
-						<key>offset</key>
-						<integer>0</integer>
-						<key>reference</key>
-						<integer>0</integer>
-					</dict>
+					<string>Power Supply 8</string>
 				</dict>
 			</dict>
 		</dict>
@@ -2548,7 +2512,7 @@
 					<key>VIN8</key>
 					<string>Power/Battery</string>
 					<key>VIN9</key>
-					<string>Power Supply 8</string>
+					<string>Power Supply 9</string>
 				</dict>
 				<key>W83627DHG</key>
 				<string>W83667HGB</string>

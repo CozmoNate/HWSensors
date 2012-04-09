@@ -19,6 +19,7 @@
 "GPU %X Proximity" = "Датчик видеокарты %X";
 "Northbridge" = "Северный мост";
 "System Chipset" = "Системный чипсет";
+"Ambient" = "Окружение";
 "CPU Package" = "Центральный процессор";
 "CPU %X" = "Процессор %X";
 "CPU Core %X" = "Ядро ЦП %X";
@@ -32,7 +33,7 @@
 "Standby 5V" =  "Резерв 5V";
 "Main 3.3V" =  "Основной 3.3V";
 "Auxiliary 3.3V" =  "Дополнительный 3.3V";
-"VRM Supply %X" =  "Питание VRM %X";
+"CPU VRM Supply %X" =  "Питание CPU VRM %X";
 "Power Supply %X" =  "Источник питания %X";
 "Quit HWMonitor" = "Закрыть HWMonitor";
 "No sensors found" = "Нет доступных сенсоров";

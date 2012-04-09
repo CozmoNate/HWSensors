@@ -88,7 +88,7 @@
                      break;*/
                     
                 case kHWSensorLevelModerate:
-                    valueColor = [NSColor orangeColor];
+                    valueColor = [NSColor colorWithSRGBRed:0.8f green:0.35f blue:0.035 alpha:1.0f];
                     break;
                     
                 case kHWSensorLevelHigh:
