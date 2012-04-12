@@ -1,6 +1,6 @@
 /* NVClock Winbond W83781D hardware monitoring
 */
-#include <unistd.h>
+//#include <unistd.h>
 #include <stdarg.h>
 #include <string.h>
 #include "i2c.h"
@@ -32,10 +32,10 @@ int w83781d_detect(I2CDevPtr dev)
 		case W83781D_MAN_ID:
 		/* We still need a chip_id check (0x11 for w83781d) */
 			dev->chip_id = W83781D;
-			dev->chip_name = (char*)strdup("Winbond W83781D");
+			dev->chip_name = (char*)STRDUP("Winbond W83781D", sizeof("Winbond W83781D"));
 			break;
 		default:
-			printf("Uknown Winbond vendor: %x\n", man_id);
+			IOLog("Uknown Winbond vendor: %x\n", man_id);
 			return 0;
 	}
 	return 1;
@@ -73,9 +73,11 @@ int w83781d_get_fanspeed_rpm(I2CDevPtr dev)
 
 float w83781d_get_fanspeed_pwm(I2CDevPtr dev)
 {
+	return 0;
 }
 
 int w83781d_set_fanspeed_pwm(I2CDevPtr dev, float speed)
 {
+	return 0;
 }
 

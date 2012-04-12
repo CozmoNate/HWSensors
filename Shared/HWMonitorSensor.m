@@ -58,7 +58,7 @@ inline UInt8 get_index(char c)
     return nil;
 }
 
-- (float)decodeValue
+- (float)decodedValue
 {
     if (value != NULL) {
         if (([type characterAtIndex:0] == 'u' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'i') {
@@ -158,19 +158,19 @@ inline UInt8 get_index(char c)
             }
                 
             case kHWSensorGroupTemperature: {
-                float t = [self decodeValue];
+                float t = [self decodedValue];
                 
-                [self setLevel:t >= 70 ? kHWSensorLevelHigh : t >= 60 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+                [self setLevel:t >= 100 ? kHWSensorLevelExceeded : t >= 85 ? kHWSensorLevelHigh : t >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
                 return [[NSString alloc] initWithFormat:@"%1.0f°", t];
             }
                 
             case kHWSensorGroupVoltage:
-                return [[NSString alloc] initWithFormat:@"%1.3fV", [self decodeValue]];
+                return [[NSString alloc] initWithFormat:@"%1.3fV", [self decodedValue]];
                 
             case kHWSensorGroupTachometer: {
                 
-                float rpm = [self decodeValue];
+                float rpm = [self decodedValue];
                 
                 [self setLevel:rpm == 0 ? kHWSensorLevelExceeded : kHWSensorLevelNormal];
                 
@@ -178,10 +178,10 @@ inline UInt8 get_index(char c)
             }
                 
             case kHWSensorGroupMultiplier:
-                return [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
+                return [[NSString alloc] initWithFormat:@"x%1.1f", [self decodedValue]];
                 
             case kHWSensorGroupFrequency: {
-                float f = [self decodeValue];
+                float f = [self decodedValue];
                 
                 if (f > 1000)
                     return [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1000.0f];

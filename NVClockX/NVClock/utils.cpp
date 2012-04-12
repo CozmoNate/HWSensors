@@ -19,7 +19,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
  */
 
-#include <stdio.h>
+#include <IOKit/IOLib.h>
 
 /* Convert the gpu architecture to a string using NVxx/Gxx naming */
 int convert_gpu_architecture(short arch, char *buf)
@@ -30,33 +30,36 @@ int convert_gpu_architecture(short arch, char *buf)
 	switch(arch)
 	{
 		case 0x46:
-			sprintf(buf, "NV46/G72"); /* 7300 */
+			snprintf(buf, sizeof("NV46/G72"), "NV46/G72"); /* 7300 */
 			break;
 		case 0x47:
-			sprintf(buf, "NV47/G70"); /* 7800 */
+			snprintf(buf, sizeof("NV47/G70"), "NV47/G70"); /* 7800 */
 			break;
 		case 0x49:
-			sprintf(buf, "NV49/G71"); /* 7900 */
+			snprintf(buf, sizeof("NV49/G71"), "NV49/G71"); /* 7900 */
 			break;
 		case 0x4b:
-			sprintf(buf, "NV4B/G73"); /* 7600 */
+			snprintf(buf, sizeof("NV4B/G73"), "NV4B/G73"); /* 7600 */
 			break;
 		case 0x4c: /* is this correct also a C51? */
 		case 0x4e:
-			sprintf(buf, "C51"); /* Geforce 6x00 nForce */
+			snprintf(buf, sizeof("C51"), "C51"); /* Geforce 6x00 nForce */
 			break;
 		// sprintf(buf, "C68"); /* Geforce 70xx nForce */ 
 		case 0x50:
-			sprintf(buf, "NV50/G80"); /* 8800 */
+			snprintf(buf, sizeof("NV50/G80"), "NV50/G80"); /* 8800 */
 			break;
 		case 0xa0:
-			sprintf(buf, "GT200"); /* Geforce GTX260/280 */
+			snprintf(buf, sizeof("GT200"), "GT200"); /* Geforce GTX260/280 */
+			break;
+		case 0xc0 ... 0xcf:
+			snprintf(buf, sizeof("GF100"), "GF100"); /* GF100 */
 			break;
 		default:
 			if(arch <= 0x44) /* The NV44/6200TC is the last card with only an NV name */
-				sprintf(buf, "NV%X", arch);
+				snprintf(buf, sizeof("NV??"), "NV%X", arch);
 			else /* Use Gxx for anything else */
-				sprintf(buf, "G%X", arch);
+				snprintf(buf, sizeof("G??"), "G%X", arch);
 	}
 	return 1;
 }

@@ -19,8 +19,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
  */
 
-#include <stdio.h>
-#include <stdlib.h>
+//#include <stdio.h>
+//#include <stdlib.h>
 #include "backend.h"
 
 static int CalcSpeed(int base_freq, int m, int n, int p)
@@ -38,7 +38,7 @@ float GetClock(int base_freq, unsigned int pll)
 	p = (pll >> 16) & 0x0f;
 	
 	if(nv_card->debug)
-		printf("m=%d n=%d p=%d\n", m, n, p);
+		IOLog("m=%d n=%d p=%d\n", m, n, p);
 	
 	return (float)CalcSpeed(base_freq, m, n, p)/1000;
 }
@@ -185,7 +185,7 @@ static float get_gpu_speed()
 
 	if(nv_card->debug == 1)
 	{
-		printf("NVPLL_COEFF=%08x\n", pll);
+		IOLog("NVPLL_COEFF=%08x\n", pll);
 	}
 	return (float)GetClock(nv_card->base_freq, pll);
 }
@@ -216,7 +216,7 @@ static float get_memory_speed()
 
 	if(nv_card->debug == 1)
 	{
-		printf("MPLL_COEFF=%08x\n", nv_card->PRAMDAC[0x504/4]);
+		IOLog("MPLL_COEFF=%08x\n", nv_card->PRAMDAC[0x504/4]);
 	}
 
 	return ((float)GetClock(nv_card->base_freq, pll)) / factor;
@@ -279,8 +279,8 @@ void nv_init(void)
 	if(nv_card->busses[0] == NULL)
 	{
 		nv_card->num_busses = 2;
-		nv_card->busses[0] = NV_I2CCreateBusPtr("BUS0", 0x3e); /* available on riva128 and higher */
-		nv_card->busses[1] = NV_I2CCreateBusPtr("BUS1", 0x36); /* available on rivatnt hardware and  higher */
+		nv_card->busses[0] = NV_I2CCreateBusPtr(STRDUP("BUS0", sizeof("BUS0")), 0x3e); /* available on riva128 and higher */
+		nv_card->busses[1] = NV_I2CCreateBusPtr(STRDUP("BUS1", sizeof("BUS1")), 0x36); /* available on rivatnt hardware and  higher */
 
 		/* There's an extra bus available on geforce4mx/ti, geforcefx and geforce6 cards.
 		/  The check below looks for geforce4mx/geforcefx/geforce6 architecture.
@@ -288,7 +288,7 @@ void nv_init(void)
 		if(nv_card->arch & (NV17 | NV25 | NV3X | NV4X))
 		{
 			nv_card->num_busses = 3;
-			nv_card->busses[2] = NV_I2CCreateBusPtr("BUS2", 0x50); 
+			nv_card->busses[2] = NV_I2CCreateBusPtr(STRDUP("BUS2", sizeof("BUS2")), 0x50); 
 		}
 	}
 

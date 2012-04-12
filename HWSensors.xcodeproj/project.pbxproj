@@ -546,8 +546,8 @@
 			isa = PBXGroup;
 			children = (
 				1DA9625213ED347B0096F8A5 /* adt7473.cpp */,
-				1DA9625313ED347B0096F8A5 /* backend.cpp */,
 				1DA9625413ED347B0096F8A5 /* backend.h */,
+				1DA9625313ED347B0096F8A5 /* backend.cpp */,
 				1DA9625513ED347B0096F8A5 /* bios.cpp */,
 				1DA9625613ED347B0096F8A5 /* error.cpp */,
 				1DA9625713ED347B0096F8A5 /* f75375.cpp */,

@@ -22,6 +22,15 @@
 #ifndef NVCLOCK_H
 #define NVCLOCK_H
 
+#include <IOKit/IOLib.h>
+
+#define Debug FALSE
+
+#define LogPrefix "NVClockX: "
+#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
+#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
+#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
+
 #define MAX_CARDS 4
 
 #define NV5  (1<<0)
@@ -52,7 +61,8 @@
 #define G94 (1<<21)
 #define G96 (1<<22)
 #define GT200 (1<<23)
-#define NV5X (NV50 | G84 | G86 | G92 | G94 | G96 | GT200)
+#define GF100 (1<<24)
+#define NV5X (NV50 | G84 | G86 | G92 | G94 | G96 | GT200 | GF100)
 
 #define NV_ERR_NO_DEVICES_FOUND 1
 #define NV_ERR_NO_DRIVERS_FOUND 2
@@ -78,10 +88,10 @@
 
 /* Define some i2c types, so that we don't depend on additional headers when using NVClock as a library */
 #ifndef _XF86I2C_H
-typedef void* I2CBusPtr;
-typedef void* I2CDevPtr;
+#include <xf86i2c.h>
+/*typedef void* I2CBusPtr;
+typedef void* I2CDevPtr;*/
 #endif
-
 
 typedef struct
 {
@@ -189,7 +199,12 @@ typedef struct {
 	short device_id;
 	short subvendor_id;
 	int arch; /* Architecture NV10, NV15, NV20 ..; for internal use only as we don't list all architectures */
-	unsigned int reg_address;
+#if __LP64__
+    mach_vm_address_t reg_address;
+#else
+    vm_address_t reg_address;
+#endif
+	//unsigned int reg_address;
 	char *dev_name; /* /dev/mem or /dev/nvidiaX */
 	unsigned short devbusfn;
 	int irq; /* We might need the IRQ to sync NV-CONTROL info with nvclock */
@@ -249,7 +264,7 @@ typedef struct {
 
 	/* Hardware monitoring */
 	short num_busses; /* Number of available i2c busses */
-	I2CBusPtr busses[3]; /* I2C busses on the videocard; this bus is needed for communication with sensor chips */
+	I2CBusPtr busses[4]; /* I2C busses on the videocard; this bus is needed for communication with sensor chips */
 	I2CDevPtr sensor; /* When a sensor chip is available, this device pointer can be used to access it */
 	char *sensor_name; /* Name of the sensor; although sensor contains the name too, we add sensor_name because of the builtin temperature sensor used on various NV4x cards */
 	int (*get_board_temp)(I2CDevPtr dev); /* Temperature of the sensor chip or for example the ram chips */
@@ -298,7 +313,6 @@ typedef struct {
 
 	/* Debug */
 	void (*get_debug_info)();
-
 } NVCard, *NVCardPtr;
 
 typedef struct
@@ -323,16 +337,6 @@ int init_nvclock();
 int set_card(int number);
 void unset_card();
 
-/* config file stuff */
-int open_config();
-int create_config(char *file);
-int read_config(cfg_entry **cfg, char *file);
-int parse_config(char *file);
-void write_config(cfg_entry *cfg, char *file);
-void add_entry(cfg_entry **cfg, char *section, char *name, int value);
-void change_entry(cfg_entry **cfg, char *section, char *name, int value);
-cfg_entry* lookup_entry(cfg_entry **cfg, char *section, char *name);
-void destroy(cfg_entry **cfg);
 
 /* error handling */
 char *get_error(char *buf, int size);

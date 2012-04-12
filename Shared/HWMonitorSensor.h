@@ -44,7 +44,7 @@
 + (int)getIndexOfHexChar:(char)c;
 + (HWMonitorSensor*)sensor;
 
-- (float)decodeValue;
+- (float)decodedValue;
 - (NSString*)formattedValue;
 
 @end

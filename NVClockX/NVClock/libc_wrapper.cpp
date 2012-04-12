@@ -25,7 +25,8 @@
  *
  */
 
-#include <stdio.h>
+//#include <stdio.h>
+#include "nvclock.h"
 #include "xfree.h"
 
 #ifdef HAVE_UNISTD_H
@@ -44,24 +45,30 @@
 */
 
 void
-xf86usleep(usec)
-    unsigned long usec;
+xf86usleep(unsigned long usec)
+    //unsigned long usec;
 {
-#if (defined(SYSV) || defined(SVR4)) && !defined(sun)
-	syscall(3112, (usec) / 1000 + 1);
-#else
-	usleep(usec);
-#endif
+	IODelay(usec);
 }
+
 
 void xf86getsecs(long * secs, long * usecs)
 {
-	struct timeval tv;
+	/*struct timeval tv;
 
-	gettimeofday(&tv, NULL);
+	microtime(&tv);
 	*secs = tv.tv_sec;
 	*usecs= tv.tv_usec;
-
+*/
+    
+    clock_sec_t d_secs = 0;
+    clock_usec_t d_usecs = 0;
+    
+    clock_get_system_microtime(&d_secs, &d_usecs);
+    
+    *secs = d_secs;
+    *usecs = d_usecs;
+    
 	return;
 }
 
