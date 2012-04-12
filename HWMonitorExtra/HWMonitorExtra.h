@@ -8,12 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SystemUIPlugin.h"
+#import "BundleUserDefaults.h"
 #import "HWMonitorView.h"
 #import "HWMonitorEngine.h"
 
 @interface HWMonitorExtra : NSMenuExtra
 
 {
+    BundleUserDefaults *defaults;
+    
     HWMonitorView *view;
     IBOutlet NSMenu *menu;
     

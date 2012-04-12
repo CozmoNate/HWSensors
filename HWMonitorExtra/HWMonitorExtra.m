@@ -49,7 +49,7 @@
         for (int i = 0; i < [list count]; i++) {
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
             
-            [sensor setFavorite:[[NSUserDefaults standardUserDefaults] boolForKey:[sensor key]]];
+            [sensor setFavorite:[defaults boolForKey:[sensor key]]];
             
             if ([sensor disk])
                 [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:statusMenuFont]];
@@ -190,8 +190,8 @@
     
     [self updateTitlesDefault];
     
-    [[NSUserDefaults standardUserDefaults] setBool:[sensor favorite] forKey:[sensor key]];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [defaults setBool:[sensor favorite] forKey:[sensor key]];
+    [defaults synchronize];
 }
 
 - (id)initWithBundle:(NSBundle *)bundle
@@ -199,6 +199,8 @@
     self = [super initWithBundle:bundle];
     
     if (self == nil) return nil;
+    
+    defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.kozlek.HWMonitor"];
     
     favoriteIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"favorite" ofType:@"png"]];
     disabledIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"disabled" ofType:@"png"]];
