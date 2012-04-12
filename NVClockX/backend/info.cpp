@@ -19,8 +19,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
  */
 
-//#include <stdio.h>
-//#include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "backend.h"
 #include "nvclock.h"
@@ -398,8 +398,8 @@ static const struct pci_ids ids[] =
 	{ 0x0863, "C79 [GeForce 9400M]", MOBILE },
 	{ 0x0864, "C79 [GeForce 9300]", DESKTOP },
 	{ 0x0865, "C79 [GeForce 9300]", DESKTOP },
-	
-	
+
+
 	/* New product-ids */
 	{ 0x0095, "G70 [GeForce 7800 SLI]", DESKTOP },
 	{ 0x0184, "NV18 [GeForce4 MX]", MOBILE },
@@ -493,6 +493,9 @@ static const struct pci_ids ids[] =
 	{ 0x065f, "G96 [GeForce GT 210]", DESKTOP },
 	{ 0x06a0, "GT214 [?]", DESKTOP },
 	{ 0x06b0, "GT214 [?]", DESKTOP },
+	{ 0x06c0, "GF100 [GeForce GTX 480]", DESKTOP },
+	{ 0x06cd, "GF100 [GeForce GTX 470]", DESKTOP },
+	{ 0x06d1, "GF100 [Tesla C2050]", DESKTOP },
 	{ 0x07e0, "C73 [GeForce 7150 / nForce 630i]", DESKTOP },
 	{ 0x07e1, "C73 [GeForce 7100 / nForce 630i]", DESKTOP },
 	{ 0x07e2, "C73 [GeForce 7050 / nForce 630i]", DESKTOP },
@@ -522,10 +525,10 @@ static const struct pci_ids ids[] =
 	{ 0x0871, "C79 [GeForce 9200]", DESKTOP },
 	{ 0x0872, "C79 [GeForce G102M]", MOBILE },
 	{ 0x0873, "C79 [GeForce G102M]", MOBILE },
-	{ 0x0874, "C79 [ION 9300M]", DESKTOP },
+	{ 0x0874, "C79 [?]", DESKTOP },
 	{ 0x0876, "C79 [GeForce 9400M]", MOBILE },
 	{ 0x087a, "C79 [GeForce 9400]", DESKTOP },
-	{ 0x087d, "C79 [ION 9400M]", DESKTOP },
+	{ 0x087d, "C79 [?]", DESKTOP },
 	{ 0x087e, "C79 [?]", DESKTOP },
 	{ 0x087f, "C79 [?]", DESKTOP },
 	{ 0x0a20, "GT216 [GeForce GT 220]", DESKTOP },
@@ -572,108 +575,8 @@ static const struct pci_ids ids[] =
 	{ 0x0cb0, "GT215 [GeForce GTS 350M]", MOBILE },
 	{ 0x0cb1, "GT215 [GeForce GTS 360M]", MOBILE },
 	{ 0x0cbc, "GT215 [Quadro FX 1800M]", MOBILE },
-	
-	/*************** GF1xx *************/
-	// 06C0 - 06DF
-	{ 0x06C0, "GF100 [GeForce GTX 480]", DESKTOP },
-	{ 0x06C3, "GF100 [GeForce GTX D12U]", DESKTOP },
-	{ 0x06C4, "GF100 [GeForce GTX 465]", DESKTOP },
-	{ 0x06CA, "GF100 [GeForce GTX 480M]", DESKTOP },
-	{ 0x06CD, "GF100 [GeForce GTX 470]", DESKTOP },
-	{ 0x06D1, "GF100 [Tesla C2050]", DESKTOP },
-	{ 0x06D1, "GF100 [Tesla C2070]", DESKTOP },
-	{ 0x06D2, "GF100 [Tesla M2070]", DESKTOP },
-	{ 0x06D8, "GF100 [Quadro 6000]", DESKTOP },
-	{ 0x06D9, "GF100 [Quadro 5000]", DESKTOP },
-	{ 0x06DA, "GF100 [Quadro 5000M]", MOBILE },
-	{ 0x06DC, "GF100 [Quadro 6000]", DESKTOP },
-	{ 0x06DD, "GF100 [Quadro 4000]", DESKTOP },
-	{ 0x06DE, "GF100 [Tesla M2050]", DESKTOP },
-	{ 0x06DE, "GF100 [Tesla M2070]", DESKTOP },
-	{ 0x06DF, "GF100 [Tesla M2070-Q]", DESKTOP },
-	
-	// 0DC0 - 0DFF
-	{ 0x0DC0, "GF100 [GeForce GT 440]", DESKTOP },
-	{ 0x0DC1, "GF100 [D12-P1-35]", DESKTOP },
-	{ 0x0DC2, "GF100 [D12-P1-35]", DESKTOP },
-	{ 0x0DC4, "GF100 [GeForce GTS 450]", DESKTOP },
-	{ 0x0DC5, "GF100 [GeForce GTS 450]", DESKTOP },
-	{ 0x0DC6, "GF100 [GeForce GTS 450]", DESKTOP },
-	{ 0x0DCA, "GF100 [GF10x]", DESKTOP },
-	{ 0x0DCD, "GF100 [GeForce GT 555M]", MOBILE },
-	{ 0x0DCE, "GF100 [GeForce GT 555M]", MOBILE },
-	{ 0x0DD1, "GF100 [GeForce GTX 460M]", MOBILE },
-	{ 0x0DD2, "GF100 [GeForce GT 445M]", MOBILE },
-	{ 0x0DD3, "GF100 [GeForce GT 435M]", MOBILE },
-	{ 0x0DD6, "GF100 [GeForce GT 550M]", MOBILE },
-	{ 0x0DD8, "GF100 [Quadro 2000]", DESKTOP },
-	{ 0x0DDA, "GF100 [Quadro 2000M]", MOBILE },
-	{ 0x0DDE, "GF100 [GF106-ES]", DESKTOP },
-	{ 0x0DDF, "GF100 [GF106-INT]", DESKTOP },
-	{ 0x0DE0, "GF100 [GeForce GT 440]", DESKTOP },
-	{ 0x0DE1, "GF100 [GeForce GT 430]", DESKTOP },
-	{ 0x0DE2, "GF100 [GeForce GT 420]", DESKTOP },
-	{ 0x0DE5, "GF100 [GeForce GT 530]", DESKTOP },
-	{ 0x0DEB, "GF100 [GeForce GT 555M]", MOBILE },
-	{ 0x0DEC, "GF100 [GeForce GT 525M]", MOBILE },
-	{ 0x0DED, "GF100 [GeForce GT 520M]", MOBILE },
-	{ 0x0DEE, "GF100 [GeForce GT 415M]", MOBILE },
-	{ 0x0DF0, "GF100 [GeForce GT 425M]", MOBILE },
-	{ 0x0DF1, "GF100 [GeForce GT 420M]", MOBILE },
-	{ 0x0DF2, "GF100 [GeForce GT 435M]", MOBILE },
-	{ 0x0DF3, "GF100 [GeForce GT 420M]", MOBILE },
-	{ 0x0DF4, "GF100 [GeForce GT 540M]", MOBILE },
-	{ 0x0DF5, "GF100 [GeForce GT 525M]", MOBILE },
-	{ 0x0DF6, "GF100 [GeForce GT 550M]", MOBILE },
-	{ 0x0DF7, "GF100 [GeForce GT 520M]", MOBILE },
-	{ 0x0DF8, "GF100 [Quadro 600]", DESKTOP },
-	{ 0x0DFA, "GF100 [Quadro 1000M]", MOBILE },
-	{ 0x0DFE, "GF100 [GF108 ES]", DESKTOP },
-	{ 0x0DFF, "GF100 [GF108 INT]", DESKTOP },
-	
-	// 0E20 - 0E3F
-	{ 0x0E21, "GF100 [D12U-25]", DESKTOP },
-	{ 0x0E22, "GF100 [GeForce GTX 460]", DESKTOP },
-	{ 0x0E23, "GF100 [GeForce GTX 460 SE]", DESKTOP },
-	{ 0x0E24, "GF100 [GeForce GTX 460]", DESKTOP },
-	{ 0x0E25, "GF100 [D12U-50]", DESKTOP },
-	{ 0x0E30, "GF100 [GeForce GTX 470M]", MOBILE },
-	{ 0x0E31, "GF100 [GeForce GTX 485M]", MOBILE },
-	{ 0x0E38, "GF100 [GF104GL]", DESKTOP },
-	{ 0x0E3A, "GF100 [Quadro 3000M]", MOBILE },
-	{ 0x0E3B, "GF100 [Quadro 4000M]", MOBILE },
-	{ 0x0E3E, "GF100 [GF104-ES]", DESKTOP },
-	{ 0x0E3F, "GF100 [GF104-INT]", DESKTOP },
-	
-	// 0EE0 - 0EFF: none yet
-	// 0F00 - 0F3F: none yet
-	
-	// 1040 - 107F
-	{ 0x1050, "GF100 [GeForce GT 520M]", MOBILE },
-    { 0x1051, "GF100 [GeForce GT 520MX]", MOBILE },
-	{ 0x1054, "GF100 [GeForce GT 410M]", MOBILE },
-	{ 0x1056, "GF100 [NVS 4200M]", MOBILE },
-	{ 0x1057, "GF100 [NVS 4200M]", MOBILE },
-	{ 0x107F, "GF100 [NVIDIA GF119-ES]", DESKTOP },
-	
-	// 1080 - 109F
-	{ 0x1080, "GF100 [GeForce GTX 580]", DESKTOP },
-	{ 0x1081, "GF100 [GeForce GTX 570]", DESKTOP },
-	{ 0x1082, "GF100 [GeForce GTX 560 Ti]", DESKTOP },
-	{ 0x1083, "GF100 [GeForce GTX 590]", DESKTOP },
-	{ 0x1086, "GF100 [GeForce GTX 570]", DESKTOP },
-	{ 0x1088, "GF100 [GeForce GTX 590]", DESKTOP },
-	{ 0x1098, "GF100 [D13U]", DESKTOP },
-	{ 0x109A, "GF100 [Quadro 5010M]", MOBILE },
-	
-	// 1200 - 127F
-	{ 0x1200, "GF100 [GeForce GTX 560 Ti]", DESKTOP },
-    { 0x1201, "GF100 [GeForce GTX 560]", DESKTOP },
-	{ 0x1244, "GF100 [GeForce GTX 550 Ti]", DESKTOP },
-	{ 0x1245, "GF100 [GeForce GTS 450]", DESKTOP },
-	{ 0x1251, "GF100 [N12E-GS-A1]", DESKTOP },
-	
-	
+
+
 	{ 0, NULL, UNKNOWN }
 };
 
@@ -698,179 +601,175 @@ const char *get_card_name(int device_id, gpu_type *gpu)
 }
 
 /* Internal gpu architecture function which sets
-/  a device to a specific architecture. This architecture
-/  doesn't have to be the real architecture. It is mainly
-/  used to choose codepaths inside nvclock.
+   a device to a specific architecture. This architecture
+   doesn't have to be the real architecture. It is mainly
+   used to choose codepaths inside nvclock.
 */
 int get_gpu_arch(int device_id)
 {
 	int arch;
-	
 	switch(device_id & 0xfff0)
 	{
-		case 0x20:
-			arch = NV5;
-			break;
-		case 0x100:
-		case 0x110:
-		case 0x150:
-		case 0x1a0:
-			arch = NV10;
-			break;
-		case 0x170:
-		case 0x180:
-		case 0x1f0:
-			arch = NV17;
-			break;
-		case 0x200:
-			arch = NV20;
-			break;
-		case 0x250:
-		case 0x280:
-		case 0x320:	/* We don't treat the FX5200/FX5500 as FX cards */
-			arch = NV25;
-			break;
-		case 0x300:
-			arch = NV30;
-			break;
-		case 0x330:
-			arch = NV35; /* Similar to NV30 but fanspeed stuff works differently */
-			break;
+	case 0x0020:
+		arch = NV5;
+		break;
+	case 0x0100:
+	case 0x0110:
+	case 0x0150:
+	case 0x01a0:
+		arch = NV10;
+		break;
+	case 0x0170:
+	case 0x0180:
+	case 0x01f0:
+		arch = NV17;
+		break;
+	case 0x0200:
+		arch = NV20;
+		break;
+	case 0x0250:
+	case 0x0280:
+	case 0x0320:	/* We don't treat the FX5200/FX5500 as FX cards */
+		arch = NV25;
+		break;
+	case 0x0300:
+		arch = NV30;
+		break;
+	case 0x0330:
+		arch = NV35; /* Similar to NV30 but fanspeed stuff works differently */
+		break;
 		/* Give a seperate arch to FX5600/FX5700 cards as they need different code than other FX cards */
-		case 0x310:
-		case 0x340:
-			arch = NV31;
-			break;
-		case 0x40:
-		case 0x120:
-		case 0x130:
-		case 0x210:
-		case 0x230:
+	case 0x0310:
+	case 0x0340:
+		arch = NV31;
+		break;
+	case 0x0040:
+	case 0x0120:
+	case 0x0130:
+	case 0x0210:
+	case 0x0230:
+		arch = NV40;
+		break;
+	case 0x00c0:
+		arch = NV41;
+		break;
+	case 0x0140:
+		arch = NV43; /* Similar to NV40 but with different fanspeed code */
+		break;
+	case 0x0160:
+	case 0x0220:
+		arch = NV44;
+		break;
+	case 0x01d0:
+		arch = NV46;
+		break;
+	case 0x0090:
+		arch = NV47;
+		break;
+	case 0x0290:
+		arch = NV49; /* 7900 */
+		break;
+	case 0x0380:
+	case 0x0390:
+		arch = NV4B; /* 7600 */
+		break;
+	case 0x0190:
+		arch = NV50; /* 8800 'NV50 / G80' */
+		break;
+	case 0x0400: /* 8600 'G84' */
+		arch = G84;
+		break;
+	case 0x0420: /* 8500 'G86' */
+		arch = G86;
+		break;
+	case 0x05e0: /* GT2x0 */
+	case 0x05f0: /* GT2x0 */
+	case 0x06a0:
+	case 0x06b0:
+	case 0x06c0:
+	case 0x06d0:
+	case 0x0a20:
+	case 0x0a30:
+	case 0x0a60:
+	case 0x0a70:
+	case 0x0ca0:
+	case 0x0cb0:
+		arch = GT200;
+		break;
+	case 0x06e0: /* G98 */
+	case 0x06f0: /* G98 */
+	case 0x0860: /* C79 */
+	case 0x07e0: /* C73 */
+	case 0x0840: /* C77 */
+	case 0x0870: /* C79 */
+		arch = G86;
+		break;
+	case 0x0410:
+	case 0x0600: /* G92 */
+	case 0x0610: /* G92 */
+		arch = G92;
+		break;
+	case 0x0620: /* 9600GT 'G94' */
+	case 0x0630:
+		arch = G94;
+		break;
+	case 0x0640: /* 9500GT */
+	case 0x0650:
+		arch = G96;
+		break;
+	case 0x0240:
+	case 0x03d0: /* not sure if this is a C51 too */
+	case 0x0530: /* not sure if the 70xx is C51 too */
+		arch = C51;
+		break;
+	case 0x02e0:
+	case 0x00f0:
+		/* The code above doesn't work for pci-express cards as multiple architectures share one id-range */
+		switch(device_id)
+		{
+		case 0x00f0: /* 6800 */
+		case 0x00f9: /* 6800Ultra */
 			arch = NV40;
 			break;
-		case 0xc0:
+		case 0x00f6: /* 6800GS/XT */
 			arch = NV41;
 			break;
-		case 0x140:
-			arch = NV43; /* Similar to NV40 but with different fanspeed code */
+		case 0x00f1: /* 6600/6600GT */
+		case 0x00f2: /* 6600GT */
+		case 0x00f3: /* 6200 */
+		case 0x00f4: /* 6600LE */
+			arch = NV43;
 			break;
-		case 0x160:
-		case 0x220:
-			arch = NV44;
-			break;
-		case 0x1d0:
-			arch = NV46;
-			break;
-		case 0x90:
+		case 0x00f5: /* 7800GS */
 			arch = NV47;
 			break;
-		case 0x290:
-			arch = NV49; /* 7900 */
+		case 0x00fa: /* PCX5700 */
+			arch = NV31;
 			break;
-		case 0x390:
-			arch = NV4B; /* 7600 */
+		case 0x00f8: /* QuadroFX 3400 */
+		case 0x00fb: /* PCX5900 */
+			arch = NV35;
 			break;
-		case 0x190:
-        case 0x606:
-			arch = NV50; /* 8800 'NV50 / G80' */
+		case 0x00fc: /* PCX5300 */
+		case 0x00fd: /* Quadro NVS280/FX330, FX5200 based? */
+		case 0x00ff: /* PCX4300 */
+			arch = NV25;
 			break;
-		case 0x400: /* 8600 'G84' */
-			arch = G84;
+		case 0x00fe: /* Quadro 1300, has the same id as a FX3000 */
+			arch = NV35;
 			break;
-		case 0x420: /* 8500 'G86' */
-			arch = G86;
+		case 0x02e0: /* Geforce 7600GT AGP (at least Leadtek uses this id) */
+		case 0x02e1: /* Geforce 7600GS AGP (at least BFG uses this id) */
+		case 0x02e2: /* Geforce 7300GT AGP (at least a Galaxy 7300GT uses this id) */
+			arch = NV4B;
 			break;
-		case 0x5e0: /* GT2x0 */
-		case 0x5f0: /* GT2x0 */
-		case 0xa60: /* GT2x0 */
-		case 0xa20:
-		case 0xa30:
-        case 0xa34: /* GT240M */
-		case 0xa70:
-		case 0xca0:
-		case 0xcb0:
-			arch = GT200;
+		case 0x02e4: /* Geforce 7950 GT AGP */
+			arch = NV49;
 			break;
-		case 0x6e0: /* G98 */
-		case 0x6f0: /* G98 */
-		case 0x860: /* C79 */
-		case 0x870: /* C79 */
-			arch = G86;
-			break;
-		case 0x600: /* G92 */
-		case 0x610: /* G92 */
-			arch = G84; //NV50;
-			break;
-		case 0x620: /* 9600GT 'G94' */
-			arch = G94;
-			break;
-		case 0x640: /* 9500GT */
-			arch = G96;
-			break;
-		case 0x240:
-		case 0x3d0: /* not sure if this is a C51 too */
-		case 0x530: /* not sure if the 70xx is C51 too */
-			arch = C51;
-			break;
-		case 0x06C0 ... 0x06DF:
-		case 0x0DC0 ... 0x0DFF:
-		case 0x0E20 ... 0x0E3F:
-		case 0x0EE0 ... 0x0EFF:
-		case 0x0F00 ... 0x0F3F:
-		case 0x1040 ... 0x107F:
-        case 0x1080 ... 0x109F:
-		case 0x1200 ... 0x127F:
-			arch = GF100;
-			break;
-		case 0x2e0:
-		case 0xf0:
-			/* The code above doesn't work for pci-express cards as multiple architectures share one id-range */
-			switch(device_id)
-			{
-				case 0xf0: /* 6800 */
-				case 0xf9: /* 6800Ultra */
-					arch = NV40;
-					break;
-				case 0xf6: /* 6800GS/XT */
-					arch = NV41;
-					break;
-				case 0xf1: /* 6600/6600GT */
-				case 0xf2: /* 6600GT */
-				case 0xf3: /* 6200 */
-				case 0xf4: /* 6600LE */
-					arch = NV43;
-					break;
-				case 0xf5: /* 7800GS */
-					arch = NV47;
-					break;
-				case 0xfa: /* PCX5700 */
-					arch = NV31;
-					break;
-				case 0xf8: /* QuadroFX 3400 */
-				case 0xfb: /* PCX5900 */
-					arch = NV35;
-					break;
-				case 0xfc: /* PCX5300 */
-				case 0xfd: /* Quadro NVS280/FX330, FX5200 based? */
-				case 0xff: /* PCX4300 */
-					arch = NV25;
-					break;
-				case 0xfe: /* Quadro 1300, has the same id as a FX3000 */
-					arch = NV35;
-					break;
-				case 0x2e0: /* Geforce 7600GT AGP (at least Leadtek uses this id) */
-				case 0x2e1: /* Geforce 7600GS AGP (at least BFG uses this id) */
-				case 0x2e2: /* Geforce 7300GT AGP (at least a Galaxy 7300GT uses this id) */
-					arch = NV4B;
-					break;
-				case 0x2e4: /* Geforce 7950 GT AGP */
-					arch = NV49;
-					break;
-			}
-			break;
-		default:
-            printf("Unknown GPU \n", nv_card->card_name);
-			arch = UNKNOWN;
+		}
+		break;
+	default:
+		arch = UNKNOWN;
 	}
 	return arch;
 }
@@ -936,23 +835,20 @@ static int set_gpu_pci_id(short id)
 }
 
 /* Function to read a single byte from pci configuration space */
-#if NOTUSED
 static void read_byte(int offset, unsigned char *data)
 {
 	/* The original plan was to read the PCI configuration directly from registers 0x1800 and upwards
-	/  from the card itself. Although this is a fully correct way, it doesn't work for some cards using
-	/  a PCI-Express -> AGP bridge. If I would read the registers from the card they would include PCI-Express
-	/  as one of the capabilities. Reading using the "normal" way results in AGP as one of the capabilities.
-	/  To correctly show that a card uses AGP we need to read the modded config space.
+	   from the card itself. Although this is a fully correct way, it doesn't work for some cards using
+	   a PCI-Express -> AGP bridge. If I would read the registers from the card they would include PCI-Express
+	   as one of the capabilities. Reading using the "normal" way results in AGP as one of the capabilities.
+	   To correctly show that a card uses AGP we need to read the modded config space.
 	*/
 	*data = pciReadLong(nv_card->devbusfn,offset) & 0xff;
 }
-#endif
 
 /* Check the videocard for a certain PCI capability like AGP/PCI-Express/PowerManagement.
-/  If a certain capability is supported return the position of the cap pointer. 
+   If a certain capability is supported return the position of the cap pointer. 
 */
-/*
 static int pci_find_capability(unsigned char cap)
 {
 	unsigned char pos, id;
@@ -966,15 +862,15 @@ static int pci_find_capability(unsigned char cap)
 		if(id == 0xff)
 			break;
 		if(id == cap)
-			return pos; // Return the position of the cap pointer 
+			return pos; /* Return the position of the cap pointer */
 
 		read_byte(pos + PCI_CAP_LIST_NEXT, &pos);
 	}
 	return 0;
 }
-*/
+
 /* Check the videocard for a certain PCI capability like AGP/PCI-Express/PowerManagement.
-/  If a certain capability is supported return the position of the cap pointer. 
+   If a certain capability is supported return the position of the cap pointer. 
 */
 static int nv_pci_find_capability(unsigned char cap)
 {
@@ -996,62 +892,62 @@ static int nv_pci_find_capability(unsigned char cap)
 	return 0;
 }
 
-char* get_bus_type()
+static char* get_bus_type()
 {
 	/* The pci header contains lots of information about a device like
-	/  what type of device it is, who the vendor is and so on. It also
-	/  contains a list of capabilities. Things like AGP, power management,
-	/  PCI-X and PCI-Express are considered capabilities. We could check
-	/  these capabilities to find out if the card is AGP or PCI-Express.
-	/
-	/  Reading the bus type from the pci header would be a nice way but
-	/  unfortunately there are some issues. One way to do the reading
-	/  is to read the information directly from the card (from PMC).
-	/  This doesn't work as some PCI-Express boards (6600GT) actually use
-	/  PCI-Express GPUs connected to some bridge chip on AGP boards (same device id!).
-	/  If you read directly from the card it will advertise PCI-Express instead of AGP.
-	/  There is also another way to read the pci header for instance on Linux
-	/  using from files in /proc/bus/pci but non-root users can only read
-	/  a small part of the file. Most of the time the info we need isn't in
-	/  the readable part. Further there are also some early PCI-Express boards (GeforcePCX)
-	/  that contain bridge chips to turn AGP GPUs into PCI-Express ones.
-	/
-	/  Currently we will return PCI-Express on GeforcePCX board under the valid
-	/  assumption that there are no AGP boards with the same device id. Further
-	/  it seems that 'low' device ids are for PCI-Express->AGP while the higher ones
-	/  are for AGP->PCI-Express, so for the lower ones (6200/6600/6800) we will return AGP
-	/  and for the higher ones PCI-Express. A nicer way would be to read all this stuff from
-	/  the pci header but as explained that can't be done at the moment.
+	   what type of device it is, who the vendor is and so on. It also
+	   contains a list of capabilities. Things like AGP, power management,
+	   PCI-X and PCI-Express are considered capabilities. We could check
+	   these capabilities to find out if the card is AGP or PCI-Express.
+       
+	   Reading the bus type from the pci header would be a nice way but
+	   unfortunately there are some issues. One way to do the reading
+	   is to read the information directly from the card (from PMC).
+	   This doesn't work as some PCI-Express boards (6600GT) actually use
+	   PCI-Express GPUs connected to some bridge chip on AGP boards (same device id!).
+	   If you read directly from the card it will advertise PCI-Express instead of AGP.
+	   There is also another way to read the pci header for instance on Linux
+	   using from files in /proc/bus/pci but non-root users can only read
+	   a small part of the file. Most of the time the info we need isn't in
+	   the readable part. Further there are also some early PCI-Express boards (GeforcePCX)
+	   that contain bridge chips to turn AGP GPUs into PCI-Express ones.
+       
+	   Currently we will return PCI-Express on GeforcePCX board under the valid
+	   assumption that there are no AGP boards with the same device id. Further
+	   it seems that 'low' device ids are for PCI-Express->AGP while the higher ones
+	   are for AGP->PCI-Express, so for the lower ones (6200/6600/6800) we will return AGP
+	   and for the higher ones PCI-Express. A nicer way would be to read all this stuff from
+	   the pci header but as explained that can't be done at the moment.
 	*/
 	switch(nv_card->device_id)
 	{
-		case 0xf0: /* 6800 */
-		case 0xf1: /* 6600GT */
-		case 0xf2: /* 6600 */
-		case 0xf3: /* 6200 */
-		case 0xf5: /* 6800GS/XT */
-		case 0xf6: /* 7800GS */
-		case 0x2e0: /* 7600GT */
-		case 0x2e1: /* 7600GS */
-		case 0x2e2: /* 7300GT */
-			return STRDUP("AGP (BR02)", sizeof("AGP (BR02)")); /* We return something different from AGP for now as we don't want to show the AGP tab */
-		case 0xf8: /* Quadro FX3400 */
-		case 0xf9: /* Geforce 6800 series */
-		case 0xfa: /* PCX5500 */
-		case 0xfb: /* PCX5900 */
-		case 0xfc: /* Quadro FX330*/
-		case 0xfd: /* PCX5500 */
-		case 0xfe: /* Quadro 1300 */
-		case 0xff: /* PCX4300 */
-			return STRDUP("PCI-Express (BR02)", sizeof("PCI-Express (BR02)"));
+	case 0xf0: /* 6800 */
+	case 0xf1: /* 6600GT */
+	case 0xf2: /* 6600 */
+	case 0xf3: /* 6200 */
+	case 0xf5: /* 6800GS/XT */
+	case 0xf6: /* 7800GS */
+	case 0x2e0: /* 7600GT */
+	case 0x2e1: /* 7600GS */
+	case 0x2e2: /* 7300GT */
+		return "AGP (BR02)"; /* We return something different from AGP for now as we don't want to show the AGP tab */
+	case 0xf8: /* Quadro FX3400 */
+	case 0xf9: /* Geforce 6800 series */
+	case 0xfa: /* PCX5500 */
+	case 0xfb: /* PCX5900 */
+	case 0xfc: /* Quadro FX330*/
+	case 0xfd: /* PCX5500 */
+	case 0xfe: /* Quadro 1300 */
+	case 0xff: /* PCX4300 */
+		return "PCI-Express (BR02)";
 	}
 
 	if(nv_pci_find_capability(PCI_CAP_ID_EXP))
-		return STRDUP("PCI-Express", sizeof("PCI-Express"));
+		return "PCI-Express";
 	else if(nv_pci_find_capability(PCI_CAP_ID_AGP))
-		return STRDUP("AGP", sizeof("AGP"));
+		return "AGP";
 	else
-		return STRDUP("PCI", sizeof("PCI"));
+		return "PCI";
 }
 
 /* Needs better bus checks .. return a string ?*/
@@ -1071,7 +967,7 @@ static short get_agp_bus_rate()
 	return agp_rate;
 }
 
-char* get_agp_fw_status()
+static char* get_agp_fw_status()
 {
 	int agp_capptr = nv_pci_find_capability(PCI_CAP_ID_AGP);
 	unsigned int agp_status = nv_read_pbus(agp_capptr + PCI_AGP_STATUS);
@@ -1079,12 +975,12 @@ char* get_agp_fw_status()
 
 	/* Check if Fast Writes is supported by the hostbridge */
 	if(agp_status & PCI_AGP_STATUS_FW)
-		return (agp_command & PCI_AGP_COMMAND_FW) ? STRDUP("Enabled", sizeof("Enabled")) : STRDUP("Disabled", sizeof("Disabled"));
+		return (agp_command & PCI_AGP_COMMAND_FW) ? "Enabled" : "Disabled";
 	else
-		return STRDUP("Unsupported", sizeof("Unsupported"));
+		return "Unsupported";
 }
 
-char* get_agp_sba_status()
+static char* get_agp_sba_status()
 {
 	int agp_capptr = nv_pci_find_capability(PCI_CAP_ID_AGP);
 	unsigned int agp_status = nv_read_pbus(agp_capptr + PCI_AGP_STATUS);
@@ -1092,16 +988,16 @@ char* get_agp_sba_status()
 
 	/* Check if Sideband Addressing is supported by the hostbridge */
 	if(agp_status & PCI_AGP_STATUS_SBA)
-		return (agp_command & PCI_AGP_COMMAND_SBA) ? STRDUP("Enabled", sizeof("Enabled")) : STRDUP("Disabled", sizeof("Disabled"));
+		return (agp_command & PCI_AGP_COMMAND_SBA) ? "Enabled" : "Disabled";
 	else
-		return STRDUP("Unsupported", sizeof("Unsupported"));
+		return "Unsupported";
 }
 
-char* get_agp_status()
+static char* get_agp_status()
 {
 	int agp_capptr = nv_pci_find_capability(PCI_CAP_ID_AGP);
 	unsigned int agp_command = nv_read_pbus(agp_capptr + PCI_AGP_COMMAND);
-	return (agp_command & PCI_AGP_COMMAND_AGP) ? STRDUP("Enabled", sizeof("Enabled")) : STRDUP("Disabled", sizeof("Disabled"));
+	return (agp_command & PCI_AGP_COMMAND_AGP) ? "Enabled" : "Disabled";
 }
 
 static char* get_agp_supported_rates()
@@ -1119,20 +1015,17 @@ static char* get_agp_supported_rates()
 		agp_rates <<= PCI_AGP_STATUS_RATE_8X_SHIFT;
 	}
 
-	rate = new char;
+	rate = (char*)calloc(1, sizeof(char));
 
 	for(i=1; i <= 8; i*=2)
 	{
 		if(agp_rates & i)
 		{
-			char *temp = new char[4];
-			snprintf(temp, 4, "%dX ", i);
-			char* newrate=new char[strlen(rate)+4];
-			strncpy(newrate, rate, strlen(rate)+4);
-			delete[] rate;
-			rate=newrate;
-			rate = strncat(rate, temp, strlen(rate));
-			delete[] temp;
+			char *temp = (char*)malloc(4 * sizeof(char));
+			sprintf(temp, "%dX ", i);
+			rate = (char*)realloc(rate, strlen(rate)+4);
+			rate = strcat(rate, temp);
+			free(temp);
 		}
 	}
 
@@ -1176,22 +1069,22 @@ static short get_memory_width()
 	else if(nv_card->arch & NV3X)
 	{
 		/* I got this info from the rivatuner forum. On the forum
- 		*  is a thread containing register dumps from lots of cards.
- 		*  It might not be 100% correct but it is better than a pci id check */
+		 *  is a thread containing register dumps from lots of cards.
+		 *  It might not be 100% correct but it is better than a pci id check */
 		switch(nv_card->PFB[0x200/4] & 0x7)
 		{
 			/* 64bit FX5600 */
-			case 0x1:
-				return 64;
+		case 0x1:
+			return 64;
 			/* 128bit FX5800 */
-			case 0x3:
-				return 128;
+		case 0x3:
+			return 128;
 			/* 128bit FX5600, FX5700 */
-			case 0x5:
-				return 128;
+		case 0x5:
+			return 128;
 			/* 256bit FX5900 */
-			case 0x7:
-				return 256;
+		case 0x7:
+			return 256;
 		}
 	}
 	else if(nv_card->arch == NV44)
@@ -1204,89 +1097,78 @@ static short get_memory_width()
 		switch(nv_card->PFB[0x200/4] & 0x7)
 		{
 			/* 128bit 6600GT */
-			case 0x1:
-				return 128;
+		case 0x1:
+			return 128;
 			/* 256bit 6800 */
-			case 0x3:
-				return 256;
-			default:
-				return 128;
+		case 0x3:
+			return 256;
+		default:
+			return 128;
 		}
 	}
 	else if(nv_card->arch & NV5X)
 	{
 		/* On Geforce 8800GTS/GTX and 8600GT/GTS cards the memory bandwith is proportional to the number of ROPs * 16.
-		*  In case of the 8500 this isn't the case, there the size is just 128 where there are 4 ROPs.
-		*  So for now use the number of ROPs as a meassure for the bus width.
-		*/
+		 *  In case of the 8500 this isn't the case, there the size is just 128 where there are 4 ROPs.
+		 *  So for now use the number of ROPs as a meassure for the bus width.
+		 */
 		char rmask, rmask_default;
 		switch(nv_card->get_rop_units(&rmask, &rmask_default))
 		{
-			case 48: /* Geforce GTX 480 */
-				return 384;
-			case 40: /* Geforce GTX 470 */
-				return 320;
-			case 32: /* Geforce GTX280 */
-				return 512;
-			case 28: /* Geforce GTX260 */
-				return 448;
-			case 24: /* 8800GTX */
-				return 384;
-			case 20: /* 8800GTS */
-				return 320;
-			case 16: /* 8800GT */
-				return 256;
-			case 12: /* 8800GS */
-				return 192;
-			case 8: /* 8600GT/GTS */
-			case 4: /* 8500GT; 8400GS boards use the same core and offer 64-bit, how to handle this? */
-				return 128;
-			case 2: /* 8300GS */
-				return 64;
-			default:
-                switch(nv_card->arch)
-                {
-                    case GF100:
-                        return nv_card->get_rop_units(&rmask, &rmask_default) * 8;
-				}
-				break;
+		case 32: /* Geforce GTX280 */
+			return 512;
+		case 28: /* Geforce GTX260 */
+			return 448;
+		case 24: /* 8800GTX */
+			return 384;
+		case 20: /* 8800GTS */
+			return 320;
+		case 16: /* 8800GT */
+			return 256;
+		case 12: /* 8800GS */
+			return 192;
+		case 8: /* 8600GT/GTS */
+		case 4: /* 8500GT; 8400GS boards use the same core and offer 64-bit, how to handle this? */
+			return 128;
+		case 2: /* 8300GS */
+			return 64;
 		}
 	}
 	/* Generic algorithm for cards up to the Geforce4 */
 	return (nv_card->PEXTDEV[0x0/4] & 0x17) ? 128 : 64;
 }
 
-char* get_memory_type()
+static char* get_memory_type()
 {
 	/* Nforce / Nforce2 */
 	if((nv_card->device_id == 0x1a0) || (nv_card->device_id == 0x1f0))
-		return ((pciReadLong(0x1, 0x7c) >> 12) & 0x1) ? STRDUP("DDR", sizeof("DDR")) : STRDUP("SDR", sizeof("SDR"));
+		return ((pciReadLong(0x1, 0x7c) >> 12) & 0x1) ? "DDR" : "SDR";
 	else if(nv_card->arch & (NV2X | NV3X))
 	{
 		/* Based on statistics found on the rivatuner forum, the first two bytes of
-		* register 0x1218 of NV2X/NV3X boards, contains "0x0001 or 0x0101" in case of DDR memory and "0x0301" for DDR2.
-		*/
-		return (((nv_card->PMC[0x1218/4] >> 8) & 0x3) == 0x3) ? STRDUP("DDR2", sizeof("DDR2")) : STRDUP("DDR", sizeof("DDR"));
+		 * register 0x1218 of NV2X/NV3X boards, contains "0x0001 or 0x0101" in case of DDR memory and "0x0301" for DDR2.
+		 */
+		return (((nv_card->PMC[0x1218/4] >> 8) & 0x3) == 0x3) ? "DDR2" : "DDR";
 	}
 	else if(nv_card->arch & (NV4X))
 	{
 		/* On Geforce6/7 cards 0x100474 (PFB 0x474) can be used to distinguish between DDR and DDR3. 
-		* Note these values are based on the bios and it was noted that for instance bits in this register differ.
-		* In case of DDR3 the first byte contains 0x4 while in case of DDR it contains 0x1.
-		*/
-		return (nv_card->PFB[0x474/4] & 0x4) ? STRDUP("DDR3", sizeof("DDR3")) : STRDUP("DDR", sizeof("DDR"));
+		 * Note these values are based on the bios and it was noted that for instance bits in this register differ.
+		 * In case of DDR3 the first byte contains 0x4 while in case of DDR it contains 0x1.
+		 */
+		return (nv_card->PFB[0x474/4] & 0x4) ? "DDR3" : "DDR";
 	}
 	else if(nv_card->arch & (NV5X))
 	{
 		/* For now use 0x100218 (PFB 0x218) to distinguish between DDR2 and DDR3. The contents of this
-		*  register differs between a 8500GT (DDR2) and 8600GTS/8800GTS (DDR3) according to the bios.
-		*  FIXME: use a better register
-		*/
-		return (nv_card->PFB[0x218/4] & 0x1000000) ? STRDUP("DDR3", sizeof("DDR3")) : STRDUP("DDR2", sizeof("DDR2"));
+		 *  register differs between a 8500GT (DDR2) and 8600GTS/8800GTS (DDR3) according to the bios.
+		 *  FIXME: use a better register
+		 */
+		return (nv_card->PFB[0x218/4] & 0x1000000) ? "DDR3" : "DDR2";
 	}
 	else
 		/* TNT, Geforce1/2/4MX */
-		return (nv_card->PFB[0x200/4] & 0x01) ? STRDUP("DDR", sizeof("DDR")) : STRDUP("SDR", sizeof("SDR"));
+		return (nv_card->PFB[0x200/4] & 0x01) ? "DDR" : "SDR";
 }
 
 static short get_memory_size()
@@ -1302,21 +1184,21 @@ static short get_memory_size()
 		{
 			switch(nv_card->PFB[0x0/4] & 0x3)
 			{
-				case 0:
-					memory_size = 32;
-					break;
-				case 1:
-					memory_size = 4;
-					break;
-				case 2:
-					memory_size = 8;
-					break;
-				case 3:
-					memory_size = 16;
-					break;
-				default:
-					memory_size = 16;
-					break;
+			case 0:
+				memory_size = 32;
+				break;
+			case 1:
+				memory_size = 4;
+				break;
+			case 2:
+				memory_size = 8;
+				break;
+			case 3:
+				memory_size = 16;
+				break;
+			default:
+				memory_size = 16;
+				break;
 			}
 		}
 	}
@@ -1336,10 +1218,10 @@ static short get_memory_size()
 	else
 	{
 		/* The code below is needed to show more than 256MB of memory
-		/  but I'm not sure if 0xfff is safe for pre-geforcefx cards.
-		/  There's no clean way right now to use 0xff for those old cards
-		/  as currently the FX5200/FX5500 (which support 256MB) use the
-		/  pre-geforcefx backend.
+		   but I'm not sure if 0xfff is safe for pre-geforcefx cards.
+		   There's no clean way right now to use 0xff for those old cards
+		   as currently the FX5200/FX5500 (which support 256MB) use the
+		   pre-geforcefx backend.
 		*/
 		memory_size = (nv_card->PFB[0x20c/4] >> 20) & 0xfff;
 	}
@@ -1483,8 +1365,8 @@ void info_init(void)
 	nv_card->get_bus_type = get_bus_type;
 
 	/* Set the pci id again as the detected id might not be accurate in case of pci id modding. The OS doesn't allways update the id while it really changed! Only do it for cards without bridges (device_id != 0xf* and 0x2e*
-	* Don't use this for NV50 as the location of the pci config header has changed to an unknown position.
-	*/
+	 * Don't use this for NV50 as the location of the pci config header has changed to an unknown position.
+	 */
 	if(((nv_card->device_id & 0xfff0) != 0xf0) && ((nv_card->device_id & 0xfff0) != 0x2e0) && !(nv_card->arch & NV5X))
 	{
 		nv_card->device_id = get_gpu_pci_id(); 

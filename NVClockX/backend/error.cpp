@@ -20,8 +20,8 @@
  */
 
 #include <sys/stat.h>
-//#include <stdio.h>
-//#include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "nvclock.h"
@@ -37,7 +37,7 @@ void set_error_str(const char *str)
 	nvclock.nv_errno = NV_ERR_OTHER;
 
 	/* hacky; we need to think about memory management .. */
-	nvclock.nv_err_str = /*(char*)strdup(str)*/NULL;
+	nvclock.nv_err_str = (char*)strdup(str);
 }
 
 
@@ -46,16 +46,16 @@ char *get_error(char *buf, int size)
 	switch(nvclock.nv_errno)
 	{
 		case NV_ERR_NO_DEVICES_FOUND:
-			buf=STRDUP("No nvidia cards found in your system!", sizeof("No nvidia cards found in your system!"));
+			strcpy(buf, "No nvidia cards found in your system!");
 			break;
 		case NV_ERR_NO_DRIVERS_FOUND:
-			buf=STRDUP("You don't have enough permissions to run NVClock! Retry as root or install the Nvidia drivers.", sizeof("You don't have enough permissions to run NVClock! Retry as root or install the Nvidia drivers."));
+			strcpy(buf, "You don't have enough permissions to run NVClock! Retry as root or install the Nvidia drivers.");
 			break;
 		case NV_ERR_NOT_ENOUGH_PERMISSIONS:
-			buf=STRDUP("You don't have enough permissions to run NVClock! Retry as root.", sizeof("You don't have enough permissions to run NVClock! Retry as root."));
+			strcpy(buf, "You don't have enough permissions to run NVClock! Retry as root.");
 			break;
 		case NV_ERR_OTHER:
-			buf=STRDUP(nvclock.nv_err_str, 80);
+			strcpy(buf, nvclock.nv_err_str);
 			break;
 	}
 

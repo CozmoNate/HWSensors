@@ -89,7 +89,7 @@
 
 /* $XFree86: xc/programs/Xserver/hw/xfree86/drivers/nv/nv_dac.c,v 1.43 2004/11/30 23:50:26 mvojkovi Exp $ */
 
-//#include <unistd.h>
+#include <unistd.h>
 #include <stdarg.h>
 #include "xf86i2c.h"
 #include "backend.h"
@@ -177,7 +177,7 @@ I2CBusPtr NV_I2CCreateBusPtr(char *name, int bus)
 }
 
 
-static void ProbeDevice (I2CBusPtr bus, I2CSlaveAddr addr, const char *format, ...)
+static void ProbeDevice (I2CBusPtr bus, I2CSlaveAddr addr, char *format, ...)
 {
 	I2CDevPtr dev;
 	char *s;
@@ -186,7 +186,7 @@ static void ProbeDevice (I2CBusPtr bus, I2CSlaveAddr addr, const char *format, .
 	if(xf86I2CProbeAddress(bus, addr))
 	{
 		dev = xf86CreateI2CDevRec();
-		s = new char[8];
+		s = (char*)malloc(8);
 		va_start (ap, format);
 		vsnprintf (s, 7, format, ap);
 		va_end (ap);
@@ -196,7 +196,7 @@ static void ProbeDevice (I2CBusPtr bus, I2CSlaveAddr addr, const char *format, .
 
 		if (!xf86I2CDevInit(dev))
 		{
-			delete[] dev->DevName;
+			free(dev->DevName);
 			xf86DestroyI2CDevRec(dev, TRUE);
 		}
 	}
@@ -226,11 +226,12 @@ static I2CDevPtr I2cProbeDevices(I2CBusPtr busses[], int num_busses)
 	NVLockUnlock(0);
 
 	/* On NV40 cards the i2c busses can be disabled */
-	if(nv_card->arch & NV4X)
-	{
-		nv_card->PCIO[0x3d4] = 0x49;
-		nv_card->PCIO[0x3d5] |= 0x4; /* Unlock the i2c busses */
-	}
+	//  if(nv_card->arch & NV4X)
+	//    {
+	nv_card->PCIO[0x3d4] = 0x49;
+	nv_card->PCIO[0x3d5] |= 0x4; /* Unlock the i2c busses */
+
+	//    }
 	I2CProbeAllDevices(busses, num_busses);
 
 	if(nv_card->debug)
@@ -244,39 +245,42 @@ static I2CDevPtr I2cProbeDevices(I2CBusPtr busses[], int num_busses)
 				printf("bus: %x device: %x\n", bus, dev->SlaveAddr);
 
 			dev->arch = nv_card->arch;
+	  
+	  
 			switch(dev->SlaveAddr)
 			{
 				/* LM99 */
-				case 0x98:
-					if(lm99_detect(dev))
-						return dev;
-					break;
-				case 0x5a:
-					if(w83l785r_detect(dev))
-						return dev;
-					if(w83781d_detect(dev))
-						return dev;
-				case 0x5c:
-					if(f75375_detect(dev))
-						return dev;
-					if(adt7473_detect(dev))
-						return dev;						
-				case 0x6e: /* DDC/CI ? */
+			case 0x98:
+				if(lm99_detect(dev))
+					return dev;
+				break;
+			case 0x5a:
+				if(w83l785r_detect(dev))
+					return dev;
+				if(w83781d_detect(dev))
+					return dev;
+			case 0x5c:
+				if(f75375_detect(dev))
+					return dev;
+				if(adt7473_detect(dev))
+					return dev;
+			case 0x6e: /* DDC/CI ? */
 				/* The addresses below oftenly appear on most cards but what are these? */
-				case 0x70:
-				case 0xa0:
-				case 0xa2:
-				case 0xa4:
-				case 0xa6:
-				case 0xa8:
-				case 0xaa:
-				case 0xac:
-				case 0xae:
-					break;
-				default:
+			case 0x70:
+			case 0xa0:
+			case 0xa2:
+			case 0xa4:
+			case 0xa6:
+			case 0xa8:
+			case 0xaa:
+			case 0xac:
+			case 0xae:
+				break;
+			default:
 				/* Unknown device */
-					break;
+				break;
 			}
+
 		}
 	}
 
@@ -295,45 +299,48 @@ void i2c_sensor_init(void)
 	
 		switch(nv_card->sensor->chip_id)
 		{
-			case LM99:
-			case MAX6559:
-				nv_card->caps |= BOARD_TEMP_MONITORING | GPU_TEMP_MONITORING;
-				nv_card->get_board_temp = lm99_get_board_temp;
-				nv_card->get_gpu_temp = lm99_get_gpu_temp;
-				break;
-			case F75375:
-				nv_card->caps |= BOARD_TEMP_MONITORING | GPU_TEMP_MONITORING | I2C_FANSPEED_MONITORING;
-				nv_card->get_board_temp = f75375_get_board_temp;
-				nv_card->get_gpu_temp = f75375_get_gpu_temp;
-				nv_card->get_i2c_fanspeed_rpm = f75375_get_fanspeed_rpm;
-				nv_card->get_i2c_fanspeed_pwm = f75375_get_fanspeed_pwm;
-				nv_card->set_i2c_fanspeed_pwm = f75375_set_fanspeed_pwm;
-				break;
-			case W83781D:
-				nv_card->caps |= BOARD_TEMP_MONITORING | GPU_TEMP_MONITORING | I2C_FANSPEED_MONITORING;
-				nv_card->get_board_temp = w83781d_get_board_temp;
-				nv_card->get_gpu_temp = w83781d_get_gpu_temp;
-				nv_card->get_i2c_fanspeed_rpm = w83781d_get_fanspeed_rpm;
-				nv_card->get_i2c_fanspeed_pwm = w83781d_get_fanspeed_pwm;
-				nv_card->set_i2c_fanspeed_pwm = w83781d_set_fanspeed_pwm;
-				break;
-			case W83L785R:
-				nv_card->caps |= BOARD_TEMP_MONITORING | GPU_TEMP_MONITORING | I2C_FANSPEED_MONITORING;
-				nv_card->get_board_temp = w83l785r_get_board_temp;
-				nv_card->get_gpu_temp = w83l785r_get_gpu_temp;
-				nv_card->get_i2c_fanspeed_rpm = w83l785r_get_fanspeed_rpm;
-				nv_card->get_i2c_fanspeed_pwm = w83l785r_get_fanspeed_pwm;
-				nv_card->set_i2c_fanspeed_pwm = w83l785r_set_fanspeed_pwm;
-				break;
-			case ADT7473:
-				nv_card->caps |= BOARD_TEMP_MONITORING | GPU_TEMP_MONITORING | I2C_FANSPEED_MONITORING | I2C_AUTOMATIC_FANSPEED_CONTROL;
-				nv_card->get_board_temp = adt7473_get_board_temp;
-				nv_card->get_gpu_temp = adt7473_get_gpu_temp;
-				nv_card->get_i2c_fanspeed_mode = adt7473_get_fanspeed_mode;
-				nv_card->set_i2c_fanspeed_mode = adt7473_set_fanspeed_mode;
-				nv_card->get_i2c_fanspeed_rpm = adt7473_get_fanspeed_rpm;
-				nv_card->get_i2c_fanspeed_pwm = adt7473_get_fanspeed_pwm;
-				nv_card->set_i2c_fanspeed_pwm = adt7473_set_fanspeed_pwm;
+		case LM99:
+		case MAX6559:
+			nv_card->caps |= BOARD_TEMP_MONITORING | GPU_TEMP_MONITORING;
+			nv_card->get_board_temp = lm99_get_board_temp;
+			nv_card->get_gpu_temp = lm99_get_gpu_temp;
+			break;
+		case F75375:
+			nv_card->caps |= BOARD_TEMP_MONITORING | GPU_TEMP_MONITORING | I2C_FANSPEED_MONITORING;
+			nv_card->get_board_temp = f75375_get_board_temp;
+			nv_card->get_gpu_temp = f75375_get_gpu_temp;
+			nv_card->get_i2c_fanspeed_rpm = f75375_get_fanspeed_rpm;
+			nv_card->get_i2c_fanspeed_pwm = f75375_get_fanspeed_pwm;
+			nv_card->set_i2c_fanspeed_pwm = f75375_set_fanspeed_pwm;
+			break;
+		case W83781D:
+			nv_card->caps |= BOARD_TEMP_MONITORING | GPU_TEMP_MONITORING | I2C_FANSPEED_MONITORING;
+			nv_card->get_board_temp = w83781d_get_board_temp;
+			nv_card->get_gpu_temp = w83781d_get_gpu_temp;
+			nv_card->get_i2c_fanspeed_rpm = w83781d_get_fanspeed_rpm;
+			nv_card->get_i2c_fanspeed_pwm = w83781d_get_fanspeed_pwm;
+			nv_card->set_i2c_fanspeed_pwm = w83781d_set_fanspeed_pwm;
+			break;
+		case W83L785R:
+			nv_card->caps |= BOARD_TEMP_MONITORING | GPU_TEMP_MONITORING | I2C_FANSPEED_MONITORING;
+			nv_card->get_board_temp = w83l785r_get_board_temp;
+			nv_card->get_gpu_temp = w83l785r_get_gpu_temp;
+			nv_card->get_i2c_fanspeed_rpm = w83l785r_get_fanspeed_rpm;
+			nv_card->get_i2c_fanspeed_pwm = w83l785r_get_fanspeed_pwm;
+			nv_card->set_i2c_fanspeed_pwm = w83l785r_set_fanspeed_pwm;
+			break;
+		case ADT7473:
+			nv_card->caps |= BOARD_TEMP_MONITORING | GPU_TEMP_MONITORING | I2C_FANSPEED_MONITORING | I2C_AUTOMATIC_FANSPEED_CONTROL;
+			nv_card->get_board_temp = adt7473_get_board_temp;
+			nv_card->get_gpu_temp = adt7473_get_gpu_temp;
+			nv_card->get_i2c_fanspeed_mode = adt7473_get_fanspeed_mode;
+			nv_card->set_i2c_fanspeed_mode = adt7473_set_fanspeed_mode;
+			nv_card->get_i2c_fanspeed_rpm = adt7473_get_fanspeed_rpm;
+			nv_card->get_i2c_fanspeed_pwm = adt7473_get_fanspeed_pwm;
+			nv_card->set_i2c_fanspeed_pwm = adt7473_set_fanspeed_pwm;
+			break;
+		default:
+			break;
 		}
 	}
 	else
