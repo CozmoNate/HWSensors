@@ -19,11 +19,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
  */
 
-#include "config.h"
+//#include "config.h"
 #include "i2c.h"
 #include "nvclock.h"
 #include "nvreg.h"
 #include <stdint.h>
+
 
 /* Thanks to Alexey Nicolaychuk (Unwinder), the author of Rivatuner, for providing
    these macros to get nv30 clock detection working.
@@ -39,6 +40,8 @@
 #define PCI_GET_FUNCTION(devbusfn) (devbusfn & 0x7)
 #define PCI_GET_DEVBUSFN(dev, bus, fn) ((bus << 8) | (dev << 3) | (fn & 0x7))
 
+unsigned int abs (int number);
+
 /* Set the card object to the requested card */
 int set_card(int number);
 
@@ -46,8 +49,8 @@ int set_card(int number);
 const char* get_card_name(int device_id, gpu_type *gpu);
 int get_gpu_arch(int device_id);
 int set_card_info(int number); /* Basic version of set_card */
-int map_mem(const char* dev_name);
-void unmap_mem();
+//int map_mem(const char* dev_name);
+//void unmap_mem();
 int32_t pciReadLong(unsigned short devbusfn, long offset);
 
 /* Bios related stuff */

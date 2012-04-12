@@ -7,8 +7,8 @@
 #ifndef _XFREE_H
 #define _XFREE_H 1
 
-#include <stdio.h>
-#include <stdlib.h>
+//#include <stdio.h>
+//#include <stdlib.h>
 
 #define xf86Msg(type,format,args...) /* */
 #define xf86DrvMsg(scrnIndex,type,format, args...) /* */

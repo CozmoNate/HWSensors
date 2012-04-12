@@ -24,13 +24,13 @@ int f75375_detect(I2CDevPtr dev)
 	if (MERGE_BYTE(nvh, nvl) == 0x0306)
 	{
 		dev->chip_id = F75375;
-		dev->chip_name = (char*)strdup("Fintek F75375S");
+		dev->chip_name = (char*)STRDUP("Fintek F75375S", sizeof("Fintek F75375S"));
 		return 1;
 	}
 	if (MERGE_BYTE(nvh, nvl) == 0x0204)
 	{
 		dev->chip_id = F75375;
-		dev->chip_name = (char*)strdup("Fintek F75373S");
+		dev->chip_name = (char*)STRDUP("Fintek F75373S", sizeof("Fintek F75375S"));
 		return 1;
 	}
 	return 0;

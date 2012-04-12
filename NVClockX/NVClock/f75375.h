@@ -12,7 +12,7 @@ typedef struct _fan_vtemp
 } fan_vtemp;
 
 
-#define dbg_printf(x) if (debug==1) printf(x)
+#define dbg_printf(x) if (debug==1) IOLog(x)
 
 #define MODE_SPEED			0x00
 #define MODE_TEMP			0x10

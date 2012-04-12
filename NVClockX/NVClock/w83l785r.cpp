@@ -58,7 +58,7 @@ int w83l785r_detect(I2CDevPtr dev)
 		if((chip_id & 0xfe) == 0x60)
 		{
 			dev->chip_id = W83L785R;
-			dev->chip_name = (char*)strdup("Winbond W83L785R");
+			dev->chip_name = (char*)STRDUP("Winbond W83L785R", sizeof("Winbond W83L785R"));
 			return 1;
 		}
 	}
