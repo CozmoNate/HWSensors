@@ -19,11 +19,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
  */
 
-//#include <stdlib.h>
-//#include <stdio.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
-//#include "config.h"
+#include "config.h"
 #ifdef HAVE_NVCONTROL
     #include "nvcontrol.h"
 #endif
@@ -67,28 +67,50 @@ int set_card_info(int number)
 {
 	nv_card = &nvclock.card[number];
 
-	/*if(!nv_card->mem_mapped)
+	if(!nv_card->mem_mapped)
 		if(!map_mem(nv_card->dev_name))
-			return 0; // map_mem already took care of the error */
+			return 0; /* map_mem already took care of the error */
     
 	return 1;
-}
-
-int32_t pciReadLong(unsigned short devbusfn, long offset){
-	return -1;
 }
 
 /* Set the card object to the requested card */
 int set_card(int number)
 {
+	int have_coolbits, irq;
+
 	if(!set_card_info(number))
 		return 0;
 
+/* nvcontrol detection  */
+#ifdef HAVE_NVCONTROL
+	/* We need an X display to check if NV-CONTROL support exists */
+	if(nvclock.dpy)
+	{
+		/* Check if we have NV-CONTROL support */
+		if(init_nvcontrol(nvclock.dpy))
+		{
+			int tmp;
+			have_coolbits = NVGetAttribute(nvclock.dpy, 0, 0, NV_GPU_OVERCLOCKING_STATE, &tmp);
+
+			/* Also retrieve the irq which is used to sync nvclock and NV-CONTROL */
+			NVGetAttribute(nvclock.dpy, 0, 0, NV_IRQ, &irq);
+			if(have_coolbits && (nv_card->irq == irq))
+			{
+				nv_card->caps |= COOLBITS_OVERCLOCKING;
+				
+				/* By default use Coolbits on NV3X / NV4X cards */
+				if(!nv_card->state && nv_card->arch & (NV3X|NV4X))
+					nv_card->state = STATE_3D;
+			}
+		}
+	}
+#endif /* HAVE_NVCONTROL */
 	
 	info_init();
 
 	if(nv_card->arch & NV3X)
-		;//nv30_init();
+		nv30_init();
 	else if(nv_card->arch & NV4X)
 		nv40_init();
 	else if(nv_card->arch & NV5X)
@@ -99,7 +121,7 @@ int set_card(int number)
 	return 1;
 }
 
-/*void unset_card()
+void unset_card()
 {
 	unmap_mem();
-}*/
+}

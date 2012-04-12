@@ -47,14 +47,14 @@ int lm99_detect(I2CDevPtr dev)
 		/* National Semiconductor LM99; needs offset? */
 		case NATSEM_MAN_ID:
 			dev->chip_id = LM99;
-			dev->chip_name = (char*)STRDUP("National Semiconductor LM99", sizeof("National Semiconductor LM99"));
+			dev->chip_name = (char*)strdup("National Semiconductor LM99");
 			break;
 		/* Unknown vendor; this chip was used in a FX5700Go laptop and looks similar to the MAx6659 */
 		case 0x47:
 		/* Maxim; likely a 655x model */
 		case MAXIM_MAN_ID:
 			dev->chip_id = MAX6559;
-			dev->chip_name = (char*)STRDUP("Maxim MAX6659", sizeof("Maxim MAX6659"));
+			dev->chip_name = (char*)strdup("Maxim MAX6659");
 			break;
 		default:
 			return 0;

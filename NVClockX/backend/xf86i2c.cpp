@@ -36,7 +36,7 @@ typedef void *Pointer;
 #define FALSE 0
 #endif
 
-#include <IOKit/IOLib.h>
+
 
 #include "xf86i2c.h"
 
@@ -77,8 +77,7 @@ I2CUDelay(I2CBusPtr b, int usec)
 static void
 I2CUDelay(I2CBusPtr b, int usec)
 {
-	IODelay(usec);
-  /*long b_secs, b_usecs;
+  long b_secs, b_usecs;
   long a_secs, a_usecs;
   long d_secs, d_usecs;
   long diff;
@@ -86,15 +85,15 @@ I2CUDelay(I2CBusPtr b, int usec)
   if (usec > 0) {
     xf86getsecs(&b_secs, &b_usecs);
     do {
-     // It would be nice to use {xf86}usleep, 
-     // but usleep (1) takes >10000 usec !
-     //
+      /* It would be nice to use {xf86}usleep, 
+       * but usleep (1) takes >10000 usec !
+       */
       xf86getsecs(&a_secs, &a_usecs);
       d_secs  = (a_secs - b_secs);
       d_usecs = (a_usecs - b_usecs);
       diff = d_secs*1000000 + d_usecs;
     } while (diff>0 && diff< (usec + 1));
-  }*/
+  }
 }
 #endif
 
@@ -410,7 +409,7 @@ xf86I2CProbeAddress(I2CBusPtr b, I2CSlaveAddr addr)
     int r;
     I2CDevRec d;
 
-    d.DevName = STRDUP("Probing", sizeof("Probing"));
+    d.DevName = "Probing";
     d.BitTimeout = b->BitTimeout;
     d.ByteTimeout = b->ByteTimeout;
     d.AcknTimeout = b->AcknTimeout;
@@ -633,7 +632,7 @@ xf86I2CWriteVec(I2CDevPtr d, I2CByte *vec, int nValues)
 I2CDevPtr
 xf86CreateI2CDevRec(void) 
 {
-    return new I2CDevRec;
+    return xcalloc(1, sizeof(I2CDevRec));
 }
 
 /* Unlink an I2C device. If you got the I2CDevRec from xf86CreateI2CDevRec
@@ -662,7 +661,7 @@ xf86DestroyI2CDevRec(I2CDevPtr d, Bool unalloc)
 	    xf86Msg(X_INFO, "I2C device \"%s:%s\" removed.\n",
 		    d->pI2CBus->BusName, d->DevName);
 
-	if (unalloc) delete p;
+	if (unalloc) xfree(d);
     }
 }
 
@@ -737,7 +736,7 @@ xf86CreateI2CBusRec(void)
 {
     I2CBusPtr b;
 
-    b = (I2CBusPtr) new I2CBusRec;
+    b = (I2CBusPtr) xcalloc(1, sizeof(I2CBusRec));
 
     if (b != NULL) {
 	b->scrnIndex = -1;
@@ -794,7 +793,7 @@ xf86DestroyI2CBusRec(I2CBusPtr b, Bool unalloc, Bool devs_too)
 	else
 	    xf86Msg(X_INFO, "I2C bus \"%s\" removed.\n", b->BusName);
 
-	if (unalloc) delete b;
+	if (unalloc) xfree(b);
     }
 }
 

@@ -66,7 +66,7 @@
 |*                                                                           *|
 \***************************************************************************/
 
-//#include <stdio.h>
+#include <stdio.h>
 #include <string.h>
 #include "backend.h"
 
@@ -109,13 +109,6 @@
 / - NV47/NV49 0xff3f 7800/7900 cards
 / - NV4B 0x1f0f 7600
 */
-
-unsigned int abs0 (int number) {
-	if (number<0)
-		number=-number;
-	return number;
-}
-
 
 static int nv40_get_default_mask(char *pmask, char *vmask)
 {
@@ -302,7 +295,7 @@ static void nv40_set_fanspeed(float speed)
 	int pwm_divider = nv_card->PMC[0x10f0/4] & 0x7fff;
 
 	/* For safety reasons we should never disable the fan by not putting it below 10%; further negative values don't exist ;)  */
-	if(speed < 0 || speed > 100)
+	if(speed < 10 || speed > 100)
 		return;
 
 	value = 0x80000000 + ((((int)(100 - speed) * pwm_divider/100) & 0x7fff)<<16) + pwm_divider;
@@ -328,7 +321,7 @@ static void nv43_set_fanspeed(float speed)
 	int pwm_divider = nv_card->PMC[0x15f8/4] & 0x3fff;
 
 	/* For safety reasons we should never disable the fan by not putting it below 10%; further negative values don't exist ;) */
-	if(speed < 0 || speed > 100)
+	if(speed < 10 || speed > 100)
 		return;
 
 	value = 0x80000000 + (int)((100 - speed) * pwm_divider/100);
@@ -397,7 +390,7 @@ static int nv43_get_gpu_temp(void *sensor)
 			nv_card->PMC[0x15b0/4] = 0x80000000 | max_temp;
 		else
 			nv_card->PMC[0x15b0/4] = 0x10000000 | max_temp;
-		IOSleep(500);
+		usleep(500);
 	}
 
 	/* In case of Geforce 7300/7600/7900 cards more than one byte is used for the temperature */
@@ -476,7 +469,7 @@ float GetClock_nv40(int base_freq, unsigned int pll, unsigned int pll2)
 	return (float)CalcSpeed_nv40(base_freq, m1, m2, n1, n2, p)/1000;
 }
 
-const unsigned int pll_entries=2;
+const int pll_entries=2;
 /* TODO: add proper architecture specific defaults */
 const struct pll pll_lst[2] = { 
 	{0x0000, 7, 0, {3000, 25000, 100000, 405000, 1, 255, 1, 255}, {35000, 100000, 400000, 1000000, 1, 31, 1, 31}},
@@ -560,7 +553,7 @@ static void ClockSelectSingleVCO_nv40(int clockIn, const struct pll *pll_limits,
 				break;
 
 			clock >>= P;
-			delta = abs0((int)(clockIn - clock));
+			delta = abs((int)(clockIn - clock));
 			/* When the difference is 0 or less than .5% accept the speed */
 			if(((delta == 0) || ((float)delta/(float)clockIn <= 0.005)))
 			{
@@ -674,7 +667,7 @@ static void ClockSelectDoubleVCO_nv40(int clockIn, const struct pll *pll_limits,
 				/  'center' frequency.
 				*/
 				clock2 >>= P;
-				delta = abs0((int)(clockIn - clock2));
+				delta = abs((int)(clockIn - clock2));
 
 				/* When the difference is 0 or less than .5% accept the speed */
 				if(((delta == 0) || ((float)delta/(float)clockIn <= 0.005)))
@@ -707,7 +700,7 @@ static void ClockSelect_nv40(int clockIn, unsigned int reg, unsigned int *pllOut
 	int PLL=0, PLL2=0;
 	int bestM=0, bestM2=1, bestN=0, bestN2=1, bestP=0;
 	const struct pll *pll_limits = GetPllLimits(reg);
-	//int pllIn = nv_card->PMC[reg/4];
+	int pllIn = nv_card->PMC[reg/4];
 
 	printf("Warning using experimental NV4x lowlevel clock adjustment, if you encounter strange issues, issue a bugreport.\n");
 
@@ -967,6 +960,19 @@ static void nv40_reset_memory_speed()
 
 static void nv40_set_state(int state)
 {
+#ifdef HAVE_NVCONTROL
+	if(state & (STATE_2D | STATE_3D))
+	{
+		nv_card->state = state;
+		nv_card->get_gpu_speed = nvcontrol_get_gpu_speed;
+		nv_card->get_memory_speed = nvcontrol_get_memory_speed;
+		nv_card->set_gpu_speed = nvcontrol_set_gpu_speed;
+		nv_card->set_memory_speed = nvcontrol_set_memory_speed;
+		nv_card->reset_gpu_speed = nvcontrol_reset_gpu_speed;
+		nv_card->reset_memory_speed = nvcontrol_reset_memory_speed;	
+	}
+	else
+#endif
 	{
 		nv_card->state = STATE_LOWLEVEL;
 		nv_card->get_gpu_speed = nv40_get_gpu_speed;
@@ -995,9 +1001,9 @@ void nv40_init(void)
 	if(nv_card->busses[0] == NULL)
 	{
 		nv_card->num_busses = 3;
-		nv_card->busses[0] = NV_I2CCreateBusPtr(STRDUP("BUS0", sizeof("BUS0")), 0x3e); /* available on riva128 and higher */
-		nv_card->busses[1] = NV_I2CCreateBusPtr(STRDUP("BUS1", sizeof("BUS1")), 0x36); /* available on rivatnt hardware and  higher */
-		nv_card->busses[2] = NV_I2CCreateBusPtr(STRDUP("BUS2", sizeof("BUS2")), 0x50);  /* available on geforce4mx/4ti/fx/6/7 */
+		nv_card->busses[0] = NV_I2CCreateBusPtr("BUS0", 0x3e); /* available on riva128 and higher */
+		nv_card->busses[1] = NV_I2CCreateBusPtr("BUS1", 0x36); /* available on rivatnt hardware and  higher */
+		nv_card->busses[2] = NV_I2CCreateBusPtr("BUS2", 0x50);  /* available on geforce4mx/4ti/fx/6/7 */
 
 		i2c_sensor_init();
 	}
@@ -1024,7 +1030,7 @@ void nv40_init(void)
 	if((nv_card->arch & (NV43 | NV44 | NV46 | NV47 | NV49 | NV4B)) && !(nv_card->caps & GPU_TEMP_MONITORING))
 	{
 		nv_card->caps |= GPU_TEMP_MONITORING;
-		nv_card->sensor_name = (char*)STRDUP("GPU Internal Sensor", sizeof("GPU Internal Sensor"));
+		nv_card->sensor_name = (char*)strdup("GPU Internal Sensor");
 		nv_card->get_gpu_temp = (int(*)(I2CDevPtr))nv43_get_gpu_temp;
 	}
 
