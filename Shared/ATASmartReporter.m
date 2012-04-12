@@ -104,10 +104,22 @@
     if ([self readSMARTData]) {
         ATASMARTAttribute * life = nil;
         
-        if ((life = [self getAttributeByIdentifier:0xB4]) ||
-            (life = [self getAttributeByIdentifier:0xD1]) ||
-            (life = [self getAttributeByIdentifier:0xE8]) ||
-            (life = [self getAttributeByIdentifier:0xE7]))
+        if (//(life = [self getAttributeByIdentifier:0xB4]) ||
+            //(life = [self getAttributeByIdentifier:0xD1]) ||
+            //(life = [self getAttributeByIdentifier:0xE7]) ||
+            (life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance]))
+            return [NSData dataWithBytes:life->rawvalue length:6];
+    }
+    
+    return nil;
+}
+
+-(NSData*)getRemainingBlocks
+{
+    if ([self readSMARTData]) {
+        ATASMARTAttribute * life = nil;
+        
+        if ((life = [self getAttributeByIdentifier:kATASMARTAttributeUnusedReservedBloks]))
             return [NSData dataWithBytes:life->rawvalue length:6];
     }
     

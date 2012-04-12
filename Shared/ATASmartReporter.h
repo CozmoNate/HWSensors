@@ -16,6 +16,9 @@
 
 #define kATASMARTAttributeTemperature               0xC2
 #define kATASMARTAttributeTemperature2              0xE7
+#define kATASMARTAttributeEndurance                 0xE8
+#define kATASMARTAttributeUnusedReservedBloks       0xB4
+
 
 typedef struct ATASMARTAttribute
 {
@@ -58,6 +61,7 @@ typedef struct ATASMARTVendorSpecificData
 -(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8)identifier;
 -(NSData*)getTemperature;
 -(NSData*)getRemainingLife;
+-(NSData*)getRemainingBlocks;
 
 @end
 

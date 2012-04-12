@@ -134,9 +134,9 @@ inline UInt8 get_index(char c)
                 UInt16 t = 0;
                 
                 [value getBytes:&t length:2];
-                
+                               
                 if (level != kHWSensorLevelExceeded)
-                    [self setLevel:t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+                    [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
                 return [[NSString alloc] initWithFormat:@"%d°",t];
                 
@@ -147,14 +147,17 @@ inline UInt8 get_index(char c)
                 
                 [value getBytes:&life length:[value length]];
                 
-                //[self setExceeded:exceeded || (life >= 80)];
+                [self setLevel:life >= 90 ? kHWSensorLevelExceeded : life >= 80 ? kHWSensorLevelHigh : life >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
-                //return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
+                return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
+            }
                 
-                if (life == 0)
-                    return [NSString stringWithString:@"-"];
+            case kSMARTSensorGroupRemainingBlocks: {
+                UInt64 blocks = 0;
                 
-                return [[NSString alloc] initWithFormat:@"[%d]",life];
+                [value getBytes:&blocks length:[value length]];
+                 
+                return [[NSString alloc] initWithFormat:@"%d",blocks];
             }
                 
             case kHWSensorGroupTemperature: {

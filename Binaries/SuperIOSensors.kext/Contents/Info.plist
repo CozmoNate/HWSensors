@@ -2386,6 +2386,55 @@
 					<string>Rampage II GENE</string>
 					<key>P6X58D-E</key>
 					<string>Rampage II GENE</string>
+					<key>P7P55D LE</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>Chassis Fan 1</string>
+						<key>FANIN1</key>
+						<string>CPU Fan</string>
+						<key>FANIN2</key>
+						<string>Chassis Fan 2</string>
+						<key>FANIN3</key>
+						<string>Chassis Fan 3</string>
+						<key>FANIN4</key>
+						<string>Power Fan</string>
+						<key>FANINLIMIT</key>
+						<integer>5</integer>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN1</key>
+						<string></string>
+						<key>TEMPIN2</key>
+						<string>System</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string>Memory</string>
+						<key>VIN2</key>
+						<string>3VCC</string>
+						<key>VIN3</key>
+						<dict>
+							<key>gain</key>
+							<integer>7193</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+						</dict>
+						<key>VIN4</key>
+						<dict>
+							<key>gain</key>
+							<integer>2027</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+						</dict>
+						<key>VIN5</key>
+						<string></string>
+						<key>VIN6</key>
+						<string></string>
+						<key>VIN7</key>
+						<string></string>
+						<key>VIN8</key>
+						<string></string>
+					</dict>
 					<key>Rampage II GENE</key>
 					<dict>
 						<key>FANIN0</key>
