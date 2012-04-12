@@ -267,7 +267,7 @@ bool W836xMonitor::addTemperatureSensors(OSDictionary *configuration)
         
         char key[8];
         
-        snprintf(key, 8, "TEMPIN%X", index++);
+        snprintf(key, 8, "TEMPIN%X", index);
         
         if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
             if (name->isEqualTo("CPU")) {
@@ -283,6 +283,8 @@ bool W836xMonitor::addTemperatureSensors(OSDictionary *configuration)
                     WarningLog("can't add Ambient temperature sensor");
             }
         }
+        
+        index++;
     }
     
     return true;

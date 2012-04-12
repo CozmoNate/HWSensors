@@ -9,6 +9,7 @@
 "TEMPERATURES" = "ТЕМПЕРАТУРНЫЕ ДАТЧИКИ";
 "DRIVES TEMPERATURES" = "ТЕМПЕРАТУРА ДИСКОВ";
 "SSD REMAINING LIFE" = "ВРЕМЯ ЖИЗНИ SSD";
+"SSD REMAINING BLOCKS" = "КОЛ-ВО РЕЗЕРВНЫХ БЛОКОВ";
 "MULTIPLIERS" = "МНОЖИТЕЛИ";
 "FREQUENCIES" = "ЧАСТОТЫ";
 "VOLTAGES" = "ДАТЧИКИ НАПРЯЖЕНИЯ";

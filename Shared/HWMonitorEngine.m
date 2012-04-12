@@ -119,26 +119,20 @@
     switch (group) {
         case kSMARTSensorGroupTemperature:
             value = [disk getTemperature];
-            if (value) {
-                HWMonitorSensor *sensor = [self addSensorWithKey:[disk serialNumber] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:kSMARTSensorGroupTemperature];
-                [sensor setValue:value];
-                [sensor setDisk:disk];
-                if ([disk isExceeded]) [sensor setLevel:kHWSensorLevelExceeded];
-            }
             break;
-            
         case kSMARTSensorGroupRemainingLife:
             value = [disk getRemainingLife];
-            if (value) {
-                HWMonitorSensor *sensor = [self addSensorWithKey:[disk serialNumber] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:kSMARTSensorGroupRemainingLife];
-                [sensor setValue:value];
-                [sensor setDisk:disk];
-                if ([disk isExceeded]) [sensor setLevel:kHWSensorLevelExceeded];
-            }
             break;
-            
-        default:           
+        case kSMARTSensorGroupRemainingBlocks:
+            value = [disk getRemainingBlocks];
             break;
+    }
+    
+    if (value) {
+        HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%x", [disk serialNumber], group] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
+        [sensor setValue:value];
+        [sensor setDisk:disk];
+        if ([disk isExceeded]) [sensor setLevel:kHWSensorLevelExceeded];
     }
     
     return nil;
@@ -224,6 +218,15 @@
             
             if (disk && ![disk isRotational]) 
                 [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupRemainingLife];
+        }
+        
+        // SSD Remaining Blocks
+        
+        for (int i = 0; i < [[smartReporter drives] count]; i++) {
+            ATAGenericDisk * disk = [[smartReporter drives] objectAtIndex:i];
+            
+            if (disk && ![disk isRotational]) 
+                [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupRemainingBlocks];
         }
     }
     
