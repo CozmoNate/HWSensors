@@ -135,7 +135,7 @@ inline UInt8 get_index(char c)
                 
                 [value getBytes:&t length:2];
                                
-                if (level != kHWSensorLevelExceeded)
+                if (level != kHWSensorLevelExceeded && [disk isRotational])
                     [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
                 return [[NSString alloc] initWithFormat:@"%d°",t];

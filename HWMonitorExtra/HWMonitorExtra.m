@@ -10,7 +10,6 @@
 #import "HWMonitorView.h"
 #import "NSString+TruncateToWidth.h"
 
-#include <IOKit/storage/ata/ATASMARTLib.h>
 #include "FakeSMCDefinitions.h"
 
 @implementation HWMonitorExtra

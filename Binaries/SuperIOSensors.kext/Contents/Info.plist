@@ -2384,6 +2384,8 @@
 				<dict>
 					<key>P6T</key>
 					<string>Rampage II GENE</string>
+					<key>P6T DELUXE V2</key>
+					<string>Rampage II GENE</string>
 					<key>P6X58D-E</key>
 					<string>Rampage II GENE</string>
 					<key>P7P55D LE</key>
@@ -2399,11 +2401,11 @@
 						<key>FANIN4</key>
 						<string>Power Fan</string>
 						<key>FANINLIMIT</key>
-						<integer>5</integer>
+						<integer>4</integer>
 						<key>TEMPIN0</key>
 						<string>CPU</string>
 						<key>TEMPIN1</key>
-						<string></string>
+						<string>Ambient</string>
 						<key>TEMPIN2</key>
 						<string>System</string>
 						<key>VIN0</key>
@@ -2411,7 +2413,7 @@
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
-						<string>3VCC</string>
+						<string>Main 3V</string>
 						<key>VIN3</key>
 						<dict>
 							<key>gain</key>
@@ -2422,7 +2424,7 @@
 						<key>VIN4</key>
 						<dict>
 							<key>gain</key>
-							<integer>2027</integer>
+							<integer>2000</integer>
 							<key>name</key>
 							<string>Main 5V</string>
 						</dict>
