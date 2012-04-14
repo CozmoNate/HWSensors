@@ -72,8 +72,6 @@ class IntelThermal : public FakeSMCPlugin
     OSDeclareDefaultStructors(IntelThermal)    
     
 private:
-    bool                    isActive;
-    
     UInt8                   tjmax[kIntelThermaxMaxCpus];
     
     IOWorkLoop *			workloop;
@@ -82,7 +80,7 @@ private:
     UInt8                   thermCounter;
     UInt8                   perfCounter;
     
-    UInt32                  busClock;
+    UInt64                  busClock;
     
     IOReturn                loopTimerEvent(void);
 	void                    readTjmaxFromMSR();

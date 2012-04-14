@@ -121,6 +121,7 @@ IOReturn IntelThermal::loopTimerEvent(void)
             case CPUFAMILY_INTEL_NEHALEM:
             case CPUFAMILY_INTEL_WESTMERE:
             case CPUFAMILY_INTEL_SANDYBRIDGE:
+            case CPUFAMILY_INTEL_IVYBRIDGE:
                 cpu_performance[0] = cpu_performance[index];
                 break;
         }
@@ -139,6 +140,7 @@ float IntelThermal::calculateMultiplier(UInt8 cpu_index)
             return cpu_performance[0];
             
         case CPUFAMILY_INTEL_SANDYBRIDGE:
+        case CPUFAMILY_INTEL_IVYBRIDGE:
             return cpu_performance[0] >> 8;
             
         default: {
@@ -183,28 +185,39 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
     if (super::probe(provider, score) != this) 
         return 0;
     
-    isActive = false;
+    if (!(workloop = getWorkLoop())) 
+		return 0;
+	
+	if (!(timersource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &IntelThermal::loopTimerEvent)))) 
+		return 0;
+	
+	if (kIOReturnSuccess != workloop->addEventSource(timersource))
+		return 0;
+    
+    return this;
+}
+
+bool IntelThermal::start(IOService *provider)
+{
+    if (!super::start(provider)) 
+        return false;
     
     cpuid_update_generic_info();
 	
 	if (strcmp(cpuid_info()->cpuid_vendor, CPUID_VID_INTEL) != 0)	{
-		WarningLog("No Intel processor found");
-		return this;
+		WarningLog("no Intel processor found");
+		return false;
 	}
 	
 	if(!(cpuid_info()->cpuid_features & CPUID_FEATURE_MSR))	{
-		WarningLog("Processor does not support Model Specific Registers");
-		return this;
+		WarningLog("processor does not support Model Specific Registers (MSR)");
+		return false;
 	}
 	
 	if(cpuid_info()->core_count == 0)	{
-		WarningLog("CPUs not found");
-		return this;
+		WarningLog("CPU core count is zero");
+		return false;
 	}
-	
-	UInt32 CpuFamily = cpuid_info()->cpuid_family;
-	UInt32 CpuModel = cpuid_info()->cpuid_model;
-	UInt32 CpuStepping =  cpuid_info()->cpuid_stepping;
 	
 	if (OSNumber* number = OSDynamicCast(OSNumber, getProperty("TjmaxForced"))) {
 		// User defined Tjmax
@@ -220,13 +233,13 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
     
     if (tjmax[0] == 0) {
 		// Calculating Tjmax
-		switch (CpuFamily)
+		switch (cpuid_info()->cpuid_family)
 		{
 			case 0x06: 
-				switch (CpuModel) 
-				{
-					case CPUID_MODEL_MEROM: // Intel Core (65nm)
-						switch (CpuStepping) 
+				switch (cpuid_info()->cpuid_model) 
+                {
+                    case CPUID_MODEL_MEROM: // Intel Core (65nm)
+                        switch (cpuid_info()->cpuid_stepping) 
                         {
                             case 0x02: // G0
                                 tjmax[0] = 100; 
@@ -262,17 +275,17 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
                                 
                         } 
                         break;
-						
-					case CPUID_MODEL_PENRYN: // Intel Core (45nm)
-                        // Mobile CPU ?
-						if (rdmsr64(0x17) & (1<<28))
-							tjmax[0] = 105;
-						else
-							tjmax[0] = 100; 
+                        
+                    case CPUID_MODEL_PENRYN: // Intel Core (45nm)
+                                             // Mobile CPU ?
+                        if (rdmsr64(0x17) & (1<<28))
+                            tjmax[0] = 105;
+                        else
+                            tjmax[0] = 100; 
                         break;
-						
-					case CPUID_MODEL_ATOM: // Intel Atom (45nm)
-						switch (CpuStepping)
+                        
+                    case CPUID_MODEL_ATOM: // Intel Atom (45nm)
+                        switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // C0
                                 tjmax[0] = 90; 
@@ -285,27 +298,28 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
                                 break;
                         } 
                         break;
-						
-					case CPUID_MODEL_NEHALEM:
-					case CPUID_MODEL_FIELDS:
-					case CPUID_MODEL_DALES:
-					case CPUID_MODEL_DALES_32NM:
-					case CPUID_MODEL_WESTMERE:
-					case CPUID_MODEL_NEHALEM_EX:
-					case CPUID_MODEL_WESTMERE_EX:
-					case CPUID_MODEL_SANDYBRIDGE:	
-					case CPUID_MODEL_JAKETOWN:
-						readTjmaxFromMSR();
-						break;
-						
-					default:
-						WarningLog("unsupported Intel processor found");
-						return this;
-				}
+                        
+                    case CPUID_MODEL_NEHALEM:
+                    case CPUID_MODEL_FIELDS:
+                    case CPUID_MODEL_DALES:
+                    case CPUID_MODEL_DALES_32NM:
+                    case CPUID_MODEL_WESTMERE:
+                    case CPUID_MODEL_NEHALEM_EX:
+                    case CPUID_MODEL_WESTMERE_EX:
+                    case CPUID_MODEL_SANDYBRIDGE:	
+                    case CPUID_MODEL_JAKETOWN:
+                    case CPUID_MODEL_IVYBRIDGE:
+                        readTjmaxFromMSR();
+                        break;
+                        
+                    default:
+                        WarningLog("found unsupported Intel processor, using default Tjmax");
+                        break;
+                }
                 break;
                 
             case 0x0F: 
-                switch (CpuModel) 
+                switch (cpuid_info()->cpuid_model) 
                 {
                     case 0x00: // Pentium 4 (180nm)
                     case 0x01: // Pentium 4 (130nm)
@@ -315,12 +329,16 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
                     case 0x06: // Pentium 4, Pentium D, Celeron D (65nm)
                         tjmax[0] = 100;
                         break;
+                        
+                    default:
+                        WarningLog("found unsupported Intel processor, using default Tjmax");
+                        break;
                 }
                 break;
 				
 			default:
-				WarningLog("unknown Intel family processor found");
-				return this;
+				WarningLog("found unknown Intel processor family");
+				return false;
 		}
 	}
 	
@@ -328,43 +346,22 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
+        case CPUFAMILY_INTEL_IVYBRIDGE:
             break;
             
         default:
-            for (int i = 1; i < cpuid_info()->core_count; i++)
-                tjmax[i] = tjmax[0];
+            for (int i = 1; i < cpuid_info()->core_count; i++) tjmax[i] = tjmax[0];
             break;
     }
+    
+    busClock = 0;
     
     if (IORegistryEntry *regEntry = fromPath("/efi/platform", gIODTPlane))
         if (OSData *data = OSDynamicCast(OSData, regEntry->getProperty("FSBFrequency")))
             busClock = *((UInt64*) data->getBytesNoCopy()) / 1e6;
     
-    if (!busClock)
+    if (busClock == 0)
         busClock = (gPEClockFrequencyInfo.bus_frequency_max_hz >> 2) / 1e6;
-    
-    
-    if (!(workloop = getWorkLoop())) 
-		return this;
-	
-	if (!(timersource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &IntelThermal::loopTimerEvent)))) 
-		return this;
-	
-	if (kIOReturnSuccess != workloop->addEventSource(timersource))
-		return this;
-    
-    isActive = true;
-    
-    return this;
-}
-
-bool IntelThermal::start(IOService *provider)
-{
-    if (!super::start(provider)) 
-        return false;
-    
-    if (!isActive)
-        return true;
     
     InfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0]);
 	
@@ -384,6 +381,7 @@ bool IntelThermal::start(IOService *provider)
             case CPUFAMILY_INTEL_NEHALEM:
             case CPUFAMILY_INTEL_WESTMERE:
             case CPUFAMILY_INTEL_SANDYBRIDGE:
+            case CPUFAMILY_INTEL_IVYBRIDGE:
                 break;
                 
             default:
@@ -405,6 +403,7 @@ bool IntelThermal::start(IOService *provider)
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
+        case CPUFAMILY_INTEL_IVYBRIDGE:
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
                 WarningLog("Can't add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
