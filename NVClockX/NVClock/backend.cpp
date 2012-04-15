@@ -105,7 +105,21 @@ int set_card(int number)
 	return 1;
 }
 
-/*void unset_card()
+int init_nvclock()
 {
-	unmap_mem();
-}*/
+    
+    /*set_error(NV_ERR_NO_DEVICES_FOUND);
+    
+    if(!probe_devices())
+	{
+        return 0;
+	}
+    
+    if(!open_config())
+	{
+        set_error_str("Unable to open config!");
+        return 0;
+	}*/
+    
+    return 1;
+}

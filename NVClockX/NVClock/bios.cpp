@@ -46,9 +46,9 @@ TODO:
 #define READ_LONG(rom, offset) (READ_INT(rom, offset+4)<<32 | READ_INT(rom, offset))
 
 //static unsigned int locate(char *rom, char *str, int offset);
-struct nvbios *read_bios(const char *file);
-static struct nvbios *parse_bios(char *rom);
-int load_bios_prom(char *data);
+//struct nvbios *read_bios(const char *data);
+//static struct nvbios *parse_bios(char *rom);
+//int load_bios_prom(char *data);
 
 typedef struct
 {
@@ -71,20 +71,21 @@ typedef struct
 /* Read a string from a given offset */
 static char* nv_read(char *rom, unsigned short offset)
 {
-	/*char *res = STRDUP(&rom[offset], NV_PROM_SIZE-offset);
-	short len=0;
-	short i;
-	len = strlen(res);
+	/*//char *res = STRDUP(&rom[offset], (NV_PROM_SIZE - offset) + 1);
+	size_t len = strlen(&rom[offset]);
+	size_t end = len;
 
-//
 // Currently we only use this function for reading the signon message.
 // The string ends with a '\n' which we don't want so remove it.
 
-	for(i=0; i<len; i++)
-		if(res[i] == '\n' || res[i] == '\r')
-			res[i] = '\0';
-
-	 return res;*/return STRDUP("", sizeof(""));
+	for(size_t i=0; i < len; i++)
+		if(rom[i] == '\n' || rom[i] == '\r') {
+			//rom[i] = '\0';
+            end = i;
+        }
+    
+    return STRDUP(&rom[offset], end);*/
+    return STRDUP("", sizeof(""));
 }
 
 
@@ -896,16 +897,16 @@ static unsigned int locate(char *rom, const char *str, int offset)
 }
 
 
-#if Debug
-int main(int argc, char **argv)
-{
-	read_bios("bios.rom");
-	return 0;
-}
-
-
-#else
-#endif
+//#if Debug
+//int main(int argc, char **argv)
+//{
+//	read_bios("bios.rom");
+//	return 0;
+//}
+//
+//
+//#else
+//#endif
 
 /* Verify if we are dealing with a valid bios image */
 int verify_bios(char *rom)
@@ -993,41 +994,6 @@ int load_bios_prom(char *data)
 		return 0;
 }
 
-/* This function tries to read a copy of the bios from harddrive. If that doesn't
- exist it will dump the bios and then read it. You might wonder why we don't read the bios from
- card. The reason behind that is that some bioses are slow to read (can take seconds) and second on some
- cards (atleast on my gf2mx) the screen becomes black if I enable reading of the rom.
-*/
-struct nvbios *read_bios(const char *file)
-{
-	struct nvbios *res;
-	char *rom = (char*)IOMalloc(NV_PROM_SIZE);
-	if(!rom) {
-		InfoLog("Memory allocation error");
-		return NULL;
-	}
-	if(!load_bios_prom(rom))
-	{
-		InfoLog("Error reading BIOS");
-		IOFree(rom, NV_PROM_SIZE);
-		return NULL;
-	}
-	else {
-		InfoLog("BIOS successfully read");
-	}
-
-
-	/* Do the actual bios parsing */
-	res = parse_bios(rom);
-	
-    InfoLog("Parsing BIOS complete");
-	/* Cleanup the mess */
-	IOFree(rom, NV_PROM_SIZE);
-
-	return res;
-}
-
-
 struct nvbios *parse_bios(char *rom)
 {
 	//IOLog("Parsing BIOS...\n");
@@ -1037,27 +1003,27 @@ struct nvbios *parse_bios(char *rom)
 	unsigned short device_id = 0;
 	struct nvbios *bios;
 	//int i=0;
-
+    
 	//IOLog("Checking BIOS\n");
 	/* All bioses start with this '0x55 0xAA' signature */
 	if((rom[0] != 0x55) || (rom[1] != (char)0xAA))
 		return NULL;
-
+    
 	//IOLog("Checking PCIR\n");
 	/* Fail when the PCIR header can't be found; it is present on all PCI bioses */
 	if(!(pcir_offset = locate(rom, "PCIR", 0)))
 		return NULL;
-
+    
 	//IOLog("Checking vendor\n");
 	/* Fail if the bios is not from an Nvidia card */
 	if(READ_SHORT(rom, pcir_offset + 4) != 0x10de)
 		return NULL;
-
+    
 	device_id = READ_SHORT(rom, pcir_offset + 6);
-	if(get_gpu_arch(device_id) & (NV4X | NV5X))
+	if((get_gpu_arch(device_id) & NV4X) || (get_gpu_arch(device_id) & NV5X))
 	{
 		//IOLog("It's new card\n");
-	/* For NV40 card the BIT structure is used instead of the BMP structure (last one doesn't exist anymore on 6600/6800le cards). */
+        /* For NV40 card the BIT structure is used instead of the BMP structure (last one doesn't exist anymore on 6600/6800le cards). */
 		//IOLog("Checking BIT\n");
 		if(!(bit_offset = locate(rom, "BIT", 0)))
 			return NULL;
@@ -1071,35 +1037,35 @@ struct nvbios *parse_bios(char *rom)
 	else
 	{
 		int version;
-
+        
 		/* The main offset starts with "0xff 0x7f NV" */
 		if(!(nv_offset = locate(rom, "\xff\x7fNV", 0)))
 			return NULL;
-
+        
 		/* We don't support old bioses. Mainly some old tnt1 models */
 		if(rom[nv_offset + 5] < 5)
 			return NULL;
-
+        
 		bios = (nvbios*)IOMalloc(sizeof(nvbios));
 		bios->device_id = device_id;
-
+        
 		bios->major = (char)rom[nv_offset + 5];
 		bios->minor = (char)rom[nv_offset + 6];
-
+        
 		/* Go to the bios version */
 		/* Not perfect for bioses containing 5 numbers */
 		version = READ_INT(rom, nv_offset + 10);
 		bios->version = bios_version_to_str(version);
-
+        
 		/* Use nv30_parse for all NV3X cards; for overclocking purposes the 5200 is considered
-		/  a NV25 card but in this case it really is a NV3X board.
-		*/
+         /  a NV25 card but in this case it really is a NV3X board.
+         */
 		if((get_gpu_arch(device_id) & NV3X) || ((device_id & 0xff0) == 0x320))
 			nv30_parse(bios, rom, nv_offset);
 		else
 			nv5_parse(bios, rom, nv_offset);
 	}
-
+    
 #if 0
 	if(bios)
 	{
@@ -1107,7 +1073,7 @@ struct nvbios *parse_bios(char *rom)
 		IOLog("-- VideoBios information --\n");
 		IOLog("Version: %s\n", bios->version);
 		IOLog("Signon message: %s\n", bios->signon_msg);
-
+        
 		for(i=0; i< bios->perf_entries; i++)
 		{
 			if(bios->volt_entries)
@@ -1123,10 +1089,10 @@ struct nvbios *parse_bios(char *rom)
 			else
 				IOLog("Performance level %d: %dMHz / %dMHz / %d%%\n", i, bios->perf_lst[i].nvclk, bios->perf_lst[i].memclk, bios->perf_lst[i].fanspeed);
 		}
-
+        
 		if(bios->volt_entries)
 			IOLog("VID mask: %x\n", bios->volt_mask);
-
+        
 		for(i=0; i< bios->volt_entries; i++)
 		{
 			/* For now assume the first memory entry is the right one; should be fixed as some bioses contain various different entries */
@@ -1138,4 +1104,39 @@ struct nvbios *parse_bios(char *rom)
 #endif
 	//IOLog("Returning BIOS structure\n");    
 	return bios;
+}
+
+/* This function tries to read a copy of the bios from harddrive. If that doesn't
+ exist it will dump the bios and then read it. You might wonder why we don't read the bios from
+ card. The reason behind that is that some bioses are slow to read (can take seconds) and second on some
+ cards (atleast on my gf2mx) the screen becomes black if I enable reading of the rom.
+*/
+struct nvbios *read_bios(const void *data)
+{
+	struct nvbios *res;
+	char *rom;
+    
+    if (!data) {
+        if(!(rom = (char*)IOMalloc(NV_PROM_SIZE))) {
+            InfoLog("Memory allocation error");
+            return NULL;
+        }
+        
+        //if(!load_bios_pramin(rom))
+        if(!load_bios_prom(rom))
+        {
+            InfoLog("Error reading BIOS");
+            IOFree(rom, NV_PROM_SIZE);
+            return NULL;
+        }
+        
+        /* Do the actual bios parsing */
+        res = parse_bios(rom);
+        
+        /* Cleanup the mess */
+        IOFree(rom, NV_PROM_SIZE);
+    }
+    else res = parse_bios((char*)data);	
+
+	return res;
 }

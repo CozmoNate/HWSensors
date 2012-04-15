@@ -257,19 +257,15 @@ IOService* RadeonMonitor::probe(IOService *provider, SInt32 *score)
     if (super::probe(provider, score) != this) 
         return 0;
     
-    IOPCIDevice* device = (IOPCIDevice*)provider;
+    VCard = (IOPCIDevice*)provider;
     
-    if (!device) 
+    if (!VCard) 
         return 0;
     
-    VCard = device;
-    
-    OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id"));
-    
-	chipID = data ? *(UInt32*)data->getBytesNoCopy() : 0;	
-
-	if (!initCard()) {
-        WarningLog("can't initialize driver");
+    if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id")))
+        chipID = *(UInt32*)data->getBytesNoCopy();
+    else {
+        WarningLog("device-id property not found");
         return 0;
     }
     
@@ -280,6 +276,11 @@ bool RadeonMonitor::start(IOService * provider)
 {
 	if (!super::start(provider)) 
         return false;
+    
+    if (!initCard()) {
+        WarningLog("can't initialize driver");
+        return false;
+    }
 	
     char name[5];
     
@@ -293,7 +294,7 @@ bool RadeonMonitor::start(IOService * provider)
             
             if (!isKeyHandled(name)) {
                 if (!addSensor(name, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
-                    WarningLog("can't add temperature sensor for key %s", name);
+                    WarningLog("can't register temperature sensor for key %s", name);
                 
                 break;
             }

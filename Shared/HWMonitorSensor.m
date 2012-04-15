@@ -186,8 +186,10 @@ inline UInt8 get_index(char c)
             case kHWSensorGroupFrequency: {
                 float f = [self decodedValue];
                 
-                if (f > 1000)
-                    return [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1000.0f];
+                if (f > 1e6)
+                    return [[NSString alloc] initWithFormat:@"%1.2fTHz", f / 1e6];
+                else if (f > 1e3)
+                    return [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1e3];
                 else 
                     return [[NSString alloc] initWithFormat:@"%1.1fMHz", f]; 
             }
