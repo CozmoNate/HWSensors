@@ -199,11 +199,11 @@ typedef struct {
 	short device_id;
 	short subvendor_id;
 	int arch; /* Architecture NV10, NV15, NV20 ..; for internal use only as we don't list all architectures */
-#if __LP64__
+/*#if __LP64__
     mach_vm_address_t reg_address;
 #else
     vm_address_t reg_address;
-#endif
+#endif*/
 	//unsigned int reg_address;
 	char *dev_name; /* /dev/mem or /dev/nvidiaX */
 	unsigned short devbusfn;

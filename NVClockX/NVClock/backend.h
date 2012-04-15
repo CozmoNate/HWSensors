@@ -49,13 +49,11 @@ int set_card(int number);
 const char* get_card_name(int device_id, gpu_type *gpu);
 int get_gpu_arch(int device_id);
 int set_card_info(int number); /* Basic version of set_card */
-//int map_mem(const char* dev_name);
-//void unmap_mem();
+
 int32_t pciReadLong(unsigned short devbusfn, long offset);
 
 /* Bios related stuff */
-void dump_bios(const char *filename);
-struct nvbios* read_bios(const char *filename);
+struct nvbios *read_bios(const void *data);
 
 /* NV-CONTROL overclocking functions */
 float nvcontrol_get_gpu_speed();

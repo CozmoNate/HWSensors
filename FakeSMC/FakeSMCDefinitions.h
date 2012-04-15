@@ -33,7 +33,7 @@
 #define KEY_MCP_PROXIMITY_TEMPERATURE           "TM0P" // MCP Proximity/Inlet
 #define KEY_NORTHBRIDGE_TEMPERATURE             "TN0P" // MCP Proximity Top Side
 #define KEY_NORTHBRIDGE_PROXIMITY_TEMPERATURE   "TN1P"
-#define KEY_PCH_DIE_TEMPERATURE                 "TPCD" // SNB PCH Die Digital
+#define KEY_PCH_DIE_TEMPERATURE                 "TP0D" // SNB PCH Die Digital
 #define KEY_PCH_PROXIMITY_TEMPERATURE           "TP0P" // SNB
 // Misc
 #define KEY_ACDC_TEMPERATURE                    "Tp0C" // PSMI Supply AC/DC Supply 1
@@ -90,8 +90,10 @@
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
 
 // Other
-#define KEY_FORMAT_FAKESMC_CPU_FREQUENCY		"ClC%X"
-#define KEY_FORMAT_FAKESMC_GPU_FREQUENCY        "ClG%X"
+#define KEY_FORMAT_FAKESMC_CPU_FREQUENCY		"CC%XP"
+#define KEY_FORMAT_FAKESMC_GPU_FREQUENCY        "CG%XP"
+#define KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY "CG%XM"
+#define KEY_FORMAT_FAKESMC_GPU_SHADER_FREQUENCY "CG%XS"
 #define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY       "ClCP"
 
 #define KEY_FORMAT_FAKESMC_CPU_MULTIPLIER		"MlC%X"

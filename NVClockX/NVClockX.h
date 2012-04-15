@@ -8,6 +8,8 @@
  */
 
 #include <IOKit/IOService.h>
+#include <IOKit/pci/IOPCIDevice.h>
+
 #include "FakeSMCPlugin.h"
 
 #define kGenericPCIDevice "IOPCIDevice"
@@ -16,12 +18,16 @@
 #define kNVCLockBoardTemperatureSensor  1201
 #define kNVCLockDiodeTemperatureSensor  1202
 
+#define kNVCLockCoreFrequencySensor     1302
+#define kNVCLockMemoryFrequencySensor   1303
+#define kNVCLockShaderFrequencySensor   1304
+
 class NVClockX : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(NVClockX)    
 	
 private:
-	IOMemoryMap *       nvio;
+    IOPCIDevice         *videoCard;
 
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);

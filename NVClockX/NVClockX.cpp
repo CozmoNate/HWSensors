@@ -14,8 +14,6 @@
 
 #include "FakeSMCDefinitions.h"
 
-#include <IOKit/pci/IOPCIDevice.h>
-
 #include <stdarg.h>
 #include <string.h>
 
@@ -68,8 +66,17 @@ float NVClockX::getSensorValue(FakeSMCSensor *sensor)
             }
             break;
             
-        case kFakeSMCFrequencySensor:
+        case kNVCLockCoreFrequencySensor:
             return nv_card->get_gpu_speed();
+            break;
+        
+        case kNVCLockMemoryFrequencySensor:
+            return nv_card->get_memory_speed();
+            break;
+            
+        case kNVCLockShaderFrequencySensor:
+            return nv_card->get_shader_speed();
+            break;
     }
     
     return 0;
@@ -82,60 +89,64 @@ IOService* NVClockX::probe(IOService *provider, SInt32 *score)
     if (super::probe(provider, score) != this) 
         return 0;
     
-    IOPCIDevice* device = (IOPCIDevice*)provider;
+    if ((videoCard = (IOPCIDevice*)provider)) 
+    {
+        if (videoCard->setMemoryEnable(true)) 
+        {
+            if (IOMemoryMap *nvio = videoCard->mapDeviceMemoryWithIndex(0)) 
+            {
+                IOVirtualAddress addr = nvio->getVirtualAddress();
+                
+                if (OSData * data = OSDynamicCast(OSData, videoCard->getProperty("device-id"))) 
+                {
+                    nvclock.card[nvclock.num_cards].device_id=*(UInt32*)data->getBytesNoCopy();
+                    
+                    
+                    nvclock.card[nvclock.num_cards].arch = get_gpu_arch(nvclock.card[nvclock.num_cards].device_id);
+                    nvclock.card[nvclock.num_cards].number = nvclock.num_cards;
+                    nvclock.card[nvclock.num_cards].card_name = (char*)get_card_name(nvclock.card[nvclock.num_cards].device_id, &nvclock.card[nvclock.num_cards].gpu);
+                    nvclock.card[nvclock.num_cards].state = 0;
+                    
+                    //nvclock.card[nvclock.num_cards].reg_address = addr;
+                    
+                    //map_mem_card(&nvclock.card[nvclock.num_cards], addr);
+                    // Map the registers of the nVidia chip 
+                    // normally pmc is till 0x2000 but extended it for nv40 
+                    nvclock.card[nvclock.num_cards].PEXTDEV = (volatile unsigned int*)(addr + 0x101000);
+                    nvclock.card[nvclock.num_cards].PFB     = (volatile unsigned int*)(addr + 0x100000);
+                    nvclock.card[nvclock.num_cards].PMC     = (volatile unsigned int*)(addr + 0x000000);
+                    nvclock.card[nvclock.num_cards].PCIO    = (volatile unsigned char*)(addr + 0x601000);
+                    nvclock.card[nvclock.num_cards].PDISPLAY= (volatile unsigned int*)(addr + NV_PDISPLAY_OFFSET);
+                    nvclock.card[nvclock.num_cards].PRAMDAC = (volatile unsigned int*)(addr + 0x680000);
+                    nvclock.card[nvclock.num_cards].PRAMIN  = (volatile unsigned int*)(addr + NV_PRAMIN_OFFSET);
+                    nvclock.card[nvclock.num_cards].PROM    = (volatile unsigned char*)(addr + 0x300000);
+                    
+                    // On Geforce 8xxx cards it appears that the pci config header has been moved 
+                    if(nvclock.card[nvclock.num_cards].arch & NV5X)
+                        nvclock.card[nvclock.num_cards].PBUS = (volatile unsigned int*)(addr + 0x88000);
+                    else
+                        nvclock.card[nvclock.num_cards].PBUS = nvclock.card[nvclock.num_cards].PMC + 0x1800/4;
+                    
+                    nvclock.card[nvclock.num_cards].mem_mapped = 1;
+                    
+                    InfoLog("%s device-id=0x%x arch=0x%x", 
+                            nvclock.card[nvclock.num_cards].card_name, 
+                            nvclock.card[nvclock.num_cards].device_id, 
+                            nvclock.card[nvclock.num_cards].arch);
+                    
+                    nvclock.num_cards++;
+                    
+                    return this;
+                }
+                else WarningLog("device-id property not found");
+
+                nvio->release();
+
+            }
+            else WarningLog("failed to map device's memory");
+        }
+    }else WarningLog("failed to assign PCI device");
     
-    if (!device) 
-        return 0;
-    
-    device->setMemoryEnable(true);
-    
-    nvio = device->mapDeviceMemoryWithIndex(0);
-    
-#if __LP64__
-    mach_vm_address_t addr = (mach_vm_address_t)nvio->getVirtualAddress();
-#else
-    vm_address_t addr = (vm_address_t)nvio->getVirtualAddress();
-#endif
-    
-    if (OSData * data = OSDynamicCast(OSData, device->getProperty("device-id"))) {
-        nvclock.card[nvclock.num_cards].device_id=*(UInt32*)data->getBytesNoCopy();
-        nvclock.card[nvclock.num_cards].arch = get_gpu_arch(nvclock.card[nvclock.num_cards].device_id);			
-        nvclock.card[nvclock.num_cards].number = nvclock.num_cards;
-        nvclock.card[nvclock.num_cards].card_name = (char*)get_card_name(nvclock.card[nvclock.num_cards].device_id, &nvclock.card[nvclock.num_cards].gpu);
-        nvclock.card[nvclock.num_cards].state = 0;
-        nvclock.card[nvclock.num_cards].reg_address = addr;
-        
-        //map_mem_card(&nvclock.card[nvclock.num_cards], addr);
-        // Map the registers of the nVidia chip 
-        // normally pmc is till 0x2000 but extended it for nv40 
-        nvclock.card[nvclock.num_cards].PEXTDEV = (volatile unsigned int*)addr + 0x101000;
-        nvclock.card[nvclock.num_cards].PFB     = (volatile unsigned int*)addr + 0x100000;
-        nvclock.card[nvclock.num_cards].PMC     = (volatile unsigned int*)addr + 0x000000;
-        nvclock.card[nvclock.num_cards].PCIO    = (volatile unsigned char*)addr + 0x601000;
-        nvclock.card[nvclock.num_cards].PDISPLAY= (volatile unsigned int*)addr + NV_PDISPLAY_OFFSET;
-        nvclock.card[nvclock.num_cards].PRAMDAC = (volatile unsigned int*)addr + 0x680000;
-        nvclock.card[nvclock.num_cards].PRAMIN  = (volatile unsigned int*)addr + NV_PRAMIN_OFFSET;
-        nvclock.card[nvclock.num_cards].PROM    = (volatile unsigned char*)addr + 0x300000;
-        
-        // On Geforce 8xxx cards it appears that the pci config header has been moved 
-        if(nvclock.card[nvclock.num_cards].arch & NV5X)
-            nvclock.card[nvclock.num_cards].PBUS = (volatile unsigned int*)addr + 0x88000;
-        else
-            nvclock.card[nvclock.num_cards].PBUS = nvclock.card[nvclock.num_cards].PMC + 0x1800/4;
-        
-        nvclock.card[nvclock.num_cards].mem_mapped = 1;
-        
-        InfoLog("Card: %d, Device ID: %x, Architecture: %x, %s", 
-                nvclock.num_cards,
-                nvclock.card[nvclock.num_cards].device_id, 
-                nvclock.card[nvclock.num_cards].arch,
-                nvclock.card[nvclock.num_cards].card_name);
-        
-        nvclock.num_cards++;
-        
-        return this;
-    }
-	
 	return 0;
 }
 
@@ -153,15 +164,15 @@ bool NVClockX::start(IOService * provider)
 	for (int index = 0; index < nvclock.num_cards; index++) {
 		/* set the card object to the requested card */
 		if (!set_card(index)){
-			char buf[80];
-			WarningLog("%s", get_error(buf, 80));
-			return this;
+			char buffer[256];
+			WarningLog("%s", get_error(buffer, 256));
+			return false;
 		}
+
+        OSData *bios = OSDynamicCast(OSData, videoCard->getProperty("vbios"));
+
+        nvclock.card[index].bios = read_bios(bios ? bios->getBytesNoCopy() : NULL);
         
-		nvbios* bios=read_bios("");
-        
-		nvclock.card[index].bios=bios;
-		
 		/* Check if the card is supported, if not print a message. */
 		if(nvclock.card[index].gpu == UNKNOWN){
 			WarningLog("it seems your card isn't officialy supported yet");
@@ -188,7 +199,7 @@ bool NVClockX::start(IOService * provider)
         }
         
 		if(nv_card->caps & (GPU_TEMP_MONITORING)) {
-            InfoLog("Adding temperature sensors");
+            InfoLog("registering temperature sensors");
             
             if(nv_card->caps & BOARD_TEMP_MONITORING) {
                 snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, cardIndex);
@@ -204,7 +215,7 @@ bool NVClockX::start(IOService * provider)
 		}
 		
 		if (nv_card->caps & I2C_FANSPEED_MONITORING || nv_card->caps & GPU_FANSPEED_MONITORING){
-            InfoLog("Adding tachometer sensor");
+            InfoLog("registering tachometer sensors");
             
             char title[6]; 
             
@@ -213,9 +224,16 @@ bool NVClockX::start(IOService * provider)
 			addTachometer(index, title);
 		}
 		
-        /*InfoLog("Adding frequency sensor");
+        InfoLog("registering frequency sensors");
+        
         snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, index);
-        addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, index);*/
+        addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kNVCLockCoreFrequencySensor, index);
+        
+        snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY, index);
+        addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kNVCLockMemoryFrequencySensor, index);
+        
+        snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_SHADER_FREQUENCY, index);
+        addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kNVCLockMemoryFrequencySensor, index);
 		
 		/*OSNumber* fanKey = OSDynamicCast(OSNumber, getProperty("FanSpeedPercentage"));
          

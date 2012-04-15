@@ -78,25 +78,20 @@ IOService* X3100monitor::probe(IOService *provider, SInt32 *score)
     VCard = (IOPCIDevice*)provider;
     
     if (!VCard) 
-        return this;
+        return false;
     
 	IOPhysicalAddress bar = (IOPhysicalAddress)((VCard->configRead32(kMCHBAR)) & ~0xf);
     
 	DebugLog("Fx3100: register space=%08lx", (long unsigned int)bar);
-    
-	IOMemoryDescriptor * theDescriptor = IOMemoryDescriptor::withPhysicalAddress (bar, 0x2000, kIODirectionOutIn); // | kIOMapInhibitCache);
-    
-	if(theDescriptor != NULL)
-	{
-		mmio = theDescriptor->map();
-        
-		if (mmio != NULL)
+	
+	if(IOMemoryDescriptor * theDescriptor = IOMemoryDescriptor::withPhysicalAddress (bar, 0x2000, kIODirectionOutIn))
+		if ((mmio = theDescriptor->map()))
 		{
 			mmio_base = (volatile UInt8 *)mmio->getVirtualAddress();
 #if DEBUG				
 			DebugLog("MCHBAR mapped");
             
-			for (int i=0; i<0x2f; i +=16) {
+			for (int i = 0; i < 0x2f; i += 16) {
 				DebugLog("%04lx: ", (long unsigned int)i+0x1000);
 				for (int j=0; j<16; j += 1) {
 					DebugLog("%02lx ", (long unsigned int)INVID8(i+j+0x1000));
@@ -107,12 +102,11 @@ IOService* X3100monitor::probe(IOService *provider, SInt32 *score)
 		}
 		else
 		{
-			InfoLog(" MCHBAR failed to map");
-			return this;
+			InfoLog("MCHBAR failed to map");
+			return 0;
 		}			
-	}	
 
-	return this;
+	return 0;
 }
 
 bool X3100monitor::start(IOService * provider)
@@ -131,7 +125,7 @@ bool X3100monitor::start(IOService * provider)
             
             if (!isKeyHandled(name)) {
                 if (!addSensor(name, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
-                    WarningLog("Can't add temperature sensor for key %s", name);
+                    WarningLog("failed to register temperature sensor");
                 break;
             }
         }
