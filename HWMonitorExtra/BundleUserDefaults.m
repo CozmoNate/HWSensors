@@ -40,7 +40,7 @@
 
 - (id)objectForKey:(NSString *)defaultName
 {
-	id value = (__bridge id)CFPreferencesCopyAppValue((__bridge CFStringRef)defaultName, (__bridge CFStringRef)_applicationID);
+	id value = (__bridge_transfer id)CFPreferencesCopyAppValue((__bridge CFStringRef)defaultName, (__bridge CFStringRef)_applicationID);
 	if (value == nil)
 		value = [_registrationDictionary objectForKey:defaultName];
 	return value;

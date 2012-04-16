@@ -29,9 +29,9 @@
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>10K549</string>
+	<string>11D50a</string>
 	<key>DTSDKName</key>
-	<string>macosx10.6</string>
+	<string>macosx10.7</string>
 	<key>DTXcode</key>
 	<string>0432</string>
 	<key>DTXcodeBuild</key>
@@ -1914,7 +1914,7 @@
 							<integer>0</integer>
 						</dict>
 					</dict>
-					<key>P8P67-M PR</key>
+					<key>P8P67-M PRO</key>
 					<dict>
 						<key>FANIN0</key>
 						<string>Chassis Fan #1</string>
