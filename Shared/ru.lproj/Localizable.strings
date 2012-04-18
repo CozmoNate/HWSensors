@@ -23,7 +23,7 @@
 "GPU %X Proximity" = "Датчик видеокарты %X";
 "Northbridge" = "Северный мост";
 "System Chipset" = "Системный чипсет";
-"PCH" = "Системный контроллер";
+"Platform Controller Hub" = "Системный контроллер";
 "Ambient" = "Окружение";
 "CPU Package" = "Центральный процессор";
 "CPU %X" = "Процессор %X";

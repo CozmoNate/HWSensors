@@ -147,7 +147,8 @@ inline UInt8 get_index(char c)
                 
                 [value getBytes:&life length:[value length]];
                 
-                [self setLevel:life >= 90 ? kHWSensorLevelExceeded : life >= 80 ? kHWSensorLevelHigh : life >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+                if (level != kHWSensorLevelExceeded)
+                    [self setLevel:life >= 90 ? kHWSensorLevelExceeded : life >= 80 ? kHWSensorLevelHigh : life >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
                 return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
             }

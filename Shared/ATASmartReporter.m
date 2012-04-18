@@ -32,6 +32,8 @@
         me->serialNumber = serial;
         me->isRotational = rotational;
         
+        me->lastUpdate = [NSDate dateWithTimeIntervalSinceNow:-60.0];
+        
         return me;
     }
     
@@ -40,6 +42,9 @@
 
 -(BOOL)readSMARTData
 {
+    if ([lastUpdate timeIntervalSinceNow] > -60.0) 
+        return true;
+    
     IOCFPlugInInterface ** pluginInterface = NULL;
     IOATASMARTInterface ** smartInterface = NULL;
     SInt32 score = 0;
@@ -63,6 +68,7 @@
                         if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &smartData)) {
                             bcopy(&smartData.vendorSpecific1, &data, sizeof(data));
                             result = true;
+                            lastUpdate = [NSDate date];
                         }
                 }
             
@@ -104,10 +110,7 @@
     if ([self readSMARTData]) {
         ATASMARTAttribute * life = nil;
         
-        if (//(life = [self getAttributeByIdentifier:0xB4]) ||
-            //(life = [self getAttributeByIdentifier:0xD1]) ||
-            //(life = [self getAttributeByIdentifier:0xE7]) ||
-            (life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance]))
+        if ((life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance]))
             return [NSData dataWithBytes:life->rawvalue length:6];
     }
     
