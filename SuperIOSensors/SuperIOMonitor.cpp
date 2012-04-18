@@ -62,6 +62,10 @@ bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
                 if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                     WarningLog("can't add CPU temperature sensor");
             }
+            if (name->isEqualTo("CPU Proximity")) {
+                if (!addSensor(KEY_CPU_PROXIMITY_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+                    WarningLog("can't add CPU Proximity temperature sensor");
+            }
             else if (name->isEqualTo("System")) {				
                 if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                     WarningLog("can't add System temperature sensor");
@@ -69,6 +73,10 @@ bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
             else if (name->isEqualTo("Ambient")) {				
                 if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                     WarningLog("can't add Ambient temperature sensor");
+            }
+            else if (name->isEqualTo("PCH")) {				
+                if (!addSensor(KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+                    WarningLog("can't add PCH temperature sensor");
             }
         }
     }

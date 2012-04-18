@@ -1287,8 +1287,8 @@
 				6AB5B4EE14F2C47B0062D2D0 /* ATASmartReporter.m in Sources */,
 				6A00BB5F14F8CCF000337DF8 /* HWMonitorSensor.m in Sources */,
 				6A00BB5D14F8CCF000337DF8 /* HWMonitorEngine.m in Sources */,
-				1D9F832C144FF24000EEEFEB /* main.m in Sources */,
 				1D9F8333144FF24000EEEFEB /* AppDelegate.m in Sources */,
+				1D9F832C144FF24000EEEFEB /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1343,12 +1343,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9955C114EFAD7B0052C702 /* NSString+TruncateToWidth.m in Sources */,
+				6A9A73CA1537049E00FA16FD /* BundleUserDefaults.m in Sources */,
 				6A62185514F1802C0058C396 /* ATASmartReporter.m in Sources */,
 				6A85F86B14DBF21700F863A9 /* HWMonitorExtra.m in Sources */,
 				6A85F86E14DBF37800F863A9 /* HWMonitorView.m in Sources */,
 				6A00BB5E14F8CCF000337DF8 /* HWMonitorEngine.m in Sources */,
 				6A00BB6014F8CCF000337DF8 /* HWMonitorSensor.m in Sources */,
-				6A9A73CA1537049E00FA16FD /* BundleUserDefaults.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

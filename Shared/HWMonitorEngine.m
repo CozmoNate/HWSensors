@@ -192,8 +192,8 @@
     [self addSensorWithKey:@KEY_CPU_HEATSINK_TEMPERATURE caption:GetLocalizedString(@"CPU Heatsink") group:kHWSensorGroupTemperature];
     [self addSensorWithKey:@KEY_CPU_PROXIMITY_TEMPERATURE caption:GetLocalizedString(@"CPU Proximity") group:kHWSensorGroupTemperature];
     //[self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"Northbridge") group:kHWSensorGroupTemperature];
-    [self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"System Chipset") group:kHWSensorGroupTemperature];
-    [self addSensorWithKey:@KEY_PCH_DIE_TEMPERATURE caption:GetLocalizedString(@"PCH") group:kHWSensorGroupTemperature];
+    [self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"Northbridge") group:kHWSensorGroupTemperature];
+    [self addSensorWithKey:@KEY_PCH_DIE_TEMPERATURE caption:GetLocalizedString(@"Platform Controller Hub") group:kHWSensorGroupTemperature];
     [self addSensorWithKey:@KEY_AMBIENT_TEMPERATURE caption:GetLocalizedString(@"Ambient") group:kHWSensorGroupTemperature];
     
     for (int i=0; i<0xA; i++) {
@@ -203,32 +203,20 @@
     }
     
     if ([smartReporter drives]) {
-        
-        // Hard Drive Temperatures
-        
         for (int i = 0; i < [[smartReporter drives] count]; i++) {
             ATAGenericDisk * disk = [[smartReporter drives] objectAtIndex:i];
             
-            if (disk) 
+            if (disk) { 
+                // Hard Drive Temperatures
                 [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupTemperature];
-        }
-        
-        // SSD Remaining Life
-        
-        for (int i = 0; i < [[smartReporter drives] count]; i++) {
-            ATAGenericDisk * disk = [[smartReporter drives] objectAtIndex:i];
-            
-            if (disk && ![disk isRotational]) 
-                [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupRemainingLife];
-        }
-        
-        // SSD Remaining Blocks
-        
-        for (int i = 0; i < [[smartReporter drives] count]; i++) {
-            ATAGenericDisk * disk = [[smartReporter drives] objectAtIndex:i];
-            
-            if (disk && ![disk isRotational]) 
-                [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupRemainingBlocks];
+                
+                if (![disk isRotational]) {
+                    // SSD Remaining Life
+                    [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupRemainingLife];
+                    // SSD Remaining Blocks
+                    [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupRemainingBlocks];
+                }
+            }
         }
     }
     
