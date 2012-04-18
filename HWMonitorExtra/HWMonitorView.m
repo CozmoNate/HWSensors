@@ -26,7 +26,7 @@
     
     shadow = [[NSShadow alloc] init];
     
-    [shadow setShadowColor:[NSColor colorWithSRGBRed:1 green:1 blue:1 alpha:0.6]];
+    [shadow setShadowColor:[NSColor colorWithCalibratedWhite:1 alpha:0.7]];
     [shadow setShadowOffset:CGSizeMake(0, -1.0)];
     [shadow setShadowBlurRadius:1.0];
     
@@ -88,7 +88,7 @@
                      break;*/
                     
                 case kHWSensorLevelModerate:
-                    valueColor = [NSColor colorWithSRGBRed:0.8f green:0.35f blue:0.035 alpha:1.0f];
+                    valueColor = [NSColor colorWithCalibratedRed:0.8f green:0.35f blue:0.035 alpha:1.0f];
                     break;
                     
                 case kHWSensorLevelHigh:
