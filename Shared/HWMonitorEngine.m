@@ -237,9 +237,11 @@
     for (int i=0; i<0xA; i++) {
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_GPU_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Core"),i + 1] group:kHWSensorGroupFrequency];
         
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Memory"),i + 1] group:kHWSensorGroupFrequency];
-        
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_GPU_SHADER_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Shaders"),i + 1] group:kHWSensorGroupFrequency];
+        
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_GPU_ROP_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X ROP"),i + 1] group:kHWSensorGroupFrequency];
+        
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Memory"),i + 1] group:kHWSensorGroupFrequency];
     }
     
     // Fans

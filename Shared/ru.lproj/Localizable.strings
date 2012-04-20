@@ -17,10 +17,11 @@
 "CPU Heatsink" = "Радиатор ЦП";
 "CPU Proximity" = "Датчик ЦП";
 "GPU %X Board" = "Видеокарта %X";
-"GPU %X Core" = "Ядро видеокарты %X";
-"GPU %X Memory" = "Память видеокарты %X";
-"GPU %X Shaders" = "Шейдеры видеокарты %X";
-"GPU %X Proximity" = "Датчик видеокарты %X";
+"GPU %X Core" = "Видеокарта %X Ядро";
+"GPU %X Memory" = "Видеокарта %X Память";
+"GPU %X Shaders" = "Видеокарта %X Шейдеры";
+"GPU %X Proximity" = "Видеокарта %X Датчик";
+"GPU %X ROP" = "Видеокарта %X ROP";
 "Northbridge" = "Северный мост";
 "System Chipset" = "Системный чипсет";
 "Platform Controller Hub" = "Системный контроллер";
