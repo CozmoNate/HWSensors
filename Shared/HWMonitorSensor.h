@@ -36,6 +36,8 @@
 @property (readwrite, retain) NSData *value;
 @property (readwrite, retain) ATAGenericDisk *disk;
 
+@property (readwrite, assign) NSUInteger tag;
+
 @property (readwrite, assign) BOOL favorite;
 @property (readwrite, assign) NSUInteger level;
 @property (readonly) BOOL levelHasBeenChanged;
