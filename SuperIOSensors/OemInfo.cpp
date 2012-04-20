@@ -355,14 +355,14 @@ bool setOemProperties(IOService *provider)
             
             csum = checksum8(eps, sizeof(SMBEntryPoint));
             
-            /*DebugLog("DMI checksum       = 0x%x", csum);
-             DebugLog("DMI tableLength    = %d",
+            /*HWSensorsDebugLog("DMI checksum       = 0x%x", csum);
+             HWSensorsDebugLog("DMI tableLength    = %d",
              eps->dmi.tableLength);
-             DebugLog("DMI tableAddress   = 0x%x",
+             HWSensorsDebugLog("DMI tableAddress   = 0x%x",
              (uint32_t) eps->dmi.tableAddress);
-             DebugLog("DMI structureCount = %d",
+             HWSensorsDebugLog("DMI structureCount = %d",
              eps->dmi.structureCount);
-             DebugLog("DMI bcdRevision    = %x",
+             HWSensorsDebugLog("DMI bcdRevision    = %x",
              eps->dmi.bcdRevision);*/
             
             if (csum == 0 && eps->dmi.tableLength &&
@@ -375,7 +375,7 @@ bool setOemProperties(IOService *provider)
             }
             /*else
              {
-             DebugLog("no DMI structure found");
+             HWSensorsDebugLog("no DMI structure found");
              }*/
         }
     

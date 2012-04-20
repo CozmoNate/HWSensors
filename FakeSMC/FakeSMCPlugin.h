@@ -66,7 +66,7 @@ protected:
     
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
-public:
+public:    
 	virtual bool			init(OSDictionary *properties=0);
 	virtual IOService       *probe(IOService *provider, SInt32 *score);
     virtual bool			start(IOService *provider);

@@ -50,12 +50,12 @@
 #include "FakeSMCDefinitions.h"
 #include "SuperIO.h"
 
-#define Debug FALSE
+/*#define Debug FALSE
 
 #define LogPrefix "W836xMonitor: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
+#define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
+#define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
+#define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
 
 #define super SuperIOMonitor
 OSDefineMetaClassAndStructors(W836xMonitor, SuperIOMonitor)
@@ -231,7 +231,7 @@ float W836xMonitor::readTachometer(UInt32 index)
 
 bool W836xMonitor::addTemperatureSensors(OSDictionary *configuration)
 {
-    DebugLog("adding temperature sensors...");
+    HWSensorsDebugLog("adding temperature sensors...");
     
     UInt8 flag = 0;
     
@@ -272,15 +272,15 @@ bool W836xMonitor::addTemperatureSensors(OSDictionary *configuration)
         if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))) {
             if (name->isEqualTo("CPU")) {
                 if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
-                    WarningLog("can't add CPU temperature sensor");
+                    HWSensorsWarningLog("can't add CPU temperature sensor");
             }
             else if (name->isEqualTo("System")) {				
                 if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
-                    WarningLog("can't add System temperature sensor");
+                    HWSensorsWarningLog("can't add System temperature sensor");
             }
             else if (name->isEqualTo("Ambient")) {				
                 if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor,i))
-                    WarningLog("can't add Ambient temperature sensor");
+                    HWSensorsWarningLog("can't add Ambient temperature sensor");
             }
         }
         
@@ -292,7 +292,7 @@ bool W836xMonitor::addTemperatureSensors(OSDictionary *configuration)
 
 bool W836xMonitor::addTachometerSensors(OSDictionary *configuration)
 {
-    DebugLog("setting fanLimit value...");
+    HWSensorsDebugLog("setting fanLimit value...");
     
     OSNumber* fanlimit = OSDynamicCast(OSNumber, configuration->getObject("FANINLIMIT")); 
     
@@ -313,7 +313,7 @@ bool W836xMonitor::initialize()
     UInt16 vendor = (UInt16)(readByte((WINBOND_HIGH_BYTE << 8) | WINBOND_VENDOR_ID_REGISTER) << 8) | readByte(WINBOND_VENDOR_ID_REGISTER);
     
     if (vendor != WINBOND_VENDOR_ID) {
-        WarningLog("wrong vendor ID=0x%x", vendor);
+        HWSensorsWarningLog("wrong vendor ID=0x%x", vendor);
         return false;
     }
     

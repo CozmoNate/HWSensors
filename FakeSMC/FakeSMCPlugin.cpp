@@ -153,13 +153,6 @@ void FakeSMCSensor::encodeValue(float value, void *outBuffer)
 
 // Plugin
 
-#define Debug FALSE
-
-#define LogPrefix "FakeSMCPlugin: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
-
 #define super IOService
 OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)
 
@@ -176,7 +169,7 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {   
     if (getSensor(key)) {
-        DebugLog("will not add sensor for key %s, key handler already assigned", key);
+        HWSensorsDebugLog("will not add sensor for key %s, key handler already assigned", key);
 		return NULL;
     }
 	
@@ -219,23 +212,23 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
                         snprintf(key, 5, KEY_FORMAT_FAN_ID, i); 
                         
                         if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
-                            WarningLog("can't add tachometer name for key %s", key);
+                            HWSensorsWarningLog("can't add tachometer name for key %s", key);
                     }
                     
                     if (i + 1 > length) {
                         length++;
                         
                         if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)(UInt8)1, (void *)&length, 0))
-                            WarningLog("can't update FNum value");
+                            HWSensorsWarningLog("can't update FNum value");
                     }
                     
                     return sensor;
                 }
-                else WarningLog("can't add tachometer sensor for key %s", key);
+                else HWSensorsWarningLog("can't add tachometer sensor for key %s", key);
             }
         }
 	}
-	else WarningLog("can't read FNum value");
+	else HWSensorsWarningLog("can't read FNum value");
 	
 	return 0;
 }
@@ -277,7 +270,7 @@ bool FakeSMCPlugin::start(IOService *provider)
         return false;
 
 	if (!(fakeSMC = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
-		WarningLog("can't locate FakeSMCDevice");
+		HWSensorsWarningLog("can't locate FakeSMCDevice");
 		return false;
 	}
 	

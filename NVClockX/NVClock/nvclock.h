@@ -23,13 +23,7 @@
 #define NVCLOCK_H
 
 #include <IOKit/IOLib.h>
-
-#define Debug FALSE
-
-#define LogPrefix "NVClockX: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
+#include "FakeSMCDefinitions.h"
 
 #define MAX_CARDS 4
 

@@ -125,14 +125,14 @@
         }
         
         if ([sensor favorite]) {
-            NSString * value =[[NSString alloc] initWithString:[sensor formattedValue]];
+            NSString * val =[[NSString alloc] initWithString:[sensor formattedValue]];
             
             [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
             
             if (!isMenuVisible && valueColor != blackColorAttribute)
-                [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
+                [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:val attributes:valueColor]];
             else
-                [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:value]];
+                [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:val]];
         }
     }
     

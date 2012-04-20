@@ -2,59 +2,42 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BuildMachineOSBuild</key>
-	<string>11D50</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>IntelThermal</string>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.kozlek.IntelThermal</string>
+	<string>org.kozlek.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0</string>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.0.0</string>
-	<key>DTCompiler</key>
-	<string></string>
-	<key>DTPlatformBuild</key>
-	<string>4E2002</string>
-	<key>DTPlatformVersion</key>
-	<string>GM</string>
-	<key>DTSDKBuild</key>
-	<string>10K549</string>
-	<key>DTSDKName</key>
-	<string>macosx10.6</string>
-	<key>DTXcode</key>
-	<string>0432</string>
-	<key>DTXcodeBuild</key>
-	<string>4E2002</string>
+	<string>1</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>Intel Thermal Monitor</key>
+		<key>GeForce Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.kozlek.IntelThermal</string>
+			<string>org.kozlek.${PRODUCT_NAME:rfc1034identifier}</string>
 			<key>IOClass</key>
-			<string>IntelThermal</string>
+			<string>GeForceX</string>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
-			<key>IOPropertyMatch</key>
-			<dict>
-				<key>IOCPUNumber</key>
-				<integer>0</integer>
-			</dict>
+			<key>IOPCIClassMatch</key>
+			<string>0x03000000&amp;0xff000000</string>
+			<key>IOPCIMatch</key>
+			<string>0x000010de&amp;0x0000ffff</string>
+			<key>IOProbeScore</key>
+			<integer>10000</integer>
 			<key>IOProviderClass</key>
-			<string>AppleACPICPU</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
-			<key>TjmaxForced</key>
-			<integer>0</integer>
+			<string>IOPCIDevice</string>
 		</dict>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
@@ -69,6 +52,8 @@
 		<string>10.0.0</string>
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
+		<key>com.apple.iokit.IOPCIFamily</key>
+		<string>1.0.0b1</string>
 		<key>org.netkas.FakeSMC</key>
 		<string>4.2.0</string>
 	</dict>

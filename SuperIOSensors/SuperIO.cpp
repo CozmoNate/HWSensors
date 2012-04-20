@@ -7,9 +7,9 @@
 #define Debug FALSE
 
 #define LogPrefix "SuperIO: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
+#define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
+#define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
+#define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
 
 #define super IOService
 OSDefineMetaClassAndStructors(SuperIO, IOService)
@@ -252,11 +252,11 @@ bool SuperIO::start(IOService *provider)
         }
         
         if (model == 0) {
-            WarningLog("no supported hardware found ID=0x%x", id);
+            HWSensorsWarningLog("no supported hardware found ID=0x%x", id);
             return false;
         }
         
-        InfoLog("found %s %s on port=0x%x address=0x%x", vendor, superio_get_model_name(model), port, address);
+        HWSensorsInfoLog("found %s %s on port=0x%x address=0x%x", vendor, superio_get_model_name(model), port, address);
         
         char string[128];
         
@@ -274,7 +274,7 @@ bool SuperIO::start(IOService *provider)
         setProperty(kSuperIOVendorName, vendor);
         
         if (!setOemProperties(this))
-            WarningLog("can't read OEM data");
+            HWSensorsWarningLog("can't read OEM data");
         
         registerService();
         

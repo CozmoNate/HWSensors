@@ -53,13 +53,6 @@
 #include <IOKit/IODeviceTreeSupport.h>
 #include <IOKit/IORegistryEntry.h>
 
-#define Debug FALSE
-
-#define LogPrefix "IntelThermal: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
-
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(IntelThermal, FakeSMCPlugin)
 
@@ -205,17 +198,17 @@ bool IntelThermal::start(IOService *provider)
     cpuid_update_generic_info();
 	
 	if (strcmp(cpuid_info()->cpuid_vendor, CPUID_VID_INTEL) != 0)	{
-		WarningLog("no Intel processor found");
+		HWSensorsWarningLog("no Intel processor found");
 		return false;
 	}
 	
 	if(!(cpuid_info()->cpuid_features & CPUID_FEATURE_MSR))	{
-		WarningLog("processor does not support Model Specific Registers (MSR)");
+		HWSensorsWarningLog("processor does not support Model Specific Registers (MSR)");
 		return false;
 	}
 	
 	if(cpuid_info()->core_count == 0)	{
-		WarningLog("CPU core count is zero");
+		HWSensorsWarningLog("CPU core count is zero");
 		return false;
 	}
 	
@@ -227,7 +220,7 @@ bool IntelThermal::start(IOService *provider)
             for (int i = 1; i < cpuid_info()->core_count; i++)
 				tjmax[i] = tjmax[0];
             
-            InfoLog("force Tjmax value to %d", tjmax[0]);
+            HWSensorsInfoLog("force Tjmax value to %d", tjmax[0]);
         }
 	} 
     
@@ -313,7 +306,7 @@ bool IntelThermal::start(IOService *provider)
                         break;
                         
                     default:
-                        WarningLog("found unsupported Intel processor, using default Tjmax");
+                        HWSensorsWarningLog("found unsupported Intel processor, using default Tjmax");
                         break;
                 }
                 break;
@@ -331,13 +324,13 @@ bool IntelThermal::start(IOService *provider)
                         break;
                         
                     default:
-                        WarningLog("found unsupported Intel processor, using default Tjmax");
+                        HWSensorsWarningLog("found unsupported Intel processor, using default Tjmax");
                         break;
                 }
                 break;
 				
 			default:
-				WarningLog("found unknown Intel processor family");
+				HWSensorsWarningLog("found unknown Intel processor family");
 				return false;
 		}
 	}
@@ -363,7 +356,7 @@ bool IntelThermal::start(IOService *provider)
     if (busClock == 0)
         busClock = (gPEClockFrequencyInfo.bus_frequency_max_hz >> 2) / 1e6;
     
-    InfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0]);
+    HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0]);
 	
 	for (int i = 0; i < cpuid_info()->core_count; i++) {
         
@@ -375,7 +368,7 @@ bool IntelThermal::start(IOService *provider)
 		snprintf(key, 5, KEY_FORMAT_CPU_DIODE_TEMPERATURE, i);
         
         if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i))
-			WarningLog("Can't add temperature sensor");
+			HWSensorsWarningLog("Can't add temperature sensor");
 		
         switch (cpuid_info()->cpuid_cpufamily) {
             case CPUFAMILY_INTEL_NEHALEM:
@@ -388,12 +381,12 @@ bool IntelThermal::start(IOService *provider)
                 snprintf(key, 5, KEY_FORMAT_FAKESMC_CPU_MULTIPLIER, i);
                 
                 if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, i))
-                    WarningLog("Can't add multiplier sensor");
+                    HWSensorsWarningLog("Can't add multiplier sensor");
                 
                 snprintf(key, 5, KEY_FORMAT_FAKESMC_CPU_FREQUENCY, i);
                 
                 if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, i))
-                    WarningLog("Can't add frequency sensor");
+                    HWSensorsWarningLog("Can't add frequency sensor");
                 
                 break;
         }
@@ -405,9 +398,9 @@ bool IntelThermal::start(IOService *provider)
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
-                WarningLog("Can't add package multiplier sensor");
+                HWSensorsWarningLog("Can't add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
-                WarningLog("Can't add package frequency sensor");
+                HWSensorsWarningLog("Can't add package frequency sensor");
             break;
             
         default:
