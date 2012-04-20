@@ -133,6 +133,388 @@ static bool bit_table(struct NVBios bios, UInt8 id, struct NVBitEntry *bit)
 	return false;
 }
 
+// VRAM ===
+
+void GeForceX::nv20_get_vram()
+{
+	UInt32 ram_size = nv_rd32(PMC, 0x10020c);
+	UInt32 pbus1218 = nv_rd32(PMC, 0x001218);
+    
+	vram_size = ram_size & 0xff000000;
+    
+	switch (pbus1218 & 0x00000300) {
+        case 0x00000000: vram_type = NV_MEM_TYPE_SDRAM; break;
+        case 0x00000100: vram_type = NV_MEM_TYPE_DDR1; break;
+        case 0x00000200: vram_type = NV_MEM_TYPE_GDDR3; break;
+        case 0x00000300: vram_type = NV_MEM_TYPE_GDDR2; break;
+	}
+}
+
+void GeForceX::nvc0_get_vram()
+{
+	UInt32 parts = nv_rd32(PMC, 0x022438);
+	UInt32 pmask = nv_rd32(PMC, 0x022554);
+	UInt32 bsize = nv_rd32(PMC, 0x10f20c);
+	bool uniform = true;
+	int part;
+    
+	HWSensorsDebugLog("0x100800: 0x%08x\n", nv_rd32(PMC, 0x100800));
+	HWSensorsDebugLog("parts 0x%08x mask 0x%08x\n", parts, pmask);
+    
+	vram_type = nouveau_mem_vbios_type();
+	//vram_rank_B = !!(nv_rd32(dev, 0x10f200) & 0x00000004);
+    
+	/* read amount of vram attached to each memory controller */
+	for (part = 0; part < parts; part++) {
+		if (!(pmask & (1 << part))) {
+			UInt32 psize = nv_rd32(PMC, 0x11020c + (part * 0x1000));
+			if (psize != bsize) {
+				if (psize < bsize)
+					bsize = psize;
+				uniform = false;
+			}
+            
+			HWSensorsDebugLog("%d: mem_amount 0x%08x\n", part, psize);
+			vram_size += (UInt64)psize << 20;
+		}
+	}
+}
+
+UInt32 GeForceX::get_vram_multiplier()
+{
+    switch (vram_type) {
+        case NV_MEM_TYPE_DDR2:
+        case NV_MEM_TYPE_GDDR2:
+            return 2;
+            
+        case NV_MEM_TYPE_DDR3:
+        case NV_MEM_TYPE_GDDR3:
+            return 3;
+        
+        case NV_MEM_TYPE_GDDR4:
+            return 4;
+        
+        case NV_MEM_TYPE_GDDR5:
+            return 5;
+    }
+    
+    return 1;
+}
+
+// Voltage ===
+
+//static const enum dcb_gpio_tag vidtag[] = { 0x04, 0x05, 0x06, 0x1a, 0x73 };
+//static int nr_vidtag = sizeof(vidtag) / sizeof(vidtag[0]);
+//
+//int nouveau_gpio_sense(struct drm_device *dev, int idx, int line)
+//{
+//	struct drm_nouveau_private *dev_priv = dev->dev_private;
+//	struct nouveau_gpio_engine *pgpio = &dev_priv->engine.gpio;
+//    
+//	return pgpio->sense ? pgpio->sense(dev, line) : -ENODEV;
+//}
+//
+//int nouveau_gpio_find(struct drm_device *dev, int idx, u8 func, u8 line, struct gpio_func *gpio)
+//{
+//	u8 *table, *entry, version;
+//	int i = -1;
+//    
+//	if (line == 0xff && func == 0xff)
+//		return -EINVAL;
+//    
+//	while ((entry = dcb_gpio_entry(dev, idx, ++i, &version))) {
+//		if (version < 0x40) {
+//			u16 data = ROM16(entry[0]);
+//			*gpio = (struct gpio_func) {
+//				.line = (data & 0x001f) >> 0,
+//				.func = (data & 0x07e0) >> 5,
+//				.log[0] = (data & 0x1800) >> 11,
+//				.log[1] = (data & 0x6000) >> 13,
+//			};
+//		} else
+//            if (version < 0x41) {
+//                *gpio = (struct gpio_func) {
+//                    .line = entry[0] & 0x1f,
+//                    .func = entry[1],
+//                    .log[0] = (entry[3] & 0x18) >> 3,
+//                    .log[1] = (entry[3] & 0x60) >> 5,
+//                };
+//            } else {
+//                *gpio = (struct gpio_func) {
+//                    .line = entry[0] & 0x3f,
+//                    .func = entry[1],
+//                    .log[0] = (entry[4] & 0x30) >> 4,
+//                    .log[1] = (entry[4] & 0xc0) >> 6,
+//                };
+//            }
+//        
+//		if ((line == 0xff || line == gpio->line) &&
+//		    (func == 0xff || func == gpio->func))
+//			return 0;
+//	}
+//    
+//	/* DCB 2.2, fixed TVDAC GPIO data */
+//	if ((table = dcb_table(dev)) && table[0] >= 0x22) {
+//		if (func == DCB_GPIO_TVDAC0) {
+//			*gpio = (struct gpio_func) {
+//				.func = DCB_GPIO_TVDAC0,
+//				.line = table[-4] >> 4,
+//				.log[0] = !!(table[-5] & 2),
+//				.log[1] =  !(table[-5] & 2),
+//			};
+//			return 0;
+//		}
+//	}
+//    
+//	/* Apple iMac G4 NV18 */
+//	if (nv_match_device(dev, 0x0189, 0x10de, 0x0010)) {
+//		if (func == DCB_GPIO_TVDAC0) {
+//			*gpio = (struct gpio_func) {
+//				.func = DCB_GPIO_TVDAC0,
+//				.line = 4,
+//				.log[0] = 0,
+//				.log[1] = 1,
+//			};
+//			return 0;
+//		}
+//	}
+//    
+//	return -EINVAL;
+//}
+//
+//int nouveau_gpio_get(struct drm_device *dev, int idx, u8 tag, u8 line)
+//{
+//	struct gpio_func gpio;
+//	int ret;
+//    
+//	ret = nouveau_gpio_find(dev, idx, tag, line, &gpio);
+//	if (ret == 0) {
+//		ret = nouveau_gpio_sense(dev, idx, gpio.line);
+//		if (ret >= 0)
+//			ret = (ret == (gpio.log[1] & 1));
+//	}
+//    
+//	return ret;
+//}
+//
+//int nouveau_volt_lvl_lookup(struct drm_device *dev, int vid)
+//{
+//	struct drm_nouveau_private *dev_priv = dev->dev_private;
+//	struct nouveau_pm_voltage *volt = &dev_priv->engine.pm.voltage;
+//	int i;
+//    
+//	for (i = 0; i < volt->nr_level; i++) {
+//		if (volt->level[i].vid == vid)
+//			return volt->level[i].voltage;
+//	}
+//    
+//	return -ENOENT;
+//}
+//
+//int nouveau_voltage_gpio_get()
+//{
+//	UInt8 vid = 0;
+//	int i;
+//    
+//	for (i = 0; i < nr_vidtag; i++) {
+//		if (!(volt->vid_mask & (1 << i)))
+//			continue;
+//        
+//		vid |= nouveau_gpio_get(0, vidtag[i], 0xff) << i;
+//	}
+//    
+//	return nouveau_volt_lvl_lookup(vid);
+//}
+
+// NV04 ===
+
+//
+
+// NV40 ===
+
+UInt32 GeForceX::nv40_read_pll_1(UInt32 reg)
+{
+	UInt32 ctrl = nv_rd32(PMC, reg + 0x00);
+	int P = (ctrl & 0x00070000) >> 16;
+	int N = (ctrl & 0x0000ff00) >> 8;
+	int M = (ctrl & 0x000000ff) >> 0;
+	UInt32 ref = 27000, clk = 0;
+    
+	if (ctrl & 0x80000000)
+		clk = ref * N / M;
+    
+	return clk >> P;
+}
+
+UInt32 GeForceX::nv40_read_pll_2(UInt32 reg)
+{
+	UInt32 ctrl = nv_rd32(PMC, reg + 0x00);
+	UInt32 coef = nv_rd32(PMC, reg + 0x04);
+	int N2 = (coef & 0xff000000) >> 24;
+	int M2 = (coef & 0x00ff0000) >> 16;
+	int N1 = (coef & 0x0000ff00) >> 8;
+	int M1 = (coef & 0x000000ff) >> 0;
+	int P = (ctrl & 0x00070000) >> 16;
+	UInt32 ref = 27000, clk = 0;
+    
+	if ((ctrl & 0x80000000) && M1) {
+		clk = ref * N1 / M1;
+		if ((ctrl & 0x40000100) == 0x40000000) {
+			if (M2)
+				clk = clk * N2 / M2;
+			else
+				clk = 0;
+		}
+	}
+    
+	return clk >> P;
+}
+
+UInt32 GeForceX::nv40_read_clk(UInt32 src)
+{
+	switch (src) {
+        case 3:
+            return nv40_read_pll_2(0x004000);
+        case 2:
+            return nv40_read_pll_1(0x004008);
+        default:
+            break;
+	}
+    
+	return 0;
+}
+
+UInt32 GeForceX::nv40_get_clock(NVClockSource name)
+{
+	UInt32 clocks = 0;
+    UInt32 ctrl = nv_rd32(PMC, 0x00c040);
+    
+    switch (name) {
+        case NVClockCore:
+            clocks = nv40_read_clk((ctrl & 0x00000003) >> 0);
+            break;
+            
+        case NVClockShader:
+            clocks = nv40_read_clk((ctrl & 0x00000030) >> 4);
+            break;
+                        
+        case NVCLockMemory:
+            clocks = nv40_read_pll_2(0x4020) * get_vram_multiplier();
+            break;
+    }
+    
+	return clocks / 1e3;
+}
+
+// NVA3 ===
+
+UInt32 GeForceX::nva3_read_vco(int clk)
+{
+	UInt32 sctl = nv_rd32(PMC, 0x4120 + (clk * 4));
+	if ((sctl & 0x00000030) != 0x00000030)
+		return nva3_read_pll(0x41, 0x00e820);
+	return nva3_read_pll(0x42, 0x00e8a0);
+}
+
+UInt32 GeForceX::nva3_read_clk(int clk, bool ignore_en)
+{
+	UInt32 sctl, sdiv, sclk;
+    
+	/* refclk for the 0xe8xx plls is a fixed frequency */
+	if (clk >= 0x40) {
+		if (chipset == 0xaf) {
+			/* no joke.. seriously.. sigh.. */
+			return nv_rd32(PMC, 0x00471c) * 1000;
+		}
+        
+		return crystal;
+	}
+    
+	sctl = nv_rd32(PMC, 0x4120 + (clk * 4));
+	if (!ignore_en && !(sctl & 0x00000100))
+		return 0;
+    
+	switch (sctl & 0x00003000) {
+        case 0x00000000:
+            return crystal;
+        case 0x00002000:
+            if (sctl & 0x00000040)
+                return 108000;
+            return 100000;
+        case 0x00003000:
+            sclk = nva3_read_vco(clk);
+            sdiv = ((sctl & 0x003f0000) >> 16) + 2;
+            return (sclk * 2) / sdiv;
+        default:
+            return 0;
+	}
+}
+
+UInt32 GeForceX::nva3_read_pll(int clk, UInt32 pll)
+{
+	UInt32 ctrl = nv_rd32(PMC, pll + 0);
+	UInt32 sclk = 0, P = 1, N = 1, M = 1;
+    
+	if (!(ctrl & 0x00000008)) {
+		if (ctrl & 0x00000001) {
+			UInt32 coef = nv_rd32(PMC, pll + 4);
+			M = (coef & 0x000000ff) >> 0;
+			N = (coef & 0x0000ff00) >> 8;
+			P = (coef & 0x003f0000) >> 16;
+            
+			/* no post-divider on these.. */
+			if ((pll & 0x00ff00) == 0x00e800)
+				P = 1;
+            
+			sclk = nva3_read_clk(0x00 + clk, false);
+		}
+	} else {
+		sclk = nva3_read_clk(0x10 + clk, false);
+	}
+    
+	if (M * P)
+		return sclk * N / (M * P);
+    
+	return 0;
+}
+
+UInt32 GeForceX::nva3_get_clock(NVClockSource name)
+{
+	UInt32 clocks = 0;
+    
+    switch (name) {
+        case NVClockCore:
+            clocks = nva3_read_pll(0x00, 0x4200);
+            break;
+            
+        case NVClockShader:
+            clocks = nva3_read_pll(0x01, 0x4220);
+            break;
+            
+        /*case NVClockRop:
+            clocks = nvc0_read_clk(0x01);
+            break;*/
+            
+        case NVClockCopy:
+            clocks = nva3_read_pll(0x00, 0x4200);
+            break;
+            
+        case NVClockDaemon:
+            clocks = nva3_read_clk(0x25, false);
+            break;
+            
+        case NVClockVdec:
+            clocks = nva3_read_clk(0x21, false);
+            break;
+            
+        case NVCLockMemory:
+            clocks = nva3_read_pll(0x02, 0x4000) * get_vram_multiplier();
+            break;
+    }
+    
+	return clocks / 1e3;
+}
+
 // NV50 ===
 
 UInt32 GeForceX::nv50_read_div()
@@ -437,7 +819,7 @@ UInt32 GeForceX::nv50_get_clock(NVClockSource name)
             break;
             
         case NVCLockMemory:
-            clocks = nv50_read_clk(nv50_clk_src_mclk);
+            clocks = nv50_read_clk(nv50_clk_src_mclk) * get_vram_multiplier();
             break;
     }
     
@@ -582,7 +964,7 @@ UInt32 GeForceX::nvc0_get_clock(NVClockSource name)
             break;
         
         case NVCLockMemory:
-            clocks = nvc0_read_mem();
+            clocks = nvc0_read_mem() * get_vram_multiplier();
             break;
     }
 
@@ -640,6 +1022,30 @@ int GeForceX::nv84_get_temperature()
 }
 
 // VBIOS ===
+
+NVVRAMType GeForceX::nouveau_mem_vbios_type()
+{
+	struct NVBitEntry M;
+    
+	UInt8 ramcfg = (nv_rd32(PMC, 0x101000) & 0x0000003c) >> 2;
+    
+	if (!bit_table(bios, 'M', &M) || M.version != 2 || M.length < 5) {
+		UInt8 *table = ROMPTR(bios.data, M.data[3]);
+		if (table && table[0] == 0x10 && ramcfg < table[3]) {
+			UInt8 *entry = table + table[1] + (ramcfg * table[2]);
+			switch (entry[0] & 0x0f) {
+                case 0: return NV_MEM_TYPE_DDR2;
+                case 1: return NV_MEM_TYPE_DDR3;
+                case 2: return NV_MEM_TYPE_GDDR3;
+                case 3: return NV_MEM_TYPE_GDDR5;
+                default:
+                    break;
+			}
+            
+		}
+	}
+	return NV_MEM_TYPE_UNKNOWN;
+}
 
 int GeForceX::score_vbios(const bool writeable)
 {
@@ -764,6 +1170,32 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
             
         case kGeForceFrequencySensor:
             switch (chipset & 0xf0) {
+                case 0x40:
+                case 0x60:
+                    return nv40_get_clock((NVClockSource)sensor->getIndex());
+                    break;
+                case 0x50:
+                case 0x80:
+                case 0x90:
+                case 0xa0:
+                    switch (chipset) {
+                        case 0x84:
+                        case 0x86:
+                        case 0x92:
+                        case 0x94:
+                        case 0x96:
+                        case 0x98:
+                        case 0xa0:
+                        case 0xaa:
+                        case 0xac:
+                        case 0x50:
+                            return nv50_get_clock((NVClockSource)sensor->getIndex());
+                            break;
+                        default:
+                            return nva3_get_clock((NVClockSource)sensor->getIndex());
+                            break;
+                    }
+                    break;
                 case 0xc0:
                 case 0xd0:
                     return nvc0_get_clock((NVClockSource)sensor->getIndex());
@@ -880,9 +1312,11 @@ bool GeForceX::start(IOService * provider)
             
             if (!score_vbios(false)) {
                 HWSensorsWarningLog("failed to read VBIOS from PRAMIN or PROM, continue anyway");
-                IOFree(bios.data, bios.length);
-                bios.data = 0;
-                bios.length = 0;
+                if (bios.data && bios.length > 0) {
+                    IOFree(bios.data, bios.length);
+                    bios.data = 0;
+                    bios.length = 0;
+                }
             } else HWSensorsInfoLog("VBIOS successfully read from PROM");
         } else HWSensorsInfoLog("VBIOS successfully read from PRAMIN");
         
@@ -1096,46 +1530,20 @@ bool GeForceX::start(IOService * provider)
         
         //Clocks
         switch (chipset & 0xf0) {
-            case 0x00:
-                break;
-            case 0x10:
-                break;
-            case 0x20:
-                break;
-            case 0x30:
-                break;
             case 0x40:
             case 0x60:
-                break;
             case 0x50:
             case 0x80:
             case 0x90:
             case 0xa0:
-                switch (chipset) {
-                    case 0x84:
-                    case 0x86:
-                    case 0x92:
-                    case 0x94:
-                    case 0x96:
-                    case 0x98:
-                    case 0xa0:
-                    case 0xaa:
-                    case 0xac:
-                    case 0x50:
-                        snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, cardIndex);
-                        addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVClockCore);
-                        
-                        snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_SHADER_FREQUENCY, cardIndex);
-                        addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVClockShader);
-                                                
-                        snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY, cardIndex);
-                        addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVCLockMemory);
-                        
-                        break;
-                    default:
-                        //engine->pm.clocks_get	= nva3_pm_clocks_get;
-                        break;
-                }
+                snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, cardIndex);
+                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVClockCore);
+                
+                snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_SHADER_FREQUENCY, cardIndex);
+                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVClockShader);
+                
+                snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY, cardIndex);
+                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVCLockMemory);
                 break;
             case 0xc0:
             case 0xd0:
@@ -1153,25 +1561,111 @@ bool GeForceX::start(IOService * provider)
                 break;
         }
         
+        // Others
+        
+        vram_type = NV_MEM_TYPE_UNKNOWN;
+        
         switch (chipset & 0xf0) {
-            case 0x00:
+            case 0x00: {
+                UInt32 boot0 = nv_rd32(PMC, NV04_PFB_BOOT_0);
+                
+                if (boot0 & 0x00000100) {
+                    vram_size  = ((boot0 >> 12) & 0xf) * 2 + 2;
+                    vram_size *= 1024 * 1024;
+                } else {
+                    switch (boot0 & NV04_PFB_BOOT_0_RAM_AMOUNT) {
+                        case NV04_PFB_BOOT_0_RAM_AMOUNT_32MB:
+                            vram_size = 32 * 1024 * 1024;
+                            break;
+                        case NV04_PFB_BOOT_0_RAM_AMOUNT_16MB:
+                            vram_size = 16 * 1024 * 1024;
+                            break;
+                        case NV04_PFB_BOOT_0_RAM_AMOUNT_8MB:
+                            vram_size = 8 * 1024 * 1024;
+                            break;
+                        case NV04_PFB_BOOT_0_RAM_AMOUNT_4MB:
+                            vram_size = 4 * 1024 * 1024;
+                            break;
+                    }
+                }
+                
+                if ((boot0 & 0x00000038) <= 0x10)
+                    vram_type = NV_MEM_TYPE_SGRAM;
+                else
+                    vram_type = NV_MEM_TYPE_SDRAM;
+                
                 //engine->pm.clocks_get		= nv04_pm_clocks_get;
                 break;
-            case 0x10:
+            }
+            case 0x10: {
+                if (chipset == 0x1a || chipset == 0x1f) {
+
+                } else {
+                    UInt32 fifo_data = nv_rd32(PMC, NV04_PFB_FIFO_DATA);
+                    UInt32 cfg0 = nv_rd32(PMC, 0x100200);
+                    
+                    vram_size = fifo_data & NV10_PFB_FIFO_DATA_RAM_AMOUNT_MB_MASK;
+                    
+                    if (cfg0 & 0x00000001)
+                        vram_type = NV_MEM_TYPE_DDR1;
+                    else
+                        vram_type = NV_MEM_TYPE_SDRAM;
+                }
+                
                 //engine->pm.clocks_get     = nv04_pm_clocks_get;
                 break;
-            case 0x20:
+            }
+            case 0x20: 
+                nv20_get_vram();
                 /*
                 engine->pm.clocks_get		= nv04_pm_clocks_get;*/
                 break;
             case 0x30:
+                nv20_get_vram();
                 /*
                 engine->pm.clocks_get		= nv04_pm_clocks_get;
                 engine->pm.voltage_get		= nouveau_voltage_gpio_get;
                 engine->pm.voltage_set		= nouveau_voltage_gpio_set;*/
                 break;
             case 0x40:
-            case 0x60:
+            case 0x60: {
+                /* 0x001218 is actually present on a few other NV4X I looked at,
+                 * and even contains sane values matching 0x100474.  From looking
+                 * at various vbios images however, this isn't the case everywhere.
+                 * So, I chose to use the same regs I've seen NVIDIA reading around
+                 * the memory detection, hopefully that'll get us the right numbers
+                 */
+                if (chipset == 0x40) {
+                    UInt32 pbus1218 = nv_rd32(PMC, 0x001218);
+                    switch (pbus1218 & 0x00000300) {
+                        case 0x00000000: vram_type = NV_MEM_TYPE_SDRAM; break;
+                        case 0x00000100: vram_type = NV_MEM_TYPE_DDR1; break;
+                        case 0x00000200: vram_type = NV_MEM_TYPE_GDDR3; break;
+                        case 0x00000300: vram_type = NV_MEM_TYPE_DDR2; break;
+                    }
+                } else
+                    if (chipset == 0x49 || chipset == 0x4b) {
+                        UInt32 pfb914 = nv_rd32(PMC, 0x100914);
+                        switch (pfb914 & 0x00000003) {
+                            case 0x00000000: vram_type = NV_MEM_TYPE_DDR1; break;
+                            case 0x00000001: vram_type = NV_MEM_TYPE_DDR2; break;
+                            case 0x00000002: vram_type = NV_MEM_TYPE_GDDR3; break;
+                            case 0x00000003: break;
+                        }
+                    } else
+                        if (chipset != 0x4e) {
+                            UInt32 pfb474 = nv_rd32(PMC, 0x100474);
+                            if (pfb474 & 0x00000004)
+                                vram_type = NV_MEM_TYPE_GDDR3;
+                            if (pfb474 & 0x00000002)
+                                vram_type = NV_MEM_TYPE_DDR2;
+                            if (pfb474 & 0x00000001)
+                                vram_type = NV_MEM_TYPE_DDR1;
+                        } else {
+                            vram_type = NV_MEM_TYPE_STOLEN;
+                        }
+                
+                vram_size = nv_rd32(PMC, 0x10020c) & 0xff000000;
                 /*
                 engine->pm.clocks_get		= nv40_pm_clocks_get;
                 engine->pm.voltage_get		= nouveau_voltage_gpio_get;
@@ -1179,10 +1673,33 @@ bool GeForceX::start(IOService * provider)
                 engine->pm.pwm_get		= nv40_pm_pwm_get;
                 */
                 break;
+            }
             case 0x50:
             case 0x80: /* gotta love NVIDIA's consistency.. */
             case 0x90:
-            case 0xa0:
+            case 0xa0: {
+                UInt32 pfb714 = nv_rd32(PMC, 0x100714);
+                
+                switch (pfb714 & 0x00000007) {
+                    case 0: vram_type = NV_MEM_TYPE_DDR1; break;
+                    case 1:
+                        if (nouveau_mem_vbios_type() == NV_MEM_TYPE_DDR3)
+                            vram_type = NV_MEM_TYPE_DDR3;
+                        else
+                            vram_type = NV_MEM_TYPE_DDR2;
+                        break;
+                    case 2: vram_type = NV_MEM_TYPE_GDDR3; break;
+                    case 3: vram_type = NV_MEM_TYPE_GDDR4; break;
+                    case 4: vram_type = NV_MEM_TYPE_GDDR5; break;
+                    default:
+                        break;
+                }
+                
+                //dev_priv->vram_rank_B = !!(nv_rd32(dev, 0x100200) & 0x4);
+                vram_size  = nv_rd32(PMC, 0x10020c);
+                vram_size |= (vram_size & 0xff) << 32;
+                vram_size &= 0xffffffff00ULL;
+                
                 /*
                 switch (dev_priv->chipset) {
                     case 0x84:
@@ -1209,29 +1726,35 @@ bool GeForceX::start(IOService * provider)
                 engine->pm.pwm_get		= nv50_pm_pwm_get;
                 */
                 break;
-            case 0xc0:
+            }
+            case 0xc0: {
+                nvc0_get_vram();
                 /*
                 engine->pm.temp_get		= nv84_temp_get;
-                engine->pm.clocks_get		= nvc0_pm_clocks_get;
-                engine->pm.voltage_get		= nouveau_voltage_gpio_get;
-                engine->pm.voltage_set		= nouveau_voltage_gpio_set;
+                engine->pm.clocks_get   = nvc0_pm_clocks_get;
+                engine->pm.voltage_get	= nouveau_voltage_gpio_get;
                 engine->pm.pwm_get		= nv50_pm_pwm_get;
                 */
                 break;
-            case 0xd0:
+            }
+            case 0xd0: {
+                nvc0_get_vram();
                 /*
                 engine->pm.temp_get		= nv84_temp_get;
-                engine->pm.clocks_get		= nvc0_pm_clocks_get;
-                engine->pm.voltage_get		= nouveau_voltage_gpio_get;
+                engine->pm.clocks_get	= nvc0_pm_clocks_get;
+                engine->pm.voltage_get	= nouveau_voltage_gpio_get;
                 */
                 break;
+            }
             case 0xe0:
                 /**/
                 break;
             default:
                 HWSensorsWarningLog("NV%02X unsupported", chipset);
-                return 1;
+                return false;
         }
+        
+        HWSensorsInfoLog("%lldMb of %s (%d)", vram_size / 1024 / 1024, NVVRAMTypeMap[(int)vram_type].name, vram_type);
         
         registerService();
         
