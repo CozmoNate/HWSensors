@@ -192,7 +192,7 @@ inline UInt8 get_index(char c)
                 else if (f > 1e3)
                     return [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1e3];
                 else 
-                    return [[NSString alloc] initWithFormat:@"%1.1fMHz", f]; 
+                    return [[NSString alloc] initWithFormat:@"%1.0fMHz", f]; 
             }
         }
     }
