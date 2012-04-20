@@ -10,20 +10,13 @@
 #include "FakeSMCDevice.h"
 #include "FakeSMCDefinitions.h"
 
-#define Debug FALSE
-
-#define LogPrefix "FakeSMCDevice: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
-
 #define super IOACPIPlatformDevice
 OSDefineMetaClassAndStructors (FakeSMCDevice, IOACPIPlatformDevice)
 
 void FakeSMCDevice::applesmc_io_cmd_writeb(void *opaque, uint32_t addr, uint32_t val)
 {
     struct AppleSMCStatus *s = (struct AppleSMCStatus *)opaque;
-    //DebugLog("CMD Write B: %#x = %#x", addr, val);
+    //HWSensorsDebugLog("CMD Write B: %#x = %#x", addr, val);
     switch(val) {
         case APPLESMC_READ_CMD:
             s->status = 0x0c;
@@ -53,7 +46,7 @@ void FakeSMCDevice::applesmc_fill_data(struct AppleSMCStatus *s)
 	}
 	
 	if(debug) 
-		WarningLog("key not found %c%c%c%c, length - %x\n", s->key[0], s->key[1], s->key[2], s->key[3],  s->data_len);
+		HWSensorsWarningLog("key not found %c%c%c%c, length - %x\n", s->key[0], s->key[1], s->key[2], s->key[3],  s->data_len);
 	
 	s->status_1e=0x84;
 }
@@ -64,7 +57,7 @@ const char * FakeSMCDevice::applesmc_get_key_by_index(uint32_t index, struct App
 		return key->getName();
 	
 	if (debug)
-		WarningLog("key by count %x is not found",index);
+		HWSensorsWarningLog("key by count %x is not found",index);
 	
 	s->status_1e=0x84;
 	s->status = 0x00;
@@ -97,7 +90,7 @@ void FakeSMCDevice::applesmc_fill_info(struct AppleSMCStatus *s)
 	}
 		
 	if (debug)
-		WarningLog("key info not found %c%c%c%c, length - %x", s->key[0], s->key[1], s->key[2], s->key[3],  s->data_len);
+		HWSensorsWarningLog("key info not found %c%c%c%c, length - %x", s->key[0], s->key[1], s->key[2], s->key[3],  s->data_len);
 	
 	s->status_1e=0x84;
 }
@@ -198,7 +191,7 @@ uint32_t FakeSMCDevice::applesmc_io_data_readb(void *opaque, uint32_t addr1)
 			         }
 				break;
 			case APPLESMC_WRITE_CMD:
-//				InfoLog("attempting to read(WRITE_CMD) from io port");
+//				HWSensorsInfoLog("attempting to read(WRITE_CMD) from io port");
 				s->status = 0x00;
 				break;
 			case APPLESMC_GET_KEY_BY_INDEX_CMD:  ///shouldnt be here if status == 0
@@ -243,7 +236,7 @@ UInt32 FakeSMCDevice::ioRead32( UInt16 offset, IOMemoryMap * map )
 	
     if (map) base = map->getPhysicalAddress();
 	
-	//DebugLog("ioread32 called");
+	//HWSensorsDebugLog("ioread32 called");
 	
     return (value);
 }
@@ -255,7 +248,7 @@ UInt16 FakeSMCDevice::ioRead16( UInt16 offset, IOMemoryMap * map )
 	
     if (map) base = map->getPhysicalAddress();
 	
-	//DebugLog("ioread16 called");
+	//HWSensorsDebugLog("ioread16 called");
 
     return (value);
 }
@@ -283,7 +276,7 @@ UInt8 FakeSMCDevice::ioRead8( UInt16 offset, IOMemoryMap * map )
 	}
 //	if(((base+offset) != APPLESMC_DATA_PORT) && ((base+offset) != APPLESMC_CMD_PORT)) IOLog("ioread8 to port %x.\n", base+offset);
 	
-	//DebugLog("ioread8 called");
+	//HWSensorsDebugLog("ioread8 called");
 	
 	return (value);
 }
@@ -294,7 +287,7 @@ void FakeSMCDevice::ioWrite32( UInt16 offset, UInt32 value, IOMemoryMap * map )
 	
     if (map) base = map->getPhysicalAddress();
 	
-	//DebugLog("iowrite32 called");
+	//HWSensorsDebugLog("iowrite32 called");
 }
 
 void FakeSMCDevice::ioWrite16( UInt16 offset, UInt16 value, IOMemoryMap * map )
@@ -303,7 +296,7 @@ void FakeSMCDevice::ioWrite16( UInt16 offset, UInt16 value, IOMemoryMap * map )
 	
     if (map) base = map->getPhysicalAddress();
 	
-	//DebugLog("iowrite16 called");
+	//HWSensorsDebugLog("iowrite16 called");
 }
 
 void FakeSMCDevice::ioWrite8( UInt16 offset, UInt8 value, IOMemoryMap * map )
@@ -317,7 +310,7 @@ void FakeSMCDevice::ioWrite8( UInt16 offset, UInt8 value, IOMemoryMap * map )
 	//    outb( base + offset, value );
 //	if(((base+offset) != APPLESMC_DATA_PORT) && ((base+offset) != APPLESMC_CMD_PORT)) IOLog("iowrite8 to port %x.\n", base+offset);
 	
-	//DebugLog("iowrite8 called");
+	//HWSensorsDebugLog("iowrite8 called");
 }
 
 bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
@@ -369,22 +362,22 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	}
 	else
 	{
-		WarningLog("failed to create Device memory array");
+		HWSensorsWarningLog("failed to create Device memory array");
 		return false;
 	}
 	
 	OSArray *controllers = OSArray::withCapacity(1);
 	if(!controllers)
-		WarningLog("failed to create controllers array");
+		HWSensorsWarningLog("failed to create controllers array");
 	
 	OSArray *specifiers  = OSArray::withCapacity(1);
 	if(!specifiers)
-		WarningLog("failed to create specifiers array");
+		HWSensorsWarningLog("failed to create specifiers array");
 	
 	UInt64 line = 0x06;
 	OSData *tmpData = OSData::withBytes( &line, sizeof(line) );
 	if (!tmpData)
-		WarningLog("failed to create tmpdata");
+		HWSensorsWarningLog("failed to create tmpdata");
 	
 	OSSymbol *gIntelPICName = (OSSymbol *) OSSymbol::withCStringNoCopy("io-apic-0");
 	specifiers->setObject( tmpData );
@@ -393,7 +386,7 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	
 	this->attachToParent(platform, gIOServicePlane);
 	
-	InfoLog("successfully initialized");
+	HWSensorsInfoLog("successfully initialized");
 	
 	return true;
 }
@@ -465,10 +458,10 @@ void FakeSMCDevice::loadKeysFromDictionary(OSDictionary *dictionary)
 			iterator->release();
 		}
 		
-		InfoLog("%d preconfigured key(s) added", keys->getCount());
+		HWSensorsInfoLog("%d preconfigured key(s) added", keys->getCount());
 	}
 	else {
-		WarningLog("no preconfigured keys found");
+		HWSensorsWarningLog("no preconfigured keys found");
 	}
 }
 
@@ -488,12 +481,12 @@ FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, u
 	if (FakeSMCKey *key = getKey(name)) {
 		key->setValueFromBuffer(value, size);
 		
-		DebugLog("updating value for key %s, type: %s, size: %d", name, type, size);
+		HWSensorsDebugLog("updating value for key %s, type: %s, size: %d", name, type, size);
 		
 		return key;
 	}
 	
-	DebugLog("adding key %s with value, type: %s, size: %d", name, type, size);
+	HWSensorsDebugLog("adding key %s with value, type: %s, size: %d", name, type, size);
 	
 	if (FakeSMCKey *key = FakeSMCKey::withValue(name, type, size, value)) {		
 		keys->setObject(key);
@@ -501,7 +494,7 @@ FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, u
 		return key;
 	}
 	
-	WarningLog("can't create key %s", name);
+	HWSensorsWarningLog("can't create key %s", name);
 	
 	return 0;
 }
@@ -511,12 +504,12 @@ FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type,
 	if (FakeSMCKey *key = getKey(name)) {
 		key->setHandler(handler);
 		
-		DebugLog("changing handler for key %s, type: %s, size: %d", name, type, size);
+		HWSensorsDebugLog("changing handler for key %s, type: %s, size: %d", name, type, size);
 		
 		return key;
 	}
 	
-	DebugLog("adding key %s with handler, type: %s, size: %d", name, type, size);
+	HWSensorsDebugLog("adding key %s with handler, type: %s, size: %d", name, type, size);
 	
 	if (FakeSMCKey *key = FakeSMCKey::withHandler(name, type, size, handler)) {
 		keys->setObject(key);
@@ -524,7 +517,7 @@ FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type,
 		return key;
 	}
 	
-	WarningLog("can't create key %s", name);
+	HWSensorsWarningLog("can't create key %s", name);
 	
 	return 0;
 }
@@ -548,7 +541,7 @@ FakeSMCKey *FakeSMCDevice::getKey(const char *name)
 		iterator->release();
 	}
 	
-	DebugLog("key %s not found", name);
+	HWSensorsDebugLog("key %s not found", name);
 		
 	return 0;
 }
@@ -558,7 +551,7 @@ FakeSMCKey *FakeSMCDevice::getKey(unsigned int index)
 	if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, keys->getObject(index)))
 		return key;
 	
-	DebugLog("key with index %d not found", index);
+	HWSensorsDebugLog("key with index %d not found", index);
 	
 	return 0;
 }
@@ -650,7 +643,7 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
 		
 		if (name && type && size > 0) {
 			
-			DebugLog("adding key %s with handler, type %s, size %d", name, type, size);
+			HWSensorsDebugLog("adding key %s with handler, type %s, size %d", name, type, size);
 			
 			if (addKeyWithHandler(name, type, size, handler))
 				return kIOReturnSuccess;
@@ -668,7 +661,7 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
 		
 		if (name && type && size > 0) {
 			
-			DebugLog("adding key %s with value, type %s, size %d", name, type, size);
+			HWSensorsDebugLog("adding key %s with value, type %s, size %d", name, type, size);
 			
 			if (addKeyWithValue(name, type, size, value))
 				return kIOReturnSuccess;

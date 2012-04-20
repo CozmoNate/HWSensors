@@ -29,9 +29,9 @@
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>11D50a</string>
+	<string>10K549</string>
 	<key>DTSDKName</key>
-	<string>macosx10.7</string>
+	<string>macosx10.6</string>
 	<key>DTXcode</key>
 	<string>0432</string>
 	<key>DTXcodeBuild</key>
@@ -594,6 +594,58 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
+						<string>Power/Battery</string>
+					</dict>
+					<key>M5A97</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>CPU Fan</string>
+						<key>FANIN1</key>
+						<string>Chassis Fan #1</string>
+						<key>FANIN2</key>
+						<string>Chassis Fan #2</string>
+						<key>FANIN3</key>
+						<string>Power Fan</string>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN1</key>
+						<string>System</string>
+						<key>VIN0</key>
+						<dict>
+							<key>gain</key>
+							<integer>3308</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN1</key>
+						<dict>
+							<key>gain</key>
+							<integer>786</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN2</key>
+						<string>CPU</string>
+						<key>VIN3</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Main 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
 						<string>Power/Battery</string>
 					</dict>
 				</dict>

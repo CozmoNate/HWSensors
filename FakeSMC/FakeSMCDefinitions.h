@@ -136,4 +136,8 @@
 #define kFakeSMCSetValueCallback                "FakeSMC_SetValueCallback"
 #define kFakeSMCRemoveHandler                   "FakeSMC_RemoveHandler"
 
+#define HWSensorsDebugLog(string, args...)	do { if (0) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
+#define HWSensorsWarningLog(string, args...) do { IOLog ("%s: [Warning] " string "\n",getName() , ## args); } while(0)
+#define HWSensorsInfoLog(string, args...)	do { IOLog ("%s: " string "\n",getName() , ## args); } while(0)
+
 #endif

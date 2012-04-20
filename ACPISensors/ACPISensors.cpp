@@ -11,14 +11,6 @@
 
 #include "FakeSMCDefinitions.h"
 
-
-#define Debug FALSE
-
-#define LogPrefix "ACPISensors: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
-
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(ACPIMonitor, FakeSMCPlugin)
 
@@ -67,7 +59,7 @@ bool ACPIMonitor::start(IOService * provider)
 	acpiDevice = (IOACPIPlatformDevice *)provider;
 	
 	if (!acpiDevice) {
-        WarningLog("ACPI device not ready");
+        HWSensorsWarningLog("ACPI device not ready");
         return true;
     }
     
@@ -88,12 +80,12 @@ bool ACPIMonitor::start(IOService * provider)
                 
                 if (method && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy())) {
                     if (!addSensor(key->getCStringNoCopy(), TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, 0))
-                        WarningLog("can't add temperature sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
+                        HWSensorsWarningLog("can't add temperature sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
                     else count++;
                 }
             };
             
-            InfoLog("%d temperature sensor(s) added", count);
+            HWSensorsInfoLog("%d temperature sensor(s) added", count);
         }
         
         
@@ -113,10 +105,10 @@ bool ACPIMonitor::start(IOService * provider)
                 
                 if (method && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy())) 
                     if (!addSensor(key->getCStringNoCopy(), TYPE_FP4C, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0))
-                        WarningLog("can't add voltage sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
+                        HWSensorsWarningLog("can't add voltage sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
             };
             
-            InfoLog("%d voltage sensor(s) added", count);
+            HWSensorsInfoLog("%d voltage sensor(s) added", count);
         }
         
         // Fans
@@ -137,12 +129,12 @@ bool ACPIMonitor::start(IOService * provider)
                         name = OSDynamicCast(OSString, fanNames->getObject(i));
                     
                     if (!addTachometer(i, name ? name->getCStringNoCopy() : 0))
-                        WarningLog("Can't add tachometer sensor %d", i);
+                        HWSensorsWarningLog("Can't add tachometer sensor %d", i);
                     else count++;
                 }
             }
             
-            InfoLog("%d ttachometer sensor(s) added", count);
+            HWSensorsInfoLog("%d ttachometer sensor(s) added", count);
         }
     }
     

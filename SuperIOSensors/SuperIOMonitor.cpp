@@ -11,12 +11,12 @@
 #include "SuperIOMonitor.h"
 #include "SuperIO.h"
 
-#define Debug FALSE
+/*#define Debug FALSE
 
 #define LogPrefix "SuperIOMonitor: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
+#define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
+#define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
+#define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndAbstractStructors(SuperIOMonitor, FakeSMCPlugin)
@@ -45,7 +45,7 @@ inline bool process_sensor_entry(OSObject *object, OSString **name, float *refer
 
 bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
 {
-    DebugLog("adding temperature sensors...");
+    HWSensorsDebugLog("adding temperature sensors...");
     
     for (int i = 0; i < temperatureSensorsLimit(); i++) 
     {				
@@ -60,23 +60,23 @@ bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
         if (process_sensor_entry(configuration->getObject(key), &name, &reference, &gain, &offset)) {
             if (name->isEqualTo("CPU")) {
                 if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                    WarningLog("can't add CPU temperature sensor");
+                    HWSensorsWarningLog("can't add CPU temperature sensor");
             }
             if (name->isEqualTo("CPU Proximity")) {
                 if (!addSensor(KEY_CPU_PROXIMITY_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                    WarningLog("can't add CPU Proximity temperature sensor");
+                    HWSensorsWarningLog("can't add CPU Proximity temperature sensor");
             }
             else if (name->isEqualTo("System")) {				
                 if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                    WarningLog("can't add System temperature sensor");
+                    HWSensorsWarningLog("can't add System temperature sensor");
             }
             else if (name->isEqualTo("Ambient")) {				
                 if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                    WarningLog("can't add Ambient temperature sensor");
+                    HWSensorsWarningLog("can't add Ambient temperature sensor");
             }
             else if (name->isEqualTo("PCH")) {				
                 if (!addSensor(KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                    WarningLog("can't add PCH temperature sensor");
+                    HWSensorsWarningLog("can't add PCH temperature sensor");
             }
         }
     }
@@ -86,7 +86,7 @@ bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
 
 bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
 {
-    DebugLog("adding voltage sensors...");
+    HWSensorsDebugLog("adding voltage sensors...");
     
     for (int i = 0; i < voltageSensorsLimit(); i++)
     {				
@@ -101,39 +101,39 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
         if (process_sensor_entry(configuration->getObject(key), &name, &reference, &gain, &offset)) {
             if (name->isEqualTo("CPU")) {
                 if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add CPU voltage sensor");
+                    HWSensorsWarningLog("can't add CPU voltage sensor");
             }
             else if (name->isEqualTo("Memory")) {
                 if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add Memory voltage sensor");
+                    HWSensorsWarningLog("can't add Memory voltage sensor");
             }
             else if (name->isEqualTo("Main 12V")) {
                 if (!addSensor(KEY_MAIN_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add Main 12V voltage sensor");
+                    HWSensorsWarningLog("can't add Main 12V voltage sensor");
             }
             else if (name->isEqualTo("PCIe 12V")) {
                 if (!addSensor(KEY_PCIE_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add PCIe 12V voltage sensor");
+                    HWSensorsWarningLog("can't add PCIe 12V voltage sensor");
             }
             else if (name->isEqualTo("Main 5V")) {
                 if (!addSensor(KEY_MAIN_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add Main 5V voltage sensor");
+                    HWSensorsWarningLog("can't add Main 5V voltage sensor");
             }
             else if (name->isEqualTo("Standby 5V")) {
                 if (!addSensor(KEY_STANDBY_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add Standby 5V voltage sensor");
+                    HWSensorsWarningLog("can't add Standby 5V voltage sensor");
             }
             else if (name->isEqualTo("Main 3V")) {
                 if (!addSensor(KEY_MAIN_3V3_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add Main 3V voltage sensor");
+                    HWSensorsWarningLog("can't add Main 3V voltage sensor");
             }
             else if (name->isEqualTo("Auxiliary 3V")) {
                 if (!addSensor(KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add Auxiliary 3V voltage sensor");
+                    HWSensorsWarningLog("can't add Auxiliary 3V voltage sensor");
             }
             else if (name->isEqualTo("Power/Battery")) {
                 if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    WarningLog("can't add Power/Battery voltage sensor");
+                    HWSensorsWarningLog("can't add Power/Battery voltage sensor");
             }
             
             for (int j = 0; j <= 0xf; j++) {
@@ -145,7 +145,7 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
                 if (name->isEqualTo(caption)) {
                     snprintf(key, 5, KEY_FORMAT_POWERSUPPLY_VOLTAGE, j);
                     if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                        WarningLog("can't add PWR%X voltage sensor", j);
+                        HWSensorsWarningLog("can't add PWR%X voltage sensor", j);
                 }
                 else {
                 
@@ -154,7 +154,7 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
                     if (name->isEqualTo(caption)) {
                         snprintf(key, 5, KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE, j);
                         if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                            WarningLog("can't add VRM%X voltage sensor", j);
+                            HWSensorsWarningLog("can't add VRM%X voltage sensor", j);
                     }
                 }
             }
@@ -166,7 +166,7 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
 
 bool SuperIOMonitor::addTachometerSensors(OSDictionary *configuration)
 {
-    DebugLog("adding tachometer sensors...");
+    HWSensorsDebugLog("adding tachometer sensors...");
     
     for (int i = 0; i < tachometerSensorsLimit(); i++) {
         OSString* name = NULL;
@@ -181,7 +181,7 @@ bool SuperIOMonitor::addTachometerSensors(OSDictionary *configuration)
         
         if (readTachometer(i) > 10 || nameLength > 0)
             if (!addTachometer(i, (nameLength > 0 ? name->getCStringNoCopy() : 0)))
-                WarningLog("error adding tachometer sensor %d", i);
+                HWSensorsWarningLog("error adding tachometer sensor %d", i);
     }
     
     return true;
@@ -271,7 +271,7 @@ OSDictionary *SuperIOMonitor::lookupConfiguration(OSDictionary *root, OSString *
     OSDictionary *configuration = NULL;
     
     if (root && name) {
-        DebugLog("looking up for configuration node: %s", name->getCStringNoCopy());
+        HWSensorsDebugLog("looking up for configuration node: %s", name->getCStringNoCopy());
         
         if (!(configuration = OSDynamicCast(OSDictionary, root->getObject(name))))
             if (OSString *link = OSDynamicCast(OSString, root->getObject(name)))
@@ -304,35 +304,35 @@ bool SuperIOMonitor::start(IOService *provider)
     OSNumber *number = OSDynamicCast(OSNumber, provider->getProperty(kSuperIOHWMAddress));
     
     if (!number || !(address = number->unsigned16BitValue())) {
-        WarningLog("wrong address provided");
+        HWSensorsWarningLog("wrong address provided");
         return false;
     }
     
     number = OSDynamicCast(OSNumber, provider->getProperty(kSuperIOControlPort));
     
     if (!number || !(port = number->unsigned8BitValue())) {
-        WarningLog("wrong port provided");
+        HWSensorsWarningLog("wrong port provided");
         return false;
     }
     
     number = OSDynamicCast(OSNumber, provider->getProperty(kSuperIOModelValue));
     
     if (!number || !(model = number->unsigned16BitValue())) {
-        WarningLog("wrong model provided");
+        HWSensorsWarningLog("wrong model provided");
         return false;
     }
     
     OSString *string = OSDynamicCast(OSString, provider->getProperty(kSuperIOModelName));
     
     if (!string || !(modelName = string->getCStringNoCopy())) {
-        WarningLog("wrong model name provided");
+        HWSensorsWarningLog("wrong model name provided");
         return false;
     }
     
     string = OSDynamicCast(OSString, provider->getProperty(kSuperIOVendorName));
     
     if (!string || !(vendorName = string->getCStringNoCopy())) {
-        WarningLog("wrong vendor name provided");
+        HWSensorsWarningLog("wrong vendor name provided");
         return false;
     }
     
@@ -361,7 +361,7 @@ bool SuperIOMonitor::start(IOService *provider)
         addTachometerSensors(configuration);
         registerService();
     }
-    else WarningLog("no sensors configuration provided");
+    else HWSensorsWarningLog("no sensors configuration provided");
 
 	return true;
 }

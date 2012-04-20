@@ -20,7 +20,7 @@
 	<string>Copyright © 2012 Slice. All rights reserved.</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>Radeon Cards Monitoring Plugin</key>
+		<key>Radeon Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
 			<string>org.slice.RadeonMonitor</string>

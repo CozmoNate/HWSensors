@@ -1118,14 +1118,14 @@ struct nvbios *read_bios(const void *data)
     
     if (!data) {
         if(!(rom = (char*)IOMalloc(NV_PROM_SIZE))) {
-            InfoLog("Memory allocation error");
+            //HWSensorsInfoLog("Memory allocation error");
             return NULL;
         }
         
         //if(!load_bios_pramin(rom))
         if(!load_bios_prom(rom))
         {
-            InfoLog("Error reading BIOS");
+            //HWSensorsInfoLog("Error reading BIOS");
             IOFree(rom, NV_PROM_SIZE);
             return NULL;
         }

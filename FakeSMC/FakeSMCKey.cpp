@@ -12,13 +12,6 @@
 
 #include <IOKit/IOLib.h>
 
-#define Debug FALSE
-
-#define LogPrefix "FakeSMCKey: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
-
 #define super OSObject
 OSDefineMetaClassAndStructors(FakeSMCKey, OSObject)
 
@@ -128,7 +121,7 @@ const void *FakeSMCKey::getValue()
             IOReturn result = handler->callPlatformFunction(kFakeSMCGetValueCallback, true, (void *)name, (void *)value, (void *)size, 0);
             
             if (kIOReturnSuccess != result)
-                WarningLog("value update request callback error for key %s, return 0x%x", name, result);
+                HWSensorsWarningLog("value update request callback error for key %s, return 0x%x", name, result);
             else             
                 lastcall = secs;
         }
@@ -160,7 +153,7 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
 		IOReturn result = handler->callPlatformFunction(kFakeSMCSetValueCallback, true, (void *)name, (void *)value, (void *)size, 0);
 		
 		if (kIOReturnSuccess != result)
-			WarningLog("value changed event callback error for key %s, return 0x%x", name, result);
+			HWSensorsWarningLog("value changed event callback error for key %s, return 0x%x", name, result);
 	}
 	
 	return true;

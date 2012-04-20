@@ -8,20 +8,14 @@
  */
 
 #include "RadeonX.h"
-
 #include "RadeonChipinfo.h"
+
+#include "FakeSMCDefinitions.h"
 
 #define INVID8(offset)		(mmio_base[offset])
 #define INVID16(offset)		OSReadLittleInt16((mmio_base), offset)
 #define INVID(offset)		OSReadLittleInt32((mmio_base), offset)
 #define OUTVID(offset,val)	OSWriteLittleInt32((mmio_base), offset, val)
-
-#define Debug FALSE
-
-#define LogPrefix "RadeonMonitor: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(RadeonMonitor, FakeSMCPlugin)
@@ -53,7 +47,7 @@ bool RadeonMonitor::initCard()
 	} 
 	else
 	{
-		InfoLog("have no mmio");
+		HWSensorsInfoLog("have no mmio");
 		return false;
 	}
 	
@@ -86,7 +80,7 @@ bool RadeonMonitor::initCard()
             break;
             
         default:
-            InfoLog("sorry, but your card %04lx is not supported!\n", (long unsigned int)(rinfo->device_id));
+            HWSensorsInfoLog("sorry, but your card %04lx is not supported!\n", (long unsigned int)(rinfo->device_id));
             return false;
     }
 	
@@ -107,13 +101,13 @@ bool RadeonMonitor::getRadeonInfo()
 			family = devices->ChipFamily;
 			rinfo->igp = devices->igp;
 			rinfo->is_mobility = devices->is_mobility;
-			InfoLog("found ATI Radeon %04lx", (long unsigned int)devID);
+			HWSensorsInfoLog("found ATI Radeon %04lx", (long unsigned int)devID);
 			return true;
 		}
 		devices++;
 	}
     
-	WarningLog("unknown device id");
+	HWSensorsWarningLog("unknown device id");
 	return false;
 }
 
@@ -123,7 +117,7 @@ bool RadeonMonitor::getRadeonInfo()
  char key[5];
  int id = GetNextUnusedKey(KEY_FORMAT_GPU_DIODE_TEMPERATURE, key);
  if (id == -1) {
- InfoLog("No new GPU SMC key!\n");
+ HWSensorsInfoLog("No new GPU SMC key!\n");
  return;
  }
  card_number = id;
@@ -136,7 +130,7 @@ bool RadeonMonitor::getRadeonInfo()
  char key[5];
  int id = GetNextUnusedKey(KEY_FORMAT_GPU_DIODE_TEMPERATURE, key);
  if (id == -1) {
- InfoLog("No new GPU SMC key!\n");
+ HWSensorsInfoLog("No new GPU SMC key!\n");
  return;
  }
  card_number = id;
@@ -149,7 +143,7 @@ bool RadeonMonitor::getRadeonInfo()
  char key[5];
  int id = GetNextUnusedKey(KEY_FORMAT_GPU_DIODE_TEMPERATURE, key);
  if (id == -1) {
- InfoLog("No new GPU SMC key!\n");
+ HWSensorsInfoLog("No new GPU SMC key!\n");
  return;
  }
  card_number = id;
@@ -265,7 +259,7 @@ IOService* RadeonMonitor::probe(IOService *provider, SInt32 *score)
     if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id")))
         chipID = *(UInt32*)data->getBytesNoCopy();
     else {
-        WarningLog("device-id property not found");
+        HWSensorsWarningLog("device-id property not found");
         return 0;
     }
     
@@ -278,7 +272,7 @@ bool RadeonMonitor::start(IOService * provider)
         return false;
     
     if (!initCard()) {
-        WarningLog("can't initialize driver");
+        HWSensorsWarningLog("can't initialize driver");
         return false;
     }
 	
@@ -294,7 +288,7 @@ bool RadeonMonitor::start(IOService * provider)
             
             if (!isKeyHandled(name)) {
                 if (!addSensor(name, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
-                    WarningLog("can't register temperature sensor for key %s", name);
+                    HWSensorsWarningLog("can't register temperature sensor for key %s", name);
                 
                 break;
             }

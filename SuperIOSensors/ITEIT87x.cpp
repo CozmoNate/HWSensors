@@ -50,12 +50,12 @@
 #include "FakeSMCDefinitions.h"
 #include "SuperIO.h"
 
-#define Debug FALSE
+/*#define Debug FALSE
 
 #define LogPrefix "IT87xMonitor: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
+#define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
+#define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
+#define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
 
 #define super SuperIOMonitor
 OSDefineMetaClassAndStructors(IT87xMonitor, SuperIOMonitor)
@@ -131,13 +131,13 @@ bool IT87xMonitor::initialize()
     UInt8 vendor = readByte(ITE_VENDOR_ID_REGISTER);
 	
 	if (vendor != ITE_VENDOR_ID) {
-        WarningLog("invalid vendor ID=0x%x", vendor);
+        HWSensorsWarningLog("invalid vendor ID=0x%x", vendor);
         model = 0;
 		return this;
     }
 	
 	if ((readByte(ITE_CONFIGURATION_REGISTER) & 0x10) == 0) {
-        WarningLog("invalid configuration register value");
+        HWSensorsWarningLog("invalid configuration register value");
         model = 0;
 		return this;
     }

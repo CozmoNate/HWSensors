@@ -12,7 +12,6 @@
 #include <IOKit/IOService.h>
 #include <IOKit/pci/IOPCIDevice.h>
 
-#include "FakeSMCDefinitions.h"
 #include "FakeSMCPlugin.h"
 
 #include "RadeonChipsets.h"

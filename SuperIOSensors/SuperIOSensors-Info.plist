@@ -509,6 +509,58 @@
 				</dict>
 				<key>Asus</key>
 				<dict>
+					<key>M5A97</key>
+					<dict>
+						 <key>FANIN0</key>
+						 <string>CPU Fan</string>
+						 <key>FANIN1</key>
+						 <string>Chassis Fan #1</string>
+						 <key>FANIN2</key>
+						 <string>Chassis Fan #2</string>
+						 <key>FANIN3</key>
+						 <string>Power Fan</string>
+						 <key>TEMPIN0</key>
+						 <string>CPU</string>
+						 <key>TEMPIN1</key>
+						 <string>System</string>
+						 <key>VIN0</key>
+						 <dict>
+						  <key>name</key>
+						  <string>Main 12V</string>
+						  <key>reference</key>
+						  <integer>0</integer>
+						  <key>gain</key>
+						  <integer>3308</integer>
+						  <key>offset</key>
+						  <integer>0</integer>
+						 </dict>
+						 <key>VIN1</key>
+						 <dict>
+						  <key>name</key>
+						  <string>Main 5V</string>
+						  <key>reference</key>
+						  <integer>0</integer>
+						  <key>gain</key>
+						  <integer>786</integer>
+						  <key>offset</key>
+						  <integer>0</integer>
+						 </dict>
+						 <key>VIN2</key>
+						 <string>CPU</string>
+						 <key>VIN3</key>
+						 <dict>
+						  <key>name</key>
+						  <string>Main 3V</string>
+						  <key>reference</key>
+						  <integer>0</integer>
+						  <key>gain</key>
+						  <integer>1000</integer>
+						  <key>offset</key>
+						  <integer>0</integer>
+						 </dict>
+						 <key>VIN5</key>
+						 <string>Power/Battery</string>
+					</dict>
 					<key>Crosshair III Formula</key>
 					<dict>
 						<key>FANIN0</key>

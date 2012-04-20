@@ -22,7 +22,7 @@
 	<string>Copyright © 2012 usr-sse2, alphamerik. All rights reserved.</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>NVClockX nVidia Cards Monitoring Plugin</key>
+		<key>NVClockX Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
 			<string>org.usrsse2.${PRODUCT_NAME}</string>
@@ -34,6 +34,8 @@
 			<string>0x03000000&amp;0xff000000</string>
 			<key>IOPCIMatch</key>
 			<string>0x000010de&amp;0x0000ffff</string>
+			<key>IOProbeScore</key>
+			<integer>500</integer>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 		</dict>

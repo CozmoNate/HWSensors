@@ -33,13 +33,6 @@
 #define INVID(offset) OSReadLittleInt32((mmio_base), offset)
 #define OUTVID(offset,val) OSWriteLittleInt32((mmio_base), offset, val)
 
-#define Debug FALSE
-
-#define LogPrefix "X3100monitor: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
-
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(X3100monitor, FakeSMCPlugin)
 
@@ -82,27 +75,27 @@ IOService* X3100monitor::probe(IOService *provider, SInt32 *score)
     
 	IOPhysicalAddress bar = (IOPhysicalAddress)((VCard->configRead32(kMCHBAR)) & ~0xf);
     
-	DebugLog("Fx3100: register space=%08lx", (long unsigned int)bar);
+	HWSensorsDebugLog("Fx3100: register space=%08lx", (long unsigned int)bar);
 	
 	if(IOMemoryDescriptor * theDescriptor = IOMemoryDescriptor::withPhysicalAddress (bar, 0x2000, kIODirectionOutIn))
 		if ((mmio = theDescriptor->map()))
 		{
 			mmio_base = (volatile UInt8 *)mmio->getVirtualAddress();
 #if DEBUG				
-			DebugLog("MCHBAR mapped");
+			HWSensorsDebugLog("MCHBAR mapped");
             
 			for (int i = 0; i < 0x2f; i += 16) {
-				DebugLog("%04lx: ", (long unsigned int)i+0x1000);
+				HWSensorsDebugLog("%04lx: ", (long unsigned int)i+0x1000);
 				for (int j=0; j<16; j += 1) {
-					DebugLog("%02lx ", (long unsigned int)INVID8(i+j+0x1000));
+					HWSensorsDebugLog("%02lx ", (long unsigned int)INVID8(i+j+0x1000));
 				}
-				DebugLog("");
+				HWSensorsDebugLog("");
 			}
 #endif				
 		}
 		else
 		{
-			InfoLog("MCHBAR failed to map");
+			HWSensorsInfoLog("MCHBAR failed to map");
 			return 0;
 		}			
 
@@ -125,7 +118,7 @@ bool X3100monitor::start(IOService * provider)
             
             if (!isKeyHandled(name)) {
                 if (!addSensor(name, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
-                    WarningLog("failed to register temperature sensor");
+                    HWSensorsWarningLog("failed to register temperature sensor");
                 break;
             }
         }

@@ -20,13 +20,6 @@
 #include "nvclock.h"
 #include "backend.h"
 
-#define Debug FALSE
-
-#define LogPrefix "NVClockX: "
-#define DebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define WarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define InfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
-
 NVClock nvclock;
 NVCard* nv_card;
 
@@ -84,7 +77,7 @@ float NVClockX::getSensorValue(FakeSMCSensor *sensor)
 
 IOService* NVClockX::probe(IOService *provider, SInt32 *score)
 {
-    DebugLog("Probing...");
+    HWSensorsDebugLog("Probing...");
     
     if (super::probe(provider, score) != this) 
         return 0;
@@ -129,7 +122,7 @@ IOService* NVClockX::probe(IOService *provider, SInt32 *score)
                     
                     nvclock.card[nvclock.num_cards].mem_mapped = 1;
                     
-                    InfoLog("%s device-id=0x%x arch=0x%x", 
+                    HWSensorsInfoLog("%s device-id=0x%x arch=0x%x", 
                             nvclock.card[nvclock.num_cards].card_name, 
                             nvclock.card[nvclock.num_cards].device_id, 
                             nvclock.card[nvclock.num_cards].arch);
@@ -138,21 +131,21 @@ IOService* NVClockX::probe(IOService *provider, SInt32 *score)
                     
                     return this;
                 }
-                else WarningLog("device-id property not found");
+                else HWSensorsWarningLog("device-id property not found");
 
                 nvio->release();
 
             }
-            else WarningLog("failed to map device's memory");
+            else HWSensorsWarningLog("failed to map device's memory");
         }
-    }else WarningLog("failed to assign PCI device");
+    }else HWSensorsWarningLog("failed to assign PCI device");
     
 	return 0;
 }
 
 bool NVClockX::start(IOService * provider)
 {
-	DebugLog("Starting...");
+	HWSensorsDebugLog("Starting...");
 	
 	if (!super::start(provider)) 
         return false;
@@ -165,7 +158,7 @@ bool NVClockX::start(IOService * provider)
 		/* set the card object to the requested card */
 		if (!set_card(index)){
 			char buffer[256];
-			WarningLog("%s", get_error(buffer, 256));
+			HWSensorsWarningLog("%s", get_error(buffer, 256));
 			return false;
 		}
 
@@ -175,9 +168,9 @@ bool NVClockX::start(IOService * provider)
         
 		/* Check if the card is supported, if not print a message. */
 		if(nvclock.card[index].gpu == UNKNOWN){
-			WarningLog("it seems your card isn't officialy supported yet");
-			WarningLog("please tell the author the pci_id of the card for further investigation");
-			WarningLog("continuing anyway");
+			HWSensorsWarningLog("it seems your card isn't officialy supported yet");
+			HWSensorsWarningLog("please tell the author the pci_id of the card for further investigation");
+			HWSensorsWarningLog("continuing anyway");
 		}
         
         UInt8 cardIndex = 0;
@@ -199,7 +192,7 @@ bool NVClockX::start(IOService * provider)
         }
         
 		if(nv_card->caps & (GPU_TEMP_MONITORING)) {
-            InfoLog("registering temperature sensors");
+            HWSensorsInfoLog("registering temperature sensors");
             
             if(nv_card->caps & BOARD_TEMP_MONITORING) {
                 snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, cardIndex);
@@ -215,7 +208,7 @@ bool NVClockX::start(IOService * provider)
 		}
 		
 		if (nv_card->caps & I2C_FANSPEED_MONITORING || nv_card->caps & GPU_FANSPEED_MONITORING){
-            InfoLog("registering tachometer sensors");
+            HWSensorsInfoLog("registering tachometer sensors");
             
             char title[6]; 
             
@@ -224,7 +217,7 @@ bool NVClockX::start(IOService * provider)
 			addTachometer(index, title);
 		}
 		
-        InfoLog("registering frequency sensors");
+        HWSensorsInfoLog("registering frequency sensors");
         
         snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, index);
         addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kNVCLockCoreFrequencySensor, index);
@@ -238,17 +231,17 @@ bool NVClockX::start(IOService * provider)
 		/*OSNumber* fanKey = OSDynamicCast(OSNumber, getProperty("FanSpeedPercentage"));
          
          if((fanKey!=NULL)&(nv_card->set_fanspeed!=NULL)) {
-         InfoLog("Changing fan speed to %d", fanKey->unsigned8BitValue());
+         HWSensorsInfoLog("Changing fan speed to %d", fanKey->unsigned8BitValue());
          nv_card->set_fanspeed(fanKey->unsigned8BitValue());
          }
          
          OSNumber* speedKey=OSDynamicCast(OSNumber, getProperty("GPUSpeed"));
          
          if ((speedKey!=NULL)&(nv_card->caps&GPU_OVERCLOCKING)) {
-         InfoLog("Default speed %d", (UInt16)nv_card->get_gpu_speed());
-         //InfoLog("%d", speedKey->unsigned16BitValue());
+         HWSensorsInfoLog("Default speed %d", (UInt16)nv_card->get_gpu_speed());
+         //HWSensorsInfoLog("%d", speedKey->unsigned16BitValue());
          nv_card->set_gpu_speed(speedKey->unsigned16BitValue());
-         InfoLog("Overclocked to %d", (UInt16)nv_card->get_gpu_speed());
+         HWSensorsInfoLog("Overclocked to %d", (UInt16)nv_card->get_gpu_speed());
          }*/
 	}
     
