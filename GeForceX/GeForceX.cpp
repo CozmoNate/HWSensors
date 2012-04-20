@@ -42,6 +42,7 @@ OSDefineMetaClassAndStructors(GeForceX, FakeSMCPlugin)
 #define kGeForceFrequencySensor         83002
 
 #define ROM16(x) OSSwapLittleToHostInt16(*(UInt16 *)&(x))
+#define ROM32(x) OSSwapLittleToHostInt32(*(UInt32 *)&(x))
 #define ROMPTR(d,x) ({            \
 ROM16(x) ? &d[ROM16(x)] : NULL; \
 })
@@ -201,130 +202,358 @@ UInt32 GeForceX::get_vram_multiplier()
     return 1;
 }
 
+// GPIO ===
+
+UInt8 * GeForceX::dcb_table()
+{
+	UInt8 *dcb = NULL;
+    
+	if (card_type > NV_04)
+		dcb = (UInt8 *)ROMPTR(bios.data, bios.data[0x36]);
+	if (!dcb) {
+		HWSensorsWarningLog("no DCB data found in VBIOS");
+		return NULL;
+	}
+    
+	if (dcb[0] >= 0x41) {
+		HWSensorsWarningLog("DCB version 0x%02x unknown", dcb[0]);
+		return NULL;
+	} else
+        if (dcb[0] >= 0x30) {
+            if (ROM32(dcb[6]) == 0x4edcbdcb)
+                return dcb;
+        } else
+            if (dcb[0] >= 0x20) {
+                if (ROM32(dcb[4]) == 0x4edcbdcb)
+                    return dcb;
+            } else
+                if (dcb[0] >= 0x15) {
+                    if (!memcmp(&dcb[-7], "DEV_REC", 7))
+                        return dcb;
+                } else {
+                    /*
+                     * v1.4 (some NV15/16, NV11+) seems the same as v1.5, but
+                     * always has the same single (crt) entry, even when tv-out
+                     * present, so the conclusion is this version cannot really
+                     * be used.
+                     *
+                     * v1.2 tables (some NV6/10, and NV15+) normally have the
+                     * same 5 entries, which are not specific to the card and so
+                     * no use.
+                     *
+                     * v1.2 does have an I2C table that read_dcb_i2c_table can
+                     * handle, but cards exist (nv11 in #14821) with a bad i2c
+                     * table pointer, so use the indices parsed in
+                     * parse_bmp_structure.
+                     *
+                     * v1.1 (NV5+, maybe some NV4) is entirely unhelpful
+                     */
+                    HWSensorsWarningLog("no useful DCB data in VBIOS");
+                    return NULL;
+                }
+    
+	HWSensorsWarningLog("DCB header validation failed");
+	return NULL;
+}
+
+UInt8 * GeForceX::dcb_gpio_table()
+{
+	UInt8 *dcb = dcb_table();
+	if (dcb) {
+		if (dcb[0] >= 0x30 && dcb[1] >= 0x0c)
+			return ROMPTR(bios.data, dcb[0x0a]);
+		if (dcb[0] >= 0x22 && dcb[-1] >= 0x13)
+			return ROMPTR(bios.data, dcb[-15]);
+	}
+	return NULL;
+}
+
+UInt8 * GeForceX::dcb_gpio_entry(int idx, int ent, UInt8 *version)
+{
+	UInt8 *table = dcb_gpio_table();
+	if (table) {
+		*version = table[0];
+		if (*version < 0x30 && ent < table[2])
+			return table + 3 + (ent * table[1]);
+		else if (ent < table[2])
+			return table + table[1] + (ent * table[3]);
+	}
+	return NULL;
+}
+
+bool GeForceX::nouveau_gpio_find(int idx, UInt8 func, UInt8 line, struct NVGpioFunc *gpio)
+{
+	UInt8 *table, *entry, version;
+	int i = -1;
+    
+	if (line == 0xff && func == 0xff)
+		return false;
+    
+	while ((entry = dcb_gpio_entry(idx, ++i, &version))) {
+		if (version < 0x40) {
+			UInt16 data = ROM16(entry[0]);           
+			(*gpio).line = (data & 0x001f) >> 0;
+			(*gpio).func = (data & 0x07e0) >> 5;
+			(*gpio).log[0] = (data & 0x1800) >> 11;
+			(*gpio).log[1] = (data & 0x6000) >> 13;
+		} else {
+            if (version < 0x41) {
+                (*gpio).line = entry[0] & 0x1f;
+                (*gpio).func = entry[1];
+                (*gpio).log[0] = (entry[3] & 0x18) >> 3;
+                (*gpio).log[1] = (entry[3] & 0x60) >> 5;
+                
+            } else {
+                (*gpio).line = entry[0] & 0x3f;
+                (*gpio).func = entry[1];
+                (*gpio).log[0] = (entry[4] & 0x30) >> 4;
+                (*gpio).log[1] = (entry[4] & 0xc0) >> 6;
+                
+            }
+            
+            if ((line == 0xff || line == gpio->line) &&
+                (func == 0xff || func == gpio->func))
+                return true;
+        }
+        
+        /* DCB 2.2, fixed TVDAC GPIO data */
+        if ((table = dcb_table()) && table[0] >= 0x22) {
+            if (func == DCB_GPIO_TVDAC0) {
+                (*gpio).func = DCB_GPIO_TVDAC0;
+                (*gpio).line = table[-4] >> 4;
+                (*gpio).log[0] = !!(table[-5] & 2);
+                (*gpio).log[1] =  !(table[-5] & 2);
+                
+                return true;
+            }
+        }
+    
+	/* Apple iMac G4 NV18 */
+	/*if (nv_match_device(dev, 0x0189, 0x10de, 0x0010)) {
+		if (func == DCB_GPIO_TVDAC0) {
+			*gpio = (struct gpio_func) {
+				.func = DCB_GPIO_TVDAC0,
+				.line = 4,
+				.log[0] = 0,
+				.log[1] = 1,
+			};
+			return 0;
+		}*/
+    }
+    
+	return false;
+}
+
+static inline UInt32 NVReadCRTC(const volatile UInt8* mmio, int head, UInt32 reg)
+{
+	if (head)
+		reg += NV_PCRTC0_SIZE;
+    
+	return nv_rd32(mmio, reg);
+}
+
+int GeForceX::nv10_gpio_sense(int line)
+{
+	if (line < 2) {
+		line = line * 16;
+		line = NVReadCRTC(PMC, 0, NV_PCRTC_GPIO) >> line;
+		return !!(line & 0x0100);
+	} else
+        if (line < 10) {
+            line = (line - 2) * 4;
+            line = NVReadCRTC(PMC, 0, NV_PCRTC_GPIO_EXT) >> line;
+            return !!(line & 0x04);
+        } else
+            if (line < 14) {
+                line = (line - 10) * 4;
+                line = NVReadCRTC(PMC, 0, NV_PCRTC_850) >> line;
+                return !!(line & 0x04);
+            }
+    
+	return 0;
+}
+
+static inline bool nv50_gpio_location(int line, UInt32 *reg, UInt32 *shift)
+{
+	const UInt32 nv50_gpio_reg[4] = { 0xe104, 0xe108, 0xe280, 0xe284 };
+    
+	if (line >= 32)
+		return false;
+    
+	*reg = nv50_gpio_reg[line >> 3];
+	*shift = (line & 7) << 2;
+	return true;
+}
+
+int GeForceX::nv50_gpio_sense(int line)
+{
+	UInt32 reg, shift;
+    
+	if (nv50_gpio_location(line, &reg, &shift))
+		return 0;
+    
+	return !!(nv_rd32(PMC, reg) & (4 << shift));
+}
+
+int GeForceX::nvd0_gpio_sense(int line)
+{
+	return !!(nv_rd32(PMC, 0x00d610 + (line * 4)) & 0x00004000);
+}
+
+// Fan ===
+
+int GeForceX::nouveau_gpio_sense(int idx, int line)
+{
+    switch (chipset & 0xf0) {
+        case 0x40:
+        case 0x60:
+            return nv10_gpio_sense(line);
+            break;
+        case 0x50:
+        case 0x80:
+        case 0x90:
+        case 0xa0:
+        case 0xc0:
+            return nv50_gpio_sense(line);
+        case 0xd0:
+        case 0xe0:
+            return nvd0_gpio_sense(line);
+            break;
+    }
+    
+	return 0;
+}
+
+int GeForceX::nouveau_gpio_get(int idx, UInt8 tag, UInt8 line)
+{
+	struct NVGpioFunc gpio;
+	int ret;
+    
+	if (nouveau_gpio_find(idx, tag, line, &gpio)) {
+		ret = nouveau_gpio_sense(idx, gpio.line);
+		if (ret >= 0)
+			ret = (ret == (gpio.log[1] & 1));
+	}
+    
+	return ret;
+}
+
+bool GeForceX::nv40_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty)
+{
+	if (line == 2) {
+		UInt32 reg = nv_rd32(PMC, 0x0010f0);
+		if (reg & 0x80000000) {
+			*duty = (reg & 0x7fff0000) >> 16;
+			*divs = (reg & 0x00007fff);
+			return true;
+		}
+	} else
+        if (line == 9) {
+            UInt32 reg = nv_rd32(PMC, 0x0015f4);
+            if (reg & 0x80000000) {
+                *divs = nv_rd32(PMC, 0x0015f8);
+                *duty = (reg & 0x7fffffff);
+                return true;
+            }
+        } else {
+            HWSensorsWarningLog("unknown pwm ctrl for gpio %d", line);
+            return false;
+        }
+    
+	return false;
+}
+
+static inline bool pwm_info(int *line, int *ctrl, int *indx)
+{
+	if (*line == 0x04) {
+		*ctrl = 0x00e100;
+		*line = 4;
+		*indx = 0;
+	} else
+        if (*line == 0x09) {
+            *ctrl = 0x00e100;
+            *line = 9;
+            *indx = 1;
+        } else
+            if (*line == 0x10) {
+                *ctrl = 0x00e28c;
+                *line = 0;
+                *indx = 0;
+            } else {
+                return false;
+            }
+    
+	return true;
+}
+
+bool GeForceX::nv50_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty)
+{
+	int ctrl, id;
+    
+	if (!pwm_info(&line, &ctrl, &id))
+		return false;
+    
+	if (nv_rd32(PMC, ctrl) & (1 << line)) {
+		*divs = nv_rd32(PMC, 0x00e114 + (id * 8));
+		*duty = nv_rd32(PMC, 0x00e118 + (id * 8));
+		return true;
+	}
+    
+	return false;
+}
+
+int GeForceX::nouveau_pwmfan_get()
+{
+	struct NVGpioFunc gpio;
+	UInt32 divs, duty;
+    
+    switch (chipset & 0xf0) {
+        case 0x40:
+        case 0x60:
+        case 0x50:
+        case 0x80:
+        case 0x90:
+        case 0xa0:
+        case 0xc0:
+        case 0xd0:
+            break;
+        default:
+            return 0;
+    }
+    
+	if (nouveau_gpio_find(0, DCB_GPIO_PWM_FAN, 0xff, &gpio)) {
+        
+        bool ret = false;
+        
+        switch (chipset & 0xf0) {
+            case 0x40:
+            case 0x60:
+                ret = nv40_pm_pwm_get(gpio.line, &divs, &duty);
+            case 0x50:
+            case 0x80:
+            case 0x90:
+            case 0xa0:
+            case 0xc0:
+            case 0xd0:
+                ret = nv50_pm_pwm_get(gpio.line, &divs, &duty);
+                break;
+        }
+		if (ret && divs) {
+			divs = max(divs, duty);
+			if (card_type <= NV_40 || (gpio.log[0] & 1))
+				duty = divs - duty;
+			return (duty * 100) / divs;
+		}
+        
+		return nouveau_gpio_get(0, gpio.func, 0xff) * 100;
+	}
+    
+	return 0;
+}
+
 // Voltage ===
 
-//static const enum dcb_gpio_tag vidtag[] = { 0x04, 0x05, 0x06, 0x1a, 0x73 };
-//static int nr_vidtag = sizeof(vidtag) / sizeof(vidtag[0]);
-//
-//int nouveau_gpio_sense(struct drm_device *dev, int idx, int line)
-//{
-//	struct drm_nouveau_private *dev_priv = dev->dev_private;
-//	struct nouveau_gpio_engine *pgpio = &dev_priv->engine.gpio;
-//    
-//	return pgpio->sense ? pgpio->sense(dev, line) : -ENODEV;
-//}
-//
-//int nouveau_gpio_find(struct drm_device *dev, int idx, u8 func, u8 line, struct gpio_func *gpio)
-//{
-//	u8 *table, *entry, version;
-//	int i = -1;
-//    
-//	if (line == 0xff && func == 0xff)
-//		return -EINVAL;
-//    
-//	while ((entry = dcb_gpio_entry(dev, idx, ++i, &version))) {
-//		if (version < 0x40) {
-//			u16 data = ROM16(entry[0]);
-//			*gpio = (struct gpio_func) {
-//				.line = (data & 0x001f) >> 0,
-//				.func = (data & 0x07e0) >> 5,
-//				.log[0] = (data & 0x1800) >> 11,
-//				.log[1] = (data & 0x6000) >> 13,
-//			};
-//		} else
-//            if (version < 0x41) {
-//                *gpio = (struct gpio_func) {
-//                    .line = entry[0] & 0x1f,
-//                    .func = entry[1],
-//                    .log[0] = (entry[3] & 0x18) >> 3,
-//                    .log[1] = (entry[3] & 0x60) >> 5,
-//                };
-//            } else {
-//                *gpio = (struct gpio_func) {
-//                    .line = entry[0] & 0x3f,
-//                    .func = entry[1],
-//                    .log[0] = (entry[4] & 0x30) >> 4,
-//                    .log[1] = (entry[4] & 0xc0) >> 6,
-//                };
-//            }
-//        
-//		if ((line == 0xff || line == gpio->line) &&
-//		    (func == 0xff || func == gpio->func))
-//			return 0;
-//	}
-//    
-//	/* DCB 2.2, fixed TVDAC GPIO data */
-//	if ((table = dcb_table(dev)) && table[0] >= 0x22) {
-//		if (func == DCB_GPIO_TVDAC0) {
-//			*gpio = (struct gpio_func) {
-//				.func = DCB_GPIO_TVDAC0,
-//				.line = table[-4] >> 4,
-//				.log[0] = !!(table[-5] & 2),
-//				.log[1] =  !(table[-5] & 2),
-//			};
-//			return 0;
-//		}
-//	}
-//    
-//	/* Apple iMac G4 NV18 */
-//	if (nv_match_device(dev, 0x0189, 0x10de, 0x0010)) {
-//		if (func == DCB_GPIO_TVDAC0) {
-//			*gpio = (struct gpio_func) {
-//				.func = DCB_GPIO_TVDAC0,
-//				.line = 4,
-//				.log[0] = 0,
-//				.log[1] = 1,
-//			};
-//			return 0;
-//		}
-//	}
-//    
-//	return -EINVAL;
-//}
-//
-//int nouveau_gpio_get(struct drm_device *dev, int idx, u8 tag, u8 line)
-//{
-//	struct gpio_func gpio;
-//	int ret;
-//    
-//	ret = nouveau_gpio_find(dev, idx, tag, line, &gpio);
-//	if (ret == 0) {
-//		ret = nouveau_gpio_sense(dev, idx, gpio.line);
-//		if (ret >= 0)
-//			ret = (ret == (gpio.log[1] & 1));
-//	}
-//    
-//	return ret;
-//}
-//
-//int nouveau_volt_lvl_lookup(struct drm_device *dev, int vid)
-//{
-//	struct drm_nouveau_private *dev_priv = dev->dev_private;
-//	struct nouveau_pm_voltage *volt = &dev_priv->engine.pm.voltage;
-//	int i;
-//    
-//	for (i = 0; i < volt->nr_level; i++) {
-//		if (volt->level[i].vid == vid)
-//			return volt->level[i].voltage;
-//	}
-//    
-//	return -ENOENT;
-//}
-//
-//int nouveau_voltage_gpio_get()
-//{
-//	UInt8 vid = 0;
-//	int i;
-//    
-//	for (i = 0; i < nr_vidtag; i++) {
-//		if (!(volt->vid_mask & (1 << i)))
-//			continue;
-//        
-//		vid |= nouveau_gpio_get(0, vidtag[i], 0xff) << i;
-//	}
-//    
-//	return nouveau_volt_lvl_lookup(vid);
-//}
+
 
 // NV04 ===
 
@@ -1160,11 +1389,11 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                         return nv84_get_temperature();
                     else
                         return nv40_get_temperature();
-                    break;
+
                 case 0xc0:
                 case 0xd0:
                     return nv84_get_temperature();
-                    break;
+
             }
             break;
             
@@ -1173,7 +1402,7 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                 case 0x40:
                 case 0x60:
                     return nv40_get_clock((NVClockSource)sensor->getIndex());
-                    break;
+
                 case 0x50:
                 case 0x80:
                 case 0x90:
@@ -1190,18 +1419,19 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                         case 0xac:
                         case 0x50:
                             return nv50_get_clock((NVClockSource)sensor->getIndex());
-                            break;
+
                         default:
                             return nva3_get_clock((NVClockSource)sensor->getIndex());
-                            break;
                     }
                     break;
                 case 0xc0:
                 case 0xd0:
                     return nvc0_get_clock((NVClockSource)sensor->getIndex());
-                    break;
             }
             break;
+        
+        case kFakeSMCTachometerSensor:
+            return nouveau_pwmfan_get();
     }
     
     return 0;
@@ -1302,7 +1532,7 @@ bool GeForceX::start(IOService * provider)
             case 0x00400040: crystal = 25000; break;
         }
         
-        HWSensorsInfoLog("crystal freq: %dKHz", crystal);
+        HWSensorsInfoLog("crystal freq: %ld KHz", crystal);
         
         //Copy bios to ram
         bios_shadow_pramin();
@@ -1561,6 +1791,25 @@ bool GeForceX::start(IOService * provider)
                 break;
         }
         
+        // Fans
+        switch (chipset & 0xf0) {
+            case 0x40:
+            case 0x60:
+            case 0x50:
+            case 0x80:
+            case 0x90:
+            case 0xa0:
+            case 0xc0:
+            case 0xd0: {
+                char title[16]; 
+                
+                snprintf (title, 16, "%s%X", kFakeSMCGPUDutyCyclePrefix, cardIndex);
+                
+                addTachometer(0, title);
+                break;
+            }
+        }
+        
         // Others
         
         vram_type = NV_MEM_TYPE_UNKNOWN;
@@ -1747,6 +1996,7 @@ bool GeForceX::start(IOService * provider)
                 break;
             }
             case 0xe0:
+                nvc0_get_vram();
                 /**/
                 break;
             default:

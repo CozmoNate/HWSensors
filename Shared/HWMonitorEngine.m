@@ -248,10 +248,21 @@
     
     for (int i=0; i<10; i++) {
         NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine getValueFromKeyInfo:[HWMonitorEngine populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
-        if ([caption length]<=0) 
-            caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
         
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWSensorGroupTachometer];
+        if ([caption length] == 0) {
+            caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
+        }
+        
+        if ([caption hasPrefix:@kFakeSMCGPUDutyCyclePrefix]){
+            UInt8 cardIndex = [[caption substringFromIndex:14] intValue];
+            
+            caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),cardIndex + 1];
+            
+            HWMonitorSensor *sensor = [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWSensorGroupTachometer];
+            
+            [sensor setTag:1];
+        }
+        else [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWSensorGroupTachometer];
     }
     
     // Voltages

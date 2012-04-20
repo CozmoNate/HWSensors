@@ -24,6 +24,8 @@ inline UInt8 get_index(char c)
 @synthesize value;
 @synthesize disk;
 
+@synthesize tag;
+
 @synthesize favorite;
 @synthesize level;
 @synthesize levelHasBeenChanged;
@@ -177,6 +179,12 @@ inline UInt8 get_index(char c)
                 float rpm = [self decodedValue];
                 
                 [self setLevel:rpm == 0 ? kHWSensorLevelExceeded : kHWSensorLevelNormal];
+                
+                if (rpm == 0)
+                    return [[NSString alloc] initWithString:@"-"];
+                
+                if ([self tag] == 1)
+                    return [[NSString alloc] initWithFormat:@"%1.0f%C", rpm, 0x0025];
                 
                 return [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
             }

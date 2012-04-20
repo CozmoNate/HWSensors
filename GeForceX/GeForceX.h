@@ -123,6 +123,21 @@ static const struct NVVRAMTypes {
 	{ NV_MEM_TYPE_GDDR5  , "GDDR5" }
 };
 
+struct NVGpioFunc {
+	UInt8 func;
+	UInt8 line;
+	UInt8 log[2];
+};
+
+enum NVDcbGpioTag {
+	DCB_GPIO_PANEL_POWER = 0x01,
+	DCB_GPIO_TVDAC0 = 0x0c,
+	DCB_GPIO_TVDAC1 = 0x2d,
+	DCB_GPIO_PWM_FAN = 0x09,
+	DCB_GPIO_FAN_SENSE = 0x3d,
+	DCB_GPIO_UNUSED = 0xff
+};
+
 class GeForceX : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(GeForceX)    
@@ -141,6 +156,19 @@ private:
     
     UInt64          vram_size;
     NVVRAMType      vram_type;
+    
+    UInt8 *         dcb_table();
+    UInt8 *         dcb_gpio_table();
+    UInt8 *         dcb_gpio_entry(int idx, int ent, UInt8 *version);
+    bool            nouveau_gpio_find(int idx, UInt8 func, UInt8 line, struct NVGpioFunc *gpio);
+    int             nv10_gpio_sense(int line);
+    int             nv50_gpio_sense(int line);
+    int             nvd0_gpio_sense(int line);
+    int             nouveau_gpio_sense(int idx, int line);
+    int             nouveau_gpio_get(int idx, UInt8 tag, UInt8 line);
+    int             nouveau_pwmfan_get();
+    bool            nv40_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty);
+    bool            nv50_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty);
     
     void            nv20_get_vram();
     void            nvc0_get_vram();
