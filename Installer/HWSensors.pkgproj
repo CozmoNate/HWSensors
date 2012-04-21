@@ -5353,7 +5353,7 @@
 											<key>HIDDEN</key>
 											<false/>
 											<key>STATE</key>
-											<integer>1</integer>
+											<integer>2</integer>
 										</dict>
 										<key>PACKAGE_UUID</key>
 										<string>5AEEBB9E-888A-42D6-8425-FB224F154D2F</string>
@@ -5370,13 +5370,26 @@
 									</dict>
 									<dict>
 										<key>DESCRIPTION</key>
-										<array/>
+										<array>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>English</string>
+												<key>VALUE</key>
+												<string>GeForceX plugin by provides sensors monitoring for various nVidia GPUs</string>
+											</dict>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>Russian</string>
+												<key>VALUE</key>
+												<string>Плугин GeForceX позволяет снимать показания сенсоров видеокарт nVidia</string>
+											</dict>
+										</array>
 										<key>OPTIONS</key>
 										<dict>
 											<key>HIDDEN</key>
 											<false/>
 											<key>STATE</key>
-											<integer>2</integer>
+											<integer>1</integer>
 										</dict>
 										<key>PACKAGE_UUID</key>
 										<string>F5CB8D1C-A97F-4821-9A5C-8C93B94FABB5</string>

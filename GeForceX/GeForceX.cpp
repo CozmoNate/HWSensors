@@ -364,6 +364,7 @@ static inline bool nv50_gpio_location(int line, UInt32 *reg, UInt32 *shift)
     
 	*reg = nv50_gpio_reg[line >> 3];
 	*shift = (line & 7) << 2;
+    
 	return true;
 }
 
@@ -371,7 +372,7 @@ int GeForceX::nv50_gpio_sense(int line)
 {
 	UInt32 reg, shift;
     
-	if (nv50_gpio_location(line, &reg, &shift))
+	if (!nv50_gpio_location(line, &reg, &shift))
 		return 0;
     
 	return !!(nv_rd32(PMC, reg) & (4 << shift));
@@ -533,7 +534,7 @@ int GeForceX::nouveau_pwmfan_get()
 	return 0;
 }
 
-int GeForceX::nouveau_rpmfan_get()
+float GeForceX::nouveau_rpmfan_get()
 {
 	struct NVGpioFunc gpio;
 	UInt32 cycles, cur, prev/*, count*/;
@@ -545,15 +546,14 @@ int GeForceX::nouveau_rpmfan_get()
          */
         
         clock_sec_t secs = 0;
-        clock_usec_t usecs = 0;
+        clock_nsec_t nsecs = 0;
         
-        clock_get_system_microtime(&secs, &usecs);
+        clock_get_system_nanotime(&secs, &nsecs);
         
-        clock_usec_t start = usecs;
+        clock_nsec_t start = nsecs;
         
         prev = nouveau_gpio_sense(0, gpio.line);
         cycles = 0;
-        //count = 0;
         
         do {
             cur = nouveau_gpio_sense(0, gpio.line);
@@ -562,20 +562,16 @@ int GeForceX::nouveau_rpmfan_get()
                 prev = cur;
             }
             
-            IODelay(500);
+            IODelay(500); /* supports 0 < rpm < 7500 */
             
-            //usleep_range(500, 1000); /* supports 0 < rpm < 7500 */
+            clock_get_system_nanotime(&secs, &nsecs);            
             
-            clock_get_system_microtime(&secs, &usecs);
-            
-            //count ++;
-            
-        } while (usecs - start < 250000);
+        } while (nsecs - start <= 250000000);
         
-        //HWSensorsInfoLog("count: %d", count);
+        //HWSensorsInfoLog("cycles: %d", cycles);
         
         /* interpolate to get rpm */
-        return cycles / 4 * 4 * 60;
+        return cycles / 4.0f * 4.0f * 60.0f;
     }
     
     return 0;
