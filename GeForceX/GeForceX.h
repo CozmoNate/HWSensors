@@ -169,7 +169,7 @@ private:
     int             nouveau_gpio_sense(int idx, int line);
     int             nouveau_gpio_get(int idx, UInt8 tag, UInt8 line);
     int             nouveau_pwmfan_get();
-    int             nouveau_rpmfan_get();
+    float           nouveau_rpmfan_get();
     bool            nv40_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty);
     bool            nv50_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty);
     
