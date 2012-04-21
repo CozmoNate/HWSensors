@@ -159,7 +159,10 @@ void GeForceX::nvc0_get_vram()
 	bool uniform = true;
 	int part;
     
-	HWSensorsDebugLog("0x100800: 0x%08x\n", nv_rd32(PMC, 0x100800));
+    vram_mult = nv_rd32(PMC, 0x100800);
+    
+	HWSensorsInfoLog("0x100800: 0x%08x\n", vram_mult);
+    
 	HWSensorsDebugLog("parts 0x%08x mask 0x%08x\n", parts, pmask);
     
 	vram_type = nouveau_mem_vbios_type();
@@ -179,27 +182,6 @@ void GeForceX::nvc0_get_vram()
 			vram_size += (UInt64)psize << 20;
 		}
 	}
-}
-
-UInt32 GeForceX::get_vram_multiplier()
-{
-    switch (vram_type) {
-        case NV_MEM_TYPE_DDR2:
-        case NV_MEM_TYPE_GDDR2:
-            return 2;
-            
-        case NV_MEM_TYPE_DDR3:
-        case NV_MEM_TYPE_GDDR3:
-            return 3;
-        
-        case NV_MEM_TYPE_GDDR4:
-            return 4;
-        
-        case NV_MEM_TYPE_GDDR5:
-            return 5;
-    }
-    
-    return 1;
 }
 
 // GPIO ===
@@ -551,6 +533,54 @@ int GeForceX::nouveau_pwmfan_get()
 	return 0;
 }
 
+int GeForceX::nouveau_rpmfan_get()
+{
+	struct NVGpioFunc gpio;
+	UInt32 cycles, cur, prev/*, count*/;
+	    
+	if (nouveau_gpio_find(0, DCB_GPIO_FAN_SENSE, 0xff, &gpio)) {    
+        /* Monitor the GPIO input 0x3b for 250ms.
+         * When the fan spins, it changes the value of GPIO FAN_SENSE.
+         * We get 4 changes (0 -> 1 -> 0 -> 1 -> [...]) per complete rotation.
+         */
+        
+        clock_sec_t secs = 0;
+        clock_usec_t usecs = 0;
+        
+        clock_get_system_microtime(&secs, &usecs);
+        
+        clock_usec_t start = usecs;
+        
+        prev = nouveau_gpio_sense(0, gpio.line);
+        cycles = 0;
+        //count = 0;
+        
+        do {
+            cur = nouveau_gpio_sense(0, gpio.line);
+            if (prev != cur) {
+                cycles++;
+                prev = cur;
+            }
+            
+            IODelay(500);
+            
+            //usleep_range(500, 1000); /* supports 0 < rpm < 7500 */
+            
+            clock_get_system_microtime(&secs, &usecs);
+            
+            //count ++;
+            
+        } while (usecs - start < 250000);
+        
+        //HWSensorsInfoLog("count: %d", count);
+        
+        /* interpolate to get rpm */
+        return cycles / 4 * 4 * 60;
+    }
+    
+    return 0;
+}
+
 // Voltage ===
 
 
@@ -628,7 +658,7 @@ UInt32 GeForceX::nv40_get_clock(NVClockSource name)
             break;
                         
         case NVCLockMemory:
-            clocks = nv40_read_pll_2(0x4020) * get_vram_multiplier();
+            clocks = nv40_read_pll_2(0x4020) * vram_mult;
             break;
     }
     
@@ -737,7 +767,7 @@ UInt32 GeForceX::nva3_get_clock(NVClockSource name)
             break;
             
         case NVCLockMemory:
-            clocks = nva3_read_pll(0x02, 0x4000) * get_vram_multiplier();
+            clocks = nva3_read_pll(0x02, 0x4000) * vram_mult;
             break;
     }
     
@@ -1048,7 +1078,7 @@ UInt32 GeForceX::nv50_get_clock(NVClockSource name)
             break;
             
         case NVCLockMemory:
-            clocks = nv50_read_clk(nv50_clk_src_mclk) * get_vram_multiplier();
+            clocks = nv50_read_clk(nv50_clk_src_mclk) * vram_mult;
             break;
     }
     
@@ -1193,7 +1223,7 @@ UInt32 GeForceX::nvc0_get_clock(NVClockSource name)
             break;
         
         case NVCLockMemory:
-            clocks = nvc0_read_mem() * get_vram_multiplier();
+            clocks = nvc0_read_mem() * vram_mult;
             break;
     }
 
@@ -1268,6 +1298,7 @@ NVVRAMType GeForceX::nouveau_mem_vbios_type()
                 case 2: return NV_MEM_TYPE_GDDR3;
                 case 3: return NV_MEM_TYPE_GDDR5;
                 default:
+                    HWSensorsInfoLog("mem type from VBIOS 0x%x", entry[0] & 0x0f);
                     break;
 			}
             
@@ -1431,7 +1462,14 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
             break;
         
         case kFakeSMCTachometerSensor:
-            return nouveau_pwmfan_get();
+            switch (sensor->getIndex()) {
+                case 0:
+                    return nouveau_pwmfan_get();
+                    
+                case 1:
+                    return nouveau_rpmfan_get();
+            }
+            
     }
     
     return 0;
@@ -1532,7 +1570,7 @@ bool GeForceX::start(IOService * provider)
             case 0x00400040: crystal = 25000; break;
         }
         
-        HWSensorsInfoLog("crystal freq: %ld KHz", crystal);
+        HWSensorsInfoLog("crystal freq: %u KHz", crystal);
         
         //Copy bios to ram
         bios_shadow_pramin();
@@ -1814,9 +1852,16 @@ bool GeForceX::start(IOService * provider)
             case 0xd0: {
                 char title[16]; 
                 
-                snprintf (title, 16, "%s%X", kFakeSMCGPUDutyCyclePrefix, cardIndex);
+                if (nouveau_pwmfan_get() > 0) {
+                    snprintf (title, 16, "%s%X", kFakeSMCGPUDutyCyclePrefix, cardIndex);                
+                    addTachometer(0, title);
+                }
                 
-                addTachometer(0, title);
+                if (nouveau_rpmfan_get() > 0) {
+                    snprintf (title, 16, "GPU %X", cardIndex);
+                    addTachometer(1, title);
+                }
+                
                 break;
             }
         }
@@ -2014,6 +2059,34 @@ bool GeForceX::start(IOService * provider)
                 HWSensorsWarningLog("NV%02X unsupported", chipset);
                 return false;
         }
+        
+        if (vram_mult == 0) {
+            switch (vram_type) {
+                case NV_MEM_TYPE_DDR2:
+                case NV_MEM_TYPE_GDDR2:
+                    vram_mult = 2;
+                    break;
+                    
+                case NV_MEM_TYPE_DDR3:
+                case NV_MEM_TYPE_GDDR3:
+                    vram_mult = 3;
+                    break;
+                    
+                case NV_MEM_TYPE_GDDR4:
+                    vram_mult = 4;
+                    break;
+                    
+                case NV_MEM_TYPE_GDDR5:
+                    vram_mult = 5;
+                    break;
+                
+                default:
+                    vram_mult = 1;
+                    break;
+            }
+        }
+        
+        return 1;
         
         HWSensorsInfoLog("%lldMb of %s (%d)", vram_size / 1024 / 1024, NVVRAMTypeMap[(int)vram_type].name, vram_type);
         

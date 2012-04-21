@@ -262,6 +262,13 @@
             
             [sensor setTag:1];
         }
+        else if ([caption hasPrefix:@"GPU "]){
+            UInt8 cardIndex = [[caption substringFromIndex:4] intValue];
+            
+            caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),cardIndex + 1];
+            
+            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWSensorGroupTachometer];
+        }
         else [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWSensorGroupTachometer];
     }
     
