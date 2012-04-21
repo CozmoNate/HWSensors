@@ -159,9 +159,9 @@ void GeForceX::nvc0_get_vram()
 	bool uniform = true;
 	int part;
     
-    vram_mult = nv_rd32(PMC, 0x100800);
-    
-	HWSensorsInfoLog("0x100800: 0x%08x", vram_mult);
+    nvc0_vram_div = nv_rd32(PMC, 0x100800);
+        
+	HWSensorsInfoLog("0x100800: 0x%08x", nvc0_vram_div);
     
 	HWSensorsDebugLog("parts 0x%08x mask 0x%08x", parts, pmask);
     
@@ -658,7 +658,7 @@ UInt32 GeForceX::nv40_get_clock(NVClockSource name)
             break;
                         
         case NVCLockMemory:
-            clocks = nv40_read_pll_2(0x4020) * vram_mult;
+            clocks = nv40_read_pll_2(0x4020);
             break;
     }
     
@@ -767,7 +767,7 @@ UInt32 GeForceX::nva3_get_clock(NVClockSource name)
             break;
             
         case NVCLockMemory:
-            clocks = nva3_read_pll(0x02, 0x4000) * vram_mult;
+            clocks = nva3_read_pll(0x02, 0x4000);
             break;
     }
     
@@ -1078,7 +1078,7 @@ UInt32 GeForceX::nv50_get_clock(NVClockSource name)
             break;
             
         case NVCLockMemory:
-            clocks = nv50_read_clk(nv50_clk_src_mclk) * vram_mult;
+            clocks = nv50_read_clk(nv50_clk_src_mclk);
             break;
     }
     
@@ -1168,7 +1168,7 @@ UInt32 GeForceX::nvc0_read_mem()
     
     // Reports wrong value without this divisor... 
     // Seems it's known issue in nouveau driver
-	return nvc0_read_pll(0x132000) / 10; 
+	return nvc0_read_pll(0x132000) / nvc0_vram_div; 
 }
 
 UInt32 GeForceX::nvc0_read_clk(UInt32 clk)
@@ -1223,7 +1223,7 @@ UInt32 GeForceX::nvc0_get_clock(NVClockSource name)
             break;
         
         case NVCLockMemory:
-            clocks = nvc0_read_mem() * vram_mult;
+            clocks = nvc0_read_mem();
             break;
     }
 
@@ -1475,41 +1475,32 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-IOService* GeForceX::probe(IOService *provider, SInt32 *score)
-{
-    HWSensorsDebugLog("Probing...");
-    
-    if (super::probe(provider, score) != this) 
-        return 0;
-    
-    if ((device = (IOPCIDevice*)provider)) {
-        
-        device->setMemoryEnable(true);
-        
-        if ((mmio = device->mapDeviceMemoryWithIndex(0))) {
-            if ((PMC = (volatile UInt8 *)mmio->getVirtualAddress()))
-                return this;
-            else 
-                HWSensorsWarningLog("PMC not set");
-        }
-        else HWSensorsWarningLog("failed to map memory");
-    }
-    else HWSensorsWarningLog("failed to assign PCI device");
-    
-    if (mmio) {
-        mmio->release();
-        mmio = 0;
-    }
-    
-	return 0;
-}
-
 bool GeForceX::start(IOService * provider)
 {
 	HWSensorsDebugLog("Starting...");
 	
 	if (!super::start(provider)) 
         return false;
+    
+    if ((device = (IOPCIDevice*)provider)) {
+        
+        device->setMemoryEnable(true);
+        
+        if ((mmio = device->mapDeviceMemoryWithIndex(0))) {
+            if (!(PMC = (volatile UInt8 *)mmio->getVirtualAddress())) {
+                HWSensorsWarningLog("PMC not set");
+                return false;
+            }   
+        }
+        else {
+            HWSensorsWarningLog("failed to map memory");
+            return false;
+        }
+    }
+    else {
+        HWSensorsWarningLog("failed to assign PCI device");
+        return false;
+    }
     
     UInt32 reg0 = nv_rd32(PMC, NV03_PMC_BOOT_0);
     
@@ -1932,32 +1923,6 @@ bool GeForceX::start(IOService * provider)
             default:
                 HWSensorsWarningLog("NV%02X unsupported", chipset);
                 return false;
-        }
-        
-        if (vram_mult == 0) {
-            switch (vram_type) {
-                case NV_MEM_TYPE_DDR2:
-                case NV_MEM_TYPE_GDDR2:
-                    vram_mult = 2;
-                    break;
-                    
-                case NV_MEM_TYPE_DDR3:
-                case NV_MEM_TYPE_GDDR3:
-                    vram_mult = 3;
-                    break;
-                    
-                case NV_MEM_TYPE_GDDR4:
-                    vram_mult = 4;
-                    break;
-                    
-                case NV_MEM_TYPE_GDDR5:
-                    vram_mult = 5;
-                    break;
-                
-                default:
-                    vram_mult = 1;
-                    break;
-            }
         }
         
         HWSensorsInfoLog("%lldMb of %s (%d)", vram_size / 1024 / 1024, NVVRAMTypeMap[(int)vram_type].name, vram_type);
