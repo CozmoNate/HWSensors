@@ -1541,12 +1541,23 @@ bool GeForceX::start(IOService * provider)
             bios_shadow_prom();
             
             if (!score_vbios(false)) {
-                HWSensorsWarningLog("failed to read VBIOS from PRAMIN or PROM, continue anyway");
-                if (bios.data && bios.length > 0) {
-                    IOFree(bios.data, bios.length);
-                    bios.data = 0;
-                    bios.length = 0;
+                
+                //try to load bios from "vbios" property created by Chameleon boolloader
+                
+                if (OSData *vbios = OSDynamicCast(OSData, device->getProperty("vbios"))) {
+                    bios.length = vbios->getLength();
+                    bios.data = (UInt8 *)IOMalloc(bios.length);
+                    memcpy(bios.data, vbios->getBytesNoCopy(), bios.length);
                 }
+                
+                if (!score_vbios(false)) {
+                    HWSensorsWarningLog("failed to read VBIOS");
+                    
+                    if (!bios.data) {
+                        bios.length = 65536;
+                        bios.data = (UInt8 *)IOMalloc(bios.length);
+                    }
+                } else HWSensorsInfoLog("VBIOS successfully read from I/O registry");
             } else HWSensorsInfoLog("VBIOS successfully read from PROM");
         } else HWSensorsInfoLog("VBIOS successfully read from PRAMIN");
         
