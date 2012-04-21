@@ -156,6 +156,7 @@ private:
     
     UInt64          vram_size;
     NVVRAMType      vram_type;
+    UInt32          vram_mult;
     
     UInt8 *         dcb_table();
     UInt8 *         dcb_gpio_table();
@@ -167,12 +168,12 @@ private:
     int             nouveau_gpio_sense(int idx, int line);
     int             nouveau_gpio_get(int idx, UInt8 tag, UInt8 line);
     int             nouveau_pwmfan_get();
+    int             nouveau_rpmfan_get();
     bool            nv40_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty);
     bool            nv50_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty);
     
     void            nv20_get_vram();
     void            nvc0_get_vram();
-    UInt32          get_vram_multiplier();
     
     UInt32          nv40_read_pll_1(UInt32 reg);
     UInt32          nv40_read_pll_2(UInt32 reg);
