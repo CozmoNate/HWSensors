@@ -202,7 +202,7 @@
     
     statusItemShadow = [[NSShadow alloc] init];
     
-    [statusItemShadow setShadowColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.7]];
+    [statusItemShadow setShadowColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.6]];
     [statusItemShadow setShadowOffset:CGSizeMake(0, -1.0)];
     [statusItemShadow setShadowBlurRadius:1.0];
     

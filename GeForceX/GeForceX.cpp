@@ -159,10 +159,7 @@ void GeForceX::nvc0_get_vram()
 	bool uniform = true;
 	int part;
     
-    nvc0_vram_div = nv_rd32(PMC, 0x100800);
-        
-	HWSensorsInfoLog("0x100800: 0x%08x", nvc0_vram_div);
-    
+	HWSensorsInfoLog("0x100800: 0x%08x", nv_rd32(PMC, 0x100800));
 	HWSensorsDebugLog("parts 0x%08x mask 0x%08x", parts, pmask);
     
 	vram_type = nouveau_mem_vbios_type();
@@ -1162,9 +1159,7 @@ UInt32 GeForceX::nvc0_read_mem()
 	if (ssel & 0x00000001)
 		return nvc0_read_div(0, 0x137300, 0x137310);
     
-    // Reports wrong value without this divisor... 
-    // Seems it's known issue in nouveau driver
-	return nvc0_read_pll(0x132000) / nvc0_vram_div; 
+	return nvc0_read_pll(0x132000); 
 }
 
 UInt32 GeForceX::nvc0_read_clk(UInt32 clk)
@@ -1219,7 +1214,7 @@ UInt32 GeForceX::nvc0_get_clock(NVClockSource name)
             break;
         
         case NVCLockMemory:
-            clocks = nvc0_read_mem();
+            clocks = nvc0_read_mem() / 2; // is it correct divisor for all c0 cards?
             break;
     }
 
