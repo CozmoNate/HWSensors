@@ -26,7 +26,7 @@
     
     shadow = [[NSShadow alloc] init];
     
-    [shadow setShadowColor:[NSColor colorWithCalibratedWhite:1 alpha:0.7]];
+    [shadow setShadowColor:[NSColor colorWithCalibratedWhite:1 alpha:0.6]];
     [shadow setShadowOffset:CGSizeMake(0, -1.0)];
     [shadow setShadowBlurRadius:1.0];
     

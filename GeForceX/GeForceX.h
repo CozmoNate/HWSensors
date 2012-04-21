@@ -157,7 +157,6 @@ private:
     
     UInt64          vram_size;
     NVVRAMType      vram_type;
-    UInt32          nvc0_vram_div;
     
     UInt8 *         dcb_table();
     UInt8 *         dcb_gpio_table();
