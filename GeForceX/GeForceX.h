@@ -157,7 +157,7 @@ private:
     
     UInt64          vram_size;
     NVVRAMType      vram_type;
-    UInt32          vram_mult;
+    UInt32          nvc0_vram_div;
     
     UInt8 *         dcb_table();
     UInt8 *         dcb_gpio_table();
@@ -213,7 +213,6 @@ protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);
     
 public:
-    virtual IOService*	probe(IOService *provider, SInt32 *score);
     virtual bool		start(IOService *provider);
     virtual void		free(void);
 };
