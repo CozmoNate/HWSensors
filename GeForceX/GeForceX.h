@@ -147,6 +147,7 @@ private:
     UInt32          chipset;
     UInt32          card_type;
     
+    IOMemoryMap*    mmio;
     volatile UInt8* PMC;
     
     NVBios          bios;
