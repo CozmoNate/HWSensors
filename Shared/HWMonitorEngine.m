@@ -275,6 +275,9 @@
     // Voltages
     
     for (int i = 0; i <= 0xf; i++)        
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupVoltage];
+    
+    for (int i = 0; i <= 0xf; i++)        
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i + 1] group:kHWSensorGroupVoltage];
     
     [self addSensorWithKey:@KEY_MEMORY_VOLTAGE caption:GetLocalizedString(@"Memory") group:kHWSensorGroupVoltage];
