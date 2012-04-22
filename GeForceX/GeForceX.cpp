@@ -134,6 +134,173 @@ static bool bit_table(struct NVBios bios, UInt8 id, struct NVBitEntry *bit)
 	return false;
 }
 
+// Voltage ===
+
+static const UInt8 vidtag[] = { 0x04, 0x05, 0x06, 0x1a, 0x73 };
+static int nr_vidtag = sizeof(vidtag) / sizeof(vidtag[0]);
+
+bool GeForceX::nouveau_gpio_func_valid(UInt8 tag)
+{
+	struct NVGpioFunc func;
+	return nouveau_gpio_find(0, tag, 0xff, &func);
+}
+
+void GeForceX::nouveau_volt_init()
+{
+	struct NVBitEntry P;
+	UInt8 *volt = NULL, *entry;
+	int i, headerlen, recordlen, entries, vidmask, vidshift;
+    
+	if (bios.type == NVBIOS_BIT) {
+		if (!bit_table(bios, 'P', &P)) {
+            HWSensorsWarningLog("volt BIT P not found");
+			return;
+        }
+        
+		if (P.version == 1)
+			volt = ROMPTR(bios.data, P.data[16]);
+		else
+            if (P.version == 2)
+                volt = ROMPTR(bios.data, P.data[12]);
+            else {
+                HWSensorsWarningLog("unknown volt for BIT P %d", P.version);
+            }
+	} else {
+		if (bios.data[bios.offset + 6] < 0x27) {
+			HWSensorsWarningLog("BMP version too old for voltage");
+			return;
+		}
+        
+		volt = ROMPTR(bios.data, bios.data[bios.offset + 0x98]);
+	}
+    
+	if (!volt) {
+		HWSensorsWarningLog("voltage table pointer invalid");
+		return;
+	}
+    
+	switch (volt[0]) {
+        case 0x10:
+        case 0x11:
+        case 0x12:
+            headerlen = 5;
+            recordlen = volt[1];
+            entries   = volt[2];
+            vidshift  = 0;
+            vidmask   = volt[4];
+            break;
+        case 0x20:
+            headerlen = volt[1];
+            recordlen = volt[3];
+            entries   = volt[2];
+            vidshift  = 0; /* could be vidshift like 0x30? */
+            vidmask   = volt[5];
+            break;
+        case 0x30:
+            headerlen = volt[1];
+            recordlen = volt[2];
+            entries   = volt[3];
+            vidmask   = volt[4];
+            /* no longer certain what volt[5] is, if it's related to
+             * the vid shift then it's definitely not a function of
+             * how many bits are set.
+             *
+             * after looking at a number of nva3+ vbios images, they
+             * all seem likely to have a static shift of 2.. lets
+             * go with that for now until proven otherwise.
+             */
+            vidshift  = 2;
+            break;
+        case 0x40:
+            headerlen = volt[1];
+            recordlen = volt[2];
+            entries   = volt[3]; /* not a clue what the entries are for.. */
+            vidmask   = volt[11]; /* guess.. */
+            vidshift  = 0;
+            break;
+        default:
+            HWSensorsWarningLog("voltage table 0x%02x unknown", volt[0]);
+            return;
+	}
+        
+	/* validate vid mask */
+	voltage.vid_mask = vidmask;
+	if (!voltage.vid_mask)
+		return;
+    
+	i = 0;
+	while (vidmask) {
+		if (i > nr_vidtag) {
+			HWSensorsWarningLog("vid bit %d unknown", i);
+			return;
+		}
+        
+		if (!nouveau_gpio_func_valid(vidtag[i])) {
+			HWSensorsWarningLog("vid bit %d has no gpio tag", i);
+			return;
+		}
+        
+		vidmask >>= 1;
+		i++;
+	}
+    
+	/* parse vbios entries into common format */
+	voltage.version = volt[0];
+	if (voltage.version < 0x40) {
+		voltage.nr_level = entries;
+		voltage.level = (NVVoltageLevel*)IOMalloc(sizeof(voltage.level) * entries);//kcalloc(entries, sizeof(*voltage->level), GFP_KERNEL);
+		if (!voltage.level) {
+            HWSensorsWarningLog("failed to allocate voltages array version <0x40");
+			return;
+        }
+        
+		entry = volt + headerlen;
+		for (i = 0; i < entries; i++, entry += recordlen) {
+			voltage.level[i].voltage = entry[0] * 10000;
+			voltage.level[i].vid     = entry[1] >> vidshift;
+		}
+	} else {
+		UInt32 volt_uv = ROM32(volt[4]);
+		SInt16 step_uv = ROM16(volt[8]);
+		UInt8 vid;
+        
+		voltage.nr_level = voltage.vid_mask + 1;
+		voltage.level = (NVVoltageLevel*)IOMalloc(sizeof(voltage.level) * voltage.nr_level); //kcalloc(voltage->nr_level, sizeof(*voltage->level), GFP_KERNEL);
+		if (!voltage.level) {
+            HWSensorsWarningLog("failed to allocate voltages array");
+			return;
+        }
+        
+		for (vid = 0; vid <= voltage.vid_mask; vid++) {
+			voltage.level[vid].voltage = volt_uv;
+			voltage.level[vid].vid = vid;
+			volt_uv += step_uv;
+		}
+	}
+    
+	voltage.supported = true;
+}
+
+float GeForceX::nouveau_voltage_get()
+{
+	UInt8 vid = 0;
+	int i;
+    
+	for (i = 0; i < nr_vidtag; i++) {
+		if (!(voltage.vid_mask & (1 << i)))
+			continue;
+        
+		vid |= nouveau_gpio_get(0, vidtag[i], 0xff) << i;
+	}
+    
+	for (i = 0; i < voltage.nr_level; i++) {
+		if (voltage.level[i].vid == vid)
+			return voltage.level[i].voltage / 1000000.0f;
+	}
+    
+    return 0;
+}
+
 // VRAM ===
 
 void GeForceX::nv20_get_vram()
@@ -547,7 +714,7 @@ float GeForceX::nouveau_rpmfan_get()
         
         clock_get_system_nanotime(&secs, &nsecs);
         
-        clock_nsec_t start = nsecs;
+        clock_nsec_t nsecs_start = nsecs;
         
         prev = nouveau_gpio_sense(0, gpio.line);
         cycles = 0;
@@ -560,10 +727,10 @@ float GeForceX::nouveau_rpmfan_get()
             }
             
             IODelay(500); /* supports 0 < rpm < 7500 */
-            
-            clock_get_system_nanotime(&secs, &nsecs);            
-            
-        } while (nsecs - start <= 250000000);
+
+            clock_get_system_nanotime(&secs, &nsecs);   
+
+        } while ((nsecs > nsecs_start ? nsecs - nsecs_start : nsecs_start - nsecs) <= 250000000);
         
         //HWSensorsInfoLog("cycles: %d", cycles);
         
@@ -1461,6 +1628,8 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                     return nouveau_rpmfan_get();
             }
             
+        case kFakeSMCVoltageSensor:
+            return nouveau_voltage_get();
     }
     
     return 0;
@@ -1815,7 +1984,7 @@ bool GeForceX::start(IOService * provider)
             case 0x30:
                 nv20_get_vram();
                 /*
-                engine->pm.voltage_get		= nouveau_voltage_gpio_get;
+                engine->pm.voltage_get		= nouveau_voltage_get;
                  */
                 break;
             case 0x40:
@@ -1858,7 +2027,7 @@ bool GeForceX::start(IOService * provider)
                 
                 vram_size = nv_rd32(PMC, 0x10020c) & 0xff000000;
                 /*
-                engine->pm.voltage_get		= nouveau_voltage_gpio_get;
+                engine->pm.voltage_get		= nouveau_voltage_get;
                 */
                 break;
             }
@@ -1889,21 +2058,21 @@ bool GeForceX::start(IOService * provider)
                 vram_size &= 0xffffffff00ULL;
                 
                 /*
-                engine->pm.voltage_get		= nouveau_voltage_gpio_get;
+                engine->pm.voltage_get		= nouveau_voltage_get;
                 */
                 break;
             }
             case 0xc0: {
                 nvc0_get_vram();
                 /*
-                engine->pm.voltage_get	= nouveau_voltage_gpio_get;
+                engine->pm.voltage_get	= nouveau_voltage_get;
                 */
                 break;
             }
             case 0xd0: {
                 nvc0_get_vram();
                 /*
-                engine->pm.voltage_get	= nouveau_voltage_gpio_get;
+                engine->pm.voltage_get	= nouveau_voltage_get;
                 */
                 break;
             }
@@ -2010,6 +2179,27 @@ bool GeForceX::start(IOService * provider)
                 
                 break;
             }
+        }
+        
+        // Voltages
+        
+        nouveau_volt_init();
+        
+        switch (chipset & 0xf0) {
+            case 0x30:
+            case 0x40:
+            case 0x60:
+            case 0x50:
+            case 0x80:
+            case 0x90:
+            case 0xa0:
+            case 0xc0:
+            case 0xd0:
+                if (voltage.supported) {
+                    snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, cardIndex);
+                    addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0);
+                }
+                break;
         }
         
         registerService();

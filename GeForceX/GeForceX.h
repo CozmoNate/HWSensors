@@ -138,6 +138,20 @@ enum NVDcbGpioTag {
 	DCB_GPIO_UNUSED = 0xff
 };
 
+struct NVVoltageLevel {
+	UInt32 voltage; /* microvolts */
+	UInt8  vid;
+};
+
+struct NVVoltage {
+	bool supported;
+	UInt8 version;
+	UInt8 vid_mask;
+    
+	struct NVVoltageLevel *level;
+    int nr_level;
+};
+
 class GeForceX : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(GeForceX)    
@@ -154,13 +168,18 @@ private:
     
     UInt32          crystal;
     NVSensorConstants sensor_constants;
+    NVVoltage       voltage;
     
     UInt64          vram_size;
     NVVRAMType      vram_type;
     
+    void            nouveau_volt_init();
+    float           nouveau_voltage_get();
+    
     UInt8 *         dcb_table();
     UInt8 *         dcb_gpio_table();
     UInt8 *         dcb_gpio_entry(int idx, int ent, UInt8 *version);
+    bool            nouveau_gpio_func_valid(UInt8 tag);
     bool            nouveau_gpio_find(int idx, UInt8 func, UInt8 line, struct NVGpioFunc *gpio);
     int             nv10_gpio_sense(int line);
     int             nv50_gpio_sense(int line);
