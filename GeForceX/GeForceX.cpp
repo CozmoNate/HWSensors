@@ -741,9 +741,6 @@ float GeForceX::nouveau_rpmfan_get()
     return 0;
 }
 
-// Voltage ===
-
-
 
 // NV04 ===
 
