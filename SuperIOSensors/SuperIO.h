@@ -150,8 +150,8 @@ inline const char* superio_get_model_name(UInt16 model)
         case F71882: return "F71882";
         case F71889AD: return "F71889AD";
         case F71889ED: return "F71889ED";
-        case F71889F: return "f71889F";
-        case F71808: return "f71808";
+        case F71889F: return "F71889F";
+        case F71808: return "F71808";
             
         case NCT6771F: return "NCT6771F";
         case NCT6776F: return "NCT6776F";
