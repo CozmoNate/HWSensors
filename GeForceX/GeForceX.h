@@ -176,6 +176,9 @@ private:
     void            nouveau_volt_init();
     float           nouveau_voltage_get();
     
+    void            nouveau_vram_init();
+    NVVRAMType      nouveau_mem_vbios_type();
+    
     UInt8 *         dcb_table();
     UInt8 *         dcb_gpio_table();
     UInt8 *         dcb_gpio_entry(int idx, int ent, UInt8 *version);
@@ -221,11 +224,11 @@ private:
     int             nv40_sensor_setup();
     int             nv40_get_temperature();
     int             nv84_get_temperature();
-    
-    NVVRAMType      nouveau_mem_vbios_type();
+
     int             score_vbios(const bool writeable);
     void            bios_shadow_pramin();
     void            bios_shadow_prom();
+    void            bios_shadow();
     
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);

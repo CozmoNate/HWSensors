@@ -38,9 +38,6 @@
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(GeForceX, FakeSMCPlugin)
 
-#define kGeForceCoreTemperatureSensor   83001
-#define kGeForceFrequencySensor         83002
-
 #define ROM16(x) OSSwapLittleToHostInt16(*(UInt16 *)&(x))
 #define ROM32(x) OSSwapLittleToHostInt32(*(UInt32 *)&(x))
 #define ROMPTR(d,x) ({            \
@@ -303,6 +300,31 @@ float GeForceX::nouveau_voltage_get()
 
 // VRAM ===
 
+NVVRAMType GeForceX::nouveau_mem_vbios_type()
+{
+	struct NVBitEntry M;
+    
+	UInt8 ramcfg = (nv_rd32(PMC, 0x101000) & 0x0000003c) >> 2;
+    
+	if (!bit_table(bios, 'M', &M) || M.version != 2 || M.length < 5) {
+		UInt8 *table = ROMPTR(bios.data, M.data[3]);
+		if (table && table[0] == 0x10 && ramcfg < table[3]) {
+			UInt8 *entry = table + table[1] + (ramcfg * table[2]);
+			switch (entry[0] & 0x0f) {
+                case 0: return NV_MEM_TYPE_DDR2;
+                case 1: return NV_MEM_TYPE_DDR3;
+                case 2: return NV_MEM_TYPE_GDDR3;
+                case 3: return NV_MEM_TYPE_GDDR5;
+                default:
+                    HWSensorsInfoLog("mem type from VBIOS 0x%x", entry[0] & 0x0f);
+                    break;
+			}
+            
+		}
+	}
+	return NV_MEM_TYPE_UNKNOWN;
+}
+
 void GeForceX::nv20_get_vram()
 {
 	UInt32 ram_size = nv_rd32(PMC, 0x10020c);
@@ -346,6 +368,138 @@ void GeForceX::nvc0_get_vram()
 			vram_size += (UInt64)psize << 20;
 		}
 	}
+}
+
+void GeForceX::nouveau_vram_init()
+{
+    vram_type = NV_MEM_TYPE_UNKNOWN;
+    
+    switch (chipset & 0xf0) {
+        case 0x00: {
+            UInt32 boot0 = nv_rd32(PMC, NV04_PFB_BOOT_0);
+            
+            if (boot0 & 0x00000100) {
+                vram_size  = ((boot0 >> 12) & 0xf) * 2 + 2;
+                vram_size *= 1024 * 1024;
+            } else {
+                switch (boot0 & NV04_PFB_BOOT_0_RAM_AMOUNT) {
+                    case NV04_PFB_BOOT_0_RAM_AMOUNT_32MB:
+                        vram_size = 32 * 1024 * 1024;
+                        break;
+                    case NV04_PFB_BOOT_0_RAM_AMOUNT_16MB:
+                        vram_size = 16 * 1024 * 1024;
+                        break;
+                    case NV04_PFB_BOOT_0_RAM_AMOUNT_8MB:
+                        vram_size = 8 * 1024 * 1024;
+                        break;
+                    case NV04_PFB_BOOT_0_RAM_AMOUNT_4MB:
+                        vram_size = 4 * 1024 * 1024;
+                        break;
+                }
+            }
+            
+            if ((boot0 & 0x00000038) <= 0x10)
+                vram_type = NV_MEM_TYPE_SGRAM;
+            else
+                vram_type = NV_MEM_TYPE_SDRAM;
+            break;
+        }
+        case 0x10: {
+            if (chipset == 0x1a || chipset == 0x1f) {
+                
+            } else {
+                UInt32 fifo_data = nv_rd32(PMC, NV04_PFB_FIFO_DATA);
+                UInt32 cfg0 = nv_rd32(PMC, 0x100200);
+                
+                vram_size = fifo_data & NV10_PFB_FIFO_DATA_RAM_AMOUNT_MB_MASK;
+                
+                if (cfg0 & 0x00000001)
+                    vram_type = NV_MEM_TYPE_DDR1;
+                else
+                    vram_type = NV_MEM_TYPE_SDRAM;
+            }
+            break;
+        }
+        case 0x20: 
+        case 0x30:
+            nv20_get_vram();
+            break;
+        case 0x40:
+        case 0x60: {
+            /* 0x001218 is actually present on a few other NV4X I looked at,
+             * and even contains sane values matching 0x100474.  From looking
+             * at various vbios images however, this isn't the case everywhere.
+             * So, I chose to use the same regs I've seen NVIDIA reading around
+             * the memory detection, hopefully that'll get us the right numbers
+             */
+            if (chipset == 0x40) {
+                UInt32 pbus1218 = nv_rd32(PMC, 0x001218);
+                switch (pbus1218 & 0x00000300) {
+                    case 0x00000000: vram_type = NV_MEM_TYPE_SDRAM; break;
+                    case 0x00000100: vram_type = NV_MEM_TYPE_DDR1; break;
+                    case 0x00000200: vram_type = NV_MEM_TYPE_GDDR3; break;
+                    case 0x00000300: vram_type = NV_MEM_TYPE_DDR2; break;
+                }
+            } else
+                if (chipset == 0x49 || chipset == 0x4b) {
+                    UInt32 pfb914 = nv_rd32(PMC, 0x100914);
+                    switch (pfb914 & 0x00000003) {
+                        case 0x00000000: vram_type = NV_MEM_TYPE_DDR1; break;
+                        case 0x00000001: vram_type = NV_MEM_TYPE_DDR2; break;
+                        case 0x00000002: vram_type = NV_MEM_TYPE_GDDR3; break;
+                        case 0x00000003: break;
+                    }
+                } else
+                    if (chipset != 0x4e) {
+                        UInt32 pfb474 = nv_rd32(PMC, 0x100474);
+                        if (pfb474 & 0x00000004)
+                            vram_type = NV_MEM_TYPE_GDDR3;
+                        if (pfb474 & 0x00000002)
+                            vram_type = NV_MEM_TYPE_DDR2;
+                        if (pfb474 & 0x00000001)
+                            vram_type = NV_MEM_TYPE_DDR1;
+                    } else {
+                        vram_type = NV_MEM_TYPE_STOLEN;
+                    }
+            
+            vram_size = nv_rd32(PMC, 0x10020c) & 0xff000000;
+            break;
+        }
+        case 0x50:
+        case 0x80: /* gotta love NVIDIA's consistency.. */
+        case 0x90:
+        case 0xa0: {
+            UInt32 pfb714 = nv_rd32(PMC, 0x100714);
+            
+            switch (pfb714 & 0x00000007) {
+                case 0: vram_type = NV_MEM_TYPE_DDR1; break;
+                case 1:
+                    if (nouveau_mem_vbios_type() == NV_MEM_TYPE_DDR3)
+                        vram_type = NV_MEM_TYPE_DDR3;
+                    else
+                        vram_type = NV_MEM_TYPE_DDR2;
+                    break;
+                case 2: vram_type = NV_MEM_TYPE_GDDR3; break;
+                case 3: vram_type = NV_MEM_TYPE_GDDR4; break;
+                case 4: vram_type = NV_MEM_TYPE_GDDR5; break;
+                default:
+                    break;
+            }
+            
+            //dev_priv->vram_rank_B = !!(nv_rd32(dev, 0x100200) & 0x4);
+            vram_size  = nv_rd32(PMC, 0x10020c);
+            vram_size |= (vram_size & 0xff) << 32;
+            vram_size &= 0xffffffff00ULL;
+            break;
+        }
+        case 0xc0:
+        case 0xd0:
+        case 0xe0:
+            nvc0_get_vram();
+            break;
+    }
+    
+    HWSensorsInfoLog("%lldMb of %s (%d)", vram_size / 1024 / 1024, NVVRAMTypeMap[(int)vram_type].name, vram_type);
 }
 
 // GPIO ===
@@ -1439,31 +1593,6 @@ int GeForceX::nv84_get_temperature()
 
 // VBIOS ===
 
-NVVRAMType GeForceX::nouveau_mem_vbios_type()
-{
-	struct NVBitEntry M;
-    
-	UInt8 ramcfg = (nv_rd32(PMC, 0x101000) & 0x0000003c) >> 2;
-    
-	if (!bit_table(bios, 'M', &M) || M.version != 2 || M.length < 5) {
-		UInt8 *table = ROMPTR(bios.data, M.data[3]);
-		if (table && table[0] == 0x10 && ramcfg < table[3]) {
-			UInt8 *entry = table + table[1] + (ramcfg * table[2]);
-			switch (entry[0] & 0x0f) {
-                case 0: return NV_MEM_TYPE_DDR2;
-                case 1: return NV_MEM_TYPE_DDR3;
-                case 2: return NV_MEM_TYPE_GDDR3;
-                case 3: return NV_MEM_TYPE_GDDR5;
-                default:
-                    HWSensorsInfoLog("mem type from VBIOS 0x%x", entry[0] & 0x0f);
-                    break;
-			}
-            
-		}
-	}
-	return NV_MEM_TYPE_UNKNOWN;
-}
-
 int GeForceX::score_vbios(const bool writeable)
 {
 	if (!bios.data || bios.data[0] != 0x55 || bios.data[1] != 0xAA) {
@@ -1560,12 +1689,215 @@ out:
 	nv_wr32(PMC, pcireg, access);
 }
 
+void GeForceX::bios_shadow()
+{
+    //Copy bios to ram
+    bios_shadow_pramin();
+    
+    if (!score_vbios(true)) {
+        bios_shadow_prom();
+        
+        if (!score_vbios(false)) {
+            
+            //try to load bios from "vbios" property created by Chameleon boolloader
+            
+            if (OSData *vbios = OSDynamicCast(OSData, device->getProperty("vbios"))) {
+                bios.length = vbios->getLength();
+                bios.data = (UInt8 *)IOMalloc(bios.length);
+                memcpy(bios.data, vbios->getBytesNoCopy(), bios.length);
+            }
+            
+            if (!score_vbios(false)) {
+                HWSensorsWarningLog("failed to read VBIOS");
+                
+                if (!bios.data) {
+                    bios.length = 65536;
+                    bios.data = (UInt8 *)IOMalloc(bios.length);
+                }
+            } else HWSensorsInfoLog("VBIOS successfully read from I/O registry");
+        } else HWSensorsInfoLog("VBIOS successfully read from PROM");
+    } else HWSensorsInfoLog("VBIOS successfully read from PRAMIN");
+    
+    
+    //Parse bios
+    if (bios.data) {
+        const uint8_t bit_signature[] = { 0xff, 0xb8, 'B', 'I', 'T' };
+        const uint8_t bmp_signature[] = { 0xff, 0x7f, 'N', 'V', 0x0 };
+        int offset = findstr(bios.data, bios.length,
+                             bit_signature, sizeof(bit_signature));
+        if (offset) {
+            HWSensorsInfoLog("BIT VBIOS found");
+            bios.type = NVBIOS_BIT;
+            bios.offset = offset;
+            //return parse_bit_structure(bios, offset + 6);
+        }
+        
+        offset = findstr(bios.data, bios.length,
+                         bmp_signature, sizeof(bmp_signature));
+        if (offset) {
+            HWSensorsInfoLog("BMP VBIOS found");
+            bios.type = NVBIOS_BMP;
+            bios.offset = offset;
+            //return parse_bmp_structure(dev, bios, offset);
+        }
+        
+        if (bios.type == NVBIOS_BIT) {
+            struct NVBitEntry P;
+            
+            if (bit_table(bios, 'P', &P)) {
+                
+                UInt8 *temp = NULL;
+                
+                if (P.version == 1)
+                    temp = ROMPTR(bios.data, P.data[12]);
+                else if (P.version == 2)
+                    temp = ROMPTR(bios.data, P.data[16]);
+                else
+                    HWSensorsWarningLog("unknown temp for BIT P %d", P.version);
+                
+                /* Set the default sensor's contants */
+                sensor_constants.offset_constant = 0;
+                sensor_constants.offset_mult = 0;
+                sensor_constants.offset_div = 1;
+                sensor_constants.slope_mult = 1;
+                sensor_constants.slope_div = 1;
+                
+                /* Set the default temperature thresholds */
+                sensor_constants.temp_critical = 110;
+                sensor_constants.temp_down_clock = 100;
+                sensor_constants.temp_fan_boost = 90;
+                
+                /* Set the default range for the pwm fan */
+                sensor_constants.fan_min_duty = 30;
+                sensor_constants.fan_max_duty = 100;
+                
+                /* Set the known default values to setup the temperature sensor */
+                if (card_type >= NV_40) {
+                    switch (chipset) {
+                        case 0x43:
+                            sensor_constants.offset_mult = 32060;
+                            sensor_constants.offset_div = 1000;
+                            sensor_constants.slope_mult = 792;
+                            sensor_constants.slope_div = 1000;
+                            break;
+                            
+                        case 0x44:
+                        case 0x47:
+                        case 0x4a:
+                            sensor_constants.offset_mult = 27839;
+                            sensor_constants.offset_div = 1000;
+                            sensor_constants.slope_mult = 780;
+                            sensor_constants.slope_div = 1000;
+                            break;
+                            
+                        case 0x46:
+                            sensor_constants.offset_mult = -24775;
+                            sensor_constants.offset_div = 100;
+                            sensor_constants.slope_mult = 467;
+                            sensor_constants.slope_div = 10000;
+                            break;
+                            
+                        case 0x49:
+                            sensor_constants.offset_mult = -25051;
+                            sensor_constants.offset_div = 100;
+                            sensor_constants.slope_mult = 458;
+                            sensor_constants.slope_div = 10000;
+                            break;
+                            
+                        case 0x4b:
+                            sensor_constants.offset_mult = -24088;
+                            sensor_constants.offset_div = 100;
+                            sensor_constants.slope_mult = 442;
+                            sensor_constants.slope_div = 10000;
+                            break;
+                            
+                        case 0x50:
+                            sensor_constants.offset_mult = -22749;
+                            sensor_constants.offset_div = 100;
+                            sensor_constants.slope_mult = 431;
+                            sensor_constants.slope_div = 10000;
+                            break;
+                            
+                        case 0x67:
+                            sensor_constants.offset_mult = -26149;
+                            sensor_constants.offset_div = 100;
+                            sensor_constants.slope_mult = 484;
+                            sensor_constants.slope_div = 10000;
+                            break;
+                    }
+                }
+                
+                if (temp) {
+                    int i, headerlen, recordlen, entries;
+                    
+                    headerlen = temp[1];
+                    recordlen = temp[2];
+                    entries = temp[3];
+                    temp = temp + headerlen;
+                    
+                    /* Read the entries from the table */
+                    for (i = 0; i < entries; i++) {
+                        SInt16 value = OSSwapLittleToHostInt16(temp[1]);
+                        
+                        switch (temp[0]) {
+                            case 0x01:
+                                if ((value & 0x8f) == 0)
+                                    sensor_constants.offset_constant = (value >> 9) & 0x7f;
+                                break;
+                                
+                            case 0x04:
+                                if ((value & 0xf00f) == 0xa000) /* core */
+                                    sensor_constants.temp_critical = (value&0x0ff0) >> 4;
+                                break;
+                                
+                            case 0x07:
+                                if ((value & 0xf00f) == 0xa000) /* core */
+                                    sensor_constants.temp_down_clock = (value&0x0ff0) >> 4;
+                                break;
+                                
+                            case 0x08:
+                                if ((value & 0xf00f) == 0xa000) /* core */
+                                    sensor_constants.temp_fan_boost = (value&0x0ff0) >> 4;
+                                break;
+                                
+                            case 0x10:
+                                sensor_constants.offset_mult = value;
+                                break;
+                                
+                            case 0x11:
+                                sensor_constants.offset_div = value;
+                                break;
+                                
+                            case 0x12:
+                                sensor_constants.slope_mult = value;
+                                break;
+                                
+                            case 0x13:
+                                sensor_constants.slope_div = value;
+                                break;
+                            case 0x22:
+                                sensor_constants.fan_min_duty = value & 0xff;
+                                sensor_constants.fan_max_duty = (value & 0xff00) >> 8;
+                                break;
+                            case 0x26:
+                                sensor_constants.fan_pwm_freq = value;
+                                break;
+                        }
+                        temp += recordlen;
+                    }            
+                    
+                } else HWSensorsWarningLog("temperature table pointer invalid");
+            }
+        }
+    }
+}
+
 // Driver ===
 
 float GeForceX::getSensorValue(FakeSMCSensor *sensor)
 {
     switch (sensor->getGroup()) {
-        case kGeForceCoreTemperatureSensor:
+        case kFakeSMCTemperatureSensor:
             switch (chipset & 0xf0) {
                 case 0x40:
                 case 0x60:
@@ -1585,7 +1917,7 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
             }
             break;
             
-        case kGeForceFrequencySensor:
+        case kFakeSMCFrequencySensor:
             switch (chipset & 0xf0) {
                 case 0x40:
                 case 0x60:
@@ -1692,8 +2024,6 @@ bool GeForceX::start(IOService * provider)
             case 0xe0:
                 card_type = NV_E0;
                 break;
-            default:
-                break;
         }
     } else if ((reg0 & 0xff00fff0) == 0x20004000) {
         if (reg0 & 0x00f00000)
@@ -1721,376 +2051,18 @@ bool GeForceX::start(IOService * provider)
             case 0x00400040: crystal = 25000; break;
         }
         
-        //HWSensorsInfoLog("crystal freq: %u KHz", crystal);
+        HWSensorsDebugLog("crystal freq: %u KHz", crystal);
         
-        //Copy bios to ram
-        bios_shadow_pramin();
+        bios_shadow();
         
-        if (!score_vbios(true)) {
-            bios_shadow_prom();
-            
-            if (!score_vbios(false)) {
-                
-                //try to load bios from "vbios" property created by Chameleon boolloader
-                
-                if (OSData *vbios = OSDynamicCast(OSData, device->getProperty("vbios"))) {
-                    bios.length = vbios->getLength();
-                    bios.data = (UInt8 *)IOMalloc(bios.length);
-                    memcpy(bios.data, vbios->getBytesNoCopy(), bios.length);
-                }
-                
-                if (!score_vbios(false)) {
-                    HWSensorsWarningLog("failed to read VBIOS");
-                    
-                    if (!bios.data) {
-                        bios.length = 65536;
-                        bios.data = (UInt8 *)IOMalloc(bios.length);
-                    }
-                } else HWSensorsInfoLog("VBIOS successfully read from I/O registry");
-            } else HWSensorsInfoLog("VBIOS successfully read from PROM");
-        } else HWSensorsInfoLog("VBIOS successfully read from PRAMIN");
-        
-        
-        //Parse bios
-        if (bios.data) {
-            const uint8_t bit_signature[] = { 0xff, 0xb8, 'B', 'I', 'T' };
-            const uint8_t bmp_signature[] = { 0xff, 0x7f, 'N', 'V', 0x0 };
-            int offset = findstr(bios.data, bios.length,
-                             bit_signature, sizeof(bit_signature));
-            if (offset) {
-                HWSensorsInfoLog("BIT VBIOS found");
-                bios.type = NVBIOS_BIT;
-                bios.offset = offset;
-                //return parse_bit_structure(bios, offset + 6);
-            }
-            
-            offset = findstr(bios.data, bios.length,
-                             bmp_signature, sizeof(bmp_signature));
-            if (offset) {
-                HWSensorsInfoLog("BMP VBIOS found");
-                bios.type = NVBIOS_BMP;
-                bios.offset = offset;
-                //return parse_bmp_structure(dev, bios, offset);
-            }
-            
-            if (bios.type == NVBIOS_BIT) {
-                struct NVBitEntry P;
-                
-                if (bit_table(bios, 'P', &P)) {
-                    
-                    UInt8 *temp = NULL;
-                    
-                    if (P.version == 1)
-                        temp = ROMPTR(bios.data, P.data[12]);
-                    else if (P.version == 2)
-                        temp = ROMPTR(bios.data, P.data[16]);
-                    else
-                        HWSensorsWarningLog("unknown temp for BIT P %d", P.version);
-                    
-                    /* Set the default sensor's contants */
-                    sensor_constants.offset_constant = 0;
-                    sensor_constants.offset_mult = 0;
-                    sensor_constants.offset_div = 1;
-                    sensor_constants.slope_mult = 1;
-                    sensor_constants.slope_div = 1;
-                    
-                    /* Set the default temperature thresholds */
-                    sensor_constants.temp_critical = 110;
-                    sensor_constants.temp_down_clock = 100;
-                    sensor_constants.temp_fan_boost = 90;
-                    
-                    /* Set the default range for the pwm fan */
-                    sensor_constants.fan_min_duty = 30;
-                    sensor_constants.fan_max_duty = 100;
-                    
-                    /* Set the known default values to setup the temperature sensor */
-                    if (card_type >= NV_40) {
-                        switch (chipset) {
-                            case 0x43:
-                                sensor_constants.offset_mult = 32060;
-                                sensor_constants.offset_div = 1000;
-                                sensor_constants.slope_mult = 792;
-                                sensor_constants.slope_div = 1000;
-                                break;
-                                
-                            case 0x44:
-                            case 0x47:
-                            case 0x4a:
-                                sensor_constants.offset_mult = 27839;
-                                sensor_constants.offset_div = 1000;
-                                sensor_constants.slope_mult = 780;
-                                sensor_constants.slope_div = 1000;
-                                break;
-                                
-                            case 0x46:
-                                sensor_constants.offset_mult = -24775;
-                                sensor_constants.offset_div = 100;
-                                sensor_constants.slope_mult = 467;
-                                sensor_constants.slope_div = 10000;
-                                break;
-                                
-                            case 0x49:
-                                sensor_constants.offset_mult = -25051;
-                                sensor_constants.offset_div = 100;
-                                sensor_constants.slope_mult = 458;
-                                sensor_constants.slope_div = 10000;
-                                break;
-                                
-                            case 0x4b:
-                                sensor_constants.offset_mult = -24088;
-                                sensor_constants.offset_div = 100;
-                                sensor_constants.slope_mult = 442;
-                                sensor_constants.slope_div = 10000;
-                                break;
-                                
-                            case 0x50:
-                                sensor_constants.offset_mult = -22749;
-                                sensor_constants.offset_div = 100;
-                                sensor_constants.slope_mult = 431;
-                                sensor_constants.slope_div = 10000;
-                                break;
-                                
-                            case 0x67:
-                                sensor_constants.offset_mult = -26149;
-                                sensor_constants.offset_div = 100;
-                                sensor_constants.slope_mult = 484;
-                                sensor_constants.slope_div = 10000;
-                                break;
-                        }
-                    }
-                    
-                    if (temp) {
-                        int i, headerlen, recordlen, entries;
-                        
-                        headerlen = temp[1];
-                        recordlen = temp[2];
-                        entries = temp[3];
-                        temp = temp + headerlen;
-                        
-                        /* Read the entries from the table */
-                        for (i = 0; i < entries; i++) {
-                            SInt16 value = OSSwapLittleToHostInt16(temp[1]);
-                            
-                            switch (temp[0]) {
-                                case 0x01:
-                                    if ((value & 0x8f) == 0)
-                                        sensor_constants.offset_constant = (value >> 9) & 0x7f;
-                                    break;
-                                    
-                                case 0x04:
-                                    if ((value & 0xf00f) == 0xa000) /* core */
-                                        sensor_constants.temp_critical = (value&0x0ff0) >> 4;
-                                    break;
-                                    
-                                case 0x07:
-                                    if ((value & 0xf00f) == 0xa000) /* core */
-                                        sensor_constants.temp_down_clock = (value&0x0ff0) >> 4;
-                                    break;
-                                    
-                                case 0x08:
-                                    if ((value & 0xf00f) == 0xa000) /* core */
-                                        sensor_constants.temp_fan_boost = (value&0x0ff0) >> 4;
-                                    break;
-                                    
-                                case 0x10:
-                                    sensor_constants.offset_mult = value;
-                                    break;
-                                    
-                                case 0x11:
-                                    sensor_constants.offset_div = value;
-                                    break;
-                                    
-                                case 0x12:
-                                    sensor_constants.slope_mult = value;
-                                    break;
-                                    
-                                case 0x13:
-                                    sensor_constants.slope_div = value;
-                                    break;
-                                case 0x22:
-                                    sensor_constants.fan_min_duty = value & 0xff;
-                                    sensor_constants.fan_max_duty = (value & 0xff00) >> 8;
-                                    break;
-                                case 0x26:
-                                    sensor_constants.fan_pwm_freq = value;
-                                    break;
-                            }
-                            temp += recordlen;
-                        }            
-                        
-                    } else HWSensorsWarningLog("temperature table pointer invalid");
-                }
-            }
-        }
-        
-        vram_type = NV_MEM_TYPE_UNKNOWN;
-        
-        switch (chipset & 0xf0) {
-            case 0x00: {
-                UInt32 boot0 = nv_rd32(PMC, NV04_PFB_BOOT_0);
-                
-                if (boot0 & 0x00000100) {
-                    vram_size  = ((boot0 >> 12) & 0xf) * 2 + 2;
-                    vram_size *= 1024 * 1024;
-                } else {
-                    switch (boot0 & NV04_PFB_BOOT_0_RAM_AMOUNT) {
-                        case NV04_PFB_BOOT_0_RAM_AMOUNT_32MB:
-                            vram_size = 32 * 1024 * 1024;
-                            break;
-                        case NV04_PFB_BOOT_0_RAM_AMOUNT_16MB:
-                            vram_size = 16 * 1024 * 1024;
-                            break;
-                        case NV04_PFB_BOOT_0_RAM_AMOUNT_8MB:
-                            vram_size = 8 * 1024 * 1024;
-                            break;
-                        case NV04_PFB_BOOT_0_RAM_AMOUNT_4MB:
-                            vram_size = 4 * 1024 * 1024;
-                            break;
-                    }
-                }
-                
-                if ((boot0 & 0x00000038) <= 0x10)
-                    vram_type = NV_MEM_TYPE_SGRAM;
-                else
-                    vram_type = NV_MEM_TYPE_SDRAM;
-                
-                //engine->pm.clocks_get		= nv04_pm_clocks_get;
-                break;
-            }
-            case 0x10: {
-                if (chipset == 0x1a || chipset == 0x1f) {
-
-                } else {
-                    UInt32 fifo_data = nv_rd32(PMC, NV04_PFB_FIFO_DATA);
-                    UInt32 cfg0 = nv_rd32(PMC, 0x100200);
-                    
-                    vram_size = fifo_data & NV10_PFB_FIFO_DATA_RAM_AMOUNT_MB_MASK;
-                    
-                    if (cfg0 & 0x00000001)
-                        vram_type = NV_MEM_TYPE_DDR1;
-                    else
-                        vram_type = NV_MEM_TYPE_SDRAM;
-                }
-                
-                //engine->pm.clocks_get     = nv04_pm_clocks_get;
-                break;
-            }
-            case 0x20: 
-                nv20_get_vram();
-                /*
-                engine->pm.clocks_get		= nv04_pm_clocks_get;*/
-                break;
-            case 0x30:
-                nv20_get_vram();
-                /*
-                engine->pm.voltage_get		= nouveau_voltage_get;
-                 */
-                break;
-            case 0x40:
-            case 0x60: {
-                /* 0x001218 is actually present on a few other NV4X I looked at,
-                 * and even contains sane values matching 0x100474.  From looking
-                 * at various vbios images however, this isn't the case everywhere.
-                 * So, I chose to use the same regs I've seen NVIDIA reading around
-                 * the memory detection, hopefully that'll get us the right numbers
-                 */
-                if (chipset == 0x40) {
-                    UInt32 pbus1218 = nv_rd32(PMC, 0x001218);
-                    switch (pbus1218 & 0x00000300) {
-                        case 0x00000000: vram_type = NV_MEM_TYPE_SDRAM; break;
-                        case 0x00000100: vram_type = NV_MEM_TYPE_DDR1; break;
-                        case 0x00000200: vram_type = NV_MEM_TYPE_GDDR3; break;
-                        case 0x00000300: vram_type = NV_MEM_TYPE_DDR2; break;
-                    }
-                } else
-                    if (chipset == 0x49 || chipset == 0x4b) {
-                        UInt32 pfb914 = nv_rd32(PMC, 0x100914);
-                        switch (pfb914 & 0x00000003) {
-                            case 0x00000000: vram_type = NV_MEM_TYPE_DDR1; break;
-                            case 0x00000001: vram_type = NV_MEM_TYPE_DDR2; break;
-                            case 0x00000002: vram_type = NV_MEM_TYPE_GDDR3; break;
-                            case 0x00000003: break;
-                        }
-                    } else
-                        if (chipset != 0x4e) {
-                            UInt32 pfb474 = nv_rd32(PMC, 0x100474);
-                            if (pfb474 & 0x00000004)
-                                vram_type = NV_MEM_TYPE_GDDR3;
-                            if (pfb474 & 0x00000002)
-                                vram_type = NV_MEM_TYPE_DDR2;
-                            if (pfb474 & 0x00000001)
-                                vram_type = NV_MEM_TYPE_DDR1;
-                        } else {
-                            vram_type = NV_MEM_TYPE_STOLEN;
-                        }
-                
-                vram_size = nv_rd32(PMC, 0x10020c) & 0xff000000;
-                /*
-                engine->pm.voltage_get		= nouveau_voltage_get;
-                */
-                break;
-            }
-            case 0x50:
-            case 0x80: /* gotta love NVIDIA's consistency.. */
-            case 0x90:
-            case 0xa0: {
-                UInt32 pfb714 = nv_rd32(PMC, 0x100714);
-                
-                switch (pfb714 & 0x00000007) {
-                    case 0: vram_type = NV_MEM_TYPE_DDR1; break;
-                    case 1:
-                        if (nouveau_mem_vbios_type() == NV_MEM_TYPE_DDR3)
-                            vram_type = NV_MEM_TYPE_DDR3;
-                        else
-                            vram_type = NV_MEM_TYPE_DDR2;
-                        break;
-                    case 2: vram_type = NV_MEM_TYPE_GDDR3; break;
-                    case 3: vram_type = NV_MEM_TYPE_GDDR4; break;
-                    case 4: vram_type = NV_MEM_TYPE_GDDR5; break;
-                    default:
-                        break;
-                }
-                
-                //dev_priv->vram_rank_B = !!(nv_rd32(dev, 0x100200) & 0x4);
-                vram_size  = nv_rd32(PMC, 0x10020c);
-                vram_size |= (vram_size & 0xff) << 32;
-                vram_size &= 0xffffffff00ULL;
-                
-                /*
-                engine->pm.voltage_get		= nouveau_voltage_get;
-                */
-                break;
-            }
-            case 0xc0: {
-                nvc0_get_vram();
-                /*
-                engine->pm.voltage_get	= nouveau_voltage_get;
-                */
-                break;
-            }
-            case 0xd0: {
-                nvc0_get_vram();
-                /*
-                engine->pm.voltage_get	= nouveau_voltage_get;
-                */
-                break;
-            }
-            case 0xe0:
-                nvc0_get_vram();
-                /**/
-                break;
-            default:
-                HWSensorsWarningLog("NV%02X unsupported", chipset);
-                return false;
-        }
-        
-        HWSensorsInfoLog("%lldMb of %s (%d)", vram_size / 1024 / 1024, NVVRAMTypeMap[(int)vram_type].name, vram_type);
+        nouveau_vram_init();
+        nouveau_volt_init();
         
         //Setup sensors
-        UInt8 cardIndex = 0;
-        char key[5];
         
         //Find out card number
+        UInt8 cardIndex = 0;
+        char key[5];
         for (UInt8 i = 0; i < 0xf; i++) {
             
             snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, i); 
@@ -2117,7 +2089,7 @@ bool GeForceX::start(IOService * provider)
             case 0xc0:
             case 0xd0:
                 snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex);
-                addSensor(key, TYPE_SP78, 2, kGeForceCoreTemperatureSensor, 0);
+                addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0);
                 break;
         }
         
@@ -2130,27 +2102,27 @@ bool GeForceX::start(IOService * provider)
             case 0x90:
             case 0xa0:
                 snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, cardIndex);
-                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVClockCore);
+                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVClockCore);
                 
                 snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_SHADER_FREQUENCY, cardIndex);
-                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVClockShader);
+                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVClockShader);
                 
                 snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY, cardIndex);
-                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVCLockMemory);
+                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVCLockMemory);
                 break;
             case 0xc0:
             case 0xd0:
                 snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, cardIndex);
-                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVClockCore);
+                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVClockCore);
                 
                 snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_SHADER_FREQUENCY, cardIndex);
-                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVClockShader);
+                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVClockShader);
                 
                 snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_ROP_FREQUENCY, cardIndex);
-                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVClockRop);
+                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVClockRop);
                 
                 snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY, cardIndex);
-                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kGeForceFrequencySensor, NVCLockMemory);
+                addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVCLockMemory);
                 break;
         }
         
@@ -2181,9 +2153,6 @@ bool GeForceX::start(IOService * provider)
         }
         
         // Voltages
-        
-        nouveau_volt_init();
-        
         switch (chipset & 0xf0) {
             case 0x30:
             case 0x40:
@@ -2205,7 +2174,7 @@ bool GeForceX::start(IOService * provider)
         
         return true;
     }
-    else HWSensorsWarningLog("unsupported chipset found 0x%08x", reg0);
+    else HWSensorsWarningLog("NV%02X unsupported (chipset:0x%08x)", chipset, reg0);
     
     return false;
 }

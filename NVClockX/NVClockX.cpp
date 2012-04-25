@@ -26,14 +26,6 @@ NVCard* nv_card;
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(NVClockX, FakeSMCPlugin)
 
-inline bool is_digit(char c)
-{
-	if (((c>='0')&&(c<='9'))||((c>='a')&&(c<='f'))||((c>='A')&&(c<='F')))
-		return true;
-	
-	return false;
-}
-
 float NVClockX::getSensorValue(FakeSMCSensor *sensor)
 {
     switch (sensor->getGroup()) {
@@ -75,18 +67,18 @@ float NVClockX::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-IOService* NVClockX::probe(IOService *provider, SInt32 *score)
+bool NVClockX::start(IOService * provider)
 {
-    HWSensorsDebugLog("Probing...");
-    
-    if (super::probe(provider, score) != this) 
-        return 0;
+	HWSensorsDebugLog("Starting...");
+	
+	if (!super::start(provider)) 
+        return false;
     
     if ((videoCard = (IOPCIDevice*)provider)) 
     {
         if (videoCard->setMemoryEnable(true)) 
         {
-            if (IOMemoryMap *nvio = videoCard->mapDeviceMemoryWithIndex(0)) 
+            if ((nvio = videoCard->mapDeviceMemoryWithIndex(0))) 
             {
                 IOVirtualAddress addr = nvio->getVirtualAddress();
                 
@@ -123,32 +115,23 @@ IOService* NVClockX::probe(IOService *provider, SInt32 *score)
                     nvclock.card[nvclock.num_cards].mem_mapped = 1;
                     
                     HWSensorsInfoLog("%s device-id=0x%x arch=0x%x", 
-                            nvclock.card[nvclock.num_cards].card_name, 
-                            nvclock.card[nvclock.num_cards].device_id, 
-                            nvclock.card[nvclock.num_cards].arch);
+                                     nvclock.card[nvclock.num_cards].card_name, 
+                                     nvclock.card[nvclock.num_cards].device_id, 
+                                     nvclock.card[nvclock.num_cards].arch);
                     
                     nvclock.num_cards++;
-                    
-                    return this;
                 }
-                else HWSensorsWarningLog("device-id property not found");
-
-                nvio->release();
-
+                else HWSensorsWarningLog("device-id property not found");                
             }
-            else HWSensorsWarningLog("failed to map device's memory");
+            else {
+                HWSensorsWarningLog("failed to map device's memory");
+                return false;
+            }
         }
-    }else HWSensorsWarningLog("failed to assign PCI device");
-    
-	return 0;
-}
-
-bool NVClockX::start(IOService * provider)
-{
-	HWSensorsDebugLog("Starting...");
-	
-	if (!super::start(provider)) 
+    }else {
+        HWSensorsWarningLog("failed to assign PCI device");
         return false;
+    }
     
 	char key[7];
 	
@@ -248,4 +231,12 @@ bool NVClockX::start(IOService * provider)
     registerService();
 	
 	return true;
+}
+
+void NVClockX::free(void)
+{
+    nvio->release();
+    nvio = 0;
+    
+    super::free();
 }
