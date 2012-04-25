@@ -701,7 +701,7 @@ int GeForceX::nouveau_pwmfan_get()
 float GeForceX::nouveau_rpmfan_get()
 {
 	struct NVGpioFunc gpio;
-	UInt32 cycles, cur, prev/*, count*/;
+	UInt32 cycles, cur, prev/*, count = 0*/;
 	    
 	if (nouveau_gpio_find(0, DCB_GPIO_FAN_SENSE, 0xff, &gpio)) {    
         /* Monitor the GPIO input 0x3b for 250ms.
@@ -726,13 +726,15 @@ float GeForceX::nouveau_rpmfan_get()
                 prev = cur;
             }
             
-            IODelay(500); /* supports 0 < rpm < 7500 */
+            IODelay(800); /* supports 0 < rpm < 7500 */
 
             clock_get_system_nanotime(&secs, &nsecs);   
+            
+            //count++;
 
         } while ((nsecs > nsecs_start ? nsecs - nsecs_start : nsecs_start - nsecs) <= 250000000);
         
-        //HWSensorsInfoLog("cycles: %d", cycles);
+        //HWSensorsInfoLog("count: %d", count);
         
         /* interpolate to get rpm */
         return cycles / 4.0f * 4.0f * 60.0f;
@@ -1321,9 +1323,9 @@ UInt32 GeForceX::nvc0_read_mem()
 	UInt32 ssel = nv_rd32(PMC, 0x1373f0);
     
 	if (ssel & 0x00000001)
-		return nvc0_read_div(0, 0x137300, 0x137310);
+        return nvc0_read_div(0, 0x137300, 0x137310); // sould i devide this value too?
     
-	return nvc0_read_pll(0x132000); 
+	return nvc0_read_pll(0x132000) / 2; // is it correct divisor for all c0 cards? 
 }
 
 UInt32 GeForceX::nvc0_read_clk(UInt32 clk)
@@ -1378,7 +1380,7 @@ UInt32 GeForceX::nvc0_get_clock(NVClockSource name)
             break;
         
         case NVCLockMemory:
-            clocks = nvc0_read_mem() / 2; // is it correct divisor for all c0 cards?
+            clocks = nvc0_read_mem();
             break;
     }
 
