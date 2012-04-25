@@ -5375,13 +5375,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>GeForceX plugin by provides sensors monitoring for various nVidia GPUs</string>
+												<string>GeForceX plugin by provides sensors monitoring for various nVidia GPUs. It has better support for newer GPUs then NVClockx.</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>Плугин GeForceX позволяет снимать показания сенсоров видеокарт nVidia</string>
+												<string>Расширение GeForceX позволяет снимать показания сенсоров видеокарт nVidia. Этот плагин имеет лучшую поддержку современных видеокарт, чем NVClockX.</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>
@@ -5401,13 +5401,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>GeForceX (experemental)</string>
+												<string>GeForceX</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>GeForceX (эксперементальный)</string>
+												<string>GeForceX</string>
 											</dict>
 										</array>
 										<key>TOOLTIP</key>
