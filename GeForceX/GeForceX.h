@@ -30,6 +30,7 @@
 
 #include <IOKit/IOService.h>
 #include <IOKit/pci/IOPCIDevice.h>
+#include <IOKit/IOTimerEventSource.h>
 
 #include "FakeSMCPlugin.h"
 
@@ -110,17 +111,17 @@ static const struct NVVRAMTypes {
 	int value;
 	const char *name;
 } NVVRAMTypeMap[] = {
-    { NV_MEM_TYPE_UNKNOWN, "unknown type" },
+    { NV_MEM_TYPE_UNKNOWN, "unknown memory type" },
 	{ NV_MEM_TYPE_STOLEN , "stolen system memory" },
-	{ NV_MEM_TYPE_SGRAM  , "SGRAM" },
-	{ NV_MEM_TYPE_SDRAM  , "SDRAM" },
-	{ NV_MEM_TYPE_DDR1   , "DDR1" },
-	{ NV_MEM_TYPE_DDR2   , "DDR2" },
-	{ NV_MEM_TYPE_DDR3   , "DDR3" },
-	{ NV_MEM_TYPE_GDDR2  , "GDDR2" },
-	{ NV_MEM_TYPE_GDDR3  , "GDDR3" },
-	{ NV_MEM_TYPE_GDDR4  , "GDDR4" },
-	{ NV_MEM_TYPE_GDDR5  , "GDDR5" }
+	{ NV_MEM_TYPE_SGRAM  , "SGRAM memory" },
+	{ NV_MEM_TYPE_SDRAM  , "SDRAM memory" },
+	{ NV_MEM_TYPE_DDR1   , "DDR memory" },
+	{ NV_MEM_TYPE_DDR2   , "DDR2 memory" },
+	{ NV_MEM_TYPE_DDR3   , "DDR3 memory" },
+	{ NV_MEM_TYPE_GDDR2  , "GDDR2 memory" },
+	{ NV_MEM_TYPE_GDDR3  , "GDDR3 memory" },
+	{ NV_MEM_TYPE_GDDR4  , "GDDR4 memory" },
+	{ NV_MEM_TYPE_GDDR5  , "GDDR5 memory" }
 };
 
 struct NVGpioFunc {
@@ -157,9 +158,14 @@ class GeForceX : public FakeSMCPlugin
     OSDeclareDefaultStructors(GeForceX)    
 	
 private:
+    IOWorkLoop*	workloop;
+	IOTimerEventSource*	timersource;
+    
     IOPCIDevice*    device;
     UInt32          chipset;
     UInt32          card_type;
+    UInt16          device_id;
+    UInt16          vendor_id;
     
     IOMemoryMap*    mmio;
     volatile UInt8* PMC;
@@ -172,6 +178,9 @@ private:
     
     UInt64          vram_size;
     NVVRAMType      vram_type;
+    
+    float           fanRMP;
+    UInt8           fanCounter;
     
     void            nouveau_volt_init();
     float           nouveau_voltage_get();
@@ -190,7 +199,7 @@ private:
     int             nouveau_gpio_sense(int idx, int line);
     int             nouveau_gpio_get(int idx, UInt8 tag, UInt8 line);
     int             nouveau_pwmfan_get();
-    float           nouveau_rpmfan_get();
+    float           nouveau_rpmfan_get(clock_usec_t sense_period);
     bool            nv40_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty);
     bool            nv50_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty);
     
@@ -230,10 +239,13 @@ private:
     void            bios_shadow_prom();
     void            bios_shadow();
     
+    IOReturn        loopTimerEvent(void);
+    
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);
     
 public:
+    virtual IOService*	probe(IOService *provider, SInt32 *score);
     virtual bool		start(IOService *provider);
     virtual void		free(void);
 };

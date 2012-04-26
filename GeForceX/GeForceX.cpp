@@ -306,7 +306,7 @@ NVVRAMType GeForceX::nouveau_mem_vbios_type()
     
 	UInt8 ramcfg = (nv_rd32(PMC, 0x101000) & 0x0000003c) >> 2;
     
-	if (!bit_table(bios, 'M', &M) || M.version != 2 || M.length < 5) {
+	if (bit_table(bios, 'M', &M) || M.version != 2 || M.length < 5) {
 		UInt8 *table = ROMPTR(bios.data, M.data[3]);
 		if (table && table[0] == 0x10 && ramcfg < table[3]) {
 			UInt8 *entry = table + table[1] + (ramcfg * table[2]);
@@ -348,7 +348,7 @@ void GeForceX::nvc0_get_vram()
 	bool uniform = true;
 	int part;
     
-	HWSensorsInfoLog("0x100800: 0x%08x", nv_rd32(PMC, 0x100800));
+	HWSensorsDebugLog("0x100800: 0x%08x", nv_rd32(PMC, 0x100800));
 	HWSensorsDebugLog("parts 0x%08x mask 0x%08x", parts, pmask);
     
 	vram_type = nouveau_mem_vbios_type();
@@ -498,8 +498,6 @@ void GeForceX::nouveau_vram_init()
             nvc0_get_vram();
             break;
     }
-    
-    HWSensorsInfoLog("%lldMb of %s (%d)", vram_size / 1024 / 1024, NVVRAMTypeMap[(int)vram_type].name, vram_type);
 }
 
 // GPIO ===
@@ -852,7 +850,7 @@ int GeForceX::nouveau_pwmfan_get()
 	return 0;
 }
 
-float GeForceX::nouveau_rpmfan_get()
+float GeForceX::nouveau_rpmfan_get(clock_usec_t sense_period)
 {
 	struct NVGpioFunc gpio;
 	UInt32 cycles, cur, prev/*, count = 0*/;
@@ -873,6 +871,8 @@ float GeForceX::nouveau_rpmfan_get()
         prev = nouveau_gpio_sense(0, gpio.line);
         cycles = 0;
         
+        IODelay(100);
+        
         do {
             cur = nouveau_gpio_sense(0, gpio.line);
             if (prev != cur) {
@@ -880,18 +880,18 @@ float GeForceX::nouveau_rpmfan_get()
                 prev = cur;
             }
             
-            IODelay(800); /* supports 0 < rpm < 7500 */
+            IODelay(900); /* supports 0 < rpm < 7500 */
 
             clock_get_system_nanotime(&secs, &nsecs);   
             
             //count++;
 
-        } while ((nsecs > nsecs_start ? nsecs - nsecs_start : nsecs_start - nsecs) <= 250000000);
+        } while ((nsecs > nsecs_start ? nsecs - nsecs_start : nsecs_start - nsecs) <= sense_period * 1e6);
         
         //HWSensorsInfoLog("count: %d", count);
         
         /* interpolate to get rpm */
-        return cycles / 4.0f * 4.0f * 60.0f;
+        return cycles / 4.0f * (1000.0f / sense_period) * 60.0f;
     }
     
     return 0;
@@ -1894,6 +1894,17 @@ void GeForceX::bios_shadow()
 
 // Driver ===
 
+IOReturn GeForceX::loopTimerEvent(void)
+{
+    if (fanCounter++ < 2) {
+        fanRMP = nouveau_rpmfan_get(500);
+    }
+    
+    timersource->setTimeoutMS(1500);
+    
+    return kIOReturnSuccess;
+}
+
 float GeForceX::getSensorValue(FakeSMCSensor *sensor)
 {
     switch (sensor->getGroup()) {
@@ -1904,6 +1915,10 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                 case 0x50:
                 case 0x80:
                 case 0x90:
+                    if (chipset == 0x92 && device_id == 0x0606) {
+                        return nv40_get_temperature();
+                        break;
+                    }
                 case 0xa0:
                     if (chipset >= 0x84)
                         return nv84_get_temperature();
@@ -1956,7 +1971,8 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                     return nouveau_pwmfan_get();
                     
                 case 1:
-                    return nouveau_rpmfan_get();
+                    fanCounter = 0;
+                    return fanRMP;
             }
             
         case kFakeSMCVoltageSensor:
@@ -1964,6 +1980,23 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
     }
     
     return 0;
+}
+
+IOService *GeForceX::probe(IOService *provider, SInt32 *score)
+{
+    if (super::probe(provider, score) != this) 
+        return 0;
+    
+    if (!(workloop = getWorkLoop())) 
+		return 0;
+	
+	if (!(timersource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &GeForceX::loopTimerEvent)))) 
+		return 0;
+	
+	if (kIOReturnSuccess != workloop->addEventSource(timersource))
+		return 0;
+    
+    return this;
 }
 
 bool GeForceX::start(IOService * provider)
@@ -2035,7 +2068,12 @@ bool GeForceX::start(IOService * provider)
     }
     
     if (card_type) {
-        HWSensorsInfoLog("detected an NV%2X generation card (0x%08x)", card_type, reg0);
+        
+        if (OSData * data = OSDynamicCast(OSData, device->getProperty("device-id")))
+            device_id = *(UInt16*)data->getBytesNoCopy(0, 2);
+        
+        if (OSData * data = OSDynamicCast(OSData, device->getProperty("vendor-id")))
+            vendor_id = *(UInt16*)data->getBytesNoCopy(0, 2);
         
         /* determine frequency of timing crystal */
         UInt32 strap = nv_rd32(PMC, 0x101000);
@@ -2057,6 +2095,8 @@ bool GeForceX::start(IOService * provider)
         
         nouveau_vram_init();
         nouveau_volt_init();
+        
+        HWSensorsInfoLog("detected an NV%2X generation card (0x%08x) with %lldMb of %s (%d)", card_type, reg0, vram_size / 1024 / 1024, NVVRAMTypeMap[(int)vram_type].name, vram_type);
         
         //Setup sensors
         
@@ -2143,7 +2183,7 @@ bool GeForceX::start(IOService * provider)
                     addTachometer(0, title);
                 }
                 
-                if (nouveau_rpmfan_get() > 0) {
+                if (nouveau_rpmfan_get(100) > 0) {
                     snprintf (title, 16, "GPU %X", cardIndex);
                     addTachometer(1, title);
                 }
@@ -2169,6 +2209,8 @@ bool GeForceX::start(IOService * provider)
                 }
                 break;
         }
+        
+        loopTimerEvent();
         
         registerService();
         

@@ -103,11 +103,11 @@ IOReturn IntelThermal::loopTimerEvent(void)
 {
     UInt8 index;
     
-    if (thermCounter++ < 5)
+    if (thermCounter++ < 2)
         for (UInt8 i = 0; i < cpuid_info()->core_count; i++)
             mp_rendezvous_no_intrs(read_cpu_thermal, &index);
     
-    if (perfCounter++ < 5) {
+    if (perfCounter++ < 2) {
         mp_rendezvous_no_intrs(read_cpu_performance, &index);
         
         switch (cpuid_info()->cpuid_cpufamily) {
@@ -120,7 +120,7 @@ IOReturn IntelThermal::loopTimerEvent(void)
         }
     }
     
-    timersource->setTimeoutMS(2000);
+    timersource->setTimeoutMS(1500);
     
     return kIOReturnSuccess;
 }
@@ -406,9 +406,6 @@ bool IntelThermal::start(IOService *provider)
         default:
             break;
     }
-    
-    thermCounter = 4;
-    perfCounter = 4;
     
     loopTimerEvent();
     

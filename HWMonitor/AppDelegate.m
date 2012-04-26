@@ -39,7 +39,8 @@
         for (int i = 0; i < [list count]; i++) {
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
             
-            [sensor setFavorite:[[NSUserDefaults standardUserDefaults] boolForKey:[sensor key]]];
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:[sensor key]])
+                [sensor setFlag:kHWSensorFlagFavorite];
             
             if ([sensor disk])
                 [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:statusMenuFont]];
@@ -50,7 +51,7 @@
             
             [sensorItem setTarget:self];
             [sensorItem setRepresentedObject:sensor];
-            [sensorItem setState:[sensor favorite]];
+            [sensorItem setState:[sensor getFlag:kHWSensorFlagFavorite]];
             [sensorItem setOnStateImage:favoriteIcon];
             [sensorItem setOffStateImage:disabledIcon];
             
@@ -77,62 +78,65 @@
     for (int i = 0; i < [sensors count]; i++) {
         HWMonitorSensor *sensor = (HWMonitorSensor*)[sensors objectAtIndex:i];
         
-        NSDictionary *captionColor;
-        NSDictionary *valueColor;
+        if (!sensor)
+            continue;
         
-        NSString * value = [sensor formattedValue];
+        if ([sensor getFlag:kHWSensorFlagFavorite] || [sensor valueHasBeenChanged]) {
+            NSDictionary *captionColor;
+            NSDictionary *valueColor;
+            
+            NSString * value = [sensor value];
         
-        switch ([sensor level]) {
-                /*case kHWSensorLevelDisabled:
-                 break;
-                 
-                 case kHWSensorLevelNormal:
-                 break;*/
+            switch ([sensor level]) {
+                    /*case kHWSensorLevelDisabled:
+                     break;
+                     
+                     case kHWSensorLevelNormal:
+                     break;*/
+                    
+                case kHWSensorLevelModerate:
+                    captionColor = blackColorAttribute;
+                    valueColor = orangeColorAttribute;
+                    break;
+                    
+                case kHWSensorLevelHigh:
+                    captionColor = blackColorAttribute;
+                    valueColor = redColorAttribute;
+                    break;
+                    
+                case kHWSensorLevelExceeded:
+                    captionColor = redColorAttribute;
+                    valueColor = redColorAttribute;
+                    break;
+                    
+                default:
+                    captionColor = blackColorAttribute;
+                    valueColor = blackColorAttribute;
+                    break;
+            }
+            
+            if (isMenuVisible) {
+                NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
                 
-            case kHWSensorLevelModerate:
-                captionColor = blackColorAttribute;
-                valueColor = orangeColorAttribute;
-                break;
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor caption] attributes:captionColor]];
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t"]];
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
                 
-            case kHWSensorLevelHigh:
-                captionColor = blackColorAttribute;
-                valueColor = redColorAttribute;
-                break;
+                [title addAttributes:statusMenuAttributes range:NSMakeRange(0, [title length])];
+                [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
                 
-            case kHWSensorLevelExceeded:
-                captionColor = redColorAttribute;
-                valueColor = redColorAttribute;
-                break;
+                // Update menu item title
+                [[sensor menuItem] setAttributedTitle:title];
+            }
+            
+            if ([sensor getFlag:kHWSensorFlagFavorite]) {
+                [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
                 
-            default:
-                captionColor = blackColorAttribute;
-                valueColor = blackColorAttribute;
-                break;
-        }
-        
-        if (isMenuVisible) {
-            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
-            
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor caption] attributes:captionColor]];
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t"]];
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
-            
-            [title addAttributes:statusMenuAttributes range:NSMakeRange(0, [title length])];
-            [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
-            
-            // Update menu item title
-            [[sensor menuItem] setAttributedTitle:title];
-        }
-        
-        if ([sensor favorite]) {
-            NSString * val =[[NSString alloc] initWithString:[sensor formattedValue]];
-            
-            [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-            
-            if (!isMenuVisible && valueColor != blackColorAttribute)
-                [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:val attributes:valueColor]];
-            else
-                [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:val]];
+                if (!isMenuVisible && valueColor != blackColorAttribute)
+                    [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
+                else
+                    [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:value]];
+            }
         }
     }
     
@@ -164,13 +168,13 @@
     
     HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
     
-    [sensor setFavorite:![sensor favorite]];
+    [sensor setFlag:kHWSensorFlagFavorite];
     
-    [menuItem setState:[sensor favorite]];
+    [menuItem setState:[sensor getFlag:kHWSensorFlagFavorite]];
     
     [self updateTitles];
     
-    [[NSUserDefaults standardUserDefaults] setBool:[sensor favorite] forKey:[sensor key]];
+    [[NSUserDefaults standardUserDefaults] setBool:[sensor getFlag:kHWSensorFlagFavorite] forKey:[sensor key]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -229,7 +233,7 @@
     redColorAttribute = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
     
     // Init sensors
-    monitor = [HWMonitorEngine hardwareMonitor];
+    monitor = [HWMonitorEngine engine];
     
     [monitor rebuildSensorsList];
     
