@@ -199,7 +199,7 @@ private:
     int             nouveau_gpio_sense(int idx, int line);
     int             nouveau_gpio_get(int idx, UInt8 tag, UInt8 line);
     int             nouveau_pwmfan_get();
-    float           nouveau_rpmfan_get(clock_usec_t sense_period);
+    float           nouveau_rpmfan_get(UInt32 milliseconds);
     bool            nv40_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty);
     bool            nv50_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty);
     
