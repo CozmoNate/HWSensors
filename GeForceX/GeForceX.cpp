@@ -850,10 +850,10 @@ int GeForceX::nouveau_pwmfan_get()
 	return 0;
 }
 
-float GeForceX::nouveau_rpmfan_get(clock_usec_t sense_period)
+float GeForceX::nouveau_rpmfan_get(UInt32 milliseconds)
 {
 	struct NVGpioFunc gpio;
-	UInt32 cycles, cur, prev/*, count = 0*/;
+	UInt32 cycles, cur, prev;
 	    
 	if (nouveau_gpio_find(0, DCB_GPIO_FAN_SENSE, 0xff, &gpio)) {    
         /* Monitor the GPIO input 0x3b for 250ms.
@@ -861,17 +861,20 @@ float GeForceX::nouveau_rpmfan_get(clock_usec_t sense_period)
          * We get 4 changes (0 -> 1 -> 0 -> 1 -> [...]) per complete rotation.
          */
         
-        clock_sec_t secs = 0;
-        clock_nsec_t nsecs = 0;
+        clock_sec_t secs, end_secs; 
+        clock_nsec_t nanosecs, end_nanosecs;
         
-        clock_get_system_nanotime(&secs, &nsecs);
+        clock_get_system_nanotime(&secs, &nanosecs);
         
-        clock_nsec_t nsecs_start = nsecs;
+        end_secs = secs;
+		end_nanosecs = nanosecs + milliseconds * 1e6;
+		if (end_nanosecs >= 1e9) {		
+			end_secs++;			
+			end_nanosecs -= 1e9;
+		}
         
         prev = nouveau_gpio_sense(0, gpio.line);
         cycles = 0;
-        
-        IODelay(100);
         
         do {
             cur = nouveau_gpio_sense(0, gpio.line);
@@ -882,16 +885,12 @@ float GeForceX::nouveau_rpmfan_get(clock_usec_t sense_period)
             
             IOSleep(1); /* supports 0 < rpm < 7500 */
 
-            clock_get_system_nanotime(&secs, &nsecs);   
+            clock_get_system_nanotime(&secs, &nanosecs);  
             
-            //count++;
-
-        } while ((nsecs > nsecs_start ? nsecs - nsecs_start : nsecs_start - nsecs) <= sense_period * 1e6);
-        
-        //HWSensorsInfoLog("count: %d", count);
+        } while (secs == end_secs ? nanosecs < end_nanosecs : secs < end_secs);
         
         /* interpolate to get rpm */
-        return cycles / 4.0f * (1000.0f / sense_period) * 60.0f;
+        return cycles / 4.0f * (1000.0f / milliseconds) * 60.0f;
     }
     
     return 0;
