@@ -17,7 +17,7 @@
 
 @synthesize sensors;
 
-+ (HWMonitorEngine*)hardwareMonitor
++ (HWMonitorEngine*)engine
 {
     HWMonitorEngine *me = [[HWMonitorEngine alloc] init];
     
@@ -103,7 +103,7 @@
     [sensor setKey:key];
     [sensor setType:type];
     [sensor setCaption:caption];
-    [sensor setValue:value];
+    [sensor setData:value];
     [sensor setGroup:group];
     
     [sensors addObject:sensor];
@@ -130,7 +130,7 @@
     
     if (value) {
         HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%x", [disk serialNumber], group] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
-        [sensor setValue:value];
+        [sensor setData:value];
         [sensor setDisk:disk];
         if ([disk isExceeded]) [sensor setLevel:kHWSensorLevelExceeded];
     }
@@ -260,7 +260,7 @@
             
             HWMonitorSensor *sensor = [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWSensorGroupTachometer];
             
-            [sensor setTag:1];
+            [sensor setFlag:kHWSensorFlagPWM];
         }
         else if ([caption hasPrefix:@"GPU "]){
             UInt8 cardIndex = [[caption substringFromIndex:4] intValue];
@@ -273,10 +273,6 @@
     }
     
     // Voltages
-    
-    for (int i = 0; i <= 0xf; i++)        
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupVoltage];
-    
     for (int i = 0; i <= 0xf; i++)        
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i + 1] group:kHWSensorGroupVoltage];
     
@@ -294,6 +290,9 @@
     
     for (int i = 0; i <= 0xf; i++)        
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_POWERSUPPLY_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"Power Supply %X"),i + 1] group:kHWSensorGroupVoltage];
+    
+    for (int i = 0; i <= 0xf; i++)        
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupVoltage];
 }
 
 - (void)updateSMARTSensorsValues
@@ -304,11 +303,11 @@
             
             switch ([sensor group]) {
                 case kSMARTSensorGroupTemperature:
-                    if ([sensor disk]) [sensor setValue:[[sensor disk] getTemperature]];                    
+                    if ([sensor disk]) [sensor setData:[[sensor disk] getTemperature]];                    
                     break;
                     
                 case kSMARTSensorGroupRemainingLife: {
-                    if ([sensor disk]) [sensor setValue:[[sensor disk] getRemainingLife]];                   
+                    if ([sensor disk]) [sensor setData:[[sensor disk] getRemainingLife]];                   
                     break;
                 }
                     
@@ -326,7 +325,7 @@
         for (int i = 0; i < [sensors count]; i++) {
             HWMonitorSensor *sensor = [sensors objectAtIndex:i];
             
-            if ((updateOnlyFavorites && [sensor favorite]) || !updateOnlyFavorites)
+            if ((updateOnlyFavorites && [sensor getFlag:kHWSensorFlagFavorite]) || !updateOnlyFavorites)
                 switch ([sensor group]) {
                     case kSMARTSensorGroupTemperature:
                     case kSMARTSensorGroupRemainingLife:
@@ -355,7 +354,7 @@
                         NSArray *keyInfo = [values objectForKey:key];
                         
                         [sensor setType:[HWMonitorEngine getTypeFromKeyInfo:keyInfo]];
-                        [sensor setValue:[HWMonitorEngine getValueFromKeyInfo:keyInfo]];
+                        [sensor setData:[HWMonitorEngine getValueFromKeyInfo:keyInfo]];
                     }
                 }
             }

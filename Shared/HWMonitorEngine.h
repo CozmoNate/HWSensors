@@ -23,7 +23,7 @@
 
 @property (readonly) NSArray *sensors;
 
-+ (HWMonitorEngine*)hardwareMonitor;
++ (HWMonitorEngine*)engine;
 
 + (NSArray*)populateInfoForKey:(NSString *)key;
 + (NSString*)getTypeFromKeyInfo:(NSArray*)info;

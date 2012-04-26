@@ -159,7 +159,7 @@ static UInt8 checksum8( void * start, UInt length )
     return csum;
 }
 
-void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBoard, SMBPackedStrings *strings)
+static void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBoard, SMBPackedStrings *strings)
 {
     if (baseBoard->header.length <8)
         return;
@@ -173,11 +173,13 @@ void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBo
             manufacturer = OSString::withCString("Apple");
         if (name->isEqualTo("ASRock")) 
             manufacturer = OSString::withCString("ASRock");
-        if (name->isEqualTo("ASUSTeK Computer INC.") || name->isEqualTo("ASUSTeK COMPUTER INC.")) 
+        if (name->isEqualTo("ASUSTeK Computer INC.") || 
+            name->isEqualTo("ASUSTeK COMPUTER INC.")) 
             manufacturer = OSString::withCString("ASUS");
         if (name->isEqualTo("Dell Inc.")) 
             manufacturer = OSString::withCString("Dell");
-        if (name->isEqualTo("DFI") || name->isEqualTo("DFI Inc.")) 
+        if (name->isEqualTo("DFI") || 
+            name->isEqualTo("DFI Inc.")) 
             manufacturer = OSString::withCString("DFI");
         if (name->isEqualTo("ECS")) 
             manufacturer = OSString::withCString("ECS");
@@ -187,7 +189,8 @@ void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBo
             manufacturer = OSString::withCString("EVGA");
         if (name->isEqualTo("First International Computer, Inc.")) 
             manufacturer = OSString::withCString("FIC");
-        if (name->isEqualTo("FUJITSU") || name->isEqualTo("FUJITSU SIEMENS")) 
+        if (name->isEqualTo("FUJITSU") || 
+            name->isEqualTo("FUJITSU SIEMENS")) 
             manufacturer = OSString::withCString("FUJITSU");
         if (name->isEqualTo("Gigabyte Technology Co., Ltd.")) 
             manufacturer = OSString::withCString("Gigabyte");
@@ -195,8 +198,10 @@ void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBo
             manufacturer = OSString::withCString("HP");
         if (name->isEqualTo("IBM")) 
             manufacturer = OSString::withCString("IBM");
-        if (name->isEqualTo("Intel") || name->isEqualTo("Intel Corp.") || 
-            name->isEqualTo("Intel Corporation")|| name->isEqualTo("INTEL Corporation")) 
+        if (name->isEqualTo("Intel") || 
+            name->isEqualTo("Intel Corp.") || 
+            name->isEqualTo("Intel Corporation")|| 
+            name->isEqualTo("INTEL Corporation")) 
             manufacturer = OSString::withCString("Intel");
         if (name->isEqualTo("Lenovo") || name->isEqualTo("LENOVO")) 
             manufacturer = OSString::withCString("Lenovo");
@@ -227,7 +232,7 @@ void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBo
     strings->setStringProperty(provider, "mb-product",  baseBoard->product);
 }
 
-void decodeSMBIOSStructure(IOService *provider, const SMBStructHeader *structureHeader, const void *tableBoundary)
+static void decodeSMBIOSStructure(IOService *provider, const SMBStructHeader *structureHeader, const void *tableBoundary)
 {
     const union SMBStructUnion {
         SMBBIOSInformation      bios;
@@ -284,7 +289,7 @@ void decodeSMBIOSStructure(IOService *provider, const SMBStructHeader *structure
     }
 }
 
-void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16 tableLength, UInt16 structureCount)
+static void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16 tableLength, UInt16 structureCount)
 {
     const SMBStructHeader * header;
     const UInt8 *           next = (const UInt8 *) tableData;

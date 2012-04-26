@@ -67,14 +67,17 @@
         NSMutableArray *favorites = [[NSMutableArray alloc] init];
         
         while (sensor = (HWMonitorSensor*)[enumerator nextObject]) 
-            if ([sensor favorite])
+            if ([sensor getFlag:kHWSensorFlagFavorite])
                 [favorites addObject:sensor];
         
         for (int i = 0; i < [favorites count]; i++) {
             
             sensor = (HWMonitorSensor*)[favorites objectAtIndex:i];
             
-            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[sensor formattedValue]];
+            if (!sensor)
+                continue;
+
+            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[sensor value]];
             
             [title addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [title length])];
             

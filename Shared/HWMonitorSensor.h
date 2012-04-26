@@ -27,27 +27,42 @@
 #define kHWSensorLevelHigh                  4
 #define kHWSensorLevelExceeded              1000
 
+#define kHWSensorFlagFavorite               (1 << 0)
+#define kHWSensorFlagPWM                    (1 << 1)
+
 @interface HWMonitorSensor : NSObject
+{
+@private
+    NSUInteger flags;
+}
 
-@property (readwrite, retain) NSString *key;
-@property (readwrite, retain) NSString *type;
-@property (readwrite, assign) NSUInteger group;
-@property (readwrite, retain) NSString *caption;
-@property (readwrite, retain) NSData *value;
-@property (readwrite, retain) ATAGenericDisk *disk;
+@property (readwrite, retain) NSString*         key;
+@property (readwrite, retain) NSString*         type;
+@property (readwrite, assign) NSUInteger        group;
+@property (readwrite, retain) NSString *        caption;
+@property (readwrite, retain) NSData*           data;
+@property (readwrite, retain) ATAGenericDisk*   disk;
 
-@property (readwrite, assign) NSUInteger tag;
+@property (readwrite, assign) NSUInteger        level;
+@property (readonly) NSString*                  value;
 
-@property (readwrite, assign) BOOL favorite;
-@property (readwrite, assign) NSUInteger level;
-@property (readonly) BOOL levelHasBeenChanged;
+@property (readonly) BOOL                       levelHasBeenChanged;
+@property (readonly) BOOL                       valueHasBeenChanged;
 
-@property (readwrite, retain) NSMenuItem *menuItem;
+@property (readwrite, retain) NSMenuItem*       menuItem;
 
 + (int)getIndexOfHexChar:(char)c;
 + (HWMonitorSensor*)sensor;
 
-- (float)decodedValue;
-- (NSString*)formattedValue;
+- (void)setType:(NSString *)newType;
+- (NSString *)type;
+- (void)setData:(NSData *)newData;
+- (NSData *)data;
+
+- (BOOL)getFlag:(NSUInteger)flag;
+- (void)setFlag:(NSUInteger)flag;
+
+- (float)decodeValue;
+- (NSString*)value;
 
 @end

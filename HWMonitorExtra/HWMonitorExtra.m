@@ -48,7 +48,8 @@
         for (int i = 0; i < [list count]; i++) {
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
             
-            [sensor setFavorite:[defaults boolForKey:[sensor key]]];
+            if ([defaults boolForKey:[sensor key]])
+                [sensor setFlag:kHWSensorFlagFavorite];
             
             if ([sensor disk])
                 [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:statusMenuFont]];
@@ -59,7 +60,7 @@
             
             [sensorItem setTarget:self];
             [sensorItem setRepresentedObject:sensor];
-            [sensorItem setState:[sensor favorite]];
+            [sensorItem setState:[sensor getFlag:kHWSensorFlagFavorite]];
             [sensorItem setOnStateImage:favoriteIcon];
             [sensorItem setOffStateImage:disabledIcon];
             
@@ -87,7 +88,7 @@
     for (int i = 0; i < [sensors count]; i++) {
         HWMonitorSensor *sensor = (HWMonitorSensor*)[sensors objectAtIndex:i];
         
-        if ([self isMenuDown] || allSensors) {
+        if (sensor && ([self isMenuDown] || allSensors) && [sensor valueHasBeenChanged]) {
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
             
             NSDictionary *captionColor;
@@ -123,7 +124,7 @@
             
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor caption] attributes:captionColor]];
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t" attributes:captionColor]];
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor formattedValue] attributes:valueColor]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor value] attributes:valueColor]];
             
             [title addAttributes:statusMenuAttributes range:NSMakeRange(0, [title length])];
             
@@ -183,13 +184,13 @@
     NSMenuItem * menuItem = (NSMenuItem *)sender;
     HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
     
-    [sensor setFavorite:![sensor favorite]];
+    [sensor setFlag:kHWSensorFlagFavorite];
     
-    [menuItem setState:[sensor favorite]];
+    [menuItem setState:[sensor getFlag:kHWSensorFlagFavorite]];
     
     [self updateTitlesDefault];
     
-    [defaults setBool:[sensor favorite] forKey:[sensor key]];
+    [defaults setBool:[sensor getFlag:kHWSensorFlagFavorite] forKey:[sensor key]];
     [defaults synchronize];
 }
 

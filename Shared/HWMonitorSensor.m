@@ -21,30 +21,16 @@ inline UInt8 get_index(char c)
 @synthesize type;
 @synthesize group;
 @synthesize caption;
-@synthesize value;
+@synthesize data;
 @synthesize disk;
 
-@synthesize tag;
-
-@synthesize favorite;
 @synthesize level;
+@synthesize value;
+
+@synthesize valueHasBeenChanged;
 @synthesize levelHasBeenChanged;
 
 @synthesize menuItem;
-
-- (NSUInteger)level
-{
-    levelHasBeenChanged = false;
-    
-    return level;
-}
-
-- (void)setLevel:(NSUInteger)newLevel
-{
-    levelHasBeenChanged = level != newLevel;
-    
-    level = newLevel;
-}
 
 + (int)getIndexOfHexChar:(char)c
 {
@@ -55,34 +41,91 @@ inline UInt8 get_index(char c)
 {
     HWMonitorSensor *me = [[HWMonitorSensor alloc] init];
     
-    if (me) return me;
+    if (me) {
+        me->levelHasBeenChanged = true;
+        me->valueHasBeenChanged = true;
+        
+        return me;
+    }
     
     return nil;
 }
 
-- (float)decodedValue
+- (BOOL)getFlag:(NSUInteger)flag
 {
-    if (value != NULL) {
+    return self->flags & flag;
+}
+
+- (void)setFlag:(NSUInteger)flag
+{
+    self->flags ^= flag;
+}
+
+- (void)setType:(NSString *)newType
+{
+    if (![type isEqualToString:newType]) { 
+        self->valueHasBeenChanged = true;
+        self->type = newType;
+    }
+}
+
+- (NSString *)type
+{
+    self->valueHasBeenChanged = false;
+    return self->type;
+}
+
+- (void)setData:(NSData *)newData
+{
+    if (![data isEqualToData:newData]) {
+        self->valueHasBeenChanged = true;
+        self->data = newData;
+    }
+}
+
+- (NSData *)data
+{
+    self->valueHasBeenChanged = false;
+    return self->data;
+}
+
+- (void)setLevel:(NSUInteger)newLevel
+{
+    if (level != newLevel) {
+        self->levelHasBeenChanged = true;
+        self->level = newLevel;
+    }
+}
+
+- (NSUInteger)level
+{
+    self->levelHasBeenChanged = false;
+    return self->level;
+}
+
+- (float)decodeValue
+{
+    if (type && data) {
         if (([type characterAtIndex:0] == 'u' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'i') {
             
             BOOL signd = [type characterAtIndex:0] == 's';
             
             switch ([type characterAtIndex:2]) {
                 case '8':
-                    if ([type characterAtIndex:3] == '\0' && [value length] == 1) {
+                    if ([type characterAtIndex:3] == '\0' && [data length] == 1) {
                         UInt8 encoded = 0;
                         
-                        bcopy([value bytes], &encoded, 1);
+                        bcopy([data bytes], &encoded, 1);
                         
                         return (signd && encoded & 0x80 ? -encoded : encoded);
                     }
                     break;
                     
                 case '1':
-                    if ([type characterAtIndex:3] == '6' && [value length] == 2) {
+                    if ([type characterAtIndex:3] == '6' && [data length] == 2) {
                         UInt16 encoded = 0;
                         
-                        bcopy([value bytes], &encoded, 2);
+                        bcopy([data bytes], &encoded, 2);
                         
                         encoded = OSSwapBigToHostInt16(encoded);
                         
@@ -91,10 +134,10 @@ inline UInt8 get_index(char c)
                     break;
                     
                 case '3':
-                    if ([type characterAtIndex:3] == '2' && [value length] == 4) {
+                    if ([type characterAtIndex:3] == '2' && [data length] == 4) {
                         UInt32 encoded = 0;
                         
-                        bcopy([value bytes], &encoded, 4);
+                        bcopy([data bytes], &encoded, 4);
                         
                         encoded = OSSwapBigToHostInt32(encoded);
                         
@@ -103,10 +146,10 @@ inline UInt8 get_index(char c)
                     break;
             }
         }
-        else if (([type characterAtIndex:0] == 'f' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'p' && [value length] == 2) {
+        else if (([type characterAtIndex:0] == 'f' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'p' && [data length] == 2) {
             UInt16 encoded = 0;
             
-            bcopy([value bytes], &encoded, 2);
+            bcopy([data bytes], &encoded, 2);
             
             UInt8 i = [HWMonitorSensor getIndexOfHexChar:[type characterAtIndex:2]];
             UInt8 f = [HWMonitorSensor getIndexOfHexChar:[type characterAtIndex:3]];
@@ -128,85 +171,95 @@ inline UInt8 get_index(char c)
     return 0;
 }
 
-- (NSString*)formattedValue
+- (NSString*)value
 {
-    if (value != NULL) {
+    if (valueHasBeenChanged && data) {
         switch (group) {
             case kSMARTSensorGroupTemperature: {
                 UInt16 t = 0;
                 
-                [value getBytes:&t length:2];
+                [data getBytes:&t length:2];
                                
                 if (level != kHWSensorLevelExceeded && [disk isRotational])
                     [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
-                return [[NSString alloc] initWithFormat:@"%d°",t];
-                
+                self->value = [[NSString alloc] initWithFormat:@"%d°",t];
+                break;
             }
                 
             case kSMARTSensorGroupRemainingLife: {
                 UInt64 life = 0;
                 
-                [value getBytes:&life length:[value length]];
+                [data getBytes:&life length:[data length]];
                 
                 if (level != kHWSensorLevelExceeded)
                     [self setLevel:life >= 90 ? kHWSensorLevelExceeded : life >= 80 ? kHWSensorLevelHigh : life >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
-                return [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
+                self->value = [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
+                break;
             }
                 
             case kSMARTSensorGroupRemainingBlocks: {
                 UInt64 blocks = 0;
                 
-                [value getBytes:&blocks length:[value length]];
+                [data getBytes:&blocks length:[data length]];
                  
-                return [[NSString alloc] initWithFormat:@"%d",blocks];
+                self->value = [[NSString alloc] initWithFormat:@"%d",blocks];
+                break;
             }
                 
             case kHWSensorGroupTemperature: {
-                float t = [self decodedValue];
+                float t = [self decodeValue];
                 
                 [self setLevel:t >= 100 ? kHWSensorLevelExceeded : t >= 85 ? kHWSensorLevelHigh : t >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 
-                return [[NSString alloc] initWithFormat:@"%1.0f°", t];
+                self->value = [[NSString alloc] initWithFormat:@"%1.0f°", t];
+                break;
             }
                 
             case kHWSensorGroupVoltage:
-                return [[NSString alloc] initWithFormat:@"%1.3fV", [self decodedValue]];
+                self->value = [[NSString alloc] initWithFormat:@"%1.3fV", [self decodeValue]];
+                break;
                 
             case kHWSensorGroupTachometer: {
                 
-                float rpm = [self decodedValue];
+                float rpm = [self decodeValue];
                 
                 [self setLevel:rpm == 0 ? kHWSensorLevelExceeded : kHWSensorLevelNormal];
                 
                 if (rpm == 0)
                     return [[NSString alloc] initWithString:@"-"];
                 
-                if ([self tag] == 1)
+                if ([self getFlag:kHWSensorFlagPWM])
                     return [[NSString alloc] initWithFormat:@"%1.0f%C", rpm, 0x0025];
                 
-                return [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
+                self->value = [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
+                break;
             }
                 
             case kHWSensorGroupMultiplier:
-                return [[NSString alloc] initWithFormat:@"x%1.1f", [self decodedValue]];
+                self->value = [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
+                break;
                 
             case kHWSensorGroupFrequency: {
-                float f = [self decodedValue];
+                float f = [self decodeValue];
                 
                 if (f > 1e6)
-                    return [[NSString alloc] initWithFormat:@"%1.2fTHz", f / 1e6];
+                    self->value = [[NSString alloc] initWithFormat:@"%1.2fTHz", f / 1e6];
                 else if (f > 1e3)
-                    return [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1e3];
+                    self->value = [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1e3];
                 else 
-                    return [[NSString alloc] initWithFormat:@"%1.0fMHz", f]; 
+                    self->value = [[NSString alloc] initWithFormat:@"%1.0fMHz", f]; 
+                break;
             }
+                
+            default:
+                self->value = [[NSString alloc] initWithString:@"-"];
+                break;
         }
     }
     
-    return [[NSString alloc] initWithString:@"-"];
+    return self->value;
 }
-
 
 @end
