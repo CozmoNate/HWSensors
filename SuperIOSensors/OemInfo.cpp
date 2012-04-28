@@ -321,15 +321,14 @@ static void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16
 
 bool setOemProperties(IOService *provider)
 {
-    SMBEntryPoint			* eps;
-	IOMemoryDescriptor *    dmiMemory = 0;
-	IOItemCount             dmiStructureCount = 0;
+    SMBEntryPoint* eps = 0;
+	IOMemoryDescriptor* dmiMemory = 0;
+	IOItemCount dmiStructureCount = 0;
     
+  	UInt8* biosAddress = NULL;	
     
-  	UInt8 *      biosAddress = NULL;	
-    
-    IOMemoryDescriptor * biosMemory;
-    IOMemoryMap * biosMap;
+    IOMemoryDescriptor * biosMemory = 0;
+    IOMemoryMap * biosMap = 0;
     
     biosMemory = IOMemoryDescriptor::withPhysicalAddress( 0xf0000,0xfffff-0xf0000+1,kIODirectionOutIn);
     

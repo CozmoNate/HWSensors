@@ -220,19 +220,26 @@
         }
     }
     
-    
-    //Multipliers
-    
-    for (int i=0; i<0xA; i++)
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_CPU_MULTIPLIER,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupMultiplier];
-    
-    [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER caption:GetLocalizedString(@"CPU Package") group:kHWSensorGroupMultiplier];
-    
     //Frequencies
-    for (int i=0; i<0xA; i++)
+    for (int i=0; i<0xA; i++) {
+        HWMonitorSensor *sensor = NULL;
+        
+        if ((sensor = [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_CPU_MULTIPLIER,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X Multiplier"),i + 1] group:kHWSensorGroupFrequency])) {
+            [sensor setFlag:kHWSensorFlagExtended];
+        }
+        
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_CPU_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupFrequency];
+    }
     
-    [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_FREQUENCY caption:GetLocalizedString(@"CPU Package") group:kHWSensorGroupFrequency];
+    {
+        HWMonitorSensor *sensor = NULL;
+        
+        if ((sensor = [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER caption:GetLocalizedString(@"CPU Package Multiplier") group:kHWSensorGroupFrequency])) {
+            [sensor setFlag:kHWSensorFlagExtended];
+        }
+        
+        [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_FREQUENCY caption:GetLocalizedString(@"CPU Package") group:kHWSensorGroupFrequency];
+    }
     
     for (int i=0; i<0xA; i++) {
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_GPU_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Core"),i + 1] group:kHWSensorGroupFrequency];
@@ -256,18 +263,14 @@
         if ([caption hasPrefix:@kFakeSMCGPUDutyCyclePrefix]){
             UInt8 cardIndex = [[caption substringFromIndex:14] intValue];
             
-            caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),cardIndex + 1];
+            HWMonitorSensor *sensor = [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),cardIndex + 1] group:kHWSensorGroupTachometer];
             
-            HWMonitorSensor *sensor = [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWSensorGroupTachometer];
-            
-            [sensor setFlag:kHWSensorFlagPWM];
+            [sensor setFlag:kHWSensorFlagExtended];
         }
         else if ([caption hasPrefix:@"GPU "]){
             UInt8 cardIndex = [[caption substringFromIndex:4] intValue];
             
-            caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),cardIndex + 1];
-            
-            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWSensorGroupTachometer];
+            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),cardIndex + 1] group:kHWSensorGroupTachometer];
         }
         else [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWSensorGroupTachometer];
     }

@@ -46,29 +46,29 @@ ROM16(x) ? &d[ROM16(x)] : NULL; \
 
 
 /* register access */
-static inline UInt32 nv_rd32(const volatile UInt8* mmio, UInt32 reg)
+OS_INLINE UInt32 nv_rd32(const volatile UInt8* mmio, UInt32 reg)
 {
-	return OSReadLittleInt32(mmio, reg);
+	return _OSReadInt32(mmio, reg);
 }
 
-static inline void nv_wr32(volatile UInt8* mmio, UInt32 reg, UInt32 val)
+OS_INLINE void nv_wr32(volatile UInt8* mmio, UInt32 reg, UInt32 val)
 {
-    OSWriteLittleInt32(mmio, reg, val);
+    _OSWriteInt32(mmio, reg, val);
 }
 
-static inline UInt32 nv_mask(volatile UInt8* mmio, UInt32 reg, UInt32 mask, UInt32 val)
+OS_INLINE UInt32 nv_mask(volatile UInt8* mmio, UInt32 reg, UInt32 mask, UInt32 val)
 {
 	UInt32 tmp = nv_rd32(mmio, reg);
 	nv_wr32(mmio, reg, (tmp & ~mask) | val);
 	return tmp;
 }
 
-static inline UInt8 nv_rd08(const volatile UInt8* mmio, UInt32 reg)
+OS_INLINE UInt8 nv_rd08(const volatile UInt8* mmio, UInt32 reg)
 {
 	return *(volatile UInt8 *)((IOVirtualAddress)mmio + reg);
 }
 
-static inline void nv_wr08(volatile UInt8* mmio, UInt32 reg, UInt8 val)
+OS_INLINE void nv_wr08(volatile UInt8* mmio, UInt32 reg, UInt8 val)
 {
     *(volatile UInt8 *)((IOVirtualAddress)mmio + reg) = val;
 }
@@ -726,7 +726,7 @@ int GeForceX::nouveau_gpio_sense(int idx, int line)
 int GeForceX::nouveau_gpio_get(int idx, UInt8 tag, UInt8 line)
 {
 	struct NVGpioFunc gpio;
-	int ret;
+	int ret = 0;
     
 	if (nouveau_gpio_find(idx, tag, line, &gpio)) {
 		ret = nouveau_gpio_sense(idx, gpio.line);
@@ -828,6 +828,7 @@ int GeForceX::nouveau_pwmfan_get()
             case 0x40:
             case 0x60:
                 ret = nv40_pm_pwm_get(gpio.line, &divs, &duty);
+                break;
             case 0x50:
             case 0x80:
             case 0x90:
@@ -837,6 +838,7 @@ int GeForceX::nouveau_pwmfan_get()
                 ret = nv50_pm_pwm_get(gpio.line, &divs, &duty);
                 break;
         }
+        
 		if (ret && divs) {
 			divs = max(divs, duty);
 			if (card_type <= NV_40 || (gpio.log[0] & 1))
@@ -1110,7 +1112,7 @@ UInt32 GeForceX::nv50_read_pll_src(UInt32 base)
 {
 	UInt32 coef, ref = nv50_read_clk(nv50_clk_src_crystal);
 	UInt32 rsel = nv_rd32(PMC, 0x00e18c);
-	int P, N, M, id;
+	int P, N, M = 0, id = 0;
     
 	switch (chipset) {
         case 0x50:
@@ -1386,7 +1388,7 @@ UInt32 GeForceX::nv50_get_clock(NVClockSource name)
             
         case NVClockVdec:
             if (chipset != 0x50)
-            clocks = nv50_read_clk(nv50_clk_src_vdec);
+                clocks = nv50_read_clk(nv50_clk_src_vdec);
             break;
             
         case NVCLockMemory:
@@ -1540,7 +1542,7 @@ UInt32 GeForceX::nvc0_get_clock(NVClockSource name)
 	return clocks / 1e3;
 }
 
-// Generic temp ===
+// Temperatures ===
 
 int GeForceX::nv40_sensor_setup()
 {
@@ -1570,7 +1572,7 @@ int GeForceX::nv40_get_temperature()
 	int offset = sensor_constants.offset_mult / sensor_constants.offset_div;
 	int core_temp;
     
-	if (card_type >= NV_50) {
+	if (card_type >= NV_50 && device_id != 0x0606) {
 		core_temp = nv_rd32(PMC, 0x20008);
 	} else {
 		core_temp = nv_rd32(PMC, 0x0015b4) & 0x1fff;
@@ -1588,6 +1590,158 @@ int GeForceX::nv40_get_temperature()
 int GeForceX::nv84_get_temperature()
 {
 	return nv_rd32(PMC, 0x20400);
+}
+
+void GeForceX::nouveau_temp_init()
+{
+    if (bios.type == NVBIOS_BIT) {
+        struct NVBitEntry P;
+        
+        if (bit_table(bios, 'P', &P)) {
+            
+            UInt8 *temp = NULL;
+            
+            if (P.version == 1)
+                temp = ROMPTR(bios.data, P.data[12]);
+            else if (P.version == 2)
+                temp = ROMPTR(bios.data, P.data[16]);
+            else
+                HWSensorsWarningLog("unknown temp for BIT P %d", P.version);
+            
+            /* Set the default sensor's contants */
+            sensor_constants.offset_constant = 0;
+            sensor_constants.offset_mult = 0;
+            sensor_constants.offset_div = 1;
+            sensor_constants.slope_mult = 1;
+            sensor_constants.slope_div = 1;
+            
+            /* Set the default temperature thresholds */
+            sensor_constants.temp_critical = 110;
+            sensor_constants.temp_down_clock = 100;
+            sensor_constants.temp_fan_boost = 90;
+            
+            /* Set the default range for the pwm fan */
+            sensor_constants.fan_min_duty = 30;
+            sensor_constants.fan_max_duty = 100;
+            
+            /* Set the known default values to setup the temperature sensor */
+            if (card_type >= NV_40) {
+                switch (chipset) {
+                    case 0x43:
+                        sensor_constants.offset_mult = 32060;
+                        sensor_constants.offset_div = 1000;
+                        sensor_constants.slope_mult = 792;
+                        sensor_constants.slope_div = 1000;
+                        break;
+                        
+                    case 0x44:
+                    case 0x47:
+                    case 0x4a:
+                        sensor_constants.offset_mult = 27839;
+                        sensor_constants.offset_div = 1000;
+                        sensor_constants.slope_mult = 780;
+                        sensor_constants.slope_div = 1000;
+                        break;
+                        
+                    case 0x46:
+                        sensor_constants.offset_mult = -24775;
+                        sensor_constants.offset_div = 100;
+                        sensor_constants.slope_mult = 467;
+                        sensor_constants.slope_div = 10000;
+                        break;
+                        
+                    case 0x49:
+                        sensor_constants.offset_mult = -25051;
+                        sensor_constants.offset_div = 100;
+                        sensor_constants.slope_mult = 458;
+                        sensor_constants.slope_div = 10000;
+                        break;
+                        
+                    case 0x4b:
+                        sensor_constants.offset_mult = -24088;
+                        sensor_constants.offset_div = 100;
+                        sensor_constants.slope_mult = 442;
+                        sensor_constants.slope_div = 10000;
+                        break;
+                        
+                    case 0x50:
+                        sensor_constants.offset_mult = -22749;
+                        sensor_constants.offset_div = 100;
+                        sensor_constants.slope_mult = 431;
+                        sensor_constants.slope_div = 10000;
+                        break;
+                        
+                    case 0x67:
+                        sensor_constants.offset_mult = -26149;
+                        sensor_constants.offset_div = 100;
+                        sensor_constants.slope_mult = 484;
+                        sensor_constants.slope_div = 10000;
+                        break;
+                }
+            }
+            
+            if (temp) {
+                int i, headerlen, recordlen, entries;
+                
+                headerlen = temp[1];
+                recordlen = temp[2];
+                entries = temp[3];
+                temp = temp + headerlen;
+                
+                /* Read the entries from the table */
+                for (i = 0; i < entries; i++) {
+                    SInt16 value = OSSwapLittleToHostInt16(temp[1]);
+                    
+                    switch (temp[0]) {
+                        case 0x01:
+                            if ((value & 0x8f) == 0)
+                                sensor_constants.offset_constant = (value >> 9) & 0x7f;
+                            break;
+                            
+                        case 0x04:
+                            if ((value & 0xf00f) == 0xa000) /* core */
+                                sensor_constants.temp_critical = (value&0x0ff0) >> 4;
+                            break;
+                            
+                        case 0x07:
+                            if ((value & 0xf00f) == 0xa000) /* core */
+                                sensor_constants.temp_down_clock = (value&0x0ff0) >> 4;
+                            break;
+                            
+                        case 0x08:
+                            if ((value & 0xf00f) == 0xa000) /* core */
+                                sensor_constants.temp_fan_boost = (value&0x0ff0) >> 4;
+                            break;
+                            
+                        case 0x10:
+                            sensor_constants.offset_mult = value;
+                            break;
+                            
+                        case 0x11:
+                            sensor_constants.offset_div = value;
+                            break;
+                            
+                        case 0x12:
+                            sensor_constants.slope_mult = value;
+                            break;
+                            
+                        case 0x13:
+                            sensor_constants.slope_div = value;
+                            break;
+                        case 0x22:
+                            sensor_constants.fan_min_duty = value & 0xff;
+                            sensor_constants.fan_max_duty = (value & 0xff00) >> 8;
+                            break;
+                        case 0x26:
+                            sensor_constants.fan_pwm_freq = value;
+                            break;
+                    }
+                    temp += recordlen;
+                }            
+                
+            } else HWSensorsWarningLog("temperature table pointer invalid");
+        }
+    }
 }
 
 // VBIOS ===
@@ -1690,32 +1844,32 @@ out:
 
 void GeForceX::bios_shadow()
 {
-    //Copy bios to ram
-    bios_shadow_pramin();
+    //try to load bios from "vbios" property created by Chameleon boolloader
     
-    if (!score_vbios(true)) {
-        bios_shadow_prom();
+    if (OSData *vbios = OSDynamicCast(OSData, device->getProperty("vbios"))) {
+        bios.length = vbios->getLength();
+        bios.data = (UInt8 *)IOMalloc(bios.length);
+        memcpy(bios.data, vbios->getBytesNoCopy(), bios.length);
+    }
+
+    if (3 != score_vbios(false)) {
+
+        bios_shadow_pramin();        
         
-        if (!score_vbios(false)) {
+        if (3 != score_vbios(true)) {
             
-            //try to load bios from "vbios" property created by Chameleon boolloader
-            
-            if (OSData *vbios = OSDynamicCast(OSData, device->getProperty("vbios"))) {
-                bios.length = vbios->getLength();
-                bios.data = (UInt8 *)IOMalloc(bios.length);
-                memcpy(bios.data, vbios->getBytesNoCopy(), bios.length);
-            }
-            
-            if (!score_vbios(false)) {
+            bios_shadow_prom();
+                        
+            if (3 != score_vbios(false)) {
                 HWSensorsWarningLog("failed to read VBIOS");
                 
-                if (!bios.data) {
+                /*if (!bios.data) {
                     bios.length = 65536;
                     bios.data = (UInt8 *)IOMalloc(bios.length);
-                }
-            } else HWSensorsInfoLog("VBIOS successfully read from I/O registry");
-        } else HWSensorsInfoLog("VBIOS successfully read from PROM");
-    } else HWSensorsInfoLog("VBIOS successfully read from PRAMIN");
+                }*/
+            } else HWSensorsInfoLog("VBIOS successfully read from PROM");
+        } else HWSensorsInfoLog("VBIOS successfully read from PRAMIN");
+    } else HWSensorsInfoLog("VBIOS successfully read from I/O registry");
     
     
     //Parse bios
@@ -1739,155 +1893,6 @@ void GeForceX::bios_shadow()
             bios.offset = offset;
             //return parse_bmp_structure(dev, bios, offset);
         }
-        
-        if (bios.type == NVBIOS_BIT) {
-            struct NVBitEntry P;
-            
-            if (bit_table(bios, 'P', &P)) {
-                
-                UInt8 *temp = NULL;
-                
-                if (P.version == 1)
-                    temp = ROMPTR(bios.data, P.data[12]);
-                else if (P.version == 2)
-                    temp = ROMPTR(bios.data, P.data[16]);
-                else
-                    HWSensorsWarningLog("unknown temp for BIT P %d", P.version);
-                
-                /* Set the default sensor's contants */
-                sensor_constants.offset_constant = 0;
-                sensor_constants.offset_mult = 0;
-                sensor_constants.offset_div = 1;
-                sensor_constants.slope_mult = 1;
-                sensor_constants.slope_div = 1;
-                
-                /* Set the default temperature thresholds */
-                sensor_constants.temp_critical = 110;
-                sensor_constants.temp_down_clock = 100;
-                sensor_constants.temp_fan_boost = 90;
-                
-                /* Set the default range for the pwm fan */
-                sensor_constants.fan_min_duty = 30;
-                sensor_constants.fan_max_duty = 100;
-                
-                /* Set the known default values to setup the temperature sensor */
-                if (card_type >= NV_40) {
-                    switch (chipset) {
-                        case 0x43:
-                            sensor_constants.offset_mult = 32060;
-                            sensor_constants.offset_div = 1000;
-                            sensor_constants.slope_mult = 792;
-                            sensor_constants.slope_div = 1000;
-                            break;
-                            
-                        case 0x44:
-                        case 0x47:
-                        case 0x4a:
-                            sensor_constants.offset_mult = 27839;
-                            sensor_constants.offset_div = 1000;
-                            sensor_constants.slope_mult = 780;
-                            sensor_constants.slope_div = 1000;
-                            break;
-                            
-                        case 0x46:
-                            sensor_constants.offset_mult = -24775;
-                            sensor_constants.offset_div = 100;
-                            sensor_constants.slope_mult = 467;
-                            sensor_constants.slope_div = 10000;
-                            break;
-                            
-                        case 0x49:
-                            sensor_constants.offset_mult = -25051;
-                            sensor_constants.offset_div = 100;
-                            sensor_constants.slope_mult = 458;
-                            sensor_constants.slope_div = 10000;
-                            break;
-                            
-                        case 0x4b:
-                            sensor_constants.offset_mult = -24088;
-                            sensor_constants.offset_div = 100;
-                            sensor_constants.slope_mult = 442;
-                            sensor_constants.slope_div = 10000;
-                            break;
-                            
-                        case 0x50:
-                            sensor_constants.offset_mult = -22749;
-                            sensor_constants.offset_div = 100;
-                            sensor_constants.slope_mult = 431;
-                            sensor_constants.slope_div = 10000;
-                            break;
-                            
-                        case 0x67:
-                            sensor_constants.offset_mult = -26149;
-                            sensor_constants.offset_div = 100;
-                            sensor_constants.slope_mult = 484;
-                            sensor_constants.slope_div = 10000;
-                            break;
-                    }
-                }
-                
-                if (temp) {
-                    int i, headerlen, recordlen, entries;
-                    
-                    headerlen = temp[1];
-                    recordlen = temp[2];
-                    entries = temp[3];
-                    temp = temp + headerlen;
-                    
-                    /* Read the entries from the table */
-                    for (i = 0; i < entries; i++) {
-                        SInt16 value = OSSwapLittleToHostInt16(temp[1]);
-                        
-                        switch (temp[0]) {
-                            case 0x01:
-                                if ((value & 0x8f) == 0)
-                                    sensor_constants.offset_constant = (value >> 9) & 0x7f;
-                                break;
-                                
-                            case 0x04:
-                                if ((value & 0xf00f) == 0xa000) /* core */
-                                    sensor_constants.temp_critical = (value&0x0ff0) >> 4;
-                                break;
-                                
-                            case 0x07:
-                                if ((value & 0xf00f) == 0xa000) /* core */
-                                    sensor_constants.temp_down_clock = (value&0x0ff0) >> 4;
-                                break;
-                                
-                            case 0x08:
-                                if ((value & 0xf00f) == 0xa000) /* core */
-                                    sensor_constants.temp_fan_boost = (value&0x0ff0) >> 4;
-                                break;
-                                
-                            case 0x10:
-                                sensor_constants.offset_mult = value;
-                                break;
-                                
-                            case 0x11:
-                                sensor_constants.offset_div = value;
-                                break;
-                                
-                            case 0x12:
-                                sensor_constants.slope_mult = value;
-                                break;
-                                
-                            case 0x13:
-                                sensor_constants.slope_div = value;
-                                break;
-                            case 0x22:
-                                sensor_constants.fan_min_duty = value & 0xff;
-                                sensor_constants.fan_max_duty = (value & 0xff00) >> 8;
-                                break;
-                            case 0x26:
-                                sensor_constants.fan_pwm_freq = value;
-                                break;
-                        }
-                        temp += recordlen;
-                    }            
-                    
-                } else HWSensorsWarningLog("temperature table pointer invalid");
-            }
-        }
     }
 }
 
@@ -1896,7 +1901,7 @@ void GeForceX::bios_shadow()
 IOReturn GeForceX::loopTimerEvent(void)
 {
     if (fanCounter++ < 2) {
-        fanRMP = nouveau_rpmfan_get(500);
+        fanRMP = nouveau_rpmfan_get(250);
     }
     
     timersource->setTimeoutMS(1500);
@@ -1914,10 +1919,6 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                 case 0x50:
                 case 0x80:
                 case 0x90:
-                    if (chipset == 0x92 && device_id == 0x0606) {
-                        return nv40_get_temperature();
-                        break;
-                    }
                 case 0xa0:
                     if (chipset >= 0x84)
                         return nv84_get_temperature();
@@ -1983,6 +1984,8 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
 
 IOService *GeForceX::probe(IOService *provider, SInt32 *score)
 {
+    HWSensorsDebugLog("Probing...");
+    
     if (super::probe(provider, score) != this) 
         return 0;
     
@@ -1994,7 +1997,7 @@ IOService *GeForceX::probe(IOService *provider, SInt32 *score)
 	
 	if (kIOReturnSuccess != workloop->addEventSource(timersource))
 		return 0;
-    
+        
     return this;
 }
 
@@ -2010,10 +2013,14 @@ bool GeForceX::start(IOService * provider)
         device->setMemoryEnable(true);
         
         if ((mmio = device->mapDeviceMemoryWithIndex(0))) {
-            if (!(PMC = (volatile UInt8 *)mmio->getVirtualAddress())) {
+            if (IOVirtualAddress address = mmio->getVirtualAddress()) {
+                PMC = (volatile UInt8 *)address;
+                HWSensorsDebugLog("memory mapped successfully");
+            }   
+            else {
                 HWSensorsWarningLog("PMC not set");
                 return false;
-            }   
+            }
         }
         else {
             HWSensorsWarningLog("failed to map memory");
@@ -2024,6 +2031,7 @@ bool GeForceX::start(IOService * provider)
         HWSensorsWarningLog("failed to assign PCI device");
         return false;
     }
+
     
     UInt32 reg0 = nv_rd32(PMC, NV03_PMC_BOOT_0);
     
@@ -2094,12 +2102,13 @@ bool GeForceX::start(IOService * provider)
         
         nouveau_vram_init();
         nouveau_volt_init();
+        nouveau_temp_init();
         
-        HWSensorsInfoLog("detected an NV%2X generation card (0x%08x) with %lldMb of %s (%d)", card_type, reg0, vram_size / 1024 / 1024, NVVRAMTypeMap[(int)vram_type].name, vram_type);
+        HWSensorsInfoLog("detected an NV%2X generation card (0x%08x) with %lldMib of %s (%d)", card_type, reg0, vram_size / 1024 / 1024, NVVRAMTypeMap[(int)vram_type].name, vram_type);
         
         //Setup sensors
         
-        //Find out card number
+        //Find card number
         UInt8 cardIndex = 0;
         char key[5];
         for (UInt8 i = 0; i < 0xf; i++) {

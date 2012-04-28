@@ -233,6 +233,7 @@ private:
     int             nv40_sensor_setup();
     int             nv40_get_temperature();
     int             nv84_get_temperature();
+    void            nouveau_temp_init();
 
     int             score_vbios(const bool writeable);
     void            bios_shadow_pramin();

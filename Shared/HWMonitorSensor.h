@@ -28,7 +28,7 @@
 #define kHWSensorLevelExceeded              1000
 
 #define kHWSensorFlagFavorite               (1 << 0)
-#define kHWSensorFlagPWM                    (1 << 1)
+#define kHWSensorFlagExtended               (1 << 1)
 
 @interface HWMonitorSensor : NSObject
 {
