@@ -1572,7 +1572,7 @@ int GeForceX::nv40_get_temperature()
 	int offset = sensor_constants.offset_mult / sensor_constants.offset_div;
 	int core_temp;
     
-	if (card_type >= NV_50 && device_id != 0x0606) {
+	if (card_type >= NV_50) {
 		core_temp = nv_rd32(PMC, 0x20008);
 	} else {
 		core_temp = nv_rd32(PMC, 0x0015b4) & 0x1fff;
@@ -1677,6 +1677,13 @@ void GeForceX::nouveau_temp_init()
                         sensor_constants.slope_mult = 484;
                         sensor_constants.slope_div = 10000;
                         break;
+                        
+                    case 0x92:
+                        // Special case for G92
+                        sensor_constants.offset_mult = -131150 + 187;
+                        sensor_constants.offset_div = 187;
+                        sensor_constants.slope_mult = 10;
+                        sensor_constants.slope_div = 187;
                 }
             }
             
@@ -1920,7 +1927,11 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                 case 0x80:
                 case 0x90:
                 case 0xa0:
-                    if (chipset >= 0x84)
+                    if (chipset == 0x92) {
+                        // Use custom diode calibration parameters 
+                        return nv40_get_temperature();
+                    }
+                    else if (chipset >= 0x84)
                         return nv84_get_temperature();
                     else
                         return nv40_get_temperature();
