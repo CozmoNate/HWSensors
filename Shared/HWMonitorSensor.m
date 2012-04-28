@@ -230,21 +230,23 @@ inline UInt8 get_index(char c)
                 if (rpm == 0)
                     return [[NSString alloc] initWithString:@"-"];
                 
-                if ([self getFlag:kHWSensorFlagPWM])
+                if ([self getFlag:kHWSensorFlagExtended])
                     return [[NSString alloc] initWithFormat:@"%1.0f%C", rpm, 0x0025];
                 
                 self->value = [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
                 break;
             }
                 
-            case kHWSensorGroupMultiplier:
+            /*case kHWSensorGroupMultiplier:
                 self->value = [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
-                break;
+                break;*/
                 
             case kHWSensorGroupFrequency: {
                 float f = [self decodeValue];
                 
-                if (f > 1e6)
+                if ([self getFlag:kHWSensorFlagExtended])
+                    self->value = [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
+                else if (f > 1e6)
                     self->value = [[NSString alloc] initWithFormat:@"%1.2fTHz", f / 1e6];
                 else if (f > 1e3)
                     self->value = [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1e3];
