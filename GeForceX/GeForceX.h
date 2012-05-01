@@ -158,9 +158,6 @@ class GeForceX : public FakeSMCPlugin
     OSDeclareDefaultStructors(GeForceX)    
 	
 private:
-    IOWorkLoop*	workloop;
-	IOTimerEventSource*	timersource;
-    
     IOPCIDevice*    device;
     UInt32          chipset;
     UInt32          card_type;
@@ -168,7 +165,6 @@ private:
     UInt16          vendor_id;
     
     IOMemoryMap*    mmio;
-    volatile UInt8* PMC;
     
     NVBios          bios;
     
@@ -182,6 +178,13 @@ private:
     float           fanRMP;
     UInt8           fanCounter;
     
+    UInt32          nv_rd32(UInt32 reg);
+    void            nv_wr32(UInt32 reg, UInt32 val);
+    UInt32          nv_mask(UInt32 reg, UInt32 mask, UInt32 val);
+    UInt8           nv_rd08(UInt32 reg);
+    void            nv_wr08(UInt32 reg, UInt8 val);
+    
+    
     void            nouveau_volt_init();
     float           nouveau_voltage_get();
     
@@ -193,6 +196,7 @@ private:
     UInt8 *         dcb_gpio_entry(int idx, int ent, UInt8 *version);
     bool            nouveau_gpio_func_valid(UInt8 tag);
     bool            nouveau_gpio_find(int idx, UInt8 func, UInt8 line, struct NVGpioFunc *gpio);
+    UInt32          NVReadCRTC(int head, UInt32 reg);
     int             nv10_gpio_sense(int line);
     int             nv50_gpio_sense(int line);
     int             nvd0_gpio_sense(int line);
@@ -233,6 +237,7 @@ private:
     int             nv40_sensor_setup();
     int             nv40_get_temperature();
     int             nv84_get_temperature();
+    int             g92_get_temperature();
     void            nouveau_temp_init();
 
     int             score_vbios(const bool writeable);
@@ -240,13 +245,12 @@ private:
     void            bios_shadow_prom();
     void            bios_shadow();
     
-    IOReturn        loopTimerEvent(void);
+    //IOReturn        loopTimerEvent(void);
     
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);
     
 public:
-    virtual IOService*	probe(IOService *provider, SInt32 *score);
     virtual bool		start(IOService *provider);
     virtual void		free(void);
 };

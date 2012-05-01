@@ -48,8 +48,7 @@
         for (int i = 0; i < [list count]; i++) {
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
             
-            if ([defaults boolForKey:[sensor key]])
-                [sensor setFlag:kHWSensorFlagFavorite];
+            [sensor setFavorite:[defaults boolForKey:[sensor key]]];
             
             if ([sensor disk])
                 [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:statusMenuFont]];
@@ -60,7 +59,7 @@
             
             [sensorItem setTarget:self];
             [sensorItem setRepresentedObject:sensor];
-            [sensorItem setState:[sensor getFlag:kHWSensorFlagFavorite]];
+            [sensorItem setState:[sensor favorite]];
             [sensorItem setOnStateImage:favoriteIcon];
             [sensorItem setOffStateImage:disabledIcon];
             
@@ -160,7 +159,7 @@
         [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" Icon:hddtemperaturesIcon Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
         [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" Icon:ssdlifeIcon Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
         [self insertMenuGroupWithTitle:@"SSD REMAINING BLOCKS" Icon:ssdlifeIcon Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingBlocks]];
-        [self insertMenuGroupWithTitle:@"MULTIPLIERS" Icon:multipliersIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
+        //[self insertMenuGroupWithTitle:@"MULTIPLIERS" Icon:multipliersIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
         [self insertMenuGroupWithTitle:@"FREQUENCIES" Icon:frequenciesIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency]];
         [self insertMenuGroupWithTitle:@"FANS" Icon:tachometersIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer]];
         [self insertMenuGroupWithTitle:@"VOLTAGES" Icon:voltagesIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
@@ -184,13 +183,13 @@
     NSMenuItem * menuItem = (NSMenuItem *)sender;
     HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
     
-    [sensor setFlag:kHWSensorFlagFavorite];
+    [sensor setFavorite:![sensor favorite]];
     
-    [menuItem setState:[sensor getFlag:kHWSensorFlagFavorite]];
+    [menuItem setState:[sensor favorite]];
     
     [self updateTitlesDefault];
     
-    [defaults setBool:[sensor getFlag:kHWSensorFlagFavorite] forKey:[sensor key]];
+    [defaults setBool:[sensor favorite] forKey:[sensor key]];
     [defaults synchronize];
 }
 

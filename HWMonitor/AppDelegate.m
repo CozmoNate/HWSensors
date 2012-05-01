@@ -39,8 +39,7 @@
         for (int i = 0; i < [list count]; i++) {
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
             
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:[sensor key]])
-                [sensor setFlag:kHWSensorFlagFavorite];
+            [sensor setFavorite:[[NSUserDefaults standardUserDefaults] boolForKey:[sensor key]]];
             
             if ([sensor disk])
                 [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:statusMenuFont]];
@@ -51,7 +50,7 @@
             
             [sensorItem setTarget:self];
             [sensorItem setRepresentedObject:sensor];
-            [sensorItem setState:[sensor getFlag:kHWSensorFlagFavorite]];
+            [sensorItem setState:[sensor favorite]];
             [sensorItem setOnStateImage:favoriteIcon];
             [sensorItem setOffStateImage:disabledIcon];
             
@@ -81,7 +80,7 @@
         if (!sensor)
             continue;
         
-        if ([sensor getFlag:kHWSensorFlagFavorite] || [sensor valueHasBeenChanged]) {
+        if ([sensor favorite] || [sensor valueHasBeenChanged]) {
             NSDictionary *captionColor;
             NSDictionary *valueColor;
             
@@ -129,7 +128,7 @@
                 [[sensor menuItem] setAttributedTitle:title];
             }
             
-            if ([sensor getFlag:kHWSensorFlagFavorite]) {
+            if ([sensor favorite]) {
                 [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
                 
                 if (!isMenuVisible && valueColor != blackColorAttribute)
@@ -168,13 +167,13 @@
     
     HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
     
-    [sensor setFlag:kHWSensorFlagFavorite];
+    [sensor setFavorite:![sensor favorite]];
     
-    [menuItem setState:[sensor getFlag:kHWSensorFlagFavorite]];
+    [menuItem setState:[sensor favorite]];
     
     [self updateTitles];
     
-    [[NSUserDefaults standardUserDefaults] setBool:[sensor getFlag:kHWSensorFlagFavorite] forKey:[sensor key]];
+    [[NSUserDefaults standardUserDefaults] setBool:[sensor favorite] forKey:[sensor key]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -242,7 +241,7 @@
         [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" Icon:[NSImage imageNamed:@"hddtemperatures"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
         [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" Icon:[NSImage imageNamed:@"ssdlife"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
         [self insertMenuGroupWithTitle:@"SSD REMAINING BLOCKS" Icon:[NSImage imageNamed:@"ssdlife"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingBlocks]];
-        [self insertMenuGroupWithTitle:@"MULTIPLIERS" Icon:[NSImage imageNamed:@"multipliers"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
+        //[self insertMenuGroupWithTitle:@"MULTIPLIERS" Icon:[NSImage imageNamed:@"multipliers"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
         [self insertMenuGroupWithTitle:@"FREQUENCIES" Icon:[NSImage imageNamed:@"frequencies"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency]];
         [self insertMenuGroupWithTitle:@"FANS" Icon:[NSImage imageNamed:@"tachometers"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer]];
         [self insertMenuGroupWithTitle:@"VOLTAGES" Icon:[NSImage imageNamed:@"voltages"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];

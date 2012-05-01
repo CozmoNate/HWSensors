@@ -411,7 +411,7 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
         }
         else if (OSArray * list = OSDynamicCast(OSArray, msg->getObject(kFakeSMCDevicePopulateValues))) {
             if (OSIterator *iterator = OSCollectionIterator::withCollection(list)) {
-                while (const OSSymbol *keyName = (const OSSymbol *)iterator->getNextObject())
+                while (const OSSymbol *keyName = OSDynamicCast(OSSymbol, iterator->getNextObject()))
                     if (FakeSMCKey * key = getKey(keyName->getCStringNoCopy())) { 
                         
                         OSArray *info = OSArray::withCapacity(0);
