@@ -243,6 +243,36 @@ float FakeSMCPlugin::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
+SInt8 FakeSMCPlugin::getVacantGPUIndex()
+{
+    //Find card number
+    char key[5];
+    for (UInt8 i = 0; i < 0xf; i++) {
+        
+        snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, i); 
+        
+        if (!isKeyHandled(key)) {
+            
+            snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, i); 
+            
+            if (!isKeyHandled(key)) {
+
+                snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, i); 
+                
+                if (!isKeyHandled(key)) {
+                    
+                    snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, i); 
+                    
+                    if (!isKeyHandled(key))
+                        return i;
+                }
+            }
+        }
+    }
+    
+    return -1;
+}
+
 bool FakeSMCPlugin::init(OSDictionary *properties)
 {
     if (!super::init(properties))

@@ -1594,21 +1594,6 @@ int GeForceX::nv84_get_temperature()
 	return nv_rd32(0x20400);
 }
 
-int GeForceX::g92_get_temperature()
-{
-	int core_temp = nv_rd32(0x20008);
-    
-    float divider = 0;
-    
-    if (divider < sensor_constants.slope_div) divider = sensor_constants.slope_div;
-    if (divider < sensor_constants.offset_div) divider = sensor_constants.offset_div;
-    
-    if (divider > sensor_constants.slope_div) sensor_constants.slope_mult = sensor_constants.slope_mult * divider / sensor_constants.slope_div;
-    if (divider > sensor_constants.offset_div) sensor_constants.offset_mult = sensor_constants.offset_mult * divider / sensor_constants.offset_div;
-    
-    return (float)(core_temp * sensor_constants.slope_mult + sensor_constants.offset_mult) / divider;
-}
-
 void GeForceX::nouveau_temp_init()
 {
     if (bios.type == NVBIOS_BIT) {
@@ -1696,8 +1681,12 @@ void GeForceX::nouveau_temp_init()
                         break;
                         
                     case 0x92:
-                        // Special case for G92
-                        sensor_constants.offset_mult = -131150 + 187;
+                        //Warning! These parameters are not used by NVIDIA anywhere and came from ASUS SmartDoctor
+                        //algorithm (which most likely uses roughly approximated calibration) so the result can be
+                        //really (!!!) inaccurate!
+                        
+                        //ASUS SmartDoctor uses (-13115 + x) / 18.7 + 1 calibration equation
+                        sensor_constants.offset_mult = -131150 /*+ 187*/;
                         sensor_constants.offset_div = 187;
                         sensor_constants.slope_mult = 10;
                         sensor_constants.slope_div = 187;
@@ -1944,9 +1933,7 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                 case 0x80:
                 case 0x90:
                 case 0xa0:
-                    if (chipset == 0x92)
-                        return g92_get_temperature();
-                    if (chipset >= 0x84)
+                    if (chipset >= 0x84 && chipset != 0x92)
                         return nv84_get_temperature();
                     else
                         return nv40_get_temperature();
@@ -2129,22 +2116,14 @@ bool GeForceX::start(IOService * provider)
         //Setup sensors
         
         //Find card number
-        UInt8 cardIndex = 0;
-        char key[5];
-        for (UInt8 i = 0; i < 0xf; i++) {
-            
-            snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, i); 
-            
-            if (!isKeyHandled(key)) {
-                
-                snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, i); 
-                
-                if (!isKeyHandled(key)) {
-                    cardIndex = i;
-                    break;
-                }
-            }
+        SInt8 cardIndex = getVacantGPUIndex();
+        
+        if (cardIndex < 0) {
+            HWSensorsWarningLog("failed to obtain vacant GPU index");
+            return false;
         }
+        
+        char key[5];
         
         //Core temperature
         switch (chipset & 0xf0) {

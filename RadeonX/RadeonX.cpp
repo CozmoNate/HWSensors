@@ -275,25 +275,24 @@ bool RadeonMonitor::start(IOService * provider)
         HWSensorsWarningLog("can't initialize driver");
         return false;
     }
-	
-    char name[5];
     
-    for (UInt8 i = 0; i <= 0xf; i++) {
-        
-        snprintf(name, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, i); 
-        
-        if (!isKeyHandled(name)) {
-            
-            snprintf(name, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, i); 
-            
-            if (!isKeyHandled(name)) {
-                if (!addSensor(name, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
-                    HWSensorsWarningLog("can't register temperature sensor for key %s", name);
-                
-                break;
-            }
-        }
+    //Find card number
+    SInt8 cardIndex = getVacantGPUIndex();
+    
+    if (cardIndex < 0) {
+        HWSensorsWarningLog("failed to obtain vacant GPU index");
+        return false;
     }
+    
+    char key[5];
+    
+    snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex);
+	
+    if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
+        HWSensorsWarningLog("can't register temperature sensor for key %s", key);
+        return false;
+    }
+    
     
     registerService();
     
