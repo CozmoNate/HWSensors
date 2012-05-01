@@ -11,10 +11,10 @@
 #include "FakeSMCDefinitions.h"
 
 /*#define kGenericPCIDevice "IOPCIDevice"
-#define kTimeoutMSecs 1000
-#define fVendor "vendor-id"
-#define fDevice "device-id"
-#define kIOPCIConfigBaseAddress0 0x10*/
+ #define kTimeoutMSecs 1000
+ #define fVendor "vendor-id"
+ #define fDevice "device-id"
+ #define kIOPCIConfigBaseAddress0 0x10*/
 #define kMCHBAR	0x48
 #define TSC1	0x1001
 #define TSS1	0x1004
@@ -98,7 +98,7 @@ IOService* X3100monitor::probe(IOService *provider, SInt32 *score)
 			HWSensorsInfoLog("MCHBAR failed to map");
 			return 0;
 		}			
-
+    
 	return 0;
 }
 
@@ -107,21 +107,21 @@ bool X3100monitor::start(IOService * provider)
 	if (!super::start(provider)) 
         return false;
 	
-	char name[5];
+	//Find card number
+    SInt8 cardIndex = getVacantGPUIndex();
     
-    for (UInt8 i = 0; i < 0xf; i++) {
-        
-        snprintf(name, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, i); 
-        
-        if (!isKeyHandled(name)) {
-            snprintf(name, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, i); 
-            
-            if (!isKeyHandled(name)) {
-                if (!addSensor(name, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
-                    HWSensorsWarningLog("failed to register temperature sensor");
-                break;
-            }
-        }
+    if (cardIndex < 0) {
+        HWSensorsWarningLog("failed to obtain vacant GPU index");
+        return false;
+    }
+    
+    char key[5];
+    
+    snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex);
+    
+    if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
+        HWSensorsWarningLog("failed to register temperature sensor");
+        return false;
     }
     
     registerService();

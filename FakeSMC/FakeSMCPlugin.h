@@ -64,6 +64,8 @@ protected:
 	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0);
 	virtual FakeSMCSensor   *getSensor(const char *key);
     
+    virtual SInt8           getVacantGPUIndex();
+    
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
 public:    
