@@ -15,10 +15,9 @@
 #define kHWSensorGroupVoltage               2
 #define kHWSensorGroupTachometer            3
 #define kHWSensorGroupFrequency             4
-#define kHWSensorGroupMultiplier            5
-#define kSMARTSensorGroupTemperature        6
-#define kSMARTSensorGroupRemainingLife      7
-#define kSMARTSensorGroupRemainingBlocks    8
+#define kSMARTSensorGroupTemperature        5
+#define kSMARTSensorGroupRemainingLife      6
+#define kSMARTSensorGroupRemainingBlocks    7
 
 #define kHWSensorLevelUnused                0
 #define kHWSensorLevelDisabled              1
@@ -31,10 +30,6 @@
 #define kHWSensorFlagExtended               (1 << 1)
 
 @interface HWMonitorSensor : NSObject
-{
-@private
-    NSUInteger flags;
-}
 
 @property (readwrite, retain) NSString*         key;
 @property (readwrite, retain) NSString*         type;
@@ -46,6 +41,8 @@
 @property (readwrite, assign) NSUInteger        level;
 @property (readonly) NSString*                  value;
 
+@property (readwrite, assign) BOOL              favorite;
+@property (readwrite, assign) BOOL              extendedFormat;
 @property (readonly) BOOL                       levelHasBeenChanged;
 @property (readonly) BOOL                       valueHasBeenChanged;
 
@@ -58,9 +55,6 @@
 - (NSString *)type;
 - (void)setData:(NSData *)newData;
 - (NSData *)data;
-
-- (BOOL)getFlag:(NSUInteger)flag;
-- (void)setFlag:(NSUInteger)flag;
 
 - (float)decodeValue;
 - (NSString*)value;

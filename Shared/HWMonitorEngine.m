@@ -119,10 +119,21 @@
     switch (group) {
         case kSMARTSensorGroupTemperature:
             value = [disk getTemperature];
+
+            UInt16 t = 0;
+            
+            [value getBytes:&t length:2];
+            
+            // Don't add sensor if the value is insane
+            if (t > 100) 
+                return nil;
+            
             break;
+            
         case kSMARTSensorGroupRemainingLife:
             value = [disk getRemainingLife];
             break;
+            
         case kSMARTSensorGroupRemainingBlocks:
             value = [disk getRemainingBlocks];
             break;
@@ -225,7 +236,7 @@
         HWMonitorSensor *sensor = NULL;
         
         if ((sensor = [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_CPU_MULTIPLIER,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X Multiplier"),i + 1] group:kHWSensorGroupFrequency])) {
-            [sensor setFlag:kHWSensorFlagExtended];
+            [sensor setExtendedFormat:TRUE];
         }
         
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAKESMC_CPU_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupFrequency];
@@ -235,7 +246,7 @@
         HWMonitorSensor *sensor = NULL;
         
         if ((sensor = [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER caption:GetLocalizedString(@"CPU Package Multiplier") group:kHWSensorGroupFrequency])) {
-            [sensor setFlag:kHWSensorFlagExtended];
+            [sensor setExtendedFormat:TRUE];
         }
         
         [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_FREQUENCY caption:GetLocalizedString(@"CPU Package") group:kHWSensorGroupFrequency];
@@ -265,7 +276,7 @@
             
             HWMonitorSensor *sensor = [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),cardIndex + 1] group:kHWSensorGroupTachometer];
             
-            [sensor setFlag:kHWSensorFlagExtended];
+            [sensor setExtendedFormat:TRUE];
         }
         else if ([caption hasPrefix:@"GPU "]){
             UInt8 cardIndex = [[caption substringFromIndex:4] intValue];
@@ -328,7 +339,7 @@
         for (int i = 0; i < [sensors count]; i++) {
             HWMonitorSensor *sensor = [sensors objectAtIndex:i];
             
-            if ((updateOnlyFavorites && [sensor getFlag:kHWSensorFlagFavorite]) || !updateOnlyFavorites)
+            if ((updateOnlyFavorites && [sensor favorite]) || !updateOnlyFavorites)
                 switch ([sensor group]) {
                     case kSMARTSensorGroupTemperature:
                     case kSMARTSensorGroupRemainingLife:

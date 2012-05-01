@@ -35,6 +35,8 @@
 #include "nouveau.h"
 #include <IOKit/IOLib.h>
 
+#include <architecture/i386/pio.h>
+
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(GeForceX, FakeSMCPlugin)
 
@@ -46,31 +48,31 @@ ROM16(x) ? &d[ROM16(x)] : NULL; \
 
 
 /* register access */
-OS_INLINE UInt32 nv_rd32(const volatile UInt8* mmio, UInt32 reg)
+UInt32 GeForceX::nv_rd32(UInt32 reg)
 {
-	return _OSReadInt32(mmio, reg);
+	return _OSReadInt32((volatile void *)mmio->getVirtualAddress(), reg);
 }
 
-OS_INLINE void nv_wr32(volatile UInt8* mmio, UInt32 reg, UInt32 val)
+void GeForceX::nv_wr32(UInt32 reg, UInt32 val)
 {
-    _OSWriteInt32(mmio, reg, val);
+    _OSWriteInt32((volatile void *)mmio->getVirtualAddress(), reg, val);
 }
 
-OS_INLINE UInt32 nv_mask(volatile UInt8* mmio, UInt32 reg, UInt32 mask, UInt32 val)
+UInt32 GeForceX::nv_mask(UInt32 reg, UInt32 mask, UInt32 val)
 {
-	UInt32 tmp = nv_rd32(mmio, reg);
-	nv_wr32(mmio, reg, (tmp & ~mask) | val);
+	UInt32 tmp = nv_rd32(reg);
+	nv_wr32(reg, (tmp & ~mask) | val);
 	return tmp;
 }
 
-OS_INLINE UInt8 nv_rd08(const volatile UInt8* mmio, UInt32 reg)
+UInt8 GeForceX::nv_rd08(UInt32 reg)
 {
-	return *(volatile UInt8 *)((IOVirtualAddress)mmio + reg);
+	return *(volatile UInt8 *)(mmio->getVirtualAddress() + reg);
 }
 
-OS_INLINE void nv_wr08(volatile UInt8* mmio, UInt32 reg, UInt8 val)
+void GeForceX::nv_wr08(UInt32 reg, UInt8 val)
 {
-    *(volatile UInt8 *)((IOVirtualAddress)mmio + reg) = val;
+    *(volatile UInt8 *)(mmio->getVirtualAddress() + reg) = val;
 }
 
 static bool nv_cksum(const uint8_t *data, unsigned int length)
@@ -304,7 +306,7 @@ NVVRAMType GeForceX::nouveau_mem_vbios_type()
 {
 	struct NVBitEntry M;
     
-	UInt8 ramcfg = (nv_rd32(PMC, 0x101000) & 0x0000003c) >> 2;
+	UInt8 ramcfg = (nv_rd32(0x101000) & 0x0000003c) >> 2;
     
 	if (bit_table(bios, 'M', &M) || M.version != 2 || M.length < 5) {
 		UInt8 *table = ROMPTR(bios.data, M.data[3]);
@@ -327,8 +329,8 @@ NVVRAMType GeForceX::nouveau_mem_vbios_type()
 
 void GeForceX::nv20_get_vram()
 {
-	UInt32 ram_size = nv_rd32(PMC, 0x10020c);
-	UInt32 pbus1218 = nv_rd32(PMC, 0x001218);
+	UInt32 ram_size = nv_rd32(0x10020c);
+	UInt32 pbus1218 = nv_rd32(0x001218);
     
 	vram_size = ram_size & 0xff000000;
     
@@ -342,13 +344,13 @@ void GeForceX::nv20_get_vram()
 
 void GeForceX::nvc0_get_vram()
 {
-	UInt32 parts = nv_rd32(PMC, 0x022438);
-	UInt32 pmask = nv_rd32(PMC, 0x022554);
-	UInt32 bsize = nv_rd32(PMC, 0x10f20c);
+	UInt32 parts = nv_rd32(0x022438);
+	UInt32 pmask = nv_rd32(0x022554);
+	UInt32 bsize = nv_rd32(0x10f20c);
 	bool uniform = true;
 	int part;
     
-	HWSensorsDebugLog("0x100800: 0x%08x", nv_rd32(PMC, 0x100800));
+	HWSensorsDebugLog("0x100800: 0x%08x", nv_rd32(0x100800));
 	HWSensorsDebugLog("parts 0x%08x mask 0x%08x", parts, pmask);
     
 	vram_type = nouveau_mem_vbios_type();
@@ -357,7 +359,7 @@ void GeForceX::nvc0_get_vram()
 	/* read amount of vram attached to each memory controller */
 	for (part = 0; part < parts; part++) {
 		if (!(pmask & (1 << part))) {
-			UInt32 psize = nv_rd32(PMC, 0x11020c + (part * 0x1000));
+			UInt32 psize = nv_rd32(0x11020c + (part * 0x1000));
 			if (psize != bsize) {
 				if (psize < bsize)
 					bsize = psize;
@@ -376,7 +378,7 @@ void GeForceX::nouveau_vram_init()
     
     switch (chipset & 0xf0) {
         case 0x00: {
-            UInt32 boot0 = nv_rd32(PMC, NV04_PFB_BOOT_0);
+            UInt32 boot0 = nv_rd32(NV04_PFB_BOOT_0);
             
             if (boot0 & 0x00000100) {
                 vram_size  = ((boot0 >> 12) & 0xf) * 2 + 2;
@@ -408,8 +410,8 @@ void GeForceX::nouveau_vram_init()
             if (chipset == 0x1a || chipset == 0x1f) {
                 
             } else {
-                UInt32 fifo_data = nv_rd32(PMC, NV04_PFB_FIFO_DATA);
-                UInt32 cfg0 = nv_rd32(PMC, 0x100200);
+                UInt32 fifo_data = nv_rd32(NV04_PFB_FIFO_DATA);
+                UInt32 cfg0 = nv_rd32(0x100200);
                 
                 vram_size = fifo_data & NV10_PFB_FIFO_DATA_RAM_AMOUNT_MB_MASK;
                 
@@ -433,7 +435,7 @@ void GeForceX::nouveau_vram_init()
              * the memory detection, hopefully that'll get us the right numbers
              */
             if (chipset == 0x40) {
-                UInt32 pbus1218 = nv_rd32(PMC, 0x001218);
+                UInt32 pbus1218 = nv_rd32(0x001218);
                 switch (pbus1218 & 0x00000300) {
                     case 0x00000000: vram_type = NV_MEM_TYPE_SDRAM; break;
                     case 0x00000100: vram_type = NV_MEM_TYPE_DDR1; break;
@@ -442,7 +444,7 @@ void GeForceX::nouveau_vram_init()
                 }
             } else
                 if (chipset == 0x49 || chipset == 0x4b) {
-                    UInt32 pfb914 = nv_rd32(PMC, 0x100914);
+                    UInt32 pfb914 = nv_rd32(0x100914);
                     switch (pfb914 & 0x00000003) {
                         case 0x00000000: vram_type = NV_MEM_TYPE_DDR1; break;
                         case 0x00000001: vram_type = NV_MEM_TYPE_DDR2; break;
@@ -451,7 +453,7 @@ void GeForceX::nouveau_vram_init()
                     }
                 } else
                     if (chipset != 0x4e) {
-                        UInt32 pfb474 = nv_rd32(PMC, 0x100474);
+                        UInt32 pfb474 = nv_rd32(0x100474);
                         if (pfb474 & 0x00000004)
                             vram_type = NV_MEM_TYPE_GDDR3;
                         if (pfb474 & 0x00000002)
@@ -462,14 +464,14 @@ void GeForceX::nouveau_vram_init()
                         vram_type = NV_MEM_TYPE_STOLEN;
                     }
             
-            vram_size = nv_rd32(PMC, 0x10020c) & 0xff000000;
+            vram_size = nv_rd32(0x10020c) & 0xff000000;
             break;
         }
         case 0x50:
         case 0x80: /* gotta love NVIDIA's consistency.. */
         case 0x90:
         case 0xa0: {
-            UInt32 pfb714 = nv_rd32(PMC, 0x100714);
+            UInt32 pfb714 = nv_rd32(0x100714);
             
             switch (pfb714 & 0x00000007) {
                 case 0: vram_type = NV_MEM_TYPE_DDR1; break;
@@ -487,7 +489,7 @@ void GeForceX::nouveau_vram_init()
             }
             
             //dev_priv->vram_rank_B = !!(nv_rd32(dev, 0x100200) & 0x4);
-            vram_size  = nv_rd32(PMC, 0x10020c);
+            vram_size  = nv_rd32(0x10020c);
             vram_size |= (vram_size & 0xff) << 32;
             vram_size &= 0xffffffff00ULL;
             break;
@@ -642,29 +644,29 @@ bool GeForceX::nouveau_gpio_find(int idx, UInt8 func, UInt8 line, struct NVGpioF
 	return false;
 }
 
-static inline UInt32 NVReadCRTC(const volatile UInt8* mmio, int head, UInt32 reg)
+UInt32 GeForceX::NVReadCRTC(int head, UInt32 reg)
 {
 	if (head)
 		reg += NV_PCRTC0_SIZE;
     
-	return nv_rd32(mmio, reg);
+	return nv_rd32(reg);
 }
 
 int GeForceX::nv10_gpio_sense(int line)
 {
 	if (line < 2) {
 		line = line * 16;
-		line = NVReadCRTC(PMC, 0, NV_PCRTC_GPIO) >> line;
+		line = NVReadCRTC(0, NV_PCRTC_GPIO) >> line;
 		return !!(line & 0x0100);
 	} else
         if (line < 10) {
             line = (line - 2) * 4;
-            line = NVReadCRTC(PMC, 0, NV_PCRTC_GPIO_EXT) >> line;
+            line = NVReadCRTC(0, NV_PCRTC_GPIO_EXT) >> line;
             return !!(line & 0x04);
         } else
             if (line < 14) {
                 line = (line - 10) * 4;
-                line = NVReadCRTC(PMC, 0, NV_PCRTC_850) >> line;
+                line = NVReadCRTC(0, NV_PCRTC_850) >> line;
                 return !!(line & 0x04);
             }
     
@@ -691,12 +693,12 @@ int GeForceX::nv50_gpio_sense(int line)
 	if (!nv50_gpio_location(line, &reg, &shift))
 		return 0;
     
-	return !!(nv_rd32(PMC, reg) & (4 << shift));
+	return !!(nv_rd32(reg) & (4 << shift));
 }
 
 int GeForceX::nvd0_gpio_sense(int line)
 {
-	return !!(nv_rd32(PMC, 0x00d610 + (line * 4)) & 0x00004000);
+	return !!(nv_rd32(0x00d610 + (line * 4)) & 0x00004000);
 }
 
 // Fan ===
@@ -740,7 +742,7 @@ int GeForceX::nouveau_gpio_get(int idx, UInt8 tag, UInt8 line)
 bool GeForceX::nv40_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty)
 {
 	if (line == 2) {
-		UInt32 reg = nv_rd32(PMC, 0x0010f0);
+		UInt32 reg = nv_rd32(0x0010f0);
 		if (reg & 0x80000000) {
 			*duty = (reg & 0x7fff0000) >> 16;
 			*divs = (reg & 0x00007fff);
@@ -748,9 +750,9 @@ bool GeForceX::nv40_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty)
 		}
 	} else
         if (line == 9) {
-            UInt32 reg = nv_rd32(PMC, 0x0015f4);
+            UInt32 reg = nv_rd32(0x0015f4);
             if (reg & 0x80000000) {
-                *divs = nv_rd32(PMC, 0x0015f8);
+                *divs = nv_rd32(0x0015f8);
                 *duty = (reg & 0x7fffffff);
                 return true;
             }
@@ -792,9 +794,9 @@ bool GeForceX::nv50_pm_pwm_get(int line, UInt32 *divs, UInt32 *duty)
 	if (!pwm_info(&line, &ctrl, &id))
 		return false;
     
-	if (nv_rd32(PMC, ctrl) & (1 << line)) {
-		*divs = nv_rd32(PMC, 0x00e114 + (id * 8));
-		*duty = nv_rd32(PMC, 0x00e118 + (id * 8));
+	if (nv_rd32(ctrl) & (1 << line)) {
+		*divs = nv_rd32(0x00e114 + (id * 8));
+		*duty = nv_rd32(0x00e118 + (id * 8));
 		return true;
 	}
     
@@ -907,7 +909,7 @@ float GeForceX::nouveau_rpmfan_get(UInt32 milliseconds)
 
 UInt32 GeForceX::nv40_read_pll_1(UInt32 reg)
 {
-	UInt32 ctrl = nv_rd32(PMC, reg + 0x00);
+	UInt32 ctrl = nv_rd32(reg + 0x00);
 	int P = (ctrl & 0x00070000) >> 16;
 	int N = (ctrl & 0x0000ff00) >> 8;
 	int M = (ctrl & 0x000000ff) >> 0;
@@ -921,8 +923,8 @@ UInt32 GeForceX::nv40_read_pll_1(UInt32 reg)
 
 UInt32 GeForceX::nv40_read_pll_2(UInt32 reg)
 {
-	UInt32 ctrl = nv_rd32(PMC, reg + 0x00);
-	UInt32 coef = nv_rd32(PMC, reg + 0x04);
+	UInt32 ctrl = nv_rd32(reg + 0x00);
+	UInt32 coef = nv_rd32(reg + 0x04);
 	int N2 = (coef & 0xff000000) >> 24;
 	int M2 = (coef & 0x00ff0000) >> 16;
 	int N1 = (coef & 0x0000ff00) >> 8;
@@ -960,7 +962,7 @@ UInt32 GeForceX::nv40_read_clk(UInt32 src)
 UInt32 GeForceX::nv40_get_clock(NVClockSource name)
 {
 	UInt32 clocks = 0;
-    UInt32 ctrl = nv_rd32(PMC, 0x00c040);
+    UInt32 ctrl = nv_rd32(0x00c040);
     
     switch (name) {
         case NVClockCore:
@@ -983,7 +985,7 @@ UInt32 GeForceX::nv40_get_clock(NVClockSource name)
 
 UInt32 GeForceX::nva3_read_vco(int clk)
 {
-	UInt32 sctl = nv_rd32(PMC, 0x4120 + (clk * 4));
+	UInt32 sctl = nv_rd32(0x4120 + (clk * 4));
 	if ((sctl & 0x00000030) != 0x00000030)
 		return nva3_read_pll(0x41, 0x00e820);
 	return nva3_read_pll(0x42, 0x00e8a0);
@@ -997,13 +999,13 @@ UInt32 GeForceX::nva3_read_clk(int clk, bool ignore_en)
 	if (clk >= 0x40) {
 		if (chipset == 0xaf) {
 			/* no joke.. seriously.. sigh.. */
-			return nv_rd32(PMC, 0x00471c) * 1000;
+			return nv_rd32(0x00471c) * 1000;
 		}
         
 		return crystal;
 	}
     
-	sctl = nv_rd32(PMC, 0x4120 + (clk * 4));
+	sctl = nv_rd32(0x4120 + (clk * 4));
 	if (!ignore_en && !(sctl & 0x00000100))
 		return 0;
     
@@ -1025,12 +1027,12 @@ UInt32 GeForceX::nva3_read_clk(int clk, bool ignore_en)
 
 UInt32 GeForceX::nva3_read_pll(int clk, UInt32 pll)
 {
-	UInt32 ctrl = nv_rd32(PMC, pll + 0);
+	UInt32 ctrl = nv_rd32(pll + 0);
 	UInt32 sclk = 0, P = 1, N = 1, M = 1;
     
 	if (!(ctrl & 0x00000008)) {
 		if (ctrl & 0x00000001) {
-			UInt32 coef = nv_rd32(PMC, pll + 4);
+			UInt32 coef = nv_rd32(pll + 4);
 			M = (coef & 0x000000ff) >> 0;
 			N = (coef & 0x0000ff00) >> 8;
 			P = (coef & 0x003f0000) >> 16;
@@ -1098,11 +1100,11 @@ UInt32 GeForceX::nv50_read_div()
         case 0x86:
         case 0x98:
         case 0xa0:
-            return nv_rd32(PMC, 0x004700);
+            return nv_rd32(0x004700);
         case 0x92:
         case 0x94:
         case 0x96:
-            return nv_rd32(PMC, 0x004800);
+            return nv_rd32(0x004800);
         default:
             return 0x00000000;
 	}
@@ -1111,7 +1113,7 @@ UInt32 GeForceX::nv50_read_div()
 UInt32 GeForceX::nv50_read_pll_src(UInt32 base)
 {
 	UInt32 coef, ref = nv50_read_clk(nv50_clk_src_crystal);
-	UInt32 rsel = nv_rd32(PMC, 0x00e18c);
+	UInt32 rsel = nv_rd32(0x00e18c);
 	int P, N, M = 0, id = 0;
     
 	switch (chipset) {
@@ -1127,7 +1129,7 @@ UInt32 GeForceX::nv50_read_pll_src(UInt32 base)
                     return 0;
             }
             
-            coef = nv_rd32(PMC, 0x00e81c + (id * 0x0c));
+            coef = nv_rd32(0x00e81c + (id * 0x0c));
             ref *=  (coef & 0x01000000) ? 2 : 4;
             P    =  (coef & 0x00070000) >> 16;
             N    = ((coef & 0x0000ff00) >> 8) + 1;
@@ -1136,7 +1138,7 @@ UInt32 GeForceX::nv50_read_pll_src(UInt32 base)
         case 0x84:
         case 0x86:
         case 0x92:
-            coef = nv_rd32(PMC, 0x00e81c);
+            coef = nv_rd32(0x00e81c);
             P    = (coef & 0x00070000) >> 16;
             N    = (coef & 0x0000ff00) >> 8;
             M    = (coef & 0x000000ff) >> 0;
@@ -1144,7 +1146,7 @@ UInt32 GeForceX::nv50_read_pll_src(UInt32 base)
         case 0x94:
         case 0x96:
         case 0x98:
-            rsel = nv_rd32(PMC, 0x00c050);
+            rsel = nv_rd32(0x00c050);
             switch (base) {
                 case 0x4020: rsel = (rsel & 0x00000003) >> 0; break;
                 case 0x4008: rsel = (rsel & 0x0000000c) >> 2; break;
@@ -1162,8 +1164,8 @@ UInt32 GeForceX::nv50_read_pll_src(UInt32 base)
                 case 3: id = 0; break;
             }
             
-            coef =  nv_rd32(PMC, 0x00e81c + (id * 0x28));
-            P    = (nv_rd32(PMC, 0x00e824 + (id * 0x28)) >> 16) & 7;
+            coef =  nv_rd32(0x00e81c + (id * 0x28));
+            P    = (nv_rd32(0x00e824 + (id * 0x28)) >> 16) & 7;
             P   += (coef & 0x00070000) >> 16;
             N    = (coef & 0x0000ff00) >> 8;
             M    = (coef & 0x000000ff) >> 0;
@@ -1180,7 +1182,7 @@ UInt32 GeForceX::nv50_read_pll_src(UInt32 base)
 
 UInt32 GeForceX::nv50_read_pll_ref(UInt32 base)
 {
-	UInt32 src, mast = nv_rd32(PMC, 0x00c040);
+	UInt32 src, mast = nv_rd32(0x00c040);
     
 	switch (base) {
         case 0x004028:
@@ -1210,9 +1212,9 @@ UInt32 GeForceX::nv50_read_pll_ref(UInt32 base)
 
 UInt32 GeForceX::nv50_read_pll(UInt32 base)
 {
-	UInt32 mast = nv_rd32(PMC, 0x00c040);
-	UInt32 ctrl = nv_rd32(PMC, base + 0);
-	UInt32 coef = nv_rd32(PMC, base + 4);
+	UInt32 mast = nv_rd32(0x00c040);
+	UInt32 ctrl = nv_rd32(base + 0);
+	UInt32 coef = nv_rd32(base + 4);
 	UInt32 ref = nv50_read_pll_ref(base);
 	UInt32 clk = 0;
 	int N1, N2, M1, M2;
@@ -1242,7 +1244,7 @@ UInt32 GeForceX::nv50_read_pll(UInt32 base)
 
 UInt32 GeForceX::nv50_read_clk(NV50ClockSource source)
 {
-	UInt32 mast = nv_rd32(PMC, 0x00c040);
+	UInt32 mast = nv_rd32(0x00c040);
 	UInt32 P = 0;
     
 	switch (source) {
@@ -1266,7 +1268,7 @@ UInt32 GeForceX::nv50_read_clk(NV50ClockSource source)
             break;
         case nv50_clk_src_nvclk:
             if (!(mast & 0x00100000))
-                P = (nv_rd32(PMC, 0x004028) & 0x00070000) >> 16;
+                P = (nv_rd32(0x004028) & 0x00070000) >> 16;
             switch (mast & 0x00000003) {
                 case 0x00000000: return nv50_read_clk(nv50_clk_src_crystal) >> P;
                 case 0x00000001: return nv50_read_clk(nv50_clk_src_dom6);
@@ -1275,7 +1277,7 @@ UInt32 GeForceX::nv50_read_clk(NV50ClockSource source)
             }
             break;
         case nv50_clk_src_sclk:
-            P = (nv_rd32(PMC, 0x004020) & 0x00070000) >> 16;
+            P = (nv_rd32(0x004020) & 0x00070000) >> 16;
             switch (mast & 0x00000030) {
                 case 0x00000000:
                     if (mast & 0x00000080)
@@ -1287,8 +1289,8 @@ UInt32 GeForceX::nv50_read_clk(NV50ClockSource source)
             }
             break;
         case nv50_clk_src_mclk:
-            P = (nv_rd32(PMC, 0x004008) & 0x00070000) >> 16;
-            if (nv_rd32(PMC, 0x004008) & 0x00000200) {
+            P = (nv_rd32(0x004008) & 0x00070000) >> 16;
+            if (nv_rd32(0x004008) & 0x00000200) {
                 switch (mast & 0x0000c000) {
                     case 0x00000000:
                         return nv50_read_clk(nv50_clk_src_crystal) >> P;
@@ -1403,7 +1405,7 @@ UInt32 GeForceX::nv50_get_clock(NVClockSource name)
 
 UInt32 GeForceX::nvc0_read_vco(UInt32 dsrc)
 {
-	UInt32 ssrc = nv_rd32(PMC, dsrc);
+	UInt32 ssrc = nv_rd32(dsrc);
 	if (!(ssrc & 0x00000100))
 		return nvc0_read_pll(0x00e800);
 	return nvc0_read_pll(0x00e820);
@@ -1411,8 +1413,8 @@ UInt32 GeForceX::nvc0_read_vco(UInt32 dsrc)
 
 UInt32 GeForceX::nvc0_read_pll(UInt32 pll)
 {
-	UInt32 ctrl = nv_rd32(PMC, pll + 0);
-	UInt32 coef = nv_rd32(PMC, pll + 4);
+	UInt32 ctrl = nv_rd32(pll + 0);
+	UInt32 coef = nv_rd32(pll + 4);
 	UInt32 P = (coef & 0x003f0000) >> 16;
 	UInt32 N = (coef & 0x0000ff00) >> 8;
 	UInt32 M = (coef & 0x000000ff) >> 0;
@@ -1451,8 +1453,8 @@ UInt32 GeForceX::nvc0_read_pll(UInt32 pll)
 
 UInt32 GeForceX::nvc0_read_div(UInt32 doff, UInt32 dsrc, UInt32 dctl)
 {
-	UInt32 ssrc = nv_rd32(PMC, dsrc + (doff * 4));
-	UInt32 sctl = nv_rd32(PMC, dctl + (doff * 4));
+	UInt32 ssrc = nv_rd32(dsrc + (doff * 4));
+	UInt32 sctl = nv_rd32(dctl + (doff * 4));
     
 	switch (ssrc & 0x00000003) {
         case 0:
@@ -1475,7 +1477,7 @@ UInt32 GeForceX::nvc0_read_div(UInt32 doff, UInt32 dsrc, UInt32 dctl)
 
 UInt32 GeForceX::nvc0_read_mem()
 {
-	UInt32 ssel = nv_rd32(PMC, 0x1373f0);
+	UInt32 ssel = nv_rd32(0x1373f0);
     
 	if (ssel & 0x00000001)
         return nvc0_read_div(0, 0x137300, 0x137310); // sould i devide this value too?
@@ -1485,8 +1487,8 @@ UInt32 GeForceX::nvc0_read_mem()
 
 UInt32 GeForceX::nvc0_read_clk(UInt32 clk)
 {
-	UInt32 sctl = nv_rd32(PMC, 0x137250 + (clk * 4));
-	UInt32 ssel = nv_rd32(PMC, 0x137100);
+	UInt32 sctl = nv_rd32(0x137250 + (clk * 4));
+	UInt32 ssel = nv_rd32(0x137100);
 	UInt32 sclk, sdiv;
     
 	if (ssel & (1 << clk)) {
@@ -1558,13 +1560,13 @@ int GeForceX::nv40_sensor_setup()
 	else
 		sensor_calibration |= 0x10000000;
     
-	nv_wr32(PMC, 0x0015b0, sensor_calibration);
+	nv_wr32(0x0015b0, sensor_calibration);
     
 	/* Wait for the sensor to update */
 	IOSleep(5);
     
 	/* read */
-	return nv_rd32(PMC, 0x0015b4) & 0x1fff;
+	return nv_rd32(0x0015b4) & 0x1fff;
 }
 
 int GeForceX::nv40_get_temperature()
@@ -1573,9 +1575,9 @@ int GeForceX::nv40_get_temperature()
 	int core_temp;
     
 	if (card_type >= NV_50) {
-		core_temp = nv_rd32(PMC, 0x20008);
+		core_temp = nv_rd32(0x20008);
 	} else {
-		core_temp = nv_rd32(PMC, 0x0015b4) & 0x1fff;
+		core_temp = nv_rd32(0x0015b4) & 0x1fff;
 		/* Setup the sensor if the temperature is 0 */
 		if (core_temp == 0)
 			core_temp = nv40_sensor_setup();
@@ -1589,7 +1591,22 @@ int GeForceX::nv40_get_temperature()
 
 int GeForceX::nv84_get_temperature()
 {
-	return nv_rd32(PMC, 0x20400);
+	return nv_rd32(0x20400);
+}
+
+int GeForceX::g92_get_temperature()
+{
+	int core_temp = nv_rd32(0x20008);
+    
+    float divider = 0;
+    
+    if (divider < sensor_constants.slope_div) divider = sensor_constants.slope_div;
+    if (divider < sensor_constants.offset_div) divider = sensor_constants.offset_div;
+    
+    if (divider > sensor_constants.slope_div) sensor_constants.slope_mult = sensor_constants.slope_mult * divider / sensor_constants.slope_div;
+    if (divider > sensor_constants.offset_div) sensor_constants.offset_mult = sensor_constants.offset_mult * divider / sensor_constants.offset_div;
+    
+    return (float)(core_temp * sensor_constants.slope_mult + sensor_constants.offset_mult) / divider;
 }
 
 void GeForceX::nouveau_temp_init()
@@ -1773,30 +1790,30 @@ void GeForceX::bios_shadow_pramin()
 	int i;
     
 	if (card_type >= NV_50) {
-		UInt64 addr = (UInt64)(nv_rd32(PMC, 0x619f04) & 0xffffff00) << 8;
+		UInt64 addr = (UInt64)(nv_rd32(0x619f04) & 0xffffff00) << 8;
 		if (!addr) {
-			addr  = (UInt64)nv_rd32(PMC, 0x001700) << 16;
+			addr  = (UInt64)nv_rd32(0x001700) << 16;
 			addr += 0xf0000;
 		}
         
-		bar0 = nv_mask(PMC, 0x001700, 0xffffffff, addr >> 16);
+		bar0 = nv_mask(0x001700, 0xffffffff, addr >> 16);
 	}
     
 	/* bail if no rom signature */
-	if (nv_rd08(PMC, NV_PRAMIN_OFFSET + 0) != 0x55 ||
-	    nv_rd08(PMC, NV_PRAMIN_OFFSET + 1) != 0xaa)
+	if (nv_rd08(NV_PRAMIN_OFFSET + 0) != 0x55 ||
+	    nv_rd08(NV_PRAMIN_OFFSET + 1) != 0xaa)
 		goto out;
     
-	bios.length = nv_rd08(PMC, NV_PRAMIN_OFFSET + 2) * 512;
+	bios.length = nv_rd08(NV_PRAMIN_OFFSET + 2) * 512;
 	bios.data = (uint8_t*)IOMalloc(bios.length);
 	if (bios.data) {
 		for (i = 0; i < bios.length; i++)
-			bios.data[i] = nv_rd08(PMC, NV_PRAMIN_OFFSET + i);
+			bios.data[i] = nv_rd08(NV_PRAMIN_OFFSET + i);
 	}
     
 out:
 	if (card_type >= NV_50)
-		nv_wr32(PMC, 0x001700, bar0);
+		nv_wr32(0x001700, bar0);
 }
 
 void GeForceX::bios_shadow_prom()
@@ -1811,7 +1828,7 @@ void GeForceX::bios_shadow_prom()
 	else
 		pcireg = NV_PBUS_PCI_NV_20;
     
-	access = nv_mask(PMC, pcireg, 0x00000001, 0x00000000);
+	access = nv_mask(pcireg, 0x00000001, 0x00000000);
     
 	/* bail if no rom signature, with a workaround for a PROM reading
 	 * issue on some chipsets.  the first read after a period of
@@ -1820,33 +1837,33 @@ void GeForceX::bios_shadow_prom()
 	 */
 	i = 16;
 	do {
-		if (nv_rd08(PMC, NV_PROM_OFFSET + 0) == 0x55)
+		if (nv_rd08(NV_PROM_OFFSET + 0) == 0x55)
 			break;
 	} while (i--);
     
-	if (!i || nv_rd08(PMC, NV_PROM_OFFSET + 1) != 0xaa)
+	if (!i || nv_rd08(NV_PROM_OFFSET + 1) != 0xaa)
 		goto out;
     
 	/* additional check (see note below) - read PCI record header */
-	pcir = nv_rd08(PMC, NV_PROM_OFFSET + 0x18) |
-    nv_rd08(PMC, NV_PROM_OFFSET + 0x19) << 8;
-	if (nv_rd08(PMC, NV_PROM_OFFSET + pcir + 0) != 'P' ||
-	    nv_rd08(PMC, NV_PROM_OFFSET + pcir + 1) != 'C' ||
-	    nv_rd08(PMC, NV_PROM_OFFSET + pcir + 2) != 'I' ||
-	    nv_rd08(PMC, NV_PROM_OFFSET + pcir + 3) != 'R')
+	pcir = nv_rd08(NV_PROM_OFFSET + 0x18) |
+    nv_rd08(NV_PROM_OFFSET + 0x19) << 8;
+	if (nv_rd08(NV_PROM_OFFSET + pcir + 0) != 'P' ||
+	    nv_rd08(NV_PROM_OFFSET + pcir + 1) != 'C' ||
+	    nv_rd08(NV_PROM_OFFSET + pcir + 2) != 'I' ||
+	    nv_rd08(NV_PROM_OFFSET + pcir + 3) != 'R')
 		goto out;
     
 	/* read entire bios image to system memory */
-	bios.length = nv_rd08(PMC, NV_PROM_OFFSET + 2) * 512;
+	bios.length = nv_rd08(NV_PROM_OFFSET + 2) * 512;
 	bios.data = (uint8_t*)IOMalloc(bios.length);
 	if (bios.data) {
 		for (i = 0; i < bios.length; i++)
-			bios.data[i] = nv_rd08(PMC, NV_PROM_OFFSET + i);
+			bios.data[i] = nv_rd08(NV_PROM_OFFSET + i);
 	}
     
 out:
 	/* disable access to rom */
-	nv_wr32(PMC, pcireg, access);
+	nv_wr32(pcireg, access);
 }
 
 void GeForceX::bios_shadow()
@@ -1905,16 +1922,16 @@ void GeForceX::bios_shadow()
 
 // Driver ===
 
-IOReturn GeForceX::loopTimerEvent(void)
+/*IOReturn GeForceX::loopTimerEvent(void)
 {
-    if (fanCounter++ < 2) {
+    if (fanCounter++ < 4) {
         fanRMP = nouveau_rpmfan_get(250);
     }
     
-    timersource->setTimeoutMS(1500);
+    timersource->setTimeoutMS(1000);
     
     return kIOReturnSuccess;
-}
+}*/
 
 float GeForceX::getSensorValue(FakeSMCSensor *sensor)
 {
@@ -1927,11 +1944,9 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                 case 0x80:
                 case 0x90:
                 case 0xa0:
-                    if (chipset == 0x92) {
-                        // Use custom diode calibration parameters 
-                        return nv40_get_temperature();
-                    }
-                    else if (chipset >= 0x84)
+                    if (chipset == 0x92)
+                        return g92_get_temperature();
+                    if (chipset >= 0x84)
                         return nv84_get_temperature();
                     else
                         return nv40_get_temperature();
@@ -1982,8 +1997,9 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                     return nouveau_pwmfan_get();
                     
                 case 1:
-                    fanCounter = 0;
-                    return fanRMP;
+                    //fanCounter = 0;
+                    //return fanRMP;
+                    return nouveau_rpmfan_get(250);
             }
             
         case kFakeSMCVoltageSensor:
@@ -1993,7 +2009,7 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-IOService *GeForceX::probe(IOService *provider, SInt32 *score)
+/*IOService *GeForceX::probe(IOService *provider, SInt32 *score)
 {
     HWSensorsDebugLog("Probing...");
     
@@ -2010,7 +2026,7 @@ IOService *GeForceX::probe(IOService *provider, SInt32 *score)
 		return 0;
         
     return this;
-}
+}*/
 
 bool GeForceX::start(IOService * provider)
 {
@@ -2024,14 +2040,7 @@ bool GeForceX::start(IOService * provider)
         device->setMemoryEnable(true);
         
         if ((mmio = device->mapDeviceMemoryWithIndex(0))) {
-            if (IOVirtualAddress address = mmio->getVirtualAddress()) {
-                PMC = (volatile UInt8 *)address;
-                HWSensorsDebugLog("memory mapped successfully");
-            }   
-            else {
-                HWSensorsWarningLog("PMC not set");
-                return false;
-            }
+            HWSensorsDebugLog("memory mapped successfully");
         }
         else {
             HWSensorsWarningLog("failed to map memory");
@@ -2044,7 +2053,7 @@ bool GeForceX::start(IOService * provider)
     }
 
     
-    UInt32 reg0 = nv_rd32(PMC, NV03_PMC_BOOT_0);
+    UInt32 reg0 = nv_rd32(NV03_PMC_BOOT_0);
     
     if ((reg0 & 0x0f000000) > 0) {
         
@@ -2094,7 +2103,7 @@ bool GeForceX::start(IOService * provider)
             vendor_id = *(UInt16*)data->getBytesNoCopy(0, 2);
         
         /* determine frequency of timing crystal */
-        UInt32 strap = nv_rd32(PMC, 0x101000);
+        UInt32 strap = nv_rd32(0x101000);
         if (chipset < 0x17 || (chipset >= 0x20 && chipset <= 0x25))
             strap &= 0x00000040;
         else
@@ -2229,7 +2238,7 @@ bool GeForceX::start(IOService * provider)
                 break;
         }
         
-        loopTimerEvent();
+        //loopTimerEvent();
         
         registerService();
         

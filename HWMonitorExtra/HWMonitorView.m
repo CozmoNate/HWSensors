@@ -67,7 +67,7 @@
         NSMutableArray *favorites = [[NSMutableArray alloc] init];
         
         while (sensor = (HWMonitorSensor*)[enumerator nextObject]) 
-            if ([sensor getFlag:kHWSensorFlagFavorite])
+            if ([sensor favorite])
                 [favorites addObject:sensor];
         
         for (int i = 0; i < [favorites count]; i++) {

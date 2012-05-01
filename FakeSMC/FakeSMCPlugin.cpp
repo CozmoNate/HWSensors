@@ -160,7 +160,7 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
 {
     if (fakeSMC) {
         IOService *handler = 0;
-        return kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)&handler, 0, 0);
+        return kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, false, (void *)key, (void *)&handler, 0, 0);
     }
     
     return false;
@@ -196,7 +196,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
     UInt8 length = 0;
 	void * data = 0;
     
-	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
+	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
 		length = 0;
 		
 		bcopy(data, &length, 1);
@@ -211,14 +211,14 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
                     if (name) {
                         snprintf(key, 5, KEY_FORMAT_FAN_ID, i); 
                         
-                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
+                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
                             HWSensorsWarningLog("can't add tachometer name for key %s", key);
                     }
                     
                     if (i + 1 > length) {
                         length++;
                         
-                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)(UInt8)1, (void *)&length, 0))
+                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)(UInt8)1, (void *)&length, 0))
                             HWSensorsWarningLog("can't update FNum value");
                     }
                     
@@ -279,7 +279,7 @@ bool FakeSMCPlugin::start(IOService *provider)
 
 void FakeSMCPlugin::stop(IOService* provider)
 {
-    fakeSMC->callPlatformFunction(kFakeSMCRemoveHandler, true, this, NULL, NULL, NULL);
+    fakeSMC->callPlatformFunction(kFakeSMCRemoveHandler, false, this, NULL, NULL, NULL);
     
     sensors->flushCollection();
 	

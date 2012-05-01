@@ -75,8 +75,7 @@ inline void read_cpu_thermal(void* cpu_index)
     
 	if(*cpn < kIntelThermaxMaxCpus) {
 		UInt64 msr = rdmsr64(MSR_IA32_THERM_STS);
-		if (msr & 0x80000000) 
-            cpu_thermal[*cpn] = (msr >> 16) & 0x7F;
+		if (msr & 0x80000000) cpu_thermal[*cpn] = (msr >> 16) & 0x7F;
 	}
 };
 
@@ -103,11 +102,11 @@ IOReturn IntelThermal::loopTimerEvent(void)
 {
     UInt8 index;
     
-    if (thermCounter++ < 2)
+    if (thermCounter++ < 4)
         for (UInt8 i = 0; i < cpuid_info()->core_count; i++)
             mp_rendezvous_no_intrs(read_cpu_thermal, &index);
     
-    if (perfCounter++ < 2) {
+    if (perfCounter++ < 4) {
         mp_rendezvous_no_intrs(read_cpu_performance, &index);
         
         switch (cpuid_info()->cpuid_cpufamily) {
@@ -120,7 +119,7 @@ IOReturn IntelThermal::loopTimerEvent(void)
         }
     }
     
-    timersource->setTimeoutMS(1500);
+    timersource->setTimeoutMS(1000);
     
     return kIOReturnSuccess;
 }

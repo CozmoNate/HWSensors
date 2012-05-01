@@ -27,6 +27,8 @@ inline UInt8 get_index(char c)
 @synthesize level;
 @synthesize value;
 
+@synthesize favorite;
+@synthesize extendedFormat;
 @synthesize valueHasBeenChanged;
 @synthesize levelHasBeenChanged;
 
@@ -49,16 +51,6 @@ inline UInt8 get_index(char c)
     }
     
     return nil;
-}
-
-- (BOOL)getFlag:(NSUInteger)flag
-{
-    return self->flags & flag;
-}
-
-- (void)setFlag:(NSUInteger)flag
-{
-    self->flags ^= flag;
 }
 
 - (void)setType:(NSString *)newType
@@ -230,7 +222,7 @@ inline UInt8 get_index(char c)
                 if (rpm == 0)
                     return [[NSString alloc] initWithString:@"-"];
                 
-                if ([self getFlag:kHWSensorFlagExtended])
+                if ([self extendedFormat])
                     return [[NSString alloc] initWithFormat:@"%1.0f%C", rpm, 0x0025];
                 
                 self->value = [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
@@ -244,7 +236,7 @@ inline UInt8 get_index(char c)
             case kHWSensorGroupFrequency: {
                 float f = [self decodeValue];
                 
-                if ([self getFlag:kHWSensorFlagExtended])
+                if ([self extendedFormat])
                     self->value = [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
                 else if (f > 1e6)
                     self->value = [[NSString alloc] initWithFormat:@"%1.2fTHz", f / 1e6];
