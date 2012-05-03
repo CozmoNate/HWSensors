@@ -88,16 +88,17 @@ static void read_cpu_performance(void* cpu_index)
 	if(*cpn < kIntelThermaxMaxCpus) {
 		UInt64 msr = rdmsr64(MSR_IA32_PERF_STS);
         
-        switch (cpuid_info()->cpuid_cpufamily) {
+        /*witch (cpuid_info()->cpuid_cpufamily) {
 
             case CPUFAMILY_INTEL_SANDYBRIDGE:
             case CPUFAMILY_INTEL_IVYBRIDGE:
                 cpu_performance[*cpn] = (msr >> 40) & 0xFF;
                 break;
                 
-            default:
+            default:*/
                 cpu_performance[*cpn] = msr & 0xFFFF;
-        }
+                /*break;
+        }*/
 	}
 };
 
@@ -121,7 +122,7 @@ IOReturn IntelThermal::loopTimerEvent(void)
     if (perfCounter++ < 4) {
         //for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
             mp_rendezvous_no_intrs(read_cpu_performance, &index);
-            IOSleep(1);
+        //    IOSleep(1);
         //}
         
         switch (cpuid_info()->cpuid_cpufamily) {
