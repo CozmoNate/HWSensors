@@ -135,6 +135,18 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
                 if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     HWSensorsWarningLog("can't add Power/Battery voltage sensor");
             }
+            else if (name->isEqualTo("GPU")) {
+                SInt8 index = getVacantGPUIndex();
+                
+                if (index > -1) {
+                    snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, index);
+                    
+                    if (!addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                        HWSensorsWarningLog("can't add GPU voltage sensor");
+                }
+                else HWSensorsWarningLog("failed to obtain vacant GPU index");
+            }
+            
             
             for (int j = 0; j <= 0xf; j++) {
                 
