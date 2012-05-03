@@ -81,7 +81,7 @@ private:
     UInt8                   perfCounter;
     
     UInt64                  busClock;
-    
+        
     IOReturn                loopTimerEvent(void);
 	void                    readTjmaxFromMSR();
     float                   calculateMultiplier(UInt8 cpu_index);

@@ -67,7 +67,7 @@ inline UInt32 get_cpu_number()
     return cpu_number() % cpuid_info()->core_count;
 }
 
-inline void read_cpu_thermal(void* cpu_index)
+static void read_cpu_thermal(void* cpu_index)
 {
     UInt8 * cpn = (UInt8 *)cpu_index;
     
@@ -79,7 +79,7 @@ inline void read_cpu_thermal(void* cpu_index)
 	}
 };
 
-inline void read_cpu_performance(void* cpu_index)
+static void read_cpu_performance(void* cpu_index)
 {
     UInt8 * cpn = (UInt8 *)cpu_index;
     
@@ -87,7 +87,17 @@ inline void read_cpu_performance(void* cpu_index)
     
 	if(*cpn < kIntelThermaxMaxCpus) {
 		UInt64 msr = rdmsr64(MSR_IA32_PERF_STS);
-		cpu_performance[*cpn] = msr & 0xFFFF;
+        
+        switch (cpuid_info()->cpuid_cpufamily) {
+
+            case CPUFAMILY_INTEL_SANDYBRIDGE:
+            case CPUFAMILY_INTEL_IVYBRIDGE:
+                cpu_performance[*cpn] = (msr >> 40) & 0xFF;
+                break;
+                
+            default:
+                cpu_performance[*cpn] = msr & 0xFFFF;
+        }
 	}
 };
 
@@ -103,11 +113,16 @@ IOReturn IntelThermal::loopTimerEvent(void)
     UInt8 index;
     
     if (thermCounter++ < 4)
-        for (UInt8 i = 0; i < cpuid_info()->core_count; i++)
+        for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
             mp_rendezvous_no_intrs(read_cpu_thermal, &index);
+            IOSleep(1);
+        }
     
     if (perfCounter++ < 4) {
-        mp_rendezvous_no_intrs(read_cpu_performance, &index);
+        //for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
+            mp_rendezvous_no_intrs(read_cpu_performance, &index);
+            IOSleep(1);
+        //}
         
         switch (cpuid_info()->cpuid_cpufamily) {
             case CPUFAMILY_INTEL_NEHALEM:
@@ -129,12 +144,10 @@ float IntelThermal::calculateMultiplier(UInt8 cpu_index)
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
-            return cpu_performance[0];
-            
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
-            return cpu_performance[0] >> 8;
-            
+            return cpu_performance[0];
+
         default: {
             UInt8 fid = cpu_performance[cpu_index] >> 8;
             return (float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1);
