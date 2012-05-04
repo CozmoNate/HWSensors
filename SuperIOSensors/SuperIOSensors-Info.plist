@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Super I/O Nub</key>
@@ -27,9 +27,9 @@
 			<key>CFBundleIdentifier</key>
 			<string>org.kozlek.${PRODUCT_NAME}</string>
 			<key>IOClass</key>
-			<string>SuperIO</string>
+			<string>SuperIODevice</string>
 			<key>IOMatchCategory</key>
-			<string>SuperIO</string>
+			<string>SuperIODevice</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 			<key>IOPCIClassMatch</key>
@@ -56,9 +56,7 @@
 				<string>Fintek,F71808</string>
 			</array>
 			<key>IOProviderClass</key>
-			<string>SuperIO</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
+			<string>SuperIODevice</string>
 			<key>Sensors Configuration</key>
 			<dict>
 				<key>Default</key>
@@ -644,7 +642,7 @@
 				<string>ITE,IT8772E</string>
 			</array>
 			<key>IOProviderClass</key>
-			<string>SuperIO</string>
+			<string>SuperIODevice</string>
 			<key>Sensors Configuration</key>
 			<dict>
 				<key>ASRock</key>
@@ -1953,76 +1951,74 @@
 				<string>Nuvoton,NCT6776F</string>
 			</array>
 			<key>IOProviderClass</key>
-			<string>SuperIO</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
+			<string>SuperIODevice</string>
 			<key>Sensors Configuration</key>
 			<dict>
 				<key>ASRock</key>
 				<dict>
-				<key>Z68 Pro3-M</key>
-				<dict>
-				  <key>FANIN0</key>
-				  <string>CPU Fan</string>
-				  <key>FANIN1</key>
-				  <string>Chassis Fan #1</string>
-				  <key>FANIN2</key>
-				  <string>Chassis Fan #2</string>
-				  <key>FANIN3</key>
-				  <string>Power Fan</string>
-				  <key>TEMPIN0</key>
-				  <string>CPU</string>
-				  <key>TEMPIN1</key>
-				  <string></string>
-				  <key>TEMPIN2</key>
-				  <string></string>
-				  <key>TEMPIN3</key>
-				  <string>System</string>
-				  <key>TEMPIN4</key>
-				  <string></string>
-				  <key>TEMPIN5</key>
-				  <string></string>
-				  <key>TEMPIN6</key>
-				  <string></string>
-				  <key>TEMPIN7</key>
-				  <string></string>
-				  <key>TEMPIN8</key>
-				  <string></string>
-				  <key>VIN0</key>
-				  <string>CPU</string>
-				  <key>VIN1</key>
-				  <dict>
-				   <key>gain</key>
-				   <integer>5597</integer>
-				   <key>name</key>
-				   <string>Main 12V</string>
-				   <key>offset</key>
-				   <integer>0</integer>
-				   <key>reference</key>
-				   <integer>0</integer>
-				  </dict>
-				  <key>VIN2</key>
-				  <string>Auxiliary 3V</string>
-				  <key>VIN3</key>
-				  <string>Main 3V</string>
-				  <key>VIN4</key>
-				  <string></string>
-				  <key>VIN5</key>
-				  <dict>
-				   <key>gain</key>
-				   <integer>2000</integer>
-				   <key>name</key>
-				   <string>Main 5V</string>
-				   <key>offset</key>
-				   <integer>0</integer>
-				   <key>reference</key>
-				   <integer>0</integer>
-				  </dict>
-				  <key>VIN6</key>
-				  <string></string>
-				  <key>VIN7</key>
-				  <string>Standby 3V</string>
-				</dict>
+					<key>Z68 Pro3-M</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>CPU Fan</string>
+						<key>FANIN1</key>
+						<string>Chassis Fan #1</string>
+						<key>FANIN2</key>
+						<string>Chassis Fan #2</string>
+						<key>FANIN3</key>
+						<string>Power Fan</string>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN1</key>
+						<string></string>
+						<key>TEMPIN2</key>
+						<string></string>
+						<key>TEMPIN3</key>
+						<string>System</string>
+						<key>TEMPIN4</key>
+						<string></string>
+						<key>TEMPIN5</key>
+						<string></string>
+						<key>TEMPIN6</key>
+						<string></string>
+						<key>TEMPIN7</key>
+						<string></string>
+						<key>TEMPIN8</key>
+						<string></string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<dict>
+							<key>gain</key>
+							<integer>5597</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN2</key>
+						<string>Auxiliary 3V</string>
+						<key>VIN3</key>
+						<string>Main 3V</string>
+						<key>VIN4</key>
+						<string></string>
+						<key>VIN5</key>
+						<dict>
+							<key>gain</key>
+							<integer>2000</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN6</key>
+						<string></string>
+						<key>VIN7</key>
+						<string>Standby 3V</string>
+					</dict>
 				</dict>
 				<key>ASUS</key>
 				<dict>
@@ -2586,9 +2582,7 @@
 				<string>Winbond,W83697SF</string>
 			</array>
 			<key>IOProviderClass</key>
-			<string>SuperIO</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
+			<string>SuperIODevice</string>
 			<key>Sensors Configuration</key>
 			<dict>
 				<key>ASRock</key>

@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
@@ -59,9 +59,7 @@
 				<string>Fintek,F71808</string>
 			</array>
 			<key>IOProviderClass</key>
-			<string>SuperIO</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
+			<string>SuperIODevice</string>
 			<key>Sensors Configuration</key>
 			<dict>
 				<key>Default</key>
@@ -647,7 +645,7 @@
 				<string>ITE,IT8772E</string>
 			</array>
 			<key>IOProviderClass</key>
-			<string>SuperIO</string>
+			<string>SuperIODevice</string>
 			<key>Sensors Configuration</key>
 			<dict>
 				<key>ASRock</key>
@@ -1956,9 +1954,7 @@
 				<string>Nuvoton,NCT6776F</string>
 			</array>
 			<key>IOProviderClass</key>
-			<string>SuperIO</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
+			<string>SuperIODevice</string>
 			<key>Sensors Configuration</key>
 			<dict>
 				<key>ASRock</key>
@@ -2569,9 +2565,9 @@
 			<key>CFBundleIdentifier</key>
 			<string>org.kozlek.SuperIOSensors</string>
 			<key>IOClass</key>
-			<string>SuperIO</string>
+			<string>SuperIODevice</string>
 			<key>IOMatchCategory</key>
-			<string>SuperIO</string>
+			<string>SuperIODevice</string>
 			<key>IOPCIClassMatch</key>
 			<string>0x06010000&amp;0xffff0000</string>
 			<key>IOProviderClass</key>
@@ -2602,9 +2598,7 @@
 				<string>Winbond,W83697SF</string>
 			</array>
 			<key>IOProviderClass</key>
-			<string>SuperIO</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
+			<string>SuperIODevice</string>
 			<key>Sensors Configuration</key>
 			<dict>
 				<key>ASRock</key>

@@ -1065,11 +1065,7 @@ UInt32 GeForceX::nva3_get_clock(NVClockSource name)
         case NVClockShader:
             clocks = nva3_read_pll(0x01, 0x4220);
             break;
-            
-        /*case NVClockRop:
-            clocks = nvc0_read_clk(0x01);
-            break;*/
-            
+                       
         case NVClockCopy:
             clocks = nva3_read_pll(0x00, 0x4200);
             break;

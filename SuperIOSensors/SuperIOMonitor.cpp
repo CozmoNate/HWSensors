@@ -374,6 +374,8 @@ bool SuperIOMonitor::start(IOService *provider)
         registerService();
     }
     else HWSensorsWarningLog("no sensors configuration provided");
+    
+    HWSensorsInfoLog("started");
 
 	return true;
 }

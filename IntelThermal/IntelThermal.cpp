@@ -63,11 +63,10 @@ inline UInt8 get_hex_index(char c)
 
 inline UInt32 get_cpu_number()
 {
-    // I found information that reading from 1-4 cores gives the same result as reading from 5-8 cores for 4-cores 8-threads CPU. Needs more investigation
     return cpu_number() % cpuid_info()->core_count;
 }
 
-static void read_cpu_thermal(void* cpu_index)
+inline void read_cpu_thermal(void* cpu_index)
 {
     UInt8 * cpn = (UInt8 *)cpu_index;
     
@@ -79,7 +78,7 @@ static void read_cpu_thermal(void* cpu_index)
 	}
 };
 
-static void read_cpu_performance(void* cpu_index)
+inline void read_cpu_performance(void* cpu_index)
 {
     UInt8 * cpn = (UInt8 *)cpu_index;
     
@@ -87,18 +86,7 @@ static void read_cpu_performance(void* cpu_index)
     
 	if(*cpn < kIntelThermaxMaxCpus) {
 		UInt64 msr = rdmsr64(MSR_IA32_PERF_STS);
-        
-        /*witch (cpuid_info()->cpuid_cpufamily) {
-
-            case CPUFAMILY_INTEL_SANDYBRIDGE:
-            case CPUFAMILY_INTEL_IVYBRIDGE:
-                cpu_performance[*cpn] = (msr >> 40) & 0xFF;
-                break;
-                
-            default:*/
-                cpu_performance[*cpn] = msr & 0xFFFF;
-                /*break;
-        }*/
+        cpu_performance[*cpn] = msr & 0xFFFF;
 	}
 };
 
@@ -120,17 +108,20 @@ IOReturn IntelThermal::loopTimerEvent(void)
         }
     
     if (perfCounter++ < 4) {
-        //for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
-            mp_rendezvous_no_intrs(read_cpu_performance, &index);
-        //    IOSleep(1);
-        //}
-        
         switch (cpuid_info()->cpuid_cpufamily) {
             case CPUFAMILY_INTEL_NEHALEM:
             case CPUFAMILY_INTEL_WESTMERE:
             case CPUFAMILY_INTEL_SANDYBRIDGE:
             case CPUFAMILY_INTEL_IVYBRIDGE:
+                mp_rendezvous_no_intrs(read_cpu_performance, &index);
                 cpu_performance[0] = cpu_performance[index];
+                break;
+                
+            default:
+                for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
+                    mp_rendezvous_no_intrs(read_cpu_performance, &index);
+                    IOSleep(1);
+                }
                 break;
         }
     }
