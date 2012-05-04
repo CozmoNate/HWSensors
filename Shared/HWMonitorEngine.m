@@ -250,20 +250,27 @@
     }
     
     // Fans
-    
     for (int i=0; i<10; i++) {
-        
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_FAN_PWM,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),i + 1] group:kHWSensorGroupPWM];
-        
         NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine getValueFromKeyInfo:[HWMonitorEngine populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
         
         if ([caption length] == 0)
             caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
         
-       if ([caption hasPrefix:@"GPU "])
-            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupTachometer];
-        else 
+        if (![caption hasPrefix:@"GPU "])
             [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:caption group:kHWSensorGroupTachometer];
+    }
+    
+    // GPU Fans
+    for (int i=0; i<10; i++) {
+        NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine getValueFromKeyInfo:[HWMonitorEngine populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
+        
+        if ([caption hasPrefix:@"GPU "]) {
+            UInt8 cardIndex = [[caption substringFromIndex:5] intValue];
+            
+            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_FAN_PWM,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),i + 1] group:kHWSensorGroupPWM];
+            
+            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),cardIndex + 1] group:kHWSensorGroupTachometer];
+        }
     }
     
     // Voltages
