@@ -37,6 +37,8 @@
 
 #include <architecture/i386/pio.h>
 
+#define kGeForceXPWMSensor  1000
+
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(GeForceX, FakeSMCPlugin)
 
@@ -1973,17 +1975,12 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                     return nvc0_get_clock((NVClockSource)sensor->getIndex());
             }
             break;
+            
+        case kGeForceXPWMSensor:
+            return nouveau_pwmfan_get();
         
         case kFakeSMCTachometerSensor:
-            switch (sensor->getIndex()) {
-                case 0:
-                    return nouveau_pwmfan_get();
-                    
-                case 1:
-                    //fanCounter = 0;
-                    //return fanRMP;
-                    return nouveau_rpmfan_get(250);
-            }
+            return nouveau_rpmfan_get(250);
             
         case kFakeSMCVoltageSensor:
             return nouveau_voltage_get();
@@ -2144,27 +2141,27 @@ bool GeForceX::start(IOService * provider)
             case 0x80:
             case 0x90:
             case 0xa0:
-                snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, cardIndex);
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_FREQUENCY, cardIndex);
                 addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVClockCore);
                 
-                snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_SHADER_FREQUENCY, cardIndex);
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY, cardIndex);
                 addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVClockShader);
                 
-                snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY, cardIndex);
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY, cardIndex);
                 addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVCLockMemory);
                 break;
             case 0xc0:
             case 0xd0:
-                snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, cardIndex);
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_FREQUENCY, cardIndex);
                 addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVClockCore);
                 
-                snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_SHADER_FREQUENCY, cardIndex);
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY, cardIndex);
                 addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVClockShader);
                 
-                snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_ROP_FREQUENCY, cardIndex);
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY, cardIndex);
                 addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVClockRop);
                 
-                snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY, cardIndex);
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY, cardIndex);
                 addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, NVCLockMemory);
                 break;
         }
@@ -2182,8 +2179,8 @@ bool GeForceX::start(IOService * provider)
                 char title[16]; 
                 
                 if (nouveau_pwmfan_get() > 0) {
-                    snprintf (title, 16, "%s%X", kFakeSMCGPUDutyCyclePrefix, cardIndex);                
-                    addTachometer(0, title);
+                    snprintf(key, 5, KEY_FAKESMC_FORMAT_FAN_PWM, cardIndex);
+                    addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kGeForceXPWMSensor, 0);
                 }
                 
                 if (nouveau_rpmfan_get(100) > 0) {

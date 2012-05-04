@@ -28,7 +28,7 @@ inline UInt8 get_index(char c)
 @synthesize value;
 
 @synthesize favorite;
-@synthesize extendedFormat;
+
 @synthesize valueHasBeenChanged;
 @synthesize levelHasBeenChanged;
 
@@ -104,7 +104,7 @@ inline UInt8 get_index(char c)
             
             switch ([type characterAtIndex:2]) {
                 case '8':
-                    if ([type characterAtIndex:3] == '\0' && [data length] == 1) {
+                    if ([data length] == 1) {
                         UInt8 encoded = 0;
                         
                         bcopy([data bytes], &encoded, 1);
@@ -166,91 +166,71 @@ inline UInt8 get_index(char c)
 - (NSString*)value
 {
     if (valueHasBeenChanged && data) {
-        switch (group) {
-            case kSMARTSensorGroupTemperature: {
-                UInt16 t = 0;
-                
-                [data getBytes:&t length:2];
-                               
-                if (level != kHWSensorLevelExceeded && [disk isRotational])
-                    [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
-                
-                self->value = [[NSString alloc] initWithFormat:@"%d°",t];
-                break;
-            }
-                
-            case kSMARTSensorGroupRemainingLife: {
-                UInt64 life = 0;
-                
-                [data getBytes:&life length:[data length]];
-                
-                if (level != kHWSensorLevelExceeded)
-                    [self setLevel:life >= 90 ? kHWSensorLevelExceeded : life >= 80 ? kHWSensorLevelHigh : life >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
-                
-                self->value = [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
-                break;
-            }
-                
-            case kSMARTSensorGroupRemainingBlocks: {
-                UInt64 blocks = 0;
-                
-                [data getBytes:&blocks length:[data length]];
-                 
-                self->value = [[NSString alloc] initWithFormat:@"%d",blocks];
-                break;
-            }
-                
-            case kHWSensorGroupTemperature: {
-                float t = [self decodeValue];
-                
-                [self setLevel:t >= 100 ? kHWSensorLevelExceeded : t >= 85 ? kHWSensorLevelHigh : t >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
-                
-                self->value = [[NSString alloc] initWithFormat:@"%1.0f°", t];
-                break;
-            }
-                
-            case kHWSensorGroupVoltage:
-                self->value = [[NSString alloc] initWithFormat:@"%1.3fV", [self decodeValue]];
-                break;
-                
-            case kHWSensorGroupTachometer: {
-                
-                float rpm = [self decodeValue];
-                
-                [self setLevel:rpm == 0 ? kHWSensorLevelExceeded : kHWSensorLevelNormal];
-                
-                if (rpm == 0)
-                    return [[NSString alloc] initWithString:@"-"];
-                
-                if ([self extendedFormat])
-                    return [[NSString alloc] initWithFormat:@"%1.0f%C", rpm, 0x0025];
-                
-                self->value = [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
-                break;
-            }
-                
-            /*case kHWSensorGroupMultiplier:
-                self->value = [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
-                break;*/
-                
-            case kHWSensorGroupFrequency: {
-                float f = [self decodeValue];
-                
-                if ([self extendedFormat])
-                    self->value = [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
-                else if (f > 1e6)
-                    self->value = [[NSString alloc] initWithFormat:@"%1.2fTHz", f / 1e6];
-                else if (f > 1e3)
-                    self->value = [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1e3];
-                else 
-                    self->value = [[NSString alloc] initWithFormat:@"%1.0fMHz", f]; 
-                break;
-            }
-                
-            default:
-                self->value = [[NSString alloc] initWithString:@"-"];
-                break;
+        if (group & kSMARTSensorGroupTemperature) {
+            UInt16 t = 0;
+            
+            [data getBytes:&t length:2];
+            
+            if (level != kHWSensorLevelExceeded && [disk isRotational])
+                [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+            
+            self->value = [[NSString alloc] initWithFormat:@"%d°",t];
         }
+        else if (group & kSMARTSensorGroupRemainingLife) {
+            UInt64 life = 0;
+            
+            [data getBytes:&life length:[data length]];
+            
+            if (level != kHWSensorLevelExceeded)
+                [self setLevel:life >= 90 ? kHWSensorLevelExceeded : life >= 80 ? kHWSensorLevelHigh : life >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+            
+            self->value = [[NSString alloc] initWithFormat:@"%d%C",100-life,0x0025];
+        }
+        else if (group & kSMARTSensorGroupRemainingBlocks) {
+            UInt64 blocks = 0;
+            
+            [data getBytes:&blocks length:[data length]];
+            
+            self->value = [[NSString alloc] initWithFormat:@"%d",blocks];
+        }
+        else if (group & kHWSensorGroupTemperature) {
+            float t = [self decodeValue];
+            
+            [self setLevel:t >= 100 ? kHWSensorLevelExceeded : t >= 85 ? kHWSensorLevelHigh : t >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+            
+            self->value = [[NSString alloc] initWithFormat:@"%1.0f°", t];
+        }
+        else if (group & kHWSensorGroupPWM) {
+            self->value = [[NSString alloc] initWithFormat:@"%1.0f%C", [self decodeValue], 0x0025];
+        }
+        else if (group & kHWSensorGroupMultiplier) {
+            self->value = [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
+        }
+        else if (group & kHWSensorGroupFrequency) {
+            float f = [self decodeValue];
+            
+            if (f > 1e6)
+                self->value = [[NSString alloc] initWithFormat:@"%1.2fTHz", f / 1e6];
+            else if (f > 1e3)
+                self->value = [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1e3];
+            else 
+                self->value = [[NSString alloc] initWithFormat:@"%1.0fMHz", f]; 
+        }
+        else if (group & kHWSensorGroupTachometer) {
+            float rpm = [self decodeValue];
+            
+            if ([self level] != kHWSensorLevelExceeded)
+                [self setLevel:rpm == 0 ? kHWSensorLevelExceeded : kHWSensorLevelNormal];
+            
+            if (rpm == 0)
+                self->value = [[NSString alloc] initWithString:@"-"];
+            
+            self->value = [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
+        }
+        else if (group & kHWSensorGroupVoltage) {
+            self->value = [[NSString alloc] initWithFormat:@"%1.3fV", [self decodeValue]];
+        }
+        else self->value = [[NSString alloc] initWithString:@"-"];
     }
     
     return self->value;

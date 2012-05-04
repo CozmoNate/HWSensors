@@ -327,9 +327,9 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	keys = OSArray::withCapacity(0);
     exposedValues = OSDictionary::withCapacity(0);
 	
-	sharpKEY = FakeSMCKey::withValue("#KEY", "ui8", 4, "\1");
+	sharpKEY = FakeSMCKey::withValue("#KEY", TYPE_UI32, TYPE_UI32_SIZE, "\0\0\0\1");
 	keys->setObject(sharpKEY);
-	
+    
 	loadKeysFromDictionary(OSDynamicCast(OSDictionary, properties->getObject("Keys")));
 	
 	this->setName("SMC");

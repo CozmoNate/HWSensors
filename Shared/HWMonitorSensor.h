@@ -10,14 +10,18 @@
 
 #include "ATASmartReporter.h"
 
-
-#define kHWSensorGroupTemperature           1
-#define kHWSensorGroupVoltage               2
-#define kHWSensorGroupTachometer            3
-#define kHWSensorGroupFrequency             4
-#define kSMARTSensorGroupTemperature        5
-#define kSMARTSensorGroupRemainingLife      6
-#define kSMARTSensorGroupRemainingBlocks    7
+enum HWSensorGroup {
+    kHWSensorGroupTemperature           = 1 << 0,
+    kHWSensorGroupVoltage               = 1 << 1,
+    kHWSensorGroupPWM                   = 1 << 2,
+    kHWSensorGroupTachometer            = 1 << 3,
+    kHWSensorGroupMultiplier            = 1 << 4,
+    kHWSensorGroupFrequency             = 1 << 5,    
+    
+    kSMARTSensorGroupTemperature        = 1 << 6,   
+    kSMARTSensorGroupRemainingLife      = 1 << 7,    
+    kSMARTSensorGroupRemainingBlocks    = 1 << 8,
+};
 
 #define kHWSensorLevelUnused                0
 #define kHWSensorLevelDisabled              1
@@ -25,9 +29,6 @@
 #define kHWSensorLevelModerate              3
 #define kHWSensorLevelHigh                  4
 #define kHWSensorLevelExceeded              1000
-
-#define kHWSensorFlagFavorite               (1 << 0)
-#define kHWSensorFlagExtended               (1 << 1)
 
 @interface HWMonitorSensor : NSObject
 
@@ -42,7 +43,7 @@
 @property (readonly) NSString*                  value;
 
 @property (readwrite, assign) BOOL              favorite;
-@property (readwrite, assign) BOOL              extendedFormat;
+
 @property (readonly) BOOL                       levelHasBeenChanged;
 @property (readonly) BOOL                       valueHasBeenChanged;
 

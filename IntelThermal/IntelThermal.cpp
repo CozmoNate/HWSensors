@@ -382,12 +382,12 @@ bool IntelThermal::start(IOService *provider)
                 break;
                 
             default:
-                snprintf(key, 5, KEY_FORMAT_FAKESMC_CPU_MULTIPLIER, i);
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
                 
                 if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, i))
                     HWSensorsWarningLog("Can't add multiplier sensor");
                 
-                snprintf(key, 5, KEY_FORMAT_FAKESMC_CPU_FREQUENCY, i);
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY, i);
                 
                 if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, i))
                     HWSensorsWarningLog("Can't add frequency sensor");

@@ -88,16 +88,17 @@
 #define KEY_FAN_NUMBER                          "FNum"
 #define KEY_FORMAT_FAN_ID                       "F%XID"
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
-
+#define KEY_FAKESMC_FORMAT_FAN_PWM              "F%XDc"
 // Other
-#define KEY_FORMAT_FAKESMC_CPU_FREQUENCY		"CC%XP"
-#define KEY_FORMAT_FAKESMC_GPU_FREQUENCY        "CG%XP"
-#define KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY "CG%XM"
-#define KEY_FORMAT_FAKESMC_GPU_SHADER_FREQUENCY "CG%XS"
-#define KEY_FORMAT_FAKESMC_GPU_ROP_FREQUENCY    "CG%XR"
+#define KEY_FAKESMC_FORMAT_CPU_FREQUENCY		"Cl%XC"
 #define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY       "ClCP"
 
-#define KEY_FORMAT_FAKESMC_CPU_MULTIPLIER		"MlC%X"
+#define KEY_FAKESMC_FORMAT_GPU_FREQUENCY        "Cl%XG"
+#define KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY "CG%XM"
+#define KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY "CG%XS"
+#define KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY    "CG%XR"
+
+#define KEY_FAKESMC_FORMAT_CPU_MULTIPLIER		"MlC%X"
 #define KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER      "MlCP"
 
 // Types
@@ -136,8 +137,6 @@
 #define kFakeSMCGetValueCallback                "FakeSMC_GetValueCallback"
 #define kFakeSMCSetValueCallback                "FakeSMC_SetValueCallback"
 #define kFakeSMCRemoveHandler                   "FakeSMC_RemoveHandler"
-
-#define kFakeSMCGPUDutyCyclePrefix              "gpu_duty_cycle"
 
 #define HWSensorsDebugLog(string, args...)	do { if (0) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog ("%s: [Warning] " string "\n",getName() , ## args); } while(0)

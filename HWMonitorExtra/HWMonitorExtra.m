@@ -159,9 +159,8 @@
         [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" Icon:hddtemperaturesIcon Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
         [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" Icon:ssdlifeIcon Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
         [self insertMenuGroupWithTitle:@"SSD REMAINING BLOCKS" Icon:ssdlifeIcon Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingBlocks]];
-        //[self insertMenuGroupWithTitle:@"MULTIPLIERS" Icon:multipliersIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier]];
-        [self insertMenuGroupWithTitle:@"FREQUENCIES" Icon:frequenciesIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency]];
-        [self insertMenuGroupWithTitle:@"FANS" Icon:tachometersIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer]];
+        [self insertMenuGroupWithTitle:@"FREQUENCIES" Icon:frequenciesIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency]];
+        [self insertMenuGroupWithTitle:@"FANS" Icon:tachometersIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer]];
         [self insertMenuGroupWithTitle:@"VOLTAGES" Icon:voltagesIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
         
         /*[menu addItem:[NSMenuItem separatorItem]];
