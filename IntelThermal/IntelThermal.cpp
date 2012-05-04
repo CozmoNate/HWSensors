@@ -136,9 +136,11 @@ float IntelThermal::calculateMultiplier(UInt8 cpu_index)
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
+            return cpu_performance[0];
+            
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
-            return cpu_performance[0];
+            return cpu_performance[0] >> 8;
 
         default: {
             UInt8 fid = cpu_performance[cpu_index] >> 8;
