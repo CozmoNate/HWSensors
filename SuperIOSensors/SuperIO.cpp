@@ -3,18 +3,14 @@
 #include <IOKit/IOLib.h>
 
 #include "OemInfo.h"
+#include "FakeSMCDefinitions.h"
 
 #define Debug FALSE
 
-#define LogPrefix "SuperIO: "
-#define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)
-
 #define super IOService
-OSDefineMetaClassAndStructors(SuperIO, IOService)
+OSDefineMetaClassAndStructors(SuperIODevice, IOService)
 
-bool SuperIO::init(OSDictionary *dictionary)
+bool SuperIODevice::init(OSDictionary *dictionary)
 {	
 	if (!super::init(dictionary))
 		return false;
@@ -22,12 +18,12 @@ bool SuperIO::init(OSDictionary *dictionary)
 	return true;
 }
 
-IOService *SuperIO::probe(IOService *provider, SInt32 *score)
+IOService *SuperIODevice::probe(IOService *provider, SInt32 *score)
 {
     return super::probe(provider, score);
 }
 
-bool SuperIO::start(IOService *provider)
+bool SuperIODevice::start(IOService *provider)
 {
 	if (!super::start(provider)) return false;
     
@@ -284,12 +280,12 @@ bool SuperIO::start(IOService *provider)
     return true;
 }
 
-void SuperIO::stop(IOService *provider)
+void SuperIODevice::stop(IOService *provider)
 {
     super::stop(provider);
 }
 
-void SuperIO::free()
+void SuperIODevice::free()
 {
     super::free();
 }

@@ -160,9 +160,9 @@ inline const char* superio_get_model_name(UInt16 model)
     return "unknown";
 }
 
-class SuperIO : public IOService
+class SuperIODevice : public IOService
 {
-	OSDeclareDefaultStructors(SuperIO)
+	OSDeclareDefaultStructors(SuperIODevice)
 	
 public:
     virtual bool		init(OSDictionary *dictionary = 0);
