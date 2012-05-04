@@ -202,13 +202,13 @@ bool NVClockX::start(IOService * provider)
 		
         HWSensorsInfoLog("registering frequency sensors");
         
-        snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, index);
+        snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_FREQUENCY, index);
         addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kNVCLockCoreFrequencySensor, index);
         
-        snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_MEMORY_FREQUENCY, index);
+        snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY, index);
         addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kNVCLockMemoryFrequencySensor, index);
         
-        snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_SHADER_FREQUENCY, index);
+        snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY, index);
         addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kNVCLockMemoryFrequencySensor, index);
 		
 		/*OSNumber* fanKey = OSDynamicCast(OSNumber, getProperty("FanSpeedPercentage"));

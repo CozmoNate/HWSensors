@@ -261,7 +261,7 @@ SInt8 FakeSMCPlugin::getVacantGPUIndex()
                 
                 if (!isKeyHandled(key)) {
                     
-                    snprintf(key, 5, KEY_FORMAT_FAKESMC_GPU_FREQUENCY, i); 
+                    snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_FREQUENCY, i); 
                     
                     if (!isKeyHandled(key))
                         return i;
