@@ -889,7 +889,8 @@ float GeForceX::nouveau_rpmfan_get(UInt32 milliseconds)
                 prev = cur;
             }
             
-            IOSleep(1); /* supports 0 < rpm < 7500 */
+            //IOSleep(1); /* supports 0 < rpm < 7500 */
+            IODelay(500); /* supports 0 < rpm < 7500 */
 
             clock_get_system_nanotime(&secs, &nanosecs);  
             
