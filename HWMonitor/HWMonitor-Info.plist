@@ -17,17 +17,17 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>HWMONITOR_SHORTVERSION</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>HWMN</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>HWMONITOR_VERSION</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2011 mozo. All rights reserved.</string>
+	<string>Copyright © HWSENSORS_LASTYEAR mozo. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

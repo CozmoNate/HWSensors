@@ -15,13 +15,13 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.2.1</string>
+	<string>FAKESMC_SHORTVERSION</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>4.2.1</string>
+	<string>FAKESMC_VERSION</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 netkas. All rights reserved.</string>
+	<string>Copyright © HWSENSORS_LASTYEAR netkas. All rights reserved.</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>SMC Device Emulator</key>
@@ -222,7 +222,7 @@
 		</dict>
 	</dict>
 	<key>OSBundleCompatibleVersion</key>
-	<string>4.0.0</string>
+	<string>FAKESMC_COMPATIBLE</string>
 	<key>OSBundleLibraries</key>
 	<dict>
 		<key>com.apple.kpi.iokit</key>
