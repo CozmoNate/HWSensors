@@ -1949,6 +1949,7 @@
 			<array>
 				<string>Nuvoton,NCT6771F</string>
 				<string>Nuvoton,NCT6776F</string>
+				<string>Nuvoton,NCT6779D</string>
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>

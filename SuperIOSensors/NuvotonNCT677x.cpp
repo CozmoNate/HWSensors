@@ -164,6 +164,7 @@ bool NCT677xMonitor::initialize()
             break;
             
         case NCT6776F:
+        case NCT6779D:
             minFanRPM = (int)(1.35e6 / 0x1FFF);
             break;
     }
