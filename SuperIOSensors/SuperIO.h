@@ -69,7 +69,8 @@ enum SuperIOModel
     
     // Nuvoton
     NCT6771F    = 0xB470,
-    NCT6776F    = 0xC330
+    NCT6776F    = 0xC330,
+    NCT6779D    = 0xC560
 };
 
 inline UInt8 superio_listen_port_byte(i386_ioport_t port, UInt8 reg)
@@ -117,44 +118,45 @@ inline void winbond_family_exit(i386_ioport_t port)
 inline const char* superio_get_model_name(UInt16 model)
 {
     switch (model) {
-        case IT8512F: return "IT8512F";
-        case IT8712F: return "IT8712F";
-        case IT8716F: return "IT8716F";
-        case IT8718F: return "IT8718F";
-        case IT8720F: return "IT8720F";
-        case IT8721F: return "IT8721F";
-        case IT8726F: return "IT8726F";
-        case IT8728F: return "IT8728F";
-        case IT8752F: return "IT8752F";
-        case IT8771E: return "IT8771E";
-        case IT8772E: return "IT8772E";
+        case IT8512F:       return "IT8512F";
+        case IT8712F:       return "IT8712F";
+        case IT8716F:       return "IT8716F";
+        case IT8718F:       return "IT8718F";
+        case IT8720F:       return "IT8720F";
+        case IT8721F:       return "IT8721F";
+        case IT8726F:       return "IT8726F";
+        case IT8728F:       return "IT8728F";
+        case IT8752F:       return "IT8752F";
+        case IT8771E:       return "IT8771E";
+        case IT8772E:       return "IT8772E";
             
-        case W83627DHG: return "W83627DHG";
-        case W83627UHG: return "W83627UHG";
-        case W83627DHGP: return "W83627DHGP";
-        case W83627EHF: return "W83627EHF";
-        case W83627HF: return "W83627HF";
-        case W83627THF: return "W83627THF";
-        case W83627SF: return "W83627SF";
-        case W83637HF: return "W83637HF";
-        case W83667HG: return "W83667HG";
-        case W83667HGB: return "W83667HGB";
-        case W83687THF: return "W83687THF";
-        case W83697HF: return "W83697HF";
-        case W83697SF: return "W83697SF";
+        case W83627DHG:     return "W83627DHG";
+        case W83627UHG:     return "W83627UHG";
+        case W83627DHGP:    return "W83627DHGP";
+        case W83627EHF:     return "W83627EHF";
+        case W83627HF:      return "W83627HF";
+        case W83627THF:     return "W83627THF";
+        case W83627SF:      return "W83627SF";
+        case W83637HF:      return "W83637HF";
+        case W83667HG:      return "W83667HG";
+        case W83667HGB:     return "W83667HGB";
+        case W83687THF:     return "W83687THF";
+        case W83697HF:      return "W83697HF";
+        case W83697SF:      return "W83697SF";
             
-        case F71858: return "F71858";
-        case F71862: return "F71862";
-        case F71869: return "F71869";
-        case F71869A: return "F71869A";
-        case F71882: return "F71882";
-        case F71889AD: return "F71889AD";
-        case F71889ED: return "F71889ED";
-        case F71889F: return "F71889F";
-        case F71808: return "F71808";
+        case F71858:        return "F71858";
+        case F71862:        return "F71862";
+        case F71869:        return "F71869";
+        case F71869A:       return "F71869A";
+        case F71882:        return "F71882";
+        case F71889AD:      return "F71889AD";
+        case F71889ED:      return "F71889ED";
+        case F71889F:       return "F71889F";
+        case F71808:        return "F71808";
             
-        case NCT6771F: return "NCT6771F";
-        case NCT6776F: return "NCT6776F";
+        case NCT6771F:      return "NCT6771F";
+        case NCT6776F:      return "NCT6776F";
+        case NCT6779D:      return "NCT6779D";
     }
     
     return "unknown";

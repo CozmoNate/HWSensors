@@ -165,6 +165,15 @@ bool SuperIODevice::start(IOService *provider)
                                 break;
                         } 
                         break;
+                    
+                    case 0xC5:
+                        switch (id & 0xf0) {
+                            case 0x60:
+                                model = NCT6779D;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Nuvoton";
+                                break;
+                        } break;
                 } 
                 break;
         }
