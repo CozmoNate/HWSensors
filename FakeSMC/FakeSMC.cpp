@@ -1,6 +1,7 @@
 
 #include "FakeSMC.h"
 #include "FakeSMCDefinitions.h"
+#include "HWSensorsInfoPlist.pch"
 
 #define super IOService
 OSDefineMetaClassAndStructors (FakeSMC, IOService)
@@ -10,8 +11,9 @@ bool FakeSMC::init(OSDictionary *dictionary)
 	if (!super::init(dictionary))
 		return false;
     
+    IOLog("HWSensors %s Copyright %d kozlek, usr-sse2, slice, navi, THe KiNG. All rights reserved.\n", HWSENSORS_VERSION_STRING, HWSENSORS_LASTYEAR);
+    
     HWSensorsInfoLog("Opensource SMC device emulator. Copyright 2009 netkas. All rights reserved.");
-	HWSensorsInfoLog("Hardware monitoring plugins. Copyright 2012 kozlek, usr-sse2, slice, navi. All rights reserved.");
     
     if (!(smcDevice = new FakeSMCDevice)) {
 		HWSensorsInfoLog("failed to create SMC device");

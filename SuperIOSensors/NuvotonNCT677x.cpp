@@ -3,7 +3,7 @@
  *  HWSensors
  *
  *  Based on code from Open Hardware Monitor project by Michael Möller (C) 2011
- *  Copyright (C) 2011-2012 THe KiNG and mozodojo. All Rights Reserved (R)
+ *  Copyright (C) 2011-2012 THe KiNG. All Rights Reserved (R)
  *  
  *
  */
