@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>11D50</string>
+	<string>11E53</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -546,7 +546,7 @@
 							<key>gain</key>
 							<integer>1107</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 2</string>
+							<string>CPU VRM Supply 0</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -557,7 +557,7 @@
 							<key>gain</key>
 							<integer>485</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 3</string>
+							<string>CPU VRM Supply 1</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -3038,7 +3038,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 		<key>org.netkas.FakeSMC</key>
-		<string>4.2.0</string>
+		<string>4.2.2</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

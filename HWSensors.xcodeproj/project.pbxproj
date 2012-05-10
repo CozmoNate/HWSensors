@@ -124,6 +124,7 @@
 		6AE5FC3F151E269C005F9929 /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC3D151E269C005F9929 /* voltages.png */; };
 		6AE5FC41151E298E005F9929 /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
 		6AE5FC42151E298E005F9929 /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
+		7E140655155ADF59000A1AF5 /* FakeSMCTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E140654155ADF59000A1AF5 /* FakeSMCTime.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -234,8 +235,6 @@
 		6A62185214F17D640058C396 /* ATASmartReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATASmartReporter.h; sourceTree = "<group>"; };
 		6A62185314F17D640058C396 /* ATASmartReporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATASmartReporter.m; sourceTree = "<group>"; };
 		6A8307A6151BCE800015911A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		6A8307AB151BCE960015911A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		6A8307AC151BCEB00015911A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = ../../../../System/Library/Frameworks/Foundation.framework; sourceTree = "<group>"; };
 		6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HWMonitorExtra.menu; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A85F85B14DBEF5000F863A9 /* HWMonitorExtra-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HWMonitorExtra-Info.plist"; sourceTree = "<group>"; };
 		6A85F85F14DBEF5000F863A9 /* HWMonitorExtra-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HWMonitorExtra-Prefix.pch"; sourceTree = "<group>"; };
@@ -293,6 +292,7 @@
 		6AE5FC37151E23CD005F9929 /* frequencies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frequencies.png; sourceTree = "<group>"; };
 		6AE5FC3D151E269C005F9929 /* voltages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voltages.png; sourceTree = "<group>"; };
 		6AE5FC40151E298E005F9929 /* tachometers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tachometers.png; sourceTree = "<group>"; };
+		7E140654155ADF59000A1AF5 /* FakeSMCTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCTime.h; sourceTree = "<group>"; };
 		7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsInfoPlist.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -419,6 +419,7 @@
 			isa = PBXGroup;
 			children = (
 				6AA172C6150B415200A77CF2 /* FakeSMCDefinitions.h */,
+				7E140654155ADF59000A1AF5 /* FakeSMCTime.h */,
 				6AA172CA150B415200A77CF2 /* FakeSMCKey.h */,
 				6AA172C9150B415200A77CF2 /* FakeSMCKey.cpp */,
 				6AA172C5150B415200A77CF2 /* FakeSMCDevice.h */,
@@ -784,8 +785,6 @@
 				6A9F7268150A23C600279E79 /* Kernel.framework */,
 				6A10C18F1506B2A4005E0897 /* IOKit.framework */,
 				6A8307A6151BCE800015911A /* AppKit.framework */,
-				6A8307AB151BCE960015911A /* CoreData.framework */,
-				6A8307AC151BCEB00015911A /* Foundation.framework */,
 				6A85F86614DBF12900F863A9 /* SystemUIPlugin.framework */,
 			);
 			name = "Other Frameworks";
@@ -852,6 +851,7 @@
 				6AA172CC150B415200A77CF2 /* FakeSMCDevice.h in Headers */,
 				6A9C468E14E657EE0083E5E6 /* FakeSMCPlugin.h in Headers */,
 				6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */,
+				7E140655155ADF59000A1AF5 /* FakeSMCTime.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

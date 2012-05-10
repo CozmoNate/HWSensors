@@ -293,7 +293,6 @@ bool RadeonMonitor::start(IOService * provider)
         return false;
     }
     
-    
     registerService();
     
     return true;

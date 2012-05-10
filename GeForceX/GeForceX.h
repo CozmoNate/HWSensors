@@ -113,17 +113,17 @@ static const struct NVVRAMTypes {
 	int value;
 	const char *name;
 } NVVRAMTypeMap[] = {
-    { NV_MEM_TYPE_UNKNOWN, "unknown memory type" },
-	{ NV_MEM_TYPE_STOLEN , "stolen system memory" },
-	{ NV_MEM_TYPE_SGRAM  , "SGRAM memory" },
-	{ NV_MEM_TYPE_SDRAM  , "SDRAM memory" },
-	{ NV_MEM_TYPE_DDR1   , "DDR memory" },
-	{ NV_MEM_TYPE_DDR2   , "DDR2 memory" },
-	{ NV_MEM_TYPE_DDR3   , "DDR3 memory" },
-	{ NV_MEM_TYPE_GDDR2  , "GDDR2 memory" },
-	{ NV_MEM_TYPE_GDDR3  , "GDDR3 memory" },
-	{ NV_MEM_TYPE_GDDR4  , "GDDR4 memory" },
-	{ NV_MEM_TYPE_GDDR5  , "GDDR5 memory" }
+    { NV_MEM_TYPE_UNKNOWN, "unknown" },
+	{ NV_MEM_TYPE_STOLEN , "stolen system" },
+	{ NV_MEM_TYPE_SGRAM  , "SGRAM" },
+	{ NV_MEM_TYPE_SDRAM  , "SDRAM" },
+	{ NV_MEM_TYPE_DDR1   , "DDR" },
+	{ NV_MEM_TYPE_DDR2   , "DDR2" },
+	{ NV_MEM_TYPE_DDR3   , "DDR3" },
+	{ NV_MEM_TYPE_GDDR2  , "GDDR2" },
+	{ NV_MEM_TYPE_GDDR3  , "GDDR3" },
+	{ NV_MEM_TYPE_GDDR4  , "GDDR4" },
+	{ NV_MEM_TYPE_GDDR5  , "GDDR5" }
 };
 
 struct NVGpioFunc {
@@ -176,10 +176,7 @@ private:
     
     UInt64          vram_size;
     NVVRAMType      vram_type;
-    
-    float           fanRMP;
-    UInt8           fanCounter;
-    
+      
     UInt32          nv_rd32(UInt32 reg);
     void            nv_wr32(UInt32 reg, UInt32 val);
     UInt32          nv_mask(UInt32 reg, UInt32 mask, UInt32 val);
@@ -246,8 +243,6 @@ private:
     void            bios_shadow_pramin();
     void            bios_shadow_prom();
     void            bios_shadow();
-    
-    //IOReturn        loopTimerEvent(void);
     
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);

@@ -7,12 +7,12 @@
 //
 
 #define HWSENSORS_LASTYEAR                  2012
-#define HWSENSORS_VERSION_STRING            "v1.0"
-#define HWSENSORS_VERSION                   1.0.0
+#define HWSENSORS_VERSION_STRING            "v1.0.1"
+#define HWSENSORS_VERSION                   1.0.1
 
-#define FAKESMC_VERSION                     4.2.1
-#define FAKESMC_SHORTVERSION                4.2
-#define FAKESMC_COMPATIBLE                  4.0.0
+#define FAKESMC_VERSION                     4.2.3
+#define FAKESMC_SHORTVERSION                4.2.3
+#define FAKESMC_COMPATIBLE                  4.2.2
 
 #define INTELTHERMAL_VERSION                2.0.0
 #define INTELTHERMAL_SHORTVERSION           2.0
@@ -27,8 +27,8 @@
 #define NVCLOCKX_VERSION                    0.8.0b5
 #define NVCLOCKX_SHORTVERSION               0.8b5_7
 
-#define GEFORCEX_VERSION                    1.0.0
-#define GEFORCEX_SHORTVERSION               1.0
+#define GEFORCEX_VERSION                    1.0.1
+#define GEFORCEX_SHORTVERSION               1.0.1
 
 #define RADEONX_VERSION                     2.0.0
 #define RADEONX_SHORTVERSION                2.0

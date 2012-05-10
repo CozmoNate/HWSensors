@@ -54,7 +54,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 		<key>org.netkas.FakeSMC</key>
-		<string>4.2.0</string>
+		<string>FAKESMC_COMPATIBLE</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

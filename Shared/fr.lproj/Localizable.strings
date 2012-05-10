@@ -4,27 +4,37 @@
 
   Created by kozlek on 24/02/12.
   Copyright (c) 2012 sacaman1 from www.insanelymac.com. All rights reserved.
+  Copyright (c) 2012 Trauma! from www.insanelymac.com. All rights reserved.
 */
 
-"TEMPERATURES" = "ТЕMPERATURE";
-"DRIVES TEMPERATURES" = "ТЕМPERATURE DD";
-"SSD REMAINING LIFE" = "VIE RESTANTE SSD";
-"MULTIPLIERS" = "МULTIPLICATEUR";
-"FREQUENCIES" = "FREQUANCES";
-"VOLTAGES" = "VOLTAGES";
-"FANS" = "VENTILATEURS";
+"TEMPERATURES" = "Теmpérature";
+"DRIVES TEMPERATURES" = "Темpérature Disques";
+"SSD REMAINING LIFE" = "Vie Restante SSD";
+"MULTIPLIERS" = "Мultiplicateur";
+"FREQUENCIES" = "Frequences";
+"VOLTAGES" = "Tensions";
+"FANS" = "Ventilateurs";
 "CPU Heatsink" = "CPU Dissipateur";
-"GPU %X Board" = "Carte Vidéo %X";
-"GPU %X Core" = "Graphiques de Base %X";
-"GPU %X Proximity" = "Capteur De Carte %X";
+"GPU %X Board" = "Carte Graphique %X";
+"GPU %X Core" = "GPU %X Core";
+"GPU %X Proximity" = "GPU %X Proximité";
 "Northbridge" = "Northbridge";
-"System Chipset" = "Système Chipset";
+"System Chipset" = "Chipset Système";
 "CPU Package" = "Processeur";
 "CPU %X" = "Processeur %X";
-"CPU Core %X" = "Core CPU %X";
+"CPU Core %X" = "CPU Core %X";
 "Fan %X" = "Ventilateur %X";
 "CPU" = "Processeur";
-"Memory" = "Modules de Mémoire";
-"Power/Battery" = "Alimentation / Batterie";
+"VRM Supply %X" =  "Processeur VRM %X";
+"Memory" = "Mémoire";
+"Power/Battery" = "Alimentation/Batterie";
 "Quit HWMonitor" = "Quiter HWMonitor";
 "No sensors found" = "Il n'y a pas de capteurs disponibles";
+"Ambient" = "Ambiant";
+"Main 12V" = "+12V";
+"PCIe 12V" = "PCIe +12V";
+"Main 5V" =  "+5V";
+"Standby 5V" =  "Veille +5V";
+"Main 3.3V" =  "+3.3V Principal";
+"Auxiliary 3.3V" =  "+3.3V Auxiliaire";
+"Power Supply %X" =  "Alimentation %X";

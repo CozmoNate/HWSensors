@@ -10,7 +10,10 @@
 #ifndef _FAKESMCKEY_H
 #define _FAKESMCKEY_H
 
+#include "FakeSMCTime.h"
 #include <IOKit/IOService.h>
+#include <kern/clock.h>
+#include <mach/clock_types.h>
 
 inline void copySymbol(const char *from, char* to)
 {
@@ -24,17 +27,16 @@ inline void copySymbol(const char *from, char* to)
 class FakeSMCKey : public OSObject
 {
     OSDeclareDefaultStructors(FakeSMCKey)
+    
+private:
+    FakeSMCNanotime lastUpdated;
 	
 protected:
-	//void            copySymbol(const char *from, char* to);
-	
     char *			name;
     char *			type;
 	UInt8           size;
 	void *			value;
 	IOService *		handler;
-    
-    clock_sec_t     lastcall;
 	
 public:
 	static FakeSMCKey *withValue(const char *aName, const char *aType, unsigned char aSize, const void *aValue);

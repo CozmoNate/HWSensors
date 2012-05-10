@@ -33,6 +33,7 @@
 #include "GeForceX.h"
 
 #include "FakeSMCDefinitions.h"
+#include "FakeSMCTime.h"
 
 #include "nouveau.h"
 #include <IOKit/IOLib.h>
@@ -862,24 +863,20 @@ float GeForceX::nouveau_rpmfan_get(UInt32 milliseconds)
 {
 	struct NVGpioFunc gpio;
 	UInt32 cycles, cur, prev;
+    
+    //UInt32 counter = 0;
 	    
 	if (nouveau_gpio_find(0, DCB_GPIO_FAN_SENSE, 0xff, &gpio)) {    
         /* Monitor the GPIO input 0x3b for 250ms.
          * When the fan spins, it changes the value of GPIO FAN_SENSE.
          * We get 4 changes (0 -> 1 -> 0 -> 1 -> [...]) per complete rotation.
-         */
+        */
         
-        clock_sec_t secs, end_secs; 
-        clock_nsec_t nanosecs, end_nanosecs;
+        FakeSMCNanotime start, now;
         
-        clock_get_system_nanotime(&secs, &nanosecs);
+        const clock_nsec_t interval = milliseconds * USEC_PER_SEC;
         
-        end_secs = secs;
-		end_nanosecs = nanosecs + milliseconds * 1e6;
-		if (end_nanosecs >= 1e9) {		
-			end_secs++;			
-			end_nanosecs -= 1e9;
-		}
+        SET_FAKESMC_TIMESPEC(&start);
         
         prev = nouveau_gpio_sense(0, gpio.line);
         cycles = 0;
@@ -892,11 +889,16 @@ float GeForceX::nouveau_rpmfan_get(UInt32 milliseconds)
             }
             
             //IOSleep(1); /* supports 0 < rpm < 7500 */
-            IODelay(500); /* supports 0 < rpm < 7500 */
-
-            clock_get_system_nanotime(&secs, &nanosecs);  
+            IODelay(250); 
             
-        } while (secs == end_secs ? nanosecs < end_nanosecs : secs < end_secs);
+            SET_FAKESMC_TIMESPEC(&now);
+            
+            //counter++;
+            
+        } while (CMP_FAKESMC_TIMESPEC(&now, &start) < interval);
+        
+        //HWSensorsInfoLog("counter: %d", counter);
+
         
         /* interpolate to get rpm */
         return cycles / 4.0f * (1000.0f / milliseconds) * 60.0f;
@@ -1912,17 +1914,6 @@ void GeForceX::bios_shadow()
 
 // Driver ===
 
-/*IOReturn GeForceX::loopTimerEvent(void)
-{
-    if (fanCounter++ < 4) {
-        fanRMP = nouveau_rpmfan_get(250);
-    }
-    
-    timersource->setTimeoutMS(1000);
-    
-    return kIOReturnSuccess;
-}*/
-
 float GeForceX::getSensorValue(FakeSMCSensor *sensor)
 {
     switch (sensor->getGroup()) {
@@ -1983,7 +1974,7 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
             return nouveau_pwmfan_get();
         
         case kFakeSMCTachometerSensor:
-            return nouveau_rpmfan_get(250);
+            return nouveau_rpmfan_get(200);
             
         case kFakeSMCVoltageSensor:
             return nouveau_voltage_get();
@@ -1991,25 +1982,6 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
     
     return 0;
 }
-
-/*IOService *GeForceX::probe(IOService *provider, SInt32 *score)
-{
-    HWSensorsDebugLog("Probing...");
-    
-    if (super::probe(provider, score) != this) 
-        return 0;
-    
-    if (!(workloop = getWorkLoop())) 
-		return 0;
-	
-	if (!(timersource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &GeForceX::loopTimerEvent)))) 
-		return 0;
-	
-	if (kIOReturnSuccess != workloop->addEventSource(timersource))
-		return 0;
-        
-    return this;
-}*/
 
 bool GeForceX::start(IOService * provider)
 {
@@ -2107,7 +2079,7 @@ bool GeForceX::start(IOService * provider)
         nouveau_volt_init();
         nouveau_temp_init();
         
-        HWSensorsInfoLog("detected an NV%2X generation card (0x%08x) with %lldMib of %s (%d)", card_type, reg0, vram_size / 1024 / 1024, NVVRAMTypeMap[(int)vram_type].name, vram_type);
+        HWSensorsInfoLog("detected an NV%2X generation card (0x%08x) with %lld Mib of %s memory", card_type, reg0, vram_size / 1024 / 1024, NVVRAMTypeMap[(int)vram_type].name);
         
         //Setup sensors
         
@@ -2212,8 +2184,6 @@ bool GeForceX::start(IOService * provider)
                 }
                 break;
         }
-        
-        //loopTimerEvent();
         
         registerService();
         
