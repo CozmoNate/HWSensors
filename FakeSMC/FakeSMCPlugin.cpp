@@ -317,7 +317,7 @@ void FakeSMCPlugin::stop(IOService* provider)
 }
 
 void FakeSMCPlugin::free()
-{   
+{
     sensors->release();	
 	super::free();
 }

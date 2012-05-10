@@ -51,7 +51,7 @@
 		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>1.0.0b1</string>
 		<key>org.netkas.FakeSMC</key>
-		<string>4.2.0</string>
+		<string>FAKESMC_COMPATIBLE</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

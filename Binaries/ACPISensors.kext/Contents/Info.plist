@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>11D50</string>
+	<string>11E53</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -113,7 +113,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 		<key>org.netkas.FakeSMC</key>
-		<string>4.2.0</string>
+		<string>4.2.2</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>
