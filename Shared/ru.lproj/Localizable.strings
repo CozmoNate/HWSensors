@@ -47,3 +47,7 @@
 "Power Supply %X" =  "Источник питания %X";
 "Quit HWMonitor" = "Закрыть HWMonitor";
 "No sensors found" = "Нет доступных сенсоров";
+"Preferences" = "Настройки";
+"TEMPERATURE SCALE" = "СИСТЕМА ТЕМПЕРАТУР";
+"Celsius" = "Цельсий";
+"Fahrenheit" = "Фаренгейт";

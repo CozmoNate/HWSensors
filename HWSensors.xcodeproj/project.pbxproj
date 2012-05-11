@@ -125,6 +125,8 @@
 		6AE5FC41151E298E005F9929 /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
 		6AE5FC42151E298E005F9929 /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
 		7E140655155ADF59000A1AF5 /* FakeSMCTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E140654155ADF59000A1AF5 /* FakeSMCTime.h */; };
+		7E3F6EE5155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
+		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -294,6 +296,7 @@
 		6AE5FC40151E298E005F9929 /* tachometers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tachometers.png; sourceTree = "<group>"; };
 		7E140654155ADF59000A1AF5 /* FakeSMCTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCTime.h; sourceTree = "<group>"; };
 		7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsInfoPlist.pch; sourceTree = "<group>"; };
+		7E3F6EE4155DB9DE00C3492E /* preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preferences.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -642,6 +645,7 @@
 				6AE5FC37151E23CD005F9929 /* frequencies.png */,
 				6AE5FC40151E298E005F9929 /* tachometers.png */,
 				6AE5FC3D151E269C005F9929 /* voltages.png */,
+				7E3F6EE4155DB9DE00C3492E /* preferences.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1208,6 +1212,7 @@
 				6AE5FC3E151E269C005F9929 /* voltages.png in Resources */,
 				6AE5FC41151E298E005F9929 /* tachometers.png in Resources */,
 				6A5DCA60151F8E2800209B36 /* disabled.png in Resources */,
+				7E3F6EE5155DB9DE00C3492E /* preferences.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1252,6 +1257,7 @@
 				6AE5FC3F151E269C005F9929 /* voltages.png in Resources */,
 				6AE5FC42151E298E005F9929 /* tachometers.png in Resources */,
 				6A5DCA61151F8E2800209B36 /* disabled.png in Resources */,
+				7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -186,20 +186,21 @@
         
         // Preferences...
         NSMenuItem* prefsItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Preferences") action:nil keyEquivalent:@""];
+        [prefsItem setImage:prefsIcon];
         [menu addItem:prefsItem];
         
         NSMenu* prefsMenu = [[NSMenu alloc] init];
         
-        [self insertTitleItemWithMenu:prefsMenu Title:@"DEGREES" Icon:nil];
+        [self insertTitleItemWithMenu:prefsMenu Title:@"TEMPERATURE SCALE" Icon:nil];
         
         [monitor setUseFahrenheit:[defaults boolForKey:@kHWMonitorUseFahrenheitKey]];
         
-        celsiusItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Celsius") action:@selector(celsiusItemClicked:) keyEquivalent:@""];
+        celsiusItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Celsius") action:@selector(degreesItemClicked:) keyEquivalent:@""];
         [celsiusItem setState:![monitor useFahrenheit]];
         [celsiusItem setTarget:self];
         [prefsMenu addItem:celsiusItem];
         
-        fahrenheitItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Fahrenheit") action:@selector(farenheitItemClicked:) keyEquivalent:@""];
+        fahrenheitItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Fahrenheit") action:@selector(degreesItemClicked:) keyEquivalent:@""];
         [fahrenheitItem setTarget:self];
         [fahrenheitItem setState:[monitor useFahrenheit]];
         [prefsMenu addItem:fahrenheitItem];
@@ -235,28 +236,21 @@
     [self updateTitlesForced];
 }
 
-- (void)celsiusItemClicked:(id)sender
+- (void)degreesItemClicked:(id)sender
 {
-    [celsiusItem setState:TRUE];
-    [fahrenheitItem setState:FALSE];
+    bool useFahrenheit = [sender isEqualTo:fahrenheitItem];
     
-    [monitor setUseFahrenheit:FALSE];
-    
-    [defaults setBool:FALSE forKey:@kHWMonitorUseFahrenheitKey];
-    [defaults synchronize];
-    
-    [self updateTitlesForced];
-}
-
-- (void)farenheitItemClicked:(id)sender
-{
-    [celsiusItem setState:FALSE];
-    [fahrenheitItem setState:TRUE];
-    
-    [monitor setUseFahrenheit:TRUE];
-    
-    [defaults setBool:TRUE forKey:@kHWMonitorUseFahrenheitKey];
-    [defaults synchronize];
+    if (useFahrenheit != [monitor useFahrenheit] ) {
+        [celsiusItem setState:!useFahrenheit];
+        [fahrenheitItem setState:useFahrenheit];
+     
+        [monitor setUseFahrenheit:useFahrenheit];
+        
+        [defaults setBool:useFahrenheit forKey:@kHWMonitorUseFahrenheitKey];
+        [defaults synchronize];
+        
+        [self updateTitlesForced];
+    }
 }
 
 - (id)initWithBundle:(NSBundle *)bundle
@@ -276,6 +270,7 @@
     frequenciesIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"frequencies" ofType:@"png"]];
     tachometersIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"tachometers" ofType:@"png"]];
     voltagesIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"voltages" ofType:@"png"]];
+    prefsIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"preferences" ofType:@"png"]];
     
     view = [[HWMonitorView alloc] initWithFrame: [[self view] frame] menuExtra:self];
     
