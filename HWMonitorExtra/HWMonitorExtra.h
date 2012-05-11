@@ -42,6 +42,7 @@
     NSImage *frequenciesIcon;
     NSImage *tachometersIcon;
     NSImage *voltagesIcon;
+    NSImage *prefsIcon;
     
     IBOutlet NSWindow *prefsWindow;
 }
@@ -56,7 +57,6 @@
 - (void)rebuildSensors;
 
 - (void)sensorItemClicked:(id)sender;
-- (void)celsiusItemClicked:(id)sender;
-- (void)farenheitItemClicked:(id)sender;
+- (void)degreesItemClicked:(id)sender;
 
 @end
