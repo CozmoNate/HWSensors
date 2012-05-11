@@ -7,6 +7,7 @@
 //
 
 #import "HWMonitorSensor.h"
+#import "HWMonitorEngine.h"
 
 #include "FakeSMCDefinitions.h"
 
@@ -17,6 +18,7 @@ inline UInt8 get_index(char c)
 
 @implementation HWMonitorSensor
 
+@synthesize engine;
 @synthesize key;
 @synthesize type;
 @synthesize group;
@@ -174,7 +176,10 @@ inline UInt8 get_index(char c)
             if (level != kHWSensorLevelExceeded && [disk isRotational])
                 [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
             
-            self->value = [[NSString alloc] initWithFormat:@"%d°",t];
+            if ([engine useFahrenheit]) 
+                self->value = [[NSString alloc] initWithFormat:@"%1.0f°",(float)(t / 9.0f) * 5.0f + 32.0f];
+            else 
+                self->value = [[NSString alloc] initWithFormat:@"%d°",t];
         }
         else if (group & kSMARTSensorGroupRemainingLife) {
             UInt64 life = 0;
@@ -198,7 +203,10 @@ inline UInt8 get_index(char c)
             
             [self setLevel:t >= 100 ? kHWSensorLevelExceeded : t >= 85 ? kHWSensorLevelHigh : t >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
             
-            self->value = [[NSString alloc] initWithFormat:@"%1.0f°", t];
+            if ([engine useFahrenheit]) 
+                self->value = [[NSString alloc] initWithFormat:@"%1.0f°",(t / 9.0f) * 5.0f + 32.0f];
+            else 
+                self->value = [[NSString alloc] initWithFormat:@"%1.0f°",t];
         }
         else if (group & kHWSensorGroupPWM) {
             self->value = [[NSString alloc] initWithFormat:@"%1.0f%C", [self decodeValue], 0x0025];

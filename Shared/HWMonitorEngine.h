@@ -23,6 +23,8 @@
 
 @property (readonly) NSArray *sensors;
 
+@property (readwrite, assign) BOOL useFahrenheit;
+
 + (HWMonitorEngine*)engine;
 
 + (NSArray*)populateInfoForKey:(NSString *)key;

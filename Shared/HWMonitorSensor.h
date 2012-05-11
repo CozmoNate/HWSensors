@@ -32,6 +32,8 @@ enum HWSensorGroup {
 
 @interface HWMonitorSensor : NSObject
 
+@property (readwrite, retain) id                engine;
+
 @property (readwrite, retain) NSString*         key;
 @property (readwrite, retain) NSString*         type;
 @property (readwrite, assign) NSUInteger        group;

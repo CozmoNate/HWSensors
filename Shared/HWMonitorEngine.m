@@ -16,6 +16,7 @@
 [bundle localizedStringForKey:(key) value:@"" table:nil]
 
 @synthesize sensors;
+@synthesize useFahrenheit;
 
 + (HWMonitorEngine*)engine
 {
@@ -100,6 +101,7 @@
     
     sensor = [HWMonitorSensor sensor];
     
+    [sensor setEngine:self];
     [sensor setKey:key];
     [sensor setType:type];
     [sensor setCaption:caption];
