@@ -22,13 +22,30 @@
     return menu;
 }
 
+- (void)insertTitleItemWithMenu:(NSMenu*)someMenu Title:(NSString*)title Icon:(NSImage*)image
+{
+    NSMenuItem *titleItem = [[NSMenuItem alloc] init];
+    
+    [titleItem setEnabled:FALSE];
+
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
+    
+    [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
+    [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
+    
+    [titleItem setAttributedTitle:attributedTitle];
+    [titleItem setImage:image];
+    
+    [someMenu addItem:titleItem];
+}
+
 - (void)insertMenuGroupWithTitle:(NSString*)title Icon:(NSImage*)image Sensors:(NSArray*)list;
 {
     if (list && [list count] > 0) {
         if ([[menu itemArray] count] > 0)
             [menu addItem:[NSMenuItem separatorItem]];
         
-        NSMenuItem *titleItem = [[NSMenuItem alloc] init];
+        /*NSMenuItem *titleItem = [[NSMenuItem alloc] init];
         
         [titleItem setEnabled:FALSE];
         
@@ -43,7 +60,9 @@
         //[titleItem setOnStateImage:image];
         //[titleItem setState:YES];
         
-        [menu addItem:titleItem];
+        [menu addItem:titleItem];*/
+        
+        [self insertTitleItemWithMenu:menu Title:title Icon:image];
         
         for (int i = 0; i < [list count]; i++) {
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
@@ -53,7 +72,7 @@
             if ([sensor disk])
                 [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:statusMenuFont]];
             
-            NSMenuItem * sensorItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString((NSString*)[sensor caption]) action:@selector(menuItemClicked:) keyEquivalent:@""];
+            NSMenuItem * sensorItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString((NSString*)[sensor caption]) action:@selector(sensorItemClicked:) keyEquivalent:@""];
             
             [sensor setMenuItem:sensorItem];
             
@@ -163,8 +182,29 @@
         [self insertMenuGroupWithTitle:@"FANS" Icon:tachometersIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer]];
         [self insertMenuGroupWithTitle:@"VOLTAGES" Icon:voltagesIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
         
-        /*[menu addItem:[NSMenuItem separatorItem]];
-        [menu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Refresh sensors", nil) action:@selector(rebuildSensors:) keyEquivalent:@""]];*/
+        [menu addItem:[NSMenuItem separatorItem]];
+        
+        // Preferences...
+        NSMenuItem* prefsItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Preferences") action:nil keyEquivalent:@""];
+        [menu addItem:prefsItem];
+        
+        NSMenu* prefsMenu = [[NSMenu alloc] init];
+        
+        [self insertTitleItemWithMenu:prefsMenu Title:@"DEGREES" Icon:nil];
+        
+        [monitor setUseFahrenheit:[defaults boolForKey:@kHWMonitorUseFahrenheitKey]];
+        
+        celsiusItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Celsius") action:@selector(celsiusItemClicked:) keyEquivalent:@""];
+        [celsiusItem setState:![monitor useFahrenheit]];
+        [celsiusItem setTarget:self];
+        [prefsMenu addItem:celsiusItem];
+        
+        fahrenheitItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Fahrenheit") action:@selector(farenheitItemClicked:) keyEquivalent:@""];
+        [fahrenheitItem setTarget:self];
+        [fahrenheitItem setState:[monitor useFahrenheit]];
+        [prefsMenu addItem:fahrenheitItem];
+        
+        [prefsItem setSubmenu:prefsMenu];
         
         [self updateTitlesForced];
     }
@@ -175,9 +215,10 @@
         
         [menu addItem:item];
     }
+
 }
 
-- (void)menuItemClicked:(id)sender 
+- (void)sensorItemClicked:(id)sender 
 {
     NSMenuItem * menuItem = (NSMenuItem *)sender;
     HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
@@ -189,6 +230,32 @@
     [self updateTitlesDefault];
     
     [defaults setBool:[sensor favorite] forKey:[sensor key]];
+    [defaults synchronize];
+    
+    [self updateTitlesForced];
+}
+
+- (void)celsiusItemClicked:(id)sender
+{
+    [celsiusItem setState:TRUE];
+    [fahrenheitItem setState:FALSE];
+    
+    [monitor setUseFahrenheit:FALSE];
+    
+    [defaults setBool:FALSE forKey:@kHWMonitorUseFahrenheitKey];
+    [defaults synchronize];
+    
+    [self updateTitlesForced];
+}
+
+- (void)farenheitItemClicked:(id)sender
+{
+    [celsiusItem setState:FALSE];
+    [fahrenheitItem setState:TRUE];
+    
+    [monitor setUseFahrenheit:TRUE];
+    
+    [defaults setBool:TRUE forKey:@kHWMonitorUseFahrenheitKey];
     [defaults synchronize];
 }
 

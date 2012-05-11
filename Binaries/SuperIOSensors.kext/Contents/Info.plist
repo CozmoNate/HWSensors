@@ -444,9 +444,9 @@
 						<key>FANIN0</key>
 						<string>CPU Fan</string>
 						<key>FANIN1</key>
-						<string>Front Fan</string>
+						<string>Exhaust Fan</string>
 						<key>FANIN2</key>
-						<string>Back Fan</string>
+						<string>Intake Fan</string>
 						<key>FANIN3</key>
 						<string></string>
 						<key>FANIN4</key>
@@ -454,9 +454,9 @@
 						<key>TEMPIN0</key>
 						<string>CPU</string>
 						<key>TEMPIN1</key>
-						<string></string>
-						<key>TEMPIN2</key>
 						<string>System</string>
+						<key>TEMPIN2</key>
+						<string>Ambient</string>
 						<key>VIN0</key>
 						<dict>
 							<key>gain</key>
@@ -471,9 +471,27 @@
 						<key>VIN1</key>
 						<string>CPU</string>
 						<key>VIN2</key>
-						<string>Power Supply 2</string>
+						<dict>
+							<key>gain</key>
+							<integer>1107</integer>
+							<key>name</key>
+							<string>CPU VRM Supply 0</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
 						<key>VIN3</key>
-						<string>Power Supply 3</string>
+						<dict>
+							<key>gain</key>
+							<integer>485</integer>
+							<key>name</key>
+							<string>CPU VRM Supply 1</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
 						<key>VIN4</key>
 						<dict>
 							<key>gain</key>
@@ -497,9 +515,27 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN6</key>
-						<string>Power Supply 6</string>
+						<dict>
+							<key>gain</key>
+							<integer>1038</integer>
+							<key>name</key>
+							<string>Memory</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
 						<key>VIN7</key>
-						<string>Power Supply 7</string>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Auxiliary 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
 						<key>VIN8</key>
 						<dict>
 							<key>gain</key>
