@@ -45,23 +45,6 @@
         if ([[menu itemArray] count] > 0)
             [menu addItem:[NSMenuItem separatorItem]];
         
-        /*NSMenuItem *titleItem = [[NSMenuItem alloc] init];
-        
-        [titleItem setEnabled:FALSE];
-        
-        //NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:@" %@", GetLocalizedString(title)]];
-        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
-        
-        [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
-        [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
-        
-        [titleItem setAttributedTitle:attributedTitle];
-        [titleItem setImage:image];
-        //[titleItem setOnStateImage:image];
-        //[titleItem setState:YES];
-        
-        [menu addItem:titleItem];*/
-        
         [self insertTitleItemWithMenu:menu Title:title Icon:image];
         
         for (int i = 0; i < [list count]; i++) {
@@ -85,6 +68,18 @@
             [menu addItem:sensorItem];
         }
     }
+}
+
+- (NSMenuItem*)insertPrefsItemWithTitle:(NSString*)title icon:(NSImage*)image state:(NSUInteger)state action:(SEL)aSelector keyEquivalent:(NSString *)charCode
+{
+    NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(title) action:aSelector keyEquivalent:charCode];
+    
+    [item setState:state];
+    [item setTarget:self];
+    
+    [prefsMenu addItem:item];
+    
+    return item;
 }
 
 - (void)updateSMARTData; 
@@ -189,21 +184,14 @@
         [prefsItem setImage:prefsIcon];
         [menu addItem:prefsItem];
         
-        NSMenu* prefsMenu = [[NSMenu alloc] init];
+        prefsMenu = [[NSMenu alloc] init];
         
         [self insertTitleItemWithMenu:prefsMenu Title:@"TEMPERATURE SCALE" Icon:nil];
         
         [monitor setUseFahrenheit:[defaults boolForKey:@kHWMonitorUseFahrenheitKey]];
         
-        celsiusItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Celsius") action:@selector(degreesItemClicked:) keyEquivalent:@""];
-        [celsiusItem setState:![monitor useFahrenheit]];
-        [celsiusItem setTarget:self];
-        [prefsMenu addItem:celsiusItem];
-        
-        fahrenheitItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Fahrenheit") action:@selector(degreesItemClicked:) keyEquivalent:@""];
-        [fahrenheitItem setTarget:self];
-        [fahrenheitItem setState:[monitor useFahrenheit]];
-        [prefsMenu addItem:fahrenheitItem];
+        celsiusItem = [self insertPrefsItemWithTitle:@"Celsius" icon:nil state:![monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
+        fahrenheitItem = [self insertPrefsItemWithTitle:@"Fahrenheit" icon:nil state:[monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
         
         [prefsItem setSubmenu:prefsMenu];
         

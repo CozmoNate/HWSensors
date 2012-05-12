@@ -33,13 +33,21 @@
     NSImage *altFavoriteIcon;
     NSImage *disabledIcon;
     NSImage *altDisabledIcon;
+    
+    NSMenu *prefsMenu;
+    
+    NSMenuItem *celsiusItem;
+    NSMenuItem *fahrenheitItem;
 }
 
+- (void)insertTitleItemWithMenu:(NSMenu*)someMenu Title:(NSString*)title Icon:(NSImage*)image;
 - (void)insertMenuGroupWithTitle:(NSString *)title Icon:(NSImage*)image Sensors:(NSArray*)list;
+- (NSMenuItem*)insertPrefsItemWithTitle:(NSString*)title icon:(NSImage*)image state:(NSUInteger)state action:(SEL)aSelector keyEquivalent:(NSString *)charCode;
 
 - (void)updateSMARTData;
 - (void)updateTitles;
 
-- (void)menuItemClicked:(id)sender;
+- (void)sensorItemClicked:(id)sender;
+- (void)degreesItemClicked:(id)sender;
 
 @end

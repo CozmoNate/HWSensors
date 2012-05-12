@@ -12,8 +12,6 @@
 #import "HWMonitorView.h"
 #import "HWMonitorEngine.h"
 
-#define kHWMonitorUseFahrenheitKey  "useFahrenheit"
-
 @interface HWMonitorExtra : NSMenuExtra
 
 {
@@ -21,6 +19,8 @@
     
     HWMonitorView *view;
     NSMenu *menu;
+    
+    NSMenu *prefsMenu;
     
     NSMenuItem *celsiusItem;
     NSMenuItem *fahrenheitItem;
@@ -43,12 +43,11 @@
     NSImage *tachometersIcon;
     NSImage *voltagesIcon;
     NSImage *prefsIcon;
-    
-    IBOutlet NSWindow *prefsWindow;
 }
 
 - (void)insertTitleItemWithMenu:(NSMenu*)someMenu Title:(NSString*)title Icon:(NSImage*)image;
 - (void)insertMenuGroupWithTitle:(NSString*)title Icon:(NSImage*)image Sensors:(NSArray*)list;
+- (NSMenuItem*)insertPrefsItemWithTitle:(NSString*)title icon:(NSImage*)image state:(NSUInteger)state action:(SEL)aSelector keyEquivalent:(NSString *)charCode;
 
 - (void)updateSMARTData;
 - (void)updateTitlesForceAllSensors:(BOOL)allSensors;
