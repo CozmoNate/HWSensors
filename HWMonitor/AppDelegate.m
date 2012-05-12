@@ -16,12 +16,29 @@
 #define GetLocalizedString(key) \
 [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
+- (void)insertTitleItemWithMenu:(NSMenu*)someMenu Title:(NSString*)title Icon:(NSImage*)image
+{
+    NSMenuItem *titleItem = [[NSMenuItem alloc] init];
+    
+    [titleItem setEnabled:FALSE];
+    
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
+    
+    [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
+    [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
+    
+    [titleItem setAttributedTitle:attributedTitle];
+    [titleItem setImage:image];
+    
+    [someMenu addItem:titleItem];
+}
+
 - (void)insertMenuGroupWithTitle:(NSString*)title Icon:(NSImage*)image Sensors:(NSArray*)list;
 {
     if (list && [list count] > 0) {
         NSMenuItem *titleItem = [[NSMenuItem alloc] init];
         
-        [titleItem setEnabled:FALSE];
+        /*[titleItem setEnabled:FALSE];
         
         //NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:@" %@", GetLocalizedString(title)]];
         NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
@@ -34,7 +51,9 @@
         //[titleItem setOnStateImage:image];
         //[titleItem setState:YES];
         
-        [statusMenu addItem:titleItem];
+        [statusMenu addItem:titleItem];*/
+        
+        [self insertTitleItemWithMenu:statusMenu Title:title Icon:image];
         
         for (int i = 0; i < [list count]; i++) {
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
@@ -44,7 +63,7 @@
             if ([sensor disk])
                 [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:statusMenuFont]];
             
-            NSMenuItem *sensorItem = [[NSMenuItem alloc] initWithTitle:[sensor caption] action:@selector(menuItemClicked:) keyEquivalent:@""];
+            NSMenuItem *sensorItem = [[NSMenuItem alloc] initWithTitle:[sensor caption] action:@selector(sensorItemClicked:) keyEquivalent:@""];
             
             [sensor setMenuItem:sensorItem];
             
@@ -59,6 +78,18 @@
         
         [statusMenu addItem:[NSMenuItem separatorItem]];
     }
+}
+
+- (NSMenuItem*)insertPrefsItemWithTitle:(NSString*)title icon:(NSImage*)image state:(NSUInteger)state action:(SEL)aSelector keyEquivalent:(NSString *)charCode
+{
+    NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(title) action:aSelector keyEquivalent:charCode];
+    
+    [item setState:state];
+    [item setTarget:self];
+    
+    [prefsMenu addItem:item];
+    
+    return item;
 }
 
 - (void)updateSMARTData; 
@@ -162,7 +193,7 @@
     isMenuVisible = NO;
 }
 
-- (void)menuItemClicked:(id)sender {
+- (void)sensorItemClicked:(id)sender {
     NSMenuItem * menuItem = (NSMenuItem *)sender;
     
     HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
@@ -175,6 +206,23 @@
     
     [[NSUserDefaults standardUserDefaults] setBool:[sensor favorite] forKey:[sensor key]];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)degreesItemClicked:(id)sender
+{
+    bool useFahrenheit = [sender isEqualTo:fahrenheitItem];
+    
+    if (useFahrenheit != [monitor useFahrenheit] ) {
+        [celsiusItem setState:!useFahrenheit];
+        [fahrenheitItem setState:useFahrenheit];
+        
+        [monitor setUseFahrenheit:useFahrenheit];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:useFahrenheit forKey:@kHWMonitorUseFahrenheitKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [self updateTitles];
+    }
 }
 
 - (void)awakeFromNib
@@ -255,6 +303,24 @@
         [statusMenu addItem:item];
         [statusMenu addItem:[NSMenuItem separatorItem]];
     }
+
+    // Preferences...
+    NSMenuItem* prefsItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Preferences") action:nil keyEquivalent:@""];
+    [prefsItem setImage:[NSImage imageNamed:@"preferences"]];
+    [statusMenu addItem:prefsItem];
+    
+    prefsMenu = [[NSMenu alloc] init];
+    
+    [self insertTitleItemWithMenu:prefsMenu Title:@"TEMPERATURE SCALE" Icon:nil];
+    
+    [monitor setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorUseFahrenheitKey]];
+    
+    celsiusItem = [self insertPrefsItemWithTitle:@"Celsius" icon:nil state:![monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
+    fahrenheitItem = [self insertPrefsItemWithTitle:@"Fahrenheit" icon:nil state:[monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
+    
+    [prefsItem setSubmenu:prefsMenu];
+    
+    [statusMenu addItem:[NSMenuItem separatorItem]];
     
     [statusMenu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quit HWMonitor", nil) action:@selector(terminate:) keyEquivalent:@""]];
 }
