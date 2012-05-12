@@ -35,24 +35,7 @@
 
 - (void)insertMenuGroupWithTitle:(NSString*)title Icon:(NSImage*)image Sensors:(NSArray*)list;
 {
-    if (list && [list count] > 0) {
-        NSMenuItem *titleItem = [[NSMenuItem alloc] init];
-        
-        /*[titleItem setEnabled:FALSE];
-        
-        //NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:@" %@", GetLocalizedString(title)]];
-        NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
-        
-        [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
-        [attributedTitle addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [attributedTitle length])];
-        
-        [titleItem setAttributedTitle:attributedTitle];
-        [titleItem setImage:image];
-        //[titleItem setOnStateImage:image];
-        //[titleItem setState:YES];
-        
-        [statusMenu addItem:titleItem];*/
-        
+    if (list && [list count] > 0) {        
         [self insertTitleItemWithMenu:statusMenu Title:title Icon:image];
         
         for (int i = 0; i < [list count]; i++) {

@@ -1,5 +1,5 @@
 //
-//  NSHardwareMonitorSensor.m
+//  HWMonitorSensor.m
 //  HWSensors
 //
 //  Created by kozlek on 23/02/12.
@@ -227,13 +227,14 @@ inline UInt8 get_index(char c)
         else if (group & kHWSensorGroupTachometer) {
             float rpm = [self decodeValue];
             
-            if ([self level] != kHWSensorLevelExceeded)
-                [self setLevel:rpm == 0 ? kHWSensorLevelExceeded : kHWSensorLevelNormal];
-            
-            if (rpm == 0)
+            if (rpm == 0) {
+                [self setLevel:kHWSensorLevelExceeded];
                 self->value = [[NSString alloc] initWithString:@"-"];
-            
-            self->value = [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
+            }
+            else {
+                [self setLevel: rpm > 1800 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+                self->value = [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
+            }
         }
         else if (group & kHWSensorGroupVoltage) {
             self->value = [[NSString alloc] initWithFormat:@"%1.3fV", [self decodeValue]];

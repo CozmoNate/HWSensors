@@ -1,8 +1,8 @@
 //
-//  NSSmartReporter.m
+//  ATASmartReporter.m
 //  HWSensors
 //
-//  Based on code by OldNavi
+//  Based on code by Navi
 //
 //  Created by kozlek on 19/02/12.
 //  Copyright (c) 2012 kozlek. All rights reserved.
