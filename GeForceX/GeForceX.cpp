@@ -1689,7 +1689,7 @@ void GeForceX::nouveau_temp_init()
                         //really (!!!) inaccurate!
                         
                         //ASUS SmartDoctor uses (-13115 + x) / 18.7 + 1 calibration equation
-                        sensor_constants.offset_mult = -131150 /*+ 187*/;
+                        sensor_constants.offset_mult = -131150 - 187;
                         sensor_constants.offset_div = 187;
                         sensor_constants.slope_mult = 10;
                         sensor_constants.slope_div = 187;
@@ -1924,16 +1924,18 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
                 case 0x50:
                 case 0x80:
                 case 0x90:
-                case 0xa0:
-                    if (chipset >= 0x84 && chipset != 0x92)
-                        return nv84_get_temperature();
-                    else
-                        return nv40_get_temperature();
+                case 0xa0:                    
+                    if (chipset >= 0x84) {
+                        if (chipset == 0x92 && g92_asus_temperature)
+                            return nv40_get_temperature();
+                        else
+                            return nv84_get_temperature();
+                    }
+                    else return nv40_get_temperature();
 
                 case 0xc0:
                 case 0xd0:
                     return nv84_get_temperature();
-
             }
             break;
             
@@ -2100,6 +2102,8 @@ bool GeForceX::start(IOService * provider)
             case 0x50:
             case 0x80:
             case 0x90:
+                if (chipset == 0x92)
+                    g92_asus_temperature = nv84_get_temperature() == 0;
             case 0xa0:
             case 0xc0:
             case 0xd0:

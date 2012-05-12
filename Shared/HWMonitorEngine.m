@@ -1,5 +1,5 @@
 //
-//  NSHWMonitor.m
+//  HWMonitorEngine.m
 //  HWSensors
 //
 //  Created by kozlek on 23/02/12.

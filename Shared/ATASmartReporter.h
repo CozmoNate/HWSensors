@@ -1,5 +1,5 @@
 //
-//  NSSmartReporter.h
+//  ATASmartReporter.h
 //  HWSensors
 //
 //  Based on code by OldNavi

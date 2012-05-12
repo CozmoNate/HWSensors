@@ -1,5 +1,5 @@
 //
-//  NSHardwareMonitorSensor.h
+//  HWMonitorSensor.h
 //  HWSensors
 //
 //  Created by kozlek on 23/02/12.
