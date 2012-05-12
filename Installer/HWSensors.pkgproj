@@ -5206,7 +5206,7 @@
 									<key>HIDDEN</key>
 									<false/>
 									<key>STATE</key>
-									<integer>1</integer>
+									<integer>0</integer>
 								</dict>
 								<key>PACKAGE_UUID</key>
 								<string>E202BE35-FDBF-4155-9470-96A98114EC9C</string>
@@ -5267,13 +5267,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>IntelThermal plugin provides information about CPU core temperatures. Only for Intel CPUs</string>
+												<string>IntelThermal plugin provides information about CPU core temperatures and multipliers. Only for Intel CPUs</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>IntelThermal получает значения температур ядер для процессоров от Intel</string>
+												<string>IntelThermal получает значения температур ядер и множителей для процессоров от Intel</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>
@@ -5303,7 +5303,7 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>SuperIOSensors provides information about temperature, voltage and tachometer sensors. Super I/O chipsets supported: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
+												<string>SuperIOSensors allows access to motherboard built-in temperature, voltage and tachometer sensors. Super I/O chipsets supported: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
@@ -5339,13 +5339,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>NVClockX plugin is the NVClock port from Linux. Supports wide range of nVidia videocards. Reported instability on some hardware configurations.</string>
+												<string>NVClockX plugin is the NVClock port from Linux. Supports wide range of nVidia videocards. Allows  access to various built-in sensors. Reported instability on some hardware configurations.</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>Плугин NVClockX - порт NVClock с Linux. Поддерживает множество видеокарт от nVidia</string>
+												<string>Плугин NVClockX - порт NVClock с Linux. Позволяет читать показания встроеных датчиков видеокарт nVidia</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>
@@ -5360,7 +5360,20 @@
 										<key>REQUIREMENTS</key>
 										<array/>
 										<key>TITLE</key>
-										<array/>
+										<array>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>English</string>
+												<key>VALUE</key>
+												<string>NVClockX (obsolete)</string>
+											</dict>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>Russian</string>
+												<key>VALUE</key>
+												<string>NVClockX (устаревший)</string>
+											</dict>
+										</array>
 										<key>TOOLTIP</key>
 										<array/>
 										<key>TYPE</key>
@@ -5375,7 +5388,7 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>GeForceX plugin by provides sensors monitoring for various nVidia GPUs. It has better support for newer GPUs then NVClockx.</string>
+												<string>GeForceX plugin allows access to built-in sensors of wide range of nVidia GPUs. It has better support for newer GPUs then NVClockx.</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
@@ -5424,13 +5437,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>RadeonX plugin by provides sensors monitoring for AMD Radeon GPUs</string>
+												<string>RadeonX plugin allows access to AMD Radeon GPUs built-in temperature sensor. </string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>Плугин RadeonX позволяет снимать показания сенсоров видеокарт AMD Radeon</string>
+												<string>Плугин RadeonX позволяет снимать показания температуры видеокарт AMD Radeon</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>
