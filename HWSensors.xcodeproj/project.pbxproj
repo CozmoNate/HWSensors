@@ -1916,6 +1916,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsInfoPlist.pch;
+				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 			};
@@ -1936,6 +1938,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsInfoPlist.pch;
+				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 			};
@@ -2176,6 +2180,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitorExtra/HWMonitorExtra-Info.plist";
+				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsInfoPlist.pch;
+				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = menu;
@@ -2197,6 +2203,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitorExtra/HWMonitorExtra-Info.plist";
+				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsInfoPlist.pch;
+				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = menu;

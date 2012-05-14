@@ -177,9 +177,9 @@ inline UInt8 get_index(char c)
                 [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
             
             if ([engine useFahrenheit]) 
-                self->value = [[NSString alloc] initWithFormat:@"%1.0f°",(float)(t / 9.0f) * 5.0f + 32.0f];
+                self->value = [[NSString alloc] initWithFormat:@"%1.0f°", t * (9.0f / 5.0f) + 32.0f];
             else 
-                self->value = [[NSString alloc] initWithFormat:@"%d°",t];
+                self->value = [[NSString alloc] initWithFormat:@"%d°", t];
         }
         else if (group & kSMARTSensorGroupRemainingLife) {
             UInt64 life = 0;
@@ -204,9 +204,9 @@ inline UInt8 get_index(char c)
             [self setLevel:t >= 100 ? kHWSensorLevelExceeded : t >= 85 ? kHWSensorLevelHigh : t >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
             
             if ([engine useFahrenheit]) 
-                self->value = [[NSString alloc] initWithFormat:@"%1.0f°",(t / 9.0f) * 5.0f + 32.0f];
+                self->value = [[NSString alloc] initWithFormat:@"%1.0f°", t * (9.0f / 5.0f) + 32.0f];
             else 
-                self->value = [[NSString alloc] initWithFormat:@"%1.0f°",t];
+                self->value = [[NSString alloc] initWithFormat:@"%1.0f°", t];
         }
         else if (group & kHWSensorGroupPWM) {
             self->value = [[NSString alloc] initWithFormat:@"%1.0f%C", [self decodeValue], 0x0025];
@@ -232,7 +232,9 @@ inline UInt8 get_index(char c)
                 self->value = [[NSString alloc] initWithString:@"-"];
             }
             else {
-                [self setLevel: rpm > 1800 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+                if ([self level] != kHWSensorLevelNormal)
+                    [self setLevel: kHWSensorLevelNormal];
+                
                 self->value = [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
             }
         }
