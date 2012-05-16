@@ -17,6 +17,7 @@
 
 @synthesize sensors;
 @synthesize useFahrenheit;
+@synthesize hideDisabledSensors;
 
 + (HWMonitorEngine*)engine
 {
@@ -68,13 +69,12 @@
     HWMonitorSensor *sensor = nil;
     NSString *type = nil;
     NSData *value = nil;
+    BOOL smartSensor = FALSE;
     
     switch (group) {
         case kSMARTSensorGroupTemperature:
-            
-            break;
         case kSMARTSensorGroupRemainingLife:
-            
+            smartSensor = TRUE;
             break;
             
         default: {
@@ -107,6 +107,12 @@
     [sensor setCaption:caption];
     [sensor setData:value];
     [sensor setGroup:group];
+    
+    if (!smartSensor && [self hideDisabledSensors] && [[sensor value] isEqualToString:@"-"]) {
+        [sensor setEngine:nil];
+        sensor = nil;
+        return nil;
+    }
     
     [sensors addObject:sensor];
     [keys setObject:sensor forKey:key];
@@ -143,9 +149,12 @@
     
     if (value) {
         HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%x", [disk serialNumber], group] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
+        
         [sensor setData:value];
         [sensor setDisk:disk];
         if ([disk isExceeded]) [sensor setLevel:kHWSensorLevelExceeded];
+        
+        return sensor;
     }
     
     return nil;

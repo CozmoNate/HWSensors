@@ -51,3 +51,5 @@
 "TEMPERATURE SCALE" = "СИСТЕМА ТЕМПЕРАТУР";
 "Celsius" = "Цельсий";
 "Fahrenheit" = "Фаренгейт";
+"GENERAL" = "ОСНОВНЫЕ";
+"Show hidden sensors" = "Показывать скрытые датчики";
