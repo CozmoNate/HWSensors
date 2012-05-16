@@ -164,6 +164,8 @@
     
     [[self menu] removeAllItems];
     
+    [monitor setHideDisabledSensors:![defaults boolForKey:@kHWMonitorShowHiddenSensors]];
+    
     [monitor rebuildSensorsList];
     
     [view setMonitor:monitor];
@@ -185,6 +187,12 @@
         [menu addItem:prefsItem];
         
         prefsMenu = [[NSMenu alloc] init];
+        
+        [self insertTitleItemWithMenu:prefsMenu Title:@"GENERAL" Icon:nil];
+        
+        [self insertPrefsItemWithTitle:@"Show hidden sensors" icon:nil state:![monitor hideDisabledSensors] action:@selector(showHiddenSensorsItemClicked:) keyEquivalent:@""];
+        
+        [prefsMenu addItem:[NSMenuItem separatorItem]];
         
         [self insertTitleItemWithMenu:prefsMenu Title:@"TEMPERATURE SCALE" Icon:nil];
         
@@ -239,6 +247,16 @@
         
         [self updateTitlesForced];
     }
+}
+
+- (void)showHiddenSensorsItemClicked:(id)sender
+{   
+    [sender setState:![sender state]];
+    
+    [defaults setBool:[sender state] forKey:@kHWMonitorShowHiddenSensors];
+    [defaults synchronize];
+    
+    [self rebuildSensors];
 }
 
 - (id)initWithBundle:(NSBundle *)bundle

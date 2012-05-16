@@ -43,7 +43,7 @@ bool FakeSMCKey::init(const char * aName, const char * aType, unsigned char aSiz
 {
     if (!super::init())
         return false;
-    
+
 	if (!aName || strlen(aName) == 0 || !(name = (char *)IOMalloc(5))) 
 		return false;
 	

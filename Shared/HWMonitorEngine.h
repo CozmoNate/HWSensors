@@ -24,6 +24,7 @@
 @property (readonly) NSArray *sensors;
 
 @property (readwrite, assign) BOOL useFahrenheit;
+@property (readwrite, assign) BOOL hideDisabledSensors;
 
 + (HWMonitorEngine*)engine;
 

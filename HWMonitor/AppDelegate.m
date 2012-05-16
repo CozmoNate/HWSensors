@@ -99,7 +99,7 @@
             NSDictionary *valueColor;
             
             NSString * value = [sensor value];
-        
+            
             switch ([sensor level]) {
                     /*case kHWSensorLevelDisabled:
                      break;
@@ -164,6 +164,64 @@
     [statusItem setAttributedTitle:title];
 }
 
+- (void)rebuildSensors
+{
+    if (!monitor)
+        monitor = [[HWMonitorEngine alloc] initWithBundle:[NSBundle mainBundle]];
+    
+    [statusMenu removeAllItems];
+    
+    [monitor setHideDisabledSensors:![[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorShowHiddenSensors]];
+    
+    [monitor rebuildSensorsList];
+    
+    if ([[monitor sensors] count] > 0) {
+        [self insertMenuGroupWithTitle:@"TEMPERATURES" Icon:[NSImage imageNamed:@"temperatures"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" Icon:[NSImage imageNamed:@"hddtemperatures"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" Icon:[NSImage imageNamed:@"ssdlife"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
+        [self insertMenuGroupWithTitle:@"SSD REMAINING BLOCKS" Icon:[NSImage imageNamed:@"ssdlife"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingBlocks]];
+        [self insertMenuGroupWithTitle:@"FREQUENCIES" Icon:[NSImage imageNamed:@"frequencies"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency | kHWSensorGroupMultiplier]];
+        [self insertMenuGroupWithTitle:@"FANS" Icon:[NSImage imageNamed:@"tachometers"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer | kHWSensorGroupPWM]];
+        [self insertMenuGroupWithTitle:@"VOLTAGES" Icon:[NSImage imageNamed:@"voltages"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
+        
+        [self updateTitles];
+    }
+    else {
+        NSMenuItem * item = [[NSMenuItem alloc]initWithTitle:NSLocalizedString(@"No sensors found", nil) action:nil keyEquivalent:@""];
+        
+        [item setEnabled:FALSE];
+        
+        [statusMenu addItem:item];
+        [statusMenu addItem:[NSMenuItem separatorItem]];
+    }
+    
+    // Preferences...
+    NSMenuItem* prefsItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Preferences") action:nil keyEquivalent:@""];
+    [prefsItem setImage:[NSImage imageNamed:@"preferences"]];
+    [statusMenu addItem:prefsItem];
+    
+    prefsMenu = [[NSMenu alloc] init];
+    
+    [self insertTitleItemWithMenu:prefsMenu Title:@"GENERAL" Icon:nil];
+    
+    [self insertPrefsItemWithTitle:@"Show hidden sensors" icon:nil state:![monitor hideDisabledSensors] action:@selector(showHiddenSensorsItemClicked:) keyEquivalent:@""];
+    
+    [prefsMenu addItem:[NSMenuItem separatorItem]];
+    
+    [self insertTitleItemWithMenu:prefsMenu Title:@"TEMPERATURE SCALE" Icon:nil];
+    
+    [monitor setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorUseFahrenheitKey]];
+    
+    celsiusItem = [self insertPrefsItemWithTitle:@"Celsius" icon:nil state:![monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
+    fahrenheitItem = [self insertPrefsItemWithTitle:@"Fahrenheit" icon:nil state:[monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
+    
+    [prefsItem setSubmenu:prefsMenu];
+    
+    [statusMenu addItem:[NSMenuItem separatorItem]];
+    
+    [statusMenu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quit HWMonitor", nil) action:@selector(terminate:) keyEquivalent:@""]];
+}
+
 // Events
 
 - (void)menuWillOpen:(NSMenu *)menu {
@@ -206,6 +264,16 @@
         
         [self updateTitles];
     }
+}
+
+- (void)showHiddenSensorsItemClicked:(id)sender
+{   
+    [sender setState:![sender state]];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@kHWMonitorShowHiddenSensors];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self rebuildSensors];
 }
 
 - (void)awakeFromNib
@@ -263,49 +331,7 @@
     redColorAttribute = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
     
     // Init sensors
-    monitor = [HWMonitorEngine engine];
-    
-    [monitor rebuildSensorsList];
-    
-    if ([[monitor sensors] count] > 0) {
-        [self insertMenuGroupWithTitle:@"TEMPERATURES" Icon:[NSImage imageNamed:@"temperatures"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
-        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" Icon:[NSImage imageNamed:@"hddtemperatures"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
-        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" Icon:[NSImage imageNamed:@"ssdlife"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
-        [self insertMenuGroupWithTitle:@"SSD REMAINING BLOCKS" Icon:[NSImage imageNamed:@"ssdlife"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingBlocks]];
-        [self insertMenuGroupWithTitle:@"FREQUENCIES" Icon:[NSImage imageNamed:@"frequencies"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupFrequency | kHWSensorGroupMultiplier]];
-        [self insertMenuGroupWithTitle:@"FANS" Icon:[NSImage imageNamed:@"tachometers"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTachometer | kHWSensorGroupPWM]];
-        [self insertMenuGroupWithTitle:@"VOLTAGES" Icon:[NSImage imageNamed:@"voltages"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
-        
-        [self updateTitles];
-    }
-    else {
-        NSMenuItem * item = [[NSMenuItem alloc]initWithTitle:NSLocalizedString(@"No sensors found", nil) action:nil keyEquivalent:@""];
-        
-        [item setEnabled:FALSE];
-        
-        [statusMenu addItem:item];
-        [statusMenu addItem:[NSMenuItem separatorItem]];
-    }
-
-    // Preferences...
-    NSMenuItem* prefsItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Preferences") action:nil keyEquivalent:@""];
-    [prefsItem setImage:[NSImage imageNamed:@"preferences"]];
-    [statusMenu addItem:prefsItem];
-    
-    prefsMenu = [[NSMenu alloc] init];
-    
-    [self insertTitleItemWithMenu:prefsMenu Title:@"TEMPERATURE SCALE" Icon:nil];
-    
-    [monitor setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorUseFahrenheitKey]];
-    
-    celsiusItem = [self insertPrefsItemWithTitle:@"Celsius" icon:nil state:![monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
-    fahrenheitItem = [self insertPrefsItemWithTitle:@"Fahrenheit" icon:nil state:[monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
-    
-    [prefsItem setSubmenu:prefsMenu];
-    
-    [statusMenu addItem:[NSMenuItem separatorItem]];
-    
-    [statusMenu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quit HWMonitor", nil) action:@selector(terminate:) keyEquivalent:@""]];
+    [self rebuildSensors];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
