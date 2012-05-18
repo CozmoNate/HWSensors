@@ -55,16 +55,11 @@ void GeForceX::readFanRPM(OSObject *target)
 {
     GeForceX * me = OSDynamicCast(GeForceX, target);
     
-    if (!me || me->fanRPMThreadActive) 
+    if (!me) 
         return;
     
-    me->fanRPMThreadActive = true;
-    
     float rpm = me->nouveau_rpmfan_get(500);
-    
     me->fanRMP = rpm;
-    
-    me->fanRPMThreadActive = false;
 }
 
 /* register access */
@@ -1991,8 +1986,11 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
             return nouveau_pwmfan_get();
         
         case kFakeSMCTachometerSensor:
-            if (readFanRPMThread && !fanRPMThreadActive)
+            if (readFanRPMThread && !fanRPMThreadActive) {
+                fanRPMThreadActive = true;
                 thread_call_enter(readFanRPMThread);
+                fanRPMThreadActive = false;
+            }
                 
             return fanRMP;
             
