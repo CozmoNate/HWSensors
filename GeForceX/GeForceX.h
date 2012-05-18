@@ -178,6 +178,11 @@ private:
     NVVRAMType      vram_type;
     
     bool            g92_asus_temperature;
+    
+    float           fanRMP;
+    bool            fanRPMThreadActive;
+    thread_call_t   readFanRPMThread;
+    static void 	readFanRPM(OSObject *target);
       
     UInt32          nv_rd32(UInt32 reg);
     void            nv_wr32(UInt32 reg, UInt32 val);
