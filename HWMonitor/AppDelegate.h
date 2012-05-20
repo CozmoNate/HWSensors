@@ -45,6 +45,8 @@
 - (NSMenuItem*)insertPrefsItemWithTitle:(NSString*)title icon:(NSImage*)image state:(NSUInteger)state action:(SEL)aSelector keyEquivalent:(NSString *)charCode;
 
 - (void)updateSMARTData;
+- (void)updateData;
+- (void)updateDataThreaded;
 - (void)updateTitles;
 
 - (void)rebuildSensors;

@@ -57,7 +57,7 @@ float X3100monitor::getSensorValue(FakeSMCSensor *sensor)
             value = INVID8(TR1);
         }				
         
-        return 140 - value;
+        return 150 - value;
     }
     
     return 0;

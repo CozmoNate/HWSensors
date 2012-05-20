@@ -75,15 +75,25 @@
     return item;
 }
 
-- (void)updateSMARTData; 
+- (void)updateSMARTData
 {
     [monitor updateSMARTSensorsValues];
 }
 
-- (void)updateTitles
+- (void)updateData
 {
     [monitor updateGenericSensorsValuesButOnlyFavorits:!isMenuVisible];
-    
+}
+
+- (void)updateDataThreaded
+{
+    //[self performSelectorOnMainThread:@selector(updateData) withObject:nil waitUntilDone:FALSE];
+    //[self performSelectorInBackground:@selector(updateData) withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(updateData) toTarget:self withObject:nil];
+}
+
+- (void)updateTitles
+{
     NSArray *sensors = [monitor sensors];
     
     NSMutableAttributedString * statusString = [[NSMutableAttributedString alloc] init];
@@ -336,21 +346,28 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Main sensors timer
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
-                                [self methodSignatureForSelector:@selector(updateTitles)]];
-    [invocation setTarget:self];
-    [invocation setSelector:@selector(updateTitles)];
-    
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
-    
+    NSInvocation *invocation = nil;
+
     // Main SMART timer
-    invocation = [NSInvocation invocationWithMethodSignature:
-                  [self methodSignatureForSelector:@selector(updateSMARTData)]];
+    invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(updateSMARTData)]];
     [invocation setTarget:self];
     [invocation setSelector:@selector(updateSMARTData)];
     
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    
+    // Main sensors timer
+    invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(updateDataThreaded)]];
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(updateDataThreaded)];
+    
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    
+    // Update menu titles timer
+    invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(updateTitles)]];
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(updateTitles)];
+    
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.5f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     [self updateTitles];
 }

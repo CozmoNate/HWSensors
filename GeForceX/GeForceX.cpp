@@ -51,17 +51,6 @@ OSDefineMetaClassAndStructors(GeForceX, FakeSMCPlugin)
 ROM16(x) ? &d[ROM16(x)] : NULL; \
 })
 
-void GeForceX::readFanRPM(OSObject *target)
-{
-    GeForceX * me = OSDynamicCast(GeForceX, target);
-    
-    if (!me) 
-        return;
-    
-    float rpm = me->nouveau_rpmfan_get(500);
-    me->fanRMP = rpm;
-}
-
 /* register access */
 UInt32 GeForceX::nv_rd32(UInt32 reg)
 {
@@ -869,7 +858,7 @@ int GeForceX::nouveau_pwmfan_get()
 	return 0;
 }
 
-float GeForceX::nouveau_rpmfan_get(UInt32 milliseconds)
+int GeForceX::nouveau_rpmfan_get(UInt32 milliseconds)
 {
 	struct NVGpioFunc gpio;
 	UInt32 cycles, cur, prev;
@@ -911,7 +900,7 @@ float GeForceX::nouveau_rpmfan_get(UInt32 milliseconds)
 
         
         /* interpolate to get rpm */
-        return cycles / 4.0f * (1000.0f / milliseconds) * 60.0f;
+        return (float)cycles / 4.0f * (1000.0f / milliseconds) * 60.0f;
     }
     
     return 0;
@@ -1986,13 +1975,7 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
             return nouveau_pwmfan_get();
         
         case kFakeSMCTachometerSensor:
-            if (readFanRPMThread && !fanRPMThreadActive) {
-                fanRPMThreadActive = true;
-                thread_call_enter(readFanRPMThread);
-                fanRPMThreadActive = false;
-            }
-                
-            return fanRMP;
+            return nouveau_rpmfan_get(500);
             
         case kFakeSMCVoltageSensor:
             return nouveau_voltage_get();
@@ -2178,12 +2161,7 @@ bool GeForceX::start(IOService * provider)
                     addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kGeForceXPWMSensor, 0);
                 }
                 
-                fanRMP = nouveau_rpmfan_get(100);
-                
-                if (fanRMP > 0) {
-                    
-                    readFanRPMThread = thread_call_allocate((thread_call_func_t)readFanRPM, (thread_call_param_t)this);
-                    
+                if (nouveau_rpmfan_get(100) > 0) {
                     snprintf (title, 16, "GPU %X", cardIndex);
                     addTachometer(1, title);
                 }
@@ -2230,12 +2208,6 @@ void GeForceX::free(void)
     if (mmio) {
         mmio->release();
         mmio = 0;
-    }
-    
-    if (readFanRPMThread) {
-        thread_call_cancel(readFanRPMThread);
-        thread_call_free(readFanRPMThread);
-        readFanRPMThread = 0;
     }
     
     super::free();
