@@ -87,10 +87,20 @@
     [monitor updateSMARTSensorsValues];
 }
 
-- (void)updateTitlesForceAllSensors:(BOOL)allSensors
+- (void)updateData
 {
-    [monitor updateGenericSensorsValuesButOnlyFavorits:!allSensors && ![self isMenuDown]];
-    
+    [monitor updateGenericSensorsValuesButOnlyFavorits:![self isMenuDown]];
+}
+
+- (void)updateDataThreaded
+{
+    //[self performSelectorOnMainThread:@selector(updateData) withObject:nil waitUntilDone:FALSE];
+    //[self performSelectorInBackground:@selector(updateData) withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(updateData) toTarget:self withObject:nil];
+}
+
+- (void)updateTitlesForceAllSensors:(BOOL)allSensors
+{    
     [view setNeedsDisplay:YES];
     
     if (!allSensors && ![self isMenuDown])
@@ -314,11 +324,13 @@
     orangeColorAttribute = [NSDictionary dictionaryWithObject:[NSColor orangeColor] forKey:NSForegroundColorAttributeName];
     redColorAttribute = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
     
+    NSInvocation *invocation = nil;
+    
     // Main sensors timer
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
-                                [self methodSignatureForSelector:@selector(updateTitlesDefault)]];
+    invocation = [NSInvocation invocationWithMethodSignature:
+                                [self methodSignatureForSelector:@selector(updateDataThreaded)]];
     [invocation setTarget:self];
-    [invocation setSelector:@selector(updateTitlesDefault)];
+    [invocation setSelector:@selector(updateDataThreaded)];
     
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
@@ -329,6 +341,14 @@
     [invocation setSelector:@selector(updateSMARTData)];
     
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    
+    // Update titles timer
+    invocation = [NSInvocation invocationWithMethodSignature:
+                                [self methodSignatureForSelector:@selector(updateTitlesDefault)]];
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(updateTitlesDefault)];
+    
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.5f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     // Rebuild sensors timer
     invocation = [NSInvocation invocationWithMethodSignature:

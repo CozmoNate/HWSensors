@@ -50,6 +50,9 @@
 - (NSMenuItem*)insertPrefsItemWithTitle:(NSString*)title icon:(NSImage*)image state:(NSUInteger)state action:(SEL)aSelector keyEquivalent:(NSString *)charCode;
 
 - (void)updateSMARTData;
+- (void)updateData;
+- (void)updateDataThreaded;
+
 - (void)updateTitlesForceAllSensors:(BOOL)allSensors;
 - (void)updateTitlesForced;
 - (void)updateTitlesDefault;
