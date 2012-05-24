@@ -112,21 +112,19 @@ UInt8 FakeSMCKey::getSize() const { return size; };
 const void *FakeSMCKey::getValue() 
 { 
 	if (handler) {
-        FakeSMCNanotime now;
+        mach_timespec_t now;
 
-        SET_FAKESMC_TIMESPEC(&now);
+        clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
         
-        if (CMP_FAKESMC_TIMESPEC(&now, &lastUpdated) >= NSEC_PER_SEC) {
+        if (CMP_MACH_TIMESPEC(&now, &lastUpdated) < NSEC_PER_SEC) 
+            return value;
             
-            IOReturn result = handler->callPlatformFunction(kFakeSMCGetValueCallback, false, (void *)name, (void *)value, (void *)size, 0);
-            
-            if (kIOReturnSuccess == result)
-            {
-                lastUpdated.secs = now.secs;
-                lastUpdated.nanosecs = now.nanosecs;
-            }
-            else HWSensorsWarningLog("value update request callback error for key %s, return 0x%x", name, result);
-        }
+        IOReturn result = handler->callPlatformFunction(kFakeSMCGetValueCallback, false, (void *)name, (void *)value, (void *)size, 0);
+        
+        if (kIOReturnSuccess == result)
+            clock_get_system_nanotime((clock_sec_t*)&lastUpdated.tv_sec, (clock_nsec_t*)&lastUpdated.tv_nsec);
+        else 
+            HWSensorsWarningLog("value update request callback error for key %s, return 0x%x", name, result);
 	}
     
 	return value; 
