@@ -33,12 +33,13 @@
 #include "GeForceX.h"
 
 #include "FakeSMCDefinitions.h"
-#include "FakeSMCTime.h"
 
 #include "nouveau.h"
+
 #include <IOKit/IOLib.h>
 
 #include <architecture/i386/pio.h>
+#include <kern/clock.h>
 
 #define kGeForceXPWMSensor  1000
 
@@ -858,6 +859,8 @@ int GeForceX::nouveau_pwmfan_get()
 	return 0;
 }
 
+extern mach_port_t clock_port;
+
 int GeForceX::nouveau_rpmfan_get(UInt32 milliseconds)
 {
 	struct NVGpioFunc gpio;
@@ -870,34 +873,35 @@ int GeForceX::nouveau_rpmfan_get(UInt32 milliseconds)
          * When the fan spins, it changes the value of GPIO FAN_SENSE.
          * We get 4 changes (0 -> 1 -> 0 -> 1 -> [...]) per complete rotation.
         */
+        mach_timespec_t end, now;
         
-        FakeSMCNanotime start, now;
+        clock_get_system_nanotime((clock_sec_t*)&end.tv_sec, (clock_nsec_t*)&end.tv_nsec);
         
-        const clock_nsec_t interval = milliseconds * USEC_PER_SEC;
+        now.tv_sec = 0;
+        now.tv_nsec = milliseconds * USEC_PER_SEC;
         
-        SET_FAKESMC_TIMESPEC(&start);
+        ADD_MACH_TIMESPEC(&end, &now);
         
         prev = nouveau_gpio_sense(0, gpio.line);
         cycles = 0;
         
         do {
             cur = nouveau_gpio_sense(0, gpio.line);
+            
             if (prev != cur) {
                 cycles++;
                 prev = cur;
             }
             
-            //IOSleep(1); /* supports 0 < rpm < 7500 */
-            IODelay(250); 
-            
-            SET_FAKESMC_TIMESPEC(&now);
-            
+            IODelay(750); /* supports 0 < rpm < 7500 */
+
             //counter++;
             
-        } while (CMP_FAKESMC_TIMESPEC(&now, &start) < interval);
+            clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
+            
+        } while (CMP_MACH_TIMESPEC(&end, &now) > 0);
         
         //HWSensorsInfoLog("counter: %d", counter);
-
         
         /* interpolate to get rpm */
         return (float)cycles / 4.0f * (1000.0f / milliseconds) * 60.0f;
@@ -1975,7 +1979,7 @@ float GeForceX::getSensorValue(FakeSMCSensor *sensor)
             return nouveau_pwmfan_get();
         
         case kFakeSMCTachometerSensor:
-            return nouveau_rpmfan_get(500);
+            return nouveau_rpmfan_get(500); // count ticks for 500ms 
             
         case kFakeSMCVoltageSensor:
             return nouveau_voltage_get();

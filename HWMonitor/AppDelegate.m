@@ -87,9 +87,7 @@
 
 - (void)updateDataThreaded
 {
-    //[self performSelectorOnMainThread:@selector(updateData) withObject:nil waitUntilDone:FALSE];
-    //[self performSelectorInBackground:@selector(updateData) withObject:nil];
-    [NSThread detachNewThreadSelector:@selector(updateData) toTarget:self withObject:nil];
+    [self performSelectorInBackground:@selector(updateData) withObject:nil];
 }
 
 - (void)updateTitles
