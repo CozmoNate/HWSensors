@@ -54,5 +54,6 @@
 - (void)sensorItemClicked:(id)sender;
 - (void)degreesItemClicked:(id)sender;
 - (void)showHiddenSensorsItemClicked:(id)sender;
+- (void)showBSDNamesItemClicked:(id)sender;
 
 @end

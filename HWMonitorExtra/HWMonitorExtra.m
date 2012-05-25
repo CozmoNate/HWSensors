@@ -173,6 +173,7 @@
     [[self menu] removeAllItems];
     
     [monitor setHideDisabledSensors:![defaults boolForKey:@kHWMonitorShowHiddenSensors]];
+    [monitor setShowBSDNames:[defaults boolForKey:@kHWMonitorShowBSDNames]];
     
     [monitor rebuildSensorsList];
     
@@ -199,6 +200,7 @@
         [self insertTitleItemWithMenu:prefsMenu Title:@"GENERAL" Icon:nil];
         
         [self insertPrefsItemWithTitle:@"Show hidden sensors" icon:nil state:![monitor hideDisabledSensors] action:@selector(showHiddenSensorsItemClicked:) keyEquivalent:@""];
+        [self insertPrefsItemWithTitle:@"Use BSD drives names" icon:nil state:[monitor showBSDNames] action:@selector(showBSDNamesItemClicked:) keyEquivalent:@""];
         
         [prefsMenu addItem:[NSMenuItem separatorItem]];
         
@@ -262,6 +264,16 @@
     [sender setState:![sender state]];
     
     [defaults setBool:[sender state] forKey:@kHWMonitorShowHiddenSensors];
+    [defaults synchronize];
+    
+    [self rebuildSensors];
+}
+
+- (void)showBSDNamesItemClicked:(id)sender
+{
+    [sender setState:![sender state]];
+    
+    [defaults setBool:[sender state] forKey:@kHWMonitorShowBSDNames];
     [defaults synchronize];
     
     [self rebuildSensors];

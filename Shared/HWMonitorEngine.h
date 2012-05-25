@@ -25,6 +25,7 @@
 
 @property (readwrite, assign) BOOL useFahrenheit;
 @property (readwrite, assign) BOOL hideDisabledSensors;
+@property (readwrite, assign) BOOL showBSDNames;
 
 + (HWMonitorEngine*)engine;
 
