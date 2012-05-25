@@ -18,6 +18,7 @@
 @synthesize sensors;
 @synthesize useFahrenheit;
 @synthesize hideDisabledSensors;
+@synthesize showBSDNames;
 
 + (HWMonitorEngine*)engine
 {
@@ -148,7 +149,7 @@
     }
     
     if (value) {
-        HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%x", [disk serialNumber], group] caption:[[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
+        HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%x", [disk serialNumber], group] caption:[self showBSDNames] ? [disk bsdName] : [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
         
         [sensor setData:value];
         [sensor setDisk:disk];

@@ -18,10 +18,11 @@
 
 @synthesize productName;
 @synthesize serialNumber;
+@synthesize bsdName;
 @synthesize isRotational;
 @synthesize isExceeded;
 
-+(ATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name serialNumber:(NSString*)serial isRotational:(BOOL)rotational
++(ATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name bsdName:(NSString*)bsd serialNumber:(NSString*)serial isRotational:(BOOL)rotational
 {
     if (MACH_PORT_NULL != ioservice) {
         ATAGenericDisk* me = [[ATAGenericDisk alloc] init];
@@ -29,6 +30,7 @@
         me->service = ioservice;
         
         me->productName = name;
+        me->bsdName = bsd;
         me->serialNumber = serial;
         me->isRotational = rotational;
         
@@ -174,13 +176,22 @@
                             NSString *medium = [characteristics objectForKey:@"Medium Type"];
                             
                             if (name && serial && medium) {
+                                
+                                CFStringRef bsdName = IORegistryEntrySearchCFProperty(service, kIOServicePlane, CFSTR("BSD Name"), kCFAllocatorDefault, kIORegistryIterateRecursively);
+                                
+                                id disk = nil;
+                                
                                 if ([medium isEqualToString:@"Rotational"]) {
-                                    [list addObject:[ATAGenericDisk genericDiskWithService:service productName:name serialNumber:serial isRotational:TRUE]];
+                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:(__bridge_transfer NSString *)bsdName serialNumber:serial isRotational:TRUE];
+                                    ;
                                 }
                                 else if ([medium isEqualToString:@"Solid State"])
                                 {
-                                    [list addObject:[ATAGenericDisk genericDiskWithService:service productName:name serialNumber:serial isRotational:FALSE]];
+                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:(__bridge_transfer NSString *)bsdName serialNumber:serial isRotational:FALSE];
                                 }
+                                
+                                if (disk)
+                                    [list addObject:disk];
                             }
                         }
                     }

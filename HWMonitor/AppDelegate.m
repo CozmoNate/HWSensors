@@ -180,6 +180,7 @@
     [statusMenu removeAllItems];
     
     [monitor setHideDisabledSensors:![[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorShowHiddenSensors]];
+    [monitor setShowBSDNames:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorShowBSDNames]];
     
     [monitor rebuildSensorsList];
     
@@ -213,9 +214,9 @@
     [self insertTitleItemWithMenu:prefsMenu Title:@"GENERAL" Icon:nil];
     
     [self insertPrefsItemWithTitle:@"Show hidden sensors" icon:nil state:![monitor hideDisabledSensors] action:@selector(showHiddenSensorsItemClicked:) keyEquivalent:@""];
+    [self insertPrefsItemWithTitle:@"Use BSD drives names" icon:nil state:[monitor showBSDNames] action:@selector(showBSDNamesItemClicked:) keyEquivalent:@""];
     
     [prefsMenu addItem:[NSMenuItem separatorItem]];
-    
     [self insertTitleItemWithMenu:prefsMenu Title:@"TEMPERATURE SCALE" Icon:nil];
     
     [monitor setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorUseFahrenheitKey]];
@@ -279,6 +280,16 @@
     [sender setState:![sender state]];
     
     [[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@kHWMonitorShowHiddenSensors];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self rebuildSensors];
+}
+
+- (void)showBSDNamesItemClicked:(id)sender
+{
+    [sender setState:![sender state]];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@kHWMonitorShowBSDNames];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [self rebuildSensors];
