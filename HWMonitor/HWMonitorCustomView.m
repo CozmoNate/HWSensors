@@ -130,13 +130,21 @@
 }
 
 - (void)mouseDown:(NSEvent *)event
-{
-    NSRect frame = [[self window] frame];
-    NSPoint pt = NSMakePoint(NSMidX(frame), NSMinY(frame));
-    
-    [menu popUpStatusItemMenu:[menu menu]];
-    
+{ 
     [self setNeedsDisplay:YES];
+    [menu popUpStatusItemMenu:[menu menu]];
+}
+
+- (void)setIsMenuDown:(BOOL)down 
+{
+    isMenuDown = down;
+
+   [self setNeedsDisplay:YES];
+}
+
+- (BOOL)isMenuDown
+{
+    return isMenuDown;
 }
 
 @end
