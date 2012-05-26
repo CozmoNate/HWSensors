@@ -80,6 +80,11 @@
     [monitor updateSMARTSensorsValues];
 }
 
+- (void)updateSMARTDataThreaded
+{
+    [self performSelectorInBackground:@selector(updateSMARTData) withObject:nil];
+}
+
 - (void)updateData
 {
     [monitor updateGenericSensorsValuesButOnlyFavorits:!isMenuVisible];
@@ -295,6 +300,21 @@
     [self rebuildSensors];
 }
 
+- (void)sleepNoteReceived:(NSNotification*)note
+{
+    if ([note name] == NSWorkspaceWillSleepNotification) {
+        
+    }
+}
+
+- (void)wakeNoteReceived:(NSNotification*)note
+{
+    if ([note name] == NSWorkspaceDidWakeNotification) {
+        [self updateSMARTDataThreaded];
+        [self updateDataThreaded];
+    }
+}
+
 - (void)awakeFromNib
 {    
     favoriteIcon = [NSImage imageNamed:@"favorite"];
@@ -355,12 +375,17 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    // Register PM events
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(sleepNoteReceived:) name: NSWorkspaceWillSleepNotification object: NULL];
+    
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(wakeNoteReceived:) name: NSWorkspaceDidWakeNotification object: NULL];
+
     NSInvocation *invocation = nil;
 
     // Main SMART timer
-    invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(updateSMARTData)]];
+    invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(updateSMARTDataThreaded)]];
     [invocation setTarget:self];
-    [invocation setSelector:@selector(updateSMARTData)];
+    [invocation setSelector:@selector(updateSMARTDataThreaded)];
     
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     

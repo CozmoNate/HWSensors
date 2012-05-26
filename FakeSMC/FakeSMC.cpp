@@ -11,9 +11,9 @@ bool FakeSMC::init(OSDictionary *dictionary)
 	if (!super::init(dictionary))
 		return false;
     
-    IOLog("HWSensors %s Copyright %d kozlek, usr-sse2, slice, navi, THe KiNG. All rights reserved.\n", HWSENSORS_VERSION_STRING, HWSENSORS_LASTYEAR);
+    IOLog("HWSensors Project %s Copyright %d netkas, slice, usr-sse2, kozlek, navi, THe KiNG. All rights reserved.\n", HWSENSORS_VERSION_STRING, HWSENSORS_LASTYEAR);
     
-    HWSensorsInfoLog("Opensource SMC device emulator. Copyright 2009 netkas. All rights reserved.");
+    //HWSensorsInfoLog("Opensource SMC device emulator. Copyright 2009 netkas. All rights reserved.");
     
     if (!(smcDevice = new FakeSMCDevice)) {
 		HWSensorsInfoLog("failed to create SMC device");

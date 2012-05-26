@@ -87,6 +87,11 @@
     [monitor updateSMARTSensorsValues];
 }
 
+- (void)updateSMARTDataThreaded
+{
+    [self performSelectorInBackground:@selector(updateSMARTData) withObject:nil];
+}
+
 - (void)updateData
 {
     [monitor updateGenericSensorsValuesButOnlyFavorits:![self isMenuDown]];
@@ -279,6 +284,25 @@
     [self rebuildSensors];
 }
 
+- (void)sleepNoteReceived:(NSNotification*)note
+{
+    //NSLog(@"receiveSleepNote: %@", [note name]);
+    
+    if ([note name] == NSWorkspaceWillSleepNotification) {
+        
+    }
+}
+
+- (void)wakeNoteReceived:(NSNotification*)note
+{
+    //NSLog(@"receiveSleepNote: %@", [note name]);
+    
+    if ([note name] == NSWorkspaceDidWakeNotification) {
+        [self updateSMARTDataThreaded];
+        [self updateDataThreaded];
+    }
+}
+
 - (id)initWithBundle:(NSBundle *)bundle
 {
     self = [super initWithBundle:bundle];
@@ -346,9 +370,9 @@
     
     // Main SMART timer
     invocation = [NSInvocation invocationWithMethodSignature:
-                  [self methodSignatureForSelector:@selector(updateSMARTData)]];
+                  [self methodSignatureForSelector:@selector(updateSMARTDataThreaded)]];
     [invocation setTarget:self];
-    [invocation setSelector:@selector(updateSMARTData)];
+    [invocation setSelector:@selector(updateSMARTDataThreaded)];
     
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
@@ -369,6 +393,11 @@
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1800.0 invocation:invocation repeats:YES] forMode:NSDefaultRunLoopMode];
     
     [self performSelector:@selector(rebuildSensors) withObject:nil afterDelay:0.5];
+    
+    // Register PM events
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(sleepNoteReceived:) name: NSWorkspaceWillSleepNotification object: NULL];
+    
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(wakeNoteReceived:) name: NSWorkspaceDidWakeNotification object: NULL];
     
     return self;
 }
