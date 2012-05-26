@@ -24,5 +24,7 @@
 @property (readwrite, retain) NSArray *favorites;
 
 - initWithFrame:(NSRect)rect statusItem:(NSStatusItem*)item;
+- (void)setIsMenuDown:(BOOL)down;
+- (BOOL)isMenuDown;
 
 @end

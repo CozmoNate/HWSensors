@@ -167,7 +167,7 @@
     }
     
     // Update status bar title
-    NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
+    /*NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
     
     NSUInteger i = 0;
     
@@ -185,7 +185,7 @@
     if (!isMenuVisible) 
         [title addAttribute:NSShadowAttributeName value:statusItemShadow range:NSMakeRange(0,[title length])];
          
-    [statusItem setAttributedTitle:title];
+    [statusItem setAttributedTitle:title];*/
 }
 
 - (void)rebuildSensors
