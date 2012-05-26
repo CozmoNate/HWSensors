@@ -10,9 +10,11 @@
 #import "ATASmartReporter.h"
 
 #import "HWMonitorEngine.h"
+#import "HWMonitorCustomView.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     NSStatusItem *statusItem;
+    HWMonitorCustomView *statusView;
     NSFont *statusItemFont;
     NSDictionary *statusItemAttributes;
     NSShadow *statusItemShadow;
@@ -21,11 +23,12 @@
     NSFont *statusMenuFont;
     NSDictionary *statusMenuAttributes;
     
-    NSDictionary * blackColorAttribute;
-    NSDictionary * orangeColorAttribute;
-    NSDictionary * redColorAttribute;
+    NSDictionary *blackColorAttribute;
+    NSDictionary *orangeColorAttribute;
+    NSDictionary *redColorAttribute;
     
     HWMonitorEngine *monitor;
+    NSMutableArray *favorites;
     
     BOOL isMenuVisible;
     

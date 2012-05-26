@@ -6,21 +6,24 @@
 //  Copyright (c) 2012 mozodojo. All rights reserved.
 //
 
-#import "HWMonitorView.h"
+#import "HWMonitorCustomView.h"
 
-@implementation HWMonitorView
+@implementation HWMonitorCustomView
 
+@synthesize image;
+@synthesize alternateImage;
+@synthesize isMenuDown;
 @synthesize monitor;
 @synthesize favorites;
 
-- initWithFrame:(NSRect)rect menuExtra:m
+- initWithFrame:(NSRect)rect statusItem:(NSStatusItem*)item
 {
     self = [super initWithFrame:rect];
     
     if( !self )
         return nil;
     
-    menu = m;
+    menu = item;
     
     font = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
     //font = [NSFont boldSystemFontOfSize:9.0f];
@@ -38,24 +41,25 @@
 {   
     [super drawRect:rect]; // not sure about this...
     
-    BOOL down = [menu isMenuDown];
+    BOOL down = isMenuDown;
     
     NSImage * icon = nil;
     
     if (down)
-        icon = _alternateImage;
+        icon = alternateImage;
     else
-        icon = _image;
+        icon = image;
     
     if (!monitor && !icon)
         return;
         
-    /*if (down)*/ [menu drawMenuBackground:YES];
+    if (down) 
+        [menu drawStatusBarBackgroundInRect:rect withHighlight:YES];
     
     if (icon)
-        [icon drawAtPoint:NSMakePoint(0,2) fromRect:NSMakeRect(0,0,11,19) operation:NSCompositeSourceOver fraction:1.0];
+        [icon drawAtPoint:NSMakePoint(3,2) fromRect:NSMakeRect(0,0,14,19) operation:NSCompositeSourceOver fraction:1.0];
     
-    int size = (icon ? 11 + 3 : 1);
+    int size = (icon ? 14 + 3 : 1);
     
     if (monitor && [[monitor sensors] count] > 0) {
         
@@ -118,9 +122,21 @@
         }
     }
     
+    size += 3;
+    
     [self setFrameSize:NSMakeSize(size, [self frame].size.height)];
     //snow leopard icon & text problem        
     [menu setLength:([self frame].size.width)];
+}
+
+- (void)mouseDown:(NSEvent *)event
+{
+    NSRect frame = [[self window] frame];
+    NSPoint pt = NSMakePoint(NSMidX(frame), NSMinY(frame));
+    
+    [menu popUpStatusItemMenu:[menu menu]];
+    
+    [self setNeedsDisplay:YES];
 }
 
 @end

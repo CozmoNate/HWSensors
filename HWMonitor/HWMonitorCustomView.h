@@ -6,18 +6,23 @@
 //  Copyright (c) 2012 mozodojo. All rights reserved.
 //
 
-#import "SystemUIPlugin.h"
 #import "HWMonitorEngine.h"
 
-@interface HWMonitorView : NSMenuExtraView
+@interface HWMonitorCustomView : NSView
 
 {
-    NSMenuExtra *menu;
+    NSStatusItem *menu;
     NSFont *font;
     NSShadow *shadow;
 }
 
+@property (readwrite, retain) NSImage *image;
+@property (readwrite, retain) NSImage *alternateImage;
+
+@property (readwrite, assign) BOOL isMenuDown;
 @property (readwrite, retain) HWMonitorEngine *monitor;
 @property (readwrite, retain) NSArray *favorites;
+
+- initWithFrame:(NSRect)rect statusItem:(NSStatusItem*)item;
 
 @end

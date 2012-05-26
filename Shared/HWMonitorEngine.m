@@ -16,6 +16,7 @@
 [bundle localizedStringForKey:(key) value:@"" table:nil]
 
 @synthesize sensors;
+@synthesize keys;
 @synthesize useFahrenheit;
 @synthesize hideDisabledSensors;
 @synthesize showBSDNames;

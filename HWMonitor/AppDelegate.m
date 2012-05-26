@@ -11,6 +11,8 @@
 
 #include "FakeSMCDefinitions.h"
 
+#include "HWMonitorView.h"
+
 @implementation AppDelegate
 
 #define GetLocalizedString(key) \
@@ -41,7 +43,7 @@
         for (int i = 0; i < [list count]; i++) {
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
             
-            [sensor setFavorite:[[NSUserDefaults standardUserDefaults] boolForKey:[sensor key]]];
+            [sensor setFavorite:[favorites containsObject:sensor]];
             
             if ([sensor disk])
                 [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:statusMenuFont]];
@@ -99,7 +101,7 @@
 {
     NSArray *sensors = [monitor sensors];
     
-    NSMutableAttributedString * statusString = [[NSMutableAttributedString alloc] init];
+    NSMutableDictionary * favoritsList = [[NSMutableDictionary alloc] init];
     
     for (int i = 0; i < [sensors count]; i++) {
         HWMonitorSensor *sensor = (HWMonitorSensor*)[sensors objectAtIndex:i];
@@ -156,18 +158,27 @@
             }
             
             if ([sensor favorite]) {
-                [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-                
                 if (!isMenuVisible && valueColor != blackColorAttribute)
-                    [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
+                    [favoritsList setObject:[[NSAttributedString alloc] initWithString:value attributes:valueColor] forKey:[sensor key]];
                 else
-                    [statusString appendAttributedString:[[NSAttributedString alloc] initWithString:value]];
+                    [favoritsList setObject:[[NSAttributedString alloc] initWithString:value] forKey:[sensor key]];
             }
         }
     }
     
     // Update status bar title
-    NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithAttributedString:statusString];
+    NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
+    
+    NSUInteger i = 0;
+    
+    for (i = 0; i < [favorites count]; i++) {
+        HWMonitorSensor *sensor = [favorites objectAtIndex:i];
+        
+        [title appendAttributedString:[favoritsList objectForKey:[sensor key]]];
+        
+        if (i < [favorites count] - 1)
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+    }
     
     [title addAttributes:statusItemAttributes range:NSMakeRange(0, [title length])];
     
@@ -179,8 +190,15 @@
 
 - (void)rebuildSensors
 {
-    if (!monitor)
+    if (!monitor) {
         monitor = [[HWMonitorEngine alloc] initWithBundle:[NSBundle mainBundle]];
+        [statusView setMonitor:monitor];
+    }
+    
+    if (!favorites) {
+        favorites = [[NSMutableArray alloc] init];
+        [statusView setFavorites:favorites];
+    }
     
     [statusMenu removeAllItems];
     
@@ -190,6 +208,23 @@
     [monitor rebuildSensorsList];
     
     if ([[monitor sensors] count] > 0) {
+        NSUInteger i = 0;
+        
+        [favorites removeAllObjects];
+        
+        NSMutableArray *favoritsList = [[NSUserDefaults standardUserDefaults] objectForKey:@kHWMonitorFavoritsList];
+        
+        if (favoritsList) {
+            for (i = 0; i < [favoritsList count]; i++) {
+                HWMonitorSensor *sensor = [[monitor keys] objectForKey:[favoritsList objectAtIndex:i]];
+                
+                if (sensor) {
+                    [sensor setFavorite:TRUE];
+                    [favorites addObject:sensor];
+                }
+            }
+        }
+        
         [self insertMenuGroupWithTitle:@"TEMPERATURES" Icon:[NSImage imageNamed:@"temperatures"] Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
         [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" Icon:[NSImage imageNamed:@"hddtemperatures"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
         [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" Icon:[NSImage imageNamed:@"ssdlife"] Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
@@ -240,12 +275,14 @@
 
 - (void)menuWillOpen:(NSMenu *)menu {
     isMenuVisible = YES;
+    [statusView setIsMenuDown:YES];
     
     [self updateTitles];
 }
 
 - (void)menuDidClose:(NSMenu *)menu {
     isMenuVisible = NO;
+    [statusView setIsMenuDown:NO];
 }
 
 - (void)sensorItemClicked:(id)sender {
@@ -253,13 +290,27 @@
     
     HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
     
-    [sensor setFavorite:![sensor favorite]];
+    if ([sensor favorite])
+        [favorites removeObject:sensor];
     
+    [sensor setFavorite:![sensor favorite]];
     [menuItem setState:[sensor favorite]];
+    
+    if ([sensor favorite])
+        [favorites addObject:sensor];
     
     [self updateTitles];
     
-    [[NSUserDefaults standardUserDefaults] setBool:[sensor favorite] forKey:[sensor key]];
+    NSMutableArray *list = [[NSMutableArray alloc] init];
+    
+    NSUInteger i;
+    
+    for (i = 0; i < [favorites count]; i++) {
+        sensor = [favorites objectAtIndex:i];
+        [list addObject:[sensor key]];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:list forKey:@kHWMonitorFavoritsList];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -316,18 +367,22 @@
 }
 
 - (void)awakeFromNib
-{    
+{
     favoriteIcon = [NSImage imageNamed:@"favorite"];
     disabledIcon = [NSImage imageNamed:@"disabled"];
     
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     
+    statusView = [[HWMonitorCustomView alloc] initWithFrame:NSMakeRect(0, 0, 24, 24) statusItem:statusItem];
+    
+    [statusView setImage:[NSImage imageNamed:@"thermobump"]];
+    [statusView setAlternateImage:[NSImage imageNamed:@"thermotemplate"]];
+    
+    [statusItem setView:statusView];
     [statusItem setMenu:statusMenu];
     [statusItem setHighlightMode:YES];
-    [statusItem setImage:[NSImage imageNamed:@"thermobump"]];
-    [statusItem setAlternateImage:[NSImage imageNamed:@"thermotemplate"]];
     
-    statusItemFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
+    statusItemFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0];
     //statusItemFont = [NSFont boldSystemFontOfSize:9.0];
     //statusItemFont = [NSFont menuBarFontOfSize:9.0];
 
