@@ -50,6 +50,7 @@
 - (NSMenuItem*)insertPrefsItemWithTitle:(NSString*)title icon:(NSImage*)image state:(NSUInteger)state action:(SEL)aSelector keyEquivalent:(NSString *)charCode;
 
 - (void)updateSMARTData;
+- (void)updateSMARTDataThreaded;
 - (void)updateData;
 - (void)updateDataThreaded;
 
@@ -62,5 +63,8 @@
 - (void)degreesItemClicked:(id)sender;
 - (void)showHiddenSensorsItemClicked:(id)sender;
 - (void)showBSDNamesItemClicked:(id)sender;
+
+- (void)sleepNoteReceived:(NSNotification*)note;
+- (void)wakeNoteReceived:(NSNotification*)note;
 
 @end
