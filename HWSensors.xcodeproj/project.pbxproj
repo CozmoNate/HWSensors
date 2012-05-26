@@ -126,6 +126,7 @@
 		6AE5FC42151E298E005F9929 /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
 		7E3F6EE5155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
+		7E702BF415711B4C0075EF69 /* HWMonitorCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E702BF315711B4C0075EF69 /* HWMonitorCustomView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -295,6 +296,8 @@
 		6AE5FC40151E298E005F9929 /* tachometers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tachometers.png; sourceTree = "<group>"; };
 		7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsInfoPlist.pch; sourceTree = "<group>"; };
 		7E3F6EE4155DB9DE00C3492E /* preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preferences.png; sourceTree = "<group>"; };
+		7E702BF215711B4C0075EF69 /* HWMonitorCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; path = HWMonitorCustomView.h; sourceTree = "<group>"; };
+		7E702BF315711B4C0075EF69 /* HWMonitorCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorCustomView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -521,6 +524,8 @@
 		1D9F8325144FF24000EEEFEB /* HWMonitor */ = {
 			isa = PBXGroup;
 			children = (
+				7E702BF215711B4C0075EF69 /* HWMonitorCustomView.h */,
+				7E702BF315711B4C0075EF69 /* HWMonitorCustomView.m */,
 				1D9F8331144FF24000EEEFEB /* AppDelegate.h */,
 				1D9F8332144FF24000EEEFEB /* AppDelegate.m */,
 				1D9F8334144FF24000EEEFEB /* MainMenu.xib */,
@@ -1372,6 +1377,7 @@
 				6A00BB5D14F8CCF000337DF8 /* HWMonitorEngine.m in Sources */,
 				1D9F8333144FF24000EEEFEB /* AppDelegate.m in Sources */,
 				1D9F832C144FF24000EEEFEB /* main.m in Sources */,
+				7E702BF415711B4C0075EF69 /* HWMonitorCustomView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

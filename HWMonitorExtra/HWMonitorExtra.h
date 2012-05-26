@@ -32,6 +32,7 @@
     NSDictionary *redColorAttribute;
     
     HWMonitorEngine *monitor;
+    NSMutableArray *favorites;
     
     NSImage *favoriteIcon;
     NSImage *disabledIcon;

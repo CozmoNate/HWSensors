@@ -22,6 +22,7 @@
 }
 
 @property (readonly) NSArray *sensors;
+@property (readonly) NSDictionary *keys;
 
 @property (readwrite, assign) BOOL useFahrenheit;
 @property (readwrite, assign) BOOL hideDisabledSensors;

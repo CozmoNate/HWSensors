@@ -50,7 +50,7 @@
         for (int i = 0; i < [list count]; i++) {
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
             
-            [sensor setFavorite:[defaults boolForKey:[sensor key]]];
+            [sensor setFavorite:[favorites containsObject:sensor]];
             
             if ([sensor disk])
                 [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:statusMenuFont]];
@@ -172,8 +172,15 @@
 
 - (void)rebuildSensors
 {
-    if (!monitor)
+    if (!monitor) {
         monitor = [[HWMonitorEngine alloc] initWithBundle:[self bundle]];
+        [view setMonitor:monitor];
+    }
+    
+    if (!favorites) {
+        favorites = [[NSMutableArray alloc] init];
+        [view setFavorites:favorites];
+    }
     
     [[self menu] removeAllItems];
     
@@ -182,9 +189,25 @@
     
     [monitor rebuildSensorsList];
     
-    [view setMonitor:monitor];
-    
     if ([[monitor sensors] count] > 0) {
+
+        NSUInteger i = 0;
+        
+        [favorites removeAllObjects];
+        
+        NSMutableArray *favoritsList = [defaults objectForKey:@kHWMonitorFavoritsList];
+        
+        if (favoritsList) {
+            for (i = 0; i < [favoritsList count]; i++) {
+                HWMonitorSensor *sensor = [[monitor keys] objectForKey:[favoritsList objectAtIndex:i]];
+                
+                if (sensor) {
+                    [sensor setFavorite:TRUE];
+                    [favorites addObject:sensor];
+                }
+            }
+        }
+        
         [self insertMenuGroupWithTitle:@"TEMPERATURES" Icon:temperaturesIcon Sensors:[monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
         [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" Icon:hddtemperaturesIcon Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
         [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" Icon:ssdlifeIcon Sensors:[monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
@@ -235,16 +258,28 @@
     NSMenuItem * menuItem = (NSMenuItem *)sender;
     HWMonitorSensor *sensor = (HWMonitorSensor*)[menuItem representedObject];
     
-    [sensor setFavorite:![sensor favorite]];
+    if ([sensor favorite])
+        [favorites removeObject:sensor];
     
+    [sensor setFavorite:![sensor favorite]];
     [menuItem setState:[sensor favorite]];
+    
+    if ([sensor favorite])
+        [favorites addObject:sensor];
     
     [self updateTitlesDefault];
     
-    [defaults setBool:[sensor favorite] forKey:[sensor key]];
-    [defaults synchronize];
+    NSMutableArray *list = [[NSMutableArray alloc] init];
     
-    [self updateTitlesForced];
+    NSUInteger i;
+    
+    for (i = 0; i < [favorites count]; i++) {
+        sensor = [favorites objectAtIndex:i];
+        [list addObject:[sensor key]];
+    }
+    
+    [defaults setObject:list forKey:@kHWMonitorFavoritsList];
+    [defaults synchronize];
 }
 
 - (void)degreesItemClicked:(id)sender
