@@ -22,5 +22,6 @@
 @property (readwrite, retain) NSArray *favorites;
 
 @property (readwrite, assign) BOOL drawValuesInRow;
+@property (readwrite, assign) BOOL useShadowEffect;
 
 @end

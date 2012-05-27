@@ -13,6 +13,7 @@
 @synthesize monitor;
 @synthesize favorites;
 @synthesize drawValuesInRow;
+@synthesize useShadowEffect;
 
 - initWithFrame:(NSRect)rect menuExtra:m
 {
@@ -24,7 +25,7 @@
     menu = m;
     
     smallFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
-    bigFont = [NSFont fontWithName:@"Lucida Grande" size:10.0f];
+    bigFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
     
     shadow = [[NSShadow alloc] init];
     
@@ -71,8 +72,6 @@
 
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[sensor value]];
             
-            [title addAttribute:NSFontAttributeName value:smallFont range:NSMakeRange(0, [title length])];
-            
             NSColor *valueColor;
             
             switch ([sensor level]) {
@@ -98,12 +97,11 @@
             
             [title addAttribute:NSForegroundColorAttributeName value:(down ? [NSColor whiteColor] : valueColor) range:NSMakeRange(0,[title length])];
             
-            if (!down) 
+            if (!down && useShadowEffect) 
                 [title addAttribute:NSShadowAttributeName value:shadow range:NSMakeRange(0,[title length])];
             
             if (drawValuesInRow) {
                 [title addAttribute:NSFontAttributeName value:bigFont range:NSMakeRange(0, [title length])];
-                
                 [title drawAtPoint:NSMakePoint(size, ([self frame].size.height - [title size].height) / 2)];
                 
                 size = size + [title size].width + 3;

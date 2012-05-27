@@ -26,6 +26,7 @@
 @property (readwrite, retain) NSArray *favorites;
 
 @property (readwrite, assign) BOOL drawValuesInRow;
+@property (readwrite, assign) BOOL useShadowEffect;
 
 - initWithFrame:(NSRect)rect statusItem:(NSStatusItem*)item;
 - (void)setIsMenuDown:(BOOL)down;

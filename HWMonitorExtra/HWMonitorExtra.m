@@ -215,10 +215,12 @@
     
     [[self menu] removeAllItems];
     
-    [view setDrawValuesInRow:[defaults boolForKey:@kHWMonitorFavoritesInRow]];
-    
     [monitor setHideDisabledSensors:![defaults boolForKey:@kHWMonitorShowHiddenSensors]];
     [monitor setShowBSDNames:[defaults boolForKey:@kHWMonitorShowBSDNames]];
+    [monitor setUseFahrenheit:[defaults boolForKey:@kHWMonitorUseFahrenheitKey]];
+    
+    [view setDrawValuesInRow:[defaults boolForKey:@kHWMonitorFavoritesInRow]];
+    [view setUseShadowEffect:[defaults boolForKey:@kHWMonitorUseShadowEffect]];
     
     [monitor rebuildSensorsList];
     
@@ -259,19 +261,20 @@
         prefsMenu = [[NSMenu alloc] init];
         
         [self insertTitleItemWithMenu:prefsMenu Title:@"GENERAL" Icon:nil];
-        
         [self insertPrefsItemWithTitle:@"Show hidden sensors" icon:nil state:![monitor hideDisabledSensors] action:@selector(showHiddenSensorsItemClicked:) keyEquivalent:@""];
         [self insertPrefsItemWithTitle:@"Use BSD drives names" icon:nil state:[monitor showBSDNames] action:@selector(showBSDNamesItemClicked:) keyEquivalent:@""];
-        [self insertPrefsItemWithTitle:@"Favorites placed in a row" icon:nil state:[view drawValuesInRow] action:@selector(favoritesInRowItemClicked:) keyEquivalent:@""];
+        
         
         [prefsMenu addItem:[NSMenuItem separatorItem]];
-        
         [self insertTitleItemWithMenu:prefsMenu Title:@"TEMPERATURE SCALE" Icon:nil];
-        
-        [monitor setUseFahrenheit:[defaults boolForKey:@kHWMonitorUseFahrenheitKey]];
-        
         celsiusItem = [self insertPrefsItemWithTitle:@"Celsius" icon:nil state:![monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
         fahrenheitItem = [self insertPrefsItemWithTitle:@"Fahrenheit" icon:nil state:[monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
+        
+        
+        [prefsMenu addItem:[NSMenuItem separatorItem]];
+        [self insertTitleItemWithMenu:prefsMenu Title:@"MENU BAR" Icon:nil];
+        [self insertPrefsItemWithTitle:@"Favorites placed in a row" icon:nil state:[view drawValuesInRow] action:@selector(favoritesInRowItemClicked:) keyEquivalent:@""];
+        [self insertPrefsItemWithTitle:@"Use shadow effect" icon:nil state:[view useShadowEffect] action:@selector(useShadowEffectItemClicked:) keyEquivalent:@""];
         
         [prefsItem setSubmenu:prefsMenu];
         
@@ -363,6 +366,16 @@
     [defaults synchronize];
 }
 
+- (void)useShadowEffectItemClicked:(id)sender
+{
+    [sender setState:![sender state]];
+    
+    [view setUseShadowEffect:[sender state]];
+    
+    [defaults setBool:[sender state] forKey:@kHWMonitorUseShadowEffect];
+    [defaults synchronize];
+}
+
 - (void)sleepNoteReceived:(NSNotification*)note
 {
     //NSLog(@"receiveSleepNote: %@", [note name]);
@@ -409,6 +422,8 @@
     [view setImage:[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"thermobump" ofType:@"png"]]];
     [view setAlternateImage:[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"thermotemplate" ofType:@"png"]]];
     [view setFrameSize:NSMakeSize(80, [view frame].size.height)];
+    
+    [view setUseShadowEffect:YES];
     
     menu = [[NSMenu alloc] init];
     
@@ -479,6 +494,11 @@
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(wakeNoteReceived:) name: NSWorkspaceDidWakeNotification object: NULL];
     
     return self;
+}
+
+- (void)dealloc
+{
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 }
 
 @end

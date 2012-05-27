@@ -14,5 +14,6 @@
 #define kHWMonitorShowBSDNames      "showBSDNames"
 #define kHWMonitorFavoritesList     "favoritsList"
 #define kHWMonitorFavoritesInRow    "placeFaoritesInRow"
+#define kHWMonitorUseShadowEffect   "useShadowEffect"
 
 #endif

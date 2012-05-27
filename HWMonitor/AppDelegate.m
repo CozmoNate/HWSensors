@@ -204,10 +204,12 @@
     
     [statusMenu removeAllItems];
     
-    [statusView setDrawValuesInRow:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorFavoritesInRow]];
-    
     [monitor setHideDisabledSensors:![[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorShowHiddenSensors]];
     [monitor setShowBSDNames:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorShowBSDNames]];
+    [monitor setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorUseFahrenheitKey]];
+    
+    [statusView setDrawValuesInRow:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorFavoritesInRow]];
+    [statusView setUseShadowEffect:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorUseShadowEffect]];
     
     [monitor rebuildSensorsList];
     
@@ -255,24 +257,25 @@
     
     prefsMenu = [[NSMenu alloc] init];
     
-    [self insertTitleItemWithMenu:prefsMenu Title:@"GENERAL" Icon:nil];
     
+    [self insertTitleItemWithMenu:prefsMenu Title:@"GENERAL" Icon:nil];
     [self insertPrefsItemWithTitle:@"Show hidden sensors" icon:nil state:![monitor hideDisabledSensors] action:@selector(showHiddenSensorsItemClicked:) keyEquivalent:@""];
     [self insertPrefsItemWithTitle:@"Use BSD drives names" icon:nil state:[monitor showBSDNames] action:@selector(showBSDNamesItemClicked:) keyEquivalent:@""];
-    [self insertPrefsItemWithTitle:@"Favorites placed in a row" icon:nil state:[statusView drawValuesInRow] action:@selector(favoritesInRowItemClicked:) keyEquivalent:@""];
+    
     
     [prefsMenu addItem:[NSMenuItem separatorItem]];
     [self insertTitleItemWithMenu:prefsMenu Title:@"TEMPERATURE SCALE" Icon:nil];
-    
-    [monitor setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorUseFahrenheitKey]];
-    
     celsiusItem = [self insertPrefsItemWithTitle:@"Celsius" icon:nil state:![monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
     fahrenheitItem = [self insertPrefsItemWithTitle:@"Fahrenheit" icon:nil state:[monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
     
+    
+    [prefsMenu addItem:[NSMenuItem separatorItem]];
+    [self insertTitleItemWithMenu:prefsMenu Title:@"MENU BAR" Icon:nil];
+    [self insertPrefsItemWithTitle:@"Favorites placed in a row" icon:nil state:[statusView drawValuesInRow] action:@selector(favoritesInRowItemClicked:) keyEquivalent:@""];
+    [self insertPrefsItemWithTitle:@"Use shadow effect" icon:nil state:[statusView useShadowEffect] action:@selector(useShadowEffectItemClicked:) keyEquivalent:@""];
+    
     [prefsItem setSubmenu:prefsMenu];
-    
     [statusMenu addItem:[NSMenuItem separatorItem]];
-    
     [statusMenu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quit HWMonitor", nil) action:@selector(terminate:) keyEquivalent:@""]];
 }
 
@@ -366,6 +369,16 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)useShadowEffectItemClicked:(id)sender
+{
+    [sender setState:![sender state]];
+    
+    [statusView setUseShadowEffect:[sender state]];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@kHWMonitorUseShadowEffect];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)sleepNoteReceived:(NSNotification*)note
 {
     if ([note name] == NSWorkspaceWillSleepNotification) {
@@ -392,6 +405,8 @@
     
     [statusView setImage:[NSImage imageNamed:@"thermobump"]];
     [statusView setAlternateImage:[NSImage imageNamed:@"thermotemplate"]];
+    
+    [statusView setUseShadowEffect:YES];
     
     [statusItem setView:statusView];
     [statusItem setMenu:statusMenu];
@@ -474,6 +489,11 @@
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.5f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     [self updateTitles];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 }
 
 @end

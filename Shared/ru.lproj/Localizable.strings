@@ -48,10 +48,12 @@
 "Quit HWMonitor" = "Закрыть HWMonitor";
 "No sensors found" = "Нет доступных сенсоров";
 "Preferences" = "Настройки";
-"TEMPERATURE SCALE" = "СИСТЕМА ТЕМПЕРАТУР";
-"Celsius" = "Цельсий";
-"Fahrenheit" = "Фаренгейт";
 "GENERAL" = "ОСНОВНЫЕ";
 "Show hidden sensors" = "Показывать скрытые датчики";
 "Use BSD drives names" = "Имена накопителей в формате BSD";
+"TEMPERATURE SCALE" = "СИСТЕМА ТЕМПЕРАТУР";
+"Celsius" = "Цельсий";
+"Fahrenheit" = "Фаренгейт";
+"MENU BAR" = "СИСТЕМНОЕ МЕНЮ";
 "Favorites placed in a row" = "Располагать датчики в ряд";
+"Use shadow effect" = "Отображать с эффектом тени";
