@@ -15,7 +15,9 @@
 @synthesize isMenuDown;
 @synthesize monitor;
 @synthesize favorites;
+
 @synthesize drawValuesInRow;
+@synthesize useShadowEffect;
 
 - initWithFrame:(NSRect)rect statusItem:(NSStatusItem*)item
 {
@@ -27,7 +29,7 @@
     statusItem = item;
     
     smallFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
-    bigFont = [NSFont fontWithName:@"Lucida Grande" size:10.0f];
+    bigFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
     
     shadow = [[NSShadow alloc] init];
     
@@ -100,7 +102,7 @@
             
             [title addAttribute:NSForegroundColorAttributeName value:(down ? [NSColor whiteColor] : valueColor) range:NSMakeRange(0,[title length])];
             
-            if (!down) 
+            if (!down && useShadowEffect) 
                 [title addAttribute:NSShadowAttributeName value:shadow range:NSMakeRange(0,[title length])];
             
             if (drawValuesInRow) {
