@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>HWMonitorExtra</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.kozlek.HWMonitorExtra</string>
+	<string>org.hwsensors.HWMonitorExtra</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.6</string>
+	<string>1.0.9</string>
 	<key>CFBundleSignature</key>
 	<string>HWMN</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.6</string>
+	<string>1.0.9</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>

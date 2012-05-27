@@ -11,6 +11,7 @@
 #import "NSString+TruncateToWidth.h"
 
 #include "FakeSMCDefinitions.h"
+#include "HWMonitorDefinitions.h"
 
 @implementation HWMonitorExtra
 
@@ -106,19 +107,21 @@
 {    
     [view setNeedsDisplay:YES];
     
-    if (!allSensors && ![self isMenuDown])
+    if (!allSensors && ![self isMenuDown]) 
         return;
     
-    NSArray *sensors = [monitor sensors];
+    //NSMutableDictionary * favoritsList = [[NSMutableDictionary alloc] init];
     
-    for (int i = 0; i < [sensors count]; i++) {
-        HWMonitorSensor *sensor = (HWMonitorSensor*)[sensors objectAtIndex:i];
+    for (int i = 0; i < [[monitor sensors] count]; i++) {
+        HWMonitorSensor *sensor = [[monitor sensors] objectAtIndex:i];
         
         if (sensor && ([self isMenuDown] || allSensors) && [sensor valueHasBeenChanged]) {
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
             
             NSDictionary *captionColor;
             NSDictionary *valueColor;
+            
+            NSString * value = [sensor value];
             
             switch ([sensor level]) {
                     /*case kHWSensorLevelDisabled:
@@ -150,14 +153,42 @@
             
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor caption] attributes:captionColor]];
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t" attributes:captionColor]];
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor value] attributes:valueColor]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
             
             [title addAttributes:statusMenuAttributes range:NSMakeRange(0, [title length])];
             
             // Update menu item title
             [[sensor menuItem] setAttributedTitle:title];
+            
+            /*if ([sensor favorite]) {
+                if (![self isMenuDown] && valueColor != blackColorAttribute)
+                    [favoritsList setObject:[[NSAttributedString alloc] initWithString:value attributes:valueColor] forKey:[sensor key]];
+                else
+                    [favoritsList setObject:[[NSAttributedString alloc] initWithString:value] forKey:[sensor key]];
+            }*/
         }
     }
+    
+    // Update status bar title
+    /*NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
+     
+    NSUInteger i = 0;
+     
+    for (i = 0; i < [favorites count]; i++) {
+         HWMonitorSensor *sensor = [favorites objectAtIndex:i];
+         
+         [title appendAttributedString:[favoritsList objectForKey:[sensor key]]];
+         
+         if (i < [favorites count] - 1)
+         [title appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+     }
+     
+     [title addAttributes:statusItemAttributes range:NSMakeRange(0, [title length])];
+     
+     if (!isMenuVisible) 
+         [title addAttribute:NSShadowAttributeName value:statusItemShadow range:NSMakeRange(0,[title length])];
+     
+     [self setAttributedTitle:title];*/
 }
 
 - (void)updateTitlesForced
@@ -184,6 +215,8 @@
     
     [[self menu] removeAllItems];
     
+    [view setDrawValuesInRow:[defaults boolForKey:@kHWMonitorFavoritesInRow]];
+    
     [monitor setHideDisabledSensors:![defaults boolForKey:@kHWMonitorShowHiddenSensors]];
     [monitor setShowBSDNames:[defaults boolForKey:@kHWMonitorShowBSDNames]];
     
@@ -195,7 +228,7 @@
         
         [favorites removeAllObjects];
         
-        NSMutableArray *favoritsList = [defaults objectForKey:@kHWMonitorFavoritsList];
+        NSMutableArray *favoritsList = [defaults objectForKey:@kHWMonitorFavoritesList];
         
         if (favoritsList) {
             for (i = 0; i < [favoritsList count]; i++) {
@@ -229,6 +262,7 @@
         
         [self insertPrefsItemWithTitle:@"Show hidden sensors" icon:nil state:![monitor hideDisabledSensors] action:@selector(showHiddenSensorsItemClicked:) keyEquivalent:@""];
         [self insertPrefsItemWithTitle:@"Use BSD drives names" icon:nil state:[monitor showBSDNames] action:@selector(showBSDNamesItemClicked:) keyEquivalent:@""];
+        [self insertPrefsItemWithTitle:@"Favorites placed in a row" icon:nil state:[view drawValuesInRow] action:@selector(favoritesInRowItemClicked:) keyEquivalent:@""];
         
         [prefsMenu addItem:[NSMenuItem separatorItem]];
         
@@ -278,7 +312,7 @@
         [list addObject:[sensor key]];
     }
     
-    [defaults setObject:list forKey:@kHWMonitorFavoritsList];
+    [defaults setObject:list forKey:@kHWMonitorFavoritesList];
     [defaults synchronize];
 }
 
@@ -319,6 +353,16 @@
     [self rebuildSensors];
 }
 
+- (void)favoritesInRowItemClicked:(id)sender
+{
+    [sender setState:![sender state]];
+    
+    [view setDrawValuesInRow:[sender state]];
+    
+    [defaults setBool:[sender state] forKey:@kHWMonitorFavoritesInRow];
+    [defaults synchronize];
+}
+
 - (void)sleepNoteReceived:(NSNotification*)note
 {
     //NSLog(@"receiveSleepNote: %@", [note name]);
@@ -344,7 +388,7 @@
     
     if (self == nil) return nil;
     
-    defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.kozlek.HWMonitor"];
+    defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
     
     favoriteIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"favorite" ofType:@"png"]];
     disabledIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"disabled" ofType:@"png"]];

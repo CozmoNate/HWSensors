@@ -12,6 +12,7 @@
 
 @synthesize monitor;
 @synthesize favorites;
+@synthesize drawValuesInRow;
 
 - initWithFrame:(NSRect)rect menuExtra:m
 {
@@ -22,8 +23,8 @@
     
     menu = m;
     
-    font = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
-    //font = [NSFont boldSystemFontOfSize:9.0f];
+    smallFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
+    bigFont = [NSFont fontWithName:@"Lucida Grande" size:10.0f];
     
     shadow = [[NSShadow alloc] init];
     
@@ -70,7 +71,7 @@
 
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[sensor value]];
             
-            [title addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [title length])];
+            [title addAttribute:NSFontAttributeName value:smallFont range:NSMakeRange(0, [title length])];
             
             NSColor *valueColor;
             
@@ -100,21 +101,32 @@
             if (!down) 
                 [title addAttribute:NSShadowAttributeName value:shadow range:NSMakeRange(0,[title length])];
             
-            int row = i % 2;
-            
-            [title drawAtPoint:NSMakePoint(size, [favorites count] == 1 ? 6 : row == 0 ? 10 : 1)];
-            
-            int width = [title size].width + ([favorites count] == i + 1 ? 1 : 4);
-            
-            if (row == 1) {
-                lastWidth = width > lastWidth ? width : lastWidth;
-                size = size + lastWidth;
+            if (drawValuesInRow) {
+                [title addAttribute:NSFontAttributeName value:bigFont range:NSMakeRange(0, [title length])];
+                
+                [title drawAtPoint:NSMakePoint(size, ([self frame].size.height - [title size].height) / 2)];
+                
+                size = size + [title size].width + 3;
             }
-            else if (i + 1 == [favorites count]) {
-                size = size + width;
+            else {
+                [title addAttribute:NSFontAttributeName value:smallFont range:NSMakeRange(0, [title length])];
+                
+                int row = i % 2;
+                
+                [title drawAtPoint:NSMakePoint(size, [favorites count] == 1 ? ([self frame].size.height - [title size].height) / 2 + 1 : row == 0 ? [self frame].size.height / 2 - 1 : [self frame].size.height / 2 - [title size].height + 2)];
+                
+                int width = [title size].width + (i == [favorites count] - 1 ? 1 : 4);
+                
+                if (row == 1) {
+                    width = width > lastWidth ? width : lastWidth;
+                    size = size + width;
+                }
+                else if (i == [favorites count] - 1) {
+                    size = size + width;
+                }
+                
+                lastWidth = width;
             }
-            
-            lastWidth = width;
         }
     }
     

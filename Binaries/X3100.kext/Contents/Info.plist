@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>X3100</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.slice.sensor.X3100</string>
+	<string>org.hwsensors.sensor.X3100</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -39,7 +39,7 @@
 		<key>Intel X3100 Cards Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.slice.sensor.X3100</string>
+			<string>org.hwsensors.sensor.X3100</string>
 			<key>IOClass</key>
 			<string>X3100monitor</string>
 			<key>IOMatchCategory</key>
@@ -67,7 +67,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>8.0</string>
 		<key>org.netkas.FakeSMC</key>
-		<string>4.2.2</string>
+		<string>4.2.4</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

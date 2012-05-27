@@ -13,11 +13,14 @@
 
 {
     NSMenuExtra *menu;
-    NSFont *font;
+    NSFont *smallFont;
+    NSFont *bigFont;
     NSShadow *shadow;
 }
 
 @property (readwrite, retain) HWMonitorEngine *monitor;
 @property (readwrite, retain) NSArray *favorites;
+
+@property (readwrite, assign) BOOL drawValuesInRow;
 
 @end

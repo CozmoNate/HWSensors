@@ -54,3 +54,4 @@
 "GENERAL" = "ОСНОВНЫЕ";
 "Show hidden sensors" = "Показывать скрытые датчики";
 "Use BSD drives names" = "Имена накопителей в формате BSD";
+"Favorites placed in a row" = "Распологать датчики в ряд";

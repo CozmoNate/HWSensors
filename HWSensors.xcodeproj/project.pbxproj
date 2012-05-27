@@ -296,8 +296,9 @@
 		6AE5FC40151E298E005F9929 /* tachometers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tachometers.png; sourceTree = "<group>"; };
 		7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsInfoPlist.pch; sourceTree = "<group>"; };
 		7E3F6EE4155DB9DE00C3492E /* preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preferences.png; sourceTree = "<group>"; };
-		7E702BF215711B4C0075EF69 /* HWMonitorCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; path = HWMonitorCustomView.h; sourceTree = "<group>"; };
+		7E702BF215711B4C0075EF69 /* HWMonitorCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorCustomView.h; sourceTree = "<group>"; };
 		7E702BF315711B4C0075EF69 /* HWMonitorCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorCustomView.m; sourceTree = "<group>"; };
+		7EC87A391571E30800E6F16F /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorDefinitions.h; path = Shared/HWMonitorDefinitions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -736,6 +737,7 @@
 		6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */ = {
 			isa = PBXGroup;
 			children = (
+				7EC87A391571E30800E6F16F /* HWMonitorDefinitions.h */,
 				6A00BB5B14F8CCF000337DF8 /* HWMonitorSensor.h */,
 				6A00BB5C14F8CCF000337DF8 /* HWMonitorSensor.m */,
 				6A00BB5914F8CCF000337DF8 /* HWMonitorEngine.h */,
