@@ -11,8 +11,9 @@
 @interface HWMonitorCustomView : NSView
 
 {
-    NSStatusItem *menu;
-    NSFont *font;
+    NSStatusItem *statusItem;
+    NSFont *smallFont;
+    NSFont *bigFont;
     NSShadow *shadow;
 }
 
@@ -20,8 +21,11 @@
 @property (readwrite, retain) NSImage *alternateImage;
 
 @property (readwrite, assign) BOOL isMenuDown;
+
 @property (readwrite, retain) HWMonitorEngine *monitor;
 @property (readwrite, retain) NSArray *favorites;
+
+@property (readwrite, assign) BOOL drawValuesInRow;
 
 - initWithFrame:(NSRect)rect statusItem:(NSStatusItem*)item;
 - (void)setIsMenuDown:(BOOL)down;

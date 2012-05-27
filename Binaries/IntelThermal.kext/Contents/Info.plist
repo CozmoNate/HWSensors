@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>IntelThermal</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.kozlek.IntelThermal</string>
+	<string>org.hwsensors.IntelThermal</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -39,7 +39,7 @@
 		<key>Intel Thermal Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.kozlek.IntelThermal</string>
+			<string>org.hwsensors.IntelThermal</string>
 			<key>IOClass</key>
 			<string>IntelThermal</string>
 			<key>IOMatchCategory</key>
@@ -70,7 +70,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 		<key>org.netkas.FakeSMC</key>
-		<string>4.2.2</string>
+		<string>4.2.4</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

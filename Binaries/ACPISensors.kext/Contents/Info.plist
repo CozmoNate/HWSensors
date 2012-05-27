@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>ACPISensors</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.slice.ACPISensors</string>
+	<string>org.hwsensors.ACPISensors</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -39,7 +39,7 @@
 		<key>ACPI Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.slice.ACPISensors</string>
+			<string>org.hwsensors.ACPISensors</string>
 			<key>Fan Names</key>
 			<array>
 				<string>System Fan</string>
@@ -113,7 +113,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 		<key>org.netkas.FakeSMC</key>
-		<string>4.2.2</string>
+		<string>4.2.4</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

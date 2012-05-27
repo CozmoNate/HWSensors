@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.kozlek.${PRODUCT_NAME}</string>
+	<string>org.hwsensors.${PRODUCT_NAME}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -25,7 +25,7 @@
 		<key>Super I/O Nub</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.kozlek.${PRODUCT_NAME}</string>
+			<string>org.hwsensors.${PRODUCT_NAME}</string>
 			<key>IOClass</key>
 			<string>SuperIODevice</string>
 			<key>IOMatchCategory</key>
@@ -38,7 +38,7 @@
 		<key>Fintek F718x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.kozlek.${PRODUCT_NAME}</string>
+			<string>org.hwsensors.${PRODUCT_NAME}</string>
 			<key>IOClass</key>
 			<string>F718xMonitor</string>
 			<key>IOMatchCategory</key>
@@ -658,7 +658,7 @@
 		<key>ITE IT87x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.kozlek.${PRODUCT_NAME}</string>
+			<string>org.hwsensors.${PRODUCT_NAME}</string>
 			<key>IOClass</key>
 			<string>IT87xMonitor</string>
 			<key>IOMatchCategory</key>
@@ -1976,7 +1976,7 @@
 		<key>Nuvoton NCT677x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.theking.${PRODUCT_NAME}</string>
+			<string>org.hwsensors.${PRODUCT_NAME}</string>
 			<key>IOClass</key>
 			<string>NCT677xMonitor</string>
 			<key>IOMatchCategory</key>
@@ -2597,7 +2597,7 @@
 		<key>Winbond W836x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.kozlek.${PRODUCT_NAME}</string>
+			<string>org.hwsensors.${PRODUCT_NAME}</string>
 			<key>IOClass</key>
 			<string>W836xMonitor</string>
 			<key>IOMatchCategory</key>

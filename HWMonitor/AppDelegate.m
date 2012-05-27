@@ -12,6 +12,7 @@
 #include "FakeSMCDefinitions.h"
 
 #include "HWMonitorView.h"
+#include "HWMonitorDefinitions.h"
 
 @implementation AppDelegate
 
@@ -99,12 +100,15 @@
 
 - (void)updateTitles
 {
-    NSArray *sensors = [monitor sensors];
+    [statusView setNeedsDisplay:YES];
     
-    NSMutableDictionary * favoritsList = [[NSMutableDictionary alloc] init];
+    //NSMutableDictionary * favoritsList = [[NSMutableDictionary alloc] init];
     
-    for (int i = 0; i < [sensors count]; i++) {
-        HWMonitorSensor *sensor = (HWMonitorSensor*)[sensors objectAtIndex:i];
+    if (!isMenuVisible)
+        return;
+    
+    for (int i = 0; i < [[monitor sensors] count]; i++) {
+        HWMonitorSensor *sensor = [[monitor sensors] objectAtIndex:i];
         
         if (!sensor)
             continue;
@@ -143,26 +147,24 @@
                     break;
             }
             
-            if (isMenuVisible) {
-                NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
-                
-                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor caption] attributes:captionColor]];
-                [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t"]];
-                [title appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
-                
-                [title addAttributes:statusMenuAttributes range:NSMakeRange(0, [title length])];
-                [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
-                
-                // Update menu item title
-                [[sensor menuItem] setAttributedTitle:title];
-            }
+            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
             
-            if ([sensor favorite]) {
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor caption] attributes:captionColor]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t"]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
+            
+            [title addAttributes:statusMenuAttributes range:NSMakeRange(0, [title length])];
+            [title addAttribute:NSFontAttributeName value:statusMenuFont range:NSMakeRange(0, [title length])];
+            
+            // Update menu item title
+            [[sensor menuItem] setAttributedTitle:title];
+            
+            /*if ([sensor favorite]) {
                 if (!isMenuVisible && valueColor != blackColorAttribute)
                     [favoritsList setObject:[[NSAttributedString alloc] initWithString:value attributes:valueColor] forKey:[sensor key]];
                 else
                     [favoritsList setObject:[[NSAttributedString alloc] initWithString:value] forKey:[sensor key]];
-            }
+            }*/
         }
     }
     
@@ -202,6 +204,8 @@
     
     [statusMenu removeAllItems];
     
+    [statusView setDrawValuesInRow:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorFavoritesInRow]];
+    
     [monitor setHideDisabledSensors:![[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorShowHiddenSensors]];
     [monitor setShowBSDNames:[[NSUserDefaults standardUserDefaults] boolForKey:@kHWMonitorShowBSDNames]];
     
@@ -212,7 +216,7 @@
         
         [favorites removeAllObjects];
         
-        NSMutableArray *favoritsList = [[NSUserDefaults standardUserDefaults] objectForKey:@kHWMonitorFavoritsList];
+        NSMutableArray *favoritsList = [[NSUserDefaults standardUserDefaults] objectForKey:@kHWMonitorFavoritesList];
         
         if (favoritsList) {
             for (i = 0; i < [favoritsList count]; i++) {
@@ -255,6 +259,7 @@
     
     [self insertPrefsItemWithTitle:@"Show hidden sensors" icon:nil state:![monitor hideDisabledSensors] action:@selector(showHiddenSensorsItemClicked:) keyEquivalent:@""];
     [self insertPrefsItemWithTitle:@"Use BSD drives names" icon:nil state:[monitor showBSDNames] action:@selector(showBSDNamesItemClicked:) keyEquivalent:@""];
+    [self insertPrefsItemWithTitle:@"Favorites placed in a row" icon:nil state:[statusView drawValuesInRow] action:@selector(favoritesInRowItemClicked:) keyEquivalent:@""];
     
     [prefsMenu addItem:[NSMenuItem separatorItem]];
     [self insertTitleItemWithMenu:prefsMenu Title:@"TEMPERATURE SCALE" Icon:nil];
@@ -310,7 +315,7 @@
         [list addObject:[sensor key]];
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject:list forKey:@kHWMonitorFavoritsList];
+    [[NSUserDefaults standardUserDefaults] setObject:list forKey:@kHWMonitorFavoritesList];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -349,6 +354,16 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [self rebuildSensors];
+}
+
+- (void)favoritesInRowItemClicked:(id)sender
+{
+    [sender setState:![sender state]];
+    
+    [statusView setDrawValuesInRow:[sender state]];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@kHWMonitorFavoritesInRow];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)sleepNoteReceived:(NSNotification*)note

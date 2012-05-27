@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>SuperIOSensors</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.kozlek.SuperIOSensors</string>
+	<string>org.hwsensors.SuperIOSensors</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -41,7 +41,7 @@
 		<key>Fintek F718x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.kozlek.SuperIOSensors</string>
+			<string>org.hwsensors.SuperIOSensors</string>
 			<key>IOClass</key>
 			<string>F718xMonitor</string>
 			<key>IOMatchCategory</key>
@@ -661,7 +661,7 @@
 		<key>ITE IT87x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.kozlek.SuperIOSensors</string>
+			<string>org.hwsensors.SuperIOSensors</string>
 			<key>IOClass</key>
 			<string>IT87xMonitor</string>
 			<key>IOMatchCategory</key>
@@ -1979,7 +1979,7 @@
 		<key>Nuvoton NCT677x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.theking.SuperIOSensors</string>
+			<string>org.hwsensors.SuperIOSensors</string>
 			<key>IOClass</key>
 			<string>NCT677xMonitor</string>
 			<key>IOMatchCategory</key>
@@ -2600,7 +2600,7 @@
 		<key>Super I/O Nub</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.kozlek.SuperIOSensors</string>
+			<string>org.hwsensors.SuperIOSensors</string>
 			<key>IOClass</key>
 			<string>SuperIODevice</string>
 			<key>IOMatchCategory</key>
@@ -2613,7 +2613,7 @@
 		<key>Winbond W836x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.kozlek.SuperIOSensors</string>
+			<string>org.hwsensors.SuperIOSensors</string>
 			<key>IOClass</key>
 			<string>W836xMonitor</string>
 			<key>IOMatchCategory</key>
