@@ -18,8 +18,8 @@
 "CPU Proximity" = "Датчик ЦП";
 "GPU %X" = "Видеокарта %X";
 "GPU %X PWM" = "Видеокарта %X ШИМ";
-"GPU %X Board" = "Видеокарта %X";
-"GPU %X Core" = "Видеокарта %X ядро";
+"GPU %X Heatsink" = "Видеокарта %X радиатор";
+"GPU %X Diode" = "Видеокарта %X ядро";
 "GPU %X Memory" = "Видеокарта %X память";
 "GPU %X Shaders" = "Видеокарта %X шейдеры";
 "GPU %X Proximity" = "Видеокарта %X датчик";

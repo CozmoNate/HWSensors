@@ -1692,7 +1692,7 @@
 						<key>FANIN3</key>
 						<string>System Fan #1</string>
 						<key>TEMPIN0</key>
-						<string>PCH</string>
+						<string>System</string>
 						<key>TEMPIN2</key>
 						<string>CPU</string>
 						<key>VIN0</key>

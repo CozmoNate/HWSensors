@@ -53,6 +53,7 @@ private:
 	struct ApleSMCStatus	*status;
 	
 	OSArray				*keys;
+    OSDictionary        *types;
 	FakeSMCKey			*sharpKEY;
     
     OSDictionary        *exposedValues;
@@ -85,7 +86,6 @@ public:
 	virtual bool		init(IOService *platform, OSDictionary *properties);
     virtual IOReturn	setProperties(OSObject * properties);
 	
-	virtual void		loadKeysFromDictionary(OSDictionary *dictionary);
 	//virtual FakeSMCKey	*addKey(const char *name, const char *type, unsigned char size);
 	virtual FakeSMCKey	*addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value);
 	virtual FakeSMCKey	*addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler);

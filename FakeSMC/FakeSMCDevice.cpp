@@ -54,7 +54,7 @@ void FakeSMCDevice::applesmc_fill_data(struct AppleSMCStatus *s)
 const char * FakeSMCDevice::applesmc_get_key_by_index(uint32_t index, struct AppleSMCStatus *s)
 {
 	if (FakeSMCKey *key = getKey(index))
-		return key->getName();
+		return key->getKey();
 	
 	if (debug)
 		HWSensorsWarningLog("key by count %x is not found",index);
@@ -132,9 +132,13 @@ void FakeSMCDevice::applesmc_io_data_writeb(void *opaque, uint32_t addr, uint32_
 					char name[5];
 					
 					snprintf(name, 5, "%c%c%c%c", s->key[0], s->key[1], s->key[2], s->key[3]);
+                    
+                    OSString *type = OSDynamicCast(OSString, types->getObject(name));
 					
-//					IOLog("FakeSMC: adding Key = %c%c%c%c Len = %d\n", s->key[0], s->key[1], s->key[2], s->key[3], s->data_len);
-					addKeyWithValue(name, 0, s->data_len, s->value);
+                    if (debug)
+                        HWSensorsInfoLog("system writing key %s, length %d", name, s->data_len);
+                    
+					addKeyWithValue(name, type ? type->getCStringNoCopy() : 0, s->data_len, s->value);
 					bzero(s->value, 255);
 				}
 			};
@@ -325,12 +329,54 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	interrupt_handler=0;
 	
 	keys = OSArray::withCapacity(0);
-    exposedValues = OSDictionary::withCapacity(0);
-	
-	sharpKEY = FakeSMCKey::withValue("#KEY", TYPE_UI32, TYPE_UI32_SIZE, "\0\0\0\1");
+    
+    sharpKEY = FakeSMCKey::withValue("#KEY", TYPE_UI32, TYPE_UI32_SIZE, "\0\0\0\1");
 	keys->setObject(sharpKEY);
     
-	loadKeysFromDictionary(OSDynamicCast(OSDictionary, properties->getObject("Keys")));
+    HWSensorsDebugLog("loading keys...");
+    
+    if (OSDictionary *dictionary = OSDynamicCast(OSDictionary, properties->getObject("Keys"))) {
+		if (OSIterator *iterator = OSCollectionIterator::withCollection(dictionary)) {
+			while (const OSSymbol *key = (const OSSymbol *)iterator->getNextObject()) {
+				if (OSArray *array = OSDynamicCast(OSArray, dictionary->getObject(key))) {
+					if (OSIterator *aiterator = OSCollectionIterator::withCollection(array)) {
+						
+						OSString *type = OSDynamicCast(OSString, aiterator->getNextObject());
+						OSData *value = OSDynamicCast(OSData, aiterator->getNextObject());
+						
+						if (type && value)
+							this->addKeyWithValue(key->getCStringNoCopy(), type->getCStringNoCopy(), value->getLength(), value->getBytesNoCopy());
+						
+						aiterator->release();
+					}
+				}
+				key = 0;
+			}
+			
+			iterator->release();
+		}
+		
+		HWSensorsInfoLog("%d preconfigured key(s) added", keys->getCount());
+	}
+	else {
+		HWSensorsWarningLog("no preconfigured keys found");
+	}
+    
+    types = OSDictionary::withCapacity(0);
+    
+    HWSensorsDebugLog("loading types...");
+    
+    if (OSDictionary *dictionary = OSDynamicCast(OSDictionary, properties->getObject("Types"))) {
+        if (OSIterator *iterator = OSCollectionIterator::withCollection(dictionary)) {
+			while (const OSSymbol *key = (const OSSymbol *)iterator->getNextObject()) {
+                if (OSString *value = OSDynamicCast(OSString, dictionary->getObject(key))) {
+                    types->setObject(key, value);
+                }
+            }
+        }
+    }
+    
+    exposedValues = OSDictionary::withCapacity(0);
 	
 	this->setName("SMC");
 	
@@ -402,7 +448,7 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
                 info->setObject(OSString::withCString(key->getType()));
                 info->setObject(OSData::withBytes(key->getValue(), key->getSize()));
                 
-                exposedValues->setObject(key->getName(), info);
+                exposedValues->setObject(key->getKey(), info);
                 
                 this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(exposedValues));
                 
@@ -419,7 +465,7 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
                         info->setObject(OSString::withCString(key->getType()));
                         info->setObject(OSData::withBytes(key->getValue(), key->getSize()));
                         
-                        exposedValues->setObject(key->getName(), info);
+                        exposedValues->setObject(key->getKey(), info);
                     }
                 
                 this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(exposedValues));
@@ -432,37 +478,6 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
     }
 	
 	return kIOReturnUnsupported;
-}
-
-
-void FakeSMCDevice::loadKeysFromDictionary(OSDictionary *dictionary)
-{
-	if (dictionary) {
-		if (OSIterator *iterator = OSCollectionIterator::withCollection(dictionary)) {
-			while (const OSSymbol *key = (const OSSymbol *)iterator->getNextObject()) {
-				if (OSArray *array = OSDynamicCast(OSArray, dictionary->getObject(key))) {
-					if (OSIterator *aiterator = OSCollectionIterator::withCollection(array)) {
-						
-						OSString *type = OSDynamicCast(OSString, aiterator->getNextObject());
-						OSData *value = OSDynamicCast(OSData, aiterator->getNextObject());
-						
-						if (type && value)
-							this->addKeyWithValue(key->getCStringNoCopy(), type->getCStringNoCopy(), value->getLength(), value->getBytesNoCopy());
-						
-						aiterator->release();
-					}
-				}
-				key = 0;
-			}
-			
-			iterator->release();
-		}
-		
-		HWSensorsInfoLog("%d preconfigured key(s) added", keys->getCount());
-	}
-	else {
-		HWSensorsWarningLog("no preconfigured keys found");
-	}
 }
 
 UInt32 FakeSMCDevice::getCount() { return keys->getCount(); }
@@ -480,6 +495,54 @@ FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, u
 {	
 	if (FakeSMCKey *key = getKey(name)) {
 		key->setValueFromBuffer(value, size);
+        
+        if (debug) {
+            if (strncmp("NATJ", key->getKey(), 5) == 0) {
+                UInt8 val = *(UInt8*)key->getValue();
+                
+                switch (val) {
+                    case 0:
+                        HWSensorsInfoLog("Ninja Action Timer Job: do nothing");
+                        break;
+                        
+                    case 1:
+                        HWSensorsInfoLog("Ninja Action Timer Job: force shutdown to S5");
+                        break;
+                        
+                    case 2:
+                        HWSensorsInfoLog("Ninja Action Timer Job: force restart");
+                        break;
+                        
+                    case 3:
+                        HWSensorsInfoLog("Ninja Action Timer Job: force startup");
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            else if (strncmp("NATi", key->getKey(), 5) == 0) {
+                UInt16 val = *(UInt16*)key->getValue();
+                
+                HWSensorsInfoLog("Ninja Action Timer is set to %d", val);
+            }
+            else if (strncmp("MSDW", key->getKey(), 5) == 0) {
+                UInt8 val = *(UInt8*)key->getValue();
+                
+                switch (val) {
+                    case 0:
+                        HWSensorsInfoLog("display is now asleep");
+                        break;
+                        
+                    case 1:
+                        HWSensorsInfoLog("display is now awake");
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+        }
 		
 		HWSensorsDebugLog("updating value for key %s, type: %s, size: %d", name, type, size);
 		
@@ -532,7 +595,7 @@ FakeSMCKey *FakeSMCDevice::getKey(const char *name)
 	if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
 		while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
             UInt32 key1 = key_to_int(name);
-			UInt32 key2 = key_to_int(key->getName());
+			UInt32 key2 = key_to_int(key->getKey());
 			if (key1 == key2) {
 				iterator->release();
 				return key;
