@@ -2110,7 +2110,7 @@ bool GeForceX::start(IOService * provider)
             case 0xa0:
             case 0xc0:
             case 0xd0:
-                snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex);
+                snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, cardIndex);
                 addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0);
                 break;
         }

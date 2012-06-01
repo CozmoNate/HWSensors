@@ -40,6 +40,11 @@
 						<string>ui8</string>
 						<data>AQ==</data>
 					</array>
+					<key>BEMB</key>
+					<array>
+						<string>flag</string>
+						<data>AQ==</data>
+					</array>
 					<key>CLWK</key>
 					<array>
 						<string>ui16</string>
@@ -48,12 +53,7 @@
 					<key>DPLM</key>
 					<array>
 						<string>{lim</string>
-						<data></data>
-					</array>
-					<key>BEMB</key>
-					<array>
-						<string>flag</string>
-						<data>AQ==</data>
+						<data>AAAA</data>
 					</array>
 					<key>EPCI</key>
 					<array>
@@ -68,12 +68,17 @@
 					<key>LSOF</key>
 					<array>
 						<string>flag</string>
-						<data>AQ==</data>
+						<data>AA==</data>
 					</array>
 					<key>LSSB</key>
 					<array>
 						<string>{lso</string>
-						<data>AQE=</data>
+						<data>AgA=</data>
+					</array>
+					<key>MSDW</key>
+					<array>
+						<string>flag</string>
+						<data>AA==</data>
 					</array>
 					<key>MOST</key>
 					<array>
@@ -93,7 +98,7 @@
 					<key>MSSD</key>
 					<array>
 						<string>si8</string>
-						<data>Aw==</data>
+						<data>AA==</data>
 					</array>
 					<key>MSSP</key>
 					<array>
@@ -141,13 +146,22 @@
 						<data>bTgy</data>
 					</array>
 				</dict>
+				<key>Types</key>
+				<dict>
+					<key>CLKC</key>
+					<string>{clc</string>
+					<key>CLKT</key>
+					<string>ui16</string>
+					<key>CLKH</key>
+					<string>{clh</string>
+				</dict>
 				<key>debug</key>
-				<false/>
+				<true/>
 				<key>smc-compatible</key>
 				<string>smc-napa</string>
 			</dict>
 			<key>IOClass</key>
-			<string>${PRODUCT_NAME}</string>
+			<string>FakeSMC</string>
 			<key>IOMatchCategory</key>
 			<string>IOACPIPlatformDevice</string>
 			<key>IOProviderClass</key>

@@ -15,11 +15,11 @@
 #define super OSObject
 OSDefineMetaClassAndStructors(FakeSMCKey, OSObject)
 
-FakeSMCKey *FakeSMCKey::withValue(const char *aName, const char *aType, unsigned char aSize, const void *aValue)
+FakeSMCKey *FakeSMCKey::withValue(const char *aKey, const char *aType, unsigned char aSize, const void *aValue)
 {
     FakeSMCKey *me = new FakeSMCKey;
 	
-    if (me && !me->init(aName, aType, aSize, aValue)) {
+    if (me && !me->init(aKey, aType, aSize, aValue)) {
         me->release();
         return 0;
     }
@@ -27,11 +27,11 @@ FakeSMCKey *FakeSMCKey::withValue(const char *aName, const char *aType, unsigned
     return me;
 }
 
-FakeSMCKey *FakeSMCKey::withHandler(const char *aName, const char *aType, unsigned char aSize, IOService *aHandler)
+FakeSMCKey *FakeSMCKey::withHandler(const char *aKey, const char *aType, unsigned char aSize, IOService *aHandler)
 {
     FakeSMCKey *me = new FakeSMCKey;
 	
-    if (me && !me->init(aName, aType, aSize, 0, aHandler)) {
+    if (me && !me->init(aKey, aType, aSize, 0, aHandler)) {
         me->release();
         return 0;
     }
@@ -39,15 +39,15 @@ FakeSMCKey *FakeSMCKey::withHandler(const char *aName, const char *aType, unsign
     return me;
 }
 
-bool FakeSMCKey::init(const char * aName, const char * aType, unsigned char aSize, const void *aValue, IOService * aHandler)
+bool FakeSMCKey::init(const char * aKey, const char * aType, unsigned char aSize, const void *aValue, IOService * aHandler)
 {
     if (!super::init())
         return false;
 
-	if (!aName || strlen(aName) == 0 || !(name = (char *)IOMalloc(5))) 
+	if (!aKey || strlen(aKey) == 0 || !(key = (char *)IOMalloc(5))) 
 		return false;
 	
-	copySymbol(aName, name);
+	copySymbol(aKey, key);
     
 	size = aSize;
 	
@@ -70,8 +70,10 @@ bool FakeSMCKey::init(const char * aName, const char * aType, unsigned char aSiz
 				copySymbol("ch8*", type);
 				break;
 		}
+        //copySymbol("\0\0\0\0", type);
 	}
-	else copySymbol(aType, type);
+	else 
+        copySymbol(aType, type);
 	
 	if (size == 0)
 		size++;
@@ -91,8 +93,8 @@ bool FakeSMCKey::init(const char * aName, const char * aType, unsigned char aSiz
 
 void FakeSMCKey::free() 
 {
-	if (name)
-		IOFree(name, 5);
+	if (key)
+		IOFree(key, 5);
 	
 	if (type)
 		IOFree(type, 5);
@@ -103,7 +105,9 @@ void FakeSMCKey::free()
 	super::free(); 
 }
 
-const char *FakeSMCKey::getName() { return name; };
+const char *FakeSMCKey::getName() { return "FakeSMCKey"; }; // this is used by logging functions
+
+const char *FakeSMCKey::getKey() { return key; };
 
 const char *FakeSMCKey::getType() { return type; };
 
@@ -124,12 +128,12 @@ const void *FakeSMCKey::getValue()
         clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
         
         if (CMP_MACH_TIMESPEC(&end, &now) < 0) {            
-            IOReturn result = handler->callPlatformFunction(kFakeSMCGetValueCallback, false, (void *)name, (void *)value, (void *)size, 0);
+            IOReturn result = handler->callPlatformFunction(kFakeSMCGetValueCallback, false, (void *)key, (void *)value, (void *)size, 0);
             
             if (kIOReturnSuccess == result)
                 clock_get_system_nanotime((clock_sec_t*)&lastUpdated.tv_sec, (clock_nsec_t*)&lastUpdated.tv_nsec);
             else 
-                HWSensorsWarningLog("value update request callback error for key %s, return 0x%x", name, result);
+                HWSensorsWarningLog("value update request callback error for key %s, return 0x%x", key, result);
         }
 	}
     
@@ -156,10 +160,10 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
 	bcopy(aBuffer, value, size);
 	
 	if (handler) {       
-		IOReturn result = handler->callPlatformFunction(kFakeSMCSetValueCallback, false, (void *)name, (void *)value, (void *)size, 0);
+		IOReturn result = handler->callPlatformFunction(kFakeSMCSetValueCallback, false, (void *)key, (void *)value, (void *)size, 0);
 		
 		if (kIOReturnSuccess != result)
-			HWSensorsWarningLog("value changed event callback error for key %s, return 0x%x", name, result);
+			HWSensorsWarningLog("value changed event callback error for key %s, return 0x%x", key, result);
 	}
 	
 	return true;
@@ -177,12 +181,12 @@ bool FakeSMCKey::setHandler(IOService *aHandler)
 
 bool FakeSMCKey::isEqualTo(const char *aKey)
 {
-	return strncmp(name, aKey, 4) == 0;
+	return strncmp(key, aKey, 4) == 0;
 }
 
 bool FakeSMCKey::isEqualTo(FakeSMCKey *aKey)
 {
-	return (aKey && aKey->isEqualTo(name));
+	return (aKey && aKey->isEqualTo(key));
 }
 
 bool FakeSMCKey::isEqualTo(const OSMetaClassBase *anObject)

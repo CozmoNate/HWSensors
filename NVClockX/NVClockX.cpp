@@ -156,22 +156,11 @@ bool NVClockX::start(IOService * provider)
 			HWSensorsWarningLog("continuing anyway");
 		}
         
-        UInt8 cardIndex = 0;
-        char name[5];
+        SInt8 cardIndex = getVacantGPUIndex();
         
-        for (UInt8 i = 0; i < 0xf; i++) {
-            
-            snprintf(name, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, i); 
-            
-            if (!isKeyHandled(name)) {
-                
-                snprintf(name, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, i); 
-                
-                if (!isKeyHandled(name)) {
-                    cardIndex = i;
-                    break;
-                }
-            }
+        if (cardIndex < 0) {
+            HWSensorsWarningLog("failed to obtain vacant GPU index");
+            return false;
         }
         
 		if(nv_card->caps & (GPU_TEMP_MONITORING)) {
@@ -181,11 +170,11 @@ bool NVClockX::start(IOService * provider)
                 snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, cardIndex);
                 addSensor(key, TYPE_SP78, 2, kNVCLockDiodeTemperatureSensor, index);
                 
-				snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex);
+				snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, cardIndex);
 				addSensor(key, TYPE_SP78, 2, kNVCLockBoardTemperatureSensor, index);
 			}
             else {
-                snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex);
+                snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, cardIndex);
                 addSensor(key, TYPE_SP78, 2, kNVCLockBoardTemperatureSensor, index);
             }
 		}

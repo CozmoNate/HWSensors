@@ -30,22 +30,24 @@ private:
     mach_timespec_t lastUpdated;
 	
 protected:
-    char *			name;
+    char *			key;
     char *			type;
 	UInt8           size;
 	void *			value;
 	IOService *		handler;
 	
 public:
-	static FakeSMCKey *withValue(const char *aName, const char *aType, unsigned char aSize, const void *aValue);
-	static FakeSMCKey *withHandler(const char *aName, const char *aType, unsigned char aSize, IOService *aHandler);
+	static FakeSMCKey *withValue(const char *aKey, const char *aType, unsigned char aSize, const void *aValue);
+	static FakeSMCKey *withHandler(const char *aKey, const char *aType, unsigned char aSize, IOService *aHandler);
 	
 	// Not for general use. Use withCallback or withValue instance creation method
-	virtual bool init(const char * aName, const char * aType, unsigned char aSize, const void *aValue, IOService *aHandler = 0);
+	virtual bool init(const char * aKey, const char * aType, unsigned char aSize, const void *aValue, IOService *aHandler = 0);
 	
 	virtual void free();
 	
-	const char *getName();
+    const char *getName(); // this is used by logging functions
+    
+	const char *getKey();
 	const char *getType();
 	UInt8 getSize() const;
 	const void *getValue();

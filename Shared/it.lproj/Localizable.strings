@@ -14,8 +14,8 @@
 "VOLTAGES" = "VOLTAGGI";
 "FANS" = "VENTOLE";
 "CPU Heatsink" = "Dissipatore CPU";
-"GPU %X Board" = "Scheda Video %X";
-"GPU %X Core" = "GPU %X Core";
+"GPU %X Heatsink" = "Scheda Video %X";
+"GPU %X Diode" = "GPU %X Diode";
 "GPU %X Proximity" = "Sensore GPU%X";
 "Northbridge" = "Northbridge";
 "System Chipset" = "Chipset di Sistema";

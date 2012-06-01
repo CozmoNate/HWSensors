@@ -117,7 +117,7 @@ bool X3100monitor::start(IOService * provider)
     
     char key[5];
     
-    snprintf(key, 5, KEY_FORMAT_GPU_BOARD_TEMPERATURE, cardIndex);
+    snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, cardIndex);
     
     if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
         HWSensorsWarningLog("failed to register temperature sensor");
