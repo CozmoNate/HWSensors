@@ -3,7 +3,7 @@
   HWSensors
 
   Created by kozlek on 24/02/12.
-  Copyright (c) 2012 kozlek. All rights reserved.
+  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 */
 
 "TEMPERATURES" = "ТЕМПЕРАТУРНЫЕ ДАТЧИКИ";
@@ -55,5 +55,5 @@
 "Celsius" = "Цельсий";
 "Fahrenheit" = "Фаренгейт";
 "MENU BAR" = "СИСТЕМНОЕ МЕНЮ";
-"Favorites placed in a row" = "Располагать датчики в ряд";
+"Use big font" = "Использовать большой шрифт";
 "Use shadow effect" = "Отображать с эффектом тени";

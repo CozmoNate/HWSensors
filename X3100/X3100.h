@@ -2,7 +2,7 @@
  *  X3100.h
  *  HWSensors
  *
- *  Created by Sergey on 19.12.10 with templates of Mozodojo.
+ *  Created by Sergey on 19.12.10 with templates of Natan Zalkin <natan.zalkin@me.com>.
  *  Copyright 2010 Slice.
  *
  */

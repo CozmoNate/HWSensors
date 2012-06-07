@@ -3,7 +3,7 @@
  *  HWSensors
  *
  *  Created by kozlek on 19/04/12.
- *  Copyright 2010 kozlek. All rights reserved.
+ *  Copyright 2010 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
  *
  */
 

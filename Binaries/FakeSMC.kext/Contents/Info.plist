@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.2.6</string>
+	<string>4.2.7</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>4.2.6</string>
+	<string>4.2.7</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
@@ -71,7 +71,7 @@
 					<array>
 						<string>ui16</string>
 						<data>
-						AHY=
+						AAE=
 						</data>
 					</array>
 					<key>DPLM</key>
@@ -107,13 +107,6 @@
 						<string>{lso</string>
 						<data>
 						AgA=
-						</data>
-					</array>
-					<key>MOST</key>
-					<array>
-						<string>ui16</string>
-						<data>
-						gAM=
 						</data>
 					</array>
 					<key>MSDS</key>
@@ -170,13 +163,6 @@
 						<string>ui8</string>
 						<data>
 						AQ==
-						</data>
-					</array>
-					<key>NVPR</key>
-					<array>
-						<string>ui8</string>
-						<data>
-						AA==
 						</data>
 					</array>
 					<key>OSK0</key>

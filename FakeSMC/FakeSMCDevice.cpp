@@ -45,8 +45,7 @@ void FakeSMCDevice::applesmc_fill_data(struct AppleSMCStatus *s)
 		return;
 	}
 	
-	if(debug) 
-		HWSensorsWarningLog("key not found %c%c%c%c, length - %x\n", s->key[0], s->key[1], s->key[2], s->key[3],  s->data_len);
+    HWSensorsDebugLog("key not found %c%c%c%c, length - %x\n", s->key[0], s->key[1], s->key[2], s->key[3],  s->data_len);
 	
 	s->status_1e=0x84;
 }
@@ -56,8 +55,7 @@ const char * FakeSMCDevice::applesmc_get_key_by_index(uint32_t index, struct App
 	if (FakeSMCKey *key = getKey(index))
 		return key->getKey();
 	
-	if (debug)
-		HWSensorsWarningLog("key by count %x is not found",index);
+    HWSensorsDebugLog("key by count %x is not found",index);
 	
 	s->status_1e=0x84;
 	s->status = 0x00;
@@ -89,8 +87,7 @@ void FakeSMCDevice::applesmc_fill_info(struct AppleSMCStatus *s)
 		return;
 	}
 		
-	if (debug)
-		HWSensorsWarningLog("key info not found %c%c%c%c, length - %x", s->key[0], s->key[1], s->key[2], s->key[3],  s->data_len);
+	HWSensorsDebugLog("key info not found %c%c%c%c, length - %x", s->key[0], s->key[1], s->key[2], s->key[3],  s->data_len);
 	
 	s->status_1e=0x84;
 }

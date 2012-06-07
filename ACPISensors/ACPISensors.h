@@ -2,7 +2,7 @@
  *  ACPIMonitor.h
  *  HWSensors
  *
- *  Created by mozo on 12/11/10.
+ *  Created by kozlek on 12/11/10.
  *  Copyright 2010 Slice. All rights reserved.
  *
  */

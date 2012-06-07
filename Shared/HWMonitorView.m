@@ -1,14 +1,15 @@
 //
-//  HWMonitorExtraView.m
+//  HWMonitorView.m
 //  HWSensors
 //
-//  Created by mozo on 03/02/12.
-//  Copyright (c) 2012 mozodojo. All rights reserved.
+//  Created by kozlek on 03/02/12.
+//  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
-#import "HWMonitorCustomView.h"
+#import "HWMonitorView.h"
+#import "SystemUIPlugin.h"
 
-@implementation HWMonitorCustomView
+@implementation HWMonitorView
 
 @synthesize image;
 @synthesize alternateImage;
@@ -23,10 +24,12 @@
 {
     self = [super initWithFrame:rect];
     
-    if( !self )
+    if (!self || !item)
         return nil;
     
     statusItem = item;
+    
+    isMenuExtra = [statusItem respondsToSelector:@selector(drawMenuBackground:)]; 
     
     smallFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
     bigFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
@@ -41,14 +44,10 @@
 }
 
 - (void)drawRect:(NSRect)rect
-{   
-    [super drawRect:rect]; // not sure about this...
-    
-    BOOL down = isMenuDown;
-    
+{    
     NSImage * icon = nil;
     
-    if (down)
+    if (isMenuDown)
         icon = alternateImage;
     else
         icon = image;
@@ -56,13 +55,16 @@
     if (!monitor && !icon)
         return;
         
-    if (down) 
-        [statusItem drawStatusBarBackgroundInRect:rect withHighlight:YES];
+    if (isMenuExtra) {
+        id menuExtra = (id)statusItem;
+        [menuExtra drawMenuBackground:YES];
+    }
+    else [statusItem drawStatusBarBackgroundInRect:rect withHighlight:isMenuDown];
     
     if (icon)
-        [icon drawAtPoint:NSMakePoint(3,2) fromRect:NSMakeRect(0,0,14,19) operation:NSCompositeSourceOver fraction:1.0];
+        [icon drawAtPoint:NSMakePoint(isMenuExtra ? 0 : 3, 2) fromRect:NSMakeRect(0, 0, [icon size].width, [icon size].height) operation:NSCompositeSourceOver fraction:1.0];
     
-    int size = (icon ? 14 + 3 : 1);
+    int size = (icon ? (isMenuExtra ? 0 : 3) + [icon size].width + 3 : 1);
     
     if (monitor && [[monitor sensors] count] > 0) {
         
@@ -100,9 +102,9 @@
                     break;
             }
             
-            [title addAttribute:NSForegroundColorAttributeName value:(down ? [NSColor whiteColor] : valueColor) range:NSMakeRange(0,[title length])];
+            [title addAttribute:NSForegroundColorAttributeName value:(isMenuDown ? [NSColor whiteColor] : valueColor) range:NSMakeRange(0,[title length])];
             
-            if (!down && useShadowEffect) 
+            if (!isMenuDown && useShadowEffect) 
                 [title addAttribute:NSShadowAttributeName value:shadow range:NSMakeRange(0,[title length])];
             
             if (drawValuesInRow) {
@@ -117,7 +119,7 @@
                 
                 int row = i % 2;
                 
-                [title drawAtPoint:NSMakePoint(size, [favorites count] == 1 ? ([self frame].size.height - [title size].height) / 2 + 1 : row == 0 ? [self frame].size.height / 2 - 1 : [self frame].size.height / 2 - [title size].height + 2)];
+                [title drawAtPoint:NSMakePoint(size, [favorites count] == 1 ? ([self frame].size.height - [title size].height) / 2 + 1 : row == 0 ? [self frame].size.height / 2 - 1: [self frame].size.height / 2 - [title size].height + 2)];
                 
                 int width = [title size].width + 4;
                 
@@ -134,27 +136,27 @@
         }
     }
     
+    size += isMenuExtra ? -2 : 0;
+    
     [self setFrameSize:NSMakeSize(size, [self frame].size.height)];
     //snow leopard icon & text problem        
     [statusItem setLength:([self frame].size.width)];
 }
 
 - (void)mouseDown:(NSEvent *)event
-{ 
+{
+    if (!isMenuExtra)
+        [statusItem popUpStatusItemMenu:[statusItem menu]];
+}
+
+- (void)menuWillOpen:(NSMenu *)menu {
+    [self setIsMenuDown:YES];
     [self setNeedsDisplay:YES];
-    [statusItem popUpStatusItemMenu:[statusItem menu]];
 }
 
-- (void)setIsMenuDown:(BOOL)down 
-{
-    isMenuDown = down;
-
-   [self setNeedsDisplay:YES];
-}
-
-- (BOOL)isMenuDown
-{
-    return isMenuDown;
+- (void)menuDidClose:(NSMenu *)menu {
+    [self setIsMenuDown:NO];
+    [self setNeedsDisplay:YES];
 }
 
 @end

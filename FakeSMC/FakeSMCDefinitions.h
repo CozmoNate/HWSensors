@@ -2,8 +2,8 @@
 //  FakeSMCDefinitions.h
 //  HWSensors
 //
-//  Created by mozo on 20.10.11.
-//  Copyright (c) 2011 mozodojo. All rights reserved.
+//  Created by kozlek on 20.10.11.
+//  Copyright (c) 2011 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
 #ifndef HWSensors_definitions_h
