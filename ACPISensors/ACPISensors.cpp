@@ -2,7 +2,7 @@
  *  ACPIMonitor.cpp
  *  HWSensors
  *
- *  Created by mozo on 12/11/10.
+ *  Created by kozlek on 12/11/10.
  *  Copyright 2010 Slice. All rights reserved.
  *
  */
@@ -30,9 +30,8 @@ float ACPIMonitor::getSensorValue(FakeSMCSensor *sensor)
             break;
         case kFakeSMCVoltageSensor:
             if (kIOReturnSuccess == acpiDevice->evaluateInteger(OSDynamicCast(OSString, voltages->getObject(sensor->getKey()))->getCStringNoCopy(), &value))
-                // all floating point values returned from ACPI should be 
-                // multiplied to 1000 (simple integer encoding and native 
-                // format for most monitoring devices)
+                // all voltage values returned from ACPI should be 
+                // in millivolts
                 return (float)value * 0.001f; 
                 
             break;
@@ -120,6 +119,7 @@ bool ACPIMonitor::start(IOService * provider)
             {
                 char key[5];
                 
+                // Using hardcoded names for ACPI tachometers (with hex sequence number): RPM0, RPM1 ... RPME, RPMF
                 snprintf(key, 5, ACPI_NAME_FORMAT_TACHOMETER, i);
                 
                 if (kIOReturnSuccess == acpiDevice->validateObject(key)) {

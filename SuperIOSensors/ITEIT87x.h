@@ -4,8 +4,8 @@
  *
  *  Based on code from Open Hardware Monitor project by Michael Möller (C) 2011
  *
- *  Created by mozo on 08/10/10.
- *  Copyright 2010 mozodojo. All rights reserved.
+ *  Created by kozlek on 08/10/10.
+ *  Copyright 2010 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
  *
  */
 

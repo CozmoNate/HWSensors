@@ -1,20 +1,22 @@
 //
-//  HWMonitorExtraView.h
+//  HWMonitorView.h
 //  HWSensors
 //
-//  Created by mozo on 03/02/12.
-//  Copyright (c) 2012 mozodojo. All rights reserved.
+//  Created by kozlek on 03/02/12.
+//  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
 #import "HWMonitorEngine.h"
 
-@interface HWMonitorCustomView : NSView
+@interface HWMonitorView : NSView
 
 {
     NSStatusItem *statusItem;
     NSFont *smallFont;
     NSFont *bigFont;
     NSShadow *shadow;
+    
+    bool isMenuExtra;
 }
 
 @property (readwrite, retain) NSImage *image;
@@ -29,7 +31,5 @@
 @property (readwrite, assign) BOOL useShadowEffect;
 
 - initWithFrame:(NSRect)rect statusItem:(NSStatusItem*)item;
-- (void)setIsMenuDown:(BOOL)down;
-- (BOOL)isMenuDown;
 
 @end

@@ -57,7 +57,7 @@
 		</dict>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 kozlek. All rights reserved.</string>
+	<string>Copyright © 2012 Natan Zalkin &lt;natan.zalkin@me.com&gt;. All rights reserved.</string>
 	<key>OSBundleLibraries</key>
 	<dict>
 		<key>com.apple.iokit.IOPCIFamily</key>

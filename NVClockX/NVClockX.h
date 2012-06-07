@@ -2,7 +2,7 @@
  *  NVClockX.h
  *  HWSensors
  *
- *  Created by mozo on 15/10/10.
+ *  Created by kozlek on 15/10/10.
  *  Copyright 2010 usr-sse2. All rights reserved.
  *
  */

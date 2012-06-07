@@ -27,7 +27,7 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © HWSENSORS_LASTYEAR mozo. All rights reserved.</string>
+	<string>Copyright © HWSENSORS_LASTYEAR Natan Zalkin &lt;natan.zalkin@me.com&gt;. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

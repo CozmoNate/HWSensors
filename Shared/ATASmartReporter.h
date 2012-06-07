@@ -5,7 +5,7 @@
 //  Based on code by OldNavi
 //
 //  Created by kozlek on 19/02/12.
-//  Copyright (c) 2012 kozlek. All rights reserved.
+//  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

@@ -3,7 +3,7 @@
 //  HWSensors
 //
 //  Created by kozlek on 26.05.12.
-//  Copyright (c) 2012 kozlek. All rights reserved.
+//  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
 #ifndef HWSensors_HWMonitorDefinitions_h
