@@ -11,12 +11,13 @@
 @interface HWMonitorView : NSView
 
 {
-    NSStatusItem *statusItem;
-    NSFont *smallFont;
-    NSFont *bigFont;
-    NSShadow *shadow;
+    NSStatusItem *_statusItem;
     
-    bool isMenuExtra;
+    NSFont *_smallFont;
+    NSFont *_bigFont;
+    NSShadow *_shadow;
+    
+    bool _isMenuExtra;
 }
 
 @property (readwrite, retain) NSImage *image;
@@ -24,7 +25,7 @@
 
 @property (readwrite, assign) BOOL isMenuDown;
 
-@property (readwrite, retain) HWMonitorEngine *monitor;
+@property (readwrite, retain) HWMonitorEngine *engine;
 @property (readwrite, retain) NSArray *favorites;
 
 @property (readwrite, assign) BOOL drawValuesInRow;

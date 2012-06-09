@@ -8,9 +8,7 @@
 
 #import "HWMonitor.h"
 #import "HWMonitorDefinitions.h"
-
 #import "FakeSMCDefinitions.h"
-
 #import "NSString+TruncateToWidth.h"
 
 #define GetLocalizedString(key) \
@@ -19,6 +17,8 @@
 @implementation HWMonitor
 
 @synthesize menu=_mainMenu;
+@synthesize engine=_engine;
+@synthesize favorites=_favorites;
 
 - (id)initWithStatusItem:(NSStatusItem*)item bundle:(NSBundle*)bundle;
 {
@@ -34,18 +34,24 @@
     
     _favoriteIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"favorite" ofType:@"png"]];
     _disabledIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"disabled" ofType:@"png"]];
-    _temperaturesIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"temperatures" ofType:@"png"]];
-    _hddtemperaturesIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"hddtemperatures" ofType:@"png"]];
-    _ssdlifeIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"ssdlife" ofType:@"png"]];
-    _multipliersIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"multipliers" ofType:@"png"]];
-    _frequenciesIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"frequencies" ofType:@"png"]];
-    _tachometersIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"tachometers" ofType:@"png"]];
-    _voltagesIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"voltages" ofType:@"png"]];
     _prefsIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"preferences" ofType:@"png"]];
     
+    [self loadIconNamed:kHWMonitorIconTemperatures];
+    [self loadIconNamed:kHWMonitorIconHddTemperatures];
+    [self loadIconNamed:kHWMonitorIconSsdLife];
+    [self loadIconNamed:kHWMonitorIconMultipliers];
+    [self loadIconNamed:kHWMonitorIconFrequencies];
+    [self loadIconNamed:kHWMonitorIconTachometers];
+    [self loadIconNamed:kHWMonitorIconVoltages];
+    
+    [self loadIconNamed:kHWMonitorIconThermometer];
+    
     _view = [[HWMonitorView alloc] initWithFrame:NSMakeRect(0, 0, 24, 22) statusItem:_statusItem];
-    [_view setImage:[[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"thermobump" ofType:@"png"]]];
-    [_view setAlternateImage:[[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"thermotemplate" ofType:@"png"]]];
+    
+    HWMonitorIcon *icon = [self getIconByName:kHWMonitorIconThermometer];
+    
+    [_view setImage:[icon image]];
+    [_view setAlternateImage:[icon alternateImage]];
     [_view setUseShadowEffect:YES];
     
     _mainMenu = [[NSMenu alloc] init];
@@ -118,30 +124,53 @@
     return self;
 }
 
-- (void)insertTitleItemWithMenu:(NSMenu*)someMenu Title:(NSString*)title Icon:(NSImage*)image
+- (void)loadIconNamed:(NSString*)name
 {
-    NSMenuItem *titleItem = [[NSMenuItem alloc] init];
+    if (!_icons)
+        _icons = [[NSMutableDictionary alloc] init];
     
-    [titleItem setEnabled:FALSE];
+    NSImage *image = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:name ofType:@"png"]];
+    NSImage *altImage = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:[name stringByAppendingString:@"_template"] ofType:@"png"]];
     
+    [_icons setObject:[HWMonitorIcon iconWithName:name image:image alternateImage:altImage] forKey:name];
+}
+
+- (HWMonitorIcon*)getIconByName:(NSString*)name
+{
+    return [_icons objectForKey:name];
+}
+
+- (NSMenuItem*)insertTitleItemWithMenu:(NSMenu*)someMenu Title:(NSString*)title Image:(NSImage *)image
+{
     NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
     
     [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
     [attributedTitle addAttribute:NSFontAttributeName value:_menuFont range:NSMakeRange(0, [attributedTitle length])];
+ 
+    NSMenuItem *titleItem = [[NSMenuItem alloc] init];
     
-    [titleItem setAttributedTitle:attributedTitle];
     [titleItem setImage:image];
+    [titleItem setAttributedTitle:attributedTitle];
     
     [someMenu addItem:titleItem];
+    
+    return titleItem;
 }
 
-- (void)insertMenuGroupWithTitle:(NSString*)title Icon:(NSImage*)image Sensors:(NSArray*)list;
+- (void)insertMenuGroupWithTitle:(NSString*)title Icon:(HWMonitorIcon*)icon Sensors:(NSArray *)list
 {
     if (list && [list count] > 0) {
         if ([[_mainMenu itemArray] count] > 0)
             [_mainMenu addItem:[NSMenuItem separatorItem]];
         
-        [self insertTitleItemWithMenu:_mainMenu Title:title Icon:image];
+        NSMenuItem* titleItem = [self insertTitleItemWithMenu:_mainMenu Title:title Image:icon ? [icon image] : nil];
+        
+        [titleItem setAction:@selector(titleItemClicked:)];
+        [titleItem setTarget:self];
+        [titleItem setRepresentedObject:icon];
+        [titleItem setOnStateImage:_favoriteIcon];
+        [titleItem setOffStateImage:_disabledIcon];
+        [titleItem setState:[_favorites containsObject:icon]];
         
         for (int i = 0; i < [list count]; i++) {
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
@@ -180,7 +209,7 @@
 
 - (void)updateSMARTData; 
 {
-    [_monitor updateSMARTSensorsValues];
+    [_engine updateSMARTSensorsValues];
 }
 
 - (void)updateSMARTDataThreaded
@@ -190,7 +219,7 @@
 
 - (void)updateData
 {
-    [_monitor updateGenericSensorsValuesButOnlyFavorits:![_view isMenuDown]];
+    [_engine updateGenericSensorsValuesButOnlyFavorits:![_view isMenuDown]];
 }
 
 - (void)updateDataThreaded
@@ -207,8 +236,8 @@
     
     //NSMutableDictionary * favoritsList = [[NSMutableDictionary alloc] init];
     
-    for (int i = 0; i < [[_monitor sensors] count]; i++) {
-        HWMonitorSensor *sensor = [[_monitor sensors] objectAtIndex:i];
+    for (int i = 0; i < [[_engine sensors] count]; i++) {
+        HWMonitorSensor *sensor = [[_engine sensors] objectAtIndex:i];
         
         if (sensor && ([_view isMenuDown] || allSensors) && [sensor valueHasBeenChanged]) {
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
@@ -298,9 +327,9 @@
 
 - (void)rebuildSensors
 {
-    if (!_monitor) {
-        _monitor = [[HWMonitorEngine alloc] initWithBundle:_bundle];
-        [_view setMonitor:_monitor];
+    if (!_engine) {
+        _engine = [[HWMonitorEngine alloc] initWithBundle:_bundle];
+        [_view setEngine:_engine];
     }
     
     if (!_favorites) {
@@ -310,16 +339,16 @@
     
     [_mainMenu removeAllItems];
     
-    [_monitor setHideDisabledSensors:![_defaults boolForKey:@kHWMonitorShowHiddenSensors]];
-    [_monitor setShowBSDNames:[_defaults boolForKey:@kHWMonitorShowBSDNames]];
-    [_monitor setUseFahrenheit:[_defaults boolForKey:@kHWMonitorUseFahrenheitKey]];
+    [_engine setHideDisabledSensors:![_defaults boolForKey:@kHWMonitorShowHiddenSensors]];
+    [_engine setShowBSDNames:[_defaults boolForKey:@kHWMonitorShowBSDNames]];
+    [_engine setUseFahrenheit:[_defaults boolForKey:@kHWMonitorUseFahrenheitKey]];
     
     [_view setDrawValuesInRow:[_defaults boolForKey:@kHWMonitorFavoritesInRow]];
     [_view setUseShadowEffect:[_defaults boolForKey:@kHWMonitorUseShadowEffect]];
     
-    [_monitor rebuildSensorsList];
+    [_engine rebuildSensorsList];
     
-    if ([[_monitor sensors] count] > 0) {
+    if ([[_engine sensors] count] > 0) {
         
         NSUInteger i = 0;
         
@@ -329,22 +358,29 @@
         
         if (favoritsList) {
             for (i = 0; i < [favoritsList count]; i++) {
-                HWMonitorSensor *sensor = [[_monitor keys] objectForKey:[favoritsList objectAtIndex:i]];
                 
-                if (sensor) {
+                NSString *name = [favoritsList objectAtIndex:i];
+                
+                HWMonitorSensor *sensor = nil;
+                HWMonitorIcon *icon = nil;
+                
+                if ((sensor = [[_engine keys] objectForKey:name])) {
                     [sensor setFavorite:TRUE];
                     [_favorites addObject:sensor];
+                }
+                else if ((icon = [_icons objectForKey:name])) {
+                    [_favorites addObject:icon];
                 }
             }
         }
         
-        [self insertMenuGroupWithTitle:@"TEMPERATURES" Icon:_temperaturesIcon Sensors:[_monitor getAllSensorsInGroup:kHWSensorGroupTemperature]];
-        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" Icon:_hddtemperaturesIcon Sensors:[_monitor getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
-        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" Icon:_ssdlifeIcon Sensors:[_monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
-        [self insertMenuGroupWithTitle:@"SSD REMAINING BLOCKS" Icon:_ssdlifeIcon Sensors:[_monitor getAllSensorsInGroup:kSMARTSensorGroupRemainingBlocks]];
-        [self insertMenuGroupWithTitle:@"FREQUENCIES" Icon:_frequenciesIcon Sensors:[_monitor getAllSensorsInGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency]];
-        [self insertMenuGroupWithTitle:@"FANS" Icon:_tachometersIcon Sensors:[_monitor getAllSensorsInGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer]];
-        [self insertMenuGroupWithTitle:@"VOLTAGES" Icon:_voltagesIcon Sensors:[_monitor getAllSensorsInGroup:kHWSensorGroupVoltage]];
+        [self insertMenuGroupWithTitle:@"TEMPERATURES" Icon:[self getIconByName:kHWMonitorIconTemperatures] Sensors:[_engine getAllSensorsInGroup:kHWSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"DRIVES TEMPERATURES" Icon:[self getIconByName:kHWMonitorIconHddTemperatures] Sensors:[_engine getAllSensorsInGroup:kSMARTSensorGroupTemperature]];
+        [self insertMenuGroupWithTitle:@"SSD REMAINING LIFE" Icon:[self getIconByName:kHWMonitorIconSsdLife] Sensors:[_engine getAllSensorsInGroup:kSMARTSensorGroupRemainingLife]];
+        [self insertMenuGroupWithTitle:@"SSD REMAINING BLOCKS" Icon:[self getIconByName:kHWMonitorIconSsdLife] Sensors:[_engine getAllSensorsInGroup:kSMARTSensorGroupRemainingBlocks]];
+        [self insertMenuGroupWithTitle:@"FREQUENCIES" Icon:[self getIconByName:kHWMonitorIconFrequencies] Sensors:[_engine getAllSensorsInGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency]];
+        [self insertMenuGroupWithTitle:@"FANS" Icon:[self getIconByName:kHWMonitorIconTachometers] Sensors:[_engine getAllSensorsInGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer]];
+        [self insertMenuGroupWithTitle:@"VOLTAGES" Icon:[self getIconByName:kHWMonitorIconVoltages] Sensors:[_engine getAllSensorsInGroup:kHWSensorGroupVoltage]];
         
         [_mainMenu addItem:[NSMenuItem separatorItem]];
         
@@ -355,20 +391,20 @@
         
         _prefsMenu = [[NSMenu alloc] init];
         
-        [self insertTitleItemWithMenu:_prefsMenu Title:@"GENERAL" Icon:nil];
-        [self insertPrefsItemWithTitle:@"Show hidden sensors" icon:nil state:![_monitor hideDisabledSensors] action:@selector(showHiddenSensorsItemClicked:) keyEquivalent:@""];
-        [self insertPrefsItemWithTitle:@"Use BSD drives names" icon:nil state:[_monitor showBSDNames] action:@selector(showBSDNamesItemClicked:) keyEquivalent:@""];
+        [self insertTitleItemWithMenu:_prefsMenu Title:@"GENERAL" Image:nil];
+        [self insertPrefsItemWithTitle:@"Show hidden sensors" icon:nil state:![_engine hideDisabledSensors] action:@selector(showHiddenSensorsItemClicked:) keyEquivalent:@""];
+        [self insertPrefsItemWithTitle:@"Use BSD drives names" icon:nil state:[_engine showBSDNames] action:@selector(showBSDNamesItemClicked:) keyEquivalent:@""];
         
         [_prefsMenu addItem:[NSMenuItem separatorItem]];
-        [self insertTitleItemWithMenu:_prefsMenu Title:@"MENU BAR" Icon:nil];
+        [self insertTitleItemWithMenu:_prefsMenu Title:@"MENU BAR" Image:nil];
         [self insertPrefsItemWithTitle:@"Use big font" icon:nil state:[_view drawValuesInRow] action:@selector(favoritesInRowItemClicked:) keyEquivalent:@""];
         [self insertPrefsItemWithTitle:@"Use shadow effect" icon:nil state:[_view useShadowEffect] action:@selector(useShadowEffectItemClicked:) keyEquivalent:@""];
         
         
         [_prefsMenu addItem:[NSMenuItem separatorItem]];
-        [self insertTitleItemWithMenu:_prefsMenu Title:@"TEMPERATURE SCALE" Icon:nil];
-        _celsiusItem = [self insertPrefsItemWithTitle:@"Celsius" icon:nil state:![_monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
-        _fahrenheitItem = [self insertPrefsItemWithTitle:@"Fahrenheit" icon:nil state:[_monitor useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
+        [self insertTitleItemWithMenu:_prefsMenu Title:@"TEMPERATURE SCALE" Image:nil];
+        _celsiusItem = [self insertPrefsItemWithTitle:@"Celsius" icon:nil state:![_engine useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
+        _fahrenheitItem = [self insertPrefsItemWithTitle:@"Fahrenheit" icon:nil state:[_engine useFahrenheit] action:@selector(degreesItemClicked:) keyEquivalent:@""];
         
         
         [prefsItem setSubmenu:_prefsMenu];
@@ -387,6 +423,33 @@
         [_mainMenu addItem:[NSMenuItem separatorItem]];
         [_mainMenu addItem:[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quit HWMonitor", nil) action:@selector(terminate:) keyEquivalent:@""]];
     }
+}
+
+- (void)titleItemClicked:(id)sender
+{
+    NSMenuItem *menuItem = (NSMenuItem *)sender;
+    HWMonitorIcon *icon = (HWMonitorIcon*)[menuItem representedObject];
+    
+    if ([_favorites containsObject:icon]) {
+        [_favorites removeObject:icon];
+        [menuItem setState:NO];
+    }
+    else {
+        [_favorites addObject:icon];
+        [menuItem setState:YES];
+    }
+    
+    NSMutableArray *list = [[NSMutableArray alloc] init];
+    
+    NSUInteger i;
+    
+    for (i = 0; i < [_favorites count]; i++) {
+        id object = [_favorites objectAtIndex:i];
+        [list addObject:[object name]];
+    }
+    
+    [_defaults setObject:list forKey:@kHWMonitorFavoritesList];
+    [_defaults synchronize];
 }
 
 - (void)sensorItemClicked:(id)sender 
@@ -410,8 +473,8 @@
     NSUInteger i;
     
     for (i = 0; i < [_favorites count]; i++) {
-        sensor = [_favorites objectAtIndex:i];
-        [list addObject:[sensor key]];
+        id object = [_favorites objectAtIndex:i];
+        [list addObject:[object name]];
     }
     
     [_defaults setObject:list forKey:@kHWMonitorFavoritesList];
@@ -422,11 +485,11 @@
 {
     bool useFahrenheit = [sender isEqualTo:_fahrenheitItem];
     
-    if (useFahrenheit != [_monitor useFahrenheit] ) {
+    if (useFahrenheit != [_engine useFahrenheit] ) {
         [_celsiusItem setState:!useFahrenheit];
         [_fahrenheitItem setState:useFahrenheit];
         
-        [_monitor setUseFahrenheit:useFahrenheit];
+        [_engine setUseFahrenheit:useFahrenheit];
         
         [_defaults setBool:useFahrenheit forKey:@kHWMonitorUseFahrenheitKey];
         [_defaults synchronize];

@@ -144,6 +144,8 @@
 					<string>ui16</string>
 					<key>CLKH</key>
 					<string>{clh</string>
+					<key>LSSS</key>
+					<string>{lso</string>
 				</dict>
 				<key>debug</key>
 				<true/>
