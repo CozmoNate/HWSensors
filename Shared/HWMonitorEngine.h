@@ -31,8 +31,8 @@
 + (HWMonitorEngine*)engine;
 
 + (NSArray*)populateInfoForKey:(NSString *)key;
-+ (NSString*)getTypeFromKeyInfo:(NSArray*)info;
-+ (NSData*)getValueFromKeyInfo:(NSArray*)info;
++ (NSString*)copyTypeFromKeyInfo:(NSArray*)info;
++ (NSData*)copyValueFromKeyInfo:(NSArray*)info;
 
 - (HWMonitorSensor*)addSensorWithKey:(NSString*)key caption:(NSString*)caption group:(NSUInteger)group;
 - (HWMonitorSensor*)addSMARTSensorWithGenericDisk:(ATAGenericDisk*)disk group:(NSUInteger)group;

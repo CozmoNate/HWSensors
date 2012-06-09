@@ -204,6 +204,8 @@
 					<string>{clh</string>
 					<key>CLKT</key>
 					<string>ui16</string>
+					<key>LSSS</key>
+					<string>{lso</string>
 				</dict>
 				<key>debug</key>
 				<true/>

@@ -50,18 +50,18 @@
     return info;
 }
 
-+ (NSString*)getTypeFromKeyInfo:(NSArray*)info
++ (NSString*)copyTypeFromKeyInfo:(NSArray*)info
 {
     if (info && [info count] == 2) 
-        return (NSString*)[info objectAtIndex:0];
+        return [NSString stringWithString:(NSString*)[info objectAtIndex:0]];
     
     return nil;
 }
 
-+ (NSData*)getValueFromKeyInfo:(NSArray*)info
++ (NSData*)copyValueFromKeyInfo:(NSArray*)info
 {
     if (info && [info count] == 2)
-        return (NSData*)[info objectAtIndex:1];
+        return [NSData dataWithData:(NSData *)[info objectAtIndex:1]];
     
     return nil;
 }
@@ -82,8 +82,8 @@
         default: {
             NSArray *info = [HWMonitorEngine populateInfoForKey:key];
             
-            type = [HWMonitorEngine getTypeFromKeyInfo:info];
-            value = [HWMonitorEngine getValueFromKeyInfo:info];
+            type = [HWMonitorEngine copyTypeFromKeyInfo:info];
+            value = [HWMonitorEngine copyValueFromKeyInfo:info];
             
             if (!type || !value)
                 return nil;
@@ -104,7 +104,7 @@
     sensor = [HWMonitorSensor sensor];
     
     [sensor setEngine:self];
-    [sensor setKey:key];
+    [sensor setName:key];
     [sensor setType:type];
     [sensor setCaption:caption];
     [sensor setData:value];
@@ -264,7 +264,7 @@
     
     // Fans
     for (int i=0; i<10; i++) {
-        NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine getValueFromKeyInfo:[HWMonitorEngine populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
+        NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine copyValueFromKeyInfo:[HWMonitorEngine populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
         
         if ([caption length] == 0)
             caption = [[NSString alloc] initWithFormat:@"Fan %X",i + 1];
@@ -275,7 +275,7 @@
     
     // GPU Fans
     for (int i=0; i<10; i++) {
-        NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine getValueFromKeyInfo:[HWMonitorEngine populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
+        NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine copyValueFromKeyInfo:[HWMonitorEngine populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
         
         if ([caption hasPrefix:@"GPU "]) {
             UInt8 cardIndex = [[caption substringFromIndex:5] intValue];
@@ -346,7 +346,7 @@
                         break;
                         
                     default: {
-                        [list addObject:[sensor key]];
+                        [list addObject:[sensor name]];
                         break;
                     }
                 }
@@ -354,9 +354,9 @@
         
         if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)list)) 
         {           
-            NSDictionary *values = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
+            NSDictionary *values = nil;
             
-            if (values) {
+            if ((values = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0))) {
                 NSEnumerator *enumerator = [values keyEnumerator];
                 
                 NSString *key = nil;
@@ -367,10 +367,12 @@
                     if (sensor) {
                         NSArray *keyInfo = [values objectForKey:key];
                         
-                        [sensor setType:[HWMonitorEngine getTypeFromKeyInfo:keyInfo]];
-                        [sensor setData:[HWMonitorEngine getValueFromKeyInfo:keyInfo]];
+                        [sensor setType:[HWMonitorEngine copyTypeFromKeyInfo:keyInfo]];
+                        [sensor setData:[HWMonitorEngine copyValueFromKeyInfo:keyInfo]];
                     }
                 }
+                
+                enumerator = nil;
             }
         }
     }

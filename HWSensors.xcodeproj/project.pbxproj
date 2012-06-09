@@ -62,8 +62,6 @@
 		6A10C19A1506B2A4005E0897 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10C18F1506B2A4005E0897 /* IOKit.framework */; };
 		6A10C19B1506B2A4005E0897 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10C18F1506B2A4005E0897 /* IOKit.framework */; };
 		6A1DF9931502022500C34729 /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF9901502022500C34729 /* default.icns */; };
-		6A1DF9941502022500C34729 /* thermobump.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF9911502022500C34729 /* thermobump.png */; };
-		6A1DF9951502022500C34729 /* thermotemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF9921502022500C34729 /* thermotemplate.png */; };
 		6A2B4E3E152179700093A217 /* FintekF718x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E32152179700093A217 /* FintekF718x.cpp */; };
 		6A2B4E3F152179700093A217 /* FintekF718x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2B4E33152179700093A217 /* FintekF718x.h */; };
 		6A2B4E40152179700093A217 /* ITEIT87x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E34152179700093A217 /* ITEIT87x.cpp */; };
@@ -76,8 +74,8 @@
 		6A2B4E47152179700093A217 /* SuperIOMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2B4E3B152179700093A217 /* SuperIOMonitor.h */; };
 		6A2B4E48152179700093A217 /* WinbondW836x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E3C152179700093A217 /* WinbondW836x.cpp */; };
 		6A2B4E49152179700093A217 /* WinbondW836x.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2B4E3D152179700093A217 /* WinbondW836x.h */; };
-		6A2F7DC0151A64EE0081BADC /* thermobump.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF982150201D100C34729 /* thermobump.png */; };
-		6A2F7DC2151A64F20081BADC /* thermotemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF983150201D100C34729 /* thermotemplate.png */; };
+		6A2F7DC0151A64EE0081BADC /* thermometer.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF982150201D100C34729 /* thermometer.png */; };
+		6A2F7DC2151A64F20081BADC /* thermometer_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF983150201D100C34729 /* thermometer_template.png */; };
 		6A4E473F152178A00038C5DE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A4E473D152178A00038C5DE /* InfoPlist.strings */; };
 		6A5DCA60151F8E2800209B36 /* disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5DCA5F151F8E2800209B36 /* disabled.png */; };
 		6A5DCA61151F8E2800209B36 /* disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5DCA5F151F8E2800209B36 /* disabled.png */; };
@@ -122,12 +120,30 @@
 		6AE5FC3F151E269C005F9929 /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC3D151E269C005F9929 /* voltages.png */; };
 		6AE5FC41151E298E005F9929 /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
 		6AE5FC42151E298E005F9929 /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
+		7E0615C6158353B9000EF72F /* thermometer.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF982150201D100C34729 /* thermometer.png */; };
+		7E0615C7158353C0000EF72F /* thermometer_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF983150201D100C34729 /* thermometer_template.png */; };
 		7E06D0EA157E967100F8A270 /* HWMonitorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0E9157E967100F8A270 /* HWMonitorView.m */; };
 		7E06D0EB157E967100F8A270 /* HWMonitorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0E9157E967100F8A270 /* HWMonitorView.m */; };
 		7E06D0F0157FC21E00F8A270 /* HWMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0EF157FC21E00F8A270 /* HWMonitor.m */; };
 		7E06D0F1157FC21E00F8A270 /* HWMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0EF157FC21E00F8A270 /* HWMonitor.m */; };
 		7E06D0FA157FC80B00F8A270 /* BundleUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */; };
 		7E06D0FB157FC80B00F8A270 /* BundleUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */; };
+		7E3684AC158368C900E32629 /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3684AB158368C900E32629 /* HWMonitorIcon.m */; };
+		7E3684AD158368C900E32629 /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3684AB158368C900E32629 /* HWMonitorIcon.m */; };
+		7E3684AF1583715B00E32629 /* temperatures_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684AE1583715B00E32629 /* temperatures_template.png */; };
+		7E3684B01583715B00E32629 /* temperatures_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684AE1583715B00E32629 /* temperatures_template.png */; };
+		7E3684B21583722500E32629 /* frequencies_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684B11583722500E32629 /* frequencies_template.png */; };
+		7E3684B31583722500E32629 /* frequencies_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684B11583722500E32629 /* frequencies_template.png */; };
+		7E3684B51583734D00E32629 /* hddtemperatures_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684B41583734D00E32629 /* hddtemperatures_template.png */; };
+		7E3684B61583734D00E32629 /* hddtemperatures_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684B41583734D00E32629 /* hddtemperatures_template.png */; };
+		7E3684B81583737400E32629 /* ssdlife_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684B71583737400E32629 /* ssdlife_template.png */; };
+		7E3684B91583737400E32629 /* ssdlife_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684B71583737400E32629 /* ssdlife_template.png */; };
+		7E3684BB1583739800E32629 /* multipliers_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684BA1583739800E32629 /* multipliers_template.png */; };
+		7E3684BC1583739800E32629 /* multipliers_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684BA1583739800E32629 /* multipliers_template.png */; };
+		7E3684BE158373B900E32629 /* tachometers_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684BD158373B900E32629 /* tachometers_template.png */; };
+		7E3684BF158373B900E32629 /* tachometers_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684BD158373B900E32629 /* tachometers_template.png */; };
+		7E3684C1158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
+		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE5155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
 /* End PBXBuildFile section */
@@ -210,8 +226,8 @@
 		6A0D50B4151C904C00A6FC60 /* updatecaches */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = updatecaches; path = Installer/updatecaches; sourceTree = "<group>"; };
 		6A10C18F1506B2A4005E0897 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		6A1DF981150201D100C34729 /* default.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = default.icns; sourceTree = "<group>"; };
-		6A1DF982150201D100C34729 /* thermobump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thermobump.png; sourceTree = "<group>"; };
-		6A1DF983150201D100C34729 /* thermotemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thermotemplate.png; sourceTree = "<group>"; };
+		6A1DF982150201D100C34729 /* thermometer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thermometer.png; sourceTree = "<group>"; };
+		6A1DF983150201D100C34729 /* thermometer_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thermometer_template.png; sourceTree = "<group>"; };
 		6A1DF985150201DE00C34729 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A1DF986150201E500C34729 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A1DF9891502020800C34729 /* thermobump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = thermobump.png; path = Shared/thermobump.png; sourceTree = SOURCE_ROOT; };
@@ -300,6 +316,15 @@
 		7E06D0F8157FC80B00F8A270 /* BundleUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BundleUserDefaults.h; sourceTree = "<group>"; };
 		7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BundleUserDefaults.m; sourceTree = "<group>"; };
 		7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsInfoPlist.pch; sourceTree = "<group>"; };
+		7E3684AA158368C900E32629 /* HWMonitorIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorIcon.h; sourceTree = "<group>"; };
+		7E3684AB158368C900E32629 /* HWMonitorIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorIcon.m; sourceTree = "<group>"; };
+		7E3684AE1583715B00E32629 /* temperatures_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = temperatures_template.png; sourceTree = "<group>"; };
+		7E3684B11583722500E32629 /* frequencies_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frequencies_template.png; sourceTree = "<group>"; };
+		7E3684B41583734D00E32629 /* hddtemperatures_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hddtemperatures_template.png; sourceTree = "<group>"; };
+		7E3684B71583737400E32629 /* ssdlife_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ssdlife_template.png; sourceTree = "<group>"; };
+		7E3684BA1583739800E32629 /* multipliers_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = multipliers_template.png; sourceTree = "<group>"; };
+		7E3684BD158373B900E32629 /* tachometers_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tachometers_template.png; sourceTree = "<group>"; };
+		7E3684C0158373DC00E32629 /* voltages_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voltages_template.png; sourceTree = "<group>"; };
 		7E3F6EE4155DB9DE00C3492E /* preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preferences.png; sourceTree = "<group>"; };
 		7EC87A391571E30800E6F16F /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorDefinitions.h; path = Shared/HWMonitorDefinitions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -638,17 +663,24 @@
 			children = (
 				6A1DF984150201DE00C34729 /* Localizable.strings */,
 				6A1DF981150201D100C34729 /* default.icns */,
-				6A1DF982150201D100C34729 /* thermobump.png */,
-				6A1DF983150201D100C34729 /* thermotemplate.png */,
+				6A1DF982150201D100C34729 /* thermometer.png */,
+				6A1DF983150201D100C34729 /* thermometer_template.png */,
 				6AAA1682151DB838002927F3 /* favorite.png */,
 				6A5DCA5F151F8E2800209B36 /* disabled.png */,
 				6AAD810D151E083300CBD70C /* temperatures.png */,
+				7E3684AE1583715B00E32629 /* temperatures_template.png */,
 				6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */,
+				7E3684B41583734D00E32629 /* hddtemperatures_template.png */,
 				6AE5FC31151E1F62005F9929 /* ssdlife.png */,
+				7E3684B71583737400E32629 /* ssdlife_template.png */,
 				6AE5FC34151E2232005F9929 /* multipliers.png */,
+				7E3684BA1583739800E32629 /* multipliers_template.png */,
 				6AE5FC37151E23CD005F9929 /* frequencies.png */,
+				7E3684B11583722500E32629 /* frequencies_template.png */,
 				6AE5FC40151E298E005F9929 /* tachometers.png */,
+				7E3684BD158373B900E32629 /* tachometers_template.png */,
 				6AE5FC3D151E269C005F9929 /* voltages.png */,
+				7E3684C0158373DC00E32629 /* voltages_template.png */,
 				7E3F6EE4155DB9DE00C3492E /* preferences.png */,
 			);
 			name = Resources;
@@ -779,6 +811,7 @@
 				6AA3A26B14F6D7C1007A7084 /* NSString+TruncateToWidth */,
 				7E06D0F6157FC7F800F8A270 /* BundleUserDefaults */,
 				6AA3A26A14F6D7AC007A7084 /* ATASmartReporter */,
+				7E3684A8158368AC00E32629 /* HWMonitorIcon */,
 				6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */,
 				7E06D0E3157E961200F8A270 /* HWMonitorView */,
 				7E06D0ED157FC1EE00F8A270 /* HWMonitor */,
@@ -872,6 +905,15 @@
 				7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */,
 			);
 			name = BundleUserDefaults;
+			sourceTree = "<group>";
+		};
+		7E3684A8158368AC00E32629 /* HWMonitorIcon */ = {
+			isa = PBXGroup;
+			children = (
+				7E3684AA158368C900E32629 /* HWMonitorIcon.h */,
+				7E3684AB158368C900E32629 /* HWMonitorIcon.m */,
+			);
+			name = HWMonitorIcon;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1229,10 +1271,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E0615C7158353C0000EF72F /* thermometer_template.png in Resources */,
+				7E0615C6158353B9000EF72F /* thermometer.png in Resources */,
 				1D9F8336144FF24100EEEFEB /* MainMenu.xib in Resources */,
 				6A1DF9931502022500C34729 /* default.icns in Resources */,
-				6A1DF9941502022500C34729 /* thermobump.png in Resources */,
-				6A1DF9951502022500C34729 /* thermotemplate.png in Resources */,
 				6A877FDF1519933D00D18B57 /* Localizable.strings in Resources */,
 				6AAA1683151DB838002927F3 /* favorite.png in Resources */,
 				6AAD810E151E083300CBD70C /* temperatures.png in Resources */,
@@ -1244,6 +1286,13 @@
 				6AE5FC41151E298E005F9929 /* tachometers.png in Resources */,
 				6A5DCA60151F8E2800209B36 /* disabled.png in Resources */,
 				7E3F6EE5155DB9DE00C3492E /* preferences.png in Resources */,
+				7E3684AF1583715B00E32629 /* temperatures_template.png in Resources */,
+				7E3684B21583722500E32629 /* frequencies_template.png in Resources */,
+				7E3684B51583734D00E32629 /* hddtemperatures_template.png in Resources */,
+				7E3684B81583737400E32629 /* ssdlife_template.png in Resources */,
+				7E3684BB1583739800E32629 /* multipliers_template.png in Resources */,
+				7E3684BE158373B900E32629 /* tachometers_template.png in Resources */,
+				7E3684C1158373DC00E32629 /* voltages_template.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1275,8 +1324,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A2F7DC2151A64F20081BADC /* thermotemplate.png in Resources */,
-				6A2F7DC0151A64EE0081BADC /* thermobump.png in Resources */,
+				6A2F7DC2151A64F20081BADC /* thermometer_template.png in Resources */,
+				6A2F7DC0151A64EE0081BADC /* thermometer.png in Resources */,
 				6A877FEE1519937400D18B57 /* Localizable.strings in Resources */,
 				6AACE02A151BB789002A8364 /* Localizable.strings in Resources */,
 				6AAA1684151DB838002927F3 /* favorite.png in Resources */,
@@ -1289,6 +1338,13 @@
 				6AE5FC42151E298E005F9929 /* tachometers.png in Resources */,
 				6A5DCA61151F8E2800209B36 /* disabled.png in Resources */,
 				7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */,
+				7E3684B01583715B00E32629 /* temperatures_template.png in Resources */,
+				7E3684B31583722500E32629 /* frequencies_template.png in Resources */,
+				7E3684B61583734D00E32629 /* hddtemperatures_template.png in Resources */,
+				7E3684B91583737400E32629 /* ssdlife_template.png in Resources */,
+				7E3684BC1583739800E32629 /* multipliers_template.png in Resources */,
+				7E3684BF158373B900E32629 /* tachometers_template.png in Resources */,
+				7E3684C2158373DC00E32629 /* voltages_template.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1410,6 +1466,7 @@
 				7E06D0EA157E967100F8A270 /* HWMonitorView.m in Sources */,
 				7E06D0F0157FC21E00F8A270 /* HWMonitor.m in Sources */,
 				7E06D0FA157FC80B00F8A270 /* BundleUserDefaults.m in Sources */,
+				7E3684AC158368C900E32629 /* HWMonitorIcon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1471,6 +1528,7 @@
 				7E06D0EB157E967100F8A270 /* HWMonitorView.m in Sources */,
 				7E06D0F1157FC21E00F8A270 /* HWMonitor.m in Sources */,
 				7E06D0FB157FC80B00F8A270 /* BundleUserDefaults.m in Sources */,
+				7E3684AD158368C900E32629 /* HWMonitorIcon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
