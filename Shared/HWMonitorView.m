@@ -31,7 +31,8 @@
     
     _statusItem = item;
     
-    _isMenuExtra = [_statusItem respondsToSelector:@selector(drawMenuBackground:)]; 
+    //_isMenuExtra = [_statusItem isKindOfClass:[NSMenuExtra class]]; 
+    _isMenuExtra = [_statusItem respondsToSelector:@selector(drawMenuBackground:)];
     
     _smallFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
     _bigFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
@@ -45,23 +46,40 @@
     return self;
 }
 
+-(id)initWithFrame:(NSRect)rect menuExtra:(NSMenuExtra *)item
+{
+    self = [self initWithFrame:rect statusItem:item];
+    
+    if (!self || !item)
+        return nil;
+    
+    _isMenuExtra = YES;
+    
+    return self;
+}
+
 - (void)drawRect:(NSRect)rect
 {    
-    if (!_engine || !_favorites) {
+    if (_isMenuExtra) {
+        id menuExtra = (id)_statusItem;
+        [menuExtra drawMenuBackground:_isMenuDown];
+        //[super drawRect:rect];
+    }
+    else [_statusItem drawStatusBarBackgroundInRect:rect withHighlight:_isMenuDown];
+    
+    if (!_engine || !_favorites || [_favorites count] == 0) {
         
         NSImage *image = _isMenuDown ? _alternateImage : _image;
         
         if (image) 
             [image drawAtPoint:NSMakePoint(0, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
         
+        [self setFrameSize:NSMakeSize([image size].width, [self frame].size.height)];
+        //snow leopard icon & text problem        
+        [_statusItem setLength:([self frame].size.width)];
+        
         return;
     }
-        
-    if (_isMenuExtra) {
-        id menuExtra = (id)_statusItem;
-        [menuExtra drawMenuBackground:YES];
-    }
-    else [_statusItem drawStatusBarBackgroundInRect:rect withHighlight:_isMenuDown];
     
     int offset = _isMenuExtra ? 0 : 3;
     

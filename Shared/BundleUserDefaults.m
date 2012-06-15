@@ -8,6 +8,7 @@
 
 #import "BundleUserDefaults.h"
 
+
 @implementation BundleUserDefaults
 
 - (id) initWithPersistentDomainName:(NSString *)domainName
@@ -26,9 +27,9 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	/*[_applicationID release];
+	[_applicationID release];
 	[_registrationDictionary release];
-	[super dealloc];*/
+	[super dealloc];
 }
 
 
@@ -40,7 +41,7 @@
 
 - (id)objectForKey:(NSString *)defaultName
 {
-	id value = (__bridge_transfer id)CFPreferencesCopyAppValue((__bridge CFStringRef)defaultName, (__bridge CFStringRef)_applicationID);
+	id value = [(id)CFPreferencesCopyAppValue((CFStringRef)defaultName, (CFStringRef)_applicationID) autorelease];
 	if (value == nil)
 		value = [_registrationDictionary objectForKey:defaultName];
 	return value;
@@ -48,25 +49,25 @@
 
 - (void)setObject:(id)value forKey:(NSString *)defaultName
 {
-	CFPreferencesSetAppValue((__bridge CFStringRef)defaultName, (__bridge CFPropertyListRef)value, (__bridge CFStringRef)_applicationID);
+	CFPreferencesSetAppValue((CFStringRef)defaultName, (CFPropertyListRef)value, (CFStringRef)_applicationID);
 }
 
 - (void)removeObjectForKey:(NSString *)defaultName
 {
-	CFPreferencesSetAppValue((__bridge CFStringRef)defaultName, NULL, (__bridge CFStringRef)_applicationID);
+	CFPreferencesSetAppValue((CFStringRef)defaultName, NULL, (CFStringRef)_applicationID);
 }
 
 
 - (void)registerDefaults:(NSDictionary *)registrationDictionary
 {
-	//[_registrationDictionary release];
-	_registrationDictionary = registrationDictionary;
+	[_registrationDictionary release];
+	_registrationDictionary = [registrationDictionary retain];
 }
 
 
 - (BOOL)synchronize
 {
-	return CFPreferencesSynchronize((__bridge CFStringRef)_applicationID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+	return CFPreferencesSynchronize((CFStringRef)_applicationID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
 }
 
 @end

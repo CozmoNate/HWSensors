@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "SystemUIPlugin.h"
 #import "HWMonitor.h"
 
 @interface HWMonitorExtra : NSMenuExtra
