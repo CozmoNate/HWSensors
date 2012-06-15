@@ -23,6 +23,7 @@ inline UInt8 get_index(char c)
 @synthesize type=_type;
 @synthesize group=_group;
 @synthesize caption=_caption;
+@synthesize title=_title;
 @synthesize data=_data;
 @synthesize disk=_disk;
 

@@ -27,7 +27,8 @@
     
     if (_bundle == nil || _statusItem == nil) 
         return nil;
-        
+    
+    //_isMenuExtra = [_statusItem isKindOfClass:[NSMenuExtra class]];
     _isMenuExtra = [_statusItem respondsToSelector:@selector(drawMenuBackground:)];
     
     _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
@@ -36,6 +37,8 @@
     _disabledIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"disabled" ofType:@"png"]];
     _prefsIcon = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForResource:@"preferences" ofType:@"png"]];
     
+    [self loadIconNamed:kHWMonitorIconThermometer];
+    
     [self loadIconNamed:kHWMonitorIconTemperatures];
     [self loadIconNamed:kHWMonitorIconHddTemperatures];
     [self loadIconNamed:kHWMonitorIconSsdLife];
@@ -43,8 +46,6 @@
     [self loadIconNamed:kHWMonitorIconFrequencies];
     [self loadIconNamed:kHWMonitorIconTachometers];
     [self loadIconNamed:kHWMonitorIconVoltages];
-    
-    [self loadIconNamed:kHWMonitorIconThermometer];
     
     _view = [[HWMonitorView alloc] initWithFrame:NSMakeRect(0, 0, 24, 22) statusItem:_statusItem];
     
@@ -124,6 +125,13 @@
     return self;
 }
 
+-(id)initWithMenuExtra:(NSMenuExtra *)item bundle:(NSBundle *)bundle
+{
+    _isMenuExtra = YES;
+    
+    return [self initWithStatusItem:item bundle:bundle];
+}
+
 - (void)loadIconNamed:(NSString*)name
 {
     if (!_icons)
@@ -176,11 +184,9 @@
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
             
             [sensor setFavorite:[_favorites containsObject:sensor]];
+            [sensor setTitle:[(NSString*)GetLocalizedString([sensor caption]) stringByTruncatingToWidth:145 withFont:_menuFont]];
             
-            if ([sensor disk])
-                [sensor setCaption:[[sensor caption] stringByTruncatingToWidth:145.0f withFont:_menuFont]];
-            
-            NSMenuItem * sensorItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString((NSString*)[sensor caption]) action:@selector(sensorItemClicked:) keyEquivalent:@""];
+            NSMenuItem * sensorItem = [[NSMenuItem alloc] initWithTitle:[sensor title] action:@selector(sensorItemClicked:) keyEquivalent:@""];
             
             [sensor setMenuItem:sensorItem];
             
@@ -242,7 +248,7 @@
         if (sensor && ([_view isMenuDown] || allSensors) && [sensor valueHasBeenChanged]) {
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
             
-            NSDictionary *captionColor;
+            NSDictionary *titleColor;
             NSDictionary *valueColor;
             
             NSString * value = [sensor value];
@@ -255,28 +261,28 @@
                      break;*/
                     
                 case kHWSensorLevelModerate:
-                    captionColor = _blackColorAttribute;
+                    titleColor = _blackColorAttribute;
                     valueColor = _orangeColorAttribute;
                     break;
                     
                 case kHWSensorLevelHigh:
-                    captionColor = _blackColorAttribute;
+                    titleColor = _blackColorAttribute;
                     valueColor = _redColorAttribute;
                     break;
                     
                 case kHWSensorLevelExceeded:
-                    captionColor = _redColorAttribute;
+                    titleColor = _redColorAttribute;
                     valueColor = _redColorAttribute;
                     break;
                     
                 default:
-                    captionColor = _blackColorAttribute;
+                    titleColor = _blackColorAttribute;
                     valueColor = _blackColorAttribute;
                     break;
             }
             
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor caption] attributes:captionColor]];
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t" attributes:captionColor]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[sensor title] attributes:titleColor]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t" attributes:titleColor]];
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
             
             [title addAttributes:_menuAttributes range:NSMakeRange(0, [title length])];
@@ -339,22 +345,42 @@
     
     [_mainMenu removeAllItems];
     
-    [_engine setHideDisabledSensors:![_defaults boolForKey:@kHWMonitorShowHiddenSensors]];
-    [_engine setShowBSDNames:[_defaults boolForKey:@kHWMonitorShowBSDNames]];
-    [_engine setUseFahrenheit:[_defaults boolForKey:@kHWMonitorUseFahrenheitKey]];
+    [_engine setHideDisabledSensors:![_defaults boolForKey:kHWMonitorShowHiddenSensors]];
+    [_engine setShowBSDNames:[_defaults boolForKey:kHWMonitorShowBSDNames]];
+    [_engine setUseFahrenheit:[_defaults boolForKey:kHWMonitorUseFahrenheitKey]];
     
-    [_view setDrawValuesInRow:[_defaults boolForKey:@kHWMonitorFavoritesInRow]];
-    [_view setUseShadowEffect:[_defaults boolForKey:@kHWMonitorUseShadowEffect]];
+    [_view setDrawValuesInRow:[_defaults boolForKey:kHWMonitorUseBigStatusMenuFont]];
+    [_view setUseShadowEffect:[_defaults boolForKey:kHWMonitorUseShadowEffect]];
     
     [_engine rebuildSensorsList];
     
     if ([[_engine sensors] count] > 0) {
         
+        // Save sensors data
+        
+        NSArray* icons = [[_icons allKeys]sortedArrayUsingComparator:^NSComparisonResult(NSString *a, NSString *b) {
+            return [a compare:b];
+        }];
+        [_defaults setObject:icons forKey:kHWMonitorIconsList];
+        
+        NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+        
+        for (HWMonitorSensor* sensor in [_engine sensors]) {
+            NSArray *value = [NSArray arrayWithObjects:[sensor caption], [NSNumber numberWithInt:[sensor group]], nil];
+            
+            [dictionary setObject:value forKey:[sensor name]];
+        }
+                          
+
+        [_defaults setObject:dictionary forKey:kHWMonitorSensorsList];
+        
+        [_defaults synchronize];
+        
         NSUInteger i = 0;
         
         [_favorites removeAllObjects];
         
-        NSMutableArray *favoritsList = [_defaults objectForKey:@kHWMonitorFavoritesList];
+        NSMutableArray *favoritsList = [_defaults objectForKey:kHWMonitorFavoritesList];
         
         if (favoritsList) {
             for (i = 0; i < [favoritsList count]; i++) {
@@ -448,7 +474,7 @@
         [list addObject:[object name]];
     }
     
-    [_defaults setObject:list forKey:@kHWMonitorFavoritesList];
+    [_defaults setObject:list forKey:kHWMonitorFavoritesList];
     [_defaults synchronize];
 }
 
@@ -477,7 +503,7 @@
         [list addObject:[object name]];
     }
     
-    [_defaults setObject:list forKey:@kHWMonitorFavoritesList];
+    [_defaults setObject:list forKey:kHWMonitorFavoritesList];
     [_defaults synchronize];
 }
 
@@ -491,7 +517,7 @@
         
         [_engine setUseFahrenheit:useFahrenheit];
         
-        [_defaults setBool:useFahrenheit forKey:@kHWMonitorUseFahrenheitKey];
+        [_defaults setBool:useFahrenheit forKey:kHWMonitorUseFahrenheitKey];
         [_defaults synchronize];
         
         [self updateTitlesForced];
@@ -502,7 +528,7 @@
 {   
     [sender setState:![sender state]];
     
-    [_defaults setBool:[sender state] forKey:@kHWMonitorShowHiddenSensors];
+    [_defaults setBool:[sender state] forKey:kHWMonitorShowHiddenSensors];
     [_defaults synchronize];
     
     [self rebuildSensors];
@@ -512,7 +538,7 @@
 {
     [sender setState:![sender state]];
     
-    [_defaults setBool:[sender state] forKey:@kHWMonitorShowBSDNames];
+    [_defaults setBool:[sender state] forKey:kHWMonitorShowBSDNames];
     [_defaults synchronize];
     
     [self rebuildSensors];
@@ -524,7 +550,7 @@
     
     [_view setDrawValuesInRow:[sender state]];
     
-    [_defaults setBool:[sender state] forKey:@kHWMonitorFavoritesInRow];
+    [_defaults setBool:[sender state] forKey:kHWMonitorUseBigStatusMenuFont];
     [_defaults synchronize];
 }
 
@@ -534,7 +560,7 @@
     
     [_view setUseShadowEffect:[sender state]];
     
-    [_defaults setBool:[sender state] forKey:@kHWMonitorUseShadowEffect];
+    [_defaults setBool:[sender state] forKey:kHWMonitorUseShadowEffect];
     [_defaults synchronize];
 }
 

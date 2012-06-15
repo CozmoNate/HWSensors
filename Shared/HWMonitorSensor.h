@@ -38,6 +38,7 @@ enum HWSensorGroup {
 @property (readwrite, retain) NSString*         type;
 @property (readwrite, assign) NSUInteger        group;
 @property (readwrite, retain) NSString *        caption;
+@property (readwrite, retain) NSString *        title;
 @property (readwrite, retain) NSData*           data;
 @property (readwrite, retain) ATAGenericDisk*   disk;
 
