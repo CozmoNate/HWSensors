@@ -24,7 +24,6 @@
     
     if (self == nil) return nil;
     
-    //_monitor = [[HWMonitor alloc] initWithMenuExtra:self bundle:[self bundle]];
     _monitor = [[HWMonitor alloc] initWithStatusItem:self bundle:[self bundle]];
     
     return self;

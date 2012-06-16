@@ -48,6 +48,7 @@
 "Quit HWMonitor" = "Закрыть HWMonitor";
 "No sensors found" = "Нет доступных сенсоров";
 "Preferences" = "Настройки";
+"Preferences..." = "Настройки...";
 "GENERAL" = "ОСНОВНЫЕ";
 "Show hidden sensors" = "Показывать скрытые датчики";
 "Use BSD drives names" = "Имена накопителей в формате BSD";
@@ -57,3 +58,11 @@
 "MENU BAR" = "СИСТЕМНОЕ МЕНЮ";
 "Use big font" = "Использовать большой шрифт";
 "Use shadow effect" = "Отображать с эффектом тени";
+"thermometer" = "Градусник";
+"temperatures" = "Температура";
+"hddtemperatures" = "Жесткий диск";
+"ssdlife" = "Значек SSD";
+"multipliers" = "Множитель";
+"frequencies" = "Частота";
+"tachometers" = "Вентилятор";
+"voltages" = "Напряжение";

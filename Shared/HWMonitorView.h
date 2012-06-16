@@ -29,7 +29,7 @@
 @property (readwrite, retain) HWMonitorEngine *engine;
 @property (readwrite, retain) NSArray *favorites;
 
-@property (readwrite, assign) BOOL drawValuesInRow;
+@property (readwrite, assign) BOOL useBigFont;
 @property (readwrite, assign) BOOL useShadowEffect;
 
 - initWithFrame:(NSRect)rect statusItem:(NSStatusItem*)item;

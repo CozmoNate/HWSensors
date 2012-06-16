@@ -5,3 +5,12 @@
   Created by kozlek on 24/02/12.
   Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 */
+
+"thermometer" = "Thermometer icon";
+"temperatures" = "Temperature icon";
+"hddtemperatures" = "HDD icon";
+"ssdlife" = "SSD icon";
+"multipliers" = "Multiplier icon";
+"frequencies" = "Frequency icon";
+"tachometers" = "Tachometer icon";
+"voltages" = "Voltage icon";
