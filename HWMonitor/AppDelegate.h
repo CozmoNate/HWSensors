@@ -11,7 +11,7 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     NSStatusItem *_statusItem;
-    HWMonitor* _monitor;
+    HWMonitor *_monitor;
 }
 
 @end

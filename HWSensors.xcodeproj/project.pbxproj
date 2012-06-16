@@ -145,6 +145,11 @@
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE5155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
+		7EF7509A158C65BF00235EDC /* HWMonitorObjectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF75098158C65BF00235EDC /* HWMonitorObjectController.m */; };
+		7EF7509B158C65BF00235EDC /* HWMonitorObjectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF75098158C65BF00235EDC /* HWMonitorObjectController.m */; };
+		7EF7509C158C65BF00235EDC /* PrefsMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF75099158C65BF00235EDC /* PrefsMenu.xib */; };
+		7EF7509D158C65BF00235EDC /* PrefsMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF75099158C65BF00235EDC /* PrefsMenu.xib */; };
+		7EF7509E158C7F2500235EDC /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF981150201D100C34729 /* default.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -241,7 +246,6 @@
 		6A2B4E3B152179700093A217 /* SuperIOMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIOMonitor.h; sourceTree = "<group>"; };
 		6A2B4E3C152179700093A217 /* WinbondW836x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WinbondW836x.cpp; sourceTree = "<group>"; };
 		6A2B4E3D152179700093A217 /* WinbondW836x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinbondW836x.h; sourceTree = "<group>"; };
-		6A4702C11514CEE000606293 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A4E4739152178A00038C5DE /* SuperIOSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperIOSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A4E473C152178A00038C5DE /* SuperIOSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuperIOSensors-Info.plist"; sourceTree = "<group>"; };
 		6A4E473E152178A00038C5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -256,8 +260,6 @@
 		6A85F86614DBF12900F863A9 /* SystemUIPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemUIPlugin.framework; path = /System/Library/PrivateFrameworks/SystemUIPlugin.framework; sourceTree = "<absolute>"; };
 		6A85F86914DBF21700F863A9 /* HWMonitorExtra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorExtra.h; sourceTree = "<group>"; };
 		6A85F86A14DBF21700F863A9 /* HWMonitorExtra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorExtra.m; sourceTree = "<group>"; };
-		6A877FC21519920C00D18B57 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6A8DFFA3151527A000B51486 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A9955BE14EFAD360052C702 /* NSString+TruncateToWidth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+TruncateToWidth.h"; sourceTree = "<group>"; };
 		6A9955BF14EFAD360052C702 /* NSString+TruncateToWidth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+TruncateToWidth.m"; sourceTree = "<group>"; };
 		6A9955C214EFAEE50052C702 /* cpuid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpuid.h; sourceTree = "<group>"; };
@@ -281,7 +283,6 @@
 		6AA710B8152B7D180006E62C /* OemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OemInfo.h; sourceTree = "<group>"; };
 		6AA710B9152B7D180006E62C /* SMBIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBIOS.h; sourceTree = "<group>"; };
 		6AAA1682151DB838002927F3 /* favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite.png; sourceTree = "<group>"; };
-		6AACE026151BB728002A8364 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6AAD810D151E083300CBD70C /* temperatures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = temperatures.png; sourceTree = "<group>"; };
 		6AC16D89153FC73C008CFC84 /* nouveau.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau.h; sourceTree = "<group>"; };
 		6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hddtemperatures.png; sourceTree = "<group>"; };
@@ -312,6 +313,9 @@
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E40054F1585031B009AECED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7EC87A391571E30800E6F16F /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
+		7EF75097158C65BF00235EDC /* HWMonitorObjectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorObjectController.h; sourceTree = "<group>"; };
+		7EF75098158C65BF00235EDC /* HWMonitorObjectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorObjectController.m; sourceTree = "<group>"; };
+		7EF75099158C65BF00235EDC /* PrefsMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefsMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -792,6 +796,7 @@
 				7E3684A8158368AC00E32629 /* HWMonitorIcon */,
 				6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */,
 				7E06D0E3157E961200F8A270 /* HWMonitorView */,
+				7EF75096158C658D00235EDC /* HWMonitorPrefs */,
 				7E06D0ED157FC1EE00F8A270 /* HWMonitor */,
 				6A1DF980150201BF00C34729 /* Resources */,
 			);
@@ -895,6 +900,16 @@
 				7E3684AB158368C900E32629 /* HWMonitorIcon.m */,
 			);
 			name = HWMonitorIcon;
+			sourceTree = "<group>";
+		};
+		7EF75096158C658D00235EDC /* HWMonitorPrefs */ = {
+			isa = PBXGroup;
+			children = (
+				7EF75097158C65BF00235EDC /* HWMonitorObjectController.h */,
+				7EF75098158C65BF00235EDC /* HWMonitorObjectController.m */,
+				7EF75099158C65BF00235EDC /* PrefsMenu.xib */,
+			);
+			name = HWMonitorPrefs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1274,6 +1289,7 @@
 				7E3684C1158373DC00E32629 /* voltages_template.png in Resources */,
 				1D9F8336144FF24100EEEFEB /* MainMenu.xib in Resources */,
 				7E1375701589A0FA00E45B9F /* Localizable.strings in Resources */,
+				7EF7509C158C65BF00235EDC /* PrefsMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1305,6 +1321,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EF7509E158C7F2500235EDC /* default.icns in Resources */,
 				6A2F7DC2151A64F20081BADC /* thermometer_template.png in Resources */,
 				6A2F7DC0151A64EE0081BADC /* thermometer.png in Resources */,
 				6AAA1684151DB838002927F3 /* favorite.png in Resources */,
@@ -1325,6 +1342,7 @@
 				7E3684BF158373B900E32629 /* tachometers_template.png in Resources */,
 				7E3684C2158373DC00E32629 /* voltages_template.png in Resources */,
 				7E1375711589A10600E45B9F /* Localizable.strings in Resources */,
+				7EF7509D158C65BF00235EDC /* PrefsMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1447,6 +1465,7 @@
 				7E06D0F0157FC21E00F8A270 /* HWMonitor.m in Sources */,
 				7E06D0FA157FC80B00F8A270 /* BundleUserDefaults.m in Sources */,
 				7E3684AC158368C900E32629 /* HWMonitorIcon.m in Sources */,
+				7EF7509A158C65BF00235EDC /* HWMonitorObjectController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1509,6 +1528,7 @@
 				7E06D0F1157FC21E00F8A270 /* HWMonitor.m in Sources */,
 				7E06D0FB157FC80B00F8A270 /* BundleUserDefaults.m in Sources */,
 				7E3684AD158368C900E32629 /* HWMonitorIcon.m in Sources */,
+				7EF7509B158C65BF00235EDC /* HWMonitorObjectController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1584,10 +1604,6 @@
 			children = (
 				6A1DF985150201DE00C34729 /* en */,
 				6A1DF986150201E500C34729 /* ru */,
-				6A4702C11514CEE000606293 /* fr */,
-				6A8DFFA3151527A000B51486 /* es */,
-				6A877FC21519920C00D18B57 /* it */,
-				6AACE026151BB728002A8364 /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

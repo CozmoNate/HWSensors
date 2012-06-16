@@ -19,7 +19,7 @@
 @synthesize engine=_engine;
 @synthesize favorites=_favorites;
 
-@synthesize drawValuesInRow;
+@synthesize useBigFont;
 @synthesize useShadowEffect;
 
 - initWithFrame:(NSRect)rect statusItem:(NSStatusItem*)item
@@ -35,7 +35,7 @@
     _isMenuExtra = [_statusItem respondsToSelector:@selector(drawMenuBackground:)];
     
     _smallFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
-    _bigFont = [NSFont fontWithName:@"Lucida Grande Bold" size:10.0f];
+    _bigFont = [NSFont fontWithName:@"Lucida Grande" size:11.0f];
     
     _shadow = [[NSShadow alloc] init];
     
@@ -71,10 +71,13 @@
         
         NSImage *image = _isMenuDown ? _alternateImage : _image;
         
-        if (image) 
-            [image drawAtPoint:NSMakePoint(0, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
-        
-        [self setFrameSize:NSMakeSize([image size].width, [self frame].size.height)];
+        if (image) {
+            NSUInteger width = [image size].width > 22 ? [image size].width : 22;
+            
+            [image drawAtPoint:NSMakePoint(lround((width - [image size].width) / 2), lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
+            
+            [self setFrameSize:NSMakeSize(width, [self frame].size.height)];
+        }
         //snow leopard icon & text problem        
         [_statusItem setLength:([self frame].size.width)];
         
@@ -144,7 +147,7 @@
                 if (!_isMenuDown && useShadowEffect) 
                     [title addAttribute:NSShadowAttributeName value:_shadow range:NSMakeRange(0,[title length])];
                 
-                if (drawValuesInRow) {
+                if (useBigFont) {
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
                     
                     [title drawAtPoint:NSMakePoint(offset, ([self frame].size.height - [title size].height) / 2)];
