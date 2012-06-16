@@ -11,7 +11,7 @@
 #import "HWMonitorEngine.h"
 #import "HWMonitorView.h"
 #import "HWMonitorIcon.h"
-#import "HWMonitorObjectController.h"
+#import "HWMonitorArrayController.h"
 
 #import "BundleUserDefaults.h"
 #import "SystemUIPlugin.h"
@@ -42,14 +42,7 @@
 @property (readwrite, retain) IBOutlet NSArray* favorites;
 
 @property (assign) IBOutlet NSWindow *prefsWindow;
-@property (assign) IBOutlet HWMonitorObjectController *availableItems;
-@property (assign) IBOutlet HWMonitorObjectController *menubarItems;
-@property (assign) IBOutlet NSButtonCell *celsiusButtonCell;
-@property (assign) IBOutlet NSButtonCell *fahrenheitButtonCell;
-@property (assign) IBOutlet NSButton *useBigFontButton;
-@property (assign) IBOutlet NSButton *useShadowEffectButton;
-@property (assign) IBOutlet NSButton *showHiddenSensorsButton;
-@property (assign) IBOutlet NSButton *useBSDDrivesNamesButton;
+@property (assign) IBOutlet HWMonitorArrayController *arrayController;
 
 - (IBAction)preferencesDidChanged:(id)sender;
 - (IBAction)forceRebuildSensors:(id)sender;
@@ -74,8 +67,6 @@
 
 - (void)rebuildSensors;
 
-- (void)titleItemClicked:(id)sender;
-- (void)sensorItemClicked:(id)sender;
 - (void)prefsItemClicked:(id)sender;
 
 - (void)systemWillSleep:(NSNotification*)aNotification;
