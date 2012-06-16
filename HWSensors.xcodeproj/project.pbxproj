@@ -145,8 +145,8 @@
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE5155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
-		7EF7509A158C65BF00235EDC /* HWMonitorObjectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF75098158C65BF00235EDC /* HWMonitorObjectController.m */; };
-		7EF7509B158C65BF00235EDC /* HWMonitorObjectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF75098158C65BF00235EDC /* HWMonitorObjectController.m */; };
+		7EEBB1A2158CE538003F8900 /* HWMonitorArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEBB1A1158CE538003F8900 /* HWMonitorArrayController.m */; };
+		7EEBB1A3158CE538003F8900 /* HWMonitorArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEBB1A1158CE538003F8900 /* HWMonitorArrayController.m */; };
 		7EF7509C158C65BF00235EDC /* PrefsMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF75099158C65BF00235EDC /* PrefsMenu.xib */; };
 		7EF7509D158C65BF00235EDC /* PrefsMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF75099158C65BF00235EDC /* PrefsMenu.xib */; };
 		7EF7509E158C7F2500235EDC /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF981150201D100C34729 /* default.icns */; };
@@ -313,8 +313,8 @@
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E40054F1585031B009AECED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7EC87A391571E30800E6F16F /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
-		7EF75097158C65BF00235EDC /* HWMonitorObjectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorObjectController.h; sourceTree = "<group>"; };
-		7EF75098158C65BF00235EDC /* HWMonitorObjectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorObjectController.m; sourceTree = "<group>"; };
+		7EEBB1A0158CE538003F8900 /* HWMonitorArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorArrayController.h; sourceTree = "<group>"; };
+		7EEBB1A1158CE538003F8900 /* HWMonitorArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorArrayController.m; sourceTree = "<group>"; };
 		7EF75099158C65BF00235EDC /* PrefsMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefsMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -905,8 +905,8 @@
 		7EF75096158C658D00235EDC /* HWMonitorPrefs */ = {
 			isa = PBXGroup;
 			children = (
-				7EF75097158C65BF00235EDC /* HWMonitorObjectController.h */,
-				7EF75098158C65BF00235EDC /* HWMonitorObjectController.m */,
+				7EEBB1A0158CE538003F8900 /* HWMonitorArrayController.h */,
+				7EEBB1A1158CE538003F8900 /* HWMonitorArrayController.m */,
 				7EF75099158C65BF00235EDC /* PrefsMenu.xib */,
 			);
 			name = HWMonitorPrefs;
@@ -1465,7 +1465,7 @@
 				7E06D0F0157FC21E00F8A270 /* HWMonitor.m in Sources */,
 				7E06D0FA157FC80B00F8A270 /* BundleUserDefaults.m in Sources */,
 				7E3684AC158368C900E32629 /* HWMonitorIcon.m in Sources */,
-				7EF7509A158C65BF00235EDC /* HWMonitorObjectController.m in Sources */,
+				7EEBB1A2158CE538003F8900 /* HWMonitorArrayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1528,7 +1528,7 @@
 				7E06D0F1157FC21E00F8A270 /* HWMonitor.m in Sources */,
 				7E06D0FB157FC80B00F8A270 /* BundleUserDefaults.m in Sources */,
 				7E3684AD158368C900E32629 /* HWMonitorIcon.m in Sources */,
-				7EF7509B158C65BF00235EDC /* HWMonitorObjectController.m in Sources */,
+				7EEBB1A3158CE538003F8900 /* HWMonitorArrayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
