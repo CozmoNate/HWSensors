@@ -200,14 +200,7 @@
         if ([[_mainMenu itemArray] count] > 0)
             [_mainMenu addItem:[NSMenuItem separatorItem]];
         
-        NSMenuItem* titleItem = [self insertTitleItemWithMenu:_mainMenu Title:title Image:icon ? [icon image] : nil];
-        
-        //[titleItem setAction:@selector(titleItemClicked:)];
-        //[titleItem setTarget:self];
-        //[titleItem setRepresentedObject:icon];
-        //[titleItem setOnStateImage:_favoriteIcon];
-        //[titleItem setOffStateImage:_disabledIcon];
-        //[titleItem setState:[_favorites containsObject:icon]];
+        [self insertTitleItemWithMenu:_mainMenu Title:title Image:icon ? [icon image] : nil];
         
         for (int i = 0; i < [list count]; i++) {
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
@@ -215,18 +208,16 @@
             [sensor setFavorite:[_favorites containsObject:sensor]];
             [sensor setTitle:[(NSString*)GetLocalizedString([sensor caption]) stringByTruncatingToWidth:145 withFont:_menuFont]];
             
-            if (![sensor favorite])
+            if (![sensor favorite]) {
+                icon = [self getIconByGroup:[sensor group]];
                 [_arrayController addAvailableItem:[sensor caption] icon:icon ? [icon image] : nil key:[sensor name]];
+            }
             
             NSMenuItem * sensorItem = [[NSMenuItem alloc] initWithTitle:[sensor title] action:nil/*@selector(sensorItemClicked:)*/ keyEquivalent:@""];
             
             [sensor setMenuItem:sensorItem];
-            
-            //[sensorItem setTarget:self];
+
             [sensorItem setRepresentedObject:sensor];
-            //[sensorItem setState:[sensor favorite]];
-            //[sensorItem setOnStateImage:_favoriteIcon];
-            //[sensorItem setOffStateImage:_disabledIcon];
             
             [_mainMenu addItem:sensorItem];
         }
@@ -428,9 +419,7 @@
 
 - (void)prefsItemClicked:(id)sender
 {
-    if (_isMenuExtra)  
-        [NSApp activateIgnoringOtherApps:YES];
-    
+    [NSApp activateIgnoringOtherApps:YES];    
     [_prefsWindow makeKeyAndOrderFront:sender];
 }
 

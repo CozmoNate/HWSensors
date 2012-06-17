@@ -22,7 +22,7 @@
 -(void)setFirstFavoriteItem:(NSString*)favoriteName firstAvailableItem:(NSString*)availableName;
 {
     if ([[self arrangedObjects] count] > 0)
-        [[self arrangedObjects] removeAllObjects];
+        [self removeAllItems];
     
     _firstFavoriteItem = [NSDictionary dictionaryWithObjectsAndKeys:favoriteName, @"Name", nil];
     _firstAvailableItem = [NSDictionary dictionaryWithObjectsAndKeys:availableName, @"Name", nil];
@@ -47,6 +47,12 @@
     [self addObject:item];
     
     return item;
+}
+
+-(void)removeAllItems
+{
+    NSRange range = NSMakeRange(0, [[self arrangedObjects] count]);
+    [self removeObjectsAtArrangedObjectIndexes:[NSIndexSet indexSetWithIndexesInRange:range]];
 }
 
 -(NSArray*)getFavoritesItems
@@ -131,7 +137,6 @@
 
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation;
 {
-    //this is the code that handles dnd ordering - my table doesn't need to accept drops from outside! Hooray!
     NSPasteboard* pboard = [info draggingPasteboard];
     NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
     
@@ -139,30 +144,12 @@
     
     int from = [rowIndexes firstIndex];
     
-    NSMutableDictionary *traveller = [[self arrangedObjects] objectAtIndex:from];
+    NSDictionary *item = [[self arrangedObjects] objectAtIndex:from];
     
-    //[traveller retain];
+    [self insertObject:item atArrangedObjectIndex:row];
+    [self removeObjectAtArrangedObjectIndex:from > row ? from + 1 : from];
     
-    NSUInteger length = [[self arrangedObjects] count];
-    
-    NSMutableArray *replacement = [NSMutableArray new];
-    
-    int i;
-    for (i = 0; i <= length; i++){
-        if(i == row){
-            if(from > row){
-                [self insertObject:traveller atArrangedObjectIndex:row];
-                [self removeObjectAtArrangedObjectIndex:from+1];
-            }
-            else{
-                [self insertObject:traveller atArrangedObjectIndex:row];
-                [self removeObjectAtArrangedObjectIndex:from];
-            }
-        }
-    }
-    
-    [_tableView noteNumberOfRowsChanged];
-    [_tableView reloadData];
+    [NSApp sendAction:[_tableView action] to:[_tableView target]  from:_tableView];
     
     return YES;
 }
