@@ -21,6 +21,8 @@
 -(NSDictionary*)addFavoriteItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key;
 -(NSDictionary*)addAvailableItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key;
 
+-(void)removeAllItems;
+
 -(NSArray*)getFavoritesItems;
 
 -(void)setupController;
