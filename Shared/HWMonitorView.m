@@ -6,6 +6,29 @@
 //  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
+// Based on code by:
+//
+//  DeVercruesseASMView.m
+//
+//  Created by Frank Vercruesse on Sat Aug 25 2001.
+//  Copyright (c) 2001 Frank Vercruesse.
+//
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+
 #import "HWMonitorView.h"
 #import "HWMonitorIcon.h"
 
@@ -34,8 +57,11 @@
     //_isMenuExtra = [_statusItem isKindOfClass:[NSMenuExtra class]]; 
     _isMenuExtra = [_statusItem respondsToSelector:@selector(drawMenuBackground:)];
     
-    _smallFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
-    _bigFont = [NSFont fontWithName:@"Lucida Grande" size:11.0f];
+    //_smallFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0f];
+    //_bigFont = [NSFont fontWithName:@"Lucida Grande" size:11.0f];
+    
+    _smallFont = [NSFont boldSystemFontOfSize:9.0f];
+    _bigFont = [NSFont systemFontOfSize:11.0f];
     
     _shadow = [[NSShadow alloc] init];
     
@@ -46,26 +72,14 @@
     return self;
 }
 
--(id)initWithFrame:(NSRect)rect menuExtra:(NSMenuExtra *)item
-{
-    self = [self initWithFrame:rect statusItem:item];
-    
-    if (!self || !item)
-        return nil;
-    
-    _isMenuExtra = YES;
-    
-    return self;
-}
-
 - (void)drawRect:(NSRect)rect
 {    
-    if (_isMenuExtra) {
-        id menuExtra = (id)_statusItem;
-        [menuExtra drawMenuBackground:_isMenuDown];
-        //[super drawRect:rect];
+    if (_isMenuDown) {
+        if (_isMenuExtra)
+            [(id)_statusItem drawMenuBackground:YES];
+        else
+            [_statusItem drawStatusBarBackgroundInRect:rect withHighlight:YES];
     }
-    else [_statusItem drawStatusBarBackgroundInRect:rect withHighlight:_isMenuDown];
     
     if (!_engine || !_favorites || [_favorites count] == 0) {
         
@@ -103,7 +117,7 @@
                     
                     if (image) {
                         
-                        [image drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
+                        [image compositeToPoint:NSMakePoint(offset, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
                         
                         offset += [image size].width + 3;
                         
@@ -150,7 +164,7 @@
                 if (useBigFont) {
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
                     
-                    [title drawAtPoint:NSMakePoint(offset, ([self frame].size.height - [title size].height) / 2)];
+                    [title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];
                     
                     offset += [title size].width + 3;
                 }
@@ -158,8 +172,8 @@
                     [title addAttribute:NSFontAttributeName value:_smallFont range:NSMakeRange(0, [title length])];
                     
                     int row = index % 2;
-                    
-                    [title drawAtPoint:NSMakePoint(offset, [_favorites count] == 1 ? ([self frame].size.height - [title size].height) / 2 + 1 : row == 0 ? [self frame].size.height / 2 - 1: [self frame].size.height / 2 - [title size].height + 2)];
+
+                    [title drawAtPoint:NSMakePoint(offset, [_favorites count] == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1: lround([self frame].size.height / 2) - [title size].height + 2)];
                     
                     int width = [title size].width + 4;
                     

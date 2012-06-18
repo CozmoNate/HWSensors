@@ -2,8 +2,8 @@
 //  HWMonitorArrayController.h
 //  HWSensors
 //
-//  Created by Kozlek on 16.06.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by kozlek on 16.06.12.
+//  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
