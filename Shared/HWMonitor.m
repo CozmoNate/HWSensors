@@ -123,12 +123,12 @@
     
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1800.0 invocation:invocation repeats:YES] forMode:NSDefaultRunLoopMode];
     
-    [self performSelector:@selector(rebuildSensors) withObject:nil afterDelay:0.5];
-    
     // Register PM events
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(systemWillSleep:) name: NSWorkspaceWillSleepNotification object: NULL];
     
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(systemDidWake:) name: NSWorkspaceDidWakeNotification object: NULL];
+    
+    [self performSelector:@selector(rebuildSensors) withObject:nil afterDelay:0.0];
     
     return self;
 }
@@ -184,6 +184,7 @@
     
     [titleItem setImage:image];
     [titleItem setAttributedTitle:attributedTitle];
+    [titleItem setEnabled:NO];
     
     [someMenu addItem:titleItem];
     
@@ -214,12 +215,11 @@
             }
             
             NSMenuItem * sensorItem = [[NSMenuItem alloc] initWithTitle:[sensor title] action:nil/*@selector(sensorItemClicked:)*/ keyEquivalent:@""];
-            
-            [sensor setMenuItem:sensorItem];
-
+            [sensorItem setEnabled:NO];
             [sensorItem setRepresentedObject:sensor];
             
             [_mainMenu addItem:sensorItem];
+            [sensor setMenuItem:sensorItem];
         }
     }
 }
@@ -382,7 +382,7 @@
         
         HWMonitorIcon *thermometer = [self getIconByName:kHWMonitorIconThermometer];
         
-        if ([favoritsList count] == 0)
+        if ([favoritsList count] == 0 || ![_favorites containsObject:thermometer])
             [_arrayController addFavoriteItem:GetLocalizedString([thermometer name]) icon:[thermometer image] key:[thermometer name]];
         
         [self insertMenuGroupWithTitle:@"TEMPERATURES" Icon:[self getIconByName:kHWMonitorIconTemperatures] Sensors:[_engine getAllSensorsInGroup:kHWSensorGroupTemperature]];
@@ -471,6 +471,8 @@
     
     [_defaults setObject:list forKey:kHWMonitorFavoritesList];
     [_defaults synchronize];
+    
+    [_view setNeedsDisplay:YES];
 }
 
 - (IBAction)forceRebuildSensors:(id)sender

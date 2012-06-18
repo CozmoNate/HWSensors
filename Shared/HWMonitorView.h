@@ -7,7 +7,6 @@
 //
 
 #import "HWMonitorEngine.h"
-#import "SystemUIPlugin.h"
 
 @interface HWMonitorView : NSView
 

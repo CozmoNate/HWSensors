@@ -2,8 +2,8 @@
 //  HWMonitorArrayController.m
 //  HWSensors
 //
-//  Created by Kozlek on 16.06.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by kozlek on 16.06.12.
+//  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
 #import "HWMonitorArrayController.h"
@@ -24,8 +24,8 @@
     if ([[self arrangedObjects] count] > 0)
         [self removeAllItems];
     
-    _firstFavoriteItem = [NSDictionary dictionaryWithObjectsAndKeys:favoriteName, @"Name", nil];
-    _firstAvailableItem = [NSDictionary dictionaryWithObjectsAndKeys:availableName, @"Name", nil];
+    _firstFavoriteItem = [NSDictionary dictionaryWithObjectsAndKeys:favoriteName, @"Name", /*[NSImage imageNamed:NSImageNameIconViewTemplate], @"Icon",*/ [[NSObject alloc] init], @"IsSeparator", nil];
+    _firstAvailableItem = [NSDictionary dictionaryWithObjectsAndKeys:availableName, @"Name", /*[NSImage imageNamed:NSImageNameListViewTemplate], @"Icon",*/ [[NSObject alloc] init], @"IsSeparator", nil];
     
     [self insertObject:_firstFavoriteItem atArrangedObjectIndex:0];
     [self insertObject:_firstAvailableItem atArrangedObjectIndex:1];
@@ -99,7 +99,7 @@
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
-    return nil != [[[self arrangedObjects] objectAtIndex:row] valueForKey:@"Icon"];
+    return nil == [[[self arrangedObjects] objectAtIndex:row] valueForKey:@"IsSeparator"];
 }
 
 /*- (NSIndexSet *)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes
@@ -119,7 +119,7 @@
 {
     //[_tableView selectRowIndexes:rowIndexes byExtendingSelection:YES];
     
-    if ([rowIndexes count] == 0 || ![[[self arrangedObjects] objectAtIndex:[rowIndexes firstIndex]] valueForKey:@"Icon"]) 
+    if ([rowIndexes count] == 0 || [[[self arrangedObjects] objectAtIndex:[rowIndexes firstIndex]] valueForKey:@"IsSeparator"]) 
         return NO;
     
     NSData *indexData = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
