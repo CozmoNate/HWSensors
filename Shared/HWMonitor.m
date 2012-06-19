@@ -478,6 +478,7 @@
 - (IBAction)forceRebuildSensors:(id)sender
 {
     [self rebuildSensors];
+    [_defaults synchronize];
 }
 
 - (void)systemWillSleep:(NSNotification *)aNotification

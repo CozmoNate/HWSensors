@@ -248,7 +248,6 @@
 							<string key="NSFrame">{{309, 18}, {161, 18}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSTag">5</int>
 							<bool key="NSEnabled">YES</bool>
@@ -797,14 +796,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBActionConnection" key="connection">
 						<string key="label">forceRebuildSensors:</string>
 						<reference key="source" ref="1021"/>
-						<reference key="destination" ref="601102480"/>
-					</object>
-					<int key="connectionID">6355</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">forceRebuildSensors:</string>
-						<reference key="source" ref="1021"/>
 						<reference key="destination" ref="594244585"/>
 					</object>
 					<int key="connectionID">6356</int>
@@ -848,6 +839,14 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="destination" ref="377632451"/>
 					</object>
 					<int key="connectionID">6431</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">forceRebuildSensors:</string>
+						<reference key="source" ref="1021"/>
+						<reference key="destination" ref="601102480"/>
+					</object>
+					<int key="connectionID">7757</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2118,7 +2117,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">7755</int>
+			<int key="maxID">7757</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
