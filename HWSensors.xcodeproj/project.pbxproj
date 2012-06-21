@@ -50,8 +50,8 @@
 		1DA9628413ED347B0096F8A5 /* NVClockX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DA9626A13ED347B0096F8A5 /* NVClockX.cpp */; };
 		1DA9628513ED347B0096F8A5 /* NVClockX.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA9626B13ED347B0096F8A5 /* NVClockX.h */; };
 		1DA962AB13ED36030096F8A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1DA962A913ED36030096F8A5 /* InfoPlist.strings */; };
-		1DA962BE13ED368C0096F8A5 /* RadeonX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DA962BA13ED368C0096F8A5 /* RadeonX.cpp */; };
-		1DA962BF13ED368C0096F8A5 /* RadeonX.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA962BB13ED368C0096F8A5 /* RadeonX.h */; };
+		1DA962BE13ED368C0096F8A5 /* ATYSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DA962BA13ED368C0096F8A5 /* ATYSensors.cpp */; };
+		1DA962BF13ED368C0096F8A5 /* ATYSensors.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA962BB13ED368C0096F8A5 /* ATYSensors.h */; };
 		1DA962C413ED37D90096F8A5 /* RadeonChipinfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA962C213ED37D90096F8A5 /* RadeonChipinfo.h */; };
 		1DA962C513ED37D90096F8A5 /* RadeonChipsets.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA962C313ED37D90096F8A5 /* RadeonChipsets.h */; };
 		1DA962C713ED389E0096F8A5 /* AtomBIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DA962C613ED389E0096F8A5 /* AtomBIOS.h */; };
@@ -94,7 +94,7 @@
 		6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */; };
 		6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA2D0D3150B4B99004757C5 /* FakeSMC.h */; };
 		6AA45347153FB1FE00F67EED /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AA45345153FB1FE00F67EED /* InfoPlist.strings */; };
-		6AA4534A153FB1FE00F67EED /* GeForceX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45349153FB1FE00F67EED /* GeForceX.cpp */; };
+		6AA4534A153FB1FE00F67EED /* NouveauSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45349153FB1FE00F67EED /* NouveauSensors.cpp */; };
 		6AA710BA152B7D180006E62C /* OemInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA710B7152B7D180006E62C /* OemInfo.cpp */; };
 		6AA710BB152B7D180006E62C /* OemInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA710B8152B7D180006E62C /* OemInfo.h */; };
 		6AA710BC152B7D180006E62C /* SMBIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA710B9152B7D180006E62C /* SMBIOS.h */; };
@@ -213,12 +213,12 @@
 		1DA9626A13ED347B0096F8A5 /* NVClockX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NVClockX.cpp; sourceTree = "<group>"; };
 		1DA9626B13ED347B0096F8A5 /* NVClockX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NVClockX.h; path = NVClockX/NVClockX.h; sourceTree = SOURCE_ROOT; };
 		1DA9628613ED34840096F8A5 /* NVClockX-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "NVClockX-Info.plist"; sourceTree = "<group>"; };
-		1DA962A513ED36030096F8A5 /* RadeonX.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RadeonX.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DA962A513ED36030096F8A5 /* ATYSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ATYSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DA962AA13ED36030096F8A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1DA962B013ED36030096F8A5 /* RadeonX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RadeonX-Prefix.pch"; sourceTree = "<group>"; };
-		1DA962B613ED364E0096F8A5 /* RadeonX-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RadeonX-Info.plist"; sourceTree = "<group>"; };
-		1DA962BA13ED368C0096F8A5 /* RadeonX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadeonX.cpp; sourceTree = "<group>"; };
-		1DA962BB13ED368C0096F8A5 /* RadeonX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonX.h; sourceTree = "<group>"; };
+		1DA962B013ED36030096F8A5 /* ATYSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ATYSensors-Prefix.pch"; sourceTree = "<group>"; };
+		1DA962B613ED364E0096F8A5 /* ATYSensors-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ATYSensors-Info.plist"; sourceTree = "<group>"; };
+		1DA962BA13ED368C0096F8A5 /* ATYSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ATYSensors.cpp; sourceTree = "<group>"; };
+		1DA962BB13ED368C0096F8A5 /* ATYSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATYSensors.h; sourceTree = "<group>"; };
 		1DA962C213ED37D90096F8A5 /* RadeonChipinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonChipinfo.h; sourceTree = "<group>"; };
 		1DA962C313ED37D90096F8A5 /* RadeonChipsets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonChipsets.h; sourceTree = "<group>"; };
 		1DA962C613ED389E0096F8A5 /* AtomBIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtomBIOS.h; sourceTree = "<group>"; };
@@ -273,12 +273,12 @@
 		6AA172CA150B415200A77CF2 /* FakeSMCKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCKey.h; sourceTree = "<group>"; };
 		6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMC.cpp; sourceTree = "<group>"; };
 		6AA2D0D3150B4B99004757C5 /* FakeSMC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMC.h; sourceTree = "<group>"; };
-		6AA45341153FB1FE00F67EED /* GeForceX.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GeForceX.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		6AA45344153FB1FE00F67EED /* GeForceX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GeForceX-Info.plist"; sourceTree = "<group>"; };
+		6AA45341153FB1FE00F67EED /* NouveauSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NouveauSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AA45344153FB1FE00F67EED /* NouveauSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NouveauSensors-Info.plist"; sourceTree = "<group>"; };
 		6AA45346153FB1FE00F67EED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6AA45348153FB1FE00F67EED /* GeForceX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeForceX.h; sourceTree = "<group>"; };
-		6AA45349153FB1FE00F67EED /* GeForceX.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GeForceX.cpp; sourceTree = "<group>"; };
-		6AA4534B153FB1FE00F67EED /* GeForceX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GeForceX-Prefix.pch"; sourceTree = "<group>"; };
+		6AA45348153FB1FE00F67EED /* NouveauSensors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NouveauSensors.h; sourceTree = "<group>"; };
+		6AA45349153FB1FE00F67EED /* NouveauSensors.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NouveauSensors.cpp; sourceTree = "<group>"; };
+		6AA4534B153FB1FE00F67EED /* NouveauSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NouveauSensors-Prefix.pch"; sourceTree = "<group>"; };
 		6AA710B7152B7D180006E62C /* OemInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OemInfo.cpp; sourceTree = "<group>"; };
 		6AA710B8152B7D180006E62C /* OemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OemInfo.h; sourceTree = "<group>"; };
 		6AA710B9152B7D180006E62C /* SMBIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBIOS.h; sourceTree = "<group>"; };
@@ -298,6 +298,7 @@
 		7E06D0EF157FC21E00F8A270 /* HWMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitor.m; sourceTree = "<group>"; };
 		7E06D0F8157FC80B00F8A270 /* BundleUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BundleUserDefaults.h; sourceTree = "<group>"; };
 		7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BundleUserDefaults.m; sourceTree = "<group>"; };
+		7E2A5803159240B30073AB74 /* removefakesmc */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = removefakesmc; path = Installer/removefakesmc; sourceTree = "<group>"; };
 		7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsInfoPlist.pch; sourceTree = "<group>"; };
 		7E3684AA158368C900E32629 /* HWMonitorIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorIcon.h; sourceTree = "<group>"; };
 		7E3684AB158368C900E32629 /* HWMonitorIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorIcon.m; sourceTree = "<group>"; };
@@ -417,13 +418,13 @@
 				1D05ABE413ED0DAD00EADBF6 /* FakeSMC.kext */,
 				1D05AC2213ED100D00EADBF6 /* IntelThermal.kext */,
 				1DA9624013ED34070096F8A5 /* NVClockX.kext */,
-				1DA962A513ED36030096F8A5 /* RadeonX.kext */,
+				1DA962A513ED36030096F8A5 /* ATYSensors.kext */,
 				1D6FE3BB13FEBDA700376E64 /* X3100.kext */,
 				1D6FE3EE13FEBFF200376E64 /* ACPISensors.kext */,
 				1D9F831E144FF24000EEEFEB /* HWMonitor.app */,
 				6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */,
 				6A4E4739152178A00038C5DE /* SuperIOSensors.kext */,
-				6AA45341153FB1FE00F67EED /* GeForceX.kext */,
+				6AA45341153FB1FE00F67EED /* NouveauSensors.kext */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -492,8 +493,8 @@
 				1D6FE3EF13FEBFF200376E64 /* ACPISensors */,
 				6A4E473A152178A00038C5DE /* SuperIOSensors */,
 				1DA9624113ED34070096F8A5 /* NVClockX */,
-				6AA45342153FB1FE00F67EED /* GeForceX */,
-				1DA962A613ED36030096F8A5 /* RadeonX */,
+				6AA45342153FB1FE00F67EED /* NouveauSensors */,
+				1DA962A613ED36030096F8A5 /* ATYSensors */,
 				1D6FE3BC13FEBDA700376E64 /* GMAX3100 */,
 			);
 			name = "Plug-Ins";
@@ -612,25 +613,25 @@
 			path = NVClock;
 			sourceTree = "<group>";
 		};
-		1DA962A613ED36030096F8A5 /* RadeonX */ = {
+		1DA962A613ED36030096F8A5 /* ATYSensors */ = {
 			isa = PBXGroup;
 			children = (
 				1DA962C613ED389E0096F8A5 /* AtomBIOS.h */,
 				1DA962C313ED37D90096F8A5 /* RadeonChipsets.h */,
 				1DA962C213ED37D90096F8A5 /* RadeonChipinfo.h */,
-				1DA962BB13ED368C0096F8A5 /* RadeonX.h */,
-				1DA962BA13ED368C0096F8A5 /* RadeonX.cpp */,
+				1DA962BB13ED368C0096F8A5 /* ATYSensors.h */,
+				1DA962BA13ED368C0096F8A5 /* ATYSensors.cpp */,
 				1DA962A713ED36030096F8A5 /* Supporting Files */,
 			);
-			path = RadeonX;
+			path = ATYSensors;
 			sourceTree = "<group>";
 		};
 		1DA962A713ED36030096F8A5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1DA962B613ED364E0096F8A5 /* RadeonX-Info.plist */,
+				1DA962B613ED364E0096F8A5 /* ATYSensors-Info.plist */,
 				1DA962A913ED36030096F8A5 /* InfoPlist.strings */,
-				1DA962B013ED36030096F8A5 /* RadeonX-Prefix.pch */,
+				1DA962B013ED36030096F8A5 /* ATYSensors-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -639,6 +640,7 @@
 			isa = PBXGroup;
 			children = (
 				6A0D50B3151C904C00A6FC60 /* loadmenuextra */,
+				7E2A5803159240B30073AB74 /* removefakesmc */,
 				6A0D50B4151C904C00A6FC60 /* updatecaches */,
 			);
 			name = Installer;
@@ -834,23 +836,23 @@
 			name = "NSString+TruncateToWidth";
 			sourceTree = "<group>";
 		};
-		6AA45342153FB1FE00F67EED /* GeForceX */ = {
+		6AA45342153FB1FE00F67EED /* NouveauSensors */ = {
 			isa = PBXGroup;
 			children = (
 				6AC16D89153FC73C008CFC84 /* nouveau.h */,
-				6AA45348153FB1FE00F67EED /* GeForceX.h */,
-				6AA45349153FB1FE00F67EED /* GeForceX.cpp */,
+				6AA45348153FB1FE00F67EED /* NouveauSensors.h */,
+				6AA45349153FB1FE00F67EED /* NouveauSensors.cpp */,
 				6AA45343153FB1FE00F67EED /* Supporting Files */,
 			);
-			path = GeForceX;
+			path = NouveauSensors;
 			sourceTree = "<group>";
 		};
 		6AA45343153FB1FE00F67EED /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6AA45344153FB1FE00F67EED /* GeForceX-Info.plist */,
+				6AA45344153FB1FE00F67EED /* NouveauSensors-Info.plist */,
 				6AA45345153FB1FE00F67EED /* InfoPlist.strings */,
-				6AA4534B153FB1FE00F67EED /* GeForceX-Prefix.pch */,
+				6AA4534B153FB1FE00F67EED /* NouveauSensors-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -973,7 +975,7 @@
 			files = (
 				1DA962C513ED37D90096F8A5 /* RadeonChipsets.h in Headers */,
 				1DA962C413ED37D90096F8A5 /* RadeonChipinfo.h in Headers */,
-				1DA962BF13ED368C0096F8A5 /* RadeonX.h in Headers */,
+				1DA962BF13ED368C0096F8A5 /* ATYSensors.h in Headers */,
 				1DA962C713ED389E0096F8A5 /* AtomBIOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1116,9 +1118,9 @@
 			productReference = 1DA9624013ED34070096F8A5 /* NVClockX.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
-		1DA962A413ED36030096F8A5 /* RadeonX */ = {
+		1DA962A413ED36030096F8A5 /* ATYSensors */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DA962B113ED36030096F8A5 /* Build configuration list for PBXNativeTarget "RadeonX" */;
+			buildConfigurationList = 1DA962B113ED36030096F8A5 /* Build configuration list for PBXNativeTarget "ATYSensors" */;
 			buildPhases = (
 				1DA9629F13ED36030096F8A5 /* Sources */,
 				1DA962A013ED36030096F8A5 /* Frameworks */,
@@ -1130,9 +1132,9 @@
 			);
 			dependencies = (
 			);
-			name = RadeonX;
-			productName = RadeonX;
-			productReference = 1DA962A513ED36030096F8A5 /* RadeonX.kext */;
+			name = ATYSensors;
+			productName = ATYSensors;
+			productReference = 1DA962A513ED36030096F8A5 /* ATYSensors.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
 		6A4E4738152178A00038C5DE /* SuperIOSensors */ = {
@@ -1171,9 +1173,9 @@
 			productReference = 6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */;
 			productType = "com.apple.product-type.bundle";
 		};
-		6AA45340153FB1FE00F67EED /* GeForceX */ = {
+		6AA45340153FB1FE00F67EED /* NouveauSensors */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6AA4534E153FB1FE00F67EED /* Build configuration list for PBXNativeTarget "GeForceX" */;
+			buildConfigurationList = 6AA4534E153FB1FE00F67EED /* Build configuration list for PBXNativeTarget "NouveauSensors" */;
 			buildPhases = (
 				6AA4533B153FB1FE00F67EED /* Sources */,
 				6AA4533C153FB1FE00F67EED /* Frameworks */,
@@ -1185,9 +1187,9 @@
 			);
 			dependencies = (
 			);
-			name = GeForceX;
-			productName = GeForceX;
-			productReference = 6AA45341153FB1FE00F67EED /* GeForceX.kext */;
+			name = NouveauSensors;
+			productName = NouveauSensors;
+			productReference = 6AA45341153FB1FE00F67EED /* NouveauSensors.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
 /* End PBXNativeTarget section */
@@ -1219,8 +1221,8 @@
 				1D05AC2113ED100D00EADBF6 /* IntelThermal */,
 				1D6FE3ED13FEBFF200376E64 /* ACPISensors */,
 				1DA9623F13ED34070096F8A5 /* NVClockX */,
-				6AA45340153FB1FE00F67EED /* GeForceX */,
-				1DA962A413ED36030096F8A5 /* RadeonX */,
+				6AA45340153FB1FE00F67EED /* NouveauSensors */,
+				1DA962A413ED36030096F8A5 /* ATYSensors */,
 				1D6FE3BA13FEBDA700376E64 /* X3100 */,
 				6A4E4738152178A00038C5DE /* SuperIOSensors */,
 				1D9F831D144FF24000EEEFEB /* HWMonitor */,
@@ -1497,7 +1499,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DA962BE13ED368C0096F8A5 /* RadeonX.cpp in Sources */,
+				1DA962BE13ED368C0096F8A5 /* ATYSensors.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1536,7 +1538,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AA4534A153FB1FE00F67EED /* GeForceX.cpp in Sources */,
+				6AA4534A153FB1FE00F67EED /* NouveauSensors.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2055,7 +2057,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RadeonX/RadeonX-Prefix.pch";
+				GCC_PREFIX_HEADER = "ATYSensors/ATYSensors-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -2071,7 +2073,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "RadeonX/RadeonX-Info.plist";
+				INFOPLIST_FILE = "ATYSensors/ATYSensors-Info.plist";
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2090,7 +2092,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RadeonX/RadeonX-Prefix.pch";
+				GCC_PREFIX_HEADER = "ATYSensors/ATYSensors-Prefix.pch";
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -2101,7 +2103,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "RadeonX/RadeonX-Info.plist";
+				INFOPLIST_FILE = "ATYSensors/ATYSensors-Info.plist";
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2233,7 +2235,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GeForceX/GeForceX-Prefix.pch";
+				GCC_PREFIX_HEADER = "NouveauSensors/NouveauSensors-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -2244,7 +2246,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "GeForceX/GeForceX-Info.plist";
+				INFOPLIST_FILE = "NouveauSensors/NouveauSensors-Info.plist";
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2263,13 +2265,13 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GeForceX/GeForceX-Prefix.pch";
+				GCC_PREFIX_HEADER = "NouveauSensors/NouveauSensors-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "GeForceX/GeForceX-Info.plist";
+				INFOPLIST_FILE = "NouveauSensors/NouveauSensors-Info.plist";
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2346,7 +2348,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DA962B113ED36030096F8A5 /* Build configuration list for PBXNativeTarget "RadeonX" */ = {
+		1DA962B113ED36030096F8A5 /* Build configuration list for PBXNativeTarget "ATYSensors" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DA962B213ED36030096F8A5 /* Debug */,
@@ -2373,7 +2375,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6AA4534E153FB1FE00F67EED /* Build configuration list for PBXNativeTarget "GeForceX" */ = {
+		6AA4534E153FB1FE00F67EED /* Build configuration list for PBXNativeTarget "NouveauSensors" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6AA4534C153FB1FE00F67EED /* Debug */,

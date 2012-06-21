@@ -442,13 +442,6 @@
 			<dict>
 				<key>POSTINSTALL_PATH</key>
 				<dict/>
-				<key>PREINSTALL_PATH</key>
-				<dict>
-					<key>PATH</key>
-					<string>removefakesmc</string>
-					<key>PATH_TYPE</key>
-					<integer>1</integer>
-				</dict>
 				<key>RESOURCES</key>
 				<array/>
 			</dict>
@@ -459,7 +452,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>org.kozlek.pkg.FakeSMC</string>
+				<string>org.hwsensors.pkg.FakeSMC</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -966,7 +959,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>org.kozlek.pkg.IntelThermal</string>
+				<string>org.hwsensors.pkg.IntelThermal</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -1482,7 +1475,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>org.kozlek.pkg.ACPISensors</string>
+				<string>org.hwsensors.pkg.ACPISensors</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -1989,7 +1982,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>org.usrsse2.pkg.NVClockX</string>
+				<string>org.hwsensors.pkg.NVClockX</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -2343,7 +2336,7 @@
 																			<key>GID</key>
 																			<integer>0</integer>
 																			<key>PATH</key>
-																			<string>../Binaries/RadeonX.kext</string>
+																			<string>../Binaries/ATYSensors.kext</string>
 																			<key>PATH_TYPE</key>
 																			<integer>1</integer>
 																			<key>PERMISSIONS</key>
@@ -2496,11 +2489,11 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>org.slice.pkg.RadeonX</string>
+				<string>org.hwsensors.pkg.ATYSensors</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
-				<string>RadeonX</string>
+				<string>ATYSensors</string>
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
@@ -3003,7 +2996,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>org.slice.pkg.X3100</string>
+				<string>org.hwsensors.pkg.X3100</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -3467,7 +3460,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>0</integer>
 				<key>IDENTIFIER</key>
-				<string>org.kozlek.pkg.HWMonitor</string>
+				<string>org.hwsensors.pkg.HWMonitor</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -4004,7 +3997,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>0</integer>
 				<key>IDENTIFIER</key>
-				<string>org.kozlek.pkg.HWMonitorMenu</string>
+				<string>org.hwsensors.pkg.HWMonitorMenu</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -4520,7 +4513,7 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>org.kozlek.pkg.SuperIOSensors</string>
+				<string>org.hwsensors.pkg.SuperIOSensors</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
@@ -4874,7 +4867,7 @@
 																			<key>GID</key>
 																			<integer>0</integer>
 																			<key>PATH</key>
-																			<string>../Binaries/GeForceX.kext</string>
+																			<string>../Binaries/NouveauSensors.kext</string>
 																			<key>PATH_TYPE</key>
 																			<integer>1</integer>
 																			<key>PERMISSIONS</key>
@@ -5025,13 +5018,13 @@
 				<key>AUTHENTICATION</key>
 				<integer>1</integer>
 				<key>CONCLUSION_ACTION</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>org.kozlek.pkg.GeForceX</string>
+				<string>org.hwsensors.pkg.NouveauSensors</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
-				<string>GeForceX</string>
+				<string>NouveauSensors</string>
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
@@ -5236,42 +5229,6 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>ACPISensors plugin requires extensive DSDT editing and understanding in ACPI programming</string>
-											</dict>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>Russian</string>
-												<key>VALUE</key>
-												<string>Плугин ACPISensors позволяет читать показания сенсоров через предопределенные функции в ACPI таблицах. Для его использования необходимо понимание в программировании ACPI т.к. требует внесения изменений в DSDT</string>
-											</dict>
-										</array>
-										<key>OPTIONS</key>
-										<dict>
-											<key>HIDDEN</key>
-											<false/>
-											<key>STATE</key>
-											<integer>2</integer>
-										</dict>
-										<key>PACKAGE_UUID</key>
-										<string>84C4F187-8589-4BCC-B71A-C78464F396B3</string>
-										<key>REQUIREMENTS</key>
-										<array/>
-										<key>TITLE</key>
-										<array/>
-										<key>TOOLTIP</key>
-										<array/>
-										<key>TYPE</key>
-										<integer>0</integer>
-										<key>UUID</key>
-										<string>20249259-4661-46CC-86C4-5F295DAD5F10</string>
-									</dict>
-									<dict>
-										<key>DESCRIPTION</key>
-										<array>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>English</string>
-												<key>VALUE</key>
 												<string>IntelThermal plugin provides information about CPU core temperatures and multipliers. Only for Intel CPUs</string>
 											</dict>
 											<dict>
@@ -5344,13 +5301,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>NVClockX plugin is the NVClock port from Linux. Supports wide range of nVidia videocards. Allows  access to various built-in sensors. Reported instability on some hardware configurations.</string>
+												<string>ACPISensors plugin requires extensive DSDT editing and understanding in ACPI programming</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>Плугин NVClockX - порт NVClock с Linux. Позволяет читать показания встроеных датчиков видеокарт nVidia</string>
+												<string>Плагин ACPISensors позволяет читать показания сенсоров через предопределенные функции в ACPI таблицах. Для его использования необходимо понимание в программировании ACPI т.к. требует внесения изменений в DSDT</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>
@@ -5361,30 +5318,17 @@
 											<integer>2</integer>
 										</dict>
 										<key>PACKAGE_UUID</key>
-										<string>5AEEBB9E-888A-42D6-8425-FB224F154D2F</string>
+										<string>84C4F187-8589-4BCC-B71A-C78464F396B3</string>
 										<key>REQUIREMENTS</key>
 										<array/>
 										<key>TITLE</key>
-										<array>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>English</string>
-												<key>VALUE</key>
-												<string>NVClockX (obsolete)</string>
-											</dict>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>Russian</string>
-												<key>VALUE</key>
-												<string>NVClockX (устаревший)</string>
-											</dict>
-										</array>
+										<array/>
 										<key>TOOLTIP</key>
 										<array/>
 										<key>TYPE</key>
 										<integer>0</integer>
 										<key>UUID</key>
-										<string>EABD0D28-3A07-4038-BB1A-5114B5D4692B</string>
+										<string>20249259-4661-46CC-86C4-5F295DAD5F10</string>
 									</dict>
 									<dict>
 										<key>DESCRIPTION</key>
@@ -5393,13 +5337,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>GeForceX plugin allows access to built-in sensors of wide range of nVidia GPUs. It has better support for newer GPUs then NVClockx.</string>
+												<string>This plugin allows access to built-in sensors of wide range of nVidia GPUs. It has better support for newer GPUs then NVClockx.</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>Расширение GeForceX позволяет снимать показания сенсоров видеокарт nVidia. Этот плагин имеет лучшую поддержку современных видеокарт, чем NVClockX.</string>
+												<string>Этот плагин позволяет получать показания сенсоров видеокарт nVidia. Этот плагин имеет лучшую поддержку современных видеокарт, чем NVClockX.</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>
@@ -5414,20 +5358,7 @@
 										<key>REQUIREMENTS</key>
 										<array/>
 										<key>TITLE</key>
-										<array>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>English</string>
-												<key>VALUE</key>
-												<string>GeForceX</string>
-											</dict>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>Russian</string>
-												<key>VALUE</key>
-												<string>GeForceX</string>
-											</dict>
-										</array>
+										<array/>
 										<key>TOOLTIP</key>
 										<array/>
 										<key>TYPE</key>
@@ -5442,13 +5373,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>RadeonX plugin allows access to AMD Radeon GPUs built-in temperature sensor. </string>
+												<string>This plugin allows access to AMD Radeon GPUs built-in temperature sensor. </string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>Плугин RadeonX позволяет снимать показания температуры видеокарт AMD Radeon</string>
+												<string>Этот плагин позволяет получать показания температуры видеокарт AMD Radeon</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>
@@ -5506,6 +5437,55 @@
 										<integer>0</integer>
 										<key>UUID</key>
 										<string>1E3D6F46-778A-42C6-998B-941C7328124D</string>
+									</dict>
+									<dict>
+										<key>DESCRIPTION</key>
+										<array>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>English</string>
+												<key>VALUE</key>
+												<string>NVClockX plugin is the NVClock port from Linux. Supports wide range of nVidia videocards. Allows  access to various built-in sensors. Reported instability on some hardware configurations.</string>
+											</dict>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>Russian</string>
+												<key>VALUE</key>
+												<string>Плугин NVClockX - порт NVClock с Linux. Позволяет читать показания встроеных датчиков видеокарт nVidia</string>
+											</dict>
+										</array>
+										<key>OPTIONS</key>
+										<dict>
+											<key>HIDDEN</key>
+											<false/>
+											<key>STATE</key>
+											<integer>2</integer>
+										</dict>
+										<key>PACKAGE_UUID</key>
+										<string>5AEEBB9E-888A-42D6-8425-FB224F154D2F</string>
+										<key>REQUIREMENTS</key>
+										<array/>
+										<key>TITLE</key>
+										<array>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>English</string>
+												<key>VALUE</key>
+												<string>NVClockX (obsolete)</string>
+											</dict>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>Russian</string>
+												<key>VALUE</key>
+												<string>NVClockX (устаревший)</string>
+											</dict>
+										</array>
+										<key>TOOLTIP</key>
+										<array/>
+										<key>TYPE</key>
+										<integer>0</integer>
+										<key>UUID</key>
+										<string>EABD0D28-3A07-4038-BB1A-5114B5D4692B</string>
 									</dict>
 								</array>
 								<key>DESCRIPTION</key>
