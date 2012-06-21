@@ -2,72 +2,56 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BuildMachineOSBuild</key>
-	<string>11E53</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>X3100</string>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.hwsensors.sensor.X3100</string>
+	<string>org.hwsensors.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0</string>
+	<string>ATYSENSORS_SHORTVERSION</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.0.0</string>
-	<key>DTCompiler</key>
-	<string></string>
-	<key>DTPlatformBuild</key>
-	<string>4E3002</string>
-	<key>DTPlatformVersion</key>
-	<string>GM</string>
-	<key>DTSDKBuild</key>
-	<string>11E52</string>
-	<key>DTSDKName</key>
-	<string>macosx10.7</string>
-	<key>DTXcode</key>
-	<string>0433</string>
-	<key>DTXcodeBuild</key>
-	<string>4E3002</string>
+	<string>ATYSENSORS_VERSION</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © HWSENSORS_LASTYEAR Slice. All rights reserved.</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>Intel X3100 Cards Monitoring Plugin</key>
+		<key>Radeon Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.hwsensors.sensor.X3100</string>
+			<string>org.hwsensors.${PRODUCT_NAME:rfc1034identifier}</string>
 			<key>IOClass</key>
-			<string>X3100monitor</string>
+			<string>RadeonMonitor</string>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
 			<key>IOPCIClassMatch</key>
-			<string>0x06000000&amp;0xfff000000</string>
-			<key>IOPCIPrimaryMatch</key>
-			<string>0x2a008086</string>
+			<string>0x03000000&amp;0xFF000000</string>
+			<key>IOPCIMatch</key>
+			<string>0x00001002&amp;0x0000FFFF</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 		</dict>
 	</dict>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 Slice. All rights reserved.</string>
 	<key>OSBundleLibraries</key>
 	<dict>
+		<key>com.apple.kpi.iokit</key>
+		<string>10.0.0</string>
+		<key>com.apple.kpi.libkern</key>
+		<string>10.0.0</string>
+		<key>com.apple.kpi.mach</key>
+		<string>10.0.0</string>
+		<key>com.apple.kpi.unsupported</key>
+		<string>10.0.0</string>
 		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>1.0.0b1</string>
-		<key>com.apple.kpi.iokit</key>
-		<string>8.0</string>
-		<key>com.apple.kpi.libkern</key>
-		<string>8.0</string>
-		<key>com.apple.kpi.mach</key>
-		<string>8.0</string>
-		<key>com.apple.kpi.unsupported</key>
-		<string>8.0</string>
 		<key>org.netkas.FakeSMC</key>
-		<string>4.2.9</string>
+		<string>FAKESMC_COMPATIBLE</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

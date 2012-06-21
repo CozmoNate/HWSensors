@@ -85,8 +85,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6AA45340153FB1FE00F67EED"
-               BuildableName = "GeForceX.kext"
-               BlueprintName = "GeForceX"
+               BuildableName = "NouveauSensors.kext"
+               BlueprintName = "NouveauSensors"
                ReferencedContainer = "container:HWSensors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -99,8 +99,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1DA962A413ED36030096F8A5"
-               BuildableName = "RadeonX.kext"
-               BlueprintName = "RadeonX"
+               BuildableName = "ATYSensors.kext"
+               BlueprintName = "ATYSensors"
                ReferencedContainer = "container:HWSensors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
