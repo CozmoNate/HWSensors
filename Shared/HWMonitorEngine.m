@@ -17,6 +17,7 @@
 
 @synthesize sensors;
 @synthesize keys;
+
 @synthesize useFahrenheit;
 @synthesize hideDisabledSensors;
 @synthesize showBSDNames;

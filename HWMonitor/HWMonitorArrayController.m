@@ -33,7 +33,7 @@
 
 -(NSDictionary*)addFavoriteItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
 {
-    NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:name, @"Name", icon, @"Icon", key, @"Key", nil];
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, @"Name", icon, @"Icon", key, @"Key", nil];
     
     [self insertObject:item atArrangedObjectIndex:[[self arrangedObjects] indexOfObject:_firstAvailableItem]];
     
@@ -42,7 +42,7 @@
 
 -(NSDictionary*)addAvailableItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
 {
-    NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:name, @"Name", icon, @"Icon", key, @"Key", nil];
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, @"Name", icon, @"Icon", key, @"Key", nil];
     
     [self addObject:item];
     
@@ -74,6 +74,22 @@
     return list;
 }
 
+-(BOOL)favoritesContainKey:(NSString*)key
+{
+    NSUInteger index;
+    
+    for (index = 1; index < [[self arrangedObjects] count]; index++) {
+        
+        NSDictionary *item = [[self arrangedObjects] objectAtIndex:index];
+        
+        if ([(NSString*)[item valueForKey:@"Key"] isEqualToString:key]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 -(void)setupController
 {
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
@@ -82,7 +98,7 @@
 
 -(NSDictionary*)addItemWithName:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
 {
-    NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:name, @"Name", icon, @"Icon", key, @"Key", nil];
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, @"Name", icon, @"Icon", key, @"Key", nil];
     
     [self addObject:item];
     

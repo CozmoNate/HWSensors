@@ -24,6 +24,7 @@
 -(void)removeAllItems;
 
 -(NSArray*)getFavoritesItems;
+-(BOOL)favoritesContainKey:(NSString*)key;
 
 -(void)setupController;
 
