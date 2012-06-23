@@ -2,8 +2,8 @@
 //  AppDelegate.h
 //  HWMonitor
 //
-//  Created by Kozlek on 22.06.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by kozlek on 22.06.12.
+//  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -23,6 +23,7 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet HWMonitorArrayController *arrayController;
 @property (assign) IBOutlet NSButton *toggleMenuButton;
+@property (readwrite, assign) IBOutlet NSObject *userInterfaceEnabled;
 
 //- (void)loadIconNamed:(NSString*)name;
 //- (HWMonitorIcon*)getIconByName:(NSString*)name;

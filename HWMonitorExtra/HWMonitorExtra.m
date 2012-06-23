@@ -395,7 +395,7 @@
 
 - (void)requestItems:(NSNotification*)aNotification
 {
-    NSLog(@"Sending items by request...");
+    //NSLog(@"Sending items by request...");
     
     NSMutableArray *favoritesList = [[NSMutableArray alloc] init];
     

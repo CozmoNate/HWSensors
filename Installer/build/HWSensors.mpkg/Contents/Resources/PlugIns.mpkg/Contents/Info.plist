@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.hwsensors.pkg.PlugIns</string>
+	<key>CFBundleName</key>
+	<string>FakeSMC Plug-Ins</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>IFMajorVersion</key>
+	<integer>1</integer>
+	<key>IFMinorVersion</key>
+	<integer>0</integer>
+	<key>IFPkgBuildDate</key>
+	<date>2012-06-23T14:47:56Z</date>
+	<key>IFPkgBuildVersion</key>
+	<string>11E53</string>
+	<key>IFPkgCreator</key>
+	<string>IcebergBuilder 1.2.9</string>
+	<key>IFPkgFlagComponentDirectory</key>
+	<string>..</string>
+	<key>IFPkgFlagPackageList</key>
+	<array>
+		<dict>
+			<key>IFPkgFlagPackageLocation</key>
+			<string>IntelThermal.pkg</string>
+			<key>IFPkgFlagPackageSelection</key>
+			<string>selected</string>
+		</dict>
+		<dict>
+			<key>IFPkgFlagPackageLocation</key>
+			<string>SuperIOSensors.pkg</string>
+			<key>IFPkgFlagPackageSelection</key>
+			<string>selected</string>
+		</dict>
+		<dict>
+			<key>IFPkgFlagPackageLocation</key>
+			<string>ACPISensors.pkg</string>
+			<key>IFPkgFlagPackageSelection</key>
+			<string>unselected</string>
+		</dict>
+		<dict>
+			<key>IFPkgFlagPackageLocation</key>
+			<string>NouveauSensors.pkg</string>
+			<key>IFPkgFlagPackageSelection</key>
+			<string>selected</string>
+		</dict>
+		<dict>
+			<key>IFPkgFlagPackageLocation</key>
+			<string>ATYSensors.pkg</string>
+			<key>IFPkgFlagPackageSelection</key>
+			<string>selected</string>
+		</dict>
+		<dict>
+			<key>IFPkgFlagPackageLocation</key>
+			<string>GMA X3100.pkg</string>
+			<key>IFPkgFlagPackageSelection</key>
+			<string>unselected</string>
+		</dict>
+		<dict>
+			<key>IFPkgFlagPackageLocation</key>
+			<string>NVClockX.pkg</string>
+			<key>IFPkgFlagPackageSelection</key>
+			<string>unselected</string>
+		</dict>
+	</array>
+	<key>IFPkgFormatVersion</key>
+	<real>0.10000000149011612</real>
+</dict>
+</plist>

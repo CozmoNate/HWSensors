@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IFPkgDescriptionDeleteWarning</key>
+	<string></string>
+	<key>IFPkgDescriptionDescription</key>
+	<string></string>
+	<key>IFPkgDescriptionTitle</key>
+	<string>HWSensors</string>
+	<key>IFPkgDescriptionVersion</key>
+	<string>1.0.25</string>
+</dict>
+</plist>
