@@ -506,7 +506,7 @@
 								<key>CFBundleName</key>
 								<string>HWMonitor</string>
 								<key>CFBundleShortVersionString</key>
-								<string>2.0.2</string>
+								<string>2.0.4</string>
 							</dict>
 							<key>Options</key>
 							<dict>
@@ -532,7 +532,7 @@
 							<key>Version</key>
 							<dict>
 								<key>IFMajorVersion</key>
-								<integer>1</integer>
+								<integer>2</integer>
 								<key>IFMinorVersion</key>
 								<integer>0</integer>
 							</dict>
@@ -5583,7 +5583,7 @@
 						<key>IFPkgDescriptionTitle</key>
 						<string>HWSensors</string>
 						<key>IFPkgDescriptionVersion</key>
-						<string>1.0.25</string>
+						<string>1.0.26</string>
 					</dict>
 				</dict>
 				<key>Display Information</key>
@@ -5599,7 +5599,7 @@
 					<key>CFBundleName</key>
 					<string>HWSensors</string>
 					<key>CFBundleShortVersionString</key>
-					<string>1.0</string>
+					<string>1.0.26</string>
 				</dict>
 				<key>Version</key>
 				<dict>
