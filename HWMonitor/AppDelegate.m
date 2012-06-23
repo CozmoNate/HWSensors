@@ -198,7 +198,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         CoreMenuExtraAddMenuExtra((__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"MenuCracker" ofType:@"menu"]], 0, 0, 0, 0, 0);
         CoreMenuExtraAddMenuExtra((__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"HWMonitorExtra" ofType:@"menu"]], 0, 0, 0, 0, 0);
         
-        menuExtra = nil;
+        /*menuExtra = nil;
         error = 0;
         int count = 0;
         
@@ -210,7 +210,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         
         sleep(1);
         
-        system("killall SystemUIServer");
+        system("killall SystemUIServer");*/
     }
 }
 
