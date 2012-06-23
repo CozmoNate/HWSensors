@@ -295,6 +295,7 @@
 		7E3F6EE4155DB9DE00C3492E /* preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preferences.png; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E40054F1585031B009AECED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7E79DA8C1595917900CB2A40 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7E9388FF15945B360005316D /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
 		7E93890015945B450005316D /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E938903159497920005316D /* HWMonitorArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorArrayController.h; sourceTree = "<group>"; };
@@ -765,9 +766,9 @@
 			children = (
 				7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */,
 				6A9955C214EFAEE50052C702 /* cpuid.h */,
+				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
 				7E06D0EC157E96C400F8A270 /* SystemUIPlugin.h */,
 				7E9388FF15945B360005316D /* HWMonitorDefinitions.h */,
-				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
 				6AA3A26B14F6D7C1007A7084 /* NSString+TruncateToWidth */,
 				7E06D0F6157FC7F800F8A270 /* BundleUserDefaults */,
 				6AA3A26A14F6D7AC007A7084 /* ATASmartReporter */,
@@ -1600,6 +1601,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				7EB963B81594559100436FDB /* en */,
+				7E79DA8C1595917900CB2A40 /* ru */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";

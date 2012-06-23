@@ -47,8 +47,9 @@
     if (!self || !statusItem)
         return nil;
     
-    _smallFont = [NSFont boldSystemFontOfSize:9.0f];
-    _bigFont = [NSFont boldSystemFontOfSize:11.0f];
+    _smallFont = [NSFont boldSystemFontOfSize:9.2f];
+    //_bigFont = [NSFont boldSystemFontOfSize:11.0f];
+    _bigFont = [NSFont systemFontOfSize:11.0f];
     
     _shadow = [[NSShadow alloc] init];
     
@@ -60,8 +61,9 @@
 }
 
 - (void)drawRect:(NSRect)rect
-{    
-    [_menuExtra drawMenuBackground:[_menuExtra isMenuDown]];
+{   
+    if ([_menuExtra isMenuDown])
+        [_menuExtra drawMenuBackground:YES];
     
     if (!_engine || !_favorites || [_favorites count] == 0) {
         

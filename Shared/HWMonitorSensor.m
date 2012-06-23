@@ -213,7 +213,7 @@ inline UInt8 get_index(char c)
             _value = [[NSString alloc] initWithFormat:@"%1.0f%C", [self decodeValue], 0x0025];
         }
         else if (_group & kHWSensorGroupMultiplier) {
-            _value = [[NSString alloc] initWithFormat:@"x%1.1f", [self decodeValue]];
+            _value = [[NSString alloc] initWithFormat:@"%1.1fx", [self decodeValue]];
         }
         else if (_group & kHWSensorGroupFrequency) {
             float f = [self decodeValue];

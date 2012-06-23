@@ -37,6 +37,7 @@
 #define HWMonitorUseShadowsChanged      @"HWMonitorUseShadowsChanged"
 #define HWMonitorShowHiddenChanged      @"HWMonitorShowHiddenChanged"
 #define HWMonitorShowBSDNamesChanged    @"HWMonitorShowBSDNamesChanged"
-#define HWMonitorPingPong               @"HWMonitorPingPong"
+#define HWMonitorRequestItems           @"HWMonitorRequestItems"
+#define HWMonitorRecieveItems           @"HWMonitorRecieveItems"
 
 #endif

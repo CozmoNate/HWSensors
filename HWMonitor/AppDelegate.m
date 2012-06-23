@@ -24,7 +24,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize engine = _engine;
 @synthesize arrayController = _arrayController;
 @synthesize toggleMenuButton = _toggleMenuButton;
 
@@ -68,51 +67,70 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     return nil;
 }
 
-- (void)addAvailableItemsFromGroup:(NSUInteger)group
+- (void)addAvailableItemsFromDictionary:(NSDictionary*)sensors inGroup:(NSUInteger)mainGroup
 {
-    HWMonitorIcon* icon = [self getIconByGroup:group];
+    HWMonitorIcon* icon = [self getIconByGroup:mainGroup];
     
     if (icon && ![_arrayController favoritesContainKey:[icon name]])
-        [[_arrayController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]] setValue:icon forKey:kHWMonitorRepresentedObject];
+        [_arrayController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
     
-    for (HWMonitorSensor* sensor in [_engine sensors]) 
-        if (group & [sensor group] && ![sensor favorite]) {
-            icon = [self getIconByGroup:[sensor group]];
-            [[_arrayController addAvailableItem:[sensor caption] icon:icon ? [icon image] : nil key:[sensor name]] setValue:sensor forKey:kHWMonitorRepresentedObject];
-        }
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *item in [sensors allValues]) {
+        //NSString *name = [item valueForKey:@"Name"];
+        //NSString *title = [item valueForKey:@"Title"];
+        NSUInteger group = [[item valueForKey:@"Group"] intValue];
+        BOOL favorite = [[item valueForKey:@"Favorite"] boolValue];
+        
+        if (mainGroup & group && !favorite)
+            [items addObject:item];
+    }
+    
+    [items sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSNumber *index1 = [obj1 valueForKey:@"Index"];
+        NSNumber *index2 = [obj2 valueForKey:@"Index"];
+        
+        return [index1 compare:index2];
+    }];
+     
+    for (NSDictionary *item in items) {
+        NSString *name = [item valueForKey:@"Name"];
+        NSString *title = [item valueForKey:@"Title"];
+        NSUInteger group = [[item valueForKey:@"Group"] intValue];
+        //BOOL favorite = [[item valueForKey:@"Favorite"] boolValue];
+        icon = [self getIconByGroup:group];
+        [_arrayController addAvailableItem:GetLocalizedString(title) icon:icon ? [icon image] : nil key:name];
+    }    
 }
 
-- (void)rebuildSensors
+- (void)recieveItems:(NSNotification*)aNotification
 {
-    [_engine rebuildSensorsList];
-    
     [_arrayController removeAllItems];
     
-    if ([[_engine sensors] count] > 0) {
-        [_arrayController setFirstFavoriteItem:GetLocalizedString(@"Menu bar items:") firstAvailableItem:GetLocalizedString(@"Available items:")];
+    [_arrayController setFirstFavoriteItem:GetLocalizedString(@"Menu bar items:") firstAvailableItem:GetLocalizedString(@"Available items:")];
+    
+    if ([aNotification object] && [aNotification userInfo]) {
+        NSArray *favoritesList = [(NSString*)[aNotification object] componentsSeparatedByString:@","];
+        NSDictionary *sensorsList = [aNotification userInfo];
         
-        NSMutableArray *favoritesList = [_defaults objectForKey:kHWMonitorFavoritesList];
-        
-        if (favoritesList) {
+        for (NSString *favoriteName in favoritesList) {
+            NSDictionary *item = [sensorsList valueForKey:favoriteName];
             
-            NSUInteger i = 0;
-            
-            for (i = 0; i < [favoritesList count]; i++) {
+            if (item) {
+                NSString *name = [item valueForKey:@"Name"];
+                NSString *title = [item valueForKey:@"Title"];
+                NSUInteger group = [[item valueForKey:@"Group"] intValue];
+                BOOL favorite = [[item valueForKey:@"Favorite"] boolValue];
+                HWMonitorIcon *icon = [self getIconByGroup:group];
                 
-                NSString *name = [favoritesList objectAtIndex:i];
+                if (favorite)
+                    [_arrayController addFavoriteItem:GetLocalizedString(title) icon:icon ? [icon image] : nil key:name];
+            }
+            else {
+                HWMonitorIcon *icon = [self getIconByName:favoriteName];
                 
-                HWMonitorSensor *sensor = nil;
-                HWMonitorIcon *icon = nil;
-                
-                if ((sensor = [[_engine keys] objectForKey:name])) {
-                    [sensor setFavorite:TRUE];
-                    //[_favorites addObject:sensor];
-                    icon = [self getIconByGroup:[sensor group]];
-                    [[_arrayController addFavoriteItem:[sensor caption] icon:icon ? [icon image] : nil key:[sensor name]] setValue:sensor forKey:kHWMonitorRepresentedObject];
-                }
-                else if ((icon = [_icons objectForKey:name])) {
-                    //[_favorites addObject:icon];
-                    [[_arrayController addFavoriteItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]] setValue:icon forKey:kHWMonitorRepresentedObject];
+                if (icon) {
+                    [_arrayController addFavoriteItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
                 }
             }
         }
@@ -127,13 +145,14 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
                 [[_arrayController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]] setValue:icon forKey:kHWMonitorRepresentedObject];
         }
         
-        [self addAvailableItemsFromGroup:kHWSensorGroupTemperature];
-        [self addAvailableItemsFromGroup:kSMARTSensorGroupTemperature];
-        [self addAvailableItemsFromGroup:kSMARTSensorGroupRemainingLife];
-        [self addAvailableItemsFromGroup:kSMARTSensorGroupRemainingBlocks];
-        [self addAvailableItemsFromGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency];
-        [self addAvailableItemsFromGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer];
-        [self addAvailableItemsFromGroup:kHWSensorGroupVoltage];
+        [self addAvailableItemsFromDictionary:sensorsList inGroup:kHWSensorGroupTemperature];
+        [self addAvailableItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupTemperature];
+        [self addAvailableItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupRemainingLife];
+        [self addAvailableItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupRemainingBlocks];
+        [self addAvailableItemsFromDictionary:sensorsList inGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency];
+        [self addAvailableItemsFromDictionary:sensorsList inGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer];
+        [self addAvailableItemsFromDictionary:sensorsList inGroup:kHWSensorGroupVoltage];
+
     }
 }
 
@@ -165,25 +184,25 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 			error = system([command cStringUsingEncoding:NSUTF16StringEncoding]); //more compatible
         }*/
         
-        [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"MenuCracker" ofType:@"menu"]];
+        //[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"MenuCracker" ofType:@"menu"]];
         
-        sleep(1);
+        //sleep(1);
         
-        [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"HWMonitorExtra" ofType:@"menu"]];
+        //[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"HWMonitorExtra" ofType:@"menu"]];
  
         
-        //CoreMenuExtraAddMenuExtra((__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"MenuCracker" ofType:@"menu"]], 0, 0, 0, 0, 0);
-        //CoreMenuExtraAddMenuExtra((__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"HWMonitorExtra" ofType:@"menu"]], 0, 0, 0, 0, 0);
+        CoreMenuExtraAddMenuExtra((__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"MenuCracker" ofType:@"menu"]], 0, 0, 0, 0, 0);
+        CoreMenuExtraAddMenuExtra((__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"HWMonitorExtra" ofType:@"menu"]], 0, 0, 0, 0, 0);
         
         menuExtra = nil;
         error = 0;
         int count = 0;
         
-        while (!menuExtra && !error && count < 5) {
-            error = CoreMenuExtraGetMenuExtra(CFSTR("org.hwsensors.HWMonitorExtra"), &menuExtra);
-            sleep(1);
+        do {
             count++;
-        }
+            sleep(1);
+            error = CoreMenuExtraGetMenuExtra(CFSTR("org.hwsensors.HWMonitorExtra"), &menuExtra);
+        } while (!menuExtra && !error && count < 5);
         
         sleep(1);
         
@@ -194,65 +213,43 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 }
 
 -(IBAction)favoritesChanged:(id)sender
-{
-    for (HWMonitorSensor *sensor in [_engine sensors])
-        [sensor setFavorite:NO];
-    
+{   
     NSArray *favorites = [_arrayController getFavoritesItems];
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
-    NSUInteger i;
+    for (NSDictionary *item in favorites)
+        [list addObject:[item valueForKey:@"Key"]];
     
-    for (i = 0; i < [favorites count]; i++) {
-
-        id object = [[favorites objectAtIndex:i] valueForKey:kHWMonitorRepresentedObject];
-        
-        if ([object isKindOfClass:[HWMonitorIcon class]]) {
-            
-        }
-        else if ([object isKindOfClass:[HWMonitorSensor class]]) {
-            [object setFavorite:YES];
-        }
-        
-        [list addObject:[object name]];
-    }
+    NSString* favoritesList = [list componentsJoinedByString:@","];
     
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorFavoritesChanged object:[list componentsJoinedByString:@","]];
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorFavoritesChanged object:favoritesList userInfo:nil deliverImmediately:YES];
 }
 
 -(IBAction)useFahrenheitChanged:(id)sender
 {
     NSMatrix *matrix = (NSMatrix*)sender;
     
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUseFahrenheitChanged object:![[matrix cellAtRow:0 column:0] state] ? HWMonitorBooleanYES : HWMonitorBooleanNO];
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUseFahrenheitChanged object:![[matrix cellAtRow:0 column:0] state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
 -(IBAction)useBigFontChanged:(id)sender
 {
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUseBigFontChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO];
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUseBigFontChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
 -(IBAction)useShadowEffectChanged:(id)sender
 {
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUseShadowsChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO];
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUseShadowsChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
 -(IBAction)showHiddenSensorsChanged:(id)sender
 {
-    [_engine setHideDisabledSensors:![sender state]];
-    
-    [self rebuildSensors];
-    
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorShowHiddenChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO];
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorShowHiddenChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
 -(IBAction)showBSDNamesChanged:(id)sender
 {
-    [_engine setShowBSDNames:[sender state]];
-    
-    [self rebuildSensors];
-    
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorShowBSDNamesChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO];
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorShowBSDNamesChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -275,17 +272,21 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [self loadIconNamed:kHWMonitorIconFrequencies];
     [self loadIconNamed:kHWMonitorIconTachometers];
     [self loadIconNamed:kHWMonitorIconVoltages];
-
     
-    [_engine setHideDisabledSensors:![_defaults boolForKey:kHWMonitorShowHiddenSensors]];
-    [_engine setShowBSDNames:[_defaults boolForKey:kHWMonitorShowBSDNames]];
+    [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(recieveItems:) name: HWMonitorRecieveItems object: NULL];
     
-    [self rebuildSensors];
+    // Request items
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorRequestItems object:nil userInfo:nil deliverImmediately:YES];
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
 {
     return YES;
+}
+
+-(void)applicationWillTerminate:(NSNotification *)notification
+{
+    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
