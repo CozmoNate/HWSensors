@@ -118,8 +118,13 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         }
         
         if (![_arrayController favoritesContainKey:kHWMonitorIconThermometer]) {
+            
             HWMonitorIcon *icon = [self getIconByName:kHWMonitorIconThermometer];
-            [[_arrayController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]] setValue:icon forKey:kHWMonitorRepresentedObject];
+            
+            if ([[_arrayController getFavoritesItems] count] == 0)
+                [[_arrayController addFavoriteItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]] setValue:icon forKey:kHWMonitorRepresentedObject];
+            else
+                [[_arrayController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]] setValue:icon forKey:kHWMonitorRepresentedObject];
         }
         
         [self addAvailableItemsFromGroup:kHWSensorGroupTemperature];
@@ -161,6 +166,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         }*/
         
         [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"MenuCracker" ofType:@"menu"]];
+        
+        sleep(1);
+        
         [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"HWMonitorExtra" ofType:@"menu"]];
  
         
