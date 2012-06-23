@@ -300,6 +300,7 @@
 		7E93890015945B450005316D /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E938903159497920005316D /* HWMonitorArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorArrayController.h; sourceTree = "<group>"; };
 		7E938904159497920005316D /* HWMonitorArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorArrayController.m; sourceTree = "<group>"; };
+		7EB7A7BD1596021A00971346 /* killuiserver */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = killuiserver; path = Installer/killuiserver; sourceTree = "<group>"; };
 		7EB9639E1594531100436FDB /* HWMonitorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorView.h; sourceTree = "<group>"; };
 		7EB9639F1594531100436FDB /* HWMonitorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorView.m; sourceTree = "<group>"; };
 		7EB963A51594559100436FDB /* HWMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HWMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -399,8 +400,8 @@
 				6A9955BD14EFAD360052C702 /* Shared */,
 				1D05ABE913ED0DAD00EADBF6 /* FakeSMC */,
 				1D05AC3113ED101200EADBF6 /* Plug-Ins */,
-				6A85F85914DBEF5000F863A9 /* HWMonitorExtra */,
 				7EB963A81594559100436FDB /* HWMonitor */,
+				6A85F85914DBEF5000F863A9 /* HWMonitorExtra */,
 				6A0D508D151C902B00A6FC60 /* Installer */,
 				1D05ABE613ED0DAD00EADBF6 /* Frameworks */,
 				1D05ABE513ED0DAD00EADBF6 /* Products */,
@@ -614,6 +615,7 @@
 				6A0D50B3151C904C00A6FC60 /* loadmenuextra */,
 				7E2A5803159240B30073AB74 /* removefakesmc */,
 				6A0D50B4151C904C00A6FC60 /* updatecaches */,
+				7EB7A7BD1596021A00971346 /* killuiserver */,
 			);
 			name = Installer;
 			sourceTree = "<group>";

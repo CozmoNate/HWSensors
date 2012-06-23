@@ -151,6 +151,27 @@
     return row > 0 ? NSDragOperationEvery : NSDragOperationNone;
 }
 
+- (void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation;
+{
+    if (operation == NSDragOperationNone) {
+        
+        NSPasteboard* pboard = [session draggingPasteboard];
+        NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
+        
+        NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+        
+        int from = [rowIndexes firstIndex];
+        int row = [[self arrangedObjects] indexOfObject:_firstAvailableItem] + 1;
+        
+        NSDictionary *item = [[self arrangedObjects] objectAtIndex:from];
+        
+        [self insertObject:item atArrangedObjectIndex:row];
+        [self removeObjectAtArrangedObjectIndex:from > row ? from + 1 : from];
+        
+        [NSApp sendAction:[_tableView action] to:[_tableView target]  from:_tableView];
+    }
+}
+
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation;
 {
     NSPasteboard* pboard = [info draggingPasteboard];

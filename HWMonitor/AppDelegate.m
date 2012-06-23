@@ -2,8 +2,8 @@
 //  AppDelegate.m
 //  HWMonitor
 //
-//  Created by Kozlek on 22.06.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by kozlek on 22.06.12.
+//  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
 #import "SystemUIPlugin.h"
@@ -26,6 +26,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 @synthesize window = _window;
 @synthesize arrayController = _arrayController;
 @synthesize toggleMenuButton = _toggleMenuButton;
+@synthesize userInterfaceEnabled = _userInterfaceEnabled;
 
 - (void)loadIconNamed:(NSString*)name
 {
@@ -153,13 +154,15 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [self addAvailableItemsFromDictionary:sensorsList inGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer];
         [self addAvailableItemsFromDictionary:sensorsList inGroup:kHWSensorGroupVoltage];
 
+        [self setUserInterfaceEnabled:[[NSObject alloc] init]];
+    }
+    else {
+        [self setUserInterfaceEnabled:nil];
     }
 }
 
 - (IBAction)toggleMenu:(id)sender
 {
-    [sender setEnabled:NO];
-    
     void *menuExtra = nil;
     
     int error = CoreMenuExtraGetMenuExtra(CFSTR("org.hwsensors.HWMonitorExtra"), &menuExtra);
@@ -169,6 +172,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     if ((int)menuExtra > 0) {
         CoreMenuExtraRemoveMenuExtra(menuExtra, 0);
+        [self setUserInterfaceEnabled:nil];
     }
     else {
         
@@ -208,8 +212,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         
         system("killall SystemUIServer");
     }
-    
-    [sender setEnabled:YES];
 }
 
 -(IBAction)favoritesChanged:(id)sender
