@@ -53,6 +53,8 @@
 
 - (void)rebuildSensors;
 
+- (void)requestItems:(NSNotification*)aNotification;
+
 - (void)systemWillSleep:(NSNotification*)aNotification;
 - (void)systemDidWake:(NSNotification*)aNotification;
 

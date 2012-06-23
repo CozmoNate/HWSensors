@@ -127,6 +127,7 @@
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(useShadowEffectChanged:) name: HWMonitorUseShadowsChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showHiddenSensorsChanged:) name: HWMonitorShowHiddenChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showBSDNamesChanged:) name: HWMonitorShowBSDNamesChanged object: NULL];
+    [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(requestItems:) name: HWMonitorRequestItems object: NULL];
     
     [self performSelector:@selector(rebuildSensors) withObject:nil afterDelay:0.0];
     
@@ -388,6 +389,36 @@
         
         [_mainMenu addItem:item];
     }
+    
+    [self requestItems:nil];
+}
+
+- (void)requestItems:(NSNotification*)aNotification
+{
+    NSLog(@"Sending items by request...");
+    
+    NSMutableArray *favoritesList = [[NSMutableArray alloc] init];
+    
+    for (id object in _favorites)
+        [favoritesList addObject:[object name]];
+    
+    NSMutableDictionary *sensorsList = [[NSMutableDictionary alloc] init];
+    
+    NSUInteger index = 0;
+    
+    for (HWMonitorSensor *sensor in [_engine sensors]) {
+        [sensorsList setValue:[NSDictionary dictionaryWithObjectsAndKeys:
+                               [sensor name], @"Name",
+                               [sensor caption], @"Title",
+                               [NSNumber numberWithInt:[sensor group]], @"Group",
+                               [NSNumber numberWithBool:[sensor favorite]], @"Favorite",
+                               [NSNumber numberWithInt:index], @"Index",
+                               nil] forKey:[sensor name]];
+        
+        index++;
+    }
+    
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorRecieveItems object:[favoritesList componentsJoinedByString:@","] userInfo:sensorsList deliverImmediately:YES];
 }
 
 - (void)favoritesChanged:(NSNotification*)aNotification

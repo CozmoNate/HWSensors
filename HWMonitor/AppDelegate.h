@@ -16,18 +16,21 @@
 {
     BundleUserDefaults *_defaults;
     NSMutableDictionary *_icons;
+    NSMutableArray *_favorites;
+    NSMutableDictionary *_sensors;
 }
 
 @property (assign) IBOutlet NSWindow *window;
-@property (assign) IBOutlet HWMonitorEngine *engine;
 @property (assign) IBOutlet HWMonitorArrayController *arrayController;
 @property (assign) IBOutlet NSButton *toggleMenuButton;
 
-- (void)loadIconNamed:(NSString*)name;
-- (HWMonitorIcon*)getIconByName:(NSString*)name;
-- (HWMonitorIcon*)getIconByGroup:(NSUInteger)group;
-- (void)addAvailableItemsFromGroup:(NSUInteger)group;
-- (void)rebuildSensors;
+//- (void)loadIconNamed:(NSString*)name;
+//- (HWMonitorIcon*)getIconByName:(NSString*)name;
+//- (HWMonitorIcon*)getIconByGroup:(NSUInteger)group;
+//- (void)addAvailableItemsFromGroup:(NSUInteger)group;
+//- (void)rebuildSensors;
+
+- (void)recieveItems:(NSNotification*)aNotification;
 
 - (IBAction)toggleMenu:(id)sender;
 
