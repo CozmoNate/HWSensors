@@ -13,14 +13,14 @@
 @implementation HWMonitorEngine
 
 #define GetLocalizedString(key) \
-[bundle localizedStringForKey:(key) value:@"" table:nil]
+[_bundle localizedStringForKey:(key) value:@"" table:nil]
 
-@synthesize sensors;
-@synthesize keys;
+@synthesize sensors = _sensors;
+@synthesize keys = _keys;
 
-@synthesize useFahrenheit;
-@synthesize hideDisabledSensors;
-@synthesize showBSDNames;
+@synthesize useFahrenheit = _useFahrenheit;
+@synthesize hideDisabledSensors = _hideDisabledSensors;
+@synthesize showBSDNames = _showBSDNames;
 
 + (HWMonitorEngine*)engine
 {
@@ -67,6 +67,22 @@
     return nil;
 }
 
+-(void)setShowBSDNames:(BOOL)showBSDNames
+{
+    if (_showBSDNames != showBSDNames) {
+        _showBSDNames = showBSDNames;
+        
+        for (HWMonitorSensor *sensor in _sensors) 
+            if ([sensor disk])
+                [sensor setCaption:_showBSDNames ? [[sensor disk] bsdName] : [[[sensor disk] productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+    }
+}
+
+-(BOOL)showBSDNames
+{
+    return _showBSDNames;
+}
+
 - (HWMonitorSensor*)addSensorWithKey:(NSString*)key caption:(NSString*)caption group:(NSUInteger)group
 {
     HWMonitorSensor *sensor = nil;
@@ -77,6 +93,7 @@
     switch (group) {
         case kSMARTSensorGroupTemperature:
         case kSMARTSensorGroupRemainingLife:
+        case kSMARTSensorGroupRemainingBlocks:
             smartSensor = TRUE;
             break;
             
@@ -111,14 +128,14 @@
     [sensor setData:value];
     [sensor setGroup:group];
     
-    if (!smartSensor && [self hideDisabledSensors] && [[sensor value] isEqualToString:@"-"]) {
+    if (!smartSensor && _hideDisabledSensors && [[sensor value] isEqualToString:@"-"]) {
         [sensor setEngine:nil];
         sensor = nil;
         return nil;
     }
     
-    [sensors addObject:sensor];
-    [keys setObject:sensor forKey:key];
+    [_sensors addObject:sensor];
+    [_keys setObject:sensor forKey:key];
     
     return sensor;
 }
@@ -151,7 +168,7 @@
     }
     
     if (value) {
-        HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%x", [disk serialNumber], group] caption:[self showBSDNames] ? [disk bsdName] : [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
+        HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%x", [disk serialNumber], group] caption:_showBSDNames ? [disk bsdName] : [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
         
         [sensor setData:value];
         [sensor setDisk:disk];
@@ -165,48 +182,48 @@
 
 - (id)init;
 {
-    service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
+    _service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
     
-    if (!service) 
+    if (!_service) 
         return nil;
     
-    smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
-    sensors = [NSMutableArray array];
-    keys = [NSMutableDictionary dictionary];
-    bundle = [NSBundle mainBundle];
+    _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
+    _sensors = [NSMutableArray array];
+    _keys = [NSMutableDictionary dictionary];
+    _bundle = [NSBundle mainBundle];
     
     return self;
 }
 
 - (id)initWithBundle:(NSBundle*)mainBundle;
 {
-    service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
+    _service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
     
-    if (!service) 
+    if (!_service) 
         return nil;
     
-    smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
-    sensors = [NSMutableArray array];
-    keys = [NSMutableDictionary dictionary];
-    bundle = mainBundle;
+    _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
+    _sensors = [NSMutableArray array];
+    _keys = [NSMutableDictionary dictionary];
+    _bundle = mainBundle;
     
     return self;
 }
 
 - (void)dealloc
 {
-    if (service) 
-        IOObjectRelease(service);
+    if (_service) 
+        IOObjectRelease(_service);
 }
 
 - (void)rebuildSensorsList
 {
-    if (sensors) {
+    if (_sensors) {
         // Memory leak with ARC fix 
-        for (int i = 0; i < [sensors count]; i++)
-            [[sensors objectAtIndex:i] setMenuItem:nil];
+        for (int i = 0; i < [_sensors count]; i++)
+            [[_sensors objectAtIndex:i] setMenuItem:nil];
         
-        [sensors removeAllObjects];
+        [_sensors removeAllObjects];
     }
     
     //Temperatures
@@ -226,9 +243,9 @@
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupTemperature];
     }
     
-    if ([smartReporter drives]) {
-        for (int i = 0; i < [[smartReporter drives] count]; i++) {
-            ATAGenericDisk * disk = [[smartReporter drives] objectAtIndex:i];
+    if ([_smartReporter drives]) {
+        for (int i = 0; i < [[_smartReporter drives] count]; i++) {
+            ATAGenericDisk * disk = [[_smartReporter drives] objectAtIndex:i];
             
             if (disk) { 
                 // Hard Drive Temperatures
@@ -312,19 +329,22 @@
 
 - (void)updateSMARTSensorsValues
 {
-    if (sensors) 
-        for (int i = 0; i < [sensors count]; i++) {
-            HWMonitorSensor *sensor = [sensors objectAtIndex:i];
+    if (_sensors) 
+        for (int i = 0; i < [_sensors count]; i++) {
+            HWMonitorSensor *sensor = [_sensors objectAtIndex:i];
             
             switch ([sensor group]) {
                 case kSMARTSensorGroupTemperature:
                     if ([sensor disk]) [sensor setData:[[sensor disk] getTemperature]];                    
                     break;
                     
-                case kSMARTSensorGroupRemainingLife: {
+                case kSMARTSensorGroupRemainingLife:
                     if ([sensor disk]) [sensor setData:[[sensor disk] getRemainingLife]];                   
                     break;
-                }
+                    
+                case kSMARTSensorGroupRemainingBlocks: 
+                    if ([sensor disk]) [sensor setData:[[sensor disk] getRemainingBlocks]];                   
+                    break;
                     
                 default:
                     break;
@@ -334,36 +354,28 @@
 
 - (void)updateGenericSensorsValuesButOnlyFavorits:(BOOL)updateOnlyFavorites
 {
-    if (sensors) {
+    if (_sensors) {
         NSMutableArray *list = [[NSMutableArray alloc] init];
         
-        for (int i = 0; i < [sensors count]; i++) {
-            HWMonitorSensor *sensor = [sensors objectAtIndex:i];
+        for (int i = 0; i < [_sensors count]; i++) {
+            HWMonitorSensor *sensor = [_sensors objectAtIndex:i];
             
             if ((updateOnlyFavorites && [sensor favorite]) || !updateOnlyFavorites)
-                switch ([sensor group]) {
-                    case kSMARTSensorGroupTemperature:
-                    case kSMARTSensorGroupRemainingLife:
-                        break;
-                        
-                    default: {
-                        [list addObject:[sensor name]];
-                        break;
-                    }
-                }
+                if (![sensor disk])
+                    [list addObject:[sensor name]];
         }
         
-        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)list)) 
+        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)list)) 
         {           
             NSDictionary *values = nil;
             
-            if ((values = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0))) {
+            if ((values = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(_service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0))) {
                 NSEnumerator *enumerator = [values keyEnumerator];
                 
                 NSString *key = nil;
                 
                 while (key = (NSString*)[enumerator nextObject]) {
-                    HWMonitorSensor *sensor = [keys objectForKey:key];
+                    HWMonitorSensor *sensor = [_keys objectForKey:key];
                     
                     if (sensor) {
                         NSArray *keyInfo = [values objectForKey:key];
@@ -383,9 +395,9 @@
 {
     NSMutableArray * list = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < [sensors count]; i++) {
+    for (int i = 0; i < [_sensors count]; i++) {
         
-        HWMonitorSensor *sensor = (HWMonitorSensor*)[sensors objectAtIndex:i];
+        HWMonitorSensor *sensor = (HWMonitorSensor*)[_sensors objectAtIndex:i];
         
         if (group & [sensor group])
             [list addObject:sensor];

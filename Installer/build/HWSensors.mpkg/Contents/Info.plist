@@ -17,7 +17,7 @@
 	<key>IFMinorVersion</key>
 	<integer>0</integer>
 	<key>IFPkgBuildDate</key>
-	<date>2012-06-23T15:50:12Z</date>
+	<date>2012-06-26T04:20:59Z</date>
 	<key>IFPkgBuildVersion</key>
 	<string>11E53</string>
 	<key>IFPkgCreator</key>
@@ -36,7 +36,7 @@
 			<key>IFPkgFlagPackageLocation</key>
 			<string>FakeSMC.pkg</string>
 			<key>IFPkgFlagPackageSelection</key>
-			<string>required</string>
+			<string>selected</string>
 		</dict>
 		<dict>
 			<key>IFPkgFlagPackageLocation</key>

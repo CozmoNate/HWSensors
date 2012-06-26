@@ -14,11 +14,11 @@
 @interface HWMonitorEngine : NSObject
 {
 @private
-    io_service_t service;
-    NSBundle* bundle;
-    NSATASmartReporter *smartReporter;
-    NSMutableArray *sensors;
-    NSMutableDictionary *keys;
+    io_service_t _service;
+    NSBundle* _bundle;
+    NSATASmartReporter *_smartReporter;
+    NSMutableArray *_sensors;
+    NSMutableDictionary *_keys;
 }
 
 @property (readonly) NSArray *sensors;

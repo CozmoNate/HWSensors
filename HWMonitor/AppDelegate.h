@@ -22,6 +22,7 @@
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet HWMonitorArrayController *arrayController;
+@property (assign) IBOutlet NSTextField *versionLabel;
 @property (assign) IBOutlet NSButton *toggleMenuButton;
 @property (readwrite, assign) IBOutlet NSObject *userInterfaceEnabled;
 
