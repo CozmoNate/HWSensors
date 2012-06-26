@@ -37,6 +37,9 @@
 - (void)loadIconNamed:(NSString*)name;
 - (HWMonitorIcon*)getIconByName:(NSString*)name;
 - (HWMonitorIcon*)getIconByGroup:(NSUInteger)group;
+
+- (void)updateSensorTitle:(HWMonitorSensor*)sensor;
+
 - (NSMenuItem*)insertTitleItemWithMenu:(NSMenu*)someMenu Title:(NSString*)title Image:(NSImage*)image;
 - (void)insertMenuGroupWithTitle:(NSString*)title Icon:(HWMonitorIcon*)icon Sensors:(NSArray*)list;
 
@@ -53,7 +56,7 @@
 
 - (void)rebuildSensors;
 
-- (void)requestItems:(NSNotification*)aNotification;
+- (void)itemsRequested:(NSNotification*)aNotification;
 
 - (void)systemWillSleep:(NSNotification*)aNotification;
 - (void)systemDidWake:(NSNotification*)aNotification;

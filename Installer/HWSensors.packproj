@@ -991,14 +991,16 @@
 								<key>IFInstallationScriptsPreflight</key>
 								<dict>
 									<key>Path</key>
-									<string></string>
+									<string>removefakesmc</string>
+									<key>Path Type</key>
+									<integer>2</integer>
 									<key>Status</key>
 									<false/>
 								</dict>
 								<key>IFInstallationScriptsPreinstall</key>
 								<dict>
 									<key>Path</key>
-									<string>removefakesmc</string>
+									<string></string>
 									<key>Path Type</key>
 									<integer>2</integer>
 									<key>Status</key>
@@ -1007,7 +1009,7 @@
 								<key>IFInstallationScriptsPreupgrade</key>
 								<dict>
 									<key>Path</key>
-									<string>removefakesmc</string>
+									<string></string>
 									<key>Path Type</key>
 									<integer>2</integer>
 									<key>Status</key>
@@ -1079,7 +1081,7 @@
 						</dict>
 					</dict>
 					<key>IFPkgFlagPackageSelection</key>
-					<integer>1</integer>
+					<integer>0</integer>
 					<key>Name</key>
 					<string>FakeSMC</string>
 					<key>Status</key>
@@ -5335,7 +5337,9 @@
 								<key>IFInstallationScriptsPreflight</key>
 								<dict>
 									<key>Path</key>
-									<string></string>
+									<string>removefakesmc</string>
+									<key>Path Type</key>
+									<integer>2</integer>
 									<key>Status</key>
 									<false/>
 								</dict>
@@ -5368,7 +5372,7 @@
 									<key>IFPkgDescriptionDescription</key>
 									<string></string>
 									<key>IFPkgDescriptionTitle</key>
-									<string>FakeSMC Plug-Ins</string>
+									<string>Plug-Ins</string>
 									<key>IFPkgDescriptionVersion</key>
 									<string>1.0</string>
 								</dict>
@@ -5542,16 +5546,16 @@
 					<key>IFInstallationScriptsPreflight</key>
 					<dict>
 						<key>Path</key>
-						<string>removefakesmc</string>
+						<string></string>
 						<key>Path Type</key>
 						<integer>2</integer>
 						<key>Status</key>
-						<true/>
+						<false/>
 					</dict>
 					<key>IFInstallationScriptsPreinstall</key>
 					<dict>
 						<key>Path</key>
-						<string>removefakesmc</string>
+						<string></string>
 						<key>Path Type</key>
 						<integer>2</integer>
 						<key>Status</key>
@@ -5560,7 +5564,7 @@
 					<key>IFInstallationScriptsPreupgrade</key>
 					<dict>
 						<key>Path</key>
-						<string>removefakesmc</string>
+						<string></string>
 						<key>Path Type</key>
 						<integer>2</integer>
 						<key>Status</key>

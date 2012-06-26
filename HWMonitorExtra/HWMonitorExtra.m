@@ -127,7 +127,7 @@
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(useShadowEffectChanged:) name: HWMonitorUseShadowsChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showHiddenSensorsChanged:) name: HWMonitorShowHiddenChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showBSDNamesChanged:) name: HWMonitorShowBSDNamesChanged object: NULL];
-    [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(requestItems:) name: HWMonitorRequestItems object: NULL];
+    [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(itemsRequested:) name: HWMonitorRequestItems object: NULL];
     
     [self performSelector:@selector(rebuildSensors) withObject:nil afterDelay:0.0];
     
@@ -176,6 +176,11 @@
     return nil;
 }
 
+- (void)updateSensorTitle:(HWMonitorSensor*)sensor
+{
+    [sensor setTitle:[(NSString*)GetLocalizedString([sensor caption]) stringByTruncatingToWidth:145 withFont:_menuFont]];
+}
+
 - (NSMenuItem*)insertTitleItemWithMenu:(NSMenu*)someMenu Title:(NSString*)title Image:(NSImage *)image
 {
     NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:GetLocalizedString(title)];
@@ -207,7 +212,8 @@
             HWMonitorSensor *sensor = (HWMonitorSensor*)[list objectAtIndex:i];
             
             [sensor setFavorite:[_favorites containsObject:sensor]];
-            [sensor setTitle:[(NSString*)GetLocalizedString([sensor caption]) stringByTruncatingToWidth:145 withFont:_menuFont]];
+            
+            [self updateSensorTitle:sensor];
                         
             NSMenuItem * sensorItem = [[NSMenuItem alloc] initWithTitle:[sensor title] action:nil/*@selector(sensorItemClicked:)*/ keyEquivalent:@""];
             [sensorItem setEnabled:NO];
@@ -390,10 +396,10 @@
         [_mainMenu addItem:item];
     }
     
-    [self requestItems:nil];
+    [self itemsRequested:nil];
 }
 
-- (void)requestItems:(NSNotification*)aNotification
+- (void)itemsRequested:(NSNotification*)aNotification
 {
     //NSLog(@"Sending items by request...");
     
@@ -515,7 +521,10 @@
     
     [_engine setShowBSDNames:showBSDNames];
     
-    [self rebuildSensors];    
+    for (HWMonitorSensor *sensor in [_engine sensors]) 
+        [self updateSensorTitle:sensor];
+    
+    [self itemsRequested:nil];    
 }
 
 - (void)systemWillSleep:(NSNotification *)aNotification

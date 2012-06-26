@@ -34,11 +34,11 @@
 
 @implementation HWMonitorView
 
-@synthesize engine=_engine;
-@synthesize favorites=_favorites;
+@synthesize engine = _engine;
+@synthesize favorites = _favorites;
 
-@synthesize useBigFont;
-@synthesize useShadowEffect;
+@synthesize useBigFont = _useBigFont;
+@synthesize useShadowEffect = _useShadowEffect;
 
 -(id)initWithFrame:(NSRect)rect menuExtra:(NSMenuExtra *)statusItem
 {
@@ -142,10 +142,10 @@
                 
                 [title addAttribute:NSForegroundColorAttributeName value:([_menuExtra isMenuDown] ? [NSColor whiteColor] : valueColor) range:NSMakeRange(0,[title length])];
                 
-                if (![_menuExtra isMenuDown] && useShadowEffect) 
+                if (![_menuExtra isMenuDown] && _useShadowEffect) 
                     [title addAttribute:NSShadowAttributeName value:_shadow range:NSMakeRange(0,[title length])];
                 
-                if (useBigFont) {
+                if (_useBigFont) {
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
                     
                     [title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];
@@ -176,6 +176,8 @@
             }
         }
     }
+    
+    offset -= _useBigFont ? 2 : 3;
     
     [self setFrameSize:NSMakeSize(offset, [self frame].size.height)];
     

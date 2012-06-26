@@ -15,8 +15,6 @@
 #define GetLocalizedString(key) \
 [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
-#define kHWMonitorRepresentedObject @"RepresentedObject"
-
 int CoreMenuExtraGetMenuExtra( CFStringRef identifier, void *menuExtra);
 int CoreMenuExtraAddMenuExtra( CFURLRef path, int position, int whoCares, int whoCares2, int whoCares3, int whoCares4);
 int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
@@ -25,6 +23,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 @synthesize window = _window;
 @synthesize arrayController = _arrayController;
+@synthesize versionLabel = _versionLabel;
 @synthesize toggleMenuButton = _toggleMenuButton;
 @synthesize userInterfaceEnabled = _userInterfaceEnabled;
 
@@ -78,8 +77,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     NSMutableArray *items = [[NSMutableArray alloc] init];
     
     for (NSDictionary *item in [sensors allValues]) {
-        //NSString *name = [item valueForKey:@"Name"];
-        //NSString *title = [item valueForKey:@"Title"];
         NSUInteger group = [[item valueForKey:@"Group"] intValue];
         BOOL favorite = [[item valueForKey:@"Favorite"] boolValue];
         
@@ -98,7 +95,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         NSString *name = [item valueForKey:@"Name"];
         NSString *title = [item valueForKey:@"Title"];
         NSUInteger group = [[item valueForKey:@"Group"] intValue];
-        //BOOL favorite = [[item valueForKey:@"Favorite"] boolValue];
         icon = [self getIconByGroup:group];
         [_arrayController addAvailableItem:GetLocalizedString(title) icon:icon ? [icon image] : nil key:name];
     }    
@@ -141,9 +137,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
             HWMonitorIcon *icon = [self getIconByName:kHWMonitorIconThermometer];
             
             if ([[_arrayController getFavoritesItems] count] == 0)
-                [[_arrayController addFavoriteItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]] setValue:icon forKey:kHWMonitorRepresentedObject];
+                [_arrayController addFavoriteItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
             else
-                [[_arrayController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]] setValue:icon forKey:kHWMonitorRepresentedObject];
+                [_arrayController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
         }
         
         [self addAvailableItemsFromDictionary:sensorsList inGroup:kHWSensorGroupTemperature];
@@ -279,6 +275,11 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     // Request items
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorRequestItems object:nil userInfo:nil deliverImmediately:YES];
+    
+    // Update version label
+	NSString *version = [[NSString alloc] initWithFormat:@"v%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+    
+    [_versionLabel setTitleWithMnemonic:version];
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender

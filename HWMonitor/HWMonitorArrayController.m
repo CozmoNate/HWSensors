@@ -151,7 +151,7 @@
     return row > 0 ? NSDragOperationEvery : NSDragOperationNone;
 }
 
-- (void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation;
+/*- (void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation;
 {
     if (operation == NSDragOperationNone) {
         
@@ -170,7 +170,7 @@
         
         [NSApp sendAction:[_tableView action] to:[_tableView target]  from:_tableView];
     }
-}
+}*/
 
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation;
 {
