@@ -447,7 +447,11 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
                 
                 exposedValues->setObject(key->getKey(), info);
                 
-                this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(exposedValues));
+                OSDictionary *values = OSDictionary::withDictionary(exposedValues);
+                
+                this->setProperty(kFakeSMCDeviceValues, values);
+                
+                values->release();
                 
                 return kIOReturnSuccess;
             }
@@ -465,8 +469,11 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
                         exposedValues->setObject(key->getKey(), info);
                     }
                 
-                this->setProperty(kFakeSMCDeviceValues, OSDictionary::withDictionary(exposedValues));
+                OSDictionary *values = OSDictionary::withDictionary(exposedValues);
                 
+                this->setProperty(kFakeSMCDeviceValues, values);
+                
+                values->release();
                 iterator->release();
                 
                 return kIOReturnSuccess;

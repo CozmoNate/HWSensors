@@ -289,7 +289,7 @@
 													<double key="NSMaxWidth">20</double>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">612499008</int>
-														<int key="NSCellFlags2">67110912</int>
+														<int key="NSCellFlags2">2048</int>
 														<string key="NSContents">Icon</string>
 														<object class="NSFont" key="NSSupport" id="26">
 															<string key="NSName">LucidaGrande</string>
@@ -327,12 +327,12 @@
 													<reference key="NSTableView" ref="595788126"/>
 												</object>
 												<object class="NSTableColumn" id="636944715">
-													<double key="NSWidth">197</double>
-													<double key="NSMinWidth">40</double>
+													<double key="NSWidth">196</double>
+													<double key="NSMinWidth">180</double>
 													<double key="NSMaxWidth">30000</double>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">612499008</int>
-														<int key="NSCellFlags2">2048</int>
+														<int key="NSCellFlags2">134219776</int>
 														<string key="NSContents">Name</string>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSBackgroundColor" ref="238927183"/>
@@ -370,7 +370,7 @@
 													<double key="NSMaxWidth">70</double>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">612499008</int>
-														<int key="NSCellFlags2">2048</int>
+														<int key="NSCellFlags2">67110912</int>
 														<string key="NSContents"/>
 														<reference key="NSSupport" ref="26"/>
 														<object class="NSColor" key="NSBackgroundColor" id="986259400">
@@ -396,12 +396,12 @@
 													<reference key="NSTableView" ref="595788126"/>
 												</object>
 												<object class="NSTableColumn" id="520264812">
-													<double key="NSWidth">29</double>
-													<double key="NSMinWidth">10</double>
-													<double key="NSMaxWidth">3.4028234663852886e+38</double>
+													<double key="NSWidth">30</double>
+													<double key="NSMinWidth">30</double>
+													<double key="NSMaxWidth">30</double>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">612499008</int>
-														<int key="NSCellFlags2">2048</int>
+														<int key="NSCellFlags2">67110912</int>
 														<string key="NSContents"/>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSBackgroundColor" ref="986259400"/>
@@ -409,9 +409,9 @@
 													</object>
 													<object class="NSButtonCell" key="NSDataCell" id="759615471">
 														<int key="NSCellFlags">604110336</int>
-														<int key="NSCellFlags2">0</int>
+														<int key="NSCellFlags2">131072</int>
 														<string key="NSContents"/>
-														<reference key="NSSupport" ref="769675369"/>
+														<reference key="NSSupport" ref="26"/>
 														<string key="NSCellIdentifier">_NS:9</string>
 														<reference key="NSControlView" ref="595788126"/>
 														<int key="NSButtonFlags">1215582719</int>
@@ -486,10 +486,11 @@
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="892679051"/>
 									<string key="NSReuseIdentifierKey">_NS:60</string>
+									<bool key="NSEnabled">YES</bool>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="650039975"/>
 									<string key="NSAction">_doScroller:</string>
-									<double key="NSPercent">0.97014925373134331</double>
+									<double key="NSPercent">0.85639686684073102</double>
 								</object>
 							</array>
 							<string key="NSFrame">{{20, 20}, {330, 510}}</string>
@@ -497,7 +498,7 @@
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="1015029178"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
-							<int key="NSsFlags">133682</int>
+							<int key="NSsFlags">133810</int>
 							<reference key="NSVScroller" ref="465590111"/>
 							<reference key="NSHScroller" ref="545257062"/>
 							<reference key="NSContentView" ref="1015029178"/>
@@ -1745,7 +1746,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<array class="NSMutableArray" key="children">
 							<reference ref="892679051"/>
 							<reference ref="564283736"/>
-							<reference ref="650039975"/>
 							<object class="IBNSLayoutConstraint" id="138731012">
 								<reference key="firstItem" ref="564283736"/>
 								<int key="firstAttribute">3</int>
@@ -2154,6 +2154,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference ref="449930378"/>
 							<reference ref="455846205"/>
 							<reference ref="327934427"/>
+							<reference ref="650039975"/>
 						</array>
 						<reference key="parent" ref="972006081"/>
 					</object>

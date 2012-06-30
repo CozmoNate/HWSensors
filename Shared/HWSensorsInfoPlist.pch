@@ -7,11 +7,11 @@
 //
 
 #define HWSENSORS_LASTYEAR                  2012
-#define HWSENSORS_VERSION                   1.0.29
-#define HWSENSORS_VERSION_STRING            "v1.0.29"
+#define HWSENSORS_VERSION                   1.0.30
+#define HWSENSORS_VERSION_STRING            "v1.0.30"
 
-#define FAKESMC_VERSION                     4.2.9
-#define FAKESMC_SHORTVERSION                4.2.9
+#define FAKESMC_VERSION                     4.2.10
+#define FAKESMC_SHORTVERSION                4.2.10
 #define FAKESMC_COMPATIBLE                  4.2.9
 
 #define INTELTHERMAL_VERSION                2.0.0

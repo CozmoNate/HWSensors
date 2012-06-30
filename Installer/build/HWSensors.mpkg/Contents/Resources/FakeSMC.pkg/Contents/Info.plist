@@ -9,13 +9,13 @@
 	<key>CFBundleName</key>
 	<string>FakeSMC</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.2.9</string>
+	<string>4.2.10</string>
 	<key>IFMajorVersion</key>
 	<integer>4</integer>
 	<key>IFMinorVersion</key>
 	<integer>2</integer>
 	<key>IFPkgBuildDate</key>
-	<date>2012-06-30T11:13:12Z</date>
+	<date>2012-06-30T14:43:27Z</date>
 	<key>IFPkgBuildVersion</key>
 	<string>11E53</string>
 	<key>IFPkgCreator</key>
