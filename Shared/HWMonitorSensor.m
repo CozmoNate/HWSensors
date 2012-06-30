@@ -18,24 +18,21 @@ inline UInt8 get_index(char c)
 
 @implementation HWMonitorSensor
 
-@synthesize engine=_engine;
-@synthesize name=_name;
-@synthesize type=_type;
-@synthesize group=_group;
-@synthesize caption=_caption;
-@synthesize title=_title;
-@synthesize data=_data;
-@synthesize disk=_disk;
+@synthesize engine = _engine;
+@synthesize name = _name;
+@synthesize type = _type;
+@synthesize group = _group;
+@synthesize title = _title;
+@synthesize data = _data;
+@synthesize disk = _disk;
 
-@synthesize level=_level;
-@synthesize value=_value;
+@synthesize level = _level;
+@synthesize value = _value;
 
-@synthesize favorite=_favorite;
+@synthesize valueHasBeenChanged = _valueHasBeenChanged;
+@synthesize levelHasBeenChanged = _levelHasBeenChanged;
 
-@synthesize valueHasBeenChanged=_valueHasBeenChanged;
-@synthesize levelHasBeenChanged=_levelHasBeenChanged;
-
-@synthesize menuItem=_menuItem;
+@synthesize representedObject = _representedObject;
 
 + (int)getIndexOfHexChar:(char)c
 {
@@ -84,7 +81,7 @@ inline UInt8 get_index(char c)
     return _data;
 }
 
-- (void)setLevel:(NSUInteger)newLevel
+- (void)setLevel:(enum HWSensorLevel)newLevel
 {
     if (_level != newLevel) {
         _levelHasBeenChanged = true;
@@ -92,7 +89,7 @@ inline UInt8 get_index(char c)
     }
 }
 
-- (NSUInteger)level
+- (enum HWSensorLevel)level
 {
     _levelHasBeenChanged = false;
     return _level;

@@ -15,18 +15,22 @@
 #define GetLocalizedString(key) \
 [_bundle localizedStringForKey:(key) value:@"" table:nil]
 
+@synthesize bundle = _bundle;
+
 @synthesize sensors = _sensors;
 @synthesize keys = _keys;
 
 @synthesize useFahrenheit = _useFahrenheit;
-@synthesize hideDisabledSensors = _hideDisabledSensors;
 @synthesize showBSDNames = _showBSDNames;
 
-+ (HWMonitorEngine*)engine
++ (HWMonitorEngine*)engineWithBundle:(NSBundle*)bundle;
 {
     HWMonitorEngine *me = [[HWMonitorEngine alloc] init];
     
-    if (me) [me rebuildSensorsList];
+    if (me) {
+        [me setBundle:bundle];
+        [me rebuildSensorsList];
+    }
     
     return me;
 }
@@ -74,7 +78,7 @@
         
         for (HWMonitorSensor *sensor in _sensors) 
             if ([sensor disk])
-                [sensor setCaption:_showBSDNames ? [[sensor disk] bsdName] : [[[sensor disk] productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+                [sensor setTitle:_showBSDNames ? [[sensor disk] bsdName] : [[[sensor disk] productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     }
 }
 
@@ -83,7 +87,7 @@
     return _showBSDNames;
 }
 
-- (HWMonitorSensor*)addSensorWithKey:(NSString*)key caption:(NSString*)caption group:(NSUInteger)group
+- (HWMonitorSensor*)addSensorWithKey:(NSString*)key title:(NSString*)title group:(NSUInteger)group
 {
     HWMonitorSensor *sensor = nil;
     NSString *type = nil;
@@ -124,15 +128,15 @@
     [sensor setEngine:self];
     [sensor setName:key];
     [sensor setType:type];
-    [sensor setCaption:caption];
+    [sensor setTitle:title];
     [sensor setData:value];
     [sensor setGroup:group];
     
-    if (!smartSensor && _hideDisabledSensors && [[sensor value] isEqualToString:@"-"]) {
+    /*if (!smartSensor && _hideDisabledSensors && [[sensor value] isEqualToString:@"-"]) {
         [sensor setEngine:nil];
         sensor = nil;
         return nil;
-    }
+    }*/
     
     [_sensors addObject:sensor];
     [_keys setObject:sensor forKey:key];
@@ -168,7 +172,7 @@
     }
     
     if (value) {
-        HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%x", [disk serialNumber], group] caption:_showBSDNames ? [disk bsdName] : [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
+        HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%x", [disk serialNumber], group] title:_showBSDNames ? [disk bsdName] : [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
         
         [sensor setData:value];
         [sensor setDisk:disk];
@@ -188,7 +192,7 @@
         return nil;
     
     _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
-    _sensors = [NSMutableArray array];
+    //_sensors = [NSMutableArray array];
     _keys = [NSMutableDictionary dictionary];
     _bundle = [NSBundle mainBundle];
     
@@ -218,29 +222,24 @@
 
 - (void)rebuildSensorsList
 {
-    if (_sensors) {
-        // Memory leak with ARC fix 
-        for (int i = 0; i < [_sensors count]; i++)
-            [[_sensors objectAtIndex:i] setMenuItem:nil];
-        
-        [_sensors removeAllObjects];
-    }
+    [_sensors removeAllObjects];
+    [_keys removeAllObjects];
     
     //Temperatures
     
     for (int i=0; i<0xA; i++)
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupTemperature];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_DIODE_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupTemperature];
     
-    [self addSensorWithKey:@KEY_CPU_HEATSINK_TEMPERATURE caption:GetLocalizedString(@"CPU Heatsink") group:kHWSensorGroupTemperature];
-    [self addSensorWithKey:@KEY_CPU_PROXIMITY_TEMPERATURE caption:GetLocalizedString(@"CPU Proximity") group:kHWSensorGroupTemperature];
-    [self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE caption:GetLocalizedString(@"Northbridge") group:kHWSensorGroupTemperature];
-    [self addSensorWithKey:@KEY_PCH_DIE_TEMPERATURE caption:GetLocalizedString(@"Platform Controller Hub") group:kHWSensorGroupTemperature];
-    [self addSensorWithKey:@KEY_AMBIENT_TEMPERATURE caption:GetLocalizedString(@"Ambient") group:kHWSensorGroupTemperature];
+    [self addSensorWithKey:@KEY_CPU_HEATSINK_TEMPERATURE title:GetLocalizedString(@"CPU Heatsink") group:kHWSensorGroupTemperature];
+    [self addSensorWithKey:@KEY_CPU_PROXIMITY_TEMPERATURE title:GetLocalizedString(@"CPU Proximity") group:kHWSensorGroupTemperature];
+    [self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE title:GetLocalizedString(@"Northbridge") group:kHWSensorGroupTemperature];
+    [self addSensorWithKey:@KEY_PCH_DIE_TEMPERATURE title:GetLocalizedString(@"Platform Controller Hub") group:kHWSensorGroupTemperature];
+    [self addSensorWithKey:@KEY_AMBIENT_TEMPERATURE title:GetLocalizedString(@"Ambient") group:kHWSensorGroupTemperature];
     
     for (int i=0; i<0xA; i++) {
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_DIODE_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Diode"),i + 1] group:kHWSensorGroupTemperature];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_HEATSINK_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Heatsink"),i + 1] group:kHWSensorGroupTemperature];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupTemperature];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_DIODE_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Diode"),i + 1] group:kHWSensorGroupTemperature];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_HEATSINK_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Heatsink"),i + 1] group:kHWSensorGroupTemperature];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupTemperature];
     }
     
     if ([_smartReporter drives]) {
@@ -263,21 +262,21 @@
     
     //Frequencies
     for (int i=0; i<0xA; i++) {
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_CPU_MULTIPLIER,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X Multiplier"),i + 1] group:kHWSensorGroupMultiplier];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_CPU_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupFrequency];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_CPU_MULTIPLIER,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X Multiplier"),i + 1] group:kHWSensorGroupMultiplier];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_CPU_FREQUENCY,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupFrequency];
     }
     
-    [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER caption:GetLocalizedString(@"CPU Package Multiplier") group:kHWSensorGroupMultiplier];
-    [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_FREQUENCY caption:GetLocalizedString(@"CPU Package") group:kHWSensorGroupFrequency];
+    [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER title:GetLocalizedString(@"CPU Package Multiplier") group:kHWSensorGroupMultiplier];
+    [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_FREQUENCY title:GetLocalizedString(@"CPU Package") group:kHWSensorGroupFrequency];
     
     for (int i=0; i<0xA; i++) {
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPU_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Core"),i + 1] group:kHWSensorGroupFrequency];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPU_FREQUENCY,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Core"),i + 1] group:kHWSensorGroupFrequency];
         
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Shaders"),i + 1] group:kHWSensorGroupFrequency];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Shaders"),i + 1] group:kHWSensorGroupFrequency];
         
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X ROP"),i + 1] group:kHWSensorGroupFrequency];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X ROP"),i + 1] group:kHWSensorGroupFrequency];
         
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Memory"),i + 1] group:kHWSensorGroupFrequency];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Memory"),i + 1] group:kHWSensorGroupFrequency];
     }
     
     // Fans
@@ -288,7 +287,7 @@
             caption = [[NSString alloc] initWithFormat:@"Fan %X",i + 1];
         
         if (![caption hasPrefix:@"GPU "])
-            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:GetLocalizedString(caption) group:kHWSensorGroupTachometer];
+            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(caption) group:kHWSensorGroupTachometer];
     }
     
     // GPU Fans
@@ -298,94 +297,110 @@
         if ([caption hasPrefix:@"GPU "]) {
             UInt8 cardIndex = [[caption substringFromIndex:5] intValue];
             
-            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_FAN_PWM,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),i + 1] group:kHWSensorGroupPWM];
+            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_FAN_PWM,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),i + 1] group:kHWSensorGroupPWM];
             
-            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),cardIndex + 1] group:kHWSensorGroupTachometer];
+            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),cardIndex + 1] group:kHWSensorGroupTachometer];
         }
     }
     
     // Voltages
     for (int i = 0; i <= 0xf; i++)        
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i + 1] group:kHWSensorGroupVoltage];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VOLTAGE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i + 1] group:kHWSensorGroupVoltage];
     
-    [self addSensorWithKey:@KEY_MEMORY_VOLTAGE caption:GetLocalizedString(@"Memory") group:kHWSensorGroupVoltage];
-    [self addSensorWithKey:@KEY_MAIN_3V3_VOLTAGE caption:GetLocalizedString(@"Main 3.3V") group:kHWSensorGroupVoltage];
-    [self addSensorWithKey:@KEY_AUXILIARY_3V3V_VOLTAGE caption:GetLocalizedString(@"Auxiliary 3.3V") group:kHWSensorGroupVoltage];
-    [self addSensorWithKey:@KEY_MAIN_5V_VOLTAGE caption:GetLocalizedString(@"Main 5V") group:kHWSensorGroupVoltage];
-    [self addSensorWithKey:@KEY_STANDBY_5V_VOLTAGE caption:GetLocalizedString(@"Standby 5V") group:kHWSensorGroupVoltage];
-    [self addSensorWithKey:@KEY_MAIN_12V_VOLTAGE caption:GetLocalizedString(@"Main 12V") group:kHWSensorGroupVoltage];
-    [self addSensorWithKey:@KEY_PCIE_12V_VOLTAGE caption:GetLocalizedString(@"PCIe 12V") group:kHWSensorGroupVoltage];
-    [self addSensorWithKey:@KEY_POWERBATTERY_VOLTAGE caption:GetLocalizedString(@"Power/Battery") group:kHWSensorGroupVoltage];
-    
-    for (int i = 0; i <= 0xf; i++)        
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"VRM Supply %X"),i + 1] group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_MEMORY_VOLTAGE title:GetLocalizedString(@"Memory") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_MAIN_3V3_VOLTAGE title:GetLocalizedString(@"Main 3.3V") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_AUXILIARY_3V3V_VOLTAGE title:GetLocalizedString(@"Auxiliary 3.3V") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_MAIN_5V_VOLTAGE title:GetLocalizedString(@"Main 5V") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_STANDBY_5V_VOLTAGE title:GetLocalizedString(@"Standby 5V") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_MAIN_12V_VOLTAGE title:GetLocalizedString(@"Main 12V") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_PCIE_12V_VOLTAGE title:GetLocalizedString(@"PCIe 12V") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_POWERBATTERY_VOLTAGE title:GetLocalizedString(@"Power/Battery") group:kHWSensorGroupVoltage];
     
     for (int i = 0; i <= 0xf; i++)        
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_POWERSUPPLY_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"Power Supply %X"),i + 1] group:kHWSensorGroupVoltage];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"VRM Supply %X"),i + 1] group:kHWSensorGroupVoltage];
     
     for (int i = 0; i <= 0xf; i++)        
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_VOLTAGE,i] caption:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupVoltage];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_POWERSUPPLY_VOLTAGE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"Power Supply %X"),i + 1] group:kHWSensorGroupVoltage];
+    
+    for (int i = 0; i <= 0xf; i++)        
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_VOLTAGE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupVoltage];
 }
 
 - (void)updateSMARTSensorsValues
 {
-    if (_sensors) 
-        for (int i = 0; i < [_sensors count]; i++) {
-            HWMonitorSensor *sensor = [_sensors objectAtIndex:i];
-            
-            switch ([sensor group]) {
-                case kSMARTSensorGroupTemperature:
-                    if ([sensor disk]) [sensor setData:[[sensor disk] getTemperature]];                    
-                    break;
-                    
-                case kSMARTSensorGroupRemainingLife:
-                    if ([sensor disk]) [sensor setData:[[sensor disk] getRemainingLife]];                   
-                    break;
-                    
-                case kSMARTSensorGroupRemainingBlocks: 
-                    if ([sensor disk]) [sensor setData:[[sensor disk] getRemainingBlocks]];                   
-                    break;
-                    
-                default:
-                    break;
-            }
+    for (HWMonitorSensor *sensor in _sensors) {
+        switch ([sensor group]) {
+            case kSMARTSensorGroupTemperature:
+                if ([sensor disk]) [sensor setData:[[sensor disk] getTemperature]];                    
+                break;
+                
+            case kSMARTSensorGroupRemainingLife:
+                if ([sensor disk]) [sensor setData:[[sensor disk] getRemainingLife]];                   
+                break;
+                
+            case kSMARTSensorGroupRemainingBlocks: 
+                if ([sensor disk]) [sensor setData:[[sensor disk] getRemainingBlocks]];                   
+                break;
+                
+            default:
+                break;
         }
+    }
 }
 
-- (void)updateGenericSensorsValuesButOnlyFavorits:(BOOL)updateOnlyFavorites
+- (void)updateGenericSensorsValues
 {
-    if (_sensors) {
-        NSMutableArray *list = [[NSMutableArray alloc] init];
+    NSMutableArray *list = [[NSMutableArray alloc] init];
+    
+    for (HWMonitorSensor *sensor in _sensors)           
+        if (![sensor disk])
+            [list addObject:[sensor name]];
+    
+    if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)list)) 
+    {           
+        NSDictionary *values = nil;
         
-        for (int i = 0; i < [_sensors count]; i++) {
-            HWMonitorSensor *sensor = [_sensors objectAtIndex:i];
+        if ((values = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(_service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0))) {
             
-            if ((updateOnlyFavorites && [sensor favorite]) || !updateOnlyFavorites)
-                if (![sensor disk])
-                    [list addObject:[sensor name]];
-        }
-        
-        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)list)) 
-        {           
-            NSDictionary *values = nil;
-            
-            if ((values = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(_service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0))) {
-                NSEnumerator *enumerator = [values keyEnumerator];
+            for (NSString *key in [values allKeys]) {
                 
-                NSString *key = nil;
+                HWMonitorSensor *sensor = [_keys objectForKey:key];
                 
-                while (key = (NSString*)[enumerator nextObject]) {
-                    HWMonitorSensor *sensor = [_keys objectForKey:key];
+                if (sensor) {
+                    NSArray *keyInfo = [values objectForKey:key];
                     
-                    if (sensor) {
-                        NSArray *keyInfo = [values objectForKey:key];
-                        
-                        [sensor setType:[HWMonitorEngine copyTypeFromKeyInfo:keyInfo]];
-                        [sensor setData:[HWMonitorEngine copyValueFromKeyInfo:keyInfo]];
-                    }
+                    [sensor setType:[HWMonitorEngine copyTypeFromKeyInfo:keyInfo]];
+                    [sensor setData:[HWMonitorEngine copyValueFromKeyInfo:keyInfo]];
                 }
+            }
+        }
+    }
+}
+
+-(void)updateFavoritesSensorsValues:(NSArray *)favorites
+{
+    NSMutableArray *list = [[NSMutableArray alloc] init];
+    
+    for (id object in favorites)
+        if ([object isKindOfClass:[HWMonitorSensor class]] && [_sensors containsObject:object] && ![object disk])
+            [list addObject:[object name]];
+    
+    if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)list)) 
+    {           
+        NSDictionary *values = nil;
+        
+        if ((values = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(_service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0))) {
+            
+            for (NSString *key in [values allKeys]) {
                 
-                enumerator = nil;
+                HWMonitorSensor *sensor = [_keys objectForKey:key];
+                
+                if (sensor) {
+                    NSArray *keyInfo = [values objectForKey:key];
+                    
+                    [sensor setType:[HWMonitorEngine copyTypeFromKeyInfo:keyInfo]];
+                    [sensor setData:[HWMonitorEngine copyValueFromKeyInfo:keyInfo]];
+                }
             }
         }
     }
@@ -395,13 +410,9 @@
 {
     NSMutableArray * list = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < [_sensors count]; i++) {
-        
-        HWMonitorSensor *sensor = (HWMonitorSensor*)[_sensors objectAtIndex:i];
-        
+    for (HWMonitorSensor *sensor in _sensors)
         if (group & [sensor group])
             [list addObject:sensor];
-    }
     
     return [list count] > 0 ? [NSArray arrayWithArray:list] : nil;
 }

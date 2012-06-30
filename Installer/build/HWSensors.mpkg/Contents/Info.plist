@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleGetInfoString</key>
-	<string>HWSensors 1.0.25 Copyrights © 2012 kozkek</string>
+	<string>HWSensors Copyrights © 2012 kozlek</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.hwsensors.pkg.HWSensors</string>
 	<key>CFBundleName</key>
@@ -17,7 +17,7 @@
 	<key>IFMinorVersion</key>
 	<integer>0</integer>
 	<key>IFPkgBuildDate</key>
-	<date>2012-06-26T04:20:59Z</date>
+	<date>2012-06-30T07:12:58Z</date>
 	<key>IFPkgBuildVersion</key>
 	<string>11E53</string>
 	<key>IFPkgCreator</key>

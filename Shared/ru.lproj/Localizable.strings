@@ -52,12 +52,12 @@
 "Preferences..." = "Настройки...";
 "GENERAL" = "ОСНОВНЫЕ";
 "Show hidden sensors" = "Показывать скрытые датчики";
-"Use BSD drives names" = "Имена накопителей в формате BSD";
+"Use BSD drives names" = "Имена дисков в формате BSD";
 "TEMPERATURE SCALE" = "СИСТЕМА ТЕМПЕРАТУР";
 "Celsius" = "Цельсий";
 "Fahrenheit" = "Фаренгейт";
 "MENU BAR" = "СИСТЕМНОЕ МЕНЮ";
-"Use big font" = "Использовать большой шрифт";
+"Use larger font" = "Использовать большой шрифт";
 "Use shadow effect" = "Отображать с эффектом тени";
 "thermometer" = "Значек градусника";
 "temperatures" = "Значек температуры";
@@ -73,3 +73,9 @@
 "System Fan #2" = "Охладитель системы №2";
 "Menu bar items:" = "Датчики на панели:";
 "Available items:" = "Доступные датчики:";
+"HWMonitor Preferences" = "Настройки HWMonitor";
+"Install HWMonitor" = "Показать значек меню";
+"Uninstall HWMonitor" = "Удалить значек из меню";
+"Temperature units:" = "Система температур:";
+"System menu bar:" = "Значек в системом меню:";
+"Miscellaneous:" = "Разное:";

@@ -24,13 +24,8 @@
 @property (assign) IBOutlet HWMonitorArrayController *arrayController;
 @property (assign) IBOutlet NSTextField *versionLabel;
 @property (assign) IBOutlet NSButton *toggleMenuButton;
-@property (readwrite, assign) IBOutlet NSObject *userInterfaceEnabled;
 
-//- (void)loadIconNamed:(NSString*)name;
-//- (HWMonitorIcon*)getIconByName:(NSString*)name;
-//- (HWMonitorIcon*)getIconByGroup:(NSUInteger)group;
-//- (void)addAvailableItemsFromGroup:(NSUInteger)group;
-//- (void)rebuildSensors;
+@property (readwrite, assign) IBOutlet NSObject *userInterfaceEnabled;
 
 - (void)recieveItems:(NSNotification*)aNotification;
 
@@ -40,7 +35,6 @@
 - (IBAction)useFahrenheitChanged:(id)sender;
 - (IBAction)useBigFontChanged:(id)sender;
 - (IBAction)useShadowEffectChanged:(id)sender;
-- (IBAction)showHiddenSensorsChanged:(id)sender;
 - (IBAction)showBSDNamesChanged:(id)sender;
 
 @end

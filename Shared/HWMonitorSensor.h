@@ -23,34 +23,35 @@ enum HWSensorGroup {
     kSMARTSensorGroupRemainingBlocks    = 1 << 8,
 };
 
-#define kHWSensorLevelUnused                0
-#define kHWSensorLevelDisabled              1
-#define kHWSensorLevelNormal                2
-#define kHWSensorLevelModerate              3
-#define kHWSensorLevelHigh                  4
-#define kHWSensorLevelExceeded              1000
+enum HWSensorLevel {
+    kHWSensorLevelUnused                = 0,
+    kHWSensorLevelDisabled              = 1,
+    kHWSensorLevelNormal                = 2,
+    kHWSensorLevelModerate              = 3,
+    kHWSensorLevelHigh                  = 4,
+    kHWSensorLevelExceeded              = 1000,
+};
+
+@class HWMonitorEngine;
 
 @interface HWMonitorSensor : NSObject
 
-@property (readwrite, retain) id                engine;
+@property (readwrite, retain) HWMonitorEngine*  engine;
 
-@property (readwrite, retain) NSString*         name;
-@property (readwrite, retain) NSString*         type;
-@property (readwrite, assign) NSUInteger        group;
-@property (readwrite, retain) NSString *        caption;
-@property (readwrite, retain) NSString *        title;
-@property (readwrite, retain) NSData*           data;
-@property (readwrite, retain) ATAGenericDisk*   disk;
+@property (readwrite, retain) NSString* name;
+@property (readwrite, retain) NSString* type;
+@property (readwrite, assign) enum HWSensorGroup group;
+@property (readwrite, retain) NSString* title;
+@property (readwrite, retain) NSData* data;
+@property (readwrite, retain) ATAGenericDisk* disk;
 
-@property (readwrite, assign) NSUInteger        level;
-@property (readonly) NSString*                  value;
+@property (readwrite, assign) enum HWSensorLevel level;
+@property (readonly) NSString* value;
 
-@property (readwrite, assign) BOOL              favorite;
+@property (readonly) BOOL levelHasBeenChanged;
+@property (readonly) BOOL valueHasBeenChanged;
 
-@property (readonly) BOOL                       levelHasBeenChanged;
-@property (readonly) BOOL                       valueHasBeenChanged;
-
-@property (readwrite, retain) NSMenuItem*       menuItem;
+@property (readwrite, retain) id representedObject;
 
 + (int)getIndexOfHexChar:(char)c;
 + (HWMonitorSensor*)sensor;
