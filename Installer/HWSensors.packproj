@@ -1048,7 +1048,7 @@
 								<key>CFBundleName</key>
 								<string>FakeSMC</string>
 								<key>CFBundleShortVersionString</key>
-								<string>4.2.9</string>
+								<string>4.2.10</string>
 							</dict>
 							<key>Options</key>
 							<dict>
@@ -5587,7 +5587,7 @@
 						<key>IFPkgDescriptionTitle</key>
 						<string>HWSensors</string>
 						<key>IFPkgDescriptionVersion</key>
-						<string>1.0.29</string>
+						<string>1.0.30</string>
 					</dict>
 				</dict>
 				<key>Display Information</key>
