@@ -11,10 +11,10 @@
 
 // Preferences
 #define kHWMonitorFavoritesList         @"favoritesList"
+#define kHWMonitorHiddenList            @"hiddenList"
 #define kHWMonitorUseFahrenheitKey      @"useFahrenheit"
 #define kHWMonitorUseBigStatusMenuFont  @"useBigFont"
 #define kHWMonitorUseShadowEffect       @"useShadowEffect"
-#define kHWMonitorShowHiddenSensors     @"showHiddenSensors"
 #define kHWMonitorShowBSDNames          @"showBSDNames"
 #define kHWMonitorMenuInstalled         @"menuInstalled"
 
@@ -39,5 +39,17 @@
 #define HWMonitorShowBSDNamesChanged    @"HWMonitorShowBSDNamesChanged"
 #define HWMonitorRequestItems           @"HWMonitorRequestItems"
 #define HWMonitorRecieveItems           @"HWMonitorRecieveItems"
+
+// Key
+#define kHWMonitorKeyName               @"Name"
+#define kHWMonitorKeyIcon               @"Icon"
+#define kHWMonitorKeyValue              @"Value"
+#define kHWMonitorKeySeparator          @"IsSeparator"
+#define kHWMonitorKeyVisible            @"Visible"
+#define kHWMonitorKeyFavorite           @"Favorite"
+#define kHWMonitorKeyKey                @"Key"
+#define kHWMonitorKeyGroup              @"Group"
+#define kHWMonitorKeyTitle              @"Title"
+#define kHWMonitorKeyIndex              @"Index"
 
 #endif

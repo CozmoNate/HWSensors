@@ -13,6 +13,7 @@
 #import "HWMonitorIcon.h"
 #import "HWMonitorEngine.h"
 #import "HWMonitorView.h"
+#import "HWMonitorGroup.h"
 
 @interface HWMonitorExtra : NSMenuExtra
 {
@@ -22,13 +23,12 @@
     NSDictionary *_blackColorAttribute;
     NSDictionary *_orangeColorAttribute;
     NSDictionary *_redColorAttribute;
-    NSImage *_favoriteIcon;
-    NSImage *_disabledIcon;
     NSImage *_prefsIcon;
     NSMutableDictionary *_icons;
     NSMutableArray *_favorites;
     
     NSMenu *_mainMenu;
+    NSMutableArray *_groups;
 }
 
 @property (readwrite, retain) IBOutlet HWMonitorEngine* engine;
@@ -37,11 +37,6 @@
 - (void)loadIconNamed:(NSString*)name;
 - (HWMonitorIcon*)getIconByName:(NSString*)name;
 - (HWMonitorIcon*)getIconByGroup:(NSUInteger)group;
-
-- (void)updateSensorTitle:(HWMonitorSensor*)sensor;
-
-- (NSMenuItem*)insertTitleItemWithMenu:(NSMenu*)someMenu Title:(NSString*)title Image:(NSImage*)image;
-- (void)insertMenuGroupWithTitle:(NSString*)title Icon:(HWMonitorIcon*)icon Sensors:(NSArray*)list;
 
 - (void)updateSMARTData;
 - (void)updateSMARTDataThreaded;
@@ -54,6 +49,7 @@
 
 - (void)openPreferences:(id)sender;
 
+- (void)checkGroupsVisibilities;
 - (void)rebuildSensors;
 
 - (void)itemsRequested:(NSNotification*)aNotification;
@@ -65,7 +61,6 @@
 - (void)useFahrenheitChanged:(NSNotification*)aNotification;
 - (void)useBigFontChanged:(NSNotification*)aNotification;
 - (void)useShadowEffectChanged:(NSNotification*)aNotification;
-- (void)showHiddenSensorsChanged:(NSNotification*)aNotification;
 - (void)showBSDNamesChanged:(NSNotification*)aNotification;
 
 @end

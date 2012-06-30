@@ -7,6 +7,7 @@
 //
 
 #import "HWMonitorArrayController.h"
+#import "HWMonitorDefinitions.h"
 
 @implementation HWMonitorArrayController
 
@@ -24,30 +25,67 @@
     if ([[self arrangedObjects] count] > 0)
         [self removeAllItems];
     
-    _firstFavoriteItem = [NSDictionary dictionaryWithObjectsAndKeys:favoriteName, @"Name", /*[NSImage imageNamed:NSImageNameIconViewTemplate], @"Icon",*/ [[NSObject alloc] init], @"IsSeparator", nil];
-    _firstAvailableItem = [NSDictionary dictionaryWithObjectsAndKeys:availableName, @"Name", /*[NSImage imageNamed:NSImageNameListViewTemplate], @"Icon",*/ [[NSObject alloc] init], @"IsSeparator", nil];
+    _firstFavoriteItem = [NSDictionary dictionaryWithObjectsAndKeys:favoriteName, kHWMonitorKeyName, /*[NSImage imageNamed:NSImageNameIconViewTemplate], kHWMonitorKeyIcon,*/ [[NSObject alloc] init], kHWMonitorKeySeparator, nil];
+    _firstAvailableItem = [NSDictionary dictionaryWithObjectsAndKeys:availableName, kHWMonitorKeyName, /*[NSImage imageNamed:NSImageNameListViewTemplate], kHWMonitorKeyIcon,*/ [[NSObject alloc] init], kHWMonitorKeySeparator, nil];
     
     [self insertObject:_firstFavoriteItem atArrangedObjectIndex:0];
     [self insertObject:_firstAvailableItem atArrangedObjectIndex:1];
 }
 
--(NSDictionary*)addFavoriteItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
+-(NSMutableDictionary*)addFavoriteItem
 {
-    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, @"Name", icon, @"Icon", key, @"Key", nil];
+    NSMutableDictionary *item = [[NSMutableDictionary alloc] init];
     
     [self insertObject:item atArrangedObjectIndex:[[self arrangedObjects] indexOfObject:_firstAvailableItem]];
     
     return item;
 }
 
--(NSDictionary*)addAvailableItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
+-(NSDictionary*)addFavoriteItem:(NSString*)name icon:(NSImage*)icon enabled:(NSNumber*)enabled key:(NSString*)key
 {
-    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, @"Name", icon, @"Icon", key, @"Key", nil];
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name,kHWMonitorKeyName, icon, kHWMonitorKeyIcon, key, kHWMonitorKeyKey, enabled, kHWMonitorKeyVisible, nil];
+    
+    [self insertObject:item atArrangedObjectIndex:[[self arrangedObjects] indexOfObject:_firstAvailableItem]];
+    
+    return item;
+}
+
+-(NSDictionary*)addFavoriteItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
+{
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, kHWMonitorKeyName, icon, kHWMonitorKeyIcon, key, kHWMonitorKeyKey, nil];
+    
+    [self insertObject:item atArrangedObjectIndex:[[self arrangedObjects] indexOfObject:_firstAvailableItem]];
+    
+    return item;
+}
+
+-(NSMutableDictionary*)addAvailableItem
+{
+    NSMutableDictionary *item = [[NSMutableDictionary alloc] init];
     
     [self addObject:item];
     
     return item;
 }
+
+-(NSDictionary*)addAvailableItem:(NSString*)name icon:(NSImage*)icon enabled:(NSNumber*)enabled key:(NSString*)key
+{
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, kHWMonitorKeyName, icon, kHWMonitorKeyIcon, key, kHWMonitorKeyKey, enabled, kHWMonitorKeyVisible, nil];
+    
+    [self addObject:item];
+    
+    return item;
+}
+
+-(NSDictionary*)addAvailableItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
+{
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, kHWMonitorKeyName, icon, kHWMonitorKeyIcon, key, kHWMonitorKeyKey, nil];
+    
+    [self addObject:item];
+    
+    return item;
+}
+
 
 -(void)removeAllItems
 {
@@ -69,6 +107,23 @@
             [list addObject:item];
         else
             break;
+    }
+    
+    return list;
+}
+
+-(NSArray *)getAllItems
+{
+    NSMutableArray *list = [[NSMutableArray alloc] init];
+    
+    NSUInteger index;
+    
+    for (index = 1; index < [[self arrangedObjects] count]; index++) {
+        
+        NSDictionary *item = [[self arrangedObjects] objectAtIndex:index];
+        
+        if (_firstAvailableItem != item && ![item valueForKey:@"IsSeparator"])
+            [list addObject:item];
     }
     
     return list;
@@ -96,15 +151,6 @@
 	[_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
 }
 
--(NSDictionary*)addItemWithName:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
-{
-    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, @"Name", icon, @"Icon", key, @"Key", nil];
-    
-    [self addObject:item];
-    
-    return item;
-}
-
 - (void) awakeFromNib {
 	[self setupController];
 }
@@ -118,13 +164,21 @@
     return nil == [[[self arrangedObjects] objectAtIndex:row] valueForKey:@"IsSeparator"];
 }
 
-/*- (NSIndexSet *)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    if ([proposedSelectionIndexes count] > 0 && [[[self arrangedObjects] objectAtIndex:[proposedSelectionIndexes firstIndex]] valueForKey:@"Icon"]) {
-        return [NSIndexSet indexSetWithIndex:[proposedSelectionIndexes firstIndex]];
+    if ([cell isKindOfClass:[NSButtonCell class]])
+        [cell setTransparent:![cell isEnabled]];
+    /*if ([cell isKindOfClass:[NSButtonCell class]] && [[[self arrangedObjects] objectAtIndex:row] valueForKey:@"Visible"]) {
+        [cell setEnabled:YES];
     }
+    else {
+        [cell setEnabled:NO];
+    }*/
+}
+
+/*- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
     
-    return [NSIndexSet indexSet];
 }*/
 
 // ===========================================

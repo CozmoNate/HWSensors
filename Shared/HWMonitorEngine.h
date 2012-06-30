@@ -15,26 +15,26 @@
 {
 @private
     io_service_t _service;
-    NSBundle* _bundle;
     NSATASmartReporter *_smartReporter;
     NSMutableArray *_sensors;
     NSMutableDictionary *_keys;
 }
 
+@property (readwrite, retain) NSBundle* bundle;
+
 @property (readonly) NSArray *sensors;
 @property (readonly) NSDictionary *keys;
 
 @property (readwrite, assign) BOOL useFahrenheit;
-@property (readwrite, assign) BOOL hideDisabledSensors;
 @property (readwrite, assign) BOOL showBSDNames;
 
-+ (HWMonitorEngine*)engine;
++ (HWMonitorEngine*)engineWithBundle:(NSBundle*)bundle;
 
 + (NSArray*)populateInfoForKey:(NSString *)key;
 + (NSString*)copyTypeFromKeyInfo:(NSArray*)info;
 + (NSData*)copyValueFromKeyInfo:(NSArray*)info;
 
-- (HWMonitorSensor*)addSensorWithKey:(NSString*)key caption:(NSString*)caption group:(NSUInteger)group;
+- (HWMonitorSensor*)addSensorWithKey:(NSString*)key title:(NSString*)title group:(NSUInteger)group;
 - (HWMonitorSensor*)addSMARTSensorWithGenericDisk:(ATAGenericDisk*)disk group:(NSUInteger)group;
 
 - (id)init;
@@ -43,7 +43,8 @@
 
 - (void)rebuildSensorsList;
 - (void)updateSMARTSensorsValues;
-- (void)updateGenericSensorsValuesButOnlyFavorits:(BOOL)updateOnlyFavorites;
+- (void)updateGenericSensorsValues;
+- (void)updateFavoritesSensorsValues:(NSArray*)favorites;
 
 - (NSArray*)getAllSensorsInGroup:(NSUInteger)group;
 
