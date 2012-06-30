@@ -22,6 +22,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 @implementation AppDelegate
 
 @synthesize window = _window;
+@synthesize menu = _menu;
 @synthesize arrayController = _arrayController;
 @synthesize versionLabel = _versionLabel;
 @synthesize toggleMenuButton = _toggleMenuButton;
@@ -274,7 +275,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorShowBSDNamesChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
--(void)localizeTitlesOfView:(NSView*)view
+-(void)localizeView:(NSView*)view
 {
     if ([view isKindOfClass:[NSMatrix class]]) {
         NSMatrix *matrix = (NSMatrix*)view;
@@ -318,7 +319,25 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     }
     
     for(NSView *subView in [view subviews])
-        [self localizeTitlesOfView:subView];
+        [self localizeView:subView];
+}
+
+-(void)localizeMenu:(NSMenu*)menu
+{
+    if (menu) {
+        [menu setTitle:GetLocalizedString([menu title])];
+
+        for (id subItem in [menu itemArray]) {
+            if ([subItem isKindOfClass:[NSMenuItem class]]) {
+                NSMenuItem* menuItem = subItem;
+                
+                [menuItem setTitle:GetLocalizedString([menuItem title])];
+                
+                if ([menuItem hasSubmenu])
+                    [self localizeMenu:[menuItem submenu]];
+            }
+        }
+    }
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -343,12 +362,14 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [self loadIconNamed:kHWMonitorIconVoltages];
     
     // Update version label
-	NSString *version = [[NSString alloc] initWithFormat:@"v%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+	NSString *version = [[NSString alloc] initWithFormat:@"v%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
     
     [_versionLabel setTitleWithMnemonic:version];
     
     [_window setTitle:GetLocalizedString([_window title])];
-    [self localizeTitlesOfView:[_window contentView]];
+    
+    [self localizeView:[_window contentView]];
+    [self localizeMenu:_menu];
     
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(recieveItems:) name: HWMonitorRecieveItems object: NULL];
     

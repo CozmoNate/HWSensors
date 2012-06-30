@@ -9,13 +9,13 @@
 	<key>CFBundleName</key>
 	<string>HWMonitor</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1</string>
+	<string>2.1.1</string>
 	<key>IFMajorVersion</key>
 	<integer>2</integer>
 	<key>IFMinorVersion</key>
 	<integer>1</integer>
 	<key>IFPkgBuildDate</key>
-	<date>2012-06-30T07:12:58Z</date>
+	<date>2012-06-30T11:13:12Z</date>
 	<key>IFPkgBuildVersion</key>
 	<string>11E53</string>
 	<key>IFPkgCreator</key>
@@ -29,7 +29,7 @@
 	<key>IFPkgFlagFollowLinks</key>
 	<false/>
 	<key>IFPkgFlagInstalledSize</key>
-	<integer>924</integer>
+	<integer>928</integer>
 	<key>IFPkgFlagIsRequired</key>
 	<false/>
 	<key>IFPkgFlagOverwritePermissions</key>
