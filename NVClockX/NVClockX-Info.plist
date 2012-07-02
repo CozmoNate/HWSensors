@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.hwsensors.${PRODUCT_NAME}</string>
+	<string>NVCLOCKX_BUNDLE</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -25,7 +25,7 @@
 		<key>NVClockX Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.hwsensors.${PRODUCT_NAME}</string>
+			<string>NVCLOCKX_BUNDLE</string>
 			<key>IOClass</key>
 			<string>NVClockX</string>
 			<key>IOMatchCategory</key>
@@ -52,7 +52,7 @@
 		<string>10.0.0</string>
 		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>1.0.0b1</string>
-		<key>org.netkas.FakeSMC</key>
+		<key>FAKESMC_BUNDLE</key>
 		<string>FAKESMC_COMPATIBLE</string>
 	</dict>
 	<key>OSBundleRequired</key>
