@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.netkas.${PRODUCT_NAME}</string>
+	<string>FAKESMC_BUNDLE</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -25,7 +25,7 @@
 		<key>SMC Device Emulator</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.netkas.${PRODUCT_NAME}</string>
+			<string>FAKESMC_BUNDLE</string>
 			<key>Configuration</key>
 			<dict>
 				<key>Keys</key>

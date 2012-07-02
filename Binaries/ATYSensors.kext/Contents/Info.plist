@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>ATYSensors</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.hwsensors.ATYSensors</string>
+	<string>org.hwsensors.driver.ATYSensors</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -39,7 +39,7 @@
 		<key>Radeon Monitoring Plugin</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.hwsensors.ATYSensors</string>
+			<string>org.hwsensors.driver.ATYSensors</string>
 			<key>IOClass</key>
 			<string>RadeonMonitor</string>
 			<key>IOMatchCategory</key>
@@ -66,7 +66,7 @@
 		<string>10.0.0</string>
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
-		<key>org.netkas.FakeSMC</key>
+		<key>org.netkas.driver.FakeSMC</key>
 		<string>4.2.9</string>
 	</dict>
 	<key>OSBundleRequired</key>
