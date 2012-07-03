@@ -770,10 +770,10 @@
 			isa = PBXGroup;
 			children = (
 				7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */,
-				6A9955C214EFAEE50052C702 /* cpuid.h */,
 				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
-				7E06D0EC157E96C400F8A270 /* SystemUIPlugin.h */,
 				7E9388FF15945B360005316D /* HWMonitorDefinitions.h */,
+				6A9955C214EFAEE50052C702 /* cpuid.h */,
+				7E06D0EC157E96C400F8A270 /* SystemUIPlugin.h */,
 				6AA3A26B14F6D7C1007A7084 /* NSString+TruncateToWidth */,
 				7E06D0F6157FC7F800F8A270 /* BundleUserDefaults */,
 				6AA3A26A14F6D7AC007A7084 /* ATASmartReporter */,
