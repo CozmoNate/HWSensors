@@ -48,7 +48,6 @@
 "Power Supply %X" =  "Источник питания %X";
 "Quit HWMonitor" = "Закрыть HWMonitor";
 "No sensors found" = "Нет доступных сенсоров";
-"Preferences" = "Настройки";
 "Preferences..." = "Настройки...";
 "GENERAL" = "ОСНОВНЫЕ";
 "Show hidden sensors" = "Показывать скрытые датчики";
@@ -71,11 +70,10 @@
 "Power Fan" = "Охладитель БП";
 "System Fan #1" = "Охладитель системы №1";
 "System Fan #2" = "Охладитель системы №2";
-"Menu bar items:" = "Датчики на панели:";
-"Available items:" = "Доступные датчики:";
+"Menu bar items:" = "Датчики в системном меню:";
+"Available items:" = "Все доступные датчики:";
 "HWMonitor Preferences" = "Настройки HWMonitor";
-"Install HWMonitor" = "Показать значек меню";
-"Uninstall HWMonitor" = "Удалить значек из меню";
+"Install menubar icon" = "Показывать значек в меню";
 "Temperature units:" = "Система температур:";
 "System menu bar:" = "Значек в системом меню:";
 "Miscellaneous:" = "Разное:";

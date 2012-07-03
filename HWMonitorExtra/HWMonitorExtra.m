@@ -109,9 +109,9 @@
     /*invocation = [NSInvocation invocationWithMethodSignature:
                   [self methodSignatureForSelector:@selector(rebuildSensors)]];
     [invocation setTarget:self];
-    [invocation setSelector:@selector(rebuildSensors)];*/
+    [invocation setSelector:@selector(rebuildSensors)];
     
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1800.0 invocation:invocation repeats:YES] forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1800.0 invocation:invocation repeats:YES] forMode:NSDefaultRunLoopMode];*/
     
     // Register PM events
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(systemWillSleep:) name: NSWorkspaceWillSleepNotification object: NULL];
@@ -510,13 +510,14 @@
 
 - (void)systemWillSleep:(NSNotification *)aNotification
 {
-    //
+    
 }
 
 - (void)systemDidWake:(NSNotification *)aNotification
 {
-    [self updateSMARTDataThreaded];
-    [self updateDataThreaded];
+    //[self updateSMARTDataThreaded];
+    //[self updateDataThreaded];
+    [self rebuildSensors];
 }
 
 - (void)willUnload
