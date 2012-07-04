@@ -233,7 +233,7 @@
     
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     
-    int from = [rowIndexes firstIndex];
+    NSUInteger from = [rowIndexes firstIndex];
     
     NSDictionary *item = [[self arrangedObjects] objectAtIndex:from];
     

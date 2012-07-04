@@ -9,15 +9,15 @@
 	<key>CFBundleName</key>
 	<string>HWMonitor</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.1</string>
+	<string>2.1.5</string>
 	<key>IFMajorVersion</key>
 	<integer>2</integer>
 	<key>IFMinorVersion</key>
 	<integer>1</integer>
 	<key>IFPkgBuildDate</key>
-	<date>2012-07-04T04:58:05Z</date>
+	<date>2012-07-04T19:29:45Z</date>
 	<key>IFPkgBuildVersion</key>
-	<string>11E53</string>
+	<string>12A256</string>
 	<key>IFPkgCreator</key>
 	<string>IcebergBuilder 1.2.9</string>
 	<key>IFPkgFlagAllowBackRev</key>
@@ -29,7 +29,7 @@
 	<key>IFPkgFlagFollowLinks</key>
 	<false/>
 	<key>IFPkgFlagInstalledSize</key>
-	<integer>928</integer>
+	<integer>940</integer>
 	<key>IFPkgFlagIsRequired</key>
 	<false/>
 	<key>IFPkgFlagOverwritePermissions</key>
