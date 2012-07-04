@@ -86,7 +86,6 @@
     return item;
 }
 
-
 -(void)removeAllItems
 {
     NSRange range = NSMakeRange(0, [[self arrangedObjects] count]);

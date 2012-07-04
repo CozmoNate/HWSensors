@@ -29,6 +29,7 @@
 @property (readwrite, assign) IBOutlet NSObject *userInterfaceEnabled;
 
 - (void)recieveItems:(NSNotification*)aNotification;
+- (void)valuesChanged:(NSNotification*)aNotification;
 
 - (IBAction)toggleMenu:(id)sender;
 
@@ -37,5 +38,6 @@
 - (IBAction)useBigFontChanged:(id)sender;
 - (IBAction)useShadowEffectChanged:(id)sender;
 - (IBAction)showBSDNamesChanged:(id)sender;
+
 
 @end

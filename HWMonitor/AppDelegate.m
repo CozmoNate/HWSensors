@@ -173,6 +173,24 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     }
 }
 
+-(void)valuesChanged:(NSNotification *)aNotification
+{
+    if ([aNotification userInfo]) {
+        NSDictionary *list = [aNotification userInfo];
+        
+        for (NSMutableDictionary *item in [_arrayController arrangedObjects]) {
+            
+            NSString *key = [item objectForKey:kHWMonitorKeyKey];
+            
+            if ([[list allKeys] containsObject:key]) {
+                NSString *value = [list objectForKey:key];
+                
+                [item setValue:value forKey:kHWMonitorKeyValue];
+            }
+        }
+    }
+}
+
 - (IBAction)toggleMenu:(id)sender
 {
     void *menuExtra = nil;
@@ -371,7 +389,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [self localizeView:[_window contentView]];
     [self localizeMenu:_menu];
     
-    [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(recieveItems:) name: HWMonitorRecieveItems object: NULL];
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(recieveItems:) name:HWMonitorRecieveItems object: NULL];
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(valuesChanged:) name:HWMonitorValuesChanged object: NULL];
     
     // Request items
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorRequestItems object:nil userInfo:nil deliverImmediately:YES];

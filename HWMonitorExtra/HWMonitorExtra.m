@@ -176,7 +176,14 @@
 
 - (void)updateSMARTData; 
 {
-    [_engine updateSMARTSensorsValues];
+    NSArray *list = [_engine updateSMARTSensorsValues];
+    
+    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    
+    for (HWMonitorSensor *sensor in list)
+        [values setObject:[sensor value] forKey:[sensor name]];
+    
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
 }
 
 - (void)updateSMARTDataThreaded
@@ -186,10 +193,19 @@
 
 - (void)updateData
 {
+    NSArray *list = nil;
+    
     if ([self isMenuDown]) 
-        [_engine updateGenericSensorsValues];
+        list = [_engine updateGenericSensorsValues];
     else 
-        [_engine updateFavoritesSensorsValues:_favorites];
+        list = [_engine updateFavoritesSensorsValues:_favorites];
+    
+    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    
+    for (HWMonitorSensor *sensor in list)
+        [values setObject:[sensor value] forKey:[sensor name]];
+    
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
 }
 
 - (void)updateDataThreaded

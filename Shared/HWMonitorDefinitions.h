@@ -39,6 +39,7 @@
 #define HWMonitorShowBSDNamesChanged    @"HWMonitorShowBSDNamesChanged"
 #define HWMonitorRequestItems           @"HWMonitorRequestItems"
 #define HWMonitorRecieveItems           @"HWMonitorRecieveItems"
+#define HWMonitorValuesChanged          @"HWMonitorValuesChanged"
 
 // Key
 #define kHWMonitorKeyName               @"Name"
