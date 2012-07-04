@@ -70,10 +70,10 @@
 "Power Fan" = "Охладитель БП";
 "System Fan #1" = "Охладитель системы №1";
 "System Fan #2" = "Охладитель системы №2";
-"Menu bar items:" = "Датчики в системном меню:";
+"Menu bar items:" = "Датчики в строке меню:";
 "Available items:" = "Все доступные датчики:";
 "HWMonitor Preferences" = "Настройки HWMonitor";
-"Install menubar icon" = "Показывать значек в меню";
+"Show items in menu bar" = "Показывать датчики в меню";
 "Temperature units:" = "Система температур:";
 "System menu bar:" = "Cистемное меню:";
 "Miscellaneous:" = "Разное:";
