@@ -384,14 +384,14 @@
     
     NSMutableDictionary *sensorsList = [[NSMutableDictionary alloc] init];
     
-    NSUInteger index = 0;
+    int index = 0;
     
     for (HWMonitorSensor *sensor in [_engine sensors]) {
         [sensorsList setValue:[NSDictionary dictionaryWithObjectsAndKeys:
                                [sensor name], kHWMonitorKeyName,
                                [sensor title], kHWMonitorKeyTitle,
                                [NSString stringWithString:[sensor value]], kHWMonitorKeyValue,
-                               [NSNumber numberWithInt:[sensor group]], kHWMonitorKeyGroup,
+                               [NSNumber numberWithLong:[sensor group]], kHWMonitorKeyGroup,
                                [NSNumber numberWithBool:[_favorites containsObject:sensor]], kHWMonitorKeyFavorite,
                                [NSNumber numberWithBool:[[sensor representedObject] isVisible]], kHWMonitorKeyVisible,
                                [NSNumber numberWithInt:index], kHWMonitorKeyIndex,

@@ -32,6 +32,8 @@
 #import "HWMonitorView.h"
 #import "HWMonitorIcon.h"
 
+const NSString* kHWMonitorViewSpacer = @" ";
+
 @implementation HWMonitorView
 
 @synthesize engine = _engine;
@@ -70,7 +72,7 @@
         NSImage *image = [_menuExtra isMenuDown] ? _alternateImage : _image;
         
         if (image) {
-            NSUInteger width = [image size].width > 22 ? [image size].width : 22;
+            NSUInteger width = [image size].width + 4;
             
             [image drawAtPoint:NSMakePoint(lround((width - [image size].width) / 2), lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
             
@@ -83,6 +85,8 @@
     }
     
     int offset = 0;
+    
+    NSAttributedString *spacer = [[NSAttributedString alloc] initWithString:_useBigFont ? @" " : @"  " attributes:[NSDictionary dictionaryWithObjectsAndKeys:_useBigFont ? _bigFont : _smallFont, NSFontAttributeName, nil]];
     
     if (_engine && [[_engine sensors] count] > 0) {
         
@@ -101,7 +105,7 @@
                     
                     if (image) {
                         
-                        [image compositeToPoint:NSMakePoint(offset, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
+                        [image drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
                         
                         offset += [image size].width + 3;
                         
@@ -146,22 +150,22 @@
                     [title addAttribute:NSShadowAttributeName value:_shadow range:NSMakeRange(0,[title length])];
                 
                 if (_useBigFont) {
+
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
                     
                     [title drawWithRect:NSMakeRect(offset, lround(([self frame].size.height - [title size].height) / 2), [title size].width, [title size].height) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesDeviceMetrics];
-                     //[title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];
                     
-                    offset += [title size].width + 3;
+                    offset += [title size].width + [spacer size].width;
                 }
                 else {
+                    
                     [title addAttribute:NSFontAttributeName value:_smallFont range:NSMakeRange(0, [title length])];
                     
                     int row = index % 2;
 
                     [title drawWithRect:NSMakeRect(offset, [_favorites count] == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1: lround([self frame].size.height / 2) - [title size].height + 2, [title size].width, [title size].height) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesDeviceMetrics];
-                    //[title drawAtPoint:NSMakePoint(offset, [_favorites count] == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1: lround([self frame].size.height / 2) - [title size].height + 2)];
                     
-                    int width = [title size].width + 4;
+                    int width = [title size].width + [spacer size].width;
                     
                     if (row == 1) {
                         width = width > lastWidth ? width : lastWidth;
@@ -179,7 +183,7 @@
         }
     }
     
-    offset -= _useBigFont ? 2 : 3;
+    offset -= [spacer size].width;
     
     [self setFrameSize:NSMakeSize(offset, [self frame].size.height)];
     
