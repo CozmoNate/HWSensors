@@ -17,7 +17,7 @@
 
 @synthesize bundle = _bundle;
 
-@synthesize sensors;
+@synthesize sensors = _sensors;
 @synthesize keys = _keys;
 
 @synthesize useFahrenheit = _useFahrenheit;
@@ -82,11 +82,6 @@
     }
 }
 
--(NSArray *)sensors
-{
-    return [_keys allValues];
-}
-
 -(BOOL)showBSDNames
 {
     return _showBSDNames;
@@ -143,6 +138,7 @@
         return nil;
     }*/
     
+    [_sensors addObject:sensor];
     [_keys setObject:sensor forKey:key];
     
     return sensor;
@@ -196,7 +192,8 @@
         return nil;
     
     _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
-    _keys = [NSMutableDictionary dictionary];
+    _sensors = [[NSMutableArray alloc] init];
+    _keys = [[NSMutableDictionary alloc] init];
     _bundle = [NSBundle mainBundle];
     
     return self;
@@ -210,7 +207,8 @@
         return nil;
     
     _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
-    _keys = [NSMutableDictionary dictionary];
+    _sensors = [[NSMutableArray alloc] init];
+    _keys = [[NSMutableDictionary alloc] init];
     _bundle = mainBundle;
     
     return self;
@@ -224,6 +222,7 @@
 
 - (void)rebuildSensorsList
 {
+    [_sensors removeAllObjects];
     [_keys removeAllObjects];
     
     //Temperatures
@@ -327,37 +326,49 @@
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_VOLTAGE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupVoltage];
 }
 
-- (void)updateSMARTSensorsValues
-{
-    for (HWMonitorSensor *sensor in [self sensors]) {
-        switch ([sensor group]) {
-            case kSMARTSensorGroupTemperature:
-                if ([sensor disk]) [sensor setData:[[sensor disk] getTemperature]];                    
-                break;
-                
-            case kSMARTSensorGroupRemainingLife:
-                if ([sensor disk]) [sensor setData:[[sensor disk] getRemainingLife]];                   
-                break;
-                
-            case kSMARTSensorGroupRemainingBlocks: 
-                if ([sensor disk]) [sensor setData:[[sensor disk] getRemainingBlocks]];                   
-                break;
-                
-            default:
-                break;
-        }
-    }
-}
-
-- (void)updateGenericSensorsValues
+- (NSArray*)updateSMARTSensorsValues
 {
     NSMutableArray *list = [[NSMutableArray alloc] init];
+    
+    for (HWMonitorSensor *sensor in [self sensors]) {
+        if ([sensor disk]) {
+            switch ([sensor group]) {
+                case kSMARTSensorGroupTemperature:
+                    [sensor setData:[[sensor disk] getTemperature]];
+                    [list addObject:sensor];
+                    break;
+                    
+                case kSMARTSensorGroupRemainingLife:
+                    [sensor setData:[[sensor disk] getRemainingLife]];
+                    [list addObject:sensor];
+                    break;
+                    
+                case kSMARTSensorGroupRemainingBlocks:
+                    [sensor setData:[[sensor disk] getRemainingBlocks]];
+                    [list addObject:sensor];
+                    break;
+                        
+                default:
+                    break;
+            }
+        }
+    }
+    
+    return list;
+}
+
+- (NSArray*)updateGenericSensorsValues
+{
+    NSMutableArray *namesList = [[NSMutableArray alloc] init];
+    NSMutableArray *sensorsList = [[NSMutableArray alloc] init];
     
     for (HWMonitorSensor *sensor in [self sensors])
-        if (![sensor disk])
-            [list addObject:[sensor name]];
+        if (![sensor disk]) {
+            [namesList addObject:[sensor name]];
+            [sensorsList addObject:sensor];
+        }
     
-    if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)list)) 
+    if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)namesList))
     {           
         NSDictionary *values = nil;
         
@@ -376,17 +387,22 @@
             }
         }
     }
+    
+    return sensorsList;
 }
 
--(void)updateFavoritesSensorsValues:(NSArray *)favorites
+-(NSArray*)updateFavoritesSensorsValues:(NSArray *)favorites
 {
-    NSMutableArray *list = [[NSMutableArray alloc] init];
+    NSMutableArray *nameslist = [[NSMutableArray alloc] init];
+    NSMutableArray *sensorsList = [[NSMutableArray alloc] init];
     
     for (id object in favorites)
-        if ([object isKindOfClass:[HWMonitorSensor class]] && [[self sensors] containsObject:object] && ![object disk])
-            [list addObject:[object name]];
+        if ([object isKindOfClass:[HWMonitorSensor class]] && [[self sensors] containsObject:object] && ![object disk]) {
+            [nameslist addObject:[object name]];
+            [sensorsList addObject:object];
+        }
     
-    if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)list)) 
+    if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)nameslist)) 
     {           
         NSDictionary *values = nil;
         
@@ -405,6 +421,8 @@
             }
         }
     }
+    
+    return sensorsList;
 }
 
 - (NSArray*)getAllSensorsInGroup:(NSUInteger)group

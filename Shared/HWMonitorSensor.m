@@ -187,14 +187,14 @@ inline UInt8 get_index(char c)
             if (_level != kHWSensorLevelExceeded)
                 [self setLevel:life >= 90 ? kHWSensorLevelExceeded : life >= 80 ? kHWSensorLevelHigh : life >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
             
-            _value = [[NSString alloc] initWithFormat:@"%lldld%d",100-life,0x0025];
+            _value = [[NSString alloc] initWithFormat:@"%lld%c",100-life,0x0025];
         }
         else if (_group & kSMARTSensorGroupRemainingBlocks) {
             UInt64 blocks = 0;
             
             [_data getBytes:&blocks length:[_data length]];
             
-            _value = [[NSString alloc] initWithFormat:@"%lldld",blocks];
+            _value = [[NSString alloc] initWithFormat:@"%lld",blocks];
         }
         else if (_group & kHWSensorGroupTemperature) {
             float t = [self decodeValue];
@@ -207,7 +207,7 @@ inline UInt8 get_index(char c)
                 _value = [[NSString alloc] initWithFormat:@"%1.0f°", t];
         }
         else if (_group & kHWSensorGroupPWM) {
-            _value = [[NSString alloc] initWithFormat:@"%1.0f%d", [self decodeValue], 0x0025];
+            _value = [[NSString alloc] initWithFormat:@"%1.0f%c", [self decodeValue], 0x0025];
         }
         else if (_group & kHWSensorGroupMultiplier) {
             _value = [[NSString alloc] initWithFormat:@"%1.1fx", [self decodeValue]];

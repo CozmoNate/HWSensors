@@ -42,9 +42,9 @@
 - (void)dealloc;
 
 - (void)rebuildSensorsList;
-- (void)updateSMARTSensorsValues;
-- (void)updateGenericSensorsValues;
-- (void)updateFavoritesSensorsValues:(NSArray*)favorites;
+- (NSArray*)updateSMARTSensorsValues;
+- (NSArray*)updateGenericSensorsValues;
+- (NSArray*)updateFavoritesSensorsValues:(NSArray*)favorites;
 
 - (NSArray*)getAllSensorsInGroup:(NSUInteger)group;
 
