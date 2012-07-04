@@ -47,7 +47,7 @@
     if (!self || !statusItem)
         return nil;
     
-    _smallFont = [NSFont boldSystemFontOfSize:9.2f];
+    _smallFont = [NSFont boldSystemFontOfSize:9.1f];
     //_bigFont = [NSFont boldSystemFontOfSize:11.0f];
     _bigFont = [NSFont systemFontOfSize:11.0f];
     
@@ -148,7 +148,8 @@
                 if (_useBigFont) {
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
                     
-                    [title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];
+                    [title drawWithRect:NSMakeRect(offset, lround(([self frame].size.height - [title size].height) / 2), [title size].width, [title size].height) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesDeviceMetrics];
+                     //[title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];
                     
                     offset += [title size].width + 3;
                 }
@@ -157,7 +158,8 @@
                     
                     int row = index % 2;
 
-                    [title drawAtPoint:NSMakePoint(offset, [_favorites count] == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1: lround([self frame].size.height / 2) - [title size].height + 2)];
+                    [title drawWithRect:NSMakeRect(offset, [_favorites count] == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1: lround([self frame].size.height / 2) - [title size].height + 2, [title size].width, [title size].height) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesDeviceMetrics];
+                    //[title drawAtPoint:NSMakePoint(offset, [_favorites count] == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1: lround([self frame].size.height / 2) - [title size].height + 2)];
                     
                     int width = [title size].width + 4;
                     
