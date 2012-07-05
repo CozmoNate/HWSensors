@@ -68,38 +68,36 @@ IOService* X3100monitor::probe(IOService *provider, SInt32 *score)
 	if (super::probe(provider, score) != this) 
         return 0;
 	
-    VCard = (IOPCIDevice*)provider;
-    
-    if (!VCard) 
-        return false;
+    if (!(VCard = (IOPCIDevice*)provider))
+        return 0;
     
 	IOPhysicalAddress bar = (IOPhysicalAddress)((VCard->configRead32(kMCHBAR)) & ~0xf);
     
 	HWSensorsDebugLog("Fx3100: register space=%08lx", (long unsigned int)bar);
 	
-	if(IOMemoryDescriptor * theDescriptor = IOMemoryDescriptor::withPhysicalAddress (bar, 0x2000, kIODirectionOutIn))
-		if ((mmio = theDescriptor->map()))
-		{
+	if(IOMemoryDescriptor * theDescriptor = IOMemoryDescriptor::withPhysicalAddress (bar, 0x2000, kIODirectionOutIn)) {
+		if ((mmio = theDescriptor->map())) {
+            
 			mmio_base = (volatile UInt8 *)mmio->getVirtualAddress();
-#if DEBUG				
-			HWSensorsDebugLog("MCHBAR mapped");
+
+			/*HWSensorsDebugLog("MCHBAR mapped");
             
 			for (int i = 0; i < 0x2f; i += 16) {
 				HWSensorsDebugLog("%04lx: ", (long unsigned int)i+0x1000);
 				for (int j=0; j<16; j += 1) {
 					HWSensorsDebugLog("%02lx ", (long unsigned int)INVID8(i+j+0x1000));
 				}
-				HWSensorsDebugLog("");
-			}
-#endif				
+            HWSensorsDebugLog("");
+			}*/
+	
 		}
-		else
-		{
-			HWSensorsInfoLog("MCHBAR failed to map");
-			return 0;
-		}			
+		else {
+            HWSensorsInfoLog("MCHBAR failed to map");
+            return 0;
+        }
+    }
     
-	return 0;
+	return this;
 }
 
 bool X3100monitor::start(IOService * provider)

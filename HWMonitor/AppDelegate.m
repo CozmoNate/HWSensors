@@ -394,6 +394,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     // Request items
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorRequestItems object:nil userInfo:nil deliverImmediately:YES];
+    
+    // Set active app status
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorAppIsActive object:HWMonitorBooleanYES userInfo:nil deliverImmediately:YES];
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
@@ -403,6 +406,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 -(void)applicationWillTerminate:(NSNotification *)notification
 {
+    // Set active app status
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorAppIsActive object:HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
+    
     [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 }
 

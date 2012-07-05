@@ -72,7 +72,7 @@ inline void read_cpu_thermal(void* cpu_index)
     
 	*cpn = get_cpu_number();
     
-	if(*cpn < kIntelThermaxMaxCpus) {
+	if(*cpn < kIntelThermalMaxCpus) {
 		UInt64 msr = rdmsr64(MSR_IA32_THERM_STS);
 		if (msr & 0x80000000) cpu_thermal[*cpn] = (msr >> 16) & 0x7F;
 	}
@@ -80,11 +80,11 @@ inline void read_cpu_thermal(void* cpu_index)
 
 inline void read_cpu_performance(void* cpu_index)
 {
-    UInt8 * cpn = (UInt8 *)cpu_index;
+    UInt8 *cpn = (UInt8*)cpu_index;
     
 	*cpn = get_cpu_number();
     
-	if(*cpn < kIntelThermaxMaxCpus) {
+	if(*cpn < kIntelThermalMaxCpus) {
 		UInt64 msr = rdmsr64(MSR_IA32_PERF_STS);
         cpu_performance[*cpn] = msr & 0xFFFF;
 	}
@@ -104,7 +104,7 @@ IOReturn IntelThermal::loopTimerEvent(void)
     if (thermCounter++ < 4)
         for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
             mp_rendezvous_no_intrs(read_cpu_thermal, &index);
-            IOSleep(1);
+            IODelay(500);
         }
     
     if (perfCounter++ < 4) {
@@ -120,7 +120,7 @@ IOReturn IntelThermal::loopTimerEvent(void)
             default:
                 for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
                     mp_rendezvous_no_intrs(read_cpu_performance, &index);
-                    IOSleep(1);
+                    IODelay(500);
                 }
                 break;
         }
@@ -366,7 +366,7 @@ bool IntelThermal::start(IOService *provider)
 	
 	for (int i = 0; i < cpuid_info()->core_count; i++) {
         
-        if (i >= kIntelThermaxMaxCpus) 
+        if (i >= kIntelThermalMaxCpus) 
             break;
         
         char key[5];

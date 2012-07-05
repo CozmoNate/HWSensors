@@ -59,20 +59,20 @@
 #define MSR_IA32_THERM_STS      0x019C
 #define MSR_IA32_TEMP_TARGET	0x01A2
 
-#define kIntelThermaxMaxCpus    8
+#define kIntelThermalMaxCpus    8
 
 extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);
 extern "C" int cpu_number(void);
 
-static UInt8  cpu_thermal[kIntelThermaxMaxCpus];
-static UInt16 cpu_performance[kIntelThermaxMaxCpus];
+static UInt8  cpu_thermal[kIntelThermalMaxCpus];
+static UInt16 cpu_performance[kIntelThermalMaxCpus];
 
 class IntelThermal : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(IntelThermal)    
     
 private:
-    UInt8                   tjmax[kIntelThermaxMaxCpus];
+    UInt8                   tjmax[kIntelThermalMaxCpus];
     
     IOWorkLoop *			workloop;
 	IOTimerEventSource *	timersource;

@@ -986,6 +986,9 @@ UInt32 NouveauSensors::nv40_get_clock(NVClockSource name)
         case NVCLockMemory:
             clocks = nv40_read_pll_2(0x4020);
             break;
+            
+        default:
+            break;
     }
     
 	return clocks / 1e3;
@@ -1090,6 +1093,9 @@ UInt32 NouveauSensors::nva3_get_clock(NVClockSource name)
             
         case NVCLockMemory:
             clocks = nva3_read_pll(0x02, 0x4000);
+            break;
+            
+        default:
             break;
     }
     
@@ -1401,6 +1407,9 @@ UInt32 NouveauSensors::nv50_get_clock(NVClockSource name)
             
         case NVCLockMemory:
             clocks = nv50_read_clk(nv50_clk_src_mclk);
+            break;
+            
+        default:
             break;
     }
     
