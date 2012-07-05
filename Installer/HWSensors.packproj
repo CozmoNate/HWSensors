@@ -5603,7 +5603,7 @@
 					<key>CFBundleName</key>
 					<string>HWSensors</string>
 					<key>CFBundleShortVersionString</key>
-					<string>1.0.37</string>
+					<string>1.0.38</string>
 				</dict>
 				<key>Version</key>
 				<dict>

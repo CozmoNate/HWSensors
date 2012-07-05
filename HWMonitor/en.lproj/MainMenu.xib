@@ -645,7 +645,7 @@
 							<string key="NSFrame">{{386, 25}, {222, 40}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="964535350"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 							<int key="NSNumRows">2</int>
@@ -821,7 +821,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string key="NSFrame">{{379, 382}, {221, 17}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="455846205"/>
+							<reference key="NSNextKeyView" ref="1049587138"/>
 							<string key="NSReuseIdentifierKey">_NS:1505</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="773428617">
@@ -836,21 +836,22 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							</object>
 							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						</object>
-						<object class="NSButton" id="964535350">
+						<object class="NSButton" id="1049587138">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">289</int>
 							<string key="NSFrame">{{365, 206}, {250, 32}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="455846205"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="1009042696">
+							<object class="NSButtonCell" key="NSCell" id="874507288">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">Install menu bar extension</string>
 								<reference key="NSSupport" ref="769675369"/>
 								<string key="NSCellIdentifier">_NS:9</string>
-								<reference key="NSControlView" ref="964535350"/>
+								<reference key="NSControlView" ref="1049587138"/>
 								<int key="NSButtonFlags">-930988032</int>
 								<int key="NSButtonFlags2">129</int>
 								<string key="NSAlternateContents">Remove menu bar extension</string>
@@ -1086,9 +1087,17 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">toggleMenuButton</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="964535350"/>
+						<reference key="destination" ref="1049587138"/>
 					</object>
 					<int key="connectionID">4325</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleMenu:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="1049587138"/>
+					</object>
+					<int key="connectionID">4332</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1582,26 +1591,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 					<int key="connectionID">2326</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: self.userInterfaceEnabled</string>
-						<reference key="source" ref="964535350"/>
-						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="964535350"/>
-							<reference key="NSDestination" ref="976324537"/>
-							<string key="NSLabel">enabled: self.userInterfaceEnabled</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">self.userInterfaceEnabled</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSIsNotNil</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">4331</int>
-				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -1774,7 +1763,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference ref="455846205"/>
 							<reference ref="449930378"/>
 							<reference ref="693315104"/>
-							<reference ref="964535350"/>
+							<reference ref="1049587138"/>
 							<reference ref="892679051"/>
 							<reference ref="564283736"/>
 						</array>
@@ -2022,16 +2011,16 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">4323</int>
-						<reference key="object" ref="964535350"/>
+						<reference key="object" ref="1049587138"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="1009042696"/>
+							<reference ref="874507288"/>
 						</array>
 						<reference key="parent" ref="439893737"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">4324</int>
-						<reference key="object" ref="1009042696"/>
-						<reference key="parent" ref="964535350"/>
+						<reference key="object" ref="874507288"/>
+						<reference key="parent" ref="1049587138"/>
 					</object>
 				</array>
 			</object>
@@ -2110,7 +2099,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">4331</int>
+			<int key="maxID">4332</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
