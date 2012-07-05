@@ -7,8 +7,8 @@
 //
 
 #define HWSENSORS_LASTYEAR                  2012
-#define HWSENSORS_VERSION                   1.0.38
-#define HWSENSORS_VERSION_STRING            "v1.0.38"
+#define HWSENSORS_VERSION                   1.0.39
+#define HWSENSORS_VERSION_STRING            "v1.0.39"
 
 #define FAKESMC_BUNDLE                      org.netkas.driver.FakeSMC
 #define FAKESMC_VERSION                     4.2.10
@@ -44,8 +44,8 @@
 #define X3100_VERSION                       2.0.0
 #define X3100_SHORTVERSION                  2.0
 
-#define HWMONITOR_VERSION                   2.1.8
-#define HWMONITOR_SHORTVERSION              2.1.8
+#define HWMONITOR_VERSION                   2.1.9
+#define HWMONITOR_SHORTVERSION              2.1.9
 
 #define HWMONITOREXTRA_VERSION              1.6.5
 #define HWMONITOREXTRA_SHORTVERSION         1.6.5

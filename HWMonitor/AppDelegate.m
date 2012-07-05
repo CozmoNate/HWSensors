@@ -182,11 +182,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
             
             NSString *key = [item objectForKey:kHWMonitorKeyKey];
             
-            if ([[list allKeys] containsObject:key]) {
-                NSString *value = [list objectForKey:key];
-                
-                [item setValue:value forKey:kHWMonitorKeyValue];
-            }
+            if ([[list allKeys] containsObject:key])
+                [item setValue:[list objectForKey:key] forKey:kHWMonitorKeyValue];
         }
     }
 }

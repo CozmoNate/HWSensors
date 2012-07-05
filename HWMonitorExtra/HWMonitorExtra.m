@@ -183,17 +183,7 @@
 
 - (void)updateSMARTData; 
 {
-    NSArray *list = [_engine updateSMARTSensorsValues];
-    
-    if (!_appIsActive)
-        return;
-    
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    
-    for (HWMonitorSensor *sensor in list)
-        [values setObject:[sensor value] forKey:[sensor name]];
-    
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
+    [_engine updateSMARTSensorsValues];
 }
 
 - (void)updateSMARTDataThreaded
@@ -203,22 +193,10 @@
 
 - (void)updateData
 {
-    NSArray *list = nil;
-    
     if ([self isMenuDown] || _appIsActive)
-        list = [_engine updateGenericSensorsValues];
+        [_engine updateGenericSensorsValues];
     else 
-        list = [_engine updateFavoritesSensorsValues:_favorites];
-    
-    if (!_appIsActive)
-        return;
-    
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    
-    for (HWMonitorSensor *sensor in list)
-        [values setObject:[sensor value] forKey:[sensor name]];
-    
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
+        [_engine updateFavoritesSensorsValues:_favorites];
 }
 
 - (void)updateDataThreaded
@@ -227,20 +205,27 @@
 }
 
 - (void)updateTitlesForceAllSensors:(BOOL)allSensors
-{    
+{
     [[self view] setNeedsDisplay:YES];
     
-    if (!allSensors && ![self isMenuDown]) 
+    if (!allSensors && ![self isMenuDown] && !_appIsActive)
         return;
     
+    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    
     for (HWMonitorSensor *sensor in [_engine sensors]) {
-        if (sensor && [[sensor representedObject] isVisible] && ([self isMenuDown] || allSensors) && [sensor valueHasBeenChanged]) {
+        
+        if (((([self isMenuDown] || allSensors) && [[sensor representedObject] isVisible]) || _appIsActive) && [sensor valueHasBeenChanged]) {
+            
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
             
-            NSDictionary *titleColor;
-            NSDictionary *valueColor;
+            NSDictionary *titleColor = nil;
+            NSDictionary *valueColor = nil;
             
-            NSString * value = [sensor value];
+            NSString *value = [sensor value];
+            
+            if (_appIsActive)
+                [values setObject:value forKey:[sensor name]];
             
             switch ([sensor level]) {
                     /*case kHWSensorLevelDisabled:
@@ -287,6 +272,9 @@
             [[[sensor representedObject] menuItem] setAttributedTitle:title];
         }
     }
+    
+    if (_appIsActive)
+        [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
 }
 
 - (void)updateTitlesForced
