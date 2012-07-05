@@ -882,11 +882,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>IsSeparator</string>
 					<string>Key</string>
 					<string>Visible</string>
+					<string>Value</string>
 				</array>
-				<string key="NSObjectClassName">NSDictionary</string>
+				<bool key="NSAutomaticallyPreparesContent">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
-				<bool key="NSAvoidsEmptySelection">YES</bool>
-				<bool key="NSPreservesSelection">YES</bool>
 				<bool key="NSFilterRestrictsInsertion">YES</bool>
 			</object>
 			<object class="NSCustomObject" id="976324537">
