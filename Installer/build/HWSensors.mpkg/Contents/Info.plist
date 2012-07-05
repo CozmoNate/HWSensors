@@ -11,13 +11,13 @@
 	<key>CFBundleName</key>
 	<string>HWSensors</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.36</string>
+	<string>1.0.37</string>
 	<key>IFMajorVersion</key>
 	<integer>1</integer>
 	<key>IFMinorVersion</key>
 	<integer>0</integer>
 	<key>IFPkgBuildDate</key>
-	<date>2012-07-04T21:55:19Z</date>
+	<date>2012-07-05T04:58:19Z</date>
 	<key>IFPkgBuildVersion</key>
 	<string>12A256</string>
 	<key>IFPkgCreator</key>

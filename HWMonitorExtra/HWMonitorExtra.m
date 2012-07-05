@@ -28,6 +28,8 @@
     
     _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
     
+    _showBSDNames = [_defaults boolForKey:kHWMonitorShowBSDNames];
+    
     // undocumented call
     [[NSUserDefaultsController sharedUserDefaultsController] _setDefaults:_defaults];
     
@@ -63,15 +65,19 @@
     [self setMenu:_mainMenu];
     
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc] init];
+    
     [style setTabStops:[NSArray array]];
     [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:190.0]];
     
-    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+    _menuAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                       style, NSParagraphStyleAttributeName,
+                       _menuFont, NSFontAttributeName,
+                       nil];
     
-    [dictionary setObject:style forKey:NSParagraphStyleAttributeName];
-    [dictionary setObject:_menuFont forKey:NSFontAttributeName];
-    
-    _menuAttributes = [NSDictionary dictionaryWithDictionary:dictionary];
+    _subtitleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                           [NSFont boldSystemFontOfSize:9.0], NSFontAttributeName,
+                           [NSColor disabledControlTextColor], NSForegroundColorAttributeName,
+                           nil];
     
     _blackColorAttribute = [NSDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     _orangeColorAttribute = [NSDictionary dictionaryWithObject:[NSColor orangeColor] forKey:NSForegroundColorAttributeName];
@@ -126,6 +132,7 @@
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showHiddenSensorsChanged:) name: HWMonitorShowHiddenChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showBSDNamesChanged:) name: HWMonitorShowBSDNamesChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(itemsRequested:) name: HWMonitorRequestItems object: NULL];
+    [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(appIsActiveChanged:) name: HWMonitorAppIsActive object: NULL];
     
     [self performSelector:@selector(rebuildSensors) withObject:nil afterDelay:0.0];
     
@@ -178,6 +185,9 @@
 {
     NSArray *list = [_engine updateSMARTSensorsValues];
     
+    if (!_appIsActive)
+        return;
+    
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
     
     for (HWMonitorSensor *sensor in list)
@@ -195,10 +205,13 @@
 {
     NSArray *list = nil;
     
-    if ([self isMenuDown]) 
+    if ([self isMenuDown] || _appIsActive)
         list = [_engine updateGenericSensorsValues];
     else 
         list = [_engine updateFavoritesSensorsValues:_favorites];
+    
+    if (!_appIsActive)
+        return;
     
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
     
@@ -220,9 +233,7 @@
     if (!allSensors && ![self isMenuDown]) 
         return;
     
-    for (int i = 0; i < [[_engine sensors] count]; i++) {
-        HWMonitorSensor *sensor = [[_engine sensors] objectAtIndex:i];
-        
+    for (HWMonitorSensor *sensor in [_engine sensors]) {
         if (sensor && [[sensor representedObject] isVisible] && ([self isMenuDown] || allSensors) && [sensor valueHasBeenChanged]) {
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
             
@@ -260,10 +271,17 @@
             }
             
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[sensor representedObject] title] attributes:titleColor]];
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t" attributes:titleColor]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t"]];
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
             
             [title addAttributes:_menuAttributes range:NSMakeRange(0, [title length])];
+            
+            // Add subtitle
+            if ([sensor disk] && _showBSDNames) {
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n  " attributes:_subtitleAttributes]];
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[sensor disk] bsdName] attributes:_subtitleAttributes]];
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:@" " attributes:[NSDictionary dictionaryWithObjectsAndKeys:_menuFont, NSFontAttributeName, nil]]];
+            }
             
             // Update menu item title
             [[[sensor representedObject] menuItem] setAttributedTitle:title];
@@ -312,7 +330,7 @@
     
     [_mainMenu removeAllItems];
     
-    [_engine setShowBSDNames:[_defaults boolForKey:kHWMonitorShowBSDNames]];
+    //[_engine setShowBSDNames:[_defaults boolForKey:kHWMonitorShowBSDNames]];
     [_engine setUseFahrenheit:[_defaults boolForKey:kHWMonitorUseFahrenheitKey]];
     
     [(HWMonitorView*)[self view] setUseBigFont:[_defaults boolForKey:kHWMonitorUseBigStatusMenuFont]];
@@ -419,6 +437,11 @@
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorRecieveItems object:[favoritesList componentsJoinedByString:@","] userInfo:sensorsList deliverImmediately:YES];
 }
 
+- (void)appIsActiveChanged:(NSNotification*)aNotification
+{
+    _appIsActive = aNotification && [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
+}
+
 - (void)favoritesChanged:(NSNotification*)aNotification
 {    
     [_favorites removeAllObjects];
@@ -511,17 +534,19 @@
 
 - (void)showBSDNamesChanged:(NSNotification*)aNotification
 {
-    BOOL showBSDNames = [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
+    _showBSDNames = [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
     
-    [_defaults setBool:showBSDNames forKey:kHWMonitorShowBSDNames];
+    [_defaults setBool:_showBSDNames forKey:kHWMonitorShowBSDNames];
     [_defaults synchronize];
     
-    [_engine setShowBSDNames:showBSDNames];
+    [self updateTitlesForced];
+    
+    /*[_engine setShowBSDNames:showBSDNames];
     
     for (HWMonitorSensor *sensor in [_engine sensors]) 
         [[sensor representedObject] setTitle:[sensor title]];
     
-    [self itemsRequested:nil];    
+    [self itemsRequested:nil];    */
 }
 
 - (void)systemWillSleep:(NSNotification *)aNotification

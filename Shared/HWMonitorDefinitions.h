@@ -40,6 +40,7 @@
 #define HWMonitorRequestItems           @"HWMonitorRequestItems"
 #define HWMonitorRecieveItems           @"HWMonitorRecieveItems"
 #define HWMonitorValuesChanged          @"HWMonitorValuesChanged"
+#define HWMonitorAppIsActive            @"HWMonitorAppIsActive"
 
 // Key
 #define kHWMonitorKeyName               @"Name"

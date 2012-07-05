@@ -26,7 +26,7 @@
 @property (readonly) NSDictionary *keys;
 
 @property (readwrite, assign) BOOL useFahrenheit;
-@property (readwrite, assign) BOOL showBSDNames;
+//@property (readwrite, assign) BOOL showBSDNames;
 
 + (HWMonitorEngine*)engineWithBundle:(NSBundle*)bundle;
 

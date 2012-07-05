@@ -20,6 +20,7 @@
     BundleUserDefaults* _defaults;
     NSFont *_menuFont;
     NSDictionary *_menuAttributes;
+    NSDictionary *_subtitleAttributes;
     NSDictionary *_blackColorAttribute;
     NSDictionary *_orangeColorAttribute;
     NSDictionary *_redColorAttribute;
@@ -29,6 +30,9 @@
     
     NSMenu *_mainMenu;
     NSMutableArray *_groups;
+    
+    BOOL _appIsActive;
+    BOOL _showBSDNames;
 }
 
 @property (readwrite, retain) IBOutlet HWMonitorEngine* engine;
@@ -53,6 +57,7 @@
 - (void)rebuildSensors;
 
 - (void)itemsRequested:(NSNotification*)aNotification;
+- (void)appIsActiveChanged:(NSNotification*)aNotification;
 
 - (void)systemWillSleep:(NSNotification*)aNotification;
 - (void)systemDidWake:(NSNotification*)aNotification;

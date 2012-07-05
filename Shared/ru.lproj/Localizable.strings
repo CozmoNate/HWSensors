@@ -51,7 +51,7 @@
 "Preferences..." = "Настройки...";
 "GENERAL" = "ОСНОВНЫЕ";
 "Show hidden sensors" = "Показывать скрытые датчики";
-"Use BSD drives names" = "Имена дисков в формате BSD";
+"Show BSD drives names" = "Показывать BSD-имена дисков";
 "TEMPERATURE SCALE" = "СИСТЕМА ТЕМПЕРАТУР";
 "Celsius" = "Цельсий";
 "Fahrenheit" = "Фаренгейт";
@@ -73,9 +73,10 @@
 "Menu bar items:" = "Датчики в строке меню:";
 "Available items:" = "Все доступные датчики:";
 "HWMonitor Preferences" = "Настройки HWMonitor";
-"Show items in menu bar" = "Показывать датчики в меню";
+"Install menu bar extension" = "Установить расширение меню";
+"Remove menu bar extension" = "Удалить расширение меню";
 "Temperature units:" = "Система температур:";
-"System menu bar:" = "Cистемное меню:";
+"System menu:" = "Cистемное меню:";
 "Miscellaneous:" = "Разное:";
 "About HWMonitor" = "О программе HWMonitor";
 "Services" = "Службы";
