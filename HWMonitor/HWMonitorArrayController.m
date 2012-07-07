@@ -41,15 +41,6 @@
     return item;
 }
 
--(NSDictionary*)addFavoriteItem:(NSString*)name icon:(NSImage*)icon enabled:(NSNumber*)enabled key:(NSString*)key
-{
-    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name,kHWMonitorKeyName, icon, kHWMonitorKeyIcon, key, kHWMonitorKeyKey, enabled, kHWMonitorKeyVisible, nil];
-    
-    [self insertObject:item atArrangedObjectIndex:[[self arrangedObjects] indexOfObject:_firstAvailableItem]];
-    
-    return item;
-}
-
 -(NSDictionary*)addFavoriteItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
 {
     NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, kHWMonitorKeyName, icon, kHWMonitorKeyIcon, key, kHWMonitorKeyKey, nil];
@@ -62,15 +53,6 @@
 -(NSMutableDictionary*)addAvailableItem
 {
     NSMutableDictionary *item = [[NSMutableDictionary alloc] init];
-    
-    [self addObject:item];
-    
-    return item;
-}
-
--(NSDictionary*)addAvailableItem:(NSString*)name icon:(NSImage*)icon enabled:(NSNumber*)enabled key:(NSString*)key
-{
-    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, kHWMonitorKeyName, icon, kHWMonitorKeyIcon, key, kHWMonitorKeyKey, enabled, kHWMonitorKeyVisible, nil];
     
     [self addObject:item];
     

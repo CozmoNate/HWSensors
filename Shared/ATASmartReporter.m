@@ -206,6 +206,13 @@
         IOObjectRelease(iterator);
     }
     
+    [list sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSString *name1 = [obj1 bsdName];
+        NSString *name2 = [obj2 bsdName];
+        
+        return [name1 compare:name2];
+    }];
+    
     drives = [NSArray arrayWithArray:list];
 }
 

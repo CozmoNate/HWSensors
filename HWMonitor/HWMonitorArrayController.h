@@ -19,11 +19,9 @@
 -(void)setFirstFavoriteItem:(NSString*)favoriteName firstAvailableItem:(NSString*)availableName;
 
 -(NSMutableDictionary*)addFavoriteItem;
--(NSDictionary*)addFavoriteItem:(NSString*)name icon:(NSImage*)icon enabled:(NSNumber*)enabled key:(NSString*)key;
 -(NSDictionary*)addFavoriteItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key;
 
 -(NSMutableDictionary*)addAvailableItem;
--(NSDictionary*)addAvailableItem:(NSString*)name icon:(NSImage*)icon enabled:(NSNumber*)enabled key:(NSString*)key;
 -(NSDictionary*)addAvailableItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key;
 
 -(void)removeAllItems;

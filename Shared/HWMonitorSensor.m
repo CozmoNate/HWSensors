@@ -27,7 +27,8 @@ inline UInt8 get_index(char c)
 @synthesize disk = _disk;
 
 @synthesize level = _level;
-@synthesize value = _value;
+@synthesize rawValue = _rawValue;
+@synthesize formattedValue = _formattedValue;
 
 @synthesize valueHasBeenChanged = _valueHasBeenChanged;
 @synthesize levelHasBeenChanged = _levelHasBeenChanged;
@@ -163,7 +164,7 @@ inline UInt8 get_index(char c)
     return 0;
 }
 
-- (NSString*)value
+- (NSString*)formattedValue
 {
     if (_valueHasBeenChanged && _data) {
         if (_group & kSMARTSensorGroupTemperature) {
@@ -174,10 +175,14 @@ inline UInt8 get_index(char c)
             if (_level != kHWSensorLevelExceeded && [_disk isRotational])
                 [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
             
-            if ([_engine useFahrenheit]) 
-                _value = [[NSString alloc] initWithFormat:@"%1.0f°", t * (9.0f / 5.0f) + 32.0f];
-            else 
-                _value = [[NSString alloc] initWithFormat:@"%d°", t];
+            if ([_engine useFahrenheit]) {
+                _rawValue = [NSNumber numberWithDouble:t];
+                _formattedValue = [NSString stringWithFormat:@"%1.0f°", t * (9.0f / 5.0f) + 32.0f];
+            }
+            else {
+                _rawValue = [NSNumber numberWithDouble:t];
+                _formattedValue = [NSString stringWithFormat:@"%d°", t];
+            }
         }
         else if (_group & kSMARTSensorGroupRemainingLife) {
             UInt64 life = 0;
@@ -187,62 +192,76 @@ inline UInt8 get_index(char c)
             if (_level != kHWSensorLevelExceeded)
                 [self setLevel:life >= 90 ? kHWSensorLevelExceeded : life >= 80 ? kHWSensorLevelHigh : life >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
             
-            _value = [[NSString alloc] initWithFormat:@"%lld%c",100-life,0x0025];
+            _rawValue = [NSNumber numberWithLongLong:100-life];
+            _formattedValue = [NSString stringWithFormat:@"%ld%c",[_rawValue integerValue],0x0025];
         }
         else if (_group & kSMARTSensorGroupRemainingBlocks) {
             UInt64 blocks = 0;
             
             [_data getBytes:&blocks length:[_data length]];
             
-            _value = [[NSString alloc] initWithFormat:@"%lld",blocks];
+            _rawValue = [NSNumber numberWithLongLong:blocks];
+            _formattedValue = [NSString stringWithFormat:@"%lld",blocks];
         }
         else if (_group & kHWSensorGroupTemperature) {
             float t = [self decodeValue];
             
             [self setLevel:t >= 100 ? kHWSensorLevelExceeded : t >= 85 ? kHWSensorLevelHigh : t >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
             
-            if ([_engine useFahrenheit]) 
-                _value = [[NSString alloc] initWithFormat:@"%1.0f°", t * (9.0f / 5.0f) + 32.0f];
-            else 
-                _value = [[NSString alloc] initWithFormat:@"%1.0f°", t];
+            if ([_engine useFahrenheit]) {
+                _rawValue = [NSNumber numberWithDouble:t];
+                _formattedValue = [NSString stringWithFormat:@"%1.0f°", t * (9.0f / 5.0f) + 32.0f];
+            }
+            else {
+                _rawValue = [NSNumber numberWithDouble:t];
+                _formattedValue = [NSString stringWithFormat:@"%1.0f°", t];
+            }
         }
         else if (_group & kHWSensorGroupPWM) {
-            _value = [[NSString alloc] initWithFormat:@"%1.0f%c", [self decodeValue], 0x0025];
+            _rawValue = [NSNumber numberWithFloat:[self decodeValue]];
+            _formattedValue = [[NSString alloc] initWithFormat:@"%1.0f%c", [_rawValue floatValue], 0x0025];
         }
         else if (_group & kHWSensorGroupMultiplier) {
-            _value = [[NSString alloc] initWithFormat:@"%1.1fx", [self decodeValue]];
+            _rawValue = [NSNumber numberWithFloat:[self decodeValue]];
+            _formattedValue = [NSString stringWithFormat:@"%1.1fx", [_rawValue floatValue]];
         }
         else if (_group & kHWSensorGroupFrequency) {
             float f = [self decodeValue];
             
-            if (f > 1e6)
-                _value = [[NSString alloc] initWithFormat:@"%1.2fTHz", f / 1e6];
-            else if (f > 1e3)
-                _value = [[NSString alloc] initWithFormat:@"%1.2fGHz", f / 1e3];
+            _rawValue = [NSNumber numberWithFloat:f];
+            
+            if ([_rawValue floatValue] > 1e6)
+                _formattedValue = [NSString stringWithFormat:@"%1.2fTHz", f / 1e6];
+            else if ([_rawValue floatValue] > 1e3)
+                _formattedValue = [NSString stringWithFormat:@"%1.2fGHz", f / 1e3];
             else 
-                _value = [[NSString alloc] initWithFormat:@"%1.0fMHz", f]; 
+                _formattedValue = [NSString stringWithFormat:@"%1.0fMHz", f];
         }
         else if (_group & kHWSensorGroupTachometer) {
-            float rpm = [self decodeValue];
+            _rawValue = [NSNumber numberWithFloat:[self decodeValue]];
             
-            if (rpm == 0) {
+            if ([_rawValue floatValue] == 0) {
                 [self setLevel:kHWSensorLevelExceeded];
-                _value = [[NSString alloc] initWithString:@"-"];
+                _formattedValue = [NSString stringWithFormat:@"-"];
             }
             else {
                 if (_level != kHWSensorLevelNormal)
                     [self setLevel: kHWSensorLevelNormal];
                 
-                _value = [[NSString alloc] initWithFormat:@"%1.0frpm", rpm];
+                _formattedValue = [NSString stringWithFormat:@"%1.0frpm", [_rawValue floatValue]];
             }
         }
         else if (_group & kHWSensorGroupVoltage) {
-            _value = [[NSString alloc] initWithFormat:@"%1.3fV", [self decodeValue]];
+            _rawValue = [NSNumber numberWithFloat:[self decodeValue]];
+            _formattedValue = [NSString stringWithFormat:@"%1.3fV", [_rawValue floatValue]];
         }
-        else _value = [[NSString alloc] initWithString:@"-"];
+        else {
+            _rawValue = [NSNumber numberWithInt:0];
+            _formattedValue = [NSString stringWithFormat:@"-"];
+        }
     }
     
-    return _value;
+    return _formattedValue;
 }
 
 @end

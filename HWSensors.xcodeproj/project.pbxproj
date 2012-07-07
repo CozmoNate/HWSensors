@@ -134,6 +134,7 @@
 		7EB963C51594561200436FDB /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC3D151E269C005F9929 /* voltages.png */; };
 		7EBCF0991594C0B4005E1A16 /* HWMonitorExtra.menu in Resources */ = {isa = PBXBuildFile; fileRef = 6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */; };
 		7EBCF09B1594C1D3005E1A16 /* MenuCracker.menu in Resources */ = {isa = PBXBuildFile; fileRef = 7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */; };
+		7EC2525915A8111E00E385E4 /* HWMonitorGraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */; };
 		7EF7509E158C7F2500235EDC /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF981150201D100C34729 /* default.icns */; };
 /* End PBXBuildFile section */
 
@@ -314,6 +315,8 @@
 		7EB963B51594559100436FDB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7EB963B81594559100436FDB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MenuCracker.menu; path = Binaries/MenuCracker/MenuCracker.menu; sourceTree = SOURCE_ROOT; };
+		7EC2525715A8111E00E385E4 /* HWMonitorGraphsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorGraphsView.h; sourceTree = "<group>"; };
+		7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGraphsView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -868,6 +871,8 @@
 			children = (
 				7E938903159497920005316D /* HWMonitorArrayController.h */,
 				7E938904159497920005316D /* HWMonitorArrayController.m */,
+				7EC2525715A8111E00E385E4 /* HWMonitorGraphsView.h */,
+				7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */,
 				7EB963B41594559100436FDB /* AppDelegate.h */,
 				7EB963B51594559100436FDB /* AppDelegate.m */,
 				7EB963B71594559100436FDB /* MainMenu.xib */,
@@ -1499,6 +1504,7 @@
 				7EB963AF1594559100436FDB /* main.m in Sources */,
 				7EB963B61594559100436FDB /* AppDelegate.m in Sources */,
 				7E938905159497920005316D /* HWMonitorArrayController.m in Sources */,
+				7EC2525915A8111E00E385E4 /* HWMonitorGraphsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

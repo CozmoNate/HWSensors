@@ -23,9 +23,15 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 @synthesize window = _window;
 @synthesize menu = _menu;
-@synthesize arrayController = _arrayController;
+@synthesize prefsController = _prefsController;
+@synthesize graphsController = _graphsController;
 @synthesize versionLabel = _versionLabel;
 @synthesize toggleMenuButton = _toggleMenuButton;
+
+@synthesize temperatureGraph = _temperatureGraph;
+@synthesize frequencyGraph = _frequencyGraph;
+@synthesize tachometerGraph = _tachometerGraph;
+@synthesize voltageGraph = _voltageGraph;
 
 @synthesize userInterfaceEnabled = _userInterfaceEnabled;
 
@@ -69,52 +75,94 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     return nil;
 }
 
-- (void)addAvailableItemsFromDictionary:(NSDictionary*)sensors inGroup:(NSUInteger)mainGroup
+- (void)addItemsFromDictionary:(NSDictionary*)sensors inGroup:(NSUInteger)mainGroup
 {
     HWMonitorIcon* icon = [self getIconByGroup:mainGroup];
     
-    if (icon && ![_arrayController favoritesContainKey:[icon name]])
-        [_arrayController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
+    if (icon && ![_prefsController favoritesContainKey:[icon name]])
+        [_prefsController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
     
     NSMutableArray *items = [[NSMutableArray alloc] init];
     
     for (NSDictionary *item in [sensors allValues]) {
-        NSUInteger group = [[item valueForKey:@"Group"] intValue];
-        BOOL favorite = [[item valueForKey:@"Favorite"] boolValue];
+        NSUInteger group = [[item valueForKey:kHWMonitorKeyGroup] intValue];
         
-        if (mainGroup & group && !favorite)
+        if (mainGroup & group)
             [items addObject:item];
     }
     
     [items sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        NSNumber *index1 = [obj1 valueForKey:@"Index"];
-        NSNumber *index2 = [obj2 valueForKey:@"Index"];
+        NSNumber *index1 = [obj1 valueForKey:kHWMonitorKeyIndex];
+        NSNumber *index2 = [obj2 valueForKey:kHWMonitorKeyIndex];
         
         return [index1 compare:index2];
     }];
-     
+    
     for (NSDictionary *item in items) {
 
-        icon = [self getIconByGroup:[[item valueForKey:@"Group"] intValue]];
-
-        NSMutableDictionary *availableItem = [_arrayController addAvailableItem];
+        NSString *title = [item valueForKey:kHWMonitorKeyTitle];
+        NSString *value = [item valueForKey:kHWMonitorKeyValue];
+        NSString *key = [item valueForKey:kHWMonitorKeyName];
+        NSNumber *favorite = [item valueForKey:kHWMonitorKeyFavorite];
         
-        [availableItem setValuesForKeysWithDictionary:
-         [NSDictionary dictionaryWithObjectsAndKeys:
-          [item valueForKey:@"Title"], kHWMonitorKeyName,
-          icon ? [icon image] : nil, kHWMonitorKeyIcon,
-          [item valueForKey:@"Value"], kHWMonitorKeyValue,
-          [item valueForKey:@"Visible"], kHWMonitorKeyVisible,
-          [item valueForKey:@"Name"], kHWMonitorKeyKey,
-          nil]];
-    }    
+        icon = [self getIconByGroup:[[item valueForKey:kHWMonitorKeyGroup] intValue]];
+
+        if (![favorite boolValue]) {
+            NSMutableDictionary *availableItem = [_prefsController addAvailableItem];
+            
+            [availableItem setValuesForKeysWithDictionary:
+             [NSDictionary dictionaryWithObjectsAndKeys:
+              title, kHWMonitorKeyName,
+              icon ? [icon image] : nil, kHWMonitorKeyIcon,
+              value, kHWMonitorKeyValue,
+              [item valueForKey:kHWMonitorKeyVisible], kHWMonitorKeyVisible,
+              key, kHWMonitorKeyKey,
+              nil]];
+        }
+        
+        NSUInteger group = [[item valueForKey:kHWMonitorKeyGroup] intValue];
+        
+        if (group & kHWSensorGroupTemperature ||
+            group & kSMARTSensorGroupTemperature ||
+            group & kHWSensorGroupFrequency ||
+            group & kHWSensorGroupTachometer ||
+            group & kHWSensorGroupVoltage) {
+            
+            if ((_colorIndex + 1) * 0.07 > 1)
+                _colorIndex = 0;
+            NSColor *color = [NSColor colorWithCalibratedHue:(_colorIndex++) * 0.07 saturation:0.8 brightness:0.8 alpha:1.0];
+            
+            /*NSColor *color;
+            CGFloat intensity;
+            
+            do {
+                color = [_graphsColors colorWithKey:[[_graphsColors allKeys] objectAtIndex:_colorIndex++]];
+                intensity = ([color redComponent] + [color greenComponent] + [color blueComponent]) / 3.0;
+                
+                if (_colorIndex >= [[_graphsColors allKeys] count])
+                    _colorIndex = 0;
+                
+            } while (intensity <= 0.28 || intensity >= 0.7);*/
+            
+            [_graphsController addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                          color, kHWMonitorKeyColor,
+                                          [NSNumber numberWithBool:YES], kHWMonitorKeyEnabled,
+                                          title, kHWMonitorKeyTitle,
+                                          value, kHWMonitorKeyValue,
+                                          key, kHWMonitorKeyKey,
+                                          [NSNumber numberWithLong:mainGroup], kHWMonitorKeyGroup,
+                                          nil]];
+        }
+    }
 }
 
 - (void)recieveItems:(NSNotification*)aNotification
 {
-    [_arrayController removeAllItems];
+    [_prefsController removeAllItems];
     
-    [_arrayController setFirstFavoriteItem:GetLocalizedString(@"Menu bar items:") firstAvailableItem:GetLocalizedString(@"Available items:")];
+    [_graphsController removeObjectsAtArrangedObjectIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [[_graphsController arrangedObjects] count])]];
+    
+    [_prefsController setFirstFavoriteItem:GetLocalizedString(@"Menu bar items:") firstAvailableItem:GetLocalizedString(@"Available items:")];
     
     if ([aNotification object] && [aNotification userInfo]) {
         NSArray *favoritesList = [(NSString*)[aNotification object] componentsSeparatedByString:@","];
@@ -125,7 +173,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
             HWMonitorIcon *icon = [self getIconByName:favoriteName];
             
             if (icon) {
-                [_arrayController addFavoriteItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
+                [_prefsController addFavoriteItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
             }
             else {
                 NSDictionary *item = [sensorsList valueForKey:favoriteName];
@@ -134,37 +182,39 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
                     icon = [self getIconByGroup:[[item valueForKey:@"Group"] intValue]];
                     
-                    NSMutableDictionary *favoriteItem = [_arrayController addFavoriteItem];
+                    NSMutableDictionary *favoriteItem = [_prefsController addFavoriteItem];
                     
                     [favoriteItem setValuesForKeysWithDictionary:
                      [NSDictionary dictionaryWithObjectsAndKeys:
-                      [item valueForKey:@"Title"], kHWMonitorKeyName,
+                      [item valueForKey:kHWMonitorKeyTitle], kHWMonitorKeyName,
                       icon ? [icon image] : nil, kHWMonitorKeyIcon,
-                      [item valueForKey:@"Value"], kHWMonitorKeyValue,
-                      [item valueForKey:@"Visible"], kHWMonitorKeyVisible,
-                      [item valueForKey:@"Name"], kHWMonitorKeyKey,
+                      [item valueForKey:kHWMonitorKeyValue], kHWMonitorKeyValue,
+                      [item valueForKey:kHWMonitorKeyVisible], kHWMonitorKeyVisible,
+                      [item valueForKey:kHWMonitorKeyName], kHWMonitorKeyKey,
                       nil]];
                 }
             }
         }
         
-        if (![_arrayController favoritesContainKey:kHWMonitorIconThermometer]) {
+        if (![_prefsController favoritesContainKey:kHWMonitorIconThermometer]) {
             
             HWMonitorIcon *icon = [self getIconByName:kHWMonitorIconThermometer];
             
-            if ([[_arrayController getFavoritesItems] count] == 0)
-                [_arrayController addFavoriteItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
+            if ([[_prefsController getFavoritesItems] count] == 0)
+                [_prefsController addFavoriteItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
             else
-                [_arrayController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
+                [_prefsController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
         }
         
-        [self addAvailableItemsFromDictionary:sensorsList inGroup:kHWSensorGroupTemperature];
-        [self addAvailableItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupTemperature];
-        [self addAvailableItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupRemainingLife];
-        [self addAvailableItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupRemainingBlocks];
-        [self addAvailableItemsFromDictionary:sensorsList inGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency];
-        [self addAvailableItemsFromDictionary:sensorsList inGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer];
-        [self addAvailableItemsFromDictionary:sensorsList inGroup:kHWSensorGroupVoltage];
+        _colorIndex = 0;
+        
+        [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupTemperature];
+        [self addItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupTemperature];
+        [self addItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupRemainingLife];
+        [self addItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupRemainingBlocks];
+        [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency];
+        [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer];
+        [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupVoltage];
 
         [self setUserInterfaceEnabled:[[NSObject alloc] init]];
     }
@@ -178,13 +228,26 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     if ([aNotification userInfo]) {
         NSDictionary *list = [aNotification userInfo];
         
-        for (NSMutableDictionary *item in [_arrayController arrangedObjects]) {
+        for (NSMutableDictionary *item in [_prefsController arrangedObjects]) {
             
             NSString *key = [item objectForKey:kHWMonitorKeyKey];
             
             if ([[list allKeys] containsObject:key])
-                [item setValue:[list objectForKey:key] forKey:kHWMonitorKeyValue];
+                [item setValue:[[list objectForKey:key] objectForKey:kHWMonitorKeyValue] forKey:kHWMonitorKeyValue];
         }
+        
+        for (NSMutableDictionary *item in [_graphsController arrangedObjects]) {
+            
+            NSString *key = [item objectForKey:kHWMonitorKeyKey];
+            
+            if ([[list allKeys] containsObject:key])
+                [item setValue:[[list objectForKey:key] objectForKey:kHWMonitorKeyValue] forKey:kHWMonitorKeyValue];
+        }
+        
+        [_temperatureGraph captureDataToHistoryFromDictionary:list];
+        [_frequencyGraph captureDataToHistoryFromDictionary:list];
+        [_tachometerGraph captureDataToHistoryFromDictionary:list];
+        [_voltageGraph captureDataToHistoryFromDictionary:list];
     }
 }
 
@@ -246,7 +309,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 -(IBAction)favoritesChanged:(id)sender
 {   
-    NSArray *favorites = [_arrayController getFavoritesItems];
+    NSArray *favorites = [_prefsController getFavoritesItems];
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
     for (NSDictionary *item in favorites)
@@ -254,7 +317,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     NSString *favoritesList = [list componentsJoinedByString:@","];
     
-    NSArray *items = [_arrayController getAllItems];
+    NSArray *items = [_prefsController getAllItems];
     NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
     
     for (NSDictionary *item in items) {
@@ -290,6 +353,14 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorShowBSDNamesChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
+- (IBAction)graphsTableViewClicked:(id)sender
+{
+    [_temperatureGraph setNeedsDisplay:YES];
+    [_frequencyGraph setNeedsDisplay:YES];
+    [_tachometerGraph setNeedsDisplay:YES];
+    [_voltageGraph setNeedsDisplay:YES];
+}
+
 -(void)localizeView:(NSView*)view
 {
     if ([view isKindOfClass:[NSMatrix class]]) {
@@ -321,6 +392,10 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         NSString *title = [[textField cell] title];
         
         [[textField cell] setTitle:GetLocalizedString(title)];
+    }
+    else if ([view isKindOfClass:[NSTabView class]]) {
+        for (NSTabViewItem *item in [(NSTabView*)view tabViewItems])
+            [item setLabel:GetLocalizedString([item label])];
     }
     else {
         if ([view respondsToSelector:@selector(setAlternateTitle:)]) {
@@ -357,7 +432,18 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    _graphsColors = [NSColorList colorListNamed:@"Crayons"];
+    //_graphsColors = [[NSColorList availableColorLists] lastObject];
+    
+    //NSLog(@"color count: %ld", [[_graphsColors allKeys] count]);
+    
+    [_temperatureGraph setGroup:kHWSensorGroupTemperature | kSMARTSensorGroupTemperature];
+    [_frequencyGraph setGroup:kHWSensorGroupFrequency];
+    [_tachometerGraph setGroup:kHWSensorGroupTachometer];
+    [_voltageGraph setGroup:kHWSensorGroupVoltage];
+    
     void *menuExtra = nil;
+    
     int error = CoreMenuExtraGetMenuExtra((__bridge CFStringRef)@"org.hwsensors.HWMonitorExtra", &menuExtra);
     
     [_toggleMenuButton setState:!error && menuExtra];

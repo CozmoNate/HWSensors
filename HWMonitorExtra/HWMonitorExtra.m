@@ -52,8 +52,6 @@
     [view setAlternateImage:[icon alternateImage]];
     [view setUseShadowEffect:YES];
     
-    [self setView:view];
-    
     _mainMenu = [[NSMenu alloc] init];
     
     [_mainMenu setAutoenablesItems: NO];
@@ -222,10 +220,14 @@
             NSDictionary *titleColor = nil;
             NSDictionary *valueColor = nil;
             
-            NSString *value = [sensor value];
+            NSString *value = [sensor formattedValue];
             
             if (_appIsActive)
-                [values setObject:value forKey:[sensor name]];
+                [values setObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                   [sensor rawValue], kHWMonitorKeyRawValue,
+                                   value, kHWMonitorKeyValue,
+                                   nil]
+                           forKey:[sensor name]];
             
             switch ([sensor level]) {
                     /*case kHWSensorLevelDisabled:
@@ -262,11 +264,8 @@
             [title addAttributes:_menuAttributes range:NSMakeRange(0, [title length])];
             
             // Add subtitle
-            if ([sensor disk] && _showBSDNames) {
-                [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n  " attributes:_subtitleAttributes]];
-                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[sensor disk] bsdName] attributes:_subtitleAttributes]];
-                [title appendAttributedString:[[NSAttributedString alloc] initWithString:@" " attributes:[NSDictionary dictionaryWithObjectsAndKeys:_menuFont, NSFontAttributeName, nil]]];
-            }
+            if ([sensor disk] && _showBSDNames)
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n  %@", [[sensor disk] bsdName]] attributes:_subtitleAttributes]];
             
             // Update menu item title
             [[[sensor representedObject] menuItem] setAttributedTitle:title];
@@ -412,7 +411,8 @@
         [sensorsList setValue:[NSDictionary dictionaryWithObjectsAndKeys:
                                [sensor name], kHWMonitorKeyName,
                                [sensor title], kHWMonitorKeyTitle,
-                               [NSString stringWithString:[sensor value]], kHWMonitorKeyValue,
+                               [sensor rawValue], kHWMonitorKeyRawValue,
+                               [sensor formattedValue], kHWMonitorKeyValue,
                                [NSNumber numberWithLong:[sensor group]], kHWMonitorKeyGroup,
                                [NSNumber numberWithBool:[_favorites containsObject:sensor]], kHWMonitorKeyFavorite,
                                [NSNumber numberWithBool:[[sensor representedObject] isVisible]], kHWMonitorKeyVisible,
