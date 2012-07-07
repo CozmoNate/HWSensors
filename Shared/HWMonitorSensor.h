@@ -46,7 +46,8 @@ enum HWSensorLevel {
 @property (readwrite, retain) ATAGenericDisk* disk;
 
 @property (readwrite, assign) enum HWSensorLevel level;
-@property (readonly) NSString* value;
+@property (readonly) NSNumber* rawValue;
+@property (readonly) NSString* formattedValue;
 
 @property (readonly) BOOL levelHasBeenChanged;
 @property (readonly) BOOL valueHasBeenChanged;
@@ -62,6 +63,6 @@ enum HWSensorLevel {
 - (NSData *)data;
 
 - (float)decodeValue;
-- (NSString*)value;
+- (NSString*)formattedValue;
 
 @end

@@ -50,14 +50,17 @@ const NSString* kHWMonitorViewSpacer = @" ";
         return nil;
     
     _smallFont = [NSFont boldSystemFontOfSize:9.1f];
-    //_bigFont = [NSFont boldSystemFontOfSize:11.0f];
-    _bigFont = [NSFont systemFontOfSize:11.0f];
+    //_smallFont = [NSFont menuBarFontOfSize:9.1f];
+    //_bigFont = [NSFont systemFontOfSize:13.0f];
+    _bigFont = [NSFont menuBarFontOfSize:11];
     
     _shadow = [[NSShadow alloc] init];
     
     [_shadow setShadowColor:[NSColor colorWithCalibratedWhite:1 alpha:0.55]];
     [_shadow setShadowOffset:CGSizeMake(0, -1.0)];
     [_shadow setShadowBlurRadius:1.0];
+    
+    [_menuExtra setView:self];
     
     return self;
 }
@@ -67,7 +70,14 @@ const NSString* kHWMonitorViewSpacer = @" ";
     if ([_menuExtra isMenuDown])
         [_menuExtra drawMenuBackground:YES];
     
+    NSGraphicsContext* context = [NSGraphicsContext currentContext];
+    
     if (!_engine || !_favorites || [_favorites count] == 0) {
+        
+        [context saveGraphicsState];
+        
+        if (![_menuExtra isMenuDown])
+            [_shadow set];
         
         NSImage *image = [_menuExtra isMenuDown] ? _alternateImage : _image;
         
@@ -78,7 +88,10 @@ const NSString* kHWMonitorViewSpacer = @" ";
             
             [self setFrameSize:NSMakeSize(width, [self frame].size.height)];
         }
-        //snow leopard icon & text problem        
+        
+        [context restoreGraphicsState];
+        
+        //snow leopard icon & text problem
         [_menuExtra setLength:([self frame].size.width)];
         
         return;
@@ -98,6 +111,11 @@ const NSString* kHWMonitorViewSpacer = @" ";
             id object = [_favorites objectAtIndex:i];
             
             if ([object isKindOfClass:[HWMonitorIcon class]]) {
+                [context saveGraphicsState];
+                
+                if (![_menuExtra isMenuDown])
+                    [_shadow set];
+                
                 HWMonitorIcon *icon = (HWMonitorIcon*)object;
                 
                 if (icon) {
@@ -107,19 +125,23 @@ const NSString* kHWMonitorViewSpacer = @" ";
                         
                         [image drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
                         
-                        offset += [image size].width + 3;
+                        offset = offset + [image size].width + (i + 1 < [_favorites count] && [[_favorites objectAtIndex:i + 1] isKindOfClass:[HWMonitorSensor class]] ? 2 : i + 1 == [_favorites count] ? 0 : [spacer size].width);
                         
                         index = 0;
                     }
                 }
+                
+                [context restoreGraphicsState];
             }
             else if ([object isKindOfClass:[HWMonitorSensor class]]) {
+                [context saveGraphicsState];
+
                 HWMonitorSensor *sensor = (HWMonitorSensor*)object;
                 
                 if (!sensor) 
                     continue;
                 
-                NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[sensor value]];
+                NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[sensor formattedValue]];
                 
                 NSColor *valueColor;
                 
@@ -146,44 +168,49 @@ const NSString* kHWMonitorViewSpacer = @" ";
                 
                 [title addAttribute:NSForegroundColorAttributeName value:([_menuExtra isMenuDown] ? [NSColor whiteColor] : valueColor) range:NSMakeRange(0,[title length])];
                 
-                if (![_menuExtra isMenuDown] && _useShadowEffect) 
-                    [title addAttribute:NSShadowAttributeName value:_shadow range:NSMakeRange(0,[title length])];
+                if (![_menuExtra isMenuDown] && _useShadowEffect)
+                    [_shadow set];
                 
                 if (_useBigFont) {
-
+                    
+                    CGContextRef cgContext = [context graphicsPort];
+                    CGContextSetShouldSmoothFonts(cgContext, NO);
+                    
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
+                    [title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];
                     
-                    [title drawWithRect:NSMakeRect(offset, lround(([self frame].size.height - [title size].height) / 2), [title size].width, [title size].height) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesDeviceMetrics];
-                    
-                    offset += [title size].width + [spacer size].width;
+                    offset = offset + [title size].width + (i + 1 < [_favorites count] ? [spacer size].width : 0);
                 }
                 else {
+                    int row = index % 2;
                     
                     [title addAttribute:NSFontAttributeName value:_smallFont range:NSMakeRange(0, [title length])];
+                    [title drawAtPoint:NSMakePoint(offset, [_favorites count] == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1 : lround([self frame].size.height / 2) - [title size].height + 2)];
                     
-                    int row = index % 2;
-
-                    [title drawWithRect:NSMakeRect(offset, [_favorites count] == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1: lround([self frame].size.height / 2) - [title size].height + 2, [title size].width, [title size].height) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesDeviceMetrics];
+                    int width = [title size].width;
                     
-                    int width = [title size].width + [spacer size].width;
-                    
-                    if (row == 1) {
-                        width = width > lastWidth ? width : lastWidth;
-                        offset += width;
+                    if (row == 0) {
+                        if (i + 1 == [_favorites count]) {
+                            offset += width;
+                        }
+                        else if (i + 1 < [_favorites count] && ![[_favorites objectAtIndex:i + 1] isKindOfClass:[HWMonitorSensor class]]) {
+                            offset = offset + width + [spacer size].width;
+                        }
                     }
-                    else if ((i == [_favorites count] - 1) || ![[_favorites objectAtIndex:i+1] isKindOfClass:[HWMonitorSensor class]]) {
-                        offset += width;
+                    else if (row == 1) {
+                        width = width > lastWidth ? width : lastWidth;
+                        offset = offset + width + (i + 1 < [_favorites count] ? [spacer size].width : 0);
                     }
                     
                     lastWidth = width;
                 }
                 
                 index++;
+                
+                [context restoreGraphicsState];
             }
         }
     }
-    
-    offset -= [spacer size].width;
     
     [self setFrameSize:NSMakeSize(offset, [self frame].size.height)];
     

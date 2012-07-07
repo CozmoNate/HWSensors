@@ -11,6 +11,7 @@
 #import "BundleUserDefaults.h"
 #import "HWMonitorEngine.h"
 #import "HWMonitorArrayController.h"
+#import "HWMonitorGraphsView.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
@@ -18,13 +19,21 @@
     NSMutableDictionary *_icons;
     NSMutableArray *_favorites;
     NSMutableDictionary *_sensors;
+    NSColorList *_graphsColors;
+    NSUInteger _colorIndex;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSMenu *menu;
-@property (assign) IBOutlet HWMonitorArrayController *arrayController;
+@property (assign) IBOutlet HWMonitorArrayController *prefsController;
+@property (assign) IBOutlet NSArrayController *graphsController;
 @property (assign) IBOutlet NSTextField *versionLabel;
 @property (assign) IBOutlet NSButton *toggleMenuButton;
+
+@property (assign) IBOutlet HWMonitorGraphsView *temperatureGraph;
+@property (assign) IBOutlet HWMonitorGraphsView *frequencyGraph;
+@property (assign) IBOutlet HWMonitorGraphsView *tachometerGraph;
+@property (assign) IBOutlet HWMonitorGraphsView *voltageGraph;
 
 @property (readwrite, assign) IBOutlet NSObject *userInterfaceEnabled;
 
@@ -39,5 +48,6 @@
 - (IBAction)useShadowEffectChanged:(id)sender;
 - (IBAction)showBSDNamesChanged:(id)sender;
 
+- (IBAction)graphsTableViewClicked:(id)sender;
 
 @end

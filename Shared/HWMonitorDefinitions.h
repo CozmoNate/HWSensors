@@ -46,6 +46,7 @@
 #define kHWMonitorKeyName               @"Name"
 #define kHWMonitorKeyIcon               @"Icon"
 #define kHWMonitorKeyValue              @"Value"
+#define kHWMonitorKeyRawValue           @"RawValue"
 #define kHWMonitorKeySeparator          @"IsSeparator"
 #define kHWMonitorKeyVisible            @"Visible"
 #define kHWMonitorKeyFavorite           @"Favorite"
@@ -53,5 +54,8 @@
 #define kHWMonitorKeyGroup              @"Group"
 #define kHWMonitorKeyTitle              @"Title"
 #define kHWMonitorKeyIndex              @"Index"
+#define kHWMonitorKeyEnabled            @"Enabled"
+#define kHWMonitorKeyColor              @"Color"
+#define kHWMonitorKeyPoints             @"Points"
 
 #endif
