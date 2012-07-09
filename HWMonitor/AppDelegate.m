@@ -128,24 +128,24 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
             group & kHWSensorGroupTachometer ||
             group & kHWSensorGroupVoltage) {
             
-            if ((_colorIndex + 1) * 0.07 > 1)
+            /*if ((_colorIndex + 1) * 0.07 > 1)
                 _colorIndex = 0;
-            NSColor *color = [NSColor colorWithCalibratedHue:(_colorIndex++) * 0.07 saturation:0.8 brightness:0.8 alpha:1.0];
+            NSColor *color = [NSColor colorWithCalibratedHue:(_colorIndex++) * 0.07 saturation:0.8 brightness:0.8 alpha:1.0];*/
             
-            /*NSColor *color;
+            NSColor *color;
             CGFloat intensity;
-            
+
             do {
-                color = [_graphsColors colorWithKey:[[_graphsColors allKeys] objectAtIndex:_colorIndex++]];
+                if ((_colorIndex += 1) >= [[_graphsColors allKeys] count])
+                    _colorIndex = _colorIndex - [[_graphsColors allKeys] count];
+                
+                color = [_graphsColors colorWithKey:[[_graphsColors allKeys] objectAtIndex:_colorIndex]];
                 intensity = ([color redComponent] + [color greenComponent] + [color blueComponent]) / 3.0;
-                
-                if (_colorIndex >= [[_graphsColors allKeys] count])
-                    _colorIndex = 0;
-                
-            } while (intensity <= 0.28 || intensity >= 0.7);*/
+
+            } while (intensity <= 0.45 || intensity >= 0.70);
             
             [_graphsController addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          color, kHWMonitorKeyColor,
+                                          /*[NSArchiver archivedDataWithRootObject:color]*/color, kHWMonitorKeyColor,
                                           [NSNumber numberWithBool:YES], kHWMonitorKeyEnabled,
                                           title, kHWMonitorKeyTitle,
                                           value, kHWMonitorKeyValue,
@@ -394,8 +394,10 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [[textField cell] setTitle:GetLocalizedString(title)];
     }
     else if ([view isKindOfClass:[NSTabView class]]) {
-        for (NSTabViewItem *item in [(NSTabView*)view tabViewItems])
+        for (NSTabViewItem *item in [(NSTabView*)view tabViewItems]) {
             [item setLabel:GetLocalizedString([item label])];
+            [self localizeView:[item view]];
+        }
     }
     else {
         if ([view respondsToSelector:@selector(setAlternateTitle:)]) {

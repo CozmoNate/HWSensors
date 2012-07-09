@@ -89,7 +89,7 @@
         if (scaleY == 0)
             scaleY = 1;
         
-        _graphBounds = NSMakeRect(0, minY - (maxY - minY) * 0.1, GraphHistoryPoints, scaleY * 1.2);
+        _graphBounds = NSMakeRect(0, minY - scaleY * 0.35, GraphHistoryPoints, scaleY * 1.45);
     }
 }
 
@@ -159,6 +159,7 @@
                 else {
                     color = [item objectForKey:kHWMonitorKeyColor];
                     [path setLineWidth:1.5];
+                    [path setLineJoinStyle:NSRoundLineJoinStyle];
                 }
                 
                 [path removeAllPoints];

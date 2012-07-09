@@ -107,7 +107,7 @@
     [invocation setTarget:self];
     [invocation setSelector:@selector(updateTitlesDefault)];
     
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.5f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     // Rebuild sensors timer
     /*invocation = [NSInvocation invocationWithMethodSignature:
