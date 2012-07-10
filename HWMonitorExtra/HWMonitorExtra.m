@@ -294,8 +294,12 @@
 
 -(void)checkGroupsVisibilities
 {
-    for (HWMonitorGroup *group in _groups)
-        [group checkVisibility];
+    BOOL hasVisibleGroupsBefore = NO;
+    
+    for (HWMonitorGroup *group in _groups) {
+        [group setFirst:!hasVisibleGroupsBefore];
+        hasVisibleGroupsBefore = hasVisibleGroupsBefore | [group checkVisibility];
+    }
 }
 
 - (void)rebuildSensors
@@ -351,11 +355,7 @@
             }
         }
         
-        HWMonitorGroup* firstGroup = [HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupTemperature menu:_mainMenu font:_menuFont title:GetLocalizedString(@"TEMPERATURES") image:[[self getIconByName:kHWMonitorIconTemperatures] image]];
-        
-        [firstGroup setFirst:YES];
-        
-        [_groups addObject:firstGroup];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupTemperature menu:_mainMenu font:_menuFont title:GetLocalizedString(@"TEMPERATURES") image:[[self getIconByName:kHWMonitorIconTemperatures] image]]];
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupTemperature menu:_mainMenu font:_menuFont title:GetLocalizedString(@"DRIVES TEMPERATURES") image:[[self getIconByName:kHWMonitorIconHddTemperatures] image]]];
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupRemainingLife menu:_mainMenu font:_menuFont title:GetLocalizedString(@"SSD REMAINING LIFE") image:[[self getIconByName:kHWMonitorIconSsdLife] image]]];
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupRemainingBlocks menu:_mainMenu font:_menuFont title:GetLocalizedString(@"SSD REMAINING BLOCKS") image:[[self getIconByName:kHWMonitorIconSsdLife] image]]];

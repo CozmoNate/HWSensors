@@ -79,7 +79,7 @@
     return self;
 }
 
-- (void)checkVisibility;
+- (BOOL)checkVisibility;
 {
     int visibleCount = 0;
     
@@ -95,6 +95,8 @@
         [_separatorItem setHidden:_isFirst];
         [_titleMenuItem setHidden:NO];
     }
+    
+    return visibleCount > 0;
 }
 
 @end

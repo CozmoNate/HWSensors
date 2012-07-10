@@ -28,6 +28,6 @@
 
 - (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup menu:(NSMenu*)menu font:(NSFont*)font title:(NSString*)title image:(NSImage*)image;
 
-- (void)checkVisibility;
+- (BOOL)checkVisibility;
 
 @end
