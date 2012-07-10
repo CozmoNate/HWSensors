@@ -16,7 +16,7 @@
 @synthesize group = _group;
 @synthesize content = _content;
 
-#define GraphHistoryPoints  120
+#define kHWMonitorGraphsHistoryPoints  120
 
 -(void)setGroup:(NSUInteger)group
 {
@@ -68,19 +68,19 @@
     
     if (maxY == 0 && minY == MAXFLOAT) {
         if (_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) {
-            _graphBounds = NSMakeRect(0, 20, GraphHistoryPoints, 99);
+            _graphBounds = NSMakeRect(0, 20, kHWMonitorGraphsHistoryPoints, 99);
         }
         else if (_group & kHWSensorGroupFrequency) {
-            _graphBounds = NSMakeRect(0, 0, GraphHistoryPoints, 4000);
+            _graphBounds = NSMakeRect(0, 0, kHWMonitorGraphsHistoryPoints, 4000);
         }
         else if (_group & kHWSensorGroupTachometer) {
-            _graphBounds =  NSMakeRect(0, 0, GraphHistoryPoints, 3000);
+            _graphBounds =  NSMakeRect(0, 0, kHWMonitorGraphsHistoryPoints, 3000);
         }
         else if (_group & kHWSensorGroupVoltage) {
-            _graphBounds = NSMakeRect(0, 0, GraphHistoryPoints, 15);
+            _graphBounds = NSMakeRect(0, 0, kHWMonitorGraphsHistoryPoints, 15);
         }
         else {
-            _graphBounds = NSMakeRect(0, 0, GraphHistoryPoints, 100);
+            _graphBounds = NSMakeRect(0, 0, kHWMonitorGraphsHistoryPoints, 100);
         }
     }
     else {
@@ -89,7 +89,7 @@
         if (scaleY == 0)
             scaleY = 1;
         
-        _graphBounds = NSMakeRect(0, minY - scaleY * 0.35, GraphHistoryPoints, scaleY * 1.45);
+        _graphBounds = NSMakeRect(0, minY - scaleY * 0.35, kHWMonitorGraphsHistoryPoints, scaleY * 1.45);
     }
 }
 
@@ -103,6 +103,30 @@
     double y = ViewMargin + (point.y - _graphBounds.origin.y) * graphScaleY;
     
     return NSMakePoint(x, y);
+}
+
+- (CGFloat) bWithIndex:(NSUInteger)i time:(float)t {
+    switch (i) {
+        case -2:
+            return (((-t + 3) * t - 3) * t + 1) / 6;
+        case -1:
+            return (((3 * t - 6) * t) * t + 4) / 6;
+        case 0:
+            return (((-3 * t + 3) * t + 3) * t + 1) / 6;
+        case 1:
+            return (t * t * t) / 6;
+    }
+    return 0;
+}
+
+- (NSPoint) splinePointWithPoints:(NSArray*)points index:(NSUInteger)i time:(float)t {
+    CGFloat px = 0;
+    CGFloat py = 0;
+    for (int j = -2; j <= 1; j++) {
+        px += [self bWithIndex:j time:t] * (i + j);
+        py += [self bWithIndex:j time:t] * [[points objectAtIndex:i + j] doubleValue];
+    }
+    return NSMakePoint(px, py);
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -149,16 +173,16 @@
             NSString *key = [item objectForKey:kHWMonitorKeyKey];
             NSArray *points = [_graphs objectForKey:key];
                         
-            if (points && [points count] > 3) {
+            if (points && [points count] >= 2) {
                 NSColor *color = nil;
                 
                 if ([[_content selectedObjects] containsObject:item]) {
                     color = [NSColor whiteColor];
-                    [path setLineWidth:3];
+                    [path setLineWidth:3.5];
                 }
                 else {
                     color = [item objectForKey:kHWMonitorKeyColor];
-                    [path setLineWidth:1.5];
+                    [path setLineWidth:2];
                     [path setLineJoinStyle:NSRoundLineJoinStyle];
                 }
                 
@@ -166,12 +190,23 @@
                 
                 [color set];
                 
+                NSPoint topLeft = [self graphPointToView:NSMakePoint(_graphBounds.origin.x, _graphBounds.origin.y)];
+                NSPoint bottomRight = [self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width, _graphBounds.origin.y + _graphBounds.size.height)];
+                
+                [NSBezierPath clipRect:NSMakeRect(topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y)];
+                                
                 [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.size.width - [points count], [[points objectAtIndex:0] doubleValue])]];
-                
-                NSUInteger index;
-                
-                for (index = 1; index < [points count]; index++)
-                    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.size.width - [points count] + index, [[points objectAtIndex:index] floatValue])]];
+                                
+                for (NSUInteger index = 2; index + 1 < [points count]; index++) {
+                    
+                    NSPoint p1 = [self splinePointWithPoints:points index:index time:0.33];
+                    NSPoint p2 = [self splinePointWithPoints:points index:index time:0.66];
+                    NSPoint q2 = [self splinePointWithPoints:points index:index time:1.00];
+                    
+                    [path curveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.size.width - [points count] + 2 + q2.x, q2.y)]
+                         controlPoint1:[self graphPointToView:NSMakePoint(_graphBounds.size.width - [points count] + 2 + p1.x, p1.y)]
+                         controlPoint2:[self graphPointToView:NSMakePoint(_graphBounds.size.width - [points count] + 2 + p2.x, p2.y)]];
+                }
                 
                 [path stroke];
             }
@@ -198,7 +233,7 @@
             
             [points addObject:[[info objectForKey:key] objectForKey:kHWMonitorKeyRawValue]];
             
-            if ([points count] > GraphHistoryPoints)
+            if ([points count] > kHWMonitorGraphsHistoryPoints + 4)
                 [points removeObjectAtIndex:0];
         }
     }
