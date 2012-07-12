@@ -11,11 +11,15 @@
 {
     NSRect _graphBounds;
     NSMutableDictionary *_graphs;
+    double _minY;
+    double _maxY;
+    NSDictionary *_legendAttributes;
+    NSString *_legendFormat;
 }
 
+@property (assign) IBOutlet NSArrayController *graphs;
 @property (readwrite, assign) NSUInteger group;
-
-@property (assign) IBOutlet NSArrayController *content;
+@property (readwrite, assign) BOOL useFahrenheit;
 
 - (void)captureDataToHistoryFromDictionary:(NSDictionary*)info;
 
