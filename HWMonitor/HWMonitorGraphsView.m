@@ -13,14 +13,29 @@
 
 @implementation HWMonitorGraphsView
 
+@synthesize graphs = _content;
 @synthesize group = _group;
-@synthesize content = _content;
+@synthesize useFahrenheit = _useFahrenheit;
 
 #define kHWMonitorGraphsHistoryPoints  120
 
 -(void)setGroup:(NSUInteger)group
 {
     _group = group;
+    
+    if (_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) {
+        _legendFormat = @"%1.0f°";
+    }
+    else if (_group & kHWSensorGroupFrequency) {
+        _legendFormat = @"%1.0fMHz";
+    }
+    else if (_group & kHWSensorGroupTachometer) {
+        _legendFormat = @"%1.0frpm";
+    }
+    else if (_group & kHWSensorGroupVoltage) {
+        _legendFormat = @"%1.3fV";
+    }
+    
     [self calculateGraphBounds];
 }
 
@@ -38,12 +53,19 @@
     
     _graphs = [[NSMutableDictionary alloc] init];
     
+    _legendAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSFont systemFontOfSize:9.0], NSFontAttributeName,
+                         [NSColor yellowColor], NSForegroundColorAttributeName,
+                         nil];
+    
+    _legendFormat = @"%1.0f";
+    
     return self;
 }
 
 - (void)calculateGraphBounds
 {
-    double maxY = 0, minY = MAXFLOAT;
+    _maxY = 0, _minY = MAXFLOAT;
     
     for (NSDictionary *item in [_content arrangedObjects]) {
         NSNumber *enabled = [item objectForKey:kHWMonitorKeyEnabled];
@@ -54,53 +76,55 @@
             
             if (points) {
                 for (NSNumber *point in points) {
-                    if ([point doubleValue] < minY) {
-                        minY = [point doubleValue];
+                    if ([point doubleValue] < _minY) {
+                        _minY = [point doubleValue];
                     }
-                    else if ([point doubleValue] > maxY)
+                    else if ([point doubleValue] > _maxY)
                     {
-                        maxY = [point doubleValue];
+                        _maxY = [point doubleValue];
                     }
                 }
             }
         }
     }
     
-    if (maxY == 0 && minY == MAXFLOAT) {
-        if (_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) {
-            _graphBounds = NSMakeRect(0, 20, kHWMonitorGraphsHistoryPoints, 99);
-        }
-        else if (_group & kHWSensorGroupFrequency) {
-            _graphBounds = NSMakeRect(0, 0, kHWMonitorGraphsHistoryPoints, 4000);
-        }
-        else if (_group & kHWSensorGroupTachometer) {
-            _graphBounds =  NSMakeRect(0, 0, kHWMonitorGraphsHistoryPoints, 3000);
-        }
-        else if (_group & kHWSensorGroupVoltage) {
-            _graphBounds = NSMakeRect(0, 0, kHWMonitorGraphsHistoryPoints, 15);
-        }
-        else {
-            _graphBounds = NSMakeRect(0, 0, kHWMonitorGraphsHistoryPoints, 100);
-        }
+    if (_maxY == 0 && _minY == MAXFLOAT) {
+        _graphBounds = NSMakeRect(0, 0, kHWMonitorGraphsHistoryPoints, 100);
     }
     else {
-        double scaleY = maxY - minY;
+
+        double minY = _minY - (_maxY - _minY) * 0.15, maxY = _maxY * 1.15;
         
-        if (scaleY == 0)
-            scaleY = 1;
+        if (_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) {
+            minY = minY < 25 ? minY : 25;
+            maxY = maxY < 25 ? 25 : maxY;
+        }
+        else if (_group & kHWSensorGroupFrequency) {
+            //minY = 0;
+        }
+        else if (_group & kHWSensorGroupTachometer) {
+            minY = minY < 1000 ? minY : 1000;
+            maxY = maxY < 1000 ? 1000 : maxY;
+        }
+        else if (_group & kHWSensorGroupVoltage) {
+            //minY = 0;
+        }
         
-        _graphBounds = NSMakeRect(0, minY - scaleY * 0.35, kHWMonitorGraphsHistoryPoints, scaleY * 1.45);
+        _graphBounds = NSMakeRect(0, minY, kHWMonitorGraphsHistoryPoints, maxY - minY);
     }
 }
 
-#define ViewMargin 5
+#define LeftViewMargin 5
+#define TopViewMargin 5
+#define RightViewMargin 5
+#define BottomViewMargin 5
 
 - (NSPoint)graphPointToView:(NSPoint)point
 {
-    double graphScaleX = ([self bounds].size.width - ViewMargin * 2) / _graphBounds.size.width;
-    double graphScaleY = ([self bounds].size.height - ViewMargin * 2) / _graphBounds.size.height;
-    double x = ViewMargin + (point.x - _graphBounds.origin.x) * graphScaleX;
-    double y = ViewMargin + (point.y - _graphBounds.origin.y) * graphScaleY;
+    double graphScaleX = ([self bounds].size.width - LeftViewMargin - RightViewMargin) / _graphBounds.size.width;
+    double graphScaleY = ([self bounds].size.height - TopViewMargin - BottomViewMargin) / _graphBounds.size.height;
+    double x = LeftViewMargin + (point.x - _graphBounds.origin.x) * graphScaleX;
+    double y = BottomViewMargin + (point.y - _graphBounds.origin.y) * graphScaleY;
     
     return NSMakePoint(x, y);
 }
@@ -140,6 +164,8 @@
     
     [context saveGraphicsState];
     
+    
+    // Draw marks
     [context setShouldAntialias:NO];
     
     NSBezierPath *path = [[NSBezierPath alloc] init];
@@ -161,6 +187,35 @@
             [path stroke];
         }
     }
+    
+    // Draw extremes
+    [context setShouldAntialias:NO];
+    
+    [path removeAllPoints];
+    [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,_maxY)]];
+    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,_maxY)]];
+    [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,_minY)]];
+    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,_minY)]];
+    CGFloat pattern[2] = { 4.0, 4.0 };
+    [path setLineDash:pattern count:2 phase:1.0];
+    [[NSColor lightGrayColor] set];
+    [path setLineWidth:0.5];
+    [path stroke];
+    CGFloat resetPattern[1] = { 0 };
+    [path setLineDash:resetPattern count:0 phase:0];
+    
+    [context setShouldAntialias:YES];
+    
+    NSAttributedString *title = [[NSAttributedString alloc]
+                                 initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
+                                 attributes:_legendAttributes];
+    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y - [title size].height - 2)];
+    
+    title = [[NSAttributedString alloc]
+             initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
+             attributes:_legendAttributes];
+    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y + 2)];
+    
     
     // Draw graphs
     

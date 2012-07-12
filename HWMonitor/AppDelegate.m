@@ -145,7 +145,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
             } while (intensity <= 0.45 || intensity >= 0.70);
             
             [_graphsController addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          /*[NSArchiver archivedDataWithRootObject:color]*/color, kHWMonitorKeyColor,
+                                          color, kHWMonitorKeyColor,
+                                          icon ? [icon image] : nil, kHWMonitorKeyIcon,
                                           [NSNumber numberWithBool:YES], kHWMonitorKeyEnabled,
                                           title, kHWMonitorKeyTitle,
                                           value, kHWMonitorKeyValue,
@@ -335,7 +336,11 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 {
     NSMatrix *matrix = (NSMatrix*)sender;
     
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUseFahrenheitChanged object:![[matrix cellAtRow:0 column:0] state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
+    BOOL useFahrenheit = ![[matrix cellAtRow:0 column:0] state];
+    
+    [_temperatureGraph setUseFahrenheit:useFahrenheit];
+    
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUseFahrenheitChanged object:useFahrenheit ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
 -(IBAction)useBigFontChanged:(id)sender
@@ -451,6 +456,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [_toggleMenuButton setState:!error && menuExtra];
     
     _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
+    
+    [_temperatureGraph setUseFahrenheit:[_defaults boolForKey:kHWMonitorUseFahrenheitKey]];
     
     // undocumented call
     [[NSUserDefaultsController sharedUserDefaultsController] _setDefaults:_defaults];

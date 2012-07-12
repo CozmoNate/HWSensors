@@ -284,7 +284,7 @@
         NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine copyValueFromKeyInfo:[HWMonitorEngine populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
         
         if ([caption length] == 0)
-            caption = [[NSString alloc] initWithFormat:@"Fan %X",i + 1];
+            caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
         
         if (![caption hasPrefix:@"GPU "])
             [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(caption) group:kHWSensorGroupTachometer];

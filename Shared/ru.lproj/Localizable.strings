@@ -66,10 +66,10 @@
 "frequencies" = "Значек частоты";
 "tachometers" = "Значек вентилятора";
 "voltages" = "Значек напряжения";
-"CPU Fan" = "Охладитель ЦП";
-"Power Fan" = "Охладитель БП";
-"System Fan #1" = "Охладитель системы №1";
-"System Fan #2" = "Охладитель системы №2";
+"CPU Fan" = "Вентилятор ЦП";
+"Power Fan" = "Вентилятор БП";
+"System Fan #1" = "Корпусной вентилятор №1";
+"System Fan #2" = "Корпусной вентилятор №2";
 "Menu bar items:" = "Датчики в строке меню:";
 "Available items:" = "Все доступные датчики:";
 "HWMonitor Preferences" = "Настройки HWMonitor";
