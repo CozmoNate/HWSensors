@@ -148,7 +148,7 @@
 					<string>{lso</string>
 				</dict>
 				<key>debug</key>
-				<true/>
+				<false/>
 				<key>smc-compatible</key>
 				<string>smc-napa</string>
 			</dict>
