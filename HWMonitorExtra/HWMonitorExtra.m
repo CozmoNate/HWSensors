@@ -107,7 +107,7 @@
     [invocation setTarget:self];
     [invocation setSelector:@selector(updateTitlesDefault)];
     
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.666f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     // Rebuild sensors timer
     /*invocation = [NSInvocation invocationWithMethodSignature:
@@ -191,7 +191,7 @@
 
 - (void)updateData
 {
-    if ([self isMenuDown] || _appIsActive)
+    if ([self isMenuDown] || _monitoringAppIsActive)
         [_engine updateGenericSensorsValues];
     else 
         [_engine updateFavoritesSensorsValues:_favorites];
@@ -206,14 +206,14 @@
 {
     [[self view] setNeedsDisplay:YES];
     
-    if (!allSensors && ![self isMenuDown] && !_appIsActive)
+    if (!allSensors && ![self isMenuDown] && !_monitoringAppIsActive)
         return;
     
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
     
     for (HWMonitorSensor *sensor in [_engine sensors]) {
         
-        if (((([self isMenuDown] || allSensors) && [[sensor representedObject] isVisible]) || _appIsActive) && [sensor valueHasBeenChanged]) {
+        if (((([self isMenuDown] || allSensors) && [[sensor representedObject] isVisible]) || _monitoringAppIsActive) && [sensor valueHasBeenChanged]) {
             
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
             
@@ -222,7 +222,7 @@
             
             NSString *value = [sensor formattedValue];
             
-            if (_appIsActive)
+            if (_monitoringAppIsActive)
                 [values setObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                    [sensor rawValue], kHWMonitorKeyRawValue,
                                    value, kHWMonitorKeyValue,
@@ -272,8 +272,11 @@
         }
     }
     
-    if (_appIsActive)
+    if (_monitoringAppIsActive && (_monitoringAppNextUpdate == nil || [_monitoringAppNextUpdate isLessThanOrEqualTo:[NSDate dateWithTimeIntervalSinceNow:0.0]])) {
         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
+        
+        _monitoringAppNextUpdate = [NSDate dateWithTimeIntervalSinceNow:1.0];
+    }
 }
 
 - (void)updateTitlesForced
@@ -427,7 +430,7 @@
 
 - (void)appIsActiveChanged:(NSNotification*)aNotification
 {
-    _appIsActive = aNotification && [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
+    _monitoringAppIsActive = aNotification && [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
 }
 
 - (void)favoritesChanged:(NSNotification*)aNotification

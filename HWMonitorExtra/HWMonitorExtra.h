@@ -31,8 +31,10 @@
     NSMenu *_mainMenu;
     NSMutableArray *_groups;
     
-    BOOL _appIsActive;
     BOOL _showBSDNames;
+    
+    BOOL _monitoringAppIsActive;
+    NSDate *_monitoringAppNextUpdate;
 }
 
 @property (readwrite, retain) IBOutlet HWMonitorEngine* engine;
