@@ -460,7 +460,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>4.2</string>
+				<string>4.2.10</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -1483,7 +1483,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>2.0</string>
+				<string>2.0.1</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -1990,7 +1990,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>2.0</string>
+				<string>0.8.0b5</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -3469,13 +3469,13 @@
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
-				<string>HWMonitor Utility</string>
+				<string>HWMonitor</string>
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>RELOCATABLE</key>
 				<true/>
 				<key>VERSION</key>
-				<string>1.0</string>
+				<string>2.2.5</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -3991,7 +3991,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>2.0</string>
+				<string>2.2.1</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -4498,7 +4498,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.0</string>
+				<string>1.0.3</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -4574,7 +4574,20 @@
 								<key>REQUIREMENTS</key>
 								<array/>
 								<key>TITLE</key>
-								<array/>
+								<array>
+									<dict>
+										<key>LANGUAGE</key>
+										<string>English</string>
+										<key>VALUE</key>
+										<string>HWMonitor</string>
+									</dict>
+									<dict>
+										<key>LANGUAGE</key>
+										<string>Russian</string>
+										<key>VALUE</key>
+										<string>HWMonitor</string>
+									</dict>
+								</array>
 								<key>TOOLTIP</key>
 								<array/>
 								<key>TYPE</key>
@@ -5057,7 +5070,7 @@
 				<true/>
 			</dict>
 			<key>BUILD_FORMAT</key>
-			<integer>1</integer>
+			<integer>0</integer>
 			<key>BUILD_PATH</key>
 			<dict>
 				<key>PATH</key>

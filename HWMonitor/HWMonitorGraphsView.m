@@ -160,8 +160,8 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    //[[NSColor colorWithCalibratedRed:0.85 green:0.9 blue:0.95 alpha:1.0] setFill];
-    [[NSColor blackColor] setFill];
+    //[[NSColor colorWithCalibratedRed:0.94 green:0.94 blue:0.94 alpha:1.0] set];
+    [[NSColor blackColor] set];
     [NSBezierPath fillRect:[self bounds]];
     
     double x, y;
