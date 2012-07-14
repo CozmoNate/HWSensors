@@ -6,19 +6,15 @@
 //  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
-#import "HWMonitorArrayController.h"
+#import "HWMonitorSensorsList.h"
 #import "HWMonitorDefinitions.h"
 
-@implementation HWMonitorArrayController
+@implementation HWMonitorSensorsList
 
+@synthesize scrollView = _scrollView;
 @synthesize tableView = _tableView;
 
 #define kHWMonitorTableViewDataType @"kHWMonitorTableViewDataType"
-
--(id)init
-{
-    return self;
-}
 
 -(void)setFirstFavoriteItem:(NSString*)favoriteName firstAvailableItem:(NSString*)availableName;
 {
@@ -32,38 +28,24 @@
     [self insertObject:_firstAvailableItem atArrangedObjectIndex:1];
 }
 
--(NSMutableDictionary*)addFavoriteItem
+-(NSMutableDictionary*)addItem
 {
-    NSMutableDictionary *item = [[NSMutableDictionary alloc] init];
-    
-    [self insertObject:item atArrangedObjectIndex:[[self arrangedObjects] indexOfObject:_firstAvailableItem]];
-    
-    return item;
-}
-
--(NSDictionary*)addFavoriteItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
-{
-    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, kHWMonitorKeyName, icon, kHWMonitorKeyIcon, key, kHWMonitorKeyKey, nil];
-    
-    [self insertObject:item atArrangedObjectIndex:[[self arrangedObjects] indexOfObject:_firstAvailableItem]];
-    
-    return item;
-}
-
--(NSMutableDictionary*)addAvailableItem
-{
-    NSMutableDictionary *item = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLong:_globalItemsCount], kHWMonitorKeyIndex, nil];
     
     [self addObject:item];
     
+    _globalItemsCount++;
+    
     return item;
 }
 
--(NSDictionary*)addAvailableItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
+-(NSMutableDictionary*)addItem:(NSString*)name icon:(NSImage*)icon key:(NSString*)key
 {
-    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, kHWMonitorKeyName, icon, kHWMonitorKeyIcon, key, kHWMonitorKeyKey, nil];
+    NSMutableDictionary *item = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, kHWMonitorKeyName, icon, kHWMonitorKeyIcon, key, kHWMonitorKeyKey, [NSNumber numberWithLong:_globalItemsCount], kHWMonitorKeyIndex, nil];
     
     [self addObject:item];
+    
+    _globalItemsCount++;
     
     return item;
 }
@@ -72,6 +54,27 @@
 {
     NSRange range = NSMakeRange(0, [[self arrangedObjects] count]);
     [self removeObjectsAtArrangedObjectIndexes:[NSIndexSet indexSetWithIndexesInRange:range]];
+}
+
+-(void)setFavoritesItemsFromArray:(NSArray*)favorites
+{
+    _favorites = [NSArray arrayWithArray:favorites];
+    
+    for (NSString *key in favorites) {
+        
+        NSUInteger index;
+        
+        for (index = 1; index < [[self arrangedObjects] count]; index++) {
+            NSDictionary *item = [[self arrangedObjects] objectAtIndex:index];
+            
+            if ([[item valueForKey:kHWMonitorKeyKey] isEqualToString:key]) {
+                NSUInteger to = [[self arrangedObjects] indexOfObject:_firstAvailableItem];
+                [self insertObject:item atArrangedObjectIndex:to];
+                [self removeObjectAtArrangedObjectIndex:index > to ? index + 1 : index];
+                break;
+            }
+        }
+    }
 }
 
 -(NSArray*)getFavoritesItems
@@ -103,7 +106,7 @@
         
         NSDictionary *item = [[self arrangedObjects] objectAtIndex:index];
         
-        if (_firstAvailableItem != item && ![item valueForKey:@"IsSeparator"])
+        if (/*_firstAvailableItem != item && */![item valueForKey:kHWMonitorKeySeparator])
             [list addObject:item];
     }
     
@@ -129,7 +132,11 @@
 -(void)setupController
 {
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
-	[_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
+    [_tableView setDraggingSourceOperationMask:(NSDragOperationMove | NSDragOperationCopy) forLocal:YES];
+    
+    _globalItemsCount = 0;
+    
+    _favorites = [[NSArray alloc] init];
 }
 
 - (void) awakeFromNib {
@@ -142,7 +149,7 @@
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
-    return nil == [[[self arrangedObjects] objectAtIndex:row] valueForKey:@"IsSeparator"];
+    return nil == [[[self arrangedObjects] objectAtIndex:row] valueForKey:kHWMonitorKeySeparator];
 }
 
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
@@ -166,6 +173,7 @@
 // NSTableView drag & drop support
 // ===========================================
 
+
 - (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard;
 {
     //[_tableView selectRowIndexes:rowIndexes byExtendingSelection:YES];
@@ -183,45 +191,58 @@
 
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation;
 {
-    return row > 0 ? NSDragOperationEvery : NSDragOperationNone;
-}
-
-/*- (void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation;
-{
-    if (operation == NSDragOperationNone) {
-        
-        NSPasteboard* pboard = [session draggingPasteboard];
-        NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
-        
-        NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
-        
-        int from = [rowIndexes firstIndex];
-        int row = [[self arrangedObjects] indexOfObject:_firstAvailableItem] + 1;
-        
-        NSDictionary *item = [[self arrangedObjects] objectAtIndex:from];
-        
-        [self insertObject:item atArrangedObjectIndex:row];
-        [self removeObjectAtArrangedObjectIndex:from > row ? from + 1 : from];
-        
-        [NSApp sendAction:[_tableView action] to:[_tableView target]  from:_tableView];
-    }
-}*/
-
-- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation;
-{
     NSPasteboard* pboard = [info draggingPasteboard];
     NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
     
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     
-    NSUInteger from = [rowIndexes firstIndex];
+    NSInteger itemsRow = [[self arrangedObjects] indexOfObject:_firstAvailableItem];
+    NSInteger fromRow = [rowIndexes firstIndex];
     
-    NSDictionary *item = [[self arrangedObjects] objectAtIndex:from];
+    return (fromRow > itemsRow && row <= itemsRow && row > 0) || (fromRow < itemsRow && row > 0)  ? NSDragOperationMove : NSDragOperationNone;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)toRow dropOperation:(NSTableViewDropOperation)dropOperation;
+{
+    //[_scrollView setDocumentCursor:[NSCursor currentSystemCursor]];
     
-    [self insertObject:item atArrangedObjectIndex:row];
-    [self removeObjectAtArrangedObjectIndex:from > row ? from + 1 : from];
+    NSPasteboard* pboard = [info draggingPasteboard];
+    NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
     
-    [NSApp sendAction:[_tableView action] to:[_tableView target]  from:_tableView];
+    NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+    
+    NSInteger itemsRow = [[self arrangedObjects] indexOfObject:_firstAvailableItem];
+    NSInteger fromRow = [rowIndexes firstIndex];
+    
+    NSDictionary *movingItem = [[self arrangedObjects] objectAtIndex:fromRow];
+    NSUInteger movingItemIndex = [[movingItem valueForKey:kHWMonitorKeyIndex] longValue];
+    
+    if (toRow > itemsRow) {
+        
+        NSUInteger index;
+        
+        for (index = itemsRow + 1; index < [[self arrangedObjects] count]; index++) {
+            
+            NSDictionary *item = [[self arrangedObjects] objectAtIndex:index];
+            
+            if ([[item valueForKey:kHWMonitorKeyIndex] longValue] > movingItemIndex) {
+                [self insertObject:movingItem atArrangedObjectIndex:index];
+                [self removeObjectAtArrangedObjectIndex:fromRow > index ? fromRow + 1 : fromRow];
+                break;
+            }
+        }
+        
+        if (index >= [[self arrangedObjects] count]) {
+            [self insertObject:movingItem atArrangedObjectIndex:index];
+            [self removeObjectAtArrangedObjectIndex:fromRow];
+        }
+    }
+    else {
+        [self insertObject:movingItem atArrangedObjectIndex:toRow];
+        [self removeObjectAtArrangedObjectIndex:fromRow > toRow ? fromRow + 1 : fromRow];
+    }
+    
+    [NSApp sendAction:[_tableView action] to:[_tableView target] from:_tableView];
     
     return YES;
 }

@@ -15,9 +15,9 @@
 	<key>IFMinorVersion</key>
 	<integer>2</integer>
 	<key>IFPkgBuildDate</key>
-	<date>2012-07-12T18:49:54Z</date>
+	<date>2012-07-14T07:27:07Z</date>
 	<key>IFPkgBuildVersion</key>
-	<string>12A256</string>
+	<string>12A269</string>
 	<key>IFPkgCreator</key>
 	<string>IcebergBuilder 1.2.9</string>
 	<key>IFPkgFlagAllowBackRev</key>

@@ -112,6 +112,11 @@
         
         _graphBounds = NSMakeRect(0, minY, kHWMonitorGraphsHistoryPoints, maxY - minY);
     }
+    
+    NSPoint topLeft = [self graphPointToView:NSMakePoint(_graphBounds.origin.x, _graphBounds.origin.y)];
+    NSPoint bottomRight = [self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width, _graphBounds.origin.y + _graphBounds.size.height)];
+    
+   [NSBezierPath clipRect:NSMakeRect(topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y)];
 }
 
 #define LeftViewMargin 5
@@ -155,7 +160,8 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    [[NSColor blackColor] set];
+    //[[NSColor colorWithCalibratedRed:0.85 green:0.9 blue:0.95 alpha:1.0] setFill];
+    [[NSColor blackColor] setFill];
     [NSBezierPath fillRect:[self bounds]];
     
     double x, y;
@@ -220,7 +226,8 @@
     // Draw graphs
     
     [context setShouldAntialias:YES];
-    
+    [path setLineJoinStyle:NSMiterLineJoinStyle];
+        
     for (NSDictionary *item in [_content arrangedObjects]) {
         NSNumber *enabled = [item objectForKey:kHWMonitorKeyEnabled];
         
@@ -236,19 +243,14 @@
                     [path setLineWidth:3.5];
                 }
                 else {
-                    color = [item objectForKey:kHWMonitorKeyColor];
+                    NSColor *itemColor = [item objectForKey:kHWMonitorKeyColor];
+                    color = [NSColor colorWithCalibratedRed:itemColor.redComponent green:itemColor.greenComponent blue:itemColor.blueComponent alpha:1.00];
                     [path setLineWidth:2];
-                    [path setLineJoinStyle:NSRoundLineJoinStyle];
                 }
                 
                 [path removeAllPoints];
                 
                 [color set];
-                
-                NSPoint topLeft = [self graphPointToView:NSMakePoint(_graphBounds.origin.x, _graphBounds.origin.y)];
-                NSPoint bottomRight = [self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width, _graphBounds.origin.y + _graphBounds.size.height)];
-                
-                [NSBezierPath clipRect:NSMakeRect(topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y)];
                                 
                 [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.size.width - [points count], [[points objectAtIndex:0] doubleValue])]];
                                 

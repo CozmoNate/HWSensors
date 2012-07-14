@@ -116,7 +116,7 @@
 		7E9388F91594597E0005316D /* HWMonitorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5A14F8CCF000337DF8 /* HWMonitorEngine.m */; };
 		7E9388FE15945A840005316D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10C18F1506B2A4005E0897 /* IOKit.framework */; };
 		7E938901159470DF0005316D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF984150201DE00C34729 /* Localizable.strings */; };
-		7E938905159497920005316D /* HWMonitorArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E938904159497920005316D /* HWMonitorArrayController.m */; };
+		7E938905159497920005316D /* HWMonitorSensorsList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E938904159497920005316D /* HWMonitorSensorsList.m */; };
 		7EB963A01594531100436FDB /* HWMonitorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB9639F1594531100436FDB /* HWMonitorView.m */; };
 		7EB963A71594559100436FDB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9F8320144FF24000EEEFEB /* Cocoa.framework */; };
 		7EB963AD1594559100436FDB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EB963AB1594559100436FDB /* InfoPlist.strings */; };
@@ -303,8 +303,8 @@
 		7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorColoredCell.m; sourceTree = "<group>"; };
 		7E9388FF15945B360005316D /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
 		7E93890015945B450005316D /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
-		7E938903159497920005316D /* HWMonitorArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorArrayController.h; sourceTree = "<group>"; };
-		7E938904159497920005316D /* HWMonitorArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorArrayController.m; sourceTree = "<group>"; };
+		7E938903159497920005316D /* HWMonitorSensorsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorSensorsList.h; sourceTree = "<group>"; };
+		7E938904159497920005316D /* HWMonitorSensorsList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorSensorsList.m; sourceTree = "<group>"; };
 		7EB7A7BD1596021A00971346 /* killuiserver */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = killuiserver; path = Installer/killuiserver; sourceTree = "<group>"; };
 		7EB9639E1594531100436FDB /* HWMonitorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorView.h; sourceTree = "<group>"; };
 		7EB9639F1594531100436FDB /* HWMonitorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorView.m; sourceTree = "<group>"; };
@@ -872,8 +872,8 @@
 		7EB963A81594559100436FDB /* HWMonitor */ = {
 			isa = PBXGroup;
 			children = (
-				7E938903159497920005316D /* HWMonitorArrayController.h */,
-				7E938904159497920005316D /* HWMonitorArrayController.m */,
+				7E938903159497920005316D /* HWMonitorSensorsList.h */,
+				7E938904159497920005316D /* HWMonitorSensorsList.m */,
 				7EC2525715A8111E00E385E4 /* HWMonitorGraphsView.h */,
 				7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */,
 				7E8D485C15AA80910049A229 /* HWMonitorColoredCell.h */,
@@ -1508,7 +1508,7 @@
 				7E9388F91594597E0005316D /* HWMonitorEngine.m in Sources */,
 				7EB963AF1594559100436FDB /* main.m in Sources */,
 				7EB963B61594559100436FDB /* AppDelegate.m in Sources */,
-				7E938905159497920005316D /* HWMonitorArrayController.m in Sources */,
+				7E938905159497920005316D /* HWMonitorSensorsList.m in Sources */,
 				7EC2525915A8111E00E385E4 /* HWMonitorGraphsView.m in Sources */,
 				7E8D485E15AA80910049A229 /* HWMonitorColoredCell.m in Sources */,
 			);

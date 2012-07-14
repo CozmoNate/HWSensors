@@ -223,7 +223,8 @@ inline UInt8 get_index(char c)
         }
         else if (_group & kHWSensorGroupMultiplier) {
             _rawValue = [NSNumber numberWithFloat:[self decodeValue]];
-            _formattedValue = [NSString stringWithFormat:@"%1.1fx", [_rawValue floatValue]];
+            //_formattedValue = [NSString stringWithFormat:[_rawValue floatValue] < 10 ? @"x  %1.1f" : @"x%1.1f", [_rawValue floatValue]];
+            _formattedValue = [NSString stringWithFormat:@"x%1.1f", [_rawValue floatValue]];
         }
         else if (_group & kHWSensorGroupFrequency) {
             float f = [self decodeValue];

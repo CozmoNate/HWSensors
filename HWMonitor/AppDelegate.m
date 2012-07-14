@@ -80,7 +80,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     HWMonitorIcon* icon = [self getIconByGroup:mainGroup];
     
     if (icon && ![_prefsController favoritesContainKey:[icon name]])
-        [_prefsController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
+        [_prefsController addItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
     
     NSMutableArray *items = [[NSMutableArray alloc] init];
     
@@ -97,28 +97,29 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         
         return [index1 compare:index2];
     }];
-    
+        
     for (NSDictionary *item in items) {
 
         NSString *title = [item valueForKey:kHWMonitorKeyTitle];
         NSString *value = [item valueForKey:kHWMonitorKeyValue];
         NSString *key = [item valueForKey:kHWMonitorKeyName];
-        NSNumber *favorite = [item valueForKey:kHWMonitorKeyFavorite];
+        //NSNumber *favorite = [item valueForKey:kHWMonitorKeyFavorite];
         
         icon = [self getIconByGroup:[[item valueForKey:kHWMonitorKeyGroup] intValue]];
 
-        if (![favorite boolValue]) {
-            NSMutableDictionary *availableItem = [_prefsController addAvailableItem];
+        //if (![favorite boolValue]) {
+            //NSMutableDictionary *availableItem = [_prefsController addAvailableItem];
+            NSMutableDictionary *availableItem = [_prefsController addItem];
             
             [availableItem setValuesForKeysWithDictionary:
              [NSDictionary dictionaryWithObjectsAndKeys:
-              title, kHWMonitorKeyName,
-              icon ? [icon image] : nil, kHWMonitorKeyIcon,
-              value, kHWMonitorKeyValue,
-              [item valueForKey:kHWMonitorKeyVisible], kHWMonitorKeyVisible,
-              key, kHWMonitorKeyKey,
-              nil]];
-        }
+              title,                                        kHWMonitorKeyName,
+              icon ? [icon image] : nil,                    kHWMonitorKeyIcon,
+              value,                                        kHWMonitorKeyValue,
+              [item valueForKey:kHWMonitorKeyVisible],      kHWMonitorKeyVisible,
+              key,                                          kHWMonitorKeyKey,
+                                                            nil]];
+        //}
         
         NSUInteger group = [[item valueForKey:kHWMonitorKeyGroup] intValue];
         
@@ -128,24 +129,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
             group & kHWSensorGroupTachometer ||
             group & kHWSensorGroupVoltage) {
             
-            /*if ((_colorIndex + 1) * 0.07 > 1)
-                _colorIndex = 0;
-            NSColor *color = [NSColor colorWithCalibratedHue:(_colorIndex++) * 0.07 saturation:0.8 brightness:0.8 alpha:1.0];*/
-            
-            NSColor *color;
-            CGFloat intensity;
-
-            do {
-                if ((_colorIndex += 1) >= [[_graphsColors allKeys] count])
-                    _colorIndex = _colorIndex - [[_graphsColors allKeys] count];
-                
-                color = [_graphsColors colorWithKey:[[_graphsColors allKeys] objectAtIndex:_colorIndex]];
-                intensity = ([color redComponent] + [color greenComponent] + [color blueComponent]) / 3.0;
-
-            } while (intensity <= 0.45 || intensity >= 0.70);
-            
             [_graphsController addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          color, kHWMonitorKeyColor,
+                                          [_globalColors objectAtIndex:_globalColorIndex], kHWMonitorKeyColor,
                                           icon ? [icon image] : nil, kHWMonitorKeyIcon,
                                           [NSNumber numberWithBool:YES], kHWMonitorKeyEnabled,
                                           title, kHWMonitorKeyTitle,
@@ -153,6 +138,11 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
                                           key, kHWMonitorKeyKey,
                                           [NSNumber numberWithLong:mainGroup], kHWMonitorKeyGroup,
                                           nil]];
+            
+            if (_globalColorIndex + 1 >= [_globalColors count])
+                _globalColorIndex = 0;
+            else
+                _globalColorIndex++;
         }
     }
 }
@@ -166,49 +156,34 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [_prefsController setFirstFavoriteItem:GetLocalizedString(@"Menu bar items:") firstAvailableItem:GetLocalizedString(@"Available items:")];
     
     if ([aNotification object] && [aNotification userInfo]) {
-        NSArray *favoritesList = [(NSString*)[aNotification object] componentsSeparatedByString:@","];
+        NSString *favoritesString = (NSString*)[aNotification object];
+        NSArray *favoritesList = [favoritesString length] > 0 ? [favoritesString componentsSeparatedByString:@","] : [NSArray array];
         NSDictionary *sensorsList = [aNotification userInfo];
         
-        for (NSString *favoriteName in favoritesList) {
+        _globalColors = [[NSMutableArray alloc] init];
+        
+        NSColorList *colorList = [NSColorList colorListNamed:@"Crayons"];
+        
+        for (NSUInteger i = 8; i < [[colorList allKeys] count]; i++) {
+            NSString *key = [[colorList allKeys] objectAtIndex:i];
+            NSColor *color = [colorList colorWithKey:key];
+            double intensity = (color.redComponent + color.blueComponent + color.greenComponent) / 3.0;
+            double red = [color redComponent];
+            double green = [color greenComponent];
+            double blue = [color blueComponent];
+            BOOL blackAndWhite = red == green && red == blue && green == blue;
             
-            HWMonitorIcon *icon = [self getIconByName:favoriteName];
-            
-            if (icon) {
-                [_prefsController addFavoriteItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
-            }
-            else {
-                NSDictionary *item = [sensorsList valueForKey:favoriteName];
-                
-                if (item) {
+            if (intensity >= 0.333 && intensity <=0.90 && !blackAndWhite)
+                [_globalColors addObject:color];
+        }
 
-                    icon = [self getIconByGroup:[[item valueForKey:@"Group"] intValue]];
-                    
-                    NSMutableDictionary *favoriteItem = [_prefsController addFavoriteItem];
-                    
-                    [favoriteItem setValuesForKeysWithDictionary:
-                     [NSDictionary dictionaryWithObjectsAndKeys:
-                      [item valueForKey:kHWMonitorKeyTitle], kHWMonitorKeyName,
-                      icon ? [icon image] : nil, kHWMonitorKeyIcon,
-                      [item valueForKey:kHWMonitorKeyValue], kHWMonitorKeyValue,
-                      [item valueForKey:kHWMonitorKeyVisible], kHWMonitorKeyVisible,
-                      [item valueForKey:kHWMonitorKeyName], kHWMonitorKeyKey,
-                      nil]];
-                }
-            }
-        }
+        _globalColorIndex = 0;
         
-        if (![_prefsController favoritesContainKey:kHWMonitorIconThermometer]) {
-            
-            HWMonitorIcon *icon = [self getIconByName:kHWMonitorIconThermometer];
-            
-            if ([[_prefsController getFavoritesItems] count] == 0)
-                [_prefsController addFavoriteItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
-            else
-                [_prefsController addAvailableItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
-        }
+        // Add thermometer icon
+        HWMonitorIcon *thermometer = [self getIconByName:kHWMonitorIconThermometer];
+        [_prefsController addItem:GetLocalizedString([thermometer name]) icon:[thermometer image] key:[thermometer name]];
         
-        _colorIndex = 0;
-        
+        // Add all sensors
         [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupTemperature];
         [self addItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupTemperature];
         [self addItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupRemainingLife];
@@ -217,6 +192,12 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer];
         [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupVoltage];
 
+        // Setup favorites
+        if ([favoritesList count] == 0)
+            [_prefsController setFavoritesItemsFromArray:[NSArray arrayWithObjects:[thermometer name], nil]];
+        else
+            [_prefsController setFavoritesItemsFromArray:favoritesList];
+        
         [self setUserInterfaceEnabled:[[NSObject alloc] init]];
     }
     else {
@@ -439,11 +420,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    _graphsColors = [NSColorList colorListNamed:@"Crayons"];
-    //_graphsColors = [[NSColorList availableColorLists] lastObject];
-    
-    //NSLog(@"color count: %ld", [[_graphsColors allKeys] count]);
-    
     [_temperatureGraph setGroup:kHWSensorGroupTemperature | kSMARTSensorGroupTemperature];
     [_frequencyGraph setGroup:kHWSensorGroupFrequency];
     [_tachometerGraph setGroup:kHWSensorGroupTachometer];
@@ -470,6 +446,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [self loadIconNamed:kHWMonitorIconFrequencies];
     [self loadIconNamed:kHWMonitorIconTachometers];
     [self loadIconNamed:kHWMonitorIconVoltages];
+    
+    // Set custom cursor on items table
+    //[_itemsScrollView setDocumentCursor:[NSCursor openHandCursor]];
     
     // Update version label
 	NSString *version = [[NSString alloc] initWithFormat:@"v%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
