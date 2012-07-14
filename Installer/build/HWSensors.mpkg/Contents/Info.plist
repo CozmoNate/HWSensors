@@ -11,15 +11,15 @@
 	<key>CFBundleName</key>
 	<string>HWSensors</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.42</string>
+	<string>1.0.44</string>
 	<key>IFMajorVersion</key>
 	<integer>1</integer>
 	<key>IFMinorVersion</key>
 	<integer>0</integer>
 	<key>IFPkgBuildDate</key>
-	<date>2012-07-12T18:49:53Z</date>
+	<date>2012-07-14T07:27:06Z</date>
 	<key>IFPkgBuildVersion</key>
-	<string>12A256</string>
+	<string>12A269</string>
 	<key>IFPkgCreator</key>
 	<string>IcebergBuilder 1.2.9</string>
 	<key>IFPkgFlagComponentDirectory</key>
