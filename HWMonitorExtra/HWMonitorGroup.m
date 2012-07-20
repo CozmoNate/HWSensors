@@ -42,7 +42,7 @@
     _font = font;
     _items = [[NSMutableArray alloc] init];
     
-    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[title stringByTruncatingToWidth:190 withFont:_font]];
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[title stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:_font forKey:NSFontAttributeName]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuValueWidth) withFont:_font]];
     
     [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
     [attributedTitle addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, [attributedTitle length])];

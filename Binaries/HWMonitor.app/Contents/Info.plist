@@ -19,15 +19,15 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.46</string>
+	<string>1.0.47</string>
 	<key>CFBundleSignature</key>
 	<string>HWMN</string>
 	<key>CFBundleVersion</key>
-	<string>2.2.5</string>
+	<string>2.2.6</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
-	<string>4F226a</string>
+	<string>4G108j</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -35,9 +35,9 @@
 	<key>DTSDKName</key>
 	<string>macosx10.8</string>
 	<key>DTXcode</key>
-	<string>0440</string>
+	<string>0450</string>
 	<key>DTXcodeBuild</key>
-	<string>4F226a</string>
+	<string>4G108j</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.6</string>
 	<key>NSHumanReadableCopyright</key>

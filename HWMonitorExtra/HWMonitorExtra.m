@@ -30,7 +30,7 @@
     
     _showBSDNames = [_defaults boolForKey:kHWMonitorShowBSDNames];
     
-    // undocumented call
+    // Call undocumented function
     [[NSUserDefaultsController sharedUserDefaultsController] _setDefaults:_defaults];
     
     _prefsIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"preferences" ofType:@"png"]];
@@ -65,7 +65,7 @@
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc] init];
     
     [style setTabStops:[NSArray array]];
-    [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:190.0]];
+    [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObjectsAndKeys:_menuFont, NSFontAttributeName,nil]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuValueWidth)]];
     
     _menuAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                        style, NSParagraphStyleAttributeName,

@@ -11,6 +11,8 @@
 #import "HWMonitorItem.h"
 #import "HWMonitorGroup.h"
 
+#import "HWMonitorDefinitions.h"
+
 @implementation HWMonitorItem
 
 @synthesize title = _title;
@@ -28,7 +30,7 @@
 
 -(void)setTitle:(NSString *)title
 {
-    _title = [title stringByTruncatingToWidth:145 withFont:[_group menuFont]];
+    _title = [title stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:[_group menuFont] forKey:NSFontAttributeName]].size.width * kHWMonitorMenuTitleWidth withFont:[_group menuFont]];
 }
 
 -(NSString *)title
