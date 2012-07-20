@@ -483,4 +483,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 }
 
+-(BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag
+{
+    return NO;
+}
+
 @end

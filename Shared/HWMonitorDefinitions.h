@@ -9,6 +9,9 @@
 #ifndef HWSensors_HWMonitorDefinitions_h
 #define HWSensors_HWMonitorDefinitions_h
 
+#define kHWMonitorMenuTitleWidth        22
+#define kHWMonitorMenuValueWidth        8
+
 // Preferences
 #define kHWMonitorFavoritesList         @"favoritesList"
 #define kHWMonitorHiddenList            @"hiddenList"

@@ -93,30 +93,11 @@
     }
     else {
 
-        double minY = _minY - (_maxY - _minY) * 0.15, maxY = _maxY * 1.15;
-        
-        if (_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) {
-            minY = minY < 25 ? minY : 25;
-            maxY = maxY < 25 ? 25 : maxY;
-        }
-        else if (_group & kHWSensorGroupFrequency) {
-            //minY = 0;
-        }
-        else if (_group & kHWSensorGroupTachometer) {
-            minY = minY < 1000 ? minY : 1000;
-            maxY = maxY < 1000 ? 1000 : maxY;
-        }
-        else if (_group & kHWSensorGroupVoltage) {
-            //minY = 0;
-        }
+        double  minY = _minY <= 0 ? _minY : _minY - (_maxY - _minY) * 0.05,
+                maxY = _maxY + (_maxY - _minY) * 0.05;
         
         _graphBounds = NSMakeRect(0, minY, kHWMonitorGraphsHistoryPoints, maxY - minY);
     }
-    
-    NSPoint topLeft = [self graphPointToView:NSMakePoint(_graphBounds.origin.x, _graphBounds.origin.y)];
-    NSPoint bottomRight = [self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width, _graphBounds.origin.y + _graphBounds.size.height)];
-    
-   [NSBezierPath clipRect:NSMakeRect(topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y)];
 }
 
 #define LeftViewMargin 5
@@ -170,7 +151,6 @@
     
     [context saveGraphicsState];
     
-    
     // Draw marks
     [context setShouldAntialias:NO];
     
@@ -180,13 +160,18 @@
     
     [[NSColor colorWithCalibratedRed:0 green:0.25 blue:0 alpha:0.7] set];
     
-    for (x = _graphBounds.origin.x; x < _graphBounds.origin.x + _graphBounds.size.width; x += _graphBounds.size.width / 15) {
+    double xStart = _graphBounds.origin.x;
+    double yStart = _graphBounds.origin.y;
+    double xInc = _graphBounds.size.width / 15;
+    double yInc = _graphBounds.size.height / 5;
+    
+    for (x = xStart; x < _graphBounds.origin.x + _graphBounds.size.width; x += xInc) {
         [path removeAllPoints];
         [path moveToPoint:[self graphPointToView:NSMakePoint(x,_graphBounds.origin.y)]];
         [path lineToPoint:[self graphPointToView:NSMakePoint(x,_graphBounds.origin.y + _graphBounds.size.height)]];
         [path stroke];
         
-        for (y = _graphBounds.origin.y; y < _graphBounds.origin.y + _graphBounds.size.height; y += _graphBounds.size.height / 7) {
+        for (y = yStart; y < _graphBounds.origin.y + _graphBounds.size.height; y += yInc) {
             [path removeAllPoints];
             [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,y)]];
             [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,y)]];
@@ -205,7 +190,7 @@
     CGFloat pattern[2] = { 4.0, 4.0 };
     [path setLineDash:pattern count:2 phase:1.0];
     [[NSColor lightGrayColor] set];
-    [path setLineWidth:0.5];
+    [path setLineWidth:0.25];
     [path stroke];
     CGFloat resetPattern[1] = { 0 };
     [path setLineDash:resetPattern count:0 phase:0];
@@ -215,18 +200,21 @@
     NSAttributedString *title = [[NSAttributedString alloc]
                                  initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
                                  attributes:_legendAttributes];
-    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y - [title size].height - 2)];
+    
+    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y + 2)];
     
     title = [[NSAttributedString alloc]
              initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
              attributes:_legendAttributes];
-    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y + 2)];
+    
+    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y - [title size].height)];
     
     
     // Draw graphs
     
     [context setShouldAntialias:YES];
-    [path setLineJoinStyle:NSMiterLineJoinStyle];
+    
+    //[path setFlatness:0.3];
         
     for (NSDictionary *item in [_content arrangedObjects]) {
         NSNumber *enabled = [item objectForKey:kHWMonitorKeyEnabled];
@@ -251,18 +239,20 @@
                 [path removeAllPoints];
                 
                 [color set];
+                
+                NSUInteger pointsCount = [points count];// > kHWMonitorGraphsHistoryPoints ? kHWMonitorGraphsHistoryPoints : [points count];
                                 
-                [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.size.width - [points count], [[points objectAtIndex:0] doubleValue])]];
+                [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.size.width - pointsCount + 4, [[points objectAtIndex:0] doubleValue])]];
                                 
-                for (NSUInteger index = 2; index + 1 < [points count]; index++) {
+                for (NSUInteger index = 2; index + 1 < pointsCount; index++) {
                     
-                    NSPoint p1 = [self splinePointWithPoints:points index:index time:0.33];
-                    NSPoint p2 = [self splinePointWithPoints:points index:index time:0.66];
-                    NSPoint q2 = [self splinePointWithPoints:points index:index time:1.00];
+                    NSPoint p1 = [self splinePointWithPoints:points index:index time:1.0 / 3.0];
+                    NSPoint p2 = [self splinePointWithPoints:points index:index time:1.0 / 3.0 * 2];
+                    NSPoint q2 = [self splinePointWithPoints:points index:index time:1.0];
                     
-                    [path curveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.size.width - [points count] + 2 + q2.x, q2.y)]
-                         controlPoint1:[self graphPointToView:NSMakePoint(_graphBounds.size.width - [points count] + 2 + p1.x, p1.y)]
-                         controlPoint2:[self graphPointToView:NSMakePoint(_graphBounds.size.width - [points count] + 2 + p2.x, p2.y)]];
+                    [path curveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.size.width - pointsCount + 4 + q2.x, q2.y)]
+                         controlPoint1:[self graphPointToView:NSMakePoint(_graphBounds.size.width - pointsCount + 4 + p1.x, p1.y)]
+                         controlPoint2:[self graphPointToView:NSMakePoint(_graphBounds.size.width - pointsCount + 4 + p2.x, p2.y)]];
                 }
                 
                 [path stroke];
@@ -290,7 +280,7 @@
             
             [points addObject:[[info objectForKey:key] objectForKey:kHWMonitorKeyRawValue]];
             
-            if ([points count] > kHWMonitorGraphsHistoryPoints + 4)
+            if ([points count] > kHWMonitorGraphsHistoryPoints + 8)
                 [points removeObjectAtIndex:0];
         }
     }

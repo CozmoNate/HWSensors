@@ -1182,7 +1182,7 @@
 		1D05ABAF13ED0D7000EADBF6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0450;
 			};
 			buildConfigurationList = 1D05ABB213ED0D7000EADBF6 /* Build configuration list for PBXProject "HWSensors" */;
 			compatibilityVersion = "Xcode 3.2";
