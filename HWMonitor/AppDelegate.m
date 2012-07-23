@@ -317,7 +317,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 {
     NSMatrix *matrix = (NSMatrix*)sender;
     
-    BOOL useFahrenheit = ![[matrix cellAtRow:0 column:0] state];
+    BOOL useFahrenheit = [matrix selectedRow] == 1;
     
     [_temperatureGraph setUseFahrenheit:useFahrenheit];
     
@@ -337,6 +337,11 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 -(IBAction)showBSDNamesChanged:(id)sender
 {
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorShowBSDNamesChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
+}
+
+-(IBAction)showVolumeNamesChanged:(id)sender
+{
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorShowVolumeNamesChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
 - (IBAction)graphsTableViewClicked:(id)sender

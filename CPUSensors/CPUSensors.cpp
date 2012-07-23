@@ -1,6 +1,6 @@
 /*
  *  HWSensors.h
- *  IntelThermalPlugin
+ *  CPUSensorsPlugin
  *  
  *  Based on code by mercurysquad, superhai (C) 2008
  *  Based on code from Open Hardware Monitor project by Michael Möller (C) 2011
@@ -47,14 +47,14 @@
  
  */
 
-#include "IntelThermal.h"
+#include "CPUSensors.h"
 #include "FakeSMCDefinitions.h"
 
 #include <IOKit/IODeviceTreeSupport.h>
 #include <IOKit/IORegistryEntry.h>
 
 #define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(IntelThermal, FakeSMCPlugin)
+OSDefineMetaClassAndStructors(CPUSensors, FakeSMCPlugin)
 
 inline UInt8 get_hex_index(char c)
 {       
@@ -72,7 +72,7 @@ inline void read_cpu_thermal(void* cpu_index)
     
 	*cpn = get_cpu_number();
     
-	if(*cpn < kIntelThermalMaxCpus) {
+	if(*cpn < kCPUSensorsMaxCpus) {
 		UInt64 msr = rdmsr64(MSR_IA32_THERM_STS);
 		if (msr & 0x80000000) cpu_thermal[*cpn] = (msr >> 16) & 0x7F;
 	}
@@ -84,20 +84,20 @@ inline void read_cpu_performance(void* cpu_index)
     
 	*cpn = get_cpu_number();
     
-	if(*cpn < kIntelThermalMaxCpus) {
+	if(*cpn < kCPUSensorsMaxCpus) {
 		UInt64 msr = rdmsr64(MSR_IA32_PERF_STS);
         cpu_performance[*cpn] = msr & 0xFFFF;
 	}
 };
 
-void IntelThermal::readTjmaxFromMSR()
+void CPUSensors::readTjmaxFromMSR()
 {
 	for (int i = 0; i < cpuid_info()->core_count; i++) {
 		tjmax[i] = (rdmsr64(MSR_IA32_TEMP_TARGET) >> 16) & 0xFF;
 	}
 }
 
-IOReturn IntelThermal::loopTimerEvent(void)
+IOReturn CPUSensors::loopTimerEvent(void)
 {
     UInt8 index;
     
@@ -131,7 +131,7 @@ IOReturn IntelThermal::loopTimerEvent(void)
     return kIOReturnSuccess;
 }
 
-float IntelThermal::calculateMultiplier(UInt8 cpu_index)
+float CPUSensors::calculateMultiplier(UInt8 cpu_index)
 {
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
@@ -151,7 +151,7 @@ float IntelThermal::calculateMultiplier(UInt8 cpu_index)
     return 0;
 }
 
-float IntelThermal::getSensorValue(FakeSMCSensor *sensor)
+float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
 {
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
@@ -179,7 +179,7 @@ float IntelThermal::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
+IOService *CPUSensors::probe(IOService *provider, SInt32 *score)
 {
     if (super::probe(provider, score) != this) 
         return 0;
@@ -187,7 +187,7 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
     if (!(workloop = getWorkLoop())) 
 		return 0;
 	
-	if (!(timersource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &IntelThermal::loopTimerEvent)))) 
+	if (!(timersource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &CPUSensors::loopTimerEvent)))) 
 		return 0;
 	
 	if (kIOReturnSuccess != workloop->addEventSource(timersource))
@@ -196,7 +196,7 @@ IOService *IntelThermal::probe(IOService *provider, SInt32 *score)
     return this;
 }
 
-bool IntelThermal::start(IOService *provider)
+bool CPUSensors::start(IOService *provider)
 {
     if (!super::start(provider)) 
         return false;
@@ -366,7 +366,7 @@ bool IntelThermal::start(IOService *provider)
 	
 	for (int i = 0; i < cpuid_info()->core_count; i++) {
         
-        if (i >= kIntelThermalMaxCpus) 
+        if (i >= kCPUSensorsMaxCpus) 
             break;
         
         char key[5];

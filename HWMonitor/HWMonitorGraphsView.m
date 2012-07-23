@@ -53,9 +53,16 @@
     
     _graphs = [[NSMutableDictionary alloc] init];
     
+    NSShadow *shadow = [[NSShadow alloc] init];
+    
+    [shadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.55]];
+    [shadow setShadowOffset:CGSizeMake(0, -1.0)];
+    [shadow setShadowBlurRadius:1.0];
+    
     _legendAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                          [NSFont systemFontOfSize:9.0], NSFontAttributeName,
                          [NSColor yellowColor], NSForegroundColorAttributeName,
+                         shadow, NSShadowAttributeName,
                          nil];
     
     _legendFormat = @"%1.0f";
@@ -194,22 +201,7 @@
     [path stroke];
     CGFloat resetPattern[1] = { 0 };
     [path setLineDash:resetPattern count:0 phase:0];
-    
-    [context setShouldAntialias:YES];
-    
-    NSAttributedString *title = [[NSAttributedString alloc]
-                                 initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
-                                 attributes:_legendAttributes];
-    
-    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y + 2)];
-    
-    title = [[NSAttributedString alloc]
-             initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
-             attributes:_legendAttributes];
-    
-    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y - [title size].height)];
-    
-    
+
     // Draw graphs
     
     [context setShouldAntialias:YES];
@@ -259,6 +251,23 @@
             }
         }
     }
+    
+    
+    // Draw extreme values
+    
+    [context setShouldAntialias:YES];
+    
+    NSAttributedString *title = [[NSAttributedString alloc]
+                                 initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
+                                 attributes:_legendAttributes];
+    
+    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y + 2)];
+    
+    title = [[NSAttributedString alloc]
+             initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
+             attributes:_legendAttributes];
+    
+    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y - [title size].height)];
     
     [context restoreGraphicsState];
 }

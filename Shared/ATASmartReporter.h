@@ -45,21 +45,16 @@ typedef struct ATASMARTVendorSpecificData
     struct ATASMARTVendorSpecificData data;
     
     NSDate      *lastUpdate;
-    
-    NSString    *productName;
-    NSString    *bsdName;
-    NSString    *serialNumber;
-    BOOL        isRotational;
-    BOOL        isExceeded;
 }
 
 @property (readonly) NSString   *productName;
 @property (readonly) NSString   *bsdName;
+@property (readonly) NSString   *volumesNames;
 @property (readonly) NSString   *serialNumber;
 @property (readonly) BOOL       isRotational;
 @property (readonly) BOOL       isExceeded;
 
-+(ATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name bsdName:(NSString*)bsd serialNumber:(NSString*)serial isRotational:(BOOL)rotational;
++(ATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name bsdName:(NSString*)bsd volumesNames:(NSString*)volumes serialNumber:(NSString*)serial isRotational:(BOOL)rotational;
 
 -(BOOL)readSMARTData;
 -(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8)identifier;

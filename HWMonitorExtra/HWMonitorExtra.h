@@ -32,6 +32,7 @@
     NSMutableArray *_groups;
     
     BOOL _showBSDNames;
+    BOOL _showVolumeNames;
     
     BOOL _monitoringAppIsActive;
     NSDate *_monitoringAppNextUpdate;
@@ -69,5 +70,6 @@
 - (void)useBigFontChanged:(NSNotification*)aNotification;
 - (void)useShadowEffectChanged:(NSNotification*)aNotification;
 - (void)showBSDNamesChanged:(NSNotification*)aNotification;
+- (void)showVolumeNamesChanged:(NSNotification*)aNotification;
 
 @end

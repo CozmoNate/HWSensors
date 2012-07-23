@@ -68,7 +68,7 @@ struct NVBitEntry {
 
 struct NVSensorConstants {
 	UInt16 offset_constant;
-	SInt16 offset_mult;
+	SInt32 offset_mult;
 	SInt16 offset_div;
 	SInt16 slope_mult;
 	SInt16 slope_div;

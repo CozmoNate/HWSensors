@@ -1,6 +1,6 @@
 /*
  *  HWSensors.h
- *  IntelThermalPlugin
+ *  CPUSensorsPlugin
  *
  *  Based on code by mercurysquad, superhai (C) 2008
  *  Based on code from Open Hardware Monitor project by Michael Möller (C) 2011
@@ -59,20 +59,20 @@
 #define MSR_IA32_THERM_STS      0x019C
 #define MSR_IA32_TEMP_TARGET	0x01A2
 
-#define kIntelThermalMaxCpus    8
+#define kCPUSensorsMaxCpus    8
 
 extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);
 extern "C" int cpu_number(void);
 
-static UInt8  cpu_thermal[kIntelThermalMaxCpus];
-static UInt16 cpu_performance[kIntelThermalMaxCpus];
+static UInt8  cpu_thermal[kCPUSensorsMaxCpus];
+static UInt16 cpu_performance[kCPUSensorsMaxCpus];
 
-class IntelThermal : public FakeSMCPlugin
+class CPUSensors : public FakeSMCPlugin
 {
-    OSDeclareDefaultStructors(IntelThermal)    
+    OSDeclareDefaultStructors(CPUSensors)    
     
 private:
-    UInt8                   tjmax[kIntelThermalMaxCpus];
+    UInt8                   tjmax[kCPUSensorsMaxCpus];
     
     IOWorkLoop *			workloop;
 	IOTimerEventSource *	timersource;

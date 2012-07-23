@@ -51,7 +51,7 @@
 "Preferences..." = "Настройки...";
 "GENERAL" = "ОСНОВНЫЕ";
 "Show hidden sensors" = "Показывать скрытые датчики";
-"Show BSD drives names" = "Показывать BSD-имена дисков";
+"Use BSD drives names" = "Имена дисков в формате BSD";
 "TEMPERATURE SCALE" = "СИСТЕМА ТЕМПЕРАТУР";
 "Celsius" = "Цельсий";
 "Fahrenheit" = "Фаренгейт";
@@ -70,13 +70,13 @@
 "Power Fan" = "Вентилятор БП";
 "System Fan #1" = "Корпусной вентилятор №1";
 "System Fan #2" = "Корпусной вентилятор №2";
-"Menu bar items:" = "Датчики в строке меню:";
-"Available items:" = "Все доступные датчики:";
+"Menu bar items:" = "Иконки в строке меню:";
+"Available items:" = "Все доступные элементы:";
 "HWMonitor Preferences" = "Настройки HWMonitor";
 "Install menu bar extension" = "Установить расширение меню";
 "Remove menu bar extension" = "Удалить расширение меню";
 "Temperature units:" = "Система температур:";
-"System menu:" = "Cистемное меню:";
+"HWMonitor menu:" = "Меню HWMonitor:";
 "Miscellaneous:" = "Разное:";
 "About HWMonitor" = "О программе HWMonitor";
 "Services" = "Службы";
@@ -92,3 +92,5 @@
 "HWMonitor Help" = "Справка HWMonitor";
 "Preferences" = "Настройки";
 "Graphs" = "Графики";
+"Show partitions names" = "Показывать имена разделов";
+"System menu bar:" = "Значки системного меню:";

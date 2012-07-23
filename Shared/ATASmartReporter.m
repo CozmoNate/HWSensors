@@ -19,10 +19,11 @@
 @synthesize productName;
 @synthesize serialNumber;
 @synthesize bsdName;
+@synthesize volumesNames;
 @synthesize isRotational;
 @synthesize isExceeded;
 
-+(ATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name bsdName:(NSString*)bsd serialNumber:(NSString*)serial isRotational:(BOOL)rotational
++(ATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name bsdName:(NSString*)bsd volumesNames:(NSString*)volumes serialNumber:(NSString*)serial isRotational:(BOOL)rotational
 {
     if (MACH_PORT_NULL != ioservice) {
         ATAGenericDisk* me = [[ATAGenericDisk alloc] init];
@@ -31,6 +32,7 @@
         
         me->productName = name;
         me->bsdName = bsd;
+        me->volumesNames = volumes;
         me->serialNumber = serial;
         me->isRotational = rotational;
         
@@ -149,8 +151,51 @@
     return me;
 }
 
+#include <sys/mount.h>
+
 - (void)diskoverDrives
 {
+    NSMutableDictionary *partitions = [[NSMutableDictionary alloc] init];
+    
+    NSString *path;
+	BOOL first = YES;
+    
+    NSEnumerator *mountedPathsEnumerator = [[[NSWorkspace  sharedWorkspace] mountedLocalVolumePaths] objectEnumerator];
+    
+    while (path = [mountedPathsEnumerator nextObject] )
+    {
+		struct statfs buffer;
+
+        if (statfs([path fileSystemRepresentation],&buffer) == 0)
+        {
+			NSRange start = [path rangeOfString:@"/Volumes/"];
+            
+			if (first == NO && start.length == 0)
+            {
+				continue;
+			}
+            
+			if (first)
+				first = NO;
+            
+			NSString *name = [[NSString stringWithFormat:@"%s",buffer.f_mntfromname] lastPathComponent];
+            
+			if ([name hasPrefix:@"disk"] && [name length] > 4)
+            {
+				NSString *newName = [name substringFromIndex:4];
+				NSRange paritionLocation = [newName rangeOfString:@"s"];
+                
+				if(paritionLocation.length != 0)
+					name = [NSString stringWithFormat:@"disk%@",[newName substringToIndex: paritionLocation.location]];
+			}
+            
+			if( [partitions objectForKey:name] )
+				[[partitions objectForKey:name] addObject:[[NSFileManager defaultManager] displayNameAtPath:path]];
+            else
+				[partitions setObject:[[NSMutableArray alloc] initWithObjects:[[NSFileManager defaultManager] displayNameAtPath:path], nil] forKey:name];
+		}
+	}
+    
     NSMutableArray * list = [[NSMutableArray alloc] init];
     
     CFDictionaryRef matching = IOServiceMatching("IOBlockStorageDevice");
@@ -181,13 +226,15 @@
                                 
                                 id disk = nil;
                                 
+                                NSString *volumes = [[partitions objectForKey:(__bridge id)(bsdName)] componentsJoinedByString:@", "];
+                                
                                 if ([medium isEqualToString:@"Rotational"]) {
-                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:(__bridge_transfer NSString *)bsdName serialNumber:serial isRotational:TRUE];
+                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:(__bridge_transfer NSString *)bsdName volumesNames:(volumes ? volumes : (__bridge_transfer NSString*)bsdName) serialNumber:serial isRotational:TRUE];
                                     ;
                                 }
                                 else if ([medium isEqualToString:@"Solid State"])
                                 {
-                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:(__bridge_transfer NSString *)bsdName serialNumber:serial isRotational:FALSE];
+                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:(__bridge NSString*)bsdName volumesNames:(volumes ? volumes : (__bridge_transfer  NSString*)bsdName) serialNumber:serial isRotational:FALSE];
                                 }
                                 
                                 if (disk)

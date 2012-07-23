@@ -103,7 +103,7 @@ float IT87xMonitor::readVoltage(UInt32 index)
 
 float IT87xMonitor::readTachometer(UInt32 index)
 {
-    long value;
+    UInt32 value;
     
     if (has16bitFanCounter)
     {
