@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1D05AC2113ED100D00EADBF6"
-               BuildableName = "IntelThermal.kext"
-               BlueprintName = "IntelThermal"
+               BlueprintIdentifier = "7E79B81915BA99350079AAE8"
+               BuildableName = "CPUSensors.kext"
+               BlueprintName = "CPUSensors"
                ReferencedContainer = "container:HWSensors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

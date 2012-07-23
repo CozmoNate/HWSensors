@@ -806,7 +806,7 @@
 																			<key>GID</key>
 																			<integer>0</integer>
 																			<key>PATH</key>
-																			<string>../Binaries/IntelThermal.kext</string>
+																			<string>../Binaries/CPUSensors.kext</string>
 																			<key>PATH_TYPE</key>
 																			<integer>1</integer>
 																			<key>PERMISSIONS</key>
@@ -952,6 +952,15 @@
 				<key>VERSION</key>
 				<integer>2</integer>
 			</dict>
+			<key>PACKAGE_SCRIPTS</key>
+			<dict>
+				<key>POSTINSTALL_PATH</key>
+				<dict/>
+				<key>PREINSTALL_PATH</key>
+				<dict/>
+				<key>RESOURCES</key>
+				<array/>
+			</dict>
 			<key>PACKAGE_SETTINGS</key>
 			<dict>
 				<key>AUTHENTICATION</key>
@@ -959,11 +968,11 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>org.hwsensors.pkg.IntelThermal</string>
+				<string>org.hwsensors.pkg.CPUSensors</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
-				<string>IntelThermal</string>
+				<string>CPUSensors</string>
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
@@ -4713,42 +4722,6 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>ACPISensors plugin requires extensive DSDT editing and understanding in ACPI programming</string>
-											</dict>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>Russian</string>
-												<key>VALUE</key>
-												<string>Плагин ACPISensors позволяет читать показания сенсоров через предопределенные функции в ACPI таблицах. Для его использования необходимо понимание в программировании ACPI т.к. требует внесения изменений в DSDT</string>
-											</dict>
-										</array>
-										<key>OPTIONS</key>
-										<dict>
-											<key>HIDDEN</key>
-											<false/>
-											<key>STATE</key>
-											<integer>2</integer>
-										</dict>
-										<key>PACKAGE_UUID</key>
-										<string>84C4F187-8589-4BCC-B71A-C78464F396B3</string>
-										<key>REQUIREMENTS</key>
-										<array/>
-										<key>TITLE</key>
-										<array/>
-										<key>TOOLTIP</key>
-										<array/>
-										<key>TYPE</key>
-										<integer>0</integer>
-										<key>UUID</key>
-										<string>20249259-4661-46CC-86C4-5F295DAD5F10</string>
-									</dict>
-									<dict>
-										<key>DESCRIPTION</key>
-										<array>
-											<dict>
-												<key>LANGUAGE</key>
-												<string>English</string>
-												<key>VALUE</key>
 												<string>This plugin allows access to built-in sensors of wide range of nVidia GPUs. It has better support for newer GPUs then NVClockx.</string>
 											</dict>
 											<dict>
@@ -4849,6 +4822,42 @@
 										<integer>0</integer>
 										<key>UUID</key>
 										<string>1E3D6F46-778A-42C6-998B-941C7328124D</string>
+									</dict>
+									<dict>
+										<key>DESCRIPTION</key>
+										<array>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>English</string>
+												<key>VALUE</key>
+												<string>ACPISensors plugin requires extensive DSDT editing and understanding in ACPI programming</string>
+											</dict>
+											<dict>
+												<key>LANGUAGE</key>
+												<string>Russian</string>
+												<key>VALUE</key>
+												<string>Плагин ACPISensors позволяет читать показания сенсоров через предопределенные функции в ACPI таблицах. Для его использования необходимо понимание в программировании ACPI т.к. требует внесения изменений в DSDT</string>
+											</dict>
+										</array>
+										<key>OPTIONS</key>
+										<dict>
+											<key>HIDDEN</key>
+											<false/>
+											<key>STATE</key>
+											<integer>2</integer>
+										</dict>
+										<key>PACKAGE_UUID</key>
+										<string>84C4F187-8589-4BCC-B71A-C78464F396B3</string>
+										<key>REQUIREMENTS</key>
+										<array/>
+										<key>TITLE</key>
+										<array/>
+										<key>TOOLTIP</key>
+										<array/>
+										<key>TYPE</key>
+										<integer>0</integer>
+										<key>UUID</key>
+										<string>20249259-4661-46CC-86C4-5F295DAD5F10</string>
 									</dict>
 									<dict>
 										<key>DESCRIPTION</key>
@@ -5077,6 +5086,13 @@
 				<string>.</string>
 				<key>PATH_TYPE</key>
 				<integer>1</integer>
+			</dict>
+			<key>CERTIFICATE</key>
+			<dict>
+				<key>NAME</key>
+				<string>natan.zalkin@me.com</string>
+				<key>PATH</key>
+				<string>/Users/kozlek/Library/Keychains/login.keychain</string>
 			</dict>
 			<key>EXCLUDED_FILES</key>
 			<array>

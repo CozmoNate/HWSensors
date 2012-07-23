@@ -28,7 +28,8 @@
     
     _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
     
-    _showBSDNames = [_defaults boolForKey:kHWMonitorShowBSDNames];
+    _showBSDNames = [_defaults integerForKey:kHWMonitorShowBSDNames];
+    _showVolumeNames = [_defaults integerForKey:kHWMonitorShowVolumeNames];
     
     // Call undocumented function
     [[NSUserDefaultsController sharedUserDefaultsController] _setDefaults:_defaults];
@@ -51,6 +52,8 @@
     [view setImage:[icon image]];
     [view setAlternateImage:[icon alternateImage]];
     [view setUseShadowEffect:YES];
+    
+    [self setView:view];
     
     _mainMenu = [[NSMenu alloc] init];
     
@@ -101,13 +104,13 @@
     
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
-    // Update titles timer
+    // Titles update timer
     invocation = [NSInvocation invocationWithMethodSignature:
                   [self methodSignatureForSelector:@selector(updateTitlesDefault)]];
     [invocation setTarget:self];
     [invocation setSelector:@selector(updateTitlesDefault)];
     
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.666f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     // Rebuild sensors timer
     /*invocation = [NSInvocation invocationWithMethodSignature:
@@ -129,12 +132,11 @@
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(useShadowEffectChanged:) name: HWMonitorUseShadowsChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showHiddenSensorsChanged:) name: HWMonitorShowHiddenChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showBSDNamesChanged:) name: HWMonitorShowBSDNamesChanged object: NULL];
+    [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showVolumeNamesChanged:) name: HWMonitorShowVolumeNamesChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(itemsRequested:) name: HWMonitorRequestItems object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(appIsActiveChanged:) name: HWMonitorAppIsActive object: NULL];
     
     [self performSelector:@selector(rebuildSensors) withObject:nil afterDelay:0.0];
-    
-    [self setView:view];
     
     return self;
 }
@@ -187,6 +189,7 @@
 - (void)updateSMARTDataThreaded
 {
     [self performSelectorInBackground:@selector(updateSMARTData) withObject:nil];
+    //[self performSelectorInBackground:@selector(updateTitlesDefault) withObject:nil];
 }
 
 - (void)updateData
@@ -200,6 +203,7 @@
 - (void)updateDataThreaded
 {
     [self performSelectorInBackground:@selector(updateData) withObject:nil];
+    //[self performSelectorInBackground:@selector(updateTitlesDefault) withObject:nil];
 }
 
 - (void)updateTitlesForceAllSensors:(BOOL)allSensors
@@ -256,27 +260,30 @@
                     valueColor = _blackColorAttribute;
                     break;
             }
+            if ([sensor disk] && _showBSDNames)
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[sensor disk] bsdName] attributes:titleColor]];
+            else
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[sensor representedObject] title] attributes:titleColor]];
             
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[sensor representedObject] title] attributes:titleColor]];
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t"]];
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
             
             [title addAttributes:_menuAttributes range:NSMakeRange(0, [title length])];
             
             // Add subtitle
-            if ([sensor disk] && _showBSDNames)
-                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n  %@", [[sensor disk] bsdName]] attributes:_subtitleAttributes]];
+            if ([sensor disk] && _showVolumeNames)
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"\n  %@", [[sensor disk] volumesNames]] stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:_menuFont forKey:NSFontAttributeName]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuValueWidth) withFont:_menuFont] attributes:_subtitleAttributes]];
             
             // Update menu item title
             [[[sensor representedObject] menuItem] setAttributedTitle:title];
         }
     }
     
-    if (_monitoringAppIsActive && (_monitoringAppNextUpdate == nil || [_monitoringAppNextUpdate isLessThanOrEqualTo:[NSDate dateWithTimeIntervalSinceNow:0.0]])) {
+    //if (_monitoringAppIsActive && (_monitoringAppNextUpdate == nil || [_monitoringAppNextUpdate isLessThanOrEqualTo:[NSDate dateWithTimeIntervalSinceNow:0.0]])) {
         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
         
-        _monitoringAppNextUpdate = [NSDate dateWithTimeIntervalSinceNow:1.0];
-    }
+        //_monitoringAppNextUpdate = [NSDate dateWithTimeIntervalSinceNow:1.0];
+    //}
 }
 
 - (void)updateTitlesForced
@@ -324,7 +331,6 @@
     
     [_mainMenu removeAllItems];
     
-    //[_engine setShowBSDNames:[_defaults boolForKey:kHWMonitorShowBSDNames]];
     [_engine setUseFahrenheit:[_defaults boolForKey:kHWMonitorUseFahrenheitKey]];
     
     [(HWMonitorView*)[self view] setUseBigFont:[_defaults boolForKey:kHWMonitorUseBigStatusMenuFont]];
@@ -369,10 +375,13 @@
         NSArray *hiddenList = [_defaults objectForKey:kHWMonitorHiddenList];
         
         for (NSString *key in hiddenList) {
-            HWMonitorSensor *sensor = [[_engine keys] objectForKey:key];
-            
-            if (sensor)
-                [[sensor representedObject] setVisible:NO];
+            if ([[[_engine keys] allKeys] containsObject:key]) {
+                
+                HWMonitorSensor *sensor = [[_engine keys] objectForKey:key];
+                
+                if (sensor)
+                    [[sensor representedObject] setVisible:NO];
+            }
         }
         
         [self checkGroupsVisibilities];
@@ -527,17 +536,20 @@
 {
     _showBSDNames = [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
     
-    [_defaults setBool:_showBSDNames forKey:kHWMonitorShowBSDNames];
+    [_defaults setInteger:_showBSDNames forKey:kHWMonitorShowBSDNames];
     [_defaults synchronize];
     
     [self updateTitlesForced];
+}
+
+- (void)showVolumeNamesChanged:(NSNotification*)aNotification
+{
+    _showVolumeNames = [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
     
-    /*[_engine setShowBSDNames:showBSDNames];
+    [_defaults setInteger:_showVolumeNames forKey:kHWMonitorShowVolumeNames];
+    [_defaults synchronize];
     
-    for (HWMonitorSensor *sensor in [_engine sensors]) 
-        [[sensor representedObject] setTitle:[sensor title]];
-    
-    [self itemsRequested:nil];    */
+    [self updateTitlesForced];
 }
 
 - (void)systemWillSleep:(NSNotification *)aNotification
