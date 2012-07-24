@@ -334,9 +334,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUseShadowsChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
--(IBAction)showBSDNamesChanged:(id)sender
+-(IBAction)useBSDNamesChanged:(id)sender
 {
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorShowBSDNamesChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUseBSDNamesChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
 -(IBAction)showVolumeNamesChanged:(id)sender

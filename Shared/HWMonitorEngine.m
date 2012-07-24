@@ -21,7 +21,7 @@
 @synthesize keys = _keys;
 
 @synthesize useFahrenheit = _useFahrenheit;
-//@synthesize showBSDNames = _showBSDNames;
+@synthesize useBSDNames = _useBSDNames;
 
 + (HWMonitorEngine*)engineWithBundle:(NSBundle*)bundle;
 {
@@ -71,21 +71,21 @@
     return nil;
 }
 
-/*-(void)setShowBSDNames:(BOOL)showBSDNames
+-(void)setUseBSDNames:(BOOL)useBSDNames
 {
-    if (_showBSDNames != showBSDNames) {
-        _showBSDNames = showBSDNames;
+    if (_useBSDNames != useBSDNames) {
+        _useBSDNames = useBSDNames;
         
         for (HWMonitorSensor *sensor in [self sensors])
             if ([sensor disk])
-                [sensor setTitle:_showBSDNames ? [[sensor disk] bsdName] : [[[sensor disk] productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+                [sensor setTitle:_useBSDNames ? [[sensor disk] bsdName] : [[[sensor disk] productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     }
 }
 
--(BOOL)showBSDNames
+-(BOOL)useBSDNames
 {
-    return _showBSDNames;
-}*/
+    return _useBSDNames;
+}
 
 - (HWMonitorSensor*)addSensorWithKey:(NSString*)key title:(NSString*)title group:(NSUInteger)group
 {
@@ -172,7 +172,7 @@
     }
     
     if (value) {
-        HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%lx", [disk serialNumber], group] title:/*_showBSDNames ? [disk bsdName] :*/ [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
+        HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%lx", [disk serialNumber], group] title:_useBSDNames ? [disk bsdName] : [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
         
         [sensor setData:value];
         [sensor setDisk:disk];
