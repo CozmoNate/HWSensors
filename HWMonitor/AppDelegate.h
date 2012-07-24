@@ -46,7 +46,7 @@
 - (IBAction)useFahrenheitChanged:(id)sender;
 - (IBAction)useBigFontChanged:(id)sender;
 - (IBAction)useShadowEffectChanged:(id)sender;
-- (IBAction)showBSDNamesChanged:(id)sender;
+- (IBAction)useBSDNamesChanged:(id)sender;
 - (IBAction)showVolumeNamesChanged:(id)sender;
 
 - (IBAction)graphsTableViewClicked:(id)sender;

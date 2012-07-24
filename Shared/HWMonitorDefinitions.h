@@ -18,7 +18,7 @@
 #define kHWMonitorUseFahrenheitKey      @"useFahrenheit"
 #define kHWMonitorUseBigStatusMenuFont  @"useBigFont"
 #define kHWMonitorUseShadowEffect       @"useShadowEffect"
-#define kHWMonitorShowBSDNames          @"showBSDNames"
+#define kHWMonitorUseBSDNames          @"showBSDNames"
 #define kHWMonitorShowVolumeNames       @"showVolumeNames"
 #define kHWMonitorMenuInstalled         @"menuInstalled"
 
@@ -40,7 +40,7 @@
 #define HWMonitorUseBigFontChanged      @"HWMonitorUseBigFontChanged"
 #define HWMonitorUseShadowsChanged      @"HWMonitorUseShadowsChanged"
 #define HWMonitorShowHiddenChanged      @"HWMonitorShowHiddenChanged"
-#define HWMonitorShowBSDNamesChanged    @"HWMonitorShowBSDNamesChanged"
+#define HWMonitorUseBSDNamesChanged    @"HWMonitorUseBSDNamesChanged"
 #define HWMonitorShowVolumeNamesChanged @"HWMonitorShowVolumeNamesChanged"
 #define HWMonitorRequestItems           @"HWMonitorRequestItems"
 #define HWMonitorRecieveItems           @"HWMonitorRecieveItems"

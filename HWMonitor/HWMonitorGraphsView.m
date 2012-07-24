@@ -95,8 +95,11 @@
         }
     }
     
-    if (_maxY == 0 && _minY == MAXFLOAT) {
+    if ((_maxY == 0 && _minY == MAXFLOAT)) {
         _graphBounds = NSMakeRect(0, 0, kHWMonitorGraphsHistoryPoints, 100);
+    }
+    else if (_minY >= _maxY) {
+        _graphBounds = NSMakeRect(0, _minY, kHWMonitorGraphsHistoryPoints, _minY + 100);
     }
     else {
 
@@ -186,22 +189,24 @@
         }
     }
     
-    // Draw extremes
-    [context setShouldAntialias:NO];
+    if (_minY < _maxY) {
+        // Draw extremes
+        [context setShouldAntialias:NO];
+        
+        [path removeAllPoints];
+        [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,_maxY)]];
+        [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,_maxY)]];
+        [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,_minY)]];
+        [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,_minY)]];
+        CGFloat pattern[2] = { 4.0, 4.0 };
+        [path setLineDash:pattern count:2 phase:1.0];
+        [[NSColor lightGrayColor] set];
+        [path setLineWidth:0.25];
+        [path stroke];
+        CGFloat resetPattern[1] = { 0 };
+        [path setLineDash:resetPattern count:0 phase:0];
+    }
     
-    [path removeAllPoints];
-    [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,_maxY)]];
-    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,_maxY)]];
-    [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,_minY)]];
-    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,_minY)]];
-    CGFloat pattern[2] = { 4.0, 4.0 };
-    [path setLineDash:pattern count:2 phase:1.0];
-    [[NSColor lightGrayColor] set];
-    [path setLineWidth:0.25];
-    [path stroke];
-    CGFloat resetPattern[1] = { 0 };
-    [path setLineDash:resetPattern count:0 phase:0];
-
     // Draw graphs
     
     [context setShouldAntialias:YES];
@@ -252,22 +257,22 @@
         }
     }
     
-    
     // Draw extreme values
-    
-    [context setShouldAntialias:YES];
-    
-    NSAttributedString *title = [[NSAttributedString alloc]
-                                 initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
-                                 attributes:_legendAttributes];
-    
-    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y + 2)];
-    
-    title = [[NSAttributedString alloc]
-             initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
-             attributes:_legendAttributes];
-    
-    [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y - [title size].height)];
+    if (_minY < _maxY) {
+        [context setShouldAntialias:YES];
+
+        NSAttributedString *title = [[NSAttributedString alloc]
+                                     initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
+                                     attributes:_legendAttributes];
+
+        [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y + 2)];
+
+        title = [[NSAttributedString alloc]
+                 initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
+                 attributes:_legendAttributes];
+
+        [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y - [title size].height)];
+    }
     
     [context restoreGraphicsState];
 }
