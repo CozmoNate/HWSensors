@@ -18,11 +18,13 @@
 #define kHWMonitorUseFahrenheitKey      @"useFahrenheit"
 #define kHWMonitorUseBigStatusMenuFont  @"useBigFont"
 #define kHWMonitorUseShadowEffect       @"useShadowEffect"
-#define kHWMonitorUseBSDNames          @"showBSDNames"
+#define kHWMonitorUseBSDNames           @"showBSDNames"
 #define kHWMonitorShowVolumeNames       @"showVolumeNames"
 #define kHWMonitorMenuInstalled         @"menuInstalled"
+#define kHWMonitorSelectedTab           @"selectedTab"
 
 // Icons
+#define kHWMonitorIconDefault           @"hwmonitor"
 #define kHWMonitorIconThermometer       @"thermometer"
 #define kHWMonitorIconTemperatures      @"temperatures"
 #define kHWMonitorIconHddTemperatures   @"hddtemperatures"

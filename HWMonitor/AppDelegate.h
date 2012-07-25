@@ -24,6 +24,10 @@
 }
 
 @property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSView *preferencesView;
+@property (assign) IBOutlet NSView *menubarView;
+@property (assign) IBOutlet NSView *graphsView;
+@property (assign) IBOutlet NSToolbar *prefsToolbar;
 @property (assign) IBOutlet NSMenu *menu;
 @property (assign) IBOutlet HWMonitorSensorsList *prefsController;
 @property (assign) IBOutlet NSArrayController *graphsController;
@@ -50,5 +54,6 @@
 - (IBAction)showVolumeNamesChanged:(id)sender;
 
 - (IBAction)graphsTableViewClicked:(id)sender;
+- (IBAction)prefsToolbarClicked:(id)sender;
 
 @end

@@ -35,6 +35,7 @@
     
     _prefsIcon = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"preferences" ofType:@"png"]];
     
+    [self loadIconNamed:kHWMonitorIconDefault];
     [self loadIconNamed:kHWMonitorIconThermometer];
     [self loadIconNamed:kHWMonitorIconTemperatures];
     [self loadIconNamed:kHWMonitorIconHddTemperatures];

@@ -4,13 +4,25 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Resources/16-line-chart@2x.png</key>
+		<data>
+		SWa4GtgqpX/nP76muqz653Nii4g=
+		</data>
+		<key>Resources/20-gear-2@2x.png</key>
+		<data>
+		bCI07Zk0AeLpTZZ1U3Mz2tzBO/0=
+		</data>
+		<key>Resources/29-heart@2x.png</key>
+		<data>
+		Pn+H7Nxxvi5sqy+X6gDPG7M/rRI=
+		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/Info.plist</key>
 		<data>
-		abQ4wlfcD0VMP9W/KpdiNHoO3bA=
+		AWu8Q7lx+TWpBnyAr0Tlw2GpaUo=
 		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/MacOS/HWMonitorExtra</key>
 		<data>
-		LUVMBCdnsBfhuH9/8PPpsNprGVM=
+		41SVjh1twCHbMEhH/Ugvev902Kc=
 		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/Resources/default.icns</key>
 		<data>
@@ -20,7 +32,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			XpbSzoKVoiz6rH+sg2TTinctSFA=
+			LeWYkj8k6RBZOgM+WakFl2IKQBY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -41,6 +53,14 @@
 		<data>
 		l1xoZRWktNqh+e6JAACc/ISi9R8=
 		</data>
+		<key>Resources/HWMonitorExtra.menu/Contents/Resources/hwmonitor.png</key>
+		<data>
+		05dj50W3pUT3U4dvJXcyAdWpImQ=
+		</data>
+		<key>Resources/HWMonitorExtra.menu/Contents/Resources/hwmonitor_template.png</key>
+		<data>
+		TmgRDFwzNOExyKNiBI+vDjokwKw=
+		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/Resources/multipliers.png</key>
 		<data>
 		0yNW+AlKkLVhVkmmkAFk3p+jsbs=
@@ -51,13 +71,13 @@
 		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/Resources/preferences.png</key>
 		<data>
-		H0xxoNbrg1Xecyc8+YUV5PPtFZ8=
+		4eu3omvSkLikWTgCIQoMKSdVGn8=
 		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/Resources/ru.lproj/Localizable.strings</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/RGT4V6xR6vQ61DnBYRRVTUiufI=
+			gpk5SffvEq3DqDj1Wd7U2UdMsns=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -104,7 +124,7 @@
 		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/_CodeSignature/CodeResources</key>
 		<data>
-		LDxWVpxW/YtFf+llX/MOJsK61zk=
+		Fac3Kp16VLnbA2tez7DJZKQ7Hvg=
 		</data>
 		<key>Resources/MenuCracker.menu/Contents/Info.plist</key>
 		<data>
@@ -121,6 +141,10 @@
 		<key>Resources/MenuCracker.menu/Icon</key>
 		<data>
 		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
+		</data>
+		<key>Resources/badge-4.png</key>
+		<data>
+		X5D8el7OIr0SUVYi5VrUFyOkoKY=
 		</data>
 		<key>Resources/default.icns</key>
 		<data>
@@ -148,7 +172,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			XpbSzoKVoiz6rH+sg2TTinctSFA=
+			LeWYkj8k6RBZOgM+WakFl2IKQBY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -157,7 +181,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8puqsKc2idh0Wb1VSynJprnRXEg=
+			GhwWsek4WakTEIIEOxmVKw9KB2w=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -170,6 +194,10 @@
 		<data>
 		2FfitVPBCKPCe4aNjLd88aKgv2o=
 		</data>
+		<key>Resources/hwmonitor.png</key>
+		<data>
+		05dj50W3pUT3U4dvJXcyAdWpImQ=
+		</data>
 		<key>Resources/multipliers.png</key>
 		<data>
 		0yNW+AlKkLVhVkmmkAFk3p+jsbs=
@@ -178,7 +206,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			/RGT4V6xR6vQ61DnBYRRVTUiufI=
+			gpk5SffvEq3DqDj1Wd7U2UdMsns=
 			</data>
 			<key>optional</key>
 			<true/>

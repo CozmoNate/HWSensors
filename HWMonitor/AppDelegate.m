@@ -22,6 +22,10 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 @implementation AppDelegate
 
 @synthesize window = _window;
+@synthesize preferencesView = _preferencesView;
+@synthesize menubarView = _menubarView;
+@synthesize graphsView = _graphsView;
+@synthesize prefsToolbar = _prefsToolbar;
 @synthesize menu = _menu;
 @synthesize prefsController = _prefsController;
 @synthesize graphsController = _graphsController;
@@ -182,6 +186,10 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         // Add thermometer icon
         HWMonitorIcon *thermometer = [self getIconByName:kHWMonitorIconThermometer];
         [_prefsController addItem:GetLocalizedString([thermometer name]) icon:[thermometer image] key:[thermometer name]];
+        
+        // Add hwmonitor icon
+        HWMonitorIcon *hwmonitor = [self getIconByName:kHWMonitorIconDefault];
+        [_prefsController addItem:GetLocalizedString([hwmonitor name]) icon:[hwmonitor image] key:[hwmonitor name]];
         
         // Add all sensors
         [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupTemperature];
@@ -352,6 +360,56 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [_voltageGraph setNeedsDisplay:YES];
 }
 
+- (NSView*)viewForTag:(NSUInteger)tag
+{
+    switch (tag) {
+        case 0:
+            return _preferencesView;
+            
+        case 1:
+            return _menubarView;
+            
+        case 2:
+            return _graphsView;
+            
+        default:
+            return _preferencesView;
+    }
+}
+
+- (NSRect)screenFrameForView:(NSView*)view
+{
+    
+    NSWindow *window = [self window];
+    NSRect newFrameRect = [window frameRectForContentRect:[view frame]];
+    NSRect oldFrameRect = [window frame];
+    NSSize newSize = newFrameRect.size;
+    NSSize oldSize = oldFrameRect.size;
+    
+    NSRect frame = [window frame];
+    frame.size = newSize;
+    frame.origin.y -= newSize.height - oldSize.height;
+    frame.origin.x -= (newSize.width - oldSize.width) / 2;
+    
+    return frame;
+}
+
+-(void)prefsToolbarClicked:(id)sender
+{
+    [_defaults setInteger:[sender tag] forKey:kHWMonitorSelectedTab];
+    
+    NSView *newView = [self viewForTag:[sender tag]];
+    NSRect newFrame = [self screenFrameForView:newView];
+    
+    if ([[self window] contentView])
+        [[[self window] contentView] setAlphaValue:0.0];
+       
+    [[self window] setContentView:newView];
+    [[self window] setFrame:newFrame display:YES animate:YES];
+    
+    [[newView animator] setAlphaValue:1.0];
+}
+
 -(void)localizeView:(NSView*)view
 {
     if ([view isKindOfClass:[NSMatrix class]]) {
@@ -425,6 +483,30 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
+    
+    // setup views
+    [_preferencesView setAlphaValue:0.0];
+    [_menubarView setAlphaValue:0.0];
+    [_graphsView setAlphaValue:0.0];
+    
+    NSInteger selectedTag = [_defaults integerForKey:kHWMonitorSelectedTab];
+    NSView *selectedView = [self viewForTag:selectedTag];
+    
+    [_prefsToolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%ld", selectedTag]];
+    
+    [selectedView setAlphaValue:1.0];
+    
+    //[[self window] setFrame:NSMakeRect([[self window] frame].origin.x, [[self window] frame].origin.y, [selectedView frame].size.width, [selectedView frame].size.height) display:YES animate:YES];
+    [[self window] setContentSize:[selectedView frame].size];
+    [[self window] setContentView:selectedView];
+    
+    [_window setTitle:GetLocalizedString([_window title])];
+    [self localizeView:_preferencesView];
+    [self localizeView:_menubarView];
+    [self localizeView:_graphsView];
+    [self localizeMenu:_menu];
+    
     [_temperatureGraph setGroup:kHWSensorGroupTemperature | kSMARTSensorGroupTemperature];
     [_frequencyGraph setGroup:kHWSensorGroupFrequency];
     [_tachometerGraph setGroup:kHWSensorGroupTachometer];
@@ -435,14 +517,13 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     int error = CoreMenuExtraGetMenuExtra((__bridge CFStringRef)@"org.hwsensors.HWMonitorExtra", &menuExtra);
     
     [_toggleMenuButton setState:!error && menuExtra];
-    
-    _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
-    
+        
     [_temperatureGraph setUseFahrenheit:[_defaults boolForKey:kHWMonitorUseFahrenheitKey]];
     
     // undocumented call
     [[NSUserDefaultsController sharedUserDefaultsController] _setDefaults:_defaults];
     
+    [self loadIconNamed:kHWMonitorIconDefault];
     [self loadIconNamed:kHWMonitorIconThermometer];
     [self loadIconNamed:kHWMonitorIconTemperatures];
     [self loadIconNamed:kHWMonitorIconHddTemperatures];
@@ -459,11 +540,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 	NSString *version = [[NSString alloc] initWithFormat:@"v%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
     
     [_versionLabel setTitleWithMnemonic:version];
-    
-    [_window setTitle:GetLocalizedString([_window title])];
-    
-    [self localizeView:[_window contentView]];
-    [self localizeMenu:_menu];
     
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(recieveItems:) name:HWMonitorRecieveItems object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(valuesChanged:) name:HWMonitorValuesChanged object: NULL];
