@@ -12,7 +12,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			XpbSzoKVoiz6rH+sg2TTinctSFA=
+			LeWYkj8k6RBZOgM+WakFl2IKQBY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -33,6 +33,14 @@
 		<data>
 		l1xoZRWktNqh+e6JAACc/ISi9R8=
 		</data>
+		<key>Resources/hwmonitor.png</key>
+		<data>
+		05dj50W3pUT3U4dvJXcyAdWpImQ=
+		</data>
+		<key>Resources/hwmonitor_template.png</key>
+		<data>
+		TmgRDFwzNOExyKNiBI+vDjokwKw=
+		</data>
 		<key>Resources/multipliers.png</key>
 		<data>
 		0yNW+AlKkLVhVkmmkAFk3p+jsbs=
@@ -43,13 +51,13 @@
 		</data>
 		<key>Resources/preferences.png</key>
 		<data>
-		H0xxoNbrg1Xecyc8+YUV5PPtFZ8=
+		4eu3omvSkLikWTgCIQoMKSdVGn8=
 		</data>
 		<key>Resources/ru.lproj/Localizable.strings</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/RGT4V6xR6vQ61DnBYRRVTUiufI=
+			gpk5SffvEq3DqDj1Wd7U2UdMsns=
 			</data>
 			<key>optional</key>
 			<true/>

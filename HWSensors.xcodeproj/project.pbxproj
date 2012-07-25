@@ -105,6 +105,7 @@
 		7E3684BF158373B900E32629 /* tachometers_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684BD158373B900E32629 /* tachometers_template.png */; };
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
+		7E55352515C05C4100DDF3BF /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */; };
 		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
 		7E79B82315BA99350079AAE8 /* CPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E79B82215BA99350079AAE8 /* CPUSensors.cpp */; };
 		7E8D485E15AA80910049A229 /* HWMonitorColoredCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */; };
@@ -116,6 +117,12 @@
 		7E9388FE15945A840005316D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10C18F1506B2A4005E0897 /* IOKit.framework */; };
 		7E938901159470DF0005316D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF984150201DE00C34729 /* Localizable.strings */; };
 		7E938905159497920005316D /* HWMonitorSensorsList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E938904159497920005316D /* HWMonitorSensorsList.m */; };
+		7E96DE5E15C05D8B00A34C60 /* 29-heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE5D15C05D8B00A34C60 /* 29-heart@2x.png */; };
+		7E96DE6115C05DA000A34C60 /* 20-gear-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6015C05DA000A34C60 /* 20-gear-2@2x.png */; };
+		7E96DE6715C0607900A34C60 /* badge-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6615C0607900A34C60 /* badge-4.png */; };
+		7E96DE6B15C063B800A34C60 /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6A15C063AA00A34C60 /* hwmonitor.png */; };
+		7E96DE6C15C063C100A34C60 /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6A15C063AA00A34C60 /* hwmonitor.png */; };
+		7E96DE6E15C064A700A34C60 /* hwmonitor_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6D15C0649E00A34C60 /* hwmonitor_template.png */; };
 		7EB963A01594531100436FDB /* HWMonitorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB9639F1594531100436FDB /* HWMonitorView.m */; };
 		7EB963A71594559100436FDB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9F8320144FF24000EEEFEB /* Cocoa.framework */; };
 		7EB963AD1594559100436FDB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EB963AB1594559100436FDB /* InfoPlist.strings */; };
@@ -292,6 +299,7 @@
 		7E3F6EE4155DB9DE00C3492E /* preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preferences.png; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E40054F1585031B009AECED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81D15BA99350079AAE8 /* CPUSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CPUSensors-Info.plist"; sourceTree = "<group>"; };
 		7E79B81F15BA99350079AAE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -304,6 +312,11 @@
 		7E93890015945B450005316D /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E938903159497920005316D /* HWMonitorSensorsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorSensorsList.h; sourceTree = "<group>"; };
 		7E938904159497920005316D /* HWMonitorSensorsList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorSensorsList.m; sourceTree = "<group>"; };
+		7E96DE5D15C05D8B00A34C60 /* 29-heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "29-heart@2x.png"; sourceTree = "<group>"; };
+		7E96DE6015C05DA000A34C60 /* 20-gear-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "20-gear-2@2x.png"; sourceTree = "<group>"; };
+		7E96DE6615C0607900A34C60 /* badge-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-4.png"; sourceTree = "<group>"; };
+		7E96DE6A15C063AA00A34C60 /* hwmonitor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor.png; sourceTree = "<group>"; };
+		7E96DE6D15C0649E00A34C60 /* hwmonitor_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor_template.png; sourceTree = "<group>"; };
 		7EB7A7BD1596021A00971346 /* killuiserver */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = killuiserver; path = Installer/killuiserver; sourceTree = "<group>"; };
 		7EB9639E1594531100436FDB /* HWMonitorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorView.h; sourceTree = "<group>"; };
 		7EB9639F1594531100436FDB /* HWMonitorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorView.m; sourceTree = "<group>"; };
@@ -610,6 +623,8 @@
 			isa = PBXGroup;
 			children = (
 				6A1DF981150201D100C34729 /* default.icns */,
+				7E96DE6A15C063AA00A34C60 /* hwmonitor.png */,
+				7E96DE6D15C0649E00A34C60 /* hwmonitor_template.png */,
 				6A1DF982150201D100C34729 /* thermometer.png */,
 				6A1DF983150201D100C34729 /* thermometer_template.png */,
 				6AAD810D151E083300CBD70C /* temperatures.png */,
@@ -868,6 +883,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		7E83608C15BE6C9B0014E043 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7E96DE6615C0607900A34C60 /* badge-4.png */,
+				7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */,
+				7E96DE6015C05DA000A34C60 /* 20-gear-2@2x.png */,
+				7E96DE5D15C05D8B00A34C60 /* 29-heart@2x.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		7EB963A81594559100436FDB /* HWMonitor */ = {
 			isa = PBXGroup;
 			children = (
@@ -880,6 +906,7 @@
 				7EB963B41594559100436FDB /* AppDelegate.h */,
 				7EB963B51594559100436FDB /* AppDelegate.m */,
 				7EB963B71594559100436FDB /* MainMenu.xib */,
+				7E83608C15BE6C9B0014E043 /* Resources */,
 				7EB963A91594559100436FDB /* Supporting Files */,
 			);
 			path = HWMonitor;
@@ -1268,23 +1295,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EF7509E158C7F2500235EDC /* default.icns in Resources */,
-				6A2F7DC2151A64F20081BADC /* thermometer_template.png in Resources */,
+				7E96DE6B15C063B800A34C60 /* hwmonitor.png in Resources */,
+				7E96DE6E15C064A700A34C60 /* hwmonitor_template.png in Resources */,
 				6A2F7DC0151A64EE0081BADC /* thermometer.png in Resources */,
+				6A2F7DC2151A64F20081BADC /* thermometer_template.png in Resources */,
 				6AAD810F151E083300CBD70C /* temperatures.png in Resources */,
-				6AE5FC2F151E1EC6005F9929 /* hddtemperatures.png in Resources */,
-				6AE5FC33151E1F63005F9929 /* ssdlife.png in Resources */,
-				6AE5FC36151E2232005F9929 /* multipliers.png in Resources */,
-				6AE5FC39151E23CD005F9929 /* frequencies.png in Resources */,
-				6AE5FC3F151E269C005F9929 /* voltages.png in Resources */,
-				6AE5FC42151E298E005F9929 /* tachometers.png in Resources */,
-				7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */,
 				7E3684B01583715B00E32629 /* temperatures_template.png in Resources */,
-				7E3684B31583722500E32629 /* frequencies_template.png in Resources */,
+				6AE5FC2F151E1EC6005F9929 /* hddtemperatures.png in Resources */,
 				7E3684B61583734D00E32629 /* hddtemperatures_template.png in Resources */,
+				6AE5FC33151E1F63005F9929 /* ssdlife.png in Resources */,
 				7E3684B91583737400E32629 /* ssdlife_template.png in Resources */,
+				6AE5FC36151E2232005F9929 /* multipliers.png in Resources */,
 				7E3684BC1583739800E32629 /* multipliers_template.png in Resources */,
-				7E3684BF158373B900E32629 /* tachometers_template.png in Resources */,
+				6AE5FC39151E23CD005F9929 /* frequencies.png in Resources */,
+				7E3684B31583722500E32629 /* frequencies_template.png in Resources */,
+				6AE5FC3F151E269C005F9929 /* voltages.png in Resources */,
 				7E3684C2158373DC00E32629 /* voltages_template.png in Resources */,
+				6AE5FC42151E298E005F9929 /* tachometers.png in Resources */,
+				7E3684BF158373B900E32629 /* tachometers_template.png in Resources */,
+				7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */,
 				7E1375711589A10600E45B9F /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1313,6 +1342,7 @@
 				7EBCF09B1594C1D3005E1A16 /* MenuCracker.menu in Resources */,
 				7E938901159470DF0005316D /* Localizable.strings in Resources */,
 				7EB963BD1594561200436FDB /* default.icns in Resources */,
+				7E96DE6C15C063C100A34C60 /* hwmonitor.png in Resources */,
 				7EB963BE1594561200436FDB /* thermometer.png in Resources */,
 				7EB963BF1594561200436FDB /* temperatures.png in Resources */,
 				7EB963C01594561200436FDB /* hddtemperatures.png in Resources */,
@@ -1324,6 +1354,10 @@
 				7EB963AD1594559100436FDB /* InfoPlist.strings in Resources */,
 				7EB963B31594559100436FDB /* Credits.rtf in Resources */,
 				7EB963B91594559100436FDB /* MainMenu.xib in Resources */,
+				7E55352515C05C4100DDF3BF /* 16-line-chart@2x.png in Resources */,
+				7E96DE5E15C05D8B00A34C60 /* 29-heart@2x.png in Resources */,
+				7E96DE6115C05DA000A34C60 /* 20-gear-2@2x.png in Resources */,
+				7E96DE6715C0607900A34C60 /* badge-4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

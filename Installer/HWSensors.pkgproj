@@ -3484,7 +3484,7 @@
 				<key>RELOCATABLE</key>
 				<true/>
 				<key>VERSION</key>
-				<string>2.2.6</string>
+				<string>2.2.8</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>

@@ -6,6 +6,7 @@
   Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 */
 
+"hwmonitor" = "HWMonitor icon";
 "thermometer" = "Thermometer icon";
 "temperatures" = "Temperature icon";
 "hddtemperatures" = "HDD icon";
