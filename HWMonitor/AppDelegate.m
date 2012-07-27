@@ -27,7 +27,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 @synthesize graphsView = _graphsView;
 @synthesize prefsToolbar = _prefsToolbar;
 @synthesize menu = _menu;
-@synthesize prefsController = _prefsController;
+@synthesize favoritesTokens = _favoritesTokens;
+@synthesize sensorsController = _sensorsController;
 @synthesize graphsController = _graphsController;
 @synthesize versionLabel = _versionLabel;
 @synthesize toggleMenuButton = _toggleMenuButton;
@@ -83,8 +84,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 {
     HWMonitorIcon* icon = [self getIconByGroup:mainGroup];
     
-    if (icon && ![_prefsController favoritesContainKey:[icon name]])
-        [_prefsController addItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
+    if (icon && ![_sensorsController favoritesContainKey:[icon name]])
+        [_sensorsController addItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
     
     NSMutableArray *items = [[NSMutableArray alloc] init];
     
@@ -113,7 +114,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
         //if (![favorite boolValue]) {
             //NSMutableDictionary *availableItem = [_prefsController addAvailableItem];
-            NSMutableDictionary *availableItem = [_prefsController addItem];
+            NSMutableDictionary *availableItem = [_sensorsController addItem];
             
             [availableItem setValuesForKeysWithDictionary:
              [NSDictionary dictionaryWithObjectsAndKeys:
@@ -153,11 +154,11 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 - (void)recieveItems:(NSNotification*)aNotification
 {
-    [_prefsController removeAllItems];
+    [_sensorsController removeAllItems];
     
     [_graphsController removeObjectsAtArrangedObjectIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [[_graphsController arrangedObjects] count])]];
     
-    [_prefsController setFirstFavoriteItem:GetLocalizedString(@"Menu bar items:") firstAvailableItem:GetLocalizedString(@"Available items:")];
+    [_sensorsController setFirstFavoriteItem:GetLocalizedString(@"Menu bar items:") firstAvailableItem:GetLocalizedString(@"Available items:")];
     
     if ([aNotification object] && [aNotification userInfo]) {
         NSString *favoritesString = (NSString*)[aNotification object];
@@ -185,11 +186,11 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         
         // Add thermometer icon
         HWMonitorIcon *thermometer = [self getIconByName:kHWMonitorIconThermometer];
-        [_prefsController addItem:GetLocalizedString([thermometer name]) icon:[thermometer image] key:[thermometer name]];
+        [_sensorsController addItem:GetLocalizedString([thermometer name]) icon:[thermometer image] key:[thermometer name]];
         
         // Add hwmonitor icon
         HWMonitorIcon *hwmonitor = [self getIconByName:kHWMonitorIconDefault];
-        [_prefsController addItem:GetLocalizedString([hwmonitor name]) icon:[hwmonitor image] key:[hwmonitor name]];
+        [_sensorsController addItem:GetLocalizedString([hwmonitor name]) icon:[hwmonitor image] key:[hwmonitor name]];
         
         // Add all sensors
         [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupTemperature];
@@ -201,10 +202,14 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupVoltage];
 
         // Setup favorites
-        if ([favoritesList count] == 0)
-            [_prefsController setFavoritesItemsFromArray:[NSArray arrayWithObjects:[thermometer name], nil]];
-        else
-            [_prefsController setFavoritesItemsFromArray:favoritesList];
+        if ([favoritesList count] == 0) {
+            [_favoritesTokens setObjectValue:[NSArray arrayWithObjects:[thermometer name], nil]];
+            [_sensorsController setFavoritesItemsFromArray:[NSArray arrayWithObjects:[thermometer name], nil]];
+        }
+        else {
+            [_favoritesTokens setObjectValue:favoritesList];
+            [_sensorsController setFavoritesItemsFromArray:favoritesList];
+        }
         
         [self setUserInterfaceEnabled:[[NSObject alloc] init]];
     }
@@ -218,7 +223,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     if ([aNotification userInfo]) {
         NSDictionary *list = [aNotification userInfo];
         
-        for (NSMutableDictionary *item in [_prefsController arrangedObjects]) {
+        for (NSMutableDictionary *item in [_sensorsController arrangedObjects]) {
             
             NSString *key = [item objectForKey:kHWMonitorKeyKey];
             
@@ -298,8 +303,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 }
 
 -(IBAction)favoritesChanged:(id)sender
-{   
-    NSArray *favorites = [_prefsController getFavoritesItems];
+{
+    NSArray *favorites = [_sensorsController getFavoritesItems];
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
     for (NSDictionary *item in favorites)
@@ -307,10 +312,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     NSString *favoritesList = [list componentsJoinedByString:@","];
     
-    NSArray *items = [_prefsController getAllItems];
     NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
     
-    for (NSDictionary *item in items) {
+    for (NSDictionary *item in [_sensorsController getAllItems]) {
         NSNumber *visible = [item valueForKey:@"Visible"];
         
         if (visible) {
@@ -379,7 +383,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 - (NSRect)screenFrameForView:(NSView*)view
 {
-    
     NSWindow *window = [self window];
     NSRect newFrameRect = [window frameRectForContentRect:[view frame]];
     NSRect oldFrameRect = [window frame];
@@ -394,23 +397,63 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     return frame;
 }
 
--(void)prefsToolbarClicked:(id)sender
+- (void)setViewForTag:(NSInteger)tag
 {
-    [_defaults setInteger:[sender tag] forKey:kHWMonitorSelectedTab];
+    [_defaults setInteger:tag forKey:kHWMonitorSelectedTag];
     
-    NSView *newView = [self viewForTag:[sender tag]];
+    NSView *newView = [self viewForTag:tag];
     NSRect newFrame = [self screenFrameForView:newView];
     
     if ([[self window] contentView])
         [[[self window] contentView] setAlphaValue:0.0];
-       
+    
     [[self window] setContentView:newView];
     [[self window] setFrame:newFrame display:YES animate:YES];
     
     [[newView animator] setAlphaValue:1.0];
+    
+    if (newView == _graphsView) {
+        [[self window] setContentMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
+        [[self window] setContentMinSize:NSMakeSize(700, 600)];
+    }
+    else if (newView == _menubarView) {
+        [[self window] setContentMaxSize:NSMakeSize(380, MAXFLOAT)];
+        [[self window] setContentMinSize:NSMakeSize(380, 600)];  
+    }
+    else
+    {
+        [[self window] setContentMinSize:[newView frame].size];
+        [[self window] setContentMaxSize:[newView frame].size];
+    }
 }
 
--(void)localizeView:(NSView*)view
+- (void)saveViewSizeForTag:(NSInteger)tag
+{
+    NSView *view = [self viewForTag:tag];
+    
+    [_defaults setFloat:[view frame].size.width forKey:[NSString stringWithFormat:@"PrefsView%ldWidth", tag]];
+    [_defaults setFloat:[view frame].size.height forKey:[NSString stringWithFormat:@"PrefsView%ldHeight", tag]];
+}
+
+- (void)loadViewSizeForTag:(NSInteger)tag
+{
+    NSView *view = [self viewForTag:tag];
+    
+    CGFloat width = [_defaults floatForKey:[NSString stringWithFormat:@"PrefsView%ldWidth", tag]];
+    CGFloat height = [_defaults floatForKey:[NSString stringWithFormat:@"PrefsView%ldHeight", tag]];
+
+    if (height > 0 && width > 0)
+        [view setFrameSize:NSMakeSize(width, height)];
+    
+    [view setAlphaValue:0.0];
+}
+
+-(void)prefsToolbarClicked:(id)sender
+{
+    [self setViewForTag:[sender tag]];
+}
+
+-(void)localizeObject:(id)view
 {
     if ([view isKindOfClass:[NSMatrix class]]) {
         NSMatrix *matrix = (NSMatrix*)view;
@@ -445,8 +488,34 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     else if ([view isKindOfClass:[NSTabView class]]) {
         for (NSTabViewItem *item in [(NSTabView*)view tabViewItems]) {
             [item setLabel:GetLocalizedString([item label])];
-            [self localizeView:[item view]];
+            [self localizeObject:[item view]];
         }
+    }
+    else if ([view isKindOfClass:[NSToolbar class]]) {
+        for (NSToolbarItem *item in [(NSToolbar*)view items]) {
+            [item setLabel:GetLocalizedString([item label])];
+            [self localizeObject:[item view]];
+        }
+        
+        return;
+    }
+    else if ([view isKindOfClass:[NSMenu class]]) {
+        NSMenu *menu = (NSMenu*)view;
+        
+        [menu setTitle:GetLocalizedString([menu title])];
+        
+        for (id subItem in [menu itemArray]) {
+            if ([subItem isKindOfClass:[NSMenuItem class]]) {
+                NSMenuItem* menuItem = subItem;
+                
+                [menuItem setTitle:GetLocalizedString([menuItem title])];
+                
+                if ([menuItem hasSubmenu])
+                    [self localizeObject:[menuItem submenu]];
+            }
+        }
+        
+        return;
     }
     else {
         if ([view respondsToSelector:@selector(setAlternateTitle:)]) {
@@ -459,26 +528,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         }
     }
     
-    for(NSView *subView in [view subviews])
-        [self localizeView:subView];
-}
-
--(void)localizeMenu:(NSMenu*)menu
-{
-    if (menu) {
-        [menu setTitle:GetLocalizedString([menu title])];
-
-        for (id subItem in [menu itemArray]) {
-            if ([subItem isKindOfClass:[NSMenuItem class]]) {
-                NSMenuItem* menuItem = subItem;
-                
-                [menuItem setTitle:GetLocalizedString([menuItem title])];
-                
-                if ([menuItem hasSubmenu])
-                    [self localizeMenu:[menuItem submenu]];
-            }
-        }
-    }
+    if ([view isKindOfClass:[NSView class]] )
+        for(NSView *subView in [view subviews])
+            [self localizeObject:subView];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -486,26 +538,25 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
     
     // setup views
-    [_preferencesView setAlphaValue:0.0];
-    [_menubarView setAlphaValue:0.0];
-    [_graphsView setAlphaValue:0.0];
-    
-    NSInteger selectedTag = [_defaults integerForKey:kHWMonitorSelectedTab];
-    NSView *selectedView = [self viewForTag:selectedTag];
-    
-    [_prefsToolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%ld", selectedTag]];
-    
-    [selectedView setAlphaValue:1.0];
-    
-    //[[self window] setFrame:NSMakeRect([[self window] frame].origin.x, [[self window] frame].origin.y, [selectedView frame].size.width, [selectedView frame].size.height) display:YES animate:YES];
-    [[self window] setContentSize:[selectedView frame].size];
-    [[self window] setContentView:selectedView];
+    //[_preferencesView setAlphaValue:0.0];
+    //[_menubarView setAlphaValue:0.0];
+    //[_graphsView setAlphaValue:0.0];
+    for (int i = 0; i < 3; i++)
+        [self loadViewSizeForTag:i];
+        
+    [_prefsToolbar setSelectedItemIdentifier:[_defaults stringForKey:kHWMonitorSelectedTag]];
+    [self setViewForTag:[_defaults integerForKey:kHWMonitorSelectedTag]];
     
     [_window setTitle:GetLocalizedString([_window title])];
-    [self localizeView:_preferencesView];
-    [self localizeView:_menubarView];
-    [self localizeView:_graphsView];
-    [self localizeMenu:_menu];
+    [self localizeObject:_prefsToolbar];
+    [self localizeObject:_preferencesView];
+    [self localizeObject:_menubarView];
+    [self localizeObject:_graphsView];
+    [self localizeObject:_menu];
+    
+    [[_window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
+    
+    [_window setIsVisible:YES];
     
     [_temperatureGraph setGroup:kHWSensorGroupTemperature | kSMARTSensorGroupTemperature];
     [_frequencyGraph setGroup:kHWSensorGroupFrequency];
@@ -558,6 +609,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 -(void)applicationWillTerminate:(NSNotification *)notification
 {
+    for (int i = 0; i < 3; i++)
+        [self saveViewSizeForTag:i];
+    
     // Set active app status
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorAppIsActive object:HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
     

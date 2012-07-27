@@ -3484,7 +3484,7 @@
 				<key>RELOCATABLE</key>
 				<true/>
 				<key>VERSION</key>
-				<string>2.2.8</string>
+				<string>2.2.10</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -5086,13 +5086,6 @@
 				<string>.</string>
 				<key>PATH_TYPE</key>
 				<integer>1</integer>
-			</dict>
-			<key>CERTIFICATE</key>
-			<dict>
-				<key>NAME</key>
-				<string>kozlek</string>
-				<key>PATH</key>
-				<string>/Users/kozlek/Library/Keychains/login.keychain</string>
 			</dict>
 			<key>EXCLUDED_FILES</key>
 			<array>

@@ -21,7 +21,7 @@
 #define kHWMonitorUseBSDNames           @"showBSDNames"
 #define kHWMonitorShowVolumeNames       @"showVolumeNames"
 #define kHWMonitorMenuInstalled         @"menuInstalled"
-#define kHWMonitorSelectedTab           @"selectedTab"
+#define kHWMonitorSelectedTag           @"selectedTag"
 
 // Icons
 #define kHWMonitorIconDefault           @"hwmonitor"
@@ -42,7 +42,7 @@
 #define HWMonitorUseBigFontChanged      @"HWMonitorUseBigFontChanged"
 #define HWMonitorUseShadowsChanged      @"HWMonitorUseShadowsChanged"
 #define HWMonitorShowHiddenChanged      @"HWMonitorShowHiddenChanged"
-#define HWMonitorUseBSDNamesChanged    @"HWMonitorUseBSDNamesChanged"
+#define HWMonitorUseBSDNamesChanged     @"HWMonitorUseBSDNamesChanged"
 #define HWMonitorShowVolumeNamesChanged @"HWMonitorShowVolumeNamesChanged"
 #define HWMonitorRequestItems           @"HWMonitorRequestItems"
 #define HWMonitorRecieveItems           @"HWMonitorRecieveItems"
@@ -64,5 +64,8 @@
 #define kHWMonitorKeyEnabled            @"Enabled"
 #define kHWMonitorKeyColor              @"Color"
 #define kHWMonitorKeyPoints             @"Points"
+
+// Misc
+#define kHWMonitorTableViewDataType     @"kHWMonitorTableViewDataType"
 
 #endif

@@ -116,7 +116,7 @@
 		7E9388F91594597E0005316D /* HWMonitorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A00BB5A14F8CCF000337DF8 /* HWMonitorEngine.m */; };
 		7E9388FE15945A840005316D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10C18F1506B2A4005E0897 /* IOKit.framework */; };
 		7E938901159470DF0005316D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF984150201DE00C34729 /* Localizable.strings */; };
-		7E938905159497920005316D /* HWMonitorSensorsList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E938904159497920005316D /* HWMonitorSensorsList.m */; };
+		7E938905159497920005316D /* HWMonitorSensorsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E938904159497920005316D /* HWMonitorSensorsController.m */; };
 		7E96DE5E15C05D8B00A34C60 /* 29-heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE5D15C05D8B00A34C60 /* 29-heart@2x.png */; };
 		7E96DE6115C05DA000A34C60 /* 20-gear-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6015C05DA000A34C60 /* 20-gear-2@2x.png */; };
 		7E96DE6715C0607900A34C60 /* badge-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6615C0607900A34C60 /* badge-4.png */; };
@@ -310,8 +310,8 @@
 		7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorColoredCell.m; sourceTree = "<group>"; };
 		7E9388FF15945B360005316D /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
 		7E93890015945B450005316D /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
-		7E938903159497920005316D /* HWMonitorSensorsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorSensorsList.h; sourceTree = "<group>"; };
-		7E938904159497920005316D /* HWMonitorSensorsList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorSensorsList.m; sourceTree = "<group>"; };
+		7E938903159497920005316D /* HWMonitorSensorsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorSensorsController.h; sourceTree = "<group>"; };
+		7E938904159497920005316D /* HWMonitorSensorsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorSensorsController.m; sourceTree = "<group>"; };
 		7E96DE5D15C05D8B00A34C60 /* 29-heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "29-heart@2x.png"; sourceTree = "<group>"; };
 		7E96DE6015C05DA000A34C60 /* 20-gear-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "20-gear-2@2x.png"; sourceTree = "<group>"; };
 		7E96DE6615C0607900A34C60 /* badge-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-4.png"; sourceTree = "<group>"; };
@@ -899,8 +899,8 @@
 			children = (
 				7E8D485C15AA80910049A229 /* HWMonitorColoredCell.h */,
 				7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */,
-				7E938903159497920005316D /* HWMonitorSensorsList.h */,
-				7E938904159497920005316D /* HWMonitorSensorsList.m */,
+				7E938903159497920005316D /* HWMonitorSensorsController.h */,
+				7E938904159497920005316D /* HWMonitorSensorsController.m */,
 				7EC2525715A8111E00E385E4 /* HWMonitorGraphsView.h */,
 				7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */,
 				7EB963B41594559100436FDB /* AppDelegate.h */,
@@ -1540,7 +1540,7 @@
 				7E9388F91594597E0005316D /* HWMonitorEngine.m in Sources */,
 				7EB963AF1594559100436FDB /* main.m in Sources */,
 				7EB963B61594559100436FDB /* AppDelegate.m in Sources */,
-				7E938905159497920005316D /* HWMonitorSensorsList.m in Sources */,
+				7E938905159497920005316D /* HWMonitorSensorsController.m in Sources */,
 				7EC2525915A8111E00E385E4 /* HWMonitorGraphsView.m in Sources */,
 				7E8D485E15AA80910049A229 /* HWMonitorColoredCell.m in Sources */,
 			);
