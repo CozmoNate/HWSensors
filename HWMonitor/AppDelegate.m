@@ -419,7 +419,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [[self window] setContentMinSize:NSMakeSize(700, 600)];
     }
     else if (newView == _menubarView) {
-        [[self window] setContentMaxSize:NSMakeSize(360, MAXFLOAT)];
+        [[self window] setContentMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
         [[self window] setContentMinSize:NSMakeSize(360, 600)];
     }
     else
@@ -560,7 +560,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [self localizeObject:_menu];
     
     [[_window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
-    
+        
     [_window setIsVisible:YES];
     
     [_temperatureGraph setGroup:kHWSensorGroupTemperature | kSMARTSensorGroupTemperature];

@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
 #import "BundleUserDefaults.h"
 #import "HWMonitorEngine.h"
 #import "HWMonitorSensorsController.h"

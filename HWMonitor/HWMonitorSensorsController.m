@@ -24,6 +24,8 @@
     
     [self insertObject:_firstFavoriteItem atArrangedObjectIndex:0];
     [self insertObject:_firstAvailableItem atArrangedObjectIndex:1];
+    
+    [_tableView setShowsStickyRowHeader:YES];
 }
 
 -(NSMutableDictionary*)addItem
@@ -161,6 +163,11 @@
     else {
         [cell setEnabled:NO];
     }*/
+}
+
+- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
+{
+	return nil != [[[self arrangedObjects] objectAtIndex:row] valueForKey:kHWMonitorKeySeparator];
 }
 
 /*- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
