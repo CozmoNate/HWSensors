@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface HWMonitorSensorsList : NSArrayController
+@interface HWMonitorSensorsController : NSArrayController
 {
     NSDictionary *_firstFavoriteItem;
     NSDictionary *_firstAvailableItem;

@@ -6,15 +6,13 @@
 //  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
-#import "HWMonitorSensorsList.h"
+#import "HWMonitorSensorsController.h"
 #import "HWMonitorDefinitions.h"
 
-@implementation HWMonitorSensorsList
+@implementation HWMonitorSensorsController
 
 @synthesize scrollView = _scrollView;
 @synthesize tableView = _tableView;
-
-#define kHWMonitorTableViewDataType @"kHWMonitorTableViewDataType"
 
 -(void)setFirstFavoriteItem:(NSString*)favoriteName firstAvailableItem:(NSString*)availableName;
 {
@@ -132,14 +130,15 @@
 -(void)setupController
 {
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
-    [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
+    [_tableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationCopy forLocal:NO];
     
     _globalItemsCount = 0;
     
     _favorites = [[NSArray alloc] init];
 }
 
-- (void) awakeFromNib {
+- (void) awakeFromNib
+{
 	[self setupController];
 }
 
@@ -183,8 +182,12 @@
     
     NSData *indexData = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
     
-    [pboard declareTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType] owner:self];
+    [pboard declareTypes:[NSArray arrayWithObjects:kHWMonitorTableViewDataType, NSStringPboardType, nil] owner:self];
     [pboard setData:indexData forType:kHWMonitorTableViewDataType];
+    
+    NSDictionary *item = [[self arrangedObjects] objectAtIndex:[rowIndexes firstIndex]];
+    
+    [pboard setString:[item valueForKey:kHWMonitorKeyKey] forType:NSStringPboardType];
     
     return YES;
 }

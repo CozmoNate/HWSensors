@@ -10,7 +10,7 @@
 
 #import "BundleUserDefaults.h"
 #import "HWMonitorEngine.h"
-#import "HWMonitorSensorsList.h"
+#import "HWMonitorSensorsController.h"
 #import "HWMonitorGraphsView.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
@@ -29,7 +29,8 @@
 @property (assign) IBOutlet NSView *graphsView;
 @property (assign) IBOutlet NSToolbar *prefsToolbar;
 @property (assign) IBOutlet NSMenu *menu;
-@property (assign) IBOutlet HWMonitorSensorsList *prefsController;
+@property (assign) IBOutlet NSTokenField *favoritesTokens;
+@property (assign) IBOutlet HWMonitorSensorsController *sensorsController;
 @property (assign) IBOutlet NSArrayController *graphsController;
 @property (assign) IBOutlet NSTextField *versionLabel;
 @property (assign) IBOutlet NSButton *toggleMenuButton;

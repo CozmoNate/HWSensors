@@ -103,8 +103,8 @@
     }
     else {
 
-        double  minY = _minY <= 0 ? _minY : _minY - (_maxY - _minY) * 0.05,
-                maxY = _maxY + (_maxY - _minY) * 0.05;
+        double minY = _minY <= 0 ? _minY : _minY - _minY * 0.05;
+        double maxY = _maxY + _maxY * 0.05;
         
         _graphBounds = NSMakeRect(0, minY, kHWMonitorGraphsHistoryPoints, maxY - minY);
     }
@@ -112,8 +112,8 @@
 
 #define LeftViewMargin 5
 #define TopViewMargin 5
-#define RightViewMargin 5
-#define BottomViewMargin 5
+#define RightViewMargin 8
+#define BottomViewMargin 8
 
 - (NSPoint)graphPointToView:(NSPoint)point
 {
@@ -171,9 +171,9 @@
     [[NSColor colorWithCalibratedRed:0 green:0.25 blue:0 alpha:0.7] set];
     
     double xStart = _graphBounds.origin.x;
-    double yStart = _graphBounds.origin.y;
-    double xInc = _graphBounds.size.width / 15;
-    double yInc = _graphBounds.size.height / 5;
+    double yStart = floor(_graphBounds.origin.y / 10) * 10;
+    double xInc = _graphBounds.size.width / 30;
+    double yInc = _graphBounds.size.height / 10;
     
     for (x = xStart; x < _graphBounds.origin.x + _graphBounds.size.width; x += xInc) {
         [path removeAllPoints];
@@ -190,7 +190,7 @@
     }
     
     if (_minY < _maxY) {
-        // Draw extremes
+        // Draw extremums
         [context setShouldAntialias:NO];
         
         [path removeAllPoints];
@@ -261,17 +261,24 @@
     if (_minY < _maxY) {
         [context setShouldAntialias:YES];
 
-        NSAttributedString *title = [[NSAttributedString alloc]
+        NSAttributedString *maxExtremeTitle = [[NSAttributedString alloc]
+                                               initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
+                                               attributes:_legendAttributes];
+
+        NSAttributedString *minExtremeTitle = [[NSAttributedString alloc]
                                      initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
                                      attributes:_legendAttributes];
 
-        [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y + 2)];
-
-        title = [[NSAttributedString alloc]
-                 initWithString:[NSString stringWithFormat:_legendFormat, ((_group & kHWSensorGroupTemperature || _group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
-                 attributes:_legendAttributes];
-
-        [title drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y - [title size].height)];
+        if ([self graphPointToView:NSMakePoint(0, _maxY)].y - [maxExtremeTitle size].height < [self graphPointToView:NSMakePoint(0, _minY)].y + 2 + [minExtremeTitle size].height) {
+            [maxExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y + 2)];
+            
+            [minExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y - [minExtremeTitle size].height)];
+        }
+        else {
+            [maxExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y - [maxExtremeTitle size].height)];
+            
+            [minExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y + 2)];
+        }
     }
     
     [context restoreGraphicsState];
