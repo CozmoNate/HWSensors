@@ -399,9 +399,11 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 - (void)setViewForTag:(NSInteger)tag
 {
-    [_defaults setInteger:tag forKey:kHWMonitorSelectedTag];
-    
     NSView *newView = [self viewForTag:tag];
+    
+    if ([[self window] contentView] == newView)
+        return;
+    
     NSRect newFrame = [self screenFrameForView:newView];
     
     if ([[self window] contentView])
@@ -417,14 +419,16 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [[self window] setContentMinSize:NSMakeSize(700, 600)];
     }
     else if (newView == _menubarView) {
-        [[self window] setContentMaxSize:NSMakeSize(380, MAXFLOAT)];
-        [[self window] setContentMinSize:NSMakeSize(380, 600)];  
+        [[self window] setContentMaxSize:NSMakeSize(360, MAXFLOAT)];
+        [[self window] setContentMinSize:NSMakeSize(360, 600)];
     }
     else
     {
         [[self window] setContentMinSize:[newView frame].size];
         [[self window] setContentMaxSize:[newView frame].size];
     }
+    
+    [_defaults setInteger:tag forKey:kHWMonitorSelectedTag];
 }
 
 - (void)saveViewSizeForTag:(NSInteger)tag
@@ -444,8 +448,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
     if (height > 0 && width > 0)
         [view setFrameSize:NSMakeSize(width, height)];
-    
-    [view setAlphaValue:0.0];
 }
 
 -(void)prefsToolbarClicked:(id)sender
@@ -542,6 +544,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     //[_menubarView setAlphaValue:0.0];
     //[_graphsView setAlphaValue:0.0];
     for (int i = 0; i < 3; i++)
+        [[self viewForTag:i] setAlphaValue:0.0];
+    
+    for (int i = 1; i < 3; i++)
         [self loadViewSizeForTag:i];
         
     [_prefsToolbar setSelectedItemIdentifier:[_defaults stringForKey:kHWMonitorSelectedTag]];
@@ -609,7 +614,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 -(void)applicationWillTerminate:(NSNotification *)notification
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 1; i < 3; i++)
         [self saveViewSizeForTag:i];
     
     // Set active app status
