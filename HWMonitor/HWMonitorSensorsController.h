@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "NoodleTableView.h"
 
 @interface HWMonitorSensorsController : NSArrayController
 {
@@ -17,7 +17,7 @@
 }
 
 @property (assign) IBOutlet NSScrollView *scrollView;
-@property (assign) IBOutlet NSTableView *tableView;
+@property (assign) IBOutlet NoodleTableView *tableView;
 
 -(void)setupController;
 

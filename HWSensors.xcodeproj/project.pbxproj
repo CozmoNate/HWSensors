@@ -143,6 +143,10 @@
 		7EBCF09B1594C1D3005E1A16 /* MenuCracker.menu in Resources */ = {isa = PBXBuildFile; fileRef = 7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */; };
 		7EC2525915A8111E00E385E4 /* HWMonitorGraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */; };
 		7EF7509E158C7F2500235EDC /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF981150201D100C34729 /* default.icns */; };
+		7EFB862D15C30E4300F61B59 /* NSImage-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB862615C30E4300F61B59 /* NSImage-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		7EFB862E15C30E4300F61B59 /* NSTableView-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB862815C30E4300F61B59 /* NSTableView-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		7EFB862F15C30E4300F61B59 /* NoodleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB862A15C30E4300F61B59 /* NoodleTableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		7EFB863315C30EEB00F61B59 /* NSIndexSet-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB863215C30EEB00F61B59 /* NSIndexSet-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -332,6 +336,14 @@
 		7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MenuCracker.menu; path = Binaries/MenuCracker/MenuCracker.menu; sourceTree = SOURCE_ROOT; };
 		7EC2525715A8111E00E385E4 /* HWMonitorGraphsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorGraphsView.h; sourceTree = "<group>"; };
 		7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGraphsView.m; sourceTree = "<group>"; };
+		7EFB862515C30E4300F61B59 /* NSImage-NoodleExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage-NoodleExtensions.h"; sourceTree = "<group>"; };
+		7EFB862615C30E4300F61B59 /* NSImage-NoodleExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage-NoodleExtensions.m"; sourceTree = "<group>"; };
+		7EFB862715C30E4300F61B59 /* NSTableView-NoodleExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView-NoodleExtensions.h"; sourceTree = "<group>"; };
+		7EFB862815C30E4300F61B59 /* NSTableView-NoodleExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView-NoodleExtensions.m"; sourceTree = "<group>"; };
+		7EFB862915C30E4300F61B59 /* NoodleTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoodleTableView.h; sourceTree = "<group>"; };
+		7EFB862A15C30E4300F61B59 /* NoodleTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoodleTableView.m; sourceTree = "<group>"; };
+		7EFB863115C30EEB00F61B59 /* NSIndexSet-NoodleExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet-NoodleExtensions.h"; sourceTree = "<group>"; };
+		7EFB863215C30EEB00F61B59 /* NSIndexSet-NoodleExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexSet-NoodleExtensions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -776,6 +788,7 @@
 				7E9388FF15945B360005316D /* HWMonitorDefinitions.h */,
 				6AA3A26B14F6D7C1007A7084 /* NSString+TruncateToWidth */,
 				7E06D0F6157FC7F800F8A270 /* BundleUserDefaults */,
+				7EFB862315C30E2200F61B59 /* NoodleKit */,
 				6AA3A26A14F6D7AC007A7084 /* ATASmartReporter */,
 				7E3684A8158368AC00E32629 /* HWMonitorIcon */,
 				6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */,
@@ -922,6 +935,21 @@
 				7EB963B11594559100436FDB /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7EFB862315C30E2200F61B59 /* NoodleKit */ = {
+			isa = PBXGroup;
+			children = (
+				7EFB862515C30E4300F61B59 /* NSImage-NoodleExtensions.h */,
+				7EFB862615C30E4300F61B59 /* NSImage-NoodleExtensions.m */,
+				7EFB862715C30E4300F61B59 /* NSTableView-NoodleExtensions.h */,
+				7EFB862815C30E4300F61B59 /* NSTableView-NoodleExtensions.m */,
+				7EFB863115C30EEB00F61B59 /* NSIndexSet-NoodleExtensions.h */,
+				7EFB863215C30EEB00F61B59 /* NSIndexSet-NoodleExtensions.m */,
+				7EFB862915C30E4300F61B59 /* NoodleTableView.h */,
+				7EFB862A15C30E4300F61B59 /* NoodleTableView.m */,
+			);
+			name = NoodleKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1543,6 +1571,10 @@
 				7E938905159497920005316D /* HWMonitorSensorsController.m in Sources */,
 				7EC2525915A8111E00E385E4 /* HWMonitorGraphsView.m in Sources */,
 				7E8D485E15AA80910049A229 /* HWMonitorColoredCell.m in Sources */,
+				7EFB862D15C30E4300F61B59 /* NSImage-NoodleExtensions.m in Sources */,
+				7EFB862E15C30E4300F61B59 /* NSTableView-NoodleExtensions.m in Sources */,
+				7EFB862F15C30E4300F61B59 /* NoodleTableView.m in Sources */,
+				7EFB863315C30EEB00F61B59 /* NSIndexSet-NoodleExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
