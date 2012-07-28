@@ -37,6 +37,7 @@
     
     [self loadIconNamed:kHWMonitorIconDefault];
     [self loadIconNamed:kHWMonitorIconThermometer];
+    [self loadIconNamed:kHWMonitorIconDevice];
     [self loadIconNamed:kHWMonitorIconTemperatures];
     [self loadIconNamed:kHWMonitorIconHddTemperatures];
     [self loadIconNamed:kHWMonitorIconSsdLife];

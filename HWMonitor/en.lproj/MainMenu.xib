@@ -1416,7 +1416,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<string key="NSFrameSize">{318, 558}</string>
 										<reference key="NSSuperview" ref="357163855"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="504255046"/>
+										<reference key="NSNextKeyView" ref="880185773"/>
 										<string key="NSReuseIdentifierKey">_NS:13</string>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1583,6 +1583,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<int key="NSDraggingSourceMaskForLocal">15</int>
 										<int key="NSDraggingSourceMaskForNonLocal">0</int>
 										<bool key="NSAllowsTypeSelect">NO</bool>
+										<int key="NSTableViewSelectionHighlightStyle">-1</int>
 										<int key="NSTableViewDraggingDestinationStyle">0</int>
 										<int key="NSTableViewGroupRowStyle">1</int>
 									</object>
@@ -1626,7 +1627,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{20, 20}, {320, 560}}</string>
 						<reference key="NSSuperview" ref="368640643"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="880185773"/>
+						<reference key="NSNextKeyView" ref="357163855"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<int key="NSsFlags">133650</int>
 						<reference key="NSVScroller" ref="504255046"/>

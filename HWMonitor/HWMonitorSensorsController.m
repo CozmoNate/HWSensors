@@ -209,7 +209,7 @@
     NSInteger itemsRow = [[self arrangedObjects] indexOfObject:_firstAvailableItem];
     NSInteger fromRow = [rowIndexes firstIndex];
     
-    return (fromRow > itemsRow && row <= itemsRow && row > 0) || (fromRow < itemsRow && row > 0)  ? NSDragOperationMove : NSDragOperationNone;
+    return (fromRow > itemsRow && row > 0 && row <= itemsRow) || (fromRow < itemsRow && row > 0)  ? NSDragOperationMove : NSDragOperationNone;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)toRow dropOperation:(NSTableViewDropOperation)dropOperation;
@@ -227,7 +227,7 @@
     NSDictionary *movingItem = [[self arrangedObjects] objectAtIndex:fromRow];
     NSUInteger movingItemIndex = [[movingItem valueForKey:kHWMonitorKeyIndex] longValue];
     
-    if (toRow > itemsRow) {
+    if (fromRow < itemsRow && toRow > itemsRow) {
         
         NSUInteger index;
         

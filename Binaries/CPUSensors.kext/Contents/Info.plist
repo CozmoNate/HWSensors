@@ -23,17 +23,17 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
-	<string>4G108j</string>
+	<string>4F250</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>12A244</string>
+	<string>12A264</string>
 	<key>DTSDKName</key>
 	<string>macosx10.8</string>
 	<key>DTXcode</key>
-	<string>0450</string>
+	<string>0440</string>
 	<key>DTXcodeBuild</key>
-	<string>4G108j</string>
+	<string>4F250</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Intel Thermal Monitor</key>
