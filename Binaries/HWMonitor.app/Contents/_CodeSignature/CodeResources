@@ -18,11 +18,11 @@
 		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/Info.plist</key>
 		<data>
-		LzI47EdHmzwaMndZDeRKTS8OEJA=
+		Nuf/WmyMJVY5Hph697GIsvRBnsQ=
 		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/MacOS/HWMonitorExtra</key>
 		<data>
-		M0sQR1wPu62FL2qA4xYgT4GVyGY=
+		8LNpVAlHNd69x4CbHr76Anoj5lY=
 		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/Resources/default.icns</key>
 		<data>
@@ -32,7 +32,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			LeWYkj8k6RBZOgM+WakFl2IKQBY=
+			t05xXeG5im+xlZLlelGJ5c7soEI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -69,6 +69,14 @@
 		<data>
 		71IyeE1v5CzH93UV42ULBPs2vI0=
 		</data>
+		<key>Resources/HWMonitorExtra.menu/Contents/Resources/pcicard.png</key>
+		<data>
+		EwwXxuoWOly95QD3i1HgoV8aeyE=
+		</data>
+		<key>Resources/HWMonitorExtra.menu/Contents/Resources/pcicard_template.png</key>
+		<data>
+		rm2nsGc+jIFEXh37fMKm2pDx7/4=
+		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/Resources/preferences.png</key>
 		<data>
 		4eu3omvSkLikWTgCIQoMKSdVGn8=
@@ -77,7 +85,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ltQNfJfO64IvFaJwwAE5kpomE28=
+			iU90vG3A30icI6hRrHm+TEVlUDQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -104,7 +112,7 @@
 		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/Resources/temperatures_template.png</key>
 		<data>
-		b/Q6ZeYlLr1zLaRj6mIc+/HDTjE=
+		PTcOm623YT8woQ60lZjiE2R37MU=
 		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/Resources/thermometer.png</key>
 		<data>
@@ -124,7 +132,7 @@
 		</data>
 		<key>Resources/HWMonitorExtra.menu/Contents/_CodeSignature/CodeResources</key>
 		<data>
-		M11MAhKrDnac9IqjETqwF3WlfeA=
+		6Q5/4vyhRdJAC/d4AmileoD91dY=
 		</data>
 		<key>Resources/MenuCracker.menu/Contents/Info.plist</key>
 		<data>
@@ -172,7 +180,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			LeWYkj8k6RBZOgM+WakFl2IKQBY=
+			t05xXeG5im+xlZLlelGJ5c7soEI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -181,7 +189,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			YKNBHyJl7auhBPHF0hKX97WSUus=
+			hk5nk03syvOlNK/N8k1coEFmmFE=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -202,11 +210,15 @@
 		<data>
 		0yNW+AlKkLVhVkmmkAFk3p+jsbs=
 		</data>
+		<key>Resources/pcicard.png</key>
+		<data>
+		EwwXxuoWOly95QD3i1HgoV8aeyE=
+		</data>
 		<key>Resources/ru.lproj/Localizable.strings</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ltQNfJfO64IvFaJwwAE5kpomE28=
+			iU90vG3A30icI6hRrHm+TEVlUDQ=
 			</data>
 			<key>optional</key>
 			<true/>

@@ -189,15 +189,19 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [_sensorsController addItem:GetLocalizedString([thermometer name]) icon:[thermometer image] key:[thermometer name]];
         
         // Add hwmonitor icon
-        HWMonitorIcon *hwmonitor = [self getIconByName:kHWMonitorIconDefault];
-        [_sensorsController addItem:GetLocalizedString([hwmonitor name]) icon:[hwmonitor image] key:[hwmonitor name]];
+        HWMonitorIcon *icon = [self getIconByName:kHWMonitorIconDefault];
+        [_sensorsController addItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
+        // Add device icon
+        icon = [self getIconByName:kHWMonitorIconDevice];
+        [_sensorsController addItem:GetLocalizedString([icon name]) icon:[icon image] key:[icon name]];
         
         // Add all sensors
         [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupTemperature];
         [self addItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupTemperature];
         [self addItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupRemainingLife];
         [self addItemsFromDictionary:sensorsList inGroup:kSMARTSensorGroupRemainingBlocks];
-        [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency];
+        [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupMultiplier];
+        [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupFrequency];
         [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer];
         [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupVoltage];
 
@@ -419,7 +423,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [[self window] setContentMinSize:NSMakeSize(700, 600)];
     }
     else if (newView == _menubarView) {
-        [[self window] setContentMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
+        [[self window] setContentMaxSize:NSMakeSize(360, MAXFLOAT)];
         [[self window] setContentMinSize:NSMakeSize(360, 600)];
     }
     else
@@ -581,6 +585,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     [self loadIconNamed:kHWMonitorIconDefault];
     [self loadIconNamed:kHWMonitorIconThermometer];
+    [self loadIconNamed:kHWMonitorIconDevice];
     [self loadIconNamed:kHWMonitorIconTemperatures];
     [self loadIconNamed:kHWMonitorIconHddTemperatures];
     [self loadIconNamed:kHWMonitorIconSsdLife];

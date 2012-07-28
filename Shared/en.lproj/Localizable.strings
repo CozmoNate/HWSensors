@@ -11,7 +11,9 @@
 "temperatures" = "Temperature icon";
 "hddtemperatures" = "HDD icon";
 "ssdlife" = "SSD icon";
-"multipliers" = "Multiplier icon";
+"multipliers" = "Microchip icon";
 "frequencies" = "Frequency icon";
 "tachometers" = "Tachometer icon";
 "voltages" = "Voltage icon";
+"pcicard" = "Device icon";
+"video" = "Graphics card icon";

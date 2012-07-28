@@ -26,6 +26,7 @@
 // Icons
 #define kHWMonitorIconDefault           @"hwmonitor"
 #define kHWMonitorIconThermometer       @"thermometer"
+#define kHWMonitorIconDevice            @"pcicard"
 #define kHWMonitorIconTemperatures      @"temperatures"
 #define kHWMonitorIconHddTemperatures   @"hddtemperatures"
 #define kHWMonitorIconSsdLife           @"ssdlife"
