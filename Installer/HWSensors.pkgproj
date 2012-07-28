@@ -3493,7 +3493,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>2.2.1</string>
+				<string>2.3</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>

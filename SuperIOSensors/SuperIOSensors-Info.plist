@@ -53,7 +53,7 @@
 				<string>Fintek,F71889AD</string>
 				<string>Fintek,F71889ED</string>
 				<string>Fintek,F71889F</string>
-				<string>Fintek,F71808</string>
+				<string>Fintek,F71808E</string>
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
@@ -666,6 +666,7 @@
 			<key>IONameMatch</key>
 			<array>
 				<string>ITE,IT8512F</string>
+				<string>ITE,IT8505F</string>
 				<string>ITE,IT8712F</string>
 				<string>ITE,IT8716F</string>
 				<string>ITE,IT8718F</string>

@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.1</string>
+	<string>2.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.2.1</string>
+	<string>2.3</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
@@ -56,7 +56,7 @@
 				<string>Fintek,F71889AD</string>
 				<string>Fintek,F71889ED</string>
 				<string>Fintek,F71889F</string>
-				<string>Fintek,F71808</string>
+				<string>Fintek,F71808E</string>
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
@@ -669,6 +669,7 @@
 			<key>IONameMatch</key>
 			<array>
 				<string>ITE,IT8512F</string>
+				<string>ITE,IT8505F</string>
 				<string>ITE,IT8712F</string>
 				<string>ITE,IT8716F</string>
 				<string>ITE,IT8718F</string>

@@ -216,6 +216,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         }
         
         [self setUserInterfaceEnabled:[[NSObject alloc] init]];
+        
+        // Set active app status
+        [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorAppIsActive object:HWMonitorBooleanYES userInfo:nil deliverImmediately:YES];
     }
     else {
         [self setUserInterfaceEnabled:nil];
@@ -387,7 +390,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 - (NSRect)screenFrameForView:(NSView*)view
 {
-    NSWindow *window = [self window];
+    NSWindow *window = _window;
     NSRect newFrameRect = [window frameRectForContentRect:[view frame]];
     NSRect oldFrameRect = [window frame];
     NSSize newSize = newFrameRect.size;
@@ -405,31 +408,30 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 {
     NSView *newView = [self viewForTag:tag];
     
-    if ([[self window] contentView] == newView)
+    if ([_window contentView] == newView)
         return;
     
     NSRect newFrame = [self screenFrameForView:newView];
     
-    if ([[self window] contentView])
-        [[[self window] contentView] setAlphaValue:0.0];
+    if ([_window contentView])
+        [[_window contentView] setAlphaValue:0.0];
     
-    [[self window] setContentView:newView];
-    [[self window] setFrame:newFrame display:YES animate:YES];
-    
+    [_window setContentView:newView];
+    [_window setFrame:newFrame display:YES animate:YES];
     [[newView animator] setAlphaValue:1.0];
     
     if (newView == _graphsView) {
-        [[self window] setContentMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
-        [[self window] setContentMinSize:NSMakeSize(700, 600)];
+        [_window setContentMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
+        [_window setContentMinSize:NSMakeSize(700, 600)];
     }
     else if (newView == _menubarView) {
-        [[self window] setContentMaxSize:NSMakeSize(360, MAXFLOAT)];
-        [[self window] setContentMinSize:NSMakeSize(360, 600)];
+        [_window setContentMaxSize:NSMakeSize(360, MAXFLOAT)];
+        [_window setContentMinSize:NSMakeSize(360, 600)];
     }
     else
     {
-        [[self window] setContentMinSize:[newView frame].size];
-        [[self window] setContentMaxSize:[newView frame].size];
+        [_window setContentMinSize:[newView frame].size];
+        [_window setContentMaxSize:[newView frame].size];
     }
     
     [_defaults setInteger:tag forKey:kHWMonitorSelectedTag];
