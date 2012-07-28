@@ -68,7 +68,13 @@ UInt8 F718xMonitor::readByte(UInt8 reg)
 
 UInt8 F718xMonitor::temperatureSensorsLimit()
 {
-    return 3;
+    switch (model)
+	{
+        case F71808E:
+			return 2;
+        default:
+			return 3;
+	};
 }
 
 UInt8 F718xMonitor::voltageSensorsLimit()
@@ -124,8 +130,16 @@ float F718xMonitor::readTemperature(UInt32 index)
 
 float F718xMonitor::readVoltage(UInt32 index)
 {
+    switch (model)
+	{
+        case F71808E:
+			if (index == 6) // 0x26 is reserved on F71808E
+                return 0;
+        default:
+			return (float)(readByte(FINTEK_VOLTAGE_BASE_REG + index)) * 0.008f;
+	};
+    
 	//return (index == 1 ? 0.5f : 1.0f) * (readByte(FINTEK_VOLTAGE_BASE_REG + index) << 4) * 0.001f;
-    return (float)(readByte(FINTEK_VOLTAGE_BASE_REG + index)) * 0.008f;
 }
 
 float F718xMonitor::readTachometer(UInt32 index)

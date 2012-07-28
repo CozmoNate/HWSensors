@@ -88,7 +88,13 @@ UInt8 IT87xMonitor::voltageSensorsLimit()
 
 UInt8 IT87xMonitor::tachometerSensorsLimit()
 {
-    return 5;
+    switch (model) {
+        case IT8705F:
+            return 3;
+            
+        default:
+            return 5;
+    }
 }
 
 float IT87xMonitor::readTemperature(UInt32 index)
@@ -143,22 +149,21 @@ bool IT87xMonitor::initialize()
     }
 	
     switch (model) {
-        case IT8512F:
-        case IT8712F:
-        case IT8716F:
-        case IT8718F:
-        case IT8720F:
-            voltageGain = 0.016f;
+        case IT8721F:
+        case IT8728F:
+        case IT8771E:
+        case IT8772E:
+            voltageGain = 0.012f;
             break;
             
         default:
-            voltageGain = 0.012f;
+            voltageGain = 0.016f;
             break;
     }
     
     UInt8 version = readByte(ITE_VERSION_REGISTER) & 0x0F;
     
-    has16bitFanCounter = !(model == IT8712F && version < 8);
+    has16bitFanCounter = !((model == IT8705F && version < 3) || (model == IT8712F && version < 8));
     
     return this;
 }

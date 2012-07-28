@@ -103,7 +103,7 @@
     [invocation setTarget:self];
     [invocation setSelector:@selector(updateSMARTSensorsValuesThreaded)];
     
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     // Titles update timer
     invocation = [NSInvocation invocationWithMethodSignature:
@@ -269,7 +269,7 @@
             
             // Add subtitle
             if ([sensor disk] && _showVolumeNames)
-                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"\n  %@", [[sensor disk] volumesNames]] stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:_menuFont forKey:NSFontAttributeName]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuValueWidth) withFont:_menuFont] attributes:_subtitleAttributes]];
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"\n %@", [[sensor disk] volumesNames]] stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:_menuFont forKey:NSFontAttributeName]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuValueWidth) withFont:_menuFont] attributes:_subtitleAttributes]];
             
             // Update menu item title
             [[[sensor representedObject] menuItem] setAttributedTitle:title];

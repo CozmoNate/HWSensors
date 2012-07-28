@@ -53,7 +53,7 @@ bool SuperIODevice::start(IOService *provider)
             case F71889AD:
             case F71889ED:
             case F71889F:
-            case F71808:
+            case F71808E:
                 model = id;
                 ldn = kFintekITEHardwareMonitorLDN;
                 vendor = "Fintek";
@@ -256,7 +256,7 @@ bool SuperIODevice::start(IOService *provider)
             }
         }
         
-        if (model == 0) {
+        if (model == 0) {                                
             HWSensorsWarningLog("found unsupported ship ID=0x%x", id);
             return false;
         }
@@ -277,6 +277,8 @@ bool SuperIODevice::start(IOService *provider)
         
         setProperty(kSuperIOModelName, superio_get_model_name(model));
         setProperty(kSuperIOVendorName, vendor);
+        
+        setProperty(kSuperIODeviceID, OSData::withBytes(&id, sizeof(id)));
         
         if (!setOemProperties(this))
             HWSensorsWarningLog("can't read OEM data");

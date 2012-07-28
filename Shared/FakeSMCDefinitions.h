@@ -38,11 +38,12 @@
 #define KEY_PCH_DIE_TEMPERATURE                 "TP0D" // SNB PCH Die Digital
 #define KEY_PCH_PROXIMITY_TEMPERATURE           "TP0P" // SNB
 // Misc
-#define KEY_ACDC_TEMPERATURE                    "Tp0C" // PSMI Supply AC/DC Supply 1
+#define KEY_FORMAT_ACDC_TEMPERATURE             "Tp%XC" // PSMI Supply AC/DC Supply 1
 #define KEY_AMBIENT_TEMPERATURE                 "TA0P"
-#define KEY_DIMM_TEMPERATURE                    "Tm0P" // MLB Proximity/DC In Proximity Airflow
-#define KEY_AIRVENT_TEMPERATURE                 "TV0P" // Air Vent Exit
-#define KEY_AIRPORT_TEMPERATURE                 "TW0P"
+#define KEY_FORMAT_AMBIENT_TEMPERATURE          "TA%XP"
+#define KEY_FORMAT_DIMM_TEMPERATURE             "Tm%XP" // MLB Proximity/DC In Proximity Airflow
+#define KEY_FORMAT_AIRVENT_TEMPERATURE          "TV%XP" // Air Vent Exit
+#define KEY_FORMAT_AIRPORT_TEMPERATURE          "TW%XP"
 
 // Voltage (Volts)
 // CPU

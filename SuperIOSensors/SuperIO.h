@@ -11,6 +11,8 @@
 #define kSuperIOModelName   "model-name"
 #define kSuperIOVendorName  "vendor-name"
 
+#define kSuperIODeviceID  "device-id"
+
 // Entering ports
 const UInt8 kSuperIOPorts[]               = {0x2e, 0x4e};
 
@@ -29,6 +31,7 @@ enum SuperIOModel
 {
     // ITE
 	IT8512F     = 0x8512,
+    IT8705F     = 0x8705,
     IT8712F     = 0x8712,
     IT8716F     = 0x8716,
     IT8718F     = 0x8718,
@@ -64,8 +67,7 @@ enum SuperIOModel
     F71889AD    = 0x1005,
     F71889ED	= 0x0909,
     F71889F		= 0x0723,
-	F71808		= 0x0901,
-    
+    F71808E     = 0x0901,
     
     // Nuvoton
     NCT6771F    = 0xB470,
@@ -119,6 +121,7 @@ inline const char* superio_get_model_name(UInt16 model)
 {
     switch (model) {
         case IT8512F:       return "IT8512F";
+        case IT8705F:       return "IT8705F";
         case IT8712F:       return "IT8712F";
         case IT8716F:       return "IT8716F";
         case IT8718F:       return "IT8718F";
@@ -152,7 +155,7 @@ inline const char* superio_get_model_name(UInt16 model)
         case F71889AD:      return "F71889AD";
         case F71889ED:      return "F71889ED";
         case F71889F:       return "F71889F";
-        case F71808:        return "F71808";
+        case F71808E:       return "F71808E";
             
         case NCT6771F:      return "NCT6771F";
         case NCT6776F:      return "NCT6776F";
