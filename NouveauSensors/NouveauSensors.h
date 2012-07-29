@@ -177,7 +177,7 @@ private:
     UInt64          vram_size;
     NVVRAMType      vram_type;
     
-    bool            g92_asus_temperature;
+    bool            fallback_temperature;
       
     UInt32          nv_rd32(UInt32 reg);
     void            nv_wr32(UInt32 reg, UInt32 val);
