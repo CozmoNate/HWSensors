@@ -1937,13 +1937,10 @@ float NouveauSensors::getSensorValue(FakeSMCSensor *sensor)
                 case 0x80:
                 case 0x90:
                 case 0xa0:                    
-                    if (chipset >= 0x84) {
-                        if (chipset == 0x92 && g92_asus_temperature)
-                            return nv40_get_temperature();
-                        else
-                            return nv84_get_temperature();
-                    }
-                    else return nv40_get_temperature();
+                    if (chipset >= 0x84 && !fallback_temperature)
+                        return nv84_get_temperature();
+                    else
+                        return nv40_get_temperature();
 
                 case 0xc0:
                 case 0xd0:
@@ -2107,15 +2104,29 @@ bool NouveauSensors::start(IOService * provider)
         
         char key[5];
         
-        //Core temperature
+        //Core temperature setup
         switch (chipset & 0xf0) {
             case 0x40:
             case 0x60:
             case 0x50:
             case 0x80:
             case 0x90:
-                if (chipset == 0x92)
-                    g92_asus_temperature = nv84_get_temperature() == 0;
+            case 0xa0:
+                fallback_temperature = nv84_get_temperature() == 0;
+                break;
+            case 0xc0:
+            case 0xd0:
+                fallback_temperature = false;
+                break;
+        }
+        
+        //Core temperature sensor
+        switch (chipset & 0xf0) {
+            case 0x40:
+            case 0x60:
+            case 0x50:
+            case 0x80:
+            case 0x90:
             case 0xa0:
             case 0xc0:
             case 0xd0:
