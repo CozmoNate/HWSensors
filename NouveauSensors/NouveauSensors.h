@@ -36,6 +36,9 @@
 
 #include "FakeSMCPlugin.h"
 
+#include "nvclock.h"
+#include "i2c.h"
+
 enum NVBiosType {
     NVBIOS_BIT,
     NVBIOS_BMP
@@ -177,7 +180,12 @@ private:
     UInt64          vram_size;
     NVVRAMType      vram_type;
     
+    SInt8           card_index;
+    
     bool            fallback_temperature;
+    bool            i2c_temperature;
+    
+    NVCard          nvclock_card;
       
     UInt32          nv_rd32(UInt32 reg);
     void            nv_wr32(UInt32 reg, UInt32 val);
@@ -245,6 +253,8 @@ private:
     void            bios_shadow_pramin();
     void            bios_shadow_prom();
     void            bios_shadow();
+    
+    bool            i2c_init();
     
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);

@@ -1889,6 +1889,62 @@
 						<key>VIN8</key>
 						<string>Power/Battery</string>
 					</dict>
+					<key>Z68X-UD3H-B3</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>CPU Fan</string>
+						<key>FANIN2</key>
+						<string>Power Fan</string>
+						<key>FANIN3</key>
+						<string>System Fan #1</string>
+						<key>TEMPIN0</key>
+						<string>System</string>
+						<key>TEMPIN1</key>
+						<string>Ambient</string>
+						<key>TEMPIN2</key>
+						<string>CPU</string>
+						<key>VIN0</key>
+						<string>CPU VRM Supply 0</string>
+						<key>VIN1</key>
+						<string>Auxiliary 3V</string>
+						<key>VIN2</key>
+						<dict>
+							<key>gain</key>
+							<integer>3090</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN3</key>
+						<dict>
+							<key>gain</key>
+							<integer>713</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
+						<string>CPU</string>
+						<key>VIN6</key>
+						<string>Memory</string>
+						<key>VIN7</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Main 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+					</dict>
 					<key>Z68A-D3H-B3</key>
 					<string>Z68X-UD7-B3</string>
 					<key>Z68X-UD7-B3</key>
