@@ -80,6 +80,18 @@
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
 		7E55352515C05C4100DDF3BF /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */; };
+		7E7936E515C63C9200D821DA /* adt7473.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7936CE15C63C9200D821DA /* adt7473.cpp */; };
+		7E7936EA15C63C9200D821DA /* f75375.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7936D315C63C9200D821DA /* f75375.cpp */; };
+		7E7936EB15C63C9200D821DA /* f75375.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7936D415C63C9200D821DA /* f75375.h */; };
+		7E7936F015C63C9200D821DA /* lm99.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7936D915C63C9200D821DA /* lm99.cpp */; };
+		7E7936F315C63C9200D821DA /* nvclock.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7936DC15C63C9200D821DA /* nvclock.h */; };
+		7E7936F715C63C9200D821DA /* w83781d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7936E015C63C9200D821DA /* w83781d.cpp */; };
+		7E7936F815C63C9200D821DA /* w83l785r.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7936E115C63C9200D821DA /* w83l785r.cpp */; };
+		7E7936F915C63C9200D821DA /* xf86i2c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7936E215C63C9200D821DA /* xf86i2c.cpp */; };
+		7E7936FA15C63C9200D821DA /* xf86i2c.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7936E315C63C9200D821DA /* xf86i2c.h */; };
+		7E7936FB15C63C9200D821DA /* xfree.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7936E415C63C9200D821DA /* xfree.h */; };
+		7E7936FE15C8583E00D821DA /* i2c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7936FD15C8583E00D821DA /* i2c.cpp */; };
+		7E79370015C8584C00D821DA /* i2c.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7936FF15C8584C00D821DA /* i2c.h */; };
 		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
 		7E79B82315BA99350079AAE8 /* CPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E79B82215BA99350079AAE8 /* CPUSensors.cpp */; };
 		7E84840915C3BF2C00C2D5E2 /* pcicard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840815C3BF2C00C2D5E2 /* pcicard.png */; };
@@ -252,6 +264,18 @@
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E40054F1585031B009AECED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
+		7E7936CE15C63C9200D821DA /* adt7473.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = adt7473.cpp; sourceTree = "<group>"; };
+		7E7936D315C63C9200D821DA /* f75375.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = f75375.cpp; sourceTree = "<group>"; };
+		7E7936D415C63C9200D821DA /* f75375.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = f75375.h; sourceTree = "<group>"; };
+		7E7936D915C63C9200D821DA /* lm99.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lm99.cpp; sourceTree = "<group>"; };
+		7E7936DC15C63C9200D821DA /* nvclock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvclock.h; sourceTree = "<group>"; };
+		7E7936E015C63C9200D821DA /* w83781d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = w83781d.cpp; sourceTree = "<group>"; };
+		7E7936E115C63C9200D821DA /* w83l785r.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = w83l785r.cpp; sourceTree = "<group>"; };
+		7E7936E215C63C9200D821DA /* xf86i2c.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xf86i2c.cpp; sourceTree = "<group>"; };
+		7E7936E315C63C9200D821DA /* xf86i2c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xf86i2c.h; sourceTree = "<group>"; };
+		7E7936E415C63C9200D821DA /* xfree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xfree.h; sourceTree = "<group>"; };
+		7E7936FD15C8583E00D821DA /* i2c.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = i2c.cpp; path = ../i2c.cpp; sourceTree = "<group>"; };
+		7E7936FF15C8584C00D821DA /* i2c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = i2c.h; path = ../i2c.h; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81D15BA99350079AAE8 /* CPUSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CPUSensors-Info.plist"; sourceTree = "<group>"; };
 		7E79B81F15BA99350079AAE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -723,6 +747,7 @@
 		6AA45342153FB1FE00F67EED /* NouveauSensors */ = {
 			isa = PBXGroup;
 			children = (
+				7E7936CD15C63C9200D821DA /* NVClock */,
 				6AC16D89153FC73C008CFC84 /* nouveau.h */,
 				6AA45348153FB1FE00F67EED /* NouveauSensors.h */,
 				6AA45349153FB1FE00F67EED /* NouveauSensors.cpp */,
@@ -766,6 +791,25 @@
 				7E3684AB158368C900E32629 /* HWMonitorIcon.m */,
 			);
 			name = HWMonitorIcon;
+			sourceTree = "<group>";
+		};
+		7E7936CD15C63C9200D821DA /* NVClock */ = {
+			isa = PBXGroup;
+			children = (
+				7E7936DC15C63C9200D821DA /* nvclock.h */,
+				7E7936E315C63C9200D821DA /* xf86i2c.h */,
+				7E7936E215C63C9200D821DA /* xf86i2c.cpp */,
+				7E7936E415C63C9200D821DA /* xfree.h */,
+				7E7936FF15C8584C00D821DA /* i2c.h */,
+				7E7936FD15C8583E00D821DA /* i2c.cpp */,
+				7E7936CE15C63C9200D821DA /* adt7473.cpp */,
+				7E7936D415C63C9200D821DA /* f75375.h */,
+				7E7936D315C63C9200D821DA /* f75375.cpp */,
+				7E7936D915C63C9200D821DA /* lm99.cpp */,
+				7E7936E015C63C9200D821DA /* w83781d.cpp */,
+				7E7936E115C63C9200D821DA /* w83l785r.cpp */,
+			);
+			path = NVClock;
 			sourceTree = "<group>";
 		};
 		7E79B81B15BA99350079AAE8 /* CPUSensors */ = {
@@ -906,6 +950,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AC16D8A153FC73D008CFC84 /* nouveau.h in Headers */,
+				7E7936F315C63C9200D821DA /* nvclock.h in Headers */,
+				7E7936FB15C63C9200D821DA /* xfree.h in Headers */,
+				7E79370015C8584C00D821DA /* i2c.h in Headers */,
+				7E7936EB15C63C9200D821DA /* f75375.h in Headers */,
+				7E7936FA15C63C9200D821DA /* xf86i2c.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1367,6 +1416,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AA4534A153FB1FE00F67EED /* NouveauSensors.cpp in Sources */,
+				7E7936E515C63C9200D821DA /* adt7473.cpp in Sources */,
+				7E7936EA15C63C9200D821DA /* f75375.cpp in Sources */,
+				7E7936F015C63C9200D821DA /* lm99.cpp in Sources */,
+				7E7936F715C63C9200D821DA /* w83781d.cpp in Sources */,
+				7E7936F815C63C9200D821DA /* w83l785r.cpp in Sources */,
+				7E7936F915C63C9200D821DA /* xf86i2c.cpp in Sources */,
+				7E7936FE15C8583E00D821DA /* i2c.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

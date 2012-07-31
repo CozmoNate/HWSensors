@@ -470,7 +470,6 @@
 						<string key="NSFrame">{{282, 13}, {254, 32}}</string>
 						<reference key="NSSuperview" ref="615528893"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="874507288">
@@ -631,7 +630,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
 						</object>
-						<reference key="NSSelectedCell" ref="740579278"/>
+						<int key="NSSelectedRow">-1</int>
+						<int key="NSSelectedCol">-1</int>
 						<object class="NSColor" key="NSBackgroundColor" id="200444750">
 							<int key="NSColorSpace">6</int>
 							<string key="NSCatalogName">System</string>
@@ -938,7 +938,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																	<object class="NSCustomView" id="609678838">
 																		<reference key="NSNextResponder" ref="354185477"/>
 																		<int key="NSvFlags">274</int>
-																		<string key="NSFrameSize">{411, 141}</string>
+																		<string key="NSFrameSize">{406, 141}</string>
 																		<reference key="NSSuperview" ref="354185477"/>
 																		<reference key="NSWindow"/>
 																		<reference key="NSNextKeyView" ref="422064493"/>
@@ -946,7 +946,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																		<string key="NSClassName">HWMonitorGraphsView</string>
 																	</object>
 																</array>
-																<string key="NSFrameSize">{411, 141}</string>
+																<string key="NSFrameSize">{406, 141}</string>
 																<reference key="NSSuperview" ref="609739497"/>
 																<reference key="NSWindow"/>
 																<reference key="NSNextKeyView" ref="609678838"/>
@@ -961,7 +961,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																		<reference key="NSNextResponder" ref="422064493"/>
 																		<int key="NSvFlags">274</int>
 																		<array class="NSMutableArray" key="NSSubviews"/>
-																		<string key="NSFrameSize">{411, 144}</string>
+																		<string key="NSFrameSize">{406, 144}</string>
 																		<reference key="NSSuperview" ref="422064493"/>
 																		<reference key="NSWindow"/>
 																		<reference key="NSNextKeyView" ref="268140139"/>
@@ -969,7 +969,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																		<string key="NSClassName">HWMonitorGraphsView</string>
 																	</object>
 																</array>
-																<string key="NSFrame">{{0, 142}, {411, 144}}</string>
+																<string key="NSFrame">{{0, 142}, {406, 144}}</string>
 																<reference key="NSSuperview" ref="609739497"/>
 																<reference key="NSWindow"/>
 																<reference key="NSNextKeyView" ref="988521222"/>
@@ -977,7 +977,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																<string key="NSClassName">NSView</string>
 															</object>
 														</array>
-														<string key="NSFrameSize">{411, 286}</string>
+														<string key="NSFrameSize">{406, 286}</string>
 														<reference key="NSSuperview" ref="447855541"/>
 														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="354185477"/>
@@ -986,7 +986,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 														<string key="NSAutosaveName"/>
 													</object>
 												</array>
-												<string key="NSFrameSize">{411, 286}</string>
+												<string key="NSFrameSize">{406, 286}</string>
 												<reference key="NSSuperview" ref="486275604"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="609739497"/>
@@ -1008,7 +1008,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																	<object class="NSCustomView" id="877172152">
 																		<reference key="NSNextResponder" ref="923019829"/>
 																		<int key="NSvFlags">274</int>
-																		<string key="NSFrameSize">{411, 143}</string>
+																		<string key="NSFrameSize">{406, 143}</string>
 																		<reference key="NSSuperview" ref="923019829"/>
 																		<reference key="NSWindow"/>
 																		<reference key="NSNextKeyView" ref="477576753"/>
@@ -1016,7 +1016,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																		<string key="NSClassName">HWMonitorGraphsView</string>
 																	</object>
 																</array>
-																<string key="NSFrameSize">{411, 143}</string>
+																<string key="NSFrameSize">{406, 143}</string>
 																<reference key="NSSuperview" ref="16251693"/>
 																<reference key="NSWindow"/>
 																<reference key="NSNextKeyView" ref="877172152"/>
@@ -1031,7 +1031,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																		<reference key="NSNextResponder" ref="477576753"/>
 																		<int key="NSvFlags">274</int>
 																		<array class="NSMutableArray" key="NSSubviews"/>
-																		<string key="NSFrameSize">{411, 141}</string>
+																		<string key="NSFrameSize">{406, 141}</string>
 																		<reference key="NSSuperview" ref="477576753"/>
 																		<reference key="NSWindow"/>
 																		<reference key="NSNextKeyView" ref="785418889"/>
@@ -1039,7 +1039,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																		<string key="NSClassName">HWMonitorGraphsView</string>
 																	</object>
 																</array>
-																<string key="NSFrame">{{0, 144}, {411, 141}}</string>
+																<string key="NSFrame">{{0, 144}, {406, 141}}</string>
 																<reference key="NSSuperview" ref="16251693"/>
 																<reference key="NSWindow"/>
 																<reference key="NSNextKeyView" ref="20135112"/>
@@ -1047,7 +1047,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																<string key="NSClassName">NSView</string>
 															</object>
 														</array>
-														<string key="NSFrameSize">{411, 285}</string>
+														<string key="NSFrameSize">{406, 285}</string>
 														<reference key="NSSuperview" ref="268140139"/>
 														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="923019829"/>
@@ -1056,7 +1056,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 														<string key="NSAutosaveName"/>
 													</object>
 												</array>
-												<string key="NSFrame">{{0, 287}, {411, 285}}</string>
+												<string key="NSFrame">{{0, 287}, {406, 285}}</string>
 												<reference key="NSSuperview" ref="486275604"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="16251693"/>
@@ -1064,7 +1064,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 												<string key="NSClassName">NSView</string>
 											</object>
 										</array>
-										<string key="NSFrameSize">{411, 572}</string>
+										<string key="NSFrameSize">{406, 572}</string>
 										<reference key="NSSuperview" ref="888244054"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="447855541"/>
@@ -1073,7 +1073,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<string key="NSAutosaveName"/>
 									</object>
 								</array>
-								<string key="NSFrameSize">{411, 572}</string>
+								<string key="NSFrameSize">{406, 572}</string>
 								<reference key="NSSuperview" ref="725982061"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="486275604"/>
@@ -1096,7 +1096,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 														<reference key="NSNextResponder" ref="33952391"/>
 														<int key="NSvFlags">4352</int>
 														<array class="NSMutableArray" key="NSSubviews"/>
-														<string key="NSFrameSize">{247, 570}</string>
+														<string key="NSFrameSize">{243, 570}</string>
 														<reference key="NSSuperview" ref="33952391"/>
 														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="841523495"/>
@@ -1232,7 +1232,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 																<reference key="NSTableView" ref="525220024"/>
 															</object>
 															<object class="NSTableColumn" id="1064055027">
-																<double key="NSWidth">105</double>
+																<double key="NSWidth">101</double>
 																<double key="NSMinWidth">100</double>
 																<double key="NSMaxWidth">100000</double>
 																<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -1325,7 +1325,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 														<int key="NSTableViewGroupRowStyle">1</int>
 													</object>
 												</array>
-												<string key="NSFrame">{{1, 1}, {247, 570}}</string>
+												<string key="NSFrame">{{1, 1}, {243, 570}}</string>
 												<reference key="NSSuperview" ref="874307037"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="525220024"/>
@@ -1350,19 +1350,18 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											<object class="NSScroller" id="715084987">
 												<reference key="NSNextResponder" ref="874307037"/>
 												<int key="NSvFlags">-2147483392</int>
-												<string key="NSFrame">{{1, 556}, {244, 15}}</string>
+												<string key="NSFrame">{{1, 556}, {237, 15}}</string>
 												<reference key="NSSuperview" ref="874307037"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:60</string>
 												<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 												<int key="NSsFlags">1</int>
 												<reference key="NSTarget" ref="874307037"/>
 												<string key="NSAction">_doScroller:</string>
-												<double key="NSPercent">0.97991967871485941</double>
+												<double key="NSPercent">0.97933884297520657</double>
 											</object>
 										</array>
-										<string key="NSFrame">{{-1, 0}, {249, 572}}</string>
+										<string key="NSFrameSize">{245, 572}</string>
 										<reference key="NSSuperview" ref="785418889"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="33952391"/>
@@ -1377,7 +1376,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<double key="NSMagnification">1</double>
 									</object>
 								</array>
-								<string key="NSFrame">{{412, 0}, {248, 572}}</string>
+								<string key="NSFrame">{{415, 0}, {245, 572}}</string>
 								<reference key="NSSuperview" ref="725982061"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="874307037"/>
@@ -1391,7 +1390,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="NSNextKeyView" ref="888244054"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSIsVertical">YES</bool>
-						<int key="NSDividerStyle">2</int>
 						<string key="NSAutosaveName"/>
 						<object class="NSMutableDictionary" key="NSHoldingPriorities">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1618,7 +1616,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<string key="NSFrame">{{324, 1}, {15, 558}}</string>
 								<reference key="NSSuperview" ref="182585095"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:58</string>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="182585095"/>
