@@ -9,6 +9,7 @@
 #ifndef HWSensors_i2c_h
 #define HWSensors_i2c_h
 
+#include "nouveau.h"
 #include "xf86i2c.h"
 
 #define LM99 0x1
@@ -17,6 +18,8 @@
 #define W83L785R 0x8
 #define W83781D 0x16
 #define ADT7473 0x32
+
+extern NouveauCard *nouveau_card;
 
 Bool I2CAddress(I2CDevPtr d, I2CSlaveAddr addr);
 

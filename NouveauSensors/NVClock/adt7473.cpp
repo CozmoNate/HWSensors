@@ -22,7 +22,7 @@
  */
 #include <string.h>
 #include "i2c.h"
-#include "nvclock.h"
+#include "NouveauDefinitions.h"
 
 /* various defines for register offsets and such are needed */
 #define ADT7473_REG_LOCAL_TEMP 0x26
@@ -87,9 +87,9 @@ int adt7473_get_gpu_temp(I2CDevPtr dev)
 	/* The temperature needs to be corrected using an offset which is stored in the bios.
 	/  If no bios has been parsed we fall back to a default value.
 	*/
-	if(nv_card->bios)
+	if(nouveau_card->bios.data)
 	{
-		offset = nv_card->bios->sensor_cfg.temp_correction;
+		offset = nouveau_card->sensor_constants.offset_constant;//nv_card->bios->sensor_cfg.temp_correction;
 	}
 	else
 	{
@@ -103,9 +103,9 @@ int adt7473_get_gpu_temp(I2CDevPtr dev)
 		/  Add an offset of 8C for 8*00/GTX2*0 cards but it doesn't seem 100% correct though.
 		/  It could be that +7C is more correct for 8800GT cards.
 		*/
-		if(dev->arch & NV4X)
+		if(nouveau_card->card_type == NV_40)
 			offset = 10;
-		else if(dev->arch & NV5X)
+		else if(nouveau_card->card_type == NV_50)
 			offset = 8;
 	}
 
@@ -120,74 +120,74 @@ int adt7473_get_gpu_temp(I2CDevPtr dev)
 		return temp - 64 + offset;
 }
 
-int adt7473_get_fanspeed_rpm(I2CDevPtr dev)
-{
-	I2CByte count_lb, count_hb;
-	int count;
-
-	xf86I2CReadByte(dev, ADT7473_REG_TACH1_LB, &count_lb);
-	xf86I2CReadByte(dev, ADT7473_REG_TACH1_HB, &count_hb);
-	count = (count_hb << 8) | count_lb;
-
-	/* GT200 boards seem to use two phases instead of a single, the fan speed is twice as high */
-	if(dev->arch & GT200)
-		count *= 2;
-	
-	/* GF100 boards seem to use four phases... */
-	if(dev->arch & GF100)
-		count *= 4;
-
-	/* RPM = 60*90k pulses / (number of counts that fit in a pulse) */
-	return 90000*60/count;
-}
-
-float adt7473_get_fanspeed_pwm(I2CDevPtr dev)
-{
-	I2CByte value;
-
-	xf86I2CReadByte(dev, ADT7473_REG_PWM1_DUTYCYCLE, &value);
-	return (float)value*100/255;
-}
-
-int adt7473_set_fanspeed_pwm(I2CDevPtr dev, float speed)
-{
-	I2CByte value = (int)speed * 255/100;
-	I2CByte cfg, max_dutycycle;
-	
-	xf86I2CReadByte(dev, ADT7473_REG_PWM1_CFG, &cfg);
-	cfg |= 0xe0; /* Put PWM1 in manual mode; this disables automatic control */
-	xf86I2CWriteByte(dev, ADT7473_REG_PWM1_CFG, cfg);
-	
-	/* If the MAX dutycycle is lower than 0xff (100%), set it to 0xff */
-	xf86I2CReadByte(dev, ADT7473_REG_PWM1_MAX_DUTYCYCLE, &max_dutycycle);
-	if(max_dutycycle < 0xff)
-		xf86I2CWriteByte(dev, ADT7473_REG_PWM1_MAX_DUTYCYCLE, 0xff);
-	
-	xf86I2CWriteByte(dev, ADT7473_REG_PWM1_DUTYCYCLE, value);
-	return 1;
-}
-
-int adt7473_get_fanspeed_mode(I2CDevPtr dev) {
-	I2CByte cfg;
-	xf86I2CReadByte(dev, ADT7473_REG_PWM1_CFG, &cfg);
-	
-	if(cfg & (0x6 << 5)) return 0; /* auto */
-	if(cfg & (0x7 << 5)) return 1; /* manual */
-	
-	return -1;  /* something went wrong */
-}
-
-void adt7473_set_fanspeed_mode(I2CDevPtr dev, int mode) {
-	I2CByte cfg;
-	xf86I2CReadByte(dev, ADT7473_REG_PWM1_CFG, &cfg);
-	
-	/* Clear the pwm1 config bits */
-	cfg&=~(0xF << 5); 
-
-	if(mode==1)
-		cfg|=0x7 << 5; /* manual */
-	else
-		cfg|=0x6 << 5; /* auto */
-
-	xf86I2CWriteByte(dev, ADT7473_REG_PWM1_CFG, cfg);
-}
+//int adt7473_get_fanspeed_rpm(I2CDevPtr dev)
+//{
+//	I2CByte count_lb, count_hb;
+//	int count;
+//
+//	xf86I2CReadByte(dev, ADT7473_REG_TACH1_LB, &count_lb);
+//	xf86I2CReadByte(dev, ADT7473_REG_TACH1_HB, &count_hb);
+//	count = (count_hb << 8) | count_lb;
+//
+//	/* GT200 boards seem to use two phases instead of a single, the fan speed is twice as high */
+//	if(dev->arch & GT200)
+//		count *= 2;
+//	
+//	/* GF100 boards seem to use four phases... */
+//	if(dev->arch & GF100)
+//		count *= 4;
+//
+//	/* RPM = 60*90k pulses / (number of counts that fit in a pulse) */
+//	return 90000*60/count;
+//}
+//
+//float adt7473_get_fanspeed_pwm(I2CDevPtr dev)
+//{
+//	I2CByte value;
+//
+//	xf86I2CReadByte(dev, ADT7473_REG_PWM1_DUTYCYCLE, &value);
+//	return (float)value*100/255;
+//}
+//
+//int adt7473_set_fanspeed_pwm(I2CDevPtr dev, float speed)
+//{
+//	I2CByte value = (int)speed * 255/100;
+//	I2CByte cfg, max_dutycycle;
+//	
+//	xf86I2CReadByte(dev, ADT7473_REG_PWM1_CFG, &cfg);
+//	cfg |= 0xe0; /* Put PWM1 in manual mode; this disables automatic control */
+//	xf86I2CWriteByte(dev, ADT7473_REG_PWM1_CFG, cfg);
+//	
+//	/* If the MAX dutycycle is lower than 0xff (100%), set it to 0xff */
+//	xf86I2CReadByte(dev, ADT7473_REG_PWM1_MAX_DUTYCYCLE, &max_dutycycle);
+//	if(max_dutycycle < 0xff)
+//		xf86I2CWriteByte(dev, ADT7473_REG_PWM1_MAX_DUTYCYCLE, 0xff);
+//	
+//	xf86I2CWriteByte(dev, ADT7473_REG_PWM1_DUTYCYCLE, value);
+//	return 1;
+//}
+//
+//int adt7473_get_fanspeed_mode(I2CDevPtr dev) {
+//	I2CByte cfg;
+//	xf86I2CReadByte(dev, ADT7473_REG_PWM1_CFG, &cfg);
+//	
+//	if(cfg & (0x6 << 5)) return 0; /* auto */
+//	if(cfg & (0x7 << 5)) return 1; /* manual */
+//	
+//	return -1;  /* something went wrong */
+//}
+//
+//void adt7473_set_fanspeed_mode(I2CDevPtr dev, int mode) {
+//	I2CByte cfg;
+//	xf86I2CReadByte(dev, ADT7473_REG_PWM1_CFG, &cfg);
+//	
+//	/* Clear the pwm1 config bits */
+//	cfg&=~(0xF << 5); 
+//
+//	if(mode==1)
+//		cfg|=0x7 << 5; /* manual */
+//	else
+//		cfg|=0x6 << 5; /* auto */
+//
+//	xf86I2CWriteByte(dev, ADT7473_REG_PWM1_CFG, cfg);
+//}

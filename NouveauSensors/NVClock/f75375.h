@@ -1,7 +1,7 @@
 /* Fintek F75375 sensor module
 /  Copyright(C) 2005, Matt Wright
 */
-#include "nvclock.h"
+//#include "nvclock.h"
 #include "i2c.h"
 
 int debug;
