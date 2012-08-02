@@ -22,7 +22,7 @@
  */
 #include <string.h>
 #include "i2c.h"
-#include "nvclock.h"
+//#include "nvclock.h"
 
 
 /* various defines for register offsets and such are needed */

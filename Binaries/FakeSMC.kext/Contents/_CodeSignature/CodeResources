@@ -4,10 +4,6 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Resources/License.txt</key>
-		<data>
-		jYOxRWTMmPifk7dAXHcwkBNaBaA=
-		</data>
 		<key>Resources/en.lproj/InfoPlist.strings</key>
 		<dict>
 			<key>hash</key>

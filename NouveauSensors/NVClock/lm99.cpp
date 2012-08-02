@@ -22,7 +22,7 @@
  */
 #include <string.h>
 #include "i2c.h"
-#include "nvclock.h"
+#include "NouveauDefinitions.h"
 
 
 /* various defines for register offsets and such are needed */
@@ -85,18 +85,18 @@ int lm99_get_gpu_temp(I2CDevPtr dev)
 	/* The temperature needs to be corrected using an offset which is stored in the bios.
 	/  If no bios has been parsed we fall back to a default value.
 	*/
-	if(nv_card->bios)
+	if(nouveau_card->bios.data)
 	{
-		temp += nv_card->bios->sensor_cfg.temp_correction;
+		temp += nouveau_card->sensor_constants.offset_constant; //nv_card->bios->sensor_cfg.temp_correction;
 	}
 	else
 	{
 		/* An extra offset of 10C seems to be needed on Geforce6800 cards to match nvidia-settings.
 		/  Last but not least Geforce6600GT boards containing an LM99 sensor seem to need a +5C offset.
 		*/
-		if(dev->arch == NV43)
+		if(nouveau_card->chipset == 0x43)
 			temp += 5;
-		else if(dev->arch & NV4X)
+		else if(nouveau_card->card_type == NV_40)
 			temp += 10;
 	}
 	
