@@ -164,7 +164,12 @@
         _icons = [[NSMutableDictionary alloc] init];
     
     NSImage *image = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:name ofType:@"png"]];
+    
+    [image setTemplate:YES];
+    
     NSImage *altImage = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:[name stringByAppendingString:@"_template"] ofType:@"png"]];
+    
+    [altImage setTemplate:YES];
     
     [_icons setObject:[HWMonitorIcon iconWithName:name image:image alternateImage:altImage] forKey:name];
 }
@@ -404,7 +409,10 @@
         
         NSMenuItem * prefsItem = [[NSMenuItem alloc]initWithTitle:GetLocalizedString(@"Preferences...") action:@selector(openPreferences:) keyEquivalent:@""];
         
-        [prefsItem setImage:[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"preferences" ofType:@"png"]]];
+        NSImage *prefsImage = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"preferences" ofType:@"png"]];
+        [prefsImage setTemplate:YES];
+        
+        [prefsItem setImage:prefsImage];
         [prefsItem setTarget:self];
         
         [_mainMenu addItem:prefsItem];

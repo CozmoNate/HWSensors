@@ -62,7 +62,12 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         _icons = [[NSMutableDictionary alloc] init];
     
     NSImage *image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:name ofType:@"png"]];
+    
+    [image setTemplate:YES];
+    
     NSImage *altImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[name stringByAppendingString:@"_template"] ofType:@"png"]];
+    
+    [altImage setTemplate:YES];
     
     [_icons setObject:[HWMonitorIcon iconWithName:name image:image alternateImage:altImage] forKey:name];
 }
