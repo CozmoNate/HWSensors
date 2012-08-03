@@ -404,6 +404,8 @@ xf86I2CProbeAddress(I2CBusPtr b, I2CSlaveAddr addr)
     r = b->I2CAddress(&d, addr);
 
     if (r) b->I2CStop(&d);
+    
+    NouveauInfoLog("xf86I2CProbeAddress = %d", r);
 
     return r;
 }
@@ -666,11 +668,10 @@ xf86I2CDevInit(I2CDevPtr d)
 {
     I2CBusPtr b;
 
-    if (d == NULL ||
-	(b = d->pI2CBus) == NULL ||
-        (d->SlaveAddr & 1) ||
-        xf86I2CFindDev(b, d->SlaveAddr) != NULL)
-	return FALSE;
+    if (d == NULL || (b = d->pI2CBus) == NULL || (d->SlaveAddr & 1) || xf86I2CFindDev(b, d->SlaveAddr) != NULL) {
+        NouveauInfoLog("xf86I2CDevInit = FALSE");
+        return FALSE;
+    }
 
     if (d->BitTimeout <= 0) d->BitTimeout = b->BitTimeout;
     if (d->ByteTimeout <= 0) d->ByteTimeout = b->ByteTimeout;
@@ -697,8 +698,10 @@ xf86I2CFindDev(I2CBusPtr b, I2CSlaveAddr addr)
 
     if (b) { 
          for (d = b->FirstDev; d != NULL; d = d->NextDev) 
-	    if (d->SlaveAddr == addr)
-		return d;
+             if (d->SlaveAddr == addr) {
+                 NouveauInfoLog("xf86I2CFindDev = %s", d ? "TRUE" : "FALSE");
+                 return d;
+             }
     }
 
     return NULL;

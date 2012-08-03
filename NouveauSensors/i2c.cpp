@@ -86,7 +86,8 @@ void nv50_i2c_get_bits(I2CBusPtr bus, int *clock, int *data)
 	const long offset = bus->DriverPrivate.val;
 	unsigned char val;
     
-	val = nv_rd08(nouveau_card, (0x0000E138 + offset)/4);
+	//val = nv_rd08(nouveau_card, (0x0000E138 + offset)/4);
+    val = nv_rd08(nouveau_card, 0x0000E138 + offset);
 	*clock = !!(val & 1);
 	*data = !!(val & 2);
 }
@@ -94,7 +95,8 @@ void nv50_i2c_get_bits(I2CBusPtr bus, int *clock, int *data)
 void nv50_i2c_put_bits(I2CBusPtr bus, int clock, int data)
 {
 	const long offset = bus->DriverPrivate.val;
-	nv_wr08(nouveau_card, (0x0000E138 + offset)/4, 4 | clock | data << 1);
+	//nv_wr08(nouveau_card, (0x0000E138 + offset)/4, 4 | clock | data << 1);
+    nv_wr08(nouveau_card, 0x0000E138 + offset, 4 | clock | data << 1);
 }
 
 I2CBusPtr nv50_i2c_create_bus_ptr(char *name, int bus)
@@ -169,8 +171,9 @@ I2CDevPtr i2c_probe_devices(I2CBusPtr busses[], int num_busses)
 	if(nouveau_card->card_type == NV_40)
 	{
 		nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d4, 0x49);
-        unsigned char val = nv_rd08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5);
-        nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, val | 0x4);
+        nv_mask(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, 0xffffffff, 0x4);
+        //unsigned char val = nv_rd08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5);
+        //nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, val | 0x4);
         //nv_card->PCIO[0x3d5] |= 0x4; /* Unlock the i2c busses */
 	}
     
