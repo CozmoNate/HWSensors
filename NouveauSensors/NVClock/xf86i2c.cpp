@@ -638,10 +638,10 @@ xf86DestroyI2CDevRec(I2CDevPtr d, Bool unalloc)
 
 	if (d->pI2CBus->scrnIndex >= 0)
 	    xf86DrvMsg(d->pI2CBus->scrnIndex, X_INFO, 
-		       "I2C device \"%s:%s\" removed.\n",
+		       "I2C device \"%s:%s\" removed.",
 		       d->pI2CBus->BusName, d->DevName);
 	else
-	    xf86Msg(X_INFO, "I2C device \"%s:%s\" removed.\n",
+	    xf86Msg(X_INFO, "I2C device \"%s:%s\" removed.",
 		    d->pI2CBus->BusName, d->DevName);
 
 	if (unalloc) delete p;
@@ -681,10 +681,10 @@ xf86I2CDevInit(I2CDevPtr d)
     b->FirstDev = d;
 
     if(b->scrnIndex >= 0)
-	xf86DrvMsg(b->scrnIndex, X_INFO, "I2C device \"%s:%s\" registered.\n",
+	xf86DrvMsg(b->scrnIndex, X_INFO, "I2C device \"%s:%s\" registered.",
 		   b->BusName, d->DevName);
     else
-	xf86Msg(X_INFO, "I2C device \"%s:%s\" registered.\n",
+	xf86Msg(X_INFO, "I2C device \"%s:%s\" registered.",
 		b->BusName, d->DevName);
 
     return TRUE;
@@ -763,7 +763,7 @@ xf86DestroyI2CBusRec(I2CBusPtr b, Bool unalloc, Bool devs_too)
 	    } else {
 		if (unalloc) {
 		    xf86Msg(X_ERROR, "i2c bug: Attempt to remove I2C bus \"%s\", "
-			    "but device list is not empty.\n",
+			    "but device list is not empty.",
 			    b->BusName);
 		    return;
 		}
@@ -771,10 +771,10 @@ xf86DestroyI2CBusRec(I2CBusPtr b, Bool unalloc, Bool devs_too)
 	}
 
 	if (b->scrnIndex >= 0)
-	    xf86DrvMsg(b->scrnIndex, X_INFO, "I2C bus \"%s\" removed.\n",
+	    xf86DrvMsg(b->scrnIndex, X_INFO, "I2C bus \"%s\" removed.",
 		       b->BusName);
 	else
-	    xf86Msg(X_INFO, "I2C bus \"%s\" removed.\n", b->BusName);
+	    xf86Msg(X_INFO, "I2C bus \"%s\" removed.", b->BusName);
 
 	if (unalloc) delete b;
     }
@@ -836,10 +836,10 @@ xf86I2CBusInit(I2CBusPtr b)
     I2CBusList = b;
 
     if (b->scrnIndex >= 0)
-	xf86DrvMsg(b->scrnIndex, X_INFO, "I2C bus \"%s\" initialized.\n",
+	xf86DrvMsg(b->scrnIndex, X_INFO, "I2C bus \"%s\" initialized.",
 		   b->BusName);
     else
-	xf86Msg(X_INFO, "I2C bus \"%s\" initialized.\n", b->BusName);
+	xf86Msg(X_INFO, "I2C bus \"%s\" initialized.", b->BusName);
 
     return TRUE;
 }

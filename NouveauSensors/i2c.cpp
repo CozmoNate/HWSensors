@@ -173,6 +173,7 @@ I2CDevPtr i2c_probe_devices(I2CBusPtr busses[], int num_busses)
         nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, val | 0x4);
         //nv_card->PCIO[0x3d5] |= 0x4; /* Unlock the i2c busses */
 	}
+    
 	i2c_probe_all_devices(busses, num_busses);
     
     NouveauInfoLog("probing I2C busses");

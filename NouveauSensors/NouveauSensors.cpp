@@ -119,6 +119,8 @@ bool NouveauSensors::i2c_init()
     int num_busses = 0;
     I2CBusPtr busses[4];
     
+    card.i2c_temperature = false;
+    
     if (card.card_type == NV_40) {
         num_busses = 3;
 		busses[0] = i2c_create_bus_ptr(STRDUP("BUS0", sizeof("BUS0")), 0x3e); /* available on riva128 and higher */
@@ -135,14 +137,14 @@ bool NouveauSensors::i2c_init()
     }
     
     if (num_busses > 0) {
-        I2CDevPtr sensor = i2c_probe_devices(busses, num_busses);
+        card.i2c_sensor = i2c_probe_devices(busses, num_busses);
         
         /* When a sensor is available, enable the correct function pointers */
-        if(sensor)
+        if(card.i2c_sensor)
         {
             //nv_card->sensor_name = nv_card->sensor->chip_name;
             
-            switch(sensor->chip_id)
+            switch(card.i2c_sensor->chip_id)
             {
                 case LM99:
                 case MAX6559:
@@ -169,6 +171,8 @@ bool NouveauSensors::i2c_init()
                 default:
                     return false;
             }
+            
+            card.i2c_temperature = true;
             
             return true;
         }        
@@ -371,7 +375,7 @@ bool NouveauSensors::start(IOService * provider)
         char key[5];
         
         //I2C temperature setup
-        if ((card.i2c_temperature = i2c_init())) {
+        if (i2c_init()) {
             snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
             addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0);
             snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, card.card_index);
