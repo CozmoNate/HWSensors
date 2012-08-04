@@ -37,8 +37,6 @@
 #include "FakeSMCPlugin.h"
 
 #include "nouveau.h"
-//#include "nvclock.h"
-#include "i2c.h"
 
 class NouveauSensors : public FakeSMCPlugin
 {
