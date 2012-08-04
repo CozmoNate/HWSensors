@@ -115,7 +115,5 @@
 		<key>org.netkas.driver.FakeSMC</key>
 		<string>4.2.9</string>
 	</dict>
-	<key>OSBundleRequired</key>
-	<string>Root</string>
 </dict>
 </plist>

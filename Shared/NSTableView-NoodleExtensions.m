@@ -31,7 +31,7 @@
 
 #define NOODLE_STICKY_ROW_VIEW_TAG		233931134
 
-void NoodleClearRect(NSRect rect)
+static void NoodleClearRect(NSRect rect)
 {
 	[[NSColor clearColor] set];
 	NSRectFill(rect);

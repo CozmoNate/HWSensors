@@ -53,7 +53,7 @@ I2CBusPtr nv50_i2c_create_bus_ptr(char *name, int bus);
 void i2c_probe_device (I2CBusPtr bus, I2CSlaveAddr addr, const char *format, ...);
 void i2c_probe_all_devices (I2CBusPtr busses[], int nbus);
 I2CDevPtr i2c_probe_devices(I2CBusPtr busses[], int num_busses);
-
+bool i2c_sensor_init();
 
 /* ADT7473 */
 int adt7473_detect(I2CDevPtr dev);

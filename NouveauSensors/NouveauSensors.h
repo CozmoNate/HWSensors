@@ -47,7 +47,6 @@ private:
     NouveauCard     card;
     
     void            bios_shadow();
-    bool            i2c_init();
     
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);

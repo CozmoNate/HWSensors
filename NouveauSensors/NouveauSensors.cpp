@@ -112,82 +112,13 @@ void NouveauSensors::bios_shadow()
     }
 }
 
-// NVClock I2C ===
-
-bool NouveauSensors::i2c_init()
-{ 
-    int num_busses = 0;
-    I2CBusPtr busses[7];
-    
-    card.i2c_temperature = false;
-    
-    if (card.card_type == NV_40) {
-        num_busses = 3;
-		busses[0] = i2c_create_bus_ptr(STRDUP("BUS0", sizeof("BUS0")), 0x3e); /* available on riva128 and higher */
-		busses[1] = i2c_create_bus_ptr(STRDUP("BUS1", sizeof("BUS1")), 0x36); /* available on rivatnt hardware and  higher */
-		busses[2] = i2c_create_bus_ptr(STRDUP("BUS2", sizeof("BUS2")), 0x50);  /* available on geforce4mx/4ti/fx/6/7 */
-    }
-    else if (card.card_type == NV_50)
-    {
-        num_busses = 4;
-		busses[0] = nv50_i2c_create_bus_ptr(STRDUP("BUS0", sizeof("BUS0")), 0x0);
-		busses[1] = nv50_i2c_create_bus_ptr(STRDUP("BUS1", sizeof("BUS1")), 0x18);
-		busses[2] = nv50_i2c_create_bus_ptr(STRDUP("BUS2", sizeof("BUS2")), 0x30);       
-   		busses[3] = nv50_i2c_create_bus_ptr(STRDUP("BUS5", sizeof("BUS3")), 0x48);
-    }
-    
-    if (num_busses > 0) {
-        card.i2c_sensor = i2c_probe_devices(busses, num_busses);
-        
-        /* When a sensor is available, enable the correct function pointers */
-        if(card.i2c_sensor)
-        {   
-            switch(card.i2c_sensor->chip_id)
-            {
-                case LM99:
-                case MAX6559:
-                    card.i2c_get_board_temperature = lm99_get_board_temp;
-                    card.i2c_get_gpu_temperature = lm99_get_gpu_temp;
-                    break;
-                case F75375:
-                    card.i2c_get_board_temperature = f75375_get_board_temp;
-                    card.i2c_get_gpu_temperature = f75375_get_gpu_temp;
-                    break;
-                case W83781D:
-                    card.i2c_get_board_temperature = w83781d_get_board_temp;
-                    card.i2c_get_gpu_temperature = w83781d_get_gpu_temp;
-                    break;
-                case W83L785R:
-                    card.i2c_get_board_temperature = w83l785r_get_board_temp;
-                    card.i2c_get_gpu_temperature = w83l785r_get_gpu_temp;
-                    break;
-                case ADT7473:
-                    card.i2c_get_board_temperature = adt7473_get_board_temp;
-                    card.i2c_get_gpu_temperature = adt7473_get_gpu_temp;
-                    break;
-                    
-                default:
-                    return false;
-            }
-            
-            NouveauInfoLog("found %s monitoring chip", card.i2c_sensor->chip_name);
-            
-            card.i2c_temperature = true;
-            
-            return true;
-        }        
-    }
-    
-    return false;
-}
-
 // Driver ===
 
 float NouveauSensors::getSensorValue(FakeSMCSensor *sensor)
 {
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
-            if (card.i2c_temperature) {
+            if (card.i2c_sensor) {
                 switch (sensor->getIndex()) {
                     case 0:
                         return card.i2c_get_gpu_temperature(card.i2c_sensor);
@@ -275,6 +206,10 @@ bool NouveauSensors::start(IOService * provider)
         device->setMemoryEnable(true);
         
         if ((card.mmio = device->mapDeviceMemoryWithIndex(0))) {
+            
+            card.PMC = (volatile unsigned int*)(card.mmio->getVirtualAddress() + NV_PMC_OFFSET);
+            card.PCIO = (volatile unsigned char*)(card.mmio->getVirtualAddress() + NV_PRMCIO0_OFFSET);
+            
             HWSensorsDebugLog("memory mapped successfully");
         }
         else {
@@ -375,7 +310,7 @@ bool NouveauSensors::start(IOService * provider)
         char key[5];
         
         //I2C temperature setup
-        if (i2c_init()) {
+        if (i2c_sensor_init()) {
             snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
             addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0);
             snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, card.card_index);
