@@ -102,7 +102,7 @@ I2CUDelay(I2CBusPtr b, int usec)
             /* It would be nice to use {xf86}usleep,
              * but usleep (1) takes >10000 usec !
              */
-            //IOPause(100);
+            //IOPause(200);
             
             xf86getsecs(&a_secs, &a_usecs);
             d_secs  = (a_secs - b_secs);

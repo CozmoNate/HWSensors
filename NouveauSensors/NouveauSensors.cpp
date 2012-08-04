@@ -33,12 +33,12 @@
 #include "FakeSMCDefinitions.h"
 #include "NouveauDefinitions.h"
 #include "nouveau.h"
+#include "nvclock.h"
+#include "i2c.h"
 
 #include "NouveauSensors.h"
 
 #define kNouveauPWMSensor  1000
-
-NouveauCard* nouveau_card;
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(NouveauSensors, FakeSMCPlugin)
@@ -129,17 +129,11 @@ bool NouveauSensors::i2c_init()
     }
     else if (card.card_type == NV_50)
     {
-        num_busses = 7;
+        num_busses = 4;
 		busses[0] = nv50_i2c_create_bus_ptr(STRDUP("BUS0", sizeof("BUS0")), 0x0);
 		busses[1] = nv50_i2c_create_bus_ptr(STRDUP("BUS1", sizeof("BUS1")), 0x18);
-		busses[2] = nv50_i2c_create_bus_ptr(STRDUP("BUS2", sizeof("BUS2")), 0x30);
-        
-        busses[3] = nv50_i2c_create_bus_ptr(STRDUP("BUS3", sizeof("BUS0")), 0x3e); /* available on riva128 and higher */
-		busses[4] = nv50_i2c_create_bus_ptr(STRDUP("BUS4", sizeof("BUS1")), 0x36); /* available on rivatnt hardware and  higher */
-        
-   		busses[6] = nv50_i2c_create_bus_ptr(STRDUP("BUS5", sizeof("BUS3")), 0x48);
-        
-		busses[5] = nv50_i2c_create_bus_ptr(STRDUP("BUS6", sizeof("BUS2")), 0x50);  /* available on geforce4mx/4ti/fx/6/7 */
+		busses[2] = nv50_i2c_create_bus_ptr(STRDUP("BUS2", sizeof("BUS2")), 0x30);       
+   		busses[3] = nv50_i2c_create_bus_ptr(STRDUP("BUS5", sizeof("BUS3")), 0x48);
     }
     
     if (num_busses > 0) {
@@ -147,9 +141,7 @@ bool NouveauSensors::i2c_init()
         
         /* When a sensor is available, enable the correct function pointers */
         if(card.i2c_sensor)
-        {
-            //nv_card->sensor_name = nv_card->sensor->chip_name;
-            
+        {   
             switch(card.i2c_sensor->chip_id)
             {
                 case LM99:

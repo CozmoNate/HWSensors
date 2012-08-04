@@ -237,7 +237,7 @@ void i2c_probe_device (I2CBusPtr bus, I2CSlaveAddr addr, const char *format, ...
 	}
 }
 
-void i2c_probe_all_devices (I2CBusPtr busses[], int nbus)
+void i2c_probe_all_devices(I2CBusPtr busses[], int nbus)
 {
 	I2CSlaveAddr addr;
 	int bus;
@@ -259,17 +259,17 @@ I2CDevPtr i2c_probe_devices(I2CBusPtr busses[], int num_busses)
 	i2c_lock_unlock(0);
     
 	/* On NV40 cards the i2c busses can be disabled */
-	if(nouveau_card->card_type == NV_40)
-	{
+	//if(nouveau_card->card_type == NV_40)
+	//{
 		nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d4, 0x49);
         unsigned char val = nv_rd08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5);
         nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, val | 0x4);
         //nv_card->PCIO[0x3d5] |= 0x4; /* Unlock the i2c busses */
-	}
+	//}
     
 	i2c_probe_all_devices(busses, num_busses);
     
-    NouveauInfoLog("probing I2C busses");
+    NouveauInfoLog("probing I2C busses...");
     
 	for(bus = 0; bus < num_busses; bus++)
 	{

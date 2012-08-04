@@ -518,8 +518,8 @@ void nvc0_get_vram(NouveauCard *card)
 	bool uniform = true;
 	int part;
     
-	NouveauDebugLog("0x100800: 0x%08lx", nv_rd32(card, 0x100800));
-	NouveauDebugLog("parts 0x%08lx mask 0x%08lx", parts, pmask);
+	NouveauDebugLog("0x100800: 0x%08x", nv_rd32(card, 0x100800));
+	NouveauDebugLog("parts 0x%08x mask 0x%08x", parts, pmask);
     
 	card->vram_type = nouveau_mem_vbios_type(card);
 	//vram_rank_B = !!(nv_rd32(dev, 0x10f200) & 0x00000004);
@@ -534,7 +534,7 @@ void nvc0_get_vram(NouveauCard *card)
 				uniform = false;
 			}
             
-			NouveauDebugLog("%d: mem_amount 0x%08lx", part, psize);
+			NouveauDebugLog("%d: mem_amount 0x%08x", part, psize);
 			card->vram_size += (UInt64)psize << 20;
 		}
 	}
