@@ -9,12 +9,6 @@
 #include "NouveauDefinitions.h"
 #include "nouveau.h"
 
-#define ROM16(x) OSSwapLittleToHostInt16(*(UInt16 *)&(x))
-#define ROM32(x) OSSwapLittleToHostInt32(*(UInt32 *)&(x))
-#define ROMPTR(d,x) ({            \
-ROM16(x) ? &d[ROM16(x)] : NULL; \
-})
-
 /* register access */
 UInt32 nv_rd32(NouveauCard *card, UInt32 reg)
 {

@@ -30,8 +30,8 @@
 #define LM99_REG_LOCAL_TEMP 0x0
 #define LM99_REG_REMOTE_TEMP 0x1
 #define LM99_REG_MAN_ID 0xfe
-	#define NATSEM_MAN_ID 0x1
-	#define MAXIM_MAN_ID 0x4d
+#define NATSEM_MAN_ID 0x1
+#define MAXIM_MAN_ID 0x4d
 #define LM99_REG_CHIP_ID 0xff
 
 /* This function should return the chip type .. */

@@ -115,9 +115,9 @@ void NouveauSensors::bios_shadow()
 // NVClock I2C ===
 
 bool NouveauSensors::i2c_init()
-{
+{ 
     int num_busses = 0;
-    I2CBusPtr busses[4];
+    I2CBusPtr busses[7];
     
     card.i2c_temperature = false;
     
@@ -127,13 +127,19 @@ bool NouveauSensors::i2c_init()
 		busses[1] = i2c_create_bus_ptr(STRDUP("BUS1", sizeof("BUS1")), 0x36); /* available on rivatnt hardware and  higher */
 		busses[2] = i2c_create_bus_ptr(STRDUP("BUS2", sizeof("BUS2")), 0x50);  /* available on geforce4mx/4ti/fx/6/7 */
     }
-    else if (card.card_type == NV_50)
+    else if (card.card_type >= NV_50)
     {
-        num_busses = 4;
+        num_busses = 7;
 		busses[0] = nv50_i2c_create_bus_ptr(STRDUP("BUS0", sizeof("BUS0")), 0x0);
 		busses[1] = nv50_i2c_create_bus_ptr(STRDUP("BUS1", sizeof("BUS1")), 0x18);
 		busses[2] = nv50_i2c_create_bus_ptr(STRDUP("BUS2", sizeof("BUS2")), 0x30);
-		busses[3] = nv50_i2c_create_bus_ptr(STRDUP("BUS3", sizeof("BUS3")), 0x48);
+        
+        busses[3] = nv50_i2c_create_bus_ptr(STRDUP("BUS3", sizeof("BUS0")), 0x3e); /* available on riva128 and higher */
+		busses[4] = nv50_i2c_create_bus_ptr(STRDUP("BUS4", sizeof("BUS1")), 0x36); /* available on rivatnt hardware and  higher */
+        
+   		busses[6] = nv50_i2c_create_bus_ptr(STRDUP("BUS5", sizeof("BUS3")), 0x48);
+        
+		busses[5] = nv50_i2c_create_bus_ptr(STRDUP("BUS6", sizeof("BUS2")), 0x50);  /* available on geforce4mx/4ti/fx/6/7 */
     }
     
     if (num_busses > 0) {
@@ -171,6 +177,8 @@ bool NouveauSensors::i2c_init()
                 default:
                     return false;
             }
+            
+            NouveauInfoLog("found %s monitoring chip", card.i2c_sensor->chip_name);
             
             card.i2c_temperature = true;
             
