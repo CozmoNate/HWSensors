@@ -1387,6 +1387,12 @@
 #define NV_PVIDEO_BLUE_CSC_OFFSET	0x00680288
 #define NV_PVIDEO_CSC_ADJUST		0x0068028c
 
+#define ROM16(x) OSSwapLittleToHostInt16(*(UInt16 *)&(x))
+#define ROM32(x) OSSwapLittleToHostInt32(*(UInt32 *)&(x))
+#define ROMPTR(d,x) ({            \
+ROM16(x) ? &d[ROM16(x)] : NULL; \
+})
+
 #define NouveauDebugLog(string, args...)	do { if (0) { IOLog ("%s: [Debug] " string "\n", "NouveauSensors:" , ## args); } } while(0)
 #define NouveauWarningLog(string, args...) do { IOLog ("%s: [Warning] " string "\n", "NouveauSensors:" , ## args); } while(0)
 #define NouveauInfoLog(string, args...)	do { IOLog ("%s: " string "\n", "NouveauSensors:" , ## args); } while(0)

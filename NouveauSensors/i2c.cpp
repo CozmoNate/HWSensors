@@ -6,6 +6,95 @@
 //
 //
 
+/* NVClock 0.8 - Linux overclocker for NVIDIA cards
+ *
+ * site: http://nvclock.sourceforge.net
+ *
+ * Copyright(C) 2001-2006 Roderick Colenbrander
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+ *
+ * I2C support needed for hardware monitoring, this code is partly based on code from nvtv
+ * and the opensource xfree86 nv driver.
+ */
+
+/* NVTV TV common routines -- Dirk Thierbach <dthierbach@gmx.de>
+ *
+ * This file is part of nvtv, a tool for tv-output on NVidia cards.
+ *
+ * nvtv is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * nvtv is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
+ *
+ * $Id: i2c.c,v 1.14 2007/04/24 08:10:47 thunderbird Exp $
+ *
+ * Contents:
+ *
+ * Header: Common tv-related routines.
+ *
+ */
+
+/***************************************************************************\
+ |*                                                                           *|
+ |*       Copyright 2003 NVIDIA, Corporation.  All rights reserved.           *|
+ |*                                                                           *|
+ |*     NOTICE TO USER:   The source code  is copyrighted under  U.S. and     *|
+ |*     international laws.  Users and possessors of this source code are     *|
+ |*     hereby granted a nonexclusive,  royalty-free copyright license to     *|
+ |*     use this code in individual and commercial software.                  *|
+ |*                                                                           *|
+ |*     Any use of this source code must include,  in the user documenta-     *|
+ |*     tion and  internal comments to the code,  notices to the end user     *|
+ |*     as follows:                                                           *|
+ |*                                                                           *|
+ |*       Copyright 2003 NVIDIA, Corporation.  All rights reserved.           *|
+ |*                                                                           *|
+ |*     NVIDIA, CORPORATION MAKES NO REPRESENTATION ABOUT THE SUITABILITY     *|
+ |*     OF  THIS SOURCE  CODE  FOR ANY PURPOSE.  IT IS  PROVIDED  "AS IS"     *|
+ |*     WITHOUT EXPRESS OR IMPLIED WARRANTY OF ANY KIND.  NVIDIA, CORPOR-     *|
+ |*     ATION DISCLAIMS ALL WARRANTIES  WITH REGARD  TO THIS SOURCE CODE,     *|
+ |*     INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY, NONINFRINGE-     *|
+ |*     MENT,  AND FITNESS  FOR A PARTICULAR PURPOSE.   IN NO EVENT SHALL     *|
+ |*     NVIDIA, CORPORATION  BE LIABLE FOR ANY SPECIAL,  INDIRECT,  INCI-     *|
+ |*     DENTAL, OR CONSEQUENTIAL DAMAGES,  OR ANY DAMAGES  WHATSOEVER RE-     *|
+ |*     SULTING FROM LOSS OF USE,  DATA OR PROFITS,  WHETHER IN AN ACTION     *|
+ |*     OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,  ARISING OUT OF     *|
+ |*     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOURCE CODE.     *|
+ |*                                                                           *|
+ |*     U.S. Government  End  Users.   This source code  is a "commercial     *|
+ |*     item,"  as that  term is  defined at  48 C.F.R. 2.101 (OCT 1995),     *|
+ |*     consisting  of "commercial  computer  software"  and  "commercial     *|
+ |*     computer  software  documentation,"  as such  terms  are  used in     *|
+ |*     48 C.F.R. 12.212 (SEPT 1995)  and is provided to the U.S. Govern-     *|
+ |*     ment only as  a commercial end item.   Consistent with  48 C.F.R.     *|
+ |*     12.212 and  48 C.F.R. 227.7202-1 through  227.7202-4 (JUNE 1995),     *|
+ |*     all U.S. Government End Users  acquire the source code  with only     *|
+ |*     those rights set forth herein.                                        *|
+ |*                                                                           *|
+ \***************************************************************************/
+
 #include "NouveauDefinitions.h"
 #include "nouveau.h"
 #include "i2c.h"
@@ -13,15 +102,16 @@
 void i2c_lock_unlock(int lock)
 {
 	unsigned char cr11;
+    volatile unsigned char* PCIO = (volatile unsigned char*)(nouveau_card->mmio->getVirtualAddress() + 0x601000);
     
-    nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d4, 0x1f);
-	nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, lock ? 0x99 : 0x57);
+    PCIO[0x3d4] = 0x1f;
+	PCIO[0x3d5] = lock ? 0x99 : 0x57;
     
-	nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d4, 0x11);
-	cr11 = nv_rd08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5);
+	PCIO[0x3d4] = 0x11;
+	cr11 = PCIO[0x3d5];
 	if(lock) cr11 |= 0x80;
 	else cr11 &= ~0x80;
-	nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, cr11);
+	PCIO[0x3d5] = cr11;
 }
 
 
@@ -84,10 +174,10 @@ I2CBusPtr i2c_create_bus_ptr(char *name, int bus)
 void nv50_i2c_get_bits(I2CBusPtr bus, int *clock, int *data)
 {
 	const long offset = bus->DriverPrivate.val;
-	unsigned char val;
+    volatile unsigned int *PMC = (volatile unsigned int*)(nouveau_card->mmio->getVirtualAddress() + 0x000000);
     
-	//val = nv_rd08(nouveau_card, (0x0000E138 + offset)/4);
-    val = nv_rd08(nouveau_card, 0x0000E138 + offset);
+    unsigned char val = PMC[(0x0000E138 + offset)/4];
+    
 	*clock = !!(val & 1);
 	*data = !!(val & 2);
 }
@@ -95,8 +185,9 @@ void nv50_i2c_get_bits(I2CBusPtr bus, int *clock, int *data)
 void nv50_i2c_put_bits(I2CBusPtr bus, int clock, int data)
 {
 	const long offset = bus->DriverPrivate.val;
-	//nv_wr08(nouveau_card, (0x0000E138 + offset)/4, 4 | clock | data << 1);
-    nv_wr08(nouveau_card, 0x0000E138 + offset, 4 | clock | data << 1);
+    volatile unsigned int *PMC = (volatile unsigned int*)(nouveau_card->mmio->getVirtualAddress() + 0x000000);
+    
+	PMC[(0x0000E138 + offset)/4] = 4 | clock | data << 1;
 }
 
 I2CBusPtr nv50_i2c_create_bus_ptr(char *name, int bus)
@@ -171,9 +262,8 @@ I2CDevPtr i2c_probe_devices(I2CBusPtr busses[], int num_busses)
 	if(nouveau_card->card_type == NV_40)
 	{
 		nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d4, 0x49);
-        nv_mask(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, 0xffffffff, 0x4);
-        //unsigned char val = nv_rd08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5);
-        //nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, val | 0x4);
+        unsigned char val = nv_rd08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5);
+        nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, val | 0x4);
         //nv_card->PCIO[0x3d5] |= 0x4; /* Unlock the i2c busses */
 	}
     
@@ -188,14 +278,14 @@ I2CDevPtr i2c_probe_devices(I2CBusPtr busses[], int num_busses)
 			NouveauInfoLog("bus: %x device: %x", bus, dev->SlaveAddr);
             
 			dev->arch = nouveau_card->chipset;
-            
+                           
 			switch(dev->SlaveAddr)
 			{
                     /* LM99 */
 				case 0x98:
 					if(lm99_detect(dev))
 						return dev;
-					break;
+                    break;
 				case 0x5a:
 					if(w83l785r_detect(dev))
 						return dev;

@@ -442,15 +442,18 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [[newView animator] setAlphaValue:1.0];
     
     if (newView == _graphsView) {
+        [[_window standardWindowButton:NSWindowZoomButton] setEnabled:YES];
         [_window setContentMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
         [_window setContentMinSize:NSMakeSize(700, 600)];
     }
     else if (newView == _menubarView) {
+        [[_window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
         [_window setContentMaxSize:NSMakeSize(360, MAXFLOAT)];
         [_window setContentMinSize:NSMakeSize(360, 600)];
     }
     else
     {
+        [[_window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
         [_window setContentMinSize:[newView frame].size];
         [_window setContentMaxSize:[newView frame].size];
     }
@@ -586,7 +589,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [self localizeObject:_graphsView];
     [self localizeObject:_menu];
     
-    [[_window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
+    
         
     [_window setIsVisible:YES];
     

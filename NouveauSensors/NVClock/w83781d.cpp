@@ -35,7 +35,7 @@ int w83781d_detect(I2CDevPtr dev)
 			dev->chip_name = (char*)STRDUP("Winbond W83781D", sizeof("Winbond W83781D"));
 			break;
 		default:
-			IOLog("Uknown Winbond vendor: %x\n", man_id);
+			//IOLog("Uknown Winbond vendor: %x\n", man_id);
 			return 0;
 	}
 	return 1;

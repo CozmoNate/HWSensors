@@ -75,6 +75,8 @@ void      	xf86DestroyI2CDevRec(I2CDevPtr pI2CDev, Bool unalloc);
 Bool      	xf86I2CDevInit(I2CDevPtr pI2CDev);
 I2CDevPtr 	xf86I2CFindDev(I2CBusPtr, I2CSlaveAddr);
 
+Bool        I2CAddress(I2CDevPtr d, I2CSlaveAddr addr);
+
 /* See descriptions of these functions in xf86i2c.c */
 
 Bool	  	xf86I2CProbeAddress(I2CBusPtr pI2CBus, I2CSlaveAddr);

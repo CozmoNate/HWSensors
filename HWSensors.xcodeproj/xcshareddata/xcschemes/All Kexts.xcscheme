@@ -70,20 +70,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1DA9623F13ED34070096F8A5"
-               BuildableName = "NVClockX.kext"
-               BlueprintName = "NVClockX"
-               ReferencedContainer = "container:HWSensors.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "6AA45340153FB1FE00F67EED"
                BuildableName = "NouveauSensors.kext"
                BlueprintName = "NouveauSensors"
@@ -115,6 +101,20 @@
                BlueprintIdentifier = "1D6FE3BA13FEBDA700376E64"
                BuildableName = "X3100.kext"
                BlueprintName = "X3100"
+               ReferencedContainer = "container:HWSensors.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7E9025F715CD0CEE00DA7ED7"
+               BuildableName = "NVClockX.kext"
+               BlueprintName = "NVClockX"
                ReferencedContainer = "container:HWSensors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

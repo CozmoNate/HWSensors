@@ -11,8 +11,8 @@
 //#include <stdlib.h>
 #include "NouveauDefinitions.h"
 
-#define xf86Msg(type,format,args...) NouveauInfoLog(format,args)
-#define xf86DrvMsg(scrnIndex,type,format, args...) NouveauInfoLog(format,args)
+#define xf86Msg(type,format,args...) /*NouveauInfoLog(format,args)*/
+#define xf86DrvMsg(scrnIndex,type,format, args...) /*NouveauInfoLog(format,args)*/
 
 #ifndef Bool
 #  ifndef _XTYPEDEF_BOOL

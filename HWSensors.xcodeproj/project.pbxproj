@@ -98,6 +98,31 @@
 		7E84840A15C3BF2C00C2D5E2 /* pcicard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840815C3BF2C00C2D5E2 /* pcicard.png */; };
 		7E84840C15C3BF6300C2D5E2 /* pcicard_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */; };
 		7E8D485E15AA80910049A229 /* HWMonitorColoredCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */; };
+		7E9025FE15CD0CEE00DA7ED7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E9025FC15CD0CEE00DA7ED7 /* InfoPlist.strings */; };
+		7E90260115CD0CEE00DA7ED7 /* NVClockX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90260015CD0CEE00DA7ED7 /* NVClockX.cpp */; };
+		7E90261E15CD0D0C00DA7ED7 /* adt7473.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90260715CD0D0C00DA7ED7 /* adt7473.cpp */; };
+		7E90261F15CD0D0C00DA7ED7 /* backend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90260815CD0D0C00DA7ED7 /* backend.cpp */; };
+		7E90262015CD0D0C00DA7ED7 /* backend.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E90260915CD0D0C00DA7ED7 /* backend.h */; };
+		7E90262115CD0D0C00DA7ED7 /* bios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90260A15CD0D0C00DA7ED7 /* bios.cpp */; };
+		7E90262215CD0D0C00DA7ED7 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90260B15CD0D0C00DA7ED7 /* error.cpp */; };
+		7E90262315CD0D0C00DA7ED7 /* f75375.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90260C15CD0D0C00DA7ED7 /* f75375.cpp */; };
+		7E90262415CD0D0C00DA7ED7 /* f75375.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E90260D15CD0D0C00DA7ED7 /* f75375.h */; };
+		7E90262515CD0D0C00DA7ED7 /* i2c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90260E15CD0D0C00DA7ED7 /* i2c.cpp */; };
+		7E90262615CD0D0C00DA7ED7 /* i2c.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E90260F15CD0D0C00DA7ED7 /* i2c.h */; };
+		7E90262715CD0D0C00DA7ED7 /* info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90261015CD0D0C00DA7ED7 /* info.cpp */; };
+		7E90262815CD0D0C00DA7ED7 /* libc_wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90261115CD0D0C00DA7ED7 /* libc_wrapper.cpp */; };
+		7E90262915CD0D0C00DA7ED7 /* lm99.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90261215CD0D0C00DA7ED7 /* lm99.cpp */; };
+		7E90262A15CD0D0C00DA7ED7 /* nv40.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90261315CD0D0C00DA7ED7 /* nv40.cpp */; };
+		7E90262B15CD0D0C00DA7ED7 /* nv50.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90261415CD0D0C00DA7ED7 /* nv50.cpp */; };
+		7E90262C15CD0D0C00DA7ED7 /* nvclock.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E90261515CD0D0C00DA7ED7 /* nvclock.h */; };
+		7E90262D15CD0D0C00DA7ED7 /* nvreg.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E90261615CD0D0C00DA7ED7 /* nvreg.h */; };
+		7E90262E15CD0D0C00DA7ED7 /* overclock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90261715CD0D0C00DA7ED7 /* overclock.cpp */; };
+		7E90262F15CD0D0C00DA7ED7 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90261815CD0D0C00DA7ED7 /* utils.cpp */; };
+		7E90263015CD0D0C00DA7ED7 /* w83781d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90261915CD0D0C00DA7ED7 /* w83781d.cpp */; };
+		7E90263115CD0D0C00DA7ED7 /* w83l785r.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90261A15CD0D0C00DA7ED7 /* w83l785r.cpp */; };
+		7E90263215CD0D0C00DA7ED7 /* xf86i2c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E90261B15CD0D0C00DA7ED7 /* xf86i2c.cpp */; };
+		7E90263315CD0D0C00DA7ED7 /* xf86i2c.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E90261C15CD0D0C00DA7ED7 /* xf86i2c.h */; };
+		7E90263415CD0D0C00DA7ED7 /* xfree.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E90261D15CD0D0C00DA7ED7 /* xfree.h */; };
 		7E9388F51594596D0005316D /* BundleUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E9388F6159459710005316D /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
 		7E9388F7159459750005316D /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3684AB158368C900E32629 /* HWMonitorIcon.m */; };
@@ -287,6 +312,35 @@
 		7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcicard_template.png; sourceTree = "<group>"; };
 		7E8D485C15AA80910049A229 /* HWMonitorColoredCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorColoredCell.h; sourceTree = "<group>"; };
 		7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorColoredCell.m; sourceTree = "<group>"; };
+		7E9025F815CD0CEE00DA7ED7 /* NVClockX.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NVClockX.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E9025FB15CD0CEE00DA7ED7 /* NVClockX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NVClockX-Info.plist"; sourceTree = "<group>"; };
+		7E9025FD15CD0CEE00DA7ED7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7E9025FF15CD0CEE00DA7ED7 /* NVClockX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NVClockX.h; sourceTree = "<group>"; };
+		7E90260015CD0CEE00DA7ED7 /* NVClockX.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NVClockX.cpp; sourceTree = "<group>"; };
+		7E90260215CD0CEE00DA7ED7 /* NVClockX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NVClockX-Prefix.pch"; sourceTree = "<group>"; };
+		7E90260715CD0D0C00DA7ED7 /* adt7473.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = adt7473.cpp; sourceTree = "<group>"; };
+		7E90260815CD0D0C00DA7ED7 /* backend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = backend.cpp; sourceTree = "<group>"; };
+		7E90260915CD0D0C00DA7ED7 /* backend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = backend.h; sourceTree = "<group>"; };
+		7E90260A15CD0D0C00DA7ED7 /* bios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bios.cpp; sourceTree = "<group>"; };
+		7E90260B15CD0D0C00DA7ED7 /* error.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = error.cpp; sourceTree = "<group>"; };
+		7E90260C15CD0D0C00DA7ED7 /* f75375.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = f75375.cpp; sourceTree = "<group>"; };
+		7E90260D15CD0D0C00DA7ED7 /* f75375.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = f75375.h; sourceTree = "<group>"; };
+		7E90260E15CD0D0C00DA7ED7 /* i2c.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c.cpp; sourceTree = "<group>"; };
+		7E90260F15CD0D0C00DA7ED7 /* i2c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c.h; sourceTree = "<group>"; };
+		7E90261015CD0D0C00DA7ED7 /* info.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = info.cpp; sourceTree = "<group>"; };
+		7E90261115CD0D0C00DA7ED7 /* libc_wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libc_wrapper.cpp; sourceTree = "<group>"; };
+		7E90261215CD0D0C00DA7ED7 /* lm99.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lm99.cpp; sourceTree = "<group>"; };
+		7E90261315CD0D0C00DA7ED7 /* nv40.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nv40.cpp; sourceTree = "<group>"; };
+		7E90261415CD0D0C00DA7ED7 /* nv50.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nv50.cpp; sourceTree = "<group>"; };
+		7E90261515CD0D0C00DA7ED7 /* nvclock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvclock.h; sourceTree = "<group>"; };
+		7E90261615CD0D0C00DA7ED7 /* nvreg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvreg.h; sourceTree = "<group>"; };
+		7E90261715CD0D0C00DA7ED7 /* overclock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = overclock.cpp; sourceTree = "<group>"; };
+		7E90261815CD0D0C00DA7ED7 /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
+		7E90261915CD0D0C00DA7ED7 /* w83781d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = w83781d.cpp; sourceTree = "<group>"; };
+		7E90261A15CD0D0C00DA7ED7 /* w83l785r.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = w83l785r.cpp; sourceTree = "<group>"; };
+		7E90261B15CD0D0C00DA7ED7 /* xf86i2c.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xf86i2c.cpp; sourceTree = "<group>"; };
+		7E90261C15CD0D0C00DA7ED7 /* xf86i2c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xf86i2c.h; sourceTree = "<group>"; };
+		7E90261D15CD0D0C00DA7ED7 /* xfree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xfree.h; sourceTree = "<group>"; };
 		7E9388FF15945B360005316D /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
 		7E93890015945B450005316D /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E938903159497920005316D /* HWMonitorSensorsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorSensorsController.h; sourceTree = "<group>"; };
@@ -382,6 +436,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7E9025F315CD0CEE00DA7ED7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7EB963A21594559100436FDB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -420,6 +481,7 @@
 				6AA45341153FB1FE00F67EED /* NouveauSensors.kext */,
 				7EB963A51594559100436FDB /* HWMonitor.app */,
 				7E79B81A15BA99350079AAE8 /* CPUSensors.kext */,
+				7E9025F815CD0CEE00DA7ED7 /* NVClockX.kext */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -468,6 +530,7 @@
 				6AA45342153FB1FE00F67EED /* NouveauSensors */,
 				6A4E473A152178A00038C5DE /* SuperIOSensors */,
 				1D6FE3BC13FEBDA700376E64 /* GMAX3100 */,
+				7E9025F915CD0CEE00DA7ED7 /* NVClockX */,
 			);
 			name = "Plug-Ins";
 			sourceTree = "<group>";
@@ -809,9 +872,9 @@
 		7E7936CD15C63C9200D821DA /* NVClock */ = {
 			isa = PBXGroup;
 			children = (
+				7E7936E415C63C9200D821DA /* xfree.h */,
 				7E7936E315C63C9200D821DA /* xf86i2c.h */,
 				7E7936E215C63C9200D821DA /* xf86i2c.cpp */,
-				7E7936E415C63C9200D821DA /* xfree.h */,
 				7E7936FF15C8584C00D821DA /* i2c.h */,
 				7E7936FD15C8583E00D821DA /* i2c.cpp */,
 				7E7936CE15C63C9200D821DA /* adt7473.cpp */,
@@ -853,6 +916,57 @@
 				7E96DE5D15C05D8B00A34C60 /* 29-heart@2x.png */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		7E9025F915CD0CEE00DA7ED7 /* NVClockX */ = {
+			isa = PBXGroup;
+			children = (
+				7E90260615CD0D0C00DA7ED7 /* NVClock */,
+				7E9025FF15CD0CEE00DA7ED7 /* NVClockX.h */,
+				7E90260015CD0CEE00DA7ED7 /* NVClockX.cpp */,
+				7E9025FA15CD0CEE00DA7ED7 /* Supporting Files */,
+			);
+			path = NVClockX;
+			sourceTree = "<group>";
+		};
+		7E9025FA15CD0CEE00DA7ED7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7E9025FB15CD0CEE00DA7ED7 /* NVClockX-Info.plist */,
+				7E9025FC15CD0CEE00DA7ED7 /* InfoPlist.strings */,
+				7E90260215CD0CEE00DA7ED7 /* NVClockX-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7E90260615CD0D0C00DA7ED7 /* NVClock */ = {
+			isa = PBXGroup;
+			children = (
+				7E90260715CD0D0C00DA7ED7 /* adt7473.cpp */,
+				7E90260815CD0D0C00DA7ED7 /* backend.cpp */,
+				7E90260915CD0D0C00DA7ED7 /* backend.h */,
+				7E90260A15CD0D0C00DA7ED7 /* bios.cpp */,
+				7E90260B15CD0D0C00DA7ED7 /* error.cpp */,
+				7E90260C15CD0D0C00DA7ED7 /* f75375.cpp */,
+				7E90260D15CD0D0C00DA7ED7 /* f75375.h */,
+				7E90260E15CD0D0C00DA7ED7 /* i2c.cpp */,
+				7E90260F15CD0D0C00DA7ED7 /* i2c.h */,
+				7E90261015CD0D0C00DA7ED7 /* info.cpp */,
+				7E90261115CD0D0C00DA7ED7 /* libc_wrapper.cpp */,
+				7E90261215CD0D0C00DA7ED7 /* lm99.cpp */,
+				7E90261315CD0D0C00DA7ED7 /* nv40.cpp */,
+				7E90261415CD0D0C00DA7ED7 /* nv50.cpp */,
+				7E90261515CD0D0C00DA7ED7 /* nvclock.h */,
+				7E90261615CD0D0C00DA7ED7 /* nvreg.h */,
+				7E90261715CD0D0C00DA7ED7 /* overclock.cpp */,
+				7E90261815CD0D0C00DA7ED7 /* utils.cpp */,
+				7E90261915CD0D0C00DA7ED7 /* w83781d.cpp */,
+				7E90261A15CD0D0C00DA7ED7 /* w83l785r.cpp */,
+				7E90261B15CD0D0C00DA7ED7 /* xf86i2c.cpp */,
+				7E90261C15CD0D0C00DA7ED7 /* xf86i2c.h */,
+				7E90261D15CD0D0C00DA7ED7 /* xfree.h */,
+			);
+			path = NVClock;
 			sourceTree = "<group>";
 		};
 		7EB692E615C99A0E0009B2E2 /* Licenses */ = {
@@ -982,6 +1096,20 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E9025F415CD0CEE00DA7ED7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E90262015CD0D0C00DA7ED7 /* backend.h in Headers */,
+				7E90262415CD0D0C00DA7ED7 /* f75375.h in Headers */,
+				7E90262615CD0D0C00DA7ED7 /* i2c.h in Headers */,
+				7E90262C15CD0D0C00DA7ED7 /* nvclock.h in Headers */,
+				7E90262D15CD0D0C00DA7ED7 /* nvreg.h in Headers */,
+				7E90263315CD0D0C00DA7ED7 /* xf86i2c.h in Headers */,
+				7E90263415CD0D0C00DA7ED7 /* xfree.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1138,6 +1266,25 @@
 			productReference = 7E79B81A15BA99350079AAE8 /* CPUSensors.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
+		7E9025F715CD0CEE00DA7ED7 /* NVClockX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E90260315CD0CEE00DA7ED7 /* Build configuration list for PBXNativeTarget "NVClockX" */;
+			buildPhases = (
+				7E9025F215CD0CEE00DA7ED7 /* Sources */,
+				7E9025F315CD0CEE00DA7ED7 /* Frameworks */,
+				7E9025F415CD0CEE00DA7ED7 /* Headers */,
+				7E9025F515CD0CEE00DA7ED7 /* Resources */,
+				7E9025F615CD0CEE00DA7ED7 /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NVClockX;
+			productName = NVClockX;
+			productReference = 7E9025F815CD0CEE00DA7ED7 /* NVClockX.kext */;
+			productType = "com.apple.product-type.kernel-extension";
+		};
 		7EB963A41594559100436FDB /* HWMonitor */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7EB963BA1594559100436FDB /* Build configuration list for PBXNativeTarget "HWMonitor" */;
@@ -1190,6 +1337,7 @@
 				1D6FE3BA13FEBDA700376E64 /* X3100 */,
 				6A85F85214DBEF5000F863A9 /* HWMonitorExtra */,
 				7EB963A41594559100436FDB /* HWMonitor */,
+				7E9025F715CD0CEE00DA7ED7 /* NVClockX */,
 			);
 		};
 /* End PBXProject section */
@@ -1281,6 +1429,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7E9025F515CD0CEE00DA7ED7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E9025FE15CD0CEE00DA7ED7 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7EB963A31594559100436FDB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1361,6 +1517,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7E9025F615CD0CEE00DA7ED7 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1434,15 +1597,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AA4534A153FB1FE00F67EED /* NouveauSensors.cpp in Sources */,
+				7E7936F915C63C9200D821DA /* xf86i2c.cpp in Sources */,
+				7E7936FE15C8583E00D821DA /* i2c.cpp in Sources */,
 				7E7936E515C63C9200D821DA /* adt7473.cpp in Sources */,
 				7E7936EA15C63C9200D821DA /* f75375.cpp in Sources */,
 				7E7936F015C63C9200D821DA /* lm99.cpp in Sources */,
 				7E7936F715C63C9200D821DA /* w83781d.cpp in Sources */,
 				7E7936F815C63C9200D821DA /* w83l785r.cpp in Sources */,
-				7E7936F915C63C9200D821DA /* xf86i2c.cpp in Sources */,
-				7E7936FE15C8583E00D821DA /* i2c.cpp in Sources */,
 				7E23470C15CA4066007F09E6 /* nouveau.cpp in Sources */,
+				6AA4534A153FB1FE00F67EED /* NouveauSensors.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1451,6 +1614,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E79B82315BA99350079AAE8 /* CPUSensors.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E9025F215CD0CEE00DA7ED7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E90260115CD0CEE00DA7ED7 /* NVClockX.cpp in Sources */,
+				7E90261E15CD0D0C00DA7ED7 /* adt7473.cpp in Sources */,
+				7E90261F15CD0D0C00DA7ED7 /* backend.cpp in Sources */,
+				7E90262115CD0D0C00DA7ED7 /* bios.cpp in Sources */,
+				7E90262215CD0D0C00DA7ED7 /* error.cpp in Sources */,
+				7E90262315CD0D0C00DA7ED7 /* f75375.cpp in Sources */,
+				7E90262515CD0D0C00DA7ED7 /* i2c.cpp in Sources */,
+				7E90262715CD0D0C00DA7ED7 /* info.cpp in Sources */,
+				7E90262815CD0D0C00DA7ED7 /* libc_wrapper.cpp in Sources */,
+				7E90262915CD0D0C00DA7ED7 /* lm99.cpp in Sources */,
+				7E90262A15CD0D0C00DA7ED7 /* nv40.cpp in Sources */,
+				7E90262B15CD0D0C00DA7ED7 /* nv50.cpp in Sources */,
+				7E90262E15CD0D0C00DA7ED7 /* overclock.cpp in Sources */,
+				7E90262F15CD0D0C00DA7ED7 /* utils.cpp in Sources */,
+				7E90263015CD0D0C00DA7ED7 /* w83781d.cpp in Sources */,
+				7E90263115CD0D0C00DA7ED7 /* w83l785r.cpp in Sources */,
+				7E90263215CD0D0C00DA7ED7 /* xf86i2c.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1551,6 +1738,14 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		7E9025FC15CD0CEE00DA7ED7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7E9025FD15CD0CEE00DA7ED7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		7EB963AB1594559100436FDB /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1633,6 +1828,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1670,6 +1866,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1701,6 +1898,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1738,6 +1936,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1769,6 +1968,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1806,6 +2006,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1837,6 +2038,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1874,6 +2076,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1905,6 +2108,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1942,6 +2146,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -2021,6 +2226,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2053,6 +2259,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -2123,6 +2330,66 @@
 				INSTALL_OWNER = root;
 				MODULE_NAME = org.hwsensors.CPUSensors;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Release;
+		};
+		7E90260415CD0CEE00DA7ED7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NVClockX/NVClockX-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "NVClockX/NVClockX-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MODULE_NAME = org.hwsensors.NVClockX;
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Debug;
+		};
+		7E90260515CD0CEE00DA7ED7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NVClockX/NVClockX-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "NVClockX/NVClockX-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MODULE_NAME = org.hwsensors.NVClockX;
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
@@ -2251,6 +2518,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		7E90260315CD0CEE00DA7ED7 /* Build configuration list for PBXNativeTarget "NVClockX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E90260415CD0CEE00DA7ED7 /* Debug */,
+				7E90260515CD0CEE00DA7ED7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		7EB963BA1594559100436FDB /* Build configuration list for PBXNativeTarget "HWMonitor" */ = {
 			isa = XCConfigurationList;
