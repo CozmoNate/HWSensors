@@ -156,6 +156,8 @@ struct NouveauCard {
     UInt16 vendor_id;
     
     IOMemoryMap *mmio;
+    volatile unsigned int *PMC;
+    volatile unsigned char *PCIO;
     
     NVBios bios;
     
@@ -169,7 +171,6 @@ struct NouveauCard {
     SInt8 card_index;
     
     bool fallback_temperature;
-    bool i2c_temperature;
     
     I2CDevPtr i2c_sensor;
     int (*i2c_get_gpu_temperature)(I2CDevPtr dev);

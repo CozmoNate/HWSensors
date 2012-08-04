@@ -650,7 +650,16 @@ xf86I2CWriteVec(I2CDevPtr d, I2CByte *vec, int nValues)
 I2CDevPtr
 xf86CreateI2CDevRec(void)
 {
-    return new I2CDevRec;
+    I2CDevPtr d;
+    
+    d = (I2CDevPtr) new I2CDevRec;
+    
+    if (d != NULL) {
+        d->SlaveAddr = 0x2e;
+        d->pI2CBus = NULL;
+    }
+    
+    return d;
 }
 
 /* Unlink an I2C device. If you got the I2CDevRec from xf86CreateI2CDevRec

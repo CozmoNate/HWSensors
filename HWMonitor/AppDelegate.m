@@ -63,7 +63,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     NSImage *image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:name ofType:@"png"]];
     
-    [image setTemplate:YES];
+    //[image setTemplate:YES];
     
     NSImage *altImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[name stringByAppendingString:@"_template"] ofType:@"png"]];
     
@@ -439,7 +439,11 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     [_window setContentView:newView];
     [_window setFrame:newFrame display:YES animate:YES];
-    [[newView animator] setAlphaValue:1.0];
+    
+    if ([_window isVisible])
+        [[newView animator] setAlphaValue:1.0];
+    else
+        [newView setAlphaValue:1.0];
     
     if (newView == _graphsView) {
         [[_window standardWindowButton:NSWindowZoomButton] setEnabled:YES];
@@ -588,11 +592,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [self localizeObject:_menubarView];
     [self localizeObject:_graphsView];
     [self localizeObject:_menu];
-    
-    
-        
-    [_window setIsVisible:YES];
-    
+            
     [_temperatureGraph setGroup:kHWSensorGroupTemperature | kSMARTSensorGroupTemperature];
     [_frequencyGraph setGroup:kHWSensorGroupFrequency];
     [_tachometerGraph setGroup:kHWSensorGroupTachometer];
@@ -636,6 +636,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     // Set active app status
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorAppIsActive object:HWMonitorBooleanYES userInfo:nil deliverImmediately:YES];
+    
+    [_window setIsVisible:YES];
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender

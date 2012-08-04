@@ -102,16 +102,15 @@
 void i2c_lock_unlock(int lock)
 {
 	unsigned char cr11;
-    volatile unsigned char* PCIO = (volatile unsigned char*)(nouveau_card->mmio->getVirtualAddress() + 0x601000);
+        
+    nouveau_card->PCIO[0x3d4] = 0x1f;
+	nouveau_card->PCIO[0x3d5] = lock ? 0x99 : 0x57;
     
-    PCIO[0x3d4] = 0x1f;
-	PCIO[0x3d5] = lock ? 0x99 : 0x57;
-    
-	PCIO[0x3d4] = 0x11;
-	cr11 = PCIO[0x3d5];
+	nouveau_card->PCIO[0x3d4] = 0x11;
+	cr11 = nouveau_card->PCIO[0x3d5];
 	if(lock) cr11 |= 0x80;
 	else cr11 &= ~0x80;
-	PCIO[0x3d5] = cr11;
+	nouveau_card->PCIO[0x3d5] = cr11;
 }
 
 
@@ -121,8 +120,8 @@ void i2c_get_bits(I2CBusPtr b, int *clock, int *data)
 	int DDCBase = (int)b->DriverPrivate.val;
     
 	/* Get the result. */
-	nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d4, DDCBase);
-	val = nv_rd08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5);
+	nouveau_card->PCIO[0x3d4] = DDCBase;
+	val = nouveau_card->PCIO[0x3d5];
     
 	*clock = (val & DDC_SCL_READ_MASK) != 0;
 	*data  = (val & DDC_SDA_READ_MASK) != 0;
@@ -133,8 +132,8 @@ void i2c_put_bits(I2CBusPtr b, int clock, int data)
 	unsigned char val;
 	int DDCBase = (int)b->DriverPrivate.val;
     
-	nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d4, DDCBase + 1);
-	val = nv_rd08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5) & 0xf0;
+	nouveau_card->PCIO[0x3d4] = DDCBase + 1;
+	val = nouveau_card->PCIO[0x3d5] & 0xf0;
 	if (clock)
 		val |= DDC_SCL_WRITE_MASK;
 	else
@@ -145,8 +144,8 @@ void i2c_put_bits(I2CBusPtr b, int clock, int data)
 	else
 		val &= ~DDC_SDA_WRITE_MASK;
     
-	nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d4, DDCBase + 1);
-	nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, val | 0x1);
+	nouveau_card->PCIO[0x3d4] = DDCBase + 1;
+	nouveau_card->PCIO[0x3d5] = val | 0x1;
 }
 
 I2CBusPtr i2c_create_bus_ptr(char *name, int bus)
@@ -174,9 +173,8 @@ I2CBusPtr i2c_create_bus_ptr(char *name, int bus)
 void nv50_i2c_get_bits(I2CBusPtr bus, int *clock, int *data)
 {
 	const long offset = bus->DriverPrivate.val;
-    volatile unsigned int *PMC = (volatile unsigned int*)(nouveau_card->mmio->getVirtualAddress() + 0x000000);
     
-    unsigned char val = PMC[(0x0000E138 + offset)/4];
+    unsigned char val = nouveau_card->PMC[(0x0000E138 + offset)/4];
     
 	*clock = !!(val & 1);
 	*data = !!(val & 2);
@@ -185,9 +183,8 @@ void nv50_i2c_get_bits(I2CBusPtr bus, int *clock, int *data)
 void nv50_i2c_put_bits(I2CBusPtr bus, int clock, int data)
 {
 	const long offset = bus->DriverPrivate.val;
-    volatile unsigned int *PMC = (volatile unsigned int*)(nouveau_card->mmio->getVirtualAddress() + 0x000000);
     
-	PMC[(0x0000E138 + offset)/4] = 4 | clock | data << 1;
+	nouveau_card->PMC[(0x0000E138 + offset)/4] = 4 | clock | data << 1;
 }
 
 I2CBusPtr nv50_i2c_create_bus_ptr(char *name, int bus)
@@ -259,13 +256,12 @@ I2CDevPtr i2c_probe_devices(I2CBusPtr busses[], int num_busses)
 	i2c_lock_unlock(0);
     
 	/* On NV40 cards the i2c busses can be disabled */
-	//if(nouveau_card->card_type == NV_40)
-	//{
-		nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d4, 0x49);
-        unsigned char val = nv_rd08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5);
-        nv_wr08(nouveau_card, NV_PRMCIO0_OFFSET + 0x3d5, val | 0x4);
-        //nv_card->PCIO[0x3d5] |= 0x4; /* Unlock the i2c busses */
-	//}
+	//  if(nv_card->arch & NV4X)
+	//    {
+	nouveau_card->PCIO[0x3d4] = 0x49;
+	nouveau_card->PCIO[0x3d5] |= 0x4; /* Unlock the i2c busses */
+    
+	//    }
     
 	i2c_probe_all_devices(busses, num_busses);
     
@@ -319,3 +315,67 @@ I2CDevPtr i2c_probe_devices(I2CBusPtr busses[], int num_busses)
     
 	return NULL;
 }
+
+bool i2c_sensor_init()
+{
+    int num_busses = 0;
+    I2CBusPtr busses[4];
+        
+    if (nouveau_card->card_type == NV_40) {
+        num_busses = 3;
+		busses[0] = i2c_create_bus_ptr(STRDUP("BUS0", sizeof("BUS0")), 0x3e); /* available on riva128 and higher */
+		busses[1] = i2c_create_bus_ptr(STRDUP("BUS1", sizeof("BUS1")), 0x36); /* available on rivatnt hardware and  higher */
+		busses[2] = i2c_create_bus_ptr(STRDUP("BUS2", sizeof("BUS2")), 0x50);  /* available on geforce4mx/4ti/fx/6/7 */
+    }
+    else if (nouveau_card->card_type == NV_50)
+    {
+        num_busses = 4;
+		busses[0] = nv50_i2c_create_bus_ptr(STRDUP("BUS0", sizeof("BUS0")), 0x0);
+		busses[1] = nv50_i2c_create_bus_ptr(STRDUP("BUS1", sizeof("BUS1")), 0x18);
+		busses[2] = nv50_i2c_create_bus_ptr(STRDUP("BUS2", sizeof("BUS2")), 0x30);
+   		busses[3] = nv50_i2c_create_bus_ptr(STRDUP("BUS5", sizeof("BUS3")), 0x48);
+    }
+    
+    if (num_busses > 0) {
+        nouveau_card->i2c_sensor = i2c_probe_devices(busses, num_busses);
+        
+        /* When a sensor is available, enable the correct function pointers */
+        if(nouveau_card->i2c_sensor)
+        {
+            switch(nouveau_card->i2c_sensor->chip_id)
+            {
+                case LM99:
+                case MAX6559:
+                    nouveau_card->i2c_get_board_temperature = lm99_get_board_temp;
+                    nouveau_card->i2c_get_gpu_temperature = lm99_get_gpu_temp;
+                    break;
+                case F75375:
+                    nouveau_card->i2c_get_board_temperature = f75375_get_board_temp;
+                    nouveau_card->i2c_get_gpu_temperature = f75375_get_gpu_temp;
+                    break;
+                case W83781D:
+                    nouveau_card->i2c_get_board_temperature = w83781d_get_board_temp;
+                    nouveau_card->i2c_get_gpu_temperature = w83781d_get_gpu_temp;
+                    break;
+                case W83L785R:
+                    nouveau_card->i2c_get_board_temperature = w83l785r_get_board_temp;
+                    nouveau_card->i2c_get_gpu_temperature = w83l785r_get_gpu_temp;
+                    break;
+                case ADT7473:
+                    nouveau_card->i2c_get_board_temperature = adt7473_get_board_temp;
+                    nouveau_card->i2c_get_gpu_temperature = adt7473_get_gpu_temp;
+                    break;
+                    
+                default:
+                    return false;
+            }
+            
+            NouveauInfoLog("found %s monitoring chip", nouveau_card->i2c_sensor->chip_name);
+            
+            return true;
+        }
+    }
+    
+    return false;
+}
+
