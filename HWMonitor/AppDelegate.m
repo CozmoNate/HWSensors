@@ -240,6 +240,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         
         // Set active app status
         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorAppIsActive object:HWMonitorBooleanYES userInfo:nil deliverImmediately:YES];
+        
+        [_toggleMenuButton setState:YES];
     }
     else {
         [self setUserInterfaceEnabled:nil];
@@ -289,6 +291,18 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         CoreMenuExtraRemoveMenuExtra(menuExtra, 0);
         [self setUserInterfaceEnabled:nil];
         [sender setState:NO];
+        
+        error = CoreMenuExtraGetMenuExtra((__bridge CFStringRef)@"org.hwsensors.HWMonitorExtra", &menuExtra);
+        
+        int count = 0;
+        
+        do {
+            count++;
+            sleep(1);
+            error = CoreMenuExtraGetMenuExtra((__bridge CFStringRef)@"org.hwsensors.HWMonitorExtra", &menuExtra);
+        } while ((!menuExtra || error) && count < 3);
+        
+        system("killall SystemUIServer");
     }
     else {
         
