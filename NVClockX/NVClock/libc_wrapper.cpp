@@ -53,14 +53,7 @@ xf86usleep(unsigned long usec)
 
 
 void xf86getsecs(long * secs, long * usecs)
-{
-	/*struct timeval tv;
-
-	microtime(&tv);
-	*secs = tv.tv_sec;
-	*usecs= tv.tv_usec;
-*/
-    
+{ 
     clock_sec_t d_secs = 0;
     clock_usec_t d_usecs = 0;
     
