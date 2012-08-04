@@ -127,7 +127,7 @@ bool NouveauSensors::i2c_init()
 		busses[1] = i2c_create_bus_ptr(STRDUP("BUS1", sizeof("BUS1")), 0x36); /* available on rivatnt hardware and  higher */
 		busses[2] = i2c_create_bus_ptr(STRDUP("BUS2", sizeof("BUS2")), 0x50);  /* available on geforce4mx/4ti/fx/6/7 */
     }
-    else if (card.card_type >= NV_50)
+    else if (card.card_type == NV_50)
     {
         num_busses = 7;
 		busses[0] = nv50_i2c_create_bus_ptr(STRDUP("BUS0", sizeof("BUS0")), 0x0);
