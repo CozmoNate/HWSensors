@@ -1,13 +1,13 @@
 //
-//  nouveau.h
+//  nvc0.h
 //  HWSensors
 //
 //  Created by Kozlek on 07.08.12.
 //
 //
 
-#ifndef HWSensors_nouveau_h
-#define HWSensors_nouveau_h
+#ifndef HWSensors_nvc0_h
+#define HWSensors_nvc0_h
 
 
 

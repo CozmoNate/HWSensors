@@ -1,5 +1,5 @@
 //
-//  nouveau.c
+//  nv50.c
 //  HWSensors
 //
 //  Created by Kozlek on 07.08.12.

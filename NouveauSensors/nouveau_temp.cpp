@@ -1,5 +1,5 @@
 //
-//  nouveau.c
+//  nouveau_temp.c
 //  HWSensors
 //
 //  Created by Kozlek on 07.08.12.

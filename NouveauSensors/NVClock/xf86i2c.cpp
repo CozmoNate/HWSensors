@@ -8,72 +8,13 @@
 
 /* $XFree86: xc/programs/Xserver/hw/xfree86/i2c/xf86i2c.c,v 1.6 1999/06/12 15:37:08 dawes Exp $ */
 
-#include "xfree.h"
-#include <string.h>
-
-#if 0
-#define NULL ((void *)0)
-
-#include "misc.h"
-#include "xf86.h"
-#include "xf86_ansic.h"
-#include "xf86_OSproc.h"
-
-#include "X.h"
-#include "Xproto.h"
-#include "scrnintstr.h"
-#include "regionstr.h"
-#include "windowstr.h"
-#include "pixmapstr.h"
-#include "validate.h"
-#include "resource.h"
-#include "gcstruct.h"
-#include "dixstruct.h"
-/* #else */
-typedef int Bool;
-typedef void *Pointer;
-#define TRUE  1
-#define FALSE 0
-#endif
-
 #include <IOKit/IOLib.h>
 
+#include "xfree.h"
 #include "xf86i2c.h"
 
 #define I2C_TIMEOUT(x)	/*(x)*/  /* Report timeouts */
 #define I2C_TRACE(x)    /*(x)*/  /* Report progress */
-
-/* Set which OSs have bad gettimeofday resolution. */
-#if defined(SVR4) && !defined(sun)
-#define BAD_GETTIMEOFDAY_RESOLUTION
-#endif
-
-
-/* This is the default I2CUDelay function if not supplied by the driver.
- * High level I2C interfaces implementing the bus protocol in hardware
- * should supply this function too.
- *
- * Delay execution at least usec microseconds.
- * All values 0 to 1e6 inclusive must be expected.
- */
-
-#ifdef BAD_GETTIMEOFDAY_RESOLUTION
-/*
- * This is temporary until a better, portable
- * way is found. Adjust bogo_usec to match CPU speed.
- */
-static int bogo_usec = 500;
-
-static void
-I2CUDelay(I2CBusPtr b, int usec)
-{
-    volatile long i;
-    
-    if (usec > 0)
-        for (i = usec * bogo_usec; i > 0; i--)
-	    /* (perhaps hw delay action) */;
-}
-#else
 
 void xf86getsecs(long * secs, long * usecs)
 {
@@ -112,7 +53,6 @@ I2CUDelay(I2CBusPtr b, int usec)
     }
     
 }
-#endif
 
 /* Most drivers will register just with GetBits/PutBits functions.
  * The following functions implement a software I2C protocol

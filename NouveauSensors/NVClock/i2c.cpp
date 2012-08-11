@@ -256,12 +256,11 @@ I2CDevPtr i2c_probe_devices(I2CBusPtr busses[], int num_busses)
 	i2c_lock_unlock(0);
     
 	/* On NV40 cards the i2c busses can be disabled */
-	//  if(nv_card->arch & NV4X)
-	//    {
-	nouveau_card->PCIO[0x3d4] = 0x49;
-	nouveau_card->PCIO[0x3d5] |= 0x4; /* Unlock the i2c busses */
-    
-	//    }
+	if(nouveau_card->card_type == NV_40)
+	{
+        nouveau_card->PCIO[0x3d4] = 0x49;
+        nouveau_card->PCIO[0x3d5] |= 0x4; /* Unlock the i2c busses */
+	}
     
 	i2c_probe_all_devices(busses, num_busses);
     
