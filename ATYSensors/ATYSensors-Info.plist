@@ -53,5 +53,7 @@
 		<key>FAKESMC_BUNDLE</key>
 		<string>FAKESMC_COMPATIBLE</string>
 	</dict>
+	<key>OSBundleRequired</key>
+	<string>Root</string>
 </dict>
 </plist>

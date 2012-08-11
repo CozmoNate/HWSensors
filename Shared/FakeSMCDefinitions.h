@@ -91,7 +91,7 @@
 #define KEY_FAN_NUMBER                          "FNum"
 #define KEY_FORMAT_FAN_ID                       "F%XID"
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
-#define KEY_FAKESMC_FORMAT_FAN_PWM              "F%XDc"
+#define KEY_FAKESMC_FORMAT_FAN_PWM              "F%XPc"
 // Other
 #define KEY_FAKESMC_FORMAT_CPU_FREQUENCY		"Cc%XC"
 #define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY       "CcPk"

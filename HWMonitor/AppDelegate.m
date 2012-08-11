@@ -292,7 +292,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [self setUserInterfaceEnabled:nil];
         [sender setState:NO];
         
-        error = CoreMenuExtraGetMenuExtra((__bridge CFStringRef)@"org.hwsensors.HWMonitorExtra", &menuExtra);
+        CoreMenuExtraGetMenuExtra((__bridge CFStringRef)@"org.hwsensors.HWMonitorExtra", &menuExtra);
         
         int count = 0;
         
@@ -330,7 +330,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         CoreMenuExtraAddMenuExtra((__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"HWMonitorExtra" ofType:@"menu"]], 0, 0, 0, 0, 0);
         
         menuExtra = nil;
-        error = 0;
         int count = 0;
         
         do {

@@ -9,6 +9,9 @@
 #ifndef HWSensors_nvc0_h
 #define HWSensors_nvc0_h
 
+#include "nouveau_definitions.h"
 
+bool nvc0_identify(struct nouveau_device *device);
+int nvc0_pm_clocks_get(struct nouveau_device *device, u8 source);
 
 #endif

@@ -9,6 +9,6 @@
 #ifndef __HWSensors__nvd0__
 #define __HWSensors__nvd0__
 
-#include <iostream>
+int nvd0_gpio_sense(struct nouveau_device *device, int line);
 
 #endif /* defined(__HWSensors__nvd0__) */

@@ -58,7 +58,6 @@
 		6AA710BB152B7D180006E62C /* OemInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA710B8152B7D180006E62C /* OemInfo.h */; };
 		6AA710BC152B7D180006E62C /* SMBIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA710B9152B7D180006E62C /* SMBIOS.h */; };
 		6AAD810F151E083300CBD70C /* temperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAD810D151E083300CBD70C /* temperatures.png */; };
-		6AC16D8A153FC73D008CFC84 /* nouveau.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC16D89153FC73C008CFC84 /* nouveau.h */; };
 		6AE5FC2F151E1EC6005F9929 /* hddtemperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */; };
 		6AE5FC33151E1F63005F9929 /* ssdlife.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC31151E1F62005F9929 /* ssdlife.png */; };
 		6AE5FC36151E2232005F9929 /* multipliers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC34151E2232005F9929 /* multipliers.png */; };
@@ -69,8 +68,6 @@
 		7E130004159C10E900F3B88A /* HWMonitorGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E130003159C10E900F3B88A /* HWMonitorGroup.m */; };
 		7E130008159C129200F3B88A /* HWMonitorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E130007159C129200F3B88A /* HWMonitorItem.m */; };
 		7E1375711589A10600E45B9F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF984150201DE00C34729 /* Localizable.strings */; };
-		7E23470C15CA4066007F09E6 /* nouveau.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E23470B15CA4066007F09E6 /* nouveau.cpp */; };
-		7E23471015CA4A7A007F09E6 /* NouveauDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E23470F15CA4A7A007F09E6 /* NouveauDefinitions.h */; };
 		7E3684AD158368C900E32629 /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3684AB158368C900E32629 /* HWMonitorIcon.m */; };
 		7E3684B01583715B00E32629 /* temperatures_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684AE1583715B00E32629 /* temperatures_template.png */; };
 		7E3684B31583722500E32629 /* frequencies_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684B11583722500E32629 /* frequencies_template.png */; };
@@ -80,7 +77,21 @@
 		7E3684BF158373B900E32629 /* tachometers_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684BD158373B900E32629 /* tachometers_template.png */; };
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
+		7E4F543E15D0C6DB00A365AE /* nv40.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E4F543D15D0C6DB00A365AE /* nv40.h */; };
+		7E4F544115D0C6E900A365AE /* nv40.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E4F544015D0C6E900A365AE /* nv40.cpp */; };
+		7E4F544315D0C70F00A365AE /* nv50.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E4F544215D0C70F00A365AE /* nv50.h */; };
+		7E4F544515D0C71800A365AE /* nv50.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E4F544415D0C71800A365AE /* nv50.cpp */; };
+		7E4F544715D0C72E00A365AE /* nvc0.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E4F544615D0C72E00A365AE /* nvc0.h */; };
+		7E4F544915D0C73700A365AE /* nvc0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E4F544815D0C73700A365AE /* nvc0.cpp */; };
+		7E4F544C15D0C75D00A365AE /* nve0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E4F544B15D0C75C00A365AE /* nve0.cpp */; };
+		7E4F544E15D0D69100A365AE /* nouveau_bios.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E4F544D15D0D69000A365AE /* nouveau_bios.h */; };
+		7E4F545015D0D69B00A365AE /* nouveau_bios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E4F544F15D0D69A00A365AE /* nouveau_bios.cpp */; };
+		7E4F545115D0D7CB00A365AE /* nouveau.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBFA41615D0B82800DB8579 /* nouveau.cpp */; };
 		7E55352515C05C4100DDF3BF /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */; };
+		7E5E4BFB15D53A90002FE3DF /* nva3.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5E4BFA15D53A90002FE3DF /* nva3.h */; };
+		7E5E4BFE15D53A9C002FE3DF /* nva3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5E4BFD15D53A9C002FE3DF /* nva3.cpp */; };
+		7E5E4C0015D53F24002FE3DF /* nouveau_volt.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5E4BFF15D53F24002FE3DF /* nouveau_volt.h */; };
+		7E5E4C0215D53F2F002FE3DF /* nouveau_volt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5E4C0115D53F2F002FE3DF /* nouveau_volt.cpp */; };
 		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
 		7E79B82315BA99350079AAE8 /* CPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E79B82215BA99350079AAE8 /* CPUSensors.cpp */; };
 		7E84840915C3BF2C00C2D5E2 /* pcicard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840815C3BF2C00C2D5E2 /* pcicard.png */; };
@@ -101,19 +112,14 @@
 		7E96DE6B15C063B800A34C60 /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6A15C063AA00A34C60 /* hwmonitor.png */; };
 		7E96DE6C15C063C100A34C60 /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6A15C063AA00A34C60 /* hwmonitor.png */; };
 		7E96DE6E15C064A700A34C60 /* hwmonitor_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6D15C0649E00A34C60 /* hwmonitor_template.png */; };
-		7EA29F3D15CD546500224EB4 /* nvclock.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EA29F3C15CD546500224EB4 /* nvclock.h */; };
-		7EA29F4015CD547E00224EB4 /* nvclock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EA29F3F15CD547E00224EB4 /* nvclock.cpp */; };
-		7EAAA16B15CD4F65009641F9 /* adt7473.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EAAA16215CD4F65009641F9 /* adt7473.cpp */; };
-		7EAAA16C15CD4F65009641F9 /* f75375.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EAAA16315CD4F65009641F9 /* f75375.cpp */; };
-		7EAAA16D15CD4F65009641F9 /* f75375.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EAAA16415CD4F65009641F9 /* f75375.h */; };
-		7EAAA16E15CD4F65009641F9 /* lm99.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EAAA16515CD4F65009641F9 /* lm99.cpp */; };
-		7EAAA16F15CD4F65009641F9 /* w83781d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EAAA16615CD4F65009641F9 /* w83781d.cpp */; };
-		7EAAA17015CD4F65009641F9 /* w83l785r.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EAAA16715CD4F65009641F9 /* w83l785r.cpp */; };
-		7EAAA17115CD4F65009641F9 /* xf86i2c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EAAA16815CD4F65009641F9 /* xf86i2c.cpp */; };
-		7EAAA17215CD4F65009641F9 /* xf86i2c.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EAAA16915CD4F65009641F9 /* xf86i2c.h */; };
-		7EAAA17315CD4F65009641F9 /* xfree.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EAAA16A15CD4F65009641F9 /* xfree.h */; };
-		7EAAA17615CD4F7D009641F9 /* i2c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EAAA17415CD4F7D009641F9 /* i2c.cpp */; };
-		7EAAA17715CD4F7D009641F9 /* i2c.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EAAA17515CD4F7D009641F9 /* i2c.h */; };
+		7EADBFE015D58E6000566642 /* nouveau_gpio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EADBFDE15D58E6000566642 /* nouveau_gpio.cpp */; };
+		7EADBFE115D58E6000566642 /* nouveau_gpio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EADBFDF15D58E6000566642 /* nouveau_gpio.h */; };
+		7EADBFE515D59FAE00566642 /* nv10.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EADBFE315D59FAE00566642 /* nv10.cpp */; };
+		7EADBFE615D59FAE00566642 /* nv10.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EADBFE415D59FAE00566642 /* nv10.h */; };
+		7EADBFE915D612C600566642 /* nvd0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EADBFE715D612C500566642 /* nvd0.cpp */; };
+		7EADBFEA15D612C600566642 /* nvd0.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EADBFE815D612C500566642 /* nvd0.h */; };
+		7EB5F21215D19B5D00CD3FC9 /* nouveau_temp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB5F21115D19B5D00CD3FC9 /* nouveau_temp.cpp */; };
+		7EB5F21515D19C4900CD3FC9 /* nouveau_temp.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB5F21415D19C4900CD3FC9 /* nouveau_temp.h */; };
 		7EB963A01594531100436FDB /* HWMonitorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB9639F1594531100436FDB /* HWMonitorView.m */; };
 		7EB963A71594559100436FDB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9F8320144FF24000EEEFEB /* Cocoa.framework */; };
 		7EB963AD1594559100436FDB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EB963AB1594559100436FDB /* InfoPlist.strings */; };
@@ -132,7 +138,10 @@
 		7EB963C51594561200436FDB /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC3D151E269C005F9929 /* voltages.png */; };
 		7EBCF0991594C0B4005E1A16 /* HWMonitorExtra.menu in Resources */ = {isa = PBXBuildFile; fileRef = 6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */; };
 		7EBCF09B1594C1D3005E1A16 /* MenuCracker.menu in Resources */ = {isa = PBXBuildFile; fileRef = 7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */; };
+		7EBFA41915D0B83500DB8579 /* nouveau.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBFA41815D0B83500DB8579 /* nouveau.h */; };
 		7EC2525915A8111E00E385E4 /* HWMonitorGraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */; };
+		7ECCC9DC15D67858001B1C57 /* nouveau_i2c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCC9DA15D67858001B1C57 /* nouveau_i2c.cpp */; };
+		7ECCC9DD15D67858001B1C57 /* nouveau_i2c.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ECCC9DB15D67858001B1C57 /* nouveau_i2c.h */; };
 		7EF7509E158C7F2500235EDC /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF981150201D100C34729 /* default.icns */; };
 		7EFB862D15C30E4300F61B59 /* NSImage-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB862615C30E4300F61B59 /* NSImage-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7EFB862E15C30E4300F61B59 /* NSTableView-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB862815C30E4300F61B59 /* NSTableView-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -237,7 +246,6 @@
 		6AA710B8152B7D180006E62C /* OemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OemInfo.h; sourceTree = "<group>"; };
 		6AA710B9152B7D180006E62C /* SMBIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBIOS.h; sourceTree = "<group>"; };
 		6AAD810D151E083300CBD70C /* temperatures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = temperatures.png; sourceTree = "<group>"; };
-		6AC16D89153FC73C008CFC84 /* nouveau.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau.h; sourceTree = "<group>"; };
 		6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hddtemperatures.png; sourceTree = "<group>"; };
 		6AE5FC31151E1F62005F9929 /* ssdlife.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ssdlife.png; sourceTree = "<group>"; };
 		6AE5FC34151E2232005F9929 /* multipliers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = multipliers.png; sourceTree = "<group>"; };
@@ -251,8 +259,6 @@
 		7E130003159C10E900F3B88A /* HWMonitorGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGroup.m; sourceTree = "<group>"; };
 		7E130006159C129200F3B88A /* HWMonitorItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorItem.h; sourceTree = "<group>"; };
 		7E130007159C129200F3B88A /* HWMonitorItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorItem.m; sourceTree = "<group>"; };
-		7E23470B15CA4066007F09E6 /* nouveau.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau.cpp; sourceTree = "<group>"; };
-		7E23470F15CA4A7A007F09E6 /* NouveauDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NouveauDefinitions.h; sourceTree = "<group>"; };
 		7E2A5803159240B30073AB74 /* removefakesmc */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = removefakesmc; path = Installer/removefakesmc; sourceTree = "<group>"; };
 		7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsInfoPlist.pch; sourceTree = "<group>"; };
 		7E3684AA158368C900E32629 /* HWMonitorIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorIcon.h; sourceTree = "<group>"; };
@@ -267,7 +273,22 @@
 		7E3F6EE4155DB9DE00C3492E /* preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preferences.png; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E40054F1585031B009AECED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7E4F543D15D0C6DB00A365AE /* nv40.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nv40.h; sourceTree = "<group>"; };
+		7E4F544015D0C6E900A365AE /* nv40.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nv40.cpp; sourceTree = "<group>"; };
+		7E4F544215D0C70F00A365AE /* nv50.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nv50.h; sourceTree = "<group>"; };
+		7E4F544415D0C71800A365AE /* nv50.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nv50.cpp; sourceTree = "<group>"; };
+		7E4F544615D0C72E00A365AE /* nvc0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvc0.h; sourceTree = "<group>"; };
+		7E4F544815D0C73700A365AE /* nvc0.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nvc0.cpp; sourceTree = "<group>"; };
+		7E4F544A15D0C75400A365AE /* nve0.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nve0.h; sourceTree = "<group>"; };
+		7E4F544B15D0C75C00A365AE /* nve0.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nve0.cpp; sourceTree = "<group>"; };
+		7E4F544D15D0D69000A365AE /* nouveau_bios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_bios.h; sourceTree = "<group>"; };
+		7E4F544F15D0D69A00A365AE /* nouveau_bios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_bios.cpp; sourceTree = "<group>"; };
+		7E4F545215D0DABE00A365AE /* nouveau_definitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nouveau_definitions.h; sourceTree = "<group>"; };
 		7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
+		7E5E4BFA15D53A90002FE3DF /* nva3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nva3.h; sourceTree = "<group>"; };
+		7E5E4BFD15D53A9C002FE3DF /* nva3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nva3.cpp; sourceTree = "<group>"; };
+		7E5E4BFF15D53F24002FE3DF /* nouveau_volt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_volt.h; sourceTree = "<group>"; };
+		7E5E4C0115D53F2F002FE3DF /* nouveau_volt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_volt.cpp; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81D15BA99350079AAE8 /* CPUSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CPUSensors-Info.plist"; sourceTree = "<group>"; };
 		7E79B81F15BA99350079AAE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -287,19 +308,14 @@
 		7E96DE6615C0607900A34C60 /* badge-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-4.png"; sourceTree = "<group>"; };
 		7E96DE6A15C063AA00A34C60 /* hwmonitor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor.png; sourceTree = "<group>"; };
 		7E96DE6D15C0649E00A34C60 /* hwmonitor_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor_template.png; sourceTree = "<group>"; };
-		7EA29F3C15CD546500224EB4 /* nvclock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvclock.h; sourceTree = "<group>"; };
-		7EA29F3F15CD547E00224EB4 /* nvclock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nvclock.cpp; sourceTree = "<group>"; };
-		7EAAA16215CD4F65009641F9 /* adt7473.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = adt7473.cpp; sourceTree = "<group>"; };
-		7EAAA16315CD4F65009641F9 /* f75375.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = f75375.cpp; sourceTree = "<group>"; };
-		7EAAA16415CD4F65009641F9 /* f75375.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = f75375.h; sourceTree = "<group>"; };
-		7EAAA16515CD4F65009641F9 /* lm99.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lm99.cpp; sourceTree = "<group>"; };
-		7EAAA16615CD4F65009641F9 /* w83781d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = w83781d.cpp; sourceTree = "<group>"; };
-		7EAAA16715CD4F65009641F9 /* w83l785r.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = w83l785r.cpp; sourceTree = "<group>"; };
-		7EAAA16815CD4F65009641F9 /* xf86i2c.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xf86i2c.cpp; sourceTree = "<group>"; };
-		7EAAA16915CD4F65009641F9 /* xf86i2c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xf86i2c.h; sourceTree = "<group>"; };
-		7EAAA16A15CD4F65009641F9 /* xfree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xfree.h; sourceTree = "<group>"; };
-		7EAAA17415CD4F7D009641F9 /* i2c.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c.cpp; sourceTree = "<group>"; };
-		7EAAA17515CD4F7D009641F9 /* i2c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c.h; sourceTree = "<group>"; };
+		7EADBFDE15D58E6000566642 /* nouveau_gpio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_gpio.cpp; sourceTree = "<group>"; };
+		7EADBFDF15D58E6000566642 /* nouveau_gpio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_gpio.h; sourceTree = "<group>"; };
+		7EADBFE315D59FAE00566642 /* nv10.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nv10.cpp; sourceTree = "<group>"; };
+		7EADBFE415D59FAE00566642 /* nv10.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nv10.h; sourceTree = "<group>"; };
+		7EADBFE715D612C500566642 /* nvd0.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nvd0.cpp; sourceTree = "<group>"; };
+		7EADBFE815D612C500566642 /* nvd0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvd0.h; sourceTree = "<group>"; };
+		7EB5F21115D19B5D00CD3FC9 /* nouveau_temp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_temp.cpp; sourceTree = "<group>"; };
+		7EB5F21415D19C4900CD3FC9 /* nouveau_temp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_temp.h; sourceTree = "<group>"; };
 		7EB692E715C99A2E0009B2E2 /* gpl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = gpl.txt; sourceTree = "<group>"; };
 		7EB7A7BD1596021A00971346 /* killuiserver */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = killuiserver; path = Installer/killuiserver; sourceTree = "<group>"; };
 		7EB9639E1594531100436FDB /* HWMonitorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorView.h; sourceTree = "<group>"; };
@@ -314,8 +330,12 @@
 		7EB963B51594559100436FDB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7EB963B81594559100436FDB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MenuCracker.menu; path = Binaries/MenuCracker/MenuCracker.menu; sourceTree = SOURCE_ROOT; };
+		7EBFA41615D0B82800DB8579 /* nouveau.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau.cpp; sourceTree = "<group>"; };
+		7EBFA41815D0B83500DB8579 /* nouveau.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau.h; sourceTree = "<group>"; };
 		7EC2525715A8111E00E385E4 /* HWMonitorGraphsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorGraphsView.h; sourceTree = "<group>"; };
 		7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGraphsView.m; sourceTree = "<group>"; };
+		7ECCC9DA15D67858001B1C57 /* nouveau_i2c.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_i2c.cpp; sourceTree = "<group>"; };
+		7ECCC9DB15D67858001B1C57 /* nouveau_i2c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_i2c.h; sourceTree = "<group>"; };
 		7EFB862515C30E4300F61B59 /* NSImage-NoodleExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage-NoodleExtensions.h"; sourceTree = "<group>"; };
 		7EFB862615C30E4300F61B59 /* NSImage-NoodleExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage-NoodleExtensions.m"; sourceTree = "<group>"; };
 		7EFB862715C30E4300F61B59 /* NSTableView-NoodleExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView-NoodleExtensions.h"; sourceTree = "<group>"; };
@@ -754,8 +774,7 @@
 		6AA45342153FB1FE00F67EED /* NouveauSensors */ = {
 			isa = PBXGroup;
 			children = (
-				7E23470E15CA4A3C007F09E6 /* Nouveau */,
-				7EAAA16115CD4F65009641F9 /* NVClock */,
+				7EBFA41515D0B81300DB8579 /* Nouveau */,
 				6AA45348153FB1FE00F67EED /* NouveauSensors.h */,
 				6AA45349153FB1FE00F67EED /* NouveauSensors.cpp */,
 				6AA45343153FB1FE00F67EED /* Supporting Files */,
@@ -789,16 +808,6 @@
 				7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */,
 			);
 			name = BundleUserDefaults;
-			sourceTree = "<group>";
-		};
-		7E23470E15CA4A3C007F09E6 /* Nouveau */ = {
-			isa = PBXGroup;
-			children = (
-				7E23470F15CA4A7A007F09E6 /* NouveauDefinitions.h */,
-				6AC16D89153FC73C008CFC84 /* nouveau.h */,
-				7E23470B15CA4066007F09E6 /* nouveau.cpp */,
-			);
-			name = Nouveau;
 			sourceTree = "<group>";
 		};
 		7E3684A8158368AC00E32629 /* HWMonitorIcon */ = {
@@ -841,26 +850,6 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		7EAAA16115CD4F65009641F9 /* NVClock */ = {
-			isa = PBXGroup;
-			children = (
-				7EA29F3C15CD546500224EB4 /* nvclock.h */,
-				7EA29F3F15CD547E00224EB4 /* nvclock.cpp */,
-				7EAAA16A15CD4F65009641F9 /* xfree.h */,
-				7EAAA16915CD4F65009641F9 /* xf86i2c.h */,
-				7EAAA16815CD4F65009641F9 /* xf86i2c.cpp */,
-				7EAAA17515CD4F7D009641F9 /* i2c.h */,
-				7EAAA17415CD4F7D009641F9 /* i2c.cpp */,
-				7EAAA16215CD4F65009641F9 /* adt7473.cpp */,
-				7EAAA16415CD4F65009641F9 /* f75375.h */,
-				7EAAA16315CD4F65009641F9 /* f75375.cpp */,
-				7EAAA16515CD4F65009641F9 /* lm99.cpp */,
-				7EAAA16615CD4F65009641F9 /* w83781d.cpp */,
-				7EAAA16715CD4F65009641F9 /* w83l785r.cpp */,
-			);
-			path = NVClock;
-			sourceTree = "<group>";
-		};
 		7EB692E615C99A0E0009B2E2 /* Licenses */ = {
 			isa = PBXGroup;
 			children = (
@@ -897,6 +886,40 @@
 				7EB963B11594559100436FDB /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7EBFA41515D0B81300DB8579 /* Nouveau */ = {
+			isa = PBXGroup;
+			children = (
+				7E4F545215D0DABE00A365AE /* nouveau_definitions.h */,
+				7EADBFE415D59FAE00566642 /* nv10.h */,
+				7EADBFE315D59FAE00566642 /* nv10.cpp */,
+				7E4F543D15D0C6DB00A365AE /* nv40.h */,
+				7E4F544015D0C6E900A365AE /* nv40.cpp */,
+				7E4F544215D0C70F00A365AE /* nv50.h */,
+				7E4F544415D0C71800A365AE /* nv50.cpp */,
+				7E5E4BFA15D53A90002FE3DF /* nva3.h */,
+				7E5E4BFD15D53A9C002FE3DF /* nva3.cpp */,
+				7E4F544615D0C72E00A365AE /* nvc0.h */,
+				7E4F544815D0C73700A365AE /* nvc0.cpp */,
+				7E4F544A15D0C75400A365AE /* nve0.h */,
+				7E4F544B15D0C75C00A365AE /* nve0.cpp */,
+				7EADBFE815D612C500566642 /* nvd0.h */,
+				7EADBFE715D612C500566642 /* nvd0.cpp */,
+				7E4F544D15D0D69000A365AE /* nouveau_bios.h */,
+				7E4F544F15D0D69A00A365AE /* nouveau_bios.cpp */,
+				7EADBFDF15D58E6000566642 /* nouveau_gpio.h */,
+				7EADBFDE15D58E6000566642 /* nouveau_gpio.cpp */,
+				7EB5F21415D19C4900CD3FC9 /* nouveau_temp.h */,
+				7EB5F21115D19B5D00CD3FC9 /* nouveau_temp.cpp */,
+				7E5E4BFF15D53F24002FE3DF /* nouveau_volt.h */,
+				7E5E4C0115D53F2F002FE3DF /* nouveau_volt.cpp */,
+				7ECCC9DB15D67858001B1C57 /* nouveau_i2c.h */,
+				7ECCC9DA15D67858001B1C57 /* nouveau_i2c.cpp */,
+				7EBFA41815D0B83500DB8579 /* nouveau.h */,
+				7EBFA41615D0B82800DB8579 /* nouveau.cpp */,
+			);
+			name = Nouveau;
 			sourceTree = "<group>";
 		};
 		7EFB862315C30E2200F61B59 /* NoodleKit */ = {
@@ -975,13 +998,18 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AC16D8A153FC73D008CFC84 /* nouveau.h in Headers */,
-				7E23471015CA4A7A007F09E6 /* NouveauDefinitions.h in Headers */,
-				7EAAA16D15CD4F65009641F9 /* f75375.h in Headers */,
-				7EAAA17215CD4F65009641F9 /* xf86i2c.h in Headers */,
-				7EAAA17315CD4F65009641F9 /* xfree.h in Headers */,
-				7EAAA17715CD4F7D009641F9 /* i2c.h in Headers */,
-				7EA29F3D15CD546500224EB4 /* nvclock.h in Headers */,
+				7EBFA41915D0B83500DB8579 /* nouveau.h in Headers */,
+				7E4F543E15D0C6DB00A365AE /* nv40.h in Headers */,
+				7E4F544315D0C70F00A365AE /* nv50.h in Headers */,
+				7E4F544715D0C72E00A365AE /* nvc0.h in Headers */,
+				7E4F544E15D0D69100A365AE /* nouveau_bios.h in Headers */,
+				7EB5F21515D19C4900CD3FC9 /* nouveau_temp.h in Headers */,
+				7E5E4BFB15D53A90002FE3DF /* nva3.h in Headers */,
+				7E5E4C0015D53F24002FE3DF /* nouveau_volt.h in Headers */,
+				7EADBFE115D58E6000566642 /* nouveau_gpio.h in Headers */,
+				7EADBFE615D59FAE00566642 /* nv10.h in Headers */,
+				7EADBFEA15D612C600566642 /* nvd0.h in Headers */,
+				7ECCC9DD15D67858001B1C57 /* nouveau_i2c.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1441,16 +1469,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E23470C15CA4066007F09E6 /* nouveau.cpp in Sources */,
 				6AA4534A153FB1FE00F67EED /* NouveauSensors.cpp in Sources */,
-				7EAAA16B15CD4F65009641F9 /* adt7473.cpp in Sources */,
-				7EAAA16C15CD4F65009641F9 /* f75375.cpp in Sources */,
-				7EAAA16E15CD4F65009641F9 /* lm99.cpp in Sources */,
-				7EAAA16F15CD4F65009641F9 /* w83781d.cpp in Sources */,
-				7EAAA17015CD4F65009641F9 /* w83l785r.cpp in Sources */,
-				7EAAA17115CD4F65009641F9 /* xf86i2c.cpp in Sources */,
-				7EAAA17615CD4F7D009641F9 /* i2c.cpp in Sources */,
-				7EA29F4015CD547E00224EB4 /* nvclock.cpp in Sources */,
+				7E4F544115D0C6E900A365AE /* nv40.cpp in Sources */,
+				7E4F544515D0C71800A365AE /* nv50.cpp in Sources */,
+				7E4F544915D0C73700A365AE /* nvc0.cpp in Sources */,
+				7E4F544C15D0C75D00A365AE /* nve0.cpp in Sources */,
+				7E4F545015D0D69B00A365AE /* nouveau_bios.cpp in Sources */,
+				7E4F545115D0D7CB00A365AE /* nouveau.cpp in Sources */,
+				7EB5F21215D19B5D00CD3FC9 /* nouveau_temp.cpp in Sources */,
+				7E5E4BFE15D53A9C002FE3DF /* nva3.cpp in Sources */,
+				7E5E4C0215D53F2F002FE3DF /* nouveau_volt.cpp in Sources */,
+				7EADBFE015D58E6000566642 /* nouveau_gpio.cpp in Sources */,
+				7EADBFE515D59FAE00566642 /* nv10.cpp in Sources */,
+				7EADBFE915D612C600566642 /* nvd0.cpp in Sources */,
+				7ECCC9DC15D67858001B1C57 /* nouveau_i2c.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1990,6 +2022,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"/**";
@@ -2019,6 +2052,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"/**";
@@ -2152,6 +2186,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2178,6 +2213,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
