@@ -36,17 +36,12 @@
 
 #include "FakeSMCPlugin.h"
 
-#include "nouveau.h"
-
 class NouveauSensors : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(NouveauSensors)    
 	
 private:
     IOPCIDevice*    device;
-    NouveauCard     card;
-    
-    void            bios_shadow();
     
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);

@@ -57,7 +57,7 @@ typedef union _DevUnion {
 #define FALSE 0
 #endif
 
-void xf86usleep(unsigned long usec);
+//void xf86usleep(unsigned long usec);
 void xf86getsecs(long * secs, long * usecs);
 
 #define xcalloc(_num, _size) calloc(_num, _size)

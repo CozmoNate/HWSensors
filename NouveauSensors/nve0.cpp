@@ -1,5 +1,5 @@
 //
-//  nouveau.c
+//  nve0.c
 //  HWSensors
 //
 //  Created by Kozlek on 07.08.12.
