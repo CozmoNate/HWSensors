@@ -7,3 +7,7 @@
 //
 
 #include "nouveau_i2c.h"
+
+#include "nouveau.h"
+
+

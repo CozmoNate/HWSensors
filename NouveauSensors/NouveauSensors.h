@@ -31,17 +31,16 @@
  */
 
 #include <IOKit/IOService.h>
-#include <IOKit/pci/IOPCIDevice.h>
-#include <IOKit/IOTimerEventSource.h>
 
 #include "FakeSMCPlugin.h"
+#include "nouveau.h"
 
 class NouveauSensors : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(NouveauSensors)    
 	
 private:
-    IOPCIDevice*    device;
+    nouveau_device      card;
     
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);

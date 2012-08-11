@@ -129,7 +129,8 @@
     if ([self readSMARTData]) {
         ATASMARTAttribute * life = nil;
         
-        if ((life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance]))
+        if ((life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance]) ||
+            (life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance2]))
             return [NSData dataWithBytes:life->rawvalue length:6];
     }
     
@@ -244,14 +245,16 @@
                                 NSString *volumes = [[partitions objectForKey:(__bridge id)(bsdName)] componentsJoinedByString:@", "];
                                 
                                 if ([medium isEqualToString:@"Rotational"]) {
-                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:(__bridge_transfer NSString *)bsdName volumesNames:(volumes ? volumes : (__bridge_transfer NSString*)bsdName) serialNumber:serial isRotational:TRUE];
+                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:[(__bridge  NSString*)bsdName copy] volumesNames:(volumes ? volumes : [(__bridge  NSString*)bsdName copy]) serialNumber:serial isRotational:TRUE];
                                     ;
                                 }
                                 else if ([medium isEqualToString:@"Solid State"])
                                 {
-                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:(__bridge NSString*)bsdName volumesNames:(volumes ? volumes : (__bridge_transfer  NSString*)bsdName) serialNumber:serial isRotational:FALSE];
+                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:[(__bridge  NSString*)bsdName copy] volumesNames:(volumes ? volumes : [(__bridge NSString*)bsdName copy]) serialNumber:serial isRotational:FALSE];
                                 }
                                 
+                                CFRelease(bsdName);
+                                                                
                                 if (disk)
                                     [list addObject:disk];
                             }

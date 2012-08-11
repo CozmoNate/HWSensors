@@ -108,13 +108,13 @@
     HWMonitorSensor *sensor = nil;
     NSString *type = nil;
     NSData *value = nil;
-    BOOL smartSensor = FALSE;
+    //BOOL smartSensor = FALSE;
     
     switch (group) {
         case kSMARTSensorGroupTemperature:
         case kSMARTSensorGroupRemainingLife:
         case kSMARTSensorGroupRemainingBlocks:
-            smartSensor = TRUE;
+            //smartSensor = TRUE;
             break;
             
         default: {
@@ -317,7 +317,7 @@
         if ([caption hasPrefix:@"GPU "]) {
             UInt8 cardIndex = [[caption substringFromIndex:5] intValue];
             
-            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_FAN_PWM,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),i + 1] group:kHWSensorGroupPWM];
+            [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_FAN_PWM,cardIndex] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),cardIndex + 1] group:kHWSensorGroupPWM];
             
             [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),cardIndex + 1] group:kHWSensorGroupTachometer];
         }

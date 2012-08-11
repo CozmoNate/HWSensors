@@ -17,15 +17,15 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.63</string>
+	<string>1.0.65</string>
 	<key>CFBundleSignature</key>
 	<string>HWMN</string>
 	<key>CFBundleVersion</key>
-	<string>1.7.12</string>
+	<string>1.7.13</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>4F250</string>
+	<string>4F1003</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -33,9 +33,9 @@
 	<key>DTSDKName</key>
 	<string>macosx10.7</string>
 	<key>DTXcode</key>
-	<string>0440</string>
+	<string>0441</string>
 	<key>DTXcodeBuild</key>
-	<string>4F250</string>
+	<string>4F1003</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 Natan Zalkin &lt;natan.zalkin@me.com&gt;. All rights reserved.</string>
 	<key>NSPrincipalClass</key>

@@ -30,89 +30,40 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+#include "NouveauSensors.h"
+
 #include "FakeSMCDefinitions.h"
 
-#include "NouveauSensors.h"
+#include "nouveau.h"
+#include "nouveau_temp.h"
+
+#define kNouveauPWMSensor           1000
+#define kNouveauTemperatureSensor   1001
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(NouveauSensors, FakeSMCPlugin)
 
 float NouveauSensors::getSensorValue(FakeSMCSensor *sensor)
 {
-    /*switch (sensor->getGroup()) {
+    switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
-            if (card.i2c_sensor) {
-                switch (sensor->getIndex()) {
-                    case 0:
-                        return card.i2c_get_gpu_temperature(card.i2c_sensor);
-                        
-                    case 1:
-                        return card.i2c_get_board_temperature(card.i2c_sensor);
-                }
-            }
-            else {
-                switch (card.chipset & 0xf0) {
-                    case 0x40:
-                    case 0x60:
-                    case 0x50:
-                    case 0x80:
-                    case 0x90:
-                    case 0xa0:
-                        if (card.chipset >= 0x84 && !card.fallback_temperature)
-                            return nv84_get_temperature(&card);
-                        else
-                            return nv40_get_temperature(&card);
-
-                    case 0xc0:
-                    case 0xd0:
-                    case 0xe0: // testing
-                        return nv84_get_temperature(&card);
-                }
-            }
-            break;
+            return card.diode_temp_get(&card);
+        
+        case kNouveauTemperatureSensor:
+            return card.board_temp_get(&card);
             
         case kFakeSMCFrequencySensor:
-            switch (card.chipset & 0xf0) {
-                case 0x40:
-                case 0x60:
-                    return nv40_get_clock(&card, (NVClockSource)sensor->getIndex());
-
-                case 0x50:
-                case 0x80:
-                case 0x90:
-                case 0xa0:
-                    switch (card.chipset) {
-                        case 0x84:
-                        case 0x86:
-                        case 0x92:
-                        case 0x94:
-                        case 0x96:
-                        case 0x98:
-                        case 0xa0:
-                        case 0xaa:
-                        case 0xac:
-                        case 0x50:
-                            return nv50_get_clock(&card, (NVClockSource)sensor->getIndex());
-
-                        default:
-                            return nva3_get_clock(&card, (NVClockSource)sensor->getIndex());
-                    }
-                    break;
-                case 0xc0:
-                case 0xd0:
-                    return nvc0_get_clock(&card, (NVClockSource)sensor->getIndex());
-            }
-            break;
+            return card.clocks_get(&card, sensor->getIndex()) / 1000.0f;
             
         case kNouveauPWMSensor:
-            return nouveau_pwmfan_get(&card);
-        
+            return card.pwm_fan_get(&card);
+            
         case kFakeSMCTachometerSensor:
-            return nouveau_rpmfan_get(&card, 500); // count ticks for 500ms
+            return card.rpm_fan_get(&card, 500); // count ticks for 500ms
             
         case kFakeSMCVoltageSensor:
-            return nouveau_voltage_get(&card);
-    }*/
+            return (float)card.voltage_get(&card) / 1000000.0f;
+    }
     
     return 0;
 }
@@ -123,40 +74,137 @@ bool NouveauSensors::start(IOService * provider)
 	
 	if (!super::start(provider)) 
         return false;
+        
+    struct nouveau_device *device = &card;
     
-    /*if ((device = (IOPCIDevice*)provider)) {
+    //Find card number
+    card.card_index = getVacantGPUIndex();
+    if (card.card_index < 0) {
+        nv_error(device, "failed to obtain vacant GPU index\n");
+        return false;
+    }
+    
+    // map device memory
+    if ((device->pcidev = (IOPCIDevice*)provider)) {
         
-        device->setMemoryEnable(true);
+        device->pcidev->setMemoryEnable(true);
         
-        if ((card.mmio = device->mapDeviceMemoryWithIndex(0))) {
-            HWSensorsDebugLog("memory mapped successfully");
+        if ((device->mmio = device->pcidev->mapDeviceMemoryWithIndex(0))) {
+            nv_debug(device, "memory mapped successfully\n");
         }
         else {
-            HWSensorsWarningLog("failed to map memory");
+            nv_error(device, "failed to map memory\n");
             return false;
         }
     }
     else {
-        HWSensorsWarningLog("failed to assign PCI device");
+        nv_error(device, "failed to assign PCI device\n");
         return false;
-    }*/
-
-        
-   /* if (card.card_type) {
-        
-        if (OSData * data = OSDynamicCast(OSData, device->getProperty("device-id")))
-            card.device_id = *(UInt16*)data->getBytesNoCopy(0, 2);
-        
-        if (OSData * data = OSDynamicCast(OSData, device->getProperty("vendor-id")))
-            card.vendor_id = *(UInt16*)data->getBytesNoCopy(0, 2);
-        
-           }
-    else HWSensorsWarningLog("NV%02X unsupported (chipset:0x%08x)", card.chipset, reg0);*/
+    }
     
-    return false;
+    // identify chipset
+    if (!nouveau_identify(device))
+        return false;
+    
+    // shadow and parse bios
+    if (!nouveau_bios_shadow(device)) {
+        nv_error(device, "unable to shadow VBIOS\n");
+        //return false;
+    }
+    else nouveau_bios_parse(device);
+    
+    // initialize funcs and variables
+    if (!nouveau_init(device)) {
+        nv_error(device, "unable to initialize monitoring driver\n");
+        return false;
+    }
+        
+    nv_debug(device, "registering sensors...\n");
+    
+    // Register sensors
+    char key[5];
+    
+    if (card.diode_temp_get || card.board_temp_get) {
+        nv_debug(device, "registering temperature sensors...\n");
+        
+        if (card.diode_temp_get && card.board_temp_get) {
+            snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
+            addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0);
+            
+            snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, card.card_index);
+            addSensor(key, TYPE_SP78, 2, kNouveauTemperatureSensor, 0);
+        }
+        else if (card.diode_temp_get) {
+            snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, card.card_index);
+            addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0);
+        }
+        else if (card.board_temp_get) {
+            snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, card.card_index);
+            addSensor(key, TYPE_SP78, 2, kNouveauTemperatureSensor, 0);
+        }
+    }
+    
+    if (card.clocks_get) {
+        nv_debug(device, "registering clocks sensors...\n");
+        
+        if (card.clocks_get(&card, nouveau_clock_core) > 0) {
+            snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_FREQUENCY, card.card_index);
+            addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_core);
+        }
+        
+        if (card.clocks_get(&card, nouveau_clock_shader) > 0) {
+            snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY, card.card_index);
+            addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_shader);
+        }
+        
+        if (card.clocks_get(&card, nouveau_clock_rop) > 0) {
+            snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY, card.card_index);
+            addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_rop);
+        }
+        
+        if (card.clocks_get(&card, nouveau_clock_memory) > 0) {
+            snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY, card.card_index);
+            addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_memory);
+        }
+    }
+    
+    if (card.pwm_fan_get || card.rpm_fan_get) {
+        nv_debug(device, "registering PWM sensors...\n");
+        
+        if (card.pwm_fan_get && card.pwm_fan_get(device) > 0) {
+            snprintf(key, 5, KEY_FAKESMC_FORMAT_FAN_PWM, card.card_index);
+            addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kNouveauPWMSensor, 0);
+        }
+        
+        if (card.rpm_fan_get && card.rpm_fan_get(device, 100) > 0) {
+            char title[6];
+            snprintf (title, 6, "GPU %X", card.card_index);
+            addTachometer(card.card_index, title);
+        }
+    }
+    
+    if (card.voltage_get && card.voltage.supported) {
+        nv_debug(device, "registering voltage sensors...\n");
+        snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, card.card_index);
+        addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0);
+    }
+    
+    nv_info(device, "started\n");
+    
+    return true;
 }
 
 void NouveauSensors::free(void)
 {
+    if (card.mmio) {
+        card.mmio->release();
+        card.mmio = 0;
+    }
+    
+    if (card.bios.data) {
+        IOFree(card.bios.data, card.bios.size);
+        card.bios.data = 0;
+    }
+    
     super::free();
 }

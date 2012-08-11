@@ -23,7 +23,7 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
-	<string>4F250</string>
+	<string>4F1003</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -31,9 +31,9 @@
 	<key>DTSDKName</key>
 	<string>macosx10.7</string>
 	<key>DTXcode</key>
-	<string>0440</string>
+	<string>0441</string>
 	<key>DTXcodeBuild</key>
-	<string>4F250</string>
+	<string>4F1003</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>ACPI Monitoring Plugin</key>
@@ -115,5 +115,7 @@
 		<key>org.netkas.driver.FakeSMC</key>
 		<string>4.2.9</string>
 	</dict>
+	<key>OSBundleRequired</key>
+	<string>Root</string>
 </dict>
 </plist>

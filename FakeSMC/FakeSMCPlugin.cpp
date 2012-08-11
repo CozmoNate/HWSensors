@@ -283,7 +283,7 @@ SInt8 FakeSMCPlugin::getVacantGPUIndex()
         return i;
     }
     
-    return -1;
+    return false;
 }
 
 bool FakeSMCPlugin::init(OSDictionary *properties)
