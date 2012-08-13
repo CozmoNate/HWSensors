@@ -35,15 +35,16 @@
     NSMutableDictionary *_sensors;
     NSMutableArray *_globalColors;
     NSUInteger _globalColorIndex;
+    
+    BOOL _connectedWithMenuExtra;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSView *preferencesView;
-@property (assign) IBOutlet NSView *menubarView;
+@property (assign) IBOutlet NSView *favoritesView;
 @property (assign) IBOutlet NSView *graphsView;
 @property (assign) IBOutlet NSToolbar *prefsToolbar;
 @property (assign) IBOutlet NSMenu *menu;
-@property (assign) IBOutlet NSTokenField *favoritesTokens;
 @property (assign) IBOutlet HWMonitorSensorsController *sensorsController;
 @property (assign) IBOutlet NSArrayController *graphsController;
 @property (assign) IBOutlet NSTextField *versionLabel;

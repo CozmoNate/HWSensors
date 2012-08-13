@@ -7,6 +7,7 @@
 //
 
 #include "nouveau.h"
+#include "nv50.h"
 #include "nve0.h"
 #include "nvd0.h"
 

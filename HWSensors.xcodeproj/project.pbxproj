@@ -120,6 +120,11 @@
 		7EADBFEA15D612C600566642 /* nvd0.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EADBFE815D612C500566642 /* nvd0.h */; };
 		7EB5F21215D19B5D00CD3FC9 /* nouveau_temp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB5F21115D19B5D00CD3FC9 /* nouveau_temp.cpp */; };
 		7EB5F21515D19C4900CD3FC9 /* nouveau_temp.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB5F21415D19C4900CD3FC9 /* nouveau_temp.h */; };
+		7EB6D3E515D91BB00076499A /* i2c_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB6D3E315D91BB00076499A /* i2c_base.cpp */; };
+		7EB6D3E615D91BB00076499A /* i2c_base.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB6D3E415D91BB00076499A /* i2c_base.h */; };
+		7EB6D3E815D91BE70076499A /* linux_definitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB6D3E715D91BE70076499A /* linux_definitions.h */; };
+		7EB6D3EB15D91C430076499A /* i2c_algo_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB6D3E915D91C430076499A /* i2c_algo_bit.cpp */; };
+		7EB6D3EC15D91C430076499A /* i2c_algo_bit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB6D3EA15D91C430076499A /* i2c_algo_bit.h */; };
 		7EB963A01594531100436FDB /* HWMonitorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB9639F1594531100436FDB /* HWMonitorView.m */; };
 		7EB963A71594559100436FDB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9F8320144FF24000EEEFEB /* Cocoa.framework */; };
 		7EB963AD1594559100436FDB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EB963AB1594559100436FDB /* InfoPlist.strings */; };
@@ -317,6 +322,11 @@
 		7EB5F21115D19B5D00CD3FC9 /* nouveau_temp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_temp.cpp; sourceTree = "<group>"; };
 		7EB5F21415D19C4900CD3FC9 /* nouveau_temp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_temp.h; sourceTree = "<group>"; };
 		7EB692E715C99A2E0009B2E2 /* gpl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = gpl.txt; sourceTree = "<group>"; };
+		7EB6D3E315D91BB00076499A /* i2c_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_base.cpp; sourceTree = "<group>"; };
+		7EB6D3E415D91BB00076499A /* i2c_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_base.h; sourceTree = "<group>"; };
+		7EB6D3E715D91BE70076499A /* linux_definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = linux_definitions.h; sourceTree = "<group>"; };
+		7EB6D3E915D91C430076499A /* i2c_algo_bit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_algo_bit.cpp; sourceTree = "<group>"; };
+		7EB6D3EA15D91C430076499A /* i2c_algo_bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_algo_bit.h; sourceTree = "<group>"; };
 		7EB7A7BD1596021A00971346 /* killuiserver */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = killuiserver; path = Installer/killuiserver; sourceTree = "<group>"; };
 		7EB9639E1594531100436FDB /* HWMonitorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorView.h; sourceTree = "<group>"; };
 		7EB9639F1594531100436FDB /* HWMonitorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorView.m; sourceTree = "<group>"; };
@@ -774,6 +784,7 @@
 		6AA45342153FB1FE00F67EED /* NouveauSensors */ = {
 			isa = PBXGroup;
 			children = (
+				7EB6D3E115D91B9E0076499A /* Linux */,
 				7EBFA41515D0B81300DB8579 /* Nouveau */,
 				6AA45348153FB1FE00F67EED /* NouveauSensors.h */,
 				6AA45349153FB1FE00F67EED /* NouveauSensors.cpp */,
@@ -856,6 +867,18 @@
 				7EB692E715C99A2E0009B2E2 /* gpl.txt */,
 			);
 			name = Licenses;
+			sourceTree = "<group>";
+		};
+		7EB6D3E115D91B9E0076499A /* Linux */ = {
+			isa = PBXGroup;
+			children = (
+				7EB6D3E715D91BE70076499A /* linux_definitions.h */,
+				7EB6D3E415D91BB00076499A /* i2c_base.h */,
+				7EB6D3E315D91BB00076499A /* i2c_base.cpp */,
+				7EB6D3EA15D91C430076499A /* i2c_algo_bit.h */,
+				7EB6D3E915D91C430076499A /* i2c_algo_bit.cpp */,
+			);
+			name = Linux;
 			sourceTree = "<group>";
 		};
 		7EB963A81594559100436FDB /* HWMonitor */ = {
@@ -1010,6 +1033,9 @@
 				7EADBFE615D59FAE00566642 /* nv10.h in Headers */,
 				7EADBFEA15D612C600566642 /* nvd0.h in Headers */,
 				7ECCC9DD15D67858001B1C57 /* nouveau_i2c.h in Headers */,
+				7EB6D3E615D91BB00076499A /* i2c_base.h in Headers */,
+				7EB6D3E815D91BE70076499A /* linux_definitions.h in Headers */,
+				7EB6D3EC15D91C430076499A /* i2c_algo_bit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1483,6 +1509,8 @@
 				7EADBFE515D59FAE00566642 /* nv10.cpp in Sources */,
 				7EADBFE915D612C600566642 /* nvd0.cpp in Sources */,
 				7ECCC9DC15D67858001B1C57 /* nouveau_i2c.cpp in Sources */,
+				7EB6D3E515D91BB00076499A /* i2c_base.cpp in Sources */,
+				7EB6D3EB15D91C430076499A /* i2c_algo_bit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

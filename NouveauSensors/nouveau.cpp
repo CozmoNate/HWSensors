@@ -60,7 +60,7 @@ bool nouveau_identify(struct nouveau_device *device)
     }
     
     nv_debug(device, "BOOT0  : 0x%08x\n", boot0);
-    nv_info(device, "chipset: %s (NV%02X) family : NV%02X\n",
+    nv_info(device, "chipset: %s (NV%02X) family: NV%02X\n",
 			device->cname, device->chipset, device->card_type);
     
     /* determine frequency of timing crystal */
@@ -96,12 +96,14 @@ bool nouveau_init(struct nouveau_device *device)
         device->pwm_get = nv40_pm_pwm_get;
         device->pwm_fan_get = nouveau_pwmfan_gpio_get;
         device->rpm_fan_get = nouveau_rpmfan_gpio_get;
-    } else if (device->card_type < NV_C0) {
+    }
+    else if (device->card_type < NV_C0) {
         if (device->chipset <  0xa3 ||
             device->chipset == 0xaa ||
             device->chipset == 0xac) {
             device->clocks_get = nv50_pm_clocks_get;
-        } else {
+        }
+        else {
             device->clocks_get = nva3_pm_clocks_get;
         }
         device->voltage_get = nouveau_voltage_gpio_get;
@@ -112,7 +114,8 @@ bool nouveau_init(struct nouveau_device *device)
         device->pwm_get = nv50_pm_pwm_get;
         device->pwm_fan_get = nouveau_pwmfan_gpio_get;
         device->rpm_fan_get = nouveau_rpmfan_gpio_get;
-    } else if (device->card_type < NV_E0) {
+    }
+    else if (device->card_type < NV_E0) {
         device->clocks_get = nvc0_pm_clocks_get;
         device->voltage_get = nouveau_voltage_gpio_get;
         device->diode_temp_get = nv84_diode_temp_get;
@@ -121,6 +124,14 @@ bool nouveau_init(struct nouveau_device *device)
             device->pwm_fan_get = nouveau_pwmfan_gpio_get;
             device->rpm_fan_get = nouveau_rpmfan_gpio_get;
         }
+    }
+    else if (device->card_type < 0xf0) {
+        //device->clocks_get = nvc0_pm_clocks_get;
+        //device->voltage_get = nouveau_voltage_gpio_get;
+        device->diode_temp_get = nv84_diode_temp_get;
+        //device->pwm_get = nv50_pm_pwm_get;
+        //device->pwm_fan_get = nouveau_pwmfan_gpio_get;
+        //device->rpm_fan_get = nouveau_rpmfan_gpio_get;
     }
     
     /*if (device->gpio_init)

@@ -67,7 +67,7 @@ struct nouveau_device {
     
     nouveau_pm_temp_sensor_constants sensor_constants;
     nouveau_pm_voltage voltage;
-    
+        
     void (*gpio_init)(struct nouveau_device *);
     int (*gpio_sense)(struct nouveau_device *, int line);
 	bool (*pwm_get)(struct nouveau_device *, int line, u32*, u32*);
