@@ -35,7 +35,6 @@
 #include "FakeSMCDefinitions.h"
 
 #include "nouveau.h"
-#include "nouveau_temp.h"
 
 #define kNouveauPWMSensor           1000
 #define kNouveauTemperatureSensor   1001

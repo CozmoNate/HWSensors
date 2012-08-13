@@ -39,11 +39,10 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 @synthesize window = _window;
 @synthesize preferencesView = _preferencesView;
-@synthesize menubarView = _menubarView;
+@synthesize favoritesView = _favoritesView;
 @synthesize graphsView = _graphsView;
 @synthesize prefsToolbar = _prefsToolbar;
 @synthesize menu = _menu;
-@synthesize favoritesTokens = _favoritesTokens;
 @synthesize sensorsController = _sensorsController;
 @synthesize graphsController = _graphsController;
 @synthesize versionLabel = _versionLabel;
@@ -56,14 +55,15 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 @synthesize userInterfaceEnabled = _userInterfaceEnabled;
 
-- (void)loadIconNamed:(NSString*)name
+- (void)loadIconNamed:(NSString*)name AsTemplate:(BOOL)template
 {
     if (!_icons)
         _icons = [[NSMutableDictionary alloc] init];
     
     NSImage *image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:name ofType:@"png"]];
     
-    //[image setTemplate:YES];
+    if (template)
+        [image setTemplate:YES];
     
     NSImage *altImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[name stringByAppendingString:@"_template"] ofType:@"png"]];
     
@@ -227,14 +227,10 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [self addItemsFromDictionary:sensorsList inGroup:kHWSensorGroupVoltage];
 
         // Setup favorites
-        if ([favoritesList count] == 0) {
-            [_favoritesTokens setObjectValue:[NSArray arrayWithObjects:[thermometer name], nil]];
+        if ([favoritesList count] == 0)
             [_sensorsController setFavoritesItemsFromArray:[NSArray arrayWithObjects:[thermometer name], nil]];
-        }
-        else {
-            [_favoritesTokens setObjectValue:favoritesList];
+        else
             [_sensorsController setFavoritesItemsFromArray:favoritesList];
-        }
         
         [self setUserInterfaceEnabled:[[NSObject alloc] init]];
         
@@ -412,7 +408,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
             return _preferencesView;
             
         case 1:
-            return _menubarView;
+            return _favoritesView;
             
         case 2:
             return _graphsView;
@@ -447,8 +443,11 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     NSRect newFrame = [self screenFrameForView:newView];
     
-    if ([_window contentView])
-        [[_window contentView] setAlphaValue:0.0];
+    /*if ([_window contentView])
+        [[_window contentView] setAlphaValue:0.0];*/
+    [_preferencesView setAlphaValue:0.0];
+    [_graphsView setAlphaValue:0.0];
+    [_favoritesView setAlphaValue:0.0];
     
     [_window setContentView:newView];
     [_window setFrame:newFrame display:YES animate:YES];
@@ -463,7 +462,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [_window setContentMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
         [_window setContentMinSize:NSMakeSize(700, 600)];
     }
-    else if (newView == _menubarView) {
+    else if (newView == _favoritesView) {
         [[_window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
         [_window setContentMaxSize:NSMakeSize(360, MAXFLOAT)];
         [_window setContentMinSize:NSMakeSize(360, 600)];
@@ -582,6 +581,22 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
             [self localizeObject:subView];
 }
 
+- (void)checkConnectionWithMenuExtra
+{
+    if (!_connectedWithMenuExtra) {
+        
+        void *menuExtra = nil;
+        
+        int error = CoreMenuExtraGetMenuExtra((__bridge CFStringRef)@"org.hwsensors.HWMonitorExtra", &menuExtra);
+        
+        if (!error && menuExtra) {
+            // Set active app status
+            [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorAppIsActive object:HWMonitorBooleanYES userInfo:nil deliverImmediately:YES];
+        }
+    }
+    else [self performSelector:@selector(checkConnectionWithMenuExtra) withObject:nil afterDelay:5.0];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
@@ -602,7 +617,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [_window setTitle:GetLocalizedString([_window title])];
     [self localizeObject:_prefsToolbar];
     [self localizeObject:_preferencesView];
-    [self localizeObject:_menubarView];
+    [self localizeObject:_favoritesView];
     [self localizeObject:_graphsView];
     [self localizeObject:_menu];
             
@@ -622,16 +637,16 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     // undocumented call
     [[NSUserDefaultsController sharedUserDefaultsController] _setDefaults:_defaults];
     
-    [self loadIconNamed:kHWMonitorIconDefault];
-    [self loadIconNamed:kHWMonitorIconThermometer];
-    [self loadIconNamed:kHWMonitorIconDevice];
-    [self loadIconNamed:kHWMonitorIconTemperatures];
-    [self loadIconNamed:kHWMonitorIconHddTemperatures];
-    [self loadIconNamed:kHWMonitorIconSsdLife];
-    [self loadIconNamed:kHWMonitorIconMultipliers];
-    [self loadIconNamed:kHWMonitorIconFrequencies];
-    [self loadIconNamed:kHWMonitorIconTachometers];
-    [self loadIconNamed:kHWMonitorIconVoltages];
+    [self loadIconNamed:kHWMonitorIconDefault AsTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconThermometer AsTemplate:YES];
+    [self loadIconNamed:kHWMonitorIconDevice AsTemplate:YES];
+    [self loadIconNamed:kHWMonitorIconTemperatures AsTemplate:YES];
+    [self loadIconNamed:kHWMonitorIconHddTemperatures AsTemplate:YES];
+    [self loadIconNamed:kHWMonitorIconSsdLife AsTemplate:YES];
+    [self loadIconNamed:kHWMonitorIconMultipliers AsTemplate:YES];
+    [self loadIconNamed:kHWMonitorIconFrequencies AsTemplate:YES];
+    [self loadIconNamed:kHWMonitorIconTachometers AsTemplate:YES];
+    [self loadIconNamed:kHWMonitorIconVoltages AsTemplate:YES];
     
     // Set custom cursor on items table
     //[_itemsScrollView setDocumentCursor:[NSCursor openHandCursor]];
@@ -647,8 +662,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     // Request items
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorRequestItems object:nil userInfo:nil deliverImmediately:YES];
     
-    // Set active app status
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorAppIsActive object:HWMonitorBooleanYES userInfo:nil deliverImmediately:YES];
+    [self performSelector:@selector(checkConnectionWithMenuExtra) withObject:nil afterDelay:0.0];
     
     [_window setIsVisible:YES];
 }
