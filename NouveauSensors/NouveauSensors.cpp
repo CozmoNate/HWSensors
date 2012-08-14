@@ -107,19 +107,32 @@ bool NouveauSensors::start(IOService * provider)
     
     // shadow and parse bios
     if (!nouveau_bios_shadow(device)) {
-        nv_error(device, "unable to shadow VBIOS\n");
-        //return false;
+        //try to load bios from registry from "vbios" property created by Chameleon boolloader
+        
+        if (OSData *vbios = OSDynamicCast(OSData, this->getProperty("vbios"))) {
+            card.bios.size = vbios->getLength();
+            card.bios.data = (u8*)IOMalloc(card.bios.size);
+            memcpy(card.bios.data, vbios->getBytesNoCopy(), card.bios.size);
+        }
+        
+        if (!device->bios.data || nouveau_bios_score(device, true) < 2) {
+            IOFree(card.bios.data, card.bios.size);
+            card.bios.data = NULL;
+            card.bios.size = 0;
+            nv_error(device, "unable to shadow VBIOS\n");
+            //return false;
+        }
+        else nouveau_vbios_init(device);
     }
-    else nouveau_bios_parse(device);
+    
+    nouveau_bios_parse(device);
     
     // initialize funcs and variables
     if (!nouveau_init(device)) {
         nv_error(device, "unable to initialize monitoring driver\n");
         return false;
     }
-        
-    nv_debug(device, "registering sensors...\n");
-    
+            
     // Register sensors
     char key[5];
     

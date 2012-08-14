@@ -77,6 +77,10 @@
 		7E3684BF158373B900E32629 /* tachometers_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684BD158373B900E32629 /* tachometers_template.png */; };
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
+		7E49C81015D960F700AD3C74 /* list.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E49C80F15D960F700AD3C74 /* list.h */; };
+		7E49C81615D9669200AD3C74 /* vga.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E49C81415D9669200AD3C74 /* vga.cpp */; };
+		7E49C81715D9669200AD3C74 /* vga.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E49C81515D9669200AD3C74 /* vga.h */; };
+		7E49C81A15D96DBD00AD3C74 /* nouveau_i2c_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E49C81815D96DBD00AD3C74 /* nouveau_i2c_bit.cpp */; };
 		7E4F543E15D0C6DB00A365AE /* nv40.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E4F543D15D0C6DB00A365AE /* nv40.h */; };
 		7E4F544115D0C6E900A365AE /* nv40.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E4F544015D0C6E900A365AE /* nv40.cpp */; };
 		7E4F544315D0C70F00A365AE /* nv50.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E4F544215D0C70F00A365AE /* nv50.h */; };
@@ -145,9 +149,10 @@
 		7EBCF09B1594C1D3005E1A16 /* MenuCracker.menu in Resources */ = {isa = PBXBuildFile; fileRef = 7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */; };
 		7EBFA41915D0B83500DB8579 /* nouveau.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBFA41815D0B83500DB8579 /* nouveau.h */; };
 		7EC2525915A8111E00E385E4 /* HWMonitorGraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */; };
-		7ECCC9DC15D67858001B1C57 /* nouveau_i2c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCC9DA15D67858001B1C57 /* nouveau_i2c.cpp */; };
+		7ECCC9DC15D67858001B1C57 /* nouveau_i2c._base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCC9DA15D67858001B1C57 /* nouveau_i2c._base.cpp */; };
 		7ECCC9DD15D67858001B1C57 /* nouveau_i2c.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ECCC9DB15D67858001B1C57 /* nouveau_i2c.h */; };
 		7EF7509E158C7F2500235EDC /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF981150201D100C34729 /* default.icns */; };
+		7EFB594615D96FFD005D62CA /* nouveau_i2c_aux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB594415D96FFD005D62CA /* nouveau_i2c_aux.cpp */; };
 		7EFB862D15C30E4300F61B59 /* NSImage-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB862615C30E4300F61B59 /* NSImage-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7EFB862E15C30E4300F61B59 /* NSTableView-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB862815C30E4300F61B59 /* NSTableView-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7EFB862F15C30E4300F61B59 /* NoodleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB862A15C30E4300F61B59 /* NoodleTableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -278,6 +283,10 @@
 		7E3F6EE4155DB9DE00C3492E /* preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preferences.png; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E40054F1585031B009AECED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7E49C80F15D960F700AD3C74 /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
+		7E49C81415D9669200AD3C74 /* vga.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vga.cpp; sourceTree = "<group>"; };
+		7E49C81515D9669200AD3C74 /* vga.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vga.h; sourceTree = "<group>"; };
+		7E49C81815D96DBD00AD3C74 /* nouveau_i2c_bit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_i2c_bit.cpp; sourceTree = "<group>"; };
 		7E4F543D15D0C6DB00A365AE /* nv40.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nv40.h; sourceTree = "<group>"; };
 		7E4F544015D0C6E900A365AE /* nv40.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nv40.cpp; sourceTree = "<group>"; };
 		7E4F544215D0C70F00A365AE /* nv50.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nv50.h; sourceTree = "<group>"; };
@@ -344,8 +353,9 @@
 		7EBFA41815D0B83500DB8579 /* nouveau.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau.h; sourceTree = "<group>"; };
 		7EC2525715A8111E00E385E4 /* HWMonitorGraphsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorGraphsView.h; sourceTree = "<group>"; };
 		7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGraphsView.m; sourceTree = "<group>"; };
-		7ECCC9DA15D67858001B1C57 /* nouveau_i2c.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_i2c.cpp; sourceTree = "<group>"; };
+		7ECCC9DA15D67858001B1C57 /* nouveau_i2c._base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_i2c._base.cpp; sourceTree = "<group>"; };
 		7ECCC9DB15D67858001B1C57 /* nouveau_i2c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_i2c.h; sourceTree = "<group>"; };
+		7EFB594415D96FFD005D62CA /* nouveau_i2c_aux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_i2c_aux.cpp; sourceTree = "<group>"; };
 		7EFB862515C30E4300F61B59 /* NSImage-NoodleExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage-NoodleExtensions.h"; sourceTree = "<group>"; };
 		7EFB862615C30E4300F61B59 /* NSImage-NoodleExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage-NoodleExtensions.m"; sourceTree = "<group>"; };
 		7EFB862715C30E4300F61B59 /* NSTableView-NoodleExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView-NoodleExtensions.h"; sourceTree = "<group>"; };
@@ -873,6 +883,7 @@
 			isa = PBXGroup;
 			children = (
 				7EB6D3E715D91BE70076499A /* linux_definitions.h */,
+				7E49C80F15D960F700AD3C74 /* list.h */,
 				7EB6D3E415D91BB00076499A /* i2c_base.h */,
 				7EB6D3E315D91BB00076499A /* i2c_base.cpp */,
 				7EB6D3EA15D91C430076499A /* i2c_algo_bit.h */,
@@ -915,6 +926,8 @@
 			isa = PBXGroup;
 			children = (
 				7E4F545215D0DABE00A365AE /* nouveau_definitions.h */,
+				7E49C81515D9669200AD3C74 /* vga.h */,
+				7E49C81415D9669200AD3C74 /* vga.cpp */,
 				7EADBFE415D59FAE00566642 /* nv10.h */,
 				7EADBFE315D59FAE00566642 /* nv10.cpp */,
 				7E4F543D15D0C6DB00A365AE /* nv40.h */,
@@ -933,12 +946,14 @@
 				7E4F544F15D0D69A00A365AE /* nouveau_bios.cpp */,
 				7EADBFDF15D58E6000566642 /* nouveau_gpio.h */,
 				7EADBFDE15D58E6000566642 /* nouveau_gpio.cpp */,
+				7ECCC9DB15D67858001B1C57 /* nouveau_i2c.h */,
+				7E49C81815D96DBD00AD3C74 /* nouveau_i2c_bit.cpp */,
+				7EFB594415D96FFD005D62CA /* nouveau_i2c_aux.cpp */,
+				7ECCC9DA15D67858001B1C57 /* nouveau_i2c._base.cpp */,
 				7EB5F21415D19C4900CD3FC9 /* nouveau_temp.h */,
 				7EB5F21115D19B5D00CD3FC9 /* nouveau_temp.cpp */,
 				7E5E4BFF15D53F24002FE3DF /* nouveau_volt.h */,
 				7E5E4C0115D53F2F002FE3DF /* nouveau_volt.cpp */,
-				7ECCC9DB15D67858001B1C57 /* nouveau_i2c.h */,
-				7ECCC9DA15D67858001B1C57 /* nouveau_i2c.cpp */,
 				7EBFA41815D0B83500DB8579 /* nouveau.h */,
 				7EBFA41615D0B82800DB8579 /* nouveau.cpp */,
 			);
@@ -1036,6 +1051,8 @@
 				7EB6D3E615D91BB00076499A /* i2c_base.h in Headers */,
 				7EB6D3E815D91BE70076499A /* linux_definitions.h in Headers */,
 				7EB6D3EC15D91C430076499A /* i2c_algo_bit.h in Headers */,
+				7E49C81015D960F700AD3C74 /* list.h in Headers */,
+				7E49C81715D9669200AD3C74 /* vga.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1508,9 +1525,12 @@
 				7EADBFE015D58E6000566642 /* nouveau_gpio.cpp in Sources */,
 				7EADBFE515D59FAE00566642 /* nv10.cpp in Sources */,
 				7EADBFE915D612C600566642 /* nvd0.cpp in Sources */,
-				7ECCC9DC15D67858001B1C57 /* nouveau_i2c.cpp in Sources */,
 				7EB6D3E515D91BB00076499A /* i2c_base.cpp in Sources */,
 				7EB6D3EB15D91C430076499A /* i2c_algo_bit.cpp in Sources */,
+				7E49C81615D9669200AD3C74 /* vga.cpp in Sources */,
+				7ECCC9DC15D67858001B1C57 /* nouveau_i2c._base.cpp in Sources */,
+				7E49C81A15D96DBD00AD3C74 /* nouveau_i2c_bit.cpp in Sources */,
+				7EFB594615D96FFD005D62CA /* nouveau_i2c_aux.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -215,10 +215,8 @@ int nv84_diode_temp_get(struct nouveau_device *device)
 	return nv_rd32(device, 0x20400);
 }
 
-//static bool
-//probe_monitoring_device(struct nouveau_i2c_port *i2c,
-//                        struct i2c_board_info *info)
-//{
+static bool probe_monitoring_device(struct nouveau_i2c_port *i2c, struct i2c_board_info *info)
+{
 //	struct i2c_client *client;
 //    
 //	request_module("%s%s", I2C_MODULE_PREFIX, info->type);
@@ -231,27 +229,26 @@ int nv84_diode_temp_get(struct nouveau_device *device)
 //		i2c_unregister_device(client);
 //		return false;
 //	}
-//    
-//	return true;
-//}
-//
-//static void
-//nouveau_temp_probe_i2c(struct drm_device *dev)
-//{
-//	struct nouveau_device *device = nouveau_dev(dev);
-//	struct nouveau_i2c *i2c = nouveau_i2c(device);
-//	struct i2c_board_info info[] = {
-//		{ I2C_BOARD_INFO("w83l785ts", 0x2d) },
-//		{ I2C_BOARD_INFO("w83781d", 0x2d) },
-//		{ I2C_BOARD_INFO("adt7473", 0x2e) },
-//		{ I2C_BOARD_INFO("f75375", 0x2e) },
-//		{ I2C_BOARD_INFO("lm99", 0x4c) },
-//		{ }
-//	};
-//    
-//	i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", info,
-//                  probe_monitoring_device);
-//}
+    
+	return true;
+}
+
+
+static void nouveau_temp_probe_i2c(struct nouveau_device *device)
+{
+	struct nouveau_i2c *i2c = &device->i2c;
+    
+	struct i2c_board_info info[] = {
+		{ "w83l785ts", 0x0, 0x2d, NULL, 0 },
+		{ "w83781d", 0x0, 0x2d, NULL, 0 },
+		{ "adt7473", 0x0, 0x2e, NULL, 0 },
+		{ "f75375", 0x0, 0x2e, NULL, 0 },
+		{ "lm99", 0x0, 0x4c, NULL, 0 },
+		{ }
+	};
+    
+	i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", info, probe_monitoring_device);
+}
 
 void nouveau_temp_init(struct nouveau_device *device)
 {
@@ -273,5 +270,5 @@ void nouveau_temp_init(struct nouveau_device *device)
 		nouveau_temp_vbios_parse(device, temp);
 	}
     
-	//nouveau_temp_probe_i2c(device);
+	nouveau_temp_probe_i2c(device);
 }
