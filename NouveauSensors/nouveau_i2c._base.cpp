@@ -62,19 +62,19 @@ int nv_wri2cr(struct nouveau_i2c_port *port, u8 addr, u8 reg, u8 val)
 
 bool nv_probe_i2c(struct nouveau_i2c_port *port, u8 addr)
 {
-	u8 buf[] = { 0 };
+	u8 buf = 0;
 	struct i2c_msg msgs[] = {
 		{
 			addr,
 			0,
 			1,
-			buf,
+			&buf,
 		},
 		{
 			addr,
 			I2C_M_RD,
 			1,
-			buf,
+			&buf,
 		}
 	};
     
@@ -142,8 +142,8 @@ static int nouveau_i2c_identify(struct nouveau_i2c *i2c, int index, const char *
 	nv_debug(device, "probing %ss on bus: %d\n", what, port->index);
     
 	for (i = 0; info[i].addr; i++) {
-		if (nv_probe_i2c(port, info[i].addr) /*&&
-		    (!match || match(port, &info[i]))*/) {
+		if (nv_probe_i2c(port, info[i].addr) &&
+		    (!match || match(port, &info[i]))) {
 			nv_info(device, "detected %s: %s\n", what, info[i].type);
 			return i;
 		}
@@ -309,9 +309,9 @@ bool nouveau_i2c_create(struct nouveau_device *device)
 		}
         
 		snprintf(port->adapter.name, sizeof(port->adapter.name),
-                 "nouveau-%s-%d", device->name, i);
+                 "nouveau-%d-%d-%d", port->drive, port->sense, i);
         
-		//port->adapter.owner = THIS_MODULE;
+		//port->adapter.owner = this;
 		//port->adapter.dev.parent = &device->pdev->dev;
 		port->i2c = i2c;
 		port->index = i;

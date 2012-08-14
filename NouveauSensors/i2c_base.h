@@ -99,6 +99,7 @@ struct i2c_adapter {
 	const struct i2c_algorithm *algo; /* the algorithm to access the bus */
 	void *algo_data;
     
+    bool lock;
 	/* data fields that are valid for all devices	*/
 	//struct rt_mutex bus_lock;
     
@@ -124,7 +125,7 @@ struct i2c_board_info {
 	int		irq;
 };
 
-bool __i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num);
-bool i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num);
+int __i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num);
+int i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num);
 
 #endif /* defined(__HWSensors__i2c_base__) */

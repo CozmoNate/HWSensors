@@ -13,6 +13,8 @@
 #include "i2c_algo_bit.h"
 #include "list.h"
 
+#include <libkern/c++/OSArray.h>
+
 #define CONFIG_NOUVEAU_I2C_INTERNAL_DEFAULT TRUE
 #define CONFIG_NOUVEAU_I2C_INTERNAL  TRUE
 
