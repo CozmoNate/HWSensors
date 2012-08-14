@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.66</string>
+	<string>1.0.67</string>
 	<key>CFBundleSignature</key>
 	<string>HWMN</string>
 	<key>CFBundleVersion</key>
-	<string>1.7.13</string>
+	<string>1.7.14</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>

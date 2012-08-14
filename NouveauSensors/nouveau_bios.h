@@ -215,9 +215,29 @@ void nv_wo32(struct nouveau_device *device, u32 addr, u32 data);
 
 u16 nouveau_dcb_table(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *cnt, u8 *len);
 
-bool nouveau_bit_table(struct nouveau_device *, u8 id, struct bit_entry *);
+int nouveau_bit_table(struct nouveau_device *, u8 id, struct bit_entry *);
 
+int nouveau_bios_score(struct nouveau_device *device, const bool writeable);
 bool nouveau_bios_shadow(struct nouveau_device *device);
+void nouveau_vbios_init(struct nouveau_device *device);
 void nouveau_bios_parse(struct nouveau_device *device);
+
+enum dcb_i2c_type {
+	DCB_I2C_NV04_BIT = 0,
+	DCB_I2C_NV4E_BIT = 4,
+	DCB_I2C_NVIO_BIT = 5,
+	DCB_I2C_NVIO_AUX = 6,
+	DCB_I2C_UNUSED = 0xff
+};
+
+struct dcb_i2c_entry {
+	u8 type;
+	u8 drive;
+	u8 sense;
+	u32 data;
+};
+
+u16 nouveau_dcb_i2c_table(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *cnt, u8 *len);
+int nouveau_dcb_i2c_parse(struct nouveau_device *device, u8 idx, struct dcb_i2c_entry *info);
 
 #endif

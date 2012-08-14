@@ -15,6 +15,7 @@
 #include "nouveau_bios.h"
 #include "nouveau_gpio.h"
 #include "nouveau_volt.h"
+#include "nouveau_i2c.h"
 
 enum nouveau_clock_source {
     nouveau_clock_core      = 1,
@@ -67,6 +68,7 @@ struct nouveau_device {
     
     nouveau_pm_temp_sensor_constants sensor_constants;
     nouveau_pm_voltage voltage;
+    nouveau_i2c i2c;
         
     void (*gpio_init)(struct nouveau_device *);
     int (*gpio_sense)(struct nouveau_device *, int line);

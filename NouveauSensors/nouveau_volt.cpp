@@ -20,7 +20,7 @@ void nouveau_volt_init(struct nouveau_device *device)
 	int i, headerlen, recordlen, entries, vidmask, vidshift;
     
 	if (device->vbios.type == NVBIOS_BIT) {
-		if (!nouveau_bit_table(device, 'P', &P))
+		if (nouveau_bit_table(device, 'P', &P))
 			return;
         
 		if (P.version == 1)

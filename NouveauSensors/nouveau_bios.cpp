@@ -141,8 +141,7 @@ static u16 nvbios_findstr(const u8 *data, int size, const char *str, int len)
 	return 0;
 }
 
-static int
-nouveau_bios_score(struct nouveau_device *device, const bool writeable)
+int nouveau_bios_score(struct nouveau_device *device, const bool writeable)
 {
 	if (!device->bios.data || device->bios.data[0] != 0x55 || device->bios.data[1] != 0xAA) {
 		nv_debug(device, "VBIOS signature not found\n");
@@ -201,7 +200,7 @@ static void nouveau_bios_shadow_prom(struct nouveau_device *device)
 	u16 pcir;
 	int i;
     
-    nv_debug(device, "shadow bios from PROM\n");
+    nv_debug(device, "shadowing bios from PROM\n");
     
 	/* enable access to rom */
 	if (device->card_type >= NV_50)
@@ -247,7 +246,7 @@ out:
 	nv_wr32(device, pcireg, access);
 }
 
-static void nouveau_vbios_init(struct nouveau_device *device)
+void nouveau_vbios_init(struct nouveau_device *device)
 {
     device->vbios.data = device->bios.data;
     device->vbios.length = device->bios.size;
@@ -259,7 +258,7 @@ bool nouveau_bios_shadow(struct nouveau_device *device)
     
     nouveau_bios_shadow_pramin(device);
     
-    if (device->bios.data && nouveau_bios_score(device, false) == 3) {
+    if (device->bios.data && nouveau_bios_score(device, true) > 1) {
         nv_info(device, "VBIOS successfully read from PRAMIN\n");
         nouveau_vbios_init(device);
         return true;
@@ -267,7 +266,7 @@ bool nouveau_bios_shadow(struct nouveau_device *device)
         
     nouveau_bios_shadow_prom(device);
     
-    if (device->bios.data && nouveau_bios_score(device, false) == 3) {
+    if (device->bios.data && nouveau_bios_score(device, true) > 1) {
         nv_info(device, "VBIOS successfully read from PROM\n");
         nouveau_vbios_init(device);
         return true;
@@ -317,13 +316,13 @@ struct bit_table {
 
 #define BIT_TABLE(id, funcid) ((struct bit_table){ id, parse_bit_##funcid##_tbl_entry })
 
-bool nouveau_bit_table(struct nouveau_device *device, u8 id, struct bit_entry *bit)
+int nouveau_bit_table(struct nouveau_device *device, u8 id, struct bit_entry *bit)
 {
 	struct nvbios *bios = &device->vbios;
 	u8 entries, *entry;
     
 	if (bios->type != NVBIOS_BIT)
-		return false;
+		return -ENODEV;
     
 	entries = bios->data[bios->offset + 10];
 	entry   = &bios->data[bios->offset + 12];
@@ -334,13 +333,13 @@ bool nouveau_bit_table(struct nouveau_device *device, u8 id, struct bit_entry *b
 			bit->length = ROM16(entry[2]);
 			bit->offset = ROM16(entry[4]);
 			bit->data = ROMPTR(device, entry[4]);
-			return true;
+			return 0;
 		}
         
 		entry += bios->data[bios->offset + 9];
 	}
     
-	return false;
+	return -ENOENT;
 }
 
 static bool nouveau_parse_vbios_struct(struct nouveau_device *device)
@@ -415,4 +414,102 @@ void nouveau_bios_parse(struct nouveau_device *device)
             bios->version.minor, bios->version.micro);
     
     nouveau_parse_vbios_struct(device);
+}
+
+u16 nouveau_dcb_i2c_table(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *cnt, u8 *len)
+{
+	u16 i2c = 0x0000;
+	u16 dcb = nouveau_dcb_table(device, ver, hdr, cnt, len);
+	if (dcb) {
+		if (*ver >= 0x15)
+			i2c = nv_ro16(device, dcb + 2);
+		if (*ver >= 0x30)
+			i2c = nv_ro16(device, dcb + 4);
+	}
+    
+	if (i2c && *ver >= 0x30) {
+		*ver = nv_ro08(device, i2c + 0);
+		*hdr = nv_ro08(device, i2c + 1);
+		*cnt = nv_ro08(device, i2c + 2);
+		*len = nv_ro08(device, i2c + 3);
+	} else {
+		*ver = *ver; /* use DCB version */
+		*hdr = 0;
+		*cnt = 16;
+		*len = 4;
+	}
+    
+	return i2c;
+}
+
+static u16 nouveau_dcb_i2c_entry(struct nouveau_device *device, u8 idx, u8 *ver, u8 *len)
+{
+	u8  hdr, cnt;
+	u16 i2c = nouveau_dcb_i2c_table(device, ver, &hdr, &cnt, len);
+	if (i2c && idx < cnt)
+		return i2c + hdr + (idx * *len);
+	return 0x0000;
+}
+
+int nouveau_dcb_i2c_parse(struct nouveau_device *device, u8 idx, struct dcb_i2c_entry *info)
+{
+	u8  ver, len;
+	u16 ent = nouveau_dcb_i2c_entry(device, idx, &ver, &len);
+	if (ent) {
+		info->data = nv_ro32(device, ent + 0);
+		info->type = (dcb_i2c_type)nv_ro08(device, ent + 3);
+		if (ver < 0x30) {
+			info->type &= 0x07;
+			if (info->type == 0x07)
+				info->type = 0xff;
+		}
+        
+		switch (info->type) {
+            case DCB_I2C_NV04_BIT:
+                info->drive = nv_ro08(device, ent + 0);
+                info->sense = nv_ro08(device, ent + 1);
+                return 0;
+            case DCB_I2C_NV4E_BIT:
+                info->drive = nv_ro08(device, ent + 1);
+                return 0;
+            case DCB_I2C_NVIO_BIT:
+            case DCB_I2C_NVIO_AUX:
+                info->drive = nv_ro08(device, ent + 0);
+                return 0;
+            case DCB_I2C_UNUSED:
+                return 0;
+            default:
+                nv_warn(device, "unknown i2c type %d\n", info->type);
+                info->type = DCB_I2C_UNUSED;
+                return 0;
+		}
+	}
+    
+	if (device->bios.bmp_offset && idx < 2) {
+		/* BMP (from v4.0 has i2c info in the structure, it's in a
+		 * fixed location on earlier VBIOS
+		 */
+		if (nv_ro08(device, device->bios.bmp_offset + 5) < 4)
+			ent = 0x0048;
+		else
+			ent = 0x0036 + device->bios.bmp_offset;
+        
+		if (idx == 0) {
+			info->drive = nv_ro08(device, ent + 4);
+			if (!info->drive) info->drive = 0x3f;
+			info->sense = nv_ro08(device, ent + 5);
+			if (!info->sense) info->drive = 0x3e;
+		} else
+            if (idx == 1) {
+                info->drive = nv_ro08(device, ent + 6);
+                if (!info->drive) info->drive = 0x37;
+                info->sense = nv_ro08(device, ent + 7);
+                if (!info->sense) info->drive = 0x36;
+            }
+        
+		info->type = DCB_I2C_NV04_BIT;
+		return 0;
+	}
+    
+	return -ENOENT;
 }

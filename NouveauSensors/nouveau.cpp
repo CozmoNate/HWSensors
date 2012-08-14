@@ -137,6 +137,8 @@ bool nouveau_init(struct nouveau_device *device)
     /*if (device->gpio_init)
         device->gpio_init(device);*/
     
+    nouveau_i2c_create(device);
+    
 	/* parse aux tables from vbios */
 	nouveau_volt_init(device);
 	nouveau_temp_init(device);

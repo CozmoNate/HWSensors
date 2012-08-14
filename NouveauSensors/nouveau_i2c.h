@@ -9,10 +9,12 @@
 #ifndef __HWSensors__nouveau_i2c__
 #define __HWSensors__nouveau_i2c__
 
-#include <libkern/c++/OSArray.h>
-
 #include "nouveau_definitions.h"
 #include "i2c_algo_bit.h"
+#include "list.h"
+
+#define CONFIG_NOUVEAU_I2C_INTERNAL_DEFAULT TRUE
+#define CONFIG_NOUVEAU_I2C_INTERNAL  TRUE
 
 #define NV_I2C_PORT(n)    (0x00 + (n))
 #define NV_I2C_DEFAULT(n) (0x80 + (n))
@@ -23,7 +25,7 @@ struct nouveau_i2c_port {
 	struct i2c_adapter adapter;
 	struct nouveau_i2c *i2c;
 	struct i2c_algo_bit_data bit;
-	OSArray *head;
+	struct list_head head;
 	u8  index;
 	u8  type;
 	u32 dcb;
@@ -33,14 +35,14 @@ struct nouveau_i2c_port {
 };
 
 struct nouveau_i2c {
-	//struct nouveau_subdev base;
+    struct nouveau_device *device;
     
 	struct nouveau_i2c_port *(*find)(struct nouveau_i2c *, u8 index);
 	int (*identify)(struct nouveau_i2c *, int index,
                     const char *what, struct i2c_board_info *,
                     bool (*match)(struct nouveau_i2c_port *,
                                   struct i2c_board_info *));
-	OSArray *ports;
+	struct list_head ports;
 };
 
 void nouveau_i2c_drive_scl(void *, int);
@@ -58,6 +60,6 @@ int nv_wraux(struct nouveau_i2c_port *, u32 addr, u8 *data, u8 size);
 extern const struct i2c_algorithm nouveau_i2c_bit_algo;
 extern const struct i2c_algorithm nouveau_i2c_aux_algo;
 
-void nouveau_i2c_init(struct nouveau_device *device);
+bool nouveau_i2c_create(struct nouveau_device *device);
 
 #endif /* defined(__HWSensors__nouveau_i2c__) */
