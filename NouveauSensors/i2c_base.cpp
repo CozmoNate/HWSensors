@@ -25,27 +25,27 @@
  * Adapter lock must be held when calling this function. No debug logging
  * takes place. adap->algo->master_xfer existence isn't checked.
  */
-bool __i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
+int __i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 {
-	int try1;
-    bool ret;
+    int ret, try1;
     
 	/* Retry automatically on arbitration loss */
-	//orig_jiffies = jiffies;
     mach_timespec_t end, now;
     
-    clock_get_system_microtime((clock_sec_t*)&end.tv_sec, (clock_usec_t*)&end.tv_nsec);
+    clock_get_system_nanotime((clock_sec_t*)&end.tv_sec, (clock_usec_t*)&end.tv_nsec);
     
     now.tv_sec = 0;
-    now.tv_nsec = adap->timeout;
+    now.tv_nsec = adap->timeout * NSEC_PER_USEC;
     
     ADD_MACH_TIMESPEC(&end, &now);
     
 	for (ret = 0, try1 = 0; try1 <= adap->retries; try1++) {
-		if (!(ret = adap->algo->master_xfer(adap, msgs, num)))
+		ret = adap->algo->master_xfer(adap, msgs, num);
+        
+		if (ret != -EAGAIN)
 			break;
         
-        clock_get_system_microtime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
+        clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
         
 		if (CMP_MACH_TIMESPEC(&end, &now) <= 0)
 			break;
@@ -66,9 +66,9 @@ bool __i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
  * Note that there is no requirement that each message be sent to
  * the same slave address, although that is the most common model.
  */
-bool i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
+int i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 {
-	bool ret;
+	int ret;
     
 	/* REVISIT the fault reporting model here is weak:
 	 *
@@ -89,12 +89,13 @@ bool i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
     
 	if (adap->algo->master_xfer) {
         //#ifdef NV_DEBUG_ENABLED
-        //		for (ret = 0; ret < num; ret++) {
-        //			IOLog("master_xfer[%d] %c, addr=0x%02x, "
-        //                    "len=%d%s\n", ret, (msgs[ret].flags & I2C_M_RD)
-        //                    ? 'R' : 'W', msgs[ret].addr, msgs[ret].len,
-        //                    (msgs[ret].flags & I2C_M_RECV_LEN) ? "+" : "");
-        //		}
+        IOLog("NouveauI2C: ");
+        for (ret = 0; ret < num; ret++) {
+            IOLog("master_xfer[%d] %c, addr=0x%02x, "
+                    "len=%d%s\n", ret, (msgs[ret].flags & I2C_M_RD)
+                    ? 'R' : 'W', msgs[ret].addr, msgs[ret].len,
+                    (msgs[ret].flags & I2C_M_RECV_LEN) ? "+" : "");
+        }
         //#endif
         
         //        		if (in_atomic() || irqs_disabled()) {
@@ -106,13 +107,19 @@ bool i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
         //        			i2c_lock_adapter(adap);
         //        		}
         //
+        if (adap->lock)
+            return -EAGAIN;
+        
+        adap->lock = true;
+        
 		ret = __i2c_transfer(adap, msgs, num);
-        //		i2c_unlock_adapter(adap);
+        
+        adap->lock = false;
         
 		return ret;
 	} else {
-        //		dev_dbg(&adap->dev, "I2C level transfers not supported\n");
-		return false;
+        IOLog("NouveauI2C: I2C level transfers not supported\n");
+		return -EOPNOTSUPP;
 	}
 }
 //EXPORT_SYMBOL(i2c_transfer);
