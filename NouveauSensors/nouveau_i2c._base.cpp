@@ -309,7 +309,7 @@ bool nouveau_i2c_create(struct nouveau_device *device)
 		}
         
 		snprintf(port->adapter.name, sizeof(port->adapter.name),
-                 "nouveau-%d-%d-%d", port->drive, port->sense, i);
+                 "nouveau-%x-%x-%d", port->drive, port->sense, i);
         
 		//port->adapter.owner = this;
 		//port->adapter.dev.parent = &device->pdev->dev;
@@ -327,6 +327,7 @@ bool nouveau_i2c_create(struct nouveau_device *device)
                 port->adapter.algo = &nouveau_i2c_bit_algo;
                 ret = 0; //i2c_add_adapter(&port->adapter);
             } else {
+                port->adapter.algo = &i2c_bit_algo;
                 port->adapter.algo_data = &port->bit;
                 port->bit.udelay = 10;
                 port->bit.timeout = 2200;

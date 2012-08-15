@@ -88,33 +88,9 @@ int i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 	 */
     
 	if (adap->algo->master_xfer) {
-        //#ifdef NV_DEBUG_ENABLED
-        IOLog("NouveauI2C: ");
-        for (ret = 0; ret < num; ret++) {
-            IOLog("master_xfer[%d] %c, addr=0x%02x, "
-                    "len=%d%s\n", ret, (msgs[ret].flags & I2C_M_RD)
-                    ? 'R' : 'W', msgs[ret].addr, msgs[ret].len,
-                    (msgs[ret].flags & I2C_M_RECV_LEN) ? "+" : "");
-        }
-        //#endif
-        
-        //        		if (in_atomic() || irqs_disabled()) {
-        //        			ret = i2c_trylock_adapter(adap);
-        //        			if (!ret)
-        //                    /* I2C activity is ongoing. */
-        //        				return -EAGAIN;
-        //        		} else {
-        //        			i2c_lock_adapter(adap);
-        //        		}
-        //
-        if (adap->lock)
-            return -EAGAIN;
-        
-        adap->lock = true;
-        
 		ret = __i2c_transfer(adap, msgs, num);
         
-        adap->lock = false;
+        IOLog("NouveauSensors: i2c_transfer=%d\n", ret);
         
 		return ret;
 	} else {

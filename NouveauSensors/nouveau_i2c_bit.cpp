@@ -7,6 +7,7 @@
 //
 
 #include "nouveau_i2c.h"
+#include "nouveau.h"
 
 #ifdef CONFIG_NOUVEAU_I2C_INTERNAL
 #define T_TIMEOUT  2200000
@@ -40,7 +41,8 @@ i2c_sense_sda(struct nouveau_i2c_port *port)
 static void
 i2c_delay(struct nouveau_i2c_port *port, u32 nsec)
 {
-	IODelay((nsec + 500) / 1000);
+	//IODelay((nsec + 500) / 1000);
+    IOPause(nsec + 500);
 }
 
 static bool
@@ -74,6 +76,9 @@ i2c_start(struct nouveau_i2c_port *port)
 	i2c_delay(port, T_HOLD);
 	i2c_drive_scl(port, 0);
 	i2c_delay(port, T_HOLD);
+    
+    nv_trace(port->i2c->device, "i2c_start=%d\n", ret);
+    
 	return ret;
 }
 
@@ -127,7 +132,7 @@ i2c_bitr(struct nouveau_i2c_port *port)
 static int
 i2c_get_byte(struct nouveau_i2c_port *port, u8 *byte, bool last)
 {
-	int i, bit;
+	int i, bit, ret;
     
 	*byte = 0;
 	for (i = 7; i >= 0; i--) {
@@ -137,7 +142,11 @@ i2c_get_byte(struct nouveau_i2c_port *port, u8 *byte, bool last)
 		*byte |= bit << i;
 	}
     
-	return i2c_bitw(port, last ? 1 : 0);
+    ret = i2c_bitw(port, last ? 1 : 0);
+    
+    nv_trace(port->i2c->device, "i2c_get_byte=%d\n", ret);
+    
+	return ret;
 }
 
 static int
@@ -153,6 +162,9 @@ i2c_put_byte(struct nouveau_i2c_port *port, u8 byte)
 	ret = i2c_bitr(port);
 	if (ret == 1) /* nack */
 		ret = -EIO;
+    
+    nv_trace(port->i2c->device, "i2c_put_byte=%d\n", ret);
+    
 	return ret;
 }
 
