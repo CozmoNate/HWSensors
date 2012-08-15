@@ -12,8 +12,8 @@
 /******************************************************************************
  * aux channel util functions
  *****************************************************************************/
-#define AUX_DBG(fmt, args...) nv_debug(aux, "AUXCH(%d): " fmt, ch, ##args)
-#define AUX_ERR(fmt, args...) nv_error(aux, "AUXCH(%d): " fmt, ch, ##args)
+#define AUX_DBG(fmt, args...) nv_debug(aux->device, "AUXCH(%d): " fmt, ch, ##args)
+#define AUX_ERR(fmt, args...) nv_error(aux->device, "AUXCH(%d): " fmt, ch, ##args)
 
 static void
 auxch_fini(struct nouveau_i2c *aux, int ch)
