@@ -134,12 +134,13 @@ bool NouveauSensors::start(IOService * provider)
         return false;
     }
     
-#if 0
     nouveau_i2c_create(device);
-    nouveau_i2c_probe(device);
-#else
+    
+#if CONFIG_NOUVEAU_I2C_NVCLOCK
     // setup NVClock i2c sensors
     nvclock_i2c_sensor_init(device);
+#else
+    nouveau_i2c_probe(device);
 #endif
     
     // Register sensors

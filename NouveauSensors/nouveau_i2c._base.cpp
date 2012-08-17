@@ -81,7 +81,7 @@ bool nv_probe_i2c(struct nouveau_i2c_port *port, u8 addr)
 	return i2c_transfer(&port->adapter, msgs, 2) == 2;
 }
 
-static struct nouveau_i2c_port *nouveau_i2c_find(struct nouveau_i2c *i2c, u8 index)
+struct nouveau_i2c_port *nouveau_i2c_find(struct nouveau_i2c *i2c, u8 index)
 {
     struct nouveau_device *device = i2c->device;
 	struct nouveau_i2c_port *port;

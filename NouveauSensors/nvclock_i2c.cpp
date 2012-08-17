@@ -155,7 +155,7 @@ void nvclock_nv50_i2c_get_bits(I2CBusPtr bus, int *clock, int *data)
 	const long offset = bus->DriverPrivate.val;
     volatile unsigned int *PMC = (volatile unsigned int*)bus->card->mmio->getVirtualAddress();
     
-    unsigned char val = PMC[(0x0000E138 + offset)/4];
+    unsigned char val = PMC[offset/4];
     
 	*clock = !!(val & 1);
 	*data = !!(val & 2);
@@ -166,7 +166,7 @@ void nvclock_nv50_i2c_put_bits(I2CBusPtr bus, int clock, int data)
 	const long offset = bus->DriverPrivate.val;
     volatile unsigned int *PMC = (volatile unsigned int*)bus->card->mmio->getVirtualAddress();
     
-	PMC[(0x0000E138 + offset)/4] = 4 | clock | data << 1;
+	PMC[offset/4] = 4 | clock | data << 1;
 }
 
 I2CBusPtr nvclock_i2c_create_bus_ptr(nouveau_device *device, char *name, int bus)
@@ -248,12 +248,12 @@ I2CDevPtr nvclock_i2c_probe_devices(nouveau_device *device, I2CBusPtr busses[], 
 	nvclock_i2c_lock_unlock(device, 0);
     
 	/* On NV40 cards the i2c busses can be disabled */
-	//if(device->card_type == NV_40)
-	//{
+	if(device->card_type == NV_40)
+	{
         volatile unsigned char *PCIO = (volatile unsigned char*)(device->mmio->getVirtualAddress() + 0x00601000);
         PCIO[0x3d4] = 0x49;
         PCIO[0x3d5] |= 0x4; /* Unlock the i2c busses */
-	//}
+	}
     
 	nvclock_i2c_probe_all_devices(busses, num_busses);
     
@@ -261,7 +261,7 @@ I2CDevPtr nvclock_i2c_probe_devices(nouveau_device *device, I2CBusPtr busses[], 
 	{
 		for(dev = busses[bus]->FirstDev; dev; dev = dev->NextDev)
 		{
-			nv_debug(dev->pI2CBus->card, "bus: %x device: %x\n", bus, dev->SlaveAddr);
+			nv_debug(dev->pI2CBus->card, "bus: %x device: %x\n", bus, dev->SlaveAddr / 2);
             
 			dev->arch = dev->pI2CBus->card->chipset;
                            
@@ -311,22 +311,34 @@ bool nvclock_i2c_sensor_init(nouveau_device *device)
     int num_busses = 0;
     I2CBusPtr busses[4];
         
-    if (device->card_type == NV_40) {
-        num_busses = 3;
-        /* available on riva128 and higher */
-		busses[0] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS0", sizeof("BUS0")), 0x3e);
-        /* available on rivatnt hardware and  higher */
-		busses[1] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS1", sizeof("BUS1")), 0x36);
-        /* available on geforce4mx/4ti/fx/6/7 */
-		busses[2] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS2", sizeof("BUS2")), 0x50);
-    }
-    else if (device->card_type == NV_50)
-    {
-        num_busses = 4;
-		busses[0] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS0", sizeof("BUS0")), 0x0);
-		busses[1] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS1", sizeof("BUS1")), 0x18);
-		busses[2] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS2", sizeof("BUS2")), 0x30);
-   		busses[3] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS3", sizeof("BUS3")), 0x48);
+//    if (device->card_type == NV_40) {
+//        num_busses = 3;
+//        /* available on riva128 and higher */
+//		busses[0] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS0", sizeof("BUS0")), 0x3e);
+//        /* available on rivatnt hardware and  higher */
+//		busses[1] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS1", sizeof("BUS1")), 0x36);
+//        /* available on geforce4mx/4ti/fx/6/7 */
+//		busses[2] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS2", sizeof("BUS2")), 0x50);
+//    }
+//    else if (device->card_type == NV_50)
+//    {
+//        num_busses = 4;
+//		busses[0] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS0", sizeof("BUS0")), 0x0000E138 + 0x0);
+//		busses[1] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS1", sizeof("BUS1")), 0x0000E138 + 0x18);
+//		busses[2] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS2", sizeof("BUS2")), 0x0000E138 + 0x30);
+//   		busses[3] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS3", sizeof("BUS3")), 0x0000E138 + 0x48);
+//    }
+    
+    struct nouveau_i2c_port *port = NULL;
+    
+    for (int i = 0; i <= 4; i++) {
+        if ((port = nouveau_i2c_find(&device->i2c, NV_I2C_DEFAULT(i)))) {
+            char name[16];
+            
+            snprintf(name, 16, "NV_I2C_DEFAULT%X", i);
+            
+            busses[num_busses++] = nvclock_i2c_create_bus_ptr(device, STRDUP(name, sizeof(name)), port->drive);
+        }
     }
     
     if (num_busses > 0) {
