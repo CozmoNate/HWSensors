@@ -50,6 +50,8 @@ enum nouveau_card_type {
     NV_E0    = 0xe0,
 };
 
+typedef struct _I2CDevRec *I2CDevPtr;
+
 struct nouveau_device {
     IOPCIDevice *pcidev;
     IOMemoryMap *mmio;
@@ -69,6 +71,8 @@ struct nouveau_device {
     nouveau_pm_temp_sensor_constants sensor_constants;
     nouveau_pm_voltage voltage;
     nouveau_i2c i2c;
+    
+    I2CDevPtr nvclock_i2c_sensor;
         
     void (*gpio_init)(struct nouveau_device *);
     int (*gpio_sense)(struct nouveau_device *, int line);
@@ -79,7 +83,7 @@ struct nouveau_device {
 	int (*diode_temp_get)(struct nouveau_device *);
     int (*board_temp_get)(struct nouveau_device *);
     int (*pwm_fan_get)(struct nouveau_device *);
-    int (*rpm_fan_get)(struct nouveau_device *, u32 milliseconds);
+    int (*rpm_fan_get)(struct nouveau_device *);
 };
 
 inline u8 nv_rd08(nouveau_device *device, u32 addr)

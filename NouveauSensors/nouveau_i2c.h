@@ -13,10 +13,8 @@
 #include "i2c_algo_bit.h"
 #include "list.h"
 
-#include <libkern/c++/OSArray.h>
-
 #define CONFIG_NOUVEAU_I2C_INTERNAL_DEFAULT TRUE
-#define CONFIG_NOUVEAU_I2C_INTERNAL  TRUE
+#define CONFIG_NOUVEAU_I2C_INTERNAL TRUE
 
 #define NV_I2C_PORT(n)    (0x00 + (n))
 #define NV_I2C_DEFAULT(n) (0x80 + (n))
@@ -63,5 +61,6 @@ extern const struct i2c_algorithm nouveau_i2c_bit_algo;
 extern const struct i2c_algorithm nouveau_i2c_aux_algo;
 
 bool nouveau_i2c_create(struct nouveau_device *device);
+void nouveau_i2c_probe(struct nouveau_device *device);
 
 #endif /* defined(__HWSensors__nouveau_i2c__) */

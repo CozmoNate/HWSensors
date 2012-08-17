@@ -89,9 +89,9 @@ static struct nouveau_i2c_port *nouveau_i2c_find(struct nouveau_i2c *i2c, u8 ind
 	if (index == NV_I2C_DEFAULT(0) ||
 	    index == NV_I2C_DEFAULT(1)) {
 		u8  ver, hdr, cnt, len;
-		u16 pi2c = nouveau_dcb_i2c_table(device, &ver, &hdr, &cnt, &len);
-		if (pi2c && ver >= 0x30) {
-			u8 auxidx = nv_ro08(device, pi2c + 4);
+		u16 dcb = nouveau_dcb_i2c_table(device, &ver, &hdr, &cnt, &len);
+		if (dcb && ver >= 0x30) {
+			u8 auxidx = nv_ro08(device, dcb + 4);
 			if (index != NV_I2C_DEFAULT(0))
 				index = (auxidx & 0x0f) >> 0;
 			else
@@ -105,7 +105,7 @@ static struct nouveau_i2c_port *nouveau_i2c_find(struct nouveau_i2c *i2c, u8 ind
 		if (port->index == index)
 			break;
 	}
-
+    
 	if (&port->head == &i2c->ports)
 		return NULL;
     
@@ -163,15 +163,13 @@ void nouveau_i2c_drive_scl(void *data, int state)
 		if (state) val |= 0x20;
 		else	   val &= 0xdf;
 		nv_wrvgac(port->i2c, 0, port->drive, val | 0x01);
-	} else
-        if (port->type == DCB_I2C_NV4E_BIT) {
-            nv_mask(port->i2c->device, port->drive, 0x2f, state ? 0x21 : 0x01);
-        } else
-            if (port->type == DCB_I2C_NVIO_BIT) {
-                if (state) port->state |= 0x01;
-                else	   port->state &= 0xfe;
-                nv_wr32(port->i2c->device, port->drive, 4 | port->state);
-            }
+	} else if (port->type == DCB_I2C_NV4E_BIT) {
+        nv_mask(port->i2c->device, port->drive, 0x2f, state ? 0x21 : 0x01);
+    } else if (port->type == DCB_I2C_NVIO_BIT) {
+        if (state) port->state |= 0x01;
+        else	   port->state &= 0xfe;
+        nv_wr32(port->i2c->device, port->drive, 4 | port->state);
+    }
 }
 
 void nouveau_i2c_drive_sda(void *data, int state)
@@ -183,15 +181,13 @@ void nouveau_i2c_drive_sda(void *data, int state)
 		if (state) val |= 0x10;
 		else	   val &= 0xef;
 		nv_wrvgac(port->i2c, 0, port->drive, val | 0x01);
-	} else
-        if (port->type == DCB_I2C_NV4E_BIT) {
-            nv_mask(port->i2c->device, port->drive, 0x1f, state ? 0x11 : 0x01);
-        } else
-            if (port->type == DCB_I2C_NVIO_BIT) {
-                if (state) port->state |= 0x02;
-                else	   port->state &= 0xfd;
-                nv_wr32(port->i2c->device, port->drive, 4 | port->state);
-            }
+	} else if (port->type == DCB_I2C_NV4E_BIT) {
+        nv_mask(port->i2c->device, port->drive, 0x1f, state ? 0x11 : 0x01);
+    } else if (port->type == DCB_I2C_NVIO_BIT) {
+        if (state) port->state |= 0x02;
+        else	   port->state &= 0xfd;
+        nv_wr32(port->i2c->device, port->drive, 4 | port->state);
+    }
 }
 
 int nouveau_i2c_sense_scl(void *data)
@@ -201,16 +197,14 @@ int nouveau_i2c_sense_scl(void *data)
     
 	if (port->type == DCB_I2C_NV04_BIT) {
 		return !!(nv_rdvgac(device, 0, port->sense) & 0x04);
-	} else
-        if (port->type == DCB_I2C_NV4E_BIT) {
-            return !!(nv_rd32(device, port->sense) & 0x00040000);
-        } else
-            if (port->type == DCB_I2C_NVIO_BIT) {
-                if (device->card_type < NV_D0)
-                    return !!(nv_rd32(device, port->sense) & 0x01);
-                else
-                    return !!(nv_rd32(device, port->sense) & 0x10);
-            }
+	} else if (port->type == DCB_I2C_NV4E_BIT) {
+        return !!(nv_rd32(device, port->sense) & 0x00040000);
+    } else if (port->type == DCB_I2C_NVIO_BIT) {
+        if (device->card_type < NV_D0)
+            return !!(nv_rd32(device, port->sense) & 0x01);
+        else
+            return !!(nv_rd32(device, port->sense) & 0x10);
+    }
     
 	return 0;
 }
@@ -222,23 +216,23 @@ int nouveau_i2c_sense_sda(void *data)
     
 	if (port->type == DCB_I2C_NV04_BIT) {
 		return !!(nv_rdvgac(device, 0, port->sense) & 0x08);
-	} else
-        if (port->type == DCB_I2C_NV4E_BIT) {
-            return !!(nv_rd32(device, port->sense) & 0x00080000);
-        } else
-            if (port->type == DCB_I2C_NVIO_BIT) {
-                if (device->card_type < NV_D0)
-                    return !!(nv_rd32(device, port->sense) & 0x02);
-                else
-                    return !!(nv_rd32(device, port->sense) & 0x20);
-            }
+	} else if (port->type == DCB_I2C_NV4E_BIT) {
+        return !!(nv_rd32(device, port->sense) & 0x00080000);
+    } else if (port->type == DCB_I2C_NVIO_BIT) {
+        if (device->card_type < NV_D0)
+            return !!(nv_rd32(device, port->sense) & 0x02);
+        else
+            return !!(nv_rd32(device, port->sense) & 0x20);
+    }
     
 	return 0;
 }
 
 static const u32 nv50_i2c_port[] = {
-	0x00e138, 0x00e150, 0x00e168, 0x00e180,
-	0x00e254, 0x00e274, 0x00e764, 0x00e780,
+	0x00e138, 0x00e150,
+    0x00e168, 0x00e180,
+	0x00e254, 0x00e274,
+    0x00e764, 0x00e780,
 	0x00e79c, 0x00e7b8
 };
 
@@ -271,6 +265,7 @@ bool nouveau_i2c_create(struct nouveau_device *device)
 		}
         
 		port->type = info.type;
+        
 		switch (port->type) {
             case DCB_I2C_NV04_BIT:
                 port->drive = info.drive;
@@ -309,7 +304,7 @@ bool nouveau_i2c_create(struct nouveau_device *device)
 		}
         
 		snprintf(port->adapter.name, sizeof(port->adapter.name),
-                 "nouveau-%x-%x-%d", port->drive, port->sense, i);
+                 "nouveau-%d-%x-%x-%x-%d", port->type, info.drive, port->drive, port->sense, i);
         
 		//port->adapter.owner = this;
 		//port->adapter.dev.parent = &device->pdev->dev;
@@ -327,7 +322,6 @@ bool nouveau_i2c_create(struct nouveau_device *device)
                 port->adapter.algo = &nouveau_i2c_bit_algo;
                 ret = 0; //i2c_add_adapter(&port->adapter);
             } else {
-                port->adapter.algo = &i2c_bit_algo;
                 port->adapter.algo_data = &port->bit;
                 port->bit.udelay = 10;
                 port->bit.timeout = 2200;
@@ -336,7 +330,7 @@ bool nouveau_i2c_create(struct nouveau_device *device)
                 port->bit.setscl = nouveau_i2c_drive_scl;
                 port->bit.getsda = nouveau_i2c_sense_sda;
                 port->bit.getscl = nouveau_i2c_sense_scl;
-                ret = 0; //i2c_bit_add_bus(&port->adapter);
+                ret = i2c_bit_add_bus(&port->adapter);
             }
         } else {
             port->adapter.algo = &nouveau_i2c_aux_algo;
@@ -357,4 +351,39 @@ bool nouveau_i2c_create(struct nouveau_device *device)
     return 0;
 }
 
+static bool probe_monitoring_device(struct nouveau_i2c_port *i2c, struct i2c_board_info *info)
+{
+    //	struct i2c_client *client;
+    //
+    //	request_module("%s%s", I2C_MODULE_PREFIX, info->type);
+    //
+    //	client = i2c_new_device(&i2c->adapter, info);
+    //	if (!client)
+    //		return false;
+    //
+    //	if (!client->driver || client->driver->detect(client, info)) {
+    //		i2c_unregister_device(client);
+    //		return false;
+    //	}
+    
+	return true;
+}
+
+
+void nouveau_i2c_probe(struct nouveau_device *device)
+{
+	struct nouveau_i2c *i2c = &device->i2c;
+    
+	struct i2c_board_info info[] = {
+		{ "w83l785ts", 0x0, 0x2d, NULL, 0 },
+		{ "w83781d", 0x0, 0x2d, NULL, 0 },
+		{ "adt7473", 0x0, 0x2e, NULL, 0 },
+		{ "f75375", 0x0, 0x2e, NULL, 0 },
+		{ "lm99", 0x0, 0x4c, NULL, 0 },
+		{ }
+	};
+    
+	i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", info, probe_monitoring_device);
+    i2c->identify(i2c, NV_I2C_DEFAULT(1), "monitoring device", info, probe_monitoring_device);
+}
 

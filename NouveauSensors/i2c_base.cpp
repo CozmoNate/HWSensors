@@ -42,6 +42,8 @@ int __i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 	for (ret = 0, try1 = 0; try1 <= adap->retries; try1++) {
 		ret = adap->algo->master_xfer(adap, msgs, num);
         
+        IOLog("NouveauSensors: _i2c_transfer=%d\n", ret);
+        
 		if (ret != -EAGAIN)
 			break;
         
@@ -90,11 +92,11 @@ int i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 	if (adap->algo->master_xfer) {
 		ret = __i2c_transfer(adap, msgs, num);
         
-        IOLog("NouveauSensors: i2c_transfer=%d\n", ret);
+        //IOLog("NouveauI2C: i2c_transfer=%d\n", ret);
         
 		return ret;
 	} else {
-        IOLog("NouveauI2C: I2C level transfers not supported\n");
+        IOLog("NouveauSensors: I2C level transfers not supported\n");
 		return -EOPNOTSUPP;
 	}
 }

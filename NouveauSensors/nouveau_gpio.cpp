@@ -154,7 +154,9 @@ int nouveau_pwmfan_gpio_get(struct nouveau_device *device)
 	return 0;
 }
 
-int nouveau_rpmfan_gpio_get(struct nouveau_device *device, u32 milliseconds)
+#define RPM_SENSE_MSECS 500
+
+int nouveau_rpmfan_gpio_get(struct nouveau_device *device)
 {
 	struct dcb_gpio_func func;
 	u32 cycles, cur, prev;
@@ -173,7 +175,7 @@ int nouveau_rpmfan_gpio_get(struct nouveau_device *device, u32 milliseconds)
     clock_get_system_nanotime((clock_sec_t*)&end.tv_sec, (clock_nsec_t*)&end.tv_nsec);
     
     now.tv_sec = 0;
-    now.tv_nsec = milliseconds * USEC_PER_SEC;
+    now.tv_nsec = RPM_SENSE_MSECS * USEC_PER_SEC;
     
     ADD_MACH_TIMESPEC(&end, &now);
     
@@ -195,5 +197,5 @@ int nouveau_rpmfan_gpio_get(struct nouveau_device *device, u32 milliseconds)
 	} while (CMP_MACH_TIMESPEC(&end, &now) > 0);
     
 	/* interpolate to get rpm */
-	return (float)cycles / 4.0f * (1000.0f / milliseconds) * 60.0f;
+	return (float)cycles / 4.0f * (1000.0f / RPM_SENSE_MSECS) * 60.0f;
 }
