@@ -433,7 +433,7 @@ u16 nouveau_dcb_i2c_table(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *c
 		*cnt = nv_ro08(device, i2c + 2);
 		*len = nv_ro08(device, i2c + 3);
 	} else {
-		*ver = *ver; /* use DCB version */
+		//*ver = *ver; /* use DCB version */
 		*hdr = 0;
 		*cnt = 16;
 		*len = 4;

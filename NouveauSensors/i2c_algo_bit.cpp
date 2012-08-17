@@ -8,8 +8,6 @@
 
 //#include <sched.h>
 #include "i2c_algo_bit.h"
-//#include <sched.h>
-//#include <pthread.h>
 
 /* ----- global defines ----------------------------------------------- */
 
@@ -23,11 +21,13 @@ dev_dbg(dev, format, ##args); \
 } while (0)
 #else
 #define bit_dbg(level, dev, format, args...) \
-do {} while (0)
+do {IOLog("%s " format, dev->name, #args);} while (0)
 #endif /* DEBUG */
 
 #define udelay(x) IODelay(x)
-#define yield() /*shed_yeild()*/
+#define yield() /*yeild(0)*/
+
+#define KERN_WARNING    "[kernwarn]"
 
 /* --- setting states on the bus with the right timing: ---------------	*/
 
@@ -68,10 +68,10 @@ static int sclhi(struct i2c_algo_bit_data *adap)
     
     mach_timespec_t end, now;
     
-    clock_get_system_microtime((clock_sec_t*)&end.tv_sec, (clock_usec_t*)&end.tv_nsec);
+    clock_get_system_nanotime((clock_sec_t*)&end.tv_sec, (clock_usec_t*)&end.tv_nsec);
     
     now.tv_sec = 0;
-    now.tv_nsec = adap->timeout;
+    now.tv_nsec = adap->timeout * NSEC_PER_USEC;
     
     ADD_MACH_TIMESPEC(&end, &now);
     
@@ -81,7 +81,8 @@ static int sclhi(struct i2c_algo_bit_data *adap)
 		 * chips may hold it low ("clock stretching") while they
 		 * are processing data internally.
 		 */
-        clock_get_system_microtime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);        
+        clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
+        
 		if (CMP_MACH_TIMESPEC(&end, &now) <= 0) {
 			/* Test one last time, as we may have been preempted
 			 * between last check and timeout test.
@@ -155,7 +156,7 @@ static int i2c_outb(struct i2c_adapter *i2c_adap, unsigned char c)
 		setsda(adap, sb);
 		udelay((adap->udelay + 1) / 2);
 		if (sclhi(adap) < 0) { /* timed out */
-			bit_dbg(1, &i2c_adap->dev, "i2c_outb: 0x%02x, "
+			bit_dbg(1, i2c_adap, "i2c_outb: 0x%02x, "
                     "timeout at bit #%d\n", (int)c, i);
 			return -ETIMEDOUT;
 		}
@@ -169,7 +170,7 @@ static int i2c_outb(struct i2c_adapter *i2c_adap, unsigned char c)
 	}
 	sdahi(adap);
 	if (sclhi(adap) < 0) { /* timeout */
-		bit_dbg(1, &i2c_adap->dev, "i2c_outb: 0x%02x, "
+		bit_dbg(1, i2c_adap, "i2c_outb: 0x%02x, "
                 "timeout at ack\n", (int)c);
 		return -ETIMEDOUT;
 	}
@@ -178,7 +179,7 @@ static int i2c_outb(struct i2c_adapter *i2c_adap, unsigned char c)
 	 * NAK (usually to report problems with the data we wrote).
 	 */
 	ack = !getsda(adap);    /* ack: sda is pulled low -> success */
-	bit_dbg(2, &i2c_adap->dev, "i2c_outb: 0x%02x %s\n", (int)c,
+	bit_dbg(2, i2c_adap, "i2c_outb: 0x%02x %s\n", (int)c,
             ack ? "A" : "NA");
     
 	scllo(adap);
@@ -199,7 +200,7 @@ static int i2c_inb(struct i2c_adapter *i2c_adap)
 	sdahi(adap);
 	for (i = 0; i < 8; i++) {
 		if (sclhi(adap) < 0) { /* timeout */
-			bit_dbg(1, &i2c_adap->dev, "i2c_inb: timeout at bit "
+			bit_dbg(1, i2c_adap, "i2c_inb: timeout at bit "
                     "#%d\n", 7 - i);
 			return -ETIMEDOUT;
 		}
@@ -235,9 +236,7 @@ static int test_bus(struct i2c_adapter *i2c_adap)
 	sda = getsda(adap);
 	scl = (adap->getscl == NULL) ? 1 : getscl(adap);
 	if (!scl || !sda) {
-		printk(KERN_WARNING
-		       "%s: bus seems to be busy (scl=%d, sda=%d)\n",
-		       name, scl, sda);
+		printk(KERN_WARNING "%s: bus seems to be busy (scl=%d, sda=%d)\n", name, scl, sda);
 		goto bailout;
 	}
     
@@ -328,15 +327,15 @@ static int try_address(struct i2c_adapter *i2c_adap,
 		ret = i2c_outb(i2c_adap, addr);
 		if (ret == 1 || i == retries)
 			break;
-		bit_dbg(3, &i2c_adap->dev, "emitting stop condition\n");
+		bit_dbg(3, i2c_adap, "emitting stop condition\n");
 		i2c_stop(adap);
 		udelay(adap->udelay);
 		yield();
-		bit_dbg(3, &i2c_adap->dev, "emitting start condition\n");
+		bit_dbg(3, i2c_adap, "emitting start condition\n");
 		i2c_start(adap);
 	}
 	if (i && ret)
-		bit_dbg(1, &i2c_adap->dev, "Used %d tries to %s client at "
+		bit_dbg(1, i2c_adap, "Used %d tries to %s client at "
                 "0x%02x: %s\n", i + 1,
                 addr & 1 ? "read from" : "write to", addr >> 1,
                 ret == 1 ? "success" : "failed, timeout?");
@@ -437,7 +436,7 @@ static int readbytes(struct i2c_adapter *i2c_adap, struct i2c_msg *msg)
 			msg->len += inval;
 		}
         
-		bit_dbg(2, &i2c_adap->dev, "readbytes: 0x%02x %s\n",
+		bit_dbg(2, i2c_adap, "readbytes: 0x%02x %s\n",
                 inval,
                 (flags & I2C_M_NO_RD_ACK)
 				? "(no ack/nak)"
@@ -474,7 +473,7 @@ static int bit_doAddress(struct i2c_adapter *i2c_adap, struct i2c_msg *msg)
 	if (flags & I2C_M_TEN) {
 		/* a ten bit address */
 		addr = 0xf0 | ((msg->addr >> 7) & 0x06);
-		bit_dbg(2, &i2c_adap->dev, "addr0: %d\n", addr);
+		bit_dbg(2, i2c_adap, "addr0: %d\n", addr);
 		/* try extended address code...*/
 		ret = try_address(i2c_adap, addr, retries);
 		if ((ret != 1) && !nak_ok)  {
@@ -490,7 +489,7 @@ static int bit_doAddress(struct i2c_adapter *i2c_adap, struct i2c_msg *msg)
 			return -ENXIO;
 		}
 		if (flags & I2C_M_RD) {
-			bit_dbg(3, &i2c_adap->dev, "emitting repeated "
+			bit_dbg(3, i2c_adap, "emitting repeated "
                     "start condition\n");
 			i2c_repstart(adap);
 			/* okay, now switch into reading mode */
@@ -530,20 +529,20 @@ static int bit_xfer(struct i2c_adapter *i2c_adap,
 			return ret;
 	}
     
-	bit_dbg(3, &i2c_adap->dev, "emitting start condition\n");
+	bit_dbg(3, i2c_adap, "emitting start condition\n");
 	i2c_start(adap);
 	for (i = 0; i < num; i++) {
 		pmsg = &msgs[i];
 		nak_ok = pmsg->flags & I2C_M_IGNORE_NAK;
 		if (!(pmsg->flags & I2C_M_NOSTART)) {
 			if (i) {
-				bit_dbg(3, &i2c_adap->dev, "emitting "
+				bit_dbg(3, i2c_adap, "emitting "
                         "repeated start condition\n");
 				i2c_repstart(adap);
 			}
 			ret = bit_doAddress(i2c_adap, pmsg);
 			if ((ret != 0) && !nak_ok) {
-				bit_dbg(1, &i2c_adap->dev, "NAK from "
+				bit_dbg(1, i2c_adap, "NAK from "
                         "device addr 0x%02x msg #%d\n",
                         msgs[i].addr, i);
 				goto bailout;
@@ -553,7 +552,7 @@ static int bit_xfer(struct i2c_adapter *i2c_adap,
 			/* read bytes into buffer*/
 			ret = readbytes(i2c_adap, pmsg);
 			if (ret >= 1)
-				bit_dbg(2, &i2c_adap->dev, "read %d byte%s\n",
+				bit_dbg(2, i2c_adap, "read %d byte%s\n",
                         ret, ret == 1 ? "" : "s");
 			if (ret < pmsg->len) {
 				if (ret >= 0)
@@ -564,7 +563,7 @@ static int bit_xfer(struct i2c_adapter *i2c_adap,
 			/* write bytes from buffer */
 			ret = sendbytes(i2c_adap, pmsg);
 			if (ret >= 1)
-				bit_dbg(2, &i2c_adap->dev, "wrote %d byte%s\n",
+				bit_dbg(2, i2c_adap, "wrote %d byte%s\n",
                         ret, ret == 1 ? "" : "s");
 			if (ret < pmsg->len) {
 				if (ret >= 0)
@@ -576,7 +575,7 @@ static int bit_xfer(struct i2c_adapter *i2c_adap,
 	ret = i;
     
 bailout:
-	bit_dbg(3, &i2c_adap->dev, "emitting stop condition\n");
+	bit_dbg(3, i2c_adap, "emitting stop condition\n");
 	i2c_stop(adap);
     
 	if (adap->post_xfer)

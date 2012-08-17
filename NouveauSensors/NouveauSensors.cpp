@@ -35,6 +35,7 @@
 #include "FakeSMCDefinitions.h"
 
 #include "nouveau.h"
+#include "nvclock_i2c.h"
 
 #define kNouveauPWMSensor           1000
 #define kNouveauTemperatureSensor   1001
@@ -43,7 +44,7 @@
 OSDefineMetaClassAndStructors(NouveauSensors, FakeSMCPlugin)
 
 float NouveauSensors::getSensorValue(FakeSMCSensor *sensor)
-{
+{   
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
             return card.diode_temp_get(&card);
@@ -58,7 +59,7 @@ float NouveauSensors::getSensorValue(FakeSMCSensor *sensor)
             return card.pwm_fan_get(&card);
             
         case kFakeSMCTachometerSensor:
-            return card.rpm_fan_get(&card, 500); // count ticks for 500ms
+            return card.rpm_fan_get(&card); // count ticks for 500ms
             
         case kFakeSMCVoltageSensor:
             return (float)card.voltage_get(&card) / 1000000.0f;
@@ -132,7 +133,15 @@ bool NouveauSensors::start(IOService * provider)
         nv_error(device, "unable to initialize monitoring driver\n");
         return false;
     }
-            
+    
+#if 0
+    nouveau_i2c_create(device);
+    nouveau_i2c_probe(device);
+#else
+    // setup NVClock i2c sensors
+    nvclock_i2c_sensor_init(device);
+#endif
+    
     // Register sensors
     char key[5];
     
@@ -188,7 +197,7 @@ bool NouveauSensors::start(IOService * provider)
             addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kNouveauPWMSensor, 0);
         }
         
-        if (card.rpm_fan_get && card.rpm_fan_get(device, 100) > 0) {
+        if (card.rpm_fan_get && card.rpm_fan_get(device) > 0) {
             char title[6];
             snprintf (title, 6, "GPU %X", card.card_index);
             addTachometer(card.card_index, title);

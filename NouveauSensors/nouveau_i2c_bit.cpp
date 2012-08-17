@@ -11,8 +11,8 @@
 
 #ifdef CONFIG_NOUVEAU_I2C_INTERNAL
 #define T_TIMEOUT  2200000
-#define T_RISEFALL 1000
-#define T_HOLD     5000
+#define T_RISEFALL 2000
+#define T_HOLD     10000
 
 static inline void
 i2c_drive_scl(struct nouveau_i2c_port *port, int state)
@@ -101,8 +101,11 @@ i2c_bitw(struct nouveau_i2c_port *port, int sda)
 	i2c_drive_sda(port, sda);
 	i2c_delay(port, T_RISEFALL);
     
-	if (!i2c_raise_scl(port))
+	if (!i2c_raise_scl(port)) {
+        nv_trace(port->i2c->device, "i2c_bitw timed out\n");
 		return -ETIMEDOUT;
+    }
+    
 	i2c_delay(port, T_HOLD);
     
 	i2c_drive_scl(port, 0);
@@ -118,8 +121,10 @@ i2c_bitr(struct nouveau_i2c_port *port)
 	i2c_drive_sda(port, 1);
 	i2c_delay(port, T_RISEFALL);
     
-	if (!i2c_raise_scl(port))
+	if (!i2c_raise_scl(port)) {
+        nv_trace(port->i2c->device, "i2c_bitr timed out\n");
 		return -ETIMEDOUT;
+    }
 	i2c_delay(port, T_HOLD);
     
 	sda = i2c_sense_sda(port);
@@ -189,6 +194,7 @@ i2c_bit_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 		u8 *ptr = msg->buf;
         
 		ret = i2c_start(port);
+        
 		if (ret == 0)
 			ret = i2c_addr(port, msg);
         

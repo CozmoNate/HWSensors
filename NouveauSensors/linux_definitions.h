@@ -134,18 +134,14 @@ typedef SInt16 s16;
 typedef SInt32 s32;
 typedef SInt64 s64;
 
-#define pr_err(format, ...) do {} while (0) //fprintf (stderr, format, ## __VA_ARGS__)
-#ifdef DEBUG
-#define pr_debug(format, ...) do {} while (0) //fprintf (stderr, format, ## __VA_ARGS__)
-#else
-#define pr_debug(format, ...) do {} while (0)
-#endif
-#define dev_err(dev, format, ...) do {} while (0) //fprintf (stderr, format, ## __VA_ARGS__)
-#define dev_warn(dev, format, ...) do {} while (0) //fprintf (stderr, format, ## __VA_ARGS__)
+#define pr_err(format, args...) do {IOLog("LinuxI2C(pr_err): " format, ##args);} while (0) //fprintf (stderr, format, ## __VA_ARGS__)
+#define pr_debug(format, args...) do {IOLog("LinuxI2C(pr_debug): " format, ##args);} while (0)
+#define dev_err(dev, format, args...) do {IOLog("LinuxI2C(dev_err): " format, ##args);} while (0) //fprintf (stderr, format, ## __VA_ARGS__)
+#define dev_warn(dev, format, args...) do {IOLog("LinuxI2C(dev_warn): " format, ##args);} while (0) //fprintf (stderr, format, ## __VA_ARGS__)
 
-#define printk(format, ...) do {} while (0)
+#define printk(format, args...) do {IOLog("LinuxI2C(printk): " format, ##args);} while (0)
 
-#define pr_info(format, ...) do {} while (0)
+#define pr_info(format, args...) do {IOLog("LinuxI2C(pr_info): " format, ##args);} while (0)
 
 /* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
 static inline void rep_nop(void)

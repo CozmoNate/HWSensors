@@ -34,6 +34,7 @@
 
 #include "FakeSMCPlugin.h"
 #include "nouveau.h"
+#include "xf86i2c.h"
 
 class NouveauSensors : public FakeSMCPlugin
 {
@@ -41,6 +42,13 @@ class NouveauSensors : public FakeSMCPlugin
 	
 private:
     nouveau_device      card;
+    
+    I2CDevPtr           i2c_sensor;
+    int                 i2c_get_board_temp(I2CDevPtr dev);
+    int                 i2c_get_gpu_temp(I2CDevPtr dev);
+    int                 i2c_get_fanspeed_rpm(I2CDevPtr dev);
+    float               i2c_get_fanspeed_pwm(I2CDevPtr dev);
+    int                 i2c_get_fanspeed_mode(I2CDevPtr dev);
     
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);
