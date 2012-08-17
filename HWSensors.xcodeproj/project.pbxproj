@@ -98,6 +98,7 @@
 		7E5E4C0215D53F2F002FE3DF /* nouveau_volt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5E4C0115D53F2F002FE3DF /* nouveau_volt.cpp */; };
 		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
 		7E79B82315BA99350079AAE8 /* CPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E79B82215BA99350079AAE8 /* CPUSensors.cpp */; };
+		7E7A182415DEB090004D98AF /* MenuCracker.menu in Resources */ = {isa = PBXBuildFile; fileRef = 7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */; };
 		7E84840915C3BF2C00C2D5E2 /* pcicard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840815C3BF2C00C2D5E2 /* pcicard.png */; };
 		7E84840A15C3BF2C00C2D5E2 /* pcicard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840815C3BF2C00C2D5E2 /* pcicard.png */; };
 		7E84840C15C3BF6300C2D5E2 /* pcicard_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */; };
@@ -157,7 +158,6 @@
 		7EB963C41594561200436FDB /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
 		7EB963C51594561200436FDB /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC3D151E269C005F9929 /* voltages.png */; };
 		7EBCF0991594C0B4005E1A16 /* HWMonitorExtra.menu in Resources */ = {isa = PBXBuildFile; fileRef = 6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */; };
-		7EBCF09B1594C1D3005E1A16 /* MenuCracker.menu in Resources */ = {isa = PBXBuildFile; fileRef = 7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */; };
 		7EBFA41915D0B83500DB8579 /* nouveau.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBFA41815D0B83500DB8579 /* nouveau.h */; };
 		7EC2525915A8111E00E385E4 /* HWMonitorGraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */; };
 		7ECCC9DC15D67858001B1C57 /* nouveau_i2c._base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCC9DA15D67858001B1C57 /* nouveau_i2c._base.cpp */; };
@@ -320,6 +320,7 @@
 		7E79B82115BA99350079AAE8 /* CPUSensors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPUSensors.h; sourceTree = "<group>"; };
 		7E79B82215BA99350079AAE8 /* CPUSensors.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CPUSensors.cpp; sourceTree = "<group>"; };
 		7E79B82415BA99350079AAE8 /* CPUSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CPUSensors-Prefix.pch"; sourceTree = "<group>"; };
+		7E7A182015DEAF55004D98AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E84840815C3BF2C00C2D5E2 /* pcicard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcicard.png; sourceTree = "<group>"; };
 		7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcicard_template.png; sourceTree = "<group>"; };
 		7E8D485C15AA80910049A229 /* HWMonitorColoredCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorColoredCell.h; sourceTree = "<group>"; };
@@ -1409,7 +1410,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EBCF0991594C0B4005E1A16 /* HWMonitorExtra.menu in Resources */,
-				7EBCF09B1594C1D3005E1A16 /* MenuCracker.menu in Resources */,
 				7E938901159470DF0005316D /* Localizable.strings in Resources */,
 				7EB963BD1594561200436FDB /* default.icns in Resources */,
 				7E96DE6C15C063C100A34C60 /* hwmonitor.png in Resources */,
@@ -1429,6 +1429,7 @@
 				7E96DE6115C05DA000A34C60 /* 20-gear-2@2x.png in Resources */,
 				7E96DE6715C0607900A34C60 /* badge-4.png in Resources */,
 				7E84840A15C3BF2C00C2D5E2 /* pcicard.png in Resources */,
+				7E7A182415DEB090004D98AF /* MenuCracker.menu in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1663,6 +1664,7 @@
 			children = (
 				6A1DF985150201DE00C34729 /* en */,
 				6A1DF986150201E500C34729 /* ru */,
+				7E7A182015DEAF55004D98AF /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

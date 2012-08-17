@@ -13,8 +13,9 @@
 #include "i2c_algo_bit.h"
 #include "list.h"
 
-#define CONFIG_NOUVEAU_I2C_INTERNAL_DEFAULT TRUE
+#define CONFIG_NOUVEAU_I2C_INTERNAL_DEFAULT FALSE
 #define CONFIG_NOUVEAU_I2C_INTERNAL TRUE
+#define CONFIG_NOUVEAU_I2C_NVCLOCK TRUE
 
 #define NV_I2C_PORT(n)    (0x00 + (n))
 #define NV_I2C_DEFAULT(n) (0x80 + (n))
@@ -44,6 +45,8 @@ struct nouveau_i2c {
                                   struct i2c_board_info *));
 	struct list_head ports;
 };
+
+struct nouveau_i2c_port *nouveau_i2c_find(struct nouveau_i2c *i2c, u8 index);
 
 void nouveau_i2c_drive_scl(void *, int);
 void nouveau_i2c_drive_sda(void *, int);

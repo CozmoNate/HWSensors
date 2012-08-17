@@ -13,16 +13,7 @@
 
 static int bit_test;	/* see if the line-setting functions work	*/
 
-#ifdef DEBUG
-#define bit_dbg(level, dev, format, args...) \
-do { \
-if (i2c_debug >= level) \
-dev_dbg(dev, format, ##args); \
-} while (0)
-#else
-#define bit_dbg(level, dev, format, args...) \
-do {IOLog("%s " format, dev->name, #args);} while (0)
-#endif /* DEBUG */
+#define bit_dbg(level, dev, format, args...) /*do {IOLog("%s " format, dev->name, #args);} while (0)*/
 
 #define udelay(x) IODelay(x)
 #define yield() /*yeild(0)*/
@@ -93,11 +84,11 @@ static int sclhi(struct i2c_algo_bit_data *adap)
 		}
 		cpu_relax();
 	}
-#ifdef DEBUG
-	if (jiffies != start && i2c_debug >= 3)
-		pr_debug("i2c-algo-bit: needed %ld jiffies for SCL to go "
-                 "high\n", jiffies - start);
-#endif
+//#ifdef DEBUG
+//	if (jiffies != start && i2c_debug >= 3)
+//		pr_debug("i2c-algo-bit: needed %ld jiffies for SCL to go "
+//                 "high\n", jiffies - start);
+//#endif
     
 done:
 	udelay(adap->udelay);
