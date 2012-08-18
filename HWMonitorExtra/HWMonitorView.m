@@ -153,7 +153,7 @@ const NSString* kHWMonitorViewSpacer = @" ";
                          break;*/
                         
                     case kHWSensorLevelModerate:
-                        valueColor = [NSColor colorWithCalibratedRed:0.6f green:0.25f blue:0.025 alpha:1.0f];
+                        valueColor = [NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f];
                         break;
                         
                     case kHWSensorLevelHigh:
