@@ -42,24 +42,44 @@
 #define ADT7473_REG_CFG5 0x7c
 
 #define ADT7473_REG_MAN_ID 0x3e
-	#define AD_MAN_ID 0x41
+#define AD_MAN_ID 0x41
+#define ADT7473_REG_DEVID2 0x3F
 #define ADT7473_REG_CHIP_ID 0x3d
-	#define ADT7473_CHIP_ID 0x73
+#define ADT7473_CHIP_ID 0x73
 
 /* This function should return the chip type .. */
 int adt7473_detect(I2CDevPtr dev)
 {
-	I2CByte man_id, chip_id;
+	I2CByte man_id, dev_id, chip_id;
 	
 	xf86I2CReadByte(dev, ADT7473_REG_MAN_ID, &man_id);
+    xf86I2CReadByte(dev, ADT7473_REG_DEVID2, &dev_id);
+    
+    if (man_id != AD_MAN_ID || (dev_id & 0xf8) != 0x68)
+		return 0;
+    
 	xf86I2CReadByte(dev, ADT7473_REG_CHIP_ID, &chip_id);
 
-	if((man_id == AD_MAN_ID) && (chip_id == ADT7473_CHIP_ID))
-	{
-		dev->chip_id = ADT7473;
+    if (chip_id == 0x73) {
+        dev->chip_id = ADT7473;
 		dev->chip_name = (char*)STRDUP("Analog Devices ADT7473", sizeof("Analog Devices ADT7473"));
 		return 1;
-	}
+    }
+	else if (chip_id == 0x75 && dev->SlaveAddr / 2 == 0x2e) {
+        dev->chip_id = ADT7473;
+		dev->chip_name = (char*)STRDUP("Analog Devices ADT7475", sizeof("Analog Devices ADT7475"));
+		return 1;
+    }
+	else if (chip_id == 0x76) {
+		dev->chip_id = ADT7473;
+		dev->chip_name = (char*)STRDUP("Analog Devices ADT7476", sizeof("Analog Devices ADT7476"));
+		return 1;
+    }
+	else if ((dev_id & 0xfc) == 0x6c) {
+        dev->chip_id = ADT7473;
+		dev->chip_name = (char*)STRDUP("Analog Devices ADT7490", sizeof("Analog Devices ADT7490"));
+		return 1;
+    }
 	
 	return 0;
 }
