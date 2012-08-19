@@ -261,39 +261,28 @@ I2CDevPtr nvclock_i2c_probe_devices(nouveau_device *device, I2CBusPtr busses[], 
 	{
 		for(dev = busses[bus]->FirstDev; dev; dev = dev->NextDev)
 		{
-			nv_debug(dev->pI2CBus->card, "bus: %x device: %x\n", bus, dev->SlaveAddr / 2);
+			nv_debug(dev->pI2CBus->card, "got response on bus:%s port:0x%x\n", busses[bus]->BusName, dev->SlaveAddr / 2);
             
 			dev->arch = dev->pI2CBus->card->chipset;
                            
-			switch(dev->SlaveAddr)
+			switch(dev->SlaveAddr / 2)
 			{
-                    /* LM99 */
-				case 0x98:
-					if(lm99_detect(dev))
-						return dev;
-                    break;
-				case 0x5a:
+                case 0x2d:
 					if(w83l785r_detect(dev))
 						return dev;
 					if(w83781d_detect(dev))
 						return dev;
-				case 0x5c:
+                    break;
+				case 0x2e:
 					if(f75375_detect(dev))
 						return dev;
 					if(adt7473_detect(dev))
 						return dev;
-				case 0x6e: /* DDC/CI ? */
-                    /* The addresses below oftenly appear on most cards but what are these? */
-				case 0x70:
-				case 0xa0:
-				case 0xa2:
-				case 0xa4:
-				case 0xa6:
-				case 0xa8:
-				case 0xaa:
-				case 0xac:
-				case 0xae:
-					break;
+                    break;
+                case 0x4c:
+					if(lm99_detect(dev))
+						return dev;
+                    break;
 				default:
                     /* Unknown device */
 					break;
@@ -310,24 +299,6 @@ bool nvclock_i2c_sensor_init(nouveau_device *device)
 {
     int num_busses = 0;
     I2CBusPtr busses[4];
-        
-//    if (device->card_type == NV_40) {
-//        num_busses = 3;
-//        /* available on riva128 and higher */
-//		busses[0] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS0", sizeof("BUS0")), 0x3e);
-//        /* available on rivatnt hardware and  higher */
-//		busses[1] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS1", sizeof("BUS1")), 0x36);
-//        /* available on geforce4mx/4ti/fx/6/7 */
-//		busses[2] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS2", sizeof("BUS2")), 0x50);
-//    }
-//    else if (device->card_type == NV_50)
-//    {
-//        num_busses = 4;
-//		busses[0] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS0", sizeof("BUS0")), 0x0000E138 + 0x0);
-//		busses[1] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS1", sizeof("BUS1")), 0x0000E138 + 0x18);
-//		busses[2] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS2", sizeof("BUS2")), 0x0000E138 + 0x30);
-//   		busses[3] = nvclock_i2c_create_bus_ptr(device, STRDUP("BUS3", sizeof("BUS3")), 0x0000E138 + 0x48);
-//    }
     
     struct nouveau_i2c_port *port = NULL;
     
@@ -346,7 +317,7 @@ bool nvclock_i2c_sensor_init(nouveau_device *device)
         
         /* When a sensor is available, enable the correct function pointers */
         if(device->nvclock_i2c_sensor) {
-            nv_info(device, "found %s monitoring chip", device->nvclock_i2c_sensor->chip_name);
+            nv_info(device, "found %s monitoring chip\n", device->nvclock_i2c_sensor->chip_name);
             
             switch(device->nvclock_i2c_sensor->chip_id)
             {
