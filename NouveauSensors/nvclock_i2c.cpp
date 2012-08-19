@@ -279,7 +279,7 @@ I2CDevPtr nvclock_i2c_probe_devices(nouveau_device *device, I2CBusPtr busses[], 
 					if(adt7473_detect(dev))
 						return dev;
                     break;
-                case 0x48 ... 0x4F:
+                case 0x4c:
 					if(lm99_detect(dev))
 						return dev;
                     break;
