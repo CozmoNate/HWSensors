@@ -28,6 +28,7 @@ bool INT340EMonitor::updateTemperatures()
         
         return true;
     }
+    else HWSensorsWarningLog("failed to evaluate TSDD method");
     
     return false;
 }
@@ -165,6 +166,10 @@ bool INT340EMonitor::start(IOService * provider)
                     }
                 }
             }
+            else {
+                HWSensorsWarningLog("failed to evaluate TSDL table");
+                return false;
+            }
             
             break;
         }
@@ -188,6 +193,10 @@ bool INT340EMonitor::start(IOService * provider)
                         count++;
                     }
                 }
+            }
+            else {
+                HWSensorsWarningLog("failed to evaluate TMPV table");
+                return false;
             }
             
             break;
