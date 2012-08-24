@@ -14,6 +14,8 @@
 
 #include "FakeSMCPlugin.h"
 
+#include <kern/clock.h>
+
 class INT340EMonitor : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(INT340EMonitor)
@@ -21,6 +23,13 @@ class INT340EMonitor : public FakeSMCPlugin
 private:
 	IOACPIPlatformDevice    *acpiDevice;
     UInt64                  version;
+    
+    OSArray                 *temperatures;
+    mach_timespec_t         temperatureNextUpdate;
+    
+    bool                    updateTemperatures();
+    float                   readTemperature(UInt32 index);
+    void                    parseTemperatureName(OSString *name, UInt32 index);
     
 protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);

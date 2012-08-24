@@ -137,7 +137,7 @@ bool GeForceMonitor::start(IOService * provider)
         return false;
     }
     
-    nv_info(device, "detected GPU chipset: %s (NV%02X) family: NV%02X vbios:%02x.%02x.%02x.%02x\n", device->cname, device->chipset, device->card_type, device->bios.version.major, device->bios.version.chip, device->bios.version.minor, device->bios.version.micro);
+    nv_info(device, "chipset: %s (NV%02X) family: NV%02X vbios:%02x.%02x.%02x.%02x\n", device->cname, device->chipset, device->card_type, device->bios.version.major, device->bios.version.chip, device->bios.version.minor, device->bios.version.micro);
     
     if (device->card_type < NV_C0) {
         nouveau_i2c_create(device);

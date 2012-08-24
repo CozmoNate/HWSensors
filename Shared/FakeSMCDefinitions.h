@@ -15,6 +15,7 @@
 #define KEY_FORMAT_CPU_DIODE_TEMPERATURE        "TC%XD" // CPU Core %X Die Analog
 #define KEY_CPU_HEATSINK_TEMPERATURE            "Th0H"
 #define KEY_CPU_PROXIMITY_TEMPERATURE           "TC0P"
+#define KEY_CPU_PACKAGE_TEMPERATURE             "TCPC"
 
 // GPU
 #define KEY_FORMAT_GPU_DIODE_TEMPERATURE        "TG%XD"
@@ -141,7 +142,9 @@
 #define kFakeSMCSetValueCallback                "FakeSMC_SetValueCallback"
 #define kFakeSMCRemoveHandler                   "FakeSMC_RemoveHandler"
 
-#define HWSensorsDebugLog(string, args...)	do { if (0) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
+#define kHWSensorsDebug FALSE
+
+#define HWSensorsDebugLog(string, args...)	do { if (kHWSensorsDebug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog ("%s: [Warning] " string "\n",getName() , ## args); } while(0)
 #define HWSensorsInfoLog(string, args...)	do { IOLog ("%s: " string "\n",getName() , ## args); } while(0)
 

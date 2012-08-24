@@ -14,6 +14,7 @@
 "FREQUENCIES" = "ЧАСТОТЫ";
 "VOLTAGES" = "ДАТЧИКИ НАПРЯЖЕНИЯ";
 "FANS" = "ОБОРОТЫ ВЕНТИЛЯТОРОВ";
+"CPU Core Package" = "Пакет ядер ЦП";
 "CPU Heatsink" = "Радиатор ЦП";
 "CPU Proximity" = "Датчик ЦП";
 "GPU %X" = "Видеокарта %X";
@@ -28,9 +29,10 @@
 "Northbridge" = "Северный мост";
 "System Chipset" = "Системный чипсет";
 "Platform Controller Hub" = "Системный контроллер";
+"Memory Controller Hub" = "Контроллер памяти";
 "Ambient" = "Окружение";
 "CPU Package" = "Центральный процессор";
-"CPU Package Multiplier" = "Множитель ЦП";
+"CPU Package Multiplier" = "Пакетный множитель ЦП";
 "CPU %X" = "Процессор %X";
 "CPU Core %X" = "Ядро ЦП %X";
 "CPU Core %X Multiplier" = "Множитель ядра ЦП %X";
