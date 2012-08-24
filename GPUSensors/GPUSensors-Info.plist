@@ -6,10 +6,8 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>org.hwsensors.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>GPUSENSORS_BUNDLE</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -17,14 +15,71 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>GPUSENSORS_SHORTVERSION</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>GPUCSENSORS_VERSION</string>
 	<key>IOKitPersonalities</key>
-	<dict/>
+	<dict>
+		<key>nVidia GeForce Monitoring Plugin</key>
+		<dict>
+			<key>IOClass</key>
+			<string>GeForceMonitor</string>
+			<key>IOMatchCategory</key>
+			<string>FakeSMCPlugin</string>
+			<key>IOPCIClassMatch</key>
+			<string>0x03000000&amp;0xff000000</string>
+			<key>IOPCIMatch</key>
+			<string>0x000010de&amp;0x0000ffff</string>
+			<key>IOProbeScore</key>
+			<integer>1000</integer>
+			<key>IOProviderClass</key>
+			<string>IOPCIDevice</string>
+		</dict>
+		<key>Intel GMA X3100 Monitoring Plugin</key>
+		<dict>
+			<key>IOClass</key>
+			<string>X3100monitor</string>
+			<key>IOMatchCategory</key>
+			<string>FakeSMCPlugin</string>
+			<key>IOPCIClassMatch</key>
+			<string>0x06000000&amp;0xfff000000</string>
+			<key>IOPCIPrimaryMatch</key>
+			<string>0x2a008086</string>
+			<key>IOProviderClass</key>
+			<string>IOPCIDevice</string>
+		</dict>
+		<key>AMD Radeon Monitoring Plugin</key>
+		<dict>
+			<key>IOClass</key>
+			<string>RadeonMonitor</string>
+			<key>IOMatchCategory</key>
+			<string>FakeSMCPlugin</string>
+			<key>IOPCIClassMatch</key>
+			<string>0x03000000&amp;0xFF000000</string>
+			<key>IOPCIMatch</key>
+			<string>0x00001002&amp;0x0000FFFF</string>
+			<key>IOProviderClass</key>
+			<string>IOPCIDevice</string>
+		</dict>
+	</dict>
 	<key>OSBundleLibraries</key>
-	<dict/>
+	<dict>
+		<key>com.apple.kpi.iokit</key>
+		<string>10.0.0</string>
+		<key>com.apple.kpi.libkern</key>
+		<string>10.0.0</string>
+		<key>com.apple.kpi.mach</key>
+		<string>10.0.0</string>
+		<key>com.apple.kpi.unsupported</key>
+		<string>10.0.0</string>
+		<key>com.apple.iokit.IOPCIFamily</key>
+		<string>1.0.0b1</string>
+		<key>FAKESMC_BUNDLE</key>
+		<string>FAKESMC_COMPATIBLE</string>
+	</dict>
+	<key>OSBundleRequired</key>
+	<string>Root</string>
 </dict>
 </plist>

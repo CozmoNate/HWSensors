@@ -7,7 +7,7 @@
  *
  */
 
-#include "ATYSensors.h"
+#include "RadeonMonitor.h"
 #include "RadeonChipinfo.h"
 
 #include "FakeSMCDefinitions.h"

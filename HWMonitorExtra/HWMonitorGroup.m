@@ -53,6 +53,8 @@
 
 - (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup menu:(NSMenu*)menu font:(NSFont*)font title:(NSString*)title image:(NSImage*)image
 {
+    self = [super init];
+    
     _engine = engine;
     _group = sensorGroup;
     _font = font;

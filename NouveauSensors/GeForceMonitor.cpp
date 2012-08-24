@@ -1,5 +1,5 @@
 /*
- *  NouveauSensors.cpp
+ *  GeForceMonitor.cpp
  *  HWSensors
  *
  *  Created by kozlek on 19/04/12.
@@ -30,7 +30,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include "NouveauSensors.h"
+#include "GeForceMonitor.h"
 
 #include "FakeSMCDefinitions.h"
 
@@ -41,9 +41,9 @@
 #define kNouveauTemperatureSensor   1001
 
 #define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(NouveauSensors, FakeSMCPlugin)
+OSDefineMetaClassAndStructors(GeForceMonitor, FakeSMCPlugin)
 
-float NouveauSensors::getSensorValue(FakeSMCSensor *sensor)
+float GeForceMonitor::getSensorValue(FakeSMCSensor *sensor)
 {   
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
@@ -68,7 +68,7 @@ float NouveauSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-bool NouveauSensors::start(IOService * provider)
+bool GeForceMonitor::start(IOService * provider)
 {
 	HWSensorsDebugLog("Starting...");
 	
@@ -107,25 +107,28 @@ bool NouveauSensors::start(IOService * provider)
         return false;
     
     // shadow and parse bios
-    if (!nouveau_bios_shadow(device)) {
-        //try to load bios from registry from "vbios" property created by Chameleon boolloader
-        
-        if (OSData *vbios = OSDynamicCast(OSData, this->getProperty("vbios"))) {
-            card.bios.size = vbios->getLength();
-            card.bios.data = (u8*)IOMalloc(card.bios.size);
-            memcpy(card.bios.data, vbios->getBytesNoCopy(), card.bios.size);
-        }
-        
-        if (!device->bios.data || nouveau_bios_score(device, true) < 2) {
-            IOFree(card.bios.data, card.bios.size);
-            card.bios.data = NULL;
-            card.bios.size = 0;
-            nv_error(device, "unable to shadow VBIOS\n");
-            //return false;
-        }
-        else nouveau_vbios_init(device);
+    
+    //try to load bios from registry first from "vbios" property created by Chameleon boolloader
+    if (OSData *vbios = OSDynamicCast(OSData, this->getProperty("vbios"))) {
+        device->bios.size = vbios->getLength();
+        device->bios.data = (u8*)IOMalloc(card.bios.size);
+        memcpy(device->bios.data, vbios->getBytesNoCopy(), device->bios.size);
     }
     
+    if (!device->bios.data || !device->bios.size || nouveau_bios_score(device, true) < 1)
+        if (!nouveau_bios_shadow(device)) {
+            if (device->bios.data && device->bios.size) {
+                IOFree(card.bios.data, card.bios.size);
+                device->bios.data = NULL;
+                device->bios.size = 0;
+            }
+            
+            nv_error(device, "unable to shadow VBIOS\n");
+            
+            return false;
+        }
+    
+    nouveau_vbios_init(device);
     nouveau_bios_parse(device);
     
     // initialize funcs and variables
@@ -133,6 +136,8 @@ bool NouveauSensors::start(IOService * provider)
         nv_error(device, "unable to initialize monitoring driver\n");
         return false;
     }
+    
+    nv_info(device, "detected GPU chipset: %s (NV%02X) family: NV%02X vbios:%02x.%02x.%02x.%02x\n", device->cname, device->chipset, device->card_type, device->bios.version.major, device->bios.version.chip, device->bios.version.minor, device->bios.version.micro);
     
     if (device->card_type < NV_C0) {
         nouveau_i2c_create(device);
@@ -214,12 +219,12 @@ bool NouveauSensors::start(IOService * provider)
         addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0);
     }
     
-    nv_info(device, "started\n");
+    nv_debug(device, "started\n");
     
     return true;
 }
 
-void NouveauSensors::free(void)
+void GeForceMonitor::free(void)
 {
     if (card.mmio) {
         card.mmio->release();
