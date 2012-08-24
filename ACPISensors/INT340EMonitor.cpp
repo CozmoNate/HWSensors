@@ -19,7 +19,7 @@ bool INT340EMonitor::updateTemperatures()
 {
     OSObject *object;
     
-    if (kIOReturnSuccess == acpiDevice->evaluateObject(version == 0x30000 ? "TSDD" : "TMPV", &object) && object) {
+    if (kIOReturnSuccess == acpiDevice->evaluateObject("TSDD", &object) && object) {
         OSSafeRelease(temperatures);
         
         temperatures = OSDynamicCast(OSArray, object);

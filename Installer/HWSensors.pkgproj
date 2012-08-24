@@ -460,7 +460,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>4.2.10</string>
+				<string>4.2.11</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -1492,7 +1492,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>2.1</string>
+				<string>2.1.2</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -1963,7 +1963,7 @@
 				<key>RELOCATABLE</key>
 				<true/>
 				<key>VERSION</key>
-				<string>2.3.8</string>
+				<string>2.3.10</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
