@@ -6,6 +6,30 @@
 //
 //
 
+/*
+ * Copyright 2012 Red Hat Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * Authors: Ben Skeggs
+ */
+
 #include "nouveau_bios.h"
 
 #include "nouveau_definitions.h"
@@ -259,7 +283,7 @@ bool nouveau_bios_shadow(struct nouveau_device *device)
     nouveau_bios_shadow_pramin(device);
     
     if (device->bios.data && nouveau_bios_score(device, true) > 1) {
-        nv_info(device, "VBIOS successfully read from PRAMIN\n");
+        nv_debug(device, "VBIOS successfully read from PRAMIN\n");
         nouveau_vbios_init(device);
         return true;
     }
@@ -267,7 +291,7 @@ bool nouveau_bios_shadow(struct nouveau_device *device)
     nouveau_bios_shadow_prom(device);
     
     if (device->bios.data && nouveau_bios_score(device, true) > 1) {
-        nv_info(device, "VBIOS successfully read from PROM\n");
+        nv_debug(device, "VBIOS successfully read from PROM\n");
         nouveau_vbios_init(device);
         return true;
     }
@@ -374,10 +398,10 @@ void nouveau_bios_parse(struct nouveau_device *device)
 {
     struct nouveau_bios *bios = &device->bios;
     
-    nv_debug(device, "parsing BIOS\n");
-    
     if (!bios->data)
         return;
+    
+    nv_debug(device, "parsing VBIOS\n");
     
     /* detect type of vbios we're dealing with */
 	bios->bmp_offset = nvbios_findstr((u8*)bios->data, bios->size,
@@ -391,7 +415,7 @@ void nouveau_bios_parse(struct nouveau_device *device)
 	bios->bit_offset = nvbios_findstr((u8*)bios->data, bios->size,
                                       "\xff\xb8""BIT", 5);
 	if (bios->bit_offset)
-		nv_info(device, "VBIOS BIT signature found\n");
+		nv_debug(device, "VBIOS BIT signature found\n");
     
     struct bit_entry bit_i;
     
@@ -409,7 +433,7 @@ void nouveau_bios_parse(struct nouveau_device *device)
             bios->version.micro = nv_ro08(device, bios->bmp_offset + 10);
         }
     
-	nv_info(device, "VBIOS version %02x.%02x.%02x.%02x\n",
+	nv_debug(device, "VBIOS version %02x.%02x.%02x.%02x\n",
             bios->version.major, bios->version.chip,
             bios->version.minor, bios->version.micro);
     

@@ -207,6 +207,8 @@
     if (!_service) 
         return nil;
     
+    self = [super init];
+    
     _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
@@ -221,6 +223,8 @@
     
     if (!_service) 
         return nil;
+    
+    self = [super init];
     
     _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
     _sensors = [[NSMutableArray alloc] init];

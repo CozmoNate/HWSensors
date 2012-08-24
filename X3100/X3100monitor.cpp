@@ -7,7 +7,7 @@
  *
  */
 
-#include "X3100.h"
+#include "X3100monitor.h"
 #include "FakeSMCDefinitions.h"
 
 /*#define kGenericPCIDevice "IOPCIDevice"

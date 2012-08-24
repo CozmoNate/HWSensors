@@ -443,8 +443,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     NSRect newFrame = [self screenFrameForView:newView];
     
-    /*if ([_window contentView])
-        [[_window contentView] setAlphaValue:0.0];*/
+    [NSAnimationContext beginGrouping];
+    [[NSAnimationContext currentContext] setDuration:0.2];
+    
     [_preferencesView setAlphaValue:0.0];
     [_graphsView setAlphaValue:0.0];
     [_favoritesView setAlphaValue:0.0];
@@ -473,6 +474,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [_window setContentMinSize:[newView frame].size];
         [_window setContentMaxSize:[newView frame].size];
     }
+    
+    [NSAnimationContext endGrouping];
     
     [_defaults setInteger:tag forKey:kHWMonitorSelectedTag];
 }

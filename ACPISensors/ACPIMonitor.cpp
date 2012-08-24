@@ -7,7 +7,7 @@
  *
  */
 
-#include "ACPISensors.h"
+#include "ACPIMonitor.h"
 
 #include "FakeSMCDefinitions.h"
 
@@ -16,11 +16,7 @@ OSDefineMetaClassAndStructors(ACPIMonitor, FakeSMCPlugin)
 
 float ACPIMonitor::getSensorValue(FakeSMCSensor *sensor)
 {
-#if __LP64__
     UInt64 value;
-#else
-    UInt32 value;
-#endif
     
     switch(sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
@@ -59,7 +55,7 @@ bool ACPIMonitor::start(IOService * provider)
 	
 	if (!acpiDevice) {
         HWSensorsWarningLog("ACPI device not ready");
-        return true;
+        return false;
     }
     
     if (OSDictionary *config = OSDynamicCast(OSDictionary, getProperty("Keys Associations"))) {

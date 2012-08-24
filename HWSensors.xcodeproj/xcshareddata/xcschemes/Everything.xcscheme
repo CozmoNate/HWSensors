@@ -70,6 +70,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7EADE20615E5602E00FD117C"
+               BuildableName = "GPUSensors.kext"
+               BlueprintName = "GPUSensors"
+               ReferencedContainer = "container:HWSensors.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D05ABE313ED0DAD00EADBF6"
                BuildableName = "FakeSMC.kext"
                BlueprintName = "FakeSMC"
@@ -99,8 +113,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6A4E4738152178A00038C5DE"
-               BuildableName = "SuperIOSensors.kext"
-               BlueprintName = "SuperIOSensors"
+               BuildableName = "MotherboardSensors.kext"
+               BlueprintName = "MotherboardSensors"
                ReferencedContainer = "container:HWSensors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
