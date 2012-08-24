@@ -531,10 +531,8 @@
 		1D6FE3EF13FEBFF200376E64 /* ACPISensors */ = {
 			isa = PBXGroup;
 			children = (
-				7EBEC2A215E78B7B00537027 /* INT340EMonitor.h */,
-				7EBEC2A115E78B7B00537027 /* INT340EMonitor.cpp */,
-				1D6FE3FE13FEC03100376E64 /* ACPIMonitor.h */,
-				1D6FE3FD13FEC03100376E64 /* ACPIMonitor.cpp */,
+				7EB6451715E81442008C6A95 /* INT340E */,
+				7EB6451915E81451008C6A95 /* ACPIMonitor */,
 				1D6FE3F013FEBFF200376E64 /* Supporting Files */,
 			);
 			path = ACPISensors;
@@ -883,6 +881,24 @@
 				7EADF7AE15DCC61E0007A92C /* w83781d.cpp */,
 			);
 			name = NVClock;
+			sourceTree = "<group>";
+		};
+		7EB6451715E81442008C6A95 /* INT340E */ = {
+			isa = PBXGroup;
+			children = (
+				7EBEC2A215E78B7B00537027 /* INT340EMonitor.h */,
+				7EBEC2A115E78B7B00537027 /* INT340EMonitor.cpp */,
+			);
+			name = INT340E;
+			sourceTree = "<group>";
+		};
+		7EB6451915E81451008C6A95 /* ACPIMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				1D6FE3FE13FEC03100376E64 /* ACPIMonitor.h */,
+				1D6FE3FD13FEC03100376E64 /* ACPIMonitor.cpp */,
+			);
+			name = ACPIMonitor;
 			sourceTree = "<group>";
 		};
 		7EB692E615C99A0E0009B2E2 /* Licenses */ = {
