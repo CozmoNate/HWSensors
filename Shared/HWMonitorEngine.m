@@ -207,6 +207,8 @@
     if (!_service) 
         return nil;
     
+    self = [super init];
+    
     _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
@@ -221,6 +223,8 @@
     
     if (!_service) 
         return nil;
+    
+    self = [super init];
     
     _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
     _sensors = [[NSMutableArray alloc] init];
@@ -246,16 +250,22 @@
     for (int i=0; i<0xf; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_DIODE_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupTemperature];
     
+    [self addSensorWithKey:@KEY_CPU_PACKAGE_TEMPERATURE title:GetLocalizedString(@"CPU Core Package") group:kHWSensorGroupTemperature];
     [self addSensorWithKey:@KEY_CPU_HEATSINK_TEMPERATURE title:GetLocalizedString(@"CPU Heatsink") group:kHWSensorGroupTemperature];
     [self addSensorWithKey:@KEY_CPU_PROXIMITY_TEMPERATURE title:GetLocalizedString(@"CPU Proximity") group:kHWSensorGroupTemperature];
     [self addSensorWithKey:@KEY_NORTHBRIDGE_TEMPERATURE title:GetLocalizedString(@"Northbridge") group:kHWSensorGroupTemperature];
     [self addSensorWithKey:@KEY_PCH_DIE_TEMPERATURE title:GetLocalizedString(@"Platform Controller Hub") group:kHWSensorGroupTemperature];
+    [self addSensorWithKey:@KEY_MCH_DIODE_TEMPERATURE title:GetLocalizedString(@"Memory Controller Hub") group:kHWSensorGroupTemperature];
     
     [self addSensorWithKey:@KEY_AMBIENT_TEMPERATURE title:GetLocalizedString(@"Ambient") group:kHWSensorGroupTemperature];
     
     for (int i=1; i<0xf; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_AMBIENT_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"Ambient %X"),i + 1] group:kHWSensorGroupTemperature];
     
+    for (int i=1; i<0x4; i++)
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_DIMM_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"DIMM %X"),i + 1] group:kHWSensorGroupTemperature];
+    
+    // GPU
     for (int i=0; i<0xf; i++) {
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_DIODE_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Diode"),i + 1] group:kHWSensorGroupTemperature];
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_HEATSINK_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Heatsink"),i + 1] group:kHWSensorGroupTemperature];

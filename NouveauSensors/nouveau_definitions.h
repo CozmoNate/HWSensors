@@ -11,11 +11,11 @@
 
 #include "linux_definitions.h"
 
-#define NV_DEBUG_ENABLED TRUE
-#define NV_TRACE_ENABLED TRUE
+#define NV_DEBUG_ENABLED FALSE
+#define NV_TRACE_ENABLED FALSE
 #define NV_SPAM_ENABLED FALSE
 
-#define nv_prefix "NouveauSensors"
+#define nv_prefix "GeForceMonitor"
 
 #define nv_fatal(o,f,a...) do { if (1) { IOLog ("%s: [card%d] [Fatal] " f, nv_prefix, (o)->card_index, ##a); } } while(0)
 #define nv_error(o,f,a...) do { if (1) { IOLog ("%s: [card%d] [Error] " f, nv_prefix, (o)->card_index, ##a); } } while(0)

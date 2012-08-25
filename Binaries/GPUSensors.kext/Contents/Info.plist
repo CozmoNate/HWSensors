@@ -7,19 +7,21 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>ACPISensors</string>
+	<string>GPUSensors</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.hwsensors.driver.ACPISensors</string>
+	<string>org.hwsensors.driver.GPUSensors</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>GPUSensors</string>
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.5</string>
+	<string>1.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.1.5</string>
+	<string>1.0.0</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
@@ -36,81 +38,53 @@
 	<string>4F1003</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>ACPI Customizing Monitoring Plugin</key>
+		<key>AMD Radeon Monitoring Plugin</key>
 		<dict>
-			<key>Fan Names</key>
-			<array>
-				<string>System Fan</string>
-				<string>Processor Fan</string>
-				<string>Power Fan</string>
-				<string>Intake Fan</string>
-				<string>Exhaust Fan</string>
-				<string>Fan 6</string>
-				<string>Fan 7</string>
-				<string>Fan 8</string>
-				<string>Fan 9</string>
-				<string>Fan 10</string>
-			</array>
 			<key>IOClass</key>
-			<string>ACPIMonitor</string>
+			<string>RadeonMonitor</string>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
-			<key>IONameMatch</key>
-			<array>
-				<string>ACPIMON</string>
-			</array>
+			<key>IOPCIClassMatch</key>
+			<string>0x03000000&amp;0xFF000000</string>
+			<key>IOPCIMatch</key>
+			<string>0x00001002&amp;0x0000FFFF</string>
 			<key>IOProviderClass</key>
-			<string>IOACPIPlatformDevice</string>
-			<key>Keys Associations</key>
-			<dict>
-				<key>Temperatures</key>
-				<dict>
-					<key>TC0P</key>
-					<string>CHCK</string>
-				</dict>
-				<key>Voltages</key>
-				<dict/>
-			</dict>
-			<key>Keys Associations (original)</key>
-			<dict>
-				<key>Temperatures</key>
-				<dict>
-					<key>TN0P</key>
-					<string>TSYS</string>
-					<key>Th0H</key>
-					<string>TCPU</string>
-				</dict>
-				<key>Voltages</key>
-				<dict>
-					<key>VC0C</key>
-					<string>VCPU</string>
-					<key>VM0R</key>
-					<string>VMEM</string>
-				</dict>
-			</dict>
+			<string>IOPCIDevice</string>
 		</dict>
-		<key>INT340E Device Monitoring Plugin</key>
+		<key>Intel GMA X3100 Monitoring Plugin</key>
 		<dict>
 			<key>IOClass</key>
-			<string>INT340EMonitor</string>
+			<string>X3100monitor</string>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
-			<key>IONameMatch</key>
-			<array>
-				<string>INT340E</string>
-				<string>INT3F0D</string>
-			</array>
+			<key>IOPCIClassMatch</key>
+			<string>0x06000000&amp;0xfff000000</string>
+			<key>IOPCIPrimaryMatch</key>
+			<string>0x2a008086</string>
+			<key>IOProviderClass</key>
+			<string>IOPCIDevice</string>
+		</dict>
+		<key>nVidia GeForce Monitoring Plugin</key>
+		<dict>
+			<key>IOClass</key>
+			<string>GeForceMonitor</string>
+			<key>IOMatchCategory</key>
+			<string>FakeSMCPlugin</string>
+			<key>IOPCIClassMatch</key>
+			<string>0x03000000&amp;0xff000000</string>
+			<key>IOPCIMatch</key>
+			<string>0x000010de&amp;0x0000ffff</string>
 			<key>IOProbeScore</key>
 			<integer>1000</integer>
 			<key>IOProviderClass</key>
-			<string>IOACPIPlatformDevice</string>
+			<string>IOPCIDevice</string>
 		</dict>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 Slice. All rights reserved.</string>
+	<string>Copyright © 2012 kozlek. All rights reserved.</string>
 	<key>OSBundleLibraries</key>
 	<dict>
-		<key>com.apple.iokit.IOACPIFamily</key>
+		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>1.0.0b1</string>
 		<key>com.apple.kpi.iokit</key>
 		<string>10.0.0</string>
