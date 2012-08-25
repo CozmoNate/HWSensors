@@ -55,7 +55,7 @@ float INT340EMonitor::readTemperature(UInt32 index)
     if (temperatures) {
         if (OSNumber *number = OSDynamicCast(OSNumber, temperatures->getObject(index))) {
             UInt64 value = number->unsigned32BitValue();
-            return (value == 0x80000000) ? 0 : (float)value;
+            return (value == 0x80000000) ? 0 : (float)((value - 0xAAC) / 0xA);
         }
     }
     
