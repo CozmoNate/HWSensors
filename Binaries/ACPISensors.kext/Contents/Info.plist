@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.4</string>
+	<string>2.1.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.1.4</string>
+	<string>2.1.5</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
@@ -98,6 +98,7 @@
 			<key>IONameMatch</key>
 			<array>
 				<string>INT340E</string>
+				<string>INT3F0D</string>
 			</array>
 			<key>IOProbeScore</key>
 			<integer>1000</integer>

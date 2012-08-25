@@ -209,7 +209,7 @@ bool SuperIODevice::start(IOService *provider)
             IOSleep(50);
             
             // IT87XX can enter only on port 0x2E
-            if (port == 0x2E || (id == IT8518E && port == 0x4e)) {
+            if (port == 0x2E) {
                 ite_family_enter(port);
                 
                 id = superio_listen_port_word(port, kSuperIOChipIDRegister);

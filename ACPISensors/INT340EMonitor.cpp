@@ -141,8 +141,16 @@ bool INT340EMonitor::start(IOService * provider)
     // Update timers
     clock_get_system_nanotime((clock_sec_t*)&temperatureNextUpdate.tv_sec, (clock_nsec_t*)&temperatureNextUpdate.tv_nsec);
     
-    if (kIOReturnSuccess == acpiDevice->evaluateInteger("IVER", &version))
-        setProperty("version", version, 64);
+    acpiDevice->evaluateInteger("IVER", &version);
+    
+    if (version == 0) {
+        OSString *name = OSDynamicCast(OSString, getProperty("IONameMatched"));
+        
+        if (name && name->isEqualTo("INT3F0D"))
+            version = 0x30000;
+    }
+    
+    setProperty("version", version, 64);
     
     // Parse sensors
     switch (version) {
