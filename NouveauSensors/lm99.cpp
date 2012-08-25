@@ -45,17 +45,11 @@ int lm99_detect(I2CDevPtr dev)
 	I2CByte man_id, chip_id, config1, config2, convrate, address = dev->SlaveAddr / 2;
     const char *name = NULL;
     
-	xf86I2CReadByte  (dev, LM99_REG_MAN_ID, &man_id);
-	xf86I2CReadByte  (dev, LM99_REG_CHIP_ID, &chip_id);
-    xf86I2CReadByte  (dev, LM90_REG_R_CONFIG1, &config1);
-    xf86I2CReadByte  (dev, LM90_REG_R_CONVRATE, &convrate);
-    
-    if (man_id < 0 || chip_id < 0 || config1 < 0 || convrate < 0)
+    if (!xf86I2CReadByte(dev, LM99_REG_MAN_ID, &man_id) || !xf86I2CReadByte(dev, LM99_REG_CHIP_ID, &chip_id) || !xf86I2CReadByte(dev, LM90_REG_R_CONFIG1, &config1) || !xf86I2CReadByte(dev, LM90_REG_R_CONVRATE, &convrate))
 		return 0;
     
     if (man_id == 0x01 || man_id == 0x5C || man_id == 0x41) {
-        xf86I2CReadByte  (dev, LM90_REG_R_CONVRATE, &config2);
-		if (config2 < 0)
+		if (!xf86I2CReadByte(dev, LM90_REG_R_CONVRATE, &config2))
 			return 0;
 	} else config2 = 0;
     
@@ -99,12 +93,7 @@ int lm99_detect(I2CDevPtr dev)
          * exists, both readings will reflect the same value. Otherwise,
          * the readings will be different.
          */
-        xf86I2CReadByte  (dev, MAX6659_REG_R_REMOTE_EMERG, &emerg);
-        xf86I2CReadByte  (dev, LM99_REG_MAN_ID, &man_id);
-        xf86I2CReadByte  (dev, MAX6659_REG_R_REMOTE_EMERG, &emerg2);
-        xf86I2CReadByte  (dev, MAX6696_REG_R_STATUS2, &status2);
-        
-        if (emerg < 0 || man_id < 0 || emerg2 < 0 || status2 < 0)
+        if (!xf86I2CReadByte(dev, MAX6659_REG_R_REMOTE_EMERG, &emerg) || !xf86I2CReadByte(dev, LM99_REG_MAN_ID, &man_id) || !xf86I2CReadByte(dev, MAX6659_REG_R_REMOTE_EMERG, &emerg2) || !xf86I2CReadByte  (dev, MAX6696_REG_R_STATUS2, &status2))
             return 0;
         
         /*

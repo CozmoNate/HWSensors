@@ -11,9 +11,9 @@
 
 /* ----- global defines ----------------------------------------------- */
 
-static int bit_test;	/* see if the line-setting functions work	*/
+static int bit_test = 0;	/* see if the line-setting functions work	*/
 
-#define bit_dbg(level, dev, format, args...) /*do {IOLog("%s " format, dev->name, #args);} while (0)*/
+#define bit_dbg(level, dev, format, args...) do {IOLog("LinuxI2C (algo_bit)L " format, ##args);} while (0)
 
 #define udelay(x) IODelay(x)
 #define yield() /*yeild(0)*/

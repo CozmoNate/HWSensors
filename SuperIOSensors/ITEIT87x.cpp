@@ -139,13 +139,13 @@ bool IT87xMonitor::initialize()
 	if (vendor != ITE_VENDOR_ID) {
         HWSensorsWarningLog("invalid vendor ID=0x%x", vendor);
         model = 0;
-		return this;
+		return false;
     }
 	
 	if ((readByte(ITE_CONFIGURATION_REGISTER) & 0x10) == 0) {
         HWSensorsWarningLog("invalid configuration register value");
         model = 0;
-		return this;
+		return false;
     }
 	
     switch (model) {

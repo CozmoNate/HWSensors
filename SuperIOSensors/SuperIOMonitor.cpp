@@ -87,16 +87,16 @@ bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
                 if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                     HWSensorsWarningLog("can't add System temperature sensor");
             }
-            /*else if (name->isEqualTo("Ambient")) {
+            else if (name->isEqualTo("Ambient")) {
                 if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                     HWSensorsWarningLog("can't add Ambient temperature sensor");
-            }*/
+            }
             else if (name->isEqualTo("PCH")) {				
                 if (!addSensor(KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                     HWSensorsWarningLog("can't add PCH temperature sensor");
             }
             else {
-                for (int j = 0; j <= 0xf; j++) {
+                for (int j = 1; j <= 0xf; j++) {
                     
                     char caption[64];
                     
@@ -105,7 +105,7 @@ bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
                     if (name->isEqualTo(caption)) {
                         snprintf(key, 5, KEY_FORMAT_AMBIENT_TEMPERATURE, j);
                         if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                            HWSensorsWarningLog("can't add Ambient %X voltage sensor", j);
+                            HWSensorsWarningLog("can't add Ambient %X temperature sensor", j);
                     }
                 }
             }

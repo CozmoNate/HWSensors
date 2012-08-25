@@ -15,6 +15,7 @@
 #define KEY_FORMAT_CPU_DIODE_TEMPERATURE        "TC%XD" // CPU Core %X Die Analog
 #define KEY_CPU_HEATSINK_TEMPERATURE            "Th0H"
 #define KEY_CPU_PROXIMITY_TEMPERATURE           "TC0P"
+#define KEY_CPU_PACKAGE_TEMPERATURE             "TCPC"
 
 // GPU
 #define KEY_FORMAT_GPU_DIODE_TEMPERATURE        "TG%XD"
@@ -93,13 +94,13 @@
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
 #define KEY_FAKESMC_FORMAT_FAN_PWM              "F%XPc"
 // Other
-#define KEY_FAKESMC_FORMAT_CPU_FREQUENCY		"Cc%XC"
-#define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY       "CcPk"
+#define KEY_FAKESMC_FORMAT_CPU_FREQUENCY		"CC%XC"
+#define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY       "CCPC"
 
-#define KEY_FAKESMC_FORMAT_GPU_FREQUENCY        "Cg%XG"
-#define KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY "Cg%XM"
-#define KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY "Cg%XS"
-#define KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY    "Cg%XR"
+#define KEY_FAKESMC_FORMAT_GPU_FREQUENCY        "CG%XC"
+#define KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY "CG%XM"
+#define KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY "CG%XS"
+#define KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY    "CG%XR"
 
 #define KEY_FAKESMC_FORMAT_CPU_MULTIPLIER		"MlC%X"
 #define KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER      "MlCP"
@@ -141,7 +142,9 @@
 #define kFakeSMCSetValueCallback                "FakeSMC_SetValueCallback"
 #define kFakeSMCRemoveHandler                   "FakeSMC_RemoveHandler"
 
-#define HWSensorsDebugLog(string, args...)	do { if (0) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
+#define kHWSensorsDebug FALSE
+
+#define HWSensorsDebugLog(string, args...)	do { if (kHWSensorsDebug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog ("%s: [Warning] " string "\n",getName() , ## args); } while(0)
 #define HWSensorsInfoLog(string, args...)	do { IOLog ("%s: " string "\n",getName() , ## args); } while(0)
 

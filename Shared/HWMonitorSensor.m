@@ -188,8 +188,14 @@ inline UInt8 get_index(char c)
             
             [_data getBytes:&t length:2];
             
-            if (_level != kHWSensorLevelExceeded && [_disk isRotational])
-                [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+            if (_level != kHWSensorLevelExceeded) {
+                if ([_disk isRotational]) {
+                    [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+                }
+                else {
+                    [self setLevel:t >= 100 ? kHWSensorLevelExceeded : t >= 85 ? kHWSensorLevelHigh : t >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+                }
+            }
             
             if ([_engine useFahrenheit]) {
                 _rawValue = [NSNumber numberWithDouble:t];
@@ -276,6 +282,9 @@ inline UInt8 get_index(char c)
             _rawValue = [NSNumber numberWithInt:0];
             _formattedValue = [NSString stringWithFormat:@"-"];
         }
+    }
+    else if (!_formattedValue) {
+        _formattedValue = [NSString stringWithFormat:@"-"];
     }
     
     return _formattedValue;
