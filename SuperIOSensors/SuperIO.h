@@ -31,6 +31,7 @@ enum SuperIOModel
 {
     // ITE
 	IT8512F     = 0x8512,
+    IT8518E     = 0x8518,
     IT8705F     = 0x8705,
     IT8712F     = 0x8712,
     IT8716F     = 0x8716,
@@ -121,6 +122,7 @@ inline const char* superio_get_model_name(UInt16 model)
 {
     switch (model) {
         case IT8512F:       return "IT8512F";
+        case IT8518E:       return "IT8518E";
         case IT8705F:       return "IT8705F";
         case IT8712F:       return "IT8712F";
         case IT8716F:       return "IT8716F";
