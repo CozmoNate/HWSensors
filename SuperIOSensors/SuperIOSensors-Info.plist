@@ -666,7 +666,6 @@
 			<key>IONameMatch</key>
 			<array>
 				<string>ITE,IT8512F</string>
-				<string>ITE,IT8518E</string>
 				<string>ITE,IT8505F</string>
 				<string>ITE,IT8712F</string>
 				<string>ITE,IT8716F</string>

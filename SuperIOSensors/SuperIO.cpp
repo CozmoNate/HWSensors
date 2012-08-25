@@ -219,7 +219,6 @@ bool SuperIODevice::start(IOService *provider)
                 
                 switch (id) {
                     case IT8512F:
-                    case IT8518E:
                     case IT8712F:
                     case IT8716F:
                     case IT8718F:
