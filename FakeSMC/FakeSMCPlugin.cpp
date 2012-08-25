@@ -185,7 +185,7 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {   
     if (getSensor(key)) {
-        HWSensorsDebugLog("will not add sensor for key %s, key handler already assigned", key);
+        HWSensorsDebugLog("will not add handler for key %s, key already handled", key);
 		return NULL;
     }
 	

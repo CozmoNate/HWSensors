@@ -42,7 +42,7 @@ int __i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 	for (ret = 0, try1 = 0; try1 <= adap->retries; try1++) {
 		ret = adap->algo->master_xfer(adap, msgs, num);
         
-        IOLog("NouveauSensors: _i2c_transfer=%d\n", ret);
+        IOLog("GeForceMonitor: _i2c_transfer=%d\n", ret);
         
 		if (ret != -EAGAIN)
 			break;
@@ -96,7 +96,7 @@ int i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
         
 		return ret;
 	} else {
-        IOLog("NouveauSensors: I2C level transfers not supported\n");
+        IOLog("GeForceMonitor: I2C level transfers not supported\n");
 		return -EOPNOTSUPP;
 	}
 }

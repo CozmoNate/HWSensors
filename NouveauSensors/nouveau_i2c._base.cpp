@@ -6,6 +6,30 @@
 //
 //
 
+/*
+ * Copyright 2012 Red Hat Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * Authors: Ben Skeggs
+ */
+
 #include "nouveau_i2c.h"
 
 #include "nouveau.h"
@@ -68,7 +92,7 @@ bool nv_probe_i2c(struct nouveau_i2c_port *port, u8 addr)
 			addr,
 			0,
 			1,
-			&buf,
+			&addr,
 		},
 		{
 			addr,
@@ -318,7 +342,7 @@ bool nouveau_i2c_create(struct nouveau_device *device)
 			nouveau_i2c_drive_sda(port, 1);
 			nouveau_i2c_drive_scl(port, 1);
             
-			if (CONFIG_NOUVEAU_I2C_INTERNAL_DEFAULT) {
+			if (CONFIG_NOUVEAU_I2C_INTERNAL) {
                 port->adapter.algo = &nouveau_i2c_bit_algo;
                 ret = 0; //i2c_add_adapter(&port->adapter);
             } else {

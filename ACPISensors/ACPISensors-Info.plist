@@ -22,17 +22,31 @@
 	<string>Copyright © HWSENSORS_LASTYEAR Slice. All rights reserved.</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>ACPI Monitoring Plugin</key>
+		<key>INT340E Device Monitoring Plugin</key>
 		<dict>
-			<key>CFBundleIdentifier</key>
-			<string>ACPISENSORS_BUNDLE</string>
+			<key>IOClass</key>
+			<string>INT340EMonitor</string>
+			<key>IOMatchCategory</key>
+			<string>FakeSMCPlugin</string>
+			<key>IONameMatch</key>
+			<array>
+				<string>INT340E</string>
+				<string>INT3F0D</string>
+			</array>
+			<key>IOProviderClass</key>
+			<string>IOACPIPlatformDevice</string>
+			<key>IOProbeScore</key>
+			<integer>1000</integer>
+		</dict>
+		<key>ACPI Customizing Monitoring Plugin</key>
+		<dict>
 			<key>IOClass</key>
 			<string>ACPIMonitor</string>
 			<key>IOMatchCategory</key>
-			<string>IODefaultMatchCategory</string>
+			<string>FakeSMCPlugin</string>
 			<key>IONameMatch</key>
 			<array>
-				<string>monitor</string>
+				<string>ACPIMON</string>
 			</array>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
@@ -53,6 +67,16 @@
 			<dict>
 				<key>Temperatures</key>
 				<dict>
+					<key>TC0P</key>
+					<string>CHCK</string>
+				</dict>
+				<key>Voltages</key>
+				<dict/>
+			</dict>
+			<key>Keys Associations (original)</key>
+			<dict>
+				<key>Temperatures</key>
+				<dict>
 					<key>Th0H</key>
 					<string>TCPU</string>
 					<key>TN0P</key>
@@ -64,22 +88,6 @@
 					<string>VCPU</string>
 					<key>VM0R</key>
 					<string>VMEM</string>
-				</dict>
-			</dict>
-			<key>Keys Associations (from test)</key>
-			<dict>
-				<key>Voltages</key>
-				<dict>
-					<key>VVBS</key>
-					<string>VIN0</string>
-					<key>VVCS</key>
-					<string>VIN1</string>
-					<key>VVDS</key>
-					<string>VIN2</string>
-					<key>VVFS</key>
-					<string>VIN3</string>
-					<key>VVAS</key>
-					<string>VIN4</string>
 				</dict>
 			</dict>
 		</dict>
