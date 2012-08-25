@@ -283,6 +283,9 @@ inline UInt8 get_index(char c)
             _formattedValue = [NSString stringWithFormat:@"-"];
         }
     }
+    else if (!_formattedValue) {
+        _formattedValue = [NSString stringWithFormat:@"-"];
+    }
     
     return _formattedValue;
 }

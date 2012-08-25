@@ -111,7 +111,7 @@
     [invocation setTarget:self];
     [invocation setSelector:@selector(updateSensorsValuesThreaded)];
     
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1.5f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     // Main SMART timer
     invocation = [NSInvocation invocationWithMethodSignature:
@@ -121,13 +121,13 @@
     
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
-    // Titles update timer
+    // Titles timer
     invocation = [NSInvocation invocationWithMethodSignature:
                   [self methodSignatureForSelector:@selector(updateMenuDefault)]];
     [invocation setTarget:self];
     [invocation setSelector:@selector(updateMenuDefault)];
     
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.5f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     // Rebuild sensors timer
     /*invocation = [NSInvocation invocationWithMethodSignature:
@@ -219,6 +219,22 @@
         [_engine updateGenericSensorsValues];
     else 
         [_engine updateFavoritesSensorsValues:_favorites];
+    
+    if (_monitoringAppIsActive) {
+            
+        NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+        
+        for (HWMonitorSensor *sensor in [_engine sensors]) {
+            //if ([sensor valueHasBeenChanged])
+            [values setObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                              [sensor rawValue],       kHWMonitorKeyRawValue,
+                              [sensor formattedValue], kHWMonitorKeyValue,
+                              nil] forKey:[sensor name]];
+        }
+        
+        [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
+    }
+    
 }
 
 - (void)updateSensorsValuesThreaded
@@ -230,14 +246,11 @@
 {
     [[self view] setNeedsDisplay:YES];
     
-    if (!allSensors && ![self isMenuDown] && !_monitoringAppIsActive)
+    if (!allSensors && ![self isMenuDown])
         return;
-    
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    
+       
     for (HWMonitorSensor *sensor in [_engine sensors]) {
-        
-        if (((([self isMenuDown] || allSensors) && [[sensor representedObject] isVisible]) || _monitoringAppIsActive) && [sensor valueHasBeenChanged]) {
+        if (([self isMenuDown] || allSensors) && [[sensor representedObject] isVisible] && [sensor valueHasBeenChanged]) {
             
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
             
@@ -245,13 +258,6 @@
             NSDictionary *valueColor = nil;
             
             NSString *value = [sensor formattedValue];
-            
-            if (_monitoringAppIsActive)
-                [values setObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   [sensor rawValue], kHWMonitorKeyRawValue,
-                                   value, kHWMonitorKeyValue,
-                                   nil]
-                           forKey:[sensor name]];
             
             switch ([sensor level]) {
                     /*case kHWSensorLevelDisabled:
@@ -296,12 +302,6 @@
             [[[sensor representedObject] menuItem] setAttributedTitle:title];
         }
     }
-    
-    //if (_monitoringAppIsActive && (_monitoringAppNextUpdate == nil || [_monitoringAppNextUpdate isLessThanOrEqualTo:[NSDate dateWithTimeIntervalSinceNow:0.0]])) {
-        [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
-        
-        //_monitoringAppNextUpdate = [NSDate dateWithTimeIntervalSinceNow:1.0];
-    //}
 }
 
 - (void)updateMenuForced
