@@ -115,7 +115,7 @@ void INT340EMonitor::parseTemperatureName(OSString *name, UInt32 index)
             snprintf(str, 64, "TZ0%x _TMP", i);
             
             if (name->isEqualTo(str)) {
-                snprintf(key, 5, KEY_FORMAT_AMBIENT_TEMPERATURE, i + 1);
+                snprintf(key, 5, KEY_FORMAT_THERMALZONE_TEMPERATURE, i + 1);
                 break;
             }
         }

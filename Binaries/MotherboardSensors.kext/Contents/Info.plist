@@ -1280,6 +1280,8 @@
 					</dict>
 					<key>EP45-DS3R</key>
 					<string>X38-DS5</string>
+					<key>EP45-UD3P</key>
+					<string>X38-DS5</string>
 					<key>EP45-UD3R</key>
 					<string>X38-DS5</string>
 					<key>EX58-EXTREME</key>

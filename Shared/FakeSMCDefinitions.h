@@ -11,33 +11,46 @@
 
 // Temperature (*C)
 // CPU
-#define KEY_FORMAT_CPU_DIE_CORE_TEMPERATURE     "TC%XC" // CPU Core %X Die Digital
-#define KEY_FORMAT_CPU_DIODE_TEMPERATURE        "TC%XD" // CPU Core %X Die Analog
+#define KEY_FORMAT_CPU_DIODE_TEMPERATURE        "TC%XD" // CPU Core %X
+#define KEY_FORMAT_CPU_ANALOG_TEMPERATURE       "TC%XH" // CPU Core %X
 #define KEY_CPU_HEATSINK_TEMPERATURE            "Th0H"
 #define KEY_CPU_PROXIMITY_TEMPERATURE           "TC0P"
 #define KEY_CPU_PACKAGE_TEMPERATURE             "TCPC"
 
 // GPU
+#define KEY_GPU_DIODE_TEMPERATURE               "TG0D"
 #define KEY_FORMAT_GPU_DIODE_TEMPERATURE        "TG%XD"
+#define	KEY_GPU_HEATSINK_TEMPERATURE            "TG0H"
 #define	KEY_FORMAT_GPU_HEATSINK_TEMPERATURE		"TG%XH"
+#define KEY_GPU_PROXIMITY_TEMPERATURE           "TG0P"
 #define KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE    "TG%XP"
+#define KEY_GPU_MEMORY_TEMPERATURE              "TG0M"
 #define KEY_FORMAT_GPU_MEMORY_TEMPERATURE       "TG%XM"
 
 // PECI
 #define KEY_FORMAT_CPU_PECI_CORE_TEMPERATURE    "TC%Xc" // SNB
 #define KEY_PECI_GFX_TEMPERATURE                "TCGc"  // SNB HD2/3000
 #define KEY_PECI_SA_TEMPERATURE                 "TCSc"  // SNB 
-#define KEY_PECI_PACKAGE_TEMPERATURE            "TCXc"  // SNB 
+#define KEY_PECI_PACKAGE_TEMPERATURE            "TCXc"  // SNB
+
+// HDD
+#define KEY_FORMAT_HD_BAY_TEMPERATURE           "TH%XP"
+#define KEY_OPTICAL_DRIVE_TEMPERATURE           "TO0P"
+
 // NorthBridge, MCH, MCP, PCH
 #define KEY_MCH_DIODE_TEMPERATURE               "TN0C"
 #define KEY_MCH_HEATSINK_TEMPERATURE            "TN0H"
+
 #define KEY_MCP_DIE_TEMPERATURE                 "TN0D"
 #define KEY_MCP_INTERNAL_DIE_TEMPERATURE        "TN1D"
-#define KEY_MCP_PROXIMITY_TEMPERATURE           "TM0P" // MCP Proximity/Inlet
-#define KEY_NORTHBRIDGE_TEMPERATURE             "TN0P" // MCP Proximity Top Side
-#define KEY_NORTHBRIDGE_PROXIMITY_TEMPERATURE   "TN1P"
+#define KEY_MCP_PROXIMITY_TEMPERATURE           "TM0P"
+
+#define KEY_NORTHBRIDGE_TEMPERATURE             "TN0P"
+#define KEY_FORMAT_NORTHBRIDGE_TEMPERATURE      "TN%XP"
+
 #define KEY_PCH_DIE_TEMPERATURE                 "TP0D" // SNB PCH Die Digital
 #define KEY_PCH_PROXIMITY_TEMPERATURE           "TP0P" // SNB
+
 // Misc
 #define KEY_FORMAT_ACDC_TEMPERATURE             "Tp%XC" // PSMI Supply AC/DC Supply 1
 #define KEY_AMBIENT_TEMPERATURE                 "TA0P"
@@ -45,6 +58,9 @@
 #define KEY_FORMAT_DIMM_TEMPERATURE             "Tm%XP" // MLB Proximity/DC In Proximity Airflow
 #define KEY_FORMAT_AIRVENT_TEMPERATURE          "TV%XP" // Air Vent Exit
 #define KEY_FORMAT_AIRPORT_TEMPERATURE          "TW%XP"
+
+// Custom
+#define KEY_FORMAT_THERMALZONE_TEMPERATURE      "TZ%XC"
 
 // Voltage (Volts)
 // CPU
@@ -92,14 +108,19 @@
 #define KEY_FAN_NUMBER                          "FNum"
 #define KEY_FORMAT_FAN_ID                       "F%XID"
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
-#define KEY_FAKESMC_FORMAT_FAN_PWM              "F%XPc"
+#define KEY_FAKESMC_GPUPWM                      "F0Pc"
+#define KEY_FAKESMC_FORMAT_GPUPWM               "F%XPc"
 // Other
 #define KEY_FAKESMC_FORMAT_CPU_FREQUENCY		"CC%XC"
 #define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY       "CCPC"
 
+#define KEY_FAKESMC_GPU_FREQUENCY               "CG0C"
 #define KEY_FAKESMC_FORMAT_GPU_FREQUENCY        "CG%XC"
+#define KEY_FAKESMC_GPU_MEMORY_FREQUENCY        "CG0M"
 #define KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY "CG%XM"
+#define KEY_FAKESMC_GPU_SHADER_FREQUENCY        "CG0S"
 #define KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY "CG%XS"
+#define KEY_FAKESMC_GPU_ROP_FREQUENCY           "CG0R"
 #define KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY    "CG%XR"
 
 #define KEY_FAKESMC_FORMAT_CPU_MULTIPLIER		"MlC%X"
