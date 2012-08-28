@@ -20,8 +20,8 @@
 #define kHWMonitorUseShadowEffect       @"useShadowEffect"
 #define kHWMonitorUseBSDNames           @"showBSDNames"
 #define kHWMonitorShowVolumeNames       @"showVolumeNames"
-#define kHWMonitorMenuInstalled         @"menuInstalled"
 #define kHWMonitorSelectedTag           @"selectedTag"
+#define kHWMonitorRefreshRate           @"refreshRate"
 
 // Icons
 #define kHWMonitorIconDefault           @"hwmonitor"
@@ -49,6 +49,7 @@
 #define HWMonitorRecieveItems           @"HWMonitorRecieveItems"
 #define HWMonitorValuesChanged          @"HWMonitorValuesChanged"
 #define HWMonitorAppIsActive            @"HWMonitorAppIsActive"
+#define HWMonitorRefreshRateChanged     @"HWMonitorRefreshRateChanged"
 
 // Key
 #define kHWMonitorKeyName               @"Name"

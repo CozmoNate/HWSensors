@@ -62,18 +62,9 @@
 				<string>Fan 8</string>
 				<string>Fan 9</string>
 				<string>Fan 10</string>
+				<string>Fan 11</string>
 			</array>
 			<key>Keys Associations</key>
-			<dict>
-				<key>Temperatures</key>
-				<dict>
-					<key>TC0P</key>
-					<string>CHCK</string>
-				</dict>
-				<key>Voltages</key>
-				<dict/>
-			</dict>
-			<key>Keys Associations (original)</key>
 			<dict>
 				<key>Temperatures</key>
 				<dict>
@@ -88,6 +79,31 @@
 					<string>VCPU</string>
 					<key>VM0R</key>
 					<string>VMEM</string>
+				</dict>
+				<key>Tachometers</key>
+				<dict>
+					<key>FAN0</key>
+					<string>RPM0</string>
+					<key>FAN1</key>
+					<string>RPM1</string>
+					<key>FAN2</key>
+					<string>RPM2</string>
+					<key>FAN3</key>
+					<string>RPM3</string>
+					<key>FAN4</key>
+					<string>RPM4</string>
+					<key>FAN5</key>
+					<string>RPM5</string>
+					<key>FAN6</key>
+					<string>RPM6</string>
+					<key>FAN7</key>
+					<string>RPM7</string>
+					<key>FAN8</key>
+					<string>RPM8</string>
+					<key>FAN9</key>
+					<string>RPM9</string>
+					<key>FANA</key>
+					<string>RPMA</string>
 				</dict>
 			</dict>
 		</dict>

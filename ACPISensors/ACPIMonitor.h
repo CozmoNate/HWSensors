@@ -33,6 +33,7 @@ private:
     
     OSDictionary            *temperatures;
     OSDictionary            *voltages;
+    OSDictionary            *tachometers;
     
 protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);

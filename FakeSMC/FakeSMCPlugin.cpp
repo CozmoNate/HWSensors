@@ -207,7 +207,7 @@ bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
     return false;
 }
 
-FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
+FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, UInt8 *fanIndex)
 {
     UInt8 length = 0;
 	void * data = 0;
@@ -237,6 +237,8 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name)
                         if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)(UInt8)1, (void *)&length, 0))
                             HWSensorsWarningLog("can't update FNum value");
                     }
+                    
+                    if (fanIndex) *fanIndex = (UInt8)i;
                     
                     return sensor;
                 }

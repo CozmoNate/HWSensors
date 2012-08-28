@@ -201,15 +201,18 @@ bool GeForceMonitor::start(IOService * provider)
     if (card.pwm_fan_get || card.rpm_fan_get) {
         nv_debug(device, "registering PWM sensors...\n");
         
-        if (card.pwm_fan_get && card.pwm_fan_get(device) > 0) {
-            snprintf(key, 5, KEY_FAKESMC_FORMAT_FAN_PWM, card.card_index);
-            addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kNouveauPWMSensor, 0);
-        }
-        
         if (card.rpm_fan_get && card.rpm_fan_get(device) > 0) {
             char title[6];
             snprintf (title, 6, "GPU %X", card.card_index);
-            addTachometer(card.card_index, title);
+            
+            UInt8 fanIndex = 0;
+            
+            if (addTachometer(card.card_index, title, &fanIndex)) {
+                if (card.pwm_fan_get && card.pwm_fan_get(device) > 0) {
+                    snprintf(key, 5, KEY_FAKESMC_FORMAT_GPUPWM, fanIndex);
+                    addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kNouveauPWMSensor, 0);
+                }
+            }
         }
     }
     
