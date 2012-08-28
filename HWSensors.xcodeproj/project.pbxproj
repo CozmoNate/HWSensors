@@ -67,6 +67,8 @@
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
 		7E55352515C05C4100DDF3BF /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */; };
+		7E78CD4815EC03BC00D57BC4 /* INT340EMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* INT340EMonitor.cpp */; };
+		7E78CD4915EC03BF00D57BC4 /* INT340EMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBEC2A215E78B7B00537027 /* INT340EMonitor.h */; };
 		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
 		7E79B82315BA99350079AAE8 /* CPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E79B82215BA99350079AAE8 /* CPUSensors.cpp */; };
 		7E7A182415DEB090004D98AF /* MenuCracker.menu in Resources */ = {isa = PBXBuildFile; fileRef = 7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */; };
@@ -163,8 +165,6 @@
 		7EB963C41594561200436FDB /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
 		7EB963C51594561200436FDB /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC3D151E269C005F9929 /* voltages.png */; };
 		7EBCF0991594C0B4005E1A16 /* HWMonitorExtra.menu in Resources */ = {isa = PBXBuildFile; fileRef = 6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */; };
-		7EBEC2A315E78B7B00537027 /* INT340EMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* INT340EMonitor.cpp */; };
-		7EBEC2A415E78B7B00537027 /* INT340EMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBEC2A215E78B7B00537027 /* INT340EMonitor.h */; };
 		7EC2525915A8111E00E385E4 /* HWMonitorGraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */; };
 		7EF7509E158C7F2500235EDC /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF981150201D100C34729 /* default.icns */; };
 		7EFB862D15C30E4300F61B59 /* NSImage-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB862615C30E4300F61B59 /* NSImage-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1025,7 +1025,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D6FE40013FEC03100376E64 /* ACPIMonitor.h in Headers */,
-				7EBEC2A415E78B7B00537027 /* INT340EMonitor.h in Headers */,
+				7E78CD4915EC03BF00D57BC4 /* INT340EMonitor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1412,7 +1412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D6FE3FF13FEC03100376E64 /* ACPIMonitor.cpp in Sources */,
-				7EBEC2A315E78B7B00537027 /* INT340EMonitor.cpp in Sources */,
+				7E78CD4815EC03BC00D57BC4 /* INT340EMonitor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
