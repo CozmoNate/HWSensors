@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>GPUCSENSORS_VERSION</string>
+	<string>GPUSENSORS_VERSION</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>nVidia GeForce Monitoring Plugin</key>
