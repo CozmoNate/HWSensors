@@ -366,6 +366,7 @@
 		7EB963B41594559100436FDB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7EB963B51594559100436FDB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7EB963B81594559100436FDB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		7EBB50D915EEAE3C00FEBBB9 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
 		7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MenuCracker.menu; path = Binaries/MenuCracker/MenuCracker.menu; sourceTree = SOURCE_ROOT; };
 		7EBEC2A115E78B7B00537027 /* INT340EMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = INT340EMonitor.cpp; sourceTree = "<group>"; };
 		7EBEC2A215E78B7B00537027 /* INT340EMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INT340EMonitor.h; sourceTree = "<group>"; };
@@ -599,6 +600,7 @@
 				7E3F6EE4155DB9DE00C3492E /* preferences.png */,
 				7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */,
 				6A1DF984150201DE00C34729 /* Localizable.strings */,
+				7EBB50D915EEAE3C00FEBBB9 /* README.txt */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
