@@ -296,13 +296,16 @@
         }
     }
     
-    //Frequencies
-    for (int i=0; i<0xf; i++) {
+    // Multipliers
+    for (int i=0; i<0xf; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_CPU_MULTIPLIER,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X Multiplier"),i + 1] group:kHWSensorGroupMultiplier];
-        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_CPU_FREQUENCY,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupFrequency];
-    }
     
     [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER title:GetLocalizedString(@"CPU Package Multiplier") group:kHWSensorGroupMultiplier];
+    
+    //Frequencies
+    for (int i=0; i<0xf; i++)
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_CPU_FREQUENCY,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupFrequency];
+    
     [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_FREQUENCY title:GetLocalizedString(@"CPU Package") group:kHWSensorGroupFrequency];
     
     [self addSensorWithKey:@KEY_FAKESMC_GPU_FREQUENCY title:GetLocalizedString(@"GPU Core") group:kHWSensorGroupFrequency];
@@ -336,17 +339,18 @@
             
             if (cardIndex==0) {
                 [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPUPWM,i] title:GetLocalizedString(@"GPU PWM") group:kHWSensorGroupPWM];
-                [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(@"GPU") group:kHWSensorGroupTachometer];
+                [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(@"GPU Fan") group:kHWSensorGroupTachometer];
             }
             else {
                 [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPUPWM,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),cardIndex + 1] group:kHWSensorGroupPWM];
-                [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),cardIndex + 1] group:kHWSensorGroupTachometer];
+                [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Fan"),cardIndex + 1] group:kHWSensorGroupTachometer];
             }
         }
     }
     
     // Voltages
-    for (int i = 0; i <= 0xf; i++)        
+    [self addSensorWithKey:@KEY_CPU_VOLTAGE title:GetLocalizedString(@"CPU") group:kHWSensorGroupVoltage];
+    for (int i = 1; i <= 0xf; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VOLTAGE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i + 1] group:kHWSensorGroupVoltage];
     
     [self addSensorWithKey:@KEY_MEMORY_VOLTAGE title:GetLocalizedString(@"Memory") group:kHWSensorGroupVoltage];
