@@ -27,9 +27,9 @@
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>12A264</string>
+	<string>11E52</string>
 	<key>DTSDKName</key>
-	<string>macosx10.8</string>
+	<string>macosx10.7</string>
 	<key>DTXcode</key>
 	<string>0441</string>
 	<key>DTXcodeBuild</key>
@@ -70,7 +70,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 		<key>org.netkas.driver.FakeSMC</key>
-		<string>4.2.9</string>
+		<string>4.2.12</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>
