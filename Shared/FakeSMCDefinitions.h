@@ -79,7 +79,7 @@
 
 #define KEY_NORTHBRIDGE_VOLTAGE                 "VN0R"  
 #define KEY_MCH_VOLTAGE                         "VN1C"
-#define KEY_POWERBATTERY_VOLTAGE                "VP0R" // Power/Battery
+#define KEY_POWERBATTERY_VOLTAGE                "VP0R" // CMOS Battery
 
 #define KEY_MAIN_12V_VOLTAGE                    "VV9S"
 #define KEY_PCIE_12V_VOLTAGE                    "VeES"

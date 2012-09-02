@@ -162,9 +162,9 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
                 if (!addSensor(KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     HWSensorsWarningLog("can't add Auxiliary 3V voltage sensor");
             }
-            else if (name->isEqualTo("Power/Battery")) {
+            else if (name->isEqualTo("CMOS Battery")) {
                 if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add Power/Battery voltage sensor");
+                    HWSensorsWarningLog("can't add CMOS Battery voltage sensor");
             }
             else if (name->isEqualTo("GPU")) {
                 SInt8 index = getVacantGPUIndex();

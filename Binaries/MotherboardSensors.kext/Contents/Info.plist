@@ -156,7 +156,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -274,7 +274,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -327,7 +327,7 @@
 						<key>gain</key>
 						<integer>1000</integer>
 						<key>name</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 						<key>offset</key>
 						<integer>0</integer>
 						<key>reference</key>
@@ -432,7 +432,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -541,7 +541,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -648,7 +648,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -740,7 +740,7 @@
 						<key>VIN7</key>
 						<string></string>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 				</dict>
 				<key>Asus</key>
@@ -760,7 +760,7 @@
 						<key>TEMPIN0</key>
 						<string>CPU</string>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>M2N-SLI DELUXE</key>
 					<dict>
@@ -801,7 +801,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>M4A79XTD EVO</key>
 					<dict>
@@ -827,7 +827,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>M5A97</key>
 					<dict>
@@ -879,7 +879,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 				</dict>
 				<key>DFI</key>
@@ -1012,7 +1012,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>LP DK P55-T3eH9</key>
 					<dict>
@@ -1110,7 +1110,7 @@
 					<key>VIN7</key>
 					<string>Power Supply 7</string>
 					<key>VIN8</key>
-					<string>Power/Battery</string>
+					<string>CMOS Battery</string>
 				</dict>
 				<key>ECS</key>
 				<dict>
@@ -1161,7 +1161,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -1225,7 +1225,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -1276,7 +1276,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>EP45-DS3R</key>
 					<string>X38-DS5</string>
@@ -1316,7 +1316,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>GA-MA770T-UD3</key>
 					<dict>
@@ -1361,7 +1361,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>GA-MA785GMT-UD2H</key>
 					<dict>
@@ -1404,7 +1404,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>H67A-UD3H-B3</key>
 					<dict>
@@ -1468,7 +1468,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -1527,7 +1527,7 @@
 						<key>VIN7</key>
 						<string>Power Supply 7</string>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>IT8721F</key>
 					<string>IT8772E</string>
@@ -1585,7 +1585,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -1635,7 +1635,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>P35-DS3</key>
 					<dict>
@@ -1680,7 +1680,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>P35-DS3L</key>
 					<string>P35-DS3</string>
@@ -1727,7 +1727,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>P55-USB3</key>
 					<string>P55M-UD4</string>
@@ -1795,7 +1795,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -1845,7 +1845,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>X58A-UD3R</key>
 					<dict>
@@ -1892,7 +1892,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>Z68A-D3H-B3</key>
 					<string>Z68X-UD7-B3</string>
@@ -2025,7 +2025,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -2217,7 +2217,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -2315,7 +2315,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -2409,7 +2409,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -2503,7 +2503,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -2597,7 +2597,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -2776,7 +2776,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -2920,7 +2920,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>Power/Battery</string>
+							<string>CMOS Battery</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -2967,7 +2967,7 @@
 					<key>VIN7</key>
 					<string>Power Supply 7</string>
 					<key>VIN8</key>
-					<string>Power/Battery</string>
+					<string>CMOS Battery</string>
 					<key>VIN9</key>
 					<string>Power Supply 9</string>
 				</dict>
@@ -3051,7 +3051,7 @@
 						<key>gain</key>
 						<integer>1000</integer>
 						<key>name</key>
-						<string>Power/Battery</string>
+						<string>CMOS Battery</string>
 						<key>offset</key>
 						<integer>0</integer>
 						<key>reference</key>
@@ -3111,7 +3111,7 @@
 						<integer>0</integer>
 					</dict>
 					<key>VIN6</key>
-					<string>Power/Battery</string>
+					<string>CMOS Battery</string>
 				</dict>
 			</dict>
 		</dict>
