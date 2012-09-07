@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.1</string>
+	<string>2.2.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.2.1</string>
+	<string>2.2.2</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
@@ -58,7 +58,7 @@
 			<string>FakeSMCPlugin</string>
 			<key>IONameMatch</key>
 			<array>
-				<string>ACPIMON</string>
+				<string>MONITOR</string>
 			</array>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
@@ -67,27 +67,27 @@
 				<key>Tachometers</key>
 				<dict>
 					<key>FAN0</key>
-					<string>RPM0</string>
+					<string>FAN0</string>
 					<key>FAN1</key>
-					<string>RPM1</string>
+					<string>FAN1</string>
 					<key>FAN2</key>
-					<string>RPM2</string>
+					<string>FAN2</string>
 					<key>FAN3</key>
-					<string>RPM3</string>
+					<string>FAN3</string>
 					<key>FAN4</key>
-					<string>RPM4</string>
+					<string>FAN4</string>
 					<key>FAN5</key>
-					<string>RPM5</string>
+					<string>FAN5</string>
 					<key>FAN6</key>
-					<string>RPM6</string>
+					<string>FAN6</string>
 					<key>FAN7</key>
-					<string>RPM7</string>
+					<string>FAN7</string>
 					<key>FAN8</key>
-					<string>RPM8</string>
+					<string>FAN8</string>
 					<key>FAN9</key>
-					<string>RPM9</string>
+					<string>FAN9</string>
 					<key>FANA</key>
-					<string>RPMA</string>
+					<string>FANA</string>
 				</dict>
 				<key>Temperatures</key>
 				<dict>
