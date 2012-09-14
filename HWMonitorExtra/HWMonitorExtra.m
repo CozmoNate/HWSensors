@@ -103,39 +103,14 @@
     
     [NSBundle loadNibNamed:@"PrefsMenu" owner:self];
     
-    NSInvocation *invocation = nil;
+    // Timer setup
+    [self updateRateChanged:nil];
     
-    // Main sensors timer
-    invocation = [NSInvocation invocationWithMethodSignature:
-                  [self methodSignatureForSelector:@selector(updateSensorsValuesThreaded)]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(updateLoop)]];
     [invocation setTarget:self];
-    [invocation setSelector:@selector(updateSensorsValuesThreaded)];
+    [invocation setSelector:@selector(updateLoop)];
     
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1.5f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
-    
-    // Main SMART timer
-    invocation = [NSInvocation invocationWithMethodSignature:
-                  [self methodSignatureForSelector:@selector(updateSMARTSensorsValuesThreaded)]];
-    [invocation setTarget:self];
-    [invocation setSelector:@selector(updateSMARTSensorsValuesThreaded)];
-    
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:300.0f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
-    
-    // Titles timer
-    invocation = [NSInvocation invocationWithMethodSignature:
-                  [self methodSignatureForSelector:@selector(updateMenuDefault)]];
-    [invocation setTarget:self];
-    [invocation setSelector:@selector(updateMenuDefault)];
-    
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.5f invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
-    
-    // Rebuild sensors timer
-    /*invocation = [NSInvocation invocationWithMethodSignature:
-                  [self methodSignatureForSelector:@selector(rebuildSensors)]];
-    [invocation setTarget:self];
-    [invocation setSelector:@selector(rebuildSensors)];
-    
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1800.0 invocation:invocation repeats:YES] forMode:NSDefaultRunLoopMode];*/
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.25 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     // Register PM events
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(systemWillSleep:) name: NSWorkspaceWillSleepNotification object: NULL];
@@ -152,6 +127,7 @@
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showVolumeNamesChanged:) name: HWMonitorShowVolumeNamesChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(itemsRequested:) name: HWMonitorRequestItems object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(appIsActiveChanged:) name: HWMonitorAppIsActive object: NULL];
+    [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(updateRateChanged:) name: HWMonitorUpdateRateChanged object: NULL];
     
     [self performSelector:@selector(rebuildSensorsList) withObject:nil afterDelay:0.0];
     
@@ -203,22 +179,22 @@
     return nil;
 }
 
-- (void)updateSMARTSensorsValues; 
+- (void)updateSmartSensors; 
 {
-    [_engine updateSMARTSensorsValues];
+    [_engine updateSmartSensors];
 }
 
-- (void)updateSMARTSensorsValuesThreaded
+- (void)updateSmartSensorsThreaded
 {
-    [self performSelectorInBackground:@selector(updateSMARTSensorsValues) withObject:nil];
+    [self performSelectorInBackground:@selector(updateSmartSensors) withObject:nil];
 }
 
-- (void)updateSensorsValues
+- (void)updateSmcSensors
 {
     if ([self isMenuDown] || _monitoringAppIsActive)
-        [_engine updateGenericSensorsValues];
+        [_engine updateSmcSensors];
     else 
-        [_engine updateFavoritesSensorsValues:_favorites];
+        [_engine updateFavoritesSensors:_favorites];
     
     if (_monitoringAppIsActive) {
             
@@ -237,12 +213,12 @@
     
 }
 
-- (void)updateSensorsValuesThreaded
+- (void)updateSmcSensorsThreaded
 {
-    [self performSelectorInBackground:@selector(updateSensorsValues) withObject:nil];
+    [self performSelectorInBackground:@selector(updateSmcSensors) withObject:nil];
 }
 
-- (void)updateMenuForceAllSensors:(BOOL)allSensors
+- (void)updateMenuTextForceAllSensors:(BOOL)allSensors
 {
     [[self view] setNeedsDisplay:YES];
     
@@ -304,20 +280,41 @@
     }
 }
 
-- (void)updateMenuForced
+- (void)updateMenuTextForced
 {
-    [self updateMenuForceAllSensors:YES];
+    [self updateMenuTextForceAllSensors:YES];
 }
 
-- (void)updateMenuDefault
+- (void)updateMenuText
 {
-    [self updateMenuForceAllSensors:NO];
+    [self updateMenuTextForceAllSensors:NO];
+}
+
+- (void)updateLoop
+{
+    BOOL menuNeedsUpdate = false;
+    
+    NSDate *now = [NSDate dateWithTimeIntervalSinceNow:0.0];
+    
+    if ([_smcSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
+        [self updateSmcSensorsThreaded];
+        _smcSensorsLastUpdated = now;
+        menuNeedsUpdate = true;
+    }
+    
+    if ([_smartSensorsLastUpdated timeIntervalSinceNow] < (- _smartSensorsUpdateInterval)) {
+        [self updateSmartSensorsThreaded];
+        _smartSensorsLastUpdated = now;
+        menuNeedsUpdate = true;
+    }
+    
+    if (menuNeedsUpdate)
+        [self updateMenuText];
 }
 
 - (void)openPreferences:(id)sender
 {
     [[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:@"org.hwsensors.HWMonitor" options:NSWorkspaceLaunchAsync additionalEventParamDescriptor:nil launchIdentifier:nil];
-    //[[NSWorkspace sharedWorkspace] launchApplication:@"/Applications/HWMonitor.app"];
 }
 
 -(void)checkGroupsVisibilities
@@ -384,7 +381,7 @@
         }
         
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupTemperature menu:_mainMenu font:_menuFont title:GetLocalizedString(@"TEMPERATURES") image:[[self getIconByName:kHWMonitorIconTemperatures] image]]];
-        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupTemperature menu:_mainMenu font:_menuFont title:GetLocalizedString(@"DRIVES TEMPERATURES") image:[[self getIconByName:kHWMonitorIconHddTemperatures] image]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupTemperature menu:_mainMenu font:_menuFont title:GetLocalizedString(@"DRIVE TEMPERATURES") image:[[self getIconByName:kHWMonitorIconHddTemperatures] image]]];
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupRemainingLife menu:_mainMenu font:_menuFont title:GetLocalizedString(@"SSD REMAINING LIFE") image:[[self getIconByName:kHWMonitorIconSsdLife] image]]];
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupRemainingBlocks menu:_mainMenu font:_menuFont title:GetLocalizedString(@"SSD REMAINING BLOCKS") image:[[self getIconByName:kHWMonitorIconSsdLife] image]]];
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency menu:_mainMenu font:_menuFont title:GetLocalizedString(@"FREQUENCIES") image:[[self getIconByName:kHWMonitorIconFrequencies] image]]];
@@ -417,7 +414,7 @@
         
         [_mainMenu addItem:prefsItem];
         
-        [self updateMenuForced];
+        [self updateMenuTextForced];
     }
     else {
         NSMenuItem * item = [[NSMenuItem alloc]initWithTitle:GetLocalizedString(@"No sensors found") action:nil keyEquivalent:@""];
@@ -523,7 +520,7 @@
     BOOL useFahrenheit = [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
     
     [_engine setUseFahrenheit:useFahrenheit];
-    [self updateMenuForced];
+    [self updateMenuTextForced];
     [[self view] setNeedsDisplay:YES];
     
     [_defaults setBool:useFahrenheit forKey:kHWMonitorUseFahrenheitKey];
@@ -535,7 +532,7 @@
     BOOL useBigFont = [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
     
     [(HWMonitorView*)[self view] setUseBigFont:useBigFont];
-    [self updateMenuForced];
+    [self updateMenuTextForced];
     [[self view] setNeedsDisplay:YES];
     
     [_defaults setBool:useBigFont forKey:kHWMonitorUseBigStatusMenuFont];
@@ -547,7 +544,7 @@
     BOOL useShadowEffect = [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
     
     [(HWMonitorView*)[self view] setUseShadowEffect:useShadowEffect];
-    [self updateMenuForced];
+    [self updateMenuTextForced];
     [[self view] setNeedsDisplay:YES];
     
     [_defaults setBool:useShadowEffect forKey:kHWMonitorUseShadowEffect];
@@ -567,7 +564,7 @@
         if ([sensor disk])
             [[sensor representedObject] setTitle:[sensor title]];
     
-    [self updateMenuForced];
+    [self updateMenuTextForced];
     
     [self itemsRequested:nil];
 }
@@ -579,7 +576,18 @@
     [_defaults setInteger:_showVolumeNames forKey:kHWMonitorShowVolumeNames];
     [_defaults synchronize];
     
-    [self updateMenuForced];
+    [self updateMenuTextForced];
+}
+
+-(void)updateRateChanged:(NSNotification *)aNotification
+{
+    _smcSensorsUpdateInterval = [[[aNotification userInfo] valueForKey:kHWMonitorSmcSensorsUpdateRate] floatValue];
+    _smcSensorsUpdateInterval = _smcSensorsUpdateInterval > 10 ? 10 : _smcSensorsUpdateInterval < 1 ? 1 : _smcSensorsUpdateInterval;
+    _smcSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];
+    
+    _smartSensorsUpdateInterval = [[[aNotification userInfo] valueForKey:kHWMonitorSmartSensorsUpdateRate] floatValue] * 60;
+    _smartSensorsUpdateInterval = _smartSensorsUpdateInterval > 1800 ? 1800 : _smartSensorsUpdateInterval < 300 ? 300 : _smartSensorsUpdateInterval;
+    _smartSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];
 }
 
 - (void)systemWillSleep:(NSNotification *)aNotification
@@ -589,8 +597,6 @@
 
 - (void)systemDidWake:(NSNotification *)aNotification
 {
-    //[self updateSMARTDataThreaded];
-    //[self updateDataThreaded];
     [self rebuildSensorsList];
 }
 

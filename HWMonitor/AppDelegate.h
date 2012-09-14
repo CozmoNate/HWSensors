@@ -36,7 +36,7 @@
     NSMutableArray *_globalColors;
     NSUInteger _globalColorIndex;
     
-    BOOL _connectedWithMenuExtra;
+    BOOL _menuExtraConnectionActive;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -49,6 +49,11 @@
 @property (assign) IBOutlet NSArrayController *graphsController;
 @property (assign) IBOutlet NSTextField *versionLabel;
 @property (assign) IBOutlet NSButton *toggleMenuButton;
+
+@property (assign) IBOutlet NSTextField *sensorsUpdateRateText;
+@property (assign) IBOutlet NSSlider *sensorsUpdateRateSlider;
+@property (assign) IBOutlet NSTextField *SMARTUpdateRateText;
+@property (assign) IBOutlet NSSlider *SMARTUpdateRateSlider;
 
 @property (assign) IBOutlet HWMonitorGraphsView *temperatureGraph;
 @property (assign) IBOutlet HWMonitorGraphsView *frequencyGraph;
@@ -68,6 +73,7 @@
 - (IBAction)useShadowEffectChanged:(id)sender;
 - (IBAction)useBSDNamesChanged:(id)sender;
 - (IBAction)showVolumeNamesChanged:(id)sender;
+- (IBAction)updateRateChanged:(id)sender;
 
 - (IBAction)graphsTableViewClicked:(id)sender;
 - (IBAction)prefsToolbarClicked:(id)sender;
