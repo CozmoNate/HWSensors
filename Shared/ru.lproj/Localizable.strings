@@ -7,7 +7,7 @@
 */
 
 "TEMPERATURES" = "ТЕМПЕРАТУРНЫЕ ДАТЧИКИ";
-"DRIVES TEMPERATURES" = "ТЕМПЕРАТУРА ДИСКОВ";
+"DRIVE TEMPERATURES" = "ТЕМПЕРАТУРА ДИСКОВ";
 "SSD REMAINING LIFE" = "ВРЕМЯ ЖИЗНИ SSD";
 "SSD REMAINING BLOCKS" = "РЕЗЕРВНЫЕ ЯЧЕЙКИ SSD";
 "MULTIPLIERS" = "МНОЖИТЕЛИ";
@@ -110,3 +110,7 @@
 "Preferences" = "Настройки";
 "Menubar Items" = "Значки меню";
 "History Graphs" = "Графики";
+"Sensors update rate:" = "Интервал обновлений:";
+"SMART update rate:" = "Обновления SMART:";
+"sec" = "сек.";
+"min" = "мин.";

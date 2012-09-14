@@ -48,6 +48,11 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 @synthesize versionLabel = _versionLabel;
 @synthesize toggleMenuButton = _toggleMenuButton;
 
+@synthesize sensorsUpdateRateText = _sensorsUpdateRateText;
+@synthesize sensorsUpdateRateSlider = _sensorsUpdateRateSlider;
+@synthesize SMARTUpdateRateText = _SMARTUpdateRateText;
+@synthesize SMARTUpdateRateSlider = _SMARTUpdateRateSlider;
+
 @synthesize temperatureGraph = _temperatureGraph;
 @synthesize frequencyGraph = _frequencyGraph;
 @synthesize tachometerGraph = _tachometerGraph;
@@ -393,6 +398,34 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorShowVolumeNamesChanged object:[sender state] ? HWMonitorBooleanYES : HWMonitorBooleanNO userInfo:nil deliverImmediately:YES];
 }
 
+-(float)getSmcSensorsUpdateRate
+{
+    float value = [_sensorsUpdateRateSlider floatValue];
+    
+    [_sensorsUpdateRateText setStringValue:[NSString stringWithFormat:@"%1.1f %@", value, GetLocalizedString(@"sec")]];
+    
+    return value;
+}
+
+-(float)getSmartSensorsUpdateRate
+{
+    float value = [_SMARTUpdateRateSlider floatValue];
+    
+    [_SMARTUpdateRateText setStringValue:[NSString stringWithFormat:@"%1.0f %@", value, GetLocalizedString(@"min")]];
+    
+    return value;
+}
+
+-(void)updateRateChanged:(id)sender
+{
+    NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSNumber numberWithFloat:[self getSmcSensorsUpdateRate]], kHWMonitorSmcSensorsUpdateRate,
+                          [NSNumber numberWithFloat:[self getSmartSensorsUpdateRate]], kHWMonitorSmartSensorsUpdateRate,
+                          nil];
+    
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUpdateRateChanged object:nil userInfo:info deliverImmediately:YES];
+}
+
 - (IBAction)graphsTableViewClicked:(id)sender
 {
     [_temperatureGraph setNeedsDisplay:YES];
@@ -586,7 +619,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 - (void)checkConnectionWithMenuExtra
 {
-    if (!_connectedWithMenuExtra) {
+    if (!_menuExtraConnectionActive) {
         
         void *menuExtra = nil;
         
@@ -623,6 +656,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [self localizeObject:_favoritesView];
     [self localizeObject:_graphsView];
     [self localizeObject:_menu];
+    
+    [self getSmcSensorsUpdateRate];
+    [self getSmartSensorsUpdateRate];
             
     [_temperatureGraph setGroup:kHWSensorGroupTemperature | kSMARTSensorGroupTemperature];
     [_frequencyGraph setGroup:kHWSensorGroupFrequency];
@@ -655,7 +691,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     //[_itemsScrollView setDocumentCursor:[NSCursor openHandCursor]];
     
     // Update version label
-	NSString *version = [[NSString alloc] initWithFormat:@"v%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
+	NSString *version = [[NSString alloc] initWithFormat:@"v%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
     
     [_versionLabel setTitleWithMnemonic:version];
     

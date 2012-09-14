@@ -373,7 +373,7 @@
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_VOLTAGE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupVoltage];
 }
 
-- (NSArray*)updateSMARTSensorsValues
+- (NSArray*)updateSmartSensors
 {
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
@@ -404,7 +404,7 @@
     return list;
 }
 
-- (NSArray*)updateGenericSensorsValues
+- (NSArray*)updateSmcSensors
 {
     NSMutableArray *namesList = [[NSMutableArray alloc] init];
     NSMutableArray *sensorsList = [[NSMutableArray alloc] init];
@@ -438,7 +438,7 @@
     return sensorsList;
 }
 
--(NSArray*)updateFavoritesSensorsValues:(NSArray *)favorites
+-(NSArray*)updateFavoritesSensors:(NSArray *)favorites
 {
     NSMutableArray *nameslist = [[NSMutableArray alloc] init];
     NSMutableArray *sensorsList = [[NSMutableArray alloc] init];

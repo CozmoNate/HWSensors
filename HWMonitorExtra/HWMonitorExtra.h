@@ -48,43 +48,16 @@
     NSMutableArray *_groups;
     
     BOOL _showVolumeNames;
-    
     BOOL _monitoringAppIsActive;
-    NSDate *_monitoringAppNextUpdate;
+    
+    float _smcSensorsUpdateInterval;
+    float _smartSensorsUpdateInterval;
+    
+    NSDate *_smcSensorsLastUpdated;
+    NSDate *_smartSensorsLastUpdated;
 }
 
 @property (readwrite, retain) IBOutlet HWMonitorEngine* engine;
 @property (readwrite, retain) IBOutlet NSArray* favorites;
-
-- (void)loadIconNamed:(NSString*)name;
-- (HWMonitorIcon*)getIconByName:(NSString*)name;
-- (HWMonitorIcon*)getIconByGroup:(NSUInteger)group;
-
-- (void)updateSMARTSensorsValues;
-- (void)updateSMARTSensorsValuesThreaded;
-- (void)updateSensorsValues;
-- (void)updateSensorsValuesThreaded;
-
-- (void)updateMenuForceAllSensors:(BOOL)allSensors;
-- (void)updateMenuForced;
-- (void)updateMenuDefault;
-
-- (void)openPreferences:(id)sender;
-
-- (void)checkGroupsVisibilities;
-- (void)rebuildSensorsList;
-
-- (void)itemsRequested:(NSNotification*)aNotification;
-- (void)appIsActiveChanged:(NSNotification*)aNotification;
-
-- (void)systemWillSleep:(NSNotification*)aNotification;
-- (void)systemDidWake:(NSNotification*)aNotification;
-
-- (void)favoritesChanged:(NSNotification*)aNotification;
-- (void)useFahrenheitChanged:(NSNotification*)aNotification;
-- (void)useBigFontChanged:(NSNotification*)aNotification;
-- (void)useShadowEffectChanged:(NSNotification*)aNotification;
-- (void)useBSDNamesChanged:(NSNotification*)aNotification;
-- (void)showVolumeNamesChanged:(NSNotification*)aNotification;
 
 @end
