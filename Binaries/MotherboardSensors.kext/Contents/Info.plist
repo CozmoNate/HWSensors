@@ -3133,7 +3133,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 		<key>org.netkas.driver.FakeSMC</key>
-		<string>4.2.12</string>
+		<string>4.2.13</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

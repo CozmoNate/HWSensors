@@ -309,36 +309,6 @@ IOService *SuperIOMonitor::probe(IOService *provider, SInt32 *score)
     return super::probe(provider, score);
 }
 
-OSDictionary *SuperIOMonitor::lookupConfiguration(OSDictionary *root, OSString *name)
-{
-    OSDictionary *configuration = NULL;
-    
-    if (root && name) {
-        HWSensorsDebugLog("looking up for configuration node: %s", name->getCStringNoCopy());
-        
-        if (!(configuration = OSDynamicCast(OSDictionary, root->getObject(name))))
-            if (OSString *link = OSDynamicCast(OSString, root->getObject(name)))
-                configuration = lookupConfiguration(root, link);    
-    }
-    
-    return configuration;
-}
-
-OSDictionary *SuperIOMonitor::lookupConfiguration(OSDictionary *root, const char *name)
-{
-    OSDictionary *configuration = NULL;
-    
-    if (root && name) {
-        OSString *nameNode = OSString::withCStringNoCopy(name);
-        
-        configuration = lookupConfiguration(root, nameNode);
-        
-        OSSafeReleaseNULL(nameNode);
-    }
-    
-    return configuration;
-}
-
 bool SuperIOMonitor::start(IOService *provider)
 {	
 	if (!super::start(provider)) 
@@ -381,30 +351,23 @@ bool SuperIOMonitor::start(IOService *provider)
     
     if (!initialize())
         return false;
+    
+    OSString *modelString = OSString::withCString(modelName);
 
-    OSString *manufacturerName = OSDynamicCast(OSString, provider->getProperty("mb-manufacturer"));
-    OSString *productName = OSDynamicCast(OSString, provider->getProperty("mb-product"));
-    
-    OSDictionary *configuration = NULL;
-    
-    if (OSDictionary *list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration")))
+	if (OSDictionary *configuration = getConfigurationNode(
+                                                           OSDynamicCast(OSString, provider->getProperty("mb-manufacturer")),
+                                                           OSDynamicCast(OSString, provider->getProperty("mb-product")),
+                                                           modelString))
     {
-        if (OSDictionary *manufacturer = OSDynamicCast(OSDictionary, list->getObject(manufacturerName)))
-            if (!(configuration = lookupConfiguration(manufacturer, productName)))
-                if (!(configuration = lookupConfiguration(manufacturer, modelName)))
-                    configuration = lookupConfiguration(manufacturer, "Default");
-        
-        if (!configuration && !(configuration = lookupConfiguration(list, modelName)))
-            configuration = lookupConfiguration(list, "Default");
-    }
-
-	if (configuration) {    
         addTemperatureSensors(configuration);
         addVoltageSensors(configuration);
         addTachometerSensors(configuration);
-        registerService();
     }
     else HWSensorsWarningLog("no sensors configuration provided");
+    
+    OSSafeReleaseNULL(modelString);
+    
+    registerService();
     
     HWSensorsInfoLog("started");
 
