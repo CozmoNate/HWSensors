@@ -80,8 +80,11 @@ protected:
 	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0, UInt8 *fanIndex = 0);
 	virtual FakeSMCSensor   *getSensor(const char *key);
     
-    virtual SInt8           getVacantGPUIndex();
+    OSDictionary            *getConfigurationNode(OSDictionary *root, OSString *name);
+    OSDictionary            *getConfigurationNode(OSDictionary *root, const char *name);
+    OSDictionary            *getConfigurationNode(OSString *manufacturer, OSString *product, OSString *model);
     
+    virtual SInt8           getVacantGPUIndex();
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
 public:    

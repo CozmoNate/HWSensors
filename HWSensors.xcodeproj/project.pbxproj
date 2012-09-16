@@ -43,8 +43,6 @@
 		6AA172D1150B415200A77CF2 /* FakeSMCKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA172CA150B415200A77CF2 /* FakeSMCKey.h */; };
 		6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */; };
 		6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA2D0D3150B4B99004757C5 /* FakeSMC.h */; };
-		6AA710BA152B7D180006E62C /* OemInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA710B7152B7D180006E62C /* OemInfo.cpp */; };
-		6AA710BB152B7D180006E62C /* OemInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA710B8152B7D180006E62C /* OemInfo.h */; };
 		6AA710BC152B7D180006E62C /* SMBIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA710B9152B7D180006E62C /* SMBIOS.h */; };
 		6AAD810F151E083300CBD70C /* temperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAD810D151E083300CBD70C /* temperatures.png */; };
 		6AE5FC2F151E1EC6005F9929 /* hddtemperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */; };
@@ -67,6 +65,10 @@
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
 		7E55352515C05C4100DDF3BF /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */; };
+		7E5A8CB91605EAA400FF0099 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */; };
+		7E5A8CBA1605EAA400FF0099 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */; };
+		7E5A8CBB1605EAA400FF0099 /* OEMInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5A8CB81605EAA400FF0099 /* OEMInfo.h */; };
+		7E5A8CBC1605EAA400FF0099 /* OEMInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5A8CB81605EAA400FF0099 /* OEMInfo.h */; };
 		7E78CD4815EC03BC00D57BC4 /* INT340EMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* INT340EMonitor.cpp */; };
 		7E78CD4915EC03BF00D57BC4 /* INT340EMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBEC2A215E78B7B00537027 /* INT340EMonitor.h */; };
 		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
@@ -254,8 +256,6 @@
 		6AA2D0D3150B4B99004757C5 /* FakeSMC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMC.h; sourceTree = "<group>"; };
 		6AA45348153FB1FE00F67EED /* GeForceMonitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeForceMonitor.h; sourceTree = "<group>"; };
 		6AA45349153FB1FE00F67EED /* GeForceMonitor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GeForceMonitor.cpp; sourceTree = "<group>"; };
-		6AA710B7152B7D180006E62C /* OemInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OemInfo.cpp; sourceTree = "<group>"; };
-		6AA710B8152B7D180006E62C /* OemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OemInfo.h; sourceTree = "<group>"; };
 		6AA710B9152B7D180006E62C /* SMBIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBIOS.h; sourceTree = "<group>"; };
 		6AAD810D151E083300CBD70C /* temperatures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = temperatures.png; sourceTree = "<group>"; };
 		6AE5FC2D151E1EC6005F9929 /* hddtemperatures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hddtemperatures.png; sourceTree = "<group>"; };
@@ -301,6 +301,8 @@
 		7E4F544F15D0D69A00A365AE /* nouveau_bios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_bios.cpp; sourceTree = "<group>"; };
 		7E4F545215D0DABE00A365AE /* nouveau_definitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nouveau_definitions.h; sourceTree = "<group>"; };
 		7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
+		7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OEMInfo.cpp; sourceTree = "<group>"; };
+		7E5A8CB81605EAA400FF0099 /* OEMInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMInfo.h; sourceTree = "<group>"; };
 		7E5E4BFA15D53A90002FE3DF /* nva3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nva3.h; sourceTree = "<group>"; };
 		7E5E4BFD15D53A9C002FE3DF /* nva3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nva3.cpp; sourceTree = "<group>"; };
 		7E5E4BFF15D53F24002FE3DF /* nouveau_volt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_volt.h; sourceTree = "<group>"; };
@@ -609,8 +611,6 @@
 			isa = PBXGroup;
 			children = (
 				6AA710B9152B7D180006E62C /* SMBIOS.h */,
-				6AA710B8152B7D180006E62C /* OemInfo.h */,
-				6AA710B7152B7D180006E62C /* OemInfo.cpp */,
 				6A2B4E39152179700093A217 /* SuperIO.h */,
 				6A2B4E38152179700093A217 /* SuperIO.cpp */,
 			);
@@ -732,6 +732,7 @@
 				7E06D0EC157E96C400F8A270 /* SystemUIPlugin.h */,
 				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
 				7E9388FF15945B360005316D /* HWMonitorDefinitions.h */,
+				7E5A8CB51605EA7300FF0099 /* OEMInfo */,
 				6AA3A26B14F6D7C1007A7084 /* NSString+TruncateToWidth */,
 				7E06D0F6157FC7F800F8A270 /* BundleUserDefaults */,
 				7EFB862315C30E2200F61B59 /* NoodleKit */,
@@ -813,6 +814,15 @@
 				7E3684AB158368C900E32629 /* HWMonitorIcon.m */,
 			);
 			name = HWMonitorIcon;
+			sourceTree = "<group>";
+		};
+		7E5A8CB51605EA7300FF0099 /* OEMInfo */ = {
+			isa = PBXGroup;
+			children = (
+				7E5A8CB81605EAA400FF0099 /* OEMInfo.h */,
+				7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */,
+			);
+			name = OEMInfo;
 			sourceTree = "<group>";
 		};
 		7E79B81B15BA99350079AAE8 /* CPUSensors */ = {
@@ -1028,6 +1038,7 @@
 			files = (
 				1D6FE40013FEC03100376E64 /* ACPIMonitor.h in Headers */,
 				7E78CD4915EC03BF00D57BC4 /* INT340EMonitor.h in Headers */,
+				7E5A8CBB1605EAA400FF0099 /* OEMInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1036,13 +1047,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AA710BC152B7D180006E62C /* SMBIOS.h in Headers */,
-				6AA710BB152B7D180006E62C /* OemInfo.h in Headers */,
 				6A2B4E45152179700093A217 /* SuperIO.h in Headers */,
 				6A2B4E47152179700093A217 /* SuperIOMonitor.h in Headers */,
 				6A2B4E41152179700093A217 /* ITEIT87x.h in Headers */,
 				6A2B4E49152179700093A217 /* WinbondW836x.h in Headers */,
 				6A2B4E3F152179700093A217 /* FintekF718x.h in Headers */,
 				6A2B4E43152179700093A217 /* NuvotonNCT677x.h in Headers */,
+				7E5A8CBC1605EAA400FF0099 /* OEMInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1415,6 +1426,7 @@
 			files = (
 				1D6FE3FF13FEC03100376E64 /* ACPIMonitor.cpp in Sources */,
 				7E78CD4815EC03BC00D57BC4 /* INT340EMonitor.cpp in Sources */,
+				7E5A8CB91605EAA400FF0099 /* OEMInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1422,13 +1434,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AA710BA152B7D180006E62C /* OemInfo.cpp in Sources */,
 				6A2B4E44152179700093A217 /* SuperIO.cpp in Sources */,
 				6A2B4E46152179700093A217 /* SuperIOMonitor.cpp in Sources */,
 				6A2B4E40152179700093A217 /* ITEIT87x.cpp in Sources */,
 				6A2B4E48152179700093A217 /* WinbondW836x.cpp in Sources */,
 				6A2B4E3E152179700093A217 /* FintekF718x.cpp in Sources */,
 				6A2B4E42152179700093A217 /* NuvotonNCT677x.cpp in Sources */,
+				7E5A8CBA1605EAA400FF0099 /* OEMInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

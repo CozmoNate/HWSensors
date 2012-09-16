@@ -288,6 +288,55 @@ SInt8 FakeSMCPlugin::getVacantGPUIndex()
     return false;
 }
 
+OSDictionary *FakeSMCPlugin::getConfigurationNode(OSDictionary *root, OSString *name)
+{
+    OSDictionary *configuration = NULL;
+    
+    if (root && name) {
+        HWSensorsDebugLog("looking up for configuration node: %s", name->getCStringNoCopy());
+        
+        if (!(configuration = OSDynamicCast(OSDictionary, root->getObject(name))))
+            if (OSString *link = OSDynamicCast(OSString, root->getObject(name)))
+                configuration = getConfigurationNode(root, link);
+    }
+    
+    return configuration;
+}
+
+OSDictionary *FakeSMCPlugin::getConfigurationNode(OSDictionary *root, const char *name)
+{
+    OSDictionary *configuration = NULL;
+    
+    if (root && name) {
+        OSString *nameNode = OSString::withCStringNoCopy(name);
+        
+        configuration = getConfigurationNode(root, nameNode);
+        
+        OSSafeReleaseNULL(nameNode);
+    }
+    
+    return configuration;
+}
+
+OSDictionary *FakeSMCPlugin::getConfigurationNode(OSString *manufacturer, OSString *product, OSString *model)
+{
+    OSDictionary *configuration = NULL;
+    
+    if (OSDictionary *list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration")))
+    {
+        if (manufacturer)
+            if (OSDictionary *manufacturerNode = OSDynamicCast(OSDictionary, list->getObject(manufacturer)))
+                if (!(configuration = getConfigurationNode(manufacturerNode, product)))
+                    if (!(configuration = getConfigurationNode(manufacturerNode, model)))
+                        configuration = getConfigurationNode(manufacturerNode, "Default");
+        
+        if (!configuration && !(configuration = getConfigurationNode(list, model)))
+            configuration = getConfigurationNode(list, "Default");
+    }
+
+    return configuration;
+}
+
 bool FakeSMCPlugin::init(OSDictionary *properties)
 {
     if (!super::init(properties))

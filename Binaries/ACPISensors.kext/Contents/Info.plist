@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.2</string>
+	<string>2.2.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.2.2</string>
+	<string>2.2.3</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
@@ -38,20 +38,6 @@
 	<dict>
 		<key>ACPI Customizing Monitoring Plugin</key>
 		<dict>
-			<key>Fan Names</key>
-			<array>
-				<string>System Fan</string>
-				<string>Processor Fan</string>
-				<string>Power Fan</string>
-				<string>Intake Fan</string>
-				<string>Exhaust Fan</string>
-				<string>Fan 6</string>
-				<string>Fan 7</string>
-				<string>Fan 8</string>
-				<string>Fan 9</string>
-				<string>Fan 10</string>
-				<string>Fan 11</string>
-			</array>
 			<key>IOClass</key>
 			<string>ACPIMonitor</string>
 			<key>IOMatchCategory</key>
@@ -62,46 +48,76 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
-			<key>Keys Associations</key>
+			<key>Sensors Configuration</key>
 			<dict>
-				<key>Tachometers</key>
+				<key>Default</key>
 				<dict>
-					<key>FAN0</key>
-					<string>FAN0</string>
-					<key>FAN1</key>
-					<string>FAN1</string>
-					<key>FAN2</key>
-					<string>FAN2</string>
-					<key>FAN3</key>
-					<string>FAN3</string>
-					<key>FAN4</key>
-					<string>FAN4</string>
-					<key>FAN5</key>
-					<string>FAN5</string>
-					<key>FAN6</key>
-					<string>FAN6</string>
-					<key>FAN7</key>
-					<string>FAN7</string>
-					<key>FAN8</key>
-					<string>FAN8</string>
-					<key>FAN9</key>
-					<string>FAN9</string>
-					<key>FANA</key>
-					<string>FANA</string>
-				</dict>
-				<key>Temperatures</key>
-				<dict>
-					<key>TN0P</key>
-					<string>TSYS</string>
-					<key>Th0H</key>
-					<string>TCPU</string>
-				</dict>
-				<key>Voltages</key>
-				<dict>
-					<key>VC0C</key>
-					<string>VCPU</string>
-					<key>VM0R</key>
-					<string>VMEM</string>
+					<key>Fan Names</key>
+					<dict>
+						<key>FAN0</key>
+						<string>System Fan</string>
+						<key>FAN1</key>
+						<string>Processor Fan</string>
+						<key>FAN2</key>
+						<string>Power Fan</string>
+						<key>FAN3</key>
+						<string>Intake Fan</string>
+						<key>FAN4</key>
+						<string>Exhaust Fan</string>
+						<key>FAN5</key>
+						<string>Fan 6</string>
+						<key>FAN6</key>
+						<string>Fan 7</string>
+						<key>FAN7</key>
+						<string>Fan 8</string>
+						<key>FAN8</key>
+						<string>Fan 9</string>
+						<key>FAN9</key>
+						<string>Fan 10</string>
+						<key>FANA</key>
+						<string>Fan 11</string>
+					</dict>
+					<key>Tachometers</key>
+					<dict>
+						<key>FAN0</key>
+						<string>FAN0</string>
+						<key>FAN1</key>
+						<string>FAN1</string>
+						<key>FAN2</key>
+						<string>FAN2</string>
+						<key>FAN3</key>
+						<string>FAN3</string>
+						<key>FAN4</key>
+						<string>FAN4</string>
+						<key>FAN5</key>
+						<string>FAN5</string>
+						<key>FAN6</key>
+						<string>FAN6</string>
+						<key>FAN7</key>
+						<string>FAN7</string>
+						<key>FAN8</key>
+						<string>FAN8</string>
+						<key>FAN9</key>
+						<string>FAN9</string>
+						<key>FANA</key>
+						<string>FANA</string>
+					</dict>
+					<key>Temperatures</key>
+					<dict>
+						<key>TC0P</key>
+						<string>TCPP</string>
+						<key>TN0P</key>
+						<string>TSYS</string>
+						<key>Th0H</key>
+						<string>TCPU</string>
+					</dict>
+					<key>Voltages</key>
+					<dict>
+						<key>VC0C</key>
+						<string>VCPU</string>
+						<key>VM0R</key>
+						<string>VMEM</string>
+					</dict>
 				</dict>
 			</dict>
 		</dict>
@@ -137,7 +153,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 		<key>org.netkas.driver.FakeSMC</key>
-		<string>4.2.12</string>
+		<string>4.2.13</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>
