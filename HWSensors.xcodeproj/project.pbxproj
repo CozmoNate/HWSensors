@@ -282,6 +282,7 @@
 		7E3684BA1583739800E32629 /* multipliers_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = multipliers_template.png; sourceTree = "<group>"; };
 		7E3684BD158373B900E32629 /* tachometers_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tachometers_template.png; sourceTree = "<group>"; };
 		7E3684C0158373DC00E32629 /* voltages_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voltages_template.png; sourceTree = "<group>"; };
+		7E3B04051606CCD4008A1EAA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E3F6EE4155DB9DE00C3492E /* preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preferences.png; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E40054F1585031B009AECED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -368,7 +369,7 @@
 		7EB963B41594559100436FDB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7EB963B51594559100436FDB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7EB963B81594559100436FDB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		7EBB50D915EEAE3C00FEBBB9 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
+		7EBB50D915EEAE3C00FEBBB9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
 		7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MenuCracker.menu; path = Binaries/MenuCracker/MenuCracker.menu; sourceTree = SOURCE_ROOT; };
 		7EBEC2A115E78B7B00537027 /* INT340EMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = INT340EMonitor.cpp; sourceTree = "<group>"; };
 		7EBEC2A215E78B7B00537027 /* INT340EMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INT340EMonitor.h; sourceTree = "<group>"; };
@@ -1558,6 +1559,7 @@
 				6A1DF985150201DE00C34729 /* en */,
 				6A1DF986150201E500C34729 /* ru */,
 				7E7A182015DEAF55004D98AF /* fr */,
+				7E3B04051606CCD4008A1EAA /* es */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
