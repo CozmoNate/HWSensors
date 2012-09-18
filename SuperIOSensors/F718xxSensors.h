@@ -47,7 +47,7 @@
  */
 
 #include <IOKit/IOService.h>
-#include "SuperIOMonitor.h"
+#include "SuperIOPlugin.h"
 
 // Registers
 const UInt8 FINTEK_VENDOR_ID_REGISTER = 0x23;
@@ -63,9 +63,9 @@ const UInt8 FINTEK_TEMPERATURE_BASE_REG     = 0x70;
 const UInt8 FINTEK_VOLTAGE_BASE_REG         = 0x20;
 const UInt8 FINTEK_FAN_TACHOMETER_REG[]     = { 0xA0, 0xB0, 0xC0, 0xD0 };
 
-class F718xMonitor : public SuperIOMonitor
+class F718xxSensors : public SuperIOPlugin
 {
-    OSDeclareDefaultStructors(F718xMonitor)
+    OSDeclareDefaultStructors(F718xxSensors)
 	
 private:
 	UInt8					readByte(UInt8 reg);	

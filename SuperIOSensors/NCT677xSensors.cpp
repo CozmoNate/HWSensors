@@ -45,21 +45,21 @@
  
  */
 
-#include "NuvotonNCT677x.h"
+#include "NCT677xSensors.h"
 #include "FakeSMCDefinitions.h"
 #include "SuperIO.h"
 
 /*#define Debug FALSE
 
-#define LogPrefix "NCT677xMonitor: "
+#define LogPrefix "NCT677xSensors: "
 #define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
 #define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
 
-#define super SuperIOMonitor
-OSDefineMetaClassAndStructors(NCT677xMonitor, SuperIOMonitor)
+#define super SuperIOPlugin
+OSDefineMetaClassAndStructors(NCT677xSensors, SuperIOPlugin)
 
-UInt8 NCT677xMonitor::readByte(UInt16 reg) 
+UInt8 NCT677xSensors::readByte(UInt16 reg) 
 {
     UInt8 bank = reg >> 8;
     UInt8 regi = reg & 0xFF;
@@ -71,7 +71,7 @@ UInt8 NCT677xMonitor::readByte(UInt16 reg)
     return inb((UInt16)(address + NUVOTON_DATA_REGISTER_OFFSET));
 }
 
-void NCT677xMonitor::writeByte(UInt16 reg, UInt8 value)
+void NCT677xSensors::writeByte(UInt16 reg, UInt8 value)
 {
 	UInt8 bank = reg >> 8;
     UInt8 regi = reg & 0xFF;
@@ -82,22 +82,22 @@ void NCT677xMonitor::writeByte(UInt16 reg, UInt8 value)
     outb((UInt16)(address + NUVOTON_DATA_REGISTER_OFFSET), value);
 }
 
-UInt8 NCT677xMonitor::temperatureSensorsLimit()
+UInt8 NCT677xSensors::temperatureSensorsLimit()
 {
     return 9;
 }
 
-UInt8 NCT677xMonitor::voltageSensorsLimit()
+UInt8 NCT677xSensors::voltageSensorsLimit()
 {
     return 9;
 }
 
-UInt8 NCT677xMonitor::tachometerSensorsLimit()
+UInt8 NCT677xSensors::tachometerSensorsLimit()
 {
     return 5;
 }
 
-float NCT677xMonitor::readTemperature(UInt32 index)
+float NCT677xSensors::readTemperature(UInt32 index)
 {
     if (index < temperatureSensorsLimit()) {
         
@@ -115,7 +115,7 @@ float NCT677xMonitor::readTemperature(UInt32 index)
 	return 0;
 }
 
-float NCT677xMonitor::readVoltage(UInt32 index)
+float NCT677xSensors::readVoltage(UInt32 index)
 {
     if (index < voltageSensorsLimit()) {
         
@@ -134,7 +134,7 @@ float NCT677xMonitor::readVoltage(UInt32 index)
     return 0;
 }
 
-float NCT677xMonitor::readTachometer(UInt32 index)
+float NCT677xSensors::readTachometer(UInt32 index)
 {
     if (index < tachometerSensorsLimit()) {
         UInt8 high = readByte(NUVOTON_FAN_RPM_REG[index]);
@@ -148,7 +148,7 @@ float NCT677xMonitor::readTachometer(UInt32 index)
     return 0;
 }
 
-bool NCT677xMonitor::initialize()
+bool NCT677xSensors::initialize()
 {
     UInt16 vendor = (UInt16)(readByte(NUVOTON_VENDOR_ID_HIGH_REGISTER) << 8) | readByte(NUVOTON_VENDOR_ID_LOW_REGISTER);
     

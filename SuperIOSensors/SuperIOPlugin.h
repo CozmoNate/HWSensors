@@ -22,8 +22,8 @@
  //  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#ifndef _SUPERIOMONITOR_H
-#define _SUPERIOMONITOR_H
+#ifndef _SuperIOPlugin_H
+#define _SuperIOPlugin_H
 
 #include <IOKit/IOLib.h>
 #include <IOKit/IOService.h>
@@ -35,8 +35,8 @@
 #define kSuperIOTemperatureSensor   1501 
 #define kSuperIOVoltageSensor       1502
 
-class SuperIOMonitor : public FakeSMCPlugin {
-	OSDeclareAbstractStructors(SuperIOMonitor)
+class SuperIOPlugin : public FakeSMCPlugin {
+	OSDeclareAbstractStructors(SuperIOPlugin)
 	
 private:
     

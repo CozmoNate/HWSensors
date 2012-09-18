@@ -46,27 +46,27 @@
  
  */
 
-#include "FintekF718x.h"
+#include "F718xxSensors.h"
 #include "FakeSMCDefinitions.h"
 #include "SuperIO.h"
 
 /*#define Debug FALSE
 
-#define LogPrefix "F718xMonitor: "
+#define LogPrefix "F718xxSensors: "
 #define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
 #define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
 
-#define super SuperIOMonitor
-OSDefineMetaClassAndStructors(F718xMonitor, SuperIOMonitor)
+#define super SuperIOPlugin
+OSDefineMetaClassAndStructors(F718xxSensors, SuperIOPlugin)
 
-UInt8 F718xMonitor::readByte(UInt8 reg) 
+UInt8 F718xxSensors::readByte(UInt8 reg) 
 {
 	outb(address + FINTEK_ADDRESS_REGISTER_OFFSET, reg);
 	return inb(address + FINTEK_DATA_REGISTER_OFFSET);
 } 
 
-UInt8 F718xMonitor::temperatureSensorsLimit()
+UInt8 F718xxSensors::temperatureSensorsLimit()
 {
     switch (model)
 	{
@@ -77,7 +77,7 @@ UInt8 F718xMonitor::temperatureSensorsLimit()
 	};
 }
 
-UInt8 F718xMonitor::voltageSensorsLimit()
+UInt8 F718xxSensors::voltageSensorsLimit()
 {
     switch (model) 
 	{
@@ -88,12 +88,12 @@ UInt8 F718xMonitor::voltageSensorsLimit()
 	};
 }
 
-UInt8 F718xMonitor::tachometerSensorsLimit()
+UInt8 F718xxSensors::tachometerSensorsLimit()
 {
     return (model == F71882 || model == F71858 ? 4 : 3);
 }
 
-float F718xMonitor::readTemperature(UInt32 index)
+float F718xxSensors::readTemperature(UInt32 index)
 {
 	if (model == F71858) 
 	{
@@ -128,7 +128,7 @@ float F718xMonitor::readTemperature(UInt32 index)
 	return value < 0 ? -value : value;
 }
 
-float F718xMonitor::readVoltage(UInt32 index)
+float F718xxSensors::readVoltage(UInt32 index)
 {
     switch (model)
 	{
@@ -142,7 +142,7 @@ float F718xMonitor::readVoltage(UInt32 index)
 	//return (index == 1 ? 0.5f : 1.0f) * (readByte(FINTEK_VOLTAGE_BASE_REG + index) << 4) * 0.001f;
 }
 
-float F718xMonitor::readTachometer(UInt32 index)
+float F718xxSensors::readTachometer(UInt32 index)
 {
 	SInt32 value = readByte(FINTEK_FAN_TACHOMETER_REG[index]) << 8;
 	value |= readByte(FINTEK_FAN_TACHOMETER_REG[index] + 1);
@@ -153,7 +153,7 @@ float F718xMonitor::readTachometer(UInt32 index)
 	return value;
 }
 
-bool F718xMonitor::initialize()
+bool F718xxSensors::initialize()
 {    
     winbond_family_enter(port);
     

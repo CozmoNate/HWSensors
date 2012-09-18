@@ -13,9 +13,9 @@
 
 #include "FakeSMCPlugin.h"
 
-class X3100monitor : public FakeSMCPlugin
+class GmaSensors : public FakeSMCPlugin
 {
-    OSDeclareDefaultStructors(X3100monitor) 
+    OSDeclareDefaultStructors(GmaSensors) 
     
 private:
 	OSDictionary *		sensors;

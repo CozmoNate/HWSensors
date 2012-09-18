@@ -1,5 +1,5 @@
 /*
- *  ACPIMonitor.cpp
+ *  ACPISensors.cpp
  *  HWSensors
  *
  *  Created by kozlek on 12/11/10.
@@ -7,15 +7,15 @@
  *
  */
 
-#include "ACPIMonitor.h"
+#include "ACPISensors.h"
 
 #include "FakeSMCDefinitions.h"
 #include "OEMInfo.h"
 
 #define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(ACPIMonitor, FakeSMCPlugin)
+OSDefineMetaClassAndStructors(ACPISensors, FakeSMCPlugin)
 
-float ACPIMonitor::getSensorValue(FakeSMCSensor *sensor)
+float ACPISensors::getSensorValue(FakeSMCSensor *sensor)
 {
     UInt64 value;
     
@@ -43,7 +43,7 @@ float ACPIMonitor::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-bool ACPIMonitor::start(IOService * provider)
+bool ACPISensors::start(IOService * provider)
 {
 	if (!super::start(provider)) 
         return false;
@@ -148,6 +148,8 @@ bool ACPIMonitor::start(IOService * provider)
     else HWSensorsWarningLog("no valid configuration provided");
     
 	registerService();
+    
+    HWSensorsInfoLog("started");
 
 	return true;	
 }
