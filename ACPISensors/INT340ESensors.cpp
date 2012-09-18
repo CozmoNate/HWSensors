@@ -191,14 +191,16 @@ void INT340ESensors::parseTemperatureName(OSString *name, UInt32 index)
 
 void INT340ESensors::parseTachometerName(OSString *name, UInt32 index)
 {
-    if (name && readTachometer(index)) {
+    if (name) {
         if (name->isEqualTo("RPM"))
             switch (version) {
                 case 0x30000:
-                    this->addTachometer(index);
+                    if (readTachometer(index))
+                        this->addTachometer(index);
                     break;
                 case 0x20001:
-                    this->addTachometer(index - 1);
+                    if (readTachometer(index - 1))
+                        this->addTachometer(index - 1);
                     break;
             }
     }
