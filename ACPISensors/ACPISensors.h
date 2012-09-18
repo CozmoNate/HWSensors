@@ -1,5 +1,5 @@
 /*
- *  ACPIMonitor.h
+ *  ACPISensors.h
  *  HWSensors
  *
  *  Created by kozlek on 12/11/10.
@@ -24,9 +24,9 @@
 
 #define ACPI_NAME_FORMAT_TACHOMETER     "RPM%X"
 
-class ACPIMonitor : public FakeSMCPlugin
+class ACPISensors : public FakeSMCPlugin
 {
-    OSDeclareDefaultStructors(ACPIMonitor)
+    OSDeclareDefaultStructors(ACPISensors)
     
 private:
 	IOACPIPlatformDevice    *acpiDevice;

@@ -1,5 +1,5 @@
 /*
- *  GeForceMonitor.cpp
+ *  GeforceSensors.cpp
  *  HWSensors
  *
  *  Created by kozlek on 19/04/12.
@@ -30,7 +30,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include "GeForceMonitor.h"
+#include "GeforceSensors.h"
 
 #include "FakeSMCDefinitions.h"
 
@@ -41,9 +41,9 @@
 #define kNouveauTemperatureSensor   1001
 
 #define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(GeForceMonitor, FakeSMCPlugin)
+OSDefineMetaClassAndStructors(GeforceSensors, FakeSMCPlugin)
 
-float GeForceMonitor::getSensorValue(FakeSMCSensor *sensor)
+float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
 {   
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
@@ -68,7 +68,7 @@ float GeForceMonitor::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-bool GeForceMonitor::start(IOService * provider)
+bool GeforceSensors::start(IOService * provider)
 {
 	HWSensorsDebugLog("Starting...");
 	
@@ -227,7 +227,7 @@ bool GeForceMonitor::start(IOService * provider)
     return true;
 }
 
-void GeForceMonitor::free(void)
+void GeforceSensors::free(void)
 {
     if (card.mmio) {
         card.mmio->release();

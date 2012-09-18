@@ -21,16 +21,16 @@
 //  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#include "INT340EMonitor.h"
+#include "INT340ESensors.h"
 
 #include "FakeSMCDefinitions.h"
 
 //#define kHWSensorsDebug TRUE
 
 #define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(INT340EMonitor, FakeSMCPlugin)
+OSDefineMetaClassAndStructors(INT340ESensors, FakeSMCPlugin)
 
-bool INT340EMonitor::updateTemperatures()
+bool INT340ESensors::updateTemperatures()
 {
     OSObject *object;
     
@@ -43,12 +43,32 @@ bool INT340EMonitor::updateTemperatures()
         
         return true;
     }
-    else HWSensorsWarningLog("failed to evaluate TSDD method");
+    
+    HWSensorsWarningLog("failed to evaluate TSDD method");
     
     return false;
 }
 
-float INT340EMonitor::readTemperature(UInt32 index)
+bool INT340ESensors::updateTachometers()
+{
+    OSObject *object;
+    
+    if (kIOReturnSuccess == acpiDevice->evaluateObject("OSDD", &object) && object) {
+        OSSafeRelease(tachometers);
+        
+        tachometers = OSDynamicCast(OSArray, object);
+        
+        //setProperty("temperatures", temperatures);
+        
+        return true;
+    }
+    
+    HWSensorsWarningLog("failed to evaluate OSDD method");
+    
+    return false;
+}
+
+float INT340ESensors::readTemperature(UInt32 index)
 {
     mach_timespec_t now;
     
@@ -77,61 +97,89 @@ float INT340EMonitor::readTemperature(UInt32 index)
     return 0;
 }
 
-float INT340EMonitor::getSensorValue(FakeSMCSensor *sensor)
+float INT340ESensors::readTachometer(UInt32 index)
 {
-    switch(sensor->getGroup()) {
-        case kFakeSMCTemperatureSensor:
-            return readTemperature(sensor->getIndex());
+    mach_timespec_t now;
+    
+    clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
+    
+    if (CMP_MACH_TIMESPEC(&tachometerNextUpdate, &now) <= 0) {
+        mach_timespec_t next;
+        
+        tachometerNextUpdate.tv_sec = now.tv_sec;
+        tachometerNextUpdate.tv_nsec = now.tv_nsec;
+        next.tv_sec = 1;
+        next.tv_nsec = 0;
+        
+        ADD_MACH_TIMESPEC(&tachometerNextUpdate, &next);
+        
+        updateTachometers();
+    }
+    
+    if (tachometers) {
+        if (OSNumber *number = OSDynamicCast(OSNumber, tachometers->getObject(index))) {
+            UInt64 value = number->unsigned32BitValue();
+            return (value == 0x80000000) ? 0 : (float)value;
+        }
     }
     
     return 0;
 }
 
-void INT340EMonitor::parseTemperatureName(OSString *name, UInt32 index)
+float INT340ESensors::getSensorValue(FakeSMCSensor *sensor)
+{
+    switch(sensor->getGroup()) {
+        case kFakeSMCTemperatureSensor:
+            return readTemperature(sensor->getIndex());
+        case kFakeSMCTachometerSensor:
+            return readTachometer(sensor->getIndex());
+    }
+    
+    return 0;
+}
+
+void INT340ESensors::parseTemperatureName(OSString *name, UInt32 index)
 {
     if (name && readTemperature(index)) {
         char key[5];
         char str[64];
         
-        for (UInt8 i = 0; i < 8; i++) {
-            snprintf(str, 64, "CPU Core %x DTS", i);
-            
-            if (name->isEqualTo(str)) {
-                snprintf(key, 5, KEY_FORMAT_CPU_DIODE_TEMPERATURE, i);
-                break;
-            }
-        }
-        
         if (name->isEqualTo("CPU Core Package DTS") || name->isEqualTo("CPU Package Temperature"))
             snprintf(key, 5, KEY_CPU_PACKAGE_TEMPERATURE);
-        
-        if (name->isEqualTo("CPU Temperature"))
+        else if (name->isEqualTo("CPU Temperature"))
             snprintf(key, 5, KEY_CPU_PROXIMITY_TEMPERATURE);
-        
-        if (name->isEqualTo("PCH Temperature") || name->isEqualTo("PCH DTS Temperature from PCH"))
+        else if (name->isEqualTo("PCH Temperature") || name->isEqualTo("PCH DTS Temperature from PCH"))
             snprintf(key, 5, KEY_PCH_DIE_TEMPERATURE);
-        
-        if (name->isEqualTo("MCH DTS Temperature from PCH"))
+        else if (name->isEqualTo("MCH DTS Temperature from PCH"))
             snprintf(key, 5, KEY_MCH_DIODE_TEMPERATURE);
-        
-        if (name->isEqualTo("Ambient Temperature"))
+        else if (name->isEqualTo("Ambient Temperature"))
             snprintf(key, 5, KEY_AMBIENT_TEMPERATURE);
-        
-        for (UInt8 i = 0; i < 4; i++) {
-            snprintf(str, 64, "TS-on-DIMM%x Temperature", i);
-            
-            if (name->isEqualTo(str)) {
-                snprintf(key, 5, KEY_FORMAT_DIMM_TEMPERATURE, i);
-                break;
+        else if (!strlen(key)) {
+            for (UInt8 i = 0; i < 4; i++) {
+                snprintf(str, 64, "TS-on-DIMM%x Temperature", i);
+                
+                if (name->isEqualTo(str)) {
+                    snprintf(key, 5, KEY_FORMAT_DIMM_TEMPERATURE, i);
+                    break;
+                }
             }
-        }
-        
-        for (UInt8 i = 0; i < 8; i++) {
-            snprintf(str, 64, "TZ0%x _TMP", i);
             
-            if (name->isEqualTo(str)) {
-                snprintf(key, 5, KEY_FORMAT_THERMALZONE_TEMPERATURE, i + 1);
-                break;
+            if (!strlen(key)) {
+                for (UInt8 i = 0; i < 8; i++) {
+                    snprintf(str, 64, "TZ0%x _TMP", i);
+                    
+                    if (name->isEqualTo(str)) {
+                        snprintf(key, 5, KEY_FORMAT_THERMALZONE_TEMPERATURE, i + 1);
+                        break;
+                    }
+                    
+                    snprintf(str, 64, "CPU Core %x DTS", i);
+                    
+                    if (name->isEqualTo(str)) {
+                        snprintf(key, 5, KEY_FORMAT_CPU_DIODE_TEMPERATURE, i);
+                        break;
+                    }
+                }
             }
         }
         
@@ -141,7 +189,26 @@ void INT340EMonitor::parseTemperatureName(OSString *name, UInt32 index)
     
 }
 
-bool INT340EMonitor::start(IOService * provider)
+void INT340ESensors::parseTachometerName(OSString *name, UInt32 index)
+{
+    if (name && readTemperature(index)) {
+        if (name->isEqualTo("CPU Fan Speed"))
+            this->addTachometer(index, "CPU Fan Speed");
+        else if (name->isEqualTo("Fan RPM"))
+            this->addTachometer(index);
+        else if (name->isEqualTo("RPM"))
+            switch (version) {
+                case 0x30000:
+                    this->addTachometer(index);
+                    break;
+                case 0x20001:
+                    this->addTachometer(index - 1);
+                    break;
+            }
+    }
+}
+
+bool INT340ESensors::start(IOService * provider)
 {
 	if (!super::start(provider))
         return false;
@@ -187,14 +254,30 @@ bool INT340EMonitor::start(IOService * provider)
                     
                     while (OSObject *item = iterator->getNextObject()) {
                         parseTemperatureName(OSDynamicCast(OSString, item), count / 2);
-                        count++;
+                        count += 2;
                     }
                 }
             }
-            else {
-                HWSensorsWarningLog("failed to evaluate TSDL table");
-                return false;
+            else HWSensorsWarningLog("failed to evaluate TSDL table");
+            
+            // Tachometers
+            if(kIOReturnSuccess == acpiDevice->evaluateObject("OSDL", &object) && object) {
+                
+                OSArray *description = OSDynamicCast(OSArray, object);
+                
+                if (OSIterator *iterator = OSCollectionIterator::withCollection(description)) {
+                    
+                    HWSensorsDebugLog("Parsing tachometers...");
+                    
+                    UInt32 count = 0;
+                    
+                    while (OSObject *item = iterator->getNextObject()) {
+                        parseTachometerName(OSDynamicCast(OSString, item), count / 3);
+                        count += 3;
+                    }
+                }
             }
+            else HWSensorsWarningLog("failed to evaluate OSDL table");
             
             break;
         }
@@ -215,14 +298,30 @@ bool INT340EMonitor::start(IOService * provider)
                     
                     while (OSObject *item = iterator->getNextObject()) {
                         parseTemperatureName(OSDynamicCast(OSString, item), count + 1);
+                        count += 3;
+                    }
+                }
+            }
+            else HWSensorsWarningLog("failed to evaluate TMPV table");
+            
+            // Tachometers
+            if(kIOReturnSuccess == acpiDevice->evaluateObject("OSDV", &object) && object) {
+                
+                OSArray *description = OSDynamicCast(OSArray, object);
+                
+                if (OSIterator *iterator = OSCollectionIterator::withCollection(description)) {
+                    
+                    HWSensorsDebugLog("Parsing tachometers...");
+                    
+                    UInt32 count = 0;
+                    
+                    while (OSObject *item = iterator->getNextObject()) {
+                        parseTachometerName(OSDynamicCast(OSString, item), count + 2);
                         count++;
                     }
                 }
             }
-            else {
-                HWSensorsWarningLog("failed to evaluate TMPV table");
-                return false;
-            }
+            else HWSensorsWarningLog("failed to evaluate OSDV table");
             
             break;
         }

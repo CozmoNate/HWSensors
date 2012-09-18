@@ -1,5 +1,5 @@
 /*
- *  GeForceMonitor.h
+ *  GeforceSensors.h
  *  HWSensors
  *
  *  Created by kozlek on 19/04/12.
@@ -36,9 +36,9 @@
 #include "nouveau.h"
 #include "xf86i2c.h"
 
-class GeForceMonitor : public FakeSMCPlugin
+class GeforceSensors : public FakeSMCPlugin
 {
-    OSDeclareDefaultStructors(GeForceMonitor)    
+    OSDeclareDefaultStructors(GeforceSensors)    
 	
 private:
     nouveau_device      card;

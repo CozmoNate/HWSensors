@@ -54,7 +54,7 @@
 		<key>Intel GMA X3100 Monitoring Plugin</key>
 		<dict>
 			<key>IOClass</key>
-			<string>X3100monitor</string>
+			<string>GmaSensors</string>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
 			<key>IOPCIClassMatch</key>
@@ -67,7 +67,7 @@
 		<key>nVidia GeForce Monitoring Plugin</key>
 		<dict>
 			<key>IOClass</key>
-			<string>GeForceMonitor</string>
+			<string>GeforceSensors</string>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
 			<key>IOPCIClassMatch</key>

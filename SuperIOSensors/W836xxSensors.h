@@ -47,7 +47,7 @@
  */
 
 #include <IOKit/IOService.h>
-#include "SuperIOMonitor.h"
+#include "SuperIOPlugin.h"
 
 const UInt16 WINBOND_VENDOR_ID						= 0x5CA3;
 const UInt8 WINBOND_HIGH_BYTE						= 0x80;
@@ -87,9 +87,9 @@ const UInt8 WINBOND_FAN_CONTROL_BIT[]				= { 0x02, 0x04, 0x01, 0x04 };
 const UInt8 WINBOND_FAN_MODE_BIT[]					= { 0x00, 0x01, 0x00, 0x06 };
 const UInt8 WINBOND_FAN_OUTPUT[]					= { 0x01, 0x03, 0x11, 0x61 };
 
-class W836xMonitor : public SuperIOMonitor
+class W836xxSensors : public SuperIOPlugin
 {
-    OSDeclareDefaultStructors(W836xMonitor)
+    OSDeclareDefaultStructors(W836xxSensors)
 	
 private:
 	UInt8					fanLimit;

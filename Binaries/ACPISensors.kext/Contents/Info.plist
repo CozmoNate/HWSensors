@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.3</string>
+	<string>2.2.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.2.3</string>
+	<string>2.2.4</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
@@ -39,7 +39,7 @@
 		<key>ACPI Customizing Monitoring Plugin</key>
 		<dict>
 			<key>IOClass</key>
-			<string>ACPIMonitor</string>
+			<string>ACPISensors</string>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
 			<key>IONameMatch</key>
@@ -124,7 +124,7 @@
 		<key>INT340E Device Monitoring Plugin</key>
 		<dict>
 			<key>IOClass</key>
-			<string>INT340EMonitor</string>
+			<string>INT340ESensors</string>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
 			<key>IONameMatch</key>

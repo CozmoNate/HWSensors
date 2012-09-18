@@ -31,20 +31,28 @@
 
 #include <kern/clock.h>
 
-class INT340EMonitor : public FakeSMCPlugin
+class INT340ESensors : public FakeSMCPlugin
 {
-    OSDeclareDefaultStructors(INT340EMonitor)
+    OSDeclareDefaultStructors(INT340ESensors)
     
 private:
 	IOACPIPlatformDevice    *acpiDevice;
     UInt64                  version;
     
     OSArray                 *temperatures;
+    OSArray                 *tachometers;
+    
     mach_timespec_t         temperatureNextUpdate;
+    mach_timespec_t         tachometerNextUpdate;
     
     bool                    updateTemperatures();
+    bool                    updateTachometers();
+    
     float                   readTemperature(UInt32 index);
+    float                   readTachometer(UInt32 index);
+    
     void                    parseTemperatureName(OSString *name, UInt32 index);
+    void                    parseTachometerName(OSString *name, UInt32 index);
     
 protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);

@@ -46,7 +46,7 @@
  */
 
 #include <IOKit/IOService.h>
-#include "SuperIOMonitor.h"
+#include "SuperIOPlugin.h"
 
 const UInt8 NUVOTON_ADDRESS_REGISTER_OFFSET     = 0x05;
 const UInt8 NUVOTON_DATA_REGISTER_OFFSET        = 0x06;
@@ -76,9 +76,9 @@ const UInt16 NUVOTON_FAN_PWM_COMMAND_REG[]      = { 0x109, 0x209, 0x309 };
 const UInt16 NUVOTON_FAN_CONTROL_MODE_REG[]     = { 0x102, 0x202, 0x302 };
 
 
-class NCT677xMonitor : public SuperIOMonitor
+class NCT677xSensors : public SuperIOPlugin
 {
-    OSDeclareDefaultStructors(NCT677xMonitor)
+    OSDeclareDefaultStructors(NCT677xSensors)
 	
 private:
     //int                     temperature[3];

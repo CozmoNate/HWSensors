@@ -43,9 +43,9 @@
 			<key>CFBundleIdentifier</key>
 			<string>org.hwsensors.driver.MotherboardSensors</string>
 			<key>IOClass</key>
-			<string>F718xMonitor</string>
+			<string>F718xxSensors</string>
 			<key>IOMatchCategory</key>
-			<string>SuperIOMonitor</string>
+			<string>SuperIOPlugin</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>Fintek,F71858</string>
@@ -663,9 +663,9 @@
 			<key>CFBundleIdentifier</key>
 			<string>org.hwsensors.driver.MotherboardSensors</string>
 			<key>IOClass</key>
-			<string>IT87xMonitor</string>
+			<string>IT87xxSensors</string>
 			<key>IOMatchCategory</key>
-			<string>SuperIOMonitor</string>
+			<string>SuperIOPlugin</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>ITE,IT8512F</string>
@@ -2040,9 +2040,9 @@
 			<key>CFBundleIdentifier</key>
 			<string>org.hwsensors.driver.MotherboardSensors</string>
 			<key>IOClass</key>
-			<string>NCT677xMonitor</string>
+			<string>NCT677xSensors</string>
 			<key>IOMatchCategory</key>
-			<string>SuperIOMonitor</string>
+			<string>SuperIOPlugin</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>Nuvoton,NCT6771F</string>
@@ -2674,9 +2674,9 @@
 			<key>CFBundleIdentifier</key>
 			<string>org.hwsensors.driver.MotherboardSensors</string>
 			<key>IOClass</key>
-			<string>W836xMonitor</string>
+			<string>W836xxSensors</string>
 			<key>IOMatchCategory</key>
-			<string>SuperIOMonitor</string>
+			<string>SuperIOPlugin</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>Winbond,W83627DHG</string>

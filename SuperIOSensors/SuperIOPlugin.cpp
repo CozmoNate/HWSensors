@@ -25,18 +25,18 @@
 
 
 #include "FakeSMCDefinitions.h"
-#include "SuperIOMonitor.h"
+#include "SuperIOPlugin.h"
 #include "SuperIO.h"
 
 /*#define Debug FALSE
 
-#define LogPrefix "SuperIOMonitor: "
+#define LogPrefix "SuperIOPlugin: "
 #define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
 #define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
 
 #define super FakeSMCPlugin
-OSDefineMetaClassAndAbstractStructors(SuperIOMonitor, FakeSMCPlugin)
+OSDefineMetaClassAndAbstractStructors(SuperIOPlugin, FakeSMCPlugin)
 
 inline bool process_sensor_entry(OSObject *object, OSString **name, float *reference, float *gain, float *offset)
 {
@@ -60,7 +60,7 @@ inline bool process_sensor_entry(OSObject *object, OSString **name, float *refer
     return false;
 }
 
-bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
+bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding temperature sensors...");
     
@@ -115,7 +115,7 @@ bool SuperIOMonitor::addTemperatureSensors(OSDictionary *configuration)
     return true;
 }
 
-bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
+bool SuperIOPlugin::addVoltageSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding voltage sensors...");
     
@@ -207,7 +207,7 @@ bool SuperIOMonitor::addVoltageSensors(OSDictionary *configuration)
     return true;
 }
 
-bool SuperIOMonitor::addTachometerSensors(OSDictionary *configuration)
+bool SuperIOPlugin::addTachometerSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding tachometer sensors...");
     
@@ -230,37 +230,37 @@ bool SuperIOMonitor::addTachometerSensors(OSDictionary *configuration)
     return true;
 }
 
-UInt8 SuperIOMonitor::temperatureSensorsLimit()
+UInt8 SuperIOPlugin::temperatureSensorsLimit()
 {
     return 3;
 }
 
-UInt8 SuperIOMonitor::voltageSensorsLimit()
+UInt8 SuperIOPlugin::voltageSensorsLimit()
 {
     return 9;
 }
 
-UInt8 SuperIOMonitor::tachometerSensorsLimit()
+UInt8 SuperIOPlugin::tachometerSensorsLimit()
 {
     return 5;
 }
 
-float SuperIOMonitor::readTemperature(UInt32 index)
+float SuperIOPlugin::readTemperature(UInt32 index)
 {
 	return 0;
 }
 
-float SuperIOMonitor::readVoltage(UInt32 index)
+float SuperIOPlugin::readVoltage(UInt32 index)
 {
 	return 0;
 }
 
-float SuperIOMonitor::readTachometer(UInt32 index)
+float SuperIOPlugin::readTachometer(UInt32 index)
 {
 	return 0;
 }
 
-float SuperIOMonitor::getSensorValue(FakeSMCSensor *sensor)
+float SuperIOPlugin::getSensorValue(FakeSMCSensor *sensor)
 {
     float value = 0;
     
@@ -284,12 +284,12 @@ float SuperIOMonitor::getSensorValue(FakeSMCSensor *sensor)
 	return value;
 }
 
-bool SuperIOMonitor::initialize()
+bool SuperIOPlugin::initialize()
 {
     return true;
 }
 
-bool SuperIOMonitor::init(OSDictionary *properties)
+bool SuperIOPlugin::init(OSDictionary *properties)
 {
 	if (!super::init(properties))
 		return false;
@@ -304,12 +304,12 @@ bool SuperIOMonitor::init(OSDictionary *properties)
 	return true;
 }
 
-IOService *SuperIOMonitor::probe(IOService *provider, SInt32 *score)
+IOService *SuperIOPlugin::probe(IOService *provider, SInt32 *score)
 {
     return super::probe(provider, score);
 }
 
-bool SuperIOMonitor::start(IOService *provider)
+bool SuperIOPlugin::start(IOService *provider)
 {	
 	if (!super::start(provider)) 
         return false;

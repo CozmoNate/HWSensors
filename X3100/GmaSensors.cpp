@@ -7,7 +7,7 @@
  *
  */
 
-#include "X3100monitor.h"
+#include "GmaSensors.h"
 #include "FakeSMCDefinitions.h"
 
 /*#define kGenericPCIDevice "IOPCIDevice"
@@ -34,9 +34,9 @@
 #define OUTVID(offset,val) OSWriteLittleInt32((mmio_base), offset, val)
 
 #define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(X3100monitor, FakeSMCPlugin)
+OSDefineMetaClassAndStructors(GmaSensors, FakeSMCPlugin)
 
-float X3100monitor::getSensorValue(FakeSMCSensor *sensor)
+float GmaSensors::getSensorValue(FakeSMCSensor *sensor)
 {    
     if (sensor->getGroup() == kFakeSMCTemperatureSensor) {
         short value = 0;
@@ -63,7 +63,7 @@ float X3100monitor::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-IOService* X3100monitor::probe(IOService *provider, SInt32 *score)
+IOService* GmaSensors::probe(IOService *provider, SInt32 *score)
 {
 	if (super::probe(provider, score) != this) 
         return 0;
@@ -100,7 +100,7 @@ IOService* X3100monitor::probe(IOService *provider, SInt32 *score)
 	return this;
 }
 
-bool X3100monitor::start(IOService * provider)
+bool GmaSensors::start(IOService * provider)
 {
 	if (!super::start(provider)) 
         return false;

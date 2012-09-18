@@ -46,21 +46,21 @@
  
  */
 
-#include "WinbondW836x.h"
+#include "W836xxSensors.h"
 #include "FakeSMCDefinitions.h"
 #include "SuperIO.h"
 
 /*#define Debug FALSE
 
-#define LogPrefix "W836xMonitor: "
+#define LogPrefix "W836xxSensors: "
 #define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
 #define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
 
-#define super SuperIOMonitor
-OSDefineMetaClassAndStructors(W836xMonitor, SuperIOMonitor)
+#define super SuperIOPlugin
+OSDefineMetaClassAndStructors(W836xxSensors, SuperIOPlugin)
 
-UInt8 W836xMonitor::readByte(UInt16 reg) 
+UInt8 W836xxSensors::readByte(UInt16 reg) 
 {
     UInt8 bank = reg >> 8;
     UInt8 regi = reg & 0xFF;
@@ -71,7 +71,7 @@ UInt8 W836xMonitor::readByte(UInt16 reg)
 	return inb((UInt16)(address + WINBOND_DATA_REGISTER_OFFSET));
 }
 
-void W836xMonitor::writeByte(UInt16 reg, UInt8 value)
+void W836xxSensors::writeByte(UInt16 reg, UInt8 value)
 {
     UInt8 bank = reg >> 8;
     UInt8 regi = reg & 0xFF;
@@ -82,7 +82,7 @@ void W836xMonitor::writeByte(UInt16 reg, UInt8 value)
 	outb((UInt16)(address + WINBOND_DATA_REGISTER_OFFSET), value); 
 }
 
-UInt64 W836xMonitor::setBit(UInt64 target, UInt16 bit, UInt32 value)
+UInt64 W836xxSensors::setBit(UInt64 target, UInt16 bit, UInt32 value)
 {
 	if (((value & 1) == value) && bit <= 63)
 	{
@@ -93,22 +93,22 @@ UInt64 W836xMonitor::setBit(UInt64 target, UInt16 bit, UInt32 value)
 	return value;
 }
 
-UInt8 W836xMonitor::temperatureSensorsLimit()
+UInt8 W836xxSensors::temperatureSensorsLimit()
 {
     return 3;
 }
 
-UInt8 W836xMonitor::voltageSensorsLimit()
+UInt8 W836xxSensors::voltageSensorsLimit()
 {
     return voltageLimit;
 }
 
-UInt8 W836xMonitor::tachometerSensorsLimit()
+UInt8 W836xxSensors::tachometerSensorsLimit()
 {
     return fanLimit;
 }
 
-float W836xMonitor::readTemperature(UInt32 index)
+float W836xxSensors::readTemperature(UInt32 index)
 {
 	UInt32 value = readByte(WINBOND_TEMPERATURE[index]) << 1;
 	
@@ -120,7 +120,7 @@ float W836xMonitor::readTemperature(UInt32 index)
 	return temperature <= 125 && temperature >= -55 ? temperature : 0;
 }
 
-float W836xMonitor::readVoltage(UInt32 index)
+float W836xxSensors::readVoltage(UInt32 index)
 {
     float voltage = 0;
     
@@ -164,7 +164,7 @@ float W836xMonitor::readVoltage(UInt32 index)
 	return voltage;
 }
 
-void W836xMonitor::updateTachometers()
+void W836xxSensors::updateTachometers()
 {
 	UInt64 bits = 0;
 	
@@ -219,7 +219,7 @@ void W836xMonitor::updateTachometers()
 	}
 }
 
-float W836xMonitor::readTachometer(UInt32 index)
+float W836xxSensors::readTachometer(UInt32 index)
 {
 	if (fanValueObsolete[index])
 		updateTachometers();
@@ -229,7 +229,7 @@ float W836xMonitor::readTachometer(UInt32 index)
 	return fanValue[index];
 }
 
-bool W836xMonitor::addTemperatureSensors(OSDictionary *configuration)
+bool W836xxSensors::addTemperatureSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding temperature sensors...");
     
@@ -290,7 +290,7 @@ bool W836xMonitor::addTemperatureSensors(OSDictionary *configuration)
     return true;
 }
 
-bool W836xMonitor::addTachometerSensors(OSDictionary *configuration)
+bool W836xxSensors::addTachometerSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("setting fanLimit value...");
     
@@ -308,7 +308,7 @@ bool W836xMonitor::addTachometerSensors(OSDictionary *configuration)
     return super::addTachometerSensors(configuration);
 }
 
-bool W836xMonitor::initialize()
+bool W836xxSensors::initialize()
 {
     UInt16 vendor = (UInt16)(readByte((WINBOND_HIGH_BYTE << 8) | WINBOND_VENDOR_ID_REGISTER) << 8) | readByte(WINBOND_VENDOR_ID_REGISTER);
     

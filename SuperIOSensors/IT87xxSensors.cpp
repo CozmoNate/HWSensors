@@ -46,21 +46,21 @@
  
  */
 
-#include "ITEIT87x.h"
+#include "IT87xxSensors.h"
 #include "FakeSMCDefinitions.h"
 #include "SuperIO.h"
 
 /*#define Debug FALSE
 
-#define LogPrefix "IT87xMonitor: "
+#define LogPrefix "IT87xxSensors: "
 #define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
 #define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
 
-#define super SuperIOMonitor
-OSDefineMetaClassAndStructors(IT87xMonitor, SuperIOMonitor)
+#define super SuperIOPlugin
+OSDefineMetaClassAndStructors(IT87xxSensors, SuperIOPlugin)
 
-UInt8 IT87xMonitor::readByte(UInt8 reg)
+UInt8 IT87xxSensors::readByte(UInt8 reg)
 {
 	outb(address + ITE_ADDRESS_REGISTER_OFFSET, reg);
 	
@@ -70,23 +70,23 @@ UInt8 IT87xMonitor::readByte(UInt8 reg)
 	return value;
 }
 
-void IT87xMonitor::writeByte(UInt8 reg, UInt8 value)
+void IT87xxSensors::writeByte(UInt8 reg, UInt8 value)
 {
 	outb(address + ITE_ADDRESS_REGISTER_OFFSET, reg);
 	outb(address + ITE_DATA_REGISTER_OFFSET, value);
 }
 
-UInt8 IT87xMonitor::temperatureSensorsLimit()
+UInt8 IT87xxSensors::temperatureSensorsLimit()
 {
     return 3;
 }
 
-UInt8 IT87xMonitor::voltageSensorsLimit()
+UInt8 IT87xxSensors::voltageSensorsLimit()
 {
     return 9;
 }
 
-UInt8 IT87xMonitor::tachometerSensorsLimit()
+UInt8 IT87xxSensors::tachometerSensorsLimit()
 {
     switch (model) {
         case IT8705F:
@@ -97,17 +97,17 @@ UInt8 IT87xMonitor::tachometerSensorsLimit()
     }
 }
 
-float IT87xMonitor::readTemperature(UInt32 index)
+float IT87xxSensors::readTemperature(UInt32 index)
 {
 	return readByte(ITE_TEMPERATURE_BASE_REG + index);
 }
 
-float IT87xMonitor::readVoltage(UInt32 index)
+float IT87xxSensors::readVoltage(UInt32 index)
 {
     return (float)readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain;
 }
 
-float IT87xMonitor::readTachometer(UInt32 index)
+float IT87xxSensors::readTachometer(UInt32 index)
 {
     UInt32 value;
     
@@ -132,7 +132,7 @@ float IT87xMonitor::readTachometer(UInt32 index)
     }
 }
 
-bool IT87xMonitor::initialize()
+bool IT87xxSensors::initialize()
 {   
     UInt8 vendor = readByte(ITE_VENDOR_ID_REGISTER);
 	
