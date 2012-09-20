@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>12B19</string>
+	<string>12C54</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -25,7 +25,7 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
-	<string>4F1003</string>
+	<string>4G182</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -33,9 +33,9 @@
 	<key>DTSDKName</key>
 	<string>macosx10.7</string>
 	<key>DTXcode</key>
-	<string>0441</string>
+	<string>0450</string>
 	<key>DTXcodeBuild</key>
-	<string>4F1003</string>
+	<string>4G182</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>AMD Radeon Monitoring Plugin</key>

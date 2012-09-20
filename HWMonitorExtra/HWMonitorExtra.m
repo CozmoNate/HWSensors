@@ -581,11 +581,19 @@
 
 -(void)updateRateChanged:(NSNotification *)aNotification
 {
-    _smcSensorsUpdateInterval = [[[aNotification userInfo] valueForKey:kHWMonitorSmcSensorsUpdateRate] floatValue];
+    if (aNotification)
+        _smcSensorsUpdateInterval = [[[aNotification userInfo] valueForKey:kHWMonitorSmcSensorsUpdateRate] floatValue];
+    else
+        _smcSensorsUpdateInterval = [_defaults floatForKey:kHWMonitorSmcSensorsUpdateRate];
+        
     _smcSensorsUpdateInterval = _smcSensorsUpdateInterval > 10 ? 10 : _smcSensorsUpdateInterval < 1 ? 1 : _smcSensorsUpdateInterval;
     _smcSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];
     
-    _smartSensorsUpdateInterval = [[[aNotification userInfo] valueForKey:kHWMonitorSmartSensorsUpdateRate] floatValue] * 60;
+    if (aNotification)
+        _smartSensorsUpdateInterval = [[[aNotification userInfo] valueForKey:kHWMonitorSmartSensorsUpdateRate] floatValue] * 60;
+    else
+        _smartSensorsUpdateInterval = [_defaults floatForKey:kHWMonitorSmartSensorsUpdateRate] * 60;
+        
     _smartSensorsUpdateInterval = _smartSensorsUpdateInterval > 1800 ? 1800 : _smartSensorsUpdateInterval < 300 ? 300 : _smartSensorsUpdateInterval;
     _smartSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];
 }
