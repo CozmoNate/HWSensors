@@ -22,16 +22,15 @@
 	<string>Copyright © HWSENSORS_LASTYEAR Slice. All rights reserved.</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>INT340E Device Monitoring Plugin</key>
+		<key>PTID Device Monitoring Plugin</key>
 		<dict>
 			<key>IOClass</key>
-			<string>INT340ESensors</string>
+			<string>PTIDSensors</string>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
 			<key>IONameMatch</key>
 			<array>
-				<string>INT340E</string>
-				<string>INT3F0D</string>
+				<string>PTID</string>
 			</array>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
