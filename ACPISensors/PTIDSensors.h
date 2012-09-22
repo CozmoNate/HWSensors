@@ -1,5 +1,5 @@
 //
-//  INT340E.h
+//  PTIDSensors.h
 //  HWSensors
 //
 //  Created by kozlek on 24.08.12.
@@ -21,8 +21,8 @@
 //  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#ifndef __HWSensors__INT340E__
-#define __HWSensors__INT340E__
+#ifndef __HWSensors__PTID__
+#define __HWSensors__PTID__
 
 #include <IOKit/IOService.h>
 #include "IOKit/acpi/IOACPIPlatformDevice.h"
@@ -31,9 +31,9 @@
 
 #include <kern/clock.h>
 
-class INT340ESensors : public FakeSMCPlugin
+class PTIDSensors : public FakeSMCPlugin
 {
-    OSDeclareDefaultStructors(INT340ESensors)
+    OSDeclareDefaultStructors(PTIDSensors)
     
 private:
 	IOACPIPlatformDevice    *acpiDevice;
@@ -61,4 +61,4 @@ public:
     virtual bool			start(IOService *provider);
 };
 
-#endif /* defined(__HWSensors__INT340E__) */
+#endif /* defined(__HWSensors__PTID__) */

@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.5</string>
+	<string>2.2.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.2.5</string>
+	<string>2.2.6</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvmgcc42</string>
 	<key>DTPlatformBuild</key>
@@ -121,16 +121,15 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>INT340E Device Monitoring Plugin</key>
+		<key>PTID Device Monitoring Plugin</key>
 		<dict>
 			<key>IOClass</key>
-			<string>INT340ESensors</string>
+			<string>PTIDSensors</string>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
 			<key>IONameMatch</key>
 			<array>
-				<string>INT340E</string>
-				<string>INT3F0D</string>
+				<string>PTID</string>
 			</array>
 			<key>IOProbeScore</key>
 			<integer>1000</integer>

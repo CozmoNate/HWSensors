@@ -69,8 +69,8 @@
 		7E5A8CBA1605EAA400FF0099 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */; };
 		7E5A8CBB1605EAA400FF0099 /* OEMInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5A8CB81605EAA400FF0099 /* OEMInfo.h */; };
 		7E5A8CBC1605EAA400FF0099 /* OEMInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5A8CB81605EAA400FF0099 /* OEMInfo.h */; };
-		7E78CD4815EC03BC00D57BC4 /* INT340ESensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* INT340ESensors.cpp */; };
-		7E78CD4915EC03BF00D57BC4 /* INT340ESensors.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBEC2A215E78B7B00537027 /* INT340ESensors.h */; };
+		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
+		7E78CD4915EC03BF00D57BC4 /* PTIDSensors.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBEC2A215E78B7B00537027 /* PTIDSensors.h */; };
 		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
 		7E79B82315BA99350079AAE8 /* CPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E79B82215BA99350079AAE8 /* CPUSensors.cpp */; };
 		7E7A182415DEB090004D98AF /* MenuCracker.menu in Resources */ = {isa = PBXBuildFile; fileRef = 7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */; };
@@ -371,8 +371,8 @@
 		7EB963B81594559100436FDB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7EBB50D915EEAE3C00FEBBB9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
 		7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MenuCracker.menu; path = Binaries/MenuCracker/MenuCracker.menu; sourceTree = SOURCE_ROOT; };
-		7EBEC2A115E78B7B00537027 /* INT340ESensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = INT340ESensors.cpp; sourceTree = "<group>"; };
-		7EBEC2A215E78B7B00537027 /* INT340ESensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INT340ESensors.h; sourceTree = "<group>"; };
+		7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PTIDSensors.cpp; sourceTree = "<group>"; };
+		7EBEC2A215E78B7B00537027 /* PTIDSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTIDSensors.h; sourceTree = "<group>"; };
 		7EBFA41615D0B82800DB8579 /* nouveau.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau.cpp; sourceTree = "<group>"; };
 		7EBFA41815D0B83500DB8579 /* nouveau.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau.h; sourceTree = "<group>"; };
 		7EC2525715A8111E00E385E4 /* HWMonitorGraphsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorGraphsView.h; sourceTree = "<group>"; };
@@ -535,8 +535,8 @@
 		1D6FE3EF13FEBFF200376E64 /* ACPISensors */ = {
 			isa = PBXGroup;
 			children = (
-				7EB6451715E81442008C6A95 /* INT340E */,
-				7EB6451915E81451008C6A95 /* ACPIMonitor */,
+				7EB6451715E81442008C6A95 /* PTIDSensors */,
+				7EB6451915E81451008C6A95 /* ACPISensors */,
 				1D6FE3F013FEBFF200376E64 /* Supporting Files */,
 			);
 			path = ACPISensors;
@@ -896,22 +896,22 @@
 			name = NVClock;
 			sourceTree = "<group>";
 		};
-		7EB6451715E81442008C6A95 /* INT340E */ = {
+		7EB6451715E81442008C6A95 /* PTIDSensors */ = {
 			isa = PBXGroup;
 			children = (
-				7EBEC2A215E78B7B00537027 /* INT340ESensors.h */,
-				7EBEC2A115E78B7B00537027 /* INT340ESensors.cpp */,
+				7EBEC2A215E78B7B00537027 /* PTIDSensors.h */,
+				7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */,
 			);
-			name = INT340E;
+			name = PTIDSensors;
 			sourceTree = "<group>";
 		};
-		7EB6451915E81451008C6A95 /* ACPIMonitor */ = {
+		7EB6451915E81451008C6A95 /* ACPISensors */ = {
 			isa = PBXGroup;
 			children = (
 				1D6FE3FE13FEC03100376E64 /* ACPISensors.h */,
 				1D6FE3FD13FEC03100376E64 /* ACPISensors.cpp */,
 			);
-			name = ACPIMonitor;
+			name = ACPISensors;
 			sourceTree = "<group>";
 		};
 		7EB692E615C99A0E0009B2E2 /* Licenses */ = {
@@ -1038,7 +1038,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D6FE40013FEC03100376E64 /* ACPISensors.h in Headers */,
-				7E78CD4915EC03BF00D57BC4 /* INT340ESensors.h in Headers */,
+				7E78CD4915EC03BF00D57BC4 /* PTIDSensors.h in Headers */,
 				7E5A8CBB1605EAA400FF0099 /* OEMInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1426,7 +1426,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D6FE3FF13FEC03100376E64 /* ACPISensors.cpp in Sources */,
-				7E78CD4815EC03BC00D57BC4 /* INT340ESensors.cpp in Sources */,
+				7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */,
 				7E5A8CB91605EAA400FF0099 /* OEMInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

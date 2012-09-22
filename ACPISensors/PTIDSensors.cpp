@@ -1,5 +1,5 @@
 //
-//  INT340E.cpp
+//  PTIDSensors.cpp
 //  HWSensors
 //
 //  Created by kozlek on 24.08.12.
@@ -21,16 +21,16 @@
 //  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#include "INT340ESensors.h"
+#include "PTIDSensors.h"
 
 #include "FakeSMCDefinitions.h"
 
 //#define kHWSensorsDebug TRUE
 
 #define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(INT340ESensors, FakeSMCPlugin)
+OSDefineMetaClassAndStructors(PTIDSensors, FakeSMCPlugin)
 
-bool INT340ESensors::updateTemperatures()
+bool PTIDSensors::updateTemperatures()
 {
     OSObject *object;
     
@@ -49,7 +49,7 @@ bool INT340ESensors::updateTemperatures()
     return false;
 }
 
-bool INT340ESensors::updateTachometers()
+bool PTIDSensors::updateTachometers()
 {
     OSObject *object;
     
@@ -68,7 +68,7 @@ bool INT340ESensors::updateTachometers()
     return false;
 }
 
-float INT340ESensors::readTemperature(UInt32 index)
+float PTIDSensors::readTemperature(UInt32 index)
 {
     mach_timespec_t now;
     
@@ -97,7 +97,7 @@ float INT340ESensors::readTemperature(UInt32 index)
     return 0;
 }
 
-float INT340ESensors::readTachometer(UInt32 index)
+float PTIDSensors::readTachometer(UInt32 index)
 {
     mach_timespec_t now;
     
@@ -126,7 +126,7 @@ float INT340ESensors::readTachometer(UInt32 index)
     return 0;
 }
 
-float INT340ESensors::getSensorValue(FakeSMCSensor *sensor)
+float PTIDSensors::getSensorValue(FakeSMCSensor *sensor)
 {
     switch(sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
@@ -138,7 +138,7 @@ float INT340ESensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-void INT340ESensors::parseTemperatureName(OSString *name, UInt32 index)
+void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
 {
     if (name && readTemperature(index)) {
         char key[5];
@@ -189,7 +189,7 @@ void INT340ESensors::parseTemperatureName(OSString *name, UInt32 index)
     
 }
 
-void INT340ESensors::parseTachometerName(OSString *name, UInt32 index)
+void PTIDSensors::parseTachometerName(OSString *name, UInt32 index)
 {
     if (name) {
         if (name->isEqualTo("RPM"))
@@ -206,7 +206,7 @@ void INT340ESensors::parseTachometerName(OSString *name, UInt32 index)
     }
 }
 
-bool INT340ESensors::start(IOService * provider)
+bool PTIDSensors::start(IOService * provider)
 {
 	if (!super::start(provider))
         return false;
