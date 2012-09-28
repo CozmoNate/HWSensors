@@ -12,6 +12,8 @@
 #include "nouveau_definitions.h"
 
 bool nvc0_identify(struct nouveau_device *device);
-int nvc0_pm_clocks_get(struct nouveau_device *device, u8 source);
+void nvc0_init(struct nouveau_device *device);
+
+int nvc0_clocks_get(struct nouveau_device *device, u8 source);
 
 #endif

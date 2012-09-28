@@ -383,27 +383,21 @@ bool setOemProperties(IOService *provider)
              }*/
         }
     
-    if (biosMap) {
-        biosMap->release();
-        biosMap = 0;
-    }
+    if (biosMap)
+        OSSafeReleaseNULL(biosMap);
     
-    if(biosMemory) {
-        biosMemory->release();  
-        biosMemory = 0;
-    }
+    if(biosMemory)
+        OSSafeReleaseNULL(biosMemory);
     
     if ( dmiMemory )
     {
         if (IOMemoryMap *fDMIMemoryMap = dmiMemory->map())        {
             decodeSMBIOSTable(provider, (void *) fDMIMemoryMap->getVirtualAddress(), fDMIMemoryMap->getLength(), dmiStructureCount );
-            
-            fDMIMemoryMap->release();
-            fDMIMemoryMap = 0;
+        
+            OSSafeReleaseNULL(fDMIMemoryMap);
         }
         
-        dmiMemory->release();
-        dmiMemory = 0;
+        OSSafeReleaseNULL(dmiMemory);
     }
     
     return true;

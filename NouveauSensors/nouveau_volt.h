@@ -26,6 +26,6 @@ struct nouveau_pm_voltage {
 };
 
 void nouveau_volt_init(struct nouveau_device *);
-int nouveau_voltage_gpio_get(struct nouveau_device *device);
+int nouveau_voltage_get(struct nouveau_device *device);
 
 #endif

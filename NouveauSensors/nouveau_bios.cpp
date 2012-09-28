@@ -310,7 +310,7 @@ bmp_version(struct nouveau_device *device)
 	return 0x0000;
 }
 
-static bool nouveau_bit_entry(struct nouveau_device *device, u8 id, struct bit_entry *bit)
+int nouveau_bit_entry(struct nouveau_device *device, u8 id, struct bit_entry *bit)
 {
 	if (device->bios.bit_offset) {
 		u8  entries = nv_ro08(device, device->bios.bit_offset + 10);
@@ -327,10 +327,10 @@ static bool nouveau_bit_entry(struct nouveau_device *device, u8 id, struct bit_e
 			entry += nv_ro08(device, device->bios.bit_offset + 9);
 		}
         
-		return true;
+		return -ENOENT;
 	}
     
-	return false;
+	return -EINVAL;
 }
 
 struct bit_table {
@@ -522,13 +522,13 @@ int nouveau_dcb_i2c_parse(struct nouveau_device *device, u8 idx, struct dcb_i2c_
 			info->drive = nv_ro08(device, ent + 4);
 			if (!info->drive) info->drive = 0x3f;
 			info->sense = nv_ro08(device, ent + 5);
-			if (!info->sense) info->drive = 0x3e;
+			if (!info->sense) info->sense = 0x3e;
 		} else
             if (idx == 1) {
                 info->drive = nv_ro08(device, ent + 6);
                 if (!info->drive) info->drive = 0x37;
                 info->sense = nv_ro08(device, ent + 7);
-                if (!info->sense) info->drive = 0x36;
+                if (!info->sense) info->sense = 0x36;
             }
         
 		info->type = DCB_I2C_NV04_BIT;
@@ -536,4 +536,69 @@ int nouveau_dcb_i2c_parse(struct nouveau_device *device, u8 idx, struct dcb_i2c_
 	}
     
 	return -ENOENT;
+}
+
+static u16 extdev_table(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *len, u8 *cnt)
+{
+	u8  dcb_ver, dcb_hdr, dcb_cnt, dcb_len;
+	u16 dcb, extdev = 0;
+    
+	dcb = nouveau_dcb_table(device, &dcb_ver, &dcb_hdr, &dcb_cnt, &dcb_len);
+	if (!dcb || (dcb_ver != 0x30 && dcb_ver != 0x40))
+		return 0x0000;
+    
+	extdev = nv_ro16(device, dcb + 18);
+	if (!extdev)
+		return 0x0000;
+    
+	*ver = nv_ro08(device, extdev + 0);
+	*hdr = nv_ro08(device, extdev + 1);
+	*cnt = nv_ro08(device, extdev + 2);
+	*len = nv_ro08(device, extdev + 3);
+    
+	return extdev + *hdr;
+}
+
+static u16 nvbios_extdev_entry(struct nouveau_device *device, int idx, u8 *ver, u8 *len)
+{
+	u8 hdr, cnt;
+	u16 extdev = extdev_table(device, ver, &hdr, len, &cnt);
+	if (extdev && idx < cnt)
+		return extdev + idx * *len;
+	return 0x0000;
+}
+
+static void extdev_parse_entry(struct nouveau_device *device, u16 offset, struct nvbios_extdev_func *entry)
+{
+	entry->type = nv_ro08(device, offset + 0);
+	entry->addr = nv_ro08(device, offset + 1);
+	entry->bus = (nv_ro08(device, offset + 2) >> 4) & 1;
+}
+
+int nvbios_extdev_parse(struct nouveau_device *device, int idx, struct nvbios_extdev_func *func)
+{
+	u8 ver, len;
+	u16 entry;
+    
+	if (!(entry = nvbios_extdev_entry(device, idx, &ver, &len)))
+		return -EINVAL;
+    
+	extdev_parse_entry(device, entry, func);
+    
+	return 0;
+}
+
+int nvbios_extdev_find(struct nouveau_device *device, enum nvbios_extdev_type type, struct nvbios_extdev_func *func)
+{
+	u8 ver, len, i;
+	u16 entry;
+    
+	i = 0;
+	while (!(entry = nvbios_extdev_entry(device, i++, &ver, &len))) {
+		extdev_parse_entry(device, entry, func);
+		if (func->type == type)
+			return 0;
+	}
+    
+	return -EINVAL;
 }

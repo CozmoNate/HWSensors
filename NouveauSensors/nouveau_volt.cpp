@@ -109,7 +109,7 @@ void nouveau_volt_init(struct nouveau_device *device)
             vidshift  = 0;
             break;
         default:
-            nv_warn(device, "voltage table 0x%02x unknown\n", volt[0]);
+            nv_debug(device, "voltage table 0x%02x unknown\n", volt[0]);
             return;
 	}
     
@@ -127,7 +127,7 @@ void nouveau_volt_init(struct nouveau_device *device)
 			return;
 		}
         
-		if (!nouveau_gpio_find(device, 0, vidtag[i], 0xff, &func)) {
+		if (nouveau_gpio_find(device, 0, vidtag[i], 0xff, &func)) {
 			nv_debug(device, "vid bit %d has no gpio tag\n", i);
 			return;
 		}
@@ -185,7 +185,7 @@ static int nouveau_volt_lvl_lookup(struct nouveau_device *device, int vid)
 	return 0;
 }
 
-int nouveau_voltage_gpio_get(struct nouveau_device *device)
+int nouveau_voltage_get(struct nouveau_device *device)
 {
 	u8 vid = 0;
 	int i;

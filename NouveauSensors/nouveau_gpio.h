@@ -27,10 +27,7 @@ struct dcb_gpio_func {
 };
 
 int nouveau_gpio_sense(struct nouveau_device *device, int idx, int line);
-bool nouveau_gpio_find(struct nouveau_device *device, int idx, u8 tag, u8 line, struct dcb_gpio_func *func);
+int nouveau_gpio_find(struct nouveau_device *device, int idx, u8 tag, u8 line, struct dcb_gpio_func *func);
 int nouveau_gpio_get(struct nouveau_device *device, int idx, u8 tag, u8 line);
-
-int nouveau_pwmfan_gpio_get(struct nouveau_device *device);
-int nouveau_rpmfan_gpio_get(struct nouveau_device *device);
 
 #endif /* defined(__HWSensors__nouveau_gpio__) */

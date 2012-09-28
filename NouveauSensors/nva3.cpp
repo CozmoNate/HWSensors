@@ -105,7 +105,7 @@ static u32 read_pll(struct nouveau_device *device, int clk, u32 pll)
 	return 0;
 }
 
-int nva3_pm_clocks_get(struct nouveau_device *device, u8 source)
+int nva3_clocks_get(struct nouveau_device *device, u8 source)
 {
     switch (source) {
         case nouveau_clock_core:

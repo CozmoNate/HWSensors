@@ -10,7 +10,9 @@
 #define HWSensors_nv40_h
 
 bool nv40_identify(struct nouveau_device *device);
-int nv40_pm_clocks_get(struct nouveau_device *device, u8 source);
-bool nv40_pm_pwm_get(struct nouveau_device *device, int line, u32 *divs, u32 *duty);
+void nv40_init(struct nouveau_device *device);
+int nv40_clocks_get(struct nouveau_device *device, u8 source);
+int nv40_temp_get(struct nouveau_device *device);
+int nv40_fan_pwm_get(struct nouveau_device *device, int line, u32 *divs, u32 *duty);
 
 #endif

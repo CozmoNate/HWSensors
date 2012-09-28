@@ -7,10 +7,12 @@
  *
  */
 
+#include <IOKit/IOLib.h>
+
 #include "FakeSMCKey.h"
 #include "FakeSMCDefinitions.h"
 
-#include <IOKit/IOLib.h>
+#include "timer.h"
 
 #define super OSObject
 OSDefineMetaClassAndStructors(FakeSMCKey, OSObject)
@@ -116,22 +118,13 @@ UInt8 FakeSMCKey::getSize() const { return size; };
 const void *FakeSMCKey::getValue() 
 { 
 	if (handler) {
-        mach_timespec_t now, end;
+        UInt64 now = ptimer_read();
 
-        end.tv_sec = lastUpdated.tv_sec;
-        end.tv_nsec = lastUpdated.tv_nsec;
-        now.tv_sec = 1;
-        now.tv_nsec = 0;
-        
-        ADD_MACH_TIMESPEC(&end, &now);
-        
-        clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
-        
-        if (CMP_MACH_TIMESPEC(&end, &now) < 0) {            
+        if (now - lastUpdated >= NSEC_PER_SEC) {
             IOReturn result = handler->callPlatformFunction(kFakeSMCGetValueCallback, false, (void *)key, (void *)value, (void *)size, 0);
             
             if (kIOReturnSuccess == result)
-                clock_get_system_nanotime((clock_sec_t*)&lastUpdated.tv_sec, (clock_nsec_t*)&lastUpdated.tv_nsec);
+                lastUpdated = now;
             else 
                 HWSensorsWarningLog("value update request callback error for key %s, return 0x%x", key, result);
         }

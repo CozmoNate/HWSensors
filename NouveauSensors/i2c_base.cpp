@@ -7,6 +7,7 @@
 //
 
 #include "i2c_base.h"
+#include "timer.h"
 
 /* ----------------------------------------------------
  * the functional interface to the i2c busses.
@@ -30,14 +31,9 @@ int __i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
     int ret, try1;
     
 	/* Retry automatically on arbitration loss */
-    mach_timespec_t end, now;
+    u64 end;
     
-    clock_get_system_nanotime((clock_sec_t*)&end.tv_sec, (clock_usec_t*)&end.tv_nsec);
-    
-    now.tv_sec = 0;
-    now.tv_nsec = adap->timeout * NSEC_PER_USEC;
-    
-    ADD_MACH_TIMESPEC(&end, &now);
+    end = ptimer_read() + adap->timeout * NSEC_PER_USEC;
     
 	for (ret = 0, try1 = 0; try1 <= adap->retries; try1++) {
 		ret = adap->algo->master_xfer(adap, msgs, num);
@@ -47,9 +43,7 @@ int __i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 		if (ret != -EAGAIN)
 			break;
         
-        clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
-        
-		if (CMP_MACH_TIMESPEC(&end, &now) <= 0)
+		if (end - ptimer_read() <= 0)
 			break;
 	}
     

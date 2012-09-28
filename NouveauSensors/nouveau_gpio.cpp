@@ -61,8 +61,7 @@ static u16 dcb_gpio_entry(struct nouveau_device *device, int idx, int ent, u8 *v
 	return 0x0000;
 }
 
-static bool dcb_gpio_parse(struct nouveau_device *device, int idx, u8 func, u8 line,
-               struct dcb_gpio_func *gpio)
+static int dcb_gpio_parse(struct nouveau_device *device, int idx, u8 func, u8 line, struct dcb_gpio_func *gpio)
 {
 	u8  ver, hdr, cnt, len;
 	u16 entry;
@@ -93,7 +92,7 @@ static bool dcb_gpio_parse(struct nouveau_device *device, int idx, u8 func, u8 l
         
 		if ((line == 0xff || line == gpio->line) &&
 		    (func == 0xff || func == gpio->func))
-			return true;
+			return 0;
 	}
     
 	/* DCB 2.2, fixed TVDAC GPIO data */
@@ -103,34 +102,45 @@ static bool dcb_gpio_parse(struct nouveau_device *device, int idx, u8 func, u8 l
             (*gpio).line = nv_ro08(device, entry - 4) >> 4;
             (*gpio).log[0] = !!(nv_ro08(device, entry - 5) & 2);
             (*gpio).log[1] =  !(nv_ro08(device, entry - 5) & 2);
-			return true;
+			return 0;
 		}
 	}
     
-	return false;
+	return -EINVAL;
 }
 
 int nouveau_gpio_sense(struct nouveau_device *device, int idx, int line)
 {
     if (!device->gpio_sense) {
         nv_debug(device, "hardware GPIO sense function not set\n");
-        return false;
+        return -EINVAL;
     }
     
 	return device->gpio_sense(device, line);
 }
 
-bool nouveau_gpio_find(struct nouveau_device *device, int idx, u8 tag, u8 line, struct dcb_gpio_func *func)
+int nouveau_gpio_find(struct nouveau_device *device, int idx, u8 tag, u8 line, struct dcb_gpio_func *func)
 {
 	if (line == 0xff && tag == 0xff)
-		return false;
+		return -EINVAL;
     
-	if (dcb_gpio_parse(device, idx, tag, line, func))
-		return true;
+	if (!dcb_gpio_parse(device, idx, tag, line, func))
+		return 0;
     
-    nv_debug(device, "can't find GPIO line\n");
+//	/* Apple iMac G4 NV18 */
+//	if (nv_device_match(nv_object(gpio), 0x0189, 0x10de, 0x0010)) {
+//		if (tag == DCB_GPIO_TVDAC0) {
+//			*func = (struct dcb_gpio_func) {
+//				.func = DCB_GPIO_TVDAC0,
+//				.line = 4,
+//				.log[0] = 0,
+//				.log[1] = 1,
+//			};
+//			return 0;
+//		}
+//	}
     
-	return false;
+	return -EINVAL;
 }
 
 int nouveau_gpio_get(struct nouveau_device *device, int idx, u8 tag, u8 line)
@@ -138,7 +148,8 @@ int nouveau_gpio_get(struct nouveau_device *device, int idx, u8 tag, u8 line)
 	struct dcb_gpio_func func;
 	int ret = 0;
     
-	if (nouveau_gpio_find(device, idx, tag, line, &func)) {
+    ret = nouveau_gpio_find(device, idx, tag, line, &func);
+	if (ret == 0) {
 		ret = nouveau_gpio_sense(device, idx, func.line);
 		if (ret >= 0)
 			ret = (ret == (func.log[1] & 1));
@@ -148,78 +159,4 @@ int nouveau_gpio_get(struct nouveau_device *device, int idx, u8 tag, u8 line)
     else nv_debug(device, "GPIO not found\n");
     
 	return ret;
-}
-
-int nouveau_pwmfan_gpio_get(struct nouveau_device *device)
-{
-	struct dcb_gpio_func func;
-	u32 divs, duty;
-    
-	if (!device->pwm_get) {
-        nv_debug(device, "no hardware pwm_get func specified\n");
-	 	return 0;
-    }
-    
-	if (nouveau_gpio_find(device, 0, DCB_GPIO_PWM_FAN, 0xff, &func)) {
-        bool ret = device->pwm_get(device, func.line, &divs, &duty);
-		
-        if (ret && divs) {
-			divs = max(divs, duty);
-			if (device->card_type <= NV_40 || (func.log[0] & 1))
-				duty = divs - duty;
-			return (duty * 100) / divs;
-		}
-        
-		return nouveau_gpio_get(device, 0, func.func, func.line) * 100;
-	}
-    
-    nv_debug(device, "can't get pwm value\n");
-    
-	return 0;
-}
-
-#define RPM_SENSE_MSECS 500
-
-int nouveau_rpmfan_gpio_get(struct nouveau_device *device)
-{
-	struct dcb_gpio_func func;
-	u32 cycles, cur, prev;
-    
-	if (!nouveau_gpio_find(device, 0, DCB_GPIO_FAN_SENSE, 0xff, &func)) {
-        nv_debug(device, "rpm fan sense gpio func not found\n");
-		return 0;
-    }
-    
-	/* Monitor the GPIO input 0x3b for 250ms.
-	 * When the fan spins, it changes the value of GPIO FAN_SENSE.
-	 * We get 4 changes (0 -> 1 -> 0 -> 1 -> [...]) per complete rotation.
-	 */
-	mach_timespec_t end, now;
-    
-    clock_get_system_nanotime((clock_sec_t*)&end.tv_sec, (clock_nsec_t*)&end.tv_nsec);
-    
-    now.tv_sec = 0;
-    now.tv_nsec = RPM_SENSE_MSECS * USEC_PER_SEC;
-    
-    ADD_MACH_TIMESPEC(&end, &now);
-    
-	prev = nouveau_gpio_get(device, 0, func.func, func.line);
-	cycles = 0;
-	do {
-		cur = nouveau_gpio_get(device, 0, func.func, func.line);
-		if (prev != cur) {
-			cycles++;
-			prev = cur;
-		}
-        
-		IODelay(750); /* supports 0 < rpm < 7500 */
-        
-        //counter++;
-        
-        clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
-        
-	} while (CMP_MACH_TIMESPEC(&end, &now) > 0);
-    
-	/* interpolate to get rpm */
-	return (float)cycles / 4.0f * (1000.0f / RPM_SENSE_MSECS) * 60.0f;
 }

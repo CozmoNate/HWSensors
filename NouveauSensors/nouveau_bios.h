@@ -214,7 +214,7 @@ void nv_wo16(struct nouveau_device *device, u32 addr, u16 data);
 void nv_wo32(struct nouveau_device *device, u32 addr, u32 data);
 
 u16 nouveau_dcb_table(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *cnt, u8 *len);
-
+int nouveau_bit_entry(struct nouveau_device *device, u8 id, struct bit_entry *bit);
 int nouveau_bit_table(struct nouveau_device *, u8 id, struct bit_entry *);
 
 int nouveau_bios_score(struct nouveau_device *device, const bool writeable);
@@ -239,5 +239,24 @@ struct dcb_i2c_entry {
 
 u16 nouveau_dcb_i2c_table(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *cnt, u8 *len);
 int nouveau_dcb_i2c_parse(struct nouveau_device *device, u8 idx, struct dcb_i2c_entry *info);
+
+enum nvbios_extdev_type {
+	NVBIOS_EXTDEV_LM89          = 0x02,
+	NVBIOS_EXTDEV_VT1103M		= 0x40,
+	NVBIOS_EXTDEV_PX3540		= 0x41,
+	NVBIOS_EXTDEV_VT1105M		= 0x42, /* or close enough... */
+	NVBIOS_EXTDEV_ADT7473		= 0x70, /* can also be a LM64 */
+	NVBIOS_EXTDEV_HDCP_EEPROM	= 0x90,
+	NVBIOS_EXTDEV_NONE          = 0xff,
+};
+
+struct nvbios_extdev_func {
+	u8 type;
+	u8 addr;
+	u8 bus;
+};
+
+int nvbios_extdev_parse(struct nouveau_device *, int, struct nvbios_extdev_func *);
+int nvbios_extdev_find(struct nouveau_device *, enum nvbios_extdev_type, struct nvbios_extdev_func *);
 
 #endif

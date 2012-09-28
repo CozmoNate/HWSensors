@@ -393,21 +393,74 @@ static bool probe_monitoring_device(struct nouveau_i2c_port *i2c, struct i2c_boa
 	return true;
 }
 
+#define I2C_BOARD_INFO(dev_type, dev_addr) \
+.type = dev_type, .addr = (dev_addr)
 
 void nouveau_i2c_probe(struct nouveau_device *device)
 {
 	struct nouveau_i2c *i2c = &device->i2c;
+    struct nvbios_extdev_func extdev_entry;
     
-	struct i2c_board_info info[] = {
-		{ "w83l785ts", 0x0, 0x2d, NULL, 0 },
-		{ "w83781d", 0x0, 0x2d, NULL, 0 },
-		{ "adt7473", 0x0, 0x2e, NULL, 0 },
-		{ "f75375", 0x0, 0x2e, NULL, 0 },
-		{ "lm99", 0x0, 0x4c, NULL, 0 },
+    struct i2c_board_info info[] = {
+		{ I2C_BOARD_INFO("w83l785ts", 0x2d) },
+		{ I2C_BOARD_INFO("w83781d", 0x2d) },
+		{ I2C_BOARD_INFO("adt7473", 0x2e) },
+		{ I2C_BOARD_INFO("adt7473", 0x2d) },
+		{ I2C_BOARD_INFO("adt7473", 0x2c) },
+		{ I2C_BOARD_INFO("f75375", 0x2e) },
+		{ I2C_BOARD_INFO("lm99", 0x4c) },
+		{ I2C_BOARD_INFO("lm90", 0x4c) },
+		{ I2C_BOARD_INFO("lm90", 0x4d) },
+		{ I2C_BOARD_INFO("adm1021", 0x18) },
+		{ I2C_BOARD_INFO("adm1021", 0x19) },
+		{ I2C_BOARD_INFO("adm1021", 0x1a) },
+		{ I2C_BOARD_INFO("adm1021", 0x29) },
+		{ I2C_BOARD_INFO("adm1021", 0x2a) },
+		{ I2C_BOARD_INFO("adm1021", 0x2b) },
+		{ I2C_BOARD_INFO("adm1021", 0x4c) },
+		{ I2C_BOARD_INFO("adm1021", 0x4d) },
+		{ I2C_BOARD_INFO("adm1021", 0x4e) },
+		{ I2C_BOARD_INFO("lm63", 0x18) },
+		{ I2C_BOARD_INFO("lm63", 0x4e) },
 		{ }
 	};
     
-	i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", info, probe_monitoring_device);
-    i2c->identify(i2c, NV_I2C_DEFAULT(1), "monitoring device", info, probe_monitoring_device);
+	if (!nvbios_extdev_find(device, NVBIOS_EXTDEV_LM89, &extdev_entry)) {
+		struct i2c_board_info board[] = {
+			{ I2C_BOARD_INFO("lm90", extdev_entry.addr >> 1) },
+			{ }
+		};
+        
+		if(i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", board, probe_monitoring_device) >= 0)
+			return;
+	}
+    
+	if (!nvbios_extdev_find(device, NVBIOS_EXTDEV_ADT7473, &extdev_entry)) {
+		struct i2c_board_info board[] = {
+			{ I2C_BOARD_INFO("adt7473", extdev_entry.addr >> 1) },
+			{ }
+		};
+        
+		if(i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device",board, probe_monitoring_device) >= 0)
+			return;
+	}
+    
+	/* The vbios doesn't provide the address of an exisiting monitoring
+     device. Let's try our static list.
+	 */
+	if (i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", info, probe_monitoring_device))
+        i2c->identify(i2c, NV_I2C_DEFAULT(1), "monitoring device", info, probe_monitoring_device);
+    
+//	struct i2c_board_info info[] = {
+//		{ "w83l785ts", 0x0, 0x2d, NULL, 0 },
+//		{ "w83781d", 0x0, 0x2d, NULL, 0 },
+//		{ "adt7473", 0x0, 0x2e, NULL, 0 },
+//		{ "f75375", 0x0, 0x2e, NULL, 0 },
+//		{ "lm99", 0x0, 0x4c, NULL, 0 },
+//		{ }
+//	};
+//    
+//	i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", info, probe_monitoring_device);
+//    i2c->identify(i2c, NV_I2C_DEFAULT(1), "monitoring device", info, probe_monitoring_device);
 }
 

@@ -10,5 +10,6 @@
 #define HWSensors_nve0_h
 
 bool nve0_identify(struct nouveau_device *device);
+void nve0_init(struct nouveau_device *device);
 
 #endif

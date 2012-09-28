@@ -36,7 +36,7 @@
 #include "nva3.h"
 #include "nvc0.h"
 #include "nve0.h"
-#include "nouveau_temp.h"
+#include "nouveau_therm.h"
 #include "nouveau_volt.h"
 
 bool nouveau_identify(struct nouveau_device *device)
@@ -112,59 +112,21 @@ bool nouveau_init(struct nouveau_device *device)
     
     nv_debug(device, "initializing monitoring driver\n");
     
-	if (device->card_type < NV_50) {
-        device->clocks_get = nv40_pm_clocks_get;
-        device->voltage_get = nouveau_voltage_gpio_get;
-        device->diode_temp_get = nv40_diode_temp_get;
-        device->pwm_get = nv40_pm_pwm_get;
-        device->pwm_fan_get = nouveau_pwmfan_gpio_get;
-        device->rpm_fan_get = nouveau_rpmfan_gpio_get;
-    }
-    else if (device->card_type < NV_C0) {
-        if (device->chipset <  0xa3 ||
-            device->chipset == 0xaa ||
-            device->chipset == 0xac) {
-            device->clocks_get = nv50_pm_clocks_get;
-        }
-        else {
-            device->clocks_get = nva3_pm_clocks_get;
-        }
-        device->voltage_get = nouveau_voltage_gpio_get;
-        if (device->chipset == 0x50)
-            device->diode_temp_get = nv40_diode_temp_get;
-        else
-            device->diode_temp_get = nv84_diode_temp_get;
-        device->pwm_get = nv50_pm_pwm_get;
-        device->pwm_fan_get = nouveau_pwmfan_gpio_get;
-        device->rpm_fan_get = nouveau_rpmfan_gpio_get;
-    }
-    else if (device->card_type < NV_E0) {
-        device->clocks_get = nvc0_pm_clocks_get;
-        device->voltage_get = nouveau_voltage_gpio_get;
-        device->diode_temp_get = nv84_diode_temp_get;
-        if (device->card_type < NV_D0) {
-            device->pwm_get = nv50_pm_pwm_get;
-            device->pwm_fan_get = nouveau_pwmfan_gpio_get;
-            device->rpm_fan_get = nouveau_rpmfan_gpio_get;
-        }
-    }
-    else if (device->card_type < 0xf0) {
-        //device->clocks_get = nvc0_pm_clocks_get;
-        //device->voltage_get = nouveau_voltage_gpio_get;
-        device->diode_temp_get = nv84_diode_temp_get;
-        //device->pwm_get = nv50_pm_pwm_get;
-        //device->pwm_fan_get = nouveau_pwmfan_gpio_get;
-        //device->rpm_fan_get = nouveau_rpmfan_gpio_get;
+    switch (device->card_type) {
+		case NV_40: nv40_init(device); break;
+		case NV_50: nv50_init(device); break;
+		case NV_C0:
+		case NV_D0: nvc0_init(device); break;
+		case NV_E0: nve0_init(device); break;
+        default: break;
     }
     
     /*if (device->gpio_init)
         device->gpio_init(device);*/
     
-    //nouveau_i2c_create(device);
-    
 	/* parse aux tables from vbios */
 	nouveau_volt_init(device);
-	nouveau_temp_init(device);
+	nouveau_therm_init(device);
     
     return true;
 }

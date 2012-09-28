@@ -124,8 +124,8 @@
 		7EADE23315E562BE00FD117C /* nouveau_i2c_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E49C81815D96DBD00AD3C74 /* nouveau_i2c_bit.cpp */; };
 		7EADE23415E562BE00FD117C /* nouveau_i2c_aux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFB594415D96FFD005D62CA /* nouveau_i2c_aux.cpp */; };
 		7EADE23515E562BE00FD117C /* nouveau_i2c._base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCC9DA15D67858001B1C57 /* nouveau_i2c._base.cpp */; };
-		7EADE23615E562BE00FD117C /* nouveau_temp.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB5F21415D19C4900CD3FC9 /* nouveau_temp.h */; };
-		7EADE23715E562BE00FD117C /* nouveau_temp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB5F21115D19B5D00CD3FC9 /* nouveau_temp.cpp */; };
+		7EADE23615E562BE00FD117C /* nouveau_therm.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB5F21415D19C4900CD3FC9 /* nouveau_therm.h */; };
+		7EADE23715E562BE00FD117C /* nouveau_therm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB5F21115D19B5D00CD3FC9 /* nouveau_therm.cpp */; };
 		7EADE23815E562BE00FD117C /* nouveau_volt.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5E4BFF15D53F24002FE3DF /* nouveau_volt.h */; };
 		7EADE23915E562BE00FD117C /* nouveau_volt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5E4C0115D53F2F002FE3DF /* nouveau_volt.cpp */; };
 		7EADE23A15E562BE00FD117C /* nouveau.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBFA41815D0B83500DB8579 /* nouveau.h */; };
@@ -349,8 +349,8 @@
 		7EADF7AF15DCC61E0007A92C /* xf86i2c.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xf86i2c.cpp; sourceTree = "<group>"; };
 		7EADF7B015DCC61E0007A92C /* xf86i2c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xf86i2c.h; sourceTree = "<group>"; };
 		7EADF7B115DCC61E0007A92C /* xfree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xfree.h; sourceTree = "<group>"; };
-		7EB5F21115D19B5D00CD3FC9 /* nouveau_temp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_temp.cpp; sourceTree = "<group>"; };
-		7EB5F21415D19C4900CD3FC9 /* nouveau_temp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_temp.h; sourceTree = "<group>"; };
+		7EB5F21115D19B5D00CD3FC9 /* nouveau_therm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_therm.cpp; sourceTree = "<group>"; };
+		7EB5F21415D19C4900CD3FC9 /* nouveau_therm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_therm.h; sourceTree = "<group>"; };
 		7EB692E715C99A2E0009B2E2 /* gpl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = gpl.txt; sourceTree = "<group>"; };
 		7EB6D3E315D91BB00076499A /* i2c_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_base.cpp; sourceTree = "<group>"; };
 		7EB6D3E415D91BB00076499A /* i2c_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_base.h; sourceTree = "<group>"; };
@@ -371,6 +371,7 @@
 		7EB963B81594559100436FDB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7EBB50D915EEAE3C00FEBBB9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
 		7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MenuCracker.menu; path = Binaries/MenuCracker/MenuCracker.menu; sourceTree = SOURCE_ROOT; };
+		7EBCF8791615A84C00E16D3B /* timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
 		7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PTIDSensors.cpp; sourceTree = "<group>"; };
 		7EBEC2A215E78B7B00537027 /* PTIDSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTIDSensors.h; sourceTree = "<group>"; };
 		7EBFA41615D0B82800DB8579 /* nouveau.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau.cpp; sourceTree = "<group>"; };
@@ -730,6 +731,7 @@
 			children = (
 				7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */,
 				6A9955C214EFAEE50052C702 /* cpuid.h */,
+				7EBCF8791615A84C00E16D3B /* timer.h */,
 				7E06D0EC157E96C400F8A270 /* SystemUIPlugin.h */,
 				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
 				7E9388FF15945B360005316D /* HWMonitorDefinitions.h */,
@@ -993,8 +995,8 @@
 				7E49C81815D96DBD00AD3C74 /* nouveau_i2c_bit.cpp */,
 				7EFB594415D96FFD005D62CA /* nouveau_i2c_aux.cpp */,
 				7ECCC9DA15D67858001B1C57 /* nouveau_i2c._base.cpp */,
-				7EB5F21415D19C4900CD3FC9 /* nouveau_temp.h */,
-				7EB5F21115D19B5D00CD3FC9 /* nouveau_temp.cpp */,
+				7EB5F21415D19C4900CD3FC9 /* nouveau_therm.h */,
+				7EB5F21115D19B5D00CD3FC9 /* nouveau_therm.cpp */,
 				7E5E4BFF15D53F24002FE3DF /* nouveau_volt.h */,
 				7E5E4C0115D53F2F002FE3DF /* nouveau_volt.cpp */,
 				7EBFA41815D0B83500DB8579 /* nouveau.h */,
@@ -1085,7 +1087,7 @@
 				7EADE22E15E562BE00FD117C /* nouveau_bios.h in Headers */,
 				7EADE23015E562BE00FD117C /* nouveau_gpio.h in Headers */,
 				7EADE23215E562BE00FD117C /* nouveau_i2c.h in Headers */,
-				7EADE23615E562BE00FD117C /* nouveau_temp.h in Headers */,
+				7EADE23615E562BE00FD117C /* nouveau_therm.h in Headers */,
 				7EADE23815E562BE00FD117C /* nouveau_volt.h in Headers */,
 				7EADE23A15E562BE00FD117C /* nouveau.h in Headers */,
 				7EADE23E15E562C400FD117C /* xfree.h in Headers */,
@@ -1489,7 +1491,7 @@
 				7EADE23315E562BE00FD117C /* nouveau_i2c_bit.cpp in Sources */,
 				7EADE23415E562BE00FD117C /* nouveau_i2c_aux.cpp in Sources */,
 				7EADE23515E562BE00FD117C /* nouveau_i2c._base.cpp in Sources */,
-				7EADE23715E562BE00FD117C /* nouveau_temp.cpp in Sources */,
+				7EADE23715E562BE00FD117C /* nouveau_therm.cpp in Sources */,
 				7EADE23915E562BE00FD117C /* nouveau_volt.cpp in Sources */,
 				7EADE23B15E562BE00FD117C /* nouveau.cpp in Sources */,
 				7EADE24015E562C400FD117C /* xf86i2c.cpp in Sources */,
@@ -1680,7 +1682,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FakeSMC/FakeSMC-Info.plist";
 				INSTALL_GROUP = wheel;
@@ -1702,7 +1703,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FakeSMC/FakeSMC-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FakeSMC/FakeSMC-Info.plist";
 				INSTALL_GROUP = wheel;
@@ -1730,7 +1730,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "ACPISensors/ACPISensors-Info.plist";
 				INSTALL_GROUP = wheel;
@@ -1752,7 +1751,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ACPISensors/ACPISensors-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "ACPISensors/ACPISensors-Info.plist";
 				INSTALL_GROUP = wheel;
@@ -1780,7 +1778,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "SuperIOSensors/SuperIOSensors-Info.plist";
 				INSTALL_GROUP = wheel;
@@ -1802,7 +1799,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SuperIOSensors/SuperIOSensors-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "SuperIOSensors/SuperIOSensors-Info.plist";
 				INSTALL_GROUP = wheel;
@@ -1819,7 +1815,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"/**";
@@ -1833,7 +1828,6 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1849,7 +1843,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"/**";
@@ -1857,7 +1850,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitorExtra/HWMonitorExtra-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1884,7 +1876,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "CPUSensors/CPUSensors-Info.plist";
 				INSTALL_GROUP = wheel;
@@ -1906,7 +1897,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CPUSensors/CPUSensors-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "CPUSensors/CPUSensors-Info.plist";
 				INSTALL_GROUP = wheel;
@@ -1934,7 +1924,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "GPUSensors/GPUSensors-Info.plist";
 				INSTALL_GROUP = wheel;
@@ -1956,7 +1945,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GPUSensors/GPUSensors-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "GPUSensors/GPUSensors-Info.plist";
 				INSTALL_GROUP = wheel;
@@ -1973,7 +1961,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1987,7 +1974,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2000,14 +1986,12 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";

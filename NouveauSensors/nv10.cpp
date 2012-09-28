@@ -37,14 +37,6 @@
 #include "nouveau_definitions.h"
 #include "nouveau.h"
 
-void nv10_gpio_init(struct nouveau_device *device)
-{
-	nv_wr32(device, 0x001140, 0x00000000);
-	nv_wr32(device, 0x001100, 0xffffffff);
-	nv_wr32(device, 0x001144, 0x00000000);
-	nv_wr32(device, 0x001104, 0xffffffff);
-}
-
 int nv10_gpio_sense(struct nouveau_device *device, int line)
 {
 	if (line < 2) {
@@ -63,5 +55,5 @@ int nv10_gpio_sense(struct nouveau_device *device, int line)
                 return !!(line & 0x04);
             }
     
-	return false;
+	return -EINVAL;
 }

@@ -33,361 +33,58 @@
 #include "nouveau.h"
 #include "nv40.h"
 #include "nv10.h"
+#include "nouveau_therm.h"
 
 bool nv40_identify(struct nouveau_device *device)
 {
 	switch (device->chipset) {
         case 0x40:
             device->cname = "NV40";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-           
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv04_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x41:
             device->cname = "NV41";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv04_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x42:
             device->cname = "NV42";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv04_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x43:
             device->cname = "NV43";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv04_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x45:
             device->cname = "NV45";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv04_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x47:
             device->cname = "G70";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv04_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x49:
             device->cname = "G71";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv04_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x4b:
             device->cname = "G73";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv04_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x44:
             device->cname = "NV44";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv44_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x46:
             device->cname = "G72";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv44_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x4a:
             device->cname = "NV44A";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv44_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x4c:
             device->cname = "C61";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv44_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x4e:
             device->cname = "C51";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv44_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x63:
             device->cname = "C73";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv44_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x67:
             device->cname = "C67";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv44_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         case 0x68:
             device->cname = "C68";
-            device->gpio_init = nv10_gpio_init;
-            device->gpio_sense = nv10_gpio_sense;
-            
-//            device->oclass[NVDEV_SUBDEV_VBIOS  ] = &nouveau_bios_oclass;
-//            device->oclass[NVDEV_SUBDEV_GPIO   ] = &nv10_gpio_oclass;
-//            device->oclass[NVDEV_SUBDEV_I2C    ] = &nouveau_i2c_oclass;
-//            device->oclass[NVDEV_SUBDEV_CLOCK  ] = &nv40_clock_oclass;
-//            device->oclass[NVDEV_SUBDEV_DEVINIT] = &nv1a_devinit_oclass;
-//            device->oclass[NVDEV_SUBDEV_MC     ] = &nv44_mc_oclass;
-//            device->oclass[NVDEV_SUBDEV_TIMER  ] = &nv04_timer_oclass;
-//            device->oclass[NVDEV_SUBDEV_FB     ] = &nv40_fb_oclass;
-//            device->oclass[NVDEV_SUBDEV_INSTMEM] = &nv40_instmem_oclass;
-//            device->oclass[NVDEV_SUBDEV_VM     ] = &nv04_vmmgr_oclass;
-//            device->oclass[NVDEV_ENGINE_DMAOBJ ] = &nv04_dmaeng_oclass;
-//            device->oclass[NVDEV_ENGINE_FIFO   ] = &nv40_fifo_oclass;
-//            device->oclass[NVDEV_ENGINE_SW     ] = &nv10_software_oclass;
-//            device->oclass[NVDEV_ENGINE_GR     ] = &nv40_graph_oclass;
-//            device->oclass[NVDEV_ENGINE_MPEG   ] = &nv40_mpeg_oclass;
-//            device->oclass[NVDEV_ENGINE_DISP   ] = &nv04_disp_oclass;
             break;
         default:
             nv_fatal(device, "unknown Curie chipset\n");
@@ -395,6 +92,20 @@ bool nv40_identify(struct nouveau_device *device)
 	}
     
 	return true;
+}
+
+void nv40_init(struct nouveau_device *device)
+{
+    device->gpio_sense = nv10_gpio_sense;
+    device->gpio_find = nouveau_gpio_find;
+    device->gpio_get = nouveau_gpio_get;
+    
+    device->temp_get = nv40_temp_get;
+    device->clocks_get = nv40_clocks_get;
+    device->pwm_get = nv40_fan_pwm_get;
+    device->voltage_get = nouveau_voltage_get;
+    device->fan_pwm_get = nouveau_therm_fan_get;
+    device->fan_rpm_get = nouveau_therm_fan_sense;
 }
 
 static u32 read_pll_1(struct nouveau_device *device, u32 reg)
@@ -449,7 +160,7 @@ static u32 read_clk(struct nouveau_device *device, u32 src)
 	return 0;
 }
 
-int nv40_pm_clocks_get(struct nouveau_device *device, u8 source)
+int nv40_clocks_get(struct nouveau_device *device, u8 source)
 {
 	u32 ctrl = nv_rd32(device, 0x00c040);
     
@@ -468,14 +179,59 @@ int nv40_pm_clocks_get(struct nouveau_device *device, u8 source)
     }
 }
 
-bool nv40_pm_pwm_get(struct nouveau_device *device, int line, u32 *divs, u32 *duty)
+static int nv40_sensor_setup(struct nouveau_device *device)
+{
+	/* enable ADC readout and disable the ALARM threshold */
+	if (device->chipset >= 0x46) {
+		nv_mask(device, 0x15b8, 0x80000000, 0);
+		nv_wr32(device, 0x15b0, 0x80003fff);
+		return nv_rd32(device, 0x15b4) & 0x3fff;
+	} else {
+		nv_wr32(device, 0x15b0, 0xff);
+		return nv_rd32(device, 0x15b4) & 0xff;
+	}
+}
+
+int nv40_temp_get(struct nouveau_device *device)
+{
+	//struct nouveau_pm *pm = nouveau_pm(dev);
+	struct nouveau_pm_temp_sensor_constants *sensor = &device->sensor_constants;
+    int core_temp;
+    
+	if (device->chipset >= 0x46) {
+		nv_wr32(device, 0x15b0, 0x80003fff);
+		core_temp = nv_rd32(device, 0x15b4) & 0x3fff;
+	} else {
+		nv_wr32(device, 0x15b0, 0xff);
+		core_temp = nv_rd32(device, 0x15b4) & 0xff;
+	}
+    
+	/* Setup the sensor if the temperature is 0 */
+	if (core_temp == 0)
+		core_temp = nv40_sensor_setup(device);
+    
+	if (sensor->slope_div == 0)
+		sensor->slope_div = 1;
+	if (sensor->offset_div == 0)
+		sensor->offset_div = 1;
+	if (sensor->slope_mult < 1)
+		sensor->slope_mult = 1;
+    
+	core_temp = core_temp * sensor->slope_mult / sensor->slope_div;
+	core_temp = core_temp + sensor->offset_mult / sensor->offset_div;
+	core_temp = core_temp + sensor->offset_constant - 8;
+    
+	return core_temp;
+}
+
+int nv40_fan_pwm_get(struct nouveau_device *device, int line, u32 *divs, u32 *duty)
 {
 	if (line == 2) {
 		u32 reg = nv_rd32(device, 0x0010f0);
 		if (reg & 0x80000000) {
 			*duty = (reg & 0x7fff0000) >> 16;
 			*divs = (reg & 0x00007fff);
-			return true;
+			return 0;
 		}
 	} else
         if (line == 9) {
@@ -483,12 +239,12 @@ bool nv40_pm_pwm_get(struct nouveau_device *device, int line, u32 *divs, u32 *du
             if (reg & 0x80000000) {
                 *divs = nv_rd32(device, 0x0015f8);
                 *duty = (reg & 0x7fffffff);
-                return true;
+                return 0;
             }
         } else {
             nv_error(device, "unknown pwm ctrl for gpio %d\n", line);
-            return false;
+            return -ENODEV;
         }
     
-	return false;
+	return -ENODEV;
 }
