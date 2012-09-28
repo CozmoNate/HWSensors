@@ -324,31 +324,31 @@ bool nvclock_i2c_sensor_init(nouveau_device *device)
                 case LM99:
                 case MAX6559:
                     device->board_temp_get = lm99_get_board_temp;
-                    device->diode_temp_get = lm99_get_gpu_temp;
+                    device->core_temp_get = lm99_get_gpu_temp;
                     break;
                 case F75375:
                     device->board_temp_get = f75375_get_board_temp;
-                    device->diode_temp_get = f75375_get_gpu_temp;
-                    device->rpm_fan_get = f75375_get_fanspeed_rpm;
-                    device->pwm_fan_get = f75375_get_fanspeed_pwm;
+                    device->core_temp_get = f75375_get_gpu_temp;
+                    device->fan_rpm_get = f75375_get_fanspeed_rpm;
+                    device->fan_pwm_get = f75375_get_fanspeed_pwm;
                     break;
                 case W83781D:
                     device->board_temp_get = w83781d_get_board_temp;
-                    device->diode_temp_get = w83781d_get_gpu_temp;
+                    device->core_temp_get = w83781d_get_gpu_temp;
                     //nv_card->get_i2c_fanspeed_rpm = w83781d_get_fanspeed_rpm;
                     //nv_card->get_i2c_fanspeed_pwm = w83781d_get_fanspeed_pwm;
                     break;
                 case W83L785R:
                     device->board_temp_get = w83l785r_get_board_temp;
-                    device->diode_temp_get = w83l785r_get_gpu_temp;
-                    device->rpm_fan_get = w83l785r_get_fanspeed_rpm;
-                    device->pwm_fan_get = w83l785r_get_fanspeed_pwm;
+                    device->core_temp_get = w83l785r_get_gpu_temp;
+                    device->fan_rpm_get = w83l785r_get_fanspeed_rpm;
+                    device->fan_pwm_get = w83l785r_get_fanspeed_pwm;
                     break;
                 case ADT7473:
                     device->board_temp_get = adt7473_get_board_temp;
-                    device->diode_temp_get = adt7473_get_gpu_temp;
-                    device->rpm_fan_get = adt7473_get_fanspeed_rpm;
-                    device->pwm_fan_get = adt7473_get_fanspeed_pwm;
+                    device->core_temp_get = adt7473_get_gpu_temp;
+                    device->fan_rpm_get = adt7473_get_fanspeed_rpm;
+                    device->fan_pwm_get = adt7473_get_fanspeed_pwm;
                     break;
                 default:
                     break;

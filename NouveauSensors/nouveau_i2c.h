@@ -13,8 +13,8 @@
 #include "i2c_algo_bit.h"
 #include "list.h"
 
-#define CONFIG_NOUVEAU_I2C_INTERNAL FALSE
-#define CONFIG_NOUVEAU_I2C_NVCLOCK TRUE
+#define CONFIG_NOUVEAU_I2C_INTERNAL TRUE
+#define CONFIG_NOUVEAU_I2C_NVCLOCK FALSE
 
 #define NV_I2C_PORT(n)    (0x00 + (n))
 #define NV_I2C_DEFAULT(n) (0x80 + (n))

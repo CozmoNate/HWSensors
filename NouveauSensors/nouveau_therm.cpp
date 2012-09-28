@@ -33,229 +33,294 @@
 #include "nouveau.h"
 #include "nouveau_bios.h"
 
-#include "nouveau_temp.h"
+#include "nouveau_therm.h"
 
-static void nouveau_temp_vbios_parse(struct nouveau_device *device, u8 *temp)
+#include "timer.h"
+
+static u16 therm_table(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *len, u8 *cnt)
 {
-	struct nouveau_pm_temp_sensor_constants *sensor = &device->sensor_constants;
-	//struct nouveau_pm_threshold_temp *temps = &pm->threshold_temp;
-	int i, headerlen, recordlen, entries;
+    struct bit_entry bit_P;
+    u16 therm = 0;
     
-	if (!temp) {
-		nv_debug(device, "temperature table pointer invalid\n");
-		return;
+    if (!nouveau_bit_entry(device, 'P', &bit_P)) {
+        if (bit_P.version == 1)
+            therm = nv_ro16(device, bit_P.offset + 12);
+        else if (bit_P.version == 2)
+            therm = nv_ro16(device, bit_P.offset + 16);
+        else
+            nv_error(device,
+                     "unknown offset for thermal in BIT P %d\n",
+                     bit_P.version);
+    }
+    
+    /* exit now if we haven't found the thermal table */
+    if (!therm)
+        return 0x0000;
+    
+    *ver = nv_ro08(device, therm + 0);
+    *hdr = nv_ro08(device, therm + 1);
+    *len = nv_ro08(device, therm + 2);
+    *cnt = nv_ro08(device, therm + 3);
+    
+    return therm + nv_ro08(device, therm + 1);
+}
+
+static u16 nvbios_therm_entry(struct nouveau_device *device, int idx, u8 *ver, u8 *len)
+{
+    u8 hdr, cnt;
+    u16 therm = therm_table(device, ver, &hdr, len, &cnt);
+    
+    if (therm && idx < cnt)
+    	return therm + idx * *len;
+    
+    return 0x0000;
+}
+
+static int nvbios_therm_sensor_parse(struct nouveau_device *device, nvbios_therm_sensor *sensor)
+{
+	s8 thrs_section, sensor_section, offset;
+	u8 ver, len, i;
+	u16 entry;
+    
+    
+	/* Read the entries from the table */
+	thrs_section = 0;
+	sensor_section = -1;
+	i = 0;
+	while ((entry = nvbios_therm_entry(device, i++, &ver, &len))) {
+		s16 value = nv_ro16(device, entry + 1);
+        
+		switch (nv_ro08(device, entry + 0)) {
+            case 0x0:
+                thrs_section = value;
+                if (value > 0)
+                    return 0; /* we do not try to support ambient */
+                break;
+            case 0x01:
+                sensor_section++;
+                if (sensor_section == 0) {
+                    offset = ((s8) nv_ro08(device, entry + 2)) / 2;
+                    sensor->offset_constant = offset;
+                }
+                break;
+                
+            case 0x04:
+//                if (thrs_section == 0) {
+//                    sensor->thrs_critical.temp = (value & 0xff0) >> 4;
+//                    sensor->thrs_critical.hysteresis = value & 0xf;
+//                }
+                break;
+                
+            case 0x07:
+//                if (thrs_section == 0) {
+//                    sensor->thrs_down_clock.temp = (value & 0xff0) >> 4;
+//                    sensor->thrs_down_clock.hysteresis = value & 0xf;
+//                }
+                break;
+                
+            case 0x08:
+//                if (thrs_section == 0) {
+//                    sensor->thrs_fan_boost.temp = (value & 0xff0) >> 4;
+//                    sensor->thrs_fan_boost.hysteresis = value & 0xf;
+//                }
+                break;
+                
+            case 0x10:
+                if (sensor_section == 0)
+                    sensor->offset_num = value;
+                break;
+                
+            case 0x11:
+                if (sensor_section == 0)
+                    sensor->offset_den = value;
+                break;
+                
+            case 0x12:
+                if (sensor_section == 0)
+                    sensor->slope_mult = value;
+                break;
+                
+            case 0x13:
+                if (sensor_section == 0)
+                    sensor->slope_div = value;
+                break;
+            case 0x32:
+//                if (thrs_section == 0) {
+//                    sensor->thrs_shutdown.temp = (value & 0xff0) >> 4;
+//                    sensor->thrs_shutdown.hysteresis = value & 0xf;
+//                }
+                break;
+		}
 	}
     
-	/* Set the default sensor's contants */
+	return 0;
+}
+
+void nouveau_therm_init(struct nouveau_device *device)
+{
+    nouveau_pm_temp_sensor_constants *sensor = &device->sensor_constants;
+    nvbios_therm_sensor bios_sensor;
+    
+    /* store some safe defaults */
 	sensor->offset_constant = 0;
 	sensor->offset_mult = 0;
 	sensor->offset_div = 1;
 	sensor->slope_mult = 1;
 	sensor->slope_div = 1;
     
-	/* Set the default temperature thresholds */
-//	temps->critical = 110;
-//	temps->down_clock = 100;
-//	temps->fan_boost = 90;
+	if (!nvbios_therm_sensor_parse(device, &bios_sensor)) {
+		sensor->slope_mult = bios_sensor.slope_mult;
+		sensor->slope_div = bios_sensor.slope_div;
+		sensor->offset_mult = bios_sensor.offset_num;
+		sensor->offset_div = bios_sensor.offset_den;
+		sensor->offset_constant = bios_sensor.offset_constant;
+	}
+}
+
+int nouveau_therm_fan_get(struct nouveau_device *device)
+{
+	struct dcb_gpio_func func;
+	int card_type = device->card_type;
+	u32 divs, duty;
+	int ret;
     
-	/* Set the default range for the pwm fan */
-//	pm->fan.min_duty = 30;
-//	pm->fan.max_duty = 100;
+    if (!device->pwm_get) {
+        nv_debug(device, "pwm_get func not specified\n");
+        return 0;
+    }
     
-	/* Set the known default values to setup the temperature sensor */
-	if (device->card_type >= NV_40) {
-		switch (device->chipset) {
-            case 0x43:
-                sensor->offset_mult = 32060;
-                sensor->offset_div = 1000;
-                sensor->slope_mult = 792;
-                sensor->slope_div = 1000;
-                break;
-                
-            case 0x44:
-            case 0x47:
-            case 0x4a:
-                sensor->offset_mult = 27839;
-                sensor->offset_div = 1000;
-                sensor->slope_mult = 780;
-                sensor->slope_div = 1000;
-                break;
-                
-            case 0x46:
-                sensor->offset_mult = -24775;
-                sensor->offset_div = 100;
-                sensor->slope_mult = 467;
-                sensor->slope_div = 10000;
-                break;
-                
-            case 0x49:
-                sensor->offset_mult = -25051;
-                sensor->offset_div = 100;
-                sensor->slope_mult = 458;
-                sensor->slope_div = 10000;
-                break;
-                
-            case 0x4b:
-                sensor->offset_mult = -24088;
-                sensor->offset_div = 100;
-                sensor->slope_mult = 442;
-                sensor->slope_div = 10000;
-                break;
-                
-            case 0x50:
-                sensor->offset_mult = -22749;
-                sensor->offset_div = 100;
-                sensor->slope_mult = 431;
-                sensor->slope_div = 10000;
-                break;
-                
-            case 0x67:
-                sensor->offset_mult = -26149;
-                sensor->offset_div = 100;
-                sensor->slope_mult = 484;
-                sensor->slope_div = 10000;
-                break;
+	ret = device->gpio_find(device, 0, DCB_GPIO_PWM_FAN, 0xff, &func);
+	if (ret == 0) {
+		ret = device->pwm_get(device, func.line, &divs, &duty);
+		if (ret == 0 && divs) {
+			divs = max(divs, duty);
+			if (card_type <= NV_40 || (func.log[0] & 1))
+				duty = divs - duty;
+			return (duty * 100) / divs;
 		}
-	}
-    
-	headerlen = temp[1];
-	recordlen = temp[2];
-	entries = temp[3];
-	temp = temp + headerlen;
-    
-	/* Read the entries from the table */
-	for (i = 0; i < entries; i++) {
-		s16 value = ROM16(temp[1]);
         
-		switch (temp[0]) {
-            case 0x01:
-                if ((value & 0x8f) == 0)
-                    sensor->offset_constant = (value >> 9) & 0x7f;
-                break;
-                
-            case 0x04:
-//                if ((value & 0xf00f) == 0xa000) /* core */
-//                    temps->critical = (value&0x0ff0) >> 4;
-                break;
-                
-            case 0x07:
-//                if ((value & 0xf00f) == 0xa000) /* core */
-//                    temps->down_clock = (value&0x0ff0) >> 4;
-                break;
-                
-            case 0x08:
-//                if ((value & 0xf00f) == 0xa000) /* core */
-//                    temps->fan_boost = (value&0x0ff0) >> 4;
-                break;
-                
-            case 0x10:
-                sensor->offset_mult = value;
-                break;
-                
-            case 0x11:
-                sensor->offset_div = value;
-                break;
-                
-            case 0x12:
-                sensor->slope_mult = value;
-                break;
-                
-            case 0x13:
-                sensor->slope_div = value;
-                break;
-            case 0x22:
-//                pm->fan.min_duty = value & 0xff;
-//                pm->fan.max_duty = (value & 0xff00) >> 8;
-                break;
-            case 0x26:
-//                pm->fan.pwm_freq = value;
-                break;
-		}
-		temp += recordlen;
+		return device->gpio_get(device, 0, func.func, func.line) * 100;
 	}
     
-	//nouveau_temp_safety_checks(device);
+    nv_debug(device, "DCB_GPIO_PWM_FAN func not found\n");
     
-	/* check the fan min/max settings */
-//	if (pm->fan.min_duty < 10)
-//		pm->fan.min_duty = 10;
-//	if (pm->fan.max_duty > 100)
-//		pm->fan.max_duty = 100;
-//	if (pm->fan.max_duty < pm->fan.min_duty)
-//		pm->fan.max_duty = pm->fan.min_duty;
+	return 0;
 }
 
-static int nv40_sensor_setup(struct nouveau_device *device)
-{
-	//struct nouveau_pm *pm = nouveau_pm(dev);
-	struct nouveau_pm_temp_sensor_constants *sensor = &device->sensor_constants;
-	s32 offset = sensor->offset_mult / sensor->offset_div;
-	s32 sensor_calibration;
-    
-	/* set up the sensors */
-	sensor_calibration = 120 - offset - sensor->offset_constant;
-	sensor_calibration = sensor_calibration * sensor->slope_div /
-    sensor->slope_mult;
-    
-	if (device->chipset >= 0x46)
-		sensor_calibration |= 0x80000000;
-	else
-		sensor_calibration |= 0x10000000;
-    
-	nv_wr32(device, 0x0015b0, sensor_calibration);
-    
-	/* Wait for the sensor to update */
-	//msleep(5);
-    IOSleep(5);
-    
-	/* read */
-	return nv_rd32(device, 0x0015b4) & 0x1fff;
-}
+#define THERM_FAN_SENSE_CYCLES 4
 
-int nv40_diode_temp_get(struct nouveau_device *device)
+int nouveau_therm_fan_sense(struct nouveau_device *device)
 {
-	//struct nouveau_pm *pm = nouveau_pm(dev);
-	struct nouveau_pm_temp_sensor_constants *sensor = &device->sensor_constants;
-	int offset = sensor->offset_mult / sensor->offset_div;
-	int core_temp;
+	struct dcb_gpio_func func;
+	u32 cycles, cur, prev, stop = THERM_FAN_SENSE_CYCLES * 4 + 1;
+	u64 start, interval;
     
-	if (device->card_type >= NV_50) {
-		core_temp = nv_rd32(device, 0x20008);
-	} else {
-		core_temp = nv_rd32(device, 0x0015b4) & 0x1fff;
-		/* Setup the sensor if the temperature is 0 */
-		if (core_temp == 0)
-			core_temp = nv40_sensor_setup(device);
-	}
-    
-	core_temp = core_temp * sensor->slope_mult / sensor->slope_div;
-	core_temp = core_temp + offset + sensor->offset_constant;
-    
-	return core_temp;
-}
-
-int nv84_diode_temp_get(struct nouveau_device *device)
-{
-	return nv_rd32(device, 0x20400);
-}
-
-void nouveau_temp_init(struct nouveau_device *device)
-{
-	struct nvbios *bios = &device->vbios;
-	struct bit_entry P;
-	u8 *temp = NULL;
-    
-	if (bios->type == NVBIOS_BIT) {
-		if (nouveau_bit_table(device, 'P', &P))
-			return;
+	if (!device->gpio_find(device, 0, DCB_GPIO_FAN_SENSE, 0xff, &func)) {
+        /* Time a complete rotation and extrapolate to RPM:
+         * When the fan spins, it changes the value of GPIO FAN_SENSE.
+         * We get 4 changes (0 -> 1 -> 0 -> 1) per complete rotation.
+         */
+        start = ptimer_read();
         
-		if (P.version == 1)
-			temp = ROMPTR(device, P.data[12]);
-		else if (P.version == 2)
-			temp = ROMPTR(device, P.data[16]);
-		else
-			nv_warn(device, "unknown temp for BIT P %d\n", P.version);
+        prev = device->gpio_get(device, 0, func.func, func.line);
+        cycles = 0;
+        do {
+            IODelay(250); /* supports 0 < rpm < 7500 */
+            
+            cur = device->gpio_get(device, 0, func.func, func.line);
+            if (prev != cur) {
+                if (!start)
+                    start = ptimer_read();
+                cycles++;
+                prev = cur;
+            }
+            
+            interval = ptimer_read() - start;
+            
+        } while (cycles < stop && interval < 500000000);
         
-		nouveau_temp_vbios_parse(device, temp);
-	}
+        if (interval) {
+            return ((u64)60000000000 * (((u64)cycles - 1) / 4)) / interval;
+        } else
+            return 0;
+    }
+    
+    nv_debug(device, "DCB_GPIO_FAN_SENSE func not found\n");
+    
+    return 0;
 }
+
+//int nouveau_fan_pwm_get(struct nouveau_device *device)
+//{
+//	struct dcb_gpio_func func;
+//	u32 divs, duty;
+//    
+//	if (!device->pwm_get) {
+//        nv_debug(device, "no hardware pwm_get func specified\n");
+//	 	return 0;
+//    }
+//    
+//	if (!device->gpio_find(device, 0, DCB_GPIO_PWM_FAN, 0xff, &func)) {
+//        int ret = device->pwm_get(device, func.line, &divs, &duty);
+//		
+//        if (ret && divs) {
+//			divs = max(divs, duty);
+//			if (device->card_type <= NV_40 || (func.log[0] & 1))
+//				duty = divs - duty;
+//			return (duty * 100) / divs;
+//		}
+//        
+//		return device->gpio_get(device, 0, func.func, func.line) * 100;
+//	}
+//    
+//    nv_debug(device, "DCB_GPIO_PWM_FAN func not found\n");
+//    
+//	return 0;
+//}
+//
+//#define RPM_SENSE_MSECS 500
+//
+//int nouveau_fan_rpm_get(struct nouveau_device *device)
+//{
+//	struct dcb_gpio_func func;
+//	u32 cycles, cur, prev;
+//    
+//	if (!device->gpio_find(device, 0, DCB_GPIO_FAN_SENSE, 0xff, &func)) {
+//        /* Monitor the GPIO input 0x3b for 500ms.
+//         * When the fan spins, it changes the value of GPIO FAN_SENSE.
+//         * We get 4 changes (0 -> 1 -> 0 -> 1 -> [...]) per complete rotation.
+//         */
+//        mach_timespec_t end, now;
+//        
+//        clock_get_system_nanotime((clock_sec_t*)&end.tv_sec, (clock_nsec_t*)&end.tv_nsec);
+//        
+//        now.tv_sec = 0;
+//        now.tv_nsec = RPM_SENSE_MSECS * USEC_PER_SEC;
+//        
+//        ADD_MACH_TIMESPEC(&end, &now);
+//        
+//        prev = device->gpio_get(device, 0, func.func, func.line);
+//        cycles = 0;
+//        do {
+//            cur = device->gpio_get(device, 0, func.func, func.line);
+//            if (prev != cur) {
+//                cycles++;
+//                prev = cur;
+//            }
+//            
+//            IODelay(750); /* supports 0 < rpm < 7500 */
+//            
+//            //counter++;
+//            
+//            clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
+//            
+//        } while (CMP_MACH_TIMESPEC(&end, &now) > 0);
+//        
+//        /* interpolate to get rpm */
+//        return (float)cycles / 4.0f * (1000.0f / RPM_SENSE_MSECS) * 60.0f;
+//    }
+//    
+//    nv_debug(device, "DCB_GPIO_FAN_SENSE func not found\n");
+//    
+//    return 0;
+//}

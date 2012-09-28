@@ -37,8 +37,9 @@
 #include "nouveau.h"
 #include "nvclock_i2c.h"
 
-#define kNouveauPWMSensor           1000
-#define kNouveauTemperatureSensor   1001
+#define kNouveauPWMSensor               1000
+#define kNouveauCoreTemperatureSensor   1001
+#define kNouveauBoardTemperatureSensor  1002
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(GeforceSensors, FakeSMCPlugin)
@@ -47,19 +48,22 @@ float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
 {   
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
-            return card.diode_temp_get(&card);
+            return card.temp_get(&card);
+            
+        case kNouveauCoreTemperatureSensor:
+            return card.core_temp_get(&card);
         
-        case kNouveauTemperatureSensor:
+        case kNouveauBoardTemperatureSensor:
             return card.board_temp_get(&card);
             
         case kFakeSMCFrequencySensor:
             return card.clocks_get(&card, sensor->getIndex()) / 1000.0f;
             
         case kNouveauPWMSensor:
-            return card.pwm_fan_get(&card);
+            return card.fan_pwm_get(&card);
             
         case kFakeSMCTachometerSensor:
-            return card.rpm_fan_get(&card); // count ticks for 500ms
+            return card.fan_rpm_get(&card); // count ticks for 500ms
             
         case kFakeSMCVoltageSensor:
             return (float)card.voltage_get(&card) / 1000000.0f;
@@ -79,6 +83,7 @@ bool GeforceSensors::start(IOService * provider)
     
     //Find card number
     card.card_index = getVacantGPUIndex();
+    
     if (card.card_index < 0) {
         nv_error(device, "failed to obtain vacant GPU index\n");
         return false;
@@ -109,7 +114,7 @@ bool GeforceSensors::start(IOService * provider)
     // shadow and parse bios
     
     //try to load bios from registry first from "vbios" property created by Chameleon boolloader
-    if (OSData *vbios = OSDynamicCast(OSData, this->getProperty("vbios"))) {
+    if (OSData *vbios = OSDynamicCast(OSData, provider->getProperty("vbios"))) {
         device->bios.size = vbios->getLength();
         device->bios.data = (u8*)IOMalloc(card.bios.size);
         memcpy(device->bios.data, vbios->getBytesNoCopy(), device->bios.size);
@@ -137,9 +142,9 @@ bool GeforceSensors::start(IOService * provider)
         return false;
     }
     
-    nv_info(device, "chipset: %s (NV%02X) family: NV%02X bios: %02x.%02x.%02x.%02x\n", device->cname, device->chipset, device->card_type, device->bios.version.major, device->bios.version.chip, device->bios.version.minor, device->bios.version.micro);
+    nv_info(device, "chipset: %s (NV%02X) bios: %02x.%02x.%02x.%02x\n", device->cname, device->chipset, device->bios.version.major, device->bios.version.chip, device->bios.version.minor, device->bios.version.micro);
     
-    if (device->card_type < NV_C0) {
+    //if (device->card_type < NV_C0) {
         nouveau_i2c_create(device);
         
     #if CONFIG_NOUVEAU_I2C_NVCLOCK
@@ -149,29 +154,36 @@ bool GeforceSensors::start(IOService * provider)
         // setup nouveau i2c sensors
         nouveau_i2c_probe(device);
     #endif
-    }
+    //}
     
     // Register sensors
     char key[5];
     
-    if (card.diode_temp_get || card.board_temp_get) {
-        nv_debug(device, "registering temperature sensors...\n");
+    if (card.core_temp_get || card.board_temp_get) {
+        nv_debug(device, "registering i2c temperature sensors...\n");
         
-        if (card.diode_temp_get && card.board_temp_get) {
+        if (card.core_temp_get && card.board_temp_get) {
             snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
-            addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0);
+            addSensor(key, TYPE_SP78, 2, kNouveauCoreTemperatureSensor, 0);
             
             snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, card.card_index);
-            addSensor(key, TYPE_SP78, 2, kNouveauTemperatureSensor, 0);
+            addSensor(key, TYPE_SP78, 2, kNouveauBoardTemperatureSensor, 0);
         }
-        else if (card.diode_temp_get) {
+        else if (card.core_temp_get) {
             snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, card.card_index);
-            addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0);
+            addSensor(key, TYPE_SP78, 2, kNouveauCoreTemperatureSensor, 0);
         }
         else if (card.board_temp_get) {
             snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, card.card_index);
-            addSensor(key, TYPE_SP78, 2, kNouveauTemperatureSensor, 0);
+            addSensor(key, TYPE_SP78, 2, kNouveauBoardTemperatureSensor, 0);
         }
+    }
+    else if (card.temp_get)
+    {
+        nv_debug(device, "registering temperature sensors...\n");
+        
+        snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, card.card_index);
+        addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0);
     }
     
     if (card.clocks_get) {
@@ -198,17 +210,17 @@ bool GeforceSensors::start(IOService * provider)
         }
     }
     
-    if (card.pwm_fan_get || card.rpm_fan_get) {
+    if (card.fan_pwm_get || card.fan_rpm_get) {
         nv_debug(device, "registering PWM sensors...\n");
         
-        if (card.rpm_fan_get && card.rpm_fan_get(device) > 0) {
+        if (card.fan_rpm_get && card.fan_rpm_get(device) > 0) {
             char title[6];
             snprintf (title, 6, "GPU %X", card.card_index);
             
             UInt8 fanIndex = 0;
             
             if (addTachometer(card.card_index, title, &fanIndex)) {
-                if (card.pwm_fan_get && card.pwm_fan_get(device) > 0) {
+                if (card.fan_pwm_get && card.fan_pwm_get(device) > 0) {
                     snprintf(key, 5, KEY_FAKESMC_FORMAT_GPUPWM, fanIndex);
                     addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kNouveauPWMSensor, 0);
                 }
@@ -222,7 +234,7 @@ bool GeforceSensors::start(IOService * provider)
         addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0);
     }
     
-    nv_debug(device, "started\n");
+    nv_info(device, "started\n");
     
     return true;
 }

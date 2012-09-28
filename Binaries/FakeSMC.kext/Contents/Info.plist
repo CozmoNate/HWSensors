@@ -23,7 +23,7 @@
 	<key>CFBundleVersion</key>
 	<string>4.2.13</string>
 	<key>DTCompiler</key>
-	<string>com.apple.compilers.llvmgcc42</string>
+	<string></string>
 	<key>DTPlatformBuild</key>
 	<string>4G182</string>
 	<key>DTPlatformVersion</key>

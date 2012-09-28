@@ -11,7 +11,6 @@
 #define _FAKESMCKEY_H
 
 #include <IOKit/IOService.h>
-#include <kern/clock.h>
 
 inline void copySymbol(const char *from, char* to)
 {
@@ -27,7 +26,7 @@ class FakeSMCKey : public OSObject
     OSDeclareDefaultStructors(FakeSMCKey)
     
 private:
-    mach_timespec_t lastUpdated;
+    UInt64 lastUpdated;
 	
 protected:
     char *			key;

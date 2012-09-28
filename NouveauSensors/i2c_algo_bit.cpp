@@ -8,6 +8,7 @@
 
 //#include <sched.h>
 #include "i2c_algo_bit.h"
+#include "timer.h"
 
 /* ----- global defines ----------------------------------------------- */
 
@@ -57,14 +58,9 @@ static int sclhi(struct i2c_algo_bit_data *adap)
 	if (!adap->getscl)
 		goto done;
     
-    mach_timespec_t end, now;
+    u64 end;
     
-    clock_get_system_nanotime((clock_sec_t*)&end.tv_sec, (clock_usec_t*)&end.tv_nsec);
-    
-    now.tv_sec = 0;
-    now.tv_nsec = adap->timeout * NSEC_PER_USEC;
-    
-    ADD_MACH_TIMESPEC(&end, &now);
+    end = ptimer_read() + adap->timeout * NSEC_PER_USEC;
     
 	while (!getscl(adap)) {
 		/* This hw knows how to read the clock line, so we wait
@@ -72,9 +68,7 @@ static int sclhi(struct i2c_algo_bit_data *adap)
 		 * chips may hold it low ("clock stretching") while they
 		 * are processing data internally.
 		 */
-        clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
-        
-		if (CMP_MACH_TIMESPEC(&end, &now) <= 0) {
+		if (end - ptimer_read() <= 0) {
 			/* Test one last time, as we may have been preempted
 			 * between last check and timeout test.
 			 */

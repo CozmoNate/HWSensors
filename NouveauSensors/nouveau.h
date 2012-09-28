@@ -74,16 +74,20 @@ struct nouveau_device {
     
     I2CDevPtr nvclock_i2c_sensor;
         
-    void (*gpio_init)(struct nouveau_device *);
     int (*gpio_sense)(struct nouveau_device *, int line);
-	bool (*pwm_get)(struct nouveau_device *, int line, u32*, u32*);
+    int (*gpio_find)(struct nouveau_device *, int idx, u8 tag, u8 line, struct dcb_gpio_func *);
+    int (*gpio_get)(struct nouveau_device *, int idx, u8 tag, u8 line);
+    
+	int (*pwm_get)(struct nouveau_device *, int line, u32*, u32*);
     
     int (*clocks_get)(struct nouveau_device *, u8 source);
 	int (*voltage_get)(struct nouveau_device *);
-	int (*diode_temp_get)(struct nouveau_device *);
+    int (*temp_get)(struct nouveau_device *);
+	int (*core_temp_get)(struct nouveau_device *);
     int (*board_temp_get)(struct nouveau_device *);
-    int (*pwm_fan_get)(struct nouveau_device *);
-    int (*rpm_fan_get)(struct nouveau_device *);
+    int (*fan_sense)(struct nouveau_device *);
+    int (*fan_pwm_get)(struct nouveau_device *);
+    int (*fan_rpm_get)(struct nouveau_device *);
 };
 
 inline u8 nv_rd08(nouveau_device *device, u32 addr)
