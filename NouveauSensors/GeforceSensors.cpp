@@ -144,17 +144,10 @@ bool GeforceSensors::start(IOService * provider)
     
     nv_info(device, "chipset: %s (NV%02X) bios: %02x.%02x.%02x.%02x\n", device->cname, device->chipset, device->bios.version.major, device->bios.version.chip, device->bios.version.minor, device->bios.version.micro);
     
-    //if (device->card_type < NV_C0) {
-        nouveau_i2c_create(device);
-        
-    #if CONFIG_NOUVEAU_I2C_NVCLOCK
-        // setup NVClock i2c sensors
-        nvclock_i2c_sensor_init(device);
-    #else
-        // setup nouveau i2c sensors
-        nouveau_i2c_probe(device);
-    #endif
-    //}
+    nouveau_i2c_create(device);
+
+    // setup nouveau i2c sensors
+    nouveau_i2c_probe(device);
     
     // Register sensors
     char key[5];

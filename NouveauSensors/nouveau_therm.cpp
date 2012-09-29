@@ -207,7 +207,7 @@ int nouveau_therm_fan_get(struct nouveau_device *device)
 	return 0;
 }
 
-#define THERM_FAN_SENSE_CYCLES 4
+#define THERM_FAN_SENSE_CYCLES 8
 
 int nouveau_therm_fan_sense(struct nouveau_device *device)
 {
