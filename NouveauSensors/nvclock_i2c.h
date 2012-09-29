@@ -49,7 +49,7 @@ void nvclock_i2c_put_bits(I2CBusPtr b, int clock, int data);
 void nvclock_nv50_i2c_get_bits(I2CBusPtr bus, int *clock, int *data);
 void nvclock_nv50_i2c_put_bits(I2CBusPtr bus, int clock, int data);
 I2CBusPtr nvclock_i2c_create_bus_ptr(nouveau_device *device, char *name, int bus);
-void nvclock_i2c_probe_device (I2CBusPtr bus, I2CSlaveAddr addr, const char *format, ...);
+I2CDevPtr nvclock_i2c_probe_device (I2CBusPtr bus, I2CSlaveAddr addr, const char *format, ...);
 void nvclock_i2c_probe_all_devices (I2CBusPtr busses[], int nbus);
 I2CDevPtr nvclock_i2c_probe_devices(nouveau_device *device, I2CBusPtr busses[], int num_busses);
 bool nvclock_i2c_sensor_init(nouveau_device *device);

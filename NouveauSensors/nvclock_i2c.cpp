@@ -199,14 +199,15 @@ I2CBusPtr nvclock_i2c_create_bus_ptr(nouveau_device *device, char *name, int bus
 	return I2CPtr;
 }
 
-void nvclock_i2c_probe_device(I2CBusPtr bus, I2CSlaveAddr addr, const char *format, ...)
+I2CDevPtr nvclock_i2c_probe_device(I2CBusPtr bus, I2CSlaveAddr addr, const char *format, ...)
 {
 	I2CDevPtr dev;
 	char *s;
 	va_list ap;
     
-	if(xf86I2CProbeAddress(bus, addr))
-	{
+// Commented out cose xf86I2CProbeAddress was already called in nouveau_i2c_identify function 
+//	if(xf86I2CProbeAddress(bus, addr))
+//	{
 		dev = xf86CreateI2CDevRec();
 		s = (char*)IOMalloc(8);
 		va_start (ap, format);
@@ -220,8 +221,14 @@ void nvclock_i2c_probe_device(I2CBusPtr bus, I2CSlaveAddr addr, const char *form
 		{
 			IOFree(dev->DevName, 8);
 			xf86DestroyI2CDevRec(dev, TRUE);
+            
+            return NULL;
 		}
-	}
+        
+        return dev;
+//	}
+//    
+//    return NULL;
 }
 
 void nvclock_i2c_probe_all_devices(I2CBusPtr busses[], int nbus)
