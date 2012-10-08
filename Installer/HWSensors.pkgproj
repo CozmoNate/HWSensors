@@ -442,6 +442,13 @@
 			<dict>
 				<key>POSTINSTALL_PATH</key>
 				<dict/>
+				<key>PREINSTALL_PATH</key>
+				<dict>
+					<key>PATH</key>
+					<string>removefakesmc</string>
+					<key>PATH_TYPE</key>
+					<integer>1</integer>
+				</dict>
 				<key>RESOURCES</key>
 				<array/>
 			</dict>
@@ -2309,7 +2316,7 @@
 																			<key>GID</key>
 																			<integer>0</integer>
 																			<key>PATH</key>
-																			<string>../Binaries/MotherboardSensors.kext</string>
+																			<string>../Binaries/MBSensors.kext</string>
 																			<key>PATH_TYPE</key>
 																			<integer>1</integer>
 																			<key>PERMISSIONS</key>
@@ -2471,11 +2478,11 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>org.hwsensors.pkg.MotherboardSensors</string>
+				<string>org.hwsensors.pkg.MBSensors</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
-				<string>MotherboardSensors</string>
+				<string>MBSensors</string>
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
@@ -3129,13 +3136,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>ACPISensors plugin requires extensive DSDT editing and understanding in ACPI programming</string>
+												<string>ACPISensors plugin requires DSDT editing and understanding in ACPI programming. Out-of-the-box support only for  PTID ACPI device.</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>Плагин ACPISensors позволяет читать показания сенсоров через предопределенные функции в ACPI таблицах. Для его использования необходимо понимание в программировании ACPI т.к. требует внесения изменений в DSDT</string>
+												<string>Плагин ACPISensors позволяет читать показания сенсоров через предопределенные функции в ACPI таблицах. Для его использования необходимо понимание в программировании ACPI т.к. требует внесения изменений в DSDT. Есть возможность мониторнинга ACPI устройства  PTID без внесения правок в DSDT.</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>
@@ -3237,13 +3244,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>MotherboardSensors allows access to motherboard built-in temperature, voltage and tachometer sensors. Super I/O chipsets supported: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
+												<string>MBSensors allows access to motherboard built-in temperature, voltage and tachometer sensors. Super I/O chipsets supported: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>MotherboardSensors позволяет получать показания датчиков температуры, напряжения и оборотов вентиляторов, расположенных на материнской плате. Поддерживаемые чипы Super I/O: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
+												<string>MBSensors позволяет получать показания датчиков температуры, напряжения и оборотов вентиляторов, расположенных на материнской плате. Поддерживаемые чипы Super I/O: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>

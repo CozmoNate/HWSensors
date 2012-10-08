@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>12C54</string>
+	<string>12C60</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -23,7 +23,7 @@
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
-	<string>4G182</string>
+	<string>4G1004</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -31,9 +31,9 @@
 	<key>DTSDKName</key>
 	<string>macosx10.7</string>
 	<key>DTXcode</key>
-	<string>0450</string>
+	<string>0451</string>
 	<key>DTXcodeBuild</key>
-	<string>4G182</string>
+	<string>4G1004</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Intel Thermal Monitor</key>

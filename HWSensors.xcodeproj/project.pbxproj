@@ -88,7 +88,6 @@
 		7E938905159497920005316D /* HWMonitorSensorsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E938904159497920005316D /* HWMonitorSensorsController.m */; };
 		7E96DE5E15C05D8B00A34C60 /* 29-heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE5D15C05D8B00A34C60 /* 29-heart@2x.png */; };
 		7E96DE6115C05DA000A34C60 /* 20-gear-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6015C05DA000A34C60 /* 20-gear-2@2x.png */; };
-		7E96DE6715C0607900A34C60 /* badge-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6615C0607900A34C60 /* badge-4.png */; };
 		7E96DE6B15C063B800A34C60 /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6A15C063AA00A34C60 /* hwmonitor.png */; };
 		7E96DE6C15C063C100A34C60 /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6A15C063AA00A34C60 /* hwmonitor.png */; };
 		7E96DE6E15C064A700A34C60 /* hwmonitor_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6D15C0649E00A34C60 /* hwmonitor_template.png */; };
@@ -325,7 +324,6 @@
 		7E938904159497920005316D /* HWMonitorSensorsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorSensorsController.m; sourceTree = "<group>"; };
 		7E96DE5D15C05D8B00A34C60 /* 29-heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "29-heart@2x.png"; sourceTree = "<group>"; };
 		7E96DE6015C05DA000A34C60 /* 20-gear-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "20-gear-2@2x.png"; sourceTree = "<group>"; };
-		7E96DE6615C0607900A34C60 /* badge-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-4.png"; sourceTree = "<group>"; };
 		7E96DE6A15C063AA00A34C60 /* hwmonitor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor.png; sourceTree = "<group>"; };
 		7E96DE6D15C0649E00A34C60 /* hwmonitor_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor_template.png; sourceTree = "<group>"; };
 		7EADBFDE15D58E6000566642 /* nouveau_gpio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_gpio.cpp; sourceTree = "<group>"; };
@@ -518,7 +516,7 @@
 				1D6FE3EF13FEBFF200376E64 /* ACPISensors */,
 				7E79B81B15BA99350079AAE8 /* CPUSensors */,
 				7EADE20815E5602F00FD117C /* GPUSensors */,
-				6A4E473A152178A00038C5DE /* MotherboardSensors */,
+				6A4E473A152178A00038C5DE /* MBSensors */,
 			);
 			name = "Plug-Ins";
 			sourceTree = "<group>";
@@ -664,7 +662,7 @@
 			name = "Nuvoton NCT677x Sensors";
 			sourceTree = "<group>";
 		};
-		6A4E473A152178A00038C5DE /* MotherboardSensors */ = {
+		6A4E473A152178A00038C5DE /* MBSensors */ = {
 			isa = PBXGroup;
 			children = (
 				6A2B4E4A152179840093A217 /* Super I/O Nub */,
@@ -675,7 +673,7 @@
 				6A2B4E4F152179E10093A217 /* Nuvoton NCT677x Sensors */,
 				6A4E473B152178A00038C5DE /* Supporting Files */,
 			);
-			name = MotherboardSensors;
+			name = MBSensors;
 			path = SuperIOSensors;
 			sourceTree = "<group>";
 		};
@@ -730,18 +728,8 @@
 			isa = PBXGroup;
 			children = (
 				7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */,
-				6A9955C214EFAEE50052C702 /* cpuid.h */,
-				7EBCF8791615A84C00E16D3B /* timer.h */,
-				7E06D0EC157E96C400F8A270 /* SystemUIPlugin.h */,
-				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
-				7E9388FF15945B360005316D /* HWMonitorDefinitions.h */,
-				7E5A8CB51605EA7300FF0099 /* OEMInfo */,
-				6AA3A26B14F6D7C1007A7084 /* NSString+TruncateToWidth */,
-				7E06D0F6157FC7F800F8A270 /* BundleUserDefaults */,
-				7EFB862315C30E2200F61B59 /* NoodleKit */,
-				6AA3A26A14F6D7AC007A7084 /* ATASmartReporter */,
-				7E3684A8158368AC00E32629 /* HWMonitorIcon */,
-				6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */,
+				7EF31BB716207C6B00E9B055 /* Kernel */,
+				7EF31BB916207C7000E9B055 /* Cocoa */,
 				6A1DF980150201BF00C34729 /* Resources */,
 				7EB692E615C99A0E0009B2E2 /* Licenses */,
 			);
@@ -851,7 +839,6 @@
 		7E83608C15BE6C9B0014E043 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7E96DE6615C0607900A34C60 /* badge-4.png */,
 				7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */,
 				7E96DE6015C05DA000A34C60 /* 20-gear-2@2x.png */,
 				7E96DE5D15C05D8B00A34C60 /* 29-heart@2x.png */,
@@ -1005,6 +992,32 @@
 			name = Nouveau;
 			sourceTree = "<group>";
 		};
+		7EF31BB716207C6B00E9B055 /* Kernel */ = {
+			isa = PBXGroup;
+			children = (
+				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
+				6A9955C214EFAEE50052C702 /* cpuid.h */,
+				7EBCF8791615A84C00E16D3B /* timer.h */,
+				7E5A8CB51605EA7300FF0099 /* OEMInfo */,
+				6AA3A26A14F6D7AC007A7084 /* ATASmartReporter */,
+				7E3684A8158368AC00E32629 /* HWMonitorIcon */,
+				6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */,
+			);
+			name = Kernel;
+			sourceTree = "<group>";
+		};
+		7EF31BB916207C7000E9B055 /* Cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				7E9388FF15945B360005316D /* HWMonitorDefinitions.h */,
+				7E06D0EC157E96C400F8A270 /* SystemUIPlugin.h */,
+				6AA3A26B14F6D7C1007A7084 /* NSString+TruncateToWidth */,
+				7E06D0F6157FC7F800F8A270 /* BundleUserDefaults */,
+				7EFB862315C30E2200F61B59 /* NoodleKit */,
+			);
+			name = Cocoa;
+			sourceTree = "<group>";
+		};
 		7EFB862315C30E2200F61B59 /* NoodleKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1144,9 +1157,9 @@
 			productReference = 1D6FE3EE13FEBFF200376E64 /* ACPISensors.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
-		6A4E4738152178A00038C5DE /* MotherboardSensors */ = {
+		6A4E4738152178A00038C5DE /* MBSensors */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A4E4744152178A00038C5DE /* Build configuration list for PBXNativeTarget "MotherboardSensors" */;
+			buildConfigurationList = 6A4E4744152178A00038C5DE /* Build configuration list for PBXNativeTarget "MBSensors" */;
 			buildPhases = (
 				6A4E4733152178A00038C5DE /* Sources */,
 				6A4E4734152178A00038C5DE /* Frameworks */,
@@ -1158,7 +1171,7 @@
 			);
 			dependencies = (
 			);
-			name = MotherboardSensors;
+			name = MBSensors;
 			productName = SuperIOSensors;
 			productReference = 6A4E4739152178A00038C5DE /* MotherboardSensors.kext */;
 			productType = "com.apple.product-type.kernel-extension";
@@ -1265,7 +1278,7 @@
 				1D6FE3ED13FEBFF200376E64 /* ACPISensors */,
 				7E79B81915BA99350079AAE8 /* CPUSensors */,
 				7EADE20615E5602E00FD117C /* GPUSensors */,
-				6A4E4738152178A00038C5DE /* MotherboardSensors */,
+				6A4E4738152178A00038C5DE /* MBSensors */,
 				6A85F85214DBEF5000F863A9 /* HWMonitorExtra */,
 				7EB963A41594559100436FDB /* HWMonitor */,
 			);
@@ -1365,7 +1378,6 @@
 				7E55352515C05C4100DDF3BF /* 16-line-chart@2x.png in Resources */,
 				7E96DE5E15C05D8B00A34C60 /* 29-heart@2x.png in Resources */,
 				7E96DE6115C05DA000A34C60 /* 20-gear-2@2x.png in Resources */,
-				7E96DE6715C0607900A34C60 /* badge-4.png in Resources */,
 				7E84840A15C3BF2C00C2D5E2 /* pcicard.png in Resources */,
 				7E7A182415DEB090004D98AF /* MenuCracker.menu in Resources */,
 			);
@@ -2029,7 +2041,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A4E4744152178A00038C5DE /* Build configuration list for PBXNativeTarget "MotherboardSensors" */ = {
+		6A4E4744152178A00038C5DE /* Build configuration list for PBXNativeTarget "MBSensors" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A4E4745152178A00038C5DE /* Debug */,

@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">12C54</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
+		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2840</string>
+			<string key="NS.object.0">2843</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBCustomCell</string>
@@ -253,7 +253,7 @@
 				<string key="NSName">_NSMainMenu</string>
 			</object>
 			<object class="NSWindowTemplate" id="972006081">
-				<int key="NSWindowStyleMask">15</int>
+				<int key="NSWindowStyleMask">4111</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{629, 324}, {550, 304}}</string>
 				<int key="NSWTFlags">880279552</int>
@@ -269,7 +269,7 @@
 					<bool key="NSToolbarAllowsUserCustomization">NO</bool>
 					<bool key="NSToolbarAutosavesConfiguration">NO</bool>
 					<int key="NSToolbarDisplayMode">1</int>
-					<int key="NSToolbarSizeMode">1</int>
+					<int key="NSToolbarSizeMode">2</int>
 					<dictionary class="NSMutableDictionary" key="NSToolbarIBIdentifiedItems">
 						<object class="NSToolbarItem" key="26B31E46-6AAB-47DE-8B58-4C34DCBAD3ED" id="277727474">
 							<object class="NSMutableString" key="NSToolbarItemIdentifier">
@@ -382,10 +382,12 @@
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews"/>
 					<string key="NSFrameSize">{550, 304}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
@@ -1481,7 +1483,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<string key="NSFrameSize">{318, 558}</string>
 										<reference key="NSSuperview" ref="357163855"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="880185773"/>
+										<reference key="NSNextKeyView" ref="504255046"/>
 										<string key="NSReuseIdentifierKey">_NS:13</string>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1570,7 +1572,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											</object>
 											<object class="NSTableColumn" id="721189326">
 												<double key="NSWidth">184</double>
-												<double key="NSMinWidth">180</double>
+												<double key="NSMinWidth">175</double>
 												<double key="NSMaxWidth">30000</double>
 												<object class="NSTableHeaderCell" key="NSHeaderCell">
 													<int key="NSCellFlags">612368448</int>
@@ -1692,7 +1694,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{20, 20}, {320, 560}}</string>
 						<reference key="NSSuperview" ref="368640643"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="357163855"/>
+						<reference key="NSNextKeyView" ref="880185773"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<int key="NSsFlags">133650</int>
 						<reference key="NSVScroller" ref="504255046"/>

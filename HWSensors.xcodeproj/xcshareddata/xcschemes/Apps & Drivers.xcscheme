@@ -113,8 +113,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6A4E4738152178A00038C5DE"
-               BuildableName = "MotherboardSensors.kext"
-               BlueprintName = "MotherboardSensors"
+               BuildableName = "MBSensors.kext"
+               BlueprintName = "MBSensors"
                ReferencedContainer = "container:HWSensors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
