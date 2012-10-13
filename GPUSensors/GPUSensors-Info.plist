@@ -45,8 +45,8 @@
 			<string>FakeSMCPlugin</string>
 			<key>IOPCIClassMatch</key>
 			<string>0x06000000&amp;0xfff000000</string>
-			<key>IOPCIPrimaryMatch</key>
-			<string>0x2a008086</string>
+			<key>IOPCIMatch</key>
+			<string>0x2a008086&amp;0xffffffff</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 		</dict>
@@ -57,9 +57,9 @@
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
 			<key>IOPCIClassMatch</key>
-			<string>0x03000000&amp;0xFF000000</string>
+			<string>0x03000000&amp;0xff000000</string>
 			<key>IOPCIMatch</key>
-			<string>0x00001002&amp;0x0000FFFF</string>
+			<string>0x00001002&amp;0x0000ffff</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 		</dict>
