@@ -295,7 +295,7 @@
     BOOL menuNeedsUpdate = false;
     
     if (_scheduleRebuildSensors) {
-        [_engine rebuildSensorsList];
+        [self rebuildSensorsList];
         _scheduleRebuildSensors = FALSE;
     }
     
