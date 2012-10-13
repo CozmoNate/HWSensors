@@ -55,6 +55,8 @@
     
     NSDate *_smcSensorsLastUpdated;
     NSDate *_smartSensorsLastUpdated;
+    
+    BOOL _scheduleRebuildSensors;
 }
 
 @property (readwrite, retain) IBOutlet HWMonitorEngine* engine;

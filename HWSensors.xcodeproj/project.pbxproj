@@ -228,7 +228,7 @@
 		6A2B4E3B152179700093A217 /* SuperIOPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIOPlugin.h; sourceTree = "<group>"; };
 		6A2B4E3C152179700093A217 /* W836xxSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = W836xxSensors.cpp; sourceTree = "<group>"; };
 		6A2B4E3D152179700093A217 /* W836xxSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = W836xxSensors.h; sourceTree = "<group>"; };
-		6A4E4739152178A00038C5DE /* MotherboardSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MotherboardSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A4E4739152178A00038C5DE /* MotherboardSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MotherboardSensors.kext; path = MBSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A4E473C152178A00038C5DE /* SuperIOSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuperIOSensors-Info.plist"; sourceTree = "<group>"; };
 		6A4E473E152178A00038C5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A4E4743152178A00038C5DE /* SuperIOSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SuperIOSensors-Prefix.pch"; sourceTree = "<group>"; };

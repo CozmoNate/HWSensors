@@ -294,6 +294,11 @@
 {
     BOOL menuNeedsUpdate = false;
     
+    if (_scheduleRebuildSensors) {
+        [_engine rebuildSensorsList];
+        _scheduleRebuildSensors = FALSE;
+    }
+    
     NSDate *now = [NSDate dateWithTimeIntervalSinceNow:0.0];
     
     if ([_smcSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
@@ -605,7 +610,7 @@
 
 - (void)systemDidWake:(NSNotification *)aNotification
 {
-    [self rebuildSensorsList];
+    _scheduleRebuildSensors = TRUE;
 }
 
 - (void)willUnload
