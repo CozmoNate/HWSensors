@@ -373,7 +373,7 @@ bool FakeSMCPlugin::start(IOService *provider)
 
 void FakeSMCPlugin::stop(IOService* provider)
 {
-    fakeSMC->callPlatformFunction(kFakeSMCRemoveHandler, false, this, NULL, NULL, NULL);
+    fakeSMC->callPlatformFunction(kFakeSMCRemoveKeyHandler, false, this, NULL, NULL, NULL);
     
     sensors->flushCollection();
 	

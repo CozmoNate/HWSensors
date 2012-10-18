@@ -58,6 +58,7 @@ private:
     
     OSDictionary        *exposedValues;
 	
+    bool				trace;
 	bool				debug;
 	
 	virtual void		applesmc_io_cmd_writeb(void *opaque, uint32_t addr, uint32_t val);
@@ -95,7 +96,7 @@ public:
 	
 	virtual void		updateSharpKey(void);
     	
-	virtual void		setDebug(bool debug_val);
+	//virtual void		setDebug(bool debug_val);
     
     virtual IOReturn	callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 ); 
 };
