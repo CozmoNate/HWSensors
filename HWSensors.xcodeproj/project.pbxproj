@@ -228,7 +228,7 @@
 		6A2B4E3B152179700093A217 /* SuperIOPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIOPlugin.h; sourceTree = "<group>"; };
 		6A2B4E3C152179700093A217 /* W836xxSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = W836xxSensors.cpp; sourceTree = "<group>"; };
 		6A2B4E3D152179700093A217 /* W836xxSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = W836xxSensors.h; sourceTree = "<group>"; };
-		6A4E4739152178A00038C5DE /* MotherboardSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MotherboardSensors.kext; path = MBSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A4E4739152178A00038C5DE /* MBSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MBSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A4E473C152178A00038C5DE /* SuperIOSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuperIOSensors-Info.plist"; sourceTree = "<group>"; };
 		6A4E473E152178A00038C5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A4E4743152178A00038C5DE /* SuperIOSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SuperIOSensors-Prefix.pch"; sourceTree = "<group>"; };
@@ -467,7 +467,7 @@
 				1D05ABE413ED0DAD00EADBF6 /* FakeSMC.kext */,
 				1D6FE3EE13FEBFF200376E64 /* ACPISensors.kext */,
 				6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */,
-				6A4E4739152178A00038C5DE /* MotherboardSensors.kext */,
+				6A4E4739152178A00038C5DE /* MBSensors.kext */,
 				7EB963A51594559100436FDB /* HWMonitor.app */,
 				7E79B81A15BA99350079AAE8 /* CPUSensors.kext */,
 				7EADE20715E5602E00FD117C /* GPUSensors.kext */,
@@ -516,7 +516,7 @@
 				1D6FE3EF13FEBFF200376E64 /* ACPISensors */,
 				7E79B81B15BA99350079AAE8 /* CPUSensors */,
 				7EADE20815E5602F00FD117C /* GPUSensors */,
-				6A4E473A152178A00038C5DE /* MBSensors */,
+				6A4E473A152178A00038C5DE /* LPCSensors */,
 			);
 			name = "Plug-Ins";
 			sourceTree = "<group>";
@@ -662,7 +662,7 @@
 			name = "Nuvoton NCT677x Sensors";
 			sourceTree = "<group>";
 		};
-		6A4E473A152178A00038C5DE /* MBSensors */ = {
+		6A4E473A152178A00038C5DE /* LPCSensors */ = {
 			isa = PBXGroup;
 			children = (
 				6A2B4E4A152179840093A217 /* Super I/O Nub */,
@@ -673,7 +673,7 @@
 				6A2B4E4F152179E10093A217 /* Nuvoton NCT677x Sensors */,
 				6A4E473B152178A00038C5DE /* Supporting Files */,
 			);
-			name = MBSensors;
+			name = LPCSensors;
 			path = SuperIOSensors;
 			sourceTree = "<group>";
 		};
@@ -1157,9 +1157,9 @@
 			productReference = 1D6FE3EE13FEBFF200376E64 /* ACPISensors.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
-		6A4E4738152178A00038C5DE /* MBSensors */ = {
+		6A4E4738152178A00038C5DE /* LPCSensors */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A4E4744152178A00038C5DE /* Build configuration list for PBXNativeTarget "MBSensors" */;
+			buildConfigurationList = 6A4E4744152178A00038C5DE /* Build configuration list for PBXNativeTarget "LPCSensors" */;
 			buildPhases = (
 				6A4E4733152178A00038C5DE /* Sources */,
 				6A4E4734152178A00038C5DE /* Frameworks */,
@@ -1171,9 +1171,9 @@
 			);
 			dependencies = (
 			);
-			name = MBSensors;
+			name = LPCSensors;
 			productName = SuperIOSensors;
-			productReference = 6A4E4739152178A00038C5DE /* MotherboardSensors.kext */;
+			productReference = 6A4E4739152178A00038C5DE /* MBSensors.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
 		6A85F85214DBEF5000F863A9 /* HWMonitorExtra */ = {
@@ -1278,7 +1278,7 @@
 				1D6FE3ED13FEBFF200376E64 /* ACPISensors */,
 				7E79B81915BA99350079AAE8 /* CPUSensors */,
 				7EADE20615E5602E00FD117C /* GPUSensors */,
-				6A4E4738152178A00038C5DE /* MBSensors */,
+				6A4E4738152178A00038C5DE /* LPCSensors */,
 				6A85F85214DBEF5000F863A9 /* HWMonitorExtra */,
 				7EB963A41594559100436FDB /* HWMonitor */,
 			);
@@ -2041,7 +2041,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A4E4744152178A00038C5DE /* Build configuration list for PBXNativeTarget "MBSensors" */ = {
+		6A4E4744152178A00038C5DE /* Build configuration list for PBXNativeTarget "LPCSensors" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A4E4745152178A00038C5DE /* Debug */,

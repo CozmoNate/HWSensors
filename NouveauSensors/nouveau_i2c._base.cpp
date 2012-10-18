@@ -457,8 +457,8 @@ static bool probe_monitoring_device(struct nouveau_i2c_port *i2c, struct i2c_boa
         case W83781D:
             device->board_temp_get = w83781d_get_board_temp;
             device->core_temp_get = w83781d_get_gpu_temp;
-            //nv_card->get_i2c_fanspeed_rpm = w83781d_get_fanspeed_rpm;
-            //nv_card->get_i2c_fanspeed_pwm = w83781d_get_fanspeed_pwm;
+            device->fan_rpm_get = w83781d_get_fanspeed_rpm;
+            //device->get_i2c_fanspeed_pwm = w83781d_get_fanspeed_pwm;
             break;
         case W83L785R:
             device->board_temp_get = w83l785r_get_board_temp;
@@ -478,18 +478,18 @@ static bool probe_monitoring_device(struct nouveau_i2c_port *i2c, struct i2c_boa
     
     return true;
 #else
-//	struct i2c_client *client;
-//
-//	request_module("%s%s", I2C_MODULE_PREFIX, info->type);
-//
-//	client = i2c_new_device(&i2c->adapter, info);
-//	if (!client)
-//		return false;
-//
-//	if (!client->driver || client->driver->detect(client, info)) {
-//		i2c_unregister_device(client);
-//		return false;
-//	}
+	struct i2c_client *client;
+
+	request_module("%s%s", I2C_MODULE_PREFIX, info->type);
+
+	client = i2c_new_device(&i2c->adapter, info);
+	if (!client)
+		return false;
+
+	if (!client->driver || client->driver->detect(client, info)) {
+		i2c_unregister_device(client);
+		return false;
+	}
     
 	return true;
 #endif

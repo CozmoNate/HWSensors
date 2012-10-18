@@ -7,9 +7,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>MBSensors</string>
+	<string>LPCSensors</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.hwsensors.driver.MBSensors</string>
+	<string>org.hwsensors.driver.LPCSensors</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -41,7 +41,7 @@
 		<key>Fintek F718x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.hwsensors.driver.MBSensors</string>
+			<string>org.hwsensors.driver.LPCSensors</string>
 			<key>IOClass</key>
 			<string>F718xxSensors</string>
 			<key>IOMatchCategory</key>
@@ -661,7 +661,7 @@
 		<key>ITE IT87x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.hwsensors.driver.MBSensors</string>
+			<string>org.hwsensors.driver.LPCSensors</string>
 			<key>IOClass</key>
 			<string>IT87xxSensors</string>
 			<key>IOMatchCategory</key>
@@ -2038,7 +2038,7 @@
 		<key>Nuvoton NCT677x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.hwsensors.driver.MBSensors</string>
+			<string>org.hwsensors.driver.LPCSensors</string>
 			<key>IOClass</key>
 			<string>NCT677xSensors</string>
 			<key>IOMatchCategory</key>
@@ -2659,7 +2659,7 @@
 		<key>Super I/O Nub</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.hwsensors.driver.MBSensors</string>
+			<string>org.hwsensors.driver.LPCSensors</string>
 			<key>IOClass</key>
 			<string>SuperIODevice</string>
 			<key>IOMatchCategory</key>
@@ -2672,7 +2672,7 @@
 		<key>Winbond W836x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>org.hwsensors.driver.MBSensors</string>
+			<string>org.hwsensors.driver.LPCSensors</string>
 			<key>IOClass</key>
 			<string>W836xxSensors</string>
 			<key>IOMatchCategory</key>

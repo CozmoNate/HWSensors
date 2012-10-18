@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>MOTHERBOARDSENSORS_BUNDLE</string>
+	<string>LPCSENSORS_BUNDLE</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -15,17 +15,17 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>MOTHERBOARDSENSORS_SHORTVERSION</string>
+	<string>LPCSENSORS_SHORTVERSION</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>MOTHERBOARDSENSORS_VERSION</string>
+	<string>LPCSENSORS_VERSION</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Super I/O Nub</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>MOTHERBOARDSENSORS_BUNDLE</string>
+			<string>LPCSENSORS_BUNDLE</string>
 			<key>IOClass</key>
 			<string>SuperIODevice</string>
 			<key>IOMatchCategory</key>
@@ -38,7 +38,7 @@
 		<key>Fintek F718x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>MOTHERBOARDSENSORS_BUNDLE</string>
+			<string>LPCSENSORS_BUNDLE</string>
 			<key>IOClass</key>
 			<string>F718xxSensors</string>
 			<key>IOMatchCategory</key>
@@ -658,7 +658,7 @@
 		<key>ITE IT87x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>MOTHERBOARDSENSORS_BUNDLE</string>
+			<string>LPCSENSORS_BUNDLE</string>
 			<key>IOClass</key>
 			<string>IT87xxSensors</string>
 			<key>IOMatchCategory</key>
@@ -2035,7 +2035,7 @@
 		<key>Nuvoton NCT677x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>MOTHERBOARDSENSORS_BUNDLE</string>
+			<string>LPCSENSORS_BUNDLE</string>
 			<key>IOClass</key>
 			<string>NCT677xSensors</string>
 			<key>IOMatchCategory</key>
@@ -2656,7 +2656,7 @@
 		<key>Winbond W836x Monitor</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>MOTHERBOARDSENSORS_BUNDLE</string>
+			<string>LPCSENSORS_BUNDLE</string>
 			<key>IOClass</key>
 			<string>W836xxSensors</string>
 			<key>IOMatchCategory</key>
@@ -3103,7 +3103,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © HWSENSORS_LASTYEAR kozlek, slice, usr-sse2, navi, THe King. All rights reserved.</string>
 	<key>OSBundleCompatibleVersion</key>
-	<string>MOTHERBOARDSENSORS_COMPATIBLE</string>
+	<string>LPCSENSORS_COMPATIBLE</string>
 	<key>OSBundleLibraries</key>
 	<dict>
 		<key>com.apple.kpi.iokit</key>

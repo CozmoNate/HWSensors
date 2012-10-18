@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.2.13</string>
+	<string>4.2.15</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>4.2.13</string>
+	<string>4.2.15</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
@@ -44,7 +44,7 @@
 			<string>org.netkas.driver.FakeSMC</string>
 			<key>Configuration</key>
 			<dict>
-				<key>Keys</key>
+				<key>Backup</key>
 				<dict>
 					<key>$Adr</key>
 					<array>
@@ -134,14 +134,14 @@
 					<array>
 						<string>si8</string>
 						<data>
-						AA==
+						BQ==
 						</data>
 					</array>
 					<key>MSSP</key>
 					<array>
 						<string>si8</string>
 						<data>
-						AA==
+						BQ==
 						</data>
 					</array>
 					<key>NATJ</key>
@@ -196,21 +196,126 @@
 						</data>
 					</array>
 				</dict>
+				<key>Keys</key>
+				<dict>
+					<key>$Adr</key>
+					<array>
+						<string>ui32</string>
+						<data>
+						AAADAA==
+						</data>
+					</array>
+					<key>$Num</key>
+					<array>
+						<string>ui8</string>
+						<data>
+						DA==
+						</data>
+					</array>
+					<key>DPLM</key>
+					<array>
+						<string>{lim</string>
+						<data>
+						AAAA
+						</data>
+					</array>
+					<key>FNum</key>
+					<array>
+						<string>ui8</string>
+						<data>
+						AA==
+						</data>
+					</array>
+					<key>MSSD</key>
+					<array>
+						<string>si8</string>
+						<data>
+						BQ==
+						</data>
+					</array>
+					<key>MSSP</key>
+					<array>
+						<string>si8</string>
+						<data>
+						BQ==
+						</data>
+					</array>
+					<key>NATJ</key>
+					<array>
+						<string>ui8</string>
+						<data>
+						AA==
+						</data>
+					</array>
+					<key>NATi</key>
+					<array>
+						<string>ui16</string>
+						<data>
+						MDAwMA==
+						</data>
+					</array>
+					<key>NTOK</key>
+					<array>
+						<string>ui8</string>
+						<data>
+						AQ==
+						</data>
+					</array>
+					<key>OSK0</key>
+					<array>
+						<string>ch8*</string>
+						<data>
+						b3VyaGFyZHdvcmtieXRoZXNld29y
+						ZHNndWFyZGVkcGw=
+						</data>
+					</array>
+					<key>OSK1</key>
+					<array>
+						<string>ch8*</string>
+						<data>
+						ZWFzZWRvbnRzdGVhbChjKUFwcGxl
+						Q29tcHV0ZXJJbmM=
+						</data>
+					</array>
+					<key>REV </key>
+					<array>
+						<string>{rev</string>
+						<data>
+						ATAPAAAD
+						</data>
+					</array>
+				</dict>
 				<key>Types</key>
 				<dict>
+					<key>BEMB</key>
+					<string>flag</string>
 					<key>CLKC</key>
 					<string>{clc</string>
 					<key>CLKH</key>
 					<string>{clh</string>
 					<key>CLKT</key>
 					<string>ui16</string>
+					<key>CLWK</key>
+					<string>ui16</string>
+					<key>EPCI</key>
+					<string>flag</string>
 					<key>LSSS</key>
 					<string>{lso</string>
+					<key>MSDS</key>
+					<string>ui8</string>
+					<key>MSDW</key>
+					<string>flag</string>
+					<key>MSPS</key>
+					<string>{msp</string>
+					<key>RPlt</key>
+					<string>ch8*</string>
 				</dict>
 				<key>debug</key>
 				<false/>
 				<key>smc-compatible</key>
 				<string>smc-napa</string>
+				<key>trace</key>
+				<false/>
 			</dict>
 			<key>IOClass</key>
 			<string>FakeSMC</string>

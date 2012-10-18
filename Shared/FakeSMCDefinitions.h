@@ -161,14 +161,15 @@
 #define kFakeSMCSetKeyValue                     "FakeSMC_SetKeyValue"
 #define kFakeSMCGetKeyValue                     "FakeSMC_GetKeyValue"
 #define kFakeSMCGetKeyHandler                   "FakeSMC_GetKeyHandler"
+#define kFakeSMCRemoveKeyHandler                "FakeSMC_RemoveKeyHandler"
 #define kFakeSMCGetValueCallback                "FakeSMC_GetValueCallback"
 #define kFakeSMCSetValueCallback                "FakeSMC_SetValueCallback"
-#define kFakeSMCRemoveHandler                   "FakeSMC_RemoveHandler"
 
 #define kHWSensorsDebug FALSE
 
 #define HWSensorsDebugLog(string, args...)	do { if (kHWSensorsDebug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog ("%s: [Warning] " string "\n",getName() , ## args); } while(0)
+#define HWSensorsErrorLog(string, args...) do { IOLog ("%s: [Error] " string "\n",getName() , ## args); } while(0)
 #define HWSensorsInfoLog(string, args...)	do { IOLog ("%s: " string "\n",getName() , ## args); } while(0)
 
 #endif

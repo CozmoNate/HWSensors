@@ -467,7 +467,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>4.2.13</string>
+				<string>4.2.15</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -2316,7 +2316,7 @@
 																			<key>GID</key>
 																			<integer>0</integer>
 																			<key>PATH</key>
-																			<string>../Binaries/MBSensors.kext</string>
+																			<string>../Binaries/LPCSensors.kext</string>
 																			<key>PATH_TYPE</key>
 																			<integer>1</integer>
 																			<key>PERMISSIONS</key>
@@ -2478,11 +2478,11 @@
 				<key>CONCLUSION_ACTION</key>
 				<integer>2</integer>
 				<key>IDENTIFIER</key>
-				<string>org.hwsensors.pkg.MBSensors</string>
+				<string>org.hwsensors.pkg.LPCSensors</string>
 				<key>LOCATION</key>
 				<integer>0</integer>
 				<key>NAME</key>
-				<string>MBSensors</string>
+				<string>LPCSensors</string>
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
@@ -3015,7 +3015,7 @@
 			ZW50LVN0eWxlLVR5cGUiIGNvbnRlbnQ9InRleHQvY3NzIj4KPHRp
 			dGxlPjwvdGl0bGU+CjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29u
 			dGVudD0iQ29jb2EgSFRNTCBXcml0ZXIiPgo8bWV0YSBuYW1lPSJD
-			b2NvYVZlcnNpb24iIGNvbnRlbnQ9IjExMzguNDciPgo8c3R5bGUg
+			b2NvYVZlcnNpb24iIGNvbnRlbnQ9IjExODcuMzQiPgo8c3R5bGUg
 			dHlwZT0idGV4dC9jc3MiPgo8L3N0eWxlPgo8L2hlYWQ+Cjxib2R5
 			Pgo8L2JvZHk+CjwvaHRtbD4K
 			</data>
@@ -3244,13 +3244,13 @@
 												<key>LANGUAGE</key>
 												<string>English</string>
 												<key>VALUE</key>
-												<string>MBSensors allows access to motherboard built-in temperature, voltage and tachometer sensors. Super I/O chipsets supported: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
+												<string>LPCSensors allows access to motherboard built-in temperature, voltage and tachometer sensors. Super I/O chipsets supported: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
 											</dict>
 											<dict>
 												<key>LANGUAGE</key>
 												<string>Russian</string>
 												<key>VALUE</key>
-												<string>MBSensors позволяет получать показания датчиков температуры, напряжения и оборотов вентиляторов, расположенных на материнской плате. Поддерживаемые чипы Super I/O: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
+												<string>LPCSensors позволяет получать показания датчиков температуры, напряжения и оборотов вентиляторов, расположенных на материнской плате. Поддерживаемые чипы Super I/O: ITE IT87xx, Winbond W836xx, Fintek F718xx, Nuvoton NCT677x</string>
 											</dict>
 										</array>
 										<key>OPTIONS</key>

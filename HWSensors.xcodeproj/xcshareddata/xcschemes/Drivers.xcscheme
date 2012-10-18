@@ -99,8 +99,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6A4E4738152178A00038C5DE"
-               BuildableName = "MBSensors.kext"
-               BlueprintName = "MBSensors"
+               BuildableName = "LPCSensors.kext"
+               BlueprintName = "LPCSensors"
                ReferencedContainer = "container:HWSensors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

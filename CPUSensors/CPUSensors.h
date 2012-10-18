@@ -59,7 +59,7 @@
 #define MSR_IA32_THERM_STS      0x019C
 #define MSR_IA32_TEMP_TARGET	0x01A2
 
-#define kCPUSensorsMaxCpus    8
+#define kCPUSensorsMaxCpus      64
 
 extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);
 extern "C" int cpu_number(void);

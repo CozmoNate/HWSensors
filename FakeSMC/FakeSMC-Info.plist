@@ -28,7 +28,7 @@
 			<string>FAKESMC_BUNDLE</string>
 			<key>Configuration</key>
 			<dict>
-				<key>Keys</key>
+				<key>Backup</key>
 				<dict>
 					<key>$Adr</key>
 					<array>
@@ -93,12 +93,12 @@
 					<key>MSSD</key>
 					<array>
 						<string>si8</string>
-						<data>AA==</data>
+						<data>BQ==</data>
 					</array>
 					<key>MSSP</key>
 					<array>
 						<string>si8</string>
-						<data>AA==</data>
+						<data>BQ==</data>
 					</array>
 					<key>NATJ</key>
 					<array>
@@ -136,8 +136,83 @@
 						<data>bTgy</data>
 					</array>
 				</dict>
+				<key>Keys</key>
+				<dict>
+					<key>$Adr</key>
+					<array>
+						<string>ui32</string>
+						<data>AAADAA==</data>
+					</array>
+					<key>$Num</key>
+					<array>
+						<string>ui8</string>
+						<data>DA==</data>
+					</array>
+					<key>DPLM</key>
+					<array>
+						<string>{lim</string>
+						<data>AAAA</data>
+					</array>
+					<key>FNum</key>
+					<array>
+						<string>ui8</string>
+						<data>AA==</data>
+					</array>
+					<key>MSSD</key>
+					<array>
+						<string>si8</string>
+						<data>BQ==</data>
+					</array>
+					<key>MSSP</key>
+					<array>
+						<string>si8</string>
+						<data>BQ==</data>
+					</array>
+					<key>NATJ</key>
+					<array>
+						<string>ui8</string>
+						<data>AA==</data>
+					</array>
+					<key>NATi</key>
+					<array>
+						<string>ui16</string>
+						<data>MDAwMA==</data>
+					</array>
+					<key>NTOK</key>
+					<array>
+						<string>ui8</string>
+						<data>AQ==</data>
+					</array>
+					<key>OSK0</key>
+					<array>
+						<string>ch8*</string>
+						<data>b3VyaGFyZHdvcmtieXRoZXNld29yZHNndWFyZGVkcGw=</data>
+					</array>
+					<key>OSK1</key>
+					<array>
+						<string>ch8*</string>
+						<data>ZWFzZWRvbnRzdGVhbChjKUFwcGxlQ29tcHV0ZXJJbmM=</data>
+					</array>
+					<key>REV </key>
+					<array>
+						<string>{rev</string>
+						<data>ATAPAAAD</data>
+					</array>
+				</dict>
 				<key>Types</key>
 				<dict>
+					<key>EPCI</key>
+					<string>flag</string>
+					<key>BEMB</key>
+					<string>flag</string>
+					<key>CLWK</key>
+					<string>ui16</string>
+					<key>MSDW</key>
+					<string>flag</string>
+					<key>MSDS</key>
+					<string>ui8</string>
+					<key>MSPS</key>
+					<string>{msp</string>
 					<key>CLKC</key>
 					<string>{clc</string>
 					<key>CLKT</key>
@@ -146,8 +221,12 @@
 					<string>{clh</string>
 					<key>LSSS</key>
 					<string>{lso</string>
+					<key>RPlt</key>
+					<string>ch8*</string>
 				</dict>
 				<key>debug</key>
+				<false/>
+				<key>trace</key>
 				<false/>
 				<key>smc-compatible</key>
 				<string>smc-napa</string>
