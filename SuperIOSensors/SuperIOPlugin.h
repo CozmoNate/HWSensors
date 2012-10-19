@@ -39,6 +39,7 @@ class SuperIOPlugin : public FakeSMCPlugin {
 	OSDeclareAbstractStructors(SuperIOPlugin)
 	
 private:
+     bool                   processSensorWithNode(OSString *node, const char *name, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset);
     
 protected:
     
@@ -48,6 +49,8 @@ protected:
     
 	const char              *modelName;
     const char              *vendorName;
+    
+
     
     virtual bool            addTemperatureSensors(OSDictionary *configuration);
     virtual bool            addVoltageSensors(OSDictionary *configuration);

@@ -28,13 +28,6 @@
 #include "SuperIOPlugin.h"
 #include "SuperIO.h"
 
-/*#define Debug FALSE
-
-#define LogPrefix "SuperIOPlugin: "
-#define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
-
 #define super FakeSMCPlugin
 OSDefineMetaClassAndAbstractStructors(SuperIOPlugin, FakeSMCPlugin)
 
@@ -60,6 +53,18 @@ inline bool process_sensor_entry(OSObject *object, OSString **name, float *refer
     return false;
 }
 
+bool SuperIOPlugin::processSensorWithNode(OSString *node, const char *name, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
+{
+    if (node->isEqualTo(name)) {
+        if (!addSensor(key, type, size, group, index, reference, gain, offset)) {
+            HWSensorsWarningLog("failed to add %s %s sensor", name, group == kSuperIOTemperatureSensor ? "temperature" : group == kSuperIOVoltageSensor ? "voltage" : "unknown");
+        }
+        else return true;
+    }
+    
+    return false;
+}
+
 bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding temperature sensors...");
@@ -75,39 +80,26 @@ bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
         snprintf(key, 8, "TEMPIN%X", i);
         
         if (process_sensor_entry(configuration->getObject(key), &name, &reference, &gain, &offset)) {
-            if (name->isEqualTo("CPU")) {
-                if (!addSensor(KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add CPU temperature sensor");
-            }
-            if (name->isEqualTo("CPU Proximity")) {
-                if (!addSensor(KEY_CPU_PROXIMITY_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add CPU Proximity temperature sensor");
-            }
-            else if (name->isEqualTo("System")) {				
-                if (!addSensor(KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add System temperature sensor");
-            }
-            else if (name->isEqualTo("Ambient")) {
-                if (!addSensor(KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add Ambient temperature sensor");
-            }
-            else if (name->isEqualTo("PCH")) {				
-                if (!addSensor(KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add PCH temperature sensor");
-            }
-            else {
-                for (int j = 1; j <= 0xf; j++) {
-                    
-                    char caption[64];
-                    
-                    snprintf(caption, 10, "Ambient %X", j);
-                    
-                    if (name->isEqualTo(caption)) {
-                        snprintf(key, 5, KEY_FORMAT_AMBIENT_TEMPERATURE, j);
-                        if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
-                            HWSensorsWarningLog("can't add Ambient %X temperature sensor", j);
-                    }
-                }
+            if (processSensorWithNode(name, "CPU", KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "CPU Proximity", KEY_CPU_PROXIMITY_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "System", KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "Ambient", KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "PCH", KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+                continue;
+            
+            for (int j = 1; j <= 0xf; j++) {
+                
+                char caption[64];
+                
+                snprintf(caption, 10, "Ambient %X", j);
+                snprintf(key, 5, KEY_FORMAT_AMBIENT_TEMPERATURE, j);
+                
+                if (processSensorWithNode(name, caption, key, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+                    break;
             }
         }
     }
@@ -130,76 +122,57 @@ bool SuperIOPlugin::addVoltageSensors(OSDictionary *configuration)
         snprintf(key, 5, "VIN%X", i);
         
         if (process_sensor_entry(configuration->getObject(key), &name, &reference, &gain, &offset)) {
-            if (name->isEqualTo("CPU")) {
-                if (!addSensor(KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add CPU voltage sensor");
-            }
-            else if (name->isEqualTo("Memory")) {
-                if (!addSensor(KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add Memory voltage sensor");
-            }
-            else if (name->isEqualTo("Main 12V")) {
-                if (!addSensor(KEY_MAIN_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add Main 12V voltage sensor");
-            }
-            else if (name->isEqualTo("PCIe 12V")) {
-                if (!addSensor(KEY_PCIE_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add PCIe 12V voltage sensor");
-            }
-            else if (name->isEqualTo("Main 5V")) {
-                if (!addSensor(KEY_MAIN_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add Main 5V voltage sensor");
-            }
-            else if (name->isEqualTo("Standby 5V")) {
-                if (!addSensor(KEY_STANDBY_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add Standby 5V voltage sensor");
-            }
-            else if (name->isEqualTo("Main 3V")) {
-                if (!addSensor(KEY_MAIN_3V3_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add Main 3V voltage sensor");
-            }
-            else if (name->isEqualTo("Auxiliary 3V")) {
-                if (!addSensor(KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add Auxiliary 3V voltage sensor");
-            }
-            else if (name->isEqualTo("CMOS Battery")) {
-                if (!addSensor(KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                    HWSensorsWarningLog("can't add CMOS Battery voltage sensor");
-            }
-            else if (name->isEqualTo("GPU")) {
+            if (processSensorWithNode(name, "CPU", KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "Memory", KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "Main 12V", KEY_MAIN_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "PCIe 12V", KEY_PCIE_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "Main 5V", KEY_MAIN_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "Standby 5V", KEY_STANDBY_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "Main 3V", KEY_MAIN_3V3_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "Auxiliary 3V", KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                continue;
+            if (processSensorWithNode(name, "CMOS Battery", KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                continue;
+            
+            if (name->isEqualTo("GPU")) {
                 SInt8 index = getVacantGPUIndex();
                 
                 if (index > -1) {
                     snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, index);
                     
                     if (!addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                        HWSensorsWarningLog("can't add GPU voltage sensor");
+                        HWSensorsWarningLog("failed to add GPU %d voltage sensor", index);
                 }
                 else HWSensorsWarningLog("failed to obtain vacant GPU index");
+                
+                continue;
+            }
+ 
+            for (int j = 0; j <= 0xf; j++) {
+                char caption[32];
+                
+                snprintf(caption, 17, "CPU VRM Supply %X", j);
+                snprintf(key, 5, KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE, j);
+                
+                if (processSensorWithNode(name, caption, key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                    break;
             }
             
-            
             for (int j = 0; j <= 0xf; j++) {
-                
                 char caption[32];
                 
                 snprintf(caption, 15, "Power Supply %X", j);
+                snprintf(key, 5, KEY_FORMAT_POWERSUPPLY_VOLTAGE, j);
                 
-                if (name->isEqualTo(caption)) {
-                    snprintf(key, 5, KEY_FORMAT_POWERSUPPLY_VOLTAGE, j);
-                    if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                        HWSensorsWarningLog("can't add PWR%X voltage sensor", j);
-                }
-                else {
-                
-                    snprintf(caption, 17, "CPU VRM Supply %X", j);
-                    
-                    if (name->isEqualTo(caption)) {
-                        snprintf(key, 5, KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE, j);
-                        if (!addSensor(key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
-                            HWSensorsWarningLog("can't add VRM%X voltage sensor", j);
-                    }
-                }
+                if (processSensorWithNode(name, caption, key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                    break;
             }
         }
     }
@@ -224,7 +197,7 @@ bool SuperIOPlugin::addTachometerSensors(OSDictionary *configuration)
         
         if (readTachometer(i) > 10 || nameLength > 0)
             if (!addTachometer(i, (nameLength > 0 ? name->getCStringNoCopy() : 0)))
-                HWSensorsWarningLog("error adding tachometer sensor %d", i);
+                HWSensorsWarningLog("failed to add tachometer sensor %d", i);
     }
     
     return true;
