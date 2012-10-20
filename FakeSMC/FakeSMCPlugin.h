@@ -65,10 +65,14 @@ public:
 
 class FakeSMCPlugin : public IOService {
 	OSDeclareAbstractStructors(FakeSMCPlugin)
-	
-protected:
-	IOService               *fakeSMC;
+
+private:
+    IOService               *fakeSMC;
     OSDictionary            *sensors;
+    
+protected:
+    OSString                *getPlatformManufacturer();
+    OSString                *getPlatformProduct();
     
     bool                    isKeyHandled(const char *key);
     
@@ -79,7 +83,7 @@ protected:
     
     OSDictionary            *getConfigurationNode(OSDictionary *root, OSString *name);
     OSDictionary            *getConfigurationNode(OSDictionary *root, const char *name);
-    OSDictionary            *getConfigurationNode(OSString *manufacturer, OSString *product, OSString *model);
+    OSDictionary            *getConfigurationNode(OSString *model=NULL);
     
     virtual SInt8           getVacantGPUIndex();
     virtual float           getSensorValue(FakeSMCSensor *sensor);

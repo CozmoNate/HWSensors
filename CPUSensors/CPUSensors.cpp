@@ -104,7 +104,7 @@ IOReturn CPUSensors::loopTimerEvent(void)
     if (thermCounter++ < 4)
         for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
             mp_rendezvous_no_intrs(read_cpu_thermal, &index);
-            IODelay(500);
+            IOSleep(1); // Yield?
         }
     
     if (perfCounter++ < 4) {
@@ -114,13 +114,14 @@ IOReturn CPUSensors::loopTimerEvent(void)
             case CPUFAMILY_INTEL_SANDYBRIDGE:
             case CPUFAMILY_INTEL_IVYBRIDGE:
                 mp_rendezvous_no_intrs(read_cpu_performance, &index);
+                IOSleep(1); // Yield?
                 cpu_performance[0] = cpu_performance[index];
                 break;
                 
             default:
                 for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
                     mp_rendezvous_no_intrs(read_cpu_performance, &index);
-                    IODelay(500);
+                    IOSleep(1); // Yield?
                 }
                 break;
         }

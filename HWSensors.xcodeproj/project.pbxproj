@@ -65,10 +65,8 @@
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
 		7E55352515C05C4100DDF3BF /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E55352415C05C4100DDF3BF /* 16-line-chart@2x.png */; };
-		7E5A8CB91605EAA400FF0099 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */; };
-		7E5A8CBA1605EAA400FF0099 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */; };
-		7E5A8CBB1605EAA400FF0099 /* OEMInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5A8CB81605EAA400FF0099 /* OEMInfo.h */; };
-		7E5A8CBC1605EAA400FF0099 /* OEMInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5A8CB81605EAA400FF0099 /* OEMInfo.h */; };
+		7E78628F1632F633001984B9 /* OEMInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5A8CB81605EAA400FF0099 /* OEMInfo.h */; };
+		7E7862901632F633001984B9 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */; };
 		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
 		7E78CD4915EC03BF00D57BC4 /* PTIDSensors.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBEC2A215E78B7B00537027 /* PTIDSensors.h */; };
 		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
@@ -198,7 +196,6 @@
 		1D6FE3FE13FEC03100376E64 /* ACPISensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPISensors.h; sourceTree = "<group>"; };
 		1D6FE40113FEC05500376E64 /* ACPISensors-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ACPISensors-Info.plist"; sourceTree = "<group>"; };
 		1D9F8320144FF24000EEEFEB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		1DA9624F13ED34430096F8A5 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		1DA962BA13ED368C0096F8A5 /* RadeonMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadeonMonitor.cpp; sourceTree = "<group>"; };
 		1DA962BB13ED368C0096F8A5 /* RadeonMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonMonitor.h; sourceTree = "<group>"; };
 		1DA962C213ED37D90096F8A5 /* RadeonChipinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonChipinfo.h; sourceTree = "<group>"; };
@@ -307,6 +304,7 @@
 		7E5E4BFD15D53A9C002FE3DF /* nva3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nva3.cpp; sourceTree = "<group>"; };
 		7E5E4BFF15D53F24002FE3DF /* nouveau_volt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_volt.h; sourceTree = "<group>"; };
 		7E5E4C0115D53F2F002FE3DF /* nouveau_volt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_volt.cpp; sourceTree = "<group>"; };
+		7E78628E1632F0B7001984B9 /* fakesmc.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fakesmc.txt; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81D15BA99350079AAE8 /* CPUSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CPUSensors-Info.plist"; sourceTree = "<group>"; };
 		7E79B81F15BA99350079AAE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -492,7 +490,7 @@
 				6AA172C4150B415200A77CF2 /* FakeSMCDevice.cpp */,
 				6AA2D0D3150B4B99004757C5 /* FakeSMC.h */,
 				6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */,
-				1DA9624F13ED34430096F8A5 /* License.txt */,
+				7E5A8CB51605EA7300FF0099 /* OEMInfo */,
 				6AAF9FB6151DC8D1007EACE2 /* FakeSMCPlugin */,
 				1D05ABEA13ED0DAD00EADBF6 /* Supporting Files */,
 			);
@@ -813,6 +811,7 @@
 				7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */,
 			);
 			name = OEMInfo;
+			path = ../Shared;
 			sourceTree = "<group>";
 		};
 		7E5C4AE71631EDED00F24269 /* Apps */ = {
@@ -914,6 +913,7 @@
 		7EB692E615C99A0E0009B2E2 /* Licenses */ = {
 			isa = PBXGroup;
 			children = (
+				7E78628E1632F0B7001984B9 /* fakesmc.txt */,
 				7EB692E715C99A2E0009B2E2 /* gpl.txt */,
 			);
 			name = Licenses;
@@ -1006,7 +1006,6 @@
 				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
 				6A9955C214EFAEE50052C702 /* cpuid.h */,
 				7EBCF8791615A84C00E16D3B /* timer.h */,
-				7E5A8CB51605EA7300FF0099 /* OEMInfo */,
 				6AA3A26A14F6D7AC007A7084 /* ATASmartReporter */,
 				7E3684A8158368AC00E32629 /* HWMonitorIcon */,
 				6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */,
@@ -1053,6 +1052,7 @@
 				6AA172CC150B415200A77CF2 /* FakeSMCDevice.h in Headers */,
 				6A9C468E14E657EE0083E5E6 /* FakeSMCPlugin.h in Headers */,
 				6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */,
+				7E78628F1632F633001984B9 /* OEMInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1062,7 +1062,6 @@
 			files = (
 				1D6FE40013FEC03100376E64 /* ACPISensors.h in Headers */,
 				7E78CD4915EC03BF00D57BC4 /* PTIDSensors.h in Headers */,
-				7E5A8CBB1605EAA400FF0099 /* OEMInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1077,7 +1076,6 @@
 				6A2B4E49152179700093A217 /* W836xxSensors.h in Headers */,
 				6A2B4E3F152179700093A217 /* F718xxSensors.h in Headers */,
 				6A2B4E43152179700093A217 /* NCT677xSensors.h in Headers */,
-				7E5A8CBC1605EAA400FF0099 /* OEMInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1440,6 +1438,7 @@
 				6AA172CB150B415200A77CF2 /* FakeSMCDevice.cpp in Sources */,
 				6A9C468D14E657EE0083E5E6 /* FakeSMCPlugin.cpp in Sources */,
 				6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */,
+				7E7862901632F633001984B9 /* OEMInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1449,7 +1448,6 @@
 			files = (
 				1D6FE3FF13FEC03100376E64 /* ACPISensors.cpp in Sources */,
 				7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */,
-				7E5A8CB91605EAA400FF0099 /* OEMInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1463,7 +1461,6 @@
 				6A2B4E48152179700093A217 /* W836xxSensors.cpp in Sources */,
 				6A2B4E3E152179700093A217 /* F718xxSensors.cpp in Sources */,
 				6A2B4E42152179700093A217 /* NCT677xSensors.cpp in Sources */,
-				7E5A8CBA1605EAA400FF0099 /* OEMInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

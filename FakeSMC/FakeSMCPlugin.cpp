@@ -35,10 +35,8 @@ FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey,
 {
 	FakeSMCSensor *me = new FakeSMCSensor;
 	
-    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex)) {
-        me->release();
-        return 0;
-    }
+    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex))
+        OSSafeRelease(me);
 	
     return me;
 }
@@ -151,8 +149,21 @@ void FakeSMCSensor::encodeValue(float value, void *outBuffer)
 
 // Plugin
 
+#include "OEMInfo.h"
+
 #define super IOService
 OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)
+
+
+OSString *FakeSMCPlugin::getPlatformManufacturer()
+{
+    return OSDynamicCast(OSString, fakeSMC->getProperty(kOEMInfoManufacturer));
+}
+
+OSString *FakeSMCPlugin::getPlatformProduct()
+{
+    return OSDynamicCast(OSString, fakeSMC->getProperty(kOEMInfoProduct));
+}
 
 bool FakeSMCPlugin::isKeyHandled(const char *key)
 {
@@ -173,9 +184,9 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8
 	
     if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index)) {
         if (addSensor(sensor))
-           return sensor;
+            return sensor;
         else 
-            sensor->release();
+            OSSafeRelease(sensor);
     }
 	
 	return NULL;
@@ -300,15 +311,15 @@ OSDictionary *FakeSMCPlugin::getConfigurationNode(OSDictionary *root, const char
     return configuration;
 }
 
-OSDictionary *FakeSMCPlugin::getConfigurationNode(OSString *manufacturer, OSString *product, OSString *model)
+OSDictionary *FakeSMCPlugin::getConfigurationNode(OSString *model)
 {
     OSDictionary *configuration = NULL;
     
     if (OSDictionary *list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration")))
     {
-        if (manufacturer)
+        if (OSString *manufacturer = getPlatformManufacturer())
             if (OSDictionary *manufacturerNode = OSDynamicCast(OSDictionary, list->getObject(manufacturer)))
-                if (!(configuration = getConfigurationNode(manufacturerNode, product)))
+                if (!(configuration = getConfigurationNode(manufacturerNode, getPlatformProduct())))
                     if (!(configuration = getConfigurationNode(manufacturerNode, model)))
                         configuration = getConfigurationNode(manufacturerNode, "Default");
         
@@ -364,7 +375,7 @@ void FakeSMCPlugin::stop(IOService* provider)
 
 void FakeSMCPlugin::free()
 {
-    sensors->release();	
+    OSSafeRelease(sensors);	
 	super::free();
 }
 

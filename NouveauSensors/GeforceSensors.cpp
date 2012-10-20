@@ -237,10 +237,8 @@ bool GeforceSensors::start(IOService * provider)
 
 void GeforceSensors::free(void)
 {
-    if (card.mmio) {
-        card.mmio->release();
-        card.mmio = 0;
-    }
+    if (card.mmio)
+        OSSafeRelease(card.mmio);
     
     if (card.bios.data) {
         IOFree(card.bios.data, card.bios.size);

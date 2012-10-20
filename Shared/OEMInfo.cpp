@@ -123,7 +123,7 @@ void SMBPackedStrings::setDataProperty( IORegistryEntry * entry,
             data->appendBytes(string, length);
             data->appendByte('\0', 1);
             entry->setProperty(key, data);
-            data->release();
+            OSSafeRelease(data);
         }
     }
 }
@@ -141,7 +141,7 @@ void SMBPackedStrings::setStringProperty( IORegistryEntry * entry,
         if (strObj)
         {
             entry->setProperty(key, strObj);
-            strObj->release();
+            OSSafeRelease(strObj);
         }
     }
 }
@@ -161,7 +161,7 @@ static UInt8 checksum8( void * start, UInt length )
 
 static void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBoard, SMBPackedStrings *strings)
 {
-    if (baseBoard->header.length <8)
+    if (baseBoard->header.length < 8)
         return;
     
     OSString *manufacturer = NULL;
@@ -220,16 +220,16 @@ static void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard 
         if (!manufacturer && !name->isEqualTo("To be filled by O.E.M.")) 
             manufacturer = OSString::withString(name);
         
-        name->release();
+        OSSafeRelease(name);
     }
     
     if (manufacturer) {
-        provider->setProperty("mb-manufacturer", manufacturer);
-        manufacturer->release();
+        provider->setProperty(kOEMInfoManufacturer, manufacturer);
+        OSSafeRelease(manufacturer);
     }
+    else strings->setStringProperty(provider, kOEMInfoManufacturer,  baseBoard->manufacturer);
     
-    //strings->setStringProperty(provider, "mb-manufacturer",  baseBoard->manufacturer);
-    strings->setStringProperty(provider, "mb-product",  baseBoard->product);
+    strings->setStringProperty(provider, kOEMInfoProduct, baseBoard->product);
 }
 
 static void decodeSMBIOSStructure(IOService *provider, const SMBStructHeader *structureHeader, const void *tableBoundary)

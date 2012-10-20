@@ -10,6 +10,8 @@
 #include "FakeSMCDevice.h"
 #include "FakeSMCDefinitions.h"
 
+#include "OEMInfo.h"
+
 #define FakeSMCTraceLog(string, args...) do { if (trace) { IOLog ("%s: [Trace] " string "\n",getName() , ## args); } } while(0)
 #define FakeSMCDebugLog(string, args...) do { if (debug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
 
@@ -350,13 +352,13 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 						if (type && value)
 							this->addKeyWithValue(key->getCStringNoCopy(), type->getCStringNoCopy(), value->getLength(), value->getBytesNoCopy());
 						
-						aiterator->release();
+                        OSSafeRelease(aiterator);
 					}
 				}
 				key = 0;
 			}
 			
-			iterator->release();
+			OSSafeRelease(iterator);
 		}
 		
 		HWSensorsInfoLog("%d preconfigured key(s) added", keys->getCount());
@@ -412,7 +414,7 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	
 	if(OSArray *array = IODeviceMemory::arrayFromList(rangeList, 1)) {
 		this->setDeviceMemory(array);
-		array->release();
+		OSSafeRelease(array);
 	}
 	else
 	{
@@ -450,6 +452,9 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	this->setProperty(gIOInterruptControllersKey, controllers) && this->setProperty(gIOInterruptSpecifiersKey, specifiers);
 	this->attachToParent(platform, gIOServicePlane);
     
+    if (!setOemProperties(this))
+        HWSensorsWarningLog("failed to read OEM data");
+    
     registerService();
 	
 	HWSensorsInfoLog("successfully initialized");
@@ -474,7 +479,7 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
                 
                 this->setProperty(kFakeSMCDeviceValues, values);
                 
-                values->release();
+                OSSafeRelease(values);
                 
                 return kIOReturnSuccess;
             }
@@ -496,8 +501,8 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
                 
                 this->setProperty(kFakeSMCDeviceValues, values);
                 
-                values->release();
-                iterator->release();
+                OSSafeRelease(values);
+                OSSafeRelease(iterator);
                 
                 return kIOReturnSuccess;
             }
@@ -624,11 +629,12 @@ FakeSMCKey *FakeSMCDevice::getKey(const char *name)
             UInt32 key1 = key_to_int(name);
 			UInt32 key2 = key_to_int(key->getKey());
 			if (key1 == key2) {
-				iterator->release();
+				OSSafeRelease(iterator);
 				return key;
 			}
 		}
-		iterator->release();
+		
+        OSSafeRelease(iterator);
 	}
 	
 	FakeSMCDebugLog("key %s not found", name);
@@ -787,7 +793,8 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
                         key->setHandler(NULL);
                         break;
                     }
-                iterator->release();
+                
+                OSSafeRelease(iterator);
             }
     }
 	

@@ -55,13 +55,7 @@ bool ACPISensors::start(IOService * provider)
         return false;
     }
     
-    if (!setOemProperties(this))
-        HWSensorsWarningLog("failed to read OEM data");
-    
-    if (OSDictionary *configuration = getConfigurationNode(
-                                                           OSDynamicCast(OSString, provider->getProperty("mb-manufacturer")),
-                                                           OSDynamicCast(OSString, provider->getProperty("mb-product")),
-                                                           NULL))
+    if (OSDictionary *configuration = getConfigurationNode())
     {
         // Temperatures
         if ((temperatures = OSDynamicCast(OSDictionary, configuration->getObject("Temperatures")))) {

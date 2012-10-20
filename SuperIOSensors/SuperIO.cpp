@@ -280,9 +280,6 @@ bool SuperIODevice::start(IOService *provider)
         
         setProperty(kSuperIODeviceID, OSData::withBytes(&id, sizeof(id)));
         
-        if (!setOemProperties(this))
-            HWSensorsWarningLog("failed read OEM data");
-        
         registerService();
         
         break;

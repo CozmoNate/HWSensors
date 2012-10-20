@@ -26,6 +26,9 @@
 #include <IOKit/IOService.h>
 
 //class SMBPackedStrings;
+
+#define kOEMInfoManufacturer    "mb-manufacturer"
+#define kOEMInfoProduct         "mb-product"
     
 bool setOemProperties(IOService *provider);
 /*void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16 tableLength, UInt16 structureCount);

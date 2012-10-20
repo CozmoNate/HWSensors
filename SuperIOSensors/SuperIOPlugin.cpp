@@ -36,11 +36,9 @@ SuperIOSensor *SuperIOSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey,
 {
 	SuperIOSensor *me = new SuperIOSensor;
 	
-    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex, aReference, aGain, aOffset)) {
-        me->release();
-        return 0;
-    }
-	
+    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex, aReference, aGain, aOffset))
+        OSSafeRelease(me);
+    
     return me;
 }
 
@@ -72,6 +70,8 @@ float SuperIOSensor::getOffset()
 }
 
 // Plugin
+
+#include "OEMInfo.h"
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndAbstractStructors(SuperIOPlugin, FakeSMCPlugin)
@@ -120,7 +120,7 @@ SuperIOSensor *SuperIOPlugin::addSensor(const char *key, const char *type, UInt8
         if (FakeSMCPlugin::addSensor(sensor))
             return sensor;
         else
-            sensor->release();
+            OSSafeRelease(sensor);
     }
 	
 	return NULL;
@@ -314,10 +314,17 @@ float SuperIOPlugin::getSensorValue(FakeSMCSensor *sensor)
         }
         
         // Apply modifiers only for temperature and voltage sensors
-        // Tachometer sensors has no support for modifiers
-        if (sensor->getGroup() != kFakeSMCTachometerSensor) {
-            SuperIOSensor *superio = (SuperIOSensor*)sensor;
-            value = superio->getOffset() + value + (value - superio->getReference()) * superio->getGain();
+        // Tachometer sensors has no support for modifiers as them FakeSMCSensor class not SuperIOSensor
+        
+        SuperIOSensor *superio = (SuperIOSensor*)sensor;
+        
+        switch (sensor->getGroup()) {
+            case kSuperIOTemperatureSensor:
+                value = superio->getOffset() + (value - superio->getReference()) * superio->getGain();
+                break;
+            case kSuperIOVoltageSensor:
+                value = superio->getOffset() + value + (value - superio->getReference()) * superio->getGain();
+                break;
         }
     }
     
@@ -394,10 +401,7 @@ bool SuperIOPlugin::start(IOService *provider)
     
     OSString *modelString = OSString::withCString(modelName);
 
-	if (OSDictionary *configuration = getConfigurationNode(
-                                                           OSDynamicCast(OSString, provider->getProperty("mb-manufacturer")),
-                                                           OSDynamicCast(OSString, provider->getProperty("mb-product")),
-                                                           modelString))
+	if (OSDictionary *configuration = getConfigurationNode(modelString))
     {
         addTemperatureSensors(configuration);
         addVoltageSensors(configuration);
