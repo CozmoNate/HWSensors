@@ -37,7 +37,7 @@
 			<key>IOProbeScore</key>
 			<integer>1000</integer>
 		</dict>
-		<key>ACPI Customizing Monitoring Plugin</key>
+		<key>ACPI Customizable Monitoring Plugin</key>
 		<dict>
 			<key>IOClass</key>
 			<string>ACPISensors</string>
