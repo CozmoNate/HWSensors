@@ -49,13 +49,6 @@
 #include "FakeSMCDefinitions.h"
 #include "SuperIO.h"
 
-/*#define Debug FALSE
-
-#define LogPrefix "NCT677xSensors: "
-#define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
-
 #define super SuperIOPlugin
 OSDefineMetaClassAndStructors(NCT677xSensors, SuperIOPlugin)
 
@@ -154,7 +147,7 @@ bool NCT677xSensors::initialize()
     
     if (vendor != NUVOTON_VENDOR_ID)
     {
-        HWSensorsWarningLog("wrong vendor ID=0x%x", vendor);
+        HWSensorsFatalLog("wrong vendor ID=0x%x", vendor);
         return false;
     }
     

@@ -257,7 +257,7 @@ bool SuperIODevice::start(IOService *provider)
         }
         
         if (model == 0) {                                
-            HWSensorsWarningLog("found unsupported ship ID=0x%x", id);
+            HWSensorsFatalLog("found unsupported ship ID=0x%x", id);
             return false;
         }
         

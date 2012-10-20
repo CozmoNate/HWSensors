@@ -214,7 +214,7 @@ bool PTIDSensors::start(IOService * provider)
 	acpiDevice = (IOACPIPlatformDevice *)provider;
 	
 	if (!acpiDevice) {
-        HWSensorsWarningLog("ACPI device not ready");
+        HWSensorsFatalLog("ACPI device not ready");
         return false;
     }
     
@@ -256,7 +256,7 @@ bool PTIDSensors::start(IOService * provider)
                     }
                 }
             }
-            else HWSensorsWarningLog("failed to evaluate TSDL table");
+            else HWSensorsErrorLog("failed to evaluate TSDL table");
             
             // Tachometers
             if(kIOReturnSuccess == acpiDevice->evaluateObject("OSDL", &object) && object) {
@@ -275,7 +275,7 @@ bool PTIDSensors::start(IOService * provider)
                     }
                 }
             }
-            else HWSensorsWarningLog("failed to evaluate OSDL table");
+            else HWSensorsErrorLog("failed to evaluate OSDL table");
             
             break;
         }
@@ -300,7 +300,7 @@ bool PTIDSensors::start(IOService * provider)
                     }
                 }
             }
-            else HWSensorsWarningLog("failed to evaluate TMPV table");
+            else HWSensorsErrorLog("failed to evaluate TMPV table");
             
             // Tachometers
             if(kIOReturnSuccess == acpiDevice->evaluateObject("OSDV", &object) && object) {
@@ -319,13 +319,13 @@ bool PTIDSensors::start(IOService * provider)
                     }
                 }
             }
-            else HWSensorsWarningLog("failed to evaluate OSDV table");
+            else HWSensorsErrorLog("failed to evaluate OSDV table");
             
             break;
         }
             
         default:
-            HWSensorsWarningLog("usupported interface version: 0x%x", (UInt32)version);
+            HWSensorsFatalLog("usupported interface version: 0x%x", (UInt32)version);
             return false;
     }
     

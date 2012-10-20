@@ -126,7 +126,7 @@ const void *FakeSMCKey::getValue()
             if (kIOReturnSuccess == result)
                 lastUpdated = now;
             else 
-                HWSensorsWarningLog("value update request callback error for key %s, return 0x%x", key, result);
+                HWSensorsWarningLog("value update request callback returned error for key %s, return 0x%x", key, result);
         }
 	}
     
@@ -156,7 +156,7 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
 		IOReturn result = handler->callPlatformFunction(kFakeSMCSetValueCallback, false, (void *)key, (void *)value, (void *)size, 0);
 		
 		if (kIOReturnSuccess != result)
-			HWSensorsWarningLog("value changed event callback error for key %s, return 0x%x", key, result);
+			HWSensorsWarningLog("value changed event callback returned error for key %s, return 0x%x", key, result);
 	}
 	
 	return true;

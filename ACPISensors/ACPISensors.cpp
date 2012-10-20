@@ -51,7 +51,7 @@ bool ACPISensors::start(IOService * provider)
 	acpiDevice = (IOACPIPlatformDevice *)provider;
 	
 	if (!acpiDevice) {
-        HWSensorsWarningLog("ACPI device not ready");
+        HWSensorsFatalLog("ACPI device not ready");
         return false;
     }
     

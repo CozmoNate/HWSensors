@@ -50,13 +50,6 @@
 #include "FakeSMCDefinitions.h"
 #include "SuperIO.h"
 
-/*#define Debug FALSE
-
-#define LogPrefix "F718xxSensors: "
-#define HWSensorsDebugLog(string, args...)	do { if (Debug) { IOLog (LogPrefix "[Debug] " string "\n", ## args); } } while(0)
-#define HWSensorsWarningLog(string, args...) do { IOLog (LogPrefix "[Warning] " string "\n", ## args); } while(0)
-#define HWSensorsInfoLog(string, args...)	do { IOLog (LogPrefix string "\n", ## args); } while(0)*/
-
 #define super SuperIOPlugin
 OSDefineMetaClassAndStructors(F718xxSensors, SuperIOPlugin)
 
@@ -163,7 +156,7 @@ bool F718xxSensors::initialize()
     
     if (vendor != FINTEK_VENDOR_ID)
     {
-        HWSensorsWarningLog("wrong vendor id=0x%x", vendor);
+        HWSensorsFatalLog("wrong vendor id=0x%x", vendor);
         return false;
     }
 	

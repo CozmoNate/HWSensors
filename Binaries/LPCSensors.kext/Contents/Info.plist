@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3.5</string>
+	<string>2.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.3.5</string>
+	<string>2.4</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
@@ -3119,7 +3119,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 kozlek, slice, usr-sse2, navi, THe King. All rights reserved.</string>
 	<key>OSBundleCompatibleVersion</key>
-	<string>2.3.4</string>
+	<string>2.4</string>
 	<key>OSBundleLibraries</key>
 	<dict>
 		<key>com.apple.iokit.IOPCIFamily</key>
@@ -3133,7 +3133,7 @@
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 		<key>org.netkas.driver.FakeSMC</key>
-		<string>4.2.13</string>
+		<string>4.3</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>
