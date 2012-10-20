@@ -298,7 +298,7 @@ float SuperIOPlugin::getSensorValue(FakeSMCSensor *sensor)
 {
     float value = 0;
     
-    if (sensor)
+    if (sensor) {
         switch (sensor->getGroup()) {
             case kSuperIOTemperatureSensor:
                 value = readTemperature(sensor->getIndex());
@@ -312,10 +312,14 @@ float SuperIOPlugin::getSensorValue(FakeSMCSensor *sensor)
                 value = readTachometer(sensor->getIndex());
                 break;
         }
-    
-    SuperIOSensor *superio = (SuperIOSensor*)sensor;
-    
-    value = superio->getOffset() + value + (value - superio->getReference()) * superio->getGain();
+        
+        // Apply modifiers only for temperature and voltage sensors
+        // Tachometer sensors has no support for modifiers
+        if (sensor->getGroup() != kFakeSMCTachometerSensor) {
+            SuperIOSensor *superio = (SuperIOSensor*)sensor;
+            value = superio->getOffset() + value + (value - superio->getReference()) * superio->getGain();
+        }
+    }
     
 	return value;
 }
