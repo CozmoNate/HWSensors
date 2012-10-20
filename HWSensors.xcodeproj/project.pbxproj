@@ -228,7 +228,7 @@
 		6A2B4E3B152179700093A217 /* SuperIOPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIOPlugin.h; sourceTree = "<group>"; };
 		6A2B4E3C152179700093A217 /* W836xxSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = W836xxSensors.cpp; sourceTree = "<group>"; };
 		6A2B4E3D152179700093A217 /* W836xxSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = W836xxSensors.h; sourceTree = "<group>"; };
-		6A4E4739152178A00038C5DE /* MBSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MBSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A4E4739152178A00038C5DE /* MBSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MBSensors.kext; path = LPCSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A4E473C152178A00038C5DE /* SuperIOSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuperIOSensors-Info.plist"; sourceTree = "<group>"; };
 		6A4E473E152178A00038C5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A4E4743152178A00038C5DE /* SuperIOSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SuperIOSensors-Prefix.pch"; sourceTree = "<group>"; };
@@ -453,8 +453,7 @@
 				6A9955BD14EFAD360052C702 /* Shared */,
 				1D05ABE913ED0DAD00EADBF6 /* FakeSMC */,
 				1D05AC3113ED101200EADBF6 /* Plug-Ins */,
-				6A85F85914DBEF5000F863A9 /* HWMonitorExtra */,
-				7EB963A81594559100436FDB /* HWMonitor */,
+				7E5C4AE71631EDED00F24269 /* Apps */,
 				6A0D508D151C902B00A6FC60 /* Installer */,
 				1D05ABE613ED0DAD00EADBF6 /* Frameworks */,
 				1D05ABE513ED0DAD00EADBF6 /* Products */,
@@ -814,6 +813,15 @@
 				7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */,
 			);
 			name = OEMInfo;
+			sourceTree = "<group>";
+		};
+		7E5C4AE71631EDED00F24269 /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				6A85F85914DBEF5000F863A9 /* HWMonitorExtra */,
+				7EB963A81594559100436FDB /* HWMonitor */,
+			);
+			name = Apps;
 			sourceTree = "<group>";
 		};
 		7E79B81B15BA99350079AAE8 /* CPUSensors */ = {

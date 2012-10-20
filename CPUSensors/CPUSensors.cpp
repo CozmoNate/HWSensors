@@ -204,17 +204,17 @@ bool CPUSensors::start(IOService *provider)
     cpuid_update_generic_info();
 	
 	if (strcmp(cpuid_info()->cpuid_vendor, CPUID_VID_INTEL) != 0)	{
-		HWSensorsWarningLog("no Intel processor found");
+		HWSensorsFatalLog("no Intel processor found");
 		return false;
 	}
 	
 	if(!(cpuid_info()->cpuid_features & CPUID_FEATURE_MSR))	{
-		HWSensorsWarningLog("processor does not support Model Specific Registers (MSR)");
+		HWSensorsFatalLog("processor does not support Model Specific Registers (MSR)");
 		return false;
 	}
 	
 	if(cpuid_info()->core_count == 0)	{
-		HWSensorsWarningLog("CPU core count is zero");
+		HWSensorsFatalLog("CPU core count is zero");
 		return false;
 	}
 	
@@ -312,7 +312,7 @@ bool CPUSensors::start(IOService *provider)
                         break;
                         
                     default:
-                        HWSensorsWarningLog("found unsupported Intel processor, using default Tjmax");
+                        HWSensorsFatalLog("found unsupported Intel processor, using default Tjmax");
                         break;
                 }
                 break;
@@ -330,13 +330,13 @@ bool CPUSensors::start(IOService *provider)
                         break;
                         
                     default:
-                        HWSensorsWarningLog("found unsupported Intel processor, using default Tjmax");
+                        HWSensorsFatalLog("found unsupported Intel processor, using default Tjmax");
                         break;
                 }
                 break;
 				
 			default:
-				HWSensorsWarningLog("found unknown Intel processor family");
+				HWSensorsFatalLog("found unknown Intel processor family");
 				return false;
 		}
 	}
@@ -374,7 +374,7 @@ bool CPUSensors::start(IOService *provider)
 		snprintf(key, 5, KEY_FORMAT_CPU_DIODE_TEMPERATURE, i);
         
         if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i))
-			HWSensorsWarningLog("Can't add temperature sensor");
+			HWSensorsWarningLog("failed to add temperature sensor");
 		
         switch (cpuid_info()->cpuid_cpufamily) {
             case CPUFAMILY_INTEL_NEHALEM:
@@ -387,12 +387,12 @@ bool CPUSensors::start(IOService *provider)
                 snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
                 
                 if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, i))
-                    HWSensorsWarningLog("Can't add multiplier sensor");
+                    HWSensorsWarningLog("failed to add multiplier sensor");
                 
                 snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY, i);
                 
                 if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, i))
-                    HWSensorsWarningLog("Can't add frequency sensor");
+                    HWSensorsWarningLog("failed to add frequency sensor");
                 
                 break;
         }
@@ -404,9 +404,9 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
-                HWSensorsWarningLog("Can't add package multiplier sensor");
+                HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
-                HWSensorsWarningLog("Can't add package frequency sensor");
+                HWSensorsWarningLog("failed to add package frequency sensor");
             break;
             
         default:

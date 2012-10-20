@@ -109,7 +109,7 @@ bool GmaSensors::start(IOService * provider)
     SInt8 cardIndex = getVacantGPUIndex();
     
     if (cardIndex < 0) {
-        HWSensorsWarningLog("failed to obtain vacant GPU index");
+        HWSensorsFatalLog("failed to obtain vacant GPU index");
         return false;
     }
     
@@ -118,7 +118,7 @@ bool GmaSensors::start(IOService * provider)
     snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, cardIndex);
     
     if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
-        HWSensorsWarningLog("failed to register temperature sensor");
+        HWSensorsFatalLog("failed to register temperature sensor");
         return false;
     }
     

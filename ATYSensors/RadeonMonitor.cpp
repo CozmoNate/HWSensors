@@ -107,7 +107,8 @@ bool RadeonMonitor::getRadeonInfo()
 		devices++;
 	}
     
-	HWSensorsWarningLog("unknown device id");
+	HWSensorsErrorLog("unknown device id");
+    
 	return false;
 }
 
@@ -259,7 +260,7 @@ IOService* RadeonMonitor::probe(IOService *provider, SInt32 *score)
     if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id")))
         chipID = *(UInt32*)data->getBytesNoCopy();
     else {
-        HWSensorsWarningLog("device-id property not found");
+        HWSensorsFatalLog("device-id property not found");
         return 0;
     }
     
@@ -272,7 +273,7 @@ bool RadeonMonitor::start(IOService * provider)
         return false;
     
     if (!initCard()) {
-        HWSensorsWarningLog("can't initialize driver");
+        HWSensorsFatalLog("can't initialize driver");
         return false;
     }
     
@@ -280,7 +281,7 @@ bool RadeonMonitor::start(IOService * provider)
     SInt8 cardIndex = getVacantGPUIndex();
     
     if (cardIndex < 0) {
-        HWSensorsWarningLog("failed to obtain vacant GPU index");
+        HWSensorsFatalLog("failed to obtain vacant GPU index");
         return false;
     }
     
@@ -289,7 +290,7 @@ bool RadeonMonitor::start(IOService * provider)
     snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, cardIndex);
 	
     if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
-        HWSensorsWarningLog("can't register temperature sensor for key %s", key);
+        HWSensorsFatalLog("failed to register temperature sensor for key %s", key);
         return false;
     }
     

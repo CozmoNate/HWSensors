@@ -13,7 +13,7 @@
 #define FakeSMCTraceLog(string, args...) do { if (trace) { IOLog ("%s: [Trace] " string "\n",getName() , ## args); } } while(0)
 #define FakeSMCDebugLog(string, args...) do { if (debug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
 
-#define FakeSMCSetProperty(key, value)	do { if (!this->setProperty(key, value)) {HWSensorsWarningLog("failed to set '%s' property", key); return false; } } while(0)
+#define FakeSMCSetProperty(key, value)	do { if (!this->setProperty(key, value)) {HWSensorsErrorLog("failed to set '%s' property", key); return false; } } while(0)
 
 
 #define super IOACPIPlatformDevice
@@ -416,14 +416,14 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	}
 	else
 	{
-		HWSensorsErrorLog("failed to create Device memory array");
+		HWSensorsFatalLog("failed to create Device memory array");
 		return false;
 	}
 	
 	OSArray *controllers = OSArray::withCapacity(1);
 	
     if(!controllers) {
-		HWSensorsErrorLog("failed to create controllers array");
+		HWSensorsFatalLog("failed to create controllers array");
         return false;
     }
     
@@ -432,7 +432,7 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	OSArray *specifiers  = OSArray::withCapacity(1);
 	
     if(!specifiers) {
-		HWSensorsErrorLog("failed to create specifiers array");
+		HWSensorsFatalLog("failed to create specifiers array");
         return false;
     }
 	
@@ -441,7 +441,7 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
     OSData *tmpData = OSData::withBytes(&line, sizeof(line));
 	
     if (!tmpData) {
-		HWSensorsErrorLog("failed to create specifiers data");
+		HWSensorsFatalLog("failed to create specifiers data");
         return false;
     }
     
@@ -449,6 +449,8 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
     
 	this->setProperty(gIOInterruptControllersKey, controllers) && this->setProperty(gIOInterruptSpecifiersKey, specifiers);
 	this->attachToParent(platform, gIOServicePlane);
+    
+    registerService();
 	
 	HWSensorsInfoLog("successfully initialized");
 	
@@ -582,7 +584,7 @@ FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, u
 		return key;
 	}
 	
-	HWSensorsWarningLog("can't create key %s", name);
+	HWSensorsErrorLog("failed to create key %s", name);
 	
 	return 0;
 }
@@ -605,7 +607,7 @@ FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type,
 		return key;
 	}
 	
-	HWSensorsWarningLog("can't create key %s", name);
+	HWSensorsErrorLog("failed to create key %s", name);
 	
 	return 0;
 }

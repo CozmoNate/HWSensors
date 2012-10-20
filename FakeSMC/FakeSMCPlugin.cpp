@@ -31,16 +31,37 @@
 
 OSDefineMetaClassAndStructors(FakeSMCSensor, OSObject)
 
-FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference, float aGain, float aOffset)
+FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex)
 {
 	FakeSMCSensor *me = new FakeSMCSensor;
 	
-    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex, aReference, aGain, aOffset)) {
+    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex)) {
         me->release();
         return 0;
     }
 	
     return me;
+}
+
+bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex)
+{
+	if (!OSObject::init())
+		return false;
+	
+	if (!(owner = aOwner))
+		return false;
+    
+	bzero(key, 5);
+    bcopy(aKey, key, 4);
+    
+    bzero(type, 5);
+	bcopy(aType, type, 4);
+	
+	size = aSize;
+	group = aGroup;
+	index = aIndex;
+    
+	return true;
 }
 
 const char *FakeSMCSensor::getKey()
@@ -66,45 +87,6 @@ UInt32 FakeSMCSensor::getGroup()
 UInt32 FakeSMCSensor::getIndex()
 {
 	return index;
-}
-
-float FakeSMCSensor::getReference()
-{
-    return reference;
-}
-
-float FakeSMCSensor::getGain()
-{
-    return gain;
-}
-
-float FakeSMCSensor::getOffset()
-{
-    return offset;
-}
-
-bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference, float aGain, float aOffset)
-{
-	if (!OSObject::init())
-		return false;
-	
-	if (!(owner = aOwner))
-		return false;
-    
-	bzero(key, 5);
-    bcopy(aKey, key, 4);
-    
-    bzero(type, 5);
-	bcopy(aType, type, 4);
-	
-	size = aSize;
-	group = aGroup;
-	index = aIndex;
-    reference = aReference;
-    gain = aGain;
-    offset = aOffset;
-	
-	return true;
 }
 
 inline UInt8 get_index(char c)
@@ -182,14 +164,14 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
     return false;
 }
 
-FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
+FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
 {   
     if (getSensor(key)) {
         HWSensorsDebugLog("will not add handler for key %s, key already handled", key);
 		return NULL;
     }
 	
-    if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index, reference, gain, offset)) {
+    if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index)) {
         if (addSensor(sensor))
            return sensor;
         else 
@@ -223,30 +205,30 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, UInt
             snprintf(key, 5, KEY_FORMAT_FAN_SPEED, i); 
             
             if (!isKeyHandled(key)) {
-                if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, 2, kFakeSMCTachometerSensor, index, 1.0f)) {
+                if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, 2, kFakeSMCTachometerSensor, index)) {
                     if (name) {
                         snprintf(key, 5, KEY_FORMAT_FAN_ID, i); 
                         
                         if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
-                            HWSensorsWarningLog("can't add tachometer name for key %s", key);
+                            HWSensorsWarningLog("failed to add tachometer name for key %s", key);
                     }
                     
                     if (i + 1 > length) {
                         length++;
                         
                         if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)(UInt8)1, (void *)&length, 0))
-                            HWSensorsWarningLog("can't update FNum value");
+                            HWSensorsWarningLog("failed to update FNum value");
                     }
                     
                     if (fanIndex) *fanIndex = (UInt8)i;
                     
                     return sensor;
                 }
-                else HWSensorsWarningLog("can't add tachometer sensor for key %s", key);
+                else HWSensorsWarningLog("failed to add tachometer sensor for key %s", key);
             }
         }
 	}
-	else HWSensorsWarningLog("can't read FNum value");
+	else HWSensorsWarningLog("failed to read FNum value");
 	
 	return 0;
 }
@@ -364,7 +346,7 @@ bool FakeSMCPlugin::start(IOService *provider)
         return false;
 
 	if (!(fakeSMC = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
-		HWSensorsWarningLog("can't locate FakeSMCDevice");
+		HWSensorsFatalLog("can't locate FakeSMCDevice");
 		return false;
 	}
 	

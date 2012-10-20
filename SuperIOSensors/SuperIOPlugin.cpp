@@ -28,10 +28,55 @@
 #include "SuperIOPlugin.h"
 #include "SuperIO.h"
 
+// Sensor
+
+OSDefineMetaClassAndStructors(SuperIOSensor, FakeSMCSensor)
+
+SuperIOSensor *SuperIOSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference, float aGain, float aOffset)
+{
+	SuperIOSensor *me = new SuperIOSensor;
+	
+    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex, aReference, aGain, aOffset)) {
+        me->release();
+        return 0;
+    }
+	
+    return me;
+}
+
+bool SuperIOSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference, float aGain, float aOffset)
+{
+	if (!FakeSMCSensor::initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex))
+        return false;
+        
+    reference = aReference;
+    gain = aGain;
+    offset = aOffset;
+	
+	return true;
+}
+
+float SuperIOSensor::getReference()
+{
+    return reference;
+}
+
+float SuperIOSensor::getGain()
+{
+    return gain;
+}
+
+float SuperIOSensor::getOffset()
+{
+    return offset;
+}
+
+// Plugin
+
 #define super FakeSMCPlugin
 OSDefineMetaClassAndAbstractStructors(SuperIOPlugin, FakeSMCPlugin)
 
-inline bool process_sensor_entry(OSObject *object, OSString **name, float *reference, float *gain, float *offset)
+bool SuperIOPlugin::parseConfigurationNode(OSObject *object, OSString **name, float *reference, float *gain, float *offset)
 {
     if ((*name = OSDynamicCast(OSString, object))) {
         return true;
@@ -53,16 +98,32 @@ inline bool process_sensor_entry(OSObject *object, OSString **name, float *refer
     return false;
 }
 
-bool SuperIOPlugin::processSensorWithNode(OSString *node, const char *name, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
+bool SuperIOPlugin::matchSensorToNodeName(OSString *node, const char *name, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
     if (node->isEqualTo(name)) {
-        if (!addSensor(key, type, size, group, index, reference, gain, offset)) {
-            HWSensorsWarningLog("failed to add %s %s sensor", name, group == kSuperIOTemperatureSensor ? "temperature" : group == kSuperIOVoltageSensor ? "voltage" : "unknown");
-        }
-        else return true;
+        if (addSensor(key, type, size, group, index, reference, gain, offset))
+            return true;
+        else HWSensorsWarningLog("failed to add %s %s sensor", name, group == kSuperIOTemperatureSensor ? "temperature" : group == kSuperIOVoltageSensor ? "voltage" : "unknown");
     }
     
     return false;
+}
+
+SuperIOSensor *SuperIOPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
+{
+    if (getSensor(key)) {
+        HWSensorsDebugLog("will not add handler for key %s, key already handled", key);
+		return NULL;
+    }
+	
+    if (SuperIOSensor *sensor = SuperIOSensor::withOwner((FakeSMCPlugin*)this, key, type, size, group, index, reference, gain, offset)) {
+        if (FakeSMCPlugin::addSensor(sensor))
+            return sensor;
+        else
+            sensor->release();
+    }
+	
+	return NULL;
 }
 
 bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
@@ -72,33 +133,33 @@ bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
     for (int i = 0; i < temperatureSensorsLimit(); i++) 
     {				
         char key[8];
-        OSString* name;
+        OSString* nodeName;
         float reference = 0.0f;
         float gain = 0.0f;
         float offset = 0.0f;
 
         snprintf(key, 8, "TEMPIN%X", i);
         
-        if (process_sensor_entry(configuration->getObject(key), &name, &reference, &gain, &offset)) {
-            if (processSensorWithNode(name, "CPU", KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+        if (parseConfigurationNode(configuration->getObject(key), &nodeName, &reference, &gain, &offset)) {
+            if (matchSensorToNodeName(nodeName, "CPU", KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "CPU Proximity", KEY_CPU_PROXIMITY_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "CPU Proximity", KEY_CPU_PROXIMITY_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "System", KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "System", KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "Ambient", KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "Ambient", KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "PCH", KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "PCH", KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                 continue;
             
             for (int j = 1; j <= 0xf; j++) {
                 
-                char caption[64];
+                char sensorName[64];
                 
-                snprintf(caption, 10, "Ambient %X", j);
+                snprintf(sensorName, 10, "Ambient %X", j);
                 snprintf(key, 5, KEY_FORMAT_AMBIENT_TEMPERATURE, j);
                 
-                if (processSensorWithNode(name, caption, key, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+                if (matchSensorToNodeName(nodeName, sensorName, key, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
                     break;
             }
         }
@@ -114,34 +175,34 @@ bool SuperIOPlugin::addVoltageSensors(OSDictionary *configuration)
     for (int i = 0; i < voltageSensorsLimit(); i++)
     {				
         char key[5];
-        OSString* name;
+        OSString* nodeName;
         float reference = 0.0f;
         float gain = 0.0f;
         float offset = 0.0f;
         
         snprintf(key, 5, "VIN%X", i);
         
-        if (process_sensor_entry(configuration->getObject(key), &name, &reference, &gain, &offset)) {
-            if (processSensorWithNode(name, "CPU", KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+        if (parseConfigurationNode(configuration->getObject(key), &nodeName, &reference, &gain, &offset)) {
+            if (matchSensorToNodeName(nodeName, "CPU", KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "Memory", KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "Memory", KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "Main 12V", KEY_MAIN_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "Main 12V", KEY_MAIN_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "PCIe 12V", KEY_PCIE_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "PCIe 12V", KEY_PCIE_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "Main 5V", KEY_MAIN_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "Main 5V", KEY_MAIN_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "Standby 5V", KEY_STANDBY_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "Standby 5V", KEY_STANDBY_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "Main 3V", KEY_MAIN_3V3_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "Main 3V", KEY_MAIN_3V3_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "Auxiliary 3V", KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "Auxiliary 3V", KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                 continue;
-            if (processSensorWithNode(name, "CMOS Battery", KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+            if (matchSensorToNodeName(nodeName, "CMOS Battery", KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                 continue;
             
-            if (name->isEqualTo("GPU")) {
+            if (nodeName->isEqualTo("GPU")) {
                 SInt8 index = getVacantGPUIndex();
                 
                 if (index > -1) {
@@ -150,28 +211,28 @@ bool SuperIOPlugin::addVoltageSensors(OSDictionary *configuration)
                     if (!addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                         HWSensorsWarningLog("failed to add GPU %d voltage sensor", index);
                 }
-                else HWSensorsWarningLog("failed to obtain vacant GPU index");
+                else HWSensorsErrorLog("failed to obtain vacant GPU index");
                 
                 continue;
             }
  
             for (int j = 0; j <= 0xf; j++) {
-                char caption[32];
+                char sensorName[32];
                 
-                snprintf(caption, 17, "CPU VRM Supply %X", j);
+                snprintf(sensorName, 17, "CPU VRM Supply %X", j);
                 snprintf(key, 5, KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE, j);
                 
-                if (processSensorWithNode(name, caption, key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                if (matchSensorToNodeName(nodeName, sensorName, key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     break;
             }
             
             for (int j = 0; j <= 0xf; j++) {
-                char caption[32];
+                char sensorName[32];
                 
-                snprintf(caption, 15, "Power Supply %X", j);
+                snprintf(sensorName, 15, "Power Supply %X", j);
                 snprintf(key, 5, KEY_FORMAT_POWERSUPPLY_VOLTAGE, j);
                 
-                if (processSensorWithNode(name, caption, key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
+                if (matchSensorToNodeName(nodeName, sensorName, key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i, reference, gain, offset))
                     break;
             }
         }
@@ -252,7 +313,9 @@ float SuperIOPlugin::getSensorValue(FakeSMCSensor *sensor)
                 break;
         }
     
-    value = sensor->getOffset() + value + (value - sensor->getReference()) * sensor->getGain();
+    SuperIOSensor *superio = (SuperIOSensor*)sensor;
+    
+    value = superio->getOffset() + value + (value - superio->getReference()) * superio->getGain();
     
 	return value;
 }
@@ -290,35 +353,35 @@ bool SuperIOPlugin::start(IOService *provider)
     OSNumber *number = OSDynamicCast(OSNumber, provider->getProperty(kSuperIOHWMAddress));
     
     if (!number || !(address = number->unsigned16BitValue())) {
-        HWSensorsWarningLog("wrong address provided");
+        HWSensorsFatalLog("wrong address provided");
         return false;
     }
     
     number = OSDynamicCast(OSNumber, provider->getProperty(kSuperIOControlPort));
     
     if (!number || !(port = number->unsigned8BitValue())) {
-        HWSensorsWarningLog("wrong port provided");
+        HWSensorsFatalLog("wrong port provided");
         return false;
     }
     
     number = OSDynamicCast(OSNumber, provider->getProperty(kSuperIOModelValue));
     
     if (!number || !(model = number->unsigned16BitValue())) {
-        HWSensorsWarningLog("wrong model provided");
+        HWSensorsFatalLog("wrong model provided");
         return false;
     }
     
     OSString *string = OSDynamicCast(OSString, provider->getProperty(kSuperIOModelName));
     
     if (!string || !(modelName = string->getCStringNoCopy())) {
-        HWSensorsWarningLog("wrong model name provided");
+        HWSensorsFatalLog("wrong model name provided");
         return false;
     }
     
     string = OSDynamicCast(OSString, provider->getProperty(kSuperIOVendorName));
     
     if (!string || !(vendorName = string->getCStringNoCopy())) {
-        HWSensorsWarningLog("wrong vendor name provided");
+        HWSensorsFatalLog("wrong vendor name provided");
         return false;
     }
     
