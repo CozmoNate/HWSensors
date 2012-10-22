@@ -320,8 +320,6 @@ float SuperIOPlugin::getSensorValue(FakeSMCSensor *sensor)
         
         switch (sensor->getGroup()) {
             case kSuperIOTemperatureSensor:
-                value = superio->getOffset() + (value - superio->getReference()) * superio->getGain();
-                break;
             case kSuperIOVoltageSensor:
                 value = superio->getOffset() + value + (value - superio->getReference()) * superio->getGain();
                 break;
