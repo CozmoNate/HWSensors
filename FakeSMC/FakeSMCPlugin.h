@@ -50,15 +50,18 @@ protected:
 	
 public:
     
-	static FakeSMCSensor *withOwner(FakeSMCPlugin *aOwner, const char* aKey, const char* aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex);
+	static FakeSMCSensor *withOwner(FakeSMCPlugin *aOwner, const char* aKey, const char* aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference = 0.0f, float aGain = 0.0f, float aOffset = 0.0f);
     
-   	virtual bool		initWithOwner(FakeSMCPlugin *aOwner, const char* aKey, const char* aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex);
+   	virtual bool		initWithOwner(FakeSMCPlugin *aOwner, const char* aKey, const char* aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference, float aGain, float aOffset);
     
     const char          *getKey();
     const char          *getType();
     UInt8               getSize();
 	UInt32              getGroup();
 	UInt32              getIndex();
+    float               getReference();
+    float               getGain();
+    float               getOffset();
     
     void                encodeValue(float value, void *outBuffer);
 };
@@ -76,7 +79,7 @@ protected:
     
     bool                    isKeyHandled(const char *key);
     
-    virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index);
+    virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
     virtual bool            addSensor(FakeSMCSensor *sensor);
 	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0, UInt8 *fanIndex = 0);
 	virtual FakeSMCSensor   *getSensor(const char *key);

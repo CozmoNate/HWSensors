@@ -258,20 +258,15 @@ bool W836xxSensors::addTemperatureSensors(OSDictionary *configuration)
                 break;
         }
         
-        OSString* nodeName;
-        float reference = 0.0f;
-        float gain = 0.0f;
-        float offset = 0.0f;
-        
         char key[8];
         snprintf(key, 8, "TEMPIN%X", index);
         
-        if (parseConfigurationNode(configuration->getObject(key), &nodeName, &reference, &gain, &offset)) {
-            if (matchSensorToNodeName(nodeName, "CPU", KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+        if (OSObject *node = configuration->getObject(key)) {
+            if (addSensorFromConfigurationNode(node, "CPU", KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
                 continue;
-            if (matchSensorToNodeName(nodeName, "System", KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+            if (addSensorFromConfigurationNode(node, "System", KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
                 continue;
-            if (matchSensorToNodeName(nodeName, "Ambient", KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i, reference, gain, offset))
+            if (addSensorFromConfigurationNode(node, "Ambient", KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
                 continue;
         }
         

@@ -37,24 +37,6 @@
 
 class FakeSMCPlugin;
 
-class SuperIOSensor : public FakeSMCSensor {
-    OSDeclareDefaultStructors(SuperIOSensor)
-	
-protected:
-    float               reference;
-    float               gain;
-    float               offset;
-	
-public:
-	static SuperIOSensor *withOwner(FakeSMCPlugin *aOwner, const char* aKey, const char* aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference = 0.0f, float aGain = 0.0f, float aOffset = 0.0f);
-    
-   	virtual bool		initWithOwner(FakeSMCPlugin *aOwner, const char* aKey, const char* aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference = 0.0f, float aGgain = 0.0f, float aOffset = 0.0f);
-    
-    float               getReference();
-    float               getGain();
-    float               getOffset();
-};
-
 class SuperIOPlugin : public FakeSMCPlugin {
 	OSDeclareAbstractStructors(SuperIOPlugin)
 	
@@ -69,10 +51,7 @@ protected:
 	const char              *modelName;
     const char              *vendorName;
     
-    bool                    parseConfigurationNode(OSObject *object, OSString **name, float *reference, float *gain, float *offset);
-    bool                    matchSensorToNodeName(OSString *node, const char *name, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset);
-    
-    virtual SuperIOSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset);
+    bool                    addSensorFromConfigurationNode(OSObject *node, const char *name, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index);
     
     virtual bool            addTemperatureSensors(OSDictionary *configuration);
     virtual bool            addVoltageSensors(OSDictionary *configuration);
