@@ -31,17 +31,17 @@
 
 OSDefineMetaClassAndStructors(FakeSMCSensor, OSObject)
 
-FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex)
+FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference, float aGain, float aOffset)
 {
 	FakeSMCSensor *me = new FakeSMCSensor;
 	
-    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex))
+    if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex, aReference, aGain, aOffset))
         OSSafeRelease(me);
 	
     return me;
 }
 
-bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex)
+bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference, float aGain, float aOffset)
 {
 	if (!OSObject::init())
 		return false;
@@ -58,6 +58,10 @@ bool FakeSMCSensor::initWithOwner(FakeSMCPlugin *aOwner, const char *aKey, const
 	size = aSize;
 	group = aGroup;
 	index = aIndex;
+    
+    reference = aReference;
+    gain = aGain;
+    offset = aOffset;
     
 	return true;
 }
@@ -87,10 +91,25 @@ UInt32 FakeSMCSensor::getIndex()
 	return index;
 }
 
+float FakeSMCSensor::getReference()
+{
+    return reference;
+}
+
+float FakeSMCSensor::getGain()
+{
+    return gain;
+}
+
+float FakeSMCSensor::getOffset()
+{
+    return offset;
+}
+
 inline UInt8 get_index(char c)
 {
 	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
-};
+}
 
 void FakeSMCSensor::encodeValue(float value, void *outBuffer)
 {
@@ -175,14 +194,14 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
     return false;
 }
 
-FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
+FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {   
     if (getSensor(key)) {
         HWSensorsDebugLog("will not add handler for key %s, key already handled", key);
 		return NULL;
     }
 	
-    if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index)) {
+    if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index, reference, gain, offset)) {
         if (addSensor(sensor))
             return sensor;
         else 
