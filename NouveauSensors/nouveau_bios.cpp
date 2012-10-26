@@ -167,12 +167,12 @@ static u16 nvbios_findstr(const u8 *data, int size, const char *str, int len)
 
 int nouveau_bios_score(struct nouveau_device *device, const bool writeable)
 {
-	if (!device->bios.data || device->bios.data[0] != 0x55 || device->bios.data[1] != 0xAA) {
+    if (device->bios.size < 3 || !device->bios.data || device->bios.data[0] != 0x55 || device->bios.data[1] != 0xAA) {
 		nv_debug(device, "VBIOS signature not found\n");
 		return 0;
 	}
     
-	if (nvbios_checksum((u8*)device->bios.data, device->bios.data[2] * 512)) {
+    if (nvbios_checksum((u8*)device->bios.data, min_t(u32, device->bios.data[2] * 512, device->bios.size))) {
 		nv_debug(device, "VBIOS checksum invalid\n");
 		/* if a ro image is somewhat bad, it's probably all rubbish */
 		return writeable ? 2 : 1;
@@ -290,7 +290,7 @@ bool nouveau_bios_shadow(struct nouveau_device *device)
         
     nouveau_bios_shadow_prom(device);
     
-    if (device->bios.data && nouveau_bios_score(device, true) > 1) {
+    if (device->bios.data && nouveau_bios_score(device, false) > 1) {
         nv_debug(device, "VBIOS successfully read from PROM\n");
         nouveau_vbios_init(device);
         return true;

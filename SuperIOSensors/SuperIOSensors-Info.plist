@@ -2121,11 +2121,11 @@
 					<key>P8H67-M PRO</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>Power Fan</string>
+						<string>Chassis Fan</string>
 						<key>FANIN1</key>
 						<string>CPU Fan</string>
 						<key>FANIN2</key>
-						<string>Chassis Fan</string>
+						<string>Power Fan</string>
 						<key>FANIN3</key>
 						<string></string>
 						<key>FANIN4</key>
