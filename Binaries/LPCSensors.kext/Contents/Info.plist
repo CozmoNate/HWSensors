@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>12C60</string>
+	<string>12C2034</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.4.4</string>
+	<string>2.4.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.4.4</string>
+	<string>2.4.5</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
@@ -2124,11 +2124,11 @@
 					<key>P8H67-M PRO</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>Power Fan</string>
+						<string>Chassis Fan</string>
 						<key>FANIN1</key>
 						<string>CPU Fan</string>
 						<key>FANIN2</key>
-						<string>Chassis Fan</string>
+						<string>Power Fan</string>
 						<key>FANIN3</key>
 						<string></string>
 						<key>FANIN4</key>
