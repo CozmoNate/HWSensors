@@ -334,7 +334,7 @@ bool nouveau_i2c_create(struct nouveau_device *device)
             case DCB_I2C_NVIO_BIT:
                 port->drive = info.drive & 0x0f;
                 if (device->card_type < NV_D0) {
-                    if (info.drive >= ARRAY_SIZE(nv50_i2c_port))
+                    if (port->drive >= ARRAY_SIZE(nv50_i2c_port))
                         break;
                     port->drive = nv50_i2c_port[port->drive];
                     port->sense = port->drive;
