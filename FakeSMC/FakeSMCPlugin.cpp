@@ -176,19 +176,25 @@ OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)
 
 OSString *FakeSMCPlugin::getPlatformManufacturer()
 {
-    return OSDynamicCast(OSString, fakeSMC->getProperty(kOEMInfoManufacturer));
+    if (headingProvider)
+        return OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoManufacturer));
+    
+    return NULL;
 }
 
 OSString *FakeSMCPlugin::getPlatformProduct()
 {
-    return OSDynamicCast(OSString, fakeSMC->getProperty(kOEMInfoProduct));
+    if (headingProvider)
+        return OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoProduct));
+    
+    return NULL;
 }
 
 bool FakeSMCPlugin::isKeyHandled(const char *key)
 {
-    if (fakeSMC) {
+    if (storageProvider) {
         IOService *handler = 0;
-        return kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyHandler, false, (void *)key, (void *)&handler, 0, 0);
+        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyHandler, false, (void *)key, (void *)&handler, 0, 0);
     }
     
     return false;
@@ -213,7 +219,7 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8
 
 bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
 {
-    if(sensor && kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)sensor->getKey(), (void *)sensor->getType(), (void *)sensor->getSize(), (void *)this))
+    if(sensor && kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)sensor->getKey(), (void *)sensor->getType(), (void *)sensor->getSize(), (void *)this))
         return sensors->setObject(sensor->getKey(), sensor);
     
     return false;
@@ -224,7 +230,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, UInt
     UInt8 length = 0;
 	void * data = 0;
     
-	if (kIOReturnSuccess == fakeSMC->callPlatformFunction(kFakeSMCGetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
+	if (kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
 		length = 0;
 		
 		bcopy(data, &length, 1);
@@ -239,14 +245,14 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, UInt
                     if (name) {
                         snprintf(key, 5, KEY_FORMAT_FAN_ID, i); 
                         
-                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
+                        if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
                             HWSensorsWarningLog("failed to add tachometer name for key %s", key);
                     }
                     
                     if (i + 1 > length) {
                         length++;
                         
-                        if (kIOReturnSuccess != fakeSMC->callPlatformFunction(kFakeSMCSetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)(UInt8)1, (void *)&length, 0))
+                        if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCSetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)(UInt8)1, (void *)&length, 0))
                             HWSensorsWarningLog("failed to update FNum value");
                     }
                     
@@ -375,7 +381,10 @@ bool FakeSMCPlugin::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
 
-	if (!(fakeSMC = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
+    if (!(headingProvider = waitForService(serviceMatching(kFakeSMCService))))
+		HWSensorsWarningLog("can't locate FakeSMC service, specific OEM configuration will be unavailable");
+    
+	if (!(storageProvider = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
 		HWSensorsFatalLog("can't locate FakeSMCDevice");
 		return false;
 	}
@@ -385,7 +394,7 @@ bool FakeSMCPlugin::start(IOService *provider)
 
 void FakeSMCPlugin::stop(IOService* provider)
 {
-    fakeSMC->callPlatformFunction(kFakeSMCRemoveKeyHandler, false, this, NULL, NULL, NULL);
+    storageProvider->callPlatformFunction(kFakeSMCRemoveKeyHandler, false, this, NULL, NULL, NULL);
     
     sensors->flushCollection();
 	

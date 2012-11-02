@@ -10,8 +10,6 @@
 #include "FakeSMCDevice.h"
 #include "FakeSMCDefinitions.h"
 
-#include "OEMInfo.h"
-
 #define FakeSMCTraceLog(string, args...) do { if (trace) { IOLog ("%s: [Trace] " string "\n",getName() , ## args); } } while(0)
 #define FakeSMCDebugLog(string, args...) do { if (debug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
 
@@ -451,9 +449,6 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
     
 	this->setProperty(gIOInterruptControllersKey, controllers) && this->setProperty(gIOInterruptSpecifiersKey, specifiers);
 	this->attachToParent(platform, gIOServicePlane);
-    
-    if (!setOemProperties(this))
-        HWSensorsWarningLog("failed to read OEM data");
     
     registerService();
 	

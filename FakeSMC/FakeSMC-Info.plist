@@ -90,6 +90,16 @@
 						<string>{rev</string>
 						<data>ATAPAAAD</data>
 					</array>
+					<key>RVBF</key>
+					<array>
+						<string>{rev</string>
+						<data>ATAPAAAD</data>
+					</array>
+					<key>RVUF</key>
+					<array>
+						<string>{rev</string>
+						<data>ATAPAAAD</data>
+					</array>
 				</dict>
 				<key>Types</key>
 				<dict>
