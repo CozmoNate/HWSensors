@@ -3,6 +3,8 @@
 #include "FakeSMCDefinitions.h"
 #include "HWSensorsInfoPlist.pch"
 
+#include "OEMInfo.h"
+
 #define super IOService
 OSDefineMetaClassAndStructors (FakeSMC, IOService)
 
@@ -19,6 +21,9 @@ bool FakeSMC::init(OSDictionary *dictionary)
 		HWSensorsInfoLog("failed to create SMC device");
 		return false;
 	}
+    
+    if (!setOemProperties(this))
+        HWSensorsWarningLog("failed to read OEM data, specific OEM configuration will be unavailable");
 		
 	return true;
 }
