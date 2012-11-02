@@ -1006,9 +1006,8 @@
 				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
 				6A9955C214EFAEE50052C702 /* cpuid.h */,
 				7EBCF8791615A84C00E16D3B /* timer.h */,
+				7E06D0F6157FC7F800F8A270 /* BundleUserDefaults */,
 				6AA3A26A14F6D7AC007A7084 /* ATASmartReporter */,
-				7E3684A8158368AC00E32629 /* HWMonitorIcon */,
-				6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */,
 			);
 			name = Kernel;
 			sourceTree = "<group>";
@@ -1019,8 +1018,9 @@
 				7E9388FF15945B360005316D /* HWMonitorDefinitions.h */,
 				7E06D0EC157E96C400F8A270 /* SystemUIPlugin.h */,
 				6AA3A26B14F6D7C1007A7084 /* NSString+TruncateToWidth */,
-				7E06D0F6157FC7F800F8A270 /* BundleUserDefaults */,
 				7EFB862315C30E2200F61B59 /* NoodleKit */,
+				7E3684A8158368AC00E32629 /* HWMonitorIcon */,
+				6A58E1E614F6C7F9001F2C50 /* HWMonitorEngine */,
 			);
 			name = Cocoa;
 			sourceTree = "<group>";

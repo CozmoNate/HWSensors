@@ -8,9 +8,7 @@
  */
 
 #include "ACPISensors.h"
-
 #include "FakeSMCDefinitions.h"
-#include "OEMInfo.h"
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(ACPISensors, FakeSMCPlugin)
