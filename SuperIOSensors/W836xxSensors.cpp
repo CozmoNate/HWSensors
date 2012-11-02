@@ -247,13 +247,13 @@ bool W836xxSensors::addTemperatureSensors(OSDictionary *configuration)
         {
             case W83667HG:
             case W83667HGB:
-                if ((i == 0 && (flag & 0x04) == 0) || (i == 1 && (flag & 0x40) == 0))
+                if ((i == 0 && (flag & 0x04)) || (i == 1 && (flag & 0x40)))
                     continue;
                 break;
                 
             case W83627DHG:        
             case W83627DHGP:
-                if ((i == 0 && (flag & 0x07) == 0) || (i == 1 && (flag & 0x70) == 0)) 
+                if ((i == 0 && (flag & 0x07)) || (i == 1 && (flag & 0x70))) 
                     continue;
                 break;
         }
