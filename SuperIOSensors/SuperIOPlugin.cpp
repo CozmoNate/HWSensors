@@ -61,7 +61,32 @@ bool SuperIOPlugin::addSensorFromConfigurationNode(OSObject *configuration, cons
     }
     
     if (!this->addSensor(key, type, size, group, index, reference, gain, offset)) {
-        HWSensorsWarningLog("failed to add %s sensor", name);
+        const char *group_name;
+        
+        switch (group) {
+            case kFakeSMCTemperatureSensor:
+                group_name = " temperature";
+                break;
+            case kFakeSMCTachometerSensor:
+                group_name = " tachometer";
+                break;
+            case kFakeSMCVoltageSensor:
+                group_name = " voltage";
+                break;
+            case kFakeSMCFrequencySensor:
+                group_name = " frequency";
+                break;
+            case kFakeSMCMultiplierSensor:
+                group_name = " multiplier";
+                break;
+                
+            default:
+                group_name = "";
+                break;
+        }
+        
+        HWSensorsWarningLog("failed to add %s%s sensor", name, group_name);
+        
         return false;
     }
     
