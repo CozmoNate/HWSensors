@@ -474,6 +474,15 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     if ([_window contentView] == newView)
         return;
     
+    for (NSToolbarItem *item in [_prefsToolbar items]) {
+        if ([item tag] == _lastSelectedView)
+            [item setImage:[[self getIconByName:[item itemIdentifier]] image]];
+        else if ([item tag] == tag)
+            [item setImage:[[self getIconByName:[NSString stringWithFormat:@"%@@blue", [item itemIdentifier]]] image]];
+    }
+    
+    _lastSelectedView = tag;
+    
     NSRect newFrame = [self screenFrameForView:newView];
     
     [NSAnimationContext beginGrouping];
@@ -646,9 +655,17 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     for (int i = 1; i < 3; i++)
         [self loadViewSizeForTag:i];
-        
-    [_prefsToolbar setSelectedItemIdentifier:[_defaults stringForKey:kHWMonitorSelectedTag]];
-    [self setViewForTag:[_defaults integerForKey:kHWMonitorSelectedTag]];
+    
+    // Load toolbar images
+    for (NSToolbarItem *item in [_prefsToolbar items]) {
+        NSString *name = [item itemIdentifier];
+        [self loadIconNamed:name AsTemplate:NO];
+        [self loadIconNamed:[NSString stringWithFormat:@"%@@blue", name] AsTemplate:NO];
+    }
+    
+    //[_prefsToolbar setSelectedItemIdentifier:[_defaults stringForKey:kHWMonitorSelectedTag]];
+    _lastSelectedView = [_defaults integerForKey:kHWMonitorSelectedTag];
+    [self setViewForTag:_lastSelectedView];
     
     [_window setTitle:GetLocalizedString([_window title])];
     [self localizeObject:_prefsToolbar];

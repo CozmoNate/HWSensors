@@ -1970,7 +1970,7 @@
 				<key>RELOCATABLE</key>
 				<true/>
 				<key>VERSION</key>
-				<string>2.3.15</string>
+				<string>2.3.17</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>

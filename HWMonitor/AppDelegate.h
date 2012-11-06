@@ -35,6 +35,7 @@
     NSMutableDictionary *_sensors;
     NSMutableArray *_globalColors;
     NSUInteger _globalColorIndex;
+    NSUInteger _lastSelectedView;
     
     BOOL _menuExtraConnectionActive;
 }
