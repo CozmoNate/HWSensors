@@ -1970,7 +1970,7 @@
 				<key>RELOCATABLE</key>
 				<true/>
 				<key>VERSION</key>
-				<string>2.3.17</string>
+				<string>2.3.19</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -2486,7 +2486,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>2.4.7</string>
+				<string>2.4.8</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
