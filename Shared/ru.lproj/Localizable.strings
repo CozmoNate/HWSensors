@@ -31,7 +31,7 @@
 "GPU %X Core" = "Видеокарта %X ядро";
 "GPU Memory" = "Память видеокарты";
 "GPU %X Memory" = "Видеокарта %X память";
-"GPU %X Shaders" = "Шейдеры видеокарты";
+"GPU Shaders" = "Шейдеры видеокарты";
 "GPU %X Shaders" = "Видеокарта %X шейдеры";
 "GPU Proximity" = "Датчик видеокарты";
 "GPU %X Proximity" = "Видеокарта %X датчик";

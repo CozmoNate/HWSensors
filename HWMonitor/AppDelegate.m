@@ -67,8 +67,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     NSImage *image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:name ofType:@"png"]];
     
-    if (template)
-        [image setTemplate:YES];
+    [image setTemplate:template];
     
     NSImage *altImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[name stringByAppendingString:@"_template"] ofType:@"png"]];
     

@@ -281,7 +281,7 @@
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">20-gear-2</string>
+								<string key="NSResourceName">preferences</string>
 							</object>
 							<nil key="NSToolbarItemTarget"/>
 							<nil key="NSToolbarItemAction"/>
@@ -303,7 +303,7 @@
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">16-line-chart</string>
+								<string key="NSResourceName">graphs</string>
 							</object>
 							<nil key="NSToolbarItemTarget"/>
 							<nil key="NSToolbarItemAction"/>
@@ -325,7 +325,7 @@
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">29-heart</string>
+								<string key="NSResourceName">favorites</string>
 							</object>
 							<nil key="NSToolbarItemTarget"/>
 							<nil key="NSToolbarItemAction"/>
@@ -388,6 +388,7 @@
 					<string key="NSFrameSize">{550, 304}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
@@ -742,6 +743,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{301, 13}, {254, 32}}</string>
 						<reference key="NSSuperview" ref="615528893"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="874507288">
@@ -1424,6 +1426,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 												<string key="NSFrame">{{1, 556}, {237, 15}}</string>
 												<reference key="NSSuperview" ref="874307037"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:60</string>
 												<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 												<int key="NSsFlags">1</int>
@@ -1500,7 +1503,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<string key="NSFrameSize">{318, 558}</string>
 										<reference key="NSSuperview" ref="357163855"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="880185773"/>
+										<reference key="NSNextKeyView" ref="504255046"/>
 										<string key="NSReuseIdentifierKey">_NS:13</string>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1687,6 +1690,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<string key="NSFrame">{{324, 1}, {15, 558}}</string>
 								<reference key="NSSuperview" ref="182585095"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:58</string>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="182585095"/>
@@ -1711,7 +1715,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{20, 20}, {320, 560}}</string>
 						<reference key="NSSuperview" ref="368640643"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="357163855"/>
+						<reference key="NSNextKeyView" ref="880185773"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<int key="NSsFlags">133650</int>
 						<reference key="NSVScroller" ref="504255046"/>
@@ -3703,13 +3707,13 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="4576.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4585.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4591.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="4591.designableToolbarItemIdentifier">20-gear-2</string>
+				<string key="4591.designableToolbarItemIdentifier">preferences</string>
 				<boolean value="NO" key="4591.toolbarItem.selectable"/>
 				<string key="4592.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="4592.designableToolbarItemIdentifier">29-heart</string>
+				<string key="4592.designableToolbarItemIdentifier">favorites</string>
 				<boolean value="NO" key="4592.toolbarItem.selectable"/>
 				<string key="4593.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="4593.designableToolbarItemIdentifier">16-line-chart</string>
+				<string key="4593.designableToolbarItemIdentifier">graphs</string>
 				<boolean value="NO" key="4593.toolbarItem.selectable"/>
 				<string key="4594.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4598.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4074,12 +4078,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="16-line-chart">{32, 32}</string>
-			<string key="20-gear-2">{32, 32}</string>
-			<string key="29-heart">{32, 32}</string>
 			<string key="NSMenuCheckmark">{11, 11}</string>
 			<string key="NSMenuMixedState">{10, 3}</string>
 			<string key="NSSwitch">{15, 15}</string>
+			<string key="favorites">{32, 32}</string>
+			<string key="graphs">{32, 32}</string>
+			<string key="preferences">{32, 32}</string>
 		</dictionary>
 	</data>
 	<classes>

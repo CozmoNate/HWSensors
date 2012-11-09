@@ -32,8 +32,6 @@
 @synthesize group = _group;
 @synthesize useFahrenheit = _useFahrenheit;
 
-#define kHWMonitorGraphsHistoryPoints  120
-
 -(void)setGroup:(NSUInteger)group
 {
     _group = group;
@@ -51,7 +49,7 @@
         _legendFormat = @"%1.3fV";
     }
     
-    [self calculateGraphBounds];
+    [self calculateGraphBoundsLoopExtremes:YES];
 }
 
 -(NSUInteger)group
@@ -85,43 +83,50 @@
     return self;
 }
 
-- (void)calculateGraphBounds
+- (void)calculateGraphBoundsLoopExtremes:(BOOL)doLoop
 {
-    _maxY = 0, _minY = MAXFLOAT;
-    
-    for (NSDictionary *item in [_content arrangedObjects]) {
-        NSNumber *enabled = [item objectForKey:kHWMonitorKeyEnabled];
+    if (doLoop) {
+        _maxY = 0, _minY = MAXFLOAT;
         
-        if (enabled && [enabled boolValue]) {
-            NSString *key = [item objectForKey:kHWMonitorKeyKey];
-            NSArray *points = [_graphs objectForKey:key];
+        for (NSDictionary *item in [_content arrangedObjects]) {
+            NSNumber *enabled = [item objectForKey:kHWMonitorKeyEnabled];
             
-            if (points) {
-                for (NSNumber *point in points) {
-                    if ([point doubleValue] < _minY) {
-                        _minY = [point doubleValue];
-                    }
-                    else if ([point doubleValue] > _maxY)
-                    {
-                        _maxY = [point doubleValue];
+            if (enabled && [enabled boolValue]) {
+                NSString *key = [item objectForKey:kHWMonitorKeyKey];
+                NSArray *points = [_graphs objectForKey:key];
+                
+                if (points) {
+                    for (NSNumber *point in points) {
+                        if ([point doubleValue] < _minY) {
+                            _minY = [point doubleValue];
+                        }
+                        else if ([point doubleValue] > _maxY)
+                        {
+                            _maxY = [point doubleValue];
+                        }
                     }
                 }
             }
         }
     }
     
+    _viewPoints = [self bounds].size.width / 4;
+    
+    if (_viewPoints > _maxPoints)
+        _maxPoints = _viewPoints;
+    
     if ((_maxY == 0 && _minY == MAXFLOAT)) {
-        _graphBounds = NSMakeRect(0, 0, kHWMonitorGraphsHistoryPoints, 100);
+        _graphBounds = NSMakeRect(0, 0, _viewPoints, 100);
     }
     else if (_minY >= _maxY) {
-        _graphBounds = NSMakeRect(0, _minY, kHWMonitorGraphsHistoryPoints, _minY + 100);
+        _graphBounds = NSMakeRect(0, _minY, _viewPoints, _minY + 100);
     }
     else {
 
         double minY = _minY <= 0 ? _minY : _minY - _minY * 0.05;
         double maxY = _maxY + _maxY * 0.05;
         
-        _graphBounds = NSMakeRect(0, minY, kHWMonitorGraphsHistoryPoints, maxY - minY);
+        _graphBounds = NSMakeRect(0, minY, _viewPoints, maxY - minY);
     }
 }
 
@@ -166,6 +171,8 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+    [self calculateGraphBoundsLoopExtremes:NO];
+    
     //[[NSColor colorWithCalibratedRed:0.94 green:0.94 blue:0.94 alpha:1.0] set];
     [[NSColor blackColor] set];
     [NSBezierPath fillRect:[self bounds]];
@@ -185,12 +192,12 @@
     
     [[NSColor colorWithCalibratedRed:0 green:0.25 blue:0 alpha:0.7] set];
     
-    double xStart = _graphBounds.origin.x;
+    double xStart = _graphBounds.origin.x + _graphBounds.size.width;
     double yStart = floor(_graphBounds.origin.y / 10) * 10;
-    double xInc = _graphBounds.size.width / 30;
+    double xInc = 5;
     double yInc = _graphBounds.size.height / 10;
     
-    for (x = xStart; x < _graphBounds.origin.x + _graphBounds.size.width; x += xInc) {
+    for (x = xStart; x > 0; x -= xInc) {
         [path removeAllPoints];
         [path moveToPoint:[self graphPointToView:NSMakePoint(x,_graphBounds.origin.y)]];
         [path lineToPoint:[self graphPointToView:NSMakePoint(x,_graphBounds.origin.y + _graphBounds.size.height)]];
@@ -316,12 +323,12 @@
             
             [points addObject:[[info objectForKey:key] objectForKey:kHWMonitorKeyRawValue]];
             
-            if ([points count] > kHWMonitorGraphsHistoryPoints + 8)
+            if ([points count] > _maxPoints + 8)
                 [points removeObjectAtIndex:0];
         }
     }
         
-    [self calculateGraphBounds];
+    [self calculateGraphBoundsLoopExtremes:YES];
     
     [self setNeedsDisplay:YES];
 }
