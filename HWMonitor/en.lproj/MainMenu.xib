@@ -281,7 +281,7 @@
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">preferences</string>
+								<string key="NSResourceName">prefs</string>
 							</object>
 							<nil key="NSToolbarItemTarget"/>
 							<nil key="NSToolbarItemAction"/>
@@ -3707,7 +3707,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="4576.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4585.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4591.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="4591.designableToolbarItemIdentifier">preferences</string>
+				<string key="4591.designableToolbarItemIdentifier">prefs</string>
 				<boolean value="NO" key="4591.toolbarItem.selectable"/>
 				<string key="4592.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4592.designableToolbarItemIdentifier">favorites</string>
@@ -3827,7 +3827,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">4889</int>
+			<int key="maxID">4890</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4083,7 +4083,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<string key="NSSwitch">{15, 15}</string>
 			<string key="favorites">{32, 32}</string>
 			<string key="graphs">{32, 32}</string>
-			<string key="preferences">{32, 32}</string>
+			<string key="prefs">{32, 32}</string>
 		</dictionary>
 	</data>
 	<classes>

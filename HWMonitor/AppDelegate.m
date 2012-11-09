@@ -76,6 +76,19 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [_icons setObject:[HWMonitorIcon iconWithName:name image:image alternateImage:altImage] forKey:name];
 }
 
+- (void)addIconNamed:(NSString*)name FromImage:(NSImage*)image
+{
+    if (!image)
+        return;
+    
+    if (!_icons)
+        _icons = [[NSMutableDictionary alloc] init];
+    
+    NSImage *altImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[name stringByAppendingString:@"@blue"] ofType:@"png"]];
+    
+    [_icons setObject:[HWMonitorIcon iconWithName:name image:image alternateImage:altImage] forKey:name];
+}
+
 - (HWMonitorIcon*)getIconByName:(NSString*)name
 {
     return [_icons objectForKey:name];
@@ -470,15 +483,15 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 {
     NSView *newView = [self viewForTag:tag];
     
+    for (NSToolbarItem *item in [_prefsToolbar items]) {
+        if ([item tag] == tag)
+            [item setImage:[[self getIconByName:[item itemIdentifier]] alternateImage]];
+        else if ([item tag] == _lastSelectedView)
+            [item setImage:[[self getIconByName:[item itemIdentifier]] image]];
+    }
+    
     if ([_window contentView] == newView)
         return;
-    
-    for (NSToolbarItem *item in [_prefsToolbar items]) {
-        if ([item tag] == _lastSelectedView)
-            [item setImage:[[self getIconByName:[item itemIdentifier]] image]];
-        else if ([item tag] == tag)
-            [item setImage:[[self getIconByName:[NSString stringWithFormat:@"%@@blue", [item itemIdentifier]]] image]];
-    }
     
     _lastSelectedView = tag;
     
@@ -658,8 +671,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     // Load toolbar images
     for (NSToolbarItem *item in [_prefsToolbar items]) {
         NSString *name = [item itemIdentifier];
-        [self loadIconNamed:name AsTemplate:NO];
-        [self loadIconNamed:[NSString stringWithFormat:@"%@@blue", name] AsTemplate:NO];
+        [self addIconNamed:name FromImage:[item image]];
     }
     
     //[_prefsToolbar setSelectedItemIdentifier:[_defaults stringForKey:kHWMonitorSelectedTag]];
