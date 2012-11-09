@@ -7,8 +7,8 @@
 //
 
 #define HWSENSORS_LASTYEAR                  2012
-#define HWSENSORS_VERSION                   1.0.117
-#define HWSENSORS_VERSION_STRING            "v1.0.117"
+#define HWSENSORS_VERSION                   1.0.118
+#define HWSENSORS_VERSION_STRING            "v1.0.118"
 
 #define FAKESMC_BUNDLE                      org.netkas.driver.FakeSMC
 #define FAKESMC_VERSION                     4.3.4
@@ -24,16 +24,16 @@
 #define ACPISENSORS_SHORTVERSION            2.2.7
 
 #define LPCSENSORS_BUNDLE                   org.hwsensors.driver.LPCSensors
-#define LPCSENSORS_VERSION                  2.4.7
-#define LPCSENSORS_SHORTVERSION             2.4.7
+#define LPCSENSORS_VERSION                  2.4.8
+#define LPCSENSORS_SHORTVERSION             2.4.8
 #define LPCSENSORS_COMPATIBLE               2.4.4
 
 #define GPUSENSORS_BUNDLE                   org.hwsensors.driver.GPUSensors
 #define GPUSENSORS_VERSION                  1.0.8
 #define GPUSENSORS_SHORTVERSION             1.0.8
 
-#define HWMONITOR_VERSION                   2.3.17
-#define HWMONITOR_SHORTVERSION              2.3.17
+#define HWMONITOR_VERSION                   2.3.18
+#define HWMONITOR_SHORTVERSION              2.3.18
 
 #define HWMONITOREXTRA_VERSION              1.8.10
 #define HWMONITOREXTRA_SHORTVERSION         1.8.10
