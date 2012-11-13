@@ -225,7 +225,7 @@ int nouveau_therm_fan_sense(struct nouveau_device *device)
         prev = device->gpio_get(device, 0, func.func, func.line);
         cycles = 0;
         do {
-            IODelay(250); /* supports 0 < rpm < 7500 */
+            IODelay(750); /* supports 0 < rpm < 7500 */
             
             cur = device->gpio_get(device, 0, func.func, func.line);
             if (prev != cur) {
