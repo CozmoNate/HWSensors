@@ -533,7 +533,7 @@ void nouveau_i2c_probe(struct nouveau_device *device)
 			{ }
 		};
         
-		if(i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", board, probe_monitoring_device) >= 0)
+		if(!i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", board, probe_monitoring_device))
 			return;
 	}
     
@@ -543,14 +543,14 @@ void nouveau_i2c_probe(struct nouveau_device *device)
 			{ }
 		};
         
-		if(i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device",board, probe_monitoring_device) >= 0)
+		if(!i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device",board, probe_monitoring_device))
 			return;
 	}
     
 	/* The vbios doesn't provide the address of an exisiting monitoring
      device. Let's try our static list.
 	 */
-	if (i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", info, probe_monitoring_device) < 0)
+	if (!i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", info, probe_monitoring_device))
         i2c->identify(i2c, NV_I2C_DEFAULT(1), "monitoring device", info, probe_monitoring_device);
     
 //	struct i2c_board_info info[] = {
