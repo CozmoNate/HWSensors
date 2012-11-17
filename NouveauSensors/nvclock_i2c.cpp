@@ -205,9 +205,8 @@ I2CDevPtr nvclock_i2c_probe_device(I2CBusPtr bus, I2CSlaveAddr addr, const char 
 	char *s;
 	va_list ap;
     
-// Commented out cose xf86I2CProbeAddress was already called in nouveau_i2c_identify function 
-//	if(xf86I2CProbeAddress(bus, addr))
-//	{
+	if(xf86I2CProbeAddress(bus, addr))
+	{
 		dev = xf86CreateI2CDevRec();
 		s = (char*)IOMalloc(8);
 		va_start (ap, format);
@@ -226,9 +225,9 @@ I2CDevPtr nvclock_i2c_probe_device(I2CBusPtr bus, I2CSlaveAddr addr, const char 
 		}
         
         return dev;
-//	}
-//    
-//    return NULL;
+	}
+    
+    return NULL;
 }
 
 void nvclock_i2c_probe_all_devices(I2CBusPtr busses[], int nbus)
