@@ -65,13 +65,17 @@ void nv_wo32(struct nouveau_device *device, u32 addr, u32 data)
 	*(u16 *)&device->bios.data[addr] = data;
 }
 
-inline bool nv_strncmp(struct nouveau_device *device, u32 addr, u32 len, const char *str)
+static inline int nv_memcmp(struct nouveau_device *device, u32 addr, const char *str, u32 len)
 {
+	unsigned char c1, c2;
+    
 	while (len--) {
-		if (nv_ro08(device, addr++) != *(str++))
-			return false;
+		c1 = nv_ro08(device, addr++);
+		c2 = *(str++);
+		if (c1 != c2)
+			return c1 - c2;
 	}
-	return true;
+	return 0;
 }
 
 u16 nouveau_dcb_table(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *cnt, u8 *len)
@@ -109,7 +113,7 @@ u16 nouveau_dcb_table(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *cnt, 
                 }
             } else
                 if (*ver >= 0x15) {
-                    if (!nv_strncmp(device, dcb - 7, 7, "DEV_REC")) {
+                    if (!nv_memcmp(device, dcb - 7, "DEV_REC", 7)) {
                         u16 i2c = nv_ro16(device, dcb + 2);
                         *hdr = 4;
                         *cnt = (i2c - dcb) / 10;
