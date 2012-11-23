@@ -173,9 +173,16 @@ static u32 read_div(struct nouveau_device *device, int doff, u32 dsrc, u32 dctl)
 static u32 read_mem(struct nouveau_device *device)
 {
 	u32 ssel = nv_rd32(device, 0x1373f0);
-	if (ssel & 0x00000001)
-		return read_div(device, 0, 0x137300, 0x137310) / 2;
-	return read_pll(device, 0x132000) / 2;
+	
+    if (ssel & 0x00000001)
+		return read_div(device, 0, 0x137300, 0x137310);
+
+    if (device->card_type == NV_C0)
+        return read_pll(device, 0x132000) / 2.0f;
+    else if (device->card_type == NV_E0)
+        return read_pll(device, 0x132000) * 2.0f;
+    
+	return read_pll(device, 0x132000);
 }
 
 static u32 read_clk(struct nouveau_device *device, int clk)
