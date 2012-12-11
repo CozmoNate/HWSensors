@@ -19,8 +19,8 @@ struct nvbios_therm_sensor {
 };
 
 void nouveau_therm_init(struct nouveau_device *device);
-int nouveau_therm_fan_get(struct nouveau_device *device);
-int nouveau_therm_fan_sense(struct nouveau_device *device);
+int nouveau_therm_fan_pwm_get(struct nouveau_device *device);
+int nouveau_therm_fan_rpm_get(struct nouveau_device *device);
 
 int nouveau_fan_pwm_get(struct nouveau_device *device);
 int nouveau_fan_rpm_get(struct nouveau_device *device);

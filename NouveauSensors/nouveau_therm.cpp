@@ -177,57 +177,46 @@ void nouveau_therm_init(struct nouveau_device *device)
 	}
 }
 
-int nouveau_therm_fan_get(struct nouveau_device *device)
+int nouveau_therm_fan_pwm_get(struct nouveau_device *device)
 {
-	struct dcb_gpio_func func;
-	int card_type = device->card_type;
 	u32 divs, duty;
 	int ret;
     
-    if (!device->pwm_get) {
-        nv_debug(device, "pwm_get func not specified\n");
-        return 0;
+    if (device->fan_pwm.func != DCB_GPIO_UNUSED) {
+        ret = device->pwm_get(device, device->fan_pwm.line, &divs, &duty);
+        if (ret == 0 && divs) {
+            divs = max(divs, duty);
+            if (device->card_type <= NV_40 || (device->fan_pwm.log[0] & 1))
+                duty = divs - duty;
+            return (duty * 100) / divs;
+        }
+        
+        //return device->gpio_get(device, 0, device->fan_pwm.func, device->fan_pwm.line) * 100;
     }
     
-	ret = device->gpio_find(device, 0, DCB_GPIO_PWM_FAN, 0xff, &func);
-	if (ret == 0) {
-		ret = device->pwm_get(device, func.line, &divs, &duty);
-		if (ret == 0 && divs) {
-			divs = max(divs, duty);
-			if (card_type <= NV_40 || (func.log[0] & 1))
-				duty = divs - duty;
-			return (duty * 100) / divs;
-		}
-        
-		return device->gpio_get(device, 0, func.func, func.line) * 100;
-	}
-    
-    nv_debug(device, "DCB_GPIO_PWM_FAN func not found\n");
-    
-	return 0;
+    return 0;
 }
 
 #define THERM_FAN_SENSE_CYCLES 8
 
-int nouveau_therm_fan_sense(struct nouveau_device *device)
+int nouveau_therm_fan_rpm_get(struct nouveau_device *device)
 {
-	struct dcb_gpio_func func;
 	u32 cycles, cur, prev, stop = THERM_FAN_SENSE_CYCLES * 4 + 1;
 	u64 start, interval;
-    
-	if (!device->gpio_find(device, 0, DCB_GPIO_FAN_SENSE, 0xff, &func)) {
+
+	if (device->fan_tach.func != DCB_GPIO_UNUSED) {
         /* Time a complete rotation and extrapolate to RPM:
          * When the fan spins, it changes the value of GPIO FAN_SENSE.
          * We get 4 changes (0 -> 1 -> 0 -> 1) per complete rotation.
          */
         start = ptimer_read();
-        
-        prev = device->gpio_get(device, 0, func.func, func.line);
+
+        prev = device->gpio_get(device, 0, device->fan_tach.func, device->fan_tach.line);
         cycles = 0;
         do {
             IODelay(750); /* supports 0 < rpm < 7500 */
             
-            cur = device->gpio_get(device, 0, func.func, func.line);
+            cur = device->gpio_get(device, 0, device->fan_tach.func, device->fan_tach.line);
             if (prev != cur) {
                 if (!start)
                     start = ptimer_read();
@@ -249,78 +238,3 @@ int nouveau_therm_fan_sense(struct nouveau_device *device)
     
     return 0;
 }
-
-//int nouveau_fan_pwm_get(struct nouveau_device *device)
-//{
-//	struct dcb_gpio_func func;
-//	u32 divs, duty;
-//    
-//	if (!device->pwm_get) {
-//        nv_debug(device, "no hardware pwm_get func specified\n");
-//	 	return 0;
-//    }
-//    
-//	if (!device->gpio_find(device, 0, DCB_GPIO_PWM_FAN, 0xff, &func)) {
-//        int ret = device->pwm_get(device, func.line, &divs, &duty);
-//		
-//        if (ret && divs) {
-//			divs = max(divs, duty);
-//			if (device->card_type <= NV_40 || (func.log[0] & 1))
-//				duty = divs - duty;
-//			return (duty * 100) / divs;
-//		}
-//        
-//		return device->gpio_get(device, 0, func.func, func.line) * 100;
-//	}
-//    
-//    nv_debug(device, "DCB_GPIO_PWM_FAN func not found\n");
-//    
-//	return 0;
-//}
-//
-//#define RPM_SENSE_MSECS 500
-//
-//int nouveau_fan_rpm_get(struct nouveau_device *device)
-//{
-//	struct dcb_gpio_func func;
-//	u32 cycles, cur, prev;
-//    
-//	if (!device->gpio_find(device, 0, DCB_GPIO_FAN_SENSE, 0xff, &func)) {
-//        /* Monitor the GPIO input 0x3b for 500ms.
-//         * When the fan spins, it changes the value of GPIO FAN_SENSE.
-//         * We get 4 changes (0 -> 1 -> 0 -> 1 -> [...]) per complete rotation.
-//         */
-//        mach_timespec_t end, now;
-//        
-//        clock_get_system_nanotime((clock_sec_t*)&end.tv_sec, (clock_nsec_t*)&end.tv_nsec);
-//        
-//        now.tv_sec = 0;
-//        now.tv_nsec = RPM_SENSE_MSECS * USEC_PER_SEC;
-//        
-//        ADD_MACH_TIMESPEC(&end, &now);
-//        
-//        prev = device->gpio_get(device, 0, func.func, func.line);
-//        cycles = 0;
-//        do {
-//            cur = device->gpio_get(device, 0, func.func, func.line);
-//            if (prev != cur) {
-//                cycles++;
-//                prev = cur;
-//            }
-//            
-//            IODelay(750); /* supports 0 < rpm < 7500 */
-//            
-//            //counter++;
-//            
-//            clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
-//            
-//        } while (CMP_MACH_TIMESPEC(&end, &now) > 0);
-//        
-//        /* interpolate to get rpm */
-//        return (float)cycles / 4.0f * (1000.0f / RPM_SENSE_MSECS) * 60.0f;
-//    }
-//    
-//    nv_debug(device, "DCB_GPIO_FAN_SENSE func not found\n");
-//    
-//    return 0;
-//}

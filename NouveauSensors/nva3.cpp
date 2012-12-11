@@ -33,6 +33,31 @@
 #include "nouveau.h"
 #include "nva3.h"
 
+int nva3_therm_fan_sense(struct nouveau_device *device)
+{
+	u32 tach = nv_rd32(device, 0x00e728) & 0x0000ffff;
+	u32 ctrl = nv_rd32(device, 0x00e720);
+	if (ctrl & 0x00000001)
+		return tach * 60;
+	return -ENODEV;
+}
+
+int nva3_therm_init(struct nouveau_device *device)
+{
+	struct dcb_gpio_func *tach = &device->fan_tach;
+    
+	/* enable fan tach, count revolutions per-second */
+	nv_mask(device, 0x00e720, 0x00000003, 0x00000002);
+	if (tach->func != DCB_GPIO_UNUSED) {
+		nv_wr32(device, 0x00e724, device->crystal * 1000);
+		nv_mask(device, 0x00e720, 0x001f0000, tach->line << 16);
+		nv_mask(device, 0x00e720, 0x00000001, 0x00000001);
+	}
+	nv_mask(device, 0x00e720, 0x00000002, 0x00000000);
+    
+	return 0;
+}
+
 static u32 read_clk(struct nouveau_device *, int, bool);
 static u32 read_pll(struct nouveau_device *, int, u32);
 
