@@ -107,8 +107,7 @@ bool nouveau_identify(struct nouveau_device *device)
 
 bool nouveau_init(struct nouveau_device *device)
 {
-	//char info[256];
-	//int ret, i;
+	int ret;
     
     nv_debug(device, "initializing monitoring driver\n");
     
@@ -121,12 +120,22 @@ bool nouveau_init(struct nouveau_device *device)
         default: break;
     }
     
+    // attempt to locate a drivable fan
+    ret = device->gpio_find(device, 0, DCB_GPIO_FAN, 0xff, &device->fan_pwm);
+    if (ret < 0)
+		device->fan_pwm.func = DCB_GPIO_UNUSED;
+    
+    /* attempt to detect a tachometer connection */
+	ret = device->gpio_find(device, 0, DCB_GPIO_FAN_SENSE, 0xff, &device->fan_tach);
+	if (ret < 0)
+		device->fan_tach.func = DCB_GPIO_UNUSED;
+    
     /*if (device->gpio_init)
         device->gpio_init(device);*/
     
 	/* parse aux tables from vbios */
 	nouveau_volt_init(device);
-	nouveau_therm_init(device);
+    nouveau_therm_init(device);
     
     return true;
 }

@@ -77,6 +77,7 @@
 #define KEY_GPU_VOLTAGE                         "VC0G" // GPU 0 Core
 #define KEY_FORMAT_GPU_VOLTAGE                  "VC%XG" // GPU X Core
 
+// Others
 #define KEY_NORTHBRIDGE_VOLTAGE                 "VN0R"  
 #define KEY_MCH_VOLTAGE                         "VN1C"
 #define KEY_POWERBATTERY_VOLTAGE                "VP0R" // CMOS Battery
@@ -110,8 +111,8 @@
 #define KEY_FAN_NUMBER                          "FNum"
 #define KEY_FORMAT_FAN_ID                       "F%XID"
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
-#define KEY_FAKESMC_GPUPWM                      "F0Pc"
-#define KEY_FAKESMC_FORMAT_GPUPWM               "F%XPc"
+#define KEY_FAKESMC_GPUPWM                      "FG0P"
+#define KEY_FAKESMC_FORMAT_GPUPWM               "FG%XP"
 // Other
 #define KEY_FAKESMC_FORMAT_CPU_FREQUENCY		"CC%XC"
 #define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY       "CCPC"

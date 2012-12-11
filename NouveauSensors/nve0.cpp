@@ -32,6 +32,7 @@
 
 #include "nouveau.h"
 #include "nv50.h"
+#include "nva3.h"
 #include "nvc0.h"
 #include "nve0.h"
 #include "nvd0.h"
@@ -59,6 +60,8 @@ bool nve0_identify(struct nouveau_device *device)
 
 void nve0_init(struct nouveau_device *device)
 {
+    nvd0_therm_init(device);
+    
     device->gpio_sense = nvd0_gpio_sense;
     device->gpio_find = nouveau_gpio_find;
     device->gpio_get = nouveau_gpio_get;
@@ -66,9 +69,9 @@ void nve0_init(struct nouveau_device *device)
     device->temp_get = nv50_temp_get;
     device->clocks_get = nvc0_clocks_get;
 //    device->voltage_get = nouveau_voltage_get;
-    device->pwm_get = nv50_fan_pwm_get;
-//    device->fan_pwm_get = nouveau_therm_fan_get;
-    device->fan_rpm_get = nouveau_therm_fan_sense;
+    device->pwm_get = nvd0_fan_pwm_get;
+    device->fan_pwm_get = nouveau_therm_fan_pwm_get;
+    device->fan_rpm_get = nouveau_therm_fan_rpm_get;
 }
 
 

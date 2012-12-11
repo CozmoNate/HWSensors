@@ -150,6 +150,8 @@
 		7EADE25115E563D500FD117C /* RadeonMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1DA962BA13ED368C0096F8A5 /* RadeonMonitor.cpp */; };
 		7EADE25215E563E100FD117C /* GmaSensors.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D6FE3CD13FEBDF900376E64 /* GmaSensors.h */; };
 		7EADE25315E563E100FD117C /* GmaSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D6FE3CC13FEBDF900376E64 /* GmaSensors.cpp */; };
+		7EB3B27A1673287F001D30DA /* nouveau_xpio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB3B2781673287F001D30DA /* nouveau_xpio.cpp */; };
+		7EB3B27B1673287F001D30DA /* nouveau_xpio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB3B2791673287F001D30DA /* nouveau_xpio.h */; };
 		7EB963A01594531100436FDB /* HWMonitorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB9639F1594531100436FDB /* HWMonitorView.m */; };
 		7EB963A71594559100436FDB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9F8320144FF24000EEEFEB /* Cocoa.framework */; };
 		7EB963AD1594559100436FDB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EB963AB1594559100436FDB /* InfoPlist.strings */; };
@@ -351,6 +353,8 @@
 		7EADF7AF15DCC61E0007A92C /* xf86i2c.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xf86i2c.cpp; sourceTree = "<group>"; };
 		7EADF7B015DCC61E0007A92C /* xf86i2c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xf86i2c.h; sourceTree = "<group>"; };
 		7EADF7B115DCC61E0007A92C /* xfree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xfree.h; sourceTree = "<group>"; };
+		7EB3B2781673287F001D30DA /* nouveau_xpio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_xpio.cpp; sourceTree = "<group>"; };
+		7EB3B2791673287F001D30DA /* nouveau_xpio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_xpio.h; sourceTree = "<group>"; };
 		7EB5F21115D19B5D00CD3FC9 /* nouveau_therm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_therm.cpp; sourceTree = "<group>"; };
 		7EB5F21415D19C4900CD3FC9 /* nouveau_therm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_therm.h; sourceTree = "<group>"; };
 		7EB692E715C99A2E0009B2E2 /* gpl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = gpl.txt; sourceTree = "<group>"; };
@@ -993,6 +997,8 @@
 				7EADBFE715D612C500566642 /* nvd0.cpp */,
 				7E4F544D15D0D69000A365AE /* nouveau_bios.h */,
 				7E4F544F15D0D69A00A365AE /* nouveau_bios.cpp */,
+				7EB3B2791673287F001D30DA /* nouveau_xpio.h */,
+				7EB3B2781673287F001D30DA /* nouveau_xpio.cpp */,
 				7EADBFDF15D58E6000566642 /* nouveau_gpio.h */,
 				7EADBFDE15D58E6000566642 /* nouveau_gpio.cpp */,
 				7ECCC9DB15D67858001B1C57 /* nouveau_i2c.h */,
@@ -1128,6 +1134,7 @@
 				7EADE24F15E563D500FD117C /* RadeonChipinfo.h in Headers */,
 				7EADE25015E563D500FD117C /* RadeonMonitor.h in Headers */,
 				7EADE25215E563E100FD117C /* GmaSensors.h in Headers */,
+				7EB3B27B1673287F001D30DA /* nouveau_xpio.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1533,6 +1540,7 @@
 				7EADE24A15E562CB00FD117C /* GeforceSensors.cpp in Sources */,
 				7EADE25115E563D500FD117C /* RadeonMonitor.cpp in Sources */,
 				7EADE25315E563E100FD117C /* GmaSensors.cpp in Sources */,
+				7EB3B27A1673287F001D30DA /* nouveau_xpio.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

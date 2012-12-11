@@ -34,6 +34,7 @@
 
 #include "nouveau.h"
 #include "nv50.h"
+#include "nva3.h"
 #include "nvd0.h"
 #include "nouveau_therm.h"
 
@@ -78,8 +79,11 @@ void nvc0_init(struct nouveau_device *device)
         
         case 0xd9:
             device->gpio_sense = nvd0_gpio_sense;
+            device->fan_rpm_get = nouveau_therm_fan_rpm_get;
         default:
+            nva3_therm_init(device);
             device->gpio_sense = nv50_gpio_sense;
+            device->fan_rpm_get = nva3_therm_fan_sense;
             break;
     }
     
@@ -90,8 +94,7 @@ void nvc0_init(struct nouveau_device *device)
     device->clocks_get = nvc0_clocks_get;
     device->voltage_get = nouveau_voltage_get;
     device->pwm_get = nv50_fan_pwm_get;
-    device->fan_pwm_get = nouveau_therm_fan_get;
-    device->fan_rpm_get = nouveau_therm_fan_sense;
+    device->fan_pwm_get = nouveau_therm_fan_pwm_get;
 }
 
 static u32 read_div(struct nouveau_device *, int, u32, u32);

@@ -211,7 +211,7 @@ bool GeforceSensors::start(IOService * provider)
         
         if (card.fan_rpm_get && card.fan_rpm_get(device) > 0) {
             char title[6];
-            snprintf (title, 6, "GPU %X", card.card_index);
+            snprintf (title, 6, "GPU %X", card.card_index + 1);
             
             UInt8 fanIndex = 0;
             

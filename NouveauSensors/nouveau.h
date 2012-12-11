@@ -73,6 +73,9 @@ struct nouveau_device {
     nouveau_i2c i2c;
     
     I2CDevPtr nvclock_i2c_sensor;
+    
+    dcb_gpio_func fan_pwm;
+    dcb_gpio_func fan_tach;
         
     int (*gpio_sense)(struct nouveau_device *, int line);
     int (*gpio_find)(struct nouveau_device *, int idx, u8 tag, u8 line, struct dcb_gpio_func *);

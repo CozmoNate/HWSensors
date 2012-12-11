@@ -95,10 +95,13 @@ void nv50_init(struct nouveau_device *device)
         case 0xa5:
         case 0xa8:
         case 0xaf:
+            nva3_therm_init(device);
             device->clocks_get = nva3_clocks_get;
+            device->fan_rpm_get = nva3_therm_fan_sense;
             break;
         default:
             device->clocks_get = nv50_clocks_get;
+            device->fan_rpm_get = nouveau_therm_fan_rpm_get;
             break;
     }
     
@@ -108,8 +111,7 @@ void nv50_init(struct nouveau_device *device)
     
     device->temp_get = nv50_temp_get;
     device->pwm_get = nv50_fan_pwm_get;
-    device->fan_pwm_get = nouveau_therm_fan_get;
-    device->fan_rpm_get = nouveau_therm_fan_sense;
+    device->fan_pwm_get = nouveau_therm_fan_pwm_get;
 }
 
 enum clk_src {

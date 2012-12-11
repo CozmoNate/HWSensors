@@ -104,8 +104,8 @@ void nv40_init(struct nouveau_device *device)
     device->clocks_get = nv40_clocks_get;
     device->pwm_get = nv40_fan_pwm_get;
     device->voltage_get = nouveau_voltage_get;
-    device->fan_pwm_get = nouveau_therm_fan_get;
-    device->fan_rpm_get = nouveau_therm_fan_sense;
+    device->fan_pwm_get = nouveau_therm_fan_pwm_get;
+    device->fan_rpm_get = nouveau_therm_fan_rpm_get;
 }
 
 static u32 read_pll_1(struct nouveau_device *device, u32 reg)
