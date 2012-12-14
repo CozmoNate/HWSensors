@@ -2,3 +2,4 @@
 // Prefix header for all source files of the 'SuperIOFamily' target in the 'SuperIOFamily' project
 //
 
+#import <Version.h>
