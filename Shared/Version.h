@@ -1,2 +1,0 @@
-#define XC_BUILD_NUMBER 319
-#define XC_BUILD_HASH @"5bc4255"
