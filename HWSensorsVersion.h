@@ -6,8 +6,10 @@
 //  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
+#import "Version.h"
+
 #define HWSENSORS_LASTYEAR                  2012
-#define HWSENSORS_VERSION                   1.0
+#define HWSENSORS_VERSION                   1.0, Rev. XC_BUILD_NUMBER
 
 #define FAKESMC_BUNDLE                      org.netkas.driver.FakeSMC
 #define FAKESMC_VERSION                     4.3.5

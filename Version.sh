@@ -34,7 +34,7 @@ if [ -z "$1" ]; then
 	fi
 else
 	echo "#define ${PREFIX}BUILD_NUMBER ${BUILD_NUMBER}" > $1
-	echo "#define ${PREFIX}BUILD_HASH @\"${BUILD_HASH}\"" >> $1
+	echo "#define ${PREFIX}BUILD_HASH ${BUILD_HASH}" >> $1
 
 	find "${PROJECT_DIR}" -iname "*.plist" -maxdepth 1 -exec touch {} \;	
 fi

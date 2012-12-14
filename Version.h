@@ -1,2 +1,2 @@
-#define XC_BUILD_NUMBER 323
-#define XC_BUILD_HASH 2bce64a
+#define XC_BUILD_NUMBER 324
+#define XC_BUILD_HASH 7d1c192
