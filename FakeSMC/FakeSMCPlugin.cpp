@@ -256,7 +256,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, UInt
                             HWSensorsWarningLog("failed to update FNum value");
                     }
                     
-                    if (fanIndex) *fanIndex = (UInt8)i;
+                    if (fanIndex) *fanIndex = i;
                     
                     return sensor;
                 }
