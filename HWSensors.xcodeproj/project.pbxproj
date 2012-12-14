@@ -84,11 +84,6 @@
 		7E3684BF158373B900E32629 /* tachometers_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684BD158373B900E32629 /* tachometers_template.png */; };
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
-		7E71471A167B1DD7008480C5 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E714719167B1DD7008480C5 /* Version.h */; };
-		7E71471B167B1DD7008480C5 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E714719167B1DD7008480C5 /* Version.h */; };
-		7E71471C167B1DD7008480C5 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E714719167B1DD7008480C5 /* Version.h */; };
-		7E71471D167B1DD7008480C5 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E714719167B1DD7008480C5 /* Version.h */; };
-		7E71471E167B1DD7008480C5 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E714719167B1DD7008480C5 /* Version.h */; };
 		7E78628F1632F633001984B9 /* OEMInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5A8CB81605EAA400FF0099 /* OEMInfo.h */; };
 		7E7862901632F633001984B9 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */; };
 		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
@@ -100,6 +95,11 @@
 		7E84840A15C3BF2C00C2D5E2 /* pcicard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840815C3BF2C00C2D5E2 /* pcicard.png */; };
 		7E84840C15C3BF6300C2D5E2 /* pcicard_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */; };
 		7E8D485E15AA80910049A229 /* HWMonitorColoredCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */; };
+		7E8D84BE167B24A30052BAE3 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8D84BD167B24A30052BAE3 /* Version.h */; };
+		7E8D84C0167B24A90052BAE3 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8D84BF167B24A90052BAE3 /* Version.h */; };
+		7E8D84C2167B24AF0052BAE3 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8D84C1167B24AF0052BAE3 /* Version.h */; };
+		7E8D84C4167B24B40052BAE3 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8D84C3167B24B40052BAE3 /* Version.h */; };
+		7E8D84C6167B24B80052BAE3 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8D84C5167B24B80052BAE3 /* Version.h */; };
 		7E9388F51594596D0005316D /* BundleUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E9388F6159459710005316D /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
 		7E9388F7159459750005316D /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3684AB158368C900E32629 /* HWMonitorIcon.m */; };
@@ -334,7 +334,6 @@
 		7E5E4BFF15D53F24002FE3DF /* nouveau_volt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_volt.h; sourceTree = "<group>"; };
 		7E5E4C0115D53F2F002FE3DF /* nouveau_volt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_volt.cpp; sourceTree = "<group>"; };
 		7E714718167B1D12008480C5 /* Version.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Version.sh; sourceTree = "<group>"; };
-		7E714719167B1DD7008480C5 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		7E78628E1632F0B7001984B9 /* fakesmc.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fakesmc.txt; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81D15BA99350079AAE8 /* CPUSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CPUSensors-Info.plist"; sourceTree = "<group>"; };
@@ -347,6 +346,13 @@
 		7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcicard_template.png; sourceTree = "<group>"; };
 		7E8D485C15AA80910049A229 /* HWMonitorColoredCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorColoredCell.h; sourceTree = "<group>"; };
 		7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorColoredCell.m; sourceTree = "<group>"; };
+		7E8D84BB167B24900052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
+		7E8D84BC167B24990052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
+		7E8D84BD167B24A30052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
+		7E8D84BF167B24A90052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
+		7E8D84C1167B24AF0052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
+		7E8D84C3167B24B40052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
+		7E8D84C5167B24B80052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
 		7E9388FF15945B360005316D /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
 		7E93890015945B450005316D /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E938903159497920005316D /* HWMonitorSensorsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorSensorsController.h; sourceTree = "<group>"; };
@@ -531,6 +537,7 @@
 		1D05ABEA13ED0DAD00EADBF6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E8D84C5167B24B80052BAE3 /* Version.h */,
 				1D05AC0A13ED0E9D00EADBF6 /* FakeSMC-Info.plist */,
 				1D05AC0713ED0E9600EADBF6 /* InfoPlist.strings */,
 				1D05AC0513ED0E8D00EADBF6 /* FakeSMC-Prefix.pch */,
@@ -572,6 +579,7 @@
 		1D6FE3F013FEBFF200376E64 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E8D84C3167B24B40052BAE3 /* Version.h */,
 				1D6FE40113FEC05500376E64 /* ACPISensors-Info.plist */,
 				1D6FE3F213FEBFF200376E64 /* InfoPlist.strings */,
 				1D6FE3F913FEBFF200376E64 /* ACPISensors-Prefix.pch */,
@@ -708,6 +716,7 @@
 		6A4E473B152178A00038C5DE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E8D84BD167B24A30052BAE3 /* Version.h */,
 				6A4E473C152178A00038C5DE /* SuperIOSensors-Info.plist */,
 				6A4E473D152178A00038C5DE /* InfoPlist.strings */,
 				6A4E4743152178A00038C5DE /* SuperIOSensors-Prefix.pch */,
@@ -746,6 +755,7 @@
 		6A85F85A14DBEF5000F863A9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E8D84BC167B24990052BAE3 /* Version.h */,
 				6A85F85B14DBEF5000F863A9 /* HWMonitorExtra-Info.plist */,
 				6A85F85F14DBEF5000F863A9 /* HWMonitorExtra-Prefix.pch */,
 			);
@@ -756,7 +766,6 @@
 			isa = PBXGroup;
 			children = (
 				7E714718167B1D12008480C5 /* Version.sh */,
-				7E714719167B1DD7008480C5 /* Version.h */,
 				7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */,
 				7EF31BB716207C6B00E9B055 /* Kernel */,
 				7EF31BB916207C7000E9B055 /* Cocoa */,
@@ -869,6 +878,7 @@
 		7E79B81C15BA99350079AAE8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E8D84C1167B24AF0052BAE3 /* Version.h */,
 				7E79B81D15BA99350079AAE8 /* CPUSensors-Info.plist */,
 				7E79B81E15BA99350079AAE8 /* InfoPlist.strings */,
 				7E79B82415BA99350079AAE8 /* CPUSensors-Prefix.pch */,
@@ -903,6 +913,7 @@
 		7EADE20915E5602F00FD117C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E8D84BF167B24A90052BAE3 /* Version.h */,
 				7EADE20A15E5602F00FD117C /* GPUSensors-Info.plist */,
 				7EADE20B15E5602F00FD117C /* InfoPlist.strings */,
 				7EADE21115E5602F00FD117C /* GPUSensors-Prefix.pch */,
@@ -989,6 +1000,7 @@
 		7EB963A91594559100436FDB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E8D84BB167B24900052BAE3 /* Version.h */,
 				7EB963AA1594559100436FDB /* HWMonitor-Info.plist */,
 				7EB963AB1594559100436FDB /* InfoPlist.strings */,
 				7EB963AE1594559100436FDB /* main.m */,
@@ -1091,7 +1103,7 @@
 				6A9C468E14E657EE0083E5E6 /* FakeSMCPlugin.h in Headers */,
 				6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */,
 				7E78628F1632F633001984B9 /* OEMInfo.h in Headers */,
-				7E71471A167B1DD7008480C5 /* Version.h in Headers */,
+				7E8D84C6167B24B80052BAE3 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1101,7 +1113,7 @@
 			files = (
 				1D6FE40013FEC03100376E64 /* ACPISensors.h in Headers */,
 				7E78CD4915EC03BF00D57BC4 /* PTIDSensors.h in Headers */,
-				7E71471B167B1DD7008480C5 /* Version.h in Headers */,
+				7E8D84C4167B24B40052BAE3 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1116,7 +1128,7 @@
 				6A2B4E49152179700093A217 /* W836xxSensors.h in Headers */,
 				6A2B4E3F152179700093A217 /* F718xxSensors.h in Headers */,
 				6A2B4E43152179700093A217 /* NCT677xSensors.h in Headers */,
-				7E71471E167B1DD7008480C5 /* Version.h in Headers */,
+				7E8D84BE167B24A30052BAE3 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1124,7 +1136,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E71471C167B1DD7008480C5 /* Version.h in Headers */,
+				7E8D84C2167B24AF0052BAE3 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1162,7 +1174,7 @@
 				7EADE25015E563D500FD117C /* RadeonMonitor.h in Headers */,
 				7EADE25215E563E100FD117C /* GmaSensors.h in Headers */,
 				7EB3B27B1673287F001D30DA /* nouveau_xpio.h in Headers */,
-				7E71471D167B1DD7008480C5 /* Version.h in Headers */,
+				7E8D84C0167B24A90052BAE3 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2152,6 +2164,7 @@
 				7E714714167B1CF1008480C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7E79B82515BA99350079AAE8 /* Build configuration list for PBXNativeTarget "CPUSensors" */ = {
 			isa = XCConfigurationList;
