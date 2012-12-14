@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E714712167B1CF1008480C5"
-               BuildableName = "Versioning"
-               BlueprintName = "Versioning"
-               ReferencedContainer = "container:HWSensors.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "7EB963A41594559100436FDB"
                BuildableName = "HWMonitor.app"
                BlueprintName = "HWMonitor"

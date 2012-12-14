@@ -11,7 +11,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7E714715167B1CF1008480C5 /* Build configuration list for PBXAggregateTarget "Versioning" */;
 			buildPhases = (
-				7E714717167B1CFC008480C5 /* ShellScript */,
+				7E0ED18C167B286500DE5580 /* ShellScript */,
 			);
 			dependencies = (
 			);
@@ -1336,6 +1336,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				7E714712167B1CF1008480C5 /* Versioning */,
 				1D05ABE313ED0DAD00EADBF6 /* FakeSMC */,
 				1D6FE3ED13FEBFF200376E64 /* ACPISensors */,
 				7E79B81915BA99350079AAE8 /* CPUSensors */,
@@ -1343,7 +1344,6 @@
 				6A4E4738152178A00038C5DE /* LPCSensors */,
 				6A85F85214DBEF5000F863A9 /* HWMonitorExtra */,
 				7EB963A41594559100436FDB /* HWMonitor */,
-				7E714712167B1CF1008480C5 /* Versioning */,
 			);
 		};
 /* End PBXProject section */
@@ -1490,7 +1490,7 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7E714717167B1CFC008480C5 /* ShellScript */ = {
+		7E0ED18C167B286500DE5580 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1917,7 +1917,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitorExtra/HWMonitorExtra-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2076,14 +2075,12 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";

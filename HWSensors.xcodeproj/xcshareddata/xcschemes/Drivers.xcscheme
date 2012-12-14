@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E714712167B1CF1008480C5"
-               BuildableName = "Versioning"
-               BlueprintName = "Versioning"
-               ReferencedContainer = "container:HWSensors.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6FE3ED13FEBFF200376E64"
                BuildableName = "ACPISensors.kext"
                BlueprintName = "ACPISensors"
