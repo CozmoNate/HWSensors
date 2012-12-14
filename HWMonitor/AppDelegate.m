@@ -719,9 +719,10 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     //[_itemsScrollView setDocumentCursor:[NSCursor openHandCursor]];
     
     // Update version label
-	NSString *version = [[NSString alloc] initWithFormat:@"v%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
+	NSString *version = [[NSString alloc] initWithFormat:@"v%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
     
-    [_versionLabel setTitleWithMnemonic:version];
+    //[_versionLabel setTitleWithMnemonic:version];
+    [_versionLabel setStringValue:version];
     
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(recieveItems:) name:HWMonitorRecieveItems object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(valuesChanged:) name:HWMonitorValuesChanged object: NULL];

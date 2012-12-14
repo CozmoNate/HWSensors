@@ -13,13 +13,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>HWSENSORS_VERSION</string>
+	<string>2.0.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>CPUSENSORS_VERSION</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © HWSENSORS_LASTYEAR Natan Zalkin &lt;natan.zalkin@me.com&gt;. All rights reserved.</string>
+	<string>2.0.3</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Intel Thermal Monitor</key>
@@ -43,18 +41,20 @@
 			<integer>0</integer>
 		</dict>
 	</dict>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © HWSENSORS_LASTYEAR Natan Zalkin &lt;natan.zalkin@me.com&gt;. All rights reserved.</string>
 	<key>OSBundleLibraries</key>
 	<dict>
-		<key>com.apple.kpi.libkern</key>
-		<string>10.0.0</string>
+		<key>FAKESMC_BUNDLE</key>
+		<string>FAKESMC_COMPATIBLE</string>
 		<key>com.apple.kpi.iokit</key>
+		<string>10.0.0</string>
+		<key>com.apple.kpi.libkern</key>
 		<string>10.0.0</string>
 		<key>com.apple.kpi.mach</key>
 		<string>10.0.0</string>
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
-		<key>FAKESMC_BUNDLE</key>
-		<string>FAKESMC_COMPATIBLE</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>
