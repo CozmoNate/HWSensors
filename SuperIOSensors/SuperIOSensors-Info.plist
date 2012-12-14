@@ -3014,7 +3014,80 @@
 					<key>P6T DELUXE V2</key>
 					<string>Rampage II GENE</string>
 					<key>P6X58D-E</key>
-					<string>Rampage II GENE</string>
+					<dict>
+						<key>FANIN0</key>
+						<string>Chassis Fan 1</string>
+						<key>FANIN1</key>
+						<string>CPU Fan</string>
+						<key>FANIN2</key>
+						<string>Power Supply Fan</string>
+						<key>FANIN3</key>
+						<string>Chassis Fan 2</string>
+						<key>FANIN4</key>
+						<string>Chassis Fan 3</string>
+						<key>FANINLIMIT</key>
+						<integer>0</integer>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN1</key>
+						<string>Ambient</string>
+						<key>TEMPIN2</key>
+						<string>System</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<dict>
+							<key>gain</key>
+							<integer>6020</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN2</key>
+						<string>Memory</string>
+						<key>VIN3</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Main 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN4</key>
+						<dict>
+							<key>gain</key>
+							<integer>2000</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
+						<string>Power Supply 5</string>
+						<key>VIN6</key>
+						<string>Power Supply 6</string>
+						<key>VIN7</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Auxiliary 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<string>Power Supply 8</string>
+					</dict>
 					<key>Rampage II GENE</key>
 					<dict>
 						<key>FANIN0</key>
