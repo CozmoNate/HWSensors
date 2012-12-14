@@ -212,15 +212,12 @@ bool GeforceSensors::start(IOService * provider)
         if (card.fan_rpm_get && card.fan_rpm_get(device) > 0) {
             char title[6];
             snprintf (title, 6, "GPU %X", card.card_index + 1);
-            
-            UInt8 fanIndex = 0;
-            
-            if (addTachometer(card.card_index, title, &fanIndex)) {
-                if (card.fan_pwm_get && card.fan_pwm_get(device) > 0) {
-                    snprintf(key, 5, KEY_FAKESMC_FORMAT_GPUPWM, fanIndex);
-                    addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kNouveauPWMSensor, 0);
-                }
-            }
+            addTachometer(card.card_index, title);
+        }
+        
+        if (card.fan_pwm_get && card.fan_pwm_get(device) > 0) {
+            snprintf(key, 5, KEY_FAKESMC_FORMAT_GPUPWM, card.card_index);
+            addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kNouveauPWMSensor, 0);
         }
     }
     

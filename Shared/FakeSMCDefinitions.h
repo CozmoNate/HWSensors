@@ -107,12 +107,13 @@
 #define KEY_CPU_PACKAGE_GFX_POWER               "PCPG" // SNB
 #define KEY_CPU_PACKAGE_TOTAL_POWER             "PCPT" // SNB
 
-// FAN's
+// FANs
 #define KEY_FAN_NUMBER                          "FNum"
 #define KEY_FORMAT_FAN_ID                       "F%XID"
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
 #define KEY_FAKESMC_GPUPWM                      "FG0P"
 #define KEY_FAKESMC_FORMAT_GPUPWM               "FG%XP"
+
 // Other
 #define KEY_FAKESMC_FORMAT_CPU_FREQUENCY		"CC%XC"
 #define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY       "CCPC"

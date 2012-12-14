@@ -13,30 +13,13 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>HWSENSORS_VERSION</string>
+	<string>2.2.9</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>ACPISENSORS_VERSION</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © HWSENSORS_LASTYEAR Slice. All rights reserved.</string>
+	<string>2.2.9</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>PTID Device Monitoring Plugin</key>
-		<dict>
-			<key>IOClass</key>
-			<string>PTIDSensors</string>
-			<key>IOMatchCategory</key>
-			<string>FakeSMCPlugin</string>
-			<key>IONameMatch</key>
-			<array>
-				<string>PTID</string>
-			</array>
-			<key>IOProviderClass</key>
-			<string>IOACPIPlatformDevice</string>
-			<key>IOProbeScore</key>
-			<integer>1000</integer>
-		</dict>
 		<key>ACPI Customizable Monitoring Plugin</key>
 		<dict>
 			<key>IOClass</key>
@@ -53,21 +36,30 @@
 			<dict>
 				<key>Default</key>
 				<dict>
-					<key>Temperatures</key>
+					<key>Fan Names</key>
 					<dict>
-						<key>Th0H</key>
-						<string>TCPU</string>
-						<key>TN0P</key>
-						<string>TSYS</string>
-						<key>TC0P</key>
-						<string>TCPP</string>
-					</dict>
-					<key>Voltages</key>
-					<dict>
-						<key>VC0C</key>
-						<string>VCPU</string>
-						<key>VM0R</key>
-						<string>VMEM</string>
+						<key>FAN0</key>
+						<string>System Fan</string>
+						<key>FAN1</key>
+						<string>Processor Fan</string>
+						<key>FAN2</key>
+						<string>Power Fan</string>
+						<key>FAN3</key>
+						<string>Intake Fan</string>
+						<key>FAN4</key>
+						<string>Exhaust Fan</string>
+						<key>FAN5</key>
+						<string>Fan 6</string>
+						<key>FAN6</key>
+						<string>Fan 7</string>
+						<key>FAN7</key>
+						<string>Fan 8</string>
+						<key>FAN8</key>
+						<string>Fan 9</string>
+						<key>FAN9</key>
+						<string>Fan 10</string>
+						<key>FANA</key>
+						<string>Fan 11</string>
 					</dict>
 					<key>Tachometers</key>
 					<dict>
@@ -94,49 +86,57 @@
 						<key>FANA</key>
 						<string>FANA</string>
 					</dict>
-					<key>Fan Names</key>
+					<key>Temperatures</key>
 					<dict>
-						<key>FAN0</key>
-						<string>System Fan</string>
-						<key>FAN1</key>
-						<string>Processor Fan</string>
-						<key>FAN2</key>
-						<string>Power Fan</string>
-						<key>FAN3</key>
-						<string>Intake Fan</string>
-						<key>FAN4</key>
-						<string>Exhaust Fan</string>
-						<key>FAN5</key>
-						<string>Fan 6</string>
-						<key>FAN6</key>
-						<string>Fan 7</string>
-						<key>FAN7</key>
-						<string>Fan 8</string>
-						<key>FAN8</key>
-						<string>Fan 9</string>
-						<key>FAN9</key>
-						<string>Fan 10</string>
-						<key>FANA</key>
-						<string>Fan 11</string>
+						<key>TC0P</key>
+						<string>TCPP</string>
+						<key>TN0P</key>
+						<string>TSYS</string>
+						<key>Th0H</key>
+						<string>TCPU</string>
+					</dict>
+					<key>Voltages</key>
+					<dict>
+						<key>VC0C</key>
+						<string>VCPU</string>
+						<key>VM0R</key>
+						<string>VMEM</string>
 					</dict>
 				</dict>
 			</dict>
 		</dict>
+		<key>PTID Device Monitoring Plugin</key>
+		<dict>
+			<key>IOClass</key>
+			<string>PTIDSensors</string>
+			<key>IOMatchCategory</key>
+			<string>FakeSMCPlugin</string>
+			<key>IONameMatch</key>
+			<array>
+				<string>PTID</string>
+			</array>
+			<key>IOProbeScore</key>
+			<integer>1000</integer>
+			<key>IOProviderClass</key>
+			<string>IOACPIPlatformDevice</string>
+		</dict>
 	</dict>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © HWSENSORS_LASTYEAR Slice. All rights reserved.</string>
 	<key>OSBundleLibraries</key>
 	<dict>
-		<key>com.apple.kpi.libkern</key>
-		<string>10.0.0</string>
+		<key>FAKESMC_BUNDLE</key>
+		<string>FAKESMC_COMPATIBLE</string>
+		<key>com.apple.iokit.IOACPIFamily</key>
+		<string>1.0.0b1</string>
 		<key>com.apple.kpi.iokit</key>
+		<string>10.0.0</string>
+		<key>com.apple.kpi.libkern</key>
 		<string>10.0.0</string>
 		<key>com.apple.kpi.mach</key>
 		<string>10.0.0</string>
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
-		<key>com.apple.iokit.IOACPIFamily</key>
-		<string>1.0.0b1</string>
-		<key>FAKESMC_BUNDLE</key>
-		<string>FAKESMC_COMPATIBLE</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>
