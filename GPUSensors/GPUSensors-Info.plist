@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>GPUSENSORS_SHORTVERSION</string>
+	<string>GPUSENSORS_VERSION</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -32,8 +32,6 @@
 			<string>0x03000000&amp;0xff000000</string>
 			<key>IOPCIMatch</key>
 			<string>0x000010de&amp;0x0000ffff</string>
-			<key>IOProbeScore</key>
-			<integer>1000</integer>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 		</dict>

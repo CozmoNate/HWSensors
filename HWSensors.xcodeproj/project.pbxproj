@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		7E714712167B1CF1008480C5 /* Versioning */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7E714715167B1CF1008480C5 /* Build configuration list for PBXAggregateTarget "Versioning" */;
+			buildPhases = (
+				7E714717167B1CFC008480C5 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Versioning;
+			productName = Versioning;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		1D05AC0613ED0E8D00EADBF6 /* FakeSMC-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 1D05AC0513ED0E8D00EADBF6 /* FakeSMC-Prefix.pch */; };
 		1D6FE3F413FEBFF200376E64 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D6FE3F213FEBFF200376E64 /* InfoPlist.strings */; };
@@ -70,6 +84,11 @@
 		7E3684BF158373B900E32629 /* tachometers_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684BD158373B900E32629 /* tachometers_template.png */; };
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
+		7E71471A167B1DD7008480C5 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E714719167B1DD7008480C5 /* Version.h */; };
+		7E71471B167B1DD7008480C5 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E714719167B1DD7008480C5 /* Version.h */; };
+		7E71471C167B1DD7008480C5 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E714719167B1DD7008480C5 /* Version.h */; };
+		7E71471D167B1DD7008480C5 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E714719167B1DD7008480C5 /* Version.h */; };
+		7E71471E167B1DD7008480C5 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E714719167B1DD7008480C5 /* Version.h */; };
 		7E78628F1632F633001984B9 /* OEMInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5A8CB81605EAA400FF0099 /* OEMInfo.h */; };
 		7E7862901632F633001984B9 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */; };
 		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
@@ -314,6 +333,8 @@
 		7E5E4BFD15D53A9C002FE3DF /* nva3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nva3.cpp; sourceTree = "<group>"; };
 		7E5E4BFF15D53F24002FE3DF /* nouveau_volt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_volt.h; sourceTree = "<group>"; };
 		7E5E4C0115D53F2F002FE3DF /* nouveau_volt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_volt.cpp; sourceTree = "<group>"; };
+		7E714718167B1D12008480C5 /* Version.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Version.sh; sourceTree = "<group>"; };
+		7E714719167B1DD7008480C5 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		7E78628E1632F0B7001984B9 /* fakesmc.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fakesmc.txt; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81D15BA99350079AAE8 /* CPUSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CPUSensors-Info.plist"; sourceTree = "<group>"; };
@@ -734,6 +755,8 @@
 		6A9955BD14EFAD360052C702 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				7E714718167B1D12008480C5 /* Version.sh */,
+				7E714719167B1DD7008480C5 /* Version.h */,
 				7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */,
 				7EF31BB716207C6B00E9B055 /* Kernel */,
 				7EF31BB916207C7000E9B055 /* Cocoa */,
@@ -1068,6 +1091,7 @@
 				6A9C468E14E657EE0083E5E6 /* FakeSMCPlugin.h in Headers */,
 				6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */,
 				7E78628F1632F633001984B9 /* OEMInfo.h in Headers */,
+				7E71471A167B1DD7008480C5 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1077,6 +1101,7 @@
 			files = (
 				1D6FE40013FEC03100376E64 /* ACPISensors.h in Headers */,
 				7E78CD4915EC03BF00D57BC4 /* PTIDSensors.h in Headers */,
+				7E71471B167B1DD7008480C5 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1091,6 +1116,7 @@
 				6A2B4E49152179700093A217 /* W836xxSensors.h in Headers */,
 				6A2B4E3F152179700093A217 /* F718xxSensors.h in Headers */,
 				6A2B4E43152179700093A217 /* NCT677xSensors.h in Headers */,
+				7E71471E167B1DD7008480C5 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1098,6 +1124,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E71471C167B1DD7008480C5 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1135,6 +1162,7 @@
 				7EADE25015E563D500FD117C /* RadeonMonitor.h in Headers */,
 				7EADE25215E563E100FD117C /* GmaSensors.h in Headers */,
 				7EB3B27B1673287F001D30DA /* nouveau_xpio.h in Headers */,
+				7E71471D167B1DD7008480C5 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1303,6 +1331,7 @@
 				6A4E4738152178A00038C5DE /* LPCSensors */,
 				6A85F85214DBEF5000F863A9 /* HWMonitorExtra */,
 				7EB963A41594559100436FDB /* HWMonitor */,
+				7E714712167B1CF1008480C5 /* Versioning */,
 			);
 		};
 /* End PBXProject section */
@@ -1447,6 +1476,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7E714717167B1CFC008480C5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "GIT_BRANCH=\"master\" PREFIX=\"XC_\" /bin/sh \"${PROJECT_DIR}/Version.sh\" \"${PROJECT_DIR}/Version.h\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D05ABDE13ED0DAD00EADBF6 /* Sources */ = {
@@ -1899,6 +1944,20 @@
 			};
 			name = Release;
 		};
+		7E714713167B1CF1008480C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7E714714167B1CF1008480C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7E79B82615BA99350079AAE8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2085,6 +2144,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		7E714715167B1CF1008480C5 /* Build configuration list for PBXAggregateTarget "Versioning" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E714713167B1CF1008480C5 /* Debug */,
+				7E714714167B1CF1008480C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		7E79B82515BA99350079AAE8 /* Build configuration list for PBXNativeTarget "CPUSensors" */ = {
 			isa = XCConfigurationList;
