@@ -1,7 +1,7 @@
 
 #include "FakeSMC.h"
 #include "FakeSMCDefinitions.h"
-#include "HWSensorsInfoPlist.pch"
+#include "HWSensorsVersion.h"
 
 #include "OEMInfo.h"
 

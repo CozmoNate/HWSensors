@@ -95,11 +95,6 @@
 		7E84840A15C3BF2C00C2D5E2 /* pcicard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840815C3BF2C00C2D5E2 /* pcicard.png */; };
 		7E84840C15C3BF6300C2D5E2 /* pcicard_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */; };
 		7E8D485E15AA80910049A229 /* HWMonitorColoredCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */; };
-		7E8D84BE167B24A30052BAE3 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8D84BD167B24A30052BAE3 /* Version.h */; };
-		7E8D84C0167B24A90052BAE3 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8D84BF167B24A90052BAE3 /* Version.h */; };
-		7E8D84C2167B24AF0052BAE3 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8D84C1167B24AF0052BAE3 /* Version.h */; };
-		7E8D84C4167B24B40052BAE3 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8D84C3167B24B40052BAE3 /* Version.h */; };
-		7E8D84C6167B24B80052BAE3 /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8D84C5167B24B80052BAE3 /* Version.h */; };
 		7E9388F51594596D0005316D /* BundleUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E9388F6159459710005316D /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A62185314F17D640058C396 /* ATASmartReporter.m */; };
 		7E9388F7159459750005316D /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3684AB158368C900E32629 /* HWMonitorIcon.m */; };
@@ -249,7 +244,7 @@
 		6A2B4E3B152179700093A217 /* SuperIOPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIOPlugin.h; sourceTree = "<group>"; };
 		6A2B4E3C152179700093A217 /* W836xxSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = W836xxSensors.cpp; sourceTree = "<group>"; };
 		6A2B4E3D152179700093A217 /* W836xxSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = W836xxSensors.h; sourceTree = "<group>"; };
-		6A4E4739152178A00038C5DE /* MBSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MBSensors.kext; path = LPCSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A4E4739152178A00038C5DE /* LPCSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LPCSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A4E473C152178A00038C5DE /* SuperIOSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuperIOSensors-Info.plist"; sourceTree = "<group>"; };
 		6A4E473E152178A00038C5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A4E4743152178A00038C5DE /* SuperIOSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SuperIOSensors-Prefix.pch"; sourceTree = "<group>"; };
@@ -293,12 +288,14 @@
 		7E06D0EC157E96C400F8A270 /* SystemUIPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemUIPlugin.h; sourceTree = "<group>"; };
 		7E06D0F8157FC80B00F8A270 /* BundleUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BundleUserDefaults.h; sourceTree = "<group>"; };
 		7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BundleUserDefaults.m; sourceTree = "<group>"; };
+		7E0ED190167B2B0500DE5580 /* Version.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = Version.sh; path = ../Version.sh; sourceTree = "<group>"; };
+		7E0ED196167B2EF200DE5580 /* Version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
+		7E0ED198167B2F5A00DE5580 /* HWSensorsVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.h; sourceTree = SOURCE_ROOT; };
 		7E130002159C10E900F3B88A /* HWMonitorGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorGroup.h; sourceTree = "<group>"; };
 		7E130003159C10E900F3B88A /* HWMonitorGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGroup.m; sourceTree = "<group>"; };
 		7E130006159C129200F3B88A /* HWMonitorItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorItem.h; sourceTree = "<group>"; };
 		7E130007159C129200F3B88A /* HWMonitorItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorItem.m; sourceTree = "<group>"; };
 		7E2A5803159240B30073AB74 /* removefakesmc */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = removefakesmc; path = Installer/removefakesmc; sourceTree = "<group>"; };
-		7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsInfoPlist.pch; sourceTree = "<group>"; };
 		7E3684AA158368C900E32629 /* HWMonitorIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorIcon.h; sourceTree = "<group>"; };
 		7E3684AB158368C900E32629 /* HWMonitorIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorIcon.m; sourceTree = "<group>"; };
 		7E3684AE1583715B00E32629 /* temperatures_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = temperatures_template.png; sourceTree = "<group>"; };
@@ -333,7 +330,6 @@
 		7E5E4BFD15D53A9C002FE3DF /* nva3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nva3.cpp; sourceTree = "<group>"; };
 		7E5E4BFF15D53F24002FE3DF /* nouveau_volt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_volt.h; sourceTree = "<group>"; };
 		7E5E4C0115D53F2F002FE3DF /* nouveau_volt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_volt.cpp; sourceTree = "<group>"; };
-		7E714718167B1D12008480C5 /* Version.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Version.sh; sourceTree = "<group>"; };
 		7E78628E1632F0B7001984B9 /* fakesmc.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fakesmc.txt; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81D15BA99350079AAE8 /* CPUSensors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CPUSensors-Info.plist"; sourceTree = "<group>"; };
@@ -346,13 +342,6 @@
 		7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcicard_template.png; sourceTree = "<group>"; };
 		7E8D485C15AA80910049A229 /* HWMonitorColoredCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorColoredCell.h; sourceTree = "<group>"; };
 		7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorColoredCell.m; sourceTree = "<group>"; };
-		7E8D84BB167B24900052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
-		7E8D84BC167B24990052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
-		7E8D84BD167B24A30052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
-		7E8D84BF167B24A90052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
-		7E8D84C1167B24AF0052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
-		7E8D84C3167B24B40052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
-		7E8D84C5167B24B80052BAE3 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = SOURCE_ROOT; };
 		7E9388FF15945B360005316D /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
 		7E93890015945B450005316D /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E938903159497920005316D /* HWMonitorSensorsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorSensorsController.h; sourceTree = "<group>"; };
@@ -501,7 +490,7 @@
 				1D05ABE413ED0DAD00EADBF6 /* FakeSMC.kext */,
 				1D6FE3EE13FEBFF200376E64 /* ACPISensors.kext */,
 				6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */,
-				6A4E4739152178A00038C5DE /* MBSensors.kext */,
+				6A4E4739152178A00038C5DE /* LPCSensors.kext */,
 				7EB963A51594559100436FDB /* HWMonitor.app */,
 				7E79B81A15BA99350079AAE8 /* CPUSensors.kext */,
 				7EADE20715E5602E00FD117C /* GPUSensors.kext */,
@@ -537,7 +526,6 @@
 		1D05ABEA13ED0DAD00EADBF6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7E8D84C5167B24B80052BAE3 /* Version.h */,
 				1D05AC0A13ED0E9D00EADBF6 /* FakeSMC-Info.plist */,
 				1D05AC0713ED0E9600EADBF6 /* InfoPlist.strings */,
 				1D05AC0513ED0E8D00EADBF6 /* FakeSMC-Prefix.pch */,
@@ -579,7 +567,6 @@
 		1D6FE3F013FEBFF200376E64 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7E8D84C3167B24B40052BAE3 /* Version.h */,
 				1D6FE40113FEC05500376E64 /* ACPISensors-Info.plist */,
 				1D6FE3F213FEBFF200376E64 /* InfoPlist.strings */,
 				1D6FE3F913FEBFF200376E64 /* ACPISensors-Prefix.pch */,
@@ -716,7 +703,6 @@
 		6A4E473B152178A00038C5DE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7E8D84BD167B24A30052BAE3 /* Version.h */,
 				6A4E473C152178A00038C5DE /* SuperIOSensors-Info.plist */,
 				6A4E473D152178A00038C5DE /* InfoPlist.strings */,
 				6A4E4743152178A00038C5DE /* SuperIOSensors-Prefix.pch */,
@@ -755,7 +741,6 @@
 		6A85F85A14DBEF5000F863A9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7E8D84BC167B24990052BAE3 /* Version.h */,
 				6A85F85B14DBEF5000F863A9 /* HWMonitorExtra-Info.plist */,
 				6A85F85F14DBEF5000F863A9 /* HWMonitorExtra-Prefix.pch */,
 			);
@@ -765,8 +750,9 @@
 		6A9955BD14EFAD360052C702 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				7E714718167B1D12008480C5 /* Version.sh */,
-				7E2F5EA015554DCF00A45588 /* HWSensorsInfoPlist.pch */,
+				7E0ED190167B2B0500DE5580 /* Version.sh */,
+				7E0ED196167B2EF200DE5580 /* Version.h */,
+				7E0ED198167B2F5A00DE5580 /* HWSensorsVersion.h */,
 				7EF31BB716207C6B00E9B055 /* Kernel */,
 				7EF31BB916207C7000E9B055 /* Cocoa */,
 				6A1DF980150201BF00C34729 /* Resources */,
@@ -878,7 +864,6 @@
 		7E79B81C15BA99350079AAE8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7E8D84C1167B24AF0052BAE3 /* Version.h */,
 				7E79B81D15BA99350079AAE8 /* CPUSensors-Info.plist */,
 				7E79B81E15BA99350079AAE8 /* InfoPlist.strings */,
 				7E79B82415BA99350079AAE8 /* CPUSensors-Prefix.pch */,
@@ -913,7 +898,6 @@
 		7EADE20915E5602F00FD117C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7E8D84BF167B24A90052BAE3 /* Version.h */,
 				7EADE20A15E5602F00FD117C /* GPUSensors-Info.plist */,
 				7EADE20B15E5602F00FD117C /* InfoPlist.strings */,
 				7EADE21115E5602F00FD117C /* GPUSensors-Prefix.pch */,
@@ -1000,7 +984,6 @@
 		7EB963A91594559100436FDB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7E8D84BB167B24900052BAE3 /* Version.h */,
 				7EB963AA1594559100436FDB /* HWMonitor-Info.plist */,
 				7EB963AB1594559100436FDB /* InfoPlist.strings */,
 				7EB963AE1594559100436FDB /* main.m */,
@@ -1103,7 +1086,6 @@
 				6A9C468E14E657EE0083E5E6 /* FakeSMCPlugin.h in Headers */,
 				6AA2D0D5150B4B99004757C5 /* FakeSMC.h in Headers */,
 				7E78628F1632F633001984B9 /* OEMInfo.h in Headers */,
-				7E8D84C6167B24B80052BAE3 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1113,7 +1095,6 @@
 			files = (
 				1D6FE40013FEC03100376E64 /* ACPISensors.h in Headers */,
 				7E78CD4915EC03BF00D57BC4 /* PTIDSensors.h in Headers */,
-				7E8D84C4167B24B40052BAE3 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1128,7 +1109,6 @@
 				6A2B4E49152179700093A217 /* W836xxSensors.h in Headers */,
 				6A2B4E3F152179700093A217 /* F718xxSensors.h in Headers */,
 				6A2B4E43152179700093A217 /* NCT677xSensors.h in Headers */,
-				7E8D84BE167B24A30052BAE3 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1136,7 +1116,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E8D84C2167B24AF0052BAE3 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1174,7 +1153,6 @@
 				7EADE25015E563D500FD117C /* RadeonMonitor.h in Headers */,
 				7EADE25215E563E100FD117C /* GmaSensors.h in Headers */,
 				7EB3B27B1673287F001D30DA /* nouveau_xpio.h in Headers */,
-				7E8D84C0167B24A90052BAE3 /* Version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1235,7 +1213,7 @@
 			);
 			name = LPCSensors;
 			productName = SuperIOSensors;
-			productReference = 6A4E4739152178A00038C5DE /* MBSensors.kext */;
+			productReference = 6A4E4739152178A00038C5DE /* LPCSensors.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
 		6A85F85214DBEF5000F863A9 /* HWMonitorExtra */ = {
@@ -1501,7 +1479,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "GIT_BRANCH=\"master\" PREFIX=\"XC_\" /bin/sh \"${PROJECT_DIR}/Version.sh\" \"${PROJECT_DIR}/Version.h\"";
+			shellScript = "GIT_BRANCH=\"master\" PREFIX=\"XC_\" /bin/sh \"${SRCROOT}/Version.sh\" \"${PROJECT_DIR}/Version.h\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1780,6 +1758,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FakeSMC/FakeSMC-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1801,6 +1780,7 @@
 				GCC_PREFIX_HEADER = "FakeSMC/FakeSMC-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FakeSMC/FakeSMC-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1828,6 +1808,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "ACPISensors/ACPISensors-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1849,6 +1830,7 @@
 				GCC_PREFIX_HEADER = "ACPISensors/ACPISensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "ACPISensors/ACPISensors-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1876,6 +1858,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "SuperIOSensors/SuperIOSensors-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1897,6 +1880,7 @@
 				GCC_PREFIX_HEADER = "SuperIOSensors/SuperIOSensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "SuperIOSensors/SuperIOSensors-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1917,17 +1901,16 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitorExtra/HWMonitorExtra-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitorExtra/HWMonitorExtra-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = menu;
 			};
@@ -1943,13 +1926,12 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitorExtra/HWMonitorExtra-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitorExtra/HWMonitorExtra-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = menu;
 			};
@@ -1987,6 +1969,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "CPUSensors/CPUSensors-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2008,6 +1991,7 @@
 				GCC_PREFIX_HEADER = "CPUSensors/CPUSensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "CPUSensors/CPUSensors-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2035,6 +2019,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "GPUSensors/GPUSensors-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2056,6 +2041,7 @@
 				GCC_PREFIX_HEADER = "GPUSensors/GPUSensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "GPUSensors/GPUSensors-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2075,6 +2061,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2083,6 +2070,7 @@
 				);
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2097,10 +2085,12 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

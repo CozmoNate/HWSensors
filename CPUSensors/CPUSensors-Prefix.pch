@@ -1,5 +1,3 @@
 //
 // Prefix header for all source files of the 'CPUSensors' target in the 'CPUSensors' project
 //
-
-#import <Version.h>
