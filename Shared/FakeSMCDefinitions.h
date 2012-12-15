@@ -9,6 +9,8 @@
 #ifndef HWSensors_definitions_h
 #define HWSensors_definitions_h
 
+#define KEY_COUNTER                             "#KEY"
+
 // Temperature (*C)
 // CPU
 #define KEY_FORMAT_CPU_DIODE_TEMPERATURE        "TC%XD" // CPU Core %X

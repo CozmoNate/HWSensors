@@ -1,9 +1,10 @@
 
+
 #include "FakeSMC.h"
 #include "FakeSMCDefinitions.h"
-#include "HWSensorsVersion.h"
 
 #include "OEMInfo.h"
+#include "HWSensorsVersion.pch"
 
 #define super IOService
 OSDefineMetaClassAndStructors (FakeSMC, IOService)

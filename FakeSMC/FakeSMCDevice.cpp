@@ -330,11 +330,10 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	bzero((void*)status, sizeof(struct AppleSMCStatus));
 	
 	interrupt_handler = 0;
-	
-	keys = OSArray::withCapacity(0);
-    
-    sharpKEY = FakeSMCKey::withValue("#KEY", TYPE_UI32, TYPE_UI32_SIZE, "\0\0\0\1");
-	keys->setObject(sharpKEY);
+
+	keys = OSDictionary::withCapacity(1);
+    counterKey = FakeSMCKey::withValue(KEY_COUNTER, TYPE_UI32, TYPE_UI32_SIZE, "\0\0\0\1");
+	keys->setObject(KEY_COUNTER, counterKey);
     
     FakeSMCDebugLog("loading keys...");
     
@@ -509,13 +508,13 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
 
 UInt32 FakeSMCDevice::getCount() { return keys->getCount(); }
 
-void FakeSMCDevice::updateSharpKey()
+void FakeSMCDevice::updateCounterKey()
 {	
 	UInt32 count = OSSwapHostToBigInt32(keys->getCount());
 	
 	//char value[] = { static_cast<char>(count << 24), static_cast<char>(count << 16), static_cast<char>(count << 8), static_cast<char>(count) };
     
-	sharpKEY->setValueFromBuffer(&count, 4);
+	counterKey->setValueFromBuffer(&count, 4);
 }
 
 FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value)
@@ -579,8 +578,8 @@ FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, u
 	FakeSMCDebugLog("adding key %s with value, type: %s, size: %d", name, type, size);
 	
 	if (FakeSMCKey *key = FakeSMCKey::withValue(name, type, size, value)) {		
-		keys->setObject(key);
-		updateSharpKey();
+		keys->setObject(name, key);
+		updateCounterKey();
 		return key;
 	}
 	
@@ -602,8 +601,8 @@ FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type,
 	FakeSMCDebugLog("adding key %s with handler, type: %s, size: %d", name, type, size);
 	
 	if (FakeSMCKey *key = FakeSMCKey::withHandler(name, type, size, handler)) {
-		keys->setObject(key);
-		updateSharpKey();
+		keys->setObject(name, key);
+		updateCounterKey();
 		return key;
 	}
 	
@@ -619,28 +618,31 @@ inline uint32_t key_to_int(const char *name)
 
 FakeSMCKey *FakeSMCDevice::getKey(const char *name)
 {
-	if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
-		while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
-            UInt32 key1 = key_to_int(name);
-			UInt32 key2 = key_to_int(key->getKey());
-			if (key1 == key2) {
-				OSSafeRelease(iterator);
-				return key;
-			}
-		}
-		
-        OSSafeRelease(iterator);
-	}
+    FakeSMCKey *key = OSDynamicCast(FakeSMCKey, keys->getObject(name));
 	
-	FakeSMCDebugLog("key %s not found", name);
+	if (key == NULL)
+        FakeSMCDebugLog("key %s not found", name);
 		
-	return 0;
+	return key;
 }
 
 FakeSMCKey *FakeSMCDevice::getKey(unsigned int index)
 {
-	if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, keys->getObject(index)))
-		return key;
+    if (index < keys->getCount())  {
+        if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
+            UInt32 count = 0;
+            
+            while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
+                if (count == index && key != NULL) {
+                    OSSafeRelease(iterator);
+                    return key;
+                }
+                count++;
+            }
+            
+            OSSafeRelease(iterator);
+        }
+    }
 	
 	FakeSMCDebugLog("key with index %d not found", index);
 	

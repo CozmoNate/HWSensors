@@ -3,11 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string>default.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.hwsensors.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -15,20 +13,16 @@
 	<key>CFBundleName</key>
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3.10</string>
+	<string>1.8.11</string>
 	<key>CFBundleSignature</key>
 	<string>HWMN</string>
 	<key>CFBundleVersion</key>
-	<string>2.3.10</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
+	<string>1.8.11</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © HWSENSORS_LASTYEAR Natan Zalkin &lt;natan.zalkin@me.com&gt;. All rights reserved.</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
+	<string>HWMonitorExtra</string>
 </dict>
 </plist>
