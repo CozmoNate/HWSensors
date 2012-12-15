@@ -15,7 +15,7 @@ OSDefineMetaClassAndStructors(ACPISensors, FakeSMCPlugin)
 
 float ACPISensors::getSensorValue(FakeSMCSensor *sensor)
 {
-    UInt64 value;
+    UInt32 value;   //rehabman: Note that UInt64 evaluateInteger overload causes KP
     
     switch(sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:

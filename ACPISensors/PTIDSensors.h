@@ -37,7 +37,7 @@ class PTIDSensors : public FakeSMCPlugin
     
 private:
 	IOACPIPlatformDevice    *acpiDevice;
-    UInt64                  version;
+    UInt32                  version;
     
     OSArray                 *temperatures;
     OSArray                 *tachometers;
