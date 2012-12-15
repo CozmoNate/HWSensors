@@ -50,13 +50,14 @@ private:
 	void				*interrupt_refcon;
 	int					interrupt_source;
 	
-	struct ApleSMCStatus	*status;
+	struct
+    ApleSMCStatus       *status;
 	
-	OSArray				*keys;
+	OSDictionary        *keys;
     OSDictionary        *types;
-	FakeSMCKey			*sharpKEY;
-    
     OSDictionary        *exposedValues;
+    
+   	FakeSMCKey			*counterKey;
 	
     bool				trace;
 	bool				debug;
@@ -94,7 +95,7 @@ public:
 	virtual FakeSMCKey	*getKey(unsigned int index);
 	virtual UInt32		getCount(void);
 	
-	virtual void		updateSharpKey(void);
+	virtual void		updateCounterKey(void);
     	
 	//virtual void		setDebug(bool debug_val);
     

@@ -238,7 +238,6 @@
 		6A62185314F17D640058C396 /* ATASmartReporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATASmartReporter.m; sourceTree = "<group>"; };
 		6A8307A6151BCE800015911A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HWMonitorExtra.menu; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A85F85B14DBEF5000F863A9 /* HWMonitorExtra-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HWMonitorExtra-Info.plist"; sourceTree = "<group>"; };
 		6A85F85F14DBEF5000F863A9 /* HWMonitorExtra-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HWMonitorExtra-Prefix.pch"; sourceTree = "<group>"; };
 		6A85F86614DBF12900F863A9 /* SystemUIPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemUIPlugin.framework; path = /System/Library/PrivateFrameworks/SystemUIPlugin.framework; sourceTree = "<absolute>"; };
 		6A85F86914DBF21700F863A9 /* HWMonitorExtra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorExtra.h; sourceTree = "<group>"; };
@@ -274,7 +273,7 @@
 		7E06D0EC157E96C400F8A270 /* SystemUIPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemUIPlugin.h; sourceTree = "<group>"; };
 		7E06D0F8157FC80B00F8A270 /* BundleUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BundleUserDefaults.h; sourceTree = "<group>"; };
 		7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BundleUserDefaults.m; sourceTree = "<group>"; };
-		7E0ED198167B2F5A00DE5580 /* HWSensorsVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.h; sourceTree = SOURCE_ROOT; };
+		7E0ED198167B2F5A00DE5580 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.pch; sourceTree = SOURCE_ROOT; };
 		7E130002159C10E900F3B88A /* HWMonitorGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorGroup.h; sourceTree = "<group>"; };
 		7E130003159C10E900F3B88A /* HWMonitorGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGroup.m; sourceTree = "<group>"; };
 		7E130006159C129200F3B88A /* HWMonitorItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorItem.h; sourceTree = "<group>"; };
@@ -332,6 +331,8 @@
 		7E938904159497920005316D /* HWMonitorSensorsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorSensorsController.m; sourceTree = "<group>"; };
 		7E96DE6A15C063AA00A34C60 /* hwmonitor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor.png; sourceTree = "<group>"; };
 		7E96DE6D15C0649E00A34C60 /* hwmonitor_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor_template.png; sourceTree = "<group>"; };
+		7E9F5447167C6A19006E907B /* HWMonitorExtra-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "HWMonitorExtra-Info.plist"; path = "Plists/HWMonitorExtra-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7E9F5449167C6A3D006E907B /* HWMonitor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "HWMonitor-Info.plist"; path = "Plists/HWMonitor-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7EADBFDE15D58E6000566642 /* nouveau_gpio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau_gpio.cpp; sourceTree = "<group>"; };
 		7EADBFDF15D58E6000566642 /* nouveau_gpio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau_gpio.h; sourceTree = "<group>"; };
 		7EADBFE315D59FAE00566642 /* nv10.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nv10.cpp; sourceTree = "<group>"; };
@@ -367,7 +368,6 @@
 		7EB9639E1594531100436FDB /* HWMonitorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorView.h; sourceTree = "<group>"; };
 		7EB9639F1594531100436FDB /* HWMonitorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorView.m; sourceTree = "<group>"; };
 		7EB963A51594559100436FDB /* HWMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HWMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7EB963AA1594559100436FDB /* HWMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HWMonitor-Info.plist"; sourceTree = "<group>"; };
 		7EB963AC1594559100436FDB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EB963AE1594559100436FDB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7EB963B01594559100436FDB /* HWMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HWMonitor-Prefix.pch"; sourceTree = "<group>"; };
@@ -725,7 +725,7 @@
 		6A85F85A14DBEF5000F863A9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6A85F85B14DBEF5000F863A9 /* HWMonitorExtra-Info.plist */,
+				7E9F5447167C6A19006E907B /* HWMonitorExtra-Info.plist */,
 				6A85F85F14DBEF5000F863A9 /* HWMonitorExtra-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -734,7 +734,7 @@
 		6A9955BD14EFAD360052C702 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				7E0ED198167B2F5A00DE5580 /* HWSensorsVersion.h */,
+				7E0ED198167B2F5A00DE5580 /* HWSensorsVersion.pch */,
 				7EF31BB716207C6B00E9B055 /* Kernel */,
 				7EF31BB916207C7000E9B055 /* Cocoa */,
 				6A1DF980150201BF00C34729 /* Resources */,
@@ -966,8 +966,8 @@
 		7EB963A91594559100436FDB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7EB963AA1594559100436FDB /* HWMonitor-Info.plist */,
 				7EB963AB1594559100436FDB /* InfoPlist.strings */,
+				7E9F5449167C6A3D006E907B /* HWMonitor-Info.plist */,
 				7EB963AE1594559100436FDB /* main.m */,
 				7EB963B01594559100436FDB /* HWMonitor-Prefix.pch */,
 				7EB963B11594559100436FDB /* Credits.rtf */,
@@ -1450,7 +1450,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		7E2134AD167B9EF00016CF61 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -1459,11 +1459,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati \n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati \n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\n\nGIT_HAS_CHANGES = $(git status ${PROJECT_DIR}\\${TARGET_DIR} | grep -c modified)\n\nif [ $GIT_HAS_CHANGES == 0 ]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
 		};
 		7EE460BA167BB72F007CD680 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -1472,72 +1472,72 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\n\nGIT_HAS_CHANGES = $(git status ${PROJECT_DIR}\\${TARGET_DIR} | grep -c modified)\n\nif [ $GIT_HAS_CHANGES == 0 ]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
 		};
 		7EE460BB167BB736007CD680 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nGIT_HAS_CHANGES = 'git status ${PROJECT_DIR} | grep -c modified'\n\nif [ \"$GIT_HAS_CHANGES\" == \"0\" ]; then\nexit(0)\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
 		};
 		7EE460BC167BB782007CD680 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nGIT_HAS_CHANGES = 'git status ${PROJECT_DIR} | grep -c modified'\n\nif [ \"$GIT_HAS_CHANGES\" == \"0\" ]; then\nexit(0)\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
 		};
 		7EE460BD167BB78B007CD680 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nGIT_HAS_CHANGES = 'git status ${PROJECT_DIR} | grep -c modified'\n\nif [ \"$GIT_HAS_CHANGES\" == \"0\" ]; then\nexit(0)\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
 		};
 		7EE460BE167BB790007CD680 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nGIT_HAS_CHANGES = 'git status ${PROJECT_DIR} | grep -c modified'\n\nif [ \"$GIT_HAS_CHANGES\" == \"0\" ]; then\nexit(0)\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
 		};
 		7EE460BF167BB796007CD680 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\n# https://gist.github.com/3172554\n# (c) sekati\n\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nGIT_HAS_CHANGES = 'git status ${PROJECT_DIR} | grep -c modified'\n\nif [ \"$GIT_HAS_CHANGES\" == \"0\" ]; then\nexit(0)\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1814,7 +1814,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FakeSMC/FakeSMC-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1836,7 +1836,7 @@
 				GCC_PREFIX_HEADER = "FakeSMC/FakeSMC-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FakeSMC/FakeSMC-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1864,7 +1864,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "ACPISensors/ACPISensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1886,7 +1886,7 @@
 				GCC_PREFIX_HEADER = "ACPISensors/ACPISensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "ACPISensors/ACPISensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1914,7 +1914,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "SuperIOSensors/SuperIOSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1936,7 +1936,7 @@
 				GCC_PREFIX_HEADER = "SuperIOSensors/SuperIOSensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "SuperIOSensors/SuperIOSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -1965,9 +1965,10 @@
 					"$(inherited)",
 				);
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "HWMonitorExtra/HWMonitorExtra-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_FILE = "Plists/HWMonitorExtra-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGET_DIR = HWMonitorExtra;
 				WRAPPER_EXTENSION = menu;
 			};
 			name = Debug;
@@ -1986,9 +1987,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitorExtra/HWMonitorExtra-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "HWMonitorExtra/HWMonitorExtra-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_FILE = "Plists/HWMonitorExtra-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGET_DIR = HWMonitorExtra;
 				WRAPPER_EXTENSION = menu;
 			};
 			name = Release;
@@ -2011,7 +2013,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "CPUSensors/CPUSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2033,7 +2035,7 @@
 				GCC_PREFIX_HEADER = "CPUSensors/CPUSensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "CPUSensors/CPUSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2061,7 +2063,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "GPUSensors/GPUSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2083,7 +2085,7 @@
 				GCC_PREFIX_HEADER = "GPUSensors/GPUSensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "GPUSensors/GPUSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_GROUP = wheel;
 				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
 				INSTALL_OWNER = root;
@@ -2111,9 +2113,10 @@
 					"$(inherited)",
 				);
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_FILE = "Plists/HWMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2131,9 +2134,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.h;
+				INFOPLIST_FILE = "Plists/HWMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
