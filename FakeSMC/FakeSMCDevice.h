@@ -53,7 +53,7 @@ private:
 	struct
     ApleSMCStatus       *status;
 	
-	OSDictionary        *keys;
+	OSArray             *keys;
     OSDictionary        *types;
     OSDictionary        *exposedValues;
     
