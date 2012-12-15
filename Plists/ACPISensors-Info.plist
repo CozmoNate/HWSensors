@@ -29,6 +29,8 @@
 			<key>IONameMatch</key>
 			<array>
 				<string>MONITOR</string>
+				<string>FAN00000</string>
+				<string>MON00000</string>
 			</array>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
