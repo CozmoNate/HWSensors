@@ -63,27 +63,27 @@
 					</dict>
 					<key>Tachometers</key>
 					<dict>
-						<key>FAN0</key>
+						<key>F0Ac</key>
 						<string>FAN0</string>
-						<key>FAN1</key>
+						<key>F1Ac</key>
 						<string>FAN1</string>
-						<key>FAN2</key>
+						<key>F2Ac</key>
 						<string>FAN2</string>
-						<key>FAN3</key>
+						<key>F3Ac</key>
 						<string>FAN3</string>
-						<key>FAN4</key>
+						<key>F4Ac</key>
 						<string>FAN4</string>
-						<key>FAN5</key>
+						<key>F5Ac</key>
 						<string>FAN5</string>
-						<key>FAN6</key>
+						<key>F6Ac</key>
 						<string>FAN6</string>
-						<key>FAN7</key>
+						<key>F7Ac</key>
 						<string>FAN7</string>
-						<key>FAN8</key>
+						<key>F8Ac</key>
 						<string>FAN8</string>
-						<key>FAN9</key>
+						<key>F9Ac</key>
 						<string>FAN9</string>
-						<key>FANA</key>
+						<key>FAAc</key>
 						<string>FANA</string>
 					</dict>
 					<key>Temperatures</key>
