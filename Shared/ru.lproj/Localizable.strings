@@ -57,7 +57,9 @@
 "Standby 5V" =  "Дежурный 5V";
 "Main 3.3V" =  "Основной 3.3V";
 "Auxiliary 3.3V" =  "Дополнительный 3.3V";
+"CPU VRM Supply" =  "Питание CPU VRM";
 "CPU VRM Supply %X" =  "Питание CPU VRM %X";
+"Power Supply" =  "Источник питания";
 "Power Supply %X" =  "Источник питания %X";
 "Quit HWMonitor" = "Закрыть HWMonitor";
 "No sensors found" = "Нет доступных сенсоров";

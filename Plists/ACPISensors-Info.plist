@@ -13,11 +13,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.7</string>
+	<string>2.2.20</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.2.7</string>
+	<string>2.2.20</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>ACPI Customizable Monitoring Plugin</key>
@@ -29,6 +29,8 @@
 			<key>IONameMatch</key>
 			<array>
 				<string>MONITOR</string>
+				<string>MON0000</string>
+				<string>FAN0000</string>
 			</array>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>

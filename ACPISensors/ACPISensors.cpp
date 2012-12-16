@@ -8,14 +8,13 @@
  */
 
 #include "ACPISensors.h"
-#include "FakeSMCDefinitions.h"
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(ACPISensors, FakeSMCPlugin)
 
 float ACPISensors::getSensorValue(FakeSMCSensor *sensor)
 {
-    UInt64 value;
+    UInt32 value;
     
     switch(sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
@@ -41,9 +40,23 @@ float ACPISensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
+bool ACPISensors::addSensorToList(OSDictionary *list, OSString *configKey, OSString *acpiMethod, const char *refName, const char* smcKey, const char *type, UInt8 size, UInt32 group, UInt32 index)
+{
+    if (configKey->isEqualTo(refName)) {
+        if (addSensor(smcKey, type, size, group, index)) {
+            list->setObject(smcKey, acpiMethod);
+            return true;
+        }
+    }
+    
+    HWSensorsWarningLog("failed to register sensor for key %s", configKey->getCStringNoCopy());
+    
+    return false;
+}
+
 bool ACPISensors::start(IOService * provider)
 {
-	if (!super::start(provider)) 
+	if (!super::start(provider))
         return false;
 
 	acpiDevice = (IOACPIPlatformDevice *)provider;
@@ -56,21 +69,25 @@ bool ACPISensors::start(IOService * provider)
     if (OSDictionary *configuration = getConfigurationNode())
     {
         // Temperatures
-        if ((temperatures = OSDynamicCast(OSDictionary, configuration->getObject("Temperatures")))) {
-            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(temperatures);
+        if (OSDictionary *temps = OSDynamicCast(OSDictionary, configuration->getObject("Temperatures"))) {
             
-            iterator->reset();
+            temperatures = OSDictionary::withCapacity(0);
             
+            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(temps);
             UInt16 count = 0;
             
             while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
                 
                 OSString *method = OSDynamicCast(OSString, temperatures->getObject(key));
                 
-                if (method && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy())) {
-                    if (!addSensor(key->getCStringNoCopy(), TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, 0))
-                        HWSensorsWarningLog("failed to register temperature sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
-                    else count++;
+                if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
+                    for (int i = 0; i < FakeSMCTemperatureCount; i++) {
+                        if (addSensorToList(temperatures, key, method, FakeSMCTemperature[i].name, FakeSMCTemperature[i].key, FakeSMCTemperature[i].type, FakeSMCTemperature[i].size, kFakeSMCTemperatureSensor, count)) {
+                            count++;
+                            break;
+                        }
+                        else HWSensorsErrorLog("Failed to register temperature sensor \"%s\" for method \"%s\"", key->getCStringNoCopy(), method->getCStringNoCopy());
+                    }
                 }
             };
             
@@ -81,21 +98,25 @@ bool ACPISensors::start(IOService * provider)
         
         
         // Voltages
-        if ((voltages = OSDynamicCast(OSDictionary, configuration->getObject("Voltages")))) {
-            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(voltages);
+        if (OSDictionary *volts = OSDynamicCast(OSDictionary, configuration->getObject("Voltages"))) {
             
-            iterator->reset();
+            voltages = OSDictionary::withCapacity(0);
             
+            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(volts);
             UInt16 count = 0;
             
             while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
                 
-                OSString *method = OSDynamicCast(OSString, voltages->getObject(key));
+                OSString *method = OSDynamicCast(OSString, temperatures->getObject(key));
                 
-                if (method && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy())) {
-                    if (!addSensor(key->getCStringNoCopy(), TYPE_FP4C, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0))
-                        HWSensorsWarningLog("failed to register voltage sensor for method %s with key %s", method->getCStringNoCopy(), key->getCStringNoCopy());
-                    else count++;
+                if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
+                    for (int i = 0; i < FakeSMCVolatgeCount; i++) {
+                        if (addSensorToList(voltages, key, method, FakeSMCVolatge[i].name, FakeSMCVolatge[i].key, FakeSMCVolatge[i].type, FakeSMCVolatge[i].size, kFakeSMCVoltageSensor, count)) {
+                            count++;
+                            break;
+                        }
+                        else HWSensorsErrorLog("Failed to register voltage sensor \"%s\" for method \"%s\"", key->getCStringNoCopy(), method->getCStringNoCopy());
+                    }
                 }
             };
             
@@ -106,29 +127,29 @@ bool ACPISensors::start(IOService * provider)
         
         
         // Tachometers
-        if ((tachometers = OSDynamicCast(OSDictionary, configuration->getObject("Tachometers")))) {
+        if (OSDictionary *fans = OSDynamicCast(OSDictionary, configuration->getObject("Tachometers"))) {
+            tachometers = OSDictionary::withCapacity(0);
+            
+            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(fans);
+            UInt16 count = 0;
             
             OSDictionary* fanNames = OSDynamicCast(OSDictionary, configuration->getObject("Fan Names"));
-            
-            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(tachometers);
-            
-            iterator->reset();
-            
-            UInt16 count = 0;
             
             while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
                 
                 OSString *method = OSDynamicCast(OSString, tachometers->getObject(key));
                 
-                if (method && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy())) {
+                if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
                     OSString* name = NULL;
-                    
+
                     if (fanNames)
-                        name = OSDynamicCast(OSString, fanNames->getObject(method));
+                        name = OSDynamicCast(OSString, fanNames->getObject(key));
                     
-                    if (!addTachometer(count, name ? name->getCStringNoCopy() : 0))
-                        HWSensorsWarningLog("Failed to register tachometer sensor for method \"%s\"", method->getCStringNoCopy());
-                    else count++;
+                    if (FakeSMCSensor *sensor = addTachometer(count, name ? name->getCStringNoCopy() : 0)) {
+                        tachometers->setObject(sensor->getKey(), method);
+                        count++;
+                    }
+                    else HWSensorsErrorLog("Failed to register tachometer sensor for method \"%s\"", method->getCStringNoCopy());
                 }
             };
             
@@ -137,7 +158,7 @@ bool ACPISensors::start(IOService * provider)
         }
         else return false;
     }
-    else HWSensorsWarningLog("no valid configuration provided");
+    else HWSensorsErrorLog("no valid configuration provided");
     
 	registerService();
     

@@ -362,10 +362,12 @@
     [self addSensorWithKey:@KEY_PCIE_12V_VOLTAGE title:GetLocalizedString(@"PCIe 12V") group:kHWSensorGroupVoltage];
     [self addSensorWithKey:@KEY_POWERBATTERY_VOLTAGE title:GetLocalizedString(@"CMOS Battery") group:kHWSensorGroupVoltage];
     
-    for (int i = 0; i <= 0xf; i++)        
+    [self addSensorWithKey:@KEY_CPU_VRMSUPPLY_VOLTAGE title:GetLocalizedString(@"VRM Supply") group:kHWSensorGroupVoltage];
+    for (int i = 1; i <= 0xf; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"VRM Supply %X"),i + 1] group:kHWSensorGroupVoltage];
     
-    for (int i = 0; i <= 0xf; i++)        
+    [self addSensorWithKey:@KEY_POWERSUPPLY_VOLTAGE title:GetLocalizedString(@"Power Supply") group:kHWSensorGroupVoltage];
+    for (int i = 1; i <= 0xf; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_POWERSUPPLY_VOLTAGE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"Power Supply %X"),i + 1] group:kHWSensorGroupVoltage];
     
     [self addSensorWithKey:@KEY_GPU_VOLTAGE title:GetLocalizedString(@"GPU") group:kHWSensorGroupVoltage];

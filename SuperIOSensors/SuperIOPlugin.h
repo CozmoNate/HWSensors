@@ -31,10 +31,6 @@
 
 #include "FakeSMCPlugin.h"
 
-// cool values (:
-#define kSuperIOTemperatureSensor   1501 
-#define kSuperIOVoltageSensor       1502
-
 class FakeSMCPlugin;
 
 class SuperIOPlugin : public FakeSMCPlugin {

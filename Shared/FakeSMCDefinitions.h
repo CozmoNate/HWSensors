@@ -73,6 +73,7 @@
 
 #define KEY_CPU_VCORE_VOLTAGE                   "VDPR"//"VC0C" // CPU 0
 #define KEY_CPU_1V8_S0_VOLTAGE                  "VC8R" // CPU 1.8V S0
+#define KEY_CPU_VRMSUPPLY_VOLTAGE               "VS0C" // Power Supply X
 #define KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE        "VS%XC" // Power Supply X
 
 // GPU
@@ -92,6 +93,7 @@
 #define KEY_STANDBY_5V_VOLTAGE                  "VV8S"
 
 #define KEY_MEMORY_VOLTAGE                      "VM0R" // Memory
+#define KEY_POWERSUPPLY_VOLTAGE                 "Vp0C" // Power Supply X
 #define KEY_FORMAT_POWERSUPPLY_VOLTAGE          "Vp%XC" // Power Supply X
 
 // Current (Amps)
