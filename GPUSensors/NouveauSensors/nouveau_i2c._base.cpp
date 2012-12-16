@@ -441,7 +441,7 @@ static bool probe_monitoring_device(struct nouveau_i2c_port *i2c, struct i2c_boa
 
     nv_debug(device, "found device: %s\n", device->nvclock_i2c_sensor->chip_name);
         
-    switch(device->nvclock_i2c_sensor->chip_id)
+    switch(dev->chip_id)
     {
         case LM99:
         case MAX6559:
