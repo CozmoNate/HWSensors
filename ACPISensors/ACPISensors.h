@@ -12,18 +12,6 @@
 
 #include "FakeSMCPlugin.h"
 
-#define ACPI_NAME_CPU_HEATSINK          "TCPU"
-#define ACPI_NAME_PCH_HEATSINK          "TPCH"
-#define ACPI_NAME_AMBIENT_TEMPERATURE   "TAMB"
-#define ACPI_NAME_PROXIMITY_TEMPERATURE "TPRX"
-
-#define ACPI_NAME_CPU_VOLTAGE           "VCPU"
-#define ACPI_NAME_PCH_VOLTAGE           "VPCH"
-#define ACPI_NAME_MEMORY_VOLTAGE        "VMEM"
-#define ACPI_NAME_BATTERY_VOLTAGE       "VBAT"
-
-#define ACPI_NAME_FORMAT_TACHOMETER     "RPM%X"
-
 class ACPISensors : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(ACPISensors)
@@ -34,6 +22,8 @@ private:
     OSDictionary            *temperatures;
     OSDictionary            *voltages;
     OSDictionary            *tachometers;
+    
+    bool                    addSensorToList(OSDictionary *list, OSString *configKey, OSString *acpiMethod, const char *refName, const char* smcKey, const char *type, UInt8 size, UInt32 group, UInt32 index);
     
 protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);

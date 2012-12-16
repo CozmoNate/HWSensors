@@ -97,6 +97,8 @@ bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding temperature sensors...");
     
+    SInt8 gpuIndex = getVacantGPUIndex();
+    
     for (int i = 0; i < temperatureSensorsLimit(); i++) 
     {				
         char key[8];
@@ -104,26 +106,14 @@ bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
         snprintf(key, 8, "TEMPIN%X", i);
         
         if (OSObject* node = configuration->getObject(key)) {
-            if (addSensorFromConfigurationNode(node, "CPU", KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "CPU Proximity", KEY_CPU_PROXIMITY_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "System", KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "PCH", KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "Ambient", KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
-                continue;
-            
-            for (int j = 1; j <= 0xf; j++) {
-                
-                char sensorName[10];
-                
-                snprintf(sensorName, 10, "Ambient %X", j);
-                snprintf(key, 5, KEY_FORMAT_AMBIENT_TEMPERATURE, j);
-                
-                if (addSensorFromConfigurationNode(node, sensorName, key, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
+            for (int j = 0; j < FakeSMCTemperatureCount; j++) {
+                if (addSensorFromConfigurationNode(node, FakeSMCTemperature[j].name, FakeSMCTemperature[j].key, FakeSMCTemperature[j].type, FakeSMCTemperature[j].size, kFakeSMCTemperatureSensor, i))
                     break;
+            }
+            
+            if (gpuIndex > -1) {
+                snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, gpuIndex);
+                addSensorFromConfigurationNode(node, "GPU", key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i);
             }
         }
     }
@@ -144,48 +134,14 @@ bool SuperIOPlugin::addVoltageSensors(OSDictionary *configuration)
         snprintf(key, 5, "VIN%X", i);
         
         if (OSObject* node = configuration->getObject(key)) {
-            if (addSensorFromConfigurationNode(node, "CPU", KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "Memory", KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "Main 12V", KEY_MAIN_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "PCIe 12V", KEY_PCIE_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "Main 5V", KEY_MAIN_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "Standby 5V", KEY_STANDBY_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "Main 3V", KEY_MAIN_3V3_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "Auxiliary 3V", KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                continue;
-            if (addSensorFromConfigurationNode(node, "CMOS Battery", KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                continue;
+            for (int j = 0; j < FakeSMCVolatgeCount; j++) {
+                if (addSensorFromConfigurationNode(node, FakeSMCVolatge[j].name, FakeSMCVolatge[j].key, FakeSMCVolatge[j].type, FakeSMCVolatge[j].size, kFakeSMCVoltageSensor, i))
+                    break;
+            }
 
             if (gpuIndex > -1) {
                 snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, gpuIndex);
-                
-                if(addSensorFromConfigurationNode(node, "GPU", key, TYPE_FP2E, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                    continue;
-            }
-            
-            for (int j = 0; j <= 0xf; j++) {
-                char sensorName[17];
-                snprintf(sensorName, 17, "CPU VRM Supply %X", j);
-                snprintf(key, 5, KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE, j);
-                
-                if (addSensorFromConfigurationNode(node, sensorName, key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                    break;
-            }
-            
-            for (int j = 0; j <= 0xf; j++) {
-                char sensorName[15];                
-                snprintf(sensorName, 15, "Power Supply %X", j);
-                snprintf(key, 5, KEY_FORMAT_POWERSUPPLY_VOLTAGE, j);
-                
-                if (addSensorFromConfigurationNode(node, sensorName, key, TYPE_FP4C, TYPE_FPXX_SIZE, kSuperIOVoltageSensor, i))
-                    break;
+                addSensorFromConfigurationNode(node, "GPU", key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, i);
             }
         }
     }
@@ -252,11 +208,11 @@ float SuperIOPlugin::getSensorValue(FakeSMCSensor *sensor)
     
     if (sensor) {
         switch (sensor->getGroup()) {
-            case kSuperIOTemperatureSensor:
+            case kFakeSMCTemperatureSensor:
                 value = sensor->getOffset() + readTemperature(sensor->getIndex());
                 break;
                 
-            case kSuperIOVoltageSensor:
+            case kFakeSMCVoltageSensor:
                 value = readVoltage(sensor->getIndex());
                 value = sensor->getOffset() + value + (value - sensor->getReference()) * sensor->getGain();
                 break;
