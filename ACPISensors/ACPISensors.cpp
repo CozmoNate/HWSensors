@@ -78,7 +78,7 @@ bool ACPISensors::start(IOService * provider)
             
             while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
                 
-                OSString *method = OSDynamicCast(OSString, temperatures->getObject(key));
+                OSString *method = OSDynamicCast(OSString, temps->getObject(key));
                 
                 if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
                     for (int i = 0; i < FakeSMCTemperatureCount; i++) {
@@ -107,7 +107,7 @@ bool ACPISensors::start(IOService * provider)
             
             while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
                 
-                OSString *method = OSDynamicCast(OSString, temperatures->getObject(key));
+                OSString *method = OSDynamicCast(OSString, volts->getObject(key));
                 
                 if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
                     for (int i = 0; i < FakeSMCVolatgeCount; i++) {
@@ -137,7 +137,7 @@ bool ACPISensors::start(IOService * provider)
             
             while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
                 
-                OSString *method = OSDynamicCast(OSString, tachometers->getObject(key));
+                OSString *method = OSDynamicCast(OSString, fans->getObject(key));
                 
                 if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
                     OSString* name = NULL;

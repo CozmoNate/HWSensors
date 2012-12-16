@@ -13,11 +13,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.20</string>
+	<string>2.2.21</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.2.20</string>
+	<string>2.2.21</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>ACPI Customizable Monitoring Plugin</key>
@@ -90,18 +90,18 @@
 					</dict>
 					<key>Temperatures</key>
 					<dict>
-						<key>TC0P</key>
-						<string>TCPP</string>
-						<key>TN0P</key>
-						<string>TSYS</string>
-						<key>Th0H</key>
+						<key>CPU</key>
 						<string>TCPU</string>
+						<key>CPU Proximity</key>
+						<string>TCPP</string>
+						<key>System</key>
+						<string>TSYS</string>
 					</dict>
 					<key>Voltages</key>
 					<dict>
-						<key>VC0C</key>
+						<key>CPU</key>
 						<string>VCPU</string>
-						<key>VM0R</key>
+						<key>Memory</key>
 						<string>VMEM</string>
 					</dict>
 				</dict>
