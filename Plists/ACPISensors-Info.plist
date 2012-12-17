@@ -30,6 +30,8 @@
 			<array>
 				<string>MONITOR</string>
 				<string>MON0000</string>
+				<string>FAN0000</string>
+				<string>MON00000</string>
 				<string>FAN00000</string>
 			</array>
 			<key>IOProviderClass</key>
