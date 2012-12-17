@@ -173,7 +173,7 @@
             [value getBytes:&t length:2];
             
             // Don't add sensor if value is insane
-            if (t > 100) 
+            if (0 == t || t >= 100)
                 return nil;
             
             break;
