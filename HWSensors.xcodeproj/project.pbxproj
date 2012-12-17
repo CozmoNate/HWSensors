@@ -876,8 +876,8 @@
 				7E9F544C167C71D1006E907B /* AtomBIOS.h */,
 				7E9F544D167C71D1006E907B /* RadeonChipinfo.h */,
 				7E9F544E167C71D1006E907B /* RadeonChipsets.h */,
-				7E9F544F167C71D1006E907B /* RadeonMonitor.cpp */,
 				7E9F5450167C71D1006E907B /* RadeonMonitor.h */,
+				7E9F544F167C71D1006E907B /* RadeonMonitor.cpp */,
 			);
 			path = RadeonSensors;
 			sourceTree = "<group>";
