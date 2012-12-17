@@ -621,9 +621,7 @@ inline uint32_t key_to_int(const char *name)
 
 FakeSMCKey *FakeSMCDevice::getKey(const char *name)
 {
-    OSArray *copy = OSArray::withArray(keys);
-    
-    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(copy)) {
+    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
 		while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
             UInt32 key1 = key_to_int(name);
 			UInt32 key2 = key_to_int(key->getKey());
@@ -636,9 +634,7 @@ FakeSMCKey *FakeSMCDevice::getKey(const char *name)
         OSSafeRelease(iterator);
 	}
     
-    OSSafeRelease(copy);
-    
-	FakeSMCDebugLog("key %s not found", name);
+ 	FakeSMCDebugLog("key %s not found", name);
     
 	return 0;
 }

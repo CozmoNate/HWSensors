@@ -262,14 +262,10 @@ bool W836xxSensors::addTemperatureSensors(OSDictionary *configuration)
         snprintf(key, 8, "TEMPIN%X", index++);
         
         if (OSObject *node = configuration->getObject(key)) {
-            if (addSensorFromConfigurationNode(node, "CPU", KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
-                continue;
-            
-            if (addSensorFromConfigurationNode(node, "System", KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
-                continue;
-            
-            if (addSensorFromConfigurationNode(node, "Ambient", KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kSuperIOTemperatureSensor, i))
-                continue;
+            for (int j = 0; j < FakeSMCTemperatureCount; j++) {
+                if (addSensorFromConfigurationNode(node, FakeSMCTemperature[j].name, FakeSMCTemperature[j].key, FakeSMCTemperature[j].type, FakeSMCTemperature[j].size, kFakeSMCTemperatureSensor, i))
+                    break;
+            }
         }
     }
     

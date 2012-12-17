@@ -13,11 +13,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.7</string>
+	<string>2.2.21</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.2.7</string>
+	<string>2.2.21</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>ACPI Customizable Monitoring Plugin</key>
@@ -29,8 +29,8 @@
 			<key>IONameMatch</key>
 			<array>
 				<string>MONITOR</string>
+				<string>MON0000</string>
 				<string>FAN00000</string>
-				<string>MON00000</string>
 			</array>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
@@ -65,43 +65,43 @@
 					</dict>
 					<key>Tachometers</key>
 					<dict>
-						<key>F0Ac</key>
+						<key>FAN0</key>
 						<string>FAN0</string>
-						<key>F1Ac</key>
+						<key>FAN1</key>
 						<string>FAN1</string>
-						<key>F2Ac</key>
+						<key>FAN2</key>
 						<string>FAN2</string>
-						<key>F3Ac</key>
+						<key>FAN3</key>
 						<string>FAN3</string>
-						<key>F4Ac</key>
+						<key>FAN4</key>
 						<string>FAN4</string>
-						<key>F5Ac</key>
+						<key>FAN5</key>
 						<string>FAN5</string>
-						<key>F6Ac</key>
+						<key>FAN6</key>
 						<string>FAN6</string>
-						<key>F7Ac</key>
+						<key>FAN7</key>
 						<string>FAN7</string>
-						<key>F8Ac</key>
+						<key>FAN8</key>
 						<string>FAN8</string>
-						<key>F9Ac</key>
+						<key>FAN9</key>
 						<string>FAN9</string>
-						<key>FAAc</key>
+						<key>FANA</key>
 						<string>FANA</string>
 					</dict>
 					<key>Temperatures</key>
 					<dict>
-						<key>TC0P</key>
-						<string>TCPP</string>
-						<key>TN0P</key>
-						<string>TSYS</string>
-						<key>Th0H</key>
+						<key>CPU</key>
 						<string>TCPU</string>
+						<key>CPU Proximity</key>
+						<string>TCPP</string>
+						<key>System</key>
+						<string>TSYS</string>
 					</dict>
 					<key>Voltages</key>
 					<dict>
-						<key>VC0C</key>
+						<key>CPU</key>
 						<string>VCPU</string>
-						<key>VM0R</key>
+						<key>Memory</key>
 						<string>VMEM</string>
 					</dict>
 				</dict>
