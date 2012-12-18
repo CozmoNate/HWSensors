@@ -266,7 +266,6 @@
 		7E0A2BA8167C746D0060C153 /* CPUSensors-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CPUSensors-Info.plist"; path = "Plists/CPUSensors-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7E0A2BAA167C74A80060C153 /* ACPISensors-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ACPISensors-Info.plist"; path = "Plists/ACPISensors-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7E0A2BAC167C74DF0060C153 /* FakeSMC-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "FakeSMC-Info.plist"; path = "Plists/FakeSMC-Info.plist"; sourceTree = SOURCE_ROOT; };
-		7E0ED198167B2F5A00DE5580 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.pch; sourceTree = SOURCE_ROOT; };
 		7E130002159C10E900F3B88A /* HWMonitorGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorGroup.h; sourceTree = "<group>"; };
 		7E130003159C10E900F3B88A /* HWMonitorGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGroup.m; sourceTree = "<group>"; };
 		7E130006159C129200F3B88A /* HWMonitorItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorItem.h; sourceTree = "<group>"; };
@@ -368,6 +367,7 @@
 		7EADE20715E5602E00FD117C /* GPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EADE20C15E5602F00FD117C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EADE21115E5602F00FD117C /* GPUSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GPUSensors-Prefix.pch"; sourceTree = "<group>"; };
+		7EB00809168014BE00320B70 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.pch; sourceTree = "<group>"; };
 		7EB692E715C99A2E0009B2E2 /* gpl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = gpl.txt; sourceTree = "<group>"; };
 		7EB7A7BD1596021A00971346 /* killuiserver */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = killuiserver; path = Installer/killuiserver; sourceTree = "<group>"; };
 		7EB9639E1594531100436FDB /* HWMonitorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorView.h; sourceTree = "<group>"; };
@@ -711,7 +711,7 @@
 		6A9955BD14EFAD360052C702 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				7E0ED198167B2F5A00DE5580 /* HWSensorsVersion.pch */,
+				7EB00809168014BE00320B70 /* HWSensorsVersion.pch */,
 				7EF31BB716207C6B00E9B055 /* Kernel */,
 				7EF31BB916207C7000E9B055 /* Cocoa */,
 				6A1DF980150201BF00C34729 /* Resources */,
@@ -1761,11 +1761,12 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsInfoPlist.pch;
+				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx10.7;
+				SKIP_INSTALL = YES;
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -1786,10 +1787,11 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsInfoPlist.pch;
+				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx10.7;
+				SKIP_INSTALL = YES;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
@@ -1812,7 +1814,6 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/FakeSMC-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				MODULE_NAME = "org.netkas.${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = FakeSMC;
@@ -1832,7 +1833,6 @@
 				GCC_PREFIX_HEADER = "FakeSMC/FakeSMC-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/FakeSMC-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				MODULE_NAME = "org.netkas.${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = FakeSMC;
@@ -1858,7 +1858,6 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/ACPISensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/FakeSMC.kext/Contents/PlugIns";
 				MODULE_NAME = "org.hwsensors.${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1879,7 +1878,6 @@
 				GCC_PREFIX_HEADER = "ACPISensors/ACPISensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/ACPISensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/FakeSMC.kext/Contents/PlugIns";
 				MODULE_NAME = "org.hwsensors.${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1906,7 +1904,6 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/SuperIOSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/FakeSMC.kext/Contents/PlugIns";
 				MODULE_NAME = "org.hwsensors.${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1927,7 +1924,6 @@
 				GCC_PREFIX_HEADER = "SuperIOSensors/SuperIOSensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/SuperIOSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/FakeSMC.kext/Contents/PlugIns";
 				MODULE_NAME = "org.hwsensors.${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1956,7 +1952,6 @@
 				);
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitorExtra-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitorExtra;
 				WRAPPER_EXTENSION = menu;
@@ -1978,7 +1973,6 @@
 				GCC_PREFIX_HEADER = "HWMonitorExtra/HWMonitorExtra-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitorExtra-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitorExtra;
 				WRAPPER_EXTENSION = menu;
@@ -2003,7 +1997,6 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/CPUSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/FakeSMC.kext/Contents/PlugIns";
 				MODULE_NAME = org.hwsensors.CPUSensors;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2024,7 +2017,6 @@
 				GCC_PREFIX_HEADER = "CPUSensors/CPUSensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/CPUSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/FakeSMC.kext/Contents/PlugIns";
 				MODULE_NAME = org.hwsensors.CPUSensors;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2051,7 +2043,6 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/GPUSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/FakeSMC.kext/Contents/PlugIns";
 				MODULE_NAME = org.hwsensors.GPUSensors;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2072,7 +2063,6 @@
 				GCC_PREFIX_HEADER = "GPUSensors/GPUSensors-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/GPUSensors-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/FakeSMC.kext/Contents/PlugIns";
 				MODULE_NAME = org.hwsensors.GPUSensors;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2100,7 +2090,6 @@
 				);
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitor-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;
@@ -2121,7 +2110,6 @@
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitor-Info.plist";
-				INFOPLIST_PREFIX_HEADER = HWSensorsVersion.pch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;
