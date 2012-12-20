@@ -379,7 +379,11 @@
 {
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
-    for (HWMonitorSensor *sensor in [self sensors]) {
+    NSEnumerator *enumerator = [[self sensors] objectEnumerator];
+    
+    HWMonitorSensor *sensor;
+    
+    while (sensor = [enumerator nextObject]) {
         if ([sensor disk]) {
             switch ([sensor group]) {
                 case kSMARTSensorGroupTemperature:
@@ -411,11 +415,16 @@
     NSMutableArray *namesList = [[NSMutableArray alloc] init];
     NSMutableArray *sensorsList = [[NSMutableArray alloc] init];
     
-    for (HWMonitorSensor *sensor in [self sensors])
+    NSEnumerator *enumerator = [[self sensors] objectEnumerator];
+    
+    HWMonitorSensor *sensor;
+    
+    while (sensor = [enumerator nextObject]) {
         if (![sensor disk]) {
             [namesList addObject:[sensor name]];
             [sensorsList addObject:sensor];
         }
+    }
     
     if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)namesList))
     {           
@@ -425,7 +434,7 @@
             
             for (NSString *key in [values allKeys]) {
                 
-                HWMonitorSensor *sensor = [_keys objectForKey:key];
+                sensor = [_keys objectForKey:key];
                 
                 if (sensor) {
                     NSArray *keyInfo = [values objectForKey:key];
@@ -478,7 +487,11 @@
 {
     NSMutableArray * list = [[NSMutableArray alloc] init];
     
-    for (HWMonitorSensor *sensor in [self sensors])
+    NSEnumerator *enumerator = [[self sensors] objectEnumerator];
+    
+    HWMonitorSensor *sensor;
+    
+    while (sensor = [enumerator nextObject])
         if (group & [sensor group])
             [list addObject:sensor];
     
