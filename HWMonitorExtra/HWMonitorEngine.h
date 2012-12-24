@@ -64,5 +64,7 @@
 - (NSArray*)updateFavoritesSensors:(NSArray*)favorites;
 
 - (NSArray*)getAllSensorsInGroup:(NSUInteger)group;
+- (void)lock;
+- (void)unlock;
 
 @end

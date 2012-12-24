@@ -507,4 +507,14 @@
     return [list count] > 0 ? list : nil;
 }
 
+- (void)lock
+{
+    [_lock lock];
+}
+
+- (void)unlock
+{
+    [_lock unlock];
+}
+
 @end
