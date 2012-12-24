@@ -34,12 +34,13 @@
     NSATASmartReporter *_smartReporter;
     NSMutableArray *_sensors;
     NSMutableDictionary *_keys;
+    NSRecursiveLock *_sensorsLock;
 }
 
 @property (readwrite, retain) NSBundle* bundle;
 
-@property (readonly) NSArray *sensors;
-@property (readonly) NSDictionary *keys;
+@property (copy) NSArray *sensors;
+@property (copy) NSDictionary *keys;
 
 @property (readwrite, assign) BOOL useFahrenheit;
 @property (readwrite, assign) BOOL useBSDNames;

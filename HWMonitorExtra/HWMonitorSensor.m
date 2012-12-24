@@ -27,11 +27,6 @@
 
 #include "FakeSMCDefinitions.h"
 
-inline UInt8 get_index(char c)
-{
-	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
-};
-
 @implementation HWMonitorSensor
 
 @synthesize engine = _engine;
@@ -263,8 +258,9 @@ inline UInt8 get_index(char c)
         else if (_group & kHWSensorGroupTachometer) {
             _rawValue = [NSNumber numberWithFloat:[self decodeValue]];
             
-            if ([_rawValue floatValue] == 0) {
-                [self setLevel:kHWSensorLevelExceeded];
+            if ([_rawValue floatValue] < 25) {
+                //rehabman: it is normal on a laptop to have a fan read 0 RPM...
+                //[self setLevel:kHWSensorLevelExceeded];
                 _formattedValue = [NSString stringWithFormat:@"-"];
             }
             else {
