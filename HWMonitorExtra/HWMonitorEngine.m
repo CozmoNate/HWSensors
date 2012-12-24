@@ -153,9 +153,11 @@
         sensor = nil;
         return nil;
     }*/
-    
+
+    [_lock lock];
     [_sensors addObject:sensor];
     [_keys setObject:sensor forKey:key];
+    [_lock unlock];
     
     return sensor;
 }
@@ -213,6 +215,7 @@
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
     _bundle = [NSBundle mainBundle];
+    _lock = [[NSRecursiveLock alloc] init];
     
     return self;
 }
@@ -230,18 +233,22 @@
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
     _bundle = mainBundle;
+    _lock = [[NSRecursiveLock alloc] init];
     
     return self;
 }
 
 - (void)dealloc
 {
-    if (_service) 
+    if (_service) {
         IOObjectRelease(_service);
+        _service = 0;
+    }
 }
 
 - (void)rebuildSensorsList
 {
+    [_lock lock];
     [_sensors removeAllObjects];
     [_keys removeAllObjects];
     
@@ -373,13 +380,17 @@
     [self addSensorWithKey:@KEY_GPU_VOLTAGE title:GetLocalizedString(@"GPU") group:kHWSensorGroupVoltage];
     for (int i = 1; i <= 0xf; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_GPU_VOLTAGE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X"),i + 1] group:kHWSensorGroupVoltage];
+    
+    [_lock unlock];
 }
 
 - (NSArray*)updateSmartSensors
 {
     NSMutableArray *list = [[NSMutableArray alloc] init];
-    
-    for (HWMonitorSensor *sensor in [NSArray arrayWithArray:[self sensors]]) {
+
+    [_lock lock];
+    //for (HWMonitorSensor *sensor in [NSArray arrayWithArray:[self sensors]]) {
+    for (HWMonitorSensor *sensor in [self sensors]) {
         if ([sensor disk]) {
             switch ([sensor group]) {
                 case kSMARTSensorGroupTemperature:
@@ -402,6 +413,7 @@
             }
         }
     }
+    [_lock unlock];
     
     return list;
 }
@@ -410,8 +422,10 @@
 {
     NSMutableArray *namesList = [[NSMutableArray alloc] init];
     NSMutableArray *sensorsList = [[NSMutableArray alloc] init];
-    
-   for (HWMonitorSensor *sensor in [NSArray arrayWithArray:[self sensors]]) {
+
+    [_lock lock];
+    //for (HWMonitorSensor *sensor in [NSArray arrayWithArray:[self sensors]]) {
+    for (HWMonitorSensor *sensor in [self sensors]) {
         if (![sensor disk]) {
             [namesList addObject:[sensor name]];
             [sensorsList addObject:sensor];
@@ -437,6 +451,7 @@
             }
         }
     }
+    [_lock unlock];
     
     return sensorsList;
 }
@@ -445,7 +460,8 @@
 {
     NSMutableArray *nameslist = [[NSMutableArray alloc] init];
     NSMutableArray *sensorsList = [[NSMutableArray alloc] init];
-    
+
+    [_lock lock];
     for (id object in favorites)
         if ([object isKindOfClass:[HWMonitorSensor class]] && [[self sensors] containsObject:object] && ![object disk]) {
             [nameslist addObject:[object name]];
@@ -471,6 +487,7 @@
             }
         }
     }
+    [_lock unlock];
     
     return sensorsList;
 }
@@ -478,12 +495,16 @@
 - (NSArray*)getAllSensorsInGroup:(NSUInteger)group
 {
     NSMutableArray * list = [[NSMutableArray alloc] init];
-    
-    for (HWMonitorSensor *sensor in [NSArray arrayWithArray:[self sensors]])
+
+    [_lock lock];
+    //for (HWMonitorSensor *sensor in [NSArray arrayWithArray:[self sensors]])
+    for (HWMonitorSensor *sensor in [self sensors])
         if (group & [sensor group])
             [list addObject:sensor];
-    
-    return [list count] > 0 ? [NSArray arrayWithArray:list] : nil;
+
+    [_lock unlock];
+    //return [list count] > 0 ? [NSArray arrayWithArray:list] : nil;
+    return [list count] > 0 ? list : nil;
 }
 
 @end
