@@ -213,7 +213,7 @@
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
     _bundle = [NSBundle mainBundle];
-    _sensorsLock = [[NSRecursiveLock alloc] init];
+    _sensorsLock = [[NSLock alloc] init];
     
     return self;
 }
@@ -231,7 +231,7 @@
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
     _bundle = mainBundle;
-    _sensorsLock = [[NSRecursiveLock alloc] init];
+    _sensorsLock = [[NSLock alloc] init];
     
     return self;
 }
