@@ -238,10 +238,8 @@
 
 - (void)dealloc
 {
-    if (_service) {
+    if (_service)   
         IOObjectRelease(_service);
-        _service = 0;
-    }
 }
 
 - (void)rebuildSensorsList
