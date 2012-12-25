@@ -173,7 +173,7 @@
             [value getBytes:&t length:2];
             
             // Don't add sensor if value is insane
-            if (0 == t || t >= 100)
+            if (t == 0 || t > 99)
                 return nil;
             
             break;
@@ -213,7 +213,7 @@
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
     _bundle = [NSBundle mainBundle];
-    _lock = [[NSRecursiveLock alloc] init];
+    _lock = [[NSLock alloc] init];
     
     return self;
 }
@@ -231,7 +231,7 @@
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
     _bundle = mainBundle;
-    _lock = [[NSRecursiveLock alloc] init];
+    _lock = [[NSLock alloc] init];
     
     return self;
 }
@@ -441,7 +441,7 @@
     [_lock unlock];
 }
 
--(void)updateFavoritesSensors:(NSArray *)favorites
+- (void)updateFavoritesSensors:(NSArray *)favorites
 {
     NSMutableArray *nameslist = [[NSMutableArray alloc] init];
 
