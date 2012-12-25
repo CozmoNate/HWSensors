@@ -39,8 +39,8 @@
 
 @property (readwrite, retain) NSBundle* bundle;
 
-@property (copy) NSArray *sensors;
-@property (copy) NSDictionary *keys;
+@property (readonly) NSArray *sensors;
+@property (readonly) NSDictionary *keys;
 
 @property (readwrite, assign) BOOL useFahrenheit;
 @property (readwrite, assign) BOOL useBSDNames;
