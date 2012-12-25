@@ -198,7 +198,6 @@
     
     if (_monitoringAppIsActive) {
         
-        [_engine lock];
         NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
         
         for (HWMonitorSensor *sensor in [_engine sensors]) {
@@ -208,7 +207,6 @@
                               [sensor formattedValue], kHWMonitorKeyValue,
                               nil] forKey:[sensor name]];
         }
-        [_engine unlock];
         
         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
     }
@@ -226,7 +224,6 @@
     if (!allSensors && ![self isMenuDown])
         return;
        
-    [_engine lock];
     for (HWMonitorSensor *sensor in [_engine sensors]) {
         if (([self isMenuDown] || allSensors) && [[sensor representedObject] isVisible] && [sensor valueHasBeenChanged]) {
             
@@ -280,7 +277,6 @@
             [[[sensor representedObject] menuItem] setAttributedTitle:title];
         }
     }
-    [_engine unlock];
 
 }
 
@@ -363,7 +359,6 @@
     
     [_engine rebuildSensorsList];
     
-    [_engine lock];
     if ([[_engine sensors] count] > 0) {
         
         [_favorites removeAllObjects];
@@ -433,7 +428,6 @@
         
         [_mainMenu addItem:item];
     }
-    [_engine unlock];
     
     [self itemsRequested:nil];
 }
@@ -449,7 +443,6 @@
     
     int index = 0;
     
-    [_engine lock];
     for (HWMonitorSensor *sensor in [_engine sensors]) {
         [sensorsList setValue:[NSDictionary dictionaryWithObjectsAndKeys:
                                [sensor name], kHWMonitorKeyName,
@@ -464,7 +457,6 @@
         
         index++;
     }
-    [_engine unlock];
     
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorRecieveItems object:[favoritesList componentsJoinedByString:@","] userInfo:sensorsList deliverImmediately:YES];
 }
@@ -480,7 +472,6 @@
     
     NSArray *favoritesList = [(NSString*)[aNotification object] componentsSeparatedByString:@","];
     
-    [_engine lock];
     if (favoritesList) {
         
         NSUInteger i = 0;
@@ -519,7 +510,6 @@
                 [hiddenList addObject:[sensor name]];
         }
     }
-    [_engine unlock];
     
     [self checkGroupsVisibilities];
     
@@ -575,11 +565,9 @@
     
     [_engine setUseBSDNames:useBSDNames];
     
-    [_engine lock];
     for (HWMonitorSensor *sensor in [_engine sensors])
         if ([sensor disk])
             [[sensor representedObject] setTitle:[sensor title]];
-    [_engine unlock];
     
     [self updateMenuTextForced];
     
