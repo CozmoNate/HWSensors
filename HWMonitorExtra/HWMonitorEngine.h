@@ -34,7 +34,7 @@
     NSATASmartReporter *_smartReporter;
     NSMutableArray *_sensors;
     NSMutableDictionary *_keys;
-    NSLock *_lock;
+    NSLock *_sensorsLock;
 }
 
 @property (readwrite, retain) NSBundle* bundle;
