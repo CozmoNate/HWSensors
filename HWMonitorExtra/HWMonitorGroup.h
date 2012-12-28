@@ -31,7 +31,8 @@
 
 @property (readwrite, assign) enum HWSensorGroup sensorGroup;
 
-@property (readwrite, retain) NSFont* menuFont;
+@property (readwrite, retain) NSFont* titleFont;
+@property (readwrite, retain) NSFont* textFont;
 
 @property (readwrite, retain) NSMenuItem* separatorItem;
 @property (readwrite, retain) NSMenuItem* titleMenuItem;
@@ -40,9 +41,9 @@
 
 @property (readwrite, assign, setter = setFirst:) BOOL isFirst;
 
-+ (HWMonitorGroup*)groupWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup menu:(NSMenu*)menu font:(NSFont*)font title:(NSString*)title image:(NSImage*)image;
++ (HWMonitorGroup*)groupWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup menu:(NSMenu*)menu titleFont:(NSFont*)titleFont textFont:(NSFont*)textFont title:(NSString*)title image:(NSImage*)image;
 
-- (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup menu:(NSMenu*)menu font:(NSFont*)font title:(NSString*)title image:(NSImage*)image;
+- (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup menu:(NSMenu*)menu titleFont:(NSFont*)titleFont textFont:(NSFont*)textFont title:(NSString*)title image:(NSImage*)image;
 
 - (BOOL)checkVisibility;
 

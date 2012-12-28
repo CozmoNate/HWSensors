@@ -32,7 +32,8 @@
 @implementation HWMonitorGroup
 
 @synthesize sensorGroup = _group;
-@synthesize menuFont = _font;
+@synthesize titleFont = _titleFont;
+@synthesize textFont = _textFont;
 
 @synthesize separatorItem = _separatorItem;
 @synthesize titleMenuItem = _titleMenuItem;
@@ -41,9 +42,9 @@
 
 @synthesize isFirst = _isFirst;
 
-+ (HWMonitorGroup*)groupWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup menu:(NSMenu*)menu font:(NSFont*)font title:(NSString*)title image:(NSImage*)image
++ (HWMonitorGroup*)groupWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup menu:(NSMenu*)menu titleFont:(NSFont*)titleFont textFont:(NSFont*)textFont title:(NSString*)title image:(NSImage*)image
 {
-    HWMonitorGroup* group = [[HWMonitorGroup alloc] initWithEngine:engine sensorGroup:sensorGroup menu:menu font:font title:title image:image];
+    HWMonitorGroup* group = [[HWMonitorGroup alloc] initWithEngine:engine sensorGroup:sensorGroup menu:menu titleFont:titleFont textFont:textFont title:title image:image];
     
     if (!group)
         return nil;
@@ -51,19 +52,20 @@
     return group;
 }
 
-- (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup menu:(NSMenu*)menu font:(NSFont*)font title:(NSString*)title image:(NSImage*)image
+- (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup menu:(NSMenu*)menu titleFont:(NSFont*)titleFont textFont:(NSFont*)textFont title:(NSString*)title image:(NSImage*)image
 {
     self = [super init];
     
     _engine = engine;
     _group = sensorGroup;
-    _font = font;
+    _titleFont = titleFont;
+    _textFont = textFont;
     _items = [[NSMutableArray alloc] init];
     
-    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[title stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:_font forKey:NSFontAttributeName]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuValueWidth) withFont:_font]];
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[title stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:_titleFont forKey:NSFontAttributeName]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuValueWidth) withFont:_titleFont]];
     
     [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
-    [attributedTitle addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, [attributedTitle length])];
+    [attributedTitle addAttribute:NSFontAttributeName value:_textFont range:NSMakeRange(0, [attributedTitle length])];
 
     _separatorItem = [NSMenuItem separatorItem];
     

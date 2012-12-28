@@ -32,6 +32,7 @@
 @implementation HWMonitorItem
 
 @synthesize title = _title;
+@synthesize subTitle = _subTitle;
 
 @synthesize sensor = _sensor;
 @synthesize menuItem = _menuItem;
@@ -46,12 +47,22 @@
 
 -(void)setTitle:(NSString *)title
 {
-    _title = [title stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:[_group menuFont] forKey:NSFontAttributeName]].size.width * kHWMonitorMenuTitleWidth withFont:[_group menuFont]];
+    _title = [title stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:[_group textFont] forKey:NSFontAttributeName]].size.width * kHWMonitorMenuTitleWidth withFont:[_group textFont]];
 }
 
--(NSString *)title
+-(NSString*)title
 {
     return _title;
+}
+
+-(void)setSubTitle:(NSString *)subTitle
+{
+    _subTitle = [subTitle stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:[_group textFont] forKey:NSFontAttributeName]].size.width * kHWMonitorMenuTitleWidth withFont:[_group textFont]];
+}
+
+-(NSString *)subTitle
+{
+    return _subTitle;
 }
 
 -(void)setVisible:(BOOL)isVisible

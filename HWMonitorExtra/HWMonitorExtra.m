@@ -77,27 +77,38 @@
     [_mainMenu setAutoenablesItems: NO];
     [_mainMenu setDelegate:(id<NSMenuDelegate>)[self view]];
     
-    _menuFont = [NSFont boldSystemFontOfSize:10.0];
-    [_mainMenu setFont:_menuFont];
+    //_menuFont = [NSFont boldSystemFontOfSize:10.0];
+    _menuTitleFont = [NSFont fontWithName:@"Helvetica" size:10.0];
+    _menuTextFont = [NSFont fontWithName:@"Helvetica" size:12.0];
+    _menuValueFont = [NSFont fontWithName:@"Helvetica Bold" size:12.0];
+    
+    [_mainMenu setFont:_menuValueFont];
     
     [self setMenu:_mainMenu];
     
-    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc] init];
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     
     [style setTabStops:[NSArray array]];
-    [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObjectsAndKeys:_menuFont, NSFontAttributeName,nil]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuValueWidth)]];
+    [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObjectsAndKeys:_menuTitleFont, NSFontAttributeName,nil]].size.width * kHWMonitorMenuTitleWidth + [[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObjectsAndKeys:_menuValueFont, NSFontAttributeName,nil]].size.width * kHWMonitorMenuValueWidth]];
     
-    _menuAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                       style, NSParagraphStyleAttributeName,
-                       _menuFont, NSFontAttributeName,
-                       nil];
+    _menuTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                            style, NSParagraphStyleAttributeName,
+                            _menuTextFont, NSFontAttributeName,
+                            nil];
     
-    _subtitleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [NSFont boldSystemFontOfSize:9.0], NSFontAttributeName,
-                           [NSColor disabledControlTextColor], NSForegroundColorAttributeName,
-                           nil];
+    _menuValueAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                            style, NSParagraphStyleAttributeName,
+                            _menuValueFont, NSFontAttributeName,
+                            nil];
+
+    _menuSubtitleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                               style, NSParagraphStyleAttributeName,
+                               [NSFont fontWithName:[_menuTextFont fontName] size:9.0], NSFontAttributeName,
+                               [NSColor disabledControlTextColor], NSForegroundColorAttributeName,
+                               nil];
     
     _blackColorAttribute = [NSDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+    _darkColorAttribute = [NSDictionary dictionaryWithObject:[[NSColor blackColor] highlightWithLevel:0.20] forKey:NSForegroundColorAttributeName];
     _orangeColorAttribute = [NSDictionary dictionaryWithObject:[NSColor orangeColor] forKey:NSForegroundColorAttributeName];
     _redColorAttribute = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
     
@@ -230,10 +241,13 @@
             
             NSMutableAttributedString * title = [[NSMutableAttributedString alloc] init];
             
-            NSDictionary *titleColor = nil;
-            NSDictionary *valueColor = nil;
+            NSMutableDictionary *titleColor = [[NSMutableDictionary alloc] init];
+            NSMutableDictionary *valueColor = [[NSMutableDictionary alloc] init];
             
             NSString *value = [sensor formattedValue];
+            
+            [titleColor addEntriesFromDictionary:_menuTextAttributes];
+            [valueColor addEntriesFromDictionary:_menuValueAttributes];
             
             switch ([sensor level]) {
                     /*case kHWSensorLevelDisabled:
@@ -243,36 +257,33 @@
                      break;*/
                     
                 case kHWSensorLevelModerate:
-                    titleColor = _blackColorAttribute;
-                    valueColor = _orangeColorAttribute;
+                    [titleColor addEntriesFromDictionary:_darkColorAttribute];
+                    [valueColor addEntriesFromDictionary:_orangeColorAttribute];
                     break;
                     
                 case kHWSensorLevelHigh:
-                    titleColor = _blackColorAttribute;
-                    valueColor = _redColorAttribute;
+                    [titleColor addEntriesFromDictionary:_darkColorAttribute];
+                    [valueColor addEntriesFromDictionary:_redColorAttribute];
                     break;
                     
                 case kHWSensorLevelExceeded:
-                    titleColor = _redColorAttribute;
-                    valueColor = _redColorAttribute;
+                    [titleColor addEntriesFromDictionary:_redColorAttribute];
+                    [valueColor addEntriesFromDictionary:_redColorAttribute];
                     break;
                     
                 default:
-                    titleColor = _blackColorAttribute;
-                    valueColor = _blackColorAttribute;
+                    [titleColor addEntriesFromDictionary:_darkColorAttribute];
+                    [valueColor addEntriesFromDictionary:_blackColorAttribute];
                     break;
             }
             
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[sensor representedObject] title] attributes:titleColor]];
-            
-            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t"]];
+            [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\t" attributes:_menuTextAttributes]];
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
             
-            [title addAttributes:_menuAttributes range:NSMakeRange(0, [title length])];
-            
             // Add subtitle
-            if ([sensor disk] && _showVolumeNames)
-                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"\n %@", [[sensor disk] volumesNames]] stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:_menuFont forKey:NSFontAttributeName]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuValueWidth) withFont:_menuFont] attributes:_subtitleAttributes]];
+            if ([[sensor representedObject] subTitle])
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"\n%@", [[sensor representedObject] subTitle]] stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:_menuTitleFont forKey:NSFontAttributeName]].size.width * kHWMonitorMenuTitleWidth withFont:_menuTextFont] attributes:_menuSubtitleAttributes]];
             
             // Update menu item title
             [[[sensor representedObject] menuItem] setAttributedTitle:title];
@@ -385,13 +396,22 @@
             }
         }
         
-        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupTemperature menu:_mainMenu font:_menuFont title:GetLocalizedString(@"TEMPERATURES") image:[[self getIconByName:kHWMonitorIconTemperatures] image]]];
-        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupTemperature menu:_mainMenu font:_menuFont title:GetLocalizedString(@"DRIVE TEMPERATURES") image:[[self getIconByName:kHWMonitorIconHddTemperatures] image]]];
-        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupRemainingLife menu:_mainMenu font:_menuFont title:GetLocalizedString(@"SSD REMAINING LIFE") image:[[self getIconByName:kHWMonitorIconSsdLife] image]]];
-        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupRemainingBlocks menu:_mainMenu font:_menuFont title:GetLocalizedString(@"SSD REMAINING BLOCKS") image:[[self getIconByName:kHWMonitorIconSsdLife] image]]];
-        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency menu:_mainMenu font:_menuFont title:GetLocalizedString(@"FREQUENCIES") image:[[self getIconByName:kHWMonitorIconFrequencies] image]]];
-        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer menu:_mainMenu font:_menuFont title:GetLocalizedString(@"FANS") image:[[self getIconByName:kHWMonitorIconTachometers] image]]];
-        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupVoltage menu:_mainMenu font:_menuFont title:GetLocalizedString(@"VOLTAGES") image:[[self getIconByName:kHWMonitorIconVoltages] image]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupTemperature menu:_mainMenu titleFont:_menuTitleFont textFont:_menuTextFont title:GetLocalizedString(@"TEMPERATURES") image:[[self getIconByName:kHWMonitorIconTemperatures] image]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupTemperature menu:_mainMenu titleFont:_menuTitleFont textFont:_menuTextFont title:GetLocalizedString(@"DRIVE TEMPERATURES") image:[[self getIconByName:kHWMonitorIconHddTemperatures] image]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupRemainingLife menu:_mainMenu titleFont:_menuTitleFont textFont:_menuTextFont title:GetLocalizedString(@"SSD REMAINING LIFE") image:[[self getIconByName:kHWMonitorIconSsdLife] image]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupRemainingBlocks menu:_mainMenu titleFont:_menuTitleFont textFont:_menuTextFont title:GetLocalizedString(@"SSD REMAINING BLOCKS") image:[[self getIconByName:kHWMonitorIconSsdLife] image]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency menu:_mainMenu titleFont:_menuTitleFont textFont:_menuTextFont title:GetLocalizedString(@"FREQUENCIES") image:[[self getIconByName:kHWMonitorIconFrequencies] image]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer menu:_mainMenu titleFont:_menuTitleFont textFont:_menuTextFont title:GetLocalizedString(@"FANS") image:[[self getIconByName:kHWMonitorIconTachometers] image]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupVoltage menu:_mainMenu titleFont:_menuTitleFont textFont:_menuTextFont title:GetLocalizedString(@"VOLTAGES") image:[[self getIconByName:kHWMonitorIconVoltages] image]]];
+        
+        // Update subtitles
+        for (HWMonitorSensor *sensor in [_engine sensors])
+            if ([sensor disk]) {
+                if (_showVolumeNames)
+                    [[sensor representedObject] setSubTitle:[[sensor disk] volumesNames]];
+                else
+                    [[sensor representedObject] setSubTitle:nil];
+            }
         
         NSArray *hiddenList = [_defaults objectForKey:kHWMonitorHiddenList];
         
@@ -409,7 +429,10 @@
             
         [_mainMenu addItem:[NSMenuItem separatorItem]];
         
-        NSMenuItem * prefsItem = [[NSMenuItem alloc]initWithTitle:GetLocalizedString(@"Preferences...") action:@selector(openPreferences:) keyEquivalent:@""];
+        NSMenuItem * prefsItem = [[NSMenuItem alloc] initWithTitle:GetLocalizedString(@"Preferences...") action:@selector(openPreferences:) keyEquivalent:@""];
+        
+        //[prefsItem setAttributedTitle:[[NSAttributedString alloc] initWithString:GetLocalizedString(@"Preferences...") attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont menuFontOfSize:14], NSFontAttributeName, nil]]];
+        [prefsItem setAttributedTitle:[[NSAttributedString alloc] initWithString:GetLocalizedString(@"Preferences...") attributes:_menuTextAttributes]];
         
         NSImage *prefsImage = [[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForResource:@"preferences" ofType:@"png"]];
         [prefsImage setTemplate:YES];
@@ -577,6 +600,14 @@
 - (void)showVolumeNamesChanged:(NSNotification*)aNotification
 {
     _showVolumeNames = [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
+    
+    for (HWMonitorSensor *sensor in [_engine sensors])
+        if ([sensor disk]) {
+            if (_showVolumeNames)
+                [[sensor representedObject] setSubTitle:[[sensor disk] volumesNames]];
+            else
+                [[sensor representedObject] setSubTitle:nil];
+        }
     
     [_defaults setInteger:_showVolumeNames forKey:kHWMonitorShowVolumeNames];
     [_defaults synchronize];
