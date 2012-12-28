@@ -103,7 +103,7 @@
 
     _menuSubtitleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                style, NSParagraphStyleAttributeName,
-                               [NSFont fontWithName:[_menuTextFont fontName] size:9.0], NSFontAttributeName,
+                               _menuTitleFont, NSFontAttributeName,
                                [NSColor disabledControlTextColor], NSForegroundColorAttributeName,
                                nil];
     
