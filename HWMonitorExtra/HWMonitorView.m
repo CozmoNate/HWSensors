@@ -49,10 +49,8 @@ const NSString* kHWMonitorViewSpacer = @" ";
     if (!self || !statusItem)
         return nil;
     
-    _smallFont = [NSFont boldSystemFontOfSize:9.1f];
-    //_smallFont = [NSFont menuBarFontOfSize:9.1f];
-    //_bigFont = [NSFont systemFontOfSize:13.0f];
-    _bigFont = [NSFont menuBarFontOfSize:11];
+    _smallFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0];
+    _bigFont = [NSFont fontWithName:@"Lucida Grande" size:13.9];
     
     _shadow = [[NSShadow alloc] init];
     

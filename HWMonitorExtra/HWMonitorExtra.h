@@ -34,10 +34,14 @@
 @interface HWMonitorExtra : NSMenuExtra
 {
     BundleUserDefaults* _defaults;
-    NSFont *_menuFont;
-    NSDictionary *_menuAttributes;
-    NSDictionary *_subtitleAttributes;
+    NSFont *_menuTitleFont;
+    NSFont *_menuTextFont;
+    NSFont *_menuValueFont;
+    NSDictionary *_menuTextAttributes;
+    NSDictionary *_menuValueAttributes;
+    NSDictionary *_menuSubtitleAttributes;
     NSDictionary *_blackColorAttribute;
+    NSDictionary *_darkColorAttribute;
     NSDictionary *_orangeColorAttribute;
     NSDictionary *_redColorAttribute;
     NSImage *_prefsIcon;

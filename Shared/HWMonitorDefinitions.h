@@ -9,8 +9,8 @@
 #ifndef HWSensors_HWMonitorDefinitions_h
 #define HWSensors_HWMonitorDefinitions_h
 
-#define kHWMonitorMenuTitleWidth            22 // '9' char width multiplied by this number
-#define kHWMonitorMenuValueWidth            8  // '9' char width multiplied by this number
+#define kHWMonitorMenuTitleWidth            25 // '9' char width multiplied by this number
+#define kHWMonitorMenuValueWidth            9  // '9' char width multiplied by this number
 
 // Preferences
 #define kHWMonitorFavoritesList             @"favoritesList"

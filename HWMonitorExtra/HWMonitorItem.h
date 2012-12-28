@@ -31,6 +31,7 @@
 }
 
 @property (readwrite, retain) NSString* title;
+@property (readwrite, retain) NSString* subTitle;
 
 @property (readwrite, retain) HWMonitorSensor* sensor;
 @property (readwrite, retain) NSMenuItem* menuItem;
