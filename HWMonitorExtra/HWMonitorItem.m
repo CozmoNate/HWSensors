@@ -47,7 +47,7 @@
 
 -(void)setTitle:(NSString *)title
 {
-    _title = [title stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:[_group textFont] forKey:NSFontAttributeName]].size.width * kHWMonitorMenuTitleWidth withFont:[_group textFont]];
+    _title = [title stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"H" attributes:[NSDictionary dictionaryWithObject:[_group textFont] forKey:NSFontAttributeName]].size.width * (kHWMonitorMenuTitleWidth - kHWMonitorMenuTabWidth) withFont:[_group textFont]];
 }
 
 -(NSString*)title
@@ -57,7 +57,7 @@
 
 -(void)setSubTitle:(NSString *)subTitle
 {
-    _subTitle = [subTitle stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:[_group textFont] forKey:NSFontAttributeName]].size.width * kHWMonitorMenuTitleWidth withFont:[_group textFont]];
+    _subTitle = [subTitle stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"H" attributes:[NSDictionary dictionaryWithObject:[_group textFont] forKey:NSFontAttributeName]].size.width * (kHWMonitorMenuTitleWidth - kHWMonitorMenuTabWidth) withFont:[_group textFont]];
 }
 
 -(NSString *)subTitle

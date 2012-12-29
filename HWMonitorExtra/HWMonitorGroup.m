@@ -62,7 +62,7 @@
     _textFont = textFont;
     _items = [[NSMutableArray alloc] init];
     
-    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[title stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:_titleFont forKey:NSFontAttributeName]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuValueWidth) withFont:_titleFont]];
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:[title stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"H" attributes:[NSDictionary dictionaryWithObject:_titleFont forKey:NSFontAttributeName]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuTabWidth + kHWMonitorMenuValueWidth) withFont:_titleFont]];
     
     [attributedTitle addAttribute:NSForegroundColorAttributeName value:[NSColor controlShadowColor] range:NSMakeRange(0, [attributedTitle length])];
     [attributedTitle addAttribute:NSFontAttributeName value:_textFont range:NSMakeRange(0, [attributedTitle length])];
