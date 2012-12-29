@@ -89,7 +89,7 @@
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     
     [style setTabStops:[NSArray array]];
-    [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObjectsAndKeys:_menuTitleFont, NSFontAttributeName,nil]].size.width * kHWMonitorMenuTitleWidth + [[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObjectsAndKeys:_menuValueFont, NSFontAttributeName,nil]].size.width * kHWMonitorMenuValueWidth]];
+    [style addTabStop:[[NSTextTab alloc] initWithType:NSRightTabStopType location:[[NSAttributedString alloc] initWithString:@"H" attributes:[NSDictionary dictionaryWithObjectsAndKeys:_menuTitleFont, NSFontAttributeName,nil]].size.width * (kHWMonitorMenuTitleWidth + kHWMonitorMenuTabWidth) + [[NSAttributedString alloc] initWithString:@"H" attributes:[NSDictionary dictionaryWithObjectsAndKeys:_menuValueFont, NSFontAttributeName,nil]].size.width * kHWMonitorMenuValueWidth]];
     
     _menuTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                             style, NSParagraphStyleAttributeName,
@@ -282,8 +282,10 @@
             [title appendAttributedString:[[NSAttributedString alloc] initWithString:value attributes:valueColor]];
             
             // Add subtitle
-            if ([[sensor representedObject] subTitle])
-                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"\n%@", [[sensor representedObject] subTitle]] stringByTruncatingToWidth:[[NSAttributedString alloc] initWithString:@"0" attributes:[NSDictionary dictionaryWithObject:_menuTitleFont forKey:NSFontAttributeName]].size.width * kHWMonitorMenuTitleWidth withFont:_menuTextFont] attributes:_menuSubtitleAttributes]];
+            if ([[sensor representedObject] subTitle]) {
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:_menuTextAttributes]];
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[sensor representedObject] subTitle] attributes:_menuSubtitleAttributes]];
+            }
             
             // Update menu item title
             [[[sensor representedObject] menuItem] setAttributedTitle:title];
