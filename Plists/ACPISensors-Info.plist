@@ -117,7 +117,7 @@
 			<string>FakeSMCPlugin</string>
 			<key>IONameMatch</key>
 			<array>
-				<string>PTID</string>
+				<string>disabled-PTID</string>
 			</array>
 			<key>IOProbeScore</key>
 			<integer>1000</integer>

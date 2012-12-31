@@ -208,7 +208,7 @@
         [_engine updateFavoritesSensors:_favorites];
     
     if (_monitoringAppIsActive) {
-            
+        
         NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
         
         for (HWMonitorSensor *sensor in [_engine sensors]) {
@@ -221,7 +221,6 @@
         
         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
     }
-    
 }
 
 - (void)updateSmcSensorsThreaded
@@ -291,6 +290,7 @@
             [[[sensor representedObject] menuItem] setAttributedTitle:title];
         }
     }
+
 }
 
 - (void)updateMenuTextForced

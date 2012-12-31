@@ -153,7 +153,7 @@
         sensor = nil;
         return nil;
     }*/
-    
+
     [_sensors addObject:sensor];
     [_keys setObject:sensor forKey:key];
         
@@ -238,7 +238,7 @@
 
 - (void)dealloc
 {
-    if (_service) 
+    if (_service)   
         IOObjectRelease(_service);
 }
 
@@ -381,28 +381,23 @@
     [_sensorsLock unlock];
 }
 
-- (NSArray*)updateSmartSensors
+- (void)updateSmartSensors
 {
     [_sensorsLock lock];
-    
-    NSMutableArray *list = [[NSMutableArray alloc] init];
     
     for (HWMonitorSensor *sensor in [self sensors]) {
         if ([sensor disk]) {
             switch ([sensor group]) {
                 case kSMARTSensorGroupTemperature:
                     [sensor setData:[[sensor disk] getTemperature]];
-                    [list addObject:sensor];
                     break;
                     
                 case kSMARTSensorGroupRemainingLife:
                     [sensor setData:[[sensor disk] getRemainingLife]];
-                    [list addObject:sensor];
                     break;
                     
                 case kSMARTSensorGroupRemainingBlocks:
                     [sensor setData:[[sensor disk] getRemainingBlocks]];
-                    [list addObject:sensor];
                     break;
                         
                 default:
@@ -412,21 +407,17 @@
     }
     
     [_sensorsLock unlock];
-    
-    return list;
 }
 
-- (NSArray*)updateSmcSensors
+- (void)updateSmcSensors
 {
     [_sensorsLock lock];
     
     NSMutableArray *namesList = [[NSMutableArray alloc] init];
-    NSMutableArray *sensorsList = [[NSMutableArray alloc] init];
     
    for (HWMonitorSensor *sensor in [self sensors]) {
         if (![sensor disk]) {
             [namesList addObject:[sensor name]];
-            [sensorsList addObject:sensor];
         }
     }
     
@@ -451,22 +442,19 @@
     }
     
     [_sensorsLock unlock];
-    
-    return sensorsList;
 }
 
--(NSArray*)updateFavoritesSensors:(NSArray *)favorites
+- (void)updateFavoritesSensors:(NSArray *)favorites
 {
     [_sensorsLock lock];
     
     NSMutableArray *nameslist = [[NSMutableArray alloc] init];
-    NSMutableArray *sensorsList = [[NSMutableArray alloc] init];
-    
-    for (id object in favorites)
+
+    for (id object in favorites) {
         if ([object isKindOfClass:[HWMonitorSensor class]] && [[self sensors] containsObject:object] && ![object disk]) {
             [nameslist addObject:[object name]];
-            [sensorsList addObject:object];
         }
+    }
     
     if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)nameslist)) 
     {           
@@ -489,8 +477,6 @@
     }
     
     [_sensorsLock unlock];
-    
-    return sensorsList;
 }
 
 - (NSArray*)getAllSensorsInGroup:(NSUInteger)group
@@ -505,7 +491,7 @@
     
     [_sensorsLock unlock];
     
-    return [list count] > 0 ? [NSArray arrayWithArray:list] : nil;
+    return [list count] > 0 ? list : nil;
 }
 
 @end
