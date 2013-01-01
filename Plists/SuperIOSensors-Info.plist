@@ -1802,7 +1802,12 @@
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<dict>
+							<key>name</key>
+							<string>CPU</string>
+							<key>offset</key>
+							<integer>5000</integer>
+						</dict>
 						<key>VIN0</key>
 						<string>CPU</string>
 						<key>VIN1</key>
