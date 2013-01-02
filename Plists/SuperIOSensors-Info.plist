@@ -1344,6 +1344,8 @@
 					<string>X38-DS5</string>
 					<key>EP45-UD3R</key>
 					<string>X38-DS5</string>
+					<key>EP45T-UD3LR</key>
+					<string>X38-DS5</string>
 					<key>EX58-EXTREME</key>
 					<dict>
 						<key>FANIN0</key>
@@ -1802,12 +1804,7 @@
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN2</key>
-						<dict>
-							<key>name</key>
-							<string>CPU</string>
-							<key>offset</key>
-							<integer>5000</integer>
-						</dict>
+						<string>CPU</string>
 						<key>VIN0</key>
 						<string>CPU</string>
 						<key>VIN1</key>
