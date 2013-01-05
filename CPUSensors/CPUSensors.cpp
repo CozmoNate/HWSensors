@@ -391,7 +391,7 @@ bool CPUSensors::start(IOService *provider)
     if (busClock == 0)
         busClock = (gPEClockFrequencyInfo.bus_frequency_max_hz >> 2) / 1e6;
     
-    HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d, Platform %s", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0], (char*)platform->getCStringNoCopy());
+    HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d, Platform string %s", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0], platform ? platform->getCStringNoCopy() : "not set");
     
     if (platform) {
         if (!setKeyValue("RPlt", TYPE_CH8, platform->getLength(), platform->getCStringNoCopy()))
