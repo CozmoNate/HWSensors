@@ -13,11 +13,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.1</string>
+	<string>2.0.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.0.1</string>
+	<string>2.0.5</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Intel Thermal Monitor</key>
@@ -37,6 +37,8 @@
 			<string>AppleACPICPU</string>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
+			<key>PlatformString</key>
+			<string></string>
 			<key>TjmaxForced</key>
 			<integer>0</integer>
 		</dict>

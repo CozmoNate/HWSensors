@@ -229,7 +229,13 @@ bool CPUSensors::start(IOService *provider)
             
             HWSensorsInfoLog("force Tjmax value to %d", tjmax[0]);
         }
-	} 
+	}
+    
+    if (OSString* string = OSDynamicCast(OSString, getProperty("PlatformString"))) {
+		// User defined platform key (RPlt)
+        if (string->getLength() > 0)
+            platform = OSString::withString(string);
+	}
     
     if (tjmax[0] == 0) {
 		// Calculating Tjmax
@@ -238,8 +244,19 @@ bool CPUSensors::start(IOService *provider)
 			case 0x06: 
 				switch (cpuid_info()->cpuid_model) 
                 {
+                    case CPUID_MODEL_PENTIUM_M:
+                        tjmax[0] = 100;
+                        if (!platform) platform = OSString::withCString("M70\0\0\0\0");
+                        break;
+                            
+                    case CPUID_MODEL_YONAH:
+                        if (!platform) platform = OSString::withCString("K22\0\0\0\0");
+                        tjmax[0] = 85;
+                        break;
+                        
                     case CPUID_MODEL_MEROM: // Intel Core (65nm)
-                        switch (cpuid_info()->cpuid_stepping) 
+                        if (!platform) platform = OSString::withCString("M75\0\0\0\0");
+                        switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // G0
                                 tjmax[0] = 100; 
@@ -278,6 +295,7 @@ bool CPUSensors::start(IOService *provider)
                         
                     case CPUID_MODEL_PENRYN: // Intel Core (45nm)
                                              // Mobile CPU ?
+                        if (!platform) platform = OSString::withCString("M82\0\0\0\0");
                         if (rdmsr64(0x17) & (1<<28))
                             tjmax[0] = 105;
                         else
@@ -285,6 +303,7 @@ bool CPUSensors::start(IOService *provider)
                         break;
                         
                     case CPUID_MODEL_ATOM: // Intel Atom (45nm)
+                        if (!platform) platform = OSString::withCString("T9\0\0\0\0\0");
                         switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // C0
@@ -306,8 +325,16 @@ bool CPUSensors::start(IOService *provider)
                     case CPUID_MODEL_WESTMERE:
                     case CPUID_MODEL_NEHALEM_EX:
                     case CPUID_MODEL_WESTMERE_EX:
-                    case CPUID_MODEL_SANDYBRIDGE:	
+                        if (!platform) platform = OSString::withCString("k74\0\0\0\0");
+                        readTjmaxFromMSR();
+                        break;
+                        
+                    case CPUID_MODEL_SANDYBRIDGE:
                     case CPUID_MODEL_JAKETOWN:
+                        if (!platform) platform = OSString::withCString("k62\0\0\0\0");
+                        readTjmaxFromMSR();
+                        break;
+                        
                     case CPUID_MODEL_IVYBRIDGE:
                         readTjmaxFromMSR();
                         break;
@@ -363,7 +390,12 @@ bool CPUSensors::start(IOService *provider)
     if (busClock == 0)
         busClock = (gPEClockFrequencyInfo.bus_frequency_max_hz >> 2) / 1e6;
     
-    HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0]);
+    HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d, Platform: %s", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0], (char*)platform->getCStringNoCopy());
+    
+    if (platform) {
+        if (!setKeyValue("RPlt", TYPE_CH8, platform->getLength(), platform->getCStringNoCopy()))
+            HWSensorsWarningLog("failed to set platform key");
+    }
 	
 	for (int i = 0; i < cpuid_info()->core_count; i++) {
         

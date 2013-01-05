@@ -73,6 +73,7 @@ class CPUSensors : public FakeSMCPlugin
     
 private:
     UInt8                   tjmax[kCPUSensorsMaxCpus];
+    OSString *				platform;
     
     IOWorkLoop *			workloop;
 	IOTimerEventSource *	timersource;

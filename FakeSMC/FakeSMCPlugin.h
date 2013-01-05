@@ -160,6 +160,7 @@ protected:
     OSString                *getPlatformProduct();
     
     bool                    isKeyHandled(const char *key);
+    bool                    setKeyValue(const char *key, const char *type, UInt8 size, const char *value);
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
     virtual bool            addSensor(FakeSMCSensor *sensor);

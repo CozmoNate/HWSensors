@@ -200,6 +200,11 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
     return false;
 }
 
+bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, const char *value)
+{
+    return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)type, (void *)size, (void *)value);
+}
+
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {   
     if (getSensor(key)) {
@@ -245,7 +250,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, UInt
                     if (name) {
                         snprintf(key, 5, KEY_FORMAT_FAN_ID, i); 
                         
-                        if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)TYPE_CH8, (void *)((UInt64)strlen(name)), (void *)name))
+                        if (!setKeyValue(key, TYPE_CH8, strlen(name), name))
                             HWSensorsWarningLog("failed to add tachometer name for key %s", key);
                     }
                     
