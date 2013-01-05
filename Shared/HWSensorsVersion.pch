@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 
-#define HWSENSORS_LASTYEAR                  2012
+#define HWSENSORS_LASTYEAR                  2013
 
 #define FAKESMC_BUNDLE                      org.netkas.driver.FakeSMC
 #define FAKESMC_COMPATIBLE                  4.3.23

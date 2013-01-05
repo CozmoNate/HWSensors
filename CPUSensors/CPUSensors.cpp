@@ -4,6 +4,7 @@
  *  
  *  Based on code by mercurysquad, superhai (C) 2008
  *  Based on code from Open Hardware Monitor project by Michael Möller (C) 2011
+ *  Based on code by slice (C) 2013
  *
  *  Created by kozlek on 30/09/10.
  *  Copyright 2010 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
