@@ -47,8 +47,8 @@ typedef struct {
 } RADEONCardInfo;
 
 /*
-* Chip families. Must fit in the low 16 bits of a long word
-*/
+ * Chip families. Must fit in the low 16 bits of a long word
+ */
 enum radeon_family {
     CHIP_FAMILY_UNKNOW,
     CHIP_FAMILY_LEGACY,
@@ -67,79 +67,110 @@ enum radeon_family {
     CHIP_FAMILY_RV380,    /* RV370/RV380/M22/M24 */
     CHIP_FAMILY_R420,     /* R420/R423/M18 */
     CHIP_FAMILY_RV410,    /* RV410, M26 */
-    CHIP_FAMILY_RS400,    /* xpress 200, 200m (RS400/410/480) */
+    CHIP_FAMILY_RS400,    /* xpress 200, 200m (RS400) Intel */
+    CHIP_FAMILY_RS480,    /* xpress 200, 200m (RS410/480/482/485) AMD */
     CHIP_FAMILY_RV515,    /* rv515 */
     CHIP_FAMILY_R520,    /* r520 */
     CHIP_FAMILY_RV530,    /* rv530 */
     CHIP_FAMILY_R580,    /* r580 */
     CHIP_FAMILY_RV560,   /* rv560 */
     CHIP_FAMILY_RV570,   /* rv570 */
+    CHIP_FAMILY_RS600,
     CHIP_FAMILY_RS690,
-    CHIP_FAMILY_R600,    /* r60 */
-    CHIP_FAMILY_R630,
+    CHIP_FAMILY_RS740,
+    CHIP_FAMILY_R600,    /* r600 */
     CHIP_FAMILY_RV610,
     CHIP_FAMILY_RV630,
     CHIP_FAMILY_RV670,
-    CHIP_FAMILY_RS740,
-	CHIP_FAMILY_RV620,
-	CHIP_FAMILY_RV635,	//HD3600
-	CHIP_FAMILY_R700,	//HD4850
-	CHIP_FAMILY_RV700,  //ATI Radeon HD 4870 X2
-  CHIP_FAMILY_RV710,  //Mobility Radeon HD 4300
-	CHIP_FAMILY_R710,   //HD4350
-	CHIP_FAMILY_R730,	//HD4650
-	CHIP_FAMILY_RV740,	//HD4770
-	CHIP_FAMILY_RV770,	//HD4830
-	CHIP_FAMILY_RS780,  //AMD 760G
-	CHIP_FAMILY_RV790,
-	CHIP_FAMILY_RS880,
-	CHIP_FAMILY_Evergreen,
-	CHIP_FAMILY_CEDAR,	//
-	CHIP_FAMILY_REDWOOD,
-	CHIP_FAMILY_JUNIPER,
-	CHIP_FAMILY_CYPRESS,
-	CHIP_FAMILY_HEMLOCK,
-    CHIP_FAMILY_LAST,
+    CHIP_FAMILY_RV620,
+    CHIP_FAMILY_RV635,
+    CHIP_FAMILY_RS780,
+    CHIP_FAMILY_RS880,
+    CHIP_FAMILY_RV770,   /* r700 */
+    CHIP_FAMILY_RV730,
+    CHIP_FAMILY_RV710,
+    CHIP_FAMILY_RV740,
+    CHIP_FAMILY_CEDAR,   /* evergreen */
+    CHIP_FAMILY_REDWOOD,
+    CHIP_FAMILY_JUNIPER,
+    CHIP_FAMILY_CYPRESS,
+    CHIP_FAMILY_HEMLOCK,
+    CHIP_FAMILY_PALM,
+    CHIP_FAMILY_SUMO,
+    CHIP_FAMILY_SUMO2,
+    CHIP_FAMILY_BARTS,
+    CHIP_FAMILY_TURKS,
+    CHIP_FAMILY_CAICOS,
+    CHIP_FAMILY_CAYMAN,
+    CHIP_FAMILY_ARUBA,
+    CHIP_FAMILY_TAHITI,
+    CHIP_FAMILY_PITCAIRN,
+    CHIP_FAMILY_VERDE,
+    CHIP_FAMILY_LAST
 };
 
-#define IS_RV100_VARIAN (((rinfo)->ChipFamily == CHIP_FAMILY_RV100)	|| \
-								((rinfo)->ChipFamily == CHIP_FAMILY_RV200)		|| \
-								((rinfo)->ChipFamily == CHIP_FAMILY_RS100)		|| \
-								((rinfo)->ChipFamily == CHIP_FAMILY_RS200)		|| \
-								((rinfo)->ChipFamily == CHIP_FAMILY_RV250)		|| \
-								((rinfo)->ChipFamily == CHIP_FAMILY_RV280)		|| \
-								((rinfo)->ChipFamily == CHIP_RS300))
+#define IS_RV100_VARIANT ((info->ChipFamily == CHIP_FAMILY_RV100)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RV200)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RS100)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RS200)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RV250)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RV280)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RS300))
 
 
-#define IS_R300_VARIANT	(((rinfo)->ChipFamily == CHIP_FAMILY_R300)		|| \
-								((rinfo)->ChipFamily == CHIP_FAMILY_RV350)		|| \
-								((rinfo)->ChipFamily == CHIP_FAMILY_R350)		|| \
-								((rinfo)->ChipFamily == CHIP_FAMILY_RV380)		|| \
-								((rinfo)->ChipFamily == CHIP_FAMILY_R420))
+#define IS_R300_VARIANT ((info->ChipFamily == CHIP_FAMILY_R300)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RV350) ||  \
+(info->ChipFamily == CHIP_FAMILY_R350)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RV380) ||  \
+(info->ChipFamily == CHIP_FAMILY_R420)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RV410) ||  \
+(info->ChipFamily == CHIP_FAMILY_RS400) ||  \
+(info->ChipFamily == CHIP_FAMILY_RS480))
 
-#define IS_AVIVO_VARIANT ((rinfo->ChipFamily >= CHIP_FAMILY_RV515))
+#define IS_AVIVO_VARIANT ((info->ChipFamily >= CHIP_FAMILY_RV515))
 
-#define IS_DCE3_VARIANT ((rinfo->ChipFamily >= CHIP_FAMILY_RV620))
+#define IS_DCE3_VARIANT ((info->ChipFamily >= CHIP_FAMILY_RV620))
 
-#define IS_R500_3D ((rinfo->ChipFamily == CHIP_FAMILY_RV515)  ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_R520)   ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_RV530)  ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_R580)   ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_RV560)  ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_RV570))
+#define IS_DCE32_VARIANT ((info->ChipFamily >= CHIP_FAMILY_RV730))
 
-#define IS_R300_3D ((rinfo->ChipFamily == CHIP_FAMILY_R300)  ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_RV350) ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_R350)  ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_RV380) ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_R420)  ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_RV410) ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_RS690) ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_RS600) ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_RS740) ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_RS400) ||  \
-					(rinfo->ChipFamily == CHIP_FAMILY_RS480))
+#define IS_DCE4_VARIANT ((info->ChipFamily >= CHIP_FAMILY_CEDAR))
 
+#define IS_DCE41_VARIANT ((info->ChipFamily >= CHIP_FAMILY_PALM))
 
+#define IS_DCE5_VARIANT ((info->ChipFamily >= CHIP_FAMILY_BARTS))
+
+#define IS_EVERGREEN_3D (info->ChipFamily >= CHIP_FAMILY_CEDAR)
+
+#define IS_R600_3D (info->ChipFamily >= CHIP_FAMILY_R600)
+
+#define IS_R500_3D ((info->ChipFamily == CHIP_FAMILY_RV515)  ||  \
+(info->ChipFamily == CHIP_FAMILY_R520)   ||  \
+(info->ChipFamily == CHIP_FAMILY_RV530)  ||  \
+(info->ChipFamily == CHIP_FAMILY_R580)   ||  \
+(info->ChipFamily == CHIP_FAMILY_RV560)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RV570))
+
+/* RS6xx, RS740 are technically R4xx as well, but the
+ * clipping hardware seems to follow the r3xx restrictions
+ */
+#define IS_R400_3D ((info->ChipFamily == CHIP_FAMILY_R420)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RV410))
+
+#define IS_R300_3D ((info->ChipFamily == CHIP_FAMILY_R300)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RV350) ||  \
+(info->ChipFamily == CHIP_FAMILY_R350)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RV380) ||  \
+(info->ChipFamily == CHIP_FAMILY_R420)  ||  \
+(info->ChipFamily == CHIP_FAMILY_RV410) ||  \
+(info->ChipFamily == CHIP_FAMILY_RS690) ||  \
+(info->ChipFamily == CHIP_FAMILY_RS600) ||  \
+(info->ChipFamily == CHIP_FAMILY_RS740) ||  \
+(info->ChipFamily == CHIP_FAMILY_RS400) ||  \
+(info->ChipFamily == CHIP_FAMILY_RS480))
+
+#define IS_R200_3D ((info->ChipFamily == CHIP_FAMILY_RV250) || \
+(info->ChipFamily == CHIP_FAMILY_RV280) || \
+(info->ChipFamily == CHIP_FAMILY_RS300) || \
+(info->ChipFamily == CHIP_FAMILY_R200))
 
 #endif /* __RADEON_CHIPSETS_H__ */

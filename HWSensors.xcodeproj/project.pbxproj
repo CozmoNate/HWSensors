@@ -74,6 +74,10 @@
 		7E42CF571682E26D00E1BD4E /* NSIndexSet-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E42CF521682E26D00E1BD4E /* NSIndexSet-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E42CF581682E26D00E1BD4E /* NSTableView-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E42CF541682E26D00E1BD4E /* NSTableView-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E42CF5C1682E2C400E1BD4E /* NSString+TruncateToWidth.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E42CF5B1682E2C400E1BD4E /* NSString+TruncateToWidth.m */; };
+		7E5CFA2516988EBE00F0E9AD /* i2c_algo_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */; };
+		7E5CFA2616988EBE00F0E9AD /* i2c_algo_bit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5CFA2216988EBE00F0E9AD /* i2c_algo_bit.h */; };
+		7E5CFA2716988EBE00F0E9AD /* i2c_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */; };
+		7E5CFA2816988EBE00F0E9AD /* i2c_base.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5CFA2416988EBE00F0E9AD /* i2c_base.h */; };
 		7E78628F1632F633001984B9 /* OEMInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5A8CB81605EAA400FF0099 /* OEMInfo.h */; };
 		7E7862901632F633001984B9 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */; };
 		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
@@ -103,12 +107,6 @@
 		7E9F548D167C71DA006E907B /* f75375.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F5459167C71D9006E907B /* f75375.h */; };
 		7E9F548E167C71DA006E907B /* GeforceSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F545A167C71D9006E907B /* GeforceSensors.cpp */; };
 		7E9F548F167C71DA006E907B /* GeforceSensors.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F545B167C71D9006E907B /* GeforceSensors.h */; };
-		7E9F5490167C71DA006E907B /* i2c_algo_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F545C167C71D9006E907B /* i2c_algo_bit.cpp */; };
-		7E9F5491167C71DA006E907B /* i2c_algo_bit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F545D167C71D9006E907B /* i2c_algo_bit.h */; };
-		7E9F5492167C71DA006E907B /* i2c_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F545E167C71D9006E907B /* i2c_base.cpp */; };
-		7E9F5493167C71DA006E907B /* i2c_base.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F545F167C71D9006E907B /* i2c_base.h */; };
-		7E9F5494167C71DA006E907B /* linux_definitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F5460167C71D9006E907B /* linux_definitions.h */; };
-		7E9F5495167C71DA006E907B /* list.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F5461167C71D9006E907B /* list.h */; };
 		7E9F5496167C71DA006E907B /* lm99.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F5462167C71D9006E907B /* lm99.cpp */; };
 		7E9F5497167C71DA006E907B /* nouveau.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F5463167C71D9006E907B /* nouveau.cpp */; };
 		7E9F5498167C71DA006E907B /* nouveau.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F5464167C71D9006E907B /* nouveau.h */; };
@@ -291,6 +289,12 @@
 		7E42CF5B1682E2C400E1BD4E /* NSString+TruncateToWidth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TruncateToWidth.m"; sourceTree = "<group>"; };
 		7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OEMInfo.cpp; sourceTree = "<group>"; };
 		7E5A8CB81605EAA400FF0099 /* OEMInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMInfo.h; sourceTree = "<group>"; };
+		7E5CFA1D16988E9C00F0E9AD /* linux_definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = linux_definitions.h; sourceTree = "<group>"; };
+		7E5CFA1F16988EA300F0E9AD /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
+		7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_algo_bit.cpp; sourceTree = "<group>"; };
+		7E5CFA2216988EBE00F0E9AD /* i2c_algo_bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_algo_bit.h; sourceTree = "<group>"; };
+		7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_base.cpp; sourceTree = "<group>"; };
+		7E5CFA2416988EBE00F0E9AD /* i2c_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_base.h; sourceTree = "<group>"; };
 		7E78628E1632F0B7001984B9 /* fakesmc.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fakesmc.txt; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81F15BA99350079AAE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -320,12 +324,6 @@
 		7E9F5459167C71D9006E907B /* f75375.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = f75375.h; sourceTree = "<group>"; };
 		7E9F545A167C71D9006E907B /* GeforceSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeforceSensors.cpp; sourceTree = "<group>"; };
 		7E9F545B167C71D9006E907B /* GeforceSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeforceSensors.h; sourceTree = "<group>"; };
-		7E9F545C167C71D9006E907B /* i2c_algo_bit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_algo_bit.cpp; sourceTree = "<group>"; };
-		7E9F545D167C71D9006E907B /* i2c_algo_bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_algo_bit.h; sourceTree = "<group>"; };
-		7E9F545E167C71D9006E907B /* i2c_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_base.cpp; sourceTree = "<group>"; };
-		7E9F545F167C71D9006E907B /* i2c_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_base.h; sourceTree = "<group>"; };
-		7E9F5460167C71D9006E907B /* linux_definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = linux_definitions.h; sourceTree = "<group>"; };
-		7E9F5461167C71D9006E907B /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
 		7E9F5462167C71D9006E907B /* lm99.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lm99.cpp; sourceTree = "<group>"; };
 		7E9F5463167C71D9006E907B /* nouveau.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nouveau.cpp; sourceTree = "<group>"; };
 		7E9F5464167C71D9006E907B /* nouveau.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nouveau.h; sourceTree = "<group>"; };
@@ -701,6 +699,7 @@
 			isa = PBXGroup;
 			children = (
 				7EB00809168014BE00320B70 /* HWSensorsVersion.pch */,
+				7E5CFA1B16988E8A00F0E9AD /* Linux */,
 				7EF31BB716207C6B00E9B055 /* Kernel */,
 				7EF31BB916207C7000E9B055 /* Cocoa */,
 				6A1DF980150201BF00C34729 /* Resources */,
@@ -852,6 +851,19 @@
 			name = Apps;
 			sourceTree = "<group>";
 		};
+		7E5CFA1B16988E8A00F0E9AD /* Linux */ = {
+			isa = PBXGroup;
+			children = (
+				7E5CFA1D16988E9C00F0E9AD /* linux_definitions.h */,
+				7E5CFA1F16988EA300F0E9AD /* list.h */,
+				7E5CFA2416988EBE00F0E9AD /* i2c_base.h */,
+				7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */,
+				7E5CFA2216988EBE00F0E9AD /* i2c_algo_bit.h */,
+				7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */,
+			);
+			name = Linux;
+			sourceTree = "<group>";
+		};
 		7E79B81B15BA99350079AAE8 /* CPUSensors */ = {
 			isa = PBXGroup;
 			children = (
@@ -889,8 +901,8 @@
 			isa = PBXGroup;
 			children = (
 				7E9F544C167C71D1006E907B /* AtomBIOS.h */,
-				7E9F544D167C71D1006E907B /* RadeonChipinfo.h */,
 				7E9F544E167C71D1006E907B /* RadeonChipsets.h */,
+				7E9F544D167C71D1006E907B /* RadeonChipinfo.h */,
 				7E9F5450167C71D1006E907B /* RadeonMonitor.h */,
 				7E9F544F167C71D1006E907B /* RadeonMonitor.cpp */,
 			);
@@ -900,7 +912,6 @@
 		7E9F5456167C71D9006E907B /* GeForceSensors */ = {
 			isa = PBXGroup;
 			children = (
-				7E9F54C6167C7253006E907B /* Linux */,
 				7E0A2BA3167C731D0060C153 /* nouveau */,
 				7E9F54C4167C7213006E907B /* NVCLock */,
 				7E9F545B167C71D9006E907B /* GeforceSensors.h */,
@@ -935,19 +946,6 @@
 				7E9F547F167C71D9006E907B /* nvclock_i2c.h */,
 			);
 			name = NVCLock;
-			sourceTree = "<group>";
-		};
-		7E9F54C6167C7253006E907B /* Linux */ = {
-			isa = PBXGroup;
-			children = (
-				7E9F5460167C71D9006E907B /* linux_definitions.h */,
-				7E9F5461167C71D9006E907B /* list.h */,
-				7E9F545F167C71D9006E907B /* i2c_base.h */,
-				7E9F545E167C71D9006E907B /* i2c_base.cpp */,
-				7E9F545D167C71D9006E907B /* i2c_algo_bit.h */,
-				7E9F545C167C71D9006E907B /* i2c_algo_bit.cpp */,
-			);
-			name = Linux;
 			sourceTree = "<group>";
 		};
 		7EADE20815E5602F00FD117C /* GPUSensors */ = {
@@ -1105,10 +1103,6 @@
 				7E9F5455167C71D1006E907B /* RadeonMonitor.h in Headers */,
 				7E9F548D167C71DA006E907B /* f75375.h in Headers */,
 				7E9F548F167C71DA006E907B /* GeforceSensors.h in Headers */,
-				7E9F5491167C71DA006E907B /* i2c_algo_bit.h in Headers */,
-				7E9F5493167C71DA006E907B /* i2c_base.h in Headers */,
-				7E9F5494167C71DA006E907B /* linux_definitions.h in Headers */,
-				7E9F5495167C71DA006E907B /* list.h in Headers */,
 				7E9F5498167C71DA006E907B /* nouveau.h in Headers */,
 				7E9F549A167C71DA006E907B /* nouveau_bios.h in Headers */,
 				7E9F549B167C71DA006E907B /* nouveau_definitions.h in Headers */,
@@ -1129,6 +1123,8 @@
 				7E9F54BD167C71DA006E907B /* xf86i2c.h in Headers */,
 				7E9F54BE167C71DA006E907B /* xfree.h in Headers */,
 				7E9F54C3167C71DF006E907B /* GmaSensors.h in Headers */,
+				7E5CFA2616988EBE00F0E9AD /* i2c_algo_bit.h in Headers */,
+				7E5CFA2816988EBE00F0E9AD /* i2c_base.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1603,8 +1599,6 @@
 				7E9F548B167C71DA006E907B /* adt7473.cpp in Sources */,
 				7E9F548C167C71DA006E907B /* f75375.cpp in Sources */,
 				7E9F548E167C71DA006E907B /* GeforceSensors.cpp in Sources */,
-				7E9F5490167C71DA006E907B /* i2c_algo_bit.cpp in Sources */,
-				7E9F5492167C71DA006E907B /* i2c_base.cpp in Sources */,
 				7E9F5496167C71DA006E907B /* lm99.cpp in Sources */,
 				7E9F5497167C71DA006E907B /* nouveau.cpp in Sources */,
 				7E9F5499167C71DA006E907B /* nouveau_bios.cpp in Sources */,
@@ -1628,6 +1622,8 @@
 				7E9F54BB167C71DA006E907B /* w83l785r.cpp in Sources */,
 				7E9F54BC167C71DA006E907B /* xf86i2c.cpp in Sources */,
 				7E9F54C2167C71DF006E907B /* GmaSensors.cpp in Sources */,
+				7E5CFA2516988EBE00F0E9AD /* i2c_algo_bit.cpp in Sources */,
+				7E5CFA2716988EBE00F0E9AD /* i2c_base.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

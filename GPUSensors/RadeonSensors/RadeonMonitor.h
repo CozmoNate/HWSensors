@@ -67,7 +67,6 @@ private:
 	IOReturn		R7xxTemperatureSensor(UInt16* data);
 	IOReturn		EverTemperatureSensor(UInt16* data);
     bool			initCard(void);
-    UInt16          readTemperature();
     
 protected:	
     virtual float       getSensorValue(FakeSMCSensor *sensor);

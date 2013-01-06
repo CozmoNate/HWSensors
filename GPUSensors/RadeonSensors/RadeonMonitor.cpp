@@ -55,26 +55,40 @@ bool RadeonMonitor::initCard()
 		return false;
     
 	switch (rinfo->ChipFamily) {
-        case CHIP_FAMILY_R600:
+        case CHIP_FAMILY_R600:    /* r600 */
         case CHIP_FAMILY_RV610:
-        case CHIP_FAMILY_RV620:
         case CHIP_FAMILY_RV630:
         case CHIP_FAMILY_RV670:
+        case CHIP_FAMILY_RV620:
+        case CHIP_FAMILY_RV635:
+        case CHIP_FAMILY_RS780:
+        case CHIP_FAMILY_RS880:
             //setup_R6xx();
             tempFamily = R6xx;
             break;
-        case CHIP_FAMILY_R700:
-        case CHIP_FAMILY_R710:
-        case CHIP_FAMILY_RV710:  
-        case CHIP_FAMILY_R730:
+        case CHIP_FAMILY_RV770:   /* r700 */
+        case CHIP_FAMILY_RV730:
+        case CHIP_FAMILY_RV710:
         case CHIP_FAMILY_RV740:
-        case CHIP_FAMILY_RV770:
-        case CHIP_FAMILY_RS780:  
-        case CHIP_FAMILY_RV790:
             //setup_R7xx();
             tempFamily = R7xx;
             break;
-        case CHIP_FAMILY_Evergreen:
+        case CHIP_FAMILY_CEDAR:   /* evergreen */
+        case CHIP_FAMILY_REDWOOD:
+        case CHIP_FAMILY_JUNIPER:
+        case CHIP_FAMILY_CYPRESS:
+        case CHIP_FAMILY_HEMLOCK:
+        case CHIP_FAMILY_PALM:
+        case CHIP_FAMILY_SUMO:
+        case CHIP_FAMILY_SUMO2:
+        case CHIP_FAMILY_BARTS:
+        case CHIP_FAMILY_TURKS:
+        case CHIP_FAMILY_CAICOS:
+        case CHIP_FAMILY_CAYMAN:
+        case CHIP_FAMILY_ARUBA:
+        case CHIP_FAMILY_TAHITI:
+        case CHIP_FAMILY_PITCAIRN:
+        case CHIP_FAMILY_VERDE:
             //setup_Evergreen();
             tempFamily = R8xx;
             break;
@@ -217,32 +231,27 @@ IOReturn RadeonMonitor::EverTemperatureSensor(UInt16* data)
 	return kIOReturnSuccess;
 }
 
-UInt16 RadeonMonitor::readTemperature()
-{
-    UInt16 t = 0;
-    
-    switch (tempFamily) {
-        case R6xx:
-            R6xxTemperatureSensor(&t);
-            break;
-        case R7xx:
-            R7xxTemperatureSensor(&t);
-            break;
-        case R8xx:
-            EverTemperatureSensor(&t);
-            break;
-        default:
-            break;
-    }
-    
-    return t;
-}
-
-
 float RadeonMonitor::getSensorValue(FakeSMCSensor *sensor)
 {
-    if (sensor->getGroup() == kFakeSMCTemperatureSensor)
-        return readTemperature();
+    if (sensor->getGroup() == kFakeSMCTemperatureSensor) {
+        UInt16 t = 0;
+        
+        switch (tempFamily) {
+            case R6xx:
+                R6xxTemperatureSensor(&t);
+                break;
+                
+            case R7xx:
+                R7xxTemperatureSensor(&t);
+                break;
+                
+            case R8xx:
+                EverTemperatureSensor(&t);
+                break;
+        }
+        
+        return t;
+    }
     
     return 0;
 }
@@ -257,8 +266,9 @@ IOService* RadeonMonitor::probe(IOService *provider, SInt32 *score)
     if (!VCard) 
         return 0;
     
-    if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id")))
+    if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id"))) {
         chipID = *(UInt32*)data->getBytesNoCopy();
+    }
     else {
         HWSensorsFatalLog("device-id property not found");
         return 0;
