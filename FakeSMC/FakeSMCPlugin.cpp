@@ -190,11 +190,20 @@ OSString *FakeSMCPlugin::getPlatformProduct()
     return NULL;
 }
 
+bool FakeSMCPlugin::isKeyExists(const char *key)
+{
+    if (storageProvider) {
+        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)key, 0, 0, 0);
+    }
+    
+    return false;
+}
+
 bool FakeSMCPlugin::isKeyHandled(const char *key)
 {
     if (storageProvider) {
         IOService *handler = 0;
-        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyHandler, false, (void *)key, (void *)&handler, 0, 0);
+        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)&handler, 0, 0);
     }
     
     return false;
@@ -202,7 +211,7 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
 
 bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, const char *value)
 {
-    return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, false, (void *)key, (void *)type, (void *)size, (void *)value);
+    return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)type, (void *)size, (void *)value);
 }
 
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
@@ -224,7 +233,7 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8
 
 bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
 {
-    if(sensor && kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyHandler, false, (void *)sensor->getKey(), (void *)sensor->getType(), (void *)sensor->getSize(), (void *)this))
+    if(sensor && kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyHandler, true, (void *)sensor->getKey(), (void *)sensor->getType(), (void *)sensor->getSize(), (void *)this))
         return sensors->setObject(sensor->getKey(), sensor);
     
     return false;
@@ -235,7 +244,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, UInt
     UInt8 length = 0;
 	void * data = 0;
     
-	if (kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
+	if (kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
 		length = 0;
 		
 		bcopy(data, &length, 1);
@@ -257,7 +266,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, UInt
                     if (i + 1 > length) {
                         length++;
                         
-                        if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCSetKeyValue, false, (void *)KEY_FAN_NUMBER, (void *)(UInt8)1, (void *)&length, 0))
+                        if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCSetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)(UInt8)1, (void *)&length, 0))
                             HWSensorsWarningLog("failed to update FNum value");
                     }
                     
@@ -284,32 +293,55 @@ float FakeSMCPlugin::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
+SInt8 FakeSMCPlugin::takeVacantGPUIndex()
+{
+    SInt8 index = -1;
+    
+    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeVacantGPUIndex, true, (void *)&index, 0, 0, 0)) {
+        HWSensorsWarningLog("failed to take vacant GPU index");
+    }
+        
+    return index;
+}
+
 SInt8 FakeSMCPlugin::getVacantGPUIndex()
+{
+    SInt8 index = -1;
+    
+    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCGetVacantGPUIndex, true, (void *)&index, 0, 0, 0)) {
+        HWSensorsWarningLog("failed to get vacant GPU index");
+    }
+    
+    return index;
+}
+
+/*SInt8 FakeSMCPlugin::getVacantGPUIndex()
 {
     //Find card number
     char key[5];
+    
     for (UInt8 i = 0; i <= 0xf; i++) {
         
         snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, i); 
-        if (isKeyHandled(key)) continue;
+        if (isKeyExists(key)) continue;
             
         snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, i);             
-        if (isKeyHandled(key)) continue;
+        if (isKeyExists(key)) continue;
             
         snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, i);             
-        if (isKeyHandled(key)) continue;
+        if (isKeyExists(key)) continue;
 
         snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, i); 
-        if (isKeyHandled(key)) continue;
+        if (isKeyExists(key)) continue;
                     
         snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_FREQUENCY, i); 
-        if (isKeyHandled(key)) continue;
+        if (isKeyExists(key)) continue;
                     
         return i;
     }
     
-    return false;
-}
+    return -1;
+}*/
 
 OSDictionary *FakeSMCPlugin::getConfigurationNode(OSDictionary *root, OSString *name)
 {
@@ -399,7 +431,7 @@ bool FakeSMCPlugin::start(IOService *provider)
 
 void FakeSMCPlugin::stop(IOService* provider)
 {
-    storageProvider->callPlatformFunction(kFakeSMCRemoveKeyHandler, false, this, NULL, NULL, NULL);
+    storageProvider->callPlatformFunction(kFakeSMCRemoveKeyHandler, true, this, NULL, NULL, NULL);
     
     sensors->flushCollection();
 	

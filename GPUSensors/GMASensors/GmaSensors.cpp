@@ -106,7 +106,7 @@ bool GmaSensors::start(IOService * provider)
         return false;
 	
 	//Find card number
-    SInt8 cardIndex = getVacantGPUIndex();
+    SInt8 cardIndex = takeVacantGPUIndex();
     
     if (cardIndex < 0) {
         HWSensorsFatalLog("failed to obtain vacant GPU index");

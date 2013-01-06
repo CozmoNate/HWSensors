@@ -61,6 +61,8 @@ private:
 	
     bool				trace;
 	bool				debug;
+    
+    SInt8               nextVacantGPUIndex;
 	
 	virtual void		applesmc_io_cmd_writeb(void *opaque, uint32_t addr, uint32_t val);
 	virtual void		applesmc_io_data_writeb(void *opaque, uint32_t addr, uint32_t val);
@@ -88,7 +90,6 @@ public:
 	virtual bool		init(IOService *platform, OSDictionary *properties);
     virtual IOReturn	setProperties(OSObject * properties);
 	
-	//virtual FakeSMCKey	*addKey(const char *name, const char *type, unsigned char size);
 	virtual FakeSMCKey	*addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value);
 	virtual FakeSMCKey	*addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler);
 	virtual FakeSMCKey	*getKey(const char *name);

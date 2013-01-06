@@ -96,9 +96,7 @@ bool SuperIOPlugin::addSensorFromConfigurationNode(OSObject *configuration, cons
 bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding temperature sensors...");
-    
-    SInt8 gpuIndex = getVacantGPUIndex();
-    
+        
     for (int i = 0; i < temperatureSensorsLimit(); i++) 
     {				
         char key[8];
@@ -111,8 +109,8 @@ bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
                     break;
             }
             
-            if (gpuIndex > -1) {
-                snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, gpuIndex);
+            if (getVacantGPUIndex() > -1) {
+                snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, takeVacantGPUIndex());
                 addSensorFromConfigurationNode(node, "GPU", key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i);
             }
         }
@@ -124,9 +122,7 @@ bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
 bool SuperIOPlugin::addVoltageSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding voltage sensors...");
-    
-    SInt8 gpuIndex = getVacantGPUIndex();
-    
+       
     for (int i = 0; i < voltageSensorsLimit(); i++)
     {				
         char key[5];
@@ -139,8 +135,8 @@ bool SuperIOPlugin::addVoltageSensors(OSDictionary *configuration)
                     break;
             }
 
-            if (gpuIndex > -1) {
-                snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, gpuIndex);
+            if (getVacantGPUIndex() > -1) {
+                snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, takeVacantGPUIndex());
                 addSensorFromConfigurationNode(node, "GPU", key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, i);
             }
         }

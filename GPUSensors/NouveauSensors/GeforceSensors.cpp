@@ -81,8 +81,8 @@ bool GeforceSensors::start(IOService * provider)
         
     struct nouveau_device *device = &card;
     
-    //Find card number
-    card.card_index = getVacantGPUIndex();
+    //Find available card number and take it up
+    card.card_index = takeVacantGPUIndex();
     
     if (card.card_index < 0) {
         nv_error(device, "failed to obtain vacant GPU index\n");
@@ -166,11 +166,11 @@ bool GeforceSensors::start(IOService * provider)
             addSensor(key, TYPE_SP78, 2, kNouveauBoardTemperatureSensor, 0);
         }
         else if (card.core_temp_get) {
-            snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, card.card_index);
+            snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
             addSensor(key, TYPE_SP78, 2, kNouveauCoreTemperatureSensor, 0);
         }
         else if (card.board_temp_get) {
-            snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, card.card_index);
+            snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, card.card_index);
             addSensor(key, TYPE_SP78, 2, kNouveauBoardTemperatureSensor, 0);
         }
     }

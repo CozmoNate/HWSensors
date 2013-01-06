@@ -57,15 +57,11 @@ private:
 	UInt32			tReg;
 	int				card_number;
 	
-	bool			getRadeonInfo	();
-    //	void			setup_R5xx		();  //todo
-    //	void			setup_R6xx		();
-    //	void			setup_R7xx		();
-    //	void			setup_Evergreen	();
-	UInt32			read32			(UInt32 reg);
-	IOReturn		R6xxTemperatureSensor(UInt16* data);
-	IOReturn		R7xxTemperatureSensor(UInt16* data);
-	IOReturn		EverTemperatureSensor(UInt16* data);
+	bool			getRadeonInfo();
+
+	IOReturn		readTemperatureR6xx(UInt16* data);
+	IOReturn		readTemperatureR7xx(UInt16* data);
+	IOReturn		readTemperatureEvergreen(UInt16* data);
     bool			initCard(void);
     
 protected:	

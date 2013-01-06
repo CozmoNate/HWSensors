@@ -523,7 +523,9 @@ void FakeSMCDevice::updateCounterKey()
 FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value)
 {
 	if (FakeSMCKey *key = getKey(name)) {
-		key->setValueFromBuffer(value, size);
+        
+        if (value)
+            key->setValueFromBuffer(value, size);
         
         if (debug) {
             if (strncmp("NATJ", key->getKey(), 5) == 0) {
@@ -593,12 +595,9 @@ FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, u
 
 FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler)
 {
-	if (FakeSMCKey *key = getKey(name)) {
-		key->setHandler(handler);
-        
-		FakeSMCDebugLog("changing handler for key %s, type: %s, size: %d", name, type, size);
-        
-		return key;
+	if (getKey(name)) {
+		HWSensorsErrorLog("key %s already handled", name);
+		return 0;
 	}
     
 	FakeSMCDebugLog("adding key %s with handler, type: %s, size: %d", name, type, size);
@@ -690,104 +689,149 @@ IOReturn FakeSMCDevice::causeInterrupt(int source)
 IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
 {
 	if (functionName->isEqualTo(kFakeSMCSetKeyValue)) {
-		const char *name = (const char *)param1;
-		UInt8 size = (UInt64)param2;
-		const void *data = (const void *)param3;
-        
-		if (name && data && size > 0) {
+        if (param1 && param2 && param3) {
+            const char *name = (const char *)param1;
+            UInt8 size = (UInt64)param2;
+            const void *data = (const void *)param3;
             
-			if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name)))
-				if (key->setValueFromBuffer(data, size))
-					return kIOReturnSuccess;
-            
-			return kIOReturnError;
-		}
+            if (name && data && size > 0) {
+                
+                if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name)))
+                    if (key->setValueFromBuffer(data, size))
+                        return kIOReturnSuccess;
+                
+                return kIOReturnError;
+            }
+        }
         
 		return kIOReturnBadArgument;
 	}
+    
     if (functionName->isEqualTo(kFakeSMCGetKeyHandler)) {
-		const char *name = (const char *)param1;
-		IOService *handler = (IOService *)param2;
+        if (param1)
+            if (const char *name = (const char *)param1) {
+                if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name))) {
+                    if (key->getHandler()) {
+                        if (param2) {
+                            IOService *handler = (IOService *)param2;
+                            bcopy(key->getHandler(), handler, sizeof(handler));
+                        }
+                        
+                        return kIOReturnSuccess;
+                    }
+                    
+                    return kIOReturnError;
+                }
+            }
         
-		if (name && handler) {
+		return kIOReturnBadArgument;
+	}
+    
+	if (functionName->isEqualTo(kFakeSMCAddKeyHandler)) {
+        if (param1 && param2 && param3 && param4) {
+            const char *name = (const char *)param1;
+            const char *type = (const char *)param2;
+            UInt8 size = (UInt64)param3;
+            IOService *handler = (IOService *)param4;
             
-			if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name))) {
-				if (key->getHandler()) {
-                    bcopy(key->getHandler(), handler, sizeof(handler));
+            if (name && type && size > 0) {
+                if (addKeyWithHandler(name, type, size, handler))
                     return kIOReturnSuccess;
+                
+                return kIOReturnError;
+            }
+        }
+        
+		return kIOReturnBadArgument;
+	}
+	
+    if (functionName->isEqualTo(kFakeSMCAddKeyValue)) {
+        if (param1 && param2 && param3) {
+            const char *name = (const char *)param1;
+            const char *type = (const char *)param2;
+            UInt8 size = (UInt64)param3;
+            const void *value = (const void *)param4;
+            
+            if (name && type && size > 0) {
+                if (addKeyWithValue(name, type, size, value))
+                    return kIOReturnSuccess;
+                
+                return kIOReturnError;
+            }
+        }
+        
+		return kIOReturnBadArgument;
+	}
+	
+    if (functionName->isEqualTo(kFakeSMCGetKeyValue)) {
+        if (param1) {
+            if (const char *name = (const char *)param1) {
+                if (FakeSMCKey *key = getKey(name)) {
+                    if (param2 && param3) {
+                        UInt8 *size = (UInt8*)param2;
+                        const void **value = (const void **)param3;
+                        
+                        *size = key->getSize();
+                        *value = key->getValue();
+                        
+                        return kIOReturnSuccess;
+                    }
                 }
                 
                 return kIOReturnError;
             }
-		}
+        }
         
 		return kIOReturnBadArgument;
 	}
-	else if (functionName->isEqualTo(kFakeSMCAddKeyHandler)) {
-		const char *name = (const char *)param1;
-		const char *type = (const char *)param2;
-		UInt8 size = (UInt64)param3;
-		IOService *handler = (IOService *)param4;
+    
+    if (functionName->isEqualTo(kFakeSMCRemoveKeyHandler)) {
+        if (param1) {
+            if (IOService *handler = (IOService *)param1)
+                if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
+                    while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject()))
+                        if (key->getHandler() == handler) {
+                            key->setHandler(NULL);
+                            return kIOReturnSuccess;
+                        }
+                    
+                    OSSafeRelease(iterator);
+                    
+                    return kIOReturnError;
+                }
+        }
         
-		if (name && type && size > 0) {
-            
-			//HWSensorsDebugLog("adding key %s with handler, type %s, size %d", name, type, size);
-            
-			if (addKeyWithHandler(name, type, size, handler))
-				return kIOReturnSuccess;
-            
-			return kIOReturnError;
-		}
-        
-		return kIOReturnBadArgument;
-	}
-	else if (functionName->isEqualTo(kFakeSMCAddKeyValue)) {
-		const char *name = (const char *)param1;
-		const char *type = (const char *)param2;
-		UInt8 size = (UInt64)param3;
-		const void *value = (const void *)param4;
-        
-		if (name && type && size > 0) {
-            
-			//HWSensorsDebugLog("adding key %s with value, type %s, size %d", name, type, size);
-            
-			if (addKeyWithValue(name, type, size, value))
-				return kIOReturnSuccess;
-            
-			return kIOReturnError;
-		}
-        
-		return kIOReturnBadArgument;
-	}
-	else if (functionName->isEqualTo(kFakeSMCGetKeyValue)) {
-		const char *name = (const char *)param1;
-		UInt8 *size = (UInt8*)param2;
-		const void **value = (const void **)param3;
-        
-		if (name) {
-			if (FakeSMCKey *key = getKey(name)) {
-				*size = key->getSize();
-				*value = key->getValue();
+        return kIOReturnBadArgument;
+    }
+    
+    if (functionName->isEqualTo(kFakeSMCTakeVacantGPUIndex)) {
+        if (param1) {
+            if (SInt8 *index = (SInt8*)param1) {
+                if (nextVacantGPUIndex > 0xf)
+                    return kIOReturnError;
                 
-				return kIOReturnSuccess;
-			}
-            
-			return kIOReturnError;
-		}
-        
-		return kIOReturnBadArgument;
-	}
-    else if (functionName->isEqualTo(kFakeSMCRemoveKeyHandler)) {
-        if (IOService *handler = (IOService *)param1)
-            if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
-                while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject()))
-                    if (key->getHandler() == handler) {
-                        key->setHandler(NULL);
-                        break;
-                    }
+                *index = nextVacantGPUIndex++;
                 
-                OSSafeRelease(iterator);
+                return kIOReturnSuccess;
             }
+        }
+        
+        return kIOReturnBadArgument;
+    }
+    
+    if (functionName->isEqualTo(kFakeSMCGetVacantGPUIndex)) {
+        if (param1) {
+            if (SInt8 *index = (SInt8*)param1) {
+                if (nextVacantGPUIndex > 0xf)
+                    return kIOReturnError;
+                
+                *index = nextVacantGPUIndex;
+                
+                return kIOReturnSuccess;
+            }
+        }
+        
+        return kIOReturnBadArgument;
     }
     
 	return kIOReturnUnsupported;

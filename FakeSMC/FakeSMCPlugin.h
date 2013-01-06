@@ -159,7 +159,12 @@ protected:
     OSString                *getPlatformManufacturer();
     OSString                *getPlatformProduct();
     
+    bool                    isKeyExists(const char *key);
     bool                    isKeyHandled(const char *key);
+    
+    SInt8                   takeVacantGPUIndex();
+    SInt8                   getVacantGPUIndex();
+    
     bool                    setKeyValue(const char *key, const char *type, UInt8 size, const char *value);
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
@@ -171,7 +176,6 @@ protected:
     OSDictionary            *getConfigurationNode(OSDictionary *root, const char *name);
     OSDictionary            *getConfigurationNode(OSString *model=NULL);
     
-    virtual SInt8           getVacantGPUIndex();
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
 public:    

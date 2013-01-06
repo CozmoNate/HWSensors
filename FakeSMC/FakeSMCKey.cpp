@@ -117,7 +117,7 @@ const void *FakeSMCKey::getValue()
         UInt64 now = ptimer_read();
 
         if (now - lastUpdated >= NSEC_PER_SEC) {
-            IOReturn result = handler->callPlatformFunction(kFakeSMCGetValueCallback, false, (void *)key, (void *)value, (void *)size, 0);
+            IOReturn result = handler->callPlatformFunction(kFakeSMCGetValueCallback, true, (void *)key, (void *)value, (void *)size, 0);
             
             if (kIOReturnSuccess == result)
                 lastUpdated = now;
@@ -149,7 +149,7 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
 	bcopy(aBuffer, value, size);
 	
 	if (handler) {       
-		IOReturn result = handler->callPlatformFunction(kFakeSMCSetValueCallback, false, (void *)key, (void *)value, (void *)size, 0);
+		IOReturn result = handler->callPlatformFunction(kFakeSMCSetValueCallback, true, (void *)key, (void *)value, (void *)size, 0);
 		
 		if (kIOReturnSuccess != result)
 			HWSensorsWarningLog("value changed event callback returned error for key %s, return 0x%x", key, result);

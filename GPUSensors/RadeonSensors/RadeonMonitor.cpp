@@ -66,6 +66,7 @@ bool RadeonMonitor::initCard()
             //setup_R6xx();
             tempFamily = R6xx;
             break;
+            
         case CHIP_FAMILY_RV770:   /* r700 */
         case CHIP_FAMILY_RV730:
         case CHIP_FAMILY_RV710:
@@ -73,6 +74,7 @@ bool RadeonMonitor::initCard()
             //setup_R7xx();
             tempFamily = R7xx;
             break;
+            
         case CHIP_FAMILY_CEDAR:   /* evergreen */
         case CHIP_FAMILY_REDWOOD:
         case CHIP_FAMILY_JUNIPER:
@@ -94,7 +96,7 @@ bool RadeonMonitor::initCard()
             break;
             
         default:
-            HWSensorsInfoLog("sorry, but your card %04lx is not supported!\n", (long unsigned int)(rinfo->device_id));
+            HWSensorsFatalLog("unsupported card %04lx", (long unsigned int)(rinfo->device_id));
             return false;
     }
 	
@@ -121,7 +123,7 @@ bool RadeonMonitor::getRadeonInfo()
 		devices++;
 	}
     
-	HWSensorsErrorLog("unknown device id");
+	HWSensorsFatalLog("unknown device id");
     
 	return false;
 }
@@ -136,7 +138,7 @@ bool RadeonMonitor::getRadeonInfo()
  return;
  }
  card_number = id;
- tempSensor = new R6xxTemperatureSensor(this, id, key, TYPE_SP78, 2);
+ tempSensor = new readTemperatureR6xx(this, id, key, TYPE_SP78, 2);
  Caps = GPU_TEMP_MONITORING;	
  }
  
@@ -149,7 +151,7 @@ bool RadeonMonitor::getRadeonInfo()
  return;
  }
  card_number = id;
- tempSensor = new R7xxTemperatureSensor(this, id, key, TYPE_SP78, 2);
+ tempSensor = new readTemperatureR7xx(this, id, key, TYPE_SP78, 2);
  Caps = GPU_TEMP_MONITORING;
  }
  
@@ -162,69 +164,64 @@ bool RadeonMonitor::getRadeonInfo()
  return;
  }
  card_number = id;
- tempSensor = new EverTemperatureSensor(this, id, key, TYPE_SP78, 2);
+ tempSensor = new readTemperatureEvergreen(this, id, key, TYPE_SP78, 2);
  Caps = GPU_TEMP_MONITORING;
  }
  */
 
-UInt32 RadeonMonitor::read32(UInt32 reg)
-{
-	return INVID(reg);
-}
-
-IOReturn RadeonMonitor::R6xxTemperatureSensor(UInt16* data)
+IOReturn RadeonMonitor::readTemperatureR6xx(UInt16* data)
 {
 	UInt32 temp, actual_temp = 0;
-	for (int i=0; i<1000; i++) {  //attempts to ready
-		temp = (read32(CG_THERMAL_STATUS) & ASIC_T_MASK) >> ASIC_T_SHIFT;	
+	//for (int i=0; i<1000; i++) {  //attempts to ready
+		temp = (INVID(CG_THERMAL_STATUS) & ASIC_T_MASK) >> ASIC_T_SHIFT;	
 		if ((temp >> 7) & 1)
 			actual_temp = 0;
 		else {
 			actual_temp = temp & 0xff; //(temp >> 1)
-			break;
+			//break;
 		}
-		IOSleep(10);
-	}
+	//	IOSleep(10);
+	//}
 	*data = (UInt16)(actual_temp & 0xfff);
 	//data[1] = 0;
 	return kIOReturnSuccess; 
 	
 }
 
-IOReturn RadeonMonitor::R7xxTemperatureSensor(UInt16* data)
+IOReturn RadeonMonitor::readTemperatureR7xx(UInt16* data)
 {
 	UInt32 temp, actual_temp = 0;
-	for (int i=0; i<1000; i++) {  //attempts to ready
-		temp = (read32(CG_MULT_THERMAL_STATUS) & ASIC_TM_MASK) >> ASIC_TM_SHIFT;	
+	//for (int i=0; i<1000; i++) {  //attempts to ready
+		temp = (INVID(CG_MULT_THERMAL_STATUS) & ASIC_TM_MASK) >> ASIC_TM_SHIFT;	
 		if ((temp >> 9) & 1)
 			actual_temp = 0;
 		else {
 			actual_temp = (temp >> 1) & 0xff;
-			break;
+			//break;
 		}
-		IOSleep(10);
-	}
+	//	IOSleep(10);
+	//}
 	
 	*data = (UInt16)(actual_temp & 0xfff);
 	//data[1] = 0;
 	return kIOReturnSuccess;
 }
 
-IOReturn RadeonMonitor::EverTemperatureSensor(UInt16* data)
+IOReturn RadeonMonitor::readTemperatureEvergreen(UInt16* data)
 {
 	UInt32 temp, actual_temp = 0;
-	for (int i=0; i<1000; i++) {  //attempts to ready
-		temp = (read32(CG_MULT_THERMAL_STATUS) & ASIC_TM_MASK) >> ASIC_TM_SHIFT;	
+	//for (int i=0; i<1000; i++) {  //attempts to ready
+		temp = (INVID(CG_MULT_THERMAL_STATUS) & ASIC_TM_MASK) >> ASIC_TM_SHIFT;
 		if ((temp >> 10) & 1)
 			actual_temp = 0;
 		else if ((temp >> 9) & 1)
 			actual_temp = 255;
 		else {
 			actual_temp = (temp >> 1) & 0xff;
-			break;
+			//break;
 		}
-		IOSleep(10);
-	}
+	//	IOSleep(10);
+	//}
 	
 	*data = (UInt16)(actual_temp & 0xfff);
 	//data[1] = 0;
@@ -233,24 +230,26 @@ IOReturn RadeonMonitor::EverTemperatureSensor(UInt16* data)
 
 float RadeonMonitor::getSensorValue(FakeSMCSensor *sensor)
 {
-    if (sensor->getGroup() == kFakeSMCTemperatureSensor) {
-        UInt16 t = 0;
-        
-        switch (tempFamily) {
-            case R6xx:
-                R6xxTemperatureSensor(&t);
-                break;
-                
-            case R7xx:
-                R7xxTemperatureSensor(&t);
-                break;
-                
-            case R8xx:
-                EverTemperatureSensor(&t);
-                break;
+    switch (sensor->getGroup()) {
+        case kFakeSMCTemperatureSensor: {
+            UInt16 t = 0;
+            
+            switch (tempFamily) {
+                case R6xx:
+                    readTemperatureR6xx(&t);
+                    break;
+                    
+                case R7xx:
+                    readTemperatureR7xx(&t);
+                    break;
+                    
+                case R8xx:
+                    readTemperatureEvergreen(&t);
+                    break;
+            }
+            
+            return t;
         }
-        
-        return t;
     }
     
     return 0;
@@ -287,17 +286,17 @@ bool RadeonMonitor::start(IOService * provider)
         return false;
     }
     
+    char key[5];
+    
     //Find card number
-    SInt8 cardIndex = getVacantGPUIndex();
+    SInt8 cardIndex = takeVacantGPUIndex();
     
     if (cardIndex < 0) {
         HWSensorsFatalLog("failed to obtain vacant GPU index");
         return false;
     }
     
-    char key[5];
-    
-    snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, cardIndex);
+    snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, cardIndex);
 	
     if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
         HWSensorsFatalLog("failed to register temperature sensor for key %s", key);

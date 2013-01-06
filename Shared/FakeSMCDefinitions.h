@@ -156,23 +156,26 @@
 #define TYPE_SI16_SIZE                          2
 #define TYPE_SI32_SIZE                          4
 
-// Provider
+// Services
 #define kFakeSMCService                         "FakeSMC"
-
-// Protocol
 #define kFakeSMCDeviceService                   "FakeSMCDevice"
+
+// I/O Registry
 #define kFakeSMCDeviceValues                    "Values"
 #define kFakeSMCDeviceUpdateKeyValue            "updateKeyValue"
 #define kFakeSMCDevicePopulateValues            "populateValues"
 
-#define kFakeSMCAddKeyValue                     "FakeSMC_AddKeyValue"
-#define kFakeSMCAddKeyHandler                   "FakeSMC_AddKeyHandler"
-#define kFakeSMCSetKeyValue                     "FakeSMC_SetKeyValue"
-#define kFakeSMCGetKeyValue                     "FakeSMC_GetKeyValue"
-#define kFakeSMCGetKeyHandler                   "FakeSMC_GetKeyHandler"
-#define kFakeSMCRemoveKeyHandler                "FakeSMC_RemoveKeyHandler"
-#define kFakeSMCGetValueCallback                "FakeSMC_GetValueCallback"
-#define kFakeSMCSetValueCallback                "FakeSMC_SetValueCallback"
+// Protocol
+#define kFakeSMCAddKeyValue                     "kFakeSMCAddKeyValue"
+#define kFakeSMCAddKeyHandler                   "kFakeSMCAddKeyHandler"
+#define kFakeSMCSetKeyValue                     "kFakeSMCSetKeyValue"
+#define kFakeSMCGetKeyValue                     "kFakeSMCGetKeyValue"
+#define kFakeSMCGetKeyHandler                   "kFakeSMCGetKeyHandler"
+#define kFakeSMCRemoveKeyHandler                "kFakeSMCRemoveKeyHandler"
+#define kFakeSMCTakeVacantGPUIndex              "kFakeSMCTakeVacantGPUIndex"
+#define kFakeSMCGetVacantGPUIndex               "kFakeSMCGetVacantGPUIndex"
+#define kFakeSMCGetValueCallback                "kFakeSMCGetValueCallback"
+#define kFakeSMCSetValueCallback                "kFakeSMCSetValueCallback"
 
 #define kHWSensorsDebug FALSE
 
