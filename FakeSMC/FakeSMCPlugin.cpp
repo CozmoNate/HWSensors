@@ -419,10 +419,10 @@ bool FakeSMCPlugin::start(IOService *provider)
         return false;
 
     if (!(headingProvider = waitForService(serviceMatching(kFakeSMCService))))
-		HWSensorsWarningLog("can't locate FakeSMC service, specific OEM configuration will be unavailable");
+		HWSensorsWarningLog("failed to locate FakeSMC service, specific OEM configurations will be unavailable");
     
 	if (!(storageProvider = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
-		HWSensorsFatalLog("can't locate FakeSMCDevice");
+		HWSensorsFatalLog("failed to locate FakeSMCDevice");
 		return false;
 	}
 	
