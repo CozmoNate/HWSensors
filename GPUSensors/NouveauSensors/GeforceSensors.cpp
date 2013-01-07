@@ -38,8 +38,12 @@
 #include "nvclock_i2c.h"
 
 #define kNouveauPWMSensor               1000
-#define kNouveauCoreTemperatureSensor   1001
-#define kNouveauBoardTemperatureSensor  1002
+
+enum nouveau_temp_source {
+    nouveau_temp_core       = 1,
+    nouveau_temp_board      = 2,
+    nouveau_temp_proximity  = 3
+};
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(GeforceSensors, FakeSMCPlugin)
@@ -48,13 +52,16 @@ float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
 {   
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
-            return card.temp_get(&card);
-            
-        case kNouveauCoreTemperatureSensor:
-            return card.core_temp_get(&card);
-        
-        case kNouveauBoardTemperatureSensor:
-            return card.board_temp_get(&card);
+            switch (sensor->getIndex()) {
+                case nouveau_temp_core:
+                    return card.core_temp_get(&card);
+                    
+                case nouveau_temp_board:
+                    return card.board_temp_get(&card);
+                    
+                case nouveau_temp_proximity:
+                    return card.temp_get(&card);
+            }
             
         case kFakeSMCFrequencySensor:
             return card.clocks_get(&card, sensor->getIndex()) / 1000.0f;
@@ -81,13 +88,11 @@ bool GeforceSensors::start(IOService * provider)
         
     struct nouveau_device *device = &card;
     
-    //Find available card number and take it up
-    card.card_index = takeVacantGPUIndex();
+    //Check if we have available card number, and use it in initialization process without taking it up
+    card.card_index = getVacantGPUIndex();
     
-    if (card.card_index < 0) {
-        nv_error(device, "failed to obtain vacant GPU index\n");
+    if (card.card_index < 0)
         return false;
-    }
     
     // map device memory
     if ((device->pcidev = (IOPCIDevice*)provider)) {
@@ -155,23 +160,29 @@ bool GeforceSensors::start(IOService * provider)
     // Register sensors
     char key[5];
     
+    // Try to take up available GPU index
+    card.card_index = takeVacantGPUIndex();
+    
+    if (card.card_index < 0)
+        return false;
+    
     if (card.core_temp_get || card.board_temp_get) {
         nv_debug(device, "registering i2c temperature sensors...\n");
         
         if (card.core_temp_get && card.board_temp_get) {
             snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
-            addSensor(key, TYPE_SP78, 2, kNouveauCoreTemperatureSensor, 0);
+            addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, nouveau_temp_core);
             
             snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, card.card_index);
-            addSensor(key, TYPE_SP78, 2, kNouveauBoardTemperatureSensor, 0);
+            addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, nouveau_temp_board);
         }
         else if (card.core_temp_get) {
             snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
-            addSensor(key, TYPE_SP78, 2, kNouveauCoreTemperatureSensor, 0);
+            addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, nouveau_temp_core);
         }
         else if (card.board_temp_get) {
             snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, card.card_index);
-            addSensor(key, TYPE_SP78, 2, kNouveauBoardTemperatureSensor, 0);
+            addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, nouveau_temp_board);
         }
     }
     else if (card.temp_get)
@@ -179,7 +190,7 @@ bool GeforceSensors::start(IOService * provider)
         nv_debug(device, "registering temperature sensors...\n");
         
         snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, card.card_index);
-        addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0);
+        addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, nouveau_temp_proximity);
     }
     
     if (card.clocks_get) {

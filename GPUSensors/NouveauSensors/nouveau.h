@@ -77,13 +77,13 @@ struct nouveau_device {
     dcb_gpio_func fan_pwm;
     dcb_gpio_func fan_tach;
         
-    int (*gpio_sense)(struct nouveau_device *, int line);
-    int (*gpio_find)(struct nouveau_device *, int idx, u8 tag, u8 line, struct dcb_gpio_func *);
-    int (*gpio_get)(struct nouveau_device *, int idx, u8 tag, u8 line);
+    int (*gpio_sense)(struct nouveau_device *, int);
+    int (*gpio_find)(struct nouveau_device *, int, u8, u8, struct dcb_gpio_func *);
+    int (*gpio_get)(struct nouveau_device *, int, u8, u8);
     
-	int (*pwm_get)(struct nouveau_device *, int line, u32*, u32*);
+	int (*pwm_get)(struct nouveau_device *, int, u32*, u32*);
     
-    int (*clocks_get)(struct nouveau_device *, u8 source);
+    int (*clocks_get)(struct nouveau_device *, u8);
 	int (*voltage_get)(struct nouveau_device *);
     int (*temp_get)(struct nouveau_device *);
 	int (*core_temp_get)(struct nouveau_device *);

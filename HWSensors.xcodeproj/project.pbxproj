@@ -54,9 +54,23 @@
 		7E056351164D2E9400A9306F /* prefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E05634B164D2E9400A9306F /* prefs.png */; };
 		7E056352164D2E9400A9306F /* prefs@blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E05634C164D2E9400A9306F /* prefs@blue.png */; };
 		7E06D0FB157FC80B00F8A270 /* BundleUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		7E0EB891169A9A9A000DF2B1 /* evergreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */; };
+		7E0EB894169A9C4D000DF2B1 /* evergreen.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E0EB893169A9C4D000DF2B1 /* evergreen.h */; };
+		7E0EB897169A9D3C000DF2B1 /* r600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB895169A9D3C000DF2B1 /* r600.cpp */; };
+		7E0EB898169A9D3C000DF2B1 /* r600.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E0EB896169A9D3C000DF2B1 /* r600.h */; };
+		7E0EB89B169A9DBE000DF2B1 /* rv770.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB899169A9DBE000DF2B1 /* rv770.cpp */; };
+		7E0EB89C169A9DBE000DF2B1 /* rv770.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E0EB89A169A9DBE000DF2B1 /* rv770.h */; };
+		7E0F9018169AC0EA008CE657 /* r600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB895169A9D3C000DF2B1 /* r600.cpp */; };
+		7E0F9019169AC0EA008CE657 /* rv770.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB899169A9DBE000DF2B1 /* rv770.cpp */; };
+		7E0F901A169AC0EA008CE657 /* evergreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */; };
 		7E130004159C10E900F3B88A /* HWMonitorGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E130003159C10E900F3B88A /* HWMonitorGroup.m */; };
 		7E130008159C129200F3B88A /* HWMonitorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E130007159C129200F3B88A /* HWMonitorItem.m */; };
 		7E1375711589A10600E45B9F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF984150201DE00C34729 /* Localizable.strings */; };
+		7E138D84169A885F007BE068 /* radeon_chipinfo_gen.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E138D83169A885F007BE068 /* radeon_chipinfo_gen.h */; };
+		7E138D87169A8F8C007BE068 /* radeon_family.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E138D86169A8F8C007BE068 /* radeon_family.h */; };
+		7E138D8A169A90D3007BE068 /* evergreend.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E138D89169A90D3007BE068 /* evergreend.h */; };
+		7E138D8C169A910B007BE068 /* r600d.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E138D8B169A910B007BE068 /* r600d.h */; };
+		7E138D8E169A9112007BE068 /* rv770d.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E138D8D169A9112007BE068 /* rv770d.h */; };
 		7E3684AD158368C900E32629 /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3684AB158368C900E32629 /* HWMonitorIcon.m */; };
 		7E3684B01583715B00E32629 /* temperatures_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684AE1583715B00E32629 /* temperatures_template.png */; };
 		7E3684B31583722500E32629 /* frequencies_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684B11583722500E32629 /* frequencies_template.png */; };
@@ -97,11 +111,9 @@
 		7E96DE6B15C063B800A34C60 /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6A15C063AA00A34C60 /* hwmonitor.png */; };
 		7E96DE6C15C063C100A34C60 /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6A15C063AA00A34C60 /* hwmonitor.png */; };
 		7E96DE6E15C064A700A34C60 /* hwmonitor_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96DE6D15C0649E00A34C60 /* hwmonitor_template.png */; };
-		7E9F5451167C71D1006E907B /* AtomBIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F544C167C71D1006E907B /* AtomBIOS.h */; };
-		7E9F5452167C71D1006E907B /* RadeonChipinfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F544D167C71D1006E907B /* RadeonChipinfo.h */; };
-		7E9F5453167C71D1006E907B /* RadeonChipsets.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F544E167C71D1006E907B /* RadeonChipsets.h */; };
-		7E9F5454167C71D1006E907B /* RadeonMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F544F167C71D1006E907B /* RadeonMonitor.cpp */; };
-		7E9F5455167C71D1006E907B /* RadeonMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F5450167C71D1006E907B /* RadeonMonitor.h */; };
+		7E9F5453167C71D1006E907B /* radeon.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F544E167C71D1006E907B /* radeon.h */; };
+		7E9F5454167C71D1006E907B /* RadeonSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F544F167C71D1006E907B /* RadeonSensors.cpp */; };
+		7E9F5455167C71D1006E907B /* RadeonSensors.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F5450167C71D1006E907B /* RadeonSensors.h */; };
 		7E9F548B167C71DA006E907B /* adt7473.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F5457167C71D9006E907B /* adt7473.cpp */; };
 		7E9F548C167C71DA006E907B /* f75375.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F5458167C71D9006E907B /* f75375.cpp */; };
 		7E9F548D167C71DA006E907B /* f75375.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F5459167C71D9006E907B /* f75375.h */; };
@@ -252,10 +264,21 @@
 		7E0A2BA8167C746D0060C153 /* CPUSensors-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CPUSensors-Info.plist"; path = "Plists/CPUSensors-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7E0A2BAA167C74A80060C153 /* ACPISensors-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ACPISensors-Info.plist"; path = "Plists/ACPISensors-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7E0A2BAC167C74DF0060C153 /* FakeSMC-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "FakeSMC-Info.plist"; path = "Plists/FakeSMC-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = evergreen.cpp; sourceTree = "<group>"; };
+		7E0EB893169A9C4D000DF2B1 /* evergreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = evergreen.h; sourceTree = "<group>"; };
+		7E0EB895169A9D3C000DF2B1 /* r600.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = r600.cpp; sourceTree = "<group>"; };
+		7E0EB896169A9D3C000DF2B1 /* r600.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = r600.h; sourceTree = "<group>"; };
+		7E0EB899169A9DBE000DF2B1 /* rv770.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rv770.cpp; sourceTree = "<group>"; };
+		7E0EB89A169A9DBE000DF2B1 /* rv770.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rv770.h; sourceTree = "<group>"; };
 		7E130002159C10E900F3B88A /* HWMonitorGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorGroup.h; sourceTree = "<group>"; };
 		7E130003159C10E900F3B88A /* HWMonitorGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGroup.m; sourceTree = "<group>"; };
 		7E130006159C129200F3B88A /* HWMonitorItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorItem.h; sourceTree = "<group>"; };
 		7E130007159C129200F3B88A /* HWMonitorItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorItem.m; sourceTree = "<group>"; };
+		7E138D83169A885F007BE068 /* radeon_chipinfo_gen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon_chipinfo_gen.h; sourceTree = "<group>"; };
+		7E138D86169A8F8C007BE068 /* radeon_family.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon_family.h; sourceTree = "<group>"; };
+		7E138D89169A90D3007BE068 /* evergreend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = evergreend.h; sourceTree = "<group>"; };
+		7E138D8B169A910B007BE068 /* r600d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = r600d.h; sourceTree = "<group>"; };
+		7E138D8D169A9112007BE068 /* rv770d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rv770d.h; sourceTree = "<group>"; };
 		7E2A5803159240B30073AB74 /* removefakesmc */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = removefakesmc; path = Installer/removefakesmc; sourceTree = "<group>"; };
 		7E3684AA158368C900E32629 /* HWMonitorIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorIcon.h; sourceTree = "<group>"; };
 		7E3684AB158368C900E32629 /* HWMonitorIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorIcon.m; sourceTree = "<group>"; };
@@ -314,11 +337,9 @@
 		7E96DE6D15C0649E00A34C60 /* hwmonitor_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor_template.png; sourceTree = "<group>"; };
 		7E9F5447167C6A19006E907B /* HWMonitorExtra-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "HWMonitorExtra-Info.plist"; path = "Plists/HWMonitorExtra-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7E9F5449167C6A3D006E907B /* HWMonitor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "HWMonitor-Info.plist"; path = "Plists/HWMonitor-Info.plist"; sourceTree = SOURCE_ROOT; };
-		7E9F544C167C71D1006E907B /* AtomBIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtomBIOS.h; sourceTree = "<group>"; };
-		7E9F544D167C71D1006E907B /* RadeonChipinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonChipinfo.h; sourceTree = "<group>"; };
-		7E9F544E167C71D1006E907B /* RadeonChipsets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonChipsets.h; sourceTree = "<group>"; };
-		7E9F544F167C71D1006E907B /* RadeonMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadeonMonitor.cpp; sourceTree = "<group>"; };
-		7E9F5450167C71D1006E907B /* RadeonMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonMonitor.h; sourceTree = "<group>"; };
+		7E9F544E167C71D1006E907B /* radeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon.h; sourceTree = "<group>"; };
+		7E9F544F167C71D1006E907B /* RadeonSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadeonSensors.cpp; sourceTree = "<group>"; };
+		7E9F5450167C71D1006E907B /* RadeonSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonSensors.h; sourceTree = "<group>"; };
 		7E9F5457167C71D9006E907B /* adt7473.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = adt7473.cpp; sourceTree = "<group>"; };
 		7E9F5458167C71D9006E907B /* f75375.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = f75375.cpp; sourceTree = "<group>"; };
 		7E9F5459167C71D9006E907B /* f75375.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = f75375.h; sourceTree = "<group>"; };
@@ -779,6 +800,25 @@
 			name = nouveau;
 			sourceTree = "<group>";
 		};
+		7E138D88169A909F007BE068 /* radeon */ = {
+			isa = PBXGroup;
+			children = (
+				7E138D83169A885F007BE068 /* radeon_chipinfo_gen.h */,
+				7E138D86169A8F8C007BE068 /* radeon_family.h */,
+				7E9F544E167C71D1006E907B /* radeon.h */,
+				7E138D8B169A910B007BE068 /* r600d.h */,
+				7E0EB896169A9D3C000DF2B1 /* r600.h */,
+				7E0EB895169A9D3C000DF2B1 /* r600.cpp */,
+				7E138D8D169A9112007BE068 /* rv770d.h */,
+				7E0EB89A169A9DBE000DF2B1 /* rv770.h */,
+				7E0EB899169A9DBE000DF2B1 /* rv770.cpp */,
+				7E138D89169A90D3007BE068 /* evergreend.h */,
+				7E0EB893169A9C4D000DF2B1 /* evergreen.h */,
+				7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */,
+			);
+			name = radeon;
+			sourceTree = "<group>";
+		};
 		7E3684A8158368AC00E32629 /* HWMonitorIcon */ = {
 			isa = PBXGroup;
 			children = (
@@ -900,11 +940,9 @@
 		7E9F544B167C71D1006E907B /* RadeonSensors */ = {
 			isa = PBXGroup;
 			children = (
-				7E9F544C167C71D1006E907B /* AtomBIOS.h */,
-				7E9F544E167C71D1006E907B /* RadeonChipsets.h */,
-				7E9F544D167C71D1006E907B /* RadeonChipinfo.h */,
-				7E9F5450167C71D1006E907B /* RadeonMonitor.h */,
-				7E9F544F167C71D1006E907B /* RadeonMonitor.cpp */,
+				7E138D88169A909F007BE068 /* radeon */,
+				7E9F5450167C71D1006E907B /* RadeonSensors.h */,
+				7E9F544F167C71D1006E907B /* RadeonSensors.cpp */,
 			);
 			path = RadeonSensors;
 			sourceTree = "<group>";
@@ -1090,6 +1128,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E0EB898169A9D3C000DF2B1 /* r600.h in Headers */,
+				7E0EB89C169A9DBE000DF2B1 /* rv770.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1097,10 +1137,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E9F5451167C71D1006E907B /* AtomBIOS.h in Headers */,
-				7E9F5452167C71D1006E907B /* RadeonChipinfo.h in Headers */,
-				7E9F5453167C71D1006E907B /* RadeonChipsets.h in Headers */,
-				7E9F5455167C71D1006E907B /* RadeonMonitor.h in Headers */,
+				7E9F5453167C71D1006E907B /* radeon.h in Headers */,
+				7E9F5455167C71D1006E907B /* RadeonSensors.h in Headers */,
 				7E9F548D167C71DA006E907B /* f75375.h in Headers */,
 				7E9F548F167C71DA006E907B /* GeforceSensors.h in Headers */,
 				7E9F5498167C71DA006E907B /* nouveau.h in Headers */,
@@ -1125,6 +1163,12 @@
 				7E9F54C3167C71DF006E907B /* GmaSensors.h in Headers */,
 				7E5CFA2616988EBE00F0E9AD /* i2c_algo_bit.h in Headers */,
 				7E5CFA2816988EBE00F0E9AD /* i2c_base.h in Headers */,
+				7E138D84169A885F007BE068 /* radeon_chipinfo_gen.h in Headers */,
+				7E138D87169A8F8C007BE068 /* radeon_family.h in Headers */,
+				7E138D8A169A90D3007BE068 /* evergreend.h in Headers */,
+				7E138D8C169A910B007BE068 /* r600d.h in Headers */,
+				7E138D8E169A9112007BE068 /* rv770d.h in Headers */,
+				7E0EB894169A9C4D000DF2B1 /* evergreen.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1588,6 +1632,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E79B82315BA99350079AAE8 /* CPUSensors.cpp in Sources */,
+				7E0EB891169A9A9A000DF2B1 /* evergreen.cpp in Sources */,
+				7E0EB897169A9D3C000DF2B1 /* r600.cpp in Sources */,
+				7E0EB89B169A9DBE000DF2B1 /* rv770.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1595,7 +1642,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E9F5454167C71D1006E907B /* RadeonMonitor.cpp in Sources */,
+				7E0F9018169AC0EA008CE657 /* r600.cpp in Sources */,
+				7E0F9019169AC0EA008CE657 /* rv770.cpp in Sources */,
+				7E0F901A169AC0EA008CE657 /* evergreen.cpp in Sources */,
+				7E9F5454167C71D1006E907B /* RadeonSensors.cpp in Sources */,
 				7E9F548B167C71DA006E907B /* adt7473.cpp in Sources */,
 				7E9F548C167C71DA006E907B /* f75375.cpp in Sources */,
 				7E9F548E167C71DA006E907B /* GeforceSensors.cpp in Sources */,
