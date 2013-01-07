@@ -339,7 +339,7 @@
         NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine copyValueFromKeyInfo:[HWMonitorEngine populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
         
         if ([caption hasPrefix:@"GPU "]) {
-            UInt8 cardIndex = [[caption substringFromIndex:5] intValue];
+            UInt8 cardIndex = [[caption substringFromIndex:4] intValue];
             
             if (cardIndex==0) {
                 [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPUPWM,cardIndex] title:GetLocalizedString(@"GPU PWM") group:kHWSensorGroupPWM];
