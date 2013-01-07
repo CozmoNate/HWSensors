@@ -42,7 +42,7 @@
 enum nouveau_temp_source {
     nouveau_temp_core       = 1,
     nouveau_temp_board      = 2,
-    nouveau_temp_proximity  = 3
+    nouveau_temp_diode      = 3
 };
 
 #define super FakeSMCPlugin
@@ -59,7 +59,7 @@ float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
                 case nouveau_temp_board:
                     return card.board_temp_get(&card);
                     
-                case nouveau_temp_proximity:
+                case nouveau_temp_diode:
                     return card.temp_get(&card);
             }
             
@@ -189,8 +189,8 @@ bool GeforceSensors::start(IOService * provider)
     {
         nv_debug(device, "registering temperature sensors...\n");
         
-        snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, card.card_index);
-        addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, nouveau_temp_proximity);
+        snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
+        addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, nouveau_temp_diode);
     }
     
     if (card.clocks_get) {
