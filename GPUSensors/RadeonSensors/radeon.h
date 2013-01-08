@@ -27,8 +27,18 @@
 #include <IOKit/pci/IOPCIDevice.h>
 
 #include "linux_definitions.h"
-
 #include "radeon_family.h"
+#include "atom.h"
+
+enum radeon_int_thermal_type {
+	THERMAL_TYPE_NONE,
+	THERMAL_TYPE_RV6XX,
+	THERMAL_TYPE_RV770,
+	THERMAL_TYPE_EVERGREEN,
+	THERMAL_TYPE_SUMO,
+	THERMAL_TYPE_NI,
+	THERMAL_TYPE_SI,
+};
 
 typedef struct {
     UInt16 device_id;
@@ -42,13 +52,22 @@ typedef struct {
 } RADEONCardInfo;
 
 struct radeon_device {
-    IOPCIDevice     *pdev;
-    IOMemoryMap     *mmio;
-    UInt32          chip_id;
-	UInt16          family;
-	RADEONCardInfo  info;
-	int				tempFamily;
-	SInt8			card_index;
+    IOPCIDevice         *pdev;
+    IOMemoryMap         *mmio;
+    UInt32              chip_id;
+	UInt16              family;
+	RADEONCardInfo      info;
+	SInt8               card_index;
+    
+    radeon_int_thermal_type int_thermal_type;
+    
+    /* BIOS */
+	UInt8				*bios;
+	bool				is_atom_bios;
+	UInt16              bios_header_start;
+    UInt32              bios_size;
+    
+    struct atom_context atom_context;
     
     int (*get_core_temp)(struct radeon_device *);
 };
@@ -57,5 +76,12 @@ struct radeon_device {
 #define RREG16(offset)		OSReadLittleInt16(((volatile UInt8 *)rdev->mmio->getVirtualAddress()), offset)
 #define RREG32(offset)		OSReadLittleInt32(((volatile UInt8 *)rdev->mmio->getVirtualAddress()), offset)
 #define WREG32(offset,val)	OSWriteLittleInt32(((volatile UInt8 *)rdev->mmio->getVirtualAddress()), offset, val)
+
+/*
+ * BIOS helpers.
+ */
+#define RBIOS8(i) (rdev->bios[i])
+#define RBIOS16(i) (RBIOS8(i) | (RBIOS8((i)+1) << 8))
+#define RBIOS32(i) ((RBIOS16(i)) | (RBIOS16((i)+2) << 16))
 
 #endif /* __RADEON_CHIPSETS_H__ */

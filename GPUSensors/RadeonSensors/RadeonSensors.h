@@ -29,5 +29,5 @@ protected:
 	
 public:
     virtual bool		start(IOService *provider);
-    
+    virtual void		free(void);
 };

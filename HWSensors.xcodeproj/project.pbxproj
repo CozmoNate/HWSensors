@@ -71,6 +71,8 @@
 		7E138D8A169A90D3007BE068 /* evergreend.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E138D89169A90D3007BE068 /* evergreend.h */; };
 		7E138D8C169A910B007BE068 /* r600d.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E138D8B169A910B007BE068 /* r600d.h */; };
 		7E138D8E169A9112007BE068 /* rv770d.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E138D8D169A9112007BE068 /* rv770d.h */; };
+		7E17E171169C532100E40FC7 /* si.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E17E16F169C532000E40FC7 /* si.cpp */; };
+		7E17E172169C532100E40FC7 /* si.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E17E170169C532100E40FC7 /* si.h */; };
 		7E3684AD158368C900E32629 /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3684AB158368C900E32629 /* HWMonitorIcon.m */; };
 		7E3684B01583715B00E32629 /* temperatures_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684AE1583715B00E32629 /* temperatures_template.png */; };
 		7E3684B31583722500E32629 /* frequencies_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684B11583722500E32629 /* frequencies_template.png */; };
@@ -163,6 +165,11 @@
 		7E9F54C2167C71DF006E907B /* GmaSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F54C0167C71DF006E907B /* GmaSensors.cpp */; };
 		7E9F54C3167C71DF006E907B /* GmaSensors.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9F54C1167C71DF006E907B /* GmaSensors.h */; };
 		7EADE20D15E5602F00FD117C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EADE20B15E5602F00FD117C /* InfoPlist.strings */; };
+		7EB13664169C280F00B42023 /* atombios.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB13663169C280F00B42023 /* atombios.h */; };
+		7EB13667169C288000B42023 /* radeon_atombios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB13665169C288000B42023 /* radeon_atombios.cpp */; };
+		7EB13668169C288000B42023 /* radeon_atombios.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB13666169C288000B42023 /* radeon_atombios.h */; };
+		7EB1366C169C2CE800B42023 /* atom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB1366A169C2CE700B42023 /* atom.cpp */; };
+		7EB1366D169C2CE800B42023 /* atom.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB1366B169C2CE700B42023 /* atom.h */; };
 		7EB963A01594531100436FDB /* HWMonitorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB9639F1594531100436FDB /* HWMonitorView.m */; };
 		7EB963A71594559100436FDB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9F8320144FF24000EEEFEB /* Cocoa.framework */; };
 		7EB963AD1594559100436FDB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EB963AB1594559100436FDB /* InfoPlist.strings */; };
@@ -279,6 +286,9 @@
 		7E138D89169A90D3007BE068 /* evergreend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = evergreend.h; sourceTree = "<group>"; };
 		7E138D8B169A910B007BE068 /* r600d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = r600d.h; sourceTree = "<group>"; };
 		7E138D8D169A9112007BE068 /* rv770d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rv770d.h; sourceTree = "<group>"; };
+		7E17E16E169C422600E40FC7 /* radeon_definitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = radeon_definitions.h; sourceTree = "<group>"; };
+		7E17E16F169C532000E40FC7 /* si.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = si.cpp; sourceTree = "<group>"; };
+		7E17E170169C532100E40FC7 /* si.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = si.h; sourceTree = "<group>"; };
 		7E2A5803159240B30073AB74 /* removefakesmc */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = removefakesmc; path = Installer/removefakesmc; sourceTree = "<group>"; };
 		7E3684AA158368C900E32629 /* HWMonitorIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorIcon.h; sourceTree = "<group>"; };
 		7E3684AB158368C900E32629 /* HWMonitorIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorIcon.m; sourceTree = "<group>"; };
@@ -392,6 +402,11 @@
 		7EADE20C15E5602F00FD117C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EADE21115E5602F00FD117C /* GPUSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GPUSensors-Prefix.pch"; sourceTree = "<group>"; };
 		7EB00809168014BE00320B70 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.pch; sourceTree = "<group>"; };
+		7EB13663169C280F00B42023 /* atombios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atombios.h; sourceTree = "<group>"; };
+		7EB13665169C288000B42023 /* radeon_atombios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = radeon_atombios.cpp; sourceTree = "<group>"; };
+		7EB13666169C288000B42023 /* radeon_atombios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon_atombios.h; sourceTree = "<group>"; };
+		7EB1366A169C2CE700B42023 /* atom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atom.cpp; sourceTree = "<group>"; };
+		7EB1366B169C2CE700B42023 /* atom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atom.h; sourceTree = "<group>"; };
 		7EB692E715C99A2E0009B2E2 /* gpl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = gpl.txt; sourceTree = "<group>"; };
 		7EB7A7BD1596021A00971346 /* killuiserver */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = killuiserver; path = Installer/killuiserver; sourceTree = "<group>"; };
 		7EB9639E1594531100436FDB /* HWMonitorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorView.h; sourceTree = "<group>"; };
@@ -804,14 +819,22 @@
 			isa = PBXGroup;
 			children = (
 				7E138D83169A885F007BE068 /* radeon_chipinfo_gen.h */,
+				7E17E16E169C422600E40FC7 /* radeon_definitions.h */,
+				7EB1366B169C2CE700B42023 /* atom.h */,
+				7EB1366A169C2CE700B42023 /* atom.cpp */,
+				7EB13663169C280F00B42023 /* atombios.h */,
 				7E138D86169A8F8C007BE068 /* radeon_family.h */,
 				7E9F544E167C71D1006E907B /* radeon.h */,
+				7EB13666169C288000B42023 /* radeon_atombios.h */,
+				7EB13665169C288000B42023 /* radeon_atombios.cpp */,
 				7E138D8B169A910B007BE068 /* r600d.h */,
 				7E0EB896169A9D3C000DF2B1 /* r600.h */,
 				7E0EB895169A9D3C000DF2B1 /* r600.cpp */,
 				7E138D8D169A9112007BE068 /* rv770d.h */,
 				7E0EB89A169A9DBE000DF2B1 /* rv770.h */,
 				7E0EB899169A9DBE000DF2B1 /* rv770.cpp */,
+				7E17E170169C532100E40FC7 /* si.h */,
+				7E17E16F169C532000E40FC7 /* si.cpp */,
 				7E138D89169A90D3007BE068 /* evergreend.h */,
 				7E0EB893169A9C4D000DF2B1 /* evergreen.h */,
 				7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */,
@@ -1169,6 +1192,10 @@
 				7E138D8C169A910B007BE068 /* r600d.h in Headers */,
 				7E138D8E169A9112007BE068 /* rv770d.h in Headers */,
 				7E0EB894169A9C4D000DF2B1 /* evergreen.h in Headers */,
+				7EB13664169C280F00B42023 /* atombios.h in Headers */,
+				7EB13668169C288000B42023 /* radeon_atombios.h in Headers */,
+				7EB1366D169C2CE800B42023 /* atom.h in Headers */,
+				7E17E172169C532100E40FC7 /* si.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1674,6 +1701,9 @@
 				7E9F54C2167C71DF006E907B /* GmaSensors.cpp in Sources */,
 				7E5CFA2516988EBE00F0E9AD /* i2c_algo_bit.cpp in Sources */,
 				7E5CFA2716988EBE00F0E9AD /* i2c_base.cpp in Sources */,
+				7EB13667169C288000B42023 /* radeon_atombios.cpp in Sources */,
+				7EB1366C169C2CE800B42023 /* atom.cpp in Sources */,
+				7E17E171169C532100E40FC7 /* si.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,8 +11,10 @@
 #include "FakeSMCDefinitions.h"
 #include "radeon_chipinfo_gen.h"
 
+#include "radeon_atombios.h"
 #include "r600.h"
 #include "rv770.h"
+#include "si.h"
 #include "evergreen.h"
 
 #define super FakeSMCPlugin
@@ -65,12 +67,16 @@ bool RadeonMonitor::start(IOService * provider)
 		HWSensorsInfoLog("failed to map device memory");
 		return false;
 	}
+    
+    card.family = CHIP_FAMILY_UNKNOW;
+    card.int_thermal_type = THERMAL_TYPE_NONE;
+    card.card_index = getVacantGPUIndex();
 	
 	RADEONCardInfo *devices = RADEONCards;
     
 	while (devices->device_id != NULL) {
 		if ((devices->device_id & 0xffff) == (card.chip_id & 0xffff)) {
-			
+
    			card.family = devices->ChipFamily;
             
             card.info.device_id = devices->device_id;
@@ -85,49 +91,123 @@ bool RadeonMonitor::start(IOService * provider)
 		devices++;
 	}
     
-	switch (card.family) {
-        case CHIP_FAMILY_R600:    /* r600 */
-        case CHIP_FAMILY_RV610:
-        case CHIP_FAMILY_RV630:
-        case CHIP_FAMILY_RV670:
-        case CHIP_FAMILY_RV620:
-        case CHIP_FAMILY_RV635:
-        case CHIP_FAMILY_RS780:
-        case CHIP_FAMILY_RS880:
-            card.get_core_temp = rv6xx_get_temp;
-            break;
-            
-        case CHIP_FAMILY_RV770:   /* r700 */
-        case CHIP_FAMILY_RV730:
-        case CHIP_FAMILY_RV710:
-        case CHIP_FAMILY_RV740:
-            card.get_core_temp = rv770_get_temp;
-            break;
-            
-        case CHIP_FAMILY_CEDAR:   /* evergreen */
-        case CHIP_FAMILY_REDWOOD:
-        case CHIP_FAMILY_JUNIPER:
-        case CHIP_FAMILY_CYPRESS:
-        case CHIP_FAMILY_HEMLOCK:
-        case CHIP_FAMILY_PALM:
-        case CHIP_FAMILY_SUMO:
-        case CHIP_FAMILY_SUMO2:
-        case CHIP_FAMILY_BARTS:
-        case CHIP_FAMILY_TURKS:
-        case CHIP_FAMILY_CAICOS:
-        case CHIP_FAMILY_CAYMAN:
-        case CHIP_FAMILY_ARUBA:
-        case CHIP_FAMILY_TAHITI:
-        case CHIP_FAMILY_PITCAIRN:
-        case CHIP_FAMILY_VERDE:
-            card.get_core_temp = evergreen_get_temp;
-            break;
-            
-        default:
-            HWSensorsFatalLog("card 0x%04x is unsupported", card.chip_id & 0xffff);
-            return false;
+    if (card.family == CHIP_FAMILY_UNKNOW) {
+        HWSensorsFatalLog("unknown card 0x%04x", card.chip_id & 0xffff);
+        return false;
     }
-	    
+    
+    //try to load bios from ATY,bin_image property of GPU registry node
+    if (OSData *vbios = OSDynamicCast(OSData, provider->getProperty("ATY,bin_image"))) {
+        card.bios_size = vbios->getLength();
+        card.bios = (UInt8*)IOMalloc(vbios->getLength());
+        
+        memcpy(card.bios, vbios->getBytesNoCopy(), card.bios_size);
+        
+        if (card.bios[0] == 0x55 && card.bios[1] == 0xaa) {
+            radeon_device *rdev = &card;
+            UInt16 tmp = RBIOS16(0x18);
+            
+            if (RBIOS8(tmp + 0x14) == 0x0) {
+                if ((card.bios_header_start = RBIOS16(0x48))) {
+                    tmp = card.bios_header_start + 4;
+                    if (!memcmp(card.bios + tmp, "ATOM", 4) ||
+                        !memcmp(card.bios + tmp, "MOTA", 4)) {
+                        card.is_atom_bios = true;
+                    } else {
+                        card.is_atom_bios = false;
+                    }
+                    
+                    HWSensorsInfoLog("%sBIOS detected", card.is_atom_bios ? "ATOM" : "COM");
+                }
+                
+            }
+            else HWSensorsErrorLog("Not an x86 BIOS ROM, not using");
+        }
+        else HWSensorsErrorLog("BIOS signature incorrect %x %x", card.bios[0], card.bios[1]);
+    }
+    else HWSensorsErrorLog("unable to locate ATY,bin_image");
+    
+    if (!card.bios_header_start) {
+        // Free memory for bios image if it was allocated
+        if (card.bios && card.bios_size > 0) {
+            IOFree(card.bios, card.bios_size);
+            card.bios = 0;
+            card.bios_size = 0;
+        }
+        
+    }
+    else if (atom_parse(&card))
+        radeon_atombios_get_power_modes(&card);
+    
+    if (card.int_thermal_type != THERMAL_TYPE_NONE ) {
+        switch (card.int_thermal_type) {
+            case THERMAL_TYPE_RV6XX:
+                card.get_core_temp = rv6xx_get_temp;
+                break;
+            case THERMAL_TYPE_RV770:
+                card.get_core_temp = rv770_get_temp;
+                break;
+            case THERMAL_TYPE_EVERGREEN:
+            case THERMAL_TYPE_NI:
+                card.get_core_temp = evergreen_get_temp;
+                break;
+            case THERMAL_TYPE_SUMO:
+                card.get_core_temp = sumo_get_temp;
+                break;
+            case THERMAL_TYPE_SI:
+                card.get_core_temp = si_get_temp;
+                break;
+            default:
+                HWSensorsFatalLog("card 0x%04x is unsupported", card.chip_id & 0xffff);
+                return false;
+        }
+    }
+    else {
+        // Enable basic temperature monitoring
+        switch (card.family) {
+            case CHIP_FAMILY_R600:    /* r600 */
+            case CHIP_FAMILY_RV610:
+            case CHIP_FAMILY_RV630:
+            case CHIP_FAMILY_RV670:
+            case CHIP_FAMILY_RV620:
+            case CHIP_FAMILY_RV635:
+            case CHIP_FAMILY_RS780:
+            case CHIP_FAMILY_RS880:
+                card.get_core_temp = rv6xx_get_temp;
+                break;
+                
+            case CHIP_FAMILY_RV770:   /* r700 */
+            case CHIP_FAMILY_RV730:
+            case CHIP_FAMILY_RV710:
+            case CHIP_FAMILY_RV740:
+                card.get_core_temp = rv770_get_temp;
+                break;
+                
+            case CHIP_FAMILY_CEDAR:   /* evergreen */
+            case CHIP_FAMILY_REDWOOD:
+            case CHIP_FAMILY_JUNIPER:
+            case CHIP_FAMILY_CYPRESS:
+            case CHIP_FAMILY_HEMLOCK:
+            case CHIP_FAMILY_PALM:
+            case CHIP_FAMILY_SUMO:
+            case CHIP_FAMILY_SUMO2:
+            case CHIP_FAMILY_BARTS:
+            case CHIP_FAMILY_TURKS:
+            case CHIP_FAMILY_CAICOS:
+            case CHIP_FAMILY_CAYMAN:
+            case CHIP_FAMILY_ARUBA:
+            case CHIP_FAMILY_TAHITI:
+            case CHIP_FAMILY_PITCAIRN:
+            case CHIP_FAMILY_VERDE:
+                card.get_core_temp = evergreen_get_temp;
+                break;
+                
+            default:
+                HWSensorsFatalLog("card 0x%04x is unsupported", card.chip_id & 0xffff);
+                return false;
+        }
+    }
+    
     char key[5];
     
     //Take up card number
@@ -147,4 +227,17 @@ bool RadeonMonitor::start(IOService * provider)
     registerService();
     
     return true;
+}
+
+void RadeonMonitor::free(void)
+{
+    if (card.mmio)
+        OSSafeRelease(card.mmio);
+    
+    if (card.bios && card.bios_size > 0) {
+        IOFree(card.bios, card.bios_size);
+        card.bios = 0;
+    }
+    
+    super::free();
 }
