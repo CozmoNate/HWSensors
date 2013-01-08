@@ -212,28 +212,54 @@ static u32 read_clk(struct nouveau_device *device, int clk)
 
 int nvc0_clocks_get(struct nouveau_device *device, u8 source)
 {
-    switch (source) {
-        case nouveau_clock_core:
-            return read_clk(device, 0x00) / 2;
-        case nouveau_clock_shader:
-            return read_clk(device, 0x00);
-        case nouveau_clock_memory:
-            return read_mem(device);
-        case nouveau_clock_rop:
-            return read_clk(device, 0x01);
-        case nouveau_clock_hub01:
-            return read_clk(device, 0x08);
-        case nouveau_clock_hub06:
-            return read_clk(device, 0x07);
-        case nouveau_clock_hub07:
-            return read_clk(device, 0x02);
-        case nouveau_clock_vdec:
-            return read_clk(device, 0x0e);
-        case nouveau_clock_daemon:
-            return read_clk(device, 0x0c);
-        case nouveau_clock_copy:
-            return read_clk(device, 0x09);
-        default:
-            return 0;
+    if (device->card_type == NV_E0) {
+        switch (source) {
+            case nouveau_clock_core:
+                return read_clk(device, 0x00) / 2;
+//            case nouveau_clock_shader:
+//                return read_clk(device, 0x00);
+            case nouveau_clock_memory:
+                return read_mem(device);
+//            case nouveau_clock_rop:
+//                return read_clk(device, 0x01);
+//            case nouveau_clock_hub01:
+//                return read_clk(device, 0x08);
+//            case nouveau_clock_hub06:
+//                return read_clk(device, 0x07);
+//            case nouveau_clock_hub07:
+//                return read_clk(device, 0x02);
+//            case nouveau_clock_vdec:
+//                return read_clk(device, 0x0e);
+//            case nouveau_clock_daemon:
+//                return read_clk(device, 0x0c);
+//            case nouveau_clock_copy:
+//                return read_clk(device, 0x09);
+        }
     }
+    else {
+        switch (source) {
+            case nouveau_clock_core:
+                return read_clk(device, 0x00) / 2;
+            case nouveau_clock_shader:
+                return read_clk(device, 0x00);
+            case nouveau_clock_memory:
+                return read_mem(device);
+            case nouveau_clock_rop:
+                return read_clk(device, 0x01);
+            case nouveau_clock_hub01:
+                return read_clk(device, 0x08);
+            case nouveau_clock_hub06:
+                return read_clk(device, 0x07);
+            case nouveau_clock_hub07:
+                return read_clk(device, 0x02);
+            case nouveau_clock_vdec:
+                return read_clk(device, 0x0e);
+            case nouveau_clock_daemon:
+                return read_clk(device, 0x0c);
+            case nouveau_clock_copy:
+                return read_clk(device, 0x09);
+        }
+    }
+    
+    return 0;
 }
