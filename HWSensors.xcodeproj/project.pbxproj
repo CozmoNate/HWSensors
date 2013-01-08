@@ -289,6 +289,7 @@
 		7E17E16E169C422600E40FC7 /* radeon_definitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = radeon_definitions.h; sourceTree = "<group>"; };
 		7E17E16F169C532000E40FC7 /* si.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = si.cpp; sourceTree = "<group>"; };
 		7E17E170169C532100E40FC7 /* si.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = si.h; sourceTree = "<group>"; };
+		7E24AF81169CBB9700040AF4 /* atom-names.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "atom-names.h"; sourceTree = "<group>"; };
 		7E2A5803159240B30073AB74 /* removefakesmc */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = removefakesmc; path = Installer/removefakesmc; sourceTree = "<group>"; };
 		7E3684AA158368C900E32629 /* HWMonitorIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorIcon.h; sourceTree = "<group>"; };
 		7E3684AB158368C900E32629 /* HWMonitorIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorIcon.m; sourceTree = "<group>"; };
@@ -820,6 +821,7 @@
 			children = (
 				7E138D83169A885F007BE068 /* radeon_chipinfo_gen.h */,
 				7E17E16E169C422600E40FC7 /* radeon_definitions.h */,
+				7E24AF81169CBB9700040AF4 /* atom-names.h */,
 				7EB1366B169C2CE700B42023 /* atom.h */,
 				7EB1366A169C2CE700B42023 /* atom.cpp */,
 				7EB13663169C280F00B42023 /* atombios.h */,

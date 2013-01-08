@@ -121,7 +121,7 @@
 struct atom_context {
 //	struct card_info *card;
 //	struct mutex mutex;
-	uint8_t *bios;
+	uint8_t  *bios;
 	uint32_t cmd_table, data_table;
 	uint16_t *iio;
     

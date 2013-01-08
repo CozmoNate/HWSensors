@@ -30,10 +30,11 @@
  * Author: Stanislaw Skowronek
  */
 
-#include "atom.h"
 #include "linux_definitions.h"
 #include "radeon_definitions.h"
 #include "radeon.h"
+#include "atom.h"
+#include "atom-names.h"
 
 static inline uint8_t get_u8(void *bios, int ptr)
 {

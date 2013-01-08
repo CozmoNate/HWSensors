@@ -9,8 +9,9 @@
 
 #include "RadeonSensors.h"
 #include "FakeSMCDefinitions.h"
-#include "radeon_chipinfo_gen.h"
 
+#include "radeon_chipinfo_gen.h"
+#include "radeon_definitions.h"
 #include "radeon_atombios.h"
 #include "r600.h"
 #include "rv770.h"
@@ -84,7 +85,7 @@ bool RadeonMonitor::start(IOService * provider)
 			card.info.igp = devices->igp;
 			card.info.is_mobility = devices->is_mobility;
             
-			HWSensorsInfoLog("found ATI Radeon 0x%04x", card.chip_id & 0xffff);
+			radeon_info(&card, "found ATI Radeon 0x%04x\n", card.chip_id & 0xffff);
             
 			break;
 		}
@@ -92,7 +93,7 @@ bool RadeonMonitor::start(IOService * provider)
 	}
     
     if (card.family == CHIP_FAMILY_UNKNOW) {
-        HWSensorsFatalLog("unknown card 0x%04x", card.chip_id & 0xffff);
+        radeon_fatal(&card, "unknown card 0x%04x\n", card.chip_id & 0xffff);
         return false;
     }
     
@@ -117,15 +118,15 @@ bool RadeonMonitor::start(IOService * provider)
                         card.is_atom_bios = false;
                     }
                     
-                    HWSensorsInfoLog("%sBIOS detected", card.is_atom_bios ? "ATOM" : "COM");
+                    radeon_info(&card, "%sBIOS detected\n", card.is_atom_bios ? "ATOM" : "COM");
                 }
                 
             }
-            else HWSensorsErrorLog("Not an x86 BIOS ROM, not using");
+            else radeon_error(&card, "not an x86 BIOS ROM, not using\n");
         }
-        else HWSensorsErrorLog("BIOS signature incorrect %x %x", card.bios[0], card.bios[1]);
+        else radeon_error(&card, "BIOS signature incorrect %x %x\n", card.bios[0], card.bios[1]);
     }
-    else HWSensorsErrorLog("unable to locate ATY,bin_image");
+    else radeon_error(&card, "unable to locate ATY,bin_image\n");
     
     if (!card.bios_header_start) {
         // Free memory for bios image if it was allocated
@@ -158,7 +159,7 @@ bool RadeonMonitor::start(IOService * provider)
                 card.get_core_temp = si_get_temp;
                 break;
             default:
-                HWSensorsFatalLog("card 0x%04x is unsupported", card.chip_id & 0xffff);
+                radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);
                 return false;
         }
     }
@@ -203,7 +204,7 @@ bool RadeonMonitor::start(IOService * provider)
                 break;
                 
             default:
-                HWSensorsFatalLog("card 0x%04x is unsupported", card.chip_id & 0xffff);
+                radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);
                 return false;
         }
     }
@@ -214,14 +215,14 @@ bool RadeonMonitor::start(IOService * provider)
     card.card_index = takeVacantGPUIndex();
     
     if (card.card_index < 0) {
-        HWSensorsFatalLog("failed to obtain vacant GPU index");
+        radeon_fatal(&card, "failed to obtain vacant GPU index\n");
         return false;
     }
     
     if (card.get_core_temp) {
         snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
         if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0))
-            HWSensorsErrorLog("failed to register temperature sensor for key %s", key);
+            radeon_error(&card, "failed to register temperature sensor for key %s\n", key);
     }
     
     registerService();
