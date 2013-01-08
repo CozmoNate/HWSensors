@@ -22,7 +22,7 @@ union power_info {
 
 static void radeon_atombios_add_pplib_thermal_controller(struct radeon_device *rdev, ATOM_PPLIB_THERMALCONTROLLER *controller)
 {
-    radeon_debug(rdev, "entering radeon_atombios_add_pplib_thermal_controller...");
+    radeon_debug(rdev, "entering radeon_atombios_add_pplib_thermal_controller...\n");
     
 	if (controller->ucType > 0) {
 		if (controller->ucType == ATOM_PP_THERMALCONTROLLER_RV6xx) {
@@ -50,7 +50,7 @@ static int radeon_atombios_parse_power_table_4_5(struct radeon_device *rdev)
     u16 data_offset;
 	u8 frev, crev;
     
-    radeon_debug(rdev, "entering radeon_atombios_parse_power_table_4_5...");
+    radeon_debug(rdev, "entering radeon_atombios_parse_power_table_4_5...\n");
     
 	if (!atom_parse_data_header(&rdev->atom_context, index, NULL, &frev, &crev, &data_offset))
 		return state_index;
@@ -70,7 +70,7 @@ static int radeon_atombios_parse_power_table_6(struct radeon_device *rdev)
     u16 data_offset;
 	u8 frev, crev;
     
-    radeon_debug(rdev, "entering radeon_atombios_parse_power_table_6...");
+    radeon_debug(rdev, "entering radeon_atombios_parse_power_table_6...\n");
     
 	if (!atom_parse_data_header(&rdev->atom_context, index, NULL, &frev, &crev, &data_offset))
 		return state_index;
@@ -89,7 +89,7 @@ void radeon_atombios_get_power_modes(struct radeon_device *rdev)
 	u8 frev, crev;
 	int state_index = 0;
     
-    radeon_debug(rdev, "entering radeon_atombios_get_power_modes...");
+    radeon_debug(rdev, "entering radeon_atombios_get_power_modes...\n");
     
 	if (atom_parse_data_header(&rdev->atom_context, index, NULL, &frev, &crev, &data_offset)) {
 		switch (frev) {

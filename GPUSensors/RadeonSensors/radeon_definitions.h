@@ -9,7 +9,7 @@
 #ifndef HWSensors_radeon_definitions_h
 #define HWSensors_radeon_definitions_h
 
-#define RADEON_DEBUG_ENABLED 1
+#define RADEON_DEBUG_ENABLED 0
 #define RADEON_TRACE_ENABLED 0
 #define RADEON_SPAM_ENABLED 0
 

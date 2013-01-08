@@ -15,5 +15,6 @@ bool nvc0_identify(struct nouveau_device *device);
 void nvc0_init(struct nouveau_device *device);
 
 int nvc0_clocks_get(struct nouveau_device *device, u8 source);
+int nve0_clocks_get(struct nouveau_device *device, u8 source);
 
 #endif
