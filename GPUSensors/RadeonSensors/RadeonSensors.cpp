@@ -151,14 +151,14 @@ bool RadeonMonitor::start(IOService * provider)
             !strncasecmp("RS780", card.bios_name, 64) ||
             !strncasecmp("RS880", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_RV6XX;
-            radeon_info(&card, "using rv6xx type temperature sensor\n");
+            radeon_info(&card, "estimated temperature sensor type is rv6xx\n");
         }
         else if (!strncasecmp("RV770", card.bios_name, 64) ||
                  !strncasecmp("RV730", card.bios_name, 64) ||
                  !strncasecmp("RV710", card.bios_name, 64) ||
                  !strncasecmp("RV740", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_RV770;
-            radeon_info(&card, "using rv770 type temperature sensor\n");
+            radeon_info(&card, "estimated temperature sensor type is rv770\n");
         }
         else if (!strncasecmp("CEDAR", card.bios_name, 64) ||
                  !strncasecmp("REDWOOD", card.bios_name, 64) ||
@@ -167,12 +167,12 @@ bool RadeonMonitor::start(IOService * provider)
                  !strncasecmp("PALM", card.bios_name, 64) ||
                  !strncasecmp("Wrestler", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_EVERGREEN;
-            radeon_info(&card, "using EVERGREEN type temperature sensor\n");
+            radeon_info(&card, "estimated temperature sensor type is EVERGREEN\n");
         }
         else if (!strncasecmp("SUMO", card.bios_name, 64) ||
                  !strncasecmp("SUMO2", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_SUMO;
-            radeon_info(&card, "using SUMO type temperature sensor\n");
+            radeon_info(&card, "estimated temperature sensor type is SUMO\n");
         }
         else if (!strncasecmp("ARUBA", card.bios_name, 64) ||
                  !strncasecmp("BARTS", card.bios_name, 64) ||
@@ -180,13 +180,13 @@ bool RadeonMonitor::start(IOService * provider)
                  !strncasecmp("CAICOS", card.bios_name, 64) ||
                  !strncasecmp("CAYMAN", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_NI;
-            radeon_info(&card, "using NI type temperature sensor\n");
+            radeon_info(&card, "estimated temperature sensor type is NI\n");
         }
         else if (!strncasecmp("CAPE VERDE", card.bios_name, 64) ||
                  !strncasecmp("PITCAIRN", card.bios_name, 64) ||
                  !strncasecmp("TAHITI", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_SI;
-            radeon_info(&card, "using SI type temperature sensor\n");
+            radeon_info(&card, "estimated temperature sensor type is SI\n");
         }
     }
     
@@ -205,7 +205,7 @@ bool RadeonMonitor::start(IOService * provider)
             case CHIP_FAMILY_RS780:
             case CHIP_FAMILY_RS880:
                 card.int_thermal_type = THERMAL_TYPE_RV6XX;
-                radeon_info(&card, "using rv6xx type temperature sensor\n");
+                radeon_info(&card, "estimated temperature sensor type is rv6xx\n");
                 break;
                 
             case CHIP_FAMILY_RV770:   /* r700 */
@@ -213,7 +213,7 @@ bool RadeonMonitor::start(IOService * provider)
             case CHIP_FAMILY_RV710:
             case CHIP_FAMILY_RV740:
                 card.int_thermal_type = THERMAL_TYPE_RV770;
-                radeon_info(&card, "using rv770 type temperature sensor\n");
+                radeon_info(&card, "estimated temperature sensor type is rv770\n");
                 break;
                 
             case CHIP_FAMILY_CEDAR:   /* evergreen */
@@ -223,7 +223,7 @@ bool RadeonMonitor::start(IOService * provider)
             case CHIP_FAMILY_HEMLOCK:
             case CHIP_FAMILY_PALM:
                 card.int_thermal_type = THERMAL_TYPE_EVERGREEN;
-                radeon_info(&card, "using EVERGREEN type temperature sensor\n");
+                radeon_info(&card, "estimated temperature sensor type is EVERGREEN\n");
                 break;
                 
             case CHIP_FAMILY_BARTS:
@@ -232,20 +232,20 @@ bool RadeonMonitor::start(IOService * provider)
             case CHIP_FAMILY_CAYMAN:
             case CHIP_FAMILY_ARUBA:
                 card.int_thermal_type = THERMAL_TYPE_NI;
-                radeon_info(&card, "using NI type temperature sensor\n");
+                radeon_info(&card, "estimated temperature sensor type is NI\n");
                 break;
                 
             case CHIP_FAMILY_SUMO:
             case CHIP_FAMILY_SUMO2:
                 card.int_thermal_type = THERMAL_TYPE_SUMO;
-                radeon_info(&card, "using SUMO type temperature sensor\n");
+                radeon_info(&card, "estimated temperature sensor type is SUMO\n");
                 break;
                 
             case CHIP_FAMILY_TAHITI:
             case CHIP_FAMILY_PITCAIRN:
             case CHIP_FAMILY_VERDE:
                 card.int_thermal_type = THERMAL_TYPE_SI;
-                radeon_info(&card, "using SI type temperature sensor\n");
+                radeon_info(&card, "estimated temperature sensor type is SI\n");
                 break;
                 
                 //             default:
