@@ -819,8 +819,8 @@
 		7E138D88169A909F007BE068 /* radeon */ = {
 			isa = PBXGroup;
 			children = (
-				7E138D83169A885F007BE068 /* radeon_chipinfo_gen.h */,
 				7E17E16E169C422600E40FC7 /* radeon_definitions.h */,
+				7E138D83169A885F007BE068 /* radeon_chipinfo_gen.h */,
 				7E24AF81169CBB9700040AF4 /* atom-names.h */,
 				7EB1366B169C2CE700B42023 /* atom.h */,
 				7EB1366A169C2CE700B42023 /* atom.cpp */,

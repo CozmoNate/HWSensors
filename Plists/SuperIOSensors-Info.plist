@@ -1670,6 +1670,8 @@
 					</dict>
 					<key>P35-DS3L</key>
 					<string>P35-DS3</string>
+					<key>P55-UD3L</key>
+					<string>P55-UD4</string>
 					<key>P55-UD4</key>
 					<dict>
 						<key>FANIN0</key>
@@ -2000,6 +2002,8 @@
 						<string>CMOS Battery</string>
 					</dict>
 					<key>Z68A-D3H-B3</key>
+					<string>Z68X-UD7-B3</string>
+					<key>Z68AP-D3</key>
 					<string>Z68X-UD7-B3</string>
 					<key>Z68X-UD3H-B3</key>
 					<dict>

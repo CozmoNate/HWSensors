@@ -447,16 +447,18 @@ void FakeSMCPlugin::free()
 IOReturn FakeSMCPlugin::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
 {
     if (functionName->isEqualTo(kFakeSMCGetValueCallback)) {
-		const char *name = (const char*)param1;
-		void *data = param2;
-		UInt8 size = (UInt64)param3;
-		
-		if (name && data)
-			if (FakeSMCSensor *sensor = getSensor(name))
-                if (size == sensor->getSize()) {
-                    sensor->encodeValue(getSensorValue(sensor), data);
-                    return kIOReturnSuccess;
-                }
+        if (param1 && param2 && param3) {
+            const char *name = (const char*)param1;
+            void *data = param2;
+            UInt8 size = (UInt64)param3;
+            
+            if (name && data)
+                if (FakeSMCSensor *sensor = getSensor(name))
+                    if (size == sensor->getSize()) {
+                        sensor->encodeValue(getSensorValue(sensor), data);
+                        return kIOReturnSuccess;
+                    }
+        }
 		
 		return kIOReturnBadArgument;
 	}
