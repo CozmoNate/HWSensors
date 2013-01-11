@@ -63,6 +63,7 @@ struct radeon_device {
     
     /* BIOS */
 	UInt8				*bios;
+    char                bios_name[64];
 	bool				is_atom_bios;
 	UInt16              bios_header_start;
     UInt32              bios_size;

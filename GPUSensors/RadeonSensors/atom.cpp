@@ -75,7 +75,7 @@ bool atom_parse(struct radeon_device *rdev)
 	int base;
 	struct atom_context *ctx = &rdev->atom_context;
 	char *str;
-	char name[512];
+	//char name[512];
 	int i;
     
 	if (!ctx)
@@ -110,14 +110,14 @@ bool atom_parse(struct radeon_device *rdev)
 	while (*str && ((*str == '\n') || (*str == '\r')))
 		str++;
 	/* name string isn't always 0 terminated */
-	for (i = 0; i < 511; i++) {
-		name[i] = str[i];
-		if (name[i] < '.' || name[i] > 'z') {
-			name[i] = 0;
+	for (i = 0; i < 63; i++) {
+		rdev->bios_name[i] = str[i];
+		if (rdev->bios_name[i] < '.' || rdev->bios_name[i] > 'z') {
+			rdev->bios_name[i] = 0;
 			break;
 		}
 	}
-	radeon_info(rdev, "ATOM BIOS: %s\n", name);
+	radeon_info(rdev, "ATOM BIOS: %s\n", rdev->bios_name);
     
 	return true;
 }

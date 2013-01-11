@@ -820,7 +820,6 @@
 			isa = PBXGroup;
 			children = (
 				7E17E16E169C422600E40FC7 /* radeon_definitions.h */,
-				7E138D83169A885F007BE068 /* radeon_chipinfo_gen.h */,
 				7E24AF81169CBB9700040AF4 /* atom-names.h */,
 				7EB1366B169C2CE700B42023 /* atom.h */,
 				7EB1366A169C2CE700B42023 /* atom.cpp */,
@@ -842,6 +841,14 @@
 				7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */,
 			);
 			name = radeon;
+			sourceTree = "<group>";
+		};
+		7E2512E816A04A0F001445EE /* linux driver configuration */ = {
+			isa = PBXGroup;
+			children = (
+				7E138D83169A885F007BE068 /* radeon_chipinfo_gen.h */,
+			);
+			name = "linux driver configuration";
 			sourceTree = "<group>";
 		};
 		7E3684A8158368AC00E32629 /* HWMonitorIcon */ = {
@@ -965,6 +972,7 @@
 		7E9F544B167C71D1006E907B /* RadeonSensors */ = {
 			isa = PBXGroup;
 			children = (
+				7E2512E816A04A0F001445EE /* linux driver configuration */,
 				7E138D88169A909F007BE068 /* radeon */,
 				7E9F5450167C71D1006E907B /* RadeonSensors.h */,
 				7E9F544F167C71D1006E907B /* RadeonSensors.cpp */,

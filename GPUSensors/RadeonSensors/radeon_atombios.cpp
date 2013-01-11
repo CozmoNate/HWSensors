@@ -46,7 +46,7 @@ static void radeon_atombios_add_pplib_thermal_controller(struct radeon_device *r
 		}
         else radeon_warn(rdev, "unknown thermal sensor type 0x%04x\n", controller->ucType);
     }
-    else radeon_warn(rdev, "thermal sensor type not specified using default configuration\n");
+    //else radeon_warn(rdev, "thermal sensor type not specified using default configuration\n");
 }
 
 static int radeon_atombios_parse_power_table_4_5(struct radeon_device *rdev)
