@@ -142,49 +142,49 @@ bool RadeonMonitor::start(IOService * provider)
     
     // Use temperature sensor type based BIOS name
     if (card.int_thermal_type == THERMAL_TYPE_NONE && card.bios && card.bios_size) {
-        if (strncasecmp("R600", card.bios_name, 64) ||
-            strncasecmp("RV610", card.bios_name, 64) ||
-            strncasecmp("RV630", card.bios_name, 64) ||
-            strncasecmp("RV620", card.bios_name, 64) ||
-            strncasecmp("RV635", card.bios_name, 64) ||
-            strncasecmp("RV670", card.bios_name, 64) ||
-            strncasecmp("RS780", card.bios_name, 64) ||
-            strncasecmp("RS880", card.bios_name, 64)) {
+        if (!strncasecmp("R600", card.bios_name, 64) ||
+            !strncasecmp("RV610", card.bios_name, 64) ||
+            !strncasecmp("RV630", card.bios_name, 64) ||
+            !strncasecmp("RV620", card.bios_name, 64) ||
+            !strncasecmp("RV635", card.bios_name, 64) ||
+            !strncasecmp("RV670", card.bios_name, 64) ||
+            !strncasecmp("RS780", card.bios_name, 64) ||
+            !strncasecmp("RS880", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_RV6XX;
             radeon_info(&card, "using rv6xx type temperature sensor\n");
         }
-        else if (strncasecmp("RV770", card.bios_name, 64) ||
-                 strncasecmp("RV730", card.bios_name, 64) ||
-                 strncasecmp("RV710", card.bios_name, 64) ||
-                 strncasecmp("RV740", card.bios_name, 64)) {
+        else if (!strncasecmp("RV770", card.bios_name, 64) ||
+                 !strncasecmp("RV730", card.bios_name, 64) ||
+                 !strncasecmp("RV710", card.bios_name, 64) ||
+                 !strncasecmp("RV740", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_RV770;
             radeon_info(&card, "using rv770 type temperature sensor\n");
         }
-        else if (strncasecmp("CEDAR", card.bios_name, 64) ||
-                 strncasecmp("REDWOOD", card.bios_name, 64) ||
-                 strncasecmp("JUNIPER", card.bios_name, 64) ||
-                 strncasecmp("CYPRESS", card.bios_name, 64) ||
-                 strncasecmp("PALM", card.bios_name, 64) ||
-                 strncasecmp("Wrestler", card.bios_name, 64)) {
+        else if (!strncasecmp("CEDAR", card.bios_name, 64) ||
+                 !strncasecmp("REDWOOD", card.bios_name, 64) ||
+                 !strncasecmp("JUNIPER", card.bios_name, 64) ||
+                 !strncasecmp("CYPRESS", card.bios_name, 64) ||
+                 !strncasecmp("PALM", card.bios_name, 64) ||
+                 !strncasecmp("Wrestler", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_EVERGREEN;
             radeon_info(&card, "using EVERGREEN type temperature sensor\n");
         }
-        else if (strncasecmp("SUMO", card.bios_name, 64) ||
-                 strncasecmp("SUMO2", card.bios_name, 64)) {
+        else if (!strncasecmp("SUMO", card.bios_name, 64) ||
+                 !strncasecmp("SUMO2", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_SUMO;
             radeon_info(&card, "using SUMO type temperature sensor\n");
         }
-        else if (strncasecmp("ARUBA", card.bios_name, 64) ||
-                 strncasecmp("BARTS", card.bios_name, 64) ||
-                 strncasecmp("TURKS", card.bios_name, 64) ||
-                 strncasecmp("CAICOS", card.bios_name, 64) ||
-                 strncasecmp("CAYMAN", card.bios_name, 64)) {
+        else if (!strncasecmp("ARUBA", card.bios_name, 64) ||
+                 !strncasecmp("BARTS", card.bios_name, 64) ||
+                 !strncasecmp("TURKS", card.bios_name, 64) ||
+                 !strncasecmp("CAICOS", card.bios_name, 64) ||
+                 !strncasecmp("CAYMAN", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_NI;
             radeon_info(&card, "using NI type temperature sensor\n");
         }
-        else if (strncasecmp("CAPE VERDE", card.bios_name, 64) ||
-                 strncasecmp("PITCAIRN", card.bios_name, 64) ||
-                 strncasecmp("TAHITI", card.bios_name, 64)) {
+        else if (!strncasecmp("CAPE VERDE", card.bios_name, 64) ||
+                 !strncasecmp("PITCAIRN", card.bios_name, 64) ||
+                 !strncasecmp("TAHITI", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_SI;
             radeon_info(&card, "using SI type temperature sensor\n");
         }
