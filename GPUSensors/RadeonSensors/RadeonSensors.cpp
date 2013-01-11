@@ -175,7 +175,7 @@ bool RadeonMonitor::start(IOService * provider)
             case CHIP_FAMILY_RS780:
             case CHIP_FAMILY_RS880:
                 card.get_core_temp = rv6xx_get_temp;
-                radeon_info(&card, "using rv6xx type temperautre sensor\n");
+                radeon_info(&card, "using rv6xx type temperature sensor\n");
                 break;
                 
             case CHIP_FAMILY_RV770:   /* r700 */
@@ -183,7 +183,7 @@ bool RadeonMonitor::start(IOService * provider)
             case CHIP_FAMILY_RV710:
             case CHIP_FAMILY_RV740:
                 card.get_core_temp = rv770_get_temp;
-                radeon_info(&card, "using rv770 type temperautre sensor\n");
+                radeon_info(&card, "using rv770 type temperature sensor\n");
                 break;
                 
             case CHIP_FAMILY_CEDAR:   /* evergreen */
@@ -198,20 +198,20 @@ bool RadeonMonitor::start(IOService * provider)
             case CHIP_FAMILY_CAYMAN:
             case CHIP_FAMILY_ARUBA:
                 card.get_core_temp = evergreen_get_temp;
-                radeon_info(&card, "using evergreen type temperautre sensor\n");
+                radeon_info(&card, "using evergreen type temperature sensor\n");
                 break;
                 
             case CHIP_FAMILY_SUMO:
             case CHIP_FAMILY_SUMO2:
                 card.get_core_temp = sumo_get_temp;
-                radeon_info(&card, "using sumo type temperautre sensor\n");
+                radeon_info(&card, "using sumo type temperature sensor\n");
                 break;
                 
             case CHIP_FAMILY_TAHITI:
             case CHIP_FAMILY_PITCAIRN:
             case CHIP_FAMILY_VERDE:
                 card.get_core_temp = si_get_temp;
-                radeon_info(&card, "using si (Southern Islands) type temperautre sensor\n");
+                radeon_info(&card, "using si (Southern Islands) type temperature sensor\n");
                 break;
                 
             default:
