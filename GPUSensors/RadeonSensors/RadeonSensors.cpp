@@ -140,7 +140,7 @@ bool RadeonMonitor::start(IOService * provider)
         radeon_atombios_get_power_modes(&card);
     }
     
-    // Use temperature sensor type based BIOS name
+    // Use temperature sensor type based on BIOS name
     if (card.int_thermal_type == THERMAL_TYPE_NONE && card.bios && card.bios_size) {
         if (!strncasecmp("R600", card.bios_name, 64) ||
             !strncasecmp("RV610", card.bios_name, 64) ||
@@ -186,7 +186,7 @@ bool RadeonMonitor::start(IOService * provider)
     
     // Use driver's configuration to resolve temperature sensor type
     if (card.int_thermal_type == THERMAL_TYPE_NONE) {
-        radeon_warn(&card, "using device-id configuration to resolve temperature sensor type\n");
+        radeon_warn(&card, "using device-id list to resolve temperature sensor type\n");
         
         // Enable temperature monitoring
         switch (card.family) {
@@ -247,24 +247,24 @@ bool RadeonMonitor::start(IOService * provider)
         switch (card.int_thermal_type) {
             case THERMAL_TYPE_RV6XX:
                 card.get_core_temp = rv6xx_get_temp;
-                radeon_info(&card, "adding rv6xx temperature sensor\n");
+                radeon_info(&card, "adding rv6xx thermal sensor\n");
                 break;
             case THERMAL_TYPE_RV770:
                 card.get_core_temp = rv770_get_temp;
-                radeon_info(&card, "adding rv770 temperature sensor\n");
+                radeon_info(&card, "adding rv770 thermal sensor\n");
                 break;
             case THERMAL_TYPE_EVERGREEN:
             case THERMAL_TYPE_NI:
                 card.get_core_temp = evergreen_get_temp;
-                radeon_info(&card, "adding EverGreen temperature sensor\n");
+                radeon_info(&card, "adding EverGreen thermal sensor\n");
                 break;
             case THERMAL_TYPE_SUMO:
                 card.get_core_temp = sumo_get_temp;
-                radeon_info(&card, "adding Sumo temperature sensor\n");
+                radeon_info(&card, "adding Sumo thermal sensor\n");
                 break;
             case THERMAL_TYPE_SI:
                 card.get_core_temp = si_get_temp;
-                radeon_info(&card, "adding Southern Islands temperature sensor\n");
+                radeon_info(&card, "adding Southern Islands thermal sensor\n");
                 break;
             default:
                 radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);
