@@ -4,6 +4,7 @@
  *
  *  Created by Sergey on 20.12.10.
  *  Copyright 2010 Slice. All rights reserved.
+ *  Copyright 2013 kozlek. All rights reserved.
  *
  */
 
@@ -71,6 +72,7 @@ bool RadeonMonitor::start(IOService * provider)
     
     card.family = CHIP_FAMILY_UNKNOW;
     card.int_thermal_type = THERMAL_TYPE_NONE;
+    
     card.card_index = getVacantGPUIndex();
 	
 	RADEONCardInfo *devices = RADEONCards;

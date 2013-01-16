@@ -4,6 +4,7 @@
  *
  *  Created by Sergey on 20.12.10.
  *  Copyright 2010 Slice. All rights reserved.
+ *  Copyright 2013 kozlek. All rights reserved.
  *
  */
 
