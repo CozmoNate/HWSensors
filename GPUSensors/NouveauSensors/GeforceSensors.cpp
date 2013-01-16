@@ -201,10 +201,10 @@ bool GeforceSensors::start(IOService * provider)
             addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_core);
         }
         
-        if (card.clocks_get(&card, nouveau_clock_shader) > 0) {
-            snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY, card.card_index);
-            addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_shader);
-        }
+//        if (card.clocks_get(&card, nouveau_clock_shader) > 0) {
+//            snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY, card.card_index);
+//            addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_shader);
+//        }
         
         if (card.clocks_get(&card, nouveau_clock_rop) > 0) {
             snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY, card.card_index);

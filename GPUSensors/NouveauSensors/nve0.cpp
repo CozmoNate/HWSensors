@@ -67,7 +67,7 @@ void nve0_init(struct nouveau_device *device)
     device->gpio_get = nouveau_gpio_get;
     
     device->temp_get = nv50_temp_get;
-//    device->clocks_get = nve0_clocks_get;
+    device->clocks_get = nve0_clocks_get;
 //    device->voltage_get = nouveau_voltage_get;
     device->pwm_get = nvd0_fan_pwm_get;
     device->fan_pwm_get = nouveau_therm_fan_pwm_get;

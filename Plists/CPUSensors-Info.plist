@@ -30,11 +30,11 @@
 			<string>FakeSMCPlugin</string>
 			<key>IOPropertyMatch</key>
 			<dict>
-				<key>IOCPUNumber</key>
+				<key>processor-id</key>
 				<integer>0</integer>
 			</dict>
 			<key>IOProviderClass</key>
-			<string>AppleACPICPU</string>
+			<string>IOACPIPlatformDevice</string>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
 			<key>PlatformString</key>

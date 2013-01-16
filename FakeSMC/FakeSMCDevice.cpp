@@ -492,6 +492,8 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
                         info->setObject(OSData::withBytes(key->getValue(), key->getSize()));
                         
                         exposedValues->setObject(key->getKey(), info);
+                        
+                        IOSleep(10);
                     }
                 
                 OSDictionary *values = OSDictionary::withDictionary(exposedValues);

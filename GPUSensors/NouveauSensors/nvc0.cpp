@@ -245,8 +245,8 @@ int nve0_clocks_get(struct nouveau_device *device, u8 source)
             return read_clk(device, 0x00) / 2;
 //        case nouveau_clock_shader:
 //            return read_clk(device, 0x00);
-//        case nouveau_clock_memory:
-//            return read_mem(device);
+        case nouveau_clock_memory:
+            return read_mem(device);
 //        case nouveau_clock_rop:
 //            return read_clk(device, 0x01);
 //        case nouveau_clock_hub01:
