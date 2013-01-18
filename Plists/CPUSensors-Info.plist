@@ -28,15 +28,10 @@
 			<string>CPUSensors</string>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
-			<key>IOPropertyMatch</key>
-			<dict>
-				<key>processor-id</key>
-				<integer>0</integer>
-			</dict>
+			<key>IONameMatch</key>
+			<string>processor</string>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
-			<key>IOResourceMatch</key>
-			<string>ACPI</string>
 			<key>PlatformString</key>
 			<string></string>
 			<key>TjmaxForced</key>
