@@ -180,10 +180,26 @@
             
         case kSMARTSensorGroupRemainingLife:
             value = [disk getRemainingLife];
+            
+            UInt64 life = 0;
+            
+            [value getBytes:&life length:[value length]];
+            
+            if (life > 100)
+                return nil;
+            
             break;
             
         case kSMARTSensorGroupRemainingBlocks:
             value = [disk getRemainingBlocks];
+            
+            UInt64 blocks = 0;
+            
+            [value getBytes:&blocks length:[value length]];
+            
+            if (blocks == 0xffffffffffff)
+                return nil;
+            
             break;
     }
     
