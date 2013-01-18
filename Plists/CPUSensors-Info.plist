@@ -30,6 +30,11 @@
 			<string>FakeSMCPlugin</string>
 			<key>IONameMatch</key>
 			<string>processor</string>
+			<key>IOPropertyMatch</key>
+			<dict>
+				<key>processor-index</key>
+				<integer>0</integer>
+			</dict>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
 			<key>PlatformString</key>
