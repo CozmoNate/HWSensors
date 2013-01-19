@@ -169,6 +169,9 @@
     return NSMakePoint(px, py);
 }
 
+#define GraphXScale 2.0
+#define GraphYScale 1.0
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     [self calculateGraphBoundsLoopExtremes:NO];
@@ -234,6 +237,7 @@
     [context setShouldAntialias:YES];
     
     //[path setFlatness:0.3];
+    [path setLineWidth:0.5];
         
     for (NSDictionary *item in [_content arrangedObjects]) {
         NSNumber *enabled = [item objectForKey:kHWMonitorKeyEnabled];
@@ -242,7 +246,7 @@
             NSString *key = [item objectForKey:kHWMonitorKeyKey];
             NSArray *points = [_graphs objectForKey:key];
                         
-            if (points && [points count] >= 2) {
+            if (points && [points count] >= 4) {
                 NSColor *color = nil;
                 
                 if ([[_content selectedObjects] containsObject:item]) {
@@ -260,18 +264,20 @@
                 [color set];
                 
                 NSUInteger pointsCount = [points count];// > kHWMonitorGraphsHistoryPoints ? kHWMonitorGraphsHistoryPoints : [points count];
-                                
-                [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.size.width - pointsCount + 4, [[points objectAtIndex:0] doubleValue])]];
-                                
-                for (NSUInteger index = 2; index + 1 < pointsCount; index++) {
+                CGFloat startOffset = _graphBounds.size.width - pointsCount * GraphXScale + 2 * GraphXScale;
+                
+                NSPoint q1 = [self splinePointWithPoints:points index:2 time:0.0];
+                [path moveToPoint:[self graphPointToView:NSMakePoint(startOffset + q1.x * GraphXScale, q1.y * GraphYScale)]];
+                
+                for (NSUInteger index = 2; index + 1 < pointsCount; index += 1) {
+
+                    for (CGFloat time = 0; time < 1.0; time += 1.0 / 6.0) {
+                        NSPoint p1 = [self splinePointWithPoints:points index:index time:time];
+                        [path lineToPoint:[self graphPointToView:NSMakePoint(startOffset + p1.x * GraphXScale, p1.y * GraphYScale)]];
+                    }
                     
-                    NSPoint p1 = [self splinePointWithPoints:points index:index time:1.0 / 3.0];
-                    NSPoint p2 = [self splinePointWithPoints:points index:index time:1.0 / 3.0 * 2];
                     NSPoint q2 = [self splinePointWithPoints:points index:index time:1.0];
-                    
-                    [path curveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.size.width - pointsCount + 4 + q2.x, q2.y)]
-                         controlPoint1:[self graphPointToView:NSMakePoint(_graphBounds.size.width - pointsCount + 4 + p1.x, p1.y)]
-                         controlPoint2:[self graphPointToView:NSMakePoint(_graphBounds.size.width - pointsCount + 4 + p2.x, p2.y)]];
+                    [path lineToPoint:[self graphPointToView:NSMakePoint(startOffset + q2.x * GraphXScale, q2.y * GraphYScale)]];
                 }
                 
                 [path stroke];
