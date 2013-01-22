@@ -25,6 +25,7 @@
 #import "HWMonitorGraphsView.h"
 #import "HWMonitorSensor.h"
 #import "HWMonitorDefinitions.h"
+#import "HWMonitorBezierSpline.h"
 
 @implementation HWMonitorGraphsView
 
@@ -109,11 +110,11 @@
             }
         }
     }
+
+    if (_graphBounds.size.width > _maxPoints)
+        _maxPoints = _viewPoints;
     
     _viewPoints = [self bounds].size.width / 4;
-    
-    if (_viewPoints > _maxPoints)
-        _maxPoints = _viewPoints;
     
     if ((_maxY == 0 && _minY == MAXFLOAT)) {
         _graphBounds = NSMakeRect(0, 0, _viewPoints, 100);
@@ -145,32 +146,9 @@
     return NSMakePoint(x, y);
 }
 
-- (CGFloat) bWithIndex:(NSUInteger)i time:(float)t {
-    switch (i) {
-        case -2:
-            return (((-t + 3) * t - 3) * t + 1) / 6;
-        case -1:
-            return (((3 * t - 6) * t) * t + 4) / 6;
-        case 0:
-            return (((-3 * t + 3) * t + 3) * t + 1) / 6;
-        case 1:
-            return (t * t * t) / 6;
-    }
-    return 0;
-}
-
-- (NSPoint) splinePointWithPoints:(NSArray*)points index:(NSUInteger)i time:(float)t {
-    CGFloat px = 0;
-    CGFloat py = 0;
-    for (int j = -2; j <= 1; j++) {
-        px += [self bWithIndex:j time:t] * (i + j);
-        py += [self bWithIndex:j time:t] * [[points objectAtIndex:i + j] doubleValue];
-    }
-    return NSMakePoint(px, py);
-}
-
-#define GraphXScale 2.0
-#define GraphYScale 1.0
+#define GraphBezier 1
+#define GraphScale 2.0
+#define GraphTension 5.0
 
 - (void)drawRect:(NSRect)dirtyRect
 {
@@ -190,6 +168,15 @@
     [context setShouldAntialias:NO];
     
     NSBezierPath *path = [[NSBezierPath alloc] init];
+    
+    [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x, _graphBounds.origin.y)]];
+    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width, _graphBounds.origin.y)]];
+    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width, _graphBounds.origin.y + _graphBounds.size.height)]];
+    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x, _graphBounds.origin.y + _graphBounds.size.height)]];
+    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x, _graphBounds.origin.y)]];
+    [path setClip];
+    
+    [path removeAllPoints];
     
     [path setLineWidth:0.33];
     
@@ -235,18 +222,15 @@
     // Draw graphs
     
     [context setShouldAntialias:YES];
-    
-    //[path setFlatness:0.3];
-    [path setLineWidth:0.5];
-        
+            
     for (NSDictionary *item in [_content arrangedObjects]) {
         NSNumber *enabled = [item objectForKey:kHWMonitorKeyEnabled];
         
         if (enabled && [enabled boolValue]) {
             NSString *key = [item objectForKey:kHWMonitorKeyKey];
-            NSArray *points = [_graphs objectForKey:key];
+            NSArray *values = [_graphs objectForKey:key];
                         
-            if (points && [points count] >= 4) {
+            if (values && [values count] >= 2) {
                 NSColor *color = nil;
                 
                 if ([[_content selectedObjects] containsObject:item]) {
@@ -256,28 +240,33 @@
                 else {
                     NSColor *itemColor = [item objectForKey:kHWMonitorKeyColor];
                     color = [NSColor colorWithCalibratedRed:itemColor.redComponent green:itemColor.greenComponent blue:itemColor.blueComponent alpha:1.00];
-                    [path setLineWidth:2];
+                    [path setLineWidth:2.0];
                 }
                 
                 [path removeAllPoints];
                 
                 [color set];
                 
-                NSUInteger pointsCount = [points count];// > kHWMonitorGraphsHistoryPoints ? kHWMonitorGraphsHistoryPoints : [points count];
-                CGFloat startOffset = _graphBounds.size.width - pointsCount * GraphXScale + 2 * GraphXScale;
+                NSUInteger pointsCount = [values count];// > kHWMonitorGraphsHistoryPoints ? kHWMonitorGraphsHistoryPoints : [points count];
+                CGFloat startOffset = _graphBounds.size.width - pointsCount * GraphScale + 2 * GraphScale;
                 
-                NSPoint q1 = [self splinePointWithPoints:points index:2 time:0.0];
-                [path moveToPoint:[self graphPointToView:NSMakePoint(startOffset + q1.x * GraphXScale, q1.y * GraphYScale)]];
+                NSMutableArray *graph = [[NSMutableArray alloc] init];
                 
-                for (NSUInteger index = 2; index + 1 < pointsCount; index += 1) {
-
-                    for (CGFloat time = 0; time < 1.0; time += 1.0 / 6.0) {
-                        NSPoint p1 = [self splinePointWithPoints:points index:index time:time];
-                        [path lineToPoint:[self graphPointToView:NSMakePoint(startOffset + p1.x * GraphXScale, p1.y * GraphYScale)]];
-                    }
+                for (NSUInteger index = 0; index < [values count]; index++)
+                    [graph addObject:[NSValue valueWithPoint: NSMakePoint(startOffset + index * GraphScale, [[values objectAtIndex:index] doubleValue])]];
+                
+                NSArray *spline = [HWMonitorBezierSpline getBezierPointsForGraph:graph withTension:GraphTension];
+                
+                [path moveToPoint:[self graphPointToView:[[spline objectAtIndex:0] pointValue]]];
+                
+                for (NSUInteger index = 1; index + 3 < [spline count]; index += 3) {
+                    NSPoint p1 = [[spline objectAtIndex:index] pointValue];
+                    NSPoint p2 = [[spline objectAtIndex:index + 1] pointValue];
+                    NSPoint q2 = [[spline objectAtIndex:index + 2] pointValue];
                     
-                    NSPoint q2 = [self splinePointWithPoints:points index:index time:1.0];
-                    [path lineToPoint:[self graphPointToView:NSMakePoint(startOffset + q2.x * GraphXScale, q2.y * GraphYScale)]];
+                    [path curveToPoint:[self graphPointToView:q2]
+                         controlPoint1:[self graphPointToView:p1]
+                         controlPoint2:[self graphPointToView:p2]];
                 }
                 
                 [path stroke];
