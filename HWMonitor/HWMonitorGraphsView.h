@@ -37,6 +37,7 @@
 @property (assign) IBOutlet NSArrayController *graphs;
 @property (readwrite, assign) NSUInteger group;
 @property (readwrite, assign) BOOL useFahrenheit;
+@property (readwrite, assign) BOOL useSmoothing;
 
 - (void)captureDataToHistoryFromDictionary:(NSDictionary*)info;
 

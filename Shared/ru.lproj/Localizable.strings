@@ -114,3 +114,5 @@
 "SMART update rate:" = "Обновления SMART:";
 "sec" = "сек.";
 "min" = "мин.";
+"History graphs:" = "Графики:";
+"Use data smoothing" = "Использовать сглаживание";

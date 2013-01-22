@@ -24,6 +24,7 @@
 #define kHWMonitorSelectedTag               @"selectedTag"
 #define kHWMonitorSmcSensorsUpdateRate      @"smcSensorsUpdateRate"
 #define kHWMonitorSmartSensorsUpdateRate    @"smartSensorsUpdateRate"
+#define kHWMonitorGraphsDataSmoothing       @"graphsDataSmoothing"
 
 // Icons
 #define kHWMonitorIconDefault               @"hwmonitor"

@@ -76,6 +76,8 @@
 - (IBAction)showVolumeNamesChanged:(id)sender;
 - (IBAction)updateRateChanged:(id)sender;
 
+- (IBAction)toggleGraphSmoothing:(id)sender;
+
 - (IBAction)graphsTableViewClicked:(id)sender;
 - (IBAction)prefsToolbarClicked:(id)sender;
 

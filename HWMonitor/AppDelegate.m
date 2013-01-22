@@ -438,6 +438,23 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorUpdateRateChanged object:nil userInfo:info deliverImmediately:YES];
 }
 
+- (IBAction)toggleGraphSmoothing:(id)sender
+{
+    BOOL useDataSmoothing = [sender state] == NSOnState;
+    
+    [_defaults synchronize];
+    
+    [_temperatureGraph setUseSmoothing:useDataSmoothing];
+    [_frequencyGraph setUseSmoothing:useDataSmoothing];
+    [_tachometerGraph setUseSmoothing:useDataSmoothing];
+    [_voltageGraph setUseSmoothing:useDataSmoothing];
+
+    [_temperatureGraph setNeedsDisplay:YES];
+    [_frequencyGraph setNeedsDisplay:YES];
+    [_tachometerGraph setNeedsDisplay:YES];
+    [_voltageGraph setNeedsDisplay:YES];
+}
+
 - (IBAction)graphsTableViewClicked:(id)sender
 {
     [_temperatureGraph setNeedsDisplay:YES];
@@ -692,6 +709,13 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [_frequencyGraph setGroup:kHWSensorGroupFrequency];
     [_tachometerGraph setGroup:kHWSensorGroupTachometer];
     [_voltageGraph setGroup:kHWSensorGroupVoltage];
+    
+    BOOL graphsDataSmoothing = [_defaults boolForKey:kHWMonitorGraphsDataSmoothing];
+    
+    [_temperatureGraph setUseSmoothing:graphsDataSmoothing];
+    [_frequencyGraph setUseSmoothing:graphsDataSmoothing];
+    [_tachometerGraph setUseSmoothing:graphsDataSmoothing];
+    [_voltageGraph setUseSmoothing:graphsDataSmoothing];
     
     void *menuExtra = nil;
     
