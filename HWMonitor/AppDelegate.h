@@ -42,7 +42,6 @@
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSView *preferencesView;
-@property (assign) IBOutlet NSView *favoritesView;
 @property (assign) IBOutlet NSView *graphsView;
 @property (assign) IBOutlet NSToolbar *prefsToolbar;
 @property (assign) IBOutlet NSMenu *menu;

@@ -39,7 +39,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 @synthesize window = _window;
 @synthesize preferencesView = _preferencesView;
-@synthesize favoritesView = _favoritesView;
 @synthesize graphsView = _graphsView;
 @synthesize prefsToolbar = _prefsToolbar;
 @synthesize menu = _menu;
@@ -469,9 +468,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         case 0:
             return _preferencesView;
             
-        case 1:
-            return _favoritesView;
-            
         case 2:
             return _graphsView;
             
@@ -519,7 +515,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     [_preferencesView setAlphaValue:0.0];
     [_graphsView setAlphaValue:0.0];
-    [_favoritesView setAlphaValue:0.0];
     
     [_window setContentView:newView];
     [_window setFrame:newFrame display:YES animate:YES];
@@ -536,12 +531,12 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         [_window setContentMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
         [_window setContentMinSize:NSMakeSize(700, 600)];
     }
-    else if (newView == _favoritesView) {
-        [_window setContentMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
-        [_window setContentMinSize:NSMakeSize(360, 600)];
+    else if (newView == _preferencesView) {
+        //[_window setContentMaxSize:NSMakeSize([newView frame].size.height, MAXFLOAT)];
+        [_window setContentMaxSize:NSMakeSize(600, 500)];
+        [_window setContentMinSize:NSMakeSize(600, 500)];
     }
-    else
-    {
+    else {
         [_window setContentMinSize:[newView frame].size];
         [_window setContentMaxSize:[newView frame].size];
     }
@@ -698,7 +693,6 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [_window setTitle:GetLocalizedString([_window title])];
     [self localizeObject:_prefsToolbar];
     [self localizeObject:_preferencesView];
-    [self localizeObject:_favoritesView];
     [self localizeObject:_graphsView];
     [self localizeObject:_menu];
     
