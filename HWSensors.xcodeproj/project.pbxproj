@@ -187,6 +187,7 @@
 		7EB963C31594561200436FDB /* frequencies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC37151E23CD005F9929 /* frequencies.png */; };
 		7EB963C41594561200436FDB /* tachometers.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC40151E298E005F9929 /* tachometers.png */; };
 		7EB963C51594561200436FDB /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE5FC3D151E269C005F9929 /* voltages.png */; };
+		7EBC98E616B1069400084A66 /* HWMonitorGraphsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBC98E516B1069400084A66 /* HWMonitorGraphsController.m */; };
 		7EBCF0991594C0B4005E1A16 /* HWMonitorExtra.menu in Resources */ = {isa = PBXBuildFile; fileRef = 6A85F85314DBEF5000F863A9 /* HWMonitorExtra.menu */; };
 		7EC2525915A8111E00E385E4 /* HWMonitorGraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */; };
 		7EF7509E158C7F2500235EDC /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A1DF981150201D100C34729 /* default.icns */; };
@@ -424,6 +425,8 @@
 		7EB963B51594559100436FDB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7EB963B81594559100436FDB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7EBB50D915EEAE3C00FEBBB9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
+		7EBC98E416B1069400084A66 /* HWMonitorGraphsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorGraphsController.h; sourceTree = "<group>"; };
+		7EBC98E516B1069400084A66 /* HWMonitorGraphsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGraphsController.m; sourceTree = "<group>"; };
 		7EBCF09A1594C1D3005E1A16 /* MenuCracker.menu */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MenuCracker.menu; path = Binaries/MenuCracker/MenuCracker.menu; sourceTree = SOURCE_ROOT; };
 		7EBCF8791615A84C00E16D3B /* timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
 		7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PTIDSensors.cpp; sourceTree = "<group>"; };
@@ -1082,6 +1085,8 @@
 				7E0B994616AE749F00C234ED /* HWMonitorBezierSpline.m */,
 				7EC2525715A8111E00E385E4 /* HWMonitorGraphsView.h */,
 				7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */,
+				7EBC98E416B1069400084A66 /* HWMonitorGraphsController.h */,
+				7EBC98E516B1069400084A66 /* HWMonitorGraphsController.m */,
 				7EB963B41594559100436FDB /* AppDelegate.h */,
 				7EB963B51594559100436FDB /* AppDelegate.m */,
 				7EB963B71594559100436FDB /* MainMenu.xib */,
@@ -1738,6 +1743,7 @@
 				7E42CF571682E26D00E1BD4E /* NSIndexSet-NoodleExtensions.m in Sources */,
 				7E42CF581682E26D00E1BD4E /* NSTableView-NoodleExtensions.m in Sources */,
 				7E0B994716AE749F00C234ED /* HWMonitorBezierSpline.m in Sources */,
+				7EBC98E616B1069400084A66 /* HWMonitorGraphsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

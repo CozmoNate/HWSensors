@@ -173,12 +173,6 @@
 {
     if ([cell isKindOfClass:[NSButtonCell class]])
         [cell setTransparent:![cell isEnabled]];
-    /*if ([cell isKindOfClass:[NSButtonCell class]] && [[[self arrangedObjects] objectAtIndex:row] valueForKey:@"Visible"]) {
-        [cell setEnabled:YES];
-    }
-    else {
-        [cell setEnabled:NO];
-    }*/
 }
 
 - (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row

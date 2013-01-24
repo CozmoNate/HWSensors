@@ -26,6 +26,7 @@
 #import "HWMonitorEngine.h"
 #import "HWMonitorSensorsController.h"
 #import "HWMonitorGraphsView.h"
+#import "HWMonitorGraphsController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
@@ -46,7 +47,7 @@
 @property (assign) IBOutlet NSToolbar *prefsToolbar;
 @property (assign) IBOutlet NSMenu *menu;
 @property (assign) IBOutlet HWMonitorSensorsController *sensorsController;
-@property (assign) IBOutlet NSArrayController *graphsController;
+@property (assign) IBOutlet HWMonitorGraphsController *graphsController;
 @property (assign) IBOutlet NSTextField *versionLabel;
 @property (assign) IBOutlet NSButton *toggleMenuButton;
 
