@@ -1210,7 +1210,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 									<reference key="NSNextKeyView" ref="530233323"/>
 									<string key="NSReuseIdentifierKey">_NS:28</string>
 								</object>
-								<string key="NSLabel">Menubar Extension</string>
+								<string key="NSLabel">Menubar</string>
 								<reference key="NSColor" ref="200444750"/>
 								<reference key="NSTabView" ref="241982036"/>
 							</object>
@@ -1253,7 +1253,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="409736942"/>
 								</object>
-								<string key="NSLabel">History Graphs</string>
+								<string key="NSLabel">Graphs</string>
 								<reference key="NSColor" ref="200444750"/>
 								<reference key="NSTabView" ref="241982036"/>
 							</object>

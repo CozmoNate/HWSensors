@@ -114,11 +114,11 @@
 "S.M.A.R.T. update rate:" = "Интервал обновлений S.M.A.R.T:";
 "sec" = "сек.";
 "min" = "мин.";
-"History graphs:" = "Графики:";
+"Graphs:" = "Графики:";
 "Use data smoothing" = "Использовать сглаживание данных";
 "General" = "Основные";
-"Menubar Extension" = "Системное меню";
-"Menubar icons:" = "Значки меню";
+"Menubar" = "Меню";
+"Menubar icons:" = "Значки меню:";
 "Temperature Sensors" = "Температурные датчики";
 "Frequency Sensors" = "Датчики частоты";
 "Tachometer Sensors" = "Датчики оборотов";
