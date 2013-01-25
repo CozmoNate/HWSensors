@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.4.19</string>
+	<string>2.4.24</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.4.19</string>
+	<string>2.4.24</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Fintek F718x Monitor</key>
@@ -44,7 +44,7 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
-			<key>Sensors Configuration</key>
+			<key>Platform Profile</key>
 			<dict>
 				<key>Default</key>
 				<dict>
@@ -667,7 +667,7 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
-			<key>Sensors Configuration</key>
+			<key>Platform Profile</key>
 			<dict>
 				<key>ASRock</key>
 				<dict>
@@ -2160,7 +2160,7 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
-			<key>Sensors Configuration</key>
+			<key>Platform Profile</key>
 			<dict>
 				<key>ASRock</key>
 				<dict>
@@ -2804,7 +2804,7 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
-			<key>Sensors Configuration</key>
+			<key>Platform Profile</key>
 			<dict>
 				<key>ASRock</key>
 				<dict>

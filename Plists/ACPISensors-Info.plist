@@ -36,7 +36,7 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
-			<key>Sensors Configuration</key>
+			<key>Platform Profile</key>
 			<dict>
 				<key>Default</key>
 				<dict>

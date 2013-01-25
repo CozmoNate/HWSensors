@@ -300,7 +300,7 @@ bool SuperIOPlugin::start(IOService *provider)
         addVoltageSensors(configuration);
         addTachometerSensors(configuration);
     }
-    else HWSensorsWarningLog("no sensors configuration provided");
+    else HWSensorsWarningLog("no platform profile provided");
     
     OSSafeReleaseNULL(modelString);
     

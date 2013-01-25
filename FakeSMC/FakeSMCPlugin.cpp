@@ -377,7 +377,7 @@ OSDictionary *FakeSMCPlugin::getConfigurationNode(OSString *model)
 {
     OSDictionary *configuration = NULL;
     
-    if (OSDictionary *list = OSDynamicCast(OSDictionary, getProperty("Sensors Configuration")))
+    if (OSDictionary *list = OSDynamicCast(OSDictionary, getProperty("Platform Profile")))
     {
         if (OSString *manufacturer = getPlatformManufacturer())
             if (OSDictionary *manufacturerNode = OSDynamicCast(OSDictionary, list->getObject(manufacturer)))

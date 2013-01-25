@@ -219,24 +219,27 @@ bool CPUSensors::start(IOService *provider)
 		HWSensorsFatalLog("CPU core count is zero");
 		return false;
 	}
-	
-	if (OSNumber* number = OSDynamicCast(OSNumber, getProperty("TjmaxForced"))) {
-		// User defined Tjmax
-		tjmax[0] = number->unsigned32BitValue();
-		
-        if (tjmax[0] > 0) {
-            for (int i = 1; i < cpuid_info()->core_count; i++)
-				tjmax[i] = tjmax[0];
-            
-            HWSensorsInfoLog("force Tjmax value to %d", tjmax[0]);
-        }
-	}
     
-    if (OSString* string = OSDynamicCast(OSString, getProperty("PlatformString"))) {
-		// User defined platform key (RPlt)
-        if (string->getLength() > 0)
-            platform = OSString::withString(string);
-	}
+    if (OSDictionary *configuration = getConfigurationNode(NULL))
+    {
+        if (OSNumber* number = OSDynamicCast(OSNumber, configuration->getObject("Tjmax"))) {
+            // User defined Tjmax
+            tjmax[0] = number->unsigned32BitValue();
+            
+            if (tjmax[0] > 0) {
+                for (int i = 1; i < cpuid_info()->core_count; i++)
+                    tjmax[i] = tjmax[0];
+                
+                HWSensorsInfoLog("force Tjmax value to %d", tjmax[0]);
+            }
+        }
+        
+        if (OSString* string = OSDynamicCast(OSString, configuration->getObject("PlatformString"))) {
+            // User defined platform key (RPlt)
+            if (string->getLength() > 0)
+                platform = OSString::withString(string);
+        }
+    }
     
     if (tjmax[0] == 0) {
 		// Calculating Tjmax
