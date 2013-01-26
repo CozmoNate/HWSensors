@@ -25,7 +25,6 @@
 #import "HWMonitorGraphsView.h"
 #import "HWMonitorSensor.h"
 #import "HWMonitorDefinitions.h"
-#import "HWMonitorBezierSpline.h"
 
 @implementation HWMonitorGraphsView
 
@@ -147,8 +146,7 @@
     return NSMakePoint(x, y);
 }
 
-#define GraphScale 1.0
-#define GraphTension 5.0
+#define GraphScale 1.5
 
 - (void)drawRect:(NSRect)dirtyRect
 {
@@ -235,7 +233,7 @@
                 
                 if ([[_content selectedObjects] containsObject:item]) {
                     color = [NSColor whiteColor];
-                    [path setLineWidth:3.5];
+                    [path setLineWidth:3.0];
                 }
                 else {
                     NSColor *itemColor = [item objectForKey:kHWMonitorKeyColor];
@@ -248,31 +246,28 @@
                 [path removeAllPoints];
                 
                 if (_useSmoothing) {
-                    if ([values count] >= 4) {
-                        CGFloat startOffset = _graphBounds.size.width - [values count] * GraphScale + 4 * GraphScale;
+                    CGFloat startOffset = _graphBounds.size.width - [values count] * GraphScale;
+                    
+                    NSPoint lastPoint = NSMakePoint(startOffset, [[values objectAtIndex:0] doubleValue]);
+                    
+                    [path setFlatness:0.4];
+                    
+                    [path moveToPoint:[self graphPointToView:lastPoint]];
+                    
+                    for (NSUInteger index = 1; index < [values count]; index++) {
+                        NSPoint nextPoint = NSMakePoint(startOffset + index * GraphScale, [[values objectAtIndex:index] doubleValue]);
+                        NSPoint controlPoint1 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 2.0 / 3.0, lastPoint.y);
+                        NSPoint controlPoint2 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) / 3.0, nextPoint.y);
                         
-                        NSMutableArray *graph = [[NSMutableArray alloc] init];
+                        [path curveToPoint:[self graphPointToView:nextPoint]
+                             controlPoint1:[self graphPointToView:controlPoint1]
+                             controlPoint2:[self graphPointToView:controlPoint2]];
                         
-                        for (NSUInteger index = 0; index < [values count]; index++)
-                            [graph addObject:[NSValue valueWithPoint: NSMakePoint(startOffset + index * GraphScale, [[values objectAtIndex:index] doubleValue])]];
-                        
-                        NSArray *spline = [HWMonitorBezierSpline getBezierPointsForGraph:graph withTension:GraphTension];
-                        
-                        [path moveToPoint:[self graphPointToView:[[spline objectAtIndex:0] pointValue]]];
-                        
-                        for (NSUInteger index = 1; index + 3 < [spline count]; index += 3) {
-                            NSPoint p1 = [[spline objectAtIndex:index] pointValue];
-                            NSPoint p2 = [[spline objectAtIndex:index + 1] pointValue];
-                            NSPoint q2 = [[spline objectAtIndex:index + 2] pointValue];
-                            
-                            [path curveToPoint:[self graphPointToView:q2]
-                                 controlPoint1:[self graphPointToView:p1]
-                                 controlPoint2:[self graphPointToView:p2]];
-                        }
+                        lastPoint = nextPoint;
                     }
                 }
                 else {
-                    CGFloat startOffset = _graphBounds.size.width - [values count] * GraphScale + 1 * GraphScale;
+                    CGFloat startOffset = _graphBounds.size.width - [values count] * GraphScale;
                     
                     [path moveToPoint:[self graphPointToView:NSMakePoint(startOffset, [[values objectAtIndex:0] doubleValue])]];
                     

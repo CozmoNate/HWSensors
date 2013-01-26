@@ -54,7 +54,6 @@
 		7E056351164D2E9400A9306F /* prefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E05634B164D2E9400A9306F /* prefs.png */; };
 		7E056352164D2E9400A9306F /* prefs@blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E05634C164D2E9400A9306F /* prefs@blue.png */; };
 		7E06D0FB157FC80B00F8A270 /* BundleUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		7E0B994716AE749F00C234ED /* HWMonitorBezierSpline.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0B994616AE749F00C234ED /* HWMonitorBezierSpline.m */; };
 		7E0EB891169A9A9A000DF2B1 /* evergreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */; };
 		7E0EB894169A9C4D000DF2B1 /* evergreen.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E0EB893169A9C4D000DF2B1 /* evergreen.h */; };
 		7E0EB897169A9D3C000DF2B1 /* r600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB895169A9D3C000DF2B1 /* r600.cpp */; };
@@ -273,8 +272,6 @@
 		7E0A2BA8167C746D0060C153 /* CPUSensors-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CPUSensors-Info.plist"; path = "Plists/CPUSensors-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7E0A2BAA167C74A80060C153 /* ACPISensors-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ACPISensors-Info.plist"; path = "Plists/ACPISensors-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7E0A2BAC167C74DF0060C153 /* FakeSMC-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "FakeSMC-Info.plist"; path = "Plists/FakeSMC-Info.plist"; sourceTree = SOURCE_ROOT; };
-		7E0B994516AE749F00C234ED /* HWMonitorBezierSpline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorBezierSpline.h; sourceTree = "<group>"; };
-		7E0B994616AE749F00C234ED /* HWMonitorBezierSpline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorBezierSpline.m; sourceTree = "<group>"; };
 		7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = evergreen.cpp; sourceTree = "<group>"; };
 		7E0EB893169A9C4D000DF2B1 /* evergreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = evergreen.h; sourceTree = "<group>"; };
 		7E0EB895169A9D3C000DF2B1 /* r600.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = r600.cpp; sourceTree = "<group>"; };
@@ -1083,8 +1080,6 @@
 				7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */,
 				7E938903159497920005316D /* HWMonitorSensorsController.h */,
 				7E938904159497920005316D /* HWMonitorSensorsController.m */,
-				7E0B994516AE749F00C234ED /* HWMonitorBezierSpline.h */,
-				7E0B994616AE749F00C234ED /* HWMonitorBezierSpline.m */,
 				7EC2525715A8111E00E385E4 /* HWMonitorGraphsView.h */,
 				7EC2525815A8111E00E385E4 /* HWMonitorGraphsView.m */,
 				7EBC98E416B1069400084A66 /* HWMonitorGraphsController.h */,
@@ -1744,7 +1739,6 @@
 				7E42CF561682E26D00E1BD4E /* NSImage-NoodleExtensions.m in Sources */,
 				7E42CF571682E26D00E1BD4E /* NSIndexSet-NoodleExtensions.m in Sources */,
 				7E42CF581682E26D00E1BD4E /* NSTableView-NoodleExtensions.m in Sources */,
-				7E0B994716AE749F00C234ED /* HWMonitorBezierSpline.m in Sources */,
 				7EBC98E616B1069400084A66 /* HWMonitorGraphsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -187,8 +187,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     
     if ([items count] > 0)
         [_graphsController addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-                                       [NSColor clearColor], kHWMonitorKeyColor,
-                                       caption, kHWMonitorKeyTitle,
+                                       [NSColor clearColor],    kHWMonitorKeyColor,
+                                       caption,                 kHWMonitorKeyTitle,
+                                       //caption,                 kHWMonitorKeyValue,
                                        [[NSObject alloc] init], kHWMonitorKeySeparator,
                                        nil]];
     
@@ -202,13 +203,13 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         icon = [self getIconByGroup:[[item valueForKey:kHWMonitorKeyGroup] intValue]];
                 
         [_graphsController addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                      [_globalColors objectAtIndex:_globalColorIndex], kHWMonitorKeyColor,
-                                      icon ? [icon image] : nil, kHWMonitorKeyIcon,
-                                      [NSNumber numberWithBool:YES], kHWMonitorKeyEnabled,
-                                      title, kHWMonitorKeyTitle,
-                                      value, kHWMonitorKeyValue,
-                                      key, kHWMonitorKeyKey,
-                                      [NSNumber numberWithLong:mainGroup], kHWMonitorKeyGroup,
+                                      [_globalColors objectAtIndex:_globalColorIndex],  kHWMonitorKeyColor,
+                                      icon ? [icon image] : nil,                        kHWMonitorKeyIcon,
+                                      [NSNumber numberWithBool:YES],                    kHWMonitorKeyEnabled,
+                                      title,                                            kHWMonitorKeyTitle,
+                                      value,                                            kHWMonitorKeyValue,
+                                      key,                                              kHWMonitorKeyKey,
+                                      [NSNumber numberWithLong:mainGroup],              kHWMonitorKeyGroup,
                                       nil]];
         
         if (_globalColorIndex + 1 >= [_globalColors count])
