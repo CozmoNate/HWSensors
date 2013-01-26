@@ -146,7 +146,7 @@
     return NSMakePoint(x, y);
 }
 
-#define GraphScale 1.5
+#define GraphScale 2.0
 
 - (void)drawRect:(NSRect)dirtyRect
 {
@@ -246,18 +246,16 @@
                 [path removeAllPoints];
                 
                 if (_useSmoothing) {
-                    CGFloat startOffset = _graphBounds.size.width - [values count] * GraphScale;
+                    CGFloat startOffset = _graphBounds.size.width - [values count] * GraphScale + 1 * GraphScale;
                     
                     NSPoint lastPoint = NSMakePoint(startOffset, [[values objectAtIndex:0] doubleValue]);
-                    
-                    [path setFlatness:0.4];
                     
                     [path moveToPoint:[self graphPointToView:lastPoint]];
                     
                     for (NSUInteger index = 1; index < [values count]; index++) {
                         NSPoint nextPoint = NSMakePoint(startOffset + index * GraphScale, [[values objectAtIndex:index] doubleValue]);
-                        NSPoint controlPoint1 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 2.0 / 3.0, lastPoint.y);
-                        NSPoint controlPoint2 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) / 3.0, nextPoint.y);
+                        NSPoint controlPoint1 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 0.55, lastPoint.y + (nextPoint.y - lastPoint.y) * 0.01);
+                        NSPoint controlPoint2 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 0.45, lastPoint.y + (nextPoint.y - lastPoint.y) * 0.99);
                         
                         [path curveToPoint:[self graphPointToView:nextPoint]
                              controlPoint1:[self graphPointToView:controlPoint1]
@@ -267,7 +265,7 @@
                     }
                 }
                 else {
-                    CGFloat startOffset = _graphBounds.size.width - [values count] * GraphScale;
+                    CGFloat startOffset = _graphBounds.size.width - [values count] * GraphScale + 1 * GraphScale;
                     
                     [path moveToPoint:[self graphPointToView:NSMakePoint(startOffset, [[values objectAtIndex:0] doubleValue])]];
                     
