@@ -28,7 +28,7 @@
     NSMutableDictionary *_graphs;
     double _minY;
     double _maxY;
-    double _viewPoints;
+    //double _viewPoints;
     double _maxPoints;
     NSDictionary *_legendAttributes;
     NSString *_legendFormat;

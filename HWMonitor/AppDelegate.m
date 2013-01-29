@@ -167,7 +167,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 
 - (void)addGraphsItemsFromDictionary:(NSDictionary*)sensors inGroup:(NSUInteger)mainGroup withCaption:(NSString*)caption
 {
-    HWMonitorIcon* icon = [self getIconByGroup:mainGroup];
+    //HWMonitorIcon* icon = [self getIconByGroup:mainGroup];
     
     NSMutableArray *items = [[NSMutableArray alloc] init];
     
@@ -200,7 +200,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
         NSString *key = [item valueForKey:kHWMonitorKeyName];
         //NSNumber *favorite = [item valueForKey:kHWMonitorKeyFavorite];
         
-        icon = [self getIconByGroup:[[item valueForKey:kHWMonitorKeyGroup] intValue]];
+        HWMonitorIcon* icon = [self getIconByGroup:[[item valueForKey:kHWMonitorKeyGroup] intValue]];
                 
         [_graphsController addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                       [_globalColors objectAtIndex:_globalColorIndex],  kHWMonitorKeyColor,
@@ -246,7 +246,7 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
             double blue = [color blueComponent];
             BOOL blackAndWhite = red == green && red == blue && green == blue;
             
-            if (intensity >= 0.333 && intensity <=0.90 && !blackAndWhite)
+            if (intensity >= 0.332 && intensity <=0.90 && !blackAndWhite)
                 [_globalColors addObject:color];
         }
 

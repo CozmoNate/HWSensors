@@ -33,6 +33,13 @@
 @synthesize useFahrenheit = _useFahrenheit;
 @synthesize useSmoothing = _useSmoothing;
 
+#define GraphScale 6.0
+
+#define LeftViewMargin 5
+#define TopViewMargin 5
+#define RightViewMargin 8
+#define BottomViewMargin 8
+
 -(void)setGroup:(NSUInteger)group
 {
     _group = group;
@@ -111,30 +118,25 @@
         }
     }
 
-    if (_graphBounds.size.width > _maxPoints)
-        _maxPoints = _viewPoints;
+    /*if (_graphBounds.size.width > _maxPoints)
+        _maxPoints = _viewPoints;*/
     
-    _viewPoints = [self bounds].size.width / 4;
+    _maxPoints = [self bounds].size.width / GraphScale;
     
     if ((_maxY == 0 && _minY == MAXFLOAT)) {
-        _graphBounds = NSMakeRect(0, 0, _viewPoints, 100);
+        _graphBounds = NSMakeRect(0, 0, _maxPoints, 100);
     }
     else if (_minY >= _maxY) {
-        _graphBounds = NSMakeRect(0, _minY, _viewPoints, _minY + 100);
+        _graphBounds = NSMakeRect(0, _minY, _maxPoints, _minY + 100);
     }
     else {
 
         double minY = _minY <= 0 ? _minY : _minY - _minY * 0.05;
         double maxY = _maxY + _maxY * 0.05;
         
-        _graphBounds = NSMakeRect(0, minY, _viewPoints, maxY - minY);
+        _graphBounds = NSMakeRect(0, minY, _maxPoints, maxY - minY);
     }
 }
-
-#define LeftViewMargin 5
-#define TopViewMargin 5
-#define RightViewMargin 8
-#define BottomViewMargin 8
 
 - (NSPoint)graphPointToView:(NSPoint)point
 {
@@ -145,8 +147,6 @@
     
     return NSMakePoint(x, y);
 }
-
-#define GraphScale 2.0
 
 - (void)drawRect:(NSRect)dirtyRect
 {
@@ -182,7 +182,7 @@
     
     double xStart = _graphBounds.origin.x + _graphBounds.size.width;
     double yStart = floor(_graphBounds.origin.y / 10) * 10;
-    double xInc = 5;
+    double xInc = 4;
     double yInc = _graphBounds.size.height / 10;
     
     for (x = xStart; x > 0; x -= xInc) {
@@ -238,24 +238,26 @@
                 else {
                     NSColor *itemColor = [item objectForKey:kHWMonitorKeyColor];
                     color = [NSColor colorWithCalibratedRed:itemColor.redComponent green:itemColor.greenComponent blue:itemColor.blueComponent alpha:1.00];
-                    [path setLineWidth:1.75];
+                    [path setLineWidth:2.0];
                 }
                 
                 [color set];
                 
                 [path removeAllPoints];
+                [path setLineJoinStyle:NSRoundLineJoinStyle];
+                //[path setMiterLimit:25.0];
                 
                 if (_useSmoothing) {
-                    CGFloat startOffset = _graphBounds.size.width - [values count] * GraphScale + 1 * GraphScale;
+                    CGFloat startOffset = _graphBounds.size.width - [values count] + 1;
                     
                     NSPoint lastPoint = NSMakePoint(startOffset, [[values objectAtIndex:0] doubleValue]);
                     
                     [path moveToPoint:[self graphPointToView:lastPoint]];
                     
                     for (NSUInteger index = 1; index < [values count]; index++) {
-                        NSPoint nextPoint = NSMakePoint(startOffset + index * GraphScale, [[values objectAtIndex:index] doubleValue]);
-                        NSPoint controlPoint1 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 0.55, lastPoint.y + (nextPoint.y - lastPoint.y) * 0.01);
-                        NSPoint controlPoint2 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 0.45, lastPoint.y + (nextPoint.y - lastPoint.y) * 0.99);
+                        NSPoint nextPoint = NSMakePoint(startOffset + index, [[values objectAtIndex:index] doubleValue]);
+                        NSPoint controlPoint1 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 0.6, lastPoint.y);
+                        NSPoint controlPoint2 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 0.4, nextPoint.y);
                         
                         [path curveToPoint:[self graphPointToView:nextPoint]
                              controlPoint1:[self graphPointToView:controlPoint1]
@@ -265,12 +267,12 @@
                     }
                 }
                 else {
-                    CGFloat startOffset = _graphBounds.size.width - [values count] * GraphScale + 1 * GraphScale;
+                    CGFloat startOffset = _graphBounds.size.width - [values count] + 1;
                     
                     [path moveToPoint:[self graphPointToView:NSMakePoint(startOffset, [[values objectAtIndex:0] doubleValue])]];
                     
                     for (NSUInteger index = 1; index < [values count]; index++) {
-                        NSPoint p1 = NSMakePoint(startOffset + index * GraphScale, [[values objectAtIndex:index] doubleValue]);
+                        NSPoint p1 = NSMakePoint(startOffset + index, [[values objectAtIndex:index] doubleValue]);
                         [path lineToPoint:[self graphPointToView:p1]];
                     }
                 }
