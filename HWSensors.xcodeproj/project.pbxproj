@@ -292,7 +292,6 @@
 		7E17E170169C532100E40FC7 /* si.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = si.h; sourceTree = "<group>"; };
 		7E24AF81169CBB9700040AF4 /* atom-names.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "atom-names.h"; sourceTree = "<group>"; };
 		7E2A5803159240B30073AB74 /* removefakesmc */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = removefakesmc; path = Installer/removefakesmc; sourceTree = "<group>"; };
-		7E36011016B2684300A42785 /* HWMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = HWMonitor.entitlements; path = HWMonitor/HWMonitor.entitlements; sourceTree = "<group>"; };
 		7E3684AA158368C900E32629 /* HWMonitorIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorIcon.h; sourceTree = "<group>"; };
 		7E3684AB158368C900E32629 /* HWMonitorIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorIcon.m; sourceTree = "<group>"; };
 		7E3684AE1583715B00E32629 /* temperatures_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = temperatures_template.png; sourceTree = "<group>"; };
@@ -494,7 +493,6 @@
 		1D05ABAD13ED0D7000EADBF6 = {
 			isa = PBXGroup;
 			children = (
-				7E36011016B2684300A42785 /* HWMonitor.entitlements */,
 				6A9955BD14EFAD360052C702 /* Shared */,
 				1D05ABE913ED0DAD00EADBF6 /* FakeSMC */,
 				1D05AC3113ED101200EADBF6 /* Plug-Ins */,
@@ -1000,8 +998,8 @@
 		7E9F54BF167C71DF006E907B /* GMASensors */ = {
 			isa = PBXGroup;
 			children = (
-				7E9F54C0167C71DF006E907B /* GmaSensors.cpp */,
 				7E9F54C1167C71DF006E907B /* GmaSensors.h */,
+				7E9F54C0167C71DF006E907B /* GmaSensors.cpp */,
 			);
 			path = GMASensors;
 			sourceTree = "<group>";
@@ -2177,6 +2175,7 @@
 				);
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitor-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;
@@ -2197,6 +2196,7 @@
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitor-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;
