@@ -104,6 +104,7 @@
 		7E84840915C3BF2C00C2D5E2 /* pcicard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840815C3BF2C00C2D5E2 /* pcicard.png */; };
 		7E84840A15C3BF2C00C2D5E2 /* pcicard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840815C3BF2C00C2D5E2 /* pcicard.png */; };
 		7E84840C15C3BF6300C2D5E2 /* pcicard_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */; };
+		7E862F8F16C3012F0050C9DA /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7E862F8D16C3012F0050C9DA /* smc.c */; };
 		7E8D485E15AA80910049A229 /* HWMonitorColoredCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */; };
 		7E9388F51594596D0005316D /* BundleUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E9388F7159459750005316D /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3684AB158368C900E32629 /* HWMonitorIcon.m */; };
@@ -339,6 +340,8 @@
 		7E7A182015DEAF55004D98AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E84840815C3BF2C00C2D5E2 /* pcicard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcicard.png; sourceTree = "<group>"; };
 		7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcicard_template.png; sourceTree = "<group>"; };
+		7E862F8D16C3012F0050C9DA /* smc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = smc.c; sourceTree = "<group>"; };
+		7E862F8E16C3012F0050C9DA /* smc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smc.h; sourceTree = "<group>"; };
 		7E8D485C15AA80910049A229 /* HWMonitorColoredCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorColoredCell.h; sourceTree = "<group>"; };
 		7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorColoredCell.m; sourceTree = "<group>"; };
 		7E9388FF15945B360005316D /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
@@ -881,6 +884,8 @@
 		7E42CF5D1682E2D900E1BD4E /* HWMonitorEngine */ = {
 			isa = PBXGroup;
 			children = (
+				7E862F8E16C3012F0050C9DA /* smc.h */,
+				7E862F8D16C3012F0050C9DA /* smc.c */,
 				7E42CF441682E1C900E1BD4E /* HWMonitorSensor.h */,
 				7E42CF451682E1C900E1BD4E /* HWMonitorSensor.m */,
 				7E42CF421682E1C900E1BD4E /* HWMonitorEngine.h */,
@@ -1666,6 +1671,7 @@
 				7E42CF471682E1C900E1BD4E /* HWMonitorSensor.m in Sources */,
 				7E42CF4C1682E22400E1BD4E /* ATASmartReporter.m in Sources */,
 				7E42CF5C1682E2C400E1BD4E /* NSString+TruncateToWidth.m in Sources */,
+				7E862F8F16C3012F0050C9DA /* smc.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

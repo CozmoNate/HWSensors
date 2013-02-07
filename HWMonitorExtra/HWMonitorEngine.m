@@ -22,8 +22,9 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-#import "HWMonitorEngine.h"
+#include "HWMonitorEngine.h"
 
+#include "smc.h"
 #include "FakeSMCDefinitions.h"
 
 @implementation HWMonitorEngine
@@ -53,19 +54,23 @@
 
 + (NSArray*)populateInfoForKey:(NSString*)key
 {
-    NSArray * info = NULL;
+    NSArray * info = nil;
+    io_connect_t conn;
     
-    io_service_t service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
-    
-    if (service) {
-        if (kIOReturnSuccess == IORegistryEntrySetCFProperty(service, CFSTR(kFakeSMCDeviceUpdateKeyValue), (__bridge CFTypeRef)key)) {
-            NSDictionary *values = (__bridge_transfer NSDictionary *)IORegistryEntryCreateCFProperty(service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0);
-            
-            if (values)
-                info = [values objectForKey:key];
+    if (kIOReturnSuccess == SMCOpen(&conn)) {
+        SMCVal_t val;
+        UInt32Char_t name;
+        
+        strncpy(name, [key cStringUsingEncoding:NSASCIIStringEncoding], 5);
+        
+        if (kIOReturnSuccess == SMCReadKey(conn, name, &val)) {           
+            info = [NSArray arrayWithObjects:
+                    [NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding],
+                    [NSData dataWithBytes:val.bytes length:val.dataSize],
+                    nil];
         }
         
-        IOObjectRelease(service);
+        SMCClose(conn);
     }
     
     return info;
@@ -73,8 +78,13 @@
 
 + (NSString*)copyTypeFromKeyInfo:(NSArray*)info
 {
-    if (info && [info count] == 2) 
+    if (info && [info count] == 2) {
+        NSString *type = (NSString*)[info objectAtIndex:0];
+        
+        NSLog(@"%s", [type cStringUsingEncoding:NSASCIIStringEncoding]);
+        
         return [NSString stringWithString:(NSString*)[info objectAtIndex:0]];
+    }
     
     return nil;
 }
@@ -120,10 +130,13 @@
         default: {
             NSArray *info = [HWMonitorEngine populateInfoForKey:key];
             
+            if (!info || [info count] != 2)
+                return nil;
+            
             type = [HWMonitorEngine copyTypeFromKeyInfo:info];
             value = [HWMonitorEngine copyValueFromKeyInfo:info];
             
-            if (!type || !value)
+            if (!type || [type length] == 0 || !value)
                 return nil;
             
             switch (group) {
@@ -436,77 +449,68 @@
 {
     [_sensorsLock lock];
     
-    NSMutableArray *namesList = [[NSMutableArray alloc] init];
-    NSMutableArray *sensorsList = [[NSMutableArray alloc] init];
+    NSMutableArray *list = [[NSMutableArray alloc] init];
     
-   for (HWMonitorSensor *sensor in [self sensors]) {
-        if (![sensor disk]) {
-            [namesList addObject:[sensor name]];
-            [sensorsList addObject:sensor];
-        }
+    for (HWMonitorSensor *sensor in [self sensors]) {
+        if (![sensor disk])
+            [list addObject:sensor];
     }
+
+    io_connect_t conn;
     
-    if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)namesList))
-    {           
-        NSDictionary *values = nil;
-        
-        if ((values = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(_service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0))) {
+    if (kIOReturnSuccess == SMCOpen(&conn)) {
+        for (HWMonitorSensor *sensor in list) {
+            SMCVal_t val;
+            UInt32Char_t name;
             
-            for (NSString *key in [values allKeys]) {
-                
-                HWMonitorSensor *sensor = [_keys objectForKey:key];
-                
-                if (sensor) {
-                    NSArray *keyInfo = [values objectForKey:key];
-                    
-                    [sensor setType:[HWMonitorEngine copyTypeFromKeyInfo:keyInfo]];
-                    [sensor setData:[HWMonitorEngine copyValueFromKeyInfo:keyInfo]];
-                }
+            strncpy(name, [[sensor name] cStringUsingEncoding:NSASCIIStringEncoding], 5);
+            
+            if (kIOReturnSuccess == SMCReadKey(conn, name, &val)) {
+                [sensor setType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
+                [sensor setData:[NSData dataWithBytes:val.bytes length:val.dataSize]];
             }
         }
+        
+        SMCClose(conn);
     }
     
     [_sensorsLock unlock];
     
-    return sensorsList;
+    return list;
 }
 
 -(NSArray*)updateFavoritesSensors:(NSArray *)favorites
 {
     [_sensorsLock lock];
     
-    NSMutableArray *nameslist = [[NSMutableArray alloc] init];
-    NSMutableArray *sensorsList = [[NSMutableArray alloc] init];
+    NSMutableArray *list = [[NSMutableArray alloc] init];
     
-    for (id object in favorites)
-        if ([object isKindOfClass:[HWMonitorSensor class]] && [[self sensors] containsObject:object] && ![object disk]) {
-            [nameslist addObject:[object name]];
-            [sensorsList addObject:object];
-        }
+    for (id object in favorites) {
+        if ([object isKindOfClass:[HWMonitorSensor class]] && [[self sensors] containsObject:object] && ![object disk])
+            [list addObject:object];
+    }
     
-    if (kIOReturnSuccess == IORegistryEntrySetCFProperty(_service, CFSTR(kFakeSMCDevicePopulateValues), (__bridge CFTypeRef)nameslist)) 
-    {           
-        NSDictionary *values = nil;
-        
-        if ((values = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(_service, CFSTR(kFakeSMCDeviceValues), kCFAllocatorDefault, 0))) {
+    io_connect_t conn;
+    
+    if (kIOReturnSuccess == SMCOpen(&conn)) {
+        for (HWMonitorSensor *sensor in list) {
+            SMCVal_t val;
+            UInt32Char_t name;
             
-            for (NSString *key in [values allKeys]) {
-                
-                HWMonitorSensor *sensor = [_keys objectForKey:key];
-                
-                if (sensor) {
-                    NSArray *keyInfo = [values objectForKey:key];
-                    
-                    [sensor setType:[HWMonitorEngine copyTypeFromKeyInfo:keyInfo]];
-                    [sensor setData:[HWMonitorEngine copyValueFromKeyInfo:keyInfo]];
-                }
+            strncpy(name, [[sensor name] cStringUsingEncoding:NSASCIIStringEncoding], 5);
+            
+            if (kIOReturnSuccess == SMCReadKey(conn, name, &val)) {
+                [sensor setType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
+                [sensor setData:[NSData dataWithBytes:val.bytes length:val.dataSize]];
             }
         }
+        
+        SMCClose(conn);
     }
     
     [_sensorsLock unlock];
     
-    return sensorsList;
+    return list;
 }
 
 - (NSArray*)getAllSensorsInGroup:(NSUInteger)group

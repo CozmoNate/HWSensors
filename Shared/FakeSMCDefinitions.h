@@ -185,4 +185,6 @@
 #define HWSensorsFatalLog(string, args...) do { IOLog ("%s: [Fatal] " string "\n",getName() , ## args); } while(0)
 #define HWSensorsInfoLog(string, args...)	do { IOLog ("%s: " string "\n",getName() , ## args); } while(0)
 
+#define HWSensorsKeyToInt(name) *((uint32_t*)name)
+
 #endif

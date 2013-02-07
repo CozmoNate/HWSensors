@@ -109,7 +109,7 @@
 
 - (float)decodeValue
 {
-    if (_type && _data) {
+    if (_type && _data && [_type length] >= 3) {
         if (([_type characterAtIndex:0] == 'u' || [_type characterAtIndex:0] == 's') && [_type characterAtIndex:1] == 'i') {
             
             BOOL signd = [_type characterAtIndex:0] == 's';

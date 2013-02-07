@@ -615,17 +615,12 @@ FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type,
 	return 0;
 }
 
-inline uint32_t key_to_int(const char *name)
-{
-    return *((uint32_t*)name);
-}
-
 FakeSMCKey *FakeSMCDevice::getKey(const char *name)
 {
     if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
 		while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
-            UInt32 key1 = key_to_int(name);
-			UInt32 key2 = key_to_int(key->getKey());
+            UInt32 key1 = HWSensorsKeyToInt(name);
+			UInt32 key2 = HWSensorsKeyToInt(key->getKey());
 			if (key1 == key2) {
 				OSSafeRelease(iterator);
 				return key;
