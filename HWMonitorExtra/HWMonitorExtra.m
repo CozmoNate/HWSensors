@@ -205,7 +205,7 @@
     if ([self isMenuDown] || _monitoringAppIsActive)
         [_engine updateSmcSensors];
     else 
-        [_engine updateFavoritesSensors:_favorites];
+        [_engine updateSmcSensorsList:_favorites];
     
     if (_monitoringAppIsActive) {
             

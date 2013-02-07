@@ -231,11 +231,6 @@
 
 - (id)init;
 {
-    _service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
-    
-    if (!_service) 
-        return nil;
-    
     self = [super init];
     
     _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
@@ -249,11 +244,6 @@
 
 - (id)initWithBundle:(NSBundle*)mainBundle;
 {
-    _service = IOServiceGetMatchingService(0, IOServiceMatching(kFakeSMCDeviceService));
-    
-    if (!_service) 
-        return nil;
-    
     self = [super init];
     
     _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
@@ -263,12 +253,6 @@
     _sensorsLock = [[NSLock alloc] init];
     
     return self;
-}
-
-- (void)dealloc
-{
-    if (_service) 
-        IOObjectRelease(_service);
 }
 
 - (void)rebuildSensorsList
@@ -479,13 +463,15 @@
     return list;
 }
 
--(NSArray*)updateFavoritesSensors:(NSArray *)favorites
+-(NSArray*)updateSmcSensorsList:(NSArray *)sensors
 {
     [_sensorsLock lock];
     
+    if (!sensors) return nil; // [self updateSmcSensors];
+    
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
-    for (id object in favorites) {
+    for (id object in sensors) {
         if ([object isKindOfClass:[HWMonitorSensor class]] && [[self sensors] containsObject:object] && ![object disk])
             [list addObject:object];
     }

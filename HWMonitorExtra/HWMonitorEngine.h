@@ -30,7 +30,6 @@
 @interface HWMonitorEngine : NSObject
 {
 @private
-    io_service_t _service;
     NSATASmartReporter *_smartReporter;
     NSMutableArray *_sensors;
     NSMutableDictionary *_keys;
@@ -56,12 +55,11 @@
 
 - (id)init;
 - (id)initWithBundle:(NSBundle*)mainBundle;
-- (void)dealloc;
 
 - (void)rebuildSensorsList;
 - (NSArray*)updateSmartSensors;
 - (NSArray*)updateSmcSensors;
-- (NSArray*)updateFavoritesSensors:(NSArray*)favorites;
+- (NSArray*)updateSmcSensorsList:(NSArray*)sensors;
 
 - (NSArray*)getAllSensorsInGroup:(NSUInteger)group;
 
