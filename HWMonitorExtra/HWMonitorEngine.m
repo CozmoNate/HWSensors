@@ -465,9 +465,9 @@
 
 -(NSArray*)updateSmcSensorsList:(NSArray *)sensors
 {
-    [_sensorsLock lock];
-    
     if (!sensors) return nil; // [self updateSmcSensors];
+    
+    [_sensorsLock lock];
     
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
