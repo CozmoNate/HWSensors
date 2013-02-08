@@ -30,6 +30,7 @@
 @interface HWMonitorEngine : NSObject
 {
 @private
+    io_connect_t _connection;
     NSATASmartReporter *_smartReporter;
     NSMutableArray *_sensors;
     NSMutableDictionary *_keys;
@@ -46,7 +47,6 @@
 
 + (HWMonitorEngine*)engineWithBundle:(NSBundle*)bundle;
 
-+ (NSArray*)populateInfoForKey:(NSString *)key;
 + (NSString*)copyTypeFromKeyInfo:(NSArray*)info;
 + (NSData*)copyValueFromKeyInfo:(NSArray*)info;
 
@@ -55,7 +55,9 @@
 
 - (id)init;
 - (id)initWithBundle:(NSBundle*)mainBundle;
+- (void)dealloc;
 
+- (NSArray*)populateInfoForKey:(NSString *)key;
 - (void)rebuildSensorsList;
 - (NSArray*)updateSmartSensors;
 - (NSArray*)updateSmcSensors;

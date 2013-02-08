@@ -52,30 +52,6 @@
     return me;
 }
 
-+ (NSArray*)populateInfoForKey:(NSString*)key
-{
-    NSArray * info = nil;
-    io_connect_t conn;
-    
-    if (kIOReturnSuccess == SMCOpen(&conn)) {
-        SMCVal_t val;
-        UInt32Char_t name;
-        
-        strncpy(name, [key cStringUsingEncoding:NSASCIIStringEncoding], 5);
-        
-        if (kIOReturnSuccess == SMCReadKey(conn, name, &val)) {           
-            info = [NSArray arrayWithObjects:
-                    [NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding],
-                    [NSData dataWithBytes:val.bytes length:val.dataSize],
-                    nil];
-        }
-        
-        SMCClose(conn);
-    }
-    
-    return info;
-}
-
 + (NSString*)copyTypeFromKeyInfo:(NSArray*)info
 {
     if (info && [info count] == 2) {
@@ -113,6 +89,30 @@
     return _useBSDNames;
 }
 
+- (NSArray*)populateInfoForKey:(NSString*)key
+{
+    NSArray * info = nil;
+    
+    if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
+        SMCVal_t val;
+        UInt32Char_t name;
+        
+        strncpy(name, [key cStringUsingEncoding:NSASCIIStringEncoding], 5);
+        
+        if (kIOReturnSuccess == SMCReadKey(_connection, name, &val)) {
+            info = [NSArray arrayWithObjects:
+                    [NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding],
+                    [NSData dataWithBytes:val.bytes length:val.dataSize],
+                    nil];
+        }
+        
+        //SMCClose(_connection);
+        //_connection = 0;
+    }
+    
+    return info;
+}
+
 - (HWMonitorSensor*)addSensorWithKey:(NSString*)key title:(NSString*)title group:(NSUInteger)group
 {
     HWMonitorSensor *sensor = nil;
@@ -128,7 +128,7 @@
             break;
             
         default: {
-            NSArray *info = [HWMonitorEngine populateInfoForKey:key];
+            NSArray *info = [self populateInfoForKey:key];
             
             if (!info || [info count] != 2)
                 return nil;
@@ -255,6 +255,14 @@
     return self;
 }
 
+- (void)dealloc
+{
+    if (_connection) {
+        SMCClose(_connection);
+        _connection = 0;
+    }
+}
+
 - (void)rebuildSensorsList
 {
     [_sensorsLock lock];
@@ -338,7 +346,7 @@
     
     // Fans
     for (int i=0; i<0xf; i++) {
-        NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine copyValueFromKeyInfo:[HWMonitorEngine populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
+        NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine copyValueFromKeyInfo:[self populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
         
         if ([caption length] == 0)
             caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
@@ -349,7 +357,7 @@
     
     // GPU Fans
     for (int i=0; i < 0xf; i++) {
-        NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine copyValueFromKeyInfo:[HWMonitorEngine populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
+        NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine copyValueFromKeyInfo:[self populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
         
         if ([caption hasPrefix:@"GPU "]) {
             UInt8 cardIndex = [[caption substringFromIndex:4] intValue] - 1;
@@ -439,23 +447,19 @@
         if (![sensor disk])
             [list addObject:sensor];
     }
-
-    io_connect_t conn;
     
-    if (kIOReturnSuccess == SMCOpen(&conn)) {
+    if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
         for (HWMonitorSensor *sensor in list) {
             SMCVal_t val;
             UInt32Char_t name;
             
             strncpy(name, [[sensor name] cStringUsingEncoding:NSASCIIStringEncoding], 5);
             
-            if (kIOReturnSuccess == SMCReadKey(conn, name, &val)) {
+            if (kIOReturnSuccess == SMCReadKey(_connection, name, &val)) {
                 [sensor setType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
                 [sensor setData:[NSData dataWithBytes:val.bytes length:val.dataSize]];
             }
         }
-        
-        SMCClose(conn);
     }
     
     [_sensorsLock unlock];
@@ -476,22 +480,18 @@
             [list addObject:object];
     }
     
-    io_connect_t conn;
-    
-    if (kIOReturnSuccess == SMCOpen(&conn)) {
+    if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
         for (HWMonitorSensor *sensor in list) {
             SMCVal_t val;
             UInt32Char_t name;
             
             strncpy(name, [[sensor name] cStringUsingEncoding:NSASCIIStringEncoding], 5);
             
-            if (kIOReturnSuccess == SMCReadKey(conn, name, &val)) {
+            if (kIOReturnSuccess == SMCReadKey(_connection, name, &val)) {
                 [sensor setType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
                 [sensor setData:[NSData dataWithBytes:val.bytes length:val.dataSize]];
             }
         }
-        
-        SMCClose(conn);
     }
     
     [_sensorsLock unlock];
