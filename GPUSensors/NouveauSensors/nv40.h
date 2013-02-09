@@ -12,6 +12,7 @@
 bool nv40_identify(struct nouveau_device *device);
 void nv40_init(struct nouveau_device *device);
 int nv40_clocks_get(struct nouveau_device *device, u8 source);
+int nv40_sensor_setup(struct nouveau_device *device);
 int nv40_temp_get(struct nouveau_device *device);
 int nv40_fan_pwm_get(struct nouveau_device *device, int line, u32 *divs, u32 *duty);
 

@@ -9,13 +9,13 @@
 #define HWSENSORS_LASTYEAR                  2013
 
 #define FAKESMC_BUNDLE                      org.netkas.driver.FakeSMC
-#define FAKESMC_COMPATIBLE                  4.3.47
+#define FAKESMC_COMPATIBLE                  351
 
 #define ACPISENSORS_BUNDLE                  org.hwsensors.driver.ACPISensors
 
 #define CPUSENSORS_BUNDLE                   org.hwsensors.driver.CPUSensors
 
 #define LPCSENSORS_BUNDLE                   org.hwsensors.driver.LPCSensors
-#define LPCSENSORS_COMPATIBLE               2.4.4
+#define LPCSENSORS_COMPATIBLE               224
 
 #define GPUSENSORS_BUNDLE                   org.hwsensors.driver.GPUSensors

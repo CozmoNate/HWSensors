@@ -195,11 +195,6 @@
     [_engine updateSmartSensors];
 }
 
-- (void)updateSmartSensorsThreaded
-{
-    
-}
-
 - (void)updateSmcSensors
 {
     if ([self isMenuDown] || _monitoringAppIsActive)
@@ -221,12 +216,6 @@
         
         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:HWMonitorValuesChanged object:nil userInfo:values deliverImmediately:YES];
     }
-    
-}
-
-- (void)updateSmcSensorsThreaded
-{
-    [self performSelectorInBackground:@selector(updateSmcSensors) withObject:nil];
 }
 
 - (void)updateMenuForceAllSensors:(BOOL)allSensors

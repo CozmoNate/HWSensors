@@ -585,6 +585,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 {
     NSView *view = [self viewForTag:tag];
     
+    if (!view) return;
+        
     [_defaults setFloat:[view frame].size.width forKey:[NSString stringWithFormat:@"PrefsView%ldWidth", tag]];
     [_defaults setFloat:[view frame].size.height forKey:[NSString stringWithFormat:@"PrefsView%ldHeight", tag]];
 }
@@ -592,6 +594,8 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
 - (void)loadViewSizeForTag:(NSInteger)tag
 {
     NSView *view = [self viewForTag:tag];
+    
+    if (!view) return;
     
     CGFloat width = [_defaults floatForKey:[NSString stringWithFormat:@"PrefsView%ldWidth", tag]];
     CGFloat height = [_defaults floatForKey:[NSString stringWithFormat:@"PrefsView%ldHeight", tag]];

@@ -106,6 +106,9 @@ void nv40_init(struct nouveau_device *device)
     device->voltage_get = nouveau_voltage_get;
     device->fan_pwm_get = nouveau_therm_fan_pwm_get;
     device->fan_rpm_get = nouveau_therm_fan_rpm_get;
+    
+    // Reset temperature sensor
+    nv40_sensor_setup(device);
 }
 
 static u32 read_pll_1(struct nouveau_device *device, u32 reg)
@@ -179,7 +182,7 @@ int nv40_clocks_get(struct nouveau_device *device, u8 source)
     }
 }
 
-static int nv40_sensor_setup(struct nouveau_device *device)
+int nv40_sensor_setup(struct nouveau_device *device)
 {
 	/* enable ADC readout and disable the ALARM threshold */
 	if (device->chipset >= 0x46) {
