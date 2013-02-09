@@ -197,7 +197,7 @@
 
 - (void)updateSmartSensorsThreaded
 {
-    [self performSelectorInBackground:@selector(updateSmartSensors) withObject:nil];
+    
 }
 
 - (void)updateSmcSensors
@@ -229,7 +229,7 @@
     [self performSelectorInBackground:@selector(updateSmcSensors) withObject:nil];
 }
 
-- (void)updateMenuTextForceAllSensors:(BOOL)allSensors
+- (void)updateMenuForceAllSensors:(BOOL)allSensors
 {
     [[self view] setNeedsDisplay:YES];
     
@@ -293,14 +293,14 @@
     }
 }
 
-- (void)updateMenuTextForced
+- (void)updateMenuForced
 {
-    [self updateMenuTextForceAllSensors:YES];
+    [self updateMenuForceAllSensors:YES];
 }
 
-- (void)updateMenuText
+- (void)updateMenu
 {
-    [self updateMenuTextForceAllSensors:NO];
+    [self updateMenuForceAllSensors:NO];
 }
 
 - (void)updateLoop
@@ -315,19 +315,18 @@
     NSDate *now = [NSDate dateWithTimeIntervalSinceNow:0.0];
     
     if ([_smcSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
-        [self updateSmcSensorsThreaded];
+        [self performSelectorInBackground:@selector(updateSmcSensors) withObject:nil];
         _smcSensorsLastUpdated = now;
         menuNeedsUpdate = true;
     }
     
     if ([_smartSensorsLastUpdated timeIntervalSinceNow] < (- _smartSensorsUpdateInterval)) {
-        [self updateSmartSensorsThreaded];
+        [self performSelectorInBackground:@selector(updateSmartSensors) withObject:nil];
         _smartSensorsLastUpdated = now;
         menuNeedsUpdate = true;
     }
     
-    if (menuNeedsUpdate)
-        [self updateMenuText];
+    if (menuNeedsUpdate) [self performSelector:@selector(updateMenu) withObject:nil afterDelay:0.250];
 }
 
 - (void)openPreferences:(id)sender
@@ -444,7 +443,7 @@
         
         [_mainMenu addItem:prefsItem];
         
-        [self updateMenuTextForced];
+        [self updateMenuForced];
     }
     else {
         NSMenuItem * item = [[NSMenuItem alloc]initWithTitle:GetLocalizedString(@"No sensors found") action:nil keyEquivalent:@""];
@@ -550,7 +549,7 @@
     BOOL useFahrenheit = [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
     
     [_engine setUseFahrenheit:useFahrenheit];
-    [self updateMenuTextForced];
+    [self updateMenuForced];
     [[self view] setNeedsDisplay:YES];
     
     [_defaults setBool:useFahrenheit forKey:kHWMonitorUseFahrenheitKey];
@@ -562,7 +561,7 @@
     BOOL useBigFont = [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
     
     [(HWMonitorView*)[self view] setUseBigFont:useBigFont];
-    [self updateMenuTextForced];
+    [self updateMenuForced];
     [[self view] setNeedsDisplay:YES];
     
     [_defaults setBool:useBigFont forKey:kHWMonitorUseBigStatusMenuFont];
@@ -574,7 +573,7 @@
     BOOL useShadowEffect = [aNotification object] && [[aNotification object] isKindOfClass:[NSString class]] ? [(NSString*)[aNotification object] isEqualToString:HWMonitorBooleanYES] : NO;
     
     [(HWMonitorView*)[self view] setUseShadowEffect:useShadowEffect];
-    [self updateMenuTextForced];
+    [self updateMenuForced];
     [[self view] setNeedsDisplay:YES];
     
     [_defaults setBool:useShadowEffect forKey:kHWMonitorUseShadowEffect];
@@ -594,7 +593,7 @@
         if ([sensor disk])
             [[sensor representedObject] setTitle:[sensor title]];
     
-    [self updateMenuTextForced];
+    [self updateMenuForced];
     
     [self itemsRequested:nil];
 }
@@ -614,7 +613,7 @@
     [_defaults setInteger:_showVolumeNames forKey:kHWMonitorShowVolumeNames];
     [_defaults synchronize];
     
-    [self updateMenuTextForced];
+    [self updateMenuForced];
 }
 
 -(void)updateRateChanged:(NSNotification *)aNotification

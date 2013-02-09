@@ -200,7 +200,7 @@ static void nouveau_bios_shadow_pramin(struct nouveau_device *device)
 			addr += 0xf0000;
 		}
         
-		bar0 = nv_mask(device, 0x001700, 0xffffffff, addr >> 16);
+		bar0 = nv_mask(device, 0x001700, 0xffffffff, (u32)(addr >> 16));
 	}
     
 	/* bail if no rom signature */
