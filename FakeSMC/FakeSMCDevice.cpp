@@ -326,6 +326,8 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	if (!super::init(platform, 0, 0))
 		return false;
     
+    platformFunctionLock = IOLockAlloc();
+    
 	status = (ApleSMCStatus *) IOMalloc(sizeof(struct AppleSMCStatus));
 	bzero((void*)status, sizeof(struct AppleSMCStatus));
     
@@ -685,28 +687,39 @@ IOReturn FakeSMCDevice::causeInterrupt(int source)
 
 IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
 {
+    IOLockLock(platformFunctionLock);
+    
+    IOReturn result = kIOReturnUnsupported;
+    
 	if (functionName->isEqualTo(kFakeSMCSetKeyValue)) {
+        
+        result = kIOReturnBadArgument;
+        
         if (param1 && param2 && param3) {
             const char *name = (const char *)param1;
             UInt8 size = (UInt64)param2;
             const void *data = (const void *)param3;
             
+            result = kIOReturnError;
+            
             if (name && data && size > 0) {
-                
-                if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name)))
-                    if (key->setValueFromBuffer(data, size))
-                        return kIOReturnSuccess;
-                
-                return kIOReturnError;
+                if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name))) {
+                    if (key->setValueFromBuffer(data, size)) {
+                        result = kIOReturnSuccess;
+                    }
+                }
             }
         }
-        
-		return kIOReturnBadArgument;
 	}
-    
-    if (functionName->isEqualTo(kFakeSMCGetKeyHandler)) {
-        if (param1)
+    else if (functionName->isEqualTo(kFakeSMCGetKeyHandler)) {
+        
+        result = kIOReturnBadArgument;
+        
+        if (param1) {
             if (const char *name = (const char *)param1) {
+                
+                result = kIOReturnError;
+                
                 if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name))) {
                     if (key->getHandler()) {
                         if (param2) {
@@ -714,17 +727,16 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
                             bcopy(key->getHandler(), handler, sizeof(handler));
                         }
                         
-                        return kIOReturnSuccess;
+                        result = kIOReturnSuccess;
                     }
-                    
-                    return kIOReturnError;
                 }
             }
-        
-		return kIOReturnBadArgument;
+        }
 	}
-    
-	if (functionName->isEqualTo(kFakeSMCAddKeyHandler)) {
+    else if (functionName->isEqualTo(kFakeSMCAddKeyHandler)) {
+        
+        result = kIOReturnBadArgument;
+        
         if (param1 && param2 && param3 && param4) {
             const char *name = (const char *)param1;
             const char *type = (const char *)param2;
@@ -733,16 +745,16 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
             
             if (name && type && size > 0) {
                 if (addKeyWithHandler(name, type, size, handler))
-                    return kIOReturnSuccess;
-                
-                return kIOReturnError;
+                    result = kIOReturnSuccess;
+                else
+                    result = kIOReturnError;
             }
         }
-        
-		return kIOReturnBadArgument;
 	}
-	
-    if (functionName->isEqualTo(kFakeSMCAddKeyValue)) {
+    else if (functionName->isEqualTo(kFakeSMCAddKeyValue)) {
+        
+        result = kIOReturnBadArgument;
+        
         if (param1 && param2 && param3) {
             const char *name = (const char *)param1;
             const char *type = (const char *)param2;
@@ -751,18 +763,21 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
             
             if (name && type && size > 0) {
                 if (addKeyWithValue(name, type, size, value))
-                    return kIOReturnSuccess;
-                
-                return kIOReturnError;
+                    result = kIOReturnSuccess;
+                else
+                    result = kIOReturnError;
             }
         }
-        
-		return kIOReturnBadArgument;
 	}
-	
-    if (functionName->isEqualTo(kFakeSMCGetKeyValue)) {
+    else if (functionName->isEqualTo(kFakeSMCGetKeyValue)) {
+        
+        result = kIOReturnBadArgument;
+        
         if (param1) {
             if (const char *name = (const char *)param1) {
+                
+                result = kIOReturnError;
+                
                 if (FakeSMCKey *key = getKey(name)) {
                     if (param2 && param3) {
                         UInt8 *size = (UInt8*)param2;
@@ -771,65 +786,69 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
                         *size = key->getSize();
                         *value = key->getValue();
                         
-                        return kIOReturnSuccess;
+                        result = kIOReturnSuccess;
                     }
                 }
-                
-                return kIOReturnError;
             }
         }
-        
-		return kIOReturnBadArgument;
 	}
-    
-    if (functionName->isEqualTo(kFakeSMCRemoveKeyHandler)) {
+    else if (functionName->isEqualTo(kFakeSMCRemoveKeyHandler)) {
+        
+        result = kIOReturnBadArgument;
+        
         if (param1) {
-            if (IOService *handler = (IOService *)param1)
+            if (IOService *handler = (IOService *)param1) {
+                
+                result = kIOReturnError;
+                
                 if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
-                    while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject()))
+                    while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
                         if (key->getHandler() == handler) {
                             key->setHandler(NULL);
-                            return kIOReturnSuccess;
+                            result = kIOReturnSuccess;
+                            break;
                         }
-                    
+                    }
                     OSSafeRelease(iterator);
-                    
-                    return kIOReturnError;
                 }
+            }
         }
-        
-        return kIOReturnBadArgument;
     }
-    
-    if (functionName->isEqualTo(kFakeSMCTakeVacantGPUIndex)) {
+    else if (functionName->isEqualTo(kFakeSMCTakeVacantGPUIndex)) {
+        
+        result = kIOReturnBadArgument;
+        
         if (param1) {
             if (SInt8 *index = (SInt8*)param1) {
-                if (nextVacantGPUIndex > 0xf)
-                    return kIOReturnError;
-                
-                *index = nextVacantGPUIndex++;
-                
-                return kIOReturnSuccess;
+                if (nextVacantGPUIndex <= 0xf) {
+                    *index = nextVacantGPUIndex++;
+                    result = kIOReturnSuccess;
+                }
+                else {
+                    result = kIOReturnError;
+                }
+            }
+        }
+    }
+    else if (functionName->isEqualTo(kFakeSMCGetVacantGPUIndex)) {
+        
+        result = kIOReturnBadArgument;
+        
+        if (param1) {
+            if (SInt8 *index = (SInt8*)param1) {
+                if (nextVacantGPUIndex <= 0xf) {
+                    *index = nextVacantGPUIndex;
+                    result = kIOReturnSuccess;
+                }
+                else {
+                    result = kIOReturnError;
+                }
             }
         }
         
-        return kIOReturnBadArgument;
     }
     
-    if (functionName->isEqualTo(kFakeSMCGetVacantGPUIndex)) {
-        if (param1) {
-            if (SInt8 *index = (SInt8*)param1) {
-                if (nextVacantGPUIndex > 0xf)
-                    return kIOReturnError;
-                
-                *index = nextVacantGPUIndex;
-                
-                return kIOReturnSuccess;
-            }
-        }
-        
-        return kIOReturnBadArgument;
-    }
+    IOLockUnlock(platformFunctionLock);
     
-	return kIOReturnUnsupported;
+	return result;
 }

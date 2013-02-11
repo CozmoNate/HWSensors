@@ -84,6 +84,8 @@
 		7E42CF5C1682E2C400E1BD4E /* NSString+TruncateToWidth.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E42CF5B1682E2C400E1BD4E /* NSString+TruncateToWidth.m */; };
 		7E5CFA2516988EBE00F0E9AD /* i2c_algo_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */; };
 		7E5CFA2716988EBE00F0E9AD /* i2c_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */; };
+		7E5FEC9A16C982A00014BEC5 /* PLWeakCompatibilityStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5FEC9916C982A00014BEC5 /* PLWeakCompatibilityStubs.m */; };
+		7E5FEC9B16C982A00014BEC5 /* PLWeakCompatibilityStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5FEC9916C982A00014BEC5 /* PLWeakCompatibilityStubs.m */; };
 		7E7862901632F633001984B9 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */; };
 		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
 		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
@@ -293,6 +295,9 @@
 		7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_base.cpp; sourceTree = "<group>"; };
 		7E5CFA2416988EBE00F0E9AD /* i2c_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_base.h; sourceTree = "<group>"; };
 		7E5D8E5C16C643BD00CB6720 /* version.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
+		7E5FEC9816C982A00014BEC5 /* PLWeakCompatibilityStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLWeakCompatibilityStubs.h; sourceTree = "<group>"; };
+		7E5FEC9916C982A00014BEC5 /* PLWeakCompatibilityStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLWeakCompatibilityStubs.m; sourceTree = "<group>"; };
+		7E5FEC9D16C984570014BEC5 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		7E78628E1632F0B7001984B9 /* fakesmc.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fakesmc.txt; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81F15BA99350079AAE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -915,6 +920,16 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
+		7E5FEC9C16C982B00014BEC5 /* PLWeakCompatibility */ = {
+			isa = PBXGroup;
+			children = (
+				7E5FEC9816C982A00014BEC5 /* PLWeakCompatibilityStubs.h */,
+				7E5FEC9916C982A00014BEC5 /* PLWeakCompatibilityStubs.m */,
+				7E5FEC9D16C984570014BEC5 /* LICENSE */,
+			);
+			name = PLWeakCompatibility;
+			sourceTree = "<group>";
+		};
 		7E79B81B15BA99350079AAE8 /* CPUSensors */ = {
 			isa = PBXGroup;
 			children = (
@@ -1093,6 +1108,7 @@
 			isa = PBXGroup;
 			children = (
 				7E9388FF15945B360005316D /* HWMonitorDefinitions.h */,
+				7E5FEC9C16C982B00014BEC5 /* PLWeakCompatibility */,
 				7E06D0F6157FC7F800F8A270 /* BundleUserDefaults */,
 				7E3684A8158368AC00E32629 /* HWMonitorIcon */,
 			);
@@ -1526,6 +1542,7 @@
 				7E42CF4C1682E22400E1BD4E /* ATASmartReporter.m in Sources */,
 				7E42CF5C1682E2C400E1BD4E /* NSString+TruncateToWidth.m in Sources */,
 				7E862F8F16C3012F0050C9DA /* smc.c in Sources */,
+				7E5FEC9B16C982A00014BEC5 /* PLWeakCompatibilityStubs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1598,6 +1615,7 @@
 				7E42CF571682E26D00E1BD4E /* NSIndexSet-NoodleExtensions.m in Sources */,
 				7E42CF581682E26D00E1BD4E /* NSTableView-NoodleExtensions.m in Sources */,
 				7EBC98E616B1069400084A66 /* HWMonitorGraphsController.m in Sources */,
+				7E5FEC9A16C982A00014BEC5 /* PLWeakCompatibilityStubs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1710,7 +1728,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.6;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = x86_64;
 				VERSION_FILE = Shared/version.plist;
@@ -1736,7 +1754,7 @@
 				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.6;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = x86_64;
 				VERSION_FILE = Shared/version.plist;
@@ -1899,8 +1917,14 @@
 				);
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitorExtra-Info.plist";
+				OTHER_CFLAGS = (
+					"-Xclang",
+					"-fobjc-runtime-has-weak",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				TARGET_DIR = HWMonitorExtra;
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = menu;
 			};
 			name = Debug;
@@ -1920,8 +1944,14 @@
 				GCC_PREFIX_HEADER = "HWMonitorExtra/HWMonitorExtra-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitorExtra-Info.plist";
+				OTHER_CFLAGS = (
+					"-Xclang",
+					"-fobjc-runtime-has-weak",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				TARGET_DIR = HWMonitorExtra;
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = menu;
 			};
 			name = Release;
@@ -2052,8 +2082,14 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitor-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_CFLAGS = (
+					"-Xclang",
+					"-fobjc-runtime-has-weak",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				TARGET_DIR = HWMonitor;
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2073,8 +2109,14 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitor-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_CFLAGS = (
+					"-Xclang",
+					"-fobjc-runtime-has-weak",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				TARGET_DIR = HWMonitor;
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

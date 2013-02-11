@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.0.3</string>
+	<string>5.0.20</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -68,6 +68,8 @@
 	<dict>
 		<key>FAKESMC_BUNDLE</key>
 		<string>FAKESMC_COMPATIBLE</string>
+		<key>com.apple.iokit.IOGraphicsFamily</key>
+		<string>1.0.0b1</string>
 		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>1.0.0b1</string>
 		<key>com.apple.kpi.iokit</key>

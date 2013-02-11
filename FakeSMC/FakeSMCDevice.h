@@ -62,6 +62,8 @@ private:
     bool				trace;
 	bool				debug;
     
+    IOLock              *platformFunctionLock;
+    
     SInt8               nextVacantGPUIndex;
 	
 	virtual void		applesmc_io_cmd_writeb(void *opaque, uint32_t addr, uint32_t val);
@@ -71,6 +73,14 @@ private:
 	virtual const char	*applesmc_get_key_by_index(uint32_t index, struct AppleSMCStatus *s);
 	virtual void		applesmc_fill_data(struct AppleSMCStatus *s);
 	virtual void		applesmc_fill_info(struct AppleSMCStatus *s);
+    
+    virtual FakeSMCKey	*addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value);
+	virtual FakeSMCKey	*addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler);
+	virtual FakeSMCKey	*getKey(const char *name);
+	virtual FakeSMCKey	*getKey(unsigned int index);
+	virtual UInt32		getCount(void);
+	
+	virtual void		updateCounterKey(void);
 	
 public:
     virtual void		ioWrite32( UInt16 offset, UInt32 value, IOMemoryMap * map = 0 );
@@ -89,14 +99,6 @@ public:
 	
 	virtual bool		init(IOService *platform, OSDictionary *properties);
     virtual IOReturn	setProperties(OSObject * properties);
-	
-	virtual FakeSMCKey	*addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value);
-	virtual FakeSMCKey	*addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler);
-	virtual FakeSMCKey	*getKey(const char *name);
-	virtual FakeSMCKey	*getKey(unsigned int index);
-	virtual UInt32		getCount(void);
-	
-	virtual void		updateCounterKey(void);
     	
 	//virtual void		setDebug(bool debug_val);
     

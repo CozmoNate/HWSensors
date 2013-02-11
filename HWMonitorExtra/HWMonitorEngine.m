@@ -272,8 +272,10 @@
     
     //Temperatures
     
-    for (int i=0; i<0xf; i++)
+    for (int i=0; i<0xf; i++) {
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_DIODE_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupTemperature];
+        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_ANALOG_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupTemperature];
+    }
     
     [self addSensorWithKey:@KEY_CPU_PACKAGE_TEMPERATURE title:GetLocalizedString(@"CPU Core Package") group:kHWSensorGroupTemperature];
     [self addSensorWithKey:@KEY_CPU_HEATSINK_TEMPERATURE title:GetLocalizedString(@"CPU Heatsink") group:kHWSensorGroupTemperature];
