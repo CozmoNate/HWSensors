@@ -123,3 +123,6 @@
 "Frequency Sensors" = "Датчики частоты";
 "Tachometer Sensors" = "Датчики оборотов";
 "Voltage Sensors" = "Датчики напряжения";
+"CPU Vcore" = "ЦП Vcore";
+"CPU 1.5V S0" = "ЦП 1.5V S0";
+"CPU 1.8V S0" = "ЦП 1.8V S0";

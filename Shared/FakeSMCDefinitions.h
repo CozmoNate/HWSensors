@@ -71,7 +71,8 @@
 #define KEY_CPU_VOLTAGE                         "VC0C" // CPU 0
 #define KEY_FORMAT_CPU_VOLTAGE                  "VC%XC" // CPU X
 
-#define KEY_CPU_VCORE_VOLTAGE                   "VDPR"//"VC0C" // CPU 0
+#define KEY_CPU_VCORE_VOLTAGE                   "VDPR" //"VC0C" // CPU 0
+#define KEY_CPU_1V5_S0_VOLTAGE                  "VC5R" // CPU 1.5V S0
 #define KEY_CPU_1V8_S0_VOLTAGE                  "VC8R" // CPU 1.8V S0
 #define KEY_CPU_VRMSUPPLY_VOLTAGE               "VS0C" // Power Supply X
 #define KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE        "VS%XC" // Power Supply X

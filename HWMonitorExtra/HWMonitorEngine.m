@@ -376,6 +376,10 @@
     }
     
     // Voltages
+    [self addSensorWithKey:@KEY_CPU_VCORE_VOLTAGE title:GetLocalizedString(@"CPU Vcore") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_CPU_1V5_S0_VOLTAGE title:GetLocalizedString(@"CPU 1.5V S0") group:kHWSensorGroupVoltage];
+    [self addSensorWithKey:@KEY_CPU_1V5_S0_VOLTAGE title:GetLocalizedString(@"CPU 1.8V S0") group:kHWSensorGroupVoltage];
+    
     [self addSensorWithKey:@KEY_CPU_VOLTAGE title:GetLocalizedString(@"CPU") group:kHWSensorGroupVoltage];
     for (int i = 1; i <= 0xf; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_VOLTAGE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU %X"),i + 1] group:kHWSensorGroupVoltage];

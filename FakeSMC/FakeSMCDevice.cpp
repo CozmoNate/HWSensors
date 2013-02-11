@@ -847,6 +847,11 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
         }
         
     }
+    else {
+        IOLockUnlock(platformFunctionLock);
+        
+        return super::callPlatformFunction(functionName, waitForFunction, param1, param2, param3, param4);
+    }
     
     IOLockUnlock(platformFunctionLock);
     
