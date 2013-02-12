@@ -9,7 +9,7 @@
 #define HWSENSORS_LASTYEAR                  2013
 
 #define FAKESMC_BUNDLE                      org.netkas.driver.FakeSMC
-#define FAKESMC_COMPATIBLE                  351
+#define FAKESMC_COMPATIBLE                  370
 
 #define ACPISENSORS_BUNDLE                  org.hwsensors.driver.ACPISensors
 

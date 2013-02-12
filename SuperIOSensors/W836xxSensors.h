@@ -101,8 +101,6 @@ private:
 	void					writeByte(UInt16 reg, UInt8 value);
 	UInt8					readByte(UInt16 reg);
     
-    UInt64                  setBit(UInt64 target, UInt16 bit, UInt32 value);
-    
     virtual UInt8           temperatureSensorsLimit();
     virtual UInt8           voltageSensorsLimit();
     virtual UInt8           tachometerSensorsLimit();

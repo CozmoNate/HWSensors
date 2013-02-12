@@ -88,12 +88,6 @@ bool GeforceSensors::start(IOService * provider)
         
     struct nouveau_device *device = &card;
     
-    //Check if we have available card number, and use it in initialization process without taking it up
-    card.card_index = getVacantGPUIndex();
-    
-    if (card.card_index < 0)
-        return false;
-    
     // map device memory
     if ((device->pcidev = (IOPCIDevice*)provider)) {
         
@@ -111,10 +105,17 @@ bool GeforceSensors::start(IOService * provider)
         nv_error(device, "failed to assign PCI device\n");
         return false;
     }
+
+    card.card_index = takeVacantGPUIndex();
+    
+    if (card.card_index < 0)
+        return false;
     
     // identify chipset
-    if (!nouveau_identify(device))
+    if (!nouveau_identify(device)) {
+        releaseGPUIndex(card.card_index);
         return false;
+    }
     
     // shadow and parse bios
     
@@ -135,6 +136,8 @@ bool GeforceSensors::start(IOService * provider)
             
             nv_error(device, "unable to shadow VBIOS\n");
             
+            releaseGPUIndex(card.card_index);
+            
             return false;
         }
     
@@ -144,6 +147,7 @@ bool GeforceSensors::start(IOService * provider)
     // initialize funcs and variables
     if (!nouveau_init(device)) {
         nv_error(device, "unable to initialize monitoring driver\n");
+        releaseGPUIndex(card.card_index);
         return false;
     }
     
@@ -159,12 +163,6 @@ bool GeforceSensors::start(IOService * provider)
     
     // Register sensors
     char key[5];
-    
-    // Try to take up available GPU index
-    card.card_index = takeVacantGPUIndex();
-    
-    if (card.card_index < 0)
-        return false;
     
     if (card.core_temp_get || card.board_temp_get) {
         nv_debug(device, "registering i2c temperature sensors...\n");

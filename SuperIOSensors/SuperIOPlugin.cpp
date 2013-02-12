@@ -109,10 +109,13 @@ bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
                     break;
             }
             
-            if (getVacantGPUIndex() >= 0) {
-                snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, getVacantGPUIndex());
-                if (addSensorFromConfigurationNode(node, "GPU", key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i))
-                    takeVacantGPUIndex();
+            if (gpuIndex < 0)
+                gpuIndex = takeVacantGPUIndex();
+                
+            if (gpuIndex >= 0) {
+                snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, gpuIndex);
+                if (!addSensorFromConfigurationNode(node, "GPU", key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i))
+                    releaseGPUIndex(gpuIndex);
             }
         }
     }
@@ -136,10 +139,13 @@ bool SuperIOPlugin::addVoltageSensors(OSDictionary *configuration)
                     break;
             }
 
-            if (getVacantGPUIndex() >= 0) {
-                snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, getVacantGPUIndex());
-                if (addSensorFromConfigurationNode(node, "GPU", key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, i))
-                    takeVacantGPUIndex();
+            if (gpuIndex < 0)
+                gpuIndex = takeVacantGPUIndex();
+            
+            if (gpuIndex >= 0) {
+                snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, gpuIndex);
+                if (!addSensorFromConfigurationNode(node, "GPU", key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, i))
+                    releaseGPUIndex(gpuIndex);
             }
         }
     }
@@ -240,6 +246,8 @@ bool SuperIOPlugin::init(OSDictionary *properties)
     
     modelName = "unknown";
     vendorName = "unknown";
+    
+    gpuIndex = -1;
         
 	return true;
 }

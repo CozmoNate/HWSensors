@@ -820,24 +820,43 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
         
         if (param1) {
             if (SInt8 *index = (SInt8*)param1) {
-                if (nextVacantGPUIndex <= 0xf) {
-                    *index = nextVacantGPUIndex++;
-                    result = kIOReturnSuccess;
+                for (UInt8 i = 0; i <= 0xf; i++) {
+                    if (!bit_get(vacantGPUIndex, BIT(i))) {
+                        bit_set(vacantGPUIndex, BIT(i));
+                        *index = i;
+                        result = kIOReturnSuccess;
+                        break;
+                    }
                 }
-                else {
+                
+                if (result != kIOReturnSuccess)
                     result = kIOReturnError;
-                }
             }
         }
     }
-    else if (functionName->isEqualTo(kFakeSMCGetVacantGPUIndex)) {
+    else if (functionName->isEqualTo(kFakeSMCReleaseGPUIndex)) {
         
         result = kIOReturnBadArgument;
         
         if (param1) {
             if (SInt8 *index = (SInt8*)param1) {
-                if (nextVacantGPUIndex <= 0xf) {
-                    *index = nextVacantGPUIndex;
+                if (*index >=0 && *index <= 0xf) {
+                    bit_clear(vacantGPUIndex, BIT(*index));
+                    result = kIOReturnSuccess;
+                }
+            }
+        }
+    }
+    else if (functionName->isEqualTo(kFakeSMCTakeFanIndex)) {
+        
+        result = kIOReturnBadArgument;
+        
+        if (param1) {
+            if (SInt8 *index = (SInt8*)param1) {
+                if (vacantFanIndex <= 0xf) {
+                    *index = vacantFanIndex;
+                    vacantFanIndex++;
+                    addKeyWithValue(KEY_FAN_NUMBER, TYPE_UI8, TYPE_UI8_SIZE, &vacantFanIndex);
                     result = kIOReturnSuccess;
                 }
                 else {
@@ -845,7 +864,6 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
                 }
             }
         }
-        
     }
     else {
         IOLockUnlock(platformFunctionLock);

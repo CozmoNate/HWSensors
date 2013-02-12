@@ -119,6 +119,7 @@ bool GmaSensors::start(IOService * provider)
     
     if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
         HWSensorsFatalLog("failed to register temperature sensor");
+        releaseGPUIndex(cardIndex);
         return false;
     }
     

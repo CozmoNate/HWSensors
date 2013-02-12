@@ -75,7 +75,7 @@ void W836xxSensors::writeByte(UInt16 reg, UInt8 value)
 	outb((UInt16)(address + WINBOND_DATA_REGISTER_OFFSET), value); 
 }
 
-UInt64 W836xxSensors::setBit(UInt64 target, UInt16 bit, UInt32 value)
+inline UInt64 set_bit(UInt64 target, UInt16 bit, UInt32 value)
 {
 	if (((value & 1) == value) && bit <= 63)
 	{
@@ -191,9 +191,9 @@ void W836xxSensors::updateTachometers()
 		fanValue[i] = (count < 0xff) ? 1.35e6f / (float(count * divisor)) : 0;
 		fanValueObsolete[i] = false;
 		
-		newBits = setBit(newBits, WINBOND_TACHOMETER_DIVISOR2[i], (offset >> 2) & 1);
-		newBits = setBit(newBits, WINBOND_TACHOMETER_DIVISOR1[i], (offset >> 1) & 1);
-		newBits = setBit(newBits, WINBOND_TACHOMETER_DIVISOR0[i],  offset       & 1);
+		newBits = set_bit(newBits, WINBOND_TACHOMETER_DIVISOR2[i], (offset >> 2) & 1);
+		newBits = set_bit(newBits, WINBOND_TACHOMETER_DIVISOR1[i], (offset >> 1) & 1);
+		newBits = set_bit(newBits, WINBOND_TACHOMETER_DIVISOR0[i],  offset       & 1);
 	}		
 	
 	// write new fan divisors 

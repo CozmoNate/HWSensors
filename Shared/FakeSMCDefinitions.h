@@ -174,7 +174,8 @@
 #define kFakeSMCGetKeyHandler                   "kFakeSMCGetKeyHandler"
 #define kFakeSMCRemoveKeyHandler                "kFakeSMCRemoveKeyHandler"
 #define kFakeSMCTakeVacantGPUIndex              "kFakeSMCTakeVacantGPUIndex"
-#define kFakeSMCGetVacantGPUIndex               "kFakeSMCGetVacantGPUIndex"
+#define kFakeSMCReleaseGPUIndex                 "kFakeSMCReleaseGPUIndex"
+#define kFakeSMCTakeFanIndex                    "kFakeSMCTakeFanIndex"
 #define kFakeSMCGetValueCallback                "kFakeSMCGetValueCallback"
 #define kFakeSMCSetValueCallback                "kFakeSMCSetValueCallback"
 
@@ -187,5 +188,13 @@
 #define HWSensorsInfoLog(string, args...)	do { IOLog ("%s: " string "\n",getName() , ## args); } while(0)
 
 #define HWSensorsKeyToInt(name) *((uint32_t*)name)
+
+#define bit_get(p,m) ((p) & (m))
+#define bit_set(p,m) ((p) |= (m))
+#define bit_clear(p,m) ((p) &= ~(m))
+#define bit_flip(p,m) ((p) ^= (m))
+#define bit_write(c,p,m) (c ? bit_set(p,m) : bit_clear(p,m))
+#define BIT(x)	(0x01 << (x))
+#define LONGBIT(x) ((unsigned long)0x00000001 << (x))
 
 #endif

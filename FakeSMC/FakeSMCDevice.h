@@ -64,7 +64,8 @@ private:
     
     IOLock              *platformFunctionLock;
     
-    SInt8               nextVacantGPUIndex;
+    UInt16              vacantGPUIndex;
+    SInt8               vacantFanIndex;
 	
 	virtual void		applesmc_io_cmd_writeb(void *opaque, uint32_t addr, uint32_t val);
 	virtual void		applesmc_io_data_writeb(void *opaque, uint32_t addr, uint32_t val);

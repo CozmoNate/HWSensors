@@ -241,7 +241,30 @@ bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
 
 FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, UInt8 *fanIndex)
 {
-    UInt8 length = 0;
+    SInt8 vacantFanIndex = takeFanIndex();
+    
+    if (vacantFanIndex >= 0) {
+        char key[5];
+        snprintf(key, 5, KEY_FORMAT_FAN_SPEED, vacantFanIndex);
+        
+        if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, 2, kFakeSMCTachometerSensor, index)) {
+            if (name) {
+                snprintf(key, 5, KEY_FORMAT_FAN_ID, vacantFanIndex);
+                
+                if (!setKeyValue(key, TYPE_CH8, strlen(name), name))
+                    HWSensorsWarningLog("failed to add tachometer name for key %s", key);
+            }
+            
+            if (fanIndex) *fanIndex = vacantFanIndex;
+            
+            return sensor;
+        }
+        else HWSensorsErrorLog("failed to add tachometer sensor for key %s", key);
+    }
+    else HWSensorsErrorLog("failed to take vacant Fan index");
+    
+    
+    /*UInt8 length = 0;
 	void * data = 0;
     
 	if (kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)KEY_FAN_NUMBER, (void *)&length, (void *)&data, 0)) {
@@ -278,7 +301,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, UInt
             }
         }
 	}
-	else HWSensorsWarningLog("failed to read FNum value");
+	else HWSensorsWarningLog("failed to read FNum value");*/
 	
 	return 0;
 }
@@ -297,20 +320,28 @@ SInt8 FakeSMCPlugin::takeVacantGPUIndex()
 {
     SInt8 index = -1;
     
-    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeVacantGPUIndex, true, (void *)&index, 0, 0, 0)) {
-        HWSensorsWarningLog("failed to take vacant GPU index");
-    }
+    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeVacantGPUIndex, true, (void *)&index, 0, 0, 0))
+        HWSensorsErrorLog("failed to take GPU index");
         
     return index;
 }
 
-SInt8 FakeSMCPlugin::getVacantGPUIndex()
+bool FakeSMCPlugin::releaseGPUIndex(UInt8 index)
+{
+    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCReleaseGPUIndex, true, (void *)&index, 0, 0, 0)) {
+        HWSensorsErrorLog("failed to release GPU index");
+        return false;
+    }
+    
+    return true;
+}
+
+SInt8 FakeSMCPlugin::takeFanIndex()
 {
     SInt8 index = -1;
     
-    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCGetVacantGPUIndex, true, (void *)&index, 0, 0, 0)) {
-        HWSensorsWarningLog("failed to get vacant GPU index");
-    }
+    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeFanIndex, true, (void *)&index, 0, 0, 0))
+        HWSensorsErrorLog("failed to take Fan index");
     
     return index;
 }

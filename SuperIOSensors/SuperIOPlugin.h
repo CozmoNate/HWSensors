@@ -47,6 +47,8 @@ protected:
 	const char              *modelName;
     const char              *vendorName;
     
+    SInt8                   gpuIndex;
+    
     bool                    addSensorFromConfigurationNode(OSObject *node, const char *name, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index);
     
     virtual bool            addTemperatureSensors(OSDictionary *configuration);
