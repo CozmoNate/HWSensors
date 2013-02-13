@@ -114,6 +114,7 @@ bool GeforceSensors::start(IOService * provider)
     // identify chipset
     if (!nouveau_identify(device)) {
         releaseGPUIndex(card.card_index);
+        card.card_index = -1;
         return false;
     }
     
@@ -137,6 +138,7 @@ bool GeforceSensors::start(IOService * provider)
             nv_error(device, "unable to shadow VBIOS\n");
             
             releaseGPUIndex(card.card_index);
+            card.card_index = -1;
             
             return false;
         }
@@ -148,6 +150,7 @@ bool GeforceSensors::start(IOService * provider)
     if (!nouveau_init(device)) {
         nv_error(device, "unable to initialize monitoring driver\n");
         releaseGPUIndex(card.card_index);
+        card.card_index = -1;
         return false;
     }
     
@@ -249,6 +252,11 @@ void GeforceSensors::free(void)
     if (card.bios.data) {
         IOFree(card.bios.data, card.bios.size);
         card.bios.data = 0;
+    }
+    
+    if (card.card_index >= 0) {
+        if (!releaseGPUIndex(card.card_index))
+            HWSensorsFatalLog("failed to release GPU index");
     }
     
     super::free();

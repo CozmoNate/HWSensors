@@ -114,8 +114,10 @@ bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
                 
             if (gpuIndex >= 0) {
                 snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, gpuIndex);
-                if (!addSensorFromConfigurationNode(node, "GPU", key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i))
+                if (!addSensorFromConfigurationNode(node, "GPU", key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i)) {
                     releaseGPUIndex(gpuIndex);
+                    gpuIndex = -1;
+                }
             }
         }
     }
@@ -144,8 +146,10 @@ bool SuperIOPlugin::addVoltageSensors(OSDictionary *configuration)
             
             if (gpuIndex >= 0) {
                 snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, gpuIndex);
-                if (!addSensorFromConfigurationNode(node, "GPU", key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, i))
+                if (!addSensorFromConfigurationNode(node, "GPU", key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, i)) {
                     releaseGPUIndex(gpuIndex);
+                    gpuIndex = -1;
+                }
             }
         }
     }
@@ -317,4 +321,13 @@ bool SuperIOPlugin::start(IOService *provider)
     HWSensorsInfoLog("started");
 
 	return true;
+}
+
+void SuperIOPlugin::stop(IOService *provider)
+{
+    if (gpuIndex >= 0)
+        if (!releaseGPUIndex(gpuIndex))
+            HWSensorsFatalLog("failed to release GPU index");
+    
+    super::stop(provider);
 }

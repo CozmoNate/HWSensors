@@ -23,10 +23,13 @@ private:
 	IOPCIDevice *		VCard;
 	IOMemoryMap *		mmio;
 	
+    SInt8               gpuIndex;
+    
 protected:	
     virtual float       getSensorValue(FakeSMCSensor *sensor);
 	
 public:
-    IOService*          probe(IOService *provider, SInt32 *score);
-    bool                start(IOService * provider);
+    virtual IOService* probe(IOService *provider, SInt32 *score);
+    virtual bool       start(IOService * provider);
+    virtual void       stop(IOService* provider);
 };

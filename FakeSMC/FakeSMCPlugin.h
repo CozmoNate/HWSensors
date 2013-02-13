@@ -164,7 +164,8 @@ protected:
     
     SInt8                   takeVacantGPUIndex();
     bool                    releaseGPUIndex(UInt8 index);
-    SInt8                   takeFanIndex();
+    SInt8                   takeVacantFanIndex();
+    bool                    releaseFanIndex(UInt8 index);
     
     bool                    setKeyValue(const char *key, const char *type, UInt8 size, const char *value);
     

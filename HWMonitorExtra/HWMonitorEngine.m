@@ -55,9 +55,9 @@
 + (NSString*)copyTypeFromKeyInfo:(NSArray*)info
 {
     if (info && [info count] == 2) {
-        NSString *type = (NSString*)[info objectAtIndex:0];
+        //NSString *type = (NSString*)[info objectAtIndex:0];
         
-        NSLog(@"%s", [type cStringUsingEncoding:NSASCIIStringEncoding]);
+        //NSLog(@"%s", [type cStringUsingEncoding:NSASCIIStringEncoding]);
         
         return [NSString stringWithString:(NSString*)[info objectAtIndex:0]];
     }

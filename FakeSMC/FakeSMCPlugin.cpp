@@ -241,7 +241,7 @@ bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
 
 FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, UInt8 *fanIndex)
 {
-    SInt8 vacantFanIndex = takeFanIndex();
+    SInt8 vacantFanIndex = takeVacantFanIndex();
     
     if (vacantFanIndex >= 0) {
         char key[5];
@@ -336,14 +336,24 @@ bool FakeSMCPlugin::releaseGPUIndex(UInt8 index)
     return true;
 }
 
-SInt8 FakeSMCPlugin::takeFanIndex()
+SInt8 FakeSMCPlugin::takeVacantFanIndex()
 {
     SInt8 index = -1;
     
-    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeFanIndex, true, (void *)&index, 0, 0, 0))
+    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeVacantFanIndex, true, (void *)&index, 0, 0, 0))
         HWSensorsErrorLog("failed to take Fan index");
     
     return index;
+}
+
+bool FakeSMCPlugin::releaseFanIndex(UInt8 index)
+{
+    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCReleaseFanIndex, true, (void *)&index, 0, 0, 0)) {
+        HWSensorsErrorLog("failed to release Fan index");
+        return false;
+    }
+    
+    return true;
 }
 
 /*SInt8 FakeSMCPlugin::getVacantGPUIndex()
@@ -460,9 +470,27 @@ bool FakeSMCPlugin::start(IOService *provider)
 	return true;
 }
 
+inline UInt8 index_of_hex_char(char c)
+{
+	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
+}
+
 void FakeSMCPlugin::stop(IOService* provider)
 {
-    storageProvider->callPlatformFunction(kFakeSMCRemoveKeyHandler, true, this, NULL, NULL, NULL);
+    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCRemoveKeyHandler, true, this, NULL, NULL, NULL))
+        HWSensorsFatalLog("failed to remove handler from storage provider");
+    
+    // Release all tachometers
+    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(sensors)) {
+        while (FakeSMCSensor *sensor = OSDynamicCast(FakeSMCSensor, iterator->getNextObject())) {
+            if (sensor->getGroup() == kFakeSMCTachometerSensor) {
+                UInt8 index = index_of_hex_char(sensor->getKey()[1]);
+                if (!releaseFanIndex(index))
+                    HWSensorsErrorLog("failed to release Fan index: %d", index);
+            }
+        }
+        OSSafeRelease(iterator);
+    }
     
     sensors->flushCollection();
 	
@@ -471,7 +499,7 @@ void FakeSMCPlugin::stop(IOService* provider)
 
 void FakeSMCPlugin::free()
 {
-    OSSafeRelease(sensors);	
+    OSSafeRelease(sensors);
 	super::free();
 }
 

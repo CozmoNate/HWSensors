@@ -175,7 +175,8 @@
 #define kFakeSMCRemoveKeyHandler                "kFakeSMCRemoveKeyHandler"
 #define kFakeSMCTakeVacantGPUIndex              "kFakeSMCTakeVacantGPUIndex"
 #define kFakeSMCReleaseGPUIndex                 "kFakeSMCReleaseGPUIndex"
-#define kFakeSMCTakeFanIndex                    "kFakeSMCTakeFanIndex"
+#define kFakeSMCTakeVacantFanIndex               "kFakeSMCTakeVacantFanIndex"
+#define kFakeSMCReleaseFanIndex                 "kFakeSMCReleaseFanIndex"
 #define kFakeSMCGetValueCallback                "kFakeSMCGetValueCallback"
 #define kFakeSMCSetValueCallback                "kFakeSMCSetValueCallback"
 

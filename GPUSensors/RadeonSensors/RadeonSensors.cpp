@@ -276,6 +276,7 @@ bool RadeonMonitor::start(IOService * provider)
             default:
                 radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);
                 releaseGPUIndex(card.card_index);
+                card.card_index = -1;
                 return false;
         }
     }
@@ -288,6 +289,7 @@ bool RadeonMonitor::start(IOService * provider)
             //radeon_error(&card, "failed to register temperature sensor for key %s\n", key);
             radeon_fatal(&card, "failed to register temperature sensor for key %s\n", key);
             releaseGPUIndex(card.card_index);
+            card.card_index = -1;
             return false;
         }
     }
@@ -305,6 +307,11 @@ void RadeonMonitor::free(void)
     if (card.bios && card.bios_size > 0) {
         IOFree(card.bios, card.bios_size);
         card.bios = 0;
+    }
+    
+    if (card.card_index >= 0) {
+        if (!releaseGPUIndex(card.card_index))
+            HWSensorsFatalLog("failed to release GPU index");
     }
     
     super::free();
