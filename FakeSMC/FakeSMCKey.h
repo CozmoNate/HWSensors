@@ -36,11 +36,11 @@ protected:
 	IOService *		handler;
 	
 public:
-	static FakeSMCKey *withValue(const char *aKey, const char *aType, unsigned char aSize, const void *aValue);
-	static FakeSMCKey *withHandler(const char *aKey, const char *aType, unsigned char aSize, IOService *aHandler);
+	static FakeSMCKey *withValue(const char *aKey, const char *aType, const unsigned char aSize, const void *aValue);
+	static FakeSMCKey *withHandler(const char *aKey, const char *aType, const unsigned char aSize, IOService *aHandler);
 	
 	// Not for general use. Use withCallback or withValue instance creation method
-	virtual bool init(const char * aKey, const char * aType, unsigned char aSize, const void *aValue, IOService *aHandler = 0);
+	virtual bool init(const char * aKey, const char * aType, const unsigned char aSize, const void *aValue, IOService *aHandler = 0);
 	
 	virtual void free();
 	

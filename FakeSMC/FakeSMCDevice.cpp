@@ -12,6 +12,8 @@
 
 #include "FakeSMCPlugin.h"
 
+#include <IOKit/IODeviceTreeSupport.h>
+
 #define FakeSMCTraceLog(string, args...) do { if (trace) { IOLog ("%s: [Trace] " string "\n",getName() , ## args); } } while(0)
 #define FakeSMCDebugLog(string, args...) do { if (debug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
 
@@ -344,6 +346,8 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
     fanCounterKey = FakeSMCKey::withValue(KEY_FAN_NUMBER, TYPE_UI8, TYPE_UI8_SIZE, "\0");
     keys->setObject(fanCounterKey);
     
+    
+    // Load preconfigured keys
     FakeSMCDebugLog("loading keys...");
     
     if (OSDictionary *dictionary = OSDynamicCast(OSDictionary, properties->getObject("Keys"))) {
@@ -374,6 +378,7 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 		HWSensorsWarningLog("no preconfigured keys found");
 	}
     
+    // Load wellknown types list
     types = OSDictionary::withCapacity(0);
     
     FakeSMCDebugLog("loading types...");
@@ -387,6 +392,32 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
             }
         }
     }
+    
+    // Set Clover platform keys
+    if (IORegistryEntry* cloverPlatformNode = fromPath("/efi/platform", gIODTPlane)) {
+        if (OSData *data = OSDynamicCast(OSData, cloverPlatformNode->getProperty("RPlt")))
+            addKeyWithValue("RPlt", TYPE_CH8, data->getLength(), data->getBytesNoCopy());
+        
+        if (OSData *data = OSDynamicCast(OSData, cloverPlatformNode->getProperty("RBr")))
+            addKeyWithValue("RBr", TYPE_CH8, data->getLength(), data->getBytesNoCopy());
+
+        if (OSData *data = OSDynamicCast(OSData, cloverPlatformNode->getProperty("REV")))
+            if (data->getLength() >= 6)
+                addKeyWithValue("REV", "{rev", 6, data->getBytesNoCopy(0, 6));
+        
+        if (OSData *data = OSDynamicCast(OSData, cloverPlatformNode->getProperty("EPCI")))
+            if (data->getLength() >= TYPE_UI32_SIZE) {
+                UInt32 epci = OSSwapHostToBigInt32(*(UInt32*)data->getBytesNoCopy(0, TYPE_UI32_SIZE));
+                addKeyWithValue("EPCI", TYPE_UI32, TYPE_UI32_SIZE, &epci);
+            }
+        
+        if (OSData *data = OSDynamicCast(OSData, cloverPlatformNode->getProperty("BEMB")))
+            if (data->getLength() >= TYPE_FLAG_SIZE)
+                addKeyWithValue("BEMB", TYPE_FLAG, TYPE_FLAG_SIZE, data->getBytesNoCopy(0, TYPE_FLAG_SIZE));
+    }
+    
+    
+    // Init SMC device
     
     exposedValues = OSDictionary::withCapacity(0);
     
@@ -539,6 +570,7 @@ void FakeSMCDevice::updateFanCounterKey()
         }
     }
     
+    //addKeyWithValue(KEY_FAN_NUMBER, TYPE_UI8, TYPE_UI8_SIZE, &count);
 	fanCounterKey->setValueFromBuffer(&count, 1);
 }
 
@@ -815,20 +847,19 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
         result = kIOReturnBadArgument;
         
         if (param1) {
-            if (IOService *handler = (IOService *)param1) {
+            result = kIOReturnError;
+            
+            if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
                 
-                result = kIOReturnError;
+                IOService *handler = (IOService *)param1;
                 
-                if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
-                    while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
-                        if (key->getHandler() == handler) {
-                            key->setHandler(NULL);
-                            result = kIOReturnSuccess;
-                            break;
-                        }
+                while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
+                    if (key->getHandler() == handler) {
+                        key->setHandler(NULL);
                     }
-                    OSSafeRelease(iterator);
                 }
+                result = kIOReturnSuccess;
+                OSSafeRelease(iterator);
             }
         }
     }

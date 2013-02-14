@@ -27,7 +27,7 @@ FakeSMCKey *FakeSMCKey::withValue(const char *aKey, const char *aType, unsigned 
     return me;
 }
 
-FakeSMCKey *FakeSMCKey::withHandler(const char *aKey, const char *aType, unsigned char aSize, IOService *aHandler)
+FakeSMCKey *FakeSMCKey::withHandler(const char *aKey, const char *aType, const unsigned char aSize, IOService *aHandler)
 {
     FakeSMCKey *me = new FakeSMCKey;
 	
@@ -37,7 +37,7 @@ FakeSMCKey *FakeSMCKey::withHandler(const char *aKey, const char *aType, unsigne
     return me;
 }
 
-bool FakeSMCKey::init(const char * aKey, const char * aType, unsigned char aSize, const void *aValue, IOService * aHandler)
+bool FakeSMCKey::init(const char * aKey, const char * aType, const unsigned char aSize, const void *aValue, IOService * aHandler)
 {
     if (!super::init())
         return false;
@@ -160,11 +160,12 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
 
 bool FakeSMCKey::setHandler(IOService *aHandler)
 {
-	if (!aHandler) 
-		return false;
-	
+    if (handler) {
+        // TODO: check priority
+    }
+    
 	handler = aHandler;
-	
+    
 	return true;
 }
 

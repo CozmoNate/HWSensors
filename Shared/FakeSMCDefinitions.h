@@ -156,6 +156,7 @@
 #define TYPE_SI8_SIZE                           1
 #define TYPE_SI16_SIZE                          2
 #define TYPE_SI32_SIZE                          4
+#define TYPE_FLAG_SIZE                          1
 
 // Services
 #define kFakeSMCService                         "FakeSMC"
