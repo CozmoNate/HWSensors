@@ -359,9 +359,8 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 						OSString *type = OSDynamicCast(OSString, aiterator->getNextObject());
 						OSData *value = OSDynamicCast(OSData, aiterator->getNextObject());
                         
-						if (type && value) {
-							this->addKeyWithValue(key->getCStringNoCopy(), type->getCStringNoCopy(), value->getLength(), value->getBytesNoCopy());
-                        }
+						if (type && value)
+							addKeyWithValue(key->getCStringNoCopy(), type->getCStringNoCopy(), value->getLength(), value->getBytesNoCopy());
                         
                         OSSafeRelease(aiterator);
 					}
@@ -378,45 +377,41 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 		HWSensorsWarningLog("no preconfigured keys found");
 	}
     
-    // Load wellknown types list
+    // Load wellknown type names
     types = OSDictionary::withCapacity(0);
     
     FakeSMCDebugLog("loading types...");
     
     if (OSDictionary *dictionary = OSDynamicCast(OSDictionary, properties->getObject("Types"))) {
         if (OSIterator *iterator = OSCollectionIterator::withCollection(dictionary)) {
-			while (const OSSymbol *key = (const OSSymbol *)iterator->getNextObject()) {
+			while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
                 if (OSString *value = OSDynamicCast(OSString, dictionary->getObject(key))) {
                     types->setObject(key, value);
                 }
             }
+            OSSafeRelease(iterator);
         }
     }
     
     // Set Clover platform keys
-    if (IORegistryEntry* cloverPlatformNode = fromPath("/efi/platform", gIODTPlane)) {
-        if (OSData *data = OSDynamicCast(OSData, cloverPlatformNode->getProperty("RPlt")))
-            addKeyWithValue("RPlt", TYPE_CH8, data->getLength(), data->getBytesNoCopy());
-        
-        if (OSData *data = OSDynamicCast(OSData, cloverPlatformNode->getProperty("RBr")))
-            addKeyWithValue("RBr", TYPE_CH8, data->getLength(), data->getBytesNoCopy());
-
-        if (OSData *data = OSDynamicCast(OSData, cloverPlatformNode->getProperty("REV")))
-            if (data->getLength() >= 6)
-                addKeyWithValue("REV", "{rev", 6, data->getBytesNoCopy(0, 6));
-        
-        if (OSData *data = OSDynamicCast(OSData, cloverPlatformNode->getProperty("EPCI")))
-            if (data->getLength() >= TYPE_UI32_SIZE) {
-                UInt32 epci = OSSwapHostToBigInt32(*(UInt32*)data->getBytesNoCopy(0, TYPE_UI32_SIZE));
-                addKeyWithValue("EPCI", TYPE_UI32, TYPE_UI32_SIZE, &epci);
+    if (OSDictionary *dictionary = OSDynamicCast(OSDictionary, properties->getObject("Clover"))) {
+        if (IORegistryEntry* cloverPlatformNode = fromPath("/efi/platform", gIODTPlane)) {
+            if (OSIterator *iterator = OSCollectionIterator::withCollection(dictionary)) {
+                while (OSString *name = OSDynamicCast(OSString, iterator->getNextObject())) {
+                    if (OSData *data = OSDynamicCast(OSData, cloverPlatformNode->getProperty(name))) {
+                        if (OSArray *items = OSDynamicCast(OSArray, dictionary->getObject(name))) {
+                            OSString *key = OSDynamicCast(OSString, items->getObject(0));
+                            OSString *type = OSDynamicCast(OSString, items->getObject(1));
+                            
+                            addKeyWithValue(key->getCStringNoCopy(), type->getCStringNoCopy(), data->getLength(), data->getBytesNoCopy());
+                        }
+                    }
+                }
+                OSSafeRelease(iterator);
             }
-        
-        if (OSData *data = OSDynamicCast(OSData, cloverPlatformNode->getProperty("BEMB")))
-            if (data->getLength() >= TYPE_FLAG_SIZE)
-                addKeyWithValue("BEMB", TYPE_FLAG, TYPE_FLAG_SIZE, data->getBytesNoCopy(0, TYPE_FLAG_SIZE));
+        }
     }
-    
-    
+
     // Init SMC device
     
     exposedValues = OSDictionary::withCapacity(0);

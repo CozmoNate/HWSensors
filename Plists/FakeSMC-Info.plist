@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.0.69</string>
+	<string>5.0.70</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>394</string>
+	<string>395</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>SMC Device Emulator</key>
@@ -28,6 +28,34 @@
 			<string>FAKESMC_BUNDLE</string>
 			<key>Configuration</key>
 			<dict>
+				<key>Clover</key>
+				<dict>
+					<key>BEMB</key>
+					<array>
+						<string>BEMB</string>
+						<string>flag</string>
+					</array>
+					<key>EPCI</key>
+					<array>
+						<string>EPCI</string>
+						<string>ui32</string>
+					</array>
+					<key>RBr</key>
+					<array>
+						<string>RBr</string>
+						<string>ch8*</string>
+					</array>
+					<key>REV</key>
+					<array>
+						<string>REV</string>
+						<string>{rev</string>
+					</array>
+					<key>RPlt</key>
+					<array>
+						<string>RPlt</string>
+						<string>ch8*</string>
+					</array>
+				</dict>
 				<key>Keys</key>
 				<dict>
 					<key>$Adr</key>
