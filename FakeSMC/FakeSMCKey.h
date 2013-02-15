@@ -26,38 +26,40 @@ class FakeSMCKey : public OSObject
     OSDeclareDefaultStructors(FakeSMCKey)
     
 private:
-    UInt64 lastUpdated;
+    UInt64              lastUpdated;
 	
 protected:
-    char *			key;
-    char *			type;
-	UInt8           size;
-	void *			value;
-	IOService *		handler;
+    char *              key;
+    char *              type;
+	UInt8               size;
+	void *              value;
+	IOService *         handler;
 	
 public:
-	static FakeSMCKey *withValue(const char *aKey, const char *aType, const unsigned char aSize, const void *aValue);
-	static FakeSMCKey *withHandler(const char *aKey, const char *aType, const unsigned char aSize, IOService *aHandler);
-	
-	// Not for general use. Use withCallback or withValue instance creation method
-	virtual bool init(const char * aKey, const char * aType, const unsigned char aSize, const void *aValue, IOService *aHandler = 0);
-	
-	virtual void free();
-	
-    const char *getName(); // this is used by logging functions
+	static FakeSMCKey   *withValue(const char *aKey, const char *aType, const unsigned char aSize, const void *aValue);
+	static FakeSMCKey   *withHandler(const char *aKey, const char *aType, const unsigned char aSize, IOService *aHandler);
     
-	const char *getKey();
-	const char *getType();
-	UInt8 getSize() const;
-	const void *getValue();
-    const IOService *getHandler();
+    // Not for general use. Use withHandler or withValue instance creation method
+	virtual bool        init(const char * aKey, const char * aType, const unsigned char aSize, const void *aValue, IOService *aHandler = 0);
 	
-	bool setValueFromBuffer(const void *aBuffer, UInt8 aSize);
-	bool setHandler(IOService *aHandler);
+	virtual void        free();
 	
-	bool isEqualTo(const char *aKey);
-	bool isEqualTo(FakeSMCKey *aKey);
-	bool isEqualTo(const OSMetaClassBase *anObject);
+    const char          *getName(); // this is used by logging functions
+    
+	const char          *getKey();
+	const char          *getType();
+	UInt8               getSize() const;
+	void                *getValue();
+    IOService           *getHandler();
+	
+    bool                setType(const char *aType);
+    bool                setSize(UInt8 aSize);
+	bool                setValueFromBuffer(const void *aBuffer, UInt8 aSize);
+	bool                setHandler(IOService *aHandler);
+	
+	bool                isEqualTo(const char *aKey);
+	bool                isEqualTo(FakeSMCKey *aKey);
+	bool                isEqualTo(const OSMetaClassBase *anObject);
 };
 
 

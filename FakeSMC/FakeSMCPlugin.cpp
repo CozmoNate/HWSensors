@@ -193,7 +193,9 @@ OSString *FakeSMCPlugin::getPlatformProduct()
 bool FakeSMCPlugin::isKeyExists(const char *key)
 {
     if (storageProvider) {
-        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)key, 0, 0, 0);
+        UInt8 size = 0;
+        void *value = 0;
+        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)key, &size, value, 0);
     }
     
     return false;
@@ -477,9 +479,11 @@ inline UInt8 index_of_hex_char(char c)
 
 void FakeSMCPlugin::stop(IOService* provider)
 {
+    HWSensorsDebugLog("[stop] removing handler");
     if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCRemoveKeyHandler, true, this, NULL, NULL, NULL))
         HWSensorsFatalLog("failed to remove handler from storage provider");
     
+    HWSensorsDebugLog("[stop] releasing tachometers");
     // Release all tachometers
     if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(sensors)) {
         while (FakeSMCSensor *sensor = OSDynamicCast(FakeSMCSensor, iterator->getNextObject())) {
@@ -492,6 +496,7 @@ void FakeSMCPlugin::stop(IOService* provider)
         OSSafeRelease(iterator);
     }
     
+    HWSensorsDebugLog("[stop] releasing sensors collection");
     sensors->flushCollection();
 	
 	super::stop(provider);
@@ -499,6 +504,7 @@ void FakeSMCPlugin::stop(IOService* provider)
 
 void FakeSMCPlugin::free()
 {
+    HWSensorsDebugLog("[free] freenig sensors collection");
     OSSafeRelease(sensors);
 	super::free();
 }

@@ -176,7 +176,7 @@ protected:
     
     OSDictionary            *getConfigurationNode(OSDictionary *root, OSString *name);
     OSDictionary            *getConfigurationNode(OSDictionary *root, const char *name);
-    OSDictionary            *getConfigurationNode(OSString *model=NULL);
+    OSDictionary            *getConfigurationNode(OSString *model = NULL);
     
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     

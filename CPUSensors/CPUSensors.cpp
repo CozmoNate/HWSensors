@@ -220,7 +220,7 @@ bool CPUSensors::start(IOService *provider)
 		return false;
 	}
     
-    if (OSDictionary *configuration = getConfigurationNode(NULL))
+    if (OSDictionary *configuration = getConfigurationNode())
     {
         if (OSNumber* number = OSDynamicCast(OSNumber, configuration->getObject("Tjmax"))) {
             // User defined Tjmax
@@ -457,4 +457,19 @@ bool CPUSensors::start(IOService *provider)
     registerService();
     
     return true;
+}
+
+void CPUSensors::stop(IOService *provider)
+{
+    timersource->disable();
+    workloop->removeEventSource(timersource);
+    
+    super::stop(provider);
+}
+
+void CPUSensors::free(void)
+{
+    timersource->release();
+    
+    super::free();
 }

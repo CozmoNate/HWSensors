@@ -272,7 +272,7 @@
             
             // Add subtitle
             if ([[sensor representedObject] subTitle]) {
-                [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:_menuTextAttributes]];
+                [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n " attributes:_menuTextAttributes]];
                 [title appendAttributedString:[[NSAttributedString alloc] initWithString:[[sensor representedObject] subTitle] attributes:_menuSubtitleAttributes]];
             }
             

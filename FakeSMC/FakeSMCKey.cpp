@@ -111,7 +111,7 @@ const char *FakeSMCKey::getType() { return type; };
 
 UInt8 FakeSMCKey::getSize() const { return size; };
 
-const void *FakeSMCKey::getValue() 
+void *FakeSMCKey::getValue() 
 { 
 	if (handler) {
         UInt64 now = ptimer_read();
@@ -129,7 +129,24 @@ const void *FakeSMCKey::getValue()
 	return value; 
 };
 
-const IOService *FakeSMCKey::getHandler() { return handler; };
+IOService *FakeSMCKey::getHandler() { return handler; };
+
+bool FakeSMCKey::setType(const char *aType)
+{
+    if (aType) {
+        copySymbol(aType, type);
+        return true;
+    }
+    
+    return false;
+}
+
+bool FakeSMCKey::setSize(UInt8 aSize)
+{
+    size = aSize;
+    
+    return true;
+}
 
 bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
 {
