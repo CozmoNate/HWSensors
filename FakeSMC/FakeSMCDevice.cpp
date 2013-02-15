@@ -415,7 +415,7 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
         
         HWSensorsInfoLog("%d key(s) exported from Clover EFI", count);
     }
-
+    
     // Init SMC device
     
     exposedValues = OSDictionary::withCapacity(0);
@@ -776,21 +776,19 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
         
         result = kIOReturnBadArgument;
         
-        if (param1) {
-            if (const char *name = (const char *)param1) {
-                
-                result = kIOReturnError;
-                
-                if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name))) {
-                    if (key->getHandler()) {
-                        
-                        result = kIOReturnBadArgument;
-                        
-                        if (param2) {
-                            IOService *handler = (IOService *)param2;
-                            bcopy(key->getHandler(), handler, sizeof(handler));
-                            result = kIOReturnSuccess;
-                        }
+        if (const char *name = (const char *)param1) {
+            
+            result = kIOReturnError;
+            
+            if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name))) {
+                if (key->getHandler()) {
+                    
+                    result = kIOReturnBadArgument;
+                    
+                    if (param2) {
+                        IOService *handler = (IOService *)param2;
+                        bcopy(key->getHandler(), handler, sizeof(handler));
+                        result = kIOReturnSuccess;
                     }
                 }
             }
@@ -856,24 +854,22 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
         
         result = kIOReturnBadArgument;
         
-        if (param1) {
-            if (const char *name = (const char *)param1) {
+        if (const char *name = (const char *)param1) {
+            
+            result = kIOReturnError;
+            
+            if (FakeSMCKey *key = getKey(name)) {
                 
-                result = kIOReturnError;
+                result = kIOReturnBadArgument;
                 
-                if (FakeSMCKey *key = getKey(name)) {
+                if (param2 && param3) {
+                    UInt8 *size = (UInt8*)param2;
+                    const void **value = (const void **)param3;
                     
-                    result = kIOReturnBadArgument;
+                    *size = key->getSize();
+                    *value = key->getValue();
                     
-                    if (param2 && param3) {
-                        UInt8 *size = (UInt8*)param2;
-                        const void **value = (const void **)param3;
-                        
-                        *size = key->getSize();
-                        *value = key->getValue();
-                        
-                        result = kIOReturnSuccess;
-                    }
+                    result = kIOReturnSuccess;
                 }
             }
         }
@@ -882,32 +878,28 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
         
         result = kIOReturnBadArgument;
         
-        if (param1) {
-            if (SInt8 *index = (SInt8*)param1) {
-                for (UInt8 i = 0; i <= 0xf; i++) {
-                    if (!bit_get(vacantGPUIndex, BIT(i))) {
-                        bit_set(vacantGPUIndex, BIT(i));
-                        *index = i;
-                        result = kIOReturnSuccess;
-                        break;
-                    }
+        if (SInt8 *index = (SInt8*)param1) {
+            for (UInt8 i = 0; i <= 0xf; i++) {
+                if (!bit_get(vacantGPUIndex, BIT(i))) {
+                    bit_set(vacantGPUIndex, BIT(i));
+                    *index = i;
+                    result = kIOReturnSuccess;
+                    break;
                 }
-                
-                if (result != kIOReturnSuccess)
-                    result = kIOReturnError;
             }
+            
+            if (result != kIOReturnSuccess)
+                result = kIOReturnError;
         }
     }
     else if (functionName->isEqualTo(kFakeSMCReleaseGPUIndex)) {
         
         result = kIOReturnBadArgument;
         
-        if (param1) {
-            if (UInt8 *index = (UInt8*)param1) {
-                if (*index <= 0xf) {
-                    bit_clear(vacantGPUIndex, BIT(*index));
-                    result = kIOReturnSuccess;
-                }
+        if (UInt8 *index = (UInt8*)param1) {
+            if (*index <= 0xf) {
+                bit_clear(vacantGPUIndex, BIT(*index));
+                result = kIOReturnSuccess;
             }
         }
     }
@@ -915,34 +907,30 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
         
         result = kIOReturnBadArgument;
         
-        if (param1) {
-            if (SInt8 *index = (SInt8*)param1) {
-                for (UInt8 i = 0; i <= 0xf; i++) {
-                    if (!bit_get(vacantFanIndex, BIT(i))) {
-                        bit_set(vacantFanIndex, BIT(i));
-                        *index = i;
-                        updateFanCounterKey();
-                        result = kIOReturnSuccess;
-                        break;
-                    }
+        if (SInt8 *index = (SInt8*)param1) {
+            for (UInt8 i = 0; i <= 0xf; i++) {
+                if (!bit_get(vacantFanIndex, BIT(i))) {
+                    bit_set(vacantFanIndex, BIT(i));
+                    *index = i;
+                    updateFanCounterKey();
+                    result = kIOReturnSuccess;
+                    break;
                 }
-                
-                if (result != kIOReturnSuccess)
-                    result = kIOReturnError;
             }
+            
+            if (result != kIOReturnSuccess)
+                result = kIOReturnError;
         }
     }
     else if (functionName->isEqualTo(kFakeSMCReleaseFanIndex)) {
         
         result = kIOReturnBadArgument;
         
-        if (param1) {
-            if (UInt8 *index = (UInt8*)param1) {
-                if (*index <= 0xf) {
-                    bit_clear(vacantFanIndex, BIT(*index));
-                    updateFanCounterKey();
-                    result = kIOReturnSuccess;
-                }
+        if (UInt8 *index = (UInt8*)param1) {
+            if (*index <= 0xf) {
+                bit_clear(vacantFanIndex, BIT(*index));
+                updateFanCounterKey();
+                result = kIOReturnSuccess;
             }
         }
     }

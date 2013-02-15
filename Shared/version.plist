@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>BuildVersion</key>
-	<string>112</string>
+	<string>113</string>
 	<key>ProjectName</key>
 	<string>HWSensors</string>
 	<key>ProjectVersion</key>
-	<string>5.0.92</string>
+	<string>5.0.93</string>
 </dict>
 </plist>
