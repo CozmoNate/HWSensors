@@ -144,6 +144,8 @@ void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
         char key[5];
         char str[64];
         
+        key[0] = '\0';
+        
         if (name->isEqualTo("CPU Core Package DTS") || name->isEqualTo("CPU Package Temperature"))
             snprintf(key, 5, KEY_CPU_PACKAGE_TEMPERATURE);
         else if (name->isEqualTo("CPU Temperature"))
@@ -154,7 +156,7 @@ void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
             snprintf(key, 5, KEY_MCH_DIODE_TEMPERATURE);
         else if (name->isEqualTo("Ambient Temperature"))
             snprintf(key, 5, KEY_AMBIENT_TEMPERATURE);
-        else if (!strlen(key)) {
+        else {
             for (UInt8 i = 0; i < 4; i++) {
                 snprintf(str, 64, "TS-on-DIMM%x Temperature", i);
                 

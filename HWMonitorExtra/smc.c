@@ -60,7 +60,7 @@ kern_return_t SMCOpen(io_connect_t *conn)
     io_iterator_t iterator;
     io_object_t   device;
 
-    result = IOMasterPort(MACH_PORT_NULL, &masterPort);
+    IOMasterPort(MACH_PORT_NULL, &masterPort);
 
     CFMutableDictionaryRef matchingDictionary = IOServiceMatching("AppleSMC");
     result = IOServiceGetMatchingServices(masterPort, matchingDictionary, &iterator);
