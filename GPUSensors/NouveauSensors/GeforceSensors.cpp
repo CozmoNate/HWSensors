@@ -135,7 +135,7 @@ bool GeforceSensors::start(IOService * provider)
                 device->bios.size = 0;
             }
             
-            nv_error(device, "unable to shadow VBIOS\n");
+            nv_fatal(device, "unable to shadow VBIOS\n");
             
             releaseGPUIndex(card.card_index);
             card.card_index = -1;

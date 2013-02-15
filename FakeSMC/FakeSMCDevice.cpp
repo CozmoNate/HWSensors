@@ -395,6 +395,7 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
     
     // Set Clover platform keys
     if (OSDictionary *dictionary = OSDynamicCast(OSDictionary, properties->getObject("Clover"))) {
+        UInt32 count = 0;
         if (IORegistryEntry* cloverPlatformNode = fromPath("/efi/platform", gIODTPlane)) {
             if (OSIterator *iterator = OSCollectionIterator::withCollection(dictionary)) {
                 while (OSString *name = OSDynamicCast(OSString, iterator->getNextObject())) {
@@ -403,13 +404,16 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
                             OSString *key = OSDynamicCast(OSString, items->getObject(0));
                             OSString *type = OSDynamicCast(OSString, items->getObject(1));
                             
-                            addKeyWithValue(key->getCStringNoCopy(), type->getCStringNoCopy(), data->getLength(), data->getBytesNoCopy());
+                            if (addKeyWithValue(key->getCStringNoCopy(), type->getCStringNoCopy(), data->getLength(), data->getBytesNoCopy()))
+                                count++;
                         }
                     }
                 }
                 OSSafeRelease(iterator);
             }
         }
+        
+        HWSensorsInfoLog("%d key(s) exported from Clover EFI", count);
     }
 
     // Init SMC device
@@ -560,7 +564,7 @@ void FakeSMCDevice::updateFanCounterKey()
 	UInt8 count = 0;
     
     for (UInt8 i = 0; i <= 0xf; i++) {
-        if (bit_get(vacantFanIndex, BIT(i)) > 0) {
+        if (bit_get(vacantFanIndex, BIT(i))) {
             count = i + 1;
         }
     }
@@ -650,7 +654,7 @@ FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type,
 	if (FakeSMCKey *key = getKey(name)) {
         
         if (key->getHandler() != NULL) {
-            // TODO: check priority
+            // TODO: check priority?
             
             HWSensorsErrorLog("key %s already handled", name);
             return 0;
@@ -779,12 +783,14 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
                 
                 if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name))) {
                     if (key->getHandler()) {
+                        
+                        result = kIOReturnBadArgument;
+                        
                         if (param2) {
                             IOService *handler = (IOService *)param2;
                             bcopy(key->getHandler(), handler, sizeof(handler));
+                            result = kIOReturnSuccess;
                         }
-                        
-                        result = kIOReturnSuccess;
                     }
                 }
             }
@@ -856,6 +862,9 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
                 result = kIOReturnError;
                 
                 if (FakeSMCKey *key = getKey(name)) {
+                    
+                    result = kIOReturnBadArgument;
+                    
                     if (param2 && param3) {
                         UInt8 *size = (UInt8*)param2;
                         const void **value = (const void **)param3;
@@ -894,8 +903,8 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
         result = kIOReturnBadArgument;
         
         if (param1) {
-            if (SInt8 *index = (SInt8*)param1) {
-                if (*index >=0 && *index <= 0xf) {
+            if (UInt8 *index = (UInt8*)param1) {
+                if (*index <= 0xf) {
                     bit_clear(vacantGPUIndex, BIT(*index));
                     result = kIOReturnSuccess;
                 }
@@ -928,8 +937,8 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
         result = kIOReturnBadArgument;
         
         if (param1) {
-            if (SInt8 *index = (SInt8*)param1) {
-                if (*index >=0 && *index <= 0xf) {
+            if (UInt8 *index = (UInt8*)param1) {
+                if (*index <= 0xf) {
                     bit_clear(vacantFanIndex, BIT(*index));
                     updateFanCounterKey();
                     result = kIOReturnSuccess;

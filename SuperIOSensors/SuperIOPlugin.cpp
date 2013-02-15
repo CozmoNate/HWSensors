@@ -162,18 +162,11 @@ bool SuperIOPlugin::addTachometerSensors(OSDictionary *configuration)
     HWSensorsDebugLog("adding tachometer sensors...");
     
     for (int i = 0; i < tachometerSensorsLimit(); i++) {
-        OSString* name = NULL;
-        
         char key[7];
-            
         snprintf(key, 7, "FANIN%X", i);
-
-        name = OSDynamicCast(OSString, configuration->getObject(key));
         
-        UInt64 nameLength = name ? name->getLength() : 0;
-        
-        if (readTachometer(i) > 10 || nameLength > 0)
-            if (!addTachometer(i, (nameLength > 0 ? name->getCStringNoCopy() : 0)))
+        if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key)))
+            if (!addTachometer(i, (name->getLength() > 0 ? name->getCStringNoCopy() : 0)))
                 HWSensorsWarningLog("failed to add tachometer sensor %d", i);
     }
     
