@@ -133,7 +133,6 @@
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(useFahrenheitChanged:) name: HWMonitorUseFahrenheitChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(useBigFontChanged:) name: HWMonitorUseBigFontChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(useShadowEffectChanged:) name: HWMonitorUseShadowsChanged object: NULL];
-    [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showHiddenSensorsChanged:) name: HWMonitorShowHiddenChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(useBSDNamesChanged:) name: HWMonitorUseBSDNamesChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(showVolumeNamesChanged:) name: HWMonitorShowVolumeNamesChanged object: NULL];
     [[NSDistributedNotificationCenter defaultCenter] addObserver: self selector: @selector(itemsRequested:) name: HWMonitorRequestItems object: NULL];

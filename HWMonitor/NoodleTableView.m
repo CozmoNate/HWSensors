@@ -303,7 +303,7 @@
 	if ((gridMask & NSTableViewSolidHorizontalGridLineMask) != 0)
 	{
 		NSRange			range;
-		NSInteger		i;
+		NSUInteger		i;
 
 		range = [self rowsInRect:aRect];
 		for (i = range.location; i < NSMaxRange(range); i++)
@@ -352,7 +352,7 @@
 		// if there are none to the left.
 		
 		NSRange						range, spanRange;
-		NSInteger					columnIndex, endColumnIndex, startColumnIndex, row;
+		NSUInteger					columnIndex, endColumnIndex, startColumnIndex, row;
 		NSMutableIndexSet			*columnIndexes;
 		NoodleIndexSetEnumerator	*enumerator;
 		NSRect						topLeft, bottomRight, rect;

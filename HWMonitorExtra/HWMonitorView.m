@@ -104,7 +104,7 @@ const NSString* kHWMonitorViewSpacer = @" ";
         int lastWidth = 0;
         int index = 0;
         
-        for (int i = 0; i < [_favorites count]; i++) {
+        for (NSUInteger i = 0; i < [_favorites count]; i++) {
             
             id object = [_favorites objectAtIndex:i];
             

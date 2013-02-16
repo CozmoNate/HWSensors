@@ -306,7 +306,7 @@
     }
     
     if ([_smartReporter drives]) {
-        for (int i = 0; i < [[_smartReporter drives] count]; i++) {
+        for (NSUInteger i = 0; i < [[_smartReporter drives] count]; i++) {
             ATAGenericDisk * disk = [[_smartReporter drives] objectAtIndex:i];
             
             if (disk) { 

@@ -189,7 +189,7 @@ int nouveau_bios_score(struct nouveau_device *device, const bool writeable)
 static void nouveau_bios_shadow_pramin(struct nouveau_device *device)
 {
 	u32 bar0 = 0;
-	int i;
+	u32 i;
     
     nv_debug(device, "shadowing bios from PRAMIN\n");
     
@@ -226,7 +226,7 @@ static void nouveau_bios_shadow_prom(struct nouveau_device *device)
 {
 	u32 pcireg, access;
 	u16 pcir;
-	int i;
+	u32 i;
     
     nv_debug(device, "shadowing bios from PROM\n");
     

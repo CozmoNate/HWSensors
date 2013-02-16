@@ -93,7 +93,7 @@ inline void read_cpu_performance(void* cpu_index)
 
 void CPUSensors::readTjmaxFromMSR()
 {
-	for (int i = 0; i < cpuid_info()->core_count; i++) {
+	for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
 		tjmax[i] = (rdmsr64(MSR_IA32_TEMP_TARGET) >> 16) & 0xFF;
 	}
 }
@@ -227,7 +227,7 @@ bool CPUSensors::start(IOService *provider)
             tjmax[0] = number->unsigned32BitValue();
             
             if (tjmax[0] > 0) {
-                for (int i = 1; i < cpuid_info()->core_count; i++)
+                for (uint32_t i = 1; i < cpuid_info()->core_count; i++)
                     tjmax[i] = tjmax[0];
                 
                 HWSensorsInfoLog("force Tjmax value to %d", tjmax[0]);
@@ -381,7 +381,7 @@ bool CPUSensors::start(IOService *provider)
             break;
             
         default:
-            for (int i = 1; i < cpuid_info()->core_count; i++) tjmax[i] = tjmax[0];
+            for (uint32_t i = 1; i < cpuid_info()->core_count; i++) tjmax[i] = tjmax[0];
             break;
     }
     
@@ -403,7 +403,7 @@ bool CPUSensors::start(IOService *provider)
             HWSensorsWarningLog("failed to set platform key");
     }
 	
-	for (int i = 0; i < cpuid_info()->core_count; i++) {
+	for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
         
         if (i >= kCPUSensorsMaxCpus) 
             break;

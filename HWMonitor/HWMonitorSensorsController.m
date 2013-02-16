@@ -235,11 +235,11 @@
     NSInteger fromRow = [rowIndexes firstIndex];
     
     NSDictionary *movingItem = [[self arrangedObjects] objectAtIndex:fromRow];
-    NSUInteger movingItemIndex = [[movingItem valueForKey:kHWMonitorKeyIndex] longValue];
+    NSInteger movingItemIndex = [[movingItem valueForKey:kHWMonitorKeyIndex] longValue];
     
     if (fromRow < itemsRow && toRow > itemsRow) {
         
-        NSUInteger index;
+        NSInteger index;
         
         for (index = itemsRow + 1; index < [[self arrangedObjects] count]; index++) {
             

@@ -84,7 +84,7 @@ void FakeSMCDevice::applesmc_fill_info(struct AppleSMCStatus *s)
 		const char* typ = key->getType();
 		UInt64 len = strlen(typ);
         
-		for (int i=0; i<4; i++)
+		for (UInt8 i=0; i<4; i++)
 		{
 			if (i<len)
 			{
