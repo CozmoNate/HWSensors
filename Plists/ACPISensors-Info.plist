@@ -13,11 +13,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.0.100</string>
+	<string>5.0.101</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>227</string>
+	<string>241</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>ACPI Customizable Monitoring Plugin</key>

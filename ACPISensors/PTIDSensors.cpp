@@ -58,7 +58,7 @@ bool PTIDSensors::updateTachometers()
         
         tachometers = OSDynamicCast(OSArray, object);
         
-        //setProperty("temperatures", temperatures);
+        //setProperty("tachometers", tachometers);
         
         return true;
     }
@@ -185,26 +185,20 @@ void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
             }
         }
         
-        if (strlen(key))
+        if (strlen(key)) {
+            HWSensorsDebugLog("adding %s sensor", name->getCStringNoCopy());
             addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, index);
+        }
     }
     
 }
 
-void PTIDSensors::parseTachometerName(OSString *name, UInt32 index)
+void PTIDSensors::parseTachometerName(OSString *name, OSString *title, UInt32 index)
 {
     if (name) {
-        if (name->isEqualTo("RPM"))
-            switch (version) {
-                case 0x30000:
-                    if (readTachometer(index))
-                        this->addTachometer(index);
-                    break;
-                case 0x20001:
-                    if (readTachometer(index - 1))
-                        this->addTachometer(index - 1);
-                    break;
-            }
+        if (name->isEqualTo("RPM")) {
+            this->addTachometer(index, title ? title->getCStringNoCopy() : NULL);
+        }
     }
 }
 
@@ -226,7 +220,7 @@ bool PTIDSensors::start(IOService * provider)
     acpiDevice->evaluateInteger("IVER", &version);
     
     if (version == 0) {
-        OSString *name = OSDynamicCast(OSString, getProperty("IONameMatched"));
+        OSString *name = OSDynamicCast(OSString, provider->getProperty("name"));
         
         if (name && name->isEqualTo("INT3F0D"))
             version = 0x30000;
@@ -248,21 +242,9 @@ bool PTIDSensors::start(IOService * provider)
                 
                 HWSensorsDebugLog("Parsing temperatures...");
                 
-                for (UInt32 index = 1; index + 2 < description->getCount(); index += 2) {
-                    parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), index / 2);
+                for (UInt32 index = 1; index < description->getCount(); index += 2) {
+                    parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), (index - 1) / 2);
                 }
-                
-                /*if (OSIterator *iterator = OSCollectionIterator::withCollection(description)) {
-                    
-                    HWSensorsDebugLog("Parsing temperatures...");
-                    
-                    UInt32 count = 0;
-                    
-                    while (OSObject *item = iterator->getNextObject()) {
-                        parseTemperatureName(OSDynamicCast(OSString, item), count / 2);
-                        count += 2;
-                    }
-                }*/
             }
             else HWSensorsErrorLog("failed to evaluate TSDL table");
             
@@ -273,21 +255,9 @@ bool PTIDSensors::start(IOService * provider)
                 
                 HWSensorsDebugLog("Parsing tachometers...");
                 
-                
-                for (UInt32 index = 1; index + 3 < description->getCount(); index += 3) {
-                    parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), index / 3);
+                for (UInt32 index = 2; index < description->getCount(); index += 3) {
+                    parseTachometerName(OSDynamicCast(OSString, description->getObject(index)), OSDynamicCast(OSString, description->getObject(index - 1)), (index - 2) / 3);
                 }
-                /*if (OSIterator *iterator = OSCollectionIterator::withCollection(description)) {
-                    
-                    HWSensorsDebugLog("Parsing tachometers...");
-                    
-                    UInt32 count = 0;
-                    
-                    while (OSObject *item = iterator->getNextObject()) {
-                        parseTachometerName(OSDynamicCast(OSString, item), count / 3);
-                        count += 3;
-                    }
-                }*/
             }
             else HWSensorsErrorLog("failed to evaluate OSDL table");
             
@@ -302,16 +272,8 @@ bool PTIDSensors::start(IOService * provider)
                 
                 OSArray *description = OSDynamicCast(OSArray, object);
                 
-                if (OSIterator *iterator = OSCollectionIterator::withCollection(description)) {
-                    
-                    HWSensorsDebugLog("Parsing temperatures...");
-                    
-                    UInt32 count = 0;
-                    
-                    while (OSObject *item = iterator->getNextObject()) {
-                        parseTemperatureName(OSDynamicCast(OSString, item), count + 1);
-                        count += 3;
-                    }
+                for (UInt32 index = 1; index < description->getCount(); index += 3) {
+                    parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), index + 1);
                 }
             }
             else HWSensorsErrorLog("failed to evaluate TMPV table");
@@ -321,16 +283,8 @@ bool PTIDSensors::start(IOService * provider)
                 
                 OSArray *description = OSDynamicCast(OSArray, object);
                 
-                if (OSIterator *iterator = OSCollectionIterator::withCollection(description)) {
-                    
-                    HWSensorsDebugLog("Parsing tachometers...");
-                    
-                    UInt32 count = 0;
-                    
-                    while (OSObject *item = iterator->getNextObject()) {
-                        parseTachometerName(OSDynamicCast(OSString, item), count + 2);
-                        count++;
-                    }
+                for (UInt32 index = 2; index < description->getCount(); index += 4) {
+                    parseTachometerName(OSDynamicCast(OSString, description->getObject(index)), OSDynamicCast(OSString, description->getObject(index - 1)), index + 1);
                 }
             }
             else HWSensorsErrorLog("failed to evaluate OSDV table");

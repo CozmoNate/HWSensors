@@ -52,7 +52,7 @@ private:
     float                   readTachometer(UInt32 index);
     
     void                    parseTemperatureName(OSString *name, UInt32 index);
-    void                    parseTachometerName(OSString *name, UInt32 index);
+    void                    parseTachometerName(OSString *name, OSString *title, UInt32 index);
     
 protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);
