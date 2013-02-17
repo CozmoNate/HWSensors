@@ -11,13 +11,6 @@
 #include "FakeSMCPlugin.h"
 #include "radeon.h"
 
-enum TempFamilies {
-	R5xx,
-	R6xx,
-	R7xx,
-	R8xx
-};
-
 class RadeonMonitor : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(RadeonMonitor)    

@@ -246,7 +246,13 @@ bool PTIDSensors::start(IOService * provider)
                 
                 OSArray *description = OSDynamicCast(OSArray, object);
                 
-                if (OSIterator *iterator = OSCollectionIterator::withCollection(description)) {
+                HWSensorsDebugLog("Parsing temperatures...");
+                
+                for (UInt32 index = 1; index + 2 < description->getCount(); index += 2) {
+                    parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), index / 2);
+                }
+                
+                /*if (OSIterator *iterator = OSCollectionIterator::withCollection(description)) {
                     
                     HWSensorsDebugLog("Parsing temperatures...");
                     
@@ -256,7 +262,7 @@ bool PTIDSensors::start(IOService * provider)
                         parseTemperatureName(OSDynamicCast(OSString, item), count / 2);
                         count += 2;
                     }
-                }
+                }*/
             }
             else HWSensorsErrorLog("failed to evaluate TSDL table");
             
@@ -265,7 +271,13 @@ bool PTIDSensors::start(IOService * provider)
                 
                 OSArray *description = OSDynamicCast(OSArray, object);
                 
-                if (OSIterator *iterator = OSCollectionIterator::withCollection(description)) {
+                HWSensorsDebugLog("Parsing tachometers...");
+                
+                
+                for (UInt32 index = 1; index + 3 < description->getCount(); index += 3) {
+                    parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), index / 3);
+                }
+                /*if (OSIterator *iterator = OSCollectionIterator::withCollection(description)) {
                     
                     HWSensorsDebugLog("Parsing tachometers...");
                     
@@ -275,7 +287,7 @@ bool PTIDSensors::start(IOService * provider)
                         parseTachometerName(OSDynamicCast(OSString, item), count / 3);
                         count += 3;
                     }
-                }
+                }*/
             }
             else HWSensorsErrorLog("failed to evaluate OSDL table");
             
