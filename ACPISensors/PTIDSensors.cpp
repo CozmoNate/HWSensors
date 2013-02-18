@@ -25,6 +25,8 @@
 
 #include "FakeSMCDefinitions.h"
 
+#include "timer.h"
+
 //#define kHWSensorsDebug TRUE
 
 #define super FakeSMCPlugin
@@ -70,21 +72,9 @@ bool PTIDSensors::updateTachometers()
 
 float PTIDSensors::readTemperature(UInt32 index)
 {
-    mach_timespec_t now;
-    
-    clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
-    
-    if (CMP_MACH_TIMESPEC(&temperatureNextUpdate, &now) <= 0) {
-        mach_timespec_t next;
-        
-        temperatureNextUpdate.tv_sec = now.tv_sec;
-        temperatureNextUpdate.tv_nsec = now.tv_nsec;
-        next.tv_sec = 1;
-        next.tv_nsec = 0;
-        
-        ADD_MACH_TIMESPEC(&temperatureNextUpdate, &next);
-        
+    if (ptimer_read() - temperaturesLastUpdated >= NSEC_PER_SEC) {
         updateTemperatures();
+        temperaturesLastUpdated = ptimer_read();
     }
     
     if (temperatures) {
@@ -99,23 +89,11 @@ float PTIDSensors::readTemperature(UInt32 index)
 
 float PTIDSensors::readTachometer(UInt32 index)
 {
-    mach_timespec_t now;
-    
-    clock_get_system_nanotime((clock_sec_t*)&now.tv_sec, (clock_nsec_t*)&now.tv_nsec);
-    
-    if (CMP_MACH_TIMESPEC(&tachometerNextUpdate, &now) <= 0) {
-        mach_timespec_t next;
-        
-        tachometerNextUpdate.tv_sec = now.tv_sec;
-        tachometerNextUpdate.tv_nsec = now.tv_nsec;
-        next.tv_sec = 1;
-        next.tv_nsec = 0;
-        
-        ADD_MACH_TIMESPEC(&tachometerNextUpdate, &next);
-        
+    if (ptimer_read() - tachometersLastUpdated >= NSEC_PER_SEC) {
         updateTachometers();
+        tachometersLastUpdated = ptimer_read();
     }
-    
+
     if (tachometers) {
         if (OSNumber *number = OSDynamicCast(OSNumber, tachometers->getObject(index))) {
             UInt64 value = number->unsigned32BitValue();
@@ -158,7 +136,14 @@ void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
             snprintf(key, 5, KEY_AMBIENT_TEMPERATURE);
         else {
             for (UInt8 i = 0; i < 4; i++) {
-                snprintf(str, 64, "TS-on-DIMM%x Temperature", i);
+                snprintf(str, 64, "TS-on-DIMM%X Temperature", i);
+                
+                if (name->isEqualTo(str)) {
+                    snprintf(key, 5, KEY_FORMAT_DIMM_TEMPERATURE, i);
+                    break;
+                }
+                
+                snprintf(str, 64, "Channel %X DIMM Temperature", i);
                 
                 if (name->isEqualTo(str)) {
                     snprintf(key, 5, KEY_FORMAT_DIMM_TEMPERATURE, i);
@@ -166,16 +151,16 @@ void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
                 }
             }
             
-            if (!strlen(key)) {
+            if (key[0] == '\0') {
                 for (UInt8 i = 0; i < 8; i++) {
-                    snprintf(str, 64, "TZ0%x _TMP", i);
+                    snprintf(str, 64, "TZ0%X _TMP", i);
                     
                     if (name->isEqualTo(str)) {
                         snprintf(key, 5, KEY_FORMAT_THERMALZONE_TEMPERATURE, i + 1);
                         break;
                     }
                     
-                    snprintf(str, 64, "CPU Core %x DTS", i);
+                    snprintf(str, 64, "CPU Core %X DTS", i);
                     
                     if (name->isEqualTo(str)) {
                         snprintf(key, 5, KEY_FORMAT_CPU_DIODE_TEMPERATURE, i);
@@ -185,7 +170,7 @@ void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
             }
         }
         
-        if (strlen(key)) {
+        if (key[0] != '\0') {
             HWSensorsDebugLog("adding %s sensor", name->getCStringNoCopy());
             addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, index);
         }
@@ -215,7 +200,8 @@ bool PTIDSensors::start(IOService * provider)
     }
     
     // Update timers
-    clock_get_system_nanotime((clock_sec_t*)&temperatureNextUpdate.tv_sec, (clock_nsec_t*)&temperatureNextUpdate.tv_nsec);
+    temperaturesLastUpdated = ptimer_read() - NSEC_PER_SEC;
+    tachometersLastUpdated = temperaturesLastUpdated;
     
     acpiDevice->evaluateInteger("IVER", &version);
     

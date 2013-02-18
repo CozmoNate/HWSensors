@@ -42,8 +42,8 @@ private:
     OSArray                 *temperatures;
     OSArray                 *tachometers;
     
-    mach_timespec_t         temperatureNextUpdate;
-    mach_timespec_t         tachometerNextUpdate;
+    UInt64                  temperaturesLastUpdated;
+    UInt64                  tachometersLastUpdated;
     
     bool                    updateTemperatures();
     bool                    updateTachometers();
