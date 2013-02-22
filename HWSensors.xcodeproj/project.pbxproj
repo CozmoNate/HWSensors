@@ -376,6 +376,7 @@
 		7E9F548A167C71D9006E907B /* xfree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xfree.h; sourceTree = "<group>"; };
 		7E9F54C0167C71DF006E907B /* GmaSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GmaSensors.cpp; sourceTree = "<group>"; };
 		7E9F54C1167C71DF006E907B /* GmaSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmaSensors.h; sourceTree = "<group>"; };
+		7EA30E5D16D5F85D00DAC853 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		7EADE20715E5602E00FD117C /* GPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EADE20C15E5602F00FD117C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EADE21115E5602F00FD117C /* GPUSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GPUSensors-Prefix.pch"; sourceTree = "<group>"; };
@@ -497,6 +498,7 @@
 			isa = PBXGroup;
 			children = (
 				1D9F8320144FF24000EEEFEB /* Cocoa.framework */,
+				7EA30E5D16D5F85D00DAC853 /* SenTestingKit.framework */,
 				6A9F7267150A23C600279E79 /* Other Frameworks */,
 			);
 			name = Frameworks;
