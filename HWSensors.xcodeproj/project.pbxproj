@@ -85,9 +85,6 @@
 		7E3684BF158373B900E32629 /* tachometers_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684BD158373B900E32629 /* tachometers_template.png */; };
 		7E3684C2158373DC00E32629 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3684C0158373DC00E32629 /* voltages_template.png */; };
 		7E3F6EE6155DB9DE00C3492E /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3F6EE4155DB9DE00C3492E /* preferences.png */; };
-		7E42CF461682E1C900E1BD4E /* HWMonitorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E42CF431682E1C900E1BD4E /* HWMonitorEngine.m */; };
-		7E42CF471682E1C900E1BD4E /* HWMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E42CF451682E1C900E1BD4E /* HWMonitorSensor.m */; };
-		7E42CF4C1682E22400E1BD4E /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E42CF4B1682E22400E1BD4E /* ATASmartReporter.m */; };
 		7E42CF551682E26D00E1BD4E /* NoodleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E42CF4E1682E26D00E1BD4E /* NoodleTableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E42CF561682E26D00E1BD4E /* NSImage-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E42CF501682E26D00E1BD4E /* NSImage-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E42CF571682E26D00E1BD4E /* NSIndexSet-NoodleExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E42CF521682E26D00E1BD4E /* NSIndexSet-NoodleExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -103,7 +100,6 @@
 		7E84840915C3BF2C00C2D5E2 /* pcicard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840815C3BF2C00C2D5E2 /* pcicard.png */; };
 		7E84840A15C3BF2C00C2D5E2 /* pcicard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840815C3BF2C00C2D5E2 /* pcicard.png */; };
 		7E84840C15C3BF6300C2D5E2 /* pcicard_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */; };
-		7E862F8F16C3012F0050C9DA /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7E862F8D16C3012F0050C9DA /* smc.c */; };
 		7E8D485E15AA80910049A229 /* HWMonitorColoredCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */; };
 		7E9388F51594596D0005316D /* BundleUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E06D0F9157FC80B00F8A270 /* BundleUserDefaults.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E9388F7159459750005316D /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3684AB158368C900E32629 /* HWMonitorIcon.m */; };
@@ -140,6 +136,10 @@
 		7E9F54BB167C71DA006E907B /* w83l785r.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F5487167C71D9006E907B /* w83l785r.cpp */; };
 		7E9F54BC167C71DA006E907B /* xf86i2c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F5488167C71D9006E907B /* xf86i2c.cpp */; };
 		7E9F54C2167C71DF006E907B /* GmaSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F54C0167C71DF006E907B /* GmaSensors.cpp */; };
+		7EA30E7516D7465600DAC853 /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA30E7416D7465600DAC853 /* ATASmartReporter.m */; };
+		7EA30E7D16D7468000DAC853 /* HWMonitorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA30E7816D7468000DAC853 /* HWMonitorEngine.m */; };
+		7EA30E7E16D7468000DAC853 /* HWMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA30E7A16D7468000DAC853 /* HWMonitorSensor.m */; };
+		7EA30E7F16D7468000DAC853 /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7EA30E7B16D7468000DAC853 /* smc.c */; };
 		7EADE20D15E5602F00FD117C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EADE20B15E5602F00FD117C /* InfoPlist.strings */; };
 		7EB13667169C288000B42023 /* radeon_atombios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB13665169C288000B42023 /* radeon_atombios.cpp */; };
 		7EB1366C169C2CE800B42023 /* atom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB1366A169C2CE700B42023 /* atom.cpp */; };
@@ -278,13 +278,7 @@
 		7E3F6EE4155DB9DE00C3492E /* preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preferences.png; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E40054F1585031B009AECED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		7E42CF421682E1C900E1BD4E /* HWMonitorEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorEngine.h; sourceTree = "<group>"; };
-		7E42CF431682E1C900E1BD4E /* HWMonitorEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorEngine.m; sourceTree = "<group>"; };
-		7E42CF441682E1C900E1BD4E /* HWMonitorSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorSensor.h; sourceTree = "<group>"; };
-		7E42CF451682E1C900E1BD4E /* HWMonitorSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorSensor.m; sourceTree = "<group>"; };
 		7E42CF491682E1FD00E1BD4E /* SystemUIPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemUIPlugin.h; sourceTree = "<group>"; };
-		7E42CF4A1682E22400E1BD4E /* ATASmartReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATASmartReporter.h; sourceTree = "<group>"; };
-		7E42CF4B1682E22400E1BD4E /* ATASmartReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATASmartReporter.m; sourceTree = "<group>"; };
 		7E42CF4D1682E26D00E1BD4E /* NoodleTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoodleTableView.h; sourceTree = "<group>"; };
 		7E42CF4E1682E26D00E1BD4E /* NoodleTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoodleTableView.m; sourceTree = "<group>"; };
 		7E42CF4F1682E26D00E1BD4E /* NSImage-NoodleExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage-NoodleExtensions.h"; sourceTree = "<group>"; };
@@ -313,8 +307,6 @@
 		7E7A182015DEAF55004D98AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E84840815C3BF2C00C2D5E2 /* pcicard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcicard.png; sourceTree = "<group>"; };
 		7E84840B15C3BF6300C2D5E2 /* pcicard_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcicard_template.png; sourceTree = "<group>"; };
-		7E862F8D16C3012F0050C9DA /* smc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = smc.c; sourceTree = "<group>"; };
-		7E862F8E16C3012F0050C9DA /* smc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smc.h; sourceTree = "<group>"; };
 		7E8D485C15AA80910049A229 /* HWMonitorColoredCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorColoredCell.h; sourceTree = "<group>"; };
 		7E8D485D15AA80910049A229 /* HWMonitorColoredCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorColoredCell.m; sourceTree = "<group>"; };
 		7E9388FF15945B360005316D /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
@@ -377,6 +369,14 @@
 		7E9F54C0167C71DF006E907B /* GmaSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GmaSensors.cpp; sourceTree = "<group>"; };
 		7E9F54C1167C71DF006E907B /* GmaSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmaSensors.h; sourceTree = "<group>"; };
 		7EA30E5D16D5F85D00DAC853 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		7EA30E7316D7465600DAC853 /* ATASmartReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATASmartReporter.h; sourceTree = "<group>"; };
+		7EA30E7416D7465600DAC853 /* ATASmartReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATASmartReporter.m; sourceTree = "<group>"; };
+		7EA30E7716D7468000DAC853 /* HWMonitorEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorEngine.h; sourceTree = "<group>"; };
+		7EA30E7816D7468000DAC853 /* HWMonitorEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorEngine.m; sourceTree = "<group>"; };
+		7EA30E7916D7468000DAC853 /* HWMonitorSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorSensor.h; sourceTree = "<group>"; };
+		7EA30E7A16D7468000DAC853 /* HWMonitorSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorSensor.m; sourceTree = "<group>"; };
+		7EA30E7B16D7468000DAC853 /* smc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = smc.c; sourceTree = "<group>"; };
+		7EA30E7C16D7468000DAC853 /* smc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smc.h; sourceTree = "<group>"; };
 		7EADE20715E5602E00FD117C /* GPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EADE20C15E5602F00FD117C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EADE21115E5602F00FD117C /* GPUSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GPUSensors-Prefix.pch"; sourceTree = "<group>"; };
@@ -667,10 +667,8 @@
 		6A85F85914DBEF5000F863A9 /* HWMonitorExtra */ = {
 			isa = PBXGroup;
 			children = (
-				7E42CF491682E1FD00E1BD4E /* SystemUIPlugin.h */,
 				7E42CF5F1682E2EF00E1BD4E /* NSString+TruncateToWidth */,
-				7E42CF5E1682E2E200E1BD4E /* ATASmartReporter */,
-				7E42CF5D1682E2D900E1BD4E /* HWMonitorEngine */,
+				7E42CF491682E1FD00E1BD4E /* SystemUIPlugin.h */,
 				7EB9639E1594531100436FDB /* HWMonitorView.h */,
 				7EB9639F1594531100436FDB /* HWMonitorView.m */,
 				7E130006159C129200F3B88A /* HWMonitorItem.h */,
@@ -836,28 +834,6 @@
 			name = NoodleKit;
 			sourceTree = "<group>";
 		};
-		7E42CF5D1682E2D900E1BD4E /* HWMonitorEngine */ = {
-			isa = PBXGroup;
-			children = (
-				7E862F8E16C3012F0050C9DA /* smc.h */,
-				7E862F8D16C3012F0050C9DA /* smc.c */,
-				7E42CF441682E1C900E1BD4E /* HWMonitorSensor.h */,
-				7E42CF451682E1C900E1BD4E /* HWMonitorSensor.m */,
-				7E42CF421682E1C900E1BD4E /* HWMonitorEngine.h */,
-				7E42CF431682E1C900E1BD4E /* HWMonitorEngine.m */,
-			);
-			name = HWMonitorEngine;
-			sourceTree = "<group>";
-		};
-		7E42CF5E1682E2E200E1BD4E /* ATASmartReporter */ = {
-			isa = PBXGroup;
-			children = (
-				7E42CF4A1682E22400E1BD4E /* ATASmartReporter.h */,
-				7E42CF4B1682E22400E1BD4E /* ATASmartReporter.m */,
-			);
-			name = ATASmartReporter;
-			sourceTree = "<group>";
-		};
 		7E42CF5F1682E2EF00E1BD4E /* NSString+TruncateToWidth */ = {
 			isa = PBXGroup;
 			children = (
@@ -1011,6 +987,28 @@
 			name = NVCLock;
 			sourceTree = "<group>";
 		};
+		7EA30E7616D7465D00DAC853 /* ATASmartReporter */ = {
+			isa = PBXGroup;
+			children = (
+				7EA30E7316D7465600DAC853 /* ATASmartReporter.h */,
+				7EA30E7416D7465600DAC853 /* ATASmartReporter.m */,
+			);
+			name = ATASmartReporter;
+			sourceTree = "<group>";
+		};
+		7EA30E8016D7468A00DAC853 /* HWMonitorEngine */ = {
+			isa = PBXGroup;
+			children = (
+				7EA30E7C16D7468000DAC853 /* smc.h */,
+				7EA30E7B16D7468000DAC853 /* smc.c */,
+				7EA30E7916D7468000DAC853 /* HWMonitorSensor.h */,
+				7EA30E7A16D7468000DAC853 /* HWMonitorSensor.m */,
+				7EA30E7716D7468000DAC853 /* HWMonitorEngine.h */,
+				7EA30E7816D7468000DAC853 /* HWMonitorEngine.m */,
+			);
+			name = HWMonitorEngine;
+			sourceTree = "<group>";
+		};
 		7EADE20815E5602F00FD117C /* GPUSensors */ = {
 			isa = PBXGroup;
 			children = (
@@ -1108,6 +1106,8 @@
 				7E9388FF15945B360005316D /* HWMonitorDefinitions.h */,
 				7E06D0F6157FC7F800F8A270 /* BundleUserDefaults */,
 				7E3684A8158368AC00E32629 /* HWMonitorIcon */,
+				7EA30E7616D7465D00DAC853 /* ATASmartReporter */,
+				7EA30E8016D7468A00DAC853 /* HWMonitorEngine */,
 			);
 			name = Cocoa;
 			sourceTree = "<group>";
@@ -1548,11 +1548,11 @@
 				7EB963A01594531100436FDB /* HWMonitorView.m in Sources */,
 				7E130004159C10E900F3B88A /* HWMonitorGroup.m in Sources */,
 				7E130008159C129200F3B88A /* HWMonitorItem.m in Sources */,
-				7E42CF461682E1C900E1BD4E /* HWMonitorEngine.m in Sources */,
-				7E42CF471682E1C900E1BD4E /* HWMonitorSensor.m in Sources */,
-				7E42CF4C1682E22400E1BD4E /* ATASmartReporter.m in Sources */,
 				7E42CF5C1682E2C400E1BD4E /* NSString+TruncateToWidth.m in Sources */,
-				7E862F8F16C3012F0050C9DA /* smc.c in Sources */,
+				7EA30E7516D7465600DAC853 /* ATASmartReporter.m in Sources */,
+				7EA30E7D16D7468000DAC853 /* HWMonitorEngine.m in Sources */,
+				7EA30E7E16D7468000DAC853 /* HWMonitorSensor.m in Sources */,
+				7EA30E7F16D7468000DAC853 /* smc.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1747,7 +1747,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
@@ -1786,7 +1786,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = x86_64;
@@ -2130,7 +2130,6 @@
 				);
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitor-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = (
 					"-Xclang",
 					"-fobjc-runtime-has-weak",
@@ -2156,7 +2155,6 @@
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Plists/HWMonitor-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = (
 					"-Xclang",
 					"-fobjc-runtime-has-weak",
