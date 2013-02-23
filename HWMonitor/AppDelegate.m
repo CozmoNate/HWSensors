@@ -562,9 +562,9 @@ int CoreMenuExtraRemoveMenuExtra( void *menuExtra, int whoCares);
     [[_window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
     
     if (newView == _graphsView) {
-        //[[_window standardWindowButton:NSWindowZoomButton] setEnabled:YES];
+        [[_window standardWindowButton:NSWindowZoomButton] setEnabled:YES];
+        [_window setContentMinSize:NSMakeSize(768, 620)];
         [_window setContentMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
-        [_window setContentMinSize:NSMakeSize(700, 600)];
     }
     else if (newView == _preferencesView) {
         //[_window setContentMaxSize:NSMakeSize([newView frame].size.height, MAXFLOAT)];
