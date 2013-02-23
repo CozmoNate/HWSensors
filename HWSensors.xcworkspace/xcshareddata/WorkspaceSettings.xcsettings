@@ -2,11 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BuildNumber</key>
-	<string>155</string>
-	<key>ProjectName</key>
-	<string>HWSensors</string>
-	<key>ProjectVersion</key>
-	<string>5.1.4</string>
+	<key>IDEWorkspaceSharedSettings_AutocreateContextsIfNeeded</key>
+	<false/>
 </dict>
 </plist>
