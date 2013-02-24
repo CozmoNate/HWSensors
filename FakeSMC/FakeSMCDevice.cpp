@@ -575,7 +575,13 @@ void FakeSMCDevice::updateFanCounterKey()
 
 FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value)
 {
-	if (FakeSMCKey *key = getKey(name)) {
+
+    // Made the key name valid (4 char long): add trailing spaces if needed
+    char validKeyNameBuffer[5];
+    snprintf(validKeyNameBuffer, 5, "%-4s", name);
+    const char *validKeyName = (const char*)&validKeyNameBuffer;
+
+    if (FakeSMCKey *key = getKey(validKeyName)) {
         
         if (value) {
             key->setType(type);
