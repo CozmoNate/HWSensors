@@ -19,7 +19,7 @@
 #define kHWMonitorUseFahrenheitKey          @"useFahrenheit"
 #define kHWMonitorUseBigStatusMenuFont      @"useBigFont"
 #define kHWMonitorUseShadowEffect           @"useShadowEffect"
-#define kHWMonitorUseBSDNames               @"showBSDNames"
+#define kHWMonitorUseBSDNames               @"useBSDNames"
 #define kHWMonitorShowVolumeNames           @"showVolumeNames"
 #define kHWMonitorSelectedTag               @"selectedTag"
 #define kHWMonitorSmcSensorsUpdateRate      @"smcSensorsUpdateRate"
