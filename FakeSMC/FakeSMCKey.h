@@ -14,11 +14,8 @@
 
 inline void copySymbol(const char *from, char* to)
 {
-	bzero(to, 5);
-	
-	UInt8 len = (UInt8)strlen(from);
-	
-	bcopy(from, to, len > 4 ? 4 : len);
+    // Made the key name valid (4 char long): add trailing spaces if needed
+    snprintf(to, 5, "%-4s", from);
 }
 
 class FakeSMCKey : public OSObject

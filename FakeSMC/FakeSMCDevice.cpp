@@ -575,13 +575,7 @@ void FakeSMCDevice::updateFanCounterKey()
 
 FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value)
 {
-
-    // Made the key name valid (4 char long): add trailing spaces if needed
-    char validKeyNameBuffer[5];
-    snprintf(validKeyNameBuffer, 5, "%-4s", name);
-    const char *validKeyName = (const char*)&validKeyNameBuffer;
-
-    if (FakeSMCKey *key = getKey(validKeyName)) {
+    if (FakeSMCKey *key = getKey(name)) {
         
         if (value) {
             key->setType(type);
@@ -690,7 +684,12 @@ FakeSMCKey *FakeSMCDevice::getKey(const char *name)
 {
     if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
 		while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
-            UInt32 key1 = HWSensorsKeyToInt(name);
+            
+            // Made the key name valid (4 char long): add trailing spaces if needed
+            char validKeyNameBuffer[5];
+            snprintf(validKeyNameBuffer, 5, "%-4s", name);
+            
+            UInt32 key1 = HWSensorsKeyToInt(&validKeyNameBuffer);
 			UInt32 key2 = HWSensorsKeyToInt(key->getKey());
 			if (key1 == key2) {
 				OSSafeRelease(iterator);
