@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.1.4</string>
+	<string>5.1.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>324</string>
+	<string>325</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>AMD Radeon Monitoring Plugin</key>
