@@ -125,7 +125,8 @@
         ATASMARTAttribute * temperature = nil;
         
         if ((temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature]) || 
-            (temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature2]))
+            (temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature2]) ||
+            (temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature3]))
             return [NSData dataWithBytes:&temperature->rawvalue[0] length:1];
     }
     

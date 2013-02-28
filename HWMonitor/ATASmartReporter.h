@@ -35,6 +35,7 @@
 
 #define kATASMARTAttributeTemperature               0xC2
 #define kATASMARTAttributeTemperature2              0xE7
+#define kATASMARTAttributeTemperature3              0xBE
 #define kATASMARTAttributeEndurance                 0xE8
 #define kATASMARTAttributeEndurance2                0xE7
 #define kATASMARTAttributeUnusedReservedBloks       0xB4
