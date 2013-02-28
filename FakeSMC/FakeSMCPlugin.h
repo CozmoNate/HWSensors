@@ -73,45 +73,45 @@ const struct FakeSMCSensorParams FakeSMCVoltage[FakeSMCVoltageCount] =
     {"CPU", KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
     {"CPU Vcore", KEY_CPU_VCORE_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
     {"Memory", KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
-    {"Main 12V", KEY_MAIN_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"PCIe 12V", KEY_PCIE_12V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE},
+    {"Main 12V", KEY_MAIN_12V_VOLTAGE, TYPE_FP5B, TYPE_FPXX_SIZE},
+    {"PCIe 12V", KEY_PCIE_12V_VOLTAGE, TYPE_FP5B, TYPE_FPXX_SIZE},
     {"Main 5V", KEY_MAIN_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE},
     {"Standby 5V", KEY_STANDBY_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE},
     {"Main 3V", KEY_MAIN_3V3_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
     {"Auxiliary 3V", KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
     {"CMOS Battery", KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply", "VS0C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply 1", "VS1C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply 2", "VS2C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply 3", "VS3C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply 4", "VS4C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply 5", "VS5C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply 6", "VS6C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply 7", "VS7C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply 8", "VS8C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply 9", "VS9C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply A", "VSAC", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply B", "VSBC", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply C", "VSCC", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply D", "VSDC", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply E", "VSEC", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"CPU VRM Supply F", "VSFC", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply", "Vp0C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply 1", "Vp1C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply 2", "Vp2C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply 3", "Vp3C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply 4", "Vp4C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply 5", "Vp5C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply 6", "Vp6C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply 7", "Vp7C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply 8", "Vp8C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply 9", "Vp9C", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply A", "VpAC", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply B", "VpBC", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply C", "VpCC", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply D", "VpDC", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply E", "VpEC", TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Power Supply F", "VpFC", TYPE_FP4C, TYPE_FPXX_SIZE},
+    {"CPU VRM Supply", "VS0C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply 1", "VS1C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply 2", "VS2C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply 3", "VS3C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply 4", "VS4C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply 5", "VS5C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply 6", "VS6C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply 7", "VS7C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply 8", "VS8C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply 9", "VS9C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply A", "VSAC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply B", "VSBC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply C", "VSCC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply D", "VSDC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply E", "VSEC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"CPU VRM Supply F", "VSFC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply", "Vp0C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply 1", "Vp1C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply 2", "Vp2C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply 3", "Vp3C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply 4", "Vp4C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply 5", "Vp5C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply 6", "Vp6C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply 7", "Vp7C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply 8", "Vp8C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply 9", "Vp9C", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply A", "VpAC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply B", "VpBC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply C", "VpCC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply D", "VpDC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply E", "VpEC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Power Supply F", "VpFC", TYPE_SP78, TYPE_SPXX_SIZE},
 };
 
 class FakeSMCPlugin;
@@ -168,11 +168,11 @@ protected:
     SInt8                   takeVacantFanIndex();
     bool                    releaseFanIndex(UInt8 index);
     
-    bool                    setKeyValue(const char *key, const char *type, UInt8 size, const char *value);
+    bool                    setKeyValue(const char *key, const char *type, UInt8 size, void *value);
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
     virtual bool            addSensor(FakeSMCSensor *sensor);
-	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0, SInt8 *fanIndex = 0);
+	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0, FanType type = FAN_RPM, FanLocationType location = CENTER_MID_FRONT, UInt8 zone = 0, SInt8 *fanIndex = 0);
 	virtual FakeSMCSensor   *getSensor(const char *key);
     
     OSDictionary            *getConfigurationNode(OSDictionary *root, OSString *name);

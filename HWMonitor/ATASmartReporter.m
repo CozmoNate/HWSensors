@@ -74,12 +74,12 @@
     BOOL result = false;
     
     if (kIOReturnSuccess == IOCreatePlugInInterfaceForService(service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
-        if (S_OK == (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes( kIOATASMARTInterfaceID), (LPVOID)&smartInterface)) {
+        if (S_OK == (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIOATASMARTInterfaceID), (LPVOID)&smartInterface)) {
             ATASMARTData smartData;
             
             bzero(&smartData, sizeof(smartData));
             
-            if(kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true))
+            if(kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true)) {
                 if (kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true)) {
                     
                     Boolean conditionExceeded = false;
@@ -87,19 +87,23 @@
                     if (kIOReturnSuccess == (*smartInterface)->SMARTReturnStatus(smartInterface, &conditionExceeded))
                         isExceeded = conditionExceeded;
                     
-                    if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &smartData)) 
+                    if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &smartData)) {
                         if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &smartData)) {
                             bcopy(&smartData.vendorSpecific1, &data, sizeof(data));
                             result = true;
                             lastUpdate = [NSDate date];
                         }
+                    }
+                    
+                    (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, false);
                 }
+                
+                (*smartInterface)->SMARTEnableDisableOperations(smartInterface, false);
+            }
             
-            (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, false);
-            (*smartInterface)->SMARTEnableDisableOperations(smartInterface, false);
-        }   
+            (*smartInterface)->Release(smartInterface);
+        }
         
-        (*smartInterface )->Release(smartInterface);
         IODestroyPlugInInterface(pluginInterface);
     }
     

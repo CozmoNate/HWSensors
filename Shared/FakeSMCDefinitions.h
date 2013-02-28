@@ -141,12 +141,14 @@
 #define TYPE_FP4C                               "fp4c"
 #define TYPE_CH8                                "ch8*"
 #define TYPE_SP78                               "sp78"
+#define TYPE_FP5B                               "fp5b"
 #define TYPE_FP88                               "fp88"
 #define TYPE_UI8                                "ui8"
 #define TYPE_UI16                               "ui16"
 #define TYPE_UI32                               "ui32"
 #define TYPE_SI16                               "si16"
 #define TYPE_FLAG                               "flag"
+#define TYPE_FDS                                "{fds"
 
 #define TYPE_FPXX_SIZE                          2
 #define TYPE_SPXX_SIZE                          2
@@ -198,5 +200,33 @@
 #define bit_write(c,p,m) (c ? bit_set(p,m) : bit_clear(p,m))
 #define BIT(x)	(0x01 << (x))
 #define LONGBIT(x) ((unsigned long)0x00000001 << (x))
+
+typedef enum {
+    LEFT_LOWER_FRONT, CENTER_LOWER_FRONT, RIGHT_LOWER_FRONT,
+    LEFT_MID_FRONT,   CENTER_MID_FRONT,   RIGHT_MID_FRONT,
+    LEFT_UPPER_FRONT, CENTER_UPPER_FRONT, RIGHT_UPPER_FRONT,
+    LEFT_LOWER_REAR,  CENTER_LOWER_REAR,  RIGHT_LOWER_REAR,
+    LEFT_MID_REAR,    CENTER_MID_REAR,    RIGHT_MID_REAR,
+    LEFT_UPPER_REAR,  CENTER_UPPER_REAR,  RIGHT_UPPER_REAR
+} FanLocationType;
+
+typedef enum {
+    FAN_PWM_TACH,
+    FAN_RPM,
+    PUMP_PWM,
+    PUMP_RPM,
+    FAN_PWM_NOTACH,
+    EMPTY_PLACEHOLDER,
+} FanType;
+
+#define DIAG_FUNCTION_STR_LEN 12
+
+typedef struct fanTypeDescStruct {
+    unsigned char   type;
+    unsigned char   ui8Zone;
+    unsigned char   location;
+    unsigned char   rsvd;   // padding to get us to 16 bytes
+    char            strFunction[DIAG_FUNCTION_STR_LEN];
+} FanTypeDescStruct;
 
 #endif

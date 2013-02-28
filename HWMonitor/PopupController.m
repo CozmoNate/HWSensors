@@ -462,12 +462,19 @@
         
         SensorCell *sensorCell = nil;
         
-        if (_showVolumeNames && [sensor disk]) {
-            sensorCell = [tableView makeViewWithIdentifier:@"Subtitled" owner:self];
-            [sensorCell.subtitleField setStringValue:[[sensor disk] volumesNames]];
+        if (([sensor group] & kHWSensorGroupTemperature) || ([sensor group] & kSMARTSensorGroupTemperature)) {
+            sensorCell = [tableView makeViewWithIdentifier:@"Temperature" owner:self];
         }
         else {
             sensorCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
+        }
+        
+        if (_showVolumeNames && [sensor disk]) {
+            [sensorCell.subtitleField setStringValue:[[sensor disk] volumesNames]];
+            [sensorCell.subtitleField setHidden:NO];
+        }
+        else {
+            [sensorCell.subtitleField setHidden:YES];
         }
         
         [sensorCell.textField setStringValue:[sensor title]];
@@ -476,9 +483,7 @@
         return sensorCell;
     }
     else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Buttons"]) {
-        ButtonsCell *buttonsCell = [tableView makeViewWithIdentifier:@"Buttons" owner:self];
-        
-        return buttonsCell;
+        return [tableView makeViewWithIdentifier:@"Buttons" owner:self];
     }
     else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Dummy"]) {
         return [tableView makeViewWithIdentifier:@"Dummy" owner:self];

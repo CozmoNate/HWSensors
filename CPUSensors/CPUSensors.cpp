@@ -397,7 +397,7 @@ bool CPUSensors::start(IOService *provider)
     HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0]);
     
     if (platform && !isKeyExists("RPlt")) {
-        if (setKeyValue("RPlt", TYPE_CH8, platform->getLength(), platform->getCStringNoCopy()))
+        if (setKeyValue("RPlt", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
             HWSensorsInfoLog("platform set to %s", platform->getCStringNoCopy());
         else
             HWSensorsWarningLog("failed to set platform key");

@@ -211,7 +211,7 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
     return false;
 }
 
-bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, const char *value)
+bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, void *value)
 {
     return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)type, (void *)size, (void *)value);
 }
@@ -241,7 +241,7 @@ bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
     return false;
 }
 
-FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, SInt8 *fanIndex)
+FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanType type, FanLocationType location, UInt8 zone, SInt8 *fanIndex)
 {
     SInt8 vacantFanIndex = takeVacantFanIndex();
     
@@ -251,9 +251,16 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char* name, SInt
         
         if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, 2, kFakeSMCTachometerSensor, index)) {
             if (name) {
+                FanTypeDescStruct fds;
+                
+                fds.type = type;
+                fds.ui8Zone = zone;
+                fds.location = location;
+                strlcpy(fds.strFunction, name, DIAG_FUNCTION_STR_LEN);
+                
                 snprintf(key, 5, KEY_FORMAT_FAN_ID, vacantFanIndex);
                 
-                if (!setKeyValue(key, TYPE_CH8, strlen(name), name))
+                if (!setKeyValue(key, TYPE_FDS, sizeof(fds), &fds))
                     HWSensorsWarningLog("failed to add tachometer name for key %s", key);
             }
             

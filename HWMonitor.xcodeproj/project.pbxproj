@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E0648F116DF3B7D00ACB851 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7E0648EF16DF3B7D00ACB851 /* README.md */; };
+		7E1261D516E0095C00622F92 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E1261D416E0095C00622F92 /* version.plist */; };
 		7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248EB16D8E93A002231B2 /* Cocoa.framework */; };
 		7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248F416D8E93A002231B2 /* InfoPlist.strings */; };
 		7EA248F816D8E93A002231B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248F716D8E93A002231B2 /* main.m */; };
@@ -75,6 +76,8 @@
 		7E0648ED16DF3B7D00ACB851 /* LaunchAtLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchAtLoginController.h; sourceTree = "<group>"; };
 		7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchAtLoginController.m; sourceTree = "<group>"; };
 		7E0648EF16DF3B7D00ACB851 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
+		7E1261D416E0095C00622F92 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = version.plist; path = Shared/version.plist; sourceTree = "<group>"; };
 		7EA248E816D8E93A002231B2 /* HWMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HWMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA248EB16D8E93A002231B2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7EA248EE16D8E93A002231B2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -125,7 +128,6 @@
 		7EA2495116D8EE44002231B2 /* HWMonitorGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGroup.m; sourceTree = "<group>"; };
 		7EA2495216D8EE44002231B2 /* HWMonitorItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorItem.h; sourceTree = "<group>"; };
 		7EA2495316D8EE45002231B2 /* HWMonitorItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorItem.m; sourceTree = "<group>"; };
-		7EA2495616D8EF46002231B2 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7EB1338A16DBF06300A41255 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
 		7EB1338B16DBF06300A41255 /* 19-gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear@2x.png"; sourceTree = "<group>"; };
 		7EB1338E16DBF07000A41255 /* 16-line-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart.png"; sourceTree = "<group>"; };
@@ -190,6 +192,15 @@
 			name = LaunchAtLoginController;
 			sourceTree = "<group>";
 		};
+		7E1261D216E008FE00622F92 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */,
+				7E1261D416E0095C00622F92 /* version.plist */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
 		7E39415716DBEA13005A685D /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +219,7 @@
 		7EA248DF16D8E93A002231B2 = {
 			isa = PBXGroup;
 			children = (
+				7E1261D216E008FE00622F92 /* Shared */,
 				7EA248F116D8E93A002231B2 /* HWMonitor */,
 				7EA248EA16D8E93A002231B2 /* Frameworks */,
 				7EA248E916D8E93A002231B2 /* Products */,
@@ -317,7 +329,6 @@
 		7EA2490A16D8E9B0002231B2 /* Engines */ = {
 			isa = PBXGroup;
 			children = (
-				7EA2495616D8EF46002231B2 /* FakeSMCDefinitions.h */,
 				7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */,
 				7EDA1A6716D8F0FB0012A0DC /* BundleUserDefaults */,
 				7EA2494516D8EA99002231B2 /* ATASmartReporter */,
@@ -483,6 +494,7 @@
 				7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */,
 				7ECDDE3716DDE5DA00085FFF /* 04-eye-white@2x.png in Resources */,
 				7E0648F116DF3B7D00ACB851 /* README.md in Resources */,
+				7E1261D516E0095C00622F92 /* version.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,7 +512,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\nexit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\nSHORTVERSION=$(/usr/libexec/PlistBuddy -c \"Print ProjectVersion\" \"${PROJECT_DIR}/${VERSION_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $SHORTVERSION\" \"${INFOPLIST_FILE}\"\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\nexit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -37,12 +37,15 @@
 #include "nouveau.h"
 #include "nvclock_i2c.h"
 
-#define kNouveauPWMSensor               1000
-
 enum nouveau_temp_source {
     nouveau_temp_core       = 1,
     nouveau_temp_board      = 2,
     nouveau_temp_diode      = 3
+};
+
+enum nouveau_fan_source {
+    nouveau_fan_rpm        = 0,
+    nouveau_fan_pwm        = 1
 };
 
 #define super FakeSMCPlugin
@@ -51,7 +54,7 @@ OSDefineMetaClassAndStructors(GeforceSensors, FakeSMCPlugin)
 float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
 {   
     switch (sensor->getGroup()) {
-        case kFakeSMCTemperatureSensor:
+        case kFakeSMCTemperatureSensor: {
             switch (sensor->getIndex()) {
                 case nouveau_temp_core:
                     return card.core_temp_get(&card);
@@ -62,16 +65,23 @@ float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
                 case nouveau_temp_diode:
                     return card.temp_get(&card);
             }
+            break;
+        }
             
         case kFakeSMCFrequencySensor:
             return card.clocks_get(&card, sensor->getIndex()) / 1000.0f;
-            
-        case kNouveauPWMSensor:
-            return card.fan_pwm_get(&card);
-            
-        case kFakeSMCTachometerSensor:
-            return card.fan_rpm_get(&card); // count ticks for 500ms
-            
+
+        case kFakeSMCTachometerSensor:{
+            switch (sensor->getIndex()) {
+                case nouveau_fan_rpm:
+                    return card.fan_rpm_get(&card);
+                    
+                case nouveau_fan_pwm:
+                    return card.fan_pwm_get(&card);
+            }
+            break;
+        }
+        
         case kFakeSMCVoltageSensor:
             return (float)card.voltage_get(&card) / 1000000.0f;
     }
@@ -220,16 +230,20 @@ bool GeforceSensors::start(IOService * provider)
     
     if (card.fan_pwm_get || card.fan_rpm_get) {
         nv_debug(device, "registering PWM sensors...\n");
+
+        char title[6];
+        snprintf (title, 6, "GPU %X", card.card_index + 1);
+        
+        bool hasTach = false;
         
         if (card.fan_rpm_get && card.fan_rpm_get(device) > 0) {
-            char title[6];
-            snprintf (title, 6, "GPU %X", card.card_index + 1);
-            addTachometer(card.card_index, title);
+            hasTach = addTachometer(nouveau_fan_rpm, title, FAN_RPM, CENTER_MID_REAR, card.card_index);
         }
         
         if (card.fan_pwm_get && card.fan_pwm_get(device) > 0) {
-            snprintf(key, 5, KEY_FAKESMC_FORMAT_GPUPWM, card.card_index);
-            addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kNouveauPWMSensor, 0);
+            addTachometer(nouveau_fan_pwm, title, hasTach ? FAN_PWM_TACH : FAN_PWM_NOTACH, CENTER_MID_REAR, card.card_index);
+            //snprintf(key, 5, KEY_FAKESMC_FORMAT_GPUPWM, card.card_index);
+            //addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kNouveauPWMSensor, 0);
         }
     }
     

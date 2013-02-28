@@ -213,7 +213,14 @@
         return groupCell;
     }
     else if ([item isKindOfClass:[HWMonitorItem class]]) {
-        SensorCell *sensorCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
+        SensorCell *sensorCell = nil;
+        
+        if (([[item sensor] group] & kHWSensorGroupTemperature) || ([[item sensor] group] & kSMARTSensorGroupTemperature)) {
+            sensorCell = [tableView makeViewWithIdentifier:@"Temperature" owner:self];
+        }
+        else {
+            sensorCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
+        }
         
         HWMonitorSensor *sensor = [item sensor];
         
