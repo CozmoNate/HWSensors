@@ -127,3 +127,5 @@
 "CPU Vcore" = "ЦП Vcore";
 "CPU 1.5V S0" = "ЦП 1.5V S0";
 "CPU 1.8V S0" = "ЦП 1.8V S0";
+"Close HWMonitor" = "Закрыть HWMonitor";
+"Start HWMonitor at login" = "Запускать HWMonitor при старте системы";
