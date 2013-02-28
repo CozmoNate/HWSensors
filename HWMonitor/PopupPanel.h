@@ -1,5 +1,5 @@
 //
-//  main.m
+//  PopupPanel.h
 //  HWMonitor
 //
 //  Created by kozlek on 23.02.13.
@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-int main(int argc, char *argv[])
-{
-    return NSApplicationMain(argc, (const char **)argv);
-}
+@interface PopupPanel : NSPanel
+
+@end

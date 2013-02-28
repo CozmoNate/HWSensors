@@ -4,4 +4,7 @@
    <FileRef
       location = "container:HWSensors.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:HWMonitor.xcodeproj">
+   </FileRef>
 </Workspace>
