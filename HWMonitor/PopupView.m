@@ -41,12 +41,12 @@
 {
     [NSGraphicsContext saveGraphicsState];
     
-    NSRect contentRect = NSInsetRect([self bounds], LINE_THICKNESS, LINE_THICKNESS);
+    NSRect contentRect = NSInsetRect([self bounds], 1, 1);
     
     // Header
     
     NSRect headerRect = contentRect;
-    headerRect.size.height = kHWMonitorButtonsHeight + ARROW_HEIGHT - LINE_THICKNESS * 4 + 1; // Buttons row height
+    headerRect.size.height = kHWMonitorButtonsHeight + ARROW_HEIGHT - 1 * 4 + 1; // Buttons row height
     headerRect.origin.y = contentRect.size.height - headerRect.size.height;
     
     NSBezierPath *headerPath = [NSBezierPath bezierPath];
@@ -82,7 +82,7 @@
     
     NSBezierPath *contentPath = [NSBezierPath bezierPath];
 
-    [contentPath moveToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect) - CORNER_RADIUS + LINE_THICKNESS * 4)];
+    [contentPath moveToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect) - CORNER_RADIUS + 1 * 4)];
 
     [contentPath lineToPoint:NSMakePoint(NSMaxX(contentRect), NSMinY(contentRect) + CORNER_RADIUS)];
      
@@ -95,7 +95,7 @@
     [contentPath curveToPoint:NSMakePoint(NSMinX(contentRect), NSMinY(contentRect) + CORNER_RADIUS)
          controlPoint1:contentRect.origin controlPoint2:contentRect.origin];
     
-    [contentPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMinY(headerRect) - CORNER_RADIUS + LINE_THICKNESS * 4)];
+    [contentPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMinY(headerRect) - CORNER_RADIUS + 1 * 4)];
      
     [contentPath closePath];
     
@@ -107,12 +107,12 @@
     [clip appendBezierPath:contentPath];
     [clip addClip];
     
-    [headerPath setLineWidth:LINE_THICKNESS * 2];
+    [headerPath setLineWidth:1 * 2];
     [headerPath setFlatness:0.3];
     [_colorTheme.barPathColor setStroke];
     [headerPath stroke];
     
-    [contentPath setLineWidth:LINE_THICKNESS * 2];
+    [contentPath setLineWidth:1 * 2];
     [contentPath setFlatness:0.3];
     [_colorTheme.listPathColor setStroke];
     [contentPath stroke];
