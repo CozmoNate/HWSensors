@@ -27,6 +27,7 @@
 #define kHWMonitorSmartSensorsUpdateRate    @"smartSensorsUpdateRate"
 #define kHWMonitorGraphsUseDataSmoothing    @"graphsDataSmoothing"
 #define kHWMonitorColorThemeIndex           @"colorThemeIndex"
+#define kHWMonitorHiddenGraphsList          @"hiddenGraphsList"
 
 // Icons
 #define kHWMonitorIconDefault               @"hwmonitor"

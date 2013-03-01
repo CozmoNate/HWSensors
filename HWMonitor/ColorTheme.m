@@ -16,52 +16,74 @@
 {
     NSMutableArray *themes = [[NSMutableArray alloc] init];
     
-    ColorTheme *lightTheme = [[ColorTheme alloc] init];
+    ColorTheme *theme = [[ColorTheme alloc] init];
+    theme.name = @"HWMonitor";
     
-    lightTheme.name = @"iTunes";
+    theme.barBackgroundEndColor = [NSColor colorWithCalibratedRed:0.0 green:0.2 blue:1.0 alpha:FILL_OPACITY];
+    theme.barBackgroundStartColor = [theme.barBackgroundEndColor highlightWithLevel:0.9];
+    theme.barTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
+    theme.barPathColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.2];
     
-    lightTheme.barBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.5 alpha:FILL_OPACITY];
-    lightTheme.barBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
-    lightTheme.barTitleColor = [NSColor colorWithCalibratedWhite:0.7 alpha:1.0];
-    lightTheme.barPathColor = [NSColor colorWithCalibratedWhite:0.3 alpha:1.0];
+    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
+    theme.listPathColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
     
-    lightTheme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
-    lightTheme.listPathColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
+    theme.groupBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
+    theme.groupBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
+    theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
     
-    lightTheme.groupBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
-    lightTheme.groupBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
-    lightTheme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
+    theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
+    theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.56 alpha:1.0];
+    theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
     
-    lightTheme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
-    lightTheme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.56 alpha:1.0];
-    lightTheme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
+    [theme setUseAlternateImages:NO];
     
-    [lightTheme setUseAlternateImages:NO];
+    [themes addObject:theme];
     
-    ColorTheme *darkTheme = [[ColorTheme alloc] init];
+    theme = [[ColorTheme alloc] init];
+    theme.name = @"iTunes";
     
-    darkTheme.name = @"Darkness";
+    theme.barBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.5 alpha:FILL_OPACITY];
+    theme.barBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
+    theme.barTitleColor = [NSColor colorWithCalibratedWhite:0.7 alpha:1.0];
+    theme.barPathColor = [NSColor colorWithCalibratedWhite:0.3 alpha:1.0];
     
-    darkTheme.barBackgroundEndColor = [NSColor colorWithCalibratedRed:0.0 green:0.2 blue:1.0 alpha:FILL_OPACITY];
-    darkTheme.barBackgroundStartColor = [darkTheme.barBackgroundEndColor highlightWithLevel:0.7];
-    darkTheme.barTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    darkTheme.barPathColor = [NSColor colorWithCalibratedRed:0.0 green:0.1 blue:1.0 alpha:0.2];
+    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
+    theme.listPathColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
     
-    darkTheme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
-    darkTheme.listPathColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
+    theme.groupBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
+    theme.groupBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
+    theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
     
-    darkTheme.groupBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.4 alpha:FILL_OPACITY];
-    darkTheme.groupBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
-    darkTheme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.75 alpha:1.0];
+    theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
+    theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.56 alpha:1.0];
+    theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
     
-    darkTheme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
-    darkTheme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.4 alpha:1.0];
-    darkTheme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.95 alpha:1.0];
+    [theme setUseAlternateImages:NO];
     
-    [darkTheme setUseAlternateImages:YES];
+    [themes addObject:theme];
     
-    [themes addObject:lightTheme];
-    [themes addObject:darkTheme];
+    theme = [[ColorTheme alloc] init];
+    theme.name = @"Darkness";
+    
+    theme.barBackgroundEndColor = [NSColor colorWithCalibratedRed:0.0 green:0.2 blue:1.0 alpha:FILL_OPACITY];
+    theme.barBackgroundStartColor = [theme.barBackgroundEndColor highlightWithLevel:0.9];
+    theme.barTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
+    theme.barPathColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.2];
+    
+    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
+    theme.listPathColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
+    
+    theme.groupBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.26 alpha:FILL_OPACITY];
+    theme.groupBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.20 alpha:FILL_OPACITY];
+    theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.75 alpha:1.0];
+    
+    theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.7 alpha:1.0];
+    theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.5 alpha:1.0];
+    theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.95 alpha:1.0];
+    
+    [theme setUseAlternateImages:YES];
+    
+    [themes addObject:theme];
     
     return themes;
 }

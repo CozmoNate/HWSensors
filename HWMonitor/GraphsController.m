@@ -34,6 +34,8 @@
 #import "GraphsView.h"
 #import "SensorCell.h"
 
+#import "HWMonitorDefinitions.h"
+
 #define GetLocalizedString(key) \
 [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
@@ -107,9 +109,9 @@
     else {
         [_items removeAllObjects];
     }
-    
+
     if (!_hiddenItems) {
-        _hiddenItems = [[NSMutableArray alloc] init];
+        _hiddenItems = [[NSMutableArray alloc] initWithArray:[[[NSUserDefaultsController sharedUserDefaultsController] defaults] objectForKey:kHWMonitorHiddenGraphsList]];
     }
     else {
         [_hiddenItems removeAllObjects];
@@ -146,7 +148,7 @@
 
 - (BOOL) checkItemIsHidden:(HWMonitorItem*)item
 {
-    return [_hiddenItems indexOfObject:item] != NSNotFound;
+    return [_hiddenItems indexOfObject:[[item sensor] name]] != NSNotFound;
 }
 
 // Events
@@ -165,11 +167,13 @@
         HWMonitorItem *item = [_items objectAtIndex:[sender tag]];
         
         if ([sender state] == NSOnState) {
-            [_hiddenItems removeObject:item];
+            [_hiddenItems removeObject:[[item sensor] name]];
         }
         else {
-            [_hiddenItems addObject:item];
+            [_hiddenItems addObject:[[item sensor] name]];
         }
+        
+        [[[NSUserDefaultsController sharedUserDefaultsController] defaults] setObject:_hiddenItems forKey:kHWMonitorHiddenGraphsList];
     }
     
     [_temperatureGraph calculateGraphBoundsFindExtremes:YES];
