@@ -45,6 +45,7 @@
 		7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7EA2495416D8EE45002231B2 /* HWMonitorGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2495116D8EE44002231B2 /* HWMonitorGroup.m */; };
 		7EA2495516D8EE45002231B2 /* HWMonitorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2495316D8EE45002231B2 /* HWMonitorItem.m */; };
+		7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA394B216E0A1B600823109 /* ColorTheme.m */; };
 		7EB1338C16DBF06300A41255 /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EB1338A16DBF06300A41255 /* 19-gear.png */; };
 		7EB1338D16DBF06300A41255 /* 19-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EB1338B16DBF06300A41255 /* 19-gear@2x.png */; };
 		7EB1339016DBF07000A41255 /* 16-line-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EB1338E16DBF07000A41255 /* 16-line-chart.png */; };
@@ -63,7 +64,6 @@
 		7EDA1A6A16D8F1700012A0DC /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A6916D8F1700012A0DC /* HWMonitorIcon.m */; };
 		7EDA1A6D16D901100012A0DC /* PopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A6C16D901100012A0DC /* PopupController.m */; };
 		7EDA1A7016D9016B0012A0DC /* PopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A6F16D9016B0012A0DC /* PopupView.m */; };
-		7EDA1A7716D903740012A0DC /* ButtonsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A7216D903740012A0DC /* ButtonsCell.m */; };
 		7EDA1A7816D903740012A0DC /* GroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A7416D903740012A0DC /* GroupCell.m */; };
 		7EDA1A7916D903740012A0DC /* SensorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A7616D903740012A0DC /* SensorCell.m */; };
 		7EDA1A7E16D91B9B0012A0DC /* PopupPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A7D16D91B9B0012A0DC /* PopupPanel.m */; };
@@ -128,6 +128,8 @@
 		7EA2495116D8EE44002231B2 /* HWMonitorGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorGroup.m; sourceTree = "<group>"; };
 		7EA2495216D8EE44002231B2 /* HWMonitorItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorItem.h; sourceTree = "<group>"; };
 		7EA2495316D8EE45002231B2 /* HWMonitorItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorItem.m; sourceTree = "<group>"; };
+		7EA394B116E0A1B600823109 /* ColorTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorTheme.h; sourceTree = "<group>"; };
+		7EA394B216E0A1B600823109 /* ColorTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorTheme.m; sourceTree = "<group>"; };
 		7EB1338A16DBF06300A41255 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
 		7EB1338B16DBF06300A41255 /* 19-gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear@2x.png"; sourceTree = "<group>"; };
 		7EB1338E16DBF07000A41255 /* 16-line-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart.png"; sourceTree = "<group>"; };
@@ -151,8 +153,6 @@
 		7EDA1A6C16D901100012A0DC /* PopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupController.m; sourceTree = "<group>"; };
 		7EDA1A6E16D9016B0012A0DC /* PopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupView.h; sourceTree = "<group>"; };
 		7EDA1A6F16D9016B0012A0DC /* PopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupView.m; sourceTree = "<group>"; };
-		7EDA1A7116D903740012A0DC /* ButtonsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonsCell.h; sourceTree = "<group>"; };
-		7EDA1A7216D903740012A0DC /* ButtonsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonsCell.m; sourceTree = "<group>"; };
 		7EDA1A7316D903740012A0DC /* GroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupCell.h; sourceTree = "<group>"; };
 		7EDA1A7416D903740012A0DC /* GroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupCell.m; sourceTree = "<group>"; };
 		7EDA1A7516D903740012A0DC /* SensorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorCell.h; sourceTree = "<group>"; };
@@ -208,8 +208,6 @@
 				7EDA1A7416D903740012A0DC /* GroupCell.m */,
 				7EDA1A7516D903740012A0DC /* SensorCell.h */,
 				7EDA1A7616D903740012A0DC /* SensorCell.m */,
-				7EDA1A7116D903740012A0DC /* ButtonsCell.h */,
-				7EDA1A7216D903740012A0DC /* ButtonsCell.m */,
 				7ECDDE3F16DEB5F600085FFF /* GraphsGroupCell.h */,
 				7ECDDE4016DEB5F600085FFF /* GraphsGroupCell.m */,
 			);
@@ -261,7 +259,6 @@
 		7EA248F216D8E93A002231B2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7EDA1AAB16D936410012A0DC /* Localizable.strings */,
 				7EA248F316D8E93A002231B2 /* HWMonitor-Info.plist */,
 				7EA248F416D8E93A002231B2 /* InfoPlist.strings */,
 				7EA248F716D8E93A002231B2 /* main.m */,
@@ -385,7 +382,10 @@
 			isa = PBXGroup;
 			children = (
 				7EA2490816D8E942002231B2 /* Icons */,
+				7EA394B116E0A1B600823109 /* ColorTheme.h */,
+				7EA394B216E0A1B600823109 /* ColorTheme.m */,
 				7EB1339A16DC03AD00A41255 /* MainMenu.xib */,
+				7EDA1AAB16D936410012A0DC /* Localizable.strings */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";
@@ -534,7 +534,6 @@
 				7EDA1A6A16D8F1700012A0DC /* HWMonitorIcon.m in Sources */,
 				7EDA1A6D16D901100012A0DC /* PopupController.m in Sources */,
 				7EDA1A7016D9016B0012A0DC /* PopupView.m in Sources */,
-				7EDA1A7716D903740012A0DC /* ButtonsCell.m in Sources */,
 				7EDA1A7816D903740012A0DC /* GroupCell.m in Sources */,
 				7EDA1A7916D903740012A0DC /* SensorCell.m in Sources */,
 				7EDA1A7E16D91B9B0012A0DC /* PopupPanel.m in Sources */,
@@ -542,6 +541,7 @@
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
 				7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */,
+				7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

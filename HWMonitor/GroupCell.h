@@ -6,9 +6,14 @@
 //
 //
 
+#include "ColorTheme.h"
+
 @interface GroupCell : NSTableCellView
 {
-    NSGradient *gradient;
+    NSGradient *_gradient;
+    ColorTheme *_colorTheme;
 }
+
+@property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
 
 @end

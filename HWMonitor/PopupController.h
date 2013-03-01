@@ -30,13 +30,13 @@
 
 #import "StatusItemView.h"
 #import "PopupView.h"
-
-@class PopupController;
+#import "ColorTheme.h"
 
 @interface PopupController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
     BOOL _hasActivePanel;
     NSMutableArray *_items;
+    ColorTheme *_colorTheme;
 }
 
 @property (readonly) NSStatusItem *statusItem;
@@ -44,6 +44,8 @@
 
 @property (nonatomic, assign) BOOL hasActivePanel;
 @property (nonatomic, assign) BOOL showVolumeNames;
+
+@property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
 
 @property (nonatomic, unsafe_unretained) IBOutlet PopupView *popupView;
 @property (nonatomic, unsafe_unretained) IBOutlet NSScrollView *scrollView;

@@ -48,6 +48,7 @@
 @property (nonatomic, unsafe_unretained) IBOutlet GraphsView *frequencyGraph;
 @property (nonatomic, unsafe_unretained) IBOutlet GraphsView *tachometerGraph;
 @property (nonatomic, unsafe_unretained) IBOutlet GraphsView *voltageGraph;
+
 @property (nonatomic, unsafe_unretained) IBOutlet NSTableView *graphsTableView;
 
 - (void) setupWithGroups:(NSArray*)groups;

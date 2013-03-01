@@ -54,6 +54,8 @@
     
     id _favoriteGroupItem;
     id _availableGroupItem;
+    
+    NSArray *_colorThemes;
 }
 
 @property (nonatomic, unsafe_unretained) IBOutlet PopupController *popupController;
@@ -66,6 +68,7 @@
 
 - (IBAction)favoritesChanged:(id)sender;
 - (IBAction)useFahrenheitChanged:(id)sender;
+- (IBAction)colorThemeChanged:(id)sender;
 - (IBAction)updateRateChanged:(id)sender;
 - (IBAction)toggleSensorVisibility:(id)sender;
 - (IBAction)useBigFontChanged:(id)sender;

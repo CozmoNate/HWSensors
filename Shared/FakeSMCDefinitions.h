@@ -141,6 +141,7 @@
 #define TYPE_FP4C                               "fp4c"
 #define TYPE_CH8                                "ch8*"
 #define TYPE_SP78                               "sp78"
+#define TYPE_SP4B                               "sp4b"
 #define TYPE_FP5B                               "fp5b"
 #define TYPE_FP88                               "fp88"
 #define TYPE_UI8                                "ui8"

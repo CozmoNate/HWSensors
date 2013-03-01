@@ -82,7 +82,7 @@
         
         NSColorList *list = [NSColorList colorListNamed:@"Crayons"];
         
-        for (NSUInteger i = 8; i < [[list allKeys] count]; i++) {
+        for (NSUInteger i = [[list allKeys] count] - 1; i != 0; i--) {
             NSString *key = [[list allKeys] objectAtIndex:i];
             NSColor *color = [list colorWithKey:key];
             double intensity = (color.redComponent + color.blueComponent + color.greenComponent) / 3.0;
@@ -91,7 +91,7 @@
             double blue = [color blueComponent];
             BOOL blackAndWhite = red == green && red == blue && green == blue;
             
-            if (intensity >= 0.330 && intensity <=0.90 && !blackAndWhite)
+            if (intensity >= 0.335 && intensity <=0.900 && !blackAndWhite)
                 [_colorsList addObject:color];
         }
     }

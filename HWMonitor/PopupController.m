@@ -31,8 +31,8 @@
 #import "HWMonitorDefinitions.h"
 #import "HWMonitorGroup.h"
 
+#import "GroupCell.h"
 #import "SensorCell.h"
-#import "ButtonsCell.h"
 #import "PopupView.h"
 
 #define OPEN_DURATION .01
@@ -44,9 +44,18 @@
 #define GetLocalizedString(key) \
 [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
+-(void)setColorTheme:(ColorTheme *)colorTheme
+{
+    _colorTheme = colorTheme;
+    
+    [_popupView setColorTheme:colorTheme];
+    [_tableView reloadData];
+}
+
 - (id)init
 {
     self = [super init];
+    
     if (self != nil)
     {
         // Install status item into the menu bar
@@ -58,7 +67,10 @@
         _statusItemView.alternateImage = [NSImage imageNamed:@"thermometer_template"];
         
         [_statusItem setHighlightMode:YES];
+        
+        
     }
+    
     return self;
 }
 
@@ -450,10 +462,13 @@
     id item = [_items objectAtIndex:row];
     
     if ([item isKindOfClass:[HWMonitorGroup class]]) {
-        NSTableCellView *groupCell = [tableView makeViewWithIdentifier:@"Group" owner:self];
+        HWMonitorGroup *group = item;
         
-        [groupCell.textField setStringValue:[item title]];
-        [groupCell.imageView setObjectValue:[item icon]];
+        GroupCell *groupCell = [tableView makeViewWithIdentifier:@"Group" owner:self];
+        
+        [groupCell setColorTheme:_colorTheme];
+        [groupCell.textField setStringValue:[group title]];
+        [groupCell.imageView setObjectValue:_colorTheme.useAlternateImages ? [[group icon] alternateImage] : [[group icon] image]];
         
         return groupCell;
     }
@@ -470,6 +485,7 @@
         }
         
         if (_showVolumeNames && [sensor disk]) {
+            [sensorCell.subtitleField setTextColor:_colorTheme.itemSubTitleColor];
             [sensorCell.subtitleField setStringValue:[[sensor disk] volumesNames]];
             [sensorCell.subtitleField setHidden:NO];
         }
@@ -477,13 +493,19 @@
             [sensorCell.subtitleField setHidden:YES];
         }
         
+        [sensorCell.textField setTextColor:_colorTheme.itemTitleColor];
         [sensorCell.textField setStringValue:[sensor title]];
+        [sensorCell.valueField setTextColor:_colorTheme.itemValueTitleColor];
         [sensorCell.valueField setStringValue:[sensor formattedValue]];
         
         return sensorCell;
     }
     else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Buttons"]) {
-        return [tableView makeViewWithIdentifier:@"Buttons" owner:self];
+        NSTableCellView *buttonsCell = [tableView makeViewWithIdentifier:@"Buttons" owner:self];
+        
+        [buttonsCell.textField setTextColor:_colorTheme.barTitleColor];
+        
+        return buttonsCell;
     }
     else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Dummy"]) {
         return [tableView makeViewWithIdentifier:@"Dummy" owner:self];

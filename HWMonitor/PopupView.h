@@ -26,7 +26,7 @@
  *
  */
 
-#define ARROW_WIDTH         25
+#define ARROW_WIDTH         23
 #define ARROW_HEIGHT        11
 #define ARROW_OFFSET        4
 #define CORNER_RADIUS       6.0f
@@ -34,10 +34,14 @@
 #define FILL_OPACITY        0.95f
 #define STROKE_OPACITY      1.0f
 
-#import <Cocoa/Cocoa.h>
+#import "ColorTheme.h"
 
 @interface PopupView : NSView
+{
+    ColorTheme *_colorTheme;
+}
 
 @property (nonatomic, setter = setArrowPosition:) NSInteger arrowPosition;
+@property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
 
 @end

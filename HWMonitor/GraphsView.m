@@ -42,22 +42,21 @@
 {
     self = [super initWithFrame:frameRect];
     
-    if (!self)
-        return nil;
-    
-    NSShadow *shadow = [[NSShadow alloc] init];
-    
-    [shadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.55]];
-    [shadow setShadowOffset:CGSizeMake(0, -1.0)];
-    [shadow setShadowBlurRadius:1.0];
-    
-    _legendAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSFont systemFontOfSize:9.0], NSFontAttributeName,
-                         [NSColor yellowColor], NSForegroundColorAttributeName,
-                         shadow, NSShadowAttributeName,
-                         nil];
-    
-    _legendFormat = @"%1.0f";
+    if (self) {
+        NSShadow *shadow = [[NSShadow alloc] init];
+        
+        [shadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.55]];
+        [shadow setShadowOffset:CGSizeMake(0, -1.0)];
+        [shadow setShadowBlurRadius:1.0];
+        
+        _legendAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSFont systemFontOfSize:9.0], NSFontAttributeName,
+                             [NSColor yellowColor], NSForegroundColorAttributeName,
+                             shadow, NSShadowAttributeName,
+                             nil];
+        
+        _legendFormat = @"%1.0f";
+    }
     
     return self;
 }
@@ -93,24 +92,21 @@
         [_graphs removeAllObjects];
     }
  
-    NSUInteger colorIndex = 0;
+    NSUInteger colorIndex = 2;
     
     for (HWMonitorGroup *itemsList in groupsList) {
         for (HWMonitorItem *item in [itemsList items]) {
             if ([[item sensor] group] & sensorsGroup) {
-                [item setColor:[[_graphsController colorsList] objectAtIndex:colorIndex]];
+                
+                [item setColor:[[_graphsController colorsList] objectAtIndex:colorIndex++]];
+                
+                if (colorIndex >= [[_graphsController colorsList] count])
+                    colorIndex = 0;
                 
                 HWMonitorSensor *sensor = [item sensor];
                 
                 [_items addObject:item];
                 [_graphs setObject:[[NSMutableArray alloc] init] forKey:[sensor name]];
-                
-                if (colorIndex >= [[_graphsController colorsList] count]) {
-                    colorIndex = 0;
-                }
-                else {
-                    colorIndex++;
-                }
             }
         }
     }
@@ -213,38 +209,6 @@
     
     NSBezierPath *path = [[NSBezierPath alloc] init];
     
-    /*[path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x, _graphBounds.origin.y)]];
-    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width, _graphBounds.origin.y)]];
-    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width, _graphBounds.origin.y + _graphBounds.size.height)]];
-    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x, _graphBounds.origin.y + _graphBounds.size.height)]];
-    [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x, _graphBounds.origin.y)]];
-    [path setClip];
-    
-    [path removeAllPoints];
-    
-    [path setLineWidth:0.33];
-    
-    [[NSColor colorWithCalibratedRed:0 green:0.25 blue:0 alpha:0.7] set];
-    
-    double xStart = _graphBounds.origin.x + _graphBounds.size.width;
-    double yStart = floor(_graphBounds.origin.y / 10) * 10;
-    double xInc = 4;
-    double yInc = _graphBounds.size.height / 10;
-    
-    for (x = xStart; x > 0; x -= xInc) {
-        [path removeAllPoints];
-        [path moveToPoint:[self graphPointToView:NSMakePoint(x,_graphBounds.origin.y)]];
-        [path lineToPoint:[self graphPointToView:NSMakePoint(x,_graphBounds.origin.y + _graphBounds.size.height)]];
-        [path stroke];
-        
-        for (y = yStart; y < _graphBounds.origin.y + _graphBounds.size.height; y += yInc) {
-            [path removeAllPoints];
-            [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,y)]];
-            [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,y)]];
-            [path stroke];
-        }
-    }*/
-    
     if (_minY < _maxY) {
         // Draw extremums
         [context setShouldAntialias:NO];
@@ -312,7 +276,7 @@
         }
         
         if (item == [_graphsController selectedItem]) {
-            [[[item color] highlightWithLevel:0.6] set];
+            [[[item color] highlightWithLevel:0.8] set];
             [path setLineWidth:3.0];
         }
         else {

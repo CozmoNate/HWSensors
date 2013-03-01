@@ -11,21 +11,28 @@
 
 @implementation GroupCell
 
+-(void)setColorTheme:(ColorTheme *)colorTheme
+{
+    _colorTheme = colorTheme;
+    
+    _gradient = [[NSGradient alloc]
+                 initWithStartingColor:_colorTheme.groupBackgroundStartColor
+                 endingColor:_colorTheme.groupBackgroundEndColor];
+    
+    [self.textField setTextColor:_colorTheme.groupTitleColor];
+    
+    [self setNeedsDisplay:YES];
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
-    if (!gradient) {
-        gradient = [[NSGradient alloc]
-                    initWithStartingColor:[NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY]
-                              endingColor:[NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY]];
-//        gradient = [[NSGradient alloc]
-//                    initWithColorsAndLocations:
-//                    [NSColor colorWithCalibratedWhite:0.97 alpha:0.95], 0.0,
-//                    [NSColor colorWithCalibratedWhite:0.82 alpha:0.95], 0.6,
-//                    [NSColor colorWithCalibratedWhite:0.90 alpha:0.95], 1.0,
-//                    nil];
+    if (!_gradient) {
+        _gradient = [[NSGradient alloc]
+                    initWithStartingColor:_colorTheme.groupBackgroundStartColor
+                              endingColor:_colorTheme.groupBackgroundEndColor];
     }
     
-    [gradient drawInRect:[self bounds] angle:270];
+    [_gradient drawInRect:[self bounds] angle:270];
 }
 
 @end

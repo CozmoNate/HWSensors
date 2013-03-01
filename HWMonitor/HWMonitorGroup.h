@@ -27,6 +27,7 @@
 
 
 #import "HWMonitorItem.h"
+#import "HWMonitorIcon.h"
 
 @interface HWMonitorGroup : NSObject
 {
@@ -35,12 +36,12 @@
 
 @property (nonatomic, assign) enum HWSensorGroup group;
 @property (nonatomic, strong) NSString* title;
-@property (nonatomic, strong) NSImage* icon;
+@property (nonatomic, strong) HWMonitorIcon* icon;
 @property (nonatomic, strong) NSMutableArray* items;
 
-+ (HWMonitorGroup*)groupWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup title:(NSString*)title image:(NSImage*)image;
++ (HWMonitorGroup*)groupWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup title:(NSString*)title image:(HWMonitorIcon*)icon;
 
-- (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup title:(NSString*)title image:(NSImage*)image;
+- (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup title:(NSString*)title image:(HWMonitorIcon*)icon;
 
 - (BOOL)checkVisibility;
 

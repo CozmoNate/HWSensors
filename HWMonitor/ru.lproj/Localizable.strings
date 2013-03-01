@@ -129,3 +129,4 @@
 "CPU 1.8V S0" = "ЦП 1.8V S0";
 "Close HWMonitor" = "Закрыть HWMonitor";
 "Start HWMonitor at login" = "Запускать HWMonitor при старте системы";
+"Popup color theme:" = "Цветовая схема:";

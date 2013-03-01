@@ -31,13 +31,24 @@
 
 @implementation PopupView
 
+-(void)setColorTheme:(ColorTheme*)colorTheme
+{
+    _colorTheme = colorTheme;
+    [self setNeedsDisplay:YES];
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
+    [NSGraphicsContext saveGraphicsState];
+    
     NSRect contentRect = NSInsetRect([self bounds], LINE_THICKNESS, LINE_THICKNESS);
     
+    // Header
+    
     NSRect headerRect = contentRect;
-    headerRect.size.height = kHWMonitorButtonsHeight + ARROW_HEIGHT - LINE_THICKNESS * 4; // Buttons row height
+    headerRect.size.height = kHWMonitorButtonsHeight + ARROW_HEIGHT - LINE_THICKNESS * 4 + 1; // Buttons row height
     headerRect.origin.y = contentRect.size.height - headerRect.size.height;
+    
     NSBezierPath *headerPath = [NSBezierPath bezierPath];
     
     [headerPath moveToPoint:NSMakePoint(_arrowPosition, NSMaxY(headerRect))];
@@ -50,9 +61,7 @@
     
     [headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect) + CORNER_RADIUS)];
     
-    NSPoint bottomRightCorner = NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect));
-   
-    [headerPath lineToPoint:bottomRightCorner];
+    [headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect))];
     [headerPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMinY(headerRect))];
     
     [headerPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS)];
@@ -65,11 +74,11 @@
     [headerPath closePath];
        
     [[[NSGradient alloc]
-      initWithStartingColor:[NSColor colorWithCalibratedWhite:0.5 alpha:FILL_OPACITY]
-      endingColor:[NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY]]
+      initWithStartingColor:_colorTheme.barBackgroundStartColor
+      endingColor:_colorTheme.barBackgroundEndColor]
      drawInBezierPath:headerPath angle:270] ;
     
-    [NSGraphicsContext saveGraphicsState];
+    // Content
     
     NSBezierPath *contentPath = [NSBezierPath bezierPath];
 
@@ -77,7 +86,7 @@
 
     [contentPath lineToPoint:NSMakePoint(NSMaxX(contentRect), NSMinY(contentRect) + CORNER_RADIUS)];
      
-    bottomRightCorner = NSMakePoint(NSMaxX(contentRect), NSMinY(contentRect));
+    NSPoint bottomRightCorner = NSMakePoint(NSMaxX(contentRect), NSMinY(contentRect));
     [contentPath curveToPoint:NSMakePoint(NSMaxX(contentRect) - CORNER_RADIUS, NSMinY(contentRect))
           controlPoint1:bottomRightCorner controlPoint2:bottomRightCorner];
      
@@ -90,9 +99,9 @@
      
     [contentPath closePath];
     
-    [[NSColor colorWithDeviceWhite:1 alpha:FILL_OPACITY] setFill];
+    [_colorTheme.listBackgroundColor setFill];
     [contentPath fill];
-        
+    
     NSBezierPath *clip = [NSBezierPath bezierPathWithRect:[self bounds]];
     [clip appendBezierPath:headerPath];
     [clip appendBezierPath:contentPath];
@@ -100,12 +109,12 @@
     
     [headerPath setLineWidth:LINE_THICKNESS * 2];
     [headerPath setFlatness:0.3];
-    [[NSColor colorWithCalibratedWhite:0.3 alpha:1.0] setStroke];
+    [_colorTheme.barPathColor setStroke];
     [headerPath stroke];
     
     [contentPath setLineWidth:LINE_THICKNESS * 2];
     [contentPath setFlatness:0.3];
-    [[NSColor colorWithCalibratedWhite:1.0 alpha:1.0] setStroke];
+    [_colorTheme.listPathColor setStroke];
     [contentPath stroke];
     
     [NSGraphicsContext restoreGraphicsState];
