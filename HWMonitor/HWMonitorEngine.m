@@ -354,7 +354,7 @@
             FanTypeDescStruct *fds = (FanTypeDescStruct*)[[HWMonitorEngine copyValueFromKeyInfo:[self populateInfoForKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i]]] bytes];
             
             if (fds) {
-                NSString *caption = [[NSString alloc] initWithBytes:fds->strFunction length:DIAG_FUNCTION_STR_LEN encoding:NSUTF8StringEncoding];
+                NSString *caption = [NSString stringWithCString:fds->strFunction encoding:NSUTF8StringEncoding];
                 
                 if ([caption length] == 0)
                     caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
@@ -390,7 +390,7 @@
             FanTypeDescStruct *fds = (FanTypeDescStruct*)[[HWMonitorEngine copyValueFromKeyInfo:[self populateInfoForKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i]]] bytes];
             
             if (fds) {
-                NSString *caption = [[NSString alloc] initWithBytes:fds->strFunction length:DIAG_FUNCTION_STR_LEN encoding:NSUTF8StringEncoding];
+                NSString *caption = [NSString stringWithCString:fds->strFunction encoding:NSASCIIStringEncoding];
                 
                 if ([caption hasPrefix:@"GPU "]) {
                     if (fds->ui8Zone == 0) {
