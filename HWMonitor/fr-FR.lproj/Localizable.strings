@@ -74,10 +74,11 @@
 "voltages" = "Tensions";
 "pcicard" = "Carte pci";
 "video" = "Vidéo";
-"CPU Fan" = "Ventilateur CPU";
-"Power Fan" = "Ventilateur power";
-"System Fan #1" = "Ventilateur système #1";
-"System Fan #2" = "Ventilateur système #2";
+"CPUFan" = "Ventilateur CPU";
+"CPUFan2" = "Ventilateur CPU 2";
+"PowerFan" = "Ventilateur power";
+"SystemFan1" = "Ventilateur système #1";
+"SystemFan2" = "Ventilateur système #2";
 "Menu bar items:" = "Elément barre de menus :";
 "Available items:" = "Eléments disponibles :";
 "HWMonitor Preferences" = "Préférences HWMonitor";

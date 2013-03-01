@@ -13,7 +13,7 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.1.13</string>
+	<string>5.1.14</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -43,11 +43,11 @@
 					<key>Fan Names</key>
 					<dict>
 						<key>FAN0</key>
-						<string>System Fan</string>
+						<string>SystemFan</string>
 						<key>FAN1</key>
-						<string>Processor Fan</string>
+						<string>CPUFan</string>
 						<key>FAN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FAN3</key>
 						<string>Intake Fan</string>
 						<key>FAN4</key>

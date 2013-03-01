@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.1.13</string>
+	<string>5.1.14</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -150,11 +150,11 @@
 					<key>X58 SLI Classified</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN2</key>
-						<string>Chasis Fan</string>
+						<string>ChassisFan</string>
 						<key>FANIN3</key>
 						<string></string>
 						<key>FANIN4</key>
@@ -335,7 +335,7 @@
 					<key>B75MA-P45 (MS-7798)</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
 						<string>Front Fan</string>
 						<key>FANIN2</key>
@@ -426,7 +426,7 @@
 					<key>H67MA-E35 (MS-7680)</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
 						<string>Exhaust Fan</string>
 						<key>FANIN2</key>
@@ -535,7 +535,7 @@
 					<key>P55M-GD45 (MS-7588) </key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
 						<string>Exhaust Fan</string>
 						<key>FANIN2</key>
@@ -749,11 +749,11 @@
 					<key>M2N-SLI DELUXE</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>Chassis Fan #1</string>
+						<string>ChassisFan1</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>TEMPIN0</key>
 						<string>CPU</string>
 						<key>TEMPIN1</key>
@@ -790,11 +790,11 @@
 					<key>M4A79XTD EVO</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>Chassis Fan #1</string>
+						<string>ChassisFan1</string>
 						<key>FANIN2</key>
-						<string>Chassis Fan #2</string>
+						<string>ChassisFan2</string>
 						<key>TEMPIN0</key>
 						<string>CPU</string>
 						<key>TEMPIN1</key>
@@ -816,13 +816,13 @@
 					<key>M5A97</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>Chassis Fan #1</string>
+						<string>ChassisFan1</string>
 						<key>FANIN2</key>
-						<string>Chassis Fan #2</string>
+						<string>ChassisFan2</string>
 						<key>FANIN3</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>TEMPIN0</key>
 						<string>CPU</string>
 						<key>TEMPIN1</key>
@@ -941,11 +941,11 @@
 					<key>LP BI P45-T2RS Elite</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>Fan #1</string>
+						<string></string>
 						<key>FANIN1</key>
-						<string>Fan #2</string>
+						<string></string>
 						<key>FANIN2</key>
-						<string>Fan #3</string>
+						<string></string>
 						<key>TEMPIN0</key>
 						<string>CPU</string>
 						<key>TEMPIN1</key>
@@ -1001,11 +1001,11 @@
 					<key>LP DK P55-T3eH9</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>Fan #1</string>
+						<string></string>
 						<key>FANIN1</key>
-						<string>Fan #1</string>
+						<string></string>
 						<key>FANIN2</key>
-						<string>Fan #1</string>
+						<string></string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN1</key>
@@ -1101,11 +1101,11 @@
 					<key>A890GXM-A</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
 						<string>System Fan</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>TEMPIN0</key>
 						<string>CPU</string>
 						<key>TEMPIN1</key>
@@ -1222,7 +1222,7 @@
 					<key>965P-S3</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
 						<string>System Fan</string>
 						<key>TEMPIN0</key>
@@ -1275,13 +1275,13 @@
 					<key>EX58-EXTREME</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
 						<string>Ambient</string>
 						<key>TEMPIN1</key>
@@ -1309,13 +1309,13 @@
 					<key>GA-MA770T-UD3</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>FANIN2</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN3</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN1</key>
@@ -1354,7 +1354,7 @@
 					<key>GA-MA785GMT-UD2H</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
 						<string>System Fan</string>
 						<key>FANIN2</key>
@@ -1397,13 +1397,13 @@
 					<key>H67A-UD3H-B3</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN2</key>
@@ -1474,13 +1474,13 @@
 					<key>IT8720F</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
@@ -1583,13 +1583,13 @@
 					<key>P31-ES3G</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN2</key>
@@ -1628,13 +1628,13 @@
 					<key>P35-DS3</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>FANIN2</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN3</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN1</key>
@@ -1677,13 +1677,13 @@
 					<key>P55-UD4</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN2</key>
@@ -1722,13 +1722,13 @@
 					<key>P55-USB3</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN2</key>
@@ -1769,13 +1769,13 @@
 					<key>P67A-UD3R-B3</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN2</key>
@@ -1845,13 +1845,13 @@
 					<key>P67A-UD4-B3</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN2</key>
@@ -1914,13 +1914,13 @@
 					<key>X38-DS5</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN1</key>
@@ -1959,13 +1959,13 @@
 					<key>X58A-UD3R</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
 						<string>Ambient</string>
 						<key>TEMPIN1</key>
@@ -2010,11 +2010,11 @@
 					<key>Z68X-UD3H-B3</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN1</key>
@@ -2066,15 +2066,15 @@
 					<key>Z68X-UD7-B3</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN2</key>
-						<string>System Fan #1</string>
+						<string>SystemFan1</string>
 						<key>FANIN3</key>
-						<string>System Fan #2</string>
+						<string>SystemFan2</string>
 						<key>FANIN4</key>
-						<string>System Fan #3</string>
+						<string>SystemFan3</string>
 						<key>TEMPIN0</key>
 						<string>System</string>
 						<key>TEMPIN2</key>
@@ -2169,13 +2169,13 @@
 					<key>Z68 Pro3-M</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>Chassis Fan #1</string>
+						<string>ChassisFan1</string>
 						<key>FANIN2</key>
-						<string>Chassis Fan #2</string>
+						<string>ChassisFan2</string>
 						<key>FANIN3</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>TEMPIN0</key>
 						<string>CPU</string>
 						<key>TEMPIN1</key>
@@ -2237,9 +2237,9 @@
 						<key>FANIN0</key>
 						<string>Chassis Fan</string>
 						<key>FANIN1</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
 						<string></string>
 						<key>FANIN4</key>
@@ -2342,11 +2342,11 @@
 					<key>P8P67 PRO</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN2</key>
-						<string>Chassis Fan #2</string>
+						<string>ChassisFan2</string>
 						<key>FANIN3</key>
 						<string></string>
 						<key>FANIN4</key>
@@ -2436,13 +2436,13 @@
 					<key>P8P67-M PRO</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>Chassis Fan #1</string>
+						<string>ChassisFan1</string>
 						<key>FANIN1</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
-						<string>Chassis Fan #2</string>
+						<string>ChassisFan2</string>
 						<key>FANIN3</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN4</key>
 						<string>Auxiliary Fan</string>
 						<key>TEMPIN0</key>
@@ -2626,7 +2626,7 @@
 						<key>FANIN0</key>
 						<string></string>
 						<key>FANIN1</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
 						<string></string>
 						<key>FANIN3</key>
@@ -2679,11 +2679,11 @@
 						<key>FANIN0</key>
 						<string></string>
 						<key>FANIN1</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
 						<string></string>
 						<key>FANIN3</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
@@ -2944,11 +2944,11 @@
 					<key>880GMH/USB3</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>Chasis Fan</string>
+						<string>ChassisFan</string>
 						<key>FANIN1</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
 						<string></string>
 						<key>FANIN4</key>
@@ -3033,15 +3033,15 @@
 					<key>P5Q</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>System Fan</string>
+						<string>SystemFan</string>
 						<key>FANIN1</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
-						<string>Auxiliary</string>
+						<string>AuxFan</string>
 						<key>FANIN3</key>
-						<string>CPU Fan 2</string>
+						<string>CPUFan2</string>
 						<key>FANIN4</key>
-						<string>Auxiliary Fan 2</string>
+						<string>AuxFan2</string>
 						<key>FANINLIMIT</key>
 						<integer>0</integer>
 						<key>TEMPIN0</key>
@@ -3130,15 +3130,15 @@
 					<key>P6X58D-E</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>Chassis Fan 1</string>
+						<string>ChassisFan1</string>
 						<key>FANIN1</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
-						<string>Power Supply Fan</string>
+						<string>PowerFan</string>
 						<key>FANIN3</key>
-						<string>Chassis Fan 2</string>
+						<string>ChassisFan2</string>
 						<key>FANIN4</key>
-						<string>Chassis Fan 3</string>
+						<string>ChassisFan3</string>
 						<key>FANINLIMIT</key>
 						<integer>0</integer>
 						<key>TEMPIN0</key>
@@ -3205,15 +3205,15 @@
 					<key>P7H55-M PRO</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>System Fan</string>
+						<string>SystemFan</string>
 						<key>FANIN1</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
-						<string>Auxiliary</string>
+						<string>AuxFan</string>
 						<key>FANIN3</key>
-						<string>CPU Fan 2</string>
+						<string>CPUFan2</string>
 						<key>FANIN4</key>
-						<string>Auxiliary Fan 2</string>
+						<string>AuxFan2</string>
 						<key>FANINLIMIT</key>
 						<integer>0</integer>
 						<key>TEMPIN0</key>
@@ -3300,15 +3300,15 @@
 					<key>P7P55D LE</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>Chassis Fan 1</string>
+						<string>ChassisFan1</string>
 						<key>FANIN1</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
-						<string>Chassis Fan 2</string>
+						<string>ChassisFan2</string>
 						<key>FANIN3</key>
-						<string>Chassis Fan 3</string>
+						<string>ChassisFan3</string>
 						<key>FANIN4</key>
-						<string>Power Fan</string>
+						<string>PowerFan</string>
 						<key>FANINLIMIT</key>
 						<integer>4</integer>
 						<key>TEMPIN0</key>
@@ -3349,15 +3349,15 @@
 					<key>Rampage II GENE</key>
 					<dict>
 						<key>FANIN0</key>
-						<string>System Fan</string>
+						<string>SystemFan</string>
 						<key>FANIN1</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
-						<string>Auxiliary</string>
+						<string>AuxFan</string>
 						<key>FANIN3</key>
-						<string>CPU Fan 2</string>
+						<string>CPUFan2</string>
 						<key>FANIN4</key>
-						<string>Auxiliary Fan 2</string>
+						<string>AuxFan2</string>
 						<key>FANINLIMIT</key>
 						<integer>0</integer>
 						<key>TEMPIN0</key>
@@ -3489,15 +3489,15 @@
 				<key>W83667HGB</key>
 				<dict>
 					<key>FANIN0</key>
-					<string>System Fan</string>
+					<string>SystemFan</string>
 					<key>FANIN1</key>
-					<string>CPU Fan</string>
+					<string>CPUFan</string>
 					<key>FANIN2</key>
-					<string>Auxiliary</string>
+					<string>AuxFan</string>
 					<key>FANIN3</key>
-					<string>CPU Fan 2</string>
+					<string>CPUFan2</string>
 					<key>FANIN4</key>
-					<string>Auxiliary Fan 2</string>
+					<string>AuxFan2</string>
 					<key>FANINLIMIT</key>
 					<integer>0</integer>
 					<key>TEMPIN0</key>
@@ -3584,15 +3584,15 @@
 				<key>W83687THF</key>
 				<dict>
 					<key>FANIN0</key>
-					<string>System Fan</string>
+					<string>SystemFan</string>
 					<key>FANIN1</key>
-					<string>CPU Fan</string>
+					<string>CPUFan</string>
 					<key>FANIN2</key>
-					<string>Auxiliary</string>
+					<string>AuxFan</string>
 					<key>FANIN3</key>
-					<string>CPU Fan 2</string>
+					<string>CPUFan2</string>
 					<key>FANIN4</key>
-					<string>Auxiliary Fan 2</string>
+					<string>AuxFan2</string>
 					<key>FANINLIMIT</key>
 					<integer>0</integer>
 					<key>TEMPIN0</key>
