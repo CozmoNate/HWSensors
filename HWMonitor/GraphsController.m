@@ -231,7 +231,7 @@
         [[sensorCell textField] setStringValue:GetLocalizedString([sensor title])];
         [[sensorCell valueField] setStringValue:[sensor formattedValue]];
         [[sensorCell colorWell] setColor:[item color]];
-        [[sensorCell checkBox] setState:YES];
+        [[sensorCell checkBox] setState:![self checkItemIsHidden:item]];
         [[sensorCell checkBox] setTag:[_items indexOfObject:item]];
         
         [sensorCell setRepresentedObject:item];

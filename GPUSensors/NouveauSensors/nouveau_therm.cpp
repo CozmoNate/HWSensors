@@ -194,7 +194,7 @@ int nouveau_therm_fan_pwm_get(struct nouveau_device *device)
         //return device->gpio_get(device, 0, device->fan_pwm.func, device->fan_pwm.line) * 100;
     }
     
-    return 0;
+    return -EIO;
 }
 
 #define THERM_FAN_SENSE_CYCLES 8
@@ -231,10 +231,10 @@ int nouveau_therm_fan_rpm_get(struct nouveau_device *device)
         if (interval) {
             return (int)(((u64)60000000000 * (((u64)cycles - 1) / 4)) / interval);
         } else
-            return 0;
+            return -EIO;
     }
     
     nv_debug(device, "DCB_GPIO_FAN_SENSE func not found\n");
     
-    return 0;
+    return -EIO;
 }

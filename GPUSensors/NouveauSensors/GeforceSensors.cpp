@@ -236,11 +236,11 @@ bool GeforceSensors::start(IOService * provider)
         
         bool hasTach = false;
         
-        if (card.fan_rpm_get && card.fan_rpm_get(device) > 0) {
+        if (card.fan_rpm_get && card.fan_rpm_get(device) >= 0) {
             hasTach = addTachometer(nouveau_fan_rpm, title, FAN_RPM, CENTER_MID_REAR, card.card_index);
         }
         
-        if (card.fan_pwm_get && card.fan_pwm_get(device) > 0) {
+        if (card.fan_pwm_get && card.fan_pwm_get(device) >= 0) {
             addTachometer(nouveau_fan_pwm, title, hasTach ? FAN_PWM_TACH : FAN_PWM_NOTACH, CENTER_MID_REAR, card.card_index);
             //snprintf(key, 5, KEY_FAKESMC_FORMAT_GPUPWM, card.card_index);
             //addSensor(key, TYPE_UI8, TYPE_UI8_SIZE, kNouveauPWMSensor, 0);

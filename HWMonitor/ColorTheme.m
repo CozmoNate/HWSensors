@@ -75,7 +75,7 @@
     
     theme.groupBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.26 alpha:FILL_OPACITY];
     theme.groupBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.20 alpha:FILL_OPACITY];
-    theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.75 alpha:1.0];
+    theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
     
     theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.7 alpha:1.0];
     theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.5 alpha:1.0];
