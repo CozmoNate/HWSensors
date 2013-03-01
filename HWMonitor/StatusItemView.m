@@ -87,7 +87,7 @@
         return;
     }
     
-    int offset = 2;
+    int offset = 3;
     
     NSAttributedString *spacer = [[NSAttributedString alloc] initWithString:_useBigFont ? @" " : @"  " attributes:[NSDictionary dictionaryWithObjectsAndKeys:_useBigFont ? _bigFont : _smallFont, NSFontAttributeName, nil]];
     
@@ -202,7 +202,7 @@
         }
     }
     
-    offset += 2;
+    offset += 3;
     
     [self setFrameSize:NSMakeSize(offset, [self frame].size.height)];
     

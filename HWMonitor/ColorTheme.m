@@ -45,7 +45,7 @@
     darkTheme.barBackgroundEndColor = [NSColor colorWithCalibratedRed:0.0 green:0.2 blue:1.0 alpha:FILL_OPACITY];
     darkTheme.barBackgroundStartColor = [darkTheme.barBackgroundEndColor highlightWithLevel:0.7];
     darkTheme.barTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    darkTheme.barPathColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
+    darkTheme.barPathColor = [NSColor colorWithCalibratedRed:0.0 green:0.1 blue:1.0 alpha:0.2];
     
     darkTheme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
     darkTheme.listPathColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
