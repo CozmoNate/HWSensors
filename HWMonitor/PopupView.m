@@ -41,12 +41,12 @@
 {
     [NSGraphicsContext saveGraphicsState];
     
-    NSRect contentRect = NSInsetRect([self bounds], 1, 1);
+    NSRect contentRect = NSInsetRect([self bounds], LINE_THICKNESS, LINE_THICKNESS);
     
     // Header
     
     NSRect headerRect = contentRect;
-    headerRect.size.height = kHWMonitorButtonsHeight + ARROW_HEIGHT - 1 * 4 + 1; // Buttons row height
+    headerRect.size.height = kHWMonitorButtonsHeight + ARROW_HEIGHT - LINE_THICKNESS * 2; // Buttons row height
     headerRect.origin.y = contentRect.size.height - headerRect.size.height;
     
     NSBezierPath *headerPath = [NSBezierPath bezierPath];
@@ -72,11 +72,6 @@
     
     [headerPath lineToPoint:NSMakePoint(_arrowPosition - ARROW_WIDTH / 2, NSMaxY(headerRect) - ARROW_HEIGHT)];
     [headerPath closePath];
-       
-    [[[NSGradient alloc]
-      initWithStartingColor:_colorTheme.barBackgroundStartColor
-      endingColor:_colorTheme.barBackgroundEndColor]
-     drawInBezierPath:headerPath angle:270] ;
     
     // Content
     
@@ -98,6 +93,13 @@
     [contentPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMinY(headerRect))];
      
     [contentPath closePath];
+    
+    // Draw panel
+    
+    [[[NSGradient alloc]
+      initWithStartingColor:_colorTheme.barBackgroundStartColor
+      endingColor:_colorTheme.barBackgroundEndColor]
+     drawInBezierPath:headerPath angle:270];
     
     [_colorTheme.listBackgroundColor setFill];
     [contentPath fill];
