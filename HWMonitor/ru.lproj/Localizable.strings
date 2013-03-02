@@ -93,7 +93,7 @@
 "Install menu bar extension" = "Установить расширение меню";
 "Remove menu bar extension" = "Удалить расширение меню";
 "Temperature units:" = "Система температур:";
-"HWMonitor menu:" = "Меню HWMonitor:";
+"Menu sensors:" = "Датчики в меню:";
 "Miscellaneous:" = "Разное:";
 "About HWMonitor" = "О программе HWMonitor";
 "Services" = "Службы";
@@ -136,3 +136,6 @@
 "Main bord proximity" = "Материнская плата";
 "DIMM Slot %X" = "DIMM слот %X";
 "Main bord proximity" = "Материнская плата";
+"Default" = "HWMonitor";
+"Gray" = "Серый";
+"Dark" = "Темный";
