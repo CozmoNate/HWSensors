@@ -436,12 +436,13 @@ static bool probe_monitoring_device(struct nouveau_i2c_port *i2c, struct i2c_boa
             if(!lm99_detect(dev)) return false;
         }
     }
+    else return false;
 
     device->nvclock_i2c_sensor = dev;
 
     nv_debug(device, "found device: %s\n", device->nvclock_i2c_sensor->chip_name);
         
-    switch(dev->chip_id)
+    switch(device->nvclock_i2c_sensor->chip_id)
     {
         case LM99:
         case MAX6559:

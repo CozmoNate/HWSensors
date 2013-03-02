@@ -73,7 +73,8 @@ static u16 dcb_gpio_entry(struct nouveau_device *device, int idx, int ent, u8 *v
 	if (!idx--)
 		gpio = dcb_gpio_table(device, ver, &hdr, &cnt, len);
 	else
-		gpio = dcb_xpio_table(device, idx, &xver, &hdr, &cnt, len);
+		//gpio = dcb_xpio_table(device, idx, &xver, &hdr, &cnt, len);
+        gpio = dcb_xpio_table(device, idx, ver, &hdr, &cnt, len);
     
 	if (gpio && ent < cnt)
 		return gpio + hdr + (ent * *len);

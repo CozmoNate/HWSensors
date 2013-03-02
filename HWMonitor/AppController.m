@@ -425,7 +425,7 @@
 
 - (IBAction)colorThemeChanged:(id)sender
 {
-    [_popupController setColorTheme:[_colorThemes objectAtIndex:[sender selectedRow]]];
+    [_popupController setColorTheme:[_colorThemes objectAtIndex:[sender indexOfSelectedItem]]];
 }
 
 -(IBAction)useBigFontChanged:(id)sender

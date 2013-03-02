@@ -107,12 +107,12 @@ bool GeforceSensors::start(IOService * provider)
             nv_debug(device, "memory mapped successfully\n");
         }
         else {
-            nv_error(device, "failed to map memory\n");
+            HWSensorsFatalLog("failed to map memory");
             return false;
         }
     }
     else {
-        nv_error(device, "failed to assign PCI device\n");
+        HWSensorsFatalLog("failed to assign PCI device\n");
         return false;
     }
 
