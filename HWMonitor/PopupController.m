@@ -534,7 +534,11 @@
         return buttonsCell;
     }
     else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Dummy"]) {
-        return [tableView makeViewWithIdentifier:@"Dummy" owner:self];
+        NSTableCellView *dummyCell = [tableView makeViewWithIdentifier:@"Dummy" owner:self];
+        
+        [dummyCell.textField setTextColor:_colorTheme.itemTitleColor];
+        
+        return dummyCell;
     }
     
     return nil;

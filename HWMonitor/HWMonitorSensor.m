@@ -250,7 +250,7 @@
         else if (_group & kHWSensorGroupTachometer) {
             _rawValue = [NSNumber numberWithFloat:[self decodeValue]];
             
-            if ([_rawValue floatValue] < 25) {
+            if ([_rawValue floatValue] < 1) {
                 //rehabman: it is normal on a laptop to have a fan read 0 RPM...
                 //[self setLevel:kHWSensorLevelExceeded];
                 _formattedValue = [NSString stringWithFormat:@"-"];

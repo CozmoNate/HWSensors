@@ -1374,7 +1374,7 @@
 															<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 														</object>
 													</object>
-													<object class="NSColor" key="NSTextColor" id="950968623">
+													<object class="NSColor" key="NSTextColor">
 														<int key="NSColorSpace">6</int>
 														<string key="NSCatalogName">System</string>
 														<string key="NSColorName">textColor</string>
@@ -4684,7 +4684,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<reference key="NSSupport" ref="339829493"/>
 										<reference key="NSControlView" ref="34271910"/>
 										<reference key="NSBackgroundColor" ref="868161340"/>
-										<reference key="NSTextColor" ref="950968623"/>
+										<reference key="NSTextColor" ref="880559117"/>
 									</object>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								</object>
@@ -6181,8 +6181,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference ref="575194361"/>
 							<reference ref="990838756"/>
 							<reference ref="676076995"/>
-							<reference ref="865622313"/>
 							<reference ref="1006916051"/>
+							<reference ref="865622313"/>
 							<reference ref="261970525"/>
 						</array>
 						<reference key="parent" ref="14352471"/>

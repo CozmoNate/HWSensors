@@ -20,9 +20,9 @@
     theme.name = @"HWMonitor";
     
     theme.barBackgroundEndColor = [NSColor colorWithCalibratedRed:0.0 green:0.2 blue:1.0 alpha:FILL_OPACITY];
-    theme.barBackgroundStartColor = [theme.barBackgroundEndColor highlightWithLevel:0.9];
+    theme.barBackgroundStartColor = [theme.barBackgroundEndColor highlightWithLevel:0.8];
     theme.barTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    theme.barPathColor = [theme.barBackgroundEndColor highlightWithLevel:0.3];
+    theme.barPathColor = [[NSColor colorWithCalibratedRed:0.19 green:0.32 blue:0.43 alpha:FILL_OPACITY] highlightWithLevel:0.1];
     
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
     theme.listPathColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
@@ -68,7 +68,7 @@
     theme.barBackgroundEndColor = [NSColor colorWithCalibratedRed:0.0 green:0.2 blue:1.0 alpha:FILL_OPACITY];
     theme.barBackgroundStartColor = [theme.barBackgroundEndColor highlightWithLevel:0.75];
     theme.barTitleColor = [NSColor colorWithCalibratedWhite:0.85 alpha:1.0];
-    theme.barPathColor = [theme.barBackgroundEndColor highlightWithLevel:0.3];
+    theme.barPathColor = [[NSColor colorWithCalibratedRed:0.19 green:0.32 blue:0.43 alpha:FILL_OPACITY] highlightWithLevel:0.1];
     
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
     theme.listPathColor = [NSColor colorWithCalibratedWhite:0.15 alpha:FILL_OPACITY];

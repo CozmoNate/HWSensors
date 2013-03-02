@@ -17,3 +17,10 @@
 "voltages" = "Voltage icon";
 "pcicard" = "Device icon";
 "video" = "Graphics card icon";
+"CPUFan" = "CPU Fan";
+"CPUFan2" = "CPU Fan №2";
+"PowerFan" = "Power Fan";
+"SystemFan1" = "System Fan №1";
+"SystemFan2" = "System Fan №2";
+"AuxFan" = "Auxiliary Fan";
+"AuxFan2" = "Auxiliary Fan №2";
