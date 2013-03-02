@@ -249,22 +249,24 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanT
         char key[5];
         snprintf(key, 5, KEY_FORMAT_FAN_SPEED, vacantFanIndex);
         
-        if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, 2, kFakeSMCTachometerSensor, index)) {
-            if (name) {
-                FanTypeDescStruct fds;
-                
-                bzero(&fds, sizeof(fds));
-                
-                fds.type = type;
-                fds.ui8Zone = zone;
-                fds.location = location;
+        if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, TYPE_FPXX_SIZE, kFakeSMCTachometerSensor, index)) {
+            FanTypeDescStruct fds;
+            
+            bzero(&fds, sizeof(fds));
+            
+            fds.type = type;
+            fds.ui8Zone = zone;
+            fds.location = location;
+            
+            if (name)
                 strlcpy(fds.strFunction, name, DIAG_FUNCTION_STR_LEN);
-                
-                snprintf(key, 5, KEY_FORMAT_FAN_ID, vacantFanIndex);
-                
-                if (!setKeyValue(key, TYPE_FDS, sizeof(fds), &fds))
-                    HWSensorsWarningLog("failed to add tachometer name for key %s", key);
-            }
+            else
+                snprintf(fds.strFunction, DIAG_FUNCTION_STR_LEN, "MB Fan %X", index);
+            
+            snprintf(key, 5, KEY_FORMAT_FAN_ID, vacantFanIndex);
+            
+            if (!setKeyValue(key, TYPE_FDS, sizeof(fds), &fds))
+                HWSensorsWarningLog("failed to add tachometer name for key %s", key);
             
             if (fanIndex) *fanIndex = vacantFanIndex;
             

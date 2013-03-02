@@ -59,9 +59,10 @@
 #define KEY_FORMAT_ACDC_TEMPERATURE             "Tp%XC" // PSMI Supply AC/DC Supply 1
 #define KEY_AMBIENT_TEMPERATURE                 "TA0P"
 #define KEY_FORMAT_AMBIENT_TEMPERATURE          "TA%XP"
-#define KEY_FORMAT_DIMM_TEMPERATURE             "Tm%XP" // MLB Proximity/DC In Proximity Airflow
+#define KEY_MLB_PROXIMITY_TEMPERATURE           "Tm1P" // MLB Proximity/DC In Proximity Airflow
 #define KEY_FORMAT_AIRVENT_TEMPERATURE          "TV%XP" // Air Vent Exit
 #define KEY_FORMAT_AIRPORT_TEMPERATURE          "TW%XP"
+#define KEY_FORMAT_DIMM_TEMPERATURE             "TM%XS" // FB-DIMM Slot
 
 // Custom
 #define KEY_FORMAT_THERMALZONE_TEMPERATURE      "TZ%XC"

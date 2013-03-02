@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.1.20</string>
+	<string>5.1.21</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>438</string>
+	<string>440</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>SMC Device Emulator</key>
