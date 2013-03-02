@@ -36,7 +36,12 @@
 
 @interface PopupView : NSView
 {
-    ColorTheme *_colorTheme;
+    NSInteger       _arrowPosition;
+    ColorTheme      *_colorTheme;
+    NSRect          _contentRect;
+    NSBezierPath    *_headerPath;
+    NSGradient      *_headerGradient;
+    NSBezierPath    *_contentPath;
 }
 
 @property (nonatomic, setter = setArrowPosition:) NSInteger arrowPosition;

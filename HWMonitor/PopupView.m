@@ -33,8 +33,24 @@
 
 -(void)setColorTheme:(ColorTheme*)colorTheme
 {
-    _colorTheme = colorTheme;
-    [self setNeedsDisplay:YES];
+    if (_colorTheme != colorTheme) {
+        _colorTheme = colorTheme;
+        _headerPath = nil;
+        _headerGradient = nil;
+        _contentPath = nil;
+        [self setNeedsDisplay:YES];
+    }
+}
+
+- (void)setArrowPosition:(NSInteger)arrowPosition
+{
+    if (_arrowPosition != arrowPosition) {
+        _arrowPosition = arrowPosition;
+        _headerPath = nil;
+        _headerGradient = nil;
+        _contentPath = nil;
+        [self setNeedsDisplay:YES];
+    }
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -43,85 +59,83 @@
     
     NSRect contentRect = NSInsetRect([self bounds], LINE_THICKNESS, LINE_THICKNESS);
     
-    // Header
-    
-    NSRect headerRect = contentRect;
-    headerRect.size.height = kHWMonitorButtonsHeight + ARROW_HEIGHT - LINE_THICKNESS * 2; // Buttons row height
-    headerRect.origin.y = contentRect.size.height - headerRect.size.height;
-    
-    NSBezierPath *headerPath = [NSBezierPath bezierPath];
-    
-    [headerPath moveToPoint:NSMakePoint(_arrowPosition, NSMaxY(headerRect))];
-    [headerPath lineToPoint:NSMakePoint(_arrowPosition + ARROW_WIDTH / 2.0, NSMaxY(headerRect) - ARROW_HEIGHT)];
-    [headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect) - CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT)];
-    
-    NSPoint topRightCorner = NSMakePoint(NSMaxX(headerRect) - CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS);
-    [headerPath appendBezierPathWithArcWithCenter:topRightCorner radius:CORNER_RADIUS startAngle:90 endAngle:0 clockwise:YES];
-    
-    [headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect) + CORNER_RADIUS)];
-    
-    [headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect))];
-    [headerPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMinY(headerRect))];
-    
-    [headerPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS)];
-    
-    NSPoint topLeftCorner = NSMakePoint(NSMinX(headerRect) + CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS);
-    [headerPath appendBezierPathWithArcWithCenter:topLeftCorner radius:CORNER_RADIUS startAngle:180 endAngle:90 clockwise:YES];
-    
-    [headerPath lineToPoint:NSMakePoint(_arrowPosition - ARROW_WIDTH / 2.0, NSMaxY(headerRect) - ARROW_HEIGHT)];
-    [headerPath closePath];
-    
-    // Content
-    
-    NSBezierPath *contentPath = [NSBezierPath bezierPath];
-
-    [contentPath moveToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect))];
-
-    [contentPath lineToPoint:NSMakePoint(NSMaxX(contentRect), NSMinY(contentRect) + CORNER_RADIUS)];
-     
-    NSPoint bottomRightCorner = NSMakePoint(NSMaxX(contentRect) - CORNER_RADIUS, NSMinY(contentRect) + CORNER_RADIUS);
-    [contentPath appendBezierPathWithArcWithCenter:bottomRightCorner radius:CORNER_RADIUS startAngle:0 endAngle:270 clockwise:YES];
-    
-    [contentPath lineToPoint:NSMakePoint(NSMinX(contentRect) + CORNER_RADIUS, NSMinY(contentRect))];
-    
-    NSPoint bottomLeftCorner = NSMakePoint(NSMinX(contentRect) + CORNER_RADIUS, NSMinY(contentRect) + CORNER_RADIUS);
-    [contentPath appendBezierPathWithArcWithCenter:bottomLeftCorner radius:CORNER_RADIUS startAngle:270 endAngle:180 clockwise:YES];
-    
-    [contentPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMinY(headerRect))];
-     
-    [contentPath closePath];
+    if (!_headerPath || !_headerGradient || !_contentPath || !NSEqualRects(contentRect, _contentRect)) {
+        
+        _contentRect = contentRect;
+        
+        // Header
+        
+        NSRect headerRect = contentRect;
+        headerRect.size.height = kHWMonitorButtonsHeight + ARROW_HEIGHT - LINE_THICKNESS * 2; // Buttons row height
+        headerRect.origin.y = contentRect.size.height - headerRect.size.height;
+        
+        _headerPath = [NSBezierPath bezierPath];
+        
+        [_headerPath moveToPoint:NSMakePoint(_arrowPosition, NSMaxY(headerRect))];
+        [_headerPath lineToPoint:NSMakePoint(_arrowPosition + ARROW_WIDTH / 2.0, NSMaxY(headerRect) - ARROW_HEIGHT)];
+        [_headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect) - CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT)];
+        
+        NSPoint topRightCorner = NSMakePoint(NSMaxX(headerRect) - CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS);
+        [_headerPath appendBezierPathWithArcWithCenter:topRightCorner radius:CORNER_RADIUS startAngle:90 endAngle:0 clockwise:YES];
+        
+        [_headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect) + CORNER_RADIUS)];
+        
+        [_headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect))];
+        [_headerPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMinY(headerRect))];
+        
+        [_headerPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS)];
+        
+        NSPoint topLeftCorner = NSMakePoint(NSMinX(headerRect) + CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS);
+        [_headerPath appendBezierPathWithArcWithCenter:topLeftCorner radius:CORNER_RADIUS startAngle:180 endAngle:90 clockwise:YES];
+        
+        [_headerPath lineToPoint:NSMakePoint(_arrowPosition - ARROW_WIDTH / 2.0, NSMaxY(headerRect) - ARROW_HEIGHT)];
+        
+        [_headerPath closePath];
+        [_headerPath setLineWidth:LINE_THICKNESS];
+        
+        // Content
+        
+        _contentPath = [NSBezierPath bezierPath];
+        
+        [_contentPath moveToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect))];
+        
+        [_contentPath lineToPoint:NSMakePoint(NSMaxX(contentRect), NSMinY(contentRect) + CORNER_RADIUS)];
+        
+        NSPoint bottomRightCorner = NSMakePoint(NSMaxX(contentRect) - CORNER_RADIUS, NSMinY(contentRect) + CORNER_RADIUS);
+        [_contentPath appendBezierPathWithArcWithCenter:bottomRightCorner radius:CORNER_RADIUS startAngle:0 endAngle:270 clockwise:YES];
+        
+        [_contentPath lineToPoint:NSMakePoint(NSMinX(contentRect) + CORNER_RADIUS, NSMinY(contentRect))];
+        
+        NSPoint bottomLeftCorner = NSMakePoint(NSMinX(contentRect) + CORNER_RADIUS, NSMinY(contentRect) + CORNER_RADIUS);
+        [_contentPath appendBezierPathWithArcWithCenter:bottomLeftCorner radius:CORNER_RADIUS startAngle:270 endAngle:180 clockwise:YES];
+        
+        [_contentPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMinY(headerRect))];
+        
+        [_contentPath closePath];
+        [_contentPath setLineWidth:LINE_THICKNESS];
+        
+        _headerGradient = [[NSGradient alloc] initWithStartingColor:_colorTheme.barBackgroundStartColor endingColor:_colorTheme.barBackgroundEndColor];
+    }
     
     // Draw panel
     
-    [[[NSGradient alloc]
-      initWithStartingColor:_colorTheme.barBackgroundStartColor
-      endingColor:_colorTheme.barBackgroundEndColor]
-     drawInBezierPath:headerPath angle:270];
+    [_headerGradient drawInBezierPath:_headerPath angle:270];
     
     [_colorTheme.listBackgroundColor setFill];
-    [contentPath fill];
+    [_contentPath fill];
     
     NSBezierPath *clip = [NSBezierPath bezierPathWithRect:[self bounds]];
-    [clip appendBezierPath:headerPath];
-    [clip appendBezierPath:contentPath];
+    [clip appendBezierPath:_headerPath];
+    [clip appendBezierPath:_contentPath];
     [clip addClip];
     
-    [headerPath setLineWidth:LINE_THICKNESS];
     [_colorTheme.barPathColor setStroke];
-    [headerPath stroke];
-    
-    [contentPath setLineWidth:LINE_THICKNESS];
+    [_headerPath stroke];
+        
     [_colorTheme.listPathColor setStroke];
-    [contentPath stroke];
+    [_contentPath stroke];
     
     [NSGraphicsContext restoreGraphicsState];
 }
-
-- (void)setArrowPosition:(NSInteger)value
-{
-    _arrowPosition = value;
-    [self setNeedsDisplay:YES];
-}
-
 
 @end
