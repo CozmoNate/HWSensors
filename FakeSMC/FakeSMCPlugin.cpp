@@ -253,11 +253,11 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanT
             if (name) {
                 FanTypeDescStruct fds;
                 
+                bzero(&fds, sizeof(fds));
+                
                 fds.type = type;
                 fds.ui8Zone = zone;
                 fds.location = location;
-                
-                bzero(fds.strFunction, DIAG_FUNCTION_STR_LEN);
                 strlcpy(fds.strFunction, name, DIAG_FUNCTION_STR_LEN);
                 
                 snprintf(key, 5, KEY_FORMAT_FAN_ID, vacantFanIndex);
