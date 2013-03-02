@@ -82,7 +82,7 @@
     
     NSBezierPath *contentPath = [NSBezierPath bezierPath];
 
-    [contentPath moveToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect) - CORNER_RADIUS + 1 * 4)];
+    [contentPath moveToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect))];
 
     [contentPath lineToPoint:NSMakePoint(NSMaxX(contentRect), NSMinY(contentRect) + CORNER_RADIUS)];
      
@@ -95,7 +95,7 @@
     [contentPath curveToPoint:NSMakePoint(NSMinX(contentRect), NSMinY(contentRect) + CORNER_RADIUS)
          controlPoint1:contentRect.origin controlPoint2:contentRect.origin];
     
-    [contentPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMinY(headerRect) - CORNER_RADIUS + 1 * 4)];
+    [contentPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMinY(headerRect))];
      
     [contentPath closePath];
     
@@ -107,13 +107,11 @@
     [clip appendBezierPath:contentPath];
     [clip addClip];
     
-    [headerPath setLineWidth:1 * 2];
-    [headerPath setFlatness:0.3];
+    [headerPath setLineWidth:LINE_THICKNESS];
     [_colorTheme.barPathColor setStroke];
     [headerPath stroke];
     
-    [contentPath setLineWidth:1 * 2];
-    [contentPath setFlatness:0.3];
+    [contentPath setLineWidth:LINE_THICKNESS];
     [_colorTheme.listPathColor setStroke];
     [contentPath stroke];
     
