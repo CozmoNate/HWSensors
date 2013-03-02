@@ -241,7 +241,7 @@ bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
     return false;
 }
 
-FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanType type, FanLocationType location, UInt8 zone, SInt8 *fanIndex)
+FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanType type, UInt8 zone, FanLocationType location, SInt8 *fanIndex)
 {
     SInt8 vacantFanIndex = takeVacantFanIndex();
     
@@ -256,6 +256,8 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanT
                 fds.type = type;
                 fds.ui8Zone = zone;
                 fds.location = location;
+                
+                bzero(fds.strFunction, DIAG_FUNCTION_STR_LEN);
                 strlcpy(fds.strFunction, name, DIAG_FUNCTION_STR_LEN);
                 
                 snprintf(key, 5, KEY_FORMAT_FAN_ID, vacantFanIndex);

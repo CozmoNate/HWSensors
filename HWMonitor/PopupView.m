@@ -52,12 +52,11 @@
     NSBezierPath *headerPath = [NSBezierPath bezierPath];
     
     [headerPath moveToPoint:NSMakePoint(_arrowPosition, NSMaxY(headerRect))];
-    [headerPath lineToPoint:NSMakePoint(_arrowPosition + ARROW_WIDTH / 2, NSMaxY(headerRect) - ARROW_HEIGHT)];
+    [headerPath lineToPoint:NSMakePoint(_arrowPosition + ARROW_WIDTH / 2.0, NSMaxY(headerRect) - ARROW_HEIGHT)];
     [headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect) - CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT)];
     
-    NSPoint topRightCorner = NSMakePoint(NSMaxX(headerRect), NSMaxY(headerRect) - ARROW_HEIGHT);
-    [headerPath curveToPoint:NSMakePoint(NSMaxX(headerRect), NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS)
-         controlPoint1:topRightCorner controlPoint2:topRightCorner];
+    NSPoint topRightCorner = NSMakePoint(NSMaxX(headerRect) - CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS);
+    [headerPath appendBezierPathWithArcWithCenter:topRightCorner radius:CORNER_RADIUS startAngle:90 endAngle:0 clockwise:YES];
     
     [headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect) + CORNER_RADIUS)];
     
@@ -66,11 +65,10 @@
     
     [headerPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS)];
     
-    NSPoint topLeftCorner = NSMakePoint(NSMinX(headerRect), NSMaxY(headerRect) - ARROW_HEIGHT);
-    [headerPath curveToPoint:NSMakePoint(NSMinX(headerRect) + CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT)
-         controlPoint1:topLeftCorner controlPoint2:topLeftCorner];
+    NSPoint topLeftCorner = NSMakePoint(NSMinX(headerRect) + CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS);
+    [headerPath appendBezierPathWithArcWithCenter:topLeftCorner radius:CORNER_RADIUS startAngle:180 endAngle:90 clockwise:YES];
     
-    [headerPath lineToPoint:NSMakePoint(_arrowPosition - ARROW_WIDTH / 2, NSMaxY(headerRect) - ARROW_HEIGHT)];
+    [headerPath lineToPoint:NSMakePoint(_arrowPosition - ARROW_WIDTH / 2.0, NSMaxY(headerRect) - ARROW_HEIGHT)];
     [headerPath closePath];
     
     // Content
@@ -81,14 +79,13 @@
 
     [contentPath lineToPoint:NSMakePoint(NSMaxX(contentRect), NSMinY(contentRect) + CORNER_RADIUS)];
      
-    NSPoint bottomRightCorner = NSMakePoint(NSMaxX(contentRect), NSMinY(contentRect));
-    [contentPath curveToPoint:NSMakePoint(NSMaxX(contentRect) - CORNER_RADIUS, NSMinY(contentRect))
-          controlPoint1:bottomRightCorner controlPoint2:bottomRightCorner];
-     
+    NSPoint bottomRightCorner = NSMakePoint(NSMaxX(contentRect) - CORNER_RADIUS, NSMinY(contentRect) + CORNER_RADIUS);
+    [contentPath appendBezierPathWithArcWithCenter:bottomRightCorner radius:CORNER_RADIUS startAngle:0 endAngle:270 clockwise:YES];
+    
     [contentPath lineToPoint:NSMakePoint(NSMinX(contentRect) + CORNER_RADIUS, NSMinY(contentRect))];
-     
-    [contentPath curveToPoint:NSMakePoint(NSMinX(contentRect), NSMinY(contentRect) + CORNER_RADIUS)
-         controlPoint1:contentRect.origin controlPoint2:contentRect.origin];
+    
+    NSPoint bottomLeftCorner = NSMakePoint(NSMinX(contentRect) + CORNER_RADIUS, NSMinY(contentRect) + CORNER_RADIUS);
+    [contentPath appendBezierPathWithArcWithCenter:bottomLeftCorner radius:CORNER_RADIUS startAngle:270 endAngle:180 clockwise:YES];
     
     [contentPath lineToPoint:NSMakePoint(NSMinX(headerRect), NSMinY(headerRect))];
      
