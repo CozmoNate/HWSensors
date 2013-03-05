@@ -32,7 +32,7 @@
 
 @implementation HWMonitorGroup
 
-+ (HWMonitorGroup*)groupWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup title:(NSString*)title image:(HWMonitorIcon*)icon
++ (HWMonitorGroup*)groupWithEngine:(HWMonitorEngine*)engine sensorGroup:(HWSensorGroup)sensorGroup title:(NSString*)title image:(HWMonitorIcon*)icon
 {
     HWMonitorGroup* group = [[HWMonitorGroup alloc] initWithEngine:engine sensorGroup:sensorGroup title:title image:icon];
     
@@ -42,7 +42,7 @@
     return group;
 }
 
-- (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)group title:(NSString*)title image:(HWMonitorIcon*)icon
+- (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(HWSensorGroup)group title:(NSString*)title image:(HWMonitorIcon*)icon
 {
     self = [super init];
     

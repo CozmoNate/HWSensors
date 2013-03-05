@@ -495,6 +495,13 @@
     [_defaults synchronize];
 }
 
+// PopupController delegate
+
+- (void) popupPanelShouldOpen:(id)sender
+{
+    [self updateLoop];
+}
+
 // NSTableView delegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {

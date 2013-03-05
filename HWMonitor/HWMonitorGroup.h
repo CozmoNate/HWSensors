@@ -34,14 +34,14 @@
     HWMonitorEngine* _engine;
 }
 
-@property (nonatomic, assign) enum HWSensorGroup group;
+@property (nonatomic, assign) HWSensorGroup group;
 @property (nonatomic, strong) NSString* title;
 @property (nonatomic, strong) HWMonitorIcon* icon;
 @property (nonatomic, strong) NSMutableArray* items;
 
-+ (HWMonitorGroup*)groupWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup title:(NSString*)title image:(HWMonitorIcon*)icon;
++ (HWMonitorGroup*)groupWithEngine:(HWMonitorEngine*)engine sensorGroup:(HWSensorGroup)sensorGroup title:(NSString*)title image:(HWMonitorIcon*)icon;
 
-- (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(enum HWSensorGroup)sensorGroup title:(NSString*)title image:(HWMonitorIcon*)icon;
+- (HWMonitorGroup*)initWithEngine:(HWMonitorEngine*)engine sensorGroup:(HWSensorGroup)sensorGroup title:(NSString*)title image:(HWMonitorIcon*)icon;
 
 - (BOOL)checkVisibility;
 

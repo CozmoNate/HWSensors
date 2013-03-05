@@ -167,6 +167,7 @@
 		7E79B82215BA99350079AAE8 /* CPUSensors.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CPUSensors.cpp; sourceTree = "<group>"; };
 		7E79B82415BA99350079AAE8 /* CPUSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CPUSensors-Prefix.pch"; sourceTree = "<group>"; };
 		7E93890015945B450005316D /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
+		7E9E7BA616E3D17D00CC8D5D /* SmcKeysDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmcKeysDefinitions.h; sourceTree = "<group>"; };
 		7E9F544E167C71D1006E907B /* radeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon.h; sourceTree = "<group>"; };
 		7E9F544F167C71D1006E907B /* RadeonSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadeonSensors.cpp; sourceTree = "<group>"; };
 		7E9F5450167C71D1006E907B /* RadeonSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadeonSensors.h; sourceTree = "<group>"; };
@@ -368,15 +369,6 @@
 			name = Installer;
 			sourceTree = "<group>";
 		};
-		6A1DF980150201BF00C34729 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				7E5D8E5C16C643BD00CB6720 /* version.plist */,
-				7EBB50D915EEAE3C00FEBBB9 /* README.txt */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
 		6A2B4E4A152179840093A217 /* Super I/O Nub */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,9 +453,12 @@
 			isa = PBXGroup;
 			children = (
 				7EB00809168014BE00320B70 /* HWSensorsVersion.pch */,
+				7E9E7BA616E3D17D00CC8D5D /* SmcKeysDefinitions.h */,
+				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
+				7E5D8E5C16C643BD00CB6720 /* version.plist */,
+				7EBB50D915EEAE3C00FEBBB9 /* README.txt */,
 				7E5CFA1B16988E8A00F0E9AD /* Linux */,
 				7EF31BB716207C6B00E9B055 /* Kernel */,
-				6A1DF980150201BF00C34729 /* Resources */,
 				7EB692E615C99A0E0009B2E2 /* Licenses */,
 			);
 			path = Shared;
@@ -697,7 +692,6 @@
 		7EF31BB716207C6B00E9B055 /* Kernel */ = {
 			isa = PBXGroup;
 			children = (
-				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
 				6A9955C214EFAEE50052C702 /* cpuid.h */,
 				7EBCF8791615A84C00E16D3B /* timer.h */,
 			);

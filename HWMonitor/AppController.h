@@ -35,7 +35,7 @@
 #import "HWMonitorIcon.h"
 #import "HWMonitorEngine.h"
 
-@interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate>
+@interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate>
 {
     BundleUserDefaults* _defaults;
     HWMonitorEngine *_engine;

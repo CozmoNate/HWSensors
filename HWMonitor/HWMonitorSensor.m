@@ -85,7 +85,7 @@
     return _data;
 }
 
-- (void)setLevel:(enum HWSensorLevel)newLevel
+- (void)setLevel:(HWSensorLevel)newLevel
 {
     if (_level != newLevel) {
         _levelHasBeenChanged = true;
@@ -93,7 +93,7 @@
     }
 }
 
-- (enum HWSensorLevel)level
+- (HWSensorLevel)level
 {
     _levelHasBeenChanged = false;
     return _level;

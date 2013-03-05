@@ -61,7 +61,7 @@
     return self;
 }
 
-- (NSArray*)addItemsForSensorGroup:(enum HWSensorGroup)sensorsGroup fromGroupsList:(NSArray*)groupsList;
+- (NSArray*)addItemsForSensorGroup:(HWSensorGroup)sensorsGroup fromGroupsList:(NSArray*)groupsList;
 {
     group = sensorsGroup;
     

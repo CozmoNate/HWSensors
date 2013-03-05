@@ -30,7 +30,7 @@
 
 #include "ATASmartReporter.h"
 
-enum HWSensorGroup {
+typedef enum {
     kHWSensorGroupNone                  = 0,
     
     kHWSensorGroupTemperature           = 1 << 1,
@@ -43,16 +43,16 @@ enum HWSensorGroup {
     kSMARTSensorGroupTemperature        = 1 << 7,
     kSMARTSensorGroupRemainingLife      = 1 << 8,
     kSMARTSensorGroupRemainingBlocks    = 1 << 9,
-};
+} HWSensorGroup;
 
-enum HWSensorLevel {
+typedef enum {
     kHWSensorLevelUnused                = 0,
     kHWSensorLevelDisabled              = 1,
     kHWSensorLevelNormal                = 2,
     kHWSensorLevelModerate              = 3,
     kHWSensorLevelHigh                  = 4,
     kHWSensorLevelExceeded              = 1000,
-};
+} HWSensorLevel;
 
 @class HWMonitorEngine;
 
@@ -67,7 +67,7 @@ enum HWSensorLevel {
 @property (nonatomic, strong) NSData* data;
 @property (nonatomic, strong) ATAGenericDisk* disk;
 
-@property (nonatomic, assign) enum HWSensorLevel level;
+@property (nonatomic, assign) HWSensorLevel level;
 @property (readonly) NSNumber* rawValue;
 @property (readonly) NSString* formattedValue;
 

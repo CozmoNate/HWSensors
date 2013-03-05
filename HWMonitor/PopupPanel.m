@@ -3,7 +3,9 @@
 //  HWMonitor
 //
 //  Created by kozlek on 23.02.13.
-//  Copyright (c) 2013 kozlek. All rights reserved.
+//  Based on code by Vadim Shpanovski <https://github.com/shpakovski/Popup>
+//  Popup is licensed under the BSD license.
+//  Copyright (c) 2013 Vadim Shpanovski. All rights reserved.
 //
 
 #import "PopupPanel.h"

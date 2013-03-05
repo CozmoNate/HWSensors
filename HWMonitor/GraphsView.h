@@ -34,7 +34,7 @@
     NSMutableArray *_items;
     NSMutableDictionary *_graphs;
     
-    enum HWSensorGroup group;
+    HWSensorGroup group;
     
     NSRect _graphBounds;
     double _minY;
@@ -50,7 +50,7 @@
 @property (nonatomic, setter = setUseFahrenheit:) BOOL useFahrenheit;
 @property (nonatomic, setter = setUseSmoothing:) BOOL useSmoothing;
 
-- (NSArray*)addItemsForSensorGroup:(enum HWSensorGroup)sensorsGroup fromGroupsList:(NSArray*)groupsList;
+- (NSArray*)addItemsForSensorGroup:(HWSensorGroup)sensorsGroup fromGroupsList:(NSArray*)groupsList;
 - (void)calculateGraphBoundsFindExtremes:(BOOL)findExtremes;
 - (void)captureDataToHistoryNow;
 
