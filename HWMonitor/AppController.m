@@ -394,7 +394,6 @@
     [_sensorsTableView reloadData];
     
     [_popupController.statusItemView setFavorites:_favorites];
-    [_popupController.statusItemView setNeedsDisplay:YES];
     
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
@@ -461,6 +460,12 @@
     [_defaults synchronize];
     
     float value = [_defaults floatForKey:kHWMonitorSmcSensorsUpdateRate];
+    float validatedValue = value > 10 ? 10 : value < 1 ? 1 : value;
+    
+    if (value != validatedValue) {
+        value = validatedValue;
+        [_defaults setFloat:value forKey:kHWMonitorSmcSensorsUpdateRate];
+    }
     
     [_smcUpdateRateTextField setStringValue:[NSString stringWithFormat:@"%1.1f %@", value, GetLocalizedString(@"sec")]];
     
@@ -472,6 +477,12 @@
     [_defaults synchronize];
     
     float value = [_defaults floatForKey:kHWMonitorSmartSensorsUpdateRate];
+    float validatedValue = value > 1800 ? 1800 : value < 300 ? 300 : value;
+    
+    if (value != validatedValue) {
+        value = validatedValue;
+        [_defaults setFloat:value forKey:kHWMonitorSmartSensorsUpdateRate];
+    }
     
     [_smartUpdateRateTextField setStringValue:[NSString stringWithFormat:@"%1.0f %@", value, GetLocalizedString(@"min")]];
     
@@ -481,11 +492,8 @@
 -(void)updateRateChanged:(NSNotification *)aNotification
 {
     _smcSensorsUpdateInterval = [self getSmcSensorsUpdateRate];
-    _smcSensorsUpdateInterval = _smcSensorsUpdateInterval > 10 ? 10 : _smcSensorsUpdateInterval < 1 ? 1 : _smcSensorsUpdateInterval;
-    _smcSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];
-    
+    _smcSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];    
      _smartSensorsUpdateInterval = [self getSmartSensorsUpdateRate] * 60;
-    _smartSensorsUpdateInterval = _smartSensorsUpdateInterval > 1800 ? 1800 : _smartSensorsUpdateInterval < 300 ? 300 : _smartSensorsUpdateInterval;
     _smartSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];
 }
 

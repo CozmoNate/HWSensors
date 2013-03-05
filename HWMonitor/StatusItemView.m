@@ -31,6 +31,38 @@
 
 @implementation StatusItemView
 
+-(void)setFavorites:(NSArray *)favorites
+{
+    if (favorites && ![favorites isEqualToArray:_favorites]) {
+        _favorites = [favorites copy];
+        [self setNeedsDisplay:YES];
+    }
+}
+
+-(void)setUseBigFont:(BOOL)useBigFont
+{
+    if (_useBigFont != useBigFont) {
+        _useBigFont = useBigFont;
+        [self setNeedsDisplay:YES];
+    }
+}
+
+-(void)setUseShadowEffect:(BOOL)useShadowEffect
+{
+    if (_useShadowEffect != useShadowEffect) {
+        _useShadowEffect = useShadowEffect;
+        [self setNeedsDisplay:YES];
+    }
+}
+
+- (void)setHighlighted:(BOOL)isHighlighted
+{
+    if (_isHighlighted != isHighlighted) {
+        _isHighlighted = isHighlighted;
+        [self setNeedsDisplay:YES];
+    }
+}
+
 -(id)initWithFrame:(NSRect)rect statusItem:(NSStatusItem *)statusItem;
 {
     self = [super initWithFrame:rect];
@@ -213,24 +245,6 @@
 - (void)mouseDown:(NSEvent *)theEvent
 {
     [NSApp sendAction:self.action to:self.target from:self];
-}
-
-- (void)setHighlighted:(BOOL)isHighlighted
-{
-    _isHighlighted = isHighlighted;
-    [self setNeedsDisplay:YES];
-}
-
-- (void)setUseBigFont:(BOOL)useBigFont
-{
-    _useBigFont = useBigFont;
-    [self setNeedsDisplay:YES];
-}
-
--(void)setUseShadowEffect:(BOOL)useShadowEffect
-{
-    _useShadowEffect = useShadowEffect;
-    [self setNeedsDisplay:YES];
 }
 
 -(NSRect)screenRect

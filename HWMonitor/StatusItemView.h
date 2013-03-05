@@ -36,6 +36,10 @@
     NSFont *_smallFont;
     NSFont *_bigFont;
     NSShadow *_shadow;
+    
+    NSArray *_favorites;
+    BOOL _useBigFont;
+    BOOL _useShadowEffect;
 }
 
 @property (nonatomic, strong) NSImage *image;
@@ -43,7 +47,7 @@
 @property (nonatomic, setter = setHighlighted:) BOOL isHighlighted;
 
 @property (nonatomic, strong) HWMonitorEngine *engine;
-@property (nonatomic, strong) NSArray *favorites;
+@property (nonatomic, setter = setFavorites:) NSArray *favorites;
 @property (nonatomic, setter = setUseBigFont:) BOOL useBigFont;
 @property (nonatomic, setter = setUseShadowEffect:) BOOL useShadowEffect;
 
