@@ -36,22 +36,24 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"TC%XD", "sp78", 2, "CPU Die %X", kSMCKeyGroupTemperature, 0x80},
     
     {"TC%XD", "sp78", 2, "CPU %X", kSMCKeyGroupTemperature, 0x2A},
-    {"TC%XH", "sp78", 2, "CPU Heatsink %X", kSMCKeyGroupTemperature, 0x20},
-    {"TC%XP", "sp78", 2, "CPU Proximity %X ", kSMCKeyGroupTemperature, 0x20},
-    
+    {"TC%XH", "sp78", 2, "CPU %X Heatsink", kSMCKeyGroupTemperature, 0x20},
     {"Th%XH", "sp78", 2, "CPU %X Heatsink", kSMCKeyGroupTemperature, 0x20},
+    {"TC%XP", "sp78", 2, "CPU %X Proximity", kSMCKeyGroupTemperature, 0x20},
+    
     {"TN%XP", "sp78", 2, "Northbridge %X", kSMCKeyGroupTemperature, 0x20},
-    {"TN0C", "sp78", 2, "MCH Diode", kSMCKeyGroupTemperature, 0},
-    {"TN0H", "sp78", 2, "MCH Heatsink", kSMCKeyGroupTemperature, 0},
-    {"TN0D", "sp78", 2, "MCP Die", kSMCKeyGroupTemperature, 0},
-    {"TN1D", "sp78", 2, "MCP Internal Die", kSMCKeyGroupTemperature, 0},
-    {"TP0D", "sp78", 2, "PCH", kSMCKeyGroupTemperature, 0},
-    {"TP0P", "sp78", 2, "PCH Proximity", kSMCKeyGroupTemperature, 0},
+    {"TN0C", "sp78", 2, "MCH Diode", kSMCKeyGroupTemperature, 0}, // ?
+    {"TN0H", "sp78", 2, "MCH Heatsink", kSMCKeyGroupTemperature, 0}, // ?
+    {"TN0D", "sp78", 2, "MCP Die", kSMCKeyGroupTemperature, 0}, // ?
+    {"TN1D", "sp78", 2, "MCP Internal Die", kSMCKeyGroupTemperature, 0}, // ?
+    {"TP0D", "sp78", 2, "PCH", kSMCKeyGroupTemperature, 0}, // ?
+    {"TP0P", "sp78", 2, "PCH Proximity", kSMCKeyGroupTemperature, 0}, // ?
     {"Tm0P", "sp78", 2, "Mainboard Proximity", kSMCKeyGroupTemperature, 0},
     {"TL0P", "sp78", 2, "LCD Proximity", kSMCKeyGroupTemperature, 0},
     {"TW0P", "sp78", 2, "Airport", kSMCKeyGroupTemperature, 0},
     {"Tp0P", "sp78", 2, "Power Supply Proximity", kSMCKeyGroupTemperature, 0},
-    {"TM0P", "sp78", 2, "Battery Proximity", kSMCKeyGroupTemperature, 0},
+    
+    {"TM%XP", "sp78", 2, "DIMM %X Incoming Air", kSMCKeyGroupTemperature, 0xD0}, // ?
+    {"TM%XS", "sp78", 2, "DIMM %X Outgoing Air", kSMCKeyGroupTemperature, 0xD0}, // ?
     
     {"TO0P", "sp78", 2, "Optical Drive Proximity", kSMCKeyGroupTemperature, 0},
     {"TH%XP", "sp78", 2, "HDD %X Proximity", kSMCKeyGroupTemperature, 0xF0},
@@ -59,13 +61,16 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"TG%XD", "sp78", 2, "GPU %X Die", kSMCKeyGroupTemperature, 0x40},
     {"TG%XH", "sp78", 2, "GPU %X Heatsink", kSMCKeyGroupTemperature, 0x40},
     {"TG%XP", "sp78", 2, "GPU %X Proximity", kSMCKeyGroupTemperature, 0x40},
+    {"TG%XM", "sp78", 2, "GPU %X Memory", kSMCKeyGroupTemperature, 0x40},
     
-    {"TZ%XC", "sp78", 2, "Thermal Zone %X", kSMCKeyGroupTemperature, 0xf0},
+    {"TZ%XC", "sp78", 2, "Thermal Zone %X", kSMCKeyGroupTemperature, 0xf0}, // ACPISensors
 
     // Multiplier
     
     {"MlC%X", "ui8", 1, "CPU Core %X", kSMCKeyGroupMultiplier, 0x80},
+    {"MC%XC", "ui8", 1, "CPU Core %X", kSMCKeyGroupMultiplier, 0x80}, // legacy
     {"MlCP", "ui8", 1, "CPU 1 Package", kSMCKeyGroupMultiplier, 0},
+    {"MPkC", "ui8", 1, "CPU 1 Package", kSMCKeyGroupMultiplier, 0}, // legacy
     
     // Frequency
     
@@ -89,16 +94,17 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"VV7S", "sp4b", 2, "Auxiliary 3.3V", kSMCKeyGroupVoltage, 0},
     {"VV8S", "sp4b", 2, "Standby 5V", kSMCKeyGroupVoltage, 0},
     {"VeES", "sp4b", 2, "PCIe 12V", kSMCKeyGroupVoltage, 0},
-    {"VN1R", "sp4b", 2, "Power Supply 12V Rail", kSMCKeyGroupVoltage, 0},
+    {"VN1R", "sp4b", 2, "Power Supply 12V Rail", kSMCKeyGroupVoltage, 0}, // ?
     //{"VV1R", "sp4b", 2, "Power Supply 12V", kSMCKeyGroupVoltage, 0},
     {"VD0R", "sp4b", 2, "DC In S0 Rail", kSMCKeyGroupVoltage, 0},
     {"VD5R", "sp4b", 2, "DC In S5 Rail", kSMCKeyGroupVoltage, 0},
     {"VC%XG", "sp1e", 2, "GPU %X Core", kSMCKeyGroupVoltage, 0x40},
     {"VG%XR", "sp4b", 2, "GPU %X Rail", kSMCKeyGroupVoltage, 0x40},
     
-    {"VP0R", "sp1e", 2, "CMOS Battery", kSMCKeyGroupVoltage, 0},
+    {"VP0R", "sp1e", 2, "CMOS Battery", kSMCKeyGroupVoltage, 0}, // LPCSensors
     
-    {"Vp%XC", "sp4b", 2, "Power Supply %X", kSMCKeyGroupVoltage, 0xf0},
+    {"VS%XC", "sp4b", 2, "VRM Supply %X", kSMCKeyGroupVoltage, 0xf0}, // ?
+    {"Vp%XC", "sp4b", 2, "Power Supply %X", kSMCKeyGroupVoltage, 0xf0}, // ?
     
     // TODO: Amperage
     

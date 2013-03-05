@@ -452,9 +452,9 @@
 		6A9955BD14EFAD360052C702 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				7EB00809168014BE00320B70 /* HWSensorsVersion.pch */,
-				7E9E7BA616E3D17D00CC8D5D /* SmcKeysDefinitions.h */,
 				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
+				7E9E7BA616E3D17D00CC8D5D /* SmcKeysDefinitions.h */,
+				7EB00809168014BE00320B70 /* HWSensorsVersion.pch */,
 				7E5D8E5C16C643BD00CB6720 /* version.plist */,
 				7EBB50D915EEAE3C00FEBBB9 /* README.txt */,
 				7E5CFA1B16988E8A00F0E9AD /* Linux */,

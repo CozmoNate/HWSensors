@@ -477,7 +477,7 @@
     [_defaults synchronize];
     
     float value = [_defaults floatForKey:kHWMonitorSmartSensorsUpdateRate];
-    float validatedValue = value > 1800 ? 1800 : value < 300 ? 300 : value;
+    float validatedValue = value > 30 ? 30 : value < 10 ? 10 : value;
     
     if (value != validatedValue) {
         value = validatedValue;

@@ -405,10 +405,15 @@
                 NSString *caption = [NSString stringWithCString:fds->strFunction encoding:NSASCIIStringEncoding];
                 
                 if ([caption length] == 0)
-                    caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
+                    caption = [[NSString alloc] initWithFormat:@"Fan %X", i + 1];
                 
                 if (![caption hasPrefix:@"GPU "]) {
-                    [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(caption) group:kHWSensorGroupTachometer];
+                    if (fds->type == FAN_PWM_TACH || fds->type == FAN_PWM_NOTACH || fds->type == PUMP_PWM) {
+                        [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] title:[NSString stringWithFormat:@"%@ PWM", GetLocalizedString(caption)] group:kHWSensorGroupPWM];
+                    }
+                    else if (fds->type == FAN_RPM || fds->type == PUMP_RPM) {
+                        [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(caption) group:kHWSensorGroupTachometer];
+                    }
                 }
             }
         }
@@ -422,9 +427,8 @@
             NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine copyValueFromKeyInfo:[self populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
             
             if ([caption hasPrefix:@"GPU "]) {
-                UInt8 cardIndex = [[caption substringFromIndex:4] intValue];                
+                UInt8 cardIndex = [[caption substringFromIndex:4] intValue] - 1;
 
-                [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_GPUPWM,cardIndex] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X PWM"),cardIndex] group:kHWSensorGroupPWM];
                 [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"GPU %X Fan"),cardIndex] group:kHWSensorGroupTachometer];
             }
         }
@@ -436,9 +440,9 @@
                 
                 if ([caption hasPrefix:@"GPU "]) {
                     if (fds->type == FAN_PWM_TACH || fds->type == FAN_PWM_NOTACH || fds->type == PUMP_PWM) {
-                        [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, fds->ui8Zone] title:[NSString stringWithFormat:GetLocalizedString(@"GPU %X PWM"), fds->ui8Zone + 1] group:kHWSensorGroupPWM];
+                        [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] title:[NSString stringWithFormat:GetLocalizedString(@"GPU %X PWM"), fds->ui8Zone + 1] group:kHWSensorGroupPWM];
                     }
-                    if (fds->type == FAN_RPM || fds->type == PUMP_RPM) {
+                    else if (fds->type == FAN_RPM || fds->type == PUMP_RPM) {
                         [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] title:[NSString stringWithFormat:GetLocalizedString(@"GPU %X Fan"), fds->ui8Zone + 1] group:kHWSensorGroupTachometer];
                     }
                 }

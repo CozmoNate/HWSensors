@@ -229,7 +229,7 @@ int nouveau_therm_fan_rpm_get(struct nouveau_device *device)
         } while (cycles < stop && interval < 500000000);
         
         if (interval) {
-            return (int)(((u64)60000000000 * (((u64)cycles - 1) / 4)) / interval);
+            return (int)(((u64)60000000000ULL * (((u64)cycles - 1) / 4)) / interval);
         } else
             return -EIO;
     }
