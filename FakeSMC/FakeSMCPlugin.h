@@ -24,8 +24,9 @@
 #ifndef HWSensors_FakeSMCFamily_h
 #define HWSensors_FakeSMCFamily_h
 
-#include "FakeSMCDefinitions.h"
 #include <IOKit/IOService.h>
+
+#include "FakeSMCDefinitions.h"
 
 #define kFakeSMCTemperatureSensor   1
 #define kFakeSMCVoltageSensor       2

@@ -270,23 +270,25 @@
     return [indexSet copy];
 }
 
-- (void)addSensorFromSMCKeyInfoAtIndex:(NSUInteger)idx toGroup:(HWSensorGroup)group
+- (void)addSensorsFromSMCKeyInfoListFromGroup:(SMCKeyGroup)fromGroup toGroup:(HWSensorGroup)toGroup
 {
-    if (SMCKeyInfoList[idx].limit) {
-        NSUInteger count = SMCKeyInfoList[idx].limit >> 4;
-        NSUInteger offset = SMCKeyInfoList[idx].limit & 0xf;
-        
-        for (NSUInteger index = offset; index < count + offset; index++) {
-            NSString *keyFormat = [NSString stringWithCString:SMCKeyInfoList[idx].key encoding:NSASCIIStringEncoding];
-            NSString *titleFormat = GetLocalizedString([NSString stringWithCString:SMCKeyInfoList[idx].title encoding:NSASCIIStringEncoding]);
-            [self addSensorWithKey:[NSString stringWithFormat:keyFormat, index] title:[NSString stringWithFormat:titleFormat, index + 1] group:group];
+    [[self getKeyInfosInGroup:fromGroup] enumerateIndexesWithOptions:NSSortStable usingBlock:^(NSUInteger idx, BOOL *stop) {
+        if (SMCKeyInfoList[idx].limit) {
+            NSUInteger count = SMCKeyInfoList[idx].limit >> 4;
+            NSUInteger offset = SMCKeyInfoList[idx].limit & 0xf;
+            
+            for (NSUInteger index = offset; index < count + offset; index++) {
+                NSString *keyFormat = [NSString stringWithCString:SMCKeyInfoList[idx].key encoding:NSASCIIStringEncoding];
+                NSString *titleFormat = GetLocalizedString([NSString stringWithCString:SMCKeyInfoList[idx].title encoding:NSASCIIStringEncoding]);
+                [self addSensorWithKey:[NSString stringWithFormat:keyFormat, index] title:[NSString stringWithFormat:titleFormat, index + 1] group:toGroup];
+            }
         }
-    }
-    else {
-        NSString *key = [NSString stringWithCString:SMCKeyInfoList[idx].key encoding:NSASCIIStringEncoding];
-        NSString *title = GetLocalizedString([NSString stringWithCString:SMCKeyInfoList[idx].title encoding:NSASCIIStringEncoding]);
-        [self addSensorWithKey:key title:title group:group];
-    }
+        else {
+            NSString *key = [NSString stringWithCString:SMCKeyInfoList[idx].key encoding:NSASCIIStringEncoding];
+            NSString *title = GetLocalizedString([NSString stringWithCString:SMCKeyInfoList[idx].title encoding:NSASCIIStringEncoding]);
+            [self addSensorWithKey:key title:title group:toGroup];
+        }
+    }];
 }
 
 - (void)rebuildSensorsList
@@ -298,9 +300,7 @@
     
     //Temperatures
     
-    [[self getKeyInfosInGroup:kSMCKeyGroupTemperature] enumerateIndexesWithOptions:NSSortStable usingBlock:^(NSUInteger idx, BOOL *stop) {
-        [self addSensorFromSMCKeyInfoAtIndex:idx toGroup:kHWSensorGroupTemperature];
-    }];
+    [self addSensorsFromSMCKeyInfoListFromGroup:kSMCKeyGroupTemperature toGroup:kHWSensorGroupTemperature];
     
     /*for (int i=0; i<0xf; i++) {
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_CPU_DIODE_TEMPERATURE,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupTemperature];
@@ -356,18 +356,14 @@
     }
     
     // Multipliers
-    [[self getKeyInfosInGroup:kSMCKeyGroupMultiplier] enumerateIndexesWithOptions:NSSortStable usingBlock:^(NSUInteger idx, BOOL *stop) {
-        [self addSensorFromSMCKeyInfoAtIndex:idx toGroup:kHWSensorGroupMultiplier];
-    }];
+    [self addSensorsFromSMCKeyInfoListFromGroup:kSMCKeyGroupMultiplier toGroup:kHWSensorGroupMultiplier];
     /*for (int i=0; i<0xf; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_CPU_MULTIPLIER,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X Multiplier"),i + 1] group:kHWSensorGroupMultiplier];
     
     [self addSensorWithKey:@KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER title:GetLocalizedString(@"CPU Package Multiplier") group:kHWSensorGroupMultiplier];*/
     
     //Frequencies
-    [[self getKeyInfosInGroup:kSMCKeyGroupFrequency] enumerateIndexesWithOptions:NSSortStable usingBlock:^(NSUInteger idx, BOOL *stop) {
-        [self addSensorFromSMCKeyInfoAtIndex:idx toGroup:kHWSensorGroupFrequency];
-    }];
+    [self addSensorsFromSMCKeyInfoListFromGroup:kSMCKeyGroupFrequency toGroup:kHWSensorGroupFrequency];
     
     /*for (int i=0; i<0xf; i++)
         [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FAKESMC_FORMAT_CPU_FREQUENCY,i] title:[[NSString alloc] initWithFormat:GetLocalizedString(@"CPU Core %X"),i + 1] group:kHWSensorGroupFrequency];
@@ -407,13 +403,22 @@
                 if ([caption length] == 0)
                     caption = [[NSString alloc] initWithFormat:@"Fan %X", i + 1];
                 
-                if (![caption hasPrefix:@"GPU "]) {
-                    if (fds->type == FAN_PWM_TACH || fds->type == FAN_PWM_NOTACH || fds->type == PUMP_PWM) {
+                switch (fds->type) {
+                    case GPU_FAN_RPM:
+                    case GPU_FAN_PWM_TACH:
+                    case GPU_FAN_PWM_NOTACH:
+                        break;
+                        
+                    case FAN_PWM_TACH:
+                    case FAN_PWM_NOTACH:
+                    case PUMP_PWM:
                         [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] title:[NSString stringWithFormat:@"%@ PWM", GetLocalizedString(caption)] group:kHWSensorGroupPWM];
-                    }
-                    else if (fds->type == FAN_RPM || fds->type == PUMP_RPM) {
+                        break;
+                                
+                    case FAN_RPM:
+                    case PUMP_RPM:
                         [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(caption) group:kHWSensorGroupTachometer];
-                    }
+                        break;
                 }
             }
         }
@@ -435,25 +440,22 @@
         else if ([keyType isEqualToString:@TYPE_FDS]) {
             FanTypeDescStruct *fds = (FanTypeDescStruct*)[[HWMonitorEngine copyValueFromKeyInfo:[self populateInfoForKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i]]] bytes];
             
-            if (fds) {
-                NSString *caption = [NSString stringWithCString:fds->strFunction encoding:NSASCIIStringEncoding];
-                
-                if ([caption hasPrefix:@"GPU "]) {
-                    if (fds->type == FAN_PWM_TACH || fds->type == FAN_PWM_NOTACH || fds->type == PUMP_PWM) {
-                        [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] title:[NSString stringWithFormat:GetLocalizedString(@"GPU %X PWM"), fds->ui8Zone + 1] group:kHWSensorGroupPWM];
-                    }
-                    else if (fds->type == FAN_RPM || fds->type == PUMP_RPM) {
-                        [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] title:[NSString stringWithFormat:GetLocalizedString(@"GPU %X Fan"), fds->ui8Zone + 1] group:kHWSensorGroupTachometer];
-                    }
-                }
+            switch (fds->type) {
+                case GPU_FAN_RPM:
+                    [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] title:[NSString stringWithFormat:GetLocalizedString(@"GPU %X Fan"), fds->ui8Zone + 1] group:kHWSensorGroupTachometer];
+                    break;
+                    
+                case GPU_FAN_PWM_TACH:
+                case GPU_FAN_PWM_NOTACH:
+                    [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] title:[NSString stringWithFormat:GetLocalizedString(@"GPU %X PWM"), fds->ui8Zone + 1] group:kHWSensorGroupPWM];
+                    break;
             }
         }
     }
     
     // Voltages
-    [[self getKeyInfosInGroup:kSMCKeyGroupVoltage] enumerateIndexesWithOptions:NSSortStable usingBlock:^(NSUInteger idx, BOOL *stop) {
-        [self addSensorFromSMCKeyInfoAtIndex:idx toGroup:kHWSensorGroupVoltage];
-    }];
+    [self addSensorsFromSMCKeyInfoListFromGroup:kSMCKeyGroupVoltage toGroup:kHWSensorGroupVoltage];
+
     /*[self addSensorWithKey:@KEY_CPU_VCORE_VOLTAGE title:GetLocalizedString(@"CPU Vcore") group:kHWSensorGroupVoltage];
     [self addSensorWithKey:@KEY_CPU_1V5_S0_VOLTAGE title:GetLocalizedString(@"CPU 1.5V S0") group:kHWSensorGroupVoltage];
     [self addSensorWithKey:@KEY_CPU_1V5_S0_VOLTAGE title:GetLocalizedString(@"CPU 1.8V S0") group:kHWSensorGroupVoltage];

@@ -74,8 +74,8 @@
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
     theme.listPathColor = [NSColor colorWithCalibratedWhite:0.1 alpha:STROKE_OPACITY];
     
-    theme.groupBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.26 alpha:FILL_OPACITY];
-    theme.groupBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.20 alpha:FILL_OPACITY];
+    theme.groupBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.2 alpha:FILL_OPACITY];
+    theme.groupBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.14 alpha:FILL_OPACITY];
     theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
     
     theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.7 alpha:1.0];

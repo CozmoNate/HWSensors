@@ -217,6 +217,9 @@ typedef enum {
     PUMP_RPM,
     FAN_PWM_NOTACH,
     EMPTY_PLACEHOLDER,
+    GPU_FAN_RPM,
+    GPU_FAN_PWM_TACH,
+    GPU_FAN_PWM_NOTACH,
 } FanType;
 
 #define DIAG_FUNCTION_STR_LEN 12

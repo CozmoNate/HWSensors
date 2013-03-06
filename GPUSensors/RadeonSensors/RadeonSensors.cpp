@@ -193,7 +193,7 @@ bool RadeonMonitor::start(IOService * provider)
     
     // Use driver's configuration to resolve temperature sensor type
     if (card.int_thermal_type == THERMAL_TYPE_NONE) {
-        radeon_warn(&card, "using device-id list to resolve temperature sensor type\n");
+        radeon_info(&card, "using device-id to resolve temperature sensor type\n");
         
         // Enable temperature monitoring
         switch (card.family) {

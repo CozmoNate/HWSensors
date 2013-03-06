@@ -113,7 +113,7 @@ bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
                 gpuIndex = takeVacantGPUIndex();
                 
             if (gpuIndex >= 0) {
-                snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, gpuIndex);
+                snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, gpuIndex);
                 if (!addSensorFromConfigurationNode(node, "GPU", key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i)) {
                     releaseGPUIndex(gpuIndex);
                     gpuIndex = -1;
