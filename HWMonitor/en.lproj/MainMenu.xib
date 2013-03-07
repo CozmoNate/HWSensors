@@ -3543,11 +3543,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{148, 8}, {18, 18}}</string>
 							<reference key="NSSuperview" ref="1006916051"/>
-							<reference key="NSNextKeyView"/>
 							<double key="NSViewAlphaValue">0.90000000000000002</double>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowBlurRadius">2</double>
-								<object class="NSColor" key="NSShadowColor" id="768653690">
+								<object class="NSColor" key="NSShadowColor" id="555397664">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MCAwLjYAA</bytes>
 								</object>
@@ -3587,11 +3586,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{181, 8}, {18, 18}}</string>
 							<reference key="NSSuperview" ref="1006916051"/>
-							<reference key="NSNextKeyView"/>
 							<double key="NSViewAlphaValue">0.90000000000000002</double>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowBlurRadius">2</double>
-								<reference key="NSShadowColor" ref="768653690"/>
+								<reference key="NSShadowColor" ref="555397664"/>
 							</object>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -3628,11 +3626,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{207, 8}, {18, 18}}</string>
 							<reference key="NSSuperview" ref="1006916051"/>
-							<reference key="NSNextKeyView"/>
 							<double key="NSViewAlphaValue">0.90000000000000002</double>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowBlurRadius">2</double>
-								<reference key="NSShadowColor" ref="768653690"/>
+								<reference key="NSShadowColor" ref="555397664"/>
 							</object>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -3838,7 +3835,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 									<double key="NSViewAlphaValue">0.84999999999999998</double>
 									<object class="NSShadow" key="NSViewShadow">
 										<double key="NSShadowBlurRadius">2</double>
-										<object class="NSColor" key="NSShadowColor" id="941436128">
+										<object class="NSColor" key="NSShadowColor" id="146124085">
 											<int key="NSColorSpace">3</int>
 											<bytes key="NSWhite">MCAwLjYAA</bytes>
 										</object>
@@ -3943,6 +3940,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							</array>
 							<string key="NSFrame">{{0, 35}, {233, 19}}</string>
 							<reference key="NSNextKeyView" ref="914192464"/>
+							<bool key="NSViewIsLayerTreeHost">YES</bool>
 						</object>
 						<reference key="destination" ref="999955242"/>
 					</object>
@@ -7350,7 +7348,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="1020.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1024.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<real value="2" key="1024.IBViewIntegration.shadowBlurRadius"/>
-				<reference key="1024.IBViewIntegration.shadowColor" ref="941436128"/>
+				<reference key="1024.IBViewIntegration.shadowColor" ref="146124085"/>
 				<real value="0.0" key="1024.IBViewIntegration.shadowOffsetHeight"/>
 				<real value="0.0" key="1024.IBViewIntegration.shadowOffsetWidth"/>
 				<string key="1025.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7595,19 +7593,19 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="632.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="667.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<real value="2" key="667.IBViewIntegration.shadowBlurRadius"/>
-				<reference key="667.IBViewIntegration.shadowColor" ref="768653690"/>
+				<reference key="667.IBViewIntegration.shadowColor" ref="555397664"/>
 				<real value="0.0" key="667.IBViewIntegration.shadowOffsetHeight"/>
 				<real value="0.0" key="667.IBViewIntegration.shadowOffsetWidth"/>
 				<string key="668.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="669.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<real value="2" key="669.IBViewIntegration.shadowBlurRadius"/>
-				<reference key="669.IBViewIntegration.shadowColor" ref="768653690"/>
+				<reference key="669.IBViewIntegration.shadowColor" ref="555397664"/>
 				<real value="0.0" key="669.IBViewIntegration.shadowOffsetHeight"/>
 				<real value="0.0" key="669.IBViewIntegration.shadowOffsetWidth"/>
 				<string key="670.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="671.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<real value="2" key="671.IBViewIntegration.shadowBlurRadius"/>
-				<reference key="671.IBViewIntegration.shadowColor" ref="768653690"/>
+				<reference key="671.IBViewIntegration.shadowColor" ref="555397664"/>
 				<real value="0.0" key="671.IBViewIntegration.shadowOffsetHeight"/>
 				<real value="0.0" key="671.IBViewIntegration.shadowOffsetWidth"/>
 				<string key="672.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7759,7 +7757,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1183</int>
+			<int key="maxID">1187</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

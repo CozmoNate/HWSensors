@@ -76,14 +76,13 @@ bool nvc0_identify(struct nouveau_device *device)
 void nvc0_init(struct nouveau_device *device)
 {
     switch (device->chipset) {
-        
         case 0xd9:
             device->gpio_sense = nvd0_gpio_sense;
             device->fan_rpm_get = nouveau_therm_fan_rpm_get;
         default:
             nva3_therm_init(device);
             device->gpio_sense = nv50_gpio_sense;
-            device->fan_rpm_get = nva3_therm_fan_sense;
+            device->fan_rpm_get = nvc0_therm_fan_sense;//nva3_therm_fan_sense;
             break;
     }
     
@@ -95,6 +94,15 @@ void nvc0_init(struct nouveau_device *device)
     device->voltage_get = nouveau_voltage_get;
     device->pwm_get = nv50_fan_pwm_get;
     device->fan_pwm_get = nouveau_therm_fan_pwm_get;
+}
+
+int nvc0_therm_fan_sense(struct nouveau_device *device)
+{
+	u32 tach = nv_rd32(device, 0x00e728) & 0x0000ffff;
+	u32 ctrl = nv_rd32(device, 0x00e720);
+	if (ctrl & 0x00000001)
+		return tach * 30;
+	return -ENODEV;
 }
 
 static u32 read_div(struct nouveau_device *, int, u32, u32);
