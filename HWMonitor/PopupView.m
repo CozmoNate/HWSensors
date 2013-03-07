@@ -48,7 +48,7 @@
         // Header
         
         NSRect headerRect = contentRect;
-        headerRect.size.height = kHWMonitorButtonsHeight + ARROW_HEIGHT - LINE_THICKNESS * 2; // Buttons row height
+        headerRect.size.height = kHWMonitorButtonsHeight + ARROW_HEIGHT - LINE_THICKNESS * 3; // Buttons row height
         headerRect.origin.y = contentRect.size.height - headerRect.size.height;
         
         _headerPath = [NSBezierPath bezierPath];
@@ -76,7 +76,6 @@
         [_headerPath setLineWidth:LINE_THICKNESS];
         
         // Content
-        
         _contentPath = [NSBezierPath bezierPath];
         
         [_contentPath moveToPoint:NSMakePoint(NSMaxX(headerRect), NSMinY(headerRect))];
@@ -96,7 +95,10 @@
         [_contentPath closePath];
         [_contentPath setLineWidth:LINE_THICKNESS];
         
-        _headerGradient = [[NSGradient alloc] initWithStartingColor:_colorTheme.barBackgroundStartColor endingColor:_colorTheme.barBackgroundEndColor];
+        _headerGradient = [[NSGradient alloc]
+                           initWithStartingColor:   _colorTheme.barBackgroundStartColor
+                           endingColor:             _colorTheme.barBackgroundEndColor];
+        
     }
     
     // Draw panel

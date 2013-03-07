@@ -387,7 +387,7 @@
     
     // Make window height small
     NSRect panelRect = [[self window] frame];
-    panelRect.size.height = ARROW_HEIGHT + 35;
+    panelRect.size.height = ARROW_HEIGHT + kHWMonitorButtonsHeight;
     [[self window] setFrame:panelRect display:NO];
     
     // Resize panel height to fit all table view content

@@ -40,6 +40,10 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"Th%XH", "sp78", 2, "CPU %X Heatsink", kSMCKeyGroupTemperature, 0x20},
     {"TC%XP", "sp78", 2, "CPU %X Proximity", kSMCKeyGroupTemperature, 0x20},
     
+    {"TCXC", "sp78", 2, "PECI CPU", kSMCKeyGroupTemperature, 0},
+    {"TCSC", "sp78", 2, "PECI SA", kSMCKeyGroupTemperature, 0},
+    {"TCGC", "sp78", 2, "PECI GPU", kSMCKeyGroupTemperature, 0},
+    
     {"TN%XP", "sp78", 2, "Northbridge %X", kSMCKeyGroupTemperature, 0x20},
     {"TN0C", "sp78", 2, "MCH Diode", kSMCKeyGroupTemperature, 0}, // ?
     {"TN0H", "sp78", 2, "MCH Heatsink", kSMCKeyGroupTemperature, 0}, // ?
@@ -56,7 +60,7 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"TM%XS", "sp78", 2, "DIMM %X Outgoing Air", kSMCKeyGroupTemperature, 0xD0}, // ?
     
     {"TO0P", "sp78", 2, "Optical Drive Proximity", kSMCKeyGroupTemperature, 0},
-    {"TH%XP", "sp78", 2, "HDD %X Proximity", kSMCKeyGroupTemperature, 0xF0},
+    {"TH%XP", "sp78", 2, "HDD Bay %X", kSMCKeyGroupTemperature, 0xF0},
     
     {"TG%XD", "sp78", 2, "GPU %X Die", kSMCKeyGroupTemperature, 0x40},
     {"TG%XH", "sp78", 2, "GPU %X Heatsink", kSMCKeyGroupTemperature, 0x40},

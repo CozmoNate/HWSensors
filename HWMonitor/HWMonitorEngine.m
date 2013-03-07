@@ -409,14 +409,15 @@
                     case GPU_FAN_PWM_NOTACH:
                         break;
                         
-                    case FAN_PWM_TACH:
+                    /*case FAN_PWM_TACH:
                     case FAN_PWM_NOTACH:
                     case PUMP_PWM:
                         [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] title:[NSString stringWithFormat:@"%@ PWM", GetLocalizedString(caption)] group:kHWSensorGroupPWM];
                         break;
                                 
                     case FAN_RPM:
-                    case PUMP_RPM:
+                    case PUMP_RPM:*/
+                    default:
                         [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(caption) group:kHWSensorGroupTachometer];
                         break;
                 }
