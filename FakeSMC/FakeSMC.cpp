@@ -14,7 +14,7 @@ bool FakeSMC::init(OSDictionary *dictionary)
 	if (!super::init(dictionary))
 		return false;
     
-    IOLog("HWSensors Project Copyright %d netkas, slice, usr-sse2, kozlek, navi, THe KiNG. All rights reserved.\n",HWSENSORS_LASTYEAR);
+    IOLog("HWSensors Project Copyright %d netkas, slice, usr-sse2, kozlek, navi, THe KiNG, RehabMan. All rights reserved.\n",HWSENSORS_LASTYEAR);
     
     //HWSensorsInfoLog("Opensource SMC device emulator. Copyright 2009 netkas. All rights reserved.");
     

@@ -683,12 +683,11 @@ FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type,
 FakeSMCKey *FakeSMCDevice::getKey(const char *name)
 {
     if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
+        // Made the name valid (4 char long): add trailing spaces if needed
+        char validKeyNameBuffer[5];
+        snprintf(validKeyNameBuffer, 5, "%-4s", name);
+        
 		while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
-            
-            // Made the key name valid (4 char long): add trailing spaces if needed
-            char validKeyNameBuffer[5];
-            snprintf(validKeyNameBuffer, 5, "%-4s", name);
-            
             UInt32 key1 = HWSensorsKeyToInt(&validKeyNameBuffer);
 			UInt32 key2 = HWSensorsKeyToInt(key->getKey());
 			if (key1 == key2) {
