@@ -48,6 +48,7 @@
     
     float _smcSensorsUpdateInterval;
     float _smartSensorsUpdateInterval;
+    NSDate *_favoritesSensorsLastUpdated;
     NSDate *_smcSensorsLastUpdated;
     NSDate *_smartSensorsLastUpdated;
     BOOL _scheduleRebuildSensors;

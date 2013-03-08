@@ -133,22 +133,27 @@
     [invocation setTarget:self];
     [invocation setSelector:@selector(updateLoop)];
     
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.1 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.05 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
     [self performSelector:@selector(rebuildSensorsList) withObject:nil afterDelay:0.0];
 }
 
 - (void)updateSmartSensors;
 {
-    [_engine updateSmartSensors];
+    NSArray *updatedSensors = [_engine updateSmartSensors];
+    [self performSelectorInBackground:@selector(updateValuesForSensors:) withObject:updatedSensors];
 }
 
 - (void)updateSmcSensors
 {
-    if ([[self window] isVisible] || [_popupController hasActivePanel] || [[_graphsController window] isVisible])
-        [_engine updateSmcSensors];
-    else
-        [_engine updateSmcSensorsList:_favorites];
+    NSArray *updatedSensors = [_engine updateSmcSensors];    
+    [self performSelectorInBackground:@selector(updateValuesForSensors:) withObject:updatedSensors];
+}
+
+- (void)updateFavoritesSensors
+{
+    NSArray *updatedSensors = [_engine updateSmcSensorsList:_favorites];
+    [self performSelectorInBackground:@selector(updateValuesForSensors:) withObject:updatedSensors];
 }
 
 - (void)captureDataToHistory
@@ -156,7 +161,7 @@
     [_graphsController captureDataToHistoryNow];
 }
 
-- (void)updateValues
+- (void)updateValuesForSensors:(NSArray*)sensors
 {
     [_popupController.statusItemView setNeedsDisplay:YES];
     
@@ -164,50 +169,42 @@
         [_popupController updateValues];
     }
     
-    for (NSUInteger index = 0; index < [_items count]; index++) {
+    for (HWMonitorSensor *sensor in sensors) {
+        id cell = [_sensorsTableView viewAtColumn:0 row:GetIndexOfItem([sensor name]) makeIfNecessary:NO];
         
-        id item = GetItemAtIndex(index);
-        
-        if ([item isKindOfClass:[HWMonitorItem class]]) {
-            SensorCell *cell = [_sensorsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
-            
-            HWMonitorSensor *sensor = [item sensor];
-            
-            if ([sensor valueHasBeenChanged]) {
-                [cell.valueField setStringValue:[sensor formattedValue]];
-            }
+        if ([cell isKindOfClass:[SensorCell class]]) {
+            [[cell valueField] setStringValue:[sensor formattedValue]];
         }
+    }
+    
+    if ([[_graphsController window] isVisible]) {
+        [_graphsController captureDataToHistoryNow];
     }
 }
 
 - (void)updateLoop
-{
-    BOOL menuNeedsUpdate = false;
-    
+{   
     if (_scheduleRebuildSensors) {
         [self rebuildSensorsList];
         _scheduleRebuildSensors = FALSE;
     }
-    
-    NSDate *now = [NSDate dateWithTimeIntervalSinceNow:0.0];
-    
-    if ([_smcSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
-        [self performSelectorInBackground:@selector(updateSmcSensors) withObject:nil];
-        _smcSensorsLastUpdated = now;
-        menuNeedsUpdate = true;
-    }
-    
-    if ([_smartSensorsLastUpdated timeIntervalSinceNow] < (- _smartSensorsUpdateInterval)) {
-        [self performSelectorInBackground:@selector(updateSmartSensors) withObject:nil];
-        _smartSensorsLastUpdated = now;
-        menuNeedsUpdate = true;
-    }
-    
-    if (menuNeedsUpdate) {
-        [self performSelector:@selector(updateValues) withObject:nil afterDelay:0.100];
+    else {
+        NSDate *now = [NSDate dateWithTimeIntervalSinceNow:0.0];
         
-        if ([[_graphsController window] isVisible]) {
-            [self performSelector:@selector(captureDataToHistory) withObject:nil afterDelay:0.200];
+        if ([[self window] isVisible] || [_popupController hasActivePanel] || [[_graphsController window] isVisible]) {
+            if ([_smcSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
+                [self performSelectorInBackground:@selector(updateSmcSensors) withObject:nil];
+                _smcSensorsLastUpdated = now;
+            }
+        }
+        else if ([_favoritesSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
+            [self performSelectorInBackground:@selector(updateFavoritesSensors) withObject:nil];
+            _favoritesSensorsLastUpdated = now;
+        }
+    
+        if ([_smartSensorsLastUpdated timeIntervalSinceNow] < (- _smartSensorsUpdateInterval)) {
+            [self performSelectorInBackground:@selector(updateSmartSensors) withObject:nil];
+            _smartSensorsLastUpdated = now;
         }
     }
 }
@@ -499,7 +496,8 @@
 -(void)updateRateChanged:(NSNotification *)aNotification
 {
     _smcSensorsUpdateInterval = [self getSmcSensorsUpdateRate];
-    _smcSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];    
+    _smcSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];
+    _favoritesSensorsLastUpdated = _smcSensorsLastUpdated;
      _smartSensorsUpdateInterval = [self getSmartSensorsUpdateRate] * 60;
     _smartSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];
 }
