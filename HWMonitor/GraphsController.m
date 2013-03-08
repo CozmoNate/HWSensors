@@ -127,14 +127,31 @@
     [_graphViews addObject:_tachometerGraph];
     [_graphViews addObject:_voltageGraph];
     
-    [_items addObject:@"TEMPERATURES"];
-    [_items addObjectsFromArray:[_temperatureGraph addItemsForSensorGroup:kHWSensorGroupTemperature | kSMARTSensorGroupTemperature fromGroupsList:groups]];
-    [_items addObject:@"FREQUENCIES"];
-    [_items addObjectsFromArray:[_frequencyGraph addItemsForSensorGroup:kHWSensorGroupFrequency fromGroupsList:groups]];
-    [_items addObject:@"FANS"];
-    [_items addObjectsFromArray:[_tachometerGraph addItemsForSensorGroup:kHWSensorGroupTachometer fromGroupsList:groups]];
-    [_items addObject:@"VOLTAGES"];
-    [_items addObjectsFromArray:[_voltageGraph addItemsForSensorGroup:kHWSensorGroupVoltage fromGroupsList:groups]];
+    NSArray *list = nil;
+    
+    list = [_temperatureGraph addItemsForSensorGroup:kHWSensorGroupTemperature | kSMARTSensorGroupTemperature fromGroupsList:groups];
+    if ([list count]) {
+        [_items addObject:@"TEMPERATURES"];
+        [_items addObjectsFromArray:list];
+    }
+    
+    list = [_frequencyGraph addItemsForSensorGroup:kHWSensorGroupFrequency fromGroupsList:groups];
+    if ([list count]) {
+        [_items addObject:@"FREQUENCIES"];
+        [_items addObjectsFromArray:list];
+    }
+    
+    list = [_tachometerGraph addItemsForSensorGroup:kHWSensorGroupTachometer fromGroupsList:groups];
+    if ([list count]) {
+        [_items addObject:@"FANS"];
+        [_items addObjectsFromArray:list];
+    }
+    
+    list = [_voltageGraph addItemsForSensorGroup:kHWSensorGroupVoltage fromGroupsList:groups];
+    if ([list count]) {
+        [_items addObject:@"VOLTAGES"];
+        [_items addObjectsFromArray:list];
+    }
 }
 
 - (void) captureDataToHistoryNow

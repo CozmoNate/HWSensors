@@ -2274,7 +2274,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											<string key="NSFrameSize">{235, 205}</string>
 											<reference key="NSSuperview" ref="448952218"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="1006916051"/>
+											<reference key="NSNextKeyView" ref="916794352"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2377,7 +2377,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string key="NSFrameSize">{235, 205}</string>
 							<reference key="NSSuperview" ref="114547693"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="916794352"/>
+							<reference key="NSNextKeyView" ref="448952218"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">219136</int>
 							<reference key="NSVScroller" ref="916794352"/>
@@ -2491,7 +2491,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 													<string key="NSFrameSize">{233, 674}</string>
 													<reference key="NSSuperview" ref="272427985"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="397251667"/>
+													<reference key="NSNextKeyView" ref="544509537"/>
 													<string key="NSReuseIdentifierKey">_NS:13</string>
 													<bool key="NSEnabled">YES</bool>
 													<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2594,7 +2594,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 									<string key="NSFrame">{{441, 0}, {235, 676}}</string>
 									<reference key="NSSuperview" ref="182855717"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="544509537"/>
+									<reference key="NSNextKeyView" ref="272427985"/>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
 									<int key="NSsFlags">133649</int>
 									<reference key="NSVScroller" ref="655842908"/>
@@ -7964,6 +7964,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="closeApplication:">id</string>
 						<string key="openPreferences:">id</string>
 						<string key="showGraphs:">id</string>
+						<string key="togglePanel:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="closeApplication:">
@@ -7976,6 +7977,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						</object>
 						<object class="IBActionInfo" key="showGraphs:">
 							<string key="name">showGraphs:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="togglePanel:">
+							<string key="name">togglePanel:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

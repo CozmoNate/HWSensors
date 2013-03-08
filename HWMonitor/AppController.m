@@ -126,9 +126,6 @@
     [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
     [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationCopy forLocal:YES];
     
-    [[_popupController statusItemView] setAction:@selector(togglePopupPanel:)];
-    [[_popupController statusItemView] setTarget:self];
-    
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(updateLoop)]];
     [invocation setTarget:self];
     [invocation setSelector:@selector(updateLoop)];
@@ -141,19 +138,19 @@
 - (void)updateSmartSensors;
 {
     NSArray *updatedSensors = [_engine updateSmartSensors];
-    [self performSelectorInBackground:@selector(updateValuesForSensors:) withObject:updatedSensors];
+    [self updateValuesForSensors:updatedSensors];
 }
 
 - (void)updateSmcSensors
 {
     NSArray *updatedSensors = [_engine updateSmcSensors];    
-    [self performSelectorInBackground:@selector(updateValuesForSensors:) withObject:updatedSensors];
+    [self updateValuesForSensors:updatedSensors];
 }
 
 - (void)updateFavoritesSensors
 {
     NSArray *updatedSensors = [_engine updateSmcSensorsList:_favorites];
-    [self performSelectorInBackground:@selector(updateValuesForSensors:) withObject:updatedSensors];
+    [self updateValuesForSensors:updatedSensors];
 }
 
 - (void)captureDataToHistory
@@ -163,12 +160,6 @@
 
 - (void)updateValuesForSensors:(NSArray*)sensors
 {
-    [_popupController.statusItemView setNeedsDisplay:YES];
-    
-    if (_popupController.hasActivePanel) {
-        [_popupController updateValues];
-    }
-    
     for (HWMonitorSensor *sensor in sensors) {
         id cell = [_sensorsTableView viewAtColumn:0 row:GetIndexOfItem([sensor name]) makeIfNecessary:NO];
         
@@ -177,7 +168,13 @@
         }
     }
     
-    if ([[_graphsController window] isVisible]) {
+    [_popupController.statusItemView setNeedsDisplay:YES];
+    
+    if ([_popupController.window isVisible]) {
+        [_popupController updateValues];
+    }
+    
+    if ([_graphsController.window isVisible]) {
         [_graphsController captureDataToHistoryNow];
     }
 }
@@ -191,7 +188,7 @@
     else {
         NSDate *now = [NSDate dateWithTimeIntervalSinceNow:0.0];
         
-        if ([[self window] isVisible] || [_popupController hasActivePanel] || [[_graphsController window] isVisible]) {
+        if ([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible]) {
             if ([_smcSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
                 [self performSelectorInBackground:@selector(updateSmcSensors) withObject:nil];
                 _smcSensorsLastUpdated = now;
@@ -209,11 +206,11 @@
     }
 }
 
-- (void) togglePopupPanel:(id)sender
+/*- (void) togglePopupPanel:(id)sender
 {
     [_popupController setHasActivePanel:![_popupController hasActivePanel]];
     //NSLog(@"Toggle popup panel");
-}
+}*/
 
 - (void)rebuildSensorsTableView
 {

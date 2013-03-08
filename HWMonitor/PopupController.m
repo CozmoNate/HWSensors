@@ -26,6 +26,11 @@
 #define GetLocalizedString(key) \
 [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
+-(void)showWindow:(id)sender
+{
+    [self openPanel];
+}
+
 -(void)setColorTheme:(ColorTheme *)colorTheme
 {
     _colorTheme = colorTheme;
@@ -50,7 +55,8 @@
         
         [_statusItem setHighlightMode:YES];
         
-        
+        [_statusItemView setAction:@selector(togglePanel:)];
+        [_statusItemView setTarget:self];
     }
     
     return self;
@@ -164,20 +170,22 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    [self setHasActivePanel:NO];
+    [self closePanel];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification;
 {
-    if ([[self window] isVisible])
-    {
-        [self setHasActivePanel:NO];
-    }
+    [self closePanel];
+}
+
+-(void)windowDidResignMain:(NSNotification *)notification
+{
+    [self closePanel];
 }
 
 - (void)cancelOperation:(id)sender
 {
-    [self setHasActivePanel:NO];
+    [self closePanel];
 }
 
 - (void)windowDidResize:(NSNotification *)notification
@@ -190,37 +198,6 @@
     CGFloat panelX = statusX - NSMinX(panelRect);
     
     self.popupView.arrowPosition = panelX;
-    
-    /*NSRect searchRect = [self.searchField frame];
-    searchRect.size.width = NSWidth([self.backgroundView bounds]) - SEARCH_INSET * 2;
-    searchRect.origin.x = SEARCH_INSET;
-    searchRect.origin.y = NSHeight([self.backgroundView bounds]) - ARROW_HEIGHT - SEARCH_INSET - NSHeight(searchRect);
-    
-    if (NSIsEmptyRect(searchRect))
-    {
-        [self.searchField setHidden:YES];
-    }
-    else
-    {
-        [self.searchField setFrame:searchRect];
-        [self.searchField setHidden:NO];
-    }
-    
-    NSRect textRect = [self.textField frame];
-    textRect.size.width = NSWidth([self.backgroundView bounds]) - SEARCH_INSET * 2;
-    textRect.origin.x = SEARCH_INSET;
-    textRect.size.height = NSHeight([self.backgroundView bounds]) - ARROW_HEIGHT - SEARCH_INSET * 3 - NSHeight(searchRect);
-    textRect.origin.y = SEARCH_INSET;
-    
-    if (NSIsEmptyRect(textRect))
-    {
-        [self.textField setHidden:YES];
-    }
-    else
-    {
-        [self.textField setFrame:textRect];
-        [self.textField setHidden:NO];
-    }*/
 }
 
 - (NSRect)statusRectForWindow:(NSWindow *)window
@@ -243,32 +220,28 @@
     return statusRect;
 }
 
-- (BOOL)hasActivePanel
+-(void)togglePanel:(id)sender
 {
-    return _hasActivePanel;
-}
-
-- (void)setHasActivePanel:(BOOL)hasActivePanel
-{
-    if (_hasActivePanel != hasActivePanel)
+    if (self.window)
     {
-        _hasActivePanel = hasActivePanel;
-        
-        if (_hasActivePanel)
+        if (self.window.isVisible)
         {
-            [self openPanel];
+            [self closePanel];
+            self.statusItemView.isHighlighted = NO;
         }
         else
         {
-            [self closePanel];
+            [self openPanel];
+            self.statusItemView.isHighlighted = YES;
         }
-        
-        self.statusItemView.isHighlighted = hasActivePanel;
     }
 }
 
 - (void)openPanel
 {
+    if (self.window.isVisible)
+        return;
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupPanelShouldOpen:)]) {
         [self.delegate popupPanelShouldOpen:self];
     }
@@ -291,6 +264,7 @@
     [panel setFrame:panelRect display:YES];
     
     [panel makeKeyAndOrderFront:panel];
+    //[panel orderFront:panel];
     
     NSTimeInterval openDuration = OPEN_DURATION;
     
@@ -318,11 +292,14 @@
     
     [self windowDidResize:nil];
     
-    //[panel performSelector:@selector(makeFirstResponder:) withObject:self.searchField afterDelay:openDuration];
+    self.statusItemView.isHighlighted = YES;
 }
 
 - (void)closePanel
 {
+    if (!self.window.isVisible)
+        return;
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupPanelShouldClose:)]) {
         [self.delegate popupPanelShouldClose:self];
     }
@@ -335,6 +312,8 @@
     dispatch_after(dispatch_walltime(NULL, NSEC_PER_SEC * CLOSE_DURATION * 2), dispatch_get_main_queue(), ^{
         [self.window orderOut:nil];
     });
+    
+    self.statusItemView.isHighlighted = NO;
 }
 
 - (IBAction)closeApplication:(id)sender

@@ -32,7 +32,6 @@
 @property (readonly) NSStatusItem *statusItem;
 @property (readonly) StatusItemView *statusItemView;
 
-@property (nonatomic, assign) BOOL hasActivePanel;
 @property (nonatomic, assign) BOOL showVolumeNames;
 
 @property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
@@ -43,6 +42,8 @@
 
 @property (nonatomic, unsafe_unretained) IBOutlet NSWindow *prefsWindow;
 @property (nonatomic, unsafe_unretained) IBOutlet NSWindow *graphsWindow;
+
+- (IBAction)togglePanel:(id)sender;
 
 - (void)openPanel;
 - (void)closePanel;
