@@ -85,7 +85,90 @@
 "CPUFan" = "Вентилятор ЦП";
 "CPUFan2" = "Вентилятор ЦП 2";
 "PowerFan" = "Вентилятор БП";
-"SystemFan1" = "Корпусной вентилятор №1";
-"SystemFan2" = "Корпусной вентилятор №2";
+"SystemFan1" = "Вентилятор №1";
+"SystemFan2" = "Вентилятор №2";
 "AuxFan" = "Дополнительный вентилятор";
 "AuxFan2" = "Дополнительный вентилятор №2";
+"MB Fan 0" = "Вентилятор МП 0";
+"MB Fan 1" = "Вентилятор МП 1";
+"MB Fan 2" = "Вентилятор МП 2";
+"MB Fan 3" = "Вентилятор МП 3";
+"MB Fan 4" = "Вентилятор МП 4";
+"GPU Fan" = "Вентилятор видеокарты";
+"GPU Fan 1" = "Вентилятор видеокарты 1";
+"GPU Fan 2" = "Вентилятор видеокарты 2";
+"GPU Fan 3" = "Вентилятор видеокарты 3";
+
+"Ambient" = "Окружение";
+
+"CPU Die %X" = "Ядро ЦП %X";
+
+"CPU %X" = "Процессор %X";
+"CPU Heatsink" = "Радиатор процессора";
+"CPU %X Heatsink" = "Радиатор процессора %X";
+"CPU Proximity" = "Датчик процессора";
+"CPU %X Proximity" = "Датчик процессора %X";
+
+"PECI CPU" = "PECI Процессор";
+"PECI SA" = "PECI SA";
+"PECI GPU" = "PECI Видеоядро";
+
+"Northbridge" = "Северный мост";
+"Northbridge %X" = "Северный мост %X";
+"MCH Die" = "Ядро MCP";
+"MCH Heatsink" = "Радиатор MCP";
+"MCP Internal Die" = "Кристалл MCP";
+"PCH Die" = "Ядро PCH";
+"PCH Proximity" = "Датчик PCH";
+"Mainboard" = "Материнская плата";
+"LCD Proximity" = "Датчик ЖКЭ";
+"Airport Proximity" = "Датчик Airport";
+"Power Supply Proximity" = "Источник питания";
+
+"Memory Bank %X" = "Слот памяти %X";
+"Memory Module %X" = "Модуль памяти %X";
+
+"Optical Drive" = "Оптический накопитель";
+"HDD Bay %X" = "Лоток диска %X";
+
+"GPU Die" = "Ядро видеокарты";
+"GPU %X Die" = "Ядро видеокарты %X";
+"GPU Heatsink" = "Радиатор видеокарты";
+"GPU %X Heatsink" = "Радиатор видеокарты %X";
+"GPU Proximity" = "Датчик видеокарты";
+"GPU %X Proximity" = "Датчик видеокарты %X";
+"GPU Memory" = "Память видеокарты";
+"GPU %X Memory" = "Память видеокарты %X";
+
+"Thermal Zone %X" = "Термальная зона %X";
+
+"CPU Core" = "Ядро процессора";
+"CPU Core %X" = "Ядро процессора %X";
+"CPU Package Multiplier" = "Множитель процессора";
+"CPU Package" = "Пакет ядер процессора";
+
+"GPU Core" = "Ядро видеокарты";
+"GPU %X Core" = "Ядро видеокарты %X";
+"GPU Shader" = "Шейдеры видеокарты";
+"GPU %X Shader" = "Шейдеры видеокарты %X";
+"GPU ROP" = "РП видеокарты";
+"GPU %X ROP" = "РП видеокарты %X";
+
+"Memory Modules" = "Модули памяти";
+"MCP Core" = "Ядро контролера памяти";
+"Main 3.3V" = "Основной 3.3V";
+"Main 5V" = "Основной 5V";
+"Main 12V" = "Основной 12V";
+"Auxiliary 3.3V" = "Дополнительный 3.3V";
+"Standby 5V" = "Дежурный 5V";
+//"PCIe 12V" = "";
+"Power Supply 12V" = "Источник питания 12V";
+//"DC In S0 Rail" = "";
+//"DC In S5 Rail" = "";
+"GPU Rail" = "Шина видеокарты";
+"GPU %X Rail" = "Шина видеокарты %X";
+
+"CMOS Battery" = "Батарея CMOS";
+
+"VRM Supply %X" = "Регулятор напряжения %X";
+"Power Supply %X" = "Источник питания %X";

@@ -204,10 +204,11 @@
     }
     
     if (menuNeedsUpdate) {
+        [self performSelector:@selector(updateValues) withObject:nil afterDelay:0.100];
+        
         if ([[_graphsController window] isVisible]) {
-            [self performSelector:@selector(captureDataToHistory) withObject:nil afterDelay:0.150];
+            [self performSelector:@selector(captureDataToHistory) withObject:nil afterDelay:0.200];
         }
-        [self performSelector:@selector(updateValues) withObject:nil afterDelay:0.250];
     }
 }
 

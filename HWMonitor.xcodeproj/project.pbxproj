@@ -10,6 +10,7 @@
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E0648F116DF3B7D00ACB851 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7E0648EF16DF3B7D00ACB851 /* README.md */; };
 		7E1261D516E0095C00622F92 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E1261D416E0095C00622F92 /* version.plist */; };
+		7E16893616EA106D00BBF6FC /* ArrowlessScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16893516EA106D00BBF6FC /* ArrowlessScroller.m */; };
 		7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248EB16D8E93A002231B2 /* Cocoa.framework */; };
 		7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248F416D8E93A002231B2 /* InfoPlist.strings */; };
 		7EA248F816D8E93A002231B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248F716D8E93A002231B2 /* main.m */; };
@@ -78,6 +79,8 @@
 		7E0648EF16DF3B7D00ACB851 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E1261D416E0095C00622F92 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = version.plist; path = Shared/version.plist; sourceTree = "<group>"; };
+		7E16893416EA106D00BBF6FC /* ArrowlessScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowlessScroller.h; sourceTree = "<group>"; };
+		7E16893516EA106D00BBF6FC /* ArrowlessScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrowlessScroller.m; sourceTree = "<group>"; };
 		7E9E7BA716E45A7A00CC8D5D /* SmcKeysDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmcKeysDefinitions.h; path = Shared/SmcKeysDefinitions.h; sourceTree = "<group>"; };
 		7EA248E816D8E93A002231B2 /* HWMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HWMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA248EB16D8E93A002231B2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -386,6 +389,8 @@
 				7EA2490816D8E942002231B2 /* Icons */,
 				7EA394B116E0A1B600823109 /* ColorTheme.h */,
 				7EA394B216E0A1B600823109 /* ColorTheme.m */,
+				7E16893416EA106D00BBF6FC /* ArrowlessScroller.h */,
+				7E16893516EA106D00BBF6FC /* ArrowlessScroller.m */,
 				7EB1339A16DC03AD00A41255 /* MainMenu.xib */,
 				7EDA1AAB16D936410012A0DC /* Localizable.strings */,
 			);
@@ -544,6 +549,7 @@
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
 				7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */,
 				7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */,
+				7E16893616EA106D00BBF6FC /* ArrowlessScroller.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

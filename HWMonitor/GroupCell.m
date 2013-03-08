@@ -32,7 +32,9 @@
                               endingColor:_colorTheme.groupBackgroundEndColor];
     }
     
-    [_gradient drawInRect:[self bounds] angle:270];
+    NSRect contentRect = [self bounds];
+    
+    [_gradient drawInRect:NSMakeRect(contentRect.origin.x + LINE_THICKNESS, contentRect.origin.y, contentRect.size.width - LINE_THICKNESS * 2, contentRect.size.height) angle:270];
 }
 
 @end
