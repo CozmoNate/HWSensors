@@ -52,7 +52,7 @@
 #define KEY_NORTHBRIDGE_TEMPERATURE             "TN0P"
 #define KEY_FORMAT_NORTHBRIDGE_TEMPERATURE      "TN%XP"
 
-#define KEY_PCH_DIE_TEMPERATURE                 "TP0D" // SNB PCH Die Digital
+#define KEY_PCH_DIE_TEMPERATURE                 "TPCD" // SNB PCH Die Digital
 #define KEY_PCH_PROXIMITY_TEMPERATURE           "TP0P" // SNB
 
 // Misc
@@ -218,8 +218,7 @@ typedef enum {
     FAN_PWM_NOTACH,
     EMPTY_PLACEHOLDER,
     GPU_FAN_RPM,
-    GPU_FAN_PWM_TACH,
-    GPU_FAN_PWM_NOTACH,
+    GPU_FAN_PWM_CYCLE,
 } FanType;
 
 #define DIAG_FUNCTION_STR_LEN 12

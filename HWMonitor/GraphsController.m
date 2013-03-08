@@ -45,20 +45,18 @@
 {
     _useFahrenheit = useFahrenheit;
     
-    [_temperatureGraph setUseFahrenheit:useFahrenheit];
-    [_frequencyGraph setUseFahrenheit:useFahrenheit];
-    [_tachometerGraph setUseFahrenheit:useFahrenheit];
-    [_voltageGraph setUseFahrenheit:useFahrenheit];
+    for (id graphView in _graphViews) {
+        [graphView setUseFahrenheit:useFahrenheit];
+    }
 }
 
 -(void)setUseSmoothing:(BOOL)useSmoothing
 {
     _useSmoothing = useSmoothing;
     
-    [_temperatureGraph setUseSmoothing:useSmoothing];
-    [_frequencyGraph setUseSmoothing:useSmoothing];
-    [_tachometerGraph setUseSmoothing:useSmoothing];
-    [_voltageGraph setUseSmoothing:useSmoothing];
+    for (id graphView in _graphViews) {
+        [graphView setUseSmoothing:useSmoothing];
+    }
 }
 
 -(NSArray *)colorsList
@@ -117,6 +115,18 @@
         [_hiddenItems removeAllObjects];
     }
     
+    if (!_graphViews) {
+        _graphViews = [[NSMutableArray alloc] init];
+    }
+    else {
+        [_graphViews removeAllObjects];
+    }
+    
+    [_graphViews addObject:_temperatureGraph];
+    [_graphViews addObject:_frequencyGraph];
+    [_graphViews addObject:_tachometerGraph];
+    [_graphViews addObject:_voltageGraph];
+    
     [_items addObject:@"TEMPERATURES"];
     [_items addObjectsFromArray:[_temperatureGraph addItemsForSensorGroup:kHWSensorGroupTemperature | kSMARTSensorGroupTemperature fromGroupsList:groups]];
     [_items addObject:@"FREQUENCIES"];
@@ -140,10 +150,9 @@
         }
     }
     
-    [_temperatureGraph captureDataToHistoryNow];
-    [_frequencyGraph captureDataToHistoryNow];
-    [_tachometerGraph captureDataToHistoryNow];
-    [_voltageGraph captureDataToHistoryNow];
+    for (id graphView in _graphViews) {
+        [graphView captureDataToHistoryNow];
+    }
 }
 
 - (BOOL) checkItemIsHidden:(HWMonitorItem*)item
@@ -155,10 +164,9 @@
 
 -(IBAction)graphsTableViewClicked:(id)sender
 {
-    [_temperatureGraph setNeedsDisplay:YES];
-    [_frequencyGraph setNeedsDisplay:YES];
-    [_tachometerGraph setNeedsDisplay:YES];
-    [_voltageGraph setNeedsDisplay:YES];
+    for (id graphView in _graphViews) {
+        [graphView setNeedsDisplay:YES];
+    }
 }
 
 -(IBAction)graphsCheckButtonClicked:(id)sender
@@ -176,10 +184,9 @@
         [[[NSUserDefaultsController sharedUserDefaultsController] defaults] setObject:_hiddenItems forKey:kHWMonitorHiddenGraphsList];
     }
     
-    [_temperatureGraph calculateGraphBoundsFindExtremes:YES];
-    [_frequencyGraph calculateGraphBoundsFindExtremes:YES];
-    [_tachometerGraph calculateGraphBoundsFindExtremes:YES];
-    [_voltageGraph calculateGraphBoundsFindExtremes:YES];
+    for (id graphView in _graphViews) {
+        [graphView calculateGraphBoundsFindExtremes:YES];
+    }
     
     [self graphsTableViewClicked:sender];
 }

@@ -36,6 +36,7 @@
     NSMutableArray *_colorsList;
     NSMutableArray *_items;
     NSMutableArray *_hiddenItems;
+    NSMutableArray *_graphViews;
 }
 
 @property (nonatomic, setter = setUseFahrenheit:) BOOL useFahrenheit;

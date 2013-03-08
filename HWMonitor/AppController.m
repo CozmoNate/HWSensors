@@ -48,6 +48,10 @@
 #define GetIndexOfItem(name) \
 [_ordering indexOfObject:name]
 
+#define SetItemAsFavorite(name) \
+[_ordering removeObject:name]; \
+[_ordering insertObject:name atIndex:[_ordering indexOfObject:_availableGroupItem]]; \
+
 @implementation AppController
 
 - (void)loadIconNamed:(NSString*)name
@@ -261,19 +265,21 @@
         }
     }
     
-    for (id item in _favorites) {
-        NSUInteger dropIndex = [_ordering indexOfObject:_availableGroupItem];
-        
-        NSString *name = nil;
-        
-        if ([item isKindOfClass:[HWMonitorIcon class]] || [item isKindOfClass:[HWMonitorSensor class]]) {
-            name = [item name];
-        }
-        else continue;
-        
-        if ([[_engine keys] objectForKey:name] || [_icons objectForKey:name]) {
-            [_ordering removeObject:name];
-            [_ordering insertObject:name atIndex:dropIndex];
+    if ([_favorites count] == 0) {
+        SetItemAsFavorite(kHWMonitorIconThermometer);
+    }
+    else {
+        for (id item in _favorites) {            
+            NSString *name = nil;
+            
+            if ([item isKindOfClass:[HWMonitorIcon class]] || [item isKindOfClass:[HWMonitorSensor class]]) {
+                name = [item name];
+            }
+            else continue;
+            
+            if ([[_engine keys] objectForKey:name] || [_icons objectForKey:name]) {
+                SetItemAsFavorite(name);
+            }
         }
     }
     

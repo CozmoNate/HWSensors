@@ -99,7 +99,7 @@
     return _level;
 }
 
-- (float)decodeValue
+- (float)decodeNumericValue
 {
     if (_type && _data && [_type length] >= 3) {
         if (([_type characterAtIndex:0] == 'u' || [_type characterAtIndex:0] == 's') && [_type characterAtIndex:1] == 'i') {
@@ -113,7 +113,12 @@
                         
                         bcopy([_data bytes], &encoded, 1);
                         
-                        return (signd && encoded & 0x80 ? -encoded : encoded);
+                        if (signd && bit_get(encoded, BIT(7))) {
+                            bit_clear(encoded, BIT(7));
+                            return -encoded;
+                        }
+                        
+                        return encoded;
                     }
                     break;
                     
@@ -125,7 +130,12 @@
                         
                         encoded = OSSwapBigToHostInt16(encoded);
                         
-                        return (signd && encoded & 0x8000 ? -encoded : encoded);
+                        if (signd && bit_get(encoded, BIT(15))) {
+                            bit_clear(encoded, BIT(15));
+                            return -encoded;
+                        }
+                        
+                        return encoded;
                     }
                     break;
                     
@@ -137,7 +147,12 @@
                         
                         encoded = OSSwapBigToHostInt32(encoded);
                         
-                        return (signd && encoded & 0x80000000 ? -encoded : encoded);
+                        if (signd && bit_get(encoded, BIT(31))) {
+                            bit_clear(encoded, BIT(31));
+                            return -encoded;
+                        }
+                        
+                        return encoded;
                     }
                     break;
             }
@@ -155,12 +170,12 @@
             
             UInt16 swapped = OSSwapBigToHostInt16(encoded);
             
-            BOOL minus = swapped & 0x8000;
+            BOOL signd = [_type characterAtIndex:0] == 's';
+            BOOL minus = bit_get(swapped, BIT(15));
             
-            if (minus) 
-                swapped = swapped & 0x7fff;
+            if (signd && minus) bit_clear(swapped, BIT(15));
             
-            return ((float)swapped / (float)(0x1 << f)) * ([_type characterAtIndex:0] == 's' && minus ? -1 : 1);
+            return ((float)swapped / (float)BIT(f)) * (signd && minus ? -1 : 1);
         }
     }
     
@@ -175,7 +190,7 @@
             
             [_data getBytes:&t length:2];
             
-            if (_level != kHWSensorLevelExceeded) {
+            if (_level != kHWSensorLevelExceeded) {                
                 if ([_disk isRotational]) {
                     [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 }
@@ -213,7 +228,7 @@
             _formattedValue = [NSString stringWithFormat:@"%lld",blocks];
         }
         else if (_group & kHWSensorGroupTemperature) {
-            float t = [self decodeValue];
+            float t = [self decodeNumericValue];
             
             [self setLevel:t >= 100 ? kHWSensorLevelExceeded : t >= 85 ? kHWSensorLevelHigh : t >= 70 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
             
@@ -227,16 +242,22 @@
             }
         }
         else if (_group & kHWSensorGroupPWM) {
-            _rawValue = [NSNumber numberWithFloat:[self decodeValue]];
-            _formattedValue = [[NSString alloc] initWithFormat:@"%1.0f%c", [_rawValue floatValue], 0x0025];
+            _rawValue = [NSNumber numberWithFloat:[self decodeNumericValue]];
+            
+            if ([_rawValue floatValue] < 0 || [_rawValue floatValue] > 100) {
+                _formattedValue = @"-";
+            }
+            else {
+                _formattedValue = [[NSString alloc] initWithFormat:@"%1.0f%c", [_rawValue floatValue], 0x0025];
+            }
         }
         else if (_group & kHWSensorGroupMultiplier) {
-            _rawValue = [NSNumber numberWithFloat:[self decodeValue]];
+            _rawValue = [NSNumber numberWithFloat:[self decodeNumericValue]];
             //_formattedValue = [NSString stringWithFormat:[_rawValue floatValue] < 10 ? @"x  %1.1f" : @"x%1.1f", [_rawValue floatValue]];
             _formattedValue = [NSString stringWithFormat:@"x%1.1f", [_rawValue floatValue]];
         }
         else if (_group & kHWSensorGroupFrequency) {
-            float f = [self decodeValue];
+            float f = [self decodeNumericValue];
             
             _rawValue = [NSNumber numberWithFloat:f];
             
@@ -248,12 +269,12 @@
                 _formattedValue = [NSString stringWithFormat:@"%1.0fMHz", f];
         }
         else if (_group & kHWSensorGroupTachometer) {
-            _rawValue = [NSNumber numberWithFloat:[self decodeValue]];
+            _rawValue = [NSNumber numberWithFloat:[self decodeNumericValue]];
             
             if ([_rawValue floatValue] < 1) {
                 //rehabman: it is normal on a laptop to have a fan read 0 RPM...
                 //[self setLevel:kHWSensorLevelExceeded];
-                _formattedValue = [NSString stringWithFormat:@"-"];
+                _formattedValue = @"-";
             }
             else {
                 if (_level != kHWSensorLevelNormal)
@@ -263,16 +284,16 @@
             }
         }
         else if (_group & kHWSensorGroupVoltage) {
-            _rawValue = [NSNumber numberWithFloat:[self decodeValue]];
+            _rawValue = [NSNumber numberWithFloat:[self decodeNumericValue]];
             _formattedValue = [NSString stringWithFormat:@"%1.3fV", [_rawValue floatValue]];
         }
         else {
             _rawValue = [NSNumber numberWithInt:0];
-            _formattedValue = [NSString stringWithFormat:@"-"];
+            _formattedValue = @"-";
         }
     }
     else if (!_formattedValue) {
-        _formattedValue = [NSString stringWithFormat:@"-"];
+        _formattedValue = @"-";
     }
     
     return _formattedValue;

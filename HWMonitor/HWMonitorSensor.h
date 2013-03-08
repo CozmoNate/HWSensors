@@ -39,10 +39,12 @@ typedef enum {
     kHWSensorGroupTachometer            = 1 << 4,
     kHWSensorGroupMultiplier            = 1 << 5,
     kHWSensorGroupFrequency             = 1 << 6,
+    kHWSensorGroupAmperage              = 1 << 7,
+    kHWSensorGroupPower                 = 1 << 8,
     
-    kSMARTSensorGroupTemperature        = 1 << 7,
-    kSMARTSensorGroupRemainingLife      = 1 << 8,
-    kSMARTSensorGroupRemainingBlocks    = 1 << 9,
+    kSMARTSensorGroupTemperature        = 1 << 9,
+    kSMARTSensorGroupRemainingLife      = 1 << 10,
+    kSMARTSensorGroupRemainingBlocks    = 1 << 11,
 } HWSensorGroup;
 
 typedef enum {
@@ -84,7 +86,7 @@ typedef enum {
 - (void)setData:(NSData *)newData;
 - (NSData *)data;
 
-- (float)decodeValue;
+- (float)decodeNumericValue;
 - (NSString*)formattedValue;
 
 @end

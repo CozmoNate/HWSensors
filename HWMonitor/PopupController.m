@@ -395,7 +395,7 @@
     [[self window] setFrame:panelRect display:NO];
 }
 
-- (void) updateValues
+- (void)updateValues
 {
     for (NSUInteger index = 0; index < [_items count]; index++) {
         
