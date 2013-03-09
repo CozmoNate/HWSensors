@@ -8,5 +8,7 @@
 	<string>HWSensors</string>
 	<key>ProjectVersion</key>
 	<string>5.1.33</string>
+	<key>AppVersion</key>
+	<string>2.2.0</string>
 </dict>
 </plist>
