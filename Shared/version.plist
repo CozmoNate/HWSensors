@@ -2,13 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AppVersion</key>
+	<string>2.2.1</string>
 	<key>BuildNumber</key>
 	<string>261</string>
 	<key>ProjectName</key>
 	<string>HWSensors</string>
 	<key>ProjectVersion</key>
 	<string>5.1.33</string>
-	<key>AppVersion</key>
-	<string>2.2.0</string>
 </dict>
 </plist>

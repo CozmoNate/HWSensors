@@ -185,9 +185,9 @@
     [self calculateGraphBoundsFindExtremes:NO];
     
     [[[NSGradient alloc]
-      initWithStartingColor:[NSColor colorWithCalibratedWhite:0.1 alpha:0.8]
-                endingColor:[NSColor colorWithCalibratedWhite:0.2 alpha:0.8]]
-        drawInRect:NSMakeRect(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width, self.bounds.size.height - 1) angle:270];
+      initWithStartingColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.75]
+                endingColor:[NSColor colorWithCalibratedWhite:0.25 alpha:0.75]]
+        drawInRect:self.bounds angle:270];
     
     //double x, y;
 
