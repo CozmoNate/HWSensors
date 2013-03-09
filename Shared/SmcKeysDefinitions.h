@@ -74,13 +74,13 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"TH%XP", "sp78", 2, "HDD Bay %X", kSMCKeyGroupTemperature, 8, 0, 1},
     
     {"TG0D", "sp78", 2, "GPU Die", kSMCKeyGroupTemperature, 0, 0, 1},
-    {"TG%XD", "sp78", 2, "GPU %X Die", kSMCKeyGroupTemperature, 4, 1, 2},
+    {"TG%XD", "sp78", 2, "GPU %X Die", kSMCKeyGroupTemperature, 3, 1, 2},
     {"TG0H", "sp78", 2, "GPU Heatsink", kSMCKeyGroupTemperature, 0, 0, 1},
-    {"TG%XH", "sp78", 2, "GPU %X Heatsink", kSMCKeyGroupTemperature, 4, 1, 2},
+    {"TG%XH", "sp78", 2, "GPU %X Heatsink", kSMCKeyGroupTemperature, 3, 1, 2},
     {"TG0P", "sp78", 2, "GPU Proximity", kSMCKeyGroupTemperature, 0, 0, 1},
-    {"TG%XP", "sp78", 2, "GPU %X Proximity", kSMCKeyGroupTemperature, 4, 1, 2},
+    {"TG%XP", "sp78", 2, "GPU %X Proximity", kSMCKeyGroupTemperature, 3, 1, 2},
     {"TG0M", "sp78", 2, "GPU Memory", kSMCKeyGroupTemperature, 0, 0, 1},
-    {"TG%XM", "sp78", 2, "GPU %X Memory", kSMCKeyGroupTemperature, 4, 1, 2},
+    {"TG%XM", "sp78", 2, "GPU %X Memory", kSMCKeyGroupTemperature, 3, 1, 2},
     
     {"Te%XS", "sp78", 2, "PCIe SLot %X", kSMCKeyGroupTemperature, 4, 1, 2}, // ?
     
@@ -139,13 +139,21 @@ const SMCKeyInfo SMCKeyInfoList[] =
     
     
     // TODO: Power
-    {"PC%XC", "fp88", 2, "CPU %X Core", kSMCKeyGroupVoltage, 2, 0, 1}, // ?
-    {"PC%XC", "fp88", 2, "CPU %X Core", kSMCKeyGroupVoltage, 2, 0xA, 1}, // ?
+    {"PC0C", "fp88", 2, "CPU Core", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
+    {"PC%XC", "fp88", 2, "CPU %X Core", kSMCKeyGroupVoltage, 1, 1, 2}, // ?
+    {"PCAC", "fp88", 2, "CPU Core", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
+    {"PC%XC", "fp88", 2, "CPU %X Core", kSMCKeyGroupVoltage, 1, 0xA, 2}, // ?
+    {"PC1R", "fp88", 2, "CPU Rail", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
+    {"PC5R", "fp88", 2, "CPU 1.5V S0 Rail", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
     {"PN0C", "fp88", 2, "Northbridge", kSMCKeyGroupTemperature, 0, 0, 1}, // ?
+    {"PM0R", "fp88", 2, "Memory Rail", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
     {"PM%XS", "fp88", 2, "DIMM Riser %X 12V", kSMCKeyGroupVoltage, 2, 0xA, 1}, // ?
+    {"PC0G", "fp88", 2, "GPU Core", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
+    {"PG0R", "fp88", 2, "GPU Rail", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
     {"Pe%XS", "fp88", 2, "PCIe Slot %X +12V", kSMCKeyGroupTemperature, 4, 1, 1}, // ?
     {"Pe%XS", "fp88", 2, "PCIe Slot Boost %X +12V", kSMCKeyGroupTemperature, 2, 0xA, 1}, // ?
     {"Pp%XC", "fp88", 2, "Power Supply %X", kSMCKeyGroupVoltage, 2, 0, 1}, // ?
+    
 };
 
 #endif
