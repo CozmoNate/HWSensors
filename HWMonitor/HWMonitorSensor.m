@@ -185,7 +185,7 @@
 - (NSString*)formattedValue
 {
     if (_valueHasBeenChanged && _data) {
-        if (_group & kSMARTSensorGroupTemperature) {
+        if (_group & kSMARTGroupTemperature) {
             UInt16 t = 0;
             
             [_data getBytes:&t length:2];
@@ -208,7 +208,7 @@
                 _formattedValue = [NSString stringWithFormat:@"%d°", t];
             }
         }
-        else if (_group & kSMARTSensorGroupRemainingLife) {
+        else if (_group & kSMARTGroupRemainingLife) {
             UInt64 life = 0;
             
             [_data getBytes:&life length:[_data length]];
@@ -219,7 +219,7 @@
             _rawValue = [NSNumber numberWithLongLong:100-life];
             _formattedValue = [NSString stringWithFormat:@"%ld%c",[_rawValue integerValue],0x0025];
         }
-        else if (_group & kSMARTSensorGroupRemainingBlocks) {
+        else if (_group & kSMARTGroupRemainingBlocks) {
             UInt64 blocks = 0;
             
             [_data getBytes:&blocks length:[_data length]];

@@ -77,10 +77,10 @@
 
 - (HWMonitorIcon*)getIconByGroup:(NSUInteger)group
 {
-    if ((group & kHWSensorGroupTemperature) || (group & kSMARTSensorGroupTemperature)) {
+    if ((group & kHWSensorGroupTemperature) || (group & kSMARTGroupTemperature)) {
         return [self getIconByName:kHWMonitorIconTemperatures];
     }
-    else if ((group & kSMARTSensorGroupRemainingLife) || (group & kSMARTSensorGroupRemainingBlocks)) {
+    else if ((group & kSMARTGroupRemainingLife) || (group & kSMARTGroupRemainingBlocks)) {
         return [self getIconByName:kHWMonitorIconSsdLife];
     }
     else if (group & kHWSensorGroupFrequency) {
@@ -132,7 +132,7 @@
     
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.05 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
-    [self performSelector:@selector(rebuildSensorsList) withObject:nil afterDelay:0.0];
+    [self performSelector:@selector(rebuildSensorsList) withObject:nil afterDelay:0.1];
 }
 
 - (void)updateSmartSensors;
@@ -163,7 +163,7 @@
     for (HWMonitorSensor *sensor in sensors) {
         id cell = [_sensorsTableView viewAtColumn:0 row:GetIndexOfItem([sensor name]) makeIfNecessary:NO];
         
-        if ([cell isKindOfClass:[SensorCell class]]) {
+        if (cell && [cell isKindOfClass:[SensorCell class]]) {
             [[cell valueField] setStringValue:[sensor formattedValue]];
         }
     }
@@ -315,12 +315,14 @@
     if ([[_engine sensors] count] > 0) {
         
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupTemperature title:GetLocalizedString(@"TEMPERATURES") image:[self getIconByName:kHWMonitorIconTemperatures]]];
-        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupTemperature title:GetLocalizedString(@"DRIVE TEMPERATURES") image:[self getIconByName:kHWMonitorIconHddTemperatures]]];
-        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupRemainingLife title:GetLocalizedString(@"SSD REMAINING LIFE") image:[self getIconByName:kHWMonitorIconSsdLife]]];
-        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTSensorGroupRemainingBlocks title:GetLocalizedString(@"SSD REMAINING BLOCKS") image:[self getIconByName:kHWMonitorIconSsdLife]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTGroupTemperature title:GetLocalizedString(@"DRIVE TEMPERATURES") image:[self getIconByName:kHWMonitorIconHddTemperatures]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTGroupRemainingLife title:GetLocalizedString(@"SSD REMAINING LIFE") image:[self getIconByName:kHWMonitorIconSsdLife]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kSMARTGroupRemainingBlocks title:GetLocalizedString(@"SSD REMAINING BLOCKS") image:[self getIconByName:kHWMonitorIconSsdLife]]];
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupMultiplier | kHWSensorGroupFrequency title:GetLocalizedString(@"FREQUENCIES") image:[self getIconByName:kHWMonitorIconFrequencies]]];
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupPWM |kHWSensorGroupTachometer title:GetLocalizedString(@"FANS") image:[self getIconByName:kHWMonitorIconTachometers]]];
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupVoltage title:GetLocalizedString(@"VOLTAGES") image:[self getIconByName:kHWMonitorIconVoltages]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupAmperage title:GetLocalizedString(@"AMPERAGES") image:[self getIconByName:kHWMonitorIconVoltages]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupPower title:GetLocalizedString(@"POWERS") image:[self getIconByName:kHWMonitorIconVoltages]]];
         
         [_favorites removeAllObjects];
         

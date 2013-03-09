@@ -45,12 +45,8 @@
 
 @property (readonly) HWMonitorItem *selectedItem;
 
-@property (nonatomic, unsafe_unretained) IBOutlet GraphsView *temperatureGraph;
-@property (nonatomic, unsafe_unretained) IBOutlet GraphsView *frequencyGraph;
-@property (nonatomic, unsafe_unretained) IBOutlet GraphsView *tachometerGraph;
-@property (nonatomic, unsafe_unretained) IBOutlet GraphsView *voltageGraph;
-
 @property (nonatomic, unsafe_unretained) IBOutlet NSTableView *graphsTableView;
+@property (nonatomic, unsafe_unretained) IBOutlet NSCollectionView *graphsCollectionView;
 
 - (void) setupWithGroups:(NSArray*)groups;
 - (void) captureDataToHistoryNow;

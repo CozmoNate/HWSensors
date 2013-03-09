@@ -38,9 +38,9 @@
 #define RightViewMargin 8
 #define BottomViewMargin 8
 
--(id)initWithFrame:(NSRect)frameRect
+-(id)init
 {
-    self = [super initWithFrame:frameRect];
+    self = [super init];
     
     if (self) {
         NSShadow *shadow = [[NSShadow alloc] init];
@@ -61,21 +61,25 @@
     return self;
 }
 
-- (NSArray*)addItemsForSensorGroup:(HWSensorGroup)sensorsGroup fromGroupsList:(NSArray*)groupsList;
+- (NSArray*)addItemsFromList:(NSArray*)itemsList forSensorGroup:(HWSensorGroup)sensorsGroup;
 {
-    group = sensorsGroup;
-    
-    if (group & (kHWSensorGroupTemperature | kSMARTSensorGroupTemperature)) {
+    if (sensorsGroup & (kHWSensorGroupTemperature | kSMARTGroupTemperature)) {
         _legendFormat = @"%1.0f°";
     }
-    else if (group & kHWSensorGroupFrequency) {
+    else if (sensorsGroup & kHWSensorGroupFrequency) {
         _legendFormat = @"%1.0fMHz";
     }
-    else if (group & kHWSensorGroupTachometer) {
+    else if (sensorsGroup & kHWSensorGroupTachometer) {
         _legendFormat = @"%1.0frpm";
     }
-    else if (group & kHWSensorGroupVoltage) {
+    else if (sensorsGroup & kHWSensorGroupVoltage) {
         _legendFormat = @"%1.3fV";
+    }
+    else if (sensorsGroup & kHWSensorGroupAmperage) {
+        _legendFormat = @"%1.3fA";
+    }
+    else if (sensorsGroup & kHWSensorGroupPower) {
+        _legendFormat = @"%1.3fW";
     }
     
     if (!_items) {
@@ -92,23 +96,9 @@
         [_graphs removeAllObjects];
     }
  
-    NSUInteger colorIndex = 2;
-    
-    for (HWMonitorGroup *itemsList in groupsList) {
-        for (HWMonitorItem *item in [itemsList items]) {
-            if ([[item sensor] group] & sensorsGroup) {
-                
-                [item setColor:[[_graphsController colorsList] objectAtIndex:colorIndex++]];
-                
-                if (colorIndex >= [[_graphsController colorsList] count])
-                    colorIndex = 0;
-                
-                HWMonitorSensor *sensor = [item sensor];
-                
-                [_items addObject:item];
-                [_graphs setObject:[[NSMutableArray alloc] init] forKey:[sensor name]];
-            }
-        }
+    for (HWMonitorItem *item in itemsList) {
+        [_items addObject:item];
+        [_graphs setObject:[[NSMutableArray alloc] init] forKey:[[item sensor] name]];
     }
     
     [self calculateGraphBoundsFindExtremes:YES];
@@ -190,13 +180,11 @@
     return NSMakePoint(x, y);
 }
 
-- (void)drawRect:(NSRect)dirtyRect
+- (void)drawRect:(NSRect)rect
 {
     [self calculateGraphBoundsFindExtremes:NO];
     
-    [[[NSGradient alloc]
-     initWithStartingColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.7]
-               endingColor:[NSColor colorWithCalibratedWhite:0.1 alpha:0.7]] drawInRect:[self bounds] angle:270];
+    [[[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.7] endingColor:[NSColor colorWithCalibratedWhite:0.1 alpha:0.7]] drawInRect:NSMakeRect(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width, self.bounds.size.height - 2) angle:270];
     
     //double x, y;
 
@@ -292,11 +280,11 @@
         [context setShouldAntialias:YES];
 
         NSAttributedString *maxExtremeTitle = [[NSAttributedString alloc]
-                                               initWithString:[NSString stringWithFormat:_legendFormat, ((group & kHWSensorGroupTemperature || group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
+                                               initWithString:[NSString stringWithFormat:_legendFormat, ((group & kHWSensorGroupTemperature || group & kSMARTGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
                                                attributes:_legendAttributes];
 
         NSAttributedString *minExtremeTitle = [[NSAttributedString alloc]
-                                     initWithString:[NSString stringWithFormat:_legendFormat, ((group & kHWSensorGroupTemperature || group & kSMARTSensorGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
+                                     initWithString:[NSString stringWithFormat:_legendFormat, ((group & kHWSensorGroupTemperature || group & kSMARTGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
                                      attributes:_legendAttributes];
 
         if ([self graphPointToView:NSMakePoint(0, _maxY)].y + 2 + [maxExtremeTitle size].height > [self graphPointToView:NSMakePoint(0, _graphBounds.origin.y + _graphBounds.size.height)].y || [self graphPointToView:NSMakePoint(0, _minY)].y - [minExtremeTitle size].height < [self graphPointToView:_graphBounds.origin].y) {

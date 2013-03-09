@@ -113,9 +113,9 @@
     //BOOL smartSensor = FALSE;
     
     switch (group) {
-        case kSMARTSensorGroupTemperature:
-        case kSMARTSensorGroupRemainingLife:
-        case kSMARTSensorGroupRemainingBlocks:
+        case kSMARTGroupTemperature:
+        case kSMARTGroupRemainingLife:
+        case kSMARTGroupRemainingBlocks:
             //smartSensor = TRUE;
             break;
             
@@ -170,7 +170,7 @@
     NSData * value = nil;
     
     switch (group) {
-        case kSMARTSensorGroupTemperature:
+        case kSMARTGroupTemperature:
             value = [disk getTemperature];
 
             UInt16 t = 0;
@@ -183,7 +183,7 @@
             
             break;
             
-        case kSMARTSensorGroupRemainingLife:
+        case kSMARTGroupRemainingLife:
             value = [disk getRemainingLife];
             
             UInt64 life = 0;
@@ -195,7 +195,7 @@
             
             break;
             
-        case kSMARTSensorGroupRemainingBlocks:
+        case kSMARTGroupRemainingBlocks:
             value = [disk getRemainingBlocks];
             
             UInt64 blocks = 0;
@@ -273,14 +273,11 @@
 - (void)addSensorsFromSMCKeyGroup:(SMCKeyGroup)fromGroup toHWSensorGroup:(HWSensorGroup)toGroup
 {
     [[self getKeyInfosInGroup:fromGroup] enumerateIndexesWithOptions:NSSortStable usingBlock:^(NSUInteger idx, BOOL *stop) {
-        if (SMCKeyInfoList[idx].limit) {
-            NSUInteger count = SMCKeyInfoList[idx].limit >> 4;
-            NSUInteger offset = SMCKeyInfoList[idx].limit & 0xf;
-            
-            for (NSUInteger index = offset; index < count + offset; index++) {
+        if (SMCKeyInfoList[idx].count) {
+            for (NSUInteger index = 0; index < SMCKeyInfoList[idx].count; index++) {
                 NSString *keyFormat = [NSString stringWithCString:SMCKeyInfoList[idx].key encoding:NSASCIIStringEncoding];
                 NSString *titleFormat = GetLocalizedString([NSString stringWithCString:SMCKeyInfoList[idx].title encoding:NSASCIIStringEncoding]);
-                [self addSensorWithKey:[NSString stringWithFormat:keyFormat, index] title:[NSString stringWithFormat:titleFormat, index + 1] group:toGroup];
+                [self addSensorWithKey:[NSString stringWithFormat:keyFormat, index + SMCKeyInfoList[idx].offset] title:[NSString stringWithFormat:titleFormat, index + SMCKeyInfoList[idx].shift] group:toGroup];
             }
         }
         else {
@@ -308,13 +305,13 @@
             
             if (disk) { 
                 // Hard Drive Temperatures
-                [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupTemperature];
+                [self addSMARTSensorWithGenericDisk:disk group:kSMARTGroupTemperature];
                 
                 if (![disk isRotational]) {
                     // SSD Remaining Life
-                    [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupRemainingLife];
+                    [self addSMARTSensorWithGenericDisk:disk group:kSMARTGroupRemainingLife];
                     // SSD Remaining Blocks
-                    [self addSMARTSensorWithGenericDisk:disk group:kSMARTSensorGroupRemainingBlocks];
+                    [self addSMARTSensorWithGenericDisk:disk group:kSMARTGroupRemainingBlocks];
                 }
             }
         }
@@ -401,6 +398,12 @@
     // Voltages
     [self addSensorsFromSMCKeyGroup:kSMCKeyGroupVoltage toHWSensorGroup:kHWSensorGroupVoltage];
     
+    // Amperages
+    [self addSensorsFromSMCKeyGroup:kSMCKeyGroupAmperage toHWSensorGroup:kHWSensorGroupAmperage];
+    
+    // Powers
+    [self addSensorsFromSMCKeyGroup:kSMCKeyGroupPower toHWSensorGroup:kHWSensorGroupPower];
+    
     [_sensorsLock unlock];
 }
 
@@ -413,15 +416,15 @@
     for (HWMonitorSensor *sensor in [self sensors]) {
         if ([sensor disk]) {
             switch ([sensor group]) {
-                case kSMARTSensorGroupTemperature:
+                case kSMARTGroupTemperature:
                     [sensor setData:[[sensor disk] getTemperature]];
                     break;
                     
-                case kSMARTSensorGroupRemainingLife:
+                case kSMARTGroupRemainingLife:
                     [sensor setData:[[sensor disk] getRemainingLife]];
                     break;
                     
-                case kSMARTSensorGroupRemainingBlocks:
+                case kSMARTGroupRemainingBlocks:
                     [sensor setData:[[sensor disk] getRemainingBlocks]];
                     break;
                         

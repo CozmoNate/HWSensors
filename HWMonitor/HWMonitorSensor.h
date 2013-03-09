@@ -42,9 +42,9 @@ typedef enum {
     kHWSensorGroupAmperage              = 1 << 7,
     kHWSensorGroupPower                 = 1 << 8,
     
-    kSMARTSensorGroupTemperature        = 1 << 9,
-    kSMARTSensorGroupRemainingLife      = 1 << 10,
-    kSMARTSensorGroupRemainingBlocks    = 1 << 11,
+    kSMARTGroupTemperature        = 1 << 9,
+    kSMARTGroupRemainingLife      = 1 << 10,
+    kSMARTGroupRemainingBlocks    = 1 << 11,
 } HWSensorGroup;
 
 typedef enum {

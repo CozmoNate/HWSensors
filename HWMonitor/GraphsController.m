@@ -99,6 +99,40 @@
     return self;
 }
 
+-(void)addGraphForSensorGroup:(HWSensorGroup)sensorsGroup fromGroupsList:(NSArray*)groupsList withTitle:(NSString*)title
+{
+    NSMutableArray *sensorItems = [[NSMutableArray alloc] init];
+    
+    NSUInteger colorIndex = 2;
+    
+    for (HWMonitorGroup *group in groupsList) {
+        for (HWMonitorItem *item in [group items]) {
+            if ([[item sensor] group] & sensorsGroup) {
+                NSColor *color = [_colorsList objectAtIndex:colorIndex++];
+                
+                if (colorIndex >= [_colorsList count])
+                    colorIndex = 0;
+                
+                [item setColor:color];
+                
+                [sensorItems addObject:item];
+            }
+        }
+    }
+    
+    if ([sensorItems count]) {
+        [_items addObject:title];
+        [_items addObjectsFromArray:sensorItems];
+        
+        GraphsView *graph = [[GraphsView alloc] init];
+        
+        [graph addItemsFromList:sensorItems forSensorGroup:sensorsGroup];
+        [graph setGraphsController:self];
+    
+        [_graphViews addObject:graph];
+    }
+}
+
 -(void)setupWithGroups:(NSArray *)groups
 {
     if (!_items) {
@@ -122,36 +156,21 @@
         [_graphViews removeAllObjects];
     }
     
-    [_graphViews addObject:_temperatureGraph];
-    [_graphViews addObject:_frequencyGraph];
-    [_graphViews addObject:_tachometerGraph];
-    [_graphViews addObject:_voltageGraph];
+    [self addGraphForSensorGroup:kHWSensorGroupTemperature | kSMARTGroupTemperature fromGroupsList:groups withTitle:@"TEMPERATURES"];
+    [self addGraphForSensorGroup:kHWSensorGroupFrequency fromGroupsList:groups withTitle:@"FREQUENCIES"];
+    [self addGraphForSensorGroup:kHWSensorGroupTachometer fromGroupsList:groups withTitle:@"FANS"];
+    [self addGraphForSensorGroup:kHWSensorGroupVoltage fromGroupsList:groups withTitle:@"VOLTAGES"];
+    [self addGraphForSensorGroup:kHWSensorGroupAmperage fromGroupsList:groups withTitle:@"AMPERAGES"];
+    [self addGraphForSensorGroup:kHWSensorGroupPower fromGroupsList:groups withTitle:@"POWERS"];
     
-    NSArray *list = nil;
+    [_graphsCollectionView setContent:_graphViews];
     
-    list = [_temperatureGraph addItemsForSensorGroup:kHWSensorGroupTemperature | kSMARTSensorGroupTemperature fromGroupsList:groups];
-    if ([list count]) {
-        [_items addObject:@"TEMPERATURES"];
-        [_items addObjectsFromArray:list];
-    }
+    [_graphsCollectionView setMinItemSize:NSMakeSize(0, 120)];
+    [_graphsCollectionView setMaxItemSize:NSMakeSize(0, 0)];
     
-    list = [_frequencyGraph addItemsForSensorGroup:kHWSensorGroupFrequency fromGroupsList:groups];
-    if ([list count]) {
-        [_items addObject:@"FREQUENCIES"];
-        [_items addObjectsFromArray:list];
-    }
-    
-    list = [_tachometerGraph addItemsForSensorGroup:kHWSensorGroupTachometer fromGroupsList:groups];
-    if ([list count]) {
-        [_items addObject:@"FANS"];
-        [_items addObjectsFromArray:list];
-    }
-    
-    list = [_voltageGraph addItemsForSensorGroup:kHWSensorGroupVoltage fromGroupsList:groups];
-    if ([list count]) {
-        [_items addObject:@"VOLTAGES"];
-        [_items addObjectsFromArray:list];
-    }
+    [[_graphsCollectionView content] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [[_graphsCollectionView itemAtIndex:idx] setView:obj];
+    }];
 }
 
 - (void) captureDataToHistoryNow
@@ -224,10 +243,10 @@
     return ![[_items objectAtIndex:row] isKindOfClass:[NSString class]];
 }
 
-/*-(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
-{
-    return [[_items objectAtIndex:row] isKindOfClass:[NSString class]];
-}*/
+//-(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
+//{
+//    return [[_items objectAtIndex:row] isKindOfClass:[NSString class]];
+//}
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
@@ -243,7 +262,7 @@
     else if ([item isKindOfClass:[HWMonitorItem class]]) {
         SensorCell *sensorCell = nil;
         
-        if (([[item sensor] group] & kHWSensorGroupTemperature) || ([[item sensor] group] & kSMARTSensorGroupTemperature)) {
+        if (([[item sensor] group] & kHWSensorGroupTemperature) || ([[item sensor] group] & kSMARTGroupTemperature)) {
             sensorCell = [tableView makeViewWithIdentifier:@"Temperature" owner:self];
         }
         else {
@@ -254,7 +273,11 @@
         
         [[sensorCell textField] setStringValue:GetLocalizedString([sensor title])];
         [[sensorCell valueField] setStringValue:[sensor formattedValue]];
-        [[sensorCell colorWell] setColor:[item color]];
+        
+        if ([item color] == nil) {
+            NSLog(@"No color for key %@", [sensor name]);
+        }
+        else [[sensorCell colorWell] setColor:[item color]];
         [[sensorCell checkBox] setState:![self checkItemIsHidden:item]];
         [[sensorCell checkBox] setTag:[_items indexOfObject:item]];
         

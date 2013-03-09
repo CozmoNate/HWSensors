@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ArrowlessScroller : NSScroller
+@interface KnobScroller : NSScroller
 
 @end

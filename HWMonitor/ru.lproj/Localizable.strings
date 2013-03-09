@@ -13,6 +13,8 @@
 "MULTIPLIERS" = "МНОЖИТЕЛИ";
 "FREQUENCIES" = "ЧАСТОТЫ";
 "VOLTAGES" = "ДАТЧИКИ НАПРЯЖЕНИЯ";
+"AMPERAGES" = "ДАТЧИКИ СИЛЫ ТОКА";
+"POWERS" = "ДАТЧИКИ МОЩНОСТИ";
 "FANS" = "ОБОРОТЫ ВЕНТИЛЯТОРОВ";
 "Quit HWMonitor" = "Закрыть HWMonitor";
 "No sensors found" = "Нет доступных сенсоров";
@@ -113,8 +115,10 @@
 "PECI SA" = "PECI SA";
 "PECI GPU" = "PECI Видеоядро";
 
-"Northbridge" = "Северный мост";
-"Northbridge %X" = "Северный мост %X";
+"Northbridge Die" = "Северный мост";
+"Northbridge %X Die" = "Северный мост %X";
+"Northbridge Proximity" = "Датчик северного моста";
+"Northbridge %X Proximity" = "Датчик северного моста %X";
 "MCH Die" = "Ядро MCP";
 "MCH Heatsink" = "Радиатор MCP";
 "MCP Internal Die" = "Кристалл MCP";

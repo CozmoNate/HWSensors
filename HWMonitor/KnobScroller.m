@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import "ArrowlessScroller.h"
+#import "KnobScroller.h"
 
-@implementation ArrowlessScroller
+@implementation KnobScroller
 
 - (id)initWithFrame:(NSRect)frame
 {

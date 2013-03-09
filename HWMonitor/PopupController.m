@@ -472,7 +472,7 @@
         
         SensorCell *sensorCell = nil;
         
-        if (([sensor group] & kHWSensorGroupTemperature) || ([sensor group] & kSMARTSensorGroupTemperature)) {
+        if (([sensor group] & kHWSensorGroupTemperature) || ([sensor group] & kSMARTGroupTemperature)) {
             sensorCell = [tableView makeViewWithIdentifier:@"Temperature" owner:self];
         }
         else {

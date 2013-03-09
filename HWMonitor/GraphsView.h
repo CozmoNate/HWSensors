@@ -50,7 +50,7 @@
 @property (nonatomic, setter = setUseFahrenheit:) BOOL useFahrenheit;
 @property (nonatomic, setter = setUseSmoothing:) BOOL useSmoothing;
 
-- (NSArray*)addItemsForSensorGroup:(HWSensorGroup)sensorsGroup fromGroupsList:(NSArray*)groupsList;
+- (NSArray*)addItemsFromList:(NSArray*)itemsList forSensorGroup:(HWSensorGroup)sensorsGroup;
 - (void)calculateGraphBoundsFindExtremes:(BOOL)findExtremes;
 - (void)captureDataToHistoryNow;
 
