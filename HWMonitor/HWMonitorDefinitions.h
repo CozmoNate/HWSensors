@@ -9,7 +9,7 @@
 #ifndef HWSensors_HWMonitorDefinitions_h
 #define HWSensors_HWMonitorDefinitions_h
 
-#define kHWMonitorButtonsHeight             35
+#define kHWMonitorToolbarHeight             35
 #define kHWMonitorGroupHeight               19
 #define kHWMonitorSensorHeight              17
 #define kHWMonitorSubtitledHeight           28

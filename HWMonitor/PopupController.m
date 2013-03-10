@@ -337,8 +337,8 @@
 {
     _items = [[NSMutableArray alloc] init];
     
-    // Add special control buttons item
-    [_items addObject:@"Buttons"];
+    // Add special toolbar item
+    [_items addObject:@"Toolbar"];
     
     if ([groups count] > 0) {
         for (HWMonitorGroup *group in groups) {
@@ -366,7 +366,7 @@
     
     // Make window height small
     NSRect panelRect = [[self window] frame];
-    panelRect.size.height = ARROW_HEIGHT + kHWMonitorButtonsHeight;
+    panelRect.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight;
     [[self window] setFrame:panelRect display:NO];
     
     // Resize panel height to fit all table view content
@@ -440,8 +440,8 @@
             return kHWMonitorSensorHeight;
         }
     }
-    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Buttons"]) {
-        return kHWMonitorButtonsHeight;
+    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
+        return kHWMonitorToolbarHeight;
     }
 
     return  kHWMonitorSensorHeight;
@@ -495,8 +495,8 @@
         
         return sensorCell;
     }
-    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Buttons"]) {
-        NSTableCellView *buttonsCell = [tableView makeViewWithIdentifier:@"Buttons" owner:self];
+    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
+        NSTableCellView *buttonsCell = [tableView makeViewWithIdentifier:@"Toolbar" owner:self];
         
         [buttonsCell.textField setTextColor:_colorTheme.barTitleColor];
         

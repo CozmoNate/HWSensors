@@ -48,7 +48,7 @@
         // Header
         
         NSRect headerRect = contentRect;
-        headerRect.size.height = kHWMonitorButtonsHeight + ARROW_HEIGHT - LINE_THICKNESS * 3; // Buttons row height
+        headerRect.size.height = kHWMonitorToolbarHeight + ARROW_HEIGHT - LINE_THICKNESS * 3; // toolbar row height
         headerRect.origin.y = contentRect.size.height - headerRect.size.height;
         
         _headerPath = [NSBezierPath bezierPath];
