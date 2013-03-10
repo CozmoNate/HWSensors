@@ -41,30 +41,16 @@ struct FakeSMCSensorParams {
     UInt8       size;
 };
 
-#define FakeSMCTemperatureCount 20
+#define FakeSMCTemperatureCount 6
 
 const struct FakeSMCSensorParams FakeSMCTemperature[FakeSMCTemperatureCount] =
 {
     {"CPU", KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
     {"CPU Proximity", KEY_CPU_PROXIMITY_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
-    {"System", KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
+    {"System", KEY_MAINBOARD_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
     {"PCH", KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Northbridge", KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
     {"Ambient", KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient 1", "TA1P", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient 2", "TA2P", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient 3", "TA3P", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient 4", "TA4P", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient 5", "TA5P", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient 6", "TA6P", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient 7", "TA7P", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient 8", "TA8P", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient 9", "TA9P", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient A", "TAAP", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient B", "TABP", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient C", "TACP", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient D", "TADP", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient E", "TAEP", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient F", "TAFP", TYPE_SP78, TYPE_SPXX_SIZE},
 };
 
 #define FakeSMCVoltageCount 42

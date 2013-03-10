@@ -20,8 +20,8 @@
     ColorTheme *theme = [[ColorTheme alloc] init];
     theme.name = @"Default";
     
-    theme.barBackgroundEndColor = [NSColor colorWithCalibratedRed:0.0 green:0.2 blue:1.0 alpha:FILL_OPACITY];
-    theme.barBackgroundStartColor = [theme.barBackgroundEndColor highlightWithLevel:0.7];
+    theme.barBackgroundEndColor = [NSColor colorWithCalibratedRed:0.1 green:0.3 blue:1.0 alpha:FILL_OPACITY];
+    theme.barBackgroundStartColor = [theme.barBackgroundEndColor highlightWithLevel:0.8];
     theme.barTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
     theme.barPathColor = [NSColor colorWithCalibratedRed:0.3 green:0.3 blue:0.4 alpha:STROKE_OPACITY];
     
@@ -43,8 +43,9 @@
     theme = [[ColorTheme alloc] init];
     theme.name = @"Gray";
     
-    theme.barBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.5 alpha:FILL_OPACITY];
-    theme.barBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
+    theme.barBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.6 alpha:FILL_OPACITY];
+    theme.barBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.15 alpha:FILL_OPACITY];
+    
     theme.barTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
     theme.barPathColor = [NSColor colorWithCalibratedWhite:0.0 alpha:FILL_OPACITY];
     

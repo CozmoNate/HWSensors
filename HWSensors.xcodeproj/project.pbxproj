@@ -234,6 +234,11 @@
 		7EBCF8791615A84C00E16D3B /* timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
 		7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PTIDSensors.cpp; sourceTree = "<group>"; };
 		7EBEC2A215E78B7B00537027 /* PTIDSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTIDSensors.h; sourceTree = "<group>"; };
+		7EFAE8FF16EBC8AD00F4DA72 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		7EFAE90116EBC8AD00F4DA72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		7EFAE90416EBC8AD00F4DA72 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		7EFAE90516EBC8AD00F4DA72 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		7EFAE90616EBC8AD00F4DA72 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +313,9 @@
 				6A9F7268150A23C600279E79 /* Kernel.framework */,
 				6A10C18F1506B2A4005E0897 /* IOKit.framework */,
 				7E40054E1585031B009AECED /* CoreData.framework */,
+				7EFAE8FF16EBC8AD00F4DA72 /* SenTestingKit.framework */,
+				7EFAE90116EBC8AD00F4DA72 /* Cocoa.framework */,
+				7EFAE90316EBC8AD00F4DA72 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -696,6 +704,16 @@
 				7EBCF8791615A84C00E16D3B /* timer.h */,
 			);
 			name = Kernel;
+			sourceTree = "<group>";
+		};
+		7EFAE90316EBC8AD00F4DA72 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7EFAE90416EBC8AD00F4DA72 /* AppKit.framework */,
+				7EFAE90516EBC8AD00F4DA72 /* CoreData.framework */,
+				7EFAE90616EBC8AD00F4DA72 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

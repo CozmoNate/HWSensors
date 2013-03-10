@@ -33,11 +33,11 @@ typedef struct {
 const SMCKeyInfo SMCKeyInfoList[] =
 {
     // Temperature
-    {"TA0P", "sp78", 2, "Ambient", kSMCKeyGroupTemperature, 0, 0, 1},
+    {"TA0p", "sp78", 2, "Ambient", kSMCKeyGroupTemperature, 0, 0, 1},
     
     {"TC%XD", "sp78", 2, "CPU Die %X", kSMCKeyGroupTemperature, 8, 0, 1},
-    
     {"TC%XD", "sp78", 2, "CPU %X", kSMCKeyGroupTemperature, 2, 0xA, 1},
+    
     {"TC0H", "sp78", 2, "CPU Heatsink", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TC%XH", "sp78", 2, "CPU %X Heatsink", kSMCKeyGroupTemperature, 1, 1, 2},
     {"TCAH", "sp78", 2, "CPU Heatsink", kSMCKeyGroupTemperature, 0, 0, 1},
@@ -134,25 +134,29 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"VS%XC", "sp4b", 2, "VRM Supply %X", kSMCKeyGroupVoltage, 0xf, 0, 1}, // ?
     {"Vp%XC", "sp4b", 2, "Power Supply %X", kSMCKeyGroupVoltage, 0xf, 0, 1}, // ?
     
-    // TODO: Amperage
+    // Amperage
+    {"IC0C", "sp78", 2, "CPU Core", kSMCKeyGroupAmperage, 0, 0, 1}, // ?
+    {"IC%XC", "sp78", 2, "CPU %X Core", kSMCKeyGroupAmperage, 1, 1, 2}, // ?
+    {"IC0G", "sp69", 2, "GPU Core", kSMCKeyGroupAmperage, 0, 0, 1}, // ?
+    {"IM0R", "sp5a", 2, "Memory Core", kSMCKeyGroupAmperage, 0, 0, 1}, // ?
+    {"IW0E", "sp5a", 2, "Airport Rail", kSMCKeyGroupAmperage, 0, 0, 1}, // ?
     
     
-    
-    // TODO: Power
-    {"PC0C", "fp88", 2, "CPU Core", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
-    {"PC%XC", "fp88", 2, "CPU %X Core", kSMCKeyGroupVoltage, 1, 1, 2}, // ?
-    {"PCAC", "fp88", 2, "CPU Core", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
-    {"PC%XC", "fp88", 2, "CPU %X Core", kSMCKeyGroupVoltage, 1, 0xA, 2}, // ?
-    {"PC1R", "fp88", 2, "CPU Rail", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
-    {"PC5R", "fp88", 2, "CPU 1.5V S0 Rail", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
-    {"PN0C", "fp88", 2, "Northbridge", kSMCKeyGroupTemperature, 0, 0, 1}, // ?
-    {"PM0R", "fp88", 2, "Memory Rail", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
-    {"PM%XS", "fp88", 2, "DIMM Riser %X 12V", kSMCKeyGroupVoltage, 2, 0xA, 1}, // ?
-    {"PC0G", "fp88", 2, "GPU Core", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
-    {"PG0R", "fp88", 2, "GPU Rail", kSMCKeyGroupVoltage, 0, 0, 1}, // ?
-    {"Pe%XS", "fp88", 2, "PCIe Slot %X +12V", kSMCKeyGroupTemperature, 4, 1, 1}, // ?
-    {"Pe%XS", "fp88", 2, "PCIe Slot Boost %X +12V", kSMCKeyGroupTemperature, 2, 0xA, 1}, // ?
-    {"Pp%XC", "fp88", 2, "Power Supply %X", kSMCKeyGroupVoltage, 2, 0, 1}, // ?
+    // Power
+    {"PC0C", "sp96", 2, "CPU Core", kSMCKeyGroupPower, 0, 0, 1}, // ?
+    {"PC%XC", "sp96", 2, "CPU %X Core", kSMCKeyGroupPower, 1, 1, 2}, // ?
+    {"PCAC", "sp96", 2, "CPU Core", kSMCKeyGroupPower, 0, 0, 1}, // ?
+    {"PC%XC", "sp96", 2, "CPU %X Core", kSMCKeyGroupPower, 1, 0xA, 2}, // ?
+    {"PC1R", "sp96", 2, "CPU Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
+    {"PC5R", "sp96", 2, "CPU 1.5V S0 Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
+    {"PN0C", "sp96", 2, "Northbridge", kSMCKeyGroupPower, 0, 0, 1}, // ?
+    {"PM0R", "sp96", 2, "Memory Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
+    {"PM%XS", "sp96", 2, "DIMM Riser %X 12V", kSMCKeyGroupPower, 2, 0xA, 1}, // ?
+    {"PC0G", "sp96", 2, "GPU Core", kSMCKeyGroupPower, 0, 0, 1}, // ?
+    {"PG0R", "sp96", 2, "GPU Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
+    {"Pe%XS", "sp96", 2, "PCIe Slot %X +12V", kSMCKeyGroupPower, 4, 1, 1}, // ?
+    {"Pe%XS", "sp96", 2, "PCIe Slot Boost %X +12V", kSMCKeyGroupPower, 2, 0xA, 1}, // ?
+    {"Pp%XC", "sp96", 2, "Power Supply %X", kSMCKeyGroupPower, 2, 0, 1}, // ?
     
 };
 

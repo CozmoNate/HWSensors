@@ -45,7 +45,6 @@
 #define KEY_MCH_DIODE_TEMPERATURE               "TN0C"
 #define KEY_MCH_HEATSINK_TEMPERATURE            "TN0H"
 
-
 #define KEY_MCP_INTERNAL_DIE_TEMPERATURE        "TN1D"
 #define KEY_MCP_PROXIMITY_TEMPERATURE           "TM0P"
 
@@ -56,6 +55,8 @@
 
 #define KEY_PCH_DIE_TEMPERATURE                 "TPCD" // SNB PCH Die Digital
 #define KEY_PCH_PROXIMITY_TEMPERATURE           "TP0P" // SNB
+
+#define KEY_MAINBOARD_TEMPERATURE               "Tm0P"
 
 // Misc
 #define KEY_FORMAT_ACDC_TEMPERATURE             "Tp%XC" // PSMI Supply AC/DC Supply 1

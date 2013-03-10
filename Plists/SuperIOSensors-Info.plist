@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.1.32</string>
+	<string>5.1.34</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -2690,7 +2690,16 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string></string>
+						<dict>
+							<key>gain</key>
+							<integer>1543</integer>
+							<key>name</key>
+							<string>Standby 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
 						<key>VIN6</key>
 						<string></string>
 						<key>VIN7</key>

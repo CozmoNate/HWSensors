@@ -3,4 +3,5 @@
 *.menu
 *.kext
 *.pkg
+*.octest
 xcuserdata
