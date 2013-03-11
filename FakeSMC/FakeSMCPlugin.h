@@ -132,7 +132,7 @@ public:
     float               getGain();
     float               getOffset();
     
-    void                encodeValue(float value, void *outBuffer);
+    void                encodeNumericValue(float value, void *outBuffer);
 };
 
 class FakeSMCPlugin : public IOService {

@@ -111,7 +111,7 @@ inline UInt8 get_index(char c)
 	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
 }
 
-void FakeSMCSensor::encodeValue(float value, void *outBuffer)
+void FakeSMCSensor::encodeNumericValue(float value, void *outBuffer)
 {
     if ((type[0] == 'u' || type[0] == 's') && type[1] == 'i') {
         
@@ -157,8 +157,7 @@ void FakeSMCSensor::encodeValue(float value, void *outBuffer)
 
         if (i + f == (signd ? 15 : 16)) {
             if (minus) value = -value;
-            for (UInt8 shift = 0; shift < f; shift++) value *= 2;
-            UInt16 encoded = value;
+            UInt16 encoded = value * (float)BIT(f);
             if (signd) bit_write(minus, encoded, BIT(15));
             OSWriteBigInt16(outBuffer, 0, encoded);
         }
@@ -465,7 +464,7 @@ IOReturn FakeSMCPlugin::callPlatformFunction(const OSSymbol *functionName, bool 
             if (name && data)
                 if (FakeSMCSensor *sensor = getSensor(name))
                     if (size == sensor->getSize()) {
-                        sensor->encodeValue(getSensorValue(sensor), data);
+                        sensor->encodeNumericValue(getSensorValue(sensor), data);
                         return kIOReturnSuccess;
                     }
         }

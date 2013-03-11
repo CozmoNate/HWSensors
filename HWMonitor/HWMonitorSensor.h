@@ -39,7 +39,7 @@ typedef enum {
     kHWSensorGroupTachometer            = 1 << 4,
     kHWSensorGroupMultiplier            = 1 << 5,
     kHWSensorGroupFrequency             = 1 << 6,
-    kHWSensorGroupAmperage              = 1 << 7,
+    kHWSensorGroupCurrent              = 1 << 7,
     kHWSensorGroupPower                 = 1 << 8,
     
     kSMARTGroupTemperature        = 1 << 9,

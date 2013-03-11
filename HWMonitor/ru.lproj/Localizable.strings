@@ -13,7 +13,7 @@
 "MULTIPLIERS" = "МНОЖИТЕЛИ";
 "FREQUENCIES" = "ЧАСТОТЫ";
 "VOLTAGES" = "ДАТЧИКИ НАПРЯЖЕНИЯ";
-"AMPERAGES" = "ДАТЧИКИ СИЛЫ ТОКА";
+"CURRENTS" = "ДАТЧИКИ СИЛЫ ТОКА";
 "POWERS" = "ДАТЧИКИ МОЩНОСТИ";
 "FANS" = "ОБОРОТЫ ВЕНТИЛЯТОРОВ";
 "Quit HWMonitor" = "Закрыть HWMonitor";
@@ -131,10 +131,10 @@
 "MCP Internal Die" = "Кристалл контроллера памяти";
 "PCH Die" = "Ядро системного контроллера";
 "PCH Proximity" = "Датчик системного контроллера";
-"Mainboard" = "Материнская плата";
+"Mainboard Proximity" = "Материнская плата";
 "LCD Proximity" = "Датчик ЖКЭ";
 "Airport Proximity" = "Датчик Airport";
-"Power Supply Proximity" = "Источник питания";
+"Powerboard Proximity" = "Источник питания";
 
 "Memory Bank %X" = "Слот памяти %X";
 "Memory Module %X" = "Модуль памяти %X";

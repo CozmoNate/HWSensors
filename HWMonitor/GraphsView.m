@@ -75,7 +75,7 @@
     else if (sensorsGroup & kHWSensorGroupVoltage) {
         _legendFormat = @"%1.3fV";
     }
-    else if (sensorsGroup & kHWSensorGroupAmperage) {
+    else if (sensorsGroup & kHWSensorGroupCurrent) {
         _legendFormat = @"%1.3fA";
     }
     else if (sensorsGroup & kHWSensorGroupPower) {

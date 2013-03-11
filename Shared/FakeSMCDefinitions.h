@@ -53,7 +53,7 @@
 #define KEY_NORTHBRIDGE_TEMPERATURE             "TN0D"
 #define KEY_FORMAT_NORTHBRIDGE_TEMPERATURE      "TN%XD"
 
-#define KEY_PCH_DIE_TEMPERATURE                 "TPCD" // SNB PCH Die Digital
+#define KEY_PCH_DIE_TEMPERATURE                 "TP0D" // SNB PCH Die Digital
 #define KEY_PCH_PROXIMITY_TEMPERATURE           "TP0P" // SNB
 
 #define KEY_MAINBOARD_TEMPERATURE               "Tm0P"
@@ -62,7 +62,7 @@
 #define KEY_FORMAT_ACDC_TEMPERATURE             "Tp%XC" // PSMI Supply AC/DC Supply 1
 #define KEY_AMBIENT_TEMPERATURE                 "TA0P"
 #define KEY_FORMAT_AMBIENT_TEMPERATURE          "TA%XP"
-#define KEY_MLB_PROXIMITY_TEMPERATURE           "Tm1P" // MLB Proximity/DC In Proximity Airflow
+#define KEY_MLB_PROXIMITY_TEMPERATURE           "Tm0p" // MLB Proximity/DC In Proximity Airflow
 #define KEY_FORMAT_AIRVENT_TEMPERATURE          "TV%XP" // Air Vent Exit
 #define KEY_FORMAT_AIRPORT_TEMPERATURE          "TW%XP"
 #define KEY_FORMAT_DIMM_TEMPERATURE             "TM%XS" // FB-DIMM Slot

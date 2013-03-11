@@ -398,8 +398,8 @@
     // Voltages
     [self addSensorsFromSMCKeyGroup:kSMCKeyGroupVoltage toHWSensorGroup:kHWSensorGroupVoltage];
     
-    // Amperages
-    [self addSensorsFromSMCKeyGroup:kSMCKeyGroupAmperage toHWSensorGroup:kHWSensorGroupAmperage];
+    // Currents
+    [self addSensorsFromSMCKeyGroup:kSMCKeyGroupCurrent toHWSensorGroup:kHWSensorGroupCurrent];
     
     // Powers
     [self addSensorsFromSMCKeyGroup:kSMCKeyGroupPower toHWSensorGroup:kHWSensorGroupPower];

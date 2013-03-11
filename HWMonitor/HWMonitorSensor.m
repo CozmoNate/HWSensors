@@ -287,6 +287,14 @@
             _rawValue = [NSNumber numberWithFloat:[self decodeNumericValue]];
             _formattedValue = [NSString stringWithFormat:@"%1.3fV", [_rawValue floatValue]];
         }
+        else if (_group & kHWSensorGroupCurrent) {
+            _rawValue = [NSNumber numberWithFloat:[self decodeNumericValue]];
+            _formattedValue = [NSString stringWithFormat:@"%1.3fA", [_rawValue floatValue]];
+        }
+        else if (_group & kHWSensorGroupPower) {
+            _rawValue = [NSNumber numberWithFloat:[self decodeNumericValue]];
+            _formattedValue = [NSString stringWithFormat:@"%1.3fW", [_rawValue floatValue]];
+        }
         else {
             _rawValue = [NSNumber numberWithInt:0];
             _formattedValue = @"-";
