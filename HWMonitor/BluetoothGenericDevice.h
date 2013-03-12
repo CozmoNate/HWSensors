@@ -8,6 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BluetoothReporter : NSObject
+typedef enum
+{
+    kBluetoothDeviceTypeNone,
+    kBluetoothDeviceTypeMouse,
+    kBluetoothDeviceTypeKeyboard
+} BluetoothDeviceType;
+
+@interface BluetoothGenericDevice : NSObject
+
+@property (readonly) BluetoothDeviceType deviceType;
+
++ (BluetoothGenericDevice*)bluetoothReporterByDiscoveringDeviceType:(BluetoothDeviceType)type;
+
+- (NSData*)getBatteryLevel;
+- (void)discoverDeviceType:(BluetoothDeviceType)type;
 
 @end

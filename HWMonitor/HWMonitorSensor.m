@@ -191,7 +191,7 @@
             [_data getBytes:&t length:2];
             
             if (_level != kHWSensorLevelExceeded) {                
-                if ([_disk isRotational]) {
+                if ([_genericDevice isRotational]) {
                     [self setLevel:t >= 55 ? kHWSensorLevelExceeded : t >= 50 ? kHWSensorLevelHigh : t >= 40 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
                 }
                 else {

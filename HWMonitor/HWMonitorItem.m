@@ -57,7 +57,6 @@
     //[self setTitle:[_sensor title]];
     
     _isVisible = YES;
-    _isFavorite = NO;
     
     return self;
 }

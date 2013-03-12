@@ -39,7 +39,6 @@
 @property (readonly) HWMonitorGroup* group;
 
 @property (nonatomic, setter = setVisible:) BOOL isVisible;
-@property (nonatomic, setter = setFavorite:) BOOL isFavorite;
 @property (nonatomic, strong) NSColor *color;
 
 + (HWMonitorItem*)itemWithGroup:(HWMonitorGroup*)group sensor:(HWMonitorSensor*)sensor;

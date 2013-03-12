@@ -54,6 +54,62 @@
 
 @implementation AppController
 
+- (id)init
+{
+    self = [super init];
+    
+    if (self) {
+        _sensorsLock = [[NSLock alloc] init];
+    }
+
+    return self;
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+    _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
+    
+    // Call undocumented function
+    [[NSUserDefaultsController sharedUserDefaultsController] _setDefaults:_defaults];
+    
+    [self loadIconNamed:kHWMonitorIconDefault];
+    [self loadIconNamed:kHWMonitorIconThermometer];
+    [self loadIconNamed:kHWMonitorIconDevice];
+    [self loadIconNamed:kHWMonitorIconTemperatures];
+    [self loadIconNamed:kHWMonitorIconHddTemperatures];
+    [self loadIconNamed:kHWMonitorIconSsdLife];
+    [self loadIconNamed:kHWMonitorIconMultipliers];
+    [self loadIconNamed:kHWMonitorIconFrequencies];
+    [self loadIconNamed:kHWMonitorIconTachometers];
+    [self loadIconNamed:kHWMonitorIconVoltages];
+    
+    _colorThemes = [ColorTheme createColorThemes];
+    
+    [_popupController setColorTheme:[_colorThemes objectAtIndex:[_defaults integerForKey:kHWMonitorColorThemeIndex]]];
+    
+    [self updateRateChanged:nil];
+    
+    [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
+    [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationCopy forLocal:YES];
+    
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(updateLoop)]];
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(updateLoop)];
+    
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.05 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    
+    [self performSelector:@selector(rebuildSensorsList) withObject:nil afterDelay:0.0];
+    
+    //[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(drivesChanged:) name:NSWorkspaceDidMountNotification object:nil];
+	//[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(drivesChanged:) name:NSWorkspaceDidUnmountNotification object:nil];
+}
+
+-(void)dealloc
+{
+    //[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceDidMountNotification object:nil];
+	//[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceDidUnmountNotification object:nil];
+}
+
 - (void)loadIconNamed:(NSString*)name
 {
     if (!_icons)
@@ -99,58 +155,28 @@
     return nil;
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-    _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
-    
-    // Call undocumented function
-    [[NSUserDefaultsController sharedUserDefaultsController] _setDefaults:_defaults];
-    
-    [self loadIconNamed:kHWMonitorIconDefault];
-    [self loadIconNamed:kHWMonitorIconThermometer];
-    [self loadIconNamed:kHWMonitorIconDevice];
-    [self loadIconNamed:kHWMonitorIconTemperatures];
-    [self loadIconNamed:kHWMonitorIconHddTemperatures];
-    [self loadIconNamed:kHWMonitorIconSsdLife];
-    [self loadIconNamed:kHWMonitorIconMultipliers];
-    [self loadIconNamed:kHWMonitorIconFrequencies];
-    [self loadIconNamed:kHWMonitorIconTachometers];
-    [self loadIconNamed:kHWMonitorIconVoltages];
-    
-    _colorThemes = [ColorTheme createColorThemes];
-    
-    [_popupController setColorTheme:[_colorThemes objectAtIndex:[_defaults integerForKey:kHWMonitorColorThemeIndex]]];
-    
-    [self updateRateChanged:nil];
-    
-    [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
-    [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationCopy forLocal:YES];
-    
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(updateLoop)]];
-    [invocation setTarget:self];
-    [invocation setSelector:@selector(updateLoop)];
-    
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.05 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
-    
-    [self performSelector:@selector(rebuildSensorsList) withObject:nil afterDelay:0.1];
-}
-
 - (void)updateSmartSensors;
 {
+    [_sensorsLock lock];
     NSArray *updatedSensors = [_engine updateSmartSensors];
     [self updateValuesForSensors:updatedSensors];
+    [_sensorsLock unlock];
 }
 
 - (void)updateSmcSensors
 {
+    [_sensorsLock lock];
     NSArray *updatedSensors = [_engine updateSmcSensors];    
     [self updateValuesForSensors:updatedSensors];
+    [_sensorsLock unlock];
 }
 
 - (void)updateFavoritesSensors
 {
+    [_sensorsLock lock];
     NSArray *updatedSensors = [_engine updateSmcSensorsList:_favorites];
     [self updateValuesForSensors:updatedSensors];
+    [_sensorsLock unlock];
 }
 
 - (void)captureDataToHistory
@@ -160,8 +186,12 @@
 
 - (void)updateValuesForSensors:(NSArray*)sensors
 {
+    //[_sensorsTableView reloadData];
+    
     for (HWMonitorSensor *sensor in sensors) {
-        id cell = [_sensorsTableView viewAtColumn:0 row:GetIndexOfItem([sensor name]) makeIfNecessary:NO];
+        NSUInteger index = GetIndexOfItem([sensor name]);
+        
+        id cell = [_sensorsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
         
         if (cell && [cell isKindOfClass:[SensorCell class]]) {
             [[cell valueField] setStringValue:[sensor formattedValue]];
@@ -283,6 +313,8 @@
 
 - (void)rebuildSensorsList
 {
+    [_sensorsLock lock];
+    
     if (!_engine) {
         _engine = [[HWMonitorEngine alloc] initWithBundle:[NSBundle mainBundle]];
         [[_popupController statusItemView] setEngine:_engine];
@@ -368,7 +400,7 @@
     
     [self rebuildSensorsTableView];
     
-    //[self itemsRequested:nil];
+    [_sensorsLock unlock];
 }
 
 - (IBAction)toggleSensorVisibility:(id)sender

@@ -56,12 +56,12 @@
     NSArray* sensors = [_engine getAllSensorsInGroup:group];
     
     if (sensors) {
-        NSArray *favorites = [[NSUserDefaults standardUserDefaults] arrayForKey:kHWMonitorFavoritesList];
+        //NSArray *favorites = [[NSUserDefaults standardUserDefaults] arrayForKey:kHWMonitorFavoritesList];
         
         for (HWMonitorSensor *sensor in sensors) {
             HWMonitorItem *monitorItem = [HWMonitorItem itemWithGroup:self sensor:sensor];
 
-            [monitorItem setFavorite:favorites ? [favorites containsObject:[sensor name]] : NO];
+            //[monitorItem setFavorite:favorites ? [favorites containsObject:[sensor name]] : NO];
             
             [_items addObject:monitorItem];
         }

@@ -76,8 +76,8 @@
         _useBSDNames = useBSDNames;
         
         for (HWMonitorSensor *sensor in [self sensors])
-            if ([sensor disk])
-                [sensor setTitle:_useBSDNames ? [[sensor disk] bsdName] : [[[sensor disk] productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+            if ([sensor genericDevice])
+                [sensor setTitle:_useBSDNames ? [[sensor genericDevice] bsdName] : [[[sensor genericDevice] productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     //}
 }
 
@@ -212,10 +212,27 @@
         HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%lx", [disk serialNumber], group] title:_useBSDNames ? [disk bsdName] : [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
         
         [sensor setData:value];
-        [sensor setDisk:disk];
+        [sensor setGenericDevice:disk];
         if ([disk isExceeded]) [sensor setLevel:kHWSensorLevelExceeded];
         
         return sensor;
+    }
+    
+    return nil;
+}
+
+- (HWMonitorSensor*)addBluetoothSensorWithGenericDevice:(BluetoothGenericDevice*)device group:(NSUInteger)group
+{
+    NSData *level = [device getBatteryLevel];
+    
+    if (level) {
+        /*HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%lx", [disk serialNumber], group] title:_useBSDNames ? [disk bsdName] : [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
+        
+        [sensor setData:value];
+        [sensor setGenericDevice:disk];
+        if ([disk isExceeded]) [sensor setLevel:kHWSensorLevelExceeded];
+        
+        return sensor;*/
     }
     
     return nil;
@@ -414,18 +431,18 @@
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
     for (HWMonitorSensor *sensor in [self sensors]) {
-        if ([sensor disk]) {
+        if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDisk class]]) {
             switch ([sensor group]) {
                 case kSMARTGroupTemperature:
-                    [sensor setData:[[sensor disk] getTemperature]];
+                    [sensor setData:[[sensor genericDevice] getTemperature]];
                     break;
                     
                 case kSMARTGroupRemainingLife:
-                    [sensor setData:[[sensor disk] getRemainingLife]];
+                    [sensor setData:[[sensor genericDevice] getRemainingLife]];
                     break;
                     
                 case kSMARTGroupRemainingBlocks:
-                    [sensor setData:[[sensor disk] getRemainingBlocks]];
+                    [sensor setData:[[sensor genericDevice] getRemainingBlocks]];
                     break;
                         
                 default:
@@ -451,7 +468,7 @@
     
     if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
         for (HWMonitorSensor *sensor in [self sensors]) {
-            if (![sensor disk]) {
+            if (![sensor genericDevice]) {
                 SMCVal_t val;
                 UInt32Char_t name;
                 
@@ -487,7 +504,7 @@
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
     for (id object in sensors) {
-        if ([object isKindOfClass:[HWMonitorSensor class]] && [[self sensors] containsObject:object] && ![object disk])
+        if ([object isKindOfClass:[HWMonitorSensor class]] && [[self sensors] containsObject:object] && ![object genericDevice])
             [list addObject:object];
     }
     

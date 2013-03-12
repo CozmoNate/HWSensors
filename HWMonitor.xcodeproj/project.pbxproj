@@ -23,8 +23,12 @@
 /* Begin PBXBuildFile section */
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E0648F116DF3B7D00ACB851 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7E0648EF16DF3B7D00ACB851 /* README.md */; };
+		7E10343616EFAE490089DE7B /* BluetoothGenericDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E10343516EFAE490089DE7B /* BluetoothGenericDevice.m */; };
 		7E1644EA16EB5DF5001F5F24 /* FlippedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1644E916EB5DF5001F5F24 /* FlippedView.m */; };
 		7E16893616EA106D00BBF6FC /* KnobScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16893516EA106D00BBF6FC /* KnobScroller.m */; };
+		7E17953116EE6FB000145082 /* Mouse.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E17953016EE6FB000145082 /* Mouse.png */; };
+		7E17953316EE6FBB00145082 /* Keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E17953216EE6FBB00145082 /* Keyboard.png */; };
+		7E17953616EE705B00145082 /* BatteryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E17953516EE705B00145082 /* BatteryCell.m */; };
 		7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248EB16D8E93A002231B2 /* Cocoa.framework */; };
 		7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248F416D8E93A002231B2 /* InfoPlist.strings */; };
 		7EA248F816D8E93A002231B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248F716D8E93A002231B2 /* main.m */; };
@@ -100,11 +104,17 @@
 		7E0648ED16DF3B7D00ACB851 /* LaunchAtLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchAtLoginController.h; sourceTree = "<group>"; };
 		7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchAtLoginController.m; sourceTree = "<group>"; };
 		7E0648EF16DF3B7D00ACB851 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		7E10343416EFAE490089DE7B /* BluetoothGenericDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothGenericDevice.h; sourceTree = "<group>"; };
+		7E10343516EFAE490089DE7B /* BluetoothGenericDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BluetoothGenericDevice.m; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E1644E816EB5DF5001F5F24 /* FlippedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlippedView.h; sourceTree = "<group>"; };
 		7E1644E916EB5DF5001F5F24 /* FlippedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlippedView.m; sourceTree = "<group>"; };
 		7E16893416EA106D00BBF6FC /* KnobScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobScroller.h; sourceTree = "<group>"; };
 		7E16893516EA106D00BBF6FC /* KnobScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobScroller.m; sourceTree = "<group>"; };
+		7E17953016EE6FB000145082 /* Mouse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mouse.png; sourceTree = "<group>"; };
+		7E17953216EE6FBB00145082 /* Keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Keyboard.png; sourceTree = "<group>"; };
+		7E17953416EE705B00145082 /* BatteryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatteryCell.h; sourceTree = "<group>"; };
+		7E17953516EE705B00145082 /* BatteryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatteryCell.m; sourceTree = "<group>"; };
 		7E9E7BA716E45A7A00CC8D5D /* SmcKeysDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmcKeysDefinitions.h; path = Shared/SmcKeysDefinitions.h; sourceTree = "<group>"; };
 		7EA248E816D8E93A002231B2 /* HWMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HWMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA248EB16D8E93A002231B2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -244,6 +254,15 @@
 			name = LaunchAtLoginController;
 			sourceTree = "<group>";
 		};
+		7E10343316EFAE110089DE7B /* BluetoothReporter */ = {
+			isa = PBXGroup;
+			children = (
+				7E10343416EFAE490089DE7B /* BluetoothGenericDevice.h */,
+				7E10343516EFAE490089DE7B /* BluetoothGenericDevice.m */,
+			);
+			name = BluetoothReporter;
+			sourceTree = "<group>";
+		};
 		7E1261D216E008FE00622F92 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +282,8 @@
 				7EDA1A7416D903740012A0DC /* GroupCell.m */,
 				7EDA1A7516D903740012A0DC /* SensorCell.h */,
 				7EDA1A7616D903740012A0DC /* SensorCell.m */,
+				7E17953416EE705B00145082 /* BatteryCell.h */,
+				7E17953516EE705B00145082 /* BatteryCell.m */,
 				7ECDDE3F16DEB5F600085FFF /* GraphsGroupCell.h */,
 				7ECDDE4016DEB5F600085FFF /* GraphsGroupCell.m */,
 			);
@@ -368,6 +389,8 @@
 				7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */,
 				7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */,
 				7ECDDE3516DDE5DA00085FFF /* 04-eye-white@2x.png */,
+				7E17953016EE6FB000145082 /* Mouse.png */,
+				7E17953216EE6FBB00145082 /* Keyboard.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -392,6 +415,7 @@
 				7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */,
 				7EDA1A6716D8F0FB0012A0DC /* BundleUserDefaults */,
 				7EA2494516D8EA99002231B2 /* ATASmartReporter */,
+				7E10343316EFAE110089DE7B /* BluetoothReporter */,
 				7EA2494616D8EAA2002231B2 /* HWMonitorEngine */,
 			);
 			name = Engines;
@@ -614,6 +638,8 @@
 				7EA8CA6B16EBBECD00E71108 /* 19-gear-highlight@2x.png in Resources */,
 				7EA8CA6C16EBBECD00E71108 /* 60-x-highlight.png in Resources */,
 				7EA8CA6D16EBBECD00E71108 /* 60-x-highlight@2x.png in Resources */,
+				7E17953116EE6FB000145082 /* Mouse.png in Resources */,
+				7E17953316EE6FBB00145082 /* Keyboard.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,6 +723,8 @@
 				7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */,
 				7E16893616EA106D00BBF6FC /* KnobScroller.m in Sources */,
 				7E1644EA16EB5DF5001F5F24 /* FlippedView.m in Sources */,
+				7E17953616EE705B00145082 /* BatteryCell.m in Sources */,
+				7E10343616EFAE490089DE7B /* BluetoothGenericDevice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,6 +955,7 @@
 				7EFAE92816EBC8ED00F4DA72 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -130,9 +130,9 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"Vp3C", "sp4b", 2, "3.3V Vcc", kSMCKeyGroupVoltage, 0, 0, 1},
     {"Vp4C", "sp4b", 2, "3.3V VSB", kSMCKeyGroupVoltage, 0, 0, 1},
     {"VC0G", "sp1e", 2, "GPU Core", kSMCKeyGroupVoltage, 0, 0, 1},
-    {"VC%XG", "sp1e", 2, "GPU %X Core", kSMCKeyGroupVoltage, 4, 1, 2},
+    {"VC%XG", "sp1e", 2, "GPU %X Core", kSMCKeyGroupVoltage, 3, 1, 2},
     {"VG0R", "sp4b", 2, "GPU Rail", kSMCKeyGroupVoltage, 0, 0, 1},
-    {"VG%XR", "sp4b", 2, "GPU %X Rail", kSMCKeyGroupVoltage, 4, 1, 2},
+    {"VG%XR", "sp4b", 2, "GPU %X Rail", kSMCKeyGroupVoltage, 3, 1, 2},
     
     {"VP0R", "sp1e", 2, "CMOS Battery", kSMCKeyGroupVoltage, 0, 0, 1}, // LPCSensors
     {"VBAT", "sp4b", 2, "Battery", kSMCKeyGroupVoltage, 0, 0, 1},
@@ -146,18 +146,18 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"IC2C", "sp78", 2, "CPU VCCSA", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"IC5R", "sp78", 2, "CPU DRAM", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"IC8R", "sp78", 2, "CPU PLL", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
-    {"IC0G", "sp69", 2, "GPU Core", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"IM0R", "sp5a", 2, "Memory Modules", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"IW0E", "sp5a", 2, "Airport Rail", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"ID0R", "sp5a", 2, "Mainboard S0 Rail", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"ID5R", "sp4b", 2, "Mainboard S5 Rail", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
+    {"IC0G", "sp69", 2, "GPU Core", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     
     
     // Power
     {"PC0C", "sp96", 2, "CPU Core", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PC%XC", "sp96", 2, "CPU %X Core", kSMCKeyGroupPower, 1, 1, 2}, // ?
     {"PCAC", "sp96", 2, "CPU Core", kSMCKeyGroupPower, 0, 0, 1}, // ?
-    {"PC%XC", "sp96", 2, "CPU %X Core", kSMCKeyGroupPower, 1, 0xA, 2}, // ?
+    {"PC%XC", "sp96", 2, "CPU %X Core", kSMCKeyGroupPower, 1, 0xB, 2}, // ?
     {"PCPC", "sp96", 2, "CPU Package Core", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PCPG", "sp96", 2, "CPU Package GFX", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PCPT", "sp96", 2, "CPU Package Total", kSMCKeyGroupPower, 0, 0, 1}, // ?
@@ -169,7 +169,7 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"PC0G", "sp96", 2, "GPU Core", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PG0R", "sp96", 2, "GPU Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"Pe%XS", "sp96", 2, "PCIe Slot %X +12V", kSMCKeyGroupPower, 4, 1, 1}, // ?
-    {"Pe%XS", "sp96", 2, "PCIe Slot Boost %X +12V", kSMCKeyGroupPower, 2, 0xA, 1}, // ?
+    {"Pe%XS", "sp96", 2, "PCIe Slot Boost %X +12V", kSMCKeyGroupPower, 4, 0xA, 1}, // ?
     {"PD0R", "sp96", 2, "Mainboard S0 Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PD5R", "sp96", 2, "Mainboard S5 Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"Pp%XC", "sp96", 2, "Power Supply %X", kSMCKeyGroupPower, 2, 0, 1}, // ?

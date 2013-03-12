@@ -168,6 +168,17 @@ inline const char* superio_get_model_name(UInt16 model)
 class SuperIODevice : public IOService
 {
 	OSDeclareDefaultStructors(SuperIODevice)
+    
+private:
+    UInt16              id = 0;
+    UInt16              model = 0;
+    UInt8               ldn = 0;
+    const char*         vendor = "";
+    UInt16              address = 0;
+    i386_ioport_t       port = 0;
+    
+    bool                detectWinbondFamilyChip(void);
+    bool                detectITEFamilyChip(void);
 	
 public:
     virtual bool		init(OSDictionary *dictionary = 0);

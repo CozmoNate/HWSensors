@@ -57,6 +57,8 @@
     id _availableGroupItem;
     
     NSArray *_colorThemes;
+    
+    NSLock *_sensorsLock;
 }
 
 @property (nonatomic, unsafe_unretained) IBOutlet PopupController *popupController;

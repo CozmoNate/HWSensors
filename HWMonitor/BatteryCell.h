@@ -10,4 +10,7 @@
 
 @interface BatteryCell : NSTableCellView
 
+@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *mousePercentageField;
+@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *keyboardPercentageField;
+
 @end

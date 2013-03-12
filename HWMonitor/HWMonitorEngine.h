@@ -30,6 +30,7 @@
 
 #import "HWMonitorSensor.h"
 #import "ATASmartReporter.h"
+#import "BluetoothGenericDevice.h"
 
 @interface HWMonitorEngine : NSObject
 {
@@ -56,6 +57,7 @@
 
 - (HWMonitorSensor*)addSensorWithKey:(NSString*)key title:(NSString*)title group:(NSUInteger)group;
 - (HWMonitorSensor*)addSMARTSensorWithGenericDisk:(ATAGenericDisk*)disk group:(NSUInteger)group;
+- (HWMonitorSensor*)addBluetoothSensorWithGenericDevice:(BluetoothGenericDevice*)device group:(NSUInteger)group;
 
 - (id)init;
 - (id)initWithBundle:(NSBundle*)mainBundle;

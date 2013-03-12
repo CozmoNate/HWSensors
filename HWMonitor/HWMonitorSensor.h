@@ -67,7 +67,7 @@ typedef enum {
 @property (nonatomic, assign) NSUInteger group;
 @property (nonatomic, strong) NSString* title;
 @property (nonatomic, strong) NSData* data;
-@property (nonatomic, strong) ATAGenericDisk* disk;
+@property (nonatomic, strong) id genericDevice;
 
 @property (nonatomic, assign) HWSensorLevel level;
 @property (readonly) NSNumber* rawValue;

@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.1.36</string>
+	<string>5.1.37</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>255</string>
+	<string>265</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>Fintek F718x Monitor</key>
