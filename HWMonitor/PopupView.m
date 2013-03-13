@@ -24,10 +24,10 @@
     }
 }
 
-- (void)setArrowPosition:(NSInteger)arrowPosition
+- (void)setArrowPosition:(CGFloat)arrowPosition
 {
     if (_arrowPosition != arrowPosition) {
-        _arrowPosition = arrowPosition;
+        _arrowPosition = arrowPosition + LINE_THICKNESS / 2.0;
         _headerPath = nil;
         _headerGradient = nil;
         _contentPath = nil;
@@ -53,8 +53,8 @@
         
         _headerPath = [NSBezierPath bezierPath];
         
-        [_headerPath moveToPoint:NSMakePoint(_arrowPosition, NSMaxY(headerRect))];
-        [_headerPath lineToPoint:NSMakePoint(_arrowPosition + ARROW_WIDTH / 2.0, NSMaxY(headerRect) - ARROW_HEIGHT)];
+        [_headerPath moveToPoint:NSMakePoint(_arrowPosition, NSMaxY(headerRect) - LINE_THICKNESS / 2.0)];
+        [_headerPath lineToPoint:NSMakePoint(_arrowPosition + ARROW_WIDTH / 2.0f, NSMaxY(headerRect) - ARROW_HEIGHT)];
         [_headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect) - CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT)];
         
         NSPoint topRightCorner = NSMakePoint(NSMaxX(headerRect) - CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS);
@@ -70,10 +70,12 @@
         NSPoint topLeftCorner = NSMakePoint(NSMinX(headerRect) + CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS);
         [_headerPath appendBezierPathWithArcWithCenter:topLeftCorner radius:CORNER_RADIUS startAngle:180 endAngle:90 clockwise:YES];
         
-        [_headerPath lineToPoint:NSMakePoint(_arrowPosition - ARROW_WIDTH / 2.0, NSMaxY(headerRect) - ARROW_HEIGHT)];
+        [_headerPath lineToPoint:NSMakePoint(_arrowPosition - ARROW_WIDTH / 2.0f, NSMaxY(headerRect) - ARROW_HEIGHT)];
+        //[_headerPath lineToPoint:NSMakePoint(_arrowPosition, NSMaxY(headerRect))];
         
         [_headerPath closePath];
         [_headerPath setLineWidth:LINE_THICKNESS];
+        //[_headerPath setFlatness:0.3];
         
         // Content
         _contentPath = [NSBezierPath bezierPath];
@@ -94,6 +96,7 @@
         
         [_contentPath closePath];
         [_contentPath setLineWidth:LINE_THICKNESS];
+        //[_contentPath setFlatness:0.3];
         
         _headerGradient = [[NSGradient alloc]
                            initWithStartingColor:   _colorTheme.barBackgroundStartColor
@@ -108,7 +111,7 @@
     [_colorTheme.listBackgroundColor setFill];
     [_contentPath fill];
     
-    NSBezierPath *clip = [NSBezierPath bezierPathWithRect:[self bounds]];
+    NSBezierPath *clip = [NSBezierPath bezierPathWithRect:[self bounds]/*NSInsetRect([self bounds], LINE_THICKNESS / 4.0, LINE_THICKNESS / 4.0)*/];
     [clip appendBezierPath:_headerPath];
     [clip appendBezierPath:_contentPath];
     [clip addClip];

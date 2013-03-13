@@ -8,17 +8,17 @@
 //  Copyright (c) 2013 Vadim Shpanovski, Natan Zalkin. All rights reserved.
 //
 
-#define ARROW_WIDTH         23
-#define ARROW_HEIGHT        11
-#define ARROW_OFFSET        3
-#define CORNER_RADIUS       6
-#define LINE_THICKNESS      1
+#define LINE_THICKNESS      1.0f
+#define ARROW_WIDTH         22.0f
+#define ARROW_HEIGHT        11.0f
+#define ARROW_OFFSET        3.0f
+#define CORNER_RADIUS       6.0f
 
 #import "ColorTheme.h"
 
 @interface PopupView : NSView
 {
-    NSInteger       _arrowPosition;
+    CGFloat         _arrowPosition;
     ColorTheme      *_colorTheme;
     NSRect          _contentRect;
     NSBezierPath    *_headerPath;
@@ -26,7 +26,7 @@
     NSBezierPath    *_contentPath;
 }
 
-@property (nonatomic, setter = setArrowPosition:) NSInteger arrowPosition;
+@property (nonatomic, setter = setArrowPosition:) CGFloat arrowPosition;
 @property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
 
 @end

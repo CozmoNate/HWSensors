@@ -110,13 +110,13 @@
 
 "Ambient" = "Окружение";
 
-"CPU Die %X" = "Ядро процессора %X";
+"CPU Die %X" = "Процессор, Ядро %X";
 
 "CPU %X" = "Процессор %X";
-"CPU Heatsink" = "Радиатор процессора";
-"CPU %X Heatsink" = "Радиатор процессора %X";
-"CPU Proximity" = "Датчик процессора";
-"CPU %X Proximity" = "Датчик процессора %X";
+"CPU Heatsink" = "Процессор, Радиатор";
+"CPU %X Heatsink" = "Процессор %X, Радиатор";
+"CPU Proximity" = "Процессор, Датчик";
+"CPU %X Proximity" = "Процессор %X, Датчик";
 
 "PECI CPU" = "PECI Процессор";
 "PECI SA" = "PECI SA";
@@ -124,15 +124,15 @@
 
 "Northbridge Die" = "Северный мост";
 "Northbridge %X Die" = "Северный мост %X";
-"Northbridge Proximity" = "Датчик северного моста";
-"Northbridge %X Proximity" = "Датчик северного моста %X";
-"MCH Die" = "Ядро контроллера памяти";
-"MCH Heatsink" = "Радиатор контроллера памяти";
-"MCP Internal Die" = "Кристалл контроллера памяти";
-"PCH Die" = "Ядро системного контроллера";
-"PCH Proximity" = "Датчик системного контроллера";
+"Northbridge Proximity" = "Северный мост, Датчик";
+"Northbridge %X Proximity" = "Северный мост %X, Датчик";
+"MCH Die" = "Контроллер памяти";
+"MCH Heatsink" = "Контроллер памяти, Радиатор";
+"MCP Internal Die" = "Контроллер памяти, Подложка";
+"PCH Die" = "Системный контроллер";
+"PCH Proximity" = "Системный контроллер, Датчик";
 "Mainboard Proximity" = "Материнская плата";
-"LCD Proximity" = "Датчик ЖКЭ";
+"LCD Proximity" = "Датчик LCD";
 "Airport Proximity" = "Датчик Airport";
 "Powerboard Proximity" = "Источник питания";
 
@@ -142,14 +142,14 @@
 "Optical Drive" = "Оптический привод";
 "HDD Bay %X" = "Лоток диска %X";
 
-"GPU Die" = "Ядро видеокарты";
-"GPU %X Die" = "Ядро видеокарты %X";
-"GPU Heatsink" = "Радиатор видеокарты";
-"GPU %X Heatsink" = "Радиатор видеокарты %X";
-"GPU Proximity" = "Датчик видеокарты";
-"GPU %X Proximity" = "Датчик видеокарты %X";
-"GPU Memory" = "Память видеокарты";
-"GPU %X Memory" = "Память видеокарты %X";
+"GPU Die" = "Видеокара";
+"GPU %X Die" = "Видеокарта %X";
+"GPU Heatsink" = "Видеокарта, Радиатор";
+"GPU %X Heatsink" = "Видеокарта %X, Радиатор";
+"GPU Proximity" = "Видеокарта, Датчик";
+"GPU %X Proximity" = "Видеокарта %X, Датчик";
+"GPU Memory" = "Видеокарта, Память";
+"GPU %X Memory" = "Видеокарта %X, Память";
 
 "Thermal Zone %X" = "Термальная зона %X";
 
@@ -158,15 +158,15 @@
 "CPU Package Multiplier" = "Множитель процессора";
 "CPU Package" = "Пакет ядер процессора";
 
-"GPU Core" = "Ядро видеокарты";
-"GPU %X Core" = "Ядро видеокарты %X";
-"GPU Shader" = "Шейдеры видеокарты";
-"GPU %X Shader" = "Шейдеры видеокарты %X";
-"GPU ROP" = "РП видеокарты";
-"GPU %X ROP" = "РП видеокарты %X";
+"GPU Core" = "Видеокарта, Ядро";
+"GPU %X Core" = "Видеокарта %X, Ядро";
+"GPU Shader" = "Видеокарта, Шейдеры";
+"GPU %X Shader" = "Видеокарта %X, Шейдеры";
+"GPU ROP" = "Видеокарта, РП";
+"GPU %X ROP" = "Видеокарта %X, РП";
 
 "Memory Modules" = "Модули памяти";
-"MCP Core" = "Ядро контролера памяти";
+"MCP Core" = "Контролер памяти, Ядро";
 "Main 3.3V" = "Основной 3.3V";
 "Main 5V" = "Основной 5V";
 "Main 12V" = "Основной 12V";

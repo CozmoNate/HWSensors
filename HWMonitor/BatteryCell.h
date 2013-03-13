@@ -6,11 +6,13 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#include "ColorTheme.h"
 
 @interface BatteryCell : NSTableCellView
 
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *mousePercentageField;
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *keyboardPercentageField;
+@property (nonatomic, unsafe_unretained) IBOutlet NSImageView *mouseImageView;
+@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *mouseTextField;
+@property (nonatomic, unsafe_unretained) IBOutlet NSImageView *keyboardImageView;
+@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *keyboardTextField;
 
 @end

@@ -226,8 +226,9 @@
                             NSString *name = [characteristics objectForKey:@"Product Name"];
                             NSString *serial = [characteristics objectForKey:@"Serial Number"];
                             NSString *medium = [characteristics objectForKey:@"Medium Type"];
+                            NSString *revision = [characteristics objectForKey:@"Product Revision Level"];
                             
-                            if (name && serial) {
+                            if (name && (serial || revision)) {
                                 id disk = nil;
                                 
                                 NSString *volumes;
@@ -246,7 +247,7 @@
                                     disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:bsdName volumesNames:(volumes ? volumes : bsdName) serialNumber:serial isRotational:FALSE];
                                 }
                                 else /*if (medium && [medium isEqualToString:@"Rotational"]) */ {
-                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:bsdName volumesNames:(volumes ? volumes : bsdName) serialNumber:serial isRotational:TRUE];
+                                    disk = [ATAGenericDisk genericDiskWithService:service productName:name bsdName:bsdName volumesNames:(volumes ? volumes : bsdName) serialNumber:serial ? serial : revision isRotational:TRUE];
                                     ;
                                 }
                                                                 

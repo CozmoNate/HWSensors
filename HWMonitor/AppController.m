@@ -54,17 +54,6 @@
 
 @implementation AppController
 
-- (id)init
-{
-    self = [super init];
-    
-    if (self) {
-        _sensorsLock = [[NSLock alloc] init];
-    }
-
-    return self;
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
@@ -157,26 +146,20 @@
 
 - (void)updateSmartSensors;
 {
-    [_sensorsLock lock];
     NSArray *updatedSensors = [_engine updateSmartSensors];
     [self updateValuesForSensors:updatedSensors];
-    [_sensorsLock unlock];
 }
 
 - (void)updateSmcSensors
 {
-    [_sensorsLock lock];
-    NSArray *updatedSensors = [_engine updateSmcSensors];    
+    NSArray *updatedSensors = [_engine updateSmcSensors];
     [self updateValuesForSensors:updatedSensors];
-    [_sensorsLock unlock];
 }
 
 - (void)updateFavoritesSensors
 {
-    [_sensorsLock lock];
     NSArray *updatedSensors = [_engine updateSmcSensorsList:_favorites];
     [self updateValuesForSensors:updatedSensors];
-    [_sensorsLock unlock];
 }
 
 - (void)captureDataToHistory
@@ -190,6 +173,9 @@
     
     for (HWMonitorSensor *sensor in sensors) {
         NSUInteger index = GetIndexOfItem([sensor name]);
+        
+        if (index >= [_sensorsTableView numberOfRows])
+            continue;
         
         id cell = [_sensorsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
         
@@ -313,8 +299,6 @@
 
 - (void)rebuildSensorsList
 {
-    [_sensorsLock lock];
-    
     if (!_engine) {
         _engine = [[HWMonitorEngine alloc] initWithBundle:[NSBundle mainBundle]];
         [[_popupController statusItemView] setEngine:_engine];
@@ -399,8 +383,6 @@
     [_graphsController setupWithGroups:_groups];
     
     [self rebuildSensorsTableView];
-    
-    [_sensorsLock unlock];
 }
 
 - (IBAction)toggleSensorVisibility:(id)sender

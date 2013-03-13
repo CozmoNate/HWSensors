@@ -13,6 +13,7 @@
 #define kHWMonitorGroupHeight               19
 #define kHWMonitorSensorHeight              17
 #define kHWMonitorSubtitledHeight           27
+#define kHWMonitorBatteryHeight             22
 
 // Preferences
 #define kHWMonitorFavoritesList             @"favoritesList"

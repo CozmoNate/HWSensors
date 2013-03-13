@@ -48,7 +48,7 @@
     theme.barBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.15 alpha:TOOLBAR_OPACITY];
     
     theme.barTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    theme.barPathColor = [NSColor colorWithCalibratedWhite:0.0 alpha:FILL_OPACITY];
+    theme.barPathColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
     
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
     theme.listPathColor = [NSColor colorWithCalibratedRed:0.3 green:0.3 blue:0.4 alpha:STROKE_OPACITY];

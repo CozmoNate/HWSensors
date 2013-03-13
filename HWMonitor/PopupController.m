@@ -15,6 +15,7 @@
 
 #import "GroupCell.h"
 #import "SensorCell.h"
+#import "BatteryCell.h"
 #import "PopupView.h"
 
 #define OPEN_DURATION .01
@@ -213,8 +214,8 @@
     else
     {
         statusRect.size = NSMakeSize(24, [[NSStatusBar systemStatusBar] thickness]);
-        statusRect.origin.x = roundf((NSWidth(screenRect) - NSWidth(statusRect)) / 2);
-        statusRect.origin.y = NSHeight(screenRect) - NSHeight(statusRect) * 2;
+        statusRect.origin.x = roundf((NSWidth(screenRect) - NSWidth(statusRect)) / 2.0);
+        statusRect.origin.y = NSHeight(screenRect) - NSHeight(statusRect) * 2.0;
     }
     
     return statusRect;
@@ -443,6 +444,9 @@
     else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
         return kHWMonitorToolbarHeight;
     }
+    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Battery"]) {
+        return kHWMonitorBatteryHeight;
+    }
 
     return  kHWMonitorSensorHeight;
 }
@@ -475,6 +479,9 @@
         if (([sensor group] & kHWSensorGroupTemperature) || ([sensor group] & kSMARTGroupTemperature)) {
             sensorCell = [tableView makeViewWithIdentifier:@"Temperature" owner:self];
         }
+        else if (([sensor group] & kHWSensorGroupPWM) || ([sensor group] & kSMARTGroupRemainingLife)) {
+            sensorCell = [tableView makeViewWithIdentifier:@"Percentage" owner:self];
+        }
         else {
             sensorCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
         }
@@ -496,14 +503,14 @@
         return sensorCell;
     }
     else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
-        NSTableCellView *buttonsCell = [tableView makeViewWithIdentifier:@"Toolbar" owner:self];
+        NSTableCellView *buttonsCell = [tableView makeViewWithIdentifier:item owner:self];
         
         [buttonsCell.textField setTextColor:_colorTheme.barTitleColor];
         
         return buttonsCell;
     }
     else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Dummy"]) {
-        NSTableCellView *dummyCell = [tableView makeViewWithIdentifier:@"Dummy" owner:self];
+        NSTableCellView *dummyCell = [tableView makeViewWithIdentifier:item owner:self];
         
         [dummyCell.textField setTextColor:_colorTheme.itemTitleColor];
         
