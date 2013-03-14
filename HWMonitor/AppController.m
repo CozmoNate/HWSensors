@@ -146,20 +146,20 @@
 
 - (void)updateSmartSensors;
 {
-    NSArray *updatedSensors = [_engine updateSmartSensors];
-    [self updateValuesForSensors:updatedSensors];
+    [_engine updateSmartSensors];
+    [self updateValues];
 }
 
 - (void)updateSmcSensors
 {
-    NSArray *updatedSensors = [_engine updateSmcSensors];
-    [self updateValuesForSensors:updatedSensors];
+    [_engine updateSmcSensors];
+    [self updateValues];
 }
 
 - (void)updateFavoritesSensors
 {
-    NSArray *updatedSensors = [_engine updateSmcSensorsList:_favorites];
-    [self updateValuesForSensors:updatedSensors];
+    [_engine updateSmcSensorsList:_favorites];
+    [self updateValues];
 }
 
 - (void)captureDataToHistory
@@ -167,20 +167,17 @@
     [_graphsController captureDataToHistoryNow];
 }
 
-- (void)updateValuesForSensors:(NSArray*)sensors
+- (void)updateValues
 {
-    //[_sensorsTableView reloadData];
-    
-    for (HWMonitorSensor *sensor in sensors) {
-        NSUInteger index = GetIndexOfItem([sensor name]);
-        
-        if (index >= [_sensorsTableView numberOfRows])
-            continue;
-        
-        id cell = [_sensorsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
-        
-        if (cell && [cell isKindOfClass:[SensorCell class]]) {
-            [[cell valueField] setStringValue:[sensor formattedValue]];
+    for (id item in  [_items allValues]) {
+        if ([item isKindOfClass:[HWMonitorItem class]] && [[item sensor] valueHasBeenChanged]) {
+            NSUInteger index = GetIndexOfItem([[item sensor] name]);
+            
+            id cell = [_sensorsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
+            
+            if (cell && [cell isKindOfClass:[SensorCell class]]) {
+                [[cell valueField] setStringValue:[[item sensor] formattedValue]];
+            }
         }
     }
     
