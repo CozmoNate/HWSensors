@@ -124,11 +124,11 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"VV1R", "sp4b", 2, "Power Supply 12V", kSMCKeyGroupVoltage, 0, 0, 1},
     {"VD0R", "sp4b", 2, "Mainboard S0 Rail", kSMCKeyGroupVoltage, 0, 0, 1},
     {"VD5R", "sp4b", 2, "Mainboard S5 Rail", kSMCKeyGroupVoltage, 0, 0, 1},
-    {"Vp0C", "sp4b", 2, "12V Vcc", kSMCKeyGroupVoltage, 0, 0, 1},
+    /*{"Vp0C", "sp4b", 2, "12V Vcc", kSMCKeyGroupVoltage, 0, 0, 1},
     {"Vp1C", "sp4b", 2, "5V Vcc", kSMCKeyGroupVoltage, 0, 0, 1},
     {"Vp2C", "sp4b", 2, "5V VSB", kSMCKeyGroupVoltage, 0, 0, 1},
     {"Vp3C", "sp4b", 2, "3.3V Vcc", kSMCKeyGroupVoltage, 0, 0, 1},
-    {"Vp4C", "sp4b", 2, "3.3V VSB", kSMCKeyGroupVoltage, 0, 0, 1},
+    {"Vp4C", "sp4b", 2, "3.3V VSB", kSMCKeyGroupVoltage, 0, 0, 1},*/
     {"VC0G", "sp1e", 2, "GPU Core", kSMCKeyGroupVoltage, 0, 0, 1},
     {"VC%XG", "sp1e", 2, "GPU %X Core", kSMCKeyGroupVoltage, 3, 1, 2},
     {"VG0R", "sp4b", 2, "GPU Rail", kSMCKeyGroupVoltage, 0, 0, 1},

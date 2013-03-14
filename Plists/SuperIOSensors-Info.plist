@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.1.40</string>
+	<string>5.1.41</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -2631,7 +2631,7 @@
 						<key>VIN8</key>
 						<string>CMOS Battery</string>
 					</dict>
-					<key>P8Z77-V LE PLUS</key>
+					<key>P8Z77-V LE</key>
 					<dict>
 						<key>FANIN0</key>
 						<string></string>
@@ -2644,13 +2644,13 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>CPU</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
-						<string></string>
+						<string>Ambient</string>
 						<key>TEMPIN3</key>
-						<string>CPU</string>
+						<string>System</string>
 						<key>TEMPIN4</key>
 						<string></string>
 						<key>TEMPIN5</key>
@@ -2716,7 +2716,7 @@
 							<integer>0</integer>
 						</dict>
 					</dict>
-					<key>P8Z77-V LE</key>
+					<key>P8Z77-V LE PLUS</key>
 					<dict>
 						<key>FANIN0</key>
 						<string></string>
@@ -2729,13 +2729,13 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>System</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
-						<string>Ambient</string>
+						<string></string>
 						<key>TEMPIN3</key>
-						<string>System</string>
+						<string>CPU</string>
 						<key>TEMPIN4</key>
 						<string></string>
 						<key>TEMPIN5</key>
