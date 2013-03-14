@@ -187,7 +187,7 @@
     [[[NSGradient alloc]
       initWithStartingColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.75]
                 endingColor:[NSColor colorWithCalibratedWhite:0.25 alpha:0.75]]
-        drawInRect:NSMakeRect(self.bounds.origin.x + 1, self.bounds.origin.y + 1, self.bounds.size.width - 2, self.bounds.size.height - 2) angle:270];
+        drawInRect:NSInsetRect(self.bounds, 3, 3) angle:270];
     
     //double x, y;
 

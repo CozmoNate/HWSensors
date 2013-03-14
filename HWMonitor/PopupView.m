@@ -53,8 +53,13 @@
         
         _headerPath = [NSBezierPath bezierPath];
         
-        [_headerPath moveToPoint:NSMakePoint(_arrowPosition, NSMaxY(headerRect) - LINE_THICKNESS / 2.0)];
+        [_headerPath setLineWidth:LINE_THICKNESS];
+        [_headerPath setLineJoinStyle:NSRoundLineJoinStyle];
+        
+        [_headerPath moveToPoint:NSMakePoint(_arrowPosition - ARROW_WIDTH / 2.0f, NSMaxY(headerRect) - ARROW_HEIGHT)];
+        [_headerPath lineToPoint:NSMakePoint(_arrowPosition, NSMaxY(headerRect))];
         [_headerPath lineToPoint:NSMakePoint(_arrowPosition + ARROW_WIDTH / 2.0f, NSMaxY(headerRect) - ARROW_HEIGHT)];
+        
         [_headerPath lineToPoint:NSMakePoint(NSMaxX(headerRect) - CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT)];
         
         NSPoint topRightCorner = NSMakePoint(NSMaxX(headerRect) - CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS);
@@ -70,12 +75,7 @@
         NSPoint topLeftCorner = NSMakePoint(NSMinX(headerRect) + CORNER_RADIUS, NSMaxY(headerRect) - ARROW_HEIGHT - CORNER_RADIUS);
         [_headerPath appendBezierPathWithArcWithCenter:topLeftCorner radius:CORNER_RADIUS startAngle:180 endAngle:90 clockwise:YES];
         
-        [_headerPath lineToPoint:NSMakePoint(_arrowPosition - ARROW_WIDTH / 2.0f, NSMaxY(headerRect) - ARROW_HEIGHT)];
-        //[_headerPath lineToPoint:NSMakePoint(_arrowPosition, NSMaxY(headerRect))];
-        
-        [_headerPath closePath];
-        [_headerPath setLineWidth:LINE_THICKNESS];
-        //[_headerPath setFlatness:0.3];
+        [_headerPath closePath];        
         
         // Content
         _contentPath = [NSBezierPath bezierPath];
@@ -111,14 +111,14 @@
     [_colorTheme.listBackgroundColor setFill];
     [_contentPath fill];
     
-    NSBezierPath *clip = [NSBezierPath bezierPathWithRect:[self bounds]/*NSInsetRect([self bounds], LINE_THICKNESS / 4.0, LINE_THICKNESS / 4.0)*/];
+    NSBezierPath *clip = [NSBezierPath bezierPathWithRect:[self bounds]];
     [clip appendBezierPath:_headerPath];
     [clip appendBezierPath:_contentPath];
     [clip addClip];
     
     [_colorTheme.barPathColor setStroke];
     [_headerPath stroke];
-        
+    
     [_colorTheme.listPathColor setStroke];
     [_contentPath stroke];
     
