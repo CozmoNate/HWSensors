@@ -329,9 +329,9 @@ if (![_items objectForKey:name]) {\
     
     [_popupController setShowVolumeNames:[_defaults integerForKey:kHWMonitorShowVolumeNames]];
     
-    [_graphsController setUseSmoothing:[_defaults boolForKey:kHWMonitorGraphsUseDataSmoothing]];
-    
     [_engine rebuildSensorsList];
+    
+    [_graphsController setUseSmoothing:[_defaults boolForKey:kHWMonitorGraphsUseDataSmoothing]];
     
     if ([[_engine sensors] count] > 0) {
         

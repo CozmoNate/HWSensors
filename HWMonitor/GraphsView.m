@@ -31,12 +31,12 @@
 
 @implementation GraphsView
 
-#define GraphScale 6.0
+#define GraphScale          6.0
 
-#define LeftViewMargin 5
-#define TopViewMargin 5
-#define RightViewMargin 8
-#define BottomViewMargin 8
+#define LeftViewMargin      5
+#define TopViewMargin       5
+#define RightViewMargin     5
+#define BottomViewMargin    5
 
 -(id)init
 {
@@ -221,6 +221,8 @@
     // Draw graphs
     
     [context setShouldAntialias:YES];
+    
+    [[NSBezierPath bezierPathWithRect:NSMakeRect(self.bounds.origin.x + LeftViewMargin, self.bounds.origin.y - BottomViewMargin, self.bounds.size.width - LeftViewMargin - RightViewMargin, self.bounds.size.width - TopViewMargin - BottomViewMargin)] setClip];
     
     for (HWMonitorItem *item in _items) {
         

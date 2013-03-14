@@ -24,10 +24,10 @@
     theme.barBackgroundEndColor = [NSColor colorWithCalibratedRed:0.0 green:0.2 blue:1.0 alpha:TOOLBAR_OPACITY];
     theme.barBackgroundStartColor = [theme.barBackgroundEndColor highlightWithLevel:0.8];
     theme.barTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    theme.barPathColor = [NSColor colorWithCalibratedRed:0.3 green:0.3 blue:0.4 alpha:STROKE_OPACITY];
+    theme.barPathColor = [NSColor colorWithCalibratedRed:0.15 green:0.15 blue:0.25 alpha:STROKE_OPACITY];
     
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
-    theme.listPathColor = theme.barPathColor;//[NSColor colorWithCalibratedWhite:0.2 alpha:STROKE_OPACITY];
+    theme.listPathColor = [NSColor colorWithCalibratedRed:0.3 green:0.3 blue:0.4 alpha:STROKE_OPACITY];
     
     theme.groupBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
     theme.groupBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
@@ -48,10 +48,10 @@
     theme.barBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.15 alpha:TOOLBAR_OPACITY];
     
     theme.barTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    theme.barPathColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
+    theme.barPathColor = [NSColor colorWithCalibratedWhite:0.1 alpha:STROKE_OPACITY];
     
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
-    theme.listPathColor = [NSColor colorWithCalibratedRed:0.3 green:0.3 blue:0.4 alpha:STROKE_OPACITY];
+    theme.listPathColor = [NSColor colorWithCalibratedWhite:0.3 alpha:STROKE_OPACITY];
     
     theme.groupBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
     theme.groupBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
@@ -71,11 +71,10 @@
     theme.barBackgroundEndColor = [NSColor colorWithCalibratedRed:0.0 green:0.15 blue:0.85 alpha:TOOLBAR_OPACITY];
     theme.barBackgroundStartColor = [theme.barBackgroundEndColor highlightWithLevel:0.75];
     theme.barTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    //theme.barPathColor = [NSColor colorWithCalibratedRed:0.25 green:0.25 blue:0.35 alpha:STROKE_OPACITY];
-    theme.barPathColor = [NSColor colorWithCalibratedRed:0.3 green:0.3 blue:0.4 alpha:STROKE_OPACITY];
+    theme.barPathColor = [NSColor colorWithCalibratedRed:0.15 green:0.15 blue:0.25 alpha:STROKE_OPACITY];
     
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.1 alpha:FILL_OPACITY];
-    theme.listPathColor = theme.barPathColor;//[NSColor colorWithCalibratedWhite:0.1 alpha:STROKE_OPACITY];
+    theme.listPathColor = [NSColor colorWithCalibratedRed:0.3 green:0.3 blue:0.4 alpha:STROKE_OPACITY];
     
     theme.groupBackgroundStartColor = [NSColor colorWithCalibratedWhite:0.2 alpha:FILL_OPACITY];
     theme.groupBackgroundEndColor = [NSColor colorWithCalibratedWhite:0.14 alpha:FILL_OPACITY];
