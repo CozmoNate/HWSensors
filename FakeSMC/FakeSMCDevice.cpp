@@ -413,7 +413,7 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
             }
         }
         
-        HWSensorsInfoLog("%d key(s) exported from Clover EFI", count);
+        HWSensorsInfoLog("%d key(s) exported by Clover EFI", count);
     }
     
     // Init SMC device

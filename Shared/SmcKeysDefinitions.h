@@ -33,7 +33,7 @@ typedef struct {
 const SMCKeyInfo SMCKeyInfoList[] =
 {
     // Temperature
-    {"TA0P", "sp78", 2, "Ambient", kSMCKeyGroupTemperature, 0, 0, 1},
+    {"TA0p", "sp78", 2, "Ambient", kSMCKeyGroupTemperature, 0, 0, 1},
     
     {"TC%XD", "sp78", 2, "CPU Die %X", kSMCKeyGroupTemperature, 8, 0, 1},
     {"TC%XD", "sp78", 2, "CPU %X", kSMCKeyGroupTemperature, 2, 0xA, 1},
@@ -77,8 +77,8 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"TG%XD", "sp78", 2, "GPU %X Die", kSMCKeyGroupTemperature, 3, 1, 2},
     {"TG0H", "sp78", 2, "GPU Heatsink", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TG%XH", "sp78", 2, "GPU %X Heatsink", kSMCKeyGroupTemperature, 3, 1, 2},
-    {"TG0P", "sp78", 2, "GPU Proximity", kSMCKeyGroupTemperature, 0, 0, 1},
-    {"TG%XP", "sp78", 2, "GPU %X Proximity", kSMCKeyGroupTemperature, 3, 1, 2},
+    {"TG0p", "sp78", 2, "GPU Proximity", kSMCKeyGroupTemperature, 0, 0, 1},
+    {"TG%Xp", "sp78", 2, "GPU %X Proximity", kSMCKeyGroupTemperature, 3, 1, 2},
     {"TG0M", "sp78", 2, "GPU Memory", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TG%XM", "sp78", 2, "GPU %X Memory", kSMCKeyGroupTemperature, 3, 1, 2},
     
@@ -99,13 +99,13 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"CCPC", "ui16", 2, "CPU Package", kSMCKeyGroupFrequency, 0, 0, 1},
     
     {"CG0C", "ui16", 2, "GPU Core", kSMCKeyGroupFrequency, 0, 0, 1},
-    {"CG%XC", "ui16", 2, "GPU %X Core", kSMCKeyGroupFrequency, 4, 1, 2},
+    {"CG%XC", "ui16", 2, "GPU %X Core", kSMCKeyGroupFrequency, 3, 1, 2},
     {"CG0M", "ui16", 2, "GPU Memory", kSMCKeyGroupFrequency, 0, 0, 1},
-    {"CG%XM", "ui16", 2, "GPU %X Memory", kSMCKeyGroupFrequency, 4, 1, 2},
+    {"CG%XM", "ui16", 2, "GPU %X Memory", kSMCKeyGroupFrequency, 3, 1, 2},
     {"CG0S", "ui16", 2, "GPU Shader", kSMCKeyGroupFrequency, 0, 0, 1},
-    {"CG%XS", "ui16", 2, "GPU %X Shader", kSMCKeyGroupFrequency, 4, 1, 2},
+    {"CG%XS", "ui16", 2, "GPU %X Shader", kSMCKeyGroupFrequency, 3, 1, 2},
     {"CG0R", "ui16", 2, "GPU ROP", kSMCKeyGroupFrequency, 0, 0, 1},
-    {"CG%XR", "ui16", 2, "GPU %X ROP", kSMCKeyGroupFrequency, 4, 1, 2},
+    {"CG%XR", "ui16", 2, "GPU %X ROP", kSMCKeyGroupFrequency, 3, 1, 2},
     
     // Voltage
     

@@ -43,7 +43,7 @@
     NSMutableArray* _favorites;
     NSMutableArray *_groups;
     NSMutableDictionary *_items;
-    NSMutableDictionary *_indexes;
+    NSMutableDictionary *_index;
     NSMutableArray *_ordering;
     
     float _smcSensorsUpdateInterval;
