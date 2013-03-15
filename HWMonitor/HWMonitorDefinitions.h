@@ -26,7 +26,8 @@
 #define kHWMonitorSelectedTag               @"selectedTag"
 #define kHWMonitorSmcSensorsUpdateRate      @"smcSensorsUpdateRate"
 #define kHWMonitorSmartSensorsUpdateRate    @"smartSensorsUpdateRate"
-#define kHWMonitorGraphsUseDataSmoothing    @"graphsDataSmoothing"
+#define kHWMonitorGraphsUseDataSmoothing    @"graphsUseDataSmoothing"
+#define kHWMonitorGraphsBackgroundMonitor   @"graphsBackgroundMonitor"
 #define kHWMonitorColorThemeIndex           @"colorThemeIndex"
 #define kHWMonitorHiddenGraphsList          @"hiddenGraphsList"
 

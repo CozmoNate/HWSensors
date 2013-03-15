@@ -220,9 +220,9 @@
     
     // Draw graphs
     
-    [context setShouldAntialias:YES];
+    [NSBezierPath clipRect:NSMakeRect(self.bounds.origin.x + LeftViewMargin, self.bounds.origin.y - BottomViewMargin, self.bounds.size.width - LeftViewMargin - RightViewMargin, self.bounds.size.width - TopViewMargin - BottomViewMargin)];
     
-    [[NSBezierPath bezierPathWithRect:NSMakeRect(self.bounds.origin.x + LeftViewMargin, self.bounds.origin.y - BottomViewMargin, self.bounds.size.width - LeftViewMargin - RightViewMargin, self.bounds.size.width - TopViewMargin - BottomViewMargin)] setClip];
+    [context setShouldAntialias:YES];
     
     for (HWMonitorItem *item in _items) {
         

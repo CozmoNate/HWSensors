@@ -21,11 +21,10 @@
     CGFloat         _arrowPosition;
     ColorTheme      *_colorTheme;
     NSRect          _popupBounds;
-    NSBezierPath    *_arrowPath;
     NSBezierPath    *_toolbarPath;
-    NSGradient      *_toolbarGradient;
     NSBezierPath    *_listPath;
     NSBezierPath    *_clipPath;
+    NSGradient      *_toolbarGradient;
 }
 
 @property (nonatomic, setter = setArrowPosition:) CGFloat arrowPosition;

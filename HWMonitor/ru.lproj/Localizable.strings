@@ -83,6 +83,7 @@
 "Default" = "Обычная";
 "Gray" = "Серая";
 "Dark" = "Темная";
+"Continue monitor sensors in background" = "Продолжать собирать данные в фоновом режиме";
 
 "CPUFan" = "Вентилятор ЦП";
 "CPUFan2" = "Вентилятор ЦП 2";

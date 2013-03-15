@@ -41,6 +41,8 @@
 
 @property (nonatomic, setter = setUseFahrenheit:) BOOL useFahrenheit;
 @property (nonatomic, setter = setUseSmoothing:) BOOL useSmoothing;
+@property (nonatomic, assign) BOOL backgroundMonitoring;
+
 @property (readonly) NSArray *colorsList;
 
 @property (readonly) HWMonitorItem *selectedItem;

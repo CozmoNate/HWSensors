@@ -29,7 +29,6 @@
 		7E17953116EE6FB000145082 /* Mouse.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E17953016EE6FB000145082 /* Mouse.png */; };
 		7E17953316EE6FBB00145082 /* Keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E17953216EE6FBB00145082 /* Keyboard.png */; };
 		7E17953616EE705B00145082 /* BatteryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E17953516EE705B00145082 /* BatteryCell.m */; };
-		7E8BBB9B16F2946400B9F760 /* NSBezierPath+MCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8BBB9816F2946400B9F760 /* NSBezierPath+MCAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248EB16D8E93A002231B2 /* Cocoa.framework */; };
 		7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248F416D8E93A002231B2 /* InfoPlist.strings */; };
 		7EA248F816D8E93A002231B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248F716D8E93A002231B2 /* main.m */; };
@@ -116,8 +115,6 @@
 		7E17953216EE6FBB00145082 /* Keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Keyboard.png; sourceTree = "<group>"; };
 		7E17953416EE705B00145082 /* BatteryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatteryCell.h; sourceTree = "<group>"; };
 		7E17953516EE705B00145082 /* BatteryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatteryCell.m; sourceTree = "<group>"; };
-		7E8BBB9716F2946400B9F760 /* NSBezierPath+MCAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+MCAdditions.h"; sourceTree = "<group>"; };
-		7E8BBB9816F2946400B9F760 /* NSBezierPath+MCAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+MCAdditions.m"; sourceTree = "<group>"; };
 		7E9E7BA716E45A7A00CC8D5D /* SmcKeysDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmcKeysDefinitions.h; path = Shared/SmcKeysDefinitions.h; sourceTree = "<group>"; };
 		7EA248E816D8E93A002231B2 /* HWMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HWMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA248EB16D8E93A002231B2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -472,8 +469,6 @@
 			isa = PBXGroup;
 			children = (
 				7EA2490816D8E942002231B2 /* Icons */,
-				7E8BBB9716F2946400B9F760 /* NSBezierPath+MCAdditions.h */,
-				7E8BBB9816F2946400B9F760 /* NSBezierPath+MCAdditions.m */,
 				7EA394B116E0A1B600823109 /* ColorTheme.h */,
 				7EA394B216E0A1B600823109 /* ColorTheme.m */,
 				7E16893416EA106D00BBF6FC /* KnobScroller.h */,
@@ -730,7 +725,6 @@
 				7E1644EA16EB5DF5001F5F24 /* FlippedView.m in Sources */,
 				7E17953616EE705B00145082 /* BatteryCell.m in Sources */,
 				7E10343616EFAE490089DE7B /* BluetoothGenericDevice.m in Sources */,
-				7E8BBB9B16F2946400B9F760 /* NSBezierPath+MCAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
