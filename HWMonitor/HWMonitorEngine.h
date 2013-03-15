@@ -36,7 +36,7 @@
 {
 @private
     io_connect_t _connection;
-    NSATASmartReporter *_smartReporter;
+    ATASmartReporter *_smartReporter;
     NSMutableArray *_sensors;
     NSMutableDictionary *_keys;
     NSLock *_sensorsLock;

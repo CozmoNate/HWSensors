@@ -34,8 +34,6 @@
     NSMutableArray *_items;
     NSMutableDictionary *_graphs;
     
-    HWSensorGroup group;
-    
     NSRect _graphBounds;
     double _minY;
     double _maxY;
@@ -47,8 +45,9 @@
 
 @property (nonatomic, unsafe_unretained) IBOutlet GraphsController *graphsController;
 
-@property (nonatomic, setter = setUseFahrenheit:) BOOL useFahrenheit;
-@property (nonatomic, setter = setUseSmoothing:) BOOL useSmoothing;
+@property (nonatomic, assign) BOOL useFahrenheit;
+@property (nonatomic, assign) BOOL useSmoothing;
+@property (nonatomic, assign) HWSensorGroup sensorGroup;
 
 - (NSArray*)addItemsFromList:(NSArray*)itemsList forSensorGroup:(HWSensorGroup)sensorsGroup;
 - (void)calculateGraphBoundsFindExtremes:(BOOL)findExtremes;

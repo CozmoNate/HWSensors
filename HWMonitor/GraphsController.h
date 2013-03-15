@@ -31,7 +31,7 @@
 @class GraphsView;
 @class HWMonitorItem;
 
-@interface GraphsController : NSWindowController <NSTableViewDelegate, NSTableViewDataSource>
+@interface GraphsController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
     NSMutableArray *_colorsList;
     NSMutableArray *_items;

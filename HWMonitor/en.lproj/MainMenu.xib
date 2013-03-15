@@ -2198,7 +2198,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 												<string key="NSFrame">{{25, 384}, {354, 18}}</string>
 												<reference key="NSSuperview" ref="889402153"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="652095142"/>
+												<reference key="NSNextKeyView" ref="122395699"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="399817969">
@@ -2219,7 +2219,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 												</object>
 												<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 											</object>
-											<object class="NSButton" id="652095142">
+											<object class="NSButton" id="122395699">
 												<reference key="NSNextResponder" ref="889402153"/>
 												<int key="NSvFlags">268</int>
 												<string key="NSFrame">{{25, 359}, {354, 18}}</string>
@@ -2228,13 +2228,13 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="NSEnabled">YES</bool>
-												<object class="NSButtonCell" key="NSCell" id="789776770">
+												<object class="NSButtonCell" key="NSCell" id="649756289">
 													<int key="NSCellFlags">67108864</int>
 													<int key="NSCellFlags2">268435456</int>
 													<string key="NSContents">Continue monitor sensors in background</string>
 													<reference key="NSSupport" ref="562368991"/>
 													<string key="NSCellIdentifier">_NS:9</string>
-													<reference key="NSControlView" ref="652095142"/>
+													<reference key="NSControlView" ref="122395699"/>
 													<int key="NSButtonFlags">1211912448</int>
 													<int key="NSButtonFlags2">2</int>
 													<reference key="NSNormalImage" ref="128128174"/>
@@ -2277,7 +2277,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">PreferencesWindow</string>
 				<int key="NSWindowCollectionBehavior">66</int>
-				<bool key="NSWindowIsRestorable">YES</bool>
+				<bool key="NSWindowIsRestorable">NO</bool>
 			</object>
 			<object class="NSCustomObject" id="583101625">
 				<string key="NSClassName">PopupController</string>
@@ -2719,7 +2719,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="NSMinSize">{500, 519}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">HistoryGraphsWindow</string>
-				<bool key="NSWindowIsRestorable">YES</bool>
+				<bool key="NSWindowIsRestorable">NO</bool>
 			</object>
 			<object class="NSUserDefaultsController" id="854602469">
 				<bool key="NSSharedInstance">YES</bool>
@@ -3608,7 +3608,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{148, 8}, {18, 18}}</string>
 							<reference key="NSSuperview" ref="1006916051"/>
-							<reference key="NSNextKeyView"/>
 							<double key="NSViewAlphaValue">0.94999999999999996</double>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowBlurRadius">2</double>
@@ -3656,7 +3655,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{181, 8}, {18, 18}}</string>
 							<reference key="NSSuperview" ref="1006916051"/>
-							<reference key="NSNextKeyView"/>
 							<double key="NSViewAlphaValue">0.94999999999999996</double>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowBlurRadius">2</double>
@@ -3701,7 +3699,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{208, 8}, {18, 18}}</string>
 							<reference key="NSSuperview" ref="1006916051"/>
-							<reference key="NSNextKeyView"/>
 							<double key="NSViewAlphaValue">0.94999999999999996</double>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowBlurRadius">2</double>
@@ -5474,10 +5471,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: values.graphsBackgroundMonitor</string>
-						<reference key="source" ref="652095142"/>
+						<reference key="source" ref="122395699"/>
 						<reference key="destination" ref="854602469"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="652095142"/>
+							<reference key="NSSource" ref="122395699"/>
 							<reference key="NSDestination" ref="854602469"/>
 							<string key="NSLabel">value: values.graphsBackgroundMonitor</string>
 							<string key="NSBinding">value</string>
@@ -6948,7 +6945,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="objectID">730</int>
 						<reference key="object" ref="889402153"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="652095142"/>
+							<reference ref="122395699"/>
 							<reference ref="694366529"/>
 						</array>
 						<reference key="parent" ref="456358473"/>
@@ -7777,16 +7774,16 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1398</int>
-						<reference key="object" ref="652095142"/>
+						<reference key="object" ref="122395699"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="789776770"/>
+							<reference ref="649756289"/>
 						</array>
 						<reference key="parent" ref="889402153"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1399</int>
-						<reference key="object" ref="789776770"/>
-						<reference key="parent" ref="652095142"/>
+						<reference key="object" ref="649756289"/>
+						<reference key="parent" ref="122395699"/>
 					</object>
 				</array>
 			</object>
@@ -8416,47 +8413,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/LaunchAtLoginController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSDocument</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="printDocument:">id</string>
-						<string key="revertDocumentToSaved:">id</string>
-						<string key="runPageLayout:">id</string>
-						<string key="saveDocument:">id</string>
-						<string key="saveDocumentAs:">id</string>
-						<string key="saveDocumentTo:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="printDocument:">
-							<string key="name">printDocument:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="revertDocumentToSaved:">
-							<string key="name">revertDocumentToSaved:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="runPageLayout:">
-							<string key="name">runPageLayout:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="saveDocument:">
-							<string key="name">saveDocument:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="saveDocumentAs:">
-							<string key="name">saveDocumentAs:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="saveDocumentTo:">
-							<string key="name">saveDocumentTo:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSDocument.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

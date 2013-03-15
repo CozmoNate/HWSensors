@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AppVersion</key>
-	<string>2.2.8</string>
+	<string>2.2.9</string>
 	<key>BuildNumber</key>
-	<string>304</string>
+	<string>305</string>
 	<key>ProjectName</key>
 	<string>HWSensors</string>
 	<key>ProjectVersion</key>

@@ -154,6 +154,9 @@
     }
 
     _maxPoints = [self bounds].size.width / GraphScale;
+
+    if (_maxPoints < 50)
+        _maxPoints = 50;
     
     if ((_maxY == 0 && _minY == MAXFLOAT)) {
         _graphBounds = NSMakeRect(0, 0, _maxPoints, 100);
@@ -285,11 +288,11 @@
         [context setShouldAntialias:YES];
 
         NSAttributedString *maxExtremeTitle = [[NSAttributedString alloc]
-                                               initWithString:[NSString stringWithFormat:_legendFormat, ((group & kHWSensorGroupTemperature || group & kSMARTGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
+                                               initWithString:[NSString stringWithFormat:_legendFormat, (_sensorGroup & (kHWSensorGroupTemperature | kSMARTGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
                                                attributes:_legendAttributes];
 
         NSAttributedString *minExtremeTitle = [[NSAttributedString alloc]
-                                     initWithString:[NSString stringWithFormat:_legendFormat, ((group & kHWSensorGroupTemperature || group & kSMARTGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
+                                     initWithString:[NSString stringWithFormat:_legendFormat, (_sensorGroup & (kHWSensorGroupTemperature | kSMARTGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
                                      attributes:_legendAttributes];
 
         if ([self graphPointToView:NSMakePoint(0, _maxY)].y + 2 + [maxExtremeTitle size].height > [self graphPointToView:NSMakePoint(0, _graphBounds.origin.y + _graphBounds.size.height)].y || [self graphPointToView:NSMakePoint(0, _minY)].y - [minExtremeTitle size].height < [self graphPointToView:_graphBounds.origin].y) {

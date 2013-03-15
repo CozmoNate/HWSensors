@@ -190,9 +190,6 @@
             
             [value getBytes:&life length:[value length]];
             
-            if (life > 100)
-                return nil;
-            
             break;
             
         case kSMARTGroupRemainingBlocks:
@@ -242,7 +239,7 @@
 {
     self = [super init];
     
-    _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
+    _smartReporter = [ATASmartReporter smartReporterByDiscoveringDrives];
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
     _bundle = [NSBundle mainBundle];
@@ -255,7 +252,7 @@
 {
     self = [super init];
     
-    _smartReporter = [NSATASmartReporter smartReporterByDiscoveringDrives];
+    _smartReporter = [ATASmartReporter smartReporterByDiscoveringDrives];
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
     _bundle = mainBundle;

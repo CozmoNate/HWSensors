@@ -59,6 +59,9 @@ typedef enum {
 @class HWMonitorEngine;
 
 @interface HWMonitorSensor : NSObject
+{
+    NSNumber *_rawValue;
+}
 
 @property (nonatomic, strong) HWMonitorEngine*  engine;
 

@@ -29,7 +29,7 @@
     if (MACH_PORT_NULL != ioservice) {
         ATAGenericDisk* me = [[ATAGenericDisk alloc] init];
         
-        me->service = ioservice;
+        me->_service = ioservice;
         
         me->productName = name;
         me->bsdName = bsd;
@@ -37,7 +37,7 @@
         me->serialNumber = serial;
         me->isRotational = rotational;
         
-        me->lastUpdate = [NSDate dateWithTimeIntervalSinceNow:-60.0];
+        me->lastUpdated = [NSDate dateWithTimeIntervalSinceNow:-60.0];
         
         return me;
     }
@@ -47,7 +47,7 @@
 
 -(BOOL)readSMARTData
 {
-    if ([lastUpdate timeIntervalSinceNow] > -60.0) 
+    if ([lastUpdated timeIntervalSinceNow] > -60.0) 
         return true;
     
     IOCFPlugInInterface ** pluginInterface = NULL;
@@ -55,7 +55,7 @@
     SInt32 score = 0;
     BOOL result = false;
     
-    if (kIOReturnSuccess == IOCreatePlugInInterfaceForService(service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
+    if (kIOReturnSuccess == IOCreatePlugInInterfaceForService(_service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
         if (S_OK == (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIOATASMARTInterfaceID), (LPVOID)&smartInterface)) {
             ATASMARTData smartData;
             
@@ -71,9 +71,9 @@
                     
                     if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &smartData)) {
                         if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &smartData)) {
-                            bcopy(&smartData.vendorSpecific1, &data, sizeof(data));
+                            bcopy(&smartData.vendorSpecific1, &_data, sizeof(_data));
                             result = true;
-                            lastUpdate = [NSDate date];
+                            lastUpdated = [NSDate date];
                         }
                     }
                     
@@ -95,8 +95,8 @@
 -(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8) identifier
 {
     for (int index = 0; index < kATASMARTVendorSpecificAttributesCount; index++) 
-        if (data.vendorAttributes[index].attributeId == identifier)
-            return &data.vendorAttributes[index];
+        if (_data.vendorAttributes[index].attributeId == identifier)
+            return &_data.vendorAttributes[index];
     
     return nil;
 }
@@ -140,17 +140,21 @@
     return nil;
 }
 
+-(void)dealloc
+{
+    if (_service)
+        IOObjectRelease(_service);
+}
+
 @end
 
 // NSATASmartReporter
 
-@implementation NSATASmartReporter
+@implementation ATASmartReporter
 
-@synthesize drives;
-
-+(NSATASmartReporter*)smartReporterByDiscoveringDrives
++(ATASmartReporter*)smartReporterByDiscoveringDrives
 {
-    NSATASmartReporter* me = [[NSATASmartReporter alloc] init];
+    ATASmartReporter* me = [[ATASmartReporter alloc] init];
     
     if (me)
         [me diskoverDrives];
@@ -276,7 +280,7 @@
         return [name1 compare:name2];
     }];
     
-    drives = [NSArray arrayWithArray:list];
+    _drives = [list copy];
 }
 
 @end

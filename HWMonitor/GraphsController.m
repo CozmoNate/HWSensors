@@ -45,7 +45,9 @@
 {
     _useFahrenheit = useFahrenheit;
     
-    for (id graphView in _graphViews) {
+    [_graphsTableView reloadData];
+    
+    for (GraphsView *graphView in _graphViews) {
         [graphView setUseFahrenheit:useFahrenheit];
     }
 }
@@ -54,7 +56,7 @@
 {
     _useSmoothing = useSmoothing;
     
-    for (id graphView in _graphViews) {
+    for (GraphsView *graphView in _graphViews) {
         [graphView setUseSmoothing:useSmoothing];
     }
 }
@@ -124,12 +126,16 @@
         [_items addObject:title];
         [_items addObjectsFromArray:sensorItems];
         
-        GraphsView *graph = [[GraphsView alloc] init];
+        GraphsView *graphView = [[GraphsView alloc] init];
         
-        [graph addItemsFromList:sensorItems forSensorGroup:sensorsGroup];
-        [graph setGraphsController:self];
+        [graphView addItemsFromList:sensorItems forSensorGroup:sensorsGroup];
+        [graphView setGraphsController:self];
+        [graphView setSensorGroup:sensorsGroup];
+        
+        [graphView setUseFahrenheit:_useFahrenheit];
+        [graphView setUseSmoothing:_useSmoothing];
     
-        [_graphViews addObject:graph];
+        [_graphViews addObject:graphView];
     }
 }
 
@@ -141,19 +147,16 @@
     else {
         [_items removeAllObjects];
     }
-
-    if (!_hiddenItems) {
-        _hiddenItems = [[NSMutableArray alloc] initWithArray:[[[NSUserDefaultsController sharedUserDefaultsController] defaults] objectForKey:kHWMonitorHiddenGraphsList]];
-    }
-    else {
-        [_hiddenItems removeAllObjects];
-    }
     
     if (!_graphViews) {
         _graphViews = [[NSMutableArray alloc] init];
     }
     else {
         [_graphViews removeAllObjects];
+    }
+    
+    if (!_hiddenItems) {
+        _hiddenItems = [[NSMutableArray alloc] initWithArray:[[[NSUserDefaultsController sharedUserDefaultsController] defaults] objectForKey:kHWMonitorHiddenGraphsList]];
     }
     
     [self addGraphForSensorGroup:kHWSensorGroupTemperature | kSMARTGroupTemperature fromGroupsList:groups withTitle:@"TEMPERATURES"];
@@ -171,27 +174,35 @@
     [[_graphsCollectionView content] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [[_graphsCollectionView itemAtIndex:idx] setView:obj];
     }];
+    
+    [_graphsTableView reloadData];
 }
 
-- (void) captureDataToHistoryNow
+- (void)captureDataToHistoryNow
 {
-    for (NSUInteger index = 0; index < [_items count]; index++) {
-        
-        id item = [_items objectAtIndex:index];
-        
-        if ([item isKindOfClass:[HWMonitorItem class]]) {
-            SensorCell *cell = [_graphsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
-
-            [[cell valueField] setStringValue:[[item sensor] formattedValue]];
+    if ([self.window isVisible]) {
+        for (NSUInteger index = 0; index < [_items count]; index++) {
+            
+            id item = [_items objectAtIndex:index];
+            
+            if ([item isKindOfClass:[HWMonitorItem class]]) {
+                id cell = [_graphsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
+                
+                if (cell && [cell isKindOfClass:[SensorCell class]]) {
+                    [[cell valueField] setStringValue:[[item sensor] formattedValue]];
+                }
+            }
         }
     }
     
-    for (id graphView in _graphViews) {
-        [graphView captureDataToHistoryNow];
+    if ([self.window isVisible] || [self backgroundMonitoring]) {
+        for (GraphsView *graphView in _graphViews) {
+            [graphView captureDataToHistoryNow];
+        }
     }
 }
 
-- (BOOL) checkItemIsHidden:(HWMonitorItem*)item
+- (BOOL)checkItemIsHidden:(HWMonitorItem*)item
 {
     return [_hiddenItems indexOfObject:[[item sensor] name]] != NSNotFound;
 }

@@ -22,8 +22,7 @@
 #define kATASMARTAttributeUnusedReservedBloks       0xB4
 
 
-typedef struct ATASMARTAttribute
-{
+typedef struct {
     UInt8 			attributeId;
     UInt16			flag;  
     UInt8 			current;
@@ -32,8 +31,7 @@ typedef struct ATASMARTAttribute
     UInt8 			reserv;
 }  __attribute__ ((packed)) ATASMARTAttribute;
 
-typedef struct ATASMARTVendorSpecificData
-{
+typedef struct {
     UInt16 					revisonNumber;
     ATASMARTAttribute		vendorAttributes [kATASMARTVendorSpecificAttributesCount];
 } __attribute__ ((packed)) ATASmartVendorSpecificData;
@@ -43,10 +41,9 @@ typedef struct ATASMARTVendorSpecificData
 @interface ATAGenericDisk : NSObject
 {
 @private
-    io_service_t service;
-    struct ATASMARTVendorSpecificData data;
-    
-    NSDate      *lastUpdate;
+    io_service_t                _service;
+    ATASmartVendorSpecificData  _data;
+    NSDate                      *lastUpdated;
 }
 
 @property (readonly) NSString   *productName;
@@ -68,17 +65,14 @@ typedef struct ATASMARTVendorSpecificData
 
 // NSATASmartReporter
 
-@interface NSATASmartReporter : NSObject
+@interface ATASmartReporter : NSObject
 {
-@private
-    NSArray *drives;
-    
-@public
+    NSArray *_drives;
 }
 
 @property (readonly) NSArray *drives;
 
-+(NSATASmartReporter*)smartReporterByDiscoveringDrives;
++(ATASmartReporter*)smartReporterByDiscoveringDrives;
 
 -(void)diskoverDrives;
 

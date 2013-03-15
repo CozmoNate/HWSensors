@@ -377,45 +377,49 @@
 
 - (void)updateValues
 {
-    for (NSUInteger index = 0; index < [_items count]; index++) {
-        
-        id item = [_items objectAtIndex:index];
-        
-        if ([item isKindOfClass:[HWMonitorItem class]]) {
-            SensorCell *cell = [_tableView viewAtColumn:0 row:index makeIfNecessary:NO];
-            HWMonitorSensor *sensor = [item sensor];
+    if ([self.window isVisible]) {
+        for (NSUInteger index = 0; index < [_items count]; index++) {
             
-            if ([sensor valueHasBeenChanged]) {
+            id item = [_items objectAtIndex:index];
+            
+            if ([item isKindOfClass:[HWMonitorItem class]]) {
+                SensorCell *cell = [_tableView viewAtColumn:0 row:index makeIfNecessary:NO];
+                HWMonitorSensor *sensor = [item sensor];
                 
-                NSColor *valueColor;
-                
-                switch ([sensor level]) {
-                        /*case kHWSensorLevelDisabled:
-                         break;
-                         
-                         case kHWSensorLevelNormal:
-                         break;*/
-                        
-                    case kHWSensorLevelModerate:
-                        valueColor = [NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f];
-                        break;
-                        
-                    case kHWSensorLevelExceeded:
-                        [cell.textField setTextColor:[NSColor redColor]];
-                    case kHWSensorLevelHigh:
-                        valueColor = [NSColor redColor];
-                        break;
-                        
-                    default:
-                        valueColor = _colorTheme.itemValueTitleColor;
-                        break;
+                if ([sensor valueHasBeenChanged]) {
+                    
+                    NSColor *valueColor;
+                    
+                    switch ([sensor level]) {
+                            /*case kHWSensorLevelDisabled:
+                             break;
+                             
+                             case kHWSensorLevelNormal:
+                             break;*/
+                            
+                        case kHWSensorLevelModerate:
+                            valueColor = [NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f];
+                            break;
+                            
+                        case kHWSensorLevelExceeded:
+                            [cell.textField setTextColor:[NSColor redColor]];
+                        case kHWSensorLevelHigh:
+                            valueColor = [NSColor redColor];
+                            break;
+                            
+                        default:
+                            valueColor = _colorTheme.itemValueTitleColor;
+                            break;
+                    }
+                    
+                    [cell.valueField setStringValue:[sensor formattedValue]];
+                    [cell.valueField setTextColor:valueColor];
                 }
-                
-                [cell.valueField setStringValue:[sensor formattedValue]];
-                [cell.valueField setTextColor:valueColor];
             }
         }
     }
+    
+    [_statusItemView setNeedsDisplay:YES];
 }
 
 // NSTableView delegate
