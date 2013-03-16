@@ -48,7 +48,7 @@
 @property (readonly) NSArray *sensors;
 @property (readonly) NSDictionary *keys;
 
-@property (nonatomic, assign) BOOL useFahrenheit;
+@property (nonatomic, setter = setUseFahrenheit:) BOOL useFahrenheit;
 @property (nonatomic, setter = setUseBSDNames:) BOOL useBSDNames;
 
 + (HWMonitorEngine*)engineWithBundle:(NSBundle*)bundle;

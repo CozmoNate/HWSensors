@@ -373,6 +373,8 @@
     // Resize panel height to fit all table view content
     panelRect.size.height = [_tableView frame].size.height + ARROW_HEIGHT + CORNER_RADIUS;
     [[self window] setFrame:panelRect display:NO];
+    
+    [_statusItemView setNeedsDisplay:YES];
 }
 
 - (void)updateValues

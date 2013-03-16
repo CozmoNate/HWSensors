@@ -265,6 +265,8 @@
         }
     }
     
+    _valueHasBeenChanged = false;
+    
     return _rawValue;
 }
 

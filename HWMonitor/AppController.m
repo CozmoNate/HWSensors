@@ -431,9 +431,13 @@ if (![_items objectForKey:name]) {\
 -(IBAction)useFahrenheitChanged:(id)sender
 {
     BOOL useFahrenheit = [sender selectedRow] == 1;
+    
     [_engine setUseFahrenheit:useFahrenheit];
+    
+    [_sensorsTableView reloadData];
+    [_popupController reloadData];
     [_graphsController setUseFahrenheit:useFahrenheit];
-    [_popupController.statusItemView setNeedsDisplay:YES];
+    
     [_defaults synchronize];
 }
 

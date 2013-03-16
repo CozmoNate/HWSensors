@@ -70,15 +70,32 @@
     return nil;
 }
 
+-(void)setUseFahrenheit:(BOOL)useFahrenheit
+{
+    _useFahrenheit = useFahrenheit;
+    
+    [_sensorsLock lock];
+    
+    for (HWMonitorSensor *sensor in [self sensors]) {
+        if ([sensor group] & (kHWSensorGroupTemperature | kSMARTGroupTemperature)) {
+            [sensor setValueHasBeenChanged:YES];
+        }
+    }
+        
+    [_sensorsLock unlock];
+}
+
 -(void)setUseBSDNames:(BOOL)useBSDNames
 {
-    //if (_useBSDNames != useBSDNames) {
-        _useBSDNames = useBSDNames;
-        
-        for (HWMonitorSensor *sensor in [self sensors])
-            if ([sensor genericDevice])
-                [sensor setTitle:_useBSDNames ? [[sensor genericDevice] bsdName] : [[[sensor genericDevice] productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-    //}
+    _useBSDNames = useBSDNames;
+
+    [_sensorsLock lock];
+
+    for (HWMonitorSensor *sensor in [self sensors])
+        if ([sensor genericDevice])
+            [sensor setTitle:_useBSDNames ? [[sensor genericDevice] bsdName] : [[[sensor genericDevice] productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+    
+    [_sensorsLock unlock];
 }
 
 - (NSArray*)populateInfoForKey:(NSString*)key
