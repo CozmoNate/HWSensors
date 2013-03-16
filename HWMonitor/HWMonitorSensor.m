@@ -250,6 +250,16 @@
         else if (_group & kHWSensorGroupPower) {
             _rawValue = [NSNumber numberWithFloat:[self decodeNumericValue]];
         }
+        else if (_group & kBluetoothGroupBattery) {
+            UInt64 level = 0;
+            
+            [_data getBytes:&level length:[_data length]];
+            
+            if (_level != kHWSensorLevelExceeded)
+                [self setLevel:level < 5 ? kHWSensorLevelExceeded : level < 10 ? kHWSensorLevelHigh : level < 30 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+            
+            _rawValue = [NSNumber numberWithLongLong:level];
+        }
         else {
             _rawValue = [NSNumber numberWithFloat:MAXFLOAT];
         }
@@ -269,8 +279,8 @@
                 _formattedValue = [NSString stringWithFormat:@"%d°", [[self rawValue] intValue]];
             }
         }
-        else if (_group & kSMARTGroupRemainingLife) {
-            _formattedValue = [NSString stringWithFormat:@"%lld%c", [[self rawValue] longLongValue], 0x0025];
+        else if (_group & (kSMARTGroupRemainingLife | kBluetoothGroupBattery)) {
+            _formattedValue = [NSString stringWithFormat:@"%d%%", [[self rawValue] intValue]];
         }
         else if (_group & kSMARTGroupRemainingBlocks) {
             _formattedValue = [NSString stringWithFormat:@"%lld", [[self rawValue] longLongValue]];

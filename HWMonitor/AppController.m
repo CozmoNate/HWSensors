@@ -73,6 +73,7 @@ if (![_items objectForKey:name]) {\
     [self loadIconNamed:kHWMonitorIconFrequencies];
     [self loadIconNamed:kHWMonitorIconTachometers];
     [self loadIconNamed:kHWMonitorIconVoltages];
+    [self loadIconNamed:kHWMonitorIconBattery];
     
     _colorThemes = [ColorTheme createColorThemes];
     
@@ -158,8 +159,11 @@ if (![_items objectForKey:name]) {\
     else if ((group & kHWSensorGroupPWM) || (group & kHWSensorGroupTachometer)) {
         return [self getIconByName:kHWMonitorIconTachometers];
     }
-    else if (group & kHWSensorGroupVoltage) {
+    else if (group & (kHWSensorGroupVoltage | kHWSensorGroupCurrent | kHWSensorGroupPower)) {
         return [self getIconByName:kHWMonitorIconVoltages];
+    }
+    else if (group & kBluetoothGroupBattery) {
+        return [self getIconByName:kHWMonitorIconBattery];
     }
     
     return nil;
@@ -172,12 +176,12 @@ if (![_items objectForKey:name]) {\
 
 - (void)updateSmcSensors
 {
-    [self updateValuesForSensors:[_engine updateSmcSensors]];
+    [self updateValuesForSensors:[_engine updateSensors]];
 }
 
 - (void)updateFavoritesSensors
 {
-    [self updateValuesForSensors:[_engine updateSmcSensorsList:_favorites]];
+    [self updateValuesForSensors:[_engine updateSensorsList:_favorites]];
 }
 
 - (void)captureDataToHistory
@@ -262,6 +266,7 @@ if (![_items objectForKey:name]) {\
     icon = [self getIconByName:kHWMonitorIconFrequencies]; AddItem(icon, icon.name);
     icon = [self getIconByName:kHWMonitorIconTachometers]; AddItem(icon, icon.name);
     icon = [self getIconByName:kHWMonitorIconVoltages]; AddItem(icon, icon.name);
+    icon = [self getIconByName:kHWMonitorIconBattery]; AddItem(icon, icon.name);
 
     // Add sensors
     AddItem(@"Sensors", @"Sensors");
@@ -324,6 +329,7 @@ if (![_items objectForKey:name]) {\
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupVoltage title:GetLocalizedString(@"VOLTAGES") image:[self getIconByName:kHWMonitorIconVoltages]]];
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupCurrent title:GetLocalizedString(@"CURRENTS") image:[self getIconByName:kHWMonitorIconVoltages]]];
         [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kHWSensorGroupPower title:GetLocalizedString(@"POWERS") image:[self getIconByName:kHWMonitorIconVoltages]]];
+        [_groups addObject:[HWMonitorGroup groupWithEngine:_engine sensorGroup:kBluetoothGroupBattery title:GetLocalizedString(@"BATTERIES") image:[self getIconByName:kHWMonitorIconBattery]]];
         
         [_favorites removeAllObjects];
         

@@ -17,6 +17,8 @@
 "voltages" = "Voltage icon";
 "pcicard" = "Device icon";
 "video" = "Graphics card icon";
+"battery" = "Battery icon";
+
 "CPUFan" = "CPU Fan";
 "CPUFan2" = "CPU Fan №2";
 "PowerFan" = "Power Fan";

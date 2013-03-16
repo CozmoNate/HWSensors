@@ -29,6 +29,8 @@
 		7E17953116EE6FB000145082 /* Mouse.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E17953016EE6FB000145082 /* Mouse.png */; };
 		7E17953316EE6FBB00145082 /* Keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E17953216EE6FBB00145082 /* Keyboard.png */; };
 		7E17953616EE705B00145082 /* BatteryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E17953516EE705B00145082 /* BatteryCell.m */; };
+		7E1BC3CE16F47BDF005B9479 /* battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CC16F47BDE005B9479 /* battery.png */; };
+		7E1BC3CF16F47BDF005B9479 /* battery_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CD16F47BDF005B9479 /* battery_template.png */; };
 		7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248EB16D8E93A002231B2 /* Cocoa.framework */; };
 		7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248F416D8E93A002231B2 /* InfoPlist.strings */; };
 		7EA248F816D8E93A002231B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248F716D8E93A002231B2 /* main.m */; };
@@ -56,7 +58,7 @@
 		7EA2493316D8E9C6002231B2 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EA2491E16D8E9C6002231B2 /* voltages_template.png */; };
 		7EA2493416D8E9C6002231B2 /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EA2491F16D8E9C6002231B2 /* voltages.png */; };
 		7EA2493616D8E9CE002231B2 /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7EA2493516D8E9CE002231B2 /* default.icns */; };
-		7EA2494116D8EA95002231B2 /* ATASmartReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493916D8EA95002231B2 /* ATASmartReporter.m */; };
+		7EA2494116D8EA95002231B2 /* ATAGenericDrive.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493916D8EA95002231B2 /* ATAGenericDrive.m */; };
 		7EA2494216D8EA95002231B2 /* HWMonitorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493C16D8EA95002231B2 /* HWMonitorEngine.m */; };
 		7EA2494316D8EA95002231B2 /* HWMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493E16D8EA95002231B2 /* HWMonitorSensor.m */; };
 		7EA2494416D8EA95002231B2 /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493F16D8EA95002231B2 /* smc.c */; };
@@ -115,6 +117,10 @@
 		7E17953216EE6FBB00145082 /* Keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Keyboard.png; sourceTree = "<group>"; };
 		7E17953416EE705B00145082 /* BatteryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatteryCell.h; sourceTree = "<group>"; };
 		7E17953516EE705B00145082 /* BatteryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatteryCell.m; sourceTree = "<group>"; };
+		7E1BC3CC16F47BDE005B9479 /* battery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = battery.png; sourceTree = "<group>"; };
+		7E1BC3CD16F47BDF005B9479 /* battery_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = battery_template.png; sourceTree = "<group>"; };
+		7E1BC3D116F489E8005B9479 /* HWMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HWMonitor.entitlements; sourceTree = "<group>"; };
+		7E1BC3D716F48A8C005B9479 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7E9E7BA716E45A7A00CC8D5D /* SmcKeysDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmcKeysDefinitions.h; path = Shared/SmcKeysDefinitions.h; sourceTree = "<group>"; };
 		7EA248E816D8E93A002231B2 /* HWMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HWMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA248EB16D8E93A002231B2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -150,8 +156,8 @@
 		7EA2491E16D8E9C6002231B2 /* voltages_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voltages_template.png; sourceTree = "<group>"; };
 		7EA2491F16D8E9C6002231B2 /* voltages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voltages.png; sourceTree = "<group>"; };
 		7EA2493516D8E9CE002231B2 /* default.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = default.icns; sourceTree = "<group>"; };
-		7EA2493816D8EA95002231B2 /* ATASmartReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATASmartReporter.h; sourceTree = "<group>"; };
-		7EA2493916D8EA95002231B2 /* ATASmartReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATASmartReporter.m; sourceTree = "<group>"; };
+		7EA2493816D8EA95002231B2 /* ATAGenericDrive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATAGenericDrive.h; sourceTree = "<group>"; };
+		7EA2493916D8EA95002231B2 /* ATAGenericDrive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATAGenericDrive.m; sourceTree = "<group>"; };
 		7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
 		7EA2493B16D8EA95002231B2 /* HWMonitorEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorEngine.h; sourceTree = "<group>"; };
 		7EA2493C16D8EA95002231B2 /* HWMonitorEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorEngine.m; sourceTree = "<group>"; };
@@ -179,7 +185,6 @@
 		7EB1338B16DBF06300A41255 /* 19-gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear@2x.png"; sourceTree = "<group>"; };
 		7EB1339216DBF08200A41255 /* 60-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "60-x.png"; sourceTree = "<group>"; };
 		7EB1339316DBF08200A41255 /* 60-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "60-x@2x.png"; sourceTree = "<group>"; };
-		7EB1339B16DC03AD00A41255 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7ECDDE1016DD3FB400085FFF /* 17-bar-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "17-bar-chart.png"; sourceTree = "<group>"; };
 		7ECDDE1216DD3FCA00085FFF /* 17-bar-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "17-bar-chart@2x.png"; sourceTree = "<group>"; };
 		7ECDDE3016DD680E00085FFF /* 04-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye.png"; sourceTree = "<group>"; };
@@ -204,8 +209,6 @@
 		7EDA1A7D16D91B9B0012A0DC /* PopupPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupPanel.m; sourceTree = "<group>"; };
 		7EDA1AAA16D936410012A0DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7EDA1AAC16D936620012A0DC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		7EDA1AAD16D936BF0012A0DC /* fr-FR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-FR"; path = "fr-FR.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		7EDA1AAE16D936D30012A0DC /* es-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-ES"; path = "es-ES.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		7EDA1AC916D956E90012A0DC /* GraphsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphsView.h; sourceTree = "<group>"; };
 		7EDA1ACA16D956EA0012A0DC /* GraphsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphsView.m; sourceTree = "<group>"; };
 		7EDA1ACF16DA83AF0012A0DC /* GraphsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphsController.h; sourceTree = "<group>"; };
@@ -254,13 +257,13 @@
 			name = LaunchAtLoginController;
 			sourceTree = "<group>";
 		};
-		7E10343316EFAE110089DE7B /* BluetoothReporter */ = {
+		7E10343316EFAE110089DE7B /* BluetoothGenericDevice */ = {
 			isa = PBXGroup;
 			children = (
 				7E10343416EFAE490089DE7B /* BluetoothGenericDevice.h */,
 				7E10343516EFAE490089DE7B /* BluetoothGenericDevice.m */,
 			);
-			name = BluetoothReporter;
+			name = BluetoothGenericDevice;
 			sourceTree = "<group>";
 		};
 		7E1261D216E008FE00622F92 /* Shared */ = {
@@ -327,6 +330,7 @@
 		7EA248F116D8E93A002231B2 /* HWMonitor */ = {
 			isa = PBXGroup;
 			children = (
+				7E1BC3D116F489E8005B9479 /* HWMonitor.entitlements */,
 				7EA2490A16D8E9B0002231B2 /* Engines */,
 				7EA2494A16D8EB0B002231B2 /* Views */,
 				7EA2490916D8E9A7002231B2 /* Controllers */,
@@ -373,6 +377,8 @@
 				7EA2491D16D8E9C6002231B2 /* thermometer.png */,
 				7EA2491E16D8E9C6002231B2 /* voltages_template.png */,
 				7EA2491F16D8E9C6002231B2 /* voltages.png */,
+				7E1BC3CC16F47BDE005B9479 /* battery.png */,
+				7E1BC3CD16F47BDF005B9479 /* battery_template.png */,
 				7ECDDE1016DD3FB400085FFF /* 17-bar-chart.png */,
 				7ECDDE1216DD3FCA00085FFF /* 17-bar-chart@2x.png */,
 				7EA8CA6216EBBECC00E71108 /* 17-bar-chart-highlight.png */,
@@ -414,20 +420,20 @@
 			children = (
 				7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */,
 				7EDA1A6716D8F0FB0012A0DC /* BundleUserDefaults */,
-				7EA2494516D8EA99002231B2 /* ATASmartReporter */,
-				7E10343316EFAE110089DE7B /* BluetoothReporter */,
+				7EA2494516D8EA99002231B2 /* ATAGenericDrive */,
+				7E10343316EFAE110089DE7B /* BluetoothGenericDevice */,
 				7EA2494616D8EAA2002231B2 /* HWMonitorEngine */,
 			);
 			name = Engines;
 			sourceTree = "<group>";
 		};
-		7EA2494516D8EA99002231B2 /* ATASmartReporter */ = {
+		7EA2494516D8EA99002231B2 /* ATAGenericDrive */ = {
 			isa = PBXGroup;
 			children = (
-				7EA2493816D8EA95002231B2 /* ATASmartReporter.h */,
-				7EA2493916D8EA95002231B2 /* ATASmartReporter.m */,
+				7EA2493816D8EA95002231B2 /* ATAGenericDrive.h */,
+				7EA2493916D8EA95002231B2 /* ATAGenericDrive.m */,
 			);
-			name = ATASmartReporter;
+			name = ATAGenericDrive;
 			sourceTree = "<group>";
 		};
 		7EA2494616D8EAA2002231B2 /* HWMonitorEngine */ = {
@@ -640,6 +646,8 @@
 				7EA8CA6D16EBBECD00E71108 /* 60-x-highlight@2x.png in Resources */,
 				7E17953116EE6FB000145082 /* Mouse.png in Resources */,
 				7E17953316EE6FBB00145082 /* Keyboard.png in Resources */,
+				7E1BC3CE16F47BDF005B9479 /* battery.png in Resources */,
+				7E1BC3CF16F47BDF005B9479 /* battery_template.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,7 +710,7 @@
 			files = (
 				7EA248F816D8E93A002231B2 /* main.m in Sources */,
 				7EA248FF16D8E93A002231B2 /* AppController.m in Sources */,
-				7EA2494116D8EA95002231B2 /* ATASmartReporter.m in Sources */,
+				7EA2494116D8EA95002231B2 /* ATAGenericDrive.m in Sources */,
 				7EA2494216D8EA95002231B2 /* HWMonitorEngine.m in Sources */,
 				7EA2494316D8EA95002231B2 /* HWMonitorSensor.m in Sources */,
 				7EA2494416D8EA95002231B2 /* smc.c in Sources */,
@@ -758,7 +766,7 @@
 		7EB1339A16DC03AD00A41255 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7EB1339B16DC03AD00A41255 /* en */,
+				7E1BC3D716F48A8C005B9479 /* en */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -768,8 +776,6 @@
 			children = (
 				7EDA1AAA16D936410012A0DC /* en */,
 				7EDA1AAC16D936620012A0DC /* ru */,
-				7EDA1AAD16D936BF0012A0DC /* fr-FR */,
-				7EDA1AAE16D936D30012A0DC /* es-ES */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -850,6 +856,7 @@
 		7EA2490616D8E93A002231B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = HWMonitor/HWMonitor.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
@@ -863,6 +870,7 @@
 		7EA2490716D8E93A002231B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = HWMonitor/HWMonitor.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";

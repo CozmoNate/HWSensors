@@ -37,6 +37,7 @@
 @private
     io_connect_t _connection;
     NSArray *_smartDrives;
+    NSArray *_bluetoothDevices;
     NSMutableArray *_sensors;
     NSMutableDictionary *_keys;
     NSLock *_sensorsLock;
@@ -66,8 +67,8 @@
 - (NSArray*)populateInfoForKey:(NSString *)key;
 - (void)rebuildSensorsList;
 - (NSArray*)updateSmartSensors;
-- (NSArray*)updateSmcSensors;
-- (NSArray*)updateSmcSensorsList:(NSArray*)sensors;
+- (NSArray*)updateSensors;
+- (NSArray*)updateSensorsList:(NSArray*)sensors;
 
 - (NSArray*)getAllSensorsInGroup:(NSUInteger)group;
 

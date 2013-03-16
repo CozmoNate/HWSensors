@@ -12,16 +12,20 @@ typedef enum
 {
     kBluetoothDeviceTypeNone,
     kBluetoothDeviceTypeMouse,
-    kBluetoothDeviceTypeKeyboard
+    kBluetoothDeviceTypeKeyboard,
+    kBluetoothDeviceTypeTrackpad
 } BluetoothDeviceType;
 
 @interface BluetoothGenericDevice : NSObject
 
-@property (readonly) BluetoothDeviceType deviceType;
+@property (nonatomic, assign) io_service_t service;
+@property (nonatomic, assign) BluetoothDeviceType deviceType;
+@property (nonatomic, strong) NSString *productName;
 
-+ (BluetoothGenericDevice*)bluetoothGenericDeviceByDiscoveringDeviceType:(BluetoothDeviceType)type;
++ (NSArray*)discoverDevices;
+
++ (BluetoothGenericDevice*)bluetoothGenericDeviceWithService:(io_service_t)service ofType:(BluetoothDeviceType)type;
 
 - (NSData*)getBatteryLevel;
-- (void)discoverDeviceType:(BluetoothDeviceType)type;
 
 @end

@@ -100,8 +100,6 @@
 		1D6FE3F913FEBFF200376E64 /* ACPISensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ACPISensors-Prefix.pch"; sourceTree = "<group>"; };
 		1D6FE3FD13FEC03100376E64 /* ACPISensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ACPISensors.cpp; sourceTree = "<group>"; };
 		1D6FE3FE13FEC03100376E64 /* ACPISensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPISensors.h; sourceTree = "<group>"; };
-		6A0D50B3151C904C00A6FC60 /* loadmenuextra */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = loadmenuextra; path = Installer/loadmenuextra; sourceTree = "<group>"; };
-		6A0D50B4151C904C00A6FC60 /* updatecaches */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = updatecaches; path = Installer/updatecaches; sourceTree = "<group>"; };
 		6A10C18F1506B2A4005E0897 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		6A2B4E32152179700093A217 /* F718xxSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = F718xxSensors.cpp; sourceTree = "<group>"; };
 		6A2B4E33152179700093A217 /* F718xxSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F718xxSensors.h; sourceTree = "<group>"; };
@@ -149,7 +147,6 @@
 		7E17E16F169C532000E40FC7 /* si.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = si.cpp; sourceTree = "<group>"; };
 		7E17E170169C532100E40FC7 /* si.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = si.h; sourceTree = "<group>"; };
 		7E24AF81169CBB9700040AF4 /* atom-names.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "atom-names.h"; sourceTree = "<group>"; };
-		7E2A5803159240B30073AB74 /* removefakesmc */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = removefakesmc; path = Installer/removefakesmc; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OEMInfo.cpp; sourceTree = "<group>"; };
 		7E5A8CB81605EAA400FF0099 /* OEMInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMInfo.h; sourceTree = "<group>"; };
@@ -229,7 +226,6 @@
 		7EB1366A169C2CE700B42023 /* atom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atom.cpp; sourceTree = "<group>"; };
 		7EB1366B169C2CE700B42023 /* atom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atom.h; sourceTree = "<group>"; };
 		7EB692E715C99A2E0009B2E2 /* gpl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = gpl.txt; sourceTree = "<group>"; };
-		7EB7A7BD1596021A00971346 /* killuiserver */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = killuiserver; path = Installer/killuiserver; sourceTree = "<group>"; };
 		7EBB50D915EEAE3C00FEBBB9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
 		7EBCF8791615A84C00E16D3B /* timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
 		7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PTIDSensors.cpp; sourceTree = "<group>"; };
@@ -289,7 +285,6 @@
 				7E79B81B15BA99350079AAE8 /* CPUSensors */,
 				7EADE20815E5602F00FD117C /* GPUSensors */,
 				6A4E473A152178A00038C5DE /* LPCSensors */,
-				6A0D508D151C902B00A6FC60 /* Installer */,
 				1D05ABE613ED0DAD00EADBF6 /* Frameworks */,
 				1D05ABE513ED0DAD00EADBF6 /* Products */,
 			);
@@ -364,17 +359,6 @@
 				1D6FE3F913FEBFF200376E64 /* ACPISensors-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		6A0D508D151C902B00A6FC60 /* Installer */ = {
-			isa = PBXGroup;
-			children = (
-				6A0D50B3151C904C00A6FC60 /* loadmenuextra */,
-				7E2A5803159240B30073AB74 /* removefakesmc */,
-				6A0D50B4151C904C00A6FC60 /* updatecaches */,
-				7EB7A7BD1596021A00971346 /* killuiserver */,
-			);
-			name = Installer;
 			sourceTree = "<group>";
 		};
 		6A2B4E4A152179840093A217 /* Super I/O Nub */ = {

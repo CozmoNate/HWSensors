@@ -42,6 +42,7 @@
 #define kHWMonitorIconFrequencies           @"frequencies"
 #define kHWMonitorIconTachometers           @"tachometers"
 #define kHWMonitorIconVoltages              @"voltages"
+#define kHWMonitorIconBattery               @"battery"
 
 // Notifications
 #define HWMonitorBooleanYES                 @"YES"

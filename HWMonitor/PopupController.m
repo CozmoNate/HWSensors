@@ -483,7 +483,7 @@
         if (([sensor group] & kHWSensorGroupTemperature) || ([sensor group] & kSMARTGroupTemperature)) {
             sensorCell = [tableView makeViewWithIdentifier:@"Temperature" owner:self];
         }
-        else if (([sensor group] & kHWSensorGroupPWM) || ([sensor group] & kSMARTGroupRemainingLife)) {
+        else if (([sensor group] & (kHWSensorGroupPWM | kSMARTGroupRemainingLife | kBluetoothGroupBattery))) {
             sensorCell = [tableView makeViewWithIdentifier:@"Percentage" owner:self];
         }
         else {

@@ -165,6 +165,7 @@
     [self addGraphForSensorGroup:kHWSensorGroupVoltage fromGroupsList:groups withTitle:@"VOLTAGES"];
     [self addGraphForSensorGroup:kHWSensorGroupCurrent fromGroupsList:groups withTitle:@"CURRENTS"];
     [self addGraphForSensorGroup:kHWSensorGroupPower fromGroupsList:groups withTitle:@"POWERS"];
+    [self addGraphForSensorGroup:kBluetoothGroupBattery fromGroupsList:groups withTitle:@"BATTERIES"];
     
     [_graphsCollectionView setContent:_graphViews];
     
@@ -273,8 +274,11 @@
     else if ([item isKindOfClass:[HWMonitorItem class]]) {
         SensorCell *sensorCell = nil;
         
-        if (([[item sensor] group] & kHWSensorGroupTemperature) || ([[item sensor] group] & kSMARTGroupTemperature)) {
+        if ([[item sensor] group] & (kHWSensorGroupTemperature | kSMARTGroupTemperature)) {
             sensorCell = [tableView makeViewWithIdentifier:@"Temperature" owner:self];
+        }
+        if ([[item sensor] group] & kBluetoothGroupBattery) {
+            sensorCell = [tableView makeViewWithIdentifier:@"Percentage" owner:self];
         }
         else {
             sensorCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];

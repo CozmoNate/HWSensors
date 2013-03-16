@@ -223,13 +223,38 @@
     NSData *level = [device getBatteryLevel];
     
     if (level) {
-        /*HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%lx", [disk serialNumber], group] title:_useBSDNames ? [disk bsdName] : [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
+        HWMonitorSensor *sensor = nil;
         
-        [sensor setData:value];
-        [sensor setGenericDevice:disk];
-        if ([disk isExceeded]) [sensor setLevel:kHWSensorLevelExceeded];
+        if (![device productName]) {
+            [device setProductName:[NSString stringWithFormat:@"%d", (int)device]];
+            
+            NSString *title = nil;
+            
+            switch ([device deviceType]) {
+                case kBluetoothDeviceTypeKeyboard:
+                    title = @"Keyboard";
+                    break;
+                case kBluetoothDeviceTypeMouse:
+                    title = @"Mouse";
+                    break;
+                case kBluetoothDeviceTypeTrackpad:
+                    title = @"Trackpad";
+                    break;
+                default:
+                    title = @"Unknown";
+                    break;
+            }
+            
+            sensor = [self addSensorWithKey:[device productName] title:title group:group];
+        }
+        else {
+            sensor = [self addSensorWithKey:[device productName] title:[device productName] group:group];
+        }
         
-        return sensor;*/
+        [sensor setData:[device getBatteryLevel]];
+        [sensor setGenericDevice:device];
+        
+        return sensor;
     }
     
     return nil;
@@ -239,24 +264,25 @@
 {
     self = [super init];
     
-    _smartDrives = [ATAGenericDrive discoverDrives];
-    _sensors = [[NSMutableArray alloc] init];
-    _keys = [[NSMutableDictionary alloc] init];
-    _bundle = [NSBundle mainBundle];
-    _sensorsLock = [[NSLock alloc] init];
+    if (self) {
+        _smartDrives = [ATAGenericDrive discoverDrives];
+        _bluetoothDevices = [BluetoothGenericDevice discoverDevices];
+        _sensors = [[NSMutableArray alloc] init];
+        _keys = [[NSMutableDictionary alloc] init];
+        _bundle = [NSBundle mainBundle];
+        _sensorsLock = [[NSLock alloc] init];
+    }
     
     return self;
 }
 
 - (id)initWithBundle:(NSBundle*)mainBundle;
 {
-    self = [super init];
+    self = [self init];
     
-    _smartDrives = [ATAGenericDrive discoverDrives];
-    _sensors = [[NSMutableArray alloc] init];
-    _keys = [[NSMutableDictionary alloc] init];
-    _bundle = mainBundle;
-    _sensorsLock = [[NSLock alloc] init];
+    if (self) {
+        _bundle = mainBundle;
+    }
     
     return self;
 }
@@ -418,6 +444,17 @@
     // Powers
     [self addSensorsFromSMCKeyGroup:kSMCKeyGroupPower toHWSensorGroup:kHWSensorGroupPower];
     
+    // Batteries
+    if (_bluetoothDevices) {
+        for (NSUInteger i = 0; i < [_bluetoothDevices count]; i++) {
+            BluetoothGenericDevice * device = [_bluetoothDevices objectAtIndex:i];
+            
+            if (device) {
+                [self addBluetoothSensorWithGenericDevice:device group:kBluetoothGroupBattery];
+            }
+        }
+    }
+    
     [_sensorsLock unlock];
 }
 
@@ -457,7 +494,7 @@
     return list;
 }
 
-- (NSArray*)updateSmcSensors
+- (NSArray*)updateSensors
 {
     [_sensorsLock lock];
     
@@ -480,6 +517,13 @@
                     }
                 }
             }
+            else if ([[sensor genericDevice] isKindOfClass:[BluetoothGenericDevice class]]) {
+                [sensor setData:[[sensor genericDevice] getBatteryLevel]];
+                
+                if ([sensor valueHasBeenChanged]) {
+                    [list addObject:sensor];
+                }
+            }
         }
     }
     else if (_connection) {
@@ -492,7 +536,7 @@
     return list;
 }
 
--(NSArray*)updateSmcSensorsList:(NSArray *)sensors
+-(NSArray*)updateSensorsList:(NSArray *)sensors
 {
     if (!sensors) return nil; // [self updateSmcSensors];
     

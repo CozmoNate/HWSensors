@@ -81,6 +81,9 @@
     else if (sensorsGroup & kHWSensorGroupPower) {
         _legendFormat = @"%1.3fW";
     }
+    else if (sensorsGroup & kBluetoothGroupBattery) {
+        _legendFormat = @"%1.0f%";
+    }
     
     if (!_items) {
         _items = [[NSMutableArray alloc] init];
