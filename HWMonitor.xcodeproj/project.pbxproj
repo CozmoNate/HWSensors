@@ -905,7 +905,6 @@
 				INFOPLIST_FILE = "SMC Value Decoder/SMC Value Decoder-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -914,14 +913,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SMC Value Decoder/SMC Value Decoder-Prefix.pch";
 				INFOPLIST_FILE = "SMC Value Decoder/SMC Value Decoder-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;

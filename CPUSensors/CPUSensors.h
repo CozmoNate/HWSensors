@@ -56,8 +56,15 @@
 
 #include "cpuid.h"
 
-#define MSR_IA32_THERM_STS      0x019C
-#define MSR_IA32_TEMP_TARGET	0x01A2
+#define MSR_IA32_THERM_STS              0x019C
+#define MSR_IA32_TEMP_TARGET            0x01A2
+#define MSR_IA32_PERF_STATUS            0x0198
+
+#define MSR_RAPL_POWER_UNIT             0x606
+#define MSR_PKG_ENERY_STATUS            0x611
+#define MSR_DRAM_ENERGY_STATUS          0x619
+#define MSR_PP0_ENERY_STATUS            0x639
+#define MSR_PP1_ENERY_STATUS            0x641
 
 #define kCPUSensorsMaxCpus      64
 
@@ -66,6 +73,8 @@ extern "C" int cpu_number(void);
 
 static UInt8  cpu_thermal[kCPUSensorsMaxCpus];
 static UInt16 cpu_performance[kCPUSensorsMaxCpus];
+
+static UInt8  cpu_package_thermal;
 
 class CPUSensors : public FakeSMCPlugin
 {

@@ -377,19 +377,18 @@
     [_statusItemView setNeedsDisplay:YES];
 }
 
-- (void)updateValues
+-(void)updateValuesForSensors:(NSArray *)sensors
 {
     if ([self.window isVisible]) {
-        for (NSUInteger index = 0; index < [_items count]; index++) {
+        for (HWMonitorSensor *sensor in sensors) {
             
-            id item = [_items objectAtIndex:index];
+            HWMonitorItem *item = [sensor representedObject];
             
-            if ([item isKindOfClass:[HWMonitorItem class]]) {
-                SensorCell *cell = [_tableView viewAtColumn:0 row:index makeIfNecessary:NO];
-                HWMonitorSensor *sensor = [item sensor];
+            if ([item isVisible]) {
                 
-                if ([sensor valueHasBeenChanged]) {
-                    
+                SensorCell *cell = [_tableView viewAtColumn:0 row:[_items indexOfObject:item] makeIfNecessary:NO];
+                
+                if (cell && [cell isKindOfClass:[SensorCell class]]) {
                     NSColor *valueColor;
                     
                     switch ([sensor level]) {

@@ -54,6 +54,8 @@
 #include <IOKit/IODeviceTreeSupport.h>
 #include <IOKit/IORegistryEntry.h>
 
+#define kCPUSensorsPackageTemperatureSensor   1000
+
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(CPUSensors, FakeSMCPlugin)
 
@@ -79,6 +81,12 @@ inline void read_cpu_thermal(void* cpu_index)
 	}
 };
 
+inline void read_cpu_package_thermal(void* magic)
+{
+    UInt64 msr = rdmsr64(MSR_IA32_PACKAGE_THERM_STATUS);
+    cpu_package_thermal = (msr >> 16) & 0x7F;
+};
+
 inline void read_cpu_performance(void* cpu_index)
 {
     UInt8 *cpn = (UInt8*)cpu_index;
@@ -102,11 +110,17 @@ IOReturn CPUSensors::loopTimerEvent(void)
 {
     UInt8 index;
     
-    if (thermCounter++ < 4)
+    if (thermCounter++ < 4) {
         for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
             mp_rendezvous_no_intrs(read_cpu_thermal, &index);
             IOSleep(1); // Yield?
         }
+        
+        if (cpuid_info()->cpuid_thermal_sensor) {
+            mp_rendezvous_no_intrs(read_cpu_package_thermal, &index);
+            IOSleep(1); // Yield?
+        }
+    }
     
     if (perfCounter++ < 4) {
         switch (cpuid_info()->cpuid_cpufamily) {
@@ -176,6 +190,9 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
                 return calculateMultiplier(sensor->getIndex()) * (float)busClock;
             }
             break;
+            
+        case kCPUSensorsPackageTemperatureSensor:
+            return tjmax[0] - cpu_package_thermal;
     }
     
     return 0;
@@ -436,6 +453,11 @@ bool CPUSensors::start(IOService *provider)
                 break;
         }
 	}
+    
+    if (cpuid_info()->cpuid_thermal_sensor) {
+        if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPackageTemperatureSensor, 0))
+            HWSensorsWarningLog("failed to add cpu package temperature sensor");
+    }
     
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:

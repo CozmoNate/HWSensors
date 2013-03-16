@@ -201,7 +201,7 @@ if (![_items objectForKey:name]) {\
         }
     }
     
-    [_popupController updateValues];
+    [_popupController updateValuesForSensors:sensors];
     [_graphsController captureDataToHistoryNow];
 }
 

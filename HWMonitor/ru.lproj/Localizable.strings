@@ -121,6 +121,8 @@
 "CPU Proximity" = "Процессор, Датчик";
 "CPU %X Proximity" = "Процессор %X, Датчик";
 
+"CPU Core Package" = "Пакет ядер процессора";
+
 "PECI CPU" = "PECI Процессор";
 "PECI SA" = "PECI SA";
 "PECI GPU" = "PECI Видеоядро";
@@ -137,6 +139,7 @@
 "Mainboard Proximity" = "Материнская плата";
 "LCD Proximity" = "Датчик LCD";
 "Airport Proximity" = "Датчик Airport";
+"Battery Proximity" = "Датчик батареи";
 "Powerboard Proximity" = "Источник питания";
 
 "Memory Bank %X" = "Слот памяти %X";
@@ -159,7 +162,6 @@
 "CPU Core" = "Ядро процессора";
 "CPU Core %X" = "Ядро процессора %X";
 "CPU Package Multiplier" = "Множитель процессора";
-"CPU Package" = "Пакет ядер процессора";
 
 "GPU Core" = "Видеокарта, Ядро";
 "GPU %X Core" = "Видеокарта %X, Ядро";

@@ -50,7 +50,7 @@
 
 - (void) setupWithGroups:(NSArray*)groups;
 - (void) reloadData;
-- (void) updateValues;
+- (void) updateValuesForSensors:(NSArray*)sensors;
 
 - (IBAction)closeApplication:(id)sender;
 - (IBAction)openPreferences:(id)sender;

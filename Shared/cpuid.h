@@ -296,6 +296,8 @@ static void cpuid_update_generic_info()
     char     str[128];
     char*    p;
 	i386_cpu_info_t* info_p = cpuid_info();
+    
+    bzero(info_p, sizeof(i386_cpu_info_t));
 	
     /* Get vendor */
     do_cpuid(0, cpuid_reg);
