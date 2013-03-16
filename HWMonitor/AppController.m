@@ -392,6 +392,12 @@ if (![_items objectForKey:name]) {\
     [_defaults synchronize];
 }
 
+-(void)graphsBackgroundMonitorChanged:(id)sender
+{
+    [_graphsController setBackgroundMonitoring:[sender state]];
+    [_defaults synchronize];
+}
+
 -(IBAction)favoritesChanged:(id)sender
 {
     [_sensorsTableView reloadData];

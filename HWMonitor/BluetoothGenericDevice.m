@@ -10,7 +10,7 @@
 
 @implementation BluetoothGenericDevice
 
-+ (BluetoothGenericDevice*)bluetoothReporterByDiscoveringDeviceType:(BluetoothDeviceType)type
++ (BluetoothGenericDevice*)bluetoothGenericDeviceByDiscoveringDeviceType:(BluetoothDeviceType)type
 {
     BluetoothGenericDevice *me = [[BluetoothGenericDevice alloc] init];
     

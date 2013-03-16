@@ -284,7 +284,7 @@
             }
         }
         else if (_group & kHWSensorGroupPWM) {
-            if ([_rawValue floatValue] < 0 || [_rawValue floatValue] > 100) {
+            if ([[self rawValue] floatValue] < 0 || [[self rawValue] floatValue] > 100) {
                 _formattedValue = @"-";
             }
             else {
@@ -303,7 +303,7 @@
                 _formattedValue = [NSString stringWithFormat:@"%1.0fMHz", [[self rawValue] floatValue]];
         }
         else if (_group & kHWSensorGroupTachometer) {
-            if ([_rawValue floatValue] < 1) {
+            if ([[self rawValue] floatValue] < 1) {
                 //rehabman: it is normal on a laptop to have a fan read 0 RPM...
                 //[self setLevel:kHWSensorLevelExceeded];
                 _formattedValue = @"-";

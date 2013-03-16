@@ -165,7 +165,7 @@
     return sensor;
 }
 
-- (HWMonitorSensor*)addSMARTSensorWithGenericDisk:(ATAGenericDisk*)disk group:(NSUInteger)group
+- (HWMonitorSensor*)addSMARTSensorWithGenericDisk:(ATAGenericDrive*)disk group:(NSUInteger)group
 {
     NSData * value = nil;
     
@@ -239,7 +239,7 @@
 {
     self = [super init];
     
-    _smartReporter = [ATASmartReporter smartReporterByDiscoveringDrives];
+    _smartDrives = [ATAGenericDrive discoverDrives];
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
     _bundle = [NSBundle mainBundle];
@@ -252,7 +252,7 @@
 {
     self = [super init];
     
-    _smartReporter = [ATASmartReporter smartReporterByDiscoveringDrives];
+    _smartDrives = [ATAGenericDrive discoverDrives];
     _sensors = [[NSMutableArray alloc] init];
     _keys = [[NSMutableDictionary alloc] init];
     _bundle = mainBundle;
@@ -313,9 +313,9 @@
     
     [self addSensorsFromSMCKeyGroup:kSMCKeyGroupTemperature toHWSensorGroup:kHWSensorGroupTemperature];
     
-    if ([_smartReporter drives]) {
-        for (NSUInteger i = 0; i < [[_smartReporter drives] count]; i++) {
-            ATAGenericDisk * disk = [[_smartReporter drives] objectAtIndex:i];
+    if (_smartDrives) {
+        for (NSUInteger i = 0; i < [_smartDrives count]; i++) {
+            ATAGenericDrive * disk = [_smartDrives objectAtIndex:i];
             
             if (disk) { 
                 // Hard Drive Temperatures
@@ -428,7 +428,7 @@
     NSMutableArray *list = [[NSMutableArray alloc] init];
     
     for (HWMonitorSensor *sensor in [self sensors]) {
-        if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDisk class]]) {
+        if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) {
             switch ([sensor group]) {
                 case kSMARTGroupTemperature:
                     [sensor setData:[[sensor genericDevice] getTemperature]];

@@ -67,6 +67,7 @@
 
 @property (nonatomic, unsafe_unretained) IBOutlet NSTableView *sensorsTableView;
 
+- (IBAction)graphsBackgroundMonitorChanged:(id)sender;
 - (IBAction)favoritesChanged:(id)sender;
 - (IBAction)useFahrenheitChanged:(id)sender;
 - (IBAction)colorThemeChanged:(id)sender;

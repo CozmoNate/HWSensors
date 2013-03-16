@@ -3567,6 +3567,14 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<int key="connectionID">1176</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">graphsBackgroundMonitorChanged:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="122395699"/>
+					</object>
+					<int key="connectionID">1410</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">popupView</string>
 						<reference key="source" ref="583101625"/>
@@ -3608,6 +3616,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{148, 8}, {18, 18}}</string>
 							<reference key="NSSuperview" ref="1006916051"/>
+							<reference key="NSNextKeyView"/>
 							<double key="NSViewAlphaValue">0.94999999999999996</double>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowBlurRadius">2</double>
@@ -3655,6 +3664,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{181, 8}, {18, 18}}</string>
 							<reference key="NSSuperview" ref="1006916051"/>
+							<reference key="NSNextKeyView"/>
 							<double key="NSViewAlphaValue">0.94999999999999996</double>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowBlurRadius">2</double>
@@ -3699,6 +3709,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{208, 8}, {18, 18}}</string>
 							<reference key="NSSuperview" ref="1006916051"/>
+							<reference key="NSNextKeyView"/>
 							<double key="NSViewAlphaValue">0.94999999999999996</double>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowBlurRadius">2</double>
@@ -8252,7 +8263,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1409</int>
+			<int key="maxID">1410</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -8262,6 +8273,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="colorThemeChanged:">id</string>
 						<string key="favoritesChanged:">id</string>
+						<string key="graphsBackgroundMonitorChanged:">id</string>
 						<string key="showVolumeNamesChanged:">id</string>
 						<string key="toggleGraphSmoothing:">id</string>
 						<string key="toggleSensorVisibility:">id</string>
@@ -8278,6 +8290,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						</object>
 						<object class="IBActionInfo" key="favoritesChanged:">
 							<string key="name">favoritesChanged:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="graphsBackgroundMonitorChanged:">
+							<string key="name">graphsBackgroundMonitorChanged:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showVolumeNamesChanged:">

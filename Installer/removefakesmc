@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# remove FakeSMC.kext
-
-rm -R ${targetVolume}/System/Library/Extensions/FakeSMC.kext
-
-exit 0

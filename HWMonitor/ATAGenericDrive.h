@@ -38,7 +38,7 @@ typedef struct {
 
 // NSATAGenericDisk
 
-@interface ATAGenericDisk : NSObject
+@interface ATAGenericDrive : NSObject
 {
 @private
     io_service_t                _service;
@@ -53,27 +53,14 @@ typedef struct {
 @property (readonly) BOOL       isRotational;
 @property (readonly) BOOL       isExceeded;
 
-+(ATAGenericDisk*)genericDiskWithService:(io_service_t)ioservice productName:(NSString*)name bsdName:(NSString*)bsd volumesNames:(NSString*)volumes serialNumber:(NSString*)serial isRotational:(BOOL)rotational;
++(NSArray*)discoverDrives;
+
++(ATAGenericDrive*)genericDriveWithService:(io_service_t)ioservice productName:(NSString*)name bsdName:(NSString*)bsd volumesNames:(NSString*)volumes serialNumber:(NSString*)serial isRotational:(BOOL)rotational;
 
 -(BOOL)readSMARTData;
 -(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8)identifier;
 -(NSData*)getTemperature;
 -(NSData*)getRemainingLife;
 -(NSData*)getRemainingBlocks;
-
-@end
-
-// NSATASmartReporter
-
-@interface ATASmartReporter : NSObject
-{
-    NSArray *_drives;
-}
-
-@property (readonly) NSArray *drives;
-
-+(ATASmartReporter*)smartReporterByDiscoveringDrives;
-
--(void)diskoverDrives;
 
 @end

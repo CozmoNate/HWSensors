@@ -438,7 +438,7 @@
     else if ([item isKindOfClass:[HWMonitorItem class]]) {
         HWMonitorSensor *sensor = [item sensor];
         
-        if (_showVolumeNames && [sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDisk class]]) {
+        if (_showVolumeNames && [sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) {
             return kHWMonitorSubtitledHeight;
         }
         else {
@@ -490,7 +490,7 @@
             sensorCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
         }
         
-        if (_showVolumeNames && [sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDisk class]]) {
+        if (_showVolumeNames && [sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) {
             [sensorCell.subtitleField setTextColor:_colorTheme.itemSubTitleColor];
             [sensorCell.subtitleField setStringValue:[[sensor genericDevice] volumesNames]];
             [sensorCell.subtitleField setHidden:NO];

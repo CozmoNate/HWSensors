@@ -28,7 +28,7 @@
 
 #import <Foundation/Foundation.h>
 
-#include "ATASmartReporter.h"
+#include "ATAGenericDrive.h"
 
 typedef enum {
     kHWSensorGroupNone                  = 0,

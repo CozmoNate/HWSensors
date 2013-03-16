@@ -19,7 +19,7 @@ typedef enum
 
 @property (readonly) BluetoothDeviceType deviceType;
 
-+ (BluetoothGenericDevice*)bluetoothReporterByDiscoveringDeviceType:(BluetoothDeviceType)type;
++ (BluetoothGenericDevice*)bluetoothGenericDeviceByDiscoveringDeviceType:(BluetoothDeviceType)type;
 
 - (NSData*)getBatteryLevel;
 - (void)discoverDeviceType:(BluetoothDeviceType)type;
