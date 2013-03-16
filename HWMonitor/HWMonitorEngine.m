@@ -245,28 +245,23 @@
         if (![device productName]) {
             [device setProductName:[NSString stringWithFormat:@"%d", (int)device]];
             
-            NSString *title = nil;
-            
             switch ([device deviceType]) {
                 case kBluetoothDeviceTypeKeyboard:
-                    title = @"Keyboard";
+                    [device setProductName:@"Keyboard"];
                     break;
                 case kBluetoothDeviceTypeMouse:
-                    title = @"Mouse";
+                    [device setProductName:@"Mouse"];
                     break;
                 case kBluetoothDeviceTypeTrackpad:
-                    title = @"Trackpad";
+                    [device setProductName:@"Trackpad"];
                     break;
                 default:
-                    title = @"Unknown";
+                    [device setProductName:@"Unknown"];
                     break;
             }
-            
-            sensor = [self addSensorWithKey:[device productName] title:title group:group];
         }
-        else {
-            sensor = [self addSensorWithKey:[device productName] title:[device productName] group:group];
-        }
+        
+        sensor = [self addSensorWithKey:[[device serialNumber] stringValue] title:[device productName] group:group];
         
         [sensor setData:[device getBatteryLevel]];
         [sensor setGenericDevice:device];

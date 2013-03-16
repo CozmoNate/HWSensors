@@ -69,13 +69,22 @@
     BluetoothGenericDevice *me = [[BluetoothGenericDevice alloc] init];
     
     if (me) {
-        me.service = service;
-        me.deviceType = type;
-        me.productName = (__bridge_transfer  NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("Product"), kCFAllocatorDefault, 0);
+        [me setService:service];
+        [me setDeviceType:type];
         
         if (![me getBatteryLevel]) {
             return nil;
         }
+        
+        [me setProductName:(__bridge_transfer  NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("Product"), kCFAllocatorDefault, 0)];
+        
+        NSData *serial = (__bridge_transfer  NSData *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0);
+        
+        UInt64 number = 0;
+        
+        [serial getBytes:&number];
+        
+        [me setSerialNumber:[NSNumber numberWithUnsignedLongLong:number]];
     }
     
     return me;

@@ -21,6 +21,7 @@ typedef enum
 @property (nonatomic, assign) io_service_t service;
 @property (nonatomic, assign) BluetoothDeviceType deviceType;
 @property (nonatomic, strong) NSString *productName;
+@property (nonatomic, strong) NSNumber *serialNumber;
 
 + (NSArray*)discoverDevices;
 
