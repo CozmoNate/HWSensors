@@ -367,7 +367,7 @@
     
     // Make window height small
     NSRect panelRect = [[self window] frame];
-    panelRect.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight;
+    panelRect.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight + LINE_THICKNESS;
     [[self window] setFrame:panelRect display:NO];
     
     // Resize panel height to fit all table view content
@@ -472,7 +472,7 @@
         
         [groupCell setColorTheme:_colorTheme];
         [groupCell.textField setStringValue:[group title]];
-        [groupCell.imageView setObjectValue:_colorTheme.useAlternateImages ? [[group icon] alternateImage] : [[group icon] image]];
+        [groupCell.imageView setObjectValue:_colorTheme.useDarkIcons ? [[group icon] image] : [[group icon] alternateImage]];
         
         return groupCell;
     }
@@ -510,7 +510,7 @@
     else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
         NSTableCellView *buttonsCell = [tableView makeViewWithIdentifier:item owner:self];
         
-        [buttonsCell.textField setTextColor:_colorTheme.barTitleColor];
+        [buttonsCell.textField setTextColor:_colorTheme.toolbarTitleColor];
         
         return buttonsCell;
     }

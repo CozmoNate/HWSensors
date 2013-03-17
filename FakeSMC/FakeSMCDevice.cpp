@@ -371,7 +371,7 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 			OSSafeRelease(iterator);
 		}
         
-		HWSensorsInfoLog("%d preconfigured key(s) added", keys->getCount());
+		HWSensorsInfoLog("%d preconfigured key%s added", keys->getCount(), keys->getCount() == 1 ? "" : "s");
 	}
 	else {
 		HWSensorsWarningLog("no preconfigured keys found");
@@ -413,7 +413,8 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
             }
         }
         
-        HWSensorsInfoLog("%d key(s) exported by Clover EFI", count);
+        if (count)
+            HWSensorsInfoLog("%d key%s exported by Clover EFI", count, count == 1 ? "" : "s");
     }
     
     // Init SMC device

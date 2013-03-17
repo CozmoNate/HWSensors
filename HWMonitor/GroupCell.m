@@ -16,8 +16,8 @@
     _colorTheme = colorTheme;
     
     _gradient = [[NSGradient alloc]
-                 initWithStartingColor:_colorTheme.groupBackgroundStartColor
-                 endingColor:_colorTheme.groupBackgroundEndColor];
+                 initWithStartingColor:_colorTheme.groupStartColor
+                 endingColor:_colorTheme.groupEndColor];
     
     [self.textField setTextColor:_colorTheme.groupTitleColor];
     
@@ -28,8 +28,8 @@
 {
     if (!_gradient) {
         _gradient = [[NSGradient alloc]
-                    initWithStartingColor:_colorTheme.groupBackgroundStartColor
-                              endingColor:_colorTheme.groupBackgroundEndColor];
+                    initWithStartingColor:_colorTheme.groupStartColor
+                              endingColor:_colorTheme.groupEndColor];
     }
     
     NSRect contentRect = [self bounds];

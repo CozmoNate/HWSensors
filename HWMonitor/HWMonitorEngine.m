@@ -261,7 +261,11 @@
             }
         }
         
-        sensor = [self addSensorWithKey:[[device serialNumber] stringValue] title:[device productName] group:group];
+        if (![device serialNumber] || [[device serialNumber] length] == 0) {
+            [device setSerialNumber:[NSString stringWithFormat:@"%X", device.service]];
+        }
+        
+        sensor = [self addSensorWithKey:[device serialNumber] title:[device productName] group:group];
         
         [sensor setData:[device getBatteryLevel]];
         [sensor setGenericDevice:device];

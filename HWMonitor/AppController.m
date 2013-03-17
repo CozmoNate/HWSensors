@@ -116,7 +116,7 @@ if (![_items objectForKey:name]) {\
 	//[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceDidUnmountNotification object:nil];
 }
 
--(void)wakeFromSleep
+-(void)wakeFromSleep:(id)sender
 {
     
 }

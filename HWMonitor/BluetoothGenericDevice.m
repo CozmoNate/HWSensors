@@ -77,14 +77,7 @@
         }
         
         [me setProductName:(__bridge_transfer  NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("Product"), kCFAllocatorDefault, 0)];
-        
-        NSData *serial = (__bridge_transfer  NSData *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0);
-        
-        UInt64 number = 0;
-        
-        [serial getBytes:&number];
-        
-        [me setSerialNumber:[NSNumber numberWithUnsignedLongLong:number]];
+        [me setSerialNumber:(__bridge_transfer  NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0)];
     }
     
     return me;
