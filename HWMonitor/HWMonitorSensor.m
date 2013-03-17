@@ -186,9 +186,9 @@
 {
     if ((_valueHasBeenChanged || !_rawValue) && _data) {
         if (_group & kSMARTGroupTemperature) {
-            UInt16 t = 0;
+            UInt64 t = 0;
             
-            [_data getBytes:&t length:2];
+            [_data getBytes:&t length:[_data length]];
             
             if (_level != kHWSensorLevelExceeded) {
                 if ([_genericDevice isRotational]) {
@@ -199,7 +199,7 @@
                 }
             }
             
-            _rawValue = [NSNumber numberWithDouble:t];
+            _rawValue = [NSNumber numberWithLongLong:t];
         }
         else if (_group & kSMARTGroupRemainingLife) {
             UInt64 life = 0;
@@ -217,6 +217,16 @@
             [_data getBytes:&blocks length:[_data length]];
             
             _rawValue = [NSNumber numberWithLongLong:blocks];
+        }
+        else if (_group & kBluetoothGroupBattery) {
+            UInt64 percent = 0;
+            
+            [_data getBytes:&percent length:[_data length]];
+            
+            if (_level != kHWSensorLevelExceeded)
+                [self setLevel:percent < 5 ? kHWSensorLevelExceeded : percent < 10 ? kHWSensorLevelHigh : percent < 30 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+            
+            _rawValue = [NSNumber numberWithLongLong:percent];
         }
         else if (_group & kHWSensorGroupTemperature) {
             _rawValue = [NSNumber numberWithDouble:[self decodeNumericValue]];
@@ -249,16 +259,6 @@
         }
         else if (_group & kHWSensorGroupPower) {
             _rawValue = [NSNumber numberWithFloat:[self decodeNumericValue]];
-        }
-        else if (_group & kBluetoothGroupBattery) {
-            UInt64 level = 0;
-            
-            [_data getBytes:&level length:[_data length]];
-            
-            if (_level != kHWSensorLevelExceeded)
-                [self setLevel:level < 5 ? kHWSensorLevelExceeded : level < 10 ? kHWSensorLevelHigh : level < 30 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
-            
-            _rawValue = [NSNumber numberWithLongLong:level];
         }
         else {
             _rawValue = [NSNumber numberWithFloat:MAXFLOAT];

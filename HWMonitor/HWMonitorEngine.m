@@ -237,9 +237,8 @@
 
 - (HWMonitorSensor*)addBluetoothSensorWithGenericDevice:(BluetoothGenericDevice*)device group:(NSUInteger)group
 {
-    NSData *level = [device getBatteryLevel];
-    
-    if (level) {
+    if ([device getBatteryLevel]) {
+        
         HWMonitorSensor *sensor = nil;
         
         if (![device productName]) {
@@ -281,8 +280,6 @@
     self = [super init];
     
     if (self) {
-        _smartDrives = [ATAGenericDrive discoverDrives];
-        _bluetoothDevices = [BluetoothGenericDevice discoverDevices];
         _sensors = [[NSMutableArray alloc] init];
         _keys = [[NSMutableDictionary alloc] init];
         _bundle = [NSBundle mainBundle];
@@ -355,20 +352,16 @@
     
     [self addSensorsFromSMCKeyGroup:kSMCKeyGroupTemperature toHWSensorGroup:kHWSensorGroupTemperature];
     
-    if (_smartDrives) {
-        for (NSUInteger i = 0; i < [_smartDrives count]; i++) {
-            ATAGenericDrive * disk = [_smartDrives objectAtIndex:i];
+    if ((_smartDrives = [ATAGenericDrive discoverDrives])) {
+        for (ATAGenericDrive * drive in _smartDrives) {
+            // Hard Drive Temperatures
+            [self addSMARTSensorWithGenericDisk:drive group:kSMARTGroupTemperature];
             
-            if (disk) { 
-                // Hard Drive Temperatures
-                [self addSMARTSensorWithGenericDisk:disk group:kSMARTGroupTemperature];
-                
-                if (![disk isRotational]) {
-                    // SSD Remaining Life
-                    [self addSMARTSensorWithGenericDisk:disk group:kSMARTGroupRemainingLife];
-                    // SSD Remaining Blocks
-                    [self addSMARTSensorWithGenericDisk:disk group:kSMARTGroupRemainingBlocks];
-                }
+            if (![drive isRotational]) {
+                // SSD Remaining Life
+                [self addSMARTSensorWithGenericDisk:drive group:kSMARTGroupRemainingLife];
+                // SSD Remaining Blocks
+                [self addSMARTSensorWithGenericDisk:drive group:kSMARTGroupRemainingBlocks];
             }
         }
     }
@@ -461,13 +454,9 @@
     [self addSensorsFromSMCKeyGroup:kSMCKeyGroupPower toHWSensorGroup:kHWSensorGroupPower];
     
     // Batteries
-    if (_bluetoothDevices) {
-        for (NSUInteger i = 0; i < [_bluetoothDevices count]; i++) {
-            BluetoothGenericDevice * device = [_bluetoothDevices objectAtIndex:i];
-            
-            if (device) {
-                [self addBluetoothSensorWithGenericDevice:device group:kBluetoothGroupBattery];
-            }
+    if ((_bluetoothDevices = [BluetoothGenericDevice discoverDevices])) {
+        for (BluetoothGenericDevice * device in _bluetoothDevices) {
+            [self addBluetoothSensorWithGenericDevice:device group:kBluetoothGroupBattery];
         }
     }
     

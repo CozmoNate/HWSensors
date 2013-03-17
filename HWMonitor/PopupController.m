@@ -449,9 +449,7 @@
     else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
         return kHWMonitorToolbarHeight;
     }
-    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Battery"]) {
-        return kHWMonitorBatteryHeight;
-    }
+
 
     return  kHWMonitorSensorHeight;
 }

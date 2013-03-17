@@ -76,8 +76,8 @@
             return nil;
         }
         
-        [me setProductName:(__bridge_transfer  NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("Product"), kCFAllocatorDefault, 0)];
-        [me setSerialNumber:(__bridge_transfer  NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0)];
+        [me setProductName:(__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("Product"), kCFAllocatorDefault, 0)];
+        [me setSerialNumber:(__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0)];
     }
     
     return me;
@@ -95,12 +95,11 @@
     NSData *result = nil;
     
     if (MACH_PORT_NULL != _service) {
-        CFStringRef batteryLevel = (CFStringRef)IORegistryEntryCreateCFProperty(_service, CFSTR("BatteryPercent"), kCFAllocatorDefault, 0);
+        NSNumber *level = (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(_service, CFSTR("BatteryPercent"), kCFAllocatorDefault, 0);
         
-        if (batteryLevel != IO_OBJECT_NULL) {
-            SInt32 bytes = CFStringGetIntValue(batteryLevel);
-            result = [NSData dataWithBytes:&bytes length:sizeof(SInt32)];
-            CFRelease(batteryLevel);
+        if (level) {
+            NSUInteger bytes = [level unsignedIntegerValue];
+            result = [NSData dataWithBytes:&bytes length:sizeof(NSUInteger)];
         }
     }
     
