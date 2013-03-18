@@ -48,13 +48,36 @@
     HWMonitorSensor *me = [[HWMonitorSensor alloc] init];
     
     if (me) {
-        me->_levelHasBeenChanged = true;
         me->_valueHasBeenChanged = true;
         
         return me;
     }
     
     return nil;
+}
+
+- (void)setType:(NSString *)newType
+{
+    if (!_type || ![_type isEqualToString:newType]) {
+        _valueHasBeenChanged = true;
+        _type = newType;
+    }
+}
+
+- (void)setData:(NSData *)newData
+{
+    if (!_data || ![_data isEqualToData:newData]) {
+        _valueHasBeenChanged = true;
+        _data = newData;
+    }
+}
+
+-(void)setLevel:(HWSensorLevel)level
+{
+    if (_level != level) {
+        _valueHasBeenChanged = true;
+        _level = level;
+    }
 }
 
 - (float)decodeNumericValue
@@ -140,51 +163,9 @@
     return MAXFLOAT;
 }
 
-- (void)setType:(NSString *)newType
+- (NSNumber*)rawValue
 {
-    if (![_type isEqualToString:newType]) {
-        _valueHasBeenChanged = true;
-        _type = newType;
-    }
-}
-
-- (NSString *)type
-{
-    _valueHasBeenChanged = false;
-    return _type;
-}
-
-- (void)setData:(NSData *)newData
-{
-    if (!_data || ![_data isEqualToData:newData]) {
-        _valueHasBeenChanged = true;
-        _data = newData;
-    }
-}
-
-- (NSData *)data
-{
-    _valueHasBeenChanged = false;
-    return _data;
-}
-
-- (void)setLevel:(HWSensorLevel)newLevel
-{
-    if (_level != newLevel) {
-        _levelHasBeenChanged = true;
-        _level = newLevel;
-    }
-}
-
-- (HWSensorLevel)level
-{
-    _levelHasBeenChanged = false;
-    return _level;
-}
-
--(NSNumber *)rawValue
-{
-    if ((_valueHasBeenChanged || !_rawValue) && _data) {
+    if ((_rawValue == nil || _valueHasBeenChanged) && _data) {
         if (_group & kSMARTGroupTemperature) {
             UInt64 t = 0;
             
@@ -244,12 +225,6 @@
         }
         else if (_group & kHWSensorGroupTachometer) {
             _rawValue = [NSNumber numberWithFloat:[self decodeNumericValue]];
-            
-            if ([_rawValue floatValue] >= 1) {
-                if (_level != kHWSensorLevelNormal) {
-                    [self setLevel: kHWSensorLevelNormal];
-                }
-            }
         }
         else if (_group & kHWSensorGroupVoltage) {
             _rawValue = [NSNumber numberWithFloat:[self decodeNumericValue]];
@@ -272,70 +247,73 @@
 
 - (NSString*)formattedValue
 {
-    if ((_valueHasBeenChanged || !_formattedValue) && _data) {
+    //if (_formattedValue == nil || _valueHasBeenChanged) {
+    NSNumber *value = [self rawValue];
+    
+    if (value) {
         if (_group & kSMARTGroupTemperature) {
             if ([_engine useFahrenheit]) {
-                _formattedValue = [NSString stringWithFormat:@"%1.0f°", [[self rawValue] floatValue] * (9.0f / 5.0f) + 32.0f];
+                _formattedValue = [NSString stringWithFormat:@"%1.0f°", [value floatValue] * (9.0f / 5.0f) + 32.0f];
             }
             else {
-                _formattedValue = [NSString stringWithFormat:@"%d°", [[self rawValue] intValue]];
+                _formattedValue = [NSString stringWithFormat:@"%d°", [value intValue]];
             }
         }
-        else if (_group & (kSMARTGroupRemainingLife | kBluetoothGroupBattery)) {
-            _formattedValue = [NSString stringWithFormat:@"%d%%", [[self rawValue] intValue]];
-        }
-        else if (_group & kSMARTGroupRemainingBlocks) {
-            _formattedValue = [NSString stringWithFormat:@"%lld", [[self rawValue] longLongValue]];
-        }
-        else if (_group & kHWSensorGroupTemperature) {
-            if ([_engine useFahrenheit]) {
-                _formattedValue = [NSString stringWithFormat:@"%1.0f°", [[self rawValue] floatValue] * (9.0f / 5.0f) + 32.0f];
-            }
-            else {
-                _formattedValue = [NSString stringWithFormat:@"%d°", [[self rawValue] intValue]];
-            }
-        }
-        else if (_group & kHWSensorGroupPWM) {
-            if ([[self rawValue] floatValue] < 0 || [[self rawValue] floatValue] > 100) {
+        else if (_group & (kSMARTGroupRemainingLife | kBluetoothGroupBattery | kHWSensorGroupPWM)) {
+            if ([value floatValue] < 0 || [value floatValue] > 100) {
                 _formattedValue = @"-";
             }
             else {
-                _formattedValue = [[NSString alloc] initWithFormat:@"%1.0f%c", [[self rawValue] floatValue], 0x0025];
+                _formattedValue = [[NSString alloc] initWithFormat:@"%1.0f%%", [value floatValue]];
+            }
+        }
+        else if (_group & kSMARTGroupRemainingBlocks) {
+            _formattedValue = [NSString stringWithFormat:@"%lld", [value longLongValue]];
+        }
+        else if (_group & kHWSensorGroupTemperature) {
+            if ([_engine useFahrenheit]) {
+                _formattedValue = [NSString stringWithFormat:@"%1.0f°", [value floatValue] * (9.0f / 5.0f) + 32.0f];
+            }
+            else {
+                _formattedValue = [NSString stringWithFormat:@"%d°", [value intValue]];
             }
         }
         else if (_group & kHWSensorGroupMultiplier) {
-            _formattedValue = [NSString stringWithFormat:@"x%1.1f", [[self rawValue] floatValue]];
+            _formattedValue = [NSString stringWithFormat:@"x%1.1f", [value floatValue]];
         }
         else if (_group & kHWSensorGroupFrequency) {
-            if ([_rawValue floatValue] > 1e6)
-                _formattedValue = [NSString stringWithFormat:@"%1.2fTHz", [[self rawValue] floatValue] / 1e6];
-            else if ([_rawValue floatValue] > 1e3)
-                _formattedValue = [NSString stringWithFormat:@"%1.2fGHz", [[self rawValue] floatValue] / 1e3];
+            if ([value floatValue] > 1e6)
+                _formattedValue = [NSString stringWithFormat:@"%1.2fTHz", [value floatValue] / 1e6];
+            else if ([value floatValue] > 1e3)
+                _formattedValue = [NSString stringWithFormat:@"%1.2fGHz", [value floatValue] / 1e3];
             else 
-                _formattedValue = [NSString stringWithFormat:@"%1.0fMHz", [[self rawValue] floatValue]];
+                _formattedValue = [NSString stringWithFormat:@"%1.0fMHz", [value floatValue]];
         }
         else if (_group & kHWSensorGroupTachometer) {
-            if ([[self rawValue] floatValue] < 1) {
+            if ([value floatValue] < 1) {
                 //rehabman: it is normal on a laptop to have a fan read 0 RPM...
                 //[self setLevel:kHWSensorLevelExceeded];
                 _formattedValue = @"-";
             }
             else {
-                _formattedValue = [NSString stringWithFormat:@"%1.0frpm", [[self rawValue] floatValue]];
+                _formattedValue = [NSString stringWithFormat:@"%1.0frpm", [value floatValue]];
             }
         }
         else if (_group & kHWSensorGroupVoltage) {
-            _formattedValue = [NSString stringWithFormat:@"%1.2fV", [[self rawValue] floatValue]];
+            _formattedValue = [NSString stringWithFormat:@"%1.2fV", [value floatValue]];
         }
         else if (_group & kHWSensorGroupCurrent) {
-            _formattedValue = [NSString stringWithFormat:@"%1.2fA", [[self rawValue] floatValue]];
+            _formattedValue = [NSString stringWithFormat:@"%1.2fA", [value floatValue]];
         }
         else if (_group & kHWSensorGroupPower) {
-            _formattedValue = [NSString stringWithFormat:@"%1.2fW", [[self rawValue] floatValue]];
+            _formattedValue = [NSString stringWithFormat:@"%1.2fW", [value floatValue]];
         }
         else {
             _formattedValue = @"-";
         }
+    }
+    else {
+        _formattedValue = @"-";
     }
     
     return _formattedValue;

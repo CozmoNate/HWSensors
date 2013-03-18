@@ -467,9 +467,9 @@
 {
     [_sensorsLock lock];
     
-    NSMutableArray *list = [[NSMutableArray alloc] init];
+    NSMutableArray *updated = [[NSMutableArray alloc] init];
     
-    for (HWMonitorSensor *sensor in [self sensors]) {
+    for (HWMonitorSensor *sensor in _sensors) {
         if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) {
             switch ([sensor group]) {
                 case kSMARTGroupTemperature:
@@ -489,46 +489,51 @@
             }
             
             if ([sensor valueHasBeenChanged]) {
-                [list addObject:sensor];
+                [updated addObject:sensor];
             }
         }
     }
     
     [_sensorsLock unlock];
     
-    return list;
+    return updated;
+}
+
+- (void)updateSensor:(HWMonitorSensor*)sensor addToArray:(NSMutableArray*)updated
+{
+    if (![sensor genericDevice]) {
+        SMCVal_t val;
+        UInt32Char_t name;
+        
+        strncpy(name, [[sensor name] cStringUsingEncoding:NSASCIIStringEncoding], 5);
+        
+        if (kIOReturnSuccess == SMCReadKey(_connection, name, &val)) {
+            [sensor setType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
+            [sensor setData:[NSData dataWithBytes:val.bytes length:val.dataSize]];
+            
+            if ([sensor valueHasBeenChanged]) {
+                [updated addObject:sensor];
+            }
+        }
+    }
+    else if ([[sensor genericDevice] isKindOfClass:[BluetoothGenericDevice class]]) {
+        [sensor setData:[[sensor genericDevice] getBatteryLevel]];
+        
+        if ([sensor valueHasBeenChanged]) {
+            [updated addObject:sensor];
+        }
+    }
 }
 
 - (NSArray*)updateSensors
 {
     [_sensorsLock lock];
     
-    NSMutableArray *list = [[NSMutableArray alloc] init];
+    NSMutableArray *updated = [[NSMutableArray alloc] init];
     
     if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
-        for (HWMonitorSensor *sensor in [self sensors]) {
-            if (![sensor genericDevice]) {
-                SMCVal_t val;
-                UInt32Char_t name;
-                
-                strncpy(name, [[sensor name] cStringUsingEncoding:NSASCIIStringEncoding], 5);
-                
-                if (kIOReturnSuccess == SMCReadKey(_connection, name, &val)) {
-                    [sensor setType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
-                    [sensor setData:[NSData dataWithBytes:val.bytes length:val.dataSize]];
-                    
-                    if ([sensor valueHasBeenChanged]) {
-                        [list addObject:sensor];
-                    }
-                }
-            }
-            else if ([[sensor genericDevice] isKindOfClass:[BluetoothGenericDevice class]]) {
-                [sensor setData:[[sensor genericDevice] getBatteryLevel]];
-                
-                if ([sensor valueHasBeenChanged]) {
-                    [list addObject:sensor];
-                }
-            }
+        for (HWMonitorSensor *sensor in _sensors) {
+            [self updateSensor:sensor addToArray:updated];
         }
     }
     else if (_connection) {
@@ -538,7 +543,7 @@
     
     [_sensorsLock unlock];
     
-    return list;
+    return updated;
 }
 
 -(NSArray*)updateSensorsList:(NSArray *)sensors
@@ -547,30 +552,19 @@
     
     [_sensorsLock lock];
     
-    NSMutableArray *list = [[NSMutableArray alloc] init];
-    
-    for (id object in sensors) {
-        if ([object isKindOfClass:[HWMonitorSensor class]] && [[self sensors] containsObject:object] && ![object genericDevice])
-            [list addObject:object];
-    }
+    NSMutableArray *updated = [[NSMutableArray alloc] init];
     
     if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
-        for (HWMonitorSensor *sensor in list) {
-            SMCVal_t val;
-            UInt32Char_t name;
-            
-            strncpy(name, [[sensor name] cStringUsingEncoding:NSASCIIStringEncoding], 5);
-            
-            if (kIOReturnSuccess == SMCReadKey(_connection, name, &val)) {
-                [sensor setType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
-                [sensor setData:[NSData dataWithBytes:val.bytes length:val.dataSize]];
+        for (id object in sensors) {
+            if ([object isKindOfClass:[HWMonitorSensor class]] && [_sensors containsObject:object]) {
+                [self updateSensor:object addToArray:updated];
             }
         }
     }
     
     [_sensorsLock unlock];
     
-    return list;
+    return updated;
 }
 
 - (NSArray*)getAllSensorsInGroup:(NSUInteger)group

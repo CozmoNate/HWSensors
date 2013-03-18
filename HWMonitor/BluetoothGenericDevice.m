@@ -72,7 +72,9 @@
         [me setService:service];
         [me setDeviceType:type];
         
-        if (![me getBatteryLevel]) {
+        NSData *level = [me getBatteryLevel];
+        
+        if (level == nil) {
             return nil;
         }
         

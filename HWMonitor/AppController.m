@@ -171,26 +171,26 @@ if (![_items objectForKey:name]) {\
 
 - (void)updateSmartSensors;
 {
-    [self updateValuesForSensors:[_engine updateSmartSensors]];
+    NSArray *sensors = [_engine updateSmartSensors];
+    [self updateValuesForSensors:sensors];
 }
 
 - (void)updateSmcSensors
 {
-    [self updateValuesForSensors:[_engine updateSensors]];
+    NSArray *sensors = [_engine updateSensors];
+    [self updateValuesForSensors:sensors];
 }
 
 - (void)updateFavoritesSensors
 {
-    [self updateValuesForSensors:[_engine updateSensorsList:_favorites]];
-}
-
-- (void)captureDataToHistory
-{
-    [_graphsController captureDataToHistoryNow];
+    NSArray *sensors = [_engine updateSensorsList:_favorites];
+    [self updateValuesForSensors:sensors];
 }
 
 - (void)updateValuesForSensors:(NSArray*)sensors
 {
+    [_popupController updateValuesForSensors:sensors];
+    
     if ([self.window isVisible]) {
         for (HWMonitorSensor *sensor in sensors) {
             id cell = [_sensorsTableView viewAtColumn:0 row:GetIndexOfItem([sensor name]) makeIfNecessary:NO];
@@ -201,12 +201,11 @@ if (![_items objectForKey:name]) {\
         }
     }
     
-    [_popupController updateValuesForSensors:sensors];
     [_graphsController captureDataToHistoryNow];
 }
 
 - (void)updateLoop
-{   
+{
     if (_scheduleRebuildSensors) {
         [self rebuildSensorsList];
         _scheduleRebuildSensors = FALSE;

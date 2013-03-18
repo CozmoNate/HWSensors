@@ -78,7 +78,6 @@ typedef enum {
 @property (readonly) NSNumber* rawValue;
 @property (readonly) NSString* formattedValue;
 
-@property (nonatomic, assign) BOOL levelHasBeenChanged;
 @property (nonatomic, assign) BOOL valueHasBeenChanged;
 
 @property (nonatomic, strong) id representedObject;

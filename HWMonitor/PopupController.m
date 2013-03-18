@@ -386,7 +386,7 @@
             
             if ([item isVisible]) {
                 
-                SensorCell *cell = [_tableView viewAtColumn:0 row:[_items indexOfObject:item] makeIfNecessary:NO];
+                id cell = [_tableView viewAtColumn:0 row:[_items indexOfObject:item] makeIfNecessary:NO];
                 
                 if (cell && [cell isKindOfClass:[SensorCell class]]) {
                     NSColor *valueColor;
@@ -403,7 +403,7 @@
                             break;
                             
                         case kHWSensorLevelExceeded:
-                            [cell.textField setTextColor:[NSColor redColor]];
+                            [[cell textField] setTextColor:[NSColor redColor]];
                         case kHWSensorLevelHigh:
                             valueColor = [NSColor redColor];
                             break;
@@ -413,8 +413,8 @@
                             break;
                     }
                     
-                    [cell.valueField setStringValue:[sensor formattedValue]];
-                    [cell.valueField setTextColor:valueColor];
+                    [[cell valueField] setStringValue:[sensor formattedValue]];
+                    [[cell valueField] setTextColor:valueColor];
                 }
             }
         }
@@ -482,7 +482,7 @@
         if ([sensor group] & (kHWSensorGroupTemperature | kSMARTGroupTemperature)) {
             sensorCell = [tableView makeViewWithIdentifier:@"Temperature" owner:self];
         }
-        else if ([sensor group] & (kHWSensorGroupPWM | kBluetoothGroupBattery)) {
+        else if ([sensor group] & (kHWSensorGroupPWM | kBluetoothGroupBattery | kSMARTGroupRemainingLife)) {
             sensorCell = [tableView makeViewWithIdentifier:@"Percentage" owner:self];
         }
         else {
