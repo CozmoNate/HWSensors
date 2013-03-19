@@ -1,8 +1,8 @@
 //
-//  nve0.c
+//  nv84.cpp
 //  HWSensors
 //
-//  Created by Kozlek on 07.08.12.
+//  Created by kozlek on 18.03.13.
 //
 //
 
@@ -30,49 +30,10 @@
  * Authors: Ben Skeggs
  */
 
-#include "nouveau.h"
-#include "nv50.h"
-#include "nva3.h"
 #include "nv84.h"
-#include "nvc0.h"
-#include "nve0.h"
-#include "nvd0.h"
-#include "nouveau_therm.h"
+#include "nouveau.h"
 
-bool nve0_identify(struct nouveau_device *device)
+int nv84_temp_get(struct nouveau_device *device)
 {
-	switch (device->chipset) {
-        case 0xe4:
-            device->cname = "GK104";
-            break;
-        case 0xe6:
-            device->cname = "GK106";
-            break;
-        case 0xe7:
-            device->cname = "GK107";
-            break;
-        default:
-            nv_fatal(device, "unknown Kepler chipset\n");
-            return false;
-	}
-    
-	return true;
+    return nv_rd32(device, 0x20400);
 }
-
-void nve0_init(struct nouveau_device *device)
-{
-    nvd0_therm_init(device);
-    
-    device->gpio_sense = nvd0_gpio_sense;
-    device->gpio_find = nouveau_gpio_find;
-    device->gpio_get = nouveau_gpio_get;
-    
-    device->temp_get = nv84_temp_get;
-    device->clocks_get = nve0_clocks_get;
-//    device->voltage_get = nouveau_voltage_get;
-    device->pwm_get = nvd0_fan_pwm_get;
-    device->fan_pwm_get = nouveau_therm_fan_pwm_get;
-    device->fan_rpm_get = nva3_therm_fan_sense;
-}
-
-

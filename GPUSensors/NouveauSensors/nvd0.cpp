@@ -75,6 +75,7 @@ static int pwm_info(struct nouveau_device *device, int line)
 int nvd0_fan_pwm_get(struct nouveau_device *device, int line, u32 *divs, u32 *duty)
 {
 	int indx = pwm_info(device, line);
+    
 	if (indx < 0)
 		return indx;
     

@@ -52,6 +52,7 @@
 		7E0F9018169AC0EA008CE657 /* r600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB895169A9D3C000DF2B1 /* r600.cpp */; };
 		7E0F9019169AC0EA008CE657 /* rv770.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB899169A9DBE000DF2B1 /* rv770.cpp */; };
 		7E0F901A169AC0EA008CE657 /* evergreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */; };
+		7E148DDA16F7B5E800A3F28E /* nv84.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E148DD816F7B5E800A3F28E /* nv84.cpp */; };
 		7E17E171169C532100E40FC7 /* si.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E17E16F169C532000E40FC7 /* si.cpp */; };
 		7E5CFA2516988EBE00F0E9AD /* i2c_algo_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */; };
 		7E5CFA2716988EBE00F0E9AD /* i2c_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */; };
@@ -143,6 +144,8 @@
 		7E138D89169A90D3007BE068 /* evergreend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = evergreend.h; sourceTree = "<group>"; };
 		7E138D8B169A910B007BE068 /* r600d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = r600d.h; sourceTree = "<group>"; };
 		7E138D8D169A9112007BE068 /* rv770d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rv770d.h; sourceTree = "<group>"; };
+		7E148DD816F7B5E800A3F28E /* nv84.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nv84.cpp; sourceTree = "<group>"; };
+		7E148DD916F7B5E800A3F28E /* nv84.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nv84.h; sourceTree = "<group>"; };
 		7E17E16E169C422600E40FC7 /* radeon_definitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = radeon_definitions.h; sourceTree = "<group>"; };
 		7E17E16F169C532000E40FC7 /* si.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = si.cpp; sourceTree = "<group>"; };
 		7E17E170169C532100E40FC7 /* si.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = si.h; sourceTree = "<group>"; };
@@ -493,6 +496,8 @@
 				7E9F5476167C71D9006E907B /* nv40.cpp */,
 				7E9F5479167C71D9006E907B /* nv50.h */,
 				7E9F5478167C71D9006E907B /* nv50.cpp */,
+				7E148DD916F7B5E800A3F28E /* nv84.h */,
+				7E148DD816F7B5E800A3F28E /* nv84.cpp */,
 				7E9F547B167C71D9006E907B /* nva3.h */,
 				7E9F547A167C71D9006E907B /* nva3.cpp */,
 				7E9F547D167C71D9006E907B /* nvc0.h */,
@@ -1051,6 +1056,7 @@
 				7EB13667169C288000B42023 /* radeon_atombios.cpp in Sources */,
 				7EB1366C169C2CE800B42023 /* atom.cpp in Sources */,
 				7E17E171169C532100E40FC7 /* si.cpp in Sources */,
+				7E148DDA16F7B5E800A3F28E /* nv84.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

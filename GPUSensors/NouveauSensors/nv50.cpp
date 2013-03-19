@@ -33,6 +33,7 @@
 #include "nouveau.h"
 #include "nv50.h"
 #include "nva3.h"
+#include "nv84.h"
 #include "nouveau_therm.h"
 
 bool nv50_identify(struct nouveau_device *device)
@@ -91,16 +92,24 @@ bool nv50_identify(struct nouveau_device *device)
 void nv50_init(struct nouveau_device *device)
 {
     switch (device->chipset) {
+        case 0x50:
+            nv50_sensor_setup(device);
+            device->temp_get = nv50_temp_get;
+            device->clocks_get = nv50_clocks_get;
+            device->fan_rpm_get = nouveau_therm_fan_rpm_get;
+            break;
         case 0xa3:
         case 0xa5:
         case 0xa8:
         case 0xaf:
             nva3_therm_init(device);
             device->clocks_get = nva3_clocks_get;
+            device->temp_get = nv84_temp_get;
             device->fan_rpm_get = nva3_therm_fan_sense;
             break;
         default:
             device->clocks_get = nv50_clocks_get;
+            device->temp_get = nv84_temp_get;
             device->fan_rpm_get = nouveau_therm_fan_rpm_get;
             break;
     }
@@ -109,7 +118,6 @@ void nv50_init(struct nouveau_device *device)
     device->gpio_find = nouveau_gpio_find;
     device->gpio_get = nouveau_gpio_get;
     
-    device->temp_get = nv50_temp_get;
     device->pwm_get = nv50_fan_pwm_get;
     device->fan_pwm_get = nouveau_therm_fan_pwm_get;
 }
@@ -467,9 +475,33 @@ int nv50_gpio_sense(struct nouveau_device *device, int line)
 	return !!(nv_rd32(device, reg) & (4 << shift));
 }
 
+void nv50_sensor_setup(struct nouveau_device *device)
+{
+	nv_mask(device, 0x20010, 0x40000000, 0x0);
+	IOSleep(20); /* wait for the temperature to stabilize */
+}
+
 int nv50_temp_get(struct nouveau_device *device)
 {
-	return nv_rd32(device, 0x20400);
+	struct nouveau_pm_temp_sensor_constants *sensor = &device->sensor_constants;
+	int core_temp;
+    
+	core_temp = nv_rd32(device, 0x20014) & 0x3fff;
+    
+	/* if the slope or the offset is unset, do no use the sensor */
+	if (!sensor->slope_div || !sensor->slope_mult ||
+	    !sensor->offset_num || !sensor->offset_den)
+	    return -ENODEV;
+    
+	core_temp = core_temp * sensor->slope_mult / sensor->slope_div;
+	core_temp = core_temp + sensor->offset_num / sensor->offset_den;
+	core_temp = core_temp + sensor->offset_constant - 8;
+    
+	/* reserve negative temperatures for errors */
+	if (core_temp < 0)
+		core_temp = 0;
+    
+	return core_temp;
 }
 
 static int pwm_info(struct nouveau_device *device, int *line, int *ctrl, int *indx)

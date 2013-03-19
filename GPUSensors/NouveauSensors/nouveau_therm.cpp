@@ -163,16 +163,16 @@ void nouveau_therm_init(struct nouveau_device *device)
     
     /* store some safe defaults */
 	sensor->offset_constant = 0;
-	sensor->offset_mult = 0;
-	sensor->offset_div = 1;
+	sensor->offset_num = 0;
+	sensor->offset_den = 1;
 	sensor->slope_mult = 1;
 	sensor->slope_div = 1;
     
 	if (!nvbios_therm_sensor_parse(device, &bios_sensor)) {
 		sensor->slope_mult = bios_sensor.slope_mult;
 		sensor->slope_div = bios_sensor.slope_div;
-		sensor->offset_mult = bios_sensor.offset_num;
-		sensor->offset_div = bios_sensor.offset_den;
+		sensor->offset_num = bios_sensor.offset_num;
+		sensor->offset_den = bios_sensor.offset_den;
 		sensor->offset_constant = bios_sensor.offset_constant;
 	}
 }

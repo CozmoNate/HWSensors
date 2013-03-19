@@ -33,11 +33,12 @@ enum nouveau_clock_source {
 };
 
 struct nouveau_pm_temp_sensor_constants {
-	u16 offset_constant;
-	u16 offset_mult;
-	u16 offset_div;
-	u16 slope_mult;
-	u16 slope_div;
+	/* diode */
+	s16 slope_mult;
+	s16 slope_div;
+	s16 offset_num;
+	s16 offset_den;
+	s8 offset_constant;
 };
 
 enum nouveau_card_type {
@@ -88,7 +89,7 @@ struct nouveau_device {
     int (*temp_get)(struct nouveau_device *);
 	int (*core_temp_get)(struct nouveau_device *);
     int (*board_temp_get)(struct nouveau_device *);
-    int (*fan_sense)(struct nouveau_device *);
+    //int (*fan_sense)(struct nouveau_device *);
     int (*fan_pwm_get)(struct nouveau_device *);
     int (*fan_rpm_get)(struct nouveau_device *);
 };

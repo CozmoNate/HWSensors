@@ -188,9 +188,11 @@ int nv40_sensor_setup(struct nouveau_device *device)
 	if (device->chipset >= 0x46) {
 		nv_mask(device, 0x15b8, 0x80000000, 0);
 		nv_wr32(device, 0x15b0, 0x80003fff);
+        IOSleep(20);
 		return nv_rd32(device, 0x15b4) & 0x3fff;
 	} else {
 		nv_wr32(device, 0x15b0, 0xff);
+        IOSleep(20);
 		return nv_rd32(device, 0x15b4) & 0xff;
 	}
 }
@@ -215,13 +217,13 @@ int nv40_temp_get(struct nouveau_device *device)
     
 	if (sensor->slope_div == 0)
 		sensor->slope_div = 1;
-	if (sensor->offset_div == 0)
-		sensor->offset_div = 1;
+	if (sensor->offset_den == 0)
+		sensor->offset_den = 1;
 	if (sensor->slope_mult < 1)
 		sensor->slope_mult = 1;
     
 	core_temp = core_temp * sensor->slope_mult / sensor->slope_div;
-	core_temp = core_temp + sensor->offset_mult / sensor->offset_div;
+	core_temp = core_temp + sensor->offset_num / sensor->offset_den;
 	core_temp = core_temp + sensor->offset_constant - 8;
     
 	return core_temp;
