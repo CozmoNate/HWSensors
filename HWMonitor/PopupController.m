@@ -24,9 +24,6 @@
 
 @implementation PopupController
 
-#define GetLocalizedString(key) \
-[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
-
 -(void)showWindow:(id)sender
 {
     [self openPanel];
@@ -40,9 +37,9 @@
     [_tableView reloadData];
 }
 
-- (id)init
+- (id)initWithWindow:(NSWindow *)window
 {
-    self = [super init];
+    self = [super initWithWindow:window];
     
     if (self != nil)
     {
@@ -58,9 +55,25 @@
         
         [_statusItemView setAction:@selector(togglePanel:)];
         [_statusItemView setTarget:self];
+        
+        
+        [self performSelector:@selector(setupPanel) withObject:nil afterDelay:0.0];
     }
     
     return self;
+}
+
+- (void)setupPanel
+{
+    // Make a fully skinned panel
+    NSPanel *panel = (id)self.window;
+    
+    [panel setAcceptsMouseMovedEvents:YES];
+    [panel setLevel:NSPopUpMenuWindowLevel];
+    [panel setOpaque:NO];
+    [panel setBackgroundColor:[NSColor clearColor]];
+    
+    [_scrollView setFrameOrigin:NSMakePoint(_scrollView.frame.origin.x, - ARROW_HEIGHT)];
 }
 
 - (void)dealloc
@@ -68,106 +81,6 @@
     [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
 }
 
--(void)localizeObject:(id)view
-{
-    if ([view isKindOfClass:[NSMatrix class]]) {
-        NSMatrix *matrix = (NSMatrix*)view;
-        
-        NSUInteger row, column;
-        
-        for (row = 0 ; row < [matrix numberOfRows]; row++) {
-            for (column = 0; column < [matrix numberOfColumns] ; column++) {
-                NSButtonCell* cell = [matrix cellAtRow:row column:column];
-                
-                NSString *title = [cell title];
-                
-                [cell setTitle:GetLocalizedString(title)];
-            }
-        }
-    }
-    else if ([view isKindOfClass:[NSButton class]]) {
-        NSButton *button = (NSButton*)view;
-        
-        NSString *title = [button title];
-        
-        [button setTitle:GetLocalizedString(title)];
-        [button setAlternateTitle:GetLocalizedString([button alternateTitle])];
-    }
-    else if ([view isKindOfClass:[NSTextField class]]) {
-        NSTextField *textField = (NSTextField*)view;
-        
-        NSString *title = [[textField cell] title];
-        
-        [[textField cell] setTitle:GetLocalizedString(title)];
-    }
-    else if ([view isKindOfClass:[NSTabView class]]) {
-        for (NSTabViewItem *item in [(NSTabView*)view tabViewItems]) {
-            [item setLabel:GetLocalizedString([item label])];
-            [self localizeObject:[item view]];
-        }
-    }
-    else if ([view isKindOfClass:[NSToolbar class]]) {
-        for (NSToolbarItem *item in [(NSToolbar*)view items]) {
-            [item setLabel:GetLocalizedString([item label])];
-            [self localizeObject:[item view]];
-        }
-        
-        return;
-    }
-    else if ([view isKindOfClass:[NSMenu class]]) {
-        NSMenu *menu = (NSMenu*)view;
-        
-        [menu setTitle:GetLocalizedString([menu title])];
-        
-        for (id subItem in [menu itemArray]) {
-            if ([subItem isKindOfClass:[NSMenuItem class]]) {
-                NSMenuItem* menuItem = subItem;
-                
-                [menuItem setTitle:GetLocalizedString([menuItem title])];
-                
-                if ([menuItem hasSubmenu])
-                    [self localizeObject:[menuItem submenu]];
-            }
-        }
-        
-        return;
-    }
-    else {
-        if ([view respondsToSelector:@selector(setAlternateTitle:)]) {
-            NSString *title = [(id)view alternateTitle];
-            [(id)view setAlternateTitle:GetLocalizedString(title)];
-        }
-        if ([view respondsToSelector:@selector(setTitle:)]) {
-            NSString *title = [(id)view title];
-            [(id)view setTitle:GetLocalizedString(title)];
-        }
-    }
-    
-    if ([view isKindOfClass:[NSWindow class]]) {
-        [self localizeObject:[view contentView]];
-    }
-    else if ([view isKindOfClass:[NSView class]] ) {
-        for(NSView *subView in [view subviews])
-            [self localizeObject:subView];
-    }
-}
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    
-    // Make a fully skinned panel
-    NSPanel *panel = (id)[self window];
-    [panel setAcceptsMouseMovedEvents:YES];
-    [panel setLevel:NSPopUpMenuWindowLevel];
-    [panel setOpaque:NO];
-    [panel setBackgroundColor:[NSColor clearColor]];
-    
-    [self localizeObject:_prefsWindow];
-    [self localizeObject:_graphsWindow];
-    
-    [_scrollView setFrameOrigin:NSMakePoint(_scrollView.frame.origin.x, - ARROW_HEIGHT)];
-}
 
 - (void)windowWillClose:(NSNotification *)notification
 {
@@ -492,6 +405,11 @@
         if (_showVolumeNames && [sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) {
             [sensorCell.subtitleField setTextColor:_colorTheme.itemSubTitleColor];
             [sensorCell.subtitleField setStringValue:[[sensor genericDevice] volumesNames]];
+            [sensorCell.subtitleField setHidden:NO];
+        }
+        else if (_showVolumeNames && [sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[BluetoothGenericDevice class]]) {
+            [sensorCell.subtitleField setTextColor:_colorTheme.itemSubTitleColor];
+            [sensorCell.subtitleField setStringValue:[[sensor genericDevice] productName]];
             [sensorCell.subtitleField setHidden:NO];
         }
         else {

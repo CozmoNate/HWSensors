@@ -133,6 +133,7 @@
         case kSMARTGroupTemperature:
         case kSMARTGroupRemainingLife:
         case kSMARTGroupRemainingBlocks:
+        case kBluetoothGroupBattery:
             //smartSensor = TRUE;
             break;
             
@@ -241,33 +242,31 @@
         
         HWMonitorSensor *sensor = nil;
         
-        if (![device productName]) {
-            [device setProductName:[NSString stringWithFormat:@"%d", (int)device]];
-            
-            switch ([device deviceType]) {
-                case kBluetoothDeviceTypeKeyboard:
-                    [device setProductName:@"Keyboard"];
-                    break;
-                case kBluetoothDeviceTypeMouse:
-                    [device setProductName:@"Mouse"];
-                    break;
-                case kBluetoothDeviceTypeTrackpad:
-                    [device setProductName:@"Trackpad"];
-                    break;
-                default:
-                    [device setProductName:@"Unknown"];
-                    break;
-            }
-        }
-        
         if (![device serialNumber] || [[device serialNumber] length] == 0) {
             [device setSerialNumber:[NSString stringWithFormat:@"%X", device.service]];
         }
         
-        sensor = [self addSensorWithKey:[device serialNumber] title:[device productName] group:group];
+        NSString *title = nil;
         
-        [sensor setData:[device getBatteryLevel]];
+        switch ([device deviceType]) {
+            case kBluetoothDeviceTypeKeyboard:
+                title = @"Keyboard";
+                break;
+            case kBluetoothDeviceTypeMouse:
+                title = @"Mouse";
+                break;
+            case kBluetoothDeviceTypeTrackpad:
+                title = @"Trackpad";
+                break;
+            default:
+                title = @"Unknown";
+                break;
+        }
+        
+        sensor = [self addSensorWithKey:[device serialNumber] title:GetLocalizedString(title) group:group];
+        
         [sensor setGenericDevice:device];
+        [sensor setData:[device getBatteryLevel]];
         
         return sensor;
     }

@@ -3,12 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>AppVersion</key>
-	<string>2.2.13</string>
+	<string>2.2.16</string>
 	<key>BuildNumber</key>
 	<string>337</string>
 	<key>ProjectName</key>
 	<string>HWSensors</string>
 	<key>ProjectVersion</key>
-	<string>5.1.45</string>
+	<string>5.1.46</string>
 </dict>
 </plist>

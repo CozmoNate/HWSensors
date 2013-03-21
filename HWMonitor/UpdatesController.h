@@ -6,8 +6,17 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
 @interface UpdatesController : NSWindowController
+{
+    NSString *_currentVersion;
+    NSString *_remoteVersion;
+    NSString *_skippedVersion;
+}
+
+@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *messageTextField;
+
+- (IBAction)openDownloadsPage:(id)sender;
+- (IBAction)skipVersion:(id)sender;
+- (IBAction)cancelUpdate:(id)sender;
 
 @end

@@ -87,6 +87,15 @@
 "Dark" = "Темная";
 "Continue monitor sensors in background" = "Продолжать собирать данные в фоновом режиме";
 
+"Mouse" = "Мышь";
+"Keyboard" = "Клавиатура";
+"Trackpad" = "Трекпад";
+
+"HWMonitor v%@ is available - you have v%@. Would you like to download?" = "Появился HWMonitor v%@ - вы используете v%@. Не хотели бы вы скачать новую версию?";
+"Update" = "Обновить";
+"Next time" = "В другой раз";
+"Skip" = "Пропустить";
+
 "CPUFan" = "Вентилятор ЦП";
 "CPUFan2" = "Вентилятор ЦП 2";
 "PowerFan" = "Вентилятор БП";

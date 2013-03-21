@@ -61,28 +61,12 @@
         }
     }
     
-    return devices;
+    return [devices copy];
 }
 
 + (BluetoothGenericDevice*)bluetoothGenericDeviceWithService:(io_service_t)service ofType:(BluetoothDeviceType)type;
 {
-    BluetoothGenericDevice *me = [[BluetoothGenericDevice alloc] init];
-    
-    if (me) {
-        [me setService:service];
-        [me setDeviceType:type];
-        
-        NSData *level = [me getBatteryLevel];
-        
-        if (level == nil) {
-            return nil;
-        }
-        
-        [me setProductName:(__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("Product"), kCFAllocatorDefault, 0)];
-        [me setSerialNumber:(__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0)];
-    }
-    
-    return me;
+    return [[BluetoothGenericDevice alloc] initWithService:service ofType:type];
 }
 
 -(void)dealloc
@@ -90,6 +74,25 @@
     if (MACH_PORT_NULL != _service) {
         IOObjectRelease(_service);
     }
+}
+
+- (BluetoothGenericDevice*)initWithService:(io_service_t)service ofType:(BluetoothDeviceType)type
+{
+    self = [super init];
+    
+    if (self) {
+        _service = service;
+        _deviceType = type;
+        
+        if (![self getBatteryLevel]) {
+            return nil;
+        }
+        
+        _productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("Product"), kCFAllocatorDefault, 0);
+        _serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0);
+    }
+    
+    return self;
 }
 
 - (NSData*)getBatteryLevel

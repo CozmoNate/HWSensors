@@ -26,8 +26,6 @@
 		7E10343616EFAE490089DE7B /* BluetoothGenericDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E10343516EFAE490089DE7B /* BluetoothGenericDevice.m */; };
 		7E1644EA16EB5DF5001F5F24 /* FlippedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1644E916EB5DF5001F5F24 /* FlippedView.m */; };
 		7E16893616EA106D00BBF6FC /* KnobScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16893516EA106D00BBF6FC /* KnobScroller.m */; };
-		7E17953116EE6FB000145082 /* Mouse.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E17953016EE6FB000145082 /* Mouse.png */; };
-		7E17953316EE6FBB00145082 /* Keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E17953216EE6FBB00145082 /* Keyboard.png */; };
 		7E17953616EE705B00145082 /* BatteryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E17953516EE705B00145082 /* BatteryCell.m */; };
 		7E1BC3CE16F47BDF005B9479 /* battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CC16F47BDE005B9479 /* battery.png */; };
 		7E1BC3CF16F47BDF005B9479 /* battery_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CD16F47BDF005B9479 /* battery_template.png */; };
@@ -96,6 +94,11 @@
 		7EDA1AA916D936410012A0DC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EDA1AAB16D936410012A0DC /* Localizable.strings */; };
 		7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1ACA16D956EA0012A0DC /* GraphsView.m */; };
 		7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1AD016DA83AF0012A0DC /* GraphsController.m */; };
+		7EDDC86E16F9B3B40072B15B /* UpdatesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC86D16F9B3B40072B15B /* UpdatesController.m */; };
+		7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC87216FA5DA50072B15B /* Localizer.m */; };
+		7EDDC87E16FA7DA20072B15B /* Trackpad-10.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 7EDDC87B16FA7DA20072B15B /* Trackpad-10.tiff */; };
+		7EDDC87F16FA7DA20072B15B /* Mouse-10.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 7EDDC87C16FA7DA20072B15B /* Mouse-10.tiff */; };
+		7EDDC88016FA7DA20072B15B /* Keyboard-5.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 7EDDC87D16FA7DA20072B15B /* Keyboard-5.tiff */; };
 		7EFAE91A16EBC8ED00F4DA72 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EFAE8E516EBC81500F4DA72 /* SenTestingKit.framework */; };
 		7EFAE91B16EBC8ED00F4DA72 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248EB16D8E93A002231B2 /* Cocoa.framework */; };
 		7EFAE92116EBC8ED00F4DA72 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EFAE91F16EBC8ED00F4DA72 /* InfoPlist.strings */; };
@@ -113,8 +116,6 @@
 		7E1644E916EB5DF5001F5F24 /* FlippedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlippedView.m; sourceTree = "<group>"; };
 		7E16893416EA106D00BBF6FC /* KnobScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobScroller.h; sourceTree = "<group>"; };
 		7E16893516EA106D00BBF6FC /* KnobScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobScroller.m; sourceTree = "<group>"; };
-		7E17953016EE6FB000145082 /* Mouse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mouse.png; sourceTree = "<group>"; };
-		7E17953216EE6FBB00145082 /* Keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Keyboard.png; sourceTree = "<group>"; };
 		7E17953416EE705B00145082 /* BatteryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatteryCell.h; sourceTree = "<group>"; };
 		7E17953516EE705B00145082 /* BatteryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatteryCell.m; sourceTree = "<group>"; };
 		7E1BC3CC16F47BDE005B9479 /* battery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = battery.png; sourceTree = "<group>"; };
@@ -213,10 +214,14 @@
 		7EDA1ACA16D956EA0012A0DC /* GraphsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphsView.m; sourceTree = "<group>"; };
 		7EDA1ACF16DA83AF0012A0DC /* GraphsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphsController.h; sourceTree = "<group>"; };
 		7EDA1AD016DA83AF0012A0DC /* GraphsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphsController.m; sourceTree = "<group>"; };
+		7EDDC86C16F9B3B40072B15B /* UpdatesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdatesController.h; sourceTree = "<group>"; };
+		7EDDC86D16F9B3B40072B15B /* UpdatesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdatesController.m; sourceTree = "<group>"; };
+		7EDDC87116FA5DA50072B15B /* Localizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localizer.h; sourceTree = "<group>"; };
+		7EDDC87216FA5DA50072B15B /* Localizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Localizer.m; sourceTree = "<group>"; };
+		7EDDC87B16FA7DA20072B15B /* Trackpad-10.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Trackpad-10.tiff"; sourceTree = "<group>"; };
+		7EDDC87C16FA7DA20072B15B /* Mouse-10.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Mouse-10.tiff"; sourceTree = "<group>"; };
+		7EDDC87D16FA7DA20072B15B /* Keyboard-5.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Keyboard-5.tiff"; sourceTree = "<group>"; };
 		7EFAE8E516EBC81500F4DA72 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		7EFAE8E916EBC81500F4DA72 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		7EFAE8EA16EBC81500F4DA72 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		7EFAE8EB16EBC81500F4DA72 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7EFAE91916EBC8ED00F4DA72 /* SMC Value Decoder.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SMC Value Decoder.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EFAE91E16EBC8ED00F4DA72 /* SMC Value Decoder-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SMC Value Decoder-Info.plist"; sourceTree = "<group>"; };
 		7EFAE92016EBC8ED00F4DA72 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -322,7 +327,6 @@
 				7EA248EF16D8E93A002231B2 /* CoreData.framework */,
 				7EA248F016D8E93A002231B2 /* Foundation.framework */,
 				7EFAE8E516EBC81500F4DA72 /* SenTestingKit.framework */,
-				7EFAE8E816EBC81500F4DA72 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -332,7 +336,6 @@
 			children = (
 				7E1BC3D116F489E8005B9479 /* HWMonitor.entitlements */,
 				7EA2490A16D8E9B0002231B2 /* Engines */,
-				7EA2494A16D8EB0B002231B2 /* Views */,
 				7EA2490916D8E9A7002231B2 /* Controllers */,
 				7ECDDE3E16DDF19A00085FFF /* User Interface */,
 				7EA248F216D8E93A002231B2 /* Supporting Files */,
@@ -395,8 +398,9 @@
 				7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */,
 				7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */,
 				7ECDDE3516DDE5DA00085FFF /* 04-eye-white@2x.png */,
-				7E17953016EE6FB000145082 /* Mouse.png */,
-				7E17953216EE6FBB00145082 /* Keyboard.png */,
+				7EDDC87B16FA7DA20072B15B /* Trackpad-10.tiff */,
+				7EDDC87C16FA7DA20072B15B /* Mouse-10.tiff */,
+				7EDDC87D16FA7DA20072B15B /* Keyboard-5.tiff */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -411,6 +415,8 @@
 				7EDA1A6C16D901100012A0DC /* PopupController.m */,
 				7EDA1ACF16DA83AF0012A0DC /* GraphsController.h */,
 				7EDA1AD016DA83AF0012A0DC /* GraphsController.m */,
+				7EDDC86C16F9B3B40072B15B /* UpdatesController.h */,
+				7EDDC86D16F9B3B40072B15B /* UpdatesController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -474,7 +480,10 @@
 		7ECDDE3E16DDF19A00085FFF /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				7EA2494A16D8EB0B002231B2 /* Views */,
 				7EA2490816D8E942002231B2 /* Icons */,
+				7EDDC87116FA5DA50072B15B /* Localizer.h */,
+				7EDDC87216FA5DA50072B15B /* Localizer.m */,
 				7EA394B116E0A1B600823109 /* ColorTheme.h */,
 				7EA394B216E0A1B600823109 /* ColorTheme.m */,
 				7E16893416EA106D00BBF6FC /* KnobScroller.h */,
@@ -492,16 +501,6 @@
 				7EDA1A6516D8F0F90012A0DC /* BundleUserDefaults.m */,
 			);
 			name = BundleUserDefaults;
-			sourceTree = "<group>";
-		};
-		7EFAE8E816EBC81500F4DA72 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				7EFAE8E916EBC81500F4DA72 /* AppKit.framework */,
-				7EFAE8EA16EBC81500F4DA72 /* CoreData.framework */,
-				7EFAE8EB16EBC81500F4DA72 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		7EFAE91C16EBC8ED00F4DA72 /* SMC Value Decoder */ = {
@@ -644,10 +643,11 @@
 				7EA8CA6B16EBBECD00E71108 /* 19-gear-highlight@2x.png in Resources */,
 				7EA8CA6C16EBBECD00E71108 /* 60-x-highlight.png in Resources */,
 				7EA8CA6D16EBBECD00E71108 /* 60-x-highlight@2x.png in Resources */,
-				7E17953116EE6FB000145082 /* Mouse.png in Resources */,
-				7E17953316EE6FBB00145082 /* Keyboard.png in Resources */,
 				7E1BC3CE16F47BDF005B9479 /* battery.png in Resources */,
 				7E1BC3CF16F47BDF005B9479 /* battery_template.png in Resources */,
+				7EDDC87E16FA7DA20072B15B /* Trackpad-10.tiff in Resources */,
+				7EDDC87F16FA7DA20072B15B /* Mouse-10.tiff in Resources */,
+				7EDDC88016FA7DA20072B15B /* Keyboard-5.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -733,6 +733,8 @@
 				7E1644EA16EB5DF5001F5F24 /* FlippedView.m in Sources */,
 				7E17953616EE705B00145082 /* BatteryCell.m in Sources */,
 				7E10343616EFAE490089DE7B /* BluetoothGenericDevice.m in Sources */,
+				7EDDC86E16F9B3B40072B15B /* UpdatesController.m in Sources */,
+				7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

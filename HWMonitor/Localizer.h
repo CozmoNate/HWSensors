@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#define GetLocalizedString(key) \
+[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
+
 @interface Localizer : NSObject
+
++ (void)localizeView:(id)view;
 
 @end
