@@ -9,11 +9,6 @@
 #ifndef HWSensors_HWMonitorDefinitions_h
 #define HWSensors_HWMonitorDefinitions_h
 
-#define kHWMonitorToolbarHeight             36
-#define kHWMonitorGroupHeight               19
-#define kHWMonitorSensorHeight              17
-#define kHWMonitorSubtitledHeight           27
-
 // Preferences
 #define kHWMonitorFavoritesList             @"favoritesList"
 #define kHWMonitorHiddenList                @"hiddenList"

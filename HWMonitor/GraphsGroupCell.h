@@ -8,7 +8,7 @@
 
 @interface GraphsGroupCell : NSTableCellView
 {
-    NSGradient *gradient;
+    NSGradient *_gradient;
 }
 
 @end

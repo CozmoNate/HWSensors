@@ -9,6 +9,7 @@
 //
 
 #import "PopupView.h"
+#import "PopupController.h"
 #import "HWMonitorDefinitions.h"
 
 @implementation PopupView
@@ -29,36 +30,6 @@
         _cachedImage = nil;
         [self setNeedsDisplay:YES];
     }
-}
-
-- (NSBezierPath*)toolbarShapeWithBounds:(NSRect)shapeBounds
-{
-    NSBezierPath *toolbarPath = [NSBezierPath bezierPath];
-    
-    [toolbarPath setLineWidth:LINE_THICKNESS];
-    [toolbarPath setLineJoinStyle:NSRoundLineJoinStyle];
-    
-    [toolbarPath moveToPoint:NSMakePoint(NSMinX(shapeBounds), NSMinY(shapeBounds))];
-    [toolbarPath lineToPoint:NSMakePoint(NSMinX(shapeBounds), NSMaxY(shapeBounds) - ARROW_HEIGHT - CORNER_RADIUS)];
-    
-    NSPoint topLeftCorner = NSMakePoint(NSMinX(shapeBounds) + CORNER_RADIUS, NSMaxY(shapeBounds) - ARROW_HEIGHT - CORNER_RADIUS);
-    [toolbarPath appendBezierPathWithArcWithCenter:topLeftCorner radius:CORNER_RADIUS startAngle:180 endAngle:90 clockwise:YES];
-    
-    [toolbarPath lineToPoint:NSMakePoint(_arrowPosition - ARROW_WIDTH / 2.0f, NSMaxY(shapeBounds) - ARROW_HEIGHT)];
-    [toolbarPath lineToPoint:NSMakePoint(_arrowPosition, NSMaxY(shapeBounds))];
-    [toolbarPath lineToPoint:NSMakePoint(_arrowPosition + ARROW_WIDTH / 2.0f, NSMaxY(shapeBounds) - ARROW_HEIGHT)];
-    
-    [toolbarPath lineToPoint:NSMakePoint(NSMaxX(shapeBounds) - CORNER_RADIUS, NSMaxY(shapeBounds) - ARROW_HEIGHT)];
-    
-    NSPoint topRightCorner = NSMakePoint(NSMaxX(shapeBounds) - CORNER_RADIUS, NSMaxY(shapeBounds) - ARROW_HEIGHT - CORNER_RADIUS);
-    [toolbarPath appendBezierPathWithArcWithCenter:topRightCorner radius:CORNER_RADIUS startAngle:90 endAngle:0 clockwise:YES];
-    
-    [toolbarPath lineToPoint:NSMakePoint(NSMaxX(shapeBounds), NSMinY(shapeBounds))];
-//    [toolbarPath lineToPoint:NSMakePoint(NSMinX(shapeBounds), NSMinY(shapeBounds))];
-//    
-//    [toolbarPath closePath];
-    
-    return toolbarPath;
 }
 
 - (void)drawRect:(NSRect)rect
