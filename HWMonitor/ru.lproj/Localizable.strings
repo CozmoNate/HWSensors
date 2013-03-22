@@ -91,7 +91,7 @@
 "Keyboard" = "Клавиатура";
 "Trackpad" = "Трекпад";
 
-"HWMonitor v%@ is available - you have v%@. Would you like to download?" = "Появился HWMonitor v%@ - вы используете v%@. Не хотели бы вы скачать новую версию?";
+"HWMonitor %@ is available - you have %@. Would you like to download?" = "Появилась новая версия HWMonitor v%@. Вы используете v%@. Не хотели бы вы скачать новую версию?";
 "Update" = "Обновить";
 "Next time" = "В другой раз";
 "Skip" = "Пропустить";

@@ -2162,7 +2162,7 @@
 											<string key="NSFrameSize">{239, 204}</string>
 											<reference key="NSSuperview" ref="448952218"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="1006916051"/>
+											<reference key="NSNextKeyView" ref="916794352"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2265,7 +2265,7 @@
 							<string key="NSFrame">{{1, 1}, {239, 204}}</string>
 							<reference key="NSSuperview" ref="114547693"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="916794352"/>
+							<reference key="NSNextKeyView" ref="448952218"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">219136</int>
 							<reference key="NSVScroller" ref="916794352"/>
@@ -2585,6 +2585,7 @@
 							</set>
 							<string key="NSFrame">{{17, 103}, {96, 96}}</string>
 							<reference key="NSSuperview" ref="834837792"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="413712734"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -2606,10 +2607,10 @@
 						</object>
 						<object class="NSButton" id="850770322">
 							<reference key="NSNextResponder" ref="834837792"/>
-							<int key="NSvFlags">269</int>
+							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{314, 13}, {112, 32}}</string>
 							<reference key="NSSuperview" ref="834837792"/>
-							<reference key="NSNextKeyView"/>
+							<reference key="NSWindow"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="403673007">
@@ -2631,9 +2632,10 @@
 						</object>
 						<object class="NSButton" id="911568155">
 							<reference key="NSNextResponder" ref="834837792"/>
-							<int key="NSvFlags">268</int>
+							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{202, 13}, {112, 32}}</string>
 							<reference key="NSSuperview" ref="834837792"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="850770322"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -2655,9 +2657,10 @@
 						</object>
 						<object class="NSTextField" id="413712734">
 							<reference key="NSNextResponder" ref="834837792"/>
-							<int key="NSvFlags">268</int>
+							<int key="NSvFlags">282</int>
 							<string key="NSFrame">{{125, 80}, {298, 98}}</string>
 							<reference key="NSSuperview" ref="834837792"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="1047678091"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -2681,8 +2684,9 @@
 						<object class="NSButton" id="1047678091">
 							<reference key="NSNextResponder" ref="834837792"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{22, 13}, {112, 32}}</string>
+							<string key="NSFrame">{{14, 13}, {112, 32}}</string>
 							<reference key="NSSuperview" ref="834837792"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="911568155"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -2705,6 +2709,7 @@
 					</array>
 					<string key="NSFrameSize">{440, 216}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="999064694"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
@@ -8281,10 +8286,10 @@
 						<reference key="object" ref="834837792"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="413712734"/>
-							<reference ref="1047678091"/>
 							<reference ref="999064694"/>
 							<reference ref="850770322"/>
 							<reference ref="911568155"/>
+							<reference ref="1047678091"/>
 						</array>
 						<reference key="parent" ref="865485491"/>
 					</object>

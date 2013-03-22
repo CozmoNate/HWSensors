@@ -46,7 +46,7 @@
         _remoteVersion = [list objectForKey:@"AppVersion"];
         _skippedVersion = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] objectForKey:kHWMonitorSkippedAppVersion];
         
-        [_messageTextField setStringValue:[NSString stringWithFormat:[_messageTextField stringValue], _remoteVersion, _currentVersion]];
+        [_messageTextField setStringValue:[NSString stringWithFormat:GetLocalizedString([_messageTextField stringValue]), _remoteVersion, _currentVersion]];
         
         if (_currentVersion && _remoteVersion && [_remoteVersion isGreaterThan:_currentVersion] && (!_skippedVersion || [_skippedVersion isLessThan:_remoteVersion])) {
             [NSApp activateIgnoringOtherApps:YES];
