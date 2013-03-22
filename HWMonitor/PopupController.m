@@ -327,7 +327,14 @@
                     }
                     
                     [[cell valueField] setStringValue:[sensor formattedValue]];
-                    [[cell valueField] setTextColor:valueColor];
+                    
+                    if (![[[cell valueField] textColor] isEqualTo:valueColor]) {
+                        [[cell valueField] setTextColor:valueColor];
+                    }
+                    
+                    if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[BluetoothGenericDevice class]]) {
+                        [cell setGaugeLevel:[[sensor rawValue] unsignedIntegerValue]];
+                    }
                 }
             }
         }
@@ -399,22 +406,21 @@
         else if ([sensor group] & (kHWSensorGroupPWM | kSMARTGroupRemainingLife)) {
             cell = [tableView makeViewWithIdentifier:@"Percentage" owner:self];
         }
-        else /*if ([sensor group] & kBluetoothGroupBattery)*/ {
+        else if ([sensor group] & kBluetoothGroupBattery) {
             cell = [tableView makeViewWithIdentifier:@"Battery" owner:self];
-            [cell setGaugeLevel:25];
         }
-        /*else {
+        else {
             cell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
-        }*/
+        }
+        
+        [cell setColorTheme:_colorTheme];
         
         if (_showVolumeNames && [sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) {
-            [[cell subtitleField] setTextColor:_colorTheme.itemSubTitleColor];
             [[cell subtitleField] setStringValue:[[sensor genericDevice] volumesNames]];
             [[cell subtitleField] setHidden:NO];
         }
         else if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[BluetoothGenericDevice class]]) {
             if ([[sensor genericDevice] productName]) {
-                [[cell subtitleField] setTextColor:_colorTheme.itemSubTitleColor];
                 [[cell subtitleField] setStringValue:[[sensor genericDevice] productName]];
                 [[cell subtitleField] setHidden:NO];
             }
@@ -428,9 +434,7 @@
             [[cell subtitleField] setHidden:YES];
         }
         
-        [[cell textField] setTextColor:_colorTheme.itemTitleColor];
         [[cell textField] setStringValue:[sensor title]];
-        [[cell valueField] setTextColor:_colorTheme.itemValueTitleColor];
         [[cell valueField] setStringValue:[sensor formattedValue]];
         
         return cell;

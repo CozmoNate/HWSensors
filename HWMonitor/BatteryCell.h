@@ -12,7 +12,8 @@
 
 @property (nonatomic, unsafe_unretained) IBOutlet NSTextField *subtitleField;
 @property (nonatomic, unsafe_unretained) IBOutlet NSTextField *valueField;
-@property (nonatomic, unsafe_unretained) IBOutlet NSImageView *gaugeView;
 @property (nonatomic, assign) NSUInteger gaugeLevel;
+
+@property (nonatomic, strong) ColorTheme *colorTheme;
 
 @end

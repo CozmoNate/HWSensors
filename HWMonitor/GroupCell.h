@@ -11,9 +11,8 @@
 @interface GroupCell : NSTableCellView
 {
     NSGradient *_gradient;
-    ColorTheme *_colorTheme;
 }
 
-@property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
+@property (nonatomic, strong) ColorTheme *colorTheme;
 
 @end

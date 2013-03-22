@@ -18,10 +18,6 @@
     _gradient = [[NSGradient alloc]
                  initWithStartingColor:_colorTheme.groupStartColor
                  endingColor:_colorTheme.groupEndColor];
-    
-    [self.textField setTextColor:_colorTheme.groupTitleColor];
-    
-    [self setNeedsDisplay:YES];
 }
 
 - (void)drawRect:(NSRect)dirtyRect

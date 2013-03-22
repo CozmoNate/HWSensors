@@ -24,7 +24,6 @@
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E0648F116DF3B7D00ACB851 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7E0648EF16DF3B7D00ACB851 /* README.md */; };
 		7E10343616EFAE490089DE7B /* BluetoothGenericDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E10343516EFAE490089DE7B /* BluetoothGenericDevice.m */; };
-		7E1644EA16EB5DF5001F5F24 /* FlippedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1644E916EB5DF5001F5F24 /* FlippedView.m */; };
 		7E16893616EA106D00BBF6FC /* KnobScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16893516EA106D00BBF6FC /* KnobScroller.m */; };
 		7E17953616EE705B00145082 /* BatteryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E17953516EE705B00145082 /* BatteryCell.m */; };
 		7E1BC3CE16F47BDF005B9479 /* battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CC16F47BDE005B9479 /* battery.png */; };
@@ -112,8 +111,6 @@
 		7E10343416EFAE490089DE7B /* BluetoothGenericDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothGenericDevice.h; sourceTree = "<group>"; };
 		7E10343516EFAE490089DE7B /* BluetoothGenericDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BluetoothGenericDevice.m; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
-		7E1644E816EB5DF5001F5F24 /* FlippedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlippedView.h; sourceTree = "<group>"; };
-		7E1644E916EB5DF5001F5F24 /* FlippedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlippedView.m; sourceTree = "<group>"; };
 		7E16893416EA106D00BBF6FC /* KnobScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnobScroller.h; sourceTree = "<group>"; };
 		7E16893516EA106D00BBF6FC /* KnobScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnobScroller.m; sourceTree = "<group>"; };
 		7E17953416EE705B00145082 /* BatteryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatteryCell.h; sourceTree = "<group>"; };
@@ -284,8 +281,6 @@
 		7E39415716DBEA13005A685D /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				7E1644E816EB5DF5001F5F24 /* FlippedView.h */,
-				7E1644E916EB5DF5001F5F24 /* FlippedView.m */,
 				7EDA1A7316D903740012A0DC /* GroupCell.h */,
 				7EDA1A7416D903740012A0DC /* GroupCell.m */,
 				7EDA1A7516D903740012A0DC /* SensorCell.h */,
@@ -334,6 +329,7 @@
 		7EA248F116D8E93A002231B2 /* HWMonitor */ = {
 			isa = PBXGroup;
 			children = (
+				7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */,
 				7E1BC3D116F489E8005B9479 /* HWMonitor.entitlements */,
 				7EA2490A16D8E9B0002231B2 /* Engines */,
 				7EA2490916D8E9A7002231B2 /* Controllers */,
@@ -424,7 +420,6 @@
 		7EA2490A16D8E9B0002231B2 /* Engines */ = {
 			isa = PBXGroup;
 			children = (
-				7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */,
 				7EDA1A6716D8F0FB0012A0DC /* BundleUserDefaults */,
 				7EA2494516D8EA99002231B2 /* ATAGenericDrive */,
 				7E10343316EFAE110089DE7B /* BluetoothGenericDevice */,
@@ -730,7 +725,6 @@
 				7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */,
 				7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */,
 				7E16893616EA106D00BBF6FC /* KnobScroller.m in Sources */,
-				7E1644EA16EB5DF5001F5F24 /* FlippedView.m in Sources */,
 				7E17953616EE705B00145082 /* BatteryCell.m in Sources */,
 				7E10343616EFAE490089DE7B /* BluetoothGenericDevice.m in Sources */,
 				7EDDC86E16F9B3B40072B15B /* UpdatesController.m in Sources */,
