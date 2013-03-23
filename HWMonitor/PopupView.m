@@ -44,8 +44,6 @@
         _cachedImage = [[NSImage alloc] initWithSize:[self bounds].size];
         [_cachedImage lockFocus];
         
-        NSInsetRect(popupBounds, 0.5, 0.5);
-        
         // Toolbar and arrow path
         NSRect toolbarBounds = popupBounds;
         toolbarBounds.size.height = kHWMonitorToolbarHeight + ARROW_HEIGHT - LINE_THICKNESS * 3;
