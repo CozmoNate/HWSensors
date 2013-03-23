@@ -175,24 +175,28 @@ if (![_items objectForKey:name]) {\
 {
     NSArray *sensors = [_engine updateSmartSensors];
     [self updateValuesForSensors:sensors];
+    [_popupController updateValuesForSensors:sensors];
+    [_graphsController captureDataToHistoryNow];
 }
 
 - (void)updateSmcSensors
 {
     NSArray *sensors = [_engine updateSensors];
     [self updateValuesForSensors:sensors];
+    [_popupController updateValuesForSensors:sensors];
+    [_graphsController captureDataToHistoryNow];
 }
 
 - (void)updateFavoritesSensors
 {
     NSArray *sensors = [_engine updateSensorsList:_favorites];
     [self updateValuesForSensors:sensors];
+    [_popupController updateValuesForSensors:sensors];
+    [_graphsController captureDataToHistoryNow];
 }
 
 - (void)updateValuesForSensors:(NSArray*)sensors
 {
-    [_popupController updateValuesForSensors:sensors];
-    
     if ([self.window isVisible]) {
         for (HWMonitorSensor *sensor in sensors) {
             id cell = [_sensorsTableView viewAtColumn:0 row:GetIndexOfItem([sensor name]) makeIfNecessary:NO];
@@ -202,11 +206,9 @@ if (![_items objectForKey:name]) {\
             }
         }
     }
-    
-    [_graphsController captureDataToHistoryNow];
 }
 
-- (void)updateLoop
+- (BOOL)updateLoop
 {
     if (_scheduleRebuildSensors) {
         [self rebuildSensorsList];
@@ -219,18 +221,23 @@ if (![_items objectForKey:name]) {\
             if ([_smcSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
                 [self performSelectorInBackground:@selector(updateSmcSensors) withObject:nil];
                 _smcSensorsLastUpdated = now;
+                return TRUE;
             }
         }
         else if ([_favoritesSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
             [self performSelectorInBackground:@selector(updateFavoritesSensors) withObject:nil];
             _favoritesSensorsLastUpdated = now;
+            return TRUE;
         }
     
         if ([_smartSensorsLastUpdated timeIntervalSinceNow] < (- _smartSensorsUpdateInterval)) {
             [self performSelectorInBackground:@selector(updateSmartSensors) withObject:nil];
             _smartSensorsLastUpdated = now;
+            return TRUE;
         }
     }
+    
+    return FALSE;
 }
 
 - (void)rebuildSensorsTableView
@@ -528,7 +535,9 @@ if (![_items objectForKey:name]) {\
 
 - (void) popupPanelShouldOpen:(id)sender
 {
-    [self updateLoop];
+    if (![self updateLoop]) {
+        [self updateValuesForSensors:[_engine sensors]];
+    }
 }
 
 // NSTableView delegate
