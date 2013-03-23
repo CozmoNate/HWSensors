@@ -141,7 +141,7 @@
         return [name1 compare:name2];
     }];
     
-    return [list copy];
+    return list;
 }
 
 +(ATAGenericDrive*)genericDriveWithService:(io_service_t)ioservice productName:(NSString*)name bsdName:(NSString*)bsd volumesNames:(NSString*)volumes serialNumber:(NSString*)serial isRotational:(BOOL)rotational

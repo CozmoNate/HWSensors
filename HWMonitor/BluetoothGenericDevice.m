@@ -61,7 +61,7 @@
         }
     }
     
-    return [devices copy];
+    return devices;
 }
 
 + (BluetoothGenericDevice*)bluetoothGenericDeviceWithService:(io_service_t)service ofType:(BluetoothDeviceType)type;

@@ -123,6 +123,19 @@ if (![_items objectForKey:name]) {\
     
 }
 
+-(void)showWindow:(id)sender
+{
+    for (HWMonitorSensor *sensor in [_engine sensors]) {
+        id cell = [_sensorsTableView viewAtColumn:0 row:GetIndexOfItem([sensor name]) makeIfNecessary:NO];
+        
+        if (cell && [cell isKindOfClass:[SensorCell class]]) {
+            [[cell valueField] takeStringValueFrom:sensor];
+        }
+    }
+    
+    [super showWindow:sender];
+}
+
 - (void)loadIconNamed:(NSString*)name
 {
     if (!_icons)
@@ -175,24 +188,18 @@ if (![_items objectForKey:name]) {\
 {
     NSArray *sensors = [_engine updateSmartSensors];
     [self updateValuesForSensors:sensors];
-    [_popupController updateValuesForSensors:sensors];
-    [_graphsController captureDataToHistoryNow];
 }
 
 - (void)updateSmcSensors
 {
     NSArray *sensors = [_engine updateSensors];
     [self updateValuesForSensors:sensors];
-    [_popupController updateValuesForSensors:sensors];
-    [_graphsController captureDataToHistoryNow];
 }
 
 - (void)updateFavoritesSensors
 {
     NSArray *sensors = [_engine updateSensorsList:_favorites];
     [self updateValuesForSensors:sensors];
-    [_popupController updateValuesForSensors:sensors];
-    [_graphsController captureDataToHistoryNow];
 }
 
 - (void)updateValuesForSensors:(NSArray*)sensors
@@ -202,10 +209,13 @@ if (![_items objectForKey:name]) {\
             id cell = [_sensorsTableView viewAtColumn:0 row:GetIndexOfItem([sensor name]) makeIfNecessary:NO];
             
             if (cell && [cell isKindOfClass:[SensorCell class]]) {
-                [[cell valueField] setStringValue:[sensor formattedValue]];
+                [[cell valueField] takeStringValueFrom:sensor];
             }
         }
     }
+    
+    [_popupController updateValuesForSensors:sensors];
+    [_graphsController captureDataToHistoryNow];
 }
 
 - (BOOL)updateLoop
@@ -535,9 +545,7 @@ if (![_items objectForKey:name]) {\
 
 - (void) popupPanelShouldOpen:(id)sender
 {
-    if (![self updateLoop]) {
-        [self updateValuesForSensors:[_engine sensors]];
-    }
+    [self updateLoop];
 }
 
 // NSTableView delegate
@@ -570,7 +578,7 @@ if (![_items objectForKey:name]) {\
         [sensorCell.checkBox setTag:[_ordering indexOfObject:[sensor name]]];
         [sensorCell.imageView setImage:[[self getIconByGroup:[sensor group]] image]];
         [sensorCell.textField setStringValue:[sensor title]];
-        [sensorCell.valueField setStringValue:[sensor formattedValue]];
+        [sensorCell.valueField setStringValue:[sensor stringValue]];
         
         return sensorCell;
     }

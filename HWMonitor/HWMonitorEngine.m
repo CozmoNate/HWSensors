@@ -319,7 +319,7 @@
         }
     }
     
-    return [indexSet copy];
+    return indexSet;
 }
 
 - (void)addSensorsFromSMCKeyGroup:(SMCKeyGroup)fromGroup toHWSensorGroup:(HWSensorGroup)toGroup

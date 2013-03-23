@@ -163,7 +163,7 @@
                 if (!sensor)
                     continue;
                 
-                NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[sensor formattedValue]];
+                NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[sensor stringValue]];
                 
                 NSColor *valueColor;
                 

@@ -160,6 +160,13 @@
         [self.delegate popupPanelShouldOpen:self];
     }
     
+    // Update values
+    for (id item in _items) {
+        if ([item isKindOfClass:[HWMonitorItem class]]) {
+            [self updateValueForItem:item];
+        }
+    }
+    
     NSWindow *panel = [self window];
     
     NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
@@ -290,53 +297,54 @@
     [_statusItemView setNeedsDisplay:YES];
 }
 
+-(void)updateValueForItem:(HWMonitorItem*)item
+{
+    if ([item isVisible]) {
+        id cell = [_tableView viewAtColumn:0 row:[_items indexOfObject:item] makeIfNecessary:NO];
+        
+        if (cell && [cell isKindOfClass:[SensorCell class]]) {
+            NSColor *valueColor;
+            
+            switch ([item.sensor level]) {
+                    /*case kHWSensorLevelDisabled:
+                     break;
+                     
+                     case kHWSensorLevelNormal:
+                     break;*/
+                    
+                case kHWSensorLevelModerate:
+                    valueColor = [NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f];
+                    break;
+                    
+                case kHWSensorLevelExceeded:
+                    [[cell textField] setTextColor:[NSColor redColor]];
+                case kHWSensorLevelHigh:
+                    valueColor = [NSColor redColor];
+                    break;
+                    
+                default:
+                    valueColor = _colorTheme.itemValueTitleColor;
+                    break;
+            }
+            
+            [[cell valueField] takeStringValueFrom:item.sensor];
+            
+            if (![[[cell valueField] textColor] isEqualTo:valueColor]) {
+                [[cell valueField] setTextColor:valueColor];
+            }
+            
+            if ([item.sensor genericDevice] && [[item.sensor genericDevice] isKindOfClass:[BluetoothGenericDevice class]]) {
+                [cell setGaugeLevel:[[item.sensor rawValue] unsignedIntegerValue]];
+            }
+        }
+    }
+}
+
 -(void)updateValuesForSensors:(NSArray *)sensors
 {
     if ([self.window isVisible]) {
         for (HWMonitorSensor *sensor in sensors) {
-            
-            HWMonitorItem *item = [sensor representedObject];
-            
-            if ([item isVisible]) {
-                
-                id cell = [_tableView viewAtColumn:0 row:[_items indexOfObject:item] makeIfNecessary:NO];
-                
-                if (cell && [cell isKindOfClass:[SensorCell class]]) {
-                    NSColor *valueColor;
-                    
-                    switch ([sensor level]) {
-                            /*case kHWSensorLevelDisabled:
-                             break;
-                             
-                             case kHWSensorLevelNormal:
-                             break;*/
-                            
-                        case kHWSensorLevelModerate:
-                            valueColor = [NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f];
-                            break;
-                            
-                        case kHWSensorLevelExceeded:
-                            [[cell textField] setTextColor:[NSColor redColor]];
-                        case kHWSensorLevelHigh:
-                            valueColor = [NSColor redColor];
-                            break;
-                            
-                        default:
-                            valueColor = _colorTheme.itemValueTitleColor;
-                            break;
-                    }
-                    
-                    [[cell valueField] setStringValue:[sensor formattedValue]];
-                    
-                    if (![[[cell valueField] textColor] isEqualTo:valueColor]) {
-                        [[cell valueField] setTextColor:valueColor];
-                    }
-                    
-                    if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[BluetoothGenericDevice class]]) {
-                        [cell setGaugeLevel:[[sensor rawValue] unsignedIntegerValue]];
-                    }
-                }
-            }
+            [self updateValueForItem:[sensor representedObject]];
         }
     }
     
@@ -437,7 +445,8 @@
         }
         
         [[cell textField] setStringValue:[sensor title]];
-        [[cell valueField] setStringValue:[sensor formattedValue]];
+        //[[cell valueField] setStringValue:[sensor stringValue]];
+        [[cell valueField] takeStringValueFrom:sensor];
         
         return cell;
     }

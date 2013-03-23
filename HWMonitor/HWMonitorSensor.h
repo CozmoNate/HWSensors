@@ -76,7 +76,10 @@ typedef enum {
 
 @property (nonatomic, assign) HWSensorLevel level;
 @property (readonly) NSNumber* rawValue;
-@property (readonly) NSString* formattedValue;
+@property (readonly) NSString* stringValue;
+@property (readonly) NSInteger intValue;
+@property (readonly) double doubleValue;
+@property (readonly) float floatValue;
 
 @property (nonatomic, assign) BOOL valueHasBeenChanged;
 
@@ -91,6 +94,6 @@ typedef enum {
 - (NSData *)data;
 
 - (float)decodeNumericValue;
-- (NSString*)formattedValue;
+- (NSString*)stringValue;
 
 @end

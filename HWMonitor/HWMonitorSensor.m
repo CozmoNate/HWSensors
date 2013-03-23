@@ -36,7 +36,7 @@
 @synthesize type = _type;
 @synthesize data = _data;
 @synthesize level = _level;
-@synthesize formattedValue = _formattedValue;
+@synthesize stringValue = _formattedValue;
 
 + (int)getIndexOfHexChar:(char)c
 {
@@ -245,7 +245,7 @@
     return _rawValue;
 }
 
-- (NSString*)formattedValue
+- (NSString*)stringValue
 {
     //if (_formattedValue == nil || _valueHasBeenChanged) {
     NSNumber *value = [self rawValue];
@@ -317,6 +317,33 @@
     }
     
     return _formattedValue;
+}
+
+-(NSInteger)intValue
+{
+    if (_rawValue) {
+        return [_rawValue intValue];
+    }
+    
+    return 0;
+}
+
+-(double)doubleValue
+{
+    if (_rawValue) {
+        return [_rawValue doubleValue];
+    }
+    
+    return 0;
+}
+
+-(float)floatValue
+{
+    if (_rawValue) {
+        return [_rawValue floatValue];
+    }
+    
+    return 0;
 }
 
 @end

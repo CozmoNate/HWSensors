@@ -101,6 +101,21 @@
     return self;
 }
 
+-(void)showWindow:(id)sender
+{
+    [_items enumerateObjectsUsingBlock:^(id item, NSUInteger index, BOOL *stop) {
+        if ([item isKindOfClass:[HWMonitorItem class]]) {
+            id cell = [_graphsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
+            
+            if (cell && [cell isKindOfClass:[SensorCell class]]) {
+                [[cell valueField] takeStringValueFrom:[item sensor]];
+            }
+        }
+    }];
+    
+    [self showWindow:sender];
+}
+
 -(void)addGraphForSensorGroup:(HWSensorGroup)sensorsGroup fromGroupsList:(NSArray*)groupsList withTitle:(NSString*)title
 {
     NSMutableArray *sensorItems = [[NSMutableArray alloc] init];
@@ -181,18 +196,15 @@
 - (void)captureDataToHistoryNow
 {
     if ([self.window isVisible]) {
-        for (NSUInteger index = 0; index < [_items count]; index++) {
-            
-            id item = [_items objectAtIndex:index];
-            
+        [_items enumerateObjectsUsingBlock:^(id item, NSUInteger index, BOOL *stop) {
             if ([item isKindOfClass:[HWMonitorItem class]]) {
                 id cell = [_graphsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
                 
                 if (cell && [cell isKindOfClass:[SensorCell class]]) {
-                    [[cell valueField] setStringValue:[[item sensor] formattedValue]];
+                    [[cell valueField] takeStringValueFrom:[item sensor]];
                 }
             }
-        }
+        }];
     }
     
     if ([self.window isVisible] || [self backgroundMonitoring]) {
@@ -283,7 +295,8 @@
         HWMonitorSensor *sensor = [item sensor];
         
         [[sensorCell textField] setStringValue:GetLocalizedString([sensor title])];
-        [[sensorCell valueField] setStringValue:[sensor formattedValue]];
+        [[sensorCell valueField] takeStringValueFrom:sensor];
+        //[[sensorCell valueField] setStringValue:[sensor stringValue]];
         
         if ([item color] == nil) {
             NSLog(@"No color for key %@", [sensor name]);
