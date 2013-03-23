@@ -334,7 +334,7 @@
             }
             
             if ([item.sensor genericDevice] && [[item.sensor genericDevice] isKindOfClass:[BluetoothGenericDevice class]]) {
-                [cell setGaugeLevel:[[item.sensor rawValue] unsignedIntegerValue]];
+                [cell setGaugeLevel:[item.sensor intValue]];
             }
         }
     }
@@ -438,7 +438,7 @@
                 [[cell subtitleField] setHidden:YES];
             }
             
-            [cell setGaugeLevel:[[sensor rawValue] unsignedIntegerValue]];
+            [cell setGaugeLevel:[sensor intValue]];
         }
         else {
             [[cell subtitleField] setHidden:YES];

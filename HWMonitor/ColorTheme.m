@@ -22,7 +22,7 @@
     theme.toolbarEndColor = [NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.95 alpha:TOOLBAR_OPACITY];
     theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.7];
     theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.8];
+    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.3];
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
     theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
     theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
@@ -39,7 +39,7 @@
     theme.toolbarEndColor = [NSColor colorWithCalibratedWhite:0.20 alpha:TOOLBAR_OPACITY];
     theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.35];
     theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.8];
+    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.3];
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
     theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
     theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
@@ -56,7 +56,7 @@
     theme.toolbarEndColor = [NSColor colorWithCalibratedRed:0.0 green:0.2 blue:0.85 alpha:TOOLBAR_OPACITY];
     theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.6];
     theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.8];
+    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.3];
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.15 alpha:FILL_OPACITY];
     theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.2 alpha:FILL_OPACITY];
     theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.14 alpha:FILL_OPACITY];

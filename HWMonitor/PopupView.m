@@ -92,21 +92,21 @@
 
         // Draw inner shadow
         NSBezierPath *shadowPath = [NSBezierPath bezierPath];
-        topLeftCorner = NSMakePoint(NSMinX(toolbarBounds) + CORNER_RADIUS, NSMaxY(toolbarBounds) - ARROW_HEIGHT - CORNER_RADIUS - LINE_THICKNESS);
-        [shadowPath appendBezierPathWithArcWithCenter:topLeftCorner radius:CORNER_RADIUS startAngle:135 endAngle:90 clockwise:YES];
+        topLeftCorner = NSMakePoint(NSMinX(toolbarBounds) + CORNER_RADIUS + LINE_THICKNESS, NSMaxY(toolbarBounds) - ARROW_HEIGHT - CORNER_RADIUS - LINE_THICKNESS);
+        [shadowPath appendBezierPathWithArcWithCenter:topLeftCorner radius:CORNER_RADIUS startAngle:150 endAngle:90 clockwise:YES];
         [shadowPath lineToPoint:NSMakePoint(_arrowPosition - ARROW_WIDTH / 2.0f, NSMaxY(toolbarBounds) - ARROW_HEIGHT - LINE_THICKNESS)];
         [shadowPath lineToPoint:NSMakePoint(_arrowPosition, NSMaxY(toolbarBounds) - LINE_THICKNESS)];
         [shadowPath lineToPoint:NSMakePoint(_arrowPosition + ARROW_WIDTH / 2.0f, NSMaxY(toolbarBounds) - ARROW_HEIGHT - LINE_THICKNESS)];
         [shadowPath lineToPoint:NSMakePoint(NSMaxX(toolbarBounds) - CORNER_RADIUS, NSMaxY(toolbarBounds) - ARROW_HEIGHT - LINE_THICKNESS)];
-        topRightCorner = NSMakePoint(NSMaxX(toolbarBounds) - CORNER_RADIUS, NSMaxY(toolbarBounds) - ARROW_HEIGHT - CORNER_RADIUS - LINE_THICKNESS);
-        [shadowPath appendBezierPathWithArcWithCenter:topRightCorner radius:CORNER_RADIUS startAngle:45 endAngle:0 clockwise:YES];
+        topRightCorner = NSMakePoint(NSMaxX(toolbarBounds) - CORNER_RADIUS - LINE_THICKNESS, NSMaxY(toolbarBounds) - ARROW_HEIGHT - CORNER_RADIUS - LINE_THICKNESS);
+        [shadowPath appendBezierPathWithArcWithCenter:topRightCorner radius:CORNER_RADIUS startAngle:90 endAngle:30 clockwise:YES];
         [shadowPath setFlatness:0.0];
         [shadowPath setLineWidth:LINE_THICKNESS * 2];
         [[NSColor colorWithCalibratedWhite:1.0 alpha:0.2] setStroke];
         [shadowPath stroke];
         
         // Stroke toolbar
-        [[_colorTheme.listStrokeColor highlightWithLevel:0.2] setStroke];
+        [_colorTheme.listStrokeColor setStroke];
         [toolbarPath setLineWidth:LINE_THICKNESS + 0.25];
         [toolbarPath stroke];
         
