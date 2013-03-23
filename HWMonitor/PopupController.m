@@ -278,10 +278,10 @@
 {
     [_tableView reloadData];
     
-    // Make window height small
     NSRect panelRect = [[self window] frame];
-    panelRect.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight + LINE_THICKNESS;
-    [[self window] setFrame:panelRect display:NO];
+    
+    // Make window height small
+    [[self window] setFrame:NSMakeRect(0, 0, 8, 8) display:NO];
     
     // Resize panel height to fit all table view content
     panelRect.size.height = [_tableView frame].size.height + ARROW_HEIGHT + CORNER_RADIUS;
@@ -411,6 +411,8 @@
         }
         else {
             cell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
+//            cell = [tableView makeViewWithIdentifier:@"Battery" owner:self];
+//            [cell setGaugeLevel:73];
         }
         
         [cell setColorTheme:_colorTheme];

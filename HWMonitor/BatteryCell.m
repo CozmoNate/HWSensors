@@ -19,32 +19,32 @@
     [[self valueField] setTextColor:_colorTheme.itemValueTitleColor];
 }
 
--(void)setGaugeLevel:(NSUInteger)gaugeLevel
+-(void)drawRect:(NSRect)dirtyRect
 {
-    _gaugeLevel = gaugeLevel;
-    
     if (self.imageView) {
-
+        
         if (!self.imageView.image) {
             [self.imageView setImage:[[NSImage alloc] initWithSize:self.imageView.bounds.size]];
         }
         
         [self.imageView.image lockFocus];
         
-
-        [[_colorTheme.itemTitleColor highlightWithLevel:0.2] setStroke];
+        [[NSColor clearColor] setFill];
+        [NSBezierPath fillRect:self.imageView.bounds];
         
-        [[NSBezierPath bezierPathWithRect:NSMakeRect(self.imageView.image.size.width / 3, self.imageView.image.size.height - 0.5, self.imageView.image.size.width / 3, 1)] stroke];
-        [[NSBezierPath bezierPathWithRoundedRect:NSMakeRect(0.5, 0.5, self.imageView.image.size.width - 1, self.imageView.image.size.height - 2) xRadius:1.0 yRadius:1.0] stroke];
+        [[_colorTheme.itemTitleColor highlightWithLevel:0.2] setStroke];       
         
-        if (gaugeLevel < 20) {
-            [[[NSColor redColor] shadowWithLevel:0.1] setFill];
+        [[NSBezierPath bezierPathWithRect:NSMakeRect(self.imageView.image.size.width / 2 - self.imageView.image.size.width / 4 / 2, self.imageView.image.size.height - 0.5, self.imageView.image.size.width / 4, 1)] stroke];
+        [[NSBezierPath bezierPathWithRoundedRect:NSMakeRect(0.5, 1.5, self.imageView.image.size.width - 1, self.imageView.image.size.height - 3) xRadius:0.0 yRadius:0.0] stroke];
+        
+        if (_gaugeLevel < 20) {
+            [[[NSColor redColor] shadowWithLevel:_colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
         }
         else {
-            [[[NSColor greenColor] shadowWithLevel:0.1] setFill];
+            [[[NSColor greenColor] shadowWithLevel:_colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
         }
         
-        [[NSBezierPath bezierPathWithRect:NSMakeRect(1.75, 1.75, self.imageView.image.size.width - 3.5, (self.imageView.image.size.height - 4.5) * (double)_gaugeLevel * 0.01)] fill];
+        [[NSBezierPath bezierPathWithRect:NSMakeRect(1.75, 2.75, self.imageView.image.size.width - 3.5, (self.imageView.image.size.height - 5.5) * (double)_gaugeLevel * 0.01)] fill];
         
         [self.imageView.image unlockFocus];
     }

@@ -30,7 +30,7 @@
     
     NSRect contentRect = [self bounds];
     
-    [_gradient drawInRect:NSMakeRect(contentRect.origin.x + LINE_THICKNESS, contentRect.origin.y, contentRect.size.width - LINE_THICKNESS * 2, contentRect.size.height) angle:270];
+    [_gradient drawInRect:NSMakeRect(contentRect.origin.x + 1.0, contentRect.origin.y, contentRect.size.width - 2.0, contentRect.size.height) angle:270];
 }
 
 @end
