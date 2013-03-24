@@ -107,7 +107,7 @@
         
         [NSBezierPath clipRect:NSOffsetRect(NSInsetRect(shadowPath.bounds, 0, CORNER_RADIUS * 0.3), 0, CORNER_RADIUS * 0.3)];
         
-        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.2] setStroke];
+        [_colorTheme.toolbarShadowColor setStroke];
         
         [shadowPath setLineWidth:LINE_THICKNESS + 0.5];
         [shadowPath addClip];
