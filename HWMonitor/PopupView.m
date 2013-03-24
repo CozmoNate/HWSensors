@@ -37,12 +37,9 @@
     NSRect popupBounds = NSInsetRect([self bounds], LINE_THICKNESS, LINE_THICKNESS);
     
     if (!_cachedImage || !NSEqualRects(popupBounds, _popupBounds)) {
-        [[NSGraphicsContext currentContext] saveGraphicsState]; // save
-        
         _popupBounds = popupBounds;
         
-        _cachedImage = [[NSImage alloc] initWithSize:[self bounds].size];
-        [_cachedImage lockFocus];
+        _cachedImage = [[NSImage alloc] initWithSize:[self bounds].size]; 
         
         // Toolbar and arrow path
         NSRect toolbarBounds = popupBounds;
@@ -76,21 +73,7 @@
         [listPath lineToPoint:NSMakePoint(NSMinX(listBounds), NSMaxY(listBounds))];
         [listPath closePath];
 
-        // Setup clipping path
-        NSBezierPath *clipPath = [NSBezierPath bezierPath];
-        [clipPath appendBezierPath:toolbarPath];
-        [clipPath appendBezierPath:listPath];
-        [clipPath setLineWidth:LINE_THICKNESS];
-        [clipPath addClip];
-
-        // Fill list
-        [_colorTheme.listBackgroundColor setFill];
-        [listPath fill];
-        
-        // Fill toolbar
-        [[[NSGradient alloc] initWithStartingColor:_colorTheme.toolbarStartColor endingColor:_colorTheme.toolbarEndColor] drawInBezierPath:toolbarPath angle:270];
-
-        // Draw inner shadow
+        // Inner shadow path
         NSBezierPath *shadowPath = [NSBezierPath bezierPath];
         topLeftCorner = NSMakePoint(NSMinX(toolbarBounds) + CORNER_RADIUS + LINE_THICKNESS, NSMaxY(toolbarBounds) - ARROW_HEIGHT - CORNER_RADIUS - SHADOW_SHIFT);
         [shadowPath appendBezierPathWithArcWithCenter:topLeftCorner radius:CORNER_RADIUS startAngle:180 endAngle:90 clockwise:YES];
@@ -101,11 +84,33 @@
         topRightCorner = NSMakePoint(NSMaxX(toolbarBounds) - CORNER_RADIUS - LINE_THICKNESS, NSMaxY(toolbarBounds) - ARROW_HEIGHT - CORNER_RADIUS - SHADOW_SHIFT);
         [shadowPath appendBezierPathWithArcWithCenter:topRightCorner radius:CORNER_RADIUS startAngle:90 endAngle:0 clockwise:YES];
         
+        // Clipping path
+        NSBezierPath *clipPath = [NSBezierPath bezierPathWithRect:NSInsetRect(popupBounds, -LINE_THICKNESS, -LINE_THICKNESS)];
+        [clipPath appendBezierPath:toolbarPath];
+        [clipPath appendBezierPath:listPath];
+        [clipPath setLineWidth:LINE_THICKNESS];
+        
+        // Start drawing
+        [_cachedImage lockFocus];
+        
+        // Fill toolbar
+        [[[NSGradient alloc] initWithStartingColor:_colorTheme.toolbarStartColor endingColor:_colorTheme.toolbarEndColor] drawInBezierPath:toolbarPath angle:270];
+        
+        // Fill list
+        [_colorTheme.listBackgroundColor setFill];
+        [listPath fill];
+
+        // Draw shadow
+        [[NSGraphicsContext currentContext] saveGraphicsState]; // save
+        
+        //[clipPath addClip];
+        
         [NSBezierPath clipRect:NSOffsetRect(NSInsetRect(shadowPath.bounds, 0, CORNER_RADIUS * 0.3), 0, CORNER_RADIUS * 0.3)];
         
-        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.15] setStroke];
+        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.2] setStroke];
         
-        [shadowPath setLineWidth:LINE_THICKNESS + 2];
+        [shadowPath setLineWidth:LINE_THICKNESS + 0.5];
+        [shadowPath addClip];
         [shadowPath stroke];
         
         [[NSGraphicsContext currentContext] restoreGraphicsState]; // restore
@@ -113,23 +118,23 @@
         
         [[NSGraphicsContext currentContext] saveGraphicsState]; // save
         
+        //[[NSGraphicsContext currentContext] setShouldAntialias:NO];
+        
         [clipPath addClip];
+
+        [[NSColor colorWithCalibratedWhite:0.0 alpha:0.25] setStroke];
         
         // Stroke toolbar
-        [[NSColor colorWithCalibratedWhite:0.0 alpha:0.35] setStroke];
         [toolbarPath setLineWidth:LINE_THICKNESS + 0.25];
         [toolbarPath stroke];
 
         // Stroke list
-        [NSBezierPath clipRect:listPath.bounds];
-        
-        [[NSColor colorWithCalibratedWhite:0.0 alpha:0.65] setStroke];
         [listPath setLineWidth:LINE_THICKNESS + 0.25];
         [listPath stroke];
         
-        [_cachedImage unlockFocus];
-        
         [[NSGraphicsContext currentContext] restoreGraphicsState]; // restore
+        
+        [_cachedImage unlockFocus];
     }
     
     [_cachedImage drawInRect:rect fromRect:NSOffsetRect(rect,-self.bounds.origin.x,-self.bounds.origin.y) operation:NSCompositeSourceOver fraction:1.0];
