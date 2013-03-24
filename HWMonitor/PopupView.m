@@ -122,7 +122,7 @@
         
         [clipPath addClip];
 
-        [[NSColor colorWithCalibratedWhite:0.0 alpha:0.25] setStroke];
+        [[NSColor colorWithCalibratedWhite:0.0 alpha:0.35] setStroke];
         
         // Stroke toolbar
         [toolbarPath setLineWidth:LINE_THICKNESS + 0.25];
