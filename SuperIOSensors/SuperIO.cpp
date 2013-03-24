@@ -224,11 +224,15 @@ bool SuperIODevice::detectITEFamilyChip()
     if (model != 0 && ldn != 0) {
         superio_select_logical_device(port, ldn);
         
+        IOSleep(10);
+        
         address = superio_listen_port_word(port, kSuperIOBaseAddressRegister);
         
-        IOSleep(50);
+        IOSleep(10);
         
         UInt16 verify = superio_listen_port_word(port, kSuperIOBaseAddressRegister);
+        
+        IOSleep(10);
         
         ite_family_exit(port);
         

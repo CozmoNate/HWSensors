@@ -150,7 +150,11 @@ bool F718xxSensors::initialize()
 {    
     winbond_family_enter(port);
     
+    IOSleep(10);
+    
     UInt16 vendor = superio_listen_port_word(port, FINTEK_VENDOR_ID_REGISTER);
+    
+    IOSleep(10);
     
     winbond_family_exit(port);
     
