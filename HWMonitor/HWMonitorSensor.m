@@ -247,7 +247,6 @@
 
 - (NSString*)stringValue
 {
-    //if (_formattedValue == nil || _valueHasBeenChanged) {
     NSNumber *value = [self rawValue];
     
     if (value) {
@@ -290,7 +289,7 @@
                 _formattedValue = [NSString stringWithFormat:@"%1.0fMHz", [value floatValue]];
         }
         else if (_group & kHWSensorGroupTachometer) {
-            if ([value floatValue] < 1) {
+            if ([value floatValue] < 10) {
                 //rehabman: it is normal on a laptop to have a fan read 0 RPM...
                 //[self setLevel:kHWSensorLevelExceeded];
                 _formattedValue = @"-";
@@ -321,29 +320,17 @@
 
 -(NSInteger)intValue
 {
-    if (_rawValue) {
-        return [_rawValue intValue];
-    }
-    
-    return 0;
+    return [[self rawValue] intValue];
 }
 
 -(double)doubleValue
 {
-    if (_rawValue) {
-        return [_rawValue doubleValue];
-    }
-    
-    return 0;
+    return [[self rawValue] doubleValue];
 }
 
 -(float)floatValue
 {
-    if (_rawValue) {
-        return [_rawValue floatValue];
-    }
-    
-    return 0;
+    return [[self rawValue] floatValue];
 }
 
 @end

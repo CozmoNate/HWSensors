@@ -127,27 +127,19 @@ float IT87xxSensors::readTachometer(UInt32 index)
 
 bool IT87xxSensors::initialize()
 {
-    ite_family_enter(port);
+    UInt8 vendor = readByte(ITE_VENDOR_ID_REGISTER);
     
-    IOSleep(10);
-    
-    UInt8 vendor = superio_listen_port_byte(port, ITE_VENDOR_ID_REGISTER);
-	
 	if (vendor != ITE_VENDOR_ID) {
         HWSensorsFatalLog("invalid vendor ID=0x%x", vendor);
         model = 0;
-        ite_family_exit(port);
-		return false;
+ 		return false;
     }
 	
-	if ((superio_listen_port_byte(port, ITE_CONFIGURATION_REGISTER) & 0x10) == 0) {
+	if ((readByte(ITE_CONFIGURATION_REGISTER) & 0x10) == 0) {
         HWSensorsFatalLog("invalid configuration register value");
         model = 0;
-        ite_family_exit(port);
-		return false;
+ 		return false;
     }
-    
-    ite_family_exit(port);
 	
     switch (model) {
         case IT8721F:
@@ -166,5 +158,5 @@ bool IT87xxSensors::initialize()
     
     has16bitFanCounter = !((model == IT8705F && version < 3) || (model == IT8712F && version < 8));
     
-    return this;
+    return true;
 }

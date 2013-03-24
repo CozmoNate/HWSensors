@@ -302,7 +302,7 @@
     if ([item isVisible]) {
         id cell = [_tableView viewAtColumn:0 row:[_items indexOfObject:item] makeIfNecessary:NO];
         
-        if (cell && [cell isKindOfClass:[SensorCell class]]) {
+        if (cell) {
             NSColor *valueColor;
             
             switch ([item.sensor level]) {
