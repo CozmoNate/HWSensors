@@ -22,8 +22,9 @@
     theme.toolbarEndColor = [NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.95 alpha:TOOLBAR_OPACITY];
     theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.7];
     theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-    theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.35];
+    theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.4];
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
+    theme.strokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
     theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
     theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
     theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
@@ -41,6 +42,7 @@
     theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
     theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.2];
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
+    theme.strokeColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.97];
     theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
     theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
     theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
@@ -58,6 +60,7 @@
     theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
     theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.35];
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.15 alpha:FILL_OPACITY];
+    theme.strokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
     theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.2 alpha:FILL_OPACITY];
     theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.14 alpha:FILL_OPACITY];
     theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];

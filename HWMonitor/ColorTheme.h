@@ -19,6 +19,8 @@
 
 @property (nonatomic, strong) NSColor *listBackgroundColor;
 
+@property (nonatomic, strong) NSColor *strokeColor;
+
 @property (nonatomic, strong) NSColor *groupStartColor;
 @property (nonatomic, strong) NSColor *groupEndColor;
 @property (nonatomic, strong) NSColor *groupTitleColor;

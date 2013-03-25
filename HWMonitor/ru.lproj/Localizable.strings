@@ -86,6 +86,7 @@
 "Gray" = "Серая";
 "Dark" = "Темная";
 "Continue monitor sensors in background" = "Продолжать собирать данные в фоновом режиме";
+"Check for updates" = "Проверять наличие обновлений";
 
 "Mouse" = "Мышь";
 "Keyboard" = "Клавиатура";

@@ -25,6 +25,7 @@
 #define kHWMonitorColorThemeIndex           @"colorThemeIndex"
 #define kHWMonitorHiddenGraphsList          @"hiddenGraphsList"
 #define kHWMonitorSkippedAppVersion         @"skippedAppVersion"
+#define kHWMonitorCheckUpdates              @"checkForUpdates"
 
 // Icons
 #define kHWMonitorIconDefault               @"hwmonitor"

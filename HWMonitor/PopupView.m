@@ -109,7 +109,7 @@
         
         [_colorTheme.toolbarShadowColor setStroke];
         
-        [shadowPath setLineWidth:LINE_THICKNESS + 0.5];
+        [shadowPath setLineWidth:LINE_THICKNESS + 0.7];
         [shadowPath addClip];
         [shadowPath stroke];
         
@@ -122,7 +122,7 @@
         
         [clipPath addClip];
 
-        [[NSColor colorWithCalibratedWhite:0.0 alpha:0.35] setStroke];
+        [_colorTheme.strokeColor setStroke];
         
         // Stroke toolbar
         [toolbarPath setLineWidth:LINE_THICKNESS + 0.25];

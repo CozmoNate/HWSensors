@@ -23,7 +23,9 @@
 {
     self = [super initWithWindow:window];
     
-    if (self) {
+    bool checkForUpdates = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:kHWMonitorCheckUpdates];
+    
+    if (self && checkForUpdates) {
         [self performSelector:@selector(localizeWindow) withObject:nil afterDelay:0.0];
         [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0];
     }
