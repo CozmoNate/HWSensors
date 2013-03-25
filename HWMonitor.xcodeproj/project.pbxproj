@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		7E27A479170084AE00234A6A /* Bump Build Number */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7E27A47C170084AE00234A6A /* Build configuration list for PBXAggregateTarget "Bump Build Number" */;
+			buildPhases = (
+				7E27A47D170084B400234A6A /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Bump Build Number";
+			productName = "Bump Build Number";
+		};
 		7EA8CA5D16EBB8FD00E71108 /* Bump App Version */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7EA8CA5E16EBB8FD00E71108 /* Build configuration list for PBXAggregateTarget "Bump App Version" */;
@@ -598,6 +609,7 @@
 			projectRoot = "";
 			targets = (
 				7EA248E716D8E93A002231B2 /* HWMonitor */,
+				7E27A479170084AE00234A6A /* Bump Build Number */,
 				7EA8CA5D16EBB8FD00E71108 /* Bump App Version */,
 				7EFAE91816EBC8ED00F4DA72 /* SMC Value Decoder */,
 			);
@@ -672,6 +684,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7E27A47D170084B400234A6A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n# Increment project's build number\n\nif [[ $(git status ${PROJECT_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nBUILDNUM=$(/usr/libexec/PlistBuddy -c \"Print BuildNumber\" \"${VERSION_FILE}\")\nBUILDNUM=$(($BUILDNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :BuildNumber $BUILDNUM\" \"${VERSION_FILE}\"\n";
+		};
 		7EA2493716D8EA0A002231B2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -805,6 +830,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		7E27A47A170084AE00234A6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7E27A47B170084AE00234A6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7EA2490316D8E93A002231B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -940,6 +979,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7E27A47C170084AE00234A6A /* Build configuration list for PBXAggregateTarget "Bump Build Number" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E27A47A170084AE00234A6A /* Debug */,
+				7E27A47B170084AE00234A6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		7EA248E316D8E93A002231B2 /* Build configuration list for PBXProject "HWMonitor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
