@@ -18,8 +18,10 @@
 
 @protocol PopupControllerDelegate <NSObject>
 @optional
--(void)popupPanelShouldOpen:(id)sender;
--(void)popupPanelShouldClose:(id)sender;
+- (void)popupWillOpen:(id)sender;
+- (void)popupDidOpen:(id)sender;
+- (void)popupWillClose:(id)sender;
+- (void)popupDidClose:(id)sender;
 @end
 
 @interface PopupController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>

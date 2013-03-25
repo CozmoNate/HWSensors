@@ -156,8 +156,8 @@
     if (self.window.isVisible)
         return;
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(popupPanelShouldOpen:)]) {
-        [self.delegate popupPanelShouldOpen:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillOpen:)]) {
+        [self.delegate popupWillOpen:self];
     }
     
     // Update values
@@ -179,41 +179,27 @@
     if (NSMaxX(panelRect) > (NSMaxX(screenRect) - ARROW_HEIGHT))
         panelRect.origin.x -= NSMaxX(panelRect) - (NSMaxX(screenRect) - ARROW_HEIGHT);
     
-    [NSApp activateIgnoringOtherApps:NO];
-    [panel setAlphaValue:0];
-    //[panel setFrame:statusRect display:YES];
     [panel setFrame:panelRect display:YES];
-    
-    [panel makeKeyAndOrderFront:panel];
-    //[panel orderFront:panel];
-    
-    NSTimeInterval openDuration = OPEN_DURATION;
-    
-    NSEvent *currentEvent = [NSApp currentEvent];
-    if ([currentEvent type] == NSLeftMouseDown)
-    {
-        NSUInteger clearFlags = ([currentEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask);
-        BOOL shiftPressed = (clearFlags == NSShiftKeyMask);
-        BOOL shiftOptionPressed = (clearFlags == (NSShiftKeyMask | NSAlternateKeyMask));
-        if (shiftPressed || shiftOptionPressed)
-        {
-            openDuration *= 10;
-            
-            if (shiftOptionPressed)
-                NSLog(@"Icon is at %@\n\tMenu is on screen %@\n\tWill be animated to %@",
-                      NSStringFromRect(statusRect), NSStringFromRect(screenRect), NSStringFromRect(panelRect));
-        }
-    }
-    
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:openDuration];
-    //[[panel animator] setFrame:panelRect display:YES];
-    [[panel animator] setAlphaValue:1];
-    [NSAnimationContext endGrouping];
     
     [self windowDidResize:nil];
     
+    [panel setAlphaValue:1.0];
+    
+    //[NSApp activateIgnoringOtherApps:NO];
+    [panel setLevel:NSPopUpMenuWindowLevel];
+    [panel makeKeyAndOrderFront:panel];
+    
+//    [NSAnimationContext beginGrouping];
+//    [[NSAnimationContext currentContext] setDuration:0.1];
+//    //[[panel animator] setFrame:panelRect display:YES];
+//    [[panel animator] setAlphaValue:1];
+//    [NSAnimationContext endGrouping];
+    
     self.statusItemView.isHighlighted = YES;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidOpen:)]) {
+        [self.delegate popupDidOpen:self];
+    }
 }
 
 - (void)closePanel
@@ -221,8 +207,8 @@
     if (!self.window.isVisible)
         return;
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(popupPanelShouldClose:)]) {
-        [self.delegate popupPanelShouldClose:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillClose:)]) {
+        [self.delegate popupWillClose:self];
     }
     
     [NSAnimationContext beginGrouping];
@@ -235,6 +221,10 @@
     });
     
     self.statusItemView.isHighlighted = NO;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidClose:)]) {
+        [self.delegate popupDidClose:self];
+    }
 }
 
 - (IBAction)closeApplication:(id)sender

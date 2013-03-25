@@ -32,26 +32,9 @@
 #import "HWMonitorGroup.h"
 
 #import "GroupCell.h"
-#import "SensorCell.h"
+#import "PrefsCell.h"
 
 #import "Localizer.h"
-
-#define AddItem(item, name) \
-if (![_items objectForKey:name]) {\
-    [_items setObject:item forKey:name]; \
-    [_ordering addObject:name]; \
-    [_index setObject:[NSNumber numberWithUnsignedInteger:[_ordering indexOfObject:name]] forKey:name];\
-}
-
-#define GetItemAtIndex(index) \
-[_items objectForKey:[_ordering objectAtIndex:index]]
-
-#define GetIndexOfItem(name) \
-[_ordering indexOfObject:name]
-
-#define SetItemAsFavorite(name) \
-[_ordering removeObject:name]; \
-[_ordering insertObject:name atIndex:[_ordering indexOfObject:_availableGroupItem]]; \
 
 @implementation AppController
 
@@ -126,9 +109,9 @@ if (![_items objectForKey:name]) {\
 -(void)showWindow:(id)sender
 {
     for (HWMonitorSensor *sensor in [_engine sensors]) {
-        id cell = [_sensorsTableView viewAtColumn:0 row:GetIndexOfItem([sensor name]) makeIfNecessary:NO];
+        id cell = [_sensorsTableView viewAtColumn:0 row:[self getIndexOfItemWithKey:[sensor name]] makeIfNecessary:NO];
         
-        if (cell && [cell isKindOfClass:[SensorCell class]]) {
+        if (cell && [cell isKindOfClass:[PrefsCell class]]) {
             [[cell valueField] takeStringValueFrom:sensor];
         }
     }
@@ -184,6 +167,31 @@ if (![_items objectForKey:name]) {\
     return nil;
 }
 
+- (void)addItem:(id)item forKey:(NSString*)key
+{
+    if (![_items objectForKey:key]) {
+        [_items setObject:item forKey:key];
+        [_ordering addObject:key];
+        [_index setObject:[NSNumber numberWithUnsignedInteger:[_ordering indexOfObject:key]] forKey:key];
+    }
+}
+
+- (id)getItemAtIndex:(NSUInteger)index
+{
+    return [_items objectForKey:[_ordering objectAtIndex:index]];
+}
+
+- (NSUInteger)getIndexOfItemWithKey:(NSString*)key
+{
+    return [_ordering indexOfObject:key];
+}
+
+- (void)setItemAsFavoriteForKey:(NSString*)key
+{
+    [_ordering removeObject:key];
+    [_ordering insertObject:key atIndex:[_ordering indexOfObject:_availableGroupItem]];
+}
+
 - (void)updateSmartSensors;
 {
     NSArray *sensors = [_engine updateSmartSensors];
@@ -206,9 +214,9 @@ if (![_items objectForKey:name]) {\
 {
     if ([self.window isVisible]) {
         for (HWMonitorSensor *sensor in sensors) {
-            id cell = [_sensorsTableView viewAtColumn:0 row:GetIndexOfItem([sensor name]) makeIfNecessary:NO];
+            id cell = [_sensorsTableView viewAtColumn:0 row:[self getIndexOfItemWithKey:[sensor name]] makeIfNecessary:NO];
             
-            if (cell && [cell isKindOfClass:[SensorCell class]]) {
+            if (cell && [cell isKindOfClass:[PrefsCell class]]) {
                 [[cell valueField] takeStringValueFrom:sensor];
             }
         }
@@ -269,25 +277,25 @@ if (![_items objectForKey:name]) {\
 
     // Add groups
     _favoriteGroupItem = @"Menubar items";
-    AddItem(_favoriteGroupItem, _favoriteGroupItem)
+    [self addItem:_favoriteGroupItem forKey:_favoriteGroupItem];
     _availableGroupItem = @"Icons";
-    AddItem(_availableGroupItem, _availableGroupItem);
+    [self addItem:_availableGroupItem forKey:_availableGroupItem];
  
     // Add icons
-    HWMonitorIcon *icon = [self getIconByName:kHWMonitorIconDefault]; AddItem(icon, icon.name);
-    icon = [self getIconByName:kHWMonitorIconThermometer]; AddItem(icon, icon.name);
-    icon = [self getIconByName:kHWMonitorIconDevice]; AddItem(icon, icon.name);
-    icon = [self getIconByName:kHWMonitorIconTemperatures]; AddItem(icon, icon.name);
-    icon = [self getIconByName:kHWMonitorIconHddTemperatures]; AddItem(icon, icon.name);
-    icon = [self getIconByName:kHWMonitorIconSsdLife]; AddItem(icon, icon.name);
-    icon = [self getIconByName:kHWMonitorIconMultipliers]; AddItem(icon, icon.name);
-    icon = [self getIconByName:kHWMonitorIconFrequencies]; AddItem(icon, icon.name);
-    icon = [self getIconByName:kHWMonitorIconTachometers]; AddItem(icon, icon.name);
-    icon = [self getIconByName:kHWMonitorIconVoltages]; AddItem(icon, icon.name);
-    icon = [self getIconByName:kHWMonitorIconBattery]; AddItem(icon, icon.name);
+    HWMonitorIcon *icon = [self getIconByName:kHWMonitorIconDefault]; [self addItem:icon forKey:icon.name];
+    icon = [self getIconByName:kHWMonitorIconThermometer]; [self addItem:icon forKey:icon.name];
+    icon = [self getIconByName:kHWMonitorIconDevice]; [self addItem:icon forKey:icon.name];
+    icon = [self getIconByName:kHWMonitorIconTemperatures]; [self addItem:icon forKey:icon.name];
+    icon = [self getIconByName:kHWMonitorIconHddTemperatures]; [self addItem:icon forKey:icon.name];
+    icon = [self getIconByName:kHWMonitorIconSsdLife]; [self addItem:icon forKey:icon.name];
+    icon = [self getIconByName:kHWMonitorIconMultipliers]; [self addItem:icon forKey:icon.name];
+    icon = [self getIconByName:kHWMonitorIconFrequencies]; [self addItem:icon forKey:icon.name];
+    icon = [self getIconByName:kHWMonitorIconTachometers]; [self addItem:icon forKey:icon.name];
+    icon = [self getIconByName:kHWMonitorIconVoltages]; [self addItem:icon forKey:icon.name];
+    icon = [self getIconByName:kHWMonitorIconBattery]; [self addItem:icon forKey:icon.name];
 
     // Add sensors
-    AddItem(@"Sensors", @"Sensors");
+    [self addItem:@"Sensors" forKey:@"Sensors"];
     
     for (HWMonitorGroup *group in _groups) {
         /*if ([group checkVisibility]) {
@@ -295,12 +303,12 @@ if (![_items objectForKey:name]) {\
         }*/
         
         for (HWMonitorItem *item in [group items]) {
-            AddItem(item, item.sensor.name);
+            [self addItem:item forKey:item.sensor.name];
         }
     }
     
     if ([_favorites count] == 0) {
-        SetItemAsFavorite(kHWMonitorIconThermometer);
+        [self setItemAsFavoriteForKey:kHWMonitorIconThermometer];
     }
     else {
         for (id item in _favorites) {            
@@ -312,7 +320,7 @@ if (![_items objectForKey:name]) {\
             else continue;
             
             if ([[_engine keys] objectForKey:name] || [_icons objectForKey:name]) {
-                SetItemAsFavorite(name);
+                [self setItemAsFavoriteForKey:name];
             }
         }
     }
@@ -397,7 +405,7 @@ if (![_items objectForKey:name]) {\
 
 - (IBAction)toggleSensorVisibility:(id)sender
 {
-    id item = GetItemAtIndex([sender tag]);
+    id item = [self getItemAtIndex:[sender tag]];
     
     [item setVisible:[sender state]];
     
@@ -416,11 +424,7 @@ if (![_items objectForKey:name]) {\
     [_defaults synchronize];
 }
 
--(void)graphsBackgroundMonitorChanged:(id)sender
-{
-    [_graphsController setBackgroundMonitoring:[sender state]];
-    [_defaults synchronize];
-}
+#pragma mark Events
 
 -(IBAction)favoritesChanged:(id)sender
 {
@@ -541,14 +545,20 @@ if (![_items objectForKey:name]) {\
     [_defaults synchronize];
 }
 
-// PopupController delegate
+-(void)graphsBackgroundMonitorChanged:(id)sender
+{
+    [_graphsController setBackgroundMonitoring:[sender state]];
+    [_defaults synchronize];
+}
+
+#pragma mark PopupControllerDelegate
 
 - (void) popupPanelShouldOpen:(id)sender
 {
     [self updateLoop];
 }
 
-// NSTableView delegate
+#pragma mark  NSTableViewDelegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     return [_items count];
@@ -561,29 +571,29 @@ if (![_items objectForKey:name]) {\
 
 -(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
 {
-    return [GetItemAtIndex(row) isKindOfClass:[NSString class]];
+    return [[self getItemAtIndex:row] isKindOfClass:[NSString class]];
 }
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    id item = GetItemAtIndex(row);
+    id item = [self getItemAtIndex:row];
     
     if ([item isKindOfClass:[HWMonitorItem class]]) {
         HWMonitorSensor *sensor = [item sensor];
         
-        SensorCell *sensorCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
+        PrefsCell *itemCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
         
-        [sensorCell.checkBox setState:[item isVisible]];
-        [sensorCell.checkBox setToolTip:GetLocalizedString(@"Show sensor in HWMonitor menu")];
-        [sensorCell.checkBox setTag:[_ordering indexOfObject:[sensor name]]];
-        [sensorCell.imageView setImage:[[self getIconByGroup:[sensor group]] image]];
-        [sensorCell.textField setStringValue:[sensor title]];
-        [sensorCell.valueField setStringValue:[sensor stringValue]];
+        [itemCell.checkBox setState:[item isVisible]];
+        //[itemCell.checkBox setToolTip:GetLocalizedString(@"Show sensor in HWMonitor menu")];
+        [itemCell.checkBox setTag:[_ordering indexOfObject:[sensor name]]];
+        [itemCell.imageView setImage:[[self getIconByGroup:[sensor group]] image]];
+        [itemCell.textField setStringValue:[sensor title]];
+        [itemCell.valueField setStringValue:[sensor stringValue]];
         
-        return sensorCell;
+        return itemCell;
     }
     else if ([item isKindOfClass:[HWMonitorIcon class]]) {
-        NSTableCellView *iconCell = [tableView makeViewWithIdentifier:@"Icon" owner:self];
+        PrefsCell *iconCell = [tableView makeViewWithIdentifier:@"Icon" owner:self];
         
         [[iconCell imageView] setObjectValue:[item image]];
         [[iconCell textField] setStringValue:GetLocalizedString([item name])];
@@ -608,7 +618,7 @@ if (![_items objectForKey:name]) {\
 
 - (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard;
 {
-    id item = GetItemAtIndex([rowIndexes firstIndex]);
+    id item = [self getItemAtIndex:[rowIndexes firstIndex]];
     
     if ([item isKindOfClass:[NSString class]]) {
         return NO;
@@ -621,10 +631,12 @@ if (![_items objectForKey:name]) {\
     
     [pboard setString:[_ordering objectAtIndex:[rowIndexes firstIndex]] forType:NSStringPboardType];
     
+    _hasDraggedFavoriteItem = [rowIndexes firstIndex] < [_ordering indexOfObject:_availableGroupItem];
+    
     return YES;
 }
 
-- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation;
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)toRow proposedDropOperation:(NSTableViewDropOperation)dropOperation;
 {
     NSPasteboard* pboard = [info draggingPasteboard];
     NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
@@ -634,9 +646,88 @@ if (![_items objectForKey:name]) {\
     NSInteger itemsRow = [_ordering indexOfObject:_availableGroupItem];
     NSInteger fromRow = [rowIndexes firstIndex];
     
-    return (fromRow > itemsRow && row > 0 && row <= itemsRow) || (fromRow < itemsRow && row > 0)  ? NSDragOperationMove : NSDragOperationNone;
+    [tableView setDropRow:toRow dropOperation:NSTableViewDropAbove];
     
-    return NSDragOperationMove;
+    if (toRow > 0 && toRow <= itemsRow) {
+        _currentItemDragOperation = NSDragOperationMove;
+        return NSDragOperationMove;
+    }
+    else if (fromRow < itemsRow) {
+        _currentItemDragOperation = NSDragOperationDelete;
+    }
+    else {
+        _currentItemDragOperation = NSDragOperationNone;
+    }
+    
+    return NSDragOperationNone;
+}
+
+-(void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint forRowIndexes:(NSIndexSet *)rowIndexes
+{
+    NSInteger itemsRow = [self getIndexOfItemWithKey:_availableGroupItem];
+    NSInteger fromRow = [rowIndexes firstIndex];
+    
+    [session setAnimatesToStartingPositionsOnCancelOrFail:fromRow > itemsRow];
+}
+
+-(void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
+{
+    if (operation == NSDragOperationDelete || _currentItemDragOperation == NSDragOperationDelete)
+    {
+        NSPasteboard* pboard = [session draggingPasteboard];
+        NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
+        
+        NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+        
+        NSInteger itemsRow = [self getIndexOfItemWithKey:_availableGroupItem];
+        NSInteger fromRow = [rowIndexes firstIndex];
+        
+        if (fromRow < itemsRow) {
+            NSString *movingItemName = [_ordering objectAtIndex:fromRow];
+            NSInteger movingItemIndex = [[_index objectForKey:movingItemName] integerValue];
+            
+            NSInteger index;
+            
+            for (index = itemsRow + 1; index < [_items count]; index++) {
+                
+                NSString *itemName = [_ordering objectAtIndex:index];
+                NSInteger itemIndex = [[_index objectForKey:itemName] integerValue];
+                
+                if (itemIndex > movingItemIndex) {
+                    [_ordering insertObject:movingItemName atIndex:index];
+                    [_ordering removeObjectAtIndex:fromRow > index ? fromRow + 1 : fromRow];
+                    break;
+                }
+            }
+            
+            if (index >= [_items count]) {
+                [_ordering insertObject:movingItemName atIndex:index];
+                [_ordering removeObjectAtIndex:fromRow];
+            }
+            
+            NSShowAnimationEffect(NSAnimationEffectPoof, screenPoint, NSZeroSize, nil, nil, nil);
+            
+            // Renew favorites list
+            itemsRow = [self getIndexOfItemWithKey:_availableGroupItem];
+            
+            [_favorites removeAllObjects];
+            
+            for (NSUInteger index = 0; index < itemsRow; index++) {
+                id item = [self getItemAtIndex:index];
+                
+                if ([item isKindOfClass:[HWMonitorItem class]]) {
+                    [_favorites addObject:[item sensor]];
+                }
+                else if ([item isKindOfClass:[HWMonitorIcon class]]) {
+                    [_favorites addObject:item];
+                }
+            }
+            
+            [self favoritesChanged:tableView];
+            
+            //NSShowAnimationEffect(NSAnimationEffectPoof, screenPoint, NSZeroSize, nil, nil, nil);
+        }
+    }
 }
 
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)toRow dropOperation:(NSTableViewDropOperation)dropOperation;
@@ -646,32 +737,15 @@ if (![_items objectForKey:name]) {\
     
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     
-    NSInteger itemsRow = GetIndexOfItem(_availableGroupItem);
+    NSInteger itemsRow = [self getIndexOfItemWithKey:_availableGroupItem];
     NSInteger fromRow = [rowIndexes firstIndex];
     
     NSString *movingItemName = [_ordering objectAtIndex:fromRow];
-    NSInteger movingItemIndex = [[_index objectForKey:movingItemName] integerValue];
+    //NSInteger movingItemIndex = [[_index objectForKey:movingItemName] integerValue];
     
-    if (fromRow < itemsRow && toRow > itemsRow) {
-        
-        NSInteger index;
-        
-        for (index = itemsRow + 1; index < [_items count]; index++) {
-            
-            NSString *itemName = [_ordering objectAtIndex:index];
-            NSInteger itemIndex = [[_index objectForKey:itemName] integerValue];
-            
-            if (itemIndex > movingItemIndex) {
-                [_ordering insertObject:movingItemName atIndex:index];
-                [_ordering removeObjectAtIndex:fromRow > index ? fromRow + 1 : fromRow];
-                break;
-            }
-        }
-        
-        if (index >= [_items count]) {
-            [_ordering insertObject:movingItemName atIndex:index];
-            [_ordering removeObjectAtIndex:fromRow];
-        }
+    // Get item back to its default position
+    if (fromRow > itemsRow && toRow > itemsRow) {
+        return NO;
     }
     else {
         [_ordering insertObject:movingItemName atIndex:toRow];
@@ -679,12 +753,12 @@ if (![_items objectForKey:name]) {\
     }
     
     // Renew favorites list
-    itemsRow = GetIndexOfItem(_availableGroupItem);
+    itemsRow = [self getIndexOfItemWithKey:_availableGroupItem];
     
     [_favorites removeAllObjects];
     
     for (NSUInteger index = 0; index < itemsRow; index++) {
-        id item = GetItemAtIndex(index);
+        id item = [self getItemAtIndex:index];
         
         if ([item isKindOfClass:[HWMonitorItem class]]) {
             [_favorites addObject:[item sensor]];

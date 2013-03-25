@@ -24,12 +24,13 @@
     _gaugeLevel = gaugeLevel;
     
     if (self.imageView) {
-        [self.imageView setImage:[[NSImage alloc] initWithSize:self.imageView.bounds.size]];
+        if (!self.imageView.image) {
+            [self.imageView setImage:[[NSImage alloc] initWithSize:self.imageView.bounds.size]];
+        }
         
         [self.imageView.image lockFocus];
         
-        [[NSColor clearColor] setFill];
-        [NSBezierPath fillRect:self.imageView.bounds];
+        NSRectFillUsingOperation(self.imageView.bounds, NSCompositeClear);
         
         [[_colorTheme.itemTitleColor highlightWithLevel:0.2] setStroke];
         

@@ -50,6 +50,7 @@
         
         if (_currentVersion && _remoteVersion && [_remoteVersion isGreaterThan:_currentVersion] && (!_skippedVersion || [_skippedVersion isLessThan:_remoteVersion])) {
             [NSApp activateIgnoringOtherApps:YES];
+            [self.window setLevel:NSFloatingWindowLevel];
             [self.window makeKeyAndOrderFront:nil];
         }
     }

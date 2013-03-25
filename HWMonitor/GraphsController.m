@@ -32,7 +32,7 @@
 #import "HWMonitorItem.h"
 #import "HWMonitorGroup.h"
 #import "GraphsView.h"
-#import "SensorCell.h"
+#import "GraphsSensorCell.h"
 
 #import "HWMonitorDefinitions.h"
 
@@ -107,7 +107,7 @@
         if ([item isKindOfClass:[HWMonitorItem class]]) {
             id cell = [_graphsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
             
-            if (cell && [cell isKindOfClass:[SensorCell class]]) {
+            if (cell && [cell isKindOfClass:[GraphsSensorCell class]]) {
                 [[cell valueField] takeStringValueFrom:[item sensor]];
             }
         }
@@ -200,7 +200,7 @@
             if ([item isKindOfClass:[HWMonitorItem class]]) {
                 id cell = [_graphsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
                 
-                if (cell && [cell isKindOfClass:[SensorCell class]]) {
+                if (cell && [cell isKindOfClass:[GraphsSensorCell class]]) {
                     [[cell valueField] takeStringValueFrom:[item sensor]];
                 }
             }
@@ -283,7 +283,7 @@
         return groupCell;
     }
     else if ([item isKindOfClass:[HWMonitorItem class]]) {
-        SensorCell *sensorCell = nil;
+        GraphsSensorCell *sensorCell = nil;
         
         if ([[item sensor] group] & (kHWSensorGroupTemperature | kSMARTGroupTemperature)) {
             sensorCell = [tableView makeViewWithIdentifier:@"Temperature" owner:self];
@@ -305,7 +305,7 @@
         [[sensorCell checkBox] setState:![self checkItemIsHidden:item]];
         [[sensorCell checkBox] setTag:[_items indexOfObject:item]];
         
-        [sensorCell setRepresentedObject:item];
+        //[sensorCell setRepresentedObject:item];
         
         return sensorCell;
     }
