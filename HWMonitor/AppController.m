@@ -552,16 +552,13 @@
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    return 20;
+    return 19;
 }
 
 -(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
 {
-    if (tableView == _favoritesTableView) {
-        
-    }
-    
     return [[self getItemAtIndex:row] isKindOfClass:[NSString class]];
+    //return NO;
 }
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
@@ -637,7 +634,7 @@
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
-    return false;
+    return NO;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard;
@@ -684,11 +681,12 @@
     if (tableView == _favoritesTableView) {
         [tableView setDropRow:toRow dropOperation:NSTableViewDropAbove];
         
+        NSPasteboard* pboard = [info draggingPasteboard];
+        NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
+        NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+        NSInteger fromRow = [rowIndexes firstIndex];
+        
         if ([info draggingSource] == _sensorsTableView) {
-            NSPasteboard* pboard = [info draggingPasteboard];
-            NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
-            NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
-            NSInteger fromRow = [rowIndexes firstIndex];
             id item = [self getItemAtIndex:fromRow];
             
             if ([item isKindOfClass:[HWMonitorItem class]]) {
@@ -697,7 +695,7 @@
             else _currentItemDragOperation = toRow > 0 ? NSDragOperationCopy : NSDragOperationNone;
         }
         else if ([info draggingSource] == _favoritesTableView) {
-            _currentItemDragOperation = toRow > 0 ? NSDragOperationMove : NSDragOperationDelete;
+            _currentItemDragOperation = toRow > 0 ? toRow < fromRow || toRow > fromRow + 1 ? NSDragOperationMove : NSDragOperationNone : NSDragOperationDelete;
         }
     }
     

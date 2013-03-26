@@ -44,17 +44,12 @@
 
     [_sensor setRepresentedObject:self];
     
-    if (sensor.group & (kHWSensorGroupTemperature | kSMARTGroupTemperature)) {
-        _representation = @"Temperature";
-    }
-    else if (sensor.group & (kHWSensorGroupPWM | kSMARTGroupRemainingLife)) {
-        _representation = @"Percentage";
-    }
-    else if (sensor.group & kBluetoothGroupBattery) {
+    if (sensor.group & kBluetoothGroupBattery) {
         _representation = @"Battery";
     }
     else {
         _representation = @"Sensor";
+        //_representation = @"Battery";
     }
 
     
