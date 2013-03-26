@@ -289,12 +289,12 @@
     icon = [self getIconByName:kHWMonitorIconBattery]; [self addItem:icon forKey:icon.name];
 
     // Add sensors
-    [self addItem:@"Sensors" forKey:@"Sensors"];
+    //[self addItem:@"Sensors" forKey:@"Sensors"];
     
     for (HWMonitorGroup *group in _groups) {
-        /*if ([group checkVisibility]) {
-            AddItem([group title], [group title]);
-        }*/
+        if ([group checkVisibility]) {
+            [self addItem:[group title] forKey:[group title]];
+        }
         
         for (HWMonitorItem *item in [group items]) {
             [self addItem:item forKey:item.sensor.name];
@@ -580,7 +580,7 @@
             if ([item isKindOfClass:[HWMonitorSensor class]]) {
                 HWMonitorSensor *sensor = (HWMonitorSensor*)item;
                 
-                PrefsCell *itemCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
+                PrefsCell *itemCell = [tableView makeViewWithIdentifier:[sensor.representedObject representation] owner:self];;
                 
                 [itemCell.imageView setImage:[[self getIconByGroup:[sensor group]] image]];
                 [itemCell.textField setStringValue:[sensor title]];
@@ -604,7 +604,7 @@
         if ([item isKindOfClass:[HWMonitorItem class]]) {
             HWMonitorSensor *sensor = [item sensor];
             
-            PrefsCell *itemCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
+            PrefsCell *itemCell = [tableView makeViewWithIdentifier:[item representation] owner:self];
             
             [itemCell.checkBox setState:[item isVisible]];
             //[itemCell.checkBox setToolTip:GetLocalizedString(@"Show sensor in HWMonitor menu")];

@@ -32,16 +32,6 @@
 
 @implementation HWMonitorItem
 
--(HWMonitorSensor *)sensor
-{
-    return _sensor;
-}
-
--(HWMonitorGroup *)group
-{
-    return _group;
-}
-
 + (HWMonitorItem*)itemWithGroup:(HWMonitorGroup*)group sensor:(HWMonitorSensor*)sensor
 {
     return [[HWMonitorItem alloc] initWithGroup:group sensor:sensor];
@@ -53,6 +43,20 @@
     _sensor = sensor;
 
     [_sensor setRepresentedObject:self];
+    
+    if (sensor.group & (kHWSensorGroupTemperature | kSMARTGroupTemperature)) {
+        _representation = @"Temperature";
+    }
+    else if (sensor.group & (kHWSensorGroupPWM | kSMARTGroupRemainingLife)) {
+        _representation = @"Percentage";
+    }
+    else if (sensor.group & kBluetoothGroupBattery) {
+        _representation = @"Battery";
+    }
+    else {
+        _representation = @"Sensor";
+    }
+
     
     //[self setTitle:[_sensor title]];
     

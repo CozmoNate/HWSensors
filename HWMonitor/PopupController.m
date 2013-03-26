@@ -396,22 +396,7 @@
     else if ([item isKindOfClass:[HWMonitorItem class]]) {
         HWMonitorSensor *sensor = [item sensor];
         
-        id cell = nil;
-        
-        if ([sensor group] & (kHWSensorGroupTemperature | kSMARTGroupTemperature)) {
-            cell = [tableView makeViewWithIdentifier:@"Temperature" owner:self];
-        }
-        else if ([sensor group] & (kHWSensorGroupPWM | kSMARTGroupRemainingLife)) {
-            cell = [tableView makeViewWithIdentifier:@"Percentage" owner:self];
-        }
-        else if ([sensor group] & kBluetoothGroupBattery) {
-            cell = [tableView makeViewWithIdentifier:@"Battery" owner:self];
-        }
-        else {
-            cell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
-//            cell = [tableView makeViewWithIdentifier:@"Battery" owner:self];
-//            [cell setGaugeLevel:73];
-        }
+        id cell = [tableView makeViewWithIdentifier:[item representation] owner:self];
         
         [cell setColorTheme:_colorTheme];
         

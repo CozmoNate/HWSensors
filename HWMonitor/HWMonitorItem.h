@@ -30,13 +30,10 @@
 @class HWMonitorGroup;
 
 @interface HWMonitorItem : NSObject
-{
-    HWMonitorSensor* _sensor;
-    HWMonitorGroup* _group;
-}
 
 @property (readonly) HWMonitorSensor* sensor;
 @property (readonly) HWMonitorGroup* group;
+@property (readonly) NSString* representation;
 
 @property (nonatomic, setter = setVisible:) BOOL isVisible;
 @property (nonatomic, strong) NSColor *color;
