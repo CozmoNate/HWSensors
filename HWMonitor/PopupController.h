@@ -41,7 +41,6 @@
 @property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
 
 @property (nonatomic, unsafe_unretained) IBOutlet PopupView *popupView;
-@property (nonatomic, unsafe_unretained) IBOutlet NSScrollView *scrollView;
 @property (nonatomic, unsafe_unretained) IBOutlet NSTableView *tableView;
 
 @property (nonatomic, unsafe_unretained) IBOutlet NSWindow *prefsWindow;

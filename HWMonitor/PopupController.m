@@ -72,8 +72,6 @@
     [panel setLevel:NSPopUpMenuWindowLevel];
     [panel setOpaque:NO];
     [panel setBackgroundColor:[NSColor clearColor]];
-    
-    [_scrollView setFrameOrigin:NSMakePoint(_scrollView.frame.origin.x, - ARROW_HEIGHT)];
 }
 
 - (void)dealloc

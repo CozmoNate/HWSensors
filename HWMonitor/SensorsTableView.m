@@ -28,35 +28,48 @@
 //    [[NSCursor openHandCursor] set];
 //}
 
--(void)draggedImage:(NSImage *)image beganAt:(NSPoint)screenPoint
+-(void)draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint
 {
+    [super draggingSession:session willBeginAtPoint:screenPoint];
     [[NSCursor closedHandCursor] set];
 }
 
--(void)draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation
+-(void)draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {
+    [super draggingSession:session endedAtPoint:screenPoint operation:operation];
     [[NSCursor openHandCursor] set];
 }
 
-- (void)draggedImage:(NSImage *)image movedTo:(NSPoint)screenPoint
+-(void)draggingSession:(NSDraggingSession *)session movedToPoint:(NSPoint)screenPoint
 {
+    //[super draggingSession:session movedToPoint:screenPoint];
+    
     NSPoint windowPoint = [self.window mouseLocationOutsideOfEventStream];
     NSPoint localPoint = [self convertPoint:windowPoint fromView:nil];
     
     id appController = self.delegate;
     
-    if ([appController currentItemDragOperation] == NSDragOperationDelete || ([appController hasDraggedFavoriteItem] && ![self mouse:localPoint inRect:[self visibleRect]])) {
+    if ([appController currentItemDragOperation] == NSDragOperationDelete ||
+        ([appController hasDraggedFavoriteItem] && ![self mouse:localPoint inRect:[self visibleRect]])) {
         [[NSCursor disappearingItemCursor] set];
         [appController setCurrentItemDragOperation:NSDragOperationDelete];
+        
+        [session setAnimatesToStartingPositionsOnCancelOrFail:NO];
     }
     else if ([appController currentItemDragOperation] == NSDragOperationPrivate) {
         [[NSCursor operationNotAllowedCursor] set];
+        
+        [session setAnimatesToStartingPositionsOnCancelOrFail:YES];
     }
     else if ([appController currentItemDragOperation] == NSDragOperationCopy) {
         [[NSCursor dragCopyCursor] set];
+        
+        [session setAnimatesToStartingPositionsOnCancelOrFail:NO];
     }
     else {
         [[NSCursor closedHandCursor] set];
+        
+        [session setAnimatesToStartingPositionsOnCancelOrFail:YES];
     }
 }
 

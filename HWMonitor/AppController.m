@@ -702,19 +702,17 @@
     return _currentItemDragOperation;
 }
 
--(void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint forRowIndexes:(NSIndexSet *)rowIndexes
-{
-    if (tableView == _favoritesTableView) {
-        [session setAnimatesToStartingPositionsOnCancelOrFail:NO];
-    }
-}
+//-(void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint forRowIndexes:(NSIndexSet *)rowIndexes
+//{
+//    if (tableView == _favoritesTableView) {
+//        [session setAnimatesToStartingPositionsOnCancelOrFail:NO];
+//    }
+//}
 
 -(void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {
     if (tableView == _favoritesTableView && (operation == NSDragOperationDelete || _currentItemDragOperation == NSDragOperationDelete))
     {
-        NSShowAnimationEffect(NSAnimationEffectPoof, screenPoint, NSZeroSize, nil, nil, nil);
-        
         NSPasteboard* pboard = [session draggingPasteboard];
         NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
@@ -722,6 +720,8 @@
         [_favorites removeObjectAtIndex:[rowIndexes firstIndex] - 1];
         
         [self favoritesChanged:tableView];
+        
+        NSShowAnimationEffect(NSAnimationEffectPoof, screenPoint, NSZeroSize, nil, nil, nil);
     }
 }
 
