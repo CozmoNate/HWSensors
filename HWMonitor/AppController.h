@@ -43,7 +43,6 @@
     NSMutableArray* _favorites;
     NSMutableArray *_groups;
     NSMutableDictionary *_items;
-    NSMutableDictionary *_index;
     NSMutableArray *_ordering;
     
     float _smcSensorsUpdateInterval;
@@ -52,9 +51,6 @@
     NSDate *_smcSensorsLastUpdated;
     NSDate *_smartSensorsLastUpdated;
     BOOL _scheduleRebuildSensors;
-    
-    id _favoriteGroupItem;
-    id _availableGroupItem;
     
     NSArray *_colorThemes;
 }
@@ -65,6 +61,7 @@
 @property (nonatomic, unsafe_unretained) IBOutlet NSTextField *smcUpdateRateTextField;
 @property (nonatomic, unsafe_unretained) IBOutlet NSTextField *smartUpdateRateTextField;
 
+@property (nonatomic, unsafe_unretained) IBOutlet NSTableView *favoritesTableView;
 @property (nonatomic, unsafe_unretained) IBOutlet NSTableView *sensorsTableView;
 
 @property (readonly) BOOL hasDraggedFavoriteItem;

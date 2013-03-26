@@ -42,7 +42,7 @@
     theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
     theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.2];
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
-    theme.strokeColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.97];
+    theme.strokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.7];
     theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
     theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
     theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];

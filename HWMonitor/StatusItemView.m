@@ -104,7 +104,7 @@
         NSImage *image = _isHighlighted ? _alternateImage : _image;
         
         if (image) {
-            NSUInteger width = [image size].width + 4;
+            NSUInteger width = [image size].width + 12;
             
             [image drawAtPoint:NSMakePoint(lround((width - [image size].width) / 2), lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
             
@@ -133,6 +133,10 @@
             id object = [_favorites objectAtIndex:i];
             
             if ([object isKindOfClass:[HWMonitorIcon class]]) {
+                if ([_favorites count] == 1) {
+                    offset += 3;
+                }
+                
                 [context saveGraphicsState];
                 
                 if (!_isHighlighted)
@@ -154,6 +158,10 @@
                 }
                 
                 [context restoreGraphicsState];
+                
+                if ([_favorites count] == 1) {
+                    offset += 3;
+                }
             }
             else if ([object isKindOfClass:[HWMonitorSensor class]]) {
                 [context saveGraphicsState];

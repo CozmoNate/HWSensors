@@ -16,6 +16,18 @@
 //    [self addCursorRect:[self bounds] cursor:[NSCursor openHandCursor]];
 //}
 
+//-(void)mouseDown:(NSEvent *)theEvent
+//{
+//    [super mouseDown:theEvent];
+//    [[NSCursor closedHandCursor] set];
+//}
+//
+//-(void)mouseUp:(NSEvent *)theEvent
+//{
+//    [super mouseUp:theEvent];
+//    [[NSCursor openHandCursor] set];
+//}
+
 -(void)draggedImage:(NSImage *)image beganAt:(NSPoint)screenPoint
 {
     [[NSCursor closedHandCursor] set];
@@ -36,6 +48,12 @@
     if ([appController currentItemDragOperation] == NSDragOperationDelete || ([appController hasDraggedFavoriteItem] && ![self mouse:localPoint inRect:[self visibleRect]])) {
         [[NSCursor disappearingItemCursor] set];
         [appController setCurrentItemDragOperation:NSDragOperationDelete];
+    }
+    else if ([appController currentItemDragOperation] == NSDragOperationPrivate) {
+        [[NSCursor operationNotAllowedCursor] set];
+    }
+    else if ([appController currentItemDragOperation] == NSDragOperationMove) {
+        [[NSCursor dragCopyCursor] set];
     }
     else {
         [[NSCursor closedHandCursor] set];
