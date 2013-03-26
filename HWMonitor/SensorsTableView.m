@@ -52,7 +52,7 @@
     else if ([appController currentItemDragOperation] == NSDragOperationPrivate) {
         [[NSCursor operationNotAllowedCursor] set];
     }
-    else if ([appController currentItemDragOperation] == NSDragOperationMove) {
+    else if ([appController currentItemDragOperation] == NSDragOperationCopy) {
         [[NSCursor dragCopyCursor] set];
     }
     else {

@@ -48,17 +48,18 @@
         _remoteVersion = [list objectForKey:@"AppVersion"];
         _skippedVersion = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] objectForKey:kHWMonitorSkippedAppVersion];
         
-        [_messageTextField setStringValue:[NSString stringWithFormat:GetLocalizedString([_messageTextField stringValue]), _remoteVersion, _currentVersion]];
-        
         if (_currentVersion && _remoteVersion && [_remoteVersion isGreaterThan:_currentVersion] && (!_skippedVersion || [_skippedVersion isLessThan:_remoteVersion])) {
+            [_messageTextField setStringValue:[NSString stringWithFormat:GetLocalizedString([_messageTextField stringValue]), _remoteVersion, _currentVersion]];
             [NSApp activateIgnoringOtherApps:YES];
             [self.window setLevel:NSFloatingWindowLevel];
             [self.window makeKeyAndOrderFront:nil];
+            
+            return; // stop checking for updates in this session
         }
     }
 
     // continue check for updates every hour???
-    //[self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 * 60];
+    [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 * 60];
 }
 
 - (IBAction)openDownloadsPage:(id)sender

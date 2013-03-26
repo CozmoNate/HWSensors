@@ -692,9 +692,9 @@
             id item = [self getItemAtIndex:fromRow];
             
             if ([item isKindOfClass:[HWMonitorItem class]]) {
-                _currentItemDragOperation = toRow > 0 ? [_favorites containsObject:[item sensor]] ? NSDragOperationPrivate : NSDragOperationMove : NSDragOperationNone;
+                _currentItemDragOperation = toRow > 0 ? [_favorites containsObject:[item sensor]] ? NSDragOperationPrivate : NSDragOperationCopy : NSDragOperationNone;
             }
-            else _currentItemDragOperation = toRow > 0 ? NSDragOperationMove : NSDragOperationNone;
+            else _currentItemDragOperation = toRow > 0 ? NSDragOperationCopy : NSDragOperationNone;
         }
         else if ([info draggingSource] == _favoritesTableView) {
             _currentItemDragOperation = toRow > 0 ? NSDragOperationMove : NSDragOperationDelete;
