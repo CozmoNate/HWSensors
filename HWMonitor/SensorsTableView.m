@@ -49,26 +49,24 @@
     
     id appController = self.delegate;
     
-    if ([appController currentItemDragOperation] == NSDragOperationDelete ||
+    if ([appController currentItemDragOperation] & NSDragOperationDelete ||
         ([appController hasDraggedFavoriteItem] && ![self mouse:localPoint inRect:[self visibleRect]])) {
-        [[NSCursor disappearingItemCursor] set];
+
         [appController setCurrentItemDragOperation:NSDragOperationDelete];
         
+        [[NSCursor disappearingItemCursor] set];
         [session setAnimatesToStartingPositionsOnCancelOrFail:NO];
     }
-    else if ([appController currentItemDragOperation] == NSDragOperationPrivate) {
+    else if ([appController currentItemDragOperation] & NSDragOperationPrivate) {
         [[NSCursor operationNotAllowedCursor] set];
-        
         [session setAnimatesToStartingPositionsOnCancelOrFail:YES];
     }
-    else if ([appController currentItemDragOperation] == NSDragOperationCopy) {
+    else if ([appController currentItemDragOperation] & NSDragOperationCopy) {
         [[NSCursor dragCopyCursor] set];
-        
         [session setAnimatesToStartingPositionsOnCancelOrFail:NO];
     }
     else {
         [[NSCursor closedHandCursor] set];
-        
         [session setAnimatesToStartingPositionsOnCancelOrFail:YES];
     }
 }

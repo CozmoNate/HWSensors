@@ -38,10 +38,11 @@
 		7E16893616EA106D00BBF6FC /* KnobScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16893516EA106D00BBF6FC /* KnobScroller.m */; };
 		7E17953616EE705B00145082 /* BatteryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E17953516EE705B00145082 /* BatteryCell.m */; };
 		7E19000117005652008F40F1 /* SensorsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E19000017005652008F40F1 /* SensorsTableView.m */; };
-		7E19000717006727008F40F1 /* PrefsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E19000617006727008F40F1 /* PrefsCell.m */; };
+		7E19000717006727008F40F1 /* PrefsSensorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E19000617006727008F40F1 /* PrefsSensorCell.m */; };
 		7E19000A170070F3008F40F1 /* GraphsSensorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E190009170070F3008F40F1 /* GraphsSensorCell.m */; };
 		7E1BC3CE16F47BDF005B9479 /* battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CC16F47BDE005B9479 /* battery.png */; };
 		7E1BC3CF16F47BDF005B9479 /* battery_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CD16F47BDF005B9479 /* battery_template.png */; };
+		7E8C68FA1702E22400645399 /* PrefsGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8C68F91702E22400645399 /* PrefsGroupCell.m */; };
 		7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248EB16D8E93A002231B2 /* Cocoa.framework */; };
 		7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248F416D8E93A002231B2 /* InfoPlist.strings */; };
 		7EA248F816D8E93A002231B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248F716D8E93A002231B2 /* main.m */; };
@@ -130,8 +131,8 @@
 		7E17953416EE705B00145082 /* BatteryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatteryCell.h; sourceTree = "<group>"; };
 		7E17953516EE705B00145082 /* BatteryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatteryCell.m; sourceTree = "<group>"; };
 		7E19000017005652008F40F1 /* SensorsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorsTableView.m; sourceTree = "<group>"; };
-		7E19000517006727008F40F1 /* PrefsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsCell.h; sourceTree = "<group>"; };
-		7E19000617006727008F40F1 /* PrefsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsCell.m; sourceTree = "<group>"; };
+		7E19000517006727008F40F1 /* PrefsSensorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsSensorCell.h; sourceTree = "<group>"; };
+		7E19000617006727008F40F1 /* PrefsSensorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsSensorCell.m; sourceTree = "<group>"; };
 		7E190008170070F2008F40F1 /* GraphsSensorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphsSensorCell.h; sourceTree = "<group>"; };
 		7E190009170070F3008F40F1 /* GraphsSensorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphsSensorCell.m; sourceTree = "<group>"; };
 		7E19FFFF17005652008F40F1 /* SensorsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorsTableView.h; sourceTree = "<group>"; };
@@ -139,6 +140,8 @@
 		7E1BC3CD16F47BDF005B9479 /* battery_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = battery_template.png; sourceTree = "<group>"; };
 		7E1BC3D116F489E8005B9479 /* HWMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HWMonitor.entitlements; sourceTree = "<group>"; };
 		7E1BC3D716F48A8C005B9479 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		7E8C68F81702E22400645399 /* PrefsGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsGroupCell.h; sourceTree = "<group>"; };
+		7E8C68F91702E22400645399 /* PrefsGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsGroupCell.m; sourceTree = "<group>"; };
 		7E9E7BA716E45A7A00CC8D5D /* SmcKeysDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmcKeysDefinitions.h; path = Shared/SmcKeysDefinitions.h; sourceTree = "<group>"; };
 		7EA248E816D8E93A002231B2 /* HWMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HWMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA248EB16D8E93A002231B2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -307,8 +310,10 @@
 				7EDA1A7616D903740012A0DC /* SensorCell.m */,
 				7E17953416EE705B00145082 /* BatteryCell.h */,
 				7E17953516EE705B00145082 /* BatteryCell.m */,
-				7E19000517006727008F40F1 /* PrefsCell.h */,
-				7E19000617006727008F40F1 /* PrefsCell.m */,
+				7E8C68F81702E22400645399 /* PrefsGroupCell.h */,
+				7E8C68F91702E22400645399 /* PrefsGroupCell.m */,
+				7E19000517006727008F40F1 /* PrefsSensorCell.h */,
+				7E19000617006727008F40F1 /* PrefsSensorCell.m */,
 				7E190008170070F2008F40F1 /* GraphsSensorCell.h */,
 				7E190009170070F3008F40F1 /* GraphsSensorCell.m */,
 				7ECDDE3F16DEB5F600085FFF /* GraphsGroupCell.h */,
@@ -770,8 +775,9 @@
 				7EDDC86E16F9B3B40072B15B /* UpdatesController.m in Sources */,
 				7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */,
 				7E19000117005652008F40F1 /* SensorsTableView.m in Sources */,
-				7E19000717006727008F40F1 /* PrefsCell.m in Sources */,
+				7E19000717006727008F40F1 /* PrefsSensorCell.m in Sources */,
 				7E19000A170070F3008F40F1 /* GraphsSensorCell.m in Sources */,
+				7E8C68FA1702E22400645399 /* PrefsGroupCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -986,6 +992,7 @@
 				7E27A47B170084AE00234A6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7EA248E316D8E93A002231B2 /* Build configuration list for PBXProject "HWMonitor" */ = {
 			isa = XCConfigurationList;

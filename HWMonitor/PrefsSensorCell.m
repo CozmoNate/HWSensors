@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import "PrefsCell.h"
+#import "PrefsSensorCell.h"
 
-@implementation PrefsCell
+@implementation PrefsSensorCell
 
 -(void)resetCursorRects
 {

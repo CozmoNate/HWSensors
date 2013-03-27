@@ -103,6 +103,8 @@
         // Stroke path
         [[NSGraphicsContext currentContext] saveGraphicsState]; // save
         
+        //[[NSGraphicsContext currentContext] setCompositingOperation:NSCompositeXOR];
+        
         NSBezierPath *clipPath = [NSBezierPath bezierPathWithRect:NSInsetRect(popupBounds, -LINE_THICKNESS, -LINE_THICKNESS)];
         [clipPath appendBezierPath:toolbarPath];
         [clipPath appendBezierPath:listPath];

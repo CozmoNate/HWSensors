@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-@interface PrefsCell : NSTableCellView
+@interface PrefsSensorCell : NSTableCellView
 
 @property (nonatomic, unsafe_unretained) IBOutlet NSTextField *valueField;
 @property (nonatomic, unsafe_unretained) IBOutlet NSButton *checkBox;

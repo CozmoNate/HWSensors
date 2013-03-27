@@ -32,7 +32,7 @@
 #import "HWMonitorGroup.h"
 
 #import "GroupCell.h"
-#import "PrefsCell.h"
+#import "PrefsSensorCell.h"
 
 #import "Localizer.h"
 
@@ -113,7 +113,7 @@
     for (HWMonitorSensor *sensor in [_engine sensors]) {
         id cell = [_sensorsTableView viewAtColumn:0 row:[self getIndexOfItem:[sensor name]] makeIfNecessary:NO];
         
-        if (cell && [cell isKindOfClass:[PrefsCell class]]) {
+        if (cell && [cell isKindOfClass:[PrefsSensorCell class]]) {
             [[cell valueField] takeStringValueFrom:sensor];
         }
     }
@@ -211,7 +211,7 @@
         for (HWMonitorSensor *sensor in sensors) {
             id cell = [_sensorsTableView viewAtColumn:0 row:[self getIndexOfItem:[sensor name]] makeIfNecessary:NO];
             
-            if (cell && [cell isKindOfClass:[PrefsCell class]]) {
+            if (cell && [cell isKindOfClass:[PrefsSensorCell class]]) {
                 [[cell valueField] takeStringValueFrom:sensor];
             }
         }
@@ -219,7 +219,7 @@
         [_favorites enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             id cell = [_favoritesTableView viewAtColumn:0 row:idx + 1 makeIfNecessary:NO];
             
-            if (cell && [cell isKindOfClass:[PrefsCell class]]) {
+            if (cell && [cell isKindOfClass:[PrefsSensorCell class]]) {
                 [[cell valueField] takeStringValueFrom:obj];
             }
         }];
@@ -534,7 +534,7 @@
 
 #pragma mark PopupControllerDelegate
 
-- (void) popupPanelShouldOpen:(id)sender
+- (void) popupWillOpen:(id)sender
 {
     [self updateLoop];
 }
@@ -558,16 +558,17 @@
 -(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
 {
     return [[self getItemAtIndex:row] isKindOfClass:[NSString class]];
-    //return NO;
 }
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     if (tableView == _favoritesTableView) {
         if (row == 0) {
-            NSTableCellView *groupCell = [tableView makeViewWithIdentifier:@"Group" owner:self];
+            GroupCell *groupCell = [tableView makeViewWithIdentifier:@"Group" owner:self];
             
             [[groupCell textField] setStringValue:GetLocalizedString(@"Menubar items")];
+            
+            //[groupCell setColorTheme:[_colorThemes objectAtIndex:0]];
             
             return groupCell;
         }
@@ -577,7 +578,7 @@
             if ([item isKindOfClass:[HWMonitorSensor class]]) {
                 HWMonitorSensor *sensor = (HWMonitorSensor*)item;
                 
-                PrefsCell *itemCell = [tableView makeViewWithIdentifier:[sensor.representedObject representation] owner:self];;
+                PrefsSensorCell *itemCell = [tableView makeViewWithIdentifier:[sensor.representedObject representation] owner:self];;
                 
                 [itemCell.imageView setImage:[[self getIconByGroup:[sensor group]] image]];
                 [itemCell.textField setStringValue:[sensor title]];
@@ -586,7 +587,7 @@
                 return itemCell;
             }
             else if ([item isKindOfClass:[HWMonitorIcon class]]) {
-                PrefsCell *iconCell = [tableView makeViewWithIdentifier:@"Icon" owner:self];
+                PrefsSensorCell *iconCell = [tableView makeViewWithIdentifier:@"Icon" owner:self];
                 
                 [[iconCell imageView] setObjectValue:[item image]];
                 [[iconCell textField] setStringValue:GetLocalizedString([item name])];
@@ -601,7 +602,7 @@
         if ([item isKindOfClass:[HWMonitorItem class]]) {
             HWMonitorSensor *sensor = [item sensor];
             
-            PrefsCell *itemCell = [tableView makeViewWithIdentifier:[item representation] owner:self];
+            PrefsSensorCell *itemCell = [tableView makeViewWithIdentifier:[item representation] owner:self];
             
             [itemCell.checkBox setState:[item isVisible]];
             //[itemCell.checkBox setToolTip:GetLocalizedString(@"Show sensor in HWMonitor menu")];
@@ -613,7 +614,7 @@
             return itemCell;
         }
         else if ([item isKindOfClass:[HWMonitorIcon class]]) {
-            PrefsCell *iconCell = [tableView makeViewWithIdentifier:@"Icon" owner:self];
+            PrefsSensorCell *iconCell = [tableView makeViewWithIdentifier:@"Icon" owner:self];
             
             [[iconCell imageView] setObjectValue:[item image]];
             [[iconCell textField] setStringValue:GetLocalizedString([item name])];
@@ -621,9 +622,10 @@
             return iconCell;
         }
         else if ([item isKindOfClass:[NSString class]]) {
-            NSTableCellView *groupCell = [tableView makeViewWithIdentifier:@"Group" owner:self];
+            GroupCell *groupCell = [tableView makeViewWithIdentifier:@"Group" owner:self];
             
             [[groupCell textField] setStringValue:GetLocalizedString(item)];
+            //[groupCell setColorTheme:[_colorThemes objectAtIndex:0]];
             
             return groupCell;
         }
@@ -651,14 +653,15 @@
         
         _hasDraggedFavoriteItem = YES;
     }
-    else {
+    else if (tableView == _sensorsTableView) {
         id item = [self getItemAtIndex:[rowIndexes firstIndex]];
         
         if ([item isKindOfClass:[NSString class]]) {
             return NO;
         }
 //        else if ([item isKindOfClass:[HWMonitorItem class]] && [_favorites containsObject:[item sensor]]) {
-//            return NO;
+//            //return NO;
+//            _currentItemDragOperation = NSDragOperationPrivate;
 //        }
         
         NSData *indexData = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
@@ -676,7 +679,7 @@
 
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)toRow proposedDropOperation:(NSTableViewDropOperation)dropOperation;
 {
-    _currentItemDragOperation = NSDragOperationNone;
+    //_currentItemDragOperation = NSDragOperationNone;
     
     if (tableView == _favoritesTableView) {
         [tableView setDropRow:toRow dropOperation:NSTableViewDropAbove];
@@ -686,28 +689,24 @@
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
         
-        if ([info draggingSource] == _sensorsTableView) {
+        if ([info draggingSource] == _favoritesTableView) {
+            _currentItemDragOperation = toRow < 1 || toRow == fromRow || toRow == fromRow + 1 ? NSDragOperationNone : NSDragOperationMove;
+        }
+        else if ([info draggingSource] == _sensorsTableView) {
             id item = [self getItemAtIndex:fromRow];
             
             if ([item isKindOfClass:[HWMonitorItem class]]) {
-                _currentItemDragOperation = toRow > 0 ? [_favorites containsObject:[item sensor]] ? NSDragOperationPrivate : NSDragOperationCopy : NSDragOperationNone;
+                _currentItemDragOperation = [_favorites containsObject:[item sensor]] ? NSDragOperationPrivate : toRow > 0  ? NSDragOperationCopy : NSDragOperationNone;
             }
             else _currentItemDragOperation = toRow > 0 ? NSDragOperationCopy : NSDragOperationNone;
         }
-        else if ([info draggingSource] == _favoritesTableView) {
-            _currentItemDragOperation = toRow > 0 ? toRow < fromRow || toRow > fromRow + 1 ? NSDragOperationMove : NSDragOperationNone : NSDragOperationDelete;
-        }
+    }
+    else if (tableView == _sensorsTableView) {
+        _currentItemDragOperation = NSDragOperationNone;
     }
     
     return _currentItemDragOperation;
 }
-
-//-(void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint forRowIndexes:(NSIndexSet *)rowIndexes
-//{
-//    if (tableView == _favoritesTableView) {
-//        [session setAnimatesToStartingPositionsOnCancelOrFail:NO];
-//    }
-//}
 
 -(void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {
