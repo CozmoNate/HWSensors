@@ -9,5 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 @interface FadingButton : NSButton
+{
+    NSTrackingArea *_trackingArea;
+}
 
 @end

@@ -278,9 +278,9 @@
 {
     NSString *model = nil;
     
-    CFDictionaryRef matching = IOServiceMatching("IOPlatformExpertDevice");
+    CFDictionaryRef matching = MACH_PORT_NULL;
     
-    if (MACH_PORT_NULL != matching) {
+    if (MACH_PORT_NULL != (matching = IOServiceMatching("FakeSMC"))) {
         io_iterator_t iterator = IO_OBJECT_NULL;
         
         if (kIOReturnSuccess == IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator)) {
@@ -288,11 +288,34 @@
                 
                 io_service_t service = MACH_PORT_NULL;
                 
-                while (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
-                    model = [[NSString alloc] initWithData:(__bridge_transfer NSData *)IORegistryEntryCreateCFProperty(service, CFSTR("model"), kCFAllocatorDefault, 0) encoding:NSASCIIStringEncoding];
+                if (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
+                    model = @"Hackintosh";
+                    
+                    IOObjectRelease(service);
                 }
                 
                 IOObjectRelease(iterator);
+            }
+        }
+    }
+    
+    if (!model) {
+        if (MACH_PORT_NULL != (matching = IOServiceMatching("IOPlatformExpertDevice"))) {
+            io_iterator_t iterator = IO_OBJECT_NULL;
+            
+            if (kIOReturnSuccess == IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator)) {
+                if (IO_OBJECT_NULL != iterator) {
+                    
+                    io_service_t service = MACH_PORT_NULL;
+                    
+                    if (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
+                        model = [[NSString alloc] initWithData:(__bridge_transfer NSData *)IORegistryEntryCreateCFProperty(service, CFSTR("model"), kCFAllocatorDefault, 0) encoding:NSASCIIStringEncoding];
+                        
+                        IOObjectRelease(service);
+                    }
+                    
+                    IOObjectRelease(iterator);
+                }
             }
         }
     }

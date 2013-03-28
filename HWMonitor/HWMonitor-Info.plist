@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>4154</string>
+	<string>4205</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSUIElement</key>
@@ -34,6 +34,1635 @@
 	<string>NSApplication</string>
 	<key>Platform Profile</key>
 	<dict>
+		<key>Hackintosh</key>
+		<dict>
+			<key>Current</key>
+			<array>
+				<dict>
+					<key>key</key>
+					<string>IC0C</string>
+					<key>title</key>
+					<string>CPU Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IC1C</string>
+					<key>title</key>
+					<string>CPU VccIO</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IC2C</string>
+					<key>title</key>
+					<string>CPU VccSA</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IC5R</string>
+					<key>title</key>
+					<string>CPU DRAM</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IC8R</string>
+					<key>title</key>
+					<string>CPU PLL</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IM0R</string>
+					<key>title</key>
+					<string>Memory Modules</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IW0E</string>
+					<key>title</key>
+					<string>Airport Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>ID0R</string>
+					<key>title</key>
+					<string>Mainboard S0 Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>ID5R</string>
+					<key>title</key>
+					<string>Mainboard S5 Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IB0R</string>
+					<key>title</key>
+					<string>Battery Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IC0G</string>
+					<key>title</key>
+					<string>GPU Core</string>
+				</dict>
+			</array>
+			<key>Frequency</key>
+			<array>
+				<dict>
+					<key>key</key>
+					<string>CC0C</string>
+					<key>title</key>
+					<string>CPU Core 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CC1C</string>
+					<key>title</key>
+					<string>CPU Core 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CC2C</string>
+					<key>title</key>
+					<string>CPU Core 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CC3C</string>
+					<key>title</key>
+					<string>CPU Core 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CC4C</string>
+					<key>title</key>
+					<string>CPU Core 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CC5C</string>
+					<key>title</key>
+					<string>CPU Core 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CC6C</string>
+					<key>title</key>
+					<string>CPU Core 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CC7C</string>
+					<key>title</key>
+					<string>CPU Core 8</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CCPC</string>
+					<key>title</key>
+					<string>CPU Core Package</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG0C</string>
+					<key>title</key>
+					<string>GPU Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG1C</string>
+					<key>title</key>
+					<string>GPU 2 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG2C</string>
+					<key>title</key>
+					<string>GPU 3 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG3C</string>
+					<key>title</key>
+					<string>GPU 4 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG0M</string>
+					<key>title</key>
+					<string>GPU Memory</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG1M</string>
+					<key>title</key>
+					<string>GPU 2 Memory</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG2M</string>
+					<key>title</key>
+					<string>GPU 3 Memory</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG3M</string>
+					<key>title</key>
+					<string>GPU 4 Memory</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG0S</string>
+					<key>title</key>
+					<string>GPU Shader</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG1S</string>
+					<key>title</key>
+					<string>GPU 2 Shader</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG2S</string>
+					<key>title</key>
+					<string>GPU 3 Shader</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG3S</string>
+					<key>title</key>
+					<string>GPU 4 Shader</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG0R</string>
+					<key>title</key>
+					<string>GPU ROP</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG1R</string>
+					<key>title</key>
+					<string>GPU 2 ROP</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG2R</string>
+					<key>title</key>
+					<string>GPU 3 ROP</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>CG3R</string>
+					<key>title</key>
+					<string>GPU 4 ROP</string>
+				</dict>
+			</array>
+			<key>Multiplier</key>
+			<array>
+				<dict>
+					<key>key</key>
+					<string>MlC0</string>
+					<key>title</key>
+					<string>CPU Core 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MlC1</string>
+					<key>title</key>
+					<string>CPU Core 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MlC2</string>
+					<key>title</key>
+					<string>CPU Core 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MlC3</string>
+					<key>title</key>
+					<string>CPU Core 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MlC4</string>
+					<key>title</key>
+					<string>CPU Core 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MlC5</string>
+					<key>title</key>
+					<string>CPU Core 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MlC6</string>
+					<key>title</key>
+					<string>CPU Core 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MlC7</string>
+					<key>title</key>
+					<string>CPU Core 8</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MC0C</string>
+					<key>title</key>
+					<string>CPU Core 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MC1C</string>
+					<key>title</key>
+					<string>CPU Core 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MC2C</string>
+					<key>title</key>
+					<string>CPU Core 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MC3C</string>
+					<key>title</key>
+					<string>CPU Core 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MC4C</string>
+					<key>title</key>
+					<string>CPU Core 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MC5C</string>
+					<key>title</key>
+					<string>CPU Core 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MC6C</string>
+					<key>title</key>
+					<string>CPU Core 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MC7C</string>
+					<key>title</key>
+					<string>CPU Core 8</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MlCP</string>
+					<key>title</key>
+					<string>CPU Package Multiplier</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>MPkC</string>
+					<key>title</key>
+					<string>CPU Package Multiplier</string>
+				</dict>
+			</array>
+			<key>Power</key>
+			<array>
+				<dict>
+					<key>key</key>
+					<string>PC0C</string>
+					<key>title</key>
+					<string>CPU Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PC1C</string>
+					<key>title</key>
+					<string>CPU 2 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PCAC</string>
+					<key>title</key>
+					<string>CPU Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PCBC</string>
+					<key>title</key>
+					<string>CPU 2 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PCPC</string>
+					<key>title</key>
+					<string>CPU Package Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PCPG</string>
+					<key>title</key>
+					<string>CPU Package GFX</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PCPT</string>
+					<key>title</key>
+					<string>CPU Package Total</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PC1R</string>
+					<key>title</key>
+					<string>CPU Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PC5R</string>
+					<key>title</key>
+					<string>CPU 1.5V S0 Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PM0R</string>
+					<key>title</key>
+					<string>Memory Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PMAS</string>
+					<key>title</key>
+					<string>DIMM Riser 1 12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PMBS</string>
+					<key>title</key>
+					<string>DIMM Riser 2 12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PC0G</string>
+					<key>title</key>
+					<string>GPU Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PG0R</string>
+					<key>title</key>
+					<string>GPU Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Pe1S</string>
+					<key>title</key>
+					<string>PCIe Slot 1 +12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Pe2S</string>
+					<key>title</key>
+					<string>PCIe Slot 2 +12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Pe3S</string>
+					<key>title</key>
+					<string>PCIe Slot 3 +12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Pe4S</string>
+					<key>title</key>
+					<string>PCIe Slot 4 +12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PeAS</string>
+					<key>title</key>
+					<string>PCIe Slot Boost 1 +12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PeBS</string>
+					<key>title</key>
+					<string>PCIe Slot Boost 2 +12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PeCS</string>
+					<key>title</key>
+					<string>PCIe Slot Boost 3 +12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PeDS</string>
+					<key>title</key>
+					<string>PCIe Slot Boost 4 +12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PD0R</string>
+					<key>title</key>
+					<string>Mainboard S0 Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PD5R</string>
+					<key>title</key>
+					<string>Mainboard S5 Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Pp0C</string>
+					<key>title</key>
+					<string>Power Supply 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Pp1C</string>
+					<key>title</key>
+					<string>Power Supply 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PDTR</string>
+					<key>title</key>
+					<string>System Total</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PZ1G</string>
+					<key>title</key>
+					<string>Zone 1 Average</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PZ2G</string>
+					<key>title</key>
+					<string>Zone 2 Average</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PZ3G</string>
+					<key>title</key>
+					<string>Zone 3 Average</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PZ4G</string>
+					<key>title</key>
+					<string>Zone 4 Average</string>
+				</dict>
+			</array>
+			<key>Temperatures</key>
+			<array>
+				<dict>
+					<key>key</key>
+					<string>TA0p</string>
+					<key>title</key>
+					<string>Ambient</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC0D</string>
+					<key>title</key>
+					<string>CPU Die 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC1D</string>
+					<key>title</key>
+					<string>CPU Die 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC2D</string>
+					<key>title</key>
+					<string>CPU Die 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC3D</string>
+					<key>title</key>
+					<string>CPU Die 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC4D</string>
+					<key>title</key>
+					<string>CPU Die 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC5D</string>
+					<key>title</key>
+					<string>CPU Die 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC6D</string>
+					<key>title</key>
+					<string>CPU Die 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC7D</string>
+					<key>title</key>
+					<string>CPU Die 8</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC0C</string>
+					<key>title</key>
+					<string>CPU Core 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC1C</string>
+					<key>title</key>
+					<string>CPU Core 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC2C</string>
+					<key>title</key>
+					<string>CPU Core 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC3C</string>
+					<key>title</key>
+					<string>CPU Core 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC4C</string>
+					<key>title</key>
+					<string>CPU Core 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC5C</string>
+					<key>title</key>
+					<string>CPU Core 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC6C</string>
+					<key>title</key>
+					<string>CPU Core 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC7C</string>
+					<key>title</key>
+					<string>CPU Core 8</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCAD</string>
+					<key>title</key>
+					<string>CPU 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCBD</string>
+					<key>title</key>
+					<string>CPU 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC0H</string>
+					<key>title</key>
+					<string>CPU Heatsink</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC1H</string>
+					<key>title</key>
+					<string>CPU 2 Heatsink</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCAH</string>
+					<key>title</key>
+					<string>CPU Heatsink</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCBH</string>
+					<key>title</key>
+					<string>CPU 2 Heatsink</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Th0H</string>
+					<key>title</key>
+					<string>CPU Heatsink</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC0P</string>
+					<key>title</key>
+					<string>CPU Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC1P</string>
+					<key>title</key>
+					<string>CPU 2 Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCPC</string>
+					<key>title</key>
+					<string>CPU Core Package</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCXC</string>
+					<key>title</key>
+					<string>PECI CPU</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCXc</string>
+					<key>title</key>
+					<string>PECI CPU</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCSC</string>
+					<key>title</key>
+					<string>PECI SA</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCSc</string>
+					<key>title</key>
+					<string>PECI SA</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCSA</string>
+					<key>title</key>
+					<string>PECI SA</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCGC</string>
+					<key>title</key>
+					<string>PECI GPU</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCGc</string>
+					<key>title</key>
+					<string>PECI GPU</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TN0D</string>
+					<key>title</key>
+					<string>Northbridge Die</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TN1D</string>
+					<key>title</key>
+					<string>Northbridge 2 Die</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TN0P</string>
+					<key>title</key>
+					<string>Northbridge Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TN1P</string>
+					<key>title</key>
+					<string>Northbridge 2 Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TN0C</string>
+					<key>title</key>
+					<string>MCH Die</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TN0H</string>
+					<key>title</key>
+					<string>MCH Heatsink</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TP0D</string>
+					<key>title</key>
+					<string>PCH Die</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TPCD</string>
+					<key>title</key>
+					<string>PCH Die</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TP0P</string>
+					<key>title</key>
+					<string>PCH Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM0P</string>
+					<key>title</key>
+					<string>Memory Bank 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM1P</string>
+					<key>title</key>
+					<string>Memory Bank 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM2P</string>
+					<key>title</key>
+					<string>Memory Bank 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM3P</string>
+					<key>title</key>
+					<string>Memory Bank 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM4P</string>
+					<key>title</key>
+					<string>Memory Bank 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM5P</string>
+					<key>title</key>
+					<string>Memory Bank 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM6P</string>
+					<key>title</key>
+					<string>Memory Bank 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM7P</string>
+					<key>title</key>
+					<string>Memory Bank 8</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM0S</string>
+					<key>title</key>
+					<string>Memory Module 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM1S</string>
+					<key>title</key>
+					<string>Memory Module 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM2S</string>
+					<key>title</key>
+					<string>Memory Module 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM3S</string>
+					<key>title</key>
+					<string>Memory Module 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM4S</string>
+					<key>title</key>
+					<string>Memory Module 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM5S</string>
+					<key>title</key>
+					<string>Memory Module 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM6S</string>
+					<key>title</key>
+					<string>Memory Module 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM7S</string>
+					<key>title</key>
+					<string>Memory Module 8</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMA1</string>
+					<key>title</key>
+					<string>Memory Slot 0</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMA2</string>
+					<key>title</key>
+					<string>Memory Slot 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMA3</string>
+					<key>title</key>
+					<string>Memory Slot 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMA4</string>
+					<key>title</key>
+					<string>Memory Slot 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMB1</string>
+					<key>title</key>
+					<string>Memory Slot 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMB2</string>
+					<key>title</key>
+					<string>Memory Slot 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMB3</string>
+					<key>title</key>
+					<string>Memory Slot 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMB4</string>
+					<key>title</key>
+					<string>Memory Slot 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TL0p</string>
+					<key>title</key>
+					<string>LCD Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TW0P</string>
+					<key>title</key>
+					<string>Airport Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TO0P</string>
+					<key>title</key>
+					<string>Optical Drive</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH0P</string>
+					<key>title</key>
+					<string>HDD Bay 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH1P</string>
+					<key>title</key>
+					<string>HDD Bay 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH2P</string>
+					<key>title</key>
+					<string>HDD Bay 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH3P</string>
+					<key>title</key>
+					<string>HDD Bay 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH4P</string>
+					<key>title</key>
+					<string>HDD Bay 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH5P</string>
+					<key>title</key>
+					<string>HDD Bay 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH6P</string>
+					<key>title</key>
+					<string>HDD Bay 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH7P</string>
+					<key>title</key>
+					<string>HDD Bay 8</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TB0P</string>
+					<key>title</key>
+					<string>Battery 1 Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TB1P</string>
+					<key>title</key>
+					<string>Battery 2 Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TB2P</string>
+					<key>title</key>
+					<string>Battery 3 Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Tm0P</string>
+					<key>title</key>
+					<string>Mainboard Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Tp1P</string>
+					<key>title</key>
+					<string>Powerboard Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Tp2H</string>
+					<key>title</key>
+					<string>Power Heatsink 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Tp3H</string>
+					<key>title</key>
+					<string>Power Heatsink 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG0D</string>
+					<key>title</key>
+					<string>GPU Die</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG1D</string>
+					<key>title</key>
+					<string>GPU 2 Die</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG2D</string>
+					<key>title</key>
+					<string>GPU 3 Die</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG3D</string>
+					<key>title</key>
+					<string>GPU 4 Die</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG0H</string>
+					<key>title</key>
+					<string>GPU Heatsink</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG1H</string>
+					<key>title</key>
+					<string>GPU 2 Heatsink</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG2H</string>
+					<key>title</key>
+					<string>GPU 3 Heatsink</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG3H</string>
+					<key>title</key>
+					<string>GPU 4 Heatsink</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG0p</string>
+					<key>title</key>
+					<string>GPU Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG1p</string>
+					<key>title</key>
+					<string>GPU 2 Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG2p</string>
+					<key>title</key>
+					<string>GPU 3 Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG3p</string>
+					<key>title</key>
+					<string>GPU 4 Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG0M</string>
+					<key>title</key>
+					<string>GPU Memory</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG1M</string>
+					<key>title</key>
+					<string>GPU 2 Memory</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG2M</string>
+					<key>title</key>
+					<string>GPU 3 Memory</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TG3M</string>
+					<key>title</key>
+					<string>GPU 4 Memory</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Te1S</string>
+					<key>title</key>
+					<string>PCIe SLot 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Te2S</string>
+					<key>title</key>
+					<string>PCIe SLot 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Te3S</string>
+					<key>title</key>
+					<string>PCIe SLot 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Te4S</string>
+					<key>title</key>
+					<string>PCIe SLot 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZ0C</string>
+					<key>title</key>
+					<string>Thermal Zone 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZ1C</string>
+					<key>title</key>
+					<string>Thermal Zone 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZ2C</string>
+					<key>title</key>
+					<string>Thermal Zone 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZ3C</string>
+					<key>title</key>
+					<string>Thermal Zone 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZ4C</string>
+					<key>title</key>
+					<string>Thermal Zone 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZ5C</string>
+					<key>title</key>
+					<string>Thermal Zone 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZ6C</string>
+					<key>title</key>
+					<string>Thermal Zone 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZ7C</string>
+					<key>title</key>
+					<string>Thermal Zone 8</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZ8C</string>
+					<key>title</key>
+					<string>Thermal Zone 9</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZ9C</string>
+					<key>title</key>
+					<string>Thermal Zone A</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZAC</string>
+					<key>title</key>
+					<string>Thermal Zone B</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZBC</string>
+					<key>title</key>
+					<string>Thermal Zone C</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZCC</string>
+					<key>title</key>
+					<string>Thermal Zone D</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZDC</string>
+					<key>title</key>
+					<string>Thermal Zone E</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TZEC</string>
+					<key>title</key>
+					<string>Thermal Zone F</string>
+				</dict>
+			</array>
+			<key>Voltage</key>
+			<array>
+				<dict>
+					<key>key</key>
+					<string>VC0C</string>
+					<key>title</key>
+					<string>CPU Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC1C</string>
+					<key>title</key>
+					<string>CPU 2 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC2C</string>
+					<key>title</key>
+					<string>CPU 3 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC3C</string>
+					<key>title</key>
+					<string>CPU 4 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC4C</string>
+					<key>title</key>
+					<string>CPU 5 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC5C</string>
+					<key>title</key>
+					<string>CPU 6 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC6C</string>
+					<key>title</key>
+					<string>CPU 7 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC7C</string>
+					<key>title</key>
+					<string>CPU 8 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC8C</string>
+					<key>title</key>
+					<string>CPU 9 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VCAC</string>
+					<key>title</key>
+					<string>CPU 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VCBC</string>
+					<key>title</key>
+					<string>CPU 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VM0R</string>
+					<key>title</key>
+					<string>Memory Modules</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VN0C</string>
+					<key>title</key>
+					<string>MCP Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VV2S</string>
+					<key>title</key>
+					<string>Main 3.3V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VV1S</string>
+					<key>title</key>
+					<string>Main 5V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VV9S</string>
+					<key>title</key>
+					<string>Main 12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VV7S</string>
+					<key>title</key>
+					<string>Auxiliary 3.3V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VV8S</string>
+					<key>title</key>
+					<string>Standby 5V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VeES</string>
+					<key>title</key>
+					<string>PCIe 12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VV1R</string>
+					<key>title</key>
+					<string>Power Supply 12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VD0R</string>
+					<key>title</key>
+					<string>Mainboard S0 Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VD5R</string>
+					<key>title</key>
+					<string>Mainboard S5 Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VP0R</string>
+					<key>title</key>
+					<string>12V Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC0G</string>
+					<key>title</key>
+					<string>GPU Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC1G</string>
+					<key>title</key>
+					<string>GPU 2 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC2G</string>
+					<key>title</key>
+					<string>GPU 3 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VC3G</string>
+					<key>title</key>
+					<string>GPU 4 Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VG0R</string>
+					<key>title</key>
+					<string>GPU Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VG1R</string>
+					<key>title</key>
+					<string>GPU 2 Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VG2R</string>
+					<key>title</key>
+					<string>GPU 3 Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VG3R</string>
+					<key>title</key>
+					<string>GPU 4 Rail</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vb0R</string>
+					<key>title</key>
+					<string>CMOS Battery</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VBAT</string>
+					<key>title</key>
+					<string>Battery</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS0C</string>
+					<key>title</key>
+					<string>VRM Supply 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS1C</string>
+					<key>title</key>
+					<string>VRM Supply 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS2C</string>
+					<key>title</key>
+					<string>VRM Supply 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS3C</string>
+					<key>title</key>
+					<string>VRM Supply 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS4C</string>
+					<key>title</key>
+					<string>VRM Supply 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS5C</string>
+					<key>title</key>
+					<string>VRM Supply 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS6C</string>
+					<key>title</key>
+					<string>VRM Supply 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS7C</string>
+					<key>title</key>
+					<string>VRM Supply 8</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS8C</string>
+					<key>title</key>
+					<string>VRM Supply 9</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS9C</string>
+					<key>title</key>
+					<string>VRM Supply A</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VSAC</string>
+					<key>title</key>
+					<string>VRM Supply B</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VSBC</string>
+					<key>title</key>
+					<string>VRM Supply C</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VSCC</string>
+					<key>title</key>
+					<string>VRM Supply D</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VSDC</string>
+					<key>title</key>
+					<string>VRM Supply E</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VSEC</string>
+					<key>title</key>
+					<string>VRM Supply F</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vp0C</string>
+					<key>title</key>
+					<string>Power Supply 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vp1C</string>
+					<key>title</key>
+					<string>Power Supply 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vp2C</string>
+					<key>title</key>
+					<string>Power Supply 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vp3C</string>
+					<key>title</key>
+					<string>Power Supply 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vp4C</string>
+					<key>title</key>
+					<string>Power Supply 5</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vp5C</string>
+					<key>title</key>
+					<string>Power Supply 6</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vp6C</string>
+					<key>title</key>
+					<string>Power Supply 7</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vp7C</string>
+					<key>title</key>
+					<string>Power Supply 8</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vp8C</string>
+					<key>title</key>
+					<string>Power Supply 9</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vp9C</string>
+					<key>title</key>
+					<string>Power Supply A</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VpAC</string>
+					<key>title</key>
+					<string>Power Supply B</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VpBC</string>
+					<key>title</key>
+					<string>Power Supply C</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VpCC</string>
+					<key>title</key>
+					<string>Power Supply D</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VpDC</string>
+					<key>title</key>
+					<string>Power Supply E</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VpEC</string>
+					<key>title</key>
+					<string>Power Supply F</string>
+				</dict>
+			</array>
+		</dict>
 		<key>MacBookPro8,1</key>
 		<dict>
 			<key>Temperatures</key>

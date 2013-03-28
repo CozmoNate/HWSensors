@@ -20,7 +20,7 @@
 			<key>key</key>
 			<string>IC2C</string>
 			<key>title</key>
-			<string>CPU VCCSA</string>
+			<string>CPU VccSA</string>
 		</dict>
 		<dict>
 			<key>key</key>
@@ -57,6 +57,12 @@
 			<string>ID5R</string>
 			<key>title</key>
 			<string>Mainboard S5 Rail</string>
+		</dict>
+		<dict>
+			<key>key</key>
+			<string>IB0R</string>
+			<key>title</key>
+			<string>Battery Rail</string>
 		</dict>
 		<dict>
 			<key>key</key>
@@ -384,12 +390,6 @@
 			<string>PC5R</string>
 			<key>title</key>
 			<string>CPU 1.5V S0 Rail</string>
-		</dict>
-		<dict>
-			<key>key</key>
-			<string>PN0C</string>
-			<key>title</key>
-			<string>Northbridge</string>
 		</dict>
 		<dict>
 			<key>key</key>
@@ -1383,6 +1383,12 @@
 		</dict>
 		<dict>
 			<key>key</key>
+			<string>VP0R</string>
+			<key>title</key>
+			<string>12V Rail</string>
+		</dict>
+		<dict>
+			<key>key</key>
 			<string>VC0G</string>
 			<key>title</key>
 			<string>GPU Core</string>
@@ -1431,7 +1437,7 @@
 		</dict>
 		<dict>
 			<key>key</key>
-			<string>VP0R</string>
+			<string>Vb0R</string>
 			<key>title</key>
 			<string>CMOS Battery</string>
 		</dict>
