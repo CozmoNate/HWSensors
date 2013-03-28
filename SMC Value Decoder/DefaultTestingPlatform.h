@@ -8,7 +8,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface SMC_Value_Decoder : SenTestCase
+@interface DefaultTestingPlatform : SenTestCase
 
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSString* type;

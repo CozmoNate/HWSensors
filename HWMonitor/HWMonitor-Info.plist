@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3.2</string>
+	<string>2.3.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>4100</string>
+	<string>4152</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSUIElement</key>
@@ -32,5 +32,155 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>Platform Profile</key>
+	<dict>
+		<key>MacBookPro8,1</key>
+		<dict>
+			<key>Temperatures</key>
+			<array>
+				<dict>
+					<key>key</key>
+					<string>TC1C</string>
+					<key>title</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC2C</string>
+					<key>title</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC0C</string>
+					<key>title</key>
+					<string>CPU Core 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC0D</string>
+					<key>title</key>
+					<string>CPU Core 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC0E</string>
+					<key>title</key>
+					<string>CPU Core 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC0F</string>
+					<key>title</key>
+					<string>CPU Core 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TC0P</string>
+					<key>title</key>
+					<string>CPU Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TPCD</string>
+					<key>title</key>
+					<string>PCH Die</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TP0P</string>
+					<key>title</key>
+					<string>PCH Proximity</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCGC</string>
+					<key>title</key>
+					<string>PECI GFX</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TCSA</string>
+					<key>title</key>
+					<string>PECI SA</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM0P</string>
+					<key>title</key>
+					<string>DIMM Incoming Air</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TM0S</string>
+					<key>title</key>
+					<string>DIMM Outcoming Air</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Th1H</string>
+					<key>title</key>
+					<string>Internal Heatpipe</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Ts0P</string>
+					<key>title</key>
+					<string>Heatpipe Incoming Air</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Ts0S</string>
+					<key>title</key>
+					<string>Heatpipe Outcoming Air</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TB0T</string>
+					<key>title</key>
+					<string>Battery 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TB1T</string>
+					<key>title</key>
+					<string>Battery 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TB2T</string>
+					<key>title</key>
+					<string>Battery 3</string>
+				</dict>
+			</array>
+			<key>Voltages</key>
+			<array>
+				<dict>
+					<key>key</key>
+					<string>VC0C</string>
+					<key>title</key>
+					<string>CPU Core</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VN0R</string>
+					<key>title</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VP0R</string>
+					<key>title</key>
+					<string>Main 12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VD0R</string>
+					<key>title</key>
+					<string>Mainboard S0 Rail</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
 </dict>
 </plist>

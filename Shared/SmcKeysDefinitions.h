@@ -17,14 +17,14 @@ typedef enum {
     kSMCKeyGroupVoltage,
     kSMCKeyGroupCurrent,
     kSMCKeyGroupPower,
-} SMCKeyGroup;
+} SmcKeyGroup;
 
 typedef struct {
     const char          *key;
     const char          *type;
     UInt8               size;
     const char          *title;
-    SMCKeyGroup         group;
+    SmcKeyGroup         group;
     unsigned char       count;
     unsigned char       offset;
     unsigned char       shift;
@@ -36,6 +36,7 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"TA0p", "sp78", 2, "Ambient", kSMCKeyGroupTemperature, 0, 0, 1},
     
     {"TC%XD", "sp78", 2, "CPU Die %X", kSMCKeyGroupTemperature, 8, 0, 1},
+    {"TC%XC", "sp78", 2, "CPU Core %X", kSMCKeyGroupTemperature, 8, 0, 1},
     {"TC%XD", "sp78", 2, "CPU %X", kSMCKeyGroupTemperature, 2, 0xA, 1},
     
     {"TC0H", "sp78", 2, "CPU Heatsink", kSMCKeyGroupTemperature, 0, 0, 1},
@@ -43,7 +44,6 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"TCAH", "sp78", 2, "CPU Heatsink", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TC%XH", "sp78", 2, "CPU %X Heatsink", kSMCKeyGroupTemperature, 1, 0xB, 2},
     {"Th0H", "sp78", 2, "CPU Heatsink", kSMCKeyGroupTemperature, 0, 0, 1},
-    {"Th%XH", "sp78", 2, "CPU %X Heatsink", kSMCKeyGroupTemperature, 1, 1, 2},
     {"TC0P", "sp78", 2, "CPU Proximity", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TC%XP", "sp78", 2, "CPU %X Proximity", kSMCKeyGroupTemperature, 1, 1, 2},
     
@@ -53,6 +53,8 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"TCXc", "sp78", 2, "PECI CPU", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TCSC", "sp78", 2, "PECI SA", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TCSc", "sp78", 2, "PECI SA", kSMCKeyGroupTemperature, 0, 0, 1},
+    {"TCSA", "sp78", 2, "PECI SA", kSMCKeyGroupTemperature, 0, 0, 1}, // ??
+    
     {"TCGC", "sp78", 2, "PECI GPU", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TCGc", "sp78", 2, "PECI GPU", kSMCKeyGroupTemperature, 0, 0, 1},
     
@@ -73,7 +75,8 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"TW0P", "sp78", 2, "Airport Proximity", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TO0P", "sp78", 2, "Optical Drive", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TH%XP", "sp78", 2, "HDD Bay %X", kSMCKeyGroupTemperature, 8, 0, 1},
-    {"Tb0P", "sp78", 2, "Battery Proximity", kSMCKeyGroupTemperature, 0, 0, 1},
+    //{"Tb%XP", "sp78", 2, "Battery %X Proximity", kSMCKeyGroupTemperature, 3, 0, 1},
+    {"TB%XP", "sp78", 2, "Battery %X Proximity", kSMCKeyGroupTemperature, 3, 0, 1},
     {"Tm0P", "sp78", 2, "Mainboard Proximity", kSMCKeyGroupTemperature, 0, 0, 1},
     {"Tp1P", "sp78", 2, "Powerboard Proximity", kSMCKeyGroupTemperature, 0, 0, 1},
     {"Tp2H", "sp78", 2, "Power Heatsink 1", kSMCKeyGroupTemperature, 0, 0, 1},
@@ -88,7 +91,7 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"TG0M", "sp78", 2, "GPU Memory", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TG%XM", "sp78", 2, "GPU %X Memory", kSMCKeyGroupTemperature, 3, 1, 2},
     
-    {"Te%XS", "sp78", 2, "PCIe SLot %X", kSMCKeyGroupTemperature, 4, 1, 2}, // ?
+    {"Te%XS", "sp78", 2, "PCIe SLot %X", kSMCKeyGroupTemperature, 4, 1, 1}, // ?
     
     {"TZ%XC", "sp78", 2, "Thermal Zone %X", kSMCKeyGroupTemperature, 0xf, 0, 1}, // ACPISensors
 
@@ -130,6 +133,7 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"VV1R", "sp4b", 2, "Power Supply 12V", kSMCKeyGroupVoltage, 0, 0, 1},
     {"VD0R", "sp4b", 2, "Mainboard S0 Rail", kSMCKeyGroupVoltage, 0, 0, 1},
     {"VD5R", "sp4b", 2, "Mainboard S5 Rail", kSMCKeyGroupVoltage, 0, 0, 1},
+    {"VP0R", "sp4b", 2, "12V Rail", kSMCKeyGroupVoltage, 0, 0, 1},
     /*{"Vp0C", "sp4b", 2, "12V Vcc", kSMCKeyGroupVoltage, 0, 0, 1},
     {"Vp1C", "sp4b", 2, "5V Vcc", kSMCKeyGroupVoltage, 0, 0, 1},
     {"Vp2C", "sp4b", 2, "5V VSB", kSMCKeyGroupVoltage, 0, 0, 1},
@@ -140,7 +144,7 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"VG0R", "sp4b", 2, "GPU Rail", kSMCKeyGroupVoltage, 0, 0, 1},
     {"VG%XR", "sp4b", 2, "GPU %X Rail", kSMCKeyGroupVoltage, 3, 1, 2},
     
-    {"VP0R", "sp1e", 2, "CMOS Battery", kSMCKeyGroupVoltage, 0, 0, 1}, // LPCSensors
+    {"Vb0R", "sp1e", 2, "CMOS Battery", kSMCKeyGroupVoltage, 0, 0, 1}, // LPCSensors
     {"VBAT", "sp4b", 2, "Battery", kSMCKeyGroupVoltage, 0, 0, 1},
     
     {"VS%XC", "sp4b", 2, "VRM Supply %X", kSMCKeyGroupVoltage, 0xf, 0, 1}, // ?
@@ -149,15 +153,15 @@ const SMCKeyInfo SMCKeyInfoList[] =
     // Current
     {"IC0C", "sp78", 2, "CPU Core", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"IC1C", "sp78", 2, "CPU VccIO", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
-    {"IC2C", "sp78", 2, "CPU VCCSA", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
+    {"IC2C", "sp78", 2, "CPU VccSA", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"IC5R", "sp78", 2, "CPU DRAM", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"IC8R", "sp78", 2, "CPU PLL", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"IM0R", "sp5a", 2, "Memory Modules", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"IW0E", "sp5a", 2, "Airport Rail", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"ID0R", "sp5a", 2, "Mainboard S0 Rail", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"ID5R", "sp4b", 2, "Mainboard S5 Rail", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
+    {"IB0R", "sp4b", 2, "Battery Rail", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
     {"IC0G", "sp69", 2, "GPU Core", kSMCKeyGroupCurrent, 0, 0, 1}, // ?
-    
     
     // Power
     {"PC0C", "sp96", 2, "CPU Core", kSMCKeyGroupPower, 0, 0, 1}, // ?
@@ -169,7 +173,7 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"PCPT", "sp96", 2, "CPU Package Total", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PC1R", "sp96", 2, "CPU Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PC5R", "sp96", 2, "CPU 1.5V S0 Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
-    {"PN0C", "sp96", 2, "Northbridge", kSMCKeyGroupPower, 0, 0, 1}, // ?
+    //{"PN0C", "sp96", 2, "Northbridge", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PM0R", "sp96", 2, "Memory Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PM%XS", "sp96", 2, "DIMM Riser %X 12V", kSMCKeyGroupPower, 2, 0xA, 1}, // ?
     {"PC0G", "sp96", 2, "GPU Core", kSMCKeyGroupPower, 0, 0, 1}, // ?
@@ -180,7 +184,7 @@ const SMCKeyInfo SMCKeyInfoList[] =
     {"PD5R", "sp96", 2, "Mainboard S5 Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"Pp%XC", "sp96", 2, "Power Supply %X", kSMCKeyGroupPower, 2, 0, 1}, // ?
     {"PDTR", "sp96", 2, "System Total", kSMCKeyGroupPower, 0, 0, 1}, // ?
-    {"PZ%XG", "sp96", 2, "Zone%X Average", kSMCKeyGroupPower, 4, 1, 1}, // ?
+    {"PZ%XG", "sp96", 2, "Zone %X Average", kSMCKeyGroupPower, 4, 1, 1}, // ?
 };
 
 #endif

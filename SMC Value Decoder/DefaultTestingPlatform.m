@@ -6,11 +6,12 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import "SMC_Value_Decoder.h"
+#import "DefaultTestingPlatform.h"
 
 #import "FakeSMCDefinitions.h"
+#import "SmcKeysDefinitions.h"
 
-@implementation SMC_Value_Decoder
+@implementation DefaultTestingPlatform
 
 - (void)setUp
 {
@@ -18,10 +19,10 @@
     
     // Set-up code here.
     
-    _name = @"IC0C";
-    _type = @"sp78";
+    _name = @"VN0R";
+    _type = @"sp3c";
     
-    UInt16 data = OSSwapHostToBigInt16(0x09eb); // Big Endian
+    UInt16 data = OSSwapHostToBigInt16(0x0854); // Big Endian
     
     _data = [NSData dataWithBytes:&data length:2];
 }
@@ -121,10 +122,94 @@
     return 0;
 }
 
-- (void)testDecode
+- (void)testValueDecode
 {
     NSLog(@"Decoded Key \"%@\" Value Is %f", _name, [self decodeNumericValue]);
     //STFail(@"Unit tests are not implemented yet in SMC Value Decoder");
+}
+
+- (void)testGetMacModel
+{
+    CFDictionaryRef matching = IOServiceMatching("IOPlatformExpertDevice");
+
+    if (MACH_PORT_NULL != matching) {
+        io_iterator_t iterator = IO_OBJECT_NULL;
+
+        if (kIOReturnSuccess == IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator)) {
+            if (IO_OBJECT_NULL != iterator) {
+
+                io_service_t service = MACH_PORT_NULL;
+
+                while (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
+                    NSString *model = [[NSString alloc] initWithData:(__bridge_transfer NSData *)IORegistryEntryCreateCFProperty(service, CFSTR("model"), kCFAllocatorDefault, 0) encoding:NSASCIIStringEncoding];
+
+                    NSLog(@"Mac model is %@", model);
+                }
+
+                IOObjectRelease(iterator);
+            }
+        }
+    }
+}
+
+- (NSIndexSet*)getKeyInfosInGroup:(SmcKeyGroup)group
+{
+    int count = sizeof(SMCKeyInfoList) / sizeof(SMCKeyInfo);
+    
+    NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+    
+    for (int index = 0; index < count; index++) {
+        if (SMCKeyInfoList[index].group == group) {
+            [indexSet addIndex:index];
+        }
+    }
+    
+    return indexSet;
+}
+
+- (NSArray*)addSensorsFromSMCKeyGroup:(SmcKeyGroup)fromGroup
+{
+    NSMutableArray *list = [NSMutableArray new];
+    
+    [[self getKeyInfosInGroup:fromGroup] enumerateIndexesWithOptions:NSSortStable usingBlock:^(NSUInteger idx, BOOL *stop) {
+        if (SMCKeyInfoList[idx].count) {
+            NSString *keyFormat = [NSString stringWithCString:SMCKeyInfoList[idx].key encoding:NSASCIIStringEncoding];
+            NSString *titleFormat = [NSString stringWithCString:SMCKeyInfoList[idx].title encoding:NSASCIIStringEncoding];
+            
+            for (NSUInteger index = 0; index < SMCKeyInfoList[idx].count; index++) {
+                [list addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSString stringWithFormat:keyFormat, index + SMCKeyInfoList[idx].offset], @"key",
+                                 [NSString stringWithFormat:titleFormat, index + SMCKeyInfoList[idx].shift], @"title",
+                                 nil]];
+            }
+        }
+        else {
+            NSString *key = [NSString stringWithCString:SMCKeyInfoList[idx].key encoding:NSASCIIStringEncoding];
+            NSString *title = [NSString stringWithCString:SMCKeyInfoList[idx].title encoding:NSASCIIStringEncoding];
+            
+            [list addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                             key, @"key",
+                             title, @"title",
+                             nil]];
+        }
+    }];
+    
+    return list;
+}
+
+- (void)testExportSmcKeys
+{
+    NSMutableDictionary *list = [NSMutableDictionary new];
+    
+    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupTemperature] forKey:@"Temperatures"];
+    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupMultiplier] forKey:@"Multiplier"];
+    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupFrequency] forKey:@"Frequency"];
+    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupVoltage] forKey:@"Voltage"];
+    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupCurrent] forKey:@"Current"];
+    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupPower] forKey:@"Power"];
+    
+    [list writeToFile:@"/Users/kozlek/Documents/HWSensors/SMCKeyS.plist" atomically:YES];
+    
 }
 
 @end

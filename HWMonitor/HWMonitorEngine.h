@@ -41,6 +41,8 @@
     NSMutableArray *_sensors;
     NSMutableDictionary *_keys;
     NSLock *_sensorsLock;
+    
+    NSDictionary *_platformOverrides;
 }
 
 @property (nonatomic, strong) NSBundle* bundle;
@@ -49,7 +51,7 @@
 @property (readonly) NSDictionary *keys;
 
 @property (nonatomic, setter = setUseFahrenheit:) BOOL useFahrenheit;
-@property (nonatomic, setter = setUseBSDNames:) BOOL useBSDNames;
+@property (nonatomic, setter = setUseBsdNames:) BOOL useBsdNames;
 
 + (HWMonitorEngine*)engineWithBundle:(NSBundle*)bundle;
 
@@ -57,7 +59,7 @@
 + (NSData*)copyValueFromKeyInfo:(NSArray*)info;
 
 - (HWMonitorSensor*)addSensorWithKey:(NSString*)key title:(NSString*)title group:(NSUInteger)group;
-- (HWMonitorSensor*)addSMARTSensorWithGenericDisk:(ATAGenericDrive*)disk group:(NSUInteger)group;
+- (HWMonitorSensor*)addSmartSensorWithGenericDisk:(ATAGenericDrive*)disk group:(NSUInteger)group;
 - (HWMonitorSensor*)addBluetoothSensorWithGenericDevice:(BluetoothGenericDevice*)device group:(NSUInteger)group;
 
 - (id)init;
