@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>4414</string>
+	<string>4416</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSUIElement</key>
@@ -183,6 +183,138 @@
 		</dict>
 		<key>MacPro5,1</key>
 		<dict>
+			<key>Currents</key>
+			<array>
+				<dict>
+					<key>key</key>
+					<string>ICAC</string>
+					<key>title</key>
+					<string>CPU A</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>ICBC</string>
+					<key>title</key>
+					<string>CPU B</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IMAS</string>
+					<key>title</key>
+					<string>Memory Bank A</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IMBS</string>
+					<key>title</key>
+					<string>Memory Bank B</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IN0C</string>
+					<key>title</key>
+					<string>PCH</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Ie1S</string>
+					<key>title</key>
+					<string>PCIe Slot 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Ie2S</string>
+					<key>title</key>
+					<string>PCIe Slot 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Ie3S</string>
+					<key>title</key>
+					<string>PCIe Slot 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Ie4S</string>
+					<key>title</key>
+					<string>PCIe Slot 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Ip0C</string>
+					<key>title</key>
+					<string>Power Supply, +12V</string>
+				</dict>
+			</array>
+			<key>Powers</key>
+			<array>
+				<dict>
+					<key>key</key>
+					<string>PCAC</string>
+					<key>title</key>
+					<string>CPU A</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PCBC</string>
+					<key>title</key>
+					<string>CPU B</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PMAS</string>
+					<key>title</key>
+					<string>Memory Bank A</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PMBS</string>
+					<key>title</key>
+					<string>Memory Bank B</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PN0C</string>
+					<key>title</key>
+					<string>PCH</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Pe1S</string>
+					<key>title</key>
+					<string>PCIe Slot 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Pe2S</string>
+					<key>title</key>
+					<string>PCIe Slot 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Pe3S</string>
+					<key>title</key>
+					<string>PCIe Slot 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Pe4S</string>
+					<key>title</key>
+					<string>PCIe Slot 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PpSM</string>
+					<key>title</key>
+					<string>Power Supply, Memory</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Pp0C</string>
+					<key>title</key>
+					<string>Power Supply, +12V</string>
+				</dict>
+			</array>
 			<key>Temperatures</key>
 			<array>
 				<dict>
@@ -232,6 +364,135 @@
 					<string>TN0H</string>
 					<key>title</key>
 					<string>PCH Heatsink</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMA1</string>
+					<key>title</key>
+					<string>Memory Bank A, Dimm 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMA2</string>
+					<key>title</key>
+					<string>Memory Bank A, Dimm 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMA3</string>
+					<key>title</key>
+					<string>Memory Bank A, Dimm 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMA4</string>
+					<key>title</key>
+					<string>Memory Bank A, Dimm 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMB1</string>
+					<key>title</key>
+					<string>Memory Bank B, Dimm 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMB2</string>
+					<key>title</key>
+					<string>Memory Bank B, Dimm 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMB3</string>
+					<key>title</key>
+					<string>Memory Bank B, Dimm 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TMB4</string>
+					<key>title</key>
+					<string>Memory Bank B, Dimm 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH1P</string>
+					<key>title</key>
+					<string>HDD Bay 1</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH2P</string>
+					<key>title</key>
+					<string>HDD Bay 2</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH3P</string>
+					<key>title</key>
+					<string>HDD Bay 3</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TH4P</string>
+					<key>title</key>
+					<string>HDD Bay 4</string>
+				</dict>
+			</array>
+			<key>Voltages</key>
+			<array>
+				<dict>
+					<key>key</key>
+					<string>VCAC</string>
+					<key>title</key>
+					<string>CPU A</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VCBC</string>
+					<key>title</key>
+					<string>CPU B</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VMAS</string>
+					<key>title</key>
+					<string>Memory Bank A</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VMBS</string>
+					<key>title</key>
+					<string>Memory Bank B</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VN0C</string>
+					<key>title</key>
+					<string>PCH</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS2C</string>
+					<key>title</key>
+					<string>Memory Modules</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS8C</string>
+					<key>title</key>
+					<string>Main 3.3V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>Vp0C</string>
+					<key>title</key>
+					<string>Main 12V</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>VS1C</string>
+					<key>title</key>
+					<string>VRM Supply 1</string>
 				</dict>
 			</array>
 		</dict>

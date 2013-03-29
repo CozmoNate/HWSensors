@@ -19,10 +19,10 @@
     
     // Set-up code here.
     
-    _name = @"VN0R";
-    _type = @"sp3c";
+    _name = @"VH2I";
+    _type = @"sp78";
     
-    UInt16 data = OSSwapHostToBigInt16(0x0854); // Big Endian
+    UInt16 data = OSSwapHostToBigInt16(0x0535); // Big Endian
     
     _data = [NSData dataWithBytes:&data length:2];
 }
