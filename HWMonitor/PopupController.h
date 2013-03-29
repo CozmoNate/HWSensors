@@ -56,6 +56,7 @@
 - (void) updateValuesForSensors:(NSArray*)sensors;
 
 - (IBAction)closeApplication:(id)sender;
+- (IBAction)showAboutWindow:(id)sender;
 - (IBAction)openPreferences:(id)sender;
 - (IBAction)showGraphs:(id)sender;
 

@@ -79,7 +79,6 @@
     [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
 }
 
-
 - (void)windowWillClose:(NSNotification *)notification
 {
     [self closePanel];
@@ -230,6 +229,12 @@
     [NSApp terminate:nil];
 }
 
+- (IBAction)showAboutWindow:(id)sender
+{
+    [NSApp activateIgnoringOtherApps:YES];
+    [NSApp orderFrontStandardAboutPanel:nil];
+}
+
 - (IBAction)openPreferences:(id)sender
 {
     [NSApp activateIgnoringOtherApps:YES];
@@ -247,7 +252,7 @@
     _items = [[NSMutableArray alloc] init];
     
     // Add special toolbar item
-    [_items addObject:@"Toolbar"];
+    //[_items addObject:@"Toolbar"];
     
     if ([groups count] > 0) {
         for (HWMonitorGroup *group in groups) {
@@ -269,7 +274,7 @@
     [self reloadData];
 }
 
-- (void) reloadData
+- (void)reloadData
 {
     [_tableView reloadData];
     
@@ -279,7 +284,12 @@
     [[self window] setFrame:NSMakeRect(0, 0, 8, 8) display:NO];
     
     // Resize panel height to fit all table view content
-    panelRect.size.height = [_tableView frame].size.height + ARROW_HEIGHT + CORNER_RADIUS;
+    panelRect.size.height = [_tableView frame].size.height + ARROW_HEIGHT + kHWMonitorToolbarHeight + CORNER_RADIUS;
+    
+    if ([[NSScreen mainScreen] visibleFrame].size.height < panelRect.size.height) {
+        panelRect.size.height = [[NSScreen mainScreen] visibleFrame].size.height - ARROW_OFFSET * 2;
+    }
+    
     [[self window] setFrame:panelRect display:NO];
     
     [_statusItemView setNeedsDisplay:YES];
@@ -363,9 +373,9 @@
             return 17;
         }
     }
-    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
-        return kHWMonitorToolbarHeight;
-    }
+//    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
+//        return kHWMonitorToolbarHeight;
+//    }
 
 
     return 17;
@@ -373,8 +383,19 @@
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
-    return false;
+    return NO;
 }
+
+//- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
+//{
+//    id item = [_items objectAtIndex:row];
+//    
+//    if ([item isKindOfClass:[HWMonitorGroup class]]) {
+//        return _hasScroller;
+//    }
+//    
+//    return NO;
+//}
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
@@ -423,13 +444,13 @@
         
         return cell;
     }
-    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
-        NSTableCellView *buttonsCell = [tableView makeViewWithIdentifier:item owner:self];
-        
-        [buttonsCell.textField setTextColor:_colorTheme.toolbarTitleColor];
-        
-        return buttonsCell;
-    }
+//    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
+//        NSTableCellView *buttonsCell = [tableView makeViewWithIdentifier:item owner:self];
+//        
+//        [buttonsCell.textField setTextColor:_colorTheme.toolbarTitleColor];
+//        
+//        return buttonsCell;
+//    }
     else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Dummy"]) {
         NSTableCellView *dummyCell = [tableView makeViewWithIdentifier:item owner:self];
         

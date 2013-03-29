@@ -8,9 +8,9 @@
 
 #import "FadingButton.h"
 
-#define NORMAL_OPACITY  0.7
+#define NORMAL_OPACITY  1.0
 #define HOVER_OPACITY   0.85
-#define DOWN_OPACITY    1.0
+#define DOWN_OPACITY    0.5
 
 @implementation FadingButton
 
@@ -41,6 +41,13 @@
     return self;
 }
 
+- (void)dealloc
+{
+    for (NSTrackingArea *area in [self trackingAreas]) {
+		[self removeTrackingArea:area];
+    }
+}
+
 - (void)awakeFromNib
 {
     [self setAlphaValue:NORMAL_OPACITY];
@@ -50,14 +57,12 @@
 {
     [super updateTrackingAreas];
     
-    if (_trackingArea)
-    {
-        [self removeTrackingArea:_trackingArea];
+    for (NSTrackingArea *area in [self trackingAreas]) {
+		[self removeTrackingArea:area];
     }
     
     NSTrackingAreaOptions options = NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow;
-    _trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect options:options owner:self userInfo:nil];
-    [self addTrackingArea:_trackingArea];
+    [self addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:options owner:self userInfo:nil]];
 }
 
 -(void)mouseEntered:(NSEvent *)theEvent

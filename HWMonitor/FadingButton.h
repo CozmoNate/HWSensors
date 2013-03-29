@@ -6,11 +6,6 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
 @interface FadingButton : NSButton
-{
-    NSTrackingArea *_trackingArea;
-}
 
 @end

@@ -69,7 +69,7 @@
     return [[BluetoothGenericDevice alloc] initWithService:service ofType:type];
 }
 
--(void)dealloc
+- (void)dealloc
 {
     if (MACH_PORT_NULL != _service) {
         IOObjectRelease(_service);

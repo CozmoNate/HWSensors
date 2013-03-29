@@ -64,7 +64,6 @@
 
 - (id)init;
 - (id)initWithBundle:(NSBundle*)mainBundle;
-- (void)dealloc;
 
 - (NSArray*)populateInfoForKey:(NSString *)key;
 - (void)rebuildSensorsList;

@@ -365,6 +365,7 @@
         SMCClose(_connection);
         _connection = 0;
     }
+    
 }
 
 - (NSIndexSet*)getKeyInfosInGroup:(SmcKeyGroup)group

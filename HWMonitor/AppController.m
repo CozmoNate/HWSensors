@@ -292,7 +292,7 @@
     //[self addItem:@"Sensors" forKey:@"Sensors"];
     
     for (HWMonitorGroup *group in _groups) {
-        if ([group checkVisibility]) {
+        if ([[group items] count]) {
             [self addItem:[group title] forKey:[group title]];
         }
         

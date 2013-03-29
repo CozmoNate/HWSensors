@@ -28,6 +28,7 @@
 			<string>FakeSMCPlugin</string>
 			<key>IONameMatch</key>
 			<array>
+				<string>monitor</string>
 				<string>MONITOR</string>
 				<string>MON0000</string>
 				<string>FAN0000</string>
