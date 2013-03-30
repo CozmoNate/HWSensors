@@ -37,8 +37,12 @@
 "GPU Fan 3" = "GPU 4 Fan";
 "CPU_MEM" = "CPU/Memory Fan";
 "IO" = "Expansion Fan";
+"PCI" = "Expansion Fan";
+"INTAKE" = "Intake Fan";
 "EXHAUST" = "Exhaust Fan";
 "PS" = "Power Supply Fan";
 "Main" = "Main Fan";
 "ODD" = "Optical Drive Fan";
 "HDD" = "Hard Drives Fan";
+"BOOSTA" = "Booster A";
+"BOOSTB" = "Booster B";

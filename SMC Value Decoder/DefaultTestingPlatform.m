@@ -9,7 +9,7 @@
 #import "DefaultTestingPlatform.h"
 
 #import "FakeSMCDefinitions.h"
-#import "SmcKeysDefinitions.h"
+
 
 @implementation DefaultTestingPlatform
 
@@ -19,10 +19,10 @@
     
     // Set-up code here.
     
-    _name = @"VH2I";
+    _name = @"VMAS";
     _type = @"sp78";
     
-    UInt16 data = OSSwapHostToBigInt16(0x0535); // Big Endian
+    UInt16 data = OSSwapHostToBigInt16(0x0187); // Big Endian
     
     _data = [NSData dataWithBytes:&data length:2];
 }
@@ -154,12 +154,12 @@
 
 - (NSIndexSet*)getKeyInfosInGroup:(SmcKeyGroup)group
 {
-    int count = sizeof(SMCKeyInfoList) / sizeof(SMCKeyInfo);
+    int count = sizeof(SmcKeyInfos) / sizeof(SMCKeyInfo);
     
     NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
     
     for (int index = 0; index < count; index++) {
-        if (SMCKeyInfoList[index].group == group) {
+        if (SmcKeyInfos[index].group == group) {
             [indexSet addIndex:index];
         }
     }
@@ -172,20 +172,20 @@
     NSMutableArray *list = [NSMutableArray new];
     
     [[self getKeyInfosInGroup:fromGroup] enumerateIndexesWithOptions:NSSortStable usingBlock:^(NSUInteger idx, BOOL *stop) {
-        if (SMCKeyInfoList[idx].count) {
-            NSString *keyFormat = [NSString stringWithCString:SMCKeyInfoList[idx].key encoding:NSASCIIStringEncoding];
-            NSString *titleFormat = [NSString stringWithCString:SMCKeyInfoList[idx].title encoding:NSASCIIStringEncoding];
+        if (SmcKeyInfos[idx].count) {
+            NSString *keyFormat = [NSString stringWithCString:SmcKeyInfos[idx].key encoding:NSASCIIStringEncoding];
+            NSString *titleFormat = [NSString stringWithCString:SmcKeyInfos[idx].title encoding:NSASCIIStringEncoding];
             
-            for (NSUInteger index = 0; index < SMCKeyInfoList[idx].count; index++) {
+            for (NSUInteger index = 0; index < SmcKeyInfos[idx].count; index++) {
                 [list addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSString stringWithFormat:keyFormat, index + SMCKeyInfoList[idx].offset], @"key",
-                                 [NSString stringWithFormat:titleFormat, index + SMCKeyInfoList[idx].shift], @"title",
+                                 [NSString stringWithFormat:keyFormat, index + SmcKeyInfos[idx].offset], @"key",
+                                 [NSString stringWithFormat:titleFormat, index + SmcKeyInfos[idx].shift], @"title",
                                  nil]];
             }
         }
         else {
-            NSString *key = [NSString stringWithCString:SMCKeyInfoList[idx].key encoding:NSASCIIStringEncoding];
-            NSString *title = [NSString stringWithCString:SMCKeyInfoList[idx].title encoding:NSASCIIStringEncoding];
+            NSString *key = [NSString stringWithCString:SmcKeyInfos[idx].key encoding:NSASCIIStringEncoding];
+            NSString *title = [NSString stringWithCString:SmcKeyInfos[idx].title encoding:NSASCIIStringEncoding];
             
             [list addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                              key, @"key",
@@ -208,7 +208,7 @@
     [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupCurrent] forKey:@"Current"];
     [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupPower] forKey:@"Power"];
     
-    [list writeToFile:@"/Users/kozlek/Documents/HWSensors/SMCKeyS.plist" atomically:YES];
+    //[list writeToFile:@"/Users/kozlek/Documents/HWSensors/SMCKeyS.plist" atomically:YES];
     
 }
 

@@ -30,7 +30,7 @@
 
 #include "smc.h"
 #include "FakeSMCDefinitions.h"
-#include "SmcKeysDefinitions.h"
+#include "HWMonitorProfiles.h"
 
 @implementation HWMonitorEngine
 
@@ -164,12 +164,28 @@
     
     sensor = [HWMonitorSensor sensor];
     
-    [sensor setEngine:self];
     [sensor setName:key];
     [sensor setType:type];
     [sensor setTitle:title];
     [sensor setData:value];
     [sensor setGroup:group];
+    
+    // Sanity checks
+    switch (group) {
+        case kHWSensorGroupTemperature:
+        {
+            float t = [sensor floatValue];
+            
+            if (t < 0 || t > 100) {
+                return nil;
+            }
+            
+            break;
+        }
+        
+        default:
+            break;
+    }
     
     /*if (!smartSensor && _hideDisabledSensors && [[sensor value] isEqualToString:@"-"]) {
         [sensor setEngine:nil];
@@ -177,6 +193,7 @@
         return nil;
     }*/
     
+    [sensor setEngine:self];
     [_sensors addObject:sensor];
     [_keys setObject:sensor forKey:key];
         
@@ -274,8 +291,10 @@
     return nil;
 }
 
-- (void)loadPlatformOverrides
+- (void)assignPlatformProfile
 {
+    NSDictionary *profiles = [HWMonitorProfiles profiles];
+    
     NSString *model = nil;
     
     CFDictionaryRef matching = MACH_PORT_NULL;
@@ -321,12 +340,17 @@
     }
     
     if (model) {
-        NSDictionary *profiles = [[_bundle infoDictionary] objectForKey:@"Platform Profile"];
+
+        NSLog(@"Running on %@", model);
         
-        if (profiles) {
-            _platformOverrides = [profiles objectForKey:model];
+        _currentProfile = [profiles objectForKey:model];
+        
+        if (!_currentProfile) {
+            NSLog(@"Using default platform profile");
+            _currentProfile = [profiles objectForKey:@"Default"];
         }
     }
+    else NSLog(@"Using default platform profile");
 }
 
 - (id)init;
@@ -340,20 +364,18 @@
         
         _bundle = [NSBundle mainBundle];
         
-        [self loadPlatformOverrides];
+        [self assignPlatformProfile];
     }
     
     return self;
 }
 
-- (id)initWithBundle:(NSBundle*)mainBundle;
+- (id)initWithBundle:(NSBundle*)bundle;
 {
     self = [self init];
     
     if (self) {
-        _bundle = mainBundle;
-        
-        [self loadPlatformOverrides];
+        _bundle = bundle;
     }
     
     return self;
@@ -368,85 +390,68 @@
     
 }
 
-- (NSIndexSet*)getKeyInfosInGroup:(SmcKeyGroup)group
+- (void)addSensorsFromGroup:(HWSensorGroup)group
 {
-    int count = sizeof(SMCKeyInfoList) / sizeof(SMCKeyInfo);
-    
-    NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
-    
-    for (int index = 0; index < count; index++) {
-        if (SMCKeyInfoList[index].group == group) {
-            [indexSet addIndex:index];
-        }
-    }
-    
-    return indexSet;
-}
-
-- (void)addSensorsFromSmcKeyGroup:(SmcKeyGroup)fromGroup toHWSensorGroup:(HWSensorGroup)toGroup
-{
-    if (_platformOverrides) {
-        NSArray *definitions = nil;
+    [_currentProfile enumerateObjectsUsingBlock:^(id item, NSUInteger index, BOOL *stop) {
+        NSString *prefix = nil;
         
-        switch (fromGroup) {
-            case kSMCKeyGroupTemperature:
-                definitions = [_platformOverrides objectForKey:@"Temperatures"];
+        switch (group) {
+            case kHWSensorGroupTemperature:
+                prefix = @"T";
                 break;
                 
-            case kSMCKeyGroupMultiplier:
-                definitions = [_platformOverrides objectForKey:@"Multipliers"];
+            case kHWSensorGroupMultiplier:
+                prefix = @"M";
                 break;
                 
-            case kSMCKeyGroupFrequency:
-                definitions = [_platformOverrides objectForKey:@"Frequencies"];
+            case kHWSensorGroupFrequency:
+                prefix = @"C";
                 break;
                 
-            case kSMCKeyGroupVoltage:
-                definitions = [_platformOverrides objectForKey:@"Voltages"];
+            case kHWSensorGroupVoltage:
+                prefix = @"V";
                 break;
                 
-            case kSMCKeyGroupCurrent:
-                definitions = [_platformOverrides objectForKey:@"Currents"];
+            case kHWSensorGroupCurrent:
+                prefix = @"I";
                 break;
                 
-            case kSMCKeyGroupPower:
-                definitions = [_platformOverrides objectForKey:@"Powers"];
+            case kHWSensorGroupPower:
+                prefix = @"P";
                 break;
                 
             default:
+                *stop = YES;
                 break;
         }
         
-        if (definitions && [definitions isKindOfClass:[NSArray class]]) {
-            [definitions enumerateObjectsUsingBlock:^(id item, NSUInteger index, BOOL *stop) {
-                if ([item isKindOfClass:[NSDictionary class]]) {
-                    NSString *key = [item objectForKey:@"key"];
-                    NSString *title = [item objectForKey:@"title"];
-                    
-                    if (key && title) {
-                        [self addSensorWithKey:key title:GetLocalizedString(title) group:toGroup];
-                    }
+        NSString *key = [item objectAtIndex:0];
+        
+        if ([key hasPrefix:prefix]) {
+            NSString *title = [item objectAtIndex:1];
+            
+            NSRange formater = [key rangeOfString:@":"];
+
+            if (formater.length) {
+                // key and title should be formatted by index
+                unsigned int start = 0;
+                [[NSScanner scannerWithString:[key substringWithRange:NSMakeRange(formater.location + 1, 1)]] scanHexInt:&start];
+                unsigned int count = 0;
+                [[NSScanner scannerWithString:[key substringWithRange:NSMakeRange(formater.location + 2, 1)]] scanHexInt:&count];
+                unsigned int shift = 0;
+                [[NSScanner scannerWithString:[key substringWithRange:NSMakeRange(formater.location + 3, 1)]] scanHexInt:&shift];
+                
+                NSString *keyFormat = [NSString stringWithFormat:@"%@%%X%@", [key substringToIndex:formater.location], [key substringFromIndex:formater.location + formater.length + 3]];
+                
+                for (NSUInteger index = 0; index < count; index++) {
+                    [self addSensorWithKey:[NSString stringWithFormat:keyFormat, start + index] title:[NSString stringWithFormat:GetLocalizedString(title), shift + index] group:group];
                 }
-            }];
-            
-            return;
-        }
-    }
-    
-    [[self getKeyInfosInGroup:fromGroup] enumerateIndexesWithOptions:NSSortStable usingBlock:^(NSUInteger idx, BOOL *stop) {
-        if (SMCKeyInfoList[idx].count) {
-            NSString *keyFormat = [NSString stringWithCString:SMCKeyInfoList[idx].key encoding:NSASCIIStringEncoding];
-            NSString *titleFormat = GetLocalizedString([NSString stringWithCString:SMCKeyInfoList[idx].title encoding:NSASCIIStringEncoding]);
-            
-            for (NSUInteger index = 0; index < SMCKeyInfoList[idx].count; index++) {
-                [self addSensorWithKey:[NSString stringWithFormat:keyFormat, index + SMCKeyInfoList[idx].offset] title:[NSString stringWithFormat:titleFormat, index + SMCKeyInfoList[idx].shift] group:toGroup];
+            }
+            else {
+                [self addSensorWithKey:key title:GetLocalizedString(title) group:group];
             }
         }
-        else {
-            NSString *key = [NSString stringWithCString:SMCKeyInfoList[idx].key encoding:NSASCIIStringEncoding];
-            NSString *title = GetLocalizedString([NSString stringWithCString:SMCKeyInfoList[idx].title encoding:NSASCIIStringEncoding]);
-            [self addSensorWithKey:key title:title group:toGroup];
-        }
+        
     }];
 }
 
@@ -459,7 +464,7 @@
     
     //Temperatures
     
-    [self addSensorsFromSmcKeyGroup:kSMCKeyGroupTemperature toHWSensorGroup:kHWSensorGroupTemperature];
+    [self addSensorsFromGroup:kHWSensorGroupTemperature];
     
     if ((_smartDrives = [ATAGenericDrive discoverDrives])) {
         for (ATAGenericDrive * drive in _smartDrives) {
@@ -476,10 +481,10 @@
     }
     
     // Multipliers
-    [self addSensorsFromSmcKeyGroup:kSMCKeyGroupMultiplier toHWSensorGroup:kHWSensorGroupMultiplier];
+    [self addSensorsFromGroup:kHWSensorGroupMultiplier];
     
     // Frequency
-    [self addSensorsFromSmcKeyGroup:kSMCKeyGroupFrequency toHWSensorGroup:kHWSensorGroupFrequency];
+    [self addSensorsFromGroup:kHWSensorGroupFrequency];
     
     // Fans
     for (int i=0; i<0xf; i++) {
@@ -498,7 +503,7 @@
             FanTypeDescStruct *fds = (FanTypeDescStruct*)[[HWMonitorEngine copyValueFromKeyInfo:[self populateInfoForKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i]]] bytes];
             
             if (fds) {
-                NSString *caption = [NSString stringWithCString:fds->strFunction encoding:NSASCIIStringEncoding];
+                NSString *caption = [[NSString stringWithCString:fds->strFunction encoding:NSASCIIStringEncoding] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                 
                 if ([caption length] == 0)
                     caption = [[NSString alloc] initWithFormat:@"Fan %X", i + 1];
@@ -554,13 +559,13 @@
     }
     
     // Voltages
-    [self addSensorsFromSmcKeyGroup:kSMCKeyGroupVoltage toHWSensorGroup:kHWSensorGroupVoltage];
+    [self addSensorsFromGroup:kHWSensorGroupVoltage];
     
     // Currents
-    [self addSensorsFromSmcKeyGroup:kSMCKeyGroupCurrent toHWSensorGroup:kHWSensorGroupCurrent];
+    [self addSensorsFromGroup:kHWSensorGroupCurrent];
     
     // Powers
-    [self addSensorsFromSmcKeyGroup:kSMCKeyGroupPower toHWSensorGroup:kHWSensorGroupPower];
+    [self addSensorsFromGroup:kHWSensorGroupPower];
     
     // Batteries
     if ((_bluetoothDevices = [BluetoothGenericDevice discoverDevices])) {
@@ -643,6 +648,8 @@
     if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
         for (HWMonitorSensor *sensor in _sensors) {
             [self updateSensor:sensor addToArray:updated];
+            
+            [NSThread sleepForTimeInterval:1 / _sensors.count];
         }
     }
     else if (_connection) {

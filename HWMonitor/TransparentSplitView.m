@@ -10,19 +10,9 @@
 
 @implementation TransparentSplitView
 
-- (id)initWithFrame:(NSRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
-}
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-    // Drawing code here.
+-(void) drawDividerInRect:(NSRect)aRect {
+    [[NSColor colorWithCalibratedWhite:0.2 alpha:1.0] set];
+    NSRectFill(aRect);
 }
 
 @end

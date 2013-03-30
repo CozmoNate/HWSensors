@@ -25,9 +25,6 @@
  *
  */
 
-
-#import <Foundation/Foundation.h>
-
 #import "HWMonitorSensor.h"
 #import "ATAGenericDrive.h"
 #import "BluetoothGenericDevice.h"
@@ -41,8 +38,7 @@
     NSMutableArray *_sensors;
     NSMutableDictionary *_keys;
     NSLock *_sensorsLock;
-    
-    NSDictionary *_platformOverrides;
+    NSArray *_currentProfile;
 }
 
 @property (nonatomic, strong) NSBundle* bundle;

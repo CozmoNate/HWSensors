@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface HWMonitorProfiles : NSObject
+
++ (NSDictionary*)profiles;
 
 @end

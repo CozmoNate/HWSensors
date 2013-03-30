@@ -25,9 +25,6 @@
  *
  */
 
-
-#import <Foundation/Foundation.h>
-
 #include "ATAGenericDrive.h"
 
 typedef enum {

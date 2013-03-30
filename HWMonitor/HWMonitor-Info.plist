@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3.4</string>
+	<string>2.3.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>4416</string>
+	<string>4505</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSUIElement</key>
@@ -241,6 +241,18 @@
 				</dict>
 				<dict>
 					<key>key</key>
+					<string>IeAS</string>
+					<key>title</key>
+					<string>PCIe Booster A</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>IeBS</string>
+					<key>title</key>
+					<string>PCIe Booster B</string>
+				</dict>
+				<dict>
+					<key>key</key>
 					<string>Ip0C</string>
 					<key>title</key>
 					<string>Power Supply, +12V</string>
@@ -301,6 +313,18 @@
 					<string>Pe4S</string>
 					<key>title</key>
 					<string>PCIe Slot 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PeAS</string>
+					<key>title</key>
+					<string>PCIe Booster A</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>PeBS</string>
+					<key>title</key>
+					<string>PCIe Booster B</string>
 				</dict>
 				<dict>
 					<key>key</key>
@@ -412,6 +436,12 @@
 					<string>TMB4</string>
 					<key>title</key>
 					<string>Memory Bank B, Dimm 4</string>
+				</dict>
+				<dict>
+					<key>key</key>
+					<string>TeGG</string>
+					<key>title</key>
+					<string>PCIe GPU</string>
 				</dict>
 				<dict>
 					<key>key</key>

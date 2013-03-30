@@ -183,7 +183,7 @@
     
     [_graphsCollectionView setContent:_graphViews];
     
-    [_graphsCollectionView setMinItemSize:NSMakeSize(0, 120)];
+    [_graphsCollectionView setMinItemSize:NSMakeSize(0, 80)];
     [_graphsCollectionView setMaxItemSize:NSMakeSize(0, 0)];
     
     [[_graphsCollectionView content] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
