@@ -87,6 +87,13 @@
         // Fill toolbar
         [[[NSGradient alloc] initWithStartingColor:_colorTheme.toolbarStartColor endingColor:_colorTheme.toolbarEndColor] drawInBezierPath:toolbarPath angle:270];
         
+        [[[NSGradient alloc] initWithColorsAndLocations:
+          _colorTheme.toolbarStartColor,                            0.0,
+          [_colorTheme.toolbarEndColor highlightWithLevel:0.1],    0.6,
+          _colorTheme.toolbarEndColor,                              0.6,
+          [_colorTheme.toolbarEndColor highlightWithLevel:0.05],    1.0,
+          nil] drawInBezierPath:toolbarPath angle:270];
+        
         // Fill list
         [_colorTheme.listBackgroundColor setFill];
         [listPath fill];
