@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7E5D8E6216C6466300CB6720"
                BuildableName = "Bump Build Number"
-               BlueprintName = "Bump Build Number"
+               BlueprintName = "Bump Project Build Number"
                ReferencedContainer = "container:HWSensors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

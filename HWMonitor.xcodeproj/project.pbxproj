@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		7E27A479170084AE00234A6A /* Bump Build Number */ = {
+		7E27A479170084AE00234A6A /* Bump App Build Number */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 7E27A47C170084AE00234A6A /* Build configuration list for PBXAggregateTarget "Bump Build Number" */;
+			buildConfigurationList = 7E27A47C170084AE00234A6A /* Build configuration list for PBXAggregateTarget "Bump App Build Number" */;
 			buildPhases = (
 				7E27A47D170084B400234A6A /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = "Bump Build Number";
+			name = "Bump App Build Number";
 			productName = "Bump Build Number";
 		};
 		7EA8CA5D16EBB8FD00E71108 /* Bump App Version */ = {
@@ -688,7 +688,7 @@
 			targets = (
 				7EA248E716D8E93A002231B2 /* HWMonitor */,
 				7E9060E31708951800BF5BBF /* smcutil */,
-				7E27A479170084AE00234A6A /* Bump Build Number */,
+				7E27A479170084AE00234A6A /* Bump App Build Number */,
 				7EA8CA5D16EBB8FD00E71108 /* Bump App Version */,
 				7EFAE91816EBC8ED00F4DA72 /* DefaultTestingPlatform */,
 			);
@@ -1084,7 +1084,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7E27A47C170084AE00234A6A /* Build configuration list for PBXAggregateTarget "Bump Build Number" */ = {
+		7E27A47C170084AE00234A6A /* Build configuration list for PBXAggregateTarget "Bump App Build Number" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E27A47A170084AE00234A6A /* Debug */,

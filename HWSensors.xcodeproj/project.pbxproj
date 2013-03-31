@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		7E5D8E6216C6466300CB6720 /* Bump Build Number */ = {
+		7E5D8E6216C6466300CB6720 /* Bump Project Build Number */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 7E5D8E6316C6466300CB6720 /* Build configuration list for PBXAggregateTarget "Bump Build Number" */;
+			buildConfigurationList = 7E5D8E6316C6466300CB6720 /* Build configuration list for PBXAggregateTarget "Bump Project Build Number" */;
 			buildPhases = (
 				7E5D8E6616C646CC00CB6720 /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = "Bump Build Number";
+			name = "Bump Project Build Number";
 			productName = Project;
 		};
 		7E86E05016CFD352001B9F52 /* Bump Project Version */ = {
@@ -60,9 +60,6 @@
 		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
 		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
 		7E79B82315BA99350079AAE8 /* CPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E79B82215BA99350079AAE8 /* CPUSensors.cpp */; };
-		7E9060D51708950500BF5BBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9060D41708950500BF5BBF /* Foundation.framework */; };
-		7E9060D81708950500BF5BBF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9060D71708950500BF5BBF /* main.m */; };
-		7E9060DC1708950500BF5BBF /* smcutil.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E9060DB1708950500BF5BBF /* smcutil.1 */; };
 		7E9F5454167C71D1006E907B /* RadeonSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F544F167C71D1006E907B /* RadeonSensors.cpp */; };
 		7E9F548B167C71DA006E907B /* adt7473.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F5457167C71D9006E907B /* adt7473.cpp */; };
 		7E9F548C167C71DA006E907B /* f75375.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F5458167C71D9006E907B /* f75375.cpp */; };
@@ -94,19 +91,6 @@
 		7EB13667169C288000B42023 /* radeon_atombios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB13665169C288000B42023 /* radeon_atombios.cpp */; };
 		7EB1366C169C2CE800B42023 /* atom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB1366A169C2CE700B42023 /* atom.cpp */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		7E9060D11708950500BF5BBF /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-				7E9060DC1708950500BF5BBF /* smcutil.1 in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1D05ABE413ED0DAD00EADBF6 /* FakeSMC.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeSMC.kext; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,11 +166,7 @@
 		7E79B82115BA99350079AAE8 /* CPUSensors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPUSensors.h; sourceTree = "<group>"; };
 		7E79B82215BA99350079AAE8 /* CPUSensors.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CPUSensors.cpp; sourceTree = "<group>"; };
 		7E79B82415BA99350079AAE8 /* CPUSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CPUSensors-Prefix.pch"; sourceTree = "<group>"; };
-		7E9060D31708950500BF5BBF /* smcutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = smcutil; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E9060D41708950500BF5BBF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		7E9060D71708950500BF5BBF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7E9060DA1708950500BF5BBF /* smcutil-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "smcutil-Prefix.pch"; sourceTree = "<group>"; };
-		7E9060DB1708950500BF5BBF /* smcutil.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = smcutil.1; sourceTree = "<group>"; };
 		7E93890015945B450005316D /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E9F544E167C71D1006E907B /* radeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon.h; sourceTree = "<group>"; };
 		7E9F544F167C71D1006E907B /* RadeonSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadeonSensors.cpp; sourceTree = "<group>"; };
@@ -289,14 +269,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7E9060D01708950500BF5BBF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7E9060D51708950500BF5BBF /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7EADE20215E5602E00FD117C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -316,7 +288,6 @@
 				7E79B81B15BA99350079AAE8 /* CPUSensors */,
 				7EADE20815E5602F00FD117C /* GPUSensors */,
 				6A4E473A152178A00038C5DE /* LPCSensors */,
-				7E9060D61708950500BF5BBF /* smcutil */,
 				1D05ABE613ED0DAD00EADBF6 /* Frameworks */,
 				1D05ABE513ED0DAD00EADBF6 /* Products */,
 			);
@@ -330,7 +301,6 @@
 				6A4E4739152178A00038C5DE /* LPCSensors.kext */,
 				7E79B81A15BA99350079AAE8 /* CPUSensors.kext */,
 				7EADE20715E5602E00FD117C /* GPUSensors.kext */,
-				7E9060D31708950500BF5BBF /* smcutil */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -618,24 +588,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		7E9060D61708950500BF5BBF /* smcutil */ = {
-			isa = PBXGroup;
-			children = (
-				7E9060D71708950500BF5BBF /* main.m */,
-				7E9060DB1708950500BF5BBF /* smcutil.1 */,
-				7E9060D91708950500BF5BBF /* Supporting Files */,
-			);
-			path = smcutil;
-			sourceTree = "<group>";
-		};
-		7E9060D91708950500BF5BBF /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				7E9060DA1708950500BF5BBF /* smcutil-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		7E9F544B167C71D1006E907B /* RadeonSensors */ = {
 			isa = PBXGroup;
 			children = (
@@ -828,23 +780,6 @@
 			productReference = 7E79B81A15BA99350079AAE8 /* CPUSensors.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
-		7E9060D21708950500BF5BBF /* smcutil */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7E9060DF1708950500BF5BBF /* Build configuration list for PBXNativeTarget "smcutil" */;
-			buildPhases = (
-				7E9060CF1708950500BF5BBF /* Sources */,
-				7E9060D01708950500BF5BBF /* Frameworks */,
-				7E9060D11708950500BF5BBF /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = smcutil;
-			productName = smcutil;
-			productReference = 7E9060D31708950500BF5BBF /* smcutil */;
-			productType = "com.apple.product-type.tool";
-		};
 		7EADE20615E5602E00FD117C /* GPUSensors */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7EADE21415E5602F00FD117C /* Build configuration list for PBXNativeTarget "GPUSensors" */;
@@ -893,9 +828,8 @@
 				7E79B81915BA99350079AAE8 /* CPUSensors */,
 				7EADE20615E5602E00FD117C /* GPUSensors */,
 				6A4E4738152178A00038C5DE /* LPCSensors */,
-				7E5D8E6216C6466300CB6720 /* Bump Build Number */,
+				7E5D8E6216C6466300CB6720 /* Bump Project Build Number */,
 				7E86E05016CFD352001B9F52 /* Bump Project Version */,
-				7E9060D21708950500BF5BBF /* smcutil */,
 			);
 		};
 /* End PBXProject section */
@@ -1080,14 +1014,6 @@
 				7E0EB891169A9A9A000DF2B1 /* evergreen.cpp in Sources */,
 				7E0EB897169A9D3C000DF2B1 /* r600.cpp in Sources */,
 				7E0EB89B169A9DBE000DF2B1 /* rv770.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7E9060CF1708950500BF5BBF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7E9060D81708950500BF5BBF /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1467,50 +1393,6 @@
 			};
 			name = Release;
 		};
-		7E9060DD1708950500BF5BBF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "smcutil/smcutil-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Debug;
-		};
-		7E9060DE1708950500BF5BBF /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "smcutil/smcutil-Prefix.pch";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
 		7EADE21215E5602F00FD117C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1596,7 +1478,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E5D8E6316C6466300CB6720 /* Build configuration list for PBXAggregateTarget "Bump Build Number" */ = {
+		7E5D8E6316C6466300CB6720 /* Build configuration list for PBXAggregateTarget "Bump Project Build Number" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E5D8E6416C6466300CB6720 /* Debug */,
@@ -1622,14 +1504,6 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
-		};
-		7E9060DF1708950500BF5BBF /* Build configuration list for PBXNativeTarget "smcutil" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7E9060DD1708950500BF5BBF /* Debug */,
-				7E9060DE1708950500BF5BBF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
 		};
 		7EADE21415E5602F00FD117C /* Build configuration list for PBXNativeTarget "GPUSensors" */ = {
 			isa = XCConfigurationList;
