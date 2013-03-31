@@ -1,0 +1,207 @@
+/*
+ Localizable.strings
+ HWSensors
+ 
+ Created by kozlek on 24/02/12.
+ Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
+ French ported by The Real Deal @ insanelymac.com
+ */
+
+"TEMPERATURES" = "TEMPERATURES";
+"DRIVE TEMPERATURES" = "ТЕМPERATURES DISQUES";
+"SSD REMAINING LIFE" = "VIE RESTANTE SSD";
+"SSD REMAINING BLOCKS" = "BLOCS RESTANTS SSD";
+"MULTIPLIERS" = "COEFFICIENTS";
+"FREQUENCIES" = "FREQUENCES";
+"VOLTAGES" = "TENSIONS";
+"CURRENTS" = "ACTUELS";
+"POWERS" = "ДАТЧИКИ МОЩНОСТИ";
+"FANS" = "VENTILATEURS";
+"BATTERIES" = "BATTERIES";
+"Quit HWMonitor" = "Quitter HWMonitor";
+"No sensors found" = "Pas de capteurs trouvés";
+"Preferences..." = "Préférences...";
+"Show hidden sensors" = "Afficher les capteurs masqués";
+"Use BSD drives names" = "Utiliser les noms de disques BSD";
+"Celsius" = "Degré Celsius";
+"Fahrenheit" = "Degré Fahrenheit";
+"Use larger font" = "Utiliser une police plus grande";
+"Use shadow effect" = "Utiliser un effet d'ombre";
+"hwmonitor" = "HWMonitor";
+"thermometer" = "Thermomètre";
+"temperatures" = "Température";
+"hddtemperatures" = "Disque dur";
+"ssdlife" = "SSD";
+"multipliers" = "Coefficient";
+"frequencies" = "Fréquence";
+"tachometers" = "Tachymètre";
+"voltages" = "Tension";
+"pcicard" = "Carte PCI";
+"video" = "Carte graphique";
+"battery" = "Batterie";
+"Menubar items" = "Eléments barre de menus";
+"Icons" = "Icônes";
+"Sensors" = "Capteurs";
+"HWMonitor Preferences" = "Préférences HWMonitor";
+"Install menu bar extension" = "Installer l'extension barre de menus";
+"Remove menu bar extension" = "Retirer l'extension barre de menus";
+"Temperature units:" = "Unité de température :";
+"Menu sensors:" = "Menu capteurs :";
+"Miscellaneous:" = "Divers :";
+"About HWMonitor" = "A propos de HWMonitor";
+"Services" = "Services";
+"Hide HWMonitor" = "Masquer HWMonitor";
+"Hide Others" = "Masquer les autres";
+"Show All" = "Tout afficher";
+"Quit HWMonitor" = "Quitter HWMonitor";
+"Window" = "Fenêtre";
+"Minimize" = "Réduire";
+"Zoom" = "Agrandir";
+"Bring All to Front" = "Tout ramener au premier plan";
+"Help" = "Aide";
+"HWMonitor Help" = "Aide HWMonitor";
+"Preferences" = "Préférences";
+"Graphs" = "Graphiques";
+"Show partitions names" = "Afficher le nom des partitions";
+"System menu bar:" = "Barre de menus :";
+"Preferences" = "Préférences";
+"Menubar Items" = "Eléments barre de menus";
+"History Graphs" = "Historique graphiques";
+"Sensors update rate:" = "Fréquence de rafraîchissement des capteurs :";
+"S.M.A.R.T. update rate:" = "Fréquence de rafraîchissement S.M.A.R.T. :";
+"sec" = "sec.";
+"min" = "min.";
+"Graphs:" = "Graphiques :";
+"Use data smoothing" = "Utiliser le lissage des données";
+"General" = "Général";
+"Menubar" = "Barre de menus";
+"Menubar icons:" = "Icônes barre de menus :";
+"Temperature Sensors" = "Capteurs température";
+"Frequency Sensors" = "Capteurs fréquence";
+"Tachometer Sensors" = "Capteurs tachymètre";
+"Voltage Sensors" = "Capteurs tension";
+"Close HWMonitor" = "Quitter HWMonitor";
+"Start HWMonitor at login" = "Lancer HWMonitor à l'ouverture de session";
+"Menu color theme:" = "Apparence :";
+"Default" = "Défaut";
+"Gray" = "Gris";
+"Dark" = "Foncé";
+"Continue monitor sensors in background" = "Continuer la surveillance des capteurs en tâche de fond";
+"Check for updates" = "Rechercher les mises à jour";
+
+"Mouse" = "Souris";
+"Keyboard" = "Clavier";
+"Trackpad" = "Trackpad";
+
+"HWMonitor %@ is available - you have %@. Would you like to download?" = "HWMonitor v%@. est disponible et vous avez actuellement la version v%@. Voulez-vous la télécharger ?";
+"Update" = "Mettre à jour";
+"Next time" = "В другой раз";
+"Skip" = "Ignorer";
+
+"CPUFan" = "Ventilateur CPU";
+"CPUFan2" = "Ventilateur CPU 2";
+"PowerFan" = "Вентилятор БП";
+"SystemFan1" = "Ventilateur système N°1";
+"SystemFan2" = "Ventilateur système N°2";
+"AuxFan" = "Ventilateur auxiliaire";
+"AuxFan2" = "Ventilateur auxiliaire N°2";
+"MB Fan 0" = "CM ventilateur 0";
+"MB Fan 1" = "CM ventilateur 1";
+"MB Fan 2" = "CM ventilateur 2";
+"MB Fan 3" = "CM ventilateur 3";
+"MB Fan 4" = "CM ventilateur 4";
+"GPU Fan" = "Ventilateur GPU";
+"GPU Fan 1" = "GPU ventilateur 2";
+"GPU Fan 2" = "GPU ventilateur 3";
+"GPU Fan 3" = "GPU ventilateur 4";
+"CPU_MEM" = "Процессор/Память";
+"IO" = "Слоты раширения";
+"PCI" = "Слоты раширения";
+"INTAKE" = "Entrée";
+"EXHAUST" = "Sortie";
+"PS" = "Источник питания";
+"Main" = "Основной вентилятор";
+"ODD" = "Оптический привод";
+"HDD" = "Лоток жестких дисков";
+"BOOSTA" = "Усилитель А";
+"BOOSTB" = "Усилитель Б";
+
+"Ambient" = "Ambiante";
+
+"CPU Die %X" = "CPU coeur %X";
+
+"CPU %X" = "CPU %X";
+"CPU Heatsink" = "CPU dissipateur";
+"CPU %X Heatsink" = "CPU %X dissipateur";
+"CPU Proximity" = "CPU proximité";
+"CPU %X Proximity" = "CPU %X proximité";
+
+"CPU Core Package" = "CPU";
+
+"PECI CPU" = "PECI CPU";
+"PECI SA" = "PECI SA";
+"PECI GPU" = "PECI GPU";
+
+"Northbridge Die" = "Northbridge coeur";
+"Northbridge %X Die" = "Northbridge coeur %X";
+"Northbridge Proximity" = "Northbridge proximité";
+"Northbridge %X Proximity" = "Northbridge %X proximité";
+"MCH Die" = "MCH coeur";
+"MCH Heatsink" = "MCH dissipateur";
+"MCP Internal Die" = "Контроллер памяти, Подложка";
+"PCH Die" = "PCH coeur";
+"PCH Proximity" = "PCH proximité";
+"Mainboard Proximity" = "Материнская плата";
+"LCD Proximity" = "LCD proximité";
+"Airport Proximity" = "Airport proximité";
+"Battery Proximity" = "Batterie proximité";
+"Powerboard Proximity" = "Источник питания";
+
+"Memory Bank %X" = "Slot mémoire %X";
+"Memory Module %X" = "Module mémoire %X";
+
+"Optical Drive" = "Lecteur de disque";
+"HDD Bay %X" = "Baie disque %X";
+
+"GPU Die" = "GPU coeur";
+"GPU %X Die" = "GPU coeur %X";
+"GPU Heatsink" = "GPU dissipateur";
+"GPU %X Heatsink" = "GPU %X dissipateur";
+"GPU Proximity" = "GPU proximité";
+"GPU %X Proximity" = "GPU %X proximité";
+"GPU Memory" = "GPU mémoire";
+"GPU %X Memory" = "GPU %X mémoire";
+"GPU %X Fan" = "GPU ventilateur %X";
+"GPU %X PWM" = "GPU ventilateur PWM %X";
+
+"Thermal Zone %X" = "Термальная зона %X";
+
+"CPU Core" = "CPU";
+"CPU Core %X" = "CPU %X";
+"CPU Package Multiplier" = "Coefficient CPU";
+
+"GPU Core" = "GPU coeur";
+"GPU %X Core" = "GPU %X coeur";
+"GPU Shader" = "GPU shader";
+"GPU %X Shader" = "GPU %X shader";
+"GPU ROP" = "GPU ROP";
+"GPU %X ROP" = "GPU %X ROP";
+
+"Memory Modules" = "Modules mémoire";
+"MCP Core" = "Контролер памяти, Ядро";
+"Main 3.3V" = "+3.3 V principal";
+"Main 5V" = "+5 V principal";
+"Main 12V" = "+12 V principal";
+"Auxiliary 3.3V" = "+3.3 V auxiliaire";
+"Standby 5V" = "Mise en veille +5 V";
+//"PCIe 12V" = "";
+"Power Supply 12V" = "Rail 12V";
+//"DC In S0 Rail" = "";
+//"DC In S5 Rail" = "";
+"GPU Rail" = "GPU Rail";
+"GPU %X Rail" = "GPU Rail %X";
+
+"CMOS Battery" = "Батарея CMOS";
+
+"VRM Supply %X" = "Регулятор напряжения %X";
+"Power Supply %X" = "Rail %X";
