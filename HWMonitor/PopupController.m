@@ -24,11 +24,6 @@
 
 @implementation PopupController
 
--(void)showWindow:(id)sender
-{
-    [self openPanel];
-}
-
 -(void)setColorTheme:(ColorTheme *)colorTheme
 {
     _colorTheme = colorTheme;
@@ -37,9 +32,20 @@
     [_tableView reloadData];
 }
 
-- (id)initWithWindow:(NSWindow *)window
+- (void)setupPanel
 {
-    self = [super initWithWindow:window];
+    // Make a fully skinned panel
+    NSPanel *panel = (id)self.window;
+    
+    [panel setAcceptsMouseMovedEvents:YES];
+    [panel setLevel:NSPopUpMenuWindowLevel];
+    [panel setOpaque:NO];
+    [panel setBackgroundColor:[NSColor clearColor]];
+}
+
+- (id)init
+{
+    self = [super init];
     
     if (self != nil)
     {
@@ -63,15 +69,14 @@
     return self;
 }
 
-- (void)setupPanel
+-(void)showWindow:(id)sender
 {
-    // Make a fully skinned panel
-    NSPanel *panel = (id)self.window;
-    
-    [panel setAcceptsMouseMovedEvents:YES];
-    [panel setLevel:NSPopUpMenuWindowLevel];
-    [panel setOpaque:NO];
-    [panel setBackgroundColor:[NSColor clearColor]];
+    [self openPanel];
+}
+
+-(void)close
+{
+    [self closePanel];
 }
 
 - (void)dealloc
@@ -182,7 +187,10 @@
     
     [panel setAlphaValue:1.0];
     
-    //[NSApp activateIgnoringOtherApps:NO];
+    if ([NSApp isHidden]){
+        [NSApp unhide];
+    }
+    
     [panel setLevel:NSPopUpMenuWindowLevel];
     [panel makeKeyAndOrderFront:panel];
     

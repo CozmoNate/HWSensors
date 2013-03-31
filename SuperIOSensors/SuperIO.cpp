@@ -497,7 +497,10 @@ bool SuperIODevice::start(IOService *provider)
         if (OSString *manufacturer = OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoManufacturer))) {
             if (manufacturer->isEqualTo("Gigabyte")) {
                 if (!detectITEFamilyChip()) {
-                    detectWinbondFamilyChip();
+                    if (!detectWinbondFamilyChip()) {
+                        HWSensorsFatalLog("found unsupported ship ID=0x%x", id);
+                        return false;
+                    }
                 }
             }
         }

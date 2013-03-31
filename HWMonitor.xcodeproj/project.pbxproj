@@ -146,7 +146,6 @@
 		7E19FFFF17005652008F40F1 /* SensorsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorsTableView.h; sourceTree = "<group>"; };
 		7E1BC3CC16F47BDE005B9479 /* battery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = battery.png; sourceTree = "<group>"; };
 		7E1BC3CD16F47BDF005B9479 /* battery_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = battery_template.png; sourceTree = "<group>"; };
-		7E1BC3D116F489E8005B9479 /* HWMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HWMonitor.entitlements; sourceTree = "<group>"; };
 		7E1BC3D716F48A8C005B9479 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7E3AF30217073A6E005869E9 /* 37-circle-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x.png"; sourceTree = "<group>"; };
 		7E3AF30317073A6E005869E9 /* 37-circle-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x@2x.png"; sourceTree = "<group>"; };
@@ -361,7 +360,6 @@
 			isa = PBXGroup;
 			children = (
 				7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */,
-				7E1BC3D116F489E8005B9479 /* HWMonitor.entitlements */,
 				7EA2490A16D8E9B0002231B2 /* Engines */,
 				7EA2490916D8E9A7002231B2 /* Controllers */,
 				7ECDDE3E16DDF19A00085FFF /* User Interface */,
@@ -920,7 +918,6 @@
 		7EA2490616D8E93A002231B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = HWMonitor/HWMonitor.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
@@ -934,7 +931,6 @@
 		7EA2490716D8E93A002231B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = HWMonitor/HWMonitor.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
