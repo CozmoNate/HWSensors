@@ -43,6 +43,125 @@
 	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
 }
 
++ (BOOL)isValidIntegetType:(NSString *)type
+{
+    if (type && [type length] >= 3) {
+        if (([type characterAtIndex:0] == 'u' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'i') {
+            
+            switch ([type characterAtIndex:2]) {
+                case '8':
+                    return YES;
+                case '1':
+                    return [type characterAtIndex:3] == '6' ? YES : NO;
+                case '3':
+                    return [type characterAtIndex:3] == '2'? YES : NO;
+            }
+        }
+    }
+    
+    return NO;
+}
+
++ (BOOL)isValidFloatingType:(NSString *)type
+{
+    if (type && [type length] >= 3) {
+        if (([type characterAtIndex:0] == 'f' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'p') {
+            UInt8 i = [HWMonitorSensor getIndexOfHexChar:[type characterAtIndex:2]];
+            UInt8 f = [HWMonitorSensor getIndexOfHexChar:[type characterAtIndex:3]];
+            
+            if (i + f != ([type characterAtIndex:0] == 's' ? 15 : 16))
+                return NO;
+            
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
++ (float)decodeNumericData:(NSData*)data ofType:(NSString*)type
+{
+    if (type && data && [type length] >= 3) {
+        if (([type characterAtIndex:0] == 'u' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'i') {
+            
+            BOOL signd = [type characterAtIndex:0] == 's';
+            
+            switch ([type characterAtIndex:2]) {
+                case '8':
+                    if ([data length] == 1) {
+                        UInt8 encoded = 0;
+                        
+                        bcopy([data bytes], &encoded, 1);
+                        
+                        if (signd && bit_get(encoded, BIT(7))) {
+                            bit_clear(encoded, BIT(7));
+                            return -encoded;
+                        }
+                        
+                        return encoded;
+                    }
+                    break;
+                    
+                case '1':
+                    if ([type characterAtIndex:3] == '6' && [data length] == 2) {
+                        UInt16 encoded = 0;
+                        
+                        bcopy([data bytes], &encoded, 2);
+                        
+                        encoded = OSSwapBigToHostInt16(encoded);
+                        
+                        if (signd && bit_get(encoded, BIT(15))) {
+                            bit_clear(encoded, BIT(15));
+                            return -encoded;
+                        }
+                        
+                        return encoded;
+                    }
+                    break;
+                    
+                case '3':
+                    if ([type characterAtIndex:3] == '2' && [data length] == 4) {
+                        UInt32 encoded = 0;
+                        
+                        bcopy([data bytes], &encoded, 4);
+                        
+                        encoded = OSSwapBigToHostInt32(encoded);
+                        
+                        if (signd && bit_get(encoded, BIT(31))) {
+                            bit_clear(encoded, BIT(31));
+                            return -encoded;
+                        }
+                        
+                        return encoded;
+                    }
+                    break;
+            }
+        }
+        else if (([type characterAtIndex:0] == 'f' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'p' && [data length] == 2) {
+            UInt16 encoded = 0;
+            
+            bcopy([data bytes], &encoded, 2);
+            
+            UInt8 i = [HWMonitorSensor getIndexOfHexChar:[type characterAtIndex:2]];
+            UInt8 f = [HWMonitorSensor getIndexOfHexChar:[type characterAtIndex:3]];
+            
+            if (i + f != ([type characterAtIndex:0] == 's' ? 15 : 16) )
+                return MAXFLOAT;
+            
+            UInt16 swapped = OSSwapBigToHostInt16(encoded);
+            
+            BOOL signd = [type characterAtIndex:0] == 's';
+            BOOL minus = bit_get(swapped, BIT(15));
+            
+            if (signd && minus) bit_clear(swapped, BIT(15));
+            
+            return ((float)swapped / (float)BIT(f)) * (signd && minus ? -1 : 1);
+        }
+    }
+    
+    return MAXFLOAT;
+}
+
 + (HWMonitorSensor*)sensor
 {
     HWMonitorSensor *me = [[HWMonitorSensor alloc] init];
@@ -82,85 +201,7 @@
 
 - (float)decodeNumericValue
 {
-    if (_type && _data && [_type length] >= 3) {
-        if (([_type characterAtIndex:0] == 'u' || [_type characterAtIndex:0] == 's') && [_type characterAtIndex:1] == 'i') {
-            
-            BOOL signd = [_type characterAtIndex:0] == 's';
-            
-            switch ([_type characterAtIndex:2]) {
-                case '8':
-                    if ([_data length] == 1) {
-                        UInt8 encoded = 0;
-                        
-                        bcopy([_data bytes], &encoded, 1);
-                        
-                        if (signd && bit_get(encoded, BIT(7))) {
-                            bit_clear(encoded, BIT(7));
-                            return -encoded;
-                        }
-                        
-                        return encoded;
-                    }
-                    break;
-                    
-                case '1':
-                    if ([_type characterAtIndex:3] == '6' && [_data length] == 2) {
-                        UInt16 encoded = 0;
-                        
-                        bcopy([_data bytes], &encoded, 2);
-                        
-                        encoded = OSSwapBigToHostInt16(encoded);
-                        
-                        if (signd && bit_get(encoded, BIT(15))) {
-                            bit_clear(encoded, BIT(15));
-                            return -encoded;
-                        }
-                        
-                        return encoded;
-                    }
-                    break;
-                    
-                case '3':
-                    if ([_type characterAtIndex:3] == '2' && [_data length] == 4) {
-                        UInt32 encoded = 0;
-                        
-                        bcopy([_data bytes], &encoded, 4);
-                        
-                        encoded = OSSwapBigToHostInt32(encoded);
-                        
-                        if (signd && bit_get(encoded, BIT(31))) {
-                            bit_clear(encoded, BIT(31));
-                            return -encoded;
-                        }
-                        
-                        return encoded;
-                    }
-                    break;
-            }
-        }
-        else if (([_type characterAtIndex:0] == 'f' || [_type characterAtIndex:0] == 's') && [_type characterAtIndex:1] == 'p' && [_data length] == 2) {
-            UInt16 encoded = 0;
-            
-            bcopy([_data bytes], &encoded, 2);
-            
-            UInt8 i = [HWMonitorSensor getIndexOfHexChar:[_type characterAtIndex:2]];
-            UInt8 f = [HWMonitorSensor getIndexOfHexChar:[_type characterAtIndex:3]];
-            
-            if (i + f != ([_type characterAtIndex:0] == 's' ? 15 : 16) )
-                return 0;
-            
-            UInt16 swapped = OSSwapBigToHostInt16(encoded);
-            
-            BOOL signd = [_type characterAtIndex:0] == 's';
-            BOOL minus = bit_get(swapped, BIT(15));
-            
-            if (signd && minus) bit_clear(swapped, BIT(15));
-            
-            return ((float)swapped / (float)BIT(f)) * (signd && minus ? -1 : 1);
-        }
-    }
-    
-    return MAXFLOAT;
+    return [HWMonitorSensor decodeNumericData:_data ofType:_type];
 }
 
 - (NSNumber*)rawValue

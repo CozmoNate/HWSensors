@@ -58,6 +58,12 @@
 		7E7D61FE170449CB00F7222F /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7D61FC170449CB00F7222F /* 19-gear.png */; };
 		7E7D61FF170449CB00F7222F /* 19-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7D61FD170449CB00F7222F /* 19-gear@2x.png */; };
 		7E8C68FA1702E22400645399 /* PrefsGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8C68F91702E22400645399 /* PrefsGroupCell.m */; };
+		7E9060E51708951800BF5BBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248F016D8E93A002231B2 /* Foundation.framework */; };
+		7E9060E81708951800BF5BBF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9060E71708951800BF5BBF /* main.m */; };
+		7E9060EC1708951800BF5BBF /* smcutil.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E9060EB1708951800BF5BBF /* smcutil.1 */; };
+		7E9060F517089A7100BF5BBF /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493F16D8EA95002231B2 /* smc.c */; };
+		7E9060F617089A8000BF5BBF /* HWMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493E16D8EA95002231B2 /* HWMonitorSensor.m */; };
+		7E9060F917089C0B00BF5BBF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248EB16D8E93A002231B2 /* Cocoa.framework */; };
 		7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248F416D8E93A002231B2 /* InfoPlist.strings */; };
 		7EA248F816D8E93A002231B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248F716D8E93A002231B2 /* main.m */; };
@@ -119,6 +125,19 @@
 		7EFAE92416EBC8ED00F4DA72 /* DefaultTestingPlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFAE92316EBC8ED00F4DA72 /* DefaultTestingPlatform.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		7E9060E21708951800BF5BBF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				7E9060EC1708951800BF5BBF /* smcutil.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		7E0648ED16DF3B7D00ACB851 /* LaunchAtLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchAtLoginController.h; sourceTree = "<group>"; };
 		7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchAtLoginController.m; sourceTree = "<group>"; };
@@ -159,6 +178,10 @@
 		7E7D61FD170449CB00F7222F /* 19-gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear@2x.png"; sourceTree = "<group>"; };
 		7E8C68F81702E22400645399 /* PrefsGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsGroupCell.h; sourceTree = "<group>"; };
 		7E8C68F91702E22400645399 /* PrefsGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsGroupCell.m; sourceTree = "<group>"; };
+		7E9060E41708951800BF5BBF /* smcutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = smcutil; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E9060E71708951800BF5BBF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7E9060EA1708951800BF5BBF /* smcutil-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "smcutil-Prefix.pch"; sourceTree = "<group>"; };
+		7E9060EB1708951800BF5BBF /* smcutil.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = smcutil.1; sourceTree = "<group>"; };
 		7EA248E816D8E93A002231B2 /* HWMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HWMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA248EB16D8E93A002231B2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7EA248EE16D8E93A002231B2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -252,6 +275,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7E9060E11708951800BF5BBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E9060F917089C0B00BF5BBF /* IOKit.framework in Frameworks */,
+				7E9060E51708951800BF5BBF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7EA248E516D8E93A002231B2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -266,8 +298,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E7C70AE1703019D004E344D /* IOKit.framework in Frameworks */,
-				7EFAE91A16EBC8ED00F4DA72 /* SenTestingKit.framework in Frameworks */,
 				7EFAE91B16EBC8ED00F4DA72 /* Cocoa.framework in Frameworks */,
+				7EFAE91A16EBC8ED00F4DA72 /* SenTestingKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,11 +355,30 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		7E9060E61708951800BF5BBF /* smcutil */ = {
+			isa = PBXGroup;
+			children = (
+				7E9060E71708951800BF5BBF /* main.m */,
+				7E9060EB1708951800BF5BBF /* smcutil.1 */,
+				7E9060E91708951800BF5BBF /* Supporting Files */,
+			);
+			path = smcutil;
+			sourceTree = "<group>";
+		};
+		7E9060E91708951800BF5BBF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7E9060EA1708951800BF5BBF /* smcutil-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		7EA248DF16D8E93A002231B2 = {
 			isa = PBXGroup;
 			children = (
 				7E1261D216E008FE00622F92 /* Shared */,
 				7EA248F116D8E93A002231B2 /* HWMonitor */,
+				7E9060E61708951800BF5BBF /* smcutil */,
 				7EFAE91C16EBC8ED00F4DA72 /* DefaultTestingPlatform */,
 				7EA248EA16D8E93A002231B2 /* Frameworks */,
 				7EA248E916D8E93A002231B2 /* Products */,
@@ -339,6 +390,7 @@
 			children = (
 				7EA248E816D8E93A002231B2 /* HWMonitor.app */,
 				7EFAE91916EBC8ED00F4DA72 /* SMC Value Decoder.octest */,
+				7E9060E41708951800BF5BBF /* smcutil */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -556,6 +608,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7E9060E31708951800BF5BBF /* smcutil */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E9060ED1708951800BF5BBF /* Build configuration list for PBXNativeTarget "smcutil" */;
+			buildPhases = (
+				7E9060E01708951800BF5BBF /* Sources */,
+				7E9060E11708951800BF5BBF /* Frameworks */,
+				7E9060E21708951800BF5BBF /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = smcutil;
+			productName = smcutil;
+			productReference = 7E9060E41708951800BF5BBF /* smcutil */;
+			productType = "com.apple.product-type.tool";
+		};
 		7EA248E716D8E93A002231B2 /* HWMonitor */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7EA2490516D8E93A002231B2 /* Build configuration list for PBXNativeTarget "HWMonitor" */;
@@ -618,6 +687,7 @@
 			projectRoot = "";
 			targets = (
 				7EA248E716D8E93A002231B2 /* HWMonitor */,
+				7E9060E31708951800BF5BBF /* smcutil */,
 				7E27A479170084AE00234A6A /* Bump Build Number */,
 				7EA8CA5D16EBB8FD00E71108 /* Bump App Version */,
 				7EFAE91816EBC8ED00F4DA72 /* DefaultTestingPlatform */,
@@ -743,6 +813,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7E9060E01708951800BF5BBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E9060F617089A8000BF5BBF /* HWMonitorSensor.m in Sources */,
+				7E9060F517089A7100BF5BBF /* smc.c in Sources */,
+				7E9060E81708951800BF5BBF /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7EA248E416D8E93A002231B2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -849,6 +929,24 @@
 		7E27A47B170084AE00234A6A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		7E9060EE1708951800BF5BBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "smcutil/smcutil-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7E9060EF1708951800BF5BBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "smcutil/smcutil-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -994,6 +1092,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		7E9060ED1708951800BF5BBF /* Build configuration list for PBXNativeTarget "smcutil" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E9060EE1708951800BF5BBF /* Debug */,
+				7E9060EF1708951800BF5BBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		7EA248E316D8E93A002231B2 /* Build configuration list for PBXProject "HWMonitor" */ = {
 			isa = XCConfigurationList;

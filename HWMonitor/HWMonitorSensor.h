@@ -83,6 +83,10 @@ typedef enum {
 @property (nonatomic, strong) id representedObject;
 
 + (int)getIndexOfHexChar:(char)c;
++ (BOOL)isValidIntegetType:(NSString*)type;
++ (BOOL)isValidFloatingType:(NSString*)type;
++ (float)decodeNumericData:(NSData*)data ofType:(NSString*)type;
+
 + (HWMonitorSensor*)sensor;
 
 - (void)setType:(NSString *)newType;

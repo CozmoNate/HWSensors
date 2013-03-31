@@ -94,7 +94,7 @@ kern_return_t SMCClose(io_connect_t conn)
     return IOServiceClose(conn);
 }
 
-static kern_return_t SMCCall(io_connect_t conn, int index, SMCKeyData_t *inputStructure, SMCKeyData_t *outputStructure)
+kern_return_t SMCCall(io_connect_t conn, int index, SMCKeyData_t *inputStructure, SMCKeyData_t *outputStructure)
 {
     size_t   structureInputSize;
     size_t   structureOutputSize;

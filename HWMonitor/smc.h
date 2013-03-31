@@ -86,4 +86,5 @@ typedef struct {
 
 kern_return_t SMCOpen(io_connect_t *conn);
 kern_return_t SMCClose(io_connect_t conn);
+kern_return_t SMCCall(io_connect_t conn, int index, SMCKeyData_t *inputStructure, SMCKeyData_t *outputStructure);
 kern_return_t SMCReadKey(io_connect_t conn, UInt32Char_t key, SMCVal_t *val);
