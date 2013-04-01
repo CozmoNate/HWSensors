@@ -42,7 +42,7 @@
 {
     NSURL *url = [NSURL URLWithString:@"https://github.com/kozlek/HWSensors/raw/master/Shared/version.plist"];
     NSMutableDictionary *list = [[NSMutableDictionary alloc] initWithContentsOfURL:url];
-    
+
     if (list) {
         _currentVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         _remoteVersion = [list objectForKey:@"AppVersion"];

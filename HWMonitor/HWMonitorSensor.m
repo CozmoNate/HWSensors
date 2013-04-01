@@ -31,6 +31,9 @@
 
 #include "FakeSMCDefinitions.h"
 
+#define GetLocalizedString(key) \
+[[_engine bundle] localizedStringForKey:(key) value:@"" table:nil]
+
 @implementation HWMonitorSensor
 
 @synthesize type = _type;

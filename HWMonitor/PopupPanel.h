@@ -8,8 +8,6 @@
 //  Copyright (c) 2013 Vadim Shpanovski. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
 @interface PopupPanel : NSPanel
 
 @end

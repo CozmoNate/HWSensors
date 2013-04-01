@@ -80,29 +80,47 @@ UInt32 SMCReadIndexCount(io_connect_t connection)
     return _strtoul(val.bytes, val.dataSize, 10);
 }
 
-void printKeyValue(SMCVal_t val)
+bool printKeyValue(SMCVal_t val)
 {
-    printf("  %-4s  [%-4s]  ", val.key, val.dataType);
     if (val.dataSize > 0)
     {
-        if ([HWMonitorSensor isValidIntegetType:NSStr(val.dataType)]) {
-            printf("%.0f ", [HWMonitorSensor decodeNumericData:[NSData dataWithBytes:val.bytes length:val.dataSize] ofType:NSStr(val.dataType)]);
+        if (!strncasecmp(val.dataType, "ch8*", 4)) {
+            for (int i = 0; i < val.dataSize; i++)
+                printf("%c", (char)val.bytes[i]);
+        }
+        else if (!strncasecmp(val.dataType, "flag", 4)) {
+            printf(val.bytes[0] ? "TRUE" : "FALSE");
+        }
+        else  if ([HWMonitorSensor isValidIntegetType:NSStr(val.dataType)]) {
+            printf("%.0f", [HWMonitorSensor decodeNumericData:[NSData dataWithBytes:val.bytes length:val.dataSize] ofType:NSStr(val.dataType)]);
         }
         else if ([HWMonitorSensor isValidFloatingType:NSStr(val.dataType)]) {
-            printf("%.2f  ", [HWMonitorSensor decodeNumericData:[NSData dataWithBytes:val.bytes length:val.dataSize] ofType:NSStr(val.dataType)]);
+            printf("%.2f", [HWMonitorSensor decodeNumericData:[NSData dataWithBytes:val.bytes length:val.dataSize] ofType:NSStr(val.dataType)]);
         }
+        else return false;
         
-        int i;
-        
-        printf("(bytes");
-        for (i = 0; i < val.dataSize; i++)
-            printf(" %02x", (unsigned char) val.bytes[i]);
-        printf(")\n");
+        return true;
     }
     else
     {
-        printf("no data\n");
+        printf("no data");
     }
+    
+    return false;
+}
+
+void printValueBytes(SMCVal_t val)
+{
+    printf("(bytes");
+    if (val.dataSize > 0)
+    {
+        for (int i = 0; i < val.dataSize; i++)
+            printf(" %02x", (unsigned char) val.bytes[i]);
+    }
+    else {
+        printf(" -");
+    }
+    printf(")");
 }
 
 int main(int argc, const char * argv[])
@@ -154,7 +172,11 @@ int main(int argc, const char * argv[])
                             _ultostr(key, outputStructure.key);
                             
                             if (kIOReturnSuccess == SMCReadKey(connection, key, &val)) {
-                                printKeyValue(val);
+                                printf("  %-4s  [%-4s]  ", val.key, val.dataType);
+                                if (printKeyValue(val))
+                                    printf("  ");
+                                printValueBytes(val);
+                                printf("\n");
                             }
                         }
                     }
@@ -165,20 +187,7 @@ int main(int argc, const char * argv[])
                 case OPTION_READ:
                     snprintf(key, 5, argv[3]);
                     if (kIOReturnSuccess == SMCReadKey(connection, key, &val)) {
-                        if ([HWMonitorSensor isValidIntegetType:NSStr(val.dataType)]) {
-                            printf("%.0f\n", [HWMonitorSensor decodeNumericData:[NSData dataWithBytes:val.bytes length:val.dataSize] ofType:NSStr(val.dataType)]);
-                        }
-                        else if ([HWMonitorSensor isValidFloatingType:NSStr(val.dataType)]) {
-                            printf("%.2f\n", [HWMonitorSensor decodeNumericData:[NSData dataWithBytes:val.bytes length:val.dataSize] ofType:NSStr(val.dataType)]);
-                        }
-                        else {
-                            int i;
-                            
-                            printf("0x");
-                            for (i = 0; i < val.dataSize; i++)
-                                printf("%02x", (unsigned char) val.bytes[i]);
-                            printf("\n");
-                        }
+                        printKeyValue(val);
                     }
                     break;
             }
