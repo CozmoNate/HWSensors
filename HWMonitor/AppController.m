@@ -578,12 +578,7 @@
             if ([item isKindOfClass:[HWMonitorSensor class]]) {
                 HWMonitorSensor *sensor = (HWMonitorSensor*)item;
                 
-                PrefsSensorCell *itemCell = [tableView makeViewWithIdentifier:[sensor.representedObject representation] owner:self];;
-                
-                if (!itemCell) {
-                    // Fallback to default sensor cell
-                    itemCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
-                }
+                PrefsSensorCell *itemCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];;
                 
                 [itemCell.imageView setImage:[[self getIconByGroup:[sensor group]] image]];
                 [itemCell.textField setStringValue:[sensor title]];
@@ -601,18 +596,13 @@
             }
         }
     }
-    else {
+    else if (tableView == _sensorsTableView) {
         id item = [self getItemAtIndex:row];
         
         if ([item isKindOfClass:[HWMonitorItem class]]) {
             HWMonitorSensor *sensor = [item sensor];
             
-            PrefsSensorCell *itemCell = [tableView makeViewWithIdentifier:[item representation] owner:self];
-            
-            if (!itemCell) {
-                // Fallback to default sensor cell
-                itemCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
-            }
+            PrefsSensorCell *itemCell = [tableView makeViewWithIdentifier:@"Sensor" owner:self];
             
             [itemCell.checkBox setState:[item isVisible]];
             //[itemCell.checkBox setToolTip:GetLocalizedString(@"Show sensor in HWMonitor menu")];

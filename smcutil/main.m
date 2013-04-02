@@ -77,7 +77,7 @@ UInt32 SMCReadIndexCount(io_connect_t connection)
     SMCVal_t val;
     
     SMCReadKey(connection, "#KEY", &val);
-    return _strtoul(val.bytes, val.dataSize, 10);
+    return [HWMonitorSensor decodeNumericData:[NSData dataWithBytes:val.bytes length:val.dataSize] ofType:NSStr(val.dataType)];
 }
 
 bool printKeyValue(SMCVal_t val)
