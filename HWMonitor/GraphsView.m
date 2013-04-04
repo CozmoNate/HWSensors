@@ -157,9 +157,6 @@
     }
 
     _maxPoints = [self bounds].size.width / GraphScale;
-
-    if (_maxPoints < 50)
-        _maxPoints = 50;
     
     if ((_maxY == 0 && _minY == MAXFLOAT)) {
         _graphBounds = NSMakeRect(0, 0, _maxPoints, 100);
@@ -178,8 +175,9 @@
 
 - (NSPoint)graphPointToView:(NSPoint)point
 {
-    double graphScaleX = ([self bounds].size.width - LeftViewMargin - RightViewMargin) / _graphBounds.size.width;
+    double graphScaleX = GraphScale; //([self bounds].size.width - LeftViewMargin - RightViewMargin) / _graphBounds.size.width;
     double graphScaleY = ([self bounds].size.height - TopViewMargin - BottomViewMargin) / _graphBounds.size.height;
+
     double x = LeftViewMargin + (point.x - _graphBounds.origin.x) * graphScaleX;
     double y = BottomViewMargin + (point.y - _graphBounds.origin.y) * graphScaleY;
     
@@ -190,16 +188,17 @@
 {
     [self calculateGraphBoundsFindExtremes:NO];
     
+    NSGraphicsContext* context = [NSGraphicsContext currentContext];
+    
+    [context saveGraphicsState];
+    
     [[[NSGradient alloc]
       initWithStartingColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.75]
                 endingColor:[NSColor colorWithCalibratedWhite:0.25 alpha:0.75]]
         drawInRect:NSInsetRect(self.bounds, 3, 3) angle:270];
     
-    //double x, y;
-
-    NSGraphicsContext* context = [NSGraphicsContext currentContext];
-    
-    [context saveGraphicsState];
+    // Clipping rect
+    [NSBezierPath clipRect:NSMakeRect(LeftViewMargin, 0, self.bounds.size.width - LeftViewMargin - RightViewMargin, self.bounds.size.height)];
     
     // Draw marks
     [context setShouldAntialias:NO];
@@ -225,8 +224,6 @@
     }
     
     // Draw graphs
-    
-    [NSBezierPath clipRect:NSMakeRect(self.bounds.origin.x + LeftViewMargin, self.bounds.origin.y - BottomViewMargin, self.bounds.size.width - LeftViewMargin - RightViewMargin, self.bounds.size.width - TopViewMargin - BottomViewMargin)];
     
     [context setShouldAntialias:YES];
     
