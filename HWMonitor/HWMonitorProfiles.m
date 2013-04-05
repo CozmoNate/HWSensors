@@ -224,6 +224,7 @@
              // Currents
              [NSArray arrayWithObjects:@"IC0C",     @"CPU Core", nil],
              [NSArray arrayWithObjects:@"IC0M",     @"CPU Memory", nil],
+             [NSArray arrayWithObjects:@"IN1R",     @"PCH Rail", nil],
              [NSArray arrayWithObjects:@"IM0R",     @"Memory Rail", nil],
              [NSArray arrayWithObjects:@"IH02",     @"Main 3.3V Rail", nil], // ??
              [NSArray arrayWithObjects:@"IH05",     @"Main 5V Rail", nil],
@@ -236,6 +237,8 @@
              [NSArray arrayWithObjects:@"PCPC",     @"CPU Core Package", nil],
              [NSArray arrayWithObjects:@"PCPG",     @"CPU Package GFX", nil],
              [NSArray arrayWithObjects:@"PCPL",     @"CPU Package Total", nil],
+             
+             [NSArray arrayWithObjects:@"PN1R",     @"PCH Rail", nil], // ??
              
              [NSArray arrayWithObjects:@"PM0R",     @"Memory Rail", nil], // ??
              [NSArray arrayWithObjects:@"PH02",     @"Main 3.3V Rail", nil], // ??
@@ -285,7 +288,7 @@
              // Powers
              [NSArray arrayWithObjects:@"PC:A2AC",    @"CPU %X", nil],
              [NSArray arrayWithObjects:@"PM:A2AS",    @"Memory Bank %X", nil],
-             [NSArray arrayWithObjects:@"PN0C",       @"PCH", nil],
+             [NSArray arrayWithObjects:@"PN0C",       @"PCH Core", nil],
              [NSArray arrayWithObjects:@"Pe:141S",    @"PCIe Slot %X", nil],
              [NSArray arrayWithObjects:@"Pe:A2AS",    @"PCIe Booster %X", nil],
              [NSArray arrayWithObjects:@"PpSM",       @"Memory Modules", nil],
