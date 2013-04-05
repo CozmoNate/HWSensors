@@ -22,6 +22,8 @@
 #define CLOSE_DURATION .15
 #define MENU_ANIMATION_DURATION .1
 
+//#define ENABLE_WINDOW_BLUR_USING_PRIVATE_API
+
 @implementation PopupController
 
 -(void)setColorTheme:(ColorTheme *)colorTheme
@@ -116,6 +118,28 @@
     self.popupView.arrowPosition = panelX;
 }
 
+#ifdef ENABLE_WINDOW_BLUR_USING_PRIVATE_API
+
+-(void)enableBlurForWindow:(NSWindow*)window
+{
+    void* thisConnection;
+    uint32_t compositingFilter;
+    int compositingType = 1;//0x3001; // Under the window
+    
+    /* Make a new connection to CoreGraphics */
+    CGSNewConnection(NULL, &thisConnection);
+    
+    /* Create a CoreImage filter and set it up */
+    CGSNewCIFilterByName(thisConnection, (CFStringRef)@"CIGaussianBlur", &compositingFilter);
+    NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:2.0] forKey:@"inputRadius"];
+    CGSSetCIFilterValuesFromDictionary(thisConnection, compositingFilter, (__bridge CFDictionaryRef)options);
+    
+    /* Now apply the filter to the window */
+    CGSAddWindowFilter(thisConnection, [window windowNumber], compositingFilter, compositingType);
+}
+
+#endif
+
 - (NSRect)statusRectForWindow:(NSWindow *)window
 {
     NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
@@ -191,8 +215,18 @@
         [NSApp unhide];
     }
     
+#ifdef ENABLE_WINDOW_BLUR_USING_PRIVATE_API
+    BOOL blurEnabled = [panel windowNumber] > -1;
+#endif
+    
     [panel setLevel:NSPopUpMenuWindowLevel];
     [panel makeKeyAndOrderFront:panel];
+
+#ifdef ENABLE_WINDOW_BLUR_USING_PRIVATE_API
+    if (!blurEnabled) {
+        [self enableBlurForWindow:panel];
+    }
+#endif
     
 //    [NSAnimationContext beginGrouping];
 //    [[NSAnimationContext currentContext] setDuration:0.1];

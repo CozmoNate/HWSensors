@@ -5730,6 +5730,22 @@
 								<float key="scoringTypeFloat">22</float>
 								<int key="contentType">2</int>
 							</object>
+							<object class="IBNSLayoutConstraint" id="594574291">
+								<reference key="firstItem" ref="182855717"/>
+								<int key="firstAttribute">10</int>
+								<int key="relation">0</int>
+								<reference key="secondItem" ref="10855355"/>
+								<int key="secondAttribute">10</int>
+								<float key="multiplier">1</float>
+								<object class="IBLayoutConstant" key="constant">
+									<double key="value">0.0</double>
+								</object>
+								<float key="priority">1000</float>
+								<reference key="containingView" ref="10855355"/>
+								<int key="scoringType">5</int>
+								<float key="scoringTypeFloat">22</float>
+								<int key="contentType">2</int>
+							</object>
 							<object class="IBNSLayoutConstraint" id="700376065">
 								<reference key="firstItem" ref="182855717"/>
 								<int key="firstAttribute">5</int>
@@ -5761,22 +5777,6 @@
 								<int key="scoringType">9</int>
 								<float key="scoringTypeFloat">40</float>
 								<int key="contentType">3</int>
-							</object>
-							<object class="IBNSLayoutConstraint" id="594574291">
-								<reference key="firstItem" ref="182855717"/>
-								<int key="firstAttribute">10</int>
-								<int key="relation">0</int>
-								<reference key="secondItem" ref="10855355"/>
-								<int key="secondAttribute">10</int>
-								<float key="multiplier">1</float>
-								<object class="IBLayoutConstant" key="constant">
-									<double key="value">0.0</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="10855355"/>
-								<int key="scoringType">5</int>
-								<float key="scoringTypeFloat">22</float>
-								<int key="contentType">2</int>
 							</object>
 							<reference ref="182855717"/>
 						</array>
@@ -11091,16 +11091,6 @@
 						<reference key="parent" ref="10855355"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">2480</int>
-						<reference key="object" ref="594574291"/>
-						<reference key="parent" ref="10855355"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">2483</int>
-						<reference key="object" ref="970430058"/>
-						<reference key="parent" ref="10855355"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">2481</int>
 						<reference key="object" ref="522930797"/>
 						<reference key="parent" ref="10855355"/>
@@ -11262,6 +11252,16 @@
 						<int key="objectID">6826</int>
 						<reference key="object" ref="623872183"/>
 						<reference key="parent" ref="592443837"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">6841</int>
+						<reference key="object" ref="594574291"/>
+						<reference key="parent" ref="10855355"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">6842</int>
+						<reference key="object" ref="970430058"/>
+						<reference key="parent" ref="10855355"/>
 					</object>
 				</array>
 			</object>
@@ -11699,10 +11699,8 @@
 				<string key="2449.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2450.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2451.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="2480.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2481.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2482.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="2483.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2484.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2495.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2498.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -12123,6 +12121,8 @@
 				</array>
 				<boolean value="NO" key="684.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="684.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6841.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6842.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<array key="685.IBNSViewMetadataConstraints">
 					<reference ref="872234065"/>
 				</array>
@@ -12240,10 +12240,10 @@
 				<string key="782.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="806.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="806.NSWindowTemplate.visibleAtLaunch"/>
-				<array class="NSMutableArray" key="807.IBNSViewMetadataConstraints">
-					<reference ref="594574291"/>
+				<array key="807.IBNSViewMetadataConstraints">
 					<reference ref="522930797"/>
 					<reference ref="700376065"/>
+					<reference ref="594574291"/>
 					<reference ref="970430058"/>
 				</array>
 				<string key="807.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -12406,7 +12406,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">6826</int>
+			<int key="maxID">6842</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -12555,7 +12555,6 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="graphsCheckButtonClicked:">id</string>
 						<string key="graphsTableViewClicked:">id</string>
-						<string key="showWindow:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="graphsCheckButtonClicked:">
@@ -12564,10 +12563,6 @@
 						</object>
 						<object class="IBActionInfo" key="graphsTableViewClicked:">
 							<string key="name">graphsTableViewClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showWindow:">
-							<string key="name">showWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -12639,27 +12634,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/LaunchAtLoginController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSCollectionViewItem</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="imageView">NSImageView</string>
-						<string key="textField">NSTextField</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="imageView">
-							<string key="name">imageView</string>
-							<string key="candidateClassName">NSImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textField">
-							<string key="name">textField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSCollectionViewItem.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

@@ -10,8 +10,8 @@
 
 @implementation ColorTheme
 
-#define FILL_OPACITY        0.97
-#define TOOLBAR_OPACITY     0.99
+#define FILL_OPACITY        0.95
+#define TOOLBAR_OPACITY     0.97
 
 + (NSArray*)createColorThemes
 {

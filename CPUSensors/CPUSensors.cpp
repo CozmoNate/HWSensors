@@ -357,6 +357,7 @@ bool CPUSensors::start(IOService *provider)
                         break;
                         
                     case CPUID_MODEL_IVYBRIDGE:
+                        if (!platform) platform = OSString::withCString("d8\0\0\0\0\0");
                         readTjmaxFromMSR();
                         break;
                         
@@ -413,11 +414,14 @@ bool CPUSensors::start(IOService *provider)
     
     HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0]);
     
-    if (platform && !isKeyExists("RPlt")) {
-        if (setKeyValue("RPlt", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
-            HWSensorsInfoLog("platform set to %s", platform->getCStringNoCopy());
-        else
-            HWSensorsWarningLog("failed to set platform key");
+    if (platform) {
+        HWSensorsInfoLog("setting platform to %s", platform->getCStringNoCopy());
+        
+        if (!isKeyExists("RPlt") && !setKeyValue("RPlt", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
+            HWSensorsWarningLog("failed to set platform key RPlt");
+        
+        if (!isKeyExists("RBr") && !setKeyValue("RBr", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
+                HWSensorsWarningLog("failed to set platform key RBr");
     }
 	
 	for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {

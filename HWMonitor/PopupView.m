@@ -34,10 +34,11 @@
 
 - (void)drawRect:(NSRect)rect
 {
-    NSRect popupBounds = NSInsetRect([self bounds], LINE_THICKNESS, LINE_THICKNESS);
-    
-    if (!_cachedImage || !NSEqualRects(popupBounds, _popupBounds)) {
-        _popupBounds = popupBounds;
+    if (!_cachedImage || !NSEqualRects([self bounds], _popupBounds)) {
+        
+        _popupBounds = [self bounds];
+        
+        NSRect popupBounds = NSInsetRect([self bounds], LINE_THICKNESS, LINE_THICKNESS);
         
         _cachedImage = [[NSImage alloc] initWithSize:[self bounds].size]; 
         
@@ -120,17 +121,18 @@
 
         // Stroke toolbar
         [_colorTheme.strokeColor setStroke];
-        [toolbarPath setLineWidth:LINE_THICKNESS + 0.15];
+        [toolbarPath setLineWidth:LINE_THICKNESS + 0.5];
         [toolbarPath stroke];
 
         // Stroke list
         if (_colorTheme.useDarkIcons) {
-            [[_colorTheme.strokeColor highlightWithLevel:0.25] setStroke];
+            [[NSColor colorWithCalibratedWhite:0.0 alpha:0.35] setStroke];
         }
         else {
-            [[_colorTheme.strokeColor shadowWithLevel:0.25] setStroke];
+            [[NSColor colorWithCalibratedWhite:0.0 alpha:0.65] setStroke];
         }
-        [listPath setLineWidth:LINE_THICKNESS + 0.15];
+        
+        [listPath setLineWidth:LINE_THICKNESS + 0.5];
         [listPath stroke];
         
         [[NSGraphicsContext currentContext] restoreGraphicsState]; // restore
