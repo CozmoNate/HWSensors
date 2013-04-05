@@ -156,7 +156,8 @@
         }
     }
 
-    _maxPoints = [self bounds].size.width / GraphScale;
+    _maxPoints = self.bounds.size.width > 0 ? self.bounds.size.width / GraphScale : 100;
+
     
     if ((_maxY == 0 && _minY == MAXFLOAT)) {
         _graphBounds = NSMakeRect(0, 0, _maxPoints, 100);

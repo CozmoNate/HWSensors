@@ -100,6 +100,8 @@
              [NSArray arrayWithObjects:@"VD5R",       @"Mainboard S5 Rail", nil],
              [NSArray arrayWithObjects:@"VC0G",       @"GPU Core", nil],
              [NSArray arrayWithObjects:@"VC:132G",    @"GPU %X Core", nil],
+             [NSArray arrayWithObjects:@"VG0C",       @"GPU Core", nil],
+             [NSArray arrayWithObjects:@"VG:132C",    @"GPU %X Core", nil],
              [NSArray arrayWithObjects:@"VC0R",       @"GPU Rail", nil],
              [NSArray arrayWithObjects:@"VC:132R",    @"GPU %X Rail", nil],
              [NSArray arrayWithObjects:@"Vb0R",       @"CMOS Battery", nil],
@@ -192,6 +194,64 @@
              
              nil], @"MacBookPro8,1",
             
+            // iMac13,2
+            [NSArray arrayWithObjects:
+             // Temperatures
+             [NSArray arrayWithObjects:@"TA0p",    @"Ambient", nil],
+             [NSArray arrayWithObjects:@"TC:041c", @"CPU Core %X", nil],
+             [NSArray arrayWithObjects:@"TC0p",    @"CPU Proximity", nil],
+             [NSArray arrayWithObjects:@"TCXc",    @"PECI CPU", nil],
+             [NSArray arrayWithObjects:@"TCSc",    @"PECI SA", nil],
+             [NSArray arrayWithObjects:@"TCGc",    @"PECI GFX", nil],
+             [NSArray arrayWithObjects:@"TPCD",    @"PCH Die", nil],
+             [NSArray arrayWithObjects:@"Tm:021p", @"Mainboard Proximity %X", nil],
+             [NSArray arrayWithObjects:@"TL:021p", @"LCD Proximity %X", nil],
+             [NSArray arrayWithObjects:@"Tb0p",    @"BLC Proximity %X", nil],
+             [NSArray arrayWithObjects:@"TM:141p", @"Memory Module %X", nil],
+             [NSArray arrayWithObjects:@"TM:041p", @"Memory Module %X Proximity", nil],
+             [NSArray arrayWithObjects:@"Tp2h",    @"Power Supply Heatsink", nil],
+             
+             // Voltages
+             [NSArray arrayWithObjects:@"VC0C",     @"CPU Core", nil],
+             [NSArray arrayWithObjects:@"VC0M",     @"CPU Memory", nil],
+             [NSArray arrayWithObjects:@"VN1R",     @"PCH Core", nil],
+             [NSArray arrayWithObjects:@"VR3R",     @"Main 3.3V", nil],
+             [NSArray arrayWithObjects:@"VH05",     @"Main 5V", nil],
+             [NSArray arrayWithObjects:@"VD2R",     @"Main 12V", nil],
+             [NSArray arrayWithObjects:@"VG0C",     @"GPU Core", nil],
+
+             
+             // Currents
+             [NSArray arrayWithObjects:@"IC0C",     @"CPU Core", nil],
+             [NSArray arrayWithObjects:@"IC0M",     @"CPU Memory", nil],
+             [NSArray arrayWithObjects:@"IM0R",     @"Memory Rail", nil],
+             [NSArray arrayWithObjects:@"IH02",     @"Main 3.3V Rail", nil], // ??
+             [NSArray arrayWithObjects:@"IH05",     @"Main 5V Rail", nil],
+             [NSArray arrayWithObjects:@"ID2R",     @"Main 12V Rail", nil],
+             [NSArray arrayWithObjects:@"IG0C",     @"GPU Rail", nil],
+             
+             // Powers
+             [NSArray arrayWithObjects:@"PC0C",     @"CPU Core", nil],
+             [NSArray arrayWithObjects:@"PC0M",     @"CPU Memory", nil],
+             [NSArray arrayWithObjects:@"PCPC",     @"CPU Core Package", nil],
+             [NSArray arrayWithObjects:@"PCPG",     @"CPU Package GFX", nil],
+             [NSArray arrayWithObjects:@"PCPL",     @"CPU Package Total", nil],
+             
+             [NSArray arrayWithObjects:@"PM0R",     @"Memory Rail", nil], // ??
+             [NSArray arrayWithObjects:@"PH02",     @"Main 3.3V Rail", nil], // ??
+             [NSArray arrayWithObjects:@"PH05",     @"Main 5V Rail", nil],
+             [NSArray arrayWithObjects:@"PD2R",     @"Main 12V Rail", nil],
+             
+             [NSArray arrayWithObjects:@"PG0C",     @"GPU Core", nil],
+             [NSArray arrayWithObjects:@"PGTR",     @"GPU Total", nil],
+             
+             [NSArray arrayWithObjects:@"PDTR",     @"System Total", nil],
+             
+             [NSArray arrayWithObjects:@"PZ:041G",  @"Zone %X Average", nil],
+
+             
+             nil], @"iMac13,2",
+            
             // MacPro5,1
             [NSArray arrayWithObjects:
              // Temperatures
@@ -200,7 +260,7 @@
              [NSArray arrayWithObjects:@"TC:A2AH",    @"CPU %X Heatsink", nil],
              [NSArray arrayWithObjects:@"TN0D",       @"PCH Die", nil],
              [NSArray arrayWithObjects:@"TN0H",       @"PCH Heatsink", nil],
-             [NSArray arrayWithObjects:@"TM:181P",    @"DIMM %X Proximity", nil],
+             [NSArray arrayWithObjects:@"TM:181P",    @"Memory Module %X Proximity", nil],
              [NSArray arrayWithObjects:@"TMA:141",    @"Memory Bank A, Slot %X", nil],
              [NSArray arrayWithObjects:@"TMB:141",    @"Memory Bank B, Slot %X", nil],
              [NSArray arrayWithObjects:@"TeGG",       @"PCIe GPU", nil],
