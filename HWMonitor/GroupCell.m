@@ -7,7 +7,6 @@
 //
 
 #import "GroupCell.h"
-#import "PopupView.h"
 
 @implementation GroupCell
 
@@ -15,17 +14,15 @@
 {
     _colorTheme = colorTheme;
     
-    _gradient = [[NSGradient alloc]
-                 initWithStartingColor:_colorTheme.groupStartColor
-                 endingColor:_colorTheme.groupEndColor];
+    _gradient = [[NSGradient alloc] initWithStartingColor:_colorTheme.groupStartColor
+                                              endingColor:_colorTheme.groupEndColor];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
     if (!_gradient) {
-        _gradient = [[NSGradient alloc]
-                    initWithStartingColor:_colorTheme.groupStartColor
-                              endingColor:_colorTheme.groupEndColor];
+        _gradient = [[NSGradient alloc] initWithStartingColor:_colorTheme.groupStartColor
+                                                  endingColor:_colorTheme.groupEndColor];
     }
     
     NSRect contentRect = [self bounds];

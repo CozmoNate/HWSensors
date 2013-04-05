@@ -55,7 +55,6 @@
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
 		7E7D61FE170449CB00F7222F /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7D61FC170449CB00F7222F /* 19-gear.png */; };
 		7E7D61FF170449CB00F7222F /* 19-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7D61FD170449CB00F7222F /* 19-gear@2x.png */; };
-		7E8C68FA1702E22400645399 /* PrefsGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8C68F91702E22400645399 /* PrefsGroupCell.m */; };
 		7E9060E51708951800BF5BBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248F016D8E93A002231B2 /* Foundation.framework */; };
 		7E9060E81708951800BF5BBF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9060E71708951800BF5BBF /* main.m */; };
 		7E9060EC1708951800BF5BBF /* smcutil.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E9060EB1708951800BF5BBF /* smcutil.1 */; };
@@ -175,8 +174,6 @@
 		7E7D61FA1704453B00F7222F /* FadingButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadingButton.m; sourceTree = "<group>"; };
 		7E7D61FC170449CB00F7222F /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
 		7E7D61FD170449CB00F7222F /* 19-gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear@2x.png"; sourceTree = "<group>"; };
-		7E8C68F81702E22400645399 /* PrefsGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsGroupCell.h; sourceTree = "<group>"; };
-		7E8C68F91702E22400645399 /* PrefsGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsGroupCell.m; sourceTree = "<group>"; };
 		7E9060E41708951800BF5BBF /* smcutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = smcutil; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E9060E71708951800BF5BBF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7E9060EA1708951800BF5BBF /* smcutil-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "smcutil-Prefix.pch"; sourceTree = "<group>"; };
@@ -344,8 +341,6 @@
 				7EDA1A7616D903740012A0DC /* SensorCell.m */,
 				7E17953416EE705B00145082 /* BatteryCell.h */,
 				7E17953516EE705B00145082 /* BatteryCell.m */,
-				7E8C68F81702E22400645399 /* PrefsGroupCell.h */,
-				7E8C68F91702E22400645399 /* PrefsGroupCell.m */,
 				7E19000517006727008F40F1 /* PrefsSensorCell.h */,
 				7E19000617006727008F40F1 /* PrefsSensorCell.m */,
 				7E190008170070F2008F40F1 /* GraphsSensorCell.h */,
@@ -482,8 +477,6 @@
 			isa = PBXGroup;
 			children = (
 				7E0648F216DF3B8300ACB851 /* LaunchAtLoginController */,
-				7E19FFFF17005652008F40F1 /* SensorsTableView.h */,
-				7E19000017005652008F40F1 /* SensorsTableView.m */,
 				7EA248FD16D8E93A002231B2 /* AppController.h */,
 				7EA248FE16D8E93A002231B2 /* AppController.m */,
 				7EDA1A6B16D901100012A0DC /* PopupController.h */,
@@ -547,6 +540,8 @@
 				7E17073F170569700019173D /* OverlapingScrollView.m */,
 				7E16FD881706BB3000FB253E /* TransparentSplitView.h */,
 				7E16FD891706BB3000FB253E /* TransparentSplitView.m */,
+				7E19FFFF17005652008F40F1 /* SensorsTableView.h */,
+				7E19000017005652008F40F1 /* SensorsTableView.m */,
 				7E7D61F91704453B00F7222F /* FadingButton.h */,
 				7E7D61FA1704453B00F7222F /* FadingButton.m */,
 				7EA2494B16D8EB2D002231B2 /* StatusItemView.h */,
@@ -858,7 +853,6 @@
 				7E19000117005652008F40F1 /* SensorsTableView.m in Sources */,
 				7E19000717006727008F40F1 /* PrefsSensorCell.m in Sources */,
 				7E19000A170070F3008F40F1 /* GraphsSensorCell.m in Sources */,
-				7E8C68FA1702E22400645399 /* PrefsGroupCell.m in Sources */,
 				7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */,
 				7E170740170569700019173D /* OverlapingScrollView.m in Sources */,
 				7E16FD87170648BF00FB253E /* HWMonitorProfiles.m in Sources */,

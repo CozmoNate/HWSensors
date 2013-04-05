@@ -250,6 +250,8 @@
         [self.delegate popupWillClose:self];
     }
     
+#ifndef ENABLE_WINDOW_BLUR_USING_PRIVATE_API
+    
     [NSAnimationContext beginGrouping];
     [[NSAnimationContext currentContext] setDuration:CLOSE_DURATION];
     [[[self window] animator] setAlphaValue:0];
@@ -258,6 +260,9 @@
     dispatch_after(dispatch_walltime(NULL, NSEC_PER_SEC * CLOSE_DURATION * 2), dispatch_get_main_queue(), ^{
         [self.window orderOut:nil];
     });
+#else
+    [self.window orderOut:nil];
+#endif
     
     self.statusItemView.isHighlighted = NO;
     
