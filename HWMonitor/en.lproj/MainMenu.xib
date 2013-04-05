@@ -86,7 +86,6 @@
 							<string key="NSFrame">{{13, 10}, {574, 484}}</string>
 							<reference key="NSSuperview" ref="630195044"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="90907002"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<array class="NSMutableArray" key="NSTabViewItems">
 								<object class="NSTabViewItem" id="689181300">
@@ -450,7 +449,6 @@
 												<string key="NSFrame">{{323, 179}, {225, 18}}</string>
 												<reference key="NSSuperview" ref="90907002"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<int key="NSTag">3</int>
 												<bool key="NSEnabled">YES</bool>
@@ -693,7 +691,7 @@
 																		<string key="NSFrameSize">{284, 149}</string>
 																		<reference key="NSSuperview" ref="431031533"/>
 																		<reference key="NSWindow"/>
-																		<reference key="NSNextKeyView" ref="290293410"/>
+																		<reference key="NSNextKeyView" ref="163815986"/>
 																		<string key="NSReuseIdentifierKey">_NS:13</string>
 																		<bool key="NSEnabled">YES</bool>
 																		<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -815,7 +813,7 @@
 														<string key="NSFrameSize">{286, 151}</string>
 														<reference key="NSSuperview" ref="30005863"/>
 														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="163815986"/>
+														<reference key="NSNextKeyView" ref="431031533"/>
 														<string key="NSReuseIdentifierKey">_NS:9</string>
 														<int key="NSsFlags">133650</int>
 														<reference key="NSVScroller" ref="124569691"/>
@@ -841,7 +839,7 @@
 																		<string key="NSFrameSize">{284, 249}</string>
 																		<reference key="NSSuperview" ref="96711611"/>
 																		<reference key="NSWindow"/>
-																		<reference key="NSNextKeyView" ref="156239318"/>
+																		<reference key="NSNextKeyView" ref="1000827922"/>
 																		<string key="NSReuseIdentifierKey">_NS:13</string>
 																		<bool key="NSEnabled">YES</bool>
 																		<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -941,7 +939,7 @@
 														<string key="NSFrame">{{0, 160}, {286, 251}}</string>
 														<reference key="NSSuperview" ref="30005863"/>
 														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="1000827922"/>
+														<reference key="NSNextKeyView" ref="96711611"/>
 														<string key="NSReuseIdentifierKey">_NS:9</string>
 														<int key="NSsFlags">133650</int>
 														<reference key="NSVScroller" ref="736681000"/>
@@ -1075,7 +1073,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="114547693">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSScrollView" id="807269756">
@@ -1498,7 +1496,6 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{230, 300}</string>
-					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="605969560"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
@@ -1513,10 +1510,9 @@
 			</object>
 			<object class="NSCollectionViewItem" id="523865499"/>
 			<object class="NSCustomView" id="952725133">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">266</int>
 				<string key="NSFrameSize">{200, 150}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="NSClassName">NSView</string>
 			</object>
@@ -1531,7 +1527,7 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{200, 300}</string>
 				<object class="NSView" key="NSWindowView" id="10855355">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSSplitView" id="182855717">
@@ -1768,7 +1764,6 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{600, 500}</string>
-					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="182855717"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
@@ -1793,7 +1788,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="834837792">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSImageView" id="999064694">
@@ -1927,7 +1922,6 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{440, 216}</string>
-					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="999064694"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
@@ -12371,6 +12365,7 @@
 						<string key="favoritesChanged:">id</string>
 						<string key="graphsBackgroundMonitorChanged:">id</string>
 						<string key="showVolumeNamesChanged:">id</string>
+						<string key="showWindow:">id</string>
 						<string key="toggleGraphSmoothing:">id</string>
 						<string key="toggleSensorVisibility:">id</string>
 						<string key="updateRateChanged:">id</string>
@@ -12394,6 +12389,10 @@
 						</object>
 						<object class="IBActionInfo" key="showVolumeNamesChanged:">
 							<string key="name">showVolumeNamesChanged:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showWindow:">
+							<string key="name">showWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleGraphSmoothing:">
@@ -12590,6 +12589,27 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">NSCollectionViewItem</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="imageView">NSImageView</string>
+						<string key="textField">NSTextField</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="imageView">
+							<string key="name">imageView</string>
+							<string key="candidateClassName">NSImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField">
+							<string key="name">textField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSCollectionViewItem.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">NSLayoutConstraint</string>
 					<string key="superclassName">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -12613,6 +12633,7 @@
 						<string key="openPreferences:">id</string>
 						<string key="showAboutWindow:">id</string>
 						<string key="showGraphs:">id</string>
+						<string key="showWindow:">id</string>
 						<string key="togglePanel:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -12630,6 +12651,10 @@
 						</object>
 						<object class="IBActionInfo" key="showGraphs:">
 							<string key="name">showGraphs:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showWindow:">
+							<string key="name">showWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="togglePanel:">
