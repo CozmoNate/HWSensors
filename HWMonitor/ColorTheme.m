@@ -10,8 +10,8 @@
 
 @implementation ColorTheme
 
-#define FILL_OPACITY        0.95
-#define TOOLBAR_OPACITY     0.97
+#define FILL_OPACITY        0.9
+#define TOOLBAR_OPACITY     0.95
 
 + (NSArray*)createColorThemes
 {
@@ -25,8 +25,8 @@
     theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.3];
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
     theme.strokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
-    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
-    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
+    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.95 alpha:0.5];
+    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.85 alpha:0.5];
     theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
     theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
     theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
@@ -43,8 +43,8 @@
     theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.2];
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:FILL_OPACITY];
     theme.strokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.7];
-    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.96 alpha:FILL_OPACITY];
-    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.90 alpha:FILL_OPACITY];
+    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.95 alpha:0.5];
+    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.85 alpha:0.5];
     theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
     theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
     theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
@@ -61,8 +61,8 @@
     theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.3];
     theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.15 alpha:FILL_OPACITY];
     theme.strokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
-    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.2 alpha:FILL_OPACITY];
-    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.14 alpha:FILL_OPACITY];
+    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.2 alpha:0.5];
+    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.14 alpha:0.5];
     theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
     theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.85 alpha:1.0];
     theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.65 alpha:1.0];

@@ -38,14 +38,14 @@
         
         _popupBounds = [self bounds];
         
-        NSRect popupBounds = NSInsetRect([self bounds], LINE_THICKNESS, LINE_THICKNESS);
+        NSRect popupBounds = NSInsetRect([self bounds], LINE_THICKNESS * 2, LINE_THICKNESS * 2);
         
         _cachedImage = [[NSImage alloc] initWithSize:[self bounds].size]; 
         
         // Toolbar and arrow path
         NSRect toolbarBounds = popupBounds;
-        toolbarBounds.size.height = kHWMonitorToolbarHeight + ARROW_HEIGHT - LINE_THICKNESS * 2;
-        toolbarBounds.origin.y = popupBounds.size.height - toolbarBounds.size.height + LINE_THICKNESS;
+        toolbarBounds.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight - LINE_THICKNESS * 2;
+        toolbarBounds.origin.y = popupBounds.size.height - toolbarBounds.size.height;
         NSBezierPath *toolbarPath = [NSBezierPath bezierPath];
         [toolbarPath moveToPoint:NSMakePoint(NSMinX(toolbarBounds), NSMinY(toolbarBounds))];
         [toolbarPath lineToPoint:NSMakePoint(NSMinX(toolbarBounds), NSMaxY(toolbarBounds) - ARROW_HEIGHT - CORNER_RADIUS)];
@@ -60,7 +60,7 @@
         [toolbarPath lineToPoint:NSMakePoint(NSMaxX(toolbarBounds), NSMinY(toolbarBounds))];
         
         // List path
-        NSRect listBounds = NSMakeRect(popupBounds.origin.x, popupBounds.origin.y, popupBounds.size.width, popupBounds.size.height - toolbarBounds.size.height);
+        NSRect listBounds = NSMakeRect(popupBounds.origin.x, popupBounds.origin.y, popupBounds.size.width, popupBounds.size.height - toolbarBounds.size.height - LINE_THICKNESS * 2);
         NSBezierPath *listPath = [NSBezierPath bezierPath];
         [listPath moveToPoint:NSMakePoint(NSMaxX(listBounds), NSMaxY(listBounds))];
         [listPath lineToPoint:NSMakePoint(NSMaxX(listBounds), NSMinY(listBounds) + CORNER_RADIUS)];
@@ -126,10 +126,10 @@
 
         // Stroke list
         if (_colorTheme.useDarkIcons) {
-            [[NSColor colorWithCalibratedWhite:0.0 alpha:0.35] setStroke];
+            [[_colorTheme.strokeColor highlightWithLevel:0.3] setStroke];
         }
         else {
-            [[NSColor colorWithCalibratedWhite:0.0 alpha:0.65] setStroke];
+            [[_colorTheme.strokeColor shadowWithLevel:0.3] setStroke];
         }
         
         [listPath setLineWidth:LINE_THICKNESS + 0.5];

@@ -47,6 +47,7 @@
 		7E1BC3CF16F47BDF005B9479 /* battery_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CD16F47BDF005B9479 /* battery_template.png */; };
 		7E3AF30417073A6E005869E9 /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3AF30217073A6E005869E9 /* 37-circle-x.png */; };
 		7E3AF30517073A6E005869E9 /* 37-circle-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3AF30317073A6E005869E9 /* 37-circle-x@2x.png */; };
+		7E44D95E1710433A00D06387 /* WindowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E44D95D1710433A00D06387 /* WindowFilter.m */; };
 		7E7C70AE1703019D004E344D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7E7D61F31704409D00F7222F /* 16-line-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7D61EB1704409D00F7222F /* 16-line-chart.png */; };
 		7E7D61F41704409D00F7222F /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7D61EC1704409D00F7222F /* 16-line-chart@2x.png */; };
@@ -166,6 +167,8 @@
 		7E1BC3D716F48A8C005B9479 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7E3AF30217073A6E005869E9 /* 37-circle-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x.png"; sourceTree = "<group>"; };
 		7E3AF30317073A6E005869E9 /* 37-circle-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x@2x.png"; sourceTree = "<group>"; };
+		7E44D95C1710433A00D06387 /* WindowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowFilter.h; sourceTree = "<group>"; };
+		7E44D95D1710433A00D06387 /* WindowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowFilter.m; sourceTree = "<group>"; };
 		7E7D61EB1704409D00F7222F /* 16-line-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart.png"; sourceTree = "<group>"; };
 		7E7D61EC1704409D00F7222F /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
 		7E7D61EF1704409D00F7222F /* 42-info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "42-info.png"; sourceTree = "<group>"; };
@@ -534,6 +537,8 @@
 			isa = PBXGroup;
 			children = (
 				7E39415716DBEA13005A685D /* Cells */,
+				7E44D95C1710433A00D06387 /* WindowFilter.h */,
+				7E44D95D1710433A00D06387 /* WindowFilter.m */,
 				7E16893416EA106D00BBF6FC /* ArrowlessScroller.h */,
 				7E16893516EA106D00BBF6FC /* ArrowlessScroller.m */,
 				7E17073E1705696F0019173D /* OverlapingScrollView.h */,
@@ -857,6 +862,7 @@
 				7E170740170569700019173D /* OverlapingScrollView.m in Sources */,
 				7E16FD87170648BF00FB253E /* HWMonitorProfiles.m in Sources */,
 				7E16FD8A1706BB3000FB253E /* TransparentSplitView.m in Sources */,
+				7E44D95E1710433A00D06387 /* WindowFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

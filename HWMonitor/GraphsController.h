@@ -26,10 +26,9 @@
  *
  */
 
-#import <Foundation/Foundation.h>
-
 @class GraphsView;
 @class HWMonitorItem;
+@class WindowFilter;
 
 @interface GraphsController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
@@ -37,6 +36,7 @@
     NSMutableArray *_items;
     NSMutableArray *_hiddenItems;
     NSMutableArray *_graphViews;
+    WindowFilter *_windowFilter;
 }
 
 @property (nonatomic, setter = setUseFahrenheit:) BOOL useFahrenheit;

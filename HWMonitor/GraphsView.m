@@ -119,7 +119,8 @@
             [history addObject:[sensor rawValue]];
             
             if ([history count] > _maxPoints + 8) {
-                [history removeObjectAtIndex:0];
+                //[history removeObjectAtIndex:0];
+                [history removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [history count] - _maxPoints - 8)]];
             }
         }
     }
@@ -156,8 +157,7 @@
         }
     }
 
-    _maxPoints = self.bounds.size.width > 0 ? self.bounds.size.width / GraphScale : 100;
-
+    _maxPoints = self.window.windowNumber > 0 ? self.bounds.size.width / GraphScale : 100;
     
     if ((_maxY == 0 && _minY == MAXFLOAT)) {
         _graphBounds = NSMakeRect(0, 0, _maxPoints, 100);

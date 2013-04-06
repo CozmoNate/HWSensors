@@ -17,12 +17,11 @@
 #import "SensorCell.h"
 #import "BatteryCell.h"
 #import "PopupView.h"
+#import "WindowFilter.h"
 
 #define OPEN_DURATION .01
 #define CLOSE_DURATION .15
 #define MENU_ANIMATION_DURATION .1
-
-//#define ENABLE_WINDOW_BLUR_USING_PRIVATE_API
 
 @implementation PopupController
 
@@ -118,28 +117,6 @@
     self.popupView.arrowPosition = panelX;
 }
 
-#ifdef ENABLE_WINDOW_BLUR_USING_PRIVATE_API
-
--(void)enableBlurForWindow:(NSWindow*)window
-{
-    void* thisConnection;
-    uint32_t compositingFilter;
-    int compositingType = 1;//0x3001; // Under the window
-    
-    /* Make a new connection to CoreGraphics */
-    CGSNewConnection(NULL, &thisConnection);
-    
-    /* Create a CoreImage filter and set it up */
-    CGSNewCIFilterByName(thisConnection, (CFStringRef)@"CIGaussianBlur", &compositingFilter);
-    NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:2.0] forKey:@"inputRadius"];
-    CGSSetCIFilterValuesFromDictionary(thisConnection, compositingFilter, (__bridge CFDictionaryRef)options);
-    
-    /* Now apply the filter to the window */
-    CGSAddWindowFilter(thisConnection, [window windowNumber], compositingFilter, compositingType);
-}
-
-#endif
-
 - (NSRect)statusRectForWindow:(NSWindow *)window
 {
     NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
@@ -205,34 +182,19 @@
     if (NSMaxX(panelRect) > (NSMaxX(screenRect) - ARROW_HEIGHT))
         panelRect.origin.x -= NSMaxX(panelRect) - (NSMaxX(screenRect) - ARROW_HEIGHT);
     
-    [panel setFrame:panelRect display:YES];
-    
-    [self windowDidResize:nil];
-    
-    [panel setAlphaValue:1.0];
-    
     if ([NSApp isHidden]){
         [NSApp unhide];
     }
     
-#ifdef ENABLE_WINDOW_BLUR_USING_PRIVATE_API
-    BOOL blurEnabled = [panel windowNumber] > -1;
-#endif
-    
+    [panel setAlphaValue:1.0];
     [panel setLevel:NSPopUpMenuWindowLevel];
+    [panel setFrame:panelRect display:NO];
+    [self windowDidResize:nil];
     [panel makeKeyAndOrderFront:panel];
-
-#ifdef ENABLE_WINDOW_BLUR_USING_PRIVATE_API
-    if (!blurEnabled) {
-        [self enableBlurForWindow:panel];
-    }
-#endif
     
-//    [NSAnimationContext beginGrouping];
-//    [[NSAnimationContext currentContext] setDuration:0.1];
-//    //[[panel animator] setFrame:panelRect display:YES];
-//    [[panel animator] setAlphaValue:1];
-//    [NSAnimationContext endGrouping];
+    if (!_windowFilter) {
+        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
+    }
     
     self.statusItemView.isHighlighted = YES;
     
@@ -250,19 +212,18 @@
         [self.delegate popupWillClose:self];
     }
     
-#ifndef ENABLE_WINDOW_BLUR_USING_PRIVATE_API
+    if (_windowFilter) {
+        _windowFilter = nil;
+    }
     
     [NSAnimationContext beginGrouping];
     [[NSAnimationContext currentContext] setDuration:CLOSE_DURATION];
-    [[[self window] animator] setAlphaValue:0];
+    [self.window.animator setAlphaValue:0];
     [NSAnimationContext endGrouping];
     
     dispatch_after(dispatch_walltime(NULL, NSEC_PER_SEC * CLOSE_DURATION * 2), dispatch_get_main_queue(), ^{
         [self.window orderOut:nil];
     });
-#else
-    [self.window orderOut:nil];
-#endif
     
     self.statusItemView.isHighlighted = NO;
     
@@ -285,13 +246,13 @@
 - (IBAction)openPreferences:(id)sender
 {
     [NSApp activateIgnoringOtherApps:YES];
-    [_prefsWindow makeKeyAndOrderFront:nil];
+    [_appController showWindow:self];
 }
 
 - (IBAction)showGraphs:(id)sender
 {
     [NSApp activateIgnoringOtherApps:YES];
-    [_graphsWindow makeKeyAndOrderFront:nil];
+    [_graphsController showWindow:self];
 }
 
 - (void) setupWithGroups:(NSArray*)groups
@@ -331,7 +292,7 @@
     [[self window] setFrame:NSMakeRect(0, 0, 8, 8) display:NO];
     
     // Resize panel height to fit all table view content
-    panelRect.size.height = [_tableView frame].size.height + ARROW_HEIGHT + kHWMonitorToolbarHeight + CORNER_RADIUS;
+    panelRect.size.height = (ARROW_HEIGHT + kHWMonitorToolbarHeight + [_tableView frame].size.height + CORNER_RADIUS) + 3;
     
     if ([[NSScreen mainScreen] visibleFrame].size.height < panelRect.size.height) {
         panelRect.size.height = [[NSScreen mainScreen] visibleFrame].size.height - ARROW_OFFSET * 2;

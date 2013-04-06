@@ -24,11 +24,14 @@
 - (void)popupDidClose:(id)sender;
 @end
 
+@class WindowFilter;
+
 @interface PopupController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
     BOOL _hasActivePanel;
     NSMutableArray *_items;
     ColorTheme *_colorTheme;
+    WindowFilter *_windowFilter;
 }
 
 @property (nonatomic, unsafe_unretained) IBOutlet id <PopupControllerDelegate> delegate;
@@ -43,8 +46,10 @@
 @property (nonatomic, unsafe_unretained) IBOutlet PopupView *popupView;
 @property (nonatomic, unsafe_unretained) IBOutlet NSTableView *tableView;
 
-@property (nonatomic, unsafe_unretained) IBOutlet NSWindow *prefsWindow;
-@property (nonatomic, unsafe_unretained) IBOutlet NSWindow *graphsWindow;
+@property (nonatomic, unsafe_unretained) IBOutlet NSWindowController *appController;
+@property (nonatomic, unsafe_unretained) IBOutlet NSWindowController *graphsController;
+//@property (nonatomic, unsafe_unretained) IBOutlet NSWindow *prefsWindow;
+//@property (nonatomic, unsafe_unretained) IBOutlet NSWindow *graphsWindow;
 
 - (IBAction)togglePanel:(id)sender;
 
