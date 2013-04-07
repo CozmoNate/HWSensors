@@ -126,10 +126,10 @@
 
         // Stroke list
         if (_colorTheme.useDarkIcons) {
-            [[_colorTheme.strokeColor highlightWithLevel:0.3] setStroke];
+            [[_colorTheme.strokeColor highlightWithLevel:0.25] setStroke];
         }
         else {
-            [[_colorTheme.strokeColor shadowWithLevel:0.3] setStroke];
+            [[_colorTheme.strokeColor shadowWithLevel:0.4] setStroke];
         }
         
         [listPath setLineWidth:LINE_THICKNESS + 0.5];

@@ -44,6 +44,11 @@
     [panel setBackgroundColor:[NSColor clearColor]];
 }
 
+- (void)awakeFromNib
+{
+    [self resizeToContentAnimated:NO orderFront:NO];
+}
+
 - (id)init
 {
     self = [super init];
@@ -105,17 +110,17 @@
     [self closePanel];
 }
 
-- (void)windowDidResize:(NSNotification *)notification
-{
-    NSWindow *panel = [self window];
-    NSRect statusRect = [self statusRectForWindow:panel];
-    NSRect panelRect = [panel frame];
-    
-    CGFloat statusX = roundf(NSMidX(statusRect));
-    CGFloat panelX = statusX - NSMinX(panelRect);
-    
-    self.popupView.arrowPosition = panelX;
-}
+//- (void)windowDidResize:(NSNotification *)notification
+//{
+//    NSWindow *panel = [self window];
+//    NSRect statusRect = [self statusRectForWindow:panel];
+//    NSRect panelRect = [panel frame];
+//    
+//    CGFloat statusX = roundf(NSMidX(statusRect));
+//    CGFloat panelX = statusX - NSMinX(panelRect);
+//    
+//    self.popupView.arrowPosition = panelX;
+//}
 
 - (NSRect)statusRectForWindow:(NSWindow *)window
 {
@@ -170,27 +175,9 @@
         }
     }
     
-    NSWindow *panel = [self window];
-    
-    NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
-    NSRect statusRect = [self statusRectForWindow:panel];
-    
-    NSRect panelRect = [panel frame];
-    panelRect.origin.x = roundf(NSMidX(statusRect) - NSWidth(panelRect) / 2);
-    panelRect.origin.y = NSMaxY(statusRect) - NSHeight(panelRect) - ARROW_OFFSET;
-    
-    if (NSMaxX(panelRect) > (NSMaxX(screenRect) - ARROW_HEIGHT))
-        panelRect.origin.x -= NSMaxX(panelRect) - (NSMaxX(screenRect) - ARROW_HEIGHT);
-    
-    if ([NSApp isHidden]){
-        [NSApp unhide];
-    }
-    
-    [panel setAlphaValue:1.0];
-    [panel setLevel:NSPopUpMenuWindowLevel];
-    [panel setFrame:panelRect display:NO];
-    [self windowDidResize:nil];
-    [panel makeKeyAndOrderFront:panel];
+    [self.window setLevel:NSPopUpMenuWindowLevel];
+    [self.window setAlphaValue:1.0];
+    [self resizeToContentAnimated:NO orderFront:YES];
     
     if (!_windowFilter) {
         _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
@@ -282,24 +269,57 @@
     [self reloadData];
 }
 
-- (void)reloadData
+- (void)resizeToContentAnimated:(BOOL)animated orderFront:(BOOL)orderFront
 {
-    [_tableView reloadData];
+    NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
+    NSRect statusRect = [self statusRectForWindow:self.window];
+    NSRect originalRect = self.window.frame;
+    NSRect panelRect = self.window.frame;
     
-    NSRect panelRect = [[self window] frame];
+    // Make window small
+    [self.window setFrame:NSMakeRect(0, 0, 8, 8) display:NO];
     
-    // Make window height small
-    [[self window] setFrame:NSMakeRect(0, 0, 8, 8) display:NO];
+    // Resize panel height to fit table view content and toolbar
+    panelRect.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight + _tableView.frame.size.height + CORNER_RADIUS * 2;
     
-    // Resize panel height to fit all table view content
-    panelRect.size.height = (ARROW_HEIGHT + kHWMonitorToolbarHeight + [_tableView frame].size.height + CORNER_RADIUS) + 3;
-    
+    // Check panel is inside the screen bounds
     if ([[NSScreen mainScreen] visibleFrame].size.height < panelRect.size.height) {
         panelRect.size.height = [[NSScreen mainScreen] visibleFrame].size.height - ARROW_OFFSET * 2;
     }
     
-    [[self window] setFrame:panelRect display:NO];
+    panelRect.origin.x = roundf(NSMidX(statusRect) - NSWidth(panelRect) / 2);
+    panelRect.origin.y = NSMaxY(statusRect) - NSHeight(panelRect) - ARROW_OFFSET;
     
+    if (NSMaxX(panelRect) > (NSMaxX(screenRect) - ARROW_HEIGHT))
+        panelRect.origin.x -= NSMaxX(panelRect) - (NSMaxX(screenRect) - ARROW_HEIGHT);
+    
+    // Back to previous frame
+    [self.window setFrame:originalRect display:NO];
+    
+    // Update arrow position
+    [self.popupView setArrowPosition:roundf(NSMidX(statusRect)) - NSMinX(panelRect)];
+    
+    // Order front if needed
+    if (animated) {
+        if (orderFront) {
+            [self.window makeKeyAndOrderFront:self];
+        }
+        
+        [self.window setFrame:panelRect display:YES animate:YES];
+    }
+    else {
+        [self.window setFrame:panelRect display:YES animate:NO];
+        
+        if (orderFront) {
+            [self.window makeKeyAndOrderFront:self];
+        }
+    }
+}
+
+- (void)reloadData
+{
+    [_tableView reloadData];
+    [self resizeToContentAnimated:YES orderFront:NO];
     [_statusItemView setNeedsDisplay:YES];
 }
 
