@@ -13,7 +13,7 @@
 +(NSDictionary *)profiles
 {
     return [NSDictionary dictionaryWithObjectsAndKeys:
-            
+           
             // Default
             [NSArray arrayWithObjects:
              // Temperatures
@@ -252,7 +252,6 @@
              
              [NSArray arrayWithObjects:@"PZ:041G",  @"Zone %X Average", nil],
 
-             
              nil], @"iMac13,2",
             
             // MacPro5,1

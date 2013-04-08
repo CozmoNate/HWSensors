@@ -326,7 +326,7 @@
                 if (IO_OBJECT_NULL != iterator) {
                     
                     io_service_t service = MACH_PORT_NULL;
-                    
+
                     if (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
                         model = [[NSString alloc] initWithData:(__bridge_transfer NSData *)IORegistryEntryCreateCFProperty(service, CFSTR("model"), kCFAllocatorDefault, 0) encoding:NSASCIIStringEncoding];
                         
@@ -343,7 +343,12 @@
 
         NSLog(@"Running on %@", model);
         
-        _currentProfile = [profiles objectForKey:model];
+        [profiles enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if ([model isCaseInsensitiveLike:key]) {
+                _currentProfile = obj;
+                *stop = YES;
+            }
+        }];
         
         if (!_currentProfile) {
             NSLog(@"Using default platform profile");

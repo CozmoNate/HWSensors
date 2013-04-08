@@ -200,6 +200,7 @@
     }
     
     if (_windowFilter) {
+        [_windowFilter removeFilterFromWindow];
         _windowFilter = nil;
     }
     
