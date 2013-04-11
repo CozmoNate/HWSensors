@@ -8,6 +8,13 @@
 
 #import "WindowFilter.h"
 
+extern CGSConnectionID CGSMainConnectionID(void);
+extern CGError CGSNewCIFilterByName(CGSConnectionID cid, CFStringRef filterName, CGSWindowFilterRef *outFilter);
+extern CGError CGSSetCIFilterValuesFromDictionary(CGSConnectionID cid, CGSWindowFilterRef filter, CFDictionaryRef filterValues);
+extern CGError CGSReleaseCIFilter(CGSConnectionID cid, CGSWindowFilterRef filter);
+extern CGError CGSAddWindowFilter(CGSConnectionID cid, CGSWindowID wid, CGSWindowFilterRef filter, int flags);
+extern CGError CGSRemoveWindowFilter(CGSConnectionID cid, CGSWindowID wid, CGSWindowFilterRef filter);
+
 @implementation WindowFilter
 
 - (id)initWithWindow:(NSWindow *)window name:(NSString*)filterName andOptions:(NSDictionary *)filterOptions
@@ -16,22 +23,21 @@
     
     if (self) {
         _windowNumber = [window windowNumber];
-        CGSNewConnection(NULL, &_connection);
-        CGSNewCIFilterByName(_connection, (__bridge CFStringRef)filterName, &_filterRef);
-        CGSSetCIFilterValuesFromDictionary(_connection, _filterRef, (__bridge CFDictionaryRef)filterOptions);
-        CGSAddWindowFilter(_connection, _windowNumber, _filterRef, 1);
+        CGSConnectionID connection = CGSMainConnectionID();
+        CGSNewCIFilterByName(connection, (__bridge CFStringRef)filterName, &_filterRef);
+        CGSSetCIFilterValuesFromDictionary(connection, _filterRef, (__bridge CFDictionaryRef)filterOptions);
+        CGSAddWindowFilter(connection, _windowNumber, _filterRef, 1);
     }
+    
     return self;
 }
 
 - (void)removeFilterFromWindow
 {
-    if (_filterRef && _windowNumber > -1) {
-        CGSRemoveWindowFilter(_connection, _windowNumber, _filterRef);
-        CGSReleaseCIFilter(_connection, _filterRef);
-        CGSReleaseConnection(_connection);
-        _filterRef = 0;
-    }
+    CGSConnectionID connection = CGSMainConnectionID();
+    CGSRemoveWindowFilter(connection, _windowNumber, _filterRef);
+    CGSReleaseCIFilter(connection, _filterRef);
+    _filterRef = 0;
 }
 
 -(void)dealloc

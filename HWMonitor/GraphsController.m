@@ -59,6 +59,19 @@
     
     for (GraphsView *graphView in _graphViews) {
         [graphView setUseSmoothing:useSmoothing];
+        [graphView setNeedsDisplay:YES];
+    }
+}
+
+-(void)setIsTopmost:(BOOL)isTopmost
+{
+    _isTopmost = isTopmost;
+    
+    if (isTopmost) {
+        [self.window setLevel:NSFloatingWindowLevel];
+    }
+    else {
+        [self.window setLevel:NSNormalWindowLevel];
     }
 }
 
@@ -105,7 +118,7 @@
 -(void)dealloc
 {
     if (!_windowFilter) {
-        [_windowFilter removeFilterFromWindow];
+        _windowFilter = 0;
     }
 }
 
@@ -124,7 +137,7 @@
     [super showWindow:sender];
     
     if (!_windowFilter) {
-        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.0] forKey:@"inputRadius"]];
+        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.25] forKey:@"inputRadius"]];
     }
 }
 

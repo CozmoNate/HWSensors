@@ -76,6 +76,7 @@
     [_graphsController setUseFahrenheit:[_engine useFahrenheit]];
     [_graphsController setUseSmoothing:[_defaults boolForKey:kHWMonitorGraphsUseDataSmoothing]];
     [_graphsController setBackgroundMonitoring:[_defaults boolForKey:kHWMonitorGraphsBackgroundMonitor]];
+    [_graphsController setIsTopmost:[_defaults boolForKey:kHWMonitorWindowTopmost]];
     
     [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
     [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
@@ -526,9 +527,15 @@
     [_defaults synchronize];
 }
 
--(void)graphsBackgroundMonitorChanged:(id)sender
+-(IBAction)graphsBackgroundMonitorChanged:(id)sender
 {
     [_graphsController setBackgroundMonitoring:[sender state]];
+    [_defaults synchronize];
+}
+
+-(IBAction)graphsWindowTopmostChanged:(id)sender
+{
+    [_graphsController setIsTopmost:[sender state]];
     [_defaults synchronize];
 }
 

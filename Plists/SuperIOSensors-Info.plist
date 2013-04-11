@@ -1272,6 +1272,8 @@
 					<string>X38-DS5</string>
 					<key>EP45T-UD3LR</key>
 					<string>X38-DS5</string>
+					<key>EX38-DS4</key>
+					<string>P35-DS3P</string>
 					<key>EX58-EXTREME</key>
 					<dict>
 						<key>FANIN0</key>
@@ -1672,6 +1674,51 @@
 					</dict>
 					<key>P35-DS3L</key>
 					<string>P35-DS3</string>
+					<key>P35-DS3P</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>CPUFan</string>
+						<key>FANIN1</key>
+						<string>SystemFan2</string>
+						<key>FANIN2</key>
+						<string>PowerFan</string>
+						<key>FANIN3</key>
+						<string>SystemFan1</string>
+						<key>TEMPIN0</key>
+						<string>System</string>
+						<key>TEMPIN1</key>
+						<string>CPU</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<string>Memory</string>
+						<key>VIN2</key>
+						<string>Main 3V</string>
+						<key>VIN3</key>
+						<dict>
+							<key>gain</key>
+							<integer>680</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN7</key>
+						<dict>
+							<key>gain</key>
+							<integer>2964</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<string>CMOS Battery</string>
+					</dict>
 					<key>P55-UD3L</key>
 					<string>P55-UD4</string>
 					<key>P55-UD4</key>

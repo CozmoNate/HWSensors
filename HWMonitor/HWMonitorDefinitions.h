@@ -22,6 +22,7 @@
 #define kHWMonitorSmartSensorsUpdateRate    @"smartSensorsUpdateRate"
 #define kHWMonitorGraphsUseDataSmoothing    @"graphsUseDataSmoothing"
 #define kHWMonitorGraphsBackgroundMonitor   @"graphsBackgroundMonitor"
+#define kHWMonitorWindowTopmost             @"graphsWindowTopmost"
 #define kHWMonitorColorThemeIndex           @"colorThemeIndex"
 #define kHWMonitorHiddenGraphsList          @"hiddenGraphsList"
 #define kHWMonitorSkippedAppVersion         @"skippedAppVersion"

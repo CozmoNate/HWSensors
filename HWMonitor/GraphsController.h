@@ -39,9 +39,10 @@
     WindowFilter *_windowFilter;
 }
 
-@property (nonatomic, setter = setUseFahrenheit:) BOOL useFahrenheit;
-@property (nonatomic, setter = setUseSmoothing:) BOOL useSmoothing;
+@property (nonatomic, assign) BOOL useFahrenheit;
+@property (nonatomic, assign) BOOL useSmoothing;
 @property (nonatomic, assign) BOOL backgroundMonitoring;
+@property (nonatomic, assign) BOOL isTopmost;
 
 @property (readonly) NSArray *colorsList;
 

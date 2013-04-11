@@ -6,13 +6,15 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
+typedef int* CGSWindowFilterRef;
+typedef int CGSConnectionID;
+typedef int CGSWindowID;
 
 @interface WindowFilter : NSObject
 {
 @private
-    long _windowNumber;
-    long _connection;
-    void *_filterRef;
+    CGWindowID         _windowNumber;
+    CGSWindowFilterRef  _filterRef;
 }
 
 - (id)initWithWindow:(NSWindow *)window name:(NSString*)filterName andOptions:(NSDictionary *)filterOptions;
