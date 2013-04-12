@@ -49,24 +49,22 @@
     return me;
 }
 
-+ (NSString*)copyTypeFromKeyInfo:(NSArray*)info
++ (NSString*)getTypeStringFromSmcKeyInfo:(NSData*)info
 {
-    if (info && [info count] == 2) {
-        //NSString *type = (NSString*)[info objectAtIndex:0];
-        
-        //NSLog(@"%s", [type cStringUsingEncoding:NSASCIIStringEncoding]);
-        
-        return [NSString stringWithString:(NSString*)[info objectAtIndex:0]];
+    if (info && [info length] == sizeof(SMCVal_t)) {
+        SMCVal_t *val = (SMCVal_t*)[info bytes];
+        return [NSString stringWithCString:val->dataType encoding:NSASCIIStringEncoding];
     }
     
     return nil;
 }
 
-+ (NSData*)copyValueFromKeyInfo:(NSArray*)info
++ (NSData*)getValueDataFromSmcKeyInfo:(NSData*)info
 {
-    if (info && [info count] == 2)
-        return [NSData dataWithData:(NSData *)[info objectAtIndex:1]];
-    
+    if (info && [info length] == sizeof(SMCVal_t)) {
+        SMCVal_t *val = (SMCVal_t*)[info bytes];
+        return [NSData dataWithBytes:val->bytes length:val->dataSize];
+    }
     return nil;
 }
 
@@ -98,28 +96,22 @@
     [_sensorsLock unlock];
 }
 
-- (NSArray*)populateInfoForKey:(NSString*)key
+- (NSData*)getSmcKeyInfoForKey:(NSString*)key
 {
-    NSArray * info = nil;
+    SMCVal_t result;
     
     if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
-        SMCVal_t val;
+        
         UInt32Char_t name;
         
-        strncpy(name, [key cStringUsingEncoding:NSASCIIStringEncoding], 5);
+        [key getCString:name maxLength:5 encoding:NSASCIIStringEncoding];
         
-        if (kIOReturnSuccess == SMCReadKey(_connection, name, &val)) {
-            info = [NSArray arrayWithObjects:
-                    [NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding],
-                    [NSData dataWithBytes:val.bytes length:val.dataSize],
-                    nil];
+        if (kIOReturnSuccess != SMCReadKey(_connection, name, &result)) {
+            return nil;
         }
-        
-        //SMCClose(_connection);
-        //_connection = 0;
     }
     
-    return info;
+    return [NSData dataWithBytes:&result length:sizeof(result)];
 }
 
 - (HWMonitorSensor*)addSensorWithKey:(NSString*)key title:(NSString*)title group:(NSUInteger)group
@@ -138,13 +130,14 @@
             break;
             
         default: {
-            NSArray *info = [self populateInfoForKey:key];
+            NSData *data = [self getSmcKeyInfoForKey:key];
+            SMCVal_t *info = (SMCVal_t*)[data bytes];
             
-            if (!info || [info count] != 2)
+            if (!data || [data length] != sizeof(SMCVal_t))
                 return nil;
             
-            type = [HWMonitorEngine copyTypeFromKeyInfo:info];
-            value = [HWMonitorEngine copyValueFromKeyInfo:info];
+            type = [NSString stringWithCString:info->dataType encoding:NSASCIIStringEncoding];
+            value = [NSData dataWithBytes:info->bytes length:info->dataSize];
             
             if (!type || [type length] == 0 || !value)
                 return nil;
@@ -493,10 +486,11 @@
     
     // Fans
     for (int i=0; i<0xf; i++) {
-        NSString *keyType = [HWMonitorEngine copyTypeFromKeyInfo:[self populateInfoForKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i]]];
+        NSData *info = [self getSmcKeyInfoForKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i]];
+        NSString *type = [HWMonitorEngine getTypeStringFromSmcKeyInfo:info];
         
-        if ([keyType isEqualToString:@TYPE_CH8]) {
-            NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine copyValueFromKeyInfo:[self populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
+        if ([type isEqualToString:@TYPE_CH8]) {
+            NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine getValueDataFromSmcKeyInfo:info] encoding: NSUTF8StringEncoding];
             
             if ([caption length] == 0)
                 caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
@@ -504,8 +498,8 @@
             if (![caption hasPrefix:@"GPU "])
                 [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(caption) group:kHWSensorGroupTachometer];
         }
-        else if ([keyType isEqualToString:@TYPE_FDS]) {
-            FanTypeDescStruct *fds = (FanTypeDescStruct*)[[HWMonitorEngine copyValueFromKeyInfo:[self populateInfoForKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i]]] bytes];
+        else if ([type isEqualToString:@TYPE_FDS]) {
+            FanTypeDescStruct *fds = (FanTypeDescStruct*)[[HWMonitorEngine getValueDataFromSmcKeyInfo:info] bytes];
             
             if (fds) {
                 NSString *caption = [[NSString stringWithCString:fds->strFunction encoding:NSASCIIStringEncoding] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -516,13 +510,9 @@
                 switch (fds->type) {
                     case GPU_FAN_RPM:
                     case GPU_FAN_PWM_CYCLE:
+                        // Add it later as GPU sensors
                         break;
-                        
-                    case FAN_PWM_TACH:
-                    //case FAN_PWM_NOTACH:
-                    case PUMP_PWM:
-                    case FAN_RPM:
-                    case PUMP_RPM:
+
                     default:
                         [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(caption) group:kHWSensorGroupTachometer];
                         break;
@@ -533,10 +523,11 @@
     
     // GPU Fans
     for (int i=0; i < 0xf; i++) {
-        NSString *keyType = [HWMonitorEngine copyTypeFromKeyInfo:[self populateInfoForKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i]]];
+        NSData *info = [self getSmcKeyInfoForKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i]];
+        NSString *type = [HWMonitorEngine getTypeStringFromSmcKeyInfo:info];
         
-        if ([keyType isEqualToString:@TYPE_CH8]) {
-            NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine copyValueFromKeyInfo:[self populateInfoForKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_ID,i]]] encoding: NSUTF8StringEncoding];
+        if ([type isEqualToString:@TYPE_CH8]) {
+            NSString * caption = [[NSString alloc] initWithData:[HWMonitorEngine getValueDataFromSmcKeyInfo:info] encoding: NSUTF8StringEncoding];
             
             if ([caption hasPrefix:@"GPU "]) {
                 UInt8 cardIndex = [[caption substringFromIndex:4] intValue] - 1;
@@ -544,8 +535,8 @@
                 [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:title group:kHWSensorGroupTachometer];
             }
         }
-        else if ([keyType isEqualToString:@TYPE_FDS]) {
-            FanTypeDescStruct *fds = (FanTypeDescStruct*)[[HWMonitorEngine copyValueFromKeyInfo:[self populateInfoForKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i]]] bytes];
+        else if ([type isEqualToString:@TYPE_FDS]) {
+            FanTypeDescStruct *fds = (FanTypeDescStruct*)[[HWMonitorEngine getValueDataFromSmcKeyInfo:info] bytes];
             
             switch (fds->type) {
                 case GPU_FAN_RPM: {

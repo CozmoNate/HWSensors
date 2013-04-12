@@ -120,18 +120,12 @@
         [clipPath addClip];
 
         // Stroke toolbar
-        [_colorTheme.strokeColor setStroke];
+        [_colorTheme.toolbarStrokeColor setStroke];
         [toolbarPath setLineWidth:LINE_THICKNESS + 0.5];
         [toolbarPath stroke];
 
         // Stroke list
-        if (_colorTheme.useDarkIcons) {
-            [[_colorTheme.strokeColor highlightWithLevel:0.25] setStroke];
-        }
-        else {
-            [[_colorTheme.strokeColor shadowWithLevel:0.4] setStroke];
-        }
-        
+        [_colorTheme.listStrokeColor setStroke];
         [listPath setLineWidth:LINE_THICKNESS + 0.5];
         [listPath stroke];
         

@@ -61,6 +61,7 @@
 - (id)init;
 - (id)initWithBundle:(NSBundle*)mainBundle;
 
+- (NSData*)getSmcKeyInfoForKey:(NSString*)key;
 - (NSArray*)populateInfoForKey:(NSString *)key;
 - (void)rebuildSensorsList;
 - (NSArray*)updateSmartSensors;
