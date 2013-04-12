@@ -42,14 +42,14 @@
     BOOL _useShadowEffect;
 }
 
+@property (nonatomic, strong) HWMonitorEngine *engine;
+@property (nonatomic, strong) NSArray *favorites;
+
 @property (nonatomic, strong) NSImage *image;
 @property (nonatomic, strong) NSImage *alternateImage;
 @property (nonatomic, setter = setHighlighted:) BOOL isHighlighted;
-
-@property (nonatomic, strong) HWMonitorEngine *engine;
-@property (nonatomic, setter = setFavorites:) NSArray *favorites;
-@property (nonatomic, setter = setUseBigFont:) BOOL useBigFont;
-@property (nonatomic, setter = setUseShadowEffect:) BOOL useShadowEffect;
+@property (nonatomic, assign) BOOL useBigFont;
+@property (nonatomic, assign) BOOL useShadowEffect;
 
 @property (nonatomic, readonly) NSRect screenRect;
 @property (nonatomic) SEL action;

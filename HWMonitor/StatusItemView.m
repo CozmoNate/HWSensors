@@ -35,6 +35,7 @@
 {
     if (favorites && ![favorites isEqualToArray:_favorites]) {
         _favorites = [favorites copy];
+        
         [self setNeedsDisplay:YES];
     }
 }
@@ -43,6 +44,7 @@
 {
     if (_useBigFont != useBigFont) {
         _useBigFont = useBigFont;
+        
         [self setNeedsDisplay:YES];
     }
 }
@@ -51,6 +53,7 @@
 {
     if (_useShadowEffect != useShadowEffect) {
         _useShadowEffect = useShadowEffect;
+        
         [self setNeedsDisplay:YES];
     }
 }
@@ -59,6 +62,7 @@
 {
     if (_isHighlighted != isHighlighted) {
         _isHighlighted = isHighlighted;
+        
         [self setNeedsDisplay:YES];
     }
 }
@@ -87,18 +91,17 @@
 
 - (void)drawRect:(NSRect)rect
 {
-    /*if ([_menuExtra isMenuDown])
-        [_menuExtra drawMenuBackground:YES];*/
-    
-    NSGraphicsContext* context = [NSGraphicsContext currentContext];
-    
     [_statusItem drawStatusBarBackgroundInRect:rect withHighlight:_isHighlighted];
+    
+    CGContextRef cgContext = [[NSGraphicsContext currentContext] graphicsPort];
+    
+    CGContextSetShouldSmoothFonts(cgContext, !_useBigFont);
     
     if (!_engine || !_favorites || [_favorites count] == 0) {
         
-        [context saveGraphicsState];
+        [[NSGraphicsContext currentContext] saveGraphicsState];
         
-        if (!_isHighlighted)
+        if (!_isHighlighted && _useShadowEffect)
             [_shadow set];
         
         NSImage *image = _isHighlighted ? _alternateImage : _image;
@@ -111,33 +114,30 @@
             [self setFrameSize:NSMakeSize(width, [self frame].size.height)];
         }
         
-        [context restoreGraphicsState];
-        
+        [[NSGraphicsContext currentContext] restoreGraphicsState];
+
         //snow leopard icon & text problem
         [_statusItem setLength:([self frame].size.width)];
         
         return;
     }
     
-    int offset = 3;
-    
     NSAttributedString *spacer = [[NSAttributedString alloc] initWithString:_useBigFont ? @" " : @"  " attributes:[NSDictionary dictionaryWithObjectsAndKeys:_useBigFont ? _bigFont : _smallFont, NSFontAttributeName, nil]];
+
+    __block int offset = 3;
     
     if (_engine && [[_engine sensors] count] > 0) {
+    
+        __block int lastWidth = 0;
+        __block int index = 0;
         
-        int lastWidth = 0;
-        int index = 0;
-        
-        for (NSUInteger i = 0; i < [_favorites count]; i++) {
-            
-            id object = [_favorites objectAtIndex:i];
-            
+        [_favorites enumerateObjectsUsingBlock:^(id object, NSUInteger i, BOOL *stop) {
             if ([object isKindOfClass:[HWMonitorIcon class]]) {
                 if ([_favorites count] == 1) {
                     offset += 3;
                 }
                 
-                [context saveGraphicsState];
+                [[NSGraphicsContext currentContext] saveGraphicsState];
                 
                 if (!_isHighlighted)
                     [_shadow set];
@@ -157,20 +157,15 @@
                     }
                 }
                 
-                [context restoreGraphicsState];
+                [[NSGraphicsContext currentContext] restoreGraphicsState];
                 
                 if ([_favorites count] == 1) {
                     offset += 3;
                 }
             }
             else if ([object isKindOfClass:[HWMonitorSensor class]]) {
-                [context saveGraphicsState];
                 
                 HWMonitorSensor *sensor = (HWMonitorSensor*)object;
-                
-                if (!sensor)
-                    continue;
-                
                 NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:[sensor stringValue]];
                 
                 NSColor *valueColor;
@@ -198,13 +193,12 @@
                 
                 [title addAttribute:NSForegroundColorAttributeName value:(_isHighlighted ? [NSColor whiteColor] : valueColor) range:NSMakeRange(0,[title length])];
                 
+                [[NSGraphicsContext currentContext] saveGraphicsState];
+                
                 if (!_isHighlighted && _useShadowEffect)
                     [_shadow set];
                 
                 if (_useBigFont) {
-                    
-                    CGContextRef cgContext = [context graphicsPort];
-                    CGContextSetShouldSmoothFonts(cgContext, NO);
                     
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
                     [title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];
@@ -235,11 +229,11 @@
                     lastWidth = width;
                 }
                 
-                index++;
+                [[NSGraphicsContext currentContext] restoreGraphicsState];
                 
-                [context restoreGraphicsState];
+                index++;
             }
-        }
+        }];
     }
     
     offset += 3;
