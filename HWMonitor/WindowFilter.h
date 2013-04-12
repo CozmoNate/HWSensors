@@ -8,16 +8,17 @@
 
 typedef int* CGSWindowFilterRef;
 typedef int CGSConnectionID;
-typedef int CGSWindowID;
+typedef long CGSWindowID;
 
 @interface WindowFilter : NSObject
 {
 @private
-    CGWindowID         _windowNumber;
+    CGSWindowID         _windowNumber;
     CGSWindowFilterRef  _filterRef;
 }
 
 - (id)initWithWindow:(NSWindow *)window name:(NSString*)filterName andOptions:(NSDictionary *)filterOptions;
+- (void)setFilterOptions:(NSDictionary*)filterOptions;
 - (void)removeFilterFromWindow;
 
 @end

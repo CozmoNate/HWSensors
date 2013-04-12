@@ -25,11 +25,17 @@ extern CGError CGSRemoveWindowFilter(CGSConnectionID cid, CGSWindowID wid, CGSWi
         _windowNumber = [window windowNumber];
         CGSConnectionID connection = CGSMainConnectionID();
         CGSNewCIFilterByName(connection, (__bridge CFStringRef)filterName, &_filterRef);
-        CGSSetCIFilterValuesFromDictionary(connection, _filterRef, (__bridge CFDictionaryRef)filterOptions);
+        CGSSetCIFilterValuesFromDictionary(connection, _filterRef, (__bridge  CFDictionaryRef)filterOptions);
         CGSAddWindowFilter(connection, _windowNumber, _filterRef, 1);
     }
     
     return self;
+}
+
+- (void)setFilterOptions:(NSDictionary*)filterOptions
+{
+    CGSConnectionID connection = CGSMainConnectionID();
+    CGSSetCIFilterValuesFromDictionary(connection, _filterRef, (__bridge CFDictionaryRef)filterOptions);
 }
 
 - (void)removeFilterFromWindow

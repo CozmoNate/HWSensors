@@ -20,7 +20,7 @@
     theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.7];
     theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
     theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.3];
-    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.90];
+    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.95];
     theme.strokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
     theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.95 alpha:0.5];
     theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.85 alpha:0.5];
@@ -38,7 +38,7 @@
     theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.35];
     theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
     theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.2];
-    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.90];
+    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.95];
     theme.strokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.7];
     theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.95 alpha:0.5];
     theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.85 alpha:0.5];
@@ -56,7 +56,7 @@
     theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.65];
     theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
     theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.3];
-    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.15 alpha:0.9];
+    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.15 alpha:0.95];
     theme.strokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
     theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.2 alpha:0.5];
     theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.14 alpha:0.5];

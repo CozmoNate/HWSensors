@@ -180,7 +180,10 @@
     [self resizeToContentAnimated:NO orderFront:YES];
     
     if (!_windowFilter) {
-        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.25] forKey:@"inputRadius"]];
+        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
+    }
+    else {
+        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
     }
     
     self.statusItemView.isHighlighted = YES;
@@ -200,7 +203,7 @@
     }
     
     if (_windowFilter) {
-        _windowFilter = 0;
+        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.0] forKey:@"inputRadius"]];
     }
     
     [NSAnimationContext beginGrouping];
