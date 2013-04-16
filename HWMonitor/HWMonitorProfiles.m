@@ -206,7 +206,7 @@
              [NSArray arrayWithObjects:@"TPCD",    @"PCH Die", nil],
              [NSArray arrayWithObjects:@"Tm:021p", @"Mainboard Proximity %X", nil],
              [NSArray arrayWithObjects:@"TL:021p", @"LCD Proximity %X", nil],
-             [NSArray arrayWithObjects:@"Tb0p",    @"BLC Proximity %X", nil],
+             [NSArray arrayWithObjects:@"Tb0p",    @"BLC Proximity", nil],
              [NSArray arrayWithObjects:@"TM:141p", @"Memory Module %X", nil],
              [NSArray arrayWithObjects:@"TM:041p", @"Memory Module %X Proximity", nil],
              [NSArray arrayWithObjects:@"Tp2h",    @"Power Supply Heatsink", nil],

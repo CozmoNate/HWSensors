@@ -10,24 +10,6 @@
 
 @implementation SensorsTableView
 
-//-(void)resetCursorRects
-//{
-//    [self discardCursorRects];
-//    [self addCursorRect:[self bounds] cursor:[NSCursor openHandCursor]];
-//}
-
-//-(void)mouseDown:(NSEvent *)theEvent
-//{
-//    [super mouseDown:theEvent];
-//    [[NSCursor closedHandCursor] set];
-//}
-//
-//-(void)mouseUp:(NSEvent *)theEvent
-//{
-//    [super mouseUp:theEvent];
-//    [[NSCursor openHandCursor] set];
-//}
-
 -(void)draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint
 {
     [super draggingSession:session willBeginAtPoint:screenPoint];
@@ -49,23 +31,26 @@
     
     id appController = self.delegate;
     
-    if ([appController currentItemDragOperation] & NSDragOperationDelete ||
-        ([appController hasDraggedFavoriteItem] && ![self mouse:localPoint inRect:[self visibleRect]])) {
-
+    if ([appController currentItemDragOperation] != NSDragOperationDelete && [appController hasDraggedFavoriteItem] && [self mouse:localPoint inRect:NSInsetRect([self visibleRect], -35, -35)] == NO) {
         [appController setCurrentItemDragOperation:NSDragOperationDelete];
-        
+    }
+    else if ([appController currentItemDragOperation] == NSDragOperationDelete && [appController hasDraggedFavoriteItem] && [self mouse:localPoint inRect:NSInsetRect([self visibleRect], -35, -35)] == YES) {
+        [appController setCurrentItemDragOperation:NSDragOperationNone];
+    }
+    
+    if ([appController currentItemDragOperation] == NSDragOperationDelete /*&& [NSCursor currentCursor] != [NSCursor disappearingItemCursor]*/) {
         [[NSCursor disappearingItemCursor] set];
         [session setAnimatesToStartingPositionsOnCancelOrFail:NO];
     }
-    else if ([appController currentItemDragOperation] & NSDragOperationPrivate) {
+    else if ([appController currentItemDragOperation] == NSDragOperationPrivate /*&& [NSCursor currentCursor] != [NSCursor operationNotAllowedCursor]*/) {
         [[NSCursor operationNotAllowedCursor] set];
         [session setAnimatesToStartingPositionsOnCancelOrFail:YES];
     }
-    else if ([appController currentItemDragOperation] & NSDragOperationCopy) {
+    else if ([appController currentItemDragOperation] == NSDragOperationCopy /*&& [NSCursor currentCursor] != [NSCursor dragCopyCursor]*/) {
         [[NSCursor dragCopyCursor] set];
         [session setAnimatesToStartingPositionsOnCancelOrFail:NO];
     }
-    else {
+    else /*if ([NSCursor currentCursor] != [NSCursor closedHandCursor])*/ {
         [[NSCursor closedHandCursor] set];
         [session setAnimatesToStartingPositionsOnCancelOrFail:YES];
     }
