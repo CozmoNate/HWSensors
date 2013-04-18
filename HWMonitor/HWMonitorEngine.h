@@ -51,9 +51,6 @@
 
 + (HWMonitorEngine*)engineWithBundle:(NSBundle*)bundle;
 
-+ (NSString*)copyTypeFromKeyInfo:(NSArray*)info;
-+ (NSData*)copyValueFromKeyInfo:(NSArray*)info;
-
 - (HWMonitorSensor*)addSensorWithKey:(NSString*)key title:(NSString*)title group:(NSUInteger)group;
 - (HWMonitorSensor*)addSmartSensorWithGenericDisk:(ATAGenericDrive*)disk group:(NSUInteger)group;
 - (HWMonitorSensor*)addBluetoothSensorWithGenericDevice:(BluetoothGenericDevice*)device group:(NSUInteger)group;
@@ -62,7 +59,6 @@
 - (id)initWithBundle:(NSBundle*)mainBundle;
 
 - (NSData*)getSmcKeyInfoForKey:(NSString*)key;
-- (NSArray*)populateInfoForKey:(NSString *)key;
 - (void)rebuildSensorsList;
 - (NSArray*)updateSmartSensors;
 - (NSArray*)updateSensors;
