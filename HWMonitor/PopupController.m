@@ -77,12 +77,65 @@
 
 -(void)showWindow:(id)sender
 {
-    [self openPanel];
+    if (self.window.isVisible)
+        return;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillOpen:)]) {
+        [self.delegate popupWillOpen:self];
+    }
+    
+    // Update values
+    for (id item in _items) {
+        if ([item isKindOfClass:[HWMonitorItem class]]) {
+            [self updateValueForItem:item];
+        }
+    }
+    
+    [self.window setLevel:NSPopUpMenuWindowLevel];
+    [self.window setAlphaValue:1.0];
+    [self resizeToContentAnimated:NO orderFront:YES];
+    
+    if (!_windowFilter) {
+        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
+    }
+    else {
+        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
+    }
+    
+    self.statusItemView.isHighlighted = YES;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidOpen:)]) {
+        [self.delegate popupDidOpen:self];
+    }
 }
 
 -(void)close
 {
-    [self closePanel];
+    if (!self.window.isVisible)
+        return;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillClose:)]) {
+        [self.delegate popupWillClose:self];
+    }
+    
+    if (_windowFilter) {
+        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.0] forKey:@"inputRadius"]];
+    }
+    
+    [NSAnimationContext beginGrouping];
+    [[NSAnimationContext currentContext] setDuration:CLOSE_DURATION];
+    [self.window.animator setAlphaValue:0];
+    [NSAnimationContext endGrouping];
+    
+    dispatch_after(dispatch_walltime(NULL, NSEC_PER_SEC * CLOSE_DURATION * 2), dispatch_get_main_queue(), ^{
+        [self.window orderOut:nil];
+    });
+    
+    self.statusItemView.isHighlighted = NO;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidClose:)]) {
+        [self.delegate popupDidClose:self];
+    }
 }
 
 - (void)dealloc
@@ -92,22 +145,22 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    [self closePanel];
+    [self close];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification;
 {
-    [self closePanel];
+    [self close];
 }
 
 -(void)windowDidResignMain:(NSNotification *)notification
 {
-    [self closePanel];
+    [self close];
 }
 
 - (void)cancelOperation:(id)sender
 {
-    [self closePanel];
+    [self close];
 }
 
 //- (void)windowDidResize:(NSNotification *)notification
@@ -148,77 +201,14 @@
     {
         if (self.window.isVisible)
         {
-            [self closePanel];
+            [self close];
             self.statusItemView.isHighlighted = NO;
         }
         else
         {
-            [self openPanel];
+            [self showWindow:nil];
             self.statusItemView.isHighlighted = YES;
         }
-    }
-}
-
-- (void)openPanel
-{
-    if (self.window.isVisible)
-        return;
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillOpen:)]) {
-        [self.delegate popupWillOpen:self];
-    }
-    
-    // Update values
-    for (id item in _items) {
-        if ([item isKindOfClass:[HWMonitorItem class]]) {
-            [self updateValueForItem:item];
-        }
-    }
-    
-    [self.window setLevel:NSPopUpMenuWindowLevel];
-    [self.window setAlphaValue:1.0];
-    [self resizeToContentAnimated:NO orderFront:YES];
-    
-    if (!_windowFilter) {
-        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
-    }
-    else {
-        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
-    }
-    
-    self.statusItemView.isHighlighted = YES;
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidOpen:)]) {
-        [self.delegate popupDidOpen:self];
-    }
-}
-
-- (void)closePanel
-{
-    if (!self.window.isVisible)
-        return;
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillClose:)]) {
-        [self.delegate popupWillClose:self];
-    }
-    
-    if (_windowFilter) {
-        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.0] forKey:@"inputRadius"]];
-    }
-    
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:CLOSE_DURATION];
-    [self.window.animator setAlphaValue:0];
-    [NSAnimationContext endGrouping];
-    
-    dispatch_after(dispatch_walltime(NULL, NSEC_PER_SEC * CLOSE_DURATION * 2), dispatch_get_main_queue(), ^{
-        [self.window orderOut:nil];
-    });
-    
-    self.statusItemView.isHighlighted = NO;
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidClose:)]) {
-        [self.delegate popupDidClose:self];
     }
 }
 

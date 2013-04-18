@@ -541,7 +541,7 @@
 
 #pragma mark PopupControllerDelegate
 
-- (void) popupWillOpen:(id)sender
+- (void) popupDidOpen:(id)sender
 {
     [self updateLoop];
 }

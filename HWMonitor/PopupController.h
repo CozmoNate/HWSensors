@@ -53,9 +53,6 @@
 
 - (IBAction)togglePanel:(id)sender;
 
-- (void)openPanel;
-- (void)closePanel;
-
 - (void) setupWithGroups:(NSArray*)groups;
 - (void) reloadData;
 - (void) updateValuesForSensors:(NSArray*)sensors;
