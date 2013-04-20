@@ -1200,6 +1200,7 @@
 															<string key="NSFrame">{{0, 234}, {35, 15}}</string>
 															<reference key="NSSuperview" ref="807269756"/>
 															<reference key="NSWindow"/>
+															<reference key="NSNextKeyView"/>
 															<string key="NSReuseIdentifierKey">_NS:60</string>
 															<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 															<int key="NSsFlags">1</int>
@@ -1279,9 +1280,10 @@
 															<string key="NSFrame">{{163, 11}, {13, 13}}</string>
 															<reference key="NSSuperview" ref="403646189"/>
 															<reference key="NSWindow"/>
+															<reference key="NSNextKeyView"/>
 															<object class="NSShadow" key="NSViewShadow">
 																<double key="NSShadowBlurRadius">1</double>
-																<object class="NSColor" key="NSShadowColor" id="90276154">
+																<object class="NSColor" key="NSShadowColor" id="159579553">
 																	<int key="NSColorSpace">3</int>
 																	<bytes key="NSWhite">MCAwLjkAA</bytes>
 																</object>
@@ -1327,9 +1329,10 @@
 															<string key="NSFrame">{{205, 11}, {13, 13}}</string>
 															<reference key="NSSuperview" ref="403646189"/>
 															<reference key="NSWindow"/>
+															<reference key="NSNextKeyView"/>
 															<object class="NSShadow" key="NSViewShadow">
 																<double key="NSShadowBlurRadius">1</double>
-																<reference key="NSShadowColor" ref="90276154"/>
+																<reference key="NSShadowColor" ref="159579553"/>
 															</object>
 															<array key="NSViewContentFilters">
 																<object class="CIColorControls">
@@ -1368,9 +1371,10 @@
 															<string key="NSFrame">{{142, 11}, {13, 13}}</string>
 															<reference key="NSSuperview" ref="403646189"/>
 															<reference key="NSWindow"/>
+															<reference key="NSNextKeyView"/>
 															<object class="NSShadow" key="NSViewShadow">
 																<double key="NSShadowBlurRadius">1</double>
-																<reference key="NSShadowColor" ref="90276154"/>
+																<reference key="NSShadowColor" ref="159579553"/>
 															</object>
 															<array key="NSViewContentFilters">
 																<object class="CIColorControls">
@@ -1409,9 +1413,10 @@
 															<string key="NSFrame">{{184, 11}, {13, 13}}</string>
 															<reference key="NSSuperview" ref="403646189"/>
 															<reference key="NSWindow"/>
+															<reference key="NSNextKeyView"/>
 															<object class="NSShadow" key="NSViewShadow">
 																<double key="NSShadowBlurRadius">1</double>
-																<reference key="NSShadowColor" ref="90276154"/>
+																<reference key="NSShadowColor" ref="159579553"/>
 															</object>
 															<array key="NSViewContentFilters">
 																<object class="CIColorControls">
@@ -1730,6 +1735,7 @@
 											<string key="NSFrame">{{192, 0}, {11, 476}}</string>
 											<reference key="NSSuperview" ref="986810503"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:58</string>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 											<int key="NSsFlags">256</int>
@@ -1864,6 +1870,7 @@
 							<string key="NSFrame">{{314, 13}, {112, 32}}</string>
 							<reference key="NSSuperview" ref="834837792"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="403673007">
@@ -11629,6 +11636,7 @@
 				<string key="1204.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1205.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1206.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1277.CustomClassName">OverlapingScrollView</string>
 				<array key="1277.IBNSViewMetadataConstraints">
 					<reference ref="623872183"/>
 				</array>
@@ -12263,7 +12271,7 @@
 				<boolean value="NO" key="6952.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="6952.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<real value="1" key="6952.IBViewIntegration.shadowBlurRadius"/>
-				<reference key="6952.IBViewIntegration.shadowColor" ref="90276154"/>
+				<reference key="6952.IBViewIntegration.shadowColor" ref="159579553"/>
 				<real value="1" key="6952.IBViewIntegration.shadowOffsetHeight"/>
 				<real value="0.0" key="6952.IBViewIntegration.shadowOffsetWidth"/>
 				<string key="6953.CustomClassName">FadingButton</string>
@@ -12274,7 +12282,7 @@
 				<boolean value="NO" key="6953.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="6953.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<real value="1" key="6953.IBViewIntegration.shadowBlurRadius"/>
-				<reference key="6953.IBViewIntegration.shadowColor" ref="90276154"/>
+				<reference key="6953.IBViewIntegration.shadowColor" ref="159579553"/>
 				<real value="-1" key="6953.IBViewIntegration.shadowOffsetHeight"/>
 				<real value="0.0" key="6953.IBViewIntegration.shadowOffsetWidth"/>
 				<string key="6954.CustomClassName">FadingButton</string>
@@ -12285,7 +12293,7 @@
 				<boolean value="NO" key="6954.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="6954.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<real value="1" key="6954.IBViewIntegration.shadowBlurRadius"/>
-				<reference key="6954.IBViewIntegration.shadowColor" ref="90276154"/>
+				<reference key="6954.IBViewIntegration.shadowColor" ref="159579553"/>
 				<real value="1" key="6954.IBViewIntegration.shadowOffsetHeight"/>
 				<real value="0.0" key="6954.IBViewIntegration.shadowOffsetWidth"/>
 				<string key="6955.CustomClassName">FadingButton</string>
@@ -12295,7 +12303,7 @@
 				<boolean value="NO" key="6955.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="6955.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<real value="1" key="6955.IBViewIntegration.shadowBlurRadius"/>
-				<reference key="6955.IBViewIntegration.shadowColor" ref="90276154"/>
+				<reference key="6955.IBViewIntegration.shadowColor" ref="159579553"/>
 				<real value="1" key="6955.IBViewIntegration.shadowOffsetHeight"/>
 				<real value="0.0" key="6955.IBViewIntegration.shadowOffsetWidth"/>
 				<string key="6956.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
