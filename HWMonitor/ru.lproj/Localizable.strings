@@ -95,6 +95,7 @@
 
 "HWMonitor %@ is available - you have %@. Would you like to download?" = "Появилась новая версия HWMonitor v%@. Вы используете v%@. Не хотели бы вы скачать новую версию?";
 "Update" = "Обновить";
+"Download" = "Скачать";
 "Next time" = "В другой раз";
 "Skip" = "Пропустить";
 
