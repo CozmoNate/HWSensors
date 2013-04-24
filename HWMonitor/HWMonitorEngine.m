@@ -569,7 +569,7 @@
             [self addBluetoothSensorWithGenericDevice:device group:kBluetoothGroupBattery];
         }
     }
-    
+        
     [_sensorsLock unlock];
 }
 
