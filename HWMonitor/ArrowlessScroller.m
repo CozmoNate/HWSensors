@@ -8,6 +8,9 @@
 
 #import "ArrowlessScroller.h"
 
+#define HIGHLLIGHTED_OPACITY    0.85
+#define NORMAL_OPACITY          0.35
+
 @implementation ArrowlessScroller
 
 -(id)init
@@ -15,7 +18,7 @@
     self = [super init];
     
     if (self) {
-        [self setAlphaValue:0.5];
+        [self setAlphaValue:NORMAL_OPACITY];
     }
     
     return self;
@@ -26,7 +29,7 @@
     self = [super initWithFrame:frame];
     
     if (self) {
-        [self setAlphaValue:0.5];
+        [self setAlphaValue:NORMAL_OPACITY];
     }
     
     return self;
@@ -37,7 +40,7 @@
     self = [super initWithCoder:coder];
     
     if (self) {
-        [self setAlphaValue:0.5];
+        [self setAlphaValue:NORMAL_OPACITY];
     }
     return self;
 }
@@ -52,14 +55,14 @@
 - (void)mouseEntered:(NSEvent *)theEvent
 {
 	[super mouseEntered:theEvent];
-    [[self animator] setAlphaValue:0.75];
+    [[self animator] setAlphaValue:HIGHLLIGHTED_OPACITY];
 	[self setNeedsDisplay];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
 	[super mouseExited:theEvent];
-    [[self animator] setAlphaValue:0.5];
+    [[self animator] setAlphaValue:NORMAL_OPACITY];
     [self setNeedsDisplay];
 }
 
