@@ -47,12 +47,13 @@
 "Temperature units:" = "Система температур:";
 "Menu sensors:" = "Датчики в меню:";
 "Miscellaneous:" = "Разное:";
-"About HWMonitor" = "О программе HWMonitor";
+"About HWMonitor" = "О программе";
+"Preferences..." = "Настройки...";
 "Services" = "Службы";
 "Hide HWMonitor" = "Скрыть HWMonitor";
 "Hide Others" = "Скрыть остальные";
 "Show All" = "Показать все";
-"Quit HWMonitor" = "Закрыть настройки HWMonitor";
+"Quit HWMonitor" = "Закрыть HWMonitor";
 "Window" = "Окно";
 "Minimize" = "Свернуть";
 "Zoom" = "Изменить масштаб";

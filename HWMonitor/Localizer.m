@@ -12,6 +12,10 @@
 
 + (void)localizeView:(id)view
 {
+    if (!view) {
+        return;
+    }
+    
     if ([view isKindOfClass:[NSMatrix class]]) {
         NSMatrix *matrix = (NSMatrix*)view;
         
@@ -34,6 +38,8 @@
         
         [button setTitle:GetLocalizedString(title)];
         [button setAlternateTitle:GetLocalizedString([button alternateTitle])];
+        
+        [Localizer localizeView:button.menu];
     }
     else if ([view isKindOfClass:[NSTextField class]]) {
         NSTextField *textField = (NSTextField*)view;

@@ -74,7 +74,7 @@
 
 -(void)mouseExited:(NSEvent *)theEvent
 {
-    [self setAlphaValue:NORMAL_OPACITY];
+    [[self animator] setAlphaValue:NORMAL_OPACITY];
     
     [super mouseExited:theEvent];
 }
@@ -82,10 +82,27 @@
 -(void)mouseDown:(NSEvent *)theEvent
 {
     [self setAlphaValue:DOWN_OPACITY];
-    
+
     [super mouseDown:theEvent];
     
     [self setAlphaValue:NORMAL_OPACITY];
+    
+    if (self.menu) {
+        NSEvent *event = [NSEvent
+                          mouseEventWithType:NSRightMouseDown
+                          location:theEvent.locationInWindow
+                          modifierFlags: theEvent.modifierFlags
+                          timestamp: theEvent.timestamp
+                          windowNumber:theEvent.windowNumber
+                          context:theEvent.context
+                          eventNumber:theEvent.eventNumber
+                          clickCount:theEvent.clickCount
+                          pressure:theEvent.pressure];
+        [NSMenu
+         popUpContextMenu:self.menu
+         withEvent:event
+         forView:self];
+    }
 }
 
 @end

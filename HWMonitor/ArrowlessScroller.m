@@ -55,14 +55,20 @@
 - (void)mouseEntered:(NSEvent *)theEvent
 {
 	[super mouseEntered:theEvent];
-    [[self animator] setAlphaValue:HIGHLLIGHTED_OPACITY];
+    [self setAlphaValue:HIGHLLIGHTED_OPACITY];
+    
 	[self setNeedsDisplay];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
 	[super mouseExited:theEvent];
-    [[self animator] setAlphaValue:NORMAL_OPACITY];
+    
+    [NSAnimationContext beginGrouping];
+    [[NSAnimationContext currentContext] setDuration:0.15];
+    [self.animator setAlphaValue:NORMAL_OPACITY];
+    [NSAnimationContext endGrouping];
+    
     [self setNeedsDisplay];
 }
 

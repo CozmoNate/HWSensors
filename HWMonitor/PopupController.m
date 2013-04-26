@@ -143,11 +143,6 @@
     [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
 }
 
-- (void)windowWillClose:(NSNotification *)notification
-{
-    [self close];
-}
-
 - (void)windowDidResignKey:(NSNotification *)notification;
 {
     [self close];
