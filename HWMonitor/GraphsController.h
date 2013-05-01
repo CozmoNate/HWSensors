@@ -37,6 +37,7 @@
     NSMutableArray *_hiddenItems;
     NSMutableArray *_graphViews;
     WindowFilter *_windowFilter;
+    NSLock  *_itemsLock;
 }
 
 @property (nonatomic, assign) BOOL useFahrenheit;

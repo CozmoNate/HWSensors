@@ -51,7 +51,7 @@
 
 - (id)init
 {
-    self = [super init];
+    self = [super initWithWindowNibName:@"PopupController" owner:self];
     
     if (self != nil)
     {
@@ -207,27 +207,19 @@
     }
 }
 
-- (IBAction)closeApplication:(id)sender
+- (IBAction)showAboutPanel:(id)sender
 {
-    [NSApp terminate:nil];
-}
-
-- (IBAction)showAboutWindow:(id)sender
-{
-    [NSApp activateIgnoringOtherApps:YES];
-    [NSApp orderFrontStandardAboutPanel:nil];
+    [_aboutController showWindow:sender];
 }
 
 - (IBAction)openPreferences:(id)sender
 {
-    [NSApp activateIgnoringOtherApps:YES];
-    [_appController showWindow:self];
+    [_appController showWindow:sender];
 }
 
-- (IBAction)showGraphs:(id)sender
+- (IBAction)showGraphsWindow:(id)sender
 {
-    [NSApp activateIgnoringOtherApps:YES];
-    [_graphsController showWindow:self];
+    [_graphsController showWindow:sender];
 }
 
 - (void) setupWithGroups:(NSArray*)groups

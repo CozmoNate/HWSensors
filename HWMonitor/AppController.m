@@ -38,6 +38,18 @@
 
 @implementation AppController
 
+- (id)init
+{
+    self = [super initWithWindowNibName:@"AppController" owner:self];
+    
+    if (self != nil)
+    {
+
+    }
+    
+    return self;
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [Localizer localizeView:self.window];
@@ -119,6 +131,7 @@
         }
     }
     
+    [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
 }
 

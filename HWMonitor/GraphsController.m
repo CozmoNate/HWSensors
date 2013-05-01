@@ -91,7 +91,7 @@
 
 -(id)init
 {
-    self = [super init];
+    self = [super initWithWindowNibName:@"GraphsController" owner:self];
     
     if (self) {
         _colorsList = [[NSMutableArray alloc] init];
@@ -110,6 +110,8 @@
             if (intensity >= 0.335 && intensity <=0.900 && !blackAndWhite)
                 [_colorsList addObject:color];
         }
+        
+        _itemsLock = [[NSLock alloc] init];
     }
     
     return self;
@@ -121,9 +123,10 @@
         _windowFilter = 0;
     }
 }
-
 -(void)showWindow:(id)sender
 {
+    [_itemsLock lock];
+    
     [_items enumerateObjectsUsingBlock:^(id item, NSUInteger index, BOOL *stop) {
         if ([item isKindOfClass:[HWMonitorItem class]]) {
             id cell = [_graphsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
@@ -134,6 +137,9 @@
         }
     }];
     
+    [_itemsLock unlock];
+    
+    [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
     
     if (!_windowFilter) {
@@ -181,6 +187,8 @@
 
 -(void)setupWithGroups:(NSArray *)groups
 {
+    [_itemsLock lock];
+    
     if (!_items) {
         _items = [[NSMutableArray alloc] init];
     }
@@ -216,10 +224,14 @@
     }];
     
     [_graphsTableView reloadData];
+    
+    [_itemsLock unlock];
 }
 
 - (void)captureDataToHistoryNow
 {
+    [_itemsLock lock];
+    
     if ([self.window isVisible]) {
         [_items enumerateObjectsUsingBlock:^(id item, NSUInteger index, BOOL *stop) {
             if ([item isKindOfClass:[HWMonitorItem class]]) {
@@ -237,6 +249,8 @@
             [graphView captureDataToHistoryNow];
         }
     }
+    
+    [_itemsLock unlock];
 }
 
 - (BOOL)checkItemIsHidden:(HWMonitorItem*)item

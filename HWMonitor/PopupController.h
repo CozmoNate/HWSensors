@@ -48,18 +48,17 @@
 
 @property (nonatomic, unsafe_unretained) IBOutlet NSWindowController *appController;
 @property (nonatomic, unsafe_unretained) IBOutlet NSWindowController *graphsController;
+@property (nonatomic, unsafe_unretained) IBOutlet NSWindowController *aboutController;
 //@property (nonatomic, unsafe_unretained) IBOutlet NSWindow *prefsWindow;
 //@property (nonatomic, unsafe_unretained) IBOutlet NSWindow *graphsWindow;
 
 - (IBAction)togglePanel:(id)sender;
+- (IBAction)showAboutPanel:(id)sender;
+- (IBAction)openPreferences:(id)sender;
+- (IBAction)showGraphsWindow:(id)sender;
 
 - (void) setupWithGroups:(NSArray*)groups;
 - (void) reloadData;
 - (void) updateValuesForSensors:(NSArray*)sensors;
-
-- (IBAction)closeApplication:(id)sender;
-- (IBAction)showAboutWindow:(id)sender;
-- (IBAction)openPreferences:(id)sender;
-- (IBAction)showGraphs:(id)sender;
 
 @end

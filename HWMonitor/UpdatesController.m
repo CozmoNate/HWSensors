@@ -19,9 +19,9 @@
 
 @implementation UpdatesController
 
-- (id)initWithWindow:(NSWindow *)window
+- (id)init
 {
-    self = [super initWithWindow:window];
+    self = [super initWithWindowNibName:@"UpdatesController" owner:self];
     
     bool checkForUpdates = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:kHWMonitorCheckUpdates];
     
@@ -31,6 +31,12 @@
     }
     
     return self;
+}
+
+-(void)showWindow:(id)sender
+{
+    [NSApp activateIgnoringOtherApps:YES];
+    [super showWindow:sender];
 }
 
 - (void)localizeWindow
