@@ -1,0 +1,209 @@
+﻿/*
+ Localizable.strings
+ HWSensors
+ 
+ Created by kozlek on 24/02/12.
+ Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
+ Polish translation by oswaldini @ www.osx86.org.pl
+ */
+
+"TEMPERATURES" = "TEMPERATURY";
+"DRIVE TEMPERATURES" = "TEMPERATURY DYSKÓW";
+"SSD REMAINING LIFE" = "ŻYWOTNOŚĆ SSD";
+"SSD REMAINING BLOCKS" = "POZOSTAŁA ILOŚĆ BLOKÓW SSD";
+"MULTIPLIERS" = "MNOŻNIKI";
+"FREQUENCIES" = "CZĘSTOTLIWOŚCI";
+"VOLTAGES" = "NAPIĘCIA";
+"CURRENTS" = "AKTUALNE";
+"POWERS" = "ZASILANIE";
+"FANS" = "WENTYLATORY";
+"BATTERIES" = "BATERIA";
+"Quit HWMonitor" = "Wyłącz HWMonitor";
+"No sensors found" = "Nie znaleziono sensorów";
+"Preferences..." = "Preferencje...";
+"Show hidden sensors" = "Pokaż ukryte sensory";
+"Use BSD drives names" = "Użyj nazw BSD dysków";
+"Celsius" = "Stopnie Celsjusza";
+"Fahrenheit" = "Stopnie Fahrenheita";
+"Use larger font" = "Użyj większej czcionki";
+"Use shadow effect" = "Użyj efektu cienia";
+"hwmonitor" = "HWMonitor";
+"thermometer" = "Termometr";
+"temperatures" = "Temperatury";
+"hddtemperatures" = "Temperatury dysków";
+"ssdlife" = "Żywotność SSD";
+"multipliers" = "Mnożniki";
+"frequencies" = "Częstotliwości";
+"tachometers" = "Prędkości";
+"voltages" = "Napięcia";
+"pcicard" = "Karty PCI";
+"video" = "Karty graficzne";
+"battery" = "Bateria";
+"Menubar items" = "Elementy paska menu";
+"Icons" = "IKONY";
+"Sensors" = "Sensory";
+"HWMonitor Preferences" = "Preferencje HWMonitor";
+"Install menu bar extension" = "Zainstaluj rozszerzenie paska narzędzi";
+"Remove menu bar extension" = "Odinstaluj rozszerzenie paska narzędzi";
+"Temperature units:" = "Jednostki temperatury :";
+"Menu sensors:" = "Menu sensorów :";
+"Miscellaneous:" = "Napędy :";
+"About HWMonitor" = "O HWMonitor";
+"Services" = "Usługi";
+"Hide HWMonitor" = "Ukryj HWMonitor";
+"Hide Others" = "Ukryj pozostałe";
+"Show All" = "Pokaż wszystko";
+"Quit HWMonitor" = "Wyłącz HWMonitor";
+"Window" = "Okno";
+"Minimize" = "Minimalizuj";
+"Zoom" = "Powiększ";
+"Bring All to Front" = "Przenieś wszystko na wierzch";
+"Help" = "Pomoc";
+"HWMonitor Help" = "Pomoc HWMonitor";
+"Preferences" = "Preferencje";
+"Graphs" = "Wykres";
+"Show partitions names" = "Pokaż nazwy partycji";
+"System menu bar:" = "Systemowy pasek menu :";
+"Preferences" = "Preferencje";
+"Menubar Items" = "Elementy paska menu";
+"History Graphs" = "Historia wykresu";
+"Sensors update rate:" = "Częstotliwość odświeżania danych :";
+"S.M.A.R.T. update rate:" = "Częstotliwość odświeżania S.M.A.R.T. :";
+"sec" = "sek.";
+"min" = "min.";
+"Graphs:" = "Wykres :";
+"Use data smoothing" = "Użyj wygładzania wykresu";
+"General" = "Ogólne";
+"Menubar" = "Pasek menu";
+"Menubar icons:" = "Ikony paska menu :";
+"Temperature Sensors" = "Sensory temperatury";
+"Frequency Sensors" = "Sensory częstotliwości";
+"Tachometer Sensors" = "Sensor prędkości";
+"Voltage Sensors" = "Sensor napięć";
+"Close HWMonitor" = "Zamknij HWMonitor";
+"Start HWMonitor at login" = "Uruchom HWMonitor podczas logowania";
+"Menu color theme:" = "Temat kolorystyczny menu :";
+"Default" = "Domyślny";
+"Gray" = "Szary";
+"Dark" = "Ciemny";
+"Continue monitor sensors in background" = "Kontynuuj monitorowanie czujników w tle ";
+"Check for updates" = "Sprawdzaj uaktualnienia";
+
+"Mouse" = "Mysz";
+"Keyboard" = "Klawiatura";
+"Trackpad" = "Trackpad";
+
+"HWMonitor %@ is available - you have %@. Would you like to download?" = "HWMonitor w wersji %@ jest dostępny. Aktualnie posiadasz wersję %@. Czy chcesz pobrać nową wersję ?";
+"Update" = "Aktualizuj";
+"Next time" = "Następnym razem";
+"Skip" = "Pomiń";
+
+"CPUFan" = "Wentylator procesora";
+"CPUFan2" = "Wentylator procesora 2";
+"PowerFan" = "Wentylator zasilacza";
+"SystemFan1" = "Wentylator systemowy";
+"SystemFan2" = "Wentylator systemowy 2";
+"AuxFan" = "Wentylator tylny";
+"AuxFan2" = "Wentylator tylny 2";
+"MB Fan 0" = "Wentylator 0";
+"MB Fan 1" = "Wentylator 1";
+"MB Fan 2" = "Wentylator 2";
+"MB Fan 3" = "Wentylator 3";
+"MB Fan 4" = "Wentylator 4";
+"GPU Fan" = "Wentylator grafiki";
+"GPU Fan 1" = "Wentylator grafiki 2";
+"GPU Fan 2" = "Wentylator grafiki 3";
+"GPU Fan 3" = "Wentylator grafiki 4";
+"CPU_MEM" = "Procesor/Pamięć";
+"IO" = "Gniazda rozszerzeń";
+"PCI" = "Gniazda PCI";
+"INTAKE" = "Wlot";
+"EXHAUST" = "Wylot";
+"PS" = "Zasilacz";
+"Main" = "Główny wentylator";
+"ODD" = "Napęd optyczny";
+"HDD" = "Dysk twardy";
+"BOOSTA" = "Wzmacniacz А";
+"BOOSTB" = "Wzmacniacz B";
+
+"Ambient" = "Otoczenie";
+
+"CPU Die %X" = "Procesor, rdzeń %X";
+
+"CPU %X" = "Procesor %X";
+"CPU Heatsink" = "Radiator procesora";
+"CPU %X Heatsink" = "Radiator procesora %X";
+"CPU Proximity" = "Okolice procesora";
+"CPU %X Proximity" = "Okolice procesora %X";
+
+"CPU Core Package" = "Prędkość procesora";
+
+"PECI CPU" = "PECI CPU";
+"PECI SA" = "PECI SA";
+"PECI GPU" = "PECI GPU";
+
+"Northbridge Die" = "Mostek północny";
+"Northbridge %X Die" = "Mostek północny %X";
+"Northbridge Proximity" = "Okolice mostka północnego";
+"Northbridge %X Proximity" = "Okolice mostka północnego %X";
+"MCH Die" = "Kontroler pamięci";
+"MCH Heatsink" = "Radiator kontrolera pamięci";
+"MCP Internal Die" = "Kontroler pamięci";
+"PCH Die" = "Chipset";
+"PCH Proximity" = "Okolice chipsetu";
+"Mainboard Proximity" = "Płyta główna";
+"LCD Proximity" = "LCD";
+"Airport Proximity" = "Airport";
+"Battery Proximity" = "Bateria";
+"Powerboard Proximity" = "Zasilacz";
+
+"Memory Bank %X" = "Slot pamięci RAM %X";
+"Memory Module %X" = "Moduł pamięci RAM %X";
+
+"Optical Drive" = "Napęd optyzny";
+"HDD Bay %X" = "Zatoka dysku twardego %X";
+
+"GPU Die" = "Grafika";
+"GPU %X Die" = "Grafika %X";
+"GPU Heatsink" = "Radiator grafiki";
+"GPU %X Heatsink" = "Radiator grafiki %X";
+"GPU Proximity" = "Okolice grafiki";
+"GPU %X Proximity" = "Okolice grafiki %X";
+"GPU Memory" = "Pamięć grafiki";
+"GPU %X Memory" = "Pamięć grafiki %X";
+"GPU %X Fan" = "Wentylator grafiki %X";
+"GPU %X PWM" = "Wentylator grafiki %X";
+
+"Thermal Zone %X" = "Strefa termiczna %X";
+
+"CPU Core" = "Procesor";
+"CPU Core %X" = "Procesor %X";
+"CPU Package Multiplier" = "Mnożnik procesora";
+
+"GPU Core" = "Prędkość rdzenia grafiki";
+"GPU %X Core" = "Prędkość rdzenia grafiki %X";
+"GPU Shader" = "Jednostki cieniujące grafiki";
+"GPU %X Shader" = "Jednostki cieniujące grafiki %X";
+"GPU ROP" = "Jednostki renderujące grafiki";
+"GPU %X ROP" = "Jednostki renderujące grafiki %X";
+
+"Memory Modules" = "Moduł pamięci RAM";
+"MCP Core" = "Kontroler pamięci";
+"Main 3.3V" = "Napięcie +3.3 V";
+"Main 5V" = "Napięcie +5 V";
+"Main 12V" = "Napięcie +12 V";
+"Auxiliary 3.3V" = "Pomocnicza linia +3.3 V";
+"Standby 5V" = "Standby +5 V";
+//"PCIe 12V" = "";
+"Power Supply 12V" = "Linia 12V";
+//"DC In S0 Rail" = "";
+//"DC In S5 Rail" = "";
+"GPU Rail" = "Linia grafiki";
+"GPU %X Rail" = "Linia grafiki %X";
+
+"CMOS Battery" = "Bateria CMOS";
+
+"VRM Supply %X" = "Regulator napięcia %X";
+"Power Supply %X" = "Zasilacz %X";
+
+"Graphs window always topmost" = "Wykres zawsze na wierzchu";

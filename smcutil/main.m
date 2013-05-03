@@ -185,7 +185,7 @@ int main(int argc, const char * argv[])
                 }
                     
                 case OPTION_READ:
-                    snprintf(key, 5, argv[3]);
+                    snprintf(key, 5, argv[2]);
                     if (kIOReturnSuccess == SMCReadKey(connection, key, &val)) {
                         printKeyValue(val);
                     }

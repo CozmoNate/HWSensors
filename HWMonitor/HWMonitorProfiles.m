@@ -98,15 +98,15 @@
              [NSArray arrayWithObjects:@"VV1R",       @"Power Supply 12V", nil],
              [NSArray arrayWithObjects:@"VD0R",       @"Mainboard S0 Rail", nil],
              [NSArray arrayWithObjects:@"VD5R",       @"Mainboard S5 Rail", nil],
+             [NSArray arrayWithObjects:@"Vb0R",       @"CMOS Battery", nil],
+             [NSArray arrayWithObjects:@"VBAT",       @"Battery", nil],
+             [NSArray arrayWithObjects:@"VS:0F1C",    @"VRM Supply %X", nil],
              [NSArray arrayWithObjects:@"VC0G",       @"GPU Core", nil],
              [NSArray arrayWithObjects:@"VC:132G",    @"GPU %X Core", nil],
              [NSArray arrayWithObjects:@"VG0C",       @"GPU Core", nil],
              [NSArray arrayWithObjects:@"VG:132C",    @"GPU %X Core", nil],
              [NSArray arrayWithObjects:@"VC0R",       @"GPU Rail", nil],
              [NSArray arrayWithObjects:@"VC:132R",    @"GPU %X Rail", nil],
-             [NSArray arrayWithObjects:@"Vb0R",       @"CMOS Battery", nil],
-             [NSArray arrayWithObjects:@"VBAT",       @"Battery", nil],
-             [NSArray arrayWithObjects:@"VS:0F1C",    @"VRM Supply %X", nil],
              
              // Currents
              [NSArray arrayWithObjects:@"IC0C",       @"CPU Core", nil],

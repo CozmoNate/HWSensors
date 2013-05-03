@@ -59,7 +59,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-l"
+            argument = "-r TC0D"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
