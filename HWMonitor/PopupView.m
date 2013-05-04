@@ -90,8 +90,8 @@
         
         [[[NSGradient alloc] initWithColorsAndLocations:
           _colorTheme.toolbarStartColor,                            0.0,
-          [_colorTheme.toolbarEndColor highlightWithLevel:0.1],    0.6,
-          _colorTheme.toolbarEndColor,                              0.6,
+          [_colorTheme.toolbarEndColor highlightWithLevel:0.1],     0.6,
+          [_colorTheme.toolbarEndColor highlightWithLevel:0.02],    0.6,
           [_colorTheme.toolbarEndColor highlightWithLevel:0.05],    1.0,
           nil] drawInBezierPath:toolbarPath angle:270];
         
