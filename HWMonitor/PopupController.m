@@ -19,6 +19,8 @@
 #import "PopupView.h"
 #import "WindowFilter.h"
 
+#import "Localizer.h"
+
 #define OPEN_DURATION .01
 #define CLOSE_DURATION .15
 #define MENU_ANIMATION_DURATION .1
@@ -42,6 +44,8 @@
     [panel setLevel:NSPopUpMenuWindowLevel];
     [panel setOpaque:NO];
     [panel setBackgroundColor:[NSColor clearColor]];
+    
+    [Localizer localizeView:self.window];
 }
 
 - (void)awakeFromNib
