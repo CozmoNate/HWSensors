@@ -145,7 +145,6 @@
 															<string key="NSFrame">{{176, 10}, {15, 15}}</string>
 															<reference key="NSSuperview" ref="792413177"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView"/>
 															<object class="NSShadow" key="NSViewShadow">
 																<double key="NSShadowBlurRadius">2</double>
 																<object class="NSColor" key="NSShadowColor" id="430697067">
@@ -194,7 +193,6 @@
 															<string key="NSFrame">{{201, 10}, {15, 15}}</string>
 															<reference key="NSSuperview" ref="792413177"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView"/>
 															<object class="NSShadow" key="NSViewShadow">
 																<double key="NSShadowBlurRadius">2</double>
 																<object class="NSColor" key="NSShadowColor">
@@ -410,8 +408,6 @@
 													<string key="NSFrame">{{1, 244}, {226, 5}}</string>
 													<reference key="NSSuperview" ref="436118374"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView"/>
-													<double key="NSViewAlphaValue">0.60000000000000009</double>
 													<string key="NSReuseIdentifierKey">_NS:9</string>
 													<string key="NSOffsets">{0, 0}</string>
 													<object class="NSTextFieldCell" key="NSTitleCell">
@@ -442,7 +438,7 @@
 											<string key="NSFrameSize">{228, 281}</string>
 											<reference key="NSSuperview" ref="367084079"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="792413177"/>
+											<reference key="NSNextKeyView" ref="893916998"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 										</object>
 									</array>
@@ -487,7 +483,7 @@
 							<string key="NSFrame">{{1, 5}, {228, 281}}</string>
 							<reference key="NSSuperview" ref="101117346"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="893916998"/>
+							<reference key="NSNextKeyView" ref="367084079"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133120</int>
 							<reference key="NSVScroller" ref="893916998"/>
