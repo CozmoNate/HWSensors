@@ -100,6 +100,10 @@
 "Next time" = "В другой раз";
 "Skip" = "Пропустить";
 
+"Check for updates..." = "Проверить наличие обновлений...";
+"No new versions of HWMonitor are available at this time!" = "Нет доступных новых версий HWMonitor! Попробуйте проверить в другой раз.";
+"Close" = "Закрыть";
+
 "CPUFan" = "Вентилятор ЦП";
 "CPUFan2" = "Вентилятор ЦП 2";
 "PowerFan" = "Вентилятор БП";

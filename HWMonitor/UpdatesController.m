@@ -44,7 +44,7 @@
     [Localizer localizeView:self.window];
 }
 
-- (void)checkForUpdates
+- (BOOL)checkForUpdates
 {
     NSURL *url = [NSURL URLWithString:@"https://github.com/kozlek/HWSensors/raw/master/Shared/version.plist"];
     NSMutableDictionary *list = [[NSMutableDictionary alloc] initWithContentsOfURL:url];
@@ -57,15 +57,17 @@
         if (_currentVersion && _remoteVersion && [_remoteVersion isGreaterThan:_currentVersion] && (!_skippedVersion || [_skippedVersion isLessThan:_remoteVersion])) {
             [_messageTextField setStringValue:[NSString stringWithFormat:GetLocalizedString([_messageTextField stringValue]), _remoteVersion, _currentVersion]];
             [NSApp activateIgnoringOtherApps:YES];
-            [self.window setLevel:NSFloatingWindowLevel];
+            [self.window setLevel:NSModalPanelWindowLevel];
             [self.window makeKeyAndOrderFront:nil];
             
-            return; // stop checking for updates in this session
+            return YES; // stop checking for updates in this session
         }
     }
 
     // continue check for updates every hour???
     [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 * 60];
+    
+    return NO;
 }
 
 - (IBAction)openDownloadsPage:(id)sender

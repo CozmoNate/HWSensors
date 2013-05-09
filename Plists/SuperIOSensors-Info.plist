@@ -2170,6 +2170,51 @@
 			<dict>
 				<key>ASRock</key>
 				<dict>
+					<key>P67 Pro3</key>
+					<dict>
+						<key>FANIN1</key>
+						<string>CPU</string>
+						<key>FANIN2</key>
+						<string>Case 1</string>
+						<key>FANIN3</key>
+						<string>Case 2</string>
+						<key>FANIN4</key>
+						<string>Case 3</string>
+						<key>TEMPIN0</key>
+						<string>System</string>
+						<key>TEMPIN1</key>
+						<string>CPU</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<dict>
+							<key>gain</key>
+							<integer>5597</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN2</key>
+						<string>Auxiliary 3V</string>
+						<key>VIN3</key>
+						<string>Main 3V</string>
+						<key>VIN5</key>
+						<dict>
+							<key>gain</key>
+							<integer>2000</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN7</key>
+						<string>Standby 3V</string>
+					</dict>
 					<key>Z68 Pro3-M</key>
 					<dict>
 						<key>FANIN0</key>

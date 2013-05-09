@@ -15,6 +15,8 @@
 
 @property (nonatomic, unsafe_unretained) IBOutlet NSTextField *messageTextField;
 
+- (BOOL)checkForUpdates;
+
 - (IBAction)openDownloadsPage:(id)sender;
 - (IBAction)skipVersion:(id)sender;
 - (IBAction)cancelUpdate:(id)sender;

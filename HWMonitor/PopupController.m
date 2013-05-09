@@ -19,6 +19,8 @@
 #import "PopupView.h"
 #import "WindowFilter.h"
 
+#import "UpdatesController.h"
+
 #import "Localizer.h"
 
 #define OPEN_DURATION .01
@@ -46,6 +48,7 @@
     [panel setBackgroundColor:[NSColor clearColor]];
     
     [Localizer localizeView:self.window];
+    [Localizer localizeView:_noUpdatesWindow];
 }
 
 - (void)awakeFromNib
@@ -224,6 +227,21 @@
 - (IBAction)showGraphsWindow:(id)sender
 {
     [_graphsController showWindow:sender];
+}
+
+- (IBAction)checkForUpdates:(id)sender
+{
+    [self performSelectorInBackground:@selector(checkForUpdatesDialog) withObject:nil];
+}
+
+- (void)checkForUpdatesDialog
+{
+    UpdatesController *controller = (UpdatesController*)self.updatesController;
+    
+    if (![controller checkForUpdates]) {
+        [_noUpdatesWindow setLevel:NSModalPanelWindowLevel];
+        [_noUpdatesWindow makeKeyAndOrderFront:self];
+    }
 }
 
 - (void) setupWithGroups:(NSArray*)groups
