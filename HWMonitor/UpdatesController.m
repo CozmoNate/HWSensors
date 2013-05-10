@@ -23,11 +23,11 @@
 {
     self = [super initWithWindowNibName:@"UpdatesController" owner:self];
     
-    bool checkForUpdates = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:kHWMonitorCheckUpdates];
+    bool checkForUpdates = ![[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:kHWMonitorDontCheckUpdates];
     
     if (self && checkForUpdates) {
         [self performSelector:@selector(localizeWindow) withObject:nil afterDelay:0.0];
-        [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0];
+        [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
     }
     
     return self;
@@ -46,6 +46,8 @@
 
 - (BOOL)checkForUpdates
 {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
     NSURL *url = [NSURL URLWithString:@"https://github.com/kozlek/HWSensors/raw/master/Shared/version.plist"];
     NSMutableDictionary *list = [[NSMutableDictionary alloc] initWithContentsOfURL:url];
 
@@ -64,8 +66,10 @@
         }
     }
 
-    // continue check for updates every hour???
-    [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 * 60];
+    // continue check for updates every hour
+    if (![[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:kHWMonitorDontCheckUpdates]) {
+        [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 * 60 inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+    }
     
     return NO;
 }

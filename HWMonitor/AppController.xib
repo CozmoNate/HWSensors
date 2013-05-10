@@ -344,7 +344,7 @@
 												<string key="NSFrame">{{25, 30}, {377, 18}}</string>
 												<reference key="NSSuperview" ref="736000199"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="168955561"/>
+												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="252292372">
@@ -684,7 +684,7 @@
 																		<array class="NSMutableArray" key="NSSubviews"/>
 																		<string key="NSFrameSize">{284, 149}</string>
 																		<reference key="NSSuperview" ref="923361435"/>
-																		<reference key="NSNextKeyView" ref="597517481"/>
+																		<reference key="NSNextKeyView" ref="571187835"/>
 																		<string key="NSReuseIdentifierKey">_NS:13</string>
 																		<bool key="NSEnabled">YES</bool>
 																		<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -802,7 +802,7 @@
 														</array>
 														<string key="NSFrameSize">{286, 151}</string>
 														<reference key="NSSuperview" ref="611997437"/>
-														<reference key="NSNextKeyView" ref="571187835"/>
+														<reference key="NSNextKeyView" ref="923361435"/>
 														<string key="NSReuseIdentifierKey">_NS:9</string>
 														<int key="NSsFlags">133650</int>
 														<reference key="NSVScroller" ref="181035495"/>
@@ -827,7 +827,7 @@
 																		<array class="NSMutableArray" key="NSSubviews"/>
 																		<string key="NSFrameSize">{284, 249}</string>
 																		<reference key="NSSuperview" ref="793987593"/>
-																		<reference key="NSNextKeyView" ref="374220115"/>
+																		<reference key="NSNextKeyView" ref="972725168"/>
 																		<string key="NSReuseIdentifierKey">_NS:13</string>
 																		<bool key="NSEnabled">YES</bool>
 																		<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -923,7 +923,7 @@
 														</array>
 														<string key="NSFrame">{{0, 160}, {286, 251}}</string>
 														<reference key="NSSuperview" ref="611997437"/>
-														<reference key="NSNextKeyView" ref="972725168"/>
+														<reference key="NSNextKeyView" ref="793987593"/>
 														<string key="NSReuseIdentifierKey">_NS:9</string>
 														<int key="NSsFlags">133650</int>
 														<reference key="NSVScroller" ref="549939266"/>
@@ -1946,25 +1946,26 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.checkForUpdates</string>
+						<string key="label">value: values.dontCheckForUpdates</string>
 						<reference key="source" ref="287402062"/>
 						<reference key="destination" ref="839937983"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="287402062"/>
 							<reference key="NSDestination" ref="839937983"/>
-							<string key="NSLabel">value: values.checkForUpdates</string>
+							<string key="NSLabel">value: values.dontCheckForUpdates</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.checkForUpdates</string>
+							<string key="NSKeyPath">values.dontCheckForUpdates</string>
 							<dictionary key="NSOptions">
 								<integer value="1" key="NSMultipleValuesPlaceholder"/>
 								<integer value="1" key="NSNoSelectionPlaceholder"/>
 								<integer value="1" key="NSNotApplicablePlaceholder"/>
 								<integer value="1" key="NSNullPlaceholder"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
 							</dictionary>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">501</int>
+					<int key="connectionID">551</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -5708,7 +5709,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">537</int>
+			<int key="maxID">551</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5890,12 +5891,17 @@
 					<string key="className">PopupController</string>
 					<string key="superclassName">NSWindowController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="checkForUpdates:">id</string>
 						<string key="openPreferences:">id</string>
 						<string key="showAboutPanel:">id</string>
 						<string key="showGraphsWindow:">id</string>
 						<string key="togglePanel:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="checkForUpdates:">
+							<string key="name">checkForUpdates:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="openPreferences:">
 							<string key="name">openPreferences:</string>
 							<string key="candidateClassName">id</string>
@@ -5918,8 +5924,10 @@
 						<string key="appController">NSWindowController</string>
 						<string key="delegate">id</string>
 						<string key="graphsController">NSWindowController</string>
+						<string key="noUpdatesWindow">NSWindow</string>
 						<string key="popupView">PopupView</string>
 						<string key="tableView">NSTableView</string>
+						<string key="updatesController">NSWindowController</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="aboutController">
@@ -5938,6 +5946,10 @@
 							<string key="name">graphsController</string>
 							<string key="candidateClassName">NSWindowController</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="noUpdatesWindow">
+							<string key="name">noUpdatesWindow</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="popupView">
 							<string key="name">popupView</string>
 							<string key="candidateClassName">PopupView</string>
@@ -5945,6 +5957,10 @@
 						<object class="IBToOneOutletInfo" key="tableView">
 							<string key="name">tableView</string>
 							<string key="candidateClassName">NSTableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="updatesController">
+							<string key="name">updatesController</string>
+							<string key="candidateClassName">NSWindowController</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
