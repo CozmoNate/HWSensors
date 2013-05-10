@@ -343,7 +343,7 @@
             }
         }
         else if (_group & kHWSensorGroupVoltage) {
-            _formattedValue = [NSString stringWithFormat:@"%1.2fV", [value floatValue]];
+            _formattedValue = [NSString stringWithFormat:@"%1.3fV", [value floatValue]];
         }
         else if (_group & kHWSensorGroupCurrent) {
             _formattedValue = [NSString stringWithFormat:@"%1.2fA", [value floatValue]];
