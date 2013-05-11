@@ -8,8 +8,8 @@
 
 #import "FadingButton.h"
 
-#define NORMAL_OPACITY  0.8
-#define HOVER_OPACITY   1.0
+#define NORMAL_OPACITY  1.0
+#define HOVER_OPACITY   0.85
 #define DOWN_OPACITY    0.7
 
 @implementation FadingButton
@@ -88,9 +88,11 @@
     [self setAlphaValue:NORMAL_OPACITY];
     
     if (self.menu) {
+        NSRect frame = [self convertRect:self.bounds toView:nil];
+        
         NSEvent *event = [NSEvent
                           mouseEventWithType:NSRightMouseDown
-                          location:theEvent.locationInWindow
+                          location: NSMakePoint(frame.origin.x - self.bounds.size.width / 2, frame.origin.y - self.bounds.size.height / 2)
                           modifierFlags: theEvent.modifierFlags
                           timestamp: theEvent.timestamp
                           windowNumber:theEvent.windowNumber

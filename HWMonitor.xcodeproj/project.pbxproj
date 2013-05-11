@@ -112,6 +112,7 @@
 		7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1AD016DA83AF0012A0DC /* GraphsController.m */; };
 		7EDDC86E16F9B3B40072B15B /* UpdatesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC86D16F9B3B40072B15B /* UpdatesController.m */; };
 		7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC87216FA5DA50072B15B /* Localizer.m */; };
+		7EDEA333173E3B94003ADE86 /* heartbeat.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7EDEA332173E3B94003ADE86 /* heartbeat.icns */; };
 		7EED6D6F1734F8E700248870 /* 16-line-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6B1734F8E700248870 /* 16-line-chart.png */; };
 		7EED6D701734F8E700248870 /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */; };
 		7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D7B1734F9CF00248870 /* 19-gear.png */; };
@@ -264,6 +265,8 @@
 		7EDDC86D16F9B3B40072B15B /* UpdatesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdatesController.m; sourceTree = "<group>"; };
 		7EDDC87116FA5DA50072B15B /* Localizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localizer.h; sourceTree = "<group>"; };
 		7EDDC87216FA5DA50072B15B /* Localizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Localizer.m; sourceTree = "<group>"; };
+		7EDEA331173E3B83003ADE86 /* heartbeat.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = heartbeat.psd; sourceTree = "<group>"; };
+		7EDEA332173E3B94003ADE86 /* heartbeat.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = heartbeat.icns; sourceTree = "<group>"; };
 		7EED6D6B1734F8E700248870 /* 16-line-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart.png"; sourceTree = "<group>"; };
 		7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
 		7EED6D7B1734F9CF00248870 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
@@ -440,9 +443,8 @@
 		7EA2490816D8E942002231B2 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				7E1BC3CD16F47BDF005B9479 /* battery_template.png */,
-				7E1BC3CC16F47BDE005B9479 /* battery.png */,
 				7EA2493516D8E9CE002231B2 /* default.icns */,
+				7EDEA332173E3B94003ADE86 /* heartbeat.icns */,
 				7EA2490B16D8E9C6002231B2 /* frequencies_template.png */,
 				7EA2490C16D8E9C6002231B2 /* frequencies.png */,
 				7EA2490D16D8E9C6002231B2 /* hddtemperatures_template.png */,
@@ -464,6 +466,8 @@
 				7EA2491D16D8E9C6002231B2 /* thermometer.png */,
 				7EA2491E16D8E9C6002231B2 /* voltages_template.png */,
 				7EA2491F16D8E9C6002231B2 /* voltages.png */,
+				7E1BC3CD16F47BDF005B9479 /* battery_template.png */,
+				7E1BC3CC16F47BDE005B9479 /* battery.png */,
 				7ECDDE3016DD680E00085FFF /* 04-eye.png */,
 				7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */,
 				7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */,
@@ -561,6 +565,7 @@
 		7ECDDE3E16DDF19A00085FFF /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				7EDEA334173E3BEF003ADE86 /* Graphics */,
 				7EA2494A16D8EB0B002231B2 /* Views & Controls */,
 				7EA2490816D8E942002231B2 /* Icons */,
 				7EDDC87116FA5DA50072B15B /* Localizer.h */,
@@ -580,6 +585,14 @@
 				7EDA1A6516D8F0F90012A0DC /* BundleUserDefaults.m */,
 			);
 			name = BundleUserDefaults;
+			sourceTree = "<group>";
+		};
+		7EDEA334173E3BEF003ADE86 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				7EDEA331173E3B83003ADE86 /* heartbeat.psd */,
+			);
+			name = Graphics;
 			sourceTree = "<group>";
 		};
 		7EF2A0FF17303C3600D8641C /* About Panel */ = {
@@ -796,6 +809,7 @@
 				7EED6D701734F8E700248870 /* 16-line-chart@2x.png in Resources */,
 				7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */,
 				7EED6D7E1734F9CF00248870 /* 19-gear@2x.png in Resources */,
+				7EDEA333173E3B94003ADE86 /* heartbeat.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
