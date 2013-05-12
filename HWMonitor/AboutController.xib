@@ -89,7 +89,7 @@
 														<int key="NSCellFlags2">33554432</int>
 														<object class="NSCustomResource" key="NSContents">
 															<string key="NSClassName">NSImage</string>
-															<string key="NSResourceName">heartbeat</string>
+															<string key="NSResourceName">hwmonitor_gray</string>
 														</object>
 														<string key="NSCellIdentifier">_NS:9</string>
 														<int key="NSAlign">0</int>
@@ -201,7 +201,7 @@
 											<string key="NSFrameSize">{500, 256}</string>
 											<reference key="NSSuperview" ref="1038130610"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="871982081"/>
+											<reference key="NSNextKeyView" ref="849629352"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 										</object>
 									</array>
@@ -250,7 +250,7 @@
 							<string key="NSFrame">{{-1, 46}, {502, 258}}</string>
 							<reference key="NSSuperview" ref="639894023"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="849629352"/>
+							<reference key="NSNextKeyView" ref="1038130610"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133122</int>
 							<reference key="NSVScroller" ref="849629352"/>
@@ -266,7 +266,6 @@
 							<string key="NSFrame">{{380, 9}, {110, 28}}</string>
 							<reference key="NSSuperview" ref="639894023"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="407194907">
@@ -1081,8 +1080,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">heartbeat</string>
-			<string key="NS.object.0">{300, 300}</string>
+			<string key="NS.key.0">hwmonitor_gray</string>
+			<string key="NS.object.0">{512, 512}</string>
 		</object>
 		<bool key="IBDocument.UseAutolayout">YES</bool>
 	</data>
