@@ -52,7 +52,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="639894023">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSScrollView" id="941618259">
@@ -196,7 +196,7 @@
 											</array>
 											<string key="NSFrameSize">{500, 256}</string>
 											<reference key="NSSuperview" ref="1038130610"/>
-											<reference key="NSNextKeyView" ref="849629352"/>
+											<reference key="NSNextKeyView" ref="871982081"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 										</object>
 									</array>
@@ -241,7 +241,7 @@
 							</array>
 							<string key="NSFrame">{{-1, 46}, {502, 258}}</string>
 							<reference key="NSSuperview" ref="639894023"/>
-							<reference key="NSNextKeyView" ref="1038130610"/>
+							<reference key="NSNextKeyView" ref="849629352"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133122</int>
 							<reference key="NSVScroller" ref="849629352"/>
@@ -256,6 +256,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{380, 9}, {110, 28}}</string>
 							<reference key="NSSuperview" ref="639894023"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="407194907">
@@ -280,6 +281,7 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{500, 286}</string>
+					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="941618259"/>
 					<string key="NSReuseIdentifierKey">_NS:20</string>
 				</object>
@@ -1025,7 +1027,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">hwmonitor_gray</string>
-			<string key="NS.object.0">{512, 512}</string>
+			<string key="NS.object.0">{300, 300}</string>
 		</object>
 		<bool key="IBDocument.UseAutolayout">YES</bool>
 	</data>

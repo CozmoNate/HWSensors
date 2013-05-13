@@ -295,11 +295,13 @@
     if (NSMaxX(panelRect) > (NSMaxX(screenRect) - ARROW_HEIGHT))
         panelRect.origin.x -= NSMaxX(panelRect) - (NSMaxX(screenRect) - ARROW_HEIGHT);
     
-    // Back to previous frame
-    [self.window setFrame:originalRect display:NO];
-    
     // Update arrow position
-    [self.popupView setArrowPosition:roundf(NSMidX(statusRect)) - NSMinX(panelRect)];
+    [self.popupView setArrowPosition:NSMidX(statusRect) - NSMinX(panelRect)];
+    
+    if (YES != NSEqualRects(originalRect, panelRect)) {
+        // Back to previous frame
+        [self.window setFrame:originalRect display:NO];
+    }
     
     // Order front if needed
     if (animated) {
