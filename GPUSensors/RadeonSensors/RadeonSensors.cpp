@@ -20,9 +20,9 @@
 #include "evergreen.h"
 
 #define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(RadeonMonitor, FakeSMCPlugin)
+OSDefineMetaClassAndStructors(RadeonSensors, FakeSMCPlugin)
 
-float RadeonMonitor::getSensorValue(FakeSMCSensor *sensor)
+float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
 {
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
@@ -38,7 +38,7 @@ float RadeonMonitor::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-bool RadeonMonitor::start(IOService * provider)
+bool RadeonSensors::start(IOService * provider)
 {
     HWSensorsDebugLog("Starting...");
     
@@ -299,7 +299,7 @@ bool RadeonMonitor::start(IOService * provider)
     return true;
 }
 
-void RadeonMonitor::free(void)
+void RadeonSensors::free(void)
 {
     if (card.mmio)
         OSSafeRelease(card.mmio);

@@ -74,7 +74,7 @@
 
 -(void)mouseExited:(NSEvent *)theEvent
 {
-    [[self animator] setAlphaValue:NORMAL_OPACITY];
+    [self setAlphaValue:NORMAL_OPACITY];
     
     [super mouseExited:theEvent];
 }

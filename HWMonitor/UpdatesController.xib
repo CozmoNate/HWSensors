@@ -49,7 +49,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="621455615">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSImageView" id="730481290">
@@ -65,7 +65,6 @@
 							</set>
 							<string key="NSFrame">{{17, 74}, {125, 125}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="364582084"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -90,7 +89,6 @@
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{314, 13}, {112, 32}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
-							<reference key="NSWindow"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="155307308">
@@ -119,7 +117,6 @@
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{202, 13}, {112, 32}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="882934410"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -144,7 +141,6 @@
 							<int key="NSvFlags">282</int>
 							<string key="NSFrame">{{147, 80}, {276, 98}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="661916048"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -186,7 +182,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{14, 13}, {112, 32}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="197505289"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -208,8 +203,6 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{440, 216}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="730481290"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
@@ -795,56 +788,7 @@
 			<nil key="sourceID"/>
 			<int key="maxID">52</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">NSLayoutConstraint</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSLayoutConstraint.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UpdatesController</string>
-					<string key="superclassName">NSWindowController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="cancelUpdate:">id</string>
-						<string key="openDownloadsPage:">id</string>
-						<string key="skipVersion:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="cancelUpdate:">
-							<string key="name">cancelUpdate:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openDownloadsPage:">
-							<string key="name">openDownloadsPage:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="skipVersion:">
-							<string key="name">skipVersion:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">messageTextField</string>
-						<string key="NS.object.0">NSTextField</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">messageTextField</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">messageTextField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/UpdatesController.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
