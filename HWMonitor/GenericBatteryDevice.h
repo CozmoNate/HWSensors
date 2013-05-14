@@ -6,26 +6,25 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 typedef enum
 {
     kBluetoothDeviceTypeNone,
     kBluetoothDeviceTypeMouse,
     kBluetoothDeviceTypeKeyboard,
-    kBluetoothDeviceTypeTrackpad
-} BluetoothDeviceType;
+    kBluetoothDeviceTypeTrackpad,
+    kInternalBatteryType
+} BatteryDeviceType;
 
-@interface BluetoothGenericDevice : NSObject
+@interface GenericBatteryDevice : NSObject
 
 @property (nonatomic, assign) io_service_t service;
-@property (nonatomic, assign) BluetoothDeviceType deviceType;
+@property (nonatomic, assign) BatteryDeviceType deviceType;
 @property (nonatomic, strong) NSString *productName;
 @property (nonatomic, strong) NSString *serialNumber;
 
 + (NSArray*)discoverDevices;
 
-+ (BluetoothGenericDevice*)bluetoothGenericDeviceWithService:(io_service_t)service ofType:(BluetoothDeviceType)type;
++ (GenericBatteryDevice*)genericBatteryDeviceWithService:(io_service_t)service ofType:(BatteryDeviceType)type;
 
 - (NSData*)getBatteryLevel;
 

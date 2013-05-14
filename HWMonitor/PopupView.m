@@ -19,7 +19,7 @@
     if (_colorTheme != colorTheme) {
         _colorTheme = colorTheme;
         _cachedImage = nil;
-        [self setNeedsDisplay:YES];
+        //[self setNeedsDisplay:YES];
     }
 }
 
@@ -28,6 +28,7 @@
     if (_arrowPosition != arrowPosition) {
         _arrowPosition = arrowPosition;
         _cachedImage = nil;
+        //[self setNeedsDisplay:YES];
     }
 }
 

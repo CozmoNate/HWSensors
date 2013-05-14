@@ -246,7 +246,7 @@
     return nil;
 }
 
-- (HWMonitorSensor*)addBluetoothSensorWithGenericDevice:(BluetoothGenericDevice*)device group:(NSUInteger)group
+- (HWMonitorSensor*)addBluetoothSensorWithGenericDevice:(GenericBatteryDevice*)device group:(NSUInteger)group
 {
     if ([device getBatteryLevel]) {
         
@@ -267,6 +267,9 @@
                 break;
             case kBluetoothDeviceTypeTrackpad:
                 title = @"Trackpad";
+                break;
+            case kInternalBatteryType:
+                title = @"Built-in Battery";
                 break;
             default:
                 title = @"Unknown";
@@ -564,8 +567,8 @@
     [self addSensorsFromGroup:kHWSensorGroupPower];
     
     // Batteries
-    if ((_bluetoothDevices = [BluetoothGenericDevice discoverDevices])) {
-        for (BluetoothGenericDevice * device in _bluetoothDevices) {
+    if ((_bluetoothDevices = [GenericBatteryDevice discoverDevices])) {
+        for (GenericBatteryDevice * device in _bluetoothDevices) {
             [self addBluetoothSensorWithGenericDevice:device group:kBluetoothGroupBattery];
         }
     }
@@ -626,7 +629,7 @@
             }
         }
     }
-    else if ([[sensor genericDevice] isKindOfClass:[BluetoothGenericDevice class]]) {
+    else if ([[sensor genericDevice] isKindOfClass:[GenericBatteryDevice class]]) {
         [sensor setData:[[sensor genericDevice] getBatteryLevel]];
         
         if ([sensor valueHasBeenChanged]) {
