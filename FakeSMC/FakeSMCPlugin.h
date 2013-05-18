@@ -151,6 +151,7 @@ protected:
     bool                    isKeyHandled(const char *key);
     
     SInt8                   takeVacantGPUIndex();
+    bool                    takeGPUIndex(UInt8 index);
     bool                    releaseGPUIndex(UInt8 index);
     SInt8                   takeVacantFanIndex();
     bool                    releaseFanIndex(UInt8 index);

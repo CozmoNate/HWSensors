@@ -297,10 +297,20 @@ SInt8 FakeSMCPlugin::takeVacantGPUIndex()
     return index;
 }
 
+bool FakeSMCPlugin::takeGPUIndex(UInt8 index)
+{
+    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeGPUIndex, true, (void *)&index, 0, 0, 0)) {
+        HWSensorsErrorLog("failed to take GPU index %d", index);
+        return false;
+    }
+    
+    return true;
+}
+
 bool FakeSMCPlugin::releaseGPUIndex(UInt8 index)
 {
     if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCReleaseGPUIndex, true, (void *)&index, 0, 0, 0)) {
-        HWSensorsErrorLog("failed to release GPU index");
+        HWSensorsErrorLog("failed to release GPU index %d", index);
         return false;
     }
     

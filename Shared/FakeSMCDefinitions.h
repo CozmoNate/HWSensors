@@ -180,6 +180,7 @@
 #define kFakeSMCGetKeyHandler                   "kFakeSMCGetKeyHandler"
 #define kFakeSMCRemoveKeyHandler                "kFakeSMCRemoveKeyHandler"
 #define kFakeSMCTakeVacantGPUIndex              "kFakeSMCTakeVacantGPUIndex"
+#define kFakeSMCTakeGPUIndex                    "kFakeSMCTakeGPUIndex"
 #define kFakeSMCReleaseGPUIndex                 "kFakeSMCReleaseGPUIndex"
 #define kFakeSMCTakeVacantFanIndex              "kFakeSMCTakeVacantFanIndex"
 #define kFakeSMCReleaseFanIndex                 "kFakeSMCReleaseFanIndex"

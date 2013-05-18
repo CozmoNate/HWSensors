@@ -239,6 +239,7 @@
     UpdatesController *controller = (UpdatesController*)self.updatesController;
     
     if (![controller checkForUpdates]) {
+        [NSApp activateIgnoringOtherApps:YES];
         [_noUpdatesWindow setLevel:NSModalPanelWindowLevel];
         [_noUpdatesWindow makeKeyAndOrderFront:self];
     }

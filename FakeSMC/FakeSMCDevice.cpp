@@ -898,6 +898,20 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
                 result = kIOReturnError;
         }
     }
+    else if (functionName->isEqualTo(kFakeSMCTakeGPUIndex)) {
+        
+        result = kIOReturnBadArgument;
+        
+        if (UInt8 *index = (UInt8*)param1) {
+            if (*index < 0xf && !bit_get(vacantGPUIndex, BIT(*index))) {
+                bit_set(vacantGPUIndex, BIT(*index));
+                result = kIOReturnSuccess;
+            }
+            
+            if (result != kIOReturnSuccess)
+                result = kIOReturnError;
+        }
+    }
     else if (functionName->isEqualTo(kFakeSMCReleaseGPUIndex)) {
         
         result = kIOReturnBadArgument;

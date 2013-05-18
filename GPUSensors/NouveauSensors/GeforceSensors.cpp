@@ -112,19 +112,32 @@ bool GeforceSensors::start(IOService * provider)
         }
     }
     else {
-        HWSensorsFatalLog("failed to assign PCI device\n");
+        HWSensorsFatalLog("failed to assign PCI device");
         return false;
     }
+    
+    card.card_index = -1;
 
-    card.card_index = takeVacantGPUIndex();
+    if (OSData *multiboard_capable = OSDynamicCast(OSData, provider->getProperty("rm_multiboard_capable"))) {
+        if (0x1 == *((UInt32*)multiboard_capable->getBytesNoCopy())) {
+            if (OSData *board_number = OSDynamicCast(OSData, provider->getProperty("rm_board_number"))) {
+                UInt8 index = *((UInt32*)board_number->getBytesNoCopy());
+                card.card_index = takeGPUIndex(index);
+            }
+        }
+    }
     
     if (card.card_index < 0)
+        card.card_index = takeVacantGPUIndex();
+    
+    if (card.card_index < 0) {
+        HWSensorsFatalLog("failed to take vacant GPU index");
         return false;
+    }
     
     // identify chipset
     if (!nouveau_identify(device)) {
         releaseGPUIndex(card.card_index);
-        card.card_index = -1;
         return false;
     }
     

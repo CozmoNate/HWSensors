@@ -122,7 +122,8 @@
                 NSNumber *current = (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(_service, CFSTR("CurrentCapacity"), kCFAllocatorDefault, 0);
                 
                 if (max && current && [max doubleValue] > 0) {
-                    level = [NSNumber numberWithDouble:[current doubleValue] / [max doubleValue]];
+                    double percent = (([current doubleValue] / [max doubleValue]) + 0.005) * 100;
+                    level = [NSNumber numberWithDouble:percent];
                 }
                 
                 break;
