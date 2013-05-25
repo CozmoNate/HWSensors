@@ -170,12 +170,12 @@ class SuperIODevice : public IOService
 	OSDeclareDefaultStructors(SuperIODevice)
     
 private:
-    UInt16              id = 0;
-    UInt16              model = 0;
-    UInt8               ldn = 0;
-    const char*         vendor = "";
-    UInt16              address = 0;
-    i386_ioport_t       port = 0;
+    UInt16              id;
+    UInt16              model;
+    UInt8               ldn;
+    const char*         vendor;
+    UInt16              address;
+    i386_ioport_t       port;
     
     bool                detectWinbondFamilyChip(void);
     bool                detectITEFamilyChip(void);

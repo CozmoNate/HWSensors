@@ -800,7 +800,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">hwmonitor_new</string>
-			<string key="NS.object.0">{600, 600}</string>
+			<string key="NS.object.0">{512, 512}</string>
 		</object>
 		<bool key="IBDocument.UseAutolayout">YES</bool>
 	</data>

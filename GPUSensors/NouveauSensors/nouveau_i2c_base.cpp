@@ -495,9 +495,20 @@ static bool probe_monitoring_device(struct nouveau_i2c_port *i2c, struct i2c_boa
 	return true;
 #endif
 }
+    
+    char		type[I2C_NAME_SIZE];
+	unsigned short	flags;
+	unsigned short	addr;
+	void		*platform_data;
+	//struct dev_archdata	*archdata;
+	//struct device_node *of_node;
+	int		irq;
 
 #define I2C_BOARD_INFO(dev_type, dev_addr) \
-.type = dev_type, .addr = (dev_addr)
+dev_type, 0, dev_addr, NULL, 0
+    
+#define I2C_BOARD_INFO_NULL \
+"", 0, 0, NULL, 0
     
 static struct i2c_board_info
 nv_board_infos[] = {
