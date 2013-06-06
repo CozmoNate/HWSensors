@@ -712,9 +712,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D05ABF413ED0DAD00EADBF6 /* Build configuration list for PBXNativeTarget "FakeSMC" */;
 			buildPhases = (
+				7EE460BF167BB796007CD680 /* ShellScript */,
 				1D05ABDE13ED0DAD00EADBF6 /* Sources */,
 				1D05ABDF13ED0DAD00EADBF6 /* Frameworks */,
-				7EE460BF167BB796007CD680 /* ShellScript */,
 				1D05ABE113ED0DAD00EADBF6 /* Resources */,
 			);
 			buildRules = (
@@ -730,9 +730,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6FE3FA13FEBFF200376E64 /* Build configuration list for PBXNativeTarget "ACPISensors" */;
 			buildPhases = (
+				7EE460BE167BB790007CD680 /* ShellScript */,
 				1D6FE3E813FEBFF200376E64 /* Sources */,
 				1D6FE3E913FEBFF200376E64 /* Frameworks */,
-				7EE460BE167BB790007CD680 /* ShellScript */,
 				1D6FE3EB13FEBFF200376E64 /* Resources */,
 			);
 			buildRules = (
@@ -748,9 +748,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A4E4744152178A00038C5DE /* Build configuration list for PBXNativeTarget "LPCSensors" */;
 			buildPhases = (
+				7EE460BB167BB736007CD680 /* ShellScript */,
 				6A4E4733152178A00038C5DE /* Sources */,
 				6A4E4734152178A00038C5DE /* Frameworks */,
-				7EE460BB167BB736007CD680 /* ShellScript */,
 				6A4E4736152178A00038C5DE /* Resources */,
 			);
 			buildRules = (
@@ -766,9 +766,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7E79B82515BA99350079AAE8 /* Build configuration list for PBXNativeTarget "CPUSensors" */;
 			buildPhases = (
+				7EE460BD167BB78B007CD680 /* ShellScript */,
 				7E79B81415BA99350079AAE8 /* Sources */,
 				7E79B81515BA99350079AAE8 /* Frameworks */,
-				7EE460BD167BB78B007CD680 /* ShellScript */,
 				7E79B81715BA99350079AAE8 /* Resources */,
 			);
 			buildRules = (
@@ -784,9 +784,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7EADE21415E5602F00FD117C /* Build configuration list for PBXNativeTarget "GPUSensors" */;
 			buildPhases = (
+				7EB4C7AB16C666A500102138 /* ShellScript */,
 				7EADE20115E5602E00FD117C /* Sources */,
 				7EADE20215E5602E00FD117C /* Frameworks */,
-				7EB4C7AB16C666A500102138 /* ShellScript */,
 				7EADE20415E5602E00FD117C /* Resources */,
 			);
 			buildRules = (

@@ -329,13 +329,13 @@
 			name = LaunchAtLoginController;
 			sourceTree = "<group>";
 		};
-		7E10343316EFAE110089DE7B /* BluetoothGenericDevice */ = {
+		7E10343316EFAE110089DE7B /* GenericBatteryDevice */ = {
 			isa = PBXGroup;
 			children = (
 				7E10343416EFAE490089DE7B /* GenericBatteryDevice.h */,
 				7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */,
 			);
-			name = BluetoothGenericDevice;
+			name = GenericBatteryDevice;
 			sourceTree = "<group>";
 		};
 		7E1261D216E008FE00622F92 /* Shared */ = {
@@ -502,7 +502,7 @@
 			children = (
 				7EDA1A6716D8F0FB0012A0DC /* BundleUserDefaults */,
 				7EA2494516D8EA99002231B2 /* ATAGenericDrive */,
-				7E10343316EFAE110089DE7B /* BluetoothGenericDevice */,
+				7E10343316EFAE110089DE7B /* GenericBatteryDevice */,
 				7EA2494616D8EAA2002231B2 /* HWMonitorEngine */,
 			);
 			name = Engines;
@@ -695,9 +695,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7EA2490516D8E93A002231B2 /* Build configuration list for PBXNativeTarget "HWMonitor" */;
 			buildPhases = (
+				7EA2493716D8EA0A002231B2 /* ShellScript */,
 				7EA248E416D8E93A002231B2 /* Sources */,
 				7EA248E516D8E93A002231B2 /* Frameworks */,
-				7EA2493716D8EA0A002231B2 /* ShellScript */,
 				7EA248E616D8E93A002231B2 /* Resources */,
 			);
 			buildRules = (

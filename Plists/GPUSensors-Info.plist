@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>427</string>
+	<string>432</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>AMD Radeon Monitoring Plugin</key>
@@ -42,7 +42,7 @@
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
 			<key>IOPCIClassMatch</key>
-			<string>0x06000000&amp;0xfff000000</string>
+			<string>0x03000000&amp;0xff0000000</string>
 			<key>IOPCIMatch</key>
 			<string>0x2a008086&amp;0xffffffff</string>
 			<key>IOProviderClass</key>

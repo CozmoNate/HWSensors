@@ -1766,6 +1766,8 @@
 						<key>VIN8</key>
 						<string>CMOS Battery</string>
 					</dict>
+					<key>P55-US3L</key>
+					<string>P55-UD4</string>
 					<key>P55-USB3</key>
 					<string>P55-UD4</string>
 					<key>P55M-UD4</key>

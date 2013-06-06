@@ -218,6 +218,9 @@
             
             [value getBytes:&life length:[value length]];
             
+            if (life > 100)
+                return nil;
+            
             break;
             
         case kSMARTGroupRemainingBlocks:
@@ -227,7 +230,7 @@
             
             [value getBytes:&blocks length:[value length]];
             
-            if (blocks == 0xffffffffffff)
+            if (blocks >= 0xffffffffff)
                 return nil;
             
             break;
