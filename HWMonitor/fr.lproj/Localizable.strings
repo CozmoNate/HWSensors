@@ -4,7 +4,7 @@
  
  Created by kozlek on 24/02/12.
  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
- French ported by The Real Deal @ insanelymac.com
+ French ported by The Real Deal @ insanelymac.com and JrCs
  */
 
 "TEMPERATURES" = "TEMPERATURES";
@@ -15,7 +15,7 @@
 "FREQUENCIES" = "FREQUENCES";
 "VOLTAGES" = "TENSIONS";
 "CURRENTS" = "ACTUELS";
-"POWERS" = "ДАТЧИКИ МОЩНОСТИ";
+"POWERS" = "SOURCES DE COURANT";
 "FANS" = "VENTILATEURS";
 "BATTERIES" = "BATTERIES";
 "Quit HWMonitor" = "Quitter HWMonitor";
@@ -87,20 +87,22 @@
 "Gray" = "Gris";
 "Dark" = "Foncé";
 "Continue monitor sensors in background" = "Continuer la surveillance des capteurs en tâche de fond";
-"Check for updates" = "Rechercher les mises à jour";
+
 
 "Mouse" = "Souris";
 "Keyboard" = "Clavier";
 "Trackpad" = "Trackpad";
 
-"HWMonitor %@ is available - you have %@. Would you like to download?" = "HWMonitor v%@. est disponible et vous avez actuellement la version v%@. Voulez-vous la télécharger ?";
+"HWMonitor %@ is available - you have %@. Would you like to download?" = "HWMonitor v%@ est disponible et vous avez actuellement la version v%@. Voulez-vous la télécharger ?";
 "Update" = "Mettre à jour";
-"Next time" = "В другой раз";
+"Next time" = "La prochaine fois";
 "Skip" = "Ignorer";
+"Check for updates" = "Rechercher les mises à jour";
+"No new versions of HWMonitor are available at this time!" = "Pas de nouvelle version d'HWMonitor pour l'instant!";
 
 "CPUFan" = "Ventilateur CPU";
 "CPUFan2" = "Ventilateur CPU 2";
-"PowerFan" = "Вентилятор БП";
+"PowerFan" = "Ventilateur d'alimentation";
 "SystemFan1" = "Ventilateur système N°1";
 "SystemFan2" = "Ventilateur système N°2";
 "AuxFan" = "Ventilateur auxiliaire";
@@ -114,17 +116,17 @@
 "GPU Fan 1" = "GPU ventilateur 2";
 "GPU Fan 2" = "GPU ventilateur 3";
 "GPU Fan 3" = "GPU ventilateur 4";
-"CPU_MEM" = "Процессор/Память";
-"IO" = "Слоты раширения";
-"PCI" = "Слоты раширения";
+"CPU_MEM" = "Ventilateur CPU/Memoire";
+"IO" = "Expansion Fan";
+"PCI" = "Expansion Fan";
 "INTAKE" = "Entrée";
 "EXHAUST" = "Sortie";
-"PS" = "Источник питания";
-"Main" = "Основной вентилятор";
-"ODD" = "Оптический привод";
-"HDD" = "Лоток жестких дисков";
-"BOOSTA" = "Усилитель А";
-"BOOSTB" = "Усилитель Б";
+"PS" = "Ventilateur d'alimentation";
+"Main" = "Ventilateur principal";
+"ODD" = "Ventilateur lecteur optique";
+"HDD" = "Ventilateur disques durs";
+"BOOSTA" = "Booster A";
+"BOOSTB" = "Booster B";
 
 "Ambient" = "Ambiante";
 
@@ -148,14 +150,14 @@
 "Northbridge %X Proximity" = "Northbridge %X proximité";
 "MCH Die" = "MCH coeur";
 "MCH Heatsink" = "MCH dissipateur";
-"MCP Internal Die" = "Контроллер памяти, Подложка";
+//"MCP Internal Die" = "";
 "PCH Die" = "PCH coeur";
 "PCH Proximity" = "PCH proximité";
-"Mainboard Proximity" = "Материнская плата";
-"LCD Proximity" = "LCD proximité";
-"Airport Proximity" = "Airport proximité";
-"Battery Proximity" = "Batterie proximité";
-"Powerboard Proximity" = "Источник питания";
+"Mainboard Proximity" = "Carte mère";
+"LCD Proximity" = "LCD";
+"Airport Proximity" = "Airport";
+"Battery Proximity" = "Batterie";
+"Powerboard Proximity" = "Alimentation";
 
 "Memory Bank %X" = "Slot mémoire %X";
 "Memory Module %X" = "Module mémoire %X";
@@ -174,7 +176,7 @@
 "GPU %X Fan" = "GPU ventilateur %X";
 "GPU %X PWM" = "GPU ventilateur PWM %X";
 
-"Thermal Zone %X" = "Термальная зона %X";
+"Thermal Zone %X" = "Zone Thermique %X";
 
 "CPU Core" = "CPU";
 "CPU Core %X" = "CPU %X";
@@ -188,7 +190,7 @@
 "GPU %X ROP" = "GPU %X ROP";
 
 "Memory Modules" = "Modules mémoire";
-"MCP Core" = "Контролер памяти, Ядро";
+//"MCP Core" = "";
 "Main 3.3V" = "+3.3 V principal";
 "Main 5V" = "+5 V principal";
 "Main 12V" = "+12 V principal";
@@ -201,7 +203,7 @@
 "GPU Rail" = "GPU Rail";
 "GPU %X Rail" = "GPU Rail %X";
 
-"CMOS Battery" = "Батарея CMOS";
+"CMOS Battery" = "Batterie CMOS";
 
-"VRM Supply %X" = "Регулятор напряжения %X";
+"VRM Supply %X" = "Régulateur de tension %X";
 "Power Supply %X" = "Rail %X";

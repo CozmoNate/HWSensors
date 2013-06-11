@@ -285,6 +285,7 @@
 		7EFAE92216EBC8ED00F4DA72 /* DefaultTestingPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DefaultTestingPlatform.h; sourceTree = "<group>"; };
 		7EFAE92316EBC8ED00F4DA72 /* DefaultTestingPlatform.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DefaultTestingPlatform.m; sourceTree = "<group>"; };
 		7EFAE92516EBC8ED00F4DA72 /* SMC Value Decoder-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SMC Value Decoder-Prefix.pch"; sourceTree = "<group>"; };
+		A32FB4F217676DF300F27ADB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -953,6 +954,7 @@
 			children = (
 				7EA248F516D8E93A002231B2 /* en */,
 				7EA68B8A17341ECD00B5B998 /* it */,
+				A32FB4F217676DF300F27ADB /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
