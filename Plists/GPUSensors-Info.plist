@@ -44,7 +44,7 @@
 			<key>IOPCIClassMatch</key>
 			<string>0x03000000&amp;0xff0000000</string>
 			<key>IOPCIMatch</key>
-			<string>0x2a008086&amp;0xffffffff</string>
+			<string>0x2a028086&amp;0xffffffff</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 		</dict>
