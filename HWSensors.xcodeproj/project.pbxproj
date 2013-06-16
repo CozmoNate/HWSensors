@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		7E5D8E6216C6466300CB6720 /* Bump Project Build Number */ = {
+		7E5D8E6216C6466300CB6720 /* Bump Build Number */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 7E5D8E6316C6466300CB6720 /* Build configuration list for PBXAggregateTarget "Bump Project Build Number" */;
+			buildConfigurationList = 7E5D8E6316C6466300CB6720 /* Build configuration list for PBXAggregateTarget "Bump Build Number" */;
 			buildPhases = (
 				7E5D8E6616C646CC00CB6720 /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = "Bump Project Build Number";
+			name = "Bump Build Number";
 			productName = Project;
 		};
 		7E86E05016CFD352001B9F52 /* Bump Project Version */ = {
@@ -828,7 +828,7 @@
 				7E79B81915BA99350079AAE8 /* CPUSensors */,
 				7EADE20615E5602E00FD117C /* GPUSensors */,
 				6A4E4738152178A00038C5DE /* LPCSensors */,
-				7E5D8E6216C6466300CB6720 /* Bump Project Build Number */,
+				7E5D8E6216C6466300CB6720 /* Bump Build Number */,
 				7E86E05016CFD352001B9F52 /* Bump Project Version */,
 			);
 		};
@@ -1480,7 +1480,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E5D8E6316C6466300CB6720 /* Build configuration list for PBXAggregateTarget "Bump Project Build Number" */ = {
+		7E5D8E6316C6466300CB6720 /* Build configuration list for PBXAggregateTarget "Bump Build Number" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E5D8E6416C6466300CB6720 /* Debug */,

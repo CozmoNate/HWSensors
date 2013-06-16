@@ -165,6 +165,11 @@
     return nil;
 }
 
+-(BOOL)enableSMART
+{
+    
+}
+
 -(BOOL)readSMARTData
 {
     if ([lastUpdated timeIntervalSinceNow] > -60.0) 
@@ -181,8 +186,8 @@
             
             bzero(&smartData, sizeof(smartData));
             
-            if(kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true)) {
-                if (kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true)) {
+            //if(kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true)) {
+                //if (kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true)) {
                     
                     Boolean conditionExceeded = false;
                     
@@ -197,11 +202,11 @@
                         }
                     }
                     
-                    (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, false);
-                }
+                    //(*smartInterface)->SMARTEnableDisableAutosave(smartInterface, false);
+                //}
                 
-                (*smartInterface)->SMARTEnableDisableOperations(smartInterface, false);
-            }
+                //(*smartInterface)->SMARTEnableDisableOperations(smartInterface, false);
+            //}
             
             (*smartInterface)->Release(smartInterface);
         }

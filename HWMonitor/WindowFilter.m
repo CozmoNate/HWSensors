@@ -25,8 +25,11 @@ extern CGError CGSRemoveWindowFilter(CGSConnectionID cid, CGSWindowID wid, CGSWi
         _windowNumber = [window windowNumber];
         CGSConnectionID connection = CGSMainConnectionID();
         CGSNewCIFilterByName(connection, (__bridge CFStringRef)filterName, &_filterRef);
-        CGSSetCIFilterValuesFromDictionary(connection, _filterRef, (__bridge  CFDictionaryRef)filterOptions);
-        CGSAddWindowFilter(connection, _windowNumber, _filterRef, 1);
+        
+        if (_filterRef) {
+            CGSSetCIFilterValuesFromDictionary(connection, _filterRef, (__bridge  CFDictionaryRef)filterOptions);
+            CGSAddWindowFilter(connection, _windowNumber, _filterRef, 1);
+        }
     }
     
     return self;
@@ -34,15 +37,22 @@ extern CGError CGSRemoveWindowFilter(CGSConnectionID cid, CGSWindowID wid, CGSWi
 
 - (void)setFilterOptions:(NSDictionary*)filterOptions
 {
+    if (!_filterRef)
+        return;
+    
     CGSConnectionID connection = CGSMainConnectionID();
     CGSSetCIFilterValuesFromDictionary(connection, _filterRef, (__bridge CFDictionaryRef)filterOptions);
 }
 
 - (void)removeFilterFromWindow
 {
+    if (!_filterRef)
+        return;
+    
     CGSConnectionID connection = CGSMainConnectionID();
     CGSRemoveWindowFilter(connection, _windowNumber, _filterRef);
     CGSReleaseCIFilter(connection, _filterRef);
+    
     _filterRef = 0;
 }
 
