@@ -165,20 +165,14 @@
     return nil;
 }
 
--(BOOL)enableSMART
-{
-    
-}
-
 -(BOOL)readSMARTData
 {
     if ([lastUpdated timeIntervalSinceNow] > -60.0) 
-        return true;
+        return YES;
     
     IOCFPlugInInterface ** pluginInterface = NULL;
     IOATASMARTInterface ** smartInterface = NULL;
     SInt32 score = 0;
-    BOOL result = false;
     
     if (kIOReturnSuccess == IOCreatePlugInInterfaceForService(_service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
         if (S_OK == (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIOATASMARTInterfaceID), (LPVOID)&smartInterface)) {
@@ -186,27 +180,26 @@
             
             bzero(&smartData, sizeof(smartData));
             
-            //if(kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true)) {
-                //if (kIOReturnSuccess == (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true)) {
-                    
-                    Boolean conditionExceeded = false;
-                    
-                    if (kIOReturnSuccess == (*smartInterface)->SMARTReturnStatus(smartInterface, &conditionExceeded))
-                        isExceeded = conditionExceeded;
-                    
-                    if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &smartData)) {
-                        if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &smartData)) {
-                            bcopy(&smartData.vendorSpecific1, &_data, sizeof(_data));
-                            result = true;
-                            lastUpdated = [NSDate date];
-                        }
-                    }
-                    
-                    //(*smartInterface)->SMARTEnableDisableAutosave(smartInterface, false);
-                //}
+            Boolean conditionExceeded = false;
+            
+            if (kIOReturnSuccess != (*smartInterface)->SMARTReturnStatus(smartInterface, &conditionExceeded)) {
+                if (kIOReturnSuccess != (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true)) {
+                    return NO;
+                }
+            }
+            
+            if (kIOReturnSuccess == (*smartInterface)->SMARTReturnStatus(smartInterface, &conditionExceeded)) {
                 
-                //(*smartInterface)->SMARTEnableDisableOperations(smartInterface, false);
-            //}
+                isExceeded = conditionExceeded;
+                
+                if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &smartData)) {
+                    if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &smartData)) {
+                        bcopy(&smartData.vendorSpecific1, &_data, sizeof(_data));
+                        lastUpdated = [NSDate date];
+                        return YES;
+                    }
+                }
+            }
             
             (*smartInterface)->Release(smartInterface);
         }
@@ -214,7 +207,7 @@
         IODestroyPlugInInterface(pluginInterface);
     }
     
-    return result;
+    return NO;
 }
 
 -(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8) identifier
