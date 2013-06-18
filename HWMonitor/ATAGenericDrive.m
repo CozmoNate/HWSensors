@@ -174,6 +174,8 @@
     IOATASMARTInterface ** smartInterface = NULL;
     SInt32 score = 0;
     
+    BOOL result = NO;
+    
     if (kIOReturnSuccess == IOCreatePlugInInterfaceForService(_service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
         if (S_OK == (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIOATASMARTInterfaceID), (LPVOID)&smartInterface)) {
             ATASMARTData smartData;
@@ -183,8 +185,9 @@
             Boolean conditionExceeded = false;
             
             if (kIOReturnSuccess != (*smartInterface)->SMARTReturnStatus(smartInterface, &conditionExceeded)) {
-                if (kIOReturnSuccess != (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true)) {
-                    return NO;
+                if (kIOReturnSuccess != (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true) ||
+                    kIOReturnSuccess != (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true)) {
+                    result = NO;
                 }
             }
             
@@ -196,7 +199,7 @@
                     if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &smartData)) {
                         bcopy(&smartData.vendorSpecific1, &_data, sizeof(_data));
                         lastUpdated = [NSDate date];
-                        return YES;
+                        result = YES;
                     }
                 }
             }
@@ -207,7 +210,7 @@
         IODestroyPlugInInterface(pluginInterface);
     }
     
-    return NO;
+    return result;
 }
 
 -(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8) identifier
