@@ -128,6 +128,7 @@ IOReturn CPUSensors::loopTimerEvent(void)
             case CPUFAMILY_INTEL_WESTMERE:
             case CPUFAMILY_INTEL_SANDYBRIDGE:
             case CPUFAMILY_INTEL_IVYBRIDGE:
+            case CPUFAMILY_INTEL_HASWELL:
                 mp_rendezvous_no_intrs(read_cpu_performance, &index);
                 IOSleep(1); // Yield?
                 cpu_performance[0] = cpu_performance[index];
@@ -156,6 +157,7 @@ float CPUSensors::calculateMultiplier(UInt8 cpu_index)
             
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
+        case CPUFAMILY_INTEL_HASWELL:
             return cpu_performance[0] >> 8;
 
         default: {
@@ -361,6 +363,13 @@ bool CPUSensors::start(IOService *provider)
                         readTjmaxFromMSR();
                         break;
                         
+                    case CPUID_MODEL_HASWELL_MB:
+                    case CPUID_MODEL_HASWELL_ULT:
+                    case CPUID_MODEL_HASWELL_ULX:
+                        if (!platform) platform = OSString::withCString("d8\0\0\0\0\0"); // TODO: update for haswell
+                        readTjmaxFromMSR();
+                        break;
+                        
                     default:
                         HWSensorsFatalLog("found unsupported Intel processor, using default Tjmax");
                         break;
@@ -396,6 +405,7 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
+        case CPUFAMILY_INTEL_HASWELL:
             break;
             
         default:
@@ -441,6 +451,7 @@ bool CPUSensors::start(IOService *provider)
             case CPUFAMILY_INTEL_WESTMERE:
             case CPUFAMILY_INTEL_SANDYBRIDGE:
             case CPUFAMILY_INTEL_IVYBRIDGE:
+            case CPUFAMILY_INTEL_HASWELL:
                 break;
                 
             default:
@@ -468,6 +479,7 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
+        case CPUFAMILY_INTEL_HASWELL:
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
