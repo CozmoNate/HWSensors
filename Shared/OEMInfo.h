@@ -29,7 +29,8 @@
 
 #define kOEMInfoManufacturer    "mb-manufacturer"
 #define kOEMInfoProduct         "mb-product"
-    
+
+OSString* getManufacturerNameFromOEMName(OSString *name);
 bool setOemProperties(IOService *provider);
 /*void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16 tableLength, UInt16 structureCount);
 void decodeSMBIOSStructure(IOService *provider, const SMBStructHeader *structureHeader, const void *tableBoundary);

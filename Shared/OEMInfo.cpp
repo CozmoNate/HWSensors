@@ -159,6 +159,42 @@ static UInt8 checksum8( void * start, UInt length )
     return csum;
 }
 
+OSString* getManufacturerNameFromOEMName(OSString *name)
+{
+    if (!name) {
+        return NULL;
+    }
+    
+    OSString *manufacturer = NULL;
+    
+    if (name->isEqualTo("Apple Inc.")) manufacturer = OSString::withCString("Apple");
+    if (name->isEqualTo("ASUSTeK Computer INC.") ||
+        name->isEqualTo("ASUSTeK COMPUTER INC.")) manufacturer = OSString::withCString("ASUS");
+    if (name->isEqualTo("Dell Inc.")) manufacturer = OSString::withCString("Dell");
+    if (name->isEqualTo("DFI") || name->isEqualTo("DFI Inc.")) manufacturer = OSString::withCString("DFI");
+    if (name->isEqualTo("EPoX COMPUTER CO., LTD")) manufacturer = OSString::withCString("EPoX");
+    if (name->isEqualTo("First International Computer, Inc.")) manufacturer = OSString::withCString("FIC");
+    if (name->isEqualTo("FUJITSU") ||
+        name->isEqualTo("FUJITSU SIEMENS")) manufacturer = OSString::withCString("FUJITSU");
+    if (name->isEqualTo("Gigabyte Technology Co., Ltd.")) manufacturer = OSString::withCString("Gigabyte");
+    if (name->isEqualTo("Hewlett-Packard")) manufacturer = OSString::withCString("HP");
+    if (name->isEqualTo("IBM")) manufacturer = OSString::withCString("IBM");
+    if (name->isEqualTo("Intel") ||
+        name->isEqualTo("Intel Corp.") ||
+        name->isEqualTo("Intel Corporation")||
+        name->isEqualTo("INTEL Corporation")) manufacturer = OSString::withCString("Intel");
+    if (name->isEqualTo("Lenovo") || name->isEqualTo("LENOVO")) manufacturer = OSString::withCString("Lenovo");
+    if (name->isEqualTo("Micro-Star International") ||
+        name->isEqualTo("MICRO-STAR INTERNATIONAL CO., LTD") ||
+        name->isEqualTo("MICRO-STAR INTERNATIONAL CO.,LTD") ||
+        name->isEqualTo("MSI")) manufacturer = OSString::withCString("MSI");
+    
+    if (!manufacturer && !name->isEqualTo("To be filled by O.E.M."))
+        manufacturer = OSString::withString(name);
+    
+    return manufacturer;
+}
+
 static void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard *baseBoard, SMBPackedStrings *strings)
 {
     if (baseBoard->header.length < 8)
@@ -167,59 +203,7 @@ static void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard 
     OSString *manufacturer = NULL;
     
     if (OSString *name = OSString::withCString(strings->stringAtIndex(baseBoard->manufacturer))) {
-        if (name->isEqualTo("Alienware")) 
-            manufacturer = OSString::withCString("Alienware");
-        if (name->isEqualTo("Apple Inc.")) 
-            manufacturer = OSString::withCString("Apple");
-        if (name->isEqualTo("ASRock")) 
-            manufacturer = OSString::withCString("ASRock");
-        if (name->isEqualTo("ASUSTeK Computer INC.") || 
-            name->isEqualTo("ASUSTeK COMPUTER INC.")) 
-            manufacturer = OSString::withCString("ASUS");
-        if (name->isEqualTo("Dell Inc.")) 
-            manufacturer = OSString::withCString("Dell");
-        if (name->isEqualTo("DFI") || 
-            name->isEqualTo("DFI Inc.")) 
-            manufacturer = OSString::withCString("DFI");
-        if (name->isEqualTo("ECS")) 
-            manufacturer = OSString::withCString("ECS");
-        if (name->isEqualTo("EPoX COMPUTER CO., LTD")) 
-            manufacturer = OSString::withCString("EPoX");
-        if (name->isEqualTo("EVGA")) 
-            manufacturer = OSString::withCString("EVGA");
-        if (name->isEqualTo("First International Computer, Inc.")) 
-            manufacturer = OSString::withCString("FIC");
-        if (name->isEqualTo("FUJITSU") || 
-            name->isEqualTo("FUJITSU SIEMENS")) 
-            manufacturer = OSString::withCString("FUJITSU");
-        if (name->isEqualTo("Gigabyte Technology Co., Ltd.")) 
-            manufacturer = OSString::withCString("Gigabyte");
-        if (name->isEqualTo("Hewlett-Packard")) 
-            manufacturer = OSString::withCString("HP");
-        if (name->isEqualTo("IBM")) 
-            manufacturer = OSString::withCString("IBM");
-        if (name->isEqualTo("Intel") || 
-            name->isEqualTo("Intel Corp.") || 
-            name->isEqualTo("Intel Corporation")|| 
-            name->isEqualTo("INTEL Corporation")) 
-            manufacturer = OSString::withCString("Intel");
-        if (name->isEqualTo("Lenovo") || name->isEqualTo("LENOVO")) 
-            manufacturer = OSString::withCString("Lenovo");
-        if (name->isEqualTo("Micro-Star International") || 
-            name->isEqualTo("MICRO-STAR INTERNATIONAL CO., LTD") || 
-            name->isEqualTo("MICRO-STAR INTERNATIONAL CO.,LTD") ||
-            name->isEqualTo("MSI"))
-            manufacturer = OSString::withCString("MSI");
-        if (name->isEqualTo("Shuttle")) 
-            manufacturer = OSString::withCString("Shuttle");
-        if (name->isEqualTo("TOSHIBA")) 
-            manufacturer = OSString::withCString("TOSHIBA");
-        if (name->isEqualTo("XFX")) 
-            manufacturer = OSString::withCString("XFX");
-        
-        if (!manufacturer && !name->isEqualTo("To be filled by O.E.M.")) 
-            manufacturer = OSString::withString(name);
-        
+        manufacturer = getManufacturerNameFromOEMName(name);
         OSSafeRelease(name);
     }
     
@@ -344,17 +328,17 @@ bool setOemProperties(IOService *provider)
     
     
 	// Search 0x0f0000 - 0x0fffff for SMBIOS Ptr
-	if(biosAddress)
+	if(biosAddress) {
         for (UInt32 Address = 0; Address < biosMap->getLength(); Address += 0x10) {
             if (*(UInt32 *)(biosAddress + Address) == SMBIOS_PTR) {
                 eps = (SMBEntryPoint *)(biosAddress + Address);
                 continue;
             }
         }
+    }
     
-    if(eps)
-        if (memcmp(eps->anchor, "_SM_", 4) == 0)
-        {
+    if(eps) {
+        if (memcmp(eps->anchor, "_SM_", 4) == 0) {
             UInt8 csum;
             
             csum = checksum8(eps, sizeof(SMBEntryPoint));
@@ -369,19 +353,16 @@ bool setOemProperties(IOService *provider)
              HWSensorsDebugLog("DMI bcdRevision    = %x",
              eps->dmi.bcdRevision);*/
             
-            if (csum == 0 && eps->dmi.tableLength &&
-                eps->dmi.structureCount)
-            {
+            if (csum == 0 && eps->dmi.tableLength && eps->dmi.structureCount) {
                 dmiStructureCount = eps->dmi.structureCount;
-                dmiMemory = IOMemoryDescriptor::withPhysicalAddress(
-                                                                    eps->dmi.tableAddress, eps->dmi.tableLength,
-                                                                    kIODirectionOutIn );
+                dmiMemory = IOMemoryDescriptor::withPhysicalAddress(eps->dmi.tableAddress, eps->dmi.tableLength,kIODirectionOutIn );
             }
             /*else
              {
              HWSensorsDebugLog("no DMI structure found");
              }*/
         }
+    }
     
     if (biosMap)
         OSSafeReleaseNULL(biosMap);
@@ -389,8 +370,7 @@ bool setOemProperties(IOService *provider)
     if(biosMemory)
         OSSafeReleaseNULL(biosMemory);
     
-    if ( dmiMemory )
-    {
+    if ( dmiMemory ) {
         if (IOMemoryMap *fDMIMemoryMap = dmiMemory->map())        {
             decodeSMBIOSTable(provider, (void *) fDMIMemoryMap->getVirtualAddress(), fDMIMemoryMap->getLength(), dmiStructureCount );
         
