@@ -63,7 +63,7 @@
     if (_isHighlighted != isHighlighted) {
         _isHighlighted = isHighlighted;
         
-        [self setNeedsDisplay:YES];
+        //[self setNeedsDisplay:YES];
     }
 }
 
@@ -91,7 +91,7 @@
 
 - (void)drawRect:(NSRect)rect
 {
-    [_statusItem drawStatusBarBackgroundInRect:rect withHighlight:_isHighlighted];
+    //[_statusItem drawStatusBarBackgroundInRect:rect withHighlight:_isHighlighted];
     
     CGContextRef cgContext = [[NSGraphicsContext currentContext] graphicsPort];
     
@@ -101,10 +101,10 @@
         
         [[NSGraphicsContext currentContext] saveGraphicsState];
         
-        if (!_isHighlighted && _useShadowEffect)
+        if (/*!_isHighlighted &&*/ _useShadowEffect)
             [_shadow set];
         
-        NSImage *image = _isHighlighted ? _alternateImage : _image;
+        NSImage *image = /*_isHighlighted ? _alternateImage :*/ _image;
         
         if (image) {
             NSUInteger width = [image size].width + 12;
@@ -139,13 +139,13 @@
                 
                 [[NSGraphicsContext currentContext] saveGraphicsState];
                 
-                if (!_isHighlighted)
+                //if (!_isHighlighted)
                     [_shadow set];
                 
                 HWMonitorIcon *icon = (HWMonitorIcon*)object;
                 
                 if (icon) {
-                    NSImage *image = _isHighlighted ? [icon alternateImage] : [icon image];
+                    NSImage *image = /*_isHighlighted ? [icon alternateImage] :*/ [icon image];
                     
                     if (image) {
                         
@@ -191,11 +191,11 @@
                         break;
                 }
                 
-                [title addAttribute:NSForegroundColorAttributeName value:(_isHighlighted ? [NSColor whiteColor] : valueColor) range:NSMakeRange(0,[title length])];
+                [title addAttribute:NSForegroundColorAttributeName value:(/*_isHighlighted ? [NSColor whiteColor] :*/ valueColor) range:NSMakeRange(0,[title length])];
                 
                 [[NSGraphicsContext currentContext] saveGraphicsState];
                 
-                if (!_isHighlighted && _useShadowEffect)
+                if (/*!_isHighlighted &&*/ _useShadowEffect)
                     [_shadow set];
                 
                 if (_useBigFont) {
@@ -251,9 +251,7 @@
 
 -(NSRect)screenRect
 {
-    NSRect frame = [self frame];
-    frame.origin = [self.window convertBaseToScreen:frame.origin];
-    return frame;
+    return [self.window convertRectToScreen:self.frame];;
 }
 
 @end

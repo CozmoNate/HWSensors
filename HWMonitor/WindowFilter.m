@@ -8,13 +8,6 @@
 
 #import "WindowFilter.h"
 
-extern CGSConnectionID CGSMainConnectionID(void);
-extern CGError CGSNewCIFilterByName(CGSConnectionID cid, CFStringRef filterName, CGSWindowFilterRef *outFilter);
-extern CGError CGSSetCIFilterValuesFromDictionary(CGSConnectionID cid, CGSWindowFilterRef filter, CFDictionaryRef filterValues);
-extern CGError CGSReleaseCIFilter(CGSConnectionID cid, CGSWindowFilterRef filter);
-extern CGError CGSAddWindowFilter(CGSConnectionID cid, CGSWindowID wid, CGSWindowFilterRef filter, int flags);
-extern CGError CGSRemoveWindowFilter(CGSConnectionID cid, CGSWindowID wid, CGSWindowFilterRef filter);
-
 @implementation WindowFilter
 
 - (id)initWithWindow:(NSWindow *)window name:(NSString*)filterName andOptions:(NSDictionary *)filterOptions
@@ -28,7 +21,7 @@ extern CGError CGSRemoveWindowFilter(CGSConnectionID cid, CGSWindowID wid, CGSWi
         
         if (_filterRef) {
             CGSSetCIFilterValuesFromDictionary(connection, _filterRef, (__bridge  CFDictionaryRef)filterOptions);
-            CGSAddWindowFilter(connection, _windowNumber, _filterRef, 1);
+            CGSAddWindowFilter(connection, _windowNumber, _filterRef, /*0x00003001*/1);
         }
     }
     
