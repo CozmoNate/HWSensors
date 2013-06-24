@@ -283,7 +283,7 @@
     [self.window setFrame:NSMakeRect(0, 0, 8, 8) display:NO];
     
     // Resize panel height to fit table view content and toolbar
-    panelRect.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight + _tableView.frame.size.height + CORNER_RADIUS + 2;
+    panelRect.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight + _tableView.frame.size.height + CORNER_RADIUS + CORNER_RADIUS / 2;
     
     // Check panel is inside the screen bounds
     if ([[NSScreen mainScreen] visibleFrame].size.height < panelRect.size.height) {
