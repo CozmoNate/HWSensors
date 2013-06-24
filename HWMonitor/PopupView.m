@@ -44,7 +44,7 @@
         
         // Toolbar and arrow path
         NSRect toolbarBounds = popupBounds;
-        toolbarBounds.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight - LINE_THICKNESS * 2;
+        toolbarBounds.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight - 2 - LINE_THICKNESS * 2;
         toolbarBounds.origin.y = popupBounds.size.height - toolbarBounds.size.height;
         NSBezierPath *toolbarPath = [NSBezierPath bezierPath];
         [toolbarPath moveToPoint:NSMakePoint(NSMinX(toolbarBounds), NSMinY(toolbarBounds))];

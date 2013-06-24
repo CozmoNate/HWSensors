@@ -96,6 +96,7 @@
 		7EA32A4F173EC1CC002C93C1 /* hwmonitor_new.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7EA32A4E173EC1CC002C93C1 /* hwmonitor_new.icns */; };
 		7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA394B216E0A1B600823109 /* ColorTheme.m */; };
 		7EA8CA5016EBB77400E71108 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8CA4F16EBB77400E71108 /* version.plist */; };
+		7EC808701778C1DD00A334E2 /* divider.tif in Resources */ = {isa = PBXBuildFile; fileRef = 7EC8086F1778C1DD00A334E2 /* divider.tif */; };
 		7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3016DD680E00085FFF /* 04-eye.png */; };
 		7ECDDE3316DD680E00085FFF /* 04-eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */; };
 		7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */; };
@@ -238,6 +239,7 @@
 		7EA68B8A17341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EA68B8C17341ECE00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EA8CA4F16EBB77400E71108 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = version.plist; path = Shared/version.plist; sourceTree = "<group>"; };
+		7EC8086F1778C1DD00A334E2 /* divider.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = divider.tif; sourceTree = "<group>"; };
 		7ECDDE3016DD680E00085FFF /* 04-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye.png"; sourceTree = "<group>"; };
 		7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye@2x.png"; sourceTree = "<group>"; };
 		7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye-white.png"; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 		7EA2490816D8E942002231B2 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				7EC8086F1778C1DD00A334E2 /* divider.tif */,
 				7EA2493516D8E9CE002231B2 /* default.icns */,
 				7EDEA332173E3B94003ADE86 /* hwmonitor_gray.icns */,
 				7EA32A4E173EC1CC002C93C1 /* hwmonitor_new.icns */,
@@ -817,6 +820,7 @@
 				7EED6D7E1734F9CF00248870 /* 19-gear@2x.png in Resources */,
 				7EDEA333173E3B94003ADE86 /* hwmonitor_gray.icns in Resources */,
 				7EA32A4F173EC1CC002C93C1 /* hwmonitor_new.icns in Resources */,
+				7EC808701778C1DD00A334E2 /* divider.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

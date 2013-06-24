@@ -14,7 +14,7 @@
 #import "PopupView.h"
 #import "ColorTheme.h"
 
-#define kHWMonitorToolbarHeight 35
+#define kHWMonitorToolbarHeight 37
 
 @protocol PopupControllerDelegate <NSObject>
 @optional
