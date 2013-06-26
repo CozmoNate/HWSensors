@@ -14,5 +14,6 @@
 @property (nonatomic, unsafe_unretained) IBOutlet NSTextField *copyrightTextField;
 
 - (IBAction)showCredits:(id)sender;
+- (IBAction)openGitHubLink:(id)sender;
 
 @end

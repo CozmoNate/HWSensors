@@ -238,7 +238,7 @@
                 id cell = [_graphsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
                 
                 if (cell && [cell isKindOfClass:[GraphsSensorCell class]]) {
-                    [[cell valueField] takeStringValueFrom:[item sensor]];
+                    [[cell valueField] setStringValue:[[item sensor] stringValue]];
                 }
             }
         }];
