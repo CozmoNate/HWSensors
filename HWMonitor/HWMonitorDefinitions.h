@@ -27,6 +27,7 @@
 #define kHWMonitorHiddenGraphsList          @"hiddenGraphsList"
 #define kHWMonitorSkippedAppVersion         @"skippedAppVersion"
 #define kHWMonitorDontCheckUpdates          @"dontCheckForUpdates"
+#define kHWMonitorItemIndex                 @"itemIndex"
 
 // Icons
 #define kHWMonitorIconDefault               @"hwmonitor"
@@ -76,5 +77,6 @@
 
 // Misc
 #define kHWMonitorTableViewDataType         @"kHWMonitorTableViewDataType"
+#define kHWMonitorPopupItemDataType         @"kHWMonitorPopupItemDataType"
 
 #endif

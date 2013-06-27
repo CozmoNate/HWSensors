@@ -398,6 +398,8 @@
     [self rebuildSensorsTableView];
 }
 
+#pragma mark Events
+
 - (IBAction)toggleSensorVisibility:(id)sender
 {
     id item = [self getItemAtIndex:[sender tag]];
@@ -418,8 +420,6 @@
     
     [_defaults synchronize];
 }
-
-#pragma mark Events
 
 -(IBAction)favoritesChanged:(id)sender
 {

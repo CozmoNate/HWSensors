@@ -47,6 +47,9 @@
     [panel setOpaque:NO];
     [panel setBackgroundColor:[NSColor clearColor]];
     
+    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
+    [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
+    
     [Localizer localizeView:self.window];
     [Localizer localizeView:_noUpdatesWindow];
 }
@@ -253,17 +256,35 @@
     //[_items addObject:@"Toolbar"];
     
     if ([groups count] > 0) {
+        
+        // Restore indexes
+        NSMutableDictionary *itemIndex = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kHWMonitorItemIndex]];
+        
         for (HWMonitorGroup *group in groups) {
             if ([group checkVisibility]) {
                 [_items addObject:group];
+
+                // Sort out
+                [[group items] sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                    NSNumber *idx1 = [itemIndex objectForKey:[[obj1 sensor] name]];
+                    NSNumber *idx2 = [itemIndex objectForKey:[[obj2 sensor] name]];
+                    
+                    return idx1 && idx2 ? [idx1 integerValue] - [idx2 integerValue] : 0;
+                }];
                 
+                // Add items
                 for (HWMonitorItem *item in [group items]) {
                     if ([item isVisible]) {
                         [_items addObject:item];
+                        [itemIndex setObject:[NSNumber numberWithInteger:[_items count] - 1] forKey:item.sensor.name];
                     }
                 }
             }
         }
+        
+        // Save key index
+        [[NSUserDefaults standardUserDefaults] setObject:itemIndex forKey:kHWMonitorItemIndex];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     else {
         [_items addObject:@"Dummy"];
@@ -429,6 +450,102 @@
 //    
 //    return NO;
 //}
+
+- (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard;
+{
+    if (self.tableView != tableView) {
+        return NO;
+    }
+    
+    id item = [_items objectAtIndex:[rowIndexes firstIndex]];
+    
+    if ([item isKindOfClass:[HWMonitorItem class]]) {
+        NSData *indexData = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
+        
+        [pboard declareTypes:[NSArray arrayWithObjects:kHWMonitorPopupItemDataType, nil] owner:self];
+        [pboard setData:indexData forType:kHWMonitorPopupItemDataType];
+
+        return YES;
+    }
+
+    return NO;
+}
+
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)toRow proposedDropOperation:(NSTableViewDropOperation)dropOperation;
+{
+    if (_tableView != tableView || [info draggingSource] != _tableView) {
+        return NO;
+    }
+    
+    [tableView setDropRow:toRow dropOperation:NSTableViewDropAbove];
+    
+    NSPasteboard* pboard = [info draggingPasteboard];
+    NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
+    NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+    NSInteger fromRow = [rowIndexes firstIndex];
+    
+    id sourceItem = [_items objectAtIndex:fromRow];
+    
+    if (toRow < [_items count]) {
+        
+        if (toRow == fromRow || toRow == fromRow + 1) {
+            return NSDragOperationNone;
+        }
+        
+        id destinationItem = [_items objectAtIndex:toRow];
+        
+        if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
+            return  NSDragOperationNone;
+        }
+        
+        destinationItem = [_items objectAtIndex:toRow - 1];
+        
+        if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
+            return  NSDragOperationNone;
+        }
+        
+        return NSDragOperationMove;
+    }
+    else {
+        return NSDragOperationMove;
+    }
+    
+    return NSDragOperationNone;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)toRow dropOperation:(NSTableViewDropOperation)dropOperation;
+{
+    if (self.tableView != tableView) {
+        return NO;
+    }
+    
+    NSPasteboard* pboard = [info draggingPasteboard];
+    NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
+    NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+    NSInteger fromRow = [rowIndexes firstIndex];
+
+    HWMonitorItem *sourceItem = [_items objectAtIndex:fromRow];
+    //HWMonitorItem *destinationItem = [_items objectAtIndex:toRow];
+    
+    [_items insertObject:sourceItem atIndex:toRow];
+    [_items removeObjectAtIndex:toRow < fromRow ? fromRow + 1 : fromRow];
+    
+    [_tableView reloadData];
+    
+    // Rebuild and save key index
+    NSMutableDictionary *itemIndex = [[NSMutableDictionary alloc] init];
+    
+    [_items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:[HWMonitorItem class]]) {
+            [itemIndex setObject:[NSNumber numberWithInteger:idx] forKey:[[obj sensor] name]];
+        }
+    }];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:itemIndex forKey:kHWMonitorItemIndex];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    return YES;
+}
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1070</int>
+		<int key="IBDocument.SystemTarget">1080</int>
 		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1187.39</string>
@@ -144,7 +144,6 @@
 															<string key="NSFrame">{{179, 10}, {15, 15}}</string>
 															<reference key="NSSuperview" ref="792413177"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView"/>
 															<object class="NSShadow" key="NSViewShadow">
 																<double key="NSShadowBlurRadius">2</double>
 																<object class="NSColor" key="NSShadowColor" id="430697067">
@@ -193,7 +192,6 @@
 															<string key="NSFrame">{{201, 10}, {15, 15}}</string>
 															<reference key="NSSuperview" ref="792413177"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView"/>
 															<object class="NSShadow" key="NSViewShadow">
 																<double key="NSShadowBlurRadius">2</double>
 																<object class="NSColor" key="NSShadowColor">
@@ -255,7 +253,6 @@
 													<string key="NSFrame">{{1, 246}, {226, 2}}</string>
 													<reference key="NSSuperview" ref="436118374"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView"/>
 													<string key="NSReuseIdentifierKey">_NS:9</string>
 													<bool key="NSEnabled">YES</bool>
 													<object class="NSImageCell" key="NSCell" id="530501299">
@@ -440,7 +437,7 @@
 											<string key="NSFrameSize">{228, 281}</string>
 											<reference key="NSSuperview" ref="367084079"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="792413177"/>
+											<reference key="NSNextKeyView" ref="893916998"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 										</object>
 									</array>
@@ -485,7 +482,7 @@
 							<string key="NSFrame">{{1, 5}, {228, 281}}</string>
 							<reference key="NSSuperview" ref="101117346"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="893916998"/>
+							<reference key="NSNextKeyView" ref="367084079"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133120</int>
 							<reference key="NSVScroller" ref="893916998"/>
@@ -3583,7 +3580,7 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1070" key="NS.object.0"/>
+			<real value="1080" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
