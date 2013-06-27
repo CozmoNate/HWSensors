@@ -486,27 +486,35 @@
     
     id sourceItem = [_items objectAtIndex:fromRow];
     
-    if (toRow < [_items count]) {
-        
-        if (toRow == fromRow || toRow == fromRow + 1) {
-            return NSDragOperationNone;
+    if (toRow > 0) {
+        if (toRow < [_items count]) {
+            
+            if (toRow == fromRow || toRow == fromRow + 1) {
+                return NSDragOperationNone;
+            }
+            
+            id destinationItem = [_items objectAtIndex:toRow];
+            
+            if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
+                return  NSDragOperationNone;
+            }
+            
+            if (toRow > 0) {
+                destinationItem = [_items objectAtIndex:toRow - 1];
+                
+                if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
+                    return  NSDragOperationNone;
+                }
+            }
         }
-        
-        id destinationItem = [_items objectAtIndex:toRow];
-        
-        if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
-            return  NSDragOperationNone;
+        else {
+            id destinationItem = [_items objectAtIndex:toRow - 1];
+            
+            if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
+                return  NSDragOperationNone;
+            }
         }
-        
-        destinationItem = [_items objectAtIndex:toRow - 1];
-        
-        if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
-            return  NSDragOperationNone;
-        }
-        
-        return NSDragOperationMove;
-    }
-    else {
+    
         return NSDragOperationMove;
     }
     

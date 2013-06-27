@@ -6,3 +6,5 @@
 *.octest
 xcuserdata
 smcutil
+
+*.pkgproj
