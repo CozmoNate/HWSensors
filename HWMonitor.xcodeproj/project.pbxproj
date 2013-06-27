@@ -282,7 +282,7 @@
 		7EF2A0FB17303B9100D8641C /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		7EF2A0FD17303B9C00D8641C /* AboutController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutController.xib; sourceTree = "<group>"; };
 		7EFAE8E516EBC81500F4DA72 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		7EFAE91916EBC8ED00F4DA72 /* SMC Value Decoder.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "SMC Value Decoder.octest"; path = DefaultTestingPlatform.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EFAE91916EBC8ED00F4DA72 /* DefaultTestingPlatform.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DefaultTestingPlatform.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EFAE91E16EBC8ED00F4DA72 /* SMC Value Decoder-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SMC Value Decoder-Info.plist"; sourceTree = "<group>"; };
 		7EFAE92016EBC8ED00F4DA72 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EFAE92216EBC8ED00F4DA72 /* DefaultTestingPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DefaultTestingPlatform.h; sourceTree = "<group>"; };
@@ -404,7 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				7EA248E816D8E93A002231B2 /* HWMonitor.app */,
-				7EFAE91916EBC8ED00F4DA72 /* SMC Value Decoder.octest */,
+				7EFAE91916EBC8ED00F4DA72 /* DefaultTestingPlatform.octest */,
 				7E9060E41708951800BF5BBF /* smcutil */,
 			);
 			name = Products;
@@ -730,7 +730,7 @@
 			);
 			name = DefaultTestingPlatform;
 			productName = "SMC Value Decoder";
-			productReference = 7EFAE91916EBC8ED00F4DA72 /* SMC Value Decoder.octest */;
+			productReference = 7EFAE91916EBC8ED00F4DA72 /* DefaultTestingPlatform.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
