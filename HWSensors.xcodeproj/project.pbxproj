@@ -1144,7 +1144,7 @@
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "i386 x86_64";
 				VERSION_FILE = Shared/version.plist;
@@ -1188,7 +1188,7 @@
 				INSTALL_OWNER = root;
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "i386 x86_64";
 				VERSION_FILE = Shared/version.plist;
