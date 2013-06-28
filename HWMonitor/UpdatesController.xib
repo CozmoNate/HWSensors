@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1070</int>
+		<int key="IBDocument.SystemTarget">1080</int>
 		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1187.39</string>
@@ -45,7 +45,7 @@
 			<object class="NSWindowTemplate" id="39709654">
 				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 112}, {483, 218}}</string>
+				<string key="NSWindowRect">{{196, 550}, {483, 218}}</string>
 				<int key="NSWTFlags">1685586944</int>
 				<string key="NSWindowTitle">HWMonitor Updater</string>
 				<string key="NSWindowClass">NSPanel</string>
@@ -68,7 +68,6 @@
 							</set>
 							<string key="NSFrame">{{20, 73}, {125, 125}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="364582084"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -93,7 +92,6 @@
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{357, 13}, {112, 32}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -123,7 +121,6 @@
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{245, 13}, {112, 32}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="882934410"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -148,7 +145,6 @@
 							<int key="NSvFlags">282</int>
 							<string key="NSFrame">{{150, 118}, {316, 34}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="661916048"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -190,7 +186,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{14, 13}, {144, 32}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="197505289"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -213,7 +208,6 @@
 					</array>
 					<string key="NSFrameSize">{483, 218}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="730481290"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
@@ -226,7 +220,7 @@
 			<object class="NSWindowTemplate" id="514201296">
 				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 207}, {400, 110}}</string>
+				<string key="NSWindowRect">{{196, 550}, {400, 110}}</string>
 				<int key="NSWTFlags">1685586944</int>
 				<string key="NSWindowTitle">HWMonitor Updater</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -241,7 +235,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{320, 4}, {75, 28}}</string>
 							<reference key="NSSuperview" ref="421186840"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -270,7 +263,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{95, 50}, {288, 34}}</string>
 							<reference key="NSSuperview" ref="421186840"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="1059800464"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -300,7 +292,6 @@
 							</set>
 							<string key="NSFrame">{{10, 15}, {80, 80}}</string>
 							<reference key="NSSuperview" ref="421186840"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="302493329"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -320,7 +311,6 @@
 					</array>
 					<string key="NSFrameSize">{400, 110}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="699590917"/>
 					<string key="NSReuseIdentifierKey">_NS:20</string>
 				</object>
@@ -333,7 +323,7 @@
 			<object class="NSWindowTemplate" id="1059540678">
 				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 539}, {480, 138}}</string>
+				<string key="NSWindowRect">{{196, 550}, {480, 138}}</string>
 				<int key="NSWTFlags">1685586944</int>
 				<string key="NSWindowTitle">HWMonitor Updater</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -356,7 +346,6 @@
 							</set>
 							<string key="NSFrame">{{20, 38}, {80, 80}}</string>
 							<reference key="NSSuperview" ref="771102329"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="592829620"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="775076365">
@@ -376,7 +365,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{334, 13}, {132, 32}}</string>
 							<reference key="NSSuperview" ref="771102329"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -401,7 +389,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{120, 61}, {340, 16}}</string>
 							<reference key="NSSuperview" ref="771102329"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="604850072"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -420,7 +407,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{117, 85}, {111, 17}}</string>
 							<reference key="NSSuperview" ref="771102329"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="1071430635"/>
 							<string key="NSReuseIdentifierKey">_NS:1535</string>
 							<bool key="NSEnabled">YES</bool>
@@ -441,7 +427,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{425, 85}, {38, 17}}</string>
 							<reference key="NSSuperview" ref="771102329"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="250665986"/>
 							<string key="NSReuseIdentifierKey">_NS:1535</string>
 							<bool key="NSEnabled">YES</bool>
@@ -462,7 +447,6 @@
 							<int key="NSvFlags">-2147483380</int>
 							<string key="NSFrame">{{120, 59}, {340, 20}}</string>
 							<reference key="NSSuperview" ref="771102329"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="431177804"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSHuggingPriority">{250, 250}</string>
@@ -472,7 +456,6 @@
 					</array>
 					<string key="NSFrameSize">{480, 138}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="606114580"/>
 					<string key="NSReuseIdentifierKey">_NS:20</string>
 				</object>
@@ -1793,7 +1776,7 @@
 				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="3.IBNSWindowAutoPositionCentersHorizontal"/>
-				<boolean value="YES" key="3.IBNSWindowAutoPositionCentersVertical"/>
+				<boolean value="NO" key="3.IBNSWindowAutoPositionCentersVertical"/>
 				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="3.NSWindowTemplate.visibleAtLaunch"/>
 				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1814,7 +1797,7 @@
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="51.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="53.IBNSWindowAutoPositionCentersHorizontal"/>
-				<boolean value="YES" key="53.IBNSWindowAutoPositionCentersVertical"/>
+				<boolean value="NO" key="53.IBNSWindowAutoPositionCentersVertical"/>
 				<string key="53.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="53.NSWindowTemplate.visibleAtLaunch"/>
 				<array class="NSMutableArray" key="54.IBNSViewMetadataConstraints">
@@ -1908,94 +1891,12 @@
 			<nil key="sourceID"/>
 			<int key="maxID">127</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">NSLayoutConstraint</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSLayoutConstraint.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UpdatesController</string>
-					<string key="superclassName">NSWindowController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="cancelUpdate:">id</string>
-						<string key="performUpdate:">id</string>
-						<string key="showWindow:">id</string>
-						<string key="skipVersion:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="cancelUpdate:">
-							<string key="name">cancelUpdate:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="performUpdate:">
-							<string key="name">performUpdate:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showWindow:">
-							<string key="name">showWindow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="skipVersion:">
-							<string key="name">skipVersion:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="levelIndicator">NSLevelIndicator</string>
-						<string key="messageTextField">NSTextField</string>
-						<string key="noUpdatesWindow">NSWindow</string>
-						<string key="progressionIndicator">NSProgressIndicator</string>
-						<string key="progressionMessageTextField">NSTextField</string>
-						<string key="progressionValueTextField">NSTextField</string>
-						<string key="progressionWindow">NSWindow</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="levelIndicator">
-							<string key="name">levelIndicator</string>
-							<string key="candidateClassName">NSLevelIndicator</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="messageTextField">
-							<string key="name">messageTextField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="noUpdatesWindow">
-							<string key="name">noUpdatesWindow</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="progressionIndicator">
-							<string key="name">progressionIndicator</string>
-							<string key="candidateClassName">NSProgressIndicator</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="progressionMessageTextField">
-							<string key="name">progressionMessageTextField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="progressionValueTextField">
-							<string key="name">progressionValueTextField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="progressionWindow">
-							<string key="name">progressionWindow</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/UpdatesController.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1070" key="NS.object.0"/>
+			<real value="1080" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
