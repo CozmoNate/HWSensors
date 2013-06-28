@@ -8,8 +8,8 @@
 
 @interface GraphsSensorCell : NSTableCellView
 
-@property (nonatomic, unsafe_unretained) IBOutlet NSColorWell *colorWell;
-@property (nonatomic, unsafe_unretained) IBOutlet NSButton *checkBox;
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *valueField;
+@property (assign) IBOutlet NSColorWell *colorWell;
+@property (assign) IBOutlet NSButton *checkBox;
+@property (assign) IBOutlet NSTextField *valueField;
 
 @end

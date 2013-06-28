@@ -10,8 +10,9 @@
 
 @interface AboutController : NSWindowController
 
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *versionTextField;
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *copyrightTextField;
+@property (assign) IBOutlet NSTextField *appVersionTextField;
+@property (assign) IBOutlet NSTextField *projectVersionTextField;
+@property (assign) IBOutlet NSTextField *copyrightTextField;
 
 - (IBAction)showCredits:(id)sender;
 - (IBAction)openGitHubLink:(id)sender;

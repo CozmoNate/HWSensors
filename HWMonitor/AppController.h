@@ -55,14 +55,14 @@
     NSArray *_colorThemes;
 }
 
-@property (nonatomic, unsafe_unretained) IBOutlet PopupController *popupController;
-@property (nonatomic, unsafe_unretained) IBOutlet GraphsController *graphsController;
+@property (assign) IBOutlet PopupController *popupController;
+@property (assign) IBOutlet GraphsController *graphsController;
 
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *smcUpdateRateTextField;
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *smartUpdateRateTextField;
+@property (assign) IBOutlet NSTextField *smcUpdateRateTextField;
+@property (assign) IBOutlet NSTextField *smartUpdateRateTextField;
 
-@property (nonatomic, unsafe_unretained) IBOutlet NSTableView *favoritesTableView;
-@property (nonatomic, unsafe_unretained) IBOutlet NSTableView *sensorsTableView;
+@property (assign) IBOutlet NSTableView *favoritesTableView;
+@property (assign) IBOutlet NSTableView *sensorsTableView;
 
 @property (readonly) BOOL hasDraggedFavoriteItem;
 @property (atomic, assign) NSDragOperation currentItemDragOperation;

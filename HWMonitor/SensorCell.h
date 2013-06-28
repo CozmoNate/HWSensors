@@ -10,9 +10,9 @@
 
 @interface SensorCell : NSTableCellView
 
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *subtitleField;
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *valueField;
-@property (nonatomic, unsafe_unretained) IBOutlet NSButton *checkBox;
+@property (assign) IBOutlet NSTextField *subtitleField;
+@property (assign) IBOutlet NSTextField *valueField;
+@property (assign) IBOutlet NSButton *checkBox;
 
 @property (nonatomic, strong) ColorTheme *colorTheme;
 

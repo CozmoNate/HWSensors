@@ -79,4 +79,6 @@
 #define kHWMonitorTableViewDataType         @"kHWMonitorTableViewDataType"
 #define kHWMonitorPopupItemDataType         @"kHWMonitorPopupItemDataType"
 
+#define kHWMonitorLatestInstallerUrl        @"http://sourceforge.net/projects/hwsensors/files/latest/download"
+
 #endif

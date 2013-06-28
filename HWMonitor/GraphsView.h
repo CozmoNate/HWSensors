@@ -43,7 +43,7 @@
     NSString *_legendFormat;
 }
 
-@property (nonatomic, unsafe_unretained) IBOutlet GraphsController *graphsController;
+@property (assign) IBOutlet GraphsController *graphsController;
 
 @property (nonatomic, assign) BOOL useFahrenheit;
 @property (nonatomic, assign) BOOL useSmoothing;

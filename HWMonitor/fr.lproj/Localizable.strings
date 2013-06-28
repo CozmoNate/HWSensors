@@ -96,7 +96,7 @@
 "HWMonitor %@ is available - you have %@. Would you like to download?" = "HWMonitor v%@ est disponible et vous avez actuellement la version v%@. Voulez-vous la télécharger ?";
 "Update" = "Mettre à jour";
 "Next time" = "La prochaine fois";
-"Skip" = "Ignorer";
+"Skip this version" = "Ignorer";
 "Check for updates" = "Rechercher les mises à jour";
 "No new versions of HWMonitor are available at this time!" = "Pas de nouvelle version d'HWMonitor pour l'instant!";
 

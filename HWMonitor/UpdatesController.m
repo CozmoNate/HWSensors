@@ -26,8 +26,15 @@
     bool checkForUpdates = ![[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:kHWMonitorDontCheckUpdates];
     
     if (self && checkForUpdates) {
-        [self performSelector:@selector(localizeWindow) withObject:nil afterDelay:0.0];
-        [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+        
+        NSDictionary *version = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"version" ofType:@"plist"]];
+        
+        if (version) {
+            _currentVersion = [version objectForKey:@"ProjectVersion"];
+            
+            [self performSelector:@selector(localizeWindow) withObject:nil afterDelay:0.0];
+            [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+        }
     }
     
     return self;
@@ -42,42 +49,58 @@
 - (void)localizeWindow
 {
     [Localizer localizeView:self.window];
+    [Localizer localizeView:_noUpdatesWindow];
 }
 
-- (BOOL)checkForUpdates
+- (void)checkForUpdates
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     
-    NSURL *url = [NSURL URLWithString:@"https://github.com/kozlek/HWSensors/raw/master/Shared/version.plist"];
-    NSMutableDictionary *list = [[NSMutableDictionary alloc] initWithContentsOfURL:url];
-
-    if (list) {
-        _currentVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        _remoteVersion = [list objectForKey:@"AppVersion"];
-        _skippedVersion = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] objectForKey:kHWMonitorSkippedAppVersion];
+    if (!_connection) {
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:kHWMonitorLatestInstallerUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
         
-        if (_currentVersion && _remoteVersion && [_remoteVersion isGreaterThan:_currentVersion] && (!_skippedVersion || [_skippedVersion isLessThan:_remoteVersion])) {
-            [_messageTextField setStringValue:[NSString stringWithFormat:GetLocalizedString([_messageTextField stringValue]), _remoteVersion, _currentVersion]];
-            [NSApp activateIgnoringOtherApps:YES];
-            [self.window setLevel:NSModalPanelWindowLevel];
-            [self.window makeKeyAndOrderFront:nil];
-            
-            return YES; // stop checking for updates in this session
-        }
+        _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
+        
+        [_connection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+        [_connection start];
     }
-
-    // continue check for updates every hour
-    if (![[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:kHWMonitorDontCheckUpdates]) {
-        [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 * 60 inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
-    }
-    
-    return NO;
 }
 
-- (IBAction)openDownloadsPage:(id)sender
+- (void)checkForUpdatesForced
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:DOWNLOADS_URL]];
-    [self.window close];
+    _forced = YES;
+    
+    [self checkForUpdates];
+}
+
+- (IBAction)performUpdate:(id)sender
+{
+//    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:DOWNLOADS_URL]];
+//    [self.window close];
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    
+    [panel setNameFieldStringValue:[_installerPath lastPathComponent]];
+    [panel setTitle:GetLocalizedString(@"Set Clover installer location")];
+    
+    [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
+        
+        if (result == NSFileHandlingPanelOKButton) {
+            
+            _installerPath = panel.URL.path;
+            
+            NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:kHWMonitorLatestInstallerUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+            
+            if ([[NSURLDownload alloc] initWithRequest:request delegate:self]) {
+                [self.window orderOut:self];
+                
+                [_progressionWindow setLevel:NSModalPanelWindowLevel];
+                [_progressionWindow makeKeyAndOrderFront:self];
+                
+                [_progressionMessageTextField setStringValue:[NSString stringWithFormat:GetLocalizedString(@"Downloading %@"), [_installerPath lastPathComponent]]];
+                [_progressionValueTextField setStringValue:@""];
+            }
+        }
+    }];
 }
 
 -(void)cancelUpdate:(id)sender
@@ -91,5 +114,96 @@
     
     [[[NSUserDefaultsController sharedUserDefaultsController] defaults] setObject:_remoteVersion forKey:kHWMonitorSkippedAppVersion];
 }
+
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    _forced = NO;
+    _connection = nil;
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    // Stop downloading installer
+    [connection cancel];
+    
+    _installerPath = response.suggestedFilename;
+    
+    NSArray *_rawRevision = [_installerPath componentsSeparatedByString:@"."];
+    
+    _remoteVersion = [NSString stringWithFormat:@"%@.%@.%@", [_rawRevision objectAtIndex:_rawRevision.count - 4], [_rawRevision objectAtIndex:_rawRevision.count - 3], [_rawRevision objectAtIndex:_rawRevision.count - 2]];
+    
+    _skippedVersion = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] objectForKey:kHWMonitorSkippedAppVersion];
+    
+    if (_currentVersion && _remoteVersion && [_remoteVersion isGreaterThan:_currentVersion] && (!_skippedVersion || [_skippedVersion isLessThan:_remoteVersion])) {        
+        [_messageTextField setStringValue:[NSString stringWithFormat:GetLocalizedString(@"New HWSensors version %@ is available to download. You have %@. Download newer version?"), _remoteVersion, _currentVersion]];
+        [NSApp activateIgnoringOtherApps:YES];
+        [self.window setLevel:NSModalPanelWindowLevel];
+        [self.window makeKeyAndOrderFront:nil];
+    }
+    else if (_forced) {
+        [NSApp activateIgnoringOtherApps:YES];
+        [_noUpdatesWindow setLevel:NSModalPanelWindowLevel];
+        [_noUpdatesWindow makeKeyAndOrderFront:self];
+    }
+    else {
+        // continue check for updates every hour
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorDontCheckUpdates]) {
+            [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 * 60 inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+        }
+    }
+    
+    _forced = NO;
+    _connection = nil;
+}
+
+- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
+{
+    NSLog(@"Downloading to: %@", _installerPath);
+    [download setDestination:_installerPath allowOverwrite:YES];
+}
+
+- (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response;
+{
+    if ([response expectedContentLength]) {
+        [_levelIndicator setHidden:NO];
+        [_progressionIndicator setHidden:YES];
+        [_levelIndicator setMinValue:0];
+        [_levelIndicator setMaxValue:[response expectedContentLength]];
+        [_levelIndicator setDoubleValue:0];
+    }
+    else {
+        [_levelIndicator setHidden:YES];
+        [_progressionIndicator setHidden:NO];
+    }
+}
+
+- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
+{
+    if (![_levelIndicator isHidden]) {
+        [_levelIndicator setDoubleValue:_levelIndicator.doubleValue + length];
+        [_progressionValueTextField setStringValue:[NSString stringWithFormat:GetLocalizedString(@"%1.1f Mbytes"), _levelIndicator.doubleValue / (1024 * 1024)]];
+    }
+}
+
+- (void)downloadDidFinish:(NSURLDownload *)download
+{
+    [[NSWorkspace sharedWorkspace] openFile:_installerPath];
+    [NSApp terminate:self];
+}
+
+- (void)download:(NSURLDownload *)aDownload didFailWithError:(NSError *)error
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    
+    [alert setIcon:[NSImage imageNamed:NSImageNameCaution]];
+    [alert setMessageText:GetLocalizedString(@"An error occured while trying to download Clover installer!")];
+    [alert setInformativeText:error.localizedDescription];
+    [alert addButtonWithTitle:GetLocalizedString(@"Ok")];
+    
+    [alert beginSheetModalForWindow:_progressionWindow modalDelegate:nil didEndSelector:nil contextInfo:NULL];
+    
+    //    [self changeProgressionTitle:@"Download..." isInProgress:NO];
+}
+
 
 @end

@@ -95,15 +95,18 @@
 "Trackpad" = "Трекпад";
 "Built-in Battery" = "Встроенная батарея";
 
-"HWMonitor %@ is available - you have %@. Would you like to download newer version?" = "Появилась новая версия HWMonitor v%@. Вы используете v%@. Не хотели бы вы скачать новую версию?";
+"New HWSensors version %@ is available to download. You have %@. Download newer version?" = "Появилась новая версия HWSensors v%@. Вы используете v%@. Скачать новую версию?";
 "Update" = "Обновить";
 "Download" = "Скачать";
 "Next time" = "В другой раз";
-"Skip" = "Пропустить";
+"Skip this version" = "Пропустить эту версию";
 
 "Check for updates..." = "Проверить наличие обновлений...";
 "No new versions of HWMonitor are available at this time!" = "Нет доступных новых версий HWMonitor! Попробуйте проверить в другой раз.";
 "Close" = "Закрыть";
+
+"Downloading %@" = "Загрузка %@";
+"%1.1f Mbytes" = "%1.1f МБайт";
 
 "CPUFan" = "Вентилятор ЦП";
 "CPUFan2" = "Вентилятор ЦП 2";

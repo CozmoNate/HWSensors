@@ -51,7 +51,6 @@
     [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
     
     [Localizer localizeView:self.window];
-    [Localizer localizeView:_noUpdatesWindow];
 }
 
 - (void)awakeFromNib
@@ -241,11 +240,7 @@
 {
     UpdatesController *controller = (UpdatesController*)self.updatesController;
     
-    if (![controller checkForUpdates]) {
-        [NSApp activateIgnoringOtherApps:YES];
-        [_noUpdatesWindow setLevel:NSModalPanelWindowLevel];
-        [_noUpdatesWindow makeKeyAndOrderFront:self];
-    }
+    [controller checkForUpdatesForced];
 }
 
 - (void) setupWithGroups:(NSArray*)groups

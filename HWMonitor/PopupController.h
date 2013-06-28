@@ -34,7 +34,7 @@
     WindowFilter *_windowFilter;
 }
 
-@property (nonatomic, unsafe_unretained) IBOutlet id <PopupControllerDelegate> delegate;
+@property (assign) IBOutlet id <PopupControllerDelegate> delegate;
 
 @property (readonly) NSStatusItem *statusItem;
 @property (readonly) StatusItemView *statusItemView;
@@ -43,16 +43,13 @@
 
 @property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
 
-@property (nonatomic, unsafe_unretained) IBOutlet PopupView *popupView;
-@property (nonatomic, unsafe_unretained) IBOutlet NSTableView *tableView;
+@property (assign) IBOutlet PopupView *popupView;
+@property (assign) IBOutlet NSTableView *tableView;
 
-@property (nonatomic, unsafe_unretained) IBOutlet NSWindowController *appController;
-@property (nonatomic, unsafe_unretained) IBOutlet NSWindowController *graphsController;
-@property (nonatomic, unsafe_unretained) IBOutlet NSWindowController *aboutController;
-@property (nonatomic, unsafe_unretained) IBOutlet NSWindowController *updatesController;
-@property (nonatomic, unsafe_unretained) IBOutlet NSWindow *noUpdatesWindow;
-//@property (nonatomic, unsafe_unretained) IBOutlet NSWindow *prefsWindow;
-//@property (nonatomic, unsafe_unretained) IBOutlet NSWindow *graphsWindow;
+@property (assign) IBOutlet NSWindowController *appController;
+@property (assign) IBOutlet NSWindowController *graphsController;
+@property (assign) IBOutlet NSWindowController *aboutController;
+@property (assign) IBOutlet NSWindowController *updatesController;
 
 - (IBAction)togglePanel:(id)sender;
 - (IBAction)showAboutPanel:(id)sender;

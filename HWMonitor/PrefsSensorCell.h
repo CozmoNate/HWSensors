@@ -8,7 +8,7 @@
 
 @interface PrefsSensorCell : NSTableCellView
 
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *valueField;
-@property (nonatomic, unsafe_unretained) IBOutlet NSButton *checkBox;
+@property (assign) IBOutlet NSTextField *valueField;
+@property (assign) IBOutlet NSButton *checkBox;
 
 @end

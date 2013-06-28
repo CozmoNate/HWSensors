@@ -49,8 +49,8 @@
 
 @property (readonly) HWMonitorItem *selectedItem;
 
-@property (nonatomic, unsafe_unretained) IBOutlet NSTableView *graphsTableView;
-@property (nonatomic, unsafe_unretained) IBOutlet NSCollectionView *graphsCollectionView;
+@property (assign) IBOutlet NSTableView *graphsTableView;
+@property (assign) IBOutlet NSCollectionView *graphsCollectionView;
 
 - (void) setupWithGroups:(NSArray*)groups;
 - (void) captureDataToHistoryNow;

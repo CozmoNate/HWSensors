@@ -96,7 +96,7 @@
 "HWMonitor %@ is available - you have %@. Would you like to download?" = "Neuste HWMonitor-Version: %@ - Installierte Version: %@. Update durchführen?";
 "Update" = "Aktualisierung";
 "Next time" = "Nächstes Mal";
-"Skip" = "Überspringen";
+"Skip this version" = "Überspringen";
 
 "CPUFan" = "Prozessor-Lüfter";
 "CPUFan2" = "Prozessor-Lüfter 2";

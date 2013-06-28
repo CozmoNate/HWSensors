@@ -84,7 +84,7 @@
 "HWMonitor %@ is available - you have %@. Would you like to download?" = "La versione %@ di HWMonitor è disponibile - tu possiedi la versione %@. Vuoi scaricare la nuova versione?";
 "Update" = "Aggiorna";
 "Next time" = "In un altro momento";
-"Skip" = "Ignora versione";
+"Skip this version" = "Ignora versione";
 
 "Ambient" = "Ambiente";
 
