@@ -60,6 +60,7 @@ typedef enum {
 @interface HWMonitorSensor : NSObject
 {
     NSNumber *_rawValue;
+    NSMutableDictionary *_localizationCache;
 }
 
 @property (nonatomic, strong) HWMonitorEngine*  engine;

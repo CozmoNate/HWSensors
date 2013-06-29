@@ -496,7 +496,7 @@
 				7EF2A1041730532D00D8641C /* App Controller */,
 				7EF2A1031730519600D8641C /* Popup Panel */,
 				7EF2A1021730518A00D8641C /* Graphs Window */,
-				7EF2A1011730517A00D8641C /* Update Dialog */,
+				7EF2A1011730517A00D8641C /* Update Controller */,
 				7EF2A0FF17303C3600D8641C /* About Panel */,
 			);
 			name = Controllers;
@@ -616,14 +616,14 @@
 			name = "About Panel";
 			sourceTree = "<group>";
 		};
-		7EF2A1011730517A00D8641C /* Update Dialog */ = {
+		7EF2A1011730517A00D8641C /* Update Controller */ = {
 			isa = PBXGroup;
 			children = (
 				7EDDC86C16F9B3B40072B15B /* UpdatesController.h */,
 				7EDDC86D16F9B3B40072B15B /* UpdatesController.m */,
 				7E2041FE1730839B00C13B65 /* UpdatesController.xib */,
 			);
-			name = "Update Dialog";
+			name = "Update Controller";
 			sourceTree = "<group>";
 		};
 		7EF2A1021730518A00D8641C /* Graphs Window */ = {

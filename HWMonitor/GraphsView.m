@@ -28,6 +28,7 @@
 
 #import "GraphsView.h"
 #import "HWMonitorDefinitions.h"
+#import "Localizer.h"
 
 @implementation GraphsView
 
@@ -67,19 +68,19 @@
         _legendFormat = @"%1.0f°";
     }
     else if (sensorsGroup & kHWSensorGroupFrequency) {
-        _legendFormat = @"%1.0fMHz";
+        _legendFormat = GetLocalizedString(@"%1.0f MHz");
     }
     else if (sensorsGroup & kHWSensorGroupTachometer) {
-        _legendFormat = @"%1.0frpm";
+        _legendFormat = GetLocalizedString(@"%1.0f rpm");
     }
     else if (sensorsGroup & kHWSensorGroupVoltage) {
-        _legendFormat = @"%1.3fV";
+        _legendFormat = GetLocalizedString(@"%1.3f V");
     }
     else if (sensorsGroup & kHWSensorGroupCurrent) {
-        _legendFormat = @"%1.3fA";
+        _legendFormat = GetLocalizedString(@"%1.3f A");
     }
     else if (sensorsGroup & kHWSensorGroupPower) {
-        _legendFormat = @"%1.3fW";
+        _legendFormat = GetLocalizedString(@"%1.3f W");
     }
     else if (sensorsGroup & kBluetoothGroupBattery) {
         _legendFormat = @"%1.0f%";

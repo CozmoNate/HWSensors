@@ -8,6 +8,7 @@
 //  Copyright (c) 2013 Vadim Shpanovski, Natan Zalkin. All rights reserved.
 //
 
+
 #import <Cocoa/Cocoa.h>
 
 #import "StatusItemView.h"

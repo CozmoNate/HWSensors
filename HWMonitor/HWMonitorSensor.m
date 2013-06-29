@@ -294,6 +294,19 @@
     NSNumber *value = [self rawValue];
     
     if (value) {
+        
+        if (!_localizationCache) {
+            _localizationCache = [[NSMutableDictionary alloc] init];
+            
+            [_localizationCache setObject:[NSString stringWithString:GetLocalizedString(@"%1.2fTHz")] forKey:@"%1.2fTHz"];
+            [_localizationCache setObject:[NSString stringWithString:GetLocalizedString(@"%1.2fGHz")] forKey:@"%1.2fGHz"];
+            [_localizationCache setObject:[NSString stringWithString:GetLocalizedString(@"%1.0fMHz")] forKey:@"%1.0fMHz"];
+            [_localizationCache setObject:[NSString stringWithString:GetLocalizedString(@"%1.0frpm")] forKey:@"%1.0frpm"];
+            [_localizationCache setObject:[NSString stringWithString:GetLocalizedString(@"%1.3fV")] forKey:@"%1.3fV"];
+            [_localizationCache setObject:[NSString stringWithString:GetLocalizedString(@"%1.2fA")] forKey:@"%1.2fA"];
+            [_localizationCache setObject:[NSString stringWithString:GetLocalizedString(@"%1.2fW")] forKey:@"%1.2fW"];
+        }
+        
         if (_group & kSMARTGroupTemperature) {
             if ([_engine useFahrenheit]) {
                 _formattedValue = [NSString stringWithFormat:@"%1.0f°", [value floatValue] * (9.0f / 5.0f) + 32.0f];
@@ -326,11 +339,11 @@
         }
         else if (_group & kHWSensorGroupFrequency) {
             if ([value floatValue] > 1e6)
-                _formattedValue = [NSString stringWithFormat:@"%1.2fTHz", [value floatValue] / 1e6];
+                _formattedValue = [NSString stringWithFormat:[_localizationCache objectForKey:@"%1.2fTHz"], [value floatValue] / 1e6];
             else if ([value floatValue] > 1e3)
-                _formattedValue = [NSString stringWithFormat:@"%1.2fGHz", [value floatValue] / 1e3];
+                _formattedValue = [NSString stringWithFormat:[_localizationCache objectForKey:@"%1.2fGHz"], [value floatValue] / 1e3];
             else 
-                _formattedValue = [NSString stringWithFormat:@"%1.0fMHz", [value floatValue]];
+                _formattedValue = [NSString stringWithFormat:[_localizationCache objectForKey:@"%1.0fMHz"], [value floatValue]];
         }
         else if (_group & kHWSensorGroupTachometer) {
             if ([value floatValue] < 10) {
@@ -339,17 +352,17 @@
                 _formattedValue = @"-";
             }
             else {
-                _formattedValue = [NSString stringWithFormat:@"%1.0frpm", [value floatValue]];
+                _formattedValue = [NSString stringWithFormat:[_localizationCache objectForKey:@"%1.0frpm"], [value floatValue]];
             }
         }
         else if (_group & kHWSensorGroupVoltage) {
-            _formattedValue = [NSString stringWithFormat:@"%1.3fV", [value floatValue]];
+            _formattedValue = [NSString stringWithFormat:[_localizationCache objectForKey:@"%1.3fV"], [value floatValue]];
         }
         else if (_group & kHWSensorGroupCurrent) {
-            _formattedValue = [NSString stringWithFormat:@"%1.2fA", [value floatValue]];
+            _formattedValue = [NSString stringWithFormat:[_localizationCache objectForKey:@"%1.2fA"], [value floatValue]];
         }
         else if (_group & kHWSensorGroupPower) {
-            _formattedValue = [NSString stringWithFormat:@"%1.2fW", [value floatValue]];
+            _formattedValue = [NSString stringWithFormat:[_localizationCache objectForKey:@"%1.2fW"], [value floatValue]];
         }
         else {
             _formattedValue = @"-";
