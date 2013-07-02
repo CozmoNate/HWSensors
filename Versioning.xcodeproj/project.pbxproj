@@ -29,6 +29,17 @@
 			name = "Pre-Build Script";
 			productName = "Pre-Build Script";
 		};
+		7EB7E71D17834E470071B3F0 /* Tag Current Project Version */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7EB7E71E17834E470071B3F0 /* Build configuration list for PBXAggregateTarget "Tag Current Project Version" */;
+			buildPhases = (
+				7EB7E72117834E630071B3F0 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Tag Current Project Version";
+			productName = "Tag Project Version";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +75,7 @@
 			targets = (
 				7EB7E71717834B610071B3F0 /* Pre-Build Script */,
 				7EB7E71117834ADE0071B3F0 /* Bump Project Version */,
+				7EB7E71D17834E470071B3F0 /* Tag Current Project Version */,
 			);
 		};
 /* End PBXProject section */
@@ -80,7 +92,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# 2013 (c) sekati\n# https://gist.github.com/sekati/3172554\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :'Project Version' $NEWVERSIONSTRING\" \"${PROJECT_DIR}/version.plist\"\n\nalias cd_to_project=\"cd ${PROJECT_DIR}\"\nalias tag_project=\"git tag -a ${NEWVERSIONSTRING} -m 'HWSensors v${NEWVERSIONSTRING}'\"";
+			shellScript = "#!/bin/sh\n\n# 2013 (c) sekati\n# https://gist.github.com/sekati/3172554\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :'Project Version' $NEWVERSIONSTRING\" \"${PROJECT_DIR}/version.plist\"";
 		};
 		7EB7E71B17834B660071B3F0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -94,6 +106,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nalias cd_to_project=\"cd ${PROJECT_DIR}\"\nversion=`git describe`\necho \"#define GIT_VERSION $version\" > ${PROJECT_DIR}/Shared/version.h";
+		};
+		7EB7E72117834E630071B3F0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\nalias cd_to_project=\"cd ${PROJECT_DIR}\"\nalias tag_project=\"git tag -a ${VERSIONNUM} -m 'HWSensors v${VERSIONNUM}'\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -138,6 +163,20 @@
 			};
 			name = Release;
 		};
+		7EB7E71F17834E470071B3F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7EB7E72017834E470071B3F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -163,6 +202,14 @@
 			buildConfigurations = (
 				7EB7E71917834B620071B3F0 /* Debug */,
 				7EB7E71A17834B620071B3F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7EB7E71E17834E470071B3F0 /* Build configuration list for PBXAggregateTarget "Tag Current Project Version" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EB7E71F17834E470071B3F0 /* Debug */,
+				7EB7E72017834E470071B3F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
