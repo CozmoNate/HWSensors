@@ -118,7 +118,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\nalias cd_to_project=\"cd ${PROJECT_DIR}\"\nalias delete_same_tag=\"git tag -d ${VERSIONNUM}\"\nalias tag_project=\"git tag -a ${VERSIONNUM} -m 'HWSensors v${VERSIONNUM}'\"";
+			shellScript = "#!/bin/sh\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\ngit tag -a ${VERSIONNUM} -m 'HWSensors v${VERSIONNUM}'";
 		};
 /* End PBXShellScriptBuildPhase section */
 
