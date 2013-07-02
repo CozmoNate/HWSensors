@@ -77,7 +77,7 @@
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     
-    if (!_connection) {
+    if (!_connection && !_download) {
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:kHWMonitorLatestInstallerUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
         
         _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
@@ -111,7 +111,9 @@
             
             NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:kHWMonitorLatestInstallerUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
             
-            if ([[NSURLDownload alloc] initWithRequest:request delegate:self]) {
+            _download = [[NSURLDownload alloc] initWithRequest:request delegate:self];
+            
+            if (_download) {
                 [self.window orderOut:self];
                 
                 [_progressionWindow setLevel:NSModalPanelWindowLevel];
@@ -126,7 +128,11 @@
 
 -(void)cancelUpdate:(id)sender
 {
-    [self.window close];
+    if (_download) {
+        [_download cancel];
+        _download = nil;
+        [_progressionWindow orderOut:self];
+    }
 }
 
 - (IBAction)skipVersion:(id)sender
@@ -208,12 +214,15 @@
 
 - (void)downloadDidFinish:(NSURLDownload *)download
 {
+    _download = nil;
     [[NSWorkspace sharedWorkspace] openFile:_installerPath];
     [NSApp terminate:self];
 }
 
 - (void)download:(NSURLDownload *)aDownload didFailWithError:(NSError *)error
 {
+    _download = nil;
+    
     NSAlert *alert = [[NSAlert alloc] init];
     
     [alert setIcon:[NSImage imageNamed:NSImageNameCaution]];

@@ -571,6 +571,14 @@
 					<int key="connectionID">127</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">cancelUpdate:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="604850072"/>
+					</object>
+					<int key="connectionID">128</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="39709654"/>
@@ -1903,7 +1911,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">127</int>
+			<int key="maxID">128</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1921,6 +1929,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="cancelUpdate:">id</string>
 						<string key="performUpdate:">id</string>
+						<string key="showWindow:">id</string>
 						<string key="skipVersion:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -1930,6 +1939,10 @@
 						</object>
 						<object class="IBActionInfo" key="performUpdate:">
 							<string key="name">performUpdate:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showWindow:">
+							<string key="name">showWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="skipVersion:">
