@@ -45,7 +45,7 @@
     
     bool checkForUpdates = ![[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:kHWMonitorDontCheckUpdates];
     
-    if (self && checkForUpdates) {
+    if (self) {
         
         NSDictionary *version = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"version" ofType:@"plist"]];
         
@@ -53,7 +53,9 @@
             _currentVersion = [version objectForKey:@"ProjectVersion"];
             
             [self performSelector:@selector(localizeWindow) withObject:nil afterDelay:0.0];
-            [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+            
+            if (checkForUpdates)
+                [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
         }
     }
     

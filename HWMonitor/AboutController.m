@@ -33,7 +33,7 @@
     
     NSDictionary *projectVersion = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"version" ofType:@"plist"]];
 
-    [_projectVersionTextField setStringValue:projectVersion ? [NSString stringWithFormat:@"Project Version %@", [projectVersion objectForKey:@"ProjectVersion"]] : @""];
+    [_projectVersionTextField setStringValue:projectVersion ? [NSString stringWithFormat:@"HWSensors v%@", [projectVersion objectForKey:@"ProjectVersion"]] : @""];
     
     //[_creditsTextField readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"]];
     [_copyrightTextField setStringValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
