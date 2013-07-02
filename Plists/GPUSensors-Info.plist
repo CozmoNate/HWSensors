@@ -24,6 +24,8 @@
 	<dict>
 		<key>AMD Radeon Monitoring Plugin</key>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>GPUSENSORS_BUNDLE</string>
 			<key>IOClass</key>
 			<string>RadeonSensors</string>
 			<key>IOMatchCategory</key>
@@ -37,6 +39,8 @@
 		</dict>
 		<key>Intel GMA X3100 Monitoring Plugin</key>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>GPUSENSORS_BUNDLE</string>
 			<key>IOClass</key>
 			<string>GmaSensors</string>
 			<key>IOMatchCategory</key>
@@ -50,6 +54,8 @@
 		</dict>
 		<key>nVidia GeForce Monitoring Plugin</key>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>GPUSENSORS_BUNDLE</string>
 			<key>IOClass</key>
 			<string>GeforceSensors</string>
 			<key>IOMatchCategory</key>
