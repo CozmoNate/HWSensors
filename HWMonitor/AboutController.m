@@ -30,10 +30,8 @@
     [super windowDidLoad];
     
     [_appVersionTextField setStringValue:[NSString stringWithFormat:@"Version %@ (%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]];
-    
-    NSDictionary *projectVersion = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"version" ofType:@"plist"]];
 
-    [_projectVersionTextField setStringValue:projectVersion ? [NSString stringWithFormat:@"HWSensors v%@", [projectVersion objectForKey:@"ProjectVersion"]] : @""];
+    [_projectVersionTextField setStringValue:[NSString stringWithFormat:@"HWSensors v%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"HWSensorsVersion"]]];
     
     //[_creditsTextField readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"]];
     [_copyrightTextField setStringValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];

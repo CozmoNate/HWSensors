@@ -47,11 +47,10 @@
     
     if (self) {
         
-        NSDictionary *version = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"version" ofType:@"plist"]];
+        _currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"HWSensorsVersion"];
         
-        if (version) {
-            _currentVersion = [version objectForKey:@"ProjectVersion"];
-            
+        if (_currentVersion) {
+
             [self performSelector:@selector(localizeWindow) withObject:nil afterDelay:0.0];
             
             if (checkForUpdates)

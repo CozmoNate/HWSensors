@@ -6,31 +6,6 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		7E5D8E6216C6466300CB6720 /* Bump Build Number */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 7E5D8E6316C6466300CB6720 /* Build configuration list for PBXAggregateTarget "Bump Build Number" */;
-			buildPhases = (
-				7E5D8E6616C646CC00CB6720 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = "Bump Build Number";
-			productName = Project;
-		};
-		7E86E05016CFD352001B9F52 /* Bump Project Version */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 7E86E05216CFD352001B9F52 /* Build configuration list for PBXAggregateTarget "Bump Project Version" */;
-			buildPhases = (
-				7E86E05116CFD352001B9F52 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = "Bump Project Version";
-			productName = Project;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		1D6FE3F413FEBFF200376E64 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D6FE3F213FEBFF200376E64 /* InfoPlist.strings */; };
 		1D6FE3FF13FEC03100376E64 /* ACPISensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D6FE3FD13FEC03100376E64 /* ACPISensors.cpp */; };
@@ -159,7 +134,6 @@
 		7E5CFA2216988EBE00F0E9AD /* i2c_algo_bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_algo_bit.h; sourceTree = "<group>"; };
 		7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_base.cpp; sourceTree = "<group>"; };
 		7E5CFA2416988EBE00F0E9AD /* i2c_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_base.h; sourceTree = "<group>"; };
-		7E5D8E5C16C643BD00CB6720 /* version.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
 		7E78628E1632F0B7001984B9 /* fakesmc.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fakesmc.txt; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81F15BA99350079AAE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -222,22 +196,19 @@
 		7EADE20715E5602E00FD117C /* GPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EADE20C15E5602F00FD117C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EADE21115E5602F00FD117C /* GPUSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GPUSensors-Prefix.pch"; sourceTree = "<group>"; };
-		7EB00809168014BE00320B70 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.pch; sourceTree = "<group>"; };
 		7EB13663169C280F00B42023 /* atombios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atombios.h; sourceTree = "<group>"; };
 		7EB13665169C288000B42023 /* radeon_atombios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = radeon_atombios.cpp; sourceTree = "<group>"; };
 		7EB13666169C288000B42023 /* radeon_atombios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon_atombios.h; sourceTree = "<group>"; };
 		7EB1366A169C2CE700B42023 /* atom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atom.cpp; sourceTree = "<group>"; };
 		7EB1366B169C2CE700B42023 /* atom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atom.h; sourceTree = "<group>"; };
 		7EB692E715C99A2E0009B2E2 /* gpl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = gpl.txt; sourceTree = "<group>"; };
+		7EB7E70017833A290071B3F0 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.pch; sourceTree = "<group>"; };
+		7EB7E70117833ACE0071B3F0 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		7EBB50D915EEAE3C00FEBBB9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
 		7EBCF8791615A84C00E16D3B /* timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
 		7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PTIDSensors.cpp; sourceTree = "<group>"; };
 		7EBEC2A215E78B7B00537027 /* PTIDSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTIDSensors.h; sourceTree = "<group>"; };
 		7EFAE8FF16EBC8AD00F4DA72 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		7EFAE90116EBC8AD00F4DA72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		7EFAE90416EBC8AD00F4DA72 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		7EFAE90516EBC8AD00F4DA72 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		7EFAE90616EBC8AD00F4DA72 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -312,9 +283,7 @@
 				6A10C18F1506B2A4005E0897 /* IOKit.framework */,
 				7E40054E1585031B009AECED /* CoreData.framework */,
 				7EFAE8FF16EBC8AD00F4DA72 /* SenTestingKit.framework */,
-				7EFAE90116EBC8AD00F4DA72 /* Cocoa.framework */,
 				7E9060D41708950500BF5BBF /* Foundation.framework */,
-				7EFAE90316EBC8AD00F4DA72 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -449,8 +418,7 @@
 			isa = PBXGroup;
 			children = (
 				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
-				7EB00809168014BE00320B70 /* HWSensorsVersion.pch */,
-				7E5D8E5C16C643BD00CB6720 /* version.plist */,
+				7EB7E704178341020071B3F0 /* Versioning */,
 				7EBB50D915EEAE3C00FEBBB9 /* README.txt */,
 				7E5CFA1B16988E8A00F0E9AD /* Linux */,
 				7EF31BB716207C6B00E9B055 /* Kernel */,
@@ -686,6 +654,15 @@
 			name = Licenses;
 			sourceTree = "<group>";
 		};
+		7EB7E704178341020071B3F0 /* Versioning */ = {
+			isa = PBXGroup;
+			children = (
+				7EB7E70017833A290071B3F0 /* HWSensorsVersion.pch */,
+				7EB7E70117833ACE0071B3F0 /* version.h */,
+			);
+			name = Versioning;
+			sourceTree = "<group>";
+		};
 		7EF31BB716207C6B00E9B055 /* Kernel */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,16 +670,6 @@
 				7EBCF8791615A84C00E16D3B /* timer.h */,
 			);
 			name = Kernel;
-			sourceTree = "<group>";
-		};
-		7EFAE90316EBC8AD00F4DA72 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				7EFAE90416EBC8AD00F4DA72 /* AppKit.framework */,
-				7EFAE90516EBC8AD00F4DA72 /* CoreData.framework */,
-				7EFAE90616EBC8AD00F4DA72 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -828,8 +795,6 @@
 				7E79B81915BA99350079AAE8 /* CPUSensors */,
 				7EADE20615E5602E00FD117C /* GPUSensors */,
 				6A4E4738152178A00038C5DE /* LPCSensors */,
-				7E5D8E6216C6466300CB6720 /* Bump Build Number */,
-				7E86E05016CFD352001B9F52 /* Bump Project Version */,
 			);
 		};
 /* End PBXProject section */
@@ -878,32 +843,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7E5D8E6616C646CC00CB6720 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n# Increment project's build number\n\nif [[ $(git status ${PROJECT_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nBUILDNUM=$(/usr/libexec/PlistBuddy -c \"Print BuildNumber\" \"${VERSION_FILE}\")\nBUILDNUM=$(($BUILDNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :BuildNumber $BUILDNUM\" \"${VERSION_FILE}\"\n";
-		};
-		7E86E05116CFD352001B9F52 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# 2013 (c) sekati\n# https://gist.github.com/sekati/3172554\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print ProjectVersion\" \"${VERSION_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :ProjectVersion $NEWVERSIONSTRING\" \"${VERSION_FILE}\"\n";
-		};
 		7EB4C7AB16C666A500102138 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -915,7 +854,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\nSHORTVERSION=$(/usr/libexec/PlistBuddy -c \"Print ProjectVersion\" \"${PROJECT_DIR}/${VERSION_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $SHORTVERSION\" \"${INFOPLIST_FILE}\"\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"\n\ntouch ${INFOPLIST_FILE}";
 		};
 		7EE460BB167BB736007CD680 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -928,7 +867,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\nSHORTVERSION=$(/usr/libexec/PlistBuddy -c \"Print ProjectVersion\" \"${PROJECT_DIR}/${VERSION_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $SHORTVERSION\" \"${INFOPLIST_FILE}\"\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"\n\ntouch ${INFOPLIST_FILE}";
 		};
 		7EE460BD167BB78B007CD680 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -941,7 +880,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\nSHORTVERSION=$(/usr/libexec/PlistBuddy -c \"Print ProjectVersion\" \"${PROJECT_DIR}/${VERSION_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $SHORTVERSION\" \"${INFOPLIST_FILE}\"\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"\n\ntouch ${INFOPLIST_FILE}";
 		};
 		7EE460BE167BB790007CD680 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -954,7 +893,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\nSHORTVERSION=$(/usr/libexec/PlistBuddy -c \"Print ProjectVersion\" \"${PROJECT_DIR}/${VERSION_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $SHORTVERSION\" \"${INFOPLIST_FILE}\"\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"\n\ntouch ${INFOPLIST_FILE}";
 		};
 		7EE460BF167BB796007CD680 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -967,7 +906,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\nSHORTVERSION=$(/usr/libexec/PlistBuddy -c \"Print ProjectVersion\" \"${PROJECT_DIR}/${VERSION_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $SHORTVERSION\" \"${INFOPLIST_FILE}\"\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"\n\ntouch ${INFOPLIST_FILE}";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1110,14 +1049,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = NO;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
-				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = Binaries;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1147,7 +1079,6 @@
 				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "i386 x86_64";
-				VERSION_FILE = Shared/version.plist;
 			};
 			name = Debug;
 		};
@@ -1155,14 +1086,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = NO;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
-				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = Binaries;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1191,7 +1115,6 @@
 				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "i386 x86_64";
-				VERSION_FILE = Shared/version.plist;
 			};
 			name = Release;
 		};
@@ -1199,7 +1122,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1225,7 +1147,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1245,7 +1166,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1271,7 +1191,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1291,7 +1210,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1317,7 +1235,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1333,25 +1250,10 @@
 			};
 			name = Release;
 		};
-		7E5D8E6416C6466300CB6720 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		7E5D8E6516C6466300CB6720 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		7E79B82615BA99350079AAE8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1377,7 +1279,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1393,25 +1294,10 @@
 			};
 			name = Release;
 		};
-		7E86E05316CFD352001B9F52 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "Project Build Scripts copy";
-			};
-			name = Debug;
-		};
-		7E86E05416CFD352001B9F52 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "Project Build Scripts copy";
-			};
-			name = Release;
-		};
 		7EADE21215E5602F00FD117C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1437,7 +1323,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1492,29 +1377,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E5D8E6316C6466300CB6720 /* Build configuration list for PBXAggregateTarget "Bump Build Number" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7E5D8E6416C6466300CB6720 /* Debug */,
-				7E5D8E6516C6466300CB6720 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		7E79B82515BA99350079AAE8 /* Build configuration list for PBXNativeTarget "CPUSensors" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E79B82615BA99350079AAE8 /* Debug */,
 				7E79B82715BA99350079AAE8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7E86E05216CFD352001B9F52 /* Build configuration list for PBXAggregateTarget "Bump Project Version" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7E86E05316CFD352001B9F52 /* Debug */,
-				7E86E05416CFD352001B9F52 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

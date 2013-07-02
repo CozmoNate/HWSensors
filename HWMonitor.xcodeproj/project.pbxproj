@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		7E27A479170084AE00234A6A /* Bump Build Number */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 7E27A47C170084AE00234A6A /* Build configuration list for PBXAggregateTarget "Bump Build Number" */;
-			buildPhases = (
-				7E27A47D170084B400234A6A /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = "Bump Build Number";
-			productName = "Bump Build Number";
-		};
 		7EA8CA5D16EBB8FD00E71108 /* Bump App Version */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7EA8CA5E16EBB8FD00E71108 /* Build configuration list for PBXAggregateTarget "Bump App Version" */;
@@ -94,7 +83,6 @@
 		7EA2495416D8EE45002231B2 /* HWMonitorGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2495116D8EE44002231B2 /* HWMonitorGroup.m */; };
 		7EA2495516D8EE45002231B2 /* HWMonitorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2495316D8EE45002231B2 /* HWMonitorItem.m */; };
 		7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA394B216E0A1B600823109 /* ColorTheme.m */; };
-		7EA8CA5016EBB77400E71108 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8CA4F16EBB77400E71108 /* version.plist */; };
 		7EC808701778C1DD00A334E2 /* divider.tif in Resources */ = {isa = PBXBuildFile; fileRef = 7EC8086F1778C1DD00A334E2 /* divider.tif */; };
 		7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3016DD680E00085FFF /* 04-eye.png */; };
 		7ECDDE3316DD680E00085FFF /* 04-eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */; };
@@ -236,7 +224,8 @@
 		7EA68B8917341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7EA68B8A17341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EA68B8C17341ECE00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7EA8CA4F16EBB77400E71108 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = version.plist; path = Shared/version.plist; sourceTree = "<group>"; };
+		7EB7E702178340710071B3F0 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
+		7EB7E707178341D20071B3F0 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
 		7EBFC7361778D2D8000AB283 /* divider.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = divider.psd; sourceTree = "<group>"; };
 		7EC8086F1778C1DD00A334E2 /* divider.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = divider.tif; sourceTree = "<group>"; };
 		7ECDDE3016DD680E00085FFF /* 04-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye.png"; sourceTree = "<group>"; };
@@ -344,7 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */,
-				7EA8CA4F16EBB77400E71108 /* version.plist */,
+				7EB7E708178341D80071B3F0 /* Versioning */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -568,6 +557,15 @@
 			name = "Views & Controls";
 			sourceTree = "<group>";
 		};
+		7EB7E708178341D80071B3F0 /* Versioning */ = {
+			isa = PBXGroup;
+			children = (
+				7EB7E707178341D20071B3F0 /* HWMonitorVersion.pch */,
+				7EB7E702178340710071B3F0 /* version.h */,
+			);
+			name = Versioning;
+			sourceTree = "<group>";
+		};
 		7ECDDE3E16DDF19A00085FFF /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
@@ -760,10 +758,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				7EA8CA5D16EBB8FD00E71108 /* Bump App Version */,
 				7EA248E716D8E93A002231B2 /* HWMonitor */,
 				7E9060E31708951800BF5BBF /* smcutil */,
-				7E27A479170084AE00234A6A /* Bump Build Number */,
-				7EA8CA5D16EBB8FD00E71108 /* Bump App Version */,
 				7EFAE91816EBC8ED00F4DA72 /* DefaultTestingPlatform */,
 			);
 		};
@@ -804,7 +801,6 @@
 				7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */,
 				7ECDDE3716DDE5DA00085FFF /* 04-eye-white@2x.png in Resources */,
 				7E0648F116DF3B7D00ACB851 /* README.md in Resources */,
-				7EA8CA5016EBB77400E71108 /* version.plist in Resources */,
 				7E1BC3CE16F47BDF005B9479 /* battery.png in Resources */,
 				7E1BC3CF16F47BDF005B9479 /* battery_template.png in Resources */,
 				7EF2A0FC17303B9100D8641C /* MainMenu.xib in Resources */,
@@ -833,19 +829,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7E27A47D170084B400234A6A /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n# Increment project's build number\n\nif [[ $(git status ${PROJECT_DIR} | grep -c modified) == \"0\" ]]; then\n    exit 0\nfi\n\nBUILDNUM=$(/usr/libexec/PlistBuddy -c \"Print BuildNumber\" \"${VERSION_FILE}\")\nBUILDNUM=$(($BUILDNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :BuildNumber $BUILDNUM\" \"${VERSION_FILE}\"\n";
-		};
 		7EA2493716D8EA0A002231B2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -857,7 +840,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nSHORTVERSION=$(/usr/libexec/PlistBuddy -c \"Print AppVersion\" \"${PROJECT_DIR}/${VERSION_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $SHORTVERSION\" \"${INFOPLIST_FILE}\"\n\nif [[ $(git status ${PROJECT_DIR}/${TARGET_DIR} | grep -c modified) == \"0\" ]]; then\nexit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"";
+			shellScript = "#!/bin/sh\n\nif [[ $(git status ${PROJECT_DIR} | grep -c modified) == \"0\" ]]; then\n  exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"\n\ntouch ${INFOPLIST_FILE}";
 		};
 		7EA8CA6116EBB90200E71108 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -870,7 +853,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# 2013 (c) sekati\n# https://gist.github.com/sekati/3172554\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print AppVersion\" \"${VERSION_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :AppVersion $NEWVERSIONSTRING\" \"${VERSION_FILE}\"";
+			shellScript = "#!/bin/sh\n\n# 2013 (c) sekati\n# https://gist.github.com/sekati/3172554\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${INFOPLIST_FILE}\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $NEWVERSIONSTRING\" \"${INFOPLIST_FILE}\"";
 		};
 		7EFAE91716EBC8ED00F4DA72 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -994,20 +977,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		7E27A47A170084AE00234A6A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		7E27A47B170084AE00234A6A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		7E9060EE1708951800BF5BBF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1055,11 +1024,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_PREFIX_HEADER = Shared/HWMonitorVersion.pch;
+				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.8;
-				VERSION_FILE = Shared/version.plist;
 			};
 			name = Debug;
 		};
@@ -1085,10 +1055,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_PREFIX_HEADER = Shared/HWMonitorVersion.pch;
+				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.8;
-				VERSION_FILE = Shared/version.plist;
 			};
 			name = Release;
 		};
@@ -1163,15 +1134,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7E27A47C170084AE00234A6A /* Build configuration list for PBXAggregateTarget "Bump Build Number" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7E27A47A170084AE00234A6A /* Debug */,
-				7E27A47B170084AE00234A6A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		7E9060ED1708951800BF5BBF /* Build configuration list for PBXNativeTarget "smcutil" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -6,7 +6,5 @@
 *.octest
 xcuserdata
 smcutil
-
 *.pkgproj
-
-Binaries/HWSensors.pkgproj
+version.h

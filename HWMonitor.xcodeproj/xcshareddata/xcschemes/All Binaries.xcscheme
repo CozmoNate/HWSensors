@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7EB7E71717834B610071B3F0"
+               BuildableName = "Pre-Build Script"
+               BlueprintName = "Pre-Build Script"
+               ReferencedContainer = "container:Versioning.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D05ABE313ED0DAD00EADBF6"
                BuildableName = "FakeSMC.kext"
                BlueprintName = "FakeSMC"

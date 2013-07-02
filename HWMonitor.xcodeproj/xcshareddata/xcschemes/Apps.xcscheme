@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E9060E31708951800BF5BBF"
-               BuildableName = "smcutil"
-               BlueprintName = "smcutil"
+               BlueprintIdentifier = "7EB7E71717834B610071B3F0"
+               BuildableName = "Pre-Build Script"
+               BlueprintName = "Pre-Build Script"
+               ReferencedContainer = "container:Versioning.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+               BuildableName = "HWMonitor.app"
+               BlueprintName = "HWMonitor"
                ReferencedContainer = "container:HWMonitor.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +46,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7E9060E31708951800BF5BBF"
-            BuildableName = "smcutil"
-            BlueprintName = "smcutil"
+            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+            BuildableName = "HWMonitor.app"
+            BlueprintName = "HWMonitor"
             ReferencedContainer = "container:HWMonitor.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -51,9 +65,9 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7E9060E31708951800BF5BBF"
-            BuildableName = "smcutil"
-            BlueprintName = "smcutil"
+            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+            BuildableName = "HWMonitor.app"
+            BlueprintName = "HWMonitor"
             ReferencedContainer = "container:HWMonitor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -69,9 +83,9 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7E9060E31708951800BF5BBF"
-            BuildableName = "smcutil"
-            BlueprintName = "smcutil"
+            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+            BuildableName = "HWMonitor.app"
+            BlueprintName = "HWMonitor"
             ReferencedContainer = "container:HWMonitor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
