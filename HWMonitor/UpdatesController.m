@@ -53,8 +53,9 @@
 
             [self performSelector:@selector(localizeWindow) withObject:nil afterDelay:0.0];
             
-            if (checkForUpdates)
-                [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:60.0 inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+            if (checkForUpdates) {
+                [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:30.0 inModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+            }
         }
     }
     

@@ -500,14 +500,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">cancelUpdate:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="197505289"/>
-					</object>
-					<int key="connectionID">35</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">skipVersion:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="661916048"/>
@@ -585,6 +577,14 @@
 						<reference key="destination" ref="1001"/>
 					</object>
 					<int key="connectionID">34</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">orderOut:</string>
+						<reference key="source" ref="39709654"/>
+						<reference key="destination" ref="197505289"/>
+					</object>
+					<int key="connectionID">131</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1911,7 +1911,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">128</int>
+			<int key="maxID">131</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1929,7 +1929,6 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="cancelUpdate:">id</string>
 						<string key="performUpdate:">id</string>
-						<string key="showWindow:">id</string>
 						<string key="skipVersion:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -1939,10 +1938,6 @@
 						</object>
 						<object class="IBActionInfo" key="performUpdate:">
 							<string key="name">performUpdate:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showWindow:">
-							<string key="name">showWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="skipVersion:">

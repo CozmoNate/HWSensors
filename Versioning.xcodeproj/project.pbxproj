@@ -105,7 +105,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nalias cd_to_project=\"cd ${PROJECT_DIR}\"\nversion=`git describe`\necho \"#define GIT_VERSION $version\" > ${PROJECT_DIR}/Shared/version.h";
+			shellScript = "#!/bin/sh\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\necho \"#define GIT_VERSION $version\" > ${PROJECT_DIR}/Shared/version.h";
 		};
 		7EB7E72117834E630071B3F0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -196,6 +196,7 @@
 				7EB7E71417834ADE0071B3F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7EB7E71817834B620071B3F0 /* Build configuration list for PBXAggregateTarget "Pre-Build Script" */ = {
 			isa = XCConfigurationList;
@@ -204,6 +205,7 @@
 				7EB7E71A17834B620071B3F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7EB7E71E17834E470071B3F0 /* Build configuration list for PBXAggregateTarget "Tag Current Project Version" */ = {
 			isa = XCConfigurationList;
@@ -212,6 +214,7 @@
 				7EB7E72017834E470071B3F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

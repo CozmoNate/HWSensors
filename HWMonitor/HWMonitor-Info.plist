@@ -21,9 +21,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>6179</string>
+	<string>6190</string>
 	<key>HWSensorsVersion</key>
-	<string>GIT_VERSION</string>
+	<string>PROJECT_VERSION</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSUIElement</key>
