@@ -54,8 +54,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXFileReference section */
-		7E2F25171783EAE800C86586 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
-		7E2F25181783EAE800C86586 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWSensorsVersion.pch; path = Shared/HWSensorsVersion.pch; sourceTree = "<group>"; };
 		7E2F25191783EAE800C86586 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7EB7E71C17834BF10071B3F0 /* version.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,8 +62,6 @@
 		7EB7E70917834A740071B3F0 = {
 			isa = PBXGroup;
 			children = (
-				7E2F25181783EAE800C86586 /* HWSensorsVersion.pch */,
-				7E2F25171783EAE800C86586 /* HWMonitorVersion.pch */,
 				7E2F25191783EAE800C86586 /* version.h */,
 				7EB7E71C17834BF10071B3F0 /* version.plist */,
 			);
@@ -136,7 +132,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nproject_name=$(/usr/libexec/PlistBuddy -c \"Print 'Project Name'\" \"${PROJECT_DIR}/version.plist\")\nproject_version=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\n\ngit_revision=$(git rev-list --count HEAD)\nfull_version='${project_version}.${git_revision}'\n\ngit tag -a ${full_version} -m '${project_name} v${full_version}'\ngit push --tags";
+			shellScript = "#!/bin/sh\n\nproject_name=$(/usr/libexec/PlistBuddy -c \"Print 'Project Name'\" \"${PROJECT_DIR}/version.plist\")\nproject_version=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\n\ngit_revision=$(git rev-list --count HEAD)\nfull_version=${project_version}'.'${git_revision}\ngit tag -a ${full_version} -m '${project_name} v${full_version}'\ngit push --tags";
 		};
 		7EDC5D1F1783F60C00B0C7EC /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
