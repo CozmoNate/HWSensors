@@ -60,7 +60,7 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"PopupController" owner:self];
+    self = [super initWithWindowNibName:@"PopupController"];
     
     if (self != nil)
     {

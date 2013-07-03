@@ -95,6 +95,7 @@
 "Trackpad" = "Трекпад";
 "Built-in Battery" = "Встроенная батарея";
 
+"HWSensors Updater" = "Обновления HWSensors";
 "New HWSensors version %@ is available to download. You have %@. Download newer version?" = "Появилась новая версия HWSensors v%@. Вы используете v%@. Скачать новую версию?";
 "Update" = "Обновить";
 "Download" = "Скачать";
@@ -102,8 +103,9 @@
 "Skip this version" = "Пропустить эту версию";
 
 "Check for updates..." = "Проверить наличие обновлений...";
-"No new versions of HWMonitor are available at this time!" = "Нет доступных новых версий HWMonitor! Попробуйте проверить в другой раз.";
+"No new versions of HWSensors are available at this time!" = "Нет доступных новых версий HWSensors! Попробуйте проверить в другой раз.";
 "Close" = "Закрыть";
+"An error occured while trying to download HWSensors installer!" = "Возникла ошибка при попытке загрузить установщик HWSensors";
 
 "%1.0f MHz" = "%1.0f МГц";
 "%1.0f rpm" = "%1.0f об/мин";

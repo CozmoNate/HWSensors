@@ -40,7 +40,7 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"AppController" owner:self];
+    self = [super initWithWindowNibName:@"AppController"];
     
     if (self != nil)
     {

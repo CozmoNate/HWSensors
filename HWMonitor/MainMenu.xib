@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -187,28 +187,31 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">AboutController</string>
 					<string key="superclassName">NSWindowController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">showCredits:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">showCredits:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="openGitHubLink:">id</string>
+						<string key="showCredits:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="openGitHubLink:">
+							<string key="name">openGitHubLink:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showCredits:">
 							<string key="name">showCredits:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="copyrightTextField">NSTextField</string>
-						<string key="versionTextField">NSTextField</string>
+						<string key="copyrightField">NSTextField</string>
+						<string key="versionField">NSTextField</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="copyrightTextField">
-							<string key="name">copyrightTextField</string>
+						<object class="IBToOneOutletInfo" key="copyrightField">
+							<string key="name">copyrightField</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="versionTextField">
-							<string key="name">versionTextField</string>
+						<object class="IBToOneOutletInfo" key="versionField">
+							<string key="name">versionField</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
 					</dictionary>
@@ -226,6 +229,7 @@
 						<string key="graphsBackgroundMonitorChanged:">id</string>
 						<string key="graphsWindowTopmostChanged:">id</string>
 						<string key="showVolumeNamesChanged:">id</string>
+						<string key="showWindow:">id</string>
 						<string key="toggleGraphSmoothing:">id</string>
 						<string key="toggleSensorVisibility:">id</string>
 						<string key="updateRateChanged:">id</string>
@@ -253,6 +257,10 @@
 						</object>
 						<object class="IBActionInfo" key="showVolumeNamesChanged:">
 							<string key="name">showVolumeNamesChanged:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showWindow:">
+							<string key="name">showWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleGraphSmoothing:">
@@ -367,7 +375,6 @@
 						<string key="openPreferences:">id</string>
 						<string key="showAboutPanel:">id</string>
 						<string key="showGraphsWindow:">id</string>
-						<string key="showWindow:">id</string>
 						<string key="togglePanel:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -385,10 +392,6 @@
 						</object>
 						<object class="IBActionInfo" key="showGraphsWindow:">
 							<string key="name">showGraphsWindow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showWindow:">
-							<string key="name">showWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="togglePanel:">
@@ -453,7 +456,8 @@
 					<string key="superclassName">NSWindowController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="cancelUpdate:">id</string>
-						<string key="openDownloadsPage:">id</string>
+						<string key="performUpdate:">id</string>
+						<string key="showWindow:">id</string>
 						<string key="skipVersion:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -461,8 +465,12 @@
 							<string key="name">cancelUpdate:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="openDownloadsPage:">
-							<string key="name">openDownloadsPage:</string>
+						<object class="IBActionInfo" key="performUpdate:">
+							<string key="name">performUpdate:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showWindow:">
+							<string key="name">showWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="skipVersion:">
@@ -470,17 +478,45 @@
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">messageTextField</string>
-						<string key="NS.object.0">NSTextField</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">messageTextField</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="levelIndicator">NSLevelIndicator</string>
+						<string key="messageTextField">NSTextField</string>
+						<string key="noUpdatesWindow">NSWindow</string>
+						<string key="progressionIndicator">NSProgressIndicator</string>
+						<string key="progressionMessageTextField">NSTextField</string>
+						<string key="progressionValueTextField">NSTextField</string>
+						<string key="progressionWindow">NSWindow</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="levelIndicator">
+							<string key="name">levelIndicator</string>
+							<string key="candidateClassName">NSLevelIndicator</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="messageTextField">
 							<string key="name">messageTextField</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
-					</object>
+						<object class="IBToOneOutletInfo" key="noUpdatesWindow">
+							<string key="name">noUpdatesWindow</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="progressionIndicator">
+							<string key="name">progressionIndicator</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="progressionMessageTextField">
+							<string key="name">progressionMessageTextField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="progressionValueTextField">
+							<string key="name">progressionValueTextField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="progressionWindow">
+							<string key="name">progressionWindow</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/UpdatesController.h</string>

@@ -47,7 +47,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 550}, {483, 218}}</string>
 				<int key="NSWTFlags">1685586944</int>
-				<string key="NSWindowTitle">HWMonitor Updater</string>
+				<string key="NSWindowTitle">HWSensors Updater</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -94,6 +94,7 @@
 							<string key="NSFrame">{{357, 13}, {112, 32}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="155307308">
@@ -155,7 +156,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="249914368">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">138412032</int>
-								<string key="NSContents">HWMonitor %@ is available - you have %@. Would you like to download newer version?</string>
+								<string key="NSContents">HWSensors %@ is available - you have %@. Would you like to download newer version?</string>
 								<object class="NSFont" key="NSSupport">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">13</double>
@@ -227,7 +228,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 550}, {400, 110}}</string>
 				<int key="NSWTFlags">1685586944</int>
-				<string key="NSWindowTitle">HWMonitor Updater</string>
+				<string key="NSWindowTitle">HWSensors Updater</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -241,6 +242,7 @@
 							<string key="NSFrame">{{320, 4}, {75, 28}}</string>
 							<reference key="NSSuperview" ref="421186840"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="460536763">
@@ -276,7 +278,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="1043032122">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">138412032</int>
-								<string key="NSContents">No new versions of HWMonitor are available at this time!</string>
+								<string key="NSContents">No new versions of HWSensors are available at this time!</string>
 								<reference key="NSSupport" ref="41214942"/>
 								<string key="NSCellIdentifier">_NS:9</string>
 								<reference key="NSControlView" ref="302493329"/>
@@ -333,7 +335,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 550}, {480, 138}}</string>
 				<int key="NSWTFlags">1685586944</int>
-				<string key="NSWindowTitle">HWMonitor Updater</string>
+				<string key="NSWindowTitle">HWSensors Updater</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -375,6 +377,7 @@
 							<string key="NSFrame">{{334, 13}, {132, 32}}</string>
 							<reference key="NSSuperview" ref="771102329"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="191412751">

@@ -31,8 +31,6 @@
 #import "Localizer.h"
 #import "HWMonitorDefinitions.h"
 
-#define DOWNLOADS_URL @"https://bitbucket.org/kozlek/hwsensors/downloads"
-
 @interface UpdatesController ()
 
 @end
@@ -41,17 +39,17 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"UpdatesController" owner:self];
-    
-    bool checkForUpdates = ![[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:kHWMonitorDontCheckUpdates];
+    self = [super initWithWindowNibName:@"UpdatesController"];
     
     if (self) {
         
-        _currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"HWSensorsVersion"];
+        bool checkForUpdates = ![[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:kHWMonitorDontCheckUpdates];
+        
+        _currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         
         if (_currentVersion) {
 
-            [self performSelector:@selector(localizeWindow) withObject:nil afterDelay:0.0];
+            [self performSelector:@selector(localizeWindow) withObject:nil afterDelay:1.0];
             
             if (checkForUpdates) {
                 [self performSelector:@selector(checkForUpdates) withObject:nil afterDelay:30.0 inModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
@@ -72,6 +70,7 @@
 {
     [Localizer localizeView:self.window];
     [Localizer localizeView:_noUpdatesWindow];
+    [Localizer localizeView:_progressionWindow];
 }
 
 - (void)checkForUpdates
@@ -97,8 +96,6 @@
 
 - (IBAction)performUpdate:(id)sender
 {
-//    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:DOWNLOADS_URL]];
-//    [self.window close];
     NSSavePanel *panel = [NSSavePanel savePanel];
     
     [panel setNameFieldStringValue:[_installerPath lastPathComponent]];
@@ -171,7 +168,7 @@
     else if (_forced) {
         [NSApp activateIgnoringOtherApps:YES];
         [_noUpdatesWindow setLevel:NSModalPanelWindowLevel];
-        [_noUpdatesWindow makeKeyAndOrderFront:self];
+        [_noUpdatesWindow makeKeyAndOrderFront:nil];
     }
     else {
         // continue check for updates every hour
@@ -227,7 +224,7 @@
     NSAlert *alert = [[NSAlert alloc] init];
     
     [alert setIcon:[NSImage imageNamed:NSImageNameCaution]];
-    [alert setMessageText:GetLocalizedString(@"An error occured while trying to download Clover installer!")];
+    [alert setMessageText:GetLocalizedString(@"An error occured while trying to download HWMonitor installer!")];
     [alert setInformativeText:error.localizedDescription];
     [alert addButtonWithTitle:GetLocalizedString(@"Ok")];
     

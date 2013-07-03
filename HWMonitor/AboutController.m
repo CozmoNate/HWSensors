@@ -16,7 +16,7 @@
 
 -(id)init
 {
-    self = [super initWithWindowNibName:@"AboutController" owner:self];
+    self = [super initWithWindowNibName:@"AboutController"];
     
     if (self) {
         // Initialization code here.

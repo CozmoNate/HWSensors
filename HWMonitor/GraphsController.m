@@ -91,7 +91,7 @@
 
 -(id)init
 {
-    self = [super initWithWindowNibName:@"GraphsController" owner:self];
+    self = [super initWithWindowNibName:@"GraphsController"];
     
     if (self) {
         _colorsList = [[NSMutableArray alloc] init];
