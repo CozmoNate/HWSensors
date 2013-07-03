@@ -682,7 +682,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7EA2490516D8E93A002231B2 /* Build configuration list for PBXNativeTarget "HWMonitor" */;
 			buildPhases = (
-				7EA2493716D8EA0A002231B2 /* ShellScript */,
 				7EA248E416D8E93A002231B2 /* Sources */,
 				7EA248E516D8E93A002231B2 /* Frameworks */,
 				7EA248E616D8E93A002231B2 /* Resources */,
@@ -814,19 +813,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7EA2493716D8EA0A002231B2 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $(git status ${PROJECT_DIR} | grep -c modified) == \"0\" ]]; then\n  exit 0\nfi\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\nVERSIONNUM=$(($VERSIONNUM + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSIONNUM\" \"${INFOPLIST_FILE}\"\n\ntouch ${INFOPLIST_FILE}";
-		};
 		7EFAE91716EBC8ED00F4DA72 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

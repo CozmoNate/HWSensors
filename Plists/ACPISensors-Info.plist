@@ -17,7 +17,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>254</string>
+	<string>HWSENSORS_REVISION</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>ACPI Customizable Monitoring Plugin</key>

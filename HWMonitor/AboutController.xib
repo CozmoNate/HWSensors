@@ -52,7 +52,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="639894023">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSScrollView" id="941618259">
@@ -80,6 +80,7 @@
 													</set>
 													<string key="NSFrame">{{20, 21}, {200, 200}}</string>
 													<reference key="NSSuperview" ref="394062429"/>
+													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="648718847"/>
 													<string key="NSReuseIdentifierKey">_NS:9</string>
 													<bool key="NSEnabled">YES</bool>
@@ -104,6 +105,7 @@
 													<int key="NSvFlags">268</int>
 													<string key="NSFrame">{{240, 197}, {243, 29}}</string>
 													<reference key="NSSuperview" ref="394062429"/>
+													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="501639378"/>
 													<string key="NSReuseIdentifierKey">_NS:1535</string>
 													<bool key="NSEnabled">YES</bool>
@@ -139,6 +141,7 @@
 													<int key="NSvFlags">268</int>
 													<string key="NSFrame">{{240, 173}, {243, 16}}</string>
 													<reference key="NSSuperview" ref="394062429"/>
+													<reference key="NSWindow"/>
 													<string key="NSReuseIdentifierKey">_NS:1535</string>
 													<bool key="NSEnabled">YES</bool>
 													<object class="NSTextFieldCell" key="NSCell" id="919280585">
@@ -168,6 +171,7 @@
 													<int key="NSvFlags">268</int>
 													<string key="NSFrame">{{240, 20}, {243, 22}}</string>
 													<reference key="NSSuperview" ref="394062429"/>
+													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="343671159"/>
 													<string key="NSReuseIdentifierKey">_NS:9</string>
 													<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -195,12 +199,14 @@
 											</array>
 											<string key="NSFrameSize">{500, 256}</string>
 											<reference key="NSSuperview" ref="1038130610"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="849629352"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 										</object>
 									</array>
 									<string key="NSFrame">{{1, 1}, {500, 256}}</string>
 									<reference key="NSSuperview" ref="941618259"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="394062429"/>
 									<string key="NSReuseIdentifierKey">_NS:11</string>
 									<reference key="NSDocView" ref="394062429"/>
@@ -216,6 +222,7 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {15, 275}}</string>
 									<reference key="NSSuperview" ref="941618259"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="388319100"/>
 									<string key="NSReuseIdentifierKey">_NS:15</string>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -229,6 +236,7 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {465, 15}}</string>
 									<reference key="NSSuperview" ref="941618259"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="1038130610"/>
 									<string key="NSReuseIdentifierKey">_NS:26</string>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -240,6 +248,7 @@
 							</array>
 							<string key="NSFrame">{{-1, 46}, {502, 258}}</string>
 							<reference key="NSSuperview" ref="639894023"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="1038130610"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133122</int>
@@ -255,6 +264,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{415, 8}, {75, 28}}</string>
 							<reference key="NSSuperview" ref="639894023"/>
+							<reference key="NSWindow"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="407194907">
@@ -287,6 +297,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{10, 8}, {147, 28}}</string>
 							<reference key="NSSuperview" ref="639894023"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="25699609"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -308,6 +319,8 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{500, 286}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="941618259"/>
 					<string key="NSReuseIdentifierKey">_NS:20</string>
 				</object>
@@ -1138,21 +1151,16 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="appVersionTextField">NSTextField</string>
-						<string key="copyrightTextField">NSTextField</string>
-						<string key="projectVersionTextField">NSTextField</string>
+						<string key="copyrightField">NSTextField</string>
+						<string key="versionField">NSTextField</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="appVersionTextField">
-							<string key="name">appVersionTextField</string>
+						<object class="IBToOneOutletInfo" key="copyrightField">
+							<string key="name">copyrightField</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="copyrightTextField">
-							<string key="name">copyrightTextField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="projectVersionTextField">
-							<string key="name">projectVersionTextField</string>
+						<object class="IBToOneOutletInfo" key="versionField">
+							<string key="name">versionField</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
 					</dictionary>
@@ -1181,7 +1189,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">hwsensors</string>
-			<string key="NS.object.0">{1024, 1024}</string>
+			<string key="NS.object.0">{512, 512}</string>
 		</object>
 		<bool key="IBDocument.UseAutolayout">YES</bool>
 	</data>
