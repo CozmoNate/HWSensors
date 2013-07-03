@@ -332,6 +332,89 @@
 				</dict>
 				<key>MSI</key>
 				<dict>
+					<key>Z77A-G45 (MS-7752)</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>CPUFan</string>
+						<key>FANIN1</key>
+						<string>SystemFan1</string>
+						<key>FANIN2</key>
+						<string>SystemFan2</string>
+						<key>TEMPIN0</key>
+						<string>CPU</string>
+						<key>TEMPIN2</key>
+						<string>System</string>
+						<key>VIN0</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Main 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN1</key>
+						<string>CPU</string>
+						<key>VIN3</key>
+						<dict>
+							<key>gain</key>
+							<integer>4300</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<string>0</string>
+						</dict>
+						<key>VIN4</key>
+						<dict>
+							<key>gain</key>
+							<integer>10000</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Memory</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN6</key>
+						<string>CPU I/O</string>
+						<key>VIN7</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Auxiliary 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>CMOS Battery</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+					</dict>
 					<key>B75MA-P45 (MS-7798)</key>
 					<dict>
 						<key>FANIN0</key>
