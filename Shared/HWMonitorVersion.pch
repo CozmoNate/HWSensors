@@ -10,6 +10,6 @@
 #define HWMonitor_HWMonitorVersion_h
 
 #include "version.h"
-#import "HWSensorsVersion.pch"
+#include "HWSensorsVersion.pch"
 
 #endif

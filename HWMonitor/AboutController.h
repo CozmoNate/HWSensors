@@ -10,9 +10,8 @@
 
 @interface AboutController : NSWindowController
 
-@property (assign) IBOutlet NSTextField *appVersionTextField;
-@property (assign) IBOutlet NSTextField *projectVersionTextField;
-@property (assign) IBOutlet NSTextField *copyrightTextField;
+@property (assign) IBOutlet NSTextField *versionField;
+@property (assign) IBOutlet NSTextField *copyrightField;
 
 - (IBAction)showCredits:(id)sender;
 - (IBAction)openGitHubLink:(id)sender;

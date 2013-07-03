@@ -105,7 +105,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\necho \"#define GIT_VERSION $version\" > ${PROJECT_DIR}/Shared/version.h";
+			shellScript = "#!/bin/sh\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\necho \"#define HWSENSORS_VERSION ${VERSIONNUM}\" > ${PROJECT_DIR}/Shared/version.h";
 		};
 		7EB7E72117834E630071B3F0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -118,7 +118,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\ngit tag -a ${VERSIONNUM} -m 'HWSensors v${VERSIONNUM}'";
+			shellScript = "#!/bin/sh\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\ngit tag -a ${VERSIONNUM} -m 'HWSensors v${VERSIONNUM}'\ngit push --tags";
 		};
 /* End PBXShellScriptBuildPhase section */
 

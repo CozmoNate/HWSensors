@@ -29,12 +29,10 @@
 {
     [super windowDidLoad];
     
-    [_appVersionTextField setStringValue:[NSString stringWithFormat:@"Version %@ (%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]];
-
-    [_projectVersionTextField setStringValue:[NSString stringWithFormat:@"HWSensors v%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"HWSensorsVersion"]]];
+    [self.versionField setStringValue:[NSString stringWithFormat:@"Version %@ (%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]];
     
     //[_creditsTextField readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"]];
-    [_copyrightTextField setStringValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
+    [self.copyrightField setStringValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
 }
 
 -(void)showWindow:(id)sender
