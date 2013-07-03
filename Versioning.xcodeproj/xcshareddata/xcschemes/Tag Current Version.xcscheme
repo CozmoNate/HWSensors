@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7EB7E71D17834E470071B3F0"
-               BuildableName = "Tag Current Project Version"
-               BlueprintName = "Tag Current Project Version"
+               BuildableName = "Tag Current Version"
+               BlueprintName = "Tag Current Version"
                ReferencedContainer = "container:Versioning.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
