@@ -140,6 +140,7 @@
 															<string key="NSFrame">{{180, 10}, {15, 15}}</string>
 															<reference key="NSSuperview" ref="792413177"/>
 															<reference key="NSWindow"/>
+															<reference key="NSNextKeyView"/>
 															<bool key="NSViewIsLayerTreeHost">YES</bool>
 															<object class="NSShadow" key="NSViewShadow">
 																<double key="NSShadowBlurRadius">1</double>
@@ -189,6 +190,7 @@
 															<string key="NSFrame">{{201, 10}, {15, 15}}</string>
 															<reference key="NSSuperview" ref="792413177"/>
 															<reference key="NSWindow"/>
+															<reference key="NSNextKeyView"/>
 															<bool key="NSViewIsLayerTreeHost">YES</bool>
 															<object class="NSShadow" key="NSViewShadow">
 																<double key="NSShadowBlurRadius">1</double>
@@ -409,6 +411,7 @@
 															<string key="NSFrame">{{0, 234}, {35, 15}}</string>
 															<reference key="NSSuperview" ref="228041017"/>
 															<reference key="NSWindow"/>
+															<reference key="NSNextKeyView"/>
 															<string key="NSReuseIdentifierKey">_NS:60</string>
 															<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 															<int key="NSsFlags">1</int>
@@ -437,7 +440,7 @@
 											<string key="NSFrameSize">{228, 281}</string>
 											<reference key="NSSuperview" ref="367084079"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="893916998"/>
+											<reference key="NSNextKeyView" ref="792413177"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 										</object>
 									</array>
@@ -482,7 +485,7 @@
 							<string key="NSFrame">{{1, 5}, {228, 281}}</string>
 							<reference key="NSSuperview" ref="101117346"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="367084079"/>
+							<reference key="NSNextKeyView" ref="893916998"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133120</int>
 							<reference key="NSVScroller" ref="893916998"/>
@@ -678,6 +681,14 @@
 						<reference key="destination" ref="584974758"/>
 					</object>
 					<int key="connectionID">681</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">dividerView</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="61274319"/>
+					</object>
+					<int key="connectionID">905</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2559,6 +2570,7 @@
 							</object>
 						</array>
 						<reference key="parent" ref="436118374"/>
+						<string key="objectName">Divider</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">778</int>
@@ -2956,7 +2968,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">904</int>
+			<int key="maxID">905</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3058,6 +3070,7 @@
 						<string key="aboutController">NSWindowController</string>
 						<string key="appController">NSWindowController</string>
 						<string key="delegate">id</string>
+						<string key="dividerView">NSImageView</string>
 						<string key="graphsController">NSWindowController</string>
 						<string key="popupView">PopupView</string>
 						<string key="tableView">NSTableView</string>
@@ -3075,6 +3088,10 @@
 						<object class="IBToOneOutletInfo" key="delegate">
 							<string key="name">delegate</string>
 							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="dividerView">
+							<string key="name">dividerView</string>
+							<string key="candidateClassName">NSImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="graphsController">
 							<string key="name">graphsController</string>

@@ -46,6 +46,7 @@
 
 @property (assign) IBOutlet PopupView *popupView;
 @property (assign) IBOutlet NSTableView *tableView;
+@property (assign) IBOutlet NSImageView *dividerView;
 
 @property (assign) IBOutlet NSWindowController *appController;
 @property (assign) IBOutlet NSWindowController *graphsController;

@@ -24,6 +24,7 @@
 		7E2042011730844C00C13B65 /* GraphsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042001730844C00C13B65 /* GraphsController.xib */; };
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
 		7E2042051730D04100C13B65 /* AppController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* AppController.xib */; };
+		7E2BC0AD1784C8BB00B4282A /* dark_divider.tif in Resources */ = {isa = PBXBuildFile; fileRef = 7E2BC0AC1784C8BB00B4282A /* dark_divider.tif */; };
 		7E44D95E1710433A00D06387 /* WindowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E44D95D1710433A00D06387 /* WindowFilter.m */; };
 		7E7C70AE1703019D004E344D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
@@ -144,6 +145,8 @@
 		7E2042001730844C00C13B65 /* GraphsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphsController.xib; sourceTree = "<group>"; };
 		7E2042021730CDA000C13B65 /* PopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupController.xib; sourceTree = "<group>"; };
 		7E2042041730D04000C13B65 /* AppController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppController.xib; sourceTree = "<group>"; };
+		7E2BC0AB1784C80B00B4282A /* dark_divider.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = dark_divider.psd; sourceTree = "<group>"; };
+		7E2BC0AC1784C8BB00B4282A /* dark_divider.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = dark_divider.tif; sourceTree = "<group>"; };
 		7E44D95C1710433A00D06387 /* WindowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowFilter.h; sourceTree = "<group>"; };
 		7E44D95D1710433A00D06387 /* WindowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowFilter.m; sourceTree = "<group>"; };
 		7E4CD74B1737574C002586D2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -424,6 +427,7 @@
 			isa = PBXGroup;
 			children = (
 				7EC8086F1778C1DD00A334E2 /* divider.tif */,
+				7E2BC0AC1784C8BB00B4282A /* dark_divider.tif */,
 				7EA2493516D8E9CE002231B2 /* default.icns */,
 				7EDEA332173E3B94003ADE86 /* hwsensors.icns */,
 				7EA2490B16D8E9C6002231B2 /* frequencies_template.png */,
@@ -580,6 +584,7 @@
 		7EDEA334173E3BEF003ADE86 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				7E2BC0AB1784C80B00B4282A /* dark_divider.psd */,
 				7EBFC7361778D2D8000AB283 /* divider.psd */,
 				7EDEA331173E3B83003ADE86 /* hwsensors.psd */,
 				7EA32A4D173EB059002C93C1 /* hwmonitor.psd */,
@@ -799,6 +804,7 @@
 				7EED6D7E1734F9CF00248870 /* 19-gear@2x.png in Resources */,
 				7EDEA333173E3B94003ADE86 /* hwsensors.icns in Resources */,
 				7EC808701778C1DD00A334E2 /* divider.tif in Resources */,
+				7E2BC0AD1784C8BB00B4282A /* dark_divider.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

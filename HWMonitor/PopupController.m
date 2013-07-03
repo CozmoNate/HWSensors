@@ -34,6 +34,7 @@
     _colorTheme = colorTheme;
     
     [_popupView setColorTheme:colorTheme];
+    [_dividerView setImage:[NSImage imageNamed:colorTheme.useDarkIcons ? @"dark_divider" : @"divider"]];
     [_tableView reloadData];
 }
 

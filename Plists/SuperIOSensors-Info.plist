@@ -343,7 +343,7 @@
 						<key>TEMPIN0</key>
 						<string>CPU</string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>PCH</string>
 						<key>VIN0</key>
 						<dict>
 							<key>gain</key>
@@ -391,7 +391,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN6</key>
-						<string>CPU I/O</string>
+						<string>CPU VRM Supply</string>
 						<key>VIN7</key>
 						<dict>
 							<key>gain</key>
