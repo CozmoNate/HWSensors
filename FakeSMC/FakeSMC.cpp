@@ -4,7 +4,6 @@
 #include "FakeSMCDefinitions.h"
 
 #include "OEMInfo.h"
-#include "HWSensorsVersion.pch"
 
 #include <IOKit/IODeviceTreeSupport.h>
 

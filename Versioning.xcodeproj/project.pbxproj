@@ -43,6 +43,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXFileReference section */
+		7E2F25171783EAE800C86586 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
+		7E2F25181783EAE800C86586 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWSensorsVersion.pch; path = Shared/HWSensorsVersion.pch; sourceTree = "<group>"; };
+		7E2F25191783EAE800C86586 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7EB7E71C17834BF10071B3F0 /* version.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -50,6 +53,9 @@
 		7EB7E70917834A740071B3F0 = {
 			isa = PBXGroup;
 			children = (
+				7E2F25181783EAE800C86586 /* HWSensorsVersion.pch */,
+				7E2F25171783EAE800C86586 /* HWMonitorVersion.pch */,
+				7E2F25191783EAE800C86586 /* version.h */,
 				7EB7E71C17834BF10071B3F0 /* version.plist */,
 			);
 			sourceTree = "<group>";
@@ -92,7 +98,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# 2013 (c) sekati\n# https://gist.github.com/sekati/3172554\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :'Project Version' $NEWVERSIONSTRING\" \"${PROJECT_DIR}/version.plist\"";
+			shellScript = "#!/bin/sh\n\n# 2013 (c) sekati\n# https://gist.github.com/sekati/3172554\n# xcode-version-bump.sh\n# @desc Auto-increment the version number (only) when a project is archived for export.\n# @usage\n# 1. Select: your Target in Xcode\n# 2. Select: Build Phases Tab\n# 3. Select: Add Build Phase -> Add Run Script\n# 4. Paste code below in to new \"Run Script\" section\n# 5. Check the checkbox \"Run script only when installing\"\n# 6. Drag the \"Run Script\" below \"Link Binaries With Libraries\"\n# 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)\n\n# This splits a two-decimal version string, such as \"0.45.123\", allowing us to increment the third position.\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n#NEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $3}'`\nNEWSUBVERSION=`echo $VERSIONNUM | awk -F \".\" '{print $2}'`\nNEWSUBVERSION=$(($NEWSUBVERSION + 1))\n#NEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".\" $2 \".'$NEWSUBVERSION'\" }'`\nNEWVERSIONSTRING=`echo $VERSIONNUM | awk -F \".\" '{print $1 \".'$NEWSUBVERSION'\" }'`\n/usr/libexec/PlistBuddy -c \"Set :'Project Version' $NEWVERSIONSTRING\" \"${PROJECT_DIR}/version.plist\"";
 		};
 		7EB7E71B17834B660071B3F0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -105,7 +111,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\necho \"#define HWSENSORS_VERSION ${VERSIONNUM}\" > ${PROJECT_DIR}/Shared/version.h";
+			shellScript = "#!/bin/bash\n\nversion_file=\"${PROJECT_DIR}/Shared/version.h\"\nproject_name=$(/usr/libexec/PlistBuddy -c \"Print 'Project Name'\" \"${PROJECT_DIR}/version.plist\")\nuppercased_name=$(echo $project_name | tr [[:lower:]] [[:upper:]])\nproject_version=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\n\ngit_revision=$(git rev-list --count HEAD)\ngit_postfix=$(git describe)\n\necho \"\" > ${version_file}\necho \"#define ${uppercased_name}_REVISION ${git_revision}\" >> ${version_file}\necho \"\" >> ${version_file}\necho \"#define ${uppercased_name}_VERSION ${project_version}.${git_revision}\" >> ${version_file}\necho \"\" >> ${version_file}";
 		};
 		7EB7E72117834E630071B3F0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -118,7 +124,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nVERSIONNUM=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\ngit tag -a ${VERSIONNUM} -m 'HWSensors v${VERSIONNUM}'\ngit push --tags";
+			shellScript = "#!/bin/sh\n\nproject_name=$(/usr/libexec/PlistBuddy -c \"Print 'Project Name'\" \"${PROJECT_DIR}/version.plist\")\nproject_version=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\n\ngit_revision=$(git rev-list --count HEAD)\nfull_version='${project_version}.${git_revision}'\n\ngit tag -a ${full_version} -m '${project_name} v${full_version}'\ngit push --tags";
 		};
 /* End PBXShellScriptBuildPhase section */
 
