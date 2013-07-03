@@ -2281,6 +2281,63 @@
 			<dict>
 				<key>ASRock</key>
 				<dict>
+					<key>H77M-ITX</key>
+                    <dict>
+                        <key>FANIN0</key>
+                        <string>Chassis Fan</string>
+                        <key>FANIN1</key>
+                        <string>CPUFan</string>
+                        <key>TEMPIN0</key>
+                        <string>System</string>
+                        <key>TEMPIN1</key>
+                        <string>CPU</string>
+                        <key>TEMPIN2</key>
+                        <string></string>
+                        <key>TEMPIN3</key>
+                        <string></string>
+                        <key>TEMPIN4</key>
+                        <string>PCH</string>
+                        <key>TEMPIN5</key>
+                        <string></string>
+                        <key>TEMPIN6</key>
+                        <string></string>
+                        <key>TEMPIN7</key>
+                        <string></string>
+                        <key>VIN0</key>
+                        <string>CPU</string>
+                        <key>VIN1</key>
+                        <string></string>
+                        <key>VIN2</key>
+                        <string>CMOS Battery</string>
+                        <key>VIN3</key>
+                        <string>Main 3V</string>
+                        <key>VIN4</key>
+                        <string></string>
+                        <key>VIN5</key>
+                        <dict>
+                            <key>name</key>
+                            <string>Main 5V</string>
+                            <key>gain</key>
+                            <integer>2000</integer>
+                            <key>offset</key>
+                            <integer>0</integer>
+                            <key>reference</key>
+                            <integer>0</integer>
+                        </dict>
+                        <key>VIN6</key>
+                        <dict>
+                            <key>name</key>
+                            <string>Main 12V</string>
+                            <key>gain</key>
+                            <integer>5600</integer>
+                            <key>offset</key>
+                            <integer>0</integer>
+                            <key>reference</key>
+                            <integer>0</integer>
+                        </dict>
+                        <key>VIN7</key>
+                        <string>Auxiliary 3V</string>
+                    </dict>
 					<key>P67 Pro3</key>
 					<dict>
 						<key>FANIN1</key>
