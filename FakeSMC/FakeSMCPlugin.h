@@ -53,12 +53,14 @@ const struct FakeSMCSensorParams FakeSMCTemperature[FakeSMCTemperatureCount] =
     {"Ambient", KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
 };
 
-#define FakeSMCVoltageCount 42
+#define FakeSMCVoltageCount 44
 
 const struct FakeSMCSensorParams FakeSMCVoltage[FakeSMCVoltageCount] =
 {
     {"CPU", KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
     {"CPU Vcore", KEY_CPU_VCORE_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
+    {"CPU VTT", KEY_CPU_VTT_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
+    {"PCH", KEY_PCH_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
     {"Memory", KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
     {"Main 12V", KEY_MAIN_12V_VOLTAGE, TYPE_SP4B, TYPE_SPXX_SIZE},
     {"PCIe 12V", KEY_PCIE_12V_VOLTAGE, TYPE_SP4B, TYPE_SPXX_SIZE},

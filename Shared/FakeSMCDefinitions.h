@@ -80,6 +80,7 @@
 #define KEY_CPU_1V8_S0_VOLTAGE                  "VC8R" // CPU 1.8V S0
 #define KEY_CPU_VRMSUPPLY_VOLTAGE               "VS0C" // Power Supply X
 #define KEY_FORMAT_CPU_VRMSUPPLY_VOLTAGE        "VS%XC" // Power Supply X
+#define KEY_CPU_VTT_VOLTAGE                     "VV1R" //
 
 // GPU
 #define KEY_GPU_VOLTAGE                         "VC0G" // GPU 0 Core
@@ -89,6 +90,8 @@
 #define KEY_NORTHBRIDGE_VOLTAGE                 "VN0R"  
 #define KEY_MCH_VOLTAGE                         "VN1C"
 #define KEY_POWERBATTERY_VOLTAGE                "Vb0R" // CMOS Battery
+
+#define KEY_PCH_VOLTAGE                         "VN1R"
 
 #define KEY_MAIN_12V_VOLTAGE                    "VV9S"
 #define KEY_PCIE_12V_VOLTAGE                    "VeES"

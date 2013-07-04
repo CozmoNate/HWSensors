@@ -19,10 +19,10 @@
     
     // Set-up code here.
     
-    _name = @"VMAS";
-    _type = @"sp78";
+    _name = @"VV1R";
+    _type = @"sp1e";
     
-    UInt16 data = OSSwapHostToBigInt16(0x0187); // Big Endian
+    UInt16 data = OSSwapHostToBigInt16(0x438c); // Big Endian
     
     _data = [NSData dataWithBytes:&data length:2];
 }
@@ -201,14 +201,16 @@
 {
     NSMutableDictionary *list = [NSMutableDictionary new];
     
-    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupTemperature] forKey:@"Temperatures"];
-    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupMultiplier] forKey:@"Multiplier"];
-    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupFrequency] forKey:@"Frequency"];
-    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupVoltage] forKey:@"Voltage"];
-    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupCurrent] forKey:@"Current"];
-    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupPower] forKey:@"Power"];
+//    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupTemperature] forKey:@"Temperatures"];
+//    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupMultiplier] forKey:@"Multiplier"];
+//    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupFrequency] forKey:@"Frequency"];
+//    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupVoltage] forKey:@"Voltage"];
+//    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupCurrent] forKey:@"Current"];
+//    [list setObject:[self addSensorsFromSMCKeyGroup:kSMCKeyGroupPower] forKey:@"Power"];
     
     //[list writeToFile:@"/Users/kozlek/Documents/HWSensors/SMCKeyS.plist" atomically:YES];
+    
+    NSLog(@"%f", [self decodeNumericValue]);
     
 }
 

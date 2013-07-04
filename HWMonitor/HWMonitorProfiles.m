@@ -105,6 +105,8 @@
              // Voltages
              [NSArray arrayWithObjects:@"VC0C",       @"CPU Core", nil],
              [NSArray arrayWithObjects:@"VC:A4AC",    @"CPU %X", nil],
+             [NSArray arrayWithObjects:@"VV1R",       @"CPU VTT", nil],
+             [NSArray arrayWithObjects:@"VN1R",       @"PCH Core", nil],
              [NSArray arrayWithObjects:@"VM0R",       @"Memory Modules", nil],
              [NSArray arrayWithObjects:@"VN0C",       @"MCH Core", nil],
              [NSArray arrayWithObjects:@"VV2S",       @"Main 3.3V", nil],
@@ -115,7 +117,6 @@
              [NSArray arrayWithObjects:@"VeES",       @"PCIe 12V", nil],
              [NSArray arrayWithObjects:@"VP0R",       @"+12V Rail", nil],
              [NSArray arrayWithObjects:@"Vp0C",       @"12V Vcc", nil],
-             [NSArray arrayWithObjects:@"VV1R",       @"Power Supply 12V", nil],
              [NSArray arrayWithObjects:@"VD0R",       @"Mainboard S0 Rail", nil],
              [NSArray arrayWithObjects:@"VD5R",       @"Mainboard S5 Rail", nil],
              [NSArray arrayWithObjects:@"Vb0R",       @"CMOS Battery", nil],
