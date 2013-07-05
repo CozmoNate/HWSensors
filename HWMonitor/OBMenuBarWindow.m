@@ -860,14 +860,22 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     }
     
     // Fill the titlebar with the base colour
-    [bottomColor set];
-    NSRectFill(titleBarRect);
+    [[NSColor clearColor] set];
+    NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
+    
+    [[[NSGradient alloc] initWithColorsAndLocations:
+      bottomColor,                              0.0,
+      [bottomColor highlightWithLevel:0.10],     window.attachedToMenuBar ? 0.6 : 0.5,
+      bottomColor,                              window.attachedToMenuBar ? 0.6 : 0.5,
+      [bottomColor highlightWithLevel:0.05],    1.0,
+      nil] drawInRect:window.attachedToMenuBar ? titleBarRect : headingRect angle:270];
+    
     
     // Draw some subtle noise to the titlebar if the window is the key window
     if ([window isKeyWindow])
     {
         [[NSColor colorWithPatternImage:[window noiseImage]] set];
-        NSRectFillUsingOperation(headingRect, NSCompositeSourceOver);
+        NSRectFillUsingOperation(window.attachedToMenuBar ? titleBarRect : headingRect, NSCompositeSourceOver);
     }
     
     // Draw the highlight
