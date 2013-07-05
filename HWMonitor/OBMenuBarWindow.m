@@ -860,15 +860,21 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     }
     
     // Fill the titlebar with the base colour
-    [[NSColor clearColor] set];
-    NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
-    
-    [[[NSGradient alloc] initWithColorsAndLocations:
-      bottomColor,                              0.0,
-      [bottomColor highlightWithLevel:0.10],     window.attachedToMenuBar ? 0.6 : 0.5,
-      bottomColor,                              window.attachedToMenuBar ? 0.6 : 0.5,
-      [bottomColor highlightWithLevel:0.05],    1.0,
-      nil] drawInRect:window.attachedToMenuBar ? titleBarRect : headingRect angle:270];
+    if ([window isKeyWindow] || window.attachedToMenuBar)
+    {
+        [[NSColor clearColor] set];
+        NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
+        [[[NSGradient alloc] initWithColorsAndLocations:
+          bottomColor,                              0.0,
+          [bottomColor highlightWithLevel:0.10],     window.attachedToMenuBar ? 0.6 : 0.5,
+          bottomColor,                              window.attachedToMenuBar ? 0.6 : 0.5,
+          [bottomColor highlightWithLevel:0.05],    1.0,
+          nil] drawInRect:window.attachedToMenuBar ? titleBarRect : headingRect angle:270];
+    }
+    else {
+        [bottomColor set];
+        NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
+    }
     
     
     // Draw some subtle noise to the titlebar if the window is the key window
@@ -907,7 +913,12 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     }
     [highlightPath lineToPoint:topRight];
     //[window.colorTheme.listStrokeColor set];
-    [[NSColor colorWithCalibratedWhite:1.0 alpha:1.0] set];
+    if (window.colorTheme) {
+        [[window.colorTheme.toolbarShadowColor highlightWithLevel:0.5] set];
+    }
+    else {
+        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] set];
+    }
     [highlightPath setLineWidth:1.0];
     [border addClip];
     [highlightPath stroke];
