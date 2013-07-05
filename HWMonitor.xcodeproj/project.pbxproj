@@ -26,6 +26,7 @@
 		7E2042051730D04100C13B65 /* AppController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* AppController.xib */; };
 		7E2BC0AD1784C8BB00B4282A /* dark_divider.tif in Resources */ = {isa = PBXBuildFile; fileRef = 7E2BC0AC1784C8BB00B4282A /* dark_divider.tif */; };
 		7E44D95E1710433A00D06387 /* WindowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E44D95D1710433A00D06387 /* WindowFilter.m */; };
+		7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */; };
 		7E7C70AE1703019D004E344D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
 		7E9060E51708951800BF5BBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248F016D8E93A002231B2 /* Foundation.framework */; };
@@ -79,10 +80,8 @@
 		7EDA1A6616D8F0F90012A0DC /* BundleUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A6516D8F0F90012A0DC /* BundleUserDefaults.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7EDA1A6A16D8F1700012A0DC /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A6916D8F1700012A0DC /* HWMonitorIcon.m */; };
 		7EDA1A6D16D901100012A0DC /* PopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A6C16D901100012A0DC /* PopupController.m */; };
-		7EDA1A7016D9016B0012A0DC /* PopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A6F16D9016B0012A0DC /* PopupView.m */; };
 		7EDA1A7816D903740012A0DC /* GroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A7416D903740012A0DC /* GroupCell.m */; };
 		7EDA1A7916D903740012A0DC /* SensorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A7616D903740012A0DC /* SensorCell.m */; };
-		7EDA1A7E16D91B9B0012A0DC /* PopupPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A7D16D91B9B0012A0DC /* PopupPanel.m */; };
 		7EDA1AA916D936410012A0DC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EDA1AAB16D936410012A0DC /* Localizable.strings */; };
 		7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1ACA16D956EA0012A0DC /* GraphsView.m */; };
 		7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1AD016DA83AF0012A0DC /* GraphsController.m */; };
@@ -151,6 +150,8 @@
 		7E44D95D1710433A00D06387 /* WindowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowFilter.m; sourceTree = "<group>"; };
 		7E4CD74B1737574C002586D2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E7705A51734222100EBDB23 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7E7B9B3D1786A732003ACB61 /* OBMenuBarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBMenuBarWindow.h; sourceTree = "<group>"; };
+		7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBMenuBarWindow.m; sourceTree = "<group>"; };
 		7E7D61F91704453B00F7222F /* FadingButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadingButton.h; sourceTree = "<group>"; };
 		7E7D61FA1704453B00F7222F /* FadingButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadingButton.m; sourceTree = "<group>"; };
 		7E9060E41708951800BF5BBF /* smcutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = smcutil; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -229,14 +230,10 @@
 		7EDA1A6916D8F1700012A0DC /* HWMonitorIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorIcon.m; sourceTree = "<group>"; };
 		7EDA1A6B16D901100012A0DC /* PopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupController.h; sourceTree = "<group>"; };
 		7EDA1A6C16D901100012A0DC /* PopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupController.m; sourceTree = "<group>"; };
-		7EDA1A6E16D9016B0012A0DC /* PopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupView.h; sourceTree = "<group>"; };
-		7EDA1A6F16D9016B0012A0DC /* PopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupView.m; sourceTree = "<group>"; };
 		7EDA1A7316D903740012A0DC /* GroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupCell.h; sourceTree = "<group>"; };
 		7EDA1A7416D903740012A0DC /* GroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupCell.m; sourceTree = "<group>"; };
 		7EDA1A7516D903740012A0DC /* SensorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorCell.h; sourceTree = "<group>"; };
 		7EDA1A7616D903740012A0DC /* SensorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorCell.m; sourceTree = "<group>"; };
-		7EDA1A7C16D91B9B0012A0DC /* PopupPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupPanel.h; sourceTree = "<group>"; };
-		7EDA1A7D16D91B9B0012A0DC /* PopupPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupPanel.m; sourceTree = "<group>"; };
 		7EDA1AAA16D936410012A0DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7EDA1AAC16D936620012A0DC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7EDA1AC916D956E90012A0DC /* GraphsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphsView.h; sourceTree = "<group>"; };
@@ -525,6 +522,8 @@
 				7E39415716DBEA13005A685D /* Cells */,
 				7E44D95C1710433A00D06387 /* WindowFilter.h */,
 				7E44D95D1710433A00D06387 /* WindowFilter.m */,
+				7E7B9B3D1786A732003ACB61 /* OBMenuBarWindow.h */,
+				7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */,
 				7E16893416EA106D00BBF6FC /* ArrowlessScroller.h */,
 				7E16893516EA106D00BBF6FC /* ArrowlessScroller.m */,
 				7E17073E1705696F0019173D /* OverlapingScrollView.h */,
@@ -537,10 +536,6 @@
 				7E7D61FA1704453B00F7222F /* FadingButton.m */,
 				7EA2494B16D8EB2D002231B2 /* StatusItemView.h */,
 				7EA2494C16D8EB2D002231B2 /* StatusItemView.m */,
-				7EDA1A7C16D91B9B0012A0DC /* PopupPanel.h */,
-				7EDA1A7D16D91B9B0012A0DC /* PopupPanel.m */,
-				7EDA1A6E16D9016B0012A0DC /* PopupView.h */,
-				7EDA1A6F16D9016B0012A0DC /* PopupView.m */,
 				7EDA1AC916D956E90012A0DC /* GraphsView.h */,
 				7EDA1ACA16D956EA0012A0DC /* GraphsView.m */,
 			);
@@ -861,10 +856,8 @@
 				7EDA1A6616D8F0F90012A0DC /* BundleUserDefaults.m in Sources */,
 				7EDA1A6A16D8F1700012A0DC /* HWMonitorIcon.m in Sources */,
 				7EDA1A6D16D901100012A0DC /* PopupController.m in Sources */,
-				7EDA1A7016D9016B0012A0DC /* PopupView.m in Sources */,
 				7EDA1A7816D903740012A0DC /* GroupCell.m in Sources */,
 				7EDA1A7916D903740012A0DC /* SensorCell.m in Sources */,
-				7EDA1A7E16D91B9B0012A0DC /* PopupPanel.m in Sources */,
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
@@ -884,6 +877,7 @@
 				7E16FD8A1706BB3000FB253E /* TransparentSplitView.m in Sources */,
 				7E44D95E1710433A00D06387 /* WindowFilter.m in Sources */,
 				7EF2A0F61730379C00D8641C /* AboutController.m in Sources */,
+				7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

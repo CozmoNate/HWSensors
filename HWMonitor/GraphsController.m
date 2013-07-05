@@ -33,7 +33,7 @@
 #import "HWMonitorGroup.h"
 #import "GraphsView.h"
 #import "GraphsSensorCell.h"
-#import "WindowFilter.h"
+//#import "WindowFilter.h"
 
 #import "HWMonitorDefinitions.h"
 
@@ -142,9 +142,9 @@
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
     
-    if (!_windowFilter) {
-        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.25] forKey:@"inputRadius"]];
-    }
+//    if (!_windowFilter) {
+//        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.25] forKey:@"inputRadius"]];
+//    }
 }
 
 -(void)addGraphForSensorGroup:(HWSensorGroup)sensorsGroup fromGroupsList:(NSArray*)groupsList withTitle:(NSString*)title

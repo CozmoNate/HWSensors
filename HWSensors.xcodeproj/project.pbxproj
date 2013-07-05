@@ -134,7 +134,6 @@
 		7E5CFA2216988EBE00F0E9AD /* i2c_algo_bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_algo_bit.h; sourceTree = "<group>"; };
 		7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_base.cpp; sourceTree = "<group>"; };
 		7E5CFA2416988EBE00F0E9AD /* i2c_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_base.h; sourceTree = "<group>"; };
-		7E78628E1632F0B7001984B9 /* fakesmc.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = fakesmc.txt; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81F15BA99350079AAE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7E79B82115BA99350079AAE8 /* CPUSensors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPUSensors.h; sourceTree = "<group>"; };
@@ -201,7 +200,6 @@
 		7EB13666169C288000B42023 /* radeon_atombios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon_atombios.h; sourceTree = "<group>"; };
 		7EB1366A169C2CE700B42023 /* atom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atom.cpp; sourceTree = "<group>"; };
 		7EB1366B169C2CE700B42023 /* atom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atom.h; sourceTree = "<group>"; };
-		7EB692E715C99A2E0009B2E2 /* gpl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = gpl.txt; sourceTree = "<group>"; };
 		7EB7E70017833A290071B3F0 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.pch; sourceTree = "<group>"; };
 		7EB7E70117833ACE0071B3F0 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		7EBB50D915EEAE3C00FEBBB9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
@@ -422,7 +420,6 @@
 				7EBB50D915EEAE3C00FEBBB9 /* README.txt */,
 				7E5CFA1B16988E8A00F0E9AD /* Linux */,
 				7EF31BB716207C6B00E9B055 /* Kernel */,
-				7EB692E615C99A0E0009B2E2 /* Licenses */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -643,15 +640,6 @@
 				1D6FE3FD13FEC03100376E64 /* ACPISensors.cpp */,
 			);
 			name = ACPISensors;
-			sourceTree = "<group>";
-		};
-		7EB692E615C99A0E0009B2E2 /* Licenses */ = {
-			isa = PBXGroup;
-			children = (
-				7E78628E1632F0B7001984B9 /* fakesmc.txt */,
-				7EB692E715C99A2E0009B2E2 /* gpl.txt */,
-			);
-			name = Licenses;
 			sourceTree = "<group>";
 		};
 		7EB7E704178341020071B3F0 /* Versioning */ = {

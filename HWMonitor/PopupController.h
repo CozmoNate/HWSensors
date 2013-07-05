@@ -3,19 +3,10 @@
 //  HWMonitor
 //
 //  Created by kozlek on 23.02.13.
-//  Based on code by Vadim Shpanovski <https://github.com/shpakovski/Popup>
-//  Popup is licensed under the BSD license.
-//  Copyright (c) 2013 Vadim Shpanovski, Natan Zalkin. All rights reserved.
-//
-
-
-#import <Cocoa/Cocoa.h>
+//  
 
 #import "StatusItemView.h"
-#import "PopupView.h"
 #import "ColorTheme.h"
-
-#define kHWMonitorToolbarHeight 37
 
 @protocol PopupControllerDelegate <NSObject>
 @optional
@@ -32,7 +23,6 @@
     BOOL _hasActivePanel;
     NSMutableArray *_items;
     ColorTheme *_colorTheme;
-    WindowFilter *_windowFilter;
 }
 
 @property (assign) IBOutlet id <PopupControllerDelegate> delegate;
@@ -44,9 +34,11 @@
 
 @property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
 
-@property (assign) IBOutlet PopupView *popupView;
-@property (assign) IBOutlet NSTableView *tableView;
+@property (assign) IBOutlet NSView *toolbarView;
 @property (assign) IBOutlet NSImageView *dividerView;
+@property (assign) IBOutlet NSTableView *tableView;
+@property (assign) IBOutlet NSTextField *titleField;
+
 
 @property (assign) IBOutlet NSWindowController *appController;
 @property (assign) IBOutlet NSWindowController *graphsController;

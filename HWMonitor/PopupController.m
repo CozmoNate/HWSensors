@@ -3,60 +3,33 @@
 //  HWMonitor
 //
 //  Created by kozlek on 23.02.13.
-//  Based on code by Vadim Shpanovski <https://github.com/shpakovski/Popup>
-//  Popup is licensed under the BSD license.
-//  Copyright (c) 2013 Vadim Shpanovski, Natan Zalkin. All rights reserved.
-//
+// 
 
 #import "PopupController.h"
 
+#import "Localizer.h"
+
 #import "HWMonitorDefinitions.h"
 #import "HWMonitorGroup.h"
-
 #import "GroupCell.h"
 #import "SensorCell.h"
 #import "BatteryCell.h"
-#import "PopupView.h"
-#import "WindowFilter.h"
-
 #import "UpdatesController.h"
 
-#import "Localizer.h"
-
-#define OPEN_DURATION .01
-#define CLOSE_DURATION .15
-#define MENU_ANIMATION_DURATION .1
+#import "OBMenuBarWindow.h"
 
 @implementation PopupController
+
+@synthesize statusItem = _statusItem;
+@synthesize statusItemView = _statusItemView;
 
 -(void)setColorTheme:(ColorTheme *)colorTheme
 {
     _colorTheme = colorTheme;
     
-    [_popupView setColorTheme:colorTheme];
+    [(OBMenuBarWindow*)self.window setColorTheme:colorTheme];
     [_dividerView setImage:[NSImage imageNamed:colorTheme.useDarkIcons ? @"dark_divider" : @"divider"]];
     [_tableView reloadData];
-}
-
-- (void)setupPanel
-{
-    // Make a fully skinned panel
-    NSPanel *panel = (id)self.window;
-    
-    [panel setAcceptsMouseMovedEvents:YES];
-    [panel setLevel:NSPopUpMenuWindowLevel];
-    [panel setOpaque:NO];
-    [panel setBackgroundColor:[NSColor clearColor]];
-    
-    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
-    [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
-    
-    [Localizer localizeView:self.window];
-}
-
-- (void)awakeFromNib
-{
-    [self resizeToContentAnimated:NO orderFront:NO];
 }
 
 - (id)init
@@ -65,24 +38,25 @@
     
     if (self != nil)
     {
-        // Install status item into the menu bar
         _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
         
-        _statusItemView = [[StatusItemView alloc] initWithFrame:NSMakeRect(0, 0, 20, 20) statusItem:_statusItem];
+        _statusItemView = [[StatusItemView alloc] initWithFrame:NSMakeRect(0, 0, 22, 22) statusItem:_statusItem];
         
         _statusItemView.image = [NSImage imageNamed:@"thermometer"];
         _statusItemView.alternateImage = [NSImage imageNamed:@"thermometer_template"];
         
-        [_statusItem setHighlightMode:YES];
-        
         [_statusItemView setAction:@selector(togglePanel:)];
         [_statusItemView setTarget:self];
         
-        
-        [self performSelector:@selector(setupPanel) withObject:nil afterDelay:0.0];
+        [self performSelector:@selector(initialSetup) withObject:nil afterDelay:0.0];
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
 }
 
 -(void)showWindow:(id)sender
@@ -101,16 +75,16 @@
         }
     }
     
-    [self.window setLevel:NSPopUpMenuWindowLevel];
-    [self.window setAlphaValue:1.0];
+//    [self.window setLevel:NSPopUpMenuWindowLevel];
+//    [self.window setAlphaValue:1.0];
     [self resizeToContentAnimated:NO orderFront:YES];
     
-    if (!_windowFilter) {
-        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
-    }
-    else {
-        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
-    }
+//    if (!_windowFilter) {
+//        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
+//    }
+//    else {
+//        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
+//    }
     
     self.statusItemView.isHighlighted = YES;
     
@@ -128,18 +102,18 @@
         [self.delegate popupWillClose:self];
     }
     
-    if (_windowFilter) {
-        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.0] forKey:@"inputRadius"]];
-    }
+//    if (_windowFilter) {
+//        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.0] forKey:@"inputRadius"]];
+//    }
+
+//    [NSAnimationContext beginGrouping];
+//    [[NSAnimationContext currentContext] setDuration:CLOSE_DURATION];
+//    [self.window.animator setAlphaValue:0];
+//    [NSAnimationContext endGrouping];
     
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:CLOSE_DURATION];
-    [self.window.animator setAlphaValue:0];
-    [NSAnimationContext endGrouping];
-    
-    dispatch_after(dispatch_walltime(NULL, NSEC_PER_SEC * CLOSE_DURATION * 2), dispatch_get_main_queue(), ^{
+    //dispatch_after(dispatch_walltime(NULL, NSEC_PER_SEC * CLOSE_DURATION * 2), dispatch_get_main_queue(), ^{
         [self.window orderOut:nil];
-    });
+    //});
     
     self.statusItemView.isHighlighted = NO;
     
@@ -148,37 +122,43 @@
     }
 }
 
-- (void)dealloc
-{
-    [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
-}
+#pragma mark -
+#pragma mark Events
 
-- (void)windowDidResignKey:(NSNotification *)notification;
+- (void)initialSetup
 {
-    [self close];
-}
-
--(void)windowDidResignMain:(NSNotification *)notification
-{
-    [self close];
-}
-
-- (void)cancelOperation:(id)sender
-{
-    [self close];
-}
-
-//- (void)windowDidResize:(NSNotification *)notification
-//{
-//    NSWindow *panel = [self window];
-//    NSRect statusRect = [self statusRectForWindow:panel];
-//    NSRect panelRect = [panel frame];
+    // Make a fully skinned panel
+//    NSPanel *panel = (id)self.window;
 //    
-//    CGFloat statusX = roundf(NSMidX(statusRect));
-//    CGFloat panelX = statusX - NSMinX(panelRect);
-//    
-//    self.popupView.arrowPosition = panelX;
-//}
+//    [panel setAcceptsMouseMovedEvents:YES];
+//    [panel setLevel:NSPopUpMenuWindowLevel];
+//    [panel setOpaque:NO];
+//    [panel setBackgroundColor:[NSColor clearColor]];
+    
+    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
+    [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
+    
+    [[_titleField cell] setBackgroundStyle:NSBackgroundStyleRaised];
+    
+    // Install status item into the menu bar
+    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+    
+    menubarWindow.statusItemView = _statusItemView;
+    menubarWindow.statusItem = _statusItem;
+    menubarWindow.attachedToMenuBar = YES;
+    
+    menubarWindow.toolbarView = _toolbarView;
+    
+    [menubarWindow setWorksWhenModal:YES];
+    
+    [Localizer localizeView:menubarWindow];
+    [Localizer localizeView:_toolbarView];
+    
+    [self resizeToContentAnimated:NO orderFront:NO];
+}
+
+#pragma mark -
+#pragma mark Methods
 
 - (NSRect)statusRectForWindow:(NSWindow *)window
 {
@@ -202,15 +182,21 @@
 
 -(void)togglePanel:(id)sender
 {
-    if (self.window)
+    OBMenuBarWindow* menubarWindow = (OBMenuBarWindow*)self.window;
+    
+    if (menubarWindow)
     {
-        if (self.window.isVisible)
+        if (menubarWindow.isVisible && (menubarWindow.isKeyWindow || menubarWindow.attachedToMenuBar))
         {
             [self close];
             self.statusItemView.isHighlighted = NO;
         }
         else
         {
+            if (!menubarWindow.attachedToMenuBar) {
+                [NSApp activateIgnoringOtherApps:YES];
+            }
+            
             [self showWindow:nil];
             self.statusItemView.isHighlighted = YES;
         }
@@ -291,35 +277,48 @@
 
 - (void)resizeToContentAnimated:(BOOL)animated orderFront:(BOOL)orderFront
 {
-    NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
-    NSRect statusRect = [self statusRectForWindow:self.window];
-    NSRect originalRect = self.window.frame;
-    NSRect panelRect = self.window.frame;
+//    NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
+//    NSRect statusRect = [self statusRectForWindow:self.window];
+//    NSRect originalRect = self.window.frame;
+//    NSRect panelRect = self.window.frame;
+//    
+//    // Make window small
+//    [self.window setFrame:NSMakeRect(0, 0, 8, 8) display:NO];
+//    
+//    // Resize panel height to fit table view content and toolbar
+//    panelRect.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight + _tableView.frame.size.height + CORNER_RADIUS + CORNER_RADIUS / 2;
+//    
+//    // Check panel is inside the screen bounds
+//    if ([[NSScreen mainScreen] visibleFrame].size.height < panelRect.size.height) {
+//        panelRect.size.height = [[NSScreen mainScreen] visibleFrame].size.height - ARROW_OFFSET * 2;
+//    }
+//    
+//    panelRect.origin.x = roundf(NSMidX(statusRect) - NSWidth(panelRect) / 2);
+//    panelRect.origin.y = NSMaxY(statusRect) - NSHeight(panelRect) - ARROW_OFFSET;
+//    
+//    if (NSMaxX(panelRect) > (NSMaxX(screenRect) - ARROW_HEIGHT))
+//        panelRect.origin.x -= NSMaxX(panelRect) - (NSMaxX(screenRect) - ARROW_HEIGHT);
+//    
+//    // Update arrow position
+//    [self.popupView setArrowPosition:NSMidX(statusRect) - NSMinX(panelRect)];
+//    
+//    if (YES != NSEqualRects(originalRect, panelRect)) {
+//        // Back to previous frame
+//        [self.window setFrame:originalRect display:NO];
+//    }
     
-    // Make window small
-    [self.window setFrame:NSMakeRect(0, 0, 8, 8) display:NO];
+    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
     
-    // Resize panel height to fit table view content and toolbar
-    panelRect.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight + _tableView.frame.size.height + CORNER_RADIUS + CORNER_RADIUS / 2;
+    CGFloat height = 13; // ??
     
-    // Check panel is inside the screen bounds
-    if ([[NSScreen mainScreen] visibleFrame].size.height < panelRect.size.height) {
-        panelRect.size.height = [[NSScreen mainScreen] visibleFrame].size.height - ARROW_OFFSET * 2;
+    for (int i = 0; i < [_items count]; i++) {
+        height += [self tableView:_tableView heightOfRow:i];
     }
     
-    panelRect.origin.x = roundf(NSMidX(statusRect) - NSWidth(panelRect) / 2);
-    panelRect.origin.y = NSMaxY(statusRect) - NSHeight(panelRect) - ARROW_OFFSET;
-    
-    if (NSMaxX(panelRect) > (NSMaxX(screenRect) - ARROW_HEIGHT))
-        panelRect.origin.x -= NSMaxX(panelRect) - (NSMaxX(screenRect) - ARROW_HEIGHT);
-    
-    // Update arrow position
-    [self.popupView setArrowPosition:NSMidX(statusRect) - NSMinX(panelRect)];
-    
-    if (YES != NSEqualRects(originalRect, panelRect)) {
-        // Back to previous frame
-        [self.window setFrame:originalRect display:NO];
-    }
+    height = 6 + (menubarWindow.attachedToMenuBar ? OBMenuBarWindowArrowHeight : 0) + (height ? height : _tableView.frame.size.height);
+
+    [menubarWindow setContentSize:NSMakeSize(menubarWindow.frame.size.width, height)];
+    //[menubarWindow setFrame:NSMakeRect(menubarWindow.frame.origin.x, menubarWindow.frame.origin.y, menubarWindow.frame.size.width, height) display:NO animate:NO];
     
     // Order front if needed
     if (animated) {
@@ -327,10 +326,10 @@
             [self.window makeKeyAndOrderFront:self];
         }
         
-        [self.window setFrame:panelRect display:YES animate:YES];
+        //[self.window setFrame:panelRect display:YES animate:YES];
     }
     else {
-        [self.window setFrame:panelRect display:YES animate:NO];
+        //[self.window setFrame:panelRect display:YES animate:NO];
         
         if (orderFront) {
             [self.window makeKeyAndOrderFront:self];
@@ -399,7 +398,8 @@
     [_statusItemView setNeedsDisplay:YES];
 }
 
-// NSTableView delegate
+#pragma mark -
+#pragma mark NSTableView delegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     return [_items count];
