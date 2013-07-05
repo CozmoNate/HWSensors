@@ -17,10 +17,14 @@ and others. All rights reserved.
 With special thanks to:
 netkas for fakesmc
 slice for plugins and help in developing the project
-usr-sse2 for help in development and first FakeSMC plugins idea and realization
+usr-sse2 for help in development and first FakeSMC plugins idea and realization 
 Navi for investigation of numeric SMC values encoding/decoding and other useful stuff
+droplets for testing
 Michael Möller for OpenHardwareMonitor
-The Real Deal for French localization
+The Real Deal & JrCs for French localization
 RehabMan forced me using mutexes and for other good ideas
-Vadim Shpanovski for custom popover
+Oliver Bolton for OBMenuBarWindow
 Mozketo for LaunchAtLoginController
+oswaldini @ www.osx86.org.pl for Polish translation
+Marchrius @ insanelymac.com for Italian translation
+k3nny @ www.insanelymac.com for German translation
