@@ -40,6 +40,17 @@
 			name = "Tag Current Version";
 			productName = "Tag Project Version";
 		};
+		7EBC73A61787FE7C00C532F9 /* Post-Build Script */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7EBC73A71787FE7C00C532F9 /* Build configuration list for PBXAggregateTarget "Post-Build Script" */;
+			buildPhases = (
+				7EBC73AA1787FE8500C532F9 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Post-Build Script";
+			productName = "Post-Build Current Version";
+		};
 		7EDC5D1B1783F60400B0C7EC /* Bump Major Version */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7EDC5D1C1783F60400B0C7EC /* Build configuration list for PBXAggregateTarget "Bump Major Version" */;
@@ -90,6 +101,7 @@
 				7EDC5D1B1783F60400B0C7EC /* Bump Major Version */,
 				7EB7E71117834ADE0071B3F0 /* Bump Minor Version */,
 				7EB7E71D17834E470071B3F0 /* Tag Current Version */,
+				7EBC73A61787FE7C00C532F9 /* Post-Build Script */,
 			);
 		};
 /* End PBXProject section */
@@ -133,6 +145,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nproject_name=$(/usr/libexec/PlistBuddy -c \"Print 'Project Name'\" \"${PROJECT_DIR}/version.plist\")\nproject_version=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\n\ngit_revision=$(git rev-list --count HEAD)\nfull_version=${project_version}'.'${git_revision}\ngit tag -a -f ${full_version} -m \"${project_name} Build v${full_version}\"\ngit push --tags";
+		};
+		7EBC73AA1787FE8500C532F9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\nproject_name=$(/usr/libexec/PlistBuddy -c \"Print 'Project Name'\" \"${PROJECT_DIR}/version.plist\")\nproject_version=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\n\ngit_revision=$(git rev-list --count HEAD)\nfull_version=${project_version}'.'${git_revision}\n\n# Build package\ncd ${PROJECT_DIR}/Binaries\n\n./packagesbuild ${project_name}.pkgproj\nmv ${project_name}.pkg ${project_name}.${full_version}.pkg";
 		};
 		7EDC5D1F1783F60C00B0C7EC /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -208,6 +233,20 @@
 			};
 			name = Release;
 		};
+		7EBC73A81787FE7C00C532F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7EBC73A91787FE7C00C532F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7EDC5D1D1783F60400B0C7EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -260,6 +299,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		7EBC73A71787FE7C00C532F9 /* Build configuration list for PBXAggregateTarget "Post-Build Script" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EBC73A81787FE7C00C532F9 /* Debug */,
+				7EBC73A91787FE7C00C532F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		7EDC5D1C1783F60400B0C7EC /* Build configuration list for PBXAggregateTarget "Bump Major Version" */ = {
 			isa = XCConfigurationList;

@@ -51,13 +51,13 @@
 			<object class="NSWindowTemplate" id="332667561">
 				<int key="NSWindowStyleMask">129</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{1187, 754}, {230, 300}}</string>
+				<string key="NSWindowRect">{{1187, 754}, {225, 300}}</string>
 				<int key="NSWTFlags">1949827072</int>
 				<string key="NSWindowTitle">HWMonitor</string>
 				<string key="NSWindowClass">OBMenuBarWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
-				<string key="NSWindowContentMinSize">{230, 2}</string>
+				<string key="NSWindowContentMinSize">{225, 2}</string>
 				<object class="NSView" key="NSWindowView" id="101117346">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -74,7 +74,7 @@
 											<reference key="NSNextResponder" ref="298741399"/>
 											<int key="NSvFlags">256</int>
 											<array class="NSMutableArray" key="NSSubviews"/>
-											<string key="NSFrameSize">{230, 300}</string>
+											<string key="NSFrameSize">{225, 300}</string>
 											<reference key="NSSuperview" ref="298741399"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="554043775"/>
@@ -92,7 +92,7 @@
 											<array class="NSMutableArray" key="NSTableColumns">
 												<object class="NSTableColumn" id="364278572">
 													<string key="NSIdentifier">List</string>
-													<double key="NSWidth">230</double>
+													<double key="NSWidth">225</double>
 													<double key="NSMinWidth">40</double>
 													<double key="NSMaxWidth">1000</double>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -178,7 +178,7 @@
 											<int key="NSTableViewGroupRowStyle">1</int>
 										</object>
 									</array>
-									<string key="NSFrameSize">{230, 300}</string>
+									<string key="NSFrameSize">{225, 300}</string>
 									<reference key="NSSuperview" ref="228041017"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="656523809"/>
@@ -219,7 +219,7 @@
 									<int key="NSKnobStyle">1</int>
 								</object>
 							</array>
-							<string key="NSFrameSize">{230, 300}</string>
+							<string key="NSFrameSize">{225, 300}</string>
 							<reference key="NSSuperview" ref="101117346"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="298741399"/>
@@ -235,14 +235,14 @@
 							<double key="NSMagnification">1</double>
 						</object>
 					</array>
-					<string key="NSFrameSize">{230, 300}</string>
+					<string key="NSFrameSize">{225, 300}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="228041017"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
-				<string key="NSMinSize">{230, 24}</string>
+				<string key="NSMinSize">{225, 24}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<int key="NSWindowAnimationBehavior">2</int>
 				<int key="NSWindowCollectionBehavior">69</int>
@@ -746,7 +746,7 @@
 								<object class="NSTextField" id="791448956">
 									<reference key="NSNextResponder" ref="723421403"/>
 									<int key="NSvFlags">-2147483382</int>
-									<string key="NSFrame">{{10, 1}, {210, 11}}</string>
+									<string key="NSFrame">{{10, 1}, {205, 11}}</string>
 									<reference key="NSSuperview" ref="723421403"/>
 									<reference key="NSNextKeyView" ref="4393723"/>
 									<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -782,7 +782,7 @@
 								<object class="NSTextField" id="4393723">
 									<reference key="NSNextResponder" ref="723421403"/>
 									<int key="NSvFlags">265</int>
-									<string key="NSFrame">{{147, 11}, {73, 15}}</string>
+									<string key="NSFrame">{{142, 11}, {73, 15}}</string>
 									<reference key="NSSuperview" ref="723421403"/>
 									<reference key="NSNextKeyView" ref="185045695"/>
 									<string key="NSReuseIdentifierKey">_NS:1535</string>
@@ -806,7 +806,7 @@
 								<object class="NSTextField" id="183070569">
 									<reference key="NSNextResponder" ref="723421403"/>
 									<int key="NSvFlags">266</int>
-									<string key="NSFrame">{{10, 11}, {135, 15}}</string>
+									<string key="NSFrame">{{10, 11}, {130, 15}}</string>
 									<reference key="NSSuperview" ref="723421403"/>
 									<reference key="NSNextKeyView" ref="791448956"/>
 									<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -830,7 +830,7 @@
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								</object>
 							</array>
-							<string key="NSFrame">{{0, 19}, {230, 27}}</string>
+							<string key="NSFrame">{{0, 19}, {225, 27}}</string>
 							<reference key="NSNextKeyView" ref="183070569"/>
 						</object>
 						<reference key="destination" ref="4393723"/>
@@ -863,7 +863,7 @@
 								<object class="NSTextField" id="411110587">
 									<reference key="NSNextResponder" ref="552126776"/>
 									<int key="NSvFlags">266</int>
-									<string key="NSFrame">{{0, 1}, {230, 15}}</string>
+									<string key="NSFrame">{{0, 1}, {225, 15}}</string>
 									<reference key="NSSuperview" ref="552126776"/>
 									<reference key="NSNextKeyView" ref="126416452"/>
 									<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -880,7 +880,7 @@
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								</object>
 							</array>
-							<string key="NSFrame">{{0, 73}, {230, 17}}</string>
+							<string key="NSFrame">{{0, 73}, {225, 17}}</string>
 							<reference key="NSNextKeyView" ref="411110587"/>
 						</object>
 						<reference key="destination" ref="411110587"/>
@@ -897,7 +897,7 @@
 								<object class="NSTextField" id="40834594">
 									<reference key="NSNextResponder" ref="185045695"/>
 									<int key="NSvFlags">266</int>
-									<string key="NSFrame">{{10, 11}, {159, 15}}</string>
+									<string key="NSFrame">{{10, 11}, {154, 15}}</string>
 									<reference key="NSSuperview" ref="185045695"/>
 									<reference key="NSNextKeyView" ref="850867175"/>
 									<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -928,7 +928,7 @@
 										<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 										<string>NeXT TIFF v4.0 pasteboard type</string>
 									</set>
-									<string key="NSFrame">{{211, 12}, {6, 13}}</string>
+									<string key="NSFrame">{{206, 12}, {6, 13}}</string>
 									<reference key="NSSuperview" ref="185045695"/>
 									<reference key="NSNextKeyView" ref="965153362"/>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -948,7 +948,7 @@
 								<object class="NSTextField" id="965153362">
 									<reference key="NSNextResponder" ref="185045695"/>
 									<int key="NSvFlags">-2147483382</int>
-									<string key="NSFrame">{{10, 1}, {213, 11}}</string>
+									<string key="NSFrame">{{10, 1}, {208, 11}}</string>
 									<reference key="NSSuperview" ref="185045695"/>
 									<reference key="NSNextKeyView" ref="433647161"/>
 									<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -967,7 +967,7 @@
 								<object class="NSTextField" id="433647161">
 									<reference key="NSNextResponder" ref="185045695"/>
 									<int key="NSvFlags">265</int>
-									<string key="NSFrame">{{171, 11}, {35, 15}}</string>
+									<string key="NSFrame">{{166, 11}, {35, 15}}</string>
 									<reference key="NSSuperview" ref="185045695"/>
 									<reference key="NSNextKeyView" ref="552126776"/>
 									<string key="NSReuseIdentifierKey">_NS:1535</string>
@@ -985,7 +985,7 @@
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								</object>
 							</array>
-							<string key="NSFrame">{{0, 46}, {230, 27}}</string>
+							<string key="NSFrame">{{0, 46}, {225, 27}}</string>
 							<reference key="NSNextKeyView" ref="40834594"/>
 						</object>
 						<reference key="destination" ref="40834594"/>
@@ -1090,7 +1090,7 @@
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								</object>
 							</array>
-							<string key="NSFrameSize">{230, 19}</string>
+							<string key="NSFrameSize">{225, 19}</string>
 							<reference key="NSNextKeyView" ref="158616179"/>
 						</object>
 						<reference key="destination" ref="796293052"/>
@@ -2993,6 +2993,7 @@
 						<string key="openPreferences:">id</string>
 						<string key="showAboutPanel:">id</string>
 						<string key="showGraphsWindow:">id</string>
+						<string key="showWindow:">id</string>
 						<string key="togglePanel:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -3010,6 +3011,10 @@
 						</object>
 						<object class="IBActionInfo" key="showGraphsWindow:">
 							<string key="name">showGraphsWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showWindow:">
+							<string key="name">showWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="togglePanel:">
