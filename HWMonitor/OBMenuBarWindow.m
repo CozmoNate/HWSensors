@@ -906,13 +906,13 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     NSBezierPath *highlightPath = [NSBezierPath bezierPath];
     [highlightPath moveToPoint:arrowPointMiddle];
     [highlightPath lineToPoint:arrowPointLeft];
-    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topLeft.x + 0.5, topLeft.y)
-                                            toPoint:bottomLeft
+    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topLeft.x + 1.5, topLeft.y)
+                                            toPoint:NSMakePoint(bottomLeft.x, topLeft.y - cornerRadius)
                                              radius:cornerRadius];
     [highlightPath moveToPoint:arrowPointMiddle];
     [highlightPath lineToPoint:arrowPointRight];
-    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topRight.x - 0.5, topRight.y)
-                                            toPoint:bottomRight
+    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topRight.x - 1.5, topRight.y)
+                                            toPoint:NSMakePoint(bottomRight.x, topRight.y - cornerRadius)
                                              radius:cornerRadius];
     //[window.colorTheme.listStrokeColor set];
     if (window.colorTheme) {
