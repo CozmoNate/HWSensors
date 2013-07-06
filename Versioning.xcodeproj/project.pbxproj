@@ -178,12 +178,16 @@
 		7EB7E70E17834A740071B3F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		7EB7E70F17834A740071B3F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -218,18 +222,14 @@
 		7EB7E71F17834E470071B3F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
 		7EB7E72017834E470071B3F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
@@ -307,6 +307,7 @@
 				7EBC73A91787FE7C00C532F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7EDC5D1C1783F60400B0C7EC /* Build configuration list for PBXAggregateTarget "Bump Major Version" */ = {
 			isa = XCConfigurationList;

@@ -89,6 +89,9 @@
 "Continue monitor sensors in background" = "Fortlaufende Aktualisierung der Sensoren im Hintergrund";
 "Check for updates" = "Auf Updates überprüfen"; // this is for the settings, first tab, bottom left
 "Check for updates..." = "Auf Updates überprüfen"; // this is for the menu
+"No new versions of HWSensors are available at this time!" = "Keine neuere Version zur Zeit verfügbar!";
+"Close" = "Schließen";
+"An error occured while trying to download HWSensors installer!" = "Beim Herunterladen ist ein Fehler aufgetreten!";
 
 "Mouse" = "Maus";
 "Keyboard" = "Tastatur";
