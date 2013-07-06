@@ -24,7 +24,6 @@
 		7E2042011730844C00C13B65 /* GraphsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042001730844C00C13B65 /* GraphsController.xib */; };
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
 		7E2042051730D04100C13B65 /* AppController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* AppController.xib */; };
-		7E2BC0AD1784C8BB00B4282A /* dark_divider.tif in Resources */ = {isa = PBXBuildFile; fileRef = 7E2BC0AC1784C8BB00B4282A /* dark_divider.tif */; };
 		7E44D95E1710433A00D06387 /* WindowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E44D95D1710433A00D06387 /* WindowFilter.m */; };
 		7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */; };
 		7E7B9B4B178731E4003ACB61 /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7B9B49178731E4003ACB61 /* 37-circle-x.png */; };
@@ -73,7 +72,6 @@
 		7EA2495416D8EE45002231B2 /* HWMonitorGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2495116D8EE44002231B2 /* HWMonitorGroup.m */; };
 		7EA2495516D8EE45002231B2 /* HWMonitorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2495316D8EE45002231B2 /* HWMonitorItem.m */; };
 		7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA394B216E0A1B600823109 /* ColorTheme.m */; };
-		7EC808701778C1DD00A334E2 /* divider.tif in Resources */ = {isa = PBXBuildFile; fileRef = 7EC8086F1778C1DD00A334E2 /* divider.tif */; };
 		7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3016DD680E00085FFF /* 04-eye.png */; };
 		7ECDDE3316DD680E00085FFF /* 04-eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */; };
 		7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */; };
@@ -146,8 +144,6 @@
 		7E2042001730844C00C13B65 /* GraphsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphsController.xib; sourceTree = "<group>"; };
 		7E2042021730CDA000C13B65 /* PopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupController.xib; sourceTree = "<group>"; };
 		7E2042041730D04000C13B65 /* AppController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppController.xib; sourceTree = "<group>"; };
-		7E2BC0AB1784C80B00B4282A /* dark_divider.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = dark_divider.psd; sourceTree = "<group>"; };
-		7E2BC0AC1784C8BB00B4282A /* dark_divider.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = dark_divider.tif; sourceTree = "<group>"; };
 		7E44D95C1710433A00D06387 /* WindowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowFilter.h; sourceTree = "<group>"; };
 		7E44D95D1710433A00D06387 /* WindowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowFilter.m; sourceTree = "<group>"; };
 		7E4CD74B1737574C002586D2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -220,8 +216,6 @@
 		7EA68B8C17341ECE00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EB7E702178340710071B3F0 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7EB7E707178341D20071B3F0 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
-		7EBFC7361778D2D8000AB283 /* divider.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = divider.psd; sourceTree = "<group>"; };
-		7EC8086F1778C1DD00A334E2 /* divider.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = divider.tif; sourceTree = "<group>"; };
 		7ECDDE3016DD680E00085FFF /* 04-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye.png"; sourceTree = "<group>"; };
 		7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye@2x.png"; sourceTree = "<group>"; };
 		7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye-white.png"; sourceTree = "<group>"; };
@@ -427,8 +421,6 @@
 		7EA2490816D8E942002231B2 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				7EC8086F1778C1DD00A334E2 /* divider.tif */,
-				7E2BC0AC1784C8BB00B4282A /* dark_divider.tif */,
 				7EA2493516D8E9CE002231B2 /* default.icns */,
 				7EDEA332173E3B94003ADE86 /* hwsensors.icns */,
 				7EA2490B16D8E9C6002231B2 /* frequencies_template.png */,
@@ -585,8 +577,6 @@
 		7EDEA334173E3BEF003ADE86 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				7E2BC0AB1784C80B00B4282A /* dark_divider.psd */,
-				7EBFC7361778D2D8000AB283 /* divider.psd */,
 				7EDEA331173E3B83003ADE86 /* hwsensors.psd */,
 				7EA32A4D173EB059002C93C1 /* hwmonitor.psd */,
 			);
@@ -804,8 +794,6 @@
 				7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */,
 				7EED6D7E1734F9CF00248870 /* 19-gear@2x.png in Resources */,
 				7EDEA333173E3B94003ADE86 /* hwsensors.icns in Resources */,
-				7EC808701778C1DD00A334E2 /* divider.tif in Resources */,
-				7E2BC0AD1784C8BB00B4282A /* dark_divider.tif in Resources */,
 				7E7B9B4B178731E4003ACB61 /* 37-circle-x.png in Resources */,
 				7E7B9B4C178731E4003ACB61 /* 37-circle-x@2x.png in Resources */,
 			);

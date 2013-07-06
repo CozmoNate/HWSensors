@@ -904,14 +904,16 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     
     // Draw the title bar highlight
     NSBezierPath *highlightPath = [NSBezierPath bezierPath];
-    [highlightPath moveToPoint:topLeft];
-    if (isAttached)
-    {
-        [highlightPath lineToPoint:arrowPointLeft];
-        [highlightPath lineToPoint:arrowPointMiddle];
-        [highlightPath lineToPoint:arrowPointRight];
-    }
-    [highlightPath lineToPoint:topRight];
+    [highlightPath moveToPoint:arrowPointMiddle];
+    [highlightPath lineToPoint:arrowPointLeft];
+    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topLeft.x + 0.25, topLeft.y)
+                                            toPoint:bottomLeft
+                                             radius:cornerRadius];
+    [highlightPath moveToPoint:arrowPointMiddle];
+    [highlightPath lineToPoint:arrowPointRight];
+    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topRight.x - 0.25, topRight.y)
+                                            toPoint:bottomRight
+                                             radius:cornerRadius];
     //[window.colorTheme.listStrokeColor set];
     if (window.colorTheme) {
         [[window.colorTheme.toolbarShadowColor highlightWithLevel:0.5] set];

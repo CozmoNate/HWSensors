@@ -58,7 +58,7 @@
 				<int key="NSWindowStyleMask">7</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{905, 381}, {600, 500}}</string>
-				<int key="NSWTFlags">-461896704</int>
+				<int key="NSWTFlags">1954022400</int>
 				<string key="NSWindowTitle">HWMonitor Preferences</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
@@ -1050,8 +1050,8 @@
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">PreferencesWindow</string>
 				<int key="NSWindowAnimationBehavior">3</int>
-				<int key="NSWindowCollectionBehavior">69</int>
-				<bool key="NSWindowIsRestorable">NO</bool>
+				<int key="NSWindowCollectionBehavior">37</int>
+				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCustomObject" id="624867886">
 				<string key="NSClassName">LaunchAtLoginController</string>

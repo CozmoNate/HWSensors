@@ -46,7 +46,7 @@
 				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 550}, {483, 218}}</string>
-				<int key="NSWTFlags">1685586944</int>
+				<int key="NSWTFlags">1954022400</int>
 				<string key="NSWindowTitle">HWSensors Updater</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
@@ -92,7 +92,6 @@
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{357, 13}, {112, 32}}</string>
 							<reference key="NSSuperview" ref="621455615"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="155307308">
@@ -214,14 +213,14 @@
 				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<int key="NSWindowAnimationBehavior">5</int>
-				<int key="NSWindowCollectionBehavior">50</int>
-				<bool key="NSWindowIsRestorable">NO</bool>
+				<int key="NSWindowCollectionBehavior">38</int>
+				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSWindowTemplate" id="514201296">
 				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 550}, {400, 110}}</string>
-				<int key="NSWTFlags">1685586944</int>
+				<int key="NSWTFlags">1954022400</int>
 				<string key="NSWindowTitle">HWSensors Updater</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
@@ -235,7 +234,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{320, 4}, {75, 28}}</string>
 							<reference key="NSSuperview" ref="421186840"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="460536763">
@@ -317,14 +315,14 @@
 				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<int key="NSWindowAnimationBehavior">5</int>
-				<int key="NSWindowCollectionBehavior">74</int>
+				<int key="NSWindowCollectionBehavior">38</int>
 				<bool key="NSWindowIsRestorable">NO</bool>
 			</object>
 			<object class="NSWindowTemplate" id="1059540678">
 				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 550}, {480, 138}}</string>
-				<int key="NSWTFlags">1685586944</int>
+				<int key="NSWTFlags">1954022400</int>
 				<string key="NSWindowTitle">HWSensors Updater</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
@@ -365,7 +363,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{334, 13}, {132, 32}}</string>
 							<reference key="NSSuperview" ref="771102329"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="191412751">
@@ -462,7 +459,7 @@
 				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<int key="NSWindowAnimationBehavior">3</int>
-				<int key="NSWindowCollectionBehavior">42</int>
+				<int key="NSWindowCollectionBehavior">38</int>
 				<bool key="NSWindowIsRestorable">NO</bool>
 			</object>
 		</array>
@@ -1910,7 +1907,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">hwsensors</string>
-			<string key="NS.object.0">{512, 512}</string>
+			<string key="NS.object.0">{1024, 1024}</string>
 		</object>
 		<bool key="IBDocument.UseAutolayout">YES</bool>
 	</data>

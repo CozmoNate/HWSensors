@@ -53,7 +53,7 @@
 				<int key="NSWindowStyleMask">8219</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{180, 153}, {600, 500}}</string>
-				<int key="NSWTFlags">1685586944</int>
+				<int key="NSWTFlags">1954022400</int>
 				<string key="NSWindowTitle">History Graphs</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
@@ -345,8 +345,8 @@
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">HistoryGraphsWindow</string>
 				<int key="NSWindowAnimationBehavior">3</int>
-				<int key="NSWindowCollectionBehavior">70</int>
-				<bool key="NSWindowIsRestorable">NO</bool>
+				<int key="NSWindowCollectionBehavior">38</int>
+				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCollectionViewItem" id="676651510"/>
 			<object class="NSCustomView" id="323302584">
