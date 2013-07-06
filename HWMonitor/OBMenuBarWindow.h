@@ -118,4 +118,7 @@ extern const CGFloat OBMenuBarWindowArrowWidth;
 
 @property (readonly) CGFloat toolbarHeight;
 
+-(IBAction)attachToMenuBar:(id)sender;
+-(IBAction)detachFromMenuBar:(id)sender;
+
 @end

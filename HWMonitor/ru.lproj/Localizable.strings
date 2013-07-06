@@ -89,6 +89,9 @@
 "Continue monitor sensors in background" = "Продолжать собирать данные в фоновом режиме";
 "Graphs window always topmost" = "Окно графиков всегда поверх остальных окон";
 "Check for updates" = "Проверять наличие обновлений";
+"Attach To Menu Bar" = "Закрепить в системном меню";
+"Detach From Menu Bar" = "Отсоеденить окно";
+"Hide Window" = "Скрыть окно";
 
 "Mouse" = "Мышь";
 "Keyboard" = "Клавиатура";
