@@ -87,8 +87,8 @@
 "Gray" = "Grau";
 "Dark" = "Dunkel";
 "Continue monitor sensors in background" = "Fortlaufende Aktualisierung der Sensoren im Hintergrund";
-"Check for updates..." = "Auf Updates überprüfen";
-
+"Check for updates" = "Auf Updates überprüfen"; // this is for the settings, first tab, bottom left
+"Check for updates..." = "Auf Updates überprüfen"; // this is for the menu
 
 "Mouse" = "Maus";
 "Keyboard" = "Tastatur";
