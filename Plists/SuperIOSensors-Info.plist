@@ -391,7 +391,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN6</key>
-						<string>CPU VRM Supply</string>
+						<string>CPU VTT</string>
 						<key>VIN7</key>
 						<dict>
 							<key>gain</key>

@@ -87,7 +87,8 @@
 "Gray" = "Grau";
 "Dark" = "Dunkel";
 "Continue monitor sensors in background" = "Fortlaufende Aktualisierung der Sensoren im Hintergrund";
-"Check for updates" = "Auf Updates überprüfen";
+"Check for updates..." = "Auf Updates überprüfen";
+
 
 "Mouse" = "Maus";
 "Keyboard" = "Tastatur";
@@ -200,6 +201,8 @@
 //"DC In S5 Rail" = "";
 "GPU Rail" = "Grafikkarten-Leitung";
 "GPU %X Rail" = "Grafikkarten-Leitung %X";
+"CPU VTT" = "Prozessor-VTT"
+"PCH Core" = "Chipsatz-Spannung"
 
 "CMOS Battery" = "CMOS-Batterie";
 
