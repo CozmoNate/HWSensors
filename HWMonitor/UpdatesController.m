@@ -43,7 +43,7 @@
     
     if (self) {
         
-        bool checkForUpdates = ![[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:kHWMonitorDontCheckUpdates];
+        bool checkForUpdates = ![[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorDontCheckUpdates];
         
         _currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         
@@ -137,7 +137,7 @@
 {
     [self.window close];
     
-    [[[NSUserDefaultsController sharedUserDefaultsController] defaults] setObject:_remoteVersion forKey:kHWMonitorSkippedAppVersion];
+    [[NSUserDefaults standardUserDefaults] setObject:_remoteVersion forKey:kHWMonitorSkippedAppVersion];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -157,7 +157,7 @@
     
     _remoteVersion = [NSString stringWithFormat:@"%@.%@.%@", [_rawRevision objectAtIndex:_rawRevision.count - 4], [_rawRevision objectAtIndex:_rawRevision.count - 3], [_rawRevision objectAtIndex:_rawRevision.count - 2]];
     
-    _skippedVersion = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] objectForKey:kHWMonitorSkippedAppVersion];
+    _skippedVersion = [[NSUserDefaults standardUserDefaults] objectForKey:kHWMonitorSkippedAppVersion];
     
     if (_currentVersion && _remoteVersion && [_remoteVersion isGreaterThan:_currentVersion] && (!_skippedVersion || [_skippedVersion isLessThan:_remoteVersion])) {        
         [_messageTextField setStringValue:[NSString stringWithFormat:GetLocalizedString(@"New HWSensors version %@ is available to download. You have %@. Download newer version?"), _remoteVersion, _currentVersion]];

@@ -31,13 +31,11 @@
 #import "PopupController.h"
 #import "GraphsController.h"
 
-#import "BundleUserDefaults.h"
 #import "HWMonitorIcon.h"
 #import "HWMonitorEngine.h"
 
 @interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, NSTokenFieldDelegate>
 {
-    BundleUserDefaults* _defaults;
     HWMonitorEngine *_engine;
     NSMutableDictionary *_icons;
     NSMutableArray* _favorites;

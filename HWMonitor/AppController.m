@@ -55,11 +55,6 @@
     [Localizer localizeView:self.window];
     [Localizer localizeView:_graphsController.window];
     
-    _defaults = [[BundleUserDefaults alloc] initWithPersistentDomainName:@"org.hwsensors.HWMonitor"];
-
-    // Call undocumented function
-    [[NSUserDefaultsController sharedUserDefaultsController] _setDefaults:_defaults];
-    
     [self loadIconNamed:kHWMonitorIconDefault];
     [self loadIconNamed:kHWMonitorIconThermometer];
     [self loadIconNamed:kHWMonitorIconDevice];
@@ -76,19 +71,19 @@
     
     _engine = [[HWMonitorEngine alloc] initWithBundle:[NSBundle mainBundle]];
     
-    [_engine setUseFahrenheit:[_defaults boolForKey:kHWMonitorUseFahrenheitKey]];
-    [_engine setUseBsdNames:[_defaults boolForKey:kHWMonitorUseBSDNames]];
+    [_engine setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseFahrenheitKey]];
+    [_engine setUseBsdNames:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseBSDNames]];
     
     [[_popupController statusItemView] setEngine:_engine];
-    [[_popupController statusItemView] setUseBigFont:[_defaults boolForKey:kHWMonitorUseBigStatusMenuFont]];
-    [[_popupController statusItemView] setUseShadowEffect:[_defaults boolForKey:kHWMonitorUseShadowEffect]];
-    [_popupController setShowVolumeNames:[_defaults integerForKey:kHWMonitorShowVolumeNames]];
-    [_popupController setColorTheme:[_colorThemes objectAtIndex:[_defaults integerForKey:kHWMonitorColorThemeIndex]]];
+    [[_popupController statusItemView] setUseBigFont:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseBigStatusMenuFont]];
+    [[_popupController statusItemView] setUseShadowEffect:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseShadowEffect]];
+    [_popupController setShowVolumeNames:[[NSUserDefaults standardUserDefaults] integerForKey:kHWMonitorShowVolumeNames]];
+    [_popupController setColorTheme:[_colorThemes objectAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:kHWMonitorColorThemeIndex]]];
     
     [_graphsController setUseFahrenheit:[_engine useFahrenheit]];
-    [_graphsController setUseSmoothing:[_defaults boolForKey:kHWMonitorGraphsUseDataSmoothing]];
-    [_graphsController setBackgroundMonitoring:[_defaults boolForKey:kHWMonitorGraphsBackgroundMonitor]];
-    [_graphsController setIsTopmost:[_defaults boolForKey:kHWMonitorWindowTopmost]];
+    [_graphsController setUseSmoothing:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsUseDataSmoothing]];
+    [_graphsController setBackgroundMonitoring:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsBackgroundMonitor]];
+    [_graphsController setIsTopmost:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorWindowTopmost]];
     
     [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
     [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
@@ -354,7 +349,7 @@
         
         [_favorites removeAllObjects];
         
-        NSArray *favoritesList = [_defaults objectForKey:kHWMonitorFavoritesList];
+        NSArray *favoritesList = [[NSUserDefaults standardUserDefaults] objectForKey:kHWMonitorFavoritesList];
         
         if (favoritesList) {
             
@@ -376,7 +371,7 @@
             }
         }
         
-        NSArray *hiddenList = [_defaults objectForKey:kHWMonitorHiddenList];
+        NSArray *hiddenList = [[NSUserDefaults standardUserDefaults] objectForKey:kHWMonitorHiddenList];
         
         for (NSString *key in hiddenList) {
             if ([[[_engine keys] allKeys] containsObject:key]) {
@@ -416,9 +411,9 @@
         }
     }
     
-    [_defaults setObject:hiddenList forKey:kHWMonitorHiddenList];
+    [[NSUserDefaults standardUserDefaults] setObject:hiddenList forKey:kHWMonitorHiddenList];
     
-    [_defaults synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(IBAction)favoritesChanged:(id)sender
@@ -442,7 +437,7 @@
         }
     }
     
-    [_defaults setObject:list forKey:kHWMonitorFavoritesList];
+    [[NSUserDefaults standardUserDefaults] setObject:list forKey:kHWMonitorFavoritesList];
 }
 
 -(IBAction)useFahrenheitChanged:(id)sender
@@ -455,7 +450,7 @@
     [_popupController reloadData];
     [_graphsController setUseFahrenheit:useFahrenheit];
     
-    [_defaults synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (IBAction)colorThemeChanged:(id)sender
@@ -466,13 +461,13 @@
 -(IBAction)useBigFontChanged:(id)sender
 {
     [_popupController.statusItemView setUseBigFont:[sender state]];
-    [_defaults synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(IBAction)useShadowEffectChanged:(id)sender
 {
     [_popupController.statusItemView setUseShadowEffect:[sender state]];
-    [_defaults synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(IBAction)useBSDNamesChanged:(id)sender
@@ -480,7 +475,7 @@
     [_engine setUseBsdNames:[sender state]];
     [_popupController.tableView reloadData];
     [self rebuildSensorsTableView];
-    [_defaults synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(IBAction)showVolumeNamesChanged:(id)sender
@@ -488,19 +483,19 @@
     [_popupController setShowVolumeNames:[sender state]];
     [_popupController reloadData];
     [self rebuildSensorsTableView];
-    [_defaults synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(float)getSmcSensorsUpdateRate
 {
-    [_defaults synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
-    float value = [_defaults floatForKey:kHWMonitorSmcSensorsUpdateRate];
+    float value = [[NSUserDefaults standardUserDefaults] floatForKey:kHWMonitorSmcSensorsUpdateRate];
     float validatedValue = value > 10 ? 10 : value < 1 ? 1 : value;
     
     if (value != validatedValue) {
         value = validatedValue;
-        [_defaults setFloat:value forKey:kHWMonitorSmcSensorsUpdateRate];
+        [[NSUserDefaults standardUserDefaults] setFloat:value forKey:kHWMonitorSmcSensorsUpdateRate];
     }
     
     [_smcUpdateRateTextField setStringValue:[NSString stringWithFormat:@"%1.1f %@", value, GetLocalizedString(@"sec")]];
@@ -510,14 +505,14 @@
 
 -(float)getSmartSensorsUpdateRate
 {
-    [_defaults synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
-    float value = [_defaults floatForKey:kHWMonitorSmartSensorsUpdateRate];
+    float value = [[NSUserDefaults standardUserDefaults] floatForKey:kHWMonitorSmartSensorsUpdateRate];
     float validatedValue = value > 30 ? 30 : value < 5 ? 5 : value;
     
     if (value != validatedValue) {
         value = validatedValue;
-        [_defaults setFloat:value forKey:kHWMonitorSmartSensorsUpdateRate];
+        [[NSUserDefaults standardUserDefaults] setFloat:value forKey:kHWMonitorSmartSensorsUpdateRate];
     }
     
     [_smartUpdateRateTextField setStringValue:[NSString stringWithFormat:@"%1.0f %@", value, GetLocalizedString(@"min")]];
@@ -537,19 +532,19 @@
 - (IBAction)toggleGraphSmoothing:(id)sender
 {
     [_graphsController setUseSmoothing:[sender state] == NSOnState];
-    [_defaults synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(IBAction)graphsBackgroundMonitorChanged:(id)sender
 {
     [_graphsController setBackgroundMonitoring:[sender state]];
-    [_defaults synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(IBAction)graphsWindowTopmostChanged:(id)sender
 {
     [_graphsController setIsTopmost:[sender state]];
-    [_defaults synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark PopupControllerDelegate

@@ -89,8 +89,8 @@
 "Continue monitor sensors in background" = "Продолжать собирать данные в фоновом режиме";
 "Graphs window always topmost" = "Окно графиков всегда поверх остальных окон";
 "Check for updates" = "Проверять наличие обновлений";
-"Attach To Menu Bar" = "Закрепить в системном меню";
-"Detach From Menu Bar" = "Отсоеденить окно";
+"Attach to Menu Bar" = "Закрепить в системном меню";
+"Detach from Menu Bar" = "Отсоеденить панель сенсоров";
 "Hide Window" = "Скрыть окно";
 
 "Mouse" = "Мышь";
@@ -105,7 +105,7 @@
 "Next time" = "В другой раз";
 "Skip this version" = "Пропустить эту версию";
 
-"Check for updates..." = "Проверить наличие обновлений...";
+"Check for Updates..." = "Проверить наличие обновлений";
 "No new versions of HWSensors are available at this time!" = "Нет доступных новых версий HWSensors! Попробуйте проверить в другой раз.";
 "Close" = "Закрыть";
 "An error occured while trying to download HWSensors installer!" = "Возникла ошибка при попытке загрузить установщик HWSensors";
