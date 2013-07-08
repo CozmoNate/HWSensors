@@ -74,9 +74,7 @@
             [self updateValueForItem:item];
         }
     }
-    
-//    [self.window setLevel:NSPopUpMenuWindowLevel];
-//    [self.window setAlphaValue:1.0];
+
     [self resizeToContentAnimated:NO orderFront:YES];
     
 //    if (!_windowFilter) {
@@ -127,14 +125,6 @@
 
 - (void)initialSetup
 {
-    // Make a fully skinned panel
-//    NSPanel *panel = (id)self.window;
-//    
-//    [panel setAcceptsMouseMovedEvents:YES];
-//    [panel setLevel:NSPopUpMenuWindowLevel];
-//    [panel setOpaque:NO];
-//    [panel setBackgroundColor:[NSColor clearColor]];
-    
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
     [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
     

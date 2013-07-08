@@ -377,7 +377,6 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
         }
         
         [self setLevel:(isAttached ? NSPopUpMenuWindowLevel : NSNormalWindowLevel)];
-        //[self setLevel:NSPopUpMenuWindowLevel];
         
         if (self.delegate != nil)
         {

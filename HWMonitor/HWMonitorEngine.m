@@ -90,7 +90,7 @@
     [_sensorsLock lock];
 
     for (HWMonitorSensor *sensor in [self sensors])
-        if ([sensor genericDevice])
+        if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]])
             [sensor setTitle:_useBsdNames ? [[sensor genericDevice] bsdName] : [[[sensor genericDevice] productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     
     [_sensorsLock unlock];
