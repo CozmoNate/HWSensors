@@ -28,6 +28,7 @@ bool SuperIODevice::detectWinbondFamilyChip()
                 break;
                 
             case F71862:
+            case F71868A:
             case F71869:
             case F71869A:
             case F71882:
@@ -283,6 +284,7 @@ bool SuperIODevice::start(IOService *provider)
                 break;
                 
             case F71862:
+            case F71868A:
             case F71869:
             case F71869A:
             case F71882:

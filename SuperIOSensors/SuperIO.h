@@ -60,7 +60,8 @@ enum SuperIOModel
     
     // Fintek
     F71858		= 0x0507,
-    F71862		= 0x0601, 
+    F71862		= 0x0601,
+    F71868A     = 0x1106,
     F71869		= 0x0814,
     F71869A     = 0x1007,
     F71882		= 0x0541,
@@ -149,6 +150,7 @@ inline const char* superio_get_model_name(UInt16 model)
             
         case F71858:        return "F71858";
         case F71862:        return "F71862";
+        case F71868A:       return "F71868A";
         case F71869:        return "F71869";
         case F71869A:       return "F71869A";
         case F71882:        return "F71882";
