@@ -40,6 +40,10 @@ extern NSString * const OBMenuBarWindowDidDetachFromMenuBar;
 extern const CGFloat OBMenuBarWindowArrowHeight;
 extern const CGFloat OBMenuBarWindowArrowWidth;
 
+enum  {
+    OBMenuBarWindowHideControlsThenAttached = 2,
+};
+
 /** The `OBMenuBarWindow` class is an `NSWindow` subclass that adds the ability
  to attach the window to an icon in the menu bar. It emulates much of the look
  and feel of `NSPopover` but retains the appearance and functionality of a
@@ -96,7 +100,7 @@ extern const CGFloat OBMenuBarWindowArrowWidth;
 
 /** Whether to hide the "traffic light" window controls when the window is
  attached to the menu bar (default is `YES`). */
-@property (nonatomic, assign) BOOL hideWindowControlsWhenAttached;
+@property (nonatomic, assign) NSUInteger hideWindowControls;
 
 /** The threshold distance between the centre of the title bar and the menu bar
  icon at which to "snap" the window to the menu bar when dragging (default is

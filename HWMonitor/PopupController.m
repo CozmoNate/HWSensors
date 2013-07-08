@@ -75,7 +75,7 @@
         }
     }
 
-    [self resizeToContentAnimated:NO orderFront:YES];
+    [self resizeToContentAndOrderFront:YES];
     
 //    if (!_windowFilter) {
 //        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
@@ -136,6 +136,7 @@
     menubarWindow.statusItemView = _statusItemView;
     menubarWindow.statusItem = _statusItem;
     menubarWindow.attachedToMenuBar = YES;
+    menubarWindow.hideWindowControls = YES;
     
     menubarWindow.toolbarView = _toolbarView;
     
@@ -144,7 +145,7 @@
     [Localizer localizeView:menubarWindow];
     [Localizer localizeView:_toolbarView];
     
-    [self resizeToContentAnimated:NO orderFront:NO];
+    [self resizeToContentAndOrderFront:NO];
 }
 
 #pragma mark -
@@ -265,38 +266,8 @@
     [self reloadData];
 }
 
-- (void)resizeToContentAnimated:(BOOL)animated orderFront:(BOOL)orderFront
+- (void)resizeToContentAndOrderFront:(BOOL)orderFront
 {
-//    NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
-//    NSRect statusRect = [self statusRectForWindow:self.window];
-//    NSRect originalRect = self.window.frame;
-//    NSRect panelRect = self.window.frame;
-//    
-//    // Make window small
-//    [self.window setFrame:NSMakeRect(0, 0, 8, 8) display:NO];
-//    
-//    // Resize panel height to fit table view content and toolbar
-//    panelRect.size.height = ARROW_HEIGHT + kHWMonitorToolbarHeight + _tableView.frame.size.height + CORNER_RADIUS + CORNER_RADIUS / 2;
-//    
-//    // Check panel is inside the screen bounds
-//    if ([[NSScreen mainScreen] visibleFrame].size.height < panelRect.size.height) {
-//        panelRect.size.height = [[NSScreen mainScreen] visibleFrame].size.height - ARROW_OFFSET * 2;
-//    }
-//    
-//    panelRect.origin.x = roundf(NSMidX(statusRect) - NSWidth(panelRect) / 2);
-//    panelRect.origin.y = NSMaxY(statusRect) - NSHeight(panelRect) - ARROW_OFFSET;
-//    
-//    if (NSMaxX(panelRect) > (NSMaxX(screenRect) - ARROW_HEIGHT))
-//        panelRect.origin.x -= NSMaxX(panelRect) - (NSMaxX(screenRect) - ARROW_HEIGHT);
-//    
-//    // Update arrow position
-//    [self.popupView setArrowPosition:NSMidX(statusRect) - NSMinX(panelRect)];
-//    
-//    if (YES != NSEqualRects(originalRect, panelRect)) {
-//        // Back to previous frame
-//        [self.window setFrame:originalRect display:NO];
-//    }
-    
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
     
     CGFloat height = 13; // ??
@@ -308,29 +279,18 @@
     height = 6 + (menubarWindow.attachedToMenuBar ? OBMenuBarWindowArrowHeight : 0) + (height ? height : _tableView.frame.size.height);
 
     [menubarWindow setContentSize:NSMakeSize(menubarWindow.frame.size.width, height)];
-    //[menubarWindow setFrame:NSMakeRect(menubarWindow.frame.origin.x, menubarWindow.frame.origin.y, menubarWindow.frame.size.width, height) display:NO animate:NO];
+    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
     
     // Order front if needed
-    if (animated) {
-        if (orderFront) {
-            [self.window makeKeyAndOrderFront:self];
-        }
-        
-        //[self.window setFrame:panelRect display:YES animate:YES];
-    }
-    else {
-        //[self.window setFrame:panelRect display:YES animate:NO];
-        
-        if (orderFront) {
-            [self.window makeKeyAndOrderFront:self];
-        }
+    if (orderFront) {
+        [self.window makeKeyAndOrderFront:self];
     }
 }
 
 - (void)reloadData
 {
     [_tableView reloadData];
-    [self resizeToContentAnimated:YES orderFront:NO];
+    [self resizeToContentAndOrderFront:NO];
     [_statusItemView setNeedsDisplay:YES];
 }
 

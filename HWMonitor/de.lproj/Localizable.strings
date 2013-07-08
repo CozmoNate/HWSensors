@@ -204,8 +204,8 @@
 //"DC In S5 Rail" = "";
 "GPU Rail" = "Grafikkarten-Leitung";
 "GPU %X Rail" = "Grafikkarten-Leitung %X";
-"CPU VTT" = "Prozessor-VTT"
-"PCH Core" = "Chipsatz-Spannung"
+"CPU VTT" = "Prozessor-VTT";
+"PCH Core" = "Chipsatz-Spannung";
 
 "CMOS Battery" = "CMOS-Batterie";
 

@@ -61,7 +61,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 @implementation OBMenuBarWindow
 
 @synthesize attachedToMenuBar;
-@synthesize hideWindowControlsWhenAttached;
+@synthesize hideWindowControls;
 @synthesize snapDistance;
 @synthesize statusItem;
 @synthesize statusItemView;
@@ -151,7 +151,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     if (self)
     {
         snapDistance = 30.0;
-        hideWindowControlsWhenAttached = YES;
+        hideWindowControls = OBMenuBarWindowHideControlsThenAttached;
         [self initialSetup];
     }
     return self;
@@ -325,7 +325,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
         NSButton *zoomButton = [self standardWindowButton:NSWindowZoomButton];
         if (isAttached)
         {
-            if (self.hideWindowControlsWhenAttached)
+            if (self.hideWindowControls == OBMenuBarWindowHideControlsThenAttached)
             {
                 hideControls = YES;
                 [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
@@ -353,7 +353,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
         }
         else
         {
-            if (self.hideWindowControlsWhenAttached)
+            if (self.hideWindowControls == OBMenuBarWindowHideControlsThenAttached)
             {
                 hideControls = NO;
                 [closeButton setAlphaValue:0.0];
@@ -401,34 +401,45 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     }
 }
 
-- (void)setHideWindowControlsWhenAttached:(BOOL)flag
+- (void)setHideWindowControls:(NSUInteger)flag
 {
-    if (flag != hideWindowControlsWhenAttached)
+    if (flag != self.hideWindowControls)
     {
-        hideWindowControlsWhenAttached = flag;
-        if (!flag)
-        {
-            NSButton *closeButton = [self standardWindowButton:NSWindowCloseButton];
-            NSButton *minimiseButton = [self standardWindowButton:NSWindowMiniaturizeButton];
-            NSButton *zoomButton = [self standardWindowButton:NSWindowZoomButton];
-            [closeButton setAlphaValue:1.0];
-            [minimiseButton setAlphaValue:1.0];
-            [zoomButton setAlphaValue:1.0];
-            [closeButton setHidden:NO];
-            [minimiseButton setHidden:NO];
-            [zoomButton setHidden:NO];
-        }
-        else if (self.attachedToMenuBar)
-        {
-            NSButton *closeButton = [self standardWindowButton:NSWindowCloseButton];
-            NSButton *minimiseButton = [self standardWindowButton:NSWindowMiniaturizeButton];
-            NSButton *zoomButton = [self standardWindowButton:NSWindowZoomButton];
-            [closeButton setAlphaValue:1.0];
-            [minimiseButton setAlphaValue:1.0];
-            [zoomButton setAlphaValue:1.0];
-            [closeButton setHidden:YES];
-            [minimiseButton setHidden:YES];
-            [zoomButton setHidden:YES];
+        hideWindowControls = flag;
+        
+        NSButton *closeButton = [self standardWindowButton:NSWindowCloseButton];
+        NSButton *minimiseButton = [self standardWindowButton:NSWindowMiniaturizeButton];
+        NSButton *zoomButton = [self standardWindowButton:NSWindowZoomButton];
+        
+        switch (hideWindowControls) {
+            case OBMenuBarWindowHideControlsThenAttached:
+                if (self.attachedToMenuBar) {
+                    [closeButton setAlphaValue:1.0];
+                    [minimiseButton setAlphaValue:1.0];
+                    [zoomButton setAlphaValue:1.0];
+                    [closeButton setHidden:YES];
+                    [minimiseButton setHidden:YES];
+                    [zoomButton setHidden:YES];
+                }
+                break;
+                
+            case YES:
+                [closeButton setAlphaValue:1.0];
+                [minimiseButton setAlphaValue:1.0];
+                [zoomButton setAlphaValue:1.0];
+                [closeButton setHidden:YES];
+                [minimiseButton setHidden:YES];
+                [zoomButton setHidden:YES];
+                break;
+                
+            default:
+                [closeButton setAlphaValue:1.0];
+                [minimiseButton setAlphaValue:1.0];
+                [zoomButton setAlphaValue:1.0];
+                [closeButton setHidden:NO];
+                [minimiseButton setHidden:NO];
+                [zoomButton setHidden:NO];
+                break;
         }
     }
 }
@@ -707,11 +718,12 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
         return;
     }
     
-    if (!toolbarView) {
+    OBMenuBarWindow *window = (OBMenuBarWindow *)[self window];
+    
+    if (!window.toolbarView) {
         return;
     }
     
-    OBMenuBarWindow *window = (OBMenuBarWindow *)[self window];
     NSRect bounds = [window.contentView superview].bounds;
     CGFloat originX = bounds.origin.x;
     CGFloat originY = bounds.origin.y;
