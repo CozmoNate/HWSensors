@@ -24,8 +24,8 @@
 		7E2042011730844C00C13B65 /* GraphsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042001730844C00C13B65 /* GraphsController.xib */; };
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
 		7E2042051730D04100C13B65 /* AppController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* AppController.xib */; };
-		7E333EDA178886BA00A508BD /* 433-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E333ED8178886BA00A508BD /* 433-x.png */; };
-		7E333EDB178886BA00A508BD /* 433-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E333ED9178886BA00A508BD /* 433-x@2x.png */; };
+		7E2D3D5E178A6413009EF014 /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E2D3D5C178A6413009EF014 /* 37-circle-x.png */; };
+		7E2D3D5F178A6413009EF014 /* 37-circle-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E2D3D5D178A6413009EF014 /* 37-circle-x@2x.png */; };
 		7E44D95E1710433A00D06387 /* WindowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E44D95D1710433A00D06387 /* WindowFilter.m */; };
 		7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */; };
 		7E7C70AE1703019D004E344D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
@@ -143,8 +143,8 @@
 		7E2042001730844C00C13B65 /* GraphsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphsController.xib; sourceTree = "<group>"; };
 		7E2042021730CDA000C13B65 /* PopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupController.xib; sourceTree = "<group>"; };
 		7E2042041730D04000C13B65 /* AppController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppController.xib; sourceTree = "<group>"; };
-		7E333ED8178886BA00A508BD /* 433-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "433-x.png"; sourceTree = "<group>"; };
-		7E333ED9178886BA00A508BD /* 433-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "433-x@2x.png"; sourceTree = "<group>"; };
+		7E2D3D5C178A6413009EF014 /* 37-circle-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x.png"; sourceTree = "<group>"; };
+		7E2D3D5D178A6413009EF014 /* 37-circle-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x@2x.png"; sourceTree = "<group>"; };
 		7E44D95C1710433A00D06387 /* WindowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowFilter.h; sourceTree = "<group>"; };
 		7E44D95D1710433A00D06387 /* WindowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowFilter.m; sourceTree = "<group>"; };
 		7E4CD74B1737574C002586D2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -451,8 +451,8 @@
 				7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */,
 				7EED6D7B1734F9CF00248870 /* 19-gear.png */,
 				7EED6D7C1734F9CF00248870 /* 19-gear@2x.png */,
-				7E333ED8178886BA00A508BD /* 433-x.png */,
-				7E333ED9178886BA00A508BD /* 433-x@2x.png */,
+				7E2D3D5C178A6413009EF014 /* 37-circle-x.png */,
+				7E2D3D5D178A6413009EF014 /* 37-circle-x@2x.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -781,8 +781,8 @@
 				7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */,
 				7EED6D7E1734F9CF00248870 /* 19-gear@2x.png in Resources */,
 				7EDEA333173E3B94003ADE86 /* hwsensors.icns in Resources */,
-				7E333EDA178886BA00A508BD /* 433-x.png in Resources */,
-				7E333EDB178886BA00A508BD /* 433-x@2x.png in Resources */,
+				7E2D3D5E178A6413009EF014 /* 37-circle-x.png in Resources */,
+				7E2D3D5F178A6413009EF014 /* 37-circle-x@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

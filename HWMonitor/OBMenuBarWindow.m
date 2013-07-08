@@ -828,8 +828,8 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
         NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
         [[[NSGradient alloc] initWithColorsAndLocations:
           bottomColor,                              0.0,
-          [bottomColor highlightWithLevel:0.10],     window.attachedToMenuBar ? 0.6 : 0.5,
-          bottomColor,                              window.attachedToMenuBar ? 0.6 : 0.5,
+          [bottomColor highlightWithLevel:0.10],     window.attachedToMenuBar ? 0.62 : 0.49,
+          bottomColor,                              window.attachedToMenuBar ? 0.62 : 0.49,
           [bottomColor highlightWithLevel:0.05],    1.0,
           nil] drawInRect:window.attachedToMenuBar ? titleBarRect : headingRect angle:270];
     }
