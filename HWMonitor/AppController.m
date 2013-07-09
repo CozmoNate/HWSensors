@@ -572,7 +572,14 @@
 
 -(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
 {
-    return [[self getItemAtIndex:row] isKindOfClass:[NSString class]];
+    if (tableView == _favoritesTableView) {
+        return row == 0 ? YES : NO;
+    }
+    else if (tableView == _sensorsTableView) {
+        return [[self getItemAtIndex:row] isKindOfClass:[NSString class]];
+    }
+    
+    return NO;
 }
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
