@@ -131,7 +131,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nversion_file=\"${PROJECT_DIR}/Shared/version.h\"\nproject_name=$(/usr/libexec/PlistBuddy -c \"Print 'Project Name'\" \"${PROJECT_DIR}/version.plist\")\nuppercased_name=$(echo $project_name | tr [[:lower:]] [[:upper:]])\nproject_version=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\n\ngit_revision=$(git rev-list --count HEAD)\ngit_postfix=$(git describe)\n\necho \"\" > ${version_file}\necho \"#define ${uppercased_name}_REVISION ${git_revision}\" >> ${version_file}\necho \"\" >> ${version_file}\necho \"#define ${uppercased_name}_VERSION ${project_version}.${git_revision}\" >> ${version_file}\necho \"\" >> ${version_file}";
+			shellScript = "#!/bin/sh\n\nversion_file=\"${PROJECT_DIR}/Shared/version.h\"\nproject_name=$(/usr/libexec/PlistBuddy -c \"Print 'Project Name'\" \"${PROJECT_DIR}/version.plist\")\nuppercased_name=$(echo $project_name | tr [[:lower:]] [[:upper:]])\nproject_version=$(/usr/libexec/PlistBuddy -c \"Print 'Project Version'\" \"${PROJECT_DIR}/version.plist\")\n\ncd ${PROJECT_DIR}\n\nsc_revision=$(svnversion)\n\n# Fallback to git commits count\nif [ \"$sc_revision\" == \"exported\" ]\nthen\n    sc_revision=$(git rev-list --count HEAD)\nfi\n\necho \"\" > ${version_file}\necho \"#define ${uppercased_name}_REVISION ${sc_revision}\" >> ${version_file}\necho \"\" >> ${version_file}\necho \"#define ${uppercased_name}_VERSION ${project_version}.${sc_revision}\" >> ${version_file}\necho \"\" >> ${version_file}";
 		};
 		7EB7E72117834E630071B3F0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
