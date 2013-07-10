@@ -1,0 +1,245 @@
+/* 
+  Localizable.strings
+  HWSensors
+
+  Created by kozlek on 24/02/12.
+  Copyright (c) 2013 beta992 <beta992@gmail.com>. All rights reserved.
+ 
+*/
+
+"TEMPERATURES" = "TEMPERATUREN";
+"DRIVE TEMPERATURES" = "SCHIJF TEMPERATUREN";
+"SSD REMAINING LIFE" = "RESTERENDE LEVENSDUUR SSD";
+"SSD REMAINING BLOCKS" = "RESTERENDE BLOKKEN SSD";
+"MULTIPLIERS" = "VERMENIGVULDIGERS";
+"FREQUENCIES" = "FREQUENTIES";
+"VOLTAGES" = "VOLTAGES";
+"CURRENTS" = "STROMINGEN";
+"POWERS" = "VERMOGENS";
+"FANS" = "VENTILATORS";
+"BATTERIES" = "BATTERIJEN";
+"Quit HWMonitor" = "Sluit HWMonitor";
+"No sensors found" = "Geen sensors gevonden";
+"Preferences..." = "Voorkeuren...";
+"Show hidden sensors" = "Laat verborgen sensors zien";
+"Use BSD drives names" = "Gebruik BSD schijfweergave";
+"Celsius" = "Celsius";
+"Fahrenheit" = "Fahrenheit";
+"Use larger font" = "Gebruik groter lettertype";
+"Use shadow effect" = "Gebruik schaduw effect";
+"hwmonitor" = "HWMonitor icoon";
+"thermometer" = "Thermometer icoon";
+"temperatures" = "Temperatuur icoon";
+"hddtemperatures" = "HDD icoon";
+"ssdlife" = "SSD icoon";
+"multipliers" = "Microchip icoon";
+"frequencies" = "Frequentie icoon";
+"tachometers" = "Tachometer icoon";
+"voltages" = "Voltage icoon";
+"pcicard" = "PCI icoon";
+"video" = "Video icoon";
+"battery" = "Batterij icoon";
+"Menubar items" = "Menubalk Elementen";
+"Icons" = "Iconen";
+"Sensors" = "Sensoren";
+"HWMonitor Preferences" = "HWMonitor Voorkeuren";
+"Install menu bar extension" = "Installeer menubalk extensie";
+"Remove menu bar extension" = "Verwijder menubalk extensie";
+"Temperature units:" = "Temperature eenheid:";
+"Menu sensors:" = "Menu sensoren:";
+"Miscellaneous:" = "Overige:";
+"About HWMonitor" = "Over HWMonitor";
+"Preferences..." = "Voorkeuren...";
+"Services" = "Services";
+"Hide HWMonitor" = "Verberg HWMonitor";
+"Hide Others" = "Verberg anderen";
+"Show All" = "Toon alle";
+"Quit HWMonitor" = "Sluit HWMonitor";
+"Window" = "Venster";
+"Minimize" = "Minimaliseren";
+"Zoom" = "Zoom";
+"Bring All to Front" = "Breng alle naar voren";
+"Help" = "Help";
+"HWMonitor Help" = "HWMonitor Help";
+"Preferences" = "Voorkeuren";
+"Graphs" = "Grafieken";
+"Show partitions names" = "Laat partitie-namen zien";
+"System menu bar:" = "Systeem menubalk:";
+"Preferences" = "Voorkeuren";
+"Menubar Items" = "Menubalk Items";
+"History Graphs" = "Geschiedenis Grafieken";
+"Sensors update rate:" = "Sensors update snelheid:";
+"S.M.A.R.T. update rate:" = "S.M.A.R.T. update snelheid:";
+"sec" = "sec";
+"min" = "min";
+"Graphs:" = "Grafieken:";
+"Use data smoothing" = "Gebruik data gladstrijken";
+"General" = "Algemeen";
+"Menubar" = "Menubalk";
+"Menubar icons:" = "Menubalk iconen:";
+"Temperature Sensors" = "Temperature Sensoren";
+"Frequency Sensors" = "Frequentie Sensoren";
+"Tachometer Sensors" = "Tachometer Sensoren";
+"Voltage Sensors" = "Voltage Sensoren";
+"Close HWMonitor" = "Sluit HWMonitor";
+"Start HWMonitor at login" = "Start HWMonitor bij inloggen";
+"Menu color theme:" = "Menu kleur thema:";
+"Default" = "Standaard";
+"Gray" = "Grijs";
+"Dark" = "Donker";
+"Continue monitor sensors in background" = "Sensoren blijven bewaken in
+achtergrond";
+"Graphs window always topmost" = "Grafieken venster altijd bovenste";
+"Check for updates" = "Controleer op updates";
+"Attach to Menu Bar" = "Hechten aan menubalk";
+"Detach from Menu Bar" = "Losmaken van menubalk";
+"Hide Window" = "Verberg venster";
+
+"Mouse" = "Muis";
+"Keyboard" = "Toetsenbord";
+"Trackpad" = "Trackpad";
+"Built-in Battery" = "Ingebouwde Batterij";
+
+"HWSensors Updater" = "HWSensors Update-programma";
+"New HWSensors version %@ is available to download. You have %@. Download
+newer version?" = "Nieuwe HWSensors versie %@ is beschikbaar om te
+downloaden. Je hebt %@. Download nieuwe versie?";
+"Update" = "Update";
+"Download" = "Download";
+"Next time" = "Volgende keer";
+"Skip this version" = "Versie overslaan";
+
+"Check for Updates..." = "Controleer op updates...";
+"No new versions of HWSensors are available at this time!" = "Geen nieuwe
+versies van HWSensors op dit moment beschikbaar!";
+"Close" = "Sluit";
+"An error occured while trying to download HWSensors installer!" = "Een
+fout heeft zich voorgedaan tijdens het downloaden van HWSensors installer!";
+
+"%1.0f MHz" = "%1.0f MHz";
+"%1.0f rpm" = "%1.0f rpm";
+"%1.3f V" = "%1.3f V";
+"%1.3f A" = "%1.3f A";
+"%1.3f W" = "%1.3f W";
+
+"%1.0fMHz" = "%1.0fMHz";
+"%1.2fGHz" = "%1.2fGHz";
+"%1.2fTHz" = "%1.2fTHz";
+"%1.0frpm" = "%1.0frpm";
+"%1.3fV" = "%1.3fV";
+"%1.3fA" = "%1.3fA";
+"%1.3fW" = "%1.3fW";
+
+"Downloading %@" = "Downloaden %@";
+"%1.1f Mbytes" = "%1.1f Mbytes";
+
+"CPUFan" = "CPU Ventilator";
+"CPUFan2" = "CPU Ventilator 2";
+"PowerFan" = "Power Ventilator";
+"SystemFan1" = "Systeem Ventilator 1";
+"SystemFan2" = "Systeem Ventilator 2";
+"AuxFan" = "Aux Ventilator";
+"AuxFan2" = "Aux Ventilator 2";
+"MB Fan 0" = "MB Ventilator 0";
+"MB Fan 1" = "MB Ventilator 1";
+"MB Fan 2" = "MB Ventilator 2";
+"MB Fan 3" = "MB Ventilator 3";
+"MB Fan 4" = "MB Ventilator 4";
+"GPU Fan" = "GPU Ventilator";
+"GPU 2 Fan" = "GPU Ventilator 2";
+"GPU 3 Fan" = "GPU Ventilator 3";
+"GPU 3 Fan" = "GPU Ventilator 4";
+"CPU_MEM" = "Processor/Geheugen";
+"IO" = "Uitbreidingsslot";
+"PCI" = "Uitbreidingsslot";
+"INTAKE" = "Inzuigend";
+"EXHAUST" = "Uitgaand";
+"PS" = "Leveren";
+"Main" = "Hoofdventilator";
+"ODD" = "Optische drive";
+"HDD" = "Hard Drive Tray";
+"BOOSTA" = "Versterk á";
+"BOOSTB" = "Versterk B";
+
+"Ambient" = "Omgeving";
+
+"CPU Die %X" = "CPU Core %X";
+
+"CPU %X" = "CPU %X";
+"CPU Heatsink" = "CPU Koelelement";
+"CPU %X Heatsink" = "CPU %X, Koelelement";
+"CPU Proximity" = "CPU Nabijheid";
+"CPU %X Proximity" = "CPU %X Nabijheid";
+
+"CPU Core Package" = "CPU Core Pakket";
+
+"PECI CPU" = "PECI CPU";
+"PECI SA" = "PECI SA";
+"PECI GPU" = "PECI GPU";
+
+"Northbridge Die" = "Northbridge Core";
+"Northbridge %X Die" = "Northbridge %X Core";
+"Northbridge Proximity" = "Northbridge Nabijheid";
+"Northbridge %X Proximity" = "Northbridge %X Nabijheid";
+"MCH Die" = "MCH Core";
+"MCH Heatsink" = "MCH Koelelement";
+"MCP Internal Die" = "MCP Intern Core";
+"PCH Die" = "PCH Core";
+"PCH Proximity" = "PCH Nabijheid";
+"Mainboard Proximity" = "Moederbord Nabijheid";
+"LCD Proximity" = "LCD Nabijheid";
+"Airport Proximity" = "Airport Nabijheid";
+"Battery Proximity" = "Batterij Nabijheid";
+"Powerboard Proximity" = "Powerboard Nabijheid";
+
+"Memory Bank %X" = "Geheugenbank %X";
+"Memory Module %X" = "Geheugenmodule %X";
+
+"Optical Drive" = "Optische Drive";
+"HDD Bay %X" = "HDD Bay %X";
+
+"GPU Die" = "GPU Core";
+"GPU %X Die" = "GPU %X Core";
+"GPU Heatsink" = "GPU Koelelement";
+"GPU %X Heatsink" = "GPU %X Koelelement";
+"GPU Proximity" = "GPU Nabijheid";
+"GPU %X Proximity" = "GPU %X Nabijheid";
+"GPU Memory" = "GPU Geheugen";
+"GPU %X Memory" = "GPU %X Geheugen";
+"GPU ROPs" = "GPU ROPs";
+"GPU %X ROPs" = "GPU %X ROPs";
+"GPU PWM" = "GPU PWM";
+"GPU %X PWM" = "GPU %X PWM";
+"GPU %X Fan" = "GPU %X Ventilator";
+
+"Thermal Zone %X" = "Thermische Zone %X";
+
+"CPU Core" = "CPU Core";
+"CPU Core %X" = "CPU Core %X";
+"CPU Package Multiplier" = "CPU Pakket Vermenigvuldiger";
+
+"GPU Core" = "GPU Core";
+"GPU %X Core" = "GPU %X Core";
+"GPU Shader" = "GPU Shader";
+"GPU %X Shader" = "GPU %X Shader";
+"GPU ROP" = "GPU ROP";
+"GPU %X ROP" = "GPU %X ROP";
+
+"Memory Modules" = "Geheugenmodules";
+"MCP Core" = "MCP Core";
+"Main 3.3V" = "Hoofd 3.3V";
+"Main 5V" = "Hoofd 5V";
+"Main 12V" = "Hoofd 12V";
+"Auxiliary 3.3V" = "Auxiliary 3.3V";
+"Standby 5V" = "Standby 5V";
+//"PCIe 12V" = "";
+"Power Supply 12V" = "Voeding 12V";
+//"DC In S0 Rail" = "";
+//"DC In S5 Rail" = "";
+"GPU Rail" = "GPU Rail";
+"GPU %X Rail" = "GPU %X Rail";
+
+"CMOS Battery" = "CMOS Batterij";
+
+"VRM Supply %X" = "VRM Levering %X";
+"Power Supply %X" = "Stroomlevering %X";

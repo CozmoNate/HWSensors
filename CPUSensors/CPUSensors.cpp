@@ -269,16 +269,16 @@ bool CPUSensors::start(IOService *provider)
                 {
                     case CPUID_MODEL_PENTIUM_M:
                         tjmax[0] = 100;
-                        if (!platform) platform = OSString::withCString("M70\0\0\0\0");
+                        if (!platform) platform = OSString::withCString("M70\0\0\0\0\0");
                         break;
                             
                     case CPUID_MODEL_YONAH:
-                        if (!platform) platform = OSString::withCString("K22\0\0\0\0");
+                        if (!platform) platform = OSString::withCString("K22\0\0\0\0\0");
                         tjmax[0] = 85;
                         break;
                         
                     case CPUID_MODEL_MEROM: // Intel Core (65nm)
-                        if (!platform) platform = OSString::withCString("M75\0\0\0\0");
+                        if (!platform) platform = OSString::withCString("M75\0\0\0\0\0");
                         switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // G0
@@ -318,7 +318,7 @@ bool CPUSensors::start(IOService *provider)
                         
                     case CPUID_MODEL_PENRYN: // Intel Core (45nm)
                                              // Mobile CPU ?
-                        if (!platform) platform = OSString::withCString("M82\0\0\0\0");
+                        if (!platform) platform = OSString::withCString("M82\0\0\0\0\0");
                         if (rdmsr64(0x17) & (1<<28))
                             tjmax[0] = 105;
                         else
@@ -348,25 +348,25 @@ bool CPUSensors::start(IOService *provider)
                     case CPUID_MODEL_WESTMERE:
                     case CPUID_MODEL_NEHALEM_EX:
                     case CPUID_MODEL_WESTMERE_EX:
-                        if (!platform) platform = OSString::withCString("k74\0\0\0\0");
+                        if (!platform) platform = OSString::withCString("k74\0\0\0\0\0");
                         readTjmaxFromMSR();
                         break;
                         
                     case CPUID_MODEL_SANDYBRIDGE:
                     case CPUID_MODEL_JAKETOWN:
-                        if (!platform) platform = OSString::withCString("k62\0\0\0\0");
+                        if (!platform) platform = OSString::withCString("k62\0\0\0\0\0");
                         readTjmaxFromMSR();
                         break;
                         
                     case CPUID_MODEL_IVYBRIDGE:
-                        if (!platform) platform = OSString::withCString("d8\0\0\0\0\0");
+                        if (!platform) platform = OSString::withCString("d8\0\0\0\0\0\0");
                         readTjmaxFromMSR();
                         break;
                         
                     case CPUID_MODEL_HASWELL_MB:
                     case CPUID_MODEL_HASWELL_ULT:
                     case CPUID_MODEL_HASWELL_ULX:
-                        if (!platform) platform = OSString::withCString("d8\0\0\0\0\0"); // TODO: update for haswell
+                        if (!platform) platform = OSString::withCString("j43\0\0\0\0\0"); // TODO: got from macbookair6,2 need to check for other platforms
                         readTjmaxFromMSR();
                         break;
                         
