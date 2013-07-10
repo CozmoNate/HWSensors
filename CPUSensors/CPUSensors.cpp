@@ -362,7 +362,8 @@ bool CPUSensors::start(IOService *provider)
                         if (!platform) platform = OSString::withCString("d8\0\0\0\0\0\0");
                         readTjmaxFromMSR();
                         break;
-                        
+                    
+                    case CPUID_MODEL_HASWELL_DT:
                     case CPUID_MODEL_HASWELL_MB:
                     case CPUID_MODEL_HASWELL_ULT:
                     case CPUID_MODEL_HASWELL_ULX:
