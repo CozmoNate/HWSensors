@@ -16,8 +16,6 @@
 #import "BatteryCell.h"
 #import "UpdatesController.h"
 
-#import "OBMenuBarWindow.h"
-
 @implementation PopupController
 
 @synthesize statusItem = _statusItem;
@@ -28,7 +26,6 @@
     _colorTheme = colorTheme;
     
     [(OBMenuBarWindow*)self.window setColorTheme:colorTheme];
-    [_dividerView setImage:[NSImage imageNamed:colorTheme.useDarkIcons ? @"dark_divider" : @"divider"]];
     [_tableView reloadData];
 }
 
@@ -119,9 +116,59 @@
         [self.delegate popupDidClose:self];
     }
 }
-
 #pragma mark -
 #pragma mark Events
+
+
+
+#pragma mark -
+#pragma mark Actions
+
+- (void)togglePanel:(id)sender
+{
+    OBMenuBarWindow* menubarWindow = (OBMenuBarWindow*)self.window;
+    
+    if (menubarWindow)
+    {
+        if (menubarWindow.isVisible && (menubarWindow.isKeyWindow || menubarWindow.attachedToMenuBar))
+        {
+            [self close];
+            self.statusItemView.isHighlighted = NO;
+        }
+        else
+        {
+            if (!menubarWindow.attachedToMenuBar) {
+                [NSApp activateIgnoringOtherApps:YES];
+            }
+            
+            [self showWindow:nil];
+            self.statusItemView.isHighlighted = YES;
+        }
+    }
+}
+
+- (void)showAboutPanel:(id)sender
+{
+    [_aboutController showWindow:sender];
+}
+
+- (void)openPreferences:(id)sender
+{
+    [_appController showWindow:sender];
+}
+
+- (void)showGraphsWindow:(id)sender
+{
+    [_graphsController showWindow:sender];
+}
+
+- (void)checkForUpdates:(id)sender
+{
+    [self performSelectorInBackground:@selector(checkForUpdatesDialog) withObject:nil];
+}
+
+#pragma mark -
+#pragma mark Methods
 
 - (void)initialSetup
 {
@@ -146,72 +193,6 @@
     [Localizer localizeView:_toolbarView];
     
     [self resizeToContentAndOrderFront:NO];
-}
-
-#pragma mark -
-#pragma mark Methods
-
-- (NSRect)statusRectForWindow:(NSWindow *)window
-{
-    NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
-    NSRect statusRect = NSZeroRect;
-    
-    if (_statusItemView)
-    {
-        statusRect = _statusItemView.screenRect;
-        statusRect.origin.y = NSMinY(statusRect) - NSHeight(statusRect);
-    }
-    else
-    {
-        statusRect.size = NSMakeSize(24, [[NSStatusBar systemStatusBar] thickness]);
-        statusRect.origin.x = roundf((NSWidth(screenRect) - NSWidth(statusRect)) / 2.0);
-        statusRect.origin.y = NSHeight(screenRect) - NSHeight(statusRect) * 2.0;
-    }
-    
-    return statusRect;
-}
-
--(void)togglePanel:(id)sender
-{
-    OBMenuBarWindow* menubarWindow = (OBMenuBarWindow*)self.window;
-    
-    if (menubarWindow)
-    {
-        if (menubarWindow.isVisible && (menubarWindow.isKeyWindow || menubarWindow.attachedToMenuBar))
-        {
-            [self close];
-            self.statusItemView.isHighlighted = NO;
-        }
-        else
-        {
-            if (!menubarWindow.attachedToMenuBar) {
-                [NSApp activateIgnoringOtherApps:YES];
-            }
-            
-            [self showWindow:nil];
-            self.statusItemView.isHighlighted = YES;
-        }
-    }
-}
-
-- (IBAction)showAboutPanel:(id)sender
-{
-    [_aboutController showWindow:sender];
-}
-
-- (IBAction)openPreferences:(id)sender
-{
-    [_appController showWindow:sender];
-}
-
-- (IBAction)showGraphsWindow:(id)sender
-{
-    [_graphsController showWindow:sender];
-}
-
-- (IBAction)checkForUpdates:(id)sender
-{
-    [self performSelectorInBackground:@selector(checkForUpdatesDialog) withObject:nil];
 }
 
 - (void)checkForUpdatesDialog

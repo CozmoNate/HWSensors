@@ -70,7 +70,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
 -(CGFloat)toolbarHeight
 {
-    return [self toolbarRect].size.height;
+    return [self titleBarRect].size.height;
 }
 
 -(void)setStatusItemView:(NSView *)newStatusItemView

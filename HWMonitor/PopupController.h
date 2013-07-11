@@ -7,6 +7,7 @@
 
 #import "StatusItemView.h"
 #import "ColorTheme.h"
+#import "OBMenuBarWindow.h"
 
 @protocol PopupControllerDelegate <NSObject>
 @optional
@@ -35,7 +36,6 @@
 @property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
 
 @property (assign) IBOutlet NSView *toolbarView;
-@property (assign) IBOutlet NSImageView *dividerView;
 @property (assign) IBOutlet NSTableView *tableView;
 @property (assign) IBOutlet NSTextField *titleField;
 

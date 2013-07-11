@@ -73,12 +73,45 @@ bool FakeSMC::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
 	
-	if (!smcDevice->init(provider, OSDynamicCast(OSDictionary, getProperty("Configuration")))) {
-		HWSensorsInfoLog("failed to initialize SMC device");
-		return false;
-	}
+	if (smcDevice->init(provider, OSDynamicCast(OSDictionary, getProperty("Configuration")))) {
+        
+        smcDevice->registerService();
 
-	smcDevice->registerService();
+        // Loading keys from NVRAM
+        OSDictionary *matching = serviceMatching("IODTNVRAM");
+        
+        if (IORegistryEntry* nvram = waitForMatchingService(matching)) {
+            if (OSData *keys = OSDynamicCast(OSData, nvram->getProperty(kFakeSMCPropertyKeys))) {
+                if (keys->getLength()) {
+                    int count = 0;
+                    unsigned int offset = 0;
+                    
+                    do {
+                        char name[5]; memcpy(name, keys->getBytesNoCopy(offset, 4), 4); name[4] = '\0'; offset += 4;
+                        char type[5]; memcpy(type, keys->getBytesNoCopy(offset, 4), 4); type[4] = '\0'; offset += 4;
+                        unsigned char size = 0; memcpy(&size, keys->getBytesNoCopy(offset, 1), 1); offset++;
+                        const void *value = keys->getBytesNoCopy(offset, size); offset += size;
+                        
+                        if (smcDevice->addKeyWithValue(name, type, size, value)) {
+                            HWSensorsInfoLog("key %s added from NVRAM", name);
+                            count++;
+                        }
+                        
+                    } while (offset + 4 < keys->getLength());
+                    
+                    HWSensorsInfoLog("%d key%s added from NVRAM", count, count == 1 ? "" : "s");
+                }
+            }
+        }
+        
+        OSSafeRelease(matching);
+	}
+    else {
+        HWSensorsInfoLog("failed to initialize SMC device");
+		return false;
+    }
+
+	
     
 	registerService();
 		

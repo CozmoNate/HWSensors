@@ -13,6 +13,7 @@
 #include "FakeSMCPlugin.h"
 
 #include <IOKit/IODeviceTreeSupport.h>
+#include <IOKit/IOKitKeys.h>
 
 #define FakeSMCTraceLog(string, args...) do { if (trace) { IOLog ("%s: [Trace] " string "\n",getName() , ## args); } } while(0)
 #define FakeSMCDebugLog(string, args...) do { if (debug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
@@ -146,7 +147,10 @@ void FakeSMCDevice::applesmc_io_data_writeb(void *opaque, uint32_t addr, uint32_
                     
                     FakeSMCDebugLog("system writing key %s, length %d", name, s->data_len);
                     
-					addKeyWithValue(name, type ? type->getCStringNoCopy() : 0, s->data_len, s->value);
+					if (FakeSMCKey* key = addKeyWithValue(name, type ? type->getCStringNoCopy() : 0, s->data_len, s->value)) {
+                        saveKeyToNVRAM(key);
+                    }
+                    
 					bzero(s->value, 255);
 				}
 			};
@@ -239,6 +243,201 @@ uint32_t FakeSMCDevice::applesmc_io_cmd_readb(void *opaque, uint32_t addr1)
 {
     //		IOLog("APPLESMC: CMD Read B: %#x\n", addr1);
     return ((struct AppleSMCStatus*)opaque)->status;
+}
+
+void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key)
+{
+    if (IORegistryEntry *nvram = fromPath("/options", gIODTPlane)) {
+        nvramKeys->setObject(key->getKey(), key);
+        
+        OSData *data = OSData::withCapacity(0);
+        
+        if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(nvramKeys)) {
+            
+            while (OSString *nextKeyName = OSDynamicCast(OSString, iterator->getNextObject())) {
+                FakeSMCKey *nextKey = OSDynamicCast(FakeSMCKey, nvramKeys->getObject(nextKeyName));
+                
+                data->appendBytes(nextKey->getKey(), 4);
+                data->appendBytes(nextKey->getType(), 4);
+                data->appendByte(nextKey->getSize(), 1);
+                data->appendBytes(nextKey->getValue(), nextKey->getSize());
+            }
+            
+            OSSafeRelease(iterator);
+        }
+        
+        nvram->setProperty(kFakeSMCPropertyKeys, data);
+        nvram->setProperty(kIONVRAMSyncNowPropertyKey, kFakeSMCPropertyKeys);
+        
+        OSSafeRelease(data);
+        OSSafeRelease(nvram);
+    }
+}
+
+UInt32 FakeSMCDevice::getCount() { return keys->getCount(); }
+
+void FakeSMCDevice::updateKeyCounterKey()
+{
+	UInt32 count = OSSwapHostToBigInt32(keys->getCount());
+    
+	//char value[] = { static_cast<char>(count << 24), static_cast<char>(count << 16), static_cast<char>(count << 8), static_cast<char>(count) };
+    
+	keyCounterKey->setValueFromBuffer(&count, 4);
+}
+
+void FakeSMCDevice::updateFanCounterKey()
+{
+	UInt8 count = 0;
+    
+    for (UInt8 i = 0; i <= 0xf; i++) {
+        if (bit_get(vacantFanIndex, BIT(i))) {
+            count = i + 1;
+        }
+    }
+    
+    //addKeyWithValue(KEY_FAN_NUMBER, TYPE_UI8, TYPE_UI8_SIZE, &count);
+	fanCounterKey->setValueFromBuffer(&count, 1);
+}
+
+FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value)
+{
+    if (FakeSMCKey *key = getKey(name)) {
+        
+        if (value) {
+            key->setType(type);
+            key->setSize(size);
+            key->setValueFromBuffer(value, size);
+        }
+        
+        if (debug) {
+            if (strncmp("NATJ", key->getKey(), 5) == 0) {
+                UInt8 val = *(UInt8*)key->getValue();
+                
+                switch (val) {
+                    case 0:
+                        HWSensorsInfoLog("Ninja Action Timer Job: do nothing");
+                        break;
+                        
+                    case 1:
+                        HWSensorsInfoLog("Ninja Action Timer Job: force shutdown to S5");
+                        break;
+                        
+                    case 2:
+                        HWSensorsInfoLog("Ninja Action Timer Job: force restart");
+                        break;
+                        
+                    case 3:
+                        HWSensorsInfoLog("Ninja Action Timer Job: force startup");
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            else if (strncmp("NATi", key->getKey(), 5) == 0) {
+                UInt16 val = *(UInt16*)key->getValue();
+                
+                HWSensorsInfoLog("Ninja Action Timer is set to %d", val);
+            }
+            else if (strncmp("MSDW", key->getKey(), 5) == 0) {
+                UInt8 val = *(UInt8*)key->getValue();
+                
+                switch (val) {
+                    case 0:
+                        HWSensorsInfoLog("display is now asleep");
+                        break;
+                        
+                    case 1:
+                        HWSensorsInfoLog("display is now awake");
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+        }
+        
+		FakeSMCDebugLog("updating value for key %s, type: %s, size: %d", name, type, size);
+        
+		return key;
+	}
+    
+	FakeSMCDebugLog("adding key %s with value, type: %s, size: %d", name, type, size);
+    
+	if (FakeSMCKey *key = FakeSMCKey::withValue(name, type, size, value)) {
+		keys->setObject(key);
+		updateKeyCounterKey();
+		return key;
+	}
+    
+	HWSensorsErrorLog("failed to create key %s", name);
+    
+	return 0;
+}
+
+FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler)
+{
+	if (FakeSMCKey *key = getKey(name)) {
+        
+        if (key->getHandler() != NULL) {
+            // TODO: check priority?
+            
+            HWSensorsErrorLog("key %s already handled", name);
+            return 0;
+        }
+        
+        key->setType(type);
+        key->setSize(size);
+        key->setHandler(handler);
+		
+		return key;
+	}
+    
+	FakeSMCDebugLog("adding key %s with handler, type: %s, size: %d", name, type, size);
+    
+	if (FakeSMCKey *key = FakeSMCKey::withHandler(name, type, size, handler)) {
+		keys->setObject(key);
+		updateKeyCounterKey();
+		return key;
+	}
+    
+	HWSensorsErrorLog("failed to create key %s", name);
+    
+	return 0;
+}
+
+FakeSMCKey *FakeSMCDevice::getKey(const char *name)
+{
+    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
+        // Made the name valid (4 char long): add trailing spaces if needed
+        char validKeyNameBuffer[5];
+        snprintf(validKeyNameBuffer, 5, "%-4s", name);
+        
+		while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
+            UInt32 key1 = HWSensorsKeyToInt(&validKeyNameBuffer);
+			UInt32 key2 = HWSensorsKeyToInt(key->getKey());
+			if (key1 == key2) {
+				OSSafeRelease(iterator);
+				return key;
+			}
+		}
+        
+        OSSafeRelease(iterator);
+	}
+    
+ 	FakeSMCDebugLog("key %s not found", name);
+    
+	return 0;
+}
+
+FakeSMCKey *FakeSMCDevice::getKey(unsigned int index)
+{
+	if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, keys->getObject(index)))
+		return key;
+    
+	FakeSMCDebugLog("key with index %d not found", index);
+    
+	return 0;
 }
 
 UInt32 FakeSMCDevice::ioRead32( UInt16 offset, IOMemoryMap * map )
@@ -420,6 +619,7 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
     // Init SMC device
     
     exposedValues = OSDictionary::withCapacity(0);
+    nvramKeys = OSDictionary::withCapacity(0);
     
 	this->setName("SMC");
     
@@ -547,172 +747,6 @@ IOReturn FakeSMCDevice::setProperties(OSObject * properties)
     }
     
 	return kIOReturnUnsupported;
-}
-
-UInt32 FakeSMCDevice::getCount() { return keys->getCount(); }
-
-void FakeSMCDevice::updateKeyCounterKey()
-{
-	UInt32 count = OSSwapHostToBigInt32(keys->getCount());
-    
-	//char value[] = { static_cast<char>(count << 24), static_cast<char>(count << 16), static_cast<char>(count << 8), static_cast<char>(count) };
-    
-	keyCounterKey->setValueFromBuffer(&count, 4);
-}
-
-void FakeSMCDevice::updateFanCounterKey()
-{
-	UInt8 count = 0;
-    
-    for (UInt8 i = 0; i <= 0xf; i++) {
-        if (bit_get(vacantFanIndex, BIT(i))) {
-            count = i + 1;
-        }
-    }
-    
-    //addKeyWithValue(KEY_FAN_NUMBER, TYPE_UI8, TYPE_UI8_SIZE, &count);
-	fanCounterKey->setValueFromBuffer(&count, 1);
-}
-
-FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value)
-{
-    if (FakeSMCKey *key = getKey(name)) {
-        
-        if (value) {
-            key->setType(type);
-            key->setSize(size);
-            key->setValueFromBuffer(value, size);
-        }
-        
-        if (debug) {
-            if (strncmp("NATJ", key->getKey(), 5) == 0) {
-                UInt8 val = *(UInt8*)key->getValue();
-                
-                switch (val) {
-                    case 0:
-                        HWSensorsInfoLog("Ninja Action Timer Job: do nothing");
-                        break;
-                        
-                    case 1:
-                        HWSensorsInfoLog("Ninja Action Timer Job: force shutdown to S5");
-                        break;
-                        
-                    case 2:
-                        HWSensorsInfoLog("Ninja Action Timer Job: force restart");
-                        break;
-                        
-                    case 3:
-                        HWSensorsInfoLog("Ninja Action Timer Job: force startup");
-                        break;
-                        
-                    default:
-                        break;
-                }
-            }
-            else if (strncmp("NATi", key->getKey(), 5) == 0) {
-                UInt16 val = *(UInt16*)key->getValue();
-                
-                HWSensorsInfoLog("Ninja Action Timer is set to %d", val);
-            }
-            else if (strncmp("MSDW", key->getKey(), 5) == 0) {
-                UInt8 val = *(UInt8*)key->getValue();
-                
-                switch (val) {
-                    case 0:
-                        HWSensorsInfoLog("display is now asleep");
-                        break;
-                        
-                    case 1:
-                        HWSensorsInfoLog("display is now awake");
-                        break;
-                        
-                    default:
-                        break;
-                }
-            }
-        }
-        
-		FakeSMCDebugLog("updating value for key %s, type: %s, size: %d", name, type, size);
-        
-		return key;
-	}
-    
-	FakeSMCDebugLog("adding key %s with value, type: %s, size: %d", name, type, size);
-    
-	if (FakeSMCKey *key = FakeSMCKey::withValue(name, type, size, value)) {
-		keys->setObject(key);
-		updateKeyCounterKey();
-		return key;
-	}
-    
-	HWSensorsErrorLog("failed to create key %s", name);
-    
-	return 0;
-}
-
-FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler)
-{
-	if (FakeSMCKey *key = getKey(name)) {
-        
-        if (key->getHandler() != NULL) {
-            // TODO: check priority?
-            
-            HWSensorsErrorLog("key %s already handled", name);
-            return 0;
-        }
-        
-        key->setType(type);
-        key->setSize(size);
-        key->setHandler(handler);
-		
-		return key;
-	}
-    
-	FakeSMCDebugLog("adding key %s with handler, type: %s, size: %d", name, type, size);
-    
-	if (FakeSMCKey *key = FakeSMCKey::withHandler(name, type, size, handler)) {
-		keys->setObject(key);
-		updateKeyCounterKey();
-		return key;
-	}
-    
-	HWSensorsErrorLog("failed to create key %s", name);
-    
-	return 0;
-}
-
-FakeSMCKey *FakeSMCDevice::getKey(const char *name)
-{
-    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keys)) {
-        // Made the name valid (4 char long): add trailing spaces if needed
-        char validKeyNameBuffer[5];
-        snprintf(validKeyNameBuffer, 5, "%-4s", name);
-        
-		while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
-            UInt32 key1 = HWSensorsKeyToInt(&validKeyNameBuffer);
-			UInt32 key2 = HWSensorsKeyToInt(key->getKey());
-			if (key1 == key2) {
-				OSSafeRelease(iterator);
-				return key;
-			}
-		}
-        
-        OSSafeRelease(iterator);
-	}
-    
- 	FakeSMCDebugLog("key %s not found", name);
-    
-	return 0;
-}
-
-FakeSMCKey *FakeSMCDevice::getKey(unsigned int index)
-{
-	if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, keys->getObject(index)))
-		return key;
-    
-	FakeSMCDebugLog("key with index %d not found", index);
-    
-	return 0;
 }
 
 IOReturn FakeSMCDevice::registerInterrupt(int source, OSObject *target, IOInterruptAction handler, void *refCon)

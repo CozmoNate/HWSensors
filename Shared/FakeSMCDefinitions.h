@@ -190,6 +190,9 @@
 #define kFakeSMCGetValueCallback                "kFakeSMCGetValueCallback"
 #define kFakeSMCSetValueCallback                "kFakeSMCSetValueCallback"
 
+// NVRAM
+#define kFakeSMCPropertyKeys                    "fakesmc-keys"
+
 #define kHWSensorsDebug FALSE
 
 #define HWSensorsDebugLog(string, args...)	do { if (kHWSensorsDebug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)

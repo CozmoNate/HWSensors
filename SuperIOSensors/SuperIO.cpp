@@ -499,8 +499,11 @@ bool SuperIODevice::start(IOService *provider)
         if (OSString *manufacturer = OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoManufacturer))) {
             if (manufacturer->isEqualTo("Gigabyte")) {
                 if (!detectITEFamilyChip()) {
+
+                    UInt16 ite_id = id;
+                    
                     if (!detectWinbondFamilyChip()) {
-                        HWSensorsFatalLog("found unsupported ship ID=0x%x", id);
+                        HWSensorsFatalLog("found unsupported ship ITE sequence ID=0x%x, Winbond sequence ID=0x%x", ite_id, id);
                         return false;
                     }
                 }
@@ -508,16 +511,17 @@ bool SuperIODevice::start(IOService *provider)
         }
     }
     
-    // default sequence
+    // Other vendors usualy use Winbond family chipsets
     if (model == 0) {
         if (!detectWinbondFamilyChip()) {
-            detectITEFamilyChip();
+            
+            UInt16 wnbnd_id = id;
+            
+            if (!detectITEFamilyChip()) {
+                HWSensorsFatalLog("found unsupported ship ITE sequence ID=0x%x, Winbond sequence ID=0x%x", id, wnbnd_id);
+                return false;
+            }
         }
-    }
-    
-    if (model == 0) {                                
-        HWSensorsFatalLog("found unsupported ship ID=0x%x", id);
-        return false;
     }
     
     HWSensorsInfoLog("found %s %s on port=0x%x address=0x%x", vendor, superio_get_model_name(model), port, address);
