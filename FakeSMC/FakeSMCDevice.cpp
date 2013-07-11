@@ -14,6 +14,7 @@
 
 #include <IOKit/IODeviceTreeSupport.h>
 #include <IOKit/IOKitKeys.h>
+#include <IOKit/IONVRAM.h>
 
 #define FakeSMCTraceLog(string, args...) do { if (trace) { IOLog ("%s: [Trace] " string "\n",getName() , ## args); } } while(0)
 #define FakeSMCDebugLog(string, args...) do { if (debug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
@@ -247,7 +248,7 @@ uint32_t FakeSMCDevice::applesmc_io_cmd_readb(void *opaque, uint32_t addr1)
 
 void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key)
 {
-    if (IORegistryEntry *nvram = fromPath("/options", gIODTPlane)) {
+    if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, fromPath("/options", gIODTPlane))) {
         nvramKeys->setObject(key->getKey(), key);
         
         OSData *data = OSData::withCapacity(0);
@@ -266,8 +267,9 @@ void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key)
             OSSafeRelease(iterator);
         }
         
-        nvram->setProperty(kFakeSMCPropertyKeys, data);
-        nvram->setProperty(kIONVRAMSyncNowPropertyKey, kFakeSMCPropertyKeys);
+        ((IORegistryEntry*)nvram)->setProperty(kFakeSMCPropertyKeys, data);
+        nvram->sync();
+        //nvram->setProperty(kIONVRAMSyncNowPropertyKey, kFakeSMCPropertyKeys);
         
         OSSafeRelease(data);
         OSSafeRelease(nvram);
