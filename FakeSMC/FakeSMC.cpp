@@ -73,7 +73,15 @@ bool FakeSMC::start(IOService *provider)
 {
 	if (!super::start(provider)) 
         return false;
-	
+    
+    IORegistryEntry *efi = IORegistryEntry::fromPath("/efi", gIODTPlane);
+    OSData *vendor = efi ? OSDynamicCast(OSData, efi->getProperty("firmware-vendor")) : NULL;
+    
+    if (vendor && vendor->getLength() == 12 && 0 == memcmp(vendor->getBytesNoCopy(), "A\0p\0p\0l\0e\0\0\0", 12) ) {
+        HWSensorsFatalLog("forbidding run on Apple hardware");
+        return false;
+    }
+    
 	if (!smcDevice->init(provider, OSDynamicCast(OSDictionary, getProperty("Configuration")))) {
         HWSensorsInfoLog("failed to initialize SMC device");
 		return false;
@@ -83,34 +91,44 @@ bool FakeSMC::start(IOService *provider)
 	registerService();
     
     // Load keys from NVRAM
-    if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
-        if (IODTNVRAM* nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching))) {
-            if (OSData *keys = OSDynamicCast(OSData, nvram->getProperty(kFakeSMCPropertyKeys))) {
+    IODTNVRAM* nvram = NULL;
+    
+    if (vendor && vendor->getLength() == 14 && 0 == memcmp(vendor->getBytesNoCopy(), "C\0L\0O\0V\0E\0R\0\0\0", 14) ) {
+        // System booted with Clover
+        if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
+            nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching));
+            OSSafeRelease(matching);
+        }
+    }
+    else {
+        // System booted with other non-Apple bootloader
+        nvram = OSDynamicCast(IODTNVRAM, IORegistryEntry::fromPath("/chosen/nvram", gIODTPlane));
+    }
+    
+    if (nvram) {
+        if (OSData *keys = OSDynamicCast(OSData, nvram->getProperty(kFakeSMCPropertyKeys))) {
+            
+            int count = 0;
+            unsigned int offset = 0;
+            
+            while (offset + 9 < keys->getLength()) {
+                char name[5]; memcpy(name, keys->getBytesNoCopy(offset, 4), 4); name[4] = '\0'; offset += 4;
+                char type[5]; memcpy(type, keys->getBytesNoCopy(offset, 4), 4); type[4] = '\0'; offset += 4;
+                unsigned char size = 0; memcpy(&size, keys->getBytesNoCopy(offset, 1), 1); offset++;
+                const void *value = keys->getBytesNoCopy(offset, size); offset += size;
                 
-                int count = 0;
-                unsigned int offset = 0;
-                
-                while (offset + 9 < keys->getLength()) {
-                    char name[5]; memcpy(name, keys->getBytesNoCopy(offset, 4), 4); name[4] = '\0'; offset += 4;
-                    char type[5]; memcpy(type, keys->getBytesNoCopy(offset, 4), 4); type[4] = '\0'; offset += 4;
-                    unsigned char size = 0; memcpy(&size, keys->getBytesNoCopy(offset, 1), 1); offset++;
-                    const void *value = keys->getBytesNoCopy(offset, size); offset += size;
-                    
-                    if (smcDevice->addKeyWithValue(name, type, size, value)) {
-                        HWSensorsInfoLog("key %s added from NVRAM", name);
-                        count++;
-                    }
-                    
+                if (smcDevice->addKeyWithValue(name, type, size, value)) {
+                    HWSensorsDebugLog("key %s loaded from NVRAM", name);
+                    count++;
                 }
                 
-                if (count)
-                    HWSensorsInfoLog("%d key%s added from NVRAM", count, count == 1 ? "" : "s");
             }
             
-            OSSafeRelease(nvram);
+            if (count)
+                HWSensorsInfoLog("%d key%s loaded from NVRAM", count, count == 1 ? "" : "s");
         }
         
-        OSSafeRelease(matching);
+        OSSafeRelease(nvram);
     }
 		
 	return true;
