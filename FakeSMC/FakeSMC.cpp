@@ -89,20 +89,16 @@ bool FakeSMC::start(IOService *provider)
     smcDevice->registerService();
 	registerService();
     
-    // Load keys from NVRAM
-    IORegistryEntry* nvram = NULL;
+    // Chameleon/Chimera exporting NVRAM to IODeviceTree:/chosen/nvram
+    IORegistryEntry* nvram = IORegistryEntry::fromPath("/chosen/nvram", gIODTPlane);
     
-    if (vendor) {
-        if (vendor->getLength() == 14 && 0 == memcmp(vendor->getBytesNoCopy(), "C\0L\0O\0V\0E\0R\0\0\0", 14) ) {
-            // System booted with Clover
-            if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
-                nvram = OSDynamicCast(IORegistryEntry, waitForMatchingService(matching));
-                OSSafeRelease(matching);
-            }
-        }
-        else /*if (vendor->getLength() >= 18 && 0 == memcmp(vendor->getBytesNoCopy(), "C\0h\0a\0m\0e\0l\0e\0o\0n\0", 18))*/ {
-            // System booted with chameleon bootloader
-            nvram = IORegistryEntry::fromPath("/chosen/nvram", gIODTPlane);
+    //if (vendor && vendor->getLength() == 14 && 0 == memcmp(vendor->getBytesNoCopy(), "C\0L\0O\0V\0E\0R\0\0\0", 14)) {
+    
+    // Fallback method. Try to access NVRAM via driver
+    if (!nvram) {
+        if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
+            nvram = OSDynamicCast(IORegistryEntry, waitForMatchingService(matching));
+            OSSafeRelease(matching);
         }
     }
     
