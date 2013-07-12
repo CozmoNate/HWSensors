@@ -73,12 +73,19 @@ bool FakeSMC::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
     
-    IORegistryEntry *efi = IORegistryEntry::fromPath("/efi", gIODTPlane);
-    OSData *vendor = efi ? OSDynamicCast(OSData, efi->getProperty("firmware-vendor")) : NULL;
+    int arg_value = 1;
     
-    if (vendor && vendor->getLength() == 12 && 0 == memcmp(vendor->getBytesNoCopy(), "A\0p\0p\0l\0e\0\0\0", 12) ) {
-        HWSensorsFatalLog("forbidding run on Apple hardware");
-        return false;
+    if (PE_parse_boot_argn("-fakesmc_force_start", &arg_value, sizeof(arg_value))) {
+        HWSensorsInfoLog("firmware vendor check disabled");
+    }
+    else {
+        IORegistryEntry *efi = IORegistryEntry::fromPath("/efi", gIODTPlane);
+        OSData *vendor = efi ? OSDynamicCast(OSData, efi->getProperty("firmware-vendor")) : NULL;
+        
+        if (vendor && vendor->getLength() == 12 && 0 == memcmp(vendor->getBytesNoCopy(), "A\0p\0p\0l\0e\0\0\0", 12) ) {
+            HWSensorsFatalLog("forbidding start on Apple hardware");
+            return false;
+        }
     }
     
 	if (!smcDevice->init(provider, OSDynamicCast(OSDictionary, getProperty("Configuration")))) {
