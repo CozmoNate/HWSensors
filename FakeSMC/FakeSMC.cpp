@@ -1,4 +1,4 @@
-
+#include "version.h"
 
 #include "FakeSMC.h"
 #include "FakeSMCDefinitions.h"
@@ -15,7 +15,7 @@ bool FakeSMC::init(OSDictionary *dictionary)
 	if (!super::init(dictionary))
 		return false;
     
-    IOLog("HWSensors Project Copyright %d netkas, slice, usr-sse2, kozlek, navi, THe KiNG, RehabMan. All rights reserved.\n",HWSENSORS_LASTYEAR);
+    IOLog("HWSensors v%s Copyright %d netkas, slice, usr-sse2, kozlek, navi, THe KiNG, RehabMan. All rights reserved.\n", HWSENSORS_VERSION_STRING, HWSENSORS_LASTYEAR);
     
     //HWSensorsInfoLog("Opensource SMC device emulator. Copyright 2009 netkas. All rights reserved.");
     
@@ -95,14 +95,14 @@ bool FakeSMC::start(IOService *provider)
     if (vendor) {
         if (vendor->getLength() == 14 && 0 == memcmp(vendor->getBytesNoCopy(), "C\0L\0O\0V\0E\0R\0\0\0", 14) ) {
             // System booted with Clover
-            if (OSDictionary *matching = serviceMatching("IORegistryEntry")) {
+            if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
                 nvram = OSDynamicCast(IORegistryEntry, waitForMatchingService(matching));
                 OSSafeRelease(matching);
             }
         }
-        else /*if (vendor->getLength() == 18 && 0 == memcmp(vendor->getBytesNoCopy(), "C\0h\0a\0m\0e\0l\0e\0o\0n\0", 18))*/ {
+        else /*if (vendor->getLength() >= 18 && 0 == memcmp(vendor->getBytesNoCopy(), "C\0h\0a\0m\0e\0l\0e\0o\0n\0", 18))*/ {
             // System booted with chameleon bootloader
-            nvram = OSDynamicCast(IORegistryEntry, IORegistryEntry::fromPath("/chosen/nvram", gIODTPlane));
+            nvram = IORegistryEntry::fromPath("/chosen/nvram", gIODTPlane);
         }
     }
     
