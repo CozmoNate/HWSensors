@@ -60,6 +60,8 @@ private:
     
    	FakeSMCKey			*keyCounterKey;
     FakeSMCKey          *fanCounterKey;
+    
+    bool                doSyncNVRAM;
 	
     bool				trace;
 	bool				debug;
