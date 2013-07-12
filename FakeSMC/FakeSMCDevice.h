@@ -77,8 +77,6 @@ private:
 	virtual void		applesmc_fill_data(struct AppleSMCStatus *s);
 	virtual void		applesmc_fill_info(struct AppleSMCStatus *s);
     
-    void                saveKeyToNVRAM(FakeSMCKey *key);
-	
 public:
     virtual FakeSMCKey	*addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value);
 	virtual FakeSMCKey	*addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler);
@@ -88,6 +86,8 @@ public:
 	
 	virtual void		updateKeyCounterKey(void);
     virtual void		updateFanCounterKey(void);
+    
+    void                saveKeyToNVRAM(FakeSMCKey *key, bool sync = true);
     
     virtual void		ioWrite32( UInt16 offset, UInt32 value, IOMemoryMap * map = 0 );
     virtual void		ioWrite16( UInt16 offset, UInt16 value, IOMemoryMap * map = 0 );

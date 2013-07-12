@@ -118,7 +118,9 @@ bool FakeSMC::start(IOService *provider)
                 unsigned char size = 0; memcpy(&size, keys->getBytesNoCopy(offset, 1), 1); offset++;
                 const void *value = keys->getBytesNoCopy(offset, size); offset += size;
                 
-                if (smcDevice->addKeyWithValue(name, type, size, value)) {
+                if (FakeSMCKey *key = smcDevice->addKeyWithValue(name, type, size, value)) {
+                    // Add key to NVRAM keys list
+                    smcDevice->saveKeyToNVRAM(key, false);
                     HWSensorsDebugLog("key %s loaded from NVRAM", name);
                     count++;
                 }

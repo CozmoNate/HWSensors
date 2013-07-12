@@ -246,33 +246,35 @@ uint32_t FakeSMCDevice::applesmc_io_cmd_readb(void *opaque, uint32_t addr1)
     return ((struct AppleSMCStatus*)opaque)->status;
 }
 
-void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key)
+void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key, bool sync)
 {
-    if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, fromPath("/options", gIODTPlane))) {
-        nvramKeys->setObject(key->getKey(), key);
-        
-        OSData *data = OSData::withCapacity(0);
-        
-        if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(nvramKeys)) {
+    nvramKeys->setObject(key->getKey(), key);
+    
+    if (sync) {
+        if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, fromPath("/options", gIODTPlane))) {
+            OSData *data = OSData::withCapacity(0);
             
-            while (OSString *nextKeyName = OSDynamicCast(OSString, iterator->getNextObject())) {
-                FakeSMCKey *nextKey = OSDynamicCast(FakeSMCKey, nvramKeys->getObject(nextKeyName));
+            if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(nvramKeys)) {
                 
-                data->appendBytes(nextKey->getKey(), 4);
-                data->appendBytes(nextKey->getType(), 4);
-                data->appendByte(nextKey->getSize(), 1);
-                data->appendBytes(nextKey->getValue(), nextKey->getSize());
+                while (OSString *nextKeyName = OSDynamicCast(OSString, iterator->getNextObject())) {
+                    FakeSMCKey *nextKey = OSDynamicCast(FakeSMCKey, nvramKeys->getObject(nextKeyName));
+                    
+                    data->appendBytes(nextKey->getKey(), 4);
+                    data->appendBytes(nextKey->getType(), 4);
+                    data->appendByte(nextKey->getSize(), 1);
+                    data->appendBytes(nextKey->getValue(), nextKey->getSize());
+                }
+                
+                OSSafeRelease(iterator);
             }
             
-            OSSafeRelease(iterator);
+            ((IORegistryEntry*)nvram)->setProperty(kFakeSMCPropertyKeys, data);
+            nvram->sync();
+            //nvram->setProperty(kIONVRAMSyncNowPropertyKey, kFakeSMCPropertyKeys);
+            
+            OSSafeRelease(data);
+            OSSafeRelease(nvram);
         }
-        
-        ((IORegistryEntry*)nvram)->setProperty(kFakeSMCPropertyKeys, data);
-        nvram->sync();
-        //nvram->setProperty(kIONVRAMSyncNowPropertyKey, kFakeSMCPropertyKeys);
-        
-        OSSafeRelease(data);
-        OSSafeRelease(nvram);
     }
 }
 
@@ -359,7 +361,7 @@ FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, u
             }
         }
         
-		FakeSMCDebugLog("updating value for key %s, type: %s, size: %d", name, type, size);
+		FakeSMCDebugLog("value updated for key %s, type: %s, size: %d", name, type, size);
         
 		return key;
 	}
