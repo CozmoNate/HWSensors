@@ -66,7 +66,7 @@ UInt8 F718xxSensors::temperatureSensorsLimit()
         case F71808E:
 			return 2;
         default:
-			return 3;
+			return 3 + sizeof(FINTEK_TEMPERATURE_EXT_REG);
 	};
 }
 
@@ -116,7 +116,14 @@ float F718xxSensors::readTemperature(UInt32 index)
         return 0;
 	}
     
-    SInt8 value = readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * (index + 1));
+    SInt8 value = 0;
+    
+    if (index < 3) {
+        value = readByte(FINTEK_TEMPERATURE_BASE_REG + 2 * (index + 1));
+    }
+    else {
+        value = readByte(FINTEK_TEMPERATURE_EXT_REG[index - 3]);
+    }
 	
 	return value < 0 ? -value : value;
 }

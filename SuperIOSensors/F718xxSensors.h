@@ -62,6 +62,7 @@ const UInt8 FINTEK_TEMPERATURE_CONFIG_REG   = 0x69;
 const UInt8 FINTEK_TEMPERATURE_BASE_REG     = 0x70;
 const UInt8 FINTEK_VOLTAGE_BASE_REG         = 0x20;
 const UInt8 FINTEK_FAN_TACHOMETER_REG[]     = { 0xA0, 0xB0, 0xC0, 0xD0 };
+const UInt8 FINTEK_TEMPERATURE_EXT_REG[]     = { 0x7A, 0x7B, 0x7C, 0x7E };
 
 class F718xxSensors : public SuperIOPlugin
 {

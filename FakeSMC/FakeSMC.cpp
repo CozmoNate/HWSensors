@@ -6,7 +6,6 @@
 #include "OEMInfo.h"
 
 #include <IOKit/IODeviceTreeSupport.h>
-#include <IOKit/IONVRAM.h>
 
 #define super IOService
 OSDefineMetaClassAndStructors (FakeSMC, IOService)
@@ -91,18 +90,20 @@ bool FakeSMC::start(IOService *provider)
 	registerService();
     
     // Load keys from NVRAM
-    IODTNVRAM* nvram = NULL;
+    IORegistryEntry* nvram = NULL;
     
-    if (vendor && vendor->getLength() == 14 && 0 == memcmp(vendor->getBytesNoCopy(), "C\0L\0O\0V\0E\0R\0\0\0", 14) ) {
-        // System booted with Clover
-        if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
-            nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching));
-            OSSafeRelease(matching);
+    if (vendor) {
+        if (vendor->getLength() == 14 && 0 == memcmp(vendor->getBytesNoCopy(), "C\0L\0O\0V\0E\0R\0\0\0", 14) ) {
+            // System booted with Clover
+            if (OSDictionary *matching = serviceMatching("IORegistryEntry")) {
+                nvram = OSDynamicCast(IORegistryEntry, waitForMatchingService(matching));
+                OSSafeRelease(matching);
+            }
         }
-    }
-    else {
-        // System booted with other non-Apple bootloader
-        nvram = OSDynamicCast(IODTNVRAM, IORegistryEntry::fromPath("/chosen/nvram", gIODTPlane));
+        else /*if (vendor->getLength() == 18 && 0 == memcmp(vendor->getBytesNoCopy(), "C\0h\0a\0m\0e\0l\0e\0o\0n\0", 18))*/ {
+            // System booted with chameleon bootloader
+            nvram = OSDynamicCast(IORegistryEntry, IORegistryEntry::fromPath("/chosen/nvram", gIODTPlane));
+        }
     }
     
     if (nvram) {
