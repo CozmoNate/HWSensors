@@ -93,7 +93,6 @@ bool FakeSMC::start(IOService *provider)
 		return false;
     }
 
-    smcDevice->registerService();
 	registerService();
     
     // Chameleon/Chimera exporting NVRAM to IODeviceTree:/chosen/nvram
@@ -114,12 +113,16 @@ bool FakeSMC::start(IOService *provider)
             
             int count = 0;
             unsigned int offset = 0;
+            const unsigned char* data = static_cast<const unsigned char*>(keys->getBytesNoCopy());
+            const unsigned int length = keys->getLength();
+            char name[5]; name[4] = 0;
+            char type[5]; type[4] = 0;
             
-            while (offset + 9 < keys->getLength()) {
-                char name[5]; memcpy(name, keys->getBytesNoCopy(offset, 4), 4); name[4] = '\0'; offset += 4;
-                char type[5]; memcpy(type, keys->getBytesNoCopy(offset, 4), 4); type[4] = '\0'; offset += 4;
-                unsigned char size = 0; memcpy(&size, keys->getBytesNoCopy(offset, 1), 1); offset++;
-                const void *value = keys->getBytesNoCopy(offset, size); offset += size;
+            while (offset + 9 < length) {
+                memcpy(name, data + offset, 4); offset += 4;
+                memcpy(type, data + offset, 4); offset += 4;
+                unsigned char size = data[offset++];
+                const void *value = data + offset; offset += size;
                 
                 if (FakeSMCKey *key = smcDevice->addKeyWithValue(name, type, size, value)) {
                     // Add key to NVRAM keys list

@@ -252,13 +252,12 @@ void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key, bool sync)
     
     if (sync) {
         if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, fromPath("/options", gIODTPlane))) {
-            OSData *data = OSData::withCapacity(0);
+            
+            OSData *data = OSData::withCapacity(512);
             
             if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(nvramKeys)) {
-                
                 while (OSString *nextKeyName = OSDynamicCast(OSString, iterator->getNextObject())) {
                     FakeSMCKey *nextKey = OSDynamicCast(FakeSMCKey, nvramKeys->getObject(nextKeyName));
-                    
                     data->appendBytes(nextKey->getKey(), 4);
                     data->appendBytes(nextKey->getType(), 4);
                     data->appendByte(nextKey->getSize(), 1);
