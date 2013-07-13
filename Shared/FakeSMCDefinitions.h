@@ -194,7 +194,7 @@
 #define kFakeSMCFirmwareVendor                  "fw-vendor"
 #define kFakeSMCKeyPropertyPrefix               "fakesmc-key"
 
-#define kHWSensorsDebug FALSE
+#define kHWSensorsDebug                         FALSE
 
 #define HWSensorsDebugLog(string, args...)	do { if (kHWSensorsDebug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog ("%s: [Warning] " string "\n",getName() , ## args); } while(0)

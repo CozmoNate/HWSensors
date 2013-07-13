@@ -78,6 +78,11 @@
 						<string>ui8</string>
 						<data>AA==</data>
 					</array>
+					<key>MSDS</key>
+					<array>
+						<string>ui8</string>
+						<data>AA==</data>
+					</array>
 					<key>MSSD</key>
 					<array>
 						<string>si8</string>
@@ -127,6 +132,11 @@
 					<array>
 						<string>{rev</string>
 						<data>ATAPAAAD</data>
+					</array>
+					<key>WKTP</key>
+					<array>
+						<string>ui8</string>
+						<data>AA==</data>
 					</array>
 				</dict>
 				<key>Types</key>

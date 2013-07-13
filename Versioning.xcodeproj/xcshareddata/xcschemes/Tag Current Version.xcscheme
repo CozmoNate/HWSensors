@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7EB7E71D17834E470071B3F0"
+               BlueprintIdentifier = "7E2ACD991791B5DA0061C677"
                BuildableName = "Tag Current Version"
                BlueprintName = "Tag Current Version"
                ReferencedContainer = "container:Versioning.xcodeproj">

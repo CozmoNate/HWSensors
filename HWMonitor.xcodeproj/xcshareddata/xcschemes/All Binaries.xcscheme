@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7EB7E71717834B610071B3F0"
-               BuildableName = "Pre-Build Script"
-               BlueprintName = "Pre-Build Script"
+               BlueprintIdentifier = "7E2ACD8B1791B4510061C677"
+               BuildableName = "Pre-Build"
+               BlueprintName = "Pre-Build"
                ReferencedContainer = "container:Versioning.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -126,9 +126,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7EBC73A61787FE7C00C532F9"
-               BuildableName = "Post-Build Script"
-               BlueprintName = "Post-Build Script"
+               BlueprintIdentifier = "7E2ACD911791B54B0061C677"
+               BuildableName = "Post-Build"
+               BlueprintName = "Post-Build"
                ReferencedContainer = "container:Versioning.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

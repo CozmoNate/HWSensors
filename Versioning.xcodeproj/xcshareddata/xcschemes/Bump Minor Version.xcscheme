@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7EB7E71117834ADE0071B3F0"
+               BlueprintIdentifier = "7E2ACD9D1791B6090061C677"
                BuildableName = "Bump Minor Version"
                BlueprintName = "Bump Minor Version"
                ReferencedContainer = "container:Versioning.xcodeproj">
