@@ -6,11 +6,13 @@
 #  Created by Kozlek on 13/07/13.
 #
 
-# Clean package
+# Clean packages every time
+cd ${PROJECT_DIR}
+find ./ -name "*.pkg" -exec sh -c 'rm $0' '{}' \;
+
+# Exit on clean action
 if [ "$1" == "clean" ]
 then
-    cd ${PROJECT_DIR}
-    find ./ -name "*.pkg" -exec sh -c 'rm $0' '{}' \;
     exit 0
 fi
 

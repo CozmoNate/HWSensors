@@ -31,7 +31,6 @@
 		7E17E171169C532100E40FC7 /* si.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E17E16F169C532000E40FC7 /* si.cpp */; };
 		7E5CFA2516988EBE00F0E9AD /* i2c_algo_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */; };
 		7E5CFA2716988EBE00F0E9AD /* i2c_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */; };
-		7E7862901632F633001984B9 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */; };
 		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
 		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
 		7E79B82315BA99350079AAE8 /* CPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E79B82215BA99350079AAE8 /* CPUSensors.cpp */; };
@@ -65,6 +64,7 @@
 		7EADE20D15E5602F00FD117C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EADE20B15E5602F00FD117C /* InfoPlist.strings */; };
 		7EB13667169C288000B42023 /* radeon_atombios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB13665169C288000B42023 /* radeon_atombios.cpp */; };
 		7EB1366C169C2CE800B42023 /* atom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB1366A169C2CE700B42023 /* atom.cpp */; };
+		7EB73CFA1791BCBC007D93D4 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,8 +126,6 @@
 		7E17E170169C532100E40FC7 /* si.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = si.h; sourceTree = "<group>"; };
 		7E24AF81169CBB9700040AF4 /* atom-names.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "atom-names.h"; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OEMInfo.cpp; sourceTree = "<group>"; };
-		7E5A8CB81605EAA400FF0099 /* OEMInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMInfo.h; sourceTree = "<group>"; };
 		7E5CFA1D16988E9C00F0E9AD /* linux_definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = linux_definitions.h; sourceTree = "<group>"; };
 		7E5CFA1F16988EA300F0E9AD /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
 		7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_algo_bit.cpp; sourceTree = "<group>"; };
@@ -200,9 +198,10 @@
 		7EB13666169C288000B42023 /* radeon_atombios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon_atombios.h; sourceTree = "<group>"; };
 		7EB1366A169C2CE700B42023 /* atom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atom.cpp; sourceTree = "<group>"; };
 		7EB1366B169C2CE700B42023 /* atom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atom.h; sourceTree = "<group>"; };
+		7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OEMInfo.cpp; sourceTree = "<group>"; };
+		7EB73CF91791BCBC007D93D4 /* OEMInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMInfo.h; sourceTree = "<group>"; };
 		7EB7E70017833A290071B3F0 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.pch; sourceTree = "<group>"; };
 		7EB7E70117833ACE0071B3F0 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
-		7EBB50D915EEAE3C00FEBBB9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = SOURCE_ROOT; };
 		7EBCF8791615A84C00E16D3B /* timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
 		7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PTIDSensors.cpp; sourceTree = "<group>"; };
 		7EBEC2A215E78B7B00537027 /* PTIDSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTIDSensors.h; sourceTree = "<group>"; };
@@ -417,7 +416,6 @@
 			children = (
 				7E93890015945B450005316D /* FakeSMCDefinitions.h */,
 				7EB7E704178341020071B3F0 /* Versioning */,
-				7EBB50D915EEAE3C00FEBBB9 /* README.txt */,
 				7E5CFA1B16988E8A00F0E9AD /* Linux */,
 				7EF31BB716207C6B00E9B055 /* Kernel */,
 			);
@@ -513,8 +511,8 @@
 		7E5A8CB51605EA7300FF0099 /* OEMInfo */ = {
 			isa = PBXGroup;
 			children = (
-				7E5A8CB81605EAA400FF0099 /* OEMInfo.h */,
-				7E5A8CB71605EAA400FF0099 /* OEMInfo.cpp */,
+				7EB73CF91791BCBC007D93D4 /* OEMInfo.h */,
+				7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */,
 			);
 			name = OEMInfo;
 			path = ../Shared;
@@ -834,7 +832,7 @@
 				6AA172CB150B415200A77CF2 /* FakeSMCDevice.cpp in Sources */,
 				6A9C468D14E657EE0083E5E6 /* FakeSMCPlugin.cpp in Sources */,
 				6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */,
-				7E7862901632F633001984B9 /* OEMInfo.cpp in Sources */,
+				7EB73CFA1791BCBC007D93D4 /* OEMInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

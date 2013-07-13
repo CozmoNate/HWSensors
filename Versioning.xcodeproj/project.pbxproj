@@ -13,6 +13,9 @@
 		7E2ACD971791B5870061C677 /* BumpMinorVersion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = BumpMinorVersion.sh; path = Scripts/BumpMinorVersion.sh; sourceTree = "<group>"; };
 		7E2ACD981791B5990061C677 /* BumpMajorVersion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = BumpMajorVersion.sh; path = Scripts/BumpMajorVersion.sh; sourceTree = "<group>"; };
 		7E2F25191783EAE800C86586 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
+		7EB73CEF1791BC0E007D93D4 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
+		7EB73CF01791BC0E007D93D4 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWSensorsVersion.pch; path = Shared/HWSensorsVersion.pch; sourceTree = "<group>"; };
+		7EB73CF11791BC30007D93D4 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		7EB7E71C17834BF10071B3F0 /* version.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -33,8 +36,11 @@
 			isa = PBXGroup;
 			children = (
 				7E2ACD8F1791B4740061C677 /* Scripts */,
+				7EB73CF01791BC0E007D93D4 /* HWSensorsVersion.pch */,
+				7EB73CEF1791BC0E007D93D4 /* HWMonitorVersion.pch */,
 				7EB7E71C17834BF10071B3F0 /* version.plist */,
 				7E2F25191783EAE800C86586 /* version.h */,
+				7EB73CF11791BC30007D93D4 /* README.txt */,
 			);
 			sourceTree = "<group>";
 		};
@@ -481,6 +487,7 @@
 				7E2ACD8D1791B4510061C677 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7E2ACD921791B54B0061C677 /* Build configuration list for PBXLegacyTarget "Post-Build" */ = {
 			isa = XCConfigurationList;
@@ -489,6 +496,7 @@
 				7E2ACD941791B54B0061C677 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7E2ACD9A1791B5DA0061C677 /* Build configuration list for PBXLegacyTarget "Tag Current Version" */ = {
 			isa = XCConfigurationList;
@@ -497,6 +505,7 @@
 				7E2ACD9C1791B5DA0061C677 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7E2ACD9E1791B6090061C677 /* Build configuration list for PBXLegacyTarget "Bump Minor Version" */ = {
 			isa = XCConfigurationList;
@@ -505,6 +514,7 @@
 				7E2ACDA01791B6090061C677 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7E2ACDA21791B61D0061C677 /* Build configuration list for PBXLegacyTarget "Bump Major Version" */ = {
 			isa = XCConfigurationList;
@@ -513,6 +523,7 @@
 				7E2ACDA41791B61D0061C677 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7EB7E70D17834A740071B3F0 /* Build configuration list for PBXProject "Versioning" */ = {
 			isa = XCConfigurationList;
