@@ -175,7 +175,7 @@
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
     [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
     
-    [[_titleField cell] setBackgroundStyle:NSBackgroundStyleRaised];
+    //[[_titleField cell] setBackgroundStyle:NSBackgroundStyleRaised];
     
     // Install status item into the menu bar
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;

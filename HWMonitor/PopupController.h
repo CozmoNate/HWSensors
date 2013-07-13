@@ -37,8 +37,6 @@
 
 @property (assign) IBOutlet NSView *toolbarView;
 @property (assign) IBOutlet NSTableView *tableView;
-@property (assign) IBOutlet NSTextField *titleField;
-
 
 @property (assign) IBOutlet NSWindowController *appController;
 @property (assign) IBOutlet NSWindowController *graphsController;
