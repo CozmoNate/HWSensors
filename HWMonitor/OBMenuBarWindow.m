@@ -284,12 +284,16 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
 - (void)attachToMenuBar:(id)sender
 {
-    [self setAttachedToMenuBar:YES];
+    if ([self.window isVisible]) {
+        self.attachedToMenuBar = YES;
+    }
 }
 
 - (void)detachFromMenuBar:(id)sender
 {
-    [self setAttachedToMenuBar:NO];
+    if ([self.window isVisible]) {
+        self.attachedToMenuBar = NO;
+    }
 }
 
 - (void)setAttachedToMenuBar:(BOOL)isAttached
@@ -396,6 +400,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
             }
         }
         [self layoutContent];
+        //[[self.contentView superview] setNeedsDisplayInRect:[self titleBarRect]];
         [[self.contentView superview] setNeedsDisplay:YES];
         [self invalidateShadow];
     }
