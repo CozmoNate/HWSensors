@@ -118,10 +118,10 @@ bool FakeSMC::start(IOService *provider)
     if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
         if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching, 1000000000ULL * 10))) {
             
-            OSSerialize *serialize = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary
+            OSSerialize *s = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary
             
-            if (nvram->serializeProperties(serialize)) {
-                if (OSDictionary *props = OSDynamicCast(OSDictionary, OSUnserializeXML(serialize->text()))) {
+            if (nvram->serializeProperties(s)) {
+                if (OSDictionary *props = OSDynamicCast(OSDictionary, OSUnserializeXML(s->text()))) {
                     if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(props)) {
                         
                         int count = 0;
@@ -159,7 +159,7 @@ bool FakeSMC::start(IOService *provider)
                 }
             }
 
-            OSSafeRelease(serialize);
+            OSSafeRelease(s);
             OSSafeRelease(nvram);
         }
         else {
