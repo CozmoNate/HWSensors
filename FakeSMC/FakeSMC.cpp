@@ -118,10 +118,10 @@ bool FakeSMC::start(IOService *provider)
     if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
         if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching, 1000000000ULL * 10))) {
             
-            OSSerialize *s = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary
+            OSSerialize *serialize = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary
             
-            if (nvram->serializeProperties(s)) {
-                if (OSDictionary *props = OSDynamicCast(OSDictionary, OSUnserializeXML(s->text()))) {
+            if (nvram->serializeProperties(serialize)) {
+                if (OSDictionary *props = OSDynamicCast(OSDictionary, OSUnserializeXML(serialize->text()))) {
                     if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(props)) {
                         
                         int count = 0;
@@ -139,7 +139,7 @@ bool FakeSMC::start(IOService *provider)
                                     memcpy(type, buffer + prefix_length + 1 + 4 + 1, 4); // fakesmc-key.xxxx: ->
                                     
                                     if (FakeSMCKey *key = smcDevice->addKeyWithValue(name, type, data->getLength(), data->getBytesNoCopy())) {
-                                        HWSensorsInfoLog("key %s of type %s loaded from NVRAM", name, type);
+                                        HWSensorsDebugLog("key %s of type %s loaded from NVRAM", name, type);
                                         
                                         // Add key to NVRAM keys list
                                         smcDevice->saveKeyToNVRAM(key, false);
@@ -159,36 +159,7 @@ bool FakeSMC::start(IOService *provider)
                 }
             }
 
-            OSSafeRelease(s);
-            
-//            if (OSData *keys = OSDynamicCast(OSData, nvram->getProperty(kFakeSMCPropertyKeys))) {
-//                
-//                int count = 0;
-//                unsigned int offset = 0;
-//                const unsigned char* data = static_cast<const unsigned char*>(keys->getBytesNoCopy());
-//                const unsigned int length = keys->getLength();
-//                char name[5]; name[4] = 0;
-//                char type[5]; type[4] = 0;
-//                
-//                while (offset + 9 < length) {
-//                    memcpy(name, data + offset, 4); offset += 4;
-//                    memcpy(type, data + offset, 4); offset += 4;
-//                    unsigned char size = data[offset++];
-//                    const void *value = data + offset; offset += size;
-//                    
-//                    if (FakeSMCKey *key = smcDevice->addKeyWithValue(name, type, size, value)) {
-//                        HWSensorsDebugLog("key %s loaded from NVRAM", name);
-//                        
-//                        // Add key to NVRAM keys list
-//                        smcDevice->saveKeyToNVRAM(key, false);
-//                        
-//                        count++;
-//                    }
-//                }
-//                
-//                if (count) HWSensorsInfoLog("%d key%s loaded from NVRAM", count, count == 1 ? "" : "s");
-//            }
-            
+            OSSafeRelease(serialize);
             OSSafeRelease(nvram);
         }
         else {
