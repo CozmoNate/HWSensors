@@ -60,8 +60,6 @@ private:
     
    	FakeSMCKey			*keyCounterKey;
     FakeSMCKey          *fanCounterKey;
-    
-    bool                doSyncNVRAM;
 	
     bool				trace;
 	bool				debug;
@@ -71,25 +69,27 @@ private:
     UInt16              vacantGPUIndex;
     UInt16              vacantFanIndex;
 	
-	virtual void		applesmc_io_cmd_writeb(void *opaque, uint32_t addr, uint32_t val);
-	virtual void		applesmc_io_data_writeb(void *opaque, uint32_t addr, uint32_t val);
-	virtual uint32_t	applesmc_io_data_readb(void *opaque, uint32_t addr1);
-	virtual uint32_t	applesmc_io_cmd_readb(void *opaque, uint32_t addr1);
-	virtual const char	*applesmc_get_key_by_index(uint32_t index, struct AppleSMCStatus *s);
-	virtual void		applesmc_fill_data(struct AppleSMCStatus *s);
-	virtual void		applesmc_fill_info(struct AppleSMCStatus *s);
+	void                applesmc_io_cmd_writeb(void *opaque, uint32_t addr, uint32_t val);
+	void                applesmc_io_data_writeb(void *opaque, uint32_t addr, uint32_t val);
+	uint32_t            applesmc_io_data_readb(void *opaque, uint32_t addr1);
+	uint32_t            applesmc_io_cmd_readb(void *opaque, uint32_t addr1);
+	const char          *applesmc_get_key_by_index(uint32_t index, struct AppleSMCStatus *s);
+	void                applesmc_fill_data(struct AppleSMCStatus *s);
+	void                applesmc_fill_info(struct AppleSMCStatus *s);
     
 public:
-    virtual FakeSMCKey	*addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value);
-	virtual FakeSMCKey	*addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler);
-	virtual FakeSMCKey	*getKey(const char *name);
-	virtual FakeSMCKey	*getKey(unsigned int index);
-	virtual UInt32		getCount(void);
-	
-	virtual void		updateKeyCounterKey(void);
-    virtual void		updateFanCounterKey(void);
+    FakeSMCKey          *addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value);
+	FakeSMCKey          *addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler);
+	FakeSMCKey          *getKey(const char *name);
+	FakeSMCKey          *getKey(unsigned int index);
+	UInt32              getCount(void);
+    
+	void                updateKeyCounterKey(void);
+    void                updateFanCounterKey(void);
     
     void                saveKeyToNVRAM(FakeSMCKey *key, bool sync = true);
+    
+    bool                initAndStart(IOService *platform, IOService *provider);
     
     virtual void		ioWrite32( UInt16 offset, UInt32 value, IOMemoryMap * map = 0 );
     virtual void		ioWrite16( UInt16 offset, UInt16 value, IOMemoryMap * map = 0 );
@@ -104,11 +104,8 @@ public:
     virtual IOReturn	enableInterrupt(int source);
     virtual IOReturn	disableInterrupt(int source);
 	virtual IOReturn	causeInterrupt(int source);
-	
-	virtual bool		init(IOService *platform, OSDictionary *properties);
+
     virtual IOReturn	setProperties(OSObject * properties);
-    	
-	//virtual void		setDebug(bool debug_val);
     
     virtual IOReturn	callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 ); 
 };

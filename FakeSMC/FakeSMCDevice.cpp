@@ -8,12 +8,12 @@
  */
 
 #include "FakeSMCDevice.h"
-#include "FakeSMCDefinitions.h"
 
-#include "FakeSMCPlugin.h"
+#include "FakeSMCDefinitions.h"
 
 #include <IOKit/IODeviceTreeSupport.h>
 #include <IOKit/IOKitKeys.h>
+#include <IOKit/IONVRAM.h>
 
 #define FakeSMCTraceLog(string, args...) do { if (trace) { IOLog ("%s: [Trace] " string "\n",getName() , ## args); } } while(0)
 #define FakeSMCDebugLog(string, args...) do { if (debug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
@@ -245,30 +245,24 @@ uint32_t FakeSMCDevice::applesmc_io_cmd_readb(void *opaque, uint32_t addr1)
 
 void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key, bool sync)
 {
-    nvramKeys->setObject(key->getKey(), key);
-    
-    if (sync) {
-        if (IORegistryEntry *options = OSDynamicCast(IORegistryEntry, fromPath("/options", gIODTPlane))) {
-            
-            OSData *data = OSData::withCapacity(512);
-            
-            if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(nvramKeys)) {
-                while (OSString *nextKeyName = OSDynamicCast(OSString, iterator->getNextObject())) {
-                    FakeSMCKey *nextKey = OSDynamicCast(FakeSMCKey, nvramKeys->getObject(nextKeyName));
-                    data->appendBytes(nextKey->getKey(), 4);
-                    data->appendBytes(nextKey->getType(), 4);
-                    data->appendByte(nextKey->getSize(), 1);
-                    data->appendBytes(nextKey->getValue(), nextKey->getSize());
-                }
+    if (nvramKeys) {
+
+        nvramKeys->setObject(key->getKey(), key);
+        
+        if (sync) {
+
+            if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, fromPath("/options", gIODTPlane))) {
+                char name[32];
                 
-                OSSafeRelease(iterator);
+                snprintf(name, 32, "%s.%s:%s", kFakeSMCKeyPropertyPrefix, key->getKey(), key->getType());
+            
+                const OSSymbol *tempName = OSSymbol::withCString(name);
+            
+                nvram->setProperty(tempName, OSData::withBytes(key->getValue(), key->getSize()));
+                
+                OSSafeRelease(tempName);
+                OSSafeRelease(nvram);
             }
-            
-            options->setProperty(kFakeSMCPropertyKeys, data);
-            if (doSyncNVRAM) options->setProperty(kIONVRAMSyncNowPropertyKey, kFakeSMCPropertyKeys);
-            
-            OSSafeRelease(data);
-            OSSafeRelease(options);
         }
     }
 }
@@ -303,11 +297,6 @@ FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, u
     if (FakeSMCKey *key = getKey(name)) {
         
         if (value) {
-            if (type == 0) {
-                OSString *wellKnownType = OSDynamicCast(OSString, types->getObject(name));
-                key->setType(wellKnownType ? wellKnownType->getCStringNoCopy() : 0);
-            }
-            else key->setType(type);
             key->setSize(size);
             key->setValueFromBuffer(value, size);
         }
@@ -367,7 +356,11 @@ FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, u
     
 	FakeSMCDebugLog("adding key %s with value, type: %s, size: %d", name, type, size);
     
-	if (FakeSMCKey *key = FakeSMCKey::withValue(name, type, size, value)) {
+    OSString *wellKnownType = 0;
+    
+    if (!type) wellKnownType = OSDynamicCast(OSString, types->getObject(name));
+    
+	if (FakeSMCKey *key = FakeSMCKey::withValue(name, type ? type : wellKnownType ? wellKnownType->getCStringNoCopy() : 0, size, value)) {
 		keys->setObject(key);
 		updateKeyCounterKey();
 		return key;
@@ -527,23 +520,31 @@ void FakeSMCDevice::ioWrite8( UInt16 offset, UInt8 value, IOMemoryMap * map )
 	//HWSensorsDebugLog("iowrite8 called");
 }
 
-bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
+bool FakeSMCDevice::initAndStart(IOService *platform, IOService *provider)
 {
-	if (!super::init(platform, 0, 0))
+	if (!provider || !super::init(platform, 0, 0))
 		return false;
     
-    IORegistryEntry *nvram = IORegistryEntry::fromPath("/chosen/nvram", gIODTPlane);
-    doSyncNVRAM = nvram == 0; // Sync NVRAM if bootloader is not Chameleon/Chimera
-    OSSafeRelease(nvram);
+    OSDictionary *properties = OSDynamicCast(OSDictionary, provider->getProperty("Configuration"));
+    
+    if (!properties)
+        return false;
     
     platformFunctionLock = IOLockAlloc();
-    
 	status = (ApleSMCStatus *) IOMalloc(sizeof(struct AppleSMCStatus));
 	bzero((void*)status, sizeof(struct AppleSMCStatus));
-    
 	interrupt_handler = 0;
     
 	keys = OSArray::withCapacity(1);
+    types = OSDictionary::withCapacity(0);
+    exposedValues = OSDictionary::withCapacity(0);
+    
+    OSString *vendor = OSDynamicCast(OSString, provider->getProperty(kFakeSMCFirmwareVendor));
+    
+    // Allows store keys in NVRAM only if booted with Clover
+    if (vendor && vendor->isEqualTo("CLOVER")) {
+        nvramKeys = OSDictionary::withCapacity(0);
+    }
     
     // Add fist key - counter key
     keyCounterKey = FakeSMCKey::withValue(KEY_COUNTER, TYPE_UI32, TYPE_UI32_SIZE, "\0\0\0\1");
@@ -551,7 +552,6 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
     
     fanCounterKey = FakeSMCKey::withValue(KEY_FAN_NUMBER, TYPE_UI8, TYPE_UI8_SIZE, "\0");
     keys->setObject(fanCounterKey);
-    
     
     // Load preconfigured keys
     FakeSMCDebugLog("loading keys...");
@@ -584,8 +584,6 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
 	}
     
     // Load wellknown type names
-    types = OSDictionary::withCapacity(0);
-    
     FakeSMCDebugLog("loading types...");
     
     if (OSDictionary *dictionary = OSDynamicCast(OSDictionary, properties->getObject("Types"))) {
@@ -623,10 +621,10 @@ bool FakeSMCDevice::init(IOService *platform, OSDictionary *properties)
             HWSensorsInfoLog("%d key%s exported by Clover EFI", count, count == 1 ? "" : "s");
     }
     
-    // Init SMC device
+    // Start SMC device
     
-    exposedValues = OSDictionary::withCapacity(0);
-    nvramKeys = OSDictionary::withCapacity(0);
+    if (!super::start(platform))
+        return false;
     
 	this->setName("SMC");
     

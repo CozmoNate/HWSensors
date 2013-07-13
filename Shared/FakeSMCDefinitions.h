@@ -191,7 +191,8 @@
 #define kFakeSMCSetValueCallback                "kFakeSMCSetValueCallback"
 
 // NVRAM
-#define kFakeSMCPropertyKeys                    "fakesmc-keys"
+#define kFakeSMCFirmwareVendor                  "fw-vendor"
+#define kFakeSMCKeyPropertyPrefix               "fakesmc-key"
 
 #define kHWSensorsDebug FALSE
 

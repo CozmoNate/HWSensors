@@ -15,6 +15,7 @@
 inline void copySymbol(const char *from, char* to)
 {
     // Made the key name valid (4 char long): add trailing spaces if needed
+    //bzero(to, 5);
     snprintf(to, 5, "%-4s", from);
 }
 

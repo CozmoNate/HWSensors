@@ -68,10 +68,8 @@ bool FakeSMCKey::init(const char * aKey, const char * aType, const unsigned char
 				copySymbol("ch8*", type);
 				break;
 		}
-        //copySymbol("\0\0\0\0", type);
 	}
-	else 
-        copySymbol(aType, type);
+	else copySymbol(aType, type);
 	
 	if (size == 0)
 		size++;
