@@ -249,29 +249,24 @@ uint32_t FakeSMCDevice::applesmc_io_cmd_readb(void *opaque, uint32_t addr1)
 #pragma mark -
 #pragma mark NVRAM
 
-void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key, bool sync)
+void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key)
 {
+    if (ignoreNVRAM)
+        return;
+    
     IOLockLock(nvramAccessLock);
     
-    if (nvramKeys) {
-
-        nvramKeys->setObject(key->getKey(), key);
+    if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, fromPath("/options", gIODTPlane))) {
+        char name[32];
         
-        if (sync) {
-
-            if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, fromPath("/options", gIODTPlane))) {
-                char name[32];
-                
-                snprintf(name, 32, "%s.%s:%s", kFakeSMCKeyPropertyPrefix, key->getKey(), key->getType());
-            
-                const OSSymbol *tempName = OSSymbol::withCString(name);
-            
-                nvram->setProperty(tempName, OSData::withBytes(key->getValue(), key->getSize()));
-                
-                OSSafeRelease(tempName);
-                OSSafeRelease(nvram);
-            }
-        }
+        snprintf(name, 32, "%s.%s:%s", kFakeSMCKeyPropertyPrefix, key->getKey(), key->getType());
+    
+        const OSSymbol *tempName = OSSymbol::withCString(name);
+    
+        nvram->setProperty(tempName, OSData::withBytes(key->getValue(), key->getSize()));
+        
+        OSSafeRelease(tempName);
+        OSSafeRelease(nvram);
     }
     
     IOLockUnlock(nvramAccessLock);
@@ -477,10 +472,10 @@ bool FakeSMCDevice::initAndStart(IOService *platform, IOService *provider)
     
     if (PE_parse_boot_argn("-fakesmc-ignore-nvram", &arg_value, sizeof(arg_value))) {
         HWSensorsInfoLog("ignoring NVRAM...");
-        nvramKeys = 0;
+        ignoreNVRAM = true;
     }
     else {
-        nvramKeys = OSDictionary::withCapacity(0);
+        ignoreNVRAM = false;
     }
     
     // Add fist key - counter key

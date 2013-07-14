@@ -138,12 +138,8 @@ bool FakeSMC::start(IOService *provider)
                                     memcpy(name, buffer + prefix_length + 1, 4); // fakesmc-key. ->
                                     memcpy(type, buffer + prefix_length + 1 + 4 + 1, 4); // fakesmc-key.xxxx: ->
                                     
-                                    if (FakeSMCKey *key = smcDevice->addKeyWithValue(name, type, data->getLength(), data->getBytesNoCopy())) {
+                                    if (smcDevice->addKeyWithValue(name, type, data->getLength(), data->getBytesNoCopy())) {
                                         HWSensorsDebugLog("key %s of type %s loaded from NVRAM", name, type);
-                                        
-                                        // Add key to NVRAM keys list
-                                        smcDevice->saveKeyToNVRAM(key, false);
-                                        
                                         count++;
                                     }
                                 }

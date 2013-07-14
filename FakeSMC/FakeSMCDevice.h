@@ -56,13 +56,14 @@ private:
 	OSArray             *keys;
     OSDictionary        *types;
     OSDictionary        *exposedValues;
-    OSDictionary        *nvramKeys;
+    //OSDictionary        *nvramKeys;
     
    	FakeSMCKey			*keyCounterKey;
     FakeSMCKey          *fanCounterKey;
 	
     bool				trace;
 	bool				debug;
+    bool                ignoreNVRAM;
     
     IOLock              *platformFunctionLock;
     IOLock              *nvramAccessLock;
@@ -88,7 +89,7 @@ public:
 	void                updateKeyCounterKey(void);
     void                updateFanCounterKey(void);
     
-    void                saveKeyToNVRAM(FakeSMCKey *key, bool sync = true);
+    void                saveKeyToNVRAM(FakeSMCKey *key);
     
     bool                initAndStart(IOService *platform, IOService *provider);
     
