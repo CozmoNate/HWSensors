@@ -65,6 +65,7 @@ private:
 	bool				debug;
     
     IOLock              *platformFunctionLock;
+    IOLock              *nvramAccessLock;
     
     UInt16              vacantGPUIndex;
     UInt16              vacantFanIndex;

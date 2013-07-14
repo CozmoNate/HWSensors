@@ -99,7 +99,7 @@ bool FakeSMC::start(IOService *provider)
     
     int arg_value = 1;
     
-    if (PE_parse_boot_argn("-fakesmc_force_start", &arg_value, sizeof(arg_value))) {
+    if (PE_parse_boot_argn("-fakesmc-force-start", &arg_value, sizeof(arg_value))) {
         HWSensorsInfoLog("firmware vendor check disabled");
     }
     else if (vendor && vendor->isEqualTo("Apple")) {
