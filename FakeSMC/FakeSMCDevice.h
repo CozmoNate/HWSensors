@@ -64,9 +64,9 @@ private:
     bool				trace;
 	bool				debug;
     bool                ignoreNVRAM;
+    bool                runningChameleon;
     
     IOLock              *platformFunctionLock;
-    IOLock              *nvramAccessLock;
     
     UInt16              vacantGPUIndex;
     UInt16              vacantFanIndex;
@@ -90,6 +90,7 @@ public:
     void                updateFanCounterKey(void);
     
     void                saveKeyToNVRAM(FakeSMCKey *key);
+    void                loadKeysFromNVRAM();
     
     bool                initAndStart(IOService *platform, IOService *provider);
     

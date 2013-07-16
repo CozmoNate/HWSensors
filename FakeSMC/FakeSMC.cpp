@@ -59,7 +59,7 @@ bool FakeSMC::init(OSDictionary *dictionary)
     }
     
     if (IORegistryEntry *efi = IORegistryEntry::fromPath("/efi", gIODTPlane)) {
-        if (OSData *vendor = OSDynamicCast(OSData, efi->getProperty("firmware-vendor"))) {
+        if (OSData *vendor = OSDynamicCast(OSData, efi->getProperty(kFakeSMCFirmwareVendor))) {
             OSData *buffer = OSData::withCapacity(128);
             const unsigned char* data = static_cast<const unsigned char*>(vendor->getBytesNoCopy());
             
@@ -114,55 +114,10 @@ bool FakeSMC::start(IOService *provider)
 
 	registerService();
 
-    // Find driver and load keys from NVRAM
-    if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
-        if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching, 1000000000ULL * 10))) {
-            
-            OSSerialize *s = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary
-            
-            if (nvram->serializeProperties(s)) {
-                if (OSDictionary *props = OSDynamicCast(OSDictionary, OSUnserializeXML(s->text()))) {
-                    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(props)) {
-                        
-                        int count = 0;
-                        size_t prefix_length = strlen(kFakeSMCKeyPropertyPrefix);
-                        
-                        char name[5]; name[4] = 0;
-                        char type[5]; type[4] = 0;
-                        
-                        while (OSString *property = OSDynamicCast(OSString, iterator->getNextObject())) {
-                            const char *buffer = static_cast<const char *>(property->getCStringNoCopy());
-                            
-                            if (0 == strncmp(buffer, kFakeSMCKeyPropertyPrefix, prefix_length)) {
-                                if (OSData *data = OSDynamicCast(OSData, props->getObject(property))) {
-                                    memcpy(name, buffer + prefix_length + 1, 4); // fakesmc-key. ->
-                                    memcpy(type, buffer + prefix_length + 1 + 4 + 1, 4); // fakesmc-key.xxxx: ->
-                                    
-                                    if (smcDevice->addKeyWithValue(name, type, data->getLength(), data->getBytesNoCopy())) {
-                                        HWSensorsDebugLog("key %s of type %s loaded from NVRAM", name, type);
-                                        count++;
-                                    }
-                                }
-                            }
-                        }
-                        
-                        if (count) HWSensorsInfoLog("%d key%s loaded from NVRAM", count, count == 1 ? "" : "s");
-                        
-                        OSSafeRelease(iterator);
-                    }
-
-                    OSSafeRelease(props);
-                }
-            }
-
-            OSSafeRelease(s);
-            OSSafeRelease(nvram);
-        }
-        else {
-            HWSensorsWarningLog("NVRAM is unavailable");
-        }
-        
-        OSSafeRelease(matching);
+    if (PE_parse_boot_argn("-fakesmc-ignore-nvram", &arg_value, sizeof(arg_value))) {
+    }
+    else {
+    
     }
 
 	return true;

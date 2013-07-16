@@ -253,23 +253,76 @@ void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key)
 {
     if (ignoreNVRAM)
         return;
-    
-    IOLockLock(nvramAccessLock);
-    
-    if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, fromPath("/options", gIODTPlane))) {
+   
+    if (IORegistryEntry *nvram = OSDynamicCast(IORegistryEntry, fromPath("/options", gIODTPlane))) {
         char name[32];
         
-        snprintf(name, 32, "%s.%s:%s", kFakeSMCKeyPropertyPrefix, key->getKey(), key->getType());
+        snprintf(name, 32, "%s-%s-%s", kFakeSMCKeyPropertyPrefix, key->getKey(), key->getType());
     
         const OSSymbol *tempName = OSSymbol::withCString(name);
     
-        nvram->setProperty(tempName, OSData::withBytes(key->getValue(), key->getSize()));
+        if (runningChameleon)
+            nvram->IORegistryEntry::setProperty(tempName, OSData::withBytes(key->getValue(), key->getSize()));
+        else
+            nvram->setProperty(tempName, OSData::withBytes(key->getValue(), key->getSize()));
         
         OSSafeRelease(tempName);
         OSSafeRelease(nvram);
     }
-    
-    IOLockUnlock(nvramAccessLock);
+}
+
+void FakeSMCDevice::loadKeysFromNVRAM()
+{
+    // Find driver and load keys from NVRAM
+    if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
+        if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching, 1000000000ULL * 15))) {
+            
+            OSSerialize *s = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary
+            
+            if (nvram->serializeProperties(s)) {
+                if (OSDictionary *props = OSDynamicCast(OSDictionary, OSUnserializeXML(s->text()))) {
+                    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(props)) {
+                        
+                        int count = 0;
+                        size_t prefix_length = strlen(kFakeSMCKeyPropertyPrefix);
+                        
+                        char name[5]; name[4] = 0;
+                        char type[5]; type[4] = 0;
+                        
+                        while (OSString *property = OSDynamicCast(OSString, iterator->getNextObject())) {
+                            const char *buffer = static_cast<const char *>(property->getCStringNoCopy());
+                            
+                            if (0 == strncmp(buffer, kFakeSMCKeyPropertyPrefix, prefix_length)) {
+                                if (OSData *data = OSDynamicCast(OSData, props->getObject(property))) {
+                                    memcpy(name, buffer + prefix_length + 1, 4); // fakesmc-key-???? ->
+                                    memcpy(type, buffer + prefix_length + 1 + 4 + 1, 4); // fakesmc-key-xxxx-???? ->
+                                    
+                                    if (addKeyWithValue(name, type, data->getLength(), data->getBytesNoCopy())) {
+                                        HWSensorsDebugLog("key %s of type %s loaded from NVRAM", name, type);
+                                        count++;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (count) HWSensorsInfoLog("%d key%s loaded from NVRAM", count, count == 1 ? "" : "s");
+                        
+                        OSSafeRelease(iterator);
+                    }
+                    
+                    OSSafeRelease(props);
+                }
+            }
+            
+            OSSafeRelease(s);
+            OSSafeRelease(nvram);
+        }
+        else {
+            HWSensorsWarningLog("NVRAM is unavailable");
+        }
+        
+        OSSafeRelease(matching);
+    }
 }
 
 #pragma mark -
@@ -303,6 +356,10 @@ void FakeSMCDevice::updateFanCounterKey()
 FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value)
 {
     if (FakeSMCKey *key = getKey(name)) {
+        
+        if (type && strncmp(type, key->getType(), 4) == 0) {
+            key->setType(type);
+        }
         
         if (value) {
             key->setSize(size);
@@ -457,8 +514,10 @@ bool FakeSMCDevice::initAndStart(IOService *platform, IOService *provider)
     if (!properties)
         return false;
     
+    OSString *vendor = OSDynamicCast(OSString, provider->getProperty(kFakeSMCFirmwareVendor));
+    runningChameleon  = vendor && 0 == strncmp("Chameleon", vendor->getCStringNoCopy(), strlen("Chameleon"));
+    
     platformFunctionLock = IOLockAlloc();
-    nvramAccessLock = IOLockAlloc();
     
 	status = (ApleSMCStatus *) IOMalloc(sizeof(struct AppleSMCStatus));
 	bzero((void*)status, sizeof(struct AppleSMCStatus));
