@@ -6,5 +6,4 @@
 *.octest
 xcuserdata
 smcutil
-*.pkgproj
 version.h

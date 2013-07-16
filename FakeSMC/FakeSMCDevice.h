@@ -63,10 +63,10 @@ private:
 	
     bool				trace;
 	bool				debug;
-    bool                ignoreNVRAM;
+    bool                nvramAllowed;
     bool                runningChameleon;
     
-    IOLock              *platformFunctionLock;
+    IORecursiveLock     *keysLock;
     
     UInt16              vacantGPUIndex;
     UInt16              vacantFanIndex;
@@ -78,7 +78,7 @@ private:
 	const char          *applesmc_get_key_by_index(uint32_t index, struct AppleSMCStatus *s);
 	void                applesmc_fill_data(struct AppleSMCStatus *s);
 	void                applesmc_fill_info(struct AppleSMCStatus *s);
-    
+
 public:
     FakeSMCKey          *addKeyWithValue(const char *name, const char *type, unsigned char size, const void *value);
 	FakeSMCKey          *addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler);
@@ -90,7 +90,7 @@ public:
     void                updateFanCounterKey(void);
     
     void                saveKeyToNVRAM(FakeSMCKey *key);
-    void                loadKeysFromNVRAM();
+    UInt32              loadKeysFromNVRAM();
     
     bool                initAndStart(IOService *platform, IOService *provider);
     
