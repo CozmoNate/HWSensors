@@ -125,7 +125,17 @@
             if ([subItem isKindOfClass:[NSMenuItem class]]) {
                 NSMenuItem* menuItem = subItem;
                 
-                [menuItem setTitle:GetLocalizedString([menuItem title])];
+                if ([menuItem attributedTitle] && [[menuItem attributedTitle] string].length) {
+                    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithAttributedString:[menuItem attributedTitle]];
+                    
+                    [title replaceCharactersInRange:NSMakeRange(0, title.length) withString:GetLocalizedString(title.string)];
+                    
+                    [menuItem setAttributedTitle:title];
+                }
+                else {
+                    [menuItem setTitle:GetLocalizedString([menuItem title])];
+                }
+                
                 
                 if ([menuItem hasSubmenu])
                     [self localizeView:[menuItem submenu]];

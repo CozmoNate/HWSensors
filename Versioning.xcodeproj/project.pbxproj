@@ -8,12 +8,14 @@
 
 /* Begin PBXFileReference section */
 		7E2ACD901791B4980061C677 /* PreBuild.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = PreBuild.sh; path = Scripts/PreBuild.sh; sourceTree = "<group>"; };
-		7E2ACD951791B55B0061C677 /* PostBuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = PostBuild.sh; path = Scripts/PostBuild.sh; sourceTree = "<group>"; };
+		7E2ACD951791B55B0061C677 /* BuildInstaller.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = BuildInstaller.sh; path = Scripts/BuildInstaller.sh; sourceTree = "<group>"; };
 		7E2ACD961791B5780061C677 /* TagCurrentVersion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = TagCurrentVersion.sh; path = Scripts/TagCurrentVersion.sh; sourceTree = "<group>"; };
 		7E2ACD971791B5870061C677 /* BumpMinorVersion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = BumpMinorVersion.sh; path = Scripts/BumpMinorVersion.sh; sourceTree = "<group>"; };
 		7E2ACD981791B5990061C677 /* BumpMajorVersion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = BumpMajorVersion.sh; path = Scripts/BumpMajorVersion.sh; sourceTree = "<group>"; };
 		7E2F25191783EAE800C86586 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7E3ABDBA1796580B00201804 /* revision.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = revision.txt; sourceTree = "<group>"; };
+		7E43CE0F179746CE001E3636 /* SignApp.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = SignApp.sh; path = Scripts/SignApp.sh; sourceTree = "<group>"; };
+		7E43CE10179746CE001E3636 /* SignInstaller.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = SignInstaller.sh; path = Scripts/SignInstaller.sh; sourceTree = "<group>"; };
 		7EB73CEF1791BC0E007D93D4 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
 		7EB73CF01791BC0E007D93D4 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWSensorsVersion.pch; path = Shared/HWSensorsVersion.pch; sourceTree = "<group>"; };
 		7EB73CF11791BC30007D93D4 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
@@ -25,7 +27,9 @@
 			isa = PBXGroup;
 			children = (
 				7E2ACD901791B4980061C677 /* PreBuild.sh */,
-				7E2ACD951791B55B0061C677 /* PostBuild.sh */,
+				7E2ACD951791B55B0061C677 /* BuildInstaller.sh */,
+				7E43CE0F179746CE001E3636 /* SignApp.sh */,
+				7E43CE10179746CE001E3636 /* SignInstaller.sh */,
 				7E2ACD961791B5780061C677 /* TagCurrentVersion.sh */,
 				7E2ACD971791B5870061C677 /* BumpMinorVersion.sh */,
 				7E2ACD981791B5990061C677 /* BumpMajorVersion.sh */,
@@ -71,17 +75,17 @@
 			passBuildSettingsInEnvironment = 1;
 			productName = PreBuild;
 		};
-		7E2ACD911791B54B0061C677 /* Post-Build */ = {
+		7E2ACD911791B54B0061C677 /* Build Installer */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "${SOURCE_ROOT}/Scripts/PostBuild.sh ${ACTION}";
-			buildConfigurationList = 7E2ACD921791B54B0061C677 /* Build configuration list for PBXLegacyTarget "Post-Build" */;
+			buildArgumentsString = "${SOURCE_ROOT}/Scripts/BuildInstaller.sh ${ACTION}";
+			buildConfigurationList = 7E2ACD921791B54B0061C677 /* Build configuration list for PBXLegacyTarget "Build Installer" */;
 			buildPhases = (
 			);
 			buildToolPath = /bin/sh;
 			buildWorkingDirectory = "";
 			dependencies = (
 			);
-			name = "Post-Build";
+			name = "Build Installer";
 			passBuildSettingsInEnvironment = 1;
 			productName = PostBuild;
 		};
@@ -127,6 +131,34 @@
 			passBuildSettingsInEnvironment = 1;
 			productName = "Bump Major Version";
 		};
+		7E43CE05179742D3001E3636 /* Sign Application */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "${SOURCE_ROOT}/Scripts/SignApp.sh ${ACTION}";
+			buildConfigurationList = 7E43CE08179742D3001E3636 /* Build configuration list for PBXLegacyTarget "Sign Application" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/sh;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = "Sign Application";
+			passBuildSettingsInEnvironment = 1;
+			productName = "Sign Application";
+		};
+		7E43CE09179742DB001E3636 /* Sign Installer */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "${SOURCE_ROOT}/Scripts/SignInstaller.sh ${ACTION}";
+			buildConfigurationList = 7E43CE0A179742DB001E3636 /* Build configuration list for PBXLegacyTarget "Sign Installer" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/sh;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = "Sign Installer";
+			passBuildSettingsInEnvironment = 1;
+			productName = "Sign Installer";
+		};
 /* End PBXLegacyTarget section */
 
 /* Begin PBXProject section */
@@ -147,7 +179,9 @@
 			projectRoot = "";
 			targets = (
 				7E2ACD8B1791B4510061C677 /* Pre-Build */,
-				7E2ACD911791B54B0061C677 /* Post-Build */,
+				7E2ACD911791B54B0061C677 /* Build Installer */,
+				7E43CE05179742D3001E3636 /* Sign Application */,
+				7E43CE09179742DB001E3636 /* Sign Installer */,
 				7E2ACD991791B5DA0061C677 /* Tag Current Version */,
 				7E2ACD9D1791B6090061C677 /* Bump Minor Version */,
 				7E2ACDA11791B61D0061C677 /* Bump Major Version */,
@@ -471,6 +505,132 @@
 			};
 			name = Release;
 		};
+		7E43CE06179742D3001E3636 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7E43CE07179742D3001E3636 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		7E43CE0B179742DB001E3636 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7E43CE0C179742DB001E3636 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7EB7E70E17834A740071B3F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -499,7 +659,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E2ACD921791B54B0061C677 /* Build configuration list for PBXLegacyTarget "Post-Build" */ = {
+		7E2ACD921791B54B0061C677 /* Build configuration list for PBXLegacyTarget "Build Installer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E2ACD931791B54B0061C677 /* Debug */,
@@ -534,6 +694,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		7E43CE08179742D3001E3636 /* Build configuration list for PBXLegacyTarget "Sign Application" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E43CE06179742D3001E3636 /* Debug */,
+				7E43CE07179742D3001E3636 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7E43CE0A179742DB001E3636 /* Build configuration list for PBXLegacyTarget "Sign Installer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E43CE0B179742DB001E3636 /* Debug */,
+				7E43CE0C179742DB001E3636 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		7EB7E70D17834A740071B3F0 /* Build configuration list for PBXProject "Versioning" */ = {
 			isa = XCConfigurationList;

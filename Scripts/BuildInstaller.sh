@@ -18,14 +18,11 @@ fi
 
 project_name=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "${PROJECT_DIR}/version.plist")
 project_version=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "${PROJECT_DIR}/version.plist")
-
-cd ${PROJECT_DIR}
-
-git_revision=$(git rev-list --count HEAD)
-full_version=${project_version}'.'${git_revision}
+last_revision=$(<"${PROJECT_DIR}/revision.txt")
+full_version=${project_version}'.'${last_revision}
 
 # Build package
 cd ${PROJECT_DIR}/Binaries
 
 ./packagesbuild ${project_name}.pkgproj
-mv ${project_name}.pkg ${project_name}.${full_version}.pkg
+#mv ${project_name}.pkg ${project_name}.${full_version}.pkg

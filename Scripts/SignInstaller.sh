@@ -1,9 +1,9 @@
 #!/bin/sh
 
-#  TagCurrentVersion.sh
+#  SignInstaller.sh
 #  Versioning
 #
-#  Created by Kozlek on 13/07/13.
+#  Created by Kozlek on 18/07/13.
 #
 
 # Do nothing on clean
@@ -17,5 +17,11 @@ project_version=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "${PROJEC
 last_revision=$(<"${PROJECT_DIR}/revision.txt")
 full_version=${project_version}'.'${last_revision}
 
-git tag -a -f ${full_version} -m "${project_name} Build v${full_version}"
-git push --tags
+productsign --sign "Developer ID Installer" ${PROJECT_DIR}/Binaries/${project_name}.pkg ${PROJECT_DIR}/Binaries/${project_name}.${full_version}.pkg
+spctl -a -v --type install ${PROJECT_DIR}/Binaries/${project_name}.${full_version}.pkg
+
+if [ $? -eq 0 ]; then
+    rm ${PROJECT_DIR}/Binaries/${project_name}.pkg
+else
+    exit 1
+fi

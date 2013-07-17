@@ -112,10 +112,38 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E9060E31708951800BF5BBF"
-               BuildableName = "smcutil"
-               BlueprintName = "smcutil"
-               ReferencedContainer = "container:HWMonitor.xcodeproj">
+               BlueprintIdentifier = "7E43CE05179742D3001E3636"
+               BuildableName = "Sign Application"
+               BlueprintName = "Sign Application"
+               ReferencedContainer = "container:Versioning.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7E2ACD911791B54B0061C677"
+               BuildableName = "Build Installer"
+               BlueprintName = "Build Installer"
+               ReferencedContainer = "container:Versioning.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7E43CE09179742DB001E3636"
+               BuildableName = "Sign Installer"
+               BlueprintName = "Sign Installer"
+               ReferencedContainer = "container:Versioning.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -127,15 +155,6 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
-            BuildableName = "HWMonitor.app"
-            BlueprintName = "HWMonitor"
-            ReferencedContainer = "container:HWMonitor.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -146,15 +165,6 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
-            BuildableName = "HWMonitor.app"
-            BlueprintName = "HWMonitor"
-            ReferencedContainer = "container:HWMonitor.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -164,15 +174,6 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
-            BuildableName = "HWMonitor.app"
-            BlueprintName = "HWMonitor"
-            ReferencedContainer = "container:HWMonitor.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
