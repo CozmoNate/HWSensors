@@ -13,6 +13,7 @@
 		7E2ACD971791B5870061C677 /* BumpMinorVersion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = BumpMinorVersion.sh; path = Scripts/BumpMinorVersion.sh; sourceTree = "<group>"; };
 		7E2ACD981791B5990061C677 /* BumpMajorVersion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = BumpMajorVersion.sh; path = Scripts/BumpMajorVersion.sh; sourceTree = "<group>"; };
 		7E2F25191783EAE800C86586 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
+		7E3ABDBA1796580B00201804 /* revision.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = revision.txt; sourceTree = "<group>"; };
 		7EB73CEF1791BC0E007D93D4 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
 		7EB73CF01791BC0E007D93D4 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWSensorsVersion.pch; path = Shared/HWSensorsVersion.pch; sourceTree = "<group>"; };
 		7EB73CF11791BC30007D93D4 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
@@ -32,15 +33,24 @@
 			name = Scripts;
 			sourceTree = "<group>";
 		};
+		7E3ABDB9179655E600201804 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7EB7E71C17834BF10071B3F0 /* version.plist */,
+				7E3ABDBA1796580B00201804 /* revision.txt */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		7EB7E70917834A740071B3F0 = {
 			isa = PBXGroup;
 			children = (
-				7E2ACD8F1791B4740061C677 /* Scripts */,
 				7EB73CF01791BC0E007D93D4 /* HWSensorsVersion.pch */,
 				7EB73CEF1791BC0E007D93D4 /* HWMonitorVersion.pch */,
-				7EB7E71C17834BF10071B3F0 /* version.plist */,
 				7E2F25191783EAE800C86586 /* version.h */,
 				7EB73CF11791BC30007D93D4 /* README.txt */,
+				7E2ACD8F1791B4740061C677 /* Scripts */,
+				7E3ABDB9179655E600201804 /* Supporting Files */,
 			);
 			sourceTree = "<group>";
 		};
