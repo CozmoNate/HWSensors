@@ -7,7 +7,7 @@
 #
 
 # Clean packages every time
-cd ${PROJECT_DIR}
+cd .
 find ./ -name "*.pkg" -exec sh -c 'rm $0' '{}' \;
 
 # Exit on clean action
@@ -16,13 +16,13 @@ then
     exit 0
 fi
 
-project_name=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "${PROJECT_DIR}/version.plist")
-project_version=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "${PROJECT_DIR}/version.plist")
-last_revision=$(<"${PROJECT_DIR}/revision.txt")
+project_name=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "./version.plist")
+project_version=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "./version.plist")
+last_revision=$(<"./revision.txt")
 full_version=${project_version}'.'${last_revision}
 
 # Build package
-cd ${PROJECT_DIR}/Binaries
+cd ./Binaries
 
 ./packagesbuild ${project_name}.pkgproj
 #mv ${project_name}.pkg ${project_name}.${full_version}.pkg

@@ -12,5 +12,5 @@ then
     exit 0
 fi
 
-codesign -s "Developer ID Application" -f ${PROJECT_DIR}/Binaries/HWMonitor.app
-spctl -a -v --type execute ${PROJECT_DIR}/Binaries/HWMonitor.app
+codesign -s "Developer ID Application" -f ./Binaries/HWMonitor.app
+spctl -a -v --type execute ./Binaries/HWMonitor.app

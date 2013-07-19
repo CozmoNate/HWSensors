@@ -26,15 +26,15 @@ fi
 # 7. Insure your starting version number is in SemVer format (e.g. 1.0.0)
 
 # This splits a two-decimal version string, such as "0.45.123", allowing us to increment the third position.
-VERSIONNUM=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "${PROJECT_DIR}/version.plist")
+VERSIONNUM=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "./version.plist")
 #NEWSUBVERSION=`echo $VERSIONNUM | awk -F "." '{print $3}'`
 NEWSUBVERSION=`echo $VERSIONNUM | awk -F "." '{print $1}'`
 NEWSUBVERSION=$(($NEWSUBVERSION + 1))
 #NEWVERSIONSTRING=`echo $VERSIONNUM | awk -F "." '{print $1 "." $2 ".'$NEWSUBVERSION'" }'`
 NEWVERSIONSTRING=`echo $VERSIONNUM | awk -F "." '{print '$NEWSUBVERSION' ".1"}'`
-/usr/libexec/PlistBuddy -c "Set :'Project Version' $NEWVERSIONSTRING" "${PROJECT_DIR}/version.plist"
+/usr/libexec/PlistBuddy -c "Set :'Project Version' $NEWVERSIONSTRING" "./version.plist"
 
-#PROJECTNAME=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "${PROJECT_DIR}/version.plist")
-#cd ${PROJECT_DIR}
+#PROJECTNAME=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "./version.plist")
+#cd .
 #git tag -a -f ${NEWVERSIONSTRING} -m "$PROJECTNAME Major v$NEWVERSIONSTRING"
 #git push --tags

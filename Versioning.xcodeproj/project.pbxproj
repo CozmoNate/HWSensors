@@ -63,100 +63,100 @@
 /* Begin PBXLegacyTarget section */
 		7E2ACD8B1791B4510061C677 /* Pre-Build */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "${SOURCE_ROOT}/Scripts/PreBuild.sh ${ACTION}";
+			buildArgumentsString = "./Scripts/PreBuild.sh ${ACTION}";
 			buildConfigurationList = 7E2ACD8E1791B4510061C677 /* Build configuration list for PBXLegacyTarget "Pre-Build" */;
 			buildPhases = (
 			);
 			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "";
+			buildWorkingDirectory = "${SOURCE_ROOT}";
 			dependencies = (
 			);
 			name = "Pre-Build";
-			passBuildSettingsInEnvironment = 1;
+			passBuildSettingsInEnvironment = 0;
 			productName = PreBuild;
 		};
 		7E2ACD911791B54B0061C677 /* Build Installer */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "${SOURCE_ROOT}/Scripts/BuildInstaller.sh ${ACTION}";
+			buildArgumentsString = "./Scripts/BuildInstaller.sh ${ACTION}";
 			buildConfigurationList = 7E2ACD921791B54B0061C677 /* Build configuration list for PBXLegacyTarget "Build Installer" */;
 			buildPhases = (
 			);
 			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "";
+			buildWorkingDirectory = "${SOURCE_ROOT}";
 			dependencies = (
 			);
 			name = "Build Installer";
-			passBuildSettingsInEnvironment = 1;
+			passBuildSettingsInEnvironment = 0;
 			productName = PostBuild;
 		};
 		7E2ACD991791B5DA0061C677 /* Tag Current Version */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "${SOURCE_ROOT}/Scripts/TagCurrentVersion.sh ${ACTION}";
+			buildArgumentsString = "./Scripts/TagCurrentVersion.sh ${ACTION}";
 			buildConfigurationList = 7E2ACD9A1791B5DA0061C677 /* Build configuration list for PBXLegacyTarget "Tag Current Version" */;
 			buildPhases = (
 			);
 			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "";
+			buildWorkingDirectory = "${SOURCE_ROOT}";
 			dependencies = (
 			);
 			name = "Tag Current Version";
-			passBuildSettingsInEnvironment = 1;
+			passBuildSettingsInEnvironment = 0;
 			productName = "Tag Current Version";
 		};
 		7E2ACD9D1791B6090061C677 /* Bump Minor Version */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "${SOURCE_ROOT}/Scripts/BumpMinorVersion.sh ${ACTION}";
+			buildArgumentsString = "./Scripts/BumpMinorVersion.sh ${ACTION}";
 			buildConfigurationList = 7E2ACD9E1791B6090061C677 /* Build configuration list for PBXLegacyTarget "Bump Minor Version" */;
 			buildPhases = (
 			);
 			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "";
+			buildWorkingDirectory = "${SOURCE_ROOT}";
 			dependencies = (
 			);
 			name = "Bump Minor Version";
-			passBuildSettingsInEnvironment = 1;
+			passBuildSettingsInEnvironment = 0;
 			productName = "Bump Minor Version";
 		};
 		7E2ACDA11791B61D0061C677 /* Bump Major Version */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "${SOURCE_ROOT}/Scripts/BumpMajorVersion.sh ${ACTION}";
+			buildArgumentsString = "./Scripts/BumpMajorVersion.sh ${ACTION}";
 			buildConfigurationList = 7E2ACDA21791B61D0061C677 /* Build configuration list for PBXLegacyTarget "Bump Major Version" */;
 			buildPhases = (
 			);
 			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "";
+			buildWorkingDirectory = "${SOURCE_ROOT}";
 			dependencies = (
 			);
 			name = "Bump Major Version";
-			passBuildSettingsInEnvironment = 1;
+			passBuildSettingsInEnvironment = 0;
 			productName = "Bump Major Version";
 		};
 		7E43CE05179742D3001E3636 /* Sign Application */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "${SOURCE_ROOT}/Scripts/SignApp.sh ${ACTION}";
+			buildArgumentsString = "./Scripts/SignApp.sh ${ACTION}";
 			buildConfigurationList = 7E43CE08179742D3001E3636 /* Build configuration list for PBXLegacyTarget "Sign Application" */;
 			buildPhases = (
 			);
 			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "";
+			buildWorkingDirectory = "${SOURCE_ROOT}";
 			dependencies = (
 			);
 			name = "Sign Application";
-			passBuildSettingsInEnvironment = 1;
+			passBuildSettingsInEnvironment = 0;
 			productName = "Sign Application";
 		};
 		7E43CE09179742DB001E3636 /* Sign Installer */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "${SOURCE_ROOT}/Scripts/SignInstaller.sh ${ACTION}";
+			buildArgumentsString = "./Scripts/SignInstaller.sh ${ACTION}";
 			buildConfigurationList = 7E43CE0A179742DB001E3636 /* Build configuration list for PBXLegacyTarget "Sign Installer" */;
 			buildPhases = (
 			);
 			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "";
+			buildWorkingDirectory = "${SOURCE_ROOT}";
 			dependencies = (
 			);
 			name = "Sign Installer";
-			passBuildSettingsInEnvironment = 1;
+			passBuildSettingsInEnvironment = 0;
 			productName = "Sign Installer";
 		};
 /* End PBXLegacyTarget section */
@@ -702,6 +702,7 @@
 				7E43CE07179742D3001E3636 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7E43CE0A179742DB001E3636 /* Build configuration list for PBXLegacyTarget "Sign Installer" */ = {
 			isa = XCConfigurationList;
@@ -710,6 +711,7 @@
 				7E43CE0C179742DB001E3636 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7EB7E70D17834A740071B3F0 /* Build configuration list for PBXProject "Versioning" */ = {
 			isa = XCConfigurationList;
