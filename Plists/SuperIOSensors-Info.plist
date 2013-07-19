@@ -343,6 +343,8 @@
 						<string>SystemFan2</string>
 						<key>TEMPIN2</key>
 						<string>PCH</string>
+						<key>TEMPIN6</key>
+						<string>CPU</string>
 						<key>VIN0</key>
 						<dict>
 							<key>gain</key>

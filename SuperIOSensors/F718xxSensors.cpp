@@ -130,15 +130,11 @@ float F718xxSensors::readTemperature(UInt32 index)
 
 float F718xxSensors::readVoltage(UInt32 index)
 {
-    switch (model)
-	{
-        case F71808E:
-			if (index == 6) // 0x26 is reserved on F71808E
-                return 0;
-        default:
-			return (float)(readByte(FINTEK_VOLTAGE_BASE_REG + index)) * 0.008f;
-	};
+    // 0x26 is reserved on F71808E
+    if (model == F71808E && index == 6)
+        return 0;
     
+    return (float)(readByte(FINTEK_VOLTAGE_BASE_REG + index)) * 0.008f;
 	//return (index == 1 ? 0.5f : 1.0f) * (readByte(FINTEK_VOLTAGE_BASE_REG + index) << 4) * 0.001f;
 }
 

@@ -6,17 +6,22 @@
 #  Created by Kozlek on 13/07/13.
 #
 
-# Do nothing on clean
+version_file="${PROJECT_DIR}/Shared/version.h"
+revision_file="${PROJECT_DIR}/revision.txt"
+
 if [ "$1" == "clean" ]
 then
+    rm -f ${version_file}
+    echo "-" > ${version_file}
+    rm -f ${revision_file}
+    echo "-" > ${revision_file}
     exit 0
 fi
 
-version_file="${PROJECT_DIR}/Shared/version.h"
 project_name=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "${PROJECT_DIR}/version.plist")
 uppercased_name=$(echo $project_name | tr [[:lower:]] [[:upper:]])
 project_version=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "${PROJECT_DIR}/version.plist")
-revision_file="${PROJECT_DIR}/revision.txt"
+
 last_revision=$(<$revision_file)
 
 echo Last project revision: ${last_revision}

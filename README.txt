@@ -23,9 +23,10 @@ Navi for investigation of numeric SMC values encoding/decoding and other useful 
 droplets for testing
 Michael Möller for OpenHardwareMonitor
 The Real Deal & JrCs for French localization
-RehabMan forced me using mutexes and for other good ideas
+RehabMan forced me using mutexes and other contributions to the project
 Oliver Bolton for OBMenuBarWindow
 Mozketo for LaunchAtLoginController
+PHPdev32 for an idea to using NVRAM as storage for kext configuration
 oswaldini @ www.osx86.org.pl for Polish translation
 Marchrius @ insanelymac.com for Italian translation
 k3nny @ www.insanelymac.com for German translation
