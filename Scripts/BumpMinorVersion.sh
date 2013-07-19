@@ -34,7 +34,7 @@ NEWSUBVERSION=$(($NEWSUBVERSION + 1))
 NEWVERSIONSTRING=`echo $VERSIONNUM | awk -F "." '{print $1 ".'$NEWSUBVERSION'" }'`
 /usr/libexec/PlistBuddy -c "Set :'Project Version' $NEWVERSIONSTRING" "${PROJECT_DIR}/version.plist"
 
-PROJECTNAME=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "${PROJECT_DIR}/version.plist")
-cd ${PROJECT_DIR}
-git tag -a -f ${NEWVERSIONSTRING} -m "$PROJECTNAME Minor v$NEWVERSIONSTRING"
-git push --tags
+#PROJECTNAME=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "${PROJECT_DIR}/version.plist")
+#cd ${PROJECT_DIR}
+#git tag -a -f ${NEWVERSIONSTRING} -m "$PROJECTNAME Minor v$NEWVERSIONSTRING"
+#git push --tags
