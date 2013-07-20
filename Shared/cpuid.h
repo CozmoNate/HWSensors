@@ -247,7 +247,8 @@ typedef struct {
 	uint32_t	cpuid_mwait_sub_Cstates;
 	
 	/* Thermal and Power Management Leaf: */
-	boolean_t	cpuid_thermal_sensor;
+	boolean_t	cpuid_core_thermal_sensor;
+    boolean_t	cpuid_package_thermal_sensor;
 	boolean_t	cpuid_thermal_dynamic_acceleration;
 	uint32_t	cpuid_thermal_thresholds;
 	boolean_t	cpuid_thermal_ACNT_MCNT;
@@ -387,6 +388,14 @@ static void cpuid_update_generic_info()
         do_cpuid(0x80000001, cpuid_reg);
         info_p->cpuid_extfeatures = quad(cpuid_reg[ecx], cpuid_reg[edx]);
     }
+    
+    do_cpuid(6, cpuid_reg);
+    info_p->cpuid_core_thermal_sensor = (uint32_t)bitfield(cpuid_reg[eax], 0, 0);
+    info_p->cpuid_package_thermal_sensor = (uint32_t)bitfield(cpuid_reg[eax], 4, 0);
+    info_p->cpuid_thermal_dynamic_acceleration =
+    (uint32_t)bitfield(cpuid_reg[eax], 1, 1);
+    info_p->cpuid_thermal_thresholds = (uint32_t)bitfield(cpuid_reg[ebx], 3, 0);
+    info_p->cpuid_thermal_ACNT_MCNT = (uint32_t)bitfield(cpuid_reg[ecx], 0, 0);
 	
     if (info_p->cpuid_extfeatures & CPUID_FEATURE_MONITOR) {
 		
@@ -395,13 +404,6 @@ static void cpuid_update_generic_info()
         info_p->cpuid_mwait_linesize_max = cpuid_reg[ebx];
         info_p->cpuid_mwait_extensions   = cpuid_reg[ecx];
         info_p->cpuid_mwait_sub_Cstates  = cpuid_reg[edx];
-		
-        do_cpuid(6, cpuid_reg);
-        info_p->cpuid_thermal_sensor = (uint32_t)bitfield(cpuid_reg[eax], 0, 0);
-        info_p->cpuid_thermal_dynamic_acceleration =
-		(uint32_t)bitfield(cpuid_reg[eax], 1, 1);
-        info_p->cpuid_thermal_thresholds = (uint32_t)bitfield(cpuid_reg[ebx], 3, 0);
-        info_p->cpuid_thermal_ACNT_MCNT = (uint32_t)bitfield(cpuid_reg[ecx], 0, 0);
 		
         do_cpuid(0xa, cpuid_reg);
         info_p->cpuid_arch_perf_version = (uint32_t)bitfield(cpuid_reg[eax], 7, 0);

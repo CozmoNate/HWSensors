@@ -69,7 +69,7 @@ inline UInt32 get_cpu_number()
     return cpu_number() % cpuid_info()->core_count;
 }
 
-inline void read_cpu_thermal(void* cpu_index)
+inline void read_cpu_core_thermal(void* cpu_index)
 {
     UInt8 * cpn = (UInt8 *)cpu_index;
     
@@ -111,12 +111,13 @@ IOReturn CPUSensors::loopTimerEvent(void)
     UInt8 index;
     
     if (thermCounter++ < 4) {
-        for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
-            mp_rendezvous_no_intrs(read_cpu_thermal, &index);
-            IOSleep(1); // Yield?
+        if (cpuid_info()->cpuid_core_thermal_sensor) {
+            for (UInt8 i = 0; i < cpuid_info()->core_count; i++) {
+                mp_rendezvous_no_intrs(read_cpu_core_thermal, &index);
+                IOSleep(1); // Yield?
+            }
         }
-        
-        if (cpuid_info()->cpuid_thermal_sensor) {
+        if (cpuid_info()->cpuid_package_thermal_sensor) {
             mp_rendezvous_no_intrs(read_cpu_package_thermal, &index);
             IOSleep(1); // Yield?
         }
@@ -180,6 +181,10 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
                 return tjmax[sensor->getIndex()] - cpu_thermal[sensor->getIndex()];
             }	
             break;
+        
+        case kCPUSensorsPackageTemperatureSensor:
+            thermCounter = 0;
+            return tjmax[0] - cpu_package_thermal;
             
         case kFakeSMCMultiplierSensor: 
             if (sensor->getIndex() < cpuid_info()->core_count) {
@@ -194,9 +199,6 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
                 return calculateMultiplier(sensor->getIndex()) * (float)busClock;
             }
             break;
-            
-        case kCPUSensorsPackageTemperatureSensor:
-            return tjmax[0] - cpu_package_thermal;
     }
     
     return 0;
@@ -235,12 +237,12 @@ bool CPUSensors::start(IOService *provider)
 		HWSensorsFatalLog("processor does not support Model Specific Registers (MSR)");
 		return false;
 	}
-	
+    
 	if(cpuid_info()->core_count == 0)	{
 		HWSensorsFatalLog("CPU core count is zero");
 		return false;
 	}
-    
+        
     if (OSDictionary *configuration = getConfigurationNode())
     {
         if (OSNumber* number = OSDynamicCast(OSNumber, configuration->getObject("Tjmax"))) {
@@ -437,44 +439,48 @@ bool CPUSensors::start(IOService *provider)
         if (!isKeyExists("RBr") && !setKeyValue("RBr", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
                 HWSensorsWarningLog("failed to set platform key RBr");
     }
-	
-	for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
-        
-        if (i >= kCPUSensorsMaxCpus) 
-            break;
-        
-        char key[5];
-		
-		snprintf(key, 5, KEY_FORMAT_CPU_DIODE_TEMPERATURE, i);
-        
-        if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i))
-			HWSensorsWarningLog("failed to add temperature sensor");
-		
-        switch (cpuid_info()->cpuid_cpufamily) {
-            case CPUFAMILY_INTEL_NEHALEM:
-            case CPUFAMILY_INTEL_WESTMERE:
-            case CPUFAMILY_INTEL_SANDYBRIDGE:
-            case CPUFAMILY_INTEL_IVYBRIDGE:
-            case CPUFAMILY_INTEL_HASWELL:
-            case CPUFAMILY_INTEL_HASWELL_ULT:
-                break;
-                
-            default:
-                snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
-                
-                if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, i))
-                    HWSensorsWarningLog("failed to add multiplier sensor");
-                
-                snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY, i);
-                
-                if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, i))
-                    HWSensorsWarningLog("failed to add frequency sensor");
-                
-                break;
-        }
-	}
     
-    if (cpuid_info()->cpuid_thermal_sensor) {
+    // processor has support for digital thermal sensor at core level
+    if (cpuid_info()->cpuid_core_thermal_sensor) {
+        for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
+            
+            if (i >= kCPUSensorsMaxCpus)
+                break;
+            
+            char key[5];
+            
+            snprintf(key, 5, KEY_FORMAT_CPU_DIODE_TEMPERATURE, i);
+            
+            if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i))
+                HWSensorsWarningLog("failed to add temperature sensor");
+            
+            switch (cpuid_info()->cpuid_cpufamily) {
+                case CPUFAMILY_INTEL_NEHALEM:
+                case CPUFAMILY_INTEL_WESTMERE:
+                case CPUFAMILY_INTEL_SANDYBRIDGE:
+                case CPUFAMILY_INTEL_IVYBRIDGE:
+                case CPUFAMILY_INTEL_HASWELL:
+                case CPUFAMILY_INTEL_HASWELL_ULT:
+                    break;
+                    
+                default:
+                    snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
+                    
+                    if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, i))
+                        HWSensorsWarningLog("failed to add multiplier sensor");
+                    
+                    snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY, i);
+                    
+                    if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, i))
+                        HWSensorsWarningLog("failed to add frequency sensor");
+                    
+                    break;
+            }
+        }
+    }
+    
+    // processor has support for digital thermal sensor at package level
+    if (cpuid_info()->cpuid_package_thermal_sensor) {
         if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPackageTemperatureSensor, 0))
             HWSensorsWarningLog("failed to add cpu package temperature sensor");
     }
