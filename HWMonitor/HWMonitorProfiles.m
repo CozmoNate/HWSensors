@@ -117,6 +117,7 @@
              [NSArray arrayWithObjects:@"VeES",       @"PCIe 12V", nil],
              [NSArray arrayWithObjects:@"VP0R",       @"+12V Rail", nil],
              [NSArray arrayWithObjects:@"Vp0C",       @"12V Vcc", nil],
+             [NSArray arrayWithObjects:@"Vp:172C",    @"Power Supply %X", nil],
              [NSArray arrayWithObjects:@"VD0R",       @"Mainboard S0 Rail", nil],
              [NSArray arrayWithObjects:@"VD5R",       @"Mainboard S5 Rail", nil],
              [NSArray arrayWithObjects:@"Vb0R",       @"CMOS Battery", nil],

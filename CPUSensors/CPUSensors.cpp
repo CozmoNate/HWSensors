@@ -129,6 +129,7 @@ IOReturn CPUSensors::loopTimerEvent(void)
             case CPUFAMILY_INTEL_SANDYBRIDGE:
             case CPUFAMILY_INTEL_IVYBRIDGE:
             case CPUFAMILY_INTEL_HASWELL:
+            case CPUFAMILY_INTEL_HASWELL_ULT:
                 mp_rendezvous_no_intrs(read_cpu_performance, &index);
                 IOSleep(1); // Yield?
                 cpu_performance[0] = cpu_performance[index];
@@ -158,6 +159,7 @@ float CPUSensors::calculateMultiplier(UInt8 cpu_index)
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
+        case CPUFAMILY_INTEL_HASWELL_ULT:
             return cpu_performance[0] >> 8;
 
         default: {
@@ -407,6 +409,7 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
+        case CPUFAMILY_INTEL_HASWELL_ULT:
             break;
             
         default:
@@ -453,6 +456,7 @@ bool CPUSensors::start(IOService *provider)
             case CPUFAMILY_INTEL_SANDYBRIDGE:
             case CPUFAMILY_INTEL_IVYBRIDGE:
             case CPUFAMILY_INTEL_HASWELL:
+            case CPUFAMILY_INTEL_HASWELL_ULT:
                 break;
                 
             default:
@@ -481,6 +485,7 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
+        case CPUFAMILY_INTEL_HASWELL_ULT:
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))

@@ -159,7 +159,8 @@
 
 #define CPUFAMILY_INTEL_SANDYBRIDGE 0x5490b78c // From 10.7
 #define CPUFAMILY_INTEL_IVYBRIDGE   0x1f65e835 // From 10.8
-#define CPUFAMILY_INTEL_HASWELL     0x101ff101 // TODO: update for haswell
+#define CPUFAMILY_INTEL_HASWELL     0x78EA4FBC //
+#define CPUFAMILY_INTEL_HASWELL_ULT 0x10B282DC //
 
 //#include <stdint.h>
 
@@ -460,9 +461,12 @@ static void cpuid_update_generic_info()
                 
                 case CPUID_MODEL_HASWELL_DT:
                 case CPUID_MODEL_HASWELL_MB:
+                    cpufamily = CPUFAMILY_INTEL_HASWELL;
+                    break;
+                    
                 case CPUID_MODEL_HASWELL_ULT:
                 case CPUID_MODEL_HASWELL_ULX:
-                    cpufamily = CPUFAMILY_INTEL_HASWELL; // TODO: update for haswell
+                    cpufamily = CPUFAMILY_INTEL_HASWELL_ULT;
                     break;
             }
             break;
@@ -484,7 +488,8 @@ static void cpuid_update_generic_info()
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
-        case CPUFAMILY_INTEL_HASWELL: // TODO: update for haswell
+        case CPUFAMILY_INTEL_HASWELL:     // TODO: Update for Hasswell
+        case CPUFAMILY_INTEL_HASWELL_ULT:
         {
             uint64_t msr = rdmsr64(MSR_CORE_THREAD_COUNT);
             info_p->core_count   = bitfield32((uint32_t)msr, 31, 16);

@@ -217,7 +217,9 @@ bool GeforceSensors::start(IOService * provider)
         addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, nouveau_temp_diode);
     }
     
-    if (card.clocks_get) {
+    int arg_value = 1;
+
+    if (card.clocks_get && !PE_parse_boot_argn("-gpusensors-no-clocks", &arg_value, sizeof(arg_value))) {
         nv_debug(device, "registering clocks sensors...\n");
         
         if (card.clocks_get(&card, nouveau_clock_core) > 0) {
