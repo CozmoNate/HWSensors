@@ -48,7 +48,7 @@ const SMCKeyInfo SmcKeyInfos[] =
     {"TC0P", "sp78", 2, "CPU Proximity", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TC%XP", "sp78", 2, "CPU %X Proximity", kSMCKeyGroupTemperature, 1, 1, 2},
     
-    {"TCPC", "sp78", 2, "CPU Core Package", kSMCKeyGroupTemperature, 0, 0, 1},
+    {"TCPC", "sp78", 2, "CPU Package", kSMCKeyGroupTemperature, 0, 0, 1},
     
     {"TCXC", "sp78", 2, "PECI CPU", kSMCKeyGroupTemperature, 0, 0, 1},
     {"TCXc", "sp78", 2, "PECI CPU", kSMCKeyGroupTemperature, 0, 0, 1},
@@ -106,7 +106,7 @@ const SMCKeyInfo SmcKeyInfos[] =
     // Frequency
     
     {"CC%XC", "ui16", 2, "CPU Core %X", kSMCKeyGroupFrequency, 8, 0, 1},
-    {"CCPC", "ui16", 2, "CPU Core Package", kSMCKeyGroupFrequency, 0, 0, 1},
+    {"CCPC", "ui16", 2, "CPU Package", kSMCKeyGroupFrequency, 0, 0, 1},
     
     {"CG0C", "ui16", 2, "GPU Core", kSMCKeyGroupFrequency, 0, 0, 1},
     {"CG%XC", "ui16", 2, "GPU %X Core", kSMCKeyGroupFrequency, 3, 1, 2},

@@ -140,7 +140,7 @@
 "CPU Proximity" = "Prozessor-Umgebung";
 "CPU %X Proximity" = "Prozessor-Umgebung %X";
 
-"CPU Core Package" = "Prozessor-Geschwindigkeit";
+"CPU Package" = "Prozessor-Geschwindigkeit";
 
 "PECI CPU" = "PECI CPU";
 "PECI SA" = "PECI SA";

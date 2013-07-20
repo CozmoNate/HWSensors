@@ -254,22 +254,20 @@ uint32_t FakeSMCDevice::applesmc_io_cmd_readb(void *opaque, uint32_t addr1)
 
 void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key)
 {
-    if (nvramAllowed) {
-        if (IORegistryEntry *nvram = OSDynamicCast(IORegistryEntry, fromPath("/options", gIODTPlane))) {
-            char name[32];
-            
-            snprintf(name, 32, "%s-%s-%s", kFakeSMCKeyPropertyPrefix, key->getKey(), key->getType());
+    if (nvram) {
+        char name[32];
         
-            const OSSymbol *tempName = OSSymbol::withCString(name);
+        snprintf(name, 32, "%s-%s-%s", kFakeSMCKeyPropertyPrefix, key->getKey(), key->getType());
+    
+        const OSSymbol *tempName = OSSymbol::withCString(name);
+    
+        if (genericNVRAM)
+            nvram->IORegistryEntry::setProperty(tempName, OSData::withBytes(key->getValue(), key->getSize()));
+        else
+            nvram->setProperty(tempName, OSData::withBytes(key->getValue(), key->getSize()));
         
-            if (runningChameleon)
-                nvram->IORegistryEntry::setProperty(tempName, OSData::withBytes(key->getValue(), key->getSize()));
-            else
-                nvram->setProperty(tempName, OSData::withBytes(key->getValue(), key->getSize()));
-            
-            OSSafeRelease(tempName);
-            OSSafeRelease(nvram);
-        }
+        OSSafeRelease(tempName);
+        OSSafeRelease(nvram);
     }
 }
 
@@ -279,9 +277,10 @@ UInt32 FakeSMCDevice::loadKeysFromNVRAM()
     
     // Find driver and load keys from NVRAM
     if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
-        if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching, 1000000000ULL * 15))) {
+        if ((nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching, 1000000000ULL * 15)))) {
             
-            nvramAllowed = true;
+            if ((genericNVRAM = (0 == strncmp(nvram->getName(), "AppleNVRAM", strlen("AppleNVRAM")))))
+                HWSensorsInfoLog("fallback to generic NVRAM methods");
             
             OSSerialize *s = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary
             
@@ -553,9 +552,6 @@ bool FakeSMCDevice::initAndStart(IOService *platform, IOService *provider)
     keys->setObject(fanCounterKey);
     
     keysLock = IORecursiveLockAlloc();
-    
-    OSString *vendor = OSDynamicCast(OSString, provider->getProperty(kFakeSMCFirmwareVendor));
-    runningChameleon  = vendor && 0 == strncmp("Chameleon", vendor->getCStringNoCopy(), strlen("Chameleon"));
     
     // Load preconfigured keys
     FakeSMCDebugLog("loading keys...");

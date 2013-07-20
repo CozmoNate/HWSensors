@@ -171,7 +171,7 @@ fout heeft zich voorgedaan tijdens het downloaden van HWSensors installer!";
 "CPU Proximity" = "CPU Nabijheid";
 "CPU %X Proximity" = "CPU %X Nabijheid";
 
-"CPU Core Package" = "CPU Core Pakket";
+"CPU Package" = "CPU Pakket";
 
 "PECI CPU" = "PECI CPU";
 "PECI SA" = "PECI SA";

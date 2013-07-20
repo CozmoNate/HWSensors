@@ -30,6 +30,7 @@
 
 @implementation HWMonitorProfiles
 
+// :[offset][count][shift]
 +(NSDictionary *)profiles
 {
     return [NSDictionary dictionaryWithObjectsAndKeys:
@@ -45,8 +46,8 @@
              [NSArray arrayWithObjects:@"TC0H",       @"CPU Heatsink", nil],
              [NSArray arrayWithObjects:@"Th0H",       @"CPU Heatsink", nil],
              [NSArray arrayWithObjects:@"TC0P",       @"CPU Proximity", nil],
+             [NSArray arrayWithObjects:@"TCPC",       @"CPU Package", nil],
              [NSArray arrayWithObjects:@"TC:A4AH",    @"CPU %X, Heatsink", nil],
-             [NSArray arrayWithObjects:@"TCPC",       @"CPU Core Package", nil],
              [NSArray arrayWithObjects:@"TCXC",       @"PECI CPU", nil],
              [NSArray arrayWithObjects:@"TCXc",       @"PECI CPU", nil],
              [NSArray arrayWithObjects:@"TCSC",       @"PECI SA", nil],
@@ -92,7 +93,7 @@
              
              // Clocks
              [NSArray arrayWithObjects:@"CC:081C",    @"CPU Core %X", nil],
-             [NSArray arrayWithObjects:@"CCPC",       @"CPU Core Package", nil],
+             [NSArray arrayWithObjects:@"CCPC",       @"CPU Package", nil],
              [NSArray arrayWithObjects:@"CG0C",       @"GPU Core", nil],
              [NSArray arrayWithObjects:@"CG0M",       @"GPU Memory", nil],
              [NSArray arrayWithObjects:@"CG0S",       @"GPU Shaders", nil],
@@ -154,7 +155,7 @@
              [NSArray arrayWithObjects:@"PC:081C",    @"CPU Core %X", nil],
              [NSArray arrayWithObjects:@"PC:A8AC",    @"CPU %X", nil],
              [NSArray arrayWithObjects:@"PC0G",       @"CPU GFX", nil],
-             [NSArray arrayWithObjects:@"PCPC",       @"CPU Core Package", nil],
+             [NSArray arrayWithObjects:@"PCPC",       @"CPU Package", nil],
              [NSArray arrayWithObjects:@"PCPG",       @"CPU Package GFX", nil],
              [NSArray arrayWithObjects:@"PCPT",       @"CPU Package Total", nil],
              [NSArray arrayWithObjects:@"PC1R",       @"CPU Rail", nil],
@@ -206,7 +207,7 @@
              
              // Powers
              [NSArray arrayWithObjects:@"PC0C",    @"CPU Core", nil],
-             [NSArray arrayWithObjects:@"PCPC",    @"CPU Core Package", nil],
+             [NSArray arrayWithObjects:@"PCPC",    @"CPU Package", nil],
              [NSArray arrayWithObjects:@"PCPG",    @"CPU Package GFX", nil],
              [NSArray arrayWithObjects:@"PCPT",    @"CPU Package Total", nil],
              //[NSArray arrayWithObjects:@"PN0C",    @" ? ", nil],
@@ -256,7 +257,7 @@
              // Powers
              [NSArray arrayWithObjects:@"PC0C",     @"CPU Core", nil],
              [NSArray arrayWithObjects:@"PC0M",     @"CPU Memory", nil],
-             [NSArray arrayWithObjects:@"PCPC",     @"CPU Core Package", nil],
+             [NSArray arrayWithObjects:@"PCPC",     @"CPU Package", nil],
              [NSArray arrayWithObjects:@"PCPG",     @"CPU Package GFX", nil],
              [NSArray arrayWithObjects:@"PCPL",     @"CPU Package Total", nil],
              

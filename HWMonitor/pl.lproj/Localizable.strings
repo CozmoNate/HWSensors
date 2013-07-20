@@ -1,4 +1,4 @@
-﻿/*
+/*
  Localizable.strings
  HWSensors
  
@@ -136,7 +136,7 @@
 "CPU Proximity" = "Okolice procesora";
 "CPU %X Proximity" = "Okolice procesora %X";
 
-"CPU Core Package" = "Prędkość procesora";
+"CPU Package" = "Prędkość procesora";
 
 "PECI CPU" = "PECI CPU";
 "PECI SA" = "PECI SA";

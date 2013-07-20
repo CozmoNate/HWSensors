@@ -138,7 +138,7 @@
 "CPU Proximity" = "CPU proximité";
 "CPU %X Proximity" = "CPU %X proximité";
 
-"CPU Core Package" = "CPU";
+"CPU Package" = "CPU";
 
 "PECI CPU" = "PECI CPU";
 "PECI SA" = "PECI SA";
