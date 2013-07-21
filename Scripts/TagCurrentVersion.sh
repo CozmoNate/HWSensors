@@ -18,4 +18,4 @@ last_revision=$(<"./revision.txt")
 full_version=${project_version}'.'${last_revision}
 
 git tag -a -f ${full_version} -m "${project_name} Build v${full_version}"
-git push --tags
+git push origin master --tags

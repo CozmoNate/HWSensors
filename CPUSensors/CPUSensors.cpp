@@ -494,8 +494,12 @@ bool CPUSensors::start(IOService *provider)
                 HWSensorsWarningLog("failed to set platform key RBr");
     }
     
+    uint32_t cpuid_reg[4];
+    
+    do_cpuid(6, cpuid_reg);
+    
     // processor has support for digital thermal sensor at core level
-    if (cpuid_info()->cpuid_core_thermal_sensor) {
+    if ((uint32_t)bitfield(cpuid_reg[eax], 0, 0)) {
         for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
             
             if (i >= kCPUSensorsMaxCpus)
@@ -534,7 +538,7 @@ bool CPUSensors::start(IOService *provider)
     }
     
     // processor has support for digital thermal sensor at package level
-    if (cpuid_info()->cpuid_package_thermal_sensor) {
+    if ((uint32_t)bitfield(cpuid_reg[eax], 4, 0)) {
         if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsTemperatureSensor, 0))
             HWSensorsWarningLog("failed to add cpu package temperature sensor");
     }
@@ -562,19 +566,22 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
         case CPUFAMILY_INTEL_HASWELL_ULT: {
-            
-            UInt64 msr = rdmsr64(MSR_RAPL_POWER_UNIT);
-            energyUnit = 1.0f / (float)(1 << (int)((msr >> 8) & 0x1FF));
-            
-            if (energyUnit) {
-                if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 0))
-                    HWSensorsWarningLog("failed to add CPU package total power sensor");
-                if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 1))
-                    HWSensorsWarningLog("failed to add CPU package cores power sensor");
-                if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 2))
-                    HWSensorsWarningLog("failed to add CPU package graphics power sensor");
-                if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 3))
-                    HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
+            if (UInt64 msr = rdmsr64(MSR_RAPL_POWER_UNIT)) {
+                if (UInt16 unit = 1 << (int)((msr >> 8) & 0x1FF)) {
+                    
+                    energyUnit = 1.0f / (float)unit;
+                    
+                    if (energyUnit) {
+                        if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 0))
+                            HWSensorsWarningLog("failed to add CPU package total power sensor");
+                        if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 1))
+                            HWSensorsWarningLog("failed to add CPU package cores power sensor");
+                        if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 2))
+                            HWSensorsWarningLog("failed to add CPU package graphics power sensor");
+                        if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 3))
+                            HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
+                    }
+                }
             }
             break;
         }

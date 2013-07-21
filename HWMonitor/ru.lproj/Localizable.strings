@@ -214,7 +214,7 @@
 
 "CPU Core" = "Ядро процессора";
 "CPU Core %X" = "Ядро процессора %X";
-"CPU Package Multiplier" = "Множитель процессора";
+"CPU Package Multiplier" = "Процессор, Множитель";
 
 "GPU Core" = "Видеокарта, Ядро";
 "GPU %X Core" = "Видеокарта %X, Ядро";
