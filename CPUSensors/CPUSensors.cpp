@@ -105,38 +105,21 @@ static void read_cpu_performance(void* cpu_index)
 static void read_cpu_energy(void *multiplier)
 {
     float energyUnit = *((float*)multiplier);
-    UInt64 lastEnergy[4];
-    double lastTime[4];
     
-    for (UInt8 sample = 0; sample < 2; sample++) {
+    for (UInt8 index = 0; index < 4; index++) {
+        UInt64 energy = (double)rdmsr64(cpu_energy_msrs[index]);
+
+        if (!energy) continue;
         
-        for (UInt8 index = 0; index < 4; index++) {
-            
-            switch (sample) {
-                case 0: {
-                    lastEnergy[index] = rdmsr64(cpu_energy_msrs[index]);
-                    lastTime[index] = ptimer_read_seconds();
-                    
-                    break;
-                }
-                    
-                case 1: {
-                    UInt64 energy = (double)rdmsr64(cpu_energy_msrs[index]);
-                    
-                    if (!energy) continue;
-                    
-                    float deltaTime = float(ptimer_read_seconds() - lastTime[index]);
-                    
-                    if (deltaTime == 0) continue;
-                    
-                    cpu_energy_consumed[index] = (energyUnit * float(energy - lastEnergy[index])) / deltaTime;
-                    
-                    break;
-                }
-            }
-        }
+        double time = ptimer_read_seconds();
+        float deltaTime = float(time - cpu_last_energy_time[index]);
+
+        if (deltaTime == 0) continue;
+
+        cpu_energy_consumed[index] = (energyUnit * float(energy - cpu_last_energy_value[index])) / deltaTime;
         
-        IOSleep(70);
+        cpu_last_energy_time[index] = time;
+        cpu_last_energy_value[index] = energy;
     }
 };
 
@@ -469,7 +452,8 @@ bool CPUSensors::start(IOService *provider)
             break;
             
         default:
-            for (uint32_t i = 1; i < cpuid_info()->core_count; i++) tjmax[i] = tjmax[0];
+            for (uint32_t i = 1; i < cpuid_info()->core_count; i++)
+                tjmax[i] = tjmax[0];
             break;
     }
     
@@ -494,12 +478,8 @@ bool CPUSensors::start(IOService *provider)
                 HWSensorsWarningLog("failed to set platform key RBr");
     }
     
-    uint32_t cpuid_reg[4];
-    
-    do_cpuid(6, cpuid_reg);
-    
     // processor has support for digital thermal sensor at core level
-    if ((uint32_t)bitfield(cpuid_reg[eax], 0, 0)) {
+    if (cpuid_info()->cpuid_core_thermal_sensor) {
         for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
             
             if (i >= kCPUSensorsMaxCpus)
@@ -538,11 +518,12 @@ bool CPUSensors::start(IOService *provider)
     }
     
     // processor has support for digital thermal sensor at package level
-    if ((uint32_t)bitfield(cpuid_reg[eax], 4, 0)) {
+    if (cpuid_info()->cpuid_package_thermal_sensor) {
         if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsTemperatureSensor, 0))
             HWSensorsWarningLog("failed to add cpu package temperature sensor");
     }
     
+    // package multiplier
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
@@ -561,6 +542,7 @@ bool CPUSensors::start(IOService *provider)
             break;
     }
     
+    // package temperature and energy consumption
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:

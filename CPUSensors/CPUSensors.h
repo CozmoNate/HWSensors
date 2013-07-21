@@ -84,8 +84,8 @@ static UInt16 cpu_energy_msrs[] =
     MSR_DRAM_ENERGY_STATUS
 };
 
-//static UInt64 cpu_last_energy_time[4];
-//static UInt64 cpu_last_energy_raw[4];
+static double cpu_last_energy_time[4];
+static UInt64 cpu_last_energy_value[4];
 static float cpu_energy_consumed[4];
 
 class CPUSensors : public FakeSMCPlugin
