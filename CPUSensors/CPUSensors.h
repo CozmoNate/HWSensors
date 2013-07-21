@@ -76,6 +76,18 @@ static UInt16 cpu_performance[kCPUSensorsMaxCpus];
 
 static UInt8  cpu_package_thermal;
 
+static UInt16 cpu_energy_msrs[] =
+{
+    MSR_PKG_ENERY_STATUS,
+    MSR_PP0_ENERY_STATUS,
+    MSR_PP1_ENERY_STATUS,
+    MSR_DRAM_ENERGY_STATUS
+};
+
+//static UInt64 cpu_last_energy_time[4];
+//static UInt64 cpu_last_energy_raw[4];
+static float cpu_energy_consumed[4];
+
 class CPUSensors : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(CPUSensors)    
@@ -91,6 +103,8 @@ private:
     UInt8                   perfCounter;
     
     UInt64                  busClock;
+    
+    float                   energyUnit;
         
     IOReturn                loopTimerEvent(void);
 	void                    readTjmaxFromMSR();

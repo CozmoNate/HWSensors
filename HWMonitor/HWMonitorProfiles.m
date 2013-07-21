@@ -155,9 +155,10 @@
              [NSArray arrayWithObjects:@"PC:081C",    @"CPU Core %X", nil],
              [NSArray arrayWithObjects:@"PC:A8AC",    @"CPU %X", nil],
              [NSArray arrayWithObjects:@"PC0G",       @"CPU GFX", nil],
-             [NSArray arrayWithObjects:@"PCPC",       @"CPU Package", nil],
-             [NSArray arrayWithObjects:@"PCPG",       @"CPU Package GFX", nil],
+             [NSArray arrayWithObjects:@"PCPC",       @"CPU Package Cores", nil],
+             [NSArray arrayWithObjects:@"PCPG",       @"CPU Package Graphics", nil],
              [NSArray arrayWithObjects:@"PCPT",       @"CPU Package Total", nil],
+             [NSArray arrayWithObjects:@"PCPD",       @"CPU Package DRAM", nil],
              [NSArray arrayWithObjects:@"PC1R",       @"CPU Rail", nil],
              [NSArray arrayWithObjects:@"PC5R",       @"CPU 1.5V S0 Rail", nil],
              [NSArray arrayWithObjects:@"PM0R",       @"Memory Rail", nil],
@@ -207,8 +208,8 @@
              
              // Powers
              [NSArray arrayWithObjects:@"PC0C",    @"CPU Core", nil],
-             [NSArray arrayWithObjects:@"PCPC",    @"CPU Package", nil],
-             [NSArray arrayWithObjects:@"PCPG",    @"CPU Package GFX", nil],
+             [NSArray arrayWithObjects:@"PCPC",    @"CPU Package Cores", nil],
+             [NSArray arrayWithObjects:@"PCPG",    @"CPU Package Graphics", nil],
              [NSArray arrayWithObjects:@"PCPT",    @"CPU Package Total", nil],
              //[NSArray arrayWithObjects:@"PN0C",    @" ? ", nil],
              //[NSArray arrayWithObjects:@"PHPC",    @" ? ", nil],
@@ -257,8 +258,8 @@
              // Powers
              [NSArray arrayWithObjects:@"PC0C",     @"CPU Core", nil],
              [NSArray arrayWithObjects:@"PC0M",     @"CPU Memory", nil],
-             [NSArray arrayWithObjects:@"PCPC",     @"CPU Package", nil],
-             [NSArray arrayWithObjects:@"PCPG",     @"CPU Package GFX", nil],
+             [NSArray arrayWithObjects:@"PCPC",     @"CPU Package Cores", nil],
+             [NSArray arrayWithObjects:@"PCPG",     @"CPU Package Graphics", nil],
              [NSArray arrayWithObjects:@"PCPL",     @"CPU Package Total", nil],
              
              [NSArray arrayWithObjects:@"PN1R",     @"PCH Rail", nil], // ??

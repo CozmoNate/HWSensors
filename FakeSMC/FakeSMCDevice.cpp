@@ -254,7 +254,7 @@ uint32_t FakeSMCDevice::applesmc_io_cmd_readb(void *opaque, uint32_t addr1)
 
 void FakeSMCDevice::saveKeyToNVRAM(FakeSMCKey *key)
 {
-    if (nvram) {
+    if (IORegistryEntry *nvram = OSDynamicCast(IORegistryEntry, fromPath("/options", gIODTPlane))) {
         char name[32];
         
         snprintf(name, 32, "%s-%s-%s", kFakeSMCKeyPropertyPrefix, key->getKey(), key->getType());
@@ -277,9 +277,9 @@ UInt32 FakeSMCDevice::loadKeysFromNVRAM()
     
     // Find driver and load keys from NVRAM
     if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
-        if ((nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching, 1000000000ULL * 15)))) {
+        if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching, 1000000000ULL * 15))) {
             
-            if ((genericNVRAM = (0 == strncmp(nvram->getName(), "AppleNVRAM", strlen("AppleNVRAM")))))
+            if ((genericNVRAM = (0 == strncmp(nvram->getName(), "AppleNVRAM", sizeof("AppleNVRAM")))))
                 HWSensorsInfoLog("fallback to generic NVRAM methods");
             
             OSSerialize *s = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary

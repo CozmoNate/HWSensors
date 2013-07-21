@@ -174,8 +174,8 @@ const SMCKeyInfo SmcKeyInfos[] =
     // Power
     {"PC%XC", "sp96", 2, "CPU Core %X", kSMCKeyGroupPower, 4, 1, 1}, // ?
     {"PC%XC", "sp96", 2, "CPU %X", kSMCKeyGroupPower, 4, 0xA, 0xA}, // ?
-    {"PCPC", "sp96", 2, "CPU Package Core", kSMCKeyGroupPower, 0, 0, 1}, // ?
-    {"PCPG", "sp96", 2, "CPU Package GFX", kSMCKeyGroupPower, 0, 0, 1}, // ?
+    {"PCPC", "sp96", 2, "CPU Package Cores", kSMCKeyGroupPower, 0, 0, 1}, // ?
+    {"PCPG", "sp96", 2, "CPU Package Graphics", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PCPT", "sp96", 2, "CPU Package Total", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PC1R", "sp96", 2, "CPU Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?
     {"PC5R", "sp96", 2, "CPU 1.5V S0 Rail", kSMCKeyGroupPower, 0, 0, 1}, // ?

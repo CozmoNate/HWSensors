@@ -54,7 +54,10 @@
 #include <IOKit/IODeviceTreeSupport.h>
 #include <IOKit/IORegistryEntry.h>
 
-#define kCPUSensorsPackageTemperatureSensor   1000
+#include "timer.h"
+
+#define kCPUSensorsTemperatureSensor    1000
+#define kCPUSensorsPowerSensor          2000
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(CPUSensors, FakeSMCPlugin)
@@ -69,7 +72,7 @@ inline UInt32 get_cpu_number()
     return cpu_number() % cpuid_info()->core_count;
 }
 
-inline void read_cpu_core_thermal(void* cpu_index)
+static void read_cpu_core_thermal(void* cpu_index)
 {
     UInt8 * cpn = (UInt8 *)cpu_index;
     
@@ -81,13 +84,13 @@ inline void read_cpu_core_thermal(void* cpu_index)
 	}
 };
 
-inline void read_cpu_package_thermal(void* magic)
+static void read_cpu_package_thermal(void* magic)
 {
     UInt64 msr = rdmsr64(MSR_IA32_PACKAGE_THERM_STATUS);
     cpu_package_thermal = (msr >> 16) & 0x7F;
 };
 
-inline void read_cpu_performance(void* cpu_index)
+static void read_cpu_performance(void* cpu_index)
 {
     UInt8 *cpn = (UInt8*)cpu_index;
     
@@ -97,6 +100,44 @@ inline void read_cpu_performance(void* cpu_index)
 		UInt64 msr = rdmsr64(MSR_IA32_PERF_STS);
         cpu_performance[*cpn] = msr & 0xFFFF;
 	}
+};
+
+static void read_cpu_energy(void *multiplier)
+{
+    float energyUnit = *((float*)multiplier);
+    UInt64 lastEnergy[4];
+    double lastTime[4];
+    
+    for (UInt8 sample = 0; sample < 2; sample++) {
+        
+        for (UInt8 index = 0; index < 4; index++) {
+            
+            switch (sample) {
+                case 0: {
+                    lastEnergy[index] = rdmsr64(cpu_energy_msrs[index]);
+                    lastTime[index] = ptimer_read_seconds();
+                    
+                    break;
+                }
+                    
+                case 1: {
+                    UInt64 energy = (double)rdmsr64(cpu_energy_msrs[index]);
+                    
+                    if (!energy) continue;
+                    
+                    float deltaTime = float(ptimer_read_seconds() - lastTime[index]);
+                    
+                    if (deltaTime == 0) continue;
+                    
+                    cpu_energy_consumed[index] = (energyUnit * float(energy - lastEnergy[index])) / deltaTime;
+                    
+                    break;
+                }
+            }
+        }
+        
+        IOSleep(70);
+    }
 };
 
 void CPUSensors::readTjmaxFromMSR()
@@ -134,6 +175,7 @@ IOReturn CPUSensors::loopTimerEvent(void)
                 mp_rendezvous_no_intrs(read_cpu_performance, &index);
                 IOSleep(1); // Yield?
                 cpu_performance[0] = cpu_performance[index];
+                
                 break;
                 
             default:
@@ -142,6 +184,10 @@ IOReturn CPUSensors::loopTimerEvent(void)
                     IOSleep(1); // Yield?
                 }
                 break;
+        }
+        
+        if (energyUnit) {
+            /*mp_rendezvous_no_intrs(*/read_cpu_energy(&energyUnit);
         }
     }
     
@@ -182,7 +228,7 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
             }	
             break;
         
-        case kCPUSensorsPackageTemperatureSensor:
+        case kCPUSensorsTemperatureSensor:
             thermCounter = 0;
             return tjmax[0] - cpu_package_thermal;
             
@@ -199,6 +245,14 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
                 return calculateMultiplier(sensor->getIndex()) * (float)busClock;
             }
             break;
+            
+        case kCPUSensorsPowerSensor: {
+            if (sensor->getIndex() < 4) {
+                perfCounter = 0;
+                return cpu_energy_consumed[sensor->getIndex()];
+            }
+            break;
+        }
     }
     
     return 0;
@@ -481,7 +535,7 @@ bool CPUSensors::start(IOService *provider)
     
     // processor has support for digital thermal sensor at package level
     if (cpuid_info()->cpuid_package_thermal_sensor) {
-        if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPackageTemperatureSensor, 0))
+        if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsTemperatureSensor, 0))
             HWSensorsWarningLog("failed to add cpu package temperature sensor");
     }
     
@@ -491,12 +545,39 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
-        case CPUFAMILY_INTEL_HASWELL_ULT:
+        case CPUFAMILY_INTEL_HASWELL_ULT: {
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
             break;
+        }
+            
+        default:
+            break;
+    }
+    
+    switch (cpuid_info()->cpuid_cpufamily) {
+        case CPUFAMILY_INTEL_SANDYBRIDGE:
+        case CPUFAMILY_INTEL_IVYBRIDGE:
+        case CPUFAMILY_INTEL_HASWELL:
+        case CPUFAMILY_INTEL_HASWELL_ULT: {
+            
+            UInt64 msr = rdmsr64(MSR_RAPL_POWER_UNIT);
+            energyUnit = 1.0f / (float)(1 << (int)((msr >> 8) & 0x1FF));
+            
+            if (energyUnit) {
+                if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 0))
+                    HWSensorsWarningLog("failed to add CPU package total power sensor");
+                if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 1))
+                    HWSensorsWarningLog("failed to add CPU package cores power sensor");
+                if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 2))
+                    HWSensorsWarningLog("failed to add CPU package graphics power sensor");
+                if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 3))
+                    HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
+            }
+            break;
+        }
             
         default:
             break;

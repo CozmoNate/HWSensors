@@ -118,6 +118,8 @@
 #define KEY_CPU_PACKAGE_CORE_POWER              "PCPC" // SNB
 #define KEY_CPU_PACKAGE_GFX_POWER               "PCPG" // SNB
 #define KEY_CPU_PACKAGE_TOTAL_POWER             "PCPT" // SNB
+#define KEY_CPU_PACKAGE_DRAM_POWER              "PCPD" // ??
+
 
 // FANs
 #define KEY_FAN_NUMBER                          "FNum"

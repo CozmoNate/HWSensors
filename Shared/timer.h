@@ -19,12 +19,16 @@ static UInt64 ptimer_read()
     clock_get_calendar_nanotime(&secs, &nanosecs);
   
     return (UInt64)secs * (UInt64)NSEC_PER_SEC + (UInt64)nanosecs;
-//    uint64_t uptime, nanoseconds;
-//    
-//    clock_get_uptime(&uptime);
-//    absolutetime_to_nanoseconds(uptime, &nanoseconds);
-//
-//    return nanoseconds;
+}
+
+static double ptimer_read_seconds()
+{
+    clock_sec_t secs;
+    clock_usec_t microsecs;
+    
+    clock_get_calendar_microtime(&secs, &microsecs);
+    
+    return (double)secs + (double)microsecs / (double)USEC_PER_SEC;
 }
 
 #endif

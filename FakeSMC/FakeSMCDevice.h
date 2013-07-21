@@ -64,7 +64,6 @@ private:
     bool				trace;
 	bool				debug;
     
-    IODTNVRAM           *nvram;
     bool                genericNVRAM;
     
     IORecursiveLock     *keysLock;

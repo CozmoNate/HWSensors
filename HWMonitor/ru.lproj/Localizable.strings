@@ -165,7 +165,11 @@
 "CPU Proximity" = "Процессор, Датчик";
 "CPU %X Proximity" = "Процессор %X, Датчик";
 
-"CPU Package" = "Упаковка процессора";
+"CPU Package" = "Процессор, Упаковка";
+"CPU Package Total" = "Процессор, Упаковка";
+"CPU Package Cores" = "Процессор, Ядра";
+"CPU Package Graphics" = "Процессор, Графика";
+"CPU Package DRAM" = "Контроллер памяти";
 
 "PECI CPU" = "PECI Процессор";
 "PECI SA" = "PECI SA";
