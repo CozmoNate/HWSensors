@@ -2,30 +2,148 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
 	<string>ACPISENSORS_BUNDLE</string>
+	<key>OSBundleLibraries</key>
+	<dict>
+		<key>com.apple.kpi.mach</key>
+		<string>10.0.0</string>
+		<key>com.apple.iokit.IOACPIFamily</key>
+		<string>1.0.0b1</string>
+		<key>com.apple.kpi.libkern</key>
+		<string>10.0.0</string>
+		<key>com.apple.kpi.iokit</key>
+		<string>10.0.0</string>
+		<key>FAKESMC_BUNDLE</key>
+		<string>FAKESMC_COMPATIBLE</string>
+		<key>com.apple.kpi.unsupported</key>
+		<string>10.0.0</string>
+	</dict>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>KEXT</string>
-	<key>CFBundleShortVersionString</key>
-	<string>HWSENSORS_VERSION</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>HWSENSORS_REVISION</string>
+	<key>OSBundleRequired</key>
+	<string>Root</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>ACPI Customizable Monitoring Plugin</key>
+		<key>PTID Device Monitoring Plugin</key>
 		<dict>
-			<key>IOClass</key>
-			<string>ACPISensors</string>
+			<key>IOProbeScore</key>
+			<integer>1000</integer>
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
+			<key>IOClass</key>
+			<string>PTIDSensors</string>
+			<key>IOProviderClass</key>
+			<string>IOACPIPlatformDevice</string>
+			<key>IONameMatch</key>
+			<array>
+				<string>PTID</string>
+			</array>
+		</dict>
+		<key>Thermal Zone Monitoring Plugin</key>
+		<dict>
+			<key>IOPropertyMatch</key>
+			<dict>
+				<key>device_type</key>
+				<string>thermal-zone</string>
+			</dict>
+			<key>IOProbeScore</key>
+			<integer>1000</integer>
+			<key>IOMatchCategory</key>
+			<string>FakeSMCPlugin</string>
+			<key>IOClass</key>
+			<string>TZSensors</string>
+			<key>IOProviderClass</key>
+			<string>IOACPIPlatformDevice</string>
+		</dict>
+		<key>ACPI Customizable Monitoring Plugin</key>
+		<dict>
+			<key>IOProbeScore</key>
+			<integer>1000</integer>
+			<key>IOMatchCategory</key>
+			<string>FakeSMCPlugin</string>
+			<key>IOClass</key>
+			<string>ACPISensors</string>
+			<key>IOProviderClass</key>
+			<string>IOACPIPlatformDevice</string>
+			<key>Platform Profile</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Temperatures</key>
+					<dict>
+						<key>System</key>
+						<string>TSYS</string>
+						<key>CPU</key>
+						<string>TCPU</string>
+						<key>CPU Proximity</key>
+						<string>TCPP</string>
+					</dict>
+					<key>Voltages</key>
+					<dict>
+						<key>Memory</key>
+						<string>VMEM</string>
+						<key>CPU</key>
+						<string>VCPU</string>
+					</dict>
+					<key>Fan Names</key>
+					<dict>
+						<key>FAN7</key>
+						<string>Fan 8</string>
+						<key>FAN4</key>
+						<string>Exhaust Fan</string>
+						<key>FAN1</key>
+						<string>CPUFan</string>
+						<key>FANA</key>
+						<string>Fan 11</string>
+						<key>FAN8</key>
+						<string>Fan 9</string>
+						<key>FAN5</key>
+						<string>Fan 6</string>
+						<key>FAN2</key>
+						<string>PowerFan</string>
+						<key>FAN9</key>
+						<string>Fan 10</string>
+						<key>FAN6</key>
+						<string>Fan 7</string>
+						<key>FAN3</key>
+						<string>Intake Fan</string>
+						<key>FAN0</key>
+						<string>SystemFan</string>
+					</dict>
+					<key>Tachometers</key>
+					<dict>
+						<key>FAN7</key>
+						<string>FAN7</string>
+						<key>FAN4</key>
+						<string>FAN4</string>
+						<key>FAN1</key>
+						<string>FAN1</string>
+						<key>FANA</key>
+						<string>FANA</string>
+						<key>FAN8</key>
+						<string>FAN8</string>
+						<key>FAN5</key>
+						<string>FAN5</string>
+						<key>FAN2</key>
+						<string>FAN2</string>
+						<key>FAN9</key>
+						<string>FAN9</string>
+						<key>FAN6</key>
+						<string>FAN6</string>
+						<key>FAN3</key>
+						<string>FAN3</string>
+						<key>FAN0</key>
+						<string>FAN0</string>
+					</dict>
+				</dict>
+			</dict>
 			<key>IONameMatch</key>
 			<array>
 				<string>monitor</string>
@@ -35,115 +153,15 @@
 				<string>MON00000</string>
 				<string>FAN00000</string>
 			</array>
-			<key>IOProviderClass</key>
-			<string>IOACPIPlatformDevice</string>
-			<key>Platform Profile</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Fan Names</key>
-					<dict>
-						<key>FAN0</key>
-						<string>SystemFan</string>
-						<key>FAN1</key>
-						<string>CPUFan</string>
-						<key>FAN2</key>
-						<string>PowerFan</string>
-						<key>FAN3</key>
-						<string>Intake Fan</string>
-						<key>FAN4</key>
-						<string>Exhaust Fan</string>
-						<key>FAN5</key>
-						<string>Fan 6</string>
-						<key>FAN6</key>
-						<string>Fan 7</string>
-						<key>FAN7</key>
-						<string>Fan 8</string>
-						<key>FAN8</key>
-						<string>Fan 9</string>
-						<key>FAN9</key>
-						<string>Fan 10</string>
-						<key>FANA</key>
-						<string>Fan 11</string>
-					</dict>
-					<key>Tachometers</key>
-					<dict>
-						<key>FAN0</key>
-						<string>FAN0</string>
-						<key>FAN1</key>
-						<string>FAN1</string>
-						<key>FAN2</key>
-						<string>FAN2</string>
-						<key>FAN3</key>
-						<string>FAN3</string>
-						<key>FAN4</key>
-						<string>FAN4</string>
-						<key>FAN5</key>
-						<string>FAN5</string>
-						<key>FAN6</key>
-						<string>FAN6</string>
-						<key>FAN7</key>
-						<string>FAN7</string>
-						<key>FAN8</key>
-						<string>FAN8</string>
-						<key>FAN9</key>
-						<string>FAN9</string>
-						<key>FANA</key>
-						<string>FANA</string>
-					</dict>
-					<key>Temperatures</key>
-					<dict>
-						<key>CPU</key>
-						<string>TCPU</string>
-						<key>CPU Proximity</key>
-						<string>TCPP</string>
-						<key>System</key>
-						<string>TSYS</string>
-					</dict>
-					<key>Voltages</key>
-					<dict>
-						<key>CPU</key>
-						<string>VCPU</string>
-						<key>Memory</key>
-						<string>VMEM</string>
-					</dict>
-				</dict>
-			</dict>
-		</dict>
-		<key>PTID Device Monitoring Plugin</key>
-		<dict>
-			<key>IOClass</key>
-			<string>PTIDSensors</string>
-			<key>IOMatchCategory</key>
-			<string>FakeSMCPlugin</string>
-			<key>IONameMatch</key>
-			<array>
-				<string>PTID</string>
-			</array>
-			<key>IOProbeScore</key>
-			<integer>1000</integer>
-			<key>IOProviderClass</key>
-			<string>IOACPIPlatformDevice</string>
 		</dict>
 	</dict>
+	<key>CFBundlePackageType</key>
+	<string>KEXT</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © HWSENSORS_LASTYEAR Slice. All rights reserved.</string>
-	<key>OSBundleLibraries</key>
-	<dict>
-		<key>FAKESMC_BUNDLE</key>
-		<string>FAKESMC_COMPATIBLE</string>
-		<key>com.apple.iokit.IOACPIFamily</key>
-		<string>1.0.0b1</string>
-		<key>com.apple.kpi.iokit</key>
-		<string>10.0.0</string>
-		<key>com.apple.kpi.libkern</key>
-		<string>10.0.0</string>
-		<key>com.apple.kpi.mach</key>
-		<string>10.0.0</string>
-		<key>com.apple.kpi.unsupported</key>
-		<string>10.0.0</string>
-	</dict>
-	<key>OSBundleRequired</key>
-	<string>Root</string>
+	<key>CFBundleShortVersionString</key>
+	<string>HWSENSORS_VERSION</string>
 </dict>
 </plist>

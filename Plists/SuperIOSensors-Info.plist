@@ -626,7 +626,7 @@
 							<key>gain</key>
 							<integer>1107</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 0</string>
+							<string>CPU VRM</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -1386,6 +1386,88 @@
 				</dict>
 				<key>Gigabyte</key>
 				<dict>
+					<key>Z87X-UD3H-CF</key>
+					<dict>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string></string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>System</string>
+						<key>TEMPIN1</key>
+						<string>PCH</string>
+						<key>TEMPIN2</key>
+						<string>CPU</string>
+						<key>VIN0</key>
+						<string>CPU</string>
+						<key>VIN1</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN2</key>
+						<dict>
+							<key>gain</key>
+							<integer>5000</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN3</key>
+						<dict>
+							<key>gain</key>
+							<integer>700</integer>
+							<key>name</key>
+							<string>Main 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN4</key>
+						<string>Power Supply 4</string>
+						<key>VIN5</key>
+						<string>CPU VRM</string>
+						<key>VIN6</key>
+						<string>Memory</string>
+						<key>VIN7</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Auxiliary 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>CMOS Battery</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+					</dict>
 					<key>965P-S3</key>
 					<dict>
 						<key>FANIN0</key>
@@ -1578,7 +1660,7 @@
 						<key>TEMPIN2</key>
 						<string>CPU</string>
 						<key>VIN0</key>
-						<string>CPU VRM Supply 0</string>
+						<string>CPU VRM</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -1719,7 +1801,7 @@
 						<key>VIN4</key>
 						<string>Power Supply 4</string>
 						<key>VIN5</key>
-						<string>CPU VTT</string>
+						<string>CPU VRM</string>
 						<key>VIN6</key>
 						<string>Memory</string>
 						<key>VIN7</key>
@@ -2007,7 +2089,7 @@
 						<key>TEMPIN2</key>
 						<string>CPU</string>
 						<key>VIN0</key>
-						<string>CPU VRM Supply 0</string>
+						<string>CPU VRM</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -2248,7 +2330,7 @@
 						<key>TEMPIN2</key>
 						<string>CPU</string>
 						<key>VIN0</key>
-						<string>CPU VRM Supply 0</string>
+						<string>CPU VRM</string>
 						<key>VIN1</key>
 						<string>Auxiliary 3V</string>
 						<key>VIN2</key>
@@ -2308,7 +2390,7 @@
 						<key>TEMPIN3</key>
 						<string>Ambient</string>
 						<key>VIN0</key>
-						<string>CPU VRM Supply 0</string>
+						<string>CPU VRM</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -4143,7 +4225,7 @@
 						<key>gain</key>
 						<integer>666</integer>
 						<key>name</key>
-						<string>CPU VRM Supply 0</string>
+						<string>CPU VRM</string>
 						<key>offset</key>
 						<integer>0</integer>
 						<key>reference</key>

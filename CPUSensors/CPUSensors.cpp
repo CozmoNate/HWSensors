@@ -542,7 +542,7 @@ bool CPUSensors::start(IOService *provider)
             break;
     }
     
-    // package temperature and energy consumption
+    // energy consumption
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
