@@ -11,7 +11,7 @@
 
 #include <kern/clock.h>
 
-static UInt64 ptimer_read()
+inline UInt64 ptimer_read()
 {
     clock_sec_t secs;
     clock_nsec_t nanosecs;
@@ -21,7 +21,7 @@ static UInt64 ptimer_read()
     return (UInt64)secs * (UInt64)NSEC_PER_SEC + (UInt64)nanosecs;
 }
 
-static double ptimer_read_seconds()
+inline double ptimer_read_seconds()
 {
     clock_sec_t secs;
     clock_usec_t microsecs;

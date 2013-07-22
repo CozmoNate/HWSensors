@@ -518,9 +518,20 @@ bool CPUSensors::start(IOService *provider)
     }
     
     // processor has support for digital thermal sensor at package level
-    if (cpuid_info()->cpuid_package_thermal_sensor) {
-        if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsTemperatureSensor, 0))
-            HWSensorsWarningLog("failed to add cpu package temperature sensor");
+    switch (cpuid_info()->cpuid_cpufamily) {
+        case CPUFAMILY_INTEL_SANDYBRIDGE:
+        case CPUFAMILY_INTEL_IVYBRIDGE:
+        case CPUFAMILY_INTEL_HASWELL:
+        case CPUFAMILY_INTEL_HASWELL_ULT: {
+            if (cpuid_info()->cpuid_package_thermal_sensor) {
+                if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsTemperatureSensor, 0))
+                    HWSensorsWarningLog("failed to add cpu package temperature sensor");
+            }
+            break;
+        }
+            
+        default:
+            break;
     }
     
     // package multiplier
