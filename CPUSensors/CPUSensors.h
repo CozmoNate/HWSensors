@@ -68,13 +68,8 @@
 
 #define kCPUSensorsMaxCpus      64
 
-extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);
 extern "C" int cpu_number(void);
-
-static UInt8  cpu_thermal[kCPUSensorsMaxCpus];
-static UInt16 cpu_performance[kCPUSensorsMaxCpus];
-
-static UInt8  cpu_package_thermal;
+extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);
 
 static UInt16 cpu_energy_msrs[] =
 {
@@ -84,10 +79,6 @@ static UInt16 cpu_energy_msrs[] =
     MSR_DRAM_ENERGY_STATUS
 };
 
-static double cpu_last_energy_time[4];
-static UInt64 cpu_last_energy_value[4];
-static float cpu_energy_consumed[4];
-
 class CPUSensors : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(CPUSensors)    
@@ -95,18 +86,13 @@ class CPUSensors : public FakeSMCPlugin
 private:
     UInt8                   tjmax[kCPUSensorsMaxCpus];
     OSString *				platform;
-    
-    IOWorkLoop *			workloop;
-	IOTimerEventSource *	timersource;
-    
-    UInt8                   thermCounter;
-    UInt8                   perfCounter;
-    
     UInt64                  busClock;
-    
+    bool                    cpuThermalUpdated[kCPUSensorsMaxCpus];
+    bool                    cpuStateUpdated[kCPUSensorsMaxCpus];
+    double                  lastEnergyTime[4];
+    UInt64                  lastEnergyValue[4];
     float                   energyUnit;
-        
-    IOReturn                loopTimerEvent(void);
+    
 	void                    readTjmaxFromMSR();
     float                   calculateMultiplier(UInt8 cpu_index);
     
@@ -114,8 +100,5 @@ protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
 public:
-    virtual IOService*		probe(IOService *provider, SInt32 *score);
     virtual bool			start(IOService *provider);
-    virtual void            stop(IOService* provider);
-    virtual void			free(void);
 };

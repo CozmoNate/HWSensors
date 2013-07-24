@@ -163,7 +163,7 @@ void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
                     snprintf(str, 64, "CPU Core %X DTS", i);
                     
                     if (name->isEqualTo(str)) {
-                        snprintf(key, 5, KEY_FORMAT_CPU_DIODE_TEMPERATURE, i);
+                        snprintf(key, 5, KEY_FORMAT_CPU_DIE_TEMPERATURE, i);
                         break;
                     }
                 }

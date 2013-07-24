@@ -13,13 +13,15 @@
 
 // Temperature (*C)
 // CPU
-#define KEY_FORMAT_CPU_DIODE_TEMPERATURE        "TC%XD" // CPU Core %X
-#define KEY_FORMAT_CPU_ANALOG_TEMPERATURE       "TC%XH" // CPU Core %X
+#define KEY_FORMAT_CPU_CORE_TEMPERATURE         "TC%XC" // CPU Core %X
+#define KEY_CPU_DIE_TEMPERATURE                 "TC0D" // CPU Die %X
+#define KEY_FORMAT_CPU_DIE_TEMPERATURE          "TC%XD" // CPU Die %X
+#define KEY_FORMAT_CPU_ANALOG_TEMPERATURE       "TC%XH"
 #define KEY_CPU_HEATSINK_TEMPERATURE            "Th0H"
 #define KEY_FORMAT_CPU_HEATSINK_TEMPERATURE     "Th%XH"
 #define KEY_CPU_PROXIMITY_TEMPERATURE           "TC0P"
 #define KEY_FORMAT_CPU_PROXIMITY_TEMPERATURE    "TC%XP"
-#define KEY_CPU_PACKAGE_TEMPERATURE             "TCPC"
+#define KEY_CPU_PACKAGE_TEMPERATURE             "TCAD"
 
 // GPU
 #define KEY_GPU_DIODE_TEMPERATURE               "TG0D"

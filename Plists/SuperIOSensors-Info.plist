@@ -1409,7 +1409,7 @@
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
-							<integer>1350</integer>
+							<integer>1441</integer>
 							<key>name</key>
 							<string>Main 5V</string>
 							<key>offset</key>
@@ -1431,7 +1431,7 @@
 						<key>VIN3</key>
 						<dict>
 							<key>gain</key>
-							<integer>680</integer>
+							<integer>687</integer>
 							<key>name</key>
 							<string>Main 3V</string>
 							<key>offset</key>

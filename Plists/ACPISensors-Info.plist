@@ -50,7 +50,7 @@
 		<dict>
 			<key>IOPropertyMatch</key>
 			<dict>
-				<key>device_type-disabled</key>
+				<key>device_type</key>
 				<string>thermal-zone</string>
 			</dict>
 			<key>IOProbeScore</key>

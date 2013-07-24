@@ -27,6 +27,7 @@ RehabMan forced me using mutexes and other contributions to the project
 Oliver Bolton for OBMenuBarWindow
 Mozketo for LaunchAtLoginController
 PHPdev32 for an idea to using NVRAM as storage for kext configuration
+coercion for initial Haswell support
 oswaldini @ www.osx86.org.pl for Polish translation
 Marchrius @ insanelymac.com for Italian translation
 k3nny @ www.insanelymac.com for German translation

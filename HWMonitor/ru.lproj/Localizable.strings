@@ -165,8 +165,12 @@
 "CPU Proximity" = "Процессор, Датчик";
 "CPU %X Proximity" = "Процессор %X, Датчик";
 
-"CPU Package" = "Процессор, Упаковка";
-"CPU Package Total" = "Процессор, Упаковка";
+"CPU Die" = "Процессор, Подложка";
+"CPU %X Die" = "Процессор %X, Подложка";
+"CPU %X Core" = "Процессор %X, Ядро";
+"CPU %X Graphics" = "Процессор %X, Видео";
+"CPU %X Heatsink" = "Процессор %X, Радиатор";
+"CPU Package Total" = "Процессор, Суммарно";
 "CPU Package Cores" = "Процессор, Ядра";
 "CPU Package Graphics" = "Процессор, Графика";
 "CPU Package DRAM" = "Контроллер памяти";
