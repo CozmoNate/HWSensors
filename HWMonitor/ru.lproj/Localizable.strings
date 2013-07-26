@@ -216,8 +216,8 @@
 
 "Thermal Zone %X" = "Термальная зона %X";
 
-"CPU Core" = "Ядро процессора";
-"CPU Core %X" = "Ядро процессора %X";
+"CPU Core" = "Процессор, Ядро";
+"CPU Core %X" = "Процессор, Ядро %X";
 "CPU Package Multiplier" = "Процессор, Множитель";
 "CPU Package" = "Процессор, Частота";
 
@@ -239,8 +239,8 @@
 "Power Supply 12V" = "Источник питания 12V";
 //"DC In S0 Rail" = "";
 //"DC In S5 Rail" = "";
-"GPU Rail" = "Шина видеокарты";
-"GPU %X Rail" = "Шина видеокарты %X";
+"GPU Rail" = "Видеокарта, Шина";
+"GPU %X Rail" = "Видеокарта, Шина %X";
 
 "CMOS Battery" = "Батарея CMOS";
 

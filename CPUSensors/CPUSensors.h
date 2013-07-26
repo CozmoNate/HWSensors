@@ -66,7 +66,10 @@
 #define MSR_PP0_ENERY_STATUS            0x639
 #define MSR_PP1_ENERY_STATUS            0x641
 
-#define kCPUSensorsMaxCpus      64
+#define MSR_IA32_MPERF                  0x0E7
+#define MSR_IA32_APERF                  0x0E8
+
+#define kCPUSensorsMaxCpus              64
 
 extern "C" int cpu_number(void);
 extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);
@@ -89,6 +92,7 @@ private:
     UInt64                  busClock;
     bool                    cpuThermalUpdated[kCPUSensorsMaxCpus];
     bool                    cpuStateUpdated[kCPUSensorsMaxCpus];
+    float                   multiplier[kCPUSensorsMaxCpus];
     double                  lastEnergyTime[4];
     UInt64                  lastEnergyValue[4];
     float                   energyUnit;

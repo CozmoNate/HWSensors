@@ -107,16 +107,20 @@ void CPUSensors::readTjmaxFromMSR()
 
 float CPUSensors::calculateMultiplier(UInt8 cpu_index)
 {
+    IOSleep(10);
+    
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
-            return float(rdmsr64(MSR_IA32_PERF_STS) & 0xFFFF);
+            multiplier[cpu_index] = (float)(rdmsr64(MSR_IA32_PERF_STS) & 0xFFFF);
+            return multiplier[cpu_index];
             
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
         case CPUFAMILY_INTEL_HASWELL_ULT:
-            return float((rdmsr64(MSR_IA32_PERF_STS) & 0xFFFF) >> 8);
+            multiplier[cpu_index] = (float)((rdmsr64(MSR_IA32_PERF_STS) & 0xFFFF) >> 8);
+            return multiplier[cpu_index];
 
         default: {
             if (!cpuStateUpdated[cpu_index]) {
@@ -127,7 +131,9 @@ float CPUSensors::calculateMultiplier(UInt8 cpu_index)
             
             cpuStateUpdated[cpu_index] = false;
             
-            return float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
+            multiplier[cpu_index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
+            
+            return multiplier[cpu_index];
         }
     }
     
@@ -156,12 +162,12 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
         case kFakeSMCMultiplierSensor:
             return calculateMultiplier(index);
             
-        case kFakeSMCFrequencySensor:
-            return calculateMultiplier(index) * (float)busClock;
+        case kFakeSMCFrequencySensor: 
+            return multiplier[index] * (float)busClock;
             
         case kCPUSensorsPowerSensor: {
 
-            UInt64 energy = (double)rdmsr64(cpu_energy_msrs[index]);
+            UInt64 energy = rdmsr64(cpu_energy_msrs[index]);
                 
             if (!energy) break;
             
@@ -410,7 +416,7 @@ bool CPUSensors::start(IOService *provider)
         
         char key[5];
         
-        snprintf(key, 5, KEY_FORMAT_CPU_CORE_TEMPERATURE, i);
+        snprintf(key, 5, KEY_FORMAT_CPU_DIE_TEMPERATURE, i);
         
         if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i))
             HWSensorsWarningLog("failed to add temperature sensor");
