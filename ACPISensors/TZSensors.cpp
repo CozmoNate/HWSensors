@@ -69,6 +69,8 @@ bool TZSensors::start(IOService * provider)
             if (!isKeyHandled(key)) {
                 if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, 0))
                     HWSensorsErrorLog("failed to add Thermal Zone %d temperature sensor", i);
+                else
+                    break;
             }
         }
     }
