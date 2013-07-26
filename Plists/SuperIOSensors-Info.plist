@@ -1440,9 +1440,9 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN4</key>
-						<string>VRM Supply 4</string>
+						<string>CPU VRM</string>
 						<key>VIN5</key>
-						<string>CPU VRM 5</string>
+						<string>Power Supply 5</string>
 						<key>VIN6</key>
 						<string>Memory</string>
 						<key>VIN7</key>

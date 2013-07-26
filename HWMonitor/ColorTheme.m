@@ -16,7 +16,7 @@
     
     ColorTheme *theme = [[ColorTheme alloc] init];
     theme.name = @"Default";
-    theme.toolbarEndColor = [NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.95];
+    theme.toolbarEndColor = [NSColor colorWithCalibratedRed:0.08 green:0.28 blue:0.85 alpha:0.95];
     theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.6];
     theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
     theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.3];
