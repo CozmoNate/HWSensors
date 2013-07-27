@@ -48,8 +48,8 @@ enum nouveau_fan_source {
     nouveau_fan_pwm        = 1
 };
 
-#define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(GeforceSensors, FakeSMCPlugin)
+#define super GPUSensors
+OSDefineMetaClassAndStructors(GeforceSensors, GPUSensors)
 
 float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
 {   

@@ -152,7 +152,7 @@ float CPUSensors::calculateMultiplier(UInt8 cpu_index)
     
     if (hasPerfCounters) {
         mp_rendezvous_no_intrs(read_cpu_performance, NULL);
-        return multiplier[cpu_index] * cpu_ratio[cpu_index];
+        return multiplier[cpu_index] = multiplier[cpu_index] * cpu_ratio[cpu_index];
     }
     else {
         return multiplier[cpu_index];
@@ -478,10 +478,27 @@ bool CPUSensors::start(IOService *provider)
             
             hasPerfCounters = (uint32_t)bitfield(cpuid_reg[ecx], 0, 0);
             
-            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
-                HWSensorsWarningLog("failed to add package multiplier sensor");
-            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
-                HWSensorsWarningLog("failed to add package frequency sensor");
+            if (hasPerfCounters) {
+                for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
+                    char key[5];
+                    
+                    snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
+                    
+                    if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, i))
+                        HWSensorsWarningLog("failed to add multiplier sensor");
+                    
+                    snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY, i);
+                    
+                    if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, i))
+                        HWSensorsWarningLog("failed to add frequency sensor");
+                }
+            }
+            else {
+                if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
+                    HWSensorsWarningLog("failed to add package multiplier sensor");
+                if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
+                    HWSensorsWarningLog("failed to add package frequency sensor");
+            }
             
             break;
         }

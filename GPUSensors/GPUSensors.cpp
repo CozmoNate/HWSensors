@@ -11,22 +11,18 @@
 #define super FakeSMCPlugin
 OSDefineMetaClassAndAbstractStructors(GPUSensors, FakeSMCPlugin)
 
-IOService* GPUSensors::probe(IOService *provider, SInt32 *score)
+bool GPUSensors::start(IOService *provider)
 {
-    if (!provider || super::probe(provider, score) != this)
-        return 0;
+    if (!provider || !super::start(provider))
+        return false;
 
-    OSDictionary *matching = serviceMatching("IOAccelerator");
-    
     bool acceleratorFound = false;
     
-    if (matching) {
-        
+    if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
         if (OSIterator *iterator = getMatchingServices(matching)) {
-            while (IOService *child = (IOService*)iterator->getNextObject()) {
-                if (provider->isChild(child, gIOServicePlane)) {
-                    acceleratorFound = true;
-                    break;
+            while (IOService *service = (IOService*)iterator->getNextObject()) {
+                if (IORegistryEntry *parent = service->getParentEntry(gIOServicePlane)) {
+                    acceleratorFound = parent == provider;
                 }
             }
             
@@ -36,5 +32,5 @@ IOService* GPUSensors::probe(IOService *provider, SInt32 *score)
         OSSafeRelease(matching);
     }
     
-    return acceleratorFound ? this : 0;
+    return acceleratorFound;
 }
