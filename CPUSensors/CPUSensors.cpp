@@ -111,6 +111,9 @@ inline void read_cpu_performance(void *magic)
     UInt32 number = get_cpu_number();
     
     cpu_ratio[number] = (float)APERF / (float)MPERF;
+    
+    wrmsr64(MSR_IA32_APERF, 0);
+    wrmsr64(MSR_IA32_MPERF, 0);
 }
 
 void CPUSensors::readTjmaxFromMSR()
