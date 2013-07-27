@@ -13,7 +13,7 @@ OSDefineMetaClassAndAbstractStructors(GPUSensors, FakeSMCPlugin)
 
 IOService* GPUSensors::probe(IOService *provider, SInt32 *score)
 {
-    if (!provider || !super::probe(provider, score))
+    if (!provider || super::probe(provider, score) != this)
         return 0;
 
     OSDictionary *matching = serviceMatching("IOAccelerator");

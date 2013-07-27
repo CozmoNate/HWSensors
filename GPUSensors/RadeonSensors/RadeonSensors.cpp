@@ -19,8 +19,8 @@
 #include "si.h"
 #include "evergreen.h"
 
-#define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(RadeonSensors, FakeSMCPlugin)
+#define super GPUSensors
+OSDefineMetaClassAndStructors(RadeonSensors, GPUSensors)
 
 float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
 {
