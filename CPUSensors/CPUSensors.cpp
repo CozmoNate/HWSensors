@@ -361,6 +361,7 @@ bool CPUSensors::start(IOService *provider)
                     
                     case CPUID_MODEL_HASWELL_DT:
                     case CPUID_MODEL_HASWELL_MB:
+                        // TODO: platform value for desktop Haswells
                     case CPUID_MODEL_HASWELL_ULT:
                     case CPUID_MODEL_HASWELL_ULX:
                         if (!platform) platform = OSString::withCString("j43\0\0\0\0\0"); // TODO: got from macbookair6,2 need to check for other platforms
@@ -427,10 +428,10 @@ bool CPUSensors::start(IOService *provider)
     if (platform) {
         HWSensorsInfoLog("set platform keys to %s", platform->getCStringNoCopy());
         
-        if (!isKeyExists("RPlt") && !setKeyValue("RPlt", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
+        if (/*!isKeyExists("RPlt") &&*/ !setKeyValue("RPlt", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
             HWSensorsWarningLog("failed to set platform key RPlt");
         
-        if (!isKeyExists("RBr") && !setKeyValue("RBr", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
+        if (/*!isKeyExists("RBr") &&*/ !setKeyValue("RBr", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
             HWSensorsWarningLog("failed to set platform key RBr");
     }
     
