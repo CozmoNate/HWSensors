@@ -103,6 +103,11 @@
 						<string>{rev</string>
 						<data>ATAPAAAD</data>
 					</array>
+					<key>MSSD</key>
+					<array>
+						<string>si8</string>
+						<data>AA==</data>
+					</array>
 				</dict>
 				<key>Types</key>
 				<dict>

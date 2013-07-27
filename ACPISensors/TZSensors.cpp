@@ -59,7 +59,6 @@ bool TZSensors::start(IOService * provider)
     
     OSObject *object = NULL;
 
-    // Tachometers
     if(kIOReturnSuccess == acpiDevice->evaluateObject("_TMP", &object) && object) {
         for (UInt8 i = 0; i < 0xf; i++) {
             char key[5];

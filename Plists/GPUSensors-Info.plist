@@ -76,8 +76,6 @@
 		<string>FAKESMC_COMPATIBLE</string>
 		<key>com.apple.iokit.IOACPIFamily</key>
 		<string>1.0.0d1</string>
-		<key>com.apple.iokit.IOGraphicsFamily</key>
-		<string>1.1</string>
 		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>1.0.0b1</string>
 		<key>com.apple.kpi.iokit</key>

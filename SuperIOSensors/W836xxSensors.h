@@ -47,7 +47,7 @@
  */
 
 #include <IOKit/IOService.h>
-#include "SuperIOPlugin.h"
+#include "LPCSensors.h"
 
 const UInt16 WINBOND_VENDOR_ID						= 0x5CA3;
 const UInt8 WINBOND_HIGH_BYTE						= 0x80;
@@ -87,7 +87,7 @@ const UInt8 WINBOND_FAN_CONTROL_BIT[]				= { 0x02, 0x04, 0x01, 0x04 };
 const UInt8 WINBOND_FAN_MODE_BIT[]					= { 0x00, 0x01, 0x00, 0x06 };
 const UInt8 WINBOND_FAN_OUTPUT[]					= { 0x01, 0x03, 0x11, 0x61 };
 
-class W836xxSensors : public SuperIOPlugin
+class W836xxSensors : public LPCSensors
 {
     OSDeclareDefaultStructors(W836xxSensors)
 	

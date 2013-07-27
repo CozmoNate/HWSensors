@@ -66,8 +66,8 @@
 #define MSR_PP0_ENERY_STATUS            0x639
 #define MSR_PP1_ENERY_STATUS            0x641
 
-#define MSR_IA32_MPERF                  0x0E7
 #define MSR_IA32_APERF                  0x0E8
+#define MSR_IA32_MPERF                  0x0E7
 
 #define kCPUSensorsMaxCpus              64
 
@@ -96,6 +96,7 @@ private:
     double                  lastEnergyTime[4];
     UInt64                  lastEnergyValue[4];
     float                   energyUnit;
+    bool                    hasPerfCounters;
     
 	void                    readTjmaxFromMSR();
     float                   calculateMultiplier(UInt8 cpu_index);

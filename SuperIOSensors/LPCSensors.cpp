@@ -25,14 +25,14 @@
 
 
 #include "FakeSMCDefinitions.h"
-#include "SuperIOPlugin.h"
+#include "LPCSensors.h"
 #include "SuperIO.h"
 #include "OEMInfo.h"
 
 #define super FakeSMCPlugin
-OSDefineMetaClassAndAbstractStructors(SuperIOPlugin, FakeSMCPlugin)
+OSDefineMetaClassAndAbstractStructors(LPCSensors, FakeSMCPlugin)
 
-bool SuperIOPlugin::addSensorFromConfigurationNode(OSObject *configuration, const char *name, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
+bool LPCSensors::addSensorFromConfigurationNode(OSObject *configuration, const char *name, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
 {
     float reference = 0, gain = 0, offset = 0;
     
@@ -93,7 +93,7 @@ bool SuperIOPlugin::addSensorFromConfigurationNode(OSObject *configuration, cons
     return true;
 }
 
-bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
+bool LPCSensors::addTemperatureSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding temperature sensors...");
         
@@ -125,7 +125,7 @@ bool SuperIOPlugin::addTemperatureSensors(OSDictionary *configuration)
     return true;
 }
 
-bool SuperIOPlugin::addVoltageSensors(OSDictionary *configuration)
+bool LPCSensors::addVoltageSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding voltage sensors...");
        
@@ -157,7 +157,7 @@ bool SuperIOPlugin::addVoltageSensors(OSDictionary *configuration)
     return true;
 }
 
-bool SuperIOPlugin::addTachometerSensors(OSDictionary *configuration)
+bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding tachometer sensors...");
     
@@ -173,37 +173,37 @@ bool SuperIOPlugin::addTachometerSensors(OSDictionary *configuration)
     return true;
 }
 
-UInt8 SuperIOPlugin::temperatureSensorsLimit()
+UInt8 LPCSensors::temperatureSensorsLimit()
 {
     return 3;
 }
 
-UInt8 SuperIOPlugin::voltageSensorsLimit()
+UInt8 LPCSensors::voltageSensorsLimit()
 {
     return 9;
 }
 
-UInt8 SuperIOPlugin::tachometerSensorsLimit()
+UInt8 LPCSensors::tachometerSensorsLimit()
 {
     return 5;
 }
 
-float SuperIOPlugin::readTemperature(UInt32 index)
+float LPCSensors::readTemperature(UInt32 index)
 {
 	return 0;
 }
 
-float SuperIOPlugin::readVoltage(UInt32 index)
+float LPCSensors::readVoltage(UInt32 index)
 {
 	return 0;
 }
 
-float SuperIOPlugin::readTachometer(UInt32 index)
+float LPCSensors::readTachometer(UInt32 index)
 {
 	return 0;
 }
 
-float SuperIOPlugin::getSensorValue(FakeSMCSensor *sensor)
+float LPCSensors::getSensorValue(FakeSMCSensor *sensor)
 {
     float value = 0;
     
@@ -227,12 +227,12 @@ float SuperIOPlugin::getSensorValue(FakeSMCSensor *sensor)
 	return value;
 }
 
-bool SuperIOPlugin::initialize()
+bool LPCSensors::initialize()
 {
     return true;
 }
 
-bool SuperIOPlugin::init(OSDictionary *properties)
+bool LPCSensors::init(OSDictionary *properties)
 {
 	if (!super::init(properties))
 		return false;
@@ -249,12 +249,12 @@ bool SuperIOPlugin::init(OSDictionary *properties)
 	return true;
 }
 
-IOService *SuperIOPlugin::probe(IOService *provider, SInt32 *score)
+IOService *LPCSensors::probe(IOService *provider, SInt32 *score)
 {
     return super::probe(provider, score);
 }
 
-bool SuperIOPlugin::start(IOService *provider)
+bool LPCSensors::start(IOService *provider)
 {	
 	if (!super::start(provider)) 
         return false;
@@ -316,7 +316,7 @@ bool SuperIOPlugin::start(IOService *provider)
 	return true;
 }
 
-void SuperIOPlugin::stop(IOService *provider)
+void LPCSensors::stop(IOService *provider)
 {
     if (gpuIndex >= 0)
         if (!releaseGPUIndex(gpuIndex))

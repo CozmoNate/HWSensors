@@ -31,10 +31,10 @@
  */
 
 #include <IOKit/IOService.h>
-
-#include "FakeSMCPlugin.h"
 #include "nouveau.h"
 #include "xf86i2c.h"
+
+#include "FakeSMCPlugin.h"
 
 class GeforceSensors : public FakeSMCPlugin
 {

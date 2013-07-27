@@ -49,8 +49,8 @@
 #include "FakeSMCDefinitions.h"
 #include "SuperIO.h"
 
-#define super SuperIOPlugin
-OSDefineMetaClassAndStructors(NCT677xSensors, SuperIOPlugin)
+#define super LPCSensors
+OSDefineMetaClassAndStructors(NCT677xSensors, LPCSensors)
 
 UInt8 NCT677xSensors::readByte(UInt16 reg) 
 {

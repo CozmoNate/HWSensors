@@ -29,7 +29,7 @@
 			<key>IOClass</key>
 			<string>F718xxSensors</string>
 			<key>IOMatchCategory</key>
-			<string>SuperIOPlugin</string>
+			<string>LPCSensors</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>Fintek,F71858</string>
@@ -816,7 +816,7 @@
 			<key>IOClass</key>
 			<string>IT87xxSensors</string>
 			<key>IOMatchCategory</key>
-			<string>SuperIOPlugin</string>
+			<string>LPCSensors</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>ITE,IT8512F</string>
@@ -1440,9 +1440,9 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN4</key>
-						<string>CPU VRM</string>
+						<string>Power Supply 4</string>
 						<key>VIN5</key>
-						<string>Power Supply 5</string>
+						<string>CPU VRM</string>
 						<key>VIN6</key>
 						<string>Memory</string>
 						<key>VIN7</key>
@@ -2570,7 +2570,7 @@
 			<key>IOClass</key>
 			<string>NCT677xSensors</string>
 			<key>IOMatchCategory</key>
-			<string>SuperIOPlugin</string>
+			<string>LPCSensors</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>Nuvoton,NCT6771F</string>
@@ -3531,7 +3531,7 @@
 			<key>IOClass</key>
 			<string>W836xxSensors</string>
 			<key>IOMatchCategory</key>
-			<string>SuperIOPlugin</string>
+			<string>LPCSensors</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>Winbond,W83627DHG</string>

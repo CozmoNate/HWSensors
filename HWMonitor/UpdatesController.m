@@ -206,7 +206,7 @@
 {
     if (![_levelIndicator isHidden]) {
         [_levelIndicator setDoubleValue:_levelIndicator.doubleValue + length];
-        [_progressionValueTextField setStringValue:[NSString stringWithFormat:GetLocalizedString(@"%1.1f Mbytes"), _levelIndicator.doubleValue / (1024 * 1024)]];
+        [_progressionValueTextField setStringValue:[NSString stringWithFormat:GetLocalizedString(@"%1.2f Mbytes"), _levelIndicator.doubleValue / (1024 * 1024)]];
     }
 }
 

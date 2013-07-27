@@ -2001,7 +2001,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">hwsensors</string>
-			<string key="NS.object.0">{1024, 1024}</string>
+			<string key="NS.object.0">{512, 512}</string>
 		</object>
 		<bool key="IBDocument.UseAutolayout">YES</bool>
 	</data>

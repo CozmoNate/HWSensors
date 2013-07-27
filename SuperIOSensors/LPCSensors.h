@@ -22,19 +22,17 @@
  //  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#ifndef _SuperIOPlugin_H
-#define _SuperIOPlugin_H
+#ifndef _LPCSensors_H
+#define _LPCSensors_H
 
 #include <IOKit/IOLib.h>
 #include <IOKit/IOService.h>
-#include <IOKit/IOTimerEventSource.h>
+//#include <IOKit/IOTimerEventSource.h>
 
 #include "FakeSMCPlugin.h"
 
-class FakeSMCPlugin;
-
-class SuperIOPlugin : public FakeSMCPlugin {
-	OSDeclareAbstractStructors(SuperIOPlugin)
+class LPCSensors : public FakeSMCPlugin {
+	OSDeclareAbstractStructors(LPCSensors)
 	
 private:
 

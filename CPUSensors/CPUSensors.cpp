@@ -56,8 +56,8 @@
 
 #include "timer.h"
 
-#define kCPUSensorsTemperatureSensor    1000
-#define kCPUSensorsPowerSensor          2000
+#define kCPUSensorsPackageThermalSensor     1000
+#define kCPUSensorsPowerSensor              2000
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(CPUSensors, FakeSMCPlugin)
@@ -98,6 +98,21 @@ inline void read_cpu_state(void *magic)
     }
 }
 
+static float cpu_ratio[kCPUSensorsMaxCpus];
+
+inline void read_cpu_performance(void *magic)
+{
+    UInt64 APERF = rdmsr64(MSR_IA32_APERF);
+    UInt64 MPERF = rdmsr64(MSR_IA32_MPERF);
+    
+    if (!APERF || !MPERF)
+        return;
+    
+    UInt32 number = get_cpu_number();
+    
+    cpu_ratio[number] = (float)APERF / (float)MPERF;
+}
+
 void CPUSensors::readTjmaxFromMSR()
 {
 	for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
@@ -107,20 +122,18 @@ void CPUSensors::readTjmaxFromMSR()
 
 float CPUSensors::calculateMultiplier(UInt8 cpu_index)
 {
-    IOSleep(10);
-    
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
             multiplier[cpu_index] = (float)(rdmsr64(MSR_IA32_PERF_STS) & 0xFFFF);
-            return multiplier[cpu_index];
+            break;
             
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
         case CPUFAMILY_INTEL_HASWELL_ULT:
             multiplier[cpu_index] = (float)((rdmsr64(MSR_IA32_PERF_STS) & 0xFFFF) >> 8);
-            return multiplier[cpu_index];
+            break;
 
         default: {
             if (!cpuStateUpdated[cpu_index]) {
@@ -133,11 +146,17 @@ float CPUSensors::calculateMultiplier(UInt8 cpu_index)
             
             multiplier[cpu_index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
             
-            return multiplier[cpu_index];
+            break;
         }
     }
     
-    return 0;
+    if (hasPerfCounters) {
+        mp_rendezvous_no_intrs(read_cpu_performance, NULL);
+        return multiplier[cpu_index] * cpu_ratio[cpu_index];
+    }
+    else {
+        return multiplier[cpu_index];
+    }
 }
 
 float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
@@ -147,6 +166,7 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor: {
             if (!cpuThermalUpdated[index]) {
+                IOSleep(5);
                 mp_rendezvous_no_intrs(read_cpu_thermal, NULL);
             }
             else {
@@ -156,10 +176,11 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
             return tjmax[index] - cpu_thermal[index];
         }
         
-        case kCPUSensorsTemperatureSensor:
+        case kCPUSensorsPackageThermalSensor:
             return float(tjmax[0] - (rdmsr64(MSR_IA32_PACKAGE_THERM_STATUS) >> 16) & 0x7F);
             
         case kFakeSMCMultiplierSensor:
+            IOSleep(5);
             return calculateMultiplier(index);
             
         case kFakeSMCFrequencySensor: 
@@ -167,6 +188,7 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
             
         case kCPUSensorsPowerSensor: {
 
+            IOSleep(1);
             UInt64 energy = rdmsr64(cpu_energy_msrs[index]);
                 
             if (!energy) break;
@@ -372,6 +394,7 @@ bool CPUSensors::start(IOService *provider)
 		}
 	}
 	
+    // Setup Tjmax
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
@@ -399,7 +422,7 @@ bool CPUSensors::start(IOService *provider)
     HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0]);
     
     if (platform) {
-        HWSensorsInfoLog("setting platform to %s", platform->getCStringNoCopy());
+        HWSensorsInfoLog("set platform keys to %s", platform->getCStringNoCopy());
         
         if (!isKeyExists("RPlt") && !setKeyValue("RPlt", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
             HWSensorsWarningLog("failed to set platform key RPlt");
@@ -420,29 +443,6 @@ bool CPUSensors::start(IOService *provider)
         
         if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i))
             HWSensorsWarningLog("failed to add temperature sensor");
-        
-        switch (cpuid_info()->cpuid_cpufamily) {
-            case CPUFAMILY_INTEL_NEHALEM:
-            case CPUFAMILY_INTEL_WESTMERE:
-            case CPUFAMILY_INTEL_SANDYBRIDGE:
-            case CPUFAMILY_INTEL_IVYBRIDGE:
-            case CPUFAMILY_INTEL_HASWELL:
-            case CPUFAMILY_INTEL_HASWELL_ULT:
-                break;
-                
-            default:
-                snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
-                
-                if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, i))
-                    HWSensorsWarningLog("failed to add multiplier sensor");
-                
-                snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY, i);
-                
-                if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, i))
-                    HWSensorsWarningLog("failed to add frequency sensor");
-                
-                break;
-        }
     }
 
     
@@ -457,7 +457,7 @@ bool CPUSensors::start(IOService *provider)
             do_cpuid(6, cpuid_reg);
             
             if ((uint32_t)bitfield(cpuid_reg[eax], 4, 4)) {
-                if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsTemperatureSensor, 0))
+                if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPackageThermalSensor, 0))
                     HWSensorsWarningLog("failed to add cpu package temperature sensor");
             }
             break;
@@ -467,22 +467,53 @@ bool CPUSensors::start(IOService *provider)
             break;
     }
     
-    // package multiplier
+    // multiplier
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
-        case CPUFAMILY_INTEL_IVYBRIDGE:
+        case CPUFAMILY_INTEL_IVYBRIDGE: {
+            uint32_t cpuid_reg[4];
+            do_cpuid(6, cpuid_reg);
+            
+            hasPerfCounters = (uint32_t)bitfield(cpuid_reg[ecx], 0, 0);
+            
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
+                HWSensorsWarningLog("failed to add package multiplier sensor");
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
+                HWSensorsWarningLog("failed to add package frequency sensor");
+            
+            break;
+        }
+
         case CPUFAMILY_INTEL_HASWELL:
-        case CPUFAMILY_INTEL_HASWELL_ULT: {
+        case CPUFAMILY_INTEL_HASWELL_ULT:
+            
+            hasPerfCounters = false;
+            
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
             break;
-        }
             
         default:
+            
+            hasPerfCounters = false;
+            
+            for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
+                char key[5];
+                
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
+                
+                if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, i))
+                    HWSensorsWarningLog("failed to add multiplier sensor");
+                
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY, i);
+                
+                if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, i))
+                    HWSensorsWarningLog("failed to add frequency sensor");
+            }
             break;
     }
     

@@ -203,7 +203,7 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
 {
     if (storageProvider) {
         void *handler = 0;
-        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)(void *)handler, 0, 0);
+        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)handler, 0, 0);
     }
     
     return false;

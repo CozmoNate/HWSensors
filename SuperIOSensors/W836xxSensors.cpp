@@ -50,8 +50,8 @@
 #include "FakeSMCDefinitions.h"
 #include "SuperIO.h"
 
-#define super SuperIOPlugin
-OSDefineMetaClassAndStructors(W836xxSensors, SuperIOPlugin)
+#define super LPCSensors
+OSDefineMetaClassAndStructors(W836xxSensors, LPCSensors)
 
 UInt8 W836xxSensors::readByte(UInt16 reg) 
 {
