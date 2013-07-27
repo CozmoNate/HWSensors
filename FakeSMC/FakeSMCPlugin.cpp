@@ -193,7 +193,7 @@ bool FakeSMCPlugin::isKeyExists(const char *key)
     if (storageProvider) {
         UInt8 size = 0;
         void *value = 0;
-        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)key, (void *)size, (void *)value, 0);
+        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)key, (void *)&size, (void *)&value, 0);
     }
     
     return false;
@@ -202,8 +202,8 @@ bool FakeSMCPlugin::isKeyExists(const char *key)
 bool FakeSMCPlugin::isKeyHandled(const char *key)
 {
     if (storageProvider) {
-        void *handler = 0;
-        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)handler, 0, 0);
+        IOService *handler = 0;
+        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)&handler, 0, 0);
     }
     
     return false;

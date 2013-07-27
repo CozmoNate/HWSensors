@@ -918,13 +918,16 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
             result = kIOReturnError;
             
             if (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, getKey(name))) {
+                
+                result = kIOReturnSuccess;
+                
                 if (key->getHandler()) {
                     
                     result = kIOReturnBadArgument;
                     
                     if (param2) {
-                        IOService *handler = (IOService *)param2;
-                        bcopy(key->getHandler(), handler, sizeof(handler));
+                        IOService **handler = (IOService**)param2;
+                        *handler = key->getHandler();
                         result = kIOReturnSuccess;
                     }
                 }

@@ -431,7 +431,7 @@ bool CPUSensors::start(IOService *provider)
             HWSensorsWarningLog("failed to set platform key RPlt");
         
         if (!isKeyExists("RBr") && !setKeyValue("RBr", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
-                HWSensorsWarningLog("failed to set platform key RBr");
+            HWSensorsWarningLog("failed to set platform key RBr");
     }
     
     // digital thermal sensor at core level
