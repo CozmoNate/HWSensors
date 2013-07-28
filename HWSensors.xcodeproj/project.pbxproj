@@ -65,7 +65,6 @@
 		7EADE20D15E5602F00FD117C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EADE20B15E5602F00FD117C /* InfoPlist.strings */; };
 		7EB13667169C288000B42023 /* radeon_atombios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB13665169C288000B42023 /* radeon_atombios.cpp */; };
 		7EB1366C169C2CE800B42023 /* atom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB1366A169C2CE700B42023 /* atom.cpp */; };
-		7EB624AC17A3B00E0097B707 /* GPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB624AA17A3B00E0097B707 /* GPUSensors.cpp */; };
 		7EB73CFA1791BCBC007D93D4 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */; };
 /* End PBXBuildFile section */
 
@@ -202,8 +201,6 @@
 		7EB13666169C288000B42023 /* radeon_atombios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon_atombios.h; sourceTree = "<group>"; };
 		7EB1366A169C2CE700B42023 /* atom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atom.cpp; sourceTree = "<group>"; };
 		7EB1366B169C2CE700B42023 /* atom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atom.h; sourceTree = "<group>"; };
-		7EB624AA17A3B00E0097B707 /* GPUSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GPUSensors.cpp; sourceTree = "<group>"; };
-		7EB624AB17A3B00E0097B707 /* GPUSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUSensors.h; sourceTree = "<group>"; };
 		7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OEMInfo.cpp; sourceTree = "<group>"; };
 		7EB73CF91791BCBC007D93D4 /* OEMInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMInfo.h; sourceTree = "<group>"; };
 		7EB7E70017833A290071B3F0 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.pch; sourceTree = "<group>"; };
@@ -620,7 +617,6 @@
 		7EADE20815E5602F00FD117C /* GPUSensors */ = {
 			isa = PBXGroup;
 			children = (
-				7EB624A917A3B0010097B707 /* GPUPlugin */,
 				7E9F54BF167C71DF006E907B /* GMASensors */,
 				7E9F5456167C71D9006E907B /* GeForceSensors */,
 				7E9F544B167C71D1006E907B /* RadeonSensors */,
@@ -637,15 +633,6 @@
 				7EADE21115E5602F00FD117C /* GPUSensors-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7EB624A917A3B0010097B707 /* GPUPlugin */ = {
-			isa = PBXGroup;
-			children = (
-				7EB624AB17A3B00E0097B707 /* GPUSensors.h */,
-				7EB624AA17A3B00E0097B707 /* GPUSensors.cpp */,
-			);
-			name = GPUPlugin;
 			sourceTree = "<group>";
 		};
 		7EB6451715E81442008C6A95 /* PTIDSensors */ = {
@@ -936,7 +923,6 @@
 				7EB1366C169C2CE800B42023 /* atom.cpp in Sources */,
 				7E17E171169C532100E40FC7 /* si.cpp in Sources */,
 				7E148DDA16F7B5E800A3F28E /* nv84.cpp in Sources */,
-				7EB624AC17A3B00E0097B707 /* GPUSensors.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

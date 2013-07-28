@@ -19,8 +19,8 @@
 #include "si.h"
 #include "evergreen.h"
 
-#define super GPUSensors
-OSDefineMetaClassAndStructors(RadeonSensors, GPUSensors)
+#define super FakeSMCPlugin
+OSDefineMetaClassAndStructors(RadeonSensors, FakeSMCPlugin)
 
 float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
 {
@@ -38,7 +38,7 @@ float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-bool RadeonSensors::start(IOService * provider)
+bool RadeonSensors::start(IOService *provider)
 {
     HWSensorsDebugLog("Starting...");
     
@@ -294,12 +294,13 @@ bool RadeonSensors::start(IOService * provider)
         }
     }
     
-    registerService();
+    radeon_info(&card, "started\n");
+    //registerService();
     
     return true;
 }
 
-void RadeonSensors::free(void)
+void RadeonSensors::stop(IOService *provider)
 {
     if (card.mmio)
         OSSafeRelease(card.mmio);
@@ -314,5 +315,5 @@ void RadeonSensors::free(void)
             HWSensorsFatalLog("failed to release GPU index");
     }
     
-    super::free();
+    super::stop(provider);
 }

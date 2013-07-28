@@ -48,8 +48,8 @@ enum nouveau_fan_source {
     nouveau_fan_pwm        = 1
 };
 
-#define super GPUSensors
-OSDefineMetaClassAndStructors(GeforceSensors, GPUSensors)
+#define super FakeSMCPlugin
+OSDefineMetaClassAndStructors(GeforceSensors, FakeSMCPlugin)
 
 float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
 {   
@@ -89,11 +89,11 @@ float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-bool GeforceSensors::start(IOService * provider)
+bool GeforceSensors::start(IOService *provider)
 {
 	HWSensorsDebugLog("Starting...");
 	
-	if (!super::start(provider)) 
+	if (!super::start(provider))
         return false;
         
     struct nouveau_device *device = &card;
@@ -262,12 +262,14 @@ bool GeforceSensors::start(IOService * provider)
         addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0);
     }
     
+    registerService();
+    
     nv_info(device, "started\n");
     
     return true;
 }
 
-void GeforceSensors::free(void)
+void GeforceSensors::stop(IOService * provider)
 {
     if (card.mmio)
         OSSafeRelease(card.mmio);
@@ -282,5 +284,5 @@ void GeforceSensors::free(void)
             HWSensorsFatalLog("failed to release GPU index");
     }
     
-    super::free();
+    super::stop(provider);
 }

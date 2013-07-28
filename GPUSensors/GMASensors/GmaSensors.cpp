@@ -33,8 +33,8 @@
 #define INVID(offset) OSReadLittleInt32((mmio_base), offset)
 #define OUTVID(offset,val) OSWriteLittleInt32((mmio_base), offset, val)
 
-#define super GPUSensors
-OSDefineMetaClassAndStructors(GmaSensors, GPUSensors)
+#define super FakeSMCPlugin
+OSDefineMetaClassAndStructors(GmaSensors, FakeSMCPlugin)
 
 float GmaSensors::getSensorValue(FakeSMCSensor *sensor)
 {    

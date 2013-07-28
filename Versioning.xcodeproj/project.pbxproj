@@ -40,7 +40,7 @@
 		7E3ABDB9179655E600201804 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7EB7E71C17834BF10071B3F0 /* version.plist */,
+				7E2F25191783EAE800C86586 /* version.h */,
 				7E3ABDBA1796580B00201804 /* revision.txt */,
 			);
 			name = "Supporting Files";
@@ -51,7 +51,7 @@
 			children = (
 				7EB73CF01791BC0E007D93D4 /* HWSensorsVersion.pch */,
 				7EB73CEF1791BC0E007D93D4 /* HWMonitorVersion.pch */,
-				7E2F25191783EAE800C86586 /* version.h */,
+				7EB7E71C17834BF10071B3F0 /* version.plist */,
 				7EB73CF11791BC30007D93D4 /* README.txt */,
 				7E2ACD8F1791B4740061C677 /* Scripts */,
 				7E3ABDB9179655E600201804 /* Supporting Files */,

@@ -74,6 +74,7 @@ inline UInt32 get_cpu_number()
 }
 
 static UInt8 cpu_thermal[kCPUSensorsMaxCpus];
+static UInt8 cpu_thermal_updated[kCPUSensorsMaxCpus];
 
 inline void read_cpu_thermal(void *magic)
 {
@@ -83,37 +84,71 @@ inline void read_cpu_thermal(void *magic)
         UInt64 msr = rdmsr64(MSR_IA32_THERM_STS);
         if (msr & 0x80000000) {
             cpu_thermal[number] = (msr >> 16) & 0x7F;
+            cpu_thermal_updated[number] = true;
         }
     }
 }
 
 static UInt16 cpu_state[kCPUSensorsMaxCpus];
+static UInt64 cpu_last_ucc[kCPUSensorsMaxCpus];
+static UInt64 cpu_last_urc[kCPUSensorsMaxCpus];
+static float cpu_turbo[kCPUSensorsMaxCpus];
+static bool cpu_state_updated[kCPUSensorsMaxCpus];
 
-inline void read_cpu_state(void *magic)
+inline void read_cpu_state(void *package)
 {
     UInt32 number = get_cpu_number();
     
+    if (package != NULL && number != 0)
+        return;
+    
     if (number < kCPUSensorsMaxCpus) {
         cpu_state[number] = rdmsr64(MSR_IA32_PERF_STS) & 0xFFFF;
+        cpu_state_updated[number] = true;
+    }
+}
+
+inline void read_cpu_turbo(void *base)
+{
+    UInt32 lo,hi;
+    
+    UInt32 number = get_cpu_number();
+    
+    if (number < kCPUSensorsMaxCpus) {
+        rdpmc(0x40000001, lo, hi); UInt64 ucc = ((UInt64)hi << 32 ) | lo;
+        rdpmc(0x40000002, lo, hi); UInt64 urc = ((UInt64)hi << 32 ) | lo;
+        
+        UInt64 ucc_delta = cpu_last_ucc[number] < ucc ? 0xFFFFFFFFFFFFFFFFll - cpu_last_ucc[number] + ucc : ucc - cpu_last_ucc[number];
+        UInt64 urc_delta = cpu_last_urc[number] < urc ? 0xFFFFFFFFFFFFFFFFll - cpu_last_urc[number] + urc : urc - cpu_last_urc[number];
+        cpu_last_ucc[number] = ucc;
+        cpu_last_urc[number] = urc;
+        
+        if (urc_delta) {
+            cpu_turbo[number] = (float)ucc_delta / (float)(*((UInt16*)base)) * (float)urc_delta;
+            cpu_state_updated[number] = true;
+        }
     }
 }
 
 static float cpu_ratio[kCPUSensorsMaxCpus];
 
-inline void read_cpu_performance(void *magic)
+inline void read_cpu_ratio(void *package)
 {
-    UInt64 APERF = rdmsr64(MSR_IA32_APERF);
-    UInt64 MPERF = rdmsr64(MSR_IA32_MPERF);
-    
-    if (!APERF || !MPERF)
-        return;
-    
     UInt32 number = get_cpu_number();
     
-    cpu_ratio[number] = (float)APERF / (float)MPERF;
+    if (package != NULL && number != 0)
+        return;
     
-    wrmsr64(MSR_IA32_APERF, 0);
-    wrmsr64(MSR_IA32_MPERF, 0);
+    UInt64 MPERF = rdmsr64(MSR_IA32_MPERF);
+    UInt64 APERF = rdmsr64(MSR_IA32_APERF);
+    
+    if (APERF && MPERF) {
+        cpu_ratio[number] = (double)APERF / (double)MPERF;
+        cpu_state_updated[number] = true;
+        
+        wrmsr64(MSR_IA32_APERF, 0);
+        wrmsr64(MSR_IA32_MPERF, 0);
+    }
 }
 
 void CPUSensors::readTjmaxFromMSR()
@@ -123,58 +158,68 @@ void CPUSensors::readTjmaxFromMSR()
 	}
 }
 
-float CPUSensors::calculateMultiplier(UInt8 cpu_index)
+float CPUSensors::readMultiplier(UInt8 cpu_index)
 {
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
-        case CPUFAMILY_INTEL_WESTMERE:
-            multiplier[cpu_index] = (float)(rdmsr64(MSR_IA32_PERF_STS) & 0xFFFF);
+        case CPUFAMILY_INTEL_WESTMERE: {
+            bool package;
+            mp_rendezvous_no_intrs(read_cpu_state, &package);
+            multiplier[cpu_index] = (float)(cpu_state[0] & 0xFFFF);
             break;
+        }
             
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
-        case CPUFAMILY_INTEL_HASWELL_ULT:
-            multiplier[cpu_index] = (float)((rdmsr64(MSR_IA32_PERF_STS) & 0xFFFF) >> 8);
+        case CPUFAMILY_INTEL_HASWELL_ULT: {
+            bool package;
+            mp_rendezvous_no_intrs(read_cpu_state, &package);
+            multiplier[cpu_index] = (float)((cpu_state[0] & 0xFFFF) >> 8);
             break;
-
+        }
+            
         default: {
-            if (!cpuStateUpdated[cpu_index]) {
+            if (!cpu_state_updated[cpu_index]) {
                 mp_rendezvous_no_intrs(read_cpu_state, NULL);
             }
-
+            
+            cpu_state_updated[cpu_index] = false;
+            
             UInt8 fid = cpu_state[cpu_index] >> 8;
-            
-            cpuStateUpdated[cpu_index] = false;
-            
             multiplier[cpu_index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
-            
             break;
         }
     }
     
-    if (hasPerfCounters) {
-        mp_rendezvous_no_intrs(read_cpu_performance, NULL);
-        return multiplier[cpu_index] = multiplier[cpu_index] * cpu_ratio[cpu_index];
+    return multiplier[cpu_index];
+}
+
+float CPUSensors::readFrequency(UInt8 cpu_index)
+{
+    if (baseMultiplier) {
+        bool package;
+        mp_rendezvous_no_intrs(read_cpu_ratio, &package);
+        return cpu_ratio[0] * (float)baseMultiplier * (float)busClock;
     }
     else {
-        return multiplier[cpu_index];
+        return multiplier[cpu_index] * (float)busClock;
     }
 }
 
 float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
 {
+    IOSleep(1);
+    
     UInt32 index = sensor->getIndex();
     
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor: {
-            if (!cpuThermalUpdated[index]) {
-                IOSleep(5);
+            if (!cpu_thermal_updated[index]) {
                 mp_rendezvous_no_intrs(read_cpu_thermal, NULL);
             }
-            else {
-                cpuThermalUpdated[index] = false;
-            }
+
+            cpu_thermal_updated[index] = false;
             
             return tjmax[index] - cpu_thermal[index];
         }
@@ -183,15 +228,12 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
             return float(tjmax[0] - (rdmsr64(MSR_IA32_PACKAGE_THERM_STATUS) >> 16) & 0x7F);
             
         case kFakeSMCMultiplierSensor:
-            IOSleep(5);
-            return calculateMultiplier(index);
+            return readMultiplier(index);
             
         case kFakeSMCFrequencySensor: 
-            return multiplier[index] * (float)busClock;
+            return readFrequency(index);
             
         case kCPUSensorsPowerSensor: {
-
-            IOSleep(1);
             UInt64 energy = rdmsr64(cpu_energy_msrs[index]);
                 
             if (!energy) break;
@@ -201,7 +243,7 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
                 
             if (deltaTime == 0) break;
                 
-            float consumed = (energyUnit * float(energy - lastEnergyValue[index])) / deltaTime;
+            float consumed = (energyUnitValue * float(energy - lastEnergyValue[index])) / deltaTime;
                 
             lastEnergyTime[index] = time;
             lastEnergyValue[index] = energy;
@@ -251,8 +293,11 @@ bool CPUSensors::start(IOService *provider)
         
         if (OSString* string = OSDynamicCast(OSString, configuration->getObject("PlatformString"))) {
             // User defined platform key (RPlt)
-            if (string->getLength() > 0)
-                platform = OSString::withString(string);
+            if (string->getLength() > 0) {
+                char p[9] = "\0\0\0\0\0\0\0\0";
+                snprintf(p, 9, "%s", string->getCStringNoCopy());
+                platform = OSData::withBytes(p, 8);
+            }
         }
     }
     
@@ -265,16 +310,16 @@ bool CPUSensors::start(IOService *provider)
                 {
                     case CPUID_MODEL_PENTIUM_M:
                         tjmax[0] = 100;
-                        if (!platform) platform = OSString::withCString("M70\0\0\0\0\0");
+                        if (!platform) platform = OSData::withBytes("M70\0\0\0\0\0", 8);
                         break;
                             
                     case CPUID_MODEL_YONAH:
-                        if (!platform) platform = OSString::withCString("K22\0\0\0\0\0");
+                        if (!platform) platform = OSData::withBytes("K22\0\0\0\0\0", 8);
                         tjmax[0] = 85;
                         break;
                         
                     case CPUID_MODEL_MEROM: // Intel Core (65nm)
-                        if (!platform) platform = OSString::withCString("M75\0\0\0\0\0");
+                        if (!platform) platform = OSData::withBytes("M75\0\0\0\0\0", 8);
                         switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // G0
@@ -314,7 +359,7 @@ bool CPUSensors::start(IOService *provider)
                         
                     case CPUID_MODEL_PENRYN: // Intel Core (45nm)
                                              // Mobile CPU ?
-                        if (!platform) platform = OSString::withCString("M82\0\0\0\0\0");
+                        if (!platform) platform = OSData::withBytes("M82\0\0\0\0\0", 8);
                         if (rdmsr64(0x17) & (1<<28))
                             tjmax[0] = 105;
                         else
@@ -322,7 +367,7 @@ bool CPUSensors::start(IOService *provider)
                         break;
                         
                     case CPUID_MODEL_ATOM: // Intel Atom (45nm)
-                        if (!platform) platform = OSString::withCString("T9\0\0\0\0\0");
+                        if (!platform) platform = OSData::withBytes("T9\0\0\0\0\0", 8);
                         switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // C0
@@ -344,18 +389,18 @@ bool CPUSensors::start(IOService *provider)
                     case CPUID_MODEL_WESTMERE:
                     case CPUID_MODEL_NEHALEM_EX:
                     case CPUID_MODEL_WESTMERE_EX:
-                        if (!platform) platform = OSString::withCString("k74\0\0\0\0\0");
+                        if (!platform) platform = OSData::withBytes("k74\0\0\0\0\0", 8);
                         readTjmaxFromMSR();
                         break;
                         
                     case CPUID_MODEL_SANDYBRIDGE:
                     case CPUID_MODEL_JAKETOWN:
-                        if (!platform) platform = OSString::withCString("k62\0\0\0\0\0");
+                        if (!platform) platform = OSData::withBytes("k62\0\0\0\0\0", 8);
                         readTjmaxFromMSR();
                         break;
                         
                     case CPUID_MODEL_IVYBRIDGE:
-                        if (!platform) platform = OSString::withCString("d8\0\0\0\0\0\0");
+                        if (!platform) platform = OSData::withBytes("d8\0\0\0\0\0\0", 8);
                         readTjmaxFromMSR();
                         break;
                     
@@ -364,7 +409,7 @@ bool CPUSensors::start(IOService *provider)
                         // TODO: platform value for desktop Haswells
                     case CPUID_MODEL_HASWELL_ULT:
                     case CPUID_MODEL_HASWELL_ULX:
-                        if (!platform) platform = OSString::withCString("j43\0\0\0\0\0"); // TODO: got from macbookair6,2 need to check for other platforms
+                        if (!platform) platform = OSData::withBytes("j43\0\0\0\0\0", 8); // TODO: got from macbookair6,2 need to check for other platforms
                         readTjmaxFromMSR();
                         break;
                         
@@ -426,12 +471,12 @@ bool CPUSensors::start(IOService *provider)
     HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0]);
     
     if (platform) {
-        HWSensorsInfoLog("set platform keys to %s", platform->getCStringNoCopy());
+        HWSensorsInfoLog("set platform keys to [%-8s]", (const char*)platform->getBytesNoCopy());
         
-        if (/*!isKeyExists("RPlt") &&*/ !setKeyValue("RPlt", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
+        if (/*!isKeyExists("RPlt") &&*/ !setKeyValue("RPlt", TYPE_CH8, platform->getLength(), (void*)platform->getBytesNoCopy()))
             HWSensorsWarningLog("failed to set platform key RPlt");
         
-        if (/*!isKeyExists("RBr") &&*/ !setKeyValue("RBr", TYPE_CH8, platform->getLength(), (void*)platform->getCStringNoCopy()))
+        if (/*!isKeyExists("RBr") &&*/ !setKeyValue("RBr", TYPE_CH8, platform->getLength(), (void*)platform->getBytesNoCopy()))
             HWSensorsWarningLog("failed to set platform key RBr");
     }
     
@@ -466,9 +511,6 @@ bool CPUSensors::start(IOService *provider)
             }
             break;
         }
-            
-        default:
-            break;
     }
     
     // multiplier
@@ -476,41 +518,12 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
-        case CPUFAMILY_INTEL_IVYBRIDGE: {
-            uint32_t cpuid_reg[4];
-            do_cpuid(6, cpuid_reg);
-            
-            hasPerfCounters = (uint32_t)bitfield(cpuid_reg[ecx], 0, 0);
-            
-            if (hasPerfCounters) {
-                for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
-                    char key[5];
-                    
-                    snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
-                    
-                    if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, i))
-                        HWSensorsWarningLog("failed to add multiplier sensor");
-                    
-                    snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY, i);
-                    
-                    if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, i))
-                        HWSensorsWarningLog("failed to add frequency sensor");
-                }
-            }
-            else {
-                if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
-                    HWSensorsWarningLog("failed to add package multiplier sensor");
-                if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
-                    HWSensorsWarningLog("failed to add package frequency sensor");
-            }
-            
-            break;
-        }
-
+        case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
         case CPUFAMILY_INTEL_HASWELL_ULT:
+            baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF;
             
-            hasPerfCounters = false;
+            HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
             
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
@@ -519,9 +532,6 @@ bool CPUSensors::start(IOService *provider)
             break;
             
         default:
-            
-            hasPerfCounters = false;
-            
             for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
                 char key[5];
                 
@@ -540,6 +550,10 @@ bool CPUSensors::start(IOService *provider)
     
     // energy consumption
     switch (cpuid_info()->cpuid_cpufamily) {
+        case CPUFAMILY_INTEL_MEROM:
+        case CPUFAMILY_INTEL_PENRYN:
+        case CPUFAMILY_INTEL_NEHALEM:
+        case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
@@ -547,9 +561,9 @@ bool CPUSensors::start(IOService *provider)
             if (UInt64 msr = rdmsr64(MSR_RAPL_POWER_UNIT)) {
                 if (UInt16 unit = 1 << (int)((msr >> 8) & 0x1FF)) {
                     
-                    energyUnit = 1.0f / (float)unit;
+                    energyUnitValue = 1.0f / (float)unit;
                     
-                    if (energyUnit) {
+                    if (energyUnitValue) {
                         if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 0))
                             HWSensorsWarningLog("failed to add CPU package total power sensor");
                         if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 1))
@@ -563,9 +577,6 @@ bool CPUSensors::start(IOService *provider)
             }
             break;
         }
-            
-        default:
-            break;
     }
     
     registerService();

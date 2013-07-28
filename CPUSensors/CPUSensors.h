@@ -88,18 +88,17 @@ class CPUSensors : public FakeSMCPlugin
     
 private:
     UInt8                   tjmax[kCPUSensorsMaxCpus];
-    OSString *				platform;
+    OSData*                 platform;
     UInt64                  busClock;
-    bool                    cpuThermalUpdated[kCPUSensorsMaxCpus];
-    bool                    cpuStateUpdated[kCPUSensorsMaxCpus];
     float                   multiplier[kCPUSensorsMaxCpus];
     double                  lastEnergyTime[4];
     UInt64                  lastEnergyValue[4];
-    float                   energyUnit;
-    bool                    hasPerfCounters;
+    float                   energyUnitValue;
+    UInt8                   baseMultiplier;
     
 	void                    readTjmaxFromMSR();
-    float                   calculateMultiplier(UInt8 cpu_index);
+    float                   readMultiplier(UInt8 cpu_index);
+    float                   readFrequency(UInt8 cpu_index);
     
 protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);

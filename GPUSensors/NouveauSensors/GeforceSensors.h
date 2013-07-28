@@ -34,9 +34,9 @@
 #include "nouveau.h"
 #include "xf86i2c.h"
 
-#include "GPUSensors.h"
+#include "FakeSMCPlugin.h"
 
-class GeforceSensors : public GPUSensors
+class GeforceSensors : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(GeforceSensors)    
 	
@@ -54,6 +54,6 @@ protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);
     
 public:
-    virtual bool		start(IOService *provider);
-    virtual void		free(void);
+    virtual bool        start(IOService *provider);
+    virtual void        stop(IOService * provider);
 };

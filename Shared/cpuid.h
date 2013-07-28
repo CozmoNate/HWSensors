@@ -159,7 +159,7 @@
 
 #define CPUFAMILY_INTEL_SANDYBRIDGE 0x5490b78c // From 10.7
 #define CPUFAMILY_INTEL_IVYBRIDGE   0x1f65e835 // From 10.8
-#define CPUFAMILY_INTEL_HASWELL     0x78EA4FBC //
+#define CPUFAMILY_INTEL_HASWELL     0x01100101 // TODO: obtain Haswell cpu family value
 #define CPUFAMILY_INTEL_HASWELL_ULT 0x10B282DC //
 
 //#include <stdint.h>
