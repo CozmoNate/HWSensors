@@ -90,16 +90,13 @@ inline void read_cpu_thermal(void *magic)
 }
 
 static UInt16 cpu_state[kCPUSensorsMaxCpus];
-static UInt64 cpu_last_ucc[kCPUSensorsMaxCpus];
-static UInt64 cpu_last_urc[kCPUSensorsMaxCpus];
-static float cpu_turbo[kCPUSensorsMaxCpus];
 static bool cpu_state_updated[kCPUSensorsMaxCpus];
 
 inline void read_cpu_state(void *package)
 {
     UInt32 number = get_cpu_number();
     
-    if (package != NULL && number != 0)
+    if (package && number != 0)
         return;
     
     if (number < kCPUSensorsMaxCpus) {
@@ -108,7 +105,18 @@ inline void read_cpu_state(void *package)
     }
 }
 
-inline void read_cpu_turbo(void *base)
+static UInt64 cpu_last_ucc[kCPUSensorsMaxCpus];
+static UInt64 cpu_last_urc[kCPUSensorsMaxCpus];
+static float cpu_turbo[kCPUSensorsMaxCpus];
+static bool cpu_turbo_updated[kCPUSensorsMaxCpus];
+
+inline void init_cpu_turbo_counters(void *magic)
+{
+    wrmsr64(MSR_PERF_FIXED_CTR_CTRL, 0x222ll);
+    wrmsr64(MSR_PERF_GLOBAL_CTRL, 0x7ll << 32);
+}
+
+inline void read_cpu_turbo(void *multiplier)
 {
     UInt32 lo,hi;
     
@@ -124,8 +132,8 @@ inline void read_cpu_turbo(void *base)
         cpu_last_urc[number] = urc;
         
         if (urc_delta) {
-            cpu_turbo[number] = (float)ucc_delta / (float)(*((UInt16*)base)) * (float)urc_delta;
-            cpu_state_updated[number] = true;
+            cpu_turbo[number] = (float)ucc_delta * (float)(*((UInt8*)multiplier)) / (float)urc_delta;
+            cpu_turbo_updated[number] = true;
         }
     }
 }
@@ -136,15 +144,15 @@ inline void read_cpu_ratio(void *package)
 {
     UInt32 number = get_cpu_number();
     
-    if (package != NULL && number != 0)
+    if (package && number != 0)
         return;
     
     UInt64 MPERF = rdmsr64(MSR_IA32_MPERF);
     UInt64 APERF = rdmsr64(MSR_IA32_APERF);
     
     if (APERF && MPERF) {
-        cpu_ratio[number] = (double)APERF / (double)MPERF;
-        cpu_state_updated[number] = true;
+        cpu_ratio[number] = (float)((double)APERF / (double)MPERF);
+        cpu_turbo_updated[number] = true;
         
         wrmsr64(MSR_IA32_APERF, 0);
         wrmsr64(MSR_IA32_MPERF, 0);
@@ -165,7 +173,7 @@ float CPUSensors::readMultiplier(UInt8 cpu_index)
         case CPUFAMILY_INTEL_WESTMERE: {
             bool package;
             mp_rendezvous_no_intrs(read_cpu_state, &package);
-            multiplier[cpu_index] = (float)(cpu_state[0] & 0xFFFF);
+            multiplier[cpu_index] = (float)(cpu_state[0] & 0xFF);
             break;
         }
             
@@ -175,7 +183,7 @@ float CPUSensors::readMultiplier(UInt8 cpu_index)
         case CPUFAMILY_INTEL_HASWELL_ULT: {
             bool package;
             mp_rendezvous_no_intrs(read_cpu_state, &package);
-            multiplier[cpu_index] = (float)((cpu_state[0] & 0xFFFF) >> 8);
+            multiplier[cpu_index] = (float)((cpu_state[0] >> 8) & 0xFF);
             break;
         }
             
@@ -186,7 +194,7 @@ float CPUSensors::readMultiplier(UInt8 cpu_index)
             
             cpu_state_updated[cpu_index] = false;
             
-            UInt8 fid = cpu_state[cpu_index] >> 8;
+            UInt8 fid = (cpu_state[0] >> 8) & 0xFF;
             multiplier[cpu_index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
             break;
         }
@@ -200,7 +208,7 @@ float CPUSensors::readFrequency(UInt8 cpu_index)
     if (baseMultiplier) {
         bool package;
         mp_rendezvous_no_intrs(read_cpu_ratio, &package);
-        return cpu_ratio[0] * (float)baseMultiplier * (float)busClock;
+        return cpu_ratio[cpu_index] * (float)baseMultiplier * (float)busClock;
     }
     else {
         return multiplier[cpu_index] * (float)busClock;
@@ -209,7 +217,7 @@ float CPUSensors::readFrequency(UInt8 cpu_index)
 
 float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
 {
-    IOSleep(1);
+    IOSleep(cpuid_info()->core_count);
     
     UInt32 index = sensor->getIndex();
     
@@ -521,14 +529,15 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
         case CPUFAMILY_INTEL_HASWELL_ULT:
-            baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF;
-            
-            HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
-            
-            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
-                HWSensorsWarningLog("failed to add package multiplier sensor");
-            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
-                HWSensorsWarningLog("failed to add package frequency sensor");
+            if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
+
+                HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
+                
+                if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
+                    HWSensorsWarningLog("failed to add package multiplier sensor");
+                if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
+                    HWSensorsWarningLog("failed to add package frequency sensor");
+            }
             break;
             
         default:
@@ -550,10 +559,18 @@ bool CPUSensors::start(IOService *provider)
     
     // energy consumption
     switch (cpuid_info()->cpuid_cpufamily) {
-        case CPUFAMILY_INTEL_MEROM:
-        case CPUFAMILY_INTEL_PENRYN:
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
+            if (UInt64 msr = rdmsr64(MSR_RAPL_POWER_UNIT)) {
+                if (UInt16 unit = 1 << (int)((msr >> 8) & 0x1FF)) {
+                    energyUnitValue = 1.0f / (float)unit;
+                    
+                    if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 0))
+                        HWSensorsWarningLog("failed to add CPU package total power sensor");
+                }
+            }
+            break;
+            
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
@@ -568,8 +585,10 @@ bool CPUSensors::start(IOService *provider)
                             HWSensorsWarningLog("failed to add CPU package total power sensor");
                         if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 1))
                             HWSensorsWarningLog("failed to add CPU package cores power sensor");
-                        if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 2))
-                            HWSensorsWarningLog("failed to add CPU package graphics power sensor");
+                        if (cpuid_info()->cpuid_model != CPUID_MODEL_JAKETOWN || cpuid_info()->cpuid_model != CPUID_MODEL_IVYBRIDGE_EP) {
+                            if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 2))
+                                HWSensorsWarningLog("failed to add CPU package uncore power sensor");
+                        }
                         if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 3))
                             HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
                     }

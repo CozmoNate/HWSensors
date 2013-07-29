@@ -151,6 +151,7 @@
 #define CPUID_MODEL_NEHALEM_EX		0x2E
 #define CPUID_MODEL_WESTMERE_EX		0x2F
 #define CPUID_MODEL_IVYBRIDGE       0x3A
+#define CPUID_MODEL_IVYBRIDGE_EP    0x3E
 #define CPUID_MODEL_HASWELL_DT      0x3C
 #define CPUID_MODEL_HASWELL_MB      0x3F    /* Haswell MB */
 //#define CPUID_MODEL_HASWELL_H        0x??    // Haswell H
@@ -458,6 +459,7 @@ static void cpuid_update_generic_info()
                     cpufamily = CPUFAMILY_INTEL_SANDYBRIDGE;
                     break;
                 case CPUID_MODEL_IVYBRIDGE:
+                case CPUID_MODEL_IVYBRIDGE_EP:
                     cpufamily = CPUFAMILY_INTEL_IVYBRIDGE;
                     break;
                 

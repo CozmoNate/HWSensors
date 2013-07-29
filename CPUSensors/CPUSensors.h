@@ -69,6 +69,9 @@
 #define MSR_IA32_APERF                  0x0E8
 #define MSR_IA32_MPERF                  0x0E7
 
+#define MSR_PERF_FIXED_CTR_CTRL         0x38d
+#define MSR_PERF_GLOBAL_CTRL            0x38f
+
 #define kCPUSensorsMaxCpus              64
 
 extern "C" int cpu_number(void);
