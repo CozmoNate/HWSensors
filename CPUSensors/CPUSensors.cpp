@@ -166,19 +166,44 @@ void CPUSensors::readTjmaxFromMSR()
 	}
 }
 
+#define ROUND(x)    ((x) + 0.5 > int(x) + 1 ? int(x) + 1 : int(x))
+
 float CPUSensors::readMultiplier(UInt8 cpu_index)
 {
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE: {
             bool package;
-            mp_rendezvous_no_intrs(read_cpu_state, &package);
-            multiplier[cpu_index] = (float)(cpu_state[0] & 0xFF);
+            
+            mp_rendezvous_no_intrs(read_cpu_ratio, &package);
+            
+            if (cpu_ratio[0] > 1.0) {
+                multiplier[cpu_index] = ROUND(cpu_ratio[0] * (float)baseMultiplier + 0.5);
+            }
+            else {
+                mp_rendezvous_no_intrs(read_cpu_state, &package);
+                multiplier[cpu_index] = (float)(cpu_state[0] & 0xFF);
+            }
             break;
         }
             
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
+        {
+            bool package;
+            
+            mp_rendezvous_no_intrs(read_cpu_ratio, &package);
+            
+            if (cpu_ratio[0] > 1.0) {
+                multiplier[cpu_index] = ROUND(cpu_ratio[0] * (float)baseMultiplier + 0.5);
+            }
+            else {
+                mp_rendezvous_no_intrs(read_cpu_state, &package);
+                multiplier[cpu_index] = (float)((cpu_state[0] >> 8) & 0xFF);
+            }
+            break;
+        }
+            
         case CPUFAMILY_INTEL_HASWELL:
         case CPUFAMILY_INTEL_HASWELL_ULT: {
             bool package;
@@ -205,14 +230,14 @@ float CPUSensors::readMultiplier(UInt8 cpu_index)
 
 float CPUSensors::readFrequency(UInt8 cpu_index)
 {
-    if (baseMultiplier) {
-        bool package;
-        mp_rendezvous_no_intrs(read_cpu_ratio, &package);
-        return cpu_ratio[cpu_index] * (float)baseMultiplier * (float)busClock;
-    }
-    else {
+//    if (baseMultiplier) {
+//        bool package;
+//        mp_rendezvous_no_intrs(read_cpu_ratio, &package);
+//        return cpu_ratio[cpu_index] * (float)baseMultiplier * (float)busClock;
+//    }
+//    else {
         return multiplier[cpu_index] * (float)busClock;
-    }
+//    }
 }
 
 float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
@@ -251,7 +276,7 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
                 
             if (deltaTime == 0) break;
                 
-            float consumed = (energyUnitValue * float(energy - lastEnergyValue[index])) / deltaTime;
+            float consumed = (energyUnits * float(energy - lastEnergyValue[index])) / deltaTime;
                 
             lastEnergyTime[index] = time;
             lastEnergyValue[index] = energy;
@@ -527,10 +552,8 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
-        case CPUFAMILY_INTEL_HASWELL:
-        case CPUFAMILY_INTEL_HASWELL_ULT:
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
-
+                
                 HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
                 
                 if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
@@ -538,6 +561,14 @@ bool CPUSensors::start(IOService *provider)
                 if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
                     HWSensorsWarningLog("failed to add package frequency sensor");
             }
+            break;
+            
+        case CPUFAMILY_INTEL_HASWELL:
+        case CPUFAMILY_INTEL_HASWELL_ULT:
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCMultiplierSensor, 0))
+                HWSensorsWarningLog("failed to add package multiplier sensor");
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, 0))
+                HWSensorsWarningLog("failed to add package frequency sensor");
             break;
             
         default:
@@ -559,43 +590,46 @@ bool CPUSensors::start(IOService *provider)
     
     // energy consumption
     switch (cpuid_info()->cpuid_cpufamily) {
-        case CPUFAMILY_INTEL_NEHALEM:
-        case CPUFAMILY_INTEL_WESTMERE:
-            if (UInt64 msr = rdmsr64(MSR_RAPL_POWER_UNIT)) {
-                if (UInt16 unit = 1 << (int)((msr >> 8) & 0x1FF)) {
-                    energyUnitValue = 1.0f / (float)unit;
-                    
-                    if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 0))
-                        HWSensorsWarningLog("failed to add CPU package total power sensor");
-                }
-            }
-            break;
+//        case CPUFAMILY_INTEL_NEHALEM:
+//        case CPUFAMILY_INTEL_WESTMERE:
+//            if (UInt16 unit = 1 << (int)((rdmsr64(MSR_RAPL_POWER_UNIT) >> 8) & 0x1FF)) {
+//                
+//                energyUnits = 1.0f / (float)unit;
+//                
+//                if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 0))
+//                    HWSensorsWarningLog("failed to add CPU package total power sensor");
+//            }
+//            break;
             
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
         case CPUFAMILY_INTEL_HASWELL_ULT: {
-            if (UInt64 msr = rdmsr64(MSR_RAPL_POWER_UNIT)) {
-                if (UInt16 unit = 1 << (int)((msr >> 8) & 0x1FF)) {
-                    
-                    energyUnitValue = 1.0f / (float)unit;
-                    
-                    if (energyUnitValue) {
-                        if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 0))
-                            HWSensorsWarningLog("failed to add CPU package total power sensor");
-                        if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 1))
-                            HWSensorsWarningLog("failed to add CPU package cores power sensor");
-                        if (cpuid_info()->cpuid_model != CPUID_MODEL_JAKETOWN || cpuid_info()->cpuid_model != CPUID_MODEL_IVYBRIDGE_EP) {
-                            if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 2))
-                                HWSensorsWarningLog("failed to add CPU package uncore power sensor");
-                        }
-                        if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 3))
-                            HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
-                    }
+            UInt64 rapl = rdmsr64(MSR_RAPL_POWER_UNIT);
+            
+            UInt8 power_units = rapl & 0xf;
+            UInt8 energy_units = (rapl >> 8) & 0x1f;
+            UInt8 time_units = (rapl >> 16) & 0xf;
+            
+            HWSensorsInfoLog("RAPL units power: 0x%x energy: 0x%x time: 0x%x", power_units, energy_units, time_units);
+            
+            if ((energyUnits = 1.0f / (float)(1 << energy_units))) {
+                if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 0))
+                    HWSensorsWarningLog("failed to add CPU package total power sensor");
+                
+                if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 1))
+                        HWSensorsWarningLog("failed to add CPU package cores power sensor");
+                
+                if (cpuid_info()->cpuid_model != CPUID_MODEL_JAKETOWN || cpuid_info()->cpuid_model != CPUID_MODEL_IVYBRIDGE_EP) {
+                    if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 2))
+                        HWSensorsWarningLog("failed to add CPU package uncore power sensor");
                 }
+                if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerSensor, 3))
+                    HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
             }
             break;
         }
+            
     }
     
     registerService();

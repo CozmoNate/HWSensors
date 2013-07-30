@@ -96,7 +96,7 @@ private:
     float                   multiplier[kCPUSensorsMaxCpus];
     double                  lastEnergyTime[4];
     UInt64                  lastEnergyValue[4];
-    float                   energyUnitValue;
+    float                   energyUnits;
     UInt8                   baseMultiplier;
     
 	void                    readTjmaxFromMSR();
