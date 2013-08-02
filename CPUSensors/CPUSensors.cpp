@@ -207,8 +207,6 @@ void CPUSensors::readTjmaxFromMSR()
 
 float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
 {
-    IOSleep(1);
-    
     //IOSimpleLockLock(workloopLock);
     
     UInt32 index = sensor->getIndex();
@@ -281,55 +279,55 @@ IOReturn CPUSensors::woorkloopEvent()
     if (bit_get(workloopEventsPending, kCPUSensorsCoreThermalSensor)) {
         mp_rendezvous_no_intrs(read_cpu_thermal, NULL);
         bit_clear(workloopEventsPending, kCPUSensorsCoreThermalSensor);
-        IOSleep(1);
+        //IOSleep(5);
     }
     
     if (bit_get(workloopEventsPending, kCPUSensorsPackageThermalSensor)) {
         cpu_thermal_package = ((rdmsr64(MSR_IA32_PACKAGE_THERM_STATUS) >> 16) & 0x7F);
         bit_clear(workloopEventsPending, kCPUSensorsCoreThermalSensor);
-        IOSleep(1);
+        //IOSleep(1);
     }
     
     if (bit_get(workloopEventsPending, kCPUSensorsCoreMultiplierSensor)) {
         if (baseMultiplier > 0) mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
         if (cpu_ratio[0] <= 1.0) mp_rendezvous_no_intrs(read_cpu_state, NULL);
         bit_clear(workloopEventsPending, kCPUSensorsCoreMultiplierSensor);
-        IOSleep(1);
+        //IOSleep(5);
     }
     
     if (bit_get(workloopEventsPending, kCPUSensorsPackageMultiplierSensor)) {
         if (baseMultiplier > 0) mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
         if (cpu_ratio[0] <= 1.0) mp_rendezvous_no_intrs(read_cpu_state, NULL);
         bit_clear(workloopEventsPending, kCPUSensorsPackageMultiplierSensor);
-        IOSleep(1);
+        //IOSleep(5);
     }
     
     if (bit_get(workloopEventsPending, kCPUSensorsTotalPowerSensor)) {
         UInt8 index = 0;
         read_cpu_energy(&index);
         bit_clear(workloopEventsPending, kCPUSensorsTotalPowerSensor);
-        IOSleep(1);
+        //IOSleep(1);
     }
     
     if (bit_get(workloopEventsPending, kCPUSensorsCoresPowerSensor)) {
         UInt8 index = 1;
         read_cpu_energy(&index);
         bit_clear(workloopEventsPending, kCPUSensorsCoresPowerSensor);
-        IOSleep(1);
+        //IOSleep(1);
     }
     
     if (bit_get(workloopEventsPending, kCPUSensorsUncorePowerSensor)) {
         UInt8 index = 2;
         read_cpu_energy(&index);
         bit_clear(workloopEventsPending, kCPUSensorsUncorePowerSensor);
-        IOSleep(1);
+        //IOSleep(1);
     }
     
     if (bit_get(workloopEventsPending, kCPUSensorsDramPowerSensor)) {
         UInt8 index = 3;
         read_cpu_energy(&index);
         bit_clear(workloopEventsPending, kCPUSensorsDramPowerSensor);
-        IOSleep(1);
+        //IOSleep(1);
     }
     
     timerEventSource->setTimeoutMS(1000);

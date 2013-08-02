@@ -700,7 +700,7 @@
         for (HWMonitorSensor *sensor in _sensors) {
             [self updateSensor:sensor addToArray:updated];
             
-            [NSThread sleepForTimeInterval:0.01];
+            //[NSThread sleepForTimeInterval:0.005];
         }
     }
     else if (_connection) {
