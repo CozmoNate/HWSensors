@@ -40,44 +40,11 @@ float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-//IOService * RadeonSensors::probe(IOService *provider, SInt32 *score)
-//{
-//	if (super::probe(provider, score) != this)
-//		return 0;
-//    
-//    HWSensorsDebugLog("IOAccelerator lookup...");
-//    
-//    startCounter++;
-//    
-//    bool acceleratorFound = false;
-//    
-//    if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
-//        if (OSIterator *iterator = getMatchingServices(matching)) {
-//            while (IOService *service = (IOService*)iterator->getNextObject()) {
-//                if (IORegistryEntry *parent = service->getParentEntry(gIOServicePlane)) {
-//                    acceleratorFound = parent == provider;
-//                }
-//            }
-//            
-//            OSSafeRelease(iterator);
-//        }
-//        
-//        OSSafeRelease(matching);
-//    }
-//    
-//    if (acceleratorFound) {
-//        HWSensorsInfoLog("IOAccelerator service detected, starting...");
-//        return this;
-//    }
-//    else if (startCounter == 10) {
-//        HWSensorsInfoLog("still waiting for IOAccelerator service to start on parent...");
-//    }
-//    
-//    return 0;
-//}
-
-bool RadeonSensors::start(IOService *provider)
+IOService * RadeonSensors::probe(IOService *provider, SInt32 *score)
 {
+	if (super::probe(provider, score) != this)
+		return 0;
+    
     HWSensorsDebugLog("IOAccelerator lookup...");
     
     startCounter++;
@@ -100,13 +67,17 @@ bool RadeonSensors::start(IOService *provider)
     
     if (acceleratorFound) {
         HWSensorsInfoLog("IOAccelerator service detected, starting...");
+        return this;
     }
-    else {
-        if (startCounter == 10)
-            HWSensorsInfoLog("still waiting for IOAccelerator service to start on parent...");
-        return false;
+    else if (startCounter == 10) {
+        HWSensorsInfoLog("still waiting for IOAccelerator service to start on parent...");
     }
+    
+    return 0;
+}
 
+bool RadeonSensors::start(IOService *provider)
+{
     HWSensorsDebugLog("Starting...");
     
 	if (!super::start(provider))

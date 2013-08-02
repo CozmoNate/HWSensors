@@ -647,6 +647,8 @@ bool CPUSensors::start(IOService *provider)
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsPackageFrequencySensor, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
             
+            break;
+            
         case CPUFAMILY_INTEL_HASWELL:
         case CPUFAMILY_INTEL_HASWELL_ULT:
 
@@ -656,6 +658,7 @@ bool CPUSensors::start(IOService *provider)
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsPackageFrequencySensor, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
+            
             break;
             
         default:
