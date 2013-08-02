@@ -19,6 +19,8 @@
 #include "si.h"
 #include "evergreen.h"
 
+#include <IOKit/IOTimerEventSource.h>
+
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(RadeonSensors, FakeSMCPlugin)
 
@@ -40,21 +42,20 @@ float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
+
 IOService * RadeonSensors::probe(IOService *provider, SInt32 *score)
 {
 	if (super::probe(provider, score) != this)
 		return 0;
+    
+    if (!(probeCounter++ % 10)) {
+        HWSensorsInfoLog("wait for 'ATY,bin_image' property been published...");
+    }
+    
+    if (card.pdev->getProperty("ATY,bin_image") || probeCounter == 3) {
+        return this;
+    }
 
-    HWSensorsInfoLog("wait for 'ATY,bin_image' property published...");
-    
-    if (provider->getProperty("ATY,bin_image")) {
-        return this;
-    }
-    else if (startCounter++ == 2) {
-        HWSensorsInfoLog("'ATY,bin_image' still not published, starting anyway...");
-        return this;
-    }
-    
     return 0;
 }
 
@@ -65,7 +66,7 @@ bool RadeonSensors::start(IOService *provider)
 	if (!super::start(provider))
         return false;
     
-    if (!(card.pdev = (IOPCIDevice*)provider))
+    if (!(card.pdev = OSDynamicCast(IOPCIDevice, provider)))
         return false;
     
     if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id"))) {
@@ -76,52 +77,52 @@ bool RadeonSensors::start(IOService *provider)
         return false;
     }
     
-	card.pdev->setMemoryEnable(true);
+    card.pdev->setMemoryEnable(true);
     
     IOMemoryMap *mmio;
     
-	for (UInt32 i = 0; (mmio = card.pdev->mapDeviceMemoryWithIndex(i)); i++) {
-		long unsigned int mmio_base_phys = card.mmio->getPhysicalAddress();
-		// Make sure we  select MMIO registers
-		if (((mmio->getLength()) <= 0x00020000) && (mmio_base_phys != 0)) {
+    for (UInt32 i = 0; (mmio = card.pdev->mapDeviceMemoryWithIndex(i)); i++) {
+        long unsigned int mmio_base_phys = card.mmio->getPhysicalAddress();
+        // Make sure we select MMIO registers
+        if (((mmio->getLength()) <= 0x00020000) && (mmio_base_phys != 0)) {
             card.mmio = mmio;
-			break;
+            break;
         }
-	}
+    }
     
-	if (!card.mmio) {
-		HWSensorsInfoLog("failed to map device memory");
-		return false;
-	}
+    if (!card.mmio) {
+        HWSensorsInfoLog("failed to map device memory");
+        return false;
+    }
     
     card.family = CHIP_FAMILY_UNKNOW;
     card.int_thermal_type = THERMAL_TYPE_NONE;
     
     card.card_index = takeVacantGPUIndex();
-	
+    
     if (card.card_index < 0) {
         radeon_fatal(&card, "failed to obtain vacant GPU index\n");
         return false;
     }
     
-	RADEONCardInfo *devices = RADEONCards;
+    RADEONCardInfo *devices = RADEONCards;
     
-	while (devices->device_id != NULL) {
-		if ((devices->device_id & 0xffff) == (card.chip_id & 0xffff)) {
+    while (devices->device_id != NULL) {
+        if ((devices->device_id & 0xffff) == (card.chip_id & 0xffff)) {
             
-   			card.family = devices->ChipFamily;
+            card.family = devices->ChipFamily;
             
             card.info.device_id = devices->device_id;
-			card.info.ChipFamily = devices->ChipFamily;
-			card.info.igp = devices->igp;
-			card.info.is_mobility = devices->is_mobility;
+            card.info.ChipFamily = devices->ChipFamily;
+            card.info.igp = devices->igp;
+            card.info.is_mobility = devices->is_mobility;
             
-			radeon_info(&card, "found ATI Radeon 0x%04x\n", card.chip_id & 0xffff);
+            radeon_info(&card, "found ATI Radeon 0x%04x\n", card.chip_id & 0xffff);
             
-			break;
-		}
-		devices++;
-	}
+            break;
+        }
+        devices++;
+    }
     
     if (card.family == CHIP_FAMILY_UNKNOW) {
         radeon_fatal(&card, "unknown card 0x%04x\n", card.chip_id & 0xffff);
@@ -129,7 +130,7 @@ bool RadeonSensors::start(IOService *provider)
     }
     
     //try to load bios from ATY,bin_image property of GPU registry node
-    if (OSData *vbios = OSDynamicCast(OSData, provider->getProperty("ATY,bin_image"))) {
+    if (OSData *vbios = OSDynamicCast(OSData, card.pdev->getProperty("ATY,bin_image"))) {
         card.bios_size = vbios->getLength();
         card.bios = (UInt8*)IOMalloc(vbios->getLength());
         
@@ -165,7 +166,7 @@ bool RadeonSensors::start(IOService *provider)
             IOFree(card.bios, card.bios_size);
             card.bios = 0;
             card.bios_size = 0;
-        }  
+        }
     }
     else if (atom_parse(&card)) {
         radeon_atombios_get_power_modes(&card);
@@ -318,8 +319,9 @@ bool RadeonSensors::start(IOService *provider)
         }
     }
     
+    registerService();
+    
     radeon_info(&card, "started\n");
-    //registerService();
     
     return true;
 }

@@ -36,7 +36,7 @@
 int si_get_temp(struct radeon_device *rdev)
 {
 	u32 temp;
-	int actual_temp = 1000;
+	int actual_temp = 0;
     
 	temp = (RREG32(CG_MULT_THERMAL_STATUS) & CTF_TEMP_MASK) >> CTF_TEMP_SHIFT;
     

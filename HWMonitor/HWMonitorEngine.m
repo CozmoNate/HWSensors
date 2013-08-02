@@ -169,7 +169,7 @@
         {
             float t = [sensor floatValue];
             
-            if (t < 0 || t > 100) {
+            if (t < 0 || t >= 149) {
                 return nil;
             }
             
@@ -180,11 +180,11 @@
             break;
     }
     
-    /*if (!smartSensor && _hideDisabledSensors && [[sensor value] isEqualToString:@"-"]) {
-        [sensor setEngine:nil];
-        sensor = nil;
-        return nil;
-    }*/
+//    if (!smartSensor && _hideDisabledSensors && [[sensor value] isEqualToString:@"-"]) {
+//        [sensor setEngine:nil];
+//        sensor = nil;
+//        return nil;
+//    }
     
     [sensor setEngine:self];
     [_sensors addObject:sensor];
