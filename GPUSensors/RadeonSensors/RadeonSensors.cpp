@@ -44,36 +44,15 @@ IOService * RadeonSensors::probe(IOService *provider, SInt32 *score)
 {
 	if (super::probe(provider, score) != this)
 		return 0;
+
+    HWSensorsInfoLog("wait for 'ATY,bin_image' property published...");
     
-    HWSensorsDebugLog("IOAccelerator lookup...");
-    
-    startCounter++;
-    
-    bool acceleratorFound = false;
-    
-    if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
-        if (OSIterator *iterator = getMatchingServices(matching)) {
-            while (IOService *service = (IOService*)iterator->getNextObject()) {
-                if (IORegistryEntry *parent = service->getParentEntry(gIOServicePlane)) {
-                    if (parent->isEqualTo(provider)) {
-                        acceleratorFound = true;
-                        break;
-                    }
-                }
-            }
-            
-            OSSafeRelease(iterator);
-        }
-        
-        OSSafeRelease(matching);
-    }
-    
-    if (acceleratorFound) {
-        HWSensorsInfoLog("IOAccelerator service detected, starting...");
+    if (provider->getProperty("ATY,bin_image")) {
         return this;
     }
-    else if (startCounter == 10) {
-        HWSensorsInfoLog("still waiting for IOAccelerator service to start on parent...");
+    else if (startCounter++ == 2) {
+        HWSensorsInfoLog("'ATY,bin_image' still not published, starting anyway...");
+        return this;
     }
     
     return 0;
@@ -99,11 +78,15 @@ bool RadeonSensors::start(IOService *provider)
     
 	card.pdev->setMemoryEnable(true);
     
-	for (UInt32 i = 0; (card.mmio = card.pdev->mapDeviceMemoryWithIndex(i)); i++) {
+    IOMemoryMap *mmio;
+    
+	for (UInt32 i = 0; (mmio = card.pdev->mapDeviceMemoryWithIndex(i)); i++) {
 		long unsigned int mmio_base_phys = card.mmio->getPhysicalAddress();
 		// Make sure we  select MMIO registers
-		if (((card.mmio->getLength()) <= 0x00020000) && (mmio_base_phys != 0))
+		if (((mmio->getLength()) <= 0x00020000) && (mmio_base_phys != 0)) {
+            card.mmio = mmio;
 			break;
+        }
 	}
     
 	if (!card.mmio) {

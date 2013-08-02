@@ -499,8 +499,14 @@
             }
         }
         
-        //Temperatures
+        [list sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            NSString *s1 = obj1;
+            NSString *s2 = obj2;
+            
+            return [s1 compare:s2];
+        }];
         
+        //Temperatures
         [self addSensorsFromGroup:kHWSensorGroupTemperature withKeysList:list];
         
         if ((_smartDrives = [ATAGenericDrive discoverDrives])) {
