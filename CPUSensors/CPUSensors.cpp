@@ -174,18 +174,22 @@ inline void read_cpu_energy(void *idx)
 {
     UInt8 *index = (UInt8*)idx;
     
+    double time = ptimer_read_seconds();
     UInt64 energy = rdmsr64(cpu_energy_msrs[*index]);
     
-    if (!energy || energy < cpu_energy_last_value[*index]) return;
-    
-    double time = ptimer_read_seconds();
-    
-    cpu_energy_last_time[*index] = time;
-    cpu_energy_last_value[*index] = energy;
+    if (!energy || energy < cpu_energy_last_value[*index]) {
+        cpu_energy_last_time[*index] = time;
+        cpu_energy_last_value[*index] = energy;
+        return;
+    }
     
     float deltaTime = float(time - cpu_energy_last_time[*index]);
     
-    if (deltaTime < 1 || deltaTime > 30) return;
+    if (deltaTime < 1 || deltaTime > 30) {
+        cpu_energy_last_time[*index] = time;
+        cpu_energy_last_value[*index] = energy;
+        return;
+    }
     
     cpu_energy_delta[*index] = float(energy - cpu_energy_last_value[*index]) / deltaTime;
     
