@@ -55,7 +55,10 @@ IOService * RadeonSensors::probe(IOService *provider, SInt32 *score)
         if (OSIterator *iterator = getMatchingServices(matching)) {
             while (IOService *service = (IOService*)iterator->getNextObject()) {
                 if (IORegistryEntry *parent = service->getParentEntry(gIOServicePlane)) {
-                    acceleratorFound = parent == provider;
+                    if (parent->isEqualTo(provider)) {
+                        acceleratorFound = true;
+                        break;
+                    }
                 }
             }
             

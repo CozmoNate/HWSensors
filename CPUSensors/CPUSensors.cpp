@@ -705,15 +705,19 @@ bool CPUSensors::start(IOService *provider)
                         HWSensorsWarningLog("failed to add CPU package cores power sensor");
                 
                 // Uncore sensor is only available on CPUs with uncore device (built-in GPU)
-                if (cpuid_info()->cpuid_model != CPUID_MODEL_JAKETOWN || cpuid_info()->cpuid_model != CPUID_MODEL_IVYBRIDGE_EP) {
+                if (cpuid_info()->cpuid_model != CPUID_MODEL_JAKETOWN && cpuid_info()->cpuid_model != CPUID_MODEL_IVYBRIDGE_EP) {
                     if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsUncorePowerSensor, 2))
                         HWSensorsWarningLog("failed to add CPU package uncore power sensor");
                 }
                 
-                // TODO: check if DRAM is only available on Ivy Bridge and higher
-                if (cpuid_info()->cpuid_cpufamily != CPUFAMILY_INTEL_SANDYBRIDGE) {
-                    if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsDramPowerSensor, 3))
-                        HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
+                switch (cpuid_info()->cpuid_cpufamily) {
+                    case CPUFAMILY_INTEL_HASWELL:
+                    case CPUFAMILY_INTEL_HASWELL_ULT:
+                        // TODO: check if DRAM availability on other platforms
+                        if (cpuid_info()->cpuid_cpufamily != CPUFAMILY_INTEL_SANDYBRIDGE) {
+                            if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsDramPowerSensor, 3))
+                                HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
+                        }
                 }
             }
             break;

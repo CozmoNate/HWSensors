@@ -57,10 +57,10 @@ UInt8 IT87xxSensors::readByte(UInt8 reg)
 {
 	outb(address + ITE_ADDRESS_REGISTER_OFFSET, reg);
 	
-	UInt8 value = inb(address + ITE_DATA_REGISTER_OFFSET);	
-	__unused UInt8 check = inb(address + ITE_DATA_REGISTER_OFFSET);
+	UInt8 value = inb(address + ITE_DATA_REGISTER_OFFSET);
+	UInt8 check = inb(address + ITE_DATA_REGISTER_OFFSET);
 	
-	return value;
+	return check ? value : 0;
 }
 
 void IT87xxSensors::writeByte(UInt8 reg, UInt8 value)
