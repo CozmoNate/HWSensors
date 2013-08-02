@@ -61,13 +61,12 @@ enum {
     kCPUSensorsPackageThermalSensor        = BIT(1),
     kCPUSensorsCoreMultiplierSensor        = BIT(2),
     kCPUSensorsPackageMultiplierSensor     = BIT(3),
-    kCPUSensorsPackageStateSensor          = BIT(4),
-    kCPUSensorsCoreFrequencySensor         = BIT(5),
-    kCPUSensorsPackageFrequencySensor      = BIT(6),
-    kCPUSensorsTotalPowerSensor            = BIT(7),
-    kCPUSensorsCoresPowerSensor            = BIT(8),
-    kCPUSensorsUncorePowerSensor           = BIT(9),
-    kCPUSensorsDramPowerSensor             = BIT(10),
+    kCPUSensorsCoreFrequencySensor         = BIT(4),
+    kCPUSensorsPackageFrequencySensor      = BIT(5),
+    kCPUSensorsTotalPowerSensor            = BIT(6),
+    kCPUSensorsCoresPowerSensor            = BIT(7),
+    kCPUSensorsUncorePowerSensor           = BIT(8),
+    kCPUSensorsDramPowerSensor             = BIT(9),
 };
 
 #define super FakeSMCPlugin
@@ -292,7 +291,8 @@ IOReturn CPUSensors::woorkloopEvent()
     }
     
     if (bit_get(workloopEventsPending, kCPUSensorsCoreMultiplierSensor)) {
-        mp_rendezvous_no_intrs(read_cpu_state, NULL);
+        if (baseMultiplier > 0) mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
+        if (cpu_ratio[0] <= 1.0) mp_rendezvous_no_intrs(read_cpu_state, NULL);
         bit_clear(workloopEventsPending, kCPUSensorsCoreMultiplierSensor);
         IOSleep(1);
     }
@@ -301,12 +301,6 @@ IOReturn CPUSensors::woorkloopEvent()
         if (baseMultiplier > 0) mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
         if (cpu_ratio[0] <= 1.0) mp_rendezvous_no_intrs(read_cpu_state, NULL);
         bit_clear(workloopEventsPending, kCPUSensorsPackageMultiplierSensor);
-        IOSleep(1);
-    }
-    
-    if (bit_get(workloopEventsPending, kCPUSensorsPackageStateSensor)) {
-        mp_rendezvous_no_intrs(read_cpu_state, NULL);
-        bit_clear(workloopEventsPending, kCPUSensorsPackageStateSensor);
         IOSleep(1);
     }
     
@@ -638,8 +632,6 @@ bool CPUSensors::start(IOService *provider)
     
     // multiplier
     switch (cpuid_info()->cpuid_cpufamily) {
-        case CPUFAMILY_INTEL_NEHALEM:
-        case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
             
@@ -665,6 +657,11 @@ bool CPUSensors::start(IOService *provider)
             
             break;
             
+        case CPUFAMILY_INTEL_NEHALEM:
+        case CPUFAMILY_INTEL_WESTMERE:
+            if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF))
+                HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
+            // fall down to default
         default:
             for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
                 char key[5];
@@ -678,7 +675,7 @@ bool CPUSensors::start(IOService *provider)
                 
                 if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsCoreFrequencySensor, i))
                     HWSensorsWarningLog("failed to add frequency sensor");
-
+                
             }
             break;
     }

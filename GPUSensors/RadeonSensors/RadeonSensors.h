@@ -17,7 +17,7 @@ class RadeonSensors : public FakeSMCPlugin
 	
 private:
     radeon_device           card;
-    int                     probeCounter = 1;
+    int                     probeCounter;
     
 protected:	
     virtual float       getSensorValue(FakeSMCSensor *sensor);

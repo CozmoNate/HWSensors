@@ -42,58 +42,73 @@ float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-
 IOService * RadeonSensors::probe(IOService *provider, SInt32 *score)
 {
 	if (super::probe(provider, score) != this)
 		return 0;
     
-    if (!(probeCounter++ % 10)) {
-        HWSensorsInfoLog("wait for 'ATY,bin_image' property been published...");
+    // early setup 
+    if (probeCounter++ == 0) {
+        if (!(card.pdev = OSDynamicCast(IOPCIDevice, provider)))
+            return false;
+        
+        if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id"))) {
+            card.chip_id = *(UInt32*)data->getBytesNoCopy();
+        }
+        else {
+            HWSensorsFatalLog("device-id property not found");
+            return false;
+        }
+        
+        card.pdev->setMemoryEnable(true);
+        
+        IOMemoryMap *mmio;
+        
+        for (UInt32 i = 0; (mmio = card.pdev->mapDeviceMemoryWithIndex(i)); i++) {
+            long unsigned int mmio_base_phys = card.mmio->getPhysicalAddress();
+            // Make sure we select MMIO registers
+            if (((mmio->getLength()) <= 0x00020000) && (mmio_base_phys != 0)) {
+                card.mmio = mmio;
+                break;
+            }
+        }
+        
+        if (!card.mmio) {
+            HWSensorsInfoLog("failed to map device memory");
+            return false;
+        }
     }
     
-    if (card.pdev->getProperty("ATY,bin_image") || probeCounter == 3) {
-        return this;
+    HWSensorsDebugLog("waiting for IOAccelerator...");
+    
+    bool acceleratorFound = false;
+    
+    if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
+        if (OSIterator *iterator = getMatchingServices(matching)) {
+            while (IOService *service = (IOService*)iterator->getNextObject()) {
+                if (provider == service->getParentEntry(gIOServicePlane)) {
+                    acceleratorFound = true;
+                }
+            }
+            
+            OSSafeRelease(iterator);
+        }
+        
+        OSSafeRelease(matching);
     }
-
-    return 0;
+    
+    if (!acceleratorFound)
+        return 0;
+    
+    return this;
 }
 
 bool RadeonSensors::start(IOService *provider)
 {
     HWSensorsDebugLog("Starting...");
-    
-	if (!super::start(provider))
+
+    if (!provider || !super::start(provider))
         return false;
-    
-    if (!(card.pdev = OSDynamicCast(IOPCIDevice, provider)))
-        return false;
-    
-    if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id"))) {
-        card.chip_id = *(UInt32*)data->getBytesNoCopy();
-    }
-    else {
-        HWSensorsFatalLog("device-id property not found");
-        return false;
-    }
-    
-    card.pdev->setMemoryEnable(true);
-    
-    IOMemoryMap *mmio;
-    
-    for (UInt32 i = 0; (mmio = card.pdev->mapDeviceMemoryWithIndex(i)); i++) {
-        long unsigned int mmio_base_phys = card.mmio->getPhysicalAddress();
-        // Make sure we select MMIO registers
-        if (((mmio->getLength()) <= 0x00020000) && (mmio_base_phys != 0)) {
-            card.mmio = mmio;
-            break;
-        }
-    }
-    
-    if (!card.mmio) {
-        HWSensorsInfoLog("failed to map device memory");
-        return false;
-    }
     
     card.family = CHIP_FAMILY_UNKNOW;
     card.int_thermal_type = THERMAL_TYPE_NONE;
