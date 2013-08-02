@@ -205,6 +205,8 @@ float LPCSensors::readTachometer(UInt32 index)
 
 float LPCSensors::getSensorValue(FakeSMCSensor *sensor)
 {
+    IOSleep(1);
+    
     float value = 0;
     
     if (sensor) {

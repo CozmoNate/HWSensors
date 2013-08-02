@@ -90,22 +90,29 @@ class CPUSensors : public FakeSMCPlugin
     OSDeclareDefaultStructors(CPUSensors)    
     
 private:
+    IOWorkLoop*             workloop;
+    IOTimerEventSource*     timerEventSource;
+    
     UInt8                   tjmax[kCPUSensorsMaxCpus];
     OSData*                 platform;
     UInt64                  busClock;
     float                   multiplier[kCPUSensorsMaxCpus];
-    double                  lastEnergyTime[4];
-    UInt64                  lastEnergyValue[4];
     float                   energyUnits;
     UInt8                   baseMultiplier;
     
 	void                    readTjmaxFromMSR();
     float                   readMultiplier(UInt8 cpu_index);
-    float                   readFrequency(UInt8 cpu_index);
+    
+    UInt16                  workloopEventsPending;
+    IOReturn                woorkloopEvent(void);
+    
+    virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
     
 protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
 public:
     virtual bool			start(IOService *provider);
+    virtual void            stop(IOService* provider);
+    virtual void			free(void);
 };
