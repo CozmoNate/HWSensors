@@ -1511,6 +1511,8 @@
 						<key>VIN8</key>
 						<string>CMOS Battery</string>
 					</dict>
+					<key>EP45-DS3L</key>
+					<string>X38-DS5</string>
 					<key>EP45-DS3R</key>
 					<string>X38-DS5</string>
 					<key>EP45-DS4</key>

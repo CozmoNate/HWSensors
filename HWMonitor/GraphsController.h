@@ -44,6 +44,7 @@
 @property (nonatomic, assign) BOOL useSmoothing;
 @property (nonatomic, assign) BOOL backgroundMonitoring;
 @property (nonatomic, assign) BOOL isTopmost;
+@property (nonatomic, assign) float graphsScale;
 
 @property (readonly) NSArray *colorsList;
 

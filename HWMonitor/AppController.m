@@ -532,21 +532,27 @@
     _smartSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];
 }
 
-- (IBAction)toggleGraphSmoothing:(id)sender
+- (void)toggleGraphSmoothing:(id)sender
 {
     [_graphsController setUseSmoothing:[sender state] == NSOnState];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
--(IBAction)graphsBackgroundMonitorChanged:(id)sender
+-(void)graphsBackgroundMonitorChanged:(id)sender
 {
     [_graphsController setBackgroundMonitoring:[sender state]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
--(IBAction)graphsWindowTopmostChanged:(id)sender
+-(void)graphsWindowTopmostChanged:(id)sender
 {
     [_graphsController setIsTopmost:[sender state]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(void)graphsScaleChangedChanged:(id)sender
+{
+    [_graphsController setGraphsScale:[sender floatValue]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

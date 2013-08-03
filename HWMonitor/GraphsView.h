@@ -47,6 +47,7 @@
 
 @property (nonatomic, assign) BOOL useFahrenheit;
 @property (nonatomic, assign) BOOL useSmoothing;
+@property (nonatomic, assign) float graphScale;
 @property (nonatomic, assign) HWSensorGroup sensorGroup;
 
 - (NSArray*)addItemsFromList:(NSArray*)itemsList forSensorGroup:(HWSensorGroup)sensorsGroup;

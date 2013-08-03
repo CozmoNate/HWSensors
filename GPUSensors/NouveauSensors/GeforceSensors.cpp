@@ -53,8 +53,6 @@ OSDefineMetaClassAndStructors(GeforceSensors, FakeSMCPlugin)
 
 float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
 {
-    IOSleep(1);
-    
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor: {
             switch (sensor->getIndex()) {

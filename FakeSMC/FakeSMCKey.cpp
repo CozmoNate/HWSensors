@@ -112,11 +112,14 @@ UInt8 FakeSMCKey::getSize() const { return size; };
 void *FakeSMCKey::getValue() 
 { 
 	if (handler) {
-        if (ptimer_read() - lastUpdated >= NSEC_PER_SEC) {
+        
+        double time = ptimer_read_seconds();
+        
+        if (time - lastUpdated >= 1.0) {
             IOReturn result = handler->callPlatformFunction(kFakeSMCGetValueCallback, true, (void *)key, (void *)value, (void *)size, 0);
             
             if (kIOReturnSuccess == result)
-                lastUpdated = ptimer_read();
+                lastUpdated = time;
             else 
                 HWSensorsWarningLog("value update request callback returned error for key %s, return 0x%x", key, result);
         }

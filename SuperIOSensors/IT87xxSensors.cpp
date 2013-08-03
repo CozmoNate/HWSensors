@@ -56,11 +56,7 @@ OSDefineMetaClassAndStructors(IT87xxSensors, LPCSensors)
 UInt8 IT87xxSensors::readByte(UInt8 reg)
 {
 	outb(address + ITE_ADDRESS_REGISTER_OFFSET, reg);
-	
-	UInt8 value = inb(address + ITE_DATA_REGISTER_OFFSET);
-	UInt8 check = inb(address + ITE_DATA_REGISTER_OFFSET);
-	
-	return check ? value : 0;
+	return inb(address + ITE_DATA_REGISTER_OFFSET);
 }
 
 void IT87xxSensors::writeByte(UInt8 reg, UInt8 value)
@@ -97,7 +93,8 @@ float IT87xxSensors::readTemperature(UInt32 index)
 
 float IT87xxSensors::readVoltage(UInt32 index)
 {
-    return (float)readByte(ITE_VOLTAGE_BASE_REG + index) * voltageGain;
+    UInt8 v = readByte(ITE_VOLTAGE_BASE_REG + index);
+    return (float)v * voltageGain;
 }
 
 float IT87xxSensors::readTachometer(UInt32 index)

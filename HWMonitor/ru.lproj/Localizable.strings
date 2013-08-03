@@ -88,6 +88,7 @@
 "Dark" = "Темная";
 "Continue monitor sensors in background" = "Продолжать собирать данные в фоновом режиме";
 "Graphs window always topmost" = "Окно графиков всегда поверх остальных окон";
+"Graphs scale factor:" = "Масштаб отображения по времени:";
 "Check for updates" = "Проверять наличие обновлений";
 "Attach to Menu Bar" = "Закрепить в системном меню";
 "Detach from Menu Bar" = "Отсоеденить панель сенсоров";

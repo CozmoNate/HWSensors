@@ -44,34 +44,51 @@
 
 -(void)setUseFahrenheit:(BOOL)useFahrenheit
 {
-    _useFahrenheit = useFahrenheit;
-    
-    [_graphsTableView reloadData];
-    
-    for (GraphsView *graphView in _graphViews) {
-        [graphView setUseFahrenheit:useFahrenheit];
+    if (useFahrenheit != _useFahrenheit) {
+        _useFahrenheit = useFahrenheit;
+        
+        [_graphsTableView reloadData];
+        
+        for (GraphsView *graphView in _graphViews) {
+            [graphView setUseFahrenheit:useFahrenheit];
+        }
     }
 }
 
 -(void)setUseSmoothing:(BOOL)useSmoothing
 {
-    _useSmoothing = useSmoothing;
-    
-    for (GraphsView *graphView in _graphViews) {
-        [graphView setUseSmoothing:useSmoothing];
-        [graphView setNeedsDisplay:YES];
+    if (useSmoothing != _useSmoothing) {
+        _useSmoothing = useSmoothing;
+        
+        for (GraphsView *graphView in _graphViews) {
+            [graphView setUseSmoothing:useSmoothing];
+            [graphView setNeedsDisplay:YES];
+        }
     }
 }
 
 -(void)setIsTopmost:(BOOL)isTopmost
 {
-    _isTopmost = isTopmost;
-    
-    if (isTopmost) {
-        [self.window setLevel:NSFloatingWindowLevel];
+    if (isTopmost != _isTopmost) {
+        _isTopmost = isTopmost;
+        
+        if (isTopmost) {
+            [self.window setLevel:NSFloatingWindowLevel];
+        }
+        else {
+            [self.window setLevel:NSNormalWindowLevel];
+        }
     }
-    else {
-        [self.window setLevel:NSNormalWindowLevel];
+}
+
+-(void)setGraphsScale:(float)graphsScale
+{
+    if (graphsScale != _graphsScale) {
+        _graphsScale = graphsScale;
+        
+        for (GraphsView *graphView in _graphViews) {
+            [graphView setGraphScale:_graphsScale];
+        }
     }
 }
 

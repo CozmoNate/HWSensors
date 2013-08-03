@@ -26,8 +26,6 @@ OSDefineMetaClassAndStructors(RadeonSensors, FakeSMCPlugin)
 
 float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
 {
-    IOSleep(1);
-    
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
             return card.get_core_temp(&card);

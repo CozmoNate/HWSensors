@@ -32,7 +32,7 @@
 
 @implementation GraphsView
 
-#define GraphScale          6.0
+//#define GraphScale          4.0
 
 #define LeftViewMargin      5
 #define TopViewMargin       5
@@ -57,6 +57,8 @@
                              nil];
         
         _legendFormat = @"%1.0f";
+        
+        _graphScale = 5.0;
     }
     
     return self;
@@ -158,7 +160,7 @@
         }
     }
 
-    _maxPoints = self.window.windowNumber > 0 ? self.bounds.size.width / GraphScale : 100;
+    _maxPoints = self.window.windowNumber > 0 ? self.bounds.size.width / _graphScale : 100;
     
     if ((_maxY == 0 && _minY == MAXFLOAT)) {
         _graphBounds = NSMakeRect(0, 0, _maxPoints, 100);
@@ -168,8 +170,8 @@
     }
     else {
 
-        double minY = _minY <= 0 ? _minY : _minY - _minY * 0.05;
-        double maxY = _maxY + _maxY * 0.05;
+        double minY = _minY <= 0 ? _minY : _minY - _minY * 0.25;
+        double maxY = _maxY + _maxY * 0.1;
         
         _graphBounds = NSMakeRect(0, minY, _maxPoints, maxY - minY);
     }
@@ -177,7 +179,7 @@
 
 - (NSPoint)graphPointToView:(NSPoint)point
 {
-    double graphScaleX = GraphScale; //([self bounds].size.width - LeftViewMargin - RightViewMargin) / _graphBounds.size.width;
+    double graphScaleX = _graphScale; //([self bounds].size.width - LeftViewMargin - RightViewMargin) / _graphBounds.size.width;
     double graphScaleY = ([self bounds].size.height - TopViewMargin - BottomViewMargin) / _graphBounds.size.height;
 
     double x = LeftViewMargin + (point.x - _graphBounds.origin.x) * graphScaleX;
