@@ -43,7 +43,7 @@ float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
 bool RadeonSensors::activate()
 {
     if (card.pdev->setMemoryEnable(true))
-        HWSensorsWarningLog("memory space response was previously enabled");
+        radeon_info(&card, "memory space response was previously enabled");
     
     IOMemoryMap *mmio;
     
