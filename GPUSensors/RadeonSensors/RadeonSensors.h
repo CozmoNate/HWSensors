@@ -17,13 +17,18 @@ class RadeonSensors : public FakeSMCPlugin
 	
 private:
     radeon_device           card;
+    
+    IOWorkLoop*             workloop;
+    IOTimerEventSource*     timerEventSource;
     int                     probeCounter;
+    
+    IOReturn                probeEvent();
+    bool                    activate();
     
 protected:	
     virtual float       getSensorValue(FakeSMCSensor *sensor);
     
 public:
-    virtual IOService   *probe(IOService *provider, SInt32 *score);
     virtual bool        start(IOService *provider);
     virtual void		stop(IOService *provider);
 };

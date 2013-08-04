@@ -40,73 +40,26 @@ float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-IOService * RadeonSensors::probe(IOService *provider, SInt32 *score)
+bool RadeonSensors::activate()
 {
-	if (super::probe(provider, score) != this)
-		return 0;
+    if (card.pdev->setMemoryEnable(true))
+        HWSensorsWarningLog("memory space response was previously enabled");
     
-    // early setup 
-    if (probeCounter++ == 0) {
-        if (!(card.pdev = OSDynamicCast(IOPCIDevice, provider)))
-            return false;
-        
-        if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id"))) {
-            card.chip_id = *(UInt32*)data->getBytesNoCopy();
-        }
-        else {
-            HWSensorsFatalLog("device-id property not found");
-            return false;
-        }
-        
-        card.pdev->setMemoryEnable(true);
-        
-        IOMemoryMap *mmio;
-        
-        for (UInt32 i = 0; (mmio = card.pdev->mapDeviceMemoryWithIndex(i)); i++) {
-            long unsigned int mmio_base_phys = card.mmio->getPhysicalAddress();
-            // Make sure we select MMIO registers
-            if (((mmio->getLength()) <= 0x00020000) && (mmio_base_phys != 0)) {
-                card.mmio = mmio;
-                break;
-            }
-        }
-        
-        if (!card.mmio) {
-            HWSensorsInfoLog("failed to map device memory");
-            return false;
+    IOMemoryMap *mmio;
+    
+    for (UInt32 i = 0; (mmio = card.pdev->mapDeviceMemoryWithIndex(i)); i++) {
+        long unsigned int mmio_base_phys = mmio->getPhysicalAddress();
+        // Make sure we select MMIO registers
+        if (((mmio->getLength()) <= 0x00020000) && (mmio_base_phys != 0)) {
+            card.mmio = mmio;
+            break;
         }
     }
     
-    HWSensorsDebugLog("waiting for IOAccelerator...");
-    
-    bool acceleratorFound = false;
-    
-    if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
-        if (OSIterator *iterator = getMatchingServices(matching)) {
-            while (IOService *service = (IOService*)iterator->getNextObject()) {
-                if (provider == service->getParentEntry(gIOServicePlane)) {
-                    acceleratorFound = true;
-                }
-            }
-            
-            OSSafeRelease(iterator);
-        }
-        
-        OSSafeRelease(matching);
-    }
-    
-    if (!acceleratorFound)
-        return 0;
-    
-    return this;
-}
-
-bool RadeonSensors::start(IOService *provider)
-{
-    HWSensorsDebugLog("Starting...");
-
-    if (!provider || !super::start(provider))
+    if (!card.mmio) {
+        HWSensorsInfoLog("failed to map device memory");
         return false;
+    }
     
     card.family = CHIP_FAMILY_UNKNOW;
     card.int_thermal_type = THERMAL_TYPE_NONE;
@@ -339,8 +292,97 @@ bool RadeonSensors::start(IOService *provider)
     return true;
 }
 
+
+IOReturn RadeonSensors::probeEvent()
+{
+    //HWSensorsInfoLog("waiting for IOAccelerator...");
+
+    bool acceleratorFound = false;
+
+    if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
+        if (OSIterator *iterator = getMatchingServices(matching)) {
+            while (IOService *service = (IOService*)iterator->getNextObject()) {
+                if (card.pdev == service->getParentEntry(gIOServicePlane)) {
+                    acceleratorFound = true;
+                    break;
+                }
+            }
+
+            OSSafeRelease(iterator);
+        }
+
+        OSSafeRelease(matching);
+    }
+    
+    if (acceleratorFound || probeCounter++ == 14) {
+        if (timerEventSource) {
+            timerEventSource->cancelTimeout();
+            workloop->removeEventSource(timerEventSource);
+            timerEventSource = NULL;
+        }
+        
+        activate();
+        
+    }
+    else {
+        if (probeCounter > 0 && !(probeCounter % 5))
+            radeon_info(&card, "still waiting for IOAccelerator to start...");
+        
+        timerEventSource->setTimeoutMS(1000);
+    }
+    
+    return kIOReturnSuccess;
+}
+
+bool RadeonSensors::start(IOService *provider)
+{
+    HWSensorsDebugLog("Starting...");
+
+    if (!provider || !super::start(provider))
+        return false;
+    
+    if (!(card.pdev = OSDynamicCast(IOPCIDevice, provider))) {
+        HWSensorsFatalLog("no PCI device");
+        return false;
+    }
+
+    if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id"))) {
+        card.chip_id = *(UInt32*)data->getBytesNoCopy();
+    }
+    else {
+        radeon_fatal(&card, "device-id property not found");
+        return false;
+    }
+    
+    if (!(workloop = getWorkLoop())) {
+        radeon_fatal(&card, "failed to obtain workloop");
+        return false;
+    }
+    
+    if (!(timerEventSource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &RadeonSensors::probeEvent)))) {
+        radeon_fatal(&card, "failed to initialize timer event source");
+        return false;
+    }
+    
+    if (kIOReturnSuccess != workloop->addEventSource(timerEventSource))
+    {
+        radeon_fatal(&card, "failed to add timer event source into workloop");
+        return false;
+    }
+    
+    timerEventSource->setTimeoutMS(500);
+    
+    return true;
+}
+
 void RadeonSensors::stop(IOService *provider)
 {
+    if (timerEventSource) {
+        timerEventSource->cancelTimeout();
+        workloop->removeEventSource(timerEventSource);
+        timerEventSource = NULL;
+    }
+    
     if (card.mmio)
         OSSafeRelease(card.mmio);
     

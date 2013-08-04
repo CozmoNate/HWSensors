@@ -170,7 +170,7 @@
     }
     else {
 
-        double minY = _minY <= 0 ? _minY : _minY - _minY * 0.25;
+        double minY = _minY <= 0 ? _minY : _minY - _minY * 0.2;
         double maxY = _maxY + _maxY * 0.1;
         
         _graphBounds = NSMakeRect(0, minY, _maxPoints, maxY - minY);

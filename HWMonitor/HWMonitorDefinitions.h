@@ -28,6 +28,7 @@
 #define kHWMonitorSkippedAppVersion         @"skippedAppVersion"
 #define kHWMonitorDontCheckUpdates          @"dontCheckForUpdates"
 #define kHWMonitorItemIndex                 @"itemIndex"
+#define kHWMonitorGraphsScale               @"graphsScale"
 
 // Icons
 #define kHWMonitorIconDefault               @"hwmonitor"
