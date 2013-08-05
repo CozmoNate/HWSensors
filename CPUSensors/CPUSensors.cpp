@@ -312,10 +312,20 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
                 bit_set(workloopEventsPending, kCPUSensorsCoreMultiplierSensor);
             }
             cpu_state_updated[index] = false;
-            {
-                UInt8 fid = (cpu_state[0] >> 8) & 0xFF;
-                multiplier[index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
-            }
+                switch (cpuid_info()->cpuid_cpufamily) {
+                    case CPUFAMILY_INTEL_NEHALEM:
+                    case CPUFAMILY_INTEL_WESTMERE:
+                        if (baseMultiplier > 0 && cpu_ratio[0] > 1.0)
+                            multiplier[index] = ROUND(cpu_ratio[0] * (float)baseMultiplier);
+                        else
+                            multiplier[index] = (float)(cpu_state[0] & 0xFF);
+                        break;
+                    default: {
+                        UInt8 fid = (cpu_state[0] >> 8) & 0xFF;
+                        multiplier[index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
+                        break;
+                    }
+                }
             return multiplier[index];
             
         case kCPUSensorsPackageMultiplierSensor:

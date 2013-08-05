@@ -43,7 +43,7 @@ float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
 bool RadeonSensors::activate()
 {
     if (card.pdev->setMemoryEnable(true))
-        radeon_info(&card, "memory space response was previously enabled");
+        radeon_info(&card, "memory space response was previously enabled\n");
     
     IOMemoryMap *mmio;
     
@@ -261,9 +261,10 @@ bool RadeonSensors::activate()
                 radeon_info(&card, "adding Sumo thermal sensor\n");
                 break;
             case THERMAL_TYPE_SI:
-                card.get_core_temp = si_get_temp;
-                radeon_info(&card, "adding Southern Islands thermal sensor\n");
-                break;
+                radeon_fatal(&card, "Southern Islands thermal sensor monitoring is unsupported under OS X\n");
+                //card.get_core_temp = si_get_temp;
+                //radeon_info(&card, "adding Southern Islands thermal sensor\n");
+                //break;
             default:
                 radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);
                 releaseGPUIndex(card.card_index);
