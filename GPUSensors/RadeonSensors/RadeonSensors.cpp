@@ -177,7 +177,9 @@ bool RadeonSensors::activate()
         }
         else if (!strncasecmp("CAPE VERDE", card.bios_name, 64) ||
                  !strncasecmp("PITCAIRN", card.bios_name, 64) ||
-                 !strncasecmp("TAHITI", card.bios_name, 64)) {
+                 !strncasecmp("TAHITI", card.bios_name, 64) ||
+                 !strncasecmp("OLAND", card.bios_name, 64) ||
+                 !strncasecmp("HAINAN", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_SI;
         }
     }
@@ -231,6 +233,8 @@ bool RadeonSensors::activate()
             case CHIP_FAMILY_TAHITI:
             case CHIP_FAMILY_PITCAIRN:
             case CHIP_FAMILY_VERDE:
+            case CHIP_FAMILY_OLAND:
+            case CHIP_FAMILY_HAINAN:    
                 card.int_thermal_type = THERMAL_TYPE_SI;
                 break;
                 

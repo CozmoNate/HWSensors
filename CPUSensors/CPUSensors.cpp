@@ -308,47 +308,33 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
             return float(tjmax[0] - cpu_thermal_package);
             
         case kCPUSensorsCoreMultiplierSensor:
+        case kCPUSensorsPackageMultiplierSensor:
             if (!cpu_state_updated[index]) {
-                bit_set(workloopEventsPending, kCPUSensorsCoreMultiplierSensor);
+                bit_set(workloopEventsPending, sensor->getGroup());
             }
             cpu_state_updated[index] = false;
-                switch (cpuid_info()->cpuid_cpufamily) {
-                    case CPUFAMILY_INTEL_NEHALEM:
-                    case CPUFAMILY_INTEL_WESTMERE:
-                        if (baseMultiplier > 0 && cpu_ratio[0] > 1.0)
-                            multiplier[index] = ROUND(cpu_ratio[0] * (float)baseMultiplier);
-                        else
-                            multiplier[index] = (float)(cpu_state[0] & 0xFF);
-                        break;
-                    default: {
-                        UInt8 fid = (cpu_state[0] >> 8) & 0xFF;
-                        multiplier[index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
-                        break;
-                    }
-                }
-            return multiplier[index];
-            
-        case kCPUSensorsPackageMultiplierSensor:
-            bit_set(workloopEventsPending, kCPUSensorsPackageMultiplierSensor);
-            
             switch (cpuid_info()->cpuid_cpufamily) {
                 case CPUFAMILY_INTEL_NEHALEM:
                 case CPUFAMILY_INTEL_WESTMERE:
-                    if (baseMultiplier > 0 && cpu_ratio[0] > 1.0)
-                        multiplier[index] = ROUND(cpu_ratio[0] * (float)baseMultiplier);
+                    if (baseMultiplier > 0 && cpu_ratio[index] > 1.0)
+                        multiplier[index] = ROUND(cpu_ratio[index] * (float)baseMultiplier);
                     else
-                        multiplier[index] = (float)(cpu_state[0] & 0xFF);
+                        multiplier[index] = (float)(cpu_state[index] & 0xFF);
                     break;
-                    
                 case CPUFAMILY_INTEL_SANDYBRIDGE:
                 case CPUFAMILY_INTEL_IVYBRIDGE:
                 case CPUFAMILY_INTEL_HASWELL:
                 case CPUFAMILY_INTEL_HASWELL_ULT:
-                    if (baseMultiplier > 0 && cpu_ratio[0] > 1.0)
-                        multiplier[index] = ROUND(cpu_ratio[0] * (float)baseMultiplier);
+                    if (baseMultiplier > 0 && cpu_ratio[index] > 1.0)
+                        multiplier[index] = ROUND(cpu_ratio[index] * (float)baseMultiplier);
                     else
-                        multiplier[index] = (float)((cpu_state[0] >> 8) & 0xFF);
+                        multiplier[index] = (float)((cpu_state[index] >> 8) & 0xFF);
                     break;
+                default: {
+                    UInt8 fid = (cpu_state[0] >> 8) & 0xFF;
+                    multiplier[index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
+                    break;
+                }
             }
             return multiplier[index];
             
@@ -387,15 +373,18 @@ IOReturn CPUSensors::woorkloopEvent()
     }
     
     if (bit_get(workloopEventsPending, kCPUSensorsCoreMultiplierSensor)) {
-        if (baseMultiplier > 0) mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
-        if (cpu_ratio[0] <= 1.0) mp_rendezvous_no_intrs(read_cpu_state, NULL);
+        if (baseMultiplier > 0)
+            mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
+        mp_rendezvous_no_intrs(read_cpu_state, NULL);
         bit_clear(workloopEventsPending, kCPUSensorsCoreMultiplierSensor);
         //IOSleep(5);
     }
     
     if (bit_get(workloopEventsPending, kCPUSensorsPackageMultiplierSensor)) {
-        if (baseMultiplier > 0) mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
-        if (cpu_ratio[0] <= 1.0) mp_rendezvous_no_intrs(read_cpu_state, NULL);
+        if (baseMultiplier > 0)
+            mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
+        if (cpu_ratio[0] <= 1.0)
+            mp_rendezvous_no_intrs(read_cpu_state, NULL);
         bit_clear(workloopEventsPending, kCPUSensorsPackageMultiplierSensor);
         //IOSleep(5);
     }
