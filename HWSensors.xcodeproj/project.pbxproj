@@ -66,6 +66,7 @@
 		7EB13667169C288000B42023 /* radeon_atombios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB13665169C288000B42023 /* radeon_atombios.cpp */; };
 		7EB1366C169C2CE800B42023 /* atom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB1366A169C2CE700B42023 /* atom.cpp */; };
 		7EB73CFA1791BCBC007D93D4 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */; };
+		7EBEB1DB17B1754D00C114B5 /* GPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEB1D917B1754D00C114B5 /* GPUSensors.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -206,6 +207,8 @@
 		7EB7E70017833A290071B3F0 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.pch; sourceTree = "<group>"; };
 		7EB7E70117833ACE0071B3F0 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		7EBCF8791615A84C00E16D3B /* timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
+		7EBEB1D917B1754D00C114B5 /* GPUSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GPUSensors.cpp; sourceTree = "<group>"; };
+		7EBEB1DA17B1754D00C114B5 /* GPUSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUSensors.h; sourceTree = "<group>"; };
 		7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PTIDSensors.cpp; sourceTree = "<group>"; };
 		7EBEC2A215E78B7B00537027 /* PTIDSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTIDSensors.h; sourceTree = "<group>"; };
 		7EFAE8FF16EBC8AD00F4DA72 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -617,6 +620,7 @@
 		7EADE20815E5602F00FD117C /* GPUSensors */ = {
 			isa = PBXGroup;
 			children = (
+				7EBEB1D817B1753E00C114B5 /* GPUSensors */,
 				7E9F54BF167C71DF006E907B /* GMASensors */,
 				7E9F5456167C71D9006E907B /* GeForceSensors */,
 				7E9F544B167C71D1006E907B /* RadeonSensors */,
@@ -660,6 +664,15 @@
 				7EB7E70117833ACE0071B3F0 /* version.h */,
 			);
 			name = Versioning;
+			sourceTree = "<group>";
+		};
+		7EBEB1D817B1753E00C114B5 /* GPUSensors */ = {
+			isa = PBXGroup;
+			children = (
+				7EBEB1DA17B1754D00C114B5 /* GPUSensors.h */,
+				7EBEB1D917B1754D00C114B5 /* GPUSensors.cpp */,
+			);
+			name = GPUSensors;
 			sourceTree = "<group>";
 		};
 		7EF31BB716207C6B00E9B055 /* Kernel */ = {
@@ -923,6 +936,7 @@
 				7EB1366C169C2CE800B42023 /* atom.cpp in Sources */,
 				7E17E171169C532100E40FC7 /* si.cpp in Sources */,
 				7E148DDA16F7B5E800A3F28E /* nv84.cpp in Sources */,
+				7EBEB1DB17B1754D00C114B5 /* GPUSensors.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

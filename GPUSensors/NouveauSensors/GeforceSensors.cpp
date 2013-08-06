@@ -48,8 +48,8 @@ enum nouveau_fan_source {
     nouveau_fan_pwm        = 1
 };
 
-#define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(GeforceSensors, FakeSMCPlugin)
+#define super GPUSensors
+OSDefineMetaClassAndStructors(GeforceSensors, GPUSensors)
 
 float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
 {
@@ -89,82 +89,19 @@ float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-bool GeforceSensors::start(IOService *provider)
+bool GeforceSensors::managedStart(IOService *provider)
 {
-	HWSensorsDebugLog("Starting...");
-	
-	if (!super::start(provider))
-        return false;
-        
     struct nouveau_device *device = &card;
     
-    // map device memory
-    if ((device->pcidev = (IOPCIDevice*)provider)) {
-        
-        device->pcidev->setMemoryEnable(true);
-        
-        if ((device->mmio = device->pcidev->mapDeviceMemoryWithIndex(0))) {
-            nv_debug(device, "memory mapped successfully\n");
-        }
-        else {
-            HWSensorsFatalLog("failed to map memory");
-            return false;
-        }
-    }
-    else {
-        HWSensorsFatalLog("failed to assign PCI device");
-        return false;
-    }
-    
-    card.card_index = -1;
-
-    if (OSData *multiboard_capable = OSDynamicCast(OSData, provider->getProperty("rm_multiboard_capable"))) {
-        if (0x1 == *((UInt32*)multiboard_capable->getBytesNoCopy())) {
-            if (OSData *board_number = OSDynamicCast(OSData, provider->getProperty("rm_board_number"))) {
-                UInt8 index = *((UInt32*)board_number->getBytesNoCopy());
-                card.card_index = takeGPUIndex(index);
-            }
-        }
-    }
-    
-    if (card.card_index < 0)
-        card.card_index = takeVacantGPUIndex();
-    
-    if (card.card_index < 0) {
-        HWSensorsFatalLog("failed to take vacant GPU index");
-        return false;
-    }
-    
-    // identify chipset
-    if (!nouveau_identify(device)) {
-        releaseGPUIndex(card.card_index);
-        return false;
-    }
-    
-    // shadow and parse bios
-    
-    //try to load bios from registry first from "vbios" property created by Chameleon boolloader
-    if (OSData *vbios = OSDynamicCast(OSData, provider->getProperty("vbios"))) {
-        device->bios.size = vbios->getLength();
-        device->bios.data = (u8*)IOMalloc(card.bios.size);
-        memcpy(device->bios.data, vbios->getBytesNoCopy(), device->bios.size);
-    }
-    
-    if (!device->bios.data || !device->bios.size || nouveau_bios_score(device, true) < 1)
-        if (!nouveau_bios_shadow(device)) {
-            if (device->bios.data && device->bios.size) {
-                IOFree(card.bios.data, card.bios.size);
-                device->bios.data = NULL;
-                device->bios.size = 0;
-            }
-            
-            nv_fatal(device, "unable to shadow VBIOS\n");
-            
-            releaseGPUIndex(card.card_index);
-            card.card_index = -1;
-            
-            return false;
-        }
+    //    if (OSData *multiboard_capable = OSDynamicCast(OSData, provider->getProperty("rm_multiboard_capable"))) {
+    //        if (*((UInt32*)multiboard_capable->getBytesNoCopy())) {
+    //            if (OSData *board_number = OSDynamicCast(OSData, provider->getProperty("rm_board_number"))) {
+    //                UInt32 index = *((UInt32*)board_number->getBytesNoCopy());
+    //                card.card_index = takeGPUIndex((UInt8)index);
+    //                HWSensorsInfoLog("accepted rm_board_number: %d", card.card_index);
+    //            }
+    //        }
+    //    }
     
     nouveau_vbios_init(device);
     nouveau_bios_parse(device);
@@ -218,7 +155,7 @@ bool GeforceSensors::start(IOService *provider)
     }
     
     int arg_value = 1;
-
+    
     if (card.clocks_get && !PE_parse_boot_argn("-gpusensors-no-clocks", &arg_value, sizeof(arg_value))) {
         nv_debug(device, "registering clocks sensors...\n");
         
@@ -227,10 +164,10 @@ bool GeforceSensors::start(IOService *provider)
             addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_core);
         }
         
-//        if (card.clocks_get(&card, nouveau_clock_shader) > 0) {
-//            snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY, card.card_index);
-//            addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_shader);
-//        }
+        //        if (card.clocks_get(&card, nouveau_clock_shader) > 0) {
+        //            snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_SHADER_FREQUENCY, card.card_index);
+        //            addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_shader);
+        //        }
         
         if (card.clocks_get(&card, nouveau_clock_rop) > 0) {
             snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY, card.card_index);
@@ -245,7 +182,7 @@ bool GeforceSensors::start(IOService *provider)
     
     if (card.fan_pwm_get || card.fan_rpm_get) {
         nv_debug(device, "registering PWM sensors...\n");
-
+        
         char title[DIAG_FUNCTION_STR_LEN];
         snprintf (title, DIAG_FUNCTION_STR_LEN, "GPU %X", card.card_index + 1);
         
@@ -265,6 +202,87 @@ bool GeforceSensors::start(IOService *provider)
     registerService();
     
     nv_info(device, "started\n");
+    
+    return true;
+}
+
+void GeforceSensors::onAcceleratorFound(IOService *provider)
+{    
+    managedStart(provider);
+}
+
+void GeforceSensors::onTimeoutExceeded(IOService *provider)
+{
+    managedStart(provider);
+}
+
+bool GeforceSensors::start(IOService *provider)
+{
+	HWSensorsDebugLog("Starting...");
+	
+	if (!super::start(provider))
+        return false;
+        
+    struct nouveau_device *device = &card;
+    
+    card.card_index = pciDevice->getBusNumber() - 1;
+    
+    if (!takeGPUIndex(card.card_index)) {
+        if ((card.card_index = takeVacantGPUIndex()) < 0) {
+            nv_fatal(device, "failed to take vacant GPU index\n");
+            return false;
+        }
+    }
+    
+    // map device memory
+    if ((device->pcidev = (IOPCIDevice*)provider)) {
+        
+        device->pcidev->setMemoryEnable(true);
+        
+        if ((device->mmio = device->pcidev->mapDeviceMemoryWithIndex(0))) {
+            nv_debug(device, "memory mapped successfully\n");
+        }
+        else {
+            HWSensorsFatalLog("failed to map memory");
+            return false;
+        }
+    }
+    else {
+        HWSensorsFatalLog("failed to assign PCI device");
+        return false;
+    }
+    
+    // identify chipset
+    if (!nouveau_identify(device)) {
+        return false;
+    }
+    
+    //try to load bios from registry first from "vbios" property created by Chameleon boolloader
+    if (OSData *vbios = OSDynamicCast(OSData, provider->getProperty("vbios"))) {
+        device->bios.size = vbios->getLength();
+        device->bios.data = (u8*)IOMalloc(card.bios.size);
+        memcpy(device->bios.data, vbios->getBytesNoCopy(), device->bios.size);
+    }
+    
+    if (!device->bios.data || !device->bios.size || nouveau_bios_score(device, true) < 1) {
+        if (nouveau_bios_shadow(device)) {
+            nv_info(device, "early shadow VBIOS succeeded\n");
+        }
+        else {
+            if (device->bios.data && device->bios.size) {
+                IOFree(card.bios.data, card.bios.size);
+                device->bios.data = NULL;
+                device->bios.size = 0;
+            }
+            
+            nv_fatal(device, "unable to shadow VBIOS\n");
+            
+            releaseGPUIndex(card.card_index);
+            card.card_index = -1;
+            
+            return false;
+        }
+    }
     
     return true;
 }

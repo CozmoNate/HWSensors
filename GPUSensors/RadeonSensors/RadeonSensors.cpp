@@ -19,10 +19,8 @@
 #include "si.h"
 #include "evergreen.h"
 
-#include <IOKit/IOTimerEventSource.h>
-
-#define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(RadeonSensors, FakeSMCPlugin)
+#define super GPUSensors
+OSDefineMetaClassAndStructors(RadeonSensors, GPUSensors)
 
 float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
 {
@@ -40,7 +38,7 @@ float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-bool RadeonSensors::activate()
+bool RadeonSensors::managedStart(IOService *provider)
 {
     if (card.pdev->setMemoryEnable(true))
         radeon_info(&card, "memory space response was previously enabled\n");
@@ -63,13 +61,6 @@ bool RadeonSensors::activate()
     
     card.family = CHIP_FAMILY_UNKNOW;
     card.int_thermal_type = THERMAL_TYPE_NONE;
-    
-    card.card_index = takeVacantGPUIndex();
-    
-    if (card.card_index < 0) {
-        radeon_fatal(&card, "failed to obtain vacant GPU index\n");
-        return false;
-    }
     
     RADEONCardInfo *devices = RADEONCards;
     
@@ -297,58 +288,35 @@ bool RadeonSensors::activate()
     return true;
 }
 
-
-IOReturn RadeonSensors::probeEvent()
+void RadeonSensors::onAcceleratorFound(IOService *provider)
 {
-    //HWSensorsInfoLog("waiting for IOAccelerator...");
+    managedStart(provider);
+}
 
-    bool acceleratorFound = false;
-
-    if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
-        if (OSIterator *iterator = getMatchingServices(matching)) {
-            while (IOService *service = (IOService*)iterator->getNextObject()) {
-                if (card.pdev == service->getParentEntry(gIOServicePlane)) {
-                    acceleratorFound = true;
-                    break;
-                }
-            }
-
-            OSSafeRelease(iterator);
-        }
-
-        OSSafeRelease(matching);
-    }
-    
-    if (acceleratorFound || probeCounter++ == 14) {
-        if (timerEventSource) {
-            timerEventSource->cancelTimeout();
-            workloop->removeEventSource(timerEventSource);
-            timerEventSource = NULL;
-        }
-        
-        activate();
-        
-    }
-    else {
-        if (probeCounter > 0 && !(probeCounter % 5))
-            radeon_info(&card, "still waiting for IOAccelerator to start...");
-        
-        timerEventSource->setTimeoutMS(1000);
-    }
-    
-    return kIOReturnSuccess;
+void RadeonSensors::onTimeoutExceeded(IOService *provider)
+{
+    managedStart(provider);
 }
 
 bool RadeonSensors::start(IOService *provider)
 {
     HWSensorsDebugLog("Starting...");
 
-    if (!provider || !super::start(provider))
+    if (!super::start(provider))
         return false;
     
     if (!(card.pdev = OSDynamicCast(IOPCIDevice, provider))) {
         HWSensorsFatalLog("no PCI device");
         return false;
+    }
+    
+    card.card_index = pciDevice->getBusNumber() - 2;
+    
+    if (!takeGPUIndex(card.card_index)) {
+        if ((card.card_index = takeVacantGPUIndex()) < 0) {
+            radeon_info(&card, "failed to take GPU index\n");
+            return false;
+        }
     }
 
     if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id"))) {
@@ -359,35 +327,11 @@ bool RadeonSensors::start(IOService *provider)
         return false;
     }
     
-    if (!(workloop = getWorkLoop())) {
-        radeon_fatal(&card, "failed to obtain workloop");
-        return false;
-    }
-    
-    if (!(timerEventSource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &RadeonSensors::probeEvent)))) {
-        radeon_fatal(&card, "failed to initialize timer event source");
-        return false;
-    }
-    
-    if (kIOReturnSuccess != workloop->addEventSource(timerEventSource))
-    {
-        radeon_fatal(&card, "failed to add timer event source into workloop");
-        return false;
-    }
-    
-    timerEventSource->setTimeoutMS(500);
-    
     return true;
 }
 
 void RadeonSensors::stop(IOService *provider)
 {
-    if (timerEventSource) {
-        timerEventSource->cancelTimeout();
-        workloop->removeEventSource(timerEventSource);
-        timerEventSource = NULL;
-    }
-    
     if (card.mmio)
         OSSafeRelease(card.mmio);
     

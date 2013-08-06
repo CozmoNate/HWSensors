@@ -8,25 +8,22 @@
  *
  */
 
-#include "FakeSMCPlugin.h"
+#include "GPUSensors.h"
 #include "radeon.h"
 
-class RadeonSensors : public FakeSMCPlugin
+class RadeonSensors : public GPUSensors
 {
     OSDeclareDefaultStructors(RadeonSensors)    
 	
 private:
-    radeon_device           card;
+    radeon_device       card;
     
-    IOWorkLoop*             workloop;
-    IOTimerEventSource*     timerEventSource;
-    int                     probeCounter;
-    
-    IOReturn                probeEvent();
-    bool                    activate();
+    bool                managedStart(IOService *provide);
     
 protected:	
     virtual float       getSensorValue(FakeSMCSensor *sensor);
+    virtual void        onAcceleratorFound(IOService *provider);
+    virtual void        onTimeoutExceeded(IOService *provider);
     
 public:
     virtual bool        start(IOService *provider);

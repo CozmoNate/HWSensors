@@ -34,9 +34,9 @@
 #include "nouveau.h"
 #include "xf86i2c.h"
 
-#include "FakeSMCPlugin.h"
+#include "GPUSensors.h"
 
-class GeforceSensors : public FakeSMCPlugin
+class GeforceSensors : public GPUSensors
 {
     OSDeclareDefaultStructors(GeforceSensors)    
 	
@@ -50,8 +50,12 @@ private:
     float               i2c_get_fanspeed_pwm(I2CDevPtr dev);
     int                 i2c_get_fanspeed_mode(I2CDevPtr dev);
     
+    bool                managedStart(IOService *provider);
+    
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);
+    virtual void        onAcceleratorFound(IOService *provider);
+    virtual void        onTimeoutExceeded(IOService *provider);
     
 public:
     virtual bool        start(IOService *provider);
