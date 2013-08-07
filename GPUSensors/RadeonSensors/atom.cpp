@@ -117,7 +117,8 @@ bool atom_parse(struct radeon_device *rdev)
 			break;
 		}
 	}
-	radeon_info(rdev, "ATOM BIOS: %s\n", rdev->bios_name);
+	
+    //radeon_info(rdev, "ATOM BIOS: %s\n", rdev->bios_name);
     
 	return true;
 }

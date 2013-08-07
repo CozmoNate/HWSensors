@@ -45,12 +45,12 @@ IOReturn GPUSensors::probeEvent()
         releaseTimerEventSource;
         onAcceleratorFound(pciDevice);
     }
-    else if (probeCounter++ == 14) {
+    else if (probeCounter++ == 45) {
         releaseTimerEventSource;
         onTimeoutExceeded(pciDevice);
     }
     else {
-        if (probeCounter > 0 && !(probeCounter % 5))
+        if (probeCounter > 0 && !(probeCounter % 15))
             HWSensorsInfoLog("still waiting for IOAccelerator to start...");
         
         timerEventSource->setTimeoutMS(1000);

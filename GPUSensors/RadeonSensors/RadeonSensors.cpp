@@ -40,8 +40,7 @@ float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
 
 bool RadeonSensors::managedStart(IOService *provider)
 {
-    if (card.pdev->setMemoryEnable(true))
-        radeon_info(&card, "memory space response was previously enabled\n");
+    card.pdev->setMemoryEnable(true);
     
     IOMemoryMap *mmio;
     
@@ -73,9 +72,7 @@ bool RadeonSensors::managedStart(IOService *provider)
             card.info.ChipFamily = devices->ChipFamily;
             card.info.igp = devices->igp;
             card.info.is_mobility = devices->is_mobility;
-            
-            radeon_info(&card, "found ATI Radeon 0x%04x\n", card.chip_id & 0xffff);
-            
+
             break;
         }
         devices++;
@@ -128,6 +125,8 @@ bool RadeonSensors::managedStart(IOService *provider)
     else if (atom_parse(&card)) {
         radeon_atombios_get_power_modes(&card);
     }
+    
+    radeon_info(&card, "found ATI Radeon ID: 0x%04x, %s BIOS: %s\n", card.chip_id & 0xffff, card.bios && card.bios_size ? card.is_atom_bios ? "ATOM" : "COM" : "", card.bios && card.bios_size ? card.bios_name : "undefined");
     
     // Use temperature sensor type based on BIOS name
     if (card.int_thermal_type == THERMAL_TYPE_NONE && card.bios && card.bios_size) {

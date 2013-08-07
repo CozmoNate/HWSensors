@@ -299,7 +299,7 @@ SInt8 FakeSMCPlugin::takeVacantGPUIndex()
 
 bool FakeSMCPlugin::takeGPUIndex(UInt8 index)
 {
-    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeGPUIndex, true, &index, 0, 0, 0)) {
+    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeGPUIndex, true, (void *)&index, 0, 0, 0)) {
         HWSensorsErrorLog("failed to take GPU index %d", index);
         return false;
     }
