@@ -2025,6 +2025,8 @@
 					</dict>
 					<key>P55-UD3L</key>
 					<string>P55-UD4</string>
+					<key>H77N-WIFI</key>
+					<string>Z77N-WIFI</string>
 					<key>Z77N-WIFI</key>
 					<dict>
 						<key>FANIN0</key>

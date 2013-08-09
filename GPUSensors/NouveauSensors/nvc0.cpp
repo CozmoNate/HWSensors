@@ -184,7 +184,7 @@ static u32 read_mem(struct nouveau_device *device)
     if (device->card_type == NV_C0)
         return read_pll(device, 0x132000) / 4.0f;
     else if (device->card_type == NV_E0)
-        return read_pll(device, 0x132000);
+        return (float)base / 2.0f + read_pll(device, 0x132000) * 2.0f;
     
 	return read_pll(device, 0x132000);
 }
@@ -248,8 +248,8 @@ int nve0_clocks_get(struct nouveau_device *device, u8 source)
 //            return read_clk(device, 0x00);
         case nouveau_clock_memory:
             return read_mem(device);
-        case nouveau_clock_rop:
-            return read_clk(device, 0x01);
+//        case nouveau_clock_rop:
+//            return read_clk(device, 0x01);
 //        case nouveau_clock_hub01:
 //            return read_clk(device, 0x08);
 //        case nouveau_clock_hub06:
