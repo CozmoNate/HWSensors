@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1080</int>
-		<string key="IBDocument.SystemVersion">12F30</string>
+		<string key="IBDocument.SystemVersion">12F33</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
@@ -81,7 +81,7 @@
 													<string key="NSFrameSize">{354, 484}</string>
 													<reference key="NSSuperview" ref="195488360"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="786530875"/>
+													<reference key="NSNextKeyView" ref="293728294"/>
 													<string key="NSReuseIdentifierKey">_NS:80</string>
 													<string key="NSMinGridSize">{0, 0}</string>
 													<string key="NSMaxGridSize">{0, 0}</string>
@@ -142,7 +142,7 @@
 									<string key="NSFrameSize">{354, 484}</string>
 									<reference key="NSSuperview" ref="660235940"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="195488360"/>
+									<reference key="NSNextKeyView" ref="786530875"/>
 									<string key="NSReuseIdentifierKey">_NS:76</string>
 									<int key="NSsFlags">133648</int>
 									<reference key="NSVScroller" ref="293728294"/>
@@ -167,7 +167,7 @@
 													<string key="NSFrameSize">{230, 484}</string>
 													<reference key="NSSuperview" ref="583027095"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="733217664"/>
+													<reference key="NSNextKeyView" ref="840995883"/>
 													<string key="NSReuseIdentifierKey">_NS:13</string>
 													<bool key="NSEnabled">YES</bool>
 													<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -281,6 +281,7 @@
 											<string key="NSFrame">{{192, 0}, {11, 476}}</string>
 											<reference key="NSSuperview" ref="458514021"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:58</string>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 											<int key="NSsFlags">512</int>
@@ -310,7 +311,7 @@
 									<string key="NSFrame">{{355, 0}, {230, 484}}</string>
 									<reference key="NSSuperview" ref="660235940"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="583027095"/>
+									<reference key="NSNextKeyView" ref="733217664"/>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
 									<string key="NSHuggingPriority">{250, 250}</string>
 									<string key="NSAntiCompressionPriority">{750, 750}</string>
@@ -813,7 +814,7 @@
 									<object class="NSTextFieldCell" key="NSCell" id="227349340">
 										<int key="NSCellFlags">67108928</int>
 										<int key="NSCellFlags2">138414080</int>
-										<string key="NSContents">FANS</string>
+										<string key="NSContents">FANS &amp; PUMPS</string>
 										<reference key="NSSupport" ref="698397297"/>
 										<string key="NSCellIdentifier">_NS:1535</string>
 										<reference key="NSControlView" ref="618204900"/>
@@ -3340,7 +3341,7 @@
 					<reference ref="711273282"/>
 				</array>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="23.userInterfaceItemIdentifier">FANS</string>
+				<string key="23.userInterfaceItemIdentifier">FANS &amp; PUMPS</string>
 				<string key="24.CustomClassName">GraphsGroupCell</string>
 				<array key="24.IBNSViewMetadataConstraints">
 					<reference ref="136696446"/>
@@ -3538,7 +3539,6 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="graphsCheckButtonClicked:">id</string>
 						<string key="graphsTableViewClicked:">id</string>
-						<string key="showWindow:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="graphsCheckButtonClicked:">
@@ -3547,10 +3547,6 @@
 						</object>
 						<object class="IBActionInfo" key="graphsTableViewClicked:">
 							<string key="name">graphsTableViewClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showWindow:">
-							<string key="name">showWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -3606,27 +3602,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/GraphsSensorCell.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSCollectionViewItem</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="imageView">NSImageView</string>
-						<string key="textField">NSTextField</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="imageView">
-							<string key="name">imageView</string>
-							<string key="candidateClassName">NSImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textField">
-							<string key="name">textField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSCollectionViewItem.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
