@@ -396,38 +396,38 @@
 
 - (void)addSensorsFromGroup:(HWSensorGroup)group withKeysList:(NSArray*)keys
 {
+    NSString *prefix = nil;
+    
+    switch (group) {
+        case kHWSensorGroupTemperature:
+            prefix = @"T";
+            break;
+            
+        case kHWSensorGroupMultiplier:
+            prefix = @"M";
+            break;
+            
+        case kHWSensorGroupFrequency:
+            prefix = @"C";
+            break;
+            
+        case kHWSensorGroupVoltage:
+            prefix = @"V";
+            break;
+            
+        case kHWSensorGroupCurrent:
+            prefix = @"I";
+            break;
+            
+        case kHWSensorGroupPower:
+            prefix = @"P";
+            break;
+            
+        default:
+            return;
+    }
+    
     [_currentProfile enumerateObjectsUsingBlock:^(id item, NSUInteger index, BOOL *stop) {
-        NSString *prefix = nil;
-        
-        switch (group) {
-            case kHWSensorGroupTemperature:
-                prefix = @"T";
-                break;
-                
-            case kHWSensorGroupMultiplier:
-                prefix = @"M";
-                break;
-                
-            case kHWSensorGroupFrequency:
-                prefix = @"C";
-                break;
-                
-            case kHWSensorGroupVoltage:
-                prefix = @"V";
-                break;
-                
-            case kHWSensorGroupCurrent:
-                prefix = @"I";
-                break;
-                
-            case kHWSensorGroupPower:
-                prefix = @"P";
-                break;
-                
-            default:
-                *stop = YES;
-                break;
-        }
         
         NSString *key = [item objectAtIndex:0];
         
@@ -499,12 +499,12 @@
             }
         }
         
-        [list sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            NSString *s1 = obj1;
-            NSString *s2 = obj2;
-            
-            return [s1 compare:s2];
-        }];
+//        [list sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//            NSString *s1 = obj1;
+//            NSString *s2 = obj2;
+//            
+//            return [s1 compare:s2];
+//        }];
         
         //Temperatures
         [self addSensorsFromGroup:kHWSensorGroupTemperature withKeysList:list];

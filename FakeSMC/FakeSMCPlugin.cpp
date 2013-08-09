@@ -291,30 +291,66 @@ SInt8 FakeSMCPlugin::takeVacantGPUIndex()
 {
     SInt8 index = -1;
     
-    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeVacantGPUIndex, true, (void *)&index, 0, 0, 0))
-        HWSensorsErrorLog("failed to take GPU index");
+    for (int i = 0; i < 3; i++) {
+        IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCTakeVacantGPUIndex, true, (void *)&index, 0, 0, 0);
         
+        switch (resut) {
+            case kIOReturnSuccess:
+            case kIOReturnBadArgument:
+                return index;
+
+            default:
+                break;
+        }
+        
+        IOSleep(10);
+    }
+    
     return index;
 }
 
 bool FakeSMCPlugin::takeGPUIndex(UInt8 index)
 {
-    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeGPUIndex, true, (void *)&index, 0, 0, 0)) {
-        HWSensorsErrorLog("failed to take GPU index %d", index);
-        return false;
+    for (int i = 0; i < 3; i++) {
+        IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCTakeGPUIndex, true, (void *)&index, 0, 0, 0);
+        
+        switch (resut) {
+            case kIOReturnSuccess:
+                return true;
+                
+            case kIOReturnBadArgument:
+                return false;
+                
+            default:
+                break;
+        }
+        
+        IOSleep(10);
     }
     
-    return true;
+    return false;
 }
 
 bool FakeSMCPlugin::releaseGPUIndex(UInt8 index)
 {
-    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCReleaseGPUIndex, true, (void *)&index, 0, 0, 0)) {
-        HWSensorsErrorLog("failed to release GPU index %d", index);
-        return false;
+    for (int i = 0; i < 3; i++) {
+        IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCReleaseGPUIndex, true, (void *)&index, 0, 0, 0);
+        
+        switch (resut) {
+            case kIOReturnSuccess:
+                return true;
+                
+            case kIOReturnBadArgument:
+                return false;
+                
+            default:
+                break;
+        }
+        
+        IOSleep(10);
     }
     
-    return true;
+    return false;
 }
 
 SInt8 FakeSMCPlugin::takeVacantFanIndex()

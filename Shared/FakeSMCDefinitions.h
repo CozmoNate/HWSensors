@@ -99,6 +99,7 @@
 #define KEY_PCIE_12V_VOLTAGE                    "VeES"
 #define KEY_MAIN_3V3_VOLTAGE                    "VV2S"
 #define KEY_AUXILIARY_3V3V_VOLTAGE              "VV7S"
+#define KEY_STANDBY_3V3V_VOLTAGE                "VV3S"
 #define KEY_MAIN_5V_VOLTAGE                     "VV1S"
 #define KEY_STANDBY_5V_VOLTAGE                  "VV8S"
 
