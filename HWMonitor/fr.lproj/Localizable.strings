@@ -16,7 +16,7 @@
 "VOLTAGES" = "TENSIONS";
 "CURRENTS" = "ACTUELS";
 "POWERS" = "SOURCES DE COURANT";
-"FANS" = "VENTILATEURS";
+"FANS & PUMPS" = "VENTILATEURS";
 "BATTERIES" = "BATTERIES";
 "Quit HWMonitor" = "Quitter HWMonitor";
 "No sensors found" = "Pas de capteurs trouvés";

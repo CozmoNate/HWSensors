@@ -17,7 +17,7 @@
 "VOLTAGES" = "VOLTAGGI";
 "CURRENTS" = "ATTUALI";
 "POWERS" = "SORGENTI DI CORRENTE";
-"FANS" = "VENTOLE";
+"FANS & PUMPS" = "VENTOLE";
 "BATTERIES" = "BATTERIE";
 "Quit HWMonitor" = "Esci da HWMonitor";
 "No sensors found" = "Nessun sensore trovato";

@@ -16,7 +16,7 @@
 "VOLTAGES" = "VOLTAGES";
 "CURRENTS" = "STROMINGEN";
 "POWERS" = "VERMOGENS";
-"FANS" = "VENTILATORS";
+"FANS & PUMPS" = "VENTILATORS";
 "BATTERIES" = "BATTERIJEN";
 "Quit HWMonitor" = "Sluit HWMonitor";
 "No sensors found" = "Geen sensors gevonden";

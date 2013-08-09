@@ -226,7 +226,7 @@
     
     [self addGraphForSensorGroup:kHWSensorGroupTemperature | kSMARTGroupTemperature fromGroupsList:groups withTitle:@"TEMPERATURES"];
     [self addGraphForSensorGroup:kHWSensorGroupFrequency fromGroupsList:groups withTitle:@"FREQUENCIES"];
-    [self addGraphForSensorGroup:kHWSensorGroupTachometer fromGroupsList:groups withTitle:@"FANS"];
+    [self addGraphForSensorGroup:kHWSensorGroupTachometer fromGroupsList:groups withTitle:@"FANS & PUMPS"];
     [self addGraphForSensorGroup:kHWSensorGroupVoltage fromGroupsList:groups withTitle:@"VOLTAGES"];
     [self addGraphForSensorGroup:kHWSensorGroupCurrent fromGroupsList:groups withTitle:@"CURRENTS"];
     [self addGraphForSensorGroup:kHWSensorGroupPower fromGroupsList:groups withTitle:@"POWERS"];
