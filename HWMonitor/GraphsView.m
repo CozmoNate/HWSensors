@@ -121,9 +121,9 @@
         if ([sensor rawValue]) {
             [history addObject:[sensor rawValue]];
             
-            if ([history count] > _maxPoints + 8) {
+            if ([history count] > _maxPoints) {
                 //[history removeObjectAtIndex:0];
-                [history removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [history count] - _maxPoints - 8)]];
+                [history removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [history count] - _maxPoints - 1)]];
             }
         }
     }
@@ -245,9 +245,9 @@
         [path removeAllPoints];
         [path setLineJoinStyle:NSRoundLineJoinStyle];
         
+        CGFloat startOffset = [values count] > _maxPoints ? _maxPoints - [values count] : _graphBounds.size.width - _maxPoints;
+        
         if (_useSmoothing) {
-            CGFloat startOffset = _graphBounds.size.width - [values count] + 1;
-            
             NSPoint lastPoint = NSMakePoint(startOffset, [[values objectAtIndex:0] doubleValue]);
             
             [path moveToPoint:[self graphPointToView:lastPoint]];
@@ -265,8 +265,6 @@
             }
         }
         else {
-            CGFloat startOffset = _graphBounds.size.width - [values count] + 1;
-            
             [path moveToPoint:[self graphPointToView:NSMakePoint(startOffset, [[values objectAtIndex:0] doubleValue])]];
             
             for (NSUInteger index = 1; index < [values count]; index++) {

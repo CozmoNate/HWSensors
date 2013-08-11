@@ -255,10 +255,6 @@
         
         HWMonitorSensor *sensor = nil;
         
-        if (![device serialNumber] || [[device serialNumber] length] == 0) {
-            [device setSerialNumber:[NSString stringWithFormat:@"%X", device.service]];
-        }
-        
         NSString *title = nil;
         
         switch ([device deviceType]) {
@@ -277,6 +273,10 @@
             default:
                 title = @"Unknown";
                 break;
+        }
+        
+        if (![device serialNumber] || [[device serialNumber] length] == 0) {
+            [device setSerialNumber:device.productName];
         }
         
         sensor = [self addSensorWithKey:[device serialNumber] title:GetLocalizedString(title) group:group];
