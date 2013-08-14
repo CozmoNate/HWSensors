@@ -56,23 +56,28 @@
 
 #include "cpuid.h"
 
-#define MSR_IA32_THERM_STS              0x019C
-#define MSR_IA32_TEMP_TARGET            0x01A2
-#define MSR_IA32_PERF_STATUS            0x0198
+#define MSR_IA32_THERM_STS                  0x019C
+#define MSR_IA32_TEMP_TARGET                0x01A2
+#define MSR_IA32_PERF_STATUS                0x0198
 
-#define MSR_RAPL_POWER_UNIT             0x606
-#define MSR_PKG_ENERY_STATUS            0x611
-#define MSR_DRAM_ENERGY_STATUS          0x619
-#define MSR_PP0_ENERY_STATUS            0x639
-#define MSR_PP1_ENERY_STATUS            0x641
+#define MSR_RAPL_POWER_UNIT                 0x606
+#define MSR_PKG_ENERY_STATUS                0x611
+#define MSR_DRAM_ENERGY_STATUS              0x619
+#define MSR_PP0_ENERY_STATUS                0x639
+#define MSR_PP1_ENERY_STATUS                0x641
 
-#define MSR_IA32_APERF                  0x0E8
-#define MSR_IA32_MPERF                  0x0E7
+#define MSR_IA32_APERF                      0x0E8
+#define MSR_IA32_MPERF                      0x0E7
 
-#define MSR_PERF_FIXED_CTR_CTRL         0x38d
-#define MSR_PERF_GLOBAL_CTRL            0x38f
+#define MSR_PERF_FIXED_CTR_CTRL             0x38d
+#define MSR_PERF_GLOBAL_CTRL                0x38f
 
-#define kCPUSensorsMaxCpus              64
+#define MSR_CPU_CLK_UNHALTED_THREAD_ADDR    0x30A
+#define MSR_CPU_CLK_UNHALTED_REF_ADDR       0x30B
+
+#define MSR_IA32_TIME_STAMP_COUNTER         0x10
+
+#define kCPUSensorsMaxCpus                  64
 
 extern "C" int cpu_number(void);
 extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);

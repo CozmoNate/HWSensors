@@ -44,7 +44,7 @@
 
 -(void)setUseFahrenheit:(BOOL)useFahrenheit
 {
-    if (useFahrenheit != _useFahrenheit) {
+    //if (useFahrenheit != _useFahrenheit) {
         _useFahrenheit = useFahrenheit;
         
         [_graphsTableView reloadData];
@@ -52,24 +52,24 @@
         for (GraphsView *graphView in _graphViews) {
             [graphView setUseFahrenheit:useFahrenheit];
         }
-    }
+    //}
 }
 
 -(void)setUseSmoothing:(BOOL)useSmoothing
 {
-    if (useSmoothing != _useSmoothing) {
+    //if (useSmoothing != _useSmoothing) {
         _useSmoothing = useSmoothing;
         
         for (GraphsView *graphView in _graphViews) {
             [graphView setUseSmoothing:useSmoothing];
             [graphView setNeedsDisplay:YES];
         }
-    }
+    //}
 }
 
 -(void)setIsTopmost:(BOOL)isTopmost
 {
-    if (isTopmost != _isTopmost) {
+    //if (isTopmost != _isTopmost) {
         _isTopmost = isTopmost;
         
         if (isTopmost) {
@@ -78,7 +78,7 @@
         else {
             [self.window setLevel:NSNormalWindowLevel];
         }
-    }
+    //}
 }
 
 -(void)setGraphsScale:(float)graphsScale
@@ -129,9 +129,20 @@
         }
         
         _itemsLock = [[NSLock alloc] init];
+        
+        
     }
     
     return self;
+}
+
+-(void)awakeFromNib
+{
+    [self setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseFahrenheitKey]];
+    [self setUseSmoothing:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsUseDataSmoothing]];
+    [self setBackgroundMonitoring:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsBackgroundMonitor]];
+    [self setIsTopmost:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorWindowTopmost]];
+    [self setGraphsScale:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsScale]];
 }
 
 -(void)dealloc

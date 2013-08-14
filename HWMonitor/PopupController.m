@@ -51,6 +51,13 @@
     return self;
 }
 
+-(void)awakeFromNib
+{
+    [[self statusItemView] setUseBigFont:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseBigStatusMenuFont]];
+    [[self statusItemView] setUseShadowEffect:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseShadowEffect]];
+    [self setShowVolumeNames:[[NSUserDefaults standardUserDefaults] integerForKey:kHWMonitorShowVolumeNames]];
+}
+
 - (void)dealloc
 {
     [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];

@@ -104,7 +104,7 @@ bool RadeonSensors::managedStart(IOService *provider)
                         card.is_atom_bios = false;
                     }
                     
-                    radeon_info(&card, "%sBIOS detected\n", card.is_atom_bios ? "ATOM" : "COM");
+                    //radeon_info(&card, "%sBIOS detected\n", card.is_atom_bios ? "ATOM" : "COM");
                 }
                 
             }

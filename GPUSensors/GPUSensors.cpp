@@ -53,7 +53,7 @@ IOReturn GPUSensors::probeEvent()
         if (probeCounter > 0 && !(probeCounter % 15))
             HWSensorsInfoLog("still waiting for IOAccelerator to start...");
         
-        timerEventSource->setTimeoutMS(1000);
+        timerEventSource->setTimeoutMS(300);
     }
     
     return kIOReturnSuccess;
