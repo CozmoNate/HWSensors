@@ -59,6 +59,11 @@ IOReturn GPUSensors::probeEvent()
     return kIOReturnSuccess;
 }
 
+bool GPUSensors::shouldWaitForAccelerator()
+{
+    return false;
+}
+
 void GPUSensors::onAcceleratorFound(IOService *provider)
 {
     
@@ -81,25 +86,26 @@ bool GPUSensors::start(IOService *provider)
         return false;
     }
 
-    
-    if (!(workloop = getWorkLoop())) {
-        HWSensorsFatalLog("failed to obtain workloop");
-        return false;
+    if (shouldWaitForAccelerator()) {
+        if (!(workloop = getWorkLoop())) {
+            HWSensorsFatalLog("failed to obtain workloop");
+            return false;
+        }
+        
+        if (!(timerEventSource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &GPUSensors::probeEvent)))) {
+            HWSensorsFatalLog("failed to initialize timer event source");
+            return false;
+        }
+        
+        if (kIOReturnSuccess != workloop->addEventSource(timerEventSource))
+        {
+            HWSensorsFatalLog("failed to add timer event source into workloop");
+            timerEventSource->release();
+            return false;
+        }
+        
+        timerEventSource->setTimeoutMS(500);
     }
-    
-    if (!(timerEventSource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &GPUSensors::probeEvent)))) {
-        HWSensorsFatalLog("failed to initialize timer event source");
-        return false;
-    }
-    
-    if (kIOReturnSuccess != workloop->addEventSource(timerEventSource))
-    {
-        HWSensorsFatalLog("failed to add timer event source into workloop");
-        timerEventSource->release();
-        return false;
-    }
-    
-    timerEventSource->setTimeoutMS(500);
     
     return true;
 }

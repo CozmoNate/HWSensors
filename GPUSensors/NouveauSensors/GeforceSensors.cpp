@@ -206,15 +206,15 @@ bool GeforceSensors::managedStart(IOService *provider)
     return true;
 }
 
-void GeforceSensors::onAcceleratorFound(IOService *provider)
-{    
-    managedStart(provider);
-}
-
-void GeforceSensors::onTimeoutExceeded(IOService *provider)
-{
-    managedStart(provider);
-}
+//void GeforceSensors::onAcceleratorFound(IOService *provider)
+//{
+//    managedStart(provider);
+//}
+//
+//void GeforceSensors::onTimeoutExceeded(IOService *provider)
+//{
+//    managedStart(provider);
+//}
 
 bool GeforceSensors::start(IOService *provider)
 {
@@ -266,7 +266,7 @@ bool GeforceSensors::start(IOService *provider)
     
     if (!device->bios.data || !device->bios.size || nouveau_bios_score(device, true) < 1) {
         if (nouveau_bios_shadow(device)) {
-            nv_info(device, "early shadow VBIOS succeeded\n");
+            //nv_info(device, "early shadow VBIOS succeeded\n");
         }
         else {
             if (device->bios.data && device->bios.size) {
@@ -284,7 +284,7 @@ bool GeforceSensors::start(IOService *provider)
         }
     }
     
-    return true;
+    return managedStart(provider);
 }
 
 void GeforceSensors::stop(IOService * provider)

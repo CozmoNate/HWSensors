@@ -54,8 +54,6 @@ private:
     
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);
-    virtual void        onAcceleratorFound(IOService *provider);
-    virtual void        onTimeoutExceeded(IOService *provider);
     
 public:
     virtual bool        start(IOService *provider);

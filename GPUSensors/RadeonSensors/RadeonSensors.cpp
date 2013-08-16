@@ -287,6 +287,11 @@ bool RadeonSensors::managedStart(IOService *provider)
     return true;
 }
 
+bool RadeonSensors::shouldWaitForAccelerator()
+{
+    return true;
+}
+
 void RadeonSensors::onAcceleratorFound(IOService *provider)
 {
     managedStart(provider);

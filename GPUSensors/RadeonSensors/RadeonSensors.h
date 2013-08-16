@@ -22,6 +22,7 @@ private:
     
 protected:	
     virtual float       getSensorValue(FakeSMCSensor *sensor);
+    virtual bool        shouldWaitForAccelerator();
     virtual void        onAcceleratorFound(IOService *provider);
     virtual void        onTimeoutExceeded(IOService *provider);
     

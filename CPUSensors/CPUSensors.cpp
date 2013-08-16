@@ -245,7 +245,6 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
                 case CPUFAMILY_INTEL_WESTMERE:
                     if (baseMultiplier > 0 && cpu_ratio[index] > 1.0)
                         multiplier[index] = ROUND(cpu_ratio[index] * (float)baseMultiplier);
-                        //multiplier[index] = ROUND(cpu_turbo[index] * (float)baseMultiplier);
                     else
                         multiplier[index] = (float)(cpu_state[index] & 0xFF);
                     break;
@@ -255,7 +254,6 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
                 case CPUFAMILY_INTEL_HASWELL_ULT:
                     if (baseMultiplier > 0 && cpu_ratio[index] > 1.0)
                         multiplier[index] = ROUND(cpu_ratio[index] * (float)baseMultiplier);
-                        //multiplier[index] = ROUND(cpu_turbo[index] * (float)baseMultiplier);
                     else
                         multiplier[index] = (float)((cpu_state[index] >> 8) & 0xFF);
                     break;
@@ -304,7 +302,6 @@ IOReturn CPUSensors::woorkloopEvent()
     if (bit_get(workloopEventsPending, kCPUSensorsCoreMultiplierSensor)) {
         if (baseMultiplier > 0)
             mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
-            //mp_rendezvous_no_intrs(read_cpu_turbo, NULL);
         //else
             mp_rendezvous_no_intrs(read_cpu_state, NULL);
         bit_clear(workloopEventsPending, kCPUSensorsCoreMultiplierSensor);
@@ -315,12 +312,9 @@ IOReturn CPUSensors::woorkloopEvent()
         UInt32 index = 0;
         if (baseMultiplier > 0)
             mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
-            //mp_rendezvous_no_intrs(read_cpu_turbo, &index);
         //else
         if (cpu_ratio[index] <= 1.0f)
             mp_rendezvous_no_intrs(read_cpu_state, &index);
-        //if (cpu_ratio[0] <= 1.0)
-        //    mp_rendezvous_no_intrs(read_cpu_state, NULL);
         bit_clear(workloopEventsPending, kCPUSensorsPackageMultiplierSensor);
         //IOSleep(5);
     }
@@ -655,14 +649,14 @@ bool CPUSensors::start(IOService *provider)
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
-        case CPUFAMILY_INTEL_HASWELL:
-        case CPUFAMILY_INTEL_HASWELL_ULT:
-            
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
                 //init_cpu_turbo_counters(NULL);
                 HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
             }
+        // break; fall down adding package frequency sensors
             
+        case CPUFAMILY_INTEL_HASWELL:
+        case CPUFAMILY_INTEL_HASWELL_ULT:
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kCPUSensorsPackageMultiplierSensor, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsPackageFrequencySensor, 0))
@@ -674,7 +668,7 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_WESTMERE:
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF))
                 HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
-            // break; fall down to default
+            // break; fall down adding multiplier sensors for each core
         default:
             for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
                 char key[5];
