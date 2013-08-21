@@ -179,12 +179,12 @@ static u32 read_mem(struct nouveau_device *device)
     u32 base = read_div(device, 0, 0x137300, 0x137310);
 	
     if (ssel & 0x00000001)
-		return base;
+		return base / 2.0f;
 
     if (device->card_type == NV_C0)
         return read_pll(device, 0x132000) / 4.0f;
-    else if (device->card_type == NV_E0)
-        return (float)base / 2.0f + read_pll(device, 0x132000) * 2.0f;
+    else if (device->card_type >= NV_D0 && device->card_type <= NV_E0)
+        return read_pll(device, 0x132000) / 2.0f;
     
 	return read_pll(device, 0x132000);
 }

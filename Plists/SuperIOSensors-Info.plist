@@ -60,27 +60,27 @@
 					<key>FANIN4</key>
 					<string></string>
 					<key>TEMPIN0</key>
-					<string>CPU</string>
+					<string>CPU Heatsink</string>
 					<key>TEMPIN1</key>
-					<string>System</string>
+					<string>Mainboard</string>
 					<key>VIN0</key>
-					<string>CPU</string>
+					<string>CPU Core</string>
 					<key>VIN1</key>
-					<string>Power Supply 1</string>
+					<string>Power Supply</string>
 					<key>VIN2</key>
-					<string>Power Supply 2</string>
+					<string>Power Supply</string>
 					<key>VIN3</key>
-					<string>Power Supply 3</string>
+					<string>Power Supply</string>
 					<key>VIN4</key>
-					<string>Power Supply 4</string>
+					<string>Power Supply</string>
 					<key>VIN5</key>
-					<string>Power Supply 5</string>
+					<string>Power Supply</string>
 					<key>VIN6</key>
-					<string>Power Supply 6</string>
+					<string>Power Supply</string>
 					<key>VIN7</key>
-					<string>Power Supply 7</string>
+					<string>Power Supply</string>
 					<key>VIN8</key>
-					<string>Power Supply 8</string>
+					<string>Power Supply</string>
 				</dict>
 				<key>EVGA</key>
 				<dict>
@@ -97,9 +97,9 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN2</key>
 						<string>Ambient</string>
 						<key>VIN0</key>
@@ -114,17 +114,17 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN1</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN2</key>
-						<string>Power Supply 2</string>
+						<string>Power Supply</string>
 						<key>VIN3</key>
-						<string>Power Supply 3</string>
+						<string>Power Supply</string>
 						<key>VIN4</key>
-						<string>Power Supply 4</string>
+						<string>Power Supply</string>
 						<key>VIN5</key>
-						<string>Power Supply 5</string>
+						<string>Power Supply</string>
 						<key>VIN6</key>
-						<string>Power Supply 6</string>
+						<string>Power Supply</string>
 						<key>VIN7</key>
 						<dict>
 							<key>gain</key>
@@ -161,11 +161,11 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string>Ambient</string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
 						<dict>
 							<key>gain</key>
@@ -182,7 +182,7 @@
 							<key>gain</key>
 							<integer>470</integer>
 							<key>name</key>
-							<string>CPU</string>
+							<string>CPU Core</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -204,7 +204,7 @@
 							<key>gain</key>
 							<integer>240</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 3</string>
+							<string>CPU VRM</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -215,7 +215,7 @@
 							<key>gain</key>
 							<integer>240</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 4</string>
+							<string>CPU VRM</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -280,9 +280,9 @@
 					<key>FANIN4</key>
 					<string></string>
 					<key>TEMPIN0</key>
-					<string>CPU</string>
+					<string>CPU Heatsink</string>
 					<key>TEMPIN1</key>
-					<string>System</string>
+					<string>Mainboard</string>
 					<key>TEMPIN2</key>
 					<string>Ambient</string>
 					<key>VIN0</key>
@@ -319,17 +319,17 @@
 						<integer>0</integer>
 					</dict>
 					<key>VIN3</key>
-					<string>Power Supply 3</string>
+					<string>Power Supply</string>
 					<key>VIN4</key>
-					<string>Power Supply 4</string>
+					<string>Power Supply</string>
 					<key>VIN5</key>
-					<string>Power Supply 5</string>
+					<string>Power Supply</string>
 					<key>VIN6</key>
-					<string>Power Supply 6</string>
+					<string>Power Supply</string>
 					<key>VIN7</key>
-					<string>Power Supply 7</string>
+					<string>Power Supply</string>
 					<key>VIN8</key>
-					<string>Power Supply 8</string>
+					<string>Power Supply</string>
 				</dict>
 				<key>MSI</key>
 				<dict>
@@ -342,9 +342,9 @@
 						<key>FANIN2</key>
 						<string>SystemFan2</string>
 						<key>TEMPIN2</key>
-						<string>PCH</string>
+						<string>PCH Die</string>
 						<key>TEMPIN6</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
 						<dict>
 							<key>gain</key>
@@ -357,7 +357,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN1</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN3</key>
 						<dict>
 							<key>gain</key>
@@ -425,9 +425,9 @@
 						<key>FANIN2</key>
 						<string>SystemFan2</string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN2</key>
-						<string>PCH</string>
+						<string>PCH Die</string>
 						<key>VIN0</key>
 						<dict>
 							<key>gain</key>
@@ -440,7 +440,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN1</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN3</key>
 						<dict>
 							<key>gain</key>
@@ -529,7 +529,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN1</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN2</key>
 						<string>GPU</string>
 						<key>VIN3</key>
@@ -566,7 +566,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN6</key>
-						<string>CPU VRM Supply 1</string>
+						<string>CPU VRM</string>
 						<key>VIN7</key>
 						<dict>
 							<key>gain</key>
@@ -603,9 +603,9 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN2</key>
 						<string>Ambient</string>
 						<key>VIN0</key>
@@ -620,7 +620,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN1</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN2</key>
 						<dict>
 							<key>gain</key>
@@ -637,7 +637,7 @@
 							<key>gain</key>
 							<integer>485</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 1</string>
+							<string>CPU VRM</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -710,9 +710,9 @@
 						<key>FANIN3</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN2</key>
 						<string>Ambient</string>
 						<key>VIN0</key>
@@ -727,13 +727,13 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN1</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN2</key>
 						<dict>
 							<key>gain</key>
 							<integer>1107</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 0</string>
+							<string>CPU VRM</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -744,7 +744,7 @@
 							<key>gain</key>
 							<integer>485</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 1</string>
+							<string>CPU VRM</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -851,13 +851,13 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN2</key>
 						<string></string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string></string>
 						<key>VIN2</key>
@@ -909,7 +909,7 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN8</key>
 						<string>CMOS Battery</string>
 					</dict>
@@ -922,11 +922,11 @@
 						<key>FANIN2</key>
 						<string>PowerFan</string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Main 3V</string>
 						<key>VIN3</key>
@@ -963,9 +963,9 @@
 						<key>FANIN2</key>
 						<string>ChassisFan2</string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN3</key>
 						<dict>
 							<key>gain</key>
@@ -991,9 +991,9 @@
 						<key>FANIN3</key>
 						<string>PowerFan</string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
 						<dict>
 							<key>gain</key>
@@ -1017,7 +1017,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN2</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN3</key>
 						<dict>
 							<key>gain</key>
@@ -1054,15 +1054,15 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
 						<string>Ambient</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
-						<string>CPU VRM Supply 1</string>
+						<string>CPU VRM</string>
 						<key>VIN2</key>
 						<string>Main 3V</string>
 						<key>VIN3</key>
@@ -1088,7 +1088,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>CPU VRM Supply 5</string>
+						<string>CPU VRM</string>
 						<key>VIN6</key>
 						<string>Memory</string>
 						<key>VIN7</key>
@@ -1114,15 +1114,15 @@
 						<key>FANIN2</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string>Ambient</string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
-						<string>CPU VRM Supply 1</string>
+						<string>CPU VRM</string>
 						<key>VIN2</key>
 						<string>Main 3V</string>
 						<key>VIN3</key>
@@ -1174,15 +1174,15 @@
 						<key>FANIN2</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
 						<string>Ambient</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
-						<string>CPU VRM Supply 1</string>
+						<string>CPU VRM</string>
 						<key>VIN2</key>
 						<string>Main 3V</string>
 						<key>VIN3</key>
@@ -1208,7 +1208,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>CPU VRM Supply 5</string>
+						<string>CPU VRM</string>
 						<key>VIN6</key>
 						<string>Memory</string>
 						<key>VIN7</key>
@@ -1239,27 +1239,27 @@
 					<key>FANIN4</key>
 					<string></string>
 					<key>TEMPIN0</key>
-					<string>System</string>
+					<string>Mainboard</string>
 					<key>TEMPIN1</key>
-					<string>CPU</string>
+					<string>CPU Heatsink</string>
 					<key>TEMPIN2</key>
 					<string>Ambient</string>
 					<key>VIN0</key>
-					<string>CPU</string>
+					<string>CPU Core</string>
 					<key>VIN1</key>
 					<string>Memory</string>
 					<key>VIN2</key>
-					<string>Power Supply 2</string>
+					<string>Power Supply</string>
 					<key>VIN3</key>
-					<string>Power Supply 3</string>
+					<string>Power Supply</string>
 					<key>VIN4</key>
-					<string>Power Supply 4</string>
+					<string>Power Supply</string>
 					<key>VIN5</key>
-					<string>Power Supply 5</string>
+					<string>Power Supply</string>
 					<key>VIN6</key>
-					<string>Power Supply 6</string>
+					<string>Power Supply</string>
 					<key>VIN7</key>
-					<string>Power Supply 7</string>
+					<string>Power Supply</string>
 					<key>VIN8</key>
 					<string>CMOS Battery</string>
 				</dict>
@@ -1274,17 +1274,17 @@
 						<key>FANIN2</key>
 						<string>PowerFan</string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string>Ambient</string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
-						<string>CPU VRM Supply 2</string>
+						<string>CPU VRM</string>
 						<key>VIN3</key>
 						<dict>
 							<key>gain</key>
@@ -1338,17 +1338,17 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string>Ambient</string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>Power Supply 0</string>
+						<string>Power Supply</string>
 						<key>VIN1</key>
-						<string>Power Supply 1</string>
+						<string>Power Supply</string>
 						<key>VIN2</key>
-						<string>Power Supply 2</string>
+						<string>Power Supply</string>
 						<key>VIN3</key>
 						<dict>
 							<key>gain</key>
@@ -1399,13 +1399,13 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>PCH</string>
+						<string>PCH Die</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -1440,7 +1440,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN4</key>
-						<string>Power Supply 4</string>
+						<string>Power Supply</string>
 						<key>VIN5</key>
 						<string>CPU VRM</string>
 						<key>VIN6</key>
@@ -1475,13 +1475,13 @@
 						<key>FANIN1</key>
 						<string>System Fan</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN2</key>
 						<string>Ambient</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
@@ -1538,11 +1538,11 @@
 						<key>TEMPIN0</key>
 						<string>Ambient</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN3</key>
@@ -1570,11 +1570,11 @@
 						<key>FANIN3</key>
 						<string>PowerFan</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
@@ -1613,11 +1613,11 @@
 						<key>FANIN2</key>
 						<string>NB Fan</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
@@ -1658,9 +1658,9 @@
 						<key>FANIN3</key>
 						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
 						<string>CPU VRM</string>
 						<key>VIN1</key>
@@ -1686,11 +1686,11 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN3</key>
-						<string>Power Supply 3</string>
+						<string>Power Supply</string>
 						<key>VIN4</key>
-						<string>Power Supply 4</string>
+						<string>Power Supply</string>
 						<key>VIN5</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN6</key>
 						<string>Memory</string>
 						<key>VIN7</key>
@@ -1739,11 +1739,11 @@
 						<key>TEMPIN0</key>
 						<string>Ambient</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
@@ -1760,13 +1760,13 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN4</key>
-						<string>Power Supply 4</string>
+						<string>Power Supply</string>
 						<key>VIN5</key>
-						<string>Power Supply 5</string>
+						<string>Power Supply</string>
 						<key>VIN6</key>
-						<string>Power Supply 6</string>
+						<string>Power Supply</string>
 						<key>VIN7</key>
-						<string>Power Supply 7</string>
+						<string>Power Supply</string>
 						<key>VIN8</key>
 						<string>CMOS Battery</string>
 					</dict>
@@ -1787,21 +1787,21 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>PCH</string>
+						<string>PCH Die</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
-						<string>Power Supply 1</string>
+						<string>Power Supply</string>
 						<key>VIN2</key>
-						<string>Power Supply 2</string>
+						<string>Power Supply</string>
 						<key>VIN3</key>
-						<string>Power Supply 3</string>
+						<string>Power Supply</string>
 						<key>VIN4</key>
-						<string>Power Supply 4</string>
+						<string>Power Supply</string>
 						<key>VIN5</key>
 						<string>CPU VRM</string>
 						<key>VIN6</key>
@@ -1844,23 +1844,23 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN2</key>
 						<string>Ambient</string>
 						<key>VIN0</key>
-						<string>Power Supply 0</string>
+						<string>Power Supply</string>
 						<key>VIN1</key>
-						<string>Power Supply 1</string>
+						<string>Power Supply</string>
 						<key>VIN2</key>
-						<string>Power Supply 2</string>
+						<string>Power Supply</string>
 						<key>VIN3</key>
-						<string>Power Supply 3</string>
+						<string>Power Supply</string>
 						<key>VIN4</key>
-						<string>Power Supply 4</string>
+						<string>Power Supply</string>
 						<key>VIN5</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN6</key>
 						<string>Memory</string>
 						<key>VIN7</key>
@@ -1897,11 +1897,11 @@
 						<key>FANIN3</key>
 						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
@@ -1942,11 +1942,11 @@
 						<key>FANIN3</key>
 						<string>PowerFan</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
@@ -1989,11 +1989,11 @@
 						<key>FANIN3</key>
 						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
@@ -2034,11 +2034,11 @@
 						<key>FANIN1</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -2097,11 +2097,11 @@
 						<key>FANIN3</key>
 						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
@@ -2148,9 +2148,9 @@
 						<key>FANIN3</key>
 						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
 						<string>CPU VRM</string>
 						<key>VIN1</key>
@@ -2187,7 +2187,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN6</key>
 						<string>Memory</string>
 						<key>VIN7</key>
@@ -2224,9 +2224,9 @@
 						<key>FANIN3</key>
 						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
 						<dict>
 							<key>gain</key>
@@ -2250,13 +2250,13 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN2</key>
-						<string>Power Supply 2</string>
+						<string>Power Supply</string>
 						<key>VIN3</key>
-						<string>Power Supply 3</string>
+						<string>Power Supply</string>
 						<key>VIN4</key>
-						<string>Power Supply 4</string>
+						<string>Power Supply</string>
 						<key>VIN5</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN6</key>
 						<string>Memory</string>
 						<key>VIN7</key>
@@ -2293,11 +2293,11 @@
 						<key>FANIN3</key>
 						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
@@ -2340,11 +2340,11 @@
 						<key>TEMPIN0</key>
 						<string>Ambient</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
@@ -2387,11 +2387,11 @@
 						<key>FANIN3</key>
 						<string>SystemFan1</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
 						<string>Ambient</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
 						<string>CPU VRM</string>
 						<key>VIN1</key>
@@ -2419,7 +2419,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN6</key>
 						<string>Memory</string>
 						<key>VIN7</key>
@@ -2447,9 +2447,9 @@
 						<key>FANIN4</key>
 						<string>SystemFan3</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN2</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN3</key>
 						<string>Ambient</string>
 						<key>VIN0</key>
@@ -2488,7 +2488,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN6</key>
 						<string>Memory</string>
 						<key>VIN7</key>
@@ -2527,9 +2527,9 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN2</key>
 						<string>Ambient</string>
 						<key>VIN0</key>
@@ -2537,7 +2537,7 @@
 							<key>gain</key>
 							<integer>0</integer>
 							<key>name</key>
-							<string>Power Supply 1</string>
+							<string>Power Supply</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -2570,7 +2570,7 @@
 							<key>gain</key>
 							<integer>666</integer>
 							<key>name</key>
-							<string>Power Supply 3</string>
+							<string>Power Supply</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -2588,7 +2588,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN6</key>
 						<dict>
 							<key>gain</key>
@@ -2651,17 +2651,17 @@
 						<key>FANIN0</key>
 						<string>Rear Fan</string>
 						<key>FANIN1</key>
-						<string>CPU Fan</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
 						<string>Front Fan</string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
 						<string>Ambient</string>
 						<key>TEMPIN3</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN4</key>
 						<string></string>
 						<key>TEMPIN5</key>
@@ -2675,7 +2675,7 @@
 						<key>VIN0</key>
 						<dict>
 							<key>name</key>
-							<string>CPU</string>
+							<string>CPU Core</string>
 							<key>gain</key>
 							<integer>0</integer>
 							<key>offset</key>
@@ -2741,7 +2741,7 @@
 						<key>VIN6</key>
 						<dict>
 							<key>name</key>
-							<string>PCH</string>
+							<string>PCH Die</string>
 							<key>gain</key>
 							<integer>0</integer>
 							<key>offset</key>
@@ -2788,15 +2788,15 @@
 						<key>FANIN1</key>
 						<string>CPUFan</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN2</key>
 						<string></string>
 						<key>TEMPIN3</key>
 						<string></string>
 						<key>TEMPIN4</key>
-						<string>PCH</string>
+						<string>PCH Die</string>
 						<key>TEMPIN5</key>
 						<string></string>
 						<key>TEMPIN6</key>
@@ -2804,7 +2804,7 @@
 						<key>TEMPIN7</key>
 						<string></string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string></string>
 						<key>VIN2</key>
@@ -2841,19 +2841,19 @@
 					<key>P67 Pro3</key>
 					<dict>
 						<key>FANIN1</key>
-						<string>CPU</string>
+						<string>CPUFan</string>
 						<key>FANIN2</key>
-						<string>Case 1</string>
+						<string>CaseFan1</string>
 						<key>FANIN3</key>
-						<string>Case 2</string>
+						<string>CaseFan2</string>
 						<key>FANIN4</key>
-						<string>Case 3</string>
+						<string>CaseFan3</string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -2894,13 +2894,13 @@
 						<key>FANIN3</key>
 						<string>PowerFan</string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
 						<string></string>
 						<key>TEMPIN3</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN4</key>
 						<string></string>
 						<key>TEMPIN5</key>
@@ -2912,7 +2912,7 @@
 						<key>TEMPIN8</key>
 						<string></string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -2962,13 +2962,13 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
 						<string></string>
 						<key>TEMPIN3</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN4</key>
 						<string></string>
 						<key>TEMPIN5</key>
@@ -2980,7 +2980,7 @@
 						<key>TEMPIN8</key>
 						<string></string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -3008,7 +3008,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 3</string>
+							<string>CPU VRM</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -3069,13 +3069,13 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
 						<string>Ambient</string>
 						<key>TEMPIN3</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN4</key>
 						<string></string>
 						<key>TEMPIN5</key>
@@ -3087,7 +3087,7 @@
 						<key>TEMPIN8</key>
 						<string></string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -3163,13 +3163,13 @@
 						<key>FANIN4</key>
 						<string>Auxiliary Fan</string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
 						<string></string>
 						<key>TEMPIN3</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN4</key>
 						<string></string>
 						<key>TEMPIN5</key>
@@ -3181,7 +3181,7 @@
 						<key>TEMPIN8</key>
 						<string></string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -3218,9 +3218,9 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>Power Supply 5</string>
+						<string>Power Supply</string>
 						<key>VIN6</key>
-						<string>Power Supply 6</string>
+						<string>Power Supply</string>
 						<key>VIN7</key>
 						<dict>
 							<key>gain</key>
@@ -3257,13 +3257,13 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
 						<string>Ambient</string>
 						<key>TEMPIN3</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN4</key>
 						<string></string>
 						<key>TEMPIN5</key>
@@ -3275,7 +3275,7 @@
 						<key>TEMPIN8</key>
 						<string></string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -3353,11 +3353,11 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -3406,13 +3406,13 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
 						<string>Ambient</string>
 						<key>TEMPIN3</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN4</key>
 						<string></string>
 						<key>TEMPIN5</key>
@@ -3424,7 +3424,7 @@
 						<key>TEMPIN8</key>
 						<string></string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -3491,13 +3491,13 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
 						<string></string>
 						<key>TEMPIN3</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN4</key>
 						<string></string>
 						<key>TEMPIN5</key>
@@ -3509,7 +3509,7 @@
 						<key>TEMPIN8</key>
 						<string></string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -3578,13 +3578,13 @@
 						<key>FANIN4</key>
 						<string></string>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
 						<string></string>
 						<key>TEMPIN3</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN4</key>
 						<string></string>
 						<key>TEMPIN5</key>
@@ -3596,7 +3596,7 @@
 						<key>TEMPIN8</key>
 						<string></string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -3673,13 +3673,13 @@
 					<key>FANIN4</key>
 					<string></string>
 					<key>TEMPIN0</key>
-					<string>CPU</string>
+					<string>CPU Heatsink</string>
 					<key>TEMPIN1</key>
 					<string></string>
 					<key>TEMPIN2</key>
 					<string>Ambient</string>
 					<key>TEMPIN3</key>
-					<string>System</string>
+					<string>Mainboard</string>
 					<key>TEMPIN4</key>
 					<string></string>
 					<key>TEMPIN5</key>
@@ -3691,23 +3691,23 @@
 					<key>TEMPIN8</key>
 					<string></string>
 					<key>VIN0</key>
-					<string>CPU</string>
+					<string>CPU Core</string>
 					<key>VIN1</key>
 					<string>Memory</string>
 					<key>VIN2</key>
-					<string>Power Supply 2</string>
+					<string>Power Supply</string>
 					<key>VIN3</key>
-					<string>Power Supply 3</string>
+					<string>Power Supply</string>
 					<key>VIN4</key>
-					<string>Power Supply 4</string>
+					<string>Power Supply</string>
 					<key>VIN5</key>
-					<string>Power Supply 5</string>
+					<string>Power Supply</string>
 					<key>VIN6</key>
-					<string>Power Supply 6</string>
+					<string>Power Supply</string>
 					<key>VIN7</key>
-					<string>Power Supply 7</string>
+					<string>Power Supply</string>
 					<key>VIN8</key>
-					<string>Power Supply 8</string>
+					<string>Power Supply</string>
 				</dict>
 			</dict>
 		</dict>
@@ -3769,13 +3769,13 @@
 						<key>FANINLIMIT</key>
 						<integer>0</integer>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string></string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string></string>
 						<key>VIN2</key>
@@ -3858,11 +3858,11 @@
 						<key>FANINLIMIT</key>
 						<integer>0</integer>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -3879,7 +3879,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 2</string>
+							<string>CPU VRM</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -3908,9 +3908,9 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>Power Supply 5</string>
+						<string>Power Supply</string>
 						<key>VIN6</key>
-						<string>Power Supply 6</string>
+						<string>Power Supply</string>
 						<key>VIN7</key>
 						<dict>
 							<key>gain</key>
@@ -3934,7 +3934,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN9</key>
-						<string>Power Supply 8</string>
+						<string>Power Supply</string>
 					</dict>
 					<key>P6T</key>
 					<string>Rampage II GENE</string>
@@ -3955,13 +3955,13 @@
 						<key>FANINLIMIT</key>
 						<integer>0</integer>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string>Ambient</string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -3998,9 +3998,9 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>Power Supply 5</string>
+						<string>Power Supply</string>
 						<key>VIN6</key>
-						<string>Power Supply 6</string>
+						<string>Power Supply</string>
 						<key>VIN7</key>
 						<dict>
 							<key>gain</key>
@@ -4013,7 +4013,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN8</key>
-						<string>Power Supply 8</string>
+						<string>Power Supply</string>
 					</dict>
 					<key>P7H55-M PRO</key>
 					<dict>
@@ -4030,13 +4030,13 @@
 						<key>FANINLIMIT</key>
 						<integer>0</integer>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>TEMPIN2</key>
 						<string>Ambient</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -4053,7 +4053,7 @@
 							<key>gain</key>
 							<integer>1000</integer>
 							<key>name</key>
-							<string>CPU VRM Supply 2</string>
+							<string>CPU VRM</string>
 							<key>offset</key>
 							<integer>0</integer>
 							<key>reference</key>
@@ -4082,9 +4082,9 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>Power Supply 5</string>
+						<string>Power Supply</string>
 						<key>VIN6</key>
-						<string>Power Supply 6</string>
+						<string>Power Supply</string>
 						<key>VIN7</key>
 						<dict>
 							<key>gain</key>
@@ -4108,7 +4108,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN9</key>
-						<string>Power Supply 8</string>
+						<string>Power Supply</string>
 					</dict>
 					<key>P7P55D LE</key>
 					<dict>
@@ -4125,13 +4125,13 @@
 						<key>FANINLIMIT</key>
 						<integer>4</integer>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string>Ambient</string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<string>Memory</string>
 						<key>VIN2</key>
@@ -4174,13 +4174,13 @@
 						<key>FANINLIMIT</key>
 						<integer>0</integer>
 						<key>TEMPIN0</key>
-						<string>CPU</string>
+						<string>CPU Heatsink</string>
 						<key>TEMPIN1</key>
 						<string>Ambient</string>
 						<key>TEMPIN2</key>
-						<string>System</string>
+						<string>Mainboard</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
@@ -4217,9 +4217,9 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN5</key>
-						<string>Power Supply 5</string>
+						<string>Power Supply</string>
 						<key>VIN6</key>
-						<string>Power Supply 6</string>
+						<string>Power Supply</string>
 						<key>VIN7</key>
 						<dict>
 							<key>gain</key>
@@ -4243,7 +4243,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN9</key>
-						<string>Power Supply 8</string>
+						<string>Power Supply</string>
 					</dict>
 				</dict>
 				<key>Default</key>
@@ -4261,31 +4261,31 @@
 					<key>FANINLIMIT</key>
 					<integer>0</integer>
 					<key>TEMPIN0</key>
-					<string>CPU</string>
+					<string>CPU Heatsink</string>
 					<key>TEMPIN1</key>
-					<string>System</string>
+					<string>Mainboard</string>
 					<key>TEMPIN2</key>
 					<string>Ambient</string>
 					<key>VIN0</key>
-					<string>CPU</string>
+					<string>CPU Core</string>
 					<key>VIN1</key>
-					<string>Power Supply 1</string>
+					<string>Power Supply</string>
 					<key>VIN2</key>
-					<string>Power Supply 2</string>
+					<string>Power Supply</string>
 					<key>VIN3</key>
-					<string>Power Supply 3</string>
+					<string>Power Supply</string>
 					<key>VIN4</key>
-					<string>Power Supply 4</string>
+					<string>Power Supply</string>
 					<key>VIN5</key>
-					<string>Power Supply 5</string>
+					<string>Power Supply</string>
 					<key>VIN6</key>
-					<string>Power Supply 6</string>
+					<string>Power Supply</string>
 					<key>VIN7</key>
-					<string>Power Supply 7</string>
+					<string>Power Supply</string>
 					<key>VIN8</key>
 					<string>CMOS Battery</string>
 					<key>VIN9</key>
-					<string>Power Supply 9</string>
+					<string>Power Supply</string>
 				</dict>
 				<key>W83627DHG</key>
 				<string>W83667HGB</string>
@@ -4314,13 +4314,13 @@
 					<key>FANINLIMIT</key>
 					<integer>0</integer>
 					<key>TEMPIN0</key>
-					<string>CPU</string>
+					<string>CPU Heatsink</string>
 					<key>TEMPIN1</key>
 					<string>Ambient</string>
 					<key>TEMPIN2</key>
-					<string>System</string>
+					<string>Mainboard</string>
 					<key>VIN0</key>
-					<string>CPU</string>
+					<string>CPU Core</string>
 					<key>VIN1</key>
 					<dict>
 						<key>gain</key>
@@ -4337,7 +4337,7 @@
 						<key>gain</key>
 						<integer>1000</integer>
 						<key>name</key>
-						<string>CPU VRM Supply 2</string>
+						<string>CPU VRM</string>
 						<key>offset</key>
 						<integer>0</integer>
 						<key>reference</key>
@@ -4366,9 +4366,9 @@
 						<integer>0</integer>
 					</dict>
 					<key>VIN5</key>
-					<string>Power Supply 5</string>
+					<string>Power Supply</string>
 					<key>VIN6</key>
-					<string>Power Supply 6</string>
+					<string>Power Supply</string>
 					<key>VIN7</key>
 					<dict>
 						<key>gain</key>
@@ -4392,7 +4392,7 @@
 						<integer>0</integer>
 					</dict>
 					<key>VIN9</key>
-					<string>Power Supply 8</string>
+					<string>Power Supply</string>
 				</dict>
 				<key>W83687THF</key>
 				<dict>
@@ -4409,17 +4409,17 @@
 					<key>FANINLIMIT</key>
 					<integer>0</integer>
 					<key>TEMPIN0</key>
-					<string>CPU</string>
+					<string>CPU Heatsink</string>
 					<key>TEMPIN1</key>
 					<string>Ambient</string>
 					<key>TEMPIN2</key>
-					<string>System</string>
+					<string>Mainboard</string>
 					<key>VIN0</key>
-					<string>CPU</string>
+					<string>CPU Core</string>
 					<key>VIN1</key>
-					<string>Power Supply 1</string>
+					<string>Power Supply</string>
 					<key>VIN2</key>
-					<string>Power Supply 2</string>
+					<string>Power Supply</string>
 					<key>VIN3</key>
 					<dict>
 						<key>gain</key>
@@ -4432,7 +4432,7 @@
 						<integer>0</integer>
 					</dict>
 					<key>VIN4</key>
-					<string>Power Supply 4</string>
+					<string>Power Supply</string>
 					<key>VIN5</key>
 					<dict>
 						<key>gain</key>

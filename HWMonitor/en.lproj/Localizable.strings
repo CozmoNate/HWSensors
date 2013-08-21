@@ -20,12 +20,12 @@
 "battery" = "Battery icon";
 
 "CPUFan" = "CPU Fan";
-"CPUFan2" = "CPU Fan №2";
+"CPUFan2" = "CPU Fan 2";
 "PowerFan" = "Power Fan";
-"SystemFan1" = "System Fan №1";
-"SystemFan2" = "System Fan №2";
+"SystemFan1" = "System Fan 1";
+"SystemFan2" = "System Fan 2";
 "AuxFan" = "Auxiliary Fan";
-"AuxFan2" = "Auxiliary Fan №2";
+"AuxFan2" = "Auxiliary Fan 2";
 "MB Fan 0" = "Mainboard Fan 1";
 "MB Fan 1" = "Mainboard Fan 2";
 "MB Fan 2" = "Mainboard Fan 3";

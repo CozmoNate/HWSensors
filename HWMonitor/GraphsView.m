@@ -32,12 +32,10 @@
 
 @implementation GraphsView
 
-//#define GraphScale          4.0
-
-#define LeftViewMargin      5
-#define TopViewMargin       5
-#define RightViewMargin     5
-#define BottomViewMargin    5
+#define LeftViewMargin      2
+#define TopViewMargin       2
+#define RightViewMargin     2
+#define BottomViewMargin    2
 
 -(id)init
 {
@@ -196,13 +194,13 @@
     
     [context saveGraphicsState];
     
-    [[[NSGradient alloc]
-      initWithStartingColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.75]
-                endingColor:[NSColor colorWithCalibratedWhite:0.25 alpha:0.75]]
-        drawInRect:NSInsetRect(self.bounds, 3, 3) angle:270];
-    
     // Clipping rect
-    [NSBezierPath clipRect:NSMakeRect(LeftViewMargin, 0, self.bounds.size.width - LeftViewMargin - RightViewMargin, self.bounds.size.height)];
+    [NSBezierPath clipRect:NSMakeRect(LeftViewMargin, TopViewMargin, self.bounds.size.width - LeftViewMargin - RightViewMargin, self.bounds.size.height - TopViewMargin - BottomViewMargin)];
+    
+    [[[NSGradient alloc]
+      initWithStartingColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.85]
+                endingColor:[NSColor colorWithCalibratedWhite:0.25 alpha:0.85]]
+        drawInRect:self.bounds angle:270];
     
     // Draw marks
     [context setShouldAntialias:NO];
@@ -279,7 +277,7 @@
         }
         else {
             [[item color] set];
-            [path setLineWidth:2.0];
+            [path setLineWidth:1.5];
         }
         
         [path stroke];

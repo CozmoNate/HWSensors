@@ -33,75 +33,138 @@
 #define kFakeSMCTachometerSensor    3
 #define kFakeSMCFrequencySensor     4
 #define kFakeSMCMultiplierSensor    5
+#define kFakeSMCCurrentSensor       6
+#define kFakeSMCPowerSensor         7
 
-struct FakeSMCSensorParams {
-    const char *name;
-    const char *key;
-    const char *type;
-    UInt8       size;
+enum kFakeSMCCategory {
+    kFakeSMCCategoryNone = 0,
+    kFakeSMCCategoryTemperature,
+    kFakeSMCCategoryMultiplier,
+    kFakeSMCCategoryFrequency,
+    kFakeSMCCategoryVoltage,
+    kFakeSMCCategoryCurrent,
+    kFakeSMCCategoryPower,
 };
 
-#define FakeSMCTemperatureCount 6
-
-const struct FakeSMCSensorParams FakeSMCTemperature[FakeSMCTemperatureCount] =
-{
-    {"CPU", KEY_CPU_HEATSINK_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU Proximity", KEY_CPU_PROXIMITY_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
-    {"System", KEY_MAINBOARD_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
-    {"PCH", KEY_PCH_DIE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Northbridge", KEY_NORTHBRIDGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Ambient", KEY_AMBIENT_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE},
+struct FakeSMCSensorDefinitionEntry {
+    const char      *name;
+    const char      *key;
+    const char      *type;
+    UInt8           size;
+    kFakeSMCCategory category;
+    UInt8           shift;
+    UInt8           count;
 };
 
-#define FakeSMCVoltageCount 45
-
-const struct FakeSMCSensorParams FakeSMCVoltage[FakeSMCVoltageCount] =
+const struct FakeSMCSensorDefinitionEntry FakeSMCSensorDefinitions[] =
 {
-    {"CPU", KEY_CPU_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
-    {"CPU Vcore", KEY_CPU_VCORE_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
-    {"CPU VTT", KEY_CPU_VTT_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
-    {"PCH", KEY_PCH_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
-    {"Memory", KEY_MEMORY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
-    {"Main 12V", KEY_MAIN_12V_VOLTAGE, TYPE_SP4B, TYPE_SPXX_SIZE},
-    {"PCIe 12V", KEY_PCIE_12V_VOLTAGE, TYPE_SP4B, TYPE_SPXX_SIZE},
-    {"Main 5V", KEY_MAIN_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Standby 5V", KEY_STANDBY_5V_VOLTAGE, TYPE_FP4C, TYPE_FPXX_SIZE},
-    {"Main 3V", KEY_MAIN_3V3_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
-    {"Auxiliary 3V", KEY_AUXILIARY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
-    {"Standby 3V", KEY_STANDBY_3V3V_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
-    {"CMOS Battery", KEY_POWERBATTERY_VOLTAGE, TYPE_FP2E, TYPE_FPXX_SIZE},
-    {"CPU VRM", "VS0C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM 1", "VS1C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM 2", "VS2C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM 3", "VS3C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM 4", "VS4C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM 5", "VS5C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM 6", "VS6C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM 7", "VS7C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM 8", "VS8C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM 9", "VS9C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM A", "VSAC", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM B", "VSBC", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM C", "VSCC", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM D", "VSDC", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM E", "VSEC", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"CPU VRM F", "VSFC", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply", "Vp0C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply 1", "Vp1C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply 2", "Vp2C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply 3", "Vp3C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply 4", "Vp4C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply 5", "Vp5C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply 6", "Vp6C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply 7", "Vp7C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply 8", "Vp8C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply 9", "Vp9C", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply A", "VpAC", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply B", "VpBC", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply C", "VpCC", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply D", "VpDC", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply E", "VpEC", TYPE_SP78, TYPE_SPXX_SIZE},
-    {"Power Supply F", "VpFC", TYPE_SP78, TYPE_SPXX_SIZE},
+    {"Ambient",                 "TA0P", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
+    {"CPU Die",                 "TC%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"CPU Core",                "TC%XC", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"CPU GFX",                 "TC%XG", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"CPU Heatsink",            "TC%XH", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"CPU Proximity",           "TC%XP", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"Northbridge Die",         "TN%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"Northbridge Proximity",   "TN%XP", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"MCH Die",                 "TN%XC", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"MCH Heatsink",            "TN%XH", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"PCH Die",                 "TP%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"PCH Proximity",           "TP%XP", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"Memory Module",           "TM%XS", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"Memory Proximity",        "TM%XP", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"LCD",                     "TL0P", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
+    {"Airport",                 "TW0P", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
+    {"Battery",                 "TB%XP", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"Mainboard",               "Tm0P", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
+    /*{"GPU Die",                 "TG%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"GPU Heatsink",            "TG%XH", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"GPU Proximity",           "TG%Xp", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"GPU Memory",              "TG%XM", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},*/
+    {"Thermal Zone",            "TZ%XC", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    
+    // Multipliers
+    {"CPU Core",                "MlC%X", TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCCategoryMultiplier, 0, 0xF},
+    {"CPU Package",             "MlCP", TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCCategoryMultiplier, 0, 0},
+    
+    // Clocks
+    {"CPU Core",                "CC%XC", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 0xF},
+    {"CPU Package",             "CCPC", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 0},
+    /*{"GPU Core",                "CG%XC", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},
+    {"GPU Memory",              "CG%XM", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},
+    {"GPU Shaders",             "CG%XS", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},
+    {"GPU ROPs",                "CG%XR", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},*/
+    
+    // Voltages
+    {"CPU Core",                "VC0C", "sp1e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"CPU VTT",                 "VV1R", "sp1e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"PCH",                     "VN1R", "sp1e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"Memory",                  "VM0R", "sp1e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"MCH",                     "VN0C", "sp78", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"Main 3V",                 "VV2S", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"Main 5V",                 "VV1S", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"Main 12V",                "VV9S", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"Auxiliary 3V",            "VV7S", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"Standby 3V",              "VV3S", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"Standby 5V",              "VV8S", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"PCIe 12V",                "VeES", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"+12V Rail",               "VP0R", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"12V Vcc",                 "Vp0C", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"Power Supply",            "Vp%XC", "fp4c", 2, kFakeSMCCategoryVoltage, 1, 0xE},
+    {"Mainboard S0 Rail",       "VD0R", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"Mainboard S5 Rail",       "VD5R", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"CMOS Battery",            "Vb0R", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"Battery",                 "VBAT", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"CPU VRM",                 "VS%XC", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0xF},
+    
+    /*{"GPU Core",                "VC%XG", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 4},*/
+    
+    // Currents
+    {"CPU Core",                "IC0C", "sp78", 2, kFakeSMCCategoryCurrent, 0, 0},
+    {"CPU VccIO",               "IC1C", "sp5a", 2, kFakeSMCCategoryCurrent, 0, 0},
+    {"CPU VccSA",               "IC2C", "sp5a", 2, kFakeSMCCategoryCurrent, 0, 0},
+    {"CPU DRAM",                "IC5R", "sp4b", 2, kFakeSMCCategoryCurrent, 0, 0},
+    {"CPU PLL",                 "IC8R", "sp5a", 2, kFakeSMCCategoryCurrent, 0, 0},
+    {"CPU",                     "IC%XC", "sp78", 2, kFakeSMCCategoryCurrent, 0, 0xF},
+    {"CPU GFX",                 "IC0G", "sp5a", 2, kFakeSMCCategoryCurrent, 0, 0},
+    {"Memory Bank",             "IM%XS", "sp5a", 2, kFakeSMCCategoryCurrent, 0, 0xF},
+    {"MCH",                     "IN0C", "sp87", 2, kFakeSMCCategoryCurrent, 0, 0},
+    
+    /*{"GPU",                     "IG%XC", "sp78", 2, kFakeSMCCategoryCurrent, 0, 4},*/
+    
+//    [NSArray arrayWithObjects:@"IM0R",       @"Memory Rail", nil],
+//    [NSArray arrayWithObjects:@"IW0E",       @"Airport Rail", nil],
+//    [NSArray arrayWithObjects:@"IB0R",       @"Battery Rail", nil],
+//    [NSArray arrayWithObjects:@"Ie:081S",    @"PCIe Slot %X", nil],
+//    [NSArray arrayWithObjects:@"IM:A4AS",    @"PCIe Booster %X", nil],
+//    [NSArray arrayWithObjects:@"ID0R",       @"Mainboard S0 Rail", nil],
+//    [NSArray arrayWithObjects:@"ID5R",       @"Mainboard S5 Rail", nil],
+    
+    // Powers
+    {"CPU Core",                "PC%XC", "sp96", 2, kFakeSMCCategoryPower, 0, 0x8},
+    {"CPU",                     "PC%XC", "sp96", 2, kFakeSMCCategoryPower, 0xA, 6},
+    {"CPU GFX",                 "PC%XG", "sp96", 2, kFakeSMCCategoryPower, 0, 0x4},
+    {"CPU Package Cores",       "PCPC", "sp96", 2, kFakeSMCCategoryPower, 0, 0},
+    {"CPU Package Graphics",    "PCPG", "sp96", 2, kFakeSMCCategoryPower, 0, 0},
+    {"CPU Package Total",       "PCPT", "sp96", 2, kFakeSMCCategoryPower, 0, 0},
+    {"CPU Package DRAM",        "PCPD", "sp96", 2, kFakeSMCCategoryPower, 0, 0},
+//    [NSArray arrayWithObjects:@"PC1R",       @"CPU Rail", nil],
+//    [NSArray arrayWithObjects:@"PC5R",       @"CPU 1.5V S0 Rail", nil],
+//    [NSArray arrayWithObjects:@"PM0R",       @"Memory Rail", nil],
+//    [NSArray arrayWithObjects:@"PM:A4AS",    @"Memory Bank %X", nil],
+//    [NSArray arrayWithObjects:@"Pe:041S",    @"PCIe Slot %X", nil],
+//    [NSArray arrayWithObjects:@"Pe:A4AS",    @"PCIe Booster %X", nil],
+    
+    /*{"GPU",                     "PG%XC", "sp96", 2, kFakeSMCCategoryPower, 0, 4},*/
+    
+//    [NSArray arrayWithObjects:@"PG0R",       @"GPU Rail", nil],
+//    [NSArray arrayWithObjects:@"PG:132R",    @"GPU %X Rail", nil],
+//    [NSArray arrayWithObjects:@"PD0R",       @"Mainboard S0 Rail", nil],
+//    [NSArray arrayWithObjects:@"PD5R",       @"Mainboard S5 Rail", nil],
+//    [NSArray arrayWithObjects:@"Pp0C",       @"Power Supply 12V", nil],
+    {"System Total",            "PDTR", "sp96", 2, kFakeSMCCategoryPower, 0, 0},
+//    [NSArray arrayWithObjects:@"PZ:041G",    @"Zone %X Average", nil],
+    
+    {NULL, NULL, NULL, 0, kFakeSMCCategoryNone, 0, 0}
 };
 
 class FakeSMCPlugin;
@@ -121,6 +184,7 @@ protected:
     float               offset;
 	
 public:
+    static bool         parseModifiers(OSDictionary *node, float *reference, float *gain, float *offset);
     
 	static FakeSMCSensor *withOwner(FakeSMCPlugin *aOwner, const char* aKey, const char* aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference = 0.0f, float aGain = 0.0f, float aOffset = 0.0f);
     
@@ -162,6 +226,8 @@ protected:
     bool                    setKeyValue(const char *key, const char *type, UInt8 size, void *value);
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
+    virtual FakeSMCSensor   *addSensor(const char *abbriviation, kFakeSMCCategory category, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
+    virtual FakeSMCSensor   *addSensor(OSObject *node, kFakeSMCCategory category, UInt32 group, UInt32 index);
     virtual bool            addSensor(FakeSMCSensor *sensor);
 	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0, FanType type = FAN_RPM, UInt8 zone = 0, FanLocationType location = CENTER_MID_FRONT, SInt8 *fanIndex = 0);
 	virtual FakeSMCSensor   *getSensor(const char *key);

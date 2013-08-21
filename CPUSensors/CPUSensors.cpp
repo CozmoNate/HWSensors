@@ -603,7 +603,7 @@ bool CPUSensors::start(IOService *provider)
     
     // platform keys
     if (platform) {
-        HWSensorsInfoLog("set platform keys to [%-8s]", (const char*)platform->getBytesNoCopy());
+        HWSensorsInfoLog("setting platform keys to [%-8s]", (const char*)platform->getBytesNoCopy());
         
         if (/*!isKeyExists("RPlt") &&*/ !setKeyValue("RPlt", TYPE_CH8, platform->getLength(), (void*)platform->getBytesNoCopy()))
             HWSensorsWarningLog("failed to set platform key RPlt");

@@ -697,10 +697,10 @@
     NSMutableArray *updated = [[NSMutableArray alloc] init];
     
     if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
+        //NSTimeInterval sleepInterval = 1.0f / (float)[_sensors count];
         for (HWMonitorSensor *sensor in _sensors) {
             [self updateSensor:sensor addToArray:updated];
-            
-            //[NSThread sleepForTimeInterval:0.005];
+            //[NSThread sleepForTimeInterval:sleepInterval];
         }
     }
     else if (_connection) {
@@ -722,9 +722,11 @@
     NSMutableArray *updated = [[NSMutableArray alloc] init];
     
     if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
-        for (id object in sensors) {
+        //NSTimeInterval sleepInterval = 1.0f / (float)[_sensors count];
+        for (id object in _sensors) {
             if ([object isKindOfClass:[HWMonitorSensor class]] && [_sensors containsObject:object]) {
                 [self updateSensor:object addToArray:updated];
+                //[NSThread sleepForTimeInterval:sleepInterval];
             }
         }
     }

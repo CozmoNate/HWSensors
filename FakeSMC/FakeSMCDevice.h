@@ -68,6 +68,7 @@ private:
     bool                genericNVRAM;
     
     IORecursiveLock     *keysLock;
+    IORecursiveLock     *platformLock;
     
     UInt16              vacantGPUIndex;
     UInt16              vacantFanIndex;

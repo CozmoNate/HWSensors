@@ -27,9 +27,31 @@
 
 #include <IOKit/IOLib.h>
 
-// Sensor
+#pragma mark FakeSMCPSensor
 
 OSDefineMetaClassAndStructors(FakeSMCSensor, OSObject)
+
+bool FakeSMCSensor::parseModifiers(OSDictionary *node, float *reference, float *gain, float *offset)
+{
+    if (OSDynamicCast(OSDictionary, node)) {
+        
+        if (OSNumber *number = OSDynamicCast(OSNumber, node->getObject("reference")))
+            if (reference)
+                *reference = (float)number->unsigned64BitValue() / 1000.0f;
+        
+        if (OSNumber *number = OSDynamicCast(OSNumber, node->getObject("gain")))
+            if (gain)
+                *gain = (float)number->unsigned64BitValue() / 1000.0f;
+        
+        if (OSNumber *number = OSDynamicCast(OSNumber, node->getObject("offset")))
+            if (offset)
+                *offset = (float)number->unsigned64BitValue() / 1000.0f;
+        
+        return true;
+    }
+    
+    return false;
+}
 
 FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey, const char *aType, UInt8 aSize, UInt32 aGroup, UInt32 aIndex, float aReference, float aGain, float aOffset)
 {
@@ -164,7 +186,8 @@ void FakeSMCSensor::encodeNumericValue(float value, void *outBuffer)
     }
 }
 
-// Plugin
+#pragma mark -
+#pragma mark FakeSMCPlugin
 
 #include "OEMInfo.h"
 
@@ -193,7 +216,9 @@ bool FakeSMCPlugin::isKeyExists(const char *key)
     if (storageProvider) {
         UInt8 size = 0;
         void *value = 0;
-        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)key, (void *)&size, (void *)&value, 0);
+        IOReturn result = storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)key, (void *)&size, (void *)&value, 0);
+        
+        return result == kIOReturnSuccess;
     }
     
     return false;
@@ -203,7 +228,9 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
 {
     if (storageProvider) {
         IOService *handler = 0;
-        return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)&handler, 0, 0);
+        IOReturn result = storageProvider->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)&handler, 0, 0);
+        
+        return result == kIOReturnSuccess;
     }
     
     return false;
@@ -211,7 +238,9 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
 
 bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, void *value)
 {
-    return kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)type, (void *)size, (void *)value);
+    IOReturn result = storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)type, (void *)size, (void *)value);
+    
+    return result == kIOReturnSuccess;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
@@ -229,6 +258,56 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8
     }
 	
 	return NULL;
+}
+
+FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbriviation, kFakeSMCCategory category, UInt32 group, UInt32 index, float reference, float gain, float offset)
+{
+    if (abbriviation && strlen(abbriviation) >= 3) {
+        
+        for (int i = 0; FakeSMCSensorDefinitions[i].name; i++) {
+            if (FakeSMCSensorDefinitions[i].category == category && 0 == strcasecmp(FakeSMCSensorDefinitions[i].name, abbriviation)) {
+                
+                if (FakeSMCSensorDefinitions[i].count) {
+                    
+                    for (int counter = 0; counter < FakeSMCSensorDefinitions[i].count; counter++) {
+                        char key[5];
+                        
+                        snprintf(key, 5, FakeSMCSensorDefinitions[i].key, FakeSMCSensorDefinitions[i].shift + counter);
+                        
+                        if (!isKeyExists(key)) {
+                            return addSensor(key, FakeSMCSensorDefinitions[i].type, FakeSMCSensorDefinitions[i].size, group, index, reference, gain, offset);
+                        }
+                    }
+                }
+                else return addSensor(FakeSMCSensorDefinitions[i].key, FakeSMCSensorDefinitions[i].type, FakeSMCSensorDefinitions[i].size, group, index, reference, gain, offset);
+            }
+        }
+        
+    }
+    
+    return NULL;
+}
+
+FakeSMCSensor *FakeSMCPlugin::addSensor(OSObject *node, kFakeSMCCategory category, UInt32 group, UInt32 index)
+{
+    if (node) {
+ 
+        float reference = 0, gain = 0, offset = 0;
+        OSString *abbriviation = NULL;
+        
+        if (OSDictionary *dictionary = OSDynamicCast(OSDictionary, node)) {
+            if ((abbriviation = OSDynamicCast(OSString, dictionary->getObject("name")))) {
+                FakeSMCSensor::parseModifiers(dictionary, &reference, &gain, &offset);
+            }
+        }
+        else if (!(abbriviation = OSDynamicCast(OSString, node))) {
+            return NULL;
+        }
+        
+        return addSensor(abbriviation->getCStringNoCopy(), category, group, index, reference, gain, offset);
+    }
+    
+    return NULL;
 }
 
 bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)

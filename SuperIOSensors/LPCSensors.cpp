@@ -32,52 +32,51 @@
 #define super FakeSMCPlugin
 OSDefineMetaClassAndAbstractStructors(LPCSensors, FakeSMCPlugin)
 
-bool LPCSensors::addSensorFromConfigurationNode(OSObject *configuration, const char *name, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
+bool LPCSensors::checkConfigurationNode(OSObject *node, const char *name)
 {
-    float reference = 0, gain = 0, offset = 0;
-    
-    if (configuration) {
-        if (OSString *configName = OSDynamicCast(OSString, configuration)) {
+    if (node) {
+        if (OSString *configName = OSDynamicCast(OSString, node)) {
             if (!configName->isEqualTo(name))
                 return false;
         }
-        else if (OSDictionary *configDict = OSDynamicCast(OSDictionary, configuration)) {
+        else if (OSDictionary *configDict = OSDynamicCast(OSDictionary, node)) {
             if ((configName = OSDynamicCast(OSString, configDict->getObject("name")))) {
-                if (configName->isEqualTo(name)) {
-                    if (OSNumber *number = OSDynamicCast(OSNumber, configDict->getObject("reference")))
-                        reference = (float)number->unsigned64BitValue() / 1000.0f;
-                    
-                    if (OSNumber *number = OSDynamicCast(OSNumber, configDict->getObject("gain")))
-                        gain = (float)number->unsigned64BitValue() / 1000.0f;
-                    
-                    if (OSNumber *number = OSDynamicCast(OSNumber, configDict->getObject("offset")))
-                        offset = (float)number->unsigned64BitValue() / 1000.0f;
-                }
-                else return false;
+                if (!configName->isEqualTo(name))
+                    return false;
             }
             else return false;
         }
         else return false;
     }
     
+    return true;
+}
+
+bool LPCSensors::addSensorFromConfigurationNode(OSObject *node, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index)
+{
+    float reference = 0, gain = 0, offset = 0;
+    
+    if (OSDictionary *dictionary = OSDynamicCast(OSDictionary, node))
+        FakeSMCSensor::parseModifiers(dictionary, &reference, &gain, &offset);
+    
     if (!this->addSensor(key, type, size, group, index, reference, gain, offset)) {
         const char *group_name;
         
         switch (group) {
             case kFakeSMCTemperatureSensor:
-                group_name = " temperature";
+                group_name = "temperature";
                 break;
             case kFakeSMCTachometerSensor:
-                group_name = " tachometer";
+                group_name = "tachometer";
                 break;
             case kFakeSMCVoltageSensor:
-                group_name = " voltage";
+                group_name = "voltage";
                 break;
             case kFakeSMCFrequencySensor:
-                group_name = " frequency";
+                group_name = "frequency";
                 break;
             case kFakeSMCMultiplierSensor:
-                group_name = " multiplier";
+                group_name = "multiplier";
                 break;
                 
             default:
@@ -85,7 +84,7 @@ bool LPCSensors::addSensorFromConfigurationNode(OSObject *configuration, const c
                 break;
         }
         
-        HWSensorsWarningLog("failed to add %s%s sensor", name, group_name);
+        HWSensorsWarningLog("failed to add %s sensor for key %s", group_name, key);
         
         return false;
     }
@@ -104,19 +103,16 @@ bool LPCSensors::addTemperatureSensors(OSDictionary *configuration)
         snprintf(key, 8, "TEMPIN%X", i);
         
         if (OSObject* node = configuration->getObject(key)) {
-            for (int j = 0; j < FakeSMCTemperatureCount; j++) {
-                if (addSensorFromConfigurationNode(node, FakeSMCTemperature[j].name, FakeSMCTemperature[j].key, FakeSMCTemperature[j].type, FakeSMCTemperature[j].size, kFakeSMCTemperatureSensor, i))
-                    break;
-            }
-            
-            if (gpuIndex < 0)
-                gpuIndex = takeVacantGPUIndex();
-                
-            if (gpuIndex >= 0) {
-                snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, gpuIndex);
-                if (!addSensorFromConfigurationNode(node, "GPU", key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i)) {
-                    releaseGPUIndex(gpuIndex);
-                    gpuIndex = -1;
+            if (!addSensor(node, kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, i)) {
+                if (gpuIndex < 0)
+                    gpuIndex = takeVacantGPUIndex();
+                    
+                if (gpuIndex >= 0 && checkConfigurationNode(configuration, "GPU Die")) {
+                    snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, gpuIndex);
+                    if (!addSensorFromConfigurationNode(node, key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i)) {
+                        releaseGPUIndex(gpuIndex);
+                        gpuIndex = -1;
+                    }
                 }
             }
         }
@@ -136,19 +132,16 @@ bool LPCSensors::addVoltageSensors(OSDictionary *configuration)
         snprintf(key, 5, "VIN%X", i);
         
         if (OSObject* node = configuration->getObject(key)) {
-            for (int j = 0; j < FakeSMCVoltageCount; j++) {
-                if (addSensorFromConfigurationNode(node, FakeSMCVoltage[j].name, FakeSMCVoltage[j].key, FakeSMCVoltage[j].type, FakeSMCVoltage[j].size, kFakeSMCVoltageSensor, i))
-                    break;
-            }
-
-            if (gpuIndex < 0)
-                gpuIndex = takeVacantGPUIndex();
-            
-            if (gpuIndex >= 0) {
-                snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, gpuIndex);
-                if (!addSensorFromConfigurationNode(node, "GPU", key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, i)) {
-                    releaseGPUIndex(gpuIndex);
-                    gpuIndex = -1;
+            if (!addSensor(node, kFakeSMCCategoryVoltage, kFakeSMCVoltageSensor, i)) {
+                if (gpuIndex < 0)
+                    gpuIndex = takeVacantGPUIndex();
+                
+                if (gpuIndex >= 0 && checkConfigurationNode(configuration, "GPU Core")) {
+                    snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, gpuIndex);
+                    if (!addSensorFromConfigurationNode(node, key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, i)) {
+                        releaseGPUIndex(gpuIndex);
+                        gpuIndex = -1;
+                    }
                 }
             }
         }

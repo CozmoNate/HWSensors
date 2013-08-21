@@ -31,6 +31,33 @@
 	<string>????</string>
 	<key>IOKitPersonalities</key>
 	<dict>
+		<key>Thermal Zone Monitoring Plugin</key>
+		<dict>
+			<key>IOProbeScore</key>
+			<integer>1000</integer>
+			<key>IOMatchCategory</key>
+			<string>FakeSMCPlugin</string>
+			<key>IOClass</key>
+			<string>ACPISensors</string>
+			<key>IOProviderClass</key>
+			<string>IOACPIPlatformDevice</string>
+			<key>IOPropertyMatch</key>
+			<dict>
+				<key>device_type</key>
+				<string>thermal-zone</string>
+			</dict>
+			<key>Platform Profile</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Temperatures</key>
+					<dict>
+						<key>Thermal Zone</key>
+						<string>_TMP</string>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
 		<key>PTID Device Monitoring Plugin</key>
 		<dict>
 			<key>IOProbeScore</key>
@@ -45,22 +72,6 @@
 			<array>
 				<string>PTID</string>
 			</array>
-		</dict>
-		<key>Thermal Zone Monitoring Plugin</key>
-		<dict>
-			<key>IOPropertyMatch</key>
-			<dict>
-				<key>device_type</key>
-				<string>thermal-zone</string>
-			</dict>
-			<key>IOProbeScore</key>
-			<integer>1000</integer>
-			<key>IOMatchCategory</key>
-			<string>FakeSMCPlugin</string>
-			<key>IOClass</key>
-			<string>TZSensors</string>
-			<key>IOProviderClass</key>
-			<string>IOACPIPlatformDevice</string>
 		</dict>
 		<key>ACPI Customizable Monitoring Plugin</key>
 		<dict>
@@ -78,9 +89,9 @@
 				<dict>
 					<key>Temperatures</key>
 					<dict>
-						<key>System</key>
+						<key>Mainboard</key>
 						<string>TSYS</string>
-						<key>CPU</key>
+						<key>CPU Heatsink</key>
 						<string>TCPU</string>
 						<key>CPU Proximity</key>
 						<string>TCPP</string>
@@ -89,7 +100,7 @@
 					<dict>
 						<key>Memory</key>
 						<string>VMEM</string>
-						<key>CPU</key>
+						<key>CPU Core</key>
 						<string>VCPU</string>
 					</dict>
 					<key>Fan Names</key>
@@ -97,7 +108,7 @@
 						<key>FAN7</key>
 						<string>Fan 8</string>
 						<key>FAN4</key>
-						<string>Exhaust Fan</string>
+						<string>ExhaustFan</string>
 						<key>FAN1</key>
 						<string>CPUFan</string>
 						<key>FANA</key>

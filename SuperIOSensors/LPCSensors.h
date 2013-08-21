@@ -47,7 +47,8 @@ protected:
     
     SInt8                   gpuIndex;
     
-    bool                    addSensorFromConfigurationNode(OSObject *node, const char *name, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index);
+    bool                    checkConfigurationNode(OSObject *node, const char *name);
+    bool                    addSensorFromConfigurationNode(OSObject *node, const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index);
     
     virtual bool            addTemperatureSensors(OSDictionary *configuration);
     virtual bool            addVoltageSensors(OSDictionary *configuration);
