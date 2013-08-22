@@ -171,7 +171,7 @@ class FakeSMCPlugin;
 
 class FakeSMCSensor : public OSObject {
     OSDeclareDefaultStructors(FakeSMCSensor)
-	
+    	
 protected:
 	FakeSMCPlugin       *owner;
     char                key[5];

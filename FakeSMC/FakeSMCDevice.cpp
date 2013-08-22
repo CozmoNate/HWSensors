@@ -20,8 +20,10 @@
 
 #define FakeSMCSetProperty(key, value)	do { if (!this->setProperty(key, value)) {HWSensorsErrorLog("failed to set '%s' property", key); return false; } } while(0)
 
-#define KEYSLOCK    IORecursiveLockLock(keysLock)
-#define KEYSUNLOCK  IORecursiveLockUnlock(keysLock)
+IORecursiveLock     *gKeysLock;
+
+#define KEYSLOCK    IORecursiveLockLock(gKeysLock)
+#define KEYSUNLOCK  IORecursiveLockUnlock(gKeysLock)
 
 #define super IOACPIPlatformDevice
 OSDefineMetaClassAndStructors (FakeSMCDevice, IOACPIPlatformDevice)
@@ -555,8 +557,8 @@ bool FakeSMCDevice::initAndStart(IOService *platform, IOService *provider)
     fanCounterKey = FakeSMCKey::withValue(KEY_FAN_NUMBER, TYPE_UI8, TYPE_UI8_SIZE, "\0");
     keys->setObject(fanCounterKey);
     
-    keysLock = IORecursiveLockAlloc();
-    platformLock = IORecursiveLockAlloc();
+    if (!gKeysLock)
+        gKeysLock = IORecursiveLockAlloc();
     
     // Load preconfigured keys
     FakeSMCDebugLog("loading keys...");
@@ -889,8 +891,6 @@ IOReturn FakeSMCDevice::causeInterrupt(int source)
 
 IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
 {
-    IORecursiveLockLock(platformLock);
-    
     IOReturn result = kIOReturnUnsupported;
     
     if (functionName->isEqualTo(kFakeSMCAddKeyHandler)) {
@@ -1111,12 +1111,9 @@ IOReturn FakeSMCDevice::callPlatformFunction(const OSSymbol *functionName, bool 
         KEYSUNLOCK;
     }
     else {
-        IORecursiveLockUnlock(platformLock);
         
-        return super::callPlatformFunction(functionName, waitForFunction, param1, param2, param3, param4);
+        result = super::callPlatformFunction(functionName, waitForFunction, param1, param2, param3, param4);
     }
-    
-    IORecursiveLockUnlock(platformLock);
     
 	return result;
 }

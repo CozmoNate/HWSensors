@@ -27,6 +27,11 @@
 
 #include <IOKit/IOLib.h>
 
+static IORecursiveLock *gSyncLock;
+
+#define SYNCLOCK        if (!gSyncLock) gSyncLock = IORecursiveLockAlloc(); IORecursiveLockLock(gSyncLock)
+#define SYNCUNLOCK      IORecursiveLockUnlock(gSyncLock)
+
 #pragma mark FakeSMCPSensor
 
 OSDefineMetaClassAndStructors(FakeSMCSensor, OSObject)
@@ -213,55 +218,79 @@ OSString *FakeSMCPlugin::getPlatformProduct()
 
 bool FakeSMCPlugin::isKeyExists(const char *key)
 {
+    SYNCLOCK;
+    
     if (storageProvider) {
         UInt8 size = 0;
         void *value = 0;
         IOReturn result = storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)key, (void *)&size, (void *)&value, 0);
         
+        SYNCUNLOCK;
         return result == kIOReturnSuccess;
     }
+    
+    SYNCUNLOCK;
     
     return false;
 }
 
 bool FakeSMCPlugin::isKeyHandled(const char *key)
 {
+    SYNCLOCK;
+    
     if (storageProvider) {
         IOService *handler = 0;
         IOReturn result = storageProvider->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)&handler, 0, 0);
         
+        SYNCUNLOCK;
         return result == kIOReturnSuccess;
     }
     
+    SYNCUNLOCK;
     return false;
 }
 
 bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, void *value)
 {
+    SYNCLOCK;
+    
     IOReturn result = storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)type, (void *)size, (void *)value);
     
+    SYNCUNLOCK;
     return result == kIOReturnSuccess;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
-{   
+{
+    SYNCLOCK;
+    
     if (getSensor(key)) {
         HWSensorsDebugLog("will not add handler for key %s, key already handled", key);
+        SYNCUNLOCK;
 		return NULL;
     }
 	
     if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index, reference, gain, offset)) {
-        if (addSensor(sensor))
+        if (addSensor(sensor)) {
+            SYNCUNLOCK;
             return sensor;
-        else 
+        }
+        else {
             OSSafeRelease(sensor);
+        }
     }
 	
+    SYNCUNLOCK;
+    
 	return NULL;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbriviation, kFakeSMCCategory category, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
+    SYNCLOCK;
+    
+    FakeSMCSensor *sensor = NULL;
+    
     if (abbriviation && strlen(abbriviation) >= 3) {
         
         for (int i = 0; FakeSMCSensorDefinitions[i].name; i++) {
@@ -275,21 +304,27 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbriviation, kFakeSMCCatego
                         snprintf(key, 5, FakeSMCSensorDefinitions[i].key, FakeSMCSensorDefinitions[i].shift + counter);
                         
                         if (!isKeyExists(key)) {
-                            return addSensor(key, FakeSMCSensorDefinitions[i].type, FakeSMCSensorDefinitions[i].size, group, index, reference, gain, offset);
+                            sensor = addSensor(key, FakeSMCSensorDefinitions[i].type, FakeSMCSensorDefinitions[i].size, group, index, reference, gain, offset);
+                            break;
                         }
                     }
                 }
-                else return addSensor(FakeSMCSensorDefinitions[i].key, FakeSMCSensorDefinitions[i].type, FakeSMCSensorDefinitions[i].size, group, index, reference, gain, offset);
+                else sensor = addSensor(FakeSMCSensorDefinitions[i].key, FakeSMCSensorDefinitions[i].type, FakeSMCSensorDefinitions[i].size, group, index, reference, gain, offset);
             }
         }
         
     }
     
-    return NULL;
+    SYNCUNLOCK;
+    return sensor;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addSensor(OSObject *node, kFakeSMCCategory category, UInt32 group, UInt32 index)
 {
+    SYNCLOCK;
+    
+    FakeSMCSensor *sensor = NULL;
+    
     if (node) {
  
         float reference = 0, gain = 0, offset = 0;
@@ -300,26 +335,35 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(OSObject *node, kFakeSMCCategory categor
                 FakeSMCSensor::parseModifiers(dictionary, &reference, &gain, &offset);
             }
         }
-        else if (!(abbriviation = OSDynamicCast(OSString, node))) {
-            return NULL;
-        }
-        
-        return addSensor(abbriviation->getCStringNoCopy(), category, group, index, reference, gain, offset);
+        else abbriviation = OSDynamicCast(OSString, node);
+
+        if (abbriviation)
+            sensor = addSensor(abbriviation->getCStringNoCopy(), category, group, index, reference, gain, offset);
     }
     
-    return NULL;
+    SYNCUNLOCK;
+    return sensor;
 }
 
 bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
 {
-    if(sensor && kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyHandler, true, (void *)sensor->getKey(), (void *)sensor->getType(), (void *)sensor->getSize(), (void *)this))
-        return sensors->setObject(sensor->getKey(), sensor);
+    SYNCLOCK;
     
-    return false;
+    bool result = false;
+    
+    if (sensor && kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyHandler, true, (void *)sensor->getKey(), (void *)sensor->getType(), (void *)sensor->getSize(), (void *)this)) {
+        result = sensors->setObject(sensor->getKey(), sensor);
+    }
+    
+    SYNCUNLOCK;
+    
+    return result;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanType type, UInt8 zone, FanLocationType location, SInt8 *fanIndex)
 {
+    SYNCLOCK;
+    
     SInt8 vacantFanIndex = takeVacantFanIndex();
     
     if (vacantFanIndex >= 0) {
@@ -347,12 +391,16 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanT
             
             if (fanIndex) *fanIndex = vacantFanIndex;
             
+            SYNCUNLOCK;
+            
             return sensor;
         }
         else HWSensorsErrorLog("failed to add tachometer sensor for key %s", key);
     }
     else HWSensorsErrorLog("failed to take vacant Fan index");
 	
+    SYNCUNLOCK;
+    
 	return 0;
 }
 
@@ -368,6 +416,8 @@ float FakeSMCPlugin::getSensorValue(FakeSMCSensor *sensor)
 
 SInt8 FakeSMCPlugin::takeVacantGPUIndex()
 {
+    SYNCLOCK;
+    
     SInt8 index = -1;
     
     for (int i = 0; i < 3; i++) {
@@ -376,6 +426,7 @@ SInt8 FakeSMCPlugin::takeVacantGPUIndex()
         switch (resut) {
             case kIOReturnSuccess:
             case kIOReturnBadArgument:
+                SYNCUNLOCK;
                 return index;
 
             default:
@@ -385,19 +436,25 @@ SInt8 FakeSMCPlugin::takeVacantGPUIndex()
         IOSleep(10);
     }
     
+    SYNCUNLOCK;
+    
     return index;
 }
 
 bool FakeSMCPlugin::takeGPUIndex(UInt8 index)
 {
+    SYNCLOCK;
+    
     for (int i = 0; i < 3; i++) {
         IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCTakeGPUIndex, true, (void *)&index, 0, 0, 0);
         
         switch (resut) {
             case kIOReturnSuccess:
+                SYNCUNLOCK;
                 return true;
                 
             case kIOReturnBadArgument:
+                SYNCUNLOCK;
                 return false;
                 
             default:
@@ -406,20 +463,26 @@ bool FakeSMCPlugin::takeGPUIndex(UInt8 index)
         
         IOSleep(10);
     }
+    
+    SYNCUNLOCK;
     
     return false;
 }
 
 bool FakeSMCPlugin::releaseGPUIndex(UInt8 index)
 {
+    SYNCLOCK;
+    
     for (int i = 0; i < 3; i++) {
         IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCReleaseGPUIndex, true, (void *)&index, 0, 0, 0);
         
         switch (resut) {
             case kIOReturnSuccess:
+                SYNCUNLOCK;
                 return true;
                 
             case kIOReturnBadArgument:
+                SYNCUNLOCK;
                 return false;
                 
             default:
@@ -429,26 +492,36 @@ bool FakeSMCPlugin::releaseGPUIndex(UInt8 index)
         IOSleep(10);
     }
     
+    SYNCUNLOCK;
     return false;
 }
 
 SInt8 FakeSMCPlugin::takeVacantFanIndex()
 {
+    SYNCLOCK;
+    
     SInt8 index = -1;
     
     if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeVacantFanIndex, true, (void *)&index, 0, 0, 0))
         HWSensorsErrorLog("failed to take Fan index");
+    
+    SYNCUNLOCK;
     
     return index;
 }
 
 bool FakeSMCPlugin::releaseFanIndex(UInt8 index)
 {
+    SYNCLOCK;
+    
     if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCReleaseFanIndex, true, (void *)&index, 0, 0, 0)) {
         HWSensorsErrorLog("failed to release Fan index");
+        
+        SYNCUNLOCK;
         return false;
     }
     
+    SYNCUNLOCK;
     return true;
 }
 
