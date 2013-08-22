@@ -27,11 +27,6 @@
 
 #include <IOKit/IOLib.h>
 
-static IORecursiveLock *gSyncLock;
-
-#define SYNCLOCK        if (!gSyncLock) gSyncLock = IORecursiveLockAlloc(); IORecursiveLockLock(gSyncLock)
-#define SYNCUNLOCK      IORecursiveLockUnlock(gSyncLock)
-
 #pragma mark FakeSMCPSensor
 
 OSDefineMetaClassAndStructors(FakeSMCSensor, OSObject)
@@ -195,6 +190,11 @@ void FakeSMCSensor::encodeNumericValue(float value, void *outBuffer)
 #pragma mark FakeSMCPlugin
 
 #include "OEMInfo.h"
+
+static IORecursiveLock *gPluginSyncLock;
+
+#define SYNCLOCK        if (!gPluginSyncLock) gPluginSyncLock = IORecursiveLockAlloc(); IORecursiveLockLock(gPluginSyncLock)
+#define SYNCUNLOCK      IORecursiveLockUnlock(gPluginSyncLock)
 
 #define super IOService
 OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)

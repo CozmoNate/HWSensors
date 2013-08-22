@@ -243,7 +243,7 @@
         [path removeAllPoints];
         [path setLineJoinStyle:NSRoundLineJoinStyle];
         
-        CGFloat startOffset = [values count] > _maxPoints ? _maxPoints - [values count] : _graphBounds.size.width - _maxPoints;
+        CGFloat startOffset = /*[values count] > _maxPoints ?*/ _maxPoints - [values count] /*: _graphBounds.size.width - _maxPoints*/;
         
         if (_useSmoothing) {
             NSPoint lastPoint = NSMakePoint(startOffset, [[values objectAtIndex:0] doubleValue]);
