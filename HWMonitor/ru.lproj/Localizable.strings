@@ -67,8 +67,8 @@
 "Preferences" = "Настройки";
 "Menubar Items" = "Значки меню";
 "History Graphs" = "Графики";
-"Sensors update rate:" = "Интервал обновлений датчиков:";
-"S.M.A.R.T. update rate:" = "Интервал обновлений S.M.A.R.T:";
+"Sensors update rate:" = "Интервал обновления датчиков:";
+"S.M.A.R.T. update rate:" = "Интервал обновления S.M.A.R.T:";
 "sec" = "сек.";
 "min" = "мин.";
 "Graphs:" = "Графики:";
@@ -89,7 +89,7 @@
 "Continue monitor sensors in background" = "Продолжать собирать данные в фоновом режиме";
 "Graphs window always topmost" = "Окно графиков всегда поверх остальных окон";
 "Graphs scale factor:" = "Масштаб отображения по времени:";
-"Check for updates" = "Проверять наличие обновлений";
+"Check for updates" = "Проверять наличие обновлений в сети";
 "Attach to Menu Bar" = "Закрепить в системном меню";
 "Detach from Menu Bar" = "Отсоеденить панель сенсоров";
 "Hide Window" = "Скрыть окно";

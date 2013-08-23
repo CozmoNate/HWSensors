@@ -527,10 +527,10 @@
 -(void)updateRateChanged:(NSNotification *)aNotification
 {
     _smcSensorsUpdateInterval = [self getSmcSensorsUpdateRate];
-    _smcSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];
+    _smcSensorsLastUpdated = [NSDate dateWithTimeIntervalSinceNow:0];
     _favoritesSensorsLastUpdated = _smcSensorsLastUpdated;
-     _smartSensorsUpdateInterval = [self getSmartSensorsUpdateRate] * 60;
-    _smartSensorsLastUpdated = [NSDate dateWithTimeIntervalSince1970:0.0];
+    _smartSensorsUpdateInterval = [self getSmartSensorsUpdateRate] * 60;
+    _smartSensorsLastUpdated = [NSDate dateWithTimeIntervalSinceNow:0];
 }
 
 - (void)toggleGraphSmoothing:(id)sender
