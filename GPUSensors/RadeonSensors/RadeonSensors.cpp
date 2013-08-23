@@ -47,11 +47,13 @@ bool RadeonSensors::managedStart(IOService *provider)
     for (UInt32 i = 0; (mmio = card.pdev->mapDeviceMemoryWithIndex(i)); i++) {
         long unsigned int mmio_base_phys = mmio->getPhysicalAddress();
         // Make sure we select MMIO registers
-        if (((mmio->getLength()) <= 0x00020000) && (mmio_base_phys != 0)) {
+        if (((mmio->getLength()) <= 0x00040000) && (mmio_base_phys != 0)) {
             card.mmio = mmio;
             break;
         }
     }
+    
+    //card.mmio = card.pdev->mapDeviceMemoryWithIndex(1);
     
     if (!card.mmio) {
         HWSensorsInfoLog("failed to map device memory");
@@ -255,10 +257,9 @@ bool RadeonSensors::managedStart(IOService *provider)
                 radeon_info(&card, "adding Sumo thermal sensor\n");
                 break;
             case THERMAL_TYPE_SI:
-                radeon_fatal(&card, "Southern Islands thermal sensor monitoring is unsupported under OS X\n");
-                //card.get_core_temp = si_get_temp;
-                //radeon_info(&card, "adding Southern Islands thermal sensor\n");
-                //break;
+                card.get_core_temp = si_get_temp;
+                radeon_info(&card, "adding Southern Islands thermal sensor\n");
+                break;
             default:
                 radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);
                 releaseGPUIndex(card.card_index);
@@ -314,7 +315,7 @@ bool RadeonSensors::start(IOService *provider)
         return false;
     }
     
-    card.card_index = pciDevice->getBusNumber() - 2;
+    card.card_index = pciDevice->getBusNumber() - 1;
     
     if (!takeGPUIndex(card.card_index)) {
         if ((card.card_index = takeVacantGPUIndex()) < 0) {

@@ -93,16 +93,6 @@ bool GeforceSensors::managedStart(IOService *provider)
 {
     struct nouveau_device *device = &card;
     
-    //    if (OSData *multiboard_capable = OSDynamicCast(OSData, provider->getProperty("rm_multiboard_capable"))) {
-    //        if (*((UInt32*)multiboard_capable->getBytesNoCopy())) {
-    //            if (OSData *board_number = OSDynamicCast(OSData, provider->getProperty("rm_board_number"))) {
-    //                UInt32 index = *((UInt32*)board_number->getBytesNoCopy());
-    //                card.card_index = takeGPUIndex((UInt8)index);
-    //                HWSensorsInfoLog("accepted rm_board_number: %d", card.card_index);
-    //            }
-    //        }
-    //    }
-    
     nouveau_vbios_init(device);
     nouveau_bios_parse(device);
     

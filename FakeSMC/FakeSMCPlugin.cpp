@@ -420,20 +420,16 @@ SInt8 FakeSMCPlugin::takeVacantGPUIndex()
     
     SInt8 index = -1;
     
-    for (int i = 0; i < 3; i++) {
-        IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCTakeVacantGPUIndex, true, (void *)&index, 0, 0, 0);
-        
-        switch (resut) {
-            case kIOReturnSuccess:
-            case kIOReturnBadArgument:
-                SYNCUNLOCK;
-                return index;
+    IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCTakeVacantGPUIndex, true, (void *)&index, 0, 0, 0);
+    
+    switch (resut) {
+        case kIOReturnSuccess:
+        case kIOReturnBadArgument:
+            SYNCUNLOCK;
+            return index;
 
-            default:
-                break;
-        }
-        
-        IOSleep(10);
+        default:
+            break;
     }
     
     SYNCUNLOCK;
@@ -445,23 +441,19 @@ bool FakeSMCPlugin::takeGPUIndex(UInt8 index)
 {
     SYNCLOCK;
     
-    for (int i = 0; i < 3; i++) {
-        IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCTakeGPUIndex, true, (void *)&index, 0, 0, 0);
-        
-        switch (resut) {
-            case kIOReturnSuccess:
-                SYNCUNLOCK;
-                return true;
-                
-            case kIOReturnBadArgument:
-                SYNCUNLOCK;
-                return false;
-                
-            default:
-                break;
-        }
-        
-        IOSleep(10);
+    IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCTakeGPUIndex, true, (void *)&index, 0, 0, 0);
+    
+    switch (resut) {
+        case kIOReturnSuccess:
+            SYNCUNLOCK;
+            return true;
+            
+        case kIOReturnBadArgument:
+            SYNCUNLOCK;
+            return false;
+            
+        default:
+            break;
     }
     
     SYNCUNLOCK;

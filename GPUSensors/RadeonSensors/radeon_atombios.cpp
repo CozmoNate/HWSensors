@@ -80,7 +80,7 @@ static int radeon_atombios_parse_power_table_4_5(struct radeon_device *rdev)
 	int state_index = 0;
 
 	union power_info *power_info;
-	int index = GetIndexIntoMasterTable(DATA, PowerPlayInfo);
+	int index = (int)GetIndexIntoMasterTable(DATA, PowerPlayInfo);
     u16 data_offset;
 	u8 frev, crev;
     
@@ -100,7 +100,7 @@ static int radeon_atombios_parse_power_table_6(struct radeon_device *rdev)
 {
 	int state_index = 0;
 	union power_info *power_info;
-	int index = GetIndexIntoMasterTable(DATA, PowerPlayInfo);
+	int index = (int)GetIndexIntoMasterTable(DATA, PowerPlayInfo);
     u16 data_offset;
 	u8 frev, crev;
     
@@ -118,7 +118,7 @@ static int radeon_atombios_parse_power_table_6(struct radeon_device *rdev)
 
 void radeon_atombios_get_power_modes(struct radeon_device *rdev)
 {
-	int index = GetIndexIntoMasterTable(DATA, PowerPlayInfo);
+	int index = (int)GetIndexIntoMasterTable(DATA, PowerPlayInfo);
 	u16 data_offset;
 	u8 frev, crev;
 	int state_index = 0;
