@@ -42,18 +42,18 @@ bool RadeonSensors::managedStart(IOService *provider)
 {
     card.pdev->setMemoryEnable(true);
     
-    IOMemoryMap *mmio;
+//    IOMemoryMap *mmio;
+//
+//    for (UInt32 i = 0; (mmio = card.pdev->mapDeviceMemoryWithIndex(i)); i++) {
+//        long unsigned int mmio_base_phys = mmio->getPhysicalAddress();
+//        // Make sure we select MMIO registers
+//        if (((mmio->getLength()) <= 0x00040000) && (mmio_base_phys != 0)) {
+//            card.mmio = mmio;
+//            break;
+//        }
+//    }
     
-    for (UInt32 i = 0; (mmio = card.pdev->mapDeviceMemoryWithIndex(i)); i++) {
-        long unsigned int mmio_base_phys = mmio->getPhysicalAddress();
-        // Make sure we select MMIO registers
-        if (((mmio->getLength()) <= 0x00040000) && (mmio_base_phys != 0)) {
-            card.mmio = mmio;
-            break;
-        }
-    }
-    
-    //card.mmio = card.pdev->mapDeviceMemoryWithIndex(1);
+    card.mmio = card.pdev->mapDeviceMemoryWithIndex(1);
     
     if (!card.mmio) {
         HWSensorsInfoLog("failed to map device memory");
