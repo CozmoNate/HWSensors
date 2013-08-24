@@ -55,7 +55,7 @@ bool RadeonSensors::managedStart(IOService *provider)
     
     card.mmio = card.pdev->mapDeviceMemoryWithIndex(1);
     
-    if (!card.mmio) {
+    if (!card.mmio || 0 == card.mmio->getPhysicalAddress()) {
         HWSensorsInfoLog("failed to map device memory");
         return false;
     }
