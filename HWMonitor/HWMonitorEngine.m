@@ -673,7 +673,8 @@
         strncpy(name, [[sensor name] cStringUsingEncoding:NSASCIIStringEncoding], 5);
         
         if (kIOReturnSuccess == SMCReadKey(_connection, name, &val)) {
-            [sensor setType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
+            
+            //[sensor setType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
             [sensor setData:[NSData dataWithBytes:val.bytes length:val.dataSize]];
             
             if ([sensor valueHasBeenChanged]) {
@@ -722,11 +723,9 @@
     NSMutableArray *updated = [[NSMutableArray alloc] init];
     
     if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
-        //NSTimeInterval sleepInterval = 1.0f / (float)[_sensors count];
         for (id object in _sensors) {
-            if ([object isKindOfClass:[HWMonitorSensor class]] && [_sensors containsObject:object]) {
+            if ([object isKindOfClass:[HWMonitorSensor class]] /*&& [_sensors containsObject:object]*/) {
                 [self updateSensor:object addToArray:updated];
-                //[NSThread sleepForTimeInterval:sleepInterval];
             }
         }
     }

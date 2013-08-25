@@ -504,6 +504,7 @@ FakeSMCKey *FakeSMCDevice::getKey(const char *name)
 			UInt32 key2 = HWSensorsKeyToInt(key->getKey());
 			if (key1 == key2) {
 				OSSafeRelease(iterator);
+                OSSafeRelease(snapshotKeys);
 				return key;
 			}
 		}
