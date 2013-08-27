@@ -50,6 +50,7 @@
 
 #include "CPUSensors.h"
 #include "FakeSMCDefinitions.h"
+#include "IntelDefinitions.h"
 
 #include <IOKit/IODeviceTreeSupport.h>
 #include <IOKit/IORegistryEntry.h>
@@ -115,16 +116,7 @@ static inline void read_cpu_state(void *index)
     }
 }
 
-static UInt64 cpu_last_utc[kCPUSensorsMaxCpus];
-static UInt64 cpu_last_urc[kCPUSensorsMaxCpus];
-static UInt64 cpu_last_tsc[kCPUSensorsMaxCpus];
 static float cpu_turbo[kCPUSensorsMaxCpus];
-
-inline void init_cpu_turbo_counters(void *magic)
-{
-    wrmsr64(MSR_PERF_FIXED_CTR_CTRL, 0x222ll);
-    wrmsr64(MSR_PERF_GLOBAL_CTRL, 0x7ll << 32);
-}
 
 static inline void read_cpu_turbo(void *index)
 {
@@ -134,20 +126,22 @@ static inline void read_cpu_turbo(void *index)
         return;
     
     if (number < kCPUSensorsMaxCpus) {
-        UInt64 utc = rdmsr64(MSR_CPU_CLK_UNHALTED_THREAD_ADDR);
-        UInt64 urc = rdmsr64(MSR_CPU_CLK_UNHALTED_REF_ADDR);
-        UInt64 tsc = rdmsr64(MSR_IA32_TIME_STAMP_COUNTER);
+        UInt64 utc_before = rdmsr64(MSR_CPU_CLK_UNHALTED_THREAD_ADDR);
+        UInt64 urc_before = rdmsr64(MSR_CPU_CLK_UNHALTED_REF_ADDR);
+        //UInt64 tsc_before = rdmsr64(MSR_IA32_TIME_STAMP_COUNTER);
         
-        double utc_delta = cpu_last_utc[number] < utc ? 0xFFFFFFFFFFFFFFFFll - cpu_last_utc[number] + utc : utc - cpu_last_utc[number];
-        double urc_delta = cpu_last_urc[number] < urc ? 0xFFFFFFFFFFFFFFFFll - cpu_last_urc[number] + urc : urc - cpu_last_urc[number];
-        double tsc_delta = cpu_last_tsc[number] < tsc ? 0xFFFFFFFFFFFFFFFFll - cpu_last_tsc[number] + tsc : tsc - cpu_last_tsc[number];
+        IODelay(500);
         
-        cpu_last_utc[number] = utc;
-        cpu_last_urc[number] = urc;
-        cpu_last_tsc[number] = tsc;
+        UInt64 utc_after = rdmsr64(MSR_CPU_CLK_UNHALTED_THREAD_ADDR);
+        UInt64 urc_after = rdmsr64(MSR_CPU_CLK_UNHALTED_REF_ADDR);
+        //UInt64 tsc_after = rdmsr64(MSR_IA32_TIME_STAMP_COUNTER);
         
-        if (tsc_delta && urc_delta) {
-            cpu_turbo[number] = (float)(utc_delta / urc_delta);
+        double utc_delta = utc_after < utc_before ? UINT64_MAX - utc_before + utc_after : utc_after - utc_before;
+        double urc_delta = urc_after < urc_before ? UINT64_MAX - urc_before + urc_after : urc_after - urc_before;
+        //double tsc_delta = tsc_after < tsc_before ? UINT64_MAX - tsc_before + tsc_after : tsc_after - tsc_before;
+        
+        if (utc_delta && urc_delta /*&& tsc_delta*/) {
+            cpu_turbo[number] = (float)(utc_delta / urc_delta) /** (float)(urc_delta / tsc_delta)*/;
             cpu_state_updated[number] = true;
         }
     }
@@ -302,6 +296,7 @@ IOReturn CPUSensors::woorkloopEvent()
     if (bit_get(workloopEventsPending, kCPUSensorsCoreMultiplierSensor)) {
         if (baseMultiplier > 0)
             mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
+            //mp_rendezvous_no_intrs(read_cpu_turbo, NULL);
         //else
             mp_rendezvous_no_intrs(read_cpu_state, NULL);
         bit_clear(workloopEventsPending, kCPUSensorsCoreMultiplierSensor);
@@ -312,6 +307,7 @@ IOReturn CPUSensors::woorkloopEvent()
         UInt32 index = 0;
         if (baseMultiplier > 0)
             mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
+            //mp_rendezvous_no_intrs(read_cpu_turbo, &index);
         //else
         if (cpu_ratio[index] <= 1.0f)
             mp_rendezvous_no_intrs(read_cpu_state, &index);
@@ -650,13 +646,14 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
-                //init_cpu_turbo_counters(NULL);
+                //mp_rendezvous_no_intrs(init_cpu_turbo_counters, NULL);
                 HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
             }
         // break; fall down adding package frequency sensors
             
         case CPUFAMILY_INTEL_HASWELL:
         case CPUFAMILY_INTEL_HASWELL_ULT:
+            // 
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kCPUSensorsPackageMultiplierSensor, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsPackageFrequencySensor, 0))
@@ -717,7 +714,7 @@ bool CPUSensors::start(IOService *provider)
                 switch (cpuid_info()->cpuid_cpufamily) {
                     case CPUFAMILY_INTEL_HASWELL:
                     case CPUFAMILY_INTEL_HASWELL_ULT:
-                        // TODO: check if DRAM availability on other platforms
+                        // TODO: check DRAM availability for other platforms
                         if (cpuid_info()->cpuid_cpufamily != CPUFAMILY_INTEL_SANDYBRIDGE) {
                             if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsDramPowerSensor, 3))
                                 HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
@@ -729,10 +726,11 @@ bool CPUSensors::start(IOService *provider)
             
     }
     
+    // Register service
+    registerService();
+    
     // start timer
     timerEventSource->setTimeoutMS(500);
-    
-    registerService();
     
     return true;
 }

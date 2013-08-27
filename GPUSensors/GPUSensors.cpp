@@ -20,6 +20,8 @@ workloop->removeEventSource(timerEventSource); \
 timerEventSource = NULL; \
 }
 
+#define kGPUSensorsAcceleratorWaitCycle     300
+
 IOReturn GPUSensors::probeEvent()
 {
     HWSensorsDebugLog("Probe event...");
@@ -45,15 +47,15 @@ IOReturn GPUSensors::probeEvent()
         releaseTimerEventSource;
         onAcceleratorFound(pciDevice);
     }
-    else if (probeCounter++ == 45) {
+    else if (probeCounter++ == (1000.0f / (float)kGPUSensorsAcceleratorWaitCycle) * 45) {
         releaseTimerEventSource;
         onTimeoutExceeded(pciDevice);
     }
     else {
-        if (probeCounter > 0 && !(probeCounter % 15))
+        if (probeCounter > 0 && !(probeCounter % ((int)(1000.0f / (float)kGPUSensorsAcceleratorWaitCycle) * 15)))
             HWSensorsInfoLog("still waiting for IOAccelerator to start...");
         
-        timerEventSource->setTimeoutMS(300);
+        timerEventSource->setTimeoutMS(kGPUSensorsAcceleratorWaitCycle);
     }
     
     return kIOReturnSuccess;
@@ -104,7 +106,7 @@ bool GPUSensors::start(IOService *provider)
             return false;
         }
         
-        timerEventSource->setTimeoutMS(500);
+        timerEventSource->setTimeoutMS(kGPUSensorsAcceleratorWaitCycle * 2);
     }
     
     return true;

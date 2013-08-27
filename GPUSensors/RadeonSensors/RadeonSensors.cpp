@@ -315,13 +315,9 @@ bool RadeonSensors::start(IOService *provider)
         return false;
     }
     
-    card.card_index = pciDevice->getBusNumber() - 1;
-    
-    if (!takeGPUIndex(card.card_index)) {
-        if ((card.card_index = takeVacantGPUIndex()) < 0) {
-            radeon_info(&card, "failed to take GPU index\n");
-            return false;
-        }
+    if ((card.card_index = takeVacantGPUIndex()) < 0) {
+        radeon_info(&card, "failed to take GPU index\n");
+        return false;
     }
 
     if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id"))) {

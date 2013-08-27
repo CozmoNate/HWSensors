@@ -34,6 +34,8 @@
 			<string>0x03000000&amp;0xff000000</string>
 			<key>IOPCIMatch</key>
 			<string>0x00001002&amp;0x0000ffff</string>
+			<key>IOProbeScore</key>
+			<string>2000</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 		</dict>
@@ -64,6 +66,8 @@
 			<string>0x03000000&amp;0xff000000</string>
 			<key>IOPCIMatch</key>
 			<string>0x000010de&amp;0x0000ffff</string>
+			<key>IOProbeScore</key>
+			<string>1000</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
 		</dict>

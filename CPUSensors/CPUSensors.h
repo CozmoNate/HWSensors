@@ -69,12 +69,6 @@
 #define MSR_IA32_APERF                      0x0E8
 #define MSR_IA32_MPERF                      0x0E7
 
-#define MSR_PERF_FIXED_CTR_CTRL             0x38d
-#define MSR_PERF_GLOBAL_CTRL                0x38f
-
-#define MSR_CPU_CLK_UNHALTED_THREAD_ADDR    0x30A
-#define MSR_CPU_CLK_UNHALTED_REF_ADDR       0x30B
-
 #define MSR_IA32_TIME_STAMP_COUNTER         0x10
 
 #define kCPUSensorsMaxCpus                  64

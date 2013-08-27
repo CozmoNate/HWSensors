@@ -215,13 +215,9 @@ bool GeforceSensors::start(IOService *provider)
         
     struct nouveau_device *device = &card;
     
-    card.card_index = pciDevice->getBusNumber() - 1;
-    
-    if (!takeGPUIndex(card.card_index)) {
-        if ((card.card_index = takeVacantGPUIndex()) < 0) {
-            nv_fatal(device, "failed to take vacant GPU index\n");
-            return false;
-        }
+    if ((card.card_index = takeVacantGPUIndex()) < 0) {
+        nv_fatal(device, "failed to take vacant GPU index\n");
+        return false;
     }
     
     // map device memory
