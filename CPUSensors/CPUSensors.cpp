@@ -78,10 +78,27 @@ static inline UInt8 get_hex_index(char c)
 	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
 };
 
-static inline UInt32 get_cpu_number()
+static inline UInt8 get_cpu_number()
 {
-    return cpu_number() % cpuid_info()->core_count;
+    UInt8 number = cpu_number() & 0xFF;
+    
+    if (cpuid_info()->thread_count > cpuid_info()->core_count) {
+        return !(number % 2) ? number >> 1 : UINT8_MAX;
+    }
+    
+    return number;
 }
+
+//static bool cpu_check_value[kCPUSensorsMaxCpus];
+//
+//static inline void cpu_check(void *magic)
+//{
+//    int number = cpu_number();
+//    
+//    if (number < kCPUSensorsMaxCpus) {
+//        cpu_check_value[number] = true;
+//    }
+//}
 
 static UInt8 cpu_thermal[kCPUSensorsMaxCpus];
 static UInt8 cpu_thermal_updated[kCPUSensorsMaxCpus];
@@ -596,6 +613,12 @@ bool CPUSensors::start(IOService *provider)
     
     HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0]);
     
+//    mp_rendezvous_no_intrs(cpu_check, NULL);
+//    mp_rendezvous_no_intrs(read_cpu_thermal, NULL);
+//    
+//    for (int sensors_count = 0; sensors_count < kCPUSensorsMaxCpus; sensors_count++) {
+//        HWSensorsInfoLog("CPU[%d] = %s, thermal = %d", sensors_count, cpu_check_value[sensors_count] ? "enabled" : "disabled", cpu_thermal[sensors_count]);
+//    }
     
     // platform keys
     if (platform) {
