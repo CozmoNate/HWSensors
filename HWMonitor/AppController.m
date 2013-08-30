@@ -551,7 +551,7 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
--(void)graphsScaleChangedChanged:(id)sender
+-(void)graphsScaleChanged:(id)sender
 {
     [_graphsController setGraphsScale:[sender floatValue]];
     [[NSUserDefaults standardUserDefaults] synchronize];

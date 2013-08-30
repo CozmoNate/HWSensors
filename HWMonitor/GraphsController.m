@@ -83,13 +83,13 @@
 
 -(void)setGraphsScale:(float)graphsScale
 {
-    if (graphsScale != _graphsScale) {
+    //if (graphsScale != _graphsScale) {
         _graphsScale = graphsScale;
         
         for (GraphsView *graphView in _graphViews) {
             [graphView setGraphScale:_graphsScale];
         }
-    }
+    //}
 }
 
 -(NSArray *)colorsList
