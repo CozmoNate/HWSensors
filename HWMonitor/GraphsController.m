@@ -208,6 +208,7 @@
         
         [graphView setUseFahrenheit:_useFahrenheit];
         [graphView setUseSmoothing:_useSmoothing];
+        [graphView setGraphScale:_graphsScale];
     
         [_graphViews addObject:graphView];
     }
