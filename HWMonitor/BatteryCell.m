@@ -10,15 +10,6 @@
 
 @implementation BatteryCell
 
--(void)setColorTheme:(ColorTheme *)colorTheme
-{
-    _colorTheme = colorTheme;
-    
-    [[self textField] setTextColor:_colorTheme.itemTitleColor];
-    [[self subtitleField] setTextColor:_colorTheme.itemSubTitleColor];
-    [[self valueField] setTextColor:_colorTheme.itemValueTitleColor];
-}
-
 - (void)setGaugeLevel:(NSUInteger)gaugeLevel
 {
     _gaugeLevel = gaugeLevel;
@@ -32,16 +23,16 @@
         
         NSRectFillUsingOperation(self.imageView.bounds, NSCompositeClear);
         
-        [[_colorTheme.itemTitleColor highlightWithLevel:0.2] setStroke];
+        [[[self colorTheme].itemTitleColor highlightWithLevel:0.2] setStroke];
         
         [[NSBezierPath bezierPathWithRect:NSMakeRect(self.imageView.image.size.width / 2 - self.imageView.image.size.width / 4 / 2, self.imageView.image.size.height - 0.5, self.imageView.image.size.width / 4, 1)] stroke];
         [[NSBezierPath bezierPathWithRoundedRect:NSMakeRect(0.5, 1.5, self.imageView.image.size.width - 1, self.imageView.image.size.height - 3) xRadius:0.0 yRadius:0.0] stroke];
         
         if (_gaugeLevel < 20) {
-            [[[NSColor redColor] shadowWithLevel:_colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
+            [[[NSColor redColor] shadowWithLevel:[self colorTheme].useDarkIcons ? 0.0 : 0.1] setFill];
         }
         else {
-            [[[NSColor greenColor] shadowWithLevel:_colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
+            [[[NSColor greenColor] shadowWithLevel:[self colorTheme].useDarkIcons ? 0.0 : 0.1] setFill];
         }
         
         [[NSBezierPath bezierPathWithRect:NSMakeRect(1.75, 2.75, self.imageView.image.size.width - 3.5, (self.imageView.image.size.height - 5.5) * (double)_gaugeLevel * 0.01)] fill];

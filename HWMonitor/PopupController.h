@@ -43,6 +43,8 @@
 @property (assign) IBOutlet NSWindowController *aboutController;
 @property (assign) IBOutlet NSWindowController *updatesController;
 
+@property (atomic, assign) NSDragOperation currentItemDragOperation;
+
 - (IBAction)togglePanel:(id)sender;
 - (IBAction)showAboutPanel:(id)sender;
 - (IBAction)openPreferences:(id)sender;

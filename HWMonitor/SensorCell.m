@@ -10,6 +10,14 @@
 
 @implementation SensorCell
 
+//-(void)resetCursorRects
+//{
+//    [self discardCursorRects];
+//    //[self addCursorRect:self.bounds cursor:[NSCursor openHandCursor]];
+//
+//    [self addCursorRect:self.frame cursor:[NSCursor openHandCursor]];
+//}
+
 -(void)setColorTheme:(ColorTheme *)colorTheme
 {
     _colorTheme = colorTheme;

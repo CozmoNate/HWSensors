@@ -6,12 +6,9 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#include "ColorTheme.h"
+#include "SensorCell.h"
 
-@interface BatteryCell : NSTableCellView
-
-@property (assign) IBOutlet NSTextField *subtitleField;
-@property (assign) IBOutlet NSTextField *valueField;
+@interface BatteryCell : SensorCell
 
 @property (nonatomic, assign) NSUInteger gaugeLevel;
 @property (nonatomic, strong) ColorTheme *colorTheme;

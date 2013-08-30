@@ -420,24 +420,29 @@
     
     id sourceItem = [_items objectAtIndex:fromRow];
     
+    _currentItemDragOperation = NSDragOperationNone;
+    
     if (toRow > 0) {
+        
+        _currentItemDragOperation = NSDragOperationMove;
+        
         if (toRow < [_items count]) {
             
             if (toRow == fromRow || toRow == fromRow + 1) {
-                return NSDragOperationNone;
+                _currentItemDragOperation = NSDragOperationNone;
             }
-            
-            id destinationItem = [_items objectAtIndex:toRow];
-            
-            if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
-                return  NSDragOperationNone;
-            }
-            
-            if (toRow > 0) {
-                destinationItem = [_items objectAtIndex:toRow - 1];
+            else {
+                id destinationItem = [_items objectAtIndex:toRow];
                 
                 if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
-                    return  NSDragOperationNone;
+                    _currentItemDragOperation = NSDragOperationNone;
+                }
+                else {
+                    destinationItem = [_items objectAtIndex:toRow - 1];
+                    
+                    if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
+                        _currentItemDragOperation = NSDragOperationNone;
+                    }
                 }
             }
         }
@@ -445,14 +450,12 @@
             id destinationItem = [_items objectAtIndex:toRow - 1];
             
             if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
-                return  NSDragOperationNone;
+                _currentItemDragOperation = NSDragOperationNone;
             }
         }
-    
-        return NSDragOperationMove;
     }
     
-    return NSDragOperationNone;
+    return _currentItemDragOperation;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)toRow dropOperation:(NSTableViewDropOperation)dropOperation;

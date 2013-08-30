@@ -839,7 +839,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     }
     
     // Fill the titlebar with the base colour
-    if ([window isKeyWindow] || window.attachedToMenuBar)
+    /*if ([window isKeyWindow] || window.attachedToMenuBar)
     {
         [[NSColor clearColor] set];
         NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
@@ -853,7 +853,10 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     else {
         [bottomColor set];
         NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
-    }
+    }*/
+    
+    [bottomColor set];
+    NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
     
     
     // Draw some subtle noise to the titlebar if the window is the key window

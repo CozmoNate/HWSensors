@@ -26,16 +26,21 @@
 {
     //[super draggingSession:session movedToPoint:screenPoint];
     
+    id appController = self.delegate;
+    
+    if (!appController || ![appController respondsToSelector:@selector(currentItemDragOperation)])
+        return;
+    
     NSPoint windowPoint = [self.window mouseLocationOutsideOfEventStream];
     NSPoint localPoint = [self convertPoint:windowPoint fromView:nil];
     
-    id appController = self.delegate;
-    
-    if ([appController currentItemDragOperation] != NSDragOperationDelete && [appController hasDraggedFavoriteItem] && [self mouse:localPoint inRect:NSInsetRect([self visibleRect], -35, -35)] == NO) {
-        [appController setCurrentItemDragOperation:NSDragOperationDelete];
-    }
-    else if ([appController currentItemDragOperation] == NSDragOperationDelete && [appController hasDraggedFavoriteItem] && [self mouse:localPoint inRect:NSInsetRect([self visibleRect], -35, -35)] == YES) {
-        [appController setCurrentItemDragOperation:NSDragOperationNone];
+    if ([appController respondsToSelector:@selector(hasDraggedFavoriteItem)]) {
+        if ([appController currentItemDragOperation] != NSDragOperationDelete && [appController hasDraggedFavoriteItem] && [self mouse:localPoint inRect:NSInsetRect([self visibleRect], -35, -35)] == NO) {
+            [appController setCurrentItemDragOperation:NSDragOperationDelete];
+        }
+        else if ([appController currentItemDragOperation] == NSDragOperationDelete && [appController hasDraggedFavoriteItem] && [self mouse:localPoint inRect:NSInsetRect([self visibleRect], -35, -35)] == YES) {
+            [appController setCurrentItemDragOperation:NSDragOperationNone];
+        }
     }
     
     if ([appController currentItemDragOperation] == NSDragOperationDelete /*&& [NSCursor currentCursor] != [NSCursor disappearingItemCursor]*/) {
