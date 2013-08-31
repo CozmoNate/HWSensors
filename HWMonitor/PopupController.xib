@@ -412,7 +412,7 @@
 						<string key="NSFrame">{{180, 9}, {15, 15}}</string>
 						<reference key="NSSuperview" ref="792413177"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="637143841"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="915603306">
@@ -443,7 +443,7 @@
 						<string key="NSFrame">{{200, 9}, {15, 15}}</string>
 						<reference key="NSSuperview" ref="792413177"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="55623447"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="323873088">
@@ -505,7 +505,7 @@
 						<string key="NSFrame">{{160, 9}, {15, 15}}</string>
 						<reference key="NSSuperview" ref="792413177"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="637143841"/>
+						<reference key="NSNextKeyView" ref="55623447"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="641964832">
@@ -568,7 +568,6 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="520369139"/>
 						<bool key="NSViewIsLayerTreeHost">YES</bool>
-						<double key="NSViewAlphaValue">0.90000000000000002</double>
 						<object class="NSShadow" key="NSViewShadow">
 							<double key="NSShadowBlurRadius">2</double>
 							<object class="NSColor" key="NSShadowColor" id="732223691">
@@ -622,7 +621,6 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="891704562"/>
 						<bool key="NSViewIsLayerTreeHost">YES</bool>
-						<double key="NSViewAlphaValue">0.90000000000000002</double>
 						<object class="NSShadow" key="NSViewShadow">
 							<double key="NSShadowBlurRadius">2</double>
 							<object class="NSColor" key="NSShadowColor" id="88190567">
@@ -2411,7 +2409,7 @@
 								<float key="scoringTypeFloat">24</float>
 								<int key="contentType">2</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="68082014">
+							<object class="IBNSLayoutConstraint" id="346912053">
 								<reference key="firstItem" ref="792413177"/>
 								<int key="firstAttribute">6</int>
 								<int key="relation">0</int>
@@ -2459,7 +2457,7 @@
 								<float key="scoringTypeFloat">24</float>
 								<int key="contentType">2</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="270200488">
+							<object class="IBNSLayoutConstraint" id="712987939">
 								<reference key="firstItem" ref="792413177"/>
 								<int key="firstAttribute">6</int>
 								<int key="relation">0</int>
@@ -2685,7 +2683,7 @@
 						<reference key="object" ref="637143841"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="323873088"/>
-							<object class="IBNSLayoutConstraint" id="720043459">
+							<object class="IBNSLayoutConstraint" id="785836944">
 								<reference key="firstItem" ref="637143841"/>
 								<int key="firstAttribute">7</int>
 								<int key="relation">0</int>
@@ -3062,12 +3060,12 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">2624</int>
-						<reference key="object" ref="720043459"/>
+						<reference key="object" ref="785836944"/>
 						<reference key="parent" ref="637143841"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">2629</int>
-						<reference key="object" ref="68082014"/>
+						<reference key="object" ref="346912053"/>
 						<reference key="parent" ref="792413177"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3087,7 +3085,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">2634</int>
-						<reference key="object" ref="270200488"/>
+						<reference key="object" ref="712987939"/>
 						<reference key="parent" ref="792413177"/>
 					</object>
 				</array>
@@ -3150,10 +3148,10 @@
 					<reference ref="46022859"/>
 					<reference ref="721921330"/>
 					<reference ref="760715472"/>
-					<reference ref="270200488"/>
+					<reference ref="712987939"/>
 					<reference ref="312094409"/>
 					<reference ref="488991999"/>
-					<reference ref="68082014"/>
+					<reference ref="346912053"/>
 					<reference ref="404477985"/>
 					<reference ref="964601727"/>
 					<reference ref="834600468"/>
@@ -3228,7 +3226,7 @@
 					</object>
 				</object>
 				<array key="25.IBNSViewMetadataConstraints">
-					<reference ref="720043459"/>
+					<reference ref="785836944"/>
 				</array>
 				<boolean value="NO" key="25.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
