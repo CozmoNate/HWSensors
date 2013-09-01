@@ -134,6 +134,7 @@
 		7E5CFA2216988EBE00F0E9AD /* i2c_algo_bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_algo_bit.h; sourceTree = "<group>"; };
 		7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i2c_base.cpp; sourceTree = "<group>"; };
 		7E5CFA2416988EBE00F0E9AD /* i2c_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_base.h; sourceTree = "<group>"; };
+		7E6F4A3217D3B51E00927043 /* SSDT.dsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = SSDT.dsl; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E79B81F15BA99350079AAE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7E79B82115BA99350079AAE8 /* CPUSensors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPUSensors.h; sourceTree = "<group>"; };
@@ -318,6 +319,7 @@
 		1D6FE3EF13FEBFF200376E64 /* ACPISensors */ = {
 			isa = PBXGroup;
 			children = (
+				7E6F4A3117D3B50700927043 /* Example SSDT */,
 				7EB6451715E81442008C6A95 /* PTIDSensors */,
 				7EB6451915E81451008C6A95 /* ACPISensors */,
 				1D6FE3F013FEBFF200376E64 /* Supporting Files */,
@@ -533,6 +535,14 @@
 				7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */,
 			);
 			name = Linux;
+			sourceTree = "<group>";
+		};
+		7E6F4A3117D3B50700927043 /* Example SSDT */ = {
+			isa = PBXGroup;
+			children = (
+				7E6F4A3217D3B51E00927043 /* SSDT.dsl */,
+			);
+			name = "Example SSDT";
 			sourceTree = "<group>";
 		};
 		7E79B81B15BA99350079AAE8 /* CPUSensors */ = {

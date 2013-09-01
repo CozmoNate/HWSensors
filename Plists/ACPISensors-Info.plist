@@ -50,6 +50,8 @@
 			<dict>
 				<key>Default</key>
 				<dict>
+					<key>UseKelvins</key>
+					<true/>
 					<key>Temperatures</key>
 					<dict>
 						<key>Thermal Zone</key>
@@ -83,10 +85,12 @@
 			<string>ACPISensors</string>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
-			<key>Platform Profile</key>
+			<key>Platform Profile - DISABLED</key>
 			<dict>
 				<key>Default</key>
 				<dict>
+					<key>UseKelvins</key>
+					<false/>
 					<key>Temperatures</key>
 					<dict>
 						<key>Mainboard</key>
@@ -103,54 +107,29 @@
 						<key>CPU Core</key>
 						<string>VCPU</string>
 					</dict>
-					<key>Fan Names</key>
-					<dict>
-						<key>FAN7</key>
-						<string>Fan 8</string>
-						<key>FAN4</key>
-						<string>ExhaustFan</string>
-						<key>FAN1</key>
-						<string>CPUFan</string>
-						<key>FANA</key>
-						<string>Fan 11</string>
-						<key>FAN8</key>
-						<string>Fan 9</string>
-						<key>FAN5</key>
-						<string>Fan 6</string>
-						<key>FAN2</key>
-						<string>PowerFan</string>
-						<key>FAN9</key>
-						<string>Fan 10</string>
-						<key>FAN6</key>
-						<string>Fan 7</string>
-						<key>FAN3</key>
-						<string>Intake Fan</string>
-						<key>FAN0</key>
-						<string>SystemFan</string>
-					</dict>
 					<key>Tachometers</key>
 					<dict>
-						<key>FAN7</key>
+						<key>Fan 7</key>
 						<string>FAN7</string>
-						<key>FAN4</key>
+						<key>ExhaustFan</key>
 						<string>FAN4</string>
-						<key>FAN1</key>
+						<key>CPUFan</key>
 						<string>FAN1</string>
-						<key>FANA</key>
+						<key>Fan 10</key>
 						<string>FANA</string>
-						<key>FAN8</key>
+						<key>Fan 8</key>
 						<string>FAN8</string>
 						<key>FAN5</key>
 						<string>FAN5</string>
-						<key>FAN2</key>
+						<key>PowerFan</key>
 						<string>FAN2</string>
-						<key>FAN9</key>
+						<key>Fan 9</key>
 						<string>FAN9</string>
-						<key>FAN6</key>
+						<key>Fan 6</key>
 						<string>FAN6</string>
-						<key>FAN3</key>
+						<key>IntakeFan</key>
 						<string>FAN3</string>
-						<key>FAN0</key>
+						<key>SystemFan</key>
 						<string>FAN0</string>
 					</dict>
 				</dict>

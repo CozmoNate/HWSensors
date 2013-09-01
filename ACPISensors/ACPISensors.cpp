@@ -9,6 +9,8 @@
 
 #include "ACPISensors.h"
 
+#define kACPISensorsDebug   0
+
 #define ACPISensorsDebugLog(string, args...)	do { if (kACPISensorsDebug) { IOLog ("%s (%s): [Debug] " string "\n",getName(), acpiDevice->getName() , ## args); } } while(0)
 #define ACPISensorsWarningLog(string, args...) do { IOLog ("%s (%s): [Warning] " string "\n",getName(), acpiDevice->getName(), ## args); } while(0)
 #define ACPISensorsErrorLog(string, args...) do { IOLog ("%s (%s): [Error] " string "\n",getName(), acpiDevice->getName() , ## args); } while(0)
@@ -18,17 +20,155 @@
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(ACPISensors, FakeSMCPlugin)
 
+void ACPISensors::addSensorsFromDictionary(OSDictionary *dictionary, kFakeSMCCategory category)
+{
+    if (dictionary) {
+        
+        UInt32 group = 0;
+        const char *title = NULL;
+        
+        switch (category) {
+            case kFakeSMCCategoryTemperature:
+                group = kFakeSMCTemperatureSensor;
+                title = "temperature";
+                break;
+                
+            case kFakeSMCCategoryFrequency:
+                group = kFakeSMCFrequencySensor;
+                title = "frequency";
+                break;
+                
+            case kFakeSMCCategoryVoltage:
+                group = kFakeSMCVoltageSensor;
+                title = "voltage";
+                break;
+                
+            case kFakeSMCCategoryCurrent:
+                group = kFakeSMCCurrentSensor;
+                title = "amperage";
+                break;
+                
+            case kFakeSMCCategoryPower:
+                group = kFakeSMCPowerSensor;
+                title = "power";
+                break;
+                
+            case kFakeSMCCategoryFan:
+                group = kFakeSMCTachometerSensor;
+                title = "tachometer";
+                break;
+                
+            default:
+                return;
+        }
+        
+        OSCollectionIterator *iterator = OSCollectionIterator::withCollection(dictionary);
+        
+        while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
+            
+            OSString *method = OSDynamicCast(OSString, dictionary->getObject(key));
+            
+            if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
+                FakeSMCSensor *sensor = NULL;
+                
+                if (category == kFakeSMCCategoryFan) {
+                    sensor = addTachometer(methods->getCount(), key->getCStringNoCopy());
+                }
+                else {
+                    sensor = addSensor(key, category, group, methods->getCount());
+                }
+                
+                if (sensor) {
+                    methods->setObject(method);//sensor->getKey(), method);
+                }
+                else {
+                    ACPISensorsErrorLog("Failed to register %s sensor \"%s\" for method \"%s\"", title, key->getCStringNoCopy(), method->getCStringNoCopy());
+                }
+            }
+        }
+    }
+}
+
+void ACPISensors::addSensorsFromArray(OSArray *array, kFakeSMCCategory category)
+{
+    if (array) {
+        
+        UInt32 group = 0;
+        const char *title = NULL;
+        
+        switch (category) {
+            case kFakeSMCCategoryTemperature:
+                group = kFakeSMCTemperatureSensor;
+                title = "temperature";
+                break;
+                
+            case kFakeSMCCategoryFrequency:
+                group = kFakeSMCFrequencySensor;
+                title = "frequency";
+                break;
+                
+            case kFakeSMCCategoryVoltage:
+                group = kFakeSMCVoltageSensor;
+                title = "voltage";
+                break;
+                
+            case kFakeSMCCategoryCurrent:
+                group = kFakeSMCCurrentSensor;
+                title = "amperage";
+                break;
+                
+            case kFakeSMCCategoryPower:
+                group = kFakeSMCPowerSensor;
+                title = "power";
+                break;
+                
+            case kFakeSMCCategoryFan:
+                group = kFakeSMCTachometerSensor;
+                title = "tachometer";
+                break;
+                
+            default:
+                return;
+        }
+        
+        for (UInt32 index = 0; index < array->getCount(); index += 2) {
+            if (OSString *key = OSDynamicCast(OSString, array->getObject(index))) {
+                if (OSString *method = OSDynamicCast(OSString, array->getObject(index + 1))) {
+                    FakeSMCSensor *sensor = NULL;
+                    
+                    if (category == kFakeSMCCategoryFan) {
+                        sensor = addTachometer(methods->getCount(), key->getCStringNoCopy());
+                    }
+                    else {
+                        sensor = addSensor(key, category, group, methods->getCount());
+                    }
+                    
+                    if (sensor) {
+                        methods->setObject(method);//sensor->getKey(), method);
+                    }
+                    else {
+                        ACPISensorsErrorLog("Failed to register %s sensor \"%s\" for method \"%s\"", title, key->getCStringNoCopy(), method->getCStringNoCopy());
+                    }
+                }
+            }
+        }
+    }
+}
+
 float ACPISensors::getSensorValue(FakeSMCSensor *sensor)
 {
     UInt32 value = 0;
     OSString *method = NULL;
     
-    if (sensor->getIndex() < methods->getCount() && (method = OSDynamicCast(OSString, methods->getObject(sensor->getIndex())))) {
+    if (sensor->getIndex() < methods->getCount() && (method = (OSString*)methods->getObject(sensor->getIndex()))) {
         if (kIOReturnSuccess == acpiDevice->evaluateInteger(method->getCStringNoCopy(), &value)) {
             switch(sensor->getGroup()) {
                 case kFakeSMCTemperatureSensor:                    
-                    // all temperatures returned from ACPI should be in Kelvins
-                    return ((float)value - (float)0xAAC) / (float)0xA;
+                    // all temperatures returned from ACPI should be in Kelvins?
+                    if (useKelvins)
+                        return ((float)value - (float)0xAAC) / (float)0xA;
+                    
+                    return (float)value;
                     
                 case kFakeSMCVoltageSensor:
                 case kFakeSMCCurrentSensor:
@@ -49,6 +189,8 @@ float ACPISensors::getSensorValue(FakeSMCSensor *sensor)
 
 bool ACPISensors::start(IOService * provider)
 {
+    ACPISensorsDebugLog("starting...");
+    
 	if (!super::start(provider))
         return false;
 
@@ -57,118 +199,63 @@ bool ACPISensors::start(IOService * provider)
         return false;
     }
     
+    methods = OSArray::withCapacity(0);
+    
+    // Try to load configuration from info.plist first
     if (OSDictionary *configuration = getConfigurationNode())
     {
-        methods = OSArray::withCapacity(0);
-        
-        // Temperatures
-        if (OSDictionary *temps = OSDynamicCast(OSDictionary, configuration->getObject("Temperatures"))) {
-            
-            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(temps);
-            
-            while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
-                
-                OSString *method = OSDynamicCast(OSString, temps->getObject(key));
-                
-                if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
-                    if (addSensor(key, kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, methods->getCount())) {
-                        methods->setObject(method);//sensor->getKey(), method);
-                    }
-                    else {
-                        ACPISensorsErrorLog("Failed to register temperature sensor \"%s\" for method \"%s\"", key->getCStringNoCopy(), method->getCStringNoCopy());
-                    }
-                }
-            }
-        }        
-        
-        // Voltages
-        if (OSDictionary *volts = OSDynamicCast(OSDictionary, configuration->getObject("Voltages"))) {
-            
-            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(volts);
-            
-            while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
-                
-                OSString *method = OSDynamicCast(OSString, volts->getObject(key));
-                
-                if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
-                    if (addSensor(key, kFakeSMCCategoryVoltage, kFakeSMCVoltageSensor, methods->getCount())) {
-                        methods->setObject(method);//sensor->getKey(), method);
-                    }
-                    else {
-                        ACPISensorsErrorLog("Failed to register voltage sensor \"%s\" for method \"%s\"", key->getCStringNoCopy(), method->getCStringNoCopy());
-                    }
-                }
-            }
+        if (OSBoolean *kelvins = OSDynamicCast(OSBoolean, configuration->getObject("UseKelvins"))) {
+            useKelvins = kelvins->isTrue();
         }
         
-        // Currents
-        if (OSDictionary *currents = OSDynamicCast(OSDictionary, configuration->getObject("Currents"))) {
-            
-            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(currents);
-            
-            while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
-                
-                OSString *method = OSDynamicCast(OSString, currents->getObject(key));
-                
-                if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
-                    if (addSensor(key, kFakeSMCCategoryCurrent, kFakeSMCCurrentSensor, methods->getCount())) {
-                        methods->setObject(method);//sensor->getKey(), method);
-                    }
-                    else {
-                        ACPISensorsErrorLog("Failed to register current sensor \"%s\" for method \"%s\"", key->getCStringNoCopy(), method->getCStringNoCopy());
-                    }
-                }
-            }
-        }
-        
-        // Powers
-        if (OSDictionary *powers = OSDynamicCast(OSDictionary, configuration->getObject("Powers"))) {
-            
-            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(powers);
-            
-            while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
-                
-                OSString *method = OSDynamicCast(OSString, powers->getObject(key));
-                
-                if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
-                    if (addSensor(key, kFakeSMCCategoryPower, kFakeSMCPowerSensor, methods->getCount())) {
-                        methods->setObject(method);//sensor->getKey(), method);
-                    }
-                    else {
-                        ACPISensorsErrorLog("Failed to register power sensor \"%s\" for method \"%s\"", key->getCStringNoCopy(), method->getCStringNoCopy());
-                    }
-                }
-            }
-        }
-        
-        // Tachometers
-        if (OSDictionary *fans = OSDynamicCast(OSDictionary, configuration->getObject("Tachometers"))) {
-
-            OSCollectionIterator *iterator = OSCollectionIterator::withCollection(fans);
-            
-            OSDictionary* fanNames = OSDynamicCast(OSDictionary, configuration->getObject("Fan Names"));
-            
-            while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
-                
-                OSString *method = OSDynamicCast(OSString, fans->getObject(key));
-                
-                if (method && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
-                    OSString* name = NULL;
-
-                    if (fanNames)
-                        name = OSDynamicCast(OSString, fanNames->getObject(key));
-                    
-                    if (addTachometer(methods->getCount(), name ? name->getCStringNoCopy() : 0)) {
-                        methods->setObject(method);//sensor->getKey(), method);
-                    }
-                    else {
-                        ACPISensorsErrorLog("Failed to register tachometer sensor for method \"%s\"", method->getCStringNoCopy());
-                    }
-                }
-            }
-        }
+        addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Temperatures")), kFakeSMCCategoryTemperature);
+        addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Voltages")), kFakeSMCCategoryVoltage);
+        addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Currents")), kFakeSMCCategoryCurrent);
+        addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Powers")), kFakeSMCCategoryPower);
+        addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Tachometers")), kFakeSMCCategoryFan);
     }
-    else ACPISensorsErrorLog("no valid configuration provided");
+    // Try to load configuration provided by ACPI device
+    else {
+        OSObject *object = NULL;
+        
+        // Use Kelvins?
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("KLVN", &object) && object) {
+            if (OSNumber *kelvins = OSDynamicCast(OSNumber, object)) {
+                useKelvins = kelvins->unsigned8BitValue() == 1;
+            }
+        }
+        
+        // Parse temperature table
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("TEMP", &object) && object) {
+            addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryTemperature);
+        }
+        else ACPISensorsDebugLog("temprerature description table (TEMP) not found");
+        
+        // Parse voltage table
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("VOLT", &object) && object) {
+            addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryVoltage);
+        }
+        else ACPISensorsDebugLog("voltage description table (VOLT) not found");
+        
+        // Parse amperage table
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("AMPR", &object) && object) {
+            addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryCurrent);
+        }
+        else ACPISensorsDebugLog("amperage description table (AMPR) not found");
+        
+        // Parse power table
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("POWR", &object) && object) {
+            addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryPower);
+        }
+        else ACPISensorsDebugLog("power description table (POWR) not found");
+        
+        // Parse tachometer table
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("TACH", &object) && object) {
+            addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryFan);
+        }
+        else ACPISensorsDebugLog("tachometer description table (TACH) not found");
+    }
+    //else ACPISensorsErrorLog("no valid configuration provided");
     
     
     if (methods->getCount())

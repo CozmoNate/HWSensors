@@ -19,6 +19,10 @@ class ACPISensors : public FakeSMCPlugin
 private:
 	IOACPIPlatformDevice    *acpiDevice;
     OSArray                 *methods;
+    bool                    useKelvins;
+    
+    void                    addSensorsFromDictionary(OSDictionary *dictionary, kFakeSMCCategory category);
+    void                    addSensorsFromArray(OSArray *array, kFakeSMCCategory category);
     
 protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);

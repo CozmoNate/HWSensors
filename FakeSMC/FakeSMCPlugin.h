@@ -44,6 +44,7 @@ enum kFakeSMCCategory {
     kFakeSMCCategoryVoltage,
     kFakeSMCCategoryCurrent,
     kFakeSMCCategoryPower,
+    kFakeSMCCategoryFan,
 };
 
 struct FakeSMCSensorDefinitionEntry {
