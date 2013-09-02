@@ -4,9 +4,9 @@ DefinitionBlock ("SSDT.aml", "SSDT", 1, "APPLE ", "DefMon", 0x00003000)
     {
         Name (_HID, "MONITOR")
         
-    Name (KLVN, Zero) // Not use Kelvins (Celsius instead)
-        
-    Name (TEMP, Package (0x04) // temperature description table
+        Name (KLVN, Zero) // Not use Kelvins (Celsius instead)
+            
+        Name (TEMP, Package (0x04) // temperature description table, key names are gotten from FakeSMCPlugin.h
         {
             "Thermal Zone", 
             "TMP0", 
@@ -23,17 +23,17 @@ DefinitionBlock ("SSDT.aml", "SSDT", 1, "APPLE ", "DefMon", 0x00003000)
             Store (0x65, Local0)
             Return (Local0)
         }
-        
-    Name (VOLT, Package (0x02) // voltage description table
-    {
-        "Power Supply", 
-        "VLT0"
-    })
-    Method (VLT0, 0, NotSerialized) // Test voltage method, returns 8888 = 8.888V
-    {
-        Store (0x22B8, Local0)
-        Return (Local0)
-    }
+            
+        Name (VOLT, Package (0x02) // voltage description table
+        {
+            "Power Supply", 
+            "VLT0"
+        })
+        Method (VLT0, 0, NotSerialized) // Test voltage method, returns 8888 = 8.888V
+        {
+            Store (0x22B8, Local0)
+            Return (Local0)
+        }
 
         Name (TACH, Package (0x02) // tachometer description table
         {
