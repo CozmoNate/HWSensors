@@ -1,8 +1,9 @@
 DefinitionBlock ("SSDT.aml", "SSDT", 1, "APPLE ", "DefMon", 0x00003000)
 {
-    Device (_SB.MNTR)
+    Device (_SB.MON0)
     {
-        Name (_HID, "MONITOR")
+        Name (_HID, EisaId ("PNP0C02")) // Expose MON0 to IORegistry
+        Name (_CID, "MON00000") // Allows ACPISensors matching
         
         Name (KLVN, Zero) // Not use Kelvins (Celsius instead)
             

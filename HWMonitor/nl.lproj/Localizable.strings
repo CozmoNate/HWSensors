@@ -15,7 +15,7 @@
 "FREQUENCIES" = "FREQUENTIES";
 "VOLTAGES" = "VOLTAGES";
 "CURRENTS" = "STROMINGEN";
-"POWERS" = "VERMOGENS";
+"POWER CONSUMPTION" = "VERMOGENS";
 "FANS & PUMPS" = "VENTILATORS";
 "BATTERIES" = "BATTERIJEN";
 "Quit HWMonitor" = "Sluit HWMonitor";
@@ -128,7 +128,7 @@ fout heeft zich voorgedaan tijdens het downloaden van HWSensors installer!";
 "%1.0frpm" = "%1.0frpm";
 "%1.3fV" = "%1.3fV";
 "%1.3fA" = "%1.3fA";
-"%1.3fW" = "%1.3fW";
+"%1.2fW" = "%1.2fW";
 
 "Downloading %@" = "Downloaden %@";
 "%1.2f Mbytes" = "%1.2f Mbytes";
