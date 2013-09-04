@@ -119,60 +119,49 @@ float PTIDSensors::getSensorValue(FakeSMCSensor *sensor)
 void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
 {
     if (name && readTemperature(index)) {
-        char key[5];
-        char str[64];
-        
-        key[0] = '\0';
-        
         if (name->isEqualTo("CPU Core Package DTS") || name->isEqualTo("CPU Package Temperature"))
-            snprintf(key, 5, KEY_CPU_PACKAGE_TEMPERATURE);
+            addSensor("CPU Package", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
         else if (name->isEqualTo("CPU Temperature"))
-            snprintf(key, 5, KEY_CPU_PROXIMITY_TEMPERATURE);
+            addSensor("CPU Proximity", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
         else if (name->isEqualTo("PCH Temperature") || name->isEqualTo("PCH DTS Temperature from PCH"))
-            snprintf(key, 5, KEY_PCH_DIE_TEMPERATURE);
+            addSensor("PCH Die", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
         else if (name->isEqualTo("MCH DTS Temperature from PCH"))
-            snprintf(key, 5, KEY_MCH_DIODE_TEMPERATURE);
+            addSensor("MCH Die", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
         else if (name->isEqualTo("Ambient Temperature"))
-            snprintf(key, 5, KEY_AMBIENT_TEMPERATURE);
+            addSensor("Ambient", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
         else {
+            char str[64];
+            
             for (UInt8 i = 0; i < 4; i++) {
-                snprintf(str, 64, "TS-on-DIMM%X Temperature", i);
                 
+                snprintf(str, 64, "TS-on-DIMM%X Temperature", i);
                 if (name->isEqualTo(str)) {
-                    snprintf(key, 5, KEY_FORMAT_DIMM_TEMPERATURE, i);
+                    addSensor("Memory Module", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
                     break;
                 }
                 
                 snprintf(str, 64, "Channel %X DIMM Temperature", i);
-                
                 if (name->isEqualTo(str)) {
-                    snprintf(key, 5, KEY_FORMAT_DIMM_TEMPERATURE, i);
+                    addSensor("Memory Proximity", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
                     break;
                 }
             }
             
-            if (key[0] == '\0') {
-                for (UInt8 i = 0; i < 8; i++) {
-                    snprintf(str, 64, "TZ0%X _TMP", i);
-                    
-                    if (name->isEqualTo(str)) {
-                        snprintf(key, 5, KEY_FORMAT_THERMALZONE_TEMPERATURE, i + 1);
-                        break;
-                    }
-                    
-                    snprintf(str, 64, "CPU Core %X DTS", i);
-                    
-                    if (name->isEqualTo(str)) {
-                        snprintf(key, 5, KEY_FORMAT_CPU_DIE_TEMPERATURE, i);
-                        break;
-                    }
+
+            for (UInt8 i = 0; i < 8; i++) {
+                
+                snprintf(str, 64, "TZ0%X _TMP", i);
+                if (name->isEqualTo(str)) {
+                    addSensor("Thermal Zone", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
+                    break;
+                }
+                
+                snprintf(str, 64, "CPU Core %X DTS", i);
+                if (name->isEqualTo(str)) {
+                    addSensor("CPU Core", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
+                    break;
                 }
             }
-        }
-        
-        if (key[0] != '\0') {
-            HWSensorsDebugLog("adding %s sensor", name->getCStringNoCopy());
-            addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, index);
         }
     }
     
