@@ -48,7 +48,9 @@ void ACPIPoller::logValue(const char* method, OSObject *value)
 
 IOReturn ACPIPoller::woorkloopTimerEvent(void)
 {
-    if (pollingTimeout == 0 || (ptimer_read() - startTime < pollingTimeout)) {
+    UInt64 endTime = ptimer_read();
+    
+    if (pollingTimeout == 0 || (endTime > startTime ? endTime - startTime : UINT64_MAX - startTime + endTime < pollingTimeout)) {
         
         OSDictionary *values = OSDictionary::withCapacity(0);
         
