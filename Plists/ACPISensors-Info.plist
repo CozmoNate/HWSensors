@@ -82,10 +82,10 @@
 			<dict>
 				<key>Default</key>
 				<dict>
-					<key>UseKelvins</key>
-					<true/>
 					<key>Temperatures</key>
 					<dict>
+						<key>UseKelvins</key>
+						<true/>
 						<key>Thermal Zone</key>
 						<string>_TMP</string>
 					</dict>
@@ -121,10 +121,10 @@
 			<dict>
 				<key>Default</key>
 				<dict>
-					<key>UseKelvins</key>
-					<false/>
 					<key>Temperatures</key>
 					<dict>
+						<key>UseKelvins</key>
+						<false/>
 						<key>Mainboard</key>
 						<string>TSYS</string>
 						<key>CPU Heatsink</key>

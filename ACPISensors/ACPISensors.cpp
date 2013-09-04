@@ -196,11 +196,15 @@ bool ACPISensors::start(IOService * provider)
     // Try to load configuration from info.plist first
     if (OSDictionary *configuration = getConfigurationNode())
     {
-        if (OSBoolean *kelvins = OSDynamicCast(OSBoolean, configuration->getObject("UseKelvins"))) {
-            useKelvins = kelvins->isTrue();
+        if (OSDictionary *temperatures = OSDynamicCast(OSDictionary, configuration->getObject("Temperatures"))) {
+            
+            if (OSBoolean *kelvins = OSDynamicCast(OSBoolean, temperatures->getObject("UseKelvins"))) {
+                useKelvins = kelvins->isTrue();
+            }
+            
+            addSensorsFromDictionary(OSDynamicCast(OSDictionary, temperatures), kFakeSMCCategoryTemperature);
         }
         
-        addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Temperatures")), kFakeSMCCategoryTemperature);
         addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Voltages")), kFakeSMCCategoryVoltage);
         addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Currents")), kFakeSMCCategoryCurrent);
         addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Powers")), kFakeSMCCategoryPower);
