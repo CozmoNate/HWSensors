@@ -61,13 +61,15 @@ IOReturn ACPIPoller::woorkloopTimerEvent(void)
             if (OSString *method = (OSString*)methods->getObject(i)) {
                 
                 OSObject *object = NULL;
+                IOReturn result = acpiDevice->evaluateObject(method->getCStringNoCopy(), &object);
                 
-                if (kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy(), &object) && object) {
+                if (kIOReturnSuccess == result && object) {
                     values->setObject(method->getCStringNoCopy(), object);
                     
                     if (loggingEnabled)
                         logValue(method->getCStringNoCopy(), object);
                 }
+                else ACPISensorsErrorLog("failed to evaluate method \"%s\", return %d", method->getCStringNoCopy(), result);
             }
         }
         
@@ -112,10 +114,9 @@ bool ACPIPoller::start(IOService * provider)
             if (OSArray *list = OSDynamicCast(OSArray, configuration->getObject("Methods"))) {
                 for (unsigned int i = 0; i < list->getCount(); i++) {
                     if (OSString *method = OSDynamicCast(OSString, list->getObject(i))) {
-                        OSObject *object = NULL;
-                        if (method->getLength() && kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy(), &object) && object) {
+                        if (method->getLength() && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
                             methods->setObject(method);
-                            ACPISensorsInfoLog("method \"%s\" registered, return type %s", method->getCStringNoCopy(), object->getMetaClass()->getClassName());
+                            ACPISensorsInfoLog("method \"%s\" registered", method->getCStringNoCopy());
                         }
                         else ACPISensorsErrorLog("unable to register method \"%s\"", method->getCStringNoCopy());
                     }

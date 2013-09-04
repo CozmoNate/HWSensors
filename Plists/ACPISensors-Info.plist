@@ -48,22 +48,19 @@
 					<key>PollingInterval</key>
 					<integer>2000</integer>
 					<key>PollingTimeout</key>
-					<integer>25000</integer>
+					<integer>5000</integer>
 					<key>LoggingEnabled</key>
 					<true/>
 					<key>Methods</key>
 					<array>
 						<string>XCNT</string>
 						<string>OSYS</string>
-						<string>GACI</string>
-						<string>CDRD</string>
 					</array>
 				</dict>
 			</dict>
 			<key>IONameMatch</key>
 			<array>
 				<string>POLL0000</string>
-				<string>PTMD</string>
 			</array>
 		</dict>
 		<key>Thermal Zone Monitoring Plugin</key>
