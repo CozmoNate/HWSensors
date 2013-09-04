@@ -180,11 +180,8 @@ void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
 
 void PTIDSensors::parseTachometerName(OSString *name, OSString *title, UInt32 index)
 {
-    if (name) {
-        if (name->isEqualTo("RPM")) {
-            this->addTachometer(index, title ? title->getCStringNoCopy() : NULL);
-        }
-    }
+    if (name && name->isEqualTo("RPM"))
+        this->addTachometer(index, title ? title->getCStringNoCopy() : NULL);
 }
 
 bool PTIDSensors::start(IOService * provider)
@@ -223,27 +220,28 @@ bool PTIDSensors::start(IOService * provider)
             
             // Temperatures
             if(kIOReturnSuccess == acpiDevice->evaluateObject("TSDL", &object) && object) {
-                
-                OSArray *description = OSDynamicCast(OSArray, object);
-                
-                HWSensorsDebugLog("Parsing temperatures...");
-                
-                for (UInt32 index = 1; index < description->getCount(); index += 2) {
-                    parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), (index - 1) / 2);
+                if (OSArray *description = OSDynamicCast(OSArray, object)) {
+                    HWSensorsDebugLog("Parsing temperatures...");
+                    
+                    for (UInt32 index = 1; index < description->getCount(); index += 2) {
+                        parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), (index - 1) / 2);
+                    }
                 }
+                else HWSensorsErrorLog("failed to parse TSDL table");
             }
             else HWSensorsErrorLog("failed to evaluate TSDL table");
             
             // Tachometers
             if(kIOReturnSuccess == acpiDevice->evaluateObject("OSDL", &object) && object) {
                 
-                OSArray *description = OSDynamicCast(OSArray, object);
-                
-                HWSensorsDebugLog("Parsing tachometers...");
-                
-                for (UInt32 index = 2; index < description->getCount(); index += 3) {
-                    parseTachometerName(OSDynamicCast(OSString, description->getObject(index)), OSDynamicCast(OSString, description->getObject(index - 1)), (index - 2) / 3);
+                if (OSArray *description = OSDynamicCast(OSArray, object)) {
+                    HWSensorsDebugLog("Parsing tachometers...");
+                    
+                    for (UInt32 index = 2; index < description->getCount(); index += 3) {
+                        parseTachometerName(OSDynamicCast(OSString, description->getObject(index)), OSDynamicCast(OSString, description->getObject(index - 1)), (index - 2) / 3);
+                    }
                 }
+                else HWSensorsErrorLog("failed to parse OSDL table");
             }
             else HWSensorsErrorLog("failed to evaluate OSDL table");
             
@@ -255,23 +253,23 @@ bool PTIDSensors::start(IOService * provider)
             
             // Temperatures
             if(kIOReturnSuccess == acpiDevice->evaluateObject("TMPV", &object) && object) {
-                
-                OSArray *description = OSDynamicCast(OSArray, object);
-                
-                for (UInt32 index = 1; index < description->getCount(); index += 3) {
-                    parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), index + 1);
+                if (OSArray *description = OSDynamicCast(OSArray, object)) {
+                    for (UInt32 index = 1; index < description->getCount(); index += 3) {
+                        parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), index + 1);
+                    }
                 }
+                else HWSensorsErrorLog("failed to parse TMPV table");
             }
             else HWSensorsErrorLog("failed to evaluate TMPV table");
             
             // Tachometers
             if(kIOReturnSuccess == acpiDevice->evaluateObject("OSDV", &object) && object) {
-                
-                OSArray *description = OSDynamicCast(OSArray, object);
-                
-                for (UInt32 index = 2; index < description->getCount(); index += 4) {
-                    parseTachometerName(OSDynamicCast(OSString, description->getObject(index)), OSDynamicCast(OSString, description->getObject(index - 1)), index + 1);
+                if (OSArray *description = OSDynamicCast(OSArray, object)) {
+                    for (UInt32 index = 2; index < description->getCount(); index += 4) {
+                        parseTachometerName(OSDynamicCast(OSString, description->getObject(index)), OSDynamicCast(OSString, description->getObject(index - 1)), index + 1);
+                    }
                 }
+                else HWSensorsErrorLog("failed to parse OSDV table");
             }
             else HWSensorsErrorLog("failed to evaluate OSDV table");
             
