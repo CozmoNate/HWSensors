@@ -47,14 +47,13 @@
  
  */
 
-#include <IOKit/IOService.h>
-#include <IOKit/IOLib.h>
-
-#include <IOKit/IOTimerEventSource.h>
-
 #include "FakeSMCPlugin.h"
 
+#include <IOKit/IOTimerEventSource.h>
+#include <IOKit/IOLib.h>
+
 #include "cpuid.h"
+
 
 #define MSR_IA32_THERM_STS                  0x019C
 #define MSR_IA32_TEMP_TARGET                0x01A2
@@ -102,8 +101,8 @@ private:
 	void                    readTjmaxFromMSR();
     float                   readMultiplier(UInt8 cpu_index);
     
-    UInt16                  workloopEventsPending;
-    IOReturn                woorkloopEvent(void);
+    UInt16                  timerEventsPending;
+    IOReturn                woorkloopTimerEvent(void);
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
     

@@ -9,14 +9,6 @@
 
 #include "ACPISensors.h"
 
-#define kACPISensorsDebug   0
-
-#define ACPISensorsDebugLog(string, args...)	do { if (kACPISensorsDebug) { IOLog ("%s (%s): [Debug] " string "\n",getName(), acpiDevice->getName() , ## args); } } while(0)
-#define ACPISensorsWarningLog(string, args...) do { IOLog ("%s (%s): [Warning] " string "\n",getName(), acpiDevice->getName(), ## args); } while(0)
-#define ACPISensorsErrorLog(string, args...) do { IOLog ("%s (%s): [Error] " string "\n",getName(), acpiDevice->getName() , ## args); } while(0)
-#define ACPISensorsFatalLog(string, args...) do { IOLog ("%s (%s): [Fatal] " string "\n",getName(), acpiDevice->getName() , ## args); } while(0)
-#define ACPISensorsInfoLog(string, args...)	do { IOLog ("%s (%s): " string "\n",getName(), acpiDevice->getName() , ## args); } while(0)
-
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(ACPISensors, FakeSMCPlugin)
 
@@ -131,7 +123,7 @@ void ACPISensors::addSensorsFromArray(OSArray *array, kFakeSMCCategory category)
                 return;
         }
         
-        for (UInt32 index = 0; index < array->getCount(); index += 2) {
+        for (UInt32 index = 0; index + 1 < array->getCount(); index += 2) {
             if (OSString *key = OSDynamicCast(OSString, array->getObject(index))) {
                 if (OSString *method = OSDynamicCast(OSString, array->getObject(index + 1))) {
                     FakeSMCSensor *sensor = NULL;

@@ -31,6 +31,38 @@
 	<string>????</string>
 	<key>IOKitPersonalities</key>
 	<dict>
+		<key>ACPI Debugging Plugin</key>
+		<dict>
+			<key>IOProbeScore</key>
+			<integer>1000</integer>
+			<key>IOMatchCategory</key>
+			<string>FakeSMCPlugin</string>
+			<key>IOClass</key>
+			<string>ACPIPoller</string>
+			<key>IOProviderClass</key>
+			<string>IOACPIPlatformDevice</string>
+			<key>Platform Profile</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>PollingInterval</key>
+					<integer>1000</integer>
+					<key>PollingTimeout</key>
+					<integer>2000</integer>
+					<key>LoggingEnabled</key>
+					<true/>
+					<key>Methods</key>
+					<array>
+						<string>XCNT</string>
+						<string>OSYS</string>
+					</array>
+				</dict>
+			</dict>
+			<key>IONameMatch</key>
+			<array>
+				<string>POLL0000</string>
+			</array>
+		</dict>
 		<key>Thermal Zone Monitoring Plugin</key>
 		<dict>
 			<key>IOProbeScore</key>

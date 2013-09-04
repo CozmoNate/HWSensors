@@ -47,7 +47,7 @@
 
 #define _Bit(n)			(1ULL << n)
 #define _HBit(n)		(1ULL << ((n)+32))
-#define min(a,b) ((a) < (b) ? (a) : (b))
+//#define min(a,b) ((a) < (b) ? (a) : (b))
 #define quad(hi,lo)	(((uint64_t)(hi)) << 32 | (lo))
 /* Only for 32bit values */
 #define bit32(n)		(1U << (n))
@@ -292,7 +292,7 @@ inline static i386_cpu_info_t	*cpuid_info(void)
 {
 	return 	&cpuid_cpu_info;
 }
-#define min(a,b)        ((a) < (b) ? (a) : (b))
+//#define min(a,b)        ((a) < (b) ? (a) : (b))
 #define quad(hi,lo)     (((uint64_t)(hi)) << 32 | (lo))
 #define bit(n)          (1UL << (n))
 #define bitmask(h,l)    ((bit(h) | (bit(h) - 1)) & ~(bit(l) - 1))
