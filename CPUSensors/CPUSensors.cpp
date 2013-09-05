@@ -360,7 +360,7 @@ IOReturn CPUSensors::woorkloopTimerEvent()
         //IOSleep(1);
     }
     
-    timerEventSource->setTimeoutMS(1000);
+    timerEventSource->setTimeoutMS(500);
     
     //IOSimpleLockUnlock(workloopLock);
     
