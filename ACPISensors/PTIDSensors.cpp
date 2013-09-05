@@ -72,9 +72,11 @@ bool PTIDSensors::updateTachometers()
 
 float PTIDSensors::readTemperature(UInt32 index)
 {
-    if (ptimer_read() - temperaturesLastUpdated >= NSEC_PER_SEC) {
+    double time = ptimer_read_seconds();
+    
+    if (time - temperaturesLastUpdated >= 1.0) {
         updateTemperatures();
-        temperaturesLastUpdated = ptimer_read();
+        temperaturesLastUpdated = time;
     }
     
     if (temperatures) {
@@ -89,9 +91,11 @@ float PTIDSensors::readTemperature(UInt32 index)
 
 float PTIDSensors::readTachometer(UInt32 index)
 {
-    if (ptimer_read() - tachometersLastUpdated >= NSEC_PER_SEC) {
+    double time = ptimer_read_seconds();
+    
+    if (time - tachometersLastUpdated >= 1.0) {
         updateTachometers();
-        tachometersLastUpdated = ptimer_read();
+        tachometersLastUpdated = time;
     }
 
     if (tachometers) {
