@@ -248,8 +248,7 @@
             
             [_data getBytes:&percent length:[_data length]];
             
-            if (_level != kHWSensorLevelExceeded)
-                [self setLevel:percent < 5 ? kHWSensorLevelExceeded : percent < 10 ? kHWSensorLevelHigh : percent < 30 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
+            [self setLevel:percent < 5 ? kHWSensorLevelExceeded : percent < 10 ? kHWSensorLevelHigh : percent < 30 ? kHWSensorLevelModerate : kHWSensorLevelNormal];
             
             _rawValue = [NSNumber numberWithLongLong:percent];
         }
