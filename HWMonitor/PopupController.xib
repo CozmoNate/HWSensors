@@ -136,6 +136,17 @@
 										<string key="NSString"/>
 									</object>
 								</object>
+								<object class="NSMenuItem" id="584974758">
+									<reference key="NSMenu" ref="274144977"/>
+									<string key="NSTitle">Check for Updates...</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="499152782"/>
+									<reference key="NSMixedImage" ref="492787003"/>
+									<object class="NSAttributedString" key="NSAttributedTitle">
+										<string key="NSString"/>
+									</object>
+								</object>
 								<object class="NSMenuItem" id="512880634">
 									<reference key="NSMenu" ref="274144977"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -149,17 +160,6 @@
 								<object class="NSMenuItem" id="431597363">
 									<reference key="NSMenu" ref="274144977"/>
 									<string key="NSTitle">About HWMonitor</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="499152782"/>
-									<reference key="NSMixedImage" ref="492787003"/>
-									<object class="NSAttributedString" key="NSAttributedTitle">
-										<string key="NSString"/>
-									</object>
-								</object>
-								<object class="NSMenuItem" id="584974758">
-									<reference key="NSMenu" ref="274144977"/>
-									<string key="NSTitle">Check for Updates...</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="499152782"/>
@@ -359,6 +359,7 @@
 									<string key="NSFrame">{{0, 234}, {35, 15}}</string>
 									<reference key="NSSuperview" ref="228041017"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<string key="NSReuseIdentifierKey">_NS:60</string>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<int key="NSsFlags">1</int>
@@ -449,6 +450,7 @@
 						<string key="NSFrame">{{200, 9}, {15, 15}}</string>
 						<reference key="NSSuperview" ref="792413177"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="323873088">
@@ -2842,10 +2844,10 @@
 							<reference ref="500968396"/>
 							<reference ref="355923785"/>
 							<reference ref="722271233"/>
-							<reference ref="584974758"/>
 							<reference ref="852432984"/>
 							<reference ref="9564408"/>
 							<reference ref="431597363"/>
+							<reference ref="584974758"/>
 							<reference ref="512880634"/>
 						</array>
 						<reference key="parent" ref="110555316"/>
@@ -3097,7 +3099,7 @@
 						<reference key="parent" ref="274144977"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">2785</int>
+						<int key="objectID">2787</int>
 						<reference key="object" ref="512880634"/>
 						<reference key="parent" ref="274144977"/>
 					</object>
@@ -3284,7 +3286,7 @@
 				<string key="2782.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2783.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2784.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="2785.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="2787.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="3.IBNSWindowAutoPositionCentersHorizontal"/>
 				<boolean value="NO" key="3.IBNSWindowAutoPositionCentersVertical"/>
 				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3443,7 +3445,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2786</int>
+			<int key="maxID">2787</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
