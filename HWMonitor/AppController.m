@@ -92,6 +92,7 @@
     [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
     
     [self updateRateChanged:nil];
+    [self graphsScaleChanged:nil];
     
     //[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(drivesChanged:) name:NSWorkspaceDidMountNotification object:nil];
 	//[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(drivesChanged:) name:NSWorkspaceDidUnmountNotification object:nil];

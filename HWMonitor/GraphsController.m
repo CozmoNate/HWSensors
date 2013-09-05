@@ -44,52 +44,47 @@
 
 -(void)setUseFahrenheit:(BOOL)useFahrenheit
 {
-    //if (useFahrenheit != _useFahrenheit) {
-        _useFahrenheit = useFahrenheit;
-        
-        [_graphsTableView reloadData];
-        
-        for (GraphsView *graphView in _graphViews) {
-            [graphView setUseFahrenheit:useFahrenheit];
-        }
-    //}
+    _useFahrenheit = useFahrenheit;
+    
+    [_graphsTableView reloadData];
+    
+    for (GraphsView *graphView in _graphViews) {
+        [graphView setUseFahrenheit:useFahrenheit];
+    }
 }
 
 -(void)setUseSmoothing:(BOOL)useSmoothing
 {
-    //if (useSmoothing != _useSmoothing) {
-        _useSmoothing = useSmoothing;
-        
-        for (GraphsView *graphView in _graphViews) {
-            [graphView setUseSmoothing:useSmoothing];
-            [graphView setNeedsDisplay:YES];
-        }
-    //}
+    _useSmoothing = useSmoothing;
+    
+    for (GraphsView *graphView in _graphViews) {
+        [graphView setUseSmoothing:useSmoothing];
+        [graphView setNeedsDisplay:YES];
+    }
 }
 
 -(void)setIsTopmost:(BOOL)isTopmost
 {
-    //if (isTopmost != _isTopmost) {
-        _isTopmost = isTopmost;
-        
-        if (isTopmost) {
-            [self.window setLevel:NSFloatingWindowLevel];
-        }
-        else {
-            [self.window setLevel:NSNormalWindowLevel];
-        }
-    //}
+    _isTopmost = isTopmost;
+    
+    if (isTopmost) {
+        [self.window setLevel:NSFloatingWindowLevel];
+    }
+    else {
+        [self.window setLevel:NSNormalWindowLevel];
+    }
 }
 
 -(void)setGraphsScale:(float)graphsScale
 {
-    //if (graphsScale != _graphsScale) {
-        _graphsScale = graphsScale;
-        
-        for (GraphsView *graphView in _graphViews) {
-            [graphView setGraphScale:_graphsScale];
-        }
-    //}
+    _graphsScale = graphsScale;
+    
+    if (_graphsScale <= 0)
+        _graphsScale = 5.0;
+    
+    for (GraphsView *graphView in _graphViews) {
+        [graphView setGraphScale:_graphsScale];
+    }
 }
 
 -(NSArray *)colorsList
