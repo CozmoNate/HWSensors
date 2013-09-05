@@ -72,9 +72,11 @@ bool PTIDSensors::updateTachometers()
 
 float PTIDSensors::readTemperature(UInt32 index)
 {
-    if (ptimer_read() - temperaturesLastUpdated >= NSEC_PER_SEC) {
+    double time = ptimer_read_seconds();
+    
+    if (time - temperaturesLastUpdated >= 1.0) {
         updateTemperatures();
-        temperaturesLastUpdated = ptimer_read();
+        temperaturesLastUpdated = time;
     }
     
     if (temperatures) {
@@ -89,9 +91,11 @@ float PTIDSensors::readTemperature(UInt32 index)
 
 float PTIDSensors::readTachometer(UInt32 index)
 {
-    if (ptimer_read() - tachometersLastUpdated >= NSEC_PER_SEC) {
+    double time = ptimer_read_seconds();
+    
+    if (time - tachometersLastUpdated >= 1.0) {
         updateTachometers();
-        tachometersLastUpdated = ptimer_read();
+        tachometersLastUpdated = time;
     }
 
     if (tachometers) {
@@ -119,60 +123,49 @@ float PTIDSensors::getSensorValue(FakeSMCSensor *sensor)
 void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
 {
     if (name && readTemperature(index)) {
-        char key[5];
-        char str[64];
-        
-        key[0] = '\0';
-        
         if (name->isEqualTo("CPU Core Package DTS") || name->isEqualTo("CPU Package Temperature"))
-            snprintf(key, 5, KEY_CPU_PACKAGE_TEMPERATURE);
+            addSensor("CPU Package", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
         else if (name->isEqualTo("CPU Temperature"))
-            snprintf(key, 5, KEY_CPU_PROXIMITY_TEMPERATURE);
+            addSensor("CPU Proximity", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
         else if (name->isEqualTo("PCH Temperature") || name->isEqualTo("PCH DTS Temperature from PCH"))
-            snprintf(key, 5, KEY_PCH_DIE_TEMPERATURE);
+            addSensor("PCH Die", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
         else if (name->isEqualTo("MCH DTS Temperature from PCH"))
-            snprintf(key, 5, KEY_MCH_DIODE_TEMPERATURE);
+            addSensor("MCH Die", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
         else if (name->isEqualTo("Ambient Temperature"))
-            snprintf(key, 5, KEY_AMBIENT_TEMPERATURE);
+            addSensor("Ambient", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
         else {
+            char str[64];
+            
             for (UInt8 i = 0; i < 4; i++) {
-                snprintf(str, 64, "TS-on-DIMM%X Temperature", i);
                 
+                snprintf(str, 64, "TS-on-DIMM%X Temperature", i);
                 if (name->isEqualTo(str)) {
-                    snprintf(key, 5, KEY_FORMAT_DIMM_TEMPERATURE, i);
+                    addSensor("Memory Module", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
                     break;
                 }
                 
                 snprintf(str, 64, "Channel %X DIMM Temperature", i);
-                
                 if (name->isEqualTo(str)) {
-                    snprintf(key, 5, KEY_FORMAT_DIMM_TEMPERATURE, i);
+                    addSensor("Memory Proximity", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
                     break;
                 }
             }
             
-            if (key[0] == '\0') {
-                for (UInt8 i = 0; i < 8; i++) {
-                    snprintf(str, 64, "TZ0%X _TMP", i);
-                    
-                    if (name->isEqualTo(str)) {
-                        snprintf(key, 5, KEY_FORMAT_THERMALZONE_TEMPERATURE, i + 1);
-                        break;
-                    }
-                    
-                    snprintf(str, 64, "CPU Core %X DTS", i);
-                    
-                    if (name->isEqualTo(str)) {
-                        snprintf(key, 5, KEY_FORMAT_CPU_DIE_TEMPERATURE, i);
-                        break;
-                    }
+
+            for (UInt8 i = 0; i < 8; i++) {
+                
+                snprintf(str, 64, "TZ0%X _TMP", i);
+                if (name->isEqualTo(str)) {
+                    addSensor("Thermal Zone", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
+                    break;
+                }
+                
+                snprintf(str, 64, "CPU Core %X DTS", i);
+                if (name->isEqualTo(str)) {
+                    addSensor("CPU Core", kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, index);
+                    break;
                 }
             }
-        }
-        
-        if (key[0] != '\0') {
-            HWSensorsDebugLog("adding %s sensor", name->getCStringNoCopy());
-            addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, index);
         }
     }
     
@@ -180,11 +173,8 @@ void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
 
 void PTIDSensors::parseTachometerName(OSString *name, OSString *title, UInt32 index)
 {
-    if (name) {
-        if (name->isEqualTo("RPM")) {
-            this->addTachometer(index, title ? title->getCStringNoCopy() : NULL);
-        }
-    }
+    if (name && name->isEqualTo("RPM"))
+        this->addTachometer(index, title ? title->getCStringNoCopy() : NULL);
 }
 
 bool PTIDSensors::start(IOService * provider)
@@ -223,27 +213,28 @@ bool PTIDSensors::start(IOService * provider)
             
             // Temperatures
             if(kIOReturnSuccess == acpiDevice->evaluateObject("TSDL", &object) && object) {
-                
-                OSArray *description = OSDynamicCast(OSArray, object);
-                
-                HWSensorsDebugLog("Parsing temperatures...");
-                
-                for (UInt32 index = 1; index < description->getCount(); index += 2) {
-                    parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), (index - 1) / 2);
+                if (OSArray *description = OSDynamicCast(OSArray, object)) {
+                    HWSensorsDebugLog("Parsing temperatures...");
+                    
+                    for (UInt32 index = 1; index < description->getCount(); index += 2) {
+                        parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), (index - 1) / 2);
+                    }
                 }
+                else HWSensorsErrorLog("failed to parse TSDL table");
             }
             else HWSensorsErrorLog("failed to evaluate TSDL table");
             
             // Tachometers
             if(kIOReturnSuccess == acpiDevice->evaluateObject("OSDL", &object) && object) {
                 
-                OSArray *description = OSDynamicCast(OSArray, object);
-                
-                HWSensorsDebugLog("Parsing tachometers...");
-                
-                for (UInt32 index = 2; index < description->getCount(); index += 3) {
-                    parseTachometerName(OSDynamicCast(OSString, description->getObject(index)), OSDynamicCast(OSString, description->getObject(index - 1)), (index - 2) / 3);
+                if (OSArray *description = OSDynamicCast(OSArray, object)) {
+                    HWSensorsDebugLog("Parsing tachometers...");
+                    
+                    for (UInt32 index = 2; index < description->getCount(); index += 3) {
+                        parseTachometerName(OSDynamicCast(OSString, description->getObject(index)), OSDynamicCast(OSString, description->getObject(index - 1)), (index - 2) / 3);
+                    }
                 }
+                else HWSensorsErrorLog("failed to parse OSDL table");
             }
             else HWSensorsErrorLog("failed to evaluate OSDL table");
             
@@ -255,23 +246,23 @@ bool PTIDSensors::start(IOService * provider)
             
             // Temperatures
             if(kIOReturnSuccess == acpiDevice->evaluateObject("TMPV", &object) && object) {
-                
-                OSArray *description = OSDynamicCast(OSArray, object);
-                
-                for (UInt32 index = 1; index < description->getCount(); index += 3) {
-                    parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), index + 1);
+                if (OSArray *description = OSDynamicCast(OSArray, object)) {
+                    for (UInt32 index = 1; index < description->getCount(); index += 3) {
+                        parseTemperatureName(OSDynamicCast(OSString, description->getObject(index)), index + 1);
+                    }
                 }
+                else HWSensorsErrorLog("failed to parse TMPV table");
             }
             else HWSensorsErrorLog("failed to evaluate TMPV table");
             
             // Tachometers
             if(kIOReturnSuccess == acpiDevice->evaluateObject("OSDV", &object) && object) {
-                
-                OSArray *description = OSDynamicCast(OSArray, object);
-                
-                for (UInt32 index = 2; index < description->getCount(); index += 4) {
-                    parseTachometerName(OSDynamicCast(OSString, description->getObject(index)), OSDynamicCast(OSString, description->getObject(index - 1)), index + 1);
+                if (OSArray *description = OSDynamicCast(OSArray, object)) {
+                    for (UInt32 index = 2; index < description->getCount(); index += 4) {
+                        parseTachometerName(OSDynamicCast(OSString, description->getObject(index)), OSDynamicCast(OSString, description->getObject(index - 1)), index + 1);
+                    }
                 }
+                else HWSensorsErrorLog("failed to parse OSDV table");
             }
             else HWSensorsErrorLog("failed to evaluate OSDV table");
             

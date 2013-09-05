@@ -48,7 +48,12 @@ void ACPIPoller::logValue(const char* method, OSObject *value)
 
 IOReturn ACPIPoller::woorkloopTimerEvent(void)
 {
-    if (pollingTimeout == 0 || (ptimer_read() - startTime < pollingTimeout)) {
+    if (pollingTimeout > 0 && !startTime)
+        startTime = ptimer_read_seconds();
+    
+    double time = ptimer_read_seconds();
+    
+    if (pollingTimeout == 0 || (time - startTime < pollingTimeout)) {
         
         OSDictionary *values = OSDictionary::withCapacity(0);
         
@@ -56,19 +61,21 @@ IOReturn ACPIPoller::woorkloopTimerEvent(void)
             if (OSString *method = (OSString*)methods->getObject(i)) {
                 
                 OSObject *object = NULL;
+                IOReturn result = acpiDevice->evaluateObject(method->getCStringNoCopy(), &object);
                 
-                if (kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy(), &object) && object) {
+                if (kIOReturnSuccess == result && object) {
                     values->setObject(method->getCStringNoCopy(), object);
                     
                     if (loggingEnabled)
                         logValue(method->getCStringNoCopy(), object);
                 }
+                else ACPISensorsErrorLog("failed to evaluate method \"%s\", return %d", method->getCStringNoCopy(), result);
             }
         }
         
         setProperty("Values", values);
         
-        timerEventSource->setTimeoutMS(pollingInterval);
+        timerEventSource->setTimeoutMS((UInt32)(pollingInterval * 1000.0));
     }
     
     return kIOReturnSuccess;
@@ -92,11 +99,11 @@ bool ACPIPoller::start(IOService * provider)
     if (OSDictionary *configuration = getConfigurationNode())
     {
         if (OSNumber *interval = OSDynamicCast(OSNumber, configuration->getObject("PollingInterval"))) {
-            pollingInterval = interval->unsigned32BitValue();
+            pollingInterval = (double)interval->unsigned64BitValue() / (double)1000.0;
         }
         
         if (OSNumber *timeout = OSDynamicCast(OSNumber, configuration->getObject("PollingTimeout"))) {
-            pollingTimeout = (UInt64)timeout->unsigned32BitValue() * NSEC_PER_MSEC;
+            pollingTimeout = (double)timeout->unsigned64BitValue() / 1000.0;
         }
         
         if (OSBoolean *logging = OSDynamicCast(OSBoolean, configuration->getObject("LoggingEnabled"))) {
@@ -109,6 +116,7 @@ bool ACPIPoller::start(IOService * provider)
                     if (OSString *method = OSDynamicCast(OSString, list->getObject(i))) {
                         if (method->getLength() && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
                             methods->setObject(method);
+                            ACPISensorsInfoLog("method \"%s\" registered", method->getCStringNoCopy());
                         }
                         else ACPISensorsErrorLog("unable to register method \"%s\"", method->getCStringNoCopy());
                     }
@@ -135,12 +143,9 @@ bool ACPIPoller::start(IOService * provider)
             return false;
         }
         
-        if (pollingTimeout > 0)
-            startTime = ptimer_read();
+        timerEventSource->setTimeoutMS(100);
         
-        timerEventSource->setTimeoutMS(pollingInterval);
-        
-        ACPISensorsInfoLog("%d method%s registered", methods->getCount(), methods->getCount() > 1 ? "s" : "");
+        //ACPISensorsInfoLog("%d method%s registered", methods->getCount(), methods->getCount() > 1 ? "s" : "");
     }
     
 	registerService();

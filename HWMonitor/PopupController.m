@@ -199,6 +199,21 @@
     [Localizer localizeView:menubarWindow];
     [Localizer localizeView:_toolbarView];
     
+    // Make main menu font size smaller
+    NSFont* font = [NSFont menuFontOfSize:13];
+	NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+    
+    for (id subItem in [_mainMenu itemArray]) {
+        if ([subItem isKindOfClass:[NSMenuItem class]]) {
+            NSMenuItem* menuItem = subItem;
+            NSString* title = [menuItem title];
+            
+            NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
+            
+            [menuItem setAttributedTitle:attributedTitle];
+        }
+    }
+    
     [self resizeToContentAndOrderFront:NO];
 }
 

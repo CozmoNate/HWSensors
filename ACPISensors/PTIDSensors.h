@@ -42,8 +42,8 @@ private:
     OSArray                 *temperatures;
     OSArray                 *tachometers;
     
-    UInt64                  temperaturesLastUpdated;
-    UInt64                  tachometersLastUpdated;
+    double                  temperaturesLastUpdated;
+    double                  tachometersLastUpdated;
     
     bool                    updateTemperatures();
     bool                    updateTachometers();

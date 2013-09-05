@@ -35,6 +35,7 @@
 
 @property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
 
+@property (assign) IBOutlet NSMenu *mainMenu;
 @property (assign) IBOutlet NSView *toolbarView;
 @property (assign) IBOutlet NSTableView *tableView;
 

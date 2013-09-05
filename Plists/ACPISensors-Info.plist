@@ -46,9 +46,9 @@
 				<key>Default</key>
 				<dict>
 					<key>PollingInterval</key>
-					<integer>1000</integer>
-					<key>PollingTimeout</key>
 					<integer>2000</integer>
+					<key>PollingTimeout</key>
+					<integer>5000</integer>
 					<key>LoggingEnabled</key>
 					<true/>
 					<key>Methods</key>

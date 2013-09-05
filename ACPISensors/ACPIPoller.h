@@ -39,9 +39,9 @@ private:
     IOWorkLoop*             workloop;
     IOTimerEventSource*     timerEventSource;
     
-    UInt64                  startTime;
-    UInt64                  pollingTimeout;
-    UInt32                  pollingInterval;
+    double                  startTime;
+    double                  pollingTimeout;
+    double                  pollingInterval;
     
     bool                    loggingEnabled;
     
