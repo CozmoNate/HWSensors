@@ -95,8 +95,11 @@
         
         switch (type) {
             case kInternalBatteryType:
-                _productName = NULL;//@"Internal Battery";//(__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("DeviceName"), kCFAllocatorDefault, 0);
-                _serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0);
+                _productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("DeviceName"), kCFAllocatorDefault, 0);
+                _serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("BatterySerialNumber"), kCFAllocatorDefault, 0);
+                
+                if (!_serialNumber)
+                    (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0);
                 break;
                 
             default:

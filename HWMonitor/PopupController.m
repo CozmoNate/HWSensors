@@ -536,7 +536,9 @@
             [[cell subtitleField] setHidden:NO];
         }
         else if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[GenericBatteryDevice class]]) {
-            if ([[sensor genericDevice] productName]) {
+            // Hide subtitle for internal battery
+            if ([sensor.genericDevice deviceType] != kInternalBatteryType &&
+                [sensor.genericDevice productName]) {
                 [[cell subtitleField] setStringValue:[[sensor genericDevice] productName]];
                 [[cell subtitleField] setHidden:NO];
             }
