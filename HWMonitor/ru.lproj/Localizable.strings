@@ -90,8 +90,8 @@
 "Graphs window always topmost" = "Окно графиков всегда поверх остальных окон";
 "Graphs scale factor:" = "Масштаб отображения по времени:";
 "Check for updates" = "Проверять наличие обновлений в сети";
-"Attach to Menu Bar" = "Закрепить в системном меню";
-"Detach from Menu Bar" = "Отсоеденить панель сенсоров";
+"Attach to Menu Bar" = "Закрепить панель";
+"Detach from Menu Bar" = "Отсоеденить панель";
 "Hide Window" = "Скрыть окно";
 
 "Mouse" = "Мышь";
