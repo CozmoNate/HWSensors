@@ -369,9 +369,9 @@
         HWMonitorSensor *sensor = [item sensor];
         
         if ((_showVolumeNames &&
-             [sensor genericDevice] &&
-             [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) ||
-            ([[sensor genericDevice] isKindOfClass:[GenericBatteryDevice class]] && [[sensor genericDevice] productName])) {
+             sensor.genericDevice &&
+             [sensor.genericDevice isKindOfClass:[ATAGenericDrive class]]) ||
+            ([sensor.genericDevice isKindOfClass:[GenericBatteryDevice class]] && [sensor.genericDevice deviceType] != kInternalBatteryType && [sensor.genericDevice productName])) {
             return 27;
         }
         else {
