@@ -368,8 +368,10 @@
     else if ([item isKindOfClass:[HWMonitorItem class]]) {
         HWMonitorSensor *sensor = [item sensor];
         
-        if ((_showVolumeNames && [sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) ||
-            ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[GenericBatteryDevice class]] && [[sensor genericDevice] productName])) {
+        if ((_showVolumeNames &&
+             [sensor genericDevice] &&
+             [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) ||
+            ([[sensor genericDevice] isKindOfClass:[GenericBatteryDevice class]] && [[sensor genericDevice] productName])) {
             return 27;
         }
         else {

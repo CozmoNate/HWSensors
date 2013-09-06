@@ -268,7 +268,7 @@
                 title = @"Trackpad";
                 break;
             case kInternalBatteryType:
-                //title = @"Built-in Battery";
+                title = @"Internal Battery";
                 break;
             default:
                 title = @"Unknown";
