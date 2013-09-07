@@ -620,6 +620,8 @@ bool CPUSensors::start(IOService *provider)
 //        HWSensorsInfoLog("CPU[%d] = %s, thermal = %d", sensors_count, cpu_check_value[sensors_count] ? "enabled" : "disabled", cpu_thermal[sensors_count]);
 //    }
     
+    enableExclusiveAccessMode();
+    
     // platform keys
     if (platform) {
         HWSensorsInfoLog("setting platform keys to [%-8s]", (const char*)platform->getBytesNoCopy());
@@ -748,6 +750,8 @@ bool CPUSensors::start(IOService *provider)
         }
             
     }
+    
+    disableExclusiveAccessMode();
     
     // Register service
     registerService();

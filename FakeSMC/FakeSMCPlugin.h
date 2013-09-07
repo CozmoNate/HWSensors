@@ -212,16 +212,19 @@ private:
     OSDictionary            *sensors;
     
 protected:
-    OSString                *getPlatformManufacturer();
-    OSString                *getPlatformProduct();
+    OSString                *getPlatformManufacturer(void);
+    OSString                *getPlatformProduct(void);
+    
+    void                    enableExclusiveAccessMode(void);
+    void                    disableExclusiveAccessMode(void);
     
     bool                    isKeyExists(const char *key);
     bool                    isKeyHandled(const char *key);
     
-    SInt8                   takeVacantGPUIndex();
+    SInt8                   takeVacantGPUIndex(void);
     bool                    takeGPUIndex(UInt8 index);
     bool                    releaseGPUIndex(UInt8 index);
-    SInt8                   takeVacantFanIndex();
+    SInt8                   takeVacantFanIndex(void);
     bool                    releaseFanIndex(UInt8 index);
     
     bool                    setKeyValue(const char *key, const char *type, UInt8 size, void *value);

@@ -191,6 +191,8 @@ bool ACPISensors::start(IOService * provider)
         return false;
     }
     
+    enableExclusiveAccessMode();
+    
     methods = OSArray::withCapacity(0);
     
     // Try to load configuration from info.plist first
@@ -256,6 +258,8 @@ bool ACPISensors::start(IOService * provider)
     
     if (methods->getCount())
         ACPISensorsInfoLog("%d sensor%s added", methods->getCount(), methods->getCount() > 1 ? "s" : "");
+    
+    disableExclusiveAccessMode();
     
 	registerService();
     

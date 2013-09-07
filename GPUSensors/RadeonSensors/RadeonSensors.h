@@ -18,15 +18,11 @@ class RadeonSensors : public GPUSensors
 private:
     radeon_device       card;
     
-    bool                managedStart(IOService *provide);
-    
 protected:	
     virtual float       getSensorValue(FakeSMCSensor *sensor);
     virtual bool        shouldWaitForAccelerator();
-    virtual void        onAcceleratorFound(IOService *provider);
-    virtual void        onTimeoutExceeded(IOService *provider);
+	virtual bool        managedStart(IOService *provider);
     
 public:
-    virtual bool        start(IOService *provider);
     virtual void		stop(IOService *provider);
 };

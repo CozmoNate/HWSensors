@@ -33,8 +33,8 @@
 #define INVID(offset) OSReadLittleInt32((mmio_base), offset)
 #define OUTVID(offset,val) OSWriteLittleInt32((mmio_base), offset, val)
 
-#define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(GmaSensors, FakeSMCPlugin)
+#define super GPUSensors
+OSDefineMetaClassAndStructors(GmaSensors, GPUSensors)
 
 float GmaSensors::getSensorValue(FakeSMCSensor *sensor)
 {    
@@ -63,15 +63,9 @@ float GmaSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-IOService* GmaSensors::probe(IOService *provider, SInt32 *score)
+bool GmaSensors::managedStart(IOService *provider)
 {
-	if (super::probe(provider, score) != this) 
-        return 0;
-	
-    if (!(VCard = (IOPCIDevice*)provider))
-        return 0;
-    
-	IOPhysicalAddress bar = (IOPhysicalAddress)((VCard->configRead32(kMCHBAR)) & ~0xf);
+	IOPhysicalAddress bar = (IOPhysicalAddress)((pciDevice->configRead32(kMCHBAR)) & ~0xf);
     
 	HWSensorsDebugLog("Fx3100: register space=%08lx", (long unsigned int)bar);
 	
@@ -93,19 +87,13 @@ IOService* GmaSensors::probe(IOService *provider, SInt32 *score)
 		}
 		else {
             HWSensorsInfoLog("MCHBAR failed to map");
-            return 0;
+            return false;
         }
     }
     
-	return this;
-}
-
-bool GmaSensors::start(IOService * provider)
-{
-	if (!super::start(provider)) 
-        return false;
-	
-	//Find card number
+    enableExclusiveAccessMode();
+    
+    //Find card number
     gpuIndex = takeVacantGPUIndex();
     
     if (gpuIndex < 0) {
@@ -124,9 +112,11 @@ bool GmaSensors::start(IOService * provider)
         return false;
     }
     
+    disableExclusiveAccessMode();
+    
     registerService();
-	
-	return true;	
+    
+	return true;
 }
 
 void GmaSensors::stop(IOService* provider)

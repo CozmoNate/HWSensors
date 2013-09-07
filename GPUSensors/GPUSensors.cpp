@@ -66,14 +66,19 @@ bool GPUSensors::shouldWaitForAccelerator()
     return false;
 }
 
+bool GPUSensors::managedStart(IOService *provider)
+{
+    return true;
+}
+
 void GPUSensors::onAcceleratorFound(IOService *provider)
 {
-    
+    managedStart(provider);
 }
 
 void GPUSensors::onTimeoutExceeded(IOService *provider)
 {
-    
+    managedStart(provider);
 }
 
 bool GPUSensors::start(IOService *provider)
@@ -108,6 +113,7 @@ bool GPUSensors::start(IOService *provider)
         
         timerEventSource->setTimeoutMS(kGPUSensorsAcceleratorWaitCycle * 2);
     }
+    else return managedStart(provider);
     
     return true;
 }

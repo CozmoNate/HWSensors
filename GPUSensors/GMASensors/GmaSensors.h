@@ -11,25 +11,22 @@
 #include <IOKit/IOTimerEventSource.h>
 #include <IOKit/pci/IOPCIDevice.h>
 
-#include "FakeSMCPlugin.h"
+#include "GPUSensors.h"
 
-class GmaSensors : public FakeSMCPlugin
+class GmaSensors : public GPUSensors
 {
     OSDeclareDefaultStructors(GmaSensors) 
     
 private:
 	OSDictionary *		sensors;
 	volatile UInt8*     mmio_base;
-	IOPCIDevice *		VCard;
 	IOMemoryMap *		mmio;
-	
     SInt8               gpuIndex;
-    
+	
 protected:	
     virtual float       getSensorValue(FakeSMCSensor *sensor);
-	
+	virtual bool        managedStart(IOService *provider);
+    
 public:
-    virtual IOService* probe(IOService *provider, SInt32 *score);
-    virtual bool       start(IOService * provider);
-    virtual void       stop(IOService* provider);
+    virtual void        stop(IOService* provider);
 };

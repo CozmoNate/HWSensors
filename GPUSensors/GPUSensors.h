@@ -26,7 +26,9 @@ private:
 protected:
     IOPCIDevice*            pciDevice;
     
+    
     virtual bool            shouldWaitForAccelerator();
+    virtual bool            managedStart(IOService *provider);
     virtual void            onAcceleratorFound(IOService *provider);
     virtual void            onTimeoutExceeded(IOService *provider);
     

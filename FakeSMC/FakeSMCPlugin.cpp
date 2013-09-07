@@ -186,12 +186,12 @@ void FakeSMCSensor::encodeNumericValue(float value, void *outBuffer)
     }
 }
 
-#pragma mark -
+#pragma mark
 #pragma mark FakeSMCPlugin
 
 #include "OEMInfo.h"
 
-static IORecursiveLock *gPluginSyncLock;
+static IORecursiveLock *gPluginSyncLock = 0;
 
 #define SYNCLOCK        if (!gPluginSyncLock) gPluginSyncLock = IORecursiveLockAlloc(); IORecursiveLockLock(gPluginSyncLock)
 #define SYNCUNLOCK      IORecursiveLockUnlock(gPluginSyncLock)
@@ -199,8 +199,10 @@ static IORecursiveLock *gPluginSyncLock;
 #define super IOService
 OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)
 
+#pragma mark -
+#pragma mark FakeSMCPlugin::methods
 
-OSString *FakeSMCPlugin::getPlatformManufacturer()
+OSString *FakeSMCPlugin::getPlatformManufacturer(void)
 {
     if (headingProvider)
         return OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoManufacturer));
@@ -208,12 +210,22 @@ OSString *FakeSMCPlugin::getPlatformManufacturer()
     return NULL;
 }
 
-OSString *FakeSMCPlugin::getPlatformProduct()
+OSString *FakeSMCPlugin::getPlatformProduct(void)
 {
     if (headingProvider)
         return OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoProduct));
     
     return NULL;
+}
+
+void FakeSMCPlugin::enableExclusiveAccessMode(void)
+{
+    SYNCLOCK;
+}
+
+void FakeSMCPlugin::disableExclusiveAccessMode(void)
+{
+    SYNCUNLOCK;
 }
 
 bool FakeSMCPlugin::isKeyExists(const char *key)
@@ -414,7 +426,7 @@ float FakeSMCPlugin::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-SInt8 FakeSMCPlugin::takeVacantGPUIndex()
+SInt8 FakeSMCPlugin::takeVacantGPUIndex(void)
 {
     SYNCLOCK;
     
@@ -488,7 +500,7 @@ bool FakeSMCPlugin::releaseGPUIndex(UInt8 index)
     return false;
 }
 
-SInt8 FakeSMCPlugin::takeVacantFanIndex()
+SInt8 FakeSMCPlugin::takeVacantFanIndex(void)
 {
     SYNCLOCK;
     

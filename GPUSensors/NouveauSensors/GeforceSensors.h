@@ -50,12 +50,10 @@ private:
     float               i2c_get_fanspeed_pwm(I2CDevPtr dev);
     int                 i2c_get_fanspeed_mode(I2CDevPtr dev);
     
-    bool                managedStart(IOService *provider);
-    
 protected:
     virtual float       getSensorValue(FakeSMCSensor *sensor);
+    virtual bool        managedStart(IOService *provider);
     
 public:
-    virtual bool        start(IOService *provider);
     virtual void        stop(IOService * provider);
 };

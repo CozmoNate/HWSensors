@@ -38,8 +38,31 @@ float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
+bool RadeonSensors::shouldWaitForAccelerator()
+{
+    return true;
+}
+
 bool RadeonSensors::managedStart(IOService *provider)
 {
+    if (!(card.pdev = pciDevice)) {
+        HWSensorsFatalLog("failed to assign PCI device");
+        return false;
+    }
+    
+    if ((card.card_index = takeVacantGPUIndex()) < 0) {
+        radeon_info(&card, "failed to take GPU index\n");
+        return false;
+    }
+    
+    if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id"))) {
+        card.chip_id = *(UInt32*)data->getBytesNoCopy();
+    }
+    else {
+        radeon_fatal(&card, "device-id property not found");
+        return false;
+    }
+    
     card.pdev->setMemoryEnable(true);
     
 //    IOMemoryMap *mmio;
@@ -270,6 +293,8 @@ bool RadeonSensors::managedStart(IOService *provider)
     
     char key[5];
     
+    enableExclusiveAccessMode();
+    
     if (card.get_core_temp) {
         snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
         if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
@@ -281,52 +306,11 @@ bool RadeonSensors::managedStart(IOService *provider)
         }
     }
     
+    disableExclusiveAccessMode();
+    
     registerService();
     
     radeon_info(&card, "started\n");
-    
-    return true;
-}
-
-bool RadeonSensors::shouldWaitForAccelerator()
-{
-    return true;
-}
-
-void RadeonSensors::onAcceleratorFound(IOService *provider)
-{
-    managedStart(provider);
-}
-
-void RadeonSensors::onTimeoutExceeded(IOService *provider)
-{
-    managedStart(provider);
-}
-
-bool RadeonSensors::start(IOService *provider)
-{
-    HWSensorsDebugLog("Starting...");
-
-    if (!super::start(provider))
-        return false;
-    
-    if (!(card.pdev = OSDynamicCast(IOPCIDevice, provider))) {
-        HWSensorsFatalLog("no PCI device");
-        return false;
-    }
-    
-    if ((card.card_index = takeVacantGPUIndex()) < 0) {
-        radeon_info(&card, "failed to take GPU index\n");
-        return false;
-    }
-
-    if (OSData *data = OSDynamicCast(OSData, provider->getProperty("device-id"))) {
-        card.chip_id = *(UInt32*)data->getBytesNoCopy();
-    }
-    else {
-        radeon_fatal(&card, "device-id property not found");
-        return false;
-    }
     
     return true;
 }
