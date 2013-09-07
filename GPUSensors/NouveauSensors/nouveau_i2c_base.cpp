@@ -532,7 +532,7 @@ nv_board_infos[] = {
     { I2C_BOARD_INFO("adm1021", 0x4e) },
     { I2C_BOARD_INFO("lm63", 0x18) },
     { I2C_BOARD_INFO("lm63", 0x4e) },
-    { }
+    { I2C_BOARD_INFO_NULL }
 };
 
 void nouveau_i2c_probe(struct nouveau_device *device)
@@ -543,7 +543,7 @@ void nouveau_i2c_probe(struct nouveau_device *device)
 	if (!nvbios_extdev_find(device, NVBIOS_EXTDEV_LM89, &extdev_entry)) {
 		struct i2c_board_info board[] = {
 			{ I2C_BOARD_INFO("lm90", extdev_entry.addr >> 1) },
-			{ }
+			{ I2C_BOARD_INFO_NULL }
 		};
         
 		if(i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device", board, probe_monitoring_device) >= 0)
@@ -553,7 +553,7 @@ void nouveau_i2c_probe(struct nouveau_device *device)
 	if (!nvbios_extdev_find(device, NVBIOS_EXTDEV_ADT7473, &extdev_entry)) {
 		struct i2c_board_info board[] = {
 			{ I2C_BOARD_INFO("adt7473", extdev_entry.addr >> 1) },
-			{ }
+			{ I2C_BOARD_INFO_NULL }
 		};
         
 		if(i2c->identify(i2c, NV_I2C_DEFAULT(0), "monitoring device",board, probe_monitoring_device) >= 0)

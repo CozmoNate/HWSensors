@@ -119,6 +119,7 @@
 		7E0FB6A817D77CC100FF3EC1 /* 27-circle-o@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "27-circle-o@2x.png"; sourceTree = "<group>"; };
 		7E10343416EFAE490089DE7B /* GenericBatteryDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericBatteryDevice.h; sourceTree = "<group>"; };
 		7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericBatteryDevice.m; sourceTree = "<group>"; };
+		7E122E8217DB923A00DE3DE9 /* HWMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HWMonitor.entitlements; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E16893416EA106D00BBF6FC /* ArrowlessScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowlessScroller.h; sourceTree = "<group>"; };
 		7E16893516EA106D00BBF6FC /* ArrowlessScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrowlessScroller.m; sourceTree = "<group>"; };
@@ -387,6 +388,7 @@
 		7EA248F216D8E93A002231B2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E122E8217DB923A00DE3DE9 /* HWMonitor.entitlements */,
 				7EA248F316D8E93A002231B2 /* HWMonitor-Info.plist */,
 				7EA248F416D8E93A002231B2 /* InfoPlist.strings */,
 				7EA248F716D8E93A002231B2 /* main.m */,
@@ -912,6 +914,7 @@
 		7EA2490616D8E93A002231B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = HWMonitor/HWMonitor.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
@@ -925,6 +928,7 @@
 		7EA2490716D8E93A002231B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = HWMonitor/HWMonitor.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
