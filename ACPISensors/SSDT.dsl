@@ -1,6 +1,6 @@
 DefinitionBlock ("SSDT.aml", "SSDT", 1, "APPLE ", "DefMon", 0x00003000)
 {
-    Device (_SB.MON0)
+    Device (_SB.MON0) // ACPISensors virtual device
     {
         Name (_HID, EisaId ("PNP0C02")) // Expose MON0 to IORegistry
         Name (_CID, "MON00000") // Allows ACPISensors matching
@@ -44,6 +44,29 @@ DefinitionBlock ("SSDT.aml", "SSDT", 1, "APPLE ", "DefMon", 0x00003000)
         Method (FAN0, 0, NotSerialized) // Test fan method, returns 50
         {
             Store (0x32, Local0)
+            Return (Local0)
+        }
+    }
+    
+    Device (_SB.PLLD) // ACPIPoller virtual device (c) TimeWalker
+    {
+        Name (_HID, EisaId ("PNP0C02")) // Expose PLLD to IORegistry
+        Name (_CID, EisaId ("PLL0000")) // device compatible name allows ACPIPoller matching
+
+        /* Define settings for ACPI method polling */
+       
+        Name (INVL, 0x3E8)          // Set Polling interval 1 sec
+        Name (TOUT, Zero)           // Set Polling timeout  0 sec (continuous polling)
+        Name (LOGG, One)            // Enable Console logging of values returned by methods
+        Name (LIST, Package (0x02)  // Define methods to poll
+        {
+            "TST0",
+            "TST1"
+        })
+        
+        Method (TST0, 0, NotSerialized) // Test method returns 100500
+        {
+            Store (0x18894, Local0)
             Return (Local0)
         }
     }
