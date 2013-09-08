@@ -94,24 +94,57 @@ bool ACPIPoller::start(IOService * provider)
     }
     
     methods = OSArray::withCapacity(0);
+    OSNumber *interval = NULL;
+    OSNumber *timeout = NULL;
+    OSBoolean *logging = NULL;
+    OSArray *list = NULL;
+    
     
     // Try to load configuration from info.plist first
     if (OSDictionary *configuration = getConfigurationNode())
     {
-        if (OSNumber *interval = OSDynamicCast(OSNumber, configuration->getObject("PollingInterval"))) {
-            pollingInterval = (double)interval->unsigned64BitValue() / (double)1000.0;
+        interval = OSDynamicCast(OSNumber, configuration->getObject("PollingInterval"));
+        timeout = OSDynamicCast(OSNumber, configuration->getObject("PollingTimeout"));
+        logging = OSDynamicCast(OSBoolean, configuration->getObject("LoggingEnabled"));
+        list = OSDynamicCast(OSArray, configuration->getObject("Methods"));
+    }
+    // Try to load configuration provided by ACPI device
+    else {
+        OSObject *object = NULL;
+        
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("INVL", &object) && object)
+            interval = OSDynamicCast(OSNumber, object);
+        
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("TOUT", &object) && object)
+            timeout = OSDynamicCast(OSNumber, object);
+        
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("LOGG", &object) && object) {
+            if (OSNumber *number = OSDynamicCast(OSNumber, object)) {
+                logging = OSBoolean::withBoolean(number->unsigned8BitValue() == 1);
+            }
         }
         
-        if (OSNumber *timeout = OSDynamicCast(OSNumber, configuration->getObject("PollingTimeout"))) {
-            pollingTimeout = (double)timeout->unsigned64BitValue() / 1000.0;
-        }
-        
-        if (OSBoolean *logging = OSDynamicCast(OSBoolean, configuration->getObject("LoggingEnabled"))) {
-            loggingEnabled = logging->isTrue();
-        }
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("LIST", &object) && object)
+            list = OSDynamicCast(OSArray, object);
+    }
+    
+    if (interval) {
+        pollingInterval = (double)interval->unsigned64BitValue() / (double)1000.0;
+        ACPISensorsInfoLog("polling interval %lld ms", interval->unsigned64BitValue());
         
         if (pollingInterval) {
-            if (OSArray *list = OSDynamicCast(OSArray, configuration->getObject("Methods"))) {
+            
+            if (timeout) {
+                pollingTimeout = (double)timeout->unsigned64BitValue() / 1000.0;
+                ACPISensorsInfoLog("polling timeout %lld ms", timeout->unsigned64BitValue());
+            }
+            
+            if (logging) {
+                loggingEnabled = logging->isTrue();
+                ACPISensorsInfoLog("logging %s", loggingEnabled ? "enabled" : "disabled");
+            }
+            
+            if (list) {
                 for (unsigned int i = 0; i < list->getCount(); i++) {
                     if (OSString *method = OSDynamicCast(OSString, list->getObject(i))) {
                         if (method->getLength() && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
