@@ -121,6 +121,7 @@
 		7E17E16E169C422600E40FC7 /* radeon_definitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = radeon_definitions.h; sourceTree = "<group>"; };
 		7E17E16F169C532000E40FC7 /* si.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = si.cpp; sourceTree = "<group>"; };
 		7E17E170169C532100E40FC7 /* si.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = si.h; sourceTree = "<group>"; };
+		7E18E3EB17DD19DF0069FF52 /* Readme.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Readme.rtf; sourceTree = "<group>"; };
 		7E20CCDD17D6DAD400CE769C /* ACPIPoller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ACPIPoller.cpp; sourceTree = "<group>"; };
 		7E20CCDE17D6DAD400CE769C /* ACPIPoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPIPoller.h; sourceTree = "<group>"; };
 		7E24AF81169CBB9700040AF4 /* atom-names.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "atom-names.h"; sourceTree = "<group>"; };
@@ -515,6 +516,7 @@
 			children = (
 				7E20CCDE17D6DAD400CE769C /* ACPIPoller.h */,
 				7E20CCDD17D6DAD400CE769C /* ACPIPoller.cpp */,
+				7E18E3EB17DD19DF0069FF52 /* Readme.rtf */,
 			);
 			name = ACPIPoller;
 			sourceTree = "<group>";
