@@ -41,7 +41,7 @@
 			<string>ACPIPoller</string>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
-			<key>Platform Profile</key>
+			<key>Platform Profile - DISABLED</key>
 			<dict>
 				<key>Default</key>
 				<dict>

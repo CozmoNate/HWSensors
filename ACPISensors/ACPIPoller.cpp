@@ -126,6 +126,8 @@ bool ACPIPoller::start(IOService * provider)
         
         if (kIOReturnSuccess == acpiDevice->evaluateObject("LIST", &object) && object)
             list = OSDynamicCast(OSArray, object);
+        else
+            ACPISensorsErrorLog("polling methods table (LIST) not found");
     }
     
     if (interval) {
@@ -156,6 +158,7 @@ bool ACPIPoller::start(IOService * provider)
                 }
             }
         }
+        else ACPISensorsWarningLog("polling interval is set to zero, driver will be disabled");
     }
     
     if (methods->getCount()) {
