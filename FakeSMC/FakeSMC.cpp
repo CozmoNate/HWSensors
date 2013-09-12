@@ -25,7 +25,11 @@ bool FakeSMC::init(OSDictionary *dictionary)
 		return false;
 	}
     
-    setOemProperties(this);
+    if (!setOemProperties(this)) {
+        // Another try after 200 ms spin
+        IOSleep(200);
+        setOemProperties(this);
+    }
     
     if (!getProperty(kOEMInfoProduct) || !getProperty(kOEMInfoManufacturer)) {
 

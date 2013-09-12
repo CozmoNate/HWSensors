@@ -89,27 +89,27 @@ static inline UInt8 get_cpu_number()
     return number;
 }
 
-//static bool cpu_enabled[kCPUSensorsMaxCpus];
-//static UInt64 cpu_lapic[kCPUSensorsMaxCpus];
-//static UInt64 cpu_check_value[kCPUSensorsMaxCpus];
-//
-//static inline void cpu_check(void *magic)
-//{
-//    int number = cpu_number();
-//    
-//    if (number < kCPUSensorsMaxCpus) {
-//        
-//        
-//        cpu_enabled[number] = true;
-//        
-//        uint32_t cpuid_reg[4];
-//        
-//        do_cpuid(0x0b, cpuid_reg);
-//        
-//        cpu_lapic[number] = cpuid_reg[edx];
-//        cpu_check_value[number] = rdmsr64(MSR_IA32_THERM_STS);
-//    }
-//}
+static bool cpu_enabled[kCPUSensorsMaxCpus];
+static UInt64 cpu_lapic[kCPUSensorsMaxCpus];
+static UInt64 cpu_check_value[kCPUSensorsMaxCpus];
+
+static inline void cpu_check(void *magic)
+{
+    int number = cpu_number();
+    
+    if (number < kCPUSensorsMaxCpus) {
+        
+        
+        cpu_enabled[number] = true;
+        
+        uint32_t cpuid_reg[4];
+        
+        do_cpuid(0x0b, cpuid_reg);
+        
+        cpu_lapic[number] = cpuid_reg[edx];
+        cpu_check_value[number] = rdmsr64(MSR_IA32_PACKAGE_THERM_STATUS);
+    }
+}
 
 static UInt8 cpu_thermal[kCPUSensorsMaxCpus];
 static UInt8 cpu_thermal_updated[kCPUSensorsMaxCpus];

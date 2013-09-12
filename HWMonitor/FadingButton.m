@@ -9,8 +9,8 @@
 #import "FadingButton.h"
 
 #define NORMAL_OPACITY  0.8
-#define HOVER_OPACITY   0.9
-#define DOWN_OPACITY    1.0
+#define HOVER_OPACITY   0.95
+#define DOWN_OPACITY    0.6
 
 @implementation FadingButton
 

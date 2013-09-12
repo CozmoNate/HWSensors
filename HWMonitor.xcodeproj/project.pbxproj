@@ -9,9 +9,11 @@
 /* Begin PBXBuildFile section */
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E0648F116DF3B7D00ACB851 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7E0648EF16DF3B7D00ACB851 /* README.md */; };
-		7E0FB6A917D77CC100FF3EC1 /* 27-circle-o.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E0FB6A717D77CC100FF3EC1 /* 27-circle-o.png */; };
-		7E0FB6AA17D77CC100FF3EC1 /* 27-circle-o@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E0FB6A817D77CC100FF3EC1 /* 27-circle-o@2x.png */; };
 		7E10343616EFAE490089DE7B /* GenericBatteryDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */; };
+		7E1458C817E2744000694A4A /* 27-circle-o.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C417E2744000694A4A /* 27-circle-o.png */; };
+		7E1458C917E2744000694A4A /* 27-circle-o@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C517E2744000694A4A /* 27-circle-o@2x.png */; };
+		7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C617E2744000694A4A /* 37-circle-x.png */; };
+		7E1458CB17E2744000694A4A /* 37-circle-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C717E2744000694A4A /* 37-circle-x@2x.png */; };
 		7E16893616EA106D00BBF6FC /* ArrowlessScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16893516EA106D00BBF6FC /* ArrowlessScroller.m */; };
 		7E16FD87170648BF00FB253E /* HWMonitorProfiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16FD86170648BF00FB253E /* HWMonitorProfiles.m */; };
 		7E16FD8A1706BB3000FB253E /* TransparentSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16FD891706BB3000FB253E /* TransparentSplitView.m */; };
@@ -29,8 +31,6 @@
 		7E44D95E1710433A00D06387 /* WindowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E44D95D1710433A00D06387 /* WindowFilter.m */; };
 		7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */; };
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
-		7E86ACDA17D1EFFA004950DB /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E86ACD417D1EFFA004950DB /* 37-circle-x.png */; };
-		7E86ACDB17D1EFFA004950DB /* 37-circle-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E86ACD517D1EFFA004950DB /* 37-circle-x@2x.png */; };
 		7E9060E51708951800BF5BBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248F016D8E93A002231B2 /* Foundation.framework */; };
 		7E9060E81708951800BF5BBF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9060E71708951800BF5BBF /* main.m */; };
 		7E9060EC1708951800BF5BBF /* smcutil.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E9060EB1708951800BF5BBF /* smcutil.1 */; };
@@ -115,12 +115,14 @@
 		7E0648ED16DF3B7D00ACB851 /* LaunchAtLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchAtLoginController.h; sourceTree = "<group>"; };
 		7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchAtLoginController.m; sourceTree = "<group>"; };
 		7E0648EF16DF3B7D00ACB851 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		7E0FB6A717D77CC100FF3EC1 /* 27-circle-o.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "27-circle-o.png"; sourceTree = "<group>"; };
-		7E0FB6A817D77CC100FF3EC1 /* 27-circle-o@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "27-circle-o@2x.png"; sourceTree = "<group>"; };
 		7E10343416EFAE490089DE7B /* GenericBatteryDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericBatteryDevice.h; sourceTree = "<group>"; };
 		7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericBatteryDevice.m; sourceTree = "<group>"; };
 		7E122E8217DB923A00DE3DE9 /* HWMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HWMonitor.entitlements; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
+		7E1458C417E2744000694A4A /* 27-circle-o.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "27-circle-o.png"; sourceTree = "<group>"; };
+		7E1458C517E2744000694A4A /* 27-circle-o@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "27-circle-o@2x.png"; sourceTree = "<group>"; };
+		7E1458C617E2744000694A4A /* 37-circle-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x.png"; sourceTree = "<group>"; };
+		7E1458C717E2744000694A4A /* 37-circle-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x@2x.png"; sourceTree = "<group>"; };
 		7E16893416EA106D00BBF6FC /* ArrowlessScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowlessScroller.h; sourceTree = "<group>"; };
 		7E16893516EA106D00BBF6FC /* ArrowlessScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrowlessScroller.m; sourceTree = "<group>"; };
 		7E16FD85170648BF00FB253E /* HWMonitorProfiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorProfiles.h; sourceTree = "<group>"; };
@@ -152,8 +154,6 @@
 		7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBMenuBarWindow.m; sourceTree = "<group>"; };
 		7E7D61F91704453B00F7222F /* FadingButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadingButton.h; sourceTree = "<group>"; };
 		7E7D61FA1704453B00F7222F /* FadingButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadingButton.m; sourceTree = "<group>"; };
-		7E86ACD417D1EFFA004950DB /* 37-circle-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x.png"; sourceTree = "<group>"; };
-		7E86ACD517D1EFFA004950DB /* 37-circle-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x@2x.png"; sourceTree = "<group>"; };
 		7E9060E41708951800BF5BBF /* smcutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = smcutil; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E9060E71708951800BF5BBF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7E9060EA1708951800BF5BBF /* smcutil-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "smcutil-Prefix.pch"; sourceTree = "<group>"; };
@@ -434,10 +434,10 @@
 				7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */,
 				7EED6D7B1734F9CF00248870 /* 19-gear.png */,
 				7EED6D7C1734F9CF00248870 /* 19-gear@2x.png */,
-				7E0FB6A717D77CC100FF3EC1 /* 27-circle-o.png */,
-				7E0FB6A817D77CC100FF3EC1 /* 27-circle-o@2x.png */,
-				7E86ACD417D1EFFA004950DB /* 37-circle-x.png */,
-				7E86ACD517D1EFFA004950DB /* 37-circle-x@2x.png */,
+				7E1458C417E2744000694A4A /* 27-circle-o.png */,
+				7E1458C517E2744000694A4A /* 27-circle-o@2x.png */,
+				7E1458C617E2744000694A4A /* 37-circle-x.png */,
+				7E1458C717E2744000694A4A /* 37-circle-x@2x.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -727,10 +727,10 @@
 				7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */,
 				7EED6D7E1734F9CF00248870 /* 19-gear@2x.png in Resources */,
 				7EDEA333173E3B94003ADE86 /* hwsensors.icns in Resources */,
-				7E86ACDA17D1EFFA004950DB /* 37-circle-x.png in Resources */,
-				7E86ACDB17D1EFFA004950DB /* 37-circle-x@2x.png in Resources */,
-				7E0FB6A917D77CC100FF3EC1 /* 27-circle-o.png in Resources */,
-				7E0FB6AA17D77CC100FF3EC1 /* 27-circle-o@2x.png in Resources */,
+				7E1458C817E2744000694A4A /* 27-circle-o.png in Resources */,
+				7E1458C917E2744000694A4A /* 27-circle-o@2x.png in Resources */,
+				7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */,
+				7E1458CB17E2744000694A4A /* 37-circle-x@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
