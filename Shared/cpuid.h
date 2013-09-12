@@ -492,7 +492,7 @@ static void cpuid_update_generic_info()
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
-        case CPUFAMILY_INTEL_HASWELL:     // TODO: Update for Hasswell
+        case CPUFAMILY_INTEL_HASWELL:
         case CPUFAMILY_INTEL_HASWELL_ULT:
         {
             uint64_t msr = rdmsr64(MSR_CORE_THREAD_COUNT);
