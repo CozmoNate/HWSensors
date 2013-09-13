@@ -18,6 +18,7 @@
 "pcicard" = "Device icon";
 "video" = "Graphics card icon";
 "battery" = "Battery icon";
+"scale" = "Scale icon";
 
 "CPUFan" = "CPU Fan";
 "CPUFan2" = "CPU Fan 2";

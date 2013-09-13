@@ -32,6 +32,7 @@
 
 // Icons
 #define kHWMonitorIconDefault               @"hwmonitor"
+#define kHWMonitorIconScale                 @"scale"
 #define kHWMonitorIconThermometer           @"thermometer"
 #define kHWMonitorIconDevice                @"pcicard"
 #define kHWMonitorIconTemperatures          @"temperatures"

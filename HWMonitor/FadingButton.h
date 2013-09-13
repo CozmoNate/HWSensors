@@ -8,4 +8,6 @@
 
 @interface FadingButton : NSButton
 
+@property (strong) NSString *actionURL;
+
 @end

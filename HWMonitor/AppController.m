@@ -57,6 +57,7 @@
     
     [self loadIconNamed:kHWMonitorIconDefault];
     [self loadIconNamed:kHWMonitorIconThermometer];
+    [self loadIconNamed:kHWMonitorIconScale];
     [self loadIconNamed:kHWMonitorIconDevice];
     [self loadIconNamed:kHWMonitorIconTemperatures];
     [self loadIconNamed:kHWMonitorIconHddTemperatures];
@@ -292,6 +293,7 @@
     
     HWMonitorIcon *icon = [self getIconByName:kHWMonitorIconDefault]; [self addItem:icon forKey:icon.name];
     icon = [self getIconByName:kHWMonitorIconThermometer]; [self addItem:icon forKey:icon.name];
+    icon = [self getIconByName:kHWMonitorIconScale]; [self addItem:icon forKey:icon.name];
     icon = [self getIconByName:kHWMonitorIconDevice]; [self addItem:icon forKey:icon.name];
     icon = [self getIconByName:kHWMonitorIconTemperatures]; [self addItem:icon forKey:icon.name];
     icon = [self getIconByName:kHWMonitorIconHddTemperatures]; [self addItem:icon forKey:icon.name];

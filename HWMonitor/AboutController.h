@@ -14,6 +14,8 @@
 @property (assign) IBOutlet NSTextField *copyrightField;
 
 - (IBAction)showCredits:(id)sender;
+- (IBAction)openLink:(id)sender;
 - (IBAction)openGitHubLink:(id)sender;
+- (IBAction)openBitbucketLink:(id)sender;
 
 @end

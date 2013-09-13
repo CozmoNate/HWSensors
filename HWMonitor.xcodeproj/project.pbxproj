@@ -29,6 +29,11 @@
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
 		7E2042051730D04100C13B65 /* AppController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* AppController.xib */; };
 		7E44D95E1710433A00D06387 /* WindowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E44D95D1710433A00D06387 /* WindowFilter.m */; };
+		7E683AFC17E3761D001A6EF6 /* scale.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E683AFB17E3761D001A6EF6 /* scale.png */; };
+		7E683B0217E37916001A6EF6 /* github.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E683B0117E37916001A6EF6 /* github.png */; };
+		7E683B0417E3792E001A6EF6 /* bitbucket.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E683B0317E3792E001A6EF6 /* bitbucket.png */; };
+		7E683B0617E37B61001A6EF6 /* sourceforge.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E683B0517E37B61001A6EF6 /* sourceforge.png */; };
+		7E683B0817E37E2E001A6EF6 /* assembla.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E683B0717E37E2E001A6EF6 /* assembla.png */; };
 		7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */; };
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
 		7E9060E51708951800BF5BBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248F016D8E93A002231B2 /* Foundation.framework */; };
@@ -149,6 +154,11 @@
 		7E44D95C1710433A00D06387 /* WindowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowFilter.h; sourceTree = "<group>"; };
 		7E44D95D1710433A00D06387 /* WindowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowFilter.m; sourceTree = "<group>"; };
 		7E4CD74B1737574C002586D2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7E683AFB17E3761D001A6EF6 /* scale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scale.png; sourceTree = "<group>"; };
+		7E683B0117E37916001A6EF6 /* github.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = github.png; sourceTree = "<group>"; };
+		7E683B0317E3792E001A6EF6 /* bitbucket.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bitbucket.png; sourceTree = "<group>"; };
+		7E683B0517E37B61001A6EF6 /* sourceforge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sourceforge.png; sourceTree = "<group>"; };
+		7E683B0717E37E2E001A6EF6 /* assembla.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = assembla.png; sourceTree = "<group>"; };
 		7E7705A51734222100EBDB23 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E7B9B3D1786A732003ACB61 /* OBMenuBarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBMenuBarWindow.h; sourceTree = "<group>"; };
 		7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBMenuBarWindow.m; sourceTree = "<group>"; };
@@ -409,6 +419,7 @@
 				7EA2490E16D8E9C6002231B2 /* hddtemperatures.png */,
 				7EA2490F16D8E9C6002231B2 /* hwmonitor_template.png */,
 				7EA2491016D8E9C6002231B2 /* hwmonitor.png */,
+				7E683AFB17E3761D001A6EF6 /* scale.png */,
 				7EA2491116D8E9C6002231B2 /* multipliers_template.png */,
 				7EA2491216D8E9C6002231B2 /* multipliers.png */,
 				7EA2491316D8E9C6002231B2 /* pcicard_template.png */,
@@ -438,6 +449,10 @@
 				7E1458C517E2744000694A4A /* 27-circle-o@2x.png */,
 				7E1458C617E2744000694A4A /* 37-circle-x.png */,
 				7E1458C717E2744000694A4A /* 37-circle-x@2x.png */,
+				7E683B0117E37916001A6EF6 /* github.png */,
+				7E683B0317E3792E001A6EF6 /* bitbucket.png */,
+				7E683B0517E37B61001A6EF6 /* sourceforge.png */,
+				7E683B0717E37E2E001A6EF6 /* assembla.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -731,6 +746,11 @@
 				7E1458C917E2744000694A4A /* 27-circle-o@2x.png in Resources */,
 				7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */,
 				7E1458CB17E2744000694A4A /* 37-circle-x@2x.png in Resources */,
+				7E683AFC17E3761D001A6EF6 /* scale.png in Resources */,
+				7E683B0217E37916001A6EF6 /* github.png in Resources */,
+				7E683B0417E3792E001A6EF6 /* bitbucket.png in Resources */,
+				7E683B0617E37B61001A6EF6 /* sourceforge.png in Resources */,
+				7E683B0817E37E2E001A6EF6 /* assembla.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

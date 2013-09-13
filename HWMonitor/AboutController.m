@@ -8,6 +8,8 @@
 
 #import "AboutController.h"
 
+#import "FadingButton.h"
+
 @interface AboutController ()
 
 @end
@@ -46,9 +48,22 @@
     [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"]];
 }
 
+- (void)openLink:(id)sender
+{
+    if ([sender isKindOfClass:[FadingButton class]]) {
+        FadingButton *button = sender;
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[button actionURL]]];
+    }
+}
+
 - (void)openGitHubLink:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/kozlek/HWSensors"]];
+}
+
+- (void)openBitbucketLink:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://bitbucket.org/kozlek/hwsensors"]];
 }
 
 @end
