@@ -16,6 +16,7 @@
     NSPopover *_popover;
     BOOL _cursorIsInsideTheFrame;
     NSString *_output;
+    NSDate *_lastUpdated;
 }
 
 @property (strong) ATAGenericDrive *genericDrive;

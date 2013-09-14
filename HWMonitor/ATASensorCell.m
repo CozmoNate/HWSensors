@@ -15,7 +15,8 @@
 {
     if (_cursorIsInsideTheFrame) {
         
-        if (!_output) {
+        // allow updates every 10 minutes
+        if (!_output || (!_lastUpdated || [_lastUpdated timeIntervalSinceNow] < -(60 * 10))) {
             NSTask *task = [[NSTask alloc] init];
             
             [task setLaunchPath: [[NSBundle mainBundle] pathForResource:@"smartctl" ofType:@""]];
@@ -32,6 +33,8 @@
             NSData *data = [file readDataToEndOfFile];
             
             _output = CFBridgingRelease(CFStringCreateWithBytes(kCFAllocatorDefault, data.bytes, data.length, kCFStringEncodingUTF8, FALSE));
+            
+            _lastUpdated = [NSDate dateWithTimeIntervalSinceNow:0.0];
         }
         
         if (!_popover) {
