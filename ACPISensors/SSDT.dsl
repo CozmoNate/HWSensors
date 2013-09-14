@@ -48,10 +48,10 @@ DefinitionBlock ("SSDT.aml", "SSDT", 1, "APPLE ", "DefMon", 0x00003000)
         }
     }
     
-    Device (_SB.PLLD) // ACPIPoller virtual device (c) TimeWalker
+    Device (_SB.PROB) // ACPIProbe virtual device (c) TimeWalker
     {
         Name (_HID, EisaId ("PNP0C02")) // Expose PLLD to IORegistry
-        Name (_CID, EisaId ("PLL0000")) // device compatible name allows ACPIPoller matching
+        Name (_CID, EisaId ("PROB0000")) // device compatible name allows ACPIProbe matching
 
         /* Define settings for ACPI method polling */
        

@@ -29,7 +29,7 @@
 		7E0F901A169AC0EA008CE657 /* evergreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */; };
 		7E148DDA16F7B5E800A3F28E /* nv84.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E148DD816F7B5E800A3F28E /* nv84.cpp */; };
 		7E17E171169C532100E40FC7 /* si.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E17E16F169C532000E40FC7 /* si.cpp */; };
-		7E20CCDF17D6DAD400CE769C /* ACPIPoller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E20CCDD17D6DAD400CE769C /* ACPIPoller.cpp */; };
+		7E20CCDF17D6DAD400CE769C /* ACPIProbe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E20CCDD17D6DAD400CE769C /* ACPIProbe.cpp */; };
 		7E5CFA2516988EBE00F0E9AD /* i2c_algo_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */; };
 		7E5CFA2716988EBE00F0E9AD /* i2c_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */; };
 		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
@@ -122,8 +122,8 @@
 		7E17E16F169C532000E40FC7 /* si.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = si.cpp; sourceTree = "<group>"; };
 		7E17E170169C532100E40FC7 /* si.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = si.h; sourceTree = "<group>"; };
 		7E18E3EB17DD19DF0069FF52 /* Readme.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Readme.rtf; sourceTree = "<group>"; };
-		7E20CCDD17D6DAD400CE769C /* ACPIPoller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ACPIPoller.cpp; sourceTree = "<group>"; };
-		7E20CCDE17D6DAD400CE769C /* ACPIPoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPIPoller.h; sourceTree = "<group>"; };
+		7E20CCDD17D6DAD400CE769C /* ACPIProbe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ACPIProbe.cpp; sourceTree = "<group>"; };
+		7E20CCDE17D6DAD400CE769C /* ACPIProbe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPIProbe.h; sourceTree = "<group>"; };
 		7E24AF81169CBB9700040AF4 /* atom-names.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "atom-names.h"; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E43FB4D17CC04C800A6AAAA /* IntelDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntelDefinitions.h; sourceTree = "<group>"; };
@@ -514,8 +514,8 @@
 		7E20CCDC17D6DABE00CE769C /* ACPIPoller */ = {
 			isa = PBXGroup;
 			children = (
-				7E20CCDE17D6DAD400CE769C /* ACPIPoller.h */,
-				7E20CCDD17D6DAD400CE769C /* ACPIPoller.cpp */,
+				7E20CCDE17D6DAD400CE769C /* ACPIProbe.h */,
+				7E20CCDD17D6DAD400CE769C /* ACPIProbe.cpp */,
 				7E18E3EB17DD19DF0069FF52 /* Readme.rtf */,
 			);
 			name = ACPIPoller;
@@ -882,7 +882,7 @@
 			files = (
 				1D6FE3FF13FEC03100376E64 /* ACPISensors.cpp in Sources */,
 				7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */,
-				7E20CCDF17D6DAD400CE769C /* ACPIPoller.cpp in Sources */,
+				7E20CCDF17D6DAD400CE769C /* ACPIProbe.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

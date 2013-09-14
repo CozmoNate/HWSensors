@@ -38,7 +38,7 @@
 			<key>IOMatchCategory</key>
 			<string>FakeSMCPlugin</string>
 			<key>IOClass</key>
-			<string>ACPIPoller</string>
+			<string>ACPIProbe</string>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
 			<key>Platform Profile - DISABLED</key>
@@ -60,6 +60,7 @@
 			</dict>
 			<key>IONameMatch</key>
 			<array>
+				<string>PROB0000</string>
 				<string>POLL0000</string>
 			</array>
 		</dict>

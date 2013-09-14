@@ -1,5 +1,5 @@
 //
-//  ACPIPoller.cpp
+//  ACPIProbe.cpp
 //  HWSensors
 //
 //  Created by Kozlek on 04/09/13.
@@ -22,15 +22,15 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-#include "ACPIPoller.h"
+#include "ACPIProbe.h"
 #include "ACPISensors.h"
 
 #include "timer.h"
 
 #define super FakeSMCPlugin
-OSDefineMetaClassAndStructors(ACPIPoller, FakeSMCPlugin)
+OSDefineMetaClassAndStructors(ACPIProbe, FakeSMCPlugin)
 
-void ACPIPoller::logValue(const char* method, OSObject *value)
+void ACPIProbe::logValue(const char* method, OSObject *value)
 {
     if (OSNumber *number = OSDynamicCast(OSNumber, value)) {
         ACPISensorsInfoLog("%s = %lld", method, number->unsigned64BitValue());
@@ -46,7 +46,7 @@ void ACPIPoller::logValue(const char* method, OSObject *value)
     }
 }
 
-IOReturn ACPIPoller::woorkloopTimerEvent(void)
+IOReturn ACPIProbe::woorkloopTimerEvent(void)
 {
     if (pollingTimeout > 0 && !startTime)
         startTime = ptimer_read_seconds();
@@ -81,7 +81,7 @@ IOReturn ACPIPoller::woorkloopTimerEvent(void)
     return kIOReturnSuccess;
 }
 
-bool ACPIPoller::start(IOService * provider)
+bool ACPIProbe::start(IOService * provider)
 {
     ACPISensorsDebugLog("starting...");
     
@@ -168,7 +168,7 @@ bool ACPIPoller::start(IOService * provider)
             return false;
         }
         
-        if (!(timerEventSource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &ACPIPoller::woorkloopTimerEvent)))) {
+        if (!(timerEventSource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &ACPIProbe::woorkloopTimerEvent)))) {
             ACPISensorsFatalLog("failed to initialize timer event source");
             return false;
         }
@@ -191,7 +191,7 @@ bool ACPIPoller::start(IOService * provider)
 	return true;
 }
 
-void ACPIPoller::stop(IOService *provider)
+void ACPIProbe::stop(IOService *provider)
 {
     timerEventSource->cancelTimeout();
     workloop->removeEventSource(timerEventSource);

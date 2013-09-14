@@ -1,5 +1,5 @@
 //
-//  ACPIPoller.h
+//  ACPIProbe.h
 //  HWSensors
 //
 //  Created by Kozlek on 04/09/13.
@@ -29,9 +29,9 @@
 #include "IOKit/acpi/IOACPIPlatformDevice.h"
 #include <IOKit/IOTimerEventSource.h>
 
-class ACPIPoller : public FakeSMCPlugin
+class ACPIProbe : public FakeSMCPlugin
 {
-    OSDeclareDefaultStructors(ACPIPoller)
+    OSDeclareDefaultStructors(ACPIProbe)
     
 private:
 	IOACPIPlatformDevice    *acpiDevice;
