@@ -47,6 +47,9 @@
     if (sensor.group & kBluetoothGroupBattery) {
         _representation = @"Battery";
     }
+    else if (sensor.group & (kSMARTGroupTemperature | kSMARTGroupRemainingBlocks | kSMARTGroupRemainingLife)) {
+        _representation = @"Drive";
+    }
     else {
         _representation = @"Sensor";
         //_representation = @"Battery";

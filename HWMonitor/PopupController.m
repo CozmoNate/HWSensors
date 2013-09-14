@@ -13,6 +13,7 @@
 #import "HWMonitorGroup.h"
 #import "GroupCell.h"
 #import "SensorCell.h"
+#import "ATASensorCell.h"
 #import "BatteryCell.h"
 #import "UpdatesController.h"
 
@@ -531,9 +532,15 @@
         
         [cell setColorTheme:_colorTheme];
         
-        if (_showVolumeNames && [sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) {
-            [[cell subtitleField] setStringValue:[[sensor genericDevice] volumesNames]];
-            [[cell subtitleField] setHidden:NO];
+        if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) {
+            if ([cell isKindOfClass:[ATASensorCell class]]) {
+                [(ATASensorCell*)cell setGenericDrive:[sensor genericDevice]];
+            }
+            
+            if (_showVolumeNames ) {
+                [[cell subtitleField] setStringValue:[[sensor genericDevice] volumesNames]];
+                [[cell subtitleField] setHidden:NO];
+            }
         }
         else if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[GenericBatteryDevice class]]) {
             // Hide subtitle for internal battery
