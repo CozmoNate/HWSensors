@@ -562,18 +562,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
             [self performSelector:@selector(attachToMenuBar:) withObject:NULL afterDelay:0.0];
         }
     }
-    else
-    /*if (!self.attachedToMenuBar && [theEvent clickCount] == 2 && isDragging)
-    {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults addSuiteNamed:NSGlobalDomain];
-        BOOL shouldMiniaturize = [[userDefaults objectForKey:@"AppleMiniaturizeOnDoubleClick"] boolValue];
-        if (shouldMiniaturize)
-        {
-            [self miniaturize:self];
-        }
-    }
-    else*/ if (isDragging)
+    else if (isDragging)
     {
         NSRect visibleRect = [[self screen] visibleFrame];
         CGFloat minY = NSMinY(visibleRect);
