@@ -34,7 +34,7 @@ cd .
 sc_revision=$(svnversion)
 
 # Fallback to git commits count
-if [ "$sc_revision" == "exported" ]
+if [ "$sc_revision" == "exported" ] || [ "$sc_revision" == "Unversioned directory" ]
 then
     sc_revision=$(git rev-list --count HEAD)
 fi
