@@ -415,7 +415,7 @@
                                                                     <rect key="frame" x="160" y="2" width="73" height="15"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="67" id="iUx-PW-4aW"/>
+                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="67" id="iUx-PW-4aW"/>
                                                                     </constraints>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="9999об/мин" id="203">
                                                                         <font key="font" size="12" name="Helvetica-Bold"/>
