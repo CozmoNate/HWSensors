@@ -26,14 +26,6 @@
                                 <attributedString key="attributedTitle"/>
                                 <connections>
                                     <action selector="attachToMenuBar:" target="3" id="1451"/>
-                                    <binding destination="-2" name="enabled" keyPath="self.window.isVisible" id="1725">
-                                        <dictionary key="options">
-                                            <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                            <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
-                                        </dictionary>
-                                    </binding>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1725" id="2646">
                                         <dictionary key="options">
                                             <integer key="NSNotApplicablePlaceholder" value="1"/>
@@ -42,13 +34,7 @@
                                             <integer key="NSNullPlaceholder" value="1"/>
                                         </dictionary>
                                     </binding>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Detach from Menu Bar" keyEquivalent="d" id="1443">
-                                <attributedString key="attributedTitle"/>
-                                <connections>
-                                    <action selector="detachFromMenuBar:" target="3" id="1445"/>
-                                    <binding destination="-2" name="enabled" keyPath="self.window.isVisible" id="1727">
+                                    <binding destination="-2" name="enabled" keyPath="self.window.isVisible" id="1725">
                                         <dictionary key="options">
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
@@ -56,13 +42,27 @@
                                             <integer key="NSNullPlaceholder" value="0"/>
                                         </dictionary>
                                     </binding>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Detach from Menu Bar" keyEquivalent="d" id="1443">
+                                <attributedString key="attributedTitle"/>
+                                <connections>
+                                    <action selector="detachFromMenuBar:" target="3" id="1445"/>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1727" id="2641">
                                         <dictionary key="options">
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                            <integer key="NSNoSelectionPlaceholder" value="0"/>
                                             <integer key="NSNullPlaceholder" value="0"/>
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                    <binding destination="-2" name="enabled" keyPath="self.window.isVisible" id="1727">
+                                        <dictionary key="options">
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
                                             <integer key="NSMultipleValuesPlaceholder" value="0"/>
-                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                            <integer key="NSNullPlaceholder" value="0"/>
                                         </dictionary>
                                     </binding>
                                 </connections>
@@ -119,14 +119,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="220" height="300"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="27" horizontalPageScroll="10" verticalLineScroll="27" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="OverlapingScrollView">
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="OverlapingScrollView">
                         <rect key="frame" x="0.0" y="0.0" width="220" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Ii9-fX-Ldk">
                             <rect key="frame" x="0.0" y="0.0" width="220" height="300"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="27" rowSizeStyle="automatic" viewBased="YES" id="52" customClass="SensorsTableView">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="52" customClass="SensorsTableView">
                                     <rect key="frame" x="0.0" y="0.0" width="220" height="300"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -474,10 +474,10 @@
                     <connections>
                         <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" id="2573">
                             <dictionary key="options">
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
@@ -500,10 +500,10 @@
                         <action selector="orderOut:" target="3" id="1151"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2507">
                             <dictionary key="options">
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
@@ -533,10 +533,10 @@
                         <action selector="attachToMenuBar:" target="3" id="1826"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2298">
                             <dictionary key="options">
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
