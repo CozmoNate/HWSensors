@@ -29,15 +29,15 @@
                         <rect key="frame" x="8" y="8" width="585" height="484"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="12">
-                                <rect key="frame" x="0.0" y="0.0" width="354" height="484"/>
+                            <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="12">
+                                <rect key="frame" x="0.0" y="0.0" width="341" height="484"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="JZO-gu-khD">
-                                    <rect key="frame" x="0.0" y="0.0" width="354" height="484"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="341" height="484"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView maxNumberOfColumns="1" id="134">
-                                            <rect key="frame" x="0.0" y="0.0" width="354" height="484"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="484"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="primaryBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                             <connections>
@@ -48,9 +48,6 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="deviceWhite"/>
                                 </clipView>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="200" id="133"/>
-                                </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" id="135">
                                     <rect key="frame" x="-100" y="-100" width="334" height="11"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -60,21 +57,21 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="13" customClass="OverlapingScrollView">
-                                <rect key="frame" x="355" y="0.0" width="230" height="484"/>
+                            <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="13" customClass="OverlapingScrollView">
+                                <rect key="frame" x="342" y="0.0" width="243" height="484"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="od2-lQ-zph">
-                                    <rect key="frame" x="0.0" y="0.0" width="230" height="484"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="243" height="484"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="17">
-                                            <rect key="frame" x="0.0" y="0.0" width="230" height="484"/>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="19" rowSizeStyle="automatic" viewBased="YES" id="17">
+                                            <rect key="frame" x="0.0" y="0.0" width="243" height="484"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="1" height="0.0"/>
                                             <color key="backgroundColor" white="0.1482093978" alpha="0.5" colorSpace="calibratedWhite"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="229" minWidth="200" maxWidth="1000" id="18">
+                                                <tableColumn width="242" minWidth="200" maxWidth="1000" id="18">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -88,15 +85,12 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="TEMPERATURES" id="25" customClass="GraphsGroupCell">
-                                                            <rect key="frame" x="0.0" y="0.0" width="229" height="19"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="242" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" alphaValue="0.50000000000000011" translatesAutoresizingMaskIntoConstraints="NO" id="55">
-                                                                    <rect key="frame" x="20" y="3" width="204" height="13"/>
+                                                                    <rect key="frame" x="20" y="3" width="217" height="13"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="250" constant="171" id="56"/>
-                                                                    </constraints>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" sendsActionOnEndEditing="YES" alignment="center" title="TEMPERATURES" id="57">
                                                                         <font key="font" size="10" name="Helvetica-Bold"/>
                                                                         <color key="textColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
@@ -107,18 +101,18 @@
                                                                     <rect key="frame" x="3" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="17" id="58"/>
-                                                                        <constraint firstAttribute="height" constant="17" id="59"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="hQJ-MD-M2O"/>
                                                                     </constraints>
                                                                     <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="temperatures_template" id="60"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="54" firstAttribute="centerY" secondItem="55" secondAttribute="centerY" id="49"/>
-                                                                <constraint firstItem="54" firstAttribute="leading" secondItem="25" secondAttribute="leading" constant="3" id="50"/>
-                                                                <constraint firstItem="55" firstAttribute="top" secondItem="25" secondAttribute="top" constant="3" id="51"/>
-                                                                <constraint firstItem="55" firstAttribute="leading" secondItem="25" secondAttribute="leading" constant="23" id="52"/>
-                                                                <constraint firstAttribute="trailing" secondItem="55" secondAttribute="trailing" constant="8" id="53"/>
+                                                                <constraint firstItem="54" firstAttribute="top" secondItem="25" secondAttribute="top" constant="1" id="0Rm-ra-aI9"/>
+                                                                <constraint firstAttribute="trailing" secondItem="55" secondAttribute="trailing" constant="8" id="4UK-an-M02"/>
+                                                                <constraint firstItem="55" firstAttribute="centerY" secondItem="54" secondAttribute="centerY" id="AYw-VO-rlD"/>
+                                                                <constraint firstItem="55" firstAttribute="top" secondItem="25" secondAttribute="top" constant="3" id="F4G-hh-JzZ"/>
+                                                                <constraint firstItem="55" firstAttribute="leading" secondItem="54" secondAttribute="trailing" constant="3" id="W50-5b-FvV"/>
+                                                                <constraint firstItem="54" firstAttribute="leading" secondItem="25" secondAttribute="leading" constant="3" id="ecj-4R-Kw7"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="54" id="142"/>
@@ -126,15 +120,12 @@
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="FREQUENCIES" id="24" customClass="GraphsGroupCell">
-                                                            <rect key="frame" x="0.0" y="19" width="229" height="19"/>
+                                                            <rect key="frame" x="0.0" y="19" width="242" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" alphaValue="0.50000000000000011" translatesAutoresizingMaskIntoConstraints="NO" id="66">
-                                                                    <rect key="frame" x="20" y="3" width="204" height="13"/>
+                                                                    <rect key="frame" x="20" y="3" width="217" height="13"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="250" constant="171" id="71"/>
-                                                                    </constraints>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="FREQUENCIES" id="72">
                                                                         <font key="font" size="10" name="Helvetica-Bold"/>
                                                                         <color key="textColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
@@ -145,18 +136,18 @@
                                                                     <rect key="frame" x="3" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="17" id="68"/>
-                                                                        <constraint firstAttribute="width" constant="17" id="69"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="N2A-t6-FHP"/>
                                                                     </constraints>
                                                                     <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="frequencies_template" id="70"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="67" firstAttribute="leading" secondItem="24" secondAttribute="leading" constant="3" id="61"/>
-                                                                <constraint firstItem="66" firstAttribute="leading" secondItem="24" secondAttribute="leading" constant="23" id="62"/>
-                                                                <constraint firstItem="66" firstAttribute="top" secondItem="24" secondAttribute="top" constant="3" id="63"/>
-                                                                <constraint firstItem="66" firstAttribute="centerY" secondItem="67" secondAttribute="centerY" id="64"/>
-                                                                <constraint firstAttribute="trailing" secondItem="66" secondAttribute="trailing" constant="8" id="65"/>
+                                                                <constraint firstItem="66" firstAttribute="leading" secondItem="67" secondAttribute="trailing" constant="3" id="2Xq-jt-L99"/>
+                                                                <constraint firstItem="66" firstAttribute="top" secondItem="24" secondAttribute="top" constant="3" id="N08-So-c4s"/>
+                                                                <constraint firstAttribute="trailing" secondItem="66" secondAttribute="trailing" constant="8" id="eZN-Br-hcG"/>
+                                                                <constraint firstItem="67" firstAttribute="leading" secondItem="24" secondAttribute="leading" constant="3" id="mMf-QA-6KR"/>
+                                                                <constraint firstItem="67" firstAttribute="centerY" secondItem="66" secondAttribute="centerY" id="uKn-9v-3jI"/>
+                                                                <constraint firstItem="67" firstAttribute="top" secondItem="24" secondAttribute="top" constant="1" id="xba-Zo-WqY"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="67" id="144"/>
@@ -164,15 +155,12 @@
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="FANS &amp; PUMPS" id="23" customClass="GraphsGroupCell">
-                                                            <rect key="frame" x="0.0" y="38" width="229" height="19"/>
+                                                            <rect key="frame" x="0.0" y="38" width="242" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" alphaValue="0.50000000000000011" translatesAutoresizingMaskIntoConstraints="NO" id="78">
-                                                                    <rect key="frame" x="20" y="3" width="204" height="13"/>
+                                                                    <rect key="frame" x="20" y="3" width="217" height="13"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="250" constant="171" id="83"/>
-                                                                    </constraints>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="FANS &amp; PUMPS" id="84">
                                                                         <font key="font" size="10" name="Helvetica-Bold"/>
                                                                         <color key="textColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
@@ -183,18 +171,18 @@
                                                                     <rect key="frame" x="3" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="17" id="80"/>
-                                                                        <constraint firstAttribute="width" constant="17" id="81"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="6sP-Ij-os4"/>
                                                                     </constraints>
                                                                     <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="tachometers_template" id="82"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="79" firstAttribute="leading" secondItem="23" secondAttribute="leading" constant="3" id="73"/>
-                                                                <constraint firstItem="78" firstAttribute="centerY" secondItem="79" secondAttribute="centerY" id="74"/>
-                                                                <constraint firstItem="78" firstAttribute="leading" secondItem="23" secondAttribute="leading" constant="23" id="75"/>
-                                                                <constraint firstItem="78" firstAttribute="top" secondItem="23" secondAttribute="top" constant="3" id="76"/>
-                                                                <constraint firstAttribute="trailing" secondItem="78" secondAttribute="trailing" constant="8" id="77"/>
+                                                                <constraint firstAttribute="trailing" secondItem="78" secondAttribute="trailing" constant="8" id="4ET-re-TSy"/>
+                                                                <constraint firstItem="78" firstAttribute="leading" secondItem="79" secondAttribute="trailing" constant="3" id="6dq-0u-CdM"/>
+                                                                <constraint firstItem="78" firstAttribute="top" secondItem="23" secondAttribute="top" constant="3" id="8Oc-xE-G1E"/>
+                                                                <constraint firstItem="79" firstAttribute="leading" secondItem="23" secondAttribute="leading" constant="3" id="LcL-eA-Kpv"/>
+                                                                <constraint firstItem="78" firstAttribute="centerY" secondItem="79" secondAttribute="centerY" id="VOb-jy-dUk"/>
+                                                                <constraint firstItem="79" firstAttribute="top" secondItem="23" secondAttribute="top" constant="1" id="kmy-6E-xE7"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="79" id="146"/>
@@ -202,15 +190,12 @@
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="VOLTAGES" id="22" customClass="GraphsGroupCell">
-                                                            <rect key="frame" x="0.0" y="57" width="229" height="19"/>
+                                                            <rect key="frame" x="0.0" y="57" width="242" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" alphaValue="0.50000000000000011" translatesAutoresizingMaskIntoConstraints="NO" id="90">
-                                                                    <rect key="frame" x="20" y="3" width="204" height="13"/>
+                                                                    <rect key="frame" x="20" y="3" width="217" height="13"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="250" constant="171" id="95"/>
-                                                                    </constraints>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="VOLTAGES" id="96">
                                                                         <font key="font" size="10" name="Helvetica-Bold"/>
                                                                         <color key="textColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
@@ -221,18 +206,18 @@
                                                                     <rect key="frame" x="3" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="17" id="92"/>
-                                                                        <constraint firstAttribute="width" constant="17" id="93"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="Xjj-pq-5tc"/>
                                                                     </constraints>
                                                                     <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="voltages_template" id="94"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="91" firstAttribute="leading" secondItem="22" secondAttribute="leading" constant="3" id="85"/>
-                                                                <constraint firstItem="91" firstAttribute="centerY" secondItem="90" secondAttribute="centerY" id="86"/>
-                                                                <constraint firstItem="90" firstAttribute="leading" secondItem="22" secondAttribute="leading" constant="23" id="87"/>
-                                                                <constraint firstItem="90" firstAttribute="top" secondItem="22" secondAttribute="top" constant="3" id="88"/>
-                                                                <constraint firstAttribute="trailing" secondItem="90" secondAttribute="trailing" constant="8" id="89"/>
+                                                                <constraint firstItem="90" firstAttribute="leading" secondItem="91" secondAttribute="trailing" constant="3" id="4Rq-bf-FKv"/>
+                                                                <constraint firstItem="91" firstAttribute="centerY" secondItem="90" secondAttribute="centerY" id="4ps-2I-BlH"/>
+                                                                <constraint firstItem="90" firstAttribute="top" secondItem="22" secondAttribute="top" constant="3" id="85y-79-A9O"/>
+                                                                <constraint firstItem="91" firstAttribute="leading" secondItem="22" secondAttribute="leading" constant="3" id="hyL-S0-Dhb"/>
+                                                                <constraint firstItem="91" firstAttribute="top" secondItem="22" secondAttribute="top" constant="1" id="mwn-r7-uIR"/>
+                                                                <constraint firstAttribute="trailing" secondItem="90" secondAttribute="trailing" constant="8" id="xoD-8z-JVj"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="91" id="148"/>
@@ -240,15 +225,12 @@
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="CURRENTS" id="21" customClass="GraphsGroupCell">
-                                                            <rect key="frame" x="0.0" y="76" width="229" height="19"/>
+                                                            <rect key="frame" x="0.0" y="76" width="242" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" alphaValue="0.50000000000000011" translatesAutoresizingMaskIntoConstraints="NO" id="102">
-                                                                    <rect key="frame" x="20" y="3" width="204" height="13"/>
+                                                                    <rect key="frame" x="20" y="3" width="217" height="13"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="250" constant="171" id="107"/>
-                                                                    </constraints>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="CURRENTS" id="108">
                                                                         <font key="font" size="10" name="Helvetica-Bold"/>
                                                                         <color key="textColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
@@ -259,18 +241,18 @@
                                                                     <rect key="frame" x="3" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="17" id="104"/>
-                                                                        <constraint firstAttribute="width" constant="17" id="105"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="ehy-Nn-h74"/>
                                                                     </constraints>
                                                                     <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="voltages_template" id="106"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="103" firstAttribute="leading" secondItem="21" secondAttribute="leading" constant="3" id="97"/>
-                                                                <constraint firstItem="102" firstAttribute="centerY" secondItem="103" secondAttribute="centerY" id="98"/>
-                                                                <constraint firstItem="102" firstAttribute="leading" secondItem="21" secondAttribute="leading" constant="23" id="99"/>
-                                                                <constraint firstItem="102" firstAttribute="top" secondItem="21" secondAttribute="top" constant="3" id="100"/>
-                                                                <constraint firstAttribute="trailing" secondItem="102" secondAttribute="trailing" constant="8" id="101"/>
+                                                                <constraint firstItem="103" firstAttribute="leading" secondItem="21" secondAttribute="leading" constant="3" id="5MJ-3W-Q8F"/>
+                                                                <constraint firstItem="103" firstAttribute="top" secondItem="21" secondAttribute="top" constant="1" id="8x0-cg-sUb"/>
+                                                                <constraint firstAttribute="trailing" secondItem="102" secondAttribute="trailing" constant="8" id="9sh-9D-NN0"/>
+                                                                <constraint firstItem="103" firstAttribute="centerY" secondItem="102" secondAttribute="centerY" id="QAX-rc-Ap2"/>
+                                                                <constraint firstItem="102" firstAttribute="leading" secondItem="103" secondAttribute="trailing" constant="3" id="YdO-7A-3qE"/>
+                                                                <constraint firstItem="102" firstAttribute="top" secondItem="21" secondAttribute="top" constant="3" id="ica-Ne-fDX"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="103" id="150"/>
@@ -278,15 +260,12 @@
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="POWER CONSUMPTION" id="20" customClass="GraphsGroupCell">
-                                                            <rect key="frame" x="0.0" y="95" width="229" height="19"/>
+                                                            <rect key="frame" x="0.0" y="95" width="242" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" alphaValue="0.50000000000000011" translatesAutoresizingMaskIntoConstraints="NO" id="115">
-                                                                    <rect key="frame" x="20" y="3" width="204" height="13"/>
+                                                                    <rect key="frame" x="20" y="3" width="217" height="13"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="250" constant="171" id="116"/>
-                                                                    </constraints>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="POWER CONSUMPTION" id="117">
                                                                         <font key="font" size="10" name="Helvetica-Bold"/>
                                                                         <color key="textColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
@@ -297,18 +276,18 @@
                                                                     <rect key="frame" x="3" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="17" id="118"/>
-                                                                        <constraint firstAttribute="width" constant="17" id="119"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="829-fI-m9R"/>
                                                                     </constraints>
                                                                     <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="voltages_template" id="120"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="114" firstAttribute="leading" secondItem="20" secondAttribute="leading" constant="3" id="109"/>
-                                                                <constraint firstItem="115" firstAttribute="top" secondItem="20" secondAttribute="top" constant="3" id="110"/>
-                                                                <constraint firstItem="115" firstAttribute="centerY" secondItem="114" secondAttribute="centerY" id="111"/>
-                                                                <constraint firstItem="115" firstAttribute="leading" secondItem="20" secondAttribute="leading" constant="23" id="112"/>
-                                                                <constraint firstAttribute="trailing" secondItem="115" secondAttribute="trailing" constant="8" id="113"/>
+                                                                <constraint firstItem="115" firstAttribute="top" secondItem="20" secondAttribute="top" constant="3" id="F5J-Yg-4rn"/>
+                                                                <constraint firstAttribute="trailing" secondItem="115" secondAttribute="trailing" constant="8" id="Nh6-Nj-a5O"/>
+                                                                <constraint firstItem="115" firstAttribute="leading" secondItem="114" secondAttribute="trailing" constant="3" id="Qbp-jD-f7z"/>
+                                                                <constraint firstItem="114" firstAttribute="centerY" secondItem="115" secondAttribute="centerY" id="bBy-an-KZJ"/>
+                                                                <constraint firstItem="114" firstAttribute="leading" secondItem="20" secondAttribute="leading" constant="3" id="bJB-nm-lWG"/>
+                                                                <constraint firstItem="114" firstAttribute="top" secondItem="20" secondAttribute="top" constant="1" id="yTC-qx-Flr"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="114" id="152"/>
@@ -316,15 +295,12 @@
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="BATTERIES" id="19" customClass="GraphsGroupCell">
-                                                            <rect key="frame" x="0.0" y="114" width="229" height="19"/>
+                                                            <rect key="frame" x="0.0" y="114" width="242" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" alphaValue="0.50000000000000011" translatesAutoresizingMaskIntoConstraints="NO" id="126">
-                                                                    <rect key="frame" x="20" y="3" width="204" height="13"/>
+                                                                    <rect key="frame" x="20" y="3" width="217" height="13"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="250" constant="171" id="131"/>
-                                                                    </constraints>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="BATTERIES" id="132">
                                                                         <font key="font" size="10" name="Helvetica-Bold"/>
                                                                         <color key="textColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
@@ -335,18 +311,18 @@
                                                                     <rect key="frame" x="3" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="17" id="128"/>
-                                                                        <constraint firstAttribute="width" constant="17" id="129"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="FEf-WM-N9x"/>
                                                                     </constraints>
                                                                     <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="battery_template" id="130"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="127" firstAttribute="leading" secondItem="19" secondAttribute="leading" constant="3" id="121"/>
-                                                                <constraint firstItem="126" firstAttribute="centerY" secondItem="127" secondAttribute="centerY" id="122"/>
-                                                                <constraint firstItem="126" firstAttribute="top" secondItem="19" secondAttribute="top" constant="3" id="123"/>
-                                                                <constraint firstItem="126" firstAttribute="leading" secondItem="19" secondAttribute="leading" constant="23" id="124"/>
-                                                                <constraint firstAttribute="trailing" secondItem="126" secondAttribute="trailing" constant="8" id="125"/>
+                                                                <constraint firstItem="127" firstAttribute="top" secondItem="19" secondAttribute="top" constant="1" id="Cg2-69-Ibc"/>
+                                                                <constraint firstItem="127" firstAttribute="leading" secondItem="19" secondAttribute="leading" constant="3" id="L0t-ZS-YAD"/>
+                                                                <constraint firstAttribute="trailing" secondItem="126" secondAttribute="trailing" constant="8" id="LX9-nI-GcI"/>
+                                                                <constraint firstItem="126" firstAttribute="leading" secondItem="127" secondAttribute="trailing" constant="3" id="QmI-Xb-WSm"/>
+                                                                <constraint firstItem="127" firstAttribute="centerY" secondItem="126" secondAttribute="centerY" id="iwa-mN-kbf"/>
+                                                                <constraint firstItem="126" firstAttribute="top" secondItem="19" secondAttribute="top" constant="3" id="zPM-Qw-VWX"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="127" id="156"/>
@@ -354,11 +330,11 @@
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="Sensor" id="26" customClass="GraphsSensorCell">
-                                                            <rect key="frame" x="0.0" y="133" width="229" height="19"/>
+                                                            <rect key="frame" x="0.0" y="133" width="242" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="28">
-                                                                    <rect key="frame" x="50" y="2" width="95" height="15"/>
+                                                                    <rect key="frame" x="50" y="2" width="108" height="15"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Sensor" id="48">
                                                                         <font key="font" size="12" name="Helvetica"/>
@@ -367,10 +343,10 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="41">
-                                                                    <rect key="frame" x="147" y="2" width="73" height="15"/>
+                                                                    <rect key="frame" x="160" y="2" width="73" height="15"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="67" id="180"/>
+                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="67" id="5qd-6R-NvY"/>
                                                                     </constraints>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="9999об/мин" id="43">
                                                                         <font key="font" size="12" name="Helvetica-Bold"/>
@@ -382,8 +358,7 @@
                                                                     <rect key="frame" x="3" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="17" id="44"/>
-                                                                        <constraint firstAttribute="width" constant="17" id="45"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="l5F-n6-ekB"/>
                                                                     </constraints>
                                                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </colorWell>
@@ -391,7 +366,7 @@
                                                                     <rect key="frame" x="28" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="17" id="46"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="diJ-en-3tr"/>
                                                                     </constraints>
                                                                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye" imagePosition="only" alternateImage="04-eye-white" controlSize="small" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="47">
                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -403,16 +378,18 @@
                                                                 </button>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="40" firstAttribute="leading" secondItem="26" secondAttribute="leading" constant="3" id="30"/>
-                                                                <constraint firstItem="40" firstAttribute="top" secondItem="26" secondAttribute="top" constant="1" id="31"/>
-                                                                <constraint firstItem="29" firstAttribute="top" secondItem="40" secondAttribute="top" id="32"/>
-                                                                <constraint firstItem="29" firstAttribute="bottom" secondItem="40" secondAttribute="bottom" id="33"/>
-                                                                <constraint firstItem="29" firstAttribute="leading" secondItem="40" secondAttribute="trailing" constant="8" symbolic="YES" id="34"/>
-                                                                <constraint firstItem="28" firstAttribute="centerY" secondItem="29" secondAttribute="centerY" id="35"/>
-                                                                <constraint firstItem="28" firstAttribute="leading" secondItem="29" secondAttribute="trailing" constant="8" symbolic="YES" id="36"/>
-                                                                <constraint firstItem="41" firstAttribute="baseline" secondItem="28" secondAttribute="baseline" id="37"/>
-                                                                <constraint firstAttribute="trailing" secondItem="41" secondAttribute="trailing" constant="12" id="38"/>
-                                                                <constraint firstItem="41" firstAttribute="leading" secondItem="28" secondAttribute="trailing" constant="8" symbolic="YES" id="172"/>
+                                                                <constraint firstItem="28" firstAttribute="top" secondItem="41" secondAttribute="top" id="6xS-aV-mUn"/>
+                                                                <constraint firstItem="40" firstAttribute="leading" secondItem="26" secondAttribute="leading" constant="3" id="7Jj-cU-P9q"/>
+                                                                <constraint firstItem="29" firstAttribute="leading" secondItem="40" secondAttribute="trailing" constant="8" symbolic="YES" id="NMA-Eh-86v"/>
+                                                                <constraint firstItem="28" firstAttribute="leading" secondItem="29" secondAttribute="trailing" constant="8" symbolic="YES" id="Pjw-gv-MIQ"/>
+                                                                <constraint firstItem="41" firstAttribute="leading" secondItem="28" secondAttribute="trailing" constant="8" symbolic="YES" id="TJu-ue-oBc"/>
+                                                                <constraint firstItem="29" firstAttribute="centerY" secondItem="28" secondAttribute="centerY" id="ZJ7-pf-CvC"/>
+                                                                <constraint firstItem="40" firstAttribute="top" secondItem="26" secondAttribute="top" constant="1" id="dHW-Av-uFV"/>
+                                                                <constraint firstItem="40" firstAttribute="bottom" secondItem="29" secondAttribute="bottom" id="kEZ-xi-xtG"/>
+                                                                <constraint firstItem="28" firstAttribute="top" secondItem="26" secondAttribute="top" constant="2" id="pJp-JC-wit"/>
+                                                                <constraint firstItem="29" firstAttribute="top" secondItem="40" secondAttribute="top" id="poP-9q-pXc"/>
+                                                                <constraint firstItem="41" firstAttribute="baseline" secondItem="28" secondAttribute="baseline" id="qEF-aD-dG5"/>
+                                                                <constraint firstAttribute="trailing" secondItem="41" secondAttribute="trailing" constant="12" id="v4u-O3-yaL"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="checkBox" destination="29" id="140"/>
@@ -422,11 +399,11 @@
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="Drive" id="182" customClass="GraphsSensorCell">
-                                                            <rect key="frame" x="0.0" y="152" width="229" height="19"/>
+                                                            <rect key="frame" x="0.0" y="152" width="242" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="196">
-                                                                    <rect key="frame" x="50" y="2" width="95" height="15"/>
+                                                                    <rect key="frame" x="50" y="2" width="108" height="15"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Sensor" id="197">
                                                                         <font key="font" size="12" name="Helvetica"/>
@@ -435,10 +412,10 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="183">
-                                                                    <rect key="frame" x="147" y="2" width="73" height="15"/>
+                                                                    <rect key="frame" x="160" y="2" width="73" height="15"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="67" id="202"/>
+                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="67" id="iUx-PW-4aW"/>
                                                                     </constraints>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="9999об/мин" id="203">
                                                                         <font key="font" size="12" name="Helvetica-Bold"/>
@@ -450,8 +427,7 @@
                                                                     <rect key="frame" x="3" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="17" id="200"/>
-                                                                        <constraint firstAttribute="height" constant="17" id="201"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="Wz2-vm-jHs"/>
                                                                     </constraints>
                                                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </colorWell>
@@ -459,7 +435,7 @@
                                                                     <rect key="frame" x="28" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="17" id="199"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="Xb3-Ix-iwt"/>
                                                                     </constraints>
                                                                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye" imagePosition="only" alternateImage="04-eye-white" controlSize="small" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="198">
                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -471,16 +447,18 @@
                                                                 </button>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="184" firstAttribute="leading" secondItem="182" secondAttribute="leading" constant="3" id="185"/>
-                                                                <constraint firstItem="184" firstAttribute="top" secondItem="182" secondAttribute="top" constant="1" id="186"/>
-                                                                <constraint firstItem="195" firstAttribute="top" secondItem="184" secondAttribute="top" id="187"/>
-                                                                <constraint firstItem="195" firstAttribute="bottom" secondItem="184" secondAttribute="bottom" id="188"/>
-                                                                <constraint firstItem="195" firstAttribute="leading" secondItem="184" secondAttribute="trailing" constant="8" symbolic="YES" id="189"/>
-                                                                <constraint firstItem="196" firstAttribute="centerY" secondItem="195" secondAttribute="centerY" id="190"/>
-                                                                <constraint firstItem="196" firstAttribute="leading" secondItem="195" secondAttribute="trailing" constant="8" symbolic="YES" id="191"/>
-                                                                <constraint firstItem="183" firstAttribute="baseline" secondItem="196" secondAttribute="baseline" id="192"/>
-                                                                <constraint firstAttribute="trailing" secondItem="183" secondAttribute="trailing" constant="12" id="193"/>
-                                                                <constraint firstItem="183" firstAttribute="leading" secondItem="196" secondAttribute="trailing" constant="8" symbolic="YES" id="194"/>
+                                                                <constraint firstItem="183" firstAttribute="leading" secondItem="196" secondAttribute="trailing" constant="8" symbolic="YES" id="9Ih-Z1-MzC"/>
+                                                                <constraint firstItem="196" firstAttribute="top" secondItem="182" secondAttribute="top" constant="2" id="BpL-z9-DXd"/>
+                                                                <constraint firstItem="184" firstAttribute="top" secondItem="195" secondAttribute="top" id="Ith-jQ-fEG"/>
+                                                                <constraint firstItem="195" firstAttribute="leading" secondItem="184" secondAttribute="trailing" constant="8" symbolic="YES" id="JPQ-Zh-YKS"/>
+                                                                <constraint firstItem="184" firstAttribute="leading" secondItem="182" secondAttribute="leading" constant="3" id="L3F-XQ-KcN"/>
+                                                                <constraint firstItem="195" firstAttribute="bottom" secondItem="184" secondAttribute="bottom" id="RTn-n7-Hqb"/>
+                                                                <constraint firstItem="184" firstAttribute="top" secondItem="182" secondAttribute="top" constant="1" id="VFp-yS-qhp"/>
+                                                                <constraint firstItem="196" firstAttribute="leading" secondItem="195" secondAttribute="trailing" constant="8" symbolic="YES" id="WNX-vc-y48"/>
+                                                                <constraint firstAttribute="trailing" secondItem="183" secondAttribute="trailing" constant="12" id="Wb9-Us-QvH"/>
+                                                                <constraint firstItem="196" firstAttribute="baseline" secondItem="183" secondAttribute="baseline" id="Zeu-Bd-IvN"/>
+                                                                <constraint firstItem="195" firstAttribute="centerY" secondItem="196" secondAttribute="centerY" id="phT-DT-Tir"/>
+                                                                <constraint firstItem="196" firstAttribute="top" secondItem="183" secondAttribute="top" id="prR-BS-cX9"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="checkBox" destination="195" id="207"/>
@@ -501,9 +479,6 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.1482093978" alpha="0.5" colorSpace="calibratedWhite"/>
                                 </clipView>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" priority="500" constant="270" id="14"/>
-                                </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" arrowsPosition="none" controlSize="mini" id="16" customClass="ArrowlessScroller">
                                     <rect key="frame" x="-100" y="-100" width="218" height="11"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -521,10 +496,10 @@
                     </splitView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="7" firstAttribute="top" secondItem="6" secondAttribute="top" constant="8" id="8"/>
-                    <constraint firstItem="7" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="8" id="9"/>
-                    <constraint firstItem="7" firstAttribute="centerY" secondItem="6" secondAttribute="centerY" id="10"/>
-                    <constraint firstItem="7" firstAttribute="centerX" secondItem="6" secondAttribute="centerX" id="11"/>
+                    <constraint firstItem="7" firstAttribute="top" secondItem="6" secondAttribute="top" constant="8" id="7Fw-Fv-Jve"/>
+                    <constraint firstItem="7" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="8" id="LqY-2V-KSf"/>
+                    <constraint firstItem="7" firstAttribute="centerX" secondItem="6" secondAttribute="centerX" id="jpF-Vo-Yoz"/>
+                    <constraint firstItem="7" firstAttribute="centerY" secondItem="6" secondAttribute="centerY" id="p0e-Pc-uzw"/>
                 </constraints>
             </view>
             <connections>
