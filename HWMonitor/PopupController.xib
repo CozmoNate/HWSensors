@@ -50,10 +50,10 @@
                                     <action selector="detachFromMenuBar:" target="3" id="1445"/>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1727" id="2641">
                                         <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
@@ -218,14 +218,14 @@
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="bottom" secondItem="106" secondAttribute="bottom" constant="1" id="101"/>
-                                                        <constraint firstItem="108" firstAttribute="baseline" secondItem="107" secondAttribute="baseline" id="104"/>
                                                         <constraint firstItem="108" firstAttribute="top" secondItem="57" secondAttribute="top" constant="1" id="105"/>
                                                         <constraint firstAttribute="trailing" secondItem="107" secondAttribute="trailing" constant="13" id="874"/>
                                                         <constraint firstItem="108" firstAttribute="leading" secondItem="57" secondAttribute="leading" constant="13" id="876"/>
                                                         <constraint firstItem="106" firstAttribute="leading" secondItem="57" secondAttribute="leading" constant="13" id="880"/>
                                                         <constraint firstAttribute="trailing" secondItem="106" secondAttribute="trailing" constant="13" id="881"/>
                                                         <constraint firstItem="107" firstAttribute="leading" secondItem="108" secondAttribute="trailing" constant="8" symbolic="YES" id="894"/>
+                                                        <constraint firstItem="106" firstAttribute="top" secondItem="57" secondAttribute="top" constant="15" id="HXk-rm-FuO"/>
+                                                        <constraint firstItem="107" firstAttribute="top" secondItem="57" secondAttribute="top" constant="1" id="OSN-Lh-mZs"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="subtitleField" destination="106" id="120"/>
@@ -269,14 +269,14 @@
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="2828" firstAttribute="baseline" secondItem="2829" secondAttribute="baseline" id="2831"/>
                                                         <constraint firstItem="2828" firstAttribute="top" secondItem="2827" secondAttribute="top" constant="1" id="2832"/>
                                                         <constraint firstItem="2828" firstAttribute="leading" secondItem="2827" secondAttribute="leading" constant="13" id="2833"/>
-                                                        <constraint firstAttribute="bottom" secondItem="2830" secondAttribute="bottom" constant="1" id="2834"/>
                                                         <constraint firstItem="2830" firstAttribute="leading" secondItem="2827" secondAttribute="leading" constant="13" id="2835"/>
                                                         <constraint firstAttribute="trailing" secondItem="2830" secondAttribute="trailing" constant="13" id="2836"/>
                                                         <constraint firstAttribute="trailing" secondItem="2829" secondAttribute="trailing" constant="13" id="2837"/>
                                                         <constraint firstItem="2829" firstAttribute="leading" secondItem="2828" secondAttribute="trailing" constant="8" symbolic="YES" id="2838"/>
+                                                        <constraint firstItem="2829" firstAttribute="top" secondItem="2827" secondAttribute="top" constant="1" id="C01-p6-R5O"/>
+                                                        <constraint firstItem="2830" firstAttribute="top" secondItem="2827" secondAttribute="top" constant="15" id="ZYQ-aM-3oJ"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="subtitleField" destination="2830" id="2845"/>
@@ -330,15 +330,15 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="83" secondAttribute="trailing" constant="13" id="72"/>
-                                                        <constraint firstItem="83" firstAttribute="centerY" secondItem="85" secondAttribute="centerY" id="74"/>
-                                                        <constraint firstAttribute="bottom" secondItem="82" secondAttribute="bottom" constant="1" id="78"/>
                                                         <constraint firstItem="84" firstAttribute="top" secondItem="59" secondAttribute="top" constant="1" id="80"/>
-                                                        <constraint firstItem="84" firstAttribute="baseline" secondItem="85" secondAttribute="baseline" id="81"/>
                                                         <constraint firstItem="84" firstAttribute="leading" secondItem="59" secondAttribute="leading" constant="13" id="877"/>
                                                         <constraint firstItem="82" firstAttribute="leading" secondItem="59" secondAttribute="leading" constant="13" id="882"/>
                                                         <constraint firstAttribute="trailing" secondItem="82" secondAttribute="trailing" constant="10" id="883"/>
                                                         <constraint firstItem="83" firstAttribute="leading" secondItem="85" secondAttribute="trailing" constant="8" symbolic="YES" id="889"/>
                                                         <constraint firstItem="85" firstAttribute="leading" secondItem="84" secondAttribute="trailing" constant="8" symbolic="YES" id="891"/>
+                                                        <constraint firstItem="83" firstAttribute="top" secondItem="59" secondAttribute="top" constant="2" id="5is-Z3-XtZ"/>
+                                                        <constraint firstItem="82" firstAttribute="top" secondItem="83" secondAttribute="bottom" id="hLd-DA-PrC"/>
+                                                        <constraint firstItem="85" firstAttribute="top" secondItem="59" secondAttribute="top" constant="1" id="qFv-Q5-WxX"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="imageView" destination="83" id="117"/>
@@ -474,10 +474,10 @@
                     <connections>
                         <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" id="2573">
                             <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
@@ -500,10 +500,10 @@
                         <action selector="orderOut:" target="3" id="1151"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2507">
                             <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
@@ -533,10 +533,10 @@
                         <action selector="attachToMenuBar:" target="3" id="1826"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2298">
                             <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
