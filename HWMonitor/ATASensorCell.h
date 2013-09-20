@@ -15,10 +15,9 @@
     NSTrackingRectTag _trackingRectTag;
     NSPopover *_popover;
     BOOL _cursorIsInsideTheFrame;
-    NSString *_output;
-    NSDate *_lastUpdated;
 }
 
+@property (nonatomic, readonly) NSString *smartOutput;
 @property (strong) ATAGenericDrive *genericDrive;
 
 @end
