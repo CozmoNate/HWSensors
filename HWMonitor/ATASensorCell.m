@@ -87,8 +87,12 @@ static NSMutableDictionary *smartctl_updated = nil;
 {
     _cursorIsInsideTheFrame = NO;
     
-    [_popover performClose:self];
-    _popover = nil;
+    if (_popover) {
+        [_popover performClose:self];
+        _popover = nil;
+    }
+    
+    [super mouseDown:theEvent];
 }
 
 -(void)mouseEntered:(NSEvent *)theEvent
@@ -96,6 +100,8 @@ static NSMutableDictionary *smartctl_updated = nil;
     _cursorIsInsideTheFrame = YES;
     
     [self performSelector:@selector(mouseOverAction:) withObject:self afterDelay:0.7];
+    
+    [super mouseEntered:theEvent];
 }
 
 -(void)mouseExited:(NSEvent *)theEvent
@@ -104,6 +110,8 @@ static NSMutableDictionary *smartctl_updated = nil;
     
     [_popover performClose:self];
     _popover = nil;
+    
+    [super mouseExited:theEvent];
 }
 
 @end
