@@ -58,7 +58,6 @@ echo '  td {padding: 6px}' >> ./rnotes.html
 echo '  p {font-size: 9pt;font-family: "Lucida Grande", Arial, sans-serif;line-height: 12pt;text-decoration: none}' >> ./rnotes.html
 echo '  h3 {font-size: 9pt;font-family: "Lucida Grande", Arial, sans-serif;font-weight: bold;margin-top: -4px;margin-bottom: -4px}' >> ./rnotes.html
 echo '  </style>' >> ./rnotes.html
-echo '      <link href="rnotes.css" type="text/css" rel="stylesheet" media="all">' >> ./rnotes.html
 echo '  </head>' >> ./rnotes.html
 echo '  <body>' >> ./rnotes.html
 echo '      <br />' >> ./rnotes.html
