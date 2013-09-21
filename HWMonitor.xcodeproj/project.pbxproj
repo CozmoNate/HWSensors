@@ -126,7 +126,6 @@
 		7E0648EF16DF3B7D00ACB851 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		7E10343416EFAE490089DE7B /* GenericBatteryDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericBatteryDevice.h; sourceTree = "<group>"; };
 		7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericBatteryDevice.m; sourceTree = "<group>"; };
-		7E122E8217DB923A00DE3DE9 /* HWMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HWMonitor.entitlements; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E1458C417E2744000694A4A /* 27-circle-o.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "27-circle-o.png"; sourceTree = "<group>"; };
 		7E1458C517E2744000694A4A /* 27-circle-o@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "27-circle-o@2x.png"; sourceTree = "<group>"; };
@@ -412,7 +411,6 @@
 			isa = PBXGroup;
 			children = (
 				7E9A17C917E451F3003DB018 /* smartctl */,
-				7E122E8217DB923A00DE3DE9 /* HWMonitor.entitlements */,
 				7EA248F316D8E93A002231B2 /* HWMonitor-Info.plist */,
 				7EA248F416D8E93A002231B2 /* InfoPlist.strings */,
 				7EA248F716D8E93A002231B2 /* main.m */,
