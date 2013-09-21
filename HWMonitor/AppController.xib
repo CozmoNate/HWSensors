@@ -179,14 +179,13 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="checkForUpdates:" target="MRT-Yl-c5Y" id="MXC-MB-1Qs"/>
-                                                <binding destination="263" name="value" keyPath="values.dontCheckForUpdates" id="551">
+                                                <action selector="checkForUpdates:" target="-2" id="BpZ-Gh-fWJ"/>
+                                                <binding destination="263" name="value" keyPath="values.SUEnableAutomaticChecks" id="mDr-sb-sUf">
                                                     <dictionary key="options">
-                                                        <integer key="NSMultipleValuesPlaceholder" value="1"/>
                                                         <integer key="NSNotApplicablePlaceholder" value="1"/>
                                                         <integer key="NSNoSelectionPlaceholder" value="1"/>
                                                         <integer key="NSNullPlaceholder" value="1"/>
-                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                        <integer key="NSMultipleValuesPlaceholder" value="1"/>
                                                     </dictionary>
                                                 </binding>
                                             </connections>
@@ -880,7 +879,6 @@
                 <bool key="localizesFormat" value="YES"/>
             </metadata>
         </numberFormatter>
-        <customObject id="MRT-Yl-c5Y" customClass="SUUpdater"/>
     </objects>
     <resources>
         <image name="04-eye" width="20" height="13"/>

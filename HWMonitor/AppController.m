@@ -106,6 +106,10 @@
     [invocation setSelector:@selector(updateLoop)];
     
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.05 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
+    
+//    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"SUHasLaunchedBefore"] || [[NSUserDefaults standardUserDefaults] integerForKey:@"SUScheduledCheckInterval"] != 3600) {
+//        _sharedUpdater.updateCheckInterval = 3600;
+//    }
 }
 
 -(void)applicationWillTerminate:(NSNotification *)notification
@@ -117,6 +121,21 @@
 -(void)wakeFromSleep:(id)sender
 {
     
+}
+
+-(void)checkForUpdates:(id)sender
+{
+    if ([sender isKindOfClass:[NSButton class]]) {
+        NSButton *button = (NSButton*)sender;
+        
+        if ([button state]) {
+            _sharedUpdater.automaticallyChecksForUpdates = YES;
+            //[_sharedUpdater checkForUpdatesInBackground];
+        }
+    }
+    else {
+        [_sharedUpdater checkForUpdates:sender];
+    }
 }
 
 -(void)showWindow:(id)sender

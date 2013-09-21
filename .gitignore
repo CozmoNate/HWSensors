@@ -11,3 +11,5 @@ revision.txt
 
 
 HWSensors.xcworkspace/xcshareddata/HWSensors.xccheckout
+
+*.pem

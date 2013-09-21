@@ -16,9 +16,10 @@ project_name=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "./version.plis
 project_version=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "./version.plist")
 last_revision=$(<"./revision.txt")
 full_version=${project_version}'.'${last_revision}
+pkg_filename=${project_name}.${full_version}.pkg
 
-productsign --sign "Developer ID Installer" ./Binaries/${project_name}.pkg ./Binaries/${project_name}.${full_version}.pkg
-spctl -a -v --type install ./Binaries/${project_name}.${full_version}.pkg
+productsign --sign "Developer ID Installer" ./Binaries/${project_name}.pkg ./Binaries/${pkg_filename}
+spctl -a -v --type install ./Binaries/${pkg_filename}
 
 if [ $? -eq 0 ]; then
     rm ./Binaries/${project_name}.pkg
