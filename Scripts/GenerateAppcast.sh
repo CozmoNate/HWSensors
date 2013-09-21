@@ -34,7 +34,7 @@ echo '  <language>en</language>' >> ./Appcast/appcast.xml
 echo '  <item>' >> ./Appcast/appcast.xml
 echo '      <title>Version '${full_version}'</title>' >> ./Appcast/appcast.xml
 echo '      <pubDate>'$(date +"%a, %d %b %G %T %z")'</pubDate>' >> ./Appcast/appcast.xml
-echo '      <enclosure url="http://sourceforge.net/projects/hwsensors/files/'${zip_filename}'/download" sparkle:version="'${last_revision}'" sparkle:shortVersionString="'${full_version}'" sparkle:dsaSignature="'${dsa_signature}'" length="'$(stat -f %z ./Binaries/${pkg_filename}.zip)'" type="application/x-compress"/>' >> ./Appcast/appcast.xml
+echo '      <enclosure url="http://sourceforge.net/projects/hwsensors/files/'${zip_filename}'" sparkle:version="'${last_revision}'" sparkle:shortVersionString="'${full_version}'" sparkle:dsaSignature="'${dsa_signature}'" length="'$(stat -f %z ./Binaries/${pkg_filename}.zip)'" type="application/x-compress"/>' >> ./Appcast/appcast.xml
 echo '  </item>' >> ./Appcast/appcast.xml
 echo '</channel>' >> ./Appcast/appcast.xml
 echo '</rss>' >> ./Appcast/appcast.xml
