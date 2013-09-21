@@ -26,7 +26,7 @@
  *
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Sparkle/SUUpdater.h>
 
 #import "PopupController.h"
 #import "GraphsController.h"
@@ -55,6 +55,7 @@
 
 @property (assign) IBOutlet PopupController *popupController;
 @property (assign) IBOutlet GraphsController *graphsController;
+@property (assign) IBOutlet SUUpdater *sharedUpdater;
 
 @property (assign) IBOutlet NSTextField *smcUpdateRateTextField;
 @property (assign) IBOutlet NSTextField *smartUpdateRateTextField;
@@ -64,6 +65,8 @@
 
 @property (readonly) BOOL hasDraggedFavoriteItem;
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
+
+- (IBAction)checkForUpdates:(id)sender;
 
 - (IBAction)favoritesChanged:(id)sender;
 - (IBAction)useFahrenheitChanged:(id)sender;

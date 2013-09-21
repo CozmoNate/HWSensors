@@ -24,7 +24,6 @@
 		7E19000A170070F3008F40F1 /* GraphsSensorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E190009170070F3008F40F1 /* GraphsSensorCell.m */; };
 		7E1BC3CE16F47BDF005B9479 /* battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CC16F47BDE005B9479 /* battery.png */; };
 		7E1BC3CF16F47BDF005B9479 /* battery_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CD16F47BDF005B9479 /* battery_template.png */; };
-		7E2041FF1730839B00C13B65 /* UpdatesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2041FE1730839B00C13B65 /* UpdatesController.xib */; };
 		7E2042011730844C00C13B65 /* GraphsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042001730844C00C13B65 /* GraphsController.xib */; };
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
 		7E2042051730D04100C13B65 /* AppController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* AppController.xib */; };
@@ -82,6 +81,9 @@
 		7EA2495416D8EE45002231B2 /* HWMonitorGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2495116D8EE44002231B2 /* HWMonitorGroup.m */; };
 		7EA2495516D8EE45002231B2 /* HWMonitorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2495316D8EE45002231B2 /* HWMonitorItem.m */; };
 		7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA394B216E0A1B600823109 /* ColorTheme.m */; };
+		7EBA20D017ED6180008E54C5 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBA20CF17ED6180008E54C5 /* Sparkle.framework */; };
+		7EBA20D217ED619D008E54C5 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EBA20CF17ED6180008E54C5 /* Sparkle.framework */; };
+		7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */; };
 		7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3016DD680E00085FFF /* 04-eye.png */; };
 		7ECDDE3316DD680E00085FFF /* 04-eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */; };
 		7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */; };
@@ -94,7 +96,6 @@
 		7EDA1AA916D936410012A0DC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EDA1AAB16D936410012A0DC /* Localizable.strings */; };
 		7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1ACA16D956EA0012A0DC /* GraphsView.m */; };
 		7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1AD016DA83AF0012A0DC /* GraphsController.m */; };
-		7EDDC86E16F9B3B40072B15B /* UpdatesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC86D16F9B3B40072B15B /* UpdatesController.m */; };
 		7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC87216FA5DA50072B15B /* Localizer.m */; };
 		7EDEA333173E3B94003ADE86 /* hwsensors.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7EDEA332173E3B94003ADE86 /* hwsensors.icns */; };
 		7EED6D6F1734F8E700248870 /* 16-line-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6B1734F8E700248870 /* 16-line-chart.png */; };
@@ -117,6 +118,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		7EBA20D117ED6193008E54C5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7EBA20D217ED619D008E54C5 /* Sparkle.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -126,7 +137,6 @@
 		7E0648EF16DF3B7D00ACB851 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		7E10343416EFAE490089DE7B /* GenericBatteryDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericBatteryDevice.h; sourceTree = "<group>"; };
 		7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericBatteryDevice.m; sourceTree = "<group>"; };
-		7E122E8217DB923A00DE3DE9 /* HWMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HWMonitor.entitlements; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E1458C417E2744000694A4A /* 27-circle-o.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "27-circle-o.png"; sourceTree = "<group>"; };
 		7E1458C517E2744000694A4A /* 27-circle-o@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "27-circle-o@2x.png"; sourceTree = "<group>"; };
@@ -150,7 +160,6 @@
 		7E19FFFF17005652008F40F1 /* SensorsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorsTableView.h; sourceTree = "<group>"; };
 		7E1BC3CC16F47BDE005B9479 /* battery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = battery.png; sourceTree = "<group>"; };
 		7E1BC3CD16F47BDF005B9479 /* battery_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = battery_template.png; sourceTree = "<group>"; };
-		7E2041FE1730839B00C13B65 /* UpdatesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdatesController.xib; sourceTree = "<group>"; };
 		7E2042001730844C00C13B65 /* GraphsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphsController.xib; sourceTree = "<group>"; };
 		7E2042021730CDA000C13B65 /* PopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupController.xib; sourceTree = "<group>"; };
 		7E2042041730D04000C13B65 /* AppController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppController.xib; sourceTree = "<group>"; };
@@ -236,6 +245,8 @@
 		7EA68B8A17341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EB7E702178340710071B3F0 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7EB7E707178341D20071B3F0 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
+		7EBA20CF17ED6180008E54C5 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		7ECDDE3016DD680E00085FFF /* 04-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye.png"; sourceTree = "<group>"; };
 		7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye@2x.png"; sourceTree = "<group>"; };
 		7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye-white.png"; sourceTree = "<group>"; };
@@ -256,8 +267,6 @@
 		7EDA1ACA16D956EA0012A0DC /* GraphsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphsView.m; sourceTree = "<group>"; };
 		7EDA1ACF16DA83AF0012A0DC /* GraphsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphsController.h; sourceTree = "<group>"; };
 		7EDA1AD016DA83AF0012A0DC /* GraphsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphsController.m; sourceTree = "<group>"; };
-		7EDDC86C16F9B3B40072B15B /* UpdatesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdatesController.h; sourceTree = "<group>"; };
-		7EDDC86D16F9B3B40072B15B /* UpdatesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdatesController.m; sourceTree = "<group>"; };
 		7EDDC87116FA5DA50072B15B /* Localizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localizer.h; sourceTree = "<group>"; };
 		7EDDC87216FA5DA50072B15B /* Localizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Localizer.m; sourceTree = "<group>"; };
 		7EDEA331173E3B83003ADE86 /* hwsensors.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = hwsensors.psd; sourceTree = "<group>"; };
@@ -289,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */,
+				7EBA20D017ED6180008E54C5 /* Sparkle.framework in Frameworks */,
 				7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,6 +396,7 @@
 		7EA248EA16D8E93A002231B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7EBA20CF17ED6180008E54C5 /* Sparkle.framework */,
 				7EA248EB16D8E93A002231B2 /* Cocoa.framework */,
 				7EA2494E16D8EBC0002231B2 /* IOKit.framework */,
 				7EA248EE16D8E93A002231B2 /* AppKit.framework */,
@@ -411,8 +422,8 @@
 		7EA248F216D8E93A002231B2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */,
 				7E9A17C917E451F3003DB018 /* smartctl */,
-				7E122E8217DB923A00DE3DE9 /* HWMonitor.entitlements */,
 				7EA248F316D8E93A002231B2 /* HWMonitor-Info.plist */,
 				7EA248F416D8E93A002231B2 /* InfoPlist.strings */,
 				7EA248F716D8E93A002231B2 /* main.m */,
@@ -478,7 +489,6 @@
 				7EF2A1041730532D00D8641C /* App Controller */,
 				7EF2A1031730519600D8641C /* Popup Panel */,
 				7EF2A1021730518A00D8641C /* Graphs Controller */,
-				7EF2A1011730517A00D8641C /* Update Controller */,
 				7EF2A0FF17303C3600D8641C /* About Panel */,
 			);
 			name = Controllers;
@@ -598,16 +608,6 @@
 			name = "About Panel";
 			sourceTree = "<group>";
 		};
-		7EF2A1011730517A00D8641C /* Update Controller */ = {
-			isa = PBXGroup;
-			children = (
-				7EDDC86C16F9B3B40072B15B /* UpdatesController.h */,
-				7EDDC86D16F9B3B40072B15B /* UpdatesController.m */,
-				7E2041FE1730839B00C13B65 /* UpdatesController.xib */,
-			);
-			name = "Update Controller";
-			sourceTree = "<group>";
-		};
 		7EF2A1021730518A00D8641C /* Graphs Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -665,6 +665,7 @@
 				7EA248E416D8E93A002231B2 /* Sources */,
 				7EA248E516D8E93A002231B2 /* Frameworks */,
 				7EA248E616D8E93A002231B2 /* Resources */,
+				7EBA20D117ED6193008E54C5 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -727,6 +728,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */,
+				7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */,
 				7EA248FC16D8E93A002231B2 /* Credits.rtf in Resources */,
 				7EA2492016D8E9C6002231B2 /* frequencies_template.png in Resources */,
 				7EA2492116D8E9C6002231B2 /* frequencies.png in Resources */,
@@ -760,7 +762,6 @@
 				7E1BC3CF16F47BDF005B9479 /* battery_template.png in Resources */,
 				7EF2A0FC17303B9100D8641C /* MainMenu.xib in Resources */,
 				7EF2A10017303EA600D8641C /* AboutController.xib in Resources */,
-				7E2041FF1730839B00C13B65 /* UpdatesController.xib in Resources */,
 				7E2042011730844C00C13B65 /* GraphsController.xib in Resources */,
 				7E2042031730CDA000C13B65 /* PopupController.xib in Resources */,
 				7E2042051730D04100C13B65 /* AppController.xib in Resources */,
@@ -820,7 +821,6 @@
 				7E16893616EA106D00BBF6FC /* ArrowlessScroller.m in Sources */,
 				7E17953616EE705B00145082 /* BatteryCell.m in Sources */,
 				7E10343616EFAE490089DE7B /* GenericBatteryDevice.m in Sources */,
-				7EDDC86E16F9B3B40072B15B /* UpdatesController.m in Sources */,
 				7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */,
 				7E19000117005652008F40F1 /* SensorsTableView.m in Sources */,
 				7E19000717006727008F40F1 /* PrefsSensorCell.m in Sources */,
@@ -965,6 +965,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/kozlek/Documents/HWSensors,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
@@ -979,6 +983,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/kozlek/Documents/HWSensors,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";

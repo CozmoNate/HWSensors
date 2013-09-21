@@ -114,7 +114,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7E43CE05179742D3001E3636"
                BuildableName = "Sign Application"
-               BlueprintName = "Sign Application"
+               BlueprintName = "Sign Apps"
                ReferencedContainer = "container:Versioning.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

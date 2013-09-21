@@ -9,14 +9,26 @@
 #import "ATASensorCell.h"
 #import "NSPopover+Message.h"
 
+static NSMutableDictionary *smartctl_output = nil;
+static NSMutableDictionary *smartctl_updated = nil;
+
 @implementation ATASensorCell
 
-- (void)mouseOverAction:(id)sender
+-(NSString *)smartOutput
 {
-    if (_cursorIsInsideTheFrame) {
+    if (_genericDrive) {
+        if (!smartctl_output) {
+            smartctl_output = [[NSMutableDictionary alloc] init];
+        }
         
-        // allow updates every 10 minutes
-        if (!_output || (!_lastUpdated || [_lastUpdated timeIntervalSinceNow] < -(60 * 10))) {
+        if (!smartctl_updated) {
+            smartctl_updated = [[NSMutableDictionary alloc] init];
+        }
+        
+        NSString *output = (NSString *)[smartctl_output objectForKey:_genericDrive.bsdName];
+        NSDate *updated = (NSDate *)[smartctl_updated objectForKey:_genericDrive.bsdName];
+        
+        if (!output || !updated || [updated timeIntervalSinceNow] < -(60 * 10)) {
             NSTask *task = [[NSTask alloc] init];
             
             [task setLaunchPath: [[NSBundle mainBundle] pathForResource:@"smartctl" ofType:@""]];
@@ -32,21 +44,33 @@
             
             NSData *data = [file readDataToEndOfFile];
             
-            _output = CFBridgingRelease(CFStringCreateWithBytes(kCFAllocatorDefault, data.bytes, data.length, kCFStringEncodingUTF8, FALSE));
+            output = CFBridgingRelease(CFStringCreateWithBytes(kCFAllocatorDefault, data.bytes, data.length, kCFStringEncodingUTF8, FALSE));
             
-            _lastUpdated = [NSDate dateWithTimeIntervalSinceNow:0.0];
+            updated = [NSDate dateWithTimeIntervalSinceNow:0.0];
+            
+            [smartctl_output setObject:output forKey:_genericDrive.bsdName];
+            [smartctl_updated setObject:updated forKey:_genericDrive.bsdName];
         }
         
-        if (!_popover) {
-            _popover = [NSPopover showRelativeToRect:[sender frame]
-                                              ofView:[sender superview]
-                                       preferredEdge:NSMinXEdge
-                                              string:_output
-                                     backgroundColor:[NSColor colorWithCalibratedWhite:0.95 alpha:0.95]
-                                     foregroundColor:[NSColor blackColor]
-                                                font:[NSFont fontWithName:@"Monaco" size:10]
-                                            maxWidth:750];
-        }
+        return output;
+    }
+    
+    return nil;
+}
+
+- (void)mouseOverAction:(id)sender
+{
+    NSString *output = self.smartOutput;
+    
+    if (_cursorIsInsideTheFrame && !_popover && output) {
+        _popover = [NSPopover showRelativeToRect:[sender frame]
+                                          ofView:[sender superview]
+                                   preferredEdge:NSMinXEdge
+                                          string:output
+                                 backgroundColor:[NSColor colorWithCalibratedWhite:0.95 alpha:0.95]
+                                 foregroundColor:[NSColor blackColor]
+                                            font:[NSFont fontWithName:@"Monaco" size:10]
+                                        maxWidth:750];
     }
 }
 
@@ -59,11 +83,25 @@
    _trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:(__bridge void *)(_genericDrive) assumeInside:YES];
 }
 
+-(void)mouseDown:(NSEvent *)theEvent
+{
+    _cursorIsInsideTheFrame = NO;
+    
+    if (_popover) {
+        [_popover performClose:self];
+        _popover = nil;
+    }
+    
+    [super mouseDown:theEvent];
+}
+
 -(void)mouseEntered:(NSEvent *)theEvent
 {
     _cursorIsInsideTheFrame = YES;
     
     [self performSelector:@selector(mouseOverAction:) withObject:self afterDelay:0.7];
+    
+    [super mouseEntered:theEvent];
 }
 
 -(void)mouseExited:(NSEvent *)theEvent
@@ -72,6 +110,8 @@
     
     [_popover performClose:self];
     _popover = nil;
+    
+    [super mouseExited:theEvent];
 }
 
 @end

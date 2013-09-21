@@ -15,7 +15,6 @@
 #import "SensorCell.h"
 #import "ATASensorCell.h"
 #import "BatteryCell.h"
-#import "UpdatesController.h"
 
 @implementation PopupController
 
@@ -170,11 +169,6 @@
     [_graphsController showWindow:sender];
 }
 
-- (void)checkForUpdates:(id)sender
-{
-    [self performSelectorInBackground:@selector(checkForUpdatesDialog) withObject:nil];
-}
-
 #pragma mark -
 #pragma mark Methods
 
@@ -216,13 +210,6 @@
     }
     
     [self resizeToContentAndOrderFront:NO];
-}
-
-- (void)checkForUpdatesDialog
-{
-    UpdatesController *controller = (UpdatesController*)self.updatesController;
-    
-    [controller checkForUpdatesForced];
 }
 
 - (void) setupWithGroups:(NSArray*)groups

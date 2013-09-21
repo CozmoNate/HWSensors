@@ -3,7 +3,9 @@
 //  HWMonitor
 //
 //  Created by kozlek on 23.02.13.
-//  
+//
+
+#import <Sparkle/SUUpdater.h>
 
 #import "StatusItemView.h"
 #import "ColorTheme.h"
@@ -42,7 +44,6 @@
 @property (assign) IBOutlet NSWindowController *appController;
 @property (assign) IBOutlet NSWindowController *graphsController;
 @property (assign) IBOutlet NSWindowController *aboutController;
-@property (assign) IBOutlet NSWindowController *updatesController;
 
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
 
@@ -50,7 +51,6 @@
 - (IBAction)showAboutPanel:(id)sender;
 - (IBAction)openPreferences:(id)sender;
 - (IBAction)showGraphsWindow:(id)sender;
-- (IBAction)checkForUpdates:(id)sender;
 
 - (void) setupWithGroups:(NSArray*)groups;
 - (void) reloadData;

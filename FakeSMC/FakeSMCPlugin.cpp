@@ -266,7 +266,7 @@ bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, v
 {
     SYNCLOCK;
     
-    IOReturn result = storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)type, (void *)size, (void *)value);
+    IOReturn result = storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)type, reinterpret_cast<void *>(size), (void *)value);
     
     SYNCUNLOCK;
     return result == kIOReturnSuccess;
@@ -369,7 +369,7 @@ bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
         const char *type = sensor->getType();
         UInt8 size = sensor->getSize();
         
-        if (kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyHandler, true, (void *)key, (void *)type, (void *)size, (void *)this)) {
+        if (kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyHandler, true, (void *)key, (void *)type, reinterpret_cast<void *>(size), (void *)this)) {
             result = sensors->setObject(sensor->getKey(), sensor);
         }
     }
