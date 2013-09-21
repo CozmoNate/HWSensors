@@ -34,20 +34,6 @@
                ReferencedContainer = "container:Versioning.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E2ACD991791B5DA0061C677"
-               BuildableName = "Tag Current Version"
-               BlueprintName = "Tag Current Version"
-               ReferencedContainer = "container:Versioning.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
