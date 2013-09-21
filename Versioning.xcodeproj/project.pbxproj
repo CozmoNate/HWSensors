@@ -58,14 +58,14 @@
 		7EBA20C117ED59C6008E54C5 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				7EBA20C217ED59C6008E54C5 /* BuildInstaller.sh */,
-				7EBA20C317ED59C6008E54C5 /* BumpMajorVersion.sh */,
-				7EBA20C417ED59C6008E54C5 /* BumpMinorVersion.sh */,
 				7EBA20C517ED59C6008E54C5 /* PreBuild.sh */,
+				7EBA20C217ED59C6008E54C5 /* BuildInstaller.sh */,
 				7EBA20C617ED59C6008E54C5 /* SignApp.sh */,
 				7EBA20C717ED59C6008E54C5 /* SignInstaller.sh */,
 				7EBA20D517ED7B41008E54C5 /* GenerateAppcast.sh */,
 				7EBA20C817ED59C6008E54C5 /* TagCurrentVersion.sh */,
+				7EBA20C317ED59C6008E54C5 /* BumpMajorVersion.sh */,
+				7EBA20C417ED59C6008E54C5 /* BumpMinorVersion.sh */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
