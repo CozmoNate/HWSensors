@@ -9,7 +9,7 @@
   <item>
       <title>Version 5.3.850</title>
       <pubDate>Sat, 21 Sep 2013 11:17:55 +0300</pubDate>
-      <enclosure url="http://sourceforge.net/projects/hwsensors/files/HWSensors.TEST.zip/download" sparkle:version="850" sparkle:shortVersionString="5.3.850" sparkle:dsaSignature="MCwCFHqw2KSH5XvHJqTnomIeW80drOcPAhRGoq6tRdORqei71gpPFLv1y7heFQ==" length="1802305" type="application/x-compress"/>
+      <enclosure url="http://sourceforge.net/projects/hwsensors/files/HWSensors.TEST.zip" sparkle:version="850" sparkle:shortVersionString="5.3.850" sparkle:dsaSignature="MCwCFHqw2KSH5XvHJqTnomIeW80drOcPAhRGoq6tRdORqei71gpPFLv1y7heFQ==" length="1802305" type="application/x-compress"/>
   </item>
 </channel>
 </rss>
