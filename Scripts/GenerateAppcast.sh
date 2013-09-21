@@ -45,38 +45,4 @@ echo '</rss>' >> ./appcast.xml
 git_log=$(git log `git describe --tags --abbrev=0`..HEAD --oneline --pretty=format:"• %s" --date=short | tr "\n" "|")
 
 #rnotes.html
-echo '<!DOCTYPE html>' > ./rnotes.html
-echo '<html>' >> ./rnotes.html
-echo '  <head>' >> ./rnotes.html
-echo '      <meta http-equiv="content-type" content="text/html;charset=utf-8">' >> ./rnotes.html
-echo '          <title>'${project_name}' v'${full_version}'</title>' >> ./rnotes.html
-echo '      <meta name="robots" content="anchors">' >> ./rnotes.html
-echo '  <style type="text/css">' >> ./rnotes.html
-echo '  .blue {background-color: #e6edff;margin-top: -3px;margin-bottom: -3px;padding-top: -3px;padding-bottom: -3px}' >> ./rnotes.html
-echo '  .dots {border: dotted 1px #ccc}' >> ./rnotes.html
-echo '  hr {text-decoration: none;border: solid 1px #bfbfbf}' >> ./rnotes.html
-echo '  td {padding: 6px}' >> ./rnotes.html
-echo '  p {font-size: 9pt;font-family: "Lucida Grande", Arial, sans-serif;line-height: 12pt;text-decoration: none}' >> ./rnotes.html
-echo '  h3 {font-size: 9pt;font-family: "Lucida Grande", Arial, sans-serif;font-weight: bold;margin-top: -4px;margin-bottom: -4px}' >> ./rnotes.html
-echo '  </style>' >> ./rnotes.html
-echo '  </head>' >> ./rnotes.html
-echo '  <body>' >> ./rnotes.html
-echo '      <br />' >> ./rnotes.html
-echo '          <table class="dots" width="100%" border="0" cellspacing="0" cellpadding="0" summary="Two column table with heading">' >> ./rnotes.html
-echo '              <tr>' >> ./rnotes.html
-echo '                  <td class="blue" colspan="2">' >> ./rnotes.html
-echo '                      <h3>'${project_name}' v'${full_version}' Changelog</h3>' >> ./rnotes.html
-echo '                  </td>' >> ./rnotes.html
-echo '              </tr>' >> ./rnotes.html
-echo '              <tr>' >> ./rnotes.html
-echo '                  <td valign="top">' >> ./rnotes.html
-echo '                      <p>' >> ./rnotes.html
-echo ${git_log//|/\<br />} >> ./rnotes.html
-#echo ${git_log} >> ./rnotes.html
-echo '                      </p>' >> ./rnotes.html
-echo '                  </td>' >> ./rnotes.html
-echo '              </tr>' >> ./rnotes.html
-echo '          </table>' >> ./rnotes.html
-echo '      <br>' >> ./rnotes.html
-echo '  </body>' >> ./rnotes.html
-echo '</html>' >> ./rnotes.html
+echo ${git_log//|/\<br />} > ./rnotes.html
