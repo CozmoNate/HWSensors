@@ -8,8 +8,5 @@ xcuserdata
 smcutil
 version.h
 revision.txt
-
-
-HWSensors.xcworkspace/xcshareddata/HWSensors.xccheckout
-
 *.pem
+*.xccheckout

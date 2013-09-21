@@ -83,6 +83,7 @@
 		7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA394B216E0A1B600823109 /* ColorTheme.m */; };
 		7EBA20D017ED6180008E54C5 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBA20CF17ED6180008E54C5 /* Sparkle.framework */; };
 		7EBA20D217ED619D008E54C5 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EBA20CF17ED6180008E54C5 /* Sparkle.framework */; };
+		7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */; };
 		7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3016DD680E00085FFF /* 04-eye.png */; };
 		7ECDDE3316DD680E00085FFF /* 04-eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */; };
 		7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */; };
@@ -245,6 +246,7 @@
 		7EB7E702178340710071B3F0 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7EB7E707178341D20071B3F0 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
 		7EBA20CF17ED6180008E54C5 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		7ECDDE3016DD680E00085FFF /* 04-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye.png"; sourceTree = "<group>"; };
 		7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye@2x.png"; sourceTree = "<group>"; };
 		7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye-white.png"; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 		7EA248F216D8E93A002231B2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */,
 				7E9A17C917E451F3003DB018 /* smartctl */,
 				7EA248F316D8E93A002231B2 /* HWMonitor-Info.plist */,
 				7EA248F416D8E93A002231B2 /* InfoPlist.strings */,
@@ -725,6 +728,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */,
+				7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */,
 				7EA248FC16D8E93A002231B2 /* Credits.rtf in Resources */,
 				7EA2492016D8E9C6002231B2 /* frequencies_template.png in Resources */,
 				7EA2492116D8E9C6002231B2 /* frequencies.png in Resources */,

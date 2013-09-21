@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E2ACD991791B5DA0061C677"
-               BuildableName = "Tag Current Version"
-               BlueprintName = "Tag Current Version"
+               BlueprintIdentifier = "7E43CE05179742D3001E3636"
+               BuildableName = "Sign Application"
+               BlueprintName = "Sign Apps"
                ReferencedContainer = "container:Versioning.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

@@ -7,8 +7,7 @@
 #
 
 # Clean packages every time
-cd .
-find ./ -name "*.pkg" -exec sh -c 'rm $0' '{}' \;
+find ./Binaries/ -maxdepth 1 -type f -name "*.pkg" -delete
 
 # Exit on clean action
 if [ "$1" == "clean" ]
@@ -25,4 +24,4 @@ full_version=${project_version}'.'${last_revision}
 cd ./Binaries
 
 ./packagesbuild ${project_name}.pkgproj
-#mv ${project_name}.pkg ${project_name}.${full_version}.pkg
+mv ${project_name}.pkg HWMonitor.unsigned.pkg

@@ -114,7 +114,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7E43CE05179742D3001E3636"
                BuildableName = "Sign Application"
-               BlueprintName = "Sign Application"
+               BlueprintName = "Sign Apps"
                ReferencedContainer = "container:Versioning.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -143,20 +143,6 @@
                BlueprintIdentifier = "7E43CE09179742DB001E3636"
                BuildableName = "Sign Installer"
                BlueprintName = "Sign Installer"
-               ReferencedContainer = "container:Versioning.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7EBA20D617ED7D1C008E54C5"
-               BuildableName = "Generate Appcast"
-               BlueprintName = "Generate Appcast"
                ReferencedContainer = "container:Versioning.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
