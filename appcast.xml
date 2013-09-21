@@ -7,9 +7,9 @@
   <language>en</language>
   <item>
       <sparkle:releaseNotesLink>https://raw.github.com/kozlek/HWSensors/master/rnotes.html</sparkle:releaseNotesLink>
-      <title>Version 5.3.850</title>
-      <pubDate>Sat, 21 Sep 2013 15:38:52 +0300</pubDate>
-      <enclosure url="http://sourceforge.net/projects/hwsensors/files/HWSensors.5.3.850.zip" sparkle:version="850" sparkle:shortVersionString="5.3.850" sparkle:dsaSignature="" length="1803193" type="application/x-compress"/>
+      <title>Version 5.3.853</title>
+      <pubDate>Sat, 21 Sep 2013 16:17:02 +0300</pubDate>
+      <enclosure url="http://sourceforge.net/projects/hwsensors/files/HWSensors.5.3.853.zip" sparkle:version="853" sparkle:shortVersionString="5.3.853" sparkle:dsaSignature="MC4CFQCT76bRrFONZKZgh2fc5kxAhYyfGAIVAIwiUCxP2wl/RcRkZqmjktRCwT6/" length="1803181" type="application/x-compress"/>
   </item>
 </channel>
 </rss>
