@@ -45,7 +45,8 @@ echo '</rss>' >> ./appcast.xml
 git_log=$(git log `git describe --tags --abbrev=0`..HEAD --oneline --pretty=format:"• %s" --date=short | tr "\n" "|")
 
 #rnotes.html
-echo '<html>' > ./rnotes.html
+echo '<!DOCTYPE html>' > ./rnotes.html
+echo '<html>' >> ./rnotes.html
 echo '  <head>' >> ./rnotes.html
 echo '      <meta http-equiv="content-type" content="text/html;charset=utf-8">' >> ./rnotes.html
 echo '          <title>'${project_name}' v'${full_version}'</title>' >> ./rnotes.html
