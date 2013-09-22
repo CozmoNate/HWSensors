@@ -8,5 +8,6 @@ xcuserdata
 smcutil
 version.h
 revision.txt
-*.pem
 *.xccheckout
+
+dsa_priv.pem

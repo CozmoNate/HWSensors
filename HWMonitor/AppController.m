@@ -130,7 +130,7 @@
         
         if ([button state]) {
             _sharedUpdater.automaticallyChecksForUpdates = YES;
-            //[_sharedUpdater checkForUpdatesInBackground];
+            [_sharedUpdater checkForUpdatesInBackground];
         }
     }
     else {
