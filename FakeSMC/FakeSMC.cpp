@@ -99,16 +99,28 @@ bool FakeSMC::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
     
-    OSString *vendor = OSDynamicCast(OSString, getProperty(kFakeSMCFirmwareVendor));
-    
     int arg_value = 1;
     
-    if (PE_parse_boot_argn("-fakesmc-force-start", &arg_value, sizeof(arg_value))) {
-        HWSensorsInfoLog("firmware vendor check disabled");
-    }
-    else if (vendor && vendor->isEqualTo("Apple")) {
-        HWSensorsFatalLog("forbidding start on Apple hardware");
-        return false;
+    // Check if we have SMC already
+    if (OSDictionary *matching = serviceMatching("IOACPIPlatformDevice")) {
+        if (OSIterator *iterator = getMatchingServices(matching)) {
+            
+            OSString *smcNameProperty = OSString::withCString("APP0001");
+
+            while (IOService *service = (IOService*)iterator->getNextObject()) {
+                
+                OSObject *serviceNameProperty = service->getProperty("name");
+                
+                if (serviceNameProperty && serviceNameProperty->isEqualTo(smcNameProperty)) {
+                    HWSensorsFatalLog("SMC device detected, will not create another one");
+                    return false;
+                }
+            }
+            
+            OSSafeRelease(iterator);
+        }
+        
+        OSSafeRelease(matching);
     }
     
 	if (!smcDevice->initAndStart(provider, this)) {

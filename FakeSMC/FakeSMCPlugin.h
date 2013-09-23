@@ -60,7 +60,8 @@ struct FakeSMCSensorDefinitionEntry {
 const struct FakeSMCSensorDefinitionEntry FakeSMCSensorDefinitions[] =
 {
     {"Ambient",                 "TA0P", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
-    {"CPU Die",                 "TC%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"CPU Die",                 "TC%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0x9},
+    {"CPU Package",             "TC%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0xA, 0x6},
     {"CPU Core",                "TC%XC", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
     {"CPU GFX",                 "TC%XG", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
     {"CPU Heatsink",            "TC%XH", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},

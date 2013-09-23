@@ -6,12 +6,10 @@
 #  Created by Kozlek on 13/07/13.
 #
 
-# Clean packages every time
-find ./Binaries/ -maxdepth 1 -type f -name "*.pkg" -delete
-
 # Exit on clean action
 if [ "$1" == "clean" ]
 then
+    find ./Binaries/ -maxdepth 1 -type f -name "*.pkg" -delete
     exit 0
 fi
 

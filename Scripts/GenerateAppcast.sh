@@ -8,8 +8,8 @@
 
 if [ "$1" == "clean" ]
 then
-find ./Binaries/ -maxdepth 1 -type f -name "*.zip" -delete
-exit 0
+    find ./Binaries/ -maxdepth 1 -type f -name "*.zip" -delete
+    exit 0
 fi
 
 project_name=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "./version.plist")
@@ -24,25 +24,59 @@ zip -r -X ./Binaries/${zip_filename} ./Binaries/${pkg_filename}
 dsa_signature=$(openssl dgst -sha1 -binary < ./Binaries/${zip_filename} | openssl dgst -dss1 -sign ./dsa_priv.pem | openssl enc -base64)
 
 # appcast.xml
-echo '<?xml version="1.0" encoding="utf-8"?>' > ./appcast.xml
-echo '<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">' >> ./appcast.xml
-echo '<channel>' >> ./appcast.xml
-echo '  <title>'${project_name}' Changelog</title>' >> ./appcast.xml
-echo '  <link>https://raw.github.com/kozlek/HWSensors/master/appcast.xml</link>' >> ./appcast.xml
-echo '  <description>Most recent changes with links to updates.</description>' >> ./appcast.xml
-echo '  <language>en</language>' >> ./appcast.xml
-echo '  <item>' >> ./appcast.xml
-echo '      <sparkle:releaseNotesLink>https://raw.github.com/kozlek/HWSensors/master/rnotes.html</sparkle:releaseNotesLink>' >> ./appcast.xml
-echo '      <title>Version '${full_version}'</title>' >> ./appcast.xml
-echo '      <pubDate>'$(date +"%a, %d %b %G %T %z")'</pubDate>' >> ./appcast.xml
-echo '      <enclosure url="http://sourceforge.net/projects/hwsensors/files/'${zip_filename}'" sparkle:version="'${last_revision}'" sparkle:shortVersionString="'${full_version}'" sparkle:dsaSignature="'${dsa_signature}'" length="'$(stat -f %z ./Binaries/${zip_filename})'" type="application/x-compress"/>' >> ./appcast.xml
-echo '  </item>' >> ./appcast.xml
-echo '</channel>' >> ./appcast.xml
-echo '</rss>' >> ./appcast.xml
+echo '<?xml version="1.0" encoding="utf-8"?>' > ./Appcast/appcast.xml
+echo '<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">' >> ./Appcast/appcast.xml
+echo '<channel>' >> ./Appcast/appcast.xml
+echo '  <title>'${project_name}' Changelog</title>' >> ./Appcast/appcast.xml
+echo '  <link>http://hwsensors.com/appcast/appcast.xml</link>' >> ./Appcast/appcast.xml
+echo '  <description>Most recent changes with links to updates.</description>' >> ./Appcast/appcast.xml
+echo '  <language>en</language>' >> ./Appcast/appcast.xml
+echo '  <item>' >> ./Appcast/appcast.xml
+echo '      <sparkle:releaseNotesLink>http://hwsensors.com/appcast/rnotes.html</sparkle:releaseNotesLink>' >> ./Appcast/appcast.xml
+echo '      <title>Version '${full_version}'</title>' >> ./Appcast/appcast.xml
+echo '      <pubDate>'$(date +"%a, %d %b %G %T %z")'</pubDate>' >> ./Appcast/appcast.xml
+echo '      <enclosure url="http://hwsensors.com/downloads/'${zip_filename}'" sparkle:version="'${last_revision}'" sparkle:shortVersionString="'${full_version}'" sparkle:dsaSignature="'${dsa_signature}'" length="'$(stat -f %z ./Binaries/${zip_filename})'" type="application/x-compress"/>' >> ./Appcast/appcast.xml
+echo '  </item>' >> ./Appcast/appcast.xml
+echo '</channel>' >> ./Appcast/appcast.xml
+echo '</rss>' >> ./Appcast/appcast.xml
 
 #git_log=$(git log `git describe --tags --abbrev=0`..HEAD --oneline --pretty=format:"• (%ad by %an) %s" --date=short | tr "\n" "|")
 
-git_log=$(git log `git describe --tags --abbrev=0`..HEAD --oneline --pretty=format:"• %s" --date=short | tr "\n" "|")
+git_log=$(git log `git describe --tags --abbrev=0`..HEAD --oneline --pretty=format:"<li>%s</li>\n" --date=short)
 
 #rnotes.html
-echo ${git_log//|/\<br />} > ./rnotes.html
+echo '<html>' > ./Appcast/rnotes.html
+echo '  <head>' >> ./Appcast/rnotes.html
+echo '      <meta http-equiv="content-type" content="text/html;charset=utf-8">' >> ./Appcast/rnotes.html
+echo '          <title>'${project_name}' v'${full_version}'</title>' >> ./Appcast/rnotes.html
+echo '      <meta name="ROBOTS" content="NOINDEX">' >> ./Appcast/rnotes.html
+echo '      <style type="text/css">' >> ./Appcast/rnotes.html
+echo '          .blue {background-color: #e6edff;margin-top: -3px;margin-bottom: -3px;padding-top: -3px;padding-bottom: -3px}' >> ./Appcast/rnotes.html
+echo '          .dots {border: dotted 1px #ccc}' >> ./Appcast/rnotes.html
+echo '          hr {text-decoration: none;border: solid 1px #bfbfbf}' >> ./Appcast/rnotes.html
+echo '          td {padding: 6px}' >> ./Appcast/rnotes.html
+echo '          p {font-size: 9pt;font-family: "Lucida Grande", Arial, sans-serif;line-height: 12pt;text-decoration: none; text-indent: 1.5em}' >> ./Appcast/rnotes.html
+echo '          li {font-size: 9pt;font-family: "Lucida Grande", Arial, sans-serif;line-height: 12pt;text-decoration: none}' >> ./Appcast/rnotes.html
+echo '          h3 {font-size: 9pt;font-family: "Lucida Grande", Arial, sans-serif;font-weight: bold;margin-top: -4px;margin-bottom: -4px}' >> ./Appcast/rnotes.html
+echo '      </style>' >> ./Appcast/rnotes.html
+echo '  </head>' >> ./Appcast/rnotes.html
+echo '  <body>' >> ./Appcast/rnotes.html
+echo '          <table class="dots" width="100%" border="0" cellspacing="0" cellpadding="0" summary="Two column table with heading">' >> ./Appcast/rnotes.html
+echo '              <tr>' >> ./Appcast/rnotes.html
+echo '                  <td class="blue" colspan="2">' >> ./Appcast/rnotes.html
+echo '                      <h3>New in '${project_name}' v'${full_version}'</h3>' >> ./Appcast/rnotes.html
+echo '                  </td>' >> ./Appcast/rnotes.html
+echo '              </tr>' >> ./Appcast/rnotes.html
+echo '              <tr><td><td/><tr/>' >> ./Appcast/rnotes.html
+echo '              <tr>' >> ./Appcast/rnotes.html
+echo '                  <td valign="top">' >> ./Appcast/rnotes.html
+echo '                      <p><b>Bug Fixed/Changes/Features</b></p>' >> ./Appcast/rnotes.html
+echo '                      <ul>' >> ./Appcast/rnotes.html
+echo                            ${git_log} >> ./Appcast/rnotes.html
+echo '                      </ul>' >> ./Appcast/rnotes.html
+echo '                  </td>' >> ./Appcast/rnotes.html
+echo '              </tr>' >> ./Appcast/rnotes.html
+echo '          </table>' >> ./Appcast/rnotes.html
+echo '      <br/>' >> ./Appcast/rnotes.html
+echo '  </body>' >> ./Appcast/rnotes.html
+echo '</html>' >> ./Appcast/rnotes.html

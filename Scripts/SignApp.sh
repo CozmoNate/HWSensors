@@ -12,7 +12,7 @@ then
     exit 0
 fi
 
-/usr/libexec/PlistBuddy -c "Add :SUFeedURL string https://raw.github.com/kozlek/HWSensors/master/appcast.xml" "./Binaries/HWMonitor.app/Contents/info.plist"
+/usr/libexec/PlistBuddy -c "Add :SUFeedURL string http://hwsensors.com/appcast/appcast.xml" "./Binaries/HWMonitor.app/Contents/info.plist"
 /usr/libexec/PlistBuddy -c "Add :SUPublicDSAKeyFile string dsa_pub.pem" "./Binaries/HWMonitor.app/Contents/info.plist"
 
 # This for testing updates

@@ -9,5 +9,5 @@ smcutil
 version.h
 revision.txt
 *.xccheckout
-
 dsa_priv.pem
+Appcast/*.*
