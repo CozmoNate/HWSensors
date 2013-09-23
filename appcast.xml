@@ -2,14 +2,14 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
 <channel>
   <title>HWSensors Changelog</title>
-  <link>https://raw.github.com/kozlek/HWSensors/master/appcast.xml</link>
+  <link>http://hwsensors.com/appcast/appcast.xml</link>
   <description>Most recent changes with links to updates.</description>
   <language>en</language>
   <item>
-      <sparkle:releaseNotesLink>https://raw.github.com/kozlek/HWSensors/master/rnotes.html</sparkle:releaseNotesLink>
-      <title>Version 5.3.856</title>
-      <pubDate>Sat, 21 Sep 2013 16:46:03 +0300</pubDate>
-      <enclosure url="http://sourceforge.net/projects/hwsensors/files/HWSensors.5.3.856.zip" sparkle:version="856" sparkle:shortVersionString="5.3.856" sparkle:dsaSignature="MC0CFDKS5ZgslmRYFNK/cXtu9BpLkFVyAhUAksHjDKaWDmUsTlhAmPzecntkgRA=" length="1803063" type="application/x-compress"/>
+      <sparkle:releaseNotesLink>http://hwsensors.com/appcast/rnotes.html</sparkle:releaseNotesLink>
+      <title>Version 5.3.859</title>
+      <pubDate>Mon, 23 Sep 2013 20:12:12 +0300</pubDate>
+      <enclosure url="http://hwsensors.com/downloads/HWSensors.5.3.859.zip" sparkle:version="859" sparkle:shortVersionString="5.3.859" sparkle:dsaSignature="MCwCFDtMp3WJO3ctkRe5G7J14DOiNmrnAhRxBlEDA0aMaUiguOiPmgvPA4x1wA==" length="1803394" type="application/x-compress"/>
   </item>
 </channel>
 </rss>
