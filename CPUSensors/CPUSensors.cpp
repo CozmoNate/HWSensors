@@ -655,7 +655,7 @@ bool CPUSensors::start(IOService *provider)
             
             char key[5];
             
-            snprintf(key, 5, KEY_FORMAT_CPU_CORE_TEMPERATURE, i);
+            snprintf(key, 5, KEY_FORMAT_CPU_DIE_TEMPERATURE, i);
             
             if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsCoreThermalSensor, i))
                 HWSensorsWarningLog("failed to add temperature sensor");

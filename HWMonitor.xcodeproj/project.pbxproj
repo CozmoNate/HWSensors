@@ -965,10 +965,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/kozlek/Documents/HWSensors,
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
@@ -983,10 +980,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/kozlek/Documents/HWSensors,
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";

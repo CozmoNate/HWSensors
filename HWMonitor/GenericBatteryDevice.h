@@ -8,7 +8,7 @@
 
 typedef enum
 {
-    kBluetoothDeviceTypeNone,
+    kGenericBatteryDeviceTypeNone,
     kBluetoothDeviceTypeMouse,
     kBluetoothDeviceTypeKeyboard,
     kBluetoothDeviceTypeTrackpad,

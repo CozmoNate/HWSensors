@@ -13,13 +13,18 @@
 + (NSArray*)discoverDevices
 {
     NSMutableArray *devices = [[NSMutableArray alloc] init];
+    BatteryDeviceType type;
+    int count = 0;
     
-    for (int index = 1; index <= 4; index++) {
+    do {
+        CFDictionaryRef matching;
         
-        BatteryDeviceType type = kBluetoothDeviceTypeNone;
-        CFDictionaryRef matching = MACH_PORT_NULL;
-        
-        switch (index) {
+        switch (count++) {
+            case 0:
+                matching = IOServiceMatching("IOPMPowerSource");
+                type = kInternalBatteryType;
+                break;
+                
             case 1:
                 matching = IOServiceMatching("AppleSmartBattery");
                 type = kInternalBatteryType;
@@ -41,10 +46,13 @@
                 break;
                 
             default:
+                matching = MACH_PORT_NULL;
+                type = kGenericBatteryDeviceTypeNone;
                 break;
         }
 
         if (MACH_PORT_NULL != matching) {
+            
             io_iterator_t iterator = IO_OBJECT_NULL;
             
             if (kIOReturnSuccess == IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator)) {
@@ -64,7 +72,8 @@
                 }
             }
         }
-    }
+    } while (type != kGenericBatteryDeviceTypeNone);
+    
     
     return devices;
 }
