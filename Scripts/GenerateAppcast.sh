@@ -21,7 +21,7 @@ zip_filename=${project_name}.${full_version}.zip
 
 zip -r -X ./Binaries/${zip_filename} ./Binaries/${pkg_filename}
 
-dsa_signature=$(openssl dgst -sha1 -binary < ./Binaries/${zip_filename} | openssl dgst -dss1 -sign ./dsa_priv.pem | openssl enc -base64)
+dsa_signature=$(openssl dgst -sha1 -binary < ./Binaries/${zip_filename} | openssl dgst -dss1 -sign ./Appcast/dsa_priv.pem | openssl enc -base64)
 
 # appcast.xml
 echo '<?xml version="1.0" encoding="utf-8"?>' > ./Appcast/appcast.xml

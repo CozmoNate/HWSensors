@@ -81,8 +81,8 @@
 		7EA2495416D8EE45002231B2 /* HWMonitorGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2495116D8EE44002231B2 /* HWMonitorGroup.m */; };
 		7EA2495516D8EE45002231B2 /* HWMonitorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2495316D8EE45002231B2 /* HWMonitorItem.m */; };
 		7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA394B216E0A1B600823109 /* ColorTheme.m */; };
-		7EBA20D017ED6180008E54C5 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBA20CF17ED6180008E54C5 /* Sparkle.framework */; };
-		7EBA20D217ED619D008E54C5 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EBA20CF17ED6180008E54C5 /* Sparkle.framework */; };
+		7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
+		7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
 		7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */; };
 		7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3016DD680E00085FFF /* 04-eye.png */; };
 		7ECDDE3316DD680E00085FFF /* 04-eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */; };
@@ -124,7 +124,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7EBA20D217ED619D008E54C5 /* Sparkle.framework in CopyFiles */,
+				7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,11 +241,11 @@
 		7EA32A4D173EB059002C93C1 /* hwmonitor.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = hwmonitor.psd; sourceTree = "<group>"; };
 		7EA394B116E0A1B600823109 /* ColorTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorTheme.h; sourceTree = "<group>"; };
 		7EA394B216E0A1B600823109 /* ColorTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorTheme.m; sourceTree = "<group>"; };
+		7EA50F0417F3771D00FDA3AA /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/Binaries/Sparkle.framework; sourceTree = "<group>"; };
 		7EA68B8917341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7EA68B8A17341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EB7E702178340710071B3F0 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7EB7E707178341D20071B3F0 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
-		7EBA20CF17ED6180008E54C5 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		7ECDDE3016DD680E00085FFF /* 04-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye.png"; sourceTree = "<group>"; };
 		7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye@2x.png"; sourceTree = "<group>"; };
@@ -298,7 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */,
-				7EBA20D017ED6180008E54C5 /* Sparkle.framework in Frameworks */,
+				7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */,
 				7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,7 +396,7 @@
 		7EA248EA16D8E93A002231B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7EBA20CF17ED6180008E54C5 /* Sparkle.framework */,
+				7EA50F0417F3771D00FDA3AA /* Sparkle.framework */,
 				7EA248EB16D8E93A002231B2 /* Cocoa.framework */,
 				7EA2494E16D8EBC0002231B2 /* IOKit.framework */,
 				7EA248EE16D8E93A002231B2 /* AppKit.framework */,
@@ -965,7 +965,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SOURCE_ROOT)",
+					"$(SOURCE_ROOT)/Sparkle/Binaries/",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
@@ -980,7 +983,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SOURCE_ROOT)",
+					"$(SOURCE_ROOT)/Sparkle/Binaries/",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";

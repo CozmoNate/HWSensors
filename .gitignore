@@ -1,13 +1,8 @@
 .DS_Store
-*.app
-*.menu
-*.kext
-*.pkg
-*.octest
 xcuserdata
 smcutil
 version.h
 revision.txt
-*.xccheckout
-dsa_priv.pem
-Appcast/*.*
+Appcast/*
+Binaries/*
+Sparkle/Binaries/*
