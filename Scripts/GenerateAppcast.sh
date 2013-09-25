@@ -48,17 +48,9 @@ git_log=$(git log `git describe --tags --abbrev=0`..HEAD --oneline --pretty=form
 echo '<html>' > ./Appcast/rnotes.html
 echo '  <head>' >> ./Appcast/rnotes.html
 echo '      <meta http-equiv="content-type" content="text/html;charset=utf-8">' >> ./Appcast/rnotes.html
-echo '          <title>'${project_name}' v'${full_version}'</title>' >> ./Appcast/rnotes.html
-echo '      <meta name="ROBOTS" content="NOINDEX">' >> ./Appcast/rnotes.html
-echo '      <style type="text/css">' >> ./Appcast/rnotes.html
-echo '          .blue {background-color: #e6edff;margin-top: -3px;margin-bottom: -3px;padding-top: -3px;padding-bottom: -3px}' >> ./Appcast/rnotes.html
-echo '          .dots {border: dotted 1px #ccc}' >> ./Appcast/rnotes.html
-echo '          hr {text-decoration: none;border: solid 1px #bfbfbf}' >> ./Appcast/rnotes.html
-echo '          td {padding: 6px}' >> ./Appcast/rnotes.html
-echo '          p {font-size: 9pt;font-family: "Lucida Grande", Arial, sans-serif;line-height: 12pt;text-decoration: none; text-indent: 1.5em}' >> ./Appcast/rnotes.html
-echo '          li {font-size: 9pt;font-family: "Lucida Grande", Arial, sans-serif;line-height: 12pt;text-decoration: none}' >> ./Appcast/rnotes.html
-echo '          h3 {font-size: 9pt;font-family: "Lucida Grande", Arial, sans-serif;font-weight: bold;margin-top: -4px;margin-bottom: -4px}' >> ./Appcast/rnotes.html
-echo '      </style>' >> ./Appcast/rnotes.html
+echo '      <title>'${project_name}' v'${full_version}'</title>' >> ./Appcast/rnotes.html
+echo '      <meta name="robots" content="anchors">' >> ./Appcast/rnotes.html
+echo '      <link href="rnotes.css" type="text/css" rel="stylesheet" media="all">' >> ./Appcast/rnotes.html
 echo '  </head>' >> ./Appcast/rnotes.html
 echo '  <body>' >> ./Appcast/rnotes.html
 echo '          <table class="dots" width="100%" border="0" cellspacing="0" cellpadding="0" summary="Two column table with heading">' >> ./Appcast/rnotes.html

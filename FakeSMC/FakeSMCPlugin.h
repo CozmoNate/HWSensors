@@ -60,9 +60,9 @@ struct FakeSMCSensorDefinitionEntry {
 const struct FakeSMCSensorDefinitionEntry FakeSMCSensorDefinitions[] =
 {
     {"Ambient",                 "TA0P", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
-    {"CPU Die",                 "TC%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0x9},
-    {"CPU Package",             "TC%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0xA, 0x6},
-    {"CPU Core",                "TC%XC", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"CPU Die",                 "TC%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"CPU Package",             "TC%XC", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0xA, 0x6},
+    //{"CPU Core",                "TC%XC", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
     {"CPU GFX",                 "TC%XG", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
     {"CPU Heatsink",            "TC%XH", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
     {"CPU Proximity",           "TC%XP", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
@@ -97,11 +97,11 @@ const struct FakeSMCSensorDefinitionEntry FakeSMCSensorDefinitions[] =
     {"GPU ROPs",                "CG%XR", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},*/
     
     // Voltages
-    {"CPU Core",                "VC0C", "sp1e", 2, kFakeSMCCategoryVoltage, 0, 0},
-    {"CPU VTT",                 "VV1R", "sp1e", 2, kFakeSMCCategoryVoltage, 0, 0},
-    {"PCH",                     "VN1R", "sp1e", 2, kFakeSMCCategoryVoltage, 0, 0},
-    {"Memory",                  "VM0R", "sp1e", 2, kFakeSMCCategoryVoltage, 0, 0},
-    {"MCH",                     "VN0C", "sp78", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"CPU Core",                "VC0C", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"CPU VTT",                 "VV1R", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"PCH",                     "VN1R", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"Memory",                  "VM0R", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"MCH",                     "VN0C", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
     {"Main 3V",                 "VV2S", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
     {"Main 5V",                 "VV1S", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
     {"Main 12V",                "VV9S", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
