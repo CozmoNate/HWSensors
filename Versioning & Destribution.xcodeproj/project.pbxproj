@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		7E02001417F5A69E0030A502 /* background.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = background.tiff; path = Resources/background.tiff; sourceTree = "<group>"; };
 		7E2F25191783EAE800C86586 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7E3ABDBA1796580B00201804 /* revision.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = revision.txt; sourceTree = "<group>"; };
 		7E86758417F57AE800438A80 /* distribution_template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = distribution_template.xml; sourceTree = "<group>"; };
@@ -42,6 +43,7 @@
 			isa = PBXGroup;
 			children = (
 				7E86758417F57AE800438A80 /* distribution_template.xml */,
+				7E02001417F5A69E0030A502 /* background.tiff */,
 				7E86758B17F5803A00438A80 /* en.lproj */,
 				7E86759017F5804100438A80 /* ru.lproj */,
 			);
