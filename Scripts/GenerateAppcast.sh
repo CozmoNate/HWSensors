@@ -7,7 +7,6 @@
 #
 
 find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz" -delete
-find ./Binaries/ -maxdepth 1 -type f -name "*.zip" -delete
 find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz.dsa" -delete
 
 if [ "$1" == "clean" ]
@@ -21,7 +20,7 @@ last_revision=$(<"./revision.txt")
 full_version=${project_version}'.'${last_revision}
 zip_filename=${project_name}.${full_version}.tar.gz
 
-cp ./Binaries/HWSensors.${full_version}.pkg ./Binaries/HWMonitor.pkg
+cp ./Binaries/${project_name}.${full_version}.pkg ./Binaries/HWMonitor.pkg
 tar -zcvf ./Binaries/${zip_filename} ./Binaries/HWMonitor.pkg
 rm ./Binaries/HWMonitor.pkg
 

@@ -7,6 +7,7 @@
 #
 
 find ./Package/ -maxdepth 1 -type f -name "*.pkg" -delete
+find ./Binaries/ -maxdepth 1 -type f -name "*.pkg" -delete
 find ./Package/ -maxdepth 1 -type f -name "Distribution.xml" -delete
 
 if [ "$1" == "clean" ]
@@ -84,4 +85,4 @@ sed -i '' 's/DISTRIBUTION_TITLE/'${project_name}' 'v${full_version}'/g' ./Packag
 productbuild --distribution "./Package/Distribution.xml"  \
 --package-path "./Package/" \
 --resources "./Package/Resources" \
-"./Binaries/HWMonitor.unsigned.pkg"
+"./Binaries/${project_name}.${full_version}.unsigned.pkg"
