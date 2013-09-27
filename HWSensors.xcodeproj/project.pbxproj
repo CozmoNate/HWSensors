@@ -7,16 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D6FE3F413FEBFF200376E64 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D6FE3F213FEBFF200376E64 /* InfoPlist.strings */; };
 		1D6FE3FF13FEC03100376E64 /* ACPISensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D6FE3FD13FEC03100376E64 /* ACPISensors.cpp */; };
-		1D6FE40313FEC11300376E64 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D05AC0713ED0E9600EADBF6 /* InfoPlist.strings */; };
 		6A2B4E3E152179700093A217 /* F718xxSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E32152179700093A217 /* F718xxSensors.cpp */; };
 		6A2B4E40152179700093A217 /* IT87xxSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E34152179700093A217 /* IT87xxSensors.cpp */; };
 		6A2B4E42152179700093A217 /* NCT677xSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E36152179700093A217 /* NCT677xSensors.cpp */; };
 		6A2B4E44152179700093A217 /* SuperIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E38152179700093A217 /* SuperIO.cpp */; };
 		6A2B4E46152179700093A217 /* LPCSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E3A152179700093A217 /* LPCSensors.cpp */; };
 		6A2B4E48152179700093A217 /* W836xxSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E3C152179700093A217 /* W836xxSensors.cpp */; };
-		6A4E473F152178A00038C5DE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A4E473D152178A00038C5DE /* InfoPlist.strings */; };
 		6A9C468D14E657EE0083E5E6 /* FakeSMCPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */; };
 		6AA172CB150B415200A77CF2 /* FakeSMCDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA172C4150B415200A77CF2 /* FakeSMCDevice.cpp */; };
 		6AA172D0150B415200A77CF2 /* FakeSMCKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA172C9150B415200A77CF2 /* FakeSMCKey.cpp */; };
@@ -33,7 +30,6 @@
 		7E5CFA2516988EBE00F0E9AD /* i2c_algo_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */; };
 		7E5CFA2716988EBE00F0E9AD /* i2c_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */; };
 		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
-		7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E79B81E15BA99350079AAE8 /* InfoPlist.strings */; };
 		7E79B82315BA99350079AAE8 /* CPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E79B82215BA99350079AAE8 /* CPUSensors.cpp */; };
 		7E9F5454167C71D1006E907B /* RadeonSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F544F167C71D1006E907B /* RadeonSensors.cpp */; };
 		7E9F548B167C71DA006E907B /* adt7473.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F5457167C71D9006E907B /* adt7473.cpp */; };
@@ -62,7 +58,6 @@
 		7E9F54BB167C71DA006E907B /* w83l785r.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F5487167C71D9006E907B /* w83l785r.cpp */; };
 		7E9F54BC167C71DA006E907B /* xf86i2c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F5488167C71D9006E907B /* xf86i2c.cpp */; };
 		7E9F54C2167C71DF006E907B /* GmaSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F54C0167C71DF006E907B /* GmaSensors.cpp */; };
-		7EADE20D15E5602F00FD117C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EADE20B15E5602F00FD117C /* InfoPlist.strings */; };
 		7EB13667169C288000B42023 /* radeon_atombios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB13665169C288000B42023 /* radeon_atombios.cpp */; };
 		7EB1366C169C2CE800B42023 /* atom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB1366A169C2CE700B42023 /* atom.cpp */; };
 		7EB73CFA1791BCBC007D93D4 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */; };
@@ -72,9 +67,7 @@
 /* Begin PBXFileReference section */
 		1D05ABE413ED0DAD00EADBF6 /* FakeSMC.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeSMC.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D05AC0513ED0E8D00EADBF6 /* FakeSMC-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FakeSMC-Prefix.pch"; sourceTree = "<group>"; };
-		1D05AC0813ED0E9600EADBF6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1D6FE3EE13FEBFF200376E64 /* ACPISensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ACPISensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		1D6FE3F313FEBFF200376E64 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1D6FE3F913FEBFF200376E64 /* ACPISensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ACPISensors-Prefix.pch"; sourceTree = "<group>"; };
 		1D6FE3FD13FEC03100376E64 /* ACPISensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ACPISensors.cpp; sourceTree = "<group>"; };
 		1D6FE3FE13FEC03100376E64 /* ACPISensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPISensors.h; sourceTree = "<group>"; };
@@ -92,7 +85,6 @@
 		6A2B4E3C152179700093A217 /* W836xxSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = W836xxSensors.cpp; sourceTree = "<group>"; };
 		6A2B4E3D152179700093A217 /* W836xxSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = W836xxSensors.h; sourceTree = "<group>"; };
 		6A4E4739152178A00038C5DE /* LPCSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LPCSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A4E473E152178A00038C5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A4E4743152178A00038C5DE /* SuperIOSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SuperIOSensors-Prefix.pch"; sourceTree = "<group>"; };
 		6A9955C214EFAEE50052C702 /* cpuid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpuid.h; sourceTree = "<group>"; };
 		6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMCPlugin.cpp; sourceTree = "<group>"; };
@@ -135,7 +127,6 @@
 		7E5CFA2416988EBE00F0E9AD /* i2c_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i2c_base.h; sourceTree = "<group>"; };
 		7E6F4A3217D3B51E00927043 /* SSDT.dsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = SSDT.dsl; sourceTree = "<group>"; };
 		7E79B81A15BA99350079AAE8 /* CPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		7E79B81F15BA99350079AAE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7E79B82115BA99350079AAE8 /* CPUSensors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPUSensors.h; sourceTree = "<group>"; };
 		7E79B82215BA99350079AAE8 /* CPUSensors.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CPUSensors.cpp; sourceTree = "<group>"; };
 		7E79B82415BA99350079AAE8 /* CPUSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CPUSensors-Prefix.pch"; sourceTree = "<group>"; };
@@ -198,7 +189,6 @@
 		7E9F54C0167C71DF006E907B /* GmaSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GmaSensors.cpp; sourceTree = "<group>"; };
 		7E9F54C1167C71DF006E907B /* GmaSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmaSensors.h; sourceTree = "<group>"; };
 		7EADE20715E5602E00FD117C /* GPUSensors.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GPUSensors.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		7EADE20C15E5602F00FD117C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EADE21115E5602F00FD117C /* GPUSensors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GPUSensors-Prefix.pch"; sourceTree = "<group>"; };
 		7EB13663169C280F00B42023 /* atombios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atombios.h; sourceTree = "<group>"; };
 		7EB13665169C288000B42023 /* radeon_atombios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = radeon_atombios.cpp; sourceTree = "<group>"; };
@@ -314,7 +304,6 @@
 			isa = PBXGroup;
 			children = (
 				7E7C5BFC17D995EA00D3265A /* FakeSMC-Info.plist */,
-				1D05AC0713ED0E9600EADBF6 /* InfoPlist.strings */,
 				1D05AC0513ED0E8D00EADBF6 /* FakeSMC-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -336,7 +325,6 @@
 			isa = PBXGroup;
 			children = (
 				7E7C5BFE17D9962F00D3265A /* ACPISensors-Info.plist */,
-				1D6FE3F213FEBFF200376E64 /* InfoPlist.strings */,
 				1D6FE3F913FEBFF200376E64 /* ACPISensors-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -416,7 +404,6 @@
 			isa = PBXGroup;
 			children = (
 				7E7C5C0417D9968D00D3265A /* LPCSensors-Info.plist */,
-				6A4E473D152178A00038C5DE /* InfoPlist.strings */,
 				6A4E4743152178A00038C5DE /* SuperIOSensors-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -575,7 +562,6 @@
 			isa = PBXGroup;
 			children = (
 				7E7C5C0017D9964C00D3265A /* CPUSensors-Info.plist */,
-				7E79B81E15BA99350079AAE8 /* InfoPlist.strings */,
 				7E79B82415BA99350079AAE8 /* CPUSensors-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -647,7 +633,6 @@
 			isa = PBXGroup;
 			children = (
 				7E7C5C0217D9966700D3265A /* GPUSensors-Info.plist */,
-				7EADE20B15E5602F00FD117C /* InfoPlist.strings */,
 				7EADE21115E5602F00FD117C /* GPUSensors-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -825,7 +810,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D6FE40313FEC11300376E64 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,7 +817,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D6FE3F413FEBFF200376E64 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -841,7 +824,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A4E473F152178A00038C5DE /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -849,7 +831,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E79B82015BA99350079AAE8 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -857,7 +838,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EADE20D15E5602F00FD117C /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -956,49 +936,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		1D05AC0713ED0E9600EADBF6 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1D05AC0813ED0E9600EADBF6 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		1D6FE3F213FEBFF200376E64 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1D6FE3F313FEBFF200376E64 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		6A4E473D152178A00038C5DE /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6A4E473E152178A00038C5DE /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		7E79B81E15BA99350079AAE8 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7E79B81F15BA99350079AAE8 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		7EADE20B15E5602F00FD117C /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7EADE20C15E5602F00FD117C /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		1D05ABB413ED0D7000EADBF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1022,10 +959,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
-				INSTALL_GROUP = wheel;
-				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
-				INSTALL_OWNER = root;
-				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -1056,10 +989,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
-				INSTALL_GROUP = wheel;
-				INSTALL_MODE_FLAG = "a-w,u+w,a+rX";
-				INSTALL_OWNER = root;
-				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;

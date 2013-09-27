@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<installer-gui-script minSpecVersion="2">
+    <title>HWSensors v5.3.870</title>
+    <options customize="always" allow-external-scripts="false"/>
+    <!--+==========================+
+        |       Presentation       |
+        +==========================+-->
+    <license file="license.txt"/>
+    <readme file="readme.txt"/>
+    <!--+==========================+
+        |         Installer        |
+        +==========================+-->
+    <script>
+
+        function hackintoshCheckScript()
+        {
+            var obj = system.ioregistry.matchingClass("FakeSMC");
+
+            if (obj) {
+                system.log('hackintoshCheckScript: Found FakeSMC');
+                return true;
+            }
+
+            system.log('hackintoshCheckScript: Running on Mac');
+
+            return false;
+        }
+    </script>
+    <choices-outline>
+        <line choice="hwmonitor"/>
+        <line choice="fakesmc">
+            <line choice="acpisensors"/>
+            <line choice="cpusensors"/>
+            <line choice="gpusensors"/>
+            <line choice="lpcsensors"/>
+        </line>
+    </choices-outline>
+
+    <choice
+        id="hwmonitor"
+        title="HWMonitor"
+        description="HWMONITOR_DESCRIPTION">
+        <pkg-ref id="org.hwsensors.pkg.HWMonitor"/>
+    </choice>
+
+    <choice
+        id="fakesmc"
+        title="FakeSMC"
+        description="FAKESMC_DESCRIPTION"
+        enabled="hackintoshCheckScript()"
+        start_selected="hackintoshCheckScript()">
+        <pkg-ref id="org.hwsensors.pkg.FakeSMC"/>
+    </choice>
+
+    <choice
+        id="acpisensors"
+        title="ACPISensors"
+        description="ACPISENSORS_DESCRIPTION"
+        enabled="choices['fakesmc'].enabled"
+        start_selected="choices['fakesmc'].selected">
+        <pkg-ref id="org.hwsensors.pkg.ACPISensors"/>
+    </choice>
+
+    <choice
+        id="cpusensors"
+        title="CPUSensors"
+        description="CPUSENSORS_DESCRIPTION"
+        enabled="choices['fakesmc'].enabled"
+        start_selected="choices['fakesmc'].selected">
+        <pkg-ref id="org.hwsensors.pkg.CPUSensors"/>
+    </choice>
+
+    <choice
+        id="gpusensors"
+        title="GPUSensors"
+        description="GPUSENSORS_DESCRIPTION"
+        enabled="choices['fakesmc'].enabled"
+        start_selected="choices['fakesmc'].selected">
+        <pkg-ref id="org.hwsensors.pkg.GPUSensors"/>
+    </choice>
+
+    <choice
+        id="lpcsensors"
+        title="LPCSensors"
+        description="LPCSENSORS_DESCRIPTION"
+        enabled="choices['fakesmc'].enabled"
+        start_selected="choices['fakesmc'].selected">
+        <pkg-ref id="org.hwsensors.pkg.LPCSensors"/>
+    </choice>
+
+    <domains enable_anywhere="true"/>
+
+    <!--+==========================+
+        |    Package References    |
+        +==========================+-->
+  <pkg-ref id="org.hwsensors.pkg.HWMonitor" version="5.3.870" installKBytes="1978">#HWMonitor.pkg</pkg-ref>
+  <pkg-ref id="org.hwsensors.pkg.FakeSMC" version="5.3.870" installKBytes="32"  onConclusion="RequireRestart">#FakeSMC.pkg</pkg-ref>
+  <pkg-ref id="org.hwsensors.pkg.ACPISensors" version="5.3.870" installKBytes="18"  onConclusion="RequireRestart">#ACPISensors.pkg</pkg-ref>
+  <pkg-ref id="org.hwsensors.pkg.CPUSensors" version="5.3.870" installKBytes="15"  onConclusion="RequireRestart">#CPUSensors.pkg</pkg-ref>
+  <pkg-ref id="org.hwsensors.pkg.GPUSensors" version="5.3.870" installKBytes="49"  onConclusion="RequireRestart">#GPUSensors.pkg</pkg-ref>
+  <pkg-ref id="org.hwsensors.pkg.LPCSensors" version="5.3.870" installKBytes="31"  onConclusion="RequireRestart">#LPCSensors.pkg</pkg-ref>
+</installer-gui-script>

@@ -6,22 +6,4 @@ revision.txt
 Appcast/*
 Binaries/*
 Sparkle/Binaries/*
-Sparkle/Binaries/BinaryDelta
 
-Sparkle/Binaries/Sparkle Test App.app/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/Info.plist
-
-Sparkle/Binaries/Sparkle Test App.app/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/finish_installation.app/Contents/MacOS/finish_installation
-
-Sparkle/Binaries/Sparkle Test App.app/Contents/Frameworks/Sparkle.framework/Versions/A/Sparkle
-
-Sparkle/Binaries/Sparkle Test App.app/Contents/MacOS/Sparkle Test App
-
-Sparkle/Binaries/Sparkle.framework/Versions/A/Resources/Info.plist
-
-Sparkle/Binaries/Sparkle.framework/Versions/A/Resources/finish_installation.app/Contents/MacOS/finish_installation
-
-Sparkle/Binaries/Sparkle.framework/Versions/A/Sparkle
-
-Sparkle/Binaries/finish_installation.app/Contents/MacOS/finish_installation
-
-Sparkle/Binaries/BinaryDelta

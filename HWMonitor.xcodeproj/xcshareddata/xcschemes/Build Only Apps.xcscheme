@@ -17,7 +17,7 @@
                BlueprintIdentifier = "7E2ACD8B1791B4510061C677"
                BuildableName = "Pre-Build"
                BlueprintName = "Pre-Build"
-               ReferencedContainer = "container:Versioning.xcodeproj">
+               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,10 +28,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E2ACD991791B5DA0061C677"
-               BuildableName = "Tag Current Version"
-               BlueprintName = "Tag Current Version"
-               ReferencedContainer = "container:Versioning.xcodeproj">
+               BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+               BuildableName = "HWMonitor.app"
+               BlueprintName = "HWMonitor"
+               ReferencedContainer = "container:HWMonitor.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -43,6 +43,15 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+            BuildableName = "HWMonitor.app"
+            BlueprintName = "HWMonitor"
+            ReferencedContainer = "container:HWMonitor.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -53,6 +62,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+            BuildableName = "HWMonitor.app"
+            BlueprintName = "HWMonitor"
+            ReferencedContainer = "container:HWMonitor.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -62,6 +80,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+            BuildableName = "HWMonitor.app"
+            BlueprintName = "HWMonitor"
+            ReferencedContainer = "container:HWMonitor.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

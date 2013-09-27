@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Versioning.xcodeproj">
+      location = "group:Versioning &amp; Destribution.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:HWSensors.xcodeproj">

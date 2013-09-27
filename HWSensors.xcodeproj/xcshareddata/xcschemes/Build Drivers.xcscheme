@@ -17,7 +17,7 @@
                BlueprintIdentifier = "7E2ACD8B1791B4510061C677"
                BuildableName = "Pre-Build"
                BlueprintName = "Pre-Build"
-               ReferencedContainer = "container:Versioning.xcodeproj">
+               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -88,62 +88,6 @@
                BuildableName = "FakeSMC.kext"
                BlueprintName = "FakeSMC"
                ReferencedContainer = "container:HWSensors.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7EA248E716D8E93A002231B2"
-               BuildableName = "HWMonitor.app"
-               BlueprintName = "HWMonitor"
-               ReferencedContainer = "container:HWMonitor.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E43CE05179742D3001E3636"
-               BuildableName = "Sign Apps"
-               BlueprintName = "Sign Apps"
-               ReferencedContainer = "container:Versioning.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E2ACD911791B54B0061C677"
-               BuildableName = "Build Installer"
-               BlueprintName = "Build Installer"
-               ReferencedContainer = "container:Versioning.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E43CE09179742DB001E3636"
-               BuildableName = "Sign Installer"
-               BlueprintName = "Sign Installer"
-               ReferencedContainer = "container:Versioning.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

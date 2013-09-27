@@ -6,11 +6,12 @@
 #  Created by Kozlek on 18/07/13.
 #
 
+find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz" -delete
+find ./Binaries/ -maxdepth 1 -type f -name "*.zip" -delete
+find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz.dsa" -delete
+
 if [ "$1" == "clean" ]
 then
-    find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz" -delete
-    find ./Binaries/ -maxdepth 1 -type f -name "*.zip" -delete
-    find ./Binaries/ -maxdepth 1 -type f -name "*.dsa" -delete
     exit 0
 fi
 
@@ -18,10 +19,11 @@ project_name=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "./version.plis
 project_version=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "./version.plist")
 last_revision=$(<"./revision.txt")
 full_version=${project_version}'.'${last_revision}
-pkg_filename=HWMonitor.pkg
 zip_filename=${project_name}.${full_version}.tar.gz
 
-tar -zcvf ./Binaries/${zip_filename} ./Binaries/${pkg_filename}
+cp ./Binaries/HWSensors.${full_version}.pkg ./Binaries/HWMonitor.pkg
+tar -zcvf ./Binaries/${zip_filename} ./Binaries/HWMonitor.pkg
+rm ./Binaries/HWMonitor.pkg
 
 dsa_signature=$(openssl dgst -sha1 -binary < ./Binaries/${zip_filename} | openssl dgst -dss1 -sign ./Appcast/dsa_priv.pem | openssl enc -base64)
 

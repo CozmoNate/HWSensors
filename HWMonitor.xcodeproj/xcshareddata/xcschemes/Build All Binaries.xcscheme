@@ -17,7 +17,7 @@
                BlueprintIdentifier = "7E2ACD8B1791B4510061C677"
                BuildableName = "Pre-Build"
                BlueprintName = "Pre-Build"
-               ReferencedContainer = "container:Versioning.xcodeproj">
+               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -90,6 +90,48 @@
                ReferencedContainer = "container:HWSensors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
+               BuildableName = "Sparkle.framework"
+               BlueprintName = "Sparkle"
+               ReferencedContainer = "container:Sparkle/Sparkle.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+               BuildableName = "HWMonitor.app"
+               BlueprintName = "HWMonitor"
+               ReferencedContainer = "container:HWMonitor.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7E9060E31708951800BF5BBF"
+               BuildableName = "smcutil"
+               BlueprintName = "smcutil"
+               ReferencedContainer = "container:HWMonitor.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -99,6 +141,15 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+            BuildableName = "HWMonitor.app"
+            BlueprintName = "HWMonitor"
+            ReferencedContainer = "container:HWMonitor.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -109,6 +160,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+            BuildableName = "HWMonitor.app"
+            BlueprintName = "HWMonitor"
+            ReferencedContainer = "container:HWMonitor.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -118,6 +178,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7EA248E716D8E93A002231B2"
+            BuildableName = "HWMonitor.app"
+            BlueprintName = "HWMonitor"
+            ReferencedContainer = "container:HWMonitor.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

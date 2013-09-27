@@ -17,7 +17,7 @@
                BlueprintIdentifier = "7E2ACD8B1791B4510061C677"
                BuildableName = "Pre-Build"
                BlueprintName = "Pre-Build"
-               ReferencedContainer = "container:Versioning.xcodeproj">
+               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,10 +28,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7EBA20D617ED7D1C008E54C5"
-               BuildableName = "Generate Appcast"
-               BlueprintName = "Generate Appcast"
-               ReferencedContainer = "container:Versioning.xcodeproj">
+               BlueprintIdentifier = "7E2ACD911791B54B0061C677"
+               BuildableName = "Build Installer"
+               BlueprintName = "Build Installer"
+               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

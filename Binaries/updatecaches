@@ -1,8 +1,0 @@
-#!/bin/sh
-
-# update caches
-
-rm -R ${targetVolume}/System/Library/Caches/
-kextcache -update-volume ${targetVolume} -f
-
-exit 0
