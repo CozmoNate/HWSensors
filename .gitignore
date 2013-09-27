@@ -6,4 +6,6 @@ revision.txt
 Appcast/*
 Binaries/*
 Sparkle/Binaries/*
+Package/Distribution.xml
+Package/*.pkg
 
