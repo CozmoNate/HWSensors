@@ -8,7 +8,9 @@
 
 if [ "$1" == "clean" ]
 then
+    find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz" -delete
     find ./Binaries/ -maxdepth 1 -type f -name "*.zip" -delete
+    find ./Binaries/ -maxdepth 1 -type f -name "*.dsa" -delete
     exit 0
 fi
 
@@ -17,11 +19,13 @@ project_version=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "./versio
 last_revision=$(<"./revision.txt")
 full_version=${project_version}'.'${last_revision}
 pkg_filename=HWMonitor.pkg
-zip_filename=${project_name}.${full_version}.zip
+zip_filename=${project_name}.${full_version}.tar.gz
 
-zip -r -X ./Binaries/${zip_filename} ./Binaries/${pkg_filename}
+tar -zcvf ./Binaries/${zip_filename} ./Binaries/${pkg_filename}
 
 dsa_signature=$(openssl dgst -sha1 -binary < ./Binaries/${zip_filename} | openssl dgst -dss1 -sign ./Appcast/dsa_priv.pem | openssl enc -base64)
+
+echo ${dsa_signature} > ./Binaries/${zip_filename}.dsa
 
 # appcast.xml
 echo '<?xml version="1.0" encoding="utf-8"?>' > ./Appcast/appcast.xml
