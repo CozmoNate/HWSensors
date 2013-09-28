@@ -15,32 +15,28 @@
     NSMutableArray *devices = [[NSMutableArray alloc] init];
     BatteryDeviceType type;
     int count = 0;
-    
+
     do {
         CFDictionaryRef matching;
         
         switch (count++) {
             case 0:
+                //                matching = IOServiceMatching("AppleSmartBattery");
                 matching = IOServiceMatching("IOPMPowerSource");
                 type = kInternalBatteryType;
                 break;
-                
+
             case 1:
-                matching = IOServiceMatching("AppleSmartBattery");
-                type = kInternalBatteryType;
-                break;
-                
-            case 2:
                 matching = IOServiceMatching("BNBMouseDevice");
                 type = kBluetoothDeviceTypeMouse;
                 break;
                 
-            case 3:
+            case 2:
                 matching = IOServiceMatching("AppleBluetoothHIDKeyboard");
                 type = kBluetoothDeviceTypeKeyboard;
                 break;
                 
-            case 4:
+            case 3:
                 matching = IOServiceMatching("BNBTrackpadDevice");
                 type = kBluetoothDeviceTypeTrackpad;
                 break;

@@ -104,6 +104,15 @@
 
 - (void)setButtonEnabled:(BOOL)enabled
 {
+
+    if (enabled) {
+        [self.window setLevel:NSFloatingWindowLevel];
+    }
+    else {
+        [self.window setLevel:NSNormalWindowLevel];
+        [self.window orderBack:self];
+    }
+
 	[actionButton setEnabled:enabled];
 }
 

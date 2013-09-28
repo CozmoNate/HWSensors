@@ -10,8 +10,6 @@
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E0648F116DF3B7D00ACB851 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7E0648EF16DF3B7D00ACB851 /* README.md */; };
 		7E10343616EFAE490089DE7B /* GenericBatteryDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */; };
-		7E1458C817E2744000694A4A /* 27-circle-o.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C417E2744000694A4A /* 27-circle-o.png */; };
-		7E1458C917E2744000694A4A /* 27-circle-o@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C517E2744000694A4A /* 27-circle-o@2x.png */; };
 		7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C617E2744000694A4A /* 37-circle-x.png */; };
 		7E1458CB17E2744000694A4A /* 37-circle-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C717E2744000694A4A /* 37-circle-x@2x.png */; };
 		7E16893616EA106D00BBF6FC /* ArrowlessScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16893516EA106D00BBF6FC /* ArrowlessScroller.m */; };
@@ -138,8 +136,6 @@
 		7E10343416EFAE490089DE7B /* GenericBatteryDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericBatteryDevice.h; sourceTree = "<group>"; };
 		7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericBatteryDevice.m; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
-		7E1458C417E2744000694A4A /* 27-circle-o.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "27-circle-o.png"; sourceTree = "<group>"; };
-		7E1458C517E2744000694A4A /* 27-circle-o@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "27-circle-o@2x.png"; sourceTree = "<group>"; };
 		7E1458C617E2744000694A4A /* 37-circle-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x.png"; sourceTree = "<group>"; };
 		7E1458C717E2744000694A4A /* 37-circle-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x@2x.png"; sourceTree = "<group>"; };
 		7E16893416EA106D00BBF6FC /* ArrowlessScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowlessScroller.h; sourceTree = "<group>"; };
@@ -470,8 +466,6 @@
 				7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */,
 				7EED6D7B1734F9CF00248870 /* 19-gear.png */,
 				7EED6D7C1734F9CF00248870 /* 19-gear@2x.png */,
-				7E1458C417E2744000694A4A /* 27-circle-o.png */,
-				7E1458C517E2744000694A4A /* 27-circle-o@2x.png */,
 				7E1458C617E2744000694A4A /* 37-circle-x.png */,
 				7E1458C717E2744000694A4A /* 37-circle-x@2x.png */,
 				7E683B0117E37916001A6EF6 /* github.png */,
@@ -770,8 +764,6 @@
 				7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */,
 				7EED6D7E1734F9CF00248870 /* 19-gear@2x.png in Resources */,
 				7EDEA333173E3B94003ADE86 /* hwsensors.icns in Resources */,
-				7E1458C817E2744000694A4A /* 27-circle-o.png in Resources */,
-				7E1458C917E2744000694A4A /* 27-circle-o@2x.png in Resources */,
 				7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */,
 				7E1458CB17E2744000694A4A /* 37-circle-x@2x.png in Resources */,
 				7E683AFC17E3761D001A6EF6 /* scale.png in Resources */,

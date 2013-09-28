@@ -50,10 +50,10 @@
                                     <action selector="detachFromMenuBar:" target="3" id="1445"/>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1727" id="2641">
                                         <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
@@ -474,10 +474,10 @@
                     <connections>
                         <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" id="2573">
                             <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
@@ -500,10 +500,10 @@
                         <action selector="orderOut:" target="3" id="1151"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2507">
                             <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
@@ -517,45 +517,9 @@
                         </binding>
                     </connections>
                 </button>
-                <button toolTip="Attach to Menu Bar" translatesAutoresizingMaskIntoConstraints="NO" id="1812" userLabel="Attach Button" customClass="FadingButton">
-                    <rect key="frame" x="29" y="9" width="15" height="15"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="15" id="2794"/>
-                    </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="27-circle-o" imagePosition="only" alignment="left" alternateImage="27-circle-o" imageScaling="proportionallyUpOrDown" inset="2" id="1815">
-                        <behavior key="behavior" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                        <string key="keyEquivalent">g</string>
-                        <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="attachToMenuBar:" target="3" id="1826"/>
-                        <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2298">
-                            <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
-                                <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
-                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                            </dictionary>
-                        </binding>
-                        <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="2298" id="2310">
-                            <dictionary key="options">
-                                <integer key="NSNotApplicablePlaceholder" value="1"/>
-                                <integer key="NSNoSelectionPlaceholder" value="1"/>
-                                <integer key="NSMultipleValuesPlaceholder" value="1"/>
-                                <integer key="NSNullPlaceholder" value="1"/>
-                            </dictionary>
-                        </binding>
-                    </connections>
-                </button>
                 <button toolTip="Preferences" translatesAutoresizingMaskIntoConstraints="NO" id="25" userLabel="Preferences Button" customClass="FadingButton">
                     <rect key="frame" x="200" y="9" width="15" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="15" id="2624"/>
-                    </constraints>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="19-gear" imagePosition="only" alignment="left" alternateImage="19-gear" imageScaling="proportionallyUpOrDown" inset="2" id="45">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -589,24 +553,22 @@
             </subviews>
             <constraints>
                 <constraint firstItem="2559" firstAttribute="baseline" secondItem="27" secondAttribute="baseline" id="2568"/>
-                <constraint firstItem="25" firstAttribute="bottom" secondItem="26" secondAttribute="bottom" id="2606"/>
-                <constraint firstItem="25" firstAttribute="top" secondItem="26" secondAttribute="top" id="2608"/>
-                <constraint firstAttribute="trailing" secondItem="25" secondAttribute="trailing" constant="10" id="2615"/>
                 <constraint firstAttribute="trailing" secondItem="26" secondAttribute="trailing" constant="30" id="2629"/>
                 <constraint firstItem="1138" firstAttribute="leading" secondItem="2559" secondAttribute="leading" id="2733"/>
                 <constraint firstItem="1138" firstAttribute="leading" secondItem="14" secondAttribute="leading" constant="10" id="2777"/>
                 <constraint firstItem="1138" firstAttribute="centerY" secondItem="14" secondAttribute="centerY" id="2806"/>
-                <constraint firstItem="1812" firstAttribute="top" secondItem="26" secondAttribute="top" id="2814"/>
-                <constraint firstItem="1812" firstAttribute="bottom" secondItem="26" secondAttribute="bottom" id="2815"/>
-                <constraint firstItem="1812" firstAttribute="bottom" secondItem="1138" secondAttribute="bottom" id="2818"/>
-                <constraint firstItem="1812" firstAttribute="top" secondItem="1138" secondAttribute="top" id="2819"/>
-                <constraint firstItem="1812" firstAttribute="leading" secondItem="14" secondAttribute="leading" constant="29" id="2820"/>
                 <constraint firstItem="1138" firstAttribute="centerY" secondItem="2559" secondAttribute="centerY" id="2821"/>
                 <constraint firstItem="2648" firstAttribute="bottom" secondItem="14" secondAttribute="bottom" id="2822"/>
                 <constraint firstItem="2648" firstAttribute="leading" secondItem="14" secondAttribute="leading" id="2823"/>
                 <constraint firstItem="2648" firstAttribute="centerX" secondItem="27" secondAttribute="centerX" id="2824"/>
                 <constraint firstItem="2648" firstAttribute="top" secondItem="14" secondAttribute="top" id="2825"/>
                 <constraint firstItem="2648" firstAttribute="trailing" secondItem="14" secondAttribute="trailing" id="2826"/>
+                <constraint firstItem="25" firstAttribute="top" secondItem="26" secondAttribute="top" id="GPf-ZC-t36"/>
+                <constraint firstAttribute="trailing" secondItem="25" secondAttribute="trailing" constant="10" id="HFh-Mr-xwC"/>
+                <constraint firstItem="25" firstAttribute="bottom" secondItem="26" secondAttribute="bottom" id="HaP-KR-2Fl"/>
+                <constraint firstItem="25" firstAttribute="leading" secondItem="26" secondAttribute="trailing" constant="5" id="b2k-8w-08Q"/>
+                <constraint firstItem="25" firstAttribute="top" secondItem="1138" secondAttribute="top" id="i9k-Yl-qT9"/>
+                <constraint firstItem="25" firstAttribute="bottom" secondItem="1138" secondAttribute="bottom" id="w3x-qY-5Dn"/>
             </constraints>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="1200"/>
@@ -614,7 +576,6 @@
     <resources>
         <image name="16-line-chart" width="15" height="15"/>
         <image name="19-gear" width="15" height="15"/>
-        <image name="27-circle-o" width="15" height="15"/>
         <image name="37-circle-x" width="15" height="15"/>
         <image name="NSActionTemplate" width="15" height="15"/>
     </resources>
