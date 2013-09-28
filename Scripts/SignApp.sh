@@ -13,7 +13,6 @@ then
 fi
 
 /usr/libexec/PlistBuddy -c "Add :SUFeedURL string http://hwsensors.com/appcast/appcast.xml" "./Binaries/HWMonitor.app/Contents/info.plist"
-/usr/libexec/PlistBuddy -c "Add :SUPublicDSAKeyFile string dsa_pub.pem" "./Binaries/HWMonitor.app/Contents/info.plist"
 
 # This for testing updates
 #/usr/libexec/PlistBuddy -c "Set :CFBundleVersion 839" "./Binaries/HWMonitor.app/Contents/info.plist"
