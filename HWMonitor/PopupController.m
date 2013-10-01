@@ -305,7 +305,10 @@
                     break;
                     
                 case kHWSensorLevelExceeded:
-                    [[cell textField] setTextColor:[NSColor redColor]];
+                    [[cell textField] performSelectorOnMainThread:@selector(setTextColor:)
+                                                        withObject:[NSColor redColor]
+                                                     waitUntilDone:YES];
+
                 case kHWSensorLevelHigh:
                     valueColor = [NSColor redColor];
                     break;
@@ -315,14 +318,21 @@
                     break;
             }
             
-            [[cell valueField] takeStringValueFrom:item.sensor];
-            
+            [[cell valueField] performSelectorOnMainThread:@selector(takeStringValueFrom:)
+                                               withObject:item.sensor
+                                            waitUntilDone:YES];
+
             if (![[[cell valueField] textColor] isEqualTo:valueColor]) {
-                [[cell valueField] setTextColor:valueColor];
+                [[cell valueField] performSelectorOnMainThread:@selector(setTextColor:)
+                                                    withObject:valueColor
+                                                 waitUntilDone:YES];
             }
             
             if ([item.sensor genericDevice] && [[item.sensor genericDevice] isKindOfClass:[GenericBatteryDevice class]]) {
-                [cell setGaugeLevel:[item.sensor intValue]];
+                //[cell setGaugeLevel:[item.sensor intValue]];
+                [cell performSelectorOnMainThread:@selector(setGaugeLevel:)
+                                                    withObject:[NSNumber numberWithInteger:[item.sensor intValue]]
+                                                 waitUntilDone:YES];
             }
         }
     }
@@ -540,7 +550,7 @@
                 [[cell subtitleField] setHidden:YES];
             }
             
-            [cell setGaugeLevel:[sensor intValue]];
+            [cell setGaugeLevel:[NSNumber numberWithInteger:[sensor intValue]]];
         }
         else {
             [[cell subtitleField] setHidden:YES];

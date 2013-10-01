@@ -49,7 +49,7 @@
     NSDate *_smcSensorsLastUpdated;
     NSDate *_smartSensorsLastUpdated;
     BOOL _scheduleRebuildSensors;
-    
+
     NSArray *_colorThemes;
 }
 

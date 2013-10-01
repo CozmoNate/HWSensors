@@ -104,7 +104,7 @@
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(updateLoop)]];
     [invocation setTarget:self];
     [invocation setSelector:@selector(updateLoop)];
-    
+
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.05 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
 //    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"SUHasLaunchedBefore"] || [[NSUserDefaults standardUserDefaults] integerForKey:@"SUScheduledCheckInterval"] != 3600) {
@@ -218,23 +218,23 @@
     return [_ordering indexOfObject:key];
 }
 
-- (void)updateSmartSensors;
-{
-    NSArray *sensors = [_engine updateSmartSensors];
-    [self updateValuesForSensors:sensors];
-}
-
-- (void)updateSmcSensors
-{
-    NSArray *sensors = [_engine updateSensors];
-    [self updateValuesForSensors:sensors];
-}
-
-- (void)updateFavoritesSensors
-{
-    NSArray *sensors = [_engine updateSensorsList:_favorites];
-    [self updateValuesForSensors:sensors];
-}
+//- (void)updateSmartSensors;
+//{
+//    NSArray *sensors = [_engine updateSmartSensors];
+//    [self updateValuesForSensors:sensors];
+//}
+//
+//- (void)updateSmcSensors
+//{
+//    NSArray *sensors = [_engine updateSensors];
+//    [self updateValuesForSensors:sensors];
+//}
+//
+//- (void)updateFavoritesSensors
+//{
+//    NSArray *sensors = [_engine updateSensorsList:_favorites];
+//    [self updateValuesForSensors:sensors];
+//}
 
 - (void)updateValuesForSensors:(NSArray*)sensors
 {
@@ -243,7 +243,9 @@
             id cell = [_sensorsTableView viewAtColumn:0 row:[self getIndexOfItem:[sensor name]] makeIfNecessary:NO];
             
             if (cell && [cell isKindOfClass:[PrefsSensorCell class]]) {
-                [[cell valueField] takeStringValueFrom:sensor];
+                [[cell valueField] performSelectorOnMainThread:@selector(takeStringValueFrom:)
+                                                    withObject:sensor
+                                                 waitUntilDone:YES];
             }
         }
         
@@ -251,7 +253,9 @@
             id cell = [_favoritesTableView viewAtColumn:0 row:idx + 1 makeIfNecessary:NO];
             
             if (cell && [cell isKindOfClass:[PrefsSensorCell class]]) {
-                [[cell valueField] takeStringValueFrom:obj];
+                [[cell valueField] performSelectorOnMainThread:@selector(takeStringValueFrom:)
+                                                    withObject:obj
+                                                 waitUntilDone:YES];
             }
         }];
     }
@@ -267,27 +271,43 @@
         _scheduleRebuildSensors = FALSE;
     }
     else {
+
         NSDate *now = [NSDate dateWithTimeIntervalSinceNow:0.0];
         
         if ([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || [_graphsController backgroundMonitoring]) {
             if ([_smcSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
-                //[NSThread detachNewThreadSelector:@selector(updateSmcSensors) toTarget:self withObject:nil];
-                [self performSelectorInBackground:@selector(updateSmcSensors) withObject:nil];
+
                 _smcSensorsLastUpdated = now;
+
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    NSArray *sensors = [_engine updateSensors];
+                    [self updateValuesForSensors:sensors];
+                }];
+
                 return TRUE;
             }
         }
         else if ([_favorites count] && [_favoritesSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
-            //[NSThread detachNewThreadSelector:@selector(updateFavoritesSensors) toTarget:self withObject:nil];
-            [self performSelectorInBackground:@selector(updateFavoritesSensors) withObject:nil];
+
             _favoritesSensorsLastUpdated = now;
+
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSArray *sensors = [_engine updateSensorsList:_favorites];
+                [self updateValuesForSensors:sensors];
+            }];
+
             return TRUE;
         }
     
         if ([_smartSensorsLastUpdated timeIntervalSinceNow] < (- _smartSensorsUpdateInterval)) {
-            //[NSThread detachNewThreadSelector:@selector(updateSmartSensors) toTarget:self withObject:nil];
-            [self performSelectorInBackground:@selector(updateSmartSensors) withObject:nil];
+
             _smartSensorsLastUpdated = now;
+
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSArray *sensors = [_engine updateSmartSensors];
+                [self updateValuesForSensors:sensors];
+            }];
+
             return TRUE;
         }
     }
