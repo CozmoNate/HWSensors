@@ -43,7 +43,7 @@
     
     if (me) {
         [me setBundle:bundle];
-        [me rebuildSensorsList];
+        [me rebuildInternalSensorsList];
     }
     
     return me;
@@ -114,7 +114,7 @@
     return [NSData dataWithBytes:&result length:sizeof(result)];
 }
 
-- (HWMonitorSensor*)addSensorWithKey:(NSString*)key title:(NSString*)title group:(NSUInteger)group
+- (HWMonitorSensor*)addSensorWithKey:(NSString*)key andTitle:(NSString*)title andGroup:(NSUInteger)group
 {
     HWMonitorSensor *sensor = nil;
     NSString *type = nil;
@@ -237,7 +237,7 @@
     }
     
     if (value) {
-        HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%lx", [disk serialNumber], group] title:_useBsdNames ? [disk bsdName] : [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] group:group];
+        HWMonitorSensor *sensor = [self addSensorWithKey:[NSString stringWithFormat:@"%@%lx", [disk serialNumber], group] andTitle:_useBsdNames ? [disk bsdName] : [[disk productName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] andGroup:group];
         
         [sensor setData:value];
         [sensor setGenericDevice:disk];
@@ -279,7 +279,7 @@
             [device setSerialNumber:device.productName];
         }
         
-        sensor = [self addSensorWithKey:[device serialNumber] title:GetLocalizedString(title) group:group];
+        sensor = [self addSensorWithKey:[device serialNumber] andTitle:GetLocalizedString(title) andGroup:group];
         
         [sensor setGenericDevice:device];
         [sensor setData:[device getBatteryLevel]];
@@ -394,7 +394,7 @@
     
 }
 
-- (void)addSensorsFromGroup:(HWSensorGroup)group withKeysList:(NSArray*)keys
+- (void)addSensorsWithGroup:(HWSensorGroup)group andKeysInArray:(NSArray*)keys
 {
     NSString *prefix = nil;
     
@@ -451,19 +451,19 @@
                     NSString *formattedKey = [NSString stringWithFormat:keyFormat, start + index];
 
                     if ([keys indexOfObject:formattedKey] != NSNotFound) {
-                        [self addSensorWithKey:formattedKey title:[NSString stringWithFormat:GetLocalizedString(title), shift + index] group:group];
+                        [self addSensorWithKey:formattedKey andTitle:[NSString stringWithFormat:GetLocalizedString(title), shift + index] andGroup:group];
                     }
                 }
             }
             else if ([keys indexOfObject:key] != NSNotFound) {
-                [self addSensorWithKey:key title:GetLocalizedString(title) group:group];
+                [self addSensorWithKey:key andTitle:GetLocalizedString(title) andGroup:group];
             }
         }
         
     }];
 }
 
-- (void)rebuildSensorsList
+- (void)rebuildInternalSensorsList
 {
     [_sensorsLock lock];
     
@@ -507,7 +507,7 @@
 //        }];
         
         //Temperatures
-        [self addSensorsFromGroup:kHWSensorGroupTemperature withKeysList:list];
+        [self addSensorsWithGroup:kHWSensorGroupTemperature andKeysInArray:list];
         
         if ((_smartDrives = [ATAGenericDrive discoverDrives])) {
             for (ATAGenericDrive * drive in _smartDrives) {
@@ -524,10 +524,10 @@
         }
         
         // Multipliers
-        [self addSensorsFromGroup:kHWSensorGroupMultiplier withKeysList:list];
+        [self addSensorsWithGroup:kHWSensorGroupMultiplier andKeysInArray:list];
         
         // Frequency
-        [self addSensorsFromGroup:kHWSensorGroupFrequency withKeysList:list];
+        [self addSensorsWithGroup:kHWSensorGroupFrequency andKeysInArray:list];
         
         // Fans
         for (int i=0; i<0xf; i++) {
@@ -544,7 +544,7 @@
                         caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
                     
                     if (![caption hasPrefix:@"GPU "])
-                        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(caption) group:kHWSensorGroupTachometer];
+                        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] andTitle:GetLocalizedString(caption) andGroup:kHWSensorGroupTachometer];
                 }
                 else if ([type isEqualToString:@TYPE_FDS]) {
                     FanTypeDescStruct *fds = (FanTypeDescStruct*)[[HWMonitorEngine getValueDataFromSmcKeyInfo:info] bytes];
@@ -562,7 +562,7 @@
                                 break;
                                 
                             default:
-                                [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:GetLocalizedString(caption) group:kHWSensorGroupTachometer];
+                                [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED,i] andTitle:GetLocalizedString(caption) andGroup:kHWSensorGroupTachometer];
                                 break;
                         }
                     }
@@ -584,7 +584,7 @@
                     if ([caption hasPrefix:@"GPU "]) {
                         UInt8 cardIndex = [[caption substringFromIndex:4] intValue] - 1;
                         NSString *title = cardIndex == 0 ? GetLocalizedString(@"GPU Fan") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X Fan"), cardIndex + 1];
-                        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] title:title group:kHWSensorGroupTachometer];
+                        [self addSensorWithKey:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] andTitle:title andGroup:kHWSensorGroupTachometer];
                     }
                 }
                 else if ([type isEqualToString:@TYPE_FDS]) {
@@ -593,13 +593,13 @@
                     switch (fds->type) {
                         case GPU_FAN_RPM: {
                             NSString *title = fds->ui8Zone == 0 ? GetLocalizedString(@"GPU Fan") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X Fan"), fds->ui8Zone + 1];
-                            [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] title:title group:kHWSensorGroupTachometer];
+                            [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] andTitle:title andGroup:kHWSensorGroupTachometer];
                             break;
                         }
                             
                         case GPU_FAN_PWM_CYCLE: {
                             NSString *title = fds->ui8Zone == 0 ? GetLocalizedString(@"GPU PWM") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X PWM"), fds->ui8Zone + 1];
-                            [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] title:title group:kHWSensorGroupPWM];
+                            [self addSensorWithKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_SPEED, i] andTitle:title andGroup:kHWSensorGroupPWM];
                             break;
                         }
                     }
@@ -608,13 +608,13 @@
         }
         
         // Voltages
-        [self addSensorsFromGroup:kHWSensorGroupVoltage withKeysList:list];
+        [self addSensorsWithGroup:kHWSensorGroupVoltage andKeysInArray:list];
         
         // Currents
-        [self addSensorsFromGroup:kHWSensorGroupCurrent withKeysList:list];
+        [self addSensorsWithGroup:kHWSensorGroupCurrent andKeysInArray:list];
         
         // Powers
-        [self addSensorsFromGroup:kHWSensorGroupPower withKeysList:list];
+        [self addSensorsWithGroup:kHWSensorGroupPower andKeysInArray:list];
         
         // Batteries
         if ((_bluetoothDevices = [GenericBatteryDevice discoverDevices])) {
@@ -714,7 +714,7 @@
     return updated;
 }
 
--(NSArray*)updateSensorsList:(NSArray *)sensors
+-(NSArray*)updateSensorsInArray:(NSArray *)sensors
 {
     if (!sensors) return nil; // [self updateSmcSensors];
     

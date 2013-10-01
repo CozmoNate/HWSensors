@@ -236,7 +236,7 @@
 //    [self updateValuesForSensors:sensors];
 //}
 
-- (void)updateValuesForSensors:(NSArray*)sensors
+- (void)updateValuesForSensorsInList:(NSArray*)sensors
 {
     if ([self.window isVisible]) {
         for (HWMonitorSensor *sensor in sensors) {
@@ -281,7 +281,7 @@
 
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     NSArray *sensors = [_engine updateSensors];
-                    [self updateValuesForSensors:sensors];
+                    [self updateValuesForSensorsInList:sensors];
                 }];
 
                 return TRUE;
@@ -292,8 +292,8 @@
             _favoritesSensorsLastUpdated = now;
 
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                NSArray *sensors = [_engine updateSensorsList:_favorites];
-                [self updateValuesForSensors:sensors];
+                NSArray *sensors = [_engine updateSensorsInArray:_favorites];
+                [self updateValuesForSensorsInList:sensors];
             }];
 
             return TRUE;
@@ -305,7 +305,7 @@
 
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSArray *sensors = [_engine updateSmartSensors];
-                [self updateValuesForSensors:sensors];
+                [self updateValuesForSensorsInList:sensors];
             }];
 
             return TRUE;
@@ -378,7 +378,7 @@
     else
         [_groups removeAllObjects];
     
-    [_engine rebuildSensorsList];
+    [_engine rebuildInternalSensorsList];
     
     if ([[_engine sensors] count] > 0) {
         

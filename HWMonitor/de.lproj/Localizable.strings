@@ -181,7 +181,7 @@
 "Thermal Zone %X" = "Thermal-Zone %X";
 
 "CPU Core" = "Prozessor";
-"CPU Core %X" = "Prozessor %X";
+"CPU Core %X" = "CPU Kern %X";
 "CPU Package Multiplier" = "Prozessor-Multiplikator";
 
 "GPU Core" = "Grafikkarte Core-Frequenz";
