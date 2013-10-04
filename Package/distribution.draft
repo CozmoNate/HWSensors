@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<installer-gui-script minSpecVersion="2">
+    <title>DISTRIBUTION_TITLE</title>
+    <options customize="always" allow-external-scripts="false"/>
+
+    <license file="license.txt"/>
+    <readme file="readme.txt"/>
+    <background file="background.tiff" alignment="bottomleft" scaling="proportional"/>
+
+    <script>
+        <![CDATA[
+        function hackintoshCheckScript()
+        {
+            var obj = system.ioregistry.matchingClass("FakeSMC");
+
+            if (obj) {
+                system.log('hackintoshCheckScript: Found FakeSMC');
+                return true;
+            }
+
+            system.log('hackintoshCheckScript: Running on Mac');
+
+            return false;
+        }
+
+        ]]>
+    </script>
+    <choices-outline>
+        <line choice="hwmonitor"/>
+        <line choice="fakesmc">
+            <line choice="acpisensors"/>
+            <line choice="cpusensors"/>
+            <line choice="gpusensors"/>
+            <line choice="lpcsensors"/>
+        </line>
+    </choices-outline>
+
+    <choice
+        id="hwmonitor"
+        title="HWMonitor"
+        description="HWMONITOR_DESCRIPTION"
+        customLocation="Applications/"
+        customLocationAllowAlternateVolumes="true">
+        <pkg-ref id="Package.HWMonitor"/>
+    </choice>
+
+    <choice
+        id="fakesmc"
+        title="FakeSMC"
+        description="FAKESMC_DESCRIPTION"
+        enabled="hackintoshCheckScript()"
+        start_selected="hackintoshCheckScript()"
+        customLocation="System/Library/Extensions/"
+        customLocationAllowAlternateVolumes="false">
+        <pkg-ref id="Package.FakeSMC"/>
+    </choice>
+
+    <choice
+        id="acpisensors"
+        title="ACPISensors"
+        description="ACPISENSORS_DESCRIPTION"
+        enabled="choices['fakesmc'].enabled"
+        start_selected="choices['fakesmc'].selected"
+        customLocation="System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/"
+        customLocationAllowAlternateVolumes="false">
+        <pkg-ref id="Package.ACPISensors"/>
+    </choice>
+
+    <choice
+        id="cpusensors"
+        title="CPUSensors"
+        description="CPUSENSORS_DESCRIPTION"
+        enabled="choices['fakesmc'].enabled"
+        start_selected="choices['fakesmc'].selected"
+        customLocation="System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/"
+        customLocationAllowAlternateVolumes="false">
+        <pkg-ref id="Package.CPUSensors"/>
+    </choice>
+
+    <choice
+        id="gpusensors"
+        title="GPUSensors"
+        description="GPUSENSORS_DESCRIPTION"
+        enabled="choices['fakesmc'].enabled"
+        start_selected="choices['fakesmc'].selected"
+        customLocation="System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/"
+        customLocationAllowAlternateVolumes="false">
+        <pkg-ref id="Package.GPUSensors"/>
+    </choice>
+
+    <choice
+        id="lpcsensors"
+        title="LPCSensors"
+        description="LPCSENSORS_DESCRIPTION"
+        enabled="choices['fakesmc'].enabled"
+        start_selected="choices['fakesmc'].selected"
+        customLocation="System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/"
+        customLocationAllowAlternateVolumes="false">
+        <pkg-ref id="Package.LPCSensors"/>
+    </choice>
+
+    <domains enable_anywhere="true"/>
+
+    <pkg-ref id="Package.HWMonitor">
+        <relocate search-id="Search.HWMonitor">
+            <bundle id="org.hwsensors.HWMonitor"/>
+        </relocate>
+    </pkg-ref>
+
+    <locator>
+        <search id="Search.Applications.HWMonitor" type="component">
+            <bundle CFBundleIdentifier="org.hwsensors.HWMonitor" path="Applications/HWMonitor.app"/>
+        </search>
+        <search id="Search.Applications.Utilities.HWMonitor" type="component">
+            <bundle CFBundleIdentifier="org.hwsensors.HWMonitor" path="Applications/Utilities/HWMonitor.app"/>
+        </search>
+        <search id="Search.HWMonitor" type="script" script="SearchHWMonitorLocations()">
+            <script>
+                <![CDATA[
+                function SearchHWMonitorLocations() {
+                    function PushResultsToArray(results, array) {
+                        for(i = 0; i < results.length; i++)
+                            array.push(results[i]);
+                    }
+                    var paths = new Array();
+                    var results;
+                    results = my.search.results['Search.Applications.HWMonitor'];
+                    if (results) PushResultsToArray(results, paths);
+                    results = my.search.results['Search.Applications.Utilities.HWMonitor'];
+                    if (results) PushResultsToArray(results, paths);
+                    return paths;
+                }
+                ]]>
+            </script>
+        </search>
+    </locator>
+
+    <!-- Package References to be added -->

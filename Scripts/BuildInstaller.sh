@@ -28,58 +28,60 @@ full_version=${project_version}'.'${last_revision}
 
 # Build packages required
 pkgbuild --root ./Binaries/HWMonitor.app \
-    --identifier "org.hwsensors.pkg.HWMonitor" \
+    --identifier "Package.HWMonitor" \
     --version "${full_version}" \
     --install-location "/Applications/HWMonitor.app" \
     ./Package/HWMonitor.pkg
 
 pkgbuild --root ./Binaries/FakeSMC.kext \
-    --identifier "org.hwsensors.pkg.FakeSMC" \
+    --identifier "Package.FakeSMC" \
     --version "${full_version}" \
     --install-location "/System/Library/Extensions/FakeSMC.kext" \
     ./Package/FakeSMC.pkg
 
 pkgbuild --root ./Binaries/ACPISensors.kext \
-    --identifier "org.hwsensors.pkg.ACPISensors" \
+    --identifier "Package.ACPISensors" \
     --version "${full_version}" \
     --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/ACPISensors.kext" \
     ./Package/ACPISensors.pkg
 
 pkgbuild --root ./Binaries/CPUSensors.kext \
-    --identifier "org.hwsensors.pkg.CPUSensors" \
+    --identifier "Package.CPUSensors" \
     --version "${full_version}" \
     --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/CPUSensors.kext" \
     ./Package/CPUSensors.pkg
 
 
 pkgbuild --root ./Binaries/GPUSensors.kext \
-    --identifier "org.hwsensors.pkg.GPUSensors" \
+    --identifier "Package.GPUSensors" \
     --version "${full_version}" \
     --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/GPUSensors.kext" \
     ./Package/GPUSensors.pkg
 
 pkgbuild --root ./Binaries/LPCSensors.kext \
-    --identifier "org.hwsensors.pkg.LPCSensors" \
+    --identifier "Package.LPCSensors" \
     --version "${full_version}" \
     --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/LPCSensors.kext" \
     ./Package/LPCSensors.pkg
 
 
 # Build Distribution
-destribution=$(cat ./Package/distribution_template.xml)
+destribution=$(cat ./Package/distribution.draft)
 
 echo "$destribution" > ./Package/Distribution.xml
 
-echo '  <pkg-ref id="org.hwsensors.pkg.HWMonitor" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/HWMonitor.pkg) / 1000 ))'">#HWMonitor.pkg</pkg-ref>' >> ./Package/Distribution.xml
 
-echo '  <pkg-ref id="org.hwsensors.pkg.FakeSMC" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/FakeSMC.pkg) / 1000))'"  onConclusion="RequireRestart">#FakeSMC.pkg</pkg-ref>' >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.pkg.ACPISensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/ACPISensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#ACPISensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.pkg.CPUSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/CPUSensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#CPUSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.pkg.GPUSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/GPUSensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#GPUSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.pkg.LPCSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/LPCSensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#LPCSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo "  <pkg-ref id=\"Package.HWMonitor\" version=\"${full_version}\" installKBytes=\""$(( $(stat -f %z ./Package/HWMonitor.pkg) / 1000 ))"\">#HWMonitor.pkg</pkg-ref>" >> ./Package/Distribution.xml
+echo '  <pkg-ref id="Package.FakeSMC" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/FakeSMC.pkg) / 1000))'"  onConclusion="RequireRestart">#FakeSMC.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="Package.ACPISensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/ACPISensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#ACPISensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="Package.CPUSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/CPUSensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#CPUSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="Package.GPUSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/GPUSensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#GPUSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="Package.LPCSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/LPCSensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#LPCSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
 
+# Close tag
 echo '</installer-gui-script>' >> ./Package/Distribution.xml
 
+# Change title
 sed -i '' 's/DISTRIBUTION_TITLE/'${project_name}' 'v${full_version}'/g' ./Package/Distribution.xml
 
 productbuild --distribution "./Package/Distribution.xml"  \

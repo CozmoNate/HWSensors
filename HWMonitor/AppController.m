@@ -101,11 +101,7 @@
     
     [self performSelector:@selector(rebuildSensorsList) withObject:nil afterDelay:0.0];
     
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(updateLoop)]];
-    [invocation setTarget:self];
-    [invocation setSelector:@selector(updateLoop)];
 
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:0.05 invocation:invocation repeats:YES] forMode:NSRunLoopCommonModes];
     
 //    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"SUHasLaunchedBefore"] || [[NSUserDefaults standardUserDefaults] integerForKey:@"SUScheduledCheckInterval"] != 3600) {
 //        _sharedUpdater.updateCheckInterval = 3600;
@@ -264,55 +260,38 @@
     [_graphsController captureDataToHistoryNow];
 }
 
-- (BOOL)updateLoop
+- (void)smcSensorsUpdateLoop
 {
     if (_scheduleRebuildSensors) {
-        [self rebuildSensorsList];
-        _scheduleRebuildSensors = FALSE;
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self rebuildSensorsList];
+            _scheduleRebuildSensors = FALSE;
+        }];
     }
     else {
-
-        NSDate *now = [NSDate dateWithTimeIntervalSinceNow:0.0];
-        
         if ([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || [_graphsController backgroundMonitoring]) {
-            if ([_smcSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
-
-                _smcSensorsLastUpdated = now;
-
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    NSArray *sensors = [_engine updateSensors];
-                    [self updateValuesForSensorsInList:sensors];
-                }];
-
-                return TRUE;
-            }
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSArray *sensors = [_engine updateSensors];
+                [self updateValuesForSensorsInList:sensors];
+            }];
         }
-        else if ([_favorites count] && [_favoritesSensorsLastUpdated timeIntervalSinceNow] < (- _smcSensorsUpdateInterval)) {
-
-            _favoritesSensorsLastUpdated = now;
-
+        else if ([_favorites count]) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSArray *sensors = [_engine updateSensorsInArray:_favorites];
                 [self updateValuesForSensorsInList:sensors];
             }];
-
-            return TRUE;
-        }
-    
-        if ([_smartSensorsLastUpdated timeIntervalSinceNow] < (- _smartSensorsUpdateInterval)) {
-
-            _smartSensorsLastUpdated = now;
-
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                NSArray *sensors = [_engine updateSmartSensors];
-                [self updateValuesForSensorsInList:sensors];
-            }];
-
-            return TRUE;
         }
     }
-    
-    return FALSE;
+}
+
+- (void)smartSensorsUpdateLoop
+{
+    if (!_scheduleRebuildSensors) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            NSArray *sensors = [_engine updateSmartSensors];
+            [self updateValuesForSensorsInList:sensors];
+        }];
+    }
 }
 
 - (void)rebuildSensorsTableView
@@ -568,11 +547,29 @@
 
 -(void)updateRateChanged:(NSNotification *)aNotification
 {
-    _smcSensorsUpdateInterval = [self getSmcSensorsUpdateRate];
-    _smcSensorsLastUpdated = [NSDate dateWithTimeIntervalSinceNow:0];
-    _favoritesSensorsLastUpdated = _smcSensorsLastUpdated;
-    _smartSensorsUpdateInterval = [self getSmartSensorsUpdateRate] * 60;
-    _smartSensorsLastUpdated = [NSDate dateWithTimeIntervalSinceNow:0];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(smcSensorsUpdateLoop)]];
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(smcSensorsUpdateLoop)];
+
+    if (_smcSensorsloopTimer) {
+        [_smcSensorsloopTimer invalidate];
+    }
+
+    _smcSensorsloopTimer = [NSTimer timerWithTimeInterval:[self getSmcSensorsUpdateRate] invocation:invocation repeats:YES];
+
+    [[NSRunLoop mainRunLoop] addTimer:_smcSensorsloopTimer forMode:NSRunLoopCommonModes];
+
+    invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(smartSensorsUpdateLoop)]];
+    [invocation setTarget:self];
+    [invocation setSelector:@selector(smartSensorsUpdateLoop)];
+
+    if (_smartSensorsloopTimer) {
+        [_smartSensorsloopTimer invalidate];
+    }
+
+    _smartSensorsloopTimer = [NSTimer timerWithTimeInterval:[self getSmartSensorsUpdateRate] * 60 invocation:invocation repeats:YES];
+
+    [[NSRunLoop mainRunLoop] addTimer:_smartSensorsloopTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)toggleGraphSmoothing:(id)sender
@@ -603,7 +600,7 @@
 
 - (void) popupWillOpen:(id)sender
 {
-    [self updateLoop];
+    [self smcSensorsUpdateLoop];
 }
 
 #pragma mark  NSTableViewDelegate

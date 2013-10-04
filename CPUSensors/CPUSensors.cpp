@@ -273,7 +273,6 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
                 case CPUFAMILY_INTEL_SANDYBRIDGE:
                 case CPUFAMILY_INTEL_IVYBRIDGE:
                 case CPUFAMILY_INTEL_HASWELL:
-                case CPUFAMILY_INTEL_HASWELL_ULT:
                     if (baseMultiplier > 0 && cpu_ratio[index] > 1.0)
                         multiplier[index] = ROUND(cpu_ratio[index] * (float)baseMultiplier);
                     else
@@ -581,7 +580,6 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
-        case CPUFAMILY_INTEL_HASWELL_ULT:
             break;
             
         default:
@@ -667,7 +665,7 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
-        case CPUFAMILY_INTEL_HASWELL_ULT: {
+        {
             uint32_t cpuid_reg[4];
             
             do_cpuid(6, cpuid_reg);
@@ -691,8 +689,7 @@ bool CPUSensors::start(IOService *provider)
         // break; fall down adding package sensors
             
         case CPUFAMILY_INTEL_HASWELL:
-        case CPUFAMILY_INTEL_HASWELL_ULT:
-            // 
+            //
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kCPUSensorsPackageMultiplierSensor, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsPackageFrequencySensor, 0))
@@ -728,7 +725,7 @@ bool CPUSensors::start(IOService *provider)
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
-        case CPUFAMILY_INTEL_HASWELL_ULT: {
+        {
             UInt64 rapl = rdmsr64(MSR_RAPL_POWER_UNIT);
             
             UInt8 power_units = rapl & 0xf;
@@ -752,7 +749,6 @@ bool CPUSensors::start(IOService *provider)
                 
                 switch (cpuid_info()->cpuid_cpufamily) {
                     case CPUFAMILY_INTEL_HASWELL:
-                    case CPUFAMILY_INTEL_HASWELL_ULT:
                         // TODO: check DRAM availability for other platforms
                         if (cpuid_info()->cpuid_cpufamily != CPUFAMILY_INTEL_SANDYBRIDGE) {
                             if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsDramPowerSensor, 3))

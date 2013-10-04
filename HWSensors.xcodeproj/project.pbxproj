@@ -940,6 +940,7 @@
 		1D05ABB413ED0D7000EADBF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				CONFIGURATION_BUILD_DIR = Binaries;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -961,7 +962,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.8;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "i386 x86_64";
 			};
@@ -970,6 +971,7 @@
 		1D05ABB513ED0D7000EADBF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				CONFIGURATION_BUILD_DIR = Binaries;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -990,7 +992,7 @@
 				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.8;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "i386 x86_64";
 			};

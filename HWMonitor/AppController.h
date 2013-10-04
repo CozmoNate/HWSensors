@@ -42,13 +42,11 @@
     NSMutableArray *_groups;
     NSMutableDictionary *_items;
     NSMutableArray *_ordering;
-    
-    float _smcSensorsUpdateInterval;
-    float _smartSensorsUpdateInterval;
-    NSDate *_favoritesSensorsLastUpdated;
-    NSDate *_smcSensorsLastUpdated;
-    NSDate *_smartSensorsLastUpdated;
+
     BOOL _scheduleRebuildSensors;
+
+    NSTimer *_smcSensorsloopTimer;
+    NSTimer *_smartSensorsloopTimer;
 
     NSArray *_colorThemes;
 }

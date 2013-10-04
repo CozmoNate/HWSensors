@@ -90,7 +90,6 @@ enum  {
     NSRect dragStartFrame;
     NSRect resizeStartFrame;
     NSTextField *titleTextField;
-    NSImage *noiseImage;
 }
 
 /** Whether the window is attached to its icon in the menu bar (default is
