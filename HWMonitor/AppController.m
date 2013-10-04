@@ -262,36 +262,26 @@
 
 - (void)smcSensorsUpdateLoop
 {
-    if (_scheduleRebuildSensors) {
+    if ([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || [_graphsController backgroundMonitoring]) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self rebuildSensorsList];
-            _scheduleRebuildSensors = FALSE;
+            NSArray *sensors = [_engine updateSensors];
+            [self updateValuesForSensorsInList:sensors];
         }];
     }
-    else {
-        if ([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || [_graphsController backgroundMonitoring]) {
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                NSArray *sensors = [_engine updateSensors];
-                [self updateValuesForSensorsInList:sensors];
-            }];
-        }
-        else if ([_favorites count]) {
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                NSArray *sensors = [_engine updateSensorsInArray:_favorites];
-                [self updateValuesForSensorsInList:sensors];
-            }];
-        }
+    else if ([_favorites count]) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            NSArray *sensors = [_engine updateSensorsInArray:_favorites];
+            [self updateValuesForSensorsInList:sensors];
+        }];
     }
 }
 
 - (void)smartSensorsUpdateLoop
 {
-    if (!_scheduleRebuildSensors) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            NSArray *sensors = [_engine updateSmartSensors];
-            [self updateValuesForSensorsInList:sensors];
-        }];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        NSArray *sensors = [_engine updateSmartSensors];
+        [self updateValuesForSensorsInList:sensors];
+    }];
 }
 
 - (void)rebuildSensorsTableView

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <installer-gui-script minSpecVersion="2">
     <title>DISTRIBUTION_TITLE</title>
-    <options customize="always" allow-external-scripts="false"/>
+    <options customize="allow" allow-external-scripts="false"/>
+    <domains enable_anywhere="true"/>
 
     <license file="license.txt"/>
     <readme file="readme.txt"/>
@@ -38,9 +39,7 @@
     <choice
         id="hwmonitor"
         title="HWMonitor"
-        description="HWMONITOR_DESCRIPTION"
-        customLocation="Applications/"
-        customLocationAllowAlternateVolumes="true">
+        description="HWMONITOR_DESCRIPTION">
         <pkg-ref id="Package.HWMonitor"/>
     </choice>
 
@@ -49,9 +48,7 @@
         title="FakeSMC"
         description="FAKESMC_DESCRIPTION"
         enabled="hackintoshCheckScript()"
-        start_selected="hackintoshCheckScript()"
-        customLocation="System/Library/Extensions/"
-        customLocationAllowAlternateVolumes="false">
+        start_selected="hackintoshCheckScript()">
         <pkg-ref id="Package.FakeSMC"/>
     </choice>
 
@@ -60,9 +57,7 @@
         title="ACPISensors"
         description="ACPISENSORS_DESCRIPTION"
         enabled="choices['fakesmc'].enabled"
-        start_selected="choices['fakesmc'].selected"
-        customLocation="System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/"
-        customLocationAllowAlternateVolumes="false">
+        start_selected="choices['fakesmc'].selected">
         <pkg-ref id="Package.ACPISensors"/>
     </choice>
 
@@ -71,9 +66,7 @@
         title="CPUSensors"
         description="CPUSENSORS_DESCRIPTION"
         enabled="choices['fakesmc'].enabled"
-        start_selected="choices['fakesmc'].selected"
-        customLocation="System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/"
-        customLocationAllowAlternateVolumes="false">
+        start_selected="choices['fakesmc'].selected">
         <pkg-ref id="Package.CPUSensors"/>
     </choice>
 
@@ -82,9 +75,7 @@
         title="GPUSensors"
         description="GPUSENSORS_DESCRIPTION"
         enabled="choices['fakesmc'].enabled"
-        start_selected="choices['fakesmc'].selected"
-        customLocation="System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/"
-        customLocationAllowAlternateVolumes="false">
+        start_selected="choices['fakesmc'].selected">
         <pkg-ref id="Package.GPUSensors"/>
     </choice>
 
@@ -93,13 +84,9 @@
         title="LPCSensors"
         description="LPCSENSORS_DESCRIPTION"
         enabled="choices['fakesmc'].enabled"
-        start_selected="choices['fakesmc'].selected"
-        customLocation="System/Library/Extensions/FakeSMC.kext/Contents/PlugIns/"
-        customLocationAllowAlternateVolumes="false">
+        start_selected="choices['fakesmc'].selected">
         <pkg-ref id="Package.LPCSensors"/>
     </choice>
-
-    <domains enable_anywhere="true"/>
 
     <pkg-ref id="Package.HWMonitor">
         <relocate search-id="Search.HWMonitor">
@@ -109,10 +96,10 @@
 
     <locator>
         <search id="Search.Applications.HWMonitor" type="component">
-            <bundle CFBundleIdentifier="org.hwsensors.HWMonitor" path="Applications/HWMonitor.app"/>
+            <bundle CFBundleIdentifier="org.hwsensors.HWMonitor" path="/Applications/HWMonitor.app"/>
         </search>
         <search id="Search.Applications.Utilities.HWMonitor" type="component">
-            <bundle CFBundleIdentifier="org.hwsensors.HWMonitor" path="Applications/Utilities/HWMonitor.app"/>
+            <bundle CFBundleIdentifier="org.hwsensors.HWMonitor" path="/Applications/Utilities/HWMonitor.app"/>
         </search>
         <search id="Search.HWMonitor" type="script" script="SearchHWMonitorLocations()">
             <script>

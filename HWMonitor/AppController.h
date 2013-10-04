@@ -43,8 +43,6 @@
     NSMutableDictionary *_items;
     NSMutableArray *_ordering;
 
-    BOOL _scheduleRebuildSensors;
-
     NSTimer *_smcSensorsloopTimer;
     NSTimer *_smartSensorsloopTimer;
 

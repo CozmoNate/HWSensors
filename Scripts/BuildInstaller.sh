@@ -27,6 +27,8 @@ full_version=${project_version}'.'${last_revision}
 #mv ${project_name}.pkg HWMonitor.unsigned.pkg
 
 # Build packages required
+
+
 pkgbuild --root ./Binaries/HWMonitor.app \
     --identifier "Package.HWMonitor" \
     --version "${full_version}" \
