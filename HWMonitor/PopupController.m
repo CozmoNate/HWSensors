@@ -44,8 +44,10 @@
         
         [_statusItemView setAction:@selector(togglePanel:)];
         [_statusItemView setTarget:self];
-        
-        [self performSelector:@selector(initialSetup) withObject:nil afterDelay:0.0];
+
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self initialSetup];
+        }];
     }
     
     return self;

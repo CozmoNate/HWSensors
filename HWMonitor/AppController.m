@@ -99,10 +99,10 @@
 	//[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(drivesChanged:) name:NSWorkspaceDidUnmountNotification object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(wakeFromSleep:) name:NSWorkspaceDidWakeNotification object:nil];
     
-    [self performSelector:@selector(rebuildSensorsList) withObject:nil afterDelay:0.0];
-    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self rebuildSensorsList];
+    }];
 
-    
 //    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"SUHasLaunchedBefore"] || [[NSUserDefaults standardUserDefaults] integerForKey:@"SUScheduledCheckInterval"] != 3600) {
 //        _sharedUpdater.updateCheckInterval = 3600;
 //    }
