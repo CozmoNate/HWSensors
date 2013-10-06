@@ -43,7 +43,7 @@
     
     if (me) {
         [me setBundle:bundle];
-        [me rebuildInternalSensorsList];
+        [me rebuildSensorsList];
     }
     
     return me;
@@ -463,7 +463,43 @@
     }];
 }
 
-- (void)rebuildInternalSensorsList
+- (void)rebuildSmartSensorsListOnly
+{
+    [_sensorsLock lock];
+
+    __block NSMutableArray *objectsToRemove = [[NSMutableArray alloc] init];
+    __block NSMutableArray *keysToRemove = [[NSMutableArray alloc] init];
+
+    [_sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        HWMonitorSensor *sensor = (HWMonitorSensor *)obj;
+
+        if (sensor.genericDevice && [sensor.genericDevice isKindOfClass:[ATAGenericDrive class]]) {
+            [objectsToRemove addObject:sensor];
+            [keysToRemove addObject:sensor.name];
+        }
+    }];
+
+    [_sensors removeObjectsInArray:objectsToRemove];
+    [_keys removeObjectsForKeys:keysToRemove];
+
+    if ((_smartDrives = [ATAGenericDrive discoverDrives])) {
+        for (ATAGenericDrive * drive in _smartDrives) {
+            // Hard Drive Temperatures
+            [self addSmartSensorWithGenericDisk:drive group:kSMARTGroupTemperature];
+
+            if (![drive isRotational]) {
+                // SSD Remaining Life
+                [self addSmartSensorWithGenericDisk:drive group:kSMARTGroupRemainingLife];
+                // SSD Remaining Blocks
+                [self addSmartSensorWithGenericDisk:drive group:kSMARTGroupRemainingBlocks];
+            }
+        }
+    }
+
+    [_sensorsLock unlock];
+}
+
+- (void)rebuildSensorsList
 {
     [_sensorsLock lock];
     
@@ -508,7 +544,8 @@
         
         //Temperatures
         [self addSensorsWithGroup:kHWSensorGroupTemperature andKeysInArray:list];
-        
+
+        // SMART
         if ((_smartDrives = [ATAGenericDrive discoverDrives])) {
             for (ATAGenericDrive * drive in _smartDrives) {
                 // Hard Drive Temperatures

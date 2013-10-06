@@ -309,9 +309,6 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 {
     if (isAttached != attachedToMenuBar)
     {
-        activeImage = nil;
-        inactiveImage = nil;
-
         attachedToMenuBar = isAttached;
 
         if (isAttached)
@@ -604,6 +601,8 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
 - (void)windowDidResize:(NSNotification *)aNotification
 {
+    activeImage = nil;
+    inactiveImage = nil;
     [self layoutContent];
 }
 

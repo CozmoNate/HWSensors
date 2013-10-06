@@ -91,32 +91,37 @@
     [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
     [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
     [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
-    
+
+
+    [self rebuildSensorsListOnlySmartSensors: NO];
+
+    _smcSensorsLastUdated = [NSDate dateWithTimeIntervalSinceNow:0];
+
     [self updateRateChanged:nil];
     [self graphsScaleChanged:nil];
-    
-    //[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(drivesChanged:) name:NSWorkspaceDidMountNotification object:nil];
-	//[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(drivesChanged:) name:NSWorkspaceDidUnmountNotification object:nil];
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(wakeFromSleep:) name:NSWorkspaceDidWakeNotification object:nil];
-    
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self rebuildSensorsList];
-    }];
 
-//    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"SUHasLaunchedBefore"] || [[NSUserDefaults standardUserDefaults] integerForKey:@"SUScheduledCheckInterval"] != 3600) {
-//        _sharedUpdater.updateCheckInterval = 3600;
-//    }
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidMountNotification object:nil];
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:nil];
 }
 
 -(void)applicationWillTerminate:(NSNotification *)notification
 {
-    //[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceDidMountNotification object:nil];
-	//[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceDidUnmountNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceDidMountNotification object:nil];
+	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceDidUnmountNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceDidWakeNotification object:nil];
 }
 
--(void)wakeFromSleep:(id)sender
+-(void)workspaceDidMountOrUnmount:(id)sender
 {
-    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self rebuildSensorsListOnlySmartSensors:YES];
+    }];
+}
+
+-(void)workspaceDidWake:(id)sender
+{
+    //
 }
 
 -(void)checkForUpdates:(id)sender
@@ -214,24 +219,6 @@
     return [_ordering indexOfObject:key];
 }
 
-//- (void)updateSmartSensors;
-//{
-//    NSArray *sensors = [_engine updateSmartSensors];
-//    [self updateValuesForSensors:sensors];
-//}
-//
-//- (void)updateSmcSensors
-//{
-//    NSArray *sensors = [_engine updateSensors];
-//    [self updateValuesForSensors:sensors];
-//}
-//
-//- (void)updateFavoritesSensors
-//{
-//    NSArray *sensors = [_engine updateSensorsList:_favorites];
-//    [self updateValuesForSensors:sensors];
-//}
-
 - (void)updateValuesForSensorsInList:(NSArray*)sensors
 {
     if ([self.window isVisible]) {
@@ -262,17 +249,22 @@
 
 - (void)smcSensorsUpdateLoop
 {
-    if ([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || [_graphsController backgroundMonitoring]) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            NSArray *sensors = [_engine updateSensors];
-            [self updateValuesForSensorsInList:sensors];
-        }];
-    }
-    else if ([_favorites count]) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            NSArray *sensors = [_engine updateSensorsInArray:_favorites];
-            [self updateValuesForSensorsInList:sensors];
-        }];
+    if ([_smcSensorsLastUdated timeIntervalSinceNow] < -1.0) {
+
+        _smcSensorsLastUdated = [NSDate dateWithTimeIntervalSinceNow:0];
+
+        if ([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || [_graphsController backgroundMonitoring]) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSArray *sensors = [_engine updateSensors];
+                [self updateValuesForSensorsInList:sensors];
+            }];
+        }
+        else if ([_favorites count]) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSArray *sensors = [_engine updateSensorsInArray:_favorites];
+                [self updateValuesForSensorsInList:sensors];
+            }];
+        }
     }
 }
 
@@ -333,7 +325,7 @@
     [_sensorsTableView reloadData];
 }
 
-- (void)rebuildSensorsList
+- (void)rebuildSensorsListOnlySmartSensors:(BOOL)onlySmartSensors
 {    
     if (!_favorites) {
         _favorites = [[NSMutableArray alloc] init];
@@ -346,8 +338,13 @@
         _groups = [[NSMutableArray alloc] init];
     else
         [_groups removeAllObjects];
-    
-    [_engine rebuildInternalSensorsList];
+
+    if (onlySmartSensors) {
+        [_engine rebuildSmartSensorsListOnly];
+    }
+    else {
+        [_engine rebuildSensorsList];
+    }
     
     if ([[_engine sensors] count] > 0) {
         
@@ -541,13 +538,13 @@
     [invocation setTarget:self];
     [invocation setSelector:@selector(smcSensorsUpdateLoop)];
 
-    if (_smcSensorsloopTimer) {
-        [_smcSensorsloopTimer invalidate];
+    if (_smcSensorsLoopTimer) {
+        [_smcSensorsLoopTimer invalidate];
     }
 
-    _smcSensorsloopTimer = [NSTimer timerWithTimeInterval:[self getSmcSensorsUpdateRate] invocation:invocation repeats:YES];
+    _smcSensorsLoopTimer = [NSTimer timerWithTimeInterval:[self getSmcSensorsUpdateRate] invocation:invocation repeats:YES];
 
-    [[NSRunLoop mainRunLoop] addTimer:_smcSensorsloopTimer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:_smcSensorsLoopTimer forMode:NSRunLoopCommonModes];
 
     invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(smartSensorsUpdateLoop)]];
     [invocation setTarget:self];

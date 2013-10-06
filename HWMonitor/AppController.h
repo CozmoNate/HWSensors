@@ -43,7 +43,9 @@
     NSMutableDictionary *_items;
     NSMutableArray *_ordering;
 
-    NSTimer *_smcSensorsloopTimer;
+    NSTimer *_smcSensorsLoopTimer;
+    NSDate *_smcSensorsLastUdated;
+
     NSTimer *_smartSensorsloopTimer;
 
     NSArray *_colorThemes;
