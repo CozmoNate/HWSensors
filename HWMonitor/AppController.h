@@ -45,8 +45,8 @@
 
     NSTimer *_smcSensorsLoopTimer;
     NSDate *_smcSensorsLastUdated;
-
     NSTimer *_smartSensorsloopTimer;
+    NSDate *_smartSensorsLastUdated;
 
     NSArray *_colorThemes;
 }

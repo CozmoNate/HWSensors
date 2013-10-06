@@ -665,6 +665,32 @@
     [_sensorsLock unlock];
 }
 
+- (void)updateSmartSensor:(HWMonitorSensor*)sensor addToArray:(NSMutableArray*)updated
+{
+    if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) {
+        switch ([sensor group]) {
+            case kSMARTGroupTemperature:
+                [sensor setData:[[sensor genericDevice] getTemperature]];
+                break;
+
+            case kSMARTGroupRemainingLife:
+                [sensor setData:[[sensor genericDevice] getRemainingLife]];
+                break;
+
+            case kSMARTGroupRemainingBlocks:
+                [sensor setData:[[sensor genericDevice] getRemainingBlocks]];
+                break;
+
+            default:
+                break;
+        }
+
+        if ([sensor valueHasBeenChanged]) {
+            [updated addObject:sensor];
+        }
+    }
+}
+
 - (NSArray*)updateSmartSensors
 {
     [_sensorsLock lock];
@@ -672,28 +698,7 @@
     NSMutableArray *updated = [[NSMutableArray alloc] init];
     
     for (HWMonitorSensor *sensor in _sensors) {
-        if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) {
-            switch ([sensor group]) {
-                case kSMARTGroupTemperature:
-                    [sensor setData:[[sensor genericDevice] getTemperature]];
-                    break;
-                    
-                case kSMARTGroupRemainingLife:
-                    [sensor setData:[[sensor genericDevice] getRemainingLife]];
-                    break;
-                    
-                case kSMARTGroupRemainingBlocks:
-                    [sensor setData:[[sensor genericDevice] getRemainingBlocks]];
-                    break;
-                        
-                default:
-                    break;
-            }
-            
-            if ([sensor valueHasBeenChanged]) {
-                [updated addObject:sensor];
-            }
-        }
+        [self updateSmartSensor:sensor addToArray:updated];
     }
     
     [_sensorsLock unlock];
@@ -701,7 +706,26 @@
     return updated;
 }
 
-- (void)updateSensor:(HWMonitorSensor*)sensor addToArray:(NSMutableArray*)updated
+-(NSArray*)updateSmartSensorsInArray:(NSArray *)sensors
+{
+    if (!sensors) return nil;
+
+    [_sensorsLock lock];
+
+    NSMutableArray *updated = [[NSMutableArray alloc] init];
+
+    for (id object in _sensors) {
+        if ([object isKindOfClass:[HWMonitorSensor class]]) {
+            [self updateSmartSensor:object addToArray:updated];
+        }
+    }
+
+    [_sensorsLock unlock];
+
+    return updated;
+}
+
+- (void)updateSmcSensor:(HWMonitorSensor*)sensor addToArray:(NSMutableArray*)updated
 {
     if (![sensor genericDevice]) {
         SMCVal_t val;
@@ -728,7 +752,7 @@
     }
 }
 
-- (NSArray*)updateSensors
+- (NSArray*)updateSmcSensors
 {
     [_sensorsLock lock];
     
@@ -737,7 +761,7 @@
     if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
         //NSTimeInterval sleepInterval = 1.0f / (float)[_sensors count];
         for (HWMonitorSensor *sensor in _sensors) {
-            [self updateSensor:sensor addToArray:updated];
+            [self updateSmcSensor:sensor addToArray:updated];
             //[NSThread sleepForTimeInterval:sleepInterval];
         }
     }
@@ -751,7 +775,7 @@
     return updated;
 }
 
--(NSArray*)updateSensorsInArray:(NSArray *)sensors
+-(NSArray*)updateSmcSensorsInArray:(NSArray *)sensors
 {
     if (!sensors) return nil; // [self updateSmcSensors];
     
@@ -762,7 +786,7 @@
     if (_connection || kIOReturnSuccess == SMCOpen(&_connection)) {
         for (id object in _sensors) {
             if ([object isKindOfClass:[HWMonitorSensor class]] /*&& [_sensors containsObject:object]*/) {
-                [self updateSensor:object addToArray:updated];
+                [self updateSmcSensor:object addToArray:updated];
             }
         }
     }

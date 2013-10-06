@@ -62,8 +62,9 @@
 - (void)rebuildSmartSensorsListOnly;
 - (void)rebuildSensorsList;
 - (NSArray*)updateSmartSensors;
-- (NSArray*)updateSensors;
-- (NSArray*)updateSensorsInArray:(NSArray*)sensors;
+- (NSArray*)updateSmartSensorsInArray:(NSArray *)sensors;
+- (NSArray*)updateSmcSensors;
+- (NSArray*)updateSmcSensorsInArray:(NSArray*)sensors;
 
 - (NSArray*)getAllSensorsInGroup:(NSUInteger)group;
 

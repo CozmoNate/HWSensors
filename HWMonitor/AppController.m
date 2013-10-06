@@ -249,19 +249,19 @@
 
 - (void)smcSensorsUpdateLoop
 {
-    if ([_smcSensorsLastUdated timeIntervalSinceNow] < -1.0) {
+    if ([_smcSensorsLastUdated timeIntervalSinceNow] < -1.0) { // every second min
 
         _smcSensorsLastUdated = [NSDate dateWithTimeIntervalSinceNow:0];
 
         if ([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || [_graphsController backgroundMonitoring]) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                NSArray *sensors = [_engine updateSensors];
+                NSArray *sensors = [_engine updateSmcSensors];
                 [self updateValuesForSensorsInList:sensors];
             }];
         }
         else if ([_favorites count]) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                NSArray *sensors = [_engine updateSensorsInArray:_favorites];
+                NSArray *sensors = [_engine updateSmcSensorsInArray:_favorites];
                 [self updateValuesForSensorsInList:sensors];
             }];
         }
@@ -270,10 +270,23 @@
 
 - (void)smartSensorsUpdateLoop
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        NSArray *sensors = [_engine updateSmartSensors];
-        [self updateValuesForSensorsInList:sensors];
-    }];
+    if ([_smartSensorsLastUdated timeIntervalSinceNow] < -1.0 * 60 * 5) { // every 5 minutes min
+
+        _smartSensorsLastUdated = [NSDate dateWithTimeIntervalSinceNow:0];
+
+        if ([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || [_graphsController backgroundMonitoring]) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSArray *sensors = [_engine updateSmartSensors];
+                [self updateValuesForSensorsInList:sensors];
+            }];
+        }
+        else if ([_favorites count]) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSArray *sensors = [_engine updateSmartSensorsInArray:_favorites];
+                [self updateValuesForSensorsInList:sensors];
+            }];
+        }
+    }
 }
 
 - (void)rebuildSensorsTableView
