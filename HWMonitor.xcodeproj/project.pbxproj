@@ -88,6 +88,7 @@
 		7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */; };
 		7ECDDE3716DDE5DA00085FFF /* 04-eye-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3516DDE5DA00085FFF /* 04-eye-white@2x.png */; };
 		7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECDDE4016DEB5F600085FFF /* GraphsGroupCell.m */; };
+		7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED3004E1802895E0020D818 /* JLNFadingScrollView.m */; };
 		7EDA1A6A16D8F1700012A0DC /* HWMonitorIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A6916D8F1700012A0DC /* HWMonitorIcon.m */; };
 		7EDA1A6D16D901100012A0DC /* PopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A6C16D901100012A0DC /* PopupController.m */; };
 		7EDA1A7816D903740012A0DC /* GroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A7416D903740012A0DC /* GroupCell.m */; };
@@ -251,6 +252,8 @@
 		7ECDDE3516DDE5DA00085FFF /* 04-eye-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye-white@2x.png"; sourceTree = "<group>"; };
 		7ECDDE3F16DEB5F600085FFF /* GraphsGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphsGroupCell.h; sourceTree = "<group>"; };
 		7ECDDE4016DEB5F600085FFF /* GraphsGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphsGroupCell.m; sourceTree = "<group>"; };
+		7ED3004B180285400020D818 /* JLNFadingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLNFadingScrollView.h; sourceTree = "<group>"; };
+		7ED3004E1802895E0020D818 /* JLNFadingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLNFadingScrollView.m; sourceTree = "<group>"; };
 		7EDA1A6816D8F1700012A0DC /* HWMonitorIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorIcon.h; sourceTree = "<group>"; };
 		7EDA1A6916D8F1700012A0DC /* HWMonitorIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorIcon.m; sourceTree = "<group>"; };
 		7EDA1A6B16D901100012A0DC /* PopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupController.h; sourceTree = "<group>"; };
@@ -541,6 +544,8 @@
 				7E9A17CF17E45938003DB018 /* NSPopover+Message.m */,
 				7E44D95C1710433A00D06387 /* WindowFilter.h */,
 				7E44D95D1710433A00D06387 /* WindowFilter.m */,
+				7ED3004B180285400020D818 /* JLNFadingScrollView.h */,
+				7ED3004E1802895E0020D818 /* JLNFadingScrollView.m */,
 				7E7B9B3D1786A732003ACB61 /* OBMenuBarWindow.h */,
 				7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */,
 				7E16893416EA106D00BBF6FC /* ArrowlessScroller.h */,
@@ -811,6 +816,7 @@
 				7EDA1A7916D903740012A0DC /* SensorCell.m in Sources */,
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
+				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
 				7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */,
 				7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */,

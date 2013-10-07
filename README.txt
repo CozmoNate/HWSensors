@@ -37,3 +37,4 @@ Stephane Sudre for Packages (packagesbuild)
 Andy Matuschak  for Sparkle framework
 Nouveau Project for nouveau linux driver (GeforceSensors base)
 Advanced Micro Devices and all contributors for AMD Radeon linux driver (RadeonSensors base)
+Joshua Nozzi for JLNFadingScrollView <https://github.com/jnozzi/JLNFadingScrollView>

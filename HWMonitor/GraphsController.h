@@ -50,6 +50,7 @@
 
 @property (readonly) HWMonitorItem *selectedItem;
 
+@property (assign) IBOutlet NSScrollView *graphsScrollView;
 @property (assign) IBOutlet NSTableView *graphsTableView;
 @property (assign) IBOutlet NSCollectionView *graphsCollectionView;
 

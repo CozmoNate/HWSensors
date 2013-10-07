@@ -8,6 +8,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="PopupController">
             <connections>
                 <outlet property="mainMenu" destination="1556" id="2786"/>
+                <outlet property="scrollView" destination="13" id="ySg-oZ-M5D"/>
                 <outlet property="tableView" destination="52" id="125"/>
                 <outlet property="toolbarView" destination="14" id="992"/>
                 <outlet property="window" destination="3" id="123"/>
@@ -50,10 +51,10 @@
                                     <action selector="detachFromMenuBar:" target="3" id="1445"/>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1727" id="2641">
                                         <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
@@ -119,7 +120,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="222" height="300"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="OverlapingScrollView">
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="JLNFadingScrollView">
                         <rect key="frame" x="0.0" y="0.0" width="222" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Ii9-fX-Ldk">
@@ -380,11 +381,11 @@
                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" id="53">
-                            <rect key="frame" x="0.0" y="234" width="35" height="15"/>
+                            <rect key="frame" x="0.0" y="285" width="211" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" arrowsPosition="none" controlSize="mini" id="54" customClass="ArrowlessScroller">
-                            <rect key="frame" x="219" y="0.0" width="11" height="234"/>
+                            <rect key="frame" x="211" y="0.0" width="11" height="285"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
@@ -421,10 +422,10 @@
                         <action selector="orderOut:" target="3" id="1151"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2507">
                             <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>

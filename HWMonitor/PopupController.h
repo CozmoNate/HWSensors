@@ -39,6 +39,7 @@
 
 @property (assign) IBOutlet NSMenu *mainMenu;
 @property (assign) IBOutlet NSView *toolbarView;
+@property (assign) IBOutlet NSScrollView *scrollView;
 @property (assign) IBOutlet NSTableView *tableView;
 
 @property (assign) IBOutlet NSWindowController *appController;

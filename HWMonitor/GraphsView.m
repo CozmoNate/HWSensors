@@ -32,10 +32,10 @@
 
 @implementation GraphsView
 
-#define LeftViewMargin      2
-#define TopViewMargin       2
-#define RightViewMargin     2
-#define BottomViewMargin    2
+#define LeftViewMargin      1
+#define TopViewMargin       1
+#define RightViewMargin     1
+#define BottomViewMargin    1
 
 -(id)init
 {

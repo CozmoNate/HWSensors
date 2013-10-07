@@ -16,6 +16,8 @@
 #import "ATASensorCell.h"
 #import "BatteryCell.h"
 
+#import "JLNFadingScrollView.h"
+
 @implementation PopupController
 
 @synthesize statusItem = _statusItem;
@@ -26,6 +28,7 @@
     _colorTheme = colorTheme;
     
     [(OBMenuBarWindow*)self.window setColorTheme:colorTheme];
+    [(JLNFadingScrollView *)_scrollView setFadeColor:_colorTheme.listBackgroundColor];
     [_tableView reloadData];
 }
 
@@ -176,6 +179,8 @@
 
 - (void)initialSetup
 {
+    [(JLNFadingScrollView *)_scrollView setFadeHeight:6];
+
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
     [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
     
