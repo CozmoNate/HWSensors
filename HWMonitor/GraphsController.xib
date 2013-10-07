@@ -73,7 +73,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="1" height="0.0"/>
                                             <color key="backgroundColor" white="0.1482093978" alpha="0.5" colorSpace="calibratedWhite"/>
-                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="gridColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <tableColumns>
                                                 <tableColumn width="242" minWidth="200" maxWidth="1000" id="18">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
@@ -486,11 +486,11 @@
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="275" id="29t-Mh-0Je"/>
                                 </constraints>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" arrowsPosition="none" controlSize="mini" id="16" customClass="ArrowlessScroller">
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" arrowsPosition="none" controlSize="mini" id="16" customClass="RFOverlayScroller">
                                     <rect key="frame" x="-100" y="-100" width="218" height="11"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" arrowsPosition="none" controlSize="mini" id="15" customClass="ArrowlessScroller">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" arrowsPosition="none" controlSize="mini" id="15" customClass="RFOverlayScroller">
                                     <rect key="frame" x="-100" y="-100" width="11" height="476"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>

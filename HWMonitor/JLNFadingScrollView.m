@@ -45,8 +45,9 @@
 //	 BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //	
 
-
+#import <objc/objc-class.h>
 #import "JLNFadingScrollView.h"
+#import "RFOverlayScroller.h"
 
 
 #define DEFAULTFADEHEIGHT					6.0
@@ -56,6 +57,17 @@
 
 
 #pragma mark Constructors / Destructors
+
+static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSView *view2, void *context)
+{
+    if ([view1 isKindOfClass:[RFOverlayScroller class]]) {
+        return NSOrderedDescending;
+    } else if ([view2 isKindOfClass:[RFOverlayScroller class]]) {
+        return NSOrderedAscending;
+    }
+
+    return NSOrderedSame;
+}
 
 - (id)initWithFrame:(NSRect)frameRect
 {
@@ -68,10 +80,9 @@
 		_bottomFadeView = nil;
 		_fadeHeight = DEFAULTFADEHEIGHT;
 		_fadeColor = [NSColor blackColor];
-		
+
 		// Kill copy on scroll
 		[[self contentView] setCopiesOnScroll:NO];
-		
 	}
 	
 	return self;
@@ -134,20 +145,31 @@
 
 - (void)tile
 {
-	
 	// Super first, then fade views
 	[super tile];
-
-    NSRect frame = [self bounds];
-
-    if ([self borderType] != NSNoBorder) {
-        frame = NSInsetRect(frame, 1, 1);
-    }
-
-	[[self contentView] setFrame:frame];
-
 	[self tileFadeViews];
-	
+
+    // Fake zero scroller width so the contentView gets drawn to the edge
+    method_exchangeImplementations(class_getClassMethod([RFOverlayScroller class], @selector(scrollerWidthForControlSize:scrollerStyle:)),
+                                   class_getClassMethod([RFOverlayScroller class], @selector(zeroWidth)));
+	[super tile];
+    // Restore original scroller width
+    method_exchangeImplementations(class_getClassMethod([RFOverlayScroller class], @selector(scrollerWidthForControlSize:scrollerStyle:)),
+                                   class_getClassMethod([RFOverlayScroller class], @selector(zeroWidth)));
+
+    // Resize vertical scroller
+    CGFloat width = [RFOverlayScroller scrollerWidthForControlSize:self.verticalScroller.controlSize
+                                                     scrollerStyle:self.verticalScroller.scrollerStyle];
+	[self.verticalScroller setFrame:(NSRect){
+        self.bounds.size.width - width,
+        0.0f,
+        width,
+        self.bounds.size.height
+    }];
+
+    // Move scroller to front
+    [self sortSubviewsUsingFunction:scrollerAboveSiblingViewsComparator
+                            context:NULL];
 }
 
 - (void)tileFadeViews
