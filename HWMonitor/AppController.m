@@ -601,6 +601,7 @@
 - (void) popupWillOpen:(id)sender
 {
     [self smcSensorsUpdateLoop];
+    [self smartSensorsUpdateLoop];
 }
 
 #pragma mark  NSTableViewDelegate

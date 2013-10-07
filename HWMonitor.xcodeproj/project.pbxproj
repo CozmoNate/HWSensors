@@ -82,6 +82,7 @@
 		7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
 		7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
 		7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */; };
+		7EC22D79180221810070248F /* scale_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EC22D78180221810070248F /* scale_template.png */; };
 		7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3016DD680E00085FFF /* 04-eye.png */; };
 		7ECDDE3316DD680E00085FFF /* 04-eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */; };
 		7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */; };
@@ -243,6 +244,7 @@
 		7EB7E702178340710071B3F0 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7EB7E707178341D20071B3F0 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
 		7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		7EC22D78180221810070248F /* scale_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scale_template.png; sourceTree = "<group>"; };
 		7ECDDE3016DD680E00085FFF /* 04-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye.png"; sourceTree = "<group>"; };
 		7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye@2x.png"; sourceTree = "<group>"; };
 		7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye-white.png"; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 				7EA2490E16D8E9C6002231B2 /* hddtemperatures.png */,
 				7EA2490F16D8E9C6002231B2 /* hwmonitor_template.png */,
 				7EA2491016D8E9C6002231B2 /* hwmonitor.png */,
+				7EC22D78180221810070248F /* scale_template.png */,
 				7E683AFB17E3761D001A6EF6 /* scale.png */,
 				7EA2491116D8E9C6002231B2 /* multipliers_template.png */,
 				7EA2491216D8E9C6002231B2 /* multipliers.png */,
@@ -753,6 +756,7 @@
 				7ECDDE3716DDE5DA00085FFF /* 04-eye-white@2x.png in Resources */,
 				7E0648F116DF3B7D00ACB851 /* README.md in Resources */,
 				7E1BC3CE16F47BDF005B9479 /* battery.png in Resources */,
+				7EC22D79180221810070248F /* scale_template.png in Resources */,
 				7E1BC3CF16F47BDF005B9479 /* battery_template.png in Resources */,
 				7EF2A0FC17303B9100D8641C /* MainMenu.xib in Resources */,
 				7EF2A10017303EA600D8641C /* AboutController.xib in Resources */,
