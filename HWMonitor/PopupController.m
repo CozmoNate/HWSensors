@@ -70,9 +70,11 @@
 
 -(void)showWindow:(id)sender
 {
-    if (self.window.isVisible)
+    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+
+    if (menubarWindow.isVisible)
         return;
-    
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillOpen:)]) {
         [self.delegate popupWillOpen:self];
     }
@@ -131,7 +133,27 @@
 #pragma mark -
 #pragma mark Events
 
+- (void) windowDidAttachToStatusBar:(id)sender
+{
+    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
+    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
+    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
+
+    //[NSApp deactivate];
+}
+
+- (void) windowDidDetachFromStatusBar:(id)sender
+{
+    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+
+    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
+    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
+
+    if (menubarWindow.isKeyWindow) {
+        [NSApp activateIgnoringOtherApps:YES];
+    }
+}
 
 #pragma mark -
 #pragma mark Actions
@@ -278,6 +300,7 @@
 
     [menubarWindow setContentSize:NSMakeSize(menubarWindow.frame.size.width, height)];
     [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
+    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
     
     // Order front if needed
     if (orderFront) {

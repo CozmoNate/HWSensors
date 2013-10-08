@@ -74,15 +74,7 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
 	self = [super initWithFrame:frameRect];
 	if (self)
 	{
-		
-		// iVars
-		_topFadeView = nil;
-		_bottomFadeView = nil;
-		_fadeHeight = DEFAULTFADEHEIGHT;
-		_fadeColor = [NSColor blackColor];
-
-		// Kill copy on scroll
-		[[self contentView] setCopiesOnScroll:NO];
+        [self awakeFromNib];
 	}
 	
 	return self;
@@ -92,12 +84,19 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
 
 - (void)awakeFromNib
 {
-	// Kill copy on scroll
-	[[self contentView] setCopiesOnScroll:NO];
-	
-	// Initial state
-	_fadeHeight = DEFAULTFADEHEIGHT;
-	_fadeColor = [NSColor blackColor];
+    // iVars
+    _topFadeView = nil;
+    _bottomFadeView = nil;
+    _fadeHeight = DEFAULTFADEHEIGHT;
+    _fadeColor = [NSColor blackColor];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(contentBoundsDidChange:)
+                                                 name:NSViewBoundsDidChangeNotification
+                                               object:self.contentView];
+
+    // Kill copy on scroll
+    [[self contentView] setCopiesOnScroll:NO];
 }
 
 
@@ -145,14 +144,12 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
 
 - (void)tile
 {
-	// Super first, then fade views
-	[super tile];
-	[self tileFadeViews];
-
     // Fake zero scroller width so the contentView gets drawn to the edge
     method_exchangeImplementations(class_getClassMethod([RFOverlayScroller class], @selector(scrollerWidthForControlSize:scrollerStyle:)),
                                    class_getClassMethod([RFOverlayScroller class], @selector(zeroWidth)));
+    // Super first, then fade views
 	[super tile];
+	[self tileFadeViews];
     // Restore original scroller width
     method_exchangeImplementations(class_getClassMethod([RFOverlayScroller class], @selector(scrollerWidthForControlSize:scrollerStyle:)),
                                    class_getClassMethod([RFOverlayScroller class], @selector(zeroWidth)));
@@ -172,20 +169,34 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
                             context:NULL];
 }
 
+- (void)contentBoundsDidChange:(NSNotification *)notification
+{
+    CGFloat offset = self.contentView.bounds.origin.y;
+    CGFloat doubleHeight = _bottomFadeView.frame.size.height * 2;
+
+    [_bottomFadeView setAlphaValue:offset > doubleHeight  && _topFadeView.frame.size.height ? 1.0 : offset / doubleHeight];
+
+    offset = [[self documentView] bounds].size.height - (self.contentView.bounds.size.height + self.contentView.bounds.origin.y);
+    doubleHeight = _topFadeView.frame.size.height * 2;
+
+    [_topFadeView setAlphaValue:offset > doubleHeight  && _topFadeView.frame.size.height ? 1.0 : offset / doubleHeight];
+}
+
 - (void)tileFadeViews
 {
-	
 	// Make sure we have our top and bottom fade views
 	if (!_topFadeView)
 	{
 		_topFadeView = [[JLNFadeView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth([[self contentView] frame]), _fadeHeight)];
 		[_topFadeView setTopDown:YES];
 		[_topFadeView setFadeColor:[self backgroundColor]];
+        [_topFadeView setFrame:NSMakeRect(0, 0, 0, 0)];
 	}
 	if (!_bottomFadeView)
 	{
 		_bottomFadeView = [[JLNFadeView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth([[self contentView] frame]), _fadeHeight)];
 		[_bottomFadeView setFadeColor:[self backgroundColor]];
+        [_bottomFadeView setFrame:NSMakeRect(0, 0, 0, 0)];
 	}
 	
 	// Determine inset for border type
@@ -218,8 +229,8 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
 
     if (!NSEqualRects(_topFadeView.frame, topFrame)) {
         [_topFadeView removeFromSuperviewWithoutNeedingDisplay];
-        [self addSubview:_topFadeView positioned:NSWindowAbove relativeTo:[self contentView]];
         [_topFadeView setFrame:topFrame];
+        [self addSubview:_topFadeView positioned:NSWindowAbove relativeTo:[self contentView]];
     }
 
     if (!NSEqualRects(_bottomFadeView.frame, bottomFrame)) {
@@ -228,10 +239,7 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
         [self addSubview:_bottomFadeView positioned:NSWindowAbove relativeTo:[self contentView]];
     }
 
-	// Flag the fade views for display
-	//[_topFadeView setNeedsDisplay:YES];
-	//[_bottomFadeView setNeedsDisplay:YES];
-	
+    [self contentBoundsDidChange:nil];
 }
 
 
