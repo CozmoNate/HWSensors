@@ -109,7 +109,7 @@
             </items>
         </menu>
         <window title="HWMonitor" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="none" frameAutosaveName="PopupWindow" id="3" customClass="OBMenuBarWindow">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" nonactivatingPanel="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" nonactivatingPanel="YES"/>
             <windowCollectionBehavior key="collectionBehavior" canJoinAllSpaces="YES" managed="YES" participatesInCycle="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES"/>
             <rect key="contentRect" x="1187" y="754" width="222" height="300"/>
@@ -390,16 +390,16 @@
                         </scroller>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="fadeHeight">
-                                <integer key="value" value="19"/>
+                                <integer key="value" value="12"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </scrollView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="13" firstAttribute="leading" secondItem="4" secondAttribute="leading" id="933"/>
-                    <constraint firstItem="13" firstAttribute="trailing" secondItem="4" secondAttribute="trailing" id="937"/>
-                    <constraint firstItem="13" firstAttribute="top" secondItem="4" secondAttribute="top" id="1117"/>
-                    <constraint firstItem="13" firstAttribute="bottom" secondItem="4" secondAttribute="bottom" id="1119"/>
+                    <constraint firstAttribute="trailing" secondItem="13" secondAttribute="trailing" id="KXu-CH-g6w"/>
+                    <constraint firstAttribute="bottom" secondItem="13" secondAttribute="bottom" id="UnD-xQ-nbS"/>
+                    <constraint firstItem="13" firstAttribute="top" secondItem="4" secondAttribute="top" id="fey-af-iUR"/>
+                    <constraint firstItem="13" firstAttribute="leading" secondItem="4" secondAttribute="leading" id="pzF-fk-7pY"/>
                 </constraints>
             </view>
             <connections>

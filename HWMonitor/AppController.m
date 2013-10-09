@@ -243,13 +243,13 @@
         }];
     }
     
-    [_popupController updateValuesForSensors:sensors];
+    [_popupController updateValuesOfSensorsInArray:sensors];
     [_graphsController captureDataToHistoryNow];
 }
 
 - (void)smcSensorsUpdateLoop
 {
-    if ([_smcSensorsLastUdated timeIntervalSinceNow] < -1.0) { // every second min
+    if ([_smcSensorsLastUdated timeIntervalSinceNow] < -_smcSensorsLoopTimer.timeInterval * 0.7f) {
 
         _smcSensorsLastUdated = [NSDate dateWithTimeIntervalSinceNow:0];
 
@@ -270,8 +270,8 @@
 
 - (void)smartSensorsUpdateLoop
 {
-    if ([_smartSensorsLastUdated timeIntervalSinceNow] < -1.0 * 60 * 5) { // every 5 minutes min
-
+    if ([_smartSensorsLastUdated timeIntervalSinceNow] < -_smartSensorsloopTimer.timeInterval * 0.7f) {
+        
         _smartSensorsLastUdated = [NSDate dateWithTimeIntervalSinceNow:0];
 
         if ([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || [_graphsController backgroundMonitoring]) {

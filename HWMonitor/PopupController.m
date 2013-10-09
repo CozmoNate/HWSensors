@@ -82,7 +82,7 @@
     // Update values
     for (id item in _items) {
         if ([item isKindOfClass:[HWMonitorItem class]]) {
-            [self updateValueForItem:item];
+            [self updateValueOfItem:item];
         }
     }
 
@@ -296,9 +296,11 @@
     
     height = 6 + (menubarWindow.attachedToMenuBar ? OBMenuBarWindowArrowHeight : 0) + (height ? height : _tableView.frame.size.height);
 
-    [menubarWindow setContentSize:NSMakeSize(menubarWindow.frame.size.width, height)];
-    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
-    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
+    if (menubarWindow.frame.size.height != height) {
+        [menubarWindow setContentSize:NSMakeSize(menubarWindow.frame.size.width, height)];
+        [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
+        [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
+    }
     
     // Order front if needed
     if (orderFront) {
@@ -313,7 +315,7 @@
     [_statusItemView setNeedsDisplay:YES];
 }
 
--(void)updateValueForItem:(HWMonitorItem*)item
+-(void)updateValueOfItem:(HWMonitorItem*)item
 {
     if ([item isVisible]) {
         id cell = [_tableView viewAtColumn:0 row:[_items indexOfObject:item] makeIfNecessary:NO];
@@ -366,11 +368,11 @@
     }
 }
 
--(void)updateValuesForSensors:(NSArray *)sensors
+-(void)updateValuesOfSensorsInArray:(NSArray *)sensors
 {
     if ([self.window isVisible]) {
         for (HWMonitorSensor *sensor in sensors) {
-            [self updateValueForItem:[sensor representedObject]];
+            [self updateValueOfItem:[sensor representedObject]];
         }
     }
     

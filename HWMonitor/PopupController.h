@@ -55,6 +55,6 @@
 
 - (void) setupWithGroups:(NSArray*)groups;
 - (void) reloadData;
-- (void) updateValuesForSensors:(NSArray*)sensors;
+- (void) updateValuesOfSensorsInArray:(NSArray*)sensors;
 
 @end
