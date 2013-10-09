@@ -201,8 +201,6 @@
 
 - (void)initialSetup
 {
-    [(JLNFadingScrollView *)_scrollView setFadeHeight:6];
-
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
     [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
     

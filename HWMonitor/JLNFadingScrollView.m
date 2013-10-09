@@ -49,10 +49,6 @@
 #import "JLNFadingScrollView.h"
 #import "RFOverlayScroller.h"
 
-
-#define DEFAULTFADEHEIGHT					6.0
-
-
 @implementation JLNFadingScrollView
 
 
@@ -69,9 +65,24 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
     return NSOrderedSame;
 }
 
+-(id)init
+{
+    self = [super init];
+	if (self)
+	{
+        _topFadeView = nil;
+        _bottomFadeView = nil;
+        _fadeHeight = 6;
+        _fadeColor = [NSColor blackColor];
+	}
+
+	return self;
+}
+
 - (id)initWithFrame:(NSRect)frameRect
 {
 	self = [super initWithFrame:frameRect];
+
 	if (self)
 	{
         [self awakeFromNib];
@@ -85,10 +96,6 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
 - (void)awakeFromNib
 {
     // iVars
-    _topFadeView = nil;
-    _bottomFadeView = nil;
-    _fadeHeight = DEFAULTFADEHEIGHT;
-    _fadeColor = [NSColor blackColor];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(contentBoundsDidChange:)

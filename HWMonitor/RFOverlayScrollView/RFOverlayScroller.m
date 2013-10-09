@@ -61,6 +61,12 @@
     }
 }
 
+-(void)resetCursorRects
+{
+    [self discardCursorRects];
+    [self addCursorRect:self.frame cursor:[NSCursor pointingHandCursor]];
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Only draw the know. drawRect: should only be invoked when overlay scrollers are not used
