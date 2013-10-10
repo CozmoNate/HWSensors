@@ -94,7 +94,7 @@
 //    else {
 //        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
 //    }
-    
+
     self.statusItemView.isHighlighted = YES;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidOpen:)]) {

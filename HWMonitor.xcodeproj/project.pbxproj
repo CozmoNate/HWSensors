@@ -25,7 +25,6 @@
 		7E2042011730844C00C13B65 /* GraphsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042001730844C00C13B65 /* GraphsController.xib */; };
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
 		7E2042051730D04100C13B65 /* AppController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* AppController.xib */; };
-		7E44D95E1710433A00D06387 /* WindowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E44D95D1710433A00D06387 /* WindowFilter.m */; };
 		7E683AFC17E3761D001A6EF6 /* scale.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E683AFB17E3761D001A6EF6 /* scale.png */; };
 		7E683B0217E37916001A6EF6 /* github.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E683B0117E37916001A6EF6 /* github.png */; };
 		7E683B0417E3792E001A6EF6 /* bitbucket.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E683B0317E3792E001A6EF6 /* bitbucket.png */; };
@@ -162,8 +161,6 @@
 		7E2042021730CDA000C13B65 /* PopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupController.xib; sourceTree = "<group>"; };
 		7E2042041730D04000C13B65 /* AppController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppController.xib; sourceTree = "<group>"; };
 		7E2FE0A3178D18CA00802D38 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		7E44D95C1710433A00D06387 /* WindowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowFilter.h; sourceTree = "<group>"; };
-		7E44D95D1710433A00D06387 /* WindowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowFilter.m; sourceTree = "<group>"; };
 		7E4CD74B1737574C002586D2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E683AFB17E3761D001A6EF6 /* scale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scale.png; sourceTree = "<group>"; };
 		7E683B0117E37916001A6EF6 /* github.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = github.png; sourceTree = "<group>"; };
@@ -570,8 +567,6 @@
 				7E9A17D217E45ACA003DB018 /* NSString+Size.m */,
 				7E9A17CE17E45938003DB018 /* NSPopover+Message.h */,
 				7E9A17CF17E45938003DB018 /* NSPopover+Message.m */,
-				7E44D95C1710433A00D06387 /* WindowFilter.h */,
-				7E44D95D1710433A00D06387 /* WindowFilter.m */,
 				7E39415716DBEA13005A685D /* Cells */,
 				7E0200AC18035D3700520CF7 /* RFOverlayScrollView */,
 				7E0254651805D2D200B4F099 /* JLNFadingScrollView */,
@@ -855,7 +850,6 @@
 				7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */,
 				7E16FD87170648BF00FB253E /* HWMonitorProfiles.m in Sources */,
 				7E16FD8A1706BB3000FB253E /* TransparentSplitView.m in Sources */,
-				7E44D95E1710433A00D06387 /* WindowFilter.m in Sources */,
 				7EF2A0F61730379C00D8641C /* AboutController.m in Sources */,
 				7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */,
 				7E9A17CD17E4529C003DB018 /* ATASensorCell.m in Sources */,

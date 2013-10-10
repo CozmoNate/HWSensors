@@ -19,8 +19,6 @@
 - (void)popupDidClose:(id)sender;
 @end
 
-@class WindowFilter;
-
 @interface PopupController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
     BOOL _hasActivePanel;
