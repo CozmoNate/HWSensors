@@ -368,7 +368,7 @@
     }
 }
 
--(void)updateValuesOfSensorsInArray:(NSArray *)sensors
+-(void)captureValuesOfSensorsInArray:(NSArray *)sensors
 {
     if ([self.window isVisible]) {
         for (HWMonitorSensor *sensor in sensors) {

@@ -503,7 +503,7 @@ bool SuperIODevice::start(IOService *provider)
                     UInt16 ite_id = id;
                     
                     if (!detectWinbondFamilyChip()) {
-                        HWSensorsFatalLog("found unsupported ship ITE sequence ID=0x%x, Winbond sequence ID=0x%x", ite_id, id);
+                        HWSensorsFatalLog("found unsupported chip! ITE sequence ID=0x%x, Winbond sequence ID=0x%x", ite_id, id);
                         return false;
                     }
                 }
@@ -518,7 +518,7 @@ bool SuperIODevice::start(IOService *provider)
             UInt16 wnbnd_id = id;
             
             if (!detectITEFamilyChip()) {
-                HWSensorsFatalLog("found unsupported ship ITE sequence ID=0x%x, Winbond sequence ID=0x%x", id, wnbnd_id);
+                HWSensorsFatalLog("found unsupported chip! ITE sequence ID=0x%x, Winbond sequence ID=0x%x", id, wnbnd_id);
                 return false;
             }
         }

@@ -53,6 +53,6 @@
 
 - (void) setupWithGroups:(NSArray*)groups;
 - (void) reloadData;
-- (void) updateValuesOfSensorsInArray:(NSArray*)sensors;
+- (void) captureValuesOfSensorsInArray:(NSArray*)sensors;
 
 @end
