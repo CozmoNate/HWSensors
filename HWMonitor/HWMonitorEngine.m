@@ -729,11 +729,8 @@
 {
     if (![sensor genericDevice]) {
         SMCVal_t val;
-        UInt32Char_t name;
-        
-        strncpy(name, [[sensor name] cStringUsingEncoding:NSASCIIStringEncoding], 5);
-        
-        if (kIOReturnSuccess == SMCReadKey(_connection, name, &val)) {
+
+        if (kIOReturnSuccess == SMCReadKey(_connection, sensor.key, &val)) {
             
             //[sensor setType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
             [sensor setData:[NSData dataWithBytes:val.bytes length:val.dataSize]];

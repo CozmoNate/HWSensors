@@ -419,6 +419,7 @@
 
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidMountNotification object:nil];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceWillSleep:) name:NSWorkspaceWillSleepNotification object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:nil];
 }
 
@@ -426,6 +427,7 @@
 {
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceDidMountNotification object:nil];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceDidUnmountNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceWillSleepNotification object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver: self name: NSWorkspaceDidWakeNotification object:nil];
 }
 
@@ -436,11 +438,16 @@
     }];
 }
 
--(void)workspaceDidWake:(id)sender
+-(void)workspaceWillSleep:(id)sender
 {
-    //
+    if (_smcSensorsLoopTimer) [_smcSensorsLoopTimer invalidate];
+    if (_smartSensorsloopTimer) [_smartSensorsloopTimer invalidate];
 }
 
+-(void)workspaceDidWake:(id)sender
+{
+    [self updateRateChanged:sender];
+}
 
 - (IBAction)toggleSensorVisibility:(id)sender
 {

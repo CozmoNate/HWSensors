@@ -33,6 +33,8 @@
 
 NSString * const OBMenuBarWindowDidAttachToMenuBar = @"OBMenuBarWindowDidAttachToMenuBar";
 NSString * const OBMenuBarWindowDidDetachFromMenuBar = @"OBMenuBarWindowDidDetachFromMenuBar";
+NSString * const OBMenuBarWindowDidBecomeKey = @"OBMenuBarWindowDidBecomeKey";
+NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 
 // You can alter these constants to change the appearance of the window
 //CGFloat OBMenuBarWindowTitleBarHeight = 35;
@@ -391,22 +393,23 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
         [self setLevel:(isAttached ? NSPopUpMenuWindowLevel : NSNormalWindowLevel)];
 
-        if (self.delegate != nil)
+        if (isAttached)
         {
-            if (isAttached && [self.delegate respondsToSelector:@selector(windowDidAttachToStatusBar:)])
-            {
+            if (self.delegate != nil && [self.delegate respondsToSelector:@selector(windowDidAttachToStatusBar:)]) {
                 [self.delegate performSelector:@selector(windowDidAttachToStatusBar:)
-                                    withObject:self];
-                [[NSNotificationCenter defaultCenter] postNotificationName:OBMenuBarWindowDidAttachToMenuBar
-                                                                    object:self];
+                                withObject:self];
             }
-            else if (!isAttached && [self.delegate respondsToSelector:@selector(windowDidDetachFromStatusBar:)])
-            {
+            [[NSNotificationCenter defaultCenter] postNotificationName:OBMenuBarWindowDidAttachToMenuBar
+                                                                object:self];
+        }
+        else
+        {
+            if (self.delegate != nil && [self.delegate respondsToSelector:@selector(windowDidDetachFromStatusBar:)]) {
                 [self.delegate performSelector:@selector(windowDidDetachFromStatusBar:)
-                                    withObject:self];
-                [[NSNotificationCenter defaultCenter] postNotificationName:OBMenuBarWindowDidDetachFromMenuBar
-                                                                    object:self];
+                                withObject:self];
             }
+            [[NSNotificationCenter defaultCenter] postNotificationName:OBMenuBarWindowDidDetachFromMenuBar
+                                                                object:self];
         }
         [self layoutContent];
         //[[self.contentView superview] setNeedsDisplayInRect:[self titleBarRect]];
@@ -502,6 +505,12 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 - (void)windowDidBecomeKey:(NSNotification *)aNotification
 {
     [[self.contentView superview] setNeedsDisplayInRect:[self titleBarRect]];
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(windowDidBecomeKey:)]) {
+        [self.delegate performSelector:@selector(windowDidBecomeKey:)
+                            withObject:self];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBMenuBarWindowDidBecomeKey
+                                                        object:self];
 }
 
 - (void)windowDidResignKey:(NSNotification *)aNotification
@@ -511,6 +520,12 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
         [self orderOut:self];
     }
     [[self.contentView superview] setNeedsDisplayInRect:[self titleBarRect]];
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(windowDidResignKey:)]) {
+        [self.delegate performSelector:@selector(windowDidResignKey:)
+                            withObject:self];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:OBMenuBarWindowDidResignKey
+                                                        object:self];
 }
 
 #pragma mark - Showing the window
@@ -718,7 +733,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     return noiseImage;
 }
 
-- (NSImage *)contentImageForKeyWindow:(BOOL)isKey
+- (NSImage *)contentImageWhenTheWindowIsKey:(BOOL)isKey
 {
     OBMenuBarWindow *window = (OBMenuBarWindow *)[self window];
 
@@ -819,8 +834,8 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
         }
         else
         {
-            bottomColor = [window.colorTheme.toolbarEndColor highlightWithLevel:0.15];
-            topColor = [window.colorTheme.toolbarStartColor highlightWithLevel:0.15];
+            bottomColor = [window.colorTheme.toolbarEndColor highlightWithLevel:0.2];
+            topColor = [window.colorTheme.toolbarStartColor highlightWithLevel:0.2];
             topColorTransparent = [[NSColor colorWithCalibratedRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0] highlightWithLevel:0.15];
         }
     }
@@ -924,7 +939,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 - (NSImage *)activeImage
 {
     if (activeImage == nil)
-        activeImage = [self contentImageForKeyWindow:YES];
+        activeImage = [self contentImageWhenTheWindowIsKey:YES];
 
     return activeImage;
 }
@@ -932,7 +947,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 - (NSImage *)inactiveImage
 {
     if (inactiveImage == nil)
-    inactiveImage = [self contentImageForKeyWindow:NO];
+    inactiveImage = [self contentImageWhenTheWindowIsKey:NO];
 
     return inactiveImage;
 }

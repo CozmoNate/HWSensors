@@ -178,6 +178,14 @@
     return nil;
 }
 
+-(void)setName:(NSString *)name
+{
+    if (name != _name) {
+        _name = name;
+        _key = [name cStringUsingEncoding:NSASCIIStringEncoding];
+    }
+}
+
 - (void)setType:(NSString *)newType
 {
     if (!_type || ![_type isEqualToString:newType]) {

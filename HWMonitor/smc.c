@@ -28,7 +28,7 @@ cc ./smc.c  -o smcutil -framework IOKit -framework CoreFoundation -Wno-four-char
 #include <IOKit/IOKitLib.h>
 #include "smc.h"
 
-static UInt32 _strtoul(char *str, int size, int base)
+static UInt32 _strtoul(const char *str, int size, int base)
 {
     UInt32 total = 0;
     int i;
@@ -112,7 +112,7 @@ kern_return_t SMCCall(io_connect_t conn, int index, SMCKeyData_t *inputStructure
 									 );
 }
 
-kern_return_t SMCReadKey(io_connect_t conn, UInt32Char_t key, SMCVal_t *val)
+kern_return_t SMCReadKey(io_connect_t conn, const UInt32Char_t key, SMCVal_t *val)
 {
     kern_return_t result;
     SMCKeyData_t  inputStructure;

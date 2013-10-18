@@ -34,6 +34,8 @@
 // Notifications
 extern NSString * const OBMenuBarWindowDidAttachToMenuBar;
 extern NSString * const OBMenuBarWindowDidDetachFromMenuBar;
+extern NSString * const OBMenuBarWindowDidBecomeKey;
+extern NSString * const OBMenuBarWindowDidResignKey;
 
 // Constants
 //extern CGFloat OBMenuBarWindowTitleBarHeight;

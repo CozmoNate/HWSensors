@@ -133,7 +133,7 @@
 #pragma mark -
 #pragma mark Events
 
-- (void) windowDidAttachToStatusBar:(id)sender
+- (void)windowDidAttachToStatusBar:(id)sender
 {
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
@@ -143,7 +143,7 @@
     //[NSApp deactivate];
 }
 
-- (void) windowDidDetachFromStatusBar:(id)sender
+- (void)windowDidDetachFromStatusBar:(id)sender
 {
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
@@ -152,6 +152,26 @@
 
     if (menubarWindow.isKeyWindow) {
         [NSApp activateIgnoringOtherApps:YES];
+    }
+}
+
+- (void)windowDidBecomeKey:(id)sender
+{
+    for (id subveiw in _toolbarView.subviews)
+    {
+        if ([subveiw respondsToSelector:@selector(setEnabled:)]) {
+            [subveiw setEnabled:YES];
+        }
+    }
+}
+
+- (void)windowDidResignKey:(id)sender
+{
+    for (id subveiw in _toolbarView.subviews)
+    {
+        if ([subveiw respondsToSelector:@selector(setEnabled:)]) {
+            [subveiw setEnabled:NO];
+        }
     }
 }
 

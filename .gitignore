@@ -9,3 +9,5 @@ Sparkle/Binaries/*
 Package/Distribution.xml
 Package/*.pkg
 
+
+*.xccheckout
