@@ -58,7 +58,8 @@ echo '      <meta name="robots" content="anchors">' >> ./Appcast/rnotes.html
 echo '      <link href="rnotes.css" type="text/css" rel="stylesheet" media="all">' >> ./Appcast/rnotes.html
 echo '  </head>' >> ./Appcast/rnotes.html
 echo '  <body>' >> ./Appcast/rnotes.html
-echo '          <table class="dots" width="100%" border="0" cellspacing="0" cellpadding="0" summary="Two column table with heading">' >> ./Appcast/rnotes.html
+echo '      <br/>' >> ./Appcast/rnotes.html
+echo '      <table class="dots" width="100%" border="0" cellspacing="0" cellpadding="0" summary="Two column table with heading">' >> ./Appcast/rnotes.html
 echo '              <tr>' >> ./Appcast/rnotes.html
 echo '                  <td class="blue" colspan="2">' >> ./Appcast/rnotes.html
 echo '                      <h3>New in '${project_name}' v'${full_version}'</h3>' >> ./Appcast/rnotes.html
@@ -73,7 +74,7 @@ echo                            ${git_log} >> ./Appcast/rnotes.html
 echo '                      </ul>' >> ./Appcast/rnotes.html
 echo '                  </td>' >> ./Appcast/rnotes.html
 echo '              </tr>' >> ./Appcast/rnotes.html
-echo '          </table>' >> ./Appcast/rnotes.html
+echo '      </table>' >> ./Appcast/rnotes.html
 echo '      <br/>' >> ./Appcast/rnotes.html
 echo '  </body>' >> ./Appcast/rnotes.html
 echo '</html>' >> ./Appcast/rnotes.html
