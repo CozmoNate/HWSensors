@@ -59,7 +59,7 @@ typedef enum {
 
 @interface HWMonitorSensor : NSObject
 {
-    const char* _key;
+    char _rawKey[5];
     NSNumber *_rawValue;
     NSMutableDictionary *_localizationCache;
 }
@@ -67,7 +67,6 @@ typedef enum {
 @property (nonatomic, strong) HWMonitorEngine*  engine;
 
 @property (nonatomic, strong) NSString* name;
-@property (readonly) const char * key;
 @property (nonatomic, strong) NSString* type;
 @property (nonatomic, assign) NSUInteger group;
 @property (nonatomic, strong) NSString* title;
@@ -75,6 +74,7 @@ typedef enum {
 @property (nonatomic, strong) id genericDevice;
 
 @property (nonatomic, assign) HWSensorLevel level;
+@property (readonly) const char *rawKey;
 @property (readonly) NSNumber* rawValue;
 @property (readonly) NSString* stringValue;
 @property (readonly) NSInteger intValue;

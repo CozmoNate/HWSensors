@@ -178,12 +178,18 @@
     return nil;
 }
 
+
 -(void)setName:(NSString *)name
 {
     if (name != _name) {
         _name = name;
-        _key = [name cStringUsingEncoding:NSASCIIStringEncoding];
+        [name getCString:_rawKey maxLength:5 encoding:NSASCIIStringEncoding];
     }
+}
+
+-(const char *)rawKey
+{
+    return _rawKey;
 }
 
 - (void)setType:(NSString *)newType

@@ -730,7 +730,7 @@
     if (![sensor genericDevice]) {
         SMCVal_t val;
 
-        if (kIOReturnSuccess == SMCReadKey(_connection, sensor.key, &val)) {
+        if (kIOReturnSuccess == SMCReadKey(_connection, sensor.rawKey, &val)) {
             
             //[sensor setType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
             [sensor setData:[NSData dataWithBytes:val.bytes length:val.dataSize]];
