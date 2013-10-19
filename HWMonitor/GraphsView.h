@@ -32,7 +32,6 @@
 @interface GraphsView : NSView
 {
     NSMutableArray *_items;
-    NSMutableDictionary *_graphs;
     
     NSRect _graphBounds;
     double _minY;
@@ -49,6 +48,7 @@
 @property (nonatomic, assign) BOOL useSmoothing;
 @property (nonatomic, assign) float graphScale;
 @property (nonatomic, assign) HWSensorGroup sensorGroup;
+@property (readonly) NSMutableDictionary *graphs;
 
 - (NSArray*)addItemsFromList:(NSArray*)itemsList forSensorGroup:(HWSensorGroup)sensorsGroup;
 - (void)calculateGraphBoundsFindExtremes:(BOOL)findExtremes;

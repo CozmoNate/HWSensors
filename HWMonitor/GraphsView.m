@@ -30,12 +30,23 @@
 #import "HWMonitorDefinitions.h"
 #import "Localizer.h"
 
+static NSMutableDictionary *graphs_history = nil;
+
 @implementation GraphsView
 
 #define LeftViewMargin      1
 #define TopViewMargin       1
 #define RightViewMargin     1
 #define BottomViewMargin    1
+
+-(NSMutableDictionary *)graphs
+{
+    if (!graphs_history) {
+        graphs_history = [[NSMutableDictionary alloc] init];
+    }
+
+    return graphs_history;
+}
 
 -(id)init
 {
@@ -92,17 +103,12 @@
     else {
         [_items removeAllObjects];
     }
-    
-    if (!_graphs) {
-        _graphs = [[NSMutableDictionary alloc] init];
-    }
-    else {
-        [_graphs removeAllObjects];
-    }
  
     for (HWMonitorItem *item in itemsList) {
         [_items addObject:item];
-        [_graphs setObject:[[NSMutableArray alloc] init] forKey:[[item sensor] name]];
+        if (![self.graphs objectForKey:item.sensor.name]) {
+            [self.graphs setObject:[[NSMutableArray alloc] init] forKey:[[item sensor] name]];
+        }
     }
     
     [self calculateGraphBoundsFindExtremes:YES];
@@ -114,7 +120,7 @@
 {
     for (HWMonitorItem *item in _items) {
         HWMonitorSensor *sensor = [item sensor];
-        NSMutableArray *history = [_graphs objectForKey:[sensor name]];
+        NSMutableArray *history = [self.graphs objectForKey:[sensor name]];
 
         if ([sensor rawValue]) {
             [history addObject:[sensor rawValue]];
@@ -142,7 +148,7 @@
                 continue;
             
             HWMonitorSensor *sensor = [item sensor];
-            NSArray *points = [_graphs objectForKey:[sensor name]];
+            NSArray *points = [self.graphs objectForKey:[sensor name]];
             
             if (points) {
                 for (NSNumber *point in points) {
@@ -235,7 +241,7 @@
             continue;
 
         HWMonitorSensor *sensor = [item sensor];
-        NSArray *values = [_graphs objectForKey:[sensor name]];
+        NSArray *values = [self.graphs objectForKey:[sensor name]];
         
         if (!values || [values count] < 2)
             continue;
