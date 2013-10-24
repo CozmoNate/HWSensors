@@ -76,6 +76,13 @@
 "Dark" = "Scuro";
 "Continue monitor sensors in background" = "Continua il monitoraggio in background";
 "Check for updates" = "Controlla aggiornamenti";
+"Check for Updates..." = "Controlla aggiornamenti...";
+"Internal Battery" = "Batteria interna";
+"Detach from Menu Bar" = "Disancora dalla Barra dei Menu";
+"Attach to Menu Bar" = "Ancora alla Barra dei Menu";
+"Version %@" = "Versione %@";
+"Graphs scale factor" = "Fattore scala grafici";
+"Credits..." = "Crediti...";
 
 "Mouse" = "Mouse";
 "Keyboard" = "Tastiera";
