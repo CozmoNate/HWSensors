@@ -13,7 +13,7 @@
 + (NSArray*)discoverDevices
 {
     NSMutableArray *devices = [[NSMutableArray alloc] init];
-    BatteryDeviceType type;
+    GenericBatteryDeviceType type;
     int count = 0;
 
     do {
@@ -21,24 +21,26 @@
         
         switch (count++) {
             case 0:
-                //                matching = IOServiceMatching("AppleSmartBattery");
-                matching = IOServiceMatching("IOPMPowerSource");
-                type = kInternalBatteryType;
+                if (!(matching = IOServiceMatching("AppleSmartBattery")))
+                {
+                    matching = IOServiceMatching("IOPMPowerSource");
+                }
+                type = kPrimaryBatteryTypeInternal;
                 break;
 
             case 1:
                 matching = IOServiceMatching("BNBMouseDevice");
-                type = kBluetoothDeviceTypeMouse;
+                type = kBluetoothBatteryTypeMouse;
                 break;
                 
             case 2:
                 matching = IOServiceMatching("AppleBluetoothHIDKeyboard");
-                type = kBluetoothDeviceTypeKeyboard;
+                type = kBluetoothBatteryTypeKeyboard;
                 break;
                 
             case 3:
                 matching = IOServiceMatching("BNBTrackpadDevice");
-                type = kBluetoothDeviceTypeTrackpad;
+                type = kBluetoothBatteryTypeTrackpad;
                 break;
                 
             default:
@@ -74,7 +76,7 @@
     return devices;
 }
 
-+ (GenericBatteryDevice*)genericBatteryDeviceWithService:(io_service_t)service ofType:(BatteryDeviceType)type;
++ (GenericBatteryDevice*)genericBatteryDeviceWithService:(io_service_t)service ofType:(GenericBatteryDeviceType)type;
 {
     return [[GenericBatteryDevice alloc] initWithService:service ofType:type];
 }
@@ -86,7 +88,7 @@
     }
 }
 
-- (GenericBatteryDevice*)initWithService:(io_service_t)service ofType:(BatteryDeviceType)type
+- (GenericBatteryDevice*)initWithService:(io_service_t)service ofType:(GenericBatteryDeviceType)type
 {
     self = [super init];
     
@@ -99,7 +101,7 @@
         }
         
         switch (type) {
-            case kInternalBatteryType:
+            case kPrimaryBatteryTypeInternal:
                 _productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("DeviceName"), kCFAllocatorDefault, 0);
                 _serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("BatterySerialNumber"), kCFAllocatorDefault, 0);
                 
@@ -125,7 +127,7 @@
         NSNumber *level = nil;
         
         switch (_deviceType) {
-            case kInternalBatteryType: {
+            case kPrimaryBatteryTypeInternal: {
                 NSNumber *max = (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(_service, CFSTR("MaxCapacity"), kCFAllocatorDefault, 0);
                 NSNumber *current = (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(_service, CFSTR("CurrentCapacity"), kCFAllocatorDefault, 0);
                 

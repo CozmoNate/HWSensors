@@ -258,16 +258,16 @@
         NSString *title = nil;
         
         switch ([device deviceType]) {
-            case kBluetoothDeviceTypeKeyboard:
+            case kBluetoothBatteryTypeKeyboard:
                 title = @"Keyboard";
                 break;
-            case kBluetoothDeviceTypeMouse:
+            case kBluetoothBatteryTypeMouse:
                 title = @"Mouse";
                 break;
-            case kBluetoothDeviceTypeTrackpad:
+            case kBluetoothBatteryTypeTrackpad:
                 title = @"Trackpad";
                 break;
-            case kInternalBatteryType:
+            case kPrimaryBatteryTypeInternal:
                 title = @"Internal Battery";
                 break;
             default:
