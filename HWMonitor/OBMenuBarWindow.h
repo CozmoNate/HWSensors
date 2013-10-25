@@ -81,7 +81,7 @@ enum  {
    be notified when the user attaches or detaches the window from the menu bar.
  
  */
- 
+
 @interface OBMenuBarWindow : NSPanel
 {
     BOOL isDragging;

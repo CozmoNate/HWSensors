@@ -295,9 +295,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */,
 				7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */,
 				7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */,
-				7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
