@@ -113,7 +113,6 @@ static inline void cpu_check(void *magic)
 
 static UInt8 cpu_thermal[kCPUSensorsMaxCpus];
 static UInt8 cpu_thermal_updated[kCPUSensorsMaxCpus];
-static UInt8 cpu_thermal_package;
 
 static inline void read_cpu_thermal(void *magic)
 {
@@ -124,6 +123,20 @@ static inline void read_cpu_thermal(void *magic)
         if (msr & 0x80000000) {
             cpu_thermal[number] = (msr >> 16) & 0x7F;
             cpu_thermal_updated[number] = true;
+        }
+    }
+}
+
+static UInt8 cpu_thermal_package;
+
+static inline void read_cpu_thermal_package(void *magic)
+{
+    UInt32 number = get_cpu_number();
+
+    if (!number) {
+        UInt64 msr = rdmsr64(MSR_IA32_PACKAGE_THERM_STATUS);
+        if (msr & 0x80000000) {
+            cpu_thermal_package = ((msr >> 16) & 0x7F);
         }
     }
 }
@@ -319,7 +332,7 @@ IOReturn CPUSensors::woorkloopTimerEvent()
     }
     
     if (bit_get(timerEventsPending, kCPUSensorsPackageThermalSensor)) {
-        cpu_thermal_package = ((rdmsr64(MSR_IA32_PACKAGE_THERM_STATUS) >> 16) & 0x7F);
+        mp_rendezvous_no_intrs(read_cpu_thermal_package, NULL);
         //bit_clear(timerEventsPending, kCPUSensorsCoreThermalSensor);
     }
     
