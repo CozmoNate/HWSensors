@@ -14,8 +14,6 @@ OSDefineMetaClassAndStructors(SuperIODevice, IOService)
 
 bool SuperIODevice::detectWinbondFamilyChip()
 {
-    UInt16 vendorID = 0;
-
     for (int i = 0; i < 2; i++) {
         port = kSuperIOPorts[i];
         

@@ -11,6 +11,7 @@
 		7E17E2F61800370E00A18141 /* HWMonitor.PackageInfo */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HWMonitor.PackageInfo; sourceTree = "<group>"; };
 		7E2F25191783EAE800C86586 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7E3ABDBA1796580B00201804 /* revision.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = revision.txt; sourceTree = "<group>"; };
+		7E72E369181B94DA002165DD /* SignKexts.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = SignKexts.sh; sourceTree = "<group>"; };
 		7E86758417F57AE800438A80 /* distribution.draft */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = distribution.draft; sourceTree = "<group>"; };
 		7E86758D17F5803A00438A80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = license.txt; sourceTree = "<group>"; };
 		7E86758F17F5803A00438A80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
@@ -90,6 +91,7 @@
 			children = (
 				7EBA20C517ED59C6008E54C5 /* PreBuild.sh */,
 				7EBA20C217ED59C6008E54C5 /* BuildInstaller.sh */,
+				7E72E369181B94DA002165DD /* SignKexts.sh */,
 				7EBA20C617ED59C6008E54C5 /* SignApp.sh */,
 				7EBA20C717ED59C6008E54C5 /* SignInstaller.sh */,
 				7EBA20D517ED7B41008E54C5 /* GenerateAppcast.sh */,
@@ -201,6 +203,20 @@
 			passBuildSettingsInEnvironment = 0;
 			productName = "Sign Installer";
 		};
+		7E72E36A181B94F5002165DD /* Sign Kexts */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "./Scripts/SignKexts.sh ${ACTION}";
+			buildConfigurationList = 7E72E36B181B94F5002165DD /* Build configuration list for PBXLegacyTarget "Sign Kexts" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/sh;
+			buildWorkingDirectory = "${SOURCE_ROOT}";
+			dependencies = (
+			);
+			name = "Sign Kexts";
+			passBuildSettingsInEnvironment = 0;
+			productName = "Sign Application";
+		};
 		7EBA20D617ED7D1C008E54C5 /* Generate Appcast */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "./Scripts/GenerateAppcast.sh ${ACTION}";
@@ -237,6 +253,7 @@
 			targets = (
 				7E2ACD8B1791B4510061C677 /* Pre-Build */,
 				7E2ACD911791B54B0061C677 /* Build Installer */,
+				7E72E36A181B94F5002165DD /* Sign Kexts */,
 				7E43CE05179742D3001E3636 /* Sign Apps */,
 				7E43CE09179742DB001E3636 /* Sign Installer */,
 				7EBA20D617ED7D1C008E54C5 /* Generate Appcast */,
@@ -710,6 +727,67 @@
 			};
 			name = Release;
 		};
+		7E72E36C181B94F5002165DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "Sign Apps copy";
+			};
+			name = Debug;
+		};
+		7E72E36D181B94F5002165DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "Sign Apps copy";
+			};
+			name = Release;
+		};
 		7EB7E70E17834A740071B3F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -860,6 +938,15 @@
 			buildConfigurations = (
 				7E43CE0B179742DB001E3636 /* Debug */,
 				7E43CE0C179742DB001E3636 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E72E36B181B94F5002165DD /* Build configuration list for PBXLegacyTarget "Sign Kexts" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E72E36C181B94F5002165DD /* Debug */,
+				7E72E36D181B94F5002165DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
