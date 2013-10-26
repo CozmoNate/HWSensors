@@ -21,10 +21,7 @@
         
         switch (count++) {
             case 0:
-                if (!(matching = IOServiceMatching("AppleSmartBattery")))
-                {
-                    matching = IOServiceMatching("IOPMPowerSource");
-                }
+                matching = IOServiceMatching("IOPMPowerSource");
                 type = kPrimaryBatteryTypeInternal;
                 break;
 
