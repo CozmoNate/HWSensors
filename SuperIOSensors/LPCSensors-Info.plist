@@ -45,6 +45,8 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
+			<key>Handling Priority</key>
+			<integer>1000</integer>
 			<key>Platform Profile</key>
 			<dict>
 				<key>Default</key>
@@ -834,6 +836,8 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
+			<key>Handling Priority</key>
+			<integer>1000</integer>
 			<key>Platform Profile</key>
 			<dict>
 				<key>ASRock</key>
@@ -2645,6 +2649,8 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
+			<key>Handling Priority</key>
+			<integer>1000</integer>
 			<key>Platform Profile</key>
 			<dict>
 				<key>Intel</key>
@@ -3753,6 +3759,8 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
+			<key>Handling Priority</key>
+			<integer>1000</integer>
 			<key>Platform Profile</key>
 			<dict>
 				<key>ASRock</key>

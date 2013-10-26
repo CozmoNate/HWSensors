@@ -9,5 +9,11 @@
 @interface FadingButton : NSButton
 
 @property (strong) NSString *actionURL;
+@property (assign) CGFloat normalOpacity;
+@property (assign) CGFloat hoverOpacity;
+@property (assign) CGFloat downOpacity;
+
+- (IBAction)fadeIn:(id)sender;
+- (IBAction)fadeOut:(id)sender;
 
 @end

@@ -51,10 +51,10 @@
                                     <action selector="detachFromMenuBar:" target="3" id="1445"/>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1727" id="2641">
                                         <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
@@ -120,14 +120,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="222" height="300"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="JLNFadingScrollView">
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="27" horizontalPageScroll="10" verticalLineScroll="27" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="JLNFadingScrollView">
                         <rect key="frame" x="0.0" y="0.0" width="222" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Ii9-fX-Ldk">
                             <rect key="frame" x="0.0" y="0.0" width="222" height="300"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="52" customClass="SensorsTableView">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="27" rowSizeStyle="automatic" viewBased="YES" id="52" customClass="SensorsTableView">
                                     <rect key="frame" x="0.0" y="0.0" width="222" height="300"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -236,7 +236,16 @@
                                                     <rect key="frame" x="0.0" y="46" width="222" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textField hidden="YES" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="2830">
+                                                        <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="2828" userLabel="Title Field - Sensor">
+                                                            <rect key="frame" x="10" y="11" width="140" height="15"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Sensor" id="2842">
+                                                                <font key="font" size="12" name="Helvetica"/>
+                                                                <color key="textColor" white="0.14900775550000001" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        <textField hidden="YES" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="2830" userLabel="Subtitle Field - Subtitle">
                                                             <rect key="frame" x="10" y="1" width="202" height="11"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Subtitle" id="2839">
@@ -245,11 +254,11 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
-                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2829">
+                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2829" userLabel="Value Field - 9999об/м">
                                                             <rect key="frame" x="154" y="11" width="58" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="54" id="nUj-Hf-8Q8"/>
+                                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="54" id="f2v-ql-3G0"/>
                                                             </constraints>
                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="9999об/м" id="2841">
                                                                 <font key="font" size="12" name="Helvetica-Bold"/>
@@ -257,25 +266,16 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
-                                                        <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="2828">
-                                                            <rect key="frame" x="10" y="11" width="142" height="15"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Sensor" id="2842">
-                                                                <font key="font" size="12" name="Helvetica"/>
-                                                                <color key="textColor" white="0.14900775550000001" alpha="1" colorSpace="calibratedWhite"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                        </textField>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="2829" firstAttribute="baseline" secondItem="2828" secondAttribute="baseline" id="0ff-Sa-vQF"/>
-                                                        <constraint firstItem="2829" firstAttribute="top" secondItem="2827" secondAttribute="top" constant="1" id="BTt-8l-CGZ"/>
-                                                        <constraint firstItem="2830" firstAttribute="leading" secondItem="2828" secondAttribute="leading" id="RvF-eO-lTK"/>
-                                                        <constraint firstItem="2830" firstAttribute="top" secondItem="2827" secondAttribute="top" constant="15" id="bUc-Ws-Fsn"/>
-                                                        <constraint firstItem="2830" firstAttribute="centerX" secondItem="2827" secondAttribute="centerX" id="ioc-et-2pP"/>
-                                                        <constraint firstItem="2829" firstAttribute="leading" secondItem="2828" secondAttribute="trailing" constant="6" id="u5c-Eg-9QW"/>
-                                                        <constraint firstItem="2829" firstAttribute="trailing" secondItem="2830" secondAttribute="trailing" id="urs-VR-zNN"/>
-                                                        <constraint firstItem="2828" firstAttribute="leading" secondItem="2827" secondAttribute="leading" constant="12" id="w2F-TW-q8o"/>
+                                                        <constraint firstItem="2830" firstAttribute="leading" secondItem="2828" secondAttribute="leading" id="2zg-dX-i9e"/>
+                                                        <constraint firstItem="2830" firstAttribute="top" secondItem="2827" secondAttribute="top" constant="15" id="8rT-y3-3i4"/>
+                                                        <constraint firstItem="2829" firstAttribute="leading" secondItem="2828" secondAttribute="trailing" constant="8" symbolic="YES" id="Mdd-R7-xux"/>
+                                                        <constraint firstItem="2828" firstAttribute="leading" secondItem="2827" secondAttribute="leading" constant="12" id="Mmo-2d-LZB"/>
+                                                        <constraint firstItem="2829" firstAttribute="trailing" secondItem="2830" secondAttribute="trailing" id="MvM-cy-tru"/>
+                                                        <constraint firstItem="2828" firstAttribute="top" secondItem="2827" secondAttribute="top" constant="1" id="XpL-Wy-bXU"/>
+                                                        <constraint firstItem="2828" firstAttribute="baseline" secondItem="2829" secondAttribute="baseline" id="hDJ-UX-Olc"/>
+                                                        <constraint firstItem="2830" firstAttribute="centerX" secondItem="2827" secondAttribute="centerX" id="wX9-b5-9vX"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="subtitleField" destination="2830" id="2845"/>
@@ -427,10 +427,10 @@
                         <action selector="orderOut:" target="3" id="1151"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2507">
                             <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>

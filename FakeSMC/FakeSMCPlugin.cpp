@@ -275,21 +275,13 @@ bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, v
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
     SYNCLOCK;
-    
-    if (getSensor(key)) {
-        HWSensorsDebugLog("will not add handler for key %s, key already handled", key);
-        SYNCUNLOCK;
-		return NULL;
-    }
-	
+
     if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index, reference, gain, offset)) {
         if (addSensor(sensor)) {
             SYNCUNLOCK;
             return sensor;
         }
-        else {
-            OSSafeRelease(sensor);
-        }
+        else OSSafeRelease(sensor);
     }
 	
     SYNCUNLOCK;

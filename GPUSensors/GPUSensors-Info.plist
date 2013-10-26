@@ -38,6 +38,8 @@
 			<string>2000</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
+			<key>Handling Priority</key>
+			<integer>50000</integer>
 		</dict>
 		<key>Intel GMA X3100 Monitoring Plugin</key>
 		<dict>
@@ -50,9 +52,11 @@
 			<key>IOPCIClassMatch</key>
 			<string>0x03000000&amp;0xff0000000</string>
 			<key>IOPCIMatch</key>
-			<string>0x2a028086&amp;0xffffffff</string>
+			<string>0x2a028086&amp;0xffffffff 0x2a128086&amp;0xffffffff</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
+			<key>Handling Priority</key>
+			<integer>50000</integer>
 		</dict>
 		<key>nVidia GeForce Monitoring Plugin</key>
 		<dict>
@@ -70,6 +74,8 @@
 			<string>1000</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
+			<key>Handling Priority</key>
+			<integer>50000</integer>
 		</dict>
 	</dict>
 	<key>NSHumanReadableCopyright</key>

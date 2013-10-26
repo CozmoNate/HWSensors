@@ -18,7 +18,7 @@
 {
     [NSAnimationContext beginGrouping];
     [[NSAnimationContext currentContext] setDuration:0.1];
-    [[self animator] setAlphaValue:HOVER_OPACITY];
+    [[self animator] setAlphaValue:_hoverOpacity];
     [NSAnimationContext endGrouping];
 }
 
@@ -26,18 +26,43 @@
 {
     [NSAnimationContext beginGrouping];
     [[NSAnimationContext currentContext] setDuration:0.1];
-    [[self animator] setAlphaValue:NORMAL_OPACITY];
+    [[self animator] setAlphaValue:_normalOpacity];
     [NSAnimationContext endGrouping];
+}
+
+- (void)initialize
+{
+    _normalOpacity = 0.8;
+    _hoverOpacity = 0.95;
+    _downOpacity = 0.6;
+
+    [self setAlphaValue:_normalOpacity];
 }
 
 - (id)init
 {
     self = [super init];
     
-    if (self) {
-        [self setAlphaValue:NORMAL_OPACITY];
-    }
-    
+    if (self) [self initialize];
+
+    return self;
+}
+
+-(id)initWithFrame:(NSRect)frameRect
+{
+    self = [super initWithFrame:frameRect];
+
+    if (self) [self initialize];
+
+    return self;
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+
+    if (self) [self initialize];
+
     return self;
 }
 
@@ -50,7 +75,7 @@
 
 - (void)awakeFromNib
 {
-    [self setAlphaValue:NORMAL_OPACITY];
+    [self setAlphaValue:_normalOpacity];
 }
 
 - (void)updateTrackingAreas
@@ -67,25 +92,25 @@
 
 -(void)mouseEntered:(NSEvent *)theEvent
 {
-    [self setAlphaValue:HOVER_OPACITY];
+    [[self animator] setAlphaValue:_hoverOpacity];
     
     [super mouseEntered:theEvent];
 }
 
 -(void)mouseExited:(NSEvent *)theEvent
 {
-    [self setAlphaValue:NORMAL_OPACITY];
+    [self setAlphaValue:_normalOpacity];
     
     [super mouseExited:theEvent];
 }
 
 -(void)mouseDown:(NSEvent *)theEvent
 {
-    [self setAlphaValue:DOWN_OPACITY];
+    [self setAlphaValue:_downOpacity];
 
     [super mouseDown:theEvent];
     
-    [self setAlphaValue:NORMAL_OPACITY];
+    [self setAlphaValue:_normalOpacity];
     
     if (self.menu) {
         NSRect frame = [self convertRect:self.bounds toView:nil];

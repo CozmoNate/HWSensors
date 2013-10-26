@@ -8,7 +8,7 @@
  */
 
 #include "FakeSMCDevice.h"
-
+#include "FakeSMCPlugin.h"
 #include "FakeSMCDefinitions.h"
 
 #include <IOKit/IODeviceTreeSupport.h>
@@ -455,15 +455,29 @@ FakeSMCKey *FakeSMCDevice::addKeyWithValue(const char *name, const char *type, u
 	return 0;
 }
 
+inline UInt32 getHandlingPriority(IOService *service)
+{
+    if (service != NULL) {
+        if (OSNumber *priority = OSDynamicCast(OSNumber, service->getProperty("Handling Priority"))) {
+            return priority->unsigned32BitValue();
+        }
+    }
+
+    return -1;
+}
+
 FakeSMCKey *FakeSMCDevice::addKeyWithHandler(const char *name, const char *type, unsigned char size, IOService *handler)
 {
 	if (FakeSMCKey *key = getKey(name)) {
-        
-        if (key->getHandler() != NULL) {
-            // TODO: check priority?
-            
-            HWSensorsErrorLog("key %s already handled", name);
+
+        IOService *existedHandler = key->getHandler();
+
+        if (getHandlingPriority(handler) < getHandlingPriority(existedHandler)) {
+            HWSensorsErrorLog("key %s already handled with prioritized handler %s", name, existedHandler ? existedHandler->getName() : "*Unreferenced*");
             return 0;
+        }
+        else {
+            HWSensorsInfoLog("key %s handler %s has been replaced with new prioritized handler %s", name, existedHandler ? existedHandler->getName() : "*Unreferenced*", handler ? handler->getName() : "*Unreferenced*");
         }
         
         key->setType(type);
