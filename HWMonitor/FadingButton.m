@@ -92,15 +92,13 @@
 
 -(void)mouseEntered:(NSEvent *)theEvent
 {
-    [[self animator] setAlphaValue:_hoverOpacity];
-    
+    [self fadeIn:self];
     [super mouseEntered:theEvent];
 }
 
 -(void)mouseExited:(NSEvent *)theEvent
 {
-    [self setAlphaValue:_normalOpacity];
-    
+    [self fadeOut:self];
     [super mouseExited:theEvent];
 }
 
