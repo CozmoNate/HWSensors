@@ -17,7 +17,7 @@
 - (void)fadeIn:(id)sender
 {
     [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:0.1];
+    [[NSAnimationContext currentContext] setDuration:0.05];
     [[self animator] setAlphaValue:_hoverOpacity];
     [NSAnimationContext endGrouping];
 }
