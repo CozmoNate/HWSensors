@@ -323,11 +323,12 @@
              [NSArray arrayWithObjects:@"PZ:041G",    @"Zone %X Average", nil],
              
              nil], @"Hackintosh",
-            
+
             // MacBookPro8,1
             [NSArray arrayWithObjects:
              // Temperatures
              [NSArray arrayWithObjects:@"TC0:C41",    @"CPU Core %X", nil],
+             [NSArray arrayWithObjects:@"TCAD",       @"CPU Package", nil],
              [NSArray arrayWithObjects:@"TC0P",       @"CPU Proximity", nil],
              [NSArray arrayWithObjects:@"TPCD",       @"PCH Die", nil],
              [NSArray arrayWithObjects:@"TP0P",       @"PCH Proximity", nil],
@@ -344,7 +345,7 @@
              [NSArray arrayWithObjects:@"VC0C",       @"CPU Core", nil],
              //[NSArray arrayWithObjects:@"VN0R",       @" ", nil], 0.5V ??
              [NSArray arrayWithObjects:@"VP0R",       @"Power Supply 12V", nil],
-             [NSArray arrayWithObjects:@"VD0R",       @"Mainboard S0 Rail", nil], // 17V ??
+             [NSArray arrayWithObjects:@"VD0R",       @"Main Power Supply", nil], // 17V ??
              
              // Currents
              [NSArray arrayWithObjects:@"IC0R",       @"CPU Rail", nil],
@@ -364,12 +365,41 @@
              [NSArray arrayWithObjects:@"PZ0S",    @"Zone 1 Average", nil],
              
              nil], @"MacBookPro8,1",
+
+            // iMac6,1
+            [NSArray arrayWithObjects:
+             // Temperatures
+             [NSArray arrayWithObjects:@"TA0P",    @"Ambient", nil], // 17.5C to low?
+             [NSArray arrayWithObjects:@"TC:041D", @"CPU Core %X", nil],
+             [NSArray arrayWithObjects:@"TCAD",    @"CPU Package", nil],
+             [NSArray arrayWithObjects:@"TC0H",    @"CPU Heatsink", nil],
+             [NSArray arrayWithObjects:@"TG0D",    @"GPU Die", nil],
+             [NSArray arrayWithObjects:@"TG0H",    @"GPU Heatsink", nil],
+             [NSArray arrayWithObjects:@"TG0P",    @"GPU Proximity", nil],
+             [NSArray arrayWithObjects:@"TH0P",    @"HDD Bay 1", nil],
+             [NSArray arrayWithObjects:@"TO0P",    @"Optical Drive", nil],
+             [NSArray arrayWithObjects:@"Tp0P",    @"Power Supply Heatsink", nil],
+
+             // Voltages
+             [NSArray arrayWithObjects:@"VC0C",     @"CPU Core", nil],
+             [NSArray arrayWithObjects:@"VD0R",     @"Power Supply 1", nil],
+             //[NSArray arrayWithObjects:@"VG0C",     @"GPU Core", nil],    // 0.00V
+
+             // Currents
+             [NSArray arrayWithObjects:@"IC0C",     @"CPU Core", nil],
+             [NSArray arrayWithObjects:@"ID0R",     @"Power Supply 1", nil],
+             //[NSArray arrayWithObjects:@"IG0C",     @"GPU Rail", nil],    // 0.00V
+
+             // Powers
+             [NSArray arrayWithObjects:@"PC0C",     @"CPU Core", nil],
+             nil], @"iMac6,1",
             
             // iMac13,2
             [NSArray arrayWithObjects:
              // Temperatures
              [NSArray arrayWithObjects:@"TA0p",    @"Ambient", nil],
              [NSArray arrayWithObjects:@"TC:041c", @"CPU Core %X", nil],
+             [NSArray arrayWithObjects:@"TCAD",    @"CPU Package", nil],
              [NSArray arrayWithObjects:@"TC0p",    @"CPU Proximity", nil],
              [NSArray arrayWithObjects:@"TCXc",    @"PECI CPU", nil],
              [NSArray arrayWithObjects:@"TCSc",    @"PECI SA", nil],
@@ -430,6 +460,7 @@
              // Temperatures
              [NSArray arrayWithObjects:@"TC:A2AC",    @"CPU %X Core", nil],
              [NSArray arrayWithObjects:@"TC:A2AD",    @"CPU %X Die", nil],
+             [NSArray arrayWithObjects:@"TCAD",       @"CPU Package", nil],
              [NSArray arrayWithObjects:@"TC:A2AH",    @"CPU %X Heatsink", nil],
              [NSArray arrayWithObjects:@"TN0D",       @"PCH Die", nil],
              [NSArray arrayWithObjects:@"TN0H",       @"PCH Heatsink", nil],

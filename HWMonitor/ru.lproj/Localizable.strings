@@ -247,6 +247,11 @@
 "CPU VRM" = "Процессор, Регулятор";
 "CPU VRM %X" = "Процессор, Регулятор %X";
 
+"Mainboard S0 Rail" = "Шина питания S0";
+"Mainboard S3 Rail" = "Шина питания S3";
+"Mainboard S5 Rail" = "Шина питания S5";
+"Main Power Supply" = "Основной источник питания";
+
 "CMOS Battery" = "Батарея CMOS";
 
 "VRM Supply %X" = "Регулятор напряжения %X";
