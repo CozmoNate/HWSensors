@@ -30,7 +30,6 @@
 
 #include "smc.h"
 #include "FakeSMCDefinitions.h"
-#include "HWMonitorProfiles.h"
 
 @implementation HWMonitorEngine
 
@@ -292,8 +291,6 @@
 
 - (void)assignPlatformProfile
 {
-    NSDictionary *profiles = [HWMonitorProfiles profiles];
-    
     NSString *model = nil;
     
     CFDictionaryRef matching = MACH_PORT_NULL;
@@ -337,24 +334,40 @@
             }
         }
     }
+
+    NSString *config;
     
     if (model) {
+        config = [[NSBundle mainBundle] pathForResource:model ofType:@"plist" inDirectory:@"Profiles"];
+    }
 
-        NSLog(@"Running on %@", model);
-        
-        [profiles enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            if ([model isCaseInsensitiveLike:key]) {
-                _currentProfile = obj;
-                *stop = YES;
-            }
-        }];
-        
-        if (!_currentProfile) {
-            NSLog(@"Using default platform profile");
-            _currentProfile = [profiles objectForKey:@"Default"];
+    if (!config) {
+        config = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"plist" inDirectory:@"Profiles"];
+    }
+
+    if (config) {
+
+        NSLog(@"Loading profile %@", [config lastPathComponent]);
+
+        NSArray *rawProfile = [[NSArray alloc] initWithContentsOfFile:config];
+
+        if (rawProfile) {
+
+            NSMutableArray *adoptedProfile = [[NSMutableArray alloc] init];
+
+            [rawProfile enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                NSArray *enties = [obj componentsSeparatedByString:@"|"];
+
+                [adoptedProfile addObject:[NSArray arrayWithObjects:[enties firstObject], [enties lastObject], nil]];
+            }];
+
+            _currentProfile = [NSArray arrayWithArray:adoptedProfile];
         }
     }
-    else NSLog(@"Using default platform profile");
+
+    if (!_currentProfile) {
+        NSLog(@"No suitible profile found");
+    }
 }
 
 - (id)init;
