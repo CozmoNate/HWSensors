@@ -1,6 +1,6 @@
 //
 //  CreditsScrollView.m
-//  Pandora
+//
 //
 //  Created by Matteo Gaggiano on 21/09/13.
 //
@@ -9,16 +9,15 @@
 #import "CreditsScrollView.h"
 
 @implementation CreditsScrollView
-@synthesize contentTextView = _contentTextView;
+@synthesize textView;
 
 - (id)init
 {
     if ((self = [super init])) {
         [self setCurrentPosition:0.f];
         [self setRestartAtTop:NO];
-        [self setStartTime:[NSDate timeIntervalSinceReferenceDate] + 1.0];
-        
-        [_contentTextView scrollPoint:NSMakePoint( 0, 0 )];
+        [self setStartTime:[NSDate timeIntervalSinceReferenceDate] + 1.0];        
+        [textView scrollPoint:NSMakePoint( 0, 0 )];
     }
     return self;
 }
@@ -26,8 +25,6 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
 	[super drawRect:dirtyRect];
-	
-    // Drawing code here.
 }
 
 - (void)setCurrentPosition:(CGFloat)currentPosition
@@ -152,7 +149,7 @@
             __restartAtTop = NO;
             
             // Set the position
-            [_contentTextView scrollToBeginningOfDocument:self];
+            [textView scrollToBeginningOfDocument:self];
             
             return;
         }
@@ -168,7 +165,7 @@
         else
         {
             // Scroll to the position
-            [_contentTextView scrollPoint:NSMakePoint( 0, __currentPosition )];
+            [textView scrollPoint:NSMakePoint( 0, __currentPosition )];
             // Increment the scroll position
 
             __currentPosition += 0.005f;

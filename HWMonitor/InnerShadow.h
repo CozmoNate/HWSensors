@@ -1,6 +1,6 @@
 //
 //  InnerShadow.h
-//  Pandora
+//
 //
 //  Created by Matteo Gaggiano on 20/09/13.
 //

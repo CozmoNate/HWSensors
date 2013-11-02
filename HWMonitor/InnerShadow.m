@@ -1,6 +1,6 @@
 //
 //  InnerShadow.m
-//  Pandora
+//
 //
 //  Created by Matteo Gaggiano on 20/09/13.
 //
@@ -27,18 +27,18 @@
     CGFloat hg = 16.0f;
     
     //// Color Declarations
-    NSColor* trasparente = [NSColor colorWithCalibratedRed: 1 green: 1 blue: 1 alpha: 0];
+    NSColor* transparent = [NSColor colorWithCalibratedRed: 1 green: 1 blue: 1 alpha: 0];
     
     //// Gradient Declarations
-    NSGradient* gradiente = [[NSGradient alloc] initWithStartingColor: [NSColor whiteColor] endingColor: trasparente];
+    NSGradient* gradient = [[NSGradient alloc] initWithStartingColor: [NSColor whiteColor] endingColor: transparent];
     
     //// Rectangle 2 Drawing
-    NSBezierPath* alto = [NSBezierPath bezierPathWithRect: NSMakeRect(0, h - hg, w, hg)];
-    [gradiente drawInBezierPath: alto angle: -90];
+    NSBezierPath* top = [NSBezierPath bezierPathWithRect: NSMakeRect(0, h - hg, w, hg)];
+    [gradient drawInBezierPath: top angle: -90];
     
     //// Rectangle Drawing
-    NSBezierPath* basso = [NSBezierPath bezierPathWithRect: NSMakeRect(0, 0, w, hg)];
-    [gradiente drawInBezierPath: basso angle: 90];
+    NSBezierPath* bottom = [NSBezierPath bezierPathWithRect: NSMakeRect(0, 0, w, hg)];
+    [gradient drawInBezierPath: bottom angle: 90];
 }
 
 @end
