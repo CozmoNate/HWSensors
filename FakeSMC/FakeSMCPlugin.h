@@ -208,7 +208,6 @@ class FakeSMCPlugin : public IOService {
 	OSDeclareAbstractStructors(FakeSMCPlugin)
 
 private:
-    IOService               *headingProvider;
     IOService               *storageProvider;
     OSDictionary            *sensors;
     

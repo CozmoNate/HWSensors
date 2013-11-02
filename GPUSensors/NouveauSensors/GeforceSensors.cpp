@@ -89,9 +89,28 @@ float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
+bool GeforceSensors::shouldWaitForAccelerator()
+{
+    return true;
+}
+
+bool GeforceSensors::acceleratorLoadedCheck()
+{
+    OSData *kernelLoaded = OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
+    OSData *check = OSData::withBytes("\01\00\00\00", 8);
+
+    bool acceleratorLoaded = kernelLoaded && kernelLoaded->getLength() == 8 && kernelLoaded->isEqualTo(check);
+    
+    OSSafeRelease(check);
+
+    return acceleratorLoaded;
+}
+
 bool GeforceSensors::managedStart(IOService *provider)
 {
     HWSensorsDebugLog("Starting...");
+
+    //waitForService(resourceMatching("IODisplayWrangler"));
 	
     struct nouveau_device *device = &card;
     
