@@ -275,21 +275,13 @@ bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, v
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
     SYNCLOCK;
-    
-    if (getSensor(key)) {
-        HWSensorsDebugLog("will not add handler for key %s, key already handled", key);
-        SYNCUNLOCK;
-		return NULL;
-    }
-	
+
     if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index, reference, gain, offset)) {
         if (addSensor(sensor)) {
             SYNCUNLOCK;
             return sensor;
         }
-        else {
-            OSSafeRelease(sensor);
-        }
+        else OSSafeRelease(sensor);
     }
 	
     SYNCUNLOCK;
@@ -304,30 +296,32 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbriviation, kFakeSMCCatego
     FakeSMCSensor *sensor = NULL;
     
     if (abbriviation && strlen(abbriviation) >= 3) {
-        
         for (int i = 0; FakeSMCSensorDefinitions[i].name; i++) {
-            if (FakeSMCSensorDefinitions[i].category == category && 0 == strcasecmp(FakeSMCSensorDefinitions[i].name, abbriviation)) {
-                
-                if (FakeSMCSensorDefinitions[i].count) {
-                    
-                    for (int counter = 0; counter < FakeSMCSensorDefinitions[i].count; counter++) {
+
+            FakeSMCSensorDefinitionEntry entry = FakeSMCSensorDefinitions[i];
+
+            if (entry.category == category && 0 == strcasecmp(entry.name, abbriviation)) {
+                if (entry.count) {
+                    for (int counter = 0; counter < entry.count; counter++) {
+
                         char key[5];
-                        
-                        snprintf(key, 5, FakeSMCSensorDefinitions[i].key, FakeSMCSensorDefinitions[i].shift + counter);
+                        snprintf(key, 5, entry.key, entry.shift + counter);
                         
                         if (!isKeyExists(key)) {
-                            sensor = addSensor(key, FakeSMCSensorDefinitions[i].type, FakeSMCSensorDefinitions[i].size, group, index, reference, gain, offset);
+                            sensor = addSensor(key, entry.type, entry.size, group, index, reference, gain, offset);
                             break;
                         }
                     }
                 }
-                else sensor = addSensor(FakeSMCSensorDefinitions[i].key, FakeSMCSensorDefinitions[i].type, FakeSMCSensorDefinitions[i].size, group, index, reference, gain, offset);
+                else {
+                    sensor = addSensor(entry.key, entry.type, entry.size, group, index, reference, gain, offset);
+                }
             }
         }
-        
     }
     
     SYNCUNLOCK;
+
     return sensor;
 }
 

@@ -9,22 +9,22 @@
 typedef enum
 {
     kGenericBatteryDeviceTypeNone,
-    kBluetoothDeviceTypeMouse,
-    kBluetoothDeviceTypeKeyboard,
-    kBluetoothDeviceTypeTrackpad,
-    kInternalBatteryType
-} BatteryDeviceType;
+    kPrimaryBatteryTypeInternal,
+    kBluetoothBatteryTypeMouse,
+    kBluetoothBatteryTypeKeyboard,
+    kBluetoothBatteryTypeTrackpad,
+} GenericBatteryDeviceType;
 
 @interface GenericBatteryDevice : NSObject
 
 @property (nonatomic, assign) io_service_t service;
-@property (nonatomic, assign) BatteryDeviceType deviceType;
+@property (nonatomic, assign) GenericBatteryDeviceType deviceType;
 @property (nonatomic, strong) NSString *productName;
 @property (nonatomic, strong) NSString *serialNumber;
 
 + (NSArray*)discoverDevices;
 
-+ (GenericBatteryDevice*)genericBatteryDeviceWithService:(io_service_t)service ofType:(BatteryDeviceType)type;
++ (GenericBatteryDevice*)genericBatteryDeviceWithService:(io_service_t)service ofType:(GenericBatteryDeviceType)type;
 
 - (NSData*)getBatteryLevel;
 

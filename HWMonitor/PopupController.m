@@ -86,7 +86,7 @@
         }
     }
 
-    [self resizeToContentAndOrderFront:YES];
+    [self resizeToContent:NO orderFront:YES];
     
 //    if (!_windowFilter) {
 //        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
@@ -255,8 +255,8 @@
             [menuItem setAttributedTitle:attributedTitle];
         }
     }
-    
-    [self resizeToContentAndOrderFront:NO];
+
+    [self resizeToContent:YES orderFront:NO];
 }
 
 - (void) setupWithGroups:(NSArray*)groups
@@ -304,34 +304,36 @@
     [self reloadData];
 }
 
-- (void)resizeToContentAndOrderFront:(BOOL)orderFront
+- (void)resizeToContent:(BOOL)resizeToContent orderFront:(BOOL)orderFront
 {
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
-    
-    CGFloat height = 13; // ??
-    
-    for (int i = 0; i < [_items count]; i++) {
-        height += [self tableView:_tableView heightOfRow:i];
-    }
-    
-    height = 6 + (menubarWindow.attachedToMenuBar ? OBMenuBarWindowArrowHeight : 0) + (height ? height : _tableView.frame.size.height);
 
-    if (menubarWindow.frame.size.height != height) {
-        [menubarWindow setContentSize:NSMakeSize(menubarWindow.frame.size.width, height)];
-        [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
-        [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
+    if (resizeToContent) {
+        CGFloat height = 13; // ??
+        
+        for (int i = 0; i < [_items count]; i++) {
+            height += [self tableView:_tableView heightOfRow:i];
+        }
+        
+        height = 6 + (menubarWindow.attachedToMenuBar ? OBMenuBarWindowArrowHeight : 0) + (height ? height : _tableView.frame.size.height);
+
+        if (menubarWindow.frame.size.height != height) {
+            [menubarWindow setContentSize:NSMakeSize(menubarWindow.frame.size.width, height)];
+            [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
+            [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
+        }
     }
     
     // Order front if needed
     if (orderFront) {
-        [self.window makeKeyAndOrderFront:self];
+        [menubarWindow makeKeyAndOrderFront:self];
     }
 }
 
 - (void)reloadData
 {
     [_tableView reloadData];
-    [self resizeToContentAndOrderFront:NO];
+    [self resizeToContent:YES orderFront:NO];
     [_statusItemView setNeedsDisplay:YES];
 }
 
@@ -419,7 +421,7 @@
         if ((_showVolumeNames &&
              sensor.genericDevice &&
              [sensor.genericDevice isKindOfClass:[ATAGenericDrive class]]) ||
-            ([sensor.genericDevice isKindOfClass:[GenericBatteryDevice class]] && [sensor.genericDevice deviceType] != kInternalBatteryType && [sensor.genericDevice productName])) {
+            ([sensor.genericDevice isKindOfClass:[GenericBatteryDevice class]] && [sensor.genericDevice deviceType] != kPrimaryBatteryTypeInternal && [sensor.genericDevice productName])) {
             return 27;
         }
         else {
@@ -591,7 +593,7 @@
         }
         else if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[GenericBatteryDevice class]]) {
             // Hide subtitle for internal battery
-            if ([sensor.genericDevice deviceType] != kInternalBatteryType &&
+            if ([sensor.genericDevice deviceType] != kPrimaryBatteryTypeInternal &&
                 [sensor.genericDevice productName]) {
                 [[cell subtitleField] setStringValue:[[sensor genericDevice] productName]];
                 [[cell subtitleField] setHidden:NO];
