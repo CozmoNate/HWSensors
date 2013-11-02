@@ -26,14 +26,14 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" id="7">
-                        <rect key="frame" x="0.0" y="66" width="551" height="285"/>
+                        <rect key="frame" x="-1" y="67" width="552" height="285"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" copiesOnScroll="NO" id="nei-gy-N3N">
-                            <rect key="frame" x="1" y="1" width="549" height="283"/>
+                            <rect key="frame" x="1" y="1" width="550" height="283"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <view id="14">
-                                    <rect key="frame" x="0.0" y="0.0" width="549" height="283"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="550" height="283"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <imageView id="16">
