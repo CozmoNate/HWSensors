@@ -98,6 +98,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7E72E36A181B94F5002165DD"
+               BuildableName = "Sign Kexts"
+               BlueprintName = "Sign Kexts"
+               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "7EA248E716D8E93A002231B2"
                BuildableName = "HWMonitor.app"
                BlueprintName = "HWMonitor"
@@ -154,6 +168,16 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7E420F9A1820E04900331D2B"
+               BuildableName = "HWMonitor Tests.xctest"
+               BlueprintName = "HWMonitor Tests"
+               ReferencedContainer = "container:HWMonitor.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

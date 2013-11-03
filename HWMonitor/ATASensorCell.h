@@ -14,10 +14,11 @@
 @private
     NSTrackingRectTag _trackingRectTag;
     NSPopover *_popover;
-    BOOL _cursorIsInsideTheFrame;
 }
 
 @property (nonatomic, readonly) NSString *smartOutput;
 @property (strong) ATAGenericDrive *genericDrive;
+
+- (IBAction)showSmartOutput:(id)sender;
 
 @end

@@ -73,7 +73,8 @@ enum SuperIOModel
     // Nuvoton
     NCT6771F    = 0xB470,
     NCT6776F    = 0xC330,
-    NCT6779D    = 0xC560
+    NCT6779D    = 0xC560,
+    NCT6791D    = 0xC803
 };
 
 inline UInt8 superio_listen_port_byte(i386_ioport_t port, UInt8 reg)
@@ -85,6 +86,12 @@ inline UInt8 superio_listen_port_byte(i386_ioport_t port, UInt8 reg)
 inline UInt16 superio_listen_port_word(i386_ioport_t port, UInt8 reg)
 {
 	return ((superio_listen_port_byte(port, reg) << 8) | superio_listen_port_byte(port, reg + 1));
+}
+
+inline void superio_write_port_byte(i386_ioport_t port, UInt8 reg, UInt8 value)
+{
+	outb(port, reg);
+	outb(port + 1, value);
 }
 
 inline void superio_select_logical_device(i386_ioport_t port, UInt8 reg)
@@ -162,6 +169,7 @@ inline const char* superio_get_model_name(UInt16 model)
         case NCT6771F:      return "NCT6771F";
         case NCT6776F:      return "NCT6776F";
         case NCT6779D:      return "NCT6779D";
+        case NCT6791D:      return "NCT6791D";
     }
     
     return "unknown";

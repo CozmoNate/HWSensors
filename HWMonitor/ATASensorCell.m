@@ -8,6 +8,7 @@
 
 #import "ATASensorCell.h"
 #import "NSPopover+Message.h"
+#import "FadingButton.h"
 
 static NSMutableDictionary *smartctl_output = nil;
 static NSMutableDictionary *smartctl_updated = nil;
@@ -58,17 +59,19 @@ static NSMutableDictionary *smartctl_updated = nil;
     return nil;
 }
 
-- (void)mouseOverAction:(id)sender
+- (void)showSmartOutput:(id)sender
 {
     NSString *output = self.smartOutput;
     
-    if (_cursorIsInsideTheFrame && !_popover && output) {
-        _popover = [NSPopover showRelativeToRect:[sender frame]
-                                          ofView:[sender superview]
+    if (!_popover && output) {
+        //[self.imageView.animator setAlphaValue:0.0];
+
+        _popover = [NSPopover showRelativeToRect:self.frame
+                                          ofView:self.superview
                                    preferredEdge:NSMinXEdge
                                           string:output
-                                 backgroundColor:[NSColor colorWithCalibratedWhite:0.95 alpha:0.95]
-                                 foregroundColor:[NSColor blackColor]
+                                 backgroundColor:self.colorTheme.listBackgroundColor
+                                 foregroundColor:self.colorTheme.itemTitleColor
                                             font:[NSFont fontWithName:@"Monaco" size:10]
                                         maxWidth:750];
     }
@@ -79,39 +82,32 @@ static NSMutableDictionary *smartctl_updated = nil;
     if (_trackingRectTag) {
         [self removeTrackingRect:_trackingRectTag];
     }
-    
-   _trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:(__bridge void *)(_genericDrive) assumeInside:YES];
-}
 
--(void)mouseDown:(NSEvent *)theEvent
-{
-    _cursorIsInsideTheFrame = NO;
-    
-    if (_popover) {
-        [_popover performClose:self];
-        _popover = nil;
-    }
-    
-    [super mouseDown:theEvent];
+   _trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:(__bridge void *)(_genericDrive) assumeInside:YES];
 }
 
 -(void)mouseEntered:(NSEvent *)theEvent
 {
-    _cursorIsInsideTheFrame = YES;
-    
-    [self performSelector:@selector(mouseOverAction:) withObject:self afterDelay:0.7];
-    
-    [super mouseEntered:theEvent];
+    [self performSelector:@selector(showSmartOutput:) withObject:self afterDelay:0.7];
+}
+
+-(void)mouseDown:(NSEvent *)theEvent
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [super mouseDown:theEvent];
 }
 
 -(void)mouseExited:(NSEvent *)theEvent
 {
-    _cursorIsInsideTheFrame = NO;
-    
-    [_popover performClose:self];
-    _popover = nil;
-    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+
+    if (_popover) {
+        [_popover performClose:self];
+        _popover = nil;
+    }
+
     [super mouseExited:theEvent];
 }
+
 
 @end

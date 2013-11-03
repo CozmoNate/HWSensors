@@ -25,25 +25,8 @@ timerEventSource = NULL; \
 IOReturn GPUSensors::probeEvent()
 {
     HWSensorsDebugLog("Probe event...");
-    
-    bool acceleratorFound = false;
-    
-    if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
-        if (OSIterator *iterator = getMatchingServices(matching)) {
-            while (IOService *service = (IOService*)iterator->getNextObject()) {
-                if (pciDevice == service->getParentEntry(gIOServicePlane)) {
-                    acceleratorFound = true;
-                    break;
-                }
-            }
-            
-            OSSafeRelease(iterator);
-        }
-        
-        OSSafeRelease(matching);
-    }
-    
-    if (acceleratorFound) {
+
+    if (acceleratorLoadedCheck()) {
         releaseTimerEventSource;
         onAcceleratorFound(pciDevice);
     }
@@ -53,7 +36,7 @@ IOReturn GPUSensors::probeEvent()
     }
     else {
         if (probeCounter > 0 && !(probeCounter % ((int)(1000.0f / (float)kGPUSensorsAcceleratorWaitCycle) * 15)))
-            HWSensorsInfoLog("still waiting for IOAccelerator to start...");
+            HWSensorsInfoLog("still waiting for accelerator to start...");
         
         timerEventSource->setTimeoutMS(kGPUSensorsAcceleratorWaitCycle);
     }
@@ -64,6 +47,11 @@ IOReturn GPUSensors::probeEvent()
 bool GPUSensors::shouldWaitForAccelerator()
 {
     return false;
+}
+
+bool GPUSensors::acceleratorLoadedCheck()
+{
+    return true;
 }
 
 bool GPUSensors::managedStart(IOService *provider)

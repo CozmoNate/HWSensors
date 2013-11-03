@@ -71,6 +71,7 @@ typedef enum {
 @property (nonatomic, assign) NSUInteger group;
 @property (nonatomic, strong) NSString* title;
 @property (nonatomic, strong) NSData* data;
+@property (nonatomic, assign) io_connect_t connection;
 @property (nonatomic, strong) id genericDevice;
 
 @property (nonatomic, assign) HWSensorLevel level;

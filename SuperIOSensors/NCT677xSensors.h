@@ -51,6 +51,7 @@
 const UInt8 NUVOTON_ADDRESS_REGISTER_OFFSET     = 0x05;
 const UInt8 NUVOTON_DATA_REGISTER_OFFSET        = 0x06;
 const UInt8 NUVOTON_BANK_SELECT_REGISTER        = 0x4E;
+const UInt8 NUVOTON_HWMON_IO_SPACE_LOCK         = 0x28;
 const UInt16 NUVOTON_VENDOR_ID                  = 0x5CA3;
 
 // Hardware Monitor Registers    
@@ -74,6 +75,7 @@ const UInt16 NUVOTON_FAN_RPM_REG[]              = { 0x656, 0x658, 0x65A, 0x65C, 
 const UInt16 NUVOTON_FAN_PWM_OUT_REG[]          = { 0x001, 0x003, 0x011 };
 const UInt16 NUVOTON_FAN_PWM_COMMAND_REG[]      = { 0x109, 0x209, 0x309 };
 const UInt16 NUVOTON_FAN_CONTROL_MODE_REG[]     = { 0x102, 0x202, 0x302 };
+
 
 
 class NCT677xSensors : public LPCSensors

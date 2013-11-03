@@ -204,16 +204,16 @@ OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)
 
 OSString *FakeSMCPlugin::getPlatformManufacturer(void)
 {
-    if (headingProvider)
-        return OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoManufacturer));
+    if (storageProvider)
+        return OSDynamicCast(OSString, storageProvider->getProperty(kOEMInfoManufacturer));
     
     return NULL;
 }
 
 OSString *FakeSMCPlugin::getPlatformProduct(void)
 {
-    if (headingProvider)
-        return OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoProduct));
+    if (storageProvider)
+        return OSDynamicCast(OSString, storageProvider->getProperty(kOEMInfoProduct));
     
     return NULL;
 }
@@ -275,21 +275,13 @@ bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, v
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
     SYNCLOCK;
-    
-    if (getSensor(key)) {
-        HWSensorsDebugLog("will not add handler for key %s, key already handled", key);
-        SYNCUNLOCK;
-		return NULL;
-    }
-	
+
     if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index, reference, gain, offset)) {
         if (addSensor(sensor)) {
             SYNCUNLOCK;
             return sensor;
         }
-        else {
-            OSSafeRelease(sensor);
-        }
+        else OSSafeRelease(sensor);
     }
 	
     SYNCUNLOCK;
@@ -304,30 +296,32 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbriviation, kFakeSMCCatego
     FakeSMCSensor *sensor = NULL;
     
     if (abbriviation && strlen(abbriviation) >= 3) {
-        
         for (int i = 0; FakeSMCSensorDefinitions[i].name; i++) {
-            if (FakeSMCSensorDefinitions[i].category == category && 0 == strcasecmp(FakeSMCSensorDefinitions[i].name, abbriviation)) {
-                
-                if (FakeSMCSensorDefinitions[i].count) {
-                    
-                    for (int counter = 0; counter < FakeSMCSensorDefinitions[i].count; counter++) {
+
+            FakeSMCSensorDefinitionEntry entry = FakeSMCSensorDefinitions[i];
+
+            if (entry.category == category && 0 == strcasecmp(entry.name, abbriviation)) {
+                if (entry.count) {
+                    for (int counter = 0; counter < entry.count; counter++) {
+
                         char key[5];
-                        
-                        snprintf(key, 5, FakeSMCSensorDefinitions[i].key, FakeSMCSensorDefinitions[i].shift + counter);
+                        snprintf(key, 5, entry.key, entry.shift + counter);
                         
                         if (!isKeyExists(key)) {
-                            sensor = addSensor(key, FakeSMCSensorDefinitions[i].type, FakeSMCSensorDefinitions[i].size, group, index, reference, gain, offset);
+                            sensor = addSensor(key, entry.type, entry.size, group, index, reference, gain, offset);
                             break;
                         }
                     }
                 }
-                else sensor = addSensor(FakeSMCSensorDefinitions[i].key, FakeSMCSensorDefinitions[i].type, FakeSMCSensorDefinitions[i].size, group, index, reference, gain, offset);
+                else {
+                    sensor = addSensor(entry.key, entry.type, entry.size, group, index, reference, gain, offset);
+                }
             }
         }
-        
     }
     
     SYNCUNLOCK;
+
     return sensor;
 }
 
@@ -611,14 +605,16 @@ bool FakeSMCPlugin::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
 
-    if (!(headingProvider = waitForService(serviceMatching(kFakeSMCService))))
-		HWSensorsWarningLog("failed to locate FakeSMC service, specific OEM configurations will be unavailable");
+    if (!(storageProvider = waitForService(serviceMatching(kFakeSMCService)))) {
+		HWSensorsFatalLog("failed to locate FakeSMC service!");
+        return false;
+    }
     
-	if (!(storageProvider = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
-		HWSensorsFatalLog("failed to locate FakeSMCDevice");
-		return false;
-	}
-	
+//	if (!(storageProvider = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
+//		HWSensorsFatalLog("failed to locate FakeSMCDevice");
+//		return false;
+//	}
+
 	return true;
 }
 

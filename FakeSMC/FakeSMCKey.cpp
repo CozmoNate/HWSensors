@@ -47,7 +47,7 @@ bool FakeSMCKey::init(const char * aKey, const char * aType, const unsigned char
 	
 	copySymbol(aKey, key);
     
-	size = aSize;
+	size = aSize > 32 ? 32 : aSize;
 	
 	if (!(type = (char *)IOMalloc(5)))
 		return false;

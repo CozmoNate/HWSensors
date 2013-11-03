@@ -28,6 +28,7 @@ protected:
     
     
     virtual bool            shouldWaitForAccelerator();
+    virtual bool            acceleratorLoadedCheck();
     virtual bool            managedStart(IOService *provider);
     virtual void            onAcceleratorFound(IOService *provider);
     virtual void            onTimeoutExceeded(IOService *provider);

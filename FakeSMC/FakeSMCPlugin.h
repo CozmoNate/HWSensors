@@ -208,7 +208,6 @@ class FakeSMCPlugin : public IOService {
 	OSDeclareAbstractStructors(FakeSMCPlugin)
 
 private:
-    IOService               *headingProvider;
     IOService               *storageProvider;
     OSDictionary            *sensors;
     
@@ -240,7 +239,7 @@ protected:
     OSDictionary            *getConfigurationNode(OSDictionary *root, OSString *name);
     OSDictionary            *getConfigurationNode(OSDictionary *root, const char *name);
     OSDictionary            *getConfigurationNode(OSString *model = NULL);
-    
+
     virtual float           getSensorValue(FakeSMCSensor *sensor);
     
 public:    

@@ -28,7 +28,7 @@
     }
     
     NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:backgroundColour
-                                                         endingColor:[NSColor controlBackgroundColor]];
+                                                         endingColor:[backgroundColour blendedColorWithFraction:0.2 ofColor:[NSColor controlBackgroundColor] ]];
     
     NSRect drawingRect = [self frame];
     drawingRect.origin.x = 0;
@@ -139,7 +139,7 @@
     
     [container setBackgroundColour:backgroundColor];
     [container addSubview:label];
-    [label setBounds:NSMakeRect(padding, padding, size.width, size.height - 15)];
+    [label setBounds:NSMakeRect(padding, padding, size.width, size.height - 30)];
     [container awakeFromNib];
     
 #if __has_feature(objc_arc)
