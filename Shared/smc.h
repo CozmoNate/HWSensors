@@ -84,7 +84,33 @@ typedef struct {
   SMCBytes_t              bytes;
 } SMCVal_t;
 
+static UInt32 _strtoul(const char *str, int size, int base)
+{
+    UInt32 total = 0;
+    int i;
+
+    for (i = 0; i < size; i++)
+    {
+        if (base == 16)
+            total += str[i] << (size - 1 - i) * 8;
+        else
+            total += (unsigned char) (str[i] << (size - 1 - i) * 8);
+    }
+    return total;
+}
+
+static void _ultostr(char *str, UInt32 val)
+{
+    str[4] = '\0';
+    snprintf(str, 5, "%c%c%c%c",
+             (unsigned int) val >> 24,
+             (unsigned int) val >> 16,
+             (unsigned int) val >> 8,
+             (unsigned int) val);
+}
+
 kern_return_t SMCOpen(io_connect_t *conn);
+kern_return_t FakeSMCOpen(io_connect_t *conn);
 kern_return_t SMCClose(io_connect_t conn);
 kern_return_t SMCCall(io_connect_t conn, int index, SMCKeyData_t *inputStructure, SMCKeyData_t *outputStructure);
 kern_return_t SMCReadKey(io_connect_t conn, const UInt32Char_t key, SMCVal_t *val);

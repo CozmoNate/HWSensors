@@ -204,16 +204,16 @@ OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)
 
 OSString *FakeSMCPlugin::getPlatformManufacturer(void)
 {
-    if (headingProvider)
-        return OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoManufacturer));
+    if (storageProvider)
+        return OSDynamicCast(OSString, storageProvider->getProperty(kOEMInfoManufacturer));
     
     return NULL;
 }
 
 OSString *FakeSMCPlugin::getPlatformProduct(void)
 {
-    if (headingProvider)
-        return OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoProduct));
+    if (storageProvider)
+        return OSDynamicCast(OSString, storageProvider->getProperty(kOEMInfoProduct));
     
     return NULL;
 }
@@ -605,14 +605,16 @@ bool FakeSMCPlugin::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
 
-    if (!(headingProvider = waitForService(serviceMatching(kFakeSMCService))))
-		HWSensorsWarningLog("failed to locate FakeSMC service, specific OEM configurations will be unavailable");
+    if (!(storageProvider = waitForService(serviceMatching(kFakeSMCService)))) {
+		HWSensorsFatalLog("failed to locate FakeSMC service!");
+        return false;
+    }
     
-	if (!(storageProvider = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
-		HWSensorsFatalLog("failed to locate FakeSMCDevice");
-		return false;
-	}
-	
+//	if (!(storageProvider = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
+//		HWSensorsFatalLog("failed to locate FakeSMCDevice");
+//		return false;
+//	}
+
 	return true;
 }
 

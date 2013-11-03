@@ -47,8 +47,7 @@
         id="fakesmc"
         title="FakeSMC"
         description="FAKESMC_DESCRIPTION"
-        enabled="hackintoshCheckScript()"
-        start_selected="hackintoshCheckScript()">
+        start_selected="YES">
         <pkg-ref id="org.hwsensors.FakeSMC"/>
     </choice>
 
@@ -83,8 +82,7 @@
         id="lpcsensors"
         title="LPCSensors"
         description="LPCSENSORS_DESCRIPTION"
-        enabled="choices['fakesmc'].enabled"
-        start_selected="choices['fakesmc'].selected">
+        start_selected="hackintoshCheckScript() &amp;&amp; choices['fakesmc'].selected">
         <pkg-ref id="org.hwsensors.LPCSensors"/>
     </choice>
 

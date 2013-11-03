@@ -69,10 +69,10 @@
 						<data>AQ==</data>
 					</array>
 					<key>ACID</key>
-                    <array>
-                        <string>ch8*</string>
-                        <data>ur48RcADEEM=</data>
-                    </array>
+					<array>
+						<string>ch8*</string>
+						<data>ur48RcADEEM=</data>
+					</array>
 					<key>DPLM</key>
 					<array>
 						<string>{lim</string>
@@ -159,6 +159,8 @@
 			<string>AppleACPIPlatformExpert</string>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
+			<key>IOUserClientClass</key>
+			<string>FakeSMCUserClient</string>
 		</dict>
 	</dict>
 	<key>NSHumanReadableCopyright</key>

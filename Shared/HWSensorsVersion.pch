@@ -16,5 +16,5 @@
 #define LPCSENSORS_BUNDLE                   org.hwsensors.driver.LPCSensors
 #define GPUSENSORS_BUNDLE                   org.hwsensors.driver.GPUSensors
 
-#define FAKESMC_COMPATIBLE                  808
+#define FAKESMC_COMPATIBLE                  915
 #define LPCSENSORS_COMPATIBLE               735

@@ -43,6 +43,28 @@ bool RadeonSensors::shouldWaitForAccelerator()
     return true;
 }
 
+bool RadeonSensors::acceleratorLoadedCheck()
+{
+    bool acceleratorFound = false;
+
+    if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
+        if (OSIterator *iterator = getMatchingServices(matching)) {
+            while (IOService *service = (IOService*)iterator->getNextObject()) {
+                if (pciDevice == service->getParentEntry(gIOServicePlane)) {
+                    acceleratorFound = true;
+                    break;
+                }
+            }
+
+            OSSafeRelease(iterator);
+        }
+        
+        OSSafeRelease(matching);
+    }
+
+    return acceleratorFound;
+}
+
 bool RadeonSensors::managedStart(IOService *provider)
 {
     if (!(card.pdev = pciDevice)) {
