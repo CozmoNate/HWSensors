@@ -97,13 +97,16 @@ bool GeforceSensors::shouldWaitForAccelerator()
 bool GeforceSensors::acceleratorLoadedCheck()
 {
     OSData *kernelLoaded = OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
-    OSData *check = OSData::withBytes("\01\00\00\00", 8);
 
-    bool acceleratorLoaded = kernelLoaded && kernelLoaded->getLength() == 8 && kernelLoaded->isEqualTo(check);
-    
-    OSSafeRelease(check);
+    if (kernelLoaded && kernelLoaded->getLength()) {
+        UInt8 flag;
 
-    return acceleratorLoaded;
+        memcpy(&flag, kernelLoaded->getBytesNoCopy(0, 1), 1);
+
+        return flag;
+    }
+
+    return false;
 }
 
 bool GeforceSensors::managedStart(IOService *provider)

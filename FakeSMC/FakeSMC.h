@@ -3,6 +3,7 @@
 
 #include <IOKit/IOService.h>
 
+
 class FakeSMCKey;
 class FakeSMCDevice;
 
@@ -21,8 +22,6 @@ private:
 
     UInt16              vacantGPUIndex;
     UInt16              vacantFanIndex;
-
-    OSDictionary        *exposedValues;
 
     bool                debug;
 
@@ -55,7 +54,7 @@ public:
     virtual void		stop(IOService *provider);
     virtual void		free(void);
 
-    virtual IOReturn	setProperties(OSObject * properties);
+    virtual IOReturn    newUserClient(task_t owningTask, void *security_id, UInt32 type, IOUserClient ** handler);
 
     virtual IOReturn	callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 ); 
 };

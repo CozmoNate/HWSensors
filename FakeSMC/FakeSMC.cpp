@@ -3,6 +3,7 @@
 #include "FakeSMC.h"
 #include "FakeSMCDevice.h"
 #include "FakeSMCDefinitions.h"
+#include "FakeSMCUserClient.h"
 
 #include "OEMInfo.h"
 
@@ -377,7 +378,6 @@ bool FakeSMC::init(OSDictionary *properties)
 
 	keys = OSArray::withCapacity(1);
     types = OSDictionary::withCapacity(0);
-    exposedValues = OSDictionary::withCapacity(0);
 
     // Add fist key - counter key
     keyCounterKey = FakeSMCKey::withValue(KEY_COUNTER, TYPE_UI32, TYPE_UI32_SIZE, "\0\0\0\1");
@@ -460,11 +460,6 @@ bool FakeSMC::init(OSDictionary *properties)
         if (count)
             HWSensorsInfoLog("%d key%s exported by Clover EFI", count, count == 1 ? "" : "s");
     }
-
-    if (!(smcDevice = new FakeSMCDevice)) {
-		HWSensorsInfoLog("failed to create SMC device");
-		return false;
-	}
     
     if (!setOemProperties(this)) {
         // Another try after 200 ms spin
@@ -566,6 +561,11 @@ bool FakeSMC::start(IOService *provider)
     }
 
     if (!smcDeviceFound) {
+        if (!(smcDevice = new FakeSMCDevice)) {
+            HWSensorsInfoLog("failed to create SMC device");
+            return false;
+        }
+
         if (!smcDevice->initAndStart(provider, this)) {
             HWSensorsFatalLog("failed to initialize SMC device");
             return false;
@@ -601,58 +601,30 @@ void FakeSMC::free()
 #pragma mark -
 #pragma mark Cross-driver and user client communications
 
-IOReturn FakeSMC::setProperties(OSObject * properties)
+IOReturn FakeSMC::newUserClient(task_t owningTask, void *security_id, UInt32 type, IOUserClient ** handler)
 {
-    if (OSDictionary * msg = OSDynamicCast(OSDictionary, properties)) {
-        if (OSString * name = OSDynamicCast(OSString, msg->getObject(kFakeSMCDeviceUpdateKeyValue))) {
-            if (FakeSMCKey * key = getKey(name->getCStringNoCopy())) {
+    FakeSMCUserClient * client = new FakeSMCUserClient;
 
-                OSArray *info = OSArray::withCapacity(2);
-
-                info->setObject(OSString::withCString(key->getType()));
-                info->setObject(OSData::withBytes(key->getValue(), key->getSize()));
-
-                exposedValues->setObject(key->getKey(), info);
-
-                OSDictionary *values = OSDictionary::withDictionary(exposedValues);
-
-                this->setProperty(kFakeSMCDeviceValues, values);
-
-                OSSafeRelease(values);
-
-                return kIOReturnSuccess;
-            }
-        }
-        else if (OSArray* array = OSDynamicCast(OSArray, msg->getObject(kFakeSMCDevicePopulateValues))) {
-            if (OSIterator* iterator = OSCollectionIterator::withCollection(array)) {
-                while (OSString *keyName = OSDynamicCast(OSString, iterator->getNextObject()))
-                    if (FakeSMCKey * key = getKey(keyName->getCStringNoCopy())) {
-
-                        OSArray *info = OSArray::withCapacity(2);
-
-                        info->setObject(OSString::withCString(key->getType()));
-                        info->setObject(OSData::withBytes(key->getValue(), key->getSize()));
-
-                        exposedValues->setObject(key->getKey(), info);
-
-                        IOSleep(10);
-                    }
-
-                OSDictionary *values = OSDictionary::withDictionary(exposedValues);
-
-                this->setProperty(kFakeSMCDeviceValues, values);
-
-                OSSafeRelease(values);
-                OSSafeRelease(iterator);
-
-                return kIOReturnSuccess;
-            }
-        }
+    if ( !client->initWithTask(owningTask, security_id, type, NULL) ) {
+        client->release();
+        return kIOReturnBadArgument;
     }
 
-	return kIOReturnUnsupported;
-}
+    if ( !client->attach(this) ) {
+        client->release();
+        return kIOReturnUnsupported;
+    }
 
+    if ( !client->start(this) ) {
+        client->detach(this);
+        client->release();
+        return kIOReturnUnsupported;
+    }
+
+    *handler = client;
+
+    return kIOReturnSuccess;
+}
 
 IOReturn FakeSMC::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
 {
