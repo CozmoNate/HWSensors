@@ -18,38 +18,39 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="documentWindow" id="5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" managed="YES" participatesInCycle="YES"/>
-            <rect key="contentRect" x="196" y="488" width="450" height="596"/>
+            <windowPositionMask key="initialPositionMask" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="350" width="450" height="550"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
             <view key="contentView" id="6">
-                <rect key="frame" x="0.0" y="0.0" width="450" height="596"/>
+                <rect key="frame" x="0.0" y="0.0" width="450" height="550"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7">
-                        <rect key="frame" x="-1" y="71" width="452" height="526"/>
+                        <rect key="frame" x="-1" y="71" width="452" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" copiesOnScroll="NO" id="nei-gy-N3N">
-                            <rect key="frame" x="1" y="1" width="450" height="524"/>
+                            <rect key="frame" x="1" y="1" width="450" height="478"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <view translatesAutoresizingMaskIntoConstraints="NO" id="14">
-                                    <rect key="frame" x="0.0" y="0.0" width="450" height="524"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="450" height="478"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView borderType="none" horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="0.0" verticalPageScroll="0.0" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="qYy-E3-pcf" customClass="CreditsScrollView">
-                                            <rect key="frame" x="20" y="0.0" width="410" height="524"/>
+                                            <rect key="frame" x="20" y="0.0" width="410" height="478"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="w1W-0H-olF">
-                                                <rect key="frame" x="0.0" y="0.0" width="410" height="524"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="410" height="478"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textView editable="NO" selectable="NO" findStyle="panel" verticallyResizable="YES" quoteSubstitution="YES" linkDetection="YES" id="fu9-zi-weV">
-                                                        <rect key="frame" x="0.0" y="0.0" width="410" height="524"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="410" height="478"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <size key="minSize" width="410" height="524"/>
+                                                        <size key="minSize" width="410" height="478"/>
                                                         <size key="maxSize" width="515" height="10000000"/>
                                                         <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <size key="minSize" width="410" height="524"/>
+                                                        <size key="minSize" width="410" height="478"/>
                                                         <size key="maxSize" width="515" height="10000000"/>
                                                     </textView>
                                                 </subviews>
