@@ -31,29 +31,30 @@
 {
     [super windowDidLoad];
     
-    [self.versionField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Version %@", @"Localize the string App Version in AboutController"), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
+
     
-    [_creditsScrollView setCurrentPosition:0.0f];
-    [_creditsScrollView setRestartAtTop:NO];
-    [_creditsScrollView setStartTime:[NSDate timeIntervalSinceReferenceDate] + 1.0];
-    
-    NSMutableAttributedString* creditsContent = [[NSMutableAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"]
-                                                                             documentAttributes:nil];
-    
-    [creditsContent insertAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n\n\n\n\n\n\n\n\n\n\n" attributes:nil] atIndex:0];
-    [creditsContent insertAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n\n\n\n\n\n\n\n\n\n\n" attributes:nil] atIndex:creditsContent.length];
-    
-    
-    [[[[self creditsScrollView] textView] textStorage] setAttributedString:creditsContent];
+    NSMutableAttributedString* creditsContent = [[NSMutableAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtfd"] documentAttributes:nil];
+
+    [[creditsContent mutableString] replaceOccurrencesOfString:@"%version_placeholder" withString:[NSString stringWithFormat:NSLocalizedString(@"Version %@", @"Localize the string App Version in AboutController"), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] options:NSCaseInsensitiveSearch range:NSMakeRange(0, creditsContent.mutableString.length)];
+
+    [[self.textView textStorage] setAttributedString:creditsContent];
     
     [self.copyrightField setStringValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
-    
+
+    [_creditsScrollView setRestartAtTop:NO];
+    [_creditsScrollView setStartTime:[NSDate timeIntervalSinceReferenceDate] + 3.0];
+    [_creditsScrollView setCurrentPosition:0];
     [[self creditsScrollView] startScroll];
 }
 
 -(void)showWindow:(id)sender
 {
     [NSApp activateIgnoringOtherApps:YES];
+
+    [_creditsScrollView setRestartAtTop:NO];
+    [_creditsScrollView setStartTime:[NSDate timeIntervalSinceReferenceDate] + 3.0];
+    [_creditsScrollView setCurrentPosition:0];
+    [[self creditsScrollView] startScroll];
     
     [super showWindow:sender];
 }
