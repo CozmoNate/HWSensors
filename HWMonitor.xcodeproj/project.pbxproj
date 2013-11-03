@@ -104,6 +104,8 @@
 		7EF2A0F61730379C00D8641C /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2A0F41730379C00D8641C /* AboutController.m */; };
 		7EF2A0FC17303B9100D8641C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF2A0FB17303B9100D8641C /* MainMenu.xib */; };
 		7EF2A10017303EA600D8641C /* AboutController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF2A0FD17303B9C00D8641C /* AboutController.xib */; };
+		95A15D161825201000AA30D1 /* CreditsScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A15D131825201000AA30D1 /* CreditsScrollView.m */; };
+		95A15D171825201000AA30D1 /* InnerShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A15D151825201000AA30D1 /* InnerShadow.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -278,6 +280,10 @@
 		7EF2A0FB17303B9100D8641C /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		7EF2A0FD17303B9C00D8641C /* AboutController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutController.xib; sourceTree = "<group>"; };
 		7EFAE8E516EBC81500F4DA72 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		95A15D121825201000AA30D1 /* CreditsScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreditsScrollView.h; sourceTree = "<group>"; };
+		95A15D131825201000AA30D1 /* CreditsScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreditsScrollView.m; sourceTree = "<group>"; };
+		95A15D141825201000AA30D1 /* InnerShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InnerShadow.h; sourceTree = "<group>"; };
+		95A15D151825201000AA30D1 /* InnerShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InnerShadow.m; sourceTree = "<group>"; };
 		A32FB4F217676DF300F27ADB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -622,6 +628,10 @@
 		7EF2A0FF17303C3600D8641C /* About Panel */ = {
 			isa = PBXGroup;
 			children = (
+				95A15D121825201000AA30D1 /* CreditsScrollView.h */,
+				95A15D131825201000AA30D1 /* CreditsScrollView.m */,
+				95A15D141825201000AA30D1 /* InnerShadow.h */,
+				95A15D151825201000AA30D1 /* InnerShadow.m */,
 				7EF2A0F31730379C00D8641C /* AboutController.h */,
 				7EF2A0F41730379C00D8641C /* AboutController.m */,
 				7EF2A0FD17303B9C00D8641C /* AboutController.xib */,
@@ -837,6 +847,7 @@
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
+				95A15D171825201000AA30D1 /* InnerShadow.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
 				7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */,
 				7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */,
@@ -850,6 +861,7 @@
 				7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */,
 				7E16FD87170648BF00FB253E /* HWMonitorProfiles.m in Sources */,
 				7E16FD8A1706BB3000FB253E /* TransparentSplitView.m in Sources */,
+				95A15D161825201000AA30D1 /* CreditsScrollView.m in Sources */,
 				7EF2A0F61730379C00D8641C /* AboutController.m in Sources */,
 				7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */,
 				7E9A17CD17E4529C003DB018 /* ATASensorCell.m in Sources */,
