@@ -6,12 +6,11 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
+#import "JLNFadingScrollView.h"
 
 #define WAITING_TIME 1.0f
 
-
-@interface CreditsScrollView : NSScrollView 
+@interface CreditsScrollView : JLNFadingScrollView
 {
 
 @private
