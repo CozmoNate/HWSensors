@@ -36,3 +36,4 @@ Nouveau Project for nouveau linux driver (GeforceSensors base)
 Advanced Micro Devices and all contributors for AMD Radeon linux driver (RadeonSensors base)
 Joshua Nozzi for JLNFadingScrollView <https://github.com/jnozzi/JLNFadingScrollView>
 Rheinfabrik for RFOverlayScrollView <https://github.com/rheinfabrik/RFOverlayScrollView>
+Matteo Gaggiano for the enhanced about window with credits scroller
