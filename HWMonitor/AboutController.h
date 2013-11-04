@@ -11,8 +11,8 @@
 
 @interface AboutController : NSWindowController
 
-
 @property (assign) IBOutlet CreditsScrollView *creditsScrollView;
+@property (assign) IBOutlet NSTextView *textView;
 @property (assign) IBOutlet NSTextField *versionField;
 @property (assign) IBOutlet NSTextField *copyrightField;
 

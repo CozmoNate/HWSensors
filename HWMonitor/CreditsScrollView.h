@@ -8,7 +8,7 @@
 
 #import "JLNFadingScrollView.h"
 
-#define WAITING_TIME 1.0f
+#define WAITING_TIME 3.0f
 
 @interface CreditsScrollView : JLNFadingScrollView
 {
@@ -21,8 +21,6 @@
     BOOL __isShown;
     BOOL __isTimerValid;
 }
-
-@property (assign) IBOutlet NSTextView* textView;
 
 - (void)setStartTime:(NSTimeInterval)startTime;
 - (NSTimeInterval)startTime;

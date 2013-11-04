@@ -12,6 +12,7 @@
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E0648F116DF3B7D00ACB851 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7E0648EF16DF3B7D00ACB851 /* README.md */; };
 		7E10343616EFAE490089DE7B /* GenericBatteryDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */; };
+		7E14580F1826F8280027E984 /* Credits.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 7E14580D1826F8280027E984 /* Credits.rtfd */; };
 		7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C617E2744000694A4A /* 37-circle-x.png */; };
 		7E1458CB17E2744000694A4A /* 37-circle-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C717E2744000694A4A /* 37-circle-x@2x.png */; };
 		7E16FD8A1706BB3000FB253E /* TransparentSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16FD891706BB3000FB253E /* TransparentSplitView.m */; };
@@ -48,7 +49,6 @@
 		7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248EB16D8E93A002231B2 /* Cocoa.framework */; };
 		7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248F416D8E93A002231B2 /* InfoPlist.strings */; };
 		7EA248F816D8E93A002231B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248F716D8E93A002231B2 /* main.m */; };
-		7EA248FC16D8E93A002231B2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248FA16D8E93A002231B2 /* Credits.rtf */; };
 		7EA248FF16D8E93A002231B2 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248FE16D8E93A002231B2 /* AppController.m */; };
 		7EA2492016D8E9C6002231B2 /* frequencies_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EA2490B16D8E9C6002231B2 /* frequencies_template.png */; };
 		7EA2492116D8E9C6002231B2 /* frequencies.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EA2490C16D8E9C6002231B2 /* frequencies.png */; };
@@ -155,6 +155,7 @@
 		7E10343416EFAE490089DE7B /* GenericBatteryDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericBatteryDevice.h; sourceTree = "<group>"; };
 		7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericBatteryDevice.m; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
+		7E14580E1826F8280027E984 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = en; path = en.lproj/Credits.rtfd; sourceTree = "<group>"; };
 		7E1458C617E2744000694A4A /* 37-circle-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x.png"; sourceTree = "<group>"; };
 		7E1458C717E2744000694A4A /* 37-circle-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x@2x.png"; sourceTree = "<group>"; };
 		7E16FD881706BB3000FB253E /* TransparentSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentSplitView.h; sourceTree = "<group>"; };
@@ -212,7 +213,6 @@
 		7EA248F516D8E93A002231B2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EA248F716D8E93A002231B2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7EA248F916D8E93A002231B2 /* HWMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HWMonitor-Prefix.pch"; sourceTree = "<group>"; };
-		7EA248FB16D8E93A002231B2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		7EA248FD16D8E93A002231B2 /* AppController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		7EA248FE16D8E93A002231B2 /* AppController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		7EA2490B16D8E9C6002231B2 /* frequencies_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frequencies_template.png; sourceTree = "<group>"; };
@@ -570,7 +570,7 @@
 				7EA248F416D8E93A002231B2 /* InfoPlist.strings */,
 				7EA248F716D8E93A002231B2 /* main.m */,
 				7EA248F916D8E93A002231B2 /* HWMonitor-Prefix.pch */,
-				7EA248FA16D8E93A002231B2 /* Credits.rtf */,
+				7E14580D1826F8280027E984 /* Credits.rtfd */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -888,7 +888,6 @@
 			files = (
 				7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */,
 				7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */,
-				7EA248FC16D8E93A002231B2 /* Credits.rtf in Resources */,
 				7EA2492016D8E9C6002231B2 /* frequencies_template.png in Resources */,
 				7EA2492116D8E9C6002231B2 /* frequencies.png in Resources */,
 				7EA2492216D8E9C6002231B2 /* hddtemperatures_template.png in Resources */,
@@ -910,6 +909,7 @@
 				7EA2493216D8E9C6002231B2 /* thermometer.png in Resources */,
 				7E420FAD1820E2D800331D2B /* Profiles in Resources */,
 				7EA2493316D8E9C6002231B2 /* voltages_template.png in Resources */,
+				7E14580F1826F8280027E984 /* Credits.rtfd in Resources */,
 				7EA2493416D8E9C6002231B2 /* voltages.png in Resources */,
 				7EA2493616D8E9CE002231B2 /* default.icns in Resources */,
 				7EDA1AA916D936410012A0DC /* Localizable.strings in Resources */,
@@ -1016,6 +1016,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		7E14580D1826F8280027E984 /* Credits.rtfd */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7E14580E1826F8280027E984 /* en */,
+			);
+			name = Credits.rtfd;
+			sourceTree = "<group>";
+		};
 		7E420FA11820E04900331D2B /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1032,14 +1040,6 @@
 				A32FB4F217676DF300F27ADB /* fr */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		7EA248FA16D8E93A002231B2 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7EA248FB16D8E93A002231B2 /* en */,
-			);
-			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
 		7EDA1AAB16D936410012A0DC /* Localizable.strings */ = {
