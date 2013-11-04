@@ -58,11 +58,6 @@
     [super showWindow:sender];
 }
 
-- (void)showCredits:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"]];
-}
-
 - (void)openLink:(id)sender
 {
     if ([sender isKindOfClass:[FadingButton class]]) {

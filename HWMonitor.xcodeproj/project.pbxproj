@@ -108,7 +108,6 @@
 		7EF2A0FC17303B9100D8641C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF2A0FB17303B9100D8641C /* MainMenu.xib */; };
 		7EF2A10017303EA600D8641C /* AboutController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF2A0FD17303B9C00D8641C /* AboutController.xib */; };
 		95A15D161825201000AA30D1 /* CreditsScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A15D131825201000AA30D1 /* CreditsScrollView.m */; };
-		95A15D171825201000AA30D1 /* InnerShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A15D151825201000AA30D1 /* InnerShadow.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -300,8 +299,6 @@
 		7EFAE8E516EBC81500F4DA72 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		95A15D121825201000AA30D1 /* CreditsScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreditsScrollView.h; sourceTree = "<group>"; };
 		95A15D131825201000AA30D1 /* CreditsScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreditsScrollView.m; sourceTree = "<group>"; };
-		95A15D141825201000AA30D1 /* InnerShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InnerShadow.h; sourceTree = "<group>"; };
-		95A15D151825201000AA30D1 /* InnerShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InnerShadow.m; sourceTree = "<group>"; };
 		A32FB4F217676DF300F27ADB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -336,6 +333,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7E019BA418262415002F8217 /* CreditsScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				95A15D121825201000AA30D1 /* CreditsScrollView.h */,
+				95A15D131825201000AA30D1 /* CreditsScrollView.m */,
+			);
+			name = CreditsScrollView;
+			sourceTree = "<group>";
+		};
+		7E019BA5182625E0002F8217 /* TransparentSplitView */ = {
+			isa = PBXGroup;
+			children = (
+				7E16FD881706BB3000FB253E /* TransparentSplitView.h */,
+				7E16FD891706BB3000FB253E /* TransparentSplitView.m */,
+			);
+			name = TransparentSplitView;
+			sourceTree = "<group>";
+		};
+		7E019BA6182625EC002F8217 /* SensorsTableView */ = {
+			isa = PBXGroup;
+			children = (
+				7E19FFFF17005652008F40F1 /* SensorsTableView.h */,
+				7E19000017005652008F40F1 /* SensorsTableView.m */,
+			);
+			name = SensorsTableView;
+			sourceTree = "<group>";
+		};
+		7E019BA7182625F8002F8217 /* FadingButton */ = {
+			isa = PBXGroup;
+			children = (
+				7E7D61F91704453B00F7222F /* FadingButton.h */,
+				7E7D61FA1704453B00F7222F /* FadingButton.m */,
+			);
+			name = FadingButton;
+			sourceTree = "<group>";
+		};
+		7E019BA8182625FF002F8217 /* StatusItemView */ = {
+			isa = PBXGroup;
+			children = (
+				7EA2494B16D8EB2D002231B2 /* StatusItemView.h */,
+				7EA2494C16D8EB2D002231B2 /* StatusItemView.m */,
+			);
+			name = StatusItemView;
+			sourceTree = "<group>";
+		};
+		7E019BA918262607002F8217 /* GraphsView */ = {
+			isa = PBXGroup;
+			children = (
+				7EDA1AC916D956E90012A0DC /* GraphsView.h */,
+				7EDA1ACA16D956EA0012A0DC /* GraphsView.m */,
+			);
+			name = GraphsView;
+			sourceTree = "<group>";
+		};
 		7E0200AC18035D3700520CF7 /* RFOverlayScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -631,17 +682,7 @@
 				7E39415716DBEA13005A685D /* Cells */,
 				7E0200AC18035D3700520CF7 /* RFOverlayScrollView */,
 				7E0254651805D2D200B4F099 /* JLNFadingScrollView */,
-				7E0254661805D2E400B4F099 /* OBMenuBarWindow */,
-				7E16FD881706BB3000FB253E /* TransparentSplitView.h */,
-				7E16FD891706BB3000FB253E /* TransparentSplitView.m */,
-				7E19FFFF17005652008F40F1 /* SensorsTableView.h */,
-				7E19000017005652008F40F1 /* SensorsTableView.m */,
-				7E7D61F91704453B00F7222F /* FadingButton.h */,
-				7E7D61FA1704453B00F7222F /* FadingButton.m */,
-				7EA2494B16D8EB2D002231B2 /* StatusItemView.h */,
-				7EA2494C16D8EB2D002231B2 /* StatusItemView.m */,
-				7EDA1AC916D956E90012A0DC /* GraphsView.h */,
-				7EDA1ACA16D956EA0012A0DC /* GraphsView.m */,
+				7E019BA7182625F8002F8217 /* FadingButton */,
 			);
 			name = "Views & Controls";
 			sourceTree = "<group>";
@@ -683,10 +724,7 @@
 		7EF2A0FF17303C3600D8641C /* About Panel */ = {
 			isa = PBXGroup;
 			children = (
-				95A15D121825201000AA30D1 /* CreditsScrollView.h */,
-				95A15D131825201000AA30D1 /* CreditsScrollView.m */,
-				95A15D141825201000AA30D1 /* InnerShadow.h */,
-				95A15D151825201000AA30D1 /* InnerShadow.m */,
+				7E019BA418262415002F8217 /* CreditsScrollView */,
 				7EF2A0F31730379C00D8641C /* AboutController.h */,
 				7EF2A0F41730379C00D8641C /* AboutController.m */,
 				7EF2A0FD17303B9C00D8641C /* AboutController.xib */,
@@ -697,6 +735,8 @@
 		7EF2A1021730518A00D8641C /* Graphs Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7E019BA5182625E0002F8217 /* TransparentSplitView */,
+				7E019BA918262607002F8217 /* GraphsView */,
 				7EDA1ACF16DA83AF0012A0DC /* GraphsController.h */,
 				7EDA1AD016DA83AF0012A0DC /* GraphsController.m */,
 				7E2042001730844C00C13B65 /* GraphsController.xib */,
@@ -707,6 +747,7 @@
 		7EF2A1031730519600D8641C /* Popup Panel */ = {
 			isa = PBXGroup;
 			children = (
+				7E0254661805D2E400B4F099 /* OBMenuBarWindow */,
 				7EDA1A6B16D901100012A0DC /* PopupController.h */,
 				7EDA1A6C16D901100012A0DC /* PopupController.m */,
 				7E2042021730CDA000C13B65 /* PopupController.xib */,
@@ -717,6 +758,8 @@
 		7EF2A1041730532D00D8641C /* App Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7E019BA6182625EC002F8217 /* SensorsTableView */,
+				7E019BA8182625FF002F8217 /* StatusItemView */,
 				7EA248FD16D8E93A002231B2 /* AppController.h */,
 				7EA248FE16D8E93A002231B2 /* AppController.m */,
 				7E2042041730D04000C13B65 /* AppController.xib */,
@@ -941,7 +984,6 @@
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
-				95A15D171825201000AA30D1 /* InnerShadow.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
 				7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */,
 				7EA394B316E0A1B600823109 /* ColorTheme.m in Sources */,

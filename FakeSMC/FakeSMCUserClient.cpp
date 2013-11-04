@@ -15,6 +15,11 @@
 #include <IOKit/IOLib.h>
 #include <IOKit/IOBufferMemoryDescriptor.h>
 
+static IORecursiveLock *gClientSyncLock = 0;
+
+#define SYNCLOCK        if (!gClientSyncLock) gClientSyncLock = IORecursiveLockAlloc(); IORecursiveLockLock(gClientSyncLock)
+#define SYNCUNLOCK      IORecursiveLockUnlock(gClientSyncLock)
+
 #define super IOUserClient
 OSDefineMetaClassAndStructors(FakeSMCUserClient, IOUserClient);
 
@@ -67,6 +72,8 @@ IOReturn FakeSMCUserClient::externalMethod(uint32_t selector, IOExternalMethodAr
 	else if (!storageProvider->isOpen(this)) {
 		result = kIOReturnNotOpen;
 	}
+
+    SYNCLOCK;
 
     switch (selector) {
         case KERNEL_INDEX_SMC: {
@@ -131,6 +138,8 @@ IOReturn FakeSMCUserClient::externalMethod(uint32_t selector, IOExternalMethodAr
             result = kIOReturnBadArgument;
             break;
     }
+
+    SYNCUNLOCK;
 
     return result;
 }
