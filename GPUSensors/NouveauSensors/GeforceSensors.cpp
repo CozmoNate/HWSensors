@@ -113,8 +113,6 @@ bool GeforceSensors::managedStart(IOService *provider)
 {
     HWSensorsDebugLog("Starting...");
 
-    //waitForService(resourceMatching("IODisplayWrangler"));
-	
     struct nouveau_device *device = &card;
     
     if ((card.card_index = takeVacantGPUIndex()) < 0) {

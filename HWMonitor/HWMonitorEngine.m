@@ -67,24 +67,6 @@
     return nil;
 }
 
--(io_connect_t)getSmcConnection
-{
-    if (!_smcConnection) {
-        SMCOpen(&_smcConnection);
-    }
-
-    return _smcConnection;
-}
-
--(io_connect_t)getFakeSmcConnection
-{
-    if (!_fakeSmcConnection) {
-        FakeSMCOpen(&_fakeSmcConnection);
-    }
-
-    return _fakeSmcConnection;
-}
-
 -(void)setUseFahrenheit:(BOOL)useFahrenheit
 {
     _useFahrenheit = useFahrenheit;
@@ -425,6 +407,9 @@
 
 - (void)addSmcSensorsWithConnection:(io_connect_t)connection group:(HWSensorGroup)group keys:(NSArray*)keys
 {
+    if (!connection || !keys)
+        return;
+
     NSString *prefix = nil;
     
     switch (group) {
@@ -619,16 +604,18 @@
     [_sensorsLock unlock];
 }
 
-- (void)addKeysFromConnection:(io_connect_t)connection excludedList:(NSArray*)excluded toArray:(NSMutableArray*)array
+- (NSArray*)getSmcKeysFromConnection:(io_connect_t)connection excludedList:(NSArray*)excluded
 {
     if (!connection)
-        return;
+        return nil;
 
     SMCVal_t val;
 
     SMCReadKey(connection, "#KEY", &val);
 
     UInt32 count =  [HWMonitorSensor decodeNumericData:[NSData dataWithBytes:val.bytes length:val.dataSize] ofType:[NSString stringWithCString:val.dataType encoding:NSASCIIStringEncoding]];
+
+    NSMutableArray *array = [[NSMutableArray alloc] init];
 
     for (UInt32 index = 0; index < count; index++) {
         SMCKeyData_t  inputStructure;
@@ -654,6 +641,8 @@
             }
         }
     }
+
+    return array;
 }
 
 - (void)rebuildSensorsList
@@ -663,17 +652,17 @@
     [_sensors removeAllObjects];
     [_keys removeAllObjects];
 
-    NSMutableArray *fakeSmcKeys = [[NSMutableArray alloc] init];
+    SMCOpen(&_fakeSmcConnection, "FakeSMCKeyStore");
+    NSArray *fakeSmcKeys = [self getSmcKeysFromConnection:_fakeSmcConnection excludedList:nil];
+    if (!fakeSmcKeys || !fakeSmcKeys.count) SMCClose(_fakeSmcConnection);
 
-    [self addKeysFromConnection:self.fakeSmcConnection excludedList:nil toArray:fakeSmcKeys];
-
-    NSMutableArray *smcKeys = [[NSMutableArray alloc] init];
-
-    [self addKeysFromConnection:self.smcConnection excludedList:fakeSmcKeys toArray:smcKeys];
+    SMCOpen(&_smcConnection, "AppleSMC");
+    NSArray *smcKeys = [self getSmcKeysFromConnection:_smcConnection excludedList:fakeSmcKeys];
+    if (!smcKeys || !smcKeys.count) SMCClose(_smcConnection);
 
     //Temperatures
-    [self addSmcSensorsWithConnection:self.smcConnection group:kHWSensorGroupTemperature keys:smcKeys];
-    [self addSmcSensorsWithConnection:self.fakeSmcConnection group:kHWSensorGroupTemperature keys:fakeSmcKeys];
+    [self addSmcSensorsWithConnection:_smcConnection group:kHWSensorGroupTemperature keys:smcKeys];
+    [self addSmcSensorsWithConnection:_fakeSmcConnection group:kHWSensorGroupTemperature keys:fakeSmcKeys];
 
     // Drives
     if ((_smartDrives = [ATAGenericDrive discoverDrives])) {
@@ -691,28 +680,28 @@
     }
 
     // Multipliers
-    [self addSmcSensorsWithConnection:self.smcConnection group:kHWSensorGroupMultiplier keys:smcKeys];
-    [self addSmcSensorsWithConnection:self.fakeSmcConnection group:kHWSensorGroupMultiplier keys:fakeSmcKeys];
+    [self addSmcSensorsWithConnection:_smcConnection group:kHWSensorGroupMultiplier keys:smcKeys];
+    [self addSmcSensorsWithConnection:_fakeSmcConnection group:kHWSensorGroupMultiplier keys:fakeSmcKeys];
 
     // Frequency
-    [self addSmcSensorsWithConnection:self.smcConnection group:kHWSensorGroupFrequency keys:smcKeys];
-    [self addSmcSensorsWithConnection:self.fakeSmcConnection group:kHWSensorGroupFrequency keys:fakeSmcKeys];
+    [self addSmcSensorsWithConnection:_smcConnection group:kHWSensorGroupFrequency keys:smcKeys];
+    [self addSmcSensorsWithConnection:_fakeSmcConnection group:kHWSensorGroupFrequency keys:fakeSmcKeys];
 
     // Fans
-    [self addSmcFansWithConnection:self.smcConnection keys:smcKeys];
-    [self addSmcFansWithConnection:self.fakeSmcConnection keys:fakeSmcKeys];
+    [self addSmcFansWithConnection:_smcConnection keys:smcKeys];
+    [self addSmcFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
 
     // Voltages
-    [self addSmcSensorsWithConnection:self.smcConnection group:kHWSensorGroupVoltage keys:smcKeys];
-    [self addSmcSensorsWithConnection:self.fakeSmcConnection group:kHWSensorGroupVoltage keys:fakeSmcKeys];
+    [self addSmcSensorsWithConnection:_smcConnection group:kHWSensorGroupVoltage keys:smcKeys];
+    [self addSmcSensorsWithConnection:_fakeSmcConnection group:kHWSensorGroupVoltage keys:fakeSmcKeys];
 
     // Currents
-    [self addSmcSensorsWithConnection:self.smcConnection group:kHWSensorGroupCurrent keys:smcKeys];
-    [self addSmcSensorsWithConnection:self.fakeSmcConnection group:kHWSensorGroupCurrent keys:fakeSmcKeys];
+    [self addSmcSensorsWithConnection:_smcConnection group:kHWSensorGroupCurrent keys:smcKeys];
+    [self addSmcSensorsWithConnection:_fakeSmcConnection group:kHWSensorGroupCurrent keys:fakeSmcKeys];
 
     // Powers
-    [self addSmcSensorsWithConnection:self.smcConnection group:kHWSensorGroupPower keys:smcKeys];
-    [self addSmcSensorsWithConnection:self.fakeSmcConnection group:kHWSensorGroupPower keys:fakeSmcKeys];
+    [self addSmcSensorsWithConnection:_smcConnection group:kHWSensorGroupPower keys:smcKeys];
+    [self addSmcSensorsWithConnection:_fakeSmcConnection group:kHWSensorGroupPower keys:fakeSmcKeys];
 
     // Batteries
     if ((_bluetoothDevices = [GenericBatteryDevice discoverDevices])) {

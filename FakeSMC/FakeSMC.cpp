@@ -53,20 +53,24 @@ bool FakeSMC::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
 
+    if (IOService *resources = waitForMatchingService(serviceMatching("IOResources"), 0)) {
+        attach(resources);
+    }
+
     OSDictionary *configuration = OSDynamicCast(OSDictionary, getProperty("Configuration"));
 
-    if (!keyStore) {
+    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), 0)))) {
 
         HWSensorsDebugLog("creating FakeSMCKeyStore");
+        
         if (!(keyStore = new FakeSMCKeyStore)) {
             HWSensorsInfoLog("failed to create FakeSMCKeyStore");
             return false;
         }
 
-        IOService *resources = waitForService(serviceMatching("IOResources"));
-
         HWSensorsDebugLog("initializing FakeSMCKeyStore");
-        if (!keyStore->initAndStart(resources ? resources : this, configuration)) {
+
+        if (!keyStore->initAndStart(this, configuration)) {
             keyStore->release();
             HWSensorsFatalLog("failed to initialize FakeSMCKeyStore device");
             return false;

@@ -505,7 +505,7 @@ static bool probe_monitoring_device(struct nouveau_i2c_port *i2c, struct i2c_boa
 	int		irq;
 
 #define I2C_BOARD_INFO(dev_type, dev_addr) \
-dev_type, 0, dev_addr, NULL, 0
+dev_type, 0, static_cast<unsigned short>(dev_addr), NULL, 0
     
 #define I2C_BOARD_INFO_NULL \
 "", 0, 0, NULL, 0

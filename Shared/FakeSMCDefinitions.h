@@ -176,6 +176,8 @@
 #define kFakeSMCDeviceService                   "FakeSMCDevice"
 #define kFakeSMCKeyStoreService                 "FakeSMCKeyStore"
 
+#define kFakeSMCDefaultWaitTimeout              1000000000ull * 5
+
 // I/O Registry
 #define kFakeSMCDeviceValues                    "Values"
 #define kFakeSMCDeviceUpdateKeyValue            "updateKeyValue"

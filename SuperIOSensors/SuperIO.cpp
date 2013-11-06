@@ -277,7 +277,7 @@ bool SuperIODevice::start(IOService *provider)
 	if (!super::start(provider)) return false;
 
     // Gigabyte mobos usualy use ITE
-    if (IOService *headingProvider = waitForService(serviceMatching(kFakeSMCService))) {
+    if (IOService *headingProvider = waitForMatchingService(serviceMatching(kFakeSMCService), kFakeSMCDefaultWaitTimeout)) {
         if (OSString *manufacturer = OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoManufacturer))) {
             if (manufacturer->isEqualTo("Gigabyte")) {
                 if (!detectITEFamilyChip()) {

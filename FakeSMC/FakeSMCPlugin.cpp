@@ -208,7 +208,7 @@ OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, FakeSMCKeyHandler)
 OSString *FakeSMCPlugin::getPlatformManufacturer(void)
 {
     if (platformProvider)
-        return OSDynamicCast(OSString, keyStore->getProperty(kOEMInfoManufacturer));
+        return OSDynamicCast(OSString, platformProvider->getProperty(kOEMInfoManufacturer));
     
     return NULL;
 }
@@ -216,7 +216,7 @@ OSString *FakeSMCPlugin::getPlatformManufacturer(void)
 OSString *FakeSMCPlugin::getPlatformProduct(void)
 {
     if (platformProvider)
-        return OSDynamicCast(OSString, keyStore->getProperty(kOEMInfoProduct));
+        return OSDynamicCast(OSString, platformProvider->getProperty(kOEMInfoProduct));
     
     return NULL;
 }
@@ -557,13 +557,16 @@ bool FakeSMCPlugin::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
 
-    if (!(platformProvider = waitForService(serviceMatching(kFakeSMCService)))) {
+    if (!(platformProvider = waitForMatchingService(serviceMatching(kFakeSMCService), 0)))
+        platformProvider = waitForMatchingService(serviceMatching("IOPlatformExpertDevice"), 0);
+
+    /*if (!(platformProvider = waitForMatchingService(serviceMatching(kFakeSMCService), kFakeSMCDefaultWaitTimeout))) {
 		HWSensorsFatalLog("failed to locate FakeSMC service!");
         return false;
-    }
+    }*/
 
-    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForService(serviceMatching(kFakeSMCKeyStoreService))))) {
-		HWSensorsFatalLog("failed to locate FakeSMCKeyStore service!");
+    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), kFakeSMCDefaultWaitTimeout)))) {
+		HWSensorsFatalLog("still waiting for FakeSMCKeyStore...");
         return false;
     }
 

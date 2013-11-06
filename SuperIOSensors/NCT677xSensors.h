@@ -62,7 +62,7 @@ const UInt16 NUVOTON_VOLTAGE_VBAT_REG           = 0x0551;
 const UInt16 NUVOTON_TEMPERATURE_REG[]          = { 0x027, 0x073, 0x075, 0x077, 0x150, 0x250, 0x62B, 0x62C, 0x62D };
 const UInt16 NUVOTON_TEMPERATURE_HALF_REG[]     = { 0x000, 0x074, 0x076, 0x078, 0x151, 0x251, 0x62E, 0x62E, 0x62E };    
 const UInt16 NUVOTON_TEMPERATURE_SRC_REG[]      = { 0x621, 0x100, 0x200, 0x300, 0x622, 0x623, 0x624, 0x625, 0x626 };
-const UInt16 NUVOTON_TEMPERATURE_HALF_BIT[]     = {    -1,     7,     7,     7,     7,     7,     0,     1,     2 };
+const UInt16 NUVOTON_TEMPERATURE_HALF_BIT[]     = {    0xff,     7,     7,     7,     7,     7,     0,     1,     2 };
 
 const UInt8 NUVOTON_TEMPERATURE_SOURCE_SYSTIN   = 1;
 const UInt8 NUVOTON_TEMPERATURE_SOURCE_CPUTIN   = 2;

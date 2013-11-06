@@ -254,7 +254,7 @@ bool FakeSMCDevice::initAndStart(IOService *platform, IOService *provider)
 	if (!provider || !super::init(platform, 0, 0))
 		return false;
 
-    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForService(serviceMatching(kFakeSMCKeyStoreService))))) {
+    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), kFakeSMCDefaultWaitTimeout)))) {
 		HWSensorsFatalLog("failed to locate FakeSMCKeyStore service!");
         return false;
     }
