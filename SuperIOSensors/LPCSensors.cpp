@@ -314,8 +314,7 @@ bool LPCSensors::start(IOService *provider)
 void LPCSensors::stop(IOService *provider)
 {
     if (gpuIndex >= 0)
-        if (!releaseGPUIndex(gpuIndex))
-            HWSensorsFatalLog("failed to release GPU index");
+        releaseGPUIndex(gpuIndex);
     
     super::stop(provider);
 }

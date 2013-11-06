@@ -45,6 +45,8 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 			<key>IOProbeScore</key>
 			<string>1000</string>
 			<key>Platform Profile</key>
@@ -836,6 +838,8 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 			<key>IOProbeScore</key>
 			<string>2000</string>
 			<key>Platform Profile</key>
@@ -2649,6 +2653,8 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 			<key>IOProbeScore</key>
 			<string>3000</string>
 			<key>Platform Profile</key>
@@ -3759,6 +3765,8 @@
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 			<key>IOProbeScore</key>
 			<string>4000</string>
 			<key>Platform Profile</key>

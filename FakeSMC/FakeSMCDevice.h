@@ -10,8 +10,6 @@
 #ifndef _FAKESMCDEVICE_h
 #define _FAKESMCDEVICE_h
 
-#include "FakeSMCKey.h"
-
 #include <IOKit/acpi/IOACPIPlatformDevice.h>
 
 #define APPLESMC_DATA_PORT				0x300
@@ -26,8 +24,6 @@
 #define APPLESMC_GET_KEY_BY_INDEX_CMD	0x12
 #define APPLESMC_GET_KEY_TYPE_CMD		0x13
 
-class FakeSMC;
-
 struct AppleSMCStatus {
 	uint8_t cmd;
 	uint8_t status;
@@ -41,6 +37,8 @@ struct AppleSMCStatus {
 	uint32_t key_index;
 	uint8_t key_info[6];
 };
+
+class FakeSMCKeyStore;
 
 class FakeSMCDevice : public IOACPIPlatformDevice
 {
@@ -66,7 +64,7 @@ private:
 	void                applesmc_fill_data(struct AppleSMCStatus *s);
 	void                applesmc_fill_info(struct AppleSMCStatus *s);
 
-    FakeSMC             *storageProvider;
+    FakeSMCKeyStore     *keyStore;
 
 public:    
     bool                initAndStart(IOService *platform, IOService *provider);

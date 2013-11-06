@@ -41,6 +41,8 @@
 			<string>ACPIProbe</string>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 			<key>Platform Profile - DISABLED</key>
 			<dict>
 				<key>Default</key>
@@ -74,6 +76,8 @@
 			<string>ACPISensors</string>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 			<key>IOPropertyMatch</key>
 			<dict>
 				<key>device_type</key>
@@ -103,6 +107,8 @@
 			<string>PTIDSensors</string>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 			<key>IONameMatch</key>
 			<array>
 				<string>PTID</string>
@@ -118,6 +124,8 @@
 			<string>ACPISensors</string>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 			<key>Platform Profile - DISABLED</key>
 			<dict>
 				<key>Default</key>

@@ -51,6 +51,8 @@
 			<string>50000</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 		</dict>
 		<key>AMD Radeon Monitoring Plugin</key>
 		<dict>
@@ -68,6 +70,8 @@
 			<string>0x00001002&amp;0x0000ffff</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 		</dict>
 		<key>Intel GMA X3100 Monitoring Plugin</key>
 		<dict>
@@ -83,6 +87,8 @@
 			<string>0x2a028086&amp;0xffffffff 0x2a128086&amp;0xffffffff</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 			<key>IOProbeScore</key>
 			<string>30000</string>
 		</dict>

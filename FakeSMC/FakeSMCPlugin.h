@@ -27,6 +27,8 @@
 #include <IOKit/IOService.h>
 
 #include "FakeSMCDefinitions.h"
+#include "FakeSMCKeyStore.h"
+#include "FakeSMCKeyHandler.h"
 
 #define kFakeSMCTemperatureSensor   1
 #define kFakeSMCVoltageSensor       2
@@ -204,13 +206,14 @@ public:
     void                encodeNumericValue(float value, void *outBuffer);
 };
 
-class FakeSMCPlugin : public IOService {
+class FakeSMCPlugin : public FakeSMCKeyHandler {
 	OSDeclareAbstractStructors(FakeSMCPlugin)
 
 private:
-    IOService               *storageProvider;
+    IOService               *platformProvider;
     OSDictionary            *sensors;
-    
+    FakeSMCKeyStore         *keyStore;
+
 protected:
     OSString                *getPlatformManufacturer(void);
     OSString                *getPlatformProduct(void);
@@ -223,10 +226,10 @@ protected:
     
     SInt8                   takeVacantGPUIndex(void);
     bool                    takeGPUIndex(UInt8 index);
-    bool                    releaseGPUIndex(UInt8 index);
+    void                    releaseGPUIndex(UInt8 index);
     SInt8                   takeVacantFanIndex(void);
-    bool                    releaseFanIndex(UInt8 index);
-    
+    void                    releaseFanIndex(UInt8 index);
+
     bool                    setKeyValue(const char *key, const char *type, UInt8 size, void *value);
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
@@ -241,15 +244,15 @@ protected:
     OSDictionary            *getConfigurationNode(OSString *model = NULL);
 
     virtual float           getSensorValue(FakeSMCSensor *sensor);
+    virtual void            setSensorValue(FakeSMCSensor *sensor, void *data);
     
 public:    
 	virtual bool			init(OSDictionary *properties=0);
-	virtual IOService       *probe(IOService *provider, SInt32 *score);
     virtual bool			start(IOService *provider);
 	virtual void			stop(IOService *provider);
 	virtual void			free(void);
-	
-	virtual IOReturn		callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 ); 
+
+    virtual IOReturn        getValueCallback(const char *key, const char *type, const UInt8 size, void *buffer);
 };
 
 #endif

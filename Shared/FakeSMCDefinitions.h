@@ -174,6 +174,7 @@
 // Services
 #define kFakeSMCService                         "FakeSMC"
 #define kFakeSMCDeviceService                   "FakeSMCDevice"
+#define kFakeSMCKeyStoreService                 "FakeSMCKeyStore"
 
 // I/O Registry
 #define kFakeSMCDeviceValues                    "Values"
@@ -199,9 +200,9 @@
 #define kFakeSMCFirmwareVendor                  "fw-vendor"
 #define kFakeSMCKeyPropertyPrefix               "fakesmc-key"
 
-#define kHWSensorsDebug                         FALSE
+#define kHWSensorsDebug                         0
 
-#define HWSensorsDebugLog(string, args...)	do { if (kHWSensorsDebug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
+#define HWSensorsDebugLog(string, args...)	do { if (kHWSensorsDebug) { IOLog ("%s: [Debug] " string "\n", getName(), ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog ("%s: [Warning] " string "\n",getName() , ## args); } while(0)
 #define HWSensorsErrorLog(string, args...) do { IOLog ("%s: [Error] " string "\n",getName() , ## args); } while(0)
 #define HWSensorsFatalLog(string, args...) do { IOLog ("%s: [Fatal] " string "\n",getName() , ## args); } while(0)

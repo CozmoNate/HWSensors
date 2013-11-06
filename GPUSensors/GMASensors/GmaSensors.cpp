@@ -121,10 +121,8 @@ bool GmaSensors::managedStart(IOService *provider)
 
 void GmaSensors::stop(IOService* provider)
 {
-    if (gpuIndex >= 0) {
-        if (!releaseGPUIndex(gpuIndex))
-            HWSensorsFatalLog("failed to release GPU index");
-    }
+    if (gpuIndex >= 0)
+        releaseGPUIndex(gpuIndex);
     
     super::stop(provider);
 }

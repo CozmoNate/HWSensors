@@ -18,16 +18,18 @@
 		6AA172CB150B415200A77CF2 /* FakeSMCDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA172C4150B415200A77CF2 /* FakeSMCDevice.cpp */; };
 		6AA172D0150B415200A77CF2 /* FakeSMCKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA172C9150B415200A77CF2 /* FakeSMCKey.cpp */; };
 		6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */; };
+		7E00CAED1829A91800F98670 /* FakeSMCKeyHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E00CAEB1829A91800F98670 /* FakeSMCKeyHandler.cpp */; };
 		7E0EB891169A9A9A000DF2B1 /* evergreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */; };
 		7E0EB897169A9D3C000DF2B1 /* r600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB895169A9D3C000DF2B1 /* r600.cpp */; };
 		7E0EB89B169A9DBE000DF2B1 /* rv770.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB899169A9DBE000DF2B1 /* rv770.cpp */; };
 		7E0F9018169AC0EA008CE657 /* r600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB895169A9D3C000DF2B1 /* r600.cpp */; };
 		7E0F9019169AC0EA008CE657 /* rv770.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB899169A9DBE000DF2B1 /* rv770.cpp */; };
 		7E0F901A169AC0EA008CE657 /* evergreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */; };
+		7E1121D01828425900EFB948 /* FakeSMCKeyStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E1121CE1828425900EFB948 /* FakeSMCKeyStore.cpp */; };
 		7E148DDA16F7B5E800A3F28E /* nv84.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E148DD816F7B5E800A3F28E /* nv84.cpp */; };
 		7E17E171169C532100E40FC7 /* si.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E17E16F169C532000E40FC7 /* si.cpp */; };
 		7E20CCDF17D6DAD400CE769C /* ACPIProbe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E20CCDD17D6DAD400CE769C /* ACPIProbe.cpp */; };
-		7E2678B41825210500B405DE /* FakeSMCUserClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2678B21825210500B405DE /* FakeSMCUserClient.cpp */; };
+		7E2678B41825210500B405DE /* FakeSMCKeyStoreUserClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2678B21825210500B405DE /* FakeSMCKeyStoreUserClient.cpp */; };
 		7E5CFA2516988EBE00F0E9AD /* i2c_algo_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */; };
 		7E5CFA2716988EBE00F0E9AD /* i2c_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */; };
 		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
@@ -93,17 +95,21 @@
 		6A9F7268150A23C600279E79 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 		6AA172C4150B415200A77CF2 /* FakeSMCDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMCDevice.cpp; sourceTree = "<group>"; };
 		6AA172C5150B415200A77CF2 /* FakeSMCDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCDevice.h; sourceTree = "<group>"; };
-		6AA172C9150B415200A77CF2 /* FakeSMCKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMCKey.cpp; sourceTree = "<group>"; };
-		6AA172CA150B415200A77CF2 /* FakeSMCKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCKey.h; sourceTree = "<group>"; };
+		6AA172C9150B415200A77CF2 /* FakeSMCKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FakeSMCKey.cpp; path = ../FakeSMC/FakeSMCKey.cpp; sourceTree = "<group>"; };
+		6AA172CA150B415200A77CF2 /* FakeSMCKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCKey.h; path = ../FakeSMC/FakeSMCKey.h; sourceTree = "<group>"; };
 		6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMC.cpp; sourceTree = "<group>"; };
 		6AA2D0D3150B4B99004757C5 /* FakeSMC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMC.h; sourceTree = "<group>"; };
 		6AA710B9152B7D180006E62C /* SMBIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBIOS.h; sourceTree = "<group>"; };
+		7E00CAEB1829A91800F98670 /* FakeSMCKeyHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMCKeyHandler.cpp; sourceTree = "<group>"; };
+		7E00CAEC1829A91800F98670 /* FakeSMCKeyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCKeyHandler.h; sourceTree = "<group>"; };
 		7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = evergreen.cpp; sourceTree = "<group>"; };
 		7E0EB893169A9C4D000DF2B1 /* evergreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = evergreen.h; sourceTree = "<group>"; };
 		7E0EB895169A9D3C000DF2B1 /* r600.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = r600.cpp; sourceTree = "<group>"; };
 		7E0EB896169A9D3C000DF2B1 /* r600.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = r600.h; sourceTree = "<group>"; };
 		7E0EB899169A9DBE000DF2B1 /* rv770.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rv770.cpp; sourceTree = "<group>"; };
 		7E0EB89A169A9DBE000DF2B1 /* rv770.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rv770.h; sourceTree = "<group>"; };
+		7E1121CE1828425900EFB948 /* FakeSMCKeyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMCKeyStore.cpp; sourceTree = "<group>"; };
+		7E1121CF1828425900EFB948 /* FakeSMCKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCKeyStore.h; sourceTree = "<group>"; };
 		7E138D83169A885F007BE068 /* radeon_chipinfo_gen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon_chipinfo_gen.h; sourceTree = "<group>"; };
 		7E138D86169A8F8C007BE068 /* radeon_family.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon_family.h; sourceTree = "<group>"; };
 		7E138D89169A90D3007BE068 /* evergreend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = evergreend.h; sourceTree = "<group>"; };
@@ -118,8 +124,8 @@
 		7E20CCDD17D6DAD400CE769C /* ACPIProbe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ACPIProbe.cpp; sourceTree = "<group>"; };
 		7E20CCDE17D6DAD400CE769C /* ACPIProbe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPIProbe.h; sourceTree = "<group>"; };
 		7E24AF81169CBB9700040AF4 /* atom-names.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "atom-names.h"; sourceTree = "<group>"; };
-		7E2678B21825210500B405DE /* FakeSMCUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FakeSMCUserClient.cpp; sourceTree = "<group>"; };
-		7E2678B31825210500B405DE /* FakeSMCUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMCUserClient.h; sourceTree = "<group>"; };
+		7E2678B21825210500B405DE /* FakeSMCKeyStoreUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FakeSMCKeyStoreUserClient.cpp; path = ../FakeSMC/FakeSMCKeyStoreUserClient.cpp; sourceTree = "<group>"; };
+		7E2678B31825210500B405DE /* FakeSMCKeyStoreUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCKeyStoreUserClient.h; path = ../FakeSMC/FakeSMCKeyStoreUserClient.h; sourceTree = "<group>"; };
 		7E2678B5182523CE00B405DE /* smc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smc.h; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E43FB4D17CC04C800A6AAAA /* IntelDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntelDefinitions.h; sourceTree = "<group>"; };
@@ -291,16 +297,12 @@
 		1D05ABE913ED0DAD00EADBF6 /* FakeSMC */ = {
 			isa = PBXGroup;
 			children = (
-				6AA172CA150B415200A77CF2 /* FakeSMCKey.h */,
-				6AA172C9150B415200A77CF2 /* FakeSMCKey.cpp */,
 				6AA172C5150B415200A77CF2 /* FakeSMCDevice.h */,
 				6AA172C4150B415200A77CF2 /* FakeSMCDevice.cpp */,
 				6AA2D0D3150B4B99004757C5 /* FakeSMC.h */,
 				6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */,
-				7E2678B31825210500B405DE /* FakeSMCUserClient.h */,
-				7E2678B21825210500B405DE /* FakeSMCUserClient.cpp */,
 				7E5A8CB51605EA7300FF0099 /* OEMInfo */,
-				6AAF9FB6151DC8D1007EACE2 /* FakeSMCPlugin */,
+				7EF546971828660C00E295B1 /* FakeSMCPlugin */,
 				1D05ABEA13ED0DAD00EADBF6 /* Supporting Files */,
 			);
 			path = FakeSMC;
@@ -422,17 +424,9 @@
 				7EB7E704178341020071B3F0 /* Versioning */,
 				7E5CFA1B16988E8A00F0E9AD /* Linux */,
 				7EF31BB716207C6B00E9B055 /* Kernel */,
+				7E1121D11828426400EFB948 /* FakeSMCKeyStore */,
 			);
 			path = Shared;
-			sourceTree = "<group>";
-		};
-		6AAF9FB6151DC8D1007EACE2 /* FakeSMCPlugin */ = {
-			isa = PBXGroup;
-			children = (
-				6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */,
-				6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */,
-			);
-			name = FakeSMCPlugin;
 			sourceTree = "<group>";
 		};
 		7E0A2BA3167C731D0060C153 /* nouveau */ = {
@@ -475,6 +469,21 @@
 				7E9F5482167C71D9006E907B /* nve0.cpp */,
 			);
 			name = nouveau;
+			sourceTree = "<group>";
+		};
+		7E1121D11828426400EFB948 /* FakeSMCKeyStore */ = {
+			isa = PBXGroup;
+			children = (
+				6AA172CA150B415200A77CF2 /* FakeSMCKey.h */,
+				6AA172C9150B415200A77CF2 /* FakeSMCKey.cpp */,
+				7E00CAEC1829A91800F98670 /* FakeSMCKeyHandler.h */,
+				7E00CAEB1829A91800F98670 /* FakeSMCKeyHandler.cpp */,
+				7E1121CF1828425900EFB948 /* FakeSMCKeyStore.h */,
+				7E1121CE1828425900EFB948 /* FakeSMCKeyStore.cpp */,
+				7E2678B31825210500B405DE /* FakeSMCKeyStoreUserClient.h */,
+				7E2678B21825210500B405DE /* FakeSMCKeyStoreUserClient.cpp */,
+			);
+			name = FakeSMCKeyStore;
 			sourceTree = "<group>";
 		};
 		7E138D88169A909F007BE068 /* radeon */ = {
@@ -690,6 +699,15 @@
 			name = Kernel;
 			sourceTree = "<group>";
 		};
+		7EF546971828660C00E295B1 /* FakeSMCPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				6A9C468A14E657EE0083E5E6 /* FakeSMCPlugin.h */,
+				6A9C468914E657EE0083E5E6 /* FakeSMCPlugin.cpp */,
+			);
+			name = FakeSMCPlugin;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -856,11 +874,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AA172D0150B415200A77CF2 /* FakeSMCKey.cpp in Sources */,
+				7E1121D01828425900EFB948 /* FakeSMCKeyStore.cpp in Sources */,
+				7E2678B41825210500B405DE /* FakeSMCKeyStoreUserClient.cpp in Sources */,
 				6AA172CB150B415200A77CF2 /* FakeSMCDevice.cpp in Sources */,
 				6A9C468D14E657EE0083E5E6 /* FakeSMCPlugin.cpp in Sources */,
-				6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */,
-				7E2678B41825210500B405DE /* FakeSMCUserClient.cpp in Sources */,
 				7EB73CFA1791BCBC007D93D4 /* OEMInfo.cpp in Sources */,
+				6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */,
+				7E00CAED1829A91800F98670 /* FakeSMCKeyHandler.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

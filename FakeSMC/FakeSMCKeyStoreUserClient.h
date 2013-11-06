@@ -1,24 +1,24 @@
 //
-//  FakeSMCUserClient.h
+//  FakeSMCKeyStoreUserClient.h
 //  HWSensors
 //
 //  Created by Kozlek on 02/11/13.
 //
 //
 
-#ifndef __HWSensors__FakeSMCUserClient__
-#define __HWSensors__FakeSMCUserClient__
+#ifndef __HWSensors__FakeSMCKeyStoreUserClient__
+#define __HWSensors__FakeSMCKeyStoreUserClient__
 
 #include <IOKit/IOUserClient.h>
 
-class FakeSMC;
+class FakeSMCKeyStore;
 
-class FakeSMCUserClient : public IOUserClient
+class FakeSMCKeyStoreUserClient : public IOUserClient
 {
-	OSDeclareDefaultStructors(FakeSMCUserClient);
+	OSDeclareDefaultStructors(FakeSMCKeyStoreUserClient);
 
 private:
-	FakeSMC *storageProvider;
+	FakeSMCKeyStore *keyStore;
 
 public:
 	/* IOService overrides */
@@ -32,4 +32,4 @@ public:
 									IOExternalMethodDispatch* dispatch, OSObject* target, void* reference);
 };
 
-#endif /* defined(__HWSensors__FakeSMCUserClient__) */
+#endif /* defined(__HWSensors__FakeSMCKeyStoreUserClient__) */

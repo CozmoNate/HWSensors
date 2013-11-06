@@ -9,8 +9,9 @@
 
 #include <IOKit/IOLib.h>
 
-#include "FakeSMCKey.h"
 #include "FakeSMCDefinitions.h"
+#include "FakeSMCKey.h"
+#include "FakeSMCKeyHandler.h"
 
 #include "timer.h"
 
@@ -27,7 +28,7 @@ FakeSMCKey *FakeSMCKey::withValue(const char *aKey, const char *aType, unsigned 
     return me;
 }
 
-FakeSMCKey *FakeSMCKey::withHandler(const char *aKey, const char *aType, const unsigned char aSize, IOService *aHandler)
+FakeSMCKey *FakeSMCKey::withHandler(const char *aKey, const char *aType, const unsigned char aSize, FakeSMCKeyHandler *aHandler)
 {
     FakeSMCKey *me = new FakeSMCKey;
 	
@@ -37,7 +38,7 @@ FakeSMCKey *FakeSMCKey::withHandler(const char *aKey, const char *aType, const u
     return me;
 }
 
-bool FakeSMCKey::init(const char * aKey, const char * aType, const unsigned char aSize, const void *aValue, IOService * aHandler)
+bool FakeSMCKey::init(const char * aKey, const char * aType, const unsigned char aSize, const void *aValue, FakeSMCKeyHandler *aHandler)
 {
     if (!super::init())
         return false;
@@ -81,8 +82,8 @@ bool FakeSMCKey::init(const char * aKey, const char * aType, const unsigned char
 		bcopy(aValue, value, size);
 	else
 		bzero(value, size);
-	
-	handler = aHandler;
+
+    handler = aHandler;
 	
     return true;
 }
@@ -116,19 +117,19 @@ void *FakeSMCKey::getValue()
         double time = ptimer_read_seconds();
         
         if (time - lastUpdated >= 1.0) {
-            IOReturn result = handler->callPlatformFunction(kFakeSMCGetValueCallback, true, (void *)key, (void *)value, reinterpret_cast<void *>(size), 0);
-            
-            if (kIOReturnSuccess == result)
+            if (kIOReturnSuccess == handler->getValueCallback(key, type, size, value)) {
                 lastUpdated = time;
-            else 
-                HWSensorsWarningLog("value update request callback returned error for key %s, return 0x%x", key, result);
+            }
+            else {
+                HWSensorsWarningLog("value update request callback returned error for key %s", key);
+            }
         }
 	}
     
 	return value; 
 };
 
-IOService *FakeSMCKey::getHandler() { return handler; };
+FakeSMCKeyHandler *FakeSMCKey::getHandler() { return handler; };
 
 bool FakeSMCKey::setType(const char *aType)
 {
@@ -163,26 +164,31 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
 	}
 	
 	bcopy(aBuffer, value, size);
-	
-	if (handler) {       
-		IOReturn result = handler->callPlatformFunction(kFakeSMCSetValueCallback, true, (void *)key, (void *)value, reinterpret_cast<void *>(size), 0);
-		
-		if (kIOReturnSuccess != result)
-			HWSensorsWarningLog("value changed event callback returned error for key %s, return 0x%x", key, result);
-	}
+
+	if (handler) {
+        if (kIOReturnSuccess != handler->setValueForKey(key, type, size, value)) {
+            HWSensorsWarningLog("value changed event callback returned error for key %s", key);
+        }
+    }
 	
 	return true;
 }
 
-bool FakeSMCKey::setHandler(IOService *aHandler)
+bool FakeSMCKey::setHandler(FakeSMCKeyHandler *newHandler)
 {
-    if (handler) {
-        // TODO: check priority
+    if (handler && newHandler) {
+        if (newHandler->getProbeScore() < handler->getProbeScore()) {
+            HWSensorsErrorLog("key %s already handled with prioritized handler %s", key, handler->getName());
+            return false;
+        }
+        else {
+            handler = newHandler;
+
+            HWSensorsInfoLog("key %s handler %s has been replaced with new prioritized handler %s", key, handler->getName(), newHandler->getName());
+        }
     }
-    
-	handler = aHandler;
-    
-	return true;
+
+	return false;
 }
 
 bool FakeSMCKey::isEqualTo(const char *aKey)

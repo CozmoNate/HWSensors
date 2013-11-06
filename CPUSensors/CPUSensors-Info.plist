@@ -37,6 +37,8 @@
 			</dict>
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 			<key>Platform Profile</key>
 			<dict>
 				<key>Default</key>
