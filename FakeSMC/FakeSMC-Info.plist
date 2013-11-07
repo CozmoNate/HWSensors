@@ -154,9 +154,9 @@
 			<key>IOClass</key>
 			<string>FakeSMC</string>
 			<key>IOMatchCategory</key>
-			<string>IOACPIPlatformDevice</string>
+			<string>FakeSMC</string>
 			<key>IOProviderClass</key>
-			<string>AppleACPIPlatformExpert</string>
+			<string>IOResources</string>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
 		</dict>

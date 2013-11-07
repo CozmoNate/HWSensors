@@ -441,6 +441,8 @@ bool FakeSMCKeyStore::start(IOService *provider)
 
     registerService();
 
+    HWSensorsInfoLog("started");
+
 	return true;
 }
 

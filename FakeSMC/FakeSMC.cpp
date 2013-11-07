@@ -53,9 +53,8 @@ bool FakeSMC::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
 
-    if (IOService *resources = waitForMatchingService(serviceMatching("IOResources"), 0)) {
-        attach(resources);
-    }
+    if (IOService *resources = waitForMatchingService(serviceMatching("IOResources"), 0))
+        this->attach(resources);
 
     OSDictionary *configuration = OSDynamicCast(OSDictionary, getProperty("Configuration"));
 
@@ -70,7 +69,10 @@ bool FakeSMC::start(IOService *provider)
 
         HWSensorsDebugLog("initializing FakeSMCKeyStore");
 
-        if (!keyStore->initAndStart(this, configuration)) {
+        if (keyStore->initAndStart(this, configuration)) {
+            keyStore->setProperty("IOUserClientClass", "FakeSMCKeyStoreUserClient");
+        }
+        else {
             keyStore->release();
             HWSensorsFatalLog("failed to initialize FakeSMCKeyStore device");
             return false;
@@ -189,7 +191,9 @@ bool FakeSMC::start(IOService *provider)
             return false;
         }
 
-        if (!smcDevice->initAndStart(provider, this)) {
+        IOService *platformExpert = waitForMatchingService(serviceMatching("IOACPIPlatformExpert"), kFakeSMCDefaultWaitTimeout);
+
+        if (!smcDevice->initAndStart(platformExpert, this)) {
             HWSensorsFatalLog("failed to initialize SMC device");
             return false;
         }
