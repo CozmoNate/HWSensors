@@ -1,19 +1,19 @@
 //
-//  FakeSMCUserClient.cpp
+//  FakeSMCKeyStoreUserClient.cpp
 //  HWSensors
 //
 //  Created by Kozlek on 02/11/13.
 //
 //
 
-#include "FakeSMCUserClient.h"
+#include "FakeSMCKeyStoreUserClient.h"
+
 #include "FakeSMCDefinitions.h"
-#include "FakeSMC.h"
+#include "FakeSMCKeyStore.h"
 #include "FakeSMCKey.h"
 #include "smc.h"
 
 #include <IOKit/IOLib.h>
-#include <IOKit/IOBufferMemoryDescriptor.h>
 
 static IORecursiveLock *gClientSyncLock = 0;
 
@@ -21,31 +21,30 @@ static IORecursiveLock *gClientSyncLock = 0;
 #define SYNCUNLOCK      IORecursiveLockUnlock(gClientSyncLock)
 
 #define super IOUserClient
-OSDefineMetaClassAndStructors(FakeSMCUserClient, IOUserClient);
+OSDefineMetaClassAndStructors(FakeSMCKeyStoreUserClient, IOUserClient);
 
-bool FakeSMCUserClient::start(IOService* provider)
+bool FakeSMCKeyStoreUserClient::start(IOService* provider)
 {
     if (!super::start(provider))
         return false;
 
-    if (!(storageProvider = OSDynamicCast(FakeSMC, provider))) {
-        HWSensorsFatalLog("provider must be FakeSMC class service!");
+    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, provider))) {
+        HWSensorsFatalLog("provider must be FakeSMCKeyStore class service!");
         return false;
     }
 
     return true;
 }
 
-void FakeSMCUserClient::stop(IOService* provider)
+void FakeSMCKeyStoreUserClient::stop(IOService* provider)
 {
-
     super::stop(provider);
 }
 
-bool FakeSMCUserClient::initWithTask(task_t owningTask, void* securityID, UInt32 type, OSDictionary* properties)
+bool FakeSMCKeyStoreUserClient::initWithTask(task_t owningTask, void* securityID, UInt32 type, OSDictionary* properties)
 {
 	if (super::initWithTask(owningTask, securityID, type, properties)) {
-        storageProvider = NULL;
+        keyStore = NULL;
         return true;
 	}
 
@@ -54,7 +53,7 @@ bool FakeSMCUserClient::initWithTask(task_t owningTask, void* securityID, UInt32
     return false;
 }
 
-IOReturn FakeSMCUserClient::clientClose(void)
+IOReturn FakeSMCKeyStoreUserClient::clientClose(void)
 {
 	if( !isInactive())
         terminate();
@@ -62,14 +61,14 @@ IOReturn FakeSMCUserClient::clientClose(void)
     return kIOReturnSuccess;
 }
 
-IOReturn FakeSMCUserClient::externalMethod(uint32_t selector, IOExternalMethodArguments* arguments, IOExternalMethodDispatch * dispatch, OSObject * target, void * reference )
+IOReturn FakeSMCKeyStoreUserClient::externalMethod(uint32_t selector, IOExternalMethodArguments* arguments, IOExternalMethodDispatch * dispatch, OSObject * target, void * reference )
 {
 	IOReturn result = kIOReturnError;
 
-	if (storageProvider == NULL || isInactive()) {
+	if (keyStore == NULL || isInactive()) {
 		result = kIOReturnNotAttached;
 	}
-	else if (!storageProvider->isOpen(this)) {
+	else if (!keyStore->isOpen(this)) {
 		result = kIOReturnNotOpen;
 	}
 
@@ -83,7 +82,7 @@ IOReturn FakeSMCUserClient::externalMethod(uint32_t selector, IOExternalMethodAr
 
             switch (input->data8) {
                 case SMC_CMD_READ_INDEX: {
-                    FakeSMCKey *key = storageProvider->getKey(input->data32);
+                    FakeSMCKey *key = keyStore->getKey(input->data32);
                     output->key = _strtoul(key->getKey(), 4, 16);
                     result = kIOReturnSuccess;
                     break;
@@ -94,7 +93,7 @@ IOReturn FakeSMCUserClient::externalMethod(uint32_t selector, IOExternalMethodAr
 
                     _ultostr(name, input->key);
 
-                    FakeSMCKey *key = storageProvider->getKey(name);
+                    FakeSMCKey *key = keyStore->getKey(name);
 
                     if (key) {
 
@@ -113,7 +112,7 @@ IOReturn FakeSMCUserClient::externalMethod(uint32_t selector, IOExternalMethodAr
 
                     _ultostr(name, input->key);
 
-                    FakeSMCKey *key = storageProvider->getKey(name);
+                    FakeSMCKey *key = keyStore->getKey(name);
 
                     if (key) {
 

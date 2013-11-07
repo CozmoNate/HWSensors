@@ -113,8 +113,6 @@ bool GeforceSensors::managedStart(IOService *provider)
 {
     HWSensorsDebugLog("Starting...");
 
-    //waitForService(resourceMatching("IODisplayWrangler"));
-	
     struct nouveau_device *device = &card;
     
     if ((card.card_index = takeVacantGPUIndex()) < 0) {
@@ -289,10 +287,8 @@ void GeforceSensors::stop(IOService * provider)
         card.bios.data = 0;
     }
     
-    if (card.card_index >= 0) {
-        if (!releaseGPUIndex(card.card_index))
-            HWSensorsFatalLog("failed to release GPU index");
-    }
+    if (card.card_index >= 0)
+        releaseGPUIndex(card.card_index);
     
     super::stop(provider);
 }

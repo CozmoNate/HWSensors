@@ -28,7 +28,7 @@ cc ./smc.c  -o smcutil -framework IOKit -framework CoreFoundation -Wno-four-char
 #include <IOKit/IOKitLib.h>
 #include "smc.h"
 
-kern_return_t SMCOpen(io_connect_t *conn)
+kern_return_t SMCOpen(io_connect_t *conn, const char *serviceName)
 {
     kern_return_t result;
     mach_port_t   masterPort;
@@ -37,7 +37,7 @@ kern_return_t SMCOpen(io_connect_t *conn)
 
     IOMasterPort(MACH_PORT_NULL, &masterPort);
 
-    CFMutableDictionaryRef matchingDictionary = IOServiceMatching("AppleSMC");
+    CFMutableDictionaryRef matchingDictionary = IOServiceMatching(serviceName);
     result = IOServiceGetMatchingServices(masterPort, matchingDictionary, &iterator);
     if (result != kIOReturnSuccess)
     {
@@ -49,43 +49,7 @@ kern_return_t SMCOpen(io_connect_t *conn)
     IOObjectRelease((io_object_t)iterator);
     if (device == 0)
     {
-        printf("Error: no SMC found\n");
-        return 1;
-    }
-
-    result = IOServiceOpen(device, mach_task_self(), 0, conn);
-    IOObjectRelease(device);
-    if (result != kIOReturnSuccess)
-    {
-        printf("Error: IOServiceOpen() = %08x\n", result);
-        return 1;
-    }
-
-    return kIOReturnSuccess;
-}
-
-kern_return_t FakeSMCOpen(io_connect_t *conn)
-{
-    kern_return_t result;
-    mach_port_t   masterPort;
-    io_iterator_t iterator;
-    io_object_t   device;
-
-    IOMasterPort(MACH_PORT_NULL, &masterPort);
-
-    CFMutableDictionaryRef matchingDictionary = IOServiceMatching("FakeSMC");
-    result = IOServiceGetMatchingServices(masterPort, matchingDictionary, &iterator);
-    if (result != kIOReturnSuccess)
-    {
-        printf("Error: IOServiceGetMatchingServices() = %08x\n", result);
-        return 1;
-    }
-
-    device = IOIteratorNext(iterator);
-    IOObjectRelease((io_object_t)iterator);
-    if (device == 0)
-    {
-        printf("Error: no SMC found\n");
+        //printf("Error: no SMC found\n");
         return 1;
     }
 

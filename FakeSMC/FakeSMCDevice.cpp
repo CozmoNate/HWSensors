@@ -7,6 +7,7 @@
  *
  */
 
+#include "FakeSMCKey.h"
 #include "FakeSMC.h"
 #include "FakeSMCDevice.h"
 #include "FakeSMCPlugin.h"
@@ -55,7 +56,7 @@ void FakeSMCDevice::applesmc_io_cmd_writeb(void *opaque, uint32_t addr, uint32_t
 
 void FakeSMCDevice::applesmc_fill_data(struct AppleSMCStatus *s)
 {
-	if (FakeSMCKey *key = storageProvider->getKey((char*)s->key)) {
+	if (FakeSMCKey *key = keyStore->getKey((char*)s->key)) {
 		bcopy(key->getValue(), s->value, key->getSize());
 		return;
 	}
@@ -67,7 +68,7 @@ void FakeSMCDevice::applesmc_fill_data(struct AppleSMCStatus *s)
 
 const char * FakeSMCDevice::applesmc_get_key_by_index(uint32_t index, struct AppleSMCStatus *s)
 {
-	if (FakeSMCKey *key = storageProvider->getKey(index))
+	if (FakeSMCKey *key = keyStore->getKey(index))
 		return key->getKey();
     
     FakeSMCTraceLog("key by count %x is not found",index);
@@ -80,7 +81,7 @@ const char * FakeSMCDevice::applesmc_get_key_by_index(uint32_t index, struct App
 
 void FakeSMCDevice::applesmc_fill_info(struct AppleSMCStatus *s)
 {
-	if (FakeSMCKey *key = storageProvider->getKey((char*)s->key)) {
+	if (FakeSMCKey *key = keyStore->getKey((char*)s->key)) {
 		s->key_info[0] = key->getSize();
 		s->key_info[5] = 0;
         
@@ -147,11 +148,11 @@ void FakeSMCDevice::applesmc_io_data_writeb(void *opaque, uint32_t addr, uint32_
                     
                     FakeSMCDebugLog("system writing key %s, length %d", name, s->data_len);
                     
-                    FakeSMCKey* key = storageProvider->addKeyWithValue(name, 0, s->data_len, s->value);
+                    FakeSMCKey* key = keyStore->addKeyWithValue(name, 0, s->data_len, s->value);
 
                     bzero(s->value, 255);
                     
-                    if (key) storageProvider->saveKeyToNVRAM(key);
+                    if (key) keyStore->saveKeyToNVRAM(key);
 				}
 			};
 			s->read_pos++;
@@ -250,11 +251,17 @@ uint32_t FakeSMCDevice::applesmc_io_cmd_readb(void *opaque, uint32_t addr1)
 
 bool FakeSMCDevice::initAndStart(IOService *platform, IOService *provider)
 {
-	if (!provider || !super::init(platform, 0, 0) || !(storageProvider = OSDynamicCast(FakeSMC, provider)))
+	if (!provider || !super::init(platform, 0, 0))
 		return false;
+
+    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), kFakeSMCDefaultWaitTimeout)))) {
+		HWSensorsFatalLog("failed to locate FakeSMCKeyStore service!");
+        return false;
+    }
     
 	status = (ApleSMCStatus *) IOMalloc(sizeof(struct AppleSMCStatus));
 	bzero((void*)status, sizeof(struct AppleSMCStatus));
+    
 	interrupt_handler = 0;
     
     // Start SMC device
@@ -337,7 +344,7 @@ bool FakeSMCDevice::initAndStart(IOService *platform, IOService *provider)
     
 	this->setProperty(gIOInterruptControllersKey, controllers) && this->setProperty(gIOInterruptSpecifiersKey, specifiers);
 	this->attachToParent(platform, gIOServicePlane);
-    
+
     registerService();
     
 	HWSensorsInfoLog("successfully initialized");

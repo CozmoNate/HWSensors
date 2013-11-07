@@ -27,8 +27,8 @@
 
 //class SMBPackedStrings;
 
-#define kOEMInfoManufacturer    "mb-manufacturer"
-#define kOEMInfoProduct         "mb-product"
+#define kOEMInfoManufacturer    "manufacturer"
+#define kOEMInfoProduct         "product-name"
 
 OSString* getManufacturerNameFromOEMName(OSString *name);
 bool setOemProperties(IOService *provider);

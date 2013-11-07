@@ -34,6 +34,11 @@
             <line choice="gpusensors"/>
             <line choice="lpcsensors"/>
         </line>
+        <line choice="fakesmckeystore">
+            <line choice="cpusensors_mac"/>
+            <line choice="gpusensors_mac"/>
+        </line>
+
     </choices-outline>
 
     <choice
@@ -47,7 +52,8 @@
         id="fakesmc"
         title="FakeSMC"
         description="FAKESMC_DESCRIPTION"
-        start_selected="YES">
+        start_selected="hackintoshCheckScript()"
+        enabled="hackintoshCheckScript()">
         <pkg-ref id="org.hwsensors.FakeSMC"/>
     </choice>
 
@@ -82,8 +88,36 @@
         id="lpcsensors"
         title="LPCSensors"
         description="LPCSENSORS_DESCRIPTION"
-        start_selected="hackintoshCheckScript() &amp;&amp; choices['fakesmc'].selected">
+        enabled="choices['fakesmc'].enabled"
+        start_selected="choices['fakesmc'].selected">
         <pkg-ref id="org.hwsensors.LPCSensors"/>
+    </choice>
+
+    <choice
+        id="fakesmckeystore"
+        title="Plugins support for Mac"
+        description="FAKESMCKEYSTORE_DESCRIPTION"
+        start_selected="!hackintoshCheckScript()"
+        enabled="!hackintoshCheckScript()">
+        <pkg-ref id="org.hwsensors.FakeSMCKeyStore"/>
+    </choice>
+
+    <choice
+        id="cpusensors_mac"
+        title="CPUSensors"
+        description="CPUSENSORS_DESCRIPTION"
+        enabled="choices['fakesmckeystore'].enabled"
+        start_selected="choices['fakesmckeystore'].selected">
+        <pkg-ref id="org.hwsensors.CPUSensors.Mac"/>
+    </choice>
+
+    <choice
+        id="gpusensors_mac"
+        title="GPUSensors"
+        description="GPUSENSORS_DESCRIPTION"
+        enabled="choices['fakesmckeystore'].enabled"
+        start_selected="choices['fakesmckeystore'].selected">
+        <pkg-ref id="org.hwsensors.GPUSensors.Mac"/>
     </choice>
 
     <pkg-ref id="org.hwsensors.HWMonitor">

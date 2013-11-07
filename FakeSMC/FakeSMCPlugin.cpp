@@ -23,7 +23,10 @@
 
 
 #include "FakeSMCPlugin.h"
+
 #include "FakeSMCDefinitions.h"
+#include "FakeSMCKey.h"
+#include "FakeSMCKeyStore.h"
 
 #include <IOKit/IOLib.h>
 
@@ -196,24 +199,24 @@ static IORecursiveLock *gPluginSyncLock = 0;
 #define SYNCLOCK        if (!gPluginSyncLock) gPluginSyncLock = IORecursiveLockAlloc(); IORecursiveLockLock(gPluginSyncLock)
 #define SYNCUNLOCK      IORecursiveLockUnlock(gPluginSyncLock)
 
-#define super IOService
-OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, IOService)
+#define super FakeSMCKeyHandler
+OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, FakeSMCKeyHandler)
 
 #pragma mark -
 #pragma mark FakeSMCPlugin::methods
 
 OSString *FakeSMCPlugin::getPlatformManufacturer(void)
 {
-    if (storageProvider)
-        return OSDynamicCast(OSString, storageProvider->getProperty(kOEMInfoManufacturer));
+    if (platformProvider)
+        return OSDynamicCast(OSString, platformProvider->getProperty(kOEMInfoManufacturer));
     
     return NULL;
 }
 
 OSString *FakeSMCPlugin::getPlatformProduct(void)
 {
-    if (storageProvider)
-        return OSDynamicCast(OSString, storageProvider->getProperty(kOEMInfoProduct));
+    if (platformProvider)
+        return OSDynamicCast(OSString, platformProvider->getProperty(kOEMInfoProduct));
     
     return NULL;
 }
@@ -231,45 +234,56 @@ void FakeSMCPlugin::disableExclusiveAccessMode(void)
 bool FakeSMCPlugin::isKeyExists(const char *key)
 {
     SYNCLOCK;
+
+    bool keyExists = keyStore->getKey(key);
     
-    if (storageProvider) {
-        UInt8 size = 0;
-        void *value = 0;
-        IOReturn result = storageProvider->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)key, (void *)&size, (void *)&value, 0);
-        
-        SYNCUNLOCK;
-        return result == kIOReturnSuccess;
-    }
-    
+//    if (keyStore) {
+//        UInt8 size = 0;
+//        void *value = 0;
+//        IOReturn result = keyStore->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)key, (void *)&size, (void *)&value, 0);
+//        
+//        SYNCUNLOCK;
+//        return result == kIOReturnSuccess;
+//    }
+
     SYNCUNLOCK;
     
-    return false;
+    return keyExists;
 }
 
 bool FakeSMCPlugin::isKeyHandled(const char *key)
 {
     SYNCLOCK;
-    
-    if (storageProvider) {
-        IOService *handler = 0;
-        IOReturn result = storageProvider->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)&handler, 0, 0);
-        
-        SYNCUNLOCK;
-        return result == kIOReturnSuccess;
+
+    bool keyHandled = false;
+
+    if (FakeSMCKey *smcKey = keyStore->getKey(key)) {
+        keyHandled = smcKey->getHandler();
     }
-    
+
+//    if (keyStore) {
+//        IOService *handler = 0;
+//        IOReturn result = keyStore->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)&handler, 0, 0);
+//        
+//        SYNCUNLOCK;
+//        return result == kIOReturnSuccess;
+//    }
+
     SYNCUNLOCK;
-    return false;
+
+    return keyHandled;
 }
 
 bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, void *value)
 {
     SYNCLOCK;
-    
-    IOReturn result = storageProvider->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)type, reinterpret_cast<void *>(size), (void *)value);
+
+    bool added = keyStore->addKeyWithValue(key, type, size, value);
+    //IOReturn result = keyStore->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)type, reinterpret_cast<void *>(size), (void *)value);
     
     SYNCUNLOCK;
-    return result == kIOReturnSuccess;
+
+    return added;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
@@ -355,29 +369,22 @@ bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
 {
     SYNCLOCK;
     
-    bool result = false;
-    
-    if (sensor) {
-        
-        const char *key = sensor->getKey();
-        const char *type = sensor->getType();
-        UInt8 size = sensor->getSize();
-        
-        if (kIOReturnSuccess == storageProvider->callPlatformFunction(kFakeSMCAddKeyHandler, true, (void *)key, (void *)type, reinterpret_cast<void *>(size), (void *)this)) {
-            result = sensors->setObject(sensor->getKey(), sensor);
-        }
+    bool added = keyStore->addKeyWithHandler(sensor->getKey(), sensor->getType(), sensor->getSize(), this);
+
+    if (added) {
+        sensors->setObject(sensor->getKey(), sensor);
     }
-    
+
     SYNCUNLOCK;
     
-    return result;
+    return added;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanType type, UInt8 zone, FanLocationType location, SInt8 *fanIndex)
 {
     SYNCLOCK;
     
-    SInt8 vacantFanIndex = takeVacantFanIndex();
+    SInt8 vacantFanIndex = keyStore->takeVacantFanIndex();
     
     if (vacantFanIndex >= 0) {
         char key[5];
@@ -427,23 +434,16 @@ float FakeSMCPlugin::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
+void FakeSMCPlugin::setSensorValue(FakeSMCSensor *sensor, void *data)
+{
+    //
+}
+
 SInt8 FakeSMCPlugin::takeVacantGPUIndex(void)
 {
     SYNCLOCK;
     
-    SInt8 index = -1;
-    
-    IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCTakeVacantGPUIndex, true, (void *)&index, 0, 0, 0);
-    
-    switch (resut) {
-        case kIOReturnSuccess:
-        case kIOReturnBadArgument:
-            SYNCUNLOCK;
-            return index;
-
-        default:
-            break;
-    }
+    SInt8 index = keyStore->takeVacantGPUIndex();
     
     SYNCUNLOCK;
     
@@ -454,80 +454,40 @@ bool FakeSMCPlugin::takeGPUIndex(UInt8 index)
 {
     SYNCLOCK;
     
-    IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCTakeGPUIndex, true, (void *)&index, 0, 0, 0);
-    
-    switch (resut) {
-        case kIOReturnSuccess:
-            SYNCUNLOCK;
-            return true;
-            
-        case kIOReturnBadArgument:
-            SYNCUNLOCK;
-            return false;
-            
-        default:
-            break;
-    }
-    
+    bool taken = keyStore->takeGPUIndex(index);
+
     SYNCUNLOCK;
     
-    return false;
+    return taken;
 }
 
-bool FakeSMCPlugin::releaseGPUIndex(UInt8 index)
+void FakeSMCPlugin::releaseGPUIndex(UInt8 index)
 {
     SYNCLOCK;
     
-    for (int i = 0; i < 3; i++) {
-        IOReturn resut = storageProvider->callPlatformFunction(kFakeSMCReleaseGPUIndex, true, (void *)&index, 0, 0, 0);
-        
-        switch (resut) {
-            case kIOReturnSuccess:
-                SYNCUNLOCK;
-                return true;
-                
-            case kIOReturnBadArgument:
-                SYNCUNLOCK;
-                return false;
-                
-            default:
-                break;
-        }
-        
-        IOSleep(10);
-    }
-    
+    keyStore->releaseGPUIndex(index);
+
     SYNCUNLOCK;
-    return false;
 }
 
 SInt8 FakeSMCPlugin::takeVacantFanIndex(void)
 {
     SYNCLOCK;
     
-    SInt8 index = -1;
-    
-    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCTakeVacantFanIndex, true, (void *)&index, 0, 0, 0))
-        HWSensorsErrorLog("failed to take Fan index");
-    
+    SInt8 index = keyStore->takeVacantFanIndex();
+
     SYNCUNLOCK;
     
     return index;
 }
 
-bool FakeSMCPlugin::releaseFanIndex(UInt8 index)
+void FakeSMCPlugin::releaseFanIndex(UInt8 index)
 {
     SYNCLOCK;
     
-    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCReleaseFanIndex, true, (void *)&index, 0, 0, 0)) {
-        HWSensorsErrorLog("failed to release Fan index");
-        
-        SYNCUNLOCK;
-        return false;
-    }
+    keyStore->releaseFanIndex(index);
     
     SYNCUNLOCK;
-    return true;
 }
 
 OSDictionary *FakeSMCPlugin::getConfigurationNode(OSDictionary *root, OSString *name)
@@ -592,28 +552,23 @@ bool FakeSMCPlugin::init(OSDictionary *properties)
 	return true;
 }
 
-IOService * FakeSMCPlugin::probe(IOService *provider, SInt32 *score)
-{	
-	if (super::probe(provider, score) != this) 
-		return 0;
-    
-    return this;
-}
-
 bool FakeSMCPlugin::start(IOService *provider)
 {	
 	if (!super::start(provider)) 
         return false;
 
-    if (!(storageProvider = waitForService(serviceMatching(kFakeSMCService)))) {
+    if (!(platformProvider = waitForMatchingService(serviceMatching(kFakeSMCService), 0)))
+        platformProvider = waitForMatchingService(serviceMatching("IOPlatformExpertDevice"), 0);
+
+    /*if (!(platformProvider = waitForMatchingService(serviceMatching(kFakeSMCService), kFakeSMCDefaultWaitTimeout))) {
 		HWSensorsFatalLog("failed to locate FakeSMC service!");
         return false;
+    }*/
+
+    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), kFakeSMCDefaultWaitTimeout)))) {
+		HWSensorsFatalLog("still waiting for FakeSMCKeyStore...");
+        return false;
     }
-    
-//	if (!(storageProvider = waitForService(serviceMatching(kFakeSMCDeviceService)))) {
-//		HWSensorsFatalLog("failed to locate FakeSMCDevice");
-//		return false;
-//	}
 
 	return true;
 }
@@ -625,27 +580,27 @@ inline UInt8 index_of_hex_char(char c)
 
 void FakeSMCPlugin::stop(IOService* provider)
 {
-    HWSensorsDebugLog("[stop] removing handler");
-    if (kIOReturnSuccess != storageProvider->callPlatformFunction(kFakeSMCRemoveKeyHandler, true, this, NULL, NULL, NULL))
-        HWSensorsFatalLog("failed to remove handler from storage provider");
-    
-    HWSensorsDebugLog("[stop] releasing tachometers");
-    // Release all tachometers
-    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(sensors)) {
-        while (OSString *key = OSDynamicCast(OSString, iterator->getNextObject())) {
-            if (FakeSMCSensor *sensor = getSensor(key->getCStringNoCopy())) {
-                if (sensor->getGroup() == kFakeSMCTachometerSensor) {
-                    UInt8 index = index_of_hex_char(sensor->getKey()[1]);
-                    HWSensorsInfoLog("releasing Fan%X", index);
-                    if (!releaseFanIndex(index))
-                        HWSensorsErrorLog("failed to release Fan index: %d", index);
+    HWSensorsDebugLog("removing handler");
+
+    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(keyStore->getKeys())) {
+        while (FakeSMCKey *key = OSDynamicCast(FakeSMCKey, iterator->getNextObject())) {
+            if (key->getHandler() == this) {
+                if (FakeSMCSensor *sensor = getSensor(key->getKey())) {
+                    if (sensor->getGroup() == kFakeSMCTachometerSensor) {
+                        UInt8 index = index_of_hex_char(sensor->getKey()[1]);
+                        HWSensorsDebugLog("releasing Fan%X", index);
+                        keyStore->releaseFanIndex(index);
+                    }
                 }
+
+                key->setHandler(NULL);
             }
         }
         OSSafeRelease(iterator);
     }
+
+    HWSensorsDebugLog("releasing sensors collection");
     
-    HWSensorsDebugLog("[stop] releasing sensors collection");
     sensors->flushCollection();
 	
 	super::stop(provider);
@@ -653,12 +608,28 @@ void FakeSMCPlugin::stop(IOService* provider)
 
 void FakeSMCPlugin::free()
 {
-    HWSensorsDebugLog("[free] freenig sensors collection");
+    HWSensorsDebugLog("freenig sensors collection");
     OSSafeRelease(sensors);
 	super::free();
 }
 
-IOReturn FakeSMCPlugin::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
+IOReturn FakeSMCPlugin::getValueCallback(const char *key, const char *type, const UInt8 size, void *buffer)
+{
+    if (key && type && buffer) {
+        if (FakeSMCSensor *sensor = getSensor(key)) {
+            if (size == sensor->getSize() && 0 == strncmp(type, sensor->getType(), 4)) {
+                sensor->encodeNumericValue(getSensorValue(sensor), buffer);
+                return kIOReturnSuccess;
+            }
+        }
+        else return kIOReturnNotFound;
+    }
+
+    return kIOReturnBadArgument;
+}
+
+
+/*IOReturn FakeSMCPlugin::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
 {
     if (functionName->isEqualTo(kFakeSMCGetValueCallback)) {
         if (param1 && param2 && param3) {
@@ -676,6 +647,22 @@ IOReturn FakeSMCPlugin::callPlatformFunction(const OSSymbol *functionName, bool 
 		
 		return kIOReturnBadArgument;
 	}
+    else if (functionName->isEqualTo(kFakeSMCSetValueCallback)) {
+        if (param1 && param2 && param3) {
+            const char *name = (const char*)param1;
+            void *data = param2;
+            UInt8 size = (UInt64)param3;
+
+            if (name && data)
+                if (FakeSMCSensor *sensor = getSensor(name))
+                    if (size == sensor->getSize()) {
+                        setSensorValue(sensor, data);
+                        return kIOReturnSuccess;
+                    }
+        }
+
+		return kIOReturnBadArgument;
+	}
     
 	return super::callPlatformFunction(functionName, waitForFunction, param1, param2, param3, param4);
-}
+}*/

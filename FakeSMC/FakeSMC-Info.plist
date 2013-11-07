@@ -22,7 +22,7 @@
 	<string>HWSENSORS_REVISION</string>
 	<key>IOKitPersonalities</key>
 	<dict>
-		<key>SMC Device Emulator</key>
+		<key>FakeSMC</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
 			<string>FAKESMC_BUNDLE</string>
@@ -159,8 +159,6 @@
 			<string>AppleACPIPlatformExpert</string>
 			<key>IOResourceMatch</key>
 			<string>ACPI</string>
-			<key>IOUserClientClass</key>
-			<string>FakeSMCUserClient</string>
 		</dict>
 	</dict>
 	<key>NSHumanReadableCopyright</key>

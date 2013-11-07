@@ -244,7 +244,7 @@
 		7EA2493C16D8EA95002231B2 /* HWMonitorEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorEngine.m; sourceTree = "<group>"; };
 		7EA2493D16D8EA95002231B2 /* HWMonitorSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorSensor.h; sourceTree = "<group>"; };
 		7EA2493E16D8EA95002231B2 /* HWMonitorSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorSensor.m; sourceTree = "<group>"; };
-		7EA2493F16D8EA95002231B2 /* smc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = smc.c; sourceTree = "<group>"; };
+		7EA2493F16D8EA95002231B2 /* smc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = smc.c; path = HWMonitor/smc.c; sourceTree = "<group>"; };
 		7EA2494B16D8EB2D002231B2 /* StatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemView.h; sourceTree = "<group>"; };
 		7EA2494C16D8EB2D002231B2 /* StatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusItemView.m; sourceTree = "<group>"; };
 		7EA2494E16D8EBC0002231B2 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -449,6 +449,7 @@
 			isa = PBXGroup;
 			children = (
 				7E2678B7182523FE00B405DE /* smc.h */,
+				7EA2493F16D8EA95002231B2 /* smc.c */,
 			);
 			name = Kernel;
 			sourceTree = "<group>";
@@ -657,7 +658,6 @@
 		7EA2494616D8EAA2002231B2 /* HWMonitorEngine */ = {
 			isa = PBXGroup;
 			children = (
-				7EA2493F16D8EA95002231B2 /* smc.c */,
 				7EA2493D16D8EA95002231B2 /* HWMonitorSensor.h */,
 				7EA2493E16D8EA95002231B2 /* HWMonitorSensor.m */,
 				7EA2493B16D8EA95002231B2 /* HWMonitorEngine.h */,

@@ -86,7 +86,7 @@
         }
     }
 
-    [self resizeToContent:NO orderFront:YES];
+    [self layoutContent:NO orderFront:YES];
     
 //    if (!_windowFilter) {
 //        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
@@ -256,7 +256,7 @@
         }
     }
 
-    [self resizeToContent:YES orderFront:NO];
+    [self layoutContent:YES orderFront:NO];
 }
 
 - (void) setupWithGroups:(NSArray*)groups
@@ -304,7 +304,7 @@
     [self reloadData];
 }
 
-- (void)resizeToContent:(BOOL)resizeToContent orderFront:(BOOL)orderFront
+- (void)layoutContent:(BOOL)resizeToContent orderFront:(BOOL)orderFront
 {
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
@@ -316,6 +316,8 @@
         }
         
         height = 6 + (menubarWindow.attachedToMenuBar ? OBMenuBarWindowArrowHeight : 0) + (height ? height : _tableView.frame.size.height);
+
+        height = height > menubarWindow.screen.visibleFrame.size.height ? menubarWindow.screen.visibleFrame.size.height - menubarWindow.toolbarHeight : height;
 
         if (menubarWindow.frame.size.height != height) {
             [menubarWindow setContentSize:NSMakeSize(menubarWindow.frame.size.width, height)];
@@ -333,7 +335,7 @@
 - (void)reloadData
 {
     [_tableView reloadData];
-    [self resizeToContent:YES orderFront:NO];
+    [self layoutContent:YES orderFront:NO];
     [_statusItemView setNeedsDisplay:YES];
 }
 

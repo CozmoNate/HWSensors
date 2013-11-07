@@ -47,9 +47,6 @@
 @property (readonly) NSArray *sensors;
 @property (readonly) NSDictionary *keys;
 
-@property (readonly, getter = getSmcConnection) io_connect_t smcConnection;
-@property (readonly, getter = getFakeSmcConnection) io_connect_t fakeSmcConnection;
-
 @property (nonatomic, setter = setUseFahrenheit:) BOOL useFahrenheit;
 @property (nonatomic, setter = setUseBsdNames:) BOOL useBsdNames;
 

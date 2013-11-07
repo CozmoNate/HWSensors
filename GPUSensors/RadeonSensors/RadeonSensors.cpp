@@ -347,10 +347,8 @@ void RadeonSensors::stop(IOService *provider)
         card.bios = 0;
     }
     
-    if (card.card_index >= 0) {
-        if (!releaseGPUIndex(card.card_index))
-            HWSensorsFatalLog("failed to release GPU index");
-    }
+    if (card.card_index >= 0)
+        releaseGPUIndex(card.card_index);
     
     super::stop(provider);
 }
