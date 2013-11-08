@@ -94,6 +94,7 @@
 "Attach to Menu Bar" = "Закрепить панель";
 "Detach from Menu Bar" = "Отсоеденить панель";
 "Hide Window" = "Скрыть окно";
+"Version %@" = "Версия %@";
 
 "Mouse" = "Мышь";
 "Keyboard" = "Клавиатура";

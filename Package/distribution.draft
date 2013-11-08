@@ -95,7 +95,7 @@
 
     <choice
         id="fakesmckeystore"
-        title="Plugins support for Mac"
+        title="FakeSMCKeyStore"
         description="FAKESMCKEYSTORE_DESCRIPTION"
         start_selected="!hackintoshCheckScript()"
         enabled="!hackintoshCheckScript()">

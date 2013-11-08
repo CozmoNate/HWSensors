@@ -68,13 +68,8 @@
 -(void)setIsTopmost:(BOOL)isTopmost
 {
     _isTopmost = isTopmost;
-    
-    if (isTopmost) {
-        [self.window setLevel:NSFloatingWindowLevel];
-    }
-    else {
-        [self.window setLevel:NSNormalWindowLevel];
-    }
+
+    [self.window setLevel:isTopmost ? NSFloatingWindowLevel : NSNormalWindowLevel];
 }
 
 -(void)setGraphsScale:(float)graphsScale

@@ -8,30 +8,11 @@
 
 #import "CreditsScrollView.h"
 
+#define WAITING_TIME 3.0f
+#define SCROLL_STEP 0.1f
+
 @implementation CreditsScrollView
 
-//- (id)init
-//{
-//    self = [super init];
-//
-//    if (self) {
-//        [self awakeFromNib];
-//    }
-//
-//    return self;
-//}
-//
-//- (id)initWithFrame:(NSRect)frameRect
-//{
-//	self = [super initWithFrame:frameRect];
-//
-//	if (self) {
-//        [self awakeFromNib];
-//	}
-//
-//	return self;
-//}
-//
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -51,58 +32,6 @@
 	[super drawRect:dirtyRect];
 }
 
-- (void)setCurrentPosition:(CGFloat)currentPosition
-{
-    __currentPosition = currentPosition;
-
-    [[self.contentView.subviews firstObject] scrollPoint:NSMakePoint( 0, __currentPosition )];
-}
-
-- (CGFloat)currentPosition
-{
-    return __currentPosition;
-}
-
-- (void)setRestartAtTop:(BOOL)restartAtTop
-{
-    __restartAtTop = restartAtTop;
-}
-
-- (BOOL)restartAtTop
-{
-    return __restartAtTop;
-}
-
-- (void)setStartTime:(NSTimeInterval)startTime
-{
-    __startTime = startTime;
-}
-
-- (NSTimeInterval)startTime
-{
-    return __startTime;
-}
-
-- (void)setIsShown:(BOOL)isShown
-{
-    __isShown = isShown;
-}
-
-- (BOOL)isShown
-{
-    return __isShown;
-}
-
-- (void)setIsTimerValid:(BOOL)isTimerValid
-{
-    __isTimerValid = isTimerValid;
-}
-
-- (BOOL)isTimerValid
-{
-    return __isTimerValid;
-}
-
 - (void)startScroll
 {
     [self stopScroll];
@@ -115,12 +44,12 @@
     [self addTrackingArea:track];
     [self setNeedsDisplay:YES];
     
-    __scrollTimer = [NSTimer scheduledTimerWithTimeInterval:1/4
+    _scrollTimer = [NSTimer scheduledTimerWithTimeInterval:1/4
                                                      target:self
                                                    selector:@selector(scrollCredits:)
                                                    userInfo:nil
                                                     repeats:YES];
-    __isTimerValid = YES;
+    _isTimerValid = YES;
 }
 
 - (void)stopScroll
@@ -129,48 +58,60 @@
         [self removeTrackingArea:[[self trackingAreas] objectAtIndex:0]];
     }
     
-    if (__isTimerValid) {
-        [__scrollTimer invalidate];
-        __isTimerValid = NO;
+    if (_isTimerValid) {
+        [_scrollTimer invalidate];
+        _isTimerValid = NO;
     }
 }
 
 - (void)startScrollWithStartTime:(NSTimeInterval)startTime position:(CGFloat)currentPosition restartAtTop:(BOOL)restartAtTop
 {
-    __startTime = startTime;
-    __currentPosition = currentPosition;
-    __restartAtTop = restartAtTop;
+    _startTime = startTime;
+    _currentPosition = currentPosition;
+    _restartAtTop = restartAtTop;
     [self startScroll];
 }
 
 - (void)mouseEntered:(NSEvent *)event
 {
-    if (__isTimerValid) {
-        [__scrollTimer invalidate];
+    if (_isTimerValid) {
+        [_scrollTimer invalidate];
     }
-    __isTimerValid = NO;
+    _isTimerValid = NO;
 }
 
 - (void)mouseExited:(NSEvent *)event
 {
-    if (__isTimerValid) {
-        [__scrollTimer invalidate];
+    if (_isTimerValid) {
+        [_scrollTimer invalidate];
     }
-    __scrollTimer = [NSTimer scheduledTimerWithTimeInterval:1/4
-                                                     target:self
-                                                   selector:@selector(scrollCredits:)
-                                                   userInfo:nil
-                                                    repeats:YES];
-    __isTimerValid = YES;
+    _scrollTimer = [NSTimer scheduledTimerWithTimeInterval:SCROLL_STEP
+                                                    target:self
+                                                  selector:@selector(scrollCredits:)
+                                                  userInfo:nil
+                                                   repeats:YES];
+    _isTimerValid = YES;
 }
 
-- (void)scrollToBeginningOfDocumentAnimated
+- (void)scrollToBeginningAnimated
 {
     NSScrollView *scrollView = self;
     NSClipView *clipView = [scrollView contentView];
     NSPoint constrainedPoint = [clipView constrainScrollPoint:NSMakePoint(0, 0)];
     [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:0.5];
+    [[NSAnimationContext currentContext] setDuration:0.7];
+    [[clipView animator] setBoundsOrigin:constrainedPoint];
+    [NSAnimationContext endGrouping];
+    [scrollView reflectScrolledClipView:clipView];
+}
+
+- (void)scrollToPositionAnimated:(NSPoint)position duration:(NSTimeInterval)duration
+{
+    NSScrollView *scrollView = self;
+    NSClipView *clipView = [scrollView contentView];
+    NSPoint constrainedPoint = [clipView constrainScrollPoint:position];
+    [NSAnimationContext beginGrouping];
+    [[NSAnimationContext currentContext] setDuration:duration];
     [[clipView animator] setBoundsOrigin:constrainedPoint];
     [NSAnimationContext endGrouping];
     [scrollView reflectScrolledClipView:clipView];
@@ -178,38 +119,37 @@
 
 - (void)scrollCredits:(NSTimer *)timer
 {
-    if ([NSDate timeIntervalSinceReferenceDate] >= __startTime)
+    if ([NSDate timeIntervalSinceReferenceDate] >= _startTime)
     {
-        if (__restartAtTop)
+        if (_restartAtTop)
         {
             // Reset the startTime
-            __startTime = [NSDate timeIntervalSinceReferenceDate] + WAITING_TIME;
-            __restartAtTop = NO;
+            _startTime = [NSDate timeIntervalSinceReferenceDate] + WAITING_TIME;
+            _restartAtTop = NO;
             
             // Set the position
-            [[self.contentView.subviews firstObject] scrollToBeginningOfDocument:self];
+            [self scrollToPositionAnimated:NSMakePoint(0, 0) duration:0.0];
             
             return;
         }
 
-        if (self.documentVisibleRect.origin.y > 0 && __currentPosition >= self.documentVisibleRect.origin.y + 5)
+        if (self.documentVisibleRect.origin.y > 0 && _currentPosition >= self.documentVisibleRect.origin.y + 5)
         {
             // Reset the startTime
-            __startTime = [NSDate timeIntervalSinceReferenceDate] + WAITING_TIME;
+            _startTime = [NSDate timeIntervalSinceReferenceDate] + WAITING_TIME;
             
             // Reset the position
-            __currentPosition = 0;
-            __restartAtTop = YES;
+            _currentPosition = 0;
+            _restartAtTop = YES;
 
-            [self performSelector:@selector(scrollToBeginningOfDocumentAnimated) withObject:nil afterDelay:WAITING_TIME / 2.0];
+            [self performSelector:@selector(scrollToBeginningAnimated) withObject:nil afterDelay:WAITING_TIME / 2.0];
         }
         else
         {
-            // Scroll to the position
-            [[self.contentView.subviews firstObject] scrollPoint:NSMakePoint( 0, __currentPosition )];
+            [self scrollToPositionAnimated:NSMakePoint(0, _currentPosition) duration:SCROLL_STEP];
             // Increment the scroll position
 
-            __currentPosition += 0.0025f;
+            _currentPosition += 10 * SCROLL_STEP;
         }
     }
 }

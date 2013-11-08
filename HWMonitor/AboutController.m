@@ -9,6 +9,7 @@
 #import "AboutController.h"
 
 #import "FadingButton.h"
+#import "Localizer.h"
 
 @interface AboutController ()
 
@@ -30,12 +31,10 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    
 
-    
     NSMutableAttributedString* creditsContent = [[NSMutableAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtfd"] documentAttributes:nil];
 
-    [[creditsContent mutableString] replaceOccurrencesOfString:@"%version_placeholder" withString:[NSString stringWithFormat:NSLocalizedString(@"Version %@", @"Localize the string App Version in AboutController"), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] options:NSCaseInsensitiveSearch range:NSMakeRange(0, creditsContent.mutableString.length)];
+    [[creditsContent mutableString] replaceOccurrencesOfString:@"%version_placeholder" withString:[NSString stringWithFormat:GetLocalizedString(@"Version %@"), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] options:NSCaseInsensitiveSearch range:NSMakeRange(0, creditsContent.mutableString.length)];
 
     [[self.textView textStorage] setAttributedString:creditsContent];
     
@@ -50,6 +49,8 @@
 -(void)showWindow:(id)sender
 {
     [NSApp activateIgnoringOtherApps:YES];
+
+    [self.window setLevel:NSFloatingWindowLevel];
 
     [_creditsScrollView setRestartAtTop:NO];
     [_creditsScrollView setStartTime:[NSDate timeIntervalSinceReferenceDate] + 3.0];
@@ -70,11 +71,6 @@
 - (void)windowWillClose:(NSNotification *)notification
 {
     [_creditsScrollView stopScroll];
-}
-
-- (NSString*)localizeCreditsButton
-{
-    return NSLocalizedString(@"Credits...", @"Localize credits button in AboutController");
 }
 
 @end

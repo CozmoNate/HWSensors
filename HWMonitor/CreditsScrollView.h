@@ -8,30 +8,18 @@
 
 #import "JLNFadingScrollView.h"
 
-#define WAITING_TIME 3.0f
-
 @interface CreditsScrollView : JLNFadingScrollView
 {
 
 @private
-    NSTimer *__scrollTimer;
-    NSTimeInterval __startTime;
-    CGFloat __currentPosition;
-    BOOL __restartAtTop;
-    BOOL __isShown;
-    BOOL __isTimerValid;
+    NSTimer *_scrollTimer;
+    BOOL _isTimerValid;
 }
 
-- (void)setStartTime:(NSTimeInterval)startTime;
-- (NSTimeInterval)startTime;
-- (void)setCurrentPosition:(CGFloat)currentPosition;
-- (CGFloat)currentPosition;
-- (void)setRestartAtTop:(BOOL)restartAtTop;
-- (BOOL)restartAtTop;
-- (void)setIsShown:(BOOL)isShown;
-- (BOOL)isShown;
-- (void)setIsTimerValid:(BOOL)isTimerValid;
-- (BOOL)isTimerValid;
+@property (nonatomic, assign) NSTimeInterval startTime;
+@property (nonatomic, assign) CGFloat currentPosition;
+@property (nonatomic, assign) BOOL restartAtTop;
+@property (nonatomic, assign) BOOL isShown;
 
 - (void)stopScroll;
 - (void)startScroll;
