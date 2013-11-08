@@ -53,31 +53,32 @@ bool FakeSMC::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
 
-    if (IOService *resources = waitForMatchingService(serviceMatching("IOResources"), 0))
-        this->attach(resources);
+    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), kFakeSMCDefaultWaitTimeout)))) {
+        HWSensorsInfoLog("still waiting for FakeSMCKeyStore...");
+        return false;
+//        HWSensorsDebugLog("creating FakeSMCKeyStore");
+//        
+//        if (!(keyStore = new FakeSMCKeyStore)) {
+//            HWSensorsInfoLog("failed to create FakeSMCKeyStore");
+//            return false;
+//        }
+//
+//        HWSensorsDebugLog("initializing FakeSMCKeyStore");
+//
+//        if (keyStore->initAndStart(this, configuration)) {
+//            keyStore->setProperty("IOUserClientClass", "FakeSMCKeyStoreUserClient");
+//        }
+//        else {
+//            keyStore->release();
+//            HWSensorsFatalLog("failed to initialize FakeSMCKeyStore device");
+//            return false;
+//        }
+    }
+
+//    if (IOService *resources = waitForMatchingService(serviceMatching("IOResources"), 0))
+//        this->attach(resources);
 
     OSDictionary *configuration = OSDynamicCast(OSDictionary, getProperty("Configuration"));
-
-    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), 0)))) {
-
-        HWSensorsDebugLog("creating FakeSMCKeyStore");
-        
-        if (!(keyStore = new FakeSMCKeyStore)) {
-            HWSensorsInfoLog("failed to create FakeSMCKeyStore");
-            return false;
-        }
-
-        HWSensorsDebugLog("initializing FakeSMCKeyStore");
-
-        if (keyStore->initAndStart(this, configuration)) {
-            keyStore->setProperty("IOUserClientClass", "FakeSMCKeyStoreUserClient");
-        }
-        else {
-            keyStore->release();
-            HWSensorsFatalLog("failed to initialize FakeSMCKeyStore device");
-            return false;
-        }
-    }
 
     // Load preconfigured keys
     HWSensorsDebugLog("loading keys...");

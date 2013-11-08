@@ -10,11 +10,12 @@
 
 #define HWSENSORS_LASTYEAR                  2013
 
+#define FAKESMCKEYSTORE_BUNDLE              org.hwsensors.driver.FakeSMCKeyStore
 #define FAKESMC_BUNDLE                      org.netkas.driver.FakeSMC
 #define ACPISENSORS_BUNDLE                  org.hwsensors.driver.ACPISensors
 #define CPUSENSORS_BUNDLE                   org.hwsensors.driver.CPUSensors
 #define LPCSENSORS_BUNDLE                   org.hwsensors.driver.LPCSensors
 #define GPUSENSORS_BUNDLE                   org.hwsensors.driver.GPUSensors
 
-#define FAKESMC_COMPATIBLE                  915
+#define FAKESMCKEYSTORE_COMPATIBLE          935
 #define LPCSENSORS_COMPATIBLE               735

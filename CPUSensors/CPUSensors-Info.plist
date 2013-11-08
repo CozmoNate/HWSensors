@@ -55,6 +55,8 @@
 	<string>Copyright © HWSENSORS_LASTYEAR Natan Zalkin &lt;natan.zalkin@me.com&gt;. All rights reserved.</string>
 	<key>OSBundleLibraries</key>
 	<dict>
+		<key>FAKESMCKEYSTORE_BUNDLE</key>
+		<string>FAKESMCKEYSTORE_COMPATIBLE</string>
 		<key>com.apple.kpi.iokit</key>
 		<string>10.0.0</string>
 		<key>com.apple.kpi.libkern</key>

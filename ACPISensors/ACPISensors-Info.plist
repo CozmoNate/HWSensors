@@ -6,10 +6,12 @@
 	<string>ACPISENSORS_BUNDLE</string>
 	<key>OSBundleLibraries</key>
 	<dict>
-		<key>com.apple.kpi.mach</key>
-		<string>10.0.0</string>
+		<key>FAKESMCKEYSTORE_BUNDLE</key>
+		<string>FAKESMCKEYSTORE_COMPATIBLE</string>
 		<key>com.apple.iokit.IOACPIFamily</key>
 		<string>1.0.0b1</string>
+		<key>com.apple.kpi.mach</key>
+		<string>10.0.0</string>
 		<key>com.apple.kpi.libkern</key>
 		<string>10.0.0</string>
 		<key>com.apple.kpi.iokit</key>
