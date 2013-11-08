@@ -20,8 +20,6 @@
 		<string>1.0.0b1</string>
 		<key>com.apple.kpi.iokit</key>
 		<string>10.0.0</string>
-		<key>FAKESMC_BUNDLE</key>
-		<string>FAKESMC_COMPATIBLE</string>
 		<key>com.apple.kpi.unsupported</key>
 		<string>10.0.0</string>
 	</dict>

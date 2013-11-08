@@ -4475,8 +4475,6 @@
 	<string>LPCSENSORS_COMPATIBLE</string>
 	<key>OSBundleLibraries</key>
 	<dict>
-		<key>FAKESMC_BUNDLE</key>
-		<string>FAKESMC_COMPATIBLE</string>
 		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>1.0.0b1</string>
 		<key>com.apple.kpi.iokit</key>

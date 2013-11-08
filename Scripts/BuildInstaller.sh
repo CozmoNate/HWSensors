@@ -79,14 +79,14 @@ pkgbuild --component ./Binaries/FakeSMCKeyStore.kext \
 pkgbuild --component ./Binaries/CPUSensors.kext \
 --identifier "org.hwsensors.CPUSensors.Mac" \
 --version "${full_version}" \
---install-location "/System/Library/Extensions" \
+--install-location "/System/Library/Extensions/FakeSMCKeyStore.kext/Contents/PlugIns" \
 ./Package/CPUSensors_Mac.pkg
 
 
 pkgbuild --component ./Binaries/GPUSensors.kext \
 --identifier "org.hwsensors.GPUSensors.Mac" \
 --version "${full_version}" \
---install-location "/System/Library/Extensions" \
+--install-location "/System/Library/Extensions/FakeSMCKeyStore.kext/Contents/PlugIns" \
 ./Package/GPUSensors_Mac.pkg
 
 
