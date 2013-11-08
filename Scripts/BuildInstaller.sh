@@ -40,32 +40,32 @@ pkgbuild --component ./Binaries/HWMonitor.app \
 pkgbuild --component ./Binaries/FakeSMC.kext \
     --identifier "org.hwsensors.FakeSMC" \
     --version "${full_version}" \
-    --install-location "/Library/Extensions" \
+    --install-location "/System/Library/Extensions" \
     ./Package/FakeSMC.pkg
 
 pkgbuild --component ./Binaries/ACPISensors.kext \
     --identifier "org.hwsensors.ACPISensors" \
     --version "${full_version}" \
-    --install-location "/Library/Extensions" \
+    --install-location "/System/Library/Extensions" \
     ./Package/ACPISensors.pkg
 
 pkgbuild --component ./Binaries/CPUSensors.kext \
     --identifier "org.hwsensors.CPUSensors" \
     --version "${full_version}" \
-    --install-location "/Library/Extensions" \
+    --install-location "/System/Library/Extensions" \
     ./Package/CPUSensors.pkg
 
 
 pkgbuild --component ./Binaries/GPUSensors.kext \
     --identifier "org.hwsensors.GPUSensors" \
     --version "${full_version}" \
-    --install-location "/Library/Extensions" \
+    --install-location "/System/Library/Extensions" \
     ./Package/GPUSensors.pkg
 
 pkgbuild --component ./Binaries/LPCSensors.kext \
     --identifier "org.hwsensors.LPCSensors" \
     --version "${full_version}" \
-    --install-location "/Library/Extensions" \
+    --install-location "/System/Library/Extensions" \
     ./Package/LPCSensors.pkg
 
 # Mac
@@ -73,20 +73,20 @@ pkgbuild --component ./Binaries/LPCSensors.kext \
 pkgbuild --component ./Binaries/FakeSMCKeyStore.kext \
 --identifier "org.hwsensors.FakeSMCKeyStore" \
 --version "${full_version}" \
---install-location "/Library/Extensions" \
+--install-location "/System/Library/Extensions" \
 ./Package/FakeSMCKeyStore.pkg
 
 pkgbuild --component ./Binaries/CPUSensors.kext \
 --identifier "org.hwsensors.CPUSensors.Mac" \
 --version "${full_version}" \
---install-location "/Library/Extensions" \
+--install-location "/System/Library/Extensions" \
 ./Package/CPUSensors_Mac.pkg
 
 
 pkgbuild --component ./Binaries/GPUSensors.kext \
 --identifier "org.hwsensors.GPUSensors.Mac" \
 --version "${full_version}" \
---install-location "/Library/Extensions" \
+--install-location "/System/Library/Extensions" \
 ./Package/GPUSensors_Mac.pkg
 
 
