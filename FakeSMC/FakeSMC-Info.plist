@@ -158,7 +158,7 @@
 			<key>IOProviderClass</key>
 			<string>IOResources</string>
 			<key>IOResourceMatch</key>
-			<string>ACPI</string>
+			<string>FakeSMCKeyStore</string>
 		</dict>
 	</dict>
 	<key>NSHumanReadableCopyright</key>

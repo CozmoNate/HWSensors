@@ -90,10 +90,10 @@
 			isa = PBXGroup;
 			children = (
 				7EBA20C517ED59C6008E54C5 /* PreBuild.sh */,
-				7EBA20C217ED59C6008E54C5 /* BuildInstaller.sh */,
 				7E72E369181B94DA002165DD /* SignKexts.sh */,
 				7EBA20C617ED59C6008E54C5 /* SignApp.sh */,
 				7EBA20C717ED59C6008E54C5 /* SignInstaller.sh */,
+				7EBA20C217ED59C6008E54C5 /* BuildInstaller.sh */,
 				7EBA20D517ED7B41008E54C5 /* GenerateAppcast.sh */,
 				7EBA20C817ED59C6008E54C5 /* TagCurrentVersion.sh */,
 				7EBA20C317ED59C6008E54C5 /* BumpMajorVersion.sh */,

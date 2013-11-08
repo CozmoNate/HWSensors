@@ -65,8 +65,8 @@
 #define MSR_PP0_ENERY_STATUS                0x639
 #define MSR_PP1_ENERY_STATUS                0x641
 
-#define MSR_IA32_APERF                      0x0E8
-#define MSR_IA32_MPERF                      0x0E7
+//#define MSR_IA32_APERF                      0x0E8
+//#define MSR_IA32_MPERF                      0x0E7
 
 #define MSR_IA32_TIME_STAMP_COUNTER         0x10
 
