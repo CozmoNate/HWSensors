@@ -354,7 +354,7 @@
             [rawProfile enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 NSArray *enties = [obj componentsSeparatedByString:@"|"];
 
-                [adoptedProfile addObject:[NSArray arrayWithObjects:[enties firstObject], [enties lastObject], nil]];
+                [adoptedProfile addObject:[NSArray arrayWithObjects:[enties objectAtIndex:0], [enties objectAtIndex:enties.count - 1], nil]];
             }];
 
             _currentProfile = [NSArray arrayWithArray:adoptedProfile];

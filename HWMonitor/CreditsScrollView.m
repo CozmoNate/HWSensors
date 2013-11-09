@@ -21,7 +21,7 @@
         [self setCurrentPosition:0.f];
         [self setRestartAtTop:NO];
         [self setStartTime:[NSDate timeIntervalSinceReferenceDate] + 1.0];
-        [[self.contentView.subviews firstObject] scrollPoint:NSMakePoint( 0, 0 )];
+        [[self.contentView.subviews objectAtIndex:0] scrollPoint:NSMakePoint( 0, 0 )];
 	}
 
     return self;
