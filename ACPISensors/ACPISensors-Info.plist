@@ -11,13 +11,13 @@
 		<key>com.apple.iokit.IOACPIFamily</key>
 		<string>1.0.0b1</string>
 		<key>com.apple.kpi.mach</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.libkern</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.iokit</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.unsupported</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 	</dict>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>

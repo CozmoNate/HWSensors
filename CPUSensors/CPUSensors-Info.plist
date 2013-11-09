@@ -38,7 +38,7 @@
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
 			<key>IOResourceMatch</key>
-			<string>FakeSMCKeyStore</string>
+			<string>ACPI</string>
 			<key>Platform Profile</key>
 			<dict>
 				<key>Default</key>
@@ -57,16 +57,14 @@
 	<dict>
 		<key>FAKESMCKEYSTORE_BUNDLE</key>
 		<string>FAKESMCKEYSTORE_COMPATIBLE</string>
-		<key>com.apple.iokit.IOACPIFamily</key>
-		<string>1.0.0d1</string>
 		<key>com.apple.kpi.iokit</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.libkern</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.mach</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.unsupported</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>
