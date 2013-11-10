@@ -160,7 +160,7 @@ bool SuperIODevice::detectWinbondFamilyChip()
                         } break;
 
                     case 0xC8:
-                        switch (id & 0xf0) {
+                        switch (id) {
                             case 0x03:
                                 model = NCT6791D;
                                 ldn = kWinbondHardwareMonitorLDN;
@@ -181,8 +181,6 @@ bool SuperIODevice::detectWinbondFamilyChip()
             IOSleep(50);
             
             verify = superio_listen_port_word(port, kSuperIOBaseAddressRegister);
-
-            
 
             winbond_family_exit(port);
             

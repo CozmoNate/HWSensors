@@ -158,6 +158,9 @@ bool NCT677xSensors::initialize()
             
         case NCT6776F:
         case NCT6779D:
+            minFanRPM = (int)(1.35e6 / 0x1FFF);
+            break;
+
         case NCT6791D:
             minFanRPM = (int)(1.35e6 / 0x1FFF);
 

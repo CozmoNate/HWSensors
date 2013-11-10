@@ -46,26 +46,26 @@ pkgbuild --component ./Binaries/FakeSMC.kext \
 pkgbuild --component ./Binaries/ACPISensors.kext \
     --identifier "org.hwsensors.ACPISensors" \
     --version "${full_version}" \
-    --install-location "/System/Library/Extensions" \
+    --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns" \
     ./Package/ACPISensors.pkg
 
 pkgbuild --component ./Binaries/CPUSensors.kext \
     --identifier "org.hwsensors.CPUSensors" \
     --version "${full_version}" \
-    --install-location "/System/Library/Extensions" \
+    --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns" \
     ./Package/CPUSensors.pkg
 
 
 pkgbuild --component ./Binaries/GPUSensors.kext \
     --identifier "org.hwsensors.GPUSensors" \
     --version "${full_version}" \
-    --install-location "/System/Library/Extensions" \
+    --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns" \
     ./Package/GPUSensors.pkg
 
 pkgbuild --component ./Binaries/LPCSensors.kext \
     --identifier "org.hwsensors.LPCSensors" \
     --version "${full_version}" \
-    --install-location "/System/Library/Extensions" \
+    --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns" \
     ./Package/LPCSensors.pkg
 
 # Mac

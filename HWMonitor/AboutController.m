@@ -40,10 +40,7 @@
     
     [self.copyrightField setStringValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
 
-    [_creditsScrollView setRestartAtTop:NO];
-    [_creditsScrollView setStartTime:[NSDate timeIntervalSinceReferenceDate] + 3.0];
-    [_creditsScrollView setCurrentPosition:0];
-    [[self creditsScrollView] startScroll];
+    [[self creditsScrollView] startScrollWithStartTime:3.0f position:0.0f];
 }
 
 -(void)showWindow:(id)sender
@@ -51,13 +48,10 @@
     [NSApp activateIgnoringOtherApps:YES];
 
     [self.window setLevel:NSFloatingWindowLevel];
-
-    [_creditsScrollView setRestartAtTop:NO];
-    [_creditsScrollView setStartTime:[NSDate timeIntervalSinceReferenceDate] + 3.0];
-    [_creditsScrollView setCurrentPosition:0];
-    [[self creditsScrollView] startScroll];
     
     [super showWindow:sender];
+
+    [[self creditsScrollView] startScrollWithStartTime:3.0f position:0.0f];
 }
 
 - (void)openLink:(id)sender

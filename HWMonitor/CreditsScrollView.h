@@ -10,19 +10,12 @@
 
 @interface CreditsScrollView : JLNFadingScrollView
 {
-
-@private
     NSTimer *_scrollTimer;
-    BOOL _isTimerValid;
+    CGFloat _currentPosition;
 }
-
-@property (nonatomic, assign) NSTimeInterval startTime;
-@property (nonatomic, assign) CGFloat currentPosition;
-@property (nonatomic, assign) BOOL restartAtTop;
-@property (nonatomic, assign) BOOL isShown;
 
 - (void)stopScroll;
 - (void)startScroll;
-- (void)startScrollWithStartTime:(NSTimeInterval)startTime position:(CGFloat)currentPosition restartAtTop:(BOOL)restartAtTop;
+- (void)startScrollWithStartTime:(NSTimeInterval)startTime position:(CGFloat)currentPosition;
 
 @end

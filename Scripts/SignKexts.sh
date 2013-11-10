@@ -6,6 +6,9 @@
 #  Created by Kozlek on 26/10/13.
 #
 
+#Disable kexts signing for now
+exit 0
+
 # Do nothing on clean
 if [ "$1" == "clean" ]
 then
