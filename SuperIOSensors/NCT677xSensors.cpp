@@ -165,21 +165,18 @@ bool NCT677xSensors::initialize()
             minFanRPM = (int)(1.35e6 / 0x1FFF);
 
             // disable the hardware monitor i/o space lock on NCT6791D chips
-            if (model == NCT6791D) {
+            winbond_family_enter(port);
 
-                winbond_family_enter(port);
+            UInt8 options = superio_listen_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK);
 
-                UInt8 options = superio_listen_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK);
+            // if the i/o space lock is enabled
+            if ((options & 0x10) > 0) {
 
-                // if the i/o space lock is enabled
-                if ((options & 0x10) > 0) {
-
-                    // disable the i/o space lock
-                    superio_write_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK, (UInt8)(options & ~0x10));
-                }
-                
-                winbond_family_exit(port);
+                // disable the i/o space lock
+                superio_write_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK, (UInt8)(options & ~0x10));
             }
+            
+            winbond_family_exit(port);
             
             break;
     }
