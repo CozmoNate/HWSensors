@@ -20,6 +20,8 @@ bool SuperIODevice::detectWinbondFamilyChip()
         winbond_family_enter(port);
         
         id = superio_listen_port_word(port, kSuperIOChipIDRegister);
+
+        HWSensorsDebugLog("probing device on 0x%x, id=0x%x", port, id);
         
         switch (id) {
                 // Fintek
@@ -167,12 +169,15 @@ bool SuperIODevice::detectWinbondFamilyChip()
                                 vendor = "Nuvoton";
                                 break;
                         } break;
+
                 } break;
         }
         
         UInt16 verify = 0;
         
         if (model != 0 && ldn != 0) {
+
+            HWSensorsDebugLog("detected %s %s, starting address sanity checks", vendor, superio_get_model_name(model));
             
             superio_select_logical_device(port, ldn);
             
@@ -184,16 +189,20 @@ bool SuperIODevice::detectWinbondFamilyChip()
 
             winbond_family_exit(port);
             
-            if (address != verify)
+            if (address != verify) {
+                HWSensorsDebugLog("address verify check error!");
                 continue;
+            }
             
             // some Fintek chips have address register offset 0x05 added already
             if ((address & 0x07) == 0x05)
                 address &= 0xFFF8;
             
-            if (address < 0x100 || (address & 0xF007) != 0)
+            if (address < 0x100 || (address & 0xF007) != 0) {
+                HWSensorsDebugLog("address is out of bounds!");
                 continue;
-            
+            }
+
             return true;
         }
         else winbond_family_exit(port);
@@ -210,7 +219,9 @@ bool SuperIODevice::detectITEFamilyChip()
     ite_family_enter(port);
     
     id = superio_listen_port_word(port, kSuperIOChipIDRegister);
-    
+
+    HWSensorsDebugLog("probing device on 0x%x, id=0x%x", port, id);
+
     ldn = 0;
     vendor = "";
     
@@ -233,6 +244,9 @@ bool SuperIODevice::detectITEFamilyChip()
     }
     
     if (model != 0 && ldn != 0) {
+
+        HWSensorsDebugLog("detected %s %s, starting address sanity checks", vendor, superio_get_model_name(model));
+
         superio_select_logical_device(port, ldn);
         
         IOSleep(10);

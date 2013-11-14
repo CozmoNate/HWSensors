@@ -87,6 +87,10 @@ UInt8 NCT677xSensors::voltageSensorsLimit()
 
 UInt8 NCT677xSensors::tachometerSensorsLimit()
 {
+    if (model == NCT6791D) {
+        return 6;
+    }
+
     return 5;
 }
 
@@ -147,8 +151,8 @@ bool NCT677xSensors::initialize()
     
     if (vendor != NUVOTON_VENDOR_ID)
     {
-        HWSensorsFatalLog("wrong vendor ID=0x%x", vendor);
-        return false;
+        HWSensorsWarningLog("wrong vendor ID=0x%x", vendor);
+        //return false;
     }
     
     switch (model) {
@@ -167,11 +171,19 @@ bool NCT677xSensors::initialize()
             // disable the hardware monitor i/o space lock on NCT6791D chips
             winbond_family_enter(port);
 
-            UInt8 options = superio_listen_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK);
+            superio_select_logical_device(port, kWinbondHardwareMonitorLDN);
+
+            /* Activate logical device if needed */
+            UInt8 options = superio_listen_port_byte(port, NUVOTON_REG_ENABLE);
+
+            if (!(options & 0x01)) {
+                superio_write_port_byte(port, NUVOTON_REG_ENABLE, options | 0x01);
+            }
+
+            options = superio_listen_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK);
 
             // if the i/o space lock is enabled
-            if ((options & 0x10) > 0) {
-
+            if (options & 0x10) {
                 // disable the i/o space lock
                 superio_write_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK, (UInt8)(options & ~0x10));
             }

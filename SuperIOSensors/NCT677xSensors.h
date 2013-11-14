@@ -51,6 +51,7 @@
 const UInt8 NUVOTON_ADDRESS_REGISTER_OFFSET     = 0x05;
 const UInt8 NUVOTON_DATA_REGISTER_OFFSET        = 0x06;
 const UInt8 NUVOTON_BANK_SELECT_REGISTER        = 0x4E;
+const UInt8 NUVOTON_REG_ENABLE                  = 0x30;
 const UInt8 NUVOTON_HWMON_IO_SPACE_LOCK         = 0x28;
 const UInt16 NUVOTON_VENDOR_ID                  = 0x5CA3;
 

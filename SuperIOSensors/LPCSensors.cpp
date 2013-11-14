@@ -244,11 +244,6 @@ bool LPCSensors::init(OSDictionary *properties)
 	return true;
 }
 
-IOService *LPCSensors::probe(IOService *provider, SInt32 *score)
-{
-    return super::probe(provider, score);
-}
-
 bool LPCSensors::start(IOService *provider)
 {	
 	if (!super::start(provider)) 
@@ -317,6 +312,6 @@ void LPCSensors::stop(IOService *provider)
 {
     if (gpuIndex >= 0)
         releaseGPUIndex(gpuIndex);
-    
+
     super::stop(provider);
 }
