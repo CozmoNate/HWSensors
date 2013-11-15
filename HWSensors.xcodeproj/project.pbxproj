@@ -60,8 +60,8 @@
 		7E9F54C2167C71DF006E907B /* GmaSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F54C0167C71DF006E907B /* GmaSensors.cpp */; };
 		7EB13667169C288000B42023 /* radeon_atombios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB13665169C288000B42023 /* radeon_atombios.cpp */; };
 		7EB1366C169C2CE800B42023 /* atom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB1366A169C2CE700B42023 /* atom.cpp */; };
-		7EB73CFA1791BCBC007D93D4 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */; };
 		7EBEB1DB17B1754D00C114B5 /* GPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEB1D917B1754D00C114B5 /* GPUSensors.cpp */; };
+		7EF759931835E39D00FB6CCD /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */; };
 		7EFF9534182AD69D00C637C8 /* FakeSMCKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9513182AD44700C637C8 /* FakeSMCKey.cpp */; };
 		7EFF9535182AD69D00C637C8 /* FakeSMCKeyHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9515182AD44700C637C8 /* FakeSMCKeyHandler.cpp */; };
 		7EFF9536182AD69D00C637C8 /* FakeSMCKeyStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9517182AD44700C637C8 /* FakeSMCKeyStore.cpp */; };
@@ -325,7 +325,6 @@
 		1D05ABE913ED0DAD00EADBF6 /* FakeSMC */ = {
 			isa = PBXGroup;
 			children = (
-				7E5A8CB51605EA7300FF0099 /* OEMInfo */,
 				6AA172C5150B415200A77CF2 /* FakeSMCDevice.h */,
 				6AA172C4150B415200A77CF2 /* FakeSMCDevice.cpp */,
 				6AA2D0D3150B4B99004757C5 /* FakeSMC.h */,
@@ -500,6 +499,8 @@
 		7E1121D11828426400EFB948 /* FakeSMCKeyStore */ = {
 			isa = PBXGroup;
 			children = (
+				7EB73CF91791BCBC007D93D4 /* OEMInfo.h */,
+				7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */,
 				7EFF9514182AD44700C637C8 /* FakeSMCKey.h */,
 				7EFF9513182AD44700C637C8 /* FakeSMCKey.cpp */,
 				7EFF9516182AD44700C637C8 /* FakeSMCKeyHandler.h */,
@@ -559,16 +560,6 @@
 				7E138D83169A885F007BE068 /* radeon_chipinfo_gen.h */,
 			);
 			name = "linux driver configuration";
-			sourceTree = "<group>";
-		};
-		7E5A8CB51605EA7300FF0099 /* OEMInfo */ = {
-			isa = PBXGroup;
-			children = (
-				7EB73CF91791BCBC007D93D4 /* OEMInfo.h */,
-				7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */,
-			);
-			name = OEMInfo;
-			path = ../Shared;
 			sourceTree = "<group>";
 		};
 		7E5CFA1B16988E8A00F0E9AD /* Linux */ = {
@@ -940,7 +931,6 @@
 			files = (
 				6AA172CB150B415200A77CF2 /* FakeSMCDevice.cpp in Sources */,
 				6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */,
-				7EB73CFA1791BCBC007D93D4 /* OEMInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1027,6 +1017,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EFF9534182AD69D00C637C8 /* FakeSMCKey.cpp in Sources */,
+				7EF759931835E39D00FB6CCD /* OEMInfo.cpp in Sources */,
 				7EFF9535182AD69D00C637C8 /* FakeSMCKeyHandler.cpp in Sources */,
 				7EFF9536182AD69D00C637C8 /* FakeSMCKeyStore.cpp in Sources */,
 				7EFF9537182AD69D00C637C8 /* FakeSMCKeyStoreUserClient.cpp in Sources */,

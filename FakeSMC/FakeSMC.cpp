@@ -7,8 +7,6 @@
 #include "FakeSMCDevice.h"
 #include "FakeSMCDefinitions.h"
 
-#include "OEMInfo.h"
-
 #include <IOKit/IODeviceTreeSupport.h>
 
 #define super IOService
@@ -124,45 +122,6 @@ bool FakeSMC::start(IOService *provider)
             HWSensorsInfoLog("%d key%s exported by Clover EFI", count, count == 1 ? "" : "s");
     }
 
-    if (!setOemProperties(this)) {
-        // Another try after 200 ms spin
-        IOSleep(200);
-        setOemProperties(this);
-    }
-
-    if (!getProperty(kOEMInfoProduct) || !getProperty(kOEMInfoManufacturer)) {
-
-        //HWSensorsErrorLog("failed to obtain OEM vendor & product information from DMI");
-
-        // Try to obtain OEM info from Clover EFI
-        if (IORegistryEntry* platformNode = fromPath("/efi/platform", gIODTPlane)) {
-
-            if (OSData *data = OSDynamicCast(OSData, platformNode->getProperty("OEMVendor"))) {
-                if (OSString *vendor = OSString::withCString((char*)data->getBytesNoCopy())) {
-                    if (OSString *manufacturer = getManufacturerNameFromOEMName(vendor)) {
-                        this->setProperty(kOEMInfoManufacturer, manufacturer);
-                        //OSSafeReleaseNULL(manufacturer);
-                    }
-                    //OSSafeReleaseNULL(vendor);
-                }
-                //OSSafeReleaseNULL(data);
-            }
-
-            if (OSData *data = OSDynamicCast(OSData, platformNode->getProperty("OEMBoard"))) {
-                if (OSString *product = OSString::withCString((char*)data->getBytesNoCopy())) {
-                    this->setProperty(kOEMInfoProduct, product);
-                    //OSSafeReleaseNULL(product);
-                }
-                //OSSafeReleaseNULL(data);
-            }
-        }
-        else {
-            HWSensorsErrorLog("failed to get OEM info from DMI or Clover EFI, specific platform profiles will be unavailable");
-        }
-    }
-    
-    int arg_value = 1;
-    
     // Check if we have SMC already
     bool smcDeviceFound = false;
 
@@ -202,7 +161,9 @@ bool FakeSMC::start(IOService *provider)
     else {
         HWSensorsInfoLog("found physical SMC device, will not create virtual one. Providing only basic plugins functionality");
     }
-    
+
+    int arg_value = 1;
+
     // Load keys from NVRAM
     if (PE_parse_boot_argn("-fakesmc-use-nvram", &arg_value, sizeof(arg_value))) {
         if (UInt32 count = keyStore->loadKeysFromNVRAM())

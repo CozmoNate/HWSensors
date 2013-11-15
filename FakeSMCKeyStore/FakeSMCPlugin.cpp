@@ -207,18 +207,12 @@ OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, FakeSMCKeyHandler)
 
 OSString *FakeSMCPlugin::getPlatformManufacturer(void)
 {
-    if (platformProvider)
-        return OSDynamicCast(OSString, platformProvider->getProperty(kOEMInfoManufacturer));
-    
-    return NULL;
+    return OSDynamicCast(OSString, keyStore->getProperty(kOEMInfoManufacturer));
 }
 
 OSString *FakeSMCPlugin::getPlatformProduct(void)
 {
-    if (platformProvider)
-        return OSDynamicCast(OSString, platformProvider->getProperty(kOEMInfoProduct));
-    
-    return NULL;
+    return OSDynamicCast(OSString, keyStore->getProperty(kOEMInfoProduct));
 }
 
 void FakeSMCPlugin::enableExclusiveAccessMode(void)
@@ -236,15 +230,6 @@ bool FakeSMCPlugin::isKeyExists(const char *key)
     SYNCLOCK;
 
     bool keyExists = keyStore->getKey(key);
-    
-//    if (keyStore) {
-//        UInt8 size = 0;
-//        void *value = 0;
-//        IOReturn result = keyStore->callPlatformFunction(kFakeSMCGetKeyValue, true, (void *)key, (void *)&size, (void *)&value, 0);
-//        
-//        SYNCUNLOCK;
-//        return result == kIOReturnSuccess;
-//    }
 
     SYNCUNLOCK;
     
@@ -257,17 +242,8 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
 
     bool keyHandled = false;
 
-    if (FakeSMCKey *smcKey = keyStore->getKey(key)) {
+    if (FakeSMCKey *smcKey = keyStore->getKey(key))
         keyHandled = smcKey->getHandler();
-    }
-
-//    if (keyStore) {
-//        IOService *handler = 0;
-//        IOReturn result = keyStore->callPlatformFunction(kFakeSMCGetKeyHandler, true, (void *)key, (void *)&handler, 0, 0);
-//        
-//        SYNCUNLOCK;
-//        return result == kIOReturnSuccess;
-//    }
 
     SYNCUNLOCK;
 
@@ -279,8 +255,7 @@ bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, v
     SYNCLOCK;
 
     bool added = keyStore->addKeyWithValue(key, type, size, value);
-    //IOReturn result = keyStore->callPlatformFunction(kFakeSMCAddKeyValue, true, (void *)key, (void *)type, reinterpret_cast<void *>(size), (void *)value);
-    
+
     SYNCUNLOCK;
 
     return added;
@@ -556,14 +531,6 @@ bool FakeSMCPlugin::start(IOService *provider)
 {	
 	if (!super::start(provider)) 
         return false;
-
-    if (!(platformProvider = waitForMatchingService(serviceMatching(kFakeSMCService), 0)))
-        platformProvider = waitForMatchingService(serviceMatching("IOPlatformExpertDevice"), 0);
-
-    /*if (!(platformProvider = waitForMatchingService(serviceMatching(kFakeSMCService), kFakeSMCDefaultWaitTimeout))) {
-		HWSensorsFatalLog("failed to locate FakeSMC service!");
-        return false;
-    }*/
 
     if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), kFakeSMCDefaultWaitTimeout)))) {
 		HWSensorsFatalLog("still waiting for FakeSMCKeyStore...");

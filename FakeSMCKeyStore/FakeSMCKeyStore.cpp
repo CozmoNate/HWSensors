@@ -33,6 +33,8 @@
 #include "FakeSMCKeyHandler.h"
 #include "FakeSMCKeyStoreUserClient.h"
 
+#include "OEMInfo.h"
+
 #include <IOKit/IONVRAM.h>
 #include <IOKit/IOLib.h>
 
@@ -455,6 +457,47 @@ bool FakeSMCKeyStore::start(IOService *provider)
 {
 	if (!super::start(provider))
         return false;
+
+    setOemProperties(this);
+
+    if (!getProperty(kOEMInfoProduct) || !getProperty(kOEMInfoManufacturer)) {
+
+        //HWSensorsErrorLog("failed to obtain OEM vendor & product information from DMI");
+
+        // Try to obtain OEM info from Clover EFI
+        if (IORegistryEntry* platformNode = fromPath("/efi/platform", gIODTPlane)) {
+
+            if (OSData *data = OSDynamicCast(OSData, platformNode->getProperty("OEMVendor"))) {
+                if (OSString *vendor = OSString::withCString((char*)data->getBytesNoCopy())) {
+                    if (OSString *manufacturer = getManufacturerNameFromOEMName(vendor)) {
+                        this->setProperty(kOEMInfoManufacturer, manufacturer);
+                        OSSafeReleaseNULL(manufacturer);
+                    }
+                    //OSSafeReleaseNULL(vendor);
+                }
+                //OSSafeReleaseNULL(data);
+            }
+
+            if (OSData *data = OSDynamicCast(OSData, platformNode->getProperty("OEMBoard"))) {
+                if (OSString *product = OSString::withCString((char*)data->getBytesNoCopy())) {
+                    this->setProperty(kOEMInfoProduct, product);
+                    //OSSafeReleaseNULL(product);
+                }
+                //OSSafeReleaseNULL(data);
+            }
+        }
+        else {
+            HWSensorsErrorLog("failed to get OEM info from Chameleon/Chimera or Clover EFI, specific platform profiles will be unavailable");
+        }
+    }
+
+    if (OSString *manufacturer = OSDynamicCast(OSString, getProperty(kOEMInfoManufacturer)) ) {
+        this->addKeyWithValue("HWS0", TYPE_CH8, manufacturer->getLength() - 1, manufacturer->getCStringNoCopy());
+    }
+
+    if (OSString *product = OSDynamicCast(OSString, getProperty(kOEMInfoProduct)) ) {
+        this->addKeyWithValue("HWS1", TYPE_CH8, product->getLength() - 1, product->getCStringNoCopy());
+    }
 
     IOService::publishResource(kFakeSMCKeyStoreService, this);
 
