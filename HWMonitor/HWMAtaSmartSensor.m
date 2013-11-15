@@ -27,7 +27,7 @@
 
     BOOL result = NO;
 
-    if (kIOReturnSuccess == IOCreatePlugInInterfaceForService((io_service_t)self.service.unsignedLongValue, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
+    if (kIOReturnSuccess == IOCreatePlugInInterfaceForService((io_service_t)self.service.unsignedLongLongValue, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
         if (S_OK == (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIOATASMARTInterfaceID), (LPVOID)&smartInterface)) {
             ATASMARTData smartData;
 
@@ -94,9 +94,8 @@
 
         if ((life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance]) ||
             (life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance2])) {
-            unsigned long long value;
-            memccpy(&value, life->rawvalue, <#int#>, 6)
-            return [NSNumber numberWithUnsignedLongLong:(unsigned long long):life->rawvalue length:6];
+            UInt64 value = *((UInt64*)life->rawvalue);
+            return [NSNumber numberWithUnsignedLong:value >> 16];
         }
     }
 
@@ -108,11 +107,39 @@
     if ([self readSMARTData]) {
         ATASMARTAttribute * life = nil;
 
-        if ((life = [self getAttributeByIdentifier:kATASMARTAttributeUnusedReservedBloks]))
-            return [NSData dataWithBytes:life->rawvalue length:6];
+        if ((life = [self getAttributeByIdentifier:kATASMARTAttributeUnusedReservedBloks])) {
+            UInt64 value = *((UInt64*)life->rawvalue);
+            return [NSNumber numberWithUnsignedLong:value >> 16];
+        }
     }
 
     return nil;
+}
+
+-(void)doUpdateValue
+{
+    switch (self.selector.unsignedIntegerValue) {
+        case kHWMAtaSmartSensorTypeTemperature:
+            [self willChangeValueForKey:@"data"];
+            [self setPrimitiveValue:[self getTemperature] forKey:@"data"];
+            [self didChangeValueForKey:@"data"];
+            break;
+
+        case kHWMAtaSmartSensorTypeLife:
+            [self willChangeValueForKey:@"data"];
+            [self setPrimitiveValue:[self getRemainingLife] forKey:@"data"];
+            [self didChangeValueForKey:@"data"];
+            break;
+
+        case kHWMAtaSmartSensorTypeBlocks:
+            [self willChangeValueForKey:@"data"];
+            [self setPrimitiveValue:[self getRemainingBlocks] forKey:@"data"];
+            [self didChangeValueForKey:@"data"];
+            break;
+
+        default:
+            break;
+    }
 }
 
 @end
