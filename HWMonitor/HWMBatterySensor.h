@@ -21,6 +21,8 @@
 @property (nonatomic, retain) NSNumber * selector;
 @property (nonatomic, retain) NSNumber * service;
 
++(NSArray*)discoverDevices;
+
 -(void)doUpdateValue;
 
 @end
