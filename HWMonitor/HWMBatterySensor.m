@@ -2,7 +2,7 @@
 //  HWMBatterySensor.m
 //  HWMonitor
 //
-//  Created by Kozlek on 14.11.13.
+//  Created by Kozlek on 15/11/13.
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
@@ -11,7 +11,7 @@
 
 @implementation HWMBatterySensor
 
-@dynamic service;
 @dynamic selector;
+@dynamic service;
 
 @end

@@ -9,12 +9,14 @@
         <attribute name="service" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="FavoriteItem" representedClassName="" syncable="YES">
+        <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="order" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="icon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" syncable="YES"/>
-        <relationship name="sensor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sensor" syncable="YES"/>
+        <relationship name="icon" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" syncable="YES"/>
+        <relationship name="sensor" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sensor" syncable="YES"/>
     </entity>
     <entity name="Group" representedClassName="HWMGroup" syncable="YES">
         <attribute name="format" attributeType="String" syncable="YES"/>
+        <attribute name="order" attributeType="Integer 32" defaultValueString="0.0" syncable="YES"/>
         <attribute name="representation" attributeType="String" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
         <relationship name="icon" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" syncable="YES"/>
@@ -25,35 +27,27 @@
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="OrderedGroup" syncable="YES">
-        <attribute name="order" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" syncable="YES"/>
-    </entity>
-    <entity name="OrderedItem" syncable="YES">
-        <attribute name="order" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
-        <relationship name="sensor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sensor" syncable="YES"/>
-    </entity>
     <entity name="Sensor" representedClassName="HWMSensor" isAbstract="YES" syncable="YES">
+        <attribute name="data" transient="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="key" attributeType="String" minValueString="4" maxValueString="4" indexed="YES" syncable="YES"/>
         <attribute name="legend" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="level" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="order" attributeType="Integer 32" defaultValueString="0.0" syncable="YES"/>
         <attribute name="title" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" transient="YES" attributeType="String" minValueString="4" maxValueString="4" syncable="YES"/>
-        <attribute name="value" transient="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="group" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="sensors" inverseEntity="Group" syncable="YES"/>
     </entity>
     <entity name="SmcSensor" representedClassName="HWMSmcSensor" parentEntity="Sensor" syncable="YES">
         <attribute name="connection" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BatterySensor" positionX="153" positionY="465" width="128" height="73"/>
-        <element name="Group" positionX="-83" positionY="171" width="128" height="118"/>
-        <element name="Sensor" positionX="-81" positionY="354" width="128" height="148"/>
-        <element name="AtaSmartSensor" positionX="151" positionY="378" width="128" height="73"/>
-        <element name="SmcSensor" positionX="153" positionY="306" width="128" height="58"/>
-        <element name="Icon" positionX="-324" positionY="135" width="128" height="88"/>
-        <element name="FavoriteItem" positionX="-335" positionY="342" width="128" height="90"/>
-        <element name="OrderedItem" positionX="-81" positionY="546" width="128" height="75"/>
-        <element name="OrderedGroup" positionX="-90" positionY="60" width="128" height="75"/>
+        <element name="AtaSmartSensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="BatterySensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="FavoriteItem" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Group" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Icon" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Sensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SmcSensor" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

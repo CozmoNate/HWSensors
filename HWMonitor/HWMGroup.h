@@ -2,7 +2,7 @@
 //  HWMGroup.h
 //  HWMonitor
 //
-//  Created by Kozlek on 14.11.13.
+//  Created by Kozlek on 15/11/13.
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
@@ -14,10 +14,11 @@
 @interface HWMGroup : NSManagedObject
 
 @property (nonatomic, retain) NSString * format;
-@property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * representation;
-@property (nonatomic, retain) NSSet *sensors;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSNumber * order;
 @property (nonatomic, retain) NSImage *icon;
+@property (nonatomic, retain) NSSet *sensors;
 @end
 
 @interface HWMGroup (CoreDataGeneratedAccessors)
