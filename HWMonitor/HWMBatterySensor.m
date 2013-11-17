@@ -111,9 +111,9 @@
     }
 
     if (level) {
-        [self willChangeValueForKey:@"data"];
-        [self setPrimitiveValue:level forKey:@"data"];
-        [self didChangeValueForKey:@"data"];
+        [self willChangeValueForKey:@"value"];
+        [self setPrimitiveValue:level forKey:@"value"];
+        [self didChangeValueForKey:@"value"];
     }
 }
 

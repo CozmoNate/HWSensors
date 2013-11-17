@@ -2,23 +2,47 @@
 //  HWMGroup.h
 //  HWMonitor
 //
-//  Created by Kozlek on 15/11/13.
+//  Created by Kozlek on 16/11/13.
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class HWMSensor;
+#import "HWMItem.h"
 
-@interface HWMGroup : NSManagedObject
+typedef enum {
+    kHWMGroupNone = 0,
 
-@property (nonatomic, retain) NSString * format;
-@property (nonatomic, retain) NSString * representation;
-@property (nonatomic, retain) NSString * title;
+    kHWMGroupTemperature,
+    kHWMGroupVoltage,
+    kHWMGroupPWM,
+    kHWMGroupTachometer,
+    kHWMGroupMultiplier,
+    kHWMGroupFrequency,
+    kHWMGroupCurrent,
+    kHWMGroupPower,
+
+    kHWMGroupBattery,
+
+    kHWMGroupSmartTemperature,
+    kHWMGroupSmartRemainingLife,
+    kHWMGroupSmartRemainingBlocks,
+
+    kHWMGroupSelectorsCount
+
+} HWMGroupSelector;
+
+@class HWMIcon, HWMItem, HWMSensor;
+
+@interface HWMGroup : HWMItem
+
 @property (nonatomic, retain) NSNumber * order;
-@property (nonatomic, retain) NSImage *icon;
+@property (nonatomic, retain) NSNumber * selector;
+
+@property (nonatomic, retain) HWMIcon *icon;
 @property (nonatomic, retain) NSSet *sensors;
+
 @end
 
 @interface HWMGroup (CoreDataGeneratedAccessors)

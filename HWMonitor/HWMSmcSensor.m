@@ -56,83 +56,88 @@
     return NO;
 }
 
-+ (float)decodeNumericValueFromBuffer:(void *)data length:(NSUInteger)length ofType:(NSString *)type
++ (float)decodeNumericValueFromBuffer:(void *)data length:(NSUInteger)length type:(const char *)type
 {
-    if (type && data && [type length] >= 3) {
-        if (([type characterAtIndex:0] == 'u' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'i') {
+    if (type || data) {
 
-            BOOL signd = [type characterAtIndex:0] == 's';
+        size_t typeLength = strnlen(type, 4);
 
-            switch ([type characterAtIndex:2]) {
-                case '8':
-                    if (length == 1) {
-                        UInt8 encoded = 0;
+        if (typeLength >= 3) {
+            if ((type[0] == 'u' || type[0] == 's') && type[1] == 'i') {
 
-                        bcopy(data, &encoded, 1);
+                BOOL signd = type[0] == 's';
 
-                        if (signd && bit_get(encoded, BIT(7))) {
-                            bit_clear(encoded, BIT(7));
-                            return -encoded;
+                switch (type[2]) {
+                    case '8':
+                        if (length == 1) {
+                            UInt8 encoded = 0;
+
+                            bcopy(data, &encoded, 1);
+
+                            if (signd && bit_get(encoded, BIT(7))) {
+                                bit_clear(encoded, BIT(7));
+                                return -encoded;
+                            }
+
+                            return encoded;
                         }
+                        break;
 
-                        return encoded;
-                    }
-                    break;
+                    case '1':
+                        if (type[3] == '6' && length == 2) {
+                            UInt16 encoded = 0;
 
-                case '1':
-                    if ([type characterAtIndex:3] == '6' && length == 2) {
-                        UInt16 encoded = 0;
+                            bcopy(data, &encoded, 2);
 
-                        bcopy(data, &encoded, 2);
+                            encoded = OSSwapBigToHostInt16(encoded);
 
-                        encoded = OSSwapBigToHostInt16(encoded);
+                            if (signd && bit_get(encoded, BIT(15))) {
+                                bit_clear(encoded, BIT(15));
+                                return -encoded;
+                            }
 
-                        if (signd && bit_get(encoded, BIT(15))) {
-                            bit_clear(encoded, BIT(15));
-                            return -encoded;
+                            return encoded;
                         }
+                        break;
 
-                        return encoded;
-                    }
-                    break;
+                    case '3':
+                        if (type[3] == '2' && length == 4) {
+                            UInt32 encoded = 0;
 
-                case '3':
-                    if ([type characterAtIndex:3] == '2' && length == 4) {
-                        UInt32 encoded = 0;
+                            bcopy(data, &encoded, 4);
 
-                        bcopy(data, &encoded, 4);
+                            encoded = OSSwapBigToHostInt32(encoded);
 
-                        encoded = OSSwapBigToHostInt32(encoded);
+                            if (signd && bit_get(encoded, BIT(31))) {
+                                bit_clear(encoded, BIT(31));
+                                return -encoded;
+                            }
 
-                        if (signd && bit_get(encoded, BIT(31))) {
-                            bit_clear(encoded, BIT(31));
-                            return -encoded;
+                            return encoded;
                         }
-
-                        return encoded;
-                    }
-                    break;
+                        break;
+                }
             }
-        }
-        else if (([type characterAtIndex:0] == 'f' || [type characterAtIndex:0] == 's') && [type characterAtIndex:1] == 'p' && length == 2) {
-            UInt16 encoded = 0;
+            else if (typeLength > 0 && (type[0] == 'f' || type[0] == 's') && type[1] == 'p' && length == 2) {
+                UInt16 encoded = 0;
 
-            bcopy(data, &encoded, 2);
+                bcopy(data, &encoded, 2);
 
-            UInt8 i = [HWMSmcSensor getIndexOfHexChar:[type characterAtIndex:2]];
-            UInt8 f = [HWMSmcSensor getIndexOfHexChar:[type characterAtIndex:3]];
+                UInt8 i = [HWMSmcSensor getIndexOfHexChar:type[2]];
+                UInt8 f = [HWMSmcSensor getIndexOfHexChar:type[3]];
 
-            if (i + f != ([type characterAtIndex:0] == 's' ? 15 : 16) )
-                return MAXFLOAT;
-            
-            UInt16 swapped = OSSwapBigToHostInt16(encoded);
-            
-            BOOL signd = [type characterAtIndex:0] == 's';
-            BOOL minus = bit_get(swapped, BIT(15));
-            
-            if (signd && minus) bit_clear(swapped, BIT(15));
-            
-            return ((float)swapped / (float)BIT(f)) * (signd && minus ? -1 : 1);
+                if (i + f != (type[0] == 's' ? 15 : 16) )
+                    return MAXFLOAT;
+                
+                UInt16 swapped = OSSwapBigToHostInt16(encoded);
+                
+                BOOL signd = type[0] == 's';
+                BOOL minus = bit_get(swapped, BIT(15));
+                
+                if (signd && minus) bit_clear(swapped, BIT(15));
+                
+                return ((float)swapped / (float)BIT(f)) * (signd && minus ? -1 : 1);
+            }
         }
     }
     
@@ -145,11 +150,11 @@
 
     if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.connection.unsignedLongValue, self.key.UTF8String, &info)) {
 
-        NSNumber *value = [NSNumber numberWithFloat:[HWMSmcSensor decodeNumericValueFromBuffer:info.bytes length:info.dataSize ofType:self.type]];
+        NSNumber *value = [NSNumber numberWithFloat:[HWMSmcSensor decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:[self.type cStringUsingEncoding:NSASCIIStringEncoding]]];
 
-        [self willChangeValueForKey:@"data"];
-        [self setPrimitiveValue:value forKey:@"data"];
-        [self didChangeValueForKey:@"data"];
+        [self willChangeValueForKey:@"value"];
+        [self setPrimitiveValue:value forKey:@"value"];
+        [self didChangeValueForKey:@"value"];
     }
 }
 

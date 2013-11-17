@@ -19,11 +19,6 @@
 #define kATASMARTAttributeEndurance2                0xE7
 #define kATASMARTAttributeUnusedReservedBloks       0xB4
 
-#define kHWMAtaSmartSensorTypeNone                  0
-#define kHWMAtaSmartSensorTypeTemperature           1
-#define kHWMAtaSmartSensorTypeLife                  2
-#define kHWMAtaSmartSensorTypeBlocks                3
-
 typedef struct {
     UInt8 			attributeId;
     UInt16			flag;
@@ -45,7 +40,6 @@ typedef struct {
     ATASmartVendorSpecificData _smartData;
 }
 
-@property (nonatomic, retain) NSNumber * selector;
 @property (nonatomic, retain) NSNumber * service;
 @property (nonatomic, retain) NSString * productName;
 @property (nonatomic, retain) NSString * bsdName;
