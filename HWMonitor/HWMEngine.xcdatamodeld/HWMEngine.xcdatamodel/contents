@@ -41,6 +41,9 @@
         <attribute name="value" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>
         <relationship name="group" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="sensors" inverseEntity="Group" syncable="YES"/>
     </entity>
+    <entity name="SmcFanSensor" representedClassName="HWMSmcFanSensor" parentEntity="SmcSensor" syncable="YES">
+        <attribute name="unique" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="SmcSensor" representedClassName="HWMSmcSensor" parentEntity="Sensor" syncable="YES">
         <attribute name="connection" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
@@ -53,5 +56,6 @@
         <element name="Item" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Sensor" positionX="0" positionY="0" width="0" height="0"/>
         <element name="SmcSensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SmcFanSensor" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

@@ -10,6 +10,7 @@
 #import "HWMIcon.h"
 #import "HWMGroup.h"
 #import "HWMSmcSensor.h"
+#import "HWMSmcFanSensor.h"
 #import "HWMAtaSmartSensor.h"
 
 #import "smc.h"
@@ -426,7 +427,7 @@
     [sensor setConnection:[NSNumber numberWithLongLong:connection]];
     [sensor setName:name];
     [sensor setType:type];
-    [sensor setTitle:title];
+    [sensor setTitle:GetLocalizedString(title)];
     [sensor setIdentifier:@"Sensor"];
     [sensor setSelector:group.selector];
 
@@ -527,7 +528,7 @@
 
                         if (kIOReturnSuccess == SMCReadKey(connection, [formattedKey cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
 
-                            [self insertSmcSensorWithConnection:connection name:formattedKey type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:[NSString stringWithFormat:GetLocalizedString(title), shift + index] group:group nextOrder:&nextOrderValue];
+                            [self insertSmcSensorWithConnection:connection name:formattedKey type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:[NSString stringWithFormat:title, shift + index] group:group nextOrder:&nextOrderValue];
 
                         }
                     }
@@ -538,7 +539,7 @@
                 SMCVal_t info;
 
                 if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
-                    [self insertSmcSensorWithConnection:connection name:key type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:GetLocalizedString(title) group:group nextOrder:&nextOrderValue];
+                    [self insertSmcSensorWithConnection:connection name:key type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:title group:group nextOrder:&nextOrderValue];
 
                 }
             }
@@ -614,32 +615,45 @@
     }
 }
 
--(HWMSmcSensor*)insertSmcFanWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title group:(HWMGroup*)group nextOrder:(NSUInteger*)nextOrder
+-(HWMSmcFanSensor*)insertSmcFanWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title group:(HWMGroup*)group nextOrder:(NSUInteger*)nextOrder
 {
-    HWMSmcSensor *sensor = [self getSmcSensorByName:name];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SmcFanSensor"];
 
-    if (!sensor) {
-        sensor = [NSEntityDescription insertNewObjectForEntityForName:@"SmcSensor" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"unique = %@", title]];
 
-        [sensor setOrder:[NSNumber numberWithInteger:*nextOrder]];
+    NSError *error;
+
+    HWMSmcFanSensor *fan = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
+
+    if (error) {
+        NSLog(@"get sensor by title error in insertSmcFanWithConnection %@", error);
+    }
+
+
+    if (!fan) {
+        fan = [NSEntityDescription insertNewObjectForEntityForName:@"SmcFanSensor" inManagedObjectContext:self.managedObjectContext];
+
+        [fan setOrder:[NSNumber numberWithInteger:*nextOrder]];
 
         *nextOrder += 1;
     }
 
-    [sensor setConnection:[NSNumber numberWithLongLong:connection]];
-    [sensor setName:name];
-    [sensor setType:type];
-    [sensor setTitle:title];
-    [sensor setIdentifier:@"Sensor"];
-    [sensor setSelector:group.selector];
+    [fan setConnection:[NSNumber numberWithLongLong:connection]];
+    [fan setName:name];
+    [fan setType:type];
+    [fan setTitle:GetLocalizedString(title)];
+    // Uniqie is the same as title, but not transient and not localized
+    [fan setUnique:title];
+    [fan setIdentifier:@"Sensor"];
+    [fan setSelector:group.selector];
 
-    if (![group.sensors containsObject:sensor]) {
-        [group addSensorsObject:sensor];
+    if (![group.sensors containsObject:fan]) {
+        [group addSensorsObject:fan];
     }
 
-    [sensor setEngine:self];
+    [fan setEngine:self];
     
-    return sensor;
+    return fan;
 }
 
 - (void)insertSmcFansWithConnection:(io_connect_t)connection keys:(NSArray*)keys
@@ -666,7 +680,7 @@
                         caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
 
                     if (![caption hasPrefix:@"GPU "])
-                        [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:GetLocalizedString(caption) group:group nextOrder:&nextOrderValue];
+                        [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:caption group:group nextOrder:&nextOrderValue];
                 }
                 else if ([type isEqualToString:@TYPE_FDS]) {
                     FanTypeDescStruct *fds = (FanTypeDescStruct*)[value bytes];
@@ -684,7 +698,7 @@
                                 break;
 
                             default:
-                                [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:GetLocalizedString(caption) group:group nextOrder:&nextOrderValue];
+                                [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:caption group:group nextOrder:&nextOrderValue];
                                 break;
                         }
                     }
@@ -718,7 +732,7 @@
                     if ([caption hasPrefix:@"GPU "]) {
                         UInt8 cardIndex = [[caption substringFromIndex:4] intValue] - 1;
                         NSString *title = cardIndex == 0 ? GetLocalizedString(@"GPU Fan") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X Fan"), cardIndex + 1];
-                        [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:GetLocalizedString(title) group:group nextOrder:&nextOrderValue];
+                        [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title group:group nextOrder:&nextOrderValue];
                     }
                 }
                 else if ([type isEqualToString:@TYPE_FDS]) {
@@ -727,13 +741,13 @@
                     switch (fds->type) {
                         case GPU_FAN_RPM: {
                             NSString *title = fds->ui8Zone == 0 ? GetLocalizedString(@"GPU Fan") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X Fan"), fds->ui8Zone + 1];
-                            [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:GetLocalizedString(title) group:group nextOrder:&nextOrderValue];
+                            [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title group:group nextOrder:&nextOrderValue];
                             break;
                         }
 
                         case GPU_FAN_PWM_CYCLE: {
                             NSString *title = fds->ui8Zone == 0 ? GetLocalizedString(@"GPU PWM") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X PWM"), fds->ui8Zone + 1];
-                            [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:GetLocalizedString(title) group:group nextOrder:&nextOrderValue];
+                            [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title group:group nextOrder:&nextOrderValue];
                             break;
                         }
                     }

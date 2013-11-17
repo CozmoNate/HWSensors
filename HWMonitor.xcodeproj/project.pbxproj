@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E0168BE1838A98A00C9088B /* HWMSmcFanSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0168BD1838A98A00C9088B /* HWMSmcFanSensor.m */; };
 		7E0200B118035D3700520CF7 /* RFOverlayScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0200AE18035D3700520CF7 /* RFOverlayScroller.m */; };
 		7E0200B218035D3700520CF7 /* RFOverlayScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0200B018035D3700520CF7 /* RFOverlayScrollView.m */; };
 		7E031C641835E76D00A2D097 /* HWMImageTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E031C631835E76D00A2D097 /* HWMImageTransformer.m */; };
@@ -155,6 +156,8 @@
 
 /* Begin PBXFileReference section */
 		7E00C2481708B827001570E4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7E0168BC1838A98A00C9088B /* HWMSmcFanSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMSmcFanSensor.h; sourceTree = "<group>"; };
+		7E0168BD1838A98A00C9088B /* HWMSmcFanSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSmcFanSensor.m; sourceTree = "<group>"; };
 		7E0200AD18035D3700520CF7 /* RFOverlayScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFOverlayScroller.h; sourceTree = "<group>"; };
 		7E0200AE18035D3700520CF7 /* RFOverlayScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFOverlayScroller.m; sourceTree = "<group>"; };
 		7E0200AF18035D3700520CF7 /* RFOverlayScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFOverlayScrollView.h; sourceTree = "<group>"; };
@@ -742,6 +745,8 @@
 				7EFE61B6183581090009BD0D /* HWMSensor.m */,
 				7EFE61B2183581090009BD0D /* HWMSmcSensor.h */,
 				7EFE61B3183581090009BD0D /* HWMSmcSensor.m */,
+				7E0168BC1838A98A00C9088B /* HWMSmcFanSensor.h */,
+				7E0168BD1838A98A00C9088B /* HWMSmcFanSensor.m */,
 				7EFE61AF183581090009BD0D /* HWMAtaSmartSensor.h */,
 				7EFE61B0183581090009BD0D /* HWMAtaSmartSensor.m */,
 				7EFE61AC183581090009BD0D /* HWMBatterySensor.h */,
@@ -1041,6 +1046,7 @@
 				7EDA1A7816D903740012A0DC /* GroupCell.m in Sources */,
 				7EDA1A7916D903740012A0DC /* SensorCell.m in Sources */,
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
+				7E0168BE1838A98A00C9088B /* HWMSmcFanSensor.m in Sources */,
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
