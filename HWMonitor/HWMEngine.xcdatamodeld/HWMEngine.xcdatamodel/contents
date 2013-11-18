@@ -12,6 +12,20 @@
     <entity name="BatterySensor" representedClassName="HWMBatterySensor" parentEntity="Sensor" syncable="YES">
         <attribute name="service" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
+    <entity name="Configuration" representedClassName="HWMConfiguration" syncable="YES">
+        <attribute name="colorTheme" attributeType="String" defaultValueString="Default" syncable="YES"/>
+        <attribute name="graphsScaleValue" attributeType="Float" minValueString="1" maxValueString="10" defaultValueString="4" syncable="YES"/>
+        <attribute name="graphsWindowAlwaysTopmost" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="showVolumeNames" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="smartSensorsUpdateRate" attributeType="Float" minValueString="5" maxValueString="60" defaultValueString="10" syncable="YES"/>
+        <attribute name="smcSensorsUpdateRate" attributeType="Float" minValueString="1" maxValueString="10" defaultValueString="2" syncable="YES"/>
+        <attribute name="updateSensorsInBackground" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="useBigFontInMenubar" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="useBsdDriveNames" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="useFahrenheit" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="useGraphSmoothing" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="useShadowEffectsInMenubar" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+    </entity>
     <entity name="Favorite" syncable="YES">
         <attribute name="order" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="Item" syncable="YES"/>
@@ -57,5 +71,6 @@
         <element name="Sensor" positionX="0" positionY="0" width="0" height="0"/>
         <element name="SmcSensor" positionX="0" positionY="0" width="0" height="0"/>
         <element name="SmcFanSensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Configuration" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

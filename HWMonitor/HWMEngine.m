@@ -33,21 +33,95 @@
     return me;
 }
 
+#pragma mark
+#pragma mark Properties
+
+-(NSManagedObjectModel *)managedObjectModel
+{
+    if (!_managedObjectModel) {
+        _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[self.bundle pathForResource:@"HWMEngine" ofType:@"momd"]]];
+    }
+
+    return _managedObjectModel;
+}
+
+-(NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
+    if (!_persistentStoreCoordinator && self.managedObjectModel) {
+
+        _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
+
+        NSError *error = nil;
+
+        NSString *path = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
+        NSURL *url= [NSURL fileURLWithPath:[path stringByAppendingPathComponent: @"HWMonitor/Configuration.xml"]];
+
+        if (![_persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:@{ @YES : NSMigratePersistentStoresAutomaticallyOption, @YES : NSInferMappingModelAutomaticallyOption } error:&error]) {
+            //
+            //            // try to delete incompatible store
+            //            if (![[NSFileManager defaultManager] removeItemAtURL:url error:&error])
+            //                NSLog(@"deleting incompatible persistent store error %@, %@", error, [error userInfo]);
+            //
+            //            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error])
+            NSLog(@"adding new persistent store error %@, %@", error, [error userInfo]);
+        }
+    }
+
+    return _persistentStoreCoordinator;
+}
+
+-(NSManagedObjectContext*)managedObjectContext
+{
+    if (!_managedObjectContext) {
+        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        _managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
+    }
+    
+    return _managedObjectContext;
+}
+
+#pragma mark
+#pragma mark Overriden Methods
+
 - (id)init;
 {
     self = [super init];
 
     if (self) {
-
         _bundle = [NSBundle mainBundle];
-
-        [self assignPlatformProfile];
     }
 
     return self;
 }
 
-- (void)dealloc
+#pragma mark
+#pragma mark Events
+
+-(void)awakeFromNib
+{
+    [self initialize];
+}
+
+-(void)workspaceDidMountOrUnmount:(id)sender
+{
+    //    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    //        [self rebuildSensorsListOnlySmartSensors:YES];
+    //    }];
+}
+
+-(void)workspaceWillSleep:(id)sender
+{
+    //    if (_smcSensorsLoopTimer) [_smcSensorsLoopTimer invalidate];
+    //    if (_smartSensorsloopTimer) [_smartSensorsloopTimer invalidate];
+}
+
+-(void)workspaceDidWake:(id)sender
+{
+    //    [self updateRateChanged:sender];
+}
+
+
+- (void)willTerminate:(id)sender
 {
     if (_smcConnection)
         SMCClose(_smcConnection);
@@ -55,14 +129,31 @@
     if (_fakeSmcConnection)
         SMCClose(_fakeSmcConnection);
 
-    NSError *error;
-
-    if (![self.managedObjectContext save:&error])
-        NSLog(@"failed to save managed object context data: %@, %@", error, [error userInfo]);
+    [self saveContext];
 }
 
--(void)awakeFromNib
+#pragma mark
+#pragma mark Methods
+
+- (void)initialize
 {
+    // Create or load configuration entity
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Configuration"];
+
+    NSError *error;
+
+    _configuration = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
+
+    if (error) {
+        NSLog(@"failed to retrieve configuration %@", error);
+    }
+
+    if (!_configuration) {
+        _configuration = [NSEntityDescription insertNewObjectForEntityForName:@"Configuration" inManagedObjectContext:self.managedObjectContext];
+    }
+
+    [self assignPlatformProfile];
+
     [self loadIconNamed:kHWMonitorIconDefault];
     [self loadIconNamed:kHWMonitorIconThermometer];
     [self loadIconNamed:kHWMonitorIconScale];
@@ -90,50 +181,22 @@
     [self insertGroupWithSelector:kHWMGroupBattery name:@"BATTERIES" icon:[self getIconByName:kHWMonitorIconBattery] nextOrder:&nextGroupOrder];
 
     [self rebuildSensorsList];
+
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidMountNotification object:nil];
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceWillSleep:) name:NSWorkspaceWillSleepNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:nil];
+
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willTerminate:) name:NSApplicationWillTerminateNotification object:nil];
 }
 
--(NSManagedObjectModel *)managedObjectModel
+- (void)saveContext
 {
-    if (!_managedObjectModel) {
-        _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[self.bundle pathForResource:@"HWMEngine" ofType:@"momd"]]];
-    }
+    NSError *error;
 
-    return _managedObjectModel;
-}
-
--(NSPersistentStoreCoordinator *)persistentStoreCoordinator
-{
-    if (!_persistentStoreCoordinator && self.managedObjectModel) {
-
-        _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
-
-        NSError *error = nil;
-
-        NSString *path = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
-        NSURL *url= [NSURL fileURLWithPath:[path stringByAppendingPathComponent: @"HWMonitor/Configuration.xml"]];
-
-        if (![_persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]) {
-
-            // try to delete incompatible store
-            if (![[NSFileManager defaultManager] removeItemAtURL:url error:&error])
-                NSLog(@"deleting incompatible persistent store error %@, %@", error, [error userInfo]);
-
-            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error])
-                NSLog(@"adding new persistent store error %@, %@", error, [error userInfo]);
-        }
-    }
-
-    return _persistentStoreCoordinator;
-}
-
--(NSManagedObjectContext*)managedObjectContext
-{
-    if (!_managedObjectContext) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        _managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
-    }
-
-    return _managedObjectContext;
+    if (![self.managedObjectContext save:&error])
+        NSLog(@"failed to save context %@", error);
 }
 
 - (void)assignPlatformProfile
@@ -385,31 +448,23 @@
     [group setIcon:icon];
     [group setSelector:[NSNumber numberWithInteger:selector]];
     [group setIdentifier:@"Group"];
-    [group setEngine:self];
+
+    //[group setEngine:self];
 
     return group;
 }
 
 -(NSUInteger)getNextOrderValueForSensorsInGroup:(HWMGroup*)group
 {
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+    __block NSUInteger nextOrderValue = 0;
 
-    [request setPredicate:[NSPredicate predicateWithFormat:@"group == %@", group]];
-    [request setSortDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"order" ascending:NO]]];
+    [group.sensors enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        if ([[obj order] unsignedIntegerValue] > nextOrderValue) {
+            nextOrderValue = [[obj order] unsignedIntegerValue];
+        }
+    }];
 
-    [request setFetchLimit:1];
-
-    NSError *error;
-
-    NSArray *results = [self.managedObjectContext executeFetchRequest:request error:&error];
-
-    if (error) {
-        NSLog(@"getNextOrderValueForSensorsInGroup error %@",error);
-    }
-
-    HWMSensor *sensor = [results firstObject];
-
-    return sensor.order.unsignedIntegerValue + 1;
+    return nextOrderValue + 1;
 }
 
 -(HWMSmcSensor*)insertSmcSensorWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title group:(HWMGroup*)group nextOrder:(NSUInteger*)nextOrder
@@ -427,9 +482,10 @@
     [sensor setConnection:[NSNumber numberWithLongLong:connection]];
     [sensor setName:name];
     [sensor setType:type];
+    [sensor setSelector:group.selector];
+
     [sensor setTitle:GetLocalizedString(title)];
     [sensor setIdentifier:@"Sensor"];
-    [sensor setSelector:group.selector];
 
     if (![group.sensors containsObject:sensor]) {
         [group addSensorsObject:sensor];
@@ -483,7 +539,7 @@
             return;
     }
 
-    NSUInteger nextOrderValue = [self getNextOrderValueForSensorsInGroup:group];
+    __block NSUInteger nextOrderValue = [self getNextOrderValueForSensorsInGroup:group];
 
     // Excluding all existing keys
     //    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SmcSensor"];
@@ -574,10 +630,7 @@
     }
 
     [sensor setService:[attributes objectForKey:@"service"]];
-
-    if (![group.sensors containsObject:sensor]) {
-        [group addSensorsObject:sensor];
-    }
+    [sensor setSelector:group.selector];
 
     [sensor doUpdateValue];
 
@@ -589,9 +642,12 @@
         [sensor setSerialNumber:[attributes objectForKey:@"serialNumber"]];
         [sensor setRotational:[attributes objectForKey:@"rotational"]];
         [sensor setIdentifier:@"Sensor"];
-        [sensor setSelector:group.selector];
 
         [sensor setEngine:self];
+
+        if (![group.sensors containsObject:sensor]) {
+            [group addSensorsObject:sensor];
+        }
     }
     else {
         [self.managedObjectContext deleteObject:sensor];
@@ -615,7 +671,7 @@
     }
 }
 
--(HWMSmcFanSensor*)insertSmcFanWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title group:(HWMGroup*)group nextOrder:(NSUInteger*)nextOrder
+-(HWMSmcFanSensor*)insertSmcFanWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMGroup*)group nextOrder:(NSUInteger*)nextOrder
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SmcFanSensor"];
 
@@ -641,18 +697,19 @@
     [fan setConnection:[NSNumber numberWithLongLong:connection]];
     [fan setName:name];
     [fan setType:type];
+    [fan setSelector:[NSNumber numberWithUnsignedInteger:selector]];
+
     [fan setTitle:GetLocalizedString(title)];
     // Uniqie is the same as title, but not transient and not localized
     [fan setUnique:title];
     [fan setIdentifier:@"Sensor"];
-    [fan setSelector:group.selector];
 
     if (![group.sensors containsObject:fan]) {
         [group addSensorsObject:fan];
     }
-
-    [fan setEngine:self];
     
+    [fan setEngine:self];
+
     return fan;
 }
 
@@ -680,7 +737,7 @@
                         caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
 
                     if (![caption hasPrefix:@"GPU "])
-                        [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:caption group:group nextOrder:&nextOrderValue];
+                        [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:caption selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
                 }
                 else if ([type isEqualToString:@TYPE_FDS]) {
                     FanTypeDescStruct *fds = (FanTypeDescStruct*)[value bytes];
@@ -698,7 +755,7 @@
                                 break;
 
                             default:
-                                [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:caption group:group nextOrder:&nextOrderValue];
+                                [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:caption selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
                                 break;
                         }
                     }
@@ -732,7 +789,7 @@
                     if ([caption hasPrefix:@"GPU "]) {
                         UInt8 cardIndex = [[caption substringFromIndex:4] intValue] - 1;
                         NSString *title = cardIndex == 0 ? GetLocalizedString(@"GPU Fan") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X Fan"), cardIndex + 1];
-                        [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title group:group nextOrder:&nextOrderValue];
+                        [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
                     }
                 }
                 else if ([type isEqualToString:@TYPE_FDS]) {
@@ -741,13 +798,13 @@
                     switch (fds->type) {
                         case GPU_FAN_RPM: {
                             NSString *title = fds->ui8Zone == 0 ? GetLocalizedString(@"GPU Fan") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X Fan"), fds->ui8Zone + 1];
-                            [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title group:group nextOrder:&nextOrderValue];
+                            [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
                             break;
                         }
 
                         case GPU_FAN_PWM_CYCLE: {
                             NSString *title = fds->ui8Zone == 0 ? GetLocalizedString(@"GPU PWM") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X PWM"), fds->ui8Zone + 1];
-                            [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title group:group nextOrder:&nextOrderValue];
+                            [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title selector:kHWMGroupPWM group:group nextOrder:&nextOrderValue];
                             break;
                         }
                     }

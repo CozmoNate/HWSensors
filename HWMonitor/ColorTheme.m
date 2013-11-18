@@ -8,11 +8,13 @@
 
 #import "ColorTheme.h"
 
+static NSMutableDictionary *gColorThemeList;
+
 @implementation ColorTheme
 
 + (NSArray*)createColorThemes
 {
-    NSMutableArray *themes = [[NSMutableArray alloc] init];
+    gColorThemeList = [[NSMutableDictionary alloc] init];
     
     ColorTheme *theme = [[ColorTheme alloc] init];
     theme.name = @"Default";
@@ -31,7 +33,7 @@
     theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
     theme.useDarkIcons = YES;
     
-    [themes addObject:theme];
+    [gColorThemeList setObject:theme forKey:theme.name];
     
     theme = [[ColorTheme alloc] init];
     theme.name = @"Gray";
@@ -50,7 +52,7 @@
     theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
     theme.useDarkIcons = YES;
     
-    [themes addObject:theme];
+    [gColorThemeList setObject:theme forKey:theme.name];
     
     theme = [[ColorTheme alloc] init];
     theme.name = @"Dark";
@@ -69,9 +71,17 @@
     theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.95 alpha:1.0];
     theme.useDarkIcons = NO;
     
-    [themes addObject:theme];
+    [gColorThemeList setObject:theme forKey:theme.name];
     
-    return themes;
+    return gColorThemeList.allValues;
+}
+
++(ColorTheme*)colorThemeByName:(NSString*)name
+{
+    if (!gColorThemeList)
+        [ColorTheme createColorThemes];
+
+    return [gColorThemeList objectForKey:name];
 }
 
 @end

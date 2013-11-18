@@ -32,5 +32,6 @@
 @property (nonatomic, assign) BOOL useDarkIcons;
 
 + (NSArray*)createColorThemes;
++ (ColorTheme*)colorThemeByName:(NSString*)name;
 
 @end

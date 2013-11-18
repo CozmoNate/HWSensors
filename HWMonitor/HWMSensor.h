@@ -12,6 +12,7 @@
 #import "HWMItem.h"
 
 @class HWMGroup;
+@class HWMEngine;
 
 @interface HWMSensor : HWMItem
 
@@ -22,6 +23,8 @@
 @property (nonatomic, retain) NSNumber * value;
 
 @property (nonatomic, retain) HWMGroup * group;
+
+@property (nonatomic, strong) HWMEngine * engine;
 
 @property (readonly) NSString * formattedValue;
 

@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+@class ColorTheme;
+@class HWMConfiguration;
+
 @interface HWMEngine : NSObject
 {
     NSArray *_platformProfile;
@@ -17,12 +20,15 @@
 
 @property (nonatomic, strong) NSBundle * bundle;
 
-@property (nonatomic, strong) NSManagedObjectModel * managedObjectModel;
-@property (nonatomic, strong) NSPersistentStoreCoordinator * persistentStoreCoordinator;
-@property (nonatomic, strong) NSManagedObjectContext * managedObjectContext;
+@property (nonatomic, strong) IBOutlet NSManagedObjectModel * managedObjectModel;
+@property (nonatomic, strong) IBOutlet NSPersistentStoreCoordinator * persistentStoreCoordinator;
+@property (nonatomic, strong) IBOutlet NSManagedObjectContext * managedObjectContext;
+
+@property (nonatomic, strong) IBOutlet HWMConfiguration * configuration;
 
 +(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
 
 -(void)rebuildSensorsList;
+-(void)saveContext;
 
 @end

@@ -148,13 +148,17 @@
 {
     SMCVal_t info;
 
-    if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.connection.unsignedLongValue, self.key.UTF8String, &info)) {
+    if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.connection.unsignedLongValue, self.name.UTF8String, &info)) {
 
         NSNumber *value = [NSNumber numberWithFloat:[HWMSmcSensor decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:[self.type cStringUsingEncoding:NSASCIIStringEncoding]]];
 
-        [self willChangeValueForKey:@"value"];
-        [self setPrimitiveValue:value forKey:@"value"];
-        [self didChangeValueForKey:@"value"];
+        if (value && (!self.value || ![value isEqualToNumber:self.value])) {
+            [self willChangeValueForKey:@"value"];
+            [self setPrimitiveValue:value forKey:@"value"];
+            [self didChangeValueForKey:@"value"];
+
+            [self didChangeValueForKey:@"formattedValue"];
+        }
     }
 }
 

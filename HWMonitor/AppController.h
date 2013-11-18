@@ -34,6 +34,8 @@
 #import "HWMonitorIcon.h"
 #import "HWMonitorEngine.h"
 
+@class HWMEngine;
+
 @interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, NSTokenFieldDelegate>
 {
     HWMonitorEngine *_engine;
@@ -50,6 +52,8 @@
 
     NSArray *_colorThemes;
 }
+
+@property (assign) IBOutlet HWMEngine *monitorEngine;
 
 @property (assign) IBOutlet PopupController *popupController;
 @property (assign) IBOutlet GraphsController *graphsController;
