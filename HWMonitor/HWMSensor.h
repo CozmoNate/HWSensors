@@ -16,6 +16,7 @@
 
 @interface HWMSensor : HWMItem
 
+@property (nonatomic, retain) NSNumber * favorite;
 @property (nonatomic, retain) NSNumber * level;
 @property (nonatomic, retain) NSNumber * order;
 @property (nonatomic, retain) NSNumber * selector;

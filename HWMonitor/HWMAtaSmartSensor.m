@@ -272,9 +272,11 @@
 
     if (value && (!self.value || ![value isEqualToNumber:self.value])) {
         [self willChangeValueForKey:@"value"];
-        [self setPrimitiveValue:value forKey:@"value"];
-        [self didChangeValueForKey:@"value"];
+        [self willChangeValueForKey:@"formattedValue"];
 
+        [self setPrimitiveValue:value forKey:@"value"];
+
+        [self didChangeValueForKey:@"value"];
         [self didChangeValueForKey:@"formattedValue"];
     }
 }

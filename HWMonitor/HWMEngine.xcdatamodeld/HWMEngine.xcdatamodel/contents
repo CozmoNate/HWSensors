@@ -6,14 +6,16 @@
         <attribute name="productName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="rotational" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="serialNumber" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <attribute name="service" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="service" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="volumeNames" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="BatterySensor" representedClassName="HWMBatterySensor" parentEntity="Sensor" syncable="YES">
+        <attribute name="productName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="serialNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="service" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="Configuration" representedClassName="HWMConfiguration" syncable="YES">
-        <attribute name="colorTheme" attributeType="String" defaultValueString="Default" syncable="YES"/>
+        <attribute name="colorThemeName" attributeType="String" defaultValueString="Default" syncable="YES"/>
         <attribute name="graphsScaleValue" attributeType="Float" minValueString="1" maxValueString="10" defaultValueString="4" syncable="YES"/>
         <attribute name="graphsWindowAlwaysTopmost" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="showVolumeNames" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -38,16 +40,18 @@
     </entity>
     <entity name="Icon" representedClassName="HWMIcon" parentEntity="Item" syncable="YES">
         <attribute name="alternate" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="HWMImageTransformer" syncable="YES"/>
+        <attribute name="favorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="image" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="HWMImageTransformer" syncable="YES"/>
     </entity>
     <entity name="Item" representedClassName="HWMItem" isAbstract="YES" syncable="YES">
-        <attribute name="hidden" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="identifier" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="legend" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="title" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Sensor" representedClassName="HWMSensor" isAbstract="YES" parentEntity="Item" syncable="YES">
+        <attribute name="favorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="level" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="selector" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -64,13 +68,13 @@
     <elements>
         <element name="AtaSmartSensor" positionX="0" positionY="0" width="0" height="0"/>
         <element name="BatterySensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Configuration" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Favorite" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Group" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Icon" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Item" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Sensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SmcSensor" positionX="0" positionY="0" width="0" height="0"/>
         <element name="SmcFanSensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Configuration" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SmcSensor" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

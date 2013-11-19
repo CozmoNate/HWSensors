@@ -11,6 +11,8 @@
 
 @implementation HWMBatterySensor
 
+@dynamic productName;
+@dynamic serialNumber;
 @dynamic selector;
 @dynamic service;
 
@@ -61,11 +63,28 @@
 
                     while (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
 
-                        [devices addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                            [NSNumber numberWithUnsignedLongLong:service], @"service",
-                                            [NSNumber numberWithUnsignedLongLong:type], @"selector",
-                                            nil]];
+                        NSString *serialNumber;
+                        NSString *productName;
 
+                        switch (type) {
+                            case kHWMBatterySensorTypeInternal:
+                                productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("DeviceName"), kCFAllocatorDefault, 0);
+                                serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("BatterySerialNumber"), kCFAllocatorDefault, 0);
+
+                                if (!serialNumber)
+                                    serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0);
+                                break;
+
+                            default:
+                                productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("Product"), kCFAllocatorDefault, 0);
+                                serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0);
+                                break;
+                        }
+
+                        [devices addObject:@{[NSNumber numberWithUnsignedLongLong:service] : @"service",
+                                             [NSNumber numberWithUnsignedLongLong:type] : @"selector",
+                                             serialNumber : @"serialNumber",
+                                             productName : @"productName"}];
                     }
 
                     IOObjectRelease(iterator);
@@ -110,10 +129,14 @@
 
     }
 
-    if (level) {
+    if (level && (!self.value || ![level isEqualToNumber:self.value])) {
         [self willChangeValueForKey:@"value"];
+        [self willChangeValueForKey:@"formattedValue"];
+
         [self setPrimitiveValue:level forKey:@"value"];
+
         [self didChangeValueForKey:@"value"];
+        [self didChangeValueForKey:@"formattedValue"];
     }
 }
 

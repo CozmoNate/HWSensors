@@ -19,6 +19,8 @@
 - (void)popupDidClose:(id)sender;
 @end
 
+@class HWMEngine;
+
 @interface PopupController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
     BOOL _hasActivePanel;
@@ -27,6 +29,8 @@
 }
 
 @property (assign) IBOutlet id <PopupControllerDelegate> delegate;
+
+@property (assign) IBOutlet HWMEngine *monitorEngine;
 
 @property (readonly) NSStatusItem *statusItem;
 @property (readonly) StatusItemView *statusItemView;

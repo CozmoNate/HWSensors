@@ -36,6 +36,8 @@
 
 #import "Localizer.h"
 
+#import "HWMEngine.h"
+
 @interface AppController (Private)
 
 @property (readonly) BOOL shouldUpdateOnlyFavoritesSensors;

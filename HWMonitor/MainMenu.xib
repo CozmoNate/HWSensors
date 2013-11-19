@@ -26,6 +26,7 @@
                 <outlet property="appController" destination="494" id="6873"/>
                 <outlet property="delegate" destination="494" id="1177"/>
                 <outlet property="graphsController" destination="909" id="6874"/>
+                <outlet property="monitorEngine" destination="YDM-13-O3B" id="Uur-Wt-DqM"/>
             </connections>
         </customObject>
         <customObject id="909" customClass="GraphsController"/>

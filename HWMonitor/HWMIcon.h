@@ -14,6 +14,7 @@
 @interface HWMIcon : HWMItem
 
 @property (nonatomic, retain) NSImage * alternate;
+@property (nonatomic, retain) NSNumber * favorite;
 @property (nonatomic, retain) NSImage * image;
 
 @end

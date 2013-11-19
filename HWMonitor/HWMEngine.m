@@ -12,6 +12,8 @@
 #import "HWMSmcSensor.h"
 #import "HWMSmcFanSensor.h"
 #import "HWMAtaSmartSensor.h"
+#import "HWMBatterySensor.h"
+#import "HWMConfiguration.h"
 
 #import "smc.h"
 #import "Localizer.h"
@@ -21,6 +23,9 @@
 
 
 @implementation HWMEngine
+
+#pragma mark
+#pragma mark Global methods
 
 +(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
 {
@@ -57,13 +62,17 @@
         NSURL *url= [NSURL fileURLWithPath:[path stringByAppendingPathComponent: @"HWMonitor/Configuration.xml"]];
 
         if (![_persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:@{ @YES : NSMigratePersistentStoresAutomaticallyOption, @YES : NSInferMappingModelAutomaticallyOption } error:&error]) {
-            //
-            //            // try to delete incompatible store
-            //            if (![[NSFileManager defaultManager] removeItemAtURL:url error:&error])
-            //                NSLog(@"deleting incompatible persistent store error %@, %@", error, [error userInfo]);
-            //
-            //            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error])
-            NSLog(@"adding new persistent store error %@, %@", error, [error userInfo]);
+
+            NSLog(@"incompatible managed model, deleting database %@...", url.path);
+
+            // try to delete incompatible store
+            if (![[NSFileManager defaultManager] removeItemAtURL:url error:&error]) {
+                NSLog(@"deleting incompatible database error %@", error);
+            }
+
+            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]) {
+                NSLog(@"adding new persistent store error %@", error);
+            }
         }
     }
 
@@ -78,6 +87,112 @@
     }
     
     return _managedObjectContext;
+}
+
+-(void)setEngineState:(HWMEngineState)engineState
+{
+    switch (engineState) {
+        case kHWMEngineIdle:
+            if (_engineState == kHWMEngineActive) {
+                [self internalStopEngine];
+            }
+            break;
+
+        case kHWMEngineActive:
+            if (_engineState == kHWMEngineIdle) {
+                [self internalStartEngine];
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    _engineState = engineState;
+}
+
+-(NSArray *)arrangedItems
+{
+    if (!_arrangedItems) {
+        [self willChangeValueForKey:@"arrangedItems"];
+
+        _arrangedItems = [NSMutableArray array];
+
+        // Icons
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Icon"];
+
+        NSError *error;
+
+        NSArray *icons = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+        if (error) {
+            NSLog(@"fetch icons in arrangedItems error %@", error);
+        }
+        else {
+            NSSortDescriptor *titleDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+            [_arrangedItems addObjectsFromArray:[icons sortedArrayUsingDescriptors:@[titleDescriptor]]];
+        }
+
+        // Sensors and groups
+        fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Group"];
+
+        NSArray *groups = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+        if (error) {
+            NSLog(@"fetch groups in arrangedItems error %@", error);
+        }
+        else {
+            NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+
+            groups = [groups sortedArrayUsingDescriptors:@[orderDescriptor]];
+
+            for (HWMGroup *group in groups) {
+
+                fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+
+                [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"hidden == 0 AND group == %@", group]];
+
+                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+                if (error) {
+                    NSLog(@"fetch sensors in arrangedItems error %@", error);
+                }
+                else if (sensors.count) {
+                    [_arrangedItems addObject:group];
+                    [_arrangedItems addObjectsFromArray:[sensors sortedArrayUsingDescriptors:@[orderDescriptor]]];
+                }
+            }
+        }
+
+        [self didChangeValueForKey:@"arrangedItems"];
+    }
+
+    return _arrangedItems;
+}
+
+-(NSArray *)favoriteItems
+{
+    if (!_favoriteItems) {
+        [self willChangeValueForKey:@"favoriteItems"];
+
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
+
+        NSError *error;
+
+        NSArray *favorites = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+        if (error) {
+            NSLog(@"fetch favorite items in favoriteItems error %@", error);
+        }
+        else {
+            NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+            [_arrangedItems addObjectsFromArray:[favorites sortedArrayUsingDescriptors:@[orderDescriptor]]];
+        }
+
+        [self didChangeValueForKey:@"favoriteItems"];
+    }
+
+    return _favoriteItems;
 }
 
 #pragma mark
@@ -95,45 +210,7 @@
 }
 
 #pragma mark
-#pragma mark Events
-
--(void)awakeFromNib
-{
-    [self initialize];
-}
-
--(void)workspaceDidMountOrUnmount:(id)sender
-{
-    //    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-    //        [self rebuildSensorsListOnlySmartSensors:YES];
-    //    }];
-}
-
--(void)workspaceWillSleep:(id)sender
-{
-    //    if (_smcSensorsLoopTimer) [_smcSensorsLoopTimer invalidate];
-    //    if (_smartSensorsloopTimer) [_smartSensorsloopTimer invalidate];
-}
-
--(void)workspaceDidWake:(id)sender
-{
-    //    [self updateRateChanged:sender];
-}
-
-
-- (void)willTerminate:(id)sender
-{
-    if (_smcConnection)
-        SMCClose(_smcConnection);
-
-    if (_fakeSmcConnection)
-        SMCClose(_fakeSmcConnection);
-
-    [self saveContext];
-}
-
-#pragma mark
-#pragma mark Methods
+#pragma mark Private Methods
 
 - (void)initialize
 {
@@ -189,14 +266,9 @@
 
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willTerminate:) name:NSApplicationWillTerminateNotification object:nil];
-}
 
-- (void)saveContext
-{
-    NSError *error;
-
-    if (![self.managedObjectContext save:&error])
-        NSLog(@"failed to save context %@", error);
+    [self addObserver:self forKeyPath:@"configuration.smcSensorsUpdateRate" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)assignPlatformProfile
@@ -291,7 +363,7 @@
     HWMIcon *icon = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
 
     if (error) {
-        NSLog(@"getIconByName error %@, %@", error, error.userInfo);
+        NSLog(@"getIconByName error %@", error);
     }
 
     return icon;
@@ -308,7 +380,7 @@
     HWMGroup *group = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
 
     if (error) {
-        NSLog(@"getGroupBySelector error %@, %@", error, error.userInfo);
+        NSLog(@"getGroupBySelector error %@", error);
     }
 
     return group;
@@ -325,85 +397,10 @@
     HWMSensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
 
     if (error) {
-        NSLog(@"getSensorByName error %@, %@", error, error.userInfo);
+        NSLog(@"getSensorByName error %@", error);
     }
 
     return sensor;
-}
-
--(HWMSmcSensor*)getSmcSensorByName:(NSString*)name
-{
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SmcSensor"];
-
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
-
-    NSError *error;
-
-    HWMSmcSensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
-
-    if (error) {
-        NSLog(@"getSmcSensorByName error %@, %@", error, error.userInfo);
-    }
-
-    return sensor;
-}
-
--(HWMAtaSmartSensor*)getAtaSmartSensorByName:(NSString*)name
-{
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
-
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
-
-    NSError *error;
-
-    HWMAtaSmartSensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
-
-    if (error) {
-        NSLog(@"getAtaSmartSensorByName error %@, %@", error, error.userInfo);
-    }
-
-    return sensor;
-}
-
-- (NSArray*)getSmcKeysFromConnection:(io_connect_t)connection excludedList:(NSArray*)excluded
-{
-    if (!connection)
-        return nil;
-
-    SMCVal_t val;
-
-    SMCReadKey(connection, "#KEY", &val);
-
-    UInt32 count = [HWMSmcSensor decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType];
-
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-
-    for (UInt32 index = 0; index < count; index++) {
-        SMCKeyData_t  inputStructure;
-        SMCKeyData_t  outputStructure;
-
-        memset(&inputStructure, 0, sizeof(SMCKeyData_t));
-        memset(&outputStructure, 0, sizeof(SMCKeyData_t));
-        memset(&val, 0, sizeof(SMCVal_t));
-
-        inputStructure.data8 = SMC_CMD_READ_INDEX;
-        inputStructure.data32 = index;
-
-        if (kIOReturnSuccess == SMCCall(connection, KERNEL_INDEX_SMC, &inputStructure, &outputStructure)) {
-            NSString *key = [NSString stringWithFormat:@"%c%c%c%c",
-                             (unsigned int) outputStructure.key >> 24,
-                             (unsigned int) outputStructure.key >> 16,
-                             (unsigned int) outputStructure.key >> 8,
-                             (unsigned int) outputStructure.key];
-
-
-            if (!excluded || NSNotFound == [excluded indexOfObject:key]) {
-                [array addObject:key];
-            }
-        }
-    }
-    
-    return array;
 }
 
 -(HWMIcon*)loadIconNamed:(NSString*)name
@@ -467,7 +464,305 @@
     return nextOrderValue + 1;
 }
 
--(HWMSmcSensor*)insertSmcSensorWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title group:(HWMGroup*)group nextOrder:(NSUInteger*)nextOrder
+- (void)initSmcAndDevicesTimer
+{
+    if (_smcAndDevicesSensorsUpdateLoopTimer) {
+        [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
+    }
+
+    _smcAndDevicesSensorsUpdateLoopTimer = [NSTimer timerWithTimeInterval:self.configuration.smcSensorsUpdateRate.floatValue target:self selector:@selector(updateSmcAndDevicesSensors) userInfo:nil repeats:YES];
+
+    [[NSRunLoop mainRunLoop] addTimer:_smcAndDevicesSensorsUpdateLoopTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)initAtaSmartTimer
+{
+    if (_ataSmartSensorsUpdateLoopTimer) {
+        [_ataSmartSensorsUpdateLoopTimer invalidate];
+    }
+
+    _ataSmartSensorsUpdateLoopTimer = [NSTimer timerWithTimeInterval:self.configuration.smartSensorsUpdateRate.floatValue * 60.0f target:self selector:@selector(updateAtaSmartSensors) userInfo:nil repeats:YES];
+
+    [[NSRunLoop mainRunLoop] addTimer:_ataSmartSensorsUpdateLoopTimer forMode:NSRunLoopCommonModes];
+}
+
+-(void)internalStartEngine
+{
+    if (_engineState != kHWMEngineActive) {
+        if (!_smcAndDevicesSensorsUpdateLoopTimer || ![_smcAndDevicesSensorsUpdateLoopTimer isValid]) {
+            [self initSmcAndDevicesTimer];
+        }
+
+        if (!_ataSmartSensorsUpdateLoopTimer || ![_ataSmartSensorsUpdateLoopTimer isValid]) {
+            [self initAtaSmartTimer];
+        }
+    }
+}
+
+-(void)internalStopEngine
+{
+    if (_engineState != kHWMEngineIdle) {
+        if (_smcAndDevicesSensorsUpdateLoopTimer) {
+            [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
+            _smcAndDevicesSensorsUpdateLoopTimer = 0;
+        }
+
+        if (_ataSmartSensorsUpdateLoopTimer) {
+            [_ataSmartSensorsUpdateLoopTimer invalidate];
+            _ataSmartSensorsUpdateLoopTimer = 0;
+        }
+    }
+}
+
+#pragma mark
+#pragma mark Public Methods
+
+-(void)saveContext
+{
+    NSError *error;
+
+    if (![self.managedObjectContext save:&error])
+        NSLog(@"failed to save context %@", error);
+}
+
+-(void)updateSmcAndDevicesSensors
+{
+    if (!_smcAndDevicesSensors) {
+
+        NSMutableArray *sensors = [NSMutableArray array];
+
+        NSError *error;
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+
+        NSArray *objects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+        if (error) {
+            NSLog(@"fetching sensors in updateSmcAndDevicesSensors error %@", error);
+        }
+        else {
+            for (HWMSensor *sensor in objects) {
+                if (![sensor isKindOfClass:[HWMAtaSmartSensor class]]) {
+                    [sensors addObject:sensor];
+                }
+            }
+        }
+
+        _smcAndDevicesSensors = [sensors copy];
+    }
+
+    for (id sensor in _smcAndDevicesSensors) {
+        BOOL doUpdate = FALSE;
+
+        switch (_updateLoopStrategy) {
+            case kHWMSensorsUpdateLoopForced:
+                doUpdate = YES;
+                break;
+
+            case kHWMSensorsUpdateLoopOnlyFavorites:
+                doUpdate = [[sensor favorite] boolValue];
+                break;
+
+            case kHWMSensorsUpdateLoopRegular:
+            default:
+                doUpdate = ![[sensor hidden] boolValue] || [[sensor favorite] boolValue];
+                break;
+        }
+
+        if (doUpdate) {
+            [sensor doUpdateValue];
+        }
+    }
+}
+
+-(void)updateAtaSmartSensors
+{
+    if (!_ataSmartSensors) {
+
+        NSError *error;
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
+
+        _ataSmartSensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+        if (error) {
+            NSLog(@"fetching sensors in updateAtaSmartSensors error %@", error);
+        }
+    }
+
+    for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
+
+        BOOL doUpdate = FALSE;
+
+        switch (_updateLoopStrategy) {
+            case kHWMSensorsUpdateLoopForced:
+                doUpdate = YES;
+                break;
+
+            case kHWMSensorsUpdateLoopOnlyFavorites:
+                doUpdate = sensor.favorite.boolValue;
+                break;
+
+            case kHWMSensorsUpdateLoopRegular:
+            default:
+                doUpdate = !sensor.hidden.boolValue || sensor.favorite.boolValue;
+                break;
+        }
+
+        if (doUpdate) {
+            [sensor doUpdateValue];
+        }
+
+    }
+}
+
+-(void)rebuildSensorsList
+{
+    if (_engineState == kHWMEngineActive) {
+        [self internalStopEngine];
+    }
+
+    NSError *error;
+
+    _smcAndDevicesSensors = nil;
+
+    // SMC
+
+    // Reset "connection" attribute for all SMC sensors
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SmcSensor"];
+    NSArray *objects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+    for (HWMSmcSensor *sensor in objects) {
+        [sensor setConnection:nil];
+    }
+
+    // FakeSMCKeyStore is prioritized key source
+    SMCOpen(&_fakeSmcConnection, "FakeSMCKeyStore");
+    NSArray *fakeSmcKeys = [self getSmcKeysFromConnection:_fakeSmcConnection excludedList:nil];
+    if (!fakeSmcKeys || !fakeSmcKeys.count) SMCClose(_fakeSmcConnection);
+
+    SMCOpen(&_smcConnection, "AppleSMC");
+    NSArray *smcKeys = [self getSmcKeysFromConnection:_smcConnection excludedList:fakeSmcKeys];
+    if (!smcKeys || !smcKeys.count) SMCClose(_smcConnection);
+
+    [self insertSmcSensorsWithKeys:fakeSmcKeys connection:_fakeSmcConnection];
+    [self insertSmcSensorsWithKeys:smcKeys connection:_smcConnection];
+
+    // SMART
+
+    _ataSmartSensors = nil;
+
+    [self insertAtaSmartSensors];
+
+    // FANS
+
+    // Reset "connection" attribute for all fan sensors
+    fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SmcFanSensor"];
+    objects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+    for (HWMSmcSensor *sensor in objects) {
+        [sensor setConnection:nil];
+    }
+
+    [self insertSmcFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
+    [self insertSmcFansWithConnection:_smcConnection keys:smcKeys];
+
+    // Insert additional GPU fans from FakeSMCKeyStore
+    [self insertSmcGpuFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
+
+    // BATTERIES
+    [self insertBatterySensors];
+
+    if (![self.managedObjectContext save:&error])
+        NSLog(@"saving context on rebuildSensorsList error %@", error);
+
+    [self willChangeValueForKey:@"arrangedItems"];
+    _arrangedItems = nil;
+    [self didChangeValueForKey:@"arrangedItems"];
+
+    [self willChangeValueForKey:@"favoriteItems"];
+    _favoriteItems = nil;
+    [self willChangeValueForKey:@"favoriteItems"];
+
+    if (_engineState == kHWMEngineActive) {
+        [self internalStartEngine];
+    }
+}
+
+-(void)startEngine
+{
+    [self internalStartEngine];
+
+    _engineState = kHWMEngineActive;
+}
+
+-(void)stopEngine
+{
+    [self internalStopEngine];
+
+    _engineState = kHWMEngineIdle;
+}
+
+#pragma mark
+#pragma mark SMC Sensors
+
+- (NSArray*)getSmcKeysFromConnection:(io_connect_t)connection excludedList:(NSArray*)excluded
+{
+    if (!connection)
+        return nil;
+
+    SMCVal_t val;
+
+    SMCReadKey(connection, "#KEY", &val);
+
+    UInt32 count = [HWMSmcSensor decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType];
+
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+
+    for (UInt32 index = 0; index < count; index++) {
+        SMCKeyData_t  inputStructure;
+        SMCKeyData_t  outputStructure;
+
+        memset(&inputStructure, 0, sizeof(SMCKeyData_t));
+        memset(&outputStructure, 0, sizeof(SMCKeyData_t));
+        memset(&val, 0, sizeof(SMCVal_t));
+
+        inputStructure.data8 = SMC_CMD_READ_INDEX;
+        inputStructure.data32 = index;
+
+        if (kIOReturnSuccess == SMCCall(connection, KERNEL_INDEX_SMC, &inputStructure, &outputStructure)) {
+            NSString *key = [NSString stringWithFormat:@"%c%c%c%c",
+                             (unsigned int) outputStructure.key >> 24,
+                             (unsigned int) outputStructure.key >> 16,
+                             (unsigned int) outputStructure.key >> 8,
+                             (unsigned int) outputStructure.key];
+
+
+            if (!excluded || NSNotFound == [excluded indexOfObject:key]) {
+                [array addObject:key];
+            }
+        }
+    }
+    
+    return array;
+}
+
+-(HWMSmcSensor*)getSmcSensorByName:(NSString*)name
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SmcSensor"];
+
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
+
+    NSError *error;
+
+    HWMSmcSensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
+
+    if (error) {
+        NSLog(@"getSmcSensorByName error %@", error);
+    }
+
+    return sensor;
+}
+
+-(HWMSmcSensor*)insertSmcSensorWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMGroup*)group nextOrder:(NSUInteger*)nextOrder
 {
     HWMSmcSensor *sensor = [self getSmcSensorByName:name];
 
@@ -482,7 +777,7 @@
     [sensor setConnection:[NSNumber numberWithLongLong:connection]];
     [sensor setName:name];
     [sensor setType:type];
-    [sensor setSelector:group.selector];
+    [sensor setSelector:[NSNumber numberWithUnsignedInteger:selector]];
 
     [sensor setTitle:GetLocalizedString(title)];
     [sensor setIdentifier:@"Sensor"];
@@ -584,7 +879,7 @@
 
                         if (kIOReturnSuccess == SMCReadKey(connection, [formattedKey cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
 
-                            [self insertSmcSensorWithConnection:connection name:formattedKey type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:[NSString stringWithFormat:title, shift + index] group:group nextOrder:&nextOrderValue];
+                            [self insertSmcSensorWithConnection:connection name:formattedKey type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:[NSString stringWithFormat:title, shift + index] selector:selector group:group nextOrder:&nextOrderValue];
 
                         }
                     }
@@ -595,7 +890,7 @@
                 SMCVal_t info;
 
                 if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
-                    [self insertSmcSensorWithConnection:connection name:key type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:title group:group nextOrder:&nextOrderValue];
+                    [self insertSmcSensorWithConnection:connection name:key type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:title selector:selector group:group nextOrder:&nextOrderValue];
 
                 }
             }
@@ -614,6 +909,25 @@
     [self insertSmcSensorsWithKeys:keys connection:connection selector:kHWMGroupPower];
 }
 
+#pragma mark
+#pragma mark ATA SMART Sensors
+
+-(HWMAtaSmartSensor*)getAtaSmartSensorByName:(NSString*)name
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
+
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
+
+    NSError *error;
+
+    HWMAtaSmartSensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
+
+    if (error) {
+        NSLog(@"getAtaSmartSensorByName error %@", error);
+    }
+
+    return sensor;
+}
 
 -(HWMAtaSmartSensor*)insertAtaSmartSensorFromDictionary:(NSDictionary*)attributes group:(HWMGroup*)group
 {
@@ -635,7 +949,7 @@
     [sensor doUpdateValue];
 
     if (sensor.value) {
-        [sensor setName:[NSString stringWithFormat:@"%@%@", [attributes objectForKey:@"serialNumber"], group.selector]];
+        [sensor setName:name];
         [sensor setProductName:[attributes objectForKey:@"productName"]];
         [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
         [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
@@ -658,6 +972,16 @@
 
 -(void)insertAtaSmartSensors
 {
+    NSError *error;
+
+    // Reset "service" attribute for all smart sensors
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
+    NSArray *objects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+    for (HWMAtaSmartSensor *sensor in objects) {
+        [sensor setService:nil];
+    }
+
     HWMGroup *smartTemperatures = [self getGroupBySelector:kHWMGroupSmartTemperature];
     HWMGroup *smartLife = [self getGroupBySelector:kHWMGroupSmartRemainingLife];
     HWMGroup *smartBlocks = [self getGroupBySelector:kHWMGroupSmartRemainingBlocks];
@@ -670,6 +994,9 @@
         [self insertAtaSmartSensorFromDictionary:drive group:smartBlocks];
     }
 }
+
+#pragma mark
+#pragma mark SMC Fan Sensors
 
 -(HWMSmcFanSensor*)insertSmcFanWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMGroup*)group nextOrder:(NSUInteger*)nextOrder
 {
@@ -814,43 +1141,151 @@
     }
 }
 
--(void)rebuildSensorsList
+#pragma mark
+#pragma mark Battery Sensors
+
+-(HWMBatterySensor*)getBatterySensorByName:(NSString*)name
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BatterySensor"];
+
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
+
+    NSError *error;
+
+    HWMBatterySensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
+
+    if (error) {
+        NSLog(@"getBatterySensorByName error %@", error);
+    }
+
+    return sensor;
+}
+
+-(HWMBatterySensor*)insertBatterySensorFromDictionary:(NSDictionary*)attributes group:(HWMGroup*)group
+{
+    NSString *name = [attributes objectForKey:@"serialNumber"];
+
+    if (!name || name.length == 0) {
+        name = [attributes objectForKey:@"productName"];
+    }
+
+    HWMBatterySensor *sensor = [self getBatterySensorByName:name];
+
+    if (!sensor) {
+        sensor = [NSEntityDescription insertNewObjectForEntityForName:@"BatterySensor" inManagedObjectContext:self.managedObjectContext];
+
+        NSUInteger nextOrderValue = [self getNextOrderValueForSensorsInGroup:group];
+
+        [sensor setOrder:[NSNumber numberWithInteger:nextOrderValue]];
+    }
+
+    [sensor setService:[attributes objectForKey:@"service"]];
+    [sensor setSelector:[attributes objectForKey:@"selector"]];
+
+    [sensor doUpdateValue];
+
+    if (sensor.value) {
+        [sensor setName:name];
+        [sensor setProductName:[attributes objectForKey:@"productName"]];
+        [sensor setSerialNumber:[attributes objectForKey:@"serialNumber"]];
+
+        [sensor setEngine:self];
+
+        if (![group.sensors containsObject:sensor]) {
+            [group addSensorsObject:sensor];
+        }
+    }
+    else {
+        [self.managedObjectContext deleteObject:sensor];
+    }
+    
+    return sensor;
+}
+
+-(void)insertBatterySensors
 {
     NSError *error;
 
-    // FakeSMCKeyStore is prioritized key source
-    SMCOpen(&_fakeSmcConnection, "FakeSMCKeyStore");
-    NSArray *fakeSmcKeys = [self getSmcKeysFromConnection:_fakeSmcConnection excludedList:nil];
-    if (!fakeSmcKeys || !fakeSmcKeys.count) SMCClose(_fakeSmcConnection);
-
-    SMCOpen(&_smcConnection, "AppleSMC");
-    NSArray *smcKeys = [self getSmcKeysFromConnection:_smcConnection excludedList:fakeSmcKeys];
-    if (!smcKeys || !smcKeys.count) SMCClose(_smcConnection);
-
-    [self insertSmcSensorsWithKeys:fakeSmcKeys connection:_fakeSmcConnection];
-    [self insertSmcSensorsWithKeys:smcKeys connection:_smcConnection];
-
-    // SMART
-
-    // Reset "service" attribute for all smart sensors
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
+    // Reset "service" attribute for all battery sensors
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BatterySensor"];
     NSArray *objects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
-    for (HWMAtaSmartSensor *sensor in objects) {
+    for (HWMBatterySensor *sensor in objects) {
         [sensor setService:nil];
     }
 
+    HWMGroup *group = [self getGroupBySelector:kHWMGroupBattery];
+
+    NSArray *devices = [HWMBatterySensor discoverDevices];
+
+    for (id device in devices) {
+        [self insertBatterySensorFromDictionary:device group:group];
+    }
+}
+
+#pragma mark
+#pragma mark Events
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqual:@"configuration.smcSensorsUpdateRate"])
+    {
+        [self initSmcAndDevicesTimer];
+    }
+    else if ([keyPath isEqual:@"configuration.smartSensorsUpdateRate"])
+    {
+        [self initAtaSmartTimer];
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+-(void)awakeFromNib
+{
+    [self initialize];
+    //[self startEngine];
+}
+
+-(void)workspaceDidMountOrUnmount:(id)sender
+{
     [self insertAtaSmartSensors];
 
-    // FANS
-    [self insertSmcFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
-    [self insertSmcFansWithConnection:_smcConnection keys:smcKeys];
+    _ataSmartSensors = nil;
 
-    // Insert additional GPU fans from FakeSMCKeyStore
-    [self insertSmcGpuFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
+    [self willChangeValueForKey:@"arrangedItems"];
+    _arrangedItems = nil;
+    [self didChangeValueForKey:@"arrangedItems"];
 
-    if (![self.managedObjectContext save:&error])
-        NSLog(@"saving context on rebuildSensorsList error %@, %@", error, error.userInfo);
+    [self willChangeValueForKey:@"favoriteItems"];
+    _favoriteItems = nil;
+    [self didChangeValueForKey:@"favoriteItems"];
+}
+
+-(void)workspaceWillSleep:(id)sender
+{
+    if (_engineState == kHWMEngineActive) {
+        [self internalStopEngine];
+    }
+}
+
+-(void)workspaceDidWake:(id)sender
+{
+    if (_engineState == kHWMEngineActive) {
+        [self internalStartEngine];
+    }
+}
+
+- (void)willTerminate:(id)sender
+{
+    [self internalStopEngine];
+    [self saveContext];
+
+    if (_smcConnection)
+        SMCClose(_smcConnection);
+
+    if (_fakeSmcConnection)
+        SMCClose(_fakeSmcConnection);
 }
 
 @end

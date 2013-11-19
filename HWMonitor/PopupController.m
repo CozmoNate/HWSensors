@@ -18,6 +18,8 @@
 
 #import "JLNFadingScrollView.h"
 
+#import "HWMEngine.h"
+
 @implementation PopupController
 
 @synthesize statusItem = _statusItem;

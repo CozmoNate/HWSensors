@@ -12,6 +12,7 @@
 @implementation HWMIcon
 
 @dynamic alternate;
+@dynamic favorite;
 @dynamic image;
 
 @end
