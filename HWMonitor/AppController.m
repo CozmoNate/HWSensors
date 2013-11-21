@@ -36,6 +36,7 @@
 
 #import "Localizer.h"
 
+#import "HWMConfiguration.h"
 #import "HWMEngine.h"
 
 @interface AppController (Private)
@@ -511,7 +512,8 @@
 
 - (IBAction)colorThemeChanged:(id)sender
 {
-    [_popupController setColorTheme:[_colorThemes objectAtIndex:[sender selectedRow]]];
+    //[_popupController setColorTheme:[ColorTheme colorThemeByIndex:[sender selectedRow]]];
+    self.monitorEngine.configuration.colorThemeName = [ColorTheme colorThemeByIndex:[sender selectedRow]].name;
 }
 
 -(IBAction)useBigFontChanged:(id)sender

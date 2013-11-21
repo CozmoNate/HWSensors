@@ -10,8 +10,6 @@
 
 @interface BatteryCell : SensorCell
 
-//@property (nonatomic, assign) NSUInteger gaugeLevel;
 @property (nonatomic, strong) NSNumber *gaugeLevel;
-@property (nonatomic, strong) ColorTheme *colorTheme;
 
 @end

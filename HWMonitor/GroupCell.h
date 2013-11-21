@@ -8,11 +8,13 @@
 
 #include "ColorTheme.h"
 
-@interface GroupCell : NSTableCellView
+#include "BasicCell.h"
+
+@class HWMGroup;
+
+@interface GroupCell : BasicCell
 {
     NSGradient *_gradient;
 }
-
-@property (nonatomic, strong) ColorTheme *colorTheme;
 
 @end

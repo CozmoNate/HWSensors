@@ -16,4 +16,6 @@
 @dynamic identifier;
 @dynamic hidden;
 
+@synthesize engine;
+
 @end

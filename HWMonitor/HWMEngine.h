@@ -26,8 +26,9 @@ typedef enum {
 @interface HWMEngine : NSObject
 {
     NSArray *_platformProfile;
-    NSMutableArray *_arrangedItems;
+    NSMutableArray *_availableItems;
     NSMutableArray *_favoriteItems;
+    NSMutableArray *_arrangedItems;
     NSArray *_smcAndDevicesSensors;
     NSArray *_ataSmartSensors;
     io_connect_t _smcConnection;
@@ -46,8 +47,10 @@ typedef enum {
 @property (nonatomic, assign) HWMSensorsUpdateLoopStrategy updateLoopStrategy;
 
 @property (nonatomic, strong) IBOutlet HWMConfiguration * configuration;
-@property (readonly) IBOutlet NSArray * arrangedItems;
+
+@property (readonly) IBOutlet NSArray * availableItems;
 @property (readonly) IBOutlet NSArray * favoriteItems;
+@property (readonly) IBOutlet NSArray * arrangedItems;
 
 +(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
 
@@ -57,5 +60,6 @@ typedef enum {
 -(void)saveContext;
 -(void)updateSmcAndDevicesSensors;
 -(void)updateAtaSmartSensors;
+-(void)needUpdateItemLists;
 
 @end

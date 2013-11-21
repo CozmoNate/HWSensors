@@ -10,6 +10,17 @@
 
 @implementation BatteryCell
 
+-(id)init
+{
+    self = [super init];
+
+    if (self) {
+        [self addObserver:self forKeyPath:@"sensor.value" options:NSKeyValueObservingOptionNew context:nil];
+    }
+
+    return self;
+}
+
 - (void)setGaugeLevel:(NSNumber *)gaugeLevel
 {
     _gaugeLevel = gaugeLevel;
@@ -23,16 +34,16 @@
         
         NSRectFillUsingOperation(self.imageView.bounds, NSCompositeClear);
         
-        [[[self colorTheme].itemTitleColor highlightWithLevel:0.2] setStroke];
+        [[self.colorTheme.itemTitleColor highlightWithLevel:0.2] setStroke];
         
         [[NSBezierPath bezierPathWithRect:NSMakeRect(self.imageView.image.size.width / 2 - self.imageView.image.size.width / 4 / 2, self.imageView.image.size.height - 0.5, self.imageView.image.size.width / 4, 1)] stroke];
         [[NSBezierPath bezierPathWithRoundedRect:NSMakeRect(0.5, 1.5, self.imageView.image.size.width - 1, self.imageView.image.size.height - 3) xRadius:0.0 yRadius:0.0] stroke];
         
         if ([_gaugeLevel integerValue] < 20) {
-            [[[NSColor redColor] shadowWithLevel:[self colorTheme].useDarkIcons ? 0.0 : 0.1] setFill];
+            [[[NSColor redColor] shadowWithLevel:self.colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
         }
         else {
-            [[[NSColor greenColor] shadowWithLevel:[self colorTheme].useDarkIcons ? 0.0 : 0.1] setFill];
+            [[[NSColor greenColor] shadowWithLevel:self.colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
         }
         
         [[NSBezierPath bezierPathWithRect:NSMakeRect(1.75, 2.75, self.imageView.image.size.width - 3.5, (self.imageView.image.size.height - 5.5) * [_gaugeLevel doubleValue]  * 0.01)] fill];
@@ -40,6 +51,14 @@
         [self.imageView.image unlockFocus];
         
         [self.imageView setNeedsDisplay:YES];
+    }
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqual:@"sensor.value"])
+    {
+        [self setGaugeLevel:[self.managedObject value]];
     }
 }
 

@@ -14,7 +14,7 @@
 
 @property (nonatomic, retain) NSNumber * useFahrenheit;
 @property (nonatomic, retain) NSNumber * useBsdDriveNames;
-@property (nonatomic, retain) NSString * colorTheme;
+@property (nonatomic, retain) NSString * colorThemeName;
 @property (nonatomic, retain) NSNumber * smcSensorsUpdateRate;
 @property (nonatomic, retain) NSNumber * smartSensorsUpdateRate;
 @property (nonatomic, retain) NSNumber * useBigFontInMenubar;

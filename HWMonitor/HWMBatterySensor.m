@@ -81,10 +81,10 @@
                                 break;
                         }
 
-                        [devices addObject:@{[NSNumber numberWithUnsignedLongLong:service] : @"service",
-                                             [NSNumber numberWithUnsignedLongLong:type] : @"selector",
-                                             serialNumber : @"serialNumber",
-                                             productName : @"productName"}];
+                        [devices addObject:@{   @"service" : [NSNumber numberWithUnsignedLongLong:service],
+                                                @"selector" : [NSNumber numberWithUnsignedLongLong:type],
+                                                @"serialNumber" : serialNumber,
+                                                @"productName" : productName}];
                     }
 
                     IOObjectRelease(iterator);

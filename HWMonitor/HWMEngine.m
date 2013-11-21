@@ -61,7 +61,7 @@
         NSString *path = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
         NSURL *url= [NSURL fileURLWithPath:[path stringByAppendingPathComponent: @"HWMonitor/Configuration.xml"]];
 
-        if (![_persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:@{ @YES : NSMigratePersistentStoresAutomaticallyOption, @YES : NSInferMappingModelAutomaticallyOption } error:&error]) {
+        if (![_persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:@{ NSMigratePersistentStoresAutomaticallyOption : @YES, NSInferMappingModelAutomaticallyOption : @YES } error:&error]) {
 
             NSLog(@"incompatible managed model, deleting database %@...", url.path);
 
@@ -111,12 +111,12 @@
     _engineState = engineState;
 }
 
--(NSArray *)arrangedItems
+-(NSArray *)availableItems
 {
-    if (!_arrangedItems) {
-        [self willChangeValueForKey:@"arrangedItems"];
+    if (!_availableItems) {
+        [self willChangeValueForKey:@"availableItems"];
 
-        _arrangedItems = [NSMutableArray array];
+        _availableItems = [NSMutableArray array];
 
         // Icons
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Icon"];
@@ -126,15 +126,86 @@
         NSArray *icons = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
         if (error) {
-            NSLog(@"fetch icons in arrangedItems error %@", error);
+            NSLog(@"fetch icons in availableItems error %@", error);
         }
         else {
             NSSortDescriptor *titleDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
-            [_arrangedItems addObjectsFromArray:[icons sortedArrayUsingDescriptors:@[titleDescriptor]]];
+            [_availableItems addObjectsFromArray:[icons sortedArrayUsingDescriptors:@[titleDescriptor]]];
         }
 
         // Sensors and groups
         fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Group"];
+
+        NSArray *groups = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+        if (error) {
+            NSLog(@"fetch groups in availableItems error %@", error);
+        }
+        else {
+            NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+
+            groups = [groups sortedArrayUsingDescriptors:@[orderDescriptor]];
+
+            for (HWMGroup *group in groups) {
+
+                fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+
+                [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"group == %@", group]];
+
+                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+                if (error) {
+                    NSLog(@"fetch sensors in availableItems error %@", error);
+                }
+                else if (sensors.count) {
+                    [_availableItems addObject:group];
+                    [_availableItems addObjectsFromArray:[sensors sortedArrayUsingDescriptors:@[orderDescriptor]]];
+                }
+            }
+        }
+
+        [self didChangeValueForKey:@"availableItems"];
+    }
+
+    return _availableItems;
+}
+
+-(NSArray *)favoriteItems
+{
+    if (!_favoriteItems) {
+        [self willChangeValueForKey:@"favoriteItems"];
+
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
+
+        NSError *error;
+
+        NSArray *favorites = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+        if (error) {
+            NSLog(@"fetch favorite items in favoriteItems error %@", error);
+        }
+        else {
+            NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+            [_availableItems addObjectsFromArray:[favorites sortedArrayUsingDescriptors:@[orderDescriptor]]];
+        }
+
+        [self didChangeValueForKey:@"favoriteItems"];
+    }
+
+    return _favoriteItems;
+}
+
+-(NSArray *)arrangedItems
+{
+    if (!_arrangedItems) {
+        [self willChangeValueForKey:@"arrangedItems"];
+
+        _arrangedItems = [NSMutableArray array];
+
+        // Sensors and groups
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Group"];
+
+        NSError *error;
 
         NSArray *groups = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
@@ -155,7 +226,7 @@
                 NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
                 if (error) {
-                    NSLog(@"fetch sensors in arrangedItems error %@", error);
+                    NSLog(@"fetch sensors in availableItems error %@", error);
                 }
                 else if (sensors.count) {
                     [_arrangedItems addObject:group];
@@ -163,36 +234,11 @@
                 }
             }
         }
-
+        
         [self didChangeValueForKey:@"arrangedItems"];
     }
-
+    
     return _arrangedItems;
-}
-
--(NSArray *)favoriteItems
-{
-    if (!_favoriteItems) {
-        [self willChangeValueForKey:@"favoriteItems"];
-
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
-
-        NSError *error;
-
-        NSArray *favorites = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-        if (error) {
-            NSLog(@"fetch favorite items in favoriteItems error %@", error);
-        }
-        else {
-            NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
-            [_arrangedItems addObjectsFromArray:[favorites sortedArrayUsingDescriptors:@[orderDescriptor]]];
-        }
-
-        [self didChangeValueForKey:@"favoriteItems"];
-    }
-
-    return _favoriteItems;
 }
 
 #pragma mark
@@ -446,7 +492,7 @@
     [group setSelector:[NSNumber numberWithInteger:selector]];
     [group setIdentifier:@"Group"];
 
-    //[group setEngine:self];
+    [group setEngine:self];
 
     return group;
 }
@@ -674,17 +720,26 @@
     if (![self.managedObjectContext save:&error])
         NSLog(@"saving context on rebuildSensorsList error %@", error);
 
-    [self willChangeValueForKey:@"arrangedItems"];
-    _arrangedItems = nil;
-    [self didChangeValueForKey:@"arrangedItems"];
+    [self needUpdateItemLists];
+
+    if (_engineState == kHWMEngineActive) {
+        [self internalStartEngine];
+    }
+}
+
+-(void)needUpdateItemLists
+{
+    [self willChangeValueForKey:@"availableItems"];
+    _availableItems = nil;
+    [self didChangeValueForKey:@"availableItems"];
 
     [self willChangeValueForKey:@"favoriteItems"];
     _favoriteItems = nil;
     [self willChangeValueForKey:@"favoriteItems"];
 
-    if (_engineState == kHWMEngineActive) {
-        [self internalStartEngine];
-    }
+    [self willChangeValueForKey:@"arrangedItems"];
+    _arrangedItems = nil;
+    [self didChangeValueForKey:@"arrangedItems"];
 }
 
 -(void)startEngine
@@ -950,12 +1005,12 @@
 
     if (sensor.value) {
         [sensor setName:name];
-        [sensor setProductName:[attributes objectForKey:@"productName"]];
+        [sensor setTitle:[attributes objectForKey:@"productName"]];
         [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
         [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
         [sensor setSerialNumber:[attributes objectForKey:@"serialNumber"]];
         [sensor setRotational:[attributes objectForKey:@"rotational"]];
-        [sensor setIdentifier:@"Sensor"];
+        [sensor setIdentifier:@"Drive"];
 
         [sensor setEngine:self];
 
@@ -1063,8 +1118,17 @@
                     if ([caption length] == 0)
                         caption = [[NSString alloc] initWithFormat:GetLocalizedString(@"Fan %X"),i + 1];
 
-                    if (![caption hasPrefix:@"GPU "])
-                        [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:caption selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
+                    if (![caption hasPrefix:@"GPU "]) {
+
+                        key = [[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i];
+
+                        if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
+
+                            type = [NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding];
+
+                            [self insertSmcFanWithConnection:connection name:key type:type title:caption selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
+                        }
+                    }
                 }
                 else if ([type isEqualToString:@TYPE_FDS]) {
                     FanTypeDescStruct *fds = (FanTypeDescStruct*)[value bytes];
@@ -1082,7 +1146,15 @@
                                 break;
 
                             default:
-                                [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:caption selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
+                                key = [[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i];
+
+                                if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
+
+                                    type = [NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding];
+
+                                    [self insertSmcFanWithConnection:connection name:key type:type title:caption selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
+                                }
+
                                 break;
                         }
                     }
@@ -1116,7 +1188,15 @@
                     if ([caption hasPrefix:@"GPU "]) {
                         UInt8 cardIndex = [[caption substringFromIndex:4] intValue] - 1;
                         NSString *title = cardIndex == 0 ? GetLocalizedString(@"GPU Fan") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X Fan"), cardIndex + 1];
-                        [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
+
+                        key = [[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i];
+
+                        if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
+
+                            type = [NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding];
+
+                            [self insertSmcFanWithConnection:connection name:key type:type title:title selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
+                        }
                     }
                 }
                 else if ([type isEqualToString:@TYPE_FDS]) {
@@ -1125,13 +1205,31 @@
                     switch (fds->type) {
                         case GPU_FAN_RPM: {
                             NSString *title = fds->ui8Zone == 0 ? GetLocalizedString(@"GPU Fan") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X Fan"), fds->ui8Zone + 1];
-                            [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
+
+                            key = [[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i];
+
+                            if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
+
+                                type = [NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding];
+
+                                [self insertSmcFanWithConnection:connection name:key type:type title:title selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
+                            }
+
                             break;
                         }
 
                         case GPU_FAN_PWM_CYCLE: {
                             NSString *title = fds->ui8Zone == 0 ? GetLocalizedString(@"GPU PWM") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X PWM"), fds->ui8Zone + 1];
-                            [self insertSmcFanWithConnection:connection name:[[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i] type:type title:title selector:kHWMGroupPWM group:group nextOrder:&nextOrderValue];
+
+                            key = [[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i];
+
+                            if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
+
+                                type = [NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding];
+
+                                [self insertSmcFanWithConnection:connection name:key type:type title:title selector:kHWMGroupPWM group:group nextOrder:&nextOrderValue];
+                            }
+
                             break;
                         }
                     }
@@ -1236,9 +1334,6 @@
     {
         [self initAtaSmartTimer];
     }
-    else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
 }
 
 -(void)awakeFromNib
@@ -1253,9 +1348,9 @@
 
     _ataSmartSensors = nil;
 
-    [self willChangeValueForKey:@"arrangedItems"];
-    _arrangedItems = nil;
-    [self didChangeValueForKey:@"arrangedItems"];
+    [self willChangeValueForKey:@"availableItems"];
+    _availableItems = nil;
+    [self didChangeValueForKey:@"availableItems"];
 
     [self willChangeValueForKey:@"favoriteItems"];
     _favoriteItems = nil;

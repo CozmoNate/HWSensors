@@ -8,7 +8,7 @@
 
 #import "ATASensorCell.h"
 #import "NSPopover+Message.h"
-#import "FadingButton.h"
+#import "HWMAtaSmartSensor.h"
 
 static NSMutableDictionary *smartctl_output = nil;
 static NSMutableDictionary *smartctl_updated = nil;
@@ -17,7 +17,6 @@ static NSMutableDictionary *smartctl_updated = nil;
 
 -(NSString *)smartOutput
 {
-    if (_genericDrive) {
         if (!smartctl_output) {
             smartctl_output = [[NSMutableDictionary alloc] init];
         }
@@ -25,15 +24,16 @@ static NSMutableDictionary *smartctl_updated = nil;
         if (!smartctl_updated) {
             smartctl_updated = [[NSMutableDictionary alloc] init];
         }
-        
-        NSString *output = (NSString *)[smartctl_output objectForKey:_genericDrive.bsdName];
-        NSDate *updated = (NSDate *)[smartctl_updated objectForKey:_genericDrive.bsdName];
+
+    NSString *bsdName = [(HWMAtaSmartSensor*)self.managedObject bsdName];
+        NSString *output = (NSString *)[smartctl_output objectForKey:bsdName];
+        NSDate *updated = (NSDate *)[smartctl_updated objectForKey:bsdName];
         
         if (!output || !updated || [updated timeIntervalSinceNow] < -(60 * 10)) {
             NSTask *task = [[NSTask alloc] init];
             
             [task setLaunchPath: [[NSBundle mainBundle] pathForResource:@"smartctl" ofType:@""]];
-            [task setArguments:[NSArray arrayWithObjects: @"-s", @"on", @"-A", _genericDrive.bsdName, nil]];
+            [task setArguments:[NSArray arrayWithObjects: @"-s", @"on", @"-A", bsdName, nil]];
             
             NSPipe *pipe = [NSPipe pipe];
             
@@ -49,14 +49,11 @@ static NSMutableDictionary *smartctl_updated = nil;
             
             updated = [NSDate dateWithTimeIntervalSinceNow:0.0];
             
-            [smartctl_output setObject:output forKey:_genericDrive.bsdName];
-            [smartctl_updated setObject:updated forKey:_genericDrive.bsdName];
+            [smartctl_output setObject:output forKey:bsdName];
+            [smartctl_updated setObject:updated forKey:bsdName];
         }
         
         return output;
-    }
-    
-    return nil;
 }
 
 - (void)showSmartOutput:(id)sender
@@ -83,7 +80,7 @@ static NSMutableDictionary *smartctl_updated = nil;
         [self removeTrackingRect:_trackingRectTag];
     }
 
-   _trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:(__bridge void *)(_genericDrive) assumeInside:YES];
+   _trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:nil assumeInside:YES];
 }
 
 -(void)mouseEntered:(NSEvent *)theEvent

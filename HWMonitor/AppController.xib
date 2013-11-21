@@ -304,31 +304,22 @@
                                             </buttonCell>
                                             <cells>
                                                 <column>
-                                                    <buttonCell type="radio" title="Default" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="335">
+                                                    <buttonCell type="radio" title="Default" imagePosition="left" alignment="left" state="on" identifier="Default" tag="1" inset="2" id="335">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
-                                                        <connections>
-                                                            <action selector="colorThemeChanged:" target="-2" id="523"/>
-                                                        </connections>
                                                     </buttonCell>
-                                                    <buttonCell type="radio" title="Gray" imagePosition="left" alignment="left" inset="2" id="334">
+                                                    <buttonCell type="radio" title="Gray" imagePosition="left" alignment="left" identifier="Gray" inset="2" id="334">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
-                                                        <connections>
-                                                            <action selector="colorThemeChanged:" target="-2" id="524"/>
-                                                        </connections>
                                                     </buttonCell>
-                                                    <buttonCell type="radio" title="Dark" imagePosition="left" alignment="left" inset="2" id="333">
+                                                    <buttonCell type="radio" title="Dark" imagePosition="left" alignment="left" identifier="Dark" inset="2" id="333">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
-                                                        <connections>
-                                                            <action selector="colorThemeChanged:" target="-2" id="525"/>
-                                                        </connections>
                                                     </buttonCell>
                                                 </column>
                                             </cells>
                                             <connections>
-                                                <binding destination="263" name="selectedIndex" keyPath="values.colorThemeIndex" id="499"/>
+                                                <action selector="colorThemeChanged:" target="-2" id="0WZ-kK-qjt"/>
                                             </connections>
                                         </matrix>
                                         <splitView autosaveName="PrefsWindowSensorsSplit" translatesAutoresizingMaskIntoConstraints="NO" id="292">
@@ -862,7 +853,6 @@
                 <bool key="localizesFormat" value="YES"/>
             </metadata>
         </numberFormatter>
-        <objectController id="Y2Y-iS-Z4z"/>
     </objects>
     <resources>
         <image name="04-eye" width="20" height="13"/>

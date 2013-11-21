@@ -33,5 +33,6 @@
 
 + (NSArray*)createColorThemes;
 + (ColorTheme*)colorThemeByName:(NSString*)name;
++ (ColorTheme*)colorThemeByIndex:(NSUInteger)index;
 
 @end

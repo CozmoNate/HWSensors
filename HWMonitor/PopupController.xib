@@ -51,10 +51,10 @@
                                     <action selector="detachFromMenuBar:" target="3" id="1445"/>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1727" id="2641">
                                         <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
@@ -158,6 +158,13 @@
                                                                 <constraint firstAttribute="height" constant="17" id="70"/>
                                                             </constraints>
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="71"/>
+                                                            <connections>
+                                                                <binding destination="60" name="value" keyPath="managedObject.icon" id="qFf-ro-LAY">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSValueTransformerName">HWMImageTransformer</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="66">
                                                             <rect key="frame" x="27" y="3" width="177" height="13"/>
@@ -167,6 +174,9 @@
                                                                 <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="60" name="value" keyPath="managedObject.title" id="svV-1v-yWl"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -193,6 +203,16 @@
                                                                 <color key="textColor" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="57" name="value" keyPath="managedObject.legend" id="GEt-RA-IeW">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSNotApplicablePlaceholder">-</string>
+                                                                        <string key="NSNoSelectionPlaceholder">-</string>
+                                                                        <string key="NSNullPlaceholder">-</string>
+                                                                        <string key="NSMultipleValuesPlaceholder">-</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
                                                         </textField>
                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="107">
                                                             <rect key="frame" x="154" y="11" width="58" height="15"/>
@@ -205,6 +225,16 @@
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="57" name="value" keyPath="managedObject.formattedValue" id="wfi-wF-H0L">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSNotApplicablePlaceholder">-</string>
+                                                                        <string key="NSNoSelectionPlaceholder">-</string>
+                                                                        <string key="NSNullPlaceholder">-</string>
+                                                                        <string key="NSMultipleValuesPlaceholder">-</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
                                                         </textField>
                                                         <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="108">
                                                             <rect key="frame" x="10" y="11" width="142" height="15"/>
@@ -214,6 +244,9 @@
                                                                 <color key="textColor" white="0.14900775550000001" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="57" name="value" keyPath="managedObject.title" id="OsU-gy-B1Q"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -244,6 +277,9 @@
                                                                 <color key="textColor" white="0.14900775550000001" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="2827" name="value" keyPath="managedObject.title" id="IPI-Iy-ulv"/>
+                                                            </connections>
                                                         </textField>
                                                         <textField hidden="YES" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="2830" userLabel="Subtitle Field - Subtitle">
                                                             <rect key="frame" x="10" y="1" width="202" height="11"/>
@@ -253,6 +289,16 @@
                                                                 <color key="textColor" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="2827" name="value" keyPath="managedObject.legend" id="5Pf-C4-EY7">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSNotApplicablePlaceholder">-</string>
+                                                                        <string key="NSNoSelectionPlaceholder">-</string>
+                                                                        <string key="NSNullPlaceholder">-</string>
+                                                                        <string key="NSMultipleValuesPlaceholder">-</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
                                                         </textField>
                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2829" userLabel="Value Field - 9999об/м">
                                                             <rect key="frame" x="154" y="11" width="58" height="15"/>
@@ -265,6 +311,16 @@
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="2827" name="value" keyPath="managedObject.formattedValue" id="wPH-38-rZ1">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSNotApplicablePlaceholder">-</string>
+                                                                        <string key="NSNoSelectionPlaceholder">-</string>
+                                                                        <string key="NSNullPlaceholder">-</string>
+                                                                        <string key="NSMultipleValuesPlaceholder">-</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -295,6 +351,9 @@
                                                                 <color key="textColor" white="0.14900775550000001" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="59" name="value" keyPath="managedObject.title" id="erQ-Xh-ajn"/>
+                                                            </connections>
                                                         </textField>
                                                         <imageView translatesAutoresizingMaskIntoConstraints="NO" id="83">
                                                             <rect key="frame" x="203" y="12" width="6" height="13"/>
@@ -313,6 +372,16 @@
                                                                 <color key="textColor" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="59" name="value" keyPath="managedObject.legend" id="nBS-xn-pfI">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSNotApplicablePlaceholder">-</string>
+                                                                        <string key="NSNoSelectionPlaceholder">-</string>
+                                                                        <string key="NSNullPlaceholder">-</string>
+                                                                        <string key="NSMultipleValuesPlaceholder">-</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
                                                         </textField>
                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="85">
                                                             <rect key="frame" x="163" y="11" width="35" height="15"/>
@@ -325,6 +394,16 @@
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="59" name="value" keyPath="managedObject.formattedValue" id="YT7-Us-nW7">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSNotApplicablePlaceholder">-</string>
+                                                                        <string key="NSNoSelectionPlaceholder">-</string>
+                                                                        <string key="NSNullPlaceholder">-</string>
+                                                                        <string key="NSMultipleValuesPlaceholder">-</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -427,10 +506,10 @@
                         <action selector="orderOut:" target="3" id="1151"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2507">
                             <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>

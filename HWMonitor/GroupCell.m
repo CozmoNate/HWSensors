@@ -7,22 +7,23 @@
 //
 
 #import "GroupCell.h"
+#import "HWMGroup.h"
 
 @implementation GroupCell
 
 -(void)setColorTheme:(ColorTheme *)colorTheme
 {
-    _colorTheme = colorTheme;
+    [super setColorTheme:colorTheme];
     
-    _gradient = [[NSGradient alloc] initWithStartingColor:_colorTheme.groupStartColor
-                                              endingColor:_colorTheme.groupEndColor];
+    _gradient = [[NSGradient alloc] initWithStartingColor:self.colorTheme.groupStartColor
+                                              endingColor:self.colorTheme.groupEndColor];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
     if (!_gradient) {
-        _gradient = [[NSGradient alloc] initWithStartingColor:_colorTheme.groupStartColor
-                                                  endingColor:_colorTheme.groupEndColor];
+        _gradient = [[NSGradient alloc] initWithStartingColor:self.colorTheme.groupStartColor
+                                                  endingColor:self.colorTheme.groupEndColor];
     }
     
     NSRect contentRect = [self bounds];

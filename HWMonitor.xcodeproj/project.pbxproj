@@ -48,6 +48,7 @@
 		7E9060F517089A7100BF5BBF /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493F16D8EA95002231B2 /* smc.c */; };
 		7E9060F617089A8000BF5BBF /* HWMonitorSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493E16D8EA95002231B2 /* HWMonitorSensor.m */; };
 		7E9060F917089C0B00BF5BBF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
+		7E93E29B183D3CAB00957EDF /* BasicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E93E29A183D3CAB00957EDF /* BasicCell.m */; };
 		7E9A17CA17E451F3003DB018 /* smartctl in Resources */ = {isa = PBXBuildFile; fileRef = 7E9A17C917E451F3003DB018 /* smartctl */; };
 		7E9A17CD17E4529C003DB018 /* ATASensorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A17CC17E4529C003DB018 /* ATASensorCell.m */; };
 		7E9A17D017E45938003DB018 /* NSPopover+Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A17CF17E45938003DB018 /* NSPopover+Message.m */; };
@@ -221,6 +222,8 @@
 		7E9060E71708951800BF5BBF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7E9060EA1708951800BF5BBF /* smcutil-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "smcutil-Prefix.pch"; sourceTree = "<group>"; };
 		7E9060EB1708951800BF5BBF /* smcutil.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = smcutil.1; sourceTree = "<group>"; };
+		7E93E299183D3CAB00957EDF /* BasicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicCell.h; sourceTree = "<group>"; };
+		7E93E29A183D3CAB00957EDF /* BasicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicCell.m; sourceTree = "<group>"; };
 		7E9A17C917E451F3003DB018 /* smartctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = smartctl; sourceTree = "<group>"; };
 		7E9A17CB17E4529C003DB018 /* ATASensorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATASensorCell.h; sourceTree = "<group>"; };
 		7E9A17CC17E4529C003DB018 /* ATASensorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATASensorCell.m; sourceTree = "<group>"; };
@@ -492,6 +495,8 @@
 		7E39415716DBEA13005A685D /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				7E93E299183D3CAB00957EDF /* BasicCell.h */,
+				7E93E29A183D3CAB00957EDF /* BasicCell.m */,
 				7EDA1A7316D903740012A0DC /* GroupCell.h */,
 				7EDA1A7416D903740012A0DC /* GroupCell.m */,
 				7EDA1A7516D903740012A0DC /* SensorCell.h */,
@@ -1041,6 +1046,7 @@
 				7EFE61B7183581090009BD0D /* HWMSensor.m in Sources */,
 				7EA2494416D8EA95002231B2 /* smc.c in Sources */,
 				7E0200B218035D3700520CF7 /* RFOverlayScrollView.m in Sources */,
+				7E93E29B183D3CAB00957EDF /* BasicCell.m in Sources */,
 				7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */,
 				7EA2495416D8EE45002231B2 /* HWMonitorGroup.m in Sources */,
 				7EA2495516D8EE45002231B2 /* HWMonitorItem.m in Sources */,

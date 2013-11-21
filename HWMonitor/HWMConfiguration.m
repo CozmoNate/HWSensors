@@ -13,7 +13,7 @@
 
 @dynamic useFahrenheit;
 @dynamic useBsdDriveNames;
-@dynamic colorTheme;
+@dynamic colorThemeName;
 @dynamic smcSensorsUpdateRate;
 @dynamic smartSensorsUpdateRate;
 @dynamic useBigFontInMenubar;

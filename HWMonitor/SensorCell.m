@@ -20,11 +20,11 @@
 
 -(void)setColorTheme:(ColorTheme *)colorTheme
 {
-    _colorTheme = colorTheme;
+    [super setColorTheme:colorTheme];
     
-    [[self textField] setTextColor:_colorTheme.itemTitleColor];
-    [[self subtitleField] setTextColor:_colorTheme.itemSubTitleColor];
-    [[self valueField] setTextColor:_colorTheme.itemValueTitleColor];
+    [[self textField] setTextColor:self.colorTheme.itemTitleColor];
+    [[self subtitleField] setTextColor:self.colorTheme.itemSubTitleColor];
+    [[self valueField] setTextColor:self.colorTheme.itemValueTitleColor];
 }
 
 @end

@@ -3,7 +3,6 @@
     <entity name="AtaSmartSensor" representedClassName="HWMAtaSmartSensor" parentEntity="Sensor" syncable="YES">
         <attribute name="bsdName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="exceeded" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="productName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="rotational" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="serialNumber" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="service" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>

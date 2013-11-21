@@ -6,16 +6,13 @@
 //
 //
 
-#include "ColorTheme.h"
+#import "ColorTheme.h"
+#import "BasicCell.h"
 
-@interface SensorCell : NSTableCellView
+@interface SensorCell : BasicCell
 
 @property (assign) IBOutlet NSTextField *subtitleField;
 @property (assign) IBOutlet NSTextField *valueField;
 @property (assign) IBOutlet NSButton *checkBox;
-
-@property (nonatomic, strong) ColorTheme *colorTheme;
-
-//@property (nonatomic, strong) id representedObject;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "SensorCell.h"
-#import "ATAGenericDrive.h"
 
 @interface ATASensorCell : SensorCell
 {
@@ -17,7 +16,6 @@
 }
 
 @property (nonatomic, readonly) NSString *smartOutput;
-@property (strong) ATAGenericDrive *genericDrive;
 
 - (IBAction)showSmartOutput:(id)sender;
 
