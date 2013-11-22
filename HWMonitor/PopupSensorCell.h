@@ -6,10 +6,9 @@
 //
 //
 
-#import "ColorTheme.h"
-#import "BasicCell.h"
+#import "PopupBasicCell.h"
 
-@interface SensorCell : BasicCell
+@interface PopupSensorCell : PopupBasicCell
 
 @property (assign) IBOutlet NSTextField *subtitleField;
 @property (assign) IBOutlet NSTextField *valueField;

@@ -1,0 +1,25 @@
+//
+//  HWMonitorSensorCell.m
+//  HWSensors
+//
+//  Created by kozlek on 22.02.13.
+//
+//
+
+#import "PopupSensorCell.h"
+#import "HWMColorTheme.h"
+#import "HWMConfiguration.h"
+#import "HWMEngine.h"
+#import "HWMItem.h"
+
+@implementation PopupSensorCell
+
+
+-(void)colorThemeHasChanged:(HWMColorTheme *)newColorTheme
+{
+    [self.textField setTextColor:newColorTheme.itemTitleColor];
+    [self.subtitleField setTextColor:newColorTheme.itemTitleColor/*itemSubTitleColor*/];
+    [self.valueField setTextColor:newColorTheme.itemValueTitleColor];
+}
+
+@end

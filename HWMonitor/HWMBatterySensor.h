@@ -21,7 +21,6 @@
 @property (nonatomic, retain) NSString * productName;
 @property (nonatomic, retain) NSString * serialNumber;
 @property (nonatomic, retain) NSNumber * selector;
-@property (nonatomic, retain) NSNumber * service;
 
 +(NSArray*)discoverDevices;
 

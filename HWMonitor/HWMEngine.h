@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    kHWMEngineIdle = 0,
-    kHWMEngineActive,
+    kHWMEngineStateIdle = 0,
+    kHWMEngineStateActive,
 } HWMEngineState;
 
 typedef enum {
@@ -19,8 +19,7 @@ typedef enum {
     kHWMSensorsUpdateLoopOnlyFavorites
 } HWMSensorsUpdateLoopStrategy;
 
-
-@class ColorTheme;
+@class HWMColorTheme;
 @class HWMConfiguration;
 
 @interface HWMEngine : NSObject
@@ -60,6 +59,9 @@ typedef enum {
 -(void)saveContext;
 -(void)updateSmcAndDevicesSensors;
 -(void)updateAtaSmartSensors;
--(void)needUpdateItemLists;
+-(void)setNeedsUpdateLists;
+
+-(HWMColorTheme*)getColorThemeByName:(NSString*)name;
+-(HWMColorTheme*)getColorThemeByIndex:(NSUInteger)index;
 
 @end

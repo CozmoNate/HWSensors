@@ -6,11 +6,10 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import "SensorCell.h"
+#include "PopupSensorCell.h"
 
-@interface ATASensorCell : SensorCell
+@interface PopupAtaSmartSensorCell : PopupSensorCell
 {
-@private
     NSTrackingRectTag _trackingRectTag;
     NSPopover *_popover;
 }

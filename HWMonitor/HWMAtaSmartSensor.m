@@ -7,6 +7,9 @@
 //
 
 #import "HWMAtaSmartSensor.h"
+
+#import "HWMConfiguration.h"
+#import "HWMEngine.h"
 #import "HWMGroup.h"
 
 #include <IOKit/storage/ata/ATASMARTLib.h>
@@ -14,7 +17,6 @@
 
 @implementation HWMAtaSmartSensor
 
-@dynamic service;
 @dynamic productName;
 @dynamic bsdName;
 @dynamic volumeNames;
@@ -102,14 +104,12 @@
                                     CFRelease(bsdNameRef);
                                 }
 
-                                [list addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                 [NSNumber numberWithUnsignedLongLong:service], @"service",
-                                                 name, @"productName",
-                                                 bsdName, @"bsdName",
-                                                 (volumes ? volumes : bsdName), @"volumesNames",
-                                                 serial, @"serialNumber",
-                                                 [NSNumber numberWithBool:medium ? [medium isEqualToString:@"Solid State"] : TRUE], @"rotational",
-                                                 nil]];
+                                [list addObject:@{@"service" : [NSNumber numberWithUnsignedLongLong:service],
+                                                  @"productName": name,
+                                                  @"bsdName" :bsdName,
+                                                  @"volumesNames" : (volumes ? volumes : bsdName) ,
+                                                  @"serialNumber" : serial,
+                                                  @"rotational" : [NSNumber numberWithBool:medium ? [medium isEqualToString:@"Solid State"] : TRUE]}];
 
                             }
                         }
@@ -133,7 +133,7 @@
     return list;
 }
 
--(void)dealloc
+-(void)prepareForDeletion
 {
     IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
 }

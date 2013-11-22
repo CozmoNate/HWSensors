@@ -40,7 +40,6 @@ typedef struct {
     ATASmartVendorSpecificData _smartData;
 }
 
-@property (nonatomic, retain) NSNumber * service;
 @property (nonatomic, retain) NSString * productName;
 @property (nonatomic, retain) NSString * bsdName;
 @property (nonatomic, retain) NSString * volumeNames;

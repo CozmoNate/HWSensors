@@ -14,7 +14,6 @@
 @dynamic productName;
 @dynamic serialNumber;
 @dynamic selector;
-@dynamic service;
 
 + (NSArray*)discoverDevices
 {
@@ -97,7 +96,7 @@
     return devices;
 }
 
--(void)dealloc
+-(void)prepareForDeletion
 {
     IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
 }

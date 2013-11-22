@@ -13,8 +13,6 @@
 
 @implementation HWMSmcSensor
 
-@dynamic connection;
-
 + (int)getIndexOfHexChar:(char)c
 {
 	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
@@ -148,7 +146,7 @@
 {
     SMCVal_t info;
 
-    if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.connection.unsignedLongValue, self.name.UTF8String, &info)) {
+    if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, self.name.UTF8String, &info)) {
 
         NSNumber *value = [NSNumber numberWithFloat:[HWMSmcSensor decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:[self.type cStringUsingEncoding:NSASCIIStringEncoding]]];
 

@@ -6,13 +6,9 @@
 //
 //
 
-#include "ColorTheme.h"
+#import "PopupBasicCell.h"
 
-#include "BasicCell.h"
-
-@class HWMGroup;
-
-@interface GroupCell : BasicCell
+@interface PopupGroupCell : PopupBasicCell
 {
     NSGradient *_gradient;
 }

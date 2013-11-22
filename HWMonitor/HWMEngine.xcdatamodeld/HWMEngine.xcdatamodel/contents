@@ -5,16 +5,31 @@
         <attribute name="exceeded" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="rotational" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="serialNumber" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <attribute name="service" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="volumeNames" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="BatterySensor" representedClassName="HWMBatterySensor" parentEntity="Sensor" syncable="YES">
         <attribute name="productName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="serialNumber" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="service" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="ColorTheme" representedClassName="HWMColorTheme" syncable="YES">
+        <attribute name="groupEndColor" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
+        <attribute name="groupStartColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="groupTitleColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemSubTitleColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemTitleColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemValueTitleColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="listBackgroundColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="listStrokeColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="order" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="toolbarEndColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="toolbarShadowColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="toolbarStartColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="toolbarStrokeColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="toolbarTitleColor" attributeType="Transformable" syncable="YES"/>
+        <attribute name="useDarkIcons" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
     </entity>
     <entity name="Configuration" representedClassName="HWMConfiguration" syncable="YES">
-        <attribute name="colorThemeName" attributeType="String" defaultValueString="Default" syncable="YES"/>
         <attribute name="graphsScaleValue" attributeType="Float" minValueString="1" maxValueString="10" defaultValueString="4" syncable="YES"/>
         <attribute name="graphsWindowAlwaysTopmost" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="showVolumeNames" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -26,13 +41,13 @@
         <attribute name="useFahrenheit" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="useGraphSmoothing" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="useShadowEffectsInMenubar" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <relationship name="colorTheme" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ColorTheme" syncable="YES"/>
     </entity>
     <entity name="Favorite" syncable="YES">
         <attribute name="order" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="Item" syncable="YES"/>
     </entity>
     <entity name="Group" representedClassName="HWMGroup" parentEntity="Item" syncable="YES">
-        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="selector" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="icon" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" syncable="YES"/>
         <relationship name="sensors" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Sensor" inverseName="group" inverseEntity="Sensor" syncable="YES"/>
@@ -40,20 +55,21 @@
     <entity name="Icon" representedClassName="HWMIcon" parentEntity="Item" syncable="YES">
         <attribute name="alternate" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="HWMImageTransformer" syncable="YES"/>
         <attribute name="favorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <attribute name="image" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="HWMImageTransformer" syncable="YES"/>
+        <attribute name="regular" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="HWMImageTransformer" syncable="YES"/>
     </entity>
     <entity name="Item" representedClassName="HWMItem" isAbstract="YES" syncable="YES">
         <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="identifier" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="legend" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Sensor" representedClassName="HWMSensor" isAbstract="YES" parentEntity="Item" syncable="YES">
         <attribute name="favorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="level" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="selector" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="service" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>
         <relationship name="group" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="sensors" inverseEntity="Group" syncable="YES"/>
@@ -61,12 +77,11 @@
     <entity name="SmcFanSensor" representedClassName="HWMSmcFanSensor" parentEntity="SmcSensor" syncable="YES">
         <attribute name="unique" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="SmcSensor" representedClassName="HWMSmcSensor" parentEntity="Sensor" syncable="YES">
-        <attribute name="connection" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-    </entity>
+    <entity name="SmcSensor" representedClassName="HWMSmcSensor" parentEntity="Sensor" syncable="YES"/>
     <elements>
         <element name="AtaSmartSensor" positionX="0" positionY="0" width="0" height="0"/>
         <element name="BatterySensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="ColorTheme" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Configuration" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Favorite" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Group" positionX="0" positionY="0" width="0" height="0"/>

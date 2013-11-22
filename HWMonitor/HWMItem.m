@@ -7,10 +7,12 @@
 //
 
 #import "HWMItem.h"
+#import "HWMEngine.h"
 
 @implementation HWMItem
 
 @dynamic name;
+@dynamic order;
 @dynamic title;
 @dynamic legend;
 @dynamic identifier;

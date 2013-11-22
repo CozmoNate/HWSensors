@@ -39,6 +39,8 @@
 
 #import "JLNFadingScrollView.h"
 
+#import "Localizer.h"
+
 #define GetLocalizedString(key) \
 [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
@@ -132,6 +134,8 @@
 
 -(void)awakeFromNib
 {
+    [Localizer localizeView:self.window];
+
     [self setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseFahrenheitKey]];
     [self setUseSmoothing:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsUseDataSmoothing]];
     [self setBackgroundMonitoring:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsBackgroundMonitor]];

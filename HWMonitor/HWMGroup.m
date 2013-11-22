@@ -10,7 +10,6 @@
 
 @implementation HWMGroup
 
-@dynamic order;
 @dynamic selector;
 @dynamic icon;
 @dynamic sensors;

@@ -17,7 +17,7 @@
 
 @property (nonatomic, retain) NSNumber * favorite;
 @property (nonatomic, retain) NSNumber * level;
-@property (nonatomic, retain) NSNumber * order;
+@property (nonatomic, retain) NSNumber * service;
 @property (nonatomic, retain) NSNumber * selector;
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSNumber * value;
@@ -25,5 +25,6 @@
 @property (nonatomic, retain) HWMGroup * group;
 
 @property (readonly) NSString * formattedValue;
+@property (readonly) BOOL isActive;
 
 @end

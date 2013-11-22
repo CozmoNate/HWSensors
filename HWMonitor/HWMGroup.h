@@ -37,7 +37,6 @@ typedef enum {
 
 @interface HWMGroup : HWMItem
 
-@property (nonatomic, retain) NSNumber * order;
 @property (nonatomic, retain) NSNumber * selector;
 
 @property (nonatomic, retain) HWMIcon *icon;

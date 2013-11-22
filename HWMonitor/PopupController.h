@@ -8,7 +8,6 @@
 #import <Sparkle/SUUpdater.h>
 
 #import "StatusItemView.h"
-#import "ColorTheme.h"
 #import "OBMenuBarWindow.h"
 
 @protocol PopupControllerDelegate <NSObject>
@@ -25,7 +24,6 @@
 {
     BOOL _hasActivePanel;
     NSMutableArray *_items;
-    ColorTheme *_colorTheme;
 }
 
 @property (assign) IBOutlet id <PopupControllerDelegate> delegate;
@@ -36,8 +34,6 @@
 @property (readonly) StatusItemView *statusItemView;
 
 @property (nonatomic, assign) BOOL showVolumeNames;
-
-@property (nonatomic, setter = setColorTheme:) ColorTheme *colorTheme;
 
 @property (assign) IBOutlet NSMenu *mainMenu;
 @property (assign) IBOutlet NSView *toolbarView;
@@ -54,9 +50,5 @@
 - (IBAction)showAboutPanel:(id)sender;
 - (IBAction)openPreferences:(id)sender;
 - (IBAction)showGraphsWindow:(id)sender;
-
-- (void) setupWithGroups:(NSArray*)groups;
-- (void) reloadData;
-- (void) captureValuesOfSensorsInArray:(NSArray*)sensors;
 
 @end

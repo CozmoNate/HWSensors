@@ -11,13 +11,14 @@
 
 #import "HWMonitorDefinitions.h"
 #import "HWMonitorGroup.h"
-#import "GroupCell.h"
-#import "SensorCell.h"
-#import "ATASensorCell.h"
-#import "BatteryCell.h"
+#import "PopupGroupCell.h"
+#import "PopupSensorCell.h"
+#import "PopupAtaSmartSensorCell.h"
+#import "PopupBatteryCell.h"
 
 #import "JLNFadingScrollView.h"
 
+#import "HWMColorTheme.h"
 #import "HWMConfiguration.h"
 #import "HWMEngine.h"
 #import "HWMGroup.h"
@@ -27,15 +28,6 @@
 
 @synthesize statusItem = _statusItem;
 @synthesize statusItemView = _statusItemView;
-
--(void)setColorTheme:(ColorTheme *)colorTheme
-{
-    _colorTheme = colorTheme;
-    
-    [(OBMenuBarWindow*)self.window setColorTheme:colorTheme];
-    [(JLNFadingScrollView *)_scrollView setFadeColor:_colorTheme.listBackgroundColor];
-    [_tableView reloadData];
-}
 
 - (id)init
 {
@@ -61,13 +53,6 @@
     return self;
 }
 
--(void)awakeFromNib
-{
-    [[self statusItemView] setUseBigFont:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseBigStatusMenuFont]];
-    [[self statusItemView] setUseShadowEffect:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseShadowEffect]];
-    [self setShowVolumeNames:[[NSUserDefaults standardUserDefaults] integerForKey:kHWMonitorShowVolumeNames]];
-}
-
 - (void)dealloc
 {
     [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
@@ -82,13 +67,6 @@
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillOpen:)]) {
         [self.delegate popupWillOpen:self];
-    }
-    
-    // Update values
-    for (id item in _items) {
-        if ([item isKindOfClass:[HWMonitorItem class]]) {
-            [self updateValueOfItem:item];
-        }
     }
 
     [self layoutContent:NO orderFront:YES];
@@ -135,8 +113,25 @@
         [self.delegate popupDidClose:self];
     }
 }
+
 #pragma mark -
 #pragma mark Events
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+//    [Localizer localizeView:self.window];
+//    [Localizer localizeView:_toolbarView];
+}
+
+-(void)awakeFromNib
+{
+    [[self statusItemView] setUseBigFont:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseBigStatusMenuFont]];
+    [[self statusItemView] setUseShadowEffect:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseShadowEffect]];
+    [self setShowVolumeNames:[[NSUserDefaults standardUserDefaults] integerForKey:kHWMonitorShowVolumeNames]];
+
+    [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
+    [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+}
 
 - (void)windowDidAttachToStatusBar:(id)sender
 {
@@ -182,12 +177,17 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqual:@"monitorEngine.configuration.colorThemeName"])
-    {
-        ColorTheme *colorTheme = [ColorTheme colorThemeByName:self.monitorEngine.configuration.colorThemeName];
+    if ([keyPath isEqual:@"monitorEngine.configuration.colorTheme"]) {
+        [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
+        [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
 
-        [(OBMenuBarWindow*)self.window setColorTheme:colorTheme];
-        [(JLNFadingScrollView *)_scrollView setFadeColor:colorTheme.listBackgroundColor];
+        [_tableView reloadData];
+    }
+    else if ([keyPath isEqual:@"monitorEngine.arrangedItems"]) {
+
+        [_tableView reloadData];
+        
+        [self layoutContent:YES orderFront:NO];
     }
 }
 
@@ -256,7 +256,7 @@
     
     [Localizer localizeView:menubarWindow];
     [Localizer localizeView:_toolbarView];
-    
+
     // Make main menu font size smaller
     NSFont* font = [NSFont menuFontOfSize:13];
 	NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
@@ -272,9 +272,10 @@
         }
     }
 
-    [self addObserver:self forKeyPath:@"monitorEngine.configuration.colorThemeName" options:NSKeyValueObservingOptionNew context:nil];
-
     [self layoutContent:YES orderFront:NO];
+
+    [self addObserver:self forKeyPath:@"monitorEngine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"monitorEngine.arrangedItems" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void) setupWithGroups:(NSArray*)groups
@@ -357,103 +358,15 @@
     [_statusItemView setNeedsDisplay:YES];
 }
 
--(void)updateValueOfItem:(HWMonitorItem*)item
-{
-    return;
-
-    if ([item isVisible]) {
-        id cell = [_tableView viewAtColumn:0 row:[_items indexOfObject:item] makeIfNecessary:NO];
-        
-        if (cell) {
-            NSColor *valueColor;
-            
-            switch ([item.sensor level]) {
-                    /*case kHWSensorLevelDisabled:
-                     break;
-                     
-                     case kHWSensorLevelNormal:
-                     break;*/
-                    
-                case kHWSensorLevelModerate:
-                    valueColor = [NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f];
-                    break;
-                    
-                case kHWSensorLevelExceeded:
-                    [[cell textField] performSelectorOnMainThread:@selector(setTextColor:)
-                                                        withObject:[NSColor redColor]
-                                                     waitUntilDone:YES];
-
-                case kHWSensorLevelHigh:
-                    valueColor = [NSColor redColor];
-                    break;
-                    
-                default:
-                    valueColor = _colorTheme.itemValueTitleColor;
-                    break;
-            }
-            
-            [[cell valueField] performSelectorOnMainThread:@selector(takeStringValueFrom:)
-                                               withObject:item.sensor
-                                            waitUntilDone:YES];
-
-            if (![[[cell valueField] textColor] isEqualTo:valueColor]) {
-                [[cell valueField] performSelectorOnMainThread:@selector(setTextColor:)
-                                                    withObject:valueColor
-                                                 waitUntilDone:YES];
-            }
-            
-            if ([item.sensor genericDevice] && [[item.sensor genericDevice] isKindOfClass:[GenericBatteryDevice class]]) {
-                //[cell setGaugeLevel:[item.sensor intValue]];
-                [cell performSelectorOnMainThread:@selector(setGaugeLevel:)
-                                                    withObject:[NSNumber numberWithInteger:[item.sensor intValue]]
-                                                 waitUntilDone:YES];
-            }
-        }
-    }
-}
-
--(void)captureValuesOfSensorsInArray:(NSArray *)sensors
-{
-    if ([self.window isVisible]) {
-        for (HWMonitorSensor *sensor in sensors) {
-            [self updateValueOfItem:[sensor representedObject]];
-        }
-    }
-    
-    [_statusItemView setNeedsDisplay:YES];
-}
-
 #pragma mark -
 #pragma mark NSTableView delegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    //return [_items count];
     return _monitorEngine.arrangedItems.count;
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
-{    
-//    id item = [_items objectAtIndex:row];
-//    
-//    if ([item isKindOfClass:[HWMonitorGroup class]]) {
-//        return 19;
-//    }
-//    else if ([item isKindOfClass:[HWMonitorItem class]]) {
-//        HWMonitorSensor *sensor = [item sensor];
-//        
-//        if ((_showVolumeNames &&
-//             sensor.genericDevice &&
-//             [sensor.genericDevice isKindOfClass:[ATAGenericDrive class]]) ||
-//            ([sensor.genericDevice isKindOfClass:[GenericBatteryDevice class]] && [sensor.genericDevice deviceType] != kPrimaryBatteryTypeInternal && [sensor.genericDevice productName])) {
-//            return 27;
-//        }
-//        else {
-//            return 17;
-//        }
-//    }
-////    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
-////        return kHWMonitorToolbarHeight;
-////    }
+{
     HWMItem *item = [_monitorEngine.arrangedItems objectAtIndex:row];
 
     NSUInteger height = [item isKindOfClass:[HWMGroup class]] ? 19 : 17;
@@ -469,82 +382,16 @@
     return NO;
 }
 
+-(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    return [_monitorEngine.arrangedItems objectAtIndex:row];
+}
+
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-//    id item = [_items objectAtIndex:row];
-//
-//    if ([item isKindOfClass:[HWMonitorGroup class]]) {
-//        HWMonitorGroup *group = item;
-//
-//        GroupCell *groupCell = [tableView makeViewWithIdentifier:@"Group" owner:self];
-//
-//        [groupCell setColorTheme:_colorTheme];
-//        [groupCell.textField setStringValue:[group title]];
-//        [groupCell.imageView setObjectValue:_colorTheme.useDarkIcons ? [[group icon] image] : [[group icon] alternateImage]];
-//
-//        return groupCell;
-//    }
-//    else if ([item isKindOfClass:[HWMonitorItem class]]) {
-//        HWMonitorSensor *sensor = [item sensor];
-//
-//        id cell = [tableView makeViewWithIdentifier:[item representation] owner:self];
-//
-//        [cell setColorTheme:_colorTheme];
-//
-//        if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[ATAGenericDrive class]]) {
-//            if ([cell isKindOfClass:[ATASensorCell class]]) {
-//                [(ATASensorCell*)cell setGenericDrive:[sensor genericDevice]];
-//            }
-//
-//            if (_showVolumeNames ) {
-//                [[cell subtitleField] setStringValue:[[sensor genericDevice] volumesNames]];
-//                [[cell subtitleField] setHidden:NO];
-//            }
-//        }
-//        else if ([sensor genericDevice] && [[sensor genericDevice] isKindOfClass:[GenericBatteryDevice class]]) {
-//            // Hide subtitle for internal battery
-//            if ([sensor.genericDevice deviceType] != kPrimaryBatteryTypeInternal &&
-//                [sensor.genericDevice productName]) {
-//                [[cell subtitleField] setStringValue:[[sensor genericDevice] productName]];
-//                [[cell subtitleField] setHidden:NO];
-//            }
-//            else  {
-//                [[cell subtitleField] setHidden:YES];
-//            }
-//
-//            [cell setGaugeLevel:[NSNumber numberWithInteger:[sensor intValue]]];
-//        }
-//        else {
-//            [[cell subtitleField] setHidden:YES];
-//        }
-//
-//        [[cell textField] setStringValue:[sensor title]];
-//        //[[cell valueField] setStringValue:[sensor stringValue]];
-//        [[cell valueField] takeStringValueFrom:sensor];
-//
-//        return cell;
-//    }
-//    //    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Toolbar"]) {
-//    //        NSTableCellView *buttonsCell = [tableView makeViewWithIdentifier:item owner:self];
-//    //
-//    //        [buttonsCell.textField setTextColor:_colorTheme.toolbarTitleColor];
-//    //
-//    //        return buttonsCell;
-//    //    }
-//    else if ([item isKindOfClass:[NSString class]] && [item isEqualToString:@"Dummy"]) {
-//        NSTableCellView *dummyCell = [tableView makeViewWithIdentifier:item owner:self];
-//
-//        [dummyCell.textField setTextColor:_colorTheme.itemTitleColor];
-//
-//        return dummyCell;
-//    }
-
     HWMItem *item = [_monitorEngine.arrangedItems objectAtIndex:row];
 
     id view = [tableView makeViewWithIdentifier:item.identifier owner:self];
-
-    [view setManagedObject:item];
-    [view setColorTheme:_colorTheme];
 
     return view;
 }
@@ -627,34 +474,6 @@
                 _currentItemDragOperation = NSDragOperationNone;
             }
         }
-        
-        /*if (toRow < [_items count]) {
-            
-            if (toRow == fromRow || toRow == fromRow + 1) {
-                _currentItemDragOperation = NSDragOperationNone;
-            }
-            else {
-                id destinationItem = [_items objectAtIndex:toRow];
-                
-                if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
-                    _currentItemDragOperation = NSDragOperationNone;
-                }
-                else {
-                    destinationItem = [_items objectAtIndex:toRow - 1];
-                    
-                    if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
-                        _currentItemDragOperation = NSDragOperationNone;
-                    }
-                }
-            }
-        }
-        else {
-            id destinationItem = [_items objectAtIndex:toRow - 1];
-            
-            if ([destinationItem isKindOfClass:[HWMonitorItem class]] && [(HWMonitorItem*)sourceItem group] != [(HWMonitorItem*)destinationItem group]) {
-                _currentItemDragOperation = NSDragOperationNone;
-            }
-        }*/
     }
     
     return _currentItemDragOperation;
@@ -666,31 +485,30 @@
         return NO;
     }
     
-    /*NSPasteboard* pboard = [info draggingPasteboard];
+    NSPasteboard* pboard = [info draggingPasteboard];
     NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
 
-    HWMonitorItem *sourceItem = [_items objectAtIndex:fromRow];
-    //HWMonitorItem *destinationItem = [_items objectAtIndex:toRow];
-    
-    [_items insertObject:sourceItem atIndex:toRow];
-    [_items removeObjectAtIndex:toRow < fromRow ? fromRow + 1 : fromRow];
-    
-    [_tableView reloadData];
-    
-    // Rebuild and save key index
-    NSMutableDictionary *itemIndex = [[NSMutableDictionary alloc] init];
-    
-    [_items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if ([obj isKindOfClass:[HWMonitorItem class]]) {
-            [itemIndex setObject:[NSNumber numberWithInteger:idx] forKey:[[obj sensor] name]];
-        }
+    HWMSensor *sourceItem = [self.monitorEngine.arrangedItems objectAtIndex:fromRow];
+
+    toRow = toRow > fromRow ? toRow - 1 : toRow;
+
+    [_tableView moveRowAtIndex:fromRow toIndex:toRow];
+
+    NSMutableArray *sensors = [[sourceItem.group.sensors sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]]] mutableCopy];
+
+    NSUInteger offset = [self.monitorEngine.arrangedItems indexOfObject:[sensors objectAtIndex:0]];
+
+    [sensors removeObject:sourceItem];
+    [sensors insertObject:sourceItem atIndex:toRow - offset];
+
+    [sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [obj setOrder:[NSNumber numberWithUnsignedInteger:idx]];
     }];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:itemIndex forKey:kHWMonitorItemIndex];
-    [[NSUserDefaults standardUserDefaults] synchronize];*/
-    
+
+    //[self.monitorEngine setNeedsUpdateLists];
+
     return YES;
 }
 

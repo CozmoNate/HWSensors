@@ -14,6 +14,7 @@
 @interface HWMItem : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSNumber * order;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * legend;
 @property (nonatomic, retain) NSString * identifier;

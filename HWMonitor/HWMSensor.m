@@ -19,12 +19,17 @@ static NSDictionary *gHWMSensorLocalizationCache;
 
 @dynamic favorite;
 @dynamic level;
-@dynamic order;
+@dynamic service;
 @dynamic selector;
 @dynamic type;
 @dynamic value;
 
 @dynamic group;
+
+-(BOOL)isActive
+{
+    return self.service && self.service.unsignedLongLongValue;
+}
 
 -(NSString *)formattedValue
 {

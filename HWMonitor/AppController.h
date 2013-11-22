@@ -31,25 +31,11 @@
 #import "PopupController.h"
 #import "GraphsController.h"
 
-#import "HWMonitorIcon.h"
-#import "HWMonitorEngine.h"
-
 @class HWMEngine;
 
 @interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, NSTokenFieldDelegate>
 {
-    HWMonitorEngine *_engine;
-    NSMutableDictionary *_icons;
     NSMutableArray* _favorites;
-    NSMutableArray *_groups;
-    NSMutableDictionary *_items;
-    NSMutableArray *_ordering;
-
-    NSTimer *_smcSensorsLoopTimer;
-    NSDate *_smcSensorsLastUdated;
-    NSTimer *_smartSensorsloopTimer;
-    NSDate *_smartSensorsLastUdated;
-
     NSArray *_colorThemes;
 }
 
@@ -58,9 +44,6 @@
 @property (assign) IBOutlet PopupController *popupController;
 @property (assign) IBOutlet GraphsController *graphsController;
 @property (assign) IBOutlet SUUpdater *sharedUpdater;
-
-@property (assign) IBOutlet NSTextField *smcUpdateRateTextField;
-@property (assign) IBOutlet NSTextField *smartUpdateRateTextField;
 
 @property (assign) IBOutlet NSTableView *favoritesTableView;
 @property (assign) IBOutlet NSTableView *sensorsTableView;
@@ -71,17 +54,8 @@
 - (IBAction)checkForUpdates:(id)sender;
 
 - (IBAction)favoritesChanged:(id)sender;
-- (IBAction)useFahrenheitChanged:(id)sender;
 - (IBAction)colorThemeChanged:(id)sender;
-- (IBAction)updateRateChanged:(id)sender;
 - (IBAction)toggleSensorVisibility:(id)sender;
-- (IBAction)useBigFontChanged:(id)sender;
-- (IBAction)useShadowEffectChanged:(id)sender;
-- (IBAction)useBSDNamesChanged:(id)sender;
-- (IBAction)showVolumeNamesChanged:(id)sender;
-- (IBAction)toggleGraphSmoothing:(id)sender;
-- (IBAction)graphsBackgroundMonitorChanged:(id)sender;
-- (IBAction)graphsWindowTopmostChanged:(id)sender;
-- (IBAction)graphsScaleChanged:(id)sender;
+
 
 @end

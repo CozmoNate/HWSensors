@@ -8,11 +8,11 @@
 
 #import "HWMIcon.h"
 
-
 @implementation HWMIcon
 
 @dynamic alternate;
 @dynamic favorite;
-@dynamic image;
+@dynamic regular;
+@synthesize image;
 
 @end

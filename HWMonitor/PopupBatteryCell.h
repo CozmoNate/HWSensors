@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#include "SensorCell.h"
+#include "PopupSensorCell.h"
 
-@interface BatteryCell : SensorCell
+@interface PopupBatteryCell : PopupSensorCell
 
 @property (nonatomic, strong) NSNumber *gaugeLevel;
 

@@ -15,6 +15,8 @@
 
 @property (nonatomic, retain) NSImage * alternate;
 @property (nonatomic, retain) NSNumber * favorite;
-@property (nonatomic, retain) NSImage * image;
+@property (nonatomic, retain) NSImage * regular;
+
+@property (nonatomic, strong) NSImage * image;
 
 @end
