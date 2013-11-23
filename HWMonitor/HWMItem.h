@@ -13,6 +13,7 @@
 
 @interface HWMItem : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * favorite;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * order;
 @property (nonatomic, retain) NSString * title;

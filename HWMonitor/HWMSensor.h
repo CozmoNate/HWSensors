@@ -24,7 +24,6 @@ typedef enum {
 
 @interface HWMSensor : HWMItem
 
-@property (nonatomic, retain) NSNumber * favorite;
 @property (nonatomic, retain) NSNumber * level;
 @property (nonatomic, retain) NSNumber * service;
 @property (nonatomic, retain) NSNumber * selector;

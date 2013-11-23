@@ -11,6 +11,7 @@
 
 @implementation HWMItem
 
+@dynamic favorite;
 @dynamic name;
 @dynamic order;
 @dynamic title;

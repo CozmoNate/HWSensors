@@ -17,7 +17,6 @@ static NSDictionary *gHWMSensorLocalizationCache;
 
 @implementation HWMSensor
 
-@dynamic favorite;
 @dynamic level;
 @dynamic service;
 @dynamic selector;

@@ -54,10 +54,10 @@
     </entity>
     <entity name="Icon" representedClassName="HWMIcon" parentEntity="Item" syncable="YES">
         <attribute name="alternate" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="HWMImageTransformer" syncable="YES"/>
-        <attribute name="favorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="regular" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="HWMImageTransformer" syncable="YES"/>
     </entity>
     <entity name="Item" representedClassName="HWMItem" isAbstract="YES" syncable="YES">
+        <attribute name="favorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="identifier" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="legend" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
@@ -66,7 +66,6 @@
         <attribute name="title" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Sensor" representedClassName="HWMSensor" isAbstract="YES" parentEntity="Item" syncable="YES">
-        <attribute name="favorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="level" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="selector" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="service" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>

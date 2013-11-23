@@ -211,7 +211,7 @@
 
                 [[favorites sortedArrayUsingDescriptors:@[orderDescriptor]] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 
-                    HWMFavorite *favorite =  (HWMFavorite *)obj;
+                    HWMFavorite *favorite = (HWMFavorite *)obj;
 
                     if ([favorite.item isKindOfClass:[HWMSensor class]]) {
                         if ([(HWMSensor*)favorite.item isActive]) {
@@ -829,17 +829,25 @@
 -(void)insertItemToFavorites:(HWMItem*)item atIndex:(NSUInteger)index
 {
     if (item && item.managedObjectContext == _managedObjectContext && ([item isKindOfClass:[HWMSensor class]] ? ![self.favoriteItems containsObject:item] : YES)) {
+
         @synchronized (self) {
+
             [self willChangeValueForKey:@"favoriteItems"];
             [_favoriteItems insertObject:item atIndex:index];
             [self didChangeValueForKey:@"favoriteItems"];
 
-            HWMFavorite *favorite = [NSEntityDescription insertNewObjectForEntityForName:@"Favorite" inManagedObjectContext:self.managedObjectContext];
+            HWMFavorite *favorite = [self getFavoriteByItem:item];
 
-            [favorite setOrder:[NSNumber numberWithInteger:[_favoriteItems indexOfObject:item]]];
-            [favorite setItem:item];
+            if (!favorite) {
+                favorite = [NSEntityDescription insertNewObjectForEntityForName:@"Favorite" inManagedObjectContext:self.managedObjectContext];
+
+                [favorite setOrder:[NSNumber numberWithInteger:[_favoriteItems indexOfObject:item]]];
+                [favorite setItem:item];
+            }
 
             [self updateFavoriteOrders];
+
+            [self saveContext];
         }
     }
 }
@@ -855,7 +863,7 @@
 
             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
 
-            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"item == %d", item]];
+            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"item == %@", item]];
 
             NSError *error;
 
@@ -870,6 +878,8 @@
             }
 
             [self updateFavoriteOrders];
+
+            [self saveContext];
         }
     }
 }
@@ -994,6 +1004,24 @@
 
 #pragma mark
 #pragma mark Favorites
+
+-(HWMFavorite*)getFavoriteByItem:(HWMItem*)item
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
+
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"item == %@", item]];
+
+    NSError *error;
+
+    HWMFavorite *favorite = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
+
+    if (error) {
+        NSLog(@"fetch Favorite in getFavoriteByItem error %@", error);
+    }
+
+    return favorite;
+}
+
 
 -(void)updateFavoriteOrders
 {

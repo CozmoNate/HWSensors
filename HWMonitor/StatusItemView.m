@@ -78,10 +78,12 @@
 
         [_statusItem setView:self];
 
-        [self addObserver:self forKeyPath:@"monitorEngine.favoriteItems" options:NSKeyValueObservingOptionNew context:nil];
-        [self addObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar" options:NSKeyValueObservingOptionNew context:nil];
-        [self addObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar" options:NSKeyValueObservingOptionNew context:nil];
-        [self addObserver:self forKeyPath:@"monitorEngine.configuration.smcSensorsUpdateRate" options:NSKeyValueObservingOptionNew context:nil];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self addObserver:self forKeyPath:@"monitorEngine.favoriteItems" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.configuration.smcSensorsUpdateRate" options:NSKeyValueObservingOptionNew context:nil];
+        }];
     }
 
     return self;
@@ -145,8 +147,8 @@
 
                 [[NSGraphicsContext currentContext] saveGraphicsState];
 
-                //if (!_isHighlighted)
-                [_shadow set];
+                if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar)
+                    [_shadow set];
 
                 HWMIcon *icon = (HWMIcon*)object;
 
@@ -259,6 +261,7 @@
 
 #pragma mark -
 #pragma mark Methods
+
 
 -(void)updateLoop
 {
