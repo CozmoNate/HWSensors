@@ -28,7 +28,6 @@
 
 @class GraphsView;
 @class HWMonitorItem;
-@class WindowFilter;
 
 @interface GraphsController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
@@ -36,7 +35,6 @@
     NSMutableArray *_items;
     NSMutableArray *_hiddenItems;
     NSMutableArray *_graphViews;
-    WindowFilter *_windowFilter;
     NSLock  *_itemsLock;
 }
 

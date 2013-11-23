@@ -27,7 +27,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "HWMonitorEngine.h"
+
+@class HWMEngine;
 
 @interface StatusItemView : NSView
 {
@@ -36,20 +37,14 @@
     NSFont *_smallFont;
     NSFont *_bigFont;
     NSShadow *_shadow;
-    
-    NSArray *_favorites;
-    BOOL _useBigFont;
-    BOOL _useShadowEffect;
 }
 
-@property (nonatomic, strong) HWMonitorEngine *engine;
-@property (nonatomic, strong) NSArray *favorites;
+@property (nonatomic, strong) HWMEngine *monitorEngine;
 
 @property (nonatomic, strong) NSImage *image;
 @property (nonatomic, strong) NSImage *alternateImage;
+
 @property (nonatomic, setter = setHighlighted:) BOOL isHighlighted;
-@property (nonatomic, assign) BOOL useBigFont;
-@property (nonatomic, assign) BOOL useShadowEffect;
 
 @property (nonatomic, readonly) NSRect screenRect;
 @property (nonatomic) SEL action;

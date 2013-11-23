@@ -18,7 +18,7 @@
 -(void)colorThemeHasChanged:(HWMColorTheme *)newColorTheme
 {
     [self.textField setTextColor:newColorTheme.itemTitleColor];
-    [self.subtitleField setTextColor:newColorTheme.itemTitleColor/*itemSubTitleColor*/];
+    [self.subtitleField setTextColor:newColorTheme.itemSubTitleColor];
     [self.valueField setTextColor:newColorTheme.itemValueTitleColor];
 }
 

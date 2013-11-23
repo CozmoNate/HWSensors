@@ -157,9 +157,10 @@
     
     // Must be at the end to allow other checks to pass because almost all controls are derived from NSView
     else if ([view isKindOfClass:[NSView class]] && [view subviews]) {
-        [[view subviews] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [self localizeView:obj];
-        }];
+        NSArray *subviews = [[view subviews] copy];
+        for (NSView *view in subviews) {
+            [self localizeView:view];
+        }
     }
     else {
         if ([view respondsToSelector:@selector(setTitle:)]) {

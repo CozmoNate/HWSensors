@@ -86,7 +86,7 @@
         _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         _managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
     }
-    
+
     return _managedObjectContext;
 }
 
@@ -115,66 +115,74 @@
 -(NSArray *)availableItems
 {
     if (!_availableItems) {
-        [self willChangeValueForKey:@"availableItems"];
 
-        _availableItems = [[NSMutableArray alloc] init];
+        @synchronized (self) {
 
-        // Icons
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Icon"];
+            NSMutableArray *items = [[NSMutableArray alloc] init];
 
-        NSError *error;
+            // Icons
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Icon"];
 
-        NSArray *icons = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+            NSError *error;
 
-        if (error) {
-            NSLog(@"fetch icons in availableItems error %@", error);
-        }
-        else {
-            NSSortDescriptor *titleDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
-            [_availableItems addObjectsFromArray:[icons sortedArrayUsingDescriptors:@[titleDescriptor]]];
-        }
+            NSArray *icons = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
-        // Sensors and groups
-        fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Group"];
-
-        NSArray *groups = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-        if (error) {
-            NSLog(@"fetch groups in availableItems error %@", error);
-        }
-        else {
-            NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
-
-            groups = [groups sortedArrayUsingDescriptors:@[orderDescriptor]];
-
-            for (HWMGroup *group in groups) {
-
-                fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
-
-                [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"group == %@", group]];
-
-                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error] ;
-
-                if (error) {
-                    NSLog(@"fetch sensors in availableItems error %@", error);
-                }
-
-                __block NSMutableArray *arrangedSensors = [NSMutableArray array];
-
-                [[sensors sortedArrayUsingDescriptors:@[orderDescriptor]] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    if ([obj isActive]) {
-                        [arrangedSensors addObject:obj];
-                    }
-                }];
-
-                if (arrangedSensors.count) {
-                    [_availableItems addObject:group];
-                    [_availableItems addObjectsFromArray:arrangedSensors];
-                }
+            if (error) {
+                NSLog(@"fetch icons in availableItems error %@", error);
             }
-        }
+            else {
+                NSSortDescriptor *titleDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+                [items addObjectsFromArray:[icons sortedArrayUsingDescriptors:@[titleDescriptor]]];
+            }
 
-        [self didChangeValueForKey:@"availableItems"];
+            // Sensors and groups
+            fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Group"];
+
+            NSArray *groups = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+            if (error) {
+                NSLog(@"fetch groups in availableItems error %@", error);
+            }
+            else {
+                NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+
+
+
+                groups = [groups sortedArrayUsingDescriptors:@[orderDescriptor]];
+
+                for (HWMGroup *group in groups) {
+
+                    fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+
+                    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"group == %@", group]];
+
+                    NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error] ;
+
+                    if (error) {
+                        NSLog(@"fetch sensors in availableItems error %@", error);
+                    }
+
+                    __block NSMutableArray *arrangedSensors = [NSMutableArray array];
+
+                    [[sensors sortedArrayUsingDescriptors:@[orderDescriptor]] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                        if ([obj isActive]) {
+                            [arrangedSensors addObject:obj];
+                        }
+                    }];
+
+                    if (arrangedSensors.count) {
+                        [items addObject:group];
+                        [items addObjectsFromArray:arrangedSensors];
+                    }
+                }
+
+
+            }
+
+            [self willChangeValueForKey:@"availableItems"];
+            _availableItems = [items copy];
+            [self didChangeValueForKey:@"availableItems"];
+        }
     }
 
     return _availableItems;
@@ -182,34 +190,40 @@
 
 -(NSArray *)favoriteItems
 {
+
     if (!_favoriteItems) {
-        [self willChangeValueForKey:@"favoriteItems"];
+        @synchronized (self) {
 
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
 
-        NSError *error;
+            NSError *error;
 
-        NSArray *favorites = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+            NSArray *favorites = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
-        if (error) {
-            NSLog(@"fetch favorite items in favoriteItems error %@", error);
-        }
-        else {
-            NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+            if (error) {
+                NSLog(@"fetch favorite items in favoriteItems error %@", error);
+            }
+            else {
+                NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
 
-            [[favorites sortedArrayUsingDescriptors:@[orderDescriptor]] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if ([obj isKindOfClass:[HWMSensor class]]) {
-                    if ([obj isActive]) {
-                        [_favoriteItems addObject:obj];
+                NSMutableArray *items = [NSMutableArray array];
+
+                [[favorites sortedArrayUsingDescriptors:@[orderDescriptor]] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    if ([obj isKindOfClass:[HWMSensor class]]) {
+                        if ([obj isActive]) {
+                            [items addObject:obj];
+                        }
                     }
-                }
-                else {
-                    [_favoriteItems addObject:obj];
-                }
-            }];
-        }
+                    else {
+                        [items addObject:obj];
+                    }
 
-        [self didChangeValueForKey:@"favoriteItems"];
+                    [self willChangeValueForKey:@"favoriteItems"];
+                    _favoriteItems = [items copy];
+                    [self didChangeValueForKey:@"favoriteItems"];
+                }];
+            }
+        }
     }
 
     return _favoriteItems;
@@ -218,55 +232,60 @@
 -(NSArray *)arrangedItems
 {
     if (!_arrangedItems) {
-        [self willChangeValueForKey:@"arrangedItems"];
+        @synchronized (self) {
 
-        _arrangedItems = [NSMutableArray array];
 
-        // Sensors and groups
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Group"];
 
-        NSError *error;
+            // Sensors and groups
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Group"];
 
-        NSArray *groups = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+            NSError *error;
 
-        if (error) {
-            NSLog(@"fetch groups in arrangedItems error %@", error);
-        }
-        else {
-            NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+            NSArray *groups = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
-            groups = [groups sortedArrayUsingDescriptors:@[orderDescriptor]];
+            if (error) {
+                NSLog(@"fetch groups in arrangedItems error %@", error);
+            }
+            else {
+                NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
 
-            for (HWMGroup *group in groups) {
+                NSMutableArray *items = [NSMutableArray array];
 
-                fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+                groups = [groups sortedArrayUsingDescriptors:@[orderDescriptor]];
 
-                [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"group == %@ AND hidden == 0", group]];
+                for (HWMGroup *group in groups) {
 
-                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error] ;
+                    fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
 
-                if (error) {
-                    NSLog(@"fetch sensors in arrangedItems error %@", error);
-                }
+                    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"group == %@ AND hidden == 0", group]];
 
-                __block NSMutableArray *arrangedSensors = [NSMutableArray array];
+                    NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error] ;
 
-                [[sensors sortedArrayUsingDescriptors:@[orderDescriptor]] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    if ([obj isActive]) {
-                        [arrangedSensors addObject:obj];
+                    if (error) {
+                        NSLog(@"fetch sensors in arrangedItems error %@", error);
                     }
-                }];
 
-                if (arrangedSensors.count) {
-                    [_arrangedItems addObject:group];
-                    [_arrangedItems addObjectsFromArray:arrangedSensors];
+                    __block NSMutableArray *arrangedSensors = [NSMutableArray array];
+
+                    [[sensors sortedArrayUsingDescriptors:@[orderDescriptor]] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                        if ([obj isActive]) {
+                            [arrangedSensors addObject:obj];
+                        }
+                    }];
+
+                    if (arrangedSensors.count) {
+                        [items addObject:group];
+                        [items addObjectsFromArray:arrangedSensors];
+                    }
                 }
+
+                [self willChangeValueForKey:@"arrangedItems"];
+                _arrangedItems = [items copy];
+                [self didChangeValueForKey:@"arrangedItems"];
             }
         }
-        
-        [self didChangeValueForKey:@"arrangedItems"];
     }
-    
+
     return _arrangedItems;
 }
 
@@ -279,6 +298,7 @@
 
     if (self) {
         _bundle = [NSBundle mainBundle];
+        _syncLock = [[NSRecursiveLock alloc] init];
     }
 
     return self;
@@ -305,7 +325,7 @@
 
     if (!_configuration) {
         _configuration = [NSEntityDescription insertNewObjectForEntityForName:@"Configuration" inManagedObjectContext:self.managedObjectContext];
-        
+
         [_configuration setColorTheme:[self getColorThemeByName:@"Default"]];
     }
 
@@ -428,7 +448,7 @@
             _platformProfile = [NSArray arrayWithArray:adoptedProfile];
         }
     }
-    
+
     if (!_platformProfile) {
         NSLog(@"No suitible profile found");
     }
@@ -561,202 +581,211 @@
 
 -(void)updateSmcAndDevicesSensors
 {
-    if (!_smcAndDevicesSensors) {
+    @synchronized (self) {
+        if (!_smcAndDevicesSensors) {
 
-        NSMutableArray *sensors = [NSMutableArray array];
+            NSMutableArray *sensors = [NSMutableArray array];
 
-        NSError *error;
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+            NSError *error;
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
 
-        NSArray *objects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+            NSArray *objects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
-        if (error) {
-            NSLog(@"fetching sensors in updateSmcAndDevicesSensors error %@", error);
-        }
-        else {
-            for (HWMSensor *sensor in objects) {
-                if (![sensor isKindOfClass:[HWMAtaSmartSensor class]]) {
-                    [sensors addObject:sensor];
+            if (error) {
+                NSLog(@"fetching sensors in updateSmcAndDevicesSensors error %@", error);
+            }
+            else {
+                for (HWMSensor *sensor in objects) {
+                    if (![sensor isKindOfClass:[HWMAtaSmartSensor class]]) {
+                        [sensors addObject:sensor];
+                    }
                 }
             }
+
+            _smcAndDevicesSensors = [sensors copy];
         }
 
-        _smcAndDevicesSensors = [sensors copy];
-    }
+        for (id sensor in _smcAndDevicesSensors) {
+            BOOL doUpdate = FALSE;
 
-    for (id sensor in _smcAndDevicesSensors) {
-        BOOL doUpdate = FALSE;
+            switch (_updateLoopStrategy) {
+                case kHWMSensorsUpdateLoopForced:
+                    doUpdate = YES;
+                    break;
 
-        switch (_updateLoopStrategy) {
-            case kHWMSensorsUpdateLoopForced:
-                doUpdate = YES;
-                break;
+                case kHWMSensorsUpdateLoopOnlyFavorites:
+                    doUpdate = [[sensor favorite] boolValue];
+                    break;
 
-            case kHWMSensorsUpdateLoopOnlyFavorites:
-                doUpdate = [[sensor favorite] boolValue];
-                break;
+                case kHWMSensorsUpdateLoopRegular:
+                default:
+                    doUpdate = ![[sensor hidden] boolValue] || [[sensor favorite] boolValue];
+                    break;
+            }
 
-            case kHWMSensorsUpdateLoopRegular:
-            default:
-                doUpdate = ![[sensor hidden] boolValue] || [[sensor favorite] boolValue];
-                break;
-        }
-
-        if (doUpdate) {
-            [sensor doUpdateValue];
+            if (doUpdate) {
+                [sensor doUpdateValue];
+            }
         }
     }
 }
 
 -(void)updateAtaSmartSensors
 {
-    if (!_ataSmartSensors) {
+    @synchronized (self) {
+        if (!_ataSmartSensors) {
 
-        NSError *error;
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
+            NSError *error;
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
 
-        _ataSmartSensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+            _ataSmartSensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
-        if (error) {
-            NSLog(@"fetching sensors in updateAtaSmartSensors error %@", error);
-        }
-    }
-
-    for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
-
-        BOOL doUpdate = FALSE;
-
-        switch (_updateLoopStrategy) {
-            case kHWMSensorsUpdateLoopForced:
-                doUpdate = YES;
-                break;
-
-            case kHWMSensorsUpdateLoopOnlyFavorites:
-                doUpdate = sensor.favorite.boolValue;
-                break;
-
-            case kHWMSensorsUpdateLoopRegular:
-            default:
-                doUpdate = !sensor.hidden.boolValue || sensor.favorite.boolValue;
-                break;
+            if (error) {
+                NSLog(@"fetching sensors in updateAtaSmartSensors error %@", error);
+            }
         }
 
-        if (doUpdate) {
-            [sensor doUpdateValue];
-        }
+        for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
 
+            BOOL doUpdate = FALSE;
+
+            switch (_updateLoopStrategy) {
+                case kHWMSensorsUpdateLoopForced:
+                    doUpdate = YES;
+                    break;
+
+                case kHWMSensorsUpdateLoopOnlyFavorites:
+                    doUpdate = sensor.favorite.boolValue;
+                    break;
+
+                case kHWMSensorsUpdateLoopRegular:
+                default:
+                    doUpdate = !sensor.hidden.boolValue || sensor.favorite.boolValue;
+                    break;
+            }
+
+            if (doUpdate) {
+                [sensor doUpdateValue];
+            }
+
+        }
     }
 }
 
 -(void)rebuildSensorsList
 {
-    if (_engineState == kHWMEngineStateActive) {
-        [self internalStopEngine];
-    }
+    @synchronized (self) {
+        if (_engineState == kHWMEngineStateActive) {
+            [self internalStopEngine];
+        }
 
-    NSError *error;
+        NSError *error;
 
-    // Nulify "service" attribute for all sensors
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
-    
-    NSArray *objects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        // Nulify "service" attribute for all sensors
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
 
-    for (HWMSmcSensor *sensor in objects) {
-        [sensor setService:@0];
-    }
+        NSArray *objects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
-    // SMC
+        for (HWMSmcSensor *sensor in objects) {
+            [sensor setService:@0];
+        }
 
-    // FakeSMCKeyStore is prioritized key source
-    SMCOpen(&_fakeSmcConnection, "FakeSMCKeyStore");
-    NSArray *fakeSmcKeys = [self getSmcKeysFromConnection:_fakeSmcConnection excludedList:nil];
-    if (!fakeSmcKeys || !fakeSmcKeys.count) SMCClose(_fakeSmcConnection);
+        // SMC
 
-    SMCOpen(&_smcConnection, "AppleSMC");
-    NSArray *smcKeys = [self getSmcKeysFromConnection:_smcConnection excludedList:fakeSmcKeys];
-    if (!smcKeys || !smcKeys.count) SMCClose(_smcConnection);
+        // FakeSMCKeyStore is prioritized key source
+        SMCOpen(&_fakeSmcConnection, "FakeSMCKeyStore");
+        NSArray *fakeSmcKeys = [self getSmcKeysFromConnection:_fakeSmcConnection excludedList:nil];
+        if (!fakeSmcKeys || !fakeSmcKeys.count) SMCClose(_fakeSmcConnection);
 
-    [self insertSmcSensorsWithKeys:fakeSmcKeys connection:_fakeSmcConnection];
-    [self insertSmcSensorsWithKeys:smcKeys connection:_smcConnection];
+        SMCOpen(&_smcConnection, "AppleSMC");
+        NSArray *smcKeys = [self getSmcKeysFromConnection:_smcConnection excludedList:fakeSmcKeys];
+        if (!smcKeys || !smcKeys.count) SMCClose(_smcConnection);
 
-    // SMART
+        [self insertSmcSensorsWithKeys:fakeSmcKeys connection:_fakeSmcConnection];
+        [self insertSmcSensorsWithKeys:smcKeys connection:_smcConnection];
 
-    _ataSmartSensors = nil;
+        // SMART
 
-    [self insertAtaSmartSensors];
+        _ataSmartSensors = nil;
 
-    // FANS
-    [self insertSmcFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
-    [self insertSmcFansWithConnection:_smcConnection keys:smcKeys];
+        [self insertAtaSmartSensors];
 
-    // Insert additional GPU fans from FakeSMCKeyStore
-    [self insertSmcGpuFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
+        // FANS
+        [self insertSmcFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
+        [self insertSmcFansWithConnection:_smcConnection keys:smcKeys];
 
-    // BATTERIES
-    [self insertBatterySensors];
+        // Insert additional GPU fans from FakeSMCKeyStore
+        [self insertSmcGpuFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
 
-    // Normalize groups and sensors orders
-    fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Group"];
+        // BATTERIES
+        [self insertBatterySensors];
 
-    __block NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+        // Normalize groups and sensors orders
+        fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Group"];
 
-    [fetchRequest setSortDescriptors:@[orderDescriptor]];
+        __block NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
 
-    NSArray *groups = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        [fetchRequest setSortDescriptors:@[orderDescriptor]];
 
-    if (error) {
-        NSLog(@"fetch groups in rebuildSensorsList error %@", error);
-    }
+        NSArray *groups = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
-    if (groups) {
-        [groups enumerateObjectsUsingBlock:^(id group, NSUInteger group_idx, BOOL *stop) {
+        if (error) {
+            NSLog(@"fetch groups in rebuildSensorsList error %@", error);
+        }
 
-            [group setOrder:[NSNumber numberWithUnsignedInteger:group_idx]];
+        if (groups) {
+            [groups enumerateObjectsUsingBlock:^(id group, NSUInteger group_idx, BOOL *stop) {
 
-            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+                [group setOrder:[NSNumber numberWithUnsignedInteger:group_idx]];
 
-            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"group == %@", group]];
-            [fetchRequest setSortDescriptors:@[orderDescriptor]];
+                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
 
-            NSError *error;
+                [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"group == %@", group]];
+                [fetchRequest setSortDescriptors:@[orderDescriptor]];
 
-            NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+                NSError *error;
 
-            if (error) {
-                NSLog(@"fetch sensors in rebuildSensorsList error %@", error);
-            }
+                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
-            if (sensors) {
-                [sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    [obj setOrder:[NSNumber numberWithUnsignedInteger:idx]];
-                }];
-            }
-        }];
-    }
+                if (error) {
+                    NSLog(@"fetch sensors in rebuildSensorsList error %@", error);
+                }
 
-    if (![self.managedObjectContext save:&error])
-        NSLog(@"saving context on rebuildSensorsList error %@", error);
+                if (sensors) {
+                    [sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                        [obj setOrder:[NSNumber numberWithUnsignedInteger:idx]];
+                    }];
+                }
+            }];
+        }
 
-    [self setNeedsUpdateLists];
+        if (![self.managedObjectContext save:&error])
+            NSLog(@"saving context on rebuildSensorsList error %@", error);
 
-    if (_engineState == kHWMEngineStateActive) {
-        [self internalStartEngine];
+        [self setNeedsUpdateLists];
+
+        if (_engineState == kHWMEngineStateActive) {
+            [self internalStartEngine];
+        }
+
     }
 }
 
 -(void)setNeedsUpdateLists
 {
-    [self willChangeValueForKey:@"availableItems"];
-    _availableItems = nil;
-    [self didChangeValueForKey:@"availableItems"];
+    @synchronized (self) {
+        [self willChangeValueForKey:@"availableItems"];
+        _availableItems = nil;
+        [self didChangeValueForKey:@"availableItems"];
 
-    [self willChangeValueForKey:@"favoriteItems"];
-    _favoriteItems = nil;
-    [self willChangeValueForKey:@"favoriteItems"];
+        [self willChangeValueForKey:@"favoriteItems"];
+        _favoriteItems = nil;
+        [self willChangeValueForKey:@"favoriteItems"];
 
-    [self willChangeValueForKey:@"arrangedItems"];
-    _arrangedItems = nil;
-    [self didChangeValueForKey:@"arrangedItems"];
+        [self willChangeValueForKey:@"arrangedItems"];
+        _arrangedItems = nil;
+        [self didChangeValueForKey:@"arrangedItems"];
+    }
 }
 
 -(void)startEngine
@@ -778,60 +807,62 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (![[change objectForKey:NSKeyValueChangeNewKey] isEqualTo:[change objectForKey:NSKeyValueChangeOldKey]]) {
-        if ([keyPath isEqual:@"configuration.smcSensorsUpdateRate"]) {
+    @synchronized (self) {
+        if (![[change objectForKey:NSKeyValueChangeNewKey] isEqualTo:[change objectForKey:NSKeyValueChangeOldKey]]) {
+            if ([keyPath isEqual:@"configuration.smcSensorsUpdateRate"]) {
 
-            [self initSmcAndDevicesTimer];
+                [self initSmcAndDevicesTimer];
 
-        }
-        else if ([keyPath isEqual:@"configuration.smartSensorsUpdateRate"]) {
-
-            [self initAtaSmartTimer];
-
-        }
-        else if ([keyPath isEqual:@"configuration.showVolumeNames"]) {
-
-            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
-
-            NSError *error;
-
-            NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-            if (error) {
-                NSLog(@"fetch AtaSmartSensors in observeValueForKeyPath error %@", error);
             }
+            else if ([keyPath isEqual:@"configuration.smartSensorsUpdateRate"]) {
 
-            if (sensors) {
-                for (HWMAtaSmartSensor *sensor in sensors) {
-                    [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
+                [self initAtaSmartTimer];
+
+            }
+            else if ([keyPath isEqual:@"configuration.showVolumeNames"]) {
+
+                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
+
+                NSError *error;
+
+                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+                if (error) {
+                    NSLog(@"fetch AtaSmartSensors in observeValueForKeyPath error %@", error);
                 }
-            }
 
-            [self willChangeValueForKey:@"arrangedItems"];
-            [self didChangeValueForKey:@"arrangedItems"];
-
-        }
-        else if ([keyPath isEqual:@"configuration.colorTheme"]) {
-
-            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Icon"];
-
-            NSError *error;
-
-            NSArray *icons = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-            if (error) {
-                NSLog(@"fetch Icon in observeValueForKeyPath error %@", error);
-            }
-
-            if (icons) {
-                for (HWMIcon *icon in icons) {
-                    [icon setImage:_configuration.colorTheme.useDarkIcons.boolValue ? icon.alternate : icon.regular];
+                if (sensors) {
+                    for (HWMAtaSmartSensor *sensor in sensors) {
+                        [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
+                    }
                 }
+
+                [self willChangeValueForKey:@"arrangedItems"];
+                [self didChangeValueForKey:@"arrangedItems"];
+
             }
+            else if ([keyPath isEqual:@"configuration.colorTheme"]) {
 
-            [self willChangeValueForKey:@"arrangedItems"];
-            [self didChangeValueForKey:@"arrangedItems"];
+                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Icon"];
 
+                NSError *error;
+
+                NSArray *icons = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+                if (error) {
+                    NSLog(@"fetch Icon in observeValueForKeyPath error %@", error);
+                }
+
+                if (icons) {
+                    for (HWMIcon *icon in icons) {
+                        [icon setImage:_configuration.colorTheme.useDarkIcons.boolValue ? icon.alternate : icon.regular];
+                    }
+                }
+
+                [self willChangeValueForKey:@"arrangedItems"];
+                [self didChangeValueForKey:@"arrangedItems"];
+
+            }
         }
     }
 }
@@ -974,21 +1005,21 @@
 
 -(void)insertColorThemes
 {
-//    theme.name = @"Default";
-//    theme.toolbarEndColor = [NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.95];
-//    theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.6];
-//    theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-//    theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.3];
-//    theme.toolbarStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
-//    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.95];
-//    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.15 alpha:0.35];
-//    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.95 alpha:0.5];
-//    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.85 alpha:0.5];
-//    theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
-//    theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
-//    theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
-//    theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
-//    theme.useDarkIcons = YES;
+    //    theme.name = @"Default";
+    //    theme.toolbarEndColor = [NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.95];
+    //    theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.6];
+    //    theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
+    //    theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.3];
+    //    theme.toolbarStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
+    //    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.95];
+    //    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.15 alpha:0.35];
+    //    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.95 alpha:0.5];
+    //    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.85 alpha:0.5];
+    //    theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
+    //    theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
+    //    theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
+    //    theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
+    //    theme.useDarkIcons = YES;
 
     NSUInteger order = 0;
 
@@ -1009,21 +1040,21 @@
                       useDarkIcons:NO
                          nextOrder:&order];
 
-//    theme.name = @"Gray";
-//    theme.toolbarEndColor = [NSColor colorWithCalibratedWhite:0.23 alpha:0.95];
-//    theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.55];
-//    theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-//    theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:0.7 alpha:0.3];
-//    theme.toolbarStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.7];
-//    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.95];
-//    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.15 alpha:0.35];
-//    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.95 alpha:0.5];
-//    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.85 alpha:0.5];
-//    theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
-//    theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
-//    theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
-//    theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
-//    theme.useDarkIcons = YES;
+    //    theme.name = @"Gray";
+    //    theme.toolbarEndColor = [NSColor colorWithCalibratedWhite:0.23 alpha:0.95];
+    //    theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.55];
+    //    theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
+    //    theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:0.7 alpha:0.3];
+    //    theme.toolbarStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.7];
+    //    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.95];
+    //    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.15 alpha:0.35];
+    //    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.95 alpha:0.5];
+    //    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.85 alpha:0.5];
+    //    theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.6 alpha:1.0];
+    //    theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
+    //    theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
+    //    theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.0 alpha:1.0];
+    //    theme.useDarkIcons = YES;
 
     [self insertColorThemeWithName:@"Gray"
                      groupEndColor:[NSColor colorWithCalibratedWhite:0.85 alpha:0.5]
@@ -1042,21 +1073,21 @@
                       useDarkIcons:NO
                          nextOrder:&order];
 
-//    theme.name = @"Dark";
-//    theme.toolbarEndColor = [NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.98];
-//    theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.55];
-//    theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
-//    theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.3];
-//    theme.toolbarStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
-//    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.15 alpha:0.95];
-//    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.55];
-//    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.2 alpha:0.5];
-//    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.14 alpha:0.5];
-//    theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
-//    theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.85 alpha:1.0];
-//    theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.65 alpha:1.0];
-//    theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.95 alpha:1.0];
-//    theme.useDarkIcons = NO;
+    //    theme.name = @"Dark";
+    //    theme.toolbarEndColor = [NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.98];
+    //    theme.toolbarStartColor = [theme.toolbarEndColor highlightWithLevel:0.55];
+    //    theme.toolbarTitleColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
+    //    theme.toolbarShadowColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.3];
+    //    theme.toolbarStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
+    //    theme.listBackgroundColor = [NSColor colorWithCalibratedWhite:0.15 alpha:0.95];
+    //    theme.listStrokeColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.55];
+    //    theme.groupStartColor = [NSColor colorWithCalibratedWhite:0.2 alpha:0.5];
+    //    theme.groupEndColor = [NSColor colorWithCalibratedWhite:0.14 alpha:0.5];
+    //    theme.groupTitleColor = [NSColor colorWithCalibratedWhite:0.45 alpha:1.0];
+    //    theme.itemTitleColor = [NSColor colorWithCalibratedWhite:0.85 alpha:1.0];
+    //    theme.itemSubTitleColor = [NSColor colorWithCalibratedWhite:0.65 alpha:1.0];
+    //    theme.itemValueTitleColor = [NSColor colorWithCalibratedWhite:0.95 alpha:1.0];
+    //    theme.useDarkIcons = NO;
 
     [self insertColorThemeWithName:@"Dark"
                      groupEndColor:[NSColor colorWithCalibratedWhite:0.14 alpha:0.5]
@@ -1115,7 +1146,7 @@
     [group setIdentifier:@"Group"];
 
     [group setEngine:self];
-    
+
     return group;
 }
 
@@ -1159,7 +1190,7 @@
             }
         }
     }
-    
+
     return array;
 }
 
@@ -1451,7 +1482,7 @@
     if (![group.sensors containsObject:fan]) {
         [group addSensorsObject:fan];
     }
-    
+
     [fan setEngine:self];
 
     return fan;
@@ -1525,7 +1556,7 @@
         }
     }
 
-    }
+}
 
 - (void)insertSmcGpuFansWithConnection:(io_connect_t)connection keys:(NSArray*)keys
 {
@@ -1571,27 +1602,27 @@
                             key = [[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i];
 
                             if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
-
+                                
                                 type = [NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding];
-
+                                
                                 [self insertSmcFanWithConnection:connection name:key type:type title:title selector:group.selector.unsignedIntegerValue group:group nextOrder:&nextOrderValue];
                             }
-
+                            
                             break;
                         }
-
+                            
                         case GPU_FAN_PWM_CYCLE: {
                             NSString *title = fds->ui8Zone == 0 ? GetLocalizedString(@"GPU PWM") : [NSString stringWithFormat:GetLocalizedString(@"GPU %X PWM"), fds->ui8Zone + 1];
-
+                            
                             key = [[NSString alloc] initWithFormat:@KEY_FORMAT_FAN_SPEED,i];
-
+                            
                             if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
-
+                                
                                 type = [NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding];
-
+                                
                                 [self insertSmcFanWithConnection:connection name:key type:type title:title selector:kHWMGroupPWM group:group nextOrder:&nextOrderValue];
                             }
-
+                            
                             break;
                         }
                     }
@@ -1607,46 +1638,46 @@
 -(HWMBatterySensor*)getBatterySensorByName:(NSString*)name
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BatterySensor"];
-
+    
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
-
+    
     NSError *error;
-
+    
     HWMBatterySensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
-
+    
     if (error) {
         NSLog(@"getBatterySensorByName error %@", error);
     }
-
+    
     return sensor;
 }
 
 -(HWMBatterySensor*)insertBatterySensorFromDictionary:(NSDictionary*)attributes group:(HWMGroup*)group
 {
     NSString *name = [attributes objectForKey:@"serialNumber"];
-
+    
     if (!name || name.length == 0) {
         name = [attributes objectForKey:@"productName"];
     }
-
+    
     HWMBatterySensor *sensor = [self getBatterySensorByName:name];
-
+    
     if (!sensor) {
         sensor = [NSEntityDescription insertNewObjectForEntityForName:@"BatterySensor" inManagedObjectContext:self.managedObjectContext];
-
+        
         NSUInteger nextOrderValue = [self getNextOrderValueForSensorsInGroup:group];
-
+        
         [sensor setOrder:[NSNumber numberWithInteger:nextOrderValue]];
     }
-
+    
     [sensor setService:[attributes objectForKey:@"service"]];
     [sensor setSelector:[attributes objectForKey:@"selector"]];
-
+    
     [sensor doUpdateValue];
-
+    
     if (sensor.value) {
         [sensor setName:name];
-
+        
         switch (sensor.selector.unsignedIntegerValue) {
             case kHWMBatterySensorTypeInternal:
                 [sensor setTitle:GetLocalizedString(@"Internal Battery")];
@@ -1660,17 +1691,17 @@
             case kHWMBatterySensorTypeTrackpad:
                 [sensor setTitle:GetLocalizedString(@"Trackpad")];
                 break;
-
+                
             default:
                 [sensor setTitle:GetLocalizedString(@"Battery")];
                 break;
         }
-
+        
         [sensor setProductName:[attributes objectForKey:@"productName"]];
         [sensor setSerialNumber:[attributes objectForKey:@"serialNumber"]];
-
+        
         [sensor setEngine:self];
-
+        
         if (![group.sensors containsObject:sensor]) {
             [group addSensorsObject:sensor];
         }
@@ -1685,9 +1716,9 @@
 -(void)insertBatterySensors
 {
     HWMGroup *group = [self getGroupBySelector:kHWMGroupBattery];
-
+    
     NSArray *devices = [HWMBatterySensor discoverDevices];
-
+    
     for (id device in devices) {
         [self insertBatterySensorFromDictionary:device group:group];
     }

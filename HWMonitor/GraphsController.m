@@ -145,10 +145,9 @@
 
 -(void)dealloc
 {
-    if (!_windowFilter) {
-        _windowFilter = 0;
-    }
+    //    [self removeObserver:self forKeyPath:@""];
 }
+
 -(void)showWindow:(id)sender
 {
     [_itemsLock lock];

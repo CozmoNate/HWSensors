@@ -15,6 +15,13 @@
 #include <IOKit/storage/ata/ATASMARTLib.h>
 #include <sys/mount.h>
 
+const UInt8 kATASMARTAttributeTemperature = 0xC2;
+const UInt8 kATASMARTAttributeTemperature2 = 0xE7;
+const UInt8 kATASMARTAttributeTemperature3 = 0xBE;
+const UInt8 kATASMARTAttributeEndurance = 0xE8;
+const UInt8 kATASMARTAttributeEndurance2 = 0xE7;
+const UInt8 kATASMARTAttributeUnusedReservedBloks = 0xB4;
+
 @implementation HWMAtaSmartSensor
 
 @dynamic productName;
@@ -213,6 +220,7 @@
 -(NSNumber*)getRemainingLife
 {
     if ([self readSMARTData]) {
+
         ATASMARTAttribute * life = nil;
 
         if ((life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance]) ||

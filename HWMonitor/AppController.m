@@ -61,7 +61,45 @@
 }
 
 #pragma mark
+#pragma mark Overrides:
+
+- (id)init
+{
+    self = [super initWithWindowNibName:@"AppController"];
+
+    if (self != nil)
+    {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self initialSetup];
+        }];
+    }
+
+    return self;
+}
+
+-(void)showWindow:(id)sender
+{
+    [self.monitorEngine setUpdateLoopStrategy:kHWMSensorsUpdateLoopForced];
+    [self.monitorEngine updateSmcAndDevicesSensors];
+    [self.monitorEngine setUpdateLoopStrategy:kHWMSensorsUpdateLoopRegular];
+
+    [NSApp activateIgnoringOtherApps:YES];
+    [super showWindow:sender];
+}
+
+
+#pragma mark
 #pragma mark Methods:
+
+- (void)initialSetup
+{
+    [Localizer localizeView:self.window];
+
+    [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
+    [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
+    [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
+    [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
+}
 
 - (void)rebuildSensorsTableView
 {
@@ -85,47 +123,16 @@
 }
 
 #pragma mark
-#pragma mark Overrides:
-
-- (id)init
-{
-    self = [super initWithWindowNibName:@"AppController"];
-
-    if (self != nil)
-    {
-
-    }
-
-    return self;
-}
-
--(void)showWindow:(id)sender
-{
-    [self.monitorEngine setUpdateLoopStrategy:kHWMSensorsUpdateLoopForced];
-    [self.monitorEngine updateSmcAndDevicesSensors];
-    [self.monitorEngine setUpdateLoopStrategy:kHWMSensorsUpdateLoopRegular];
-
-    [NSApp activateIgnoringOtherApps:YES];
-    [super showWindow:sender];
-}
-
-#pragma mark
 #pragma mark Events:
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    [Localizer localizeView:self.window];
 
-    [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
-    [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
-    [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
-    [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
 }
 
 -(void)awakeFromNib
 {
-
-}
+    }
 
 -(void)applicationWillTerminate:(NSNotification *)notification
 {

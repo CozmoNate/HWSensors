@@ -11,6 +11,15 @@
 
 #import "HWMItem.h"
 
+typedef enum {
+    kHWMSensorLevelUnused                = 0,
+    kHWMSensorLevelDisabled              = 1,
+    kHWMSensorLevelNormal                = 2,
+    kHWMSensorLevelModerate              = 3,
+    kHWMSensorLevelHigh                  = 4,
+    kHWMSensorLevelExceeded              = 1000,
+} HWMSensorLevel;
+
 @class HWMGroup;
 
 @interface HWMSensor : HWMItem

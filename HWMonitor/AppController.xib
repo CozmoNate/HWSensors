@@ -246,7 +246,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.useBigFontInMenubar" id="ITD-r9-PUz">
+                                                <binding destination="-2" name="value" keyPath="monitorEngine.configuration.useBigFontInMenubar" id="5Te-ZR-w2l">
                                                     <dictionary key="options">
                                                         <integer key="NSNotApplicablePlaceholder" value="0"/>
                                                         <integer key="NSNoSelectionPlaceholder" value="0"/>
@@ -264,7 +264,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.useShadowEffectsInMenubar" id="4Gu-7r-jaC">
+                                                <binding destination="-2" name="value" keyPath="monitorEngine.configuration.useShadowEffectsInMenubar" id="Ur2-ZU-KPZ">
                                                     <dictionary key="options">
                                                         <integer key="NSNotApplicablePlaceholder" value="1"/>
                                                         <integer key="NSNoSelectionPlaceholder" value="1"/>
@@ -372,6 +372,9 @@
                                                     </buttonCell>
                                                 </column>
                                             </cells>
+                                            <connections>
+                                                <binding destination="-2" name="selectedIndex" keyPath="self.monitorEngine.configuration.colorTheme.order" id="1hX-Wq-8Zh"/>
+                                            </connections>
                                         </matrix>
                                         <splitView autosaveName="PrefsWindowSensorsSplit" translatesAutoresizingMaskIntoConstraints="NO" id="292">
                                             <rect key="frame" x="17" y="17" width="286" height="411"/>
@@ -920,7 +923,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.graphsWindowAlwaysTopmost" id="BU5-Mk-bti">
+                                                <binding destination="-2" name="value" keyPath="monitorEngine.configuration.graphsWindowAlwaysTopmost" id="XUt-EU-rqX">
                                                     <dictionary key="options">
                                                         <integer key="NSNotApplicablePlaceholder" value="1"/>
                                                         <integer key="NSNoSelectionPlaceholder" value="1"/>

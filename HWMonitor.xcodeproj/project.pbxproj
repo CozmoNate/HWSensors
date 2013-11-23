@@ -819,6 +819,7 @@
 			isa = PBXGroup;
 			children = (
 				7E0254661805D2E400B4F099 /* OBMenuBarWindow */,
+				7E019BA8182625FF002F8217 /* StatusItemView */,
 				7EDA1A6B16D901100012A0DC /* PopupController.h */,
 				7EDA1A6C16D901100012A0DC /* PopupController.m */,
 				7E2042021730CDA000C13B65 /* PopupController.xib */,
@@ -830,7 +831,6 @@
 			isa = PBXGroup;
 			children = (
 				7E019BA6182625EC002F8217 /* SensorsTableView */,
-				7E019BA8182625FF002F8217 /* StatusItemView */,
 				7EA248FD16D8E93A002231B2 /* AppController.h */,
 				7EA248FE16D8E93A002231B2 /* AppController.m */,
 				7E2042041730D04000C13B65 /* AppController.xib */,

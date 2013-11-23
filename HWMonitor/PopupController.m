@@ -10,7 +10,7 @@
 #import "Localizer.h"
 
 #import "HWMonitorDefinitions.h"
-#import "HWMonitorGroup.h"
+
 #import "PopupGroupCell.h"
 #import "PopupSensorCell.h"
 #import "PopupAtaSmartSensorCell.h"
@@ -28,6 +28,13 @@
 
 @synthesize statusItem = _statusItem;
 @synthesize statusItemView = _statusItemView;
+@synthesize toolbarView = _toolbarView;
+
+#pragma mark -
+#pragma mark Properties
+
+#pragma mark -
+#pragma mark Overridden Methods
 
 - (id)init
 {
@@ -115,79 +122,84 @@
 }
 
 #pragma mark -
-#pragma mark Events
+#pragma mark Methods
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+- (void)initialSetup
 {
-//    [Localizer localizeView:self.window];
-//    [Localizer localizeView:_toolbarView];
-}
+    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
+    [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
 
--(void)awakeFromNib
-{
-    [[self statusItemView] setUseBigFont:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseBigStatusMenuFont]];
-    [[self statusItemView] setUseShadowEffect:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseShadowEffect]];
-    [self setShowVolumeNames:[[NSUserDefaults standardUserDefaults] integerForKey:kHWMonitorShowVolumeNames]];
+    //[[_titleField cell] setBackgroundStyle:NSBackgroundStyleRaised];
+
+    // Install status item into the menu bar
+    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+
+    menubarWindow.statusItemView = _statusItemView;
+    menubarWindow.statusItem = _statusItem;
+    menubarWindow.attachedToMenuBar = YES;
+    menubarWindow.hideWindowControls = YES;
+
+    menubarWindow.toolbarView = _toolbarView;
+
+    [menubarWindow setWorksWhenModal:YES];
+
+    //    [Localizer localizeView:menubarWindow];
+    //    [Localizer localizeView:_toolbarView];
+
+    // Make main menu font size smaller
+    NSFont* font = [NSFont menuFontOfSize:13];
+	NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+
+    for (id subItem in [_mainMenu itemArray]) {
+        if ([subItem isKindOfClass:[NSMenuItem class]]) {
+            NSMenuItem* menuItem = subItem;
+            NSString* title = [menuItem title];
+
+            NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
+
+            [menuItem setAttributedTitle:attributedTitle];
+        }
+    }
+
+    [self layoutContent:YES orderFront:NO];
 
     [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
     [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+
+    [Localizer localizeView:self.window];
+    [Localizer localizeView:_toolbarView];
+
+    [self addObserver:self forKeyPath:@"monitorEngine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"monitorEngine.arrangedItems" options:NSKeyValueObservingOptionNew context:nil];
+
+    [_statusItemView setMonitorEngine:_monitorEngine];
 }
 
-- (void)windowDidAttachToStatusBar:(id)sender
+- (void)layoutContent:(BOOL)resizeToContent orderFront:(BOOL)orderFront
 {
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
-    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
-    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
+    if (resizeToContent) {
+        CGFloat height = 13; // ??
 
-    //[NSApp deactivate];
-}
+        for (int i = 0; i < self.monitorEngine.arrangedItems.count; i++) {
+            height += [self tableView:_tableView heightOfRow:i];
+        }
 
-- (void)windowDidDetachFromStatusBar:(id)sender
-{
-    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+        height = 6 + (menubarWindow.attachedToMenuBar ? OBMenuBarWindowArrowHeight : 0) + (height ? height : _tableView.frame.size.height);
 
-    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
-    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
+        height = height > menubarWindow.screen.visibleFrame.size.height ? menubarWindow.screen.visibleFrame.size.height - menubarWindow.toolbarHeight : height;
 
-    if (menubarWindow.isKeyWindow) {
-        [NSApp activateIgnoringOtherApps:YES];
-    }
-}
-
-- (void)windowDidBecomeKey:(id)sender
-{
-    for (id subveiw in _toolbarView.subviews)
-    {
-        if ([subveiw respondsToSelector:@selector(setEnabled:)]) {
-            [subveiw setEnabled:YES];
+        if (menubarWindow.frame.size.height != height) {
+            [menubarWindow setContentSize:NSMakeSize(menubarWindow.frame.size.width, height)];
+            [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
+            [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
         }
     }
-}
 
-- (void)windowDidResignKey:(id)sender
-{
-    for (id subveiw in _toolbarView.subviews)
-    {
-        if ([subveiw respondsToSelector:@selector(setEnabled:)]) {
-            [subveiw setEnabled:NO];
-        }
-    }
-}
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqual:@"monitorEngine.configuration.colorTheme"]) {
-        [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
-        [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-
-        [_tableView reloadData];
-    }
-    else if ([keyPath isEqual:@"monitorEngine.arrangedItems"]) {
-
-        [_tableView reloadData];
-        
-        [self layoutContent:YES orderFront:NO];
+    // Order front if needed
+    if (orderFront) {
+        [menubarWindow makeKeyAndOrderFront:self];
     }
 }
 
@@ -233,129 +245,74 @@
 }
 
 #pragma mark -
-#pragma mark Methods
+#pragma mark Events
 
-- (void)initialSetup
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
-    [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
-    
-    //[[_titleField cell] setBackgroundStyle:NSBackgroundStyleRaised];
-    
-    // Install status item into the menu bar
-    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
-    
-    menubarWindow.statusItemView = _statusItemView;
-    menubarWindow.statusItem = _statusItem;
-    menubarWindow.attachedToMenuBar = YES;
-    menubarWindow.hideWindowControls = YES;
-    
-    menubarWindow.toolbarView = _toolbarView;
-    
-    [menubarWindow setWorksWhenModal:YES];
-    
-    [Localizer localizeView:menubarWindow];
-    [Localizer localizeView:_toolbarView];
+    if ([keyPath isEqual:@"monitorEngine.configuration.colorTheme"]) {
+        [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
+        [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
 
-    // Make main menu font size smaller
-    NSFont* font = [NSFont menuFontOfSize:13];
-	NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
-    
-    for (id subItem in [_mainMenu itemArray]) {
-        if ([subItem isKindOfClass:[NSMenuItem class]]) {
-            NSMenuItem* menuItem = subItem;
-            NSString* title = [menuItem title];
-            
-            NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
-            
-            [menuItem setAttributedTitle:attributedTitle];
-        }
+        [_tableView reloadData];
     }
+    else if ([keyPath isEqual:@"monitorEngine.arrangedItems"]) {
 
-    [self layoutContent:YES orderFront:NO];
-
-    [self addObserver:self forKeyPath:@"monitorEngine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"monitorEngine.arrangedItems" options:NSKeyValueObservingOptionNew context:nil];
+        [_tableView reloadData];
+        [self layoutContent:YES orderFront:NO];
+    }
 }
 
-- (void) setupWithGroups:(NSArray*)groups
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    _items = [[NSMutableArray alloc] init];
-    
-    // Add special toolbar item
-    //[_items addObject:@"Toolbar"];
-    
-    if ([groups count] > 0) {
-        
-        // Restore indexes
-        NSMutableDictionary *itemIndex = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kHWMonitorItemIndex]];
-        
-        for (HWMonitorGroup *group in groups) {
-            if ([group checkVisibility]) {
-                [_items addObject:group];
 
-                // Sort out
-                [[group items] sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                    NSNumber *idx1 = [itemIndex objectForKey:[[obj1 sensor] name]];
-                    NSNumber *idx2 = [itemIndex objectForKey:[[obj2 sensor] name]];
-                    
-                    return idx1 && idx2 ? [idx1 integerValue] - [idx2 integerValue] : 0;
-                }];
-                
-                // Add items
-                for (HWMonitorItem *item in [group items]) {
-                    if ([item isVisible]) {
-                        [_items addObject:item];
-                        [itemIndex setObject:[NSNumber numberWithInteger:[_items count] - 1] forKey:item.sensor.name];
-                    }
-                }
-            }
-        }
-        
-        // Save key index
-        [[NSUserDefaults standardUserDefaults] setObject:itemIndex forKey:kHWMonitorItemIndex];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    else {
-        [_items addObject:@"Dummy"];
-    }
-    
-    [self reloadData];
 }
 
-- (void)layoutContent:(BOOL)resizeToContent orderFront:(BOOL)orderFront
+-(void)awakeFromNib
+{
+    //    [Localizer localizeView:self.window];
+    //    [Localizer localizeView:_toolbarView];
+}
+
+- (void)windowDidAttachToStatusBar:(id)sender
 {
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
-    if (resizeToContent) {
-        CGFloat height = 13; // ??
-        
-        for (int i = 0; i < self.monitorEngine.arrangedItems.count; i++) {
-            height += [self tableView:_tableView heightOfRow:i];
-        }
-        
-        height = 6 + (menubarWindow.attachedToMenuBar ? OBMenuBarWindowArrowHeight : 0) + (height ? height : _tableView.frame.size.height);
+    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
+    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
 
-        height = height > menubarWindow.screen.visibleFrame.size.height ? menubarWindow.screen.visibleFrame.size.height - menubarWindow.toolbarHeight : height;
+    //[NSApp deactivate];
+}
 
-        if (menubarWindow.frame.size.height != height) {
-            [menubarWindow setContentSize:NSMakeSize(menubarWindow.frame.size.width, height)];
-            [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
-            [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
-        }
-    }
-    
-    // Order front if needed
-    if (orderFront) {
-        [menubarWindow makeKeyAndOrderFront:self];
+- (void)windowDidDetachFromStatusBar:(id)sender
+{
+    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+
+    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
+    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
+
+    if (menubarWindow.isKeyWindow) {
+        [NSApp activateIgnoringOtherApps:YES];
     }
 }
 
-- (void)reloadData
+- (void)windowDidBecomeKey:(id)sender
 {
-    [_tableView reloadData];
-    [self layoutContent:YES orderFront:NO];
-    [_statusItemView setNeedsDisplay:YES];
+    for (id subveiw in _toolbarView.subviews)
+    {
+        if ([subveiw respondsToSelector:@selector(setEnabled:)]) {
+            [subveiw setEnabled:YES];
+        }
+    }
+}
+
+- (void)windowDidResignKey:(id)sender
+{
+    for (id subveiw in _toolbarView.subviews)
+    {
+        if ([subveiw respondsToSelector:@selector(setEnabled:)]) {
+            [subveiw setEnabled:NO];
+        }
+    }
 }
 
 #pragma mark -
@@ -468,7 +425,7 @@
             }
         }
         else {
-            id destinationItem = [_items objectAtIndex:toRow - 1];
+            id destinationItem = [self.monitorEngine.arrangedItems objectAtIndex:toRow - 1];
 
             if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
                 _currentItemDragOperation = NSDragOperationNone;

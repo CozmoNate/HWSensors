@@ -21,10 +21,6 @@
 @class HWMEngine;
 
 @interface PopupController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
-{
-    BOOL _hasActivePanel;
-    NSMutableArray *_items;
-}
 
 @property (assign) IBOutlet id <PopupControllerDelegate> delegate;
 

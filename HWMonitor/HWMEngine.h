@@ -24,10 +24,12 @@ typedef enum {
 
 @interface HWMEngine : NSObject
 {
+    NSRecursiveLock *_syncLock;
+
     NSArray *_platformProfile;
-    NSMutableArray *_availableItems;
-    NSMutableArray *_favoriteItems;
-    NSMutableArray *_arrangedItems;
+    NSArray *_availableItems;
+    NSArray *_favoriteItems;
+    NSArray *_arrangedItems;
     NSArray *_smcAndDevicesSensors;
     NSArray *_ataSmartSensors;
     io_connect_t _smcConnection;
