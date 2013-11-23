@@ -838,6 +838,8 @@
 
             [favorite setOrder:[NSNumber numberWithInteger:[_favoriteItems indexOfObject:item]]];
             [favorite setItem:item];
+
+            [self updateFavoriteOrders];
         }
     }
 }
@@ -867,19 +869,7 @@
                 [self.managedObjectContext deleteObject:favorite];
             }
 
-            fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
-
-            NSArray *favorites = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-            if (error) {
-                NSLog(@"fetch favorites in removeItemFromFavorites error %@", error);
-            }
-
-            if (favorites) {
-                [[favorites sortedArrayUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES]]] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    [(HWMFavorite*)obj setOrder:[NSNumber numberWithUnsignedInteger:idx]];
-                }];
-            }
+            [self updateFavoriteOrders];
         }
     }
 }
@@ -1000,6 +990,28 @@
 
     if (_fakeSmcConnection)
         SMCClose(_fakeSmcConnection);
+}
+
+#pragma mark
+#pragma mark Favorites
+
+-(void)updateFavoriteOrders
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
+
+    NSError *error;
+
+    NSArray *favorites = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+    if (error) {
+        NSLog(@"fetch favorites in updateFavoriteOrders error %@", error);
+    }
+
+    if (favorites) {
+        [[favorites sortedArrayUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES]]] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [(HWMFavorite*)obj setOrder:[NSNumber numberWithUnsignedInteger:idx]];
+        }];
+    }
 }
 
 #pragma mark
