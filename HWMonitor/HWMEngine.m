@@ -15,6 +15,7 @@
 #import "HWMBatterySensor.h"
 #import "HWMConfiguration.h"
 #import "HWMColorTheme.h"
+#import "HWMFavorite.h"
 
 #import "smc.h"
 #import "Localizer.h"
@@ -194,6 +195,8 @@
     if (!_favoriteItems) {
         @synchronized (self) {
 
+            NSMutableArray *items = [[NSMutableArray alloc] init];
+
             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
 
             NSError *error;
@@ -206,22 +209,23 @@
             else {
                 NSSortDescriptor *orderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
 
-                NSMutableArray *items = [NSMutableArray array];
-
                 [[favorites sortedArrayUsingDescriptors:@[orderDescriptor]] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    if ([obj isKindOfClass:[HWMSensor class]]) {
-                        if ([obj isActive]) {
-                            [items addObject:obj];
+
+                    HWMFavorite *favorite =  (HWMFavorite *)obj;
+
+                    if ([favorite.item isKindOfClass:[HWMSensor class]]) {
+                        if ([(HWMSensor*)favorite.item isActive]) {
+                            [items addObject:favorite.item];
                         }
                     }
                     else {
-                        [items addObject:obj];
+                        [items addObject:favorite.item];
                     }
-
-                    [self willChangeValueForKey:@"favoriteItems"];
-                    _favoriteItems = [items copy];
-                    [self didChangeValueForKey:@"favoriteItems"];
                 }];
+
+                [self willChangeValueForKey:@"favoriteItems"];
+                _favoriteItems = [items mutableCopy];
+                [self didChangeValueForKey:@"favoriteItems"];
             }
         }
     }
@@ -233,8 +237,6 @@
 {
     if (!_arrangedItems) {
         @synchronized (self) {
-
-
 
             // Sensors and groups
             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Group"];
@@ -788,6 +790,28 @@
     }
 }
 
+-(void)setNeedsRecalculateSensorValues
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+
+    NSError *error;
+
+    NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+    if (error) {
+        NSLog(@"fetch sensors in setNeedsRecalculateSensorValues error %@", error);
+    }
+
+    if (sensors) {
+        [sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [obj willChangeValueForKey:@"formattedValue"];
+//            [obj willChangeValueForKey:@"value"];
+//            [obj didChangeValueForKey:@"value"];
+            [obj didChangeValueForKey:@"formattedValue"];
+        }];
+    }
+}
+
 -(void)startEngine
 {
     [self internalStartEngine];
@@ -800,6 +824,64 @@
     [self internalStopEngine];
 
     _engineState = kHWMEngineStateIdle;
+}
+
+-(void)insertItemToFavorites:(HWMItem*)item atIndex:(NSUInteger)index
+{
+    if (item && item.managedObjectContext == _managedObjectContext && ([item isKindOfClass:[HWMSensor class]] ? ![self.favoriteItems containsObject:item] : YES)) {
+        @synchronized (self) {
+            [self willChangeValueForKey:@"favoriteItems"];
+            [_favoriteItems insertObject:item atIndex:index];
+            [self didChangeValueForKey:@"favoriteItems"];
+
+            HWMFavorite *favorite = [NSEntityDescription insertNewObjectForEntityForName:@"Favorite" inManagedObjectContext:self.managedObjectContext];
+
+            [favorite setOrder:[NSNumber numberWithInteger:[_favoriteItems indexOfObject:item]]];
+            [favorite setItem:item];
+        }
+    }
+}
+
+-(void)removeItemFromFavorites:(HWMItem*)item
+{
+    if (item && item.managedObjectContext == _managedObjectContext && [self.favoriteItems containsObject:item]) {
+
+        @synchronized (self) {
+            [self willChangeValueForKey:@"favoriteItems"];
+            [_favoriteItems removeObject:item];
+            [self didChangeValueForKey:@"favoriteItems"];
+
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
+
+            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"item == %d", item]];
+
+            NSError *error;
+
+            HWMFavorite *favorite = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
+
+            if (error) {
+                NSLog(@"fetch favorite in removeItemFromFavorites error %@", error);
+            }
+
+            if (favorite) {
+                [self.managedObjectContext deleteObject:favorite];
+            }
+
+            fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
+
+            NSArray *favorites = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+            if (error) {
+                NSLog(@"fetch favorites in removeItemFromFavorites error %@", error);
+            }
+
+            if (favorites) {
+                [[favorites sortedArrayUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES]]] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    [(HWMFavorite*)obj setOrder:[NSNumber numberWithUnsignedInteger:idx]];
+                }];
+            }
+        }
+    }
 }
 
 #pragma mark

@@ -81,9 +81,18 @@
         [self addObserver:self forKeyPath:@"monitorEngine.favoriteItems" options:NSKeyValueObservingOptionNew context:nil];
         [self addObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar" options:NSKeyValueObservingOptionNew context:nil];
         [self addObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar" options:NSKeyValueObservingOptionNew context:nil];
+        [self addObserver:self forKeyPath:@"monitorEngine.configuration.smcSensorsUpdateRate" options:NSKeyValueObservingOptionNew context:nil];
     }
 
     return self;
+}
+
+-(void)dealloc
+{
+    [self removeObserver:self forKeyPath:@"monitorEngine.favoriteItems"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.smcSensorsUpdateRate"];
 }
 
 - (void)drawRect:(NSRect)rect
@@ -92,7 +101,7 @@
 
     CGContextRef cgContext = [[NSGraphicsContext currentContext] graphicsPort];
 
-    CGContextSetShouldSmoothFonts(cgContext, !_monitorEngine.configuration.useBigFontInMenubar);
+    CGContextSetShouldSmoothFonts(cgContext, !_monitorEngine.configuration.useBigFontInMenubar.boolValue);
 
     __block int offset = 3;
 
@@ -102,7 +111,7 @@
 
             [[NSGraphicsContext currentContext] saveGraphicsState];
 
-            if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar)
+            if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
                 [_shadow set];
 
             NSImage *image = /*_isHighlighted ? _alternateImage :*/ _image;
@@ -123,7 +132,7 @@
             return;
         }
 
-        NSAttributedString *spacer = [[NSAttributedString alloc] initWithString:_monitorEngine.configuration.useBigFontInMenubar ? @" " : @"  " attributes:[NSDictionary dictionaryWithObjectsAndKeys:_monitorEngine.configuration.useBigFontInMenubar ? _bigFont : _smallFont, NSFontAttributeName, nil]];
+        NSAttributedString *spacer = [[NSAttributedString alloc] initWithString:_monitorEngine.configuration.useBigFontInMenubar.boolValue ? @" " : @"  " attributes:[NSDictionary dictionaryWithObjectsAndKeys:_monitorEngine.configuration.useBigFontInMenubar.boolValue ? _bigFont : _smallFont, NSFontAttributeName, nil]];
 
         __block int lastWidth = 0;
         __block int index = 0;
@@ -196,7 +205,7 @@
                 if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar)
                     [_shadow set];
 
-                if (_monitorEngine.configuration.useShadowEffectsInMenubar) {
+                if (_monitorEngine.configuration.useBigFontInMenubar.boolValue) {
 
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
                     [title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];
@@ -251,6 +260,11 @@
 #pragma mark -
 #pragma mark Methods
 
+-(void)updateLoop
+{
+    [self setNeedsDisplay:YES];
+}
+
 -(NSRect)screenRect
 {
     return [self.window convertRectToScreen:self.frame];;
@@ -261,14 +275,22 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqual:@"monitorEngine.favoriteItems"] ||
+    if ([keyPath isEqualToString:@"monitorEngine.favoriteItems"] ||
         [keyPath isEqualToString:@"monitorEngine.configuration.useBigFontInMenubar"] ||
         [keyPath isEqualToString:@"monitorEngine.configuration.useShadowEffectsInMenubar"]) {
 
         [self setNeedsDisplay:YES];
-        
+
     }
-    
+    else if ([keyPath isEqualToString:@"monitorEngine.configuration.smcSensorsUpdateRate"]) {
+        if (_updateLoopTimer) {
+            [_updateLoopTimer invalidate];
+        }
+
+        _updateLoopTimer = [NSTimer timerWithTimeInterval:_monitorEngine.configuration.smcSensorsUpdateRate.floatValue target:self selector:@selector(updateLoop) userInfo:nil repeats:YES];
+
+        [[NSRunLoop mainRunLoop] addTimer:_updateLoopTimer forMode:NSRunLoopCommonModes];
+    }
     //[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 

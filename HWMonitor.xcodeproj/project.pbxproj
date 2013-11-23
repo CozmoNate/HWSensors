@@ -13,6 +13,7 @@
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E0648F116DF3B7D00ACB851 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7E0648EF16DF3B7D00ACB851 /* README.md */; };
 		7E10343616EFAE490089DE7B /* GenericBatteryDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */; };
+		7E1294661840B73400B051DB /* HWMFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1294651840B73400B051DB /* HWMFavorite.m */; };
 		7E14580F1826F8280027E984 /* Credits.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 7E14580D1826F8280027E984 /* Credits.rtfd */; };
 		7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C617E2744000694A4A /* 37-circle-x.png */; };
 		7E1458CB17E2744000694A4A /* 37-circle-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C717E2744000694A4A /* 37-circle-x@2x.png */; };
@@ -170,6 +171,8 @@
 		7E10343416EFAE490089DE7B /* GenericBatteryDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericBatteryDevice.h; sourceTree = "<group>"; };
 		7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericBatteryDevice.m; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
+		7E1294641840B73400B051DB /* HWMFavorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMFavorite.h; sourceTree = "<group>"; };
+		7E1294651840B73400B051DB /* HWMFavorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMFavorite.m; sourceTree = "<group>"; };
 		7E14580E1826F8280027E984 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = en; path = en.lproj/Credits.rtfd; sourceTree = "<group>"; };
 		7E1458C617E2744000694A4A /* 37-circle-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x.png"; sourceTree = "<group>"; };
 		7E1458C717E2744000694A4A /* 37-circle-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x@2x.png"; sourceTree = "<group>"; };
@@ -747,6 +750,8 @@
 				7E93E29D183E832600957EDF /* HWMColorTheme.m */,
 				7E93E29F183E8D4200957EDF /* HWMConfiguration.h */,
 				7E93E2A0183E8D4200957EDF /* HWMConfiguration.m */,
+				7E1294641840B73400B051DB /* HWMFavorite.h */,
+				7E1294651840B73400B051DB /* HWMFavorite.m */,
 				7E268C661837C13B004F16E3 /* HWMItem.h */,
 				7E268C671837C13B004F16E3 /* HWMItem.m */,
 				7E268C601837A41C004F16E3 /* HWMIcon.h */,
@@ -1050,6 +1055,7 @@
 				7E56D2FB183FD96600D53B97 /* HWMSmcFanSensor.m in Sources */,
 				7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */,
 				7EA2495416D8EE45002231B2 /* HWMonitorGroup.m in Sources */,
+				7E1294661840B73400B051DB /* HWMFavorite.m in Sources */,
 				7E884C2E183FAB3B00024C17 /* PopupBasicCell.m in Sources */,
 				7EA2495516D8EE45002231B2 /* HWMonitorItem.m in Sources */,
 				7EFE61B4183581090009BD0D /* HWMSmcSensor.m in Sources */,

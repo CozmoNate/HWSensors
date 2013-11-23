@@ -37,6 +37,8 @@
     NSFont *_smallFont;
     NSFont *_bigFont;
     NSShadow *_shadow;
+
+    NSTimer *_updateLoopTimer;
 }
 
 @property (nonatomic, strong) HWMEngine *monitorEngine;

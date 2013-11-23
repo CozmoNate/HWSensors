@@ -21,6 +21,7 @@ typedef enum {
 
 @class HWMColorTheme;
 @class HWMConfiguration;
+@class HWMItem;
 
 @interface HWMEngine : NSObject
 {
@@ -28,7 +29,7 @@ typedef enum {
 
     NSArray *_platformProfile;
     NSArray *_availableItems;
-    NSArray *_favoriteItems;
+    NSMutableArray *_favoriteItems;
     NSArray *_arrangedItems;
     NSArray *_smcAndDevicesSensors;
     NSArray *_ataSmartSensors;
@@ -61,7 +62,11 @@ typedef enum {
 -(void)saveContext;
 -(void)updateSmcAndDevicesSensors;
 -(void)updateAtaSmartSensors;
+-(void)setNeedsRecalculateSensorValues;
 -(void)setNeedsUpdateLists;
+
+-(void)insertItemToFavorites:(HWMItem*)item atIndex:(NSUInteger)index;
+-(void)removeItemFromFavorites:(HWMItem*)item;
 
 -(HWMColorTheme*)getColorThemeByName:(NSString*)name;
 -(HWMColorTheme*)getColorThemeByIndex:(NSUInteger)index;

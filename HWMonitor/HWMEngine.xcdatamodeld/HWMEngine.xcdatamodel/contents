@@ -43,7 +43,7 @@
         <attribute name="useShadowEffectsInMenubar" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <relationship name="colorTheme" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ColorTheme" syncable="YES"/>
     </entity>
-    <entity name="Favorite" syncable="YES">
+    <entity name="Favorite" representedClassName="HWMFavorite" syncable="YES">
         <attribute name="order" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="Item" syncable="YES"/>
     </entity>

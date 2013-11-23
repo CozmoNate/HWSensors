@@ -34,10 +34,6 @@
 @class HWMEngine;
 
 @interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, NSTokenFieldDelegate>
-{
-    NSMutableArray* _favorites;
-    NSArray *_colorThemes;
-}
 
 @property (assign) IBOutlet HWMEngine *monitorEngine;
 
@@ -47,6 +43,7 @@
 
 @property (assign) IBOutlet NSTableView *favoritesTableView;
 @property (assign) IBOutlet NSTableView *sensorsTableView;
+@property (assign) IBOutlet NSMatrix *colorThemeMatrix;
 
 @property (readonly) BOOL hasDraggedFavoriteItem;
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
@@ -55,7 +52,5 @@
 
 - (IBAction)favoritesChanged:(id)sender;
 - (IBAction)colorThemeChanged:(id)sender;
-- (IBAction)toggleSensorVisibility:(id)sender;
-
 
 @end

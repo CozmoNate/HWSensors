@@ -126,9 +126,6 @@
 
 - (void)initialSetup
 {
-    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
-    [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
-
     //[[_titleField cell] setBackgroundStyle:NSBackgroundStyleRaised];
 
     // Install status item into the menu bar
@@ -165,6 +162,9 @@
 
     [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
     [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+
+    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
+    [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
 
     [Localizer localizeView:self.window];
     [Localizer localizeView:_toolbarView];
@@ -269,8 +269,7 @@
 
 -(void)awakeFromNib
 {
-    //    [Localizer localizeView:self.window];
-    //    [Localizer localizeView:_toolbarView];
+
 }
 
 - (void)windowDidAttachToStatusBar:(id)sender
