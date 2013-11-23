@@ -66,7 +66,7 @@ typedef enum {
 -(void)setNeedsUpdateLists;
 
 -(void)insertItemToFavorites:(HWMItem*)item atIndex:(NSUInteger)index;
--(void)removeItemFromFavorites:(HWMItem*)item;
+-(void)removeItemFromFavoritesAtIndex:(NSUInteger)index;
 
 -(HWMColorTheme*)getColorThemeByName:(NSString*)name;
 -(HWMColorTheme*)getColorThemeByIndex:(NSUInteger)index;

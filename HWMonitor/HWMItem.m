@@ -11,13 +11,13 @@
 
 @implementation HWMItem
 
-@dynamic favorite;
 @dynamic name;
 @dynamic order;
 @dynamic title;
 @dynamic legend;
 @dynamic identifier;
 @dynamic hidden;
+@dynamic favorite;
 
 @synthesize engine;
 

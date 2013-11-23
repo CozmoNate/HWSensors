@@ -457,7 +457,7 @@
     NSUInteger offset = [self.monitorEngine.arrangedItems indexOfObject:[sensors objectAtIndex:0]];
 
     [sensors removeObject:sourceItem];
-    [sensors insertObject:sourceItem atIndex:toRow - offset];
+    [sensors insertObject:sourceItem atIndex:offset <= toRow ? toRow - offset : 0];
 
     [sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [obj setOrder:[NSNumber numberWithUnsignedInteger:idx]];

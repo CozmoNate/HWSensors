@@ -45,7 +45,7 @@
     </entity>
     <entity name="Favorite" representedClassName="HWMFavorite" syncable="YES">
         <attribute name="order" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="Item" syncable="YES"/>
+        <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="Item" inverseName="favorite" inverseEntity="Item" syncable="YES"/>
     </entity>
     <entity name="Group" representedClassName="HWMGroup" parentEntity="Item" syncable="YES">
         <attribute name="selector" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -57,13 +57,13 @@
         <attribute name="regular" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="HWMImageTransformer" syncable="YES"/>
     </entity>
     <entity name="Item" representedClassName="HWMItem" isAbstract="YES" syncable="YES">
-        <attribute name="favorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="identifier" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="legend" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <relationship name="favorite" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Favorite" inverseName="item" inverseEntity="Favorite" syncable="YES"/>
     </entity>
     <entity name="Sensor" representedClassName="HWMSensor" isAbstract="YES" parentEntity="Item" syncable="YES">
         <attribute name="level" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>

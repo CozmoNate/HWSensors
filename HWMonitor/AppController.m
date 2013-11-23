@@ -383,9 +383,7 @@
         NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
 
-        HWMItem *item = [_monitorEngine.favoriteItems objectAtIndex:[rowIndexes firstIndex] - 1];
-
-        [_monitorEngine removeItemFromFavorites:item];
+        [_monitorEngine removeItemFromFavoritesAtIndex:[rowIndexes firstIndex] - 1];
 
         NSShowAnimationEffect(NSAnimationEffectPoof, screenPoint, NSZeroSize, nil, nil, nil);
     }
@@ -399,18 +397,19 @@
         NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
-        
-        if ([info draggingSource] == _sensorsTableView) {
-            HWMItem *item = [_monitorEngine.availableItems objectAtIndex:fromRow - 1];
-            [_monitorEngine insertItemToFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
 
-        }
-        else if ([info draggingSource] == _favoritesTableView) {
-            HWMItem *item = [_monitorEngine.favoriteItems objectAtIndex:fromRow - 1];
+         if ([info draggingSource] == _favoritesTableView) {
+             HWMItem *item = [_monitorEngine.favoriteItems objectAtIndex:fromRow - 1];
 
-            [_monitorEngine removeItemFromFavorites:item];
-            [_monitorEngine insertItemToFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
-        }
+             toRow = toRow > fromRow ? toRow - 1 : toRow;
+
+             [_monitorEngine removeItemFromFavoritesAtIndex:fromRow - 1];
+             [_monitorEngine insertItemToFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
+         }
+         else  if ([info draggingSource] == _sensorsTableView) {
+             HWMItem *item = [_monitorEngine.availableItems objectAtIndex:fromRow - 1];
+             [_monitorEngine insertItemToFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
+         }
     }
 
     return YES;

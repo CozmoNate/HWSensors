@@ -10,10 +10,10 @@
 #import <CoreData/CoreData.h>
 
 @class HWMEngine;
+@class HWMFavorite;
 
 @interface HWMItem : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * favorite;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * order;
 @property (nonatomic, retain) NSString * title;
@@ -22,5 +22,6 @@
 @property (nonatomic, retain) NSNumber * hidden;
 
 @property (nonatomic, strong) HWMEngine * engine;
+@property (nonatomic, retain) HWMFavorite * favorite;
 
 @end
