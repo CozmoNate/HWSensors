@@ -35,4 +35,6 @@ typedef enum {
 @property (readonly) NSString * formattedValue;
 @property (readonly) BOOL isActive;
 
+- (void)doUpdateValue;
+
 @end

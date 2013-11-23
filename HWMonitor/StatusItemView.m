@@ -82,7 +82,8 @@
             [self addObserver:self forKeyPath:@"monitorEngine.favoriteItems" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"monitorEngine.configuration.smcSensorsUpdateRate" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.smcAndDevicesValuesChanged" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.ataSmartValuesChanged" options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
 
@@ -94,7 +95,8 @@
     [self removeObserver:self forKeyPath:@"monitorEngine.favoriteItems"];
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar"];
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.smcSensorsUpdateRate"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.ataSmartValuesChanged"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.smcAndDevicesValuesChanged"];
 }
 
 - (void)drawRect:(NSRect)rect
@@ -262,12 +264,6 @@
 #pragma mark -
 #pragma mark Methods
 
-
--(void)updateLoop
-{
-    [self setNeedsDisplay:YES];
-}
-
 -(NSRect)screenRect
 {
     return [self.window convertRectToScreen:self.frame];;
@@ -285,14 +281,11 @@
         [self setNeedsDisplay:YES];
 
     }
-    else if ([keyPath isEqualToString:@"monitorEngine.configuration.smcSensorsUpdateRate"]) {
-        if (_updateLoopTimer) {
-            [_updateLoopTimer invalidate];
-        }
+    else if ([keyPath isEqualToString:@"monitorEngine.smcAndDevicesValuesChanged"] ||
+             [keyPath isEqualToString:@"monitorEngine.smcAndDevicesValuesChanged"]) {
 
-        _updateLoopTimer = [NSTimer timerWithTimeInterval:_monitorEngine.configuration.smcSensorsUpdateRate.floatValue target:self selector:@selector(updateLoop) userInfo:nil repeats:YES];
+        [self setNeedsDisplay:YES];
 
-        [[NSRunLoop mainRunLoop] addTimer:_updateLoopTimer forMode:NSRunLoopCommonModes];
     }
     //[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }

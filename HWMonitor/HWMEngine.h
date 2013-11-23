@@ -49,6 +49,8 @@ typedef enum {
 @property (nonatomic, assign) HWMSensorsUpdateLoopStrategy updateLoopStrategy;
 
 @property (nonatomic, strong) IBOutlet HWMConfiguration * configuration;
+@property (nonatomic, strong) IBOutlet NSObject * smcAndDevicesValuesChanged;
+@property (nonatomic, strong) IBOutlet NSObject * ataSmartValuesChanged;
 
 @property (readonly) IBOutlet NSArray * availableItems;
 @property (readonly) IBOutlet NSArray * favoriteItems;

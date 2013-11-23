@@ -372,6 +372,7 @@
     [self addObserver:self forKeyPath:@"configuration.smcSensorsUpdateRate" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.showVolumeNames" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [self addObserver:self forKeyPath:@"configuration.useBsdDriveNames" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.colorTheme" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 }
 
@@ -586,28 +587,20 @@
     @synchronized (self) {
         if (!_smcAndDevicesSensors) {
 
-            NSMutableArray *sensors = [NSMutableArray array];
+            __block NSMutableArray *sensors = [NSMutableArray array];\
 
-            NSError *error;
-            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
-
-            NSArray *objects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-            if (error) {
-                NSLog(@"fetching sensors in updateSmcAndDevicesSensors error %@", error);
-            }
-            else {
-                for (HWMSensor *sensor in objects) {
-                    if (![sensor isKindOfClass:[HWMAtaSmartSensor class]]) {
-                        [sensors addObject:sensor];
-                    }
+            [self.availableItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([obj isKindOfClass:[HWMSensor class]] && ![obj isKindOfClass:[HWMAtaSmartSensor class]]) {
+                    [sensors addObject:obj];
                 }
-            }
+            }];
 
             _smcAndDevicesSensors = [sensors copy];
         }
 
-        for (id sensor in _smcAndDevicesSensors) {
+        [self willChangeValueForKey:@"smcAndDevicesValuesChanged"];
+
+        for (HWMSensor *sensor in _smcAndDevicesSensors) {
             BOOL doUpdate = FALSE;
 
             switch (_updateLoopStrategy) {
@@ -621,7 +614,7 @@
 
                 case kHWMSensorsUpdateLoopRegular:
                 default:
-                    doUpdate = ![[sensor hidden] boolValue] || [sensor favorite] != nil;
+                    doUpdate = !sensor.hidden.boolValue || sensor.favorite;
                     break;
             }
 
@@ -629,6 +622,8 @@
                 [sensor doUpdateValue];
             }
         }
+
+        [self didChangeValueForKey:@"smcAndDevicesValuesChanged"];
     }
 }
 
@@ -636,16 +631,18 @@
 {
     @synchronized (self) {
         if (!_ataSmartSensors) {
+            __block NSMutableArray *sensors = [NSMutableArray array];\
 
-            NSError *error;
-            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
+            [self.availableItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
+                    [sensors addObject:obj];
+                }
+            }];
 
-            _ataSmartSensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-            if (error) {
-                NSLog(@"fetching sensors in updateAtaSmartSensors error %@", error);
-            }
+            _ataSmartSensors = [sensors copy];
         }
+
+        [self willChangeValueForKey:@"ataSmartValuesChanged"];
 
         for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
 
@@ -671,6 +668,8 @@
             }
 
         }
+
+        [self didChangeValueForKey:@"ataSmartValuesChanged"];
     }
 }
 
@@ -916,6 +915,28 @@
                 [self didChangeValueForKey:@"arrangedItems"];
 
             }
+            else if ([keyPath isEqual:@"configuration.useBsdDriveNames"]) {
+
+                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
+
+                NSError *error;
+
+                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+                if (error) {
+                    NSLog(@"fetch AtaSmartSensors in observeValueForKeyPath error %@", error);
+                }
+
+                if (sensors) {
+                    for (HWMAtaSmartSensor *sensor in sensors) {
+                        [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : sensor.productName];
+                    }
+                }
+
+                [self willChangeValueForKey:@"arrangedItems"];
+                [self didChangeValueForKey:@"arrangedItems"];
+                
+            }
             else if ([keyPath isEqual:@"configuration.colorTheme"]) {
 
                 NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Icon"];
@@ -982,6 +1003,7 @@
     [self removeObserver:self forKeyPath:@"configuration.smcSensorsUpdateRate"];
     [self removeObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate"];
     [self removeObserver:self forKeyPath:@"configuration.showVolumeNames"];
+    [self removeObserver:self forKeyPath:@"configuration.useBsdDriveNames"];
     [self removeObserver:self forKeyPath:@"configuration.colorTheme"];
 
     [self internalStopEngine];
@@ -1541,6 +1563,7 @@
     if (sensor.value) {
         [sensor setName:name];
         [sensor setTitle:[attributes objectForKey:@"productName"]];
+        [sensor setProductName:[attributes objectForKey:@"productName"]];
         [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
         [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
         [sensor setSerialNumber:[attributes objectForKey:@"serialNumber"]];

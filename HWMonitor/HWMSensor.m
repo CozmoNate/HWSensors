@@ -100,4 +100,9 @@ static NSDictionary *gHWMSensorLocalizationCache;
     return @"-";
 }
 
+- (void)doUpdateValue
+{
+    //
+}
+
 @end
