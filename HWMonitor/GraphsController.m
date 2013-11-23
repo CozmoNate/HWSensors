@@ -124,9 +124,9 @@
         
         _itemsLock = [[NSLock alloc] init];
 
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self initialSetup];
-        }];
+//        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+//            [self initialSetup];
+//        }];
     }
     
     return self;
@@ -170,12 +170,6 @@
 //    if (!_windowFilter) {
 //        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.25] forKey:@"inputRadius"]];
 //    }
-}
-
-- (void)initialSetup
-{
-    [(JLNFadingScrollView *)_graphsScrollView setFadeColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.5]];
-    [(JLNFadingScrollView *)_graphsScrollView setFadeHeight:6];
 }
 
 -(void)addGraphForSensorGroup:(HWSensorGroup)sensorsGroup fromGroupsList:(NSArray*)groupsList withTitle:(NSString*)title

@@ -48,8 +48,13 @@
         <attribute name="order" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="Item" inverseName="favorite" inverseEntity="Item" syncable="YES"/>
     </entity>
+    <entity name="GraphsGroup" representedClassName="HWMGraphsGroup" syncable="YES">
+        <attribute name="selector" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sensors" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sensor" syncable="YES"/>
+    </entity>
     <entity name="Group" representedClassName="HWMGroup" parentEntity="Item" syncable="YES">
-        <attribute name="selector" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="selector" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="icon" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" syncable="YES"/>
         <relationship name="sensors" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Sensor" inverseName="group" inverseEntity="Sensor" syncable="YES"/>
     </entity>
@@ -90,5 +95,6 @@
         <element name="Sensor" positionX="0" positionY="0" width="0" height="0"/>
         <element name="SmcFanSensor" positionX="0" positionY="0" width="0" height="0"/>
         <element name="SmcSensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="GraphsGroup" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

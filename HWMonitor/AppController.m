@@ -72,7 +72,16 @@
     if (self != nil)
     {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self initialSetup];
+            [Localizer localizeView:self.window];
+
+            [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
+            [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
+            [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
+            [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
+
+            [self addObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.favoriteItems" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.availableItems" options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
 
@@ -92,20 +101,6 @@
 
 #pragma mark
 #pragma mark Methods:
-
-- (void)initialSetup
-{
-    [Localizer localizeView:self.window];
-
-    [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
-    [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
-    [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
-    [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
-
-    [self addObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"monitorEngine.favoriteItems" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"monitorEngine.availableItems" options:NSKeyValueObservingOptionNew context:nil];
-}
 
 -(void)checkForUpdates:(id)sender
 {

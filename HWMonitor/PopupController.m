@@ -33,6 +33,11 @@
 #pragma mark -
 #pragma mark Properties
 
+-(BOOL)hasDraggedFavoriteItem
+{
+    return YES;
+}
+
 #pragma mark -
 #pragma mark Overridden Methods
 
@@ -164,7 +169,7 @@
     [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
 
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
-    [_tableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
+    [_tableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
 
     [Localizer localizeView:self.window];
     [Localizer localizeView:_toolbarView];
@@ -180,21 +185,18 @@
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
     if (resizeToContent) {
-        CGFloat height = 13; // ??
+        CGFloat height = menubarWindow.toolbarHeight + 6;
 
         for (int i = 0; i < self.monitorEngine.arrangedItems.count; i++) {
             height += [self tableView:_tableView heightOfRow:i];
         }
 
-        height = 6 + (menubarWindow.attachedToMenuBar ? OBMenuBarWindowArrowHeight : 0) + (height ? height : _tableView.frame.size.height);
-
         height = height > menubarWindow.screen.visibleFrame.size.height ? menubarWindow.screen.visibleFrame.size.height - menubarWindow.toolbarHeight : height;
 
-        if (menubarWindow.frame.size.height != height) {
-            [menubarWindow setContentSize:NSMakeSize(menubarWindow.frame.size.width, height)];
-            [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
-            [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
-        }
+        [menubarWindow setFrame:NSMakeRect(menubarWindow.frame.origin.x,
+                                           menubarWindow.frame.origin.y + (menubarWindow.frame.size.height - height),
+                                           menubarWindow.frame.size.width,
+                                           height) display:YES animate:NO];
     }
 
     // Order front if needed
@@ -381,6 +383,24 @@
     }
 
     return NO;
+}
+
+-(void)tableView:(NSTableView *)tableView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
+{
+    if (tableView == _tableView && (operation == NSDragOperationDelete || _currentItemDragOperation == NSDragOperationDelete))
+    {
+        NSPasteboard* pboard = [session draggingPasteboard];
+        NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
+        NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+        NSInteger fromRow = [rowIndexes firstIndex];
+        id sourceItem = [self.monitorEngine.arrangedItems objectAtIndex:fromRow];
+
+        [(HWMItem*)sourceItem setHidden:@YES];
+
+        [_monitorEngine setNeedsUpdateLists];
+
+        NSShowAnimationEffect(NSAnimationEffectPoof, screenPoint, NSZeroSize, nil, nil, nil);
+    }
 }
 
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)toRow proposedDropOperation:(NSTableViewDropOperation)dropOperation;

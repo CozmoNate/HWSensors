@@ -29,7 +29,11 @@
                 <outlet property="monitorEngine" destination="YDM-13-O3B" id="Uur-Wt-DqM"/>
             </connections>
         </customObject>
-        <customObject id="909" customClass="GraphsController"/>
+        <customObject id="909" customClass="GraphsController">
+            <connections>
+                <outlet property="monitorEngine" destination="YDM-13-O3B" id="KDK-dA-aVb"/>
+            </connections>
+        </customObject>
         <customObject id="7879" customClass="AboutController"/>
         <customObject id="LKO-lM-1Z9" customClass="SUUpdater"/>
         <customObject id="YDM-13-O3B" customClass="HWMEngine"/>

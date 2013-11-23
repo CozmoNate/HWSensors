@@ -29,6 +29,8 @@
 @class GraphsView;
 @class HWMonitorItem;
 
+@class HWMEngine;
+
 @interface GraphsController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
     NSMutableArray *_colorsList;
@@ -37,6 +39,8 @@
     NSMutableArray *_graphViews;
     NSLock  *_itemsLock;
 }
+
+@property (assign) IBOutlet HWMEngine *monitorEngine;
 
 @property (nonatomic, assign) BOOL useFahrenheit;
 @property (nonatomic, assign) BOOL useSmoothing;

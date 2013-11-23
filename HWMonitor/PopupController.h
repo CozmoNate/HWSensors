@@ -41,6 +41,7 @@
 @property (assign) IBOutlet NSWindowController *aboutController;
 
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
+@property (readonly) BOOL hasDraggedFavoriteItem;
 
 - (IBAction)togglePanel:(id)sender;
 - (IBAction)showAboutPanel:(id)sender;

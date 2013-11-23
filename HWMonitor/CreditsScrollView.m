@@ -9,7 +9,8 @@
 #import "CreditsScrollView.h"
 
 #define WAITING_TIME 3.0f
-#define SCROLLING_TIME 0.075f
+#define SCROLLING_TIME (1.0 / 50) // 50 fps
+#define SCROLLING_STEP 0.5f
 
 @implementation CreditsScrollView
 
@@ -107,9 +108,10 @@
         [self performSelector:@selector(startScroll) withObject:nil afterDelay:WAITING_TIME * 2];
     }
     else {
-        [self scrollToPosition:NSMakePoint(0, _currentPosition += 1.0f)];
+        [self scrollToPosition:NSMakePoint(0, _currentPosition)];
+
         //[[self.contentView.subviews objectAtIndex:0] scrollPoint:NSMakePoint( 0, _currentPosition )];
-        //_currentPosition += 0.05f;
+        _currentPosition += SCROLLING_STEP;
     }
 }
 

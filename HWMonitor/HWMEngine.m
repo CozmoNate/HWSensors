@@ -803,9 +803,9 @@
 
     if (sensors) {
         [sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [obj willChangeValueForKey:@"value"];
+            [obj didChangeValueForKey:@"value"];
             [obj willChangeValueForKey:@"formattedValue"];
-//            [obj willChangeValueForKey:@"value"];
-//            [obj didChangeValueForKey:@"value"];
             [obj didChangeValueForKey:@"formattedValue"];
         }];
     }

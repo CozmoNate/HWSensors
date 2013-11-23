@@ -127,4 +127,6 @@ enum  {
 -(IBAction)attachToMenuBar:(id)sender;
 -(IBAction)detachFromMenuBar:(id)sender;
 
+- (NSPoint)originForAttachedState;
+
 @end

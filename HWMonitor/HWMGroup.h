@@ -12,28 +12,26 @@
 #import "HWMItem.h"
 
 typedef enum {
-    kHWMGroupNone = 0,
+    kHWMGroupNone           = 0,
 
-    kHWMGroupTemperature,
-    kHWMGroupVoltage,
-    kHWMGroupPWM,
-    kHWMGroupTachometer,
-    kHWMGroupMultiplier,
-    kHWMGroupFrequency,
-    kHWMGroupCurrent,
-    kHWMGroupPower,
+    kHWMGroupTemperature    = 1 << 1,
+    kHWMGroupVoltage        = 1 << 2,
+    kHWMGroupPWM            = 1 << 3,
+    kHWMGroupTachometer     = 1 << 4,
+    kHWMGroupMultiplier     = 1 << 5,
+    kHWMGroupFrequency      = 1 << 6,
+    kHWMGroupCurrent        = 1 << 7,
+    kHWMGroupPower          = 1 << 8,
 
-    kHWMGroupBattery,
+    kHWMGroupBattery        = 1 << 9,
 
-    kHWMGroupSmartTemperature,
-    kHWMGroupSmartRemainingLife,
-    kHWMGroupSmartRemainingBlocks,
-
-    kHWMGroupSelectorsCount
+    kHWMGroupSmartTemperature       = 1 << 10,
+    kHWMGroupSmartRemainingLife     = 1 << 11,
+    kHWMGroupSmartRemainingBlocks   = 1 << 12,
 
 } HWMGroupSelector;
 
-@class HWMIcon, HWMItem, HWMSensor;
+@class HWMIcon, HWMSensor;
 
 @interface HWMGroup : HWMItem
 
