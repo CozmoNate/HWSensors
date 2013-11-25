@@ -20,8 +20,8 @@
 @property (nonatomic, retain) NSString * legend;
 @property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSNumber * hidden;
+@property (nonatomic, retain) HWMFavorite * favorite;
 
 @property (nonatomic, strong) HWMEngine * engine;
-@property (nonatomic, retain) HWMFavorite * favorite;
 
 @end

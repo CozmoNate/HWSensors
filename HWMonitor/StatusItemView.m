@@ -43,17 +43,20 @@
 {
     if (_isHighlighted != isHighlighted) {
         _isHighlighted = isHighlighted;
-
-        //[self setNeedsDisplay:YES];
     }
 }
 
 -(void)setMonitorEngine:(HWMEngine *)monitorEngine
 {
     if (_monitorEngine != monitorEngine) {
+
+        if (_monitorEngine) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:HWMEngineSensorsHasBenUpdatedNotification object:_monitorEngine];
+        }
+
         _monitorEngine = monitorEngine;
 
-        [self setNeedsDisplay:YES];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:HWMEngineSensorsHasBenUpdatedNotification object:_monitorEngine];
     }
 }
 
@@ -82,8 +85,6 @@
             [self addObserver:self forKeyPath:@"monitorEngine.favoriteItems" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"monitorEngine.smcAndDevicesValuesChanged" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"monitorEngine.ataSmartValuesChanged" options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
 
@@ -95,8 +96,8 @@
     [self removeObserver:self forKeyPath:@"monitorEngine.favoriteItems"];
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar"];
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.ataSmartValuesChanged"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.smcAndDevicesValuesChanged"];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)drawRect:(NSRect)rect
@@ -264,6 +265,11 @@
 #pragma mark -
 #pragma mark Methods
 
+-(void)refresh
+{
+    [self performSelectorOnMainThread:@selector(setNeedsDisplay:) withObject:@YES waitUntilDone:NO];
+}
+
 -(NSRect)screenRect
 {
     return [self.window convertRectToScreen:self.frame];;
@@ -278,13 +284,7 @@
         [keyPath isEqualToString:@"monitorEngine.configuration.useBigFontInMenubar"] ||
         [keyPath isEqualToString:@"monitorEngine.configuration.useShadowEffectsInMenubar"]) {
 
-        [self setNeedsDisplay:YES];
-
-    }
-    else if ([keyPath isEqualToString:@"monitorEngine.smcAndDevicesValuesChanged"] ||
-             [keyPath isEqualToString:@"monitorEngine.smcAndDevicesValuesChanged"]) {
-
-        [self setNeedsDisplay:YES];
+        [self refresh];
 
     }
     //[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];

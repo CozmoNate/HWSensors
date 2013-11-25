@@ -91,6 +91,10 @@
 //    }
 
     self.statusItemView.isHighlighted = YES;
+
+    //if (menubarWindow.attachedToMenuBar) {
+    //    [NSApp activateIgnoringOtherApps:YES];
+    //}
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidOpen:)]) {
         [self.delegate popupDidOpen:self];
@@ -378,6 +382,8 @@
         
         [pboard declareTypes:[NSArray arrayWithObjects:kHWMonitorPopupItemDataType, nil] owner:self];
         [pboard setData:indexData forType:kHWMonitorPopupItemDataType];
+
+        [NSApp activateIgnoringOtherApps:YES];
 
         return YES;
     }

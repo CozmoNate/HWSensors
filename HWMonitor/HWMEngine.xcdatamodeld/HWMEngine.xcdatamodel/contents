@@ -48,10 +48,9 @@
         <attribute name="order" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="Item" inverseName="favorite" inverseEntity="Item" syncable="YES"/>
     </entity>
-    <entity name="GraphsGroup" representedClassName="HWMGraphsGroup" syncable="YES">
-        <attribute name="selector" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="sensors" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sensor" syncable="YES"/>
+    <entity name="Graph" representedClassName="HWMGraph" syncable="YES">
+        <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <relationship name="sensor" maxCount="1" deletionRule="Nullify" destinationEntity="Sensor" syncable="YES"/>
     </entity>
     <entity name="Group" representedClassName="HWMGroup" parentEntity="Item" syncable="YES">
         <attribute name="selector" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -89,12 +88,12 @@
         <element name="ColorTheme" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Configuration" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Favorite" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Group" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Graph" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Icon" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Item" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Sensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Group" positionX="0" positionY="0" width="0" height="0"/>
         <element name="SmcFanSensor" positionX="0" positionY="0" width="0" height="0"/>
         <element name="SmcSensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="GraphsGroup" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

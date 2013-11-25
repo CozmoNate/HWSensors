@@ -23,6 +23,7 @@
 #import "HWMonitorDefinitions.h"
 #import "FakeSMCDefinitions.h"
 
+NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
 @implementation HWMEngine
 
@@ -291,6 +292,21 @@
     return _arrangedItems;
 }
 
+-(NSArray *)graphs
+{
+    if (!_graphs) {
+        @synchronized (self) {
+            //
+
+            [self willChangeValueForKey:@"graphs"];
+            //_graphs = [items copy];
+            [self didChangeValueForKey:@"graphs"];
+        }
+    }
+
+    return _graphs;
+}
+
 #pragma mark
 #pragma mark Overriden Methods
 
@@ -365,7 +381,6 @@
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceWillSleep:) name:NSWorkspaceWillSleepNotification object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:nil];
-
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willTerminate:) name:NSApplicationWillTerminateNotification object:nil];
 
@@ -598,8 +613,6 @@
             _smcAndDevicesSensors = [sensors copy];
         }
 
-        [self willChangeValueForKey:@"smcAndDevicesValuesChanged"];
-
         for (HWMSensor *sensor in _smcAndDevicesSensors) {
             BOOL doUpdate = FALSE;
 
@@ -623,7 +636,7 @@
             }
         }
 
-        [self didChangeValueForKey:@"smcAndDevicesValuesChanged"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorsHasBenUpdatedNotification object:self];
     }
 }
 
@@ -641,8 +654,6 @@
 
             _ataSmartSensors = [sensors copy];
         }
-
-        [self willChangeValueForKey:@"ataSmartValuesChanged"];
 
         for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
 
@@ -669,7 +680,7 @@
 
         }
 
-        [self didChangeValueForKey:@"ataSmartValuesChanged"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorsHasBenUpdatedNotification object:self];
     }
 }
 
@@ -759,6 +770,9 @@
                 }
             }];
         }
+
+        // Update graphs
+        [self generateGraphs];
 
         if (![self.managedObjectContext save:&error])
             NSLog(@"saving context on rebuildSensorsList error %@", error);
@@ -864,7 +878,7 @@
             [_favoriteItems removeObjectAtIndex:index];
             [self didChangeValueForKey:@"favoriteItems"];
 
-            HWMFavorite *favorite = [self getFavoriteByItem:item andOrder:index];
+            HWMFavorite *favorite = [self getFavoriteByItem:item withOrder:index];
 
             if (favorite) {
                 [self.managedObjectContext deleteObject:favorite];
@@ -973,6 +987,9 @@
 {
     [self insertAtaSmartSensors];
 
+    // Update graphs
+    [self generateGraphs];
+
     _ataSmartSensors = nil;
 
     [self willChangeValueForKey:@"availableItems"];
@@ -1037,7 +1054,7 @@
     return favorite;
 }
 
--(HWMFavorite*)getFavoriteByItem:(HWMItem*)item andOrder:(NSUInteger)order
+-(HWMFavorite*)getFavoriteByItem:(HWMItem*)item withOrder:(NSUInteger)order
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Favorite"];
 
@@ -1053,7 +1070,6 @@
 
     return favorite;
 }
-
 
 -(void)updateFavoriteItemOrders
 {
@@ -1886,6 +1902,14 @@
     for (id device in devices) {
         [self insertBatterySensorFromDictionary:device group:group];
     }
+}
+
+#pragma mark
+#pragma mark Graphs
+
+-(void)generateGraphs
+{
+
 }
 
 @end
