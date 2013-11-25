@@ -663,27 +663,27 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
             [[_configuration mutableOrderedSetValueForKey:@"favorites"] insertObject:item atIndex:index];
             [item setFavorite:@1];
-            //[[_configuration mutableOrderedSetValueForKey:@"favorites"] insertObject:item atIndex:index];
-//            [self willChangeValueForKey:@"favoriteItems"];
-//            [_favoriteItems insertObject:item atIndex:index];
-//            [self didChangeValueForKey:@"favoriteItems"];
-//
-//            HWMFavorite *favorite;
-//
-//            if ([item isKindOfClass:[HWMSensor class]]) {
-//                favorite = [self getFavoriteByItem:item];
-//            }
-//
-//            if (!favorite) {
-//                favorite = [NSEntityDescription insertNewObjectForEntityForName:@"Favorite" inManagedObjectContext:self.managedObjectContext];
-//
-//                [favorite setOrder:[NSNumber numberWithInteger:index]];
-//                [favorite setItem:item];
-//            }
-//
-//            [self updateFavoriteItemOrders];
             [self saveContext];
         }
+    }
+}
+
+-(void)moveFavoritesItemAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex
+{
+    @synchronized (self) {
+
+        if (fromIndex > _configuration.favorites.count) {
+            fromIndex = _configuration.favorites.count - 1;
+        }
+
+        if (toIndex > _configuration.favorites.count) {
+            toIndex = _configuration.favorites.count - 1;
+        }
+
+        [[_configuration mutableOrderedSetValueForKey:@"favorites"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:toIndex];
+
+
+        [self saveContext];
     }
 }
 

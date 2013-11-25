@@ -389,12 +389,8 @@
         NSInteger fromRow = [rowIndexes firstIndex];
 
          if ([info draggingSource] == _favoritesTableView) {
-             HWMItem *item = [_monitorEngine.configuration.favorites objectAtIndex:fromRow - 1];
-
              toRow = toRow > fromRow ? toRow - 1 : toRow;
-
-             [_monitorEngine removeItemFromFavoritesAtIndex:fromRow - 1];
-             [_monitorEngine insertItemToFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
+             [_monitorEngine moveFavoritesItemAtIndex:fromRow - 1 toIndex:toRow > 0 ? toRow - 1 : 0];
          }
          else  if ([info draggingSource] == _sensorsTableView) {
              HWMItem *item = [_monitorEngine.availableItems objectAtIndex:fromRow - 1];
