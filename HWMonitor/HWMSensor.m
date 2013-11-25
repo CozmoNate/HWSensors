@@ -7,7 +7,7 @@
 //
 
 #import "HWMSensor.h"
-#import "HWMGroup.h"
+#import "HWMSensorsGroup.h"
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
 
@@ -24,6 +24,12 @@ static NSDictionary *gHWMSensorLocalizationCache;
 @dynamic value;
 
 @dynamic group;
+
+-(void)awakeFromFetch
+{
+    [self setPrimitiveValue:@0 forKey:@"service"];
+}
+
 
 -(BOOL)isActive
 {
@@ -48,7 +54,7 @@ static NSDictionary *gHWMSensorLocalizationCache;
         switch (self.selector.unsignedIntegerValue) {
             case kHWMGroupTemperature:
             case kHWMGroupSmartTemperature:
-                if (self.engine && self.engine.configuration.useFahrenheit.boolValue) {
+                if (self.group.configuration.useFahrenheit.boolValue) {
                     return [NSString stringWithFormat:@"%1.0f℉", floatValue * (9.0f / 5.0f) + 32.0f];
                 }
 

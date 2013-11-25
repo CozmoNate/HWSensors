@@ -82,7 +82,7 @@
         [_statusItem setView:self];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self addObserver:self forKeyPath:@"monitorEngine.favoriteItems" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.configuration.favorites" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar" options:NSKeyValueObservingOptionNew context:nil];
         }];
@@ -93,7 +93,7 @@
 
 -(void)dealloc
 {
-    [self removeObserver:self forKeyPath:@"monitorEngine.favoriteItems"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.favorites"];
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar"];
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar"];
 
@@ -112,7 +112,7 @@
 
     if (_monitorEngine) {
 
-        if (!_monitorEngine.favoriteItems || _monitorEngine.favoriteItems.count == 0) {
+        if (!_monitorEngine.configuration.favorites || !_monitorEngine.configuration.favorites.count) {
 
             [[NSGraphicsContext currentContext] saveGraphicsState];
 
@@ -142,9 +142,10 @@
         __block int lastWidth = 0;
         __block int index = 0;
 
-        [_monitorEngine.favoriteItems enumerateObjectsUsingBlock:^(id object, NSUInteger i, BOOL *stop) {
+        [_monitorEngine.configuration.favorites enumerateObjectsUsingBlock:^(id object, NSUInteger i, BOOL *stop) {
             if ([object isKindOfClass:[HWMIcon class]]) {
-                if (_monitorEngine.favoriteItems.count == 1) {
+
+                if (_monitorEngine.configuration.favorites.count == 1) {
                     offset += 3;
                 }
 
@@ -162,7 +163,7 @@
 
                         [image drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
 
-                        offset = offset + [image size].width + (i + 1 < _monitorEngine.favoriteItems.count && [[_monitorEngine.favoriteItems objectAtIndex:i + 1] isKindOfClass:[HWMSensor class]] ? 2 : i + 1 == _monitorEngine.favoriteItems.count ? 0 : [spacer size].width);
+                        offset = offset + [image size].width + (i + 1 < _monitorEngine.configuration.favorites.count && [[_monitorEngine.configuration.favorites objectAtIndex:i + 1] isKindOfClass:[HWMSensor class]] ? 2 : i + 1 == _monitorEngine.configuration.favorites.count ? 0 : [spacer size].width);
 
                         index = 0;
                     }
@@ -170,7 +171,7 @@
 
                 [[NSGraphicsContext currentContext] restoreGraphicsState];
 
-                if (_monitorEngine.favoriteItems.count == 1) {
+                if (_monitorEngine.configuration.favorites.count == 1) {
                     offset += 3;
                 }
             }
@@ -215,27 +216,27 @@
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
                     [title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];
 
-                    offset = offset + [title size].width + (i + 1 < _monitorEngine.favoriteItems.count ? [spacer size].width : 0);
+                    offset = offset + [title size].width + (i + 1 < _monitorEngine.configuration.favorites.count ? [spacer size].width : 0);
                 }
                 else {
                     int row = index % 2;
 
                     [title addAttribute:NSFontAttributeName value:_smallFont range:NSMakeRange(0, [title length])];
-                    [title drawAtPoint:NSMakePoint(offset, _monitorEngine.favoriteItems.count == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1 : lround([self frame].size.height / 2) - [title size].height + 2)];
+                    [title drawAtPoint:NSMakePoint(offset, _monitorEngine.configuration.favorites.count == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1 : lround([self frame].size.height / 2) - [title size].height + 2)];
 
                     int width = [title size].width;
 
                     if (row == 0) {
-                        if (i + 1 == _monitorEngine.favoriteItems.count) {
+                        if (i + 1 == _monitorEngine.configuration.favorites.count) {
                             offset += width;
                         }
-                        else if (i + 1 < _monitorEngine.favoriteItems.count && ![[_monitorEngine.favoriteItems objectAtIndex:i + 1] isKindOfClass:[HWMSensor class]]) {
+                        else if (i + 1 < _monitorEngine.configuration.favorites.count && ![[_monitorEngine.configuration.favorites objectAtIndex:i + 1] isKindOfClass:[HWMSensor class]]) {
                             offset = offset + width + [spacer size].width;
                         }
                     }
                     else if (row == 1) {
                         width = width > lastWidth ? width : lastWidth;
-                        offset = offset + width + (i + 1 < _monitorEngine.favoriteItems.count ? [spacer size].width : 0);
+                        offset = offset + width + (i + 1 < _monitorEngine.configuration.favorites.count ? [spacer size].width : 0);
                     }
 
                     lastWidth = width;
@@ -280,7 +281,7 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"monitorEngine.favoriteItems"] ||
+    if ([keyPath isEqualToString:@"monitorEngine.configuration.favorites"] ||
         [keyPath isEqualToString:@"monitorEngine.configuration.useBigFontInMenubar"] ||
         [keyPath isEqualToString:@"monitorEngine.configuration.useShadowEffectsInMenubar"]) {
 

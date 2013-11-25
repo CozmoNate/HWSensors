@@ -9,18 +9,17 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class HWMEngine;
-@class HWMFavorite;
+@class HWMConfiguration, HWMEngine;
 
 @interface HWMItem : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * order;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * legend;
 @property (nonatomic, retain) NSString * identifier;
+@property (nonatomic, retain) NSNumber * favorite;
 @property (nonatomic, retain) NSNumber * hidden;
-@property (nonatomic, retain) HWMFavorite * favorite;
+@property (nonatomic, retain) HWMConfiguration *configuration;
 
 @property (nonatomic, strong) HWMEngine * engine;
 

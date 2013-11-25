@@ -10,7 +10,7 @@
 
 #import "HWMConfiguration.h"
 #import "HWMEngine.h"
-#import "HWMGroup.h"
+#import "HWMSensorsGroup.h"
 
 #include <IOKit/storage/ata/ATASMARTLib.h>
 #include <sys/mount.h>

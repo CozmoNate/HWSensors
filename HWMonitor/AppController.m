@@ -36,7 +36,7 @@
 
 #import "HWMConfiguration.h"
 #import "HWMEngine.h"
-#import "HWMGroup.h"
+#import "HWMSensorsGroup.h"
 #import "HWMItem.h"
 #import "HWMIcon.h"
 #import "HWMSensor.h"
@@ -80,7 +80,7 @@
             [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
 
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"monitorEngine.favoriteItems" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.configuration.favorites" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.availableItems" options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
@@ -125,7 +125,7 @@
     if ([keyPath isEqual:@"monitorEngine.configuration.useFahrenheit"]) {
         [_monitorEngine setNeedsRecalculateSensorValues];
     }
-    else if ([keyPath isEqual:@"monitorEngine.favoriteItems"]) {
+    else if ([keyPath isEqual:@"monitorEngine.configuration.favorites"]) {
         [_favoritesTableView reloadData];
     }
     else if ([keyPath isEqual:@"monitorEngine.availableItems"]) {
@@ -135,7 +135,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    [_colorThemeMatrix selectCellAtRow:_monitorEngine.configuration.colorTheme.order.unsignedIntegerValue column:0];
+    [_colorThemeMatrix selectCellAtRow:_monitorEngine.configuration.colorThemeIndex.integerValue column:0];
 }
 
 -(void)awakeFromNib
@@ -146,7 +146,7 @@
 -(void)applicationWillTerminate:(NSNotification *)notification
 {
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.favoriteItems"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.favorites"];
     [self removeObserver:self forKeyPath:@"monitorEngine.availableItems"];
 }
 
@@ -172,11 +172,6 @@
 //    }
 //    
 //    [[NSUserDefaults standardUserDefaults] setObject:list forKey:kHWMonitorFavoritesList];
-}
-
-- (IBAction)colorThemeChanged:(id)sender
-{
-    [self.monitorEngine.configuration setColorTheme:[self.monitorEngine getColorThemeByIndex:[sender selectedRow]]];
 }
 
 - (IBAction)sensorHiddenFlagChanged:(id)sender
@@ -213,7 +208,7 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     if (tableView == _favoritesTableView) {
-        return _monitorEngine.favoriteItems.count + 1;
+        return _monitorEngine.configuration.favorites.count + 1;
     }
     else if (tableView == _sensorsTableView) {
         return _monitorEngine.availableItems.count + 1;
@@ -242,7 +237,7 @@
             return YES;
         }
         else {
-            return [[_monitorEngine.availableItems objectAtIndex:row - 1] isKindOfClass:[HWMGroup class]];
+            return [[_monitorEngine.availableItems objectAtIndex:row - 1] isKindOfClass:[HWMSensorsGroup class]];
         }
     }
     
@@ -255,7 +250,7 @@
         if (row == 0) {
             return nil;
         }
-        return [_monitorEngine.favoriteItems objectAtIndex:row - 1];
+        return [_monitorEngine.configuration.favorites objectAtIndex:row - 1];
     }
     else {
         if (row == 0) {
@@ -276,7 +271,7 @@
             return groupCell;
         }
 
-        HWMItem *item = [_monitorEngine.favoriteItems objectAtIndex:row - 1];
+        HWMItem *item = [_monitorEngine.configuration.favorites objectAtIndex:row - 1];
         return [tableView makeViewWithIdentifier:item.identifier owner:self];
     }
     else if (tableView == _sensorsTableView) {
@@ -323,7 +318,7 @@
 
         id item = [_monitorEngine.availableItems objectAtIndex:[rowIndexes firstIndex] - 1];
 
-        if ([item isKindOfClass:[HWMGroup class]]) {
+        if ([item isKindOfClass:[HWMSensorsGroup class]]) {
             return NO;
         }
 
@@ -358,7 +353,7 @@
             id item = [_monitorEngine.availableItems objectAtIndex:fromRow - 1];
             
             if ([item isKindOfClass:[HWMSensor class]]) {
-                _currentItemDragOperation = [_monitorEngine.favoriteItems containsObject:item] ? NSDragOperationPrivate : toRow > 0  ? NSDragOperationCopy : NSDragOperationNone;
+                _currentItemDragOperation = [(HWMItem*)item favorite].boolValue ? NSDragOperationPrivate : toRow > 0  ? NSDragOperationCopy : NSDragOperationNone;
             }
             else _currentItemDragOperation = toRow > 0 ? NSDragOperationCopy : NSDragOperationNone;
         }
@@ -394,7 +389,7 @@
         NSInteger fromRow = [rowIndexes firstIndex];
 
          if ([info draggingSource] == _favoritesTableView) {
-             HWMItem *item = [_monitorEngine.favoriteItems objectAtIndex:fromRow - 1];
+             HWMItem *item = [_monitorEngine.configuration.favorites objectAtIndex:fromRow - 1];
 
              toRow = toRow > fromRow ? toRow - 1 : toRow;
 

@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class HWMConfiguration;
 
 @interface HWMColorTheme : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * order;
 @property (nonatomic, retain) NSColor* groupEndColor;
 @property (nonatomic, retain) NSColor* groupStartColor;
 @property (nonatomic, retain) NSColor* groupTitleColor;
@@ -28,5 +28,7 @@
 @property (nonatomic, retain) NSColor* toolbarStrokeColor;
 @property (nonatomic, retain) NSColor* toolbarTitleColor;
 @property (nonatomic, retain) NSNumber * useDarkIcons;
+
+@property (nonatomic, retain) HWMConfiguration * configuration;
 
 @end

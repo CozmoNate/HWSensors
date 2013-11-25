@@ -10,10 +10,10 @@
 #import "HWMColorTheme.h"
 #import "HWMConfiguration.h"
 #import "HWMEngine.h"
-#import "HWMItem.h"
+#import "HWMSensor.h"
+#import "HWMSensorsGroup.h"
 
 @implementation PopupSensorCell
-
 
 -(void)colorThemeHasChanged:(HWMColorTheme *)newColorTheme
 {

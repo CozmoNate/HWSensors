@@ -353,26 +353,27 @@
                                                     <buttonCell type="radio" title="Default" imagePosition="left" alignment="left" state="on" identifier="Default" tag="1" inset="2" id="335">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
-                                                        <connections>
-                                                            <action selector="colorThemeChanged:" target="-2" id="HUV-y2-0WV"/>
-                                                        </connections>
                                                     </buttonCell>
                                                     <buttonCell type="radio" title="Gray" imagePosition="left" alignment="left" identifier="Gray" inset="2" id="334">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
-                                                        <connections>
-                                                            <action selector="colorThemeChanged:" target="-2" id="iLE-mh-E65"/>
-                                                        </connections>
                                                     </buttonCell>
                                                     <buttonCell type="radio" title="Dark" imagePosition="left" alignment="left" identifier="Dark" inset="2" id="333">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
-                                                        <connections>
-                                                            <action selector="colorThemeChanged:" target="-2" id="Hmf-P4-7We"/>
-                                                        </connections>
                                                     </buttonCell>
                                                 </column>
                                             </cells>
+                                            <connections>
+                                                <binding destination="-2" name="selectedIndex" keyPath="self.monitorEngine.configuration.colorThemeIndex" id="Ftf-dB-ep2">
+                                                    <dictionary key="options">
+                                                        <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                                        <integer key="NSNullPlaceholder" value="0"/>
+                                                        <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
                                         </matrix>
                                         <splitView autosaveName="PrefsWindowSensorsSplit" translatesAutoresizingMaskIntoConstraints="NO" id="292">
                                             <rect key="frame" x="17" y="17" width="286" height="411"/>

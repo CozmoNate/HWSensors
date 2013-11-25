@@ -20,7 +20,7 @@ typedef enum {
     kHWMSensorLevelExceeded              = 1000,
 } HWMSensorLevel;
 
-@class HWMGroup;
+@class HWMSensorsGroup;
 
 @interface HWMSensor : HWMItem
 
@@ -30,7 +30,7 @@ typedef enum {
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSNumber * value;
 
-@property (nonatomic, retain) HWMGroup * group;
+@property (nonatomic, retain) HWMSensorsGroup * group;
 
 @property (readonly) NSString * formattedValue;
 @property (readonly) BOOL isActive;

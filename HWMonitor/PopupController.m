@@ -21,7 +21,7 @@
 #import "HWMColorTheme.h"
 #import "HWMConfiguration.h"
 #import "HWMEngine.h"
-#import "HWMGroup.h"
+#import "HWMSensorsGroup.h"
 #import "HWMSensor.h"
 
 @implementation PopupController
@@ -331,7 +331,7 @@
 {
     HWMItem *item = [_monitorEngine.arrangedItems objectAtIndex:row];
 
-    NSUInteger height = [item isKindOfClass:[HWMGroup class]] ? 19 : 17;
+    NSUInteger height = [item isKindOfClass:[HWMSensorsGroup class]] ? 19 : 17;
 
     if (item.legend)
         height += 10;
@@ -473,21 +473,23 @@
     NSInteger fromRow = [rowIndexes firstIndex];
 
     HWMSensor *sourceItem = [self.monitorEngine.arrangedItems objectAtIndex:fromRow];
+    HWMSensor *destinationItem = [self.monitorEngine.arrangedItems objectAtIndex:toRow];
 
     toRow = toRow > fromRow ? toRow - 1 : toRow;
 
     [_tableView moveRowAtIndex:fromRow toIndex:toRow];
+    [sourceItem.group moveSensorsObject:sourceItem toIndex:[sourceItem.group.sensors indexOfObject:destinationItem]];
 
-    NSMutableArray *sensors = [[sourceItem.group.sensors sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]]] mutableCopy];
-
-    NSUInteger offset = [self.monitorEngine.arrangedItems indexOfObject:[sensors objectAtIndex:0]];
-
-    [sensors removeObject:sourceItem];
-    [sensors insertObject:sourceItem atIndex:offset <= toRow ? toRow - offset : 0];
-
-    [sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [obj setOrder:[NSNumber numberWithUnsignedInteger:idx]];
-    }];
+//    NSMutableArray *sensors = [[sourceItem.group.sensors sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]]] mutableCopy];
+//
+//    NSUInteger offset = [self.monitorEngine.arrangedItems indexOfObject:[sensors objectAtIndex:0]];
+//
+//    [sensors removeObject:sourceItem];
+//    [sensors insertObject:sourceItem atIndex:offset <= toRow ? toRow - offset : 0];
+//
+//    [sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//        [obj setOrder:[NSNumber numberWithUnsignedInteger:idx]];
+//    }];
 
     //[self.monitorEngine setNeedsUpdateLists];
 

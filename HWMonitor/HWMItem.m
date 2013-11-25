@@ -8,16 +8,17 @@
 
 #import "HWMItem.h"
 #import "HWMEngine.h"
+#import "HWMConfiguration.h"
 
 @implementation HWMItem
 
 @dynamic name;
-@dynamic order;
 @dynamic title;
 @dynamic legend;
 @dynamic identifier;
-@dynamic hidden;
 @dynamic favorite;
+@dynamic hidden;
+@dynamic configuration;
 
 @synthesize engine;
 

@@ -11,6 +11,26 @@
 extern NSString * const HWMEngineSensorsHasBenUpdatedNotification;
 
 typedef enum {
+    kHWMGroupNone           = 0,
+
+    kHWMGroupTemperature    = 1 << 1,
+    kHWMGroupVoltage        = 1 << 2,
+    kHWMGroupPWM            = 1 << 3,
+    kHWMGroupTachometer     = 1 << 4,
+    kHWMGroupMultiplier     = 1 << 5,
+    kHWMGroupFrequency      = 1 << 6,
+    kHWMGroupCurrent        = 1 << 7,
+    kHWMGroupPower          = 1 << 8,
+
+    kHWMGroupBattery        = 1 << 9,
+
+    kHWMGroupSmartTemperature       = 1 << 10,
+    kHWMGroupSmartRemainingLife     = 1 << 11,
+    kHWMGroupSmartRemainingBlocks   = 1 << 12,
+
+} HWMGroupSelector;
+
+typedef enum {
     kHWMEngineStateIdle = 0,
     kHWMEngineStateActive,
 } HWMEngineState;
@@ -31,7 +51,6 @@ typedef enum {
 
     NSArray *_platformProfile;
     NSArray *_availableItems;
-    NSMutableArray *_favoriteItems;
     NSArray *_arrangedItems;
     NSArray *_graphs;
     NSArray *_smcAndDevicesSensors;
@@ -54,9 +73,7 @@ typedef enum {
 @property (nonatomic, strong) IBOutlet HWMConfiguration * configuration;
 
 @property (readonly) IBOutlet NSArray * availableItems;
-@property (readonly) IBOutlet NSArray * favoriteItems;
 @property (readonly) IBOutlet NSArray * arrangedItems;
-@property (readonly) IBOutlet NSArray * graphs;
 
 +(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
 

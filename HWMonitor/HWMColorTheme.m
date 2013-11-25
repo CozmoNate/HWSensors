@@ -12,7 +12,6 @@
 @implementation HWMColorTheme
 
 @dynamic name;
-@dynamic order;
 @dynamic groupEndColor;
 @dynamic groupStartColor;
 @dynamic groupTitleColor;

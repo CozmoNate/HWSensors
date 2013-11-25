@@ -10,15 +10,15 @@
 #import "HWMColorTheme.h"
 #import "HWMConfiguration.h"
 #import "HWMEngine.h"
-#import "HWMGroup.h"
+#import "HWMSensorsGroup.h"
 
 @implementation PopupGroupCell
 
 - (void)drawRect:(NSRect)dirtyRect
 {
     if (!_gradient) {
-        _gradient = [[NSGradient alloc] initWithStartingColor:[self.objectValue engine].configuration.colorTheme.groupStartColor
-                                                  endingColor:[self.objectValue engine].configuration.colorTheme.groupEndColor];
+        _gradient = [[NSGradient alloc] initWithStartingColor:[(HWMSensorsGroup*)self.objectValue engine].configuration.colorTheme.groupStartColor
+                                                  endingColor:[(HWMSensorsGroup*)self.objectValue engine].configuration.colorTheme.groupEndColor];
     }
     
     NSRect contentRect = [self bounds];

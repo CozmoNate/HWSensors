@@ -49,8 +49,6 @@
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
 
 - (IBAction)checkForUpdates:(id)sender;
-
 - (IBAction)favoritesChanged:(id)sender;
-- (IBAction)colorThemeChanged:(id)sender;
 
 @end
