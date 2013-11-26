@@ -28,7 +28,6 @@
 @property (nonatomic, retain) NSColor* toolbarStrokeColor;
 @property (nonatomic, retain) NSColor* toolbarTitleColor;
 @property (nonatomic, retain) NSNumber * useDarkIcons;
-
 @property (nonatomic, retain) HWMConfiguration * configuration;
 
 @end

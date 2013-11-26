@@ -135,7 +135,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    [_colorThemeMatrix selectCellAtRow:_monitorEngine.configuration.colorThemeIndex.integerValue column:0];
+    //[_colorThemeMatrix selectCellAtRow:_monitorEngine.configuration.colorThemeIndex.integerValue column:0];
+    [_monitorEngine startEngine];
 }
 
 -(void)awakeFromNib
@@ -145,6 +146,8 @@
 
 -(void)applicationWillTerminate:(NSNotification *)notification
 {
+    [_monitorEngine stopEngine];
+
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit"];
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.favorites"];
     [self removeObserver:self forKeyPath:@"monitorEngine.availableItems"];
@@ -358,8 +361,51 @@
             else _currentItemDragOperation = toRow > 0 ? NSDragOperationCopy : NSDragOperationNone;
         }
     }
-    else if (tableView == _sensorsTableView) {
-        _currentItemDragOperation = NSDragOperationNone;
+    else if (tableView == _sensorsTableView && [info draggingSource] == _sensorsTableView) {
+
+            [tableView setDropRow:toRow dropOperation:NSTableViewDropAbove];
+
+            NSPasteboard* pboard = [info draggingPasteboard];
+            NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
+            NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+            NSInteger fromRow = [rowIndexes firstIndex] - 1;
+            toRow -= 1;
+            id sourceItem = [self.monitorEngine.availableItems objectAtIndex:fromRow];
+
+            _currentItemDragOperation = NSDragOperationNone;
+
+            if ([sourceItem isKindOfClass:[HWMSensor class]] && toRow > 0) {
+
+                _currentItemDragOperation = NSDragOperationMove;
+
+                if (toRow < self.monitorEngine.availableItems.count) {
+
+                    if (toRow == fromRow || toRow == fromRow + 1) {
+                        _currentItemDragOperation = NSDragOperationNone;
+                    }
+                    else {
+                        id destinationItem = [self.monitorEngine.availableItems objectAtIndex:toRow];
+
+                        if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
+                            _currentItemDragOperation = NSDragOperationNone;
+                        }
+                        else {
+                            destinationItem = [self.monitorEngine.availableItems objectAtIndex:toRow - 1];
+
+                            if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
+                                _currentItemDragOperation = NSDragOperationNone;
+                            }
+                        }
+                    }
+                }
+                else {
+                    id destinationItem = [self.monitorEngine.availableItems objectAtIndex:toRow - 1];
+
+                    if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
+                        _currentItemDragOperation = NSDragOperationNone;
+                    }
+                }
+            }
     }
 
     return _currentItemDragOperation;
@@ -381,21 +427,41 @@
 
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)toRow dropOperation:(NSTableViewDropOperation)dropOperation;
 {
-     if (tableView == _favoritesTableView) {
-        
+    if (tableView == _favoritesTableView) {
+
         NSPasteboard* pboard = [info draggingPasteboard];
         NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
 
-         if ([info draggingSource] == _favoritesTableView) {
-             toRow = toRow > fromRow ? toRow - 1 : toRow;
-             [_monitorEngine moveFavoritesItemAtIndex:fromRow - 1 toIndex:toRow > 0 ? toRow - 1 : 0];
-         }
-         else  if ([info draggingSource] == _sensorsTableView) {
-             HWMItem *item = [_monitorEngine.availableItems objectAtIndex:fromRow - 1];
-             [_monitorEngine insertItemToFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
-         }
+        if ([info draggingSource] == _favoritesTableView) {
+            toRow = toRow > fromRow ? toRow - 1 : toRow;
+            [_monitorEngine moveFavoritesItemAtIndex:fromRow - 1 toIndex:toRow > 0 ? toRow - 1 : 0];
+        }
+        else  if ([info draggingSource] == _sensorsTableView) {
+            HWMItem *item = [_monitorEngine.availableItems objectAtIndex:fromRow - 1];
+            [_monitorEngine insertItemToFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
+        }
+    }
+    else if (tableView == _sensorsTableView && [info draggingSource] == _sensorsTableView) {
+
+        NSInteger destinationRow = toRow - 1;
+
+        NSPasteboard* pboard = [info draggingPasteboard];
+        NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
+        NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+        NSInteger sourceRow = [rowIndexes firstIndex] - 1;
+
+        HWMSensor *sourceItem = [self.monitorEngine.availableItems objectAtIndex:sourceRow];
+        HWMSensor *destinationItem = [self.monitorEngine.availableItems objectAtIndex:destinationRow];
+
+        destinationRow = destinationRow > sourceRow ? destinationRow - 1 : destinationRow;
+
+        [tableView moveRowAtIndex:sourceRow + 1 toIndex:destinationRow + 1];
+        [sourceItem.group moveSensorsObject:sourceItem toIndex:[sourceItem.group.sensors indexOfObject:destinationItem]];
+
+
+        [_monitorEngine performSelector:@selector(setNeedsUpdateLists) withObject:nil afterDelay:1.0];
     }
 
     return YES;

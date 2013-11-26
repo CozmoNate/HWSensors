@@ -26,5 +26,6 @@
 @dynamic toolbarStrokeColor;
 @dynamic toolbarTitleColor;
 @dynamic useDarkIcons;
+@dynamic configuration;
 
 @end

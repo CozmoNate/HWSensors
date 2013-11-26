@@ -30,7 +30,6 @@ static NSDictionary *gHWMSensorLocalizationCache;
     [self setPrimitiveValue:@0 forKey:@"service"];
 }
 
-
 -(BOOL)isActive
 {
     return self.service && self.service.unsignedLongLongValue;
@@ -54,7 +53,7 @@ static NSDictionary *gHWMSensorLocalizationCache;
         switch (self.selector.unsignedIntegerValue) {
             case kHWMGroupTemperature:
             case kHWMGroupSmartTemperature:
-                if (self.group.configuration.useFahrenheit.boolValue) {
+                if (self.engine.configuration.useFahrenheit.boolValue) {
                     return [NSString stringWithFormat:@"%1.0f℉", floatValue * (9.0f / 5.0f) + 32.0f];
                 }
 

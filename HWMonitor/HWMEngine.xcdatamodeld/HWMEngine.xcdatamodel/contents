@@ -70,7 +70,6 @@
         <attribute name="legend" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="title" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <relationship name="configuration" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" syncable="YES"/>
     </entity>
     <entity name="Sensor" representedClassName="HWMSensor" isAbstract="YES" parentEntity="Item" syncable="YES">
         <attribute name="level" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -95,12 +94,12 @@
         <element name="ColorTheme" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Configuration" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Graph" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SensorsGroup" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="GraphsGroup" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Icon" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Item" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Sensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SensorsGroup" positionX="0" positionY="0" width="0" height="0"/>
         <element name="SmcFanSensor" positionX="0" positionY="0" width="0" height="0"/>
         <element name="SmcSensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="GraphsGroup" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

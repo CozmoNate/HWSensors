@@ -35,7 +35,7 @@
 @property (nonatomic, retain) NSOrderedSet *favorites;
 
 @property (readonly) HWMColorTheme *colorTheme;
-@property (nonatomic, strong) HWMEngine *engine;
+//@property (nonatomic, strong) HWMEngine *engine;
 
 @end
 

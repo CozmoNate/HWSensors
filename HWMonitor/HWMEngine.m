@@ -139,8 +139,10 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             // Sensors and groups
 
             for (HWMSensorsGroup *group in _configuration.sensorGroups) {
-                [items addObject:group];
-                [items addObjectsFromArray:[group.sensors array]];
+                if (group.sensors.count) {
+                    [items addObject:group];
+                    [items addObjectsFromArray:[group.sensors array]];
+                }
             }
 
             [self willChangeValueForKey:@"availableItems"];
@@ -197,6 +199,8 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 - (void)initialize
 {
+    [self assignPlatformProfile];
+    
     // Create or load configuration entity
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Configuration"];
 
@@ -213,8 +217,6 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
         _configuration.colorThemeIndex = @0;
     }
-
-    [self assignPlatformProfile];
 
     // Create color themes
     [self insertColorThemes];
@@ -234,16 +236,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     [self loadIconNamed:kHWMonitorIconBattery];
 
     // Update groups
-    [self insertGroupWithSelector:kHWMGroupTemperature name:@"TEMPERATURES" icon:[self getIconByName:kHWMonitorIconTemperatures]];
-    [self insertGroupWithSelector:kHWMGroupSmartTemperature name:@"DRIVE TEMPERATURES" icon:[self getIconByName:kHWMonitorIconTemperatures]];
-    [self insertGroupWithSelector:kHWMGroupSmartRemainingLife name:@"SSD REMAINING LIFE" icon:[self getIconByName:kHWMonitorIconSsdLife]];
-    [self insertGroupWithSelector:kHWMGroupSmartRemainingBlocks name:@"SSD REMAINING BLOCKS" icon:[self getIconByName:kHWMonitorIconSsdLife]];
-    [self insertGroupWithSelector:kHWMGroupFrequency name:@"FREQUENCIES" icon:[self getIconByName:kHWMonitorIconFrequencies]];
-    [self insertGroupWithSelector:kHWMGroupTachometer name:@"FANS & PUMPS" icon:[self getIconByName:kHWMonitorIconTachometers]];
-    [self insertGroupWithSelector:kHWMGroupVoltage name:@"VOLTAGES" icon:[self getIconByName:kHWMonitorIconVoltages]];
-    [self insertGroupWithSelector:kHWMGroupCurrent name:@"CURRENTS" icon:[self getIconByName:kHWMonitorIconVoltages]];
-    [self insertGroupWithSelector:kHWMGroupPower name:@"POWER CONSUMPTION" icon:[self getIconByName:kHWMonitorIconVoltages]];
-    [self insertGroupWithSelector:kHWMGroupBattery name:@"BATTERIES" icon:[self getIconByName:kHWMonitorIconBattery]];
+    [self insertGroups];
 
     // Detect sensors
     [self rebuildSensorsList];
@@ -259,7 +252,6 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     [self addObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.showVolumeNames" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.useBsdDriveNames" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [self addObserver:self forKeyPath:@"configuration.colorTheme" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 }
 
 - (void)assignPlatformProfile
@@ -382,6 +374,8 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     [icon setAlternate:alternate];
     [icon setTitle:GetLocalizedString(name)];
     [icon setIdentifier:@"Icon"];
+
+    [icon setEngine:self];
 
     return icon;
 }
@@ -651,7 +645,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 -(void)stopEngine
 {
     [self internalStopEngine];
-
+    
     _engineState = kHWMEngineStateIdle;
 }
 
@@ -709,7 +703,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     @synchronized (self) {
-        if (![[change objectForKey:NSKeyValueChangeNewKey] isEqualTo:[change objectForKey:NSKeyValueChangeOldKey]]) {
+        //if (![[change objectForKey:NSKeyValueChangeNewKey] isEqualTo:[change objectForKey:NSKeyValueChangeOldKey]]) {
             if ([keyPath isEqual:@"configuration.smcSensorsUpdateRate"]) {
 
                 [self initSmcAndDevicesTimer];
@@ -764,29 +758,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
                 [self didChangeValueForKey:@"arrangedItems"];
                 
             }
-            else if ([keyPath isEqual:@"configuration.colorTheme"]) {
-
-                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Icon"];
-
-                NSError *error;
-
-                NSArray *icons = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-                if (error) {
-                    NSLog(@"fetch Icon in observeValueForKeyPath error %@", error);
-                }
-
-                if (icons) {
-                    for (HWMIcon *icon in icons) {
-                        [icon setImage:_configuration.colorTheme.useDarkIcons.boolValue ? icon.alternate : icon.regular];
-                    }
-                }
-
-                [self willChangeValueForKey:@"arrangedItems"];
-                [self didChangeValueForKey:@"arrangedItems"];
-
-            }
-        }
+        //}
     }
 }
 
@@ -830,7 +802,6 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     [self removeObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate"];
     [self removeObserver:self forKeyPath:@"configuration.showVolumeNames"];
     [self removeObserver:self forKeyPath:@"configuration.useBsdDriveNames"];
-    [self removeObserver:self forKeyPath:@"configuration.colorTheme"];
 
     [self internalStopEngine];
 
@@ -1018,6 +989,20 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     [group setEngine:self];
 
     return group;
+}
+
+-(void)insertGroups
+{
+    [self insertGroupWithSelector:kHWMGroupTemperature name:@"TEMPERATURES" icon:[self getIconByName:kHWMonitorIconTemperatures]];
+    [self insertGroupWithSelector:kHWMGroupSmartTemperature name:@"DRIVE TEMPERATURES" icon:[self getIconByName:kHWMonitorIconHddTemperatures]];
+    [self insertGroupWithSelector:kHWMGroupSmartRemainingLife name:@"SSD REMAINING LIFE" icon:[self getIconByName:kHWMonitorIconSsdLife]];
+    [self insertGroupWithSelector:kHWMGroupSmartRemainingBlocks name:@"SSD REMAINING BLOCKS" icon:[self getIconByName:kHWMonitorIconSsdLife]];
+    [self insertGroupWithSelector:kHWMGroupFrequency name:@"FREQUENCIES" icon:[self getIconByName:kHWMonitorIconFrequencies]];
+    [self insertGroupWithSelector:kHWMGroupTachometer name:@"FANS & PUMPS" icon:[self getIconByName:kHWMonitorIconTachometers]];
+    [self insertGroupWithSelector:kHWMGroupVoltage name:@"VOLTAGES" icon:[self getIconByName:kHWMonitorIconVoltages]];
+    [self insertGroupWithSelector:kHWMGroupCurrent name:@"CURRENTS" icon:[self getIconByName:kHWMonitorIconVoltages]];
+    [self insertGroupWithSelector:kHWMGroupPower name:@"POWER CONSUMPTION" icon:[self getIconByName:kHWMonitorIconVoltages]];
+    [self insertGroupWithSelector:kHWMGroupBattery name:@"BATTERIES" icon:[self getIconByName:kHWMonitorIconBattery]];
 }
 
 #pragma mark

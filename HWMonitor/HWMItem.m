@@ -18,7 +18,6 @@
 @dynamic identifier;
 @dynamic favorite;
 @dynamic hidden;
-@dynamic configuration;
 
 @synthesize engine;
 

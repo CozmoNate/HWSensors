@@ -10,6 +10,7 @@
 #import "HWMColorTheme.h"
 #import "HWMGraphsGroup.h"
 #import "HWMItem.h"
+#import "HWMIcon.h"
 #import "HWMSensorsGroup.h"
 
 
@@ -32,7 +33,7 @@
 @dynamic colorThemes;
 @dynamic favorites;
 
-@synthesize engine;
+//@synthesize engine;
 @synthesize colorTheme;
 
 -(void)setColorThemeIndex:(NSNumber *)colorThemeIndex

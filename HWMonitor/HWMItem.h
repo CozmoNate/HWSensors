@@ -19,7 +19,6 @@
 @property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSNumber * favorite;
 @property (nonatomic, retain) NSNumber * hidden;
-@property (nonatomic, retain) HWMConfiguration *configuration;
 
 @property (nonatomic, strong) HWMEngine * engine;
 

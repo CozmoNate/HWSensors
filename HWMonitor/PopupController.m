@@ -477,8 +477,10 @@
 
     toRow = toRow > fromRow ? toRow - 1 : toRow;
 
-    [_tableView moveRowAtIndex:fromRow toIndex:toRow];
+    [tableView moveRowAtIndex:fromRow toIndex:toRow];
     [sourceItem.group moveSensorsObject:sourceItem toIndex:[sourceItem.group.sensors indexOfObject:destinationItem]];
+
+    [_monitorEngine performSelector:@selector(setNeedsUpdateLists) withObject:nil afterDelay:1.0];
 
 //    NSMutableArray *sensors = [[sourceItem.group.sensors sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]]] mutableCopy];
 //
