@@ -204,8 +204,10 @@
 
 -(void)sensorValuesHasBeenUpdated
 {
-    for (GraphsView *view in _graphViews) {
-        [view captureDataToHistoryNow];
+    if ([self.window isVisible] || _monitorEngine.configuration.updateSensorsInBackground.boolValue) {
+        for (GraphsView *view in _graphViews) {
+            [view captureDataToHistoryNow];
+        }
     }
 }
 
