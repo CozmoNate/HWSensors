@@ -492,11 +492,11 @@ bool FakeSMCKeyStore::start(IOService *provider)
     }
 
     if (OSString *manufacturer = OSDynamicCast(OSString, getProperty(kOEMInfoManufacturer)) ) {
-        this->addKeyWithValue("HWS0", TYPE_CH8, manufacturer->getLength() - 1, manufacturer->getCStringNoCopy());
+        this->addKeyWithValue("HWS0", TYPE_CH8, manufacturer->getLength(), manufacturer->getCStringNoCopy());
     }
 
     if (OSString *product = OSDynamicCast(OSString, getProperty(kOEMInfoProduct)) ) {
-        this->addKeyWithValue("HWS1", TYPE_CH8, product->getLength() - 1, product->getCStringNoCopy());
+        this->addKeyWithValue("HWS1", TYPE_CH8, product->getLength(), product->getCStringNoCopy());
     }
 
     IOService::publishResource(kFakeSMCKeyStoreService, this);
