@@ -81,7 +81,7 @@
 
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.favorites" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"monitorEngine.availableItems" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
 
@@ -128,7 +128,7 @@
     else if ([keyPath isEqual:@"monitorEngine.configuration.favorites"]) {
         [_favoritesTableView reloadData];
     }
-    else if ([keyPath isEqual:@"monitorEngine.availableItems"]) {
+    else if ([keyPath isEqual:@"monitorEngine.iconsWithSensorsAndGroups"]) {
         [_sensorsTableView reloadData];
     }
 }
@@ -150,7 +150,7 @@
 
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit"];
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.favorites"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.availableItems"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups"];
 }
 
 -(IBAction)favoritesChanged:(id)sender

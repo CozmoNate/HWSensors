@@ -135,7 +135,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             NSArray *icons = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
             if (error) {
-                NSLog(@"fetch icons in availableItems error %@", error);
+                NSLog(@"fetch icons in iconsWithSensorsAndGroups error %@", error);
             }
             else {
                 NSSortDescriptor *titleDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];

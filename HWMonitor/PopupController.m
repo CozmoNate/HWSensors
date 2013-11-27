@@ -179,7 +179,7 @@
     [Localizer localizeView:_toolbarView];
 
     [self addObserver:self forKeyPath:@"monitorEngine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"monitorEngine.arrangedItems" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"monitorEngine.sensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
 
     [_statusItemView setMonitorEngine:_monitorEngine];
 }
@@ -261,7 +261,7 @@
 
         [_tableView reloadData];
     }
-    else if ([keyPath isEqual:@"monitorEngine.arrangedItems"]) {
+    else if ([keyPath isEqual:@"monitorEngine.sensorsAndGroups"]) {
 
         [_tableView reloadData];
         [self layoutContent:YES orderFront:NO];
@@ -486,7 +486,7 @@
 
 //    NSMutableArray *sensors = [[sourceItem.group.sensors sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]]] mutableCopy];
 //
-//    NSUInteger offset = [self.monitorEngine.arrangedItems indexOfObject:[sensors objectAtIndex:0]];
+//    NSUInteger offset = [self.monitorEngine.sensorsAndGroups indexOfObject:[sensors objectAtIndex:0]];
 //
 //    [sensors removeObject:sourceItem];
 //    [sensors insertObject:sourceItem atIndex:offset <= toRow ? toRow - offset : 0];
