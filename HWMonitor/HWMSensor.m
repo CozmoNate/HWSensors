@@ -32,7 +32,7 @@ static NSDictionary *gHWMSensorLocalizationCache;
 
 -(BOOL)isActive
 {
-    return self.service && self.service.unsignedLongLongValue;
+    return self.service && self.service.unsignedLongLongValue > 0;
 }
 
 -(NSString *)formattedValue

@@ -45,17 +45,18 @@
         <attribute name="useShadowEffectsInMenubar" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <relationship name="colorThemes" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ColorTheme" inverseName="configuration" inverseEntity="ColorTheme" syncable="YES"/>
         <relationship name="favorites" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Item" syncable="YES"/>
-        <relationship name="graphGroups" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GraphsGroup" syncable="YES"/>
-        <relationship name="sensorGroups" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="SensorsGroup" syncable="YES"/>
+        <relationship name="graphGroups" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GraphsGroup" inverseName="configuration" inverseEntity="GraphsGroup" syncable="YES"/>
+        <relationship name="sensorGroups" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="SensorsGroup" inverseName="configuration" inverseEntity="SensorsGroup" syncable="YES"/>
     </entity>
     <entity name="Graph" representedClassName="HWMGraph" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="group" maxCount="1" deletionRule="Nullify" destinationEntity="GraphsGroup" inverseName="graphs" inverseEntity="GraphsGroup" syncable="YES"/>
         <relationship name="sensor" maxCount="1" deletionRule="Nullify" destinationEntity="Sensor" syncable="YES"/>
     </entity>
-    <entity name="GraphsGroup" representedClassName="HWMGraphsGroup" syncable="YES">
-        <attribute name="selector" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="configuration" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" syncable="YES"/>
+    <entity name="GraphsGroup" representedClassName="HWMGraphsGroup" parentEntity="Item" syncable="YES">
+        <relationship name="configuration" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" inverseName="graphGroups" inverseEntity="Configuration" syncable="YES"/>
         <relationship name="graphs" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Graph" inverseName="group" inverseEntity="Graph" syncable="YES"/>
         <relationship name="icon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" syncable="YES"/>
     </entity>
@@ -81,6 +82,7 @@
     </entity>
     <entity name="SensorsGroup" representedClassName="HWMSensorsGroup" parentEntity="Item" syncable="YES">
         <attribute name="selector" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="configuration" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" inverseName="sensorGroups" inverseEntity="Configuration" syncable="YES"/>
         <relationship name="icon" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" syncable="YES"/>
         <relationship name="sensors" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Sensor" inverseName="group" inverseEntity="Sensor" syncable="YES"/>
     </entity>

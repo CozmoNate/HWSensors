@@ -191,7 +191,7 @@
     if (resizeToContent) {
         CGFloat height = menubarWindow.toolbarHeight + 6;
 
-        for (int i = 0; i < self.monitorEngine.arrangedItems.count; i++) {
+        for (int i = 0; i < self.monitorEngine.sensorsAndGroups.count; i++) {
             height += [self tableView:_tableView heightOfRow:i];
         }
 
@@ -324,12 +324,12 @@
 #pragma mark NSTableView delegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return _monitorEngine.arrangedItems.count;
+    return _monitorEngine.sensorsAndGroups.count;
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    HWMItem *item = [_monitorEngine.arrangedItems objectAtIndex:row];
+    HWMItem *item = [_monitorEngine.sensorsAndGroups objectAtIndex:row];
 
     NSUInteger height = [item isKindOfClass:[HWMSensorsGroup class]] ? 19 : 17;
 
@@ -346,12 +346,12 @@
 
 -(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    return [_monitorEngine.arrangedItems objectAtIndex:row];
+    return [_monitorEngine.sensorsAndGroups objectAtIndex:row];
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    HWMItem *item = [_monitorEngine.arrangedItems objectAtIndex:row];
+    HWMItem *item = [_monitorEngine.sensorsAndGroups objectAtIndex:row];
 
     id view = [tableView makeViewWithIdentifier:item.identifier owner:self];
 
@@ -375,7 +375,7 @@
         return NO;
     }
     
-    id item = [self.monitorEngine.arrangedItems objectAtIndex:[rowIndexes firstIndex]];
+    id item = [self.monitorEngine.sensorsAndGroups objectAtIndex:[rowIndexes firstIndex]];
     
     if ([item isKindOfClass:[HWMSensor class]]) {
         NSData *indexData = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
@@ -399,7 +399,7 @@
         NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
-        id sourceItem = [self.monitorEngine.arrangedItems objectAtIndex:fromRow];
+        id sourceItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
 
         [(HWMItem*)sourceItem setHidden:@YES];
 
@@ -421,7 +421,7 @@
     NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
-    id sourceItem = [self.monitorEngine.arrangedItems objectAtIndex:fromRow];
+    id sourceItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
 
     _currentItemDragOperation = NSDragOperationNone;
     
@@ -429,19 +429,19 @@
         
         _currentItemDragOperation = NSDragOperationMove;
 
-        if (toRow < self.monitorEngine.arrangedItems.count) {
+        if (toRow < self.monitorEngine.sensorsAndGroups.count) {
 
             if (toRow == fromRow || toRow == fromRow + 1) {
                 _currentItemDragOperation = NSDragOperationNone;
             }
             else {
-                id destinationItem = [self.monitorEngine.arrangedItems objectAtIndex:toRow];
+                id destinationItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow];
 
                 if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
                     _currentItemDragOperation = NSDragOperationNone;
                 }
                 else {
-                    destinationItem = [self.monitorEngine.arrangedItems objectAtIndex:toRow - 1];
+                    destinationItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow - 1];
 
                     if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
                         _currentItemDragOperation = NSDragOperationNone;
@@ -450,7 +450,7 @@
             }
         }
         else {
-            id destinationItem = [self.monitorEngine.arrangedItems objectAtIndex:toRow - 1];
+            id destinationItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow - 1];
 
             if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
                 _currentItemDragOperation = NSDragOperationNone;
@@ -472,15 +472,17 @@
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
 
-    HWMSensor *sourceItem = [self.monitorEngine.arrangedItems objectAtIndex:fromRow];
-    HWMSensor *destinationItem = [self.monitorEngine.arrangedItems objectAtIndex:toRow];
+    HWMSensor *sourceItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
+    HWMSensor *destinationItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow];
 
     toRow = toRow > fromRow ? toRow - 1 : toRow;
 
     [tableView moveRowAtIndex:fromRow toIndex:toRow];
     [sourceItem.group moveSensorsObject:sourceItem toIndex:[sourceItem.group.sensors indexOfObject:destinationItem]];
 
-    [_monitorEngine performSelector:@selector(setNeedsUpdateLists) withObject:nil afterDelay:1.0];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        [_monitorEngine setNeedsUpdateLists];
+    });
 
 //    NSMutableArray *sensors = [[sourceItem.group.sensors sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]]] mutableCopy];
 //

@@ -17,11 +17,14 @@
     NSMutableArray *_history;
 }
 
+@property (nonatomic, retain) NSColor *color;
+@property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSNumber * hidden;
 @property (nonatomic, retain) HWMSensor *sensor;
 
 @property (readonly) NSArray *history;
 
++ (const NSArray*)graphColors;
 - (void)captureValueToHistorySetLimit:(NSUInteger)limit;
 
 @end

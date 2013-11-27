@@ -157,6 +157,7 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks = 0xB4;
     BOOL result = NO;
 
     if (kIOReturnSuccess == IOCreatePlugInInterfaceForService((io_service_t)self.service.unsignedLongLongValue, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
+
         if (S_OK == (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIOATASMARTInterfaceID), (LPVOID)&smartInterface)) {
             ATASMARTData smartData;
 

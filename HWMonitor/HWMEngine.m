@@ -15,6 +15,8 @@
 #import "HWMBatterySensor.h"
 #import "HWMConfiguration.h"
 #import "HWMColorTheme.h"
+#import "HWMGraph.h"
+#import "HWMGraphsGroup.h"
 
 #import "smc.h"
 #import "Localizer.h"
@@ -25,6 +27,10 @@
 NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
 @implementation HWMEngine
+
+@synthesize iconsWithSensorsAndGroups = _iconsWithSensorsAndGroups;
+@synthesize sensorsAndGroups = _sensorsAndGroups;
+@synthesize graphsAndGroups = _graphsAndGroups;
 
 #pragma mark
 #pragma mark Global methods
@@ -113,9 +119,9 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     _engineState = engineState;
 }
 
--(NSArray *)availableItems
+-(NSArray *)iconsWithSensorsAndGroups
 {
-    if (!_availableItems) {
+    if (!_iconsWithSensorsAndGroups) {
 
         @synchronized (self) {
 
@@ -145,18 +151,18 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
                 }
             }
 
-            [self willChangeValueForKey:@"availableItems"];
-            _availableItems = [items copy];
-            [self didChangeValueForKey:@"availableItems"];
+            [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
+            _iconsWithSensorsAndGroups = [items copy];
+            [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
         }
     }
 
-    return _availableItems;
+    return _iconsWithSensorsAndGroups;
 }
 
--(NSArray *)arrangedItems
+-(NSArray *)sensorsAndGroups
 {
-    if (!_arrangedItems) {
+    if (!_sensorsAndGroups) {
         @synchronized (self) {
 
             NSMutableArray *items = [[NSMutableArray alloc] init];
@@ -170,13 +176,39 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
                 }
             }
 
-            [self willChangeValueForKey:@"arrangedItems"];
-            _arrangedItems = [items copy];
-            [self didChangeValueForKey:@"arrangedItems"];
+            [self willChangeValueForKey:@"sensorsAndGroups"];
+            _sensorsAndGroups = [items copy];
+            [self didChangeValueForKey:@"sensorsAndGroups"];
         }
     }
 
-    return _arrangedItems;
+    return _sensorsAndGroups;
+}
+
+-(NSArray *)graphsAndGroups
+{
+    if (!_graphsAndGroups) {
+        @synchronized (self) {
+
+            NSMutableArray *items = [[NSMutableArray alloc] init];
+
+            for (HWMGraphsGroup *group in _configuration.graphGroups) {
+
+                NSOrderedSet *graphs = [group.graphs filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"hidden == NO"]];
+
+                if (graphs && graphs.count) {
+                    [items addObject:group];
+                    [items addObjectsFromArray:[graphs array]];
+                }
+            }
+
+            [self willChangeValueForKey:@"graphsAndGroups"];
+            _graphsAndGroups = [items copy];
+            [self didChangeValueForKey:@"graphsAndGroups"];
+        }
+    }
+    
+    return _graphsAndGroups;
 }
 
 #pragma mark
@@ -188,7 +220,6 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
     if (self) {
         _bundle = [NSBundle mainBundle];
-        _syncLock = [[NSRecursiveLock alloc] init];
     }
 
     return self;
@@ -456,7 +487,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
             __block NSMutableArray *sensors = [NSMutableArray array];\
 
-            [self.availableItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [self.iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 if ([obj isKindOfClass:[HWMSensor class]] && ![obj isKindOfClass:[HWMAtaSmartSensor class]]) {
                     [sensors addObject:obj];
                 }
@@ -496,9 +527,9 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 {
     @synchronized (self) {
         if (!_ataSmartSensors) {
-            __block NSMutableArray *sensors = [NSMutableArray array];\
+            __block NSMutableArray *sensors = [NSMutableArray array];
 
-            [self.availableItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [self.iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
                     [sensors addObject:obj];
                 }
@@ -585,7 +616,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
         [self insertBatterySensors];
 
         // Update graphs
-        [self generateGraphs];
+        [self insertGraphs];
 
         // Save context
         if (![self.managedObjectContext save:&error])
@@ -603,13 +634,17 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 -(void)setNeedsUpdateLists
 {
     @synchronized (self) {
-        [self willChangeValueForKey:@"availableItems"];
-        _availableItems = nil;
-        [self didChangeValueForKey:@"availableItems"];
+        [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
+        _iconsWithSensorsAndGroups = nil;
+        [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
 
-        [self willChangeValueForKey:@"arrangedItems"];
-        _arrangedItems = nil;
-        [self didChangeValueForKey:@"arrangedItems"];
+        [self willChangeValueForKey:@"sensorsAndGroups"];
+        _sensorsAndGroups = nil;
+        [self didChangeValueForKey:@"sensorsAndGroups"];
+
+        [self willChangeValueForKey:@"graphsAndGroups"];
+        _graphsAndGroups = nil;
+        [self didChangeValueForKey:@"graphsAndGroups"];
     }
 }
 
@@ -732,8 +767,8 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
                     }
                 }
 
-                [self willChangeValueForKey:@"arrangedItems"];
-                [self didChangeValueForKey:@"arrangedItems"];
+                [self willChangeValueForKey:@"sensorsAndGroups"];
+                [self didChangeValueForKey:@"sensorsAndGroups"];
 
             }
             else if ([keyPath isEqual:@"configuration.useBsdDriveNames"]) {
@@ -754,8 +789,8 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
                     }
                 }
 
-                [self willChangeValueForKey:@"arrangedItems"];
-                [self didChangeValueForKey:@"arrangedItems"];
+                [self willChangeValueForKey:@"sensorsAndGroups"];
+                [self didChangeValueForKey:@"sensorsAndGroups"];
                 
             }
         //}
@@ -773,13 +808,13 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     [self insertAtaSmartSensors];
 
     // Update graphs
-    [self generateGraphs];
+    [self insertGraphs];
 
     _ataSmartSensors = nil;
 
-    [self willChangeValueForKey:@"availableItems"];
-    _availableItems = nil;
-    [self didChangeValueForKey:@"availableItems"];
+    [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
+    _iconsWithSensorsAndGroups = nil;
+    [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
 }
 
 -(void)workspaceWillSleep:(id)sender
@@ -1557,9 +1592,78 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 #pragma mark
 #pragma mark Graphs
 
--(void)generateGraphs
+-(HWMGraph*)getGraphForSensor:(HWMSensor*)sensor fromGroup:(HWMGraphsGroup*)group
 {
+    return [[group.graphs filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"sensor == %@", sensor]] firstObject];
+}
 
+-(void)insertGraphsFromSensorsArray:(NSArray*)sensors group:(HWMGraphsGroup*)group
+{
+    NSUInteger colorIndex = 2;
+
+    for (HWMSensor *sensor in sensors) {
+
+        HWMGraph *graph = [self getGraphForSensor:sensor fromGroup:group];
+
+        if (!graph) {
+            graph = [NSEntityDescription insertNewObjectForEntityForName:@"Graph" inManagedObjectContext:self.managedObjectContext];
+
+            [group addGraphsObject:graph];
+        }
+
+        [graph setColor:[[HWMGraph graphColors] objectAtIndex:colorIndex++]];
+        [graph setIdentifier:@"Item"];
+        [graph setSensor:sensor];
+    }
+}
+
+-(HWMGraphsGroup*)getGraphsGroupByName:(NSString*)name
+{
+    return [[_configuration.graphGroups filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]] firstObject];
+}
+
+-(HWMGraphsGroup*)insertGraphsGroupWithSelectors:(NSArray*)selectors name:(NSString*)name icon:(HWMIcon*)icon sensors:(NSArray*)sensors
+{
+    HWMGraphsGroup *group = [self getGraphsGroupByName:name];
+
+    if (!group) {
+        group = [NSEntityDescription insertNewObjectForEntityForName:@"GraphsGroup" inManagedObjectContext:self.managedObjectContext];
+
+        [_configuration addGraphGroupsObject:group];
+    }
+
+    [group setName:name];
+    [group setTitle:GetLocalizedString(group.name)];
+    [group setIcon:icon];
+
+    [group setIdentifier:@"Group"];
+
+    [group setEngine:self];
+
+    // insert sensors
+    for (NSNumber * sel in selectors) {
+        NSArray *arrangedSensors = [sensors filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"selector == %@", sel]];
+
+        [self insertGraphsFromSensorsArray:arrangedSensors group:group];
+    }
+    
+    return group;
+}
+
+-(void)insertGraphs
+{
+    NSMutableArray *sensors = [[NSMutableArray alloc] init];
+
+    [_configuration.sensorGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [sensors addObjectsFromArray:[[(HWMSensorsGroup*)obj sensors] array]];
+    }];
+
+    [self insertGraphsGroupWithSelectors:@[@kHWMGroupTemperature, @kHWMGroupSmartTemperature] name:@"TEMPERATURES" icon:[self getIconByName:kHWMonitorIconTemperatures] sensors:sensors];
+    [self insertGraphsGroupWithSelectors:@[@kHWMGroupFrequency] name:@"FREQUENCIES" icon:[self getIconByName:kHWMonitorIconFrequencies] sensors:sensors];
+    [self insertGraphsGroupWithSelectors:@[@kHWMGroupTachometer] name:@"FANS & PUMPS" icon:[self getIconByName:kHWMonitorIconTachometers] sensors:sensors];
+    [self insertGraphsGroupWithSelectors:@[@kHWMGroupVoltage] name:@"VOLTAGES" icon:[self getIconByName:kHWMonitorIconVoltages] sensors:sensors];
+    [self insertGraphsGroupWithSelectors:@[@kHWMGroupCurrent] name:@"CURRENTS" icon:[self getIconByName:kHWMonitorIconVoltages] sensors:sensors];
+    [self insertGraphsGroupWithSelectors:@[@kHWMGroupPower] name:@"POWER CONSUMPTION" icon:[self getIconByName:kHWMonitorIconVoltages] sensors:sensors];
 }
 
 @end

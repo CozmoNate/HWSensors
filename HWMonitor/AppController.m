@@ -214,7 +214,7 @@
         return _monitorEngine.configuration.favorites.count + 1;
     }
     else if (tableView == _sensorsTableView) {
-        return _monitorEngine.availableItems.count + 1;
+        return _monitorEngine.iconsWithSensorsAndGroups.count + 1;
     }
 
     return 0;
@@ -240,7 +240,7 @@
             return YES;
         }
         else {
-            return [[_monitorEngine.availableItems objectAtIndex:row - 1] isKindOfClass:[HWMSensorsGroup class]];
+            return [[_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:row - 1] isKindOfClass:[HWMSensorsGroup class]];
         }
     }
     
@@ -259,7 +259,7 @@
         if (row == 0) {
             return nil;
         }
-        return [_monitorEngine.availableItems objectAtIndex:row - 1];
+        return [_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:row - 1];
     }
 }
 
@@ -286,7 +286,7 @@
             return groupCell;
         }
 
-        HWMItem *item = [_monitorEngine.availableItems objectAtIndex:row - 1];
+        HWMItem *item = [_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:row - 1];
         return [tableView makeViewWithIdentifier:item.identifier owner:self];
     }
 
@@ -319,7 +319,7 @@
             return NO;
         }
 
-        id item = [_monitorEngine.availableItems objectAtIndex:[rowIndexes firstIndex] - 1];
+        id item = [_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:[rowIndexes firstIndex] - 1];
 
         if ([item isKindOfClass:[HWMSensorsGroup class]]) {
             return NO;
@@ -353,7 +353,7 @@
             _currentItemDragOperation = toRow < 1 || toRow == fromRow || toRow == fromRow + 1 ? NSDragOperationNone : NSDragOperationMove;
         }
         else if ([info draggingSource] == _sensorsTableView) {
-            id item = [_monitorEngine.availableItems objectAtIndex:fromRow - 1];
+            id item = [_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:fromRow - 1];
             
             if ([item isKindOfClass:[HWMSensor class]]) {
                 _currentItemDragOperation = [(HWMItem*)item favorite].boolValue ? NSDragOperationPrivate : toRow > 0  ? NSDragOperationCopy : NSDragOperationNone;
@@ -370,7 +370,7 @@
             NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
             NSInteger fromRow = [rowIndexes firstIndex] - 1;
             toRow -= 1;
-            id sourceItem = [self.monitorEngine.availableItems objectAtIndex:fromRow];
+            id sourceItem = [self.monitorEngine.iconsWithSensorsAndGroups objectAtIndex:fromRow];
 
             _currentItemDragOperation = NSDragOperationNone;
 
@@ -378,19 +378,19 @@
 
                 _currentItemDragOperation = NSDragOperationMove;
 
-                if (toRow < self.monitorEngine.availableItems.count) {
+                if (toRow < self.monitorEngine.iconsWithSensorsAndGroups.count) {
 
                     if (toRow == fromRow || toRow == fromRow + 1) {
                         _currentItemDragOperation = NSDragOperationNone;
                     }
                     else {
-                        id destinationItem = [self.monitorEngine.availableItems objectAtIndex:toRow];
+                        id destinationItem = [self.monitorEngine.iconsWithSensorsAndGroups objectAtIndex:toRow];
 
                         if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
                             _currentItemDragOperation = NSDragOperationNone;
                         }
                         else {
-                            destinationItem = [self.monitorEngine.availableItems objectAtIndex:toRow - 1];
+                            destinationItem = [self.monitorEngine.iconsWithSensorsAndGroups objectAtIndex:toRow - 1];
 
                             if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
                                 _currentItemDragOperation = NSDragOperationNone;
@@ -399,7 +399,7 @@
                     }
                 }
                 else {
-                    id destinationItem = [self.monitorEngine.availableItems objectAtIndex:toRow - 1];
+                    id destinationItem = [self.monitorEngine.iconsWithSensorsAndGroups objectAtIndex:toRow - 1];
 
                     if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
                         _currentItemDragOperation = NSDragOperationNone;
@@ -436,11 +436,21 @@
 
         if ([info draggingSource] == _favoritesTableView) {
             toRow = toRow > fromRow ? toRow - 1 : toRow;
-            [_monitorEngine moveFavoritesItemAtIndex:fromRow - 1 toIndex:toRow > 0 ? toRow - 1 : 0];
+
+            [tableView moveRowAtIndex:fromRow toIndex:toRow];
+
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                [_monitorEngine moveFavoritesItemAtIndex:fromRow - 1 toIndex:toRow > 0 ? toRow - 1 : 0];
+            });
         }
         else  if ([info draggingSource] == _sensorsTableView) {
-            HWMItem *item = [_monitorEngine.availableItems objectAtIndex:fromRow - 1];
-            [_monitorEngine insertItemToFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
+            HWMItem *item = [_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:fromRow - 1];
+
+//            [tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:toRow] withAnimation:NSTableViewAnimationEffectGap];
+//
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                [_monitorEngine insertItemToFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
+            //            });
         }
     }
     else if (tableView == _sensorsTableView && [info draggingSource] == _sensorsTableView) {
@@ -452,16 +462,17 @@
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger sourceRow = [rowIndexes firstIndex] - 1;
 
-        HWMSensor *sourceItem = [self.monitorEngine.availableItems objectAtIndex:sourceRow];
-        HWMSensor *destinationItem = [self.monitorEngine.availableItems objectAtIndex:destinationRow];
+        HWMSensor *sourceItem = [self.monitorEngine.iconsWithSensorsAndGroups objectAtIndex:sourceRow];
+        HWMSensor *destinationItem = [self.monitorEngine.iconsWithSensorsAndGroups objectAtIndex:destinationRow];
 
         destinationRow = destinationRow > sourceRow ? destinationRow - 1 : destinationRow;
 
         [tableView moveRowAtIndex:sourceRow + 1 toIndex:destinationRow + 1];
         [sourceItem.group moveSensorsObject:sourceItem toIndex:[sourceItem.group.sensors indexOfObject:destinationItem]];
 
-
-        [_monitorEngine performSelector:@selector(setNeedsUpdateLists) withObject:nil afterDelay:1.0];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+            [_monitorEngine setNeedsUpdateLists];
+        });
     }
 
     return YES;

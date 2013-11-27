@@ -10,25 +10,23 @@
 
 extern NSString * const HWMEngineSensorsHasBenUpdatedNotification;
 
-typedef enum {
-    kHWMGroupNone           = 0,
 
-    kHWMGroupTemperature    = 1 << 1,
-    kHWMGroupVoltage        = 1 << 2,
-    kHWMGroupPWM            = 1 << 3,
-    kHWMGroupTachometer     = 1 << 4,
-    kHWMGroupMultiplier     = 1 << 5,
-    kHWMGroupFrequency      = 1 << 6,
-    kHWMGroupCurrent        = 1 << 7,
-    kHWMGroupPower          = 1 << 8,
+#define kHWMGroupNone                   0
 
-    kHWMGroupBattery        = 1 << 9,
+#define kHWMGroupTemperature            2
+#define kHWMGroupVoltage                4
+#define kHWMGroupPWM                    8
+#define kHWMGroupTachometer             16
+#define kHWMGroupMultiplier             32
+#define kHWMGroupFrequency              64
+#define kHWMGroupCurrent                128
+#define kHWMGroupPower                  256
 
-    kHWMGroupSmartTemperature       = 1 << 10,
-    kHWMGroupSmartRemainingLife     = 1 << 11,
-    kHWMGroupSmartRemainingBlocks   = 1 << 12,
+#define kHWMGroupBattery                512
 
-} HWMGroupSelector;
+#define kHWMGroupSmartTemperature       1024
+#define kHWMGroupSmartRemainingLife     2048
+#define kHWMGroupSmartRemainingBlocks   4096
 
 typedef enum {
     kHWMEngineStateIdle = 0,
@@ -47,17 +45,15 @@ typedef enum {
 
 @interface HWMEngine : NSObject
 {
-    NSRecursiveLock *_syncLock;
-
     NSArray *_platformProfile;
-    NSArray *_availableItems;
-    NSArray *_arrangedItems;
-    NSArray *_graphs;
-    NSArray *_smcAndDevicesSensors;
-    NSArray *_ataSmartSensors;
+
     io_connect_t _smcConnection;
     io_connect_t _fakeSmcConnection;
+
+    NSArray *_smcAndDevicesSensors;
     NSTimer *_smcAndDevicesSensorsUpdateLoopTimer;
+
+    NSArray *_ataSmartSensors;
     NSTimer *_ataSmartSensorsUpdateLoopTimer;
 }
 
@@ -72,8 +68,9 @@ typedef enum {
 
 @property (nonatomic, strong) IBOutlet HWMConfiguration * configuration;
 
-@property (readonly) IBOutlet NSArray * availableItems;
-@property (readonly) IBOutlet NSArray * arrangedItems;
+@property (readonly) IBOutlet NSArray * iconsWithSensorsAndGroups;
+@property (readonly) IBOutlet NSArray * sensorsAndGroups;
+@property (readonly) IBOutlet NSArray * graphsAndGroups;
 
 +(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
 

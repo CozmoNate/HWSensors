@@ -2,21 +2,21 @@
 //  HWMGraphsGroup.h
 //  HWMonitor
 //
-//  Created by Kozlek on 25/11/13.
+//  Created by Kozlek on 27/11/13.
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "HWMItem.h"
 
-@class HWMGraph, HWMIcon, HWMConfiguration;
+@class HWMConfiguration, HWMGraph, HWMIcon, HWMSensorsGroup;
 
-@interface HWMGraphsGroup : NSManagedObject
+@interface HWMGraphsGroup : HWMItem
 
-@property (nonatomic, retain) NSNumber * selector;
-@property (nonatomic, retain) HWMIcon *icon;
+@property (nonatomic, retain) HWMConfiguration *configuration;
 @property (nonatomic, retain) NSOrderedSet *graphs;
-
+@property (nonatomic, retain) HWMIcon *icon;
 @end
 
 @interface HWMGraphsGroup (CoreDataGeneratedAccessors)
@@ -31,4 +31,5 @@
 - (void)removeGraphsObject:(HWMGraph *)value;
 - (void)addGraphs:(NSOrderedSet *)values;
 - (void)removeGraphs:(NSOrderedSet *)values;
+
 @end

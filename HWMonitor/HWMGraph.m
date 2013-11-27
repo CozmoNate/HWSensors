@@ -9,11 +9,41 @@
 #import "HWMGraph.h"
 #import "HWMSensor.h"
 
+const NSArray * gHWMGraphsGroupColors;
 
 @implementation HWMGraph
 
+@dynamic color;
+@dynamic identifier;
 @dynamic hidden;
 @dynamic sensor;
+
++(const NSArray*)graphColors
+{
+    if (!gHWMGraphsGroupColors) {
+
+        NSMutableArray *colors = [[NSMutableArray alloc] init];
+
+        NSColorList *list = [NSColorList colorListNamed:@"Crayons"];
+
+        for (NSUInteger i = [[list allKeys] count] - 1; i != 0; i--) {
+            NSString *key = [[list allKeys] objectAtIndex:i];
+            NSColor *color = [list colorWithKey:key];
+            double intensity = (color.redComponent + color.blueComponent + color.greenComponent) / 3.0;
+            double red = [color redComponent];
+            double green = [color greenComponent];
+            double blue = [color blueComponent];
+            BOOL blackAndWhite = red == green && red == blue && green == blue;
+
+            if (intensity >= 0.335 && intensity <=0.900 && !blackAndWhite)
+                [colors addObject:color];
+        }
+
+        gHWMGraphsGroupColors = [colors copy];
+    }
+    
+    return gHWMGraphsGroupColors;
+}
 
 -(NSArray *)history
 {

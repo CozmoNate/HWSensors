@@ -41,8 +41,12 @@
 
 #import "Localizer.h"
 
-#define GetLocalizedString(key) \
-[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
+#import "HWMEngine.h"
+#import "HWMGraph.h"
+#import "HWMGraphsGroup.h"
+
+//#define GetLocalizedString(key) \
+//[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
 @implementation GraphsController
 
@@ -105,24 +109,12 @@
     self = [super initWithWindowNibName:@"GraphsController"];
     
     if (self) {
-        _colorsList = [[NSMutableArray alloc] init];
-        
-        NSColorList *list = [NSColorList colorListNamed:@"Crayons"];
-        
-        for (NSUInteger i = [[list allKeys] count] - 1; i != 0; i--) {
-            NSString *key = [[list allKeys] objectAtIndex:i];
-            NSColor *color = [list colorWithKey:key];
-            double intensity = (color.redComponent + color.blueComponent + color.greenComponent) / 3.0;
-            double red = [color redComponent];
-            double green = [color greenComponent];
-            double blue = [color blueComponent];
-            BOOL blackAndWhite = red == green && red == blue && green == blue;
-            
-            if (intensity >= 0.335 && intensity <=0.900 && !blackAndWhite)
-                [_colorsList addObject:color];
-        }
         
         _itemsLock = [[NSLock alloc] init];
+
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [Localizer localizeView:self.window];
+        }];
 
 //        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 //            [self initialSetup];
@@ -134,13 +126,13 @@
 
 -(void)awakeFromNib
 {
-    [Localizer localizeView:self.window];
-
-    [self setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseFahrenheitKey]];
-    [self setUseSmoothing:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsUseDataSmoothing]];
-    [self setBackgroundMonitoring:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsBackgroundMonitor]];
-    [self setIsTopmost:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorWindowTopmost]];
-    [self setGraphsScale:[[NSUserDefaults standardUserDefaults] floatForKey:kHWMonitorGraphsScale]];
+//    [Localizer localizeView:self.window];
+//
+//    [self setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseFahrenheitKey]];
+//    [self setUseSmoothing:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsUseDataSmoothing]];
+//    [self setBackgroundMonitoring:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsBackgroundMonitor]];
+//    [self setIsTopmost:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorWindowTopmost]];
+//    [self setGraphsScale:[[NSUserDefaults standardUserDefaults] floatForKey:kHWMonitorGraphsScale]];
 }
 
 -(void)dealloc
@@ -315,10 +307,12 @@
     [self graphsTableViewClicked:sender];
 }
 
-// NSTableView delegate
+#pragma mark
+#pragma mark NSTableView delegate
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return [_items count];
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+    return _monitorEngine.graphsAndGroups.count;
 }
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
@@ -328,7 +322,7 @@
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
-    return ![[_items objectAtIndex:row] isKindOfClass:[NSString class]];
+    return ![[_monitorEngine.graphsAndGroups objectAtIndex:row] isKindOfClass:[HWMGraphsGroup class]];
 }
 
 //-(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
@@ -336,39 +330,45 @@
 //    return [[_items objectAtIndex:row] isKindOfClass:[NSString class]];
 //}
 
+-(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    return [_monitorEngine.graphsAndGroups objectAtIndex:row];
+}
+
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    id item = [_items objectAtIndex:row];
+    id item = [_monitorEngine.graphsAndGroups objectAtIndex:row];
+    return [tableView makeViewWithIdentifier:[item identifier] owner:self];
     
-    if ([item isKindOfClass:[NSString class]]) {
-        NSTableCellView *groupCell = [tableView makeViewWithIdentifier:item owner:self];
-        
-        [[groupCell textField] setStringValue:GetLocalizedString(item)];
-        
-        return groupCell;
-    }
-    else if ([item isKindOfClass:[HWMonitorItem class]]) {
-        GraphsSensorCell *sensorCell = [tableView makeViewWithIdentifier:[item representation] owner:self];
-        
-        HWMonitorSensor *sensor = [item sensor];
-        
-        [[sensorCell textField] setStringValue:GetLocalizedString([sensor title])];
-        [[sensorCell valueField] takeStringValueFrom:sensor];
-        //[[sensorCell valueField] setStringValue:[sensor stringValue]];
-        
-        if ([item color] == nil) {
-            NSLog(@"No color for key %@", [sensor name]);
-        }
-        else [[sensorCell colorWell] setColor:[item color]];
-        [[sensorCell checkBox] setState:![self checkItemIsHidden:item]];
-        [[sensorCell checkBox] setTag:[_items indexOfObject:item]];
-        
-        //[sensorCell setRepresentedObject:item];
-        
-        return sensorCell;
-    }
-    
-    return nil;
+//    if ([item isKindOfClass:[NSString class]]) {
+//        NSTableCellView *groupCell = [tableView makeViewWithIdentifier:item owner:self];
+//        
+//        [[groupCell textField] setStringValue:GetLocalizedString(item)];
+//        
+//        return groupCell;
+//    }
+//    else if ([item isKindOfClass:[HWMonitorItem class]]) {
+//        GraphsSensorCell *sensorCell = [tableView makeViewWithIdentifier:[item representation] owner:self];
+//        
+//        HWMonitorSensor *sensor = [item sensor];
+//        
+//        [[sensorCell textField] setStringValue:GetLocalizedString([sensor title])];
+//        [[sensorCell valueField] takeStringValueFrom:sensor];
+//        //[[sensorCell valueField] setStringValue:[sensor stringValue]];
+//        
+//        if ([item color] == nil) {
+//            NSLog(@"No color for key %@", [sensor name]);
+//        }
+//        else [[sensorCell colorWell] setColor:[item color]];
+//        [[sensorCell checkBox] setState:![self checkItemIsHidden:item]];
+//        [[sensorCell checkBox] setTag:[_items indexOfObject:item]];
+//        
+//        //[sensorCell setRepresentedObject:item];
+//        
+//        return sensorCell;
+//    }
+//    
+//    return nil;
 }
 
 @end
