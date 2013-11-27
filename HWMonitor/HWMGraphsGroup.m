@@ -19,6 +19,8 @@
 @dynamic graphs;
 @dynamic icon;
 
+@synthesize selectors;
+
 -(void)addGraphsObject:(HWMGraph *)value
 {
     [[self mutableOrderedSetValueForKey:@"graphs"] addObject:value];

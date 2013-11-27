@@ -7,7 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GraphsController">
             <connections>
-                <outlet property="graphsCollectionView" destination="134" id="157"/>
+                <outlet property="graphsCollectionView" destination="134" id="JiS-ny-eHR"/>
                 <outlet property="graphsScrollView" destination="13" id="1kh-gd-60m"/>
                 <outlet property="graphsTableView" destination="17" id="165"/>
                 <outlet property="window" destination="4" id="163"/>
@@ -189,7 +189,7 @@
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                     </buttonCell>
                                                                     <connections>
-                                                                        <action selector="graphsCheckButtonClicked:" target="-2" id="dz9-Jz-FuI"/>
+                                                                        <action selector="graphsNeedDisplay:" target="-2" id="55m-kc-ctM"/>
                                                                         <binding destination="Cd6-Ee-dS1" name="value" keyPath="objectValue.hidden" id="tVd-eD-Ifv">
                                                                             <dictionary key="options">
                                                                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -223,7 +223,7 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <action selector="graphsTableViewClicked:" target="-2" id="160"/>
+                                                <action selector="graphsNeedDisplay:" target="-2" id="4Gw-GV-aCJ"/>
                                                 <outlet property="dataSource" destination="-2" id="166"/>
                                                 <outlet property="delegate" destination="-2" id="167"/>
                                             </connections>

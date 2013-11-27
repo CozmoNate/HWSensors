@@ -31,36 +31,19 @@
 
 @class HWMEngine;
 
-@interface GraphsController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
+@interface GraphsController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSCollectionViewDelegate>
 {
-    NSMutableArray *_colorsList;
-    NSMutableArray *_items;
-    NSMutableArray *_hiddenItems;
     NSMutableArray *_graphViews;
-    NSLock  *_itemsLock;
 }
 
-@property (assign) IBOutlet HWMEngine *monitorEngine;
+@property (nonatomic, strong) IBOutlet HWMEngine *monitorEngine;
 
-@property (nonatomic, assign) BOOL useFahrenheit;
-@property (nonatomic, assign) BOOL useSmoothing;
-@property (nonatomic, assign) BOOL backgroundMonitoring;
-@property (nonatomic, assign) BOOL isTopmost;
-@property (nonatomic, assign) float graphsScale;
-
-@property (readonly) NSArray *colorsList;
-
-@property (readonly) HWMonitorItem *selectedItem;
+@property (readonly) id selectedItem;
 
 @property (assign) IBOutlet NSScrollView *graphsScrollView;
 @property (assign) IBOutlet NSTableView *graphsTableView;
 @property (assign) IBOutlet NSCollectionView *graphsCollectionView;
 
-- (void) setupWithGroups:(NSArray*)groups;
-- (void) captureDataToHistoryNow;
-- (BOOL) checkItemIsHidden:(HWMonitorItem*)item;
-
--(IBAction)graphsTableViewClicked:(id)sender;
--(IBAction)graphsCheckButtonClicked:(id)sender;
+-(IBAction)graphsNeedDisplay:(id)sender;
 
 @end

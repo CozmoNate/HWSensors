@@ -44,118 +44,107 @@
 #import "HWMEngine.h"
 #import "HWMGraph.h"
 #import "HWMGraphsGroup.h"
+#import "HWMConfiguration.h"
 
 //#define GetLocalizedString(key) \
 //[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
 @implementation GraphsController
 
--(void)setUseFahrenheit:(BOOL)useFahrenheit
+@synthesize selectedItem = _selectedItem;
+
+#pragma mark
+#pragma mark Properties
+
+-(void)setMonitorEngine:(HWMEngine *)monitorEngine
 {
-    _useFahrenheit = useFahrenheit;
-    
-    [_graphsTableView reloadData];
-    
-    for (GraphsView *graphView in _graphViews) {
-        [graphView setUseFahrenheit:useFahrenheit];
+    if (_monitorEngine != monitorEngine) {
+
+        if (_monitorEngine) {
+//            [[NSNotificationCenter defaultCenter] removeObserver:self name:HWMEngineSensorsHasBenUpdatedNotification object:_monitorEngine];
+//
+//            [self removeObserver:_monitorEngine forKeyPath:@"graphsAndGroups"];
+//            [self removeObserver:_monitorEngine forKeyPath:@"configuration.graphsWindowAlwaysTopmost"];
+//            [self removeObserver:_monitorEngine forKeyPath:@"configuration.useGraphSmoothing"];
+//            [self removeObserver:_monitorEngine forKeyPath:@"configuration.graphsScaleValue"];
+        }
+
+        _monitorEngine = monitorEngine;
+
+        if (_monitorEngine) {
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorsHasBenUpdatedNotification object:_monitorEngine];
+//
+//            [self addObserver:_monitorEngine forKeyPath:@"graphsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
+//            [self addObserver:_monitorEngine forKeyPath:@"configuration.graphsWindowAlwaysTopmost" options:NSKeyValueObservingOptionNew context:nil];
+//            [self addObserver:_monitorEngine forKeyPath:@"configuration.useGraphSmoothing" options:NSKeyValueObservingOptionNew context:nil];
+//            [self addObserver:_monitorEngine forKeyPath:@"configuration.graphsScaleValue" options:NSKeyValueObservingOptionNew context:nil];
+        }
     }
-}
-
--(void)setUseSmoothing:(BOOL)useSmoothing
-{
-    _useSmoothing = useSmoothing;
-    
-    for (GraphsView *graphView in _graphViews) {
-        [graphView setUseSmoothing:useSmoothing];
-        [graphView setNeedsDisplay:YES];
-    }
-}
-
--(void)setIsTopmost:(BOOL)isTopmost
-{
-    _isTopmost = isTopmost;
-
-    [self.window setLevel:isTopmost ? NSFloatingWindowLevel : NSNormalWindowLevel];
-}
-
--(void)setGraphsScale:(float)graphsScale
-{
-    _graphsScale = graphsScale;
-    
-    if (_graphsScale <= 0)
-        _graphsScale = 5.0;
-    
-    for (GraphsView *graphView in _graphViews) {
-        [graphView setGraphScale:_graphsScale];
-    }
-}
-
--(NSArray *)colorsList
-{
-    return _colorsList;
 }
 
 -(HWMonitorItem *)selectedItem
 {
-    if ([_graphsTableView selectedRow] >= 0 && [_graphsTableView selectedRow] < [_items count]) {
-        return [_items objectAtIndex:[_graphsTableView selectedRow]];
+    if (_graphsTableView.selectedRow >= 0 && _graphsTableView.selectedRow < _monitorEngine.graphsAndGroups.count) {
+        id item = [_monitorEngine.graphsAndGroups objectAtIndex:_graphsTableView.selectedRow];
+
+        if (item != _selectedItem) {
+            [self willChangeValueForKey:@"selectedItem"];
+            _selectedItem = item;
+            [self didChangeValueForKey:@"selectedItem"];
+        }
+    }
+    else {
+        [self willChangeValueForKey:@"selectedItem"];
+        _selectedItem = nil;
+        [self didChangeValueForKey:@"selectedItem"];
     }
     
-    return nil;
+    return _selectedItem;
 }
+
+#pragma mark
+#pragma mark Methods
 
 -(id)init
 {
     self = [super initWithWindowNibName:@"GraphsController"];
     
     if (self) {
-        
-        _itemsLock = [[NSLock alloc] init];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [Localizer localizeView:self.window];
+            [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
+            [self rebuildViews];
+
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorsHasBenUpdatedNotification object:_monitorEngine];
+
+            [self addObserver:self forKeyPath:@"monitorEngine.graphsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.configuration.graphsWindowAlwaysTopmost" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.configuration.useGraphSmoothing" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.configuration.graphsScaleValue" options:NSKeyValueObservingOptionNew context:nil];
         }];
 
-//        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//            [self initialSetup];
-//        }];
     }
     
     return self;
 }
 
--(void)awakeFromNib
-{
-//    [Localizer localizeView:self.window];
-//
-//    [self setUseFahrenheit:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorUseFahrenheitKey]];
-//    [self setUseSmoothing:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsUseDataSmoothing]];
-//    [self setBackgroundMonitoring:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorGraphsBackgroundMonitor]];
-//    [self setIsTopmost:[[NSUserDefaults standardUserDefaults] boolForKey:kHWMonitorWindowTopmost]];
-//    [self setGraphsScale:[[NSUserDefaults standardUserDefaults] floatForKey:kHWMonitorGraphsScale]];
-}
-
 -(void)dealloc
 {
-    //    [self removeObserver:self forKeyPath:@""];
+    [self removeObserver:self forKeyPath:@"monitorEngine.graphsAndGroups"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.graphsWindowAlwaysTopmost"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useGraphSmoothing"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.graphsScaleValue"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)awakeFromNib
+{
+
 }
 
 -(void)showWindow:(id)sender
 {
-    [_itemsLock lock];
-    
-    [_items enumerateObjectsUsingBlock:^(id item, NSUInteger index, BOOL *stop) {
-        if ([item isKindOfClass:[HWMonitorItem class]]) {
-            id cell = [_graphsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
-            
-            if (cell && [cell isKindOfClass:[GraphsSensorCell class]]) {
-                [[cell valueField] takeStringValueFrom:[item sensor]];
-            }
-        }
-    }];
-    
-    [_itemsLock unlock];
-    
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
     
@@ -164,74 +153,24 @@
 //    }
 }
 
--(void)addGraphForSensorGroup:(HWSensorGroup)sensorsGroup fromGroupsList:(NSArray*)groupsList withTitle:(NSString*)title
+-(void)rebuildViews
 {
-    NSMutableArray *sensorItems = [[NSMutableArray alloc] init];
-    
-    NSUInteger colorIndex = 2;
-    
-    for (HWMonitorGroup *group in groupsList) {
-        for (HWMonitorItem *item in [group items]) {
-            if ([[item sensor] group] & sensorsGroup) {
-                NSColor *color = [_colorsList objectAtIndex:colorIndex++];
-                
-                if (colorIndex >= [_colorsList count])
-                    colorIndex = 0;
-                
-                [item setColor:color];
-                
-                [sensorItems addObject:item];
-            }
-        }
-    }
-    
-    if ([sensorItems count]) {
-        [_items addObject:title];
-        [_items addObjectsFromArray:sensorItems];
-        
-        GraphsView *graphView = [[GraphsView alloc] init];
-        
-        [graphView addItemsFromList:sensorItems forSensorGroup:sensorsGroup];
-        [graphView setGraphsController:self];
-        [graphView setSensorGroup:sensorsGroup];
-        
-        [graphView setUseFahrenheit:_useFahrenheit];
-        [graphView setUseSmoothing:_useSmoothing];
-        [graphView setGraphScale:_graphsScale];
-    
-        [_graphViews addObject:graphView];
-    }
-}
-
--(void)setupWithGroups:(NSArray *)groups
-{
-    [_itemsLock lock];
-    
-    if (!_items) {
-        _items = [[NSMutableArray alloc] init];
-    }
-    else {
-        [_items removeAllObjects];
-    }
-    
     if (!_graphViews) {
         _graphViews = [[NSMutableArray alloc] init];
     }
     else {
         [_graphViews removeAllObjects];
     }
-    
-    if (!_hiddenItems) {
-        _hiddenItems = [[NSMutableArray alloc] initWithArray:[[[NSUserDefaultsController sharedUserDefaultsController] defaults] objectForKey:kHWMonitorHiddenGraphsList]];
+
+    for (HWMGraphsGroup *group in _monitorEngine.configuration.graphGroups) {
+        GraphsView *graphView = [[GraphsView alloc] init];
+
+        [graphView setGraphsController:self];
+        [graphView setGraphsGroup:group];
+
+        [_graphViews addObject:graphView];
     }
-    
-    [self addGraphForSensorGroup:kHWSensorGroupTemperature | kSMARTGroupTemperature fromGroupsList:groups withTitle:@"TEMPERATURES"];
-    [self addGraphForSensorGroup:kHWSensorGroupFrequency fromGroupsList:groups withTitle:@"FREQUENCIES"];
-    [self addGraphForSensorGroup:kHWSensorGroupTachometer fromGroupsList:groups withTitle:@"FANS & PUMPS"];
-    [self addGraphForSensorGroup:kHWSensorGroupVoltage fromGroupsList:groups withTitle:@"VOLTAGES"];
-    [self addGraphForSensorGroup:kHWSensorGroupCurrent fromGroupsList:groups withTitle:@"CURRENTS"];
-    [self addGraphForSensorGroup:kHWSensorGroupPower fromGroupsList:groups withTitle:@"POWER CONSUMPTION"];
-    
+
     [_graphsCollectionView setContent:_graphViews];
     
     [_graphsCollectionView setMinItemSize:NSMakeSize(0, 80)];
@@ -242,69 +181,39 @@
     }];
     
     [_graphsTableView reloadData];
-    
-    [_itemsLock unlock];
 }
 
-- (void)captureDataToHistoryNow
+#pragma mark
+#pragma mark Events
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    [_itemsLock lock];
-    
-    if ([self.window isVisible]) {
-        [_items enumerateObjectsUsingBlock:^(id item, NSUInteger index, BOOL *stop) {
-            if ([item isKindOfClass:[HWMonitorItem class]]) {
-                id cell = [_graphsTableView viewAtColumn:0 row:index makeIfNecessary:NO];
-                
-                if (cell && [cell isKindOfClass:[GraphsSensorCell class]]) {
-                    [[cell valueField] setStringValue:[[item sensor] stringValue]];
-                }
-            }
-        }];
+    if ([keyPath isEqual:@"monitorEngine.graphsAndGroups"]) {
+        [self rebuildViews];
     }
-    
-    if ([self.window isVisible] || [self backgroundMonitoring]) {
-        for (GraphsView *graphView in _graphViews) {
-            [graphView captureDataToHistoryNow];
-        }
+    else if ([keyPath isEqual:@"monitorEngine.configuration.graphsWindowAlwaysTopmost"]) {
+        [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
     }
-    
-    [_itemsLock unlock];
+    else if ([keyPath isEqual:@"monitorEngine.configuration.useGraphSmoothing"]) {
+        [self graphsNeedDisplay:self];
+    }
+    else if ([keyPath isEqual:@"monitorEngine.configuration.graphsScaleValue"]) {
+        [self graphsNeedDisplay:self];
+    }
 }
 
-- (BOOL)checkItemIsHidden:(HWMonitorItem*)item
+-(void)sensorValuesHasBeenUpdated
 {
-    return [_hiddenItems indexOfObject:[[item sensor] name]] != NSNotFound;
+    for (GraphsView *view in _graphViews) {
+        [view captureDataToHistoryNow];
+    }
 }
 
-// Events
-
--(IBAction)graphsTableViewClicked:(id)sender
+-(IBAction)graphsNeedDisplay:(id)sender
 {
     for (id graphView in _graphViews) {
         [graphView setNeedsDisplay:YES];
     }
-}
-
--(IBAction)graphsCheckButtonClicked:(id)sender
-{
-    if ([sender tag] >= 0 && [sender tag] < [_items count]) {
-        HWMonitorItem *item = [_items objectAtIndex:[sender tag]];
-        
-        if ([sender state] == NSOnState) {
-            [_hiddenItems removeObject:[[item sensor] name]];
-        }
-        else {
-            [_hiddenItems addObject:[[item sensor] name]];
-        }
-        
-        [[[NSUserDefaultsController sharedUserDefaultsController] defaults] setObject:_hiddenItems forKey:kHWMonitorHiddenGraphsList];
-    }
-    
-    for (id graphView in _graphViews) {
-        [graphView calculateGraphBoundsFindExtremes:YES];
-    }
-    
-    [self graphsTableViewClicked:sender];
 }
 
 #pragma mark
@@ -339,36 +248,6 @@
 {
     id item = [_monitorEngine.graphsAndGroups objectAtIndex:row];
     return [tableView makeViewWithIdentifier:[item identifier] owner:self];
-    
-//    if ([item isKindOfClass:[NSString class]]) {
-//        NSTableCellView *groupCell = [tableView makeViewWithIdentifier:item owner:self];
-//        
-//        [[groupCell textField] setStringValue:GetLocalizedString(item)];
-//        
-//        return groupCell;
-//    }
-//    else if ([item isKindOfClass:[HWMonitorItem class]]) {
-//        GraphsSensorCell *sensorCell = [tableView makeViewWithIdentifier:[item representation] owner:self];
-//        
-//        HWMonitorSensor *sensor = [item sensor];
-//        
-//        [[sensorCell textField] setStringValue:GetLocalizedString([sensor title])];
-//        [[sensorCell valueField] takeStringValueFrom:sensor];
-//        //[[sensorCell valueField] setStringValue:[sensor stringValue]];
-//        
-//        if ([item color] == nil) {
-//            NSLog(@"No color for key %@", [sensor name]);
-//        }
-//        else [[sensorCell colorWell] setColor:[item color]];
-//        [[sensorCell checkBox] setState:![self checkItemIsHidden:item]];
-//        [[sensorCell checkBox] setTag:[_items indexOfObject:item]];
-//        
-//        //[sensorCell setRepresentedObject:item];
-//        
-//        return sensorCell;
-//    }
-//    
-//    return nil;
 }
 
 @end

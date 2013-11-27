@@ -17,6 +17,9 @@
 @property (nonatomic, retain) HWMConfiguration *configuration;
 @property (nonatomic, retain) NSOrderedSet *graphs;
 @property (nonatomic, retain) HWMIcon *icon;
+
+@property (assign) NSUInteger selectors;
+
 @end
 
 @interface HWMGraphsGroup (CoreDataGeneratedAccessors)

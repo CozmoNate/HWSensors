@@ -54,7 +54,7 @@
 
 - (BOOL)shouldUpdateOnlyFavoritesSensors
 {
-    return !([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || [_graphsController backgroundMonitoring]);
+    return !([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || _monitorEngine.configuration.updateSensorsInBackground);
 }
 
 - (BOOL)shouldForceUpdateAllSensors

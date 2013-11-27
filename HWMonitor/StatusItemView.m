@@ -56,7 +56,9 @@
 
         _monitorEngine = monitorEngine;
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:HWMEngineSensorsHasBenUpdatedNotification object:_monitorEngine];
+        if (_monitorEngine) {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:HWMEngineSensorsHasBenUpdatedNotification object:_monitorEngine];
+        }
     }
 }
 
@@ -151,7 +153,7 @@
 
                 [[NSGraphicsContext currentContext] saveGraphicsState];
 
-                if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar)
+                if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
                     [_shadow set];
 
                 HWMIcon *icon = (HWMIcon*)object;
@@ -208,7 +210,7 @@
 
                 [[NSGraphicsContext currentContext] saveGraphicsState];
 
-                if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar)
+                if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
                     [_shadow set];
 
                 if (_monitorEngine.configuration.useBigFontInMenubar.boolValue) {

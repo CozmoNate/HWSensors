@@ -194,11 +194,11 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
             for (HWMGraphsGroup *group in _configuration.graphGroups) {
 
-                NSOrderedSet *graphs = [group.graphs filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"hidden == NO"]];
+//                NSOrderedSet *graphs = [group.graphs filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"hidden == NO"]];
 
-                if (graphs && graphs.count) {
+                if (group.graphs && group.graphs.count) {
                     [items addObject:group];
-                    [items addObjectsFromArray:[graphs array]];
+                    [items addObjectsFromArray:[group.graphs array]];
                 }
             }
 
@@ -445,11 +445,11 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 {
     if (_engineState != kHWMEngineStateActive) {
         if (!_smcAndDevicesSensorsUpdateLoopTimer || ![_smcAndDevicesSensorsUpdateLoopTimer isValid]) {
-            [self initSmcAndDevicesTimer];
+            [self performSelectorInBackground:@selector(initSmcAndDevicesTimer) withObject:nil];
         }
 
         if (!_ataSmartSensorsUpdateLoopTimer || ![_ataSmartSensorsUpdateLoopTimer isValid]) {
-            [self initAtaSmartTimer];
+            [self performSelectorInBackground:@selector(initAtaSmartTimer) withObject:nil];
         }
     }
 }
@@ -485,7 +485,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     @synchronized (self) {
         if (!_smcAndDevicesSensors) {
 
-            __block NSMutableArray *sensors = [NSMutableArray array];\
+            __block NSMutableArray *sensors = [NSMutableArray array];
 
             [self.iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 if ([obj isKindOfClass:[HWMSensor class]] && ![obj isKindOfClass:[HWMAtaSmartSensor class]]) {
@@ -741,12 +741,12 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
         //if (![[change objectForKey:NSKeyValueChangeNewKey] isEqualTo:[change objectForKey:NSKeyValueChangeOldKey]]) {
             if ([keyPath isEqual:@"configuration.smcSensorsUpdateRate"]) {
 
-                [self initSmcAndDevicesTimer];
+                [self performSelectorInBackground:@selector(initSmcAndDevicesTimer) withObject:nil];
 
             }
             else if ([keyPath isEqual:@"configuration.smartSensorsUpdateRate"]) {
 
-                [self initAtaSmartTimer];
+                [self performSelectorInBackground:@selector(initAtaSmartTimer) withObject:nil];
 
             }
             else if ([keyPath isEqual:@"configuration.showVolumeNames"]) {
@@ -1640,13 +1640,18 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
     [group setEngine:self];
 
+    group.selectors = 0;
+
     // insert sensors
     for (NSNumber * sel in selectors) {
+
+        group.selectors += sel.unsignedIntegerValue;
+
         NSArray *arrangedSensors = [sensors filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"selector == %@", sel]];
 
         [self insertGraphsFromSensorsArray:arrangedSensors group:group];
     }
-    
+
     return group;
 }
 

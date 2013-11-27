@@ -56,7 +56,7 @@ const NSArray * gHWMGraphsGroupColors;
         _history = [[NSMutableArray alloc] init];
     }
 
-    [_history addObject:self.sensor.value];
+    [_history addObject:[self.sensor.value copy]];
 
     if (_history.count > limit) {
         [_history removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _history.count - limit - 1)]];

@@ -227,6 +227,7 @@
         {
             if (!menubarWindow.attachedToMenuBar) {
                 [NSApp activateIgnoringOtherApps:YES];
+                [self.window makeKeyAndOrderFront:self];
             }
             
             [self showWindow:nil];
