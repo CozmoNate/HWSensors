@@ -9,20 +9,32 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class HWMGroup;
+#import "HWMItem.h"
 
-@interface HWMSensor : NSManagedObject
+typedef enum {
+    kHWMSensorLevelUnused                = 0,
+    kHWMSensorLevelDisabled              = 1,
+    kHWMSensorLevelNormal                = 2,
+    kHWMSensorLevelModerate              = 3,
+    kHWMSensorLevelHigh                  = 4,
+    kHWMSensorLevelExceeded              = 1000,
+} HWMSensorLevel;
 
-@property (nonatomic, retain) NSNumber * data;
-@property (nonatomic, retain) NSNumber * hidden;
-@property (nonatomic, retain) NSString * key;
-@property (nonatomic, retain) NSString * legend;
-@property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSString * type;
-@property (nonatomic, retain) NSNumber * order;
+@class HWMSensorsGroup;
+
+@interface HWMSensor : HWMItem
+
 @property (nonatomic, retain) NSNumber * level;
-@property (nonatomic, retain) HWMGroup * group;
+@property (nonatomic, retain) NSNumber * service;
+@property (nonatomic, retain) NSNumber * selector;
+@property (nonatomic, retain) NSString * type;
+@property (nonatomic, retain) NSNumber * value;
 
-//- (void)doUpdateValue;
+@property (nonatomic, retain) HWMSensorsGroup * group;
+
+@property (readonly) NSString * formattedValue;
+@property (readonly) BOOL isActive;
+
+- (void)doUpdateValue;
 
 @end

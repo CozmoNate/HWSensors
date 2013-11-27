@@ -6,18 +6,15 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import "SensorCell.h"
-#import "ATAGenericDrive.h"
+#include "PopupSensorCell.h"
 
-@interface ATASensorCell : SensorCell
+@interface PopupAtaSmartSensorCell : PopupSensorCell
 {
-@private
     NSTrackingRectTag _trackingRectTag;
     NSPopover *_popover;
 }
 
 @property (nonatomic, readonly) NSString *smartOutput;
-@property (strong) ATAGenericDrive *genericDrive;
 
 - (IBAction)showSmartOutput:(id)sender;
 

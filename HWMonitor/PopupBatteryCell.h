@@ -6,12 +6,10 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#include "SensorCell.h"
+#include "PopupSensorCell.h"
 
-@interface BatteryCell : SensorCell
+@interface PopupBatteryCell : PopupSensorCell
 
-//@property (nonatomic, assign) NSUInteger gaugeLevel;
 @property (nonatomic, strong) NSNumber *gaugeLevel;
-@property (nonatomic, strong) ColorTheme *colorTheme;
 
 @end

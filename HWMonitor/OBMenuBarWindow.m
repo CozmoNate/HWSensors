@@ -30,6 +30,7 @@
 
 #import "OBMenuBarWindow.h"
 #import <objc/runtime.h>
+#import "HWMColorTheme.h"
 
 NSString * const OBMenuBarWindowDidAttachToMenuBar = @"OBMenuBarWindowDidAttachToMenuBar";
 NSString * const OBMenuBarWindowDidDetachFromMenuBar = @"OBMenuBarWindowDidDetachFromMenuBar";
@@ -135,7 +136,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     return toolbarView;
 }
 
--(void)setColorTheme:(ColorTheme*)newColorTheme
+-(void)setColorTheme:(HWMColorTheme*)newColorTheme
 {
     if (colorTheme != newColorTheme) {
         activeImage = nil;
@@ -145,7 +146,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     }
 }
 
--(ColorTheme *)colorTheme
+-(HWMColorTheme *)colorTheme
 {
     return colorTheme;
 }
@@ -722,7 +723,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
             data[i + 2] = grey;
             data[i + 3] = 6;
         }
-        CGContextRef contextRef = CGBitmapContextCreate(data, dimension, dimension, 8, dimension * 4, colorSpaceRef, kCGImageAlphaPremultipliedLast);
+        CGContextRef contextRef = CGBitmapContextCreate(data, dimension, dimension, 8, dimension * 4, colorSpaceRef,(CGBitmapInfo)kCGImageAlphaPremultipliedLast);
         CGImageRef imageRef = CGBitmapContextCreateImage(contextRef);
         noiseImage = [[NSImage alloc] initWithCGImage:imageRef size:NSMakeSize(dimension, dimension)];
         CGImageRelease(imageRef);

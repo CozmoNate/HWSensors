@@ -13,11 +13,9 @@
 
 @interface HWMSmcSensor : HWMSensor
 
-@property (nonatomic, retain) NSNumber * connection;
-
 + (BOOL)isValidIntegerSmcType:(NSString *)type;
 + (BOOL)isValidFloatingSmcType:(NSString *)type;
-+ (float)decodeNumericValueFromBuffer:(void*)data length:(NSUInteger)length ofType:(NSString*)type;
++ (float)decodeNumericValueFromBuffer:(void*)data length:(NSUInteger)length type:(const char *)type;
 
 - (void)doUpdateValue;
 

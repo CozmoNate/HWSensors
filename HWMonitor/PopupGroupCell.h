@@ -6,13 +6,11 @@
 //
 //
 
-#include "ColorTheme.h"
+#import "PopupBasicCell.h"
 
-@interface GroupCell : NSTableCellView
+@interface PopupGroupCell : PopupBasicCell
 {
     NSGradient *_gradient;
 }
-
-@property (nonatomic, strong) ColorTheme *colorTheme;
 
 @end

@@ -12,14 +12,6 @@
 
 #define kATASMARTVendorSpecificAttributesCount     30
 
-#define kATASMARTAttributeTemperature               0xC2
-#define kATASMARTAttributeTemperature2              0xE7
-#define kATASMARTAttributeTemperature3              0xBE
-#define kATASMARTAttributeEndurance                 0xE8
-#define kATASMARTAttributeEndurance2                0xE7
-#define kATASMARTAttributeUnusedReservedBloks       0xB4
-
-
 typedef struct {
     UInt8 			attributeId;
     UInt16			flag;
@@ -41,7 +33,15 @@ typedef struct {
     ATASmartVendorSpecificData _smartData;
 }
 
-@property (nonatomic, retain) NSNumber * selector;
-@property (nonatomic, retain) NSNumber * service;
+@property (nonatomic, retain) NSString * productName;
+@property (nonatomic, retain) NSString * bsdName;
+@property (nonatomic, retain) NSString * volumeNames;
+@property (nonatomic, retain) NSString * serialNumber;
+@property (nonatomic, retain) NSNumber * rotational;
+@property (nonatomic, retain) NSNumber * exceeded;
+
++(NSArray*)discoverDrives;
+
+-(void)doUpdateValue;
 
 @end

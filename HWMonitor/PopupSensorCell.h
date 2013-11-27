@@ -6,16 +6,12 @@
 //
 //
 
-#include "ColorTheme.h"
+#import "PopupBasicCell.h"
 
-@interface SensorCell : NSTableCellView
+@interface PopupSensorCell : PopupBasicCell
 
 @property (assign) IBOutlet NSTextField *subtitleField;
 @property (assign) IBOutlet NSTextField *valueField;
 @property (assign) IBOutlet NSButton *checkBox;
-
-@property (nonatomic, strong) ColorTheme *colorTheme;
-
-//@property (nonatomic, strong) id representedObject;
 
 @end

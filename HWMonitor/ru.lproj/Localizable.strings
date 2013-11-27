@@ -70,8 +70,8 @@
 "History Graphs" = "Графики";
 "Sensors update rate:" = "Интервал обновления датчиков:";
 "S.M.A.R.T. update rate:" = "Интервал обновления S.M.A.R.T:";
-"sec" = "сек.";
-"min" = "мин.";
+"sec." = "сек.";
+"min." = "мин.";
 "Graphs:" = "Графики:";
 "Use data smoothing" = "Использовать сглаживание данных";
 "General" = "Основные";

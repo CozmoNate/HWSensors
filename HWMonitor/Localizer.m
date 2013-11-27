@@ -156,9 +156,10 @@
     }
     
     // Must be at the end to allow other checks to pass because almost all controls are derived from NSView
-    else if ([view isKindOfClass:[NSView class]] ) {
-        for(NSView *subView in [view subviews]) {
-            [self localizeView:subView];
+    else if ([view isKindOfClass:[NSView class]] && [view subviews]) {
+        NSArray *subviews = [[view subviews] copy];
+        for (NSView *view in subviews) {
+            [self localizeView:view];
         }
     }
     else {

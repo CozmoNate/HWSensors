@@ -29,7 +29,6 @@
 //
 
 #import <AppKit/AppKit.h>
-#import "ColorTheme.h"
 
 // Notifications
 extern NSString * const OBMenuBarWindowDidAttachToMenuBar;
@@ -82,6 +81,8 @@ enum  {
  
  */
 
+@class HWMColorTheme;
+
 @interface OBMenuBarWindow : NSPanel
 {
     BOOL isDragging;
@@ -119,11 +120,13 @@ enum  {
 @property (strong) NSView *toolbarView;
 
 /** Colors for window theme. */
-@property (strong) ColorTheme *colorTheme;
+@property (strong) HWMColorTheme *colorTheme;
 
 @property (readonly) CGFloat toolbarHeight;
 
 -(IBAction)attachToMenuBar:(id)sender;
 -(IBAction)detachFromMenuBar:(id)sender;
+
+- (NSPoint)originForAttachedState;
 
 @end
