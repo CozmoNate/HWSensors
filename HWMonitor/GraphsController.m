@@ -28,9 +28,6 @@
 
 #import "GraphsController.h"
 
-#import "HWMonitorSensor.h"
-#import "HWMonitorItem.h"
-#import "HWMonitorGroup.h"
 #import "GraphsView.h"
 #import "GraphsSensorCell.h"
 //#import "WindowFilter.h"

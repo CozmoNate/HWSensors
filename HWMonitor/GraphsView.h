@@ -25,9 +25,7 @@
  *
  */
 
-#import "HWMonitorGroup.h"
 #import "GraphsController.h"
-#import "HWMonitorSensor.h"
 
 @class HWMGraphsGroup;
 
