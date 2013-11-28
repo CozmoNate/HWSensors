@@ -104,6 +104,8 @@
 		7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1AD016DA83AF0012A0DC /* GraphsController.m */; };
 		7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC87216FA5DA50072B15B /* Localizer.m */; };
 		7EDEA333173E3B94003ADE86 /* hwsensors.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7EDEA332173E3B94003ADE86 /* hwsensors.icns */; };
+		7EEB2D6B1847E82C008B6D1C /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */; };
+		7EEB2D6C1847E8FE008B6D1C /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */; };
 		7EED6D6F1734F8E700248870 /* 16-line-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6B1734F8E700248870 /* 16-line-chart.png */; };
 		7EED6D701734F8E700248870 /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */; };
 		7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D7B1734F9CF00248870 /* 19-gear.png */; };
@@ -306,6 +308,8 @@
 		7EDDC87216FA5DA50072B15B /* Localizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Localizer.m; sourceTree = "<group>"; };
 		7EDEA331173E3B83003ADE86 /* hwsensors.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = hwsensors.psd; sourceTree = "<group>"; };
 		7EDEA332173E3B94003ADE86 /* hwsensors.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hwsensors.icns; sourceTree = "<group>"; };
+		7EEB2D691847E82C008B6D1C /* SmcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmcHelper.h; sourceTree = "<group>"; };
+		7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmcHelper.m; sourceTree = "<group>"; };
 		7EED6D6B1734F8E700248870 /* 16-line-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart.png"; sourceTree = "<group>"; };
 		7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
 		7EED6D7B1734F9CF00248870 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
@@ -468,6 +472,7 @@
 			children = (
 				7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */,
 				7E2678B6182523EA00B405DE /* Kernel */,
+				7EEB2D681847E819008B6D1C /* Cocoa */,
 				7EB7E708178341D80071B3F0 /* Versioning */,
 			);
 			name = Shared;
@@ -813,6 +818,15 @@
 			name = Graphics;
 			sourceTree = "<group>";
 		};
+		7EEB2D681847E819008B6D1C /* Cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				7EEB2D691847E82C008B6D1C /* SmcHelper.h */,
+				7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */,
+			);
+			name = Cocoa;
+			sourceTree = "<group>";
+		};
 		7EF2A0FF17303C3600D8641C /* About Panel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1052,6 +1066,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EEB2D6C1847E8FE008B6D1C /* SmcHelper.m in Sources */,
 				7E9060F517089A7100BF5BBF /* smc.c in Sources */,
 				7E9060E81708951800BF5BBF /* main.m in Sources */,
 			);
@@ -1076,6 +1091,7 @@
 				7EDA1A6D16D901100012A0DC /* PopupController.m in Sources */,
 				7EDA1A7816D903740012A0DC /* PopupGroupCell.m in Sources */,
 				7EDA1A7916D903740012A0DC /* PopupSensorCell.m in Sources */,
+				7EEB2D6B1847E82C008B6D1C /* SmcHelper.m in Sources */,
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,

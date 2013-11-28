@@ -24,6 +24,8 @@
 #import "HWMonitorDefinitions.h"
 #import "FakeSMCDefinitions.h"
 
+#import "SmcHelper.h"
+
 NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
 @implementation HWMEngine
@@ -503,12 +505,12 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
                     break;
 
                 case kHWMSensorsUpdateLoopOnlyFavorites:
-                    doUpdate = sensor.favorite.boolValue;
+                    doUpdate = sensor.favorite != nil;
                     break;
 
                 case kHWMSensorsUpdateLoopRegular:
                 default:
-                    doUpdate = !sensor.hidden.boolValue || sensor.favorite.boolValue;
+                    doUpdate = !sensor.hidden.boolValue || sensor.favorite;
                     break;
             }
 
@@ -546,12 +548,12 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
                     break;
 
                 case kHWMSensorsUpdateLoopOnlyFavorites:
-                    doUpdate = sensor.favorite.boolValue;
+                    doUpdate = sensor.favorite != nil;
                     break;
 
                 case kHWMSensorsUpdateLoopRegular:
                 default:
-                    doUpdate = !sensor.hidden.boolValue || sensor.favorite.boolValue;
+                    doUpdate = !sensor.hidden.boolValue || sensor.favorite;
                     break;
             }
 
@@ -682,14 +684,14 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     _engineState = kHWMEngineStateIdle;
 }
 
--(void)insertItemToFavorites:(HWMItem*)item atIndex:(NSUInteger)index
+-(void)insertItemIntoFavorites:(HWMItem*)item atIndex:(NSUInteger)index
 {
     if (item && item.managedObjectContext == _managedObjectContext && ([item isKindOfClass:[HWMSensor class]] ? ![_configuration.favorites containsObject:item] : YES)) {
 
         @synchronized (self) {
 
             [[_configuration mutableOrderedSetValueForKey:@"favorites"] insertObject:item atIndex:index];
-            [item setFavorite:@1];
+
             [self saveContext];
         }
     }
@@ -709,7 +711,6 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
         [[_configuration mutableOrderedSetValueForKey:@"favorites"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:toIndex];
 
-
         [self saveContext];
     }
 }
@@ -724,7 +725,6 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
         if (item) {
             [[_configuration mutableOrderedSetValueForKey:@"favorites"] removeObject:item];
-            [item setFavorite:@0];
             [self saveContext];
         }
     }
@@ -1050,7 +1050,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
     SMCReadKey(connection, "#KEY", &val);
 
-    UInt32 count = [HWMSmcSensor decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType];
+    UInt32 count = [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType];
 
     NSMutableArray *array = [[NSMutableArray alloc] init];
 

@@ -449,7 +449,7 @@
 //            [tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:toRow] withAnimation:NSTableViewAnimationEffectGap];
 //
 //            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                [_monitorEngine insertItemToFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
+                [_monitorEngine insertItemIntoFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
             //            });
         }
     }

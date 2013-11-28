@@ -84,7 +84,7 @@ typedef enum {
 -(void)setNeedsRecalculateSensorValues;
 -(void)setNeedsUpdateLists;
 
--(void)insertItemToFavorites:(HWMItem*)item atIndex:(NSUInteger)index;
+-(void)insertItemIntoFavorites:(HWMItem*)item atIndex:(NSUInteger)index;
 -(void)moveFavoritesItemAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 -(void)removeItemFromFavoritesAtIndex:(NSUInteger)index;
 
