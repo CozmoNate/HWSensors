@@ -51,25 +51,25 @@
         
         _graphsGroup = group;
 
-        if (_graphsGroup.selectors & (kHWSensorGroupTemperature | kSMARTGroupTemperature)) {
+        if (_graphsGroup.selectors & (kHWMGroupTemperature | kHWMGroupSmartTemperature)) {
             _legendFormat = @"%1.0f°";
         }
-        else if (_graphsGroup.selectors & kHWSensorGroupFrequency) {
+        else if (_graphsGroup.selectors & kHWMGroupFrequency) {
             _legendFormat = GetLocalizedString(@"%1.0f MHz");
         }
-        else if (_graphsGroup.selectors & kHWSensorGroupTachometer) {
+        else if (_graphsGroup.selectors & kHWMGroupTachometer) {
             _legendFormat = GetLocalizedString(@"%1.0f rpm");
         }
-        else if (_graphsGroup.selectors & kHWSensorGroupVoltage) {
+        else if (_graphsGroup.selectors & kHWMGroupVoltage) {
             _legendFormat = GetLocalizedString(@"%1.3f V");
         }
-        else if (_graphsGroup.selectors & kHWSensorGroupCurrent) {
+        else if (_graphsGroup.selectors & kHWMGroupCurrent) {
             _legendFormat = GetLocalizedString(@"%1.3f A");
         }
-        else if (_graphsGroup.selectors & kHWSensorGroupPower) {
+        else if (_graphsGroup.selectors & kHWMGroupPower) {
             _legendFormat = GetLocalizedString(@"%1.3f W");
         }
-        else if (_graphsGroup.selectors & kBluetoothGroupBattery) {
+        else if (_graphsGroup.selectors & kHWMGroupBattery) {
             _legendFormat = @"%1.0f%";
         }
 
@@ -272,11 +272,11 @@
         [context setShouldAntialias:YES];
 
         NSAttributedString *maxExtremeTitle = [[NSAttributedString alloc]
-                                               initWithString:[NSString stringWithFormat:_legendFormat, (_graphsGroup.selectors & (kHWSensorGroupTemperature | kSMARTGroupTemperature) && self.graphsController.monitorEngine.configuration.useFahrenheit.boolValue ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
+                                               initWithString:[NSString stringWithFormat:_legendFormat, (_graphsGroup.selectors & (kHWMGroupTemperature | kHWMGroupSmartTemperature) && self.graphsController.monitorEngine.configuration.useFahrenheit.boolValue ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
                                                attributes:_legendAttributes];
 
         NSAttributedString *minExtremeTitle = [[NSAttributedString alloc]
-                                     initWithString:[NSString stringWithFormat:_legendFormat, (_graphsGroup.selectors & (kHWSensorGroupTemperature | kSMARTGroupTemperature) && self.graphsController.monitorEngine.configuration.useFahrenheit.boolValue ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
+                                     initWithString:[NSString stringWithFormat:_legendFormat, (_graphsGroup.selectors & (kHWMGroupTemperature | kHWMGroupSmartTemperature) && self.graphsController.monitorEngine.configuration.useFahrenheit.boolValue ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
                                      attributes:_legendAttributes];
 
         if ([self graphPointToView:NSMakePoint(0, _maxY)].y + 2 + [maxExtremeTitle size].height > [self graphPointToView:NSMakePoint(0, _graphBounds.origin.y + _graphBounds.size.height)].y || [self graphPointToView:NSMakePoint(0, _minY)].y - [minExtremeTitle size].height < [self graphPointToView:_graphBounds.origin].y) {

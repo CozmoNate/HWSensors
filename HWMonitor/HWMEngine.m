@@ -145,9 +145,11 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             // Sensors and groups
 
             for (HWMSensorsGroup *group in _configuration.sensorGroups) {
-                if (group.sensors.count) {
+                NSOrderedSet *sensors = [group.sensors filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0"]];
+
+                if (sensors.count) {
                     [items addObject:group];
-                    [items addObjectsFromArray:[group.sensors array]];
+                    [items addObjectsFromArray:[sensors array]];
                 }
             }
 
@@ -168,7 +170,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             NSMutableArray *items = [[NSMutableArray alloc] init];
 
             for (HWMSensorsGroup *group in _configuration.sensorGroups) {
-                NSOrderedSet *sensors = [group.sensors filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"hidden == NO"]];
+                NSOrderedSet *sensors = [group.sensors filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0 AND hidden == NO"]];
 
                 if (sensors && sensors.count) {
                     [items addObject:group];
