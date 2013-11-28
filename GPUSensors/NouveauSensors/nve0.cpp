@@ -54,8 +54,11 @@ bool nve0_identify(struct nouveau_device *device)
         case 0xf0:
             device->cname = "GK110";
             break;
+        case 0xf1:
+            device->cname = "GK110B";
+            break;
         default:
-            nv_fatal(device, "unknown Kepler chipset\n");
+            nv_fatal(device, "unknown Kepler chipset 0x%x\n", device->chipset);
             return false;
 	}
     

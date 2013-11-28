@@ -58,13 +58,13 @@
     <entity name="GraphsGroup" representedClassName="HWMGraphsGroup" parentEntity="Item" syncable="YES">
         <relationship name="configuration" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" inverseName="graphGroups" inverseEntity="Configuration" syncable="YES"/>
         <relationship name="graphs" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Graph" inverseName="group" inverseEntity="Graph" syncable="YES"/>
-        <relationship name="icon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" inverseName="sensorGroup" inverseEntity="Icon" syncable="YES"/>
+        <relationship name="icon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" inverseName="sensorGroups" inverseEntity="Icon" syncable="YES"/>
     </entity>
     <entity name="Icon" representedClassName="HWMIcon" parentEntity="Item" syncable="YES">
         <attribute name="alternate" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="HWMImageTransformer" syncable="YES"/>
         <attribute name="regular" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="HWMImageTransformer" syncable="YES"/>
-        <relationship name="graphsGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SensorsGroup" inverseName="icon" inverseEntity="SensorsGroup" syncable="YES"/>
-        <relationship name="sensorGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GraphsGroup" inverseName="icon" inverseEntity="GraphsGroup" syncable="YES"/>
+        <relationship name="graphGroups" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SensorsGroup" inverseName="icon" inverseEntity="SensorsGroup" syncable="YES"/>
+        <relationship name="sensorGroups" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GraphsGroup" inverseName="icon" inverseEntity="GraphsGroup" syncable="YES"/>
     </entity>
     <entity name="Item" representedClassName="HWMItem" isAbstract="YES" syncable="YES">
         <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -86,7 +86,7 @@
     <entity name="SensorsGroup" representedClassName="HWMSensorsGroup" parentEntity="Item" syncable="YES">
         <attribute name="selector" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="configuration" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" inverseName="sensorGroups" inverseEntity="Configuration" syncable="YES"/>
-        <relationship name="icon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" inverseName="graphsGroup" inverseEntity="Icon" syncable="YES"/>
+        <relationship name="icon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" inverseName="graphGroups" inverseEntity="Icon" syncable="YES"/>
         <relationship name="sensors" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Sensor" inverseName="group" inverseEntity="Sensor" syncable="YES"/>
     </entity>
     <entity name="SmcFanSensor" representedClassName="HWMSmcFanSensor" parentEntity="SmcSensor" syncable="YES">

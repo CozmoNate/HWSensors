@@ -126,10 +126,14 @@
         [_monitorEngine setNeedsRecalculateSensorValues];
     }
     else if ([keyPath isEqual:@"monitorEngine.configuration.favorites"]) {
-        [_favoritesTableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_favoritesTableView reloadData];
+        });
     }
     else if ([keyPath isEqual:@"monitorEngine.iconsWithSensorsAndGroups"]) {
-        [_sensorsTableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_favoritesTableView reloadData];
+        });
     }
 }
 

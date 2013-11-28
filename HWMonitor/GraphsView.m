@@ -37,9 +37,9 @@
 #import "HWMConfiguration.h"
 
 #define LeftViewMargin      1
-#define TopViewMargin       1
+#define TopViewMargin       2
 #define RightViewMargin     1
-#define BottomViewMargin    1
+#define BottomViewMargin    2
 
 @implementation GraphsView
 
@@ -148,7 +148,7 @@
     }
     else {
 
-        double minY = _minY <= 0 ? _minY : _minY - _minY * 0.2;
+        double minY = _minY <= 0 ? _minY : _minY - _minY * 0.05;
         double maxY = _maxY + _maxY * 0.1;
         
         _graphBounds = NSMakeRect(0, minY, _maxPoints, maxY - minY);
