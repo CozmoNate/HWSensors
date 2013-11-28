@@ -269,7 +269,6 @@
 		7EA2493816D8EA95002231B2 /* ATAGenericDrive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATAGenericDrive.h; sourceTree = "<group>"; };
 		7EA2493916D8EA95002231B2 /* ATAGenericDrive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATAGenericDrive.m; sourceTree = "<group>"; };
 		7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
-		7EA2493D16D8EA95002231B2 /* HWMonitorSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorSensor.h; sourceTree = "<group>"; };
 		7EA2493F16D8EA95002231B2 /* smc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = smc.c; path = HWMonitor/smc.c; sourceTree = "<group>"; };
 		7EA2494B16D8EB2D002231B2 /* StatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemView.h; sourceTree = "<group>"; };
 		7EA2494C16D8EB2D002231B2 /* StatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusItemView.m; sourceTree = "<group>"; };
@@ -499,7 +498,6 @@
 				7EFE61AF183581090009BD0D /* HWMAtaSmartSensor.h */,
 				7EFE61B0183581090009BD0D /* HWMAtaSmartSensor.m */,
 				7EFE61AC183581090009BD0D /* HWMBatterySensor.h */,
-				7EA2493D16D8EA95002231B2 /* HWMonitorSensor.h */,
 				7EFE61AD183581090009BD0D /* HWMBatterySensor.m */,
 			);
 			name = Sensors;

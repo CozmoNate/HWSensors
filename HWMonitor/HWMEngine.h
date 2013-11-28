@@ -29,7 +29,8 @@ extern NSString * const HWMEngineSensorsHasBenUpdatedNotification;
 #define kHWMGroupSmartRemainingBlocks   4096
 
 typedef enum {
-    kHWMEngineStateIdle = 0,
+    kHWMEngineNoninitialized = 0,
+    kHWMEngineStateIdle,
     kHWMEngineStateActive,
 } HWMEngineState;
 
