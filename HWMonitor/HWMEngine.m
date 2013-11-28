@@ -445,29 +445,25 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 -(void)internalStartEngine
 {
-    if (_engineState != kHWMEngineStateActive) {
-        if (!_smcAndDevicesSensorsUpdateLoopTimer || ![_smcAndDevicesSensorsUpdateLoopTimer isValid]) {
-            [self performSelectorInBackground:@selector(initSmcAndDevicesTimer) withObject:nil];
-        }
+    if (!_smcAndDevicesSensorsUpdateLoopTimer || ![_smcAndDevicesSensorsUpdateLoopTimer isValid]) {
+        [self performSelectorInBackground:@selector(initSmcAndDevicesTimer) withObject:nil];
+    }
 
-        if (!_ataSmartSensorsUpdateLoopTimer || ![_ataSmartSensorsUpdateLoopTimer isValid]) {
-            [self performSelectorInBackground:@selector(initAtaSmartTimer) withObject:nil];
-        }
+    if (!_ataSmartSensorsUpdateLoopTimer || ![_ataSmartSensorsUpdateLoopTimer isValid]) {
+        [self performSelectorInBackground:@selector(initAtaSmartTimer) withObject:nil];
     }
 }
 
 -(void)internalStopEngine
 {
-    if (_engineState != kHWMEngineStateIdle) {
-        if (_smcAndDevicesSensorsUpdateLoopTimer) {
-            [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
-            _smcAndDevicesSensorsUpdateLoopTimer = 0;
-        }
+    if (_smcAndDevicesSensorsUpdateLoopTimer) {
+        [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
+        _smcAndDevicesSensorsUpdateLoopTimer = 0;
+    }
 
-        if (_ataSmartSensorsUpdateLoopTimer) {
-            [_ataSmartSensorsUpdateLoopTimer invalidate];
-            _ataSmartSensorsUpdateLoopTimer = 0;
-        }
+    if (_ataSmartSensorsUpdateLoopTimer) {
+        [_ataSmartSensorsUpdateLoopTimer invalidate];
+        _ataSmartSensorsUpdateLoopTimer = 0;
     }
 }
 
