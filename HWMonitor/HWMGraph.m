@@ -52,6 +52,10 @@ const NSArray * gHWMGraphsGroupColors;
 
 - (void)captureValueToHistorySetLimit:(NSUInteger)limit
 {
+    if (!self.value) {
+        return;
+    }
+
     if (!_history) {
         _history = [[NSMutableArray alloc] init];
     }
