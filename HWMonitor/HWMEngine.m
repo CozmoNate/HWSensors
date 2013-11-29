@@ -1305,9 +1305,9 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
     __block NSArray *drives;
 
-    //dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_sync(dispatch_get_main_queue(), ^{
         drives = [HWMAtaSmartSensor discoverDrives];
-    //});
+    });
 
     for (id drive in drives) {
         [self insertAtaSmartSensorFromDictionary:drive group:smartTemperatures];
