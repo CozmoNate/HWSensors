@@ -18,7 +18,7 @@
     self = [super init];
 
     if (self) {
-        [self didInitialized];
+        [self initialize];
     }
 
     return self;
@@ -29,7 +29,7 @@
     self = [super initWithFrame:frame];
 
     if (self) {
-        [self didInitialized];
+        [self initialize];
     }
 
     return self;
@@ -40,7 +40,7 @@
     self = [super initWithCoder:aDecoder];
 
     if (self) {
-        [self didInitialized];
+        [self initialize];
     }
 
     return self;
@@ -48,7 +48,7 @@
 
 -(void)dealloc
 {
-    [self willDeallocated];
+    [self deallocate];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -62,12 +62,12 @@
 {
 
 }
-- (void)didInitialized
+- (void)initialize
 {
     [self addObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
 }
 
-- (void)willDeallocated
+- (void)deallocate
 {
     [self removeObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme"];
 }

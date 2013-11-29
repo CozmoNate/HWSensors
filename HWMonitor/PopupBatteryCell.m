@@ -15,16 +15,16 @@
 
 @implementation PopupBatteryCell
 
--(void)didInitialized
+-(void)initialize
 {
-    [super didInitialized];
+    [super initialize];
 
     [self addObserver:self forKeyPath:@"objectValue.value" options:NSKeyValueObservingOptionNew context:nil];
 }
 
--(void)willDeallocated
+-(void)deallocate
 {
-    [super willDeallocated];
+    [super deallocate];
 
     [self removeObserver:self forKeyPath:@"objectValue.value"];
 }
