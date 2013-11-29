@@ -52,7 +52,7 @@ const NSArray * gHWMGraphsGroupColors;
 
 - (void)captureValueToHistorySetLimit:(NSUInteger)limit
 {
-    if (!self.value) {
+    if (!self.sensor.value) {
         return;
     }
 
