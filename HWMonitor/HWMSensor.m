@@ -17,13 +17,14 @@ static NSDictionary *gHWMSensorLocalizationCache;
 
 @implementation HWMSensor
 
-@dynamic level;
 @dynamic service;
 @dynamic selector;
 @dynamic type;
 @dynamic value;
 @dynamic group;
 @dynamic graph;
+
+@synthesize alarmLevel = _alarmLevel;
 
 -(void)awakeFromFetch
 {
@@ -104,9 +105,37 @@ static NSDictionary *gHWMSensorLocalizationCache;
     return @"-";
 }
 
+-(NSUInteger)internalUpdateAlarmLevel
+{
+    return kHWMSensorLevelNormal;
+}
+
+-(NSNumber *)internalUpdateValue
+{
+    return @0;
+}
+
 - (void)doUpdateValue
 {
-    //
+    NSNumber *value = [self internalUpdateValue];
+
+    if (value && (!self.value || ![value isEqualToNumber:self.value])) {
+        [self willChangeValueForKey:@"value"];
+        [self willChangeValueForKey:@"formattedValue"];
+
+        [self setPrimitiveValue:value forKey:@"value"];
+
+        [self didChangeValueForKey:@"value"];
+        [self didChangeValueForKey:@"formattedValue"];
+
+        NSUInteger alarmLevel = [self internalUpdateAlarmLevel];
+
+        if (alarmLevel != _alarmLevel) {
+            [self willChangeValueForKey:@"alarmLevel"];
+            _alarmLevel = alarmLevel;
+            [self didChangeValueForKey:@"alarmLevel"];
+        }
+    }
 }
 
 @end

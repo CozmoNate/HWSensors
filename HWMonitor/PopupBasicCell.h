@@ -12,5 +12,7 @@
 @interface PopupBasicCell : NSTableCellView
 
 - (void)colorThemeHasChanged:(HWMColorTheme*)newColorTheme;
+- (void)didInitialized;
+- (void)willDeallocated;
 
 @end

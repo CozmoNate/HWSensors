@@ -29,7 +29,8 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks = 0xB4;
 @dynamic volumeNames;
 @dynamic serialNumber;
 @dynamic rotational;
-@dynamic exceeded;
+
+@synthesize exceeded = _exceeded;
 
 +(NSArray*)discoverDrives
 {
@@ -164,19 +165,16 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks = 0xB4;
 
             bzero(&smartData, sizeof(smartData));
 
-            Boolean conditionExceeded = false;
+            _exceeded = false;
 
-            if (kIOReturnSuccess != (*smartInterface)->SMARTReturnStatus(smartInterface, &conditionExceeded)) {
+            if (kIOReturnSuccess != (*smartInterface)->SMARTReturnStatus(smartInterface, &_exceeded)) {
                 if (kIOReturnSuccess != (*smartInterface)->SMARTEnableDisableOperations(smartInterface, true) ||
                     kIOReturnSuccess != (*smartInterface)->SMARTEnableDisableAutosave(smartInterface, true)) {
                     result = NO;
                 }
             }
 
-            if (kIOReturnSuccess == (*smartInterface)->SMARTReturnStatus(smartInterface, &conditionExceeded)) {
-
-                exceeded = conditionExceeded;
-
+            if (kIOReturnSuccess == (*smartInterface)->SMARTReturnStatus(smartInterface, &_exceeded)) {
                 if (kIOReturnSuccess == (*smartInterface)->SMARTReadData(smartInterface, &smartData)) {
                     if (kIOReturnSuccess == (*smartInterface)->SMARTValidateReadData(smartInterface, &smartData)) {
                         bcopy(&smartData.vendorSpecific1, &_smartData, sizeof(_smartData));
@@ -259,36 +257,53 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks = 0xB4;
     return nil;
 }
 
--(void)doUpdateValue
+-(NSUInteger)internalUpdateAlarmLevel
 {
-    NSNumber *value = nil;
+    float floatValue = self.value.floatValue;
 
     switch (self.selector.unsignedIntegerValue) {
+
         case kHWMGroupSmartTemperature:
-            value = [self getTemperature];
-            break;
+            if (self.rotational.boolValue) {
+                return  floatValue >= 55 ? kHWMSensorLevelExceeded :
+                        floatValue >= 50 ? kHWMSensorLevelHigh :
+                        floatValue >= 40 ? kHWMSensorLevelModerate :
+                        kHWMSensorLevelNormal;
+            }
+            else {
+                return  floatValue >= 100 ? kHWMSensorLevelExceeded :
+                        floatValue >= 85 ? kHWMSensorLevelHigh :
+                        floatValue >= 70 ? kHWMSensorLevelModerate :
+                        kHWMSensorLevelNormal;
+            }
 
         case kHWMGroupSmartRemainingLife:
-            value = [self getRemainingLife];
-            break;
-
-        case kHWMGroupSmartRemainingBlocks:
-            value = [self getRemainingBlocks];
-            break;
+            return  floatValue >= 90 ? kHWMSensorLevelExceeded :
+                    floatValue >= 80 ? kHWMSensorLevelHigh :
+                    floatValue >= 70 ? kHWMSensorLevelModerate :
+                    kHWMSensorLevelNormal;
 
         default:
             break;
     }
 
-    if (value && (!self.value || ![value isEqualToNumber:self.value])) {
-        [self willChangeValueForKey:@"value"];
-        [self willChangeValueForKey:@"formattedValue"];
+    return _alarmLevel;
+}
 
-        [self setPrimitiveValue:value forKey:@"value"];
+-(NSNumber *)internalUpdateValue
+{
+    switch (self.selector.unsignedIntegerValue) {
+        case kHWMGroupSmartTemperature:
+            return [self getTemperature];
 
-        [self didChangeValueForKey:@"value"];
-        [self didChangeValueForKey:@"formattedValue"];
+        case kHWMGroupSmartRemainingLife:
+            return [self getRemainingLife];
+
+        case kHWMGroupSmartRemainingBlocks:
+            return [self getRemainingBlocks];
     }
+
+    return @0;
 }
 
 @end

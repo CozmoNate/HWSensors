@@ -187,7 +187,7 @@
 
                 NSColor *valueColor;
 
-                switch (sensor.level.unsignedIntegerValue) {
+                switch (sensor.alarmLevel) {
                         /*case kHWSensorLevelDisabled:
                          break;
 

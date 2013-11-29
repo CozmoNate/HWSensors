@@ -11,20 +11,20 @@
 
 #import "HWMItem.h"
 
-typedef enum {
-    kHWMSensorLevelUnused                = 0,
-    kHWMSensorLevelDisabled              = 1,
-    kHWMSensorLevelNormal                = 2,
-    kHWMSensorLevelModerate              = 3,
-    kHWMSensorLevelHigh                  = 4,
-    kHWMSensorLevelExceeded              = 1000,
-} HWMSensorLevel;
+
+#define kHWMSensorLevelNormal       0
+#define kHWMSensorLevelModerate     1
+#define kHWMSensorLevelHigh         2
+#define kHWMSensorLevelExceeded     1000
+
 
 @class HWMSensorsGroup, HWMGraph;
 
 @interface HWMSensor : HWMItem
+{
+    NSUInteger _alarmLevel;
+}
 
-@property (nonatomic, retain) NSNumber * level;
 @property (nonatomic, retain) NSNumber * service;
 @property (nonatomic, retain) NSNumber * selector;
 @property (nonatomic, retain) NSString * type;
@@ -32,8 +32,12 @@ typedef enum {
 @property (nonatomic, retain) HWMSensorsGroup * group;
 @property (nonatomic, retain) HWMGraph *graph;
 
+@property (readonly) NSUInteger alarmLevel;
 @property (readonly) NSString * formattedValue;
 
 - (void)doUpdateValue;
+
+- (NSNumber*)internalUpdateValue;
+- (NSUInteger)internalUpdateAlarmLevel;
 
 @end

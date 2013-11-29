@@ -15,41 +15,17 @@
 
 @implementation PopupBatteryCell
 
--(id)init
+-(void)didInitialized
 {
-    self = [super init];
+    [super didInitialized];
 
-    if (self) {
-        [self addObserver:self forKeyPath:@"objectValue.value" options:NSKeyValueObservingOptionNew context:nil];
-    }
-
-    return self;
+    [self addObserver:self forKeyPath:@"objectValue.value" options:NSKeyValueObservingOptionNew context:nil];
 }
 
-- (id)initWithFrame:(NSRect)frame
+-(void)willDeallocated
 {
-    self = [super initWithFrame:frame];
+    [super willDeallocated];
 
-    if (self) {
-        [self addObserver:self forKeyPath:@"objectValue.value" options:NSKeyValueObservingOptionNew context:nil];
-    }
-
-    return self;
-}
-
--(id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-
-    if (self) {
-        [self addObserver:self forKeyPath:@"objectValue.value" options:NSKeyValueObservingOptionNew context:nil];
-    }
-    
-    return self;
-}
-
--(void)dealloc
-{
     [self removeObserver:self forKeyPath:@"objectValue.value"];
 }
 
@@ -94,6 +70,8 @@
     {
         [self setGaugeLevel:[(HWMSensor*)self.objectValue value]];
     }
+
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 @end

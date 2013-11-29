@@ -28,7 +28,6 @@ typedef struct {
 
 @interface HWMAtaSmartSensor : HWMSensor
 {
-    BOOL exceeded;
     NSDate * updated;
     ATASmartVendorSpecificData _smartData;
 }
@@ -38,10 +37,9 @@ typedef struct {
 @property (nonatomic, retain) NSString * volumeNames;
 @property (nonatomic, retain) NSString * serialNumber;
 @property (nonatomic, retain) NSNumber * rotational;
-@property (nonatomic, retain) NSNumber * exceeded;
+
+@property (readonly) Boolean exceeded;
 
 +(NSArray*)discoverDrives;
-
--(void)doUpdateValue;
 
 @end

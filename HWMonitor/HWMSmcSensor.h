@@ -10,9 +10,6 @@
 #import <CoreData/CoreData.h>
 #import "HWMSensor.h"
 
-
 @interface HWMSmcSensor : HWMSensor
-
-- (void)doUpdateValue;
 
 @end

@@ -1303,7 +1303,11 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     HWMSensorsGroup *smartLife = [self getGroupBySelector:kHWMGroupSmartRemainingLife];
     HWMSensorsGroup *smartBlocks = [self getGroupBySelector:kHWMGroupSmartRemainingBlocks];
 
-    NSArray *drives = [HWMAtaSmartSensor discoverDrives];
+    __block NSArray *drives;
+
+    //dispatch_sync(dispatch_get_main_queue(), ^{
+        drives = [HWMAtaSmartSensor discoverDrives];
+    //});
 
     for (id drive in drives) {
         [self insertAtaSmartSensorFromDictionary:drive group:smartTemperatures];
