@@ -81,7 +81,7 @@
         [self.delegate popupWillOpen:self];
     }
 
-    [self layoutContent:NO orderFront:YES];
+    [self layoutContent:YES orderFront:YES];
     
 //    if (!_windowFilter) {
 //        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
@@ -257,15 +257,17 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqual:@"monitorEngine.configuration.colorTheme"]) {
-        [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
-        [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-
-        [_tableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
+            [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+            [_tableView reloadData];
+        });
     }
     else if ([keyPath isEqual:@"monitorEngine.sensorsAndGroups"]) {
-
-        [_tableView reloadData];
-        [self layoutContent:YES orderFront:NO];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_tableView reloadData];
+            [self layoutContent:YES orderFront:NO];
+        });
     }
 }
 

@@ -9,6 +9,10 @@
 #include "PopupSensorCell.h"
 
 @interface PopupBatteryCell : PopupSensorCell
+{
+    @private
+    NSImage *_gaugeImage;
+}
 
 @property (nonatomic, strong) NSNumber *gaugeLevel;
 

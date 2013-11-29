@@ -32,6 +32,7 @@
 		7E2042051730D04100C13B65 /* AppController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* AppController.xib */; };
 		7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E268C611837A41C004F16E3 /* HWMIcon.m */; };
 		7E268C681837C13B004F16E3 /* HWMItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E268C671837C13B004F16E3 /* HWMItem.m */; };
+		7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */; };
 		7E420F9D1820E04900331D2B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E420F9C1820E04900331D2B /* XCTest.framework */; };
 		7E420FA31820E04900331D2B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E420FA11820E04900331D2B /* InfoPlist.strings */; };
 		7E420FA51820E04900331D2B /* HWMonitor_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E420FA41820E04900331D2B /* HWMonitor_Tests.m */; };
@@ -85,7 +86,6 @@
 		7EA2494416D8EA95002231B2 /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493F16D8EA95002231B2 /* smc.c */; };
 		7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2494C16D8EB2D002231B2 /* StatusItemView.m */; };
 		7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
-		7EA3E98818377425002D93AC /* HWMEngine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7ED3C8A91832D963000E3C0E /* HWMEngine.xcdatamodeld */; };
 		7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
 		7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
 		7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */; };
@@ -104,6 +104,8 @@
 		7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1AD016DA83AF0012A0DC /* GraphsController.m */; };
 		7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC87216FA5DA50072B15B /* Localizer.m */; };
 		7EDEA333173E3B94003ADE86 /* hwsensors.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7EDEA332173E3B94003ADE86 /* hwsensors.icns */; };
+		7EEB2D6B1847E82C008B6D1C /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */; };
+		7EEB2D6C1847E8FE008B6D1C /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */; };
 		7EED6D6F1734F8E700248870 /* 16-line-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6B1734F8E700248870 /* 16-line-chart.png */; };
 		7EED6D701734F8E700248870 /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */; };
 		7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D7B1734F9CF00248870 /* 19-gear.png */; };
@@ -198,6 +200,7 @@
 		7E268C661837C13B004F16E3 /* HWMItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMItem.h; sourceTree = "<group>"; };
 		7E268C671837C13B004F16E3 /* HWMItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMItem.m; sourceTree = "<group>"; };
 		7E2FE0A3178D18CA00802D38 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HWMEngine.xcdatamodel; sourceTree = "<group>"; };
 		7E420F9B1820E04900331D2B /* HWMonitor Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HWMonitor Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E420F9C1820E04900331D2B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		7E420FA01820E04900331D2B /* HWMonitor Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HWMonitor Tests-Info.plist"; sourceTree = "<group>"; };
@@ -289,7 +292,6 @@
 		7ECDDE4016DEB5F600085FFF /* GraphsGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphsGroupCell.m; sourceTree = "<group>"; };
 		7ED3004B180285400020D818 /* JLNFadingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLNFadingScrollView.h; sourceTree = "<group>"; };
 		7ED3004E1802895E0020D818 /* JLNFadingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLNFadingScrollView.m; sourceTree = "<group>"; };
-		7ED3C8AA1832D963000E3C0E /* HWMEngine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HWMEngine.xcdatamodel; sourceTree = "<group>"; };
 		7EDA1A6B16D901100012A0DC /* PopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupController.h; sourceTree = "<group>"; };
 		7EDA1A6C16D901100012A0DC /* PopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupController.m; sourceTree = "<group>"; };
 		7EDA1A7316D903740012A0DC /* PopupGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupGroupCell.h; sourceTree = "<group>"; };
@@ -306,6 +308,8 @@
 		7EDDC87216FA5DA50072B15B /* Localizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Localizer.m; sourceTree = "<group>"; };
 		7EDEA331173E3B83003ADE86 /* hwsensors.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = hwsensors.psd; sourceTree = "<group>"; };
 		7EDEA332173E3B94003ADE86 /* hwsensors.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hwsensors.icns; sourceTree = "<group>"; };
+		7EEB2D691847E82C008B6D1C /* SmcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmcHelper.h; sourceTree = "<group>"; };
+		7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmcHelper.m; sourceTree = "<group>"; };
 		7EED6D6B1734F8E700248870 /* 16-line-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart.png"; sourceTree = "<group>"; };
 		7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
 		7EED6D7B1734F9CF00248870 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
@@ -468,6 +472,7 @@
 			children = (
 				7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */,
 				7E2678B6182523EA00B405DE /* Kernel */,
+				7EEB2D681847E819008B6D1C /* Cocoa */,
 				7EB7E708178341D80071B3F0 /* Versioning */,
 			);
 			name = Shared;
@@ -782,7 +787,7 @@
 		7EC8E7CE183356F4006F85FE /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				7ED3C8A91832D963000E3C0E /* HWMEngine.xcdatamodeld */,
+				7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */,
 				7E19DEC61843D30200229B0E /* Sensors */,
 				7E19DEC51843D2F500229B0E /* Graphs */,
 				7E19DEC71843D30E00229B0E /* Engine */,
@@ -811,6 +816,15 @@
 				7EA32A4D173EB059002C93C1 /* hwmonitor.psd */,
 			);
 			name = Graphics;
+			sourceTree = "<group>";
+		};
+		7EEB2D681847E819008B6D1C /* Cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				7EEB2D691847E82C008B6D1C /* SmcHelper.h */,
+				7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */,
+			);
+			name = Cocoa;
 			sourceTree = "<group>";
 		};
 		7EF2A0FF17303C3600D8641C /* About Panel */ = {
@@ -1052,6 +1066,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EEB2D6C1847E8FE008B6D1C /* SmcHelper.m in Sources */,
 				7E9060F517089A7100BF5BBF /* smc.c in Sources */,
 				7E9060E81708951800BF5BBF /* main.m in Sources */,
 			);
@@ -1063,6 +1078,7 @@
 			files = (
 				7EA248F816D8E93A002231B2 /* main.m in Sources */,
 				7E1900B0184279CD00C6A0E8 /* HWMGraph.m in Sources */,
+				7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */,
 				7EA248FF16D8E93A002231B2 /* AppController.m in Sources */,
 				7E19DED31843E97300229B0E /* HWMConfiguration.m in Sources */,
 				7EA2494116D8EA95002231B2 /* ATAGenericDrive.m in Sources */,
@@ -1076,6 +1092,7 @@
 				7EDA1A6D16D901100012A0DC /* PopupController.m in Sources */,
 				7EDA1A7816D903740012A0DC /* PopupGroupCell.m in Sources */,
 				7EDA1A7916D903740012A0DC /* PopupSensorCell.m in Sources */,
+				7EEB2D6B1847E82C008B6D1C /* SmcHelper.m in Sources */,
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
@@ -1098,7 +1115,6 @@
 				7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */,
 				7E16FD8A1706BB3000FB253E /* TransparentSplitView.m in Sources */,
 				95A15D161825201000AA30D1 /* CreditsScrollView.m in Sources */,
-				7EA3E98818377425002D93AC /* HWMEngine.xcdatamodeld in Sources */,
 				7E93E29E183E832600957EDF /* HWMColorTheme.m in Sources */,
 				7EFE61B1183581090009BD0D /* HWMAtaSmartSensor.m in Sources */,
 				7EF2A0F61730379C00D8641C /* AboutController.m in Sources */,
@@ -1377,12 +1393,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		7ED3C8A91832D963000E3C0E /* HWMEngine.xcdatamodeld */ = {
+		7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				7ED3C8AA1832D963000E3C0E /* HWMEngine.xcdatamodel */,
+				7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */,
 			);
-			currentVersion = 7ED3C8AA1832D963000E3C0E /* HWMEngine.xcdatamodel */;
+			currentVersion = 7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */;
 			path = HWMEngine.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

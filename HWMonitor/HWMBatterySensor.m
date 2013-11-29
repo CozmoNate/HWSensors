@@ -7,7 +7,7 @@
 //
 
 #import "HWMBatterySensor.h"
-
+#import "HWMSensorsGroup.h"
 
 @implementation HWMBatterySensor
 
@@ -27,27 +27,27 @@
         switch (count++) {
             case 0:
                 matching = IOServiceMatching("IOPMPowerSource");
-                type = kHWMBatterySensorTypeInternal;
+                type = kHWMGroupBatteryInternal;
                 break;
 
             case 1:
                 matching = IOServiceMatching("BNBMouseDevice");
-                type = kHWMBatterySensorTypeMouse;
+                type = kHWMGroupBatteryMouse;
                 break;
 
             case 2:
                 matching = IOServiceMatching("AppleBluetoothHIDKeyboard");
-                type = kHWMBatterySensorTypeKeyboard;
+                type = kHWMGroupBatteryKeyboard;
                 break;
 
             case 3:
                 matching = IOServiceMatching("BNBTrackpadDevice");
-                type = kHWMBatterySensorTypeTrackpad;
+                type = kHWMGroupBatteryTrackpad;
                 break;
 
             default:
                 matching = MACH_PORT_NULL;
-                type = kHWMBatterySensorTypeNone;
+                type = 0;
                 break;
         }
 
@@ -66,7 +66,7 @@
                         NSString *productName;
 
                         switch (type) {
-                            case kHWMBatterySensorTypeInternal:
+                            case kHWMGroupBatteryInternal:
                                 productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("DeviceName"), kCFAllocatorDefault, 0);
                                 serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("BatterySerialNumber"), kCFAllocatorDefault, 0);
 
@@ -90,9 +90,14 @@
                 }
             }
         }
-    } while (type != kHWMBatterySensorTypeNone);
+    } while (type);
 
-    
+//    TEST BATTERY
+//    [devices addObject:@{   @"service" : @1,
+//                            @"selector" : @kHWMGroupBatteryMouse,
+//                            @"serialNumber" : @"123",
+//                            @"productName" : @"test battery"}];
+
     return devices;
 }
 
@@ -109,7 +114,7 @@
 
     if (MACH_PORT_NULL != service) {
         switch (self.selector.unsignedIntegerValue) {
-            case kHWMBatterySensorTypeInternal: {
+            case kHWMGroupBatteryInternal: {
                 NSNumber *max = (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(service, CFSTR("MaxCapacity"), kCFAllocatorDefault, 0);
                 NSNumber *current = (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(service, CFSTR("CurrentCapacity"), kCFAllocatorDefault, 0);
 

@@ -38,6 +38,8 @@
 
     NSDictionary *_legendAttributes;
     NSString *_legendFormat;
+
+    BOOL _isTemperatureGroup;
 }
 
 @property (assign) IBOutlet GraphsController *graphsController;

@@ -87,6 +87,7 @@
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.favorites" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit" options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
 
@@ -98,6 +99,7 @@
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.favorites"];
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar"];
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit"];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -285,7 +287,8 @@
 {
     if ([keyPath isEqualToString:@"monitorEngine.configuration.favorites"] ||
         [keyPath isEqualToString:@"monitorEngine.configuration.useBigFontInMenubar"] ||
-        [keyPath isEqualToString:@"monitorEngine.configuration.useShadowEffectsInMenubar"]) {
+        [keyPath isEqualToString:@"monitorEngine.configuration.useShadowEffectsInMenubar"] ||
+        [keyPath isEqualToString:@"monitorEngine.configuration.useFahrenheit"]) {
 
         [self refresh];
 

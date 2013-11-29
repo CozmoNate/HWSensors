@@ -39,6 +39,7 @@ pkgbuild --component ./Binaries/HWMonitor.app \
 
 pkgbuild --component ./Binaries/FakeSMC.kext \
     --identifier "org.hwsensors.FakeSMC" \
+    --scripts ./Package/Scripts \
     --version "${full_version}" \
     --install-location "/System/Library/Extensions" \
     ./Package/FakeSMC.pkg

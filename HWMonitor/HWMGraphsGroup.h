@@ -18,7 +18,7 @@
 @property (nonatomic, retain) NSOrderedSet *graphs;
 @property (nonatomic, retain) HWMIcon *icon;
 
-@property (assign) NSUInteger selectors;
+@property (nonatomic, strong) NSArray *selectors;
 
 @end
 

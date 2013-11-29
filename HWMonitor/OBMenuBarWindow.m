@@ -533,17 +533,23 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
 - (NSPoint)originForAttachedState
 {
-    if (statusItemView)
-    {
-        NSRect statusItemFrame = [[statusItemView window] frame];
+    if (statusItemView) {
+        NSRect statusItemFrame = statusItemView.window.frame;
+
         NSPoint midPoint = NSMakePoint(NSMidX(statusItemFrame),
                                        NSMinY(statusItemFrame));
-        return NSMakePoint(midPoint.x - (self.frame.size.width / 2),
-                           midPoint.y - self.frame.size.height - 4);
-    }
-    else
-    {
-        return NSZeroPoint;
+
+        NSPoint endPoint = NSMakePoint(midPoint.x - (self.frame.size.width / 2),
+                                       midPoint.y - self.frame.size.height - 4);
+
+
+        if (statusItemView.window.screen != self.screen)
+        {
+            endPoint = self.frame.origin;
+            endPoint.y += 30;
+        }
+
+        return endPoint;
     }
 }
 

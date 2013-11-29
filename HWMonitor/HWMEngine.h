@@ -10,24 +10,6 @@
 
 extern NSString * const HWMEngineSensorsHasBenUpdatedNotification;
 
-
-#define kHWMGroupNone                   0
-
-#define kHWMGroupTemperature            2
-#define kHWMGroupVoltage                4
-#define kHWMGroupPWM                    8
-#define kHWMGroupTachometer             16
-#define kHWMGroupMultiplier             32
-#define kHWMGroupFrequency              64
-#define kHWMGroupCurrent                128
-#define kHWMGroupPower                  256
-
-#define kHWMGroupBattery                512
-
-#define kHWMGroupSmartTemperature       1024
-#define kHWMGroupSmartRemainingLife     2048
-#define kHWMGroupSmartRemainingBlocks   4096
-
 typedef enum {
     kHWMEngineNoninitialized = 0,
     kHWMEngineStateIdle,
@@ -84,7 +66,7 @@ typedef enum {
 -(void)setNeedsRecalculateSensorValues;
 -(void)setNeedsUpdateLists;
 
--(void)insertItemToFavorites:(HWMItem*)item atIndex:(NSUInteger)index;
+-(void)insertItemIntoFavorites:(HWMItem*)item atIndex:(NSUInteger)index;
 -(void)moveFavoritesItemAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 -(void)removeItemFromFavoritesAtIndex:(NSUInteger)index;
 

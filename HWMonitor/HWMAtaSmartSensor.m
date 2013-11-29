@@ -97,9 +97,9 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks = 0xB4;
                             NSString *name = [characteristics objectForKey:@"Product Name"];
                             NSString *serial = [characteristics objectForKey:@"Serial Number"];
                             NSString *medium = [characteristics objectForKey:@"Medium Type"];
-                            NSString *revision = [characteristics objectForKey:@"Product Revision Level"];
+                            //                            NSString *revision = [characteristics objectForKey:@"Product Revision Level"];
 
-                            if (name && (serial || revision)) {
+                            if (name && serial) {
                                 NSString *volumes;
                                 NSString *bsdName;
 
@@ -111,13 +111,14 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks = 0xB4;
                                     CFRelease(bsdNameRef);
                                 }
 
-                                [list addObject:@{@"service" : [NSNumber numberWithUnsignedLongLong:service],
-                                                  @"productName": name,
-                                                  @"bsdName" :bsdName,
-                                                  @"volumesNames" : (volumes ? volumes : bsdName) ,
-                                                  @"serialNumber" : serial,
-                                                  @"rotational" : [NSNumber numberWithBool:medium ? [medium isEqualToString:@"Solid State"] : TRUE]}];
-
+                                if (bsdName) {
+                                    [list addObject:@{@"service" : [NSNumber numberWithUnsignedLongLong:service],
+                                                      @"productName": name,
+                                                      @"bsdName" :bsdName,
+                                                      @"volumesNames" : (volumes ? volumes : bsdName) ,
+                                                      @"serialNumber" : serial,
+                                                      @"rotational" : [NSNumber numberWithBool:medium ? [medium isEqualToString:@"Solid State"] : TRUE]}];
+                                }
                             }
                         }
                     }

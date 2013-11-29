@@ -26,8 +26,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "HWMonitorSensor.h"
 #import "smc.h"
+#import "SmcHelper.h"
 
 #define NSStr(x) [NSString stringWithCString:(x) encoding:NSASCIIStringEncoding]
 
@@ -77,7 +77,7 @@ UInt32 SMCReadIndexCount(io_connect_t connection)
     SMCVal_t val;
     
     SMCReadKey(connection, "#KEY", &val);
-    return [HWMonitorSensor decodeNumericData:[NSData dataWithBytes:val.bytes length:val.dataSize] ofType:NSStr(val.dataType)];
+    return [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType];
 }
 
 bool printKeyValue(SMCVal_t val)
@@ -91,11 +91,11 @@ bool printKeyValue(SMCVal_t val)
         else if (!strncasecmp(val.dataType, "flag", 4)) {
             printf(val.bytes[0] ? "TRUE" : "FALSE");
         }
-        else  if ([HWMonitorSensor isValidIntegetType:NSStr(val.dataType)]) {
-            printf("%.0f", [HWMonitorSensor decodeNumericData:[NSData dataWithBytes:val.bytes length:val.dataSize] ofType:NSStr(val.dataType)]);
+        else  if ([SmcHelper isValidIntegerSmcType:NSStr(val.dataType)]) {
+            printf("%.0f", [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType]);
         }
-        else if ([HWMonitorSensor isValidFloatingType:NSStr(val.dataType)]) {
-            printf("%.2f", [HWMonitorSensor decodeNumericData:[NSData dataWithBytes:val.bytes length:val.dataSize] ofType:NSStr(val.dataType)]);
+        else if ([SmcHelper isValidIntegerSmcType:NSStr(val.dataType)]) {
+            printf("%.2f", [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType]);
         }
         else return false;
         

@@ -32,14 +32,15 @@
 
 #import "HWMGraph.h"
 #import "HWMGraphsGroup.h"
+#import "HWMSensorsGroup.h"
 #import "HWMSensor.h"
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
 
 #define LeftViewMargin      1
-#define TopViewMargin       1
+#define TopViewMargin       2
 #define RightViewMargin     1
-#define BottomViewMargin    1
+#define BottomViewMargin    2
 
 @implementation GraphsView
 
@@ -51,25 +52,27 @@
         
         _graphsGroup = group;
 
-        if (_graphsGroup.selectors & (kHWMGroupTemperature | kHWMGroupSmartTemperature)) {
+        if ([_graphsGroup.selectors containsObject:@kHWMGroupTemperature] ||
+            [_graphsGroup.selectors containsObject:@kHWMGroupSmartTemperature]) {
             _legendFormat = @"%1.0f°";
+            _isTemperatureGroup = YES;
         }
-        else if (_graphsGroup.selectors & kHWMGroupFrequency) {
+        else if ([_graphsGroup.selectors containsObject:@kHWMGroupFrequency]) {
             _legendFormat = GetLocalizedString(@"%1.0f MHz");
         }
-        else if (_graphsGroup.selectors & kHWMGroupTachometer) {
+        else if ([_graphsGroup.selectors containsObject:@kHWMGroupTachometer]) {
             _legendFormat = GetLocalizedString(@"%1.0f rpm");
         }
-        else if (_graphsGroup.selectors & kHWMGroupVoltage) {
+        else if ([_graphsGroup.selectors containsObject:@kHWMGroupVoltage]) {
             _legendFormat = GetLocalizedString(@"%1.3f V");
         }
-        else if (_graphsGroup.selectors & kHWMGroupCurrent) {
+        else if ([_graphsGroup.selectors containsObject:@kHWMGroupCurrent]) {
             _legendFormat = GetLocalizedString(@"%1.3f A");
         }
-        else if (_graphsGroup.selectors & kHWMGroupPower) {
+        else if ([_graphsGroup.selectors containsObject:@kHWMGroupPower]) {
             _legendFormat = GetLocalizedString(@"%1.3f W");
         }
-        else if (_graphsGroup.selectors & kHWMGroupBattery) {
+        else if ([_graphsGroup.selectors containsObject:@kHWMGroupBattery]) {
             _legendFormat = @"%1.0f%";
         }
 
@@ -148,7 +151,7 @@
     }
     else {
 
-        double minY = _minY <= 0 ? _minY : _minY - _minY * 0.2;
+        double minY = _minY <= 0 ? _minY : _minY - _minY * 0.05;
         double maxY = _maxY + _maxY * 0.1;
         
         _graphBounds = NSMakeRect(0, minY, _maxPoints, maxY - minY);
@@ -272,11 +275,11 @@
         [context setShouldAntialias:YES];
 
         NSAttributedString *maxExtremeTitle = [[NSAttributedString alloc]
-                                               initWithString:[NSString stringWithFormat:_legendFormat, (_graphsGroup.selectors & (kHWMGroupTemperature | kHWMGroupSmartTemperature) && self.graphsController.monitorEngine.configuration.useFahrenheit.boolValue ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
+                                               initWithString:[NSString stringWithFormat:_legendFormat, _isTemperatureGroup && self.graphsController.monitorEngine.configuration.useFahrenheit.boolValue ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY]
                                                attributes:_legendAttributes];
 
         NSAttributedString *minExtremeTitle = [[NSAttributedString alloc]
-                                     initWithString:[NSString stringWithFormat:_legendFormat, (_graphsGroup.selectors & (kHWMGroupTemperature | kHWMGroupSmartTemperature) && self.graphsController.monitorEngine.configuration.useFahrenheit.boolValue ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
+                                     initWithString:[NSString stringWithFormat:_legendFormat, _isTemperatureGroup && self.graphsController.monitorEngine.configuration.useFahrenheit.boolValue ? _minY * (9.0f / 5.0f) + 32.0f : _minY]
                                      attributes:_legendAttributes];
 
         if ([self graphPointToView:NSMakePoint(0, _maxY)].y + 2 + [maxExtremeTitle size].height > [self graphPointToView:NSMakePoint(0, _graphBounds.origin.y + _graphBounds.size.height)].y || [self graphPointToView:NSMakePoint(0, _minY)].y - [minExtremeTitle size].height < [self graphPointToView:_graphBounds.origin].y) {
