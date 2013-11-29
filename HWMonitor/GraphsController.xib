@@ -167,7 +167,7 @@
                                                                         <binding destination="Cd6-Ee-dS1" name="value" keyPath="objectValue.sensor.formattedValue" id="YJs-ub-y8H"/>
                                                                     </connections>
                                                                 </textField>
-                                                                <colorWell bordered="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nq5-Vi-SNC">
+                                                                <colorWell bordered="NO" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nq5-Vi-SNC">
                                                                     <rect key="frame" x="3" y="1" width="17" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <constraints>
@@ -214,7 +214,7 @@
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="checkBox" destination="ovP-2f-YU6" id="iEb-Pq-OgB"/>
-                                                                <outlet property="colorWell" destination="nq5-Vi-SNC" id="NYL-9Y-0I5"/>
+                                                                <outlet property="colorWell" destination="nq5-Vi-SNC" id="Dr6-cI-EBm"/>
                                                                 <outlet property="textField" destination="65M-u0-GnR" id="lbB-xZ-AbE"/>
                                                                 <outlet property="valueField" destination="Bk6-mR-Grw" id="d18-X1-hKR"/>
                                                             </connections>

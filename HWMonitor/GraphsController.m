@@ -246,7 +246,8 @@
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     id item = [_monitorEngine.graphsAndGroups objectAtIndex:row];
-    return [tableView makeViewWithIdentifier:[item identifier] owner:self];
+    id view = [tableView makeViewWithIdentifier:[item identifier] owner:self];
+    return view;
 }
 
 @end

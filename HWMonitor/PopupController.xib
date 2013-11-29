@@ -51,10 +51,10 @@
                                     <action selector="detachFromMenuBar:" target="3" id="1445"/>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1727" id="2641">
                                         <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
@@ -349,8 +349,9 @@
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="6" id="6Ir-Zc-PaD"/>
+                                                                <constraint firstAttribute="height" constant="13" id="veG-0d-DyJ"/>
                                                             </constraints>
-                                                            <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="89"/>
+                                                            <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="battery" id="89"/>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="82">
                                                             <rect key="frame" x="10" y="0.0" width="201" height="11"/>
@@ -408,7 +409,7 @@
                                                         <constraint firstItem="84" firstAttribute="leading" secondItem="82" secondAttribute="leading" id="sfg-Us-e7O"/>
                                                     </constraints>
                                                     <connections>
-                                                        <outlet property="imageView" destination="83" id="117"/>
+                                                        <outlet property="imageView" destination="83" id="sfH-Ol-lig"/>
                                                         <outlet property="subtitleField" destination="82" id="116"/>
                                                         <outlet property="textField" destination="84" id="114"/>
                                                         <outlet property="valueField" destination="85" id="115"/>
@@ -495,10 +496,10 @@
                         <action selector="orderOut:" target="3" id="1151"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2507">
                             <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
@@ -561,5 +562,6 @@
         <image name="19-gear" width="15" height="15"/>
         <image name="37-circle-x" width="15" height="15"/>
         <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="battery" width="9" height="13"/>
     </resources>
 </document>

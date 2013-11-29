@@ -22,17 +22,12 @@ static NSDictionary *gHWMSensorLocalizationCache;
 @dynamic selector;
 @dynamic type;
 @dynamic value;
-
 @dynamic group;
+@dynamic graph;
 
 -(void)awakeFromFetch
 {
     [self setPrimitiveValue:@0 forKey:@"service"];
-}
-
--(BOOL)isActive
-{
-    return self.service && self.service.unsignedLongLongValue > 0;
 }
 
 -(NSString *)formattedValue
@@ -89,6 +84,10 @@ static NSDictionary *gHWMSensorLocalizationCache;
                 return [NSString stringWithFormat:[gHWMSensorLocalizationCache objectForKey:@"%1.2fW"], floatValue];
 
             case kHWMGroupBattery:
+            case kHWMGroupBatteryInternal:
+            case kHWMGroupBatteryMouse:
+            case kHWMGroupBatteryKeyboard:
+            case kHWMGroupBatteryTrackpad:
                 return [NSString stringWithFormat:GetLocalizedString(@"%1.0f%%"), floatValue];
 
             case kHWMGroupSmartRemainingLife:

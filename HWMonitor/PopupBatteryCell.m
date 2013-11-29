@@ -57,12 +57,14 @@
 {
     _gaugeLevel = gaugeLevel;
     
-    if (self.imageView) {
-        if (!self.imageView.image) {
-            [self.imageView setImage:[[NSImage alloc] initWithSize:self.imageView.bounds.size]];
+    if (self.imageView && !NSEqualSizes(self.imageView.bounds.size, NSZeroSize)) {
+
+        if (!_gaugeImage) {
+            _gaugeImage = [[NSImage alloc] initWithSize:self.imageView.bounds.size];
+            [self.imageView setImage:_gaugeImage];
         }
-        
-        [self.imageView.image lockFocus];
+
+        [_gaugeImage lockFocus];
         
         NSRectFillUsingOperation(self.imageView.bounds, NSCompositeClear);
         
@@ -80,7 +82,7 @@
         
         [[NSBezierPath bezierPathWithRect:NSMakeRect(1.75, 2.75, self.imageView.image.size.width - 3.5, (self.imageView.image.size.height - 5.5) * [_gaugeLevel doubleValue]  * 0.01)] fill];
         
-        [self.imageView.image unlockFocus];
+        [_gaugeImage unlockFocus];
         
         [self.imageView setNeedsDisplay:YES];
     }

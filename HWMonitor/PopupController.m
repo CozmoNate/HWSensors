@@ -81,7 +81,7 @@
         [self.delegate popupWillOpen:self];
     }
 
-    [self layoutContent:NO orderFront:YES];
+    [self layoutContent:YES orderFront:YES];
     
 //    if (!_windowFilter) {
 //        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];

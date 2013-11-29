@@ -10,6 +10,28 @@
 #import <CoreData/CoreData.h>
 #import "HWMItem.h"
 
+#define kHWMGroupNone                   0
+
+#define kHWMGroupTemperature            1
+#define kHWMGroupVoltage                2
+#define kHWMGroupPWM                    3
+#define kHWMGroupTachometer             4
+#define kHWMGroupMultiplier             5
+#define kHWMGroupFrequency              6
+#define kHWMGroupCurrent                7
+#define kHWMGroupPower                  8
+
+#define kHWMGroupSmartTemperature       9
+#define kHWMGroupSmartRemainingLife     10
+#define kHWMGroupSmartRemainingBlocks   11
+
+#define kHWMGroupBattery                12
+
+#define kHWMGroupBatteryInternal        13
+#define kHWMGroupBatteryMouse           14
+#define kHWMGroupBatteryKeyboard        15
+#define kHWMGroupBatteryTrackpad        16
+
 @class HWMIcon, HWMSensor, HWMConfiguration;
 
 @interface HWMSensorsGroup : HWMItem

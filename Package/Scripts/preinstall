@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo $3
+
+rm -R $3/System/Library/Extensions/ACPISensors.kext
+rm -R $3/System/Library/Extensions/CPUSensors.kext
+rm -R $3/System/Library/Extensions/GPUSensors.kext
+rm -R $3/System/Library/Extensions/LPCSensors.kext
+rm -R $3/System/Library/Extensions/FakeSMCKeyStore.kext
+rm -R $3/System/Library/Extensions/FakeSMC.kext
+
+exit 0

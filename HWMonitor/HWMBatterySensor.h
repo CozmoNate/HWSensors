@@ -10,12 +10,6 @@
 #import <CoreData/CoreData.h>
 #import "HWMSensor.h"
 
-#define kHWMBatterySensorTypeNone       0
-#define kHWMBatterySensorTypeInternal   1
-#define kHWMBatterySensorTypeMouse      2
-#define kHWMBatterySensorTypeKeyboard   3
-#define kHWMBatterySensorTypeTrackpad   4
-
 @interface HWMBatterySensor : HWMSensor
 
 @property (nonatomic, retain) NSString * productName;

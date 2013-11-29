@@ -1540,21 +1540,24 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     [sensor setSelector:[attributes objectForKey:@"selector"]];
     
     [sensor doUpdateValue];
+
+    //[sensor setValue:@49]; // TEST BATTERY
     
     if (sensor.value) {
+
         [sensor setName:name];
         
         switch (sensor.selector.unsignedIntegerValue) {
-            case kHWMBatterySensorTypeInternal:
+            case kHWMGroupBatteryInternal:
                 [sensor setTitle:GetLocalizedString(@"Internal Battery")];
                 break;
-            case kHWMBatterySensorTypeKeyboard:
+            case kHWMGroupBatteryKeyboard:
                 [sensor setTitle:GetLocalizedString(@"Keyboard")];
                 break;
-            case kHWMBatterySensorTypeMouse:
+            case kHWMGroupBatteryMouse:
                 [sensor setTitle:GetLocalizedString(@"Mouse")];
                 break;
-            case kHWMBatterySensorTypeTrackpad:
+            case kHWMGroupBatteryTrackpad:
                 [sensor setTitle:GetLocalizedString(@"Trackpad")];
                 break;
                 
@@ -1562,9 +1565,12 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
                 [sensor setTitle:GetLocalizedString(@"Battery")];
                 break;
         }
-        
+
         [sensor setProductName:[attributes objectForKey:@"productName"]];
         [sensor setSerialNumber:[attributes objectForKey:@"serialNumber"]];
+
+        [sensor setLegend:sensor.productName];
+        [sensor setIdentifier:@"Battery"];
 
         [sensor setEngine:self];
     }
@@ -1572,7 +1578,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
         [self.managedObjectContext deleteObject:sensor];
         return nil;
     }
-    
+
     return sensor;
 }
 
@@ -1590,28 +1596,20 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 #pragma mark
 #pragma mark Graphs
 
--(HWMGraph*)getGraphForSensor:(HWMSensor*)sensor fromGroup:(HWMGraphsGroup*)group
-{
-    return [[group.graphs filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"sensor == %@", sensor]] firstObject];
-}
-
 -(void)insertGraphsFromSensorsArray:(NSArray*)sensors group:(HWMGraphsGroup*)group
 {
     NSUInteger colorIndex = 2;
 
     for (HWMSensor *sensor in sensors) {
 
-        HWMGraph *graph = [self getGraphForSensor:sensor fromGroup:group];
+        if (!sensor.graph) {
+            [sensor setGraph:[NSEntityDescription insertNewObjectForEntityForName:@"Graph" inManagedObjectContext:self.managedObjectContext]];
 
-        if (!graph) {
-            graph = [NSEntityDescription insertNewObjectForEntityForName:@"Graph" inManagedObjectContext:self.managedObjectContext];
-
-            [group addGraphsObject:graph];
+            [group addGraphsObject:sensor.graph];
         }
 
-        [graph setColor:[[HWMGraph graphColors] objectAtIndex:colorIndex++]];
-        [graph setIdentifier:@"Item"];
-        [graph setSensor:sensor];
+        [sensor.graph setColor:[[HWMGraph graphColors] objectAtIndex:colorIndex++]];
+        [sensor.graph setIdentifier:@"Item"];
     }
 }
 
@@ -1633,18 +1631,13 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     [group setName:name];
     [group setTitle:GetLocalizedString(group.name)];
     [group setIcon:icon];
-
+    [group setSelectors:selectors];
     [group setIdentifier:@"Group"];
 
     [group setEngine:self];
 
-    group.selectors = 0;
-
     // insert sensors
     for (NSNumber * sel in selectors) {
-
-        group.selectors += sel.unsignedIntegerValue;
-
         NSArray *arrangedSensors = [sensors filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"selector == %@", sel]];
 
         [self insertGraphsFromSensorsArray:arrangedSensors group:group];

@@ -6,9 +6,11 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
+@class GraphsColorWell;
+
 @interface GraphsSensorCell : NSTableCellView
 
-@property (assign) IBOutlet NSColorWell *colorWell;
+@property (assign) IBOutlet GraphsColorWell *colorWell;
 @property (assign) IBOutlet NSButton *checkBox;
 @property (assign) IBOutlet NSTextField *valueField;
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="Initial" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AtaSmartSensor" representedClassName="HWMAtaSmartSensor" parentEntity="Sensor" syncable="YES">
         <attribute name="bsdName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="exceeded" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
@@ -84,7 +84,7 @@
         <relationship name="group" maxCount="1" deletionRule="Nullify" destinationEntity="SensorsGroup" inverseName="sensors" inverseEntity="SensorsGroup" syncable="YES"/>
     </entity>
     <entity name="SensorsGroup" representedClassName="HWMSensorsGroup" parentEntity="Item" syncable="YES">
-        <attribute name="selector" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="selector" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="configuration" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" inverseName="sensorGroups" inverseEntity="Configuration" syncable="YES"/>
         <relationship name="icon" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Icon" inverseName="graphGroups" inverseEntity="Icon" syncable="YES"/>
         <relationship name="sensors" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Sensor" inverseName="group" inverseEntity="Sensor" syncable="YES"/>
