@@ -756,27 +756,14 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
             }
             else if ([keyPath isEqual:@"configuration.showVolumeNames"]) {
-                //                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
-                //
-                //                NSError *error;
-                //
-                //                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-                //
-                //                if (error) {
-                //                    NSLog(@"fetch AtaSmartSensors in observeValueForKeyPath error %@", error);
-                //                }
-                //
-                //                if (sensors) {
-                //                    for (HWMAtaSmartSensor *sensor in sensors) {
-                //                        [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
-                //                    }
-                //                }
                 
                 [self willChangeValueForKey:@"sensorsAndGroups"];
 
-                if (_ataSmartSensors) {
-                    [_ataSmartSensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                        [obj setLegend:_configuration.showVolumeNames.boolValue ? [obj volumeNames] : nil];
+                if (_iconsWithSensorsAndGroups) {
+                    [_iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                        if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
+                            [obj setLegend:_configuration.showVolumeNames.boolValue ? [obj volumeNames] : nil];
+                        }
                     }];
                 }
 
@@ -785,29 +772,19 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             }
             else if ([keyPath isEqual:@"configuration.useBsdDriveNames"]) {
 
-//                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
-//
-//                NSError *error;
-//
-//                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-//
-//                if (error) {
-//                    NSLog(@"fetch AtaSmartSensors in observeValueForKeyPath error %@", error);
-//                }
-//
-//                if (sensors) {
-//                    for (HWMAtaSmartSensor *sensor in sensors) {
-//                        [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : sensor.productName];
-//                    }
-//                }
-
+                [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
                 [self willChangeValueForKey:@"sensorsAndGroups"];
-                if (_ataSmartSensors) {
-                    [_ataSmartSensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                        [obj setTitle:_configuration.useBsdDriveNames.boolValue ? [obj bsdName] : [obj productName]];
+
+                if (_iconsWithSensorsAndGroups) {
+                    [_iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                        if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
+                            [obj setTitle:_configuration.useBsdDriveNames.boolValue ? [obj bsdName] : [obj productName]];
+                        }
                     }];
                 }
+
                 [self didChangeValueForKey:@"sensorsAndGroups"];
+                [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
                 
             }
         //}
@@ -1298,13 +1275,13 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
     if (sensor.value) {
         [sensor setName:name];
-        [sensor setTitle:[attributes objectForKey:@"productName"]];
         [sensor setProductName:[attributes objectForKey:@"productName"]];
         [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
         [sensor setSerialNumber:[attributes objectForKey:@"serialNumber"]];
         [sensor setRotational:[attributes objectForKey:@"rotational"]];
         [sensor setIdentifier:@"Drive"];
 
+        [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : sensor.productName];
         [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
 
         [sensor setEngine:self];
