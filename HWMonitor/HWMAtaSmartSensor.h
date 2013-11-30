@@ -10,6 +10,19 @@
 #import <CoreData/CoreData.h>
 #import "HWMSensor.h"
 
+#include <IOKit/storage/ata/ATASMARTLib.h>
+
+@interface HWMSmartPlugInInterfaceWrapper : NSObject
+
+@property (nonatomic, assign) IOCFPlugInInterface** pluginInterface;
+@property (nonatomic, assign) IOATASMARTInterface ** smartInterface;
+
++(HWMSmartPlugInInterfaceWrapper*)wrapperWithService:(io_service_t)service forBsdName:(NSString*)name;
++(HWMSmartPlugInInterfaceWrapper*)getWrapperForBsdName:(NSString*)name;
++(void)destroyAllWrappers;
+
+@end
+
 #define kATASMARTVendorSpecificAttributesCount     30
 
 typedef struct {

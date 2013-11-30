@@ -74,7 +74,7 @@
         <relationship name="favorite" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" inverseName="favorites" inverseEntity="Configuration" syncable="YES"/>
     </entity>
     <entity name="Sensor" representedClassName="HWMSensor" isAbstract="YES" parentEntity="Item" syncable="YES">
-        <attribute name="selector" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="selector" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="service" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>

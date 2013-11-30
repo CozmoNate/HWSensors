@@ -558,10 +558,14 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             }
 
             if (doUpdate) {
-                [sensor doUpdateValue];
+                if ([HWMSmartPlugInInterfaceWrapper wrapperWithService:(io_service_t)[sensor service].unsignedLongLongValue forBsdName:[sensor bsdName]]) {
+                    [sensor doUpdateValue];
+                }
             }
 
         }
+
+        [HWMSmartPlugInInterfaceWrapper destroyAllWrappers];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorsHasBenUpdatedNotification object:self];
     }
@@ -1274,6 +1278,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
     [sensor setService:[attributes objectForKey:@"service"]];
     [sensor setSelector:group.selector];
+    [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
 
     [sensor doUpdateValue];
 
@@ -1281,7 +1286,6 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
         [sensor setName:name];
         [sensor setTitle:[attributes objectForKey:@"productName"]];
         [sensor setProductName:[attributes objectForKey:@"productName"]];
-        [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
         [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
         [sensor setSerialNumber:[attributes objectForKey:@"serialNumber"]];
         [sensor setRotational:[attributes objectForKey:@"rotational"]];
@@ -1305,15 +1309,15 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
     __block NSArray *drives;
 
-    //dispatch_sync(dispatch_get_main_queue(), ^{
-        drives = [HWMAtaSmartSensor discoverDrives];
-    //});
+    drives = [HWMAtaSmartSensor discoverDrives];
 
     for (id drive in drives) {
         [self insertAtaSmartSensorFromDictionary:drive group:smartTemperatures];
         [self insertAtaSmartSensorFromDictionary:drive group:smartLife];
         [self insertAtaSmartSensorFromDictionary:drive group:smartBlocks];
     }
+
+    [HWMSmartPlugInInterfaceWrapper destroyAllWrappers];
 }
 
 #pragma mark
@@ -1322,19 +1326,6 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 -(HWMSmcFanSensor*)getSmcFanSensorByUnique:(NSString*)unique fromGroup:(HWMSensorsGroup*)group
 {
     return [[group.sensors filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"unique == %@", unique]] firstObject];
-    //    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
-    //
-    //    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
-    //
-    //    NSError *error;
-    //
-    //    HWMAtaSmartSensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
-    //
-    //    if (error) {
-    //        NSLog(@"getAtaSmartSensorByName error %@", error);
-    //    }
-    //
-    //    return sensor;
 }
 
 -(HWMSmcSensor*)insertSmcFanWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMSensorsGroup*)group
