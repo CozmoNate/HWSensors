@@ -106,10 +106,30 @@
     IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
 }
 
--(void)doUpdateValue
+-(NSUInteger)internalUpdateAlarmLevel
 {
-    NSNumber *level = nil;
+    float floatValue = self.value.floatValue;
 
+    switch (self.selector.unsignedIntegerValue) {
+
+        case kHWMGroupBatteryInternal:
+        case kHWMGroupBatteryKeyboard:
+        case kHWMGroupBatteryMouse:
+        case kHWMGroupBatteryTrackpad:
+            return floatValue < 5 ? kHWMSensorLevelExceeded :
+                   floatValue < 10 ? kHWMSensorLevelHigh :
+                   floatValue < 30 ? kHWMSensorLevelModerate :
+                   kHWMSensorLevelNormal;
+
+        default:
+            break;
+    }
+
+    return _alarmLevel;
+}
+
+-(NSNumber *)internalUpdateValue
+{
     io_service_t service = (io_service_t)self.service.unsignedLongLongValue;
 
     if (MACH_PORT_NULL != service) {
@@ -120,28 +140,19 @@
 
                 if (max && current && [max doubleValue] > 0) {
                     double percent = (([current doubleValue] / [max doubleValue]) + 0.005) * 100;
-                    level = [NSNumber numberWithDouble:percent];
+                    return [NSNumber numberWithFloat:percent];
                 }
 
                 break;
             }
 
             default:
-                level = (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(service, CFSTR("BatteryPercent"), kCFAllocatorDefault, 0);
-                break;
+                return (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(service, CFSTR("BatteryPercent"), kCFAllocatorDefault, 0);
         }
 
     }
 
-    if (level && (!self.value || ![level isEqualToNumber:self.value])) {
-        [self willChangeValueForKey:@"value"];
-        [self willChangeValueForKey:@"formattedValue"];
-
-        [self setPrimitiveValue:level forKey:@"value"];
-
-        [self didChangeValueForKey:@"value"];
-        [self didChangeValueForKey:@"formattedValue"];
-    }
+    return @0;
 }
 
 @end

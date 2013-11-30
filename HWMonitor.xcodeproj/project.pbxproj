@@ -12,7 +12,6 @@
 		7E031C641835E76D00A2D097 /* HWMImageTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E031C631835E76D00A2D097 /* HWMImageTransformer.m */; };
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E0648F116DF3B7D00ACB851 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7E0648EF16DF3B7D00ACB851 /* README.md */; };
-		7E10343616EFAE490089DE7B /* GenericBatteryDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */; };
 		7E14580F1826F8280027E984 /* Credits.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 7E14580D1826F8280027E984 /* Credits.rtfd */; };
 		7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C617E2744000694A4A /* 37-circle-x.png */; };
 		7E1458CB17E2744000694A4A /* 37-circle-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C717E2744000694A4A /* 37-circle-x@2x.png */; };
@@ -82,7 +81,6 @@
 		7EA2493316D8E9C6002231B2 /* voltages_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EA2491E16D8E9C6002231B2 /* voltages_template.png */; };
 		7EA2493416D8E9C6002231B2 /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EA2491F16D8E9C6002231B2 /* voltages.png */; };
 		7EA2493616D8E9CE002231B2 /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7EA2493516D8E9CE002231B2 /* default.icns */; };
-		7EA2494116D8EA95002231B2 /* ATAGenericDrive.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493916D8EA95002231B2 /* ATAGenericDrive.m */; };
 		7EA2494416D8EA95002231B2 /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2493F16D8EA95002231B2 /* smc.c */; };
 		7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2494C16D8EB2D002231B2 /* StatusItemView.m */; };
 		7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
@@ -165,8 +163,6 @@
 		7E0648ED16DF3B7D00ACB851 /* LaunchAtLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchAtLoginController.h; sourceTree = "<group>"; };
 		7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchAtLoginController.m; sourceTree = "<group>"; };
 		7E0648EF16DF3B7D00ACB851 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		7E10343416EFAE490089DE7B /* GenericBatteryDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericBatteryDevice.h; sourceTree = "<group>"; };
-		7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericBatteryDevice.m; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E14580E1826F8280027E984 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = en; path = en.lproj/Credits.rtfd; sourceTree = "<group>"; };
 		7E1458C617E2744000694A4A /* 37-circle-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x.png"; sourceTree = "<group>"; };
@@ -269,8 +265,6 @@
 		7EA2491E16D8E9C6002231B2 /* voltages_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voltages_template.png; sourceTree = "<group>"; };
 		7EA2491F16D8E9C6002231B2 /* voltages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voltages.png; sourceTree = "<group>"; };
 		7EA2493516D8E9CE002231B2 /* default.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = default.icns; sourceTree = "<group>"; };
-		7EA2493816D8EA95002231B2 /* ATAGenericDrive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATAGenericDrive.h; sourceTree = "<group>"; };
-		7EA2493916D8EA95002231B2 /* ATAGenericDrive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATAGenericDrive.m; sourceTree = "<group>"; };
 		7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
 		7EA2493F16D8EA95002231B2 /* smc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = smc.c; path = HWMonitor/smc.c; sourceTree = "<group>"; };
 		7EA2494B16D8EB2D002231B2 /* StatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemView.h; sourceTree = "<group>"; };
@@ -456,15 +450,6 @@
 				7E0648EF16DF3B7D00ACB851 /* README.md */,
 			);
 			name = LaunchAtLoginController;
-			sourceTree = "<group>";
-		};
-		7E10343316EFAE110089DE7B /* GenericBatteryDevice */ = {
-			isa = PBXGroup;
-			children = (
-				7E10343416EFAE490089DE7B /* GenericBatteryDevice.h */,
-				7E10343516EFAE490089DE7B /* GenericBatteryDevice.m */,
-			);
-			name = GenericBatteryDevice;
 			sourceTree = "<group>";
 		};
 		7E1261D216E008FE00622F92 /* Shared */ = {
@@ -735,30 +720,11 @@
 		7EA2490A16D8E9B0002231B2 /* Engines */ = {
 			isa = PBXGroup;
 			children = (
-				7EA2494516D8EA99002231B2 /* ATAGenericDrive */,
-				7E10343316EFAE110089DE7B /* GenericBatteryDevice */,
-				7EA2494616D8EAA2002231B2 /* HWMonitorEngine */,
-			);
-			name = Engines;
-			sourceTree = "<group>";
-		};
-		7EA2494516D8EA99002231B2 /* ATAGenericDrive */ = {
-			isa = PBXGroup;
-			children = (
-				7EA2493816D8EA95002231B2 /* ATAGenericDrive.h */,
-				7EA2493916D8EA95002231B2 /* ATAGenericDrive.m */,
-			);
-			name = ATAGenericDrive;
-			sourceTree = "<group>";
-		};
-		7EA2494616D8EAA2002231B2 /* HWMonitorEngine */ = {
-			isa = PBXGroup;
-			children = (
 				7EC8E7CE183356F4006F85FE /* CoreData */,
 				7EFF4393183649B20094860C /* HWMEngine.h */,
 				7EFF4394183649B20094860C /* HWMEngine.m */,
 			);
-			name = HWMonitorEngine;
+			name = Engines;
 			sourceTree = "<group>";
 		};
 		7EA2494A16D8EB0B002231B2 /* Views & Controls */ = {
@@ -1081,7 +1047,6 @@
 				7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */,
 				7EA248FF16D8E93A002231B2 /* AppController.m in Sources */,
 				7E19DED31843E97300229B0E /* HWMConfiguration.m in Sources */,
-				7EA2494116D8EA95002231B2 /* ATAGenericDrive.m in Sources */,
 				7EFE61B7183581090009BD0D /* HWMSensor.m in Sources */,
 				7EA2494416D8EA95002231B2 /* smc.c in Sources */,
 				7E0200B218035D3700520CF7 /* RFOverlayScrollView.m in Sources */,
@@ -1103,7 +1068,6 @@
 				7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */,
 				7E19DEBE1843CDC400229B0E /* HWMSensorsGroup.m in Sources */,
 				7E17953616EE705B00145082 /* PopupBatteryCell.m in Sources */,
-				7E10343616EFAE490089DE7B /* GenericBatteryDevice.m in Sources */,
 				7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */,
 				7E19000117005652008F40F1 /* SensorsTableView.m in Sources */,
 				7E19000717006727008F40F1 /* PrefsSensorCell.m in Sources */,

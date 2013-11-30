@@ -527,43 +527,51 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 {
     @synchronized (self) {
         if (!_ataSmartSensors) {
-            __block NSMutableArray *sensors = [NSMutableArray array];
+            if (_iconsWithSensorsAndGroups) {
+                __block NSMutableArray *sensors = [NSMutableArray array];
 
-            [self.iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
-                    [sensors addObject:obj];
+                [self.iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
+                        [sensors addObject:obj];
+                    }
+                }];
+
+                _ataSmartSensors = [sensors copy];
+            }
+        }
+
+        if (_ataSmartSensors) {
+            for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
+
+                BOOL doUpdate = FALSE;
+
+                switch (_updateLoopStrategy) {
+                    case kHWMSensorsUpdateLoopForced:
+                        doUpdate = YES;
+                        break;
+
+                    case kHWMSensorsUpdateLoopOnlyFavorites:
+                        doUpdate = sensor.favorite != nil;
+                        break;
+
+                    case kHWMSensorsUpdateLoopRegular:
+                    default:
+                        doUpdate = !sensor.hidden.boolValue || sensor.favorite;
+                        break;
                 }
-            }];
 
-            _ataSmartSensors = [sensors copy];
-        }
+                if (doUpdate) {
+                    if ([HWMSmartPlugInInterfaceWrapper wrapperWithService:(io_service_t)[sensor service].unsignedLongLongValue forBsdName:[sensor bsdName]]) {
+                        [sensor doUpdateValue];
+                    }
+                }
 
-        for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
-
-            BOOL doUpdate = FALSE;
-
-            switch (_updateLoopStrategy) {
-                case kHWMSensorsUpdateLoopForced:
-                    doUpdate = YES;
-                    break;
-
-                case kHWMSensorsUpdateLoopOnlyFavorites:
-                    doUpdate = sensor.favorite != nil;
-                    break;
-
-                case kHWMSensorsUpdateLoopRegular:
-                default:
-                    doUpdate = !sensor.hidden.boolValue || sensor.favorite;
-                    break;
             }
-
-            if (doUpdate) {
-                [sensor doUpdateValue];
-            }
-
+            
+            [HWMSmartPlugInInterfaceWrapper destroyAllWrappers];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorsHasBenUpdatedNotification object:self];
         }
-
-        [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorsHasBenUpdatedNotification object:self];
     }
 }
 
@@ -748,46 +756,57 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
             }
             else if ([keyPath isEqual:@"configuration.showVolumeNames"]) {
-
-                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
-
-                NSError *error;
-
-                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-                if (error) {
-                    NSLog(@"fetch AtaSmartSensors in observeValueForKeyPath error %@", error);
-                }
-
-                if (sensors) {
-                    for (HWMAtaSmartSensor *sensor in sensors) {
-                        [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
-                    }
-                }
-
+                //                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
+                //
+                //                NSError *error;
+                //
+                //                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+                //
+                //                if (error) {
+                //                    NSLog(@"fetch AtaSmartSensors in observeValueForKeyPath error %@", error);
+                //                }
+                //
+                //                if (sensors) {
+                //                    for (HWMAtaSmartSensor *sensor in sensors) {
+                //                        [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
+                //                    }
+                //                }
+                
                 [self willChangeValueForKey:@"sensorsAndGroups"];
+
+                if (_ataSmartSensors) {
+                    [_ataSmartSensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                        [obj setLegend:_configuration.showVolumeNames.boolValue ? [obj volumeNames] : nil];
+                    }];
+                }
+
                 [self didChangeValueForKey:@"sensorsAndGroups"];
 
             }
             else if ([keyPath isEqual:@"configuration.useBsdDriveNames"]) {
 
-                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
-
-                NSError *error;
-
-                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-                if (error) {
-                    NSLog(@"fetch AtaSmartSensors in observeValueForKeyPath error %@", error);
-                }
-
-                if (sensors) {
-                    for (HWMAtaSmartSensor *sensor in sensors) {
-                        [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : sensor.productName];
-                    }
-                }
+//                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
+//
+//                NSError *error;
+//
+//                NSArray *sensors = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+//
+//                if (error) {
+//                    NSLog(@"fetch AtaSmartSensors in observeValueForKeyPath error %@", error);
+//                }
+//
+//                if (sensors) {
+//                    for (HWMAtaSmartSensor *sensor in sensors) {
+//                        [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : sensor.productName];
+//                    }
+//                }
 
                 [self willChangeValueForKey:@"sensorsAndGroups"];
+                if (_ataSmartSensors) {
+                    [_ataSmartSensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                        [obj setTitle:_configuration.useBsdDriveNames.boolValue ? [obj bsdName] : [obj productName]];
+                    }];
+                }
                 [self didChangeValueForKey:@"sensorsAndGroups"];
                 
             }
@@ -803,6 +822,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 -(void)workspaceDidMountOrUnmount:(id)sender
 {
+    // Update SMART sensors
     [self insertAtaSmartSensors];
 
     // Update graphs
@@ -810,9 +830,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
     _ataSmartSensors = nil;
 
-    [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
-    _iconsWithSensorsAndGroups = nil;
-    [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
+    [self setNeedsUpdateLists];
 }
 
 -(void)workspaceWillSleep:(id)sender
@@ -1274,6 +1292,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
     [sensor setService:[attributes objectForKey:@"service"]];
     [sensor setSelector:group.selector];
+    [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
 
     [sensor doUpdateValue];
 
@@ -1281,11 +1300,12 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
         [sensor setName:name];
         [sensor setTitle:[attributes objectForKey:@"productName"]];
         [sensor setProductName:[attributes objectForKey:@"productName"]];
-        [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
         [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
         [sensor setSerialNumber:[attributes objectForKey:@"serialNumber"]];
         [sensor setRotational:[attributes objectForKey:@"rotational"]];
         [sensor setIdentifier:@"Drive"];
+
+        [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
 
         [sensor setEngine:self];
     }
@@ -1303,13 +1323,17 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     HWMSensorsGroup *smartLife = [self getGroupBySelector:kHWMGroupSmartRemainingLife];
     HWMSensorsGroup *smartBlocks = [self getGroupBySelector:kHWMGroupSmartRemainingBlocks];
 
-    NSArray *drives = [HWMAtaSmartSensor discoverDrives];
+    __block NSArray *drives;
+
+    drives = [HWMAtaSmartSensor discoverDrives];
 
     for (id drive in drives) {
         [self insertAtaSmartSensorFromDictionary:drive group:smartTemperatures];
         [self insertAtaSmartSensorFromDictionary:drive group:smartLife];
         [self insertAtaSmartSensorFromDictionary:drive group:smartBlocks];
     }
+
+    [HWMSmartPlugInInterfaceWrapper destroyAllWrappers];
 }
 
 #pragma mark
@@ -1318,19 +1342,6 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 -(HWMSmcFanSensor*)getSmcFanSensorByUnique:(NSString*)unique fromGroup:(HWMSensorsGroup*)group
 {
     return [[group.sensors filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"unique == %@", unique]] firstObject];
-    //    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
-    //
-    //    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
-    //
-    //    NSError *error;
-    //
-    //    HWMAtaSmartSensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
-    //
-    //    if (error) {
-    //        NSLog(@"getAtaSmartSensorByName error %@", error);
-    //    }
-    //
-    //    return sensor;
 }
 
 -(HWMSmcSensor*)insertSmcFanWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMSensorsGroup*)group

@@ -2,7 +2,6 @@
 <model userDefinedModelVersionIdentifier="Initial" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AtaSmartSensor" representedClassName="HWMAtaSmartSensor" parentEntity="Sensor" syncable="YES">
         <attribute name="bsdName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="exceeded" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="productName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="rotational" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="serialNumber" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
@@ -75,8 +74,7 @@
         <relationship name="favorite" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" inverseName="favorites" inverseEntity="Configuration" syncable="YES"/>
     </entity>
     <entity name="Sensor" representedClassName="HWMSensor" isAbstract="YES" parentEntity="Item" syncable="YES">
-        <attribute name="level" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="selector" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="selector" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="service" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>

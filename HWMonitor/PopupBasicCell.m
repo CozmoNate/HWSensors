@@ -18,7 +18,7 @@
     self = [super init];
 
     if (self) {
-        [self addObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
+        [self initialize];
     }
 
     return self;
@@ -29,7 +29,7 @@
     self = [super initWithFrame:frame];
 
     if (self) {
-        [self addObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
+        [self initialize];
     }
 
     return self;
@@ -40,7 +40,7 @@
     self = [super initWithCoder:aDecoder];
 
     if (self) {
-        [self addObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
+        [self initialize];
     }
 
     return self;
@@ -48,14 +48,7 @@
 
 -(void)dealloc
 {
-    [self removeObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme"];
-}
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-	[super drawRect:dirtyRect];
-	
-    // Drawing code here.
+    [self deallocate];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -68,6 +61,15 @@
 - (void)colorThemeHasChanged:(HWMColorTheme*)newColorTheme
 {
 
+}
+- (void)initialize
+{
+    [self addObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)deallocate
+{
+    [self removeObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme"];
 }
 
 @end
