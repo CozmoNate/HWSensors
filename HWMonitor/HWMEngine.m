@@ -1458,13 +1458,36 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 -(HWMBatterySensor*)insertBatterySensorFromDictionary:(NSDictionary*)attributes group:(HWMSensorsGroup*)group
 {
-    NSString *name = [attributes objectForKey:@"serialNumber"];
+    NSString *serialNumber = [attributes objectForKey:@"serialNumber"];
+    NSString *productName = [attributes objectForKey:@"productName"];
+    NSNumber *selector = [attributes objectForKey:@"selector"];
     
-    if (!name || name.length == 0) {
-        name = [attributes objectForKey:@"productName"];
+    if (!serialNumber || serialNumber.length == 0) {
+        if (!productName || productName.length == 0) {
+            switch (selector.unsignedIntegerValue) {
+                case kHWMGroupBatteryInternal:
+                    serialNumber = [NSString stringWithFormat:@"Internal Battery %lu", group.sensors.count + 1];
+                    break;
+                case kHWMGroupBatteryKeyboard:
+                    serialNumber = [NSString stringWithFormat:@"Keyboard %lu", group.sensors.count + 1];
+                    break;
+                case kHWMGroupBatteryMouse:
+                    serialNumber = [NSString stringWithFormat:@"Mouse %lu", group.sensors.count + 1];
+                    break;
+                case kHWMGroupBatteryTrackpad:
+                    serialNumber = [NSString stringWithFormat:@"Trackpad %lu", group.sensors.count + 1];
+                    break;
+                
+                default:
+                    return nil;
+            }
+        }
+        else {
+            serialNumber = productName;
+        }
     }
     
-    HWMBatterySensor *sensor = [self getBatterySensorByName:name fromGroup:group];
+    HWMBatterySensor *sensor = [self getBatterySensorByName:serialNumber fromGroup:group];
     
     if (!sensor) {
         sensor = [NSEntityDescription insertNewObjectForEntityForName:@"BatterySensor" inManagedObjectContext:self.managedObjectContext];
@@ -1473,15 +1496,16 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     }
     
     [sensor setService:[attributes objectForKey:@"service"]];
-    [sensor setSelector:[attributes objectForKey:@"selector"]];
+    [sensor setSelector:selector];
     
     [sensor doUpdateValue];
 
-    //[sensor setValue:@49]; // TEST BATTERY
+    // TEST BATTERY
+    //[sensor setValue:@49]; 
     
     if (sensor.value) {
 
-        [sensor setName:name];
+        [sensor setName:serialNumber];
         
         switch (sensor.selector.unsignedIntegerValue) {
             case kHWMGroupBatteryInternal:
@@ -1502,10 +1526,10 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
                 break;
         }
 
-        [sensor setProductName:[attributes objectForKey:@"productName"]];
-        [sensor setSerialNumber:[attributes objectForKey:@"serialNumber"]];
+        [sensor setProductName:productName];
+        [sensor setSerialNumber:serialNumber];
 
-        [sensor setLegend:sensor.productName];
+        [sensor setLegend:productName];
         [sensor setIdentifier:@"Battery"];
 
         [sensor setEngine:self];
@@ -1534,7 +1558,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 -(void)insertGraphsFromSensorsArray:(NSArray*)sensors group:(HWMGraphsGroup*)group
 {
-    NSUInteger colorIndex = 2;
+    NSUInteger colorIndex = 1;
 
     for (HWMSensor *sensor in sensors) {
 
@@ -1542,12 +1566,14 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             [sensor setGraph:[NSEntityDescription insertNewObjectForEntityForName:@"Graph" inManagedObjectContext:self.managedObjectContext]];
 
             [group addGraphsObject:sensor.graph];
+            
+            if (colorIndex++ >= [[HWMGraph graphColors] count]) {
+                colorIndex = 0;
+            }
+            
+            [sensor.graph setColor:[[HWMGraph graphColors] objectAtIndex:colorIndex]];
         }
 
-        if (colorIndex++ > [HWMGraph graphColors].count)
-            colorIndex = 0;
-
-        [sensor.graph setColor:[[HWMGraph graphColors] objectAtIndex:colorIndex]];
         [sensor.graph setIdentifier:@"Item"];
     }
 }

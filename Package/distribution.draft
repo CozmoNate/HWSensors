@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <installer-gui-script minSpecVersion="2">
     <title>DISTRIBUTION_TITLE</title>
-    <options customize="allow" allow-external-scripts="false" hostArchitectures="x86_64"/>
+    <options customize="allways" allow-external-scripts="false" hostArchitectures="x86_64"/>
     <domains enable_anywhere="true"/>
 
     <license file="license.txt"/>
@@ -12,7 +12,7 @@
         <![CDATA[
         function hackintoshCheckScript()
         {
-            var obj = system.ioregistry.matchingClass("FakeSMC");
+            var obj = system.ioregistry.matchingClass("FakeSMCDevice");
 
             if (obj) {
                 system.log('hackintoshCheckScript: Found FakeSMC');

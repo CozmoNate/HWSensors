@@ -801,15 +801,12 @@
 		7EB7E70E17834A740071B3F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		7EB7E70F17834A740071B3F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				SDKROOT = macosx;
 			};
 			name = Release;
 		};

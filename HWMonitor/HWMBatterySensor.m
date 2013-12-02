@@ -82,8 +82,8 @@
 
                         [devices addObject:@{   @"service" : [NSNumber numberWithUnsignedLongLong:service],
                                                 @"selector" : [NSNumber numberWithUnsignedLongLong:type],
-                                                @"serialNumber" : serialNumber,
-                                                @"productName" : productName}];
+                                                @"serialNumber" : serialNumber ? serialNumber : @"",
+                                                @"productName" : productName ? productName : @""}];
                     }
 
                     IOObjectRelease(iterator);
@@ -92,7 +92,7 @@
         }
     } while (type);
 
-//    TEST BATTERY
+    //TEST BATTERY
 //    [devices addObject:@{   @"service" : @1,
 //                            @"selector" : @kHWMGroupBatteryMouse,
 //                            @"serialNumber" : @"123",
