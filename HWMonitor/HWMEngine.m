@@ -1544,7 +1544,10 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             [group addGraphsObject:sensor.graph];
         }
 
-        [sensor.graph setColor:[[HWMGraph graphColors] objectAtIndex:colorIndex++]];
+        if (colorIndex++ > [HWMGraph graphColors].count)
+            colorIndex = 0;
+
+        [sensor.graph setColor:[[HWMGraph graphColors] objectAtIndex:colorIndex]];
         [sensor.graph setIdentifier:@"Item"];
     }
 }

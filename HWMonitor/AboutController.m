@@ -45,9 +45,8 @@
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
 
-    if (!_webViewFinishedLoading) {
-        [[_creditsWebView mainFrame] loadHTMLString:_creditsHtml baseURL:_creditsUrl];
-    }
+    _webViewFinishedLoading = NO;
+    [[_creditsWebView mainFrame] loadHTMLString:_creditsHtml baseURL:_creditsUrl];
 }
 
 - (void)openLink:(id)sender
