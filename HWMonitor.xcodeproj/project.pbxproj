@@ -108,10 +108,10 @@
 		7EED6D701734F8E700248870 /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */; };
 		7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D7B1734F9CF00248870 /* 19-gear.png */; };
 		7EED6D7E1734F9CF00248870 /* 19-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D7C1734F9CF00248870 /* 19-gear@2x.png */; };
+		7EF28328184C71AA00DD8513 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 7EF28326184C71AA00DD8513 /* Credits.html */; };
 		7EF2A0F61730379C00D8641C /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2A0F41730379C00D8641C /* AboutController.m */; };
 		7EF2A0FC17303B9100D8641C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF2A0FB17303B9100D8641C /* MainMenu.xib */; };
 		7EF2A10017303EA600D8641C /* AboutController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF2A0FD17303B9C00D8641C /* AboutController.xib */; };
-		7EFD536E184B1DDC000BC314 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 7EFD536D184B1DDC000BC314 /* Credits.html */; };
 		7EFE61AE183581090009BD0D /* HWMBatterySensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61AD183581090009BD0D /* HWMBatterySensor.m */; };
 		7EFE61B1183581090009BD0D /* HWMAtaSmartSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61B0183581090009BD0D /* HWMAtaSmartSensor.m */; };
 		7EFE61B4183581090009BD0D /* HWMSmcSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61B3183581090009BD0D /* HWMSmcSensor.m */; };
@@ -308,12 +308,12 @@
 		7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
 		7EED6D7B1734F9CF00248870 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
 		7EED6D7C1734F9CF00248870 /* 19-gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear@2x.png"; sourceTree = "<group>"; };
+		7EF28327184C71AA00DD8513 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
 		7EF2A0F31730379C00D8641C /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
 		7EF2A0F41730379C00D8641C /* AboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutController.m; sourceTree = "<group>"; };
 		7EF2A0FB17303B9100D8641C /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		7EF2A0FD17303B9C00D8641C /* AboutController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutController.xib; sourceTree = "<group>"; };
 		7EFAE8E516EBC81500F4DA72 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		7EFD536D184B1DDC000BC314 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		7EFE61AC183581090009BD0D /* HWMBatterySensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMBatterySensor.h; sourceTree = "<group>"; };
 		7EFE61AD183581090009BD0D /* HWMBatterySensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMBatterySensor.m; sourceTree = "<group>"; };
 		7EFE61AF183581090009BD0D /* HWMAtaSmartSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMAtaSmartSensor.h; sourceTree = "<group>"; };
@@ -644,7 +644,7 @@
 				7EA248F416D8E93A002231B2 /* InfoPlist.strings */,
 				7EA248F716D8E93A002231B2 /* main.m */,
 				7EA248F916D8E93A002231B2 /* HWMonitor-Prefix.pch */,
-				7EFD536D184B1DDC000BC314 /* Credits.html */,
+				7EF28326184C71AA00DD8513 /* Credits.html */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -973,6 +973,7 @@
 				7EA2493016D8E9C6002231B2 /* temperatures.png in Resources */,
 				7EA2493116D8E9C6002231B2 /* thermometer_template.png in Resources */,
 				7EA2493216D8E9C6002231B2 /* thermometer.png in Resources */,
+				7EF28328184C71AA00DD8513 /* Credits.html in Resources */,
 				7E420FAD1820E2D800331D2B /* Profiles in Resources */,
 				7EA2493316D8E9C6002231B2 /* voltages_template.png in Resources */,
 				7EA2493416D8E9C6002231B2 /* voltages.png in Resources */,
@@ -981,7 +982,6 @@
 				7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */,
 				7ECDDE3316DD680E00085FFF /* 04-eye@2x.png in Resources */,
 				7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */,
-				7EFD536E184B1DDC000BC314 /* Credits.html in Resources */,
 				7ECDDE3716DDE5DA00085FFF /* 04-eye-white@2x.png in Resources */,
 				7E0648F116DF3B7D00ACB851 /* README.md in Resources */,
 				7E1BC3CE16F47BDF005B9479 /* battery.png in Resources */,
@@ -1120,6 +1120,14 @@
 				7E2FE0A3178D18CA00802D38 /* nl */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		7EF28326184C71AA00DD8513 /* Credits.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7EF28327184C71AA00DD8513 /* en */,
+			);
+			name = Credits.html;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -551,6 +551,8 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
         return endPoint;
     }
+
+    return NSZeroPoint;
 }
 
 - (void)makeKeyAndOrderFront:(id)sender

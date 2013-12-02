@@ -18,6 +18,4 @@
 
 +(NSArray*)discoverDevices;
 
--(void)doUpdateValue;
-
 @end
