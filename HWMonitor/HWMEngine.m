@@ -150,11 +150,11 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             // Sensors and groups
 
             for (HWMSensorsGroup *group in _configuration.sensorGroups) {
-                NSOrderedSet *sensors = [group.sensors filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0"]];
+                NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0"]];
 
                 if (sensors.count) {
                     [items addObject:group];
-                    [items addObjectsFromArray:[sensors array]];
+                    [items addObjectsFromArray:sensors];
                 }
             }
 
@@ -175,11 +175,11 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             NSMutableArray *items = [[NSMutableArray alloc] init];
 
             for (HWMSensorsGroup *group in _configuration.sensorGroups) {
-                NSOrderedSet *sensors = [group.sensors filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0 AND hidden == NO"]];
+                NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0 AND hidden == NO"]];
 
                 if (sensors && sensors.count) {
                     [items addObject:group];
-                    [items addObjectsFromArray:[sensors array]];
+                    [items addObjectsFromArray:sensors];
                 }
             }
 
@@ -850,20 +850,9 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 -(HWMColorTheme*)getColorThemeByName:(NSString*)name
 {
-    return [[_configuration.colorThemes filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]] firstObject];
-    /*NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"ColorTheme"];
+    NSArray *themes = [[_configuration.colorThemes array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
 
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
-
-    NSError *error;
-
-    HWMColorTheme *colorTheme = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
-
-    if (error) {
-        NSLog(@"getColorThemeByName error %@", error);
-    }
-
-    return colorTheme;*/
+    return themes && themes.count ? [themes objectAtIndex:0] : nil;
 }
 
 -(HWMColorTheme*)getColorThemeByIndex:(NSUInteger)index
@@ -984,21 +973,8 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 -(HWMSensorsGroup*)getGroupBySelector:(NSUInteger)selector
 {
-    return [[_configuration.sensorGroups filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"selector == %d", selector]] firstObject];
-
-    /*NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SensorsGroup"];
-
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"selector == %d", selector]];
-
-    NSError *error;
-
-    HWMSensorsGroup *group = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
-
-    if (error) {
-        NSLog(@"getGroupBySelector error %@", error);
-    }
-
-    return group;*/
+    NSArray *groups = [[_configuration.sensorGroups array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"selector == %d", selector]];
+    return groups && groups.count ? [groups objectAtIndex:0] : nil;
 }
 
 -(HWMSensorsGroup*)insertGroupWithSelector:(NSUInteger)selector name:(NSString*)name icon:(HWMIcon*)icon
@@ -1082,20 +1058,9 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 -(HWMSmcSensor*)getSmcSensorByName:(NSString*)name fromGroup:(HWMSensorsGroup*)group
 {
-    return [[group.sensors filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]] firstObject];
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SmcSensor"];
-//
-//    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
-//
-//    NSError *error;
-//
-//    HWMSmcSensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
-//
-//    if (error) {
-//        NSLog(@"getSmcSensorByName error %@", error);
-//    }
-//
-//    return sensor;
+    NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
+
+    return sensors && sensors.count ? [sensors objectAtIndex:0] : nil;
 }
 
 -(HWMSmcSensor*)insertSmcSensorWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMSensorsGroup*)group
@@ -1242,20 +1207,9 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 -(HWMAtaSmartSensor*)getAtaSmartSensorByName:(NSString*)name fromGroup:(HWMSensorsGroup*)group
 {
-    return [[group.sensors filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]] firstObject];
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"];
-//
-//    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
-//
-//    NSError *error;
-//
-//    HWMAtaSmartSensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
-//
-//    if (error) {
-//        NSLog(@"getAtaSmartSensorByName error %@", error);
-//    }
-//
-//    return sensor;
+    NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
+
+    return sensors && sensors.count ? [sensors objectAtIndex:0] : nil;
 }
 
 -(HWMAtaSmartSensor*)insertAtaSmartSensorFromDictionary:(NSDictionary*)attributes group:(HWMSensorsGroup*)group
@@ -1321,7 +1275,9 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 -(HWMSmcFanSensor*)getSmcFanSensorByUnique:(NSString*)unique fromGroup:(HWMSensorsGroup*)group
 {
-    return [[group.sensors filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"unique == %@", unique]] firstObject];
+    NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"unique == %@", unique]];
+
+    return sensors && sensors.count ? [sensors objectAtIndex:0] : nil;
 }
 
 -(HWMSmcSensor*)insertSmcFanWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMSensorsGroup*)group
@@ -1495,20 +1451,9 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 -(HWMBatterySensor*)getBatterySensorByName:(NSString*)name fromGroup:(HWMSensorsGroup*)group
 {
-    return [[group.sensors filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]] firstObject];
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"BatterySensor"];
-//    
-//    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
-//    
-//    NSError *error;
-//    
-//    HWMBatterySensor *sensor = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
-//    
-//    if (error) {
-//        NSLog(@"getBatterySensorByName error %@", error);
-//    }
-//    
-//    return sensor;
+    NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
+
+    return sensors && sensors.count ? [sensors objectAtIndex:0] : nil;
 }
 
 -(HWMBatterySensor*)insertBatterySensorFromDictionary:(NSDictionary*)attributes group:(HWMSensorsGroup*)group
@@ -1606,7 +1551,9 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
 -(HWMGraphsGroup*)getGraphsGroupByName:(NSString*)name
 {
-    return [[_configuration.graphGroups filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]] firstObject];
+    NSArray *graphs = [[_configuration.graphGroups array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
+
+    return graphs && graphs.count ? [graphs objectAtIndex:0] : nil;
 }
 
 -(HWMGraphsGroup*)insertGraphsGroupWithSelectors:(NSArray*)selectors name:(NSString*)name icon:(HWMIcon*)icon sensors:(NSArray*)sensors

@@ -66,7 +66,7 @@
         <relationship name="sensorGroups" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GraphsGroup" inverseName="icon" inverseEntity="GraphsGroup" syncable="YES"/>
     </entity>
     <entity name="Item" representedClassName="HWMItem" isAbstract="YES" syncable="YES">
-        <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="identifier" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="legend" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
@@ -92,17 +92,17 @@
     </entity>
     <entity name="SmcSensor" representedClassName="HWMSmcSensor" parentEntity="Sensor" syncable="YES"/>
     <elements>
-        <element name="AtaSmartSensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="BatterySensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="ColorTheme" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Configuration" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Graph" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="GraphsGroup" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Icon" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Item" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Sensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SensorsGroup" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SmcFanSensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SmcSensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="AtaSmartSensor" positionX="-477" positionY="-3" width="128" height="120"/>
+        <element name="BatterySensor" positionX="-477" positionY="288" width="128" height="75"/>
+        <element name="ColorTheme" positionX="340" positionY="84" width="128" height="285"/>
+        <element name="Configuration" positionX="-0" positionY="30" width="128" height="285"/>
+        <element name="Graph" positionX="-72" positionY="432" width="128" height="120"/>
+        <element name="GraphsGroup" positionX="342" positionY="-45" width="128" height="90"/>
+        <element name="Icon" positionX="-47" positionY="-96" width="128" height="105"/>
+        <element name="Item" positionX="-344" positionY="396" width="128" height="135"/>
+        <element name="Sensor" positionX="-306" positionY="180" width="128" height="135"/>
+        <element name="SensorsGroup" positionX="-317" positionY="-54" width="128" height="105"/>
+        <element name="SmcFanSensor" positionX="-477" positionY="138" width="128" height="60"/>
+        <element name="SmcSensor" positionX="-477" positionY="225" width="128" height="45"/>
     </elements>
 </model>

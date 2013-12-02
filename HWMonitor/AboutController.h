@@ -7,15 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "CreditsScrollView.h"
+
+@class WebView;
 
 @interface AboutController : NSWindowController
+{
+    NSURL *_creditsUrl;
+    NSString *_creditsHtml;
+    BOOL _webViewFinishedLoading;
+}
 
-@property (assign) IBOutlet CreditsScrollView *creditsScrollView;
-@property (assign) IBOutlet NSTextView *textView;
-@property (assign) IBOutlet NSTextField *versionField;
-@property (assign) IBOutlet NSTextField *copyrightField;
-
-- (IBAction)openLink:(id)sender;
+@property (assign) IBOutlet WebView *creditsWebView;
 
 @end

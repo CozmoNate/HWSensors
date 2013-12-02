@@ -11,6 +11,8 @@
 #import "FadingButton.h"
 #import "Localizer.h"
 
+#import <WebKit/WebKit.h>
+
 @interface AboutController ()
 
 @end
@@ -22,36 +24,30 @@
     self = [super initWithWindowNibName:@"AboutController"];
     
     if (self) {
-        // Initialization code here.
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            _creditsUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"html"]];
+
+            NSError *error;
+
+            NSMutableString *html = [[[NSString alloc] initWithContentsOfURL:_creditsUrl encoding:NSUTF8StringEncoding error:&error] mutableCopy];
+
+            [html replaceOccurrencesOfString:@"%version_placeholder" withString:[NSString stringWithFormat:@"Version %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] options:NSCaseInsensitiveSearch range:NSMakeRange(0, html.length)];
+
+            _creditsHtml = [html copy];
+        }];
     }
     
     return self;
 }
 
-- (void)windowDidLoad
-{
-    [super windowDidLoad];
-
-    NSMutableAttributedString* creditsContent = [[NSMutableAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtfd"] documentAttributes:nil];
-
-    [[creditsContent mutableString] replaceOccurrencesOfString:@"%version_placeholder" withString:[NSString stringWithFormat:GetLocalizedString(@"Version %@"), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] options:NSCaseInsensitiveSearch range:NSMakeRange(0, creditsContent.mutableString.length)];
-
-    [[self.textView textStorage] setAttributedString:creditsContent];
-    
-    [self.copyrightField setStringValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
-
-    [[self creditsScrollView] startScrollWithStartTime:3.0f position:0.0f];
-}
-
 -(void)showWindow:(id)sender
 {
     [NSApp activateIgnoringOtherApps:YES];
-
-    [self.window setLevel:NSFloatingWindowLevel];
-    
     [super showWindow:sender];
 
-    [[self creditsScrollView] startScrollWithStartTime:3.0f position:0.0f];
+    if (!_webViewFinishedLoading) {
+        [[_creditsWebView mainFrame] loadHTMLString:_creditsHtml baseURL:_creditsUrl];
+    }
 }
 
 - (void)openLink:(id)sender
@@ -64,7 +60,27 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    [_creditsScrollView stopScroll];
+    _webViewFinishedLoading = NO;
+    
+    [[_creditsWebView mainFrame] loadHTMLString:nil baseURL:nil];
+}
+
+- (void)webView:(WebView *)sender didFinishLoadForFrame:frame
+{
+    if ([frame parentFrame] == nil) {
+        _webViewFinishedLoading = YES;
+    }
+}
+
+- (void)webView:sender decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:frame decisionListener:listener
+{
+    if (_webViewFinishedLoading) {
+        [[NSWorkspace sharedWorkspace] openURL:[request URL]];
+        [listener ignore];
+    }
+    else {
+        [listener use];
+    }
 }
 
 @end

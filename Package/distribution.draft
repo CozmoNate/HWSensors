@@ -97,7 +97,7 @@
         id="fakesmckeystore"
         title="FakeSMCKeyStore"
         description="FAKESMCKEYSTORE_DESCRIPTION"
-        start_selected="!hackintoshCheckScript()"
+        start_selected="false"
         enabled="!hackintoshCheckScript()">
         <pkg-ref id="org.hwsensors.FakeSMCKeyStore"/>
     </choice>
