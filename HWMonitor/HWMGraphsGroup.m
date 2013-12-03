@@ -26,4 +26,15 @@
     [[self mutableOrderedSetValueForKey:@"graphs"] addObject:value];
 }
 
+- (void)moveGraphsObject:(HWMGraph *)value toIndex:(NSUInteger)toIndex
+{
+    if (toIndex > self.graphs.count) {
+        toIndex = self.graphs.count;
+    }
+    
+    NSUInteger fromIndex = [self.graphs indexOfObject:value];
+    
+    [[self mutableOrderedSetValueForKey:@"graphs"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:fromIndex < toIndex || toIndex == self.graphs.count ? toIndex - 1 : toIndex];
+}
+
 @end

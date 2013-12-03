@@ -114,6 +114,9 @@
             [self rebuildViews];
 
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorsHasBenUpdatedNotification object:_monitorEngine];
+            
+            [_graphsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorGraphsItemDataType]];
+            [_graphsTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
 
             [self addObserver:self forKeyPath:@"monitorEngine.graphsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.graphsWindowAlwaysTopmost" options:NSKeyValueObservingOptionNew context:nil];
@@ -248,6 +251,106 @@
     id item = [_monitorEngine.graphsAndGroups objectAtIndex:row];
     id view = [tableView makeViewWithIdentifier:[item identifier] owner:self];
     return view;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard;
+{
+    if (_graphsTableView != tableView) {
+        return NO;
+    }
+    
+    id item = [self.monitorEngine.graphsAndGroups objectAtIndex:[rowIndexes firstIndex]];
+    
+    if ([item isKindOfClass:[HWMGraph class]]) {
+        NSData *indexData = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
+        
+        [pboard declareTypes:[NSArray arrayWithObjects:kHWMonitorGraphsItemDataType, nil] owner:self];
+        [pboard setData:indexData forType:kHWMonitorGraphsItemDataType];
+        
+        [NSApp activateIgnoringOtherApps:YES];
+        
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)toRow proposedDropOperation:(NSTableViewDropOperation)dropOperation;
+{
+    if (_graphsTableView != tableView || [info draggingSource] != _graphsTableView) {
+        return NO;
+    }
+    
+    [tableView setDropRow:toRow dropOperation:NSTableViewDropAbove];
+    
+    NSPasteboard* pboard = [info draggingPasteboard];
+    NSData* rowData = [pboard dataForType:kHWMonitorGraphsItemDataType];
+    NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+    NSInteger fromRow = [rowIndexes firstIndex];
+    id sourceItem = [self.monitorEngine.graphsAndGroups objectAtIndex:fromRow];
+    
+    NSDragOperation currentItemDragOperation = NSDragOperationNone;
+    
+    if ([sourceItem isKindOfClass:[HWMGraph class]] && toRow > 0) {
+        
+        currentItemDragOperation = NSDragOperationMove;
+        
+        if (toRow < self.monitorEngine.graphsAndGroups.count) {
+            
+            if (toRow == fromRow || toRow == fromRow + 1) {
+                currentItemDragOperation = NSDragOperationNone;
+            }
+            else {
+                id destinationItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow];
+                
+                if ([destinationItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)sourceItem group] != [(HWMGraph*)destinationItem group]) {
+                    currentItemDragOperation = NSDragOperationNone;
+                }
+                else {
+                    destinationItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow - 1];
+                    
+                    if ([destinationItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)sourceItem group] != [(HWMGraph*)destinationItem group]) {
+                        currentItemDragOperation = NSDragOperationNone;
+                    }
+                }
+            }
+        }
+        else {
+            id destinationItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow - 1];
+            
+            if ([destinationItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)sourceItem group] != [(HWMGraph*)destinationItem group]) {
+                currentItemDragOperation = NSDragOperationNone;
+            }
+        }
+    }
+    
+    return currentItemDragOperation;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)toRow dropOperation:(NSTableViewDropOperation)dropOperation;
+{
+    if (_graphsTableView != tableView) {
+        return NO;
+    }
+    
+    NSPasteboard* pboard = [info draggingPasteboard];
+    NSData* rowData = [pboard dataForType:kHWMonitorGraphsItemDataType];
+    NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+    NSInteger fromRow = [rowIndexes firstIndex];
+    
+    HWMGraph *sourceItem = [self.monitorEngine.graphsAndGroups objectAtIndex:fromRow];
+    HWMGraph *destinationItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow];
+    
+    toRow = toRow > fromRow ? toRow - 1 : toRow;
+    
+    [tableView moveRowAtIndex:fromRow toIndex:toRow];
+    [sourceItem.group moveGraphsObject:sourceItem toIndex:[sourceItem.group.graphs indexOfObject:destinationItem]];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+//        [_monitorEngine setNeedsUpdateLists];
+//    });
+    
+    return YES;
 }
 
 @end

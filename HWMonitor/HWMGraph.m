@@ -17,6 +17,7 @@ const NSArray * gHWMGraphsGroupColors;
 @dynamic identifier;
 @dynamic hidden;
 @dynamic sensor;
+@dynamic group;
 
 +(const NSArray*)graphColors
 {

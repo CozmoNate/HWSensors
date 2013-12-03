@@ -32,6 +32,7 @@
 - (void)replaceGraphsAtIndexes:(NSIndexSet *)indexes withGraphs:(NSArray *)values;
 - (void)addGraphsObject:(HWMGraph *)value;
 - (void)removeGraphsObject:(HWMGraph *)value;
+- (void)moveGraphsObject:(HWMGraph *)value toIndex:(NSUInteger)toIndex;
 - (void)addGraphs:(NSOrderedSet *)values;
 - (void)removeGraphs:(NSOrderedSet *)values;
 

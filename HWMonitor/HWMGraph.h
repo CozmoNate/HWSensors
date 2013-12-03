@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class HWMSensor;
+@class HWMSensor, HWMGraphsGroup;
 
 @interface HWMGraph : NSManagedObject
 {
@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSNumber * hidden;
 @property (nonatomic, retain) HWMSensor *sensor;
+@property (nonatomic, retain) HWMGraphsGroup *group;
 
 @property (readonly) NSArray *history;
 

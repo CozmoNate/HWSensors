@@ -80,6 +80,7 @@
 // Misc
 #define kHWMonitorTableViewDataType         @"kHWMonitorTableViewDataType"
 #define kHWMonitorPopupItemDataType         @"kHWMonitorPopupItemDataType"
+#define kHWMonitorGraphsItemDataType         @"kHWMonitorGraphsItemDataType"
 
 #define kHWMonitorLatestInstallerUrl        @"http://sourceforge.net/projects/hwsensors/files/latest/download"
 

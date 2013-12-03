@@ -4,8 +4,14 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>HWMonitor Credits</title>
   <style type='text/css'>
-
-        #container {
+      body {
+          font-size:12pt;
+      }
+      
+      p {
+          text-align:center;
+      }
+        .Container {
             position: absolute;
             top: 0px;
             left: 0px;
@@ -17,60 +23,84 @@
             box-sizing: border-box;
         }
 
-        #container:before, #container::before,
-        #container:after,  #container::after {
+        .Container:before, .Container::before,
+        .Container:after,  .Container::after {
             left: 0em;
             z-index: 1;
             content: '';
             position: absolute;
             pointer-events: none;
-            width: 100%; height: 3em;
-            background-image: linear-gradient(180deg, #FFF, rgba(255,255,255,0));
+            width: 100%; height: 2em;
+            background-image: linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,0));
         }
 
-      #container:after, #container::after {
+      .Container:after, .Container::after {
           bottom: 0em;
           -webkit-transform: rotate(180deg);
       }
 
-      #container:before, #container::before {
+      .Container:before, .Container::before {
           top: 0em;
       }
 
-    #marquee {
-        margin: 1em;
-        padding: 0em;
-        font: 1.1em Geneva;
-        color: #4A4A52;
-        top: 0em;
-        position: relative;
-        box-sizing: border-box;
-        -webkit-animation: scroll 30s linear infinite;
-    }
+        .Marquee {
+            margin: 1em;
+            padding: 0em;
+            font-family: "Verdana";
+            font-size: 0.8em;
+            color: #0F0F0F;
+            top: 0em;
+            position: relative;
+            box-sizing: border-box;
+            -webkit-animation: logo;
+            -webkit-animation-timing-function: linear;
+            -webkit-animation-duration: 30.0s;
+            -webkit-animation-iteration-count: 1;
+        }
 
-    #marquee:hover {
-        -webkit-animation-play-state: paused;
-    }
+        .Marquee:hover {
+            -webkit-animation-play-state: paused;
+        }
+  
+      @-webkit-keyframes logo {
+          0%    { top: 0% }
+          10%   { top: 0% }
+          70%   { top: -290% }
+          80%   { top: -290% }
+          100%  { top: -360% }
+      }
 
-    @-webkit-keyframes scroll {
-        0%    { top: 0% }
-        10%   { top: 0% }
-        89%   { top: -200% }
-        99%   { top: -200% }
-        100%  { top: 0% }
-    }
+      @-webkit-keyframes roll {
+          0%    { top: 100% }
+          100%  { top: -360% }
+      }
 
-    p {
-        text-align:center;
-    }
-    </style>
+  </style>
+  <script type='text/javascript'>//<![CDATA[       
+      window.onload=function(){
+          document.getElementById('marquee').addEventListener('webkitAnimationEnd', function() {
+                                                                marquee.style.webkitAnimationName = "roll";
+                                                                marquee.style.webkitAnimationIterationCount = "infinite";
+                                                             }, false);
+      }//]]>  
+  
+    </script>
 </head>
 <body>
-    <div id="container">
-        <div id="marquee">
+    <div id="container" class="Container">
+        <div id="marquee" class="Marquee">
+            <br>
+            <br>
+            <br>
+            <br>
             <p><img src="../default.icns" width="200" height="200"></p>
-            <p><font style="font: 150% Geneva;">HWMonitor</font></p>
+            <p><font style="font-size: 1.5em;">HWMonitor</font></p>
             <p>%version_placeholder</p>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
             <br>
             <p><strong>With special thanks to:</strong></p>
             <p><a href="http://netkas.org">netkas</a> for fakesmc</p>
@@ -116,6 +146,12 @@
             <p>Joshua Nozzi for <a href="https://github.com/jnozzi/JLNFadingScrollView">JLNFadingScrollView</a></p>
               
             <p>Rheinfabrik for <a href="https://github.com/rheinfabrik/RFOverlayScrollView">RFOverlayScrollView</a></p>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
             <br>
             <br>
             <p><strong>Source code:</strong></p>
