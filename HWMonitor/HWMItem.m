@@ -36,8 +36,8 @@
 @dynamic title;
 @dynamic legend;
 @dynamic identifier;
-@dynamic favorite;
 @dynamic hidden;
+@dynamic favorite;
 
 @synthesize engine;
 

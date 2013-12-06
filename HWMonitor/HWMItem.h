@@ -37,8 +37,8 @@
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * legend;
 @property (nonatomic, retain) NSString * identifier;
-@property (nonatomic, retain) NSNumber * favorite;
 @property (nonatomic, retain) NSNumber * hidden;
+@property (nonatomic, retain) HWMConfiguration * favorite;
 
 @property (nonatomic, strong) HWMEngine * engine;
 

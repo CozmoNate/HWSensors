@@ -37,6 +37,7 @@
     @private
     NSInteger _previousViewTag;
 }
+
 @property (assign) IBOutlet HWMEngine *monitorEngine;
 
 @property (nonatomic, strong) IBOutlet NSMutableArray *themes;
@@ -57,6 +58,5 @@
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
 
 - (IBAction)checkForUpdates:(id)sender;
-- (IBAction)favoritesChanged:(id)sender;
 
 @end

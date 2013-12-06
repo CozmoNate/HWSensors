@@ -34,7 +34,6 @@
 @implementation HWMIcon
 
 @dynamic alternate;
-@dynamic favorite;
 @dynamic regular;
 
 @synthesize image = _image;
