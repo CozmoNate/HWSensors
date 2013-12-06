@@ -76,7 +76,7 @@
 "Use data smoothing" = "Использовать сглаживание данных";
 "General" = "Основные";
 "Menubar" = "Строка меню";
-"Popup" = "Окно датчиков";
+"Popup" = "Всплывающее меню";
 "Menubar icons:" = "Значки меню:";
 "Temperature Sensors" = "Температурные датчики";
 "Frequency Sensors" = "Датчики частоты";

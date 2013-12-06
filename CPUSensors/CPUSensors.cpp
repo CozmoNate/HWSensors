@@ -326,6 +326,8 @@ IOReturn CPUSensors::woorkloopTimerEvent()
         }
     }
     
+    IOSleep(10);
+    
     if (bit_get(timerEventsPending, kCPUSensorsCoreThermalSensor)) {
         mp_rendezvous_no_intrs(read_cpu_thermal, NULL);
         //bit_clear(timerEventsPending, kCPUSensorsCoreThermalSensor);
