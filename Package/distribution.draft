@@ -52,7 +52,7 @@
         id="fakesmc"
         title="FakeSMC"
         description="FAKESMC_DESCRIPTION"
-        start_selected="hackintoshCheckScript()"
+        start_selected="false"
         enabled="hackintoshCheckScript()">
         <pkg-ref id="org.hwsensors.FakeSMC"/>
     </choice>
