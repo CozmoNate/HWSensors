@@ -29,7 +29,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class HWMConfiguration, HWMEngine;
+@class HWMEngine;
 
 @interface HWMItem : NSManagedObject
 
@@ -38,7 +38,7 @@
 @property (nonatomic, retain) NSString * legend;
 @property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSNumber * hidden;
-@property (nonatomic, retain) HWMConfiguration * favorite;
+@property (nonatomic, retain) id favorite;
 
 @property (nonatomic, strong) HWMEngine * engine;
 
