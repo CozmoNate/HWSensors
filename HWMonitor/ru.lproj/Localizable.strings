@@ -48,7 +48,7 @@
 "Temperature units:" = "Система температур:";
 "Menu sensors:" = "Датчики в меню:";
 "Miscellaneous:" = "Разное:";
-"About HWMonitor" = "О программе HWMonitor";
+"About HWMonitor..." = "О программе HWMonitor";
 "Preferences..." = "Настройки...";
 "Services" = "Службы";
 "Hide HWMonitor" = "Скрыть HWMonitor";
@@ -63,7 +63,7 @@
 "HWMonitor Help" = "Справка HWMonitor";
 "Preferences" = "Настройки";
 "Graphs" = "Графики";
-"Show partitions names" = "Показывать имена разделов";
+"Show partition name" = "Показывать имена разделов";
 "System menu bar:" = "Значки системного меню:";
 "Preferences" = "Настройки";
 "Menubar Items" = "Значки меню";
@@ -75,7 +75,8 @@
 "Graphs:" = "Графики:";
 "Use data smoothing" = "Использовать сглаживание данных";
 "General" = "Основные";
-"Menubar" = "Меню";
+"Menubar" = "Строка меню";
+"Popup" = "Окно датчиков";
 "Menubar icons:" = "Значки меню:";
 "Temperature Sensors" = "Температурные датчики";
 "Frequency Sensors" = "Датчики частоты";
@@ -83,11 +84,11 @@
 "Voltage Sensors" = "Датчики напряжения";
 "Close HWMonitor" = "Закрыть HWMonitor";
 "Start HWMonitor at login" = "Запускать HWMonitor при старте системы";
-"Menu color theme:" = "Цветовая схема меню:";
+"Color theme:" = "Цветовая схема:";
 "Default" = "Обычная";
 "Gray" = "Серая";
 "Dark" = "Темная";
-"Continue monitor sensors in background" = "Продолжать собирать данные в фоновом режиме";
+"Continue to monitor sensors in background" = "Продолжать собирать данные в фоновом режиме";
 "Graphs window always topmost" = "Окно графиков всегда поверх остальных окон";
 "Graphs scale factor:" = "Масштаб отображения по времени:";
 "Check for updates" = "Проверять наличие обновлений в сети";

@@ -26,7 +26,7 @@
  *
  */
 
-#import "AppController.h"
+#import "PrefsController.h"
 #import "HWMonitorDefinitions.h"
 
 #import "PopupGroupCell.h"
@@ -35,31 +35,48 @@
 #import "Localizer.h"
 
 #import "HWMConfiguration.h"
-#import "HWMEngine.h"
 #import "HWMSensorsGroup.h"
 #import "HWMItem.h"
 #import "HWMIcon.h"
 #import "HWMSensor.h"
 
-@interface AppController (Private)
-
-@property (readonly) BOOL shouldUpdateOnlyFavoritesSensors;
-
-@end
-
-@implementation AppController
+@implementation PrefsController
 
 #pragma mark
 #pragma mark Properties:
 
-- (BOOL)shouldUpdateOnlyFavoritesSensors
+-(NSMutableArray *)themes
 {
-    return !([self.window isVisible] || [_popupController.window isVisible] || [_graphsController.window isVisible] || _monitorEngine.configuration.updateSensorsInBackground.boolValue);
+    if (!_themes) {
+        
+        _themes = [[NSMutableArray alloc] init];
+        
+        [self.monitorEngine.configuration.colorThemes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            NSString *path = [NSString stringWithFormat:@"theme_%@", [obj name]];
+            NSImage *preview = [NSImage imageNamed:[path lowercaseString]];
+            
+            [_themes addObject:@{@"name"    : GetLocalizedString([obj name]),
+                                 @"preview" : preview}];
+        }];
+    }
+    
+    return _themes;
 }
 
-- (BOOL)shouldForceUpdateAllSensors
+-(NSMutableIndexSet *)themeSelectionIndexes
 {
-    return [self.window isVisible] || [_graphsController.window isVisible];
+    return [[NSMutableIndexSet alloc] initWithIndex:self.monitorEngine.configuration.colorThemeIndex.unsignedIntegerValue];
+}
+
+-(void)setThemeSelectionIndexes:(NSMutableIndexSet *)themeSelectionIndexes
+{
+    NSUInteger index = [themeSelectionIndexes firstIndex];
+    
+    if (index > [self.monitorEngine.configuration.colorThemes count]) {
+        index = 0;
+    }
+    
+    [self.monitorEngine.configuration setColorThemeIndex:[NSNumber numberWithUnsignedInteger:index]];
 }
 
 #pragma mark
@@ -67,18 +84,27 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"AppController"];
+    self = [super initWithWindowNibName:@"PrefsController"];
 
     if (self != nil)
     {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            
             [Localizer localizeView:self.window];
+            [Localizer localizeView:_generalPrefsView];
+            [Localizer localizeView:_menubarPrefsView];
+            [Localizer localizeView:_popupPrefsView];
+            [Localizer localizeView:_graphsPrefsView];
 
             [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
             [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
             [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
             [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
-
+            
+            _previousViewTag = -1;
+            [self switchView:0];
+            [self.window.toolbar setSelectedItemIdentifier:@"General"];
+              
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.favorites" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
@@ -90,12 +116,10 @@
 
 -(void)showWindow:(id)sender
 {
-    [self.monitorEngine setUpdateLoopStrategy:kHWMSensorsUpdateLoopForced];
-    [self.monitorEngine updateSmcAndDevicesSensors];
-    [self.monitorEngine setUpdateLoopStrategy:kHWMSensorsUpdateLoopRegular];
-
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
+    
+    [self.monitorEngine updateSmcAndDevicesSensors];
 }
 
 
@@ -132,7 +156,7 @@
     }
     else if ([keyPath isEqual:@"monitorEngine.iconsWithSensorsAndGroups"]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_favoritesTableView reloadData];
+            [_sensorsTableView reloadData];
         });
     }
 }
@@ -187,26 +211,119 @@
 }
 
 #pragma mark
-#pragma mark PopupControllerDelegate:
+#pragma mark Toolbar 
 
-- (void) popupWillOpen:(id)sender
-{
-    if ([self shouldForceUpdateAllSensors] && self.monitorEngine.updateLoopStrategy != kHWMSensorsUpdateLoopForced) {
-        [self.monitorEngine setUpdateLoopStrategy:kHWMSensorsUpdateLoopForced];
-        [self.monitorEngine updateSmcAndDevicesSensors];
-    }
-    else if (![self shouldForceUpdateAllSensors]) {
-        [self.monitorEngine setUpdateLoopStrategy:kHWMSensorsUpdateLoopForced];
-        [self.monitorEngine updateSmcAndDevicesSensors];
-        [self.monitorEngine setUpdateLoopStrategy:kHWMSensorsUpdateLoopRegular];
-    }
+// Got from http://ccoding.co.de/CCoding/Gifts/NSToolbarViews.zip
+
+- (NSRect)newFrameForNewContentView:(NSView*)view {
+    
+    NSWindow *window = [self window];
+    NSRect newFrameRect = [window frameRectForContentRect:[view frame]];
+    NSRect oldFrameRect = [window frame];
+    NSSize newSize = newFrameRect.size;
+    NSSize oldSize = oldFrameRect.size;
+    
+    NSRect frame = [window frame];
+    frame.size = newSize;
+    frame.origin.y -= (newSize.height - oldSize.height);
+    
+    return frame;
 }
 
-- (void) popupDidClose:(id)sender
-{
-    if ([self shouldUpdateOnlyFavoritesSensors]) {
-        [self.monitorEngine setUpdateLoopStrategy:kHWMSensorsUpdateLoopOnlyFavorites];
+- (NSView *)viewForTag:(NSInteger)tag {
+    
+    NSView *view = nil;
+    
+    switch (tag) {
+        case 0:
+            view = _generalPrefsView;
+            break;
+        case 1:
+            view = _menubarPrefsView;
+            break;
+        case 2:
+            view = _popupPrefsView;
+            break;
+        case 3: 
+            view = _graphsPrefsView; 
+            break;
+        
+        default:
+            view = nil;
+            break;
     }
+    
+    return  view;
+}
+
+- (IBAction)switchView:(id)sender {
+    
+    NSInteger tag = [sender tag];
+    
+    if (_previousViewTag == tag) {
+        return;
+    }
+           
+    __block NSView *view = [self viewForTag:tag];
+    NSView *previousView = [self viewForTag:_previousViewTag];
+    
+    _previousViewTag = tag;
+    
+    NSRect newFrame = [self newFrameForNewContentView:view];
+    
+    if (previousView) {
+
+        newFrame.origin.x += ([[self window] frame].size.width - newFrame.size.width) / 2.0f;
+        
+        [previousView setAlphaValue:0.0];
+        
+        if (previousView.superview) {
+            [previousView removeFromSuperview];
+        }
+    }
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [context setDuration:[[NSApp currentEvent] modifierFlags] & NSShiftKeyMask ? 1.0 : 0.2];
+        [[[self window] animator] setFrame:newFrame display:YES];
+    } completionHandler:^{
+        if (view == _menubarPrefsView || 
+            view == _popupPrefsView) {
+                [[self.window standardWindowButton:NSWindowZoomButton] setEnabled:YES];
+                [self.window setMinSize:NSZeroSize];
+                [self.window setMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
+        }
+        else {
+                [[self.window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
+                [self.window setMinSize:newFrame.size];
+                [self.window setMaxSize:newFrame.size];
+        }
+        
+        [[[self window] contentView] addSubview:view];
+        [NSAnimationContext beginGrouping];
+        [[view animator] setAlphaValue:1.0];
+        [NSAnimationContext endGrouping];
+    }];    
+}
+#pragma mark
+#pragma mark HWMEngineDelegate:
+
+- (HWMSensorsUpdateLoopStrategy)updateLoopStrategyForEngine:(HWMEngine*)engine
+{
+    if (self.window.isVisible || _graphsController.window.isVisible || _monitorEngine.configuration.updateSensorsInBackground.boolValue) {
+        return kHWMSensorsUpdateLoopForced;
+    }
+    else if (_popupController.window.isVisible) {
+        return kHWMSensorsUpdateLoopRegular;
+    }
+
+    return kHWMSensorsUpdateLoopOnlyFavorites;
+}
+
+#pragma mark
+#pragma mark PopupControllerDelegate:
+
+- (void) popupDidOpen:(id)sender
+{
+    [self.monitorEngine updateSmcAndDevicesSensors];
 }
 
 #pragma mark
@@ -439,22 +556,18 @@
         NSInteger fromRow = [rowIndexes firstIndex];
 
         if ([info draggingSource] == _favoritesTableView) {
+            
             toRow = toRow > fromRow ? toRow - 1 : toRow;
 
-            [tableView moveRowAtIndex:fromRow toIndex:toRow];
-
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+            [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+                [tableView moveRowAtIndex:fromRow toIndex:toRow];
+            } completionHandler:^{
                 [_monitorEngine moveFavoritesItemAtIndex:fromRow - 1 toIndex:toRow > 0 ? toRow - 1 : 0];
-            });
+            }];
         }
         else  if ([info draggingSource] == _sensorsTableView) {
             HWMItem *item = [_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:fromRow - 1];
-
-//            [tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:toRow] withAnimation:NSTableViewAnimationEffectGap];
-//
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                [_monitorEngine insertItemIntoFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
-            //            });
+            [_monitorEngine insertItemIntoFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
         }
     }
     else if (tableView == _sensorsTableView && [info draggingSource] == _sensorsTableView) {
@@ -471,12 +584,12 @@
 
         destinationRow = destinationRow > sourceRow ? destinationRow - 1 : destinationRow;
 
-        [tableView moveRowAtIndex:sourceRow + 1 toIndex:destinationRow + 1];
-        [sourceItem.group moveSensorsObject:sourceItem toIndex:[sourceItem.group.sensors indexOfObject:destinationItem]];
-
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+            [tableView moveRowAtIndex:sourceRow + 1 toIndex:destinationRow + 1];
+            [sourceItem.group moveSensorsObject:sourceItem toIndex:[sourceItem.group.sensors indexOfObject:destinationItem]];
+        } completionHandler:^{
             [_monitorEngine setNeedsUpdateLists];
-        });
+        }];
     }
 
     return YES;

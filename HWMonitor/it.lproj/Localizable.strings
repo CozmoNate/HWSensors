@@ -38,7 +38,7 @@
 "Temperature units:" = "Unità temperature:";
 "Menu sensors:" = "Menu sensori:";
 "Miscellaneous:" = "Drive:";
-"About HWMonitor" = "Info su HWMonitor";
+"About HWMonitor..." = "Info su HWMonitor";
 "Services" = "Servizi";
 "Hide HWMonitor" = "Nascondi HWMonitor";
 "Hide Others" = "Mostra altri";
@@ -53,7 +53,7 @@
 "Preferences" = "Preferenze";
 "Graphs" = "Grafici";
 "Graphs window always topmost" = "Finestra grafici sempre in primo piano";
-"Show partitions names" = "Mostra nomi partizioni";
+"Show partition name" = "Mostra nomi partizioni";
 "System menu bar:" = "Barra dei menu:";
 "History Graphs" = "Storico grafici";
 "Sensors update rate:" = "Frequenza aggiornamento sensori:";
@@ -70,11 +70,11 @@
 "Tachometer Sensors" = "Sensori Contagiri";
 "Voltage Sensors" = "Capteurs tension";
 "Start HWMonitor at login" = "Avvia HWMonitor al login";
-"Menu color theme:" = "Aspetto:";
+"Color theme:" = "Aspetto:";
 "Default" = "Predefinito";
 "Gray" = "Grigio";
 "Dark" = "Scuro";
-"Continue monitor sensors in background" = "Continua il monitoraggio in background";
+"Continue to monitor sensors in background" = "Continua il monitoraggio in background";
 "Check for updates" = "Controlla aggiornamenti";
 "Check for Updates..." = "Controlla aggiornamenti...";
 "Internal Battery" = "Batteria interna";

@@ -48,7 +48,7 @@
 "Temperature units:" = "Unité de température :";
 "Menu sensors:" = "Menu capteurs :";
 "Miscellaneous:" = "Divers :";
-"About HWMonitor" = "A propos de HWMonitor";
+"About HWMonitor..." = "A propos de HWMonitor";
 "Services" = "Services";
 "Hide HWMonitor" = "Masquer HWMonitor";
 "Hide Others" = "Masquer les autres";
@@ -62,7 +62,7 @@
 "HWMonitor Help" = "Aide HWMonitor";
 "Preferences" = "Préférences";
 "Graphs" = "Graphiques";
-"Show partitions names" = "Afficher le nom des partitions";
+"Show partition name" = "Afficher le nom des partitions";
 "System menu bar:" = "Barre de menus :";
 "Preferences" = "Préférences";
 "Menubar Items" = "Eléments barre de menus";
@@ -82,11 +82,11 @@
 "Voltage Sensors" = "Capteurs tension";
 "Close HWMonitor" = "Quitter HWMonitor";
 "Start HWMonitor at login" = "Lancer HWMonitor à l'ouverture de session";
-"Menu color theme:" = "Apparence :";
+"Color theme:" = "Apparence :";
 "Default" = "Défaut";
 "Gray" = "Gris";
 "Dark" = "Foncé";
-"Continue monitor sensors in background" = "Continuer la surveillance des capteurs en tâche de fond";
+"Continue to monitor sensors in background" = "Continuer la surveillance des capteurs en tâche de fond";
 
 
 "Mouse" = "Souris";

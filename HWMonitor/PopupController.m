@@ -58,7 +58,53 @@
         [_statusItemView setTarget:self];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self initialSetup];
+            //[[_titleField cell] setBackgroundStyle:NSBackgroundStyleRaised];
+            
+            // Install status item into the menu bar
+            OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+            
+            menubarWindow.statusItemView = _statusItemView;
+            menubarWindow.statusItem = _statusItem;
+            menubarWindow.attachedToMenuBar = YES;
+            menubarWindow.hideWindowControls = YES;
+            
+            menubarWindow.toolbarView = _toolbarView;
+            
+            [menubarWindow setWorksWhenModal:YES];
+            
+            //    [Localizer localizeView:menubarWindow];
+            //    [Localizer localizeView:_toolbarView];
+            
+            // Make main menu font size smaller
+            NSFont* font = [NSFont menuFontOfSize:13];
+            NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+            
+            for (id subItem in [_mainMenu itemArray]) {
+                if ([subItem isKindOfClass:[NSMenuItem class]]) {
+                    NSMenuItem* menuItem = subItem;
+                    NSString* title = [menuItem title];
+                    
+                    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
+                    
+                    [menuItem setAttributedTitle:attributedTitle];
+                }
+            }
+            
+            [self layoutContent:YES orderFront:NO];
+            
+            [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
+            [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+            
+            [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
+            [_tableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
+            
+            [Localizer localizeView:self.window];
+            [Localizer localizeView:_toolbarView];
+            
+            [self addObserver:self forKeyPath:@"monitorEngine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.sensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
+            
+            [_statusItemView setMonitorEngine:_monitorEngine];
         }];
     }
     
@@ -132,57 +178,6 @@
 
 #pragma mark -
 #pragma mark Methods
-
-- (void)initialSetup
-{
-    //[[_titleField cell] setBackgroundStyle:NSBackgroundStyleRaised];
-
-    // Install status item into the menu bar
-    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
-
-    menubarWindow.statusItemView = _statusItemView;
-    menubarWindow.statusItem = _statusItem;
-    menubarWindow.attachedToMenuBar = YES;
-    menubarWindow.hideWindowControls = YES;
-
-    menubarWindow.toolbarView = _toolbarView;
-
-    [menubarWindow setWorksWhenModal:YES];
-
-    //    [Localizer localizeView:menubarWindow];
-    //    [Localizer localizeView:_toolbarView];
-
-    // Make main menu font size smaller
-    NSFont* font = [NSFont menuFontOfSize:13];
-	NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
-
-    for (id subItem in [_mainMenu itemArray]) {
-        if ([subItem isKindOfClass:[NSMenuItem class]]) {
-            NSMenuItem* menuItem = subItem;
-            NSString* title = [menuItem title];
-
-            NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
-
-            [menuItem setAttributedTitle:attributedTitle];
-        }
-    }
-
-    [self layoutContent:YES orderFront:NO];
-
-    [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
-    [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-
-    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
-    [_tableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
-
-    [Localizer localizeView:self.window];
-    [Localizer localizeView:_toolbarView];
-
-    [self addObserver:self forKeyPath:@"monitorEngine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"monitorEngine.sensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
-
-    [_statusItemView setMonitorEngine:_monitorEngine];
-}
 
 - (void)layoutContent:(BOOL)resizeToContent orderFront:(BOOL)orderFront
 {
@@ -480,25 +475,12 @@
 
     toRow = toRow > fromRow ? toRow - 1 : toRow;
 
-    [tableView moveRowAtIndex:fromRow toIndex:toRow];
-    [sourceItem.group moveSensorsObject:sourceItem toIndex:[sourceItem.group.sensors indexOfObject:destinationItem]];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [tableView moveRowAtIndex:fromRow toIndex:toRow];
+        [sourceItem.group moveSensorsObject:sourceItem toIndex:[sourceItem.group.sensors indexOfObject:destinationItem]];
+    } completionHandler:^{
         [_monitorEngine setNeedsUpdateLists];
-    });
-
-//    NSMutableArray *sensors = [[sourceItem.group.sensors sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]]] mutableCopy];
-//
-//    NSUInteger offset = [self.monitorEngine.sensorsAndGroups indexOfObject:[sensors objectAtIndex:0]];
-//
-//    [sensors removeObject:sourceItem];
-//    [sensors insertObject:sourceItem atIndex:offset <= toRow ? toRow - offset : 0];
-//
-//    [sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-//        [obj setOrder:[NSNumber numberWithUnsignedInteger:idx]];
-//    }];
-
-    //[self.monitorEngine setNeedsUpdateLists];
+    }];
 
     return YES;
 }

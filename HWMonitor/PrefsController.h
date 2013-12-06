@@ -30,20 +30,28 @@
 
 #import "PopupController.h"
 #import "GraphsController.h"
+#import "HWMEngine.h"
 
-@class HWMEngine;
-
-@interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, NSTokenFieldDelegate>
-
+@interface PrefsController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, HWMEngineDelegate>
+{
+    @private
+    NSInteger _previousViewTag;
+}
 @property (assign) IBOutlet HWMEngine *monitorEngine;
+
+@property (nonatomic, strong) IBOutlet NSMutableArray *themes;
+@property (nonatomic, strong) IBOutlet NSMutableIndexSet *themeSelectionIndexes;
 
 @property (assign) IBOutlet PopupController *popupController;
 @property (assign) IBOutlet GraphsController *graphsController;
 @property (assign) IBOutlet SUUpdater *sharedUpdater;
 
+@property (assign) IBOutlet NSView *generalPrefsView;
+@property (assign) IBOutlet NSView *menubarPrefsView;
+@property (assign) IBOutlet NSView *popupPrefsView;
+@property (assign) IBOutlet NSView *graphsPrefsView;
 @property (assign) IBOutlet NSTableView *favoritesTableView;
 @property (assign) IBOutlet NSTableView *sensorsTableView;
-@property (assign) IBOutlet NSMatrix *colorThemeMatrix;
 
 @property (readonly) BOOL hasDraggedFavoriteItem;
 @property (atomic, assign) NSDragOperation currentItemDragOperation;

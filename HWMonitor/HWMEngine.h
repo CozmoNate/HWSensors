@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const HWMEngineSensorsHasBenUpdatedNotification;
+extern NSString * const HWMEngineSensorsHasBeenUpdatedNotification;
 
 typedef enum {
     kHWMEngineNoninitialized = 0,
@@ -19,12 +19,22 @@ typedef enum {
 typedef enum {
     kHWMSensorsUpdateLoopRegular = 0,
     kHWMSensorsUpdateLoopForced,
-    kHWMSensorsUpdateLoopOnlyFavorites
+    kHWMSensorsUpdateLoopOnlyFavorites,
+    
+    kHWMSensorsUpdateLoopStrategiesCount
+    
 } HWMSensorsUpdateLoopStrategy;
 
 @class HWMColorTheme;
 @class HWMConfiguration;
 @class HWMItem;
+
+@class HWMEngine;
+
+@protocol HWMEngineDelegate <NSObject>
+@optional
+- (HWMSensorsUpdateLoopStrategy)updateLoopStrategyForEngine:(HWMEngine*)engine;
+@end
 
 @interface HWMEngine : NSObject
 {
@@ -41,6 +51,8 @@ typedef enum {
 }
 
 @property (nonatomic, strong) NSBundle * bundle;
+
+@property (assign) IBOutlet id <HWMEngineDelegate> delegate;
 
 @property (nonatomic, strong) IBOutlet NSManagedObjectModel * managedObjectModel;
 @property (nonatomic, strong) IBOutlet NSPersistentStoreCoordinator * persistentStoreCoordinator;

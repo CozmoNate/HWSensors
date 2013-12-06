@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import "AppController.h"
+#import "PrefsController.h"
 
 @interface SensorsTableView : NSTableView
 {

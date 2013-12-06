@@ -68,12 +68,6 @@
                                     </binding>
                                 </connections>
                             </menuItem>
-                            <menuItem title="History Graphs" keyEquivalent="g" id="668">
-                                <attributedString key="attributedTitle"/>
-                                <connections>
-                                    <action selector="showGraphsWindow:" target="-2" id="670"/>
-                                </connections>
-                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="2784"/>
                             <menuItem title="Preferences..." keyEquivalent="," id="220">
                                 <attributedString key="attributedTitle"/>
@@ -81,6 +75,7 @@
                                     <action selector="openPreferences:" target="-2" id="227"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="bAc-fH-Wzu"/>
                             <menuItem title="Check for Updates..." id="680">
                                 <attributedString key="attributedTitle"/>
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -88,8 +83,7 @@
                                     <action selector="checkForUpdates:" target="-1" id="I1d-rY-GYT"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="2787"/>
-                            <menuItem title="About HWMonitor" id="221">
+                            <menuItem title="About HWMonitor..." id="221">
                                 <attributedString key="attributedTitle"/>
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>

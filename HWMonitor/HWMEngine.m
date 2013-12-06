@@ -26,7 +26,7 @@
 
 #import "SmcHelper.h"
 
-NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
+NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
 @implementation HWMEngine
 
@@ -124,6 +124,15 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
     _engineState = engineState;
 }
 
+-(HWMSensorsUpdateLoopStrategy)updateLoopStrategy
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(updateLoopStrategyForEngine:)]) {
+        return [self.delegate updateLoopStrategyForEngine:self];
+    }
+    
+    return _updateLoopStrategy;
+}
+
 -(NSArray *)iconsWithSensorsAndGroups
 {
     if (!_iconsWithSensorsAndGroups) {
@@ -201,11 +210,11 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
             for (HWMGraphsGroup *group in _configuration.graphGroups) {
 
-//                NSOrderedSet *graphs = [group.graphs filteredOrderedSetUsingPredicate:[NSPredicate predicateWithFormat:@"hidden == NO"]];
+                NSArray *graphs = [[group.graphs array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"sensor.service != 0"]];
 
                 if (group.graphs && group.graphs.count) {
                     [items addObject:group];
-                    [items addObjectsFromArray:[group.graphs array]];
+                    [items addObjectsFromArray:graphs];
                 }
             }
 
@@ -502,7 +511,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
         for (HWMSensor *sensor in _smcAndDevicesSensors) {
             BOOL doUpdate = FALSE;
 
-            switch (_updateLoopStrategy) {
+            switch (self.updateLoopStrategy) {
                 case kHWMSensorsUpdateLoopForced:
                     doUpdate = YES;
                     break;
@@ -522,7 +531,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             }
         }
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorsHasBenUpdatedNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorsHasBeenUpdatedNotification object:self];
     }
 }
 
@@ -548,7 +557,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
 
                 BOOL doUpdate = FALSE;
 
-                switch (_updateLoopStrategy) {
+                switch (self.updateLoopStrategy) {
                     case kHWMSensorsUpdateLoopForced:
                         doUpdate = YES;
                         break;
@@ -573,7 +582,7 @@ NSString * const HWMEngineSensorsHasBenUpdatedNotification = @"HWMEngineSensorsH
             
             [HWMSmartPlugInInterfaceWrapper destroyAllWrappers];
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorsHasBenUpdatedNotification object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorsHasBeenUpdatedNotification object:self];
         }
     }
 }

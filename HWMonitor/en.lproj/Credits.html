@@ -48,7 +48,7 @@
             padding: 0em;
             font-family: "Verdana";
             font-size: 0.8em;
-            color: #0F0F0F;
+            color: #6F6F6F;
             top: 0em;
             position: relative;
             box-sizing: border-box;
@@ -63,15 +63,19 @@
         }
   
       @-webkit-keyframes logo {
-          0%    { top: 0% }
-          10%   { top: 0% }
-          75%   { top: -290% }
-          85%   { top: -290% }
+          0%    { top: 15% }
+          10%   { top: 15% }
+          85%   { top: -275% }
+          95%   { top: -275% }
           100%  { top: -360% }
       }
 
       @-webkit-keyframes roll {
           0%    { top: 100% }
+          5%   { top: 15% }
+          15%   { top: 15% }
+          85%   { top: -275% }
+          95%   { top: -275% }
           100%  { top: -360% }
       }
 
@@ -89,10 +93,6 @@
 <body>
     <div id="container" class="Container">
         <div id="marquee" class="Marquee">
-            <br>
-            <br>
-            <br>
-            <br>
             <p><img src="../default.icns" width="200" height="200"></p>
             <p><font style="font-size: 1.5em;">HWMonitor</font></p>
             <p>%version_placeholder</p>

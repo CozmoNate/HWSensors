@@ -113,7 +113,7 @@
             [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
             [self rebuildViews];
 
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorsHasBenUpdatedNotification object:_monitorEngine];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorsHasBeenUpdatedNotification object:_monitorEngine];
             
             [_graphsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorGraphsItemDataType]];
             [_graphsTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
@@ -148,9 +148,7 @@
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
     
-//    if (!_windowFilter) {
-//        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.25] forKey:@"inputRadius"]];
-//    }
+    [self.monitorEngine updateSmcAndDevicesSensors];    
 }
 
 -(void)rebuildViews
@@ -345,10 +343,6 @@
     
     [tableView moveRowAtIndex:fromRow toIndex:toRow];
     [sourceItem.group moveGraphsObject:sourceItem toIndex:[sourceItem.group.graphs indexOfObject:destinationItem]];
-    
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-//        [_monitorEngine setNeedsUpdateLists];
-//    });
     
     return YES;
 }
