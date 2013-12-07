@@ -32,6 +32,11 @@
 
 #include "si.h"
 
+#define     CG_MULT_THERMAL_STATUS		0x714
+#define		CTF_TEMP(x)					((x) << 9)
+#define		CTF_TEMP_MASK				0x0003fe00
+#define		CTF_TEMP_SHIFT				9
+
 /* get temperature in millidegrees */
 int si_get_temp(struct radeon_device *rdev)
 {

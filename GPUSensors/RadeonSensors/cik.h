@@ -39,14 +39,9 @@
 
 #include "radeon.h"
 
-#define     CG_MULT_THERMAL_STATUS      0xC0300014
-#define		CTF_TEMP_MASK				0x0003fe00
-#define		CTF_TEMP_SHIFT				9
-
+#define     RREG32_SMC(reg)             tn_smc_rreg(rdev, (reg))
 #define     TN_SMC_IND_INDEX_0          0x200
 #define     TN_SMC_IND_DATA_0           0x204
-
-#define RREG32_SMC(reg) tn_smc_rreg(rdev, (reg))
 
 static inline u32 tn_smc_rreg(struct radeon_device *rdev, u32 reg)
 {

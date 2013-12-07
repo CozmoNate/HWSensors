@@ -8,6 +8,11 @@
 
 #include "cik.h"
 
+
+#define     CG_MULT_THERMAL_STATUS      0xC0300014
+#define		CTF_TEMP_MASK				0x0003fe00
+#define		CTF_TEMP_SHIFT				9
+
 /* get temperature in millidegrees */
 int ci_get_temp(struct radeon_device *rdev)
 {
