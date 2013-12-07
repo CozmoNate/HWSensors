@@ -42,10 +42,14 @@
         <attribute name="useFahrenheit" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="useGraphSmoothing" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="useShadowEffectsInMenubar" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
-        <relationship name="colorThemes" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ColorTheme" inverseName="configuration" inverseEntity="ColorTheme" syncable="YES"/>
-        <relationship name="favorites" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Item" inverseName="favorite" inverseEntity="Item" syncable="YES"/>
-        <relationship name="graphGroups" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GraphsGroup" inverseName="configuration" inverseEntity="GraphsGroup" syncable="YES"/>
-        <relationship name="sensorGroups" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="SensorsGroup" inverseName="configuration" inverseEntity="SensorsGroup" syncable="YES"/>
+        <relationship name="colorThemes" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ColorTheme" inverseName="configuration" inverseEntity="ColorTheme" syncable="YES"/>
+        <relationship name="favorites" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Favorite" inverseName="configuration" inverseEntity="Favorite" syncable="YES"/>
+        <relationship name="graphGroups" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="GraphsGroup" inverseName="configuration" inverseEntity="GraphsGroup" syncable="YES"/>
+        <relationship name="sensorGroups" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="SensorsGroup" inverseName="configuration" inverseEntity="SensorsGroup" syncable="YES"/>
+    </entity>
+    <entity name="Favorite" representedClassName="HWMFavorite" syncable="YES">
+        <relationship name="configuration" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" inverseName="favorites" inverseEntity="Configuration" syncable="YES"/>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Item" inverseName="favorites" inverseEntity="Item" syncable="YES"/>
     </entity>
     <entity name="Graph" representedClassName="HWMGraph" syncable="YES">
         <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
@@ -71,7 +75,7 @@
         <attribute name="legend" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="title" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <relationship name="favorite" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" inverseName="favorites" inverseEntity="Configuration" syncable="YES"/>
+        <relationship name="favorites" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Favorite" inverseName="item" inverseEntity="Favorite" syncable="YES"/>
     </entity>
     <entity name="Sensor" representedClassName="HWMSensor" isAbstract="YES" parentEntity="Item" syncable="YES">
         <attribute name="selector" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -92,17 +96,18 @@
     </entity>
     <entity name="SmcSensor" representedClassName="HWMSmcSensor" parentEntity="Sensor" syncable="YES"/>
     <elements>
-        <element name="AtaSmartSensor" positionX="-477" positionY="-3" width="128" height="120"/>
-        <element name="BatterySensor" positionX="-477" positionY="288" width="128" height="75"/>
-        <element name="ColorTheme" positionX="340" positionY="84" width="128" height="285"/>
-        <element name="Configuration" positionX="-0" positionY="30" width="128" height="285"/>
-        <element name="Graph" positionX="-72" positionY="432" width="128" height="120"/>
-        <element name="GraphsGroup" positionX="342" positionY="-45" width="128" height="90"/>
-        <element name="Icon" positionX="-47" positionY="-96" width="128" height="105"/>
-        <element name="Item" positionX="-344" positionY="396" width="128" height="135"/>
-        <element name="Sensor" positionX="-306" positionY="180" width="128" height="135"/>
-        <element name="SensorsGroup" positionX="-317" positionY="-54" width="128" height="105"/>
-        <element name="SmcFanSensor" positionX="-477" positionY="138" width="128" height="60"/>
-        <element name="SmcSensor" positionX="-477" positionY="225" width="128" height="45"/>
+        <element name="AtaSmartSensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="BatterySensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="ColorTheme" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Configuration" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Favorite" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Graph" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="GraphsGroup" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Icon" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Item" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Sensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SensorsGroup" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SmcFanSensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SmcSensor" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

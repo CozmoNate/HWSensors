@@ -56,6 +56,7 @@
 
 @interface HWMSensorsGroup : HWMItem
 
+@property (nonatomic, retain) HWMConfiguration * configuration;
 @property (nonatomic, retain) NSNumber * selector;
 @property (nonatomic, retain) HWMIcon *icon;
 @property (nonatomic, retain) NSOrderedSet *sensors;

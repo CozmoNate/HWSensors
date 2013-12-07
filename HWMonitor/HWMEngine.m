@@ -17,6 +17,7 @@
 #import "HWMColorTheme.h"
 #import "HWMGraph.h"
 #import "HWMGraphsGroup.h"
+#import "HWMFavorite.h"
 
 #import "smc.h"
 #import "Localizer.h"
@@ -33,6 +34,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
 @synthesize iconsWithSensorsAndGroups = _iconsWithSensorsAndGroups;
 @synthesize sensorsAndGroups = _sensorsAndGroups;
 @synthesize graphsAndGroups = _graphsAndGroups;
+@synthesize favoriteItems = _favoriteItems;
 
 #pragma mark
 #pragma mark Global methods
@@ -167,9 +169,9 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
                 }
             }
 
-            [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
+            //[self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
             _iconsWithSensorsAndGroups = [items copy];
-            [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
+            //[self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
         }
     }
 
@@ -192,9 +194,9 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
                 }
             }
 
-            [self willChangeValueForKey:@"sensorsAndGroups"];
+            //[self willChangeValueForKey:@"sensorsAndGroups"];
             _sensorsAndGroups = [items copy];
-            [self didChangeValueForKey:@"sensorsAndGroups"];
+            //[self didChangeValueForKey:@"sensorsAndGroups"];
         }
     }
 
@@ -218,13 +220,33 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
                 }
             }
 
-            [self willChangeValueForKey:@"graphsAndGroups"];
+            //[self willChangeValueForKey:@"graphsAndGroups"];
             _graphsAndGroups = [items copy];
-            [self didChangeValueForKey:@"graphsAndGroups"];
+            //[self didChangeValueForKey:@"graphsAndGroups"];
         }
     }
     
     return _graphsAndGroups;
+}
+
+-(NSArray *)favoriteItems
+{
+    if (!_favoriteItems) {
+        @synchronized (self) {
+            
+            NSMutableArray *items = [[NSMutableArray alloc] init];
+            
+            for (HWMFavorite *favorite in _configuration.favorites) {
+                [items addObject:favorite.item];
+            }
+            
+            //[self willChangeValueForKey:@"favoriteItems"];
+            _favoriteItems = [items copy];
+            //[self didChangeValueForKey:@"favoriteItems"];
+        }
+    }
+    
+    return _favoriteItems;
 }
 
 #pragma mark
@@ -517,12 +539,12 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
                     break;
 
                 case kHWMSensorsUpdateLoopOnlyFavorites:
-                    doUpdate = sensor.favorite != nil;
+                    doUpdate = sensor.favorites.count;
                     break;
 
                 case kHWMSensorsUpdateLoopRegular:
                 default:
-                    doUpdate = !sensor.hidden.boolValue || sensor.favorite;
+                    doUpdate = !sensor.hidden.boolValue || sensor.favorites.count;
                     break;
             }
 
@@ -665,6 +687,10 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
         [self willChangeValueForKey:@"graphsAndGroups"];
         _graphsAndGroups = nil;
         [self didChangeValueForKey:@"graphsAndGroups"];
+        
+        [self willChangeValueForKey:@"favoriteItems"];
+        _favoriteItems = nil;
+        [self didChangeValueForKey:@"favoriteItems"];
     }
 }
 
@@ -704,15 +730,29 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
     _engineState = kHWMEngineStateIdle;
 }
 
+#pragma mark
+#pragma mark Favorites
+
 -(void)insertItemIntoFavorites:(HWMItem*)item atIndex:(NSUInteger)index
 {
-    if (item && item.managedObjectContext == _managedObjectContext && ([item isKindOfClass:[HWMSensor class]] ? ![_configuration.favorites containsObject:item] : YES)) {
-
+    if (item && item.managedObjectContext == _managedObjectContext) {
         @synchronized (self) {
-
-            [[_configuration mutableOrderedSetValueForKey:@"favorites"] insertObject:item atIndex:index];
-
+            
+            if ([item isKindOfClass:[HWMSensor class]] && [self.favoriteItems containsObject:item]) {
+                return;
+            }
+            
+            HWMFavorite * favorite = [NSEntityDescription insertNewObjectForEntityForName:@"Favorite" inManagedObjectContext:self.managedObjectContext];
+            
+            [favorite setItem:item];
+            
+            [[_configuration mutableOrderedSetValueForKey:@"favorites"] insertObject:favorite atIndex:index];
+            
             [self saveContext];
+            
+            [self willChangeValueForKey:@"favoriteItems"];
+            _favoriteItems = nil;
+            [self didChangeValueForKey:@"favoriteItems"];
         }
     }
 }
@@ -732,21 +772,28 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
         [[_configuration mutableOrderedSetValueForKey:@"favorites"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:toIndex];
 
         [self saveContext];
+        
+        [self willChangeValueForKey:@"favoriteItems"];
+        _favoriteItems = nil;
+        [self didChangeValueForKey:@"favoriteItems"];
     }
 }
 
 -(void)removeItemFromFavoritesAtIndex:(NSUInteger)index
 {
     @synchronized (self) {
-        if (!_configuration.favorites.count )
+        if (!_configuration.favorites.count)
             return;
 
-        HWMItem *item = [_configuration.favorites objectAtIndex:index];
-
-        if (item) {
-            [[_configuration mutableOrderedSetValueForKey:@"favorites"] removeObject:item];
-            [self saveContext];
-        }
+        HWMFavorite *favorite = [_configuration.favorites objectAtIndex:index];
+        
+        [self.managedObjectContext deleteObject:favorite];
+        
+        [self saveContext];
+        
+        [self willChangeValueForKey:@"favoriteItems"];
+        _favoriteItems = nil;
+        [self didChangeValueForKey:@"favoriteItems"];
     }
 }
 
@@ -904,8 +951,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
         colorTheme = [NSEntityDescription insertNewObjectForEntityForName:@"ColorTheme" inManagedObjectContext:self.managedObjectContext];
 
         [colorTheme setName:name];
-
-        [_configuration addColorThemesObject:colorTheme];
+        [colorTheme setConfiguration:_configuration];
     }
 
     [colorTheme setGroupEndColor:groupEndColor];
@@ -993,7 +1039,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
     if (!group) {
         group = [NSEntityDescription insertNewObjectForEntityForName:@"SensorsGroup" inManagedObjectContext:self.managedObjectContext];
 
-        [_configuration addSensorGroupsObject:group];
+        [group setConfiguration:_configuration];
     }
 
     [group setName:name];
@@ -1601,7 +1647,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
     if (!group) {
         group = [NSEntityDescription insertNewObjectForEntityForName:@"GraphsGroup" inManagedObjectContext:self.managedObjectContext];
 
-        [_configuration addGraphGroupsObject:group];
+        [group setConfiguration:_configuration];
     }
 
     [group setName:name];

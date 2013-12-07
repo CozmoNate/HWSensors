@@ -43,6 +43,7 @@ static NSDictionary *gHWMSensorLocalizationCache;
 @dynamic value;
 @dynamic group;
 @dynamic graph;
+@dynamic favorite;
 
 @synthesize alarmLevel = _alarmLevel;
 

@@ -108,7 +108,7 @@
             [[self.window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
             
             [self addObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"monitorEngine.configuration.favorites" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.favoriteItems" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
@@ -151,7 +151,7 @@
     if ([keyPath isEqual:@"monitorEngine.configuration.useFahrenheit"]) {
         [_monitorEngine setNeedsRecalculateSensorValues];
     }
-    else if ([keyPath isEqual:@"monitorEngine.configuration.favorites"]) {
+    else if ([keyPath isEqual:@"monitorEngine.favoriteItems"]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [_favoritesTableView reloadData];
         });
@@ -179,7 +179,7 @@
     [_monitorEngine stopEngine];
     
     [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.favorites"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.favoriteItems"];
     [self removeObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups"];
 }
 
@@ -310,7 +310,7 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     if (tableView == _favoritesTableView) {
-        return _monitorEngine.configuration.favorites.count + 1;
+        return _monitorEngine.favoriteItems.count + 1;
     }
     else if (tableView == _sensorsTableView) {
         return _monitorEngine.iconsWithSensorsAndGroups.count + 1;
@@ -352,7 +352,7 @@
         if (row == 0) {
             return nil;
         }
-        return [_monitorEngine.configuration.favorites objectAtIndex:row - 1];
+        return [_monitorEngine.favoriteItems objectAtIndex:row - 1];
     }
     else {
         if (row == 0) {
@@ -373,8 +373,7 @@
             return groupCell;
         }
         
-        HWMItem *item = [_monitorEngine.configuration.favorites objectAtIndex:row - 1];
-        return [tableView makeViewWithIdentifier:item.identifier owner:self];
+        return [tableView makeViewWithIdentifier:[[[_monitorEngine favoriteItems] objectAtIndex:row - 1] identifier] owner:self];
     }
     else if (tableView == _sensorsTableView) {
         if (row == 0) {
@@ -455,7 +454,7 @@
             id item = [_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:fromRow - 1];
             
             if ([item isKindOfClass:[HWMSensor class]]) {
-                _currentItemDragOperation = [(HWMItem*)item favorite] ? NSDragOperationPrivate : toRow > 0  ? NSDragOperationCopy : NSDragOperationNone;
+                _currentItemDragOperation = [[(HWMSensor*)item favorites] count] ? NSDragOperationPrivate : toRow > 0  ? NSDragOperationCopy : NSDragOperationNone;
             }
             else _currentItemDragOperation = toRow > 0 ? NSDragOperationCopy : NSDragOperationNone;
         }

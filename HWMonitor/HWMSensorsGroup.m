@@ -33,6 +33,7 @@
 
 @implementation HWMSensorsGroup
 
+@dynamic configuration;
 @dynamic selector;
 @dynamic icon;
 @dynamic sensors;

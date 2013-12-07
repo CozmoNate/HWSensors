@@ -52,6 +52,8 @@
 @property (nonatomic, retain) HWMSensorsGroup * group;
 @property (nonatomic, retain) HWMGraph *graph;
 
+@property (nonatomic, retain) id favorite;
+
 @property (readonly) NSUInteger alarmLevel;
 @property (readonly) NSString * formattedValue;
 

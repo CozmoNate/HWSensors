@@ -31,6 +31,7 @@
 
 @implementation HWMColorTheme
 
+@dynamic configuration;
 @dynamic name;
 @dynamic groupEndColor;
 @dynamic groupStartColor;

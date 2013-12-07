@@ -25,7 +25,6 @@
 		7E19000A170070F3008F40F1 /* GraphsSensorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E190009170070F3008F40F1 /* GraphsSensorCell.m */; };
 		7E1900B0184279CD00C6A0E8 /* HWMGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1900AF184279CD00C6A0E8 /* HWMGraph.m */; };
 		7E19DEBE1843CDC400229B0E /* HWMSensorsGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E19DEBD1843CDC400229B0E /* HWMSensorsGroup.m */; };
-		7E19DED31843E97300229B0E /* HWMConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E19DED21843E97300229B0E /* HWMConfiguration.m */; };
 		7E19DED61843EDA300229B0E /* PopupBasicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E19DED41843EDA300229B0E /* PopupBasicCell.m */; };
 		7E1BC3CE16F47BDF005B9479 /* battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CC16F47BDE005B9479 /* battery.png */; };
 		7E1BC3CF16F47BDF005B9479 /* battery_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1BC3CD16F47BDF005B9479 /* battery_template.png */; };
@@ -33,7 +32,6 @@
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
 		7E2042051730D04100C13B65 /* PrefsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* PrefsController.xib */; };
 		7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E268C611837A41C004F16E3 /* HWMIcon.m */; };
-		7E268C681837C13B004F16E3 /* HWMItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E268C671837C13B004F16E3 /* HWMItem.m */; };
 		7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */; };
 		7E420F9D1820E04900331D2B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E420F9C1820E04900331D2B /* XCTest.framework */; };
 		7E420FA31820E04900331D2B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E420FA11820E04900331D2B /* InfoPlist.strings */; };
@@ -57,6 +55,7 @@
 		7E9A17CD17E4529C003DB018 /* PopupAtaSmartSensorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A17CC17E4529C003DB018 /* PopupAtaSmartSensorCell.m */; };
 		7E9A17D017E45938003DB018 /* NSPopover+Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A17CF17E45938003DB018 /* NSPopover+Message.m */; };
 		7E9A17D317E45ACA003DB018 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A17D217E45ACA003DB018 /* NSString+Size.m */; };
+		7E9FF2CA185330BC009DAD0D /* HWMItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9FF2C9185330BC009DAD0D /* HWMItem.m */; };
 		7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248EB16D8E93A002231B2 /* Cocoa.framework */; };
 		7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248F416D8E93A002231B2 /* InfoPlist.strings */; };
 		7EA248F816D8E93A002231B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248F716D8E93A002231B2 /* main.m */; };
@@ -111,6 +110,8 @@
 		7EED6D701734F8E700248870 /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */; };
 		7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D7B1734F9CF00248870 /* 19-gear.png */; };
 		7EED6D7E1734F9CF00248870 /* 19-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D7C1734F9CF00248870 /* 19-gear@2x.png */; };
+		7EF1B129185342630094C1DB /* HWMFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1B128185342630094C1DB /* HWMFavorite.m */; };
+		7EF1B12C185342890094C1DB /* HWMConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1B12B185342890094C1DB /* HWMConfiguration.m */; };
 		7EF28328184C71AA00DD8513 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 7EF28326184C71AA00DD8513 /* Credits.html */; };
 		7EF2A0F61730379C00D8641C /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2A0F41730379C00D8641C /* AboutController.m */; };
 		7EF2A0FC17303B9100D8641C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF2A0FB17303B9100D8641C /* MainMenu.xib */; };
@@ -190,8 +191,6 @@
 		7E1900AF184279CD00C6A0E8 /* HWMGraph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMGraph.m; sourceTree = "<group>"; };
 		7E19DEBC1843CDC400229B0E /* HWMSensorsGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMSensorsGroup.h; sourceTree = "<group>"; };
 		7E19DEBD1843CDC400229B0E /* HWMSensorsGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSensorsGroup.m; sourceTree = "<group>"; };
-		7E19DED11843E97300229B0E /* HWMConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMConfiguration.h; sourceTree = "<group>"; };
-		7E19DED21843E97300229B0E /* HWMConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMConfiguration.m; sourceTree = "<group>"; };
 		7E19DED41843EDA300229B0E /* PopupBasicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupBasicCell.m; sourceTree = "<group>"; };
 		7E19DED51843EDA300229B0E /* PopupBasicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupBasicCell.h; sourceTree = "<group>"; };
 		7E19FFFF17005652008F40F1 /* SensorsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorsTableView.h; sourceTree = "<group>"; };
@@ -203,8 +202,6 @@
 		7E2678B7182523FE00B405DE /* smc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = smc.h; path = Shared/smc.h; sourceTree = "<group>"; };
 		7E268C601837A41C004F16E3 /* HWMIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMIcon.h; sourceTree = "<group>"; };
 		7E268C611837A41C004F16E3 /* HWMIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMIcon.m; sourceTree = "<group>"; };
-		7E268C661837C13B004F16E3 /* HWMItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMItem.h; sourceTree = "<group>"; };
-		7E268C671837C13B004F16E3 /* HWMItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMItem.m; sourceTree = "<group>"; };
 		7E2FE0A3178D18CA00802D38 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HWMEngine.xcdatamodel; sourceTree = "<group>"; };
 		7E420F9B1820E04900331D2B /* HWMonitor Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HWMonitor Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -241,6 +238,8 @@
 		7E9A17CF17E45938003DB018 /* NSPopover+Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSPopover+Message.m"; sourceTree = "<group>"; };
 		7E9A17D117E45ACA003DB018 /* NSString+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Size.h"; sourceTree = "<group>"; };
 		7E9A17D217E45ACA003DB018 /* NSString+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Size.m"; sourceTree = "<group>"; };
+		7E9FF2C8185330BC009DAD0D /* HWMItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMItem.h; sourceTree = "<group>"; };
+		7E9FF2C9185330BC009DAD0D /* HWMItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMItem.m; sourceTree = "<group>"; };
 		7EA248E816D8E93A002231B2 /* HWMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HWMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA248EB16D8E93A002231B2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7EA248EE16D8E93A002231B2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -318,6 +317,10 @@
 		7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
 		7EED6D7B1734F9CF00248870 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
 		7EED6D7C1734F9CF00248870 /* 19-gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear@2x.png"; sourceTree = "<group>"; };
+		7EF1B127185342630094C1DB /* HWMFavorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMFavorite.h; sourceTree = "<group>"; };
+		7EF1B128185342630094C1DB /* HWMFavorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMFavorite.m; sourceTree = "<group>"; };
+		7EF1B12A185342890094C1DB /* HWMConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMConfiguration.h; sourceTree = "<group>"; };
+		7EF1B12B185342890094C1DB /* HWMConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMConfiguration.m; sourceTree = "<group>"; };
 		7EF28327184C71AA00DD8513 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
 		7EF2A0F31730379C00D8641C /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
 		7EF2A0F41730379C00D8641C /* AboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutController.m; sourceTree = "<group>"; };
@@ -543,16 +546,18 @@
 		7E19DEC71843D30E00229B0E /* Base Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7EF1B12A185342890094C1DB /* HWMConfiguration.h */,
+				7EF1B12B185342890094C1DB /* HWMConfiguration.m */,
 				7E031C621835E76D00A2D097 /* HWMImageTransformer.h */,
 				7E031C631835E76D00A2D097 /* HWMImageTransformer.m */,
-				7E19DED11843E97300229B0E /* HWMConfiguration.h */,
-				7E19DED21843E97300229B0E /* HWMConfiguration.m */,
 				7E93E29C183E832600957EDF /* HWMColorTheme.h */,
 				7E93E29D183E832600957EDF /* HWMColorTheme.m */,
-				7E268C661837C13B004F16E3 /* HWMItem.h */,
-				7E268C671837C13B004F16E3 /* HWMItem.m */,
+				7E9FF2C8185330BC009DAD0D /* HWMItem.h */,
+				7E9FF2C9185330BC009DAD0D /* HWMItem.m */,
 				7E268C601837A41C004F16E3 /* HWMIcon.h */,
 				7E268C611837A41C004F16E3 /* HWMIcon.m */,
+				7EF1B127185342630094C1DB /* HWMFavorite.h */,
+				7EF1B128185342630094C1DB /* HWMFavorite.m */,
 			);
 			name = "Base Classes";
 			sourceTree = "<group>";
@@ -1097,7 +1102,6 @@
 				7E1900B0184279CD00C6A0E8 /* HWMGraph.m in Sources */,
 				7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */,
 				7EA248FF16D8E93A002231B2 /* PrefsController.m in Sources */,
-				7E19DED31843E97300229B0E /* HWMConfiguration.m in Sources */,
 				7EFE61B7183581090009BD0D /* HWMSensor.m in Sources */,
 				7EA2494416D8EA95002231B2 /* smc.c in Sources */,
 				7E0200B218035D3700520CF7 /* RFOverlayScrollView.m in Sources */,
@@ -1106,6 +1110,7 @@
 				7EFE61B4183581090009BD0D /* HWMSmcSensor.m in Sources */,
 				7EFF4395183649B20094860C /* HWMEngine.m in Sources */,
 				7EDA1A6D16D901100012A0DC /* PopupController.m in Sources */,
+				7EF1B129185342630094C1DB /* HWMFavorite.m in Sources */,
 				7EDA1A7816D903740012A0DC /* PopupGroupCell.m in Sources */,
 				7EDA1A7916D903740012A0DC /* PopupSensorCell.m in Sources */,
 				7EEB2D6B1847E82C008B6D1C /* SmcHelper.m in Sources */,
@@ -1114,6 +1119,7 @@
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
 				7E031C641835E76D00A2D097 /* HWMImageTransformer.m in Sources */,
+				7EF1B12C185342890094C1DB /* HWMConfiguration.m in Sources */,
 				7EFE61AE183581090009BD0D /* HWMBatterySensor.m in Sources */,
 				7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */,
 				7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */,
@@ -1125,13 +1131,13 @@
 				7E0200B118035D3700520CF7 /* RFOverlayScroller.m in Sources */,
 				7E6D90441845EEDB0045BDB3 /* HWMGraphsGroup.m in Sources */,
 				7E19DED61843EDA300229B0E /* PopupBasicCell.m in Sources */,
-				7E268C681837C13B004F16E3 /* HWMItem.m in Sources */,
 				7E19000A170070F3008F40F1 /* GraphsSensorCell.m in Sources */,
 				7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */,
 				7E16FD8A1706BB3000FB253E /* TransparentSplitView.m in Sources */,
 				7E93E29E183E832600957EDF /* HWMColorTheme.m in Sources */,
 				7EFE61B1183581090009BD0D /* HWMAtaSmartSensor.m in Sources */,
 				7EF2A0F61730379C00D8641C /* AboutController.m in Sources */,
+				7E9FF2CA185330BC009DAD0D /* HWMItem.m in Sources */,
 				7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */,
 				7E9A17CD17E4529C003DB018 /* PopupAtaSmartSensorCell.m in Sources */,
 				7E9A17D017E45938003DB018 /* NSPopover+Message.m in Sources */,

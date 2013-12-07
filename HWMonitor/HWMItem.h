@@ -2,44 +2,33 @@
 //  HWMItem.h
 //  HWMonitor
 //
-//  Created by Kozlek on 16/11/13.
+//  Created by Kozlek on 07.12.13.
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
-
-/*
- *  Copyright (c) 2013 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
- *
- *  This program is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU General Public License
- *  as published by the Free Software Foundation; either version 2
- *  of the License, or (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- *  02111-1307, USA.
- *
- */
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class HWMEngine;
+@class HWMEngine, HWMFavorite;
 
 @interface HWMItem : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * hidden;
+@property (nonatomic, retain) NSString * identifier;
+@property (nonatomic, retain) NSString * legend;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSString * legend;
-@property (nonatomic, retain) NSString * identifier;
-@property (nonatomic, retain) NSNumber * hidden;
-@property (nonatomic, retain) id favorite;
+@property (nonatomic, retain) NSSet *favorites;
 
 @property (nonatomic, strong) HWMEngine * engine;
+
+@end
+
+@interface HWMItem (CoreDataGeneratedAccessors)
+
+- (void)addFavoriteObject:(HWMFavorite *)value;
+- (void)removeFavoriteObject:(HWMFavorite *)value;
+- (void)addFavorite:(NSSet *)values;
+- (void)removeFavorite:(NSSet *)values;
 
 @end
