@@ -252,9 +252,7 @@ void CPUSensors::readTjmaxFromMSR()
 #define ROUND(x)    ((x) + 0.5 > int(x) + 1 ? int(x) + 1 : int(x))
 
 float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
-{
-    //IOSimpleLockLock(workloopLock);
-    
+{    
     UInt32 index = sensor->getIndex();
     
     switch (sensor->getGroup()) {
@@ -312,84 +310,70 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
             
     }
     
-    //IOSimpleLockUnlock(workloopLock);
-    
     return 0;
 }
 
 IOReturn CPUSensors::woorkloopTimerEvent()
 {
     if (timerEventsPending) {
-        //if (++timerEventsMomentum > 5) {
-        //    timerEventsMomentum = 0;
-        //}
-        
+
         if (bit_get(timerEventsPending, kCPUSensorsCoreThermalSensor)) {
             mp_rendezvous_no_intrs(read_cpu_thermal, NULL);
-            //bit_clear(timerEventsPending, kCPUSensorsCoreThermalSensor);
         }
         
-        if (bit_get(timerEventsPending, kCPUSensorsPackageThermalSensor)) {
+        if (bit_get(timerEventsPending, kCPUSensorsPackageThermalSensor)) {            
             mp_rendezvous_no_intrs(read_cpu_thermal_package, NULL);
-            //bit_clear(timerEventsPending, kCPUSensorsCoreThermalSensor);
         }
         
         if (bit_get(timerEventsPending, kCPUSensorsCoreMultiplierSensor)) {
             
             IOSleep(10);
             
-            if (baseMultiplier > 0)
+            if (baseMultiplier > 0) {   
                 mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
-            //mp_rendezvous_no_intrs(read_cpu_turbo, NULL);
-            //else
+            }
+            
             mp_rendezvous_no_intrs(read_cpu_state, NULL);
-            //bit_clear(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
         }
         
         if (bit_get(timerEventsPending, kCPUSensorsPackageMultiplierSensor)) {
+            UInt32 index = 0;
             
             IOSleep(10);
             
-            UInt32 index = 0;
-            if (baseMultiplier > 0)
+            if (baseMultiplier > 0) {
                 mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
-            //mp_rendezvous_no_intrs(read_cpu_turbo, &index);
-            //else
-            if (cpu_ratio[index] <= 1.0f)
+            }
+
+            if (cpu_ratio[index] <= 1.0f) {
                 mp_rendezvous_no_intrs(read_cpu_state, &index);
-            //bit_clear(timerEventsPending, kCPUSensorsPackageMultiplierSensor);
+            }
         }
         
         if (bit_get(timerEventsPending, kCPUSensorsTotalPowerSensor)) {
             UInt8 index = 0;
             read_cpu_energy(&index);
-            //bit_clear(timerEventsPending, kCPUSensorsTotalPowerSensor);
         }
         
         if (bit_get(timerEventsPending, kCPUSensorsCoresPowerSensor)) {
             UInt8 index = 1;
             read_cpu_energy(&index);
-            //bit_clear(timerEventsPending, kCPUSensorsCoresPowerSensor);
         }
         
         if (bit_get(timerEventsPending, kCPUSensorsUncorePowerSensor)) {
             UInt8 index = 2;
             read_cpu_energy(&index);
-            //bit_clear(timerEventsPending, kCPUSensorsUncorePowerSensor);
         }
         
         if (bit_get(timerEventsPending, kCPUSensorsDramPowerSensor)) {
             UInt8 index = 3;
             read_cpu_energy(&index);
-            //bit_clear(timerEventsPending, kCPUSensorsDramPowerSensor);
         }
 
         timerEventsPending = 0;
     }
         
     timerEventSource->setTimeoutMS(1000);
-    
-    //IOSimpleLockUnlock(workloopLock);
     
     return kIOReturnSuccess;
 }
@@ -787,7 +771,7 @@ bool CPUSensors::start(IOService *provider)
     registerService();
     
     // start timer
-    timerEventsMomentum = 0;
+    //timerEventsMomentum = 0;
     timerEventSource->setTimeoutMS(500);
     
     return true;

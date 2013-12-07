@@ -300,7 +300,7 @@
             </userDefinedRuntimeAttributes>
         </view>
         <view id="DpL-kB-CmT" userLabel="Menubar View">
-            <rect key="frame" x="0.0" y="0.0" width="608" height="501"/>
+            <rect key="frame" x="0.0" y="0.0" width="608" height="493"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="flb-gF-gPW">
@@ -339,25 +339,25 @@
                         </binding>
                     </connections>
                 </button>
-                <splitView dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T7L-vL-3Go">
-                    <rect key="frame" x="20" y="77" width="568" height="404"/>
+                <splitView vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T7L-vL-3Go">
+                    <rect key="frame" x="20" y="77" width="568" height="396"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
-                            <rect key="frame" x="0.0" y="0.0" width="279" height="404"/>
+                            <rect key="frame" x="0.0" y="0.0" width="280" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="hK2-oA-2Lv">
-                                <rect key="frame" x="1" y="1" width="277" height="402"/>
+                                <rect key="frame" x="1" y="1" width="278" height="394"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
-                                        <rect key="frame" x="0.0" y="0.0" width="277" height="402"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="278" height="394"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="2" height="2"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                         <tableColumns>
-                                            <tableColumn width="275" minWidth="40" maxWidth="1000" id="MsE-UD-elT">
+                                            <tableColumn width="276" minWidth="40" maxWidth="1000" id="MsE-UD-elT">
                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                     <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -371,11 +371,11 @@
                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                 <prototypeCellViews>
                                                     <tableCellView identifier="Group" id="04S-T8-RF0">
-                                                        <rect key="frame" x="1" y="1" width="275" height="18"/>
+                                                        <rect key="frame" x="1" y="1" width="276" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2KP-UC-hsa">
-                                                                <rect key="frame" x="0.0" y="-1" width="275" height="16"/>
+                                                                <rect key="frame" x="0.0" y="-1" width="276" height="16"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="16" id="4JN-Dq-HFh"/>
@@ -400,11 +400,11 @@
                                                         </connections>
                                                     </tableCellView>
                                                     <tableCellView identifier="Icon" id="vQA-Qc-QUK" customClass="PrefsSensorCell">
-                                                        <rect key="frame" x="1" y="21" width="275" height="18"/>
+                                                        <rect key="frame" x="1" y="21" width="276" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="NvJ-Zr-afP">
-                                                                <rect key="frame" x="25" y="1" width="250" height="15"/>
+                                                                <rect key="frame" x="25" y="1" width="251" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Icon" id="xjQ-Pq-5bo">
                                                                     <font key="font" size="12" name="Helvetica"/>
@@ -441,11 +441,11 @@
                                                         </connections>
                                                     </tableCellView>
                                                     <tableCellView identifier="Sensor" id="oLT-I2-lCv" customClass="PrefsSensorCell">
-                                                        <rect key="frame" x="1" y="41" width="275" height="18"/>
+                                                        <rect key="frame" x="1" y="41" width="276" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="I2d-Jf-Ucu">
-                                                                <rect key="frame" x="50" y="1" width="154" height="15"/>
+                                                                <rect key="frame" x="50" y="1" width="155" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Sensor" id="Jwx-vh-p97">
                                                                     <font key="font" size="12" name="Helvetica"/>
@@ -457,7 +457,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qIK-iV-DMn">
-                                                                <rect key="frame" x="206" y="1" width="63" height="15"/>
+                                                                <rect key="frame" x="207" y="1" width="63" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="59" id="6ny-67-n2Y"/>
@@ -523,11 +523,11 @@
                                                         </connections>
                                                     </tableCellView>
                                                     <tableCellView identifier="Drive" id="XEM-gv-c8I" customClass="PrefsSensorCell">
-                                                        <rect key="frame" x="1" y="61" width="275" height="18"/>
+                                                        <rect key="frame" x="1" y="61" width="276" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="hVN-ZJ-Dw4">
-                                                                <rect key="frame" x="50" y="1" width="154" height="15"/>
+                                                                <rect key="frame" x="50" y="1" width="155" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Sensor" id="Pg3-3f-NQr">
                                                                     <font key="font" size="12" name="Helvetica"/>
@@ -539,7 +539,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vu9-HS-wie">
-                                                                <rect key="frame" x="206" y="1" width="63" height="15"/>
+                                                                <rect key="frame" x="207" y="1" width="63" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="59" id="gua-AC-Cee"/>
@@ -616,7 +616,7 @@
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </clipView>
                             <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="400" id="5wY-Od-B8L"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="396" id="5wY-Od-B8L"/>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="gq4-Ya-NEc"/>
                             </constraints>
                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="lBr-2q-UJ8" customClass="RFOverlayScroller">
@@ -637,14 +637,14 @@
                             </userDefinedRuntimeAttributes>
                         </scrollView>
                         <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
-                            <rect key="frame" x="289" y="0.0" width="279" height="404"/>
+                            <rect key="frame" x="289" y="0.0" width="279" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="i8f-2e-Hgn">
-                                <rect key="frame" x="1" y="1" width="277" height="402"/>
+                                <rect key="frame" x="1" y="1" width="277" height="394"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="eYG-oD-xEa" customClass="SensorsTableView">
-                                        <rect key="frame" x="0.0" y="0.0" width="277" height="402"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="277" height="394"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="2" height="2"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -864,7 +864,7 @@
                             </clipView>
                             <constraints>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="1gL-Gc-RNX"/>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="400" id="fcX-ZS-PUx"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="396" id="fcX-ZS-PUx"/>
                             </constraints>
                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="ioU-Xn-atj" customClass="RFOverlayScroller">
                                 <rect key="frame" x="-100" y="-100" width="223" height="11"/>
