@@ -17,6 +17,7 @@
 #include "r600.h"
 #include "rv770.h"
 #include "si.h"
+#include "cik.h"
 #include "evergreen.h"
 
 #define super GPUSensors
@@ -271,13 +272,19 @@ bool RadeonSensors::managedStart(IOService *provider)
             case CHIP_FAMILY_PITCAIRN:
             case CHIP_FAMILY_VERDE:
             case CHIP_FAMILY_OLAND:
-            case CHIP_FAMILY_HAINAN:    
+            case CHIP_FAMILY_HAINAN: 
                 card.int_thermal_type = THERMAL_TYPE_SI;
                 break;
                 
-                //             default:
-                //                 radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);
-                //                 return false;
+            case CHIP_FAMILY_BONAIRE:
+            case CHIP_FAMILY_HAWAII:
+                card.int_thermal_type = THERMAL_TYPE_CI;
+                break;
+                
+            case CHIP_FAMILY_KAVERI:
+            case CHIP_FAMILY_KABINI:
+                card.int_thermal_type = THERMAL_TYPE_KV;
+                break;
         }
     }
     
@@ -304,6 +311,14 @@ bool RadeonSensors::managedStart(IOService *provider)
             case THERMAL_TYPE_SI:
                 card.get_core_temp = si_get_temp;
                 radeon_info(&card, "adding Southern Islands thermal sensor\n");
+                break;
+            case THERMAL_TYPE_CI:
+                card.get_core_temp = ci_get_temp;
+                radeon_info(&card, "adding Sea Islands (CI) thermal sensor\n");
+                break;
+            case THERMAL_TYPE_KV:
+                card.get_core_temp = kv_get_temp;
+                radeon_info(&card, "adding Sea Islands (Kaveri) thermal sensor\n");
                 break;
             default:
                 radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);

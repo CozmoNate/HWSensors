@@ -61,6 +61,7 @@
 		7EB13667169C288000B42023 /* radeon_atombios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB13665169C288000B42023 /* radeon_atombios.cpp */; };
 		7EB1366C169C2CE800B42023 /* atom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB1366A169C2CE700B42023 /* atom.cpp */; };
 		7EBEB1DB17B1754D00C114B5 /* GPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEB1D917B1754D00C114B5 /* GPUSensors.cpp */; };
+		7ECCB63E18537A7000D95FB4 /* cik.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCB63D18537A7000D95FB4 /* cik.cpp */; };
 		7EF759931835E39D00FB6CCD /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */; };
 		7EFF9534182AD69D00C637C8 /* FakeSMCKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9513182AD44700C637C8 /* FakeSMCKey.cpp */; };
 		7EFF9535182AD69D00C637C8 /* FakeSMCKeyHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9515182AD44700C637C8 /* FakeSMCKeyHandler.cpp */; };
@@ -220,6 +221,8 @@
 		7EBEB1DA17B1754D00C114B5 /* GPUSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUSensors.h; sourceTree = "<group>"; };
 		7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PTIDSensors.cpp; sourceTree = "<group>"; };
 		7EBEC2A215E78B7B00537027 /* PTIDSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTIDSensors.h; sourceTree = "<group>"; };
+		7ECCB63D18537A7000D95FB4 /* cik.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cik.cpp; sourceTree = "<group>"; };
+		7ECCB63F18537A7A00D95FB4 /* cik.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cik.h; sourceTree = "<group>"; };
 		7EFAE8FF16EBC8AD00F4DA72 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		7EFF9513182AD44700C637C8 /* FakeSMCKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FakeSMCKey.cpp; path = FakeSMCKeyStore/FakeSMCKey.cpp; sourceTree = SOURCE_ROOT; };
 		7EFF9514182AD44700C637C8 /* FakeSMCKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCKey.h; path = FakeSMCKeyStore/FakeSMCKey.h; sourceTree = SOURCE_ROOT; };
@@ -535,6 +538,8 @@
 				7E138D8D169A9112007BE068 /* rv770d.h */,
 				7E0EB89A169A9DBE000DF2B1 /* rv770.h */,
 				7E0EB899169A9DBE000DF2B1 /* rv770.cpp */,
+				7ECCB63F18537A7A00D95FB4 /* cik.h */,
+				7ECCB63D18537A7000D95FB4 /* cik.cpp */,
 				7E17E170169C532100E40FC7 /* si.h */,
 				7E17E16F169C532000E40FC7 /* si.cpp */,
 				7E138D89169A90D3007BE068 /* evergreend.h */,
@@ -995,6 +1000,7 @@
 				7E9F54AE167C71DA006E907B /* nva3.cpp in Sources */,
 				7E9F54B0167C71DA006E907B /* nvc0.cpp in Sources */,
 				7E9F54B2167C71DA006E907B /* nvclock_i2c.cpp in Sources */,
+				7ECCB63E18537A7000D95FB4 /* cik.cpp in Sources */,
 				7E9F54B4167C71DA006E907B /* nvd0.cpp in Sources */,
 				7E9F54B6167C71DA006E907B /* nve0.cpp in Sources */,
 				7E9F54B8167C71DA006E907B /* vga.cpp in Sources */,
