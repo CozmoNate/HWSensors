@@ -71,6 +71,7 @@ struct nouveau_device {
     
     nouveau_pm_temp_sensor_constants sensor_constants;
     nouveau_pm_voltage voltage;
+    nouveau_volt volt;
     nouveau_i2c i2c;
     
     I2CDevPtr nvclock_i2c_sensor;
@@ -85,7 +86,7 @@ struct nouveau_device {
 	int (*pwm_get)(struct nouveau_device *, int, u32*, u32*);
     
     int (*clocks_get)(struct nouveau_device *, u8);
-	int (*voltage_get)(struct nouveau_device *);
+	//int (*voltage_get)(struct nouveau_device *);
     int (*temp_get)(struct nouveau_device *);
 	int (*core_temp_get)(struct nouveau_device *);
     int (*board_temp_get)(struct nouveau_device *);

@@ -92,7 +92,7 @@ void nvc0_init(struct nouveau_device *device)
 
     device->temp_get = nv84_temp_get;
     device->clocks_get = nvc0_clocks_get;
-    device->voltage_get = nouveau_voltage_get;
+    //device->voltage_get = nouveau_voltage_get;
     device->pwm_get = nvd0_fan_pwm_get;
     device->fan_pwm_get = nouveau_therm_fan_pwm_get;
 }

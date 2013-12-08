@@ -83,7 +83,8 @@ float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
         }
         
         case kFakeSMCVoltageSensor:
-            return (float)card.voltage_get(&card) / 1000000.0f;
+            //return (float)card.voltage_get(&card) / 1000000.0f;
+            return (float)card.volt.get(&card) / 1000000.0f;
     }
     
     return 0;
@@ -262,7 +263,7 @@ bool GeforceSensors::managedStart(IOService *provider)
             addTachometer(nouveau_fan_pwm, title, GPU_FAN_PWM_CYCLE, card.card_index);
     }
     
-    if (card.voltage_get && card.voltage.supported) {
+    if (card.volt.get && card.volt.get(&card) > 0/*card.voltage_get && card.voltage.supported*/) {
         nv_debug(device, "registering voltage sensors...\n");
         snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, card.card_index);
         addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0);

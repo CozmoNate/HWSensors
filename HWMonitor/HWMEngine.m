@@ -312,6 +312,8 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
 
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidMountNotification object:nil];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidRenameVolumeNotification object:nil];
+    
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceWillSleep:) name:NSWorkspaceWillSleepNotification object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:nil];
 
@@ -585,12 +587,12 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
                         break;
 
                     case kHWMSensorsUpdateLoopOnlyFavorites:
-                        doUpdate = sensor.favorite != nil;
+                        doUpdate = sensor.favorites.count;
                         break;
 
                     case kHWMSensorsUpdateLoopRegular:
                     default:
-                        doUpdate = !sensor.hidden.boolValue || sensor.favorite;
+                        doUpdate = !sensor.hidden.boolValue || sensor.favorites.count;
                         break;
                 }
 
@@ -878,6 +880,8 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
 
 -(void)workspaceDidWake:(id)sender
 {
+    [self rebuildSensorsList];
+    
     if (_engineState == kHWMEngineStateActive) {
         [self internalStartEngine];
     }
@@ -1125,7 +1129,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
     if (!sensor) {
         sensor = [NSEntityDescription insertNewObjectForEntityForName:@"SmcSensor" inManagedObjectContext:self.managedObjectContext];
 
-        [group addSensorsObject:sensor];
+        [sensor setGroup:group];
     }
 
     [sensor setService:[NSNumber numberWithLongLong:connection]];
@@ -1276,7 +1280,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
     if (!sensor) {
         sensor = [NSEntityDescription insertNewObjectForEntityForName:@"AtaSmartSensor" inManagedObjectContext:self.managedObjectContext];
 
-        [group addSensorsObject:sensor];
+        [sensor setGroup:group];
     }
 
     [sensor setService:[attributes objectForKey:@"service"]];
@@ -1342,7 +1346,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
     if (!fan) {
         fan = [NSEntityDescription insertNewObjectForEntityForName:@"SmcFanSensor" inManagedObjectContext:self.managedObjectContext];
 
-        [group addSensorsObject:fan];
+        [fan setGroup:group];
     }
 
     [fan setService:[NSNumber numberWithLongLong:connection]];
@@ -1547,7 +1551,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
     if (!sensor) {
         sensor = [NSEntityDescription insertNewObjectForEntityForName:@"BatterySensor" inManagedObjectContext:self.managedObjectContext];
 
-        [group addSensorsObject:sensor];
+        [sensor setGroup:group];
     }
     
     [sensor setService:[attributes objectForKey:@"service"]];
@@ -1620,7 +1624,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
         if (!sensor.graph) {
             [sensor setGraph:[NSEntityDescription insertNewObjectForEntityForName:@"Graph" inManagedObjectContext:self.managedObjectContext]];
 
-            [group addGraphsObject:sensor.graph];
+            [sensor.graph setGroup:group];
             
             if (colorIndex++ >= [[HWMGraph graphColors] count]) {
                 colorIndex = 0;

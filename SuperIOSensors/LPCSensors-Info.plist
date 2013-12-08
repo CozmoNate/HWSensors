@@ -2961,6 +2961,82 @@
 						<key>VIN7</key>
 						<string>Standby 3V</string>
 					</dict>
+					<key>Z77 Extreme4</key>
+					<dict>
+						<key>FANIN0</key>
+						<string>Chassis Fan</string>
+						<key>FANIN1</key>
+						<string>CPU Fan</string>
+						<key>FANIN2</key>
+						<string>PSU Fan</string>
+						<key>FANIN3</key>
+						<string>System Fan</string>
+						<key>FANIN4</key>
+						<string>Aux Fan</string>
+						<key>TEMPIN0</key>
+						<string>CPU Heatsink</string>
+						<key>TEMPIN1</key>
+						<string></string>
+						<key>TEMPIN2</key>
+						<string>Ambient</string>
+						<key>TEMPIN3</key>
+						<string>Mainboard</string>
+						<key>TEMPIN4</key>
+						<string></string>
+						<key>TEMPIN5</key>
+						<string></string>
+						<key>TEMPIN6</key>
+						<string></string>
+						<key>TEMPIN7</key>
+						<string></string>
+						<key>TEMPIN8</key>
+						<string></string>
+						<key>VIN0</key>
+						<string>CPU Core</string>
+						<key>VIN1</key>
+						<dict>
+							<key>gain</key>
+							<integer>5597</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN2</key>
+						<string>Auxiliary 3V</string>
+						<key>VIN3</key>
+						<string>Main 3V</string>
+						<key>VIN4</key>
+						<dict>
+							<key>gain</key>
+							<integer>3920</integer>
+							<key>name</key>
+							<string>Standby 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
+						<dict>
+							<key>gain</key>
+							<integer>2000</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN6</key>
+						<string></string>
+						<key>VIN7</key>
+						<string></string>
+						<key>VIN8</key>
+						<string></string>
+					</dict>
 				</dict>
 				<key>ASUS</key>
 				<dict>

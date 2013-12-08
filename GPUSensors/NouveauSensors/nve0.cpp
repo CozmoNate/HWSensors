@@ -57,6 +57,9 @@ bool nve0_identify(struct nouveau_device *device)
         case 0xf1:
             device->cname = "GK110B";
             break;
+        case 0x108:
+            device->cname = "GK208";
+            break;
         default:
             nv_fatal(device, "unknown Kepler chipset 0x%x\n", device->chipset);
             return false;
@@ -69,10 +72,10 @@ void nve0_init(struct nouveau_device *device)
 {
     nvd0_therm_init(device);
     
-    device->gpio_sense = nvd0_gpio_sense;
+
     device->gpio_find = nouveau_gpio_find;
     device->gpio_get = nouveau_gpio_get;
-    
+    device->gpio_sense = nvd0_gpio_sense;
     device->temp_get = nv84_temp_get;
     device->clocks_get = nve0_clocks_get;
 //    device->voltage_get = nouveau_voltage_get;

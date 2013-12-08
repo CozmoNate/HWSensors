@@ -103,7 +103,7 @@ void nv40_init(struct nouveau_device *device)
     device->temp_get = nv40_temp_get;
     device->clocks_get = nv40_clocks_get;
     device->pwm_get = nv40_fan_pwm_get;
-    device->voltage_get = nouveau_voltage_get;
+    //device->voltage_get = nouveau_voltage_get;
     device->fan_pwm_get = nouveau_therm_fan_pwm_get;
     device->fan_rpm_get = nouveau_therm_fan_rpm_get;
     
