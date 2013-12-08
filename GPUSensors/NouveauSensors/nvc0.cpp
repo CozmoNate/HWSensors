@@ -183,8 +183,6 @@ static u32 read_mem(struct nouveau_device *device)
 
     if (device->card_type == NV_C0)
         return read_pll(device, 0x132000) / 4.0f;
-    else if (device->card_type >= NV_D0 && device->card_type <= NV_E0)
-        return read_pll(device, 0x132000) / 2.0f;
     
 	return read_pll(device, 0x132000);
 }
@@ -234,34 +232,6 @@ int nvc0_clocks_get(struct nouveau_device *device, u8 source)
             return read_clk(device, 0x0c);
         case nouveau_clock_copy:
             return read_clk(device, 0x09);
-    }
-    
-    return 0;
-}
-
-int nve0_clocks_get(struct nouveau_device *device, u8 source)
-{
-    switch (source) {
-        case nouveau_clock_core:
-            return read_clk(device, 0x00) / 2;
-//        case nouveau_clock_shader:
-//            return read_clk(device, 0x00);
-        case nouveau_clock_memory:
-            return read_mem(device);
-//        case nouveau_clock_rop:
-//            return read_clk(device, 0x01);
-//        case nouveau_clock_hub01:
-//            return read_clk(device, 0x08);
-//        case nouveau_clock_hub06:
-//            return read_clk(device, 0x07);
-//        case nouveau_clock_hub07:
-//            return read_clk(device, 0x02);
-//        case nouveau_clock_vdec:
-//            return read_clk(device, 0x0e);
-//        case nouveau_clock_daemon:
-//            return read_clk(device, 0x0c);
-//        case nouveau_clock_copy:
-//            return read_clk(device, 0x09);
     }
     
     return 0;

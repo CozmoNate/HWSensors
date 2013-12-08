@@ -70,7 +70,6 @@ struct nouveau_device {
     nvbios vbios;
     
     nouveau_pm_temp_sensor_constants sensor_constants;
-    nouveau_pm_voltage voltage;
     nouveau_volt volt;
     nouveau_i2c i2c;
     
