@@ -191,7 +191,7 @@ int nouveau_therm_fan_pwm_get(struct nouveau_device *device)
             return (duty * 100) / divs;
         }
         
-        //return device->gpio_get(device, 0, device->fan_pwm.func, device->fan_pwm.line) * 100;
+        return device->gpio_get(device, 0, device->fan_pwm.func, device->fan_pwm.line) * 100;
     }
     
     return -EIO;
