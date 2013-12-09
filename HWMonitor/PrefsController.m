@@ -39,6 +39,7 @@
 #import "HWMItem.h"
 #import "HWMIcon.h"
 #import "HWMSensor.h"
+#import "HWMBatterySensor.h"
 
 @implementation PrefsController
 
@@ -247,6 +248,8 @@
     
     _previousViewTag = tag;
     
+    //[view layoutSubtreeIfNeeded];
+    
     NSRect newFrame = [self newFrameForNewContentView:view];
     
     if (previousView) {
@@ -259,6 +262,7 @@
             [previousView removeFromSuperview];
         }
     }
+    
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         [context setDuration:[[NSApp currentEvent] modifierFlags] & NSShiftKeyMask ? 1.0 : 0.2];
         [[[self window] animator] setFrame:newFrame display:YES];
@@ -321,6 +325,13 @@
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
+    if (tableView == _favoritesTableView && row > 0 && [[_monitorEngine.favoriteItems objectAtIndex:row - 1] isKindOfClass:[HWMBatterySensor class]]) {
+        return  29;
+    }
+    else if (tableView == _sensorsTableView && row > 0 && [[_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:row - 1] isKindOfClass:[HWMBatterySensor class]]) {
+        return  29;
+    }
+    
     return 19;
 }
 

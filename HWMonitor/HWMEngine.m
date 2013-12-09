@@ -237,6 +237,10 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
             NSMutableArray *items = [[NSMutableArray alloc] init];
             
             for (HWMFavorite *favorite in _configuration.favorites) {
+                if ([favorite.item isKindOfClass:[HWMSensor class]] && ![(HWMSensor*)favorite.item service].unsignedLongLongValue) {
+                    continue;
+                }
+                
                 [items addObject:favorite.item];
             }
             
@@ -1560,7 +1564,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
     [sensor doUpdateValue];
 
     // TEST BATTERY
-    //[sensor setValue:@49]; 
+    //    [sensor setValue:@49]; 
     
     if (sensor.value) {
 
@@ -1626,7 +1630,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
 
             [sensor.graph setGroup:group];
             
-            if (colorIndex++ >= [[HWMGraph graphColors] count]) {
+            if (++colorIndex >= [[HWMGraph graphColors] count]) {
                 colorIndex = 0;
             }
             

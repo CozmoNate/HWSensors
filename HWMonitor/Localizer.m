@@ -192,10 +192,6 @@
         NSString *tooltip = [view toolTip];
         [view setToolTip:GetLocalizedString(tooltip)];
     }
-    
-    if ([view respondsToSelector:@selector(layout)]) {
-        [view layout];
-    }
 }
 
 
