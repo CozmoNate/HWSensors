@@ -31,7 +31,9 @@
 #import "HWMGraph.h"
 #import "HWMIcon.h"
 #import "HWMSensorsGroup.h"
+#import "HWMSensor.h"
 
+NSString * const HWMGraphsGroupHistoryHasBeenChangedNotification = @"HWMGraphsGroupHistoryHasBeenChangedNotification";
 
 @implementation HWMGraphsGroup
 
@@ -40,6 +42,9 @@
 @dynamic icon;
 
 @synthesize selectors;
+
+@synthesize maxGraphsValue = _maxGraphsValue;
+@synthesize minGraphsValue = _minGraphsValue;
 
 -(void)addGraphsObject:(HWMGraph *)value
 {
@@ -55,6 +60,26 @@
     NSUInteger fromIndex = [self.graphs indexOfObject:value];
     
     [[self mutableOrderedSetValueForKey:@"graphs"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:fromIndex < toIndex || toIndex == self.graphs.count ? toIndex - 1 : toIndex];
+}
+
+-(void)captureSensorValuesToGraphsHistorySetLimit:(NSUInteger)limit
+{
+    @synchronized (self) {
+        for (HWMGraph *graph in self.graphs) {
+            
+            [graph captureSensorValueToHistorySetLimit:limit];
+            
+            if (!_maxGraphsValue || (graph.historyMaxValue && [_maxGraphsValue isLessThan:graph.historyMaxValue])) {
+                _maxGraphsValue = [graph.historyMaxValue copy];
+            }
+            
+            if (!_minGraphsValue || (graph.historyMinValue && [_minGraphsValue isGreaterThan:graph.historyMinValue])) {
+                _minGraphsValue = [graph.historyMinValue copy];
+            }
+        }
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:HWMGraphsGroupHistoryHasBeenChangedNotification object:self];
 }
 
 @end

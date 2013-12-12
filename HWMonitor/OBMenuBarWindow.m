@@ -85,7 +85,11 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
 -(void)setStatusItemView:(NSView *)newStatusItemView
 {
-    if (newStatusItemView)
+    if (statusItemView == newStatusItemView) {
+        return;
+    }
+    
+    if (newStatusItemView && statusItemView != newStatusItemView)
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusItemViewDidMove:) name:NSWindowDidMoveNotification object:newStatusItemView.window];
     }

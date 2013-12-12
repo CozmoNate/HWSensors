@@ -30,6 +30,8 @@
 #import <CoreData/CoreData.h>
 #import "HWMItem.h"
 
+extern NSString * const HWMGraphsGroupHistoryHasBeenChangedNotification;
+
 @class HWMConfiguration, HWMGraph, HWMIcon, HWMSensorsGroup;
 
 @interface HWMGraphsGroup : HWMItem
@@ -39,6 +41,11 @@
 @property (nonatomic, retain) HWMIcon *icon;
 
 @property (nonatomic, strong) NSArray *selectors;
+
+@property (readonly) NSNumber *maxGraphsValue;
+@property (readonly) NSNumber *minGraphsValue;
+
+-(void)captureSensorValuesToGraphsHistorySetLimit:(NSUInteger)limit;
 
 @end
 

@@ -103,6 +103,8 @@
 "Built-in Battery" = "Встроенный аккумулятор";
 "Internal Battery" = "Внутренний аккумулятор";
 
+"Show sensor in popup menu" = "Показывать датчик во всплывающем меню";
+
 "HWSensors Updater" = "Обновления HWSensors";
 "New HWSensors version %@ is available to download. You have %@. Download newer version?" = "Появилась новая версия HWSensors v%@. Вы используете v%@. Скачать новую версию?";
 "Update" = "Обновить";

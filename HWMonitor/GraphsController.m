@@ -53,32 +53,6 @@
 #pragma mark
 #pragma mark Properties
 
--(void)setMonitorEngine:(HWMEngine *)monitorEngine
-{
-    if (_monitorEngine != monitorEngine) {
-
-        if (_monitorEngine) {
-//            [[NSNotificationCenter defaultCenter] removeObserver:self name:HWMEngineSensorsHasBenUpdatedNotification object:_monitorEngine];
-//
-//            [self removeObserver:_monitorEngine forKeyPath:@"graphsAndGroups"];
-//            [self removeObserver:_monitorEngine forKeyPath:@"configuration.graphsWindowAlwaysTopmost"];
-//            [self removeObserver:_monitorEngine forKeyPath:@"configuration.useGraphSmoothing"];
-//            [self removeObserver:_monitorEngine forKeyPath:@"configuration.graphsScaleValue"];
-        }
-
-        _monitorEngine = monitorEngine;
-
-        if (_monitorEngine) {
-//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorsHasBenUpdatedNotification object:_monitorEngine];
-//
-//            [self addObserver:_monitorEngine forKeyPath:@"graphsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
-//            [self addObserver:_monitorEngine forKeyPath:@"configuration.graphsWindowAlwaysTopmost" options:NSKeyValueObservingOptionNew context:nil];
-//            [self addObserver:_monitorEngine forKeyPath:@"configuration.useGraphSmoothing" options:NSKeyValueObservingOptionNew context:nil];
-//            [self addObserver:_monitorEngine forKeyPath:@"configuration.graphsScaleValue" options:NSKeyValueObservingOptionNew context:nil];
-        }
-    }
-}
-
 -(HWMonitorItem *)selectedItem
 {
     if (_graphsTableView.selectedRow >= 0 && _graphsTableView.selectedRow < _monitorEngine.graphsAndGroups.count) {
@@ -113,7 +87,7 @@
             [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
             [self rebuildViews];
 
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorsHasBeenUpdatedNotification object:_monitorEngine];
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:_monitorEngine];
             
             [_graphsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorGraphsItemDataType]];
             [_graphsTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
@@ -186,28 +160,30 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqual:@"monitorEngine.graphsAndGroups"]) {
-        [self rebuildViews];
-    }
-    else if ([keyPath isEqual:@"monitorEngine.configuration.graphsWindowAlwaysTopmost"]) {
-        [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
-    }
-    else if ([keyPath isEqual:@"monitorEngine.configuration.useGraphSmoothing"]) {
-        [self graphsNeedDisplay:self];
-    }
-    else if ([keyPath isEqual:@"monitorEngine.configuration.graphsScaleValue"]) {
-        [self graphsNeedDisplay:self];
-    }
-}
-
--(void)sensorValuesHasBeenUpdated
-{
-    if ([self.window isVisible] || _monitorEngine.configuration.updateSensorsInBackground.boolValue) {
-        for (GraphsView *view in _graphViews) {
-            [view captureDataToHistoryNow];
+    if (_monitorEngine) {
+        if ([keyPath isEqual:@"monitorEngine.graphsAndGroups"]) {
+            [self rebuildViews];
+        }
+        else if ([keyPath isEqual:@"monitorEngine.configuration.graphsWindowAlwaysTopmost"]) {
+            [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
+        }
+        else if ([keyPath isEqual:@"monitorEngine.configuration.useGraphSmoothing"]) {
+            [self graphsNeedDisplay:self];
+        }
+        else if ([keyPath isEqual:@"monitorEngine.configuration.graphsScaleValue"]) {
+            [self graphsNeedDisplay:self];
         }
     }
 }
+
+//-(void)sensorValuesHasBeenUpdated
+//{
+//    if ([self.window isVisible] || _monitorEngine.configuration.updateSensorsInBackground.boolValue) {
+//        for (GraphsView *view in _graphViews) {
+//            [view captureDataToHistoryNow];
+//        }
+//    }
+//}
 
 -(IBAction)graphsNeedDisplay:(id)sender
 {

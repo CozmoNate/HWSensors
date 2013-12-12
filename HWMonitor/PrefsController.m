@@ -97,9 +97,9 @@
             [Localizer localizeView:_popupPrefsView];
             [Localizer localizeView:_graphsPrefsView];
             
-            [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
+            [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPrefsItemDataType]];
             [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
-            [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorTableViewDataType]];
+            [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPrefsItemDataType]];
             [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
             
             _previousViewTag = -1;
@@ -290,7 +290,7 @@
 
 - (HWMSensorsUpdateLoopStrategy)updateLoopStrategyForEngine:(HWMEngine*)engine
 {
-    if (self.window.isVisible || _graphsController.window.isVisible || _monitorEngine.configuration.updateSensorsInBackground.boolValue) {
+    if (self.window.isVisible || _graphsController.window.isVisible) {
         return kHWMSensorsUpdateLoopForced;
     }
     else if (_popupController.window.isVisible) {
@@ -298,6 +298,13 @@
     }
     
     return kHWMSensorsUpdateLoopOnlyFavorites;
+}
+
+-(BOOL)engine:(HWMEngine *)engine shouldCaptureSensorValuesSetLimit:(NSUInteger *)limit
+{
+    *limit = (NSUInteger)_graphsController.graphsCollectionView.frame.size.width;
+    
+    return _graphsController.window.isVisible || _monitorEngine.configuration.updateSensorsInBackground;
 }
 
 #pragma mark
@@ -375,16 +382,20 @@
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
+    NSView *view = nil;
+    
     if (tableView == _favoritesTableView) {
         if (row == 0) {
             PopupGroupCell *groupCell = [tableView makeViewWithIdentifier:@"Group" owner:self];
             
             [[groupCell textField] setStringValue:GetLocalizedString(@"Menubar items")];
             
-            return groupCell;
+            view = groupCell;
         }
-        
-        return [tableView makeViewWithIdentifier:[[[_monitorEngine favoriteItems] objectAtIndex:row - 1] identifier] owner:self];
+        else {
+            HWMItem *item = [[_monitorEngine favoriteItems] objectAtIndex:row - 1];
+            view = [tableView makeViewWithIdentifier:item.identifier owner:self];
+        }
     }
     else if (tableView == _sensorsTableView) {
         if (row == 0) {
@@ -392,14 +403,17 @@
             
             [[groupCell textField] setStringValue:GetLocalizedString(@"Icons")];
             
-            return groupCell;
+            view = groupCell;
         }
-        
-        HWMItem *item = [_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:row - 1];
-        return [tableView makeViewWithIdentifier:item.identifier owner:self];
+        else {
+            HWMItem *item = [_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:row - 1];
+            view = [tableView makeViewWithIdentifier:item.identifier owner:self];
+        }
     }
     
-    return nil;
+    [Localizer localizeView:view];
+    
+    return view;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
@@ -417,8 +431,8 @@
         
         NSData *indexData = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
         
-        [pboard declareTypes:[NSArray arrayWithObjects:kHWMonitorTableViewDataType, nil] owner:self];
-        [pboard setData:indexData forType:kHWMonitorTableViewDataType];
+        [pboard declareTypes:[NSArray arrayWithObjects:kHWMonitorPrefsItemDataType, nil] owner:self];
+        [pboard setData:indexData forType:kHWMonitorPrefsItemDataType];
         
         _hasDraggedFavoriteItem = YES;
     }
@@ -436,8 +450,8 @@
         
         NSData *indexData = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
         
-        [pboard declareTypes:[NSArray arrayWithObjects:kHWMonitorTableViewDataType, nil] owner:self];
-        [pboard setData:indexData forType:kHWMonitorTableViewDataType];
+        [pboard declareTypes:[NSArray arrayWithObjects:kHWMonitorPrefsItemDataType, nil] owner:self];
+        [pboard setData:indexData forType:kHWMonitorPrefsItemDataType];
         
         _hasDraggedFavoriteItem = NO;
     }
@@ -447,14 +461,14 @@
 
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)toRow proposedDropOperation:(NSTableViewDropOperation)dropOperation;
 {
-    //_currentItemDragOperation = NSDragOperationNone;
+    _currentItemDragOperation = NSDragOperationNone;
     
     if (tableView == _favoritesTableView) {
         
         [tableView setDropRow:toRow dropOperation:NSTableViewDropAbove];
         
         NSPasteboard* pboard = [info draggingPasteboard];
-        NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
+        NSData* rowData = [pboard dataForType:kHWMonitorPrefsItemDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
         
@@ -475,7 +489,7 @@
         [tableView setDropRow:toRow dropOperation:NSTableViewDropAbove];
         
         NSPasteboard* pboard = [info draggingPasteboard];
-        NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
+        NSData* rowData = [pboard dataForType:kHWMonitorPrefsItemDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex] - 1;
         toRow -= 1;
@@ -525,7 +539,7 @@
     if (tableView == _favoritesTableView && (operation == NSDragOperationDelete || _currentItemDragOperation == NSDragOperationDelete))
     {
         NSPasteboard* pboard = [session draggingPasteboard];
-        NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
+        NSData* rowData = [pboard dataForType:kHWMonitorPrefsItemDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         
         [_monitorEngine removeItemFromFavoritesAtIndex:[rowIndexes firstIndex] - 1];
@@ -539,7 +553,7 @@
     if (tableView == _favoritesTableView) {
         
         NSPasteboard* pboard = [info draggingPasteboard];
-        NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
+        NSData* rowData = [pboard dataForType:kHWMonitorPrefsItemDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
         
@@ -563,7 +577,7 @@
         NSInteger destinationRow = toRow - 1;
         
         NSPasteboard* pboard = [info draggingPasteboard];
-        NSData* rowData = [pboard dataForType:kHWMonitorTableViewDataType];
+        NSData* rowData = [pboard dataForType:kHWMonitorPrefsItemDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger sourceRow = [rowIndexes firstIndex] - 1;
         

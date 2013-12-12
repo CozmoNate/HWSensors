@@ -32,8 +32,6 @@
 @interface GraphsView : NSView
 {
     NSRect _graphBounds;
-    double _minY;
-    double _maxY;
     double _maxPoints;
 
     NSDictionary *_legendAttributes;
@@ -46,7 +44,6 @@
 
 @property (nonatomic, strong) HWMGraphsGroup *graphsGroup;
 
-- (void)calculateGraphBoundsFindExtremes:(BOOL)findExtremes;
-- (void)captureDataToHistoryNow;
+- (void)calculateGraphBounds;
 
 @end

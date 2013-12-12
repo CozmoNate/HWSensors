@@ -27,7 +27,7 @@
 
 #import "SmcHelper.h"
 
-NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
+NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
 @implementation HWMEngine
 
@@ -465,7 +465,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
         [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
     }
 
-    _smcAndDevicesSensorsUpdateLoopTimer = [NSTimer timerWithTimeInterval:self.configuration.smcSensorsUpdateRate.floatValue target:self selector:@selector(updateSmcAndDevicesSensors) userInfo:nil repeats:YES];
+    _smcAndDevicesSensorsUpdateLoopTimer = [NSTimer timerWithTimeInterval:_configuration.smcSensorsUpdateRate.floatValue target:self selector:@selector(updateSmcAndDevicesSensors) userInfo:nil repeats:YES];
 
     [[NSRunLoop mainRunLoop] addTimer:_smcAndDevicesSensorsUpdateLoopTimer forMode:NSRunLoopCommonModes];
 }
@@ -480,7 +480,7 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
         [_ataSmartSensorsUpdateLoopTimer invalidate];
     }
 
-    _ataSmartSensorsUpdateLoopTimer = [NSTimer timerWithTimeInterval:self.configuration.smartSensorsUpdateRate.floatValue * 60.0f target:self selector:@selector(updateAtaSmartSensors) userInfo:nil repeats:YES];
+    _ataSmartSensorsUpdateLoopTimer = [NSTimer timerWithTimeInterval:_configuration.smartSensorsUpdateRate.floatValue * 60.0f target:self selector:@selector(updateAtaSmartSensors) userInfo:nil repeats:YES];
 
     [[NSRunLoop mainRunLoop] addTimer:_ataSmartSensorsUpdateLoopTimer forMode:NSRunLoopCommonModes];
 }
@@ -537,29 +537,45 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
         }
 
         for (HWMSensor *sensor in _smcAndDevicesSensors) {
-            BOOL doUpdate = FALSE;
+            BOOL doUpdate = NO;
 
-            switch (self.updateLoopStrategy) {
-                case kHWMSensorsUpdateLoopForced:
-                    doUpdate = YES;
-                    break;
+            if (_configuration.updateSensorsInBackground.boolValue) {
+                doUpdate = YES;
+            }
+            else {
+                switch (self.updateLoopStrategy) {
+                    case kHWMSensorsUpdateLoopForced:
+                        doUpdate = YES;
+                        break;
 
-                case kHWMSensorsUpdateLoopOnlyFavorites:
-                    doUpdate = sensor.favorites.count;
-                    break;
+                    case kHWMSensorsUpdateLoopOnlyFavorites:
+                        doUpdate = sensor.favorites.count;
+                        break;
 
-                case kHWMSensorsUpdateLoopRegular:
-                default:
-                    doUpdate = !sensor.hidden.boolValue || sensor.favorites.count;
-                    break;
+                    case kHWMSensorsUpdateLoopRegular:
+                    default:
+                        doUpdate = !sensor.hidden.boolValue || sensor.favorites.count;
+                        break;
+                }
             }
 
             if (doUpdate) {
                 [sensor doUpdateValue];
             }
         }
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesSetLimit:)]) {
+            
+            NSUInteger limit;
+            
+            if ([self.delegate engine:self shouldCaptureSensorValuesSetLimit:&limit]) {
+                for (HWMGraphsGroup *graphsGroup in self.configuration.graphGroups) {
+                    [graphsGroup captureSensorValuesToGraphsHistorySetLimit:limit];
+                }
+            }
+        }
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorsHasBeenUpdatedNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorValuesHasBeenUpdatedNotification object:self];
     }
 }
 
@@ -582,22 +598,26 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
 
         if (_ataSmartSensors) {
             for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
+                BOOL doUpdate = NO;
 
-                BOOL doUpdate = FALSE;
+                if (_configuration.updateSensorsInBackground.boolValue) {
+                    doUpdate = YES;
+                }
+                else {
+                    switch (self.updateLoopStrategy) {
+                        case kHWMSensorsUpdateLoopForced:
+                            doUpdate = YES;
+                            break;
 
-                switch (self.updateLoopStrategy) {
-                    case kHWMSensorsUpdateLoopForced:
-                        doUpdate = YES;
-                        break;
+                        case kHWMSensorsUpdateLoopOnlyFavorites:
+                            doUpdate = sensor.favorites.count;
+                            break;
 
-                    case kHWMSensorsUpdateLoopOnlyFavorites:
-                        doUpdate = sensor.favorites.count;
-                        break;
-
-                    case kHWMSensorsUpdateLoopRegular:
-                    default:
-                        doUpdate = !sensor.hidden.boolValue || sensor.favorites.count;
-                        break;
+                        case kHWMSensorsUpdateLoopRegular:
+                        default:
+                            doUpdate = !sensor.hidden.boolValue || sensor.favorites.count;
+                            break;
+                    }
                 }
 
                 if (doUpdate) {
@@ -610,7 +630,18 @@ NSString * const HWMEngineSensorsHasBeenUpdatedNotification = @"HWMEngineSensors
             
             [HWMSmartPlugInInterfaceWrapper destroyAllWrappers];
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorsHasBeenUpdatedNotification object:self];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesSetLimit:)]) {
+                
+                NSUInteger limit;
+                
+                if ([self.delegate engine:self shouldCaptureSensorValuesSetLimit:&limit]) {
+                    for (HWMGraphsGroup *graphsGroup in self.configuration.graphGroups) {
+                        [graphsGroup captureSensorValuesToGraphsHistorySetLimit:limit];
+                    }
+                }
+            }
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorValuesHasBeenUpdatedNotification object:self];
         }
     }
 }

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const HWMEngineSensorsHasBeenUpdatedNotification;
+extern NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification;
 
 typedef enum {
     kHWMEngineNoninitialized = 0,
@@ -34,6 +34,7 @@ typedef enum {
 @protocol HWMEngineDelegate <NSObject>
 @optional
 - (HWMSensorsUpdateLoopStrategy)updateLoopStrategyForEngine:(HWMEngine*)engine;
+- (BOOL)engine:(HWMEngine*)engine shouldCaptureSensorValuesSetLimit:(NSUInteger *)limit;
 @end
 
 @interface HWMEngine : NSObject

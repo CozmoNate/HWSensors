@@ -51,13 +51,13 @@
     if (_monitorEngine != monitorEngine) {
 
         if (_monitorEngine) {
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:HWMEngineSensorsHasBeenUpdatedNotification object:_monitorEngine];
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:HWMEngineSensorValuesHasBeenUpdatedNotification object:_monitorEngine];
         }
 
         _monitorEngine = monitorEngine;
 
         if (_monitorEngine) {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:HWMEngineSensorsHasBeenUpdatedNotification object:_monitorEngine];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:_monitorEngine];
         }
     }
 }

@@ -351,14 +351,14 @@
                     <rect key="frame" x="20" y="77" width="560" height="396"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
                             <rect key="frame" x="0.0" y="0.0" width="276" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="hK2-oA-2Lv">
                                 <rect key="frame" x="1" y="1" width="274" height="394"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="18" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
+                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
                                         <rect key="frame" x="0.0" y="0.0" width="274" height="394"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>
@@ -490,7 +490,7 @@
                                                                     <binding destination="oLT-I2-lCv" name="value" keyPath="objectValue.group.icon.regular" id="BCJ-1z-Z8g"/>
                                                                 </connections>
                                                             </imageView>
-                                                            <button translatesAutoresizingMaskIntoConstraints="NO" id="gvw-KH-FTl">
+                                                            <button toolTip="Show sensor in popup menu" translatesAutoresizingMaskIntoConstraints="NO" id="gvw-KH-FTl">
                                                                 <rect key="frame" x="28" y="0.0" width="17" height="17"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
@@ -537,7 +537,7 @@
                                                             <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="hVN-ZJ-Dw4">
                                                                 <rect key="frame" x="51" y="2" width="151" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Sensor" id="Pg3-3f-NQr">
+                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Drive" id="Pg3-3f-NQr">
                                                                     <font key="font" size="12" name="Helvetica"/>
                                                                     <color key="textColor" white="0.24883097630000001" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -572,7 +572,7 @@
                                                                     <binding destination="XEM-gv-c8I" name="value" keyPath="objectValue.group.icon.regular" id="DsZ-sT-c9F"/>
                                                                 </connections>
                                                             </imageView>
-                                                            <button translatesAutoresizingMaskIntoConstraints="NO" id="abd-O3-qM3">
+                                                            <button toolTip="Show sensor in popup menu" translatesAutoresizingMaskIntoConstraints="NO" id="abd-O3-qM3">
                                                                 <rect key="frame" x="28" y="0.0" width="17" height="17"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
@@ -619,7 +619,7 @@
                                                             <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="QFd-3a-uuj">
                                                                 <rect key="frame" x="51" y="12" width="151" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Sensor" id="5HW-oB-Ygw">
+                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Battery" id="5HW-oB-Ygw">
                                                                     <font key="font" size="12" name="Helvetica"/>
                                                                     <color key="textColor" white="0.24883097630000001" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -654,7 +654,7 @@
                                                                     <binding destination="Egb-yX-hVd" name="value" keyPath="objectValue.group.icon.regular" id="GYt-lP-Nds"/>
                                                                 </connections>
                                                             </imageView>
-                                                            <button translatesAutoresizingMaskIntoConstraints="NO" id="iyT-M5-6ew">
+                                                            <button toolTip="Show sensor in popup menu" translatesAutoresizingMaskIntoConstraints="NO" id="iyT-M5-6ew">
                                                                 <rect key="frame" x="28" y="12" width="17" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
@@ -903,7 +903,7 @@
                                                             <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="XNZ-9y-hmf">
                                                                 <rect key="frame" x="26" y="1" width="177" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Sensor" id="WjR-HR-mWy">
+                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Drive" id="WjR-HR-mWy">
                                                                     <font key="font" size="12" name="Helvetica"/>
                                                                     <color key="textColor" white="0.24883097630000001" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -962,7 +962,7 @@
                                                             <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="8r5-Xn-bme">
                                                                 <rect key="frame" x="26" y="12" width="177" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Sensor" id="41Z-v3-T8D">
+                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Battery" id="41Z-v3-T8D">
                                                                     <font key="font" size="12" name="Helvetica"/>
                                                                     <color key="textColor" white="0.24883097630000001" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1061,6 +1061,9 @@
                             </userDefinedRuntimeAttributes>
                         </scrollView>
                     </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="396" id="AMq-eS-QUf"/>
+                    </constraints>
                     <holdingPriorities>
                         <real value="250"/>
                         <real value="250"/>

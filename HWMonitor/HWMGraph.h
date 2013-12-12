@@ -44,8 +44,10 @@
 @property (nonatomic, retain) HWMGraphsGroup *group;
 
 @property (readonly) NSArray *history;
+@property (readonly) NSNumber *historyMaxValue;
+@property (readonly) NSNumber *historyMinValue;
 
 + (const NSArray*)graphColors;
-- (void)captureValueToHistorySetLimit:(NSUInteger)limit;
+- (void)captureSensorValueToHistorySetLimit:(NSUInteger)limit;
 
 @end

@@ -39,6 +39,9 @@ const NSArray * gHWMGraphsGroupColors;
 @dynamic sensor;
 @dynamic group;
 
+@synthesize historyMaxValue = _historyMaxValue;
+@synthesize historyMinValue = _historyMinValue;
+
 +(const NSArray*)graphColors
 {
     if (!gHWMGraphsGroupColors) {
@@ -71,7 +74,7 @@ const NSArray * gHWMGraphsGroupColors;
     return _history;
 }
 
-- (void)captureValueToHistorySetLimit:(NSUInteger)limit
+- (void)captureSensorValueToHistorySetLimit:(NSUInteger)limit
 {
     if (!self.sensor.value) {
         return;
@@ -81,6 +84,14 @@ const NSArray * gHWMGraphsGroupColors;
         _history = [[NSMutableArray alloc] init];
     }
 
+    if (!_historyMaxValue || [_historyMaxValue isLessThan:self.sensor.value]) {
+        _historyMaxValue = [self.sensor.value copy];
+    }
+    
+    if (!_historyMinValue || [_historyMinValue isGreaterThan:self.sensor.value]) {
+        _historyMinValue = [self.sensor.value copy];
+    }
+    
     [_history addObject:[self.sensor.value copy]];
 
     if (_history.count > limit) {
