@@ -30,7 +30,7 @@
 #import "HWMonitorDefinitions.h"
 
 #import "PopupGroupCell.h"
-#import "PrefsSensorCell.h"
+#import "PrefsCell.h"
 
 #import "Localizer.h"
 

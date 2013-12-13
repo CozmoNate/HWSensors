@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-@interface PrefsSensorCell : NSTableCellView
+@interface PrefsCell : NSTableCellView
 
 @property (assign) IBOutlet NSTextField *valueField;
 @property (assign) IBOutlet NSButton *checkBox;
