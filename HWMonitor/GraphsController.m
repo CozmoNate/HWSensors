@@ -135,12 +135,14 @@
     }
 
     for (HWMGraphsGroup *group in _monitorEngine.configuration.graphGroups) {
-        GraphsView *graphView = [[GraphsView alloc] init];
+        if (group.graphs && group.graphs.count) {
+            GraphsView *graphView = [[GraphsView alloc] init];
 
-        [graphView setGraphsController:self];
-        [graphView setGraphsGroup:group];
+            [graphView setGraphsController:self];
+            [graphView setGraphsGroup:group];
 
-        [_graphViews addObject:graphView];
+            [_graphViews addObject:graphView];
+        }
     }
 
     [_graphsCollectionView setContent:_graphViews];

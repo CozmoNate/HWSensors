@@ -26,6 +26,6 @@
 // Misc
 #define kHWMonitorPrefsItemDataType         @"kHWMonitorPrefsItemDataType"
 #define kHWMonitorPopupItemDataType         @"kHWMonitorPopupItemDataType"
-#define kHWMonitorGraphsItemDataType         @"kHWMonitorGraphsItemDataType"
+#define kHWMonitorGraphsItemDataType        @"kHWMonitorGraphsItemDataType"
 
 #endif
