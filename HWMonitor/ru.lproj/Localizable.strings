@@ -96,6 +96,7 @@
 "Detach from Menu Bar" = "Отсоеденить панель";
 "Hide Window" = "Скрыть окно";
 "Version %@" = "Версия %@";
+"Detect sensors" = "Искать новые датчики";
 
 "Mouse" = "Мышь";
 "Keyboard" = "Клавиатура";

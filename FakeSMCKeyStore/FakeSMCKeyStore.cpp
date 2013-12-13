@@ -80,7 +80,7 @@ FakeSMCKey *FakeSMCKeyStore::addKeyWithValue(const char *name, const char *type,
 {
     if (FakeSMCKey *key = getKey(name)) {
 
-        if (type && strncmp(type, key->getType(), 4) == 0) {
+        if (type && strncmp(type, key->getType(), 4) != 0) {
             key->setType(type);
         }
 
@@ -137,7 +137,7 @@ FakeSMCKey *FakeSMCKeyStore::addKeyWithValue(const char *name, const char *type,
             }
         }
 
-		HWSensorsDebugLog("value updated for key %s, type: %s, size: %d", name, type, size);
+		HWSensorsDebugLog("value updated for key %s, type: %s, size: %d", key->getKey(), key->getType(), key->getSize());
 
 		return key;
 	}

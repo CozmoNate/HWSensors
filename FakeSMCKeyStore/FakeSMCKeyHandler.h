@@ -37,7 +37,7 @@ class FakeSMCKeyHandler : public IOService {
 public:
     UInt32              getProbeScore();
     virtual IOReturn    getValueCallback(const char *key, const char *type, const UInt8 size, void *buffer);
-    virtual IOReturn    setValueForKey(const char *key, const char *type, const UInt8 size, const void *value);
+    virtual IOReturn    setValueCallback(const char *key, const char *type, const UInt8 size, const void *value);
 
 };
 

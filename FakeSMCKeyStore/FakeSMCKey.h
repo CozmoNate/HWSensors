@@ -65,8 +65,8 @@ public:
     
 	const char          *getKey();
 	const char          *getType();
-	UInt8               getSize() const;
-	void                *getValue();
+	const UInt8         getSize() const;
+	const void          *getValue();
     FakeSMCKeyHandler   *getHandler();
 	
     bool                setType(const char *aType);

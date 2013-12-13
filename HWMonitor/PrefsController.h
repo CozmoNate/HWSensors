@@ -58,5 +58,6 @@
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
 
 - (IBAction)checkForUpdates:(id)sender;
+- (IBAction)rebuildSensorsList:(id)sender;
 
 @end

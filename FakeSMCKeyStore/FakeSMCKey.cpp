@@ -126,20 +126,23 @@ const char *FakeSMCKey::getKey() { return key; };
 
 const char *FakeSMCKey::getType() { return type; };
 
-UInt8 FakeSMCKey::getSize() const { return size; };
+const UInt8 FakeSMCKey::getSize() const { return size; };
 
-void *FakeSMCKey::getValue() 
+const void *FakeSMCKey::getValue() 
 { 
 	if (handler) {
         
         double time = ptimer_read_seconds();
         
         if (time - lastUpdated >= 1.0) {
-            if (kIOReturnSuccess == handler->getValueCallback(key, type, size, value)) {
+            
+            IOReturn result = handler->getValueCallback(key, type, size, value);
+            
+            if (kIOReturnSuccess == result) {
                 lastUpdated = time;
             }
             else {
-                HWSensorsWarningLog("value update request callback returned error for key %s", key);
+                HWSensorsWarningLog("value update request callback returned error for key %s (%s)", key, handler->stringFromReturn(result));
             }
         }
 	}
@@ -184,8 +187,11 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
 	bcopy(aBuffer, value, size);
 
 	if (handler) {
-        if (kIOReturnSuccess != handler->setValueForKey(key, type, size, value)) {
-            HWSensorsWarningLog("value changed event callback returned error for key %s", key);
+        
+        IOReturn result = handler->setValueCallback(this->getKey(), this->getType(), this->getSize(), this->getValue());
+        
+        if (kIOReturnSuccess != result) {
+            HWSensorsWarningLog("value changed event callback returned error for key %s (%s)", key, handler->stringFromReturn(result));
         }
     }
 	

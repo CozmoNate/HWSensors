@@ -32,6 +32,214 @@
 
 #pragma mark FakeSMCPSensor
 
+UInt8 fakeSMCPluginGetIndexFromChar(char c)
+{
+	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
+}
+
+bool fakeSMCPluginEncodeNumericValue(float value, const char *type, const UInt8 size, void *outBuffer)
+{
+    if (type && outBuffer) {
+        
+        size_t typeLength = strnlen(type, 4);
+        
+        if (typeLength >= 3) {
+            if ((type[0] == 'u' || type[0] == 's') && type[1] == 'i') {
+                
+                bool minus = value < 0;
+                bool signd = type[0] == 's';
+                
+                if (minus) value = -value;
+                
+                switch (type[2]) {
+                    case '8':
+                        if (type[3] == '\0' && size == 1) {
+                            UInt8 encoded = (UInt8)value;
+                            if (signd) bit_write(signd && minus, encoded, BIT(7));
+                            bcopy(&encoded, outBuffer, 1);
+                            return true;
+                        }
+                        break;
+                        
+                    case '1':
+                        if (type[3] == '6' && size == 2) {
+                            UInt16 encoded = (UInt16)value;
+                            if (signd) bit_write(signd && minus, encoded, BIT(15));
+                            OSWriteBigInt16(outBuffer, 0, encoded);
+                            return true;
+                        }
+                        break;
+                        
+                    case '3':
+                        if (type[3] == '2' && size == 4) {
+                            UInt32 encoded = (UInt32)value;
+                            if (signd) bit_write(signd && minus, encoded, BIT(31));
+                            OSWriteBigInt32(outBuffer, 0, encoded);
+                            return true;
+                        }
+                        break;
+                }
+            }
+            else if ((type[0] == 'f' || type[0] == 's') && type[1] == 'p') {
+                bool minus = value < 0;
+                bool signd = type[0] == 's';
+                UInt8 i = fakeSMCPluginGetIndexFromChar(type[2]);
+                UInt8 f = fakeSMCPluginGetIndexFromChar(type[3]);
+                
+                if (i + f == (signd ? 15 : 16)) {
+                    if (minus) value = -value;
+                    UInt16 encoded = value * (float)BIT(f);
+                    if (signd) bit_write(minus, encoded, BIT(15));
+                    OSWriteBigInt16(outBuffer, 0, encoded);
+                    return true;
+                }
+            }
+        }
+    }
+    
+    return false;
+}
+
+bool fakeSMCPluginIsValidIntegerType(const char *type)
+{
+    if (type) {
+        size_t typeLength = strnlen(type, 4);
+        
+        if (typeLength >= 3) {
+            if ((type[0] == 'u' || type[0] == 's') && type[1] == 'i') {
+                
+                switch (type[2]) {
+                    case '8':
+                        return true;
+                    case '1':
+                        return type[3] == '6' ? true : false;
+                    case '3':
+                        return type[3] == '2'? true : false;
+                }
+            }
+        }
+    }
+    
+    return false;
+}
+
+bool fakeSMCPluginIsValidFloatingType(const char *type)
+{
+    if (type) {
+        
+        size_t typeLength = strnlen(type, 4);
+        
+        if (typeLength >= 3) {
+            if ((type[0] == 'f' || type[0] == 's') && type[1] == 'p') {
+                UInt8 i = fakeSMCPluginGetIndexFromChar(type[2]);
+                UInt8 f = fakeSMCPluginGetIndexFromChar(type[3]);
+                
+                if (i + f == (type[0] == 's' ? 15 : 16))
+                    return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+bool fakeSMCPluginDecodeNumericValue(const char *type, const UInt8 size, const void *data, float *outValue)
+{
+    if (type && data && outValue) {
+        
+        size_t typeLength = strnlen(type, 4);
+        
+        if (typeLength >= 3) {
+            
+            if ((type[0] == 'u' || type[0] == 's') && type[1] == 'i') {
+                
+                bool signd = type[0] == 's';
+                
+                switch (type[2]) {
+                    case '8':
+                        if (size == 1) {
+                            UInt8 encoded = 0;
+                            
+                            bcopy(data, &encoded, 1);
+                            
+                            if (signd && bit_get(encoded, BIT(7))) {
+                                bit_clear(encoded, BIT(7));
+                                *outValue = -encoded;
+                            }
+                            
+                            *outValue = encoded;
+                            
+                            return true;
+                        }
+                        break;
+                        
+                    case '1':
+                        if (type[3] == '6' && size == 2) {
+                            UInt16 encoded = 0;
+                            
+                            bcopy(data, &encoded, 2);
+                            
+                            encoded = OSSwapBigToHostInt16(encoded);
+                            
+                            if (signd && bit_get(encoded, BIT(15))) {
+                                bit_clear(encoded, BIT(15));
+                                *outValue = -encoded;
+                            }
+                            
+                            *outValue = encoded;
+                            
+                            return true;
+                        }
+                        break;
+                        
+                    case '3':
+                        if (type[3] == '2' && size == 4) {
+                            UInt32 encoded = 0;
+                            
+                            bcopy(data, &encoded, 4);
+                            
+                            encoded = OSSwapBigToHostInt32(encoded);
+                            
+                            if (signd && bit_get(encoded, BIT(31))) {
+                                bit_clear(encoded, BIT(31));
+                                *outValue = -encoded;
+                            }
+                            
+                            *outValue = encoded;
+                            
+                            return true;
+                        }
+                        break;
+                }
+            }
+            else if (typeLength > 0 && (type[0] == 'f' || type[0] == 's') && type[1] == 'p' && size == 2) {
+                UInt16 encoded = 0;
+                
+                bcopy(data, &encoded, 2);
+                
+                UInt8 i = fakeSMCPluginGetIndexFromChar(type[2]);
+                UInt8 f = fakeSMCPluginGetIndexFromChar(type[3]);
+                
+                if (i + f != (type[0] == 's' ? 15 : 16) )
+                    return false;
+                
+                UInt16 swapped = OSSwapBigToHostInt16(encoded);
+                
+                bool signd = type[0] == 's';
+                bool minus = bit_get(swapped, BIT(15));
+                
+                if (signd && minus) bit_clear(swapped, BIT(15));
+                
+                *outValue = ((float)swapped / (float)BIT(f)) * (signd && minus ? -1 : 1);
+                
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
 OSDefineMetaClassAndStructors(FakeSMCSensor, OSObject)
 
 bool FakeSMCSensor::parseModifiers(OSDictionary *node, float *reference, float *gain, float *offset)
@@ -131,62 +339,9 @@ float FakeSMCSensor::getOffset()
     return offset;
 }
 
-inline UInt8 get_index(char c)
-{
-	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
-}
-
 void FakeSMCSensor::encodeNumericValue(float value, void *outBuffer)
 {
-    if ((type[0] == 'u' || type[0] == 's') && type[1] == 'i') {
-        
-        bool minus = value < 0;
-        bool signd = type[0] == 's';
-        
-        if (minus) value = -value;
-        
-        switch (type[2]) {
-            case '8':
-                if (type[3] == '\0' && size == 1) {
-                    UInt8 encoded = (UInt8)value;
-                    if (signd) bit_write(signd && minus, encoded, BIT(7));
-                    bcopy(&encoded, outBuffer, 1);
-                }
-                break;
-                
-            case '1':
-                if (type[3] == '6' && size == 2) {
-                    UInt16 encoded = (UInt16)value;
-                    if (signd) bit_write(signd && minus, encoded, BIT(15));
-                    OSWriteBigInt16(outBuffer, 0, encoded);
-                }
-                break;
-                
-            case '3':
-                if (type[3] == '2' && size == 4) {
-                    UInt32 encoded = (UInt32)value;
-                    if (signd) bit_write(signd && minus, encoded, BIT(31));
-                    OSWriteBigInt32(outBuffer, 0, encoded);
-                }
-                break;
-                
-            default:
-                return;
-        }
-    }
-    else if ((type[0] == 'f' || type[0] == 's') && type[1] == 'p') {
-        bool minus = value < 0;
-        bool signd = type[0] == 's';
-        UInt8 i = get_index(type[2]);
-        UInt8 f = get_index(type[3]);
-
-        if (i + f == (signd ? 15 : 16)) {
-            if (minus) value = -value;
-            UInt16 encoded = value * (float)BIT(f);
-            if (signd) bit_write(minus, encoded, BIT(15));
-            OSWriteBigInt16(outBuffer, 0, encoded);
-        }
-    }
+    fakeSMCPluginEncodeNumericValue(value, type, size, outBuffer);
 }
 
 #pragma mark
@@ -409,7 +564,7 @@ float FakeSMCPlugin::getSensorValue(FakeSMCSensor *sensor)
     return 0;
 }
 
-void FakeSMCPlugin::setSensorValue(FakeSMCSensor *sensor, void *data)
+void FakeSMCPlugin::setSensorValue(FakeSMCSensor *sensor, float value)
 {
     //
 }
@@ -582,10 +737,12 @@ void FakeSMCPlugin::free()
 
 IOReturn FakeSMCPlugin::getValueCallback(const char *key, const char *type, const UInt8 size, void *buffer)
 {
-    if (key && type && buffer) {
+    if (key && buffer) {
         if (FakeSMCSensor *sensor = getSensor(key)) {
-            if (size == sensor->getSize() && 0 == strncmp(type, sensor->getType(), 4)) {
+            if (size == sensor->getSize()) {
+                
                 sensor->encodeNumericValue(getSensorValue(sensor), buffer);
+                
                 return kIOReturnSuccess;
             }
         }
@@ -595,41 +752,22 @@ IOReturn FakeSMCPlugin::getValueCallback(const char *key, const char *type, cons
     return kIOReturnBadArgument;
 }
 
-
-/*IOReturn FakeSMCPlugin::callPlatformFunction(const OSSymbol *functionName, bool waitForFunction, void *param1, void *param2, void *param3, void *param4 )
-{
-    if (functionName->isEqualTo(kFakeSMCGetValueCallback)) {
-        if (param1 && param2 && param3) {
-            const char *name = (const char*)param1;
-            void *data = param2;
-            UInt8 size = (UInt64)param3;
-            
-            if (name && data)
-                if (FakeSMCSensor *sensor = getSensor(name))
-                    if (size == sensor->getSize()) {
-                        sensor->encodeNumericValue(getSensorValue(sensor), data);
-                        return kIOReturnSuccess;
-                    }
+IOReturn FakeSMCPlugin::setValueCallback(const char *key, const char *type, const UInt8 size, const void *buffer)
+{       
+    if (key && type && buffer) {
+        if (FakeSMCSensor *sensor = getSensor(key)) {
+            if (size == sensor->getSize()) {
+                float value;
+                
+                fakeSMCPluginDecodeNumericValue(type, size, buffer, &value);
+                
+                setSensorValue(sensor, value);
+                
+                return kIOReturnSuccess;
+            }
         }
-		
-		return kIOReturnBadArgument;
-	}
-    else if (functionName->isEqualTo(kFakeSMCSetValueCallback)) {
-        if (param1 && param2 && param3) {
-            const char *name = (const char*)param1;
-            void *data = param2;
-            UInt8 size = (UInt64)param3;
-
-            if (name && data)
-                if (FakeSMCSensor *sensor = getSensor(name))
-                    if (size == sensor->getSize()) {
-                        setSensorValue(sensor, data);
-                        return kIOReturnSuccess;
-                    }
-        }
-
-		return kIOReturnBadArgument;
-	}
+        else return kIOReturnNotFound;
+    }
     
-	return super::callPlatformFunction(functionName, waitForFunction, param1, param2, param3, param4);
-}*/
+    return kIOReturnBadArgument;
+}

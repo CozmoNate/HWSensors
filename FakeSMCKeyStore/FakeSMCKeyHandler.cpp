@@ -44,7 +44,7 @@ IOReturn FakeSMCKeyHandler::getValueCallback(const char *key, const char *type, 
     return kIOReturnUnsupported;
 }
 
-IOReturn FakeSMCKeyHandler::setValueForKey(const char *key, const char *type, const UInt8 size, const void *value)
+IOReturn FakeSMCKeyHandler::setValueCallback(const char *key, const char *type, const UInt8 size, const void *value)
 {
     return kIOReturnUnsupported;
 }

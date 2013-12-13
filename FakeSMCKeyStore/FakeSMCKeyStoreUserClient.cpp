@@ -143,6 +143,16 @@ IOReturn FakeSMCKeyStoreUserClient::externalMethod(uint32_t selector, IOExternal
 
                     break;
                 }
+                    
+                case SMC_CMD_WRITE_BYTES: {
+                    char name[5];
+                    
+                    _ultostr(name, input->key);
+                
+                    IOLog("FakeSMCKeyStoreUserClient: SMC_CMD_WRITE_BYTES key=%s", name);
+                    
+                    break;
+                }
 
                 default:
                     result = kIOReturnBadArgument;

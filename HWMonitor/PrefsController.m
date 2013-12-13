@@ -144,6 +144,11 @@
     }
 }
 
+-(void)rebuildSensorsList:(id)sender
+{
+    [_monitorEngine rebuildSensorsList];
+}
+
 #pragma mark
 #pragma mark Events:
 

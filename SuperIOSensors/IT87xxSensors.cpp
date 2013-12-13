@@ -49,6 +49,7 @@
 #include "IT87xxSensors.h"
 #include "FakeSMCDefinitions.h"
 #include "SuperIO.h"
+#include "FakeSMCKey.h"
 
 #define super LPCSensors
 OSDefineMetaClassAndStructors(IT87xxSensors, LPCSensors)
@@ -120,6 +121,18 @@ float IT87xxSensors::readTachometer(UInt32 index)
         
         return value > 0 && value < 0xff ? 1.35e6f / (float)(value * divisor) : 0; 
     }
+}
+
+UInt8 IT87xxSensors::readTachometerControl(UInt32 index)
+{
+    UInt8 control = readByte(ITE_SMARTGUARDIAN_PWM_CONTROL[index]) & 0x7F;
+    
+    return (float)(control) / 1.27f;
+}
+
+void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
+{
+    writeByte(ITE_SMARTGUARDIAN_PWM_CONTROL[index], (float)(percent) * 1.27f);
 }
 
 bool IT87xxSensors::initialize()

@@ -95,9 +95,11 @@ private:
 	virtual float			readTemperature(UInt32 index);
 	virtual float			readVoltage(UInt32 index);
 	virtual float			readTachometer(UInt32 index);
+    virtual UInt8			readTachometerControl(UInt32 index);
+    virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
     
     virtual bool            initialize();
     
 public:
-	
+
 };

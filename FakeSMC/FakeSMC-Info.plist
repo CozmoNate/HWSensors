@@ -58,6 +58,21 @@
 				</dict>
 				<key>Keys</key>
 				<dict>
+					<key>NATJ</key>
+					<array>
+						<string>ui8</string>
+						<data>AA==</data>
+					</array>
+					<key>DPLM</key>
+					<array>
+						<string>{lim</string>
+						<data>AAAAAAA=</data>
+					</array>
+					<key>WKTP</key>
+					<array>
+						<string>ui16</string>
+						<data>A4Q=</data>
+					</array>
 					<key>$Adr</key>
 					<array>
 						<string>ui32</string>
