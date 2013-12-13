@@ -65,6 +65,10 @@ NSString * const HWMGraphsGroupHistoryHasBeenChangedNotification = @"HWMGraphsGr
 -(void)captureSensorValuesToGraphsHistorySetLimit:(NSUInteger)limit
 {
     @synchronized (self) {
+        
+        _maxGraphsValue = nil;
+        _minGraphsValue = nil;
+        
         for (HWMGraph *graph in self.graphs) {
             
             [graph captureSensorValueToHistorySetLimit:limit];
