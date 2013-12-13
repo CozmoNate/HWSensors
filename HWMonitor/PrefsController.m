@@ -300,7 +300,7 @@
     return kHWMSensorsUpdateLoopOnlyFavorites;
 }
 
--(BOOL)engine:(HWMEngine *)engine shouldCaptureSensorValuesSetLimit:(NSUInteger *)limit
+-(BOOL)engine:(HWMEngine *)engine shouldCaptureSensorValuesToGaphsHistoryWithLimit:(NSUInteger *)limit
 {
     *limit = (NSUInteger)_graphsController.graphsCollectionView.frame.size.width;
     

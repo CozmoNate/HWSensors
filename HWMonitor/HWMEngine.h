@@ -33,8 +33,11 @@ typedef enum {
 
 @protocol HWMEngineDelegate <NSObject>
 @optional
+
 - (HWMSensorsUpdateLoopStrategy)updateLoopStrategyForEngine:(HWMEngine*)engine;
-- (BOOL)engine:(HWMEngine*)engine shouldCaptureSensorValuesSetLimit:(NSUInteger *)limit;
+
+- (BOOL)engine:(HWMEngine*)engine shouldCaptureSensorValuesToGaphsHistoryWithLimit:(NSUInteger *)limit;
+
 @end
 
 @interface HWMEngine : NSObject

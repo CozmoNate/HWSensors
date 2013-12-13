@@ -67,10 +67,10 @@ NSString * const HWMGraphsGroupHistoryHasBeenChangedNotification = @"HWMGraphsGr
     @synchronized (self) {
         for (HWMGraph *graph in self.graphs) {
             
+            [graph captureSensorValueToHistorySetLimit:limit];
+            
             if (graph.hidden.boolValue)
                 continue;
-            
-            [graph captureSensorValueToHistorySetLimit:limit];
             
             if (!_maxGraphsValue || (graph.historyMaxValue && [_maxGraphsValue isLessThan:graph.historyMaxValue])) {
                 _maxGraphsValue = [graph.historyMaxValue copy];

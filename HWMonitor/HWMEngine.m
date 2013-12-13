@@ -564,11 +564,11 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             }
         }
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesSetLimit:)]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesToGaphsHistoryWithLimit:)]) {
             
             NSUInteger limit;
             
-            if ([self.delegate engine:self shouldCaptureSensorValuesSetLimit:&limit]) {
+            if ([self.delegate engine:self shouldCaptureSensorValuesToGaphsHistoryWithLimit:&limit]) {
                 for (HWMGraphsGroup *graphsGroup in self.configuration.graphGroups) {
                     [graphsGroup captureSensorValuesToGraphsHistorySetLimit:limit];
                 }
@@ -630,11 +630,11 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             
             [HWMSmartPlugInInterfaceWrapper destroyAllWrappers];
             
-            if (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesSetLimit:)]) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesToGaphsHistoryWithLimit:)]) {
                 
                 NSUInteger limit;
                 
-                if ([self.delegate engine:self shouldCaptureSensorValuesSetLimit:&limit]) {
+                if ([self.delegate engine:self shouldCaptureSensorValuesToGaphsHistoryWithLimit:&limit]) {
                     for (HWMGraphsGroup *graphsGroup in self.configuration.graphGroups) {
                         [graphsGroup captureSensorValuesToGraphsHistorySetLimit:limit];
                     }
