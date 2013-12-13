@@ -136,8 +136,8 @@
     }
     else {
 
-        double minY = _graphsGroup.minGraphsValue.doubleValue <= 0 ? _graphsGroup.minGraphsValue.doubleValue : _graphsGroup.minGraphsValue.doubleValue - _graphsGroup.minGraphsValue.doubleValue * 0.1;
-        double maxY = _graphsGroup.maxGraphsValue.doubleValue + _graphsGroup.maxGraphsValue.doubleValue * 0.1;
+        double minY = _graphsGroup.minGraphsValue.doubleValue <= 0 ? _graphsGroup.minGraphsValue.doubleValue : _graphsGroup.minGraphsValue.doubleValue - _graphsGroup.minGraphsValue.doubleValue * 0.20;
+        double maxY = _graphsGroup.maxGraphsValue.doubleValue + _graphsGroup.maxGraphsValue.doubleValue * 0.10;
         
         _graphBounds = NSMakeRect(0, minY, _maxPoints, maxY - minY);
     }
