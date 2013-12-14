@@ -273,20 +273,22 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
             
             LPCSensorsFanControl *control = new LPCSensorsFanControl;
             
-            control->target = kLPCSensorsMinRPM;
+            control->target = 0;
             control->action = kLPCSensorsFanActionNone;
             
             tachometerControls->setObject(control);
             
             if (addTachometer(i, name->getLength() > 0 ? name->getCStringNoCopy() : 0, FAN_RPM, 0, location++, &fanIndex)){
-                if (fanIndex >= 0) {
+                if (supportsTachometerControl() && fanIndex >= 0) {
                     
                     UInt16 value;
                     
                     // Minimum RPM
                     snprintf(key, 5, KEY_FORMAT_FAN_MIN, fanIndex);
                     
-                    addSensor(key, TYPE_FPE2, TYPE_FPXX_SIZE, kLPCSensorsFanController, i);
+                    fakeSMCPluginEncodeNumericValue(kLPCSensorsMinRPM, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
+                    
+                    setKeyValue(key, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
                     
                     // Maximum RPM
                     snprintf(key, 5, KEY_FORMAT_FAN_MAX, fanIndex);
@@ -294,6 +296,11 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
                     fakeSMCPluginEncodeNumericValue(kLPCSensorsMaxRPM, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
                     
                     setKeyValue(key, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
+                    
+                    // Target RPM and fan control sensor
+                    snprintf(key, 5, KEY_FORMAT_FAN_TARGET, fanIndex);
+                    
+                    addSensor(key, TYPE_FPE2, TYPE_FPXX_SIZE, kLPCSensorsFanController, i);
                 }
             }
             else HWSensorsWarningLog("failed to add tachometer sensor %d", i);
@@ -333,6 +340,11 @@ float LPCSensors::readTachometer(UInt32 index)
 	return 0;
 }
 
+bool LPCSensors::supportsTachometerControl()
+{
+    return false;
+}
+
 UInt8 LPCSensors::readTachometerControl(UInt32 index)
 {
     return 0;
@@ -363,8 +375,9 @@ float LPCSensors::getSensorValue(FakeSMCSensor *sensor)
                 break;
                 
             case kLPCSensorsFanController:
-                LPCSensorsFanControl *control = OSDynamicCast(LPCSensorsFanControl, tachometerControls->getObject(sensor->getIndex()));
-                value = control->target;
+                if (LPCSensorsFanControl *control = OSDynamicCast(LPCSensorsFanControl, tachometerControls->getObject(sensor->getIndex()))) {
+                    value = control->target;
+                }
                 break;
         }
     }

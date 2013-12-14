@@ -130,6 +130,7 @@
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
 #define KEY_FORMAT_FAN_MIN                      "F%XMn"
 #define KEY_FORMAT_FAN_MAX                      "F%XMx"
+#define KEY_FORMAT_FAN_TARGET                   "F%XTg"
 
 // Other
 #define KEY_FAKESMC_FORMAT_CPU_FREQUENCY		"CC%XC"

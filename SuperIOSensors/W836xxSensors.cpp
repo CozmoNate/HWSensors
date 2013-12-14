@@ -222,11 +222,16 @@ float W836xxSensors::readTachometer(UInt32 index)
 	return fanValue[index];
 }
 
+bool W836xxSensors::supportsTachometerControl()
+{
+    return true;
+}
+
 UInt8 W836xxSensors::readTachometerControl(UInt32 index)
 {
     UInt8 control = readByte(WINBOND_FAN_PWM_OUTPUT[index]) & (model == W83687THF ? 0xf0 : 0xff);
     
-    return (float)(control) / 1.27f;
+    return (float)(control) / 2.55f;
 }
 
 void W836xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)

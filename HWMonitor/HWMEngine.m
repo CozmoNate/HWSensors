@@ -1378,10 +1378,14 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 {
     HWMSmcFanSensor *fan = [self getSmcFanSensorByUnique:title fromGroup:group];
 
+    BOOL newFan = NO;
+    
     if (!fan) {
         fan = [NSEntityDescription insertNewObjectForEntityForName:@"SmcFanSensor" inManagedObjectContext:self.managedObjectContext];
 
         [fan setGroup:group];
+        
+        newFan = YES;
     }
 
     [fan setService:[NSNumber numberWithLongLong:connection]];
@@ -1395,30 +1399,45 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     [fan setEngine:self];
 
-    int index = [SmcHelper getIndexFromHexChar:name.UTF8String[1]];
-    
-    if (index >= 0) {
+    if (newFan) {
         
-        [fan setNumber:[NSNumber numberWithInt:index]];
+        int index = [SmcHelper getIndexFromHexChar:[fan.name characterAtIndex:1]];
         
-        SMCVal_t info;
-        
-        char key[5];
-        
-        snprintf(key, 5, "F%dMn", index);
-        
-        if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-            [fan setMin:[NSNumber numberWithFloat:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]]];
+        if (index >= 0) {
+            
+            [fan setNumber:[NSNumber numberWithInt:index]];
+            
+            SMCVal_t info;
+            
+            char key[5];
+            
+            // Min
+            snprintf(key, 5, "F%XMn", index);
+            
+            if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
+                [fan setMin:[NSNumber numberWithFloat:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]]];
+            }
+            
+            // Max
+            snprintf(key, 5, "F%XMx", index);
+            
+            if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
+                [fan setMax:[NSNumber numberWithFloat:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]]];
+            }
+            
+            // Target
+            snprintf(key, 5, "F%XTg", index);
+            
+            if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
+                [fan setPrimitiveValue:[NSNumber numberWithFloat:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]] forKey:@"speed"];
+            }
         }
+    }
+    else {
+        [fan doUpdateValue];
         
-        snprintf(key, 5, "F%dMx", index);
-        
-        if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-            [fan setMax:[NSNumber numberWithFloat:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]]];
-        }
-        
-        // Force fan speed up or down to previousely saved saved speed
-        if (fan.speed) {
+        // Force fan speed up or down to previousely saved speed
+        if (fan.value && fan.speed && ([fan.value isGreaterThan:fan.speed] ? fan.value.floatValue - fan.speed.floatValue : fan.speed.floatValue - fan.value.floatValue) > 100) {
             [fan setSpeed:fan.speed];
         }
     }

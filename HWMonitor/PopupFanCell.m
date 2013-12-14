@@ -14,6 +14,27 @@
 
 @synthesize objectValue;
 
+-(void)awakeFromNib
+{
+    [_slider setFloatValue:[[(HWMSmcFanSensor *)self.objectValue speed] floatValue]];
+    [_textField setFloatValue:[[(HWMSmcFanSensor *)self.objectValue speed] floatValue]];
+}
+
+- (IBAction)sliderHasMoved:(id)sender
+{
+    [_textField setFloatValue:_slider.floatValue];
+     
+    SEL sel = @selector(sliderHasBeenReleased:);
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:sel object:sender];
+    [self performSelector:sel withObject:sender afterDelay:0.0];
+}
+
+- (void)sliderHasBeenReleased:(id)sender
+{
+    [(HWMSmcFanSensor *)self.objectValue setSpeed:[NSNumber numberWithFloat:_slider.floatValue]];
+}
+
 @end;
 
 static NSPopover *gFanControllerPopover;
@@ -21,13 +42,20 @@ static NSPopover *gFanControllerPopover;
 @implementation PopupFanCell
 
 -(void)showFanController:(id)sender
-{
-    if (gFanControllerPopover) {
-        [gFanControllerPopover performClose:self];
-        gFanControllerPopover = nil;
-    }
+{    
+    HWMSmcFanSensor *fan = self.objectValue;
     
-    if ([self.objectValue number] && [self.objectValue min] && [self.objectValue max]) {
+    if ([fan number] && [fan min] && [fan max] && [fan speed]) {
+        
+        if (gFanControllerPopover) {
+            if (!gFanControllerPopover.isShown || [(PopupFanController*)gFanControllerPopover.contentViewController objectValue] != self.objectValue) {
+                [gFanControllerPopover performClose:self];
+                gFanControllerPopover = nil;
+            }
+            else {
+                return;
+            }
+        }
         
         PopupFanController *controller = [[PopupFanController alloc] initWithNibName:@"FanController" bundle:[NSBundle mainBundle]];
         

@@ -11,8 +11,16 @@
 @class HWMSmcFanSensor;
 
 @interface PopupFanController : NSViewController
+{
+    NSDate *_lastUpdated;
+}
 
 @property (nonatomic, strong) id objectValue;
+
+@property (assign) IBOutlet NSSlider *slider;
+@property (assign) IBOutlet NSTextField *textField;
+
+- (IBAction)sliderHasMoved:(id)sender;
 
 @end;
 

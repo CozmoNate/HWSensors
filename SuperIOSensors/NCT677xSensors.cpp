@@ -77,31 +77,36 @@ void NCT677xSensors::writeByte(UInt16 reg, UInt8 value)
 
 UInt8 NCT677xSensors::temperatureSensorsLimit()
 {
-    return 9;
+    return tempLimit;
 }
 
 UInt8 NCT677xSensors::voltageSensorsLimit()
 {
-    return 9;
+    return voltLimit;
 }
 
 UInt8 NCT677xSensors::tachometerSensorsLimit()
 {
-    if (model == NCT6791D) {
-        return 6;
-    }
-
-    return 5;
+    return fanLimit;
 }
 
 float NCT677xSensors::readTemperature(UInt32 index)
 {
-    if (index < temperatureSensorsLimit()) {
+    if (index < tempLimit) {
         
-        int value = readByte(NUVOTON_TEMPERATURE_REG[index]) << 1;
+        int value; 
         
-        //if (NUVOTON_TEMPERATURE_HALF_BIT[index] > 0)
-            //value |= ((readByte(NUVOTON_TEMPERATURE_HALF_REG[index]) >> NUVOTON_TEMPERATURE_HALF_BIT[index]) & 0x1);
+        switch (model) {
+            case NCT6771F:
+            case NCT6776F:    
+                value = readByte(NUVOTON_TEMPERATURE_REG[index]) << 1;
+                break;
+                
+            case NCT6779D:
+            case NCT6791D:
+                value = readByte(NUVOTON_TEMPERATURE_REG_NEW[index]) << 1;
+                break;
+        }
         
         float t = 0.5f * (float)value;
         
@@ -114,14 +119,26 @@ float NCT677xSensors::readTemperature(UInt32 index)
 
 float NCT677xSensors::readVoltage(UInt32 index)
 {
-    if (index < voltageSensorsLimit()) {
+    if (index < voltLimit) {
         
-        float value = readByte(NUVOTON_VOLTAGE_REG[index]) * (NUVOTON_VOLTAGE_SCALE[index]) * 0.001f;
+        float value;
+        
+        switch (model) {
+            case NCT6771F:
+            case NCT6776F:    
+                value = readByte(NUVOTON_VOLTAGE_REG[index]) * (NUVOTON_VOLTAGE_SCALE[index]) * 0.001f;
+                break;
+                
+            case NCT6779D:
+            case NCT6791D:
+                value = readByte(NUVOTON_VOLTAGE_REG_NEW[index]) * 0.008f;
+                break;
+        }
         
         bool valid = value > 0;
         
         // check if battery voltage monitor is enabled
-        if (valid && NUVOTON_VOLTAGE_REG[index] == NUVOTON_VOLTAGE_VBAT_REG) {
+        if (valid && NUVOTON_VOLTAGE_REG[index] == voltageVBatRegister) {
             valid = (readByte(0x5D) & 0x01) > 0;
         }
         
@@ -133,9 +150,9 @@ float NCT677xSensors::readVoltage(UInt32 index)
 
 float NCT677xSensors::readTachometer(UInt32 index)
 {
-    if (index < tachometerSensorsLimit()) {
-        UInt8 high = readByte(NUVOTON_FAN_RPM_REG[index]);
-        UInt8 low = readByte(NUVOTON_FAN_RPM_REG[index] + 1);
+    if (index < fanLimit) {
+        UInt8 high = readByte(fanRpmBaseRegister + (index << 1));
+        UInt8 low = readByte(fanRpmBaseRegister + (index << 1) + 1);
         
         int value = (high << 8) | low;
         
@@ -143,6 +160,27 @@ float NCT677xSensors::readTachometer(UInt32 index)
     }
     
     return 0;
+}
+
+bool NCT677xSensors::supportsTachometerControl()
+{
+    return true;
+}
+
+UInt8 NCT677xSensors::readTachometerControl(UInt32 index)
+{
+    return (float)(readByte(NUVOTON_FAN_PWM_OUT_REG[index])) / 2.55f;
+}
+
+void NCT677xSensors::writeTachometerControl(UInt32 index, UInt8 percent)
+{
+    if (index < fanLimit) {
+        // set manual mode
+        writeByte(NUVOTON_FAN_CONTROL_MODE_REG[index], 0);
+        
+        // set output value
+        writeByte(NUVOTON_FAN_PWM_COMMAND_REG[index], (float)(percent) * 2.55);  
+    }
 }
 
 bool NCT677xSensors::initialize()
@@ -157,15 +195,38 @@ bool NCT677xSensors::initialize()
     
     switch (model) {
         case NCT6771F:
+            fanLimit = 4;
+            tempLimit = 9;
+            voltLimit = 9;
+            fanRpmBaseRegister = 0x656;
+            voltageVBatRegister = 0x551;
             minFanRPM = (int)(1.35e6 / 0xFFFF);
             break;
             
         case NCT6776F:
+            fanLimit = 5;
+            tempLimit = 9;
+            voltLimit = 9;
+            fanRpmBaseRegister = 0x656;
+            voltageVBatRegister = 0x551;
+            minFanRPM = (int)(1.35e6 / 0x1FFF);
+            break;
+            
         case NCT6779D:
+            fanLimit = 5;
+            tempLimit = 7;
+            voltLimit = 15;
+            fanRpmBaseRegister = 0x4C0;
+            voltageVBatRegister = 0x488;
             minFanRPM = (int)(1.35e6 / 0x1FFF);
             break;
 
         case NCT6791D:
+            fanLimit = 6;
+            tempLimit = 7;
+            voltLimit = 15;
+            fanRpmBaseRegister = 0x4C0;
+            voltageVBatRegister = 0x488;
             minFanRPM = (int)(1.35e6 / 0x1FFF);
 
             // disable the hardware monitor i/o space lock on NCT6791D chips

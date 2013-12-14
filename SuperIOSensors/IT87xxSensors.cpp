@@ -131,6 +131,11 @@ float IT87xxSensors::readTachometer(UInt32 index)
     }
 }
 
+bool IT87xxSensors::supportsTachometerControl()
+{
+    return true;
+}
+
 UInt8 IT87xxSensors::readTachometerControl(UInt32 index)
 {
     if (index >= 5)

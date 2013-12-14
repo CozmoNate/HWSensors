@@ -7,6 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PopupFanController">
             <connections>
+                <outlet property="slider" destination="yHS-LZ-3MH" id="qPQ-CO-S8L"/>
+                <outlet property="textField" destination="KLw-Cu-5s8" id="gH9-8h-J8C"/>
                 <outlet property="view" destination="1" id="zTn-7b-oeG"/>
             </connections>
         </customObject>
@@ -21,9 +23,9 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="3000" tickMarkPosition="above" sliderType="circular" id="PGv-Wg-slZ"/>
                     <connections>
-                        <action selector="takeIntegerValueFrom:" target="KLw-Cu-5s8" id="0AG-g4-Saf"/>
+                        <action selector="sliderHasMoved:" target="-2" id="fQc-Ww-slF"/>
                         <binding destination="-2" name="maxValue" keyPath="objectValue.max" id="T2y-cS-PoR"/>
-                        <binding destination="-2" name="value" keyPath="objectValue.speed" previousBinding="T2y-cS-PoR" id="Ch4-Ne-ZdK"/>
+                        <binding destination="-2" name="minValue" keyPath="objectValue.min" previousBinding="T2y-cS-PoR" id="eFO-HX-8oS"/>
                         <outlet property="formatter" destination="flo-fc-xCH" id="L27-qH-mxH"/>
                     </connections>
                 </slider>
@@ -47,7 +49,6 @@
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </textFieldCell>
                                 <connections>
-                                    <binding destination="-2" name="value" keyPath="objectValue.speed" id="s2Q-UM-ZaZ"/>
                                     <outlet property="formatter" destination="flo-fc-xCH" id="FTg-LN-sdg"/>
                                 </connections>
                             </textField>
@@ -60,7 +61,7 @@
                         <constraint firstItem="KLw-Cu-5s8" firstAttribute="top" secondItem="4bb-HQ-5XS" secondAttribute="top" constant="-1" id="evd-Mc-IiD"/>
                     </constraints>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                    <color key="fillColor" red="0.098039217293262482" green="0.098039217293262482" blue="0.098039217293262482" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="fillColor" name="textColor" catalog="System" colorSpace="catalog"/>
                 </box>
             </subviews>
             <constraints>
@@ -75,10 +76,11 @@
             </constraints>
         </customView>
         <numberFormatter formatterBehavior="custom10_4" positiveFormat="#,##0.0###" negativeFormat="#,##0.0###" numberStyle="decimal" generatesDecimalNumbers="YES" allowsFloats="NO" usesGroupingSeparator="NO" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="0" id="flo-fc-xCH">
-            <integer key="roundingIncrement" value="0"/>
+            <integer key="roundingIncrement" value="50"/>
             <metadata>
                 <bool key="localizesFormat" value="YES"/>
             </metadata>
         </numberFormatter>
+        <userDefaultsController representsSharedInstance="YES" id="dXk-Zm-QTR"/>
     </objects>
 </document>

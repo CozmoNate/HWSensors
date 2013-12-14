@@ -61,21 +61,17 @@ const UInt16 NUVOTON_VENDOR_ID_LOW_REGISTER     = 0x004F;
 const UInt16 NUVOTON_VOLTAGE_VBAT_REG           = 0x0551;
 
 const UInt16 NUVOTON_TEMPERATURE_REG[]          = { 0x027, 0x073, 0x075, 0x077, 0x150, 0x250, 0x62B, 0x62C, 0x62D };
-const UInt16 NUVOTON_TEMPERATURE_HALF_REG[]     = { 0x000, 0x074, 0x076, 0x078, 0x151, 0x251, 0x62E, 0x62E, 0x62E };    
-const UInt16 NUVOTON_TEMPERATURE_SRC_REG[]      = { 0x621, 0x100, 0x200, 0x300, 0x622, 0x623, 0x624, 0x625, 0x626 };
-const UInt16 NUVOTON_TEMPERATURE_HALF_BIT[]     = {    0xff,     7,     7,     7,     7,     7,     0,     1,     2 };
-
-const UInt8 NUVOTON_TEMPERATURE_SOURCE_SYSTIN   = 1;
-const UInt8 NUVOTON_TEMPERATURE_SOURCE_CPUTIN   = 2;
-const UInt8 NUVOTON_TEMPERATURE_SOURCE_AUXTIN   = 3;
+const UInt16 NUVOTON_TEMPERATURE_REG_NEW[]      = { 0x027, 0x073, 0x075, 0x077, 0x079, 0x07B, 0x150 };
 
 const UInt16 NUVOTON_VOLTAGE_REG[]              = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x550, 0x551 };
 const float  NUVOTON_VOLTAGE_SCALE[]            = { 8,    8,    16,   16,   8,    8,    8,    16,    16 };
 
-const UInt16 NUVOTON_FAN_RPM_REG[]              = { 0x656, 0x658, 0x65A, 0x65C, 0x65E };
-const UInt16 NUVOTON_FAN_PWM_OUT_REG[]          = { 0x001, 0x003, 0x011 };
-const UInt16 NUVOTON_FAN_PWM_COMMAND_REG[]      = { 0x109, 0x209, 0x309 };
-const UInt16 NUVOTON_FAN_CONTROL_MODE_REG[]     = { 0x102, 0x202, 0x302 };
+const UInt16 NUVOTON_VOLTAGE_REG_NEW[]          = { 0x480, 0x481, 0x482, 0x483, 0x484, 0x485, 0x486, 0x487, 0x488, 0x489, 0x48A, 0x48B, 0x48C, 0x48D, 0x48E };
+
+const UInt16 NUVOTON_FAN_RPM_REG[]              = { 0x656, 0x658, 0x65A, 0x65C, 0x65E, 0x660 };
+const UInt16 NUVOTON_FAN_PWM_OUT_REG[]          = { 0x001, 0x003, 0x011, 0x013, 0x015, 0x017 };
+const UInt16 NUVOTON_FAN_PWM_COMMAND_REG[]      = { 0x109, 0x209, 0x309, 0x809, 0x909, 0xA09 };
+const UInt16 NUVOTON_FAN_CONTROL_MODE_REG[]     = { 0x102, 0x202, 0x302, 0x802, 0x902, 0xA02 };
 
 
 
@@ -87,7 +83,12 @@ private:
     //int                     temperature[3];
 	//bool					temperatureIsObsolete[3];
     
+    UInt8					fanLimit;
+    UInt8					tempLimit;
+    UInt8                   voltLimit;
+    UInt16                  fanRpmBaseRegister;
     int                     minFanRPM;
+    UInt16                  voltageVBatRegister;
     
    	UInt8					readByte(UInt16 reg);
     void					writeByte(UInt16 reg, UInt8 value);
@@ -100,6 +101,10 @@ private:
 	virtual float           readTemperature(UInt32 index);
 	virtual float			readVoltage(UInt32 index);
 	virtual float			readTachometer(UInt32 index);
+    
+    virtual bool			supportsTachometerControl();
+    virtual UInt8			readTachometerControl(UInt32 index);
+    virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
     
 	virtual bool			initialize();
 	
