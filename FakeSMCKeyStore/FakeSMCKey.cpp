@@ -134,12 +134,12 @@ const void *FakeSMCKey::getValue()
         
         double time = ptimer_read_seconds();
         
-        if (time - lastUpdated >= 1.0) {
+        if (time - lastValueRead >= 1.0) {
             
             IOReturn result = handler->getValueCallback(key, type, size, value);
             
             if (kIOReturnSuccess == result) {
-                lastUpdated = time;
+                lastValueRead = time;
             }
             else {
                 HWSensorsWarningLog("value update request callback returned error for key %s (%s)", key, handler->stringFromReturn(result));
@@ -190,12 +190,12 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
         
         double time = ptimer_read_seconds();
         
-        if (time - lastUpdated >= 1.0) {
+        if (time - lastValueWrote >= 1.0) {
             
             IOReturn result = handler->setValueCallback(key, type, size, value);
             
             if (kIOReturnSuccess == result) {
-                lastUpdated = time;
+                lastValueWrote = time;
             }
             else {
                 HWSensorsWarningLog("value changed event callback returned error for key %s (%s)", key, handler->stringFromReturn(result));

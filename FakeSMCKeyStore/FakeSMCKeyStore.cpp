@@ -80,12 +80,11 @@ FakeSMCKey *FakeSMCKeyStore::addKeyWithValue(const char *name, const char *type,
 {
     if (FakeSMCKey *key = getKey(name)) {
 
-        if (type && strncmp(type, key->getType(), 4) != 0) {
-            key->setType(type);
-        }
+//        if (type && strncmp(type, key->getType(), 4) != 0) {
+//            key->setType(type);
+//        }
 
         if (value) {
-            key->setSize(size);
             key->setValueFromBuffer(value, size);
         }
 
