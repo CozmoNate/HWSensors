@@ -233,14 +233,16 @@ void W836xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
 {
     if (index < 4) {
         
-        UInt8 value = (float)(percent) * 2.55;
+        if (!fanControlEnabled[index]) {
+            // Enable manual fan control
+            UInt8 reg = readByte(WINBOND_FAN_PWM_ENABLE[index]);
+            reg &= ~(0x03 << WINBOND_FAN_PWM_ENABLE_SHIFT[index]);
+            // 0 - set to Manual mode
+            reg |= 0 << WINBOND_FAN_PWM_ENABLE_SHIFT[index];
+            
+            writeByte(WINBOND_FAN_PWM_ENABLE[index], reg);
+        }
         
-        // Enable manual fan control
-        UInt8 reg = readByte(WINBOND_FAN_PWM_ENABLE[index]);
-        reg &= ~(0x03 << WINBOND_FAN_PWM_ENABLE_SHIFT[index]);
-        reg |= value << WINBOND_FAN_PWM_ENABLE_SHIFT[index];
-        
-        writeByte(WINBOND_FAN_PWM_ENABLE[index], reg);
         
         writeByte(WINBOND_FAN_PWM_OUTPUT[index], (float)(percent) * 2.55f);
 

@@ -97,6 +97,7 @@ private:
     float                   voltageGain;
 	UInt16					fanValue[5];
 	bool					fanValueObsolete[5];
+    bool                    fanControlEnabled[5];
 	
 	void					writeByte(UInt16 reg, UInt8 value);
 	UInt8					readByte(UInt16 reg);

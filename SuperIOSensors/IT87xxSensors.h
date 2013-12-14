@@ -84,6 +84,8 @@ class IT87xxSensors : public LPCSensors
     OSDeclareDefaultStructors(IT87xxSensors)
 	
 private:
+    bool                    fanControlEnabled[5];
+    
     UInt8                   features;
     
 	UInt8					readByte(UInt8 reg);

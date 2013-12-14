@@ -153,27 +153,31 @@ void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
 {
     if (index < 5) {
         
-        /* Read PWM controller */
-        UInt8 pwmControl = readByte(ITE_SMARTGUARDIAN_PWM_CONTROL[index]);
-        
-        UInt8 pwmTempMap, pwmDuty;
-        
-        if (features & FEATURE_NEWER_AUTOPWM) {
-            pwmTempMap = pwmControl & 0x03;
-            pwmDuty = readByte(ITE_SMARTGUARDIAN_PWM_DUTY(index));
-        } else {
-            if (pwmControl & 0x80)	/* Automatic mode */
+        if (!fanControlEnabled[index]) {
+            /* Read PWM controller */
+            UInt8 pwmControl = readByte(ITE_SMARTGUARDIAN_PWM_CONTROL[index]);
+            
+            UInt8 pwmTempMap, pwmDuty;
+            
+            if (features & FEATURE_NEWER_AUTOPWM) {
                 pwmTempMap = pwmControl & 0x03;
-            else				/* Manual mode */
-                pwmDuty = pwmControl & 0x7f;
+                pwmDuty = readByte(ITE_SMARTGUARDIAN_PWM_DUTY(index));
+            } else {
+                if (pwmControl & 0x80)	/* Automatic mode */
+                    pwmTempMap = pwmControl & 0x03;
+                else				/* Manual mode */
+                    pwmDuty = pwmControl & 0x7f;
+            }
+            
+            /* Manual mode */
+            pwmControl = features & FEATURE_NEWER_AUTOPWM ? pwmTempMap : pwmDuty;
+            writeByte(ITE_SMARTGUARDIAN_PWM(index), pwmControl);
+            
+            /* set SmartGuardian mode */        
+            writeByte(ITE_SMARTGUARDIAN_MAIN_CONTROL, readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) | (1 << index));
+            
+            fanControlEnabled[index] = true;
         }
-
-        /* Manual mode */
-        pwmControl = features & FEATURE_NEWER_AUTOPWM ? pwmTempMap : pwmDuty;
-		writeByte(ITE_SMARTGUARDIAN_PWM(index), pwmControl);
-        
-        /* set SmartGuardian mode */        
-        writeByte(ITE_SMARTGUARDIAN_MAIN_CONTROL, readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) | (1 << index));
         
         UInt8 control = (float)(percent) * 2.55;
         
@@ -182,9 +186,8 @@ void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
         } else {
             /*
              * If we are in manual mode, write the duty cycle immediately;
-             * otherwise, just store it for later use.
              */
-            if (!(pwmControl & 0x80)) {
+            if (!(readByte(ITE_SMARTGUARDIAN_PWM_CONTROL[index]) & 0x80)) {
                 writeByte(ITE_SMARTGUARDIAN_PWM(index), control >> 1);
             }
         }
