@@ -51,10 +51,10 @@
                                     <action selector="detachFromMenuBar:" target="3" id="1445"/>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1727" id="2641">
                                         <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                            <integer key="NSNullPlaceholder" value="0"/>
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
@@ -322,8 +322,75 @@
                                                         <outlet property="valueField" destination="2829" id="2843"/>
                                                     </connections>
                                                 </tableCellView>
-                                                <tableCellView identifier="Battery" id="59" customClass="PopupBatteryCell">
+                                                <tableCellView identifier="Fan" id="Iym-fp-csG" customClass="PopupFanCell">
                                                     <rect key="frame" x="0.0" y="73" width="222" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Ge1-Se-hBN" userLabel="Title Field - Sensor">
+                                                            <rect key="frame" x="10" y="11" width="140" height="15"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Sensor" id="ODd-0r-AEa">
+                                                                <font key="font" size="12" name="Helvetica"/>
+                                                                <color key="textColor" white="0.14900775550000001" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="Iym-fp-csG" name="value" keyPath="objectValue.title" id="OM4-P4-3d5"/>
+                                                            </connections>
+                                                        </textField>
+                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Oxh-0T-ikh" userLabel="Value Field - 9999об/м">
+                                                            <rect key="frame" x="154" y="11" width="58" height="15"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="54" id="0M2-lB-1Gi"/>
+                                                            </constraints>
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="9999об/м" id="2cv-6e-rR5">
+                                                                <font key="font" size="12" name="Helvetica-Bold"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="Iym-fp-csG" name="value" keyPath="objectValue.formattedValue" id="ab0-V6-ofm">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSNotApplicablePlaceholder">-</string>
+                                                                        <string key="NSNoSelectionPlaceholder">-</string>
+                                                                        <string key="NSNullPlaceholder">-</string>
+                                                                        <string key="NSMultipleValuesPlaceholder">-</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </textField>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xEt-dI-gAE" userLabel="Subtitle Field - Subtitle">
+                                                            <rect key="frame" x="10" y="1" width="202" height="11"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Subtitle" id="JIk-TL-caY">
+                                                                <font key="font" metaFont="miniSystem"/>
+                                                                <color key="textColor" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="Iym-fp-csG" name="value" keyPath="objectValue.legend" id="iKV-iD-MHS"/>
+                                                            </connections>
+                                                        </textField>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="xEt-dI-gAE" firstAttribute="leading" secondItem="Ge1-Se-hBN" secondAttribute="leading" id="BFh-Ly-asd"/>
+                                                        <constraint firstItem="xEt-dI-gAE" firstAttribute="centerX" secondItem="Iym-fp-csG" secondAttribute="centerX" id="CaA-i9-yh6"/>
+                                                        <constraint firstItem="Ge1-Se-hBN" firstAttribute="leading" secondItem="Iym-fp-csG" secondAttribute="leading" constant="12" id="MQc-We-vkV"/>
+                                                        <constraint firstItem="xEt-dI-gAE" firstAttribute="trailing" secondItem="Oxh-0T-ikh" secondAttribute="trailing" id="O1K-9V-jpC"/>
+                                                        <constraint firstItem="Ge1-Se-hBN" firstAttribute="baseline" secondItem="Oxh-0T-ikh" secondAttribute="baseline" id="ZuU-SY-iJW"/>
+                                                        <constraint firstItem="xEt-dI-gAE" firstAttribute="top" secondItem="Iym-fp-csG" secondAttribute="top" constant="15" id="hl9-Ml-6ge"/>
+                                                        <constraint firstItem="Oxh-0T-ikh" firstAttribute="leading" secondItem="Ge1-Se-hBN" secondAttribute="trailing" constant="8" symbolic="YES" id="iTp-9l-cpU"/>
+                                                        <constraint firstItem="Ge1-Se-hBN" firstAttribute="top" secondItem="Iym-fp-csG" secondAttribute="top" constant="1" id="xhQ-HF-XDg"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="subtitleField" destination="xEt-dI-gAE" id="qgU-y8-NgO"/>
+                                                        <outlet property="textField" destination="Ge1-Se-hBN" id="idB-DS-lcZ"/>
+                                                        <outlet property="valueField" destination="Oxh-0T-ikh" id="61u-97-p22"/>
+                                                    </connections>
+                                                </tableCellView>
+                                                <tableCellView identifier="Battery" id="59" customClass="PopupBatteryCell">
+                                                    <rect key="frame" x="0.0" y="100" width="222" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="84">
@@ -410,7 +477,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Dummy" id="58" customClass="PopupSensorCell">
-                                                    <rect key="frame" x="0.0" y="100" width="222" height="17"/>
+                                                    <rect key="frame" x="0.0" y="127" width="222" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="93">
@@ -490,10 +557,10 @@
                         <action selector="orderOut:" target="3" id="1151"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2507">
                             <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>

@@ -8,6 +8,19 @@
 
 #import "PopupBasicCell.h"
 
+@class HWMSmcFanSensor;
+
+@interface PopupFanController : NSViewController
+
+@property (nonatomic, strong) id objectValue;
+
+@end;
+
 @interface PopupFanCell : PopupBasicCell
+{
+    NSTrackingRectTag _trackingRectTag;
+}
+
+- (IBAction)showFanController:(id)sender;
 
 @end

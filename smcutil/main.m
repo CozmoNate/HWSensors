@@ -26,8 +26,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "smc.h"
+#import <stdio.h>
 #import "SmcHelper.h"
+#import "smc.h"
 
 #define NSStr(x) [NSString stringWithCString:(x) encoding:NSASCIIStringEncoding]
 
@@ -46,31 +47,6 @@ void usage(char* prog)
     printf("    -h         : help\n");
     printf("\n");
 }
-
-//UInt32 _strtoul(char *str, int size, int base)
-//{
-//    UInt32 total = 0;
-//    int i;
-//    
-//    for (i = 0; i < size; i++)
-//    {
-//        if (base == 16)
-//            total += str[i] << (size - 1 - i) * 8;
-//        else
-//            total += (unsigned char) (str[i] << (size - 1 - i) * 8);
-//    }
-//    return total;
-//}
-//
-//void _ultostr(char *str, UInt32 val)
-//{
-//    str[0] = '\0';
-//    sprintf(str, "%c%c%c%c",
-//            (unsigned int) val >> 24,
-//            (unsigned int) val >> 16,
-//            (unsigned int) val >> 8,
-//            (unsigned int) val);
-//}
 
 UInt32 SMCReadIndexCount(io_connect_t connection)
 {
@@ -94,7 +70,7 @@ bool printKeyValue(SMCVal_t val)
         else  if ([SmcHelper isValidIntegerSmcType:NSStr(val.dataType)]) {
             printf("%.0f", [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType]);
         }
-        else if ([SmcHelper isValidIntegerSmcType:NSStr(val.dataType)]) {
+        else if ([SmcHelper isValidFloatingSmcType:NSStr(val.dataType)]) {
             printf("%.2f", [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType]);
         }
         else return false;

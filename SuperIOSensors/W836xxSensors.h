@@ -82,10 +82,10 @@ const UInt8 WINBOND_TACHOMETER_DIVISOR1[]			= {     37,     39,     31,      9, 
 const UInt8 WINBOND_TACHOMETER_DIVISOR2[]			= {      5,      6,      7,     23,     15 };
 
 // Fan Control
-const UInt8 WINBOND_FAN_CONFIG[]					= { 0x04, 0x04, 0x12, 0x62 };
-const UInt8 WINBOND_FAN_CONTROL_BIT[]				= { 0x02, 0x04, 0x01, 0x04 };
-const UInt8 WINBOND_FAN_MODE_BIT[]					= { 0x00, 0x01, 0x00, 0x06 };
-const UInt8 WINBOND_FAN_OUTPUT[]					= { 0x01, 0x03, 0x11, 0x61 };
+const UInt8 WINBOND_FAN_PWM_ENABLE[]				= { 0x04, 0x04, 0x12, 0x62 };
+const UInt8 WINBOND_FAN_PWM_MODE_SHIFT[]			= { 0x00, 0x01, 0x00, 0x06 };
+const UInt8 WINBOND_FAN_PWM_ENABLE_SHIFT[]			= { 0x02, 0x04, 0x01, 0x04 };
+const UInt8 WINBOND_FAN_PWM_OUTPUT[]				= { 0x01, 0x03, 0x11, 0x61 };
 
 class W836xxSensors : public LPCSensors
 {
@@ -109,6 +109,8 @@ private:
 	virtual float			readVoltage(UInt32 index);
     void					updateTachometers();
 	virtual float			readTachometer(UInt32 index);
+    virtual UInt8			readTachometerControl(UInt32 index);
+    virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
     
     virtual bool            addTemperatureSensors(OSDictionary *configuration);
     virtual bool            addTachometerSensors(OSDictionary *configuration);

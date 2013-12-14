@@ -54,10 +54,10 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                     
                     HWSensorsDebugLog("probbing[%d] value=%d target=%d control=%d", index, (UInt32)value, (UInt32)control->target, percent);
                     
-                    if (value > control->target && value - control->target > kLPCSensorsMatchTheresholdRPM && percent > 10) {
+                    if (value > control->target && value - control->target > kLPCSensorsMatchTheresholdRPM && percent > 0) {
                         control->action = kLPCSensorsFanActionDecrement;
                     }
-                    else if (value < control->target && control->target - value > kLPCSensorsMatchTheresholdRPM && percent < 90) {
+                    else if (value < control->target && control->target - value > kLPCSensorsMatchTheresholdRPM && percent < 99) {
                         control->action = kLPCSensorsFanActionIncrement;
                     }
                     else {
@@ -70,7 +70,7 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                 case kLPCSensorsFanActionDecrement: {
                     
                     float value = readTachometer(index);
-                    UInt8 percent = readTachometerControl(index);
+                    SInt16 percent = readTachometerControl(index);
                     
                     HWSensorsDebugLog("decrementing[%d] value=%d target=%d control=%d", index, (UInt32)value, (UInt32)control->target, percent);
 
@@ -80,8 +80,9 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                     else if (value < control->target) {
                         control->action = kLPCSensorsFanActionProbe;
                     }
-                    else if (percent > 20) {
-                        writeTachometerControl(index, percent - 10);
+                    else if (percent >= 0) {
+                        percent -= kLPCSensorsControlIncrement;
+                        writeTachometerControl(index, percent < 0 ? 0 : percent);
                     }
                     else {
                         control->action = kLPCSensorsFanActionProbe;
@@ -103,8 +104,9 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                     else if (value > control->target) {
                         control->action = kLPCSensorsFanActionProbe;
                     }
-                    else if (percent < 90) {
-                        writeTachometerControl(index, percent + 10);
+                    else if (percent < 99) {
+                        percent += kLPCSensorsControlIncrement;
+                        writeTachometerControl(index, percent > 100 ? 100 : percent);
                     }
                     else {
                         control->action = kLPCSensorsFanActionProbe;
@@ -130,7 +132,7 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
         OSSafeRelease(iterator);
     }
     
-    timerEventSource->setTimeoutMS(7000);
+    timerEventSource->setTimeoutMS(kLPCSensorsWorkloopTimeout);
     
     return kIOReturnSuccess;
 }

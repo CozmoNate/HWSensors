@@ -35,7 +35,9 @@
 
 #define kLPCSensorsMinRPM               700.0
 #define kLPCSensorsMaxRPM               3000.0
-#define kLPCSensorsMatchTheresholdRPM   100.0
+#define kLPCSensorsMatchTheresholdRPM   50.0
+#define kLPCSensorsControlIncrement     5
+#define kLPCSensorsWorkloopTimeout      5000
 
 #define kLPCSensorsFanController        1000
 

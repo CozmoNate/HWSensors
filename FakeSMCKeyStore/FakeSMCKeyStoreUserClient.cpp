@@ -151,6 +151,29 @@ IOReturn FakeSMCKeyStoreUserClient::externalMethod(uint32_t selector, IOExternal
                 
                     IOLog("FakeSMCKeyStoreUserClient: SMC_CMD_WRITE_BYTES key=%s", name);
                     
+                    FakeSMCKey *key = keyStore->getKey(name);
+                    
+                    if (key) {
+                        
+                        key->setValueFromBuffer(input->bytes, input->keyInfo.dataSize);
+                        
+                        result = kIOReturnSuccess;
+                    }
+                    else {
+                        char type[5];
+                        
+                        if (input->keyInfo.dataType) {
+                            _ultostr(type, input->keyInfo.dataType);
+                        }
+                        else {
+                            type[0] = '\0';
+                        }
+                        
+                        keyStore->addKeyWithValue(name, type, input->keyInfo.dataSize, input->bytes);
+                        
+                        result = kIOReturnSuccess;
+                    }
+                    
                     break;
                 }
 

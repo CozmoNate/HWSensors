@@ -222,6 +222,44 @@ float W836xxSensors::readTachometer(UInt32 index)
 	return fanValue[index];
 }
 
+UInt8 W836xxSensors::readTachometerControl(UInt32 index)
+{
+    UInt8 control = readByte(WINBOND_FAN_PWM_OUTPUT[index]) & (model == W83687THF ? 0xf0 : 0xff);
+    
+    return (float)(control) / 1.27f;
+}
+
+void W836xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
+{
+    if (index < 4) {
+        
+        UInt8 value = (float)(percent) * 2.55;
+        
+        // Enable manual fan control
+        UInt8 reg = readByte(WINBOND_FAN_PWM_ENABLE[index]);
+        reg &= ~(0x03 << WINBOND_FAN_PWM_ENABLE_SHIFT[index]);
+        reg |= value << WINBOND_FAN_PWM_ENABLE_SHIFT[index];
+        
+        writeByte(WINBOND_FAN_PWM_ENABLE[index], reg);
+        
+        writeByte(WINBOND_FAN_PWM_OUTPUT[index], (float)(percent) * 2.55f);
+
+//        if (voltageControlledFans)
+//        {
+//            writeByte(WINBOND_FAN_PWM_OUTPUT[index], (float)(percent) * 2.55f);
+//            
+//        }
+//        else // PWM controlled fans
+//        {
+//            UInt8 value = (float)(percent) * 0.64f;
+//            
+//            writeByte(WINBOND_FAN_PWM_OUTPUT[index], value << 2);
+//        }
+        
+        
+    }
+}
+
 bool W836xxSensors::addTemperatureSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding temperature sensors...");

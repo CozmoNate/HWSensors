@@ -89,7 +89,7 @@ static NSMutableDictionary *smartctl_updated = nil;
 
 -(void)mouseEntered:(NSEvent *)theEvent
 {
-    [self performSelector:@selector(showSmartOutput:) withObject:self afterDelay:0.7];
+    [self performSelector:@selector(showSmartOutput:) withObject:self afterDelay:0.5];
 }
 
 -(void)mouseDown:(NSEvent *)theEvent

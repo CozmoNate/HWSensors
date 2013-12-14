@@ -19,13 +19,10 @@
 /*
 cc ./smc.c  -o smcutil -framework IOKit -framework CoreFoundation -Wno-four-char-constants -Wall -g -arch i386 
  */
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <string.h>
+
 #include <IOKit/IOKitLib.h>
+#include <Kernel/string.h>
+
 #include "smc.h"
 
 kern_return_t SMCOpen(io_connect_t *conn, const char *serviceName)
@@ -41,7 +38,7 @@ kern_return_t SMCOpen(io_connect_t *conn, const char *serviceName)
     result = IOServiceGetMatchingServices(masterPort, matchingDictionary, &iterator);
     if (result != kIOReturnSuccess)
     {
-        printf("Error: IOServiceGetMatchingServices() = %08x\n", result);
+        //printf("Error: IOServiceGetMatchingServices() = %08x\n", result);
         return 1;
     }
 
@@ -57,7 +54,7 @@ kern_return_t SMCOpen(io_connect_t *conn, const char *serviceName)
     IOObjectRelease(device);
     if (result != kIOReturnSuccess)
     {
-        printf("Error: IOServiceOpen() = %08x\n", result);
+        //printf("Error: IOServiceOpen() = %08x\n", result);
         return 1;
     }
 

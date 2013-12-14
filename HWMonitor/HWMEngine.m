@@ -1391,10 +1391,38 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     [fan setTitle:title];
     [fan setUnique:title];
-    [fan setIdentifier:@"Sensor"];
+    [fan setIdentifier:@"Fan"];
 
     [fan setEngine:self];
 
+    int index = [SmcHelper getIndexFromHexChar:name.UTF8String[1]];
+    
+    if (index >= 0) {
+        
+        [fan setNumber:[NSNumber numberWithInt:index]];
+        
+        SMCVal_t info;
+        
+        char key[5];
+        
+        snprintf(key, 5, "F%dMn", index);
+        
+        if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
+            [fan setMin:[NSNumber numberWithFloat:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]]];
+        }
+        
+        snprintf(key, 5, "F%dMx", index);
+        
+        if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
+            [fan setMax:[NSNumber numberWithFloat:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]]];
+        }
+        
+        // Force fan speed up or down to previousely saved saved speed
+        if (fan.speed) {
+            [fan setSpeed:fan.speed];
+        }
+    }
+    
     return fan;
 }
 
