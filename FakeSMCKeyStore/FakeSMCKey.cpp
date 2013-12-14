@@ -188,10 +188,18 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
 
 	if (handler) {
         
-        IOReturn result = handler->setValueCallback(this->getKey(), this->getType(), this->getSize(), this->getValue());
+        double time = ptimer_read_seconds();
         
-        if (kIOReturnSuccess != result) {
-            HWSensorsWarningLog("value changed event callback returned error for key %s (%s)", key, handler->stringFromReturn(result));
+        if (time - lastUpdated >= 1.0) {
+            
+            IOReturn result = handler->setValueCallback(key, type, size, value);
+            
+            if (kIOReturnSuccess == result) {
+                lastUpdated = time;
+            }
+            else {
+                HWSensorsWarningLog("value changed event callback returned error for key %s (%s)", key, handler->stringFromReturn(result));
+            }
         }
     }
 	
