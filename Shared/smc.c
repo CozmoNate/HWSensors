@@ -118,3 +118,38 @@ kern_return_t SMCReadKey(io_connect_t conn, const UInt32Char_t key, SMCVal_t *va
     
     return kIOReturnSuccess;
 }
+
+kern_return_t SMCWriteKey(io_connect_t conn, const SMCVal_t *val)
+{    
+    SMCVal_t      readVal;
+    
+    IOReturn result = SMCReadKey(conn, val->key, &readVal);
+    if (result != kIOReturnSuccess) 
+        return result;
+    
+    if (readVal.dataSize != val->dataSize)
+        return kIOReturnError;
+    
+    return SMCWriteKeyUnsafe(conn, val);
+}
+
+kern_return_t SMCWriteKeyUnsafe(io_connect_t conn, const SMCVal_t *val)
+{
+    kern_return_t result;
+    SMCKeyData_t  inputStructure;
+    SMCKeyData_t  outputStructure;
+    
+    memset(&inputStructure, 0, sizeof(SMCKeyData_t));
+    memset(&outputStructure, 0, sizeof(SMCKeyData_t));
+    
+    inputStructure.key = _strtoul(val->key, 4, 16);
+    inputStructure.data8 = SMC_CMD_WRITE_BYTES;    
+    inputStructure.keyInfo.dataSize = val->dataSize;
+    memcpy(inputStructure.bytes, val->bytes, sizeof(val->bytes));
+    
+    result = SMCCall(conn, KERNEL_INDEX_SMC, &inputStructure, &outputStructure);
+    if (result != kIOReturnSuccess)
+        return result;
+    
+    return kIOReturnSuccess;
+}
