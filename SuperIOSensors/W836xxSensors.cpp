@@ -246,6 +246,8 @@ void W836xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
             reg |= 0 << WINBOND_FAN_PWM_ENABLE_SHIFT[index];
             
             writeByte(WINBOND_FAN_PWM_ENABLE[index], reg);
+            
+            fanControlEnabled[index] = true;
         }
         
         

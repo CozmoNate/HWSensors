@@ -174,13 +174,49 @@ UInt8 NCT677xSensors::readTachometerControl(UInt32 index)
 
 void NCT677xSensors::writeTachometerControl(UInt32 index, UInt8 percent)
 {
-    if (index < fanLimit) {
-        // set manual mode
-        writeByte(NUVOTON_FAN_CONTROL_MODE_REG[index], 0);
+    if (index < fanLimit && !fanControlEnabled[index]) {
         
-        // set output value
-        writeByte(NUVOTON_FAN_PWM_COMMAND_REG[index], (float)(percent) * 2.55);  
+        switch (model) {
+            case NCT6771F: {
+                UInt8 reg = readByte(NUVOTON_FAN_PWM_MODE_OLD_REG[index]);
+                reg &= ~NUVOTON_PWM_MODE_MASK_OLD[index];
+                
+                UInt8 val = 0; // 0 - DC mode; 1 - PWM mode
+                
+                if (val)
+                    reg |= ~NUVOTON_PWM_MODE_MASK_OLD[index];
+                
+                writeByte(NUVOTON_FAN_PWM_MODE_OLD_REG[index], reg);
+                break;
+            }
+                
+            default: {
+                UInt8 reg = readByte(NUVOTON_FAN_PWM_MODE_REG[index]);
+                reg &= ~NUVOTON_PWM_MODE_MASK[index];
+                
+                UInt8 val = 0; // 0 - DC mode; 1 - PWM mode
+                
+                if (val)
+                    reg |= ~NUVOTON_PWM_MODE_MASK[index];
+                
+                writeByte(NUVOTON_FAN_PWM_MODE_REG[index], reg);
+                break;
+            }
+        }
+       
+        fanControlEnabled[index] = true;
     }
+
+    UInt8 value = (float)(percent) * 2.55;
+    
+    writeByte(NUVOTON_FAN_PWM_OUT_REG[index], value);
+    
+	if (index == 2)	{ /* floor: disable if val == 0 */
+		UInt8 reg = readByte(NUVOTON_TEMPERATURE_SEL_REG[index]);
+		reg &= 0x7f;
+		if (value) reg |= 0x80;
+		writeByte(NUVOTON_TEMPERATURE_SEL_REG[index], reg);
+	}
 }
 
 bool NCT677xSensors::initialize()
@@ -195,7 +231,7 @@ bool NCT677xSensors::initialize()
     
     switch (model) {
         case NCT6771F:
-            fanLimit = 4;
+            fanLimit = 3;
             tempLimit = 9;
             voltLimit = 9;
             fanRpmBaseRegister = 0x656;
@@ -204,7 +240,7 @@ bool NCT677xSensors::initialize()
             break;
             
         case NCT6776F:
-            fanLimit = 5;
+            fanLimit = 3;
             tempLimit = 9;
             voltLimit = 9;
             fanRpmBaseRegister = 0x656;
