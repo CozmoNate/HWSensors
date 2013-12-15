@@ -216,9 +216,9 @@
 
 "Graphs window always topmost" = "Wykres zawsze na wierzchu";
 
-"CPU Package Cores" = "Procesor (CPU)";
-"CPU Package Graphics" = "Zintegrowana grafika (iGPU)";
-"CPU Package Total" = "CPU + iGPU";
-"CPU Package DRAM" = "Pamięć RAM";
+"CPU Package Cores" = "CPU Układ Rdzeni";
+"CPU Package Graphics" = "CPU Układ Grafiki";
+"CPU Package Total" = "CPU Całkowity pobór";
+"CPU Package DRAM" = "CPU Kontroler RAM";
 "Graphs scale factor:" = "Skala wykresu";
 
