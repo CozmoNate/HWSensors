@@ -251,6 +251,38 @@ void CPUSensors::readTjmaxFromMSR()
 
 #define ROUND(x)    ((x) + 0.5 > int(x) + 1 ? int(x) + 1 : int(x))
 
+void CPUSensors::calculateMultiplier(UInt32 index, UInt32 group)
+{
+    if (!cpu_state_updated[index]) {
+        bit_set(timerEventsPending, group);
+    }
+    
+    cpu_state_updated[index] = false;
+    
+    switch (cpuid_info()->cpuid_cpufamily) {
+        case CPUFAMILY_INTEL_NEHALEM:
+        case CPUFAMILY_INTEL_WESTMERE:
+            if (baseMultiplier > 0 && cpu_ratio[index] > 1.0)
+                multiplier[index] = ROUND(cpu_ratio[index] * (float)baseMultiplier);
+            else
+                multiplier[index] = (float)(cpu_state[index] & 0xFF);
+            break;
+        case CPUFAMILY_INTEL_SANDYBRIDGE:
+        case CPUFAMILY_INTEL_IVYBRIDGE:
+        case CPUFAMILY_INTEL_HASWELL:
+            if (baseMultiplier > 0 && cpu_ratio[index] > 1.0)
+                multiplier[index] = ROUND(cpu_ratio[index] * (float)baseMultiplier);
+            else
+                multiplier[index] = (float)((cpu_state[index] >> 8) & 0xFF);
+            break;
+        default: {
+            UInt8 fid = (cpu_state[0] >> 8) & 0xFF;
+            multiplier[index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
+            break;
+        }
+    }
+}
+
 float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
 {    
     UInt32 index = sensor->getIndex();
@@ -269,36 +301,15 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
             
         case kCPUSensorsCoreMultiplierSensor:
         case kCPUSensorsPackageMultiplierSensor:
-            if (!cpu_state_updated[index]) {
-                bit_set(timerEventsPending, sensor->getGroup());
-            }
-            cpu_state_updated[index] = false;
-            switch (cpuid_info()->cpuid_cpufamily) {
-                case CPUFAMILY_INTEL_NEHALEM:
-                case CPUFAMILY_INTEL_WESTMERE:
-                    if (baseMultiplier > 0 && cpu_ratio[index] > 1.0)
-                        multiplier[index] = ROUND(cpu_ratio[index] * (float)baseMultiplier);
-                    else
-                        multiplier[index] = (float)(cpu_state[index] & 0xFF);
-                    break;
-                case CPUFAMILY_INTEL_SANDYBRIDGE:
-                case CPUFAMILY_INTEL_IVYBRIDGE:
-                case CPUFAMILY_INTEL_HASWELL:
-                    if (baseMultiplier > 0 && cpu_ratio[index] > 1.0)
-                        multiplier[index] = ROUND(cpu_ratio[index] * (float)baseMultiplier);
-                    else
-                        multiplier[index] = (float)((cpu_state[index] >> 8) & 0xFF);
-                    break;
-                default: {
-                    UInt8 fid = (cpu_state[0] >> 8) & 0xFF;
-                    multiplier[index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
-                    break;
-                }
-            }
+            calculateMultiplier(index, sensor->getGroup());
             return multiplier[index];
             
         case kCPUSensorsCoreFrequencySensor:
+            calculateMultiplier(index, kCPUSensorsCoreMultiplierSensor);
+            return multiplier[index] * (float)busClock;
+            
         case kCPUSensorsPackageFrequencySensor:
+            calculateMultiplier(index, kCPUSensorsPackageMultiplierSensor);
             return multiplier[index] * (float)busClock;
             
         case kCPUSensorsTotalPowerSensor:

@@ -1399,6 +1399,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     [fan setEngine:self];
 
+    [fan doUpdateValue];
+    
     if (newFan) {
         
         int index = [SmcHelper getIndexFromHexChar:[fan.name characterAtIndex:1]];
@@ -1433,13 +1435,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             }
         }
     }
-    else {
-        [fan doUpdateValue];
-        
-        // Force fan speed up or down to previousely saved speed
-        if (fan.value && fan.speed && ([fan.value isGreaterThan:fan.speed] ? fan.value.floatValue - fan.speed.floatValue : fan.speed.floatValue - fan.value.floatValue) > 100) {
-            [fan setSpeed:fan.speed];
-        }
+    else if (_configuration.enableFanControl) {
+        // Force SMC fan speed to previousely saved speed
+        [fan setSpeed:fan.speed];
     }
     
     return fan;

@@ -29,6 +29,8 @@
 #import "HWMSmcFanSensor.h"
 #import "smc.h"
 #import "SmcHelper.h"
+#import "HWMEngine.h"
+#import "HWMConfiguration.h"
 
 @implementation HWMSmcFanSensor
 
@@ -40,7 +42,7 @@
 
 -(void)setSpeed:(NSNumber *)speed
 {
-    if (self.max && self.min && self.number && speed && speed.floatValue > 0) {
+    if (self.engine.configuration.enableFanControl.boolValue && self.max && self.min && self.number && self.speed && speed) {
         SMCVal_t info;
         
         char key[5];
@@ -49,17 +51,15 @@
         snprintf(key, 5, "F%XTg", self.number.unsignedCharValue);
         
         if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, key, &info)) {
-            
             if ([SmcHelper encodeNumericValue:speed.floatValue length:info.dataSize type:info.dataType outBuffer:info.bytes]) {
-                
-                if (kIOReturnSuccess == SMCWriteKeyUnsafe((io_connect_t)self.service.unsignedLongValue, &info)) {
-                    [self willChangeValueForKey:@"speed"];
-                    [self setPrimitiveValue:speed forKey:@"speed"];
-                    [self didChangeValueForKey:@"speed"];
-                }
+                SMCWriteKeyUnsafe((io_connect_t)self.service.unsignedLongValue, &info);
             }
         }
     }
+    
+    [self willChangeValueForKey:@"speed"];
+    [self setPrimitiveValue:speed forKey:@"speed"];
+    [self didChangeValueForKey:@"speed"];
 }
 
 @end

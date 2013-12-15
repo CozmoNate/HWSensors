@@ -31,6 +31,7 @@
     </entity>
     <entity name="Configuration" representedClassName="HWMConfiguration" syncable="YES">
         <attribute name="colorThemeIndex" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="enableFanControl" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="graphsScaleValue" attributeType="Float" minValueString="1" maxValueString="10" defaultValueString="4" syncable="YES"/>
         <attribute name="graphsWindowAlwaysTopmost" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="showVolumeNames" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>

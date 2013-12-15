@@ -104,7 +104,7 @@
 "Built-in Battery" = "Встроенный аккумулятор";
 "Internal Battery" = "Внутренний аккумулятор";
 
-"Show sensor in popup menu" = "Показывать датчик во всплывающем меню";
+"Show sensor in popup menu" = "Показывать датчик в выпадающем меню";
 
 "HWSensors Updater" = "Обновления HWSensors";
 "New HWSensors version %@ is available to download. You have %@. Download newer version?" = "Появилась новая версия HWSensors v%@. Вы используете v%@. Скачать новую версию?";
@@ -136,6 +136,8 @@
 "%1.2f Mbytes" = "%1.2f МБайт";
 
 "rpm" = "об/мин";
+
+"Activate manual fan speed control" = "Разрешить управлять скоростью вентиляторов вручную";
 
 "CPUFan" = "Вентилятор ЦП";
 "CPUFan2" = "Вентилятор ЦП 2";

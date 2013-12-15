@@ -9,6 +9,10 @@
 #import "PopupFanCell.h"
 #import "HWMSmcFanSensor.h"
 #import "Localizer.h"
+#import "NSPopover+Message.h"
+#import "HWMEngine.h"
+#import "HWMConfiguration.h"
+#import "HWMColorTheme.h"
 
 @implementation PopupFanController
 
@@ -60,6 +64,11 @@ static NSPopover *gFanControllerPopover;
         PopupFanController *controller = [[PopupFanController alloc] initWithNibName:@"FanController" bundle:[NSBundle mainBundle]];
         
         [controller setObjectValue:self.objectValue];
+        
+        COICOPopoverView *container = (COICOPopoverView *)[controller view];
+        
+        [container setBackgroundColour:[self.objectValue engine].configuration.colorTheme.listBackgroundColor];
+        
         [Localizer localizeView:controller.view];
         
         gFanControllerPopover = [[NSPopover alloc] init];
@@ -82,7 +91,9 @@ static NSPopover *gFanControllerPopover;
 
 -(void)mouseEntered:(NSEvent *)theEvent
 {
-    [self performSelector:@selector(showFanController:) withObject:self afterDelay:0.5];
+    if ([[self.objectValue engine] configuration].enableFanControl.boolValue) {
+        [self performSelector:@selector(showFanController:) withObject:self afterDelay:0.5];
+    }
 }
 
 -(void)mouseDown:(NSEvent *)theEvent

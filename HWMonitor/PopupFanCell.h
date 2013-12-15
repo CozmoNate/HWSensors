@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
-#import "PopupBasicCell.h"
+#import "PopupSensorCell.h"
 
 @class HWMSmcFanSensor;
 
@@ -24,7 +24,7 @@
 
 @end;
 
-@interface PopupFanCell : PopupBasicCell
+@interface PopupFanCell : PopupSensorCell
 {
     NSTrackingRectTag _trackingRectTag;
 }

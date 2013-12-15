@@ -8,6 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+@interface COICOPopoverView : NSView {
+    NSColor *backgroundColour;
+}
+
+@property (nonatomic, retain) NSColor *backgroundColour;
+
+@end
+
+
 @interface NSPopover (Message)
 
 + (NSPopover*) showRelativeToRect:(NSRect)rect

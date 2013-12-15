@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSNumber * showVolumeNames;
 @property (nonatomic, retain) NSNumber * smartSensorsUpdateRate;
 @property (nonatomic, retain) NSNumber * smcSensorsUpdateRate;
+@property (nonatomic, retain) NSNumber * enableFanControl;
 @property (nonatomic, retain) NSNumber * updateSensorsInBackground;
 @property (nonatomic, retain) NSNumber * useBigFontInMenubar;
 @property (nonatomic, retain) NSNumber * useBsdDriveNames;

@@ -103,9 +103,12 @@ private:
     
     UInt16                  timerEventsPending;
     //UInt8                   timerEventsMomentum;
+
     IOReturn                woorkloopTimerEvent(void);
+    void                    calculateMultiplier(UInt32 index, UInt32 group);
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
+    
     
 protected:
     virtual float           getSensorValue(FakeSMCSensor *sensor);

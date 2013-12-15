@@ -9,15 +9,6 @@
 #import "NSPopover+Message.h"
 #import "NSString+Size.h"
 
-@interface COICOPopoverView : NSView {
-    NSColor *backgroundColour;
-}
-
-@property (nonatomic, retain) NSColor *backgroundColour;
-
-@end
-
-
 @implementation COICOPopoverView
 
 @synthesize backgroundColour;

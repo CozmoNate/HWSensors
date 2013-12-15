@@ -49,14 +49,12 @@ enum kLPCSensorsFanControlAction {
     kLPCSensorsFanActionProbe
 };
 
-class LPCSensorsFanControl : public OSObject
-{
-    OSDeclareDefaultStructors(LPCSensorsFanControl)
-    
-public:
+struct LPCSensorsFanControl {
     float                       target;
     kLPCSensorsFanControlAction action;
 };
+
+#define kLPCSensorsMaxFanControls       16
 
 class LPCSensors : public FakeSMCPlugin {
 	OSDeclareAbstractStructors(LPCSensors)
@@ -66,7 +64,7 @@ private:
     IOTimerEventSource*     timerEventSource;
     IOReturn                woorkloopTimerEvent(void);
     
-    OSArray                 *tachometerControls;
+    LPCSensorsFanControl    tachometerControls[kLPCSensorsMaxFanControls];
     
 protected:    
 	UInt16					address;
