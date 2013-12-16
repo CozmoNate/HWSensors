@@ -31,13 +31,9 @@
 
 @interface GraphsView : NSView
 {
-    NSRect _graphBounds;
-    double _maxPoints;
-
-    NSDictionary *_legendAttributes;
-    NSString *_legendFormat;
-
-    BOOL _isTemperatureGroup;
+    NSRect          _graphBounds;
+    double          _maxPoints;
+    NSDictionary *  _legendAttributes;
 }
 
 @property (assign) IBOutlet GraphsController *graphsController;

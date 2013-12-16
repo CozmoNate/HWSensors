@@ -36,6 +36,7 @@
 #import "HWMSensor.h"
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
+#import "HWMValueFormatter.h"
 
 #define LeftViewMargin      1
 #define TopViewMargin       2
@@ -59,29 +60,6 @@
         _graphsGroup = group;
         
         if (_graphsGroup) {
-            if ([_graphsGroup.selectors containsObject:@kHWMGroupTemperature] ||
-                [_graphsGroup.selectors containsObject:@kHWMGroupSmartTemperature]) {
-                _legendFormat = @"%1.0f°";
-                _isTemperatureGroup = YES;
-            }
-            else if ([_graphsGroup.selectors containsObject:@kHWMGroupFrequency]) {
-                _legendFormat = GetLocalizedString(@"%1.0f MHz");
-            }
-            else if ([_graphsGroup.selectors containsObject:@kHWMGroupTachometer]) {
-                _legendFormat = GetLocalizedString(@"%1.0f rpm");
-            }
-            else if ([_graphsGroup.selectors containsObject:@kHWMGroupVoltage]) {
-                _legendFormat = GetLocalizedString(@"%1.3f V");
-            }
-            else if ([_graphsGroup.selectors containsObject:@kHWMGroupCurrent]) {
-                _legendFormat = GetLocalizedString(@"%1.3f A");
-            }
-            else if ([_graphsGroup.selectors containsObject:@kHWMGroupPower]) {
-                _legendFormat = GetLocalizedString(@"%1.3f W");
-            }
-            else if ([_graphsGroup.selectors containsObject:@kHWMGroupBattery]) {
-                _legendFormat = @"%1.0f%";
-            }
             
             [self calculateGraphBounds];
             
@@ -106,8 +84,6 @@
                              [NSColor yellowColor], NSForegroundColorAttributeName,
                              shadow, NSShadowAttributeName,
                              nil];
-
-        _legendFormat = @"%1.0f";
     }
     
     return self;
@@ -260,11 +236,11 @@
         [context setShouldAntialias:YES];
 
         NSAttributedString *maxExtremeTitle = [[NSAttributedString alloc]
-                                               initWithString:[NSString stringWithFormat:_legendFormat, _isTemperatureGroup && self.graphsController.monitorEngine.configuration.useFahrenheit.boolValue ? _graphsGroup.maxGraphsValue.doubleValue * (9.0f / 5.0f) + 32.0f : _graphsGroup.maxGraphsValue.doubleValue]
+                                               initWithString:[HWMValueFormatter formattedValue:_graphsGroup.maxGraphsValue usingRulesOfGroup:[_graphsGroup.selectors objectAtIndex:0] configuration:_graphsGroup.configuration]
                                                attributes:_legendAttributes];
 
         NSAttributedString *minExtremeTitle = [[NSAttributedString alloc]
-                                     initWithString:[NSString stringWithFormat:_legendFormat, _isTemperatureGroup && self.graphsController.monitorEngine.configuration.useFahrenheit.boolValue ? _graphsGroup.minGraphsValue.doubleValue * (9.0f / 5.0f) + 32.0f : _graphsGroup.minGraphsValue.doubleValue]
+                                     initWithString:[HWMValueFormatter formattedValue:_graphsGroup.minGraphsValue usingRulesOfGroup:[_graphsGroup.selectors objectAtIndex:0] configuration:_graphsGroup.configuration]
                                      attributes:_legendAttributes];
 
         if ([self graphPointToView:NSMakePoint(0, _graphsGroup.maxGraphsValue.doubleValue)].y + 2 + [maxExtremeTitle size].height > [self graphPointToView:NSMakePoint(0, _graphBounds.origin.y + _graphBounds.size.height)].y || [self graphPointToView:NSMakePoint(0, _graphsGroup.minGraphsValue.doubleValue)].y - [minExtremeTitle size].height < [self graphPointToView:_graphBounds.origin].y) {

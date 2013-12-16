@@ -25,6 +25,31 @@ cc ./smc.c  -o smcutil -framework IOKit -framework CoreFoundation -Wno-four-char
 
 #include "smc.h"
 
+UInt32 _strtoul(const char *str, int size, int base)
+{
+    UInt32 total = 0;
+    int i;
+    
+    for (i = 0; i < size; i++)
+    {
+        if (base == 16)
+            total += str[i] << (size - 1 - i) * 8;
+        else
+            total += (unsigned char) (str[i] << (size - 1 - i) * 8);
+    }
+    return total;
+}
+
+void _ultostr(char *str, UInt32 val)
+{
+    str[4] = '\0';
+    snprintf(str, 5, "%c%c%c%c",
+             (unsigned int) val >> 24,
+             (unsigned int) val >> 16,
+             (unsigned int) val >> 8,
+             (unsigned int) val);
+}
+
 kern_return_t SMCOpen(io_connect_t *conn, const char *serviceName)
 {
     kern_return_t result;

@@ -110,6 +110,7 @@
 		7EED6D701734F8E700248870 /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */; };
 		7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D7B1734F9CF00248870 /* 19-gear.png */; };
 		7EED6D7E1734F9CF00248870 /* 19-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D7C1734F9CF00248870 /* 19-gear@2x.png */; };
+		7EF034F0185F73B3003CDEFB /* HWMValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF034EF185F73B3003CDEFB /* HWMValueFormatter.m */; };
 		7EF1B129185342630094C1DB /* HWMFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1B128185342630094C1DB /* HWMFavorite.m */; };
 		7EF1B12C185342890094C1DB /* HWMConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1B12B185342890094C1DB /* HWMConfiguration.m */; };
 		7EF28328184C71AA00DD8513 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 7EF28326184C71AA00DD8513 /* Credits.html */; };
@@ -330,6 +331,8 @@
 		7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
 		7EED6D7B1734F9CF00248870 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
 		7EED6D7C1734F9CF00248870 /* 19-gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear@2x.png"; sourceTree = "<group>"; };
+		7EF034EE185F73B3003CDEFB /* HWMValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMValueFormatter.h; sourceTree = "<group>"; };
+		7EF034EF185F73B3003CDEFB /* HWMValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMValueFormatter.m; sourceTree = "<group>"; };
 		7EF1B127185342630094C1DB /* HWMFavorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMFavorite.h; sourceTree = "<group>"; };
 		7EF1B128185342630094C1DB /* HWMFavorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMFavorite.m; sourceTree = "<group>"; };
 		7EF1B12A185342890094C1DB /* HWMConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMConfiguration.h; sourceTree = "<group>"; };
@@ -563,10 +566,12 @@
 		7E19DEC71843D30E00229B0E /* Base Classes */ = {
 			isa = PBXGroup;
 			children = (
-				7EF1B12A185342890094C1DB /* HWMConfiguration.h */,
-				7EF1B12B185342890094C1DB /* HWMConfiguration.m */,
+				7EF034EE185F73B3003CDEFB /* HWMValueFormatter.h */,
+				7EF034EF185F73B3003CDEFB /* HWMValueFormatter.m */,
 				7E031C621835E76D00A2D097 /* HWMImageTransformer.h */,
 				7E031C631835E76D00A2D097 /* HWMImageTransformer.m */,
+				7EF1B12A185342890094C1DB /* HWMConfiguration.h */,
+				7EF1B12B185342890094C1DB /* HWMConfiguration.m */,
 				7E93E29C183E832600957EDF /* HWMColorTheme.h */,
 				7E93E29D183E832600957EDF /* HWMColorTheme.m */,
 				7E9FF2C8185330BC009DAD0D /* HWMItem.h */,
@@ -1135,6 +1140,7 @@
 				7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */,
 				7EA248FF16D8E93A002231B2 /* PrefsController.m in Sources */,
 				7EFE61B7183581090009BD0D /* HWMSensor.m in Sources */,
+				7EF034F0185F73B3003CDEFB /* HWMValueFormatter.m in Sources */,
 				7E0200B218035D3700520CF7 /* RFOverlayScrollView.m in Sources */,
 				7E56D2FB183FD96600D53B97 /* HWMSmcFanSensor.m in Sources */,
 				7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */,

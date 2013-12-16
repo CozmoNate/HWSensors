@@ -183,7 +183,7 @@
 
                 HWMSensor *sensor = (HWMSensor*)object;
 
-                NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:sensor.formattedValue];
+                NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:sensor.strippedValue];
 
                 NSColor *valueColor;
 

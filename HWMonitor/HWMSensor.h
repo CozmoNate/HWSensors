@@ -43,6 +43,8 @@
 @interface HWMSensor : HWMItem
 {
     NSUInteger _alarmLevel;
+    NSString *_formattedValue;
+    NSString *_strippedValue;
 }
 
 @property (nonatomic, retain) NSNumber * service;
@@ -56,6 +58,7 @@
 
 @property (readonly) NSUInteger alarmLevel;
 @property (readonly) NSString * formattedValue;
+@property (readonly) NSString * strippedValue;
 
 - (void)doUpdateValue;
 
