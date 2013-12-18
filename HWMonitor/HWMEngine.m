@@ -826,15 +826,15 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 {
     @synchronized (self) {
 
-        if (fromIndex > _configuration.favorites.count) {
+        if (fromIndex >= _configuration.favorites.count) {
             fromIndex = _configuration.favorites.count - 1;
         }
 
-        if (toIndex > _configuration.favorites.count) {
+        if (toIndex >= _configuration.favorites.count) {
             toIndex = _configuration.favorites.count - 1;
         }
 
-        [[_configuration mutableOrderedSetValueForKey:@"favorites"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:toIndex];
+        [[_configuration mutableOrderedSetValueForKey:@"favorites"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:toIndex > fromIndex && toIndex < _configuration.favorites.count - 1 ? toIndex - 1 : toIndex];
 
         [self saveContext];
         

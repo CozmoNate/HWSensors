@@ -558,20 +558,20 @@
         NSData* rowData = [pboard dataForType:kHWMonitorPrefsItemDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
-        
+
+        NSInteger listFromRow = fromRow - 1;
+        NSInteger listToRow = toRow - 1;
+
         if ([info draggingSource] == _favoritesTableView) {
-            
-            toRow = toRow > fromRow ? toRow - 1 : toRow;
-            
             [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-                [tableView moveRowAtIndex:fromRow toIndex:toRow];
+                [tableView moveRowAtIndex:fromRow toIndex:toRow > fromRow ? toRow - 1 : toRow];
             } completionHandler:^{
-                [_monitorEngine moveFavoritesItemAtIndex:fromRow - 1 toIndex:toRow > 0 ? toRow - 1 : 0];
+                [_monitorEngine moveFavoritesItemAtIndex:listFromRow toIndex:listToRow];
             }];
         }
         else  if ([info draggingSource] == _sensorsTableView) {
-            HWMItem *item = [_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:fromRow - 1];
-            [_monitorEngine insertItemIntoFavorites:item atIndex:toRow > 0 ? toRow - 1 : 0];
+            HWMItem *item = [_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:listFromRow];
+            [_monitorEngine insertItemIntoFavorites:item atIndex:listToRow];
         }
     }
     else if (tableView == _sensorsTableView && [info draggingSource] == _sensorsTableView) {
