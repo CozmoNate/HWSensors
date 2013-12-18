@@ -43,15 +43,10 @@
     [[self mutableOrderedSetValueForKey:@"sensors"] addObject:value];
 }
 
--(void)moveSensorsObject:(HWMSensor *)value toIndex:(NSUInteger)toIndex
+-(void)exchangeSensorsObjectAtIndex:(NSUInteger)fromIndex withSensorsObjectAtIndex:(NSUInteger)toIndex;
 {
-    if (toIndex > self.sensors.count) {
-        toIndex = self.sensors.count;
-    }
-
-    NSUInteger fromIndex = [self.sensors indexOfObject:value];
-
-    [[self mutableOrderedSetValueForKey:@"sensors"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:fromIndex < toIndex || toIndex == self.sensors.count ? toIndex - 1 : toIndex];
+    [[self mutableOrderedSetValueForKey:@"sensors"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] 
+                                                                 toIndex:toIndex > fromIndex && toIndex < self.sensors.count - 1 ? toIndex - 1 : toIndex];
 }
 
 @end

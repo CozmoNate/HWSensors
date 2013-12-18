@@ -45,7 +45,9 @@ extern NSString * const HWMGraphsGroupHistoryHasBeenChangedNotification;
 @property (readonly) NSNumber *maxGraphsValue;
 @property (readonly) NSNumber *minGraphsValue;
 
--(void)captureSensorValuesToGraphsHistorySetLimit:(NSUInteger)limit;
+- (void)exchangeGraphsObjectAtIndex:(NSUInteger)fromIndex withGraphsObjectAtIndex:(NSUInteger)toIndex;
+
+- (void)captureSensorValuesToGraphsHistorySetLimit:(NSUInteger)limit;
 
 @end
 
@@ -59,7 +61,6 @@ extern NSString * const HWMGraphsGroupHistoryHasBeenChangedNotification;
 - (void)replaceGraphsAtIndexes:(NSIndexSet *)indexes withGraphs:(NSArray *)values;
 - (void)addGraphsObject:(HWMGraph *)value;
 - (void)removeGraphsObject:(HWMGraph *)value;
-- (void)moveGraphsObject:(HWMGraph *)value toIndex:(NSUInteger)toIndex;
 - (void)addGraphs:(NSOrderedSet *)values;
 - (void)removeGraphs:(NSOrderedSet *)values;
 

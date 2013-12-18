@@ -258,7 +258,7 @@
             [_tableView reloadData];
         });
     }
-    else if ([keyPath isEqual:@"monitorEngine.sensorsAndGroups"]) {
+    else if ([keyPath isEqual:@"monitorEngine.sensorsAndGroups"] && _ignoreSensorsAndGroupListChanges == NO) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [_tableView reloadData];
             [self layoutContent:YES orderFront:NO];
@@ -397,9 +397,9 @@
         NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
-        id sourceItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
+        id fromItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
 
-        [(HWMItem*)sourceItem setHidden:@YES];
+        [(HWMItem*)fromItem setHidden:@YES];
 
         [_monitorEngine setNeedsUpdateLists];
 
@@ -419,38 +419,30 @@
     NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
-    id sourceItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
+    id fromItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
 
     _currentItemDragOperation = NSDragOperationNone;
     
-    if ([sourceItem isKindOfClass:[HWMSensor class]] && toRow > 0) {
+    if ([fromItem isKindOfClass:[HWMSensor class]] && toRow > 0) {
         
         _currentItemDragOperation = NSDragOperationMove;
 
         if (toRow < self.monitorEngine.sensorsAndGroups.count) {
-
             if (toRow == fromRow || toRow == fromRow + 1) {
                 _currentItemDragOperation = NSDragOperationNone;
             }
             else {
-                id destinationItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow];
+                id toItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow];
 
-                if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
+                if ([toItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)fromItem group] != [(HWMSensor*)toItem group]) {
                     _currentItemDragOperation = NSDragOperationNone;
-                }
-                else {
-                    destinationItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow - 1];
-
-                    if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
-                        _currentItemDragOperation = NSDragOperationNone;
-                    }
                 }
             }
         }
         else {
-            id destinationItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow - 1];
+            id toItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow - 1];
 
-            if ([destinationItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)sourceItem group] != [(HWMSensor*)destinationItem group]) {
+            if ([toItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)fromItem group] != [(HWMSensor*)toItem group]) {
                 _currentItemDragOperation = NSDragOperationNone;
             }
         }
@@ -470,16 +462,21 @@
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
 
-    HWMSensor *sourceItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
-    HWMSensor *destinationItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow];
-
-    toRow = toRow > fromRow ? toRow - 1 : toRow;
+    HWMSensor *fromItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
+    
+    id checkItem = toRow >= self.monitorEngine.sensorsAndGroups.count ? [self.monitorEngine.sensorsAndGroups lastObject] : [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow];
+    
+    HWMSensor *toItem = ![checkItem isKindOfClass:[HWMSensor class]] 
+    || toRow >= self.monitorEngine.sensorsAndGroups.count ? [fromItem.group.sensors lastObject] : checkItem;
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        [tableView moveRowAtIndex:fromRow toIndex:toRow];
-        [sourceItem.group moveSensorsObject:sourceItem toIndex:[sourceItem.group.sensors indexOfObject:destinationItem]];
+        [tableView moveRowAtIndex:fromRow toIndex:toRow > fromRow ? toRow - 1 : toRow];
+        [fromItem.group exchangeSensorsObjectAtIndex:[fromItem.group.sensors indexOfObject:fromItem]
+                            withSensorsObjectAtIndex:[fromItem.group.sensors indexOfObject:toItem]];
     } completionHandler:^{
-        [_monitorEngine setNeedsUpdateLists];
+        _ignoreSensorsAndGroupListChanges = YES;
+        [_monitorEngine setNeedsUpdateSensorLists];
+        _ignoreSensorsAndGroupListChanges = NO;
     }];
 
     return YES;

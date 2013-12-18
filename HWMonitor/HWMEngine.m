@@ -731,6 +731,32 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     }
 }
 
+-(void)setNeedsUpdateSensorLists
+{
+    @synchronized (self) {
+        [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
+        _iconsWithSensorsAndGroups = nil;
+        [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
+        
+        [self willChangeValueForKey:@"sensorsAndGroups"];
+        _sensorsAndGroups = nil;
+        [self didChangeValueForKey:@"sensorsAndGroups"];
+        
+        [self willChangeValueForKey:@"favoriteItems"];
+        _favoriteItems = nil;
+        [self didChangeValueForKey:@"favoriteItems"];
+    }
+}
+
+-(void)setNeedsUpdateGraphsList
+{
+    @synchronized (self) {
+        [self willChangeValueForKey:@"graphsAndGroups"];
+        _graphsAndGroups = nil;
+        [self didChangeValueForKey:@"graphsAndGroups"];
+    }
+}
+
 -(void)setNeedsRecalculateSensorValues
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
@@ -749,6 +775,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             [obj didChangeValueForKey:@"value"];
             [obj willChangeValueForKey:@"formattedValue"];
             [obj didChangeValueForKey:@"formattedValue"];
+            [obj willChangeValueForKey:@"strippedValue"];
+            [obj didChangeValueForKey:@"strippedValue"];
         }];
     }
 }

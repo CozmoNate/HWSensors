@@ -1,10 +1,10 @@
 /*
  Localizable.strings
  HWSensors
- 
+
  Created by kozlek on 24/02/12.
  Copyright (c) 2012 oswaldini @ www.osx86.org.pl. All rights reserved.
- 
+
  */
 
 "TEMPERATURES" = "TEMPERATURY";
@@ -34,6 +34,7 @@
 "temperatures" = "Temperatury";
 "hddtemperatures" = "Temperatury dysków";
 "ssdlife" = "Żywotność SSD";
+"scale" = "Podziałka";
 "multipliers" = "Mnożniki";
 "frequencies" = "Częstotliwości";
 "tachometers" = "Prędkości";
@@ -71,8 +72,9 @@
 "History Graphs" = "Historia wykresu";
 "Sensors update rate:" = "Częstotliwość odświeżania danych :";
 "S.M.A.R.T. update rate:" = "Częstotliwość odświeżania S.M.A.R.T. :";
-"sec" = "sek.";
-"min" = "min.";
+"Activate manual fan speed control" = "Manualna regulacja wentylatorów";
+"sec." = "sek.";
+"min." = "min.";
 "Graphs:" = "Wykres :";
 "Use data smoothing" = "Użyj wygładzania wykresu";
 "General" = "Ogólne";
@@ -144,7 +146,7 @@
 "CPU Proximity" = "Okolice procesora";
 "CPU %X Proximity" = "Okolice procesora %X";
 
-"CPU Package" = "Prędkość procesora";
+"CPU Package" = "Procesor";
 
 "PECI CPU" = "PECI CPU";
 "PECI SA" = "PECI SA";
@@ -177,8 +179,8 @@
 "GPU %X Heatsink" = "Radiator grafiki %X";
 "GPU Proximity" = "Okolice grafiki";
 "GPU %X Proximity" = "Okolice grafiki %X";
-"GPU Memory" = "Prędkość pamięci grafiki";
-"GPU %X Memory" = "Prędkość pamięci grafiki %X";
+"GPU Memory" = "Pamięć grafiki";
+"GPU %X Memory" = "Pamięć grafiki %X";
 "GPU %X Fan" = "Wentylator grafiki %X";
 "GPU %X PWM" = "Wentylator grafiki %X";
 
@@ -188,8 +190,8 @@
 "CPU Core %X" = "Procesor %X";
 "CPU Package Multiplier" = "Mnożnik procesora";
 
-"GPU Core" = "Prędkość rdzenia grafiki";
-"GPU %X Core" = "Prędkość rdzenia grafiki %X";
+"GPU Core" = "Rdzeń grafiki";
+"GPU %X Core" = "Rdzeń grafiki %X";
 "GPU Shader" = "Jednostki cieniujące grafiki";
 "GPU %X Shader" = "Jednostki cieniujące grafiki %X";
 "GPU ROP" = "Jednostki renderujące grafiki";

@@ -61,7 +61,7 @@
 @property (nonatomic, retain) HWMIcon *icon;
 @property (nonatomic, retain) NSOrderedSet *sensors;
 
--(void)moveSensorsObject:(HWMSensor *)value toIndex:(NSUInteger)toIndex;
+-(void)exchangeSensorsObjectAtIndex:(NSUInteger)fromIndex withSensorsObjectAtIndex:(NSUInteger)toIndex;
 
 @end
 

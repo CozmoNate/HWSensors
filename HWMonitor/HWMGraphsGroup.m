@@ -51,15 +51,9 @@ NSString * const HWMGraphsGroupHistoryHasBeenChangedNotification = @"HWMGraphsGr
     [[self mutableOrderedSetValueForKey:@"graphs"] addObject:value];
 }
 
-- (void)moveGraphsObject:(HWMGraph *)value toIndex:(NSUInteger)toIndex
+- (void)exchangeGraphsObjectAtIndex:(NSUInteger)fromIndex withGraphsObjectAtIndex:(NSUInteger)toIndex
 {
-    if (toIndex > self.graphs.count) {
-        toIndex = self.graphs.count;
-    }
-    
-    NSUInteger fromIndex = [self.graphs indexOfObject:value];
-    
-    [[self mutableOrderedSetValueForKey:@"graphs"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:fromIndex < toIndex || toIndex == self.graphs.count ? toIndex - 1 : toIndex];
+    [[self mutableOrderedSetValueForKey:@"graphs"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:toIndex > fromIndex && toIndex < self.graphs.count - 1 ? toIndex - 1 : toIndex];
 }
 
 -(void)captureSensorValuesToGraphsHistorySetLimit:(NSUInteger)limit

@@ -163,7 +163,7 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (_monitorEngine) {
-        if ([keyPath isEqual:@"monitorEngine.graphsAndGroups"]) {
+        if ([keyPath isEqual:@"monitorEngine.graphsAndGroups"] && _ignoreGraphsAndGroupListChanges == NO) {
             [self rebuildViews];
         }
         else if ([keyPath isEqual:@"monitorEngine.configuration.graphsWindowAlwaysTopmost"]) {
@@ -263,11 +263,11 @@
     NSData* rowData = [pboard dataForType:kHWMonitorGraphsItemDataType];
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
-    id sourceItem = [self.monitorEngine.graphsAndGroups objectAtIndex:fromRow];
+    id fromItem = [self.monitorEngine.graphsAndGroups objectAtIndex:fromRow];
     
     NSDragOperation currentItemDragOperation = NSDragOperationNone;
     
-    if ([sourceItem isKindOfClass:[HWMGraph class]] && toRow > 0) {
+    if ([fromItem isKindOfClass:[HWMGraph class]] && toRow > 0) {
         
         currentItemDragOperation = NSDragOperationMove;
         
@@ -277,24 +277,17 @@
                 currentItemDragOperation = NSDragOperationNone;
             }
             else {
-                id destinationItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow];
+                id toItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow];
                 
-                if ([destinationItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)sourceItem group] != [(HWMGraph*)destinationItem group]) {
+                if ([toItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)fromItem group] != [(HWMGraph*)toItem group]) {
                     currentItemDragOperation = NSDragOperationNone;
-                }
-                else {
-                    destinationItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow - 1];
-                    
-                    if ([destinationItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)sourceItem group] != [(HWMGraph*)destinationItem group]) {
-                        currentItemDragOperation = NSDragOperationNone;
-                    }
                 }
             }
         }
         else {
-            id destinationItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow - 1];
+            id toItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow - 1];
             
-            if ([destinationItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)sourceItem group] != [(HWMGraph*)destinationItem group]) {
+            if ([toItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)fromItem group] != [(HWMGraph*)toItem group]) {
                 currentItemDragOperation = NSDragOperationNone;
             }
         }
@@ -314,13 +307,22 @@
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
     
-    HWMGraph *sourceItem = [self.monitorEngine.graphsAndGroups objectAtIndex:fromRow];
-    HWMGraph *destinationItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow];
+    HWMGraph *fromItem = [self.monitorEngine.graphsAndGroups objectAtIndex:fromRow];
     
-    toRow = toRow > fromRow ? toRow - 1 : toRow;
+    id checkItem = toRow >= self.monitorEngine.graphsAndGroups.count ? [self.monitorEngine.graphsAndGroups lastObject] : [self.monitorEngine.graphsAndGroups objectAtIndex:toRow];
     
-    [tableView moveRowAtIndex:fromRow toIndex:toRow];
-    [sourceItem.group moveGraphsObject:sourceItem toIndex:[sourceItem.group.graphs indexOfObject:destinationItem]];
+    HWMGraph *toItem = ![checkItem isKindOfClass:[HWMGraph class]] 
+    || toRow >= self.monitorEngine.graphsAndGroups.count ? [fromItem.group.graphs lastObject] : checkItem;
+    
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [tableView moveRowAtIndex:fromRow toIndex:toRow > fromRow ? toRow - 1 : toRow];
+        [fromItem.group exchangeGraphsObjectAtIndex:[fromItem.group.graphs indexOfObject:fromItem]
+                            withGraphsObjectAtIndex:[fromItem.group.graphs indexOfObject:toItem]];
+    } completionHandler:^{
+        _ignoreGraphsAndGroupListChanges = YES;
+        [self.monitorEngine setNeedsUpdateGraphsList];
+        _ignoreGraphsAndGroupListChanges = NO;
+    }];
     
     return YES;
 }

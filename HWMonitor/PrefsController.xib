@@ -74,11 +74,11 @@
             </metadata>
         </numberFormatter>
         <view id="2wX-b3-awf" userLabel="General View">
-            <rect key="frame" x="0.0" y="0.0" width="550" height="411"/>
+            <rect key="frame" x="0.0" y="0.0" width="550" height="413"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OHd-tF-mXw">
-                    <rect key="frame" x="24" y="364" width="132" height="17"/>
+                    <rect key="frame" x="24" y="366" width="132" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="750" constant="128" id="oRu-7s-Lsu"/>
@@ -90,7 +90,7 @@
                     </textFieldCell>
                 </textField>
                 <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eN7-c7-Y6I">
-                    <rect key="frame" x="162" y="341" width="362" height="40"/>
+                    <rect key="frame" x="162" y="343" width="362" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="97" id="aAE-gS-s9F"/>
@@ -126,7 +126,7 @@
                     </cells>
                 </matrix>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="67I-pQ-71H">
-                    <rect key="frame" x="18" y="250" width="514" height="26"/>
+                    <rect key="frame" x="18" y="252" width="514" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="10" doubleValue="1.5" tickMarkPosition="above" numberOfTickMarks="19" allowsTickMarkValuesOnly="YES" sliderType="linear" id="mDj-1u-M0A"/>
                     <connections>
@@ -134,7 +134,7 @@
                     </connections>
                 </slider>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vqt-Qp-d9a">
-                    <rect key="frame" x="24" y="284" width="427" height="17"/>
+                    <rect key="frame" x="24" y="286" width="427" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="423" id="Vj0-ew-1q5"/>
@@ -146,7 +146,7 @@
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gn4-5s-Zdl">
-                    <rect key="frame" x="497" y="284" width="29" height="17"/>
+                    <rect key="frame" x="497" y="286" width="29" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="25" id="rDn-hN-3JG"/>
@@ -158,7 +158,7 @@
                     </textFieldCell>
                 </textField>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oV0-8W-hgL">
-                    <rect key="frame" x="18" y="161" width="514" height="26"/>
+                    <rect key="frame" x="18" y="163" width="514" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="5" maxValue="30" doubleValue="10" tickMarkPosition="above" numberOfTickMarks="6" allowsTickMarkValuesOnly="YES" sliderType="linear" id="SWm-tP-GYT"/>
                     <connections>
@@ -166,7 +166,7 @@
                     </connections>
                 </slider>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gfd-1u-QhR">
-                    <rect key="frame" x="24" y="195" width="423" height="17"/>
+                    <rect key="frame" x="24" y="197" width="423" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="419" id="OFL-Mi-pei"/>
@@ -178,7 +178,7 @@
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6RB-rI-Ik7">
-                    <rect key="frame" x="493" y="195" width="33" height="17"/>
+                    <rect key="frame" x="493" y="197" width="33" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="29" id="145-rW-X6v"/>
@@ -236,7 +236,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dIQ-rm-6cs">
-                    <rect key="frame" x="455" y="284" width="38" height="17"/>
+                    <rect key="frame" x="455" y="286" width="38" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" priority="720" constant="34" id="zJZ-zu-uX7"/>
@@ -251,7 +251,7 @@
                     </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eWb-eM-oNW">
-                    <rect key="frame" x="451" y="195" width="38" height="17"/>
+                    <rect key="frame" x="451" y="197" width="38" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" priority="720" constant="34" id="ij5-oy-uKi"/>
@@ -266,7 +266,7 @@
                     </connections>
                 </textField>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="rjP-lo-ecp">
-                    <rect key="frame" x="24" y="107" width="502" height="18"/>
+                    <rect key="frame" x="24" y="109" width="502" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="C4Q-fa-Kbq"/>
@@ -281,11 +281,11 @@
                     </connections>
                 </button>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JrX-gr-dLb">
-                    <rect key="frame" x="18" y="87" width="514" height="2"/>
+                    <rect key="frame" x="18" y="87" width="514" height="4"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="514" id="hUU-nC-H66"/>
-                        <constraint firstAttribute="height" constant="2" id="lUN-Qs-cFP"/>
+                        <constraint firstAttribute="height" constant="4" id="lUN-Qs-cFP"/>
                     </constraints>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="Divider" id="bd7-4m-uAN"/>
                 </imageView>

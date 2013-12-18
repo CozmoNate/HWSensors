@@ -97,6 +97,7 @@ private:
     float                   multiplier[kCPUSensorsMaxCpus];
     float                   energyUnits;
     UInt8                   baseMultiplier;
+    UInt8                   availableCoresCount;
     
 	void                    readTjmaxFromMSR();
     float                   readMultiplier(UInt8 cpu_index);
@@ -105,7 +106,7 @@ private:
     //UInt8                   timerEventsMomentum;
 
     IOReturn                woorkloopTimerEvent(void);
-    void                    calculateMultiplier(UInt32 index, UInt32 group);
+    void                    calculateMultiplier(UInt32 index);
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
     
