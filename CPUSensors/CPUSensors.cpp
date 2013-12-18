@@ -283,6 +283,9 @@ IOReturn CPUSensors::woorkloopTimerEvent()
 
         if (bit_get(timerEventsPending, kCPUSensorsCoreThermalSensor)) {
             mp_rendezvous_no_intrs(read_cpu_thermal, NULL);
+            for (UInt8 index = 0; index < availableCoresCount; index++) {
+                cpu_thermal_updated[index] = true;
+            }
         }
         
         if (bit_get(timerEventsPending, kCPUSensorsPackageThermalSensor)) {            
@@ -301,6 +304,7 @@ IOReturn CPUSensors::woorkloopTimerEvent()
 
             for (UInt8 index = 0; index < availableCoresCount; index++) {
                 calculateMultiplier(index);
+                cpu_state_updated[index] = true;
             }
         }
         
@@ -354,30 +358,27 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
     
     switch (sensor->getGroup()) {
         case kCPUSensorsCoreThermalSensor:
+        case kCPUSensorsPackageThermalSensor:
             if (!cpu_thermal_updated[index]) {
                 bit_set(timerEventsPending, kCPUSensorsCoreThermalSensor);
             }
             cpu_thermal_updated[index] = false;
             return tjmax[index] - cpu_thermal[index];
             
-        case kCPUSensorsPackageThermalSensor:
-            bit_set(timerEventsPending, kCPUSensorsPackageThermalSensor);
-            return float(tjmax[0] - cpu_thermal_package);
-            
         case kCPUSensorsCoreMultiplierSensor:
         case kCPUSensorsPackageMultiplierSensor:
-            if (!cpu_state_updated[index]) {
-                bit_set(timerEventsPending, sensor->getGroup());
-            }
-            cpu_state_updated[index] = false;
+            bit_set(timerEventsPending, sensor->getGroup());
             return multiplier[index];
             
         case kCPUSensorsCoreFrequencySensor:
-        case kCPUSensorsPackageFrequencySensor:
             if (!cpu_state_updated[index]) {
                 bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
             }
             cpu_state_updated[index] = false;
+            return multiplier[index] * (float)busClock;
+
+        case kCPUSensorsPackageFrequencySensor:
+            bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
             return multiplier[index] * (float)busClock;
             
         case kCPUSensorsTotalPowerSensor:
