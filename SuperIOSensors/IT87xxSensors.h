@@ -85,7 +85,9 @@ class IT87xxSensors : public LPCSensors
 	
 private:
     bool                    fanControlEnabled[5];
-    
+    UInt8                   fanPWMControl[5];
+    bool                    fanSmartGuardian[5];
+
     UInt8                   features;
     
 	UInt8					readByte(UInt8 reg);
@@ -102,6 +104,7 @@ private:
     virtual bool			supportsTachometerControl();
     virtual UInt8			readTachometerControl(UInt32 index);
     virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
+    virtual void			disableTachometerControl(UInt32 index);
     
     virtual bool            initialize();
     

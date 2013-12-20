@@ -36,7 +36,7 @@
 #define super GPUSensors
 OSDefineMetaClassAndStructors(GmaSensors, GPUSensors)
 
-float GmaSensors::getSensorValue(FakeSMCSensor *sensor)
+bool GmaSensors::getSensorValue(FakeSMCSensor *sensor, float* result)
 {    
     if (sensor->getGroup() == kFakeSMCTemperatureSensor) {
         short value = 0;
@@ -57,10 +57,10 @@ float GmaSensors::getSensorValue(FakeSMCSensor *sensor)
             value = INVID8(TR1);
         }				
         
-        return 150 - value;
+        *result = (float)(150 - value);
     }
     
-    return 0;
+    return true;
 }
 
 bool GmaSensors::managedStart(IOService *provider)

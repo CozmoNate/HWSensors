@@ -61,7 +61,7 @@ bool FakeSMCKey::init(const char * aKey, const char * aType, const unsigned char
     if (!super::init())
         return false;
 
-	if (!aKey || strlen(aKey) == 0 || !(key = (char *)IOMalloc(5))) 
+	if (!aKey || strnlen(aKey, 4) == 0 || !(key = (char *)IOMalloc(5)))
 		return false;
 	
 	copySymbol(aKey, key);
@@ -71,7 +71,7 @@ bool FakeSMCKey::init(const char * aKey, const char * aType, const unsigned char
 	if (!(type = (char *)IOMalloc(5)))
 		return false;
     
-	if (!aType || strlen(aType) == 0) {
+	if (!aType || strnlen(aType, 4) == 0) {
 		switch (size) 
 		{
 			case 1:

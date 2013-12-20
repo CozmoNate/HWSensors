@@ -99,18 +99,18 @@ echo "$destribution" > ./Package/Distribution.xml
 # Hackintosh
 
 echo "  <pkg-ref id=\"org.hwsensors.HWMonitor\" version=\"${full_version}\" installKBytes=\""$(( $(stat -f %z ./Package/HWMonitor.pkg) / 1000 ))"\">#HWMonitor.pkg</pkg-ref>" >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.FakeSMC" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/FakeSMC.pkg) / 1000))'"  onConclusion="RequireRestart">#FakeSMC.pkg</pkg-ref>' >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.FakeSMCKeyStore" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/FakeSMCKeyStore.pkg) / 1000))'"  onConclusion="RequireRestart">#FakeSMCKeyStore.pkg</pkg-ref>' >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.ACPISensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/ACPISensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#ACPISensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.CPUSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/CPUSensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#CPUSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.GPUSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/GPUSensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#GPUSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.LPCSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/LPCSensors.pkg) / 1000 ))'"  onConclusion="RequireRestart">#LPCSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="org.hwsensors.FakeSMC" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/FakeSMC.pkg) / 1000))'">#FakeSMC.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="org.hwsensors.FakeSMCKeyStore" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/FakeSMCKeyStore.pkg) / 1000))'">#FakeSMCKeyStore.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="org.hwsensors.ACPISensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/ACPISensors.pkg) / 1000 ))'">#ACPISensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="org.hwsensors.CPUSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/CPUSensors.pkg) / 1000 ))'">#CPUSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="org.hwsensors.GPUSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/GPUSensors.pkg) / 1000 ))'">#GPUSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="org.hwsensors.LPCSensors" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/LPCSensors.pkg) / 1000 ))'">#LPCSensors.pkg</pkg-ref>' >> ./Package/Distribution.xml
 
 # Mac
 
-echo '  <pkg-ref id="org.hwsensors.FakeSMCKeyStore" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/FakeSMCKeyStore.pkg) / 1000))'"  onConclusion="RequireRestart">#FakeSMCKeyStore.pkg</pkg-ref>' >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.CPUSensors.Mac" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/CPUSensors_Mac.pkg) / 1000 ))'"  onConclusion="RequireRestart">#CPUSensors_Mac.pkg</pkg-ref>' >> ./Package/Distribution.xml
-echo '  <pkg-ref id="org.hwsensors.GPUSensors.Mac" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/GPUSensors_Mac.pkg) / 1000 ))'"  onConclusion="RequireRestart">#GPUSensors_Mac.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="org.hwsensors.FakeSMCKeyStore" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/FakeSMCKeyStore.pkg) / 1000))'">#FakeSMCKeyStore.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="org.hwsensors.CPUSensors.Mac" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/CPUSensors_Mac.pkg) / 1000 ))'">#CPUSensors_Mac.pkg</pkg-ref>' >> ./Package/Distribution.xml
+echo '  <pkg-ref id="org.hwsensors.GPUSensors.Mac" version="'${full_version}'" installKBytes="'$(( $(stat -f %z ./Package/GPUSensors_Mac.pkg) / 1000 ))'">#GPUSensors_Mac.pkg</pkg-ref>' >> ./Package/Distribution.xml
 
 # Close tag
 echo '</installer-gui-script>' >> ./Package/Distribution.xml

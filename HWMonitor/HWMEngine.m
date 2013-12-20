@@ -35,6 +35,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 @synthesize sensorsAndGroups = _sensorsAndGroups;
 @synthesize graphsAndGroups = _graphsAndGroups;
 @synthesize favoriteItems = _favoriteItems;
+@synthesize isRunningOnMac = _isRunningOnMac;
 
 #pragma mark
 #pragma mark Global methods
@@ -331,9 +332,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 - (void)assignPlatformProfile
 {
-    NSString *model = nil;
-
     CFDictionaryRef matching = MACH_PORT_NULL;
+
+    _platformName = nil;
+    _isRunningOnMac = YES;
 
     if (MACH_PORT_NULL != (matching = IOServiceMatching("FakeSMC"))) {
         io_iterator_t iterator = IO_OBJECT_NULL;
@@ -344,8 +346,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 io_service_t service = MACH_PORT_NULL;
 
                 if (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
-                    model = @"Hackintosh";
-
+                    _platformName = @"Hackintosh";
+                    _isRunningOnMac = NO;
                     IOObjectRelease(service);
                 }
 
@@ -354,7 +356,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         }
     }
 
-    if (!model) {
+    if (!_platformName) {
         if (MACH_PORT_NULL != (matching = IOServiceMatching("IOPlatformExpertDevice"))) {
             io_iterator_t iterator = IO_OBJECT_NULL;
 
@@ -364,7 +366,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                     io_service_t service = MACH_PORT_NULL;
 
                     if (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
-                        model = [[NSString alloc] initWithData:(__bridge_transfer NSData *)IORegistryEntryCreateCFProperty(service, CFSTR("model"), kCFAllocatorDefault, 0) encoding:NSASCIIStringEncoding];
+                        _platformName = [[NSString alloc] initWithData:(__bridge_transfer NSData *)IORegistryEntryCreateCFProperty(service, CFSTR("model"), kCFAllocatorDefault, 0) encoding:NSASCIIStringEncoding];
 
                         IOObjectRelease(service);
                     }
@@ -377,8 +379,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     NSString *config;
 
-    if (model) {
-        config = [[NSBundle mainBundle] pathForResource:model ofType:@"plist" inDirectory:@"Profiles"];
+    if (_platformName) {
+        config = [[NSBundle mainBundle] pathForResource:_platformName ofType:@"plist" inDirectory:@"Profiles"];
     }
 
     if (!config) {
@@ -1146,7 +1148,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     SMCReadKey(connection, "#KEY", &val);
 
-    UInt32 count = [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType];
+    UInt32 count = [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType].unsignedIntValue;
 
     NSMutableArray *array = [[NSMutableArray alloc] init];
 
@@ -1327,23 +1329,25 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 #pragma mark
 #pragma mark ATA SMART Sensors
 
--(HWMAtaSmartSensor*)getAtaSmartSensorByName:(NSString*)name fromGroup:(HWMSensorsGroup*)group
+-(HWMAtaSmartSensor*)getAtaSmartSensorByProductName:(NSString*)product andSerialNumber:(NSString*)serial fromGroup:(HWMSensorsGroup*)group
 {
-    NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
+    NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"productName == %@ AND serialNumber == %@", product, serial]];
 
     return sensors && sensors.count ? [sensors objectAtIndex:0] : nil;
 }
 
 -(HWMAtaSmartSensor*)insertAtaSmartSensorFromDictionary:(NSDictionary*)attributes group:(HWMSensorsGroup*)group
 {
-    NSString *name = [NSString stringWithFormat:@"%@%@", [attributes objectForKey:@"serialNumber"], group.selector];
-
-    HWMAtaSmartSensor *sensor = [self getAtaSmartSensorByName:name fromGroup:group];
+    HWMAtaSmartSensor *sensor = [self getAtaSmartSensorByProductName:[attributes objectForKey:@"productName"] andSerialNumber:[attributes objectForKey:@"serialNumber"] fromGroup:group];
 
     if (!sensor) {
         sensor = [NSEntityDescription insertNewObjectForEntityForName:@"AtaSmartSensor" inManagedObjectContext:self.managedObjectContext];
 
         [sensor setGroup:group];
+
+        [sensor setProductName:[[attributes objectForKey:@"productName"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+        [sensor setSerialNumber:[[attributes objectForKey:@"serialNumber"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+        [sensor setName:[NSString stringWithFormat:@"%@@%@", sensor.productName, sensor.serialNumber]];
     }
 
     [sensor setService:[attributes objectForKey:@"service"]];
@@ -1353,10 +1357,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [sensor doUpdateValue];
 
     if (sensor.value) {
-        [sensor setName:name];
-        [sensor setProductName:[attributes objectForKey:@"productName"]];
         [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
-        [sensor setSerialNumber:[attributes objectForKey:@"serialNumber"]];
         [sensor setRotational:[attributes objectForKey:@"rotational"]];
         [sensor setIdentifier:@"Drive"];
 
@@ -1404,7 +1405,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(HWMSmcSensor*)insertSmcFanWithConnection:(io_connect_t)connection name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMSensorsGroup*)group
 {
-    HWMSmcFanSensor *fan = [self getSmcFanSensorByUnique:title fromGroup:group];
+    NSString *unique = [NSString stringWithFormat:@"%@@%@", _platformName, [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+
+    HWMSmcFanSensor *fan = [self getSmcFanSensorByUnique:unique fromGroup:group];
 
     BOOL newFan = NO;
     
@@ -1422,50 +1425,49 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [fan setSelector:[NSNumber numberWithUnsignedInteger:selector]];
 
     [fan setTitle:title];
-    [fan setUnique:title];
+    [fan setUnique:unique];
     [fan setIdentifier:@"Fan"];
 
     [fan setEngine:self];
 
     [fan doUpdateValue];
-    
-    if (newFan) {
-        
-        int index = [SmcHelper getIndexFromHexChar:[fan.name characterAtIndex:1]];
-        
-        if (index >= 0) {
-            
-            [fan setNumber:[NSNumber numberWithInt:index]];
-            
-            SMCVal_t info;
-            
-            char key[5];
-            
-            // Min
-            snprintf(key, 5, "F%XMn", index);
-            
-            if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                [fan setMin:[NSNumber numberWithFloat:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]]];
-            }
-            
-            // Max
-            snprintf(key, 5, "F%XMx", index);
-            
-            if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                [fan setMax:[NSNumber numberWithFloat:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]]];
-            }
-            
+
+    int index = [SmcHelper getIndexFromHexChar:[fan.name characterAtIndex:1]];
+
+    if (index >= 0) {
+
+        [fan setNumber:[NSNumber numberWithInt:index]];
+
+        SMCVal_t info;
+
+        char key[5];
+
+        // Min
+        snprintf(key, 5, KEY_FORMAT_FAN_MIN, index);
+
+        if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
+            [fan setMin:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]];
+        }
+
+        // Max
+        snprintf(key, 5, KEY_FORMAT_FAN_MAX, index);
+
+        if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
+            [fan setMax:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]];
+        }
+
+        if (newFan || !_configuration.enableFanControl) {
             // Target
-            snprintf(key, 5, "F%XTg", index);
+            snprintf(key, 5, KEY_FORMAT_FAN_TARGET, index);
             
             if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                [fan setPrimitiveValue:[NSNumber numberWithFloat:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]] forKey:@"speed"];
+                [fan setPrimitiveValue:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType] forKey:@"speed"];
             }
         }
-    }
-    else if (_configuration.enableFanControl) {
-        // Force SMC fan speed to previousely saved speed
-        [fan setSpeed:fan.speed];
+        else if (_configuration.enableFanControl) {
+            // Force SMC fan speed to previousely saved speed
+            [fan setSpeed:fan.speed];
+        }
     }
     
     return fan;
@@ -1723,24 +1725,23 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 #pragma mark
 #pragma mark Graphs
 
+static NSUInteger gHWMGraphColorIndex = 0;
+
 -(void)insertGraphsFromSensorsArray:(NSArray*)sensors group:(HWMGraphsGroup*)group
 {
-    NSUInteger colorIndex = 1;
-
     for (HWMSensor *sensor in sensors) {
 
         if (!sensor.graph) {
             [sensor setGraph:[NSEntityDescription insertNewObjectForEntityForName:@"Graph" inManagedObjectContext:self.managedObjectContext]];
 
             [sensor.graph setGroup:group];
-            
-            if (++colorIndex >= [[HWMGraph graphColors] count]) {
-                colorIndex = 0;
-            }
-            
-            [sensor.graph setColor:[[HWMGraph graphColors] objectAtIndex:colorIndex]];
         }
 
+        if (++gHWMGraphColorIndex >= [[HWMGraph graphColors] count]) {
+            gHWMGraphColorIndex = 0;
+        }
+
+        [sensor.graph setColor:[[HWMGraph graphColors] objectAtIndex:gHWMGraphColorIndex]];
         [sensor.graph setIdentifier:@"Item"];
     }
 }
@@ -1769,6 +1770,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [group setIdentifier:@"Group"];
 
     [group setEngine:self];
+
+    gHWMGraphColorIndex = 3;
 
     // insert sensors
     for (NSNumber * sel in selectors) {

@@ -112,10 +112,11 @@ private:
     
     
 protected:
-    virtual float           getSensorValue(FakeSMCSensor *sensor);
+    virtual bool            getSensorValue(FakeSMCSensor *sensor, float *value);
     
 public:
     virtual bool			start(IOService *provider);
+    virtual IOReturn        setPowerState(unsigned long powerState, IOService *device);
     virtual void            stop(IOService* provider);
     virtual void			free(void);
 };

@@ -48,7 +48,7 @@
 
 #include "W836xxSensors.h"
 #include "FakeSMCDefinitions.h"
-#include "SuperIO.h"
+#include "SuperIODevice.h"
 
 #define super LPCSensors
 OSDefineMetaClassAndStructors(W836xxSensors, LPCSensors)

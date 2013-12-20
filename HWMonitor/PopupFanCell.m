@@ -22,6 +22,7 @@
 {
     [_slider setFloatValue:[[(HWMSmcFanSensor *)self.objectValue speed] floatValue]];
     [_textField setFloatValue:[[(HWMSmcFanSensor *)self.objectValue speed] floatValue]];
+    [_textField setFont:[NSFont fontWithName:@"Let's go Digital Regular" size:18]];
 }
 
 - (IBAction)sliderHasMoved:(id)sender
@@ -61,7 +62,7 @@ static NSPopover *gFanControllerPopover;
             }
         }
         
-        PopupFanController *controller = [[PopupFanController alloc] initWithNibName:@"FanController" bundle:[NSBundle mainBundle]];
+        PopupFanController *controller = [[PopupFanController alloc] initWithNibName:@"PopupFanController" bundle:[NSBundle mainBundle]];
         
         [controller setObjectValue:self.objectValue];
         

@@ -11,7 +11,7 @@
 		6A2B4E3E152179700093A217 /* F718xxSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E32152179700093A217 /* F718xxSensors.cpp */; };
 		6A2B4E40152179700093A217 /* IT87xxSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E34152179700093A217 /* IT87xxSensors.cpp */; };
 		6A2B4E42152179700093A217 /* NCT677xSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E36152179700093A217 /* NCT677xSensors.cpp */; };
-		6A2B4E44152179700093A217 /* SuperIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E38152179700093A217 /* SuperIO.cpp */; };
+		6A2B4E44152179700093A217 /* SuperIODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E38152179700093A217 /* SuperIODevice.cpp */; };
 		6A2B4E46152179700093A217 /* LPCSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E3A152179700093A217 /* LPCSensors.cpp */; };
 		6A2B4E48152179700093A217 /* W836xxSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E3C152179700093A217 /* W836xxSensors.cpp */; };
 		6AA172CB150B415200A77CF2 /* FakeSMCDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA172C4150B415200A77CF2 /* FakeSMCDevice.cpp */; };
@@ -96,8 +96,8 @@
 		6A2B4E35152179700093A217 /* IT87xxSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IT87xxSensors.h; sourceTree = "<group>"; };
 		6A2B4E36152179700093A217 /* NCT677xSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCT677xSensors.cpp; sourceTree = "<group>"; };
 		6A2B4E37152179700093A217 /* NCT677xSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCT677xSensors.h; sourceTree = "<group>"; };
-		6A2B4E38152179700093A217 /* SuperIO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuperIO.cpp; sourceTree = "<group>"; };
-		6A2B4E39152179700093A217 /* SuperIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIO.h; sourceTree = "<group>"; };
+		6A2B4E38152179700093A217 /* SuperIODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuperIODevice.cpp; sourceTree = "<group>"; };
+		6A2B4E39152179700093A217 /* SuperIODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperIODevice.h; sourceTree = "<group>"; };
 		6A2B4E3A152179700093A217 /* LPCSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LPCSensors.cpp; sourceTree = "<group>"; };
 		6A2B4E3B152179700093A217 /* LPCSensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPCSensors.h; sourceTree = "<group>"; };
 		6A2B4E3C152179700093A217 /* W836xxSensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = W836xxSensors.cpp; sourceTree = "<group>"; };
@@ -371,8 +371,8 @@
 			isa = PBXGroup;
 			children = (
 				6AA710B9152B7D180006E62C /* SMBIOS.h */,
-				6A2B4E39152179700093A217 /* SuperIO.h */,
-				6A2B4E38152179700093A217 /* SuperIO.cpp */,
+				6A2B4E39152179700093A217 /* SuperIODevice.h */,
+				6A2B4E38152179700093A217 /* SuperIODevice.cpp */,
 			);
 			name = "Super I/O Nub";
 			sourceTree = "<group>";
@@ -953,7 +953,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A2B4E44152179700093A217 /* SuperIO.cpp in Sources */,
+				6A2B4E44152179700093A217 /* SuperIODevice.cpp in Sources */,
 				6A2B4E46152179700093A217 /* LPCSensors.cpp in Sources */,
 				6A2B4E40152179700093A217 /* IT87xxSensors.cpp in Sources */,
 				6A2B4E48152179700093A217 /* W836xxSensors.cpp in Sources */,

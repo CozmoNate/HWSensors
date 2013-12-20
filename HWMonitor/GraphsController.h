@@ -45,6 +45,8 @@
 @property (assign) IBOutlet NSTableView *graphsTableView;
 @property (assign) IBOutlet NSCollectionView *graphsCollectionView;
 
+@property (atomic, assign) NSDragOperation currentItemDragOperation;
+
 -(IBAction)graphsNeedDisplay:(id)sender;
 
 @end

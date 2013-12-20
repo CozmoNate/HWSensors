@@ -352,7 +352,7 @@ IOReturn CPUSensors::woorkloopTimerEvent()
     return kIOReturnSuccess;
 }
 
-float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
+bool CPUSensors::getSensorValue(FakeSMCSensor *sensor, float* value)
 {    
     UInt32 index = sensor->getIndex();
     
@@ -363,34 +363,42 @@ float CPUSensors::getSensorValue(FakeSMCSensor *sensor)
                 bit_set(timerEventsPending, kCPUSensorsCoreThermalSensor);
             }
             cpu_thermal_updated[index] = false;
-            return tjmax[index] - cpu_thermal[index];
+            *value = tjmax[index] - cpu_thermal[index];
+            break;
             
         case kCPUSensorsCoreMultiplierSensor:
         case kCPUSensorsPackageMultiplierSensor:
             bit_set(timerEventsPending, sensor->getGroup());
-            return multiplier[index];
+            *value = multiplier[index];
+            break;
             
         case kCPUSensorsCoreFrequencySensor:
             if (!cpu_state_updated[index]) {
                 bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
             }
             cpu_state_updated[index] = false;
-            return multiplier[index] * (float)busClock;
+            *value = multiplier[index] * (float)busClock;
+            break;
 
         case kCPUSensorsPackageFrequencySensor:
             bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
-            return multiplier[index] * (float)busClock;
+            *value = multiplier[index] * (float)busClock;
+            break;
             
         case kCPUSensorsTotalPowerSensor:
         case kCPUSensorsCoresPowerSensor:
         case kCPUSensorsUncorePowerSensor:
         case kCPUSensorsDramPowerSensor:
             bit_set(timerEventsPending, sensor->getGroup());
-            return (float)energyUnits * cpu_energy_delta[index];
+            *value = (float)energyUnits * cpu_energy_delta[index];
+            break;
+
+        default:
+            return false;
             
     }
     
-    return 0;
+    return true;
 }
 
 FakeSMCSensor *CPUSensors::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
@@ -778,15 +786,42 @@ bool CPUSensors::start(IOService *provider)
     }
     
     disableExclusiveAccessMode();
-    
+
+    // two power states - off and on
+	static const IOPMPowerState powerStates[2] = {
+        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 1, IOPMDeviceUsable, IOPMPowerOn, IOPMPowerOn, 0, 0, 0, 0, 0, 0, 0, 0 }
+    };
+
+    // register interest in power state changes
+	PMinit();
+	provider->joinPMtree(this);
+	registerPowerDriver(this, (IOPMPowerState *)powerStates, 2);
+
     // Register service
     registerService();
-    
-    // start timer
-    //timerEventsMomentum = 0;
-    timerEventSource->setTimeoutMS(500);
-    
+
+    HWSensorsInfoLog("started");
+
     return true;
+}
+
+IOReturn CPUSensors::setPowerState(unsigned long powerState, IOService *device)
+{
+	switch (powerState) {
+        case 0: // Power Off
+            timerEventSource->cancelTimeout();
+            break;
+
+        case 1: // Power On
+            timerEventSource->setTimeoutMS(1000);
+            break;
+
+        default:
+            break;
+    }
+
+	return(IOPMAckImplied);
 }
 
 void CPUSensors::stop(IOService *provider)

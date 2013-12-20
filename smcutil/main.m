@@ -53,7 +53,7 @@ UInt32 SMCReadIndexCount(io_connect_t connection)
     SMCVal_t val;
     
     SMCReadKey(connection, "#KEY", &val);
-    return [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType];
+    return [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType].unsignedIntValue;
 }
 
 bool printKeyValue(SMCVal_t val)
@@ -68,10 +68,10 @@ bool printKeyValue(SMCVal_t val)
             printf(val.bytes[0] ? "TRUE" : "FALSE");
         }
         else  if ([SmcHelper isValidIntegerSmcType:NSStr(val.dataType)]) {
-            printf("%.0f", [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType]);
+            printf("%d", [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType].unsignedIntValue);
         }
         else if ([SmcHelper isValidFloatingSmcType:NSStr(val.dataType)]) {
-            printf("%.2f", [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType]);
+            printf("%.2f", [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType].floatValue);
         }
         else return false;
         

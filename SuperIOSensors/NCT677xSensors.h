@@ -108,8 +108,8 @@ private:
     virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
     
 	virtual bool			initialize();
-	
+    virtual void            didPoweredOn();
+    
 public:
-	
 };
 

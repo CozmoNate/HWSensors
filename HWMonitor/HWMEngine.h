@@ -42,6 +42,8 @@ typedef enum {
 
 @interface HWMEngine : NSObject
 {
+@private
+    NSString *_platformName;
     NSArray *_platformProfile;
 
     io_connect_t _smcConnection;
@@ -66,6 +68,8 @@ typedef enum {
 @property (nonatomic, assign) HWMSensorsUpdateLoopStrategy updateLoopStrategy;
 
 @property (nonatomic, strong) IBOutlet HWMConfiguration * configuration;
+
+@property (readonly) BOOL isRunningOnMac;
 
 @property (readonly) IBOutlet NSArray * iconsWithSensorsAndGroups;
 @property (readonly) IBOutlet NSArray * sensorsAndGroups;

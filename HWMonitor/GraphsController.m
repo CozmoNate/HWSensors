@@ -265,22 +265,22 @@
     NSInteger fromRow = [rowIndexes firstIndex];
     id fromItem = [self.monitorEngine.graphsAndGroups objectAtIndex:fromRow];
     
-    NSDragOperation currentItemDragOperation = NSDragOperationNone;
+    _currentItemDragOperation = NSDragOperationNone;
     
     if ([fromItem isKindOfClass:[HWMGraph class]] && toRow > 0) {
         
-        currentItemDragOperation = NSDragOperationMove;
+        _currentItemDragOperation = NSDragOperationMove;
         
         if (toRow < self.monitorEngine.graphsAndGroups.count) {
             
             if (toRow == fromRow || toRow == fromRow + 1) {
-                currentItemDragOperation = NSDragOperationNone;
+                _currentItemDragOperation = NSDragOperationNone;
             }
             else {
                 id toItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow];
                 
                 if ([toItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)fromItem group] != [(HWMGraph*)toItem group]) {
-                    currentItemDragOperation = NSDragOperationNone;
+                    _currentItemDragOperation = NSDragOperationNone;
                 }
             }
         }
@@ -288,12 +288,12 @@
             id toItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow - 1];
             
             if ([toItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)fromItem group] != [(HWMGraph*)toItem group]) {
-                currentItemDragOperation = NSDragOperationNone;
+                _currentItemDragOperation = NSDragOperationNone;
             }
         }
     }
     
-    return currentItemDragOperation;
+    return _currentItemDragOperation;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)toRow dropOperation:(NSTableViewDropOperation)dropOperation;

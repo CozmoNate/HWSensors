@@ -12,6 +12,9 @@
 #import "HWMGraphsGroup.h"
 #import "HWMSensorsGroup.h"
 
+#import "smc.h"
+#import "SmcHelper.h"
+#import "FakeSMCDefinitions.h"
 
 @implementation HWMConfiguration
 

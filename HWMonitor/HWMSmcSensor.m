@@ -69,7 +69,7 @@
 
     if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, self.name.UTF8String, &info)) {
 
-        return [NSNumber numberWithFloat:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:[self.type cStringUsingEncoding:NSASCIIStringEncoding]]];
+        return [SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType];
     }
 
     return @0;

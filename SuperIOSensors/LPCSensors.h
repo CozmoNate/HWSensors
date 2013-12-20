@@ -39,7 +39,9 @@
 #define kLPCSensorsControlIncrement     5
 #define kLPCSensorsWorkloopTimeout      5000
 
-#define kLPCSensorsFanController        1000
+#define kLPCSensorsFanTargetController  1000
+#define kLPCSensorsFanMinController     2000
+#define kLPCSensorsFanManualController  3000
 
 enum kLPCSensorsFanControlAction {
     kLPCSensorsFanActionNone = 0,
@@ -50,6 +52,7 @@ enum kLPCSensorsFanControlAction {
 };
 
 struct LPCSensorsFanControl {
+    UInt8                       number;
     float                       target;
     kLPCSensorsFanControlAction action;
 };
@@ -94,15 +97,19 @@ protected:
     virtual bool			supportsTachometerControl();
     virtual UInt8			readTachometerControl(UInt32 index);
     virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
+    virtual void			disableTachometerControl(UInt32 index);
     
-    virtual float           getSensorValue(FakeSMCSensor *sensor);
-    virtual void            setSensorValue(FakeSMCSensor *sensor, float value);
+    virtual bool            getSensorValue(FakeSMCSensor *sensor, float *value);
+    virtual bool            setSensorValue(FakeSMCSensor *sensor, float value);
     
     virtual bool            initialize();
-		
+    virtual void            willPowerOff();
+    virtual void            didPoweredOn();
+
 public:
 	virtual bool			init(OSDictionary *properties=0);
     virtual bool			start(IOService *provider);
+    virtual IOReturn        setPowerState(unsigned long powerState, IOService *device);
     virtual void            stop(IOService* provider);
 };
 

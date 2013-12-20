@@ -172,10 +172,12 @@ const struct FakeSMCSensorDefinitionEntry FakeSMCSensorDefinitions[] =
 };
 
 UInt8   fakeSMCPluginGetIndexFromChar(char c);
-bool    fakeSMCPluginEncodeNumericValue(float value, const char *type, const UInt8 size, void *outBuffer);
 bool 	fakeSMCPluginIsValidIntegerType(const char *type);
 bool    fakeSMCPluginIsValidFloatingType(const char *type);
-bool    fakeSMCPluginDecodeNumericValue(const char *type, const UInt8 size, const void *data, float *outValue);
+bool    fakeSMCPluginEncodeFloatValue(float value, const char *type, const UInt8 size, void *outBuffer);
+bool    fakeSMCPluginEncodeIntValue(int value, const char *type, const UInt8 size, void *outBuffer);
+bool    fakeSMCPluginDecodeFloatValue(const char *type, const UInt8 size, const void *data, float *outValue);
+bool    fakeSMCPluginDecodeIntValue(const char *type, const UInt8 size, const void *data, int *outValue);
 
 class FakeSMCPlugin;
 
@@ -235,9 +237,10 @@ protected:
     void                    releaseFanIndex(UInt8 index);
 
     bool                    setKeyValue(const char *key, const char *type, UInt8 size, void *value);
+    bool                    getKeyValue(const char *key, void *value);
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
-    virtual FakeSMCSensor   *addSensor(const char *abbriviation, kFakeSMCCategory category, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
+    virtual FakeSMCSensor   *addSensor(const char *abbreviation, kFakeSMCCategory category, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
     virtual FakeSMCSensor   *addSensor(OSObject *node, kFakeSMCCategory category, UInt32 group, UInt32 index);
     virtual bool            addSensor(FakeSMCSensor *sensor);
 	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0, FanType type = FAN_RPM, UInt8 zone = 0, FanLocationType location = CENTER_MID_FRONT, SInt8 *fanIndex = 0);
@@ -247,8 +250,8 @@ protected:
     OSDictionary            *getConfigurationNode(OSDictionary *root, const char *name);
     OSDictionary            *getConfigurationNode(OSString *model = NULL);
 
-    virtual float           getSensorValue(FakeSMCSensor *sensor);
-    virtual void            setSensorValue(FakeSMCSensor *sensor, float value);
+    virtual bool            getSensorValue(FakeSMCSensor *sensor, float *value);
+    virtual bool            setSensorValue(FakeSMCSensor *sensor, float value);
     
 public:    
 	virtual bool			init(OSDictionary *properties=0);

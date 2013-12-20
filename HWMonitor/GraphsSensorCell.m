@@ -62,7 +62,9 @@
 -(void)resetCursorRects
 {
     [self discardCursorRects];
-    
+
+    //[self addCursorRect:self.frame cursor:[NSCursor openHandCursor]];
+
     if (_checkBox) {
         [self addCursorRect:_checkBox.frame cursor:[NSCursor pointingHandCursor]];
     }

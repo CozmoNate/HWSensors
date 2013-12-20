@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="Initial" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="Version 1.1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AtaSmartSensor" representedClassName="HWMAtaSmartSensor" parentEntity="Sensor" syncable="YES">
-        <attribute name="bsdName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bsdName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="productName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="rotational" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="serialNumber" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="serialNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="volumeNames" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="BatterySensor" representedClassName="HWMBatterySensor" parentEntity="Sensor" syncable="YES">
@@ -53,7 +53,7 @@
         <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Item" inverseName="favorites" inverseEntity="Item" syncable="YES"/>
     </entity>
     <entity name="Graph" representedClassName="HWMGraph" syncable="YES">
-        <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="color" optional="YES" transient="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="group" maxCount="1" deletionRule="Nullify" destinationEntity="GraphsGroup" inverseName="graphs" inverseEntity="GraphsGroup" syncable="YES"/>
@@ -93,11 +93,11 @@
         <relationship name="sensors" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Sensor" inverseName="group" inverseEntity="Sensor" syncable="YES"/>
     </entity>
     <entity name="SmcFanSensor" representedClassName="HWMSmcFanSensor" parentEntity="SmcSensor" syncable="YES">
-        <attribute name="max" optional="YES" attributeType="Float" syncable="YES"/>
-        <attribute name="min" optional="YES" attributeType="Float" syncable="YES"/>
+        <attribute name="max" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>
+        <attribute name="min" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>
         <attribute name="number" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="speed" optional="YES" attributeType="Float" syncable="YES"/>
-        <attribute name="unique" attributeType="String" syncable="YES"/>
+        <attribute name="unique" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="SmcSensor" representedClassName="HWMSmcSensor" parentEntity="Sensor" syncable="YES"/>
     <elements>

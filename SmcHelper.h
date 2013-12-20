@@ -13,7 +13,7 @@
 + (int)getIndexFromHexChar:(char)c;
 + (BOOL)isValidIntegerSmcType:(NSString *)type;
 + (BOOL)isValidFloatingSmcType:(NSString *)type;
-+ (float)decodeNumericValueFromBuffer:(void*)data length:(NSUInteger)length type:(const char *)type;
-+ (BOOL)encodeNumericValue:(float)value length:(NSUInteger)length type:(const char *)type outBuffer:(void*)outBuffer;
++ (NSNumber*)decodeNumericValueFromBuffer:(void*)data length:(NSUInteger)length type:(const char *)type;
++ (BOOL)encodeNumericValue:(NSNumber*)value length:(NSUInteger)length type:(const char *)type outBuffer:(void*)outBuffer;
 
 @end

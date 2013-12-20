@@ -28,7 +28,7 @@
 
 #include "FakeSMCDefinitions.h"
 #include "LPCSensors.h"
-#include "SuperIO.h"
+#include "SuperIODevice.h"
 #include "OEMInfo.h"
 
 #include <IOKit/IOTimerEventSource.h>
@@ -248,11 +248,16 @@ bool LPCSensors::addVoltageSensors(OSDictionary *configuration)
 bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
 {
     HWSensorsDebugLog("adding tachometer sensors...");
-    
+
+    char key[7];
+    UInt16 value = 0;
+
+    // FAN manual control key
+    addSensor(KEY_FAN_MANUAL, TYPE_UI16, TYPE_UI16_SIZE, kLPCSensorsFanManualController, 0);
+
     FanLocationType location = LEFT_LOWER_FRONT;
     
     for (int i = 0; i < tachometerSensorsLimit(); i++) {
-        char key[7];
         SInt8 fanIndex;
         
         snprintf(key, 7, "FANIN%X", i);
@@ -262,33 +267,23 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
                 
                 if (supportsTachometerControl() && fanIndex > -1) {
                     
-                    //if (readTachometerControl(fanIndex) > 0) {
-                        
-                        tachometerControls[fanIndex].target = 0;
-                        tachometerControls[fanIndex].action = kLPCSensorsFanActionNone;
-                        
-                        UInt16 value;
-                        
-                        // Minimum RPM
-                        snprintf(key, 5, KEY_FORMAT_FAN_MIN, fanIndex);
-                        
-                        fakeSMCPluginEncodeNumericValue(kLPCSensorsMinRPM, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
-                        
-                        setKeyValue(key, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
-                        
-                        // Maximum RPM
-                        snprintf(key, 5, KEY_FORMAT_FAN_MAX, fanIndex);
-                        
-                        fakeSMCPluginEncodeNumericValue(kLPCSensorsMaxRPM, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
-                        
-                        setKeyValue(key, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
-                        
-                        // Target RPM and fan control sensor
-                        snprintf(key, 5, KEY_FORMAT_FAN_TARGET, fanIndex);
-                        
-                        addSensor(key, TYPE_FPE2, TYPE_FPXX_SIZE, kLPCSensorsFanController, i);
-                    }
-                //}
+                    tachometerControls[i].number = fanIndex;
+                    tachometerControls[i].target = 0;
+                    tachometerControls[i].action = kLPCSensorsFanActionNone;
+                    
+                    // Minimum RPM and fan control sensor
+                    snprintf(key, 5, KEY_FORMAT_FAN_MIN, fanIndex);
+                    addSensor(key, TYPE_FPE2, TYPE_FPXX_SIZE, kLPCSensorsFanMinController, i);
+                    
+                    // Maximum RPM
+                    snprintf(key, 5, KEY_FORMAT_FAN_MAX, fanIndex);
+                    fakeSMCPluginEncodeFloatValue(kLPCSensorsMaxRPM, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
+                    setKeyValue(key, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
+                    
+                    // Target RPM and fan control sensor
+                    snprintf(key, 5, KEY_FORMAT_FAN_TARGET, fanIndex);
+                    addSensor(key, TYPE_FPE2, TYPE_FPXX_SIZE, kLPCSensorsFanTargetController, i);
+                }
             }
             else HWSensorsWarningLog("failed to add tachometer sensor %d", i);
         }
@@ -342,49 +337,99 @@ void LPCSensors::writeTachometerControl(UInt32 index, UInt8 percent)
     //
 }
 
-float LPCSensors::getSensorValue(FakeSMCSensor *sensor)
+void LPCSensors::disableTachometerControl(UInt32 index)
 {
-    float value = 0;
-    
+    //
+}
+
+bool LPCSensors::getSensorValue(FakeSMCSensor *sensor, float* value)
+{
     if (sensor) {
         switch (sensor->getGroup()) {
             case kFakeSMCTemperatureSensor:
-                value = sensor->getOffset() + readTemperature(sensor->getIndex());
+                *value = sensor->getOffset() + readTemperature(sensor->getIndex());
                 break;
                 
-            case kFakeSMCVoltageSensor:
-                value = readVoltage(sensor->getIndex());
-                value = sensor->getOffset() + value + (value - sensor->getReference()) * sensor->getGain();
+            case kFakeSMCVoltageSensor: {
+                float v = readVoltage(sensor->getIndex());
+                *value = sensor->getOffset() + v + (v - sensor->getReference()) * sensor->getGain();
                 break;
+            }
                 
             case kFakeSMCTachometerSensor:
-                value = readTachometer(sensor->getIndex());
+                *value = readTachometer(sensor->getIndex());
                 break;
-                
-            case kLPCSensorsFanController:
-                value = tachometerControls[sensor->getIndex()].target;
-                break;
+
+            case kLPCSensorsFanManualController:
+            case kLPCSensorsFanMinController:
+            case kLPCSensorsFanTargetController:
+            default:
+                // Just return stored key value
+                return false;
         }
+
+        return true;
     }
     
-	return value;
+	return false;
 }
 
-void LPCSensors::setSensorValue(FakeSMCSensor *sensor, float value)
+bool LPCSensors::setSensorValue(FakeSMCSensor *sensor, float value)
 {
     if (sensor) {
         switch (sensor->getGroup()) {
-            case kLPCSensorsFanController:
-                tachometerControls[sensor->getIndex()].target = value;
-                tachometerControls[sensor->getIndex()].action = kLPCSensorsFanActionProbe;                
+            case kLPCSensorsFanManualController: {
+                for (int i = 0; i < tachometerSensorsLimit(); i++) {
+                    if (0 == (((UInt16)value >> tachometerControls[sensor->getIndex()].number) & 0x1)) {
+                        disableTachometerControl(i);
+                    }
+                }
                 break;
+            }
+
+            case kLPCSensorsFanMinController:
+                tachometerControls[sensor->getIndex()].target = value;
+                tachometerControls[sensor->getIndex()].action = kLPCSensorsFanActionProbe;
+                break;
+
+            case kLPCSensorsFanTargetController: {
+                UInt16 buffer;
+                int manual;
+
+                getKeyValue(KEY_FAN_MANUAL, &buffer);
+
+                fakeSMCPluginDecodeIntValue(TYPE_UI16, TYPE_UI16_SIZE, &buffer, &manual);
+
+                if ((manual >> tachometerControls[sensor->getIndex()].number) & 0x1) {
+                    tachometerControls[sensor->getIndex()].target = value;
+                    tachometerControls[sensor->getIndex()].action = kLPCSensorsFanActionProbe;
+                }
+                break;
+            }
+
+            default:
+                return false;
         }
+
+        return true;
     }
+
+    return false;
 }
 
 bool LPCSensors::initialize()
 {
     return true;
+}
+
+void LPCSensors::willPowerOff()
+{
+    //
+}
+
+void LPCSensors::didPoweredOn()
+{
+    //
 }
 
 bool LPCSensors::init(OSDictionary *properties)
@@ -477,14 +522,43 @@ bool LPCSensors::start(IOService *provider)
         HWSensorsFatalLog("failed to add timer event source into workloop");
         return false;
     }
-    
-    timerEventSource->setTimeoutMS(1000);
+
+    // two power states - off and on
+	static const IOPMPowerState powerStates[2] = {
+        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 1, IOPMDeviceUsable, IOPMPowerOn, IOPMPowerOn, 0, 0, 0, 0, 0, 0, 0, 0 }
+    };
+
+    // register interest in power state changes
+	PMinit();
+	provider->joinPMtree(this);
+	registerPowerDriver(this, (IOPMPowerState *)powerStates, 2);
     
     registerService();
     
     HWSensorsInfoLog("started");
 
 	return true;
+}
+
+IOReturn LPCSensors::setPowerState(unsigned long powerState, IOService *device)
+{
+    switch (powerState) {
+        case 0: // Power Off
+            timerEventSource->cancelTimeout();
+            willPowerOff();
+            break;
+
+        case 1: // Power On
+            didPoweredOn();
+            timerEventSource->setTimeoutMS(1000);
+            break;
+
+        default:
+            break;
+    }
+
+	return(IOPMAckImplied);
 }
 
 void LPCSensors::stop(IOService *provider)

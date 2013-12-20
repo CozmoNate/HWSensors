@@ -45,7 +45,9 @@
 
 @property (readonly) NSArray *history;
 @property (readonly) NSNumber *historyMaxValue;
+@property (readonly) NSUInteger historyMaxCount;
 @property (readonly) NSNumber *historyMinValue;
+@property (readonly) NSUInteger historyMinCount;
 
 + (const NSArray*)graphColors;
 - (void)captureSensorValueToHistorySetLimit:(NSUInteger)limit;

@@ -121,7 +121,7 @@
 		7EF6817D18510E8A0077E785 /* 17-bar-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EF6817B18510E8A0077E785 /* 17-bar-chart.png */; };
 		7EF6817E18510E8A0077E785 /* 17-bar-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EF6817C18510E8A0077E785 /* 17-bar-chart@2x.png */; };
 		7EFD75B6185C73A300C01C2B /* PopupFanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD75B5185C73A300C01C2B /* PopupFanCell.m */; };
-		7EFD75B8185C763500C01C2B /* FanController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EFD75B7185C763500C01C2B /* FanController.xib */; };
+		7EFD75B8185C763500C01C2B /* PopupFanController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EFD75B7185C763500C01C2B /* PopupFanController.xib */; };
 		7EFDE527185CA0020022FD66 /* Let's go Digital Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EFDE526185CA0020022FD66 /* Let's go Digital Regular.ttf */; };
 		7EFDE52A185CA0CF0022FD66 /* Let's go Digital Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EFDE526185CA0020022FD66 /* Let's go Digital Regular.ttf */; };
 		7EFE61AE183581090009BD0D /* HWMBatterySensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61AD183581090009BD0D /* HWMBatterySensor.m */; };
@@ -227,6 +227,7 @@
 		7E420FA41820E04900331D2B /* HWMonitor_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMonitor_Tests.m; sourceTree = "<group>"; };
 		7E420FA61820E04900331D2B /* HWMonitor Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HWMonitor Tests-Prefix.pch"; sourceTree = "<group>"; };
 		7E420FAC1820E2D800331D2B /* Profiles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Profiles; sourceTree = "<group>"; };
+		7E4408F218639CD3002B2960 /* HWMEngine 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		7E4CD74B1737574C002586D2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E56D2F9183FD96600D53B97 /* HWMSmcFanSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMSmcFanSensor.h; sourceTree = "<group>"; };
 		7E56D2FA183FD96600D53B97 /* HWMSmcFanSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSmcFanSensor.m; sourceTree = "<group>"; };
@@ -347,7 +348,7 @@
 		7EF6817C18510E8A0077E785 /* 17-bar-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "17-bar-chart@2x.png"; sourceTree = "<group>"; };
 		7EFD75B4185C73A300C01C2B /* PopupFanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupFanCell.h; sourceTree = "<group>"; };
 		7EFD75B5185C73A300C01C2B /* PopupFanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupFanCell.m; sourceTree = "<group>"; };
-		7EFD75B7185C763500C01C2B /* FanController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FanController.xib; sourceTree = "<group>"; };
+		7EFD75B7185C763500C01C2B /* PopupFanController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupFanController.xib; sourceTree = "<group>"; };
 		7EFDE526185CA0020022FD66 /* Let's go Digital Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Let's go Digital Regular.ttf"; sourceTree = "<group>"; };
 		7EFE61AC183581090009BD0D /* HWMBatterySensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMBatterySensor.h; sourceTree = "<group>"; };
 		7EFE61AD183581090009BD0D /* HWMBatterySensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMBatterySensor.m; sourceTree = "<group>"; };
@@ -597,9 +598,9 @@
 				7E9A17CC17E4529C003DB018 /* PopupAtaSmartSensorCell.m */,
 				7EFD75B4185C73A300C01C2B /* PopupFanCell.h */,
 				7EFD75B5185C73A300C01C2B /* PopupFanCell.m */,
+				7EFD75B7185C763500C01C2B /* PopupFanController.xib */,
 				7E17953416EE705B00145082 /* PopupBatteryCell.h */,
 				7E17953516EE705B00145082 /* PopupBatteryCell.m */,
-				7EFD75B7185C763500C01C2B /* FanController.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -794,6 +795,7 @@
 				7E0200AC18035D3700520CF7 /* RFOverlayScrollView */,
 				7E0254651805D2D200B4F099 /* JLNFadingScrollView */,
 				7E019BA7182625F8002F8217 /* FadingButton */,
+				7E019BA6182625EC002F8217 /* SensorsTableView */,
 			);
 			name = "Views & Controls";
 			sourceTree = "<group>";
@@ -892,7 +894,6 @@
 			isa = PBXGroup;
 			children = (
 				7E19DECD1843E45F00229B0E /* Cells */,
-				7E019BA6182625EC002F8217 /* SensorsTableView */,
 				7EA248FD16D8E93A002231B2 /* PrefsController.h */,
 				7EA248FE16D8E93A002231B2 /* PrefsController.m */,
 				7E2042041730D04000C13B65 /* PrefsController.xib */,
@@ -1055,7 +1056,7 @@
 				7EA2492416D8E9C6002231B2 /* hwmonitor_template.png in Resources */,
 				7EA2492516D8E9C6002231B2 /* hwmonitor.png in Resources */,
 				7EA2492616D8E9C6002231B2 /* multipliers_template.png in Resources */,
-				7EFD75B8185C763500C01C2B /* FanController.xib in Resources */,
+				7EFD75B8185C763500C01C2B /* PopupFanController.xib in Resources */,
 				7EA2492716D8E9C6002231B2 /* multipliers.png in Resources */,
 				7EA2492816D8E9C6002231B2 /* pcicard_template.png in Resources */,
 				7E966D1D18523BE000313AB1 /* theme_default.png in Resources */,
@@ -1454,9 +1455,10 @@
 		7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7E4408F218639CD3002B2960 /* HWMEngine 1.1.xcdatamodel */,
 				7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */,
 			);
-			currentVersion = 7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */;
+			currentVersion = 7E4408F218639CD3002B2960 /* HWMEngine 1.1.xcdatamodel */;
 			path = HWMEngine.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

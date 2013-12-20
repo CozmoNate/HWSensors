@@ -48,7 +48,7 @@
 
 #include "IT87xxSensors.h"
 #include "FakeSMCDefinitions.h"
-#include "SuperIO.h"
+#include "SuperIODevice.h"
 #include "FakeSMCKey.h"
 
 #define FEATURE_12MV_ADC		(1 << 0)
@@ -138,7 +138,7 @@ bool IT87xxSensors::supportsTachometerControl()
 
 UInt8 IT87xxSensors::readTachometerControl(UInt32 index)
 {
-    if (index >= 5)
+    if (index >= tachometerSensorsLimit())
         return 0;
     
     UInt8 control;
@@ -156,29 +156,32 @@ UInt8 IT87xxSensors::readTachometerControl(UInt32 index)
 
 void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
 {
-    if (index < 5) {
+    if (index < tachometerSensorsLimit()) {
         
         if (!fanControlEnabled[index]) {
             /* Read PWM controller */
-            UInt8 pwmControl = readByte(ITE_SMARTGUARDIAN_PWM_CONTROL[index]);
+            fanPWMControl[index] = readByte(ITE_SMARTGUARDIAN_PWM_CONTROL[index]);
             
             UInt8 pwmTempMap, pwmDuty;
             
             if (features & FEATURE_NEWER_AUTOPWM) {
-                pwmTempMap = pwmControl & 0x03;
+                pwmTempMap = fanPWMControl[index] & 0x03;
                 pwmDuty = readByte(ITE_SMARTGUARDIAN_PWM_DUTY(index));
             } else {
-                if (pwmControl & 0x80)	/* Automatic mode */
-                    pwmTempMap = pwmControl & 0x03;
+                if (fanPWMControl[index] & 0x80)	/* Automatic mode */
+                    pwmTempMap = fanPWMControl[index] & 0x03;
                 else				/* Manual mode */
-                    pwmDuty = pwmControl & 0x7f;
+                    pwmDuty = fanPWMControl[index] & 0x7f;
             }
             
             /* Manual mode */
-            pwmControl = features & FEATURE_NEWER_AUTOPWM ? pwmTempMap : pwmDuty;
+            UInt8 pwmControl = features & FEATURE_NEWER_AUTOPWM ? pwmTempMap : pwmDuty;
+
             writeByte(ITE_SMARTGUARDIAN_PWM(index), pwmControl);
-            
-            /* set SmartGuardian mode */        
+
+            fanSmartGuardian[index] = readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) & (1 << index);
+
+            /* set SmartGuardian mode */
             writeByte(ITE_SMARTGUARDIAN_MAIN_CONTROL, readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) | (1 << index));
             
             fanControlEnabled[index] = true;
@@ -196,6 +199,22 @@ void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
                 writeByte(ITE_SMARTGUARDIAN_PWM(index), control >> 1);
             }
         }
+    }
+}
+
+void IT87xxSensors::disableTachometerControl(UInt32 index)
+{
+    if (index >= tachometerSensorsLimit())
+        return;
+
+    if (fanControlEnabled[index]) {
+
+        writeByte(ITE_SMARTGUARDIAN_PWM(index), fanPWMControl[index]);
+
+        /* Set back SmartGuardian mode */
+        writeByte(ITE_SMARTGUARDIAN_MAIN_CONTROL, readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) & ~(fanSmartGuardian[index] << index));
+
+        fanControlEnabled[index] = false;
     }
 }
 

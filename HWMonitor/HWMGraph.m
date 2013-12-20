@@ -40,7 +40,22 @@ const NSArray * gHWMGraphsGroupColors;
 @dynamic group;
 
 @synthesize historyMaxValue = _historyMaxValue;
+@synthesize historyMaxCount = _historyMaxCount;
 @synthesize historyMinValue = _historyMinValue;
+@synthesize historyMinCount = _historyMinCount;
+
++(void)addColor:(NSColor*)color toArray:(NSMutableArray*)array
+{
+    double red = [color redComponent];
+    double green = [color greenComponent];
+    double blue = [color blueComponent];
+    double intensity =  0.3 * red + 0.5 * green + 0.2 * blue;
+    BOOL blackAndWhite = red == green && red == blue && green == blue;
+
+    //if (idx > 7 && !blackAndWhite)
+    if (intensity >= 0.4 && intensity <= 0.90 && !blackAndWhite)
+        [array insertObject:color atIndex:0];
+}
 
 +(const NSArray*)graphColors
 {
@@ -50,18 +65,13 @@ const NSArray * gHWMGraphsGroupColors;
 
         NSColorList *list = [NSColorList colorListNamed:@"Crayons"];
 
-        for (NSUInteger i = [[list allKeys] count] - 1; i != 0; i--) {
-            NSString *key = [[list allKeys] objectAtIndex:i];
-            NSColor *color = [list colorWithKey:key];
-            double intensity = (color.redComponent + color.blueComponent + color.greenComponent) / 3.0;
-            double red = [color redComponent];
-            double green = [color greenComponent];
-            double blue = [color blueComponent];
-            BOOL blackAndWhite = red == green && red == blue && green == blue;
+        NSArray *colorNames = [list allKeys];
 
-            if (intensity >= 0.335 && intensity <=0.900 && !blackAndWhite)
-                [colors addObject:color];
-        }
+        [colorNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+                [HWMGraph addColor:[list colorWithKey:obj] toArray:colors];
+
+        }];
 
         gHWMGraphsGroupColors = [colors copy];
     }
@@ -86,16 +96,49 @@ const NSArray * gHWMGraphsGroupColors;
 
     if (!_historyMaxValue || [_historyMaxValue isLessThan:self.sensor.value]) {
         _historyMaxValue = [self.sensor.value copy];
+        _historyMaxCount = 1;
+    }
+    else if ([_historyMaxValue isEqualToNumber:self.sensor.value]) {
+        _historyMaxCount++;
     }
     
     if (!_historyMinValue || [_historyMinValue isGreaterThan:self.sensor.value]) {
         _historyMinValue = [self.sensor.value copy];
+        _historyMinCount = 1;
+    }
+    else if ([_historyMinValue isEqualToNumber:self.sensor.value]) {
+        _historyMinCount++;
     }
     
     [_history addObject:[self.sensor.value copy]];
 
     if (_history.count > limit) {
-        [_history removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _history.count - limit - 1)]];
+        NSIndexSet *range = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _history.count - limit - 1)];
+
+        NSArray *objectsToRemove = [_history objectsAtIndexes:range];
+
+        NSArray *removedMaximums = [objectsToRemove filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"floatValue == %f", _historyMaxValue.floatValue]];
+        NSArray *removedMinmums = [objectsToRemove filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"floatValue == %f", _historyMinValue.floatValue]];
+
+        [_history removeObjectsAtIndexes:range];
+
+        _historyMaxCount -= removedMaximums.count;
+
+        if (_historyMaxCount == 0) {
+            _historyMaxValue = [_history valueForKeyPath:@"@max.floatValue"];
+            _historyMaxCount = [_history filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"floatValue == %f", _historyMaxValue.floatValue]].count;
+            //NSLog(@"%@ max updated!", self.sensor.name);
+        }
+
+
+
+        _historyMinCount -= removedMinmums.count;
+
+        if (_historyMinCount == 0) {
+            _historyMinValue = [_history valueForKeyPath:@"@min.floatValue"];
+            _historyMinCount = [_history filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"floatValue == %f", _historyMinValue.floatValue]].count;
+            //NSLog(@"%@ min updated!", self.sensor.name);
+        }
     }
 }
 

@@ -47,7 +47,7 @@
 
 #include "NCT677xSensors.h"
 #include "FakeSMCDefinitions.h"
-#include "SuperIO.h"
+#include "SuperIODevice.h"
 
 #define super LPCSensors
 OSDefineMetaClassAndStructors(NCT677xSensors, LPCSensors)
@@ -265,30 +265,35 @@ bool NCT677xSensors::initialize()
             voltageVBatRegister = 0x488;
             minFanRPM = (int)(1.35e6 / 0x1FFF);
 
-            // disable the hardware monitor i/o space lock on NCT6791D chips
-            winbond_family_enter(port);
 
-            superio_select_logical_device(port, kWinbondHardwareMonitorLDN);
-
-            /* Activate logical device if needed */
-            UInt8 options = superio_listen_port_byte(port, NUVOTON_REG_ENABLE);
-
-            if (!(options & 0x01)) {
-                superio_write_port_byte(port, NUVOTON_REG_ENABLE, options | 0x01);
-            }
-
-            options = superio_listen_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK);
-
-            // if the i/o space lock is enabled
-            if (options & 0x10) {
-                // disable the i/o space lock
-                superio_write_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK, (UInt8)(options & ~0x10));
-            }
-            
-            winbond_family_exit(port);
             
             break;
     }
 
 	return true;
+}
+
+void NCT677xSensors::didPoweredOn()
+{
+    // disable the hardware monitor i/o space lock on NCT6791D chips
+    winbond_family_enter(port);
+
+    superio_select_logical_device(port, kWinbondHardwareMonitorLDN);
+
+    /* Activate logical device if needed */
+    UInt8 options = superio_listen_port_byte(port, NUVOTON_REG_ENABLE);
+
+    if (!(options & 0x01)) {
+        superio_write_port_byte(port, NUVOTON_REG_ENABLE, options | 0x01);
+    }
+
+    options = superio_listen_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK);
+
+    // if the i/o space lock is enabled
+    if (options & 0x10) {
+        // disable the i/o space lock
+        superio_write_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK, (UInt8)(options & ~0x10));
+    }
+
+    winbond_family_exit(port);
 }

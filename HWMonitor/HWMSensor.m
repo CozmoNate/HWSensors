@@ -48,7 +48,7 @@
 
 -(void)awakeFromFetch
 {
-    [self setPrimitiveValue:@0 forKey:@"service"];
+    //[self setPrimitiveValue:@0 forKey:@"service"];
     
     [self addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
 }
@@ -70,6 +70,19 @@
         _strippedValue = nil;
     }
 }
+
+//-(void)setValue:(NSNumber *)value
+//{
+//    if ([self.value isNotEqualTo:value]) {
+//
+//        _formattedValue = nil;
+//        _strippedValue = nil;
+//
+//        [self willChangeValueForKey:@"value"];
+//        [self setPrimitiveValue:value forKey:@"value"];
+//        [self didChangeValueForKey:@"value"];
+//    }
+//}
 
 -(NSString *)formattedValue
 {

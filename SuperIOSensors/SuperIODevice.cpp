@@ -1,11 +1,9 @@
-#include "SuperIO.h"
+#include "SuperIODevice.h"
 
 #include <IOKit/IOLib.h>
 
 #include "OemInfo.h"
 #include "FakeSMCDefinitions.h"
-
-#include "NCT677xSensors.h"
 
 #define Debug FALSE
 

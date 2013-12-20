@@ -32,6 +32,8 @@
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
 
+#import "FakeSMCDefinitions.h"
+
 @implementation HWMSmcFanSensor
 
 @dynamic number;
@@ -40,19 +42,66 @@
 @dynamic speed;
 @dynamic unique;
 
+-(void)awakeFromFetch
+{
+    [self addObserver:self forKeyPath:@"engine.configuration.enableFanControl" options:NSKeyValueObservingOptionNew context:nil];
+
+    [super awakeFromFetch];
+}
+
+-(void)awakeFromInsert
+{
+    [self addObserver:self forKeyPath:@"engine.configuration.enableFanControl" options:NSKeyValueObservingOptionNew context:nil];
+
+    [super awakeFromInsert];
+}
+
+-(void)prepareForDeletion
+{
+    [self removeObserver:self forKeyPath:@"engine.configuration.enableFanControl"];
+
+    [super prepareForDeletion];
+}
+
+-(void)writeSMCKey:(NSString*)key value:(NSNumber*)value
+{
+    SMCVal_t info;
+
+    if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
+        if ([SmcHelper encodeNumericValue:value length:info.dataSize type:info.dataType outBuffer:info.bytes]) {
+            SMCWriteKeyUnsafe((io_connect_t)self.service.unsignedLongValue, &info);
+        }
+    }
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"engine.configuration.enableFanControl"]) {
+        if (!((NSNumber*)[change objectForKey:NSKeyValueChangeNewKey]).boolValue) {
+            // Disable manual fan control
+            [self writeSMCKey:@KEY_FAN_MANUAL value:@0];
+        }
+    }
+
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
+
 -(void)setSpeed:(NSNumber *)speed
 {
     if (self.engine.configuration.enableFanControl.boolValue && self.max && self.min && self.number && self.speed && speed) {
+
         SMCVal_t info;
-        
-        char key[5];
-        
-        //snprintf(str, 5, "F%dMn", self.number.unsignedCharValue);
-        snprintf(key, 5, "F%XTg", self.number.unsignedCharValue);
-        
-        if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, key, &info)) {
-            if ([SmcHelper encodeNumericValue:speed.floatValue length:info.dataSize type:info.dataType outBuffer:info.bytes]) {
-                SMCWriteKeyUnsafe((io_connect_t)self.service.unsignedLongValue, &info);
+
+        if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
+
+            NSNumber *value;
+
+            if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
+
+                UInt16 manual = value.unsignedShortValue | (0x1 << self.number.unsignedShortValue);
+
+                [self writeSMCKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
+                [self writeSMCKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed];
             }
         }
     }

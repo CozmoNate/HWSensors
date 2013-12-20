@@ -126,6 +126,7 @@
 
 // FANs
 #define KEY_FAN_NUMBER                          "FNum"
+#define KEY_FAN_MANUAL                          "FS! "
 #define KEY_FORMAT_FAN_ID                       "F%XID"
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
 #define KEY_FORMAT_FAN_MIN                      "F%XMn"

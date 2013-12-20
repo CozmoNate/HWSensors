@@ -51,43 +51,59 @@ enum nouveau_fan_source {
 #define super GPUSensors
 OSDefineMetaClassAndStructors(GeforceSensors, GPUSensors)
 
-float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
+bool GeforceSensors::getSensorValue(FakeSMCSensor *sensor, float *value)
 {
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor: {
             switch (sensor->getIndex()) {
                 case nouveau_temp_core:
-                    return card.core_temp_get(&card);
-                    
+                    *value = card.core_temp_get(&card);
+                    break;
+
                 case nouveau_temp_board:
-                    return card.board_temp_get(&card);
+                    *value = card.board_temp_get(&card);
+                    break;
                     
                 case nouveau_temp_diode:
-                    return card.temp_get(&card);
+                    *value = card.temp_get(&card);
+                    break;
+
+                default:
+                    return false;
             }
             break;
         }
             
         case kFakeSMCFrequencySensor:
-            return card.clocks_get(&card, sensor->getIndex()) / 1000.0f;
+            *value = (float)card.clocks_get(&card, sensor->getIndex()) / 1000.0f;
+            break;
 
         case kFakeSMCTachometerSensor:{
             switch (sensor->getIndex()) {
                 case nouveau_fan_rpm:
-                    return card.fan_rpm_get(&card);
+                    *value = card.fan_rpm_get(&card);
+                    break;
                     
                 case nouveau_fan_pwm:
-                    return card.fan_pwm_get(&card);
+                    *value = card.fan_pwm_get(&card);
+                    break;
+
+                default:
+                    return false;
             }
             break;
         }
         
         case kFakeSMCVoltageSensor:
             //return (float)card.voltage_get(&card) / 1000000.0f;
-            return (float)card.volt.get(&card) / 1000000.0f;
+            *value = (float)card.volt.get(&card) / 1000000.0f;
+            break;
+
+        default:
+            return false;
     }
-    
-    return 0;
+
+    return true;
 }
 
 bool GeforceSensors::shouldWaitForAccelerator()
