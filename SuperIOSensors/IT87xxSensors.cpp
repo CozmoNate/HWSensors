@@ -202,21 +202,21 @@ void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
     }
 }
 
-void IT87xxSensors::disableTachometerControl(UInt32 index)
-{
-    if (index >= tachometerSensorsLimit())
-        return;
-
-    if (fanControlEnabled[index]) {
-
-        writeByte(ITE_SMARTGUARDIAN_PWM(index), fanPWMControl[index]);
-
-        /* Set back SmartGuardian mode */
-        writeByte(ITE_SMARTGUARDIAN_MAIN_CONTROL, readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) & ~(fanSmartGuardian[index] << index));
-
-        fanControlEnabled[index] = false;
-    }
-}
+//void IT87xxSensors::disableTachometerControl(UInt32 index)
+//{
+//    if (index >= tachometerSensorsLimit())
+//        return;
+//
+//    if (fanControlEnabled[index]) {
+//
+//        writeByte(ITE_SMARTGUARDIAN_PWM(index), fanPWMControl[index]);
+//
+//        /* Set back SmartGuardian mode */
+//        writeByte(ITE_SMARTGUARDIAN_MAIN_CONTROL, readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) & ~(fanSmartGuardian[index] << index));
+//
+//        fanControlEnabled[index] = false;
+//    }
+//}
 
 bool IT87xxSensors::initialize()
 {

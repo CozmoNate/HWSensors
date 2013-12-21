@@ -534,6 +534,16 @@
 			name = Shared;
 			sourceTree = "<group>";
 		};
+		7E144B0318659DBD00D1C724 /* PopupFanCell */ = {
+			isa = PBXGroup;
+			children = (
+				7EFD75B4185C73A300C01C2B /* PopupFanCell.h */,
+				7EFD75B5185C73A300C01C2B /* PopupFanCell.m */,
+				7EFD75B7185C763500C01C2B /* PopupFanController.xib */,
+			);
+			name = PopupFanCell;
+			sourceTree = "<group>";
+		};
 		7E19DEC51843D2F500229B0E /* Graphs */ = {
 			isa = PBXGroup;
 			children = (
@@ -596,9 +606,7 @@
 				7EDA1A7616D903740012A0DC /* PopupSensorCell.m */,
 				7E9A17CB17E4529C003DB018 /* PopupAtaSmartSensorCell.h */,
 				7E9A17CC17E4529C003DB018 /* PopupAtaSmartSensorCell.m */,
-				7EFD75B4185C73A300C01C2B /* PopupFanCell.h */,
-				7EFD75B5185C73A300C01C2B /* PopupFanCell.m */,
-				7EFD75B7185C763500C01C2B /* PopupFanController.xib */,
+				7E144B0318659DBD00D1C724 /* PopupFanCell */,
 				7E17953416EE705B00145082 /* PopupBatteryCell.h */,
 				7E17953516EE705B00145082 /* PopupBatteryCell.m */,
 			);

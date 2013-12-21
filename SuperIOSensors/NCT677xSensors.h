@@ -72,11 +72,15 @@ const UInt16 NUVOTON_VOLTAGE_REG_NEW[]          = { 0x480, 0x481, 0x482, 0x483, 
 const UInt16 NUVOTON_FAN_RPM_REG[]              = { 0x656, 0x658, 0x65A, 0x65C, 0x65E, 0x660 };
 const UInt16 NUVOTON_FAN_STOP_REG[]             = {	0x105, 0x205, 0x305, 0x805, 0x905, 0xa05 };
 
-const UInt16 NUVOTON_FAN_PWM_OUT_REG[]          = { 0x01,  0x03,  0x11,  0x13,  0x15,  0xa09 };
-const UInt16 NUVOTON_FAN_PWM_MODE_REG[]         = { 0x04,  0,     0,     0,     0,     0 };
-const UInt16 NUVOTON_PWM_MODE_MASK[]            = { 0x01,  0,     0,     0,     0,     0 };
-const UInt16 NUVOTON_FAN_PWM_MODE_OLD_REG[]     = { 0x04,  0x04,  0x12 };
-const UInt16 NUVOTON_PWM_MODE_MASK_OLD[]        = { 0x01,  0x02,  0x01 };
+//const UInt16 NUVOTON_FAN_PWM_OUT_REG[]          = { 0x001, 0x003, 0x011, 0x013, 0x015, 0xa09 };
+//const UInt16 NUVOTON_FAN_PWM_MODE_REG[]         = { 0x04,  0,     0,     0,     0,     0 };
+//const UInt16 NUVOTON_PWM_MODE_MASK[]            = { 0x01,  0,     0,     0,     0,     0 };
+//const UInt16 NUVOTON_FAN_PWM_MODE_OLD_REG[]     = { 0x04,  0x04,  0x12 };
+//const UInt16 NUVOTON_PWM_MODE_MASK_OLD[]        = { 0x01,  0x02,  0x01 };
+
+const UInt16 NUVOTON_FAN_PWM_OUT_REG[]          = { 0x001, 0x003, 0x011, 0x013, 0x015, 0x017 };
+const UInt16 NUVOTON_FAN_PWM_COMMAND_REG[]      = { 0x109, 0x209, 0x309, 0x809, 0x909, 0xA09 };
+const UInt16 NUVOTON_FAN_CONTROL_MODE_REG[]     = { 0x102, 0x202, 0x302, 0x802, 0x902, 0xA02 };
 
 class NCT677xSensors : public LPCSensors
 {
@@ -90,6 +94,9 @@ private:
     int                     minFanRPM;
     UInt16                  voltageVBatRegister;
     bool                    fanControlEnabled[6];
+
+    UInt8                   fanDefaultCommand[6];
+    UInt8                   fanDefaultControl[6];
     
    	UInt8					readByte(UInt16 reg);
     void					writeByte(UInt16 reg, UInt8 value);
@@ -106,6 +113,7 @@ private:
     virtual bool			supportsTachometerControl();
     virtual UInt8			readTachometerControl(UInt32 index);
     virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
+    virtual void			disableTachometerControl(UInt32 index);
     
 	virtual bool			initialize();
     virtual void            didPoweredOn();

@@ -71,8 +71,10 @@ static NSMutableDictionary *smartctl_updated = nil;
                                           ofView:self.superview
                                    preferredEdge:NSMinXEdge
                                           string:output
-                                 backgroundColor:[self.objectValue engine].configuration.colorTheme.listBackgroundColor
-                                 foregroundColor:[self.objectValue engine].configuration.colorTheme.itemTitleColor
+                                 backgroundColor:self.colorTheme.useDarkIcons.boolValue ?
+                                                    [self.colorTheme.listBackgroundColor shadowWithLevel:0.2] :
+                                                    [self.colorTheme.listBackgroundColor highlightWithLevel:0.2]
+                                 foregroundColor:self.colorTheme.itemTitleColor
                                             font:[NSFont fontWithName:@"Monaco" size:10]
                                         maxWidth:750];
     }

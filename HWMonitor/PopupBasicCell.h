@@ -7,9 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "HWMColorTheme.h"
+
+@class HWMColorTheme;
 
 @interface PopupBasicCell : NSTableCellView
+
+@property (readonly) HWMColorTheme *colorTheme;
 
 - (void)colorThemeHasChanged:(HWMColorTheme*)newColorTheme;
 - (void)initialize;

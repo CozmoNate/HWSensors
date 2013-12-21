@@ -13,6 +13,8 @@
 
 @implementation PopupBasicCell
 
+@synthesize colorTheme = _colorTheme;
+
 -(id)init
 {
     self = [super init];
@@ -54,7 +56,8 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"objectValue.engine.configuration.colorTheme"]) {
-        [self colorThemeHasChanged:[(HWMItem*)self.objectValue engine].configuration.colorTheme];
+        _colorTheme = [(HWMItem*)self.objectValue engine].configuration.colorTheme;
+        [self colorThemeHasChanged:_colorTheme];
     }
 }
 

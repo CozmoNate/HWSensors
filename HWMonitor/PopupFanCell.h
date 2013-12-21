@@ -8,7 +8,7 @@
 
 #import "PopupSensorCell.h"
 
-@class HWMSmcFanSensor;
+@class HWMSmcFanSensor, HWMColorTheme;
 
 @interface PopupFanController : NSViewController
 {
@@ -16,6 +16,8 @@
 }
 
 @property (nonatomic, strong) id objectValue;
+
+@property (nonatomic, strong) HWMColorTheme* colorTheme;
 
 @property (assign) IBOutlet NSSlider *slider;
 @property (assign) IBOutlet NSTextField *textField;
