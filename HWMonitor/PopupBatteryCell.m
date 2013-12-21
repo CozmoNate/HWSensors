@@ -52,6 +52,9 @@
         if ([_gaugeLevel integerValue] < 20) {
             [[[NSColor redColor] shadowWithLevel:[self.objectValue engine].configuration.colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
         }
+        else if ([_gaugeLevel integerValue] < 35) {
+            [[[NSColor orangeColor] shadowWithLevel:[self.objectValue engine].configuration.colorTheme.useDarkIcons ? 0.1 : 0.2] setFill];
+        }
         else {
             [[[NSColor greenColor] shadowWithLevel:[self.objectValue engine].configuration.colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
         }

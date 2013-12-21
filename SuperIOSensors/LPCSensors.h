@@ -33,10 +33,10 @@
 
 #include "FakeSMCPlugin.h"
 
-#define kLPCSensorsMinRPM               0.0
+#define kLPCSensorsMinRPM               0000.0
 #define kLPCSensorsMaxRPM               3000.0
-#define kLPCSensorsMatchTheresholdRPM   50.0
-#define kLPCSensorsControlIncrement     5
+#define kLPCSensorsInitialStep          5
+#define kLPCSensorsMatchTheresholdRPM   25.0
 #define kLPCSensorsWorkloopTimeout      5000
 
 #define kLPCSensorsFanTargetController  1000
@@ -55,6 +55,7 @@ struct LPCSensorsFanControl {
     UInt8                       number;
     float                       target;
     kLPCSensorsFanControlAction action;
+    float                       step;
 };
 
 #define kLPCSensorsMaxFanControls       16

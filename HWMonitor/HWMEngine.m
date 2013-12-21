@@ -1329,34 +1329,35 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 #pragma mark
 #pragma mark ATA SMART Sensors
 
--(HWMAtaSmartSensor*)getAtaSmartSensorByProductName:(NSString*)product andSerialNumber:(NSString*)serial fromGroup:(HWMSensorsGroup*)group
+-(HWMAtaSmartSensor*)getAtaSmartSensorByName:(NSString*)name fromGroup:(HWMSensorsGroup*)group
 {
-    NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"productName == %@ AND serialNumber == %@", product, serial]];
+    NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
 
     return sensors && sensors.count ? [sensors objectAtIndex:0] : nil;
 }
 
 -(HWMAtaSmartSensor*)insertAtaSmartSensorFromDictionary:(NSDictionary*)attributes group:(HWMSensorsGroup*)group
 {
-    HWMAtaSmartSensor *sensor = [self getAtaSmartSensorByProductName:[attributes objectForKey:@"productName"] andSerialNumber:[attributes objectForKey:@"serialNumber"] fromGroup:group];
+    NSString *name = [attributes objectForKey:@"serialNumber"];
+
+    HWMAtaSmartSensor *sensor = [self getAtaSmartSensorByName:name fromGroup:group];
 
     if (!sensor) {
         sensor = [NSEntityDescription insertNewObjectForEntityForName:@"AtaSmartSensor" inManagedObjectContext:self.managedObjectContext];
 
-        [sensor setGroup:group];
+        [sensor setName:name];
 
-        [sensor setProductName:[[attributes objectForKey:@"productName"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-        [sensor setSerialNumber:[[attributes objectForKey:@"serialNumber"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-        [sensor setName:[NSString stringWithFormat:@"%@@%@", sensor.productName, sensor.serialNumber]];
+        [sensor setGroup:group];
     }
 
-    [sensor setService:[attributes objectForKey:@"service"]];
     [sensor setSelector:group.selector];
+    [sensor setService:[attributes objectForKey:@"service"]];
     [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
 
     [sensor doUpdateValue];
 
     if (sensor.value) {
+        [sensor setProductName:[attributes objectForKey:@"productName"]];
         [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
         [sensor setRotational:[attributes objectForKey:@"rotational"]];
         [sensor setIdentifier:@"Drive"];

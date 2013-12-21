@@ -107,7 +107,7 @@ float NCT677xSensors::readTemperature(UInt32 index)
                 value = readByte(NUVOTON_TEMPERATURE_REG_NEW[index]) << 1;
                 break;
         }
-        
+
         float t = 0.5f * (float)value;
         
         return t <= 125 && t >= -55 ? t : 0;
@@ -134,7 +134,7 @@ float NCT677xSensors::readVoltage(UInt32 index)
                 value = readByte(NUVOTON_VOLTAGE_REG_NEW[index]) * 0.008f;
                 break;
         }
-        
+
         bool valid = value > 0;
         
         // check if battery voltage monitor is enabled
@@ -169,7 +169,6 @@ bool NCT677xSensors::supportsTachometerControl()
 
 UInt8 NCT677xSensors::readTachometerControl(UInt32 index)
 {
-    //return (float)(readByte(NUVOTON_FAN_PWM_OUT_REG[index])) / 2.55f;
     return (float)(readByte(NUVOTON_FAN_PWM_OUT_REG[index])) / 2.55f;
 }
 
@@ -296,25 +295,31 @@ bool NCT677xSensors::initialize()
 
 void NCT677xSensors::didPoweredOn()
 {
-    // disable the hardware monitor i/o space lock on NCT6791D chips
-    winbond_family_enter(port);
+    switch (model) {
+        case NCT6771F: {
+            // disable the hardware monitor i/o space lock on NCT6791D chips
+            winbond_family_enter(port);
 
-    superio_select_logical_device(port, kWinbondHardwareMonitorLDN);
+            superio_select_logical_device(port, kWinbondHardwareMonitorLDN);
 
-    /* Activate logical device if needed */
-    UInt8 options = superio_listen_port_byte(port, NUVOTON_REG_ENABLE);
+            /* Activate logical device if needed */
+            UInt8 options = superio_listen_port_byte(port, NUVOTON_REG_ENABLE);
 
-    if (!(options & 0x01)) {
-        superio_write_port_byte(port, NUVOTON_REG_ENABLE, options | 0x01);
+            if (!(options & 0x01)) {
+                superio_write_port_byte(port, NUVOTON_REG_ENABLE, options | 0x01);
+            }
+
+            options = superio_listen_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK);
+
+            // if the i/o space lock is enabled
+            if (options & 0x10) {
+                // disable the i/o space lock
+                superio_write_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK, (UInt8)(options & ~0x10));
+            }
+
+            winbond_family_exit(port);
+            
+            break;
+        }
     }
-
-    options = superio_listen_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK);
-
-    // if the i/o space lock is enabled
-    if (options & 0x10) {
-        // disable the i/o space lock
-        superio_write_port_byte(port, NUVOTON_HWMON_IO_SPACE_LOCK, (UInt8)(options & ~0x10));
-    }
-
-    winbond_family_exit(port);
 }

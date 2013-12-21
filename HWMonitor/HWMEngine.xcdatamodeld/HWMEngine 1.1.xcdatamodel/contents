@@ -2,9 +2,8 @@
 <model userDefinedModelVersionIdentifier="Version 1.1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AtaSmartSensor" representedClassName="HWMAtaSmartSensor" parentEntity="Sensor" syncable="YES">
         <attribute name="bsdName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <attribute name="productName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="productName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="rotational" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="serialNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="volumeNames" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="BatterySensor" representedClassName="HWMBatterySensor" parentEntity="Sensor" syncable="YES">
@@ -95,7 +94,7 @@
     <entity name="SmcFanSensor" representedClassName="HWMSmcFanSensor" parentEntity="SmcSensor" syncable="YES">
         <attribute name="max" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>
         <attribute name="min" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>
-        <attribute name="number" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="number" optional="YES" transient="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="speed" optional="YES" attributeType="Float" syncable="YES"/>
         <attribute name="unique" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>

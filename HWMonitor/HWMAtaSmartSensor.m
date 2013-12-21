@@ -131,7 +131,6 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
 @dynamic productName;
 @dynamic bsdName;
 @dynamic volumeNames;
-@dynamic serialNumber;
 @dynamic rotational;
 
 @synthesize exceeded = _exceeded;

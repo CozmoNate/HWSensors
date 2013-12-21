@@ -75,13 +75,19 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                 }
                 else if (value < control->target) {
                     control->action = kLPCSensorsFanActionProbe;
+                    control->step = control->step / 2.0;
+
+                    if (control->step == 0) {
+                        control->action = kLPCSensorsFanActionNone;
+                    }
                 }
                 else if (percent >= 0) {
-                    percent -= kLPCSensorsControlIncrement;
+                    percent -= control->step;
                     writeTachometerControl(index, percent < 0 ? 0 : percent);
                 }
                 else {
                     control->action = kLPCSensorsFanActionProbe;
+                    control->step = kLPCSensorsInitialStep;
                 }
                 
                 break;    
@@ -99,13 +105,19 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                 }
                 else if (value > control->target) {
                     control->action = kLPCSensorsFanActionProbe;
+                    control->step = control->step / 2.0;
+
+                    if (control->step == 0) {
+                        control->action = kLPCSensorsFanActionNone;
+                    }
                 }
                 else if (percent < 99) {
-                    percent += kLPCSensorsControlIncrement;
+                    percent += control->step;
                     writeTachometerControl(index, percent > 100 ? 100 : percent);
                 }
                 else {
                     control->action = kLPCSensorsFanActionProbe;
+                    control->step = kLPCSensorsInitialStep;
                 }
                 
                 break;    
@@ -270,6 +282,7 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
                     tachometerControls[i].number = fanIndex;
                     tachometerControls[i].target = 0;
                     tachometerControls[i].action = kLPCSensorsFanActionNone;
+                    tachometerControls[i].step = kLPCSensorsInitialStep;
                     
                     // Minimum RPM and fan control sensor
                     snprintf(key, 5, KEY_FORMAT_FAN_MIN, fanIndex);
@@ -403,6 +416,7 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
                 if ((manual >> tachometerControls[sensor->getIndex()].number) & 0x1) {
                     tachometerControls[sensor->getIndex()].target = value;
                     tachometerControls[sensor->getIndex()].action = kLPCSensorsFanActionProbe;
+                    tachometerControls[sensor->getIndex()].step = 10;
                 }
                 break;
             }
