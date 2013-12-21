@@ -592,12 +592,12 @@ FakeSMCSensor *FakeSMCPlugin::getSensor(const char* key)
 	return OSDynamicCast(FakeSMCSensor, sensors->getObject(key));
 }
 
-bool FakeSMCPlugin::getSensorValue(FakeSMCSensor *sensor, float* value)
+bool FakeSMCPlugin::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {
     return false;
 }
 
-bool FakeSMCPlugin::setSensorValue(FakeSMCSensor *sensor, float value)
+bool FakeSMCPlugin::didWriteSensorValue(FakeSMCSensor *sensor, float value)
 {
     return false;
 }
@@ -768,7 +768,7 @@ void FakeSMCPlugin::free()
 	super::free();
 }
 
-IOReturn FakeSMCPlugin::getValueCallback(const char *key, const char *type, const UInt8 size, void *buffer)
+IOReturn FakeSMCPlugin::readKeyValueCallback(const char *key, const char *type, const UInt8 size, void *buffer)
 {
     if (key && buffer) {
         if (FakeSMCSensor *sensor = getSensor(key)) {
@@ -776,7 +776,7 @@ IOReturn FakeSMCPlugin::getValueCallback(const char *key, const char *type, cons
 
                 float value;
 
-                if (getSensorValue(sensor, &value)) {
+                if (willReadSensorValue(sensor, &value)) {
                     sensor->encodeNumericValue(value, buffer);
                 }
 
@@ -789,7 +789,7 @@ IOReturn FakeSMCPlugin::getValueCallback(const char *key, const char *type, cons
     return kIOReturnBadArgument;
 }
 
-IOReturn FakeSMCPlugin::setValueCallback(const char *key, const char *type, const UInt8 size, const void *buffer)
+IOReturn FakeSMCPlugin::writeKeyValueCallback(const char *key, const char *type, const UInt8 size, const void *buffer)
 {       
     if (key && type && buffer) {
         if (FakeSMCSensor *sensor = getSensor(key)) {
@@ -798,7 +798,7 @@ IOReturn FakeSMCPlugin::setValueCallback(const char *key, const char *type, cons
                 
                 fakeSMCPluginDecodeFloatValue(type, size, buffer, &value);
                 
-                if (setSensorValue(sensor, value))
+                if (didWriteSensorValue(sensor, value))
                 {
                     //
                 }

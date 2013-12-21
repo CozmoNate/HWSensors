@@ -761,7 +761,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     CGFloat height = bounds.size.height;
     CGFloat arrowHeight = OBMenuBarWindowArrowHeight;
     CGFloat arrowWidth = OBMenuBarWindowArrowWidth;
-    CGFloat cornerRadius = 6.0;
+    CGFloat cornerRadius = 8.0;
 
     NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
 

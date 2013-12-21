@@ -136,7 +136,7 @@ const void *FakeSMCKey::getValue()
         
         if (time - lastValueRead >= 1.0) {
             
-            IOReturn result = handler->getValueCallback(key, type, size, value);
+            IOReturn result = handler->readKeyValueCallback(key, type, size, value);
             
             if (kIOReturnSuccess == result) {
                 lastValueRead = time;
@@ -192,7 +192,7 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
         
         if (time - lastValueWrote >= 1.0) {
             
-            IOReturn result = handler->setValueCallback(key, type, size, value);
+            IOReturn result = handler->writeKeyValueCallback(key, type, size, value);
             
             if (kIOReturnSuccess == result) {
                 lastValueWrote = time;

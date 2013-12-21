@@ -112,7 +112,7 @@ private:
     
     
 protected:
-    virtual bool            getSensorValue(FakeSMCSensor *sensor, float *value);
+    virtual bool            willReadSensorValue(FakeSMCSensor *sensor, float *outValue);
     
 public:
     virtual bool			start(IOService *provider);

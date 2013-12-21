@@ -130,8 +130,6 @@ const NSArray * gHWMGraphsGroupColors;
             //NSLog(@"%@ max updated!", self.sensor.name);
         }
 
-
-
         _historyMinCount -= removedMinmums.count;
 
         if (_historyMinCount == 0) {

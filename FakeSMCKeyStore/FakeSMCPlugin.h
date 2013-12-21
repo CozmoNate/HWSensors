@@ -250,8 +250,8 @@ protected:
     OSDictionary            *getConfigurationNode(OSDictionary *root, const char *name);
     OSDictionary            *getConfigurationNode(OSString *model = NULL);
 
-    virtual bool            getSensorValue(FakeSMCSensor *sensor, float *value);
-    virtual bool            setSensorValue(FakeSMCSensor *sensor, float value);
+    virtual bool            willReadSensorValue(FakeSMCSensor *sensor, float *outValue);
+    virtual bool            didWriteSensorValue(FakeSMCSensor *sensor, float value);
     
 public:    
 	virtual bool			init(OSDictionary *properties=0);
@@ -259,8 +259,8 @@ public:
 	virtual void			stop(IOService *provider);
 	virtual void			free(void);
 
-    virtual IOReturn        getValueCallback(const char *key, const char *type, const UInt8 size, void *buffer);
-    virtual IOReturn        setValueCallback(const char *key, const char *type, const UInt8 size, const void *buffer);
+    virtual IOReturn        readKeyValueCallback(const char *key, const char *type, const UInt8 size, void *buffer);
+    virtual IOReturn        writeKeyValueCallback(const char *key, const char *type, const UInt8 size, const void *buffer);
 };
 
 #endif

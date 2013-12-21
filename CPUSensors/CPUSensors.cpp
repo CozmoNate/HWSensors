@@ -352,7 +352,7 @@ IOReturn CPUSensors::woorkloopTimerEvent()
     return kIOReturnSuccess;
 }
 
-bool CPUSensors::getSensorValue(FakeSMCSensor *sensor, float* value)
+bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {    
     UInt32 index = sensor->getIndex();
     
@@ -363,13 +363,13 @@ bool CPUSensors::getSensorValue(FakeSMCSensor *sensor, float* value)
                 bit_set(timerEventsPending, kCPUSensorsCoreThermalSensor);
             }
             cpu_thermal_updated[index] = false;
-            *value = tjmax[index] - cpu_thermal[index];
+            *outValue = tjmax[index] - cpu_thermal[index];
             break;
             
         case kCPUSensorsCoreMultiplierSensor:
         case kCPUSensorsPackageMultiplierSensor:
             bit_set(timerEventsPending, sensor->getGroup());
-            *value = multiplier[index];
+            *outValue = multiplier[index];
             break;
             
         case kCPUSensorsCoreFrequencySensor:
@@ -377,12 +377,12 @@ bool CPUSensors::getSensorValue(FakeSMCSensor *sensor, float* value)
                 bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
             }
             cpu_state_updated[index] = false;
-            *value = multiplier[index] * (float)busClock;
+            *outValue = multiplier[index] * (float)busClock;
             break;
 
         case kCPUSensorsPackageFrequencySensor:
             bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
-            *value = multiplier[index] * (float)busClock;
+            *outValue = multiplier[index] * (float)busClock;
             break;
             
         case kCPUSensorsTotalPowerSensor:
@@ -390,7 +390,7 @@ bool CPUSensors::getSensorValue(FakeSMCSensor *sensor, float* value)
         case kCPUSensorsUncorePowerSensor:
         case kCPUSensorsDramPowerSensor:
             bit_set(timerEventsPending, sensor->getGroup());
-            *value = (float)energyUnits * cpu_energy_delta[index];
+            *outValue = (float)energyUnits * cpu_energy_delta[index];
             break;
 
         default:

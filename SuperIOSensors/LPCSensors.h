@@ -99,8 +99,8 @@ protected:
     virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
     virtual void			disableTachometerControl(UInt32 index);
     
-    virtual bool            getSensorValue(FakeSMCSensor *sensor, float *value);
-    virtual bool            setSensorValue(FakeSMCSensor *sensor, float value);
+    virtual bool            willReadSensorValue(FakeSMCSensor *sensor, float *outValue);
+    virtual bool            didWriteSensorValue(FakeSMCSensor *sensor, float value);
     
     virtual bool            initialize();
     virtual void            willPowerOff();

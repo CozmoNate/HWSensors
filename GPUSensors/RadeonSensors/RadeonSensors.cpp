@@ -23,11 +23,11 @@
 #define super GPUSensors
 OSDefineMetaClassAndStructors(RadeonSensors, GPUSensors)
 
-bool RadeonSensors::getSensorValue(FakeSMCSensor *sensor, float *value)
+bool RadeonSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
-            *value = card.get_core_temp(&card);
+            *outValue = card.get_core_temp(&card);
             break;
             
         case kFakeSMCFrequencySensor:

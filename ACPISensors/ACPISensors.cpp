@@ -147,7 +147,7 @@ void ACPISensors::addSensorsFromArray(OSArray *array, kFakeSMCCategory category)
     }
 }
 
-bool ACPISensors::getSensorValue(FakeSMCSensor *sensor, float* result)
+bool ACPISensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {
     UInt32 value = 0;
     OSString *method = NULL;
@@ -158,21 +158,21 @@ bool ACPISensors::getSensorValue(FakeSMCSensor *sensor, float* result)
                 case kFakeSMCTemperatureSensor:                    
                     // all temperatures returned from ACPI should be in Kelvins?
                     if (useKelvins)
-                        *result = ((float)value - (float)0xAAC) / (float)0xA;
+                        *outValue = ((float)value - (float)0xAAC) / (float)0xA;
                     else
-                        *result = (float)value;
+                        *outValue = (float)value;
                     break;
                     
                 case kFakeSMCVoltageSensor:
                 case kFakeSMCCurrentSensor:
                 case kFakeSMCPowerSensor:
                     // all voltages returned from ACPI should be in millivolts?
-                    *result = (float)value * 0.001f;
+                    *outValue = (float)value * 0.001f;
                     break;
             
                 case kFakeSMCTachometerSensor:
                 default:
-                    *result = (float)value;
+                    *outValue = (float)value;
                     break;
             }
         }

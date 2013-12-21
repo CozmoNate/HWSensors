@@ -24,7 +24,7 @@ private:
     SInt8               gpuIndex;
 	
 protected:	
-    virtual bool        getSensorValue(FakeSMCSensor *sensor, float* result);
+    virtual bool        willReadSensorValue(FakeSMCSensor *sensor, float* result);
 	virtual bool        managedStart(IOService *provider);
     
 public:

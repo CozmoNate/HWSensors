@@ -51,21 +51,21 @@ enum nouveau_fan_source {
 #define super GPUSensors
 OSDefineMetaClassAndStructors(GeforceSensors, GPUSensors)
 
-bool GeforceSensors::getSensorValue(FakeSMCSensor *sensor, float *value)
+bool GeforceSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor: {
             switch (sensor->getIndex()) {
                 case nouveau_temp_core:
-                    *value = card.core_temp_get(&card);
+                    *outValue = card.core_temp_get(&card);
                     break;
 
                 case nouveau_temp_board:
-                    *value = card.board_temp_get(&card);
+                    *outValue = card.board_temp_get(&card);
                     break;
                     
                 case nouveau_temp_diode:
-                    *value = card.temp_get(&card);
+                    *outValue = card.temp_get(&card);
                     break;
 
                 default:
@@ -75,17 +75,17 @@ bool GeforceSensors::getSensorValue(FakeSMCSensor *sensor, float *value)
         }
             
         case kFakeSMCFrequencySensor:
-            *value = (float)card.clocks_get(&card, sensor->getIndex()) / 1000.0f;
+            *outValue = (float)card.clocks_get(&card, sensor->getIndex()) / 1000.0f;
             break;
 
         case kFakeSMCTachometerSensor:{
             switch (sensor->getIndex()) {
                 case nouveau_fan_rpm:
-                    *value = card.fan_rpm_get(&card);
+                    *outValue = card.fan_rpm_get(&card);
                     break;
                     
                 case nouveau_fan_pwm:
-                    *value = card.fan_pwm_get(&card);
+                    *outValue = card.fan_pwm_get(&card);
                     break;
 
                 default:
@@ -95,8 +95,7 @@ bool GeforceSensors::getSensorValue(FakeSMCSensor *sensor, float *value)
         }
         
         case kFakeSMCVoltageSensor:
-            //return (float)card.voltage_get(&card) / 1000000.0f;
-            *value = (float)card.volt.get(&card) / 1000000.0f;
+            *outValue = (float)card.volt.get(&card) / 1000000.0f;
             break;
 
         default:

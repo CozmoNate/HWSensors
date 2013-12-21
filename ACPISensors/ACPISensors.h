@@ -35,7 +35,7 @@ private:
     void                    addSensorsFromArray(OSArray *array, kFakeSMCCategory category);
     
 protected:
-    virtual bool           getSensorValue(FakeSMCSensor *sensor, float *result);
+    virtual bool           willReadSensorValue(FakeSMCSensor *sensor, float *outValue);
     
 public:
     virtual bool			start(IOService *provider);

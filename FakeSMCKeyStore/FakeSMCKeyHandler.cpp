@@ -39,12 +39,12 @@ UInt32 FakeSMCKeyHandler::getProbeScore()
     return 0;
 }
 
-IOReturn FakeSMCKeyHandler::getValueCallback(const char *key, const char *type, const UInt8 size, void *buffer)
+IOReturn FakeSMCKeyHandler::readKeyValueCallback(const char *key, const char *type, const UInt8 size, void *buffer)
 {
     return kIOReturnUnsupported;
 }
 
-IOReturn FakeSMCKeyHandler::setValueCallback(const char *key, const char *type, const UInt8 size, const void *value)
+IOReturn FakeSMCKeyHandler::writeKeyValueCallback(const char *key, const char *type, const UInt8 size, const void *value)
 {
     return kIOReturnUnsupported;
 }

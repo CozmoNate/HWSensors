@@ -342,22 +342,22 @@ void LPCSensors::disableTachometerControl(UInt32 index)
     //
 }
 
-bool LPCSensors::getSensorValue(FakeSMCSensor *sensor, float* value)
+bool LPCSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {
     if (sensor) {
         switch (sensor->getGroup()) {
             case kFakeSMCTemperatureSensor:
-                *value = sensor->getOffset() + readTemperature(sensor->getIndex());
+                *outValue = sensor->getOffset() + readTemperature(sensor->getIndex());
                 break;
                 
             case kFakeSMCVoltageSensor: {
                 float v = readVoltage(sensor->getIndex());
-                *value = sensor->getOffset() + v + (v - sensor->getReference()) * sensor->getGain();
+                *outValue = sensor->getOffset() + v + (v - sensor->getReference()) * sensor->getGain();
                 break;
             }
                 
             case kFakeSMCTachometerSensor:
-                *value = readTachometer(sensor->getIndex());
+                *outValue = readTachometer(sensor->getIndex());
                 break;
 
             case kLPCSensorsFanManualController:
@@ -374,7 +374,7 @@ bool LPCSensors::getSensorValue(FakeSMCSensor *sensor, float* value)
 	return false;
 }
 
-bool LPCSensors::setSensorValue(FakeSMCSensor *sensor, float value)
+bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
 {
     if (sensor) {
         switch (sensor->getGroup()) {
