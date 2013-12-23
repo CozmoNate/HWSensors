@@ -10,7 +10,6 @@
 
 @interface PopupAtaSmartSensorCell : PopupSensorCell
 {
-    NSTrackingRectTag _trackingRectTag;
     NSPopover *_popover;
 }
 

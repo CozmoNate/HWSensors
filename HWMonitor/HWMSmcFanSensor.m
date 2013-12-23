@@ -36,11 +36,11 @@
 
 @implementation HWMSmcFanSensor
 
+@dynamic descriptor;
 @dynamic number;
 @dynamic max;
 @dynamic min;
 @dynamic speed;
-@dynamic unique;
 
 -(void)awakeFromFetch
 {

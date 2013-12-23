@@ -37,7 +37,7 @@
 #define kLPCSensorsMaxRPM               3000.0
 #define kLPCSensorsInitialStep          5
 #define kLPCSensorsMatchTheresholdRPM   25.0
-#define kLPCSensorsWorkloopTimeout      5000
+#define kLPCSensorsWorkloopTimeout      7000
 
 #define kLPCSensorsFanTargetController  1000
 #define kLPCSensorsFanMinController     2000
@@ -54,8 +54,8 @@ enum kLPCSensorsFanControlAction {
 struct LPCSensorsFanControl {
     UInt8                       number;
     float                       target;
-    kLPCSensorsFanControlAction action;
     float                       step;
+    kLPCSensorsFanControlAction action;
 };
 
 #define kLPCSensorsMaxFanControls       16

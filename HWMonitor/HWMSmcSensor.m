@@ -51,10 +51,10 @@
                     floatValue >= 50 ? kHWMSensorLevelModerate :
                     kHWMSensorLevelNormal;
 
-        case kHWMGroupTachometer:
-            return floatValue >= 2500 ? kHWMSensorLevelHigh :
-                   floatValue >= 1500 ? kHWMSensorLevelModerate :
-                   kHWMSensorLevelNormal;
+//        case kHWMGroupTachometer:
+//            return floatValue >= 2500 ? kHWMSensorLevelHigh :
+//                   floatValue >= 1500 ? kHWMSensorLevelModerate :
+//                   kHWMSensorLevelNormal;
 
         default:
             break;

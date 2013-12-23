@@ -10,14 +10,10 @@
 
 @class HWMSmcFanSensor, HWMColorTheme;
 
-@interface PopupFanController : NSViewController
+@interface PopupFanController : PopupPopoverController
 {
     NSDate *_lastUpdated;
 }
-
-@property (nonatomic, strong) id objectValue;
-
-@property (nonatomic, strong) HWMColorTheme* colorTheme;
 
 @property (assign) IBOutlet NSSlider *slider;
 @property (assign) IBOutlet NSTextField *textField;
@@ -26,9 +22,9 @@
 
 @end;
 
-@interface PopupFanCell : PopupSensorCell
+@interface PopupFanCell : PopupSensorCell <NSPopoverDelegate>
 {
-    NSTrackingRectTag _trackingRectTag;
+    NSPopover *_popover;
 }
 
 - (IBAction)showFanController:(id)sender;

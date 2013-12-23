@@ -562,6 +562,7 @@ bool CPUSensors::start(IOService *provider)
                         break;
                         
                     case CPUID_MODEL_IVYBRIDGE:
+                    case CPUID_MODEL_IVYBRIDGE_EP:
                         if (!platform) platform = OSData::withBytes("d8\0\0\0\0\0\0", 8);
                         mp_rendezvous_no_intrs(read_cpu_tjmax, NULL);
                         break;
@@ -576,7 +577,8 @@ bool CPUSensors::start(IOService *provider)
                         break;
                         
                     default:
-                        HWSensorsFatalLog("found unsupported Intel processor, using default Tjmax");
+                        HWSensorsWarningLog("found unsupported Intel processor, using default Tjmax");
+                        tjmax[0] = 100;
                         break;
                 }
                 break;
@@ -594,7 +596,8 @@ bool CPUSensors::start(IOService *provider)
                         break;
                         
                     default:
-                        HWSensorsFatalLog("found unsupported Intel processor, using default Tjmax");
+                        HWSensorsWarningLog("found unsupported Intel processor, using default Tjmax");
+                        tjmax[0] = 100;
                         break;
                 }
                 break;

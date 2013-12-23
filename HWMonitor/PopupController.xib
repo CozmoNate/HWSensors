@@ -51,10 +51,10 @@
                                     <action selector="detachFromMenuBar:" target="3" id="1445"/>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1727" id="2641">
                                         <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="0"/>
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
@@ -569,8 +569,8 @@
                     <rect key="frame" x="10" y="9" width="15" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="15" id="2792"/>
-                        <constraint firstAttribute="height" constant="15" id="2804"/>
+                        <constraint firstAttribute="width" constant="15" id="i2E-Ya-CkS"/>
+                        <constraint firstAttribute="height" constant="15" id="lL5-BK-214"/>
                     </constraints>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="37-circle-x" imagePosition="only" alignment="left" alternateImage="37-circle-x" imageScaling="proportionallyUpOrDown" inset="2" id="1139">
                         <behavior key="behavior" lightByContents="YES"/>
@@ -582,10 +582,10 @@
                         <action selector="orderOut:" target="3" id="1151"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2507">
                             <dictionary key="options">
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
@@ -602,6 +602,10 @@
                 <button toolTip="Preferences" translatesAutoresizingMaskIntoConstraints="NO" id="25" userLabel="Preferences Button" customClass="FadingButton">
                     <rect key="frame" x="199" y="9" width="15" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="15" id="buy-Xu-FBR"/>
+                        <constraint firstAttribute="width" constant="15" id="t4o-to-1dy"/>
+                    </constraints>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="19-gear" imagePosition="only" alignment="left" alternateImage="19-gear" imageScaling="proportionallyUpOrDown" inset="2" id="45">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -616,7 +620,8 @@
                     <rect key="frame" x="179" y="9" width="15" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="15" id="2622"/>
+                        <constraint firstAttribute="height" constant="15" id="LFk-SK-OZF"/>
+                        <constraint firstAttribute="width" constant="15" id="OBO-3X-Lfb"/>
                     </constraints>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="16-line-chart" imagePosition="only" alignment="left" alternateImage="16-line-chart" imageScaling="proportionallyUpOrDown" inset="2" id="43">
                         <behavior key="behavior" lightByContents="YES"/>
@@ -630,15 +635,12 @@
                 </button>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="26" secondAttribute="trailing" constant="30" id="2629"/>
-                <constraint firstItem="1138" firstAttribute="leading" secondItem="14" secondAttribute="leading" constant="10" id="2777"/>
-                <constraint firstItem="1138" firstAttribute="centerY" secondItem="14" secondAttribute="centerY" id="2806"/>
-                <constraint firstItem="25" firstAttribute="top" secondItem="26" secondAttribute="top" id="GPf-ZC-t36"/>
-                <constraint firstAttribute="trailing" secondItem="25" secondAttribute="trailing" constant="10" id="HFh-Mr-xwC"/>
-                <constraint firstItem="25" firstAttribute="bottom" secondItem="26" secondAttribute="bottom" id="HaP-KR-2Fl"/>
-                <constraint firstItem="25" firstAttribute="leading" secondItem="26" secondAttribute="trailing" constant="5" id="b2k-8w-08Q"/>
-                <constraint firstItem="25" firstAttribute="top" secondItem="1138" secondAttribute="top" id="i9k-Yl-qT9"/>
-                <constraint firstItem="25" firstAttribute="bottom" secondItem="1138" secondAttribute="bottom" id="w3x-qY-5Dn"/>
+                <constraint firstItem="1138" firstAttribute="leading" secondItem="14" secondAttribute="leading" constant="10" id="7Iw-go-mN7"/>
+                <constraint firstItem="26" firstAttribute="top" secondItem="14" secondAttribute="top" constant="10" id="PYO-Y0-xZ9"/>
+                <constraint firstAttribute="trailing" secondItem="25" secondAttribute="trailing" constant="10" id="cZX-DP-HgM"/>
+                <constraint firstItem="25" firstAttribute="leading" secondItem="26" secondAttribute="trailing" constant="5" id="guv-DT-BPo"/>
+                <constraint firstItem="25" firstAttribute="top" secondItem="14" secondAttribute="top" constant="10" id="ogg-GT-Bhc"/>
+                <constraint firstItem="1138" firstAttribute="top" secondItem="14" secondAttribute="top" constant="10" id="vnm-pl-Tps"/>
             </constraints>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="1200"/>

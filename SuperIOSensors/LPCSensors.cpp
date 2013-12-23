@@ -59,6 +59,9 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                 else {
                     control->action = kLPCSensorsFanActionNone;
                 }
+
+                timerEventSource->cancelTimeout();
+                timerEventSource->setTimeoutMS(1000);
                 
                 break;
             }
@@ -66,22 +69,22 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
             case kLPCSensorsFanActionDecrement: {
                 
                 float value = readTachometer(index);
-                SInt16 percent = readTachometerControl(index);
+                float percent = readTachometerControl(index);
                 
-                HWSensorsDebugLog("decrementing[%d] value=%d target=%d control=%d", index, (UInt32)value, (UInt32)control->target, percent);
+                HWSensorsDebugLog("decrementing[%d] value=%d target=%d control=%d", index, (UInt32)value, (UInt32)control->target, (UInt32)percent);
 
                 if ((value > control->target ? value - control->target : control->target - value) <= kLPCSensorsMatchTheresholdRPM) {
                     control->action = kLPCSensorsFanActionMatched;
                 }
                 else if (value < control->target) {
-                    control->action = kLPCSensorsFanActionProbe;
-                    control->step = control->step / 2.0;
+                    control->action = kLPCSensorsFanActionIncrement;
+                    control->step *= 0.5f;
 
-                    if (control->step == 0) {
+                    if (control->step < 1) {
                         control->action = kLPCSensorsFanActionNone;
                     }
                 }
-                else if (percent >= 0) {
+                else if (percent > 0) {
                     percent -= control->step;
                     writeTachometerControl(index, percent < 0 ? 0 : percent);
                 }
@@ -89,6 +92,9 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                     control->action = kLPCSensorsFanActionProbe;
                     control->step = kLPCSensorsInitialStep;
                 }
+
+                timerEventSource->cancelTimeout();
+                timerEventSource->setTimeoutMS(kLPCSensorsWorkloopTimeout);
                 
                 break;    
             }
@@ -96,18 +102,18 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
             case kLPCSensorsFanActionIncrement: {
                 
                 float value = readTachometer(index);
-                UInt8 percent = readTachometerControl(index);
+                float percent = readTachometerControl(index);
                 
-                HWSensorsDebugLog("incrementing[%d] value=%d target=%d control=%d", index, (UInt32)value, (UInt32)control->target, percent);
+                HWSensorsDebugLog("incrementing[%d] value=%d target=%d control=%d", index, (UInt32)value, (UInt32)control->target, (UInt32)percent);
                 
                 if ((value > control->target ? value - control->target : control->target - value) <= kLPCSensorsMatchTheresholdRPM) {
                     control->action = kLPCSensorsFanActionMatched;
                 }
                 else if (value > control->target) {
-                    control->action = kLPCSensorsFanActionProbe;
-                    control->step = control->step / 2.0;
+                    control->action = kLPCSensorsFanActionDecrement;
+                    control->step *= 0.5f;
 
-                    if (control->step == 0) {
+                    if (control->step < 1) {
                         control->action = kLPCSensorsFanActionNone;
                     }
                 }
@@ -119,6 +125,9 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                     control->action = kLPCSensorsFanActionProbe;
                     control->step = kLPCSensorsInitialStep;
                 }
+
+                timerEventSource->cancelTimeout();
+                timerEventSource->setTimeoutMS(kLPCSensorsWorkloopTimeout);
                 
                 break;    
             }
@@ -133,9 +142,7 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                 break;
         }
     }
-    
-    timerEventSource->setTimeoutMS(kLPCSensorsWorkloopTimeout);
-    
+
     return kIOReturnSuccess;
 }
 
@@ -403,6 +410,9 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
             case kLPCSensorsFanMinController:
                 tachometerControls[sensor->getIndex()].target = value;
                 tachometerControls[sensor->getIndex()].action = kLPCSensorsFanActionProbe;
+                tachometerControls[sensor->getIndex()].step = kLPCSensorsInitialStep;
+                timerEventSource->cancelTimeout();
+                timerEventSource->setTimeoutMS(1000);
                 break;
 
             case kLPCSensorsFanTargetController: {
@@ -416,7 +426,9 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
                 if ((manual >> tachometerControls[sensor->getIndex()].number) & 0x1) {
                     tachometerControls[sensor->getIndex()].target = value;
                     tachometerControls[sensor->getIndex()].action = kLPCSensorsFanActionProbe;
-                    tachometerControls[sensor->getIndex()].step = 10;
+                    tachometerControls[sensor->getIndex()].step = kLPCSensorsInitialStep;
+                    timerEventSource->cancelTimeout();
+                    timerEventSource->setTimeoutMS(1000);
                 }
                 break;
             }

@@ -92,11 +92,11 @@
         <relationship name="sensors" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Sensor" inverseName="group" inverseEntity="Sensor" syncable="YES"/>
     </entity>
     <entity name="SmcFanSensor" representedClassName="HWMSmcFanSensor" parentEntity="SmcSensor" syncable="YES">
+        <attribute name="descriptor" attributeType="String" indexed="YES" elementID="unique" syncable="YES"/>
         <attribute name="max" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>
         <attribute name="min" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>
         <attribute name="number" optional="YES" transient="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="speed" optional="YES" attributeType="Float" syncable="YES"/>
-        <attribute name="unique" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="SmcSensor" representedClassName="HWMSmcSensor" parentEntity="Sensor" syncable="YES"/>
     <elements>

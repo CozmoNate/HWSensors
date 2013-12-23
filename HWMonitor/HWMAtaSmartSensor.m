@@ -122,8 +122,8 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
 const UInt8 kATASMARTAttributeTemperature           = 0xC2;
 const UInt8 kATASMARTAttributeTemperature2          = 0xE7;
 const UInt8 kATASMARTAttributeTemperature3          = 0xBE;
-const UInt8 kATASMARTAttributeEndurance             = 0xE8;
-const UInt8 kATASMARTAttributeEndurance2            = 0xE7;
+const UInt8 kATASMARTAttributeEndurance             = 0xE7;
+const UInt8 kATASMARTAttributeEndurance2            = 0xE9;
 const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
 
 @implementation HWMAtaSmartSensor
@@ -255,64 +255,6 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
     IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
 }
 
--(NSString*)stringFromError:(unsigned int)errorVal
-{
-    NSDictionary *ioReturnMap =
-    @{@kIOReturnSuccess:          @"success",
-       @kIOReturnError:            @"general error",
-       @kIOReturnNoMemory:         @"memory allocation error",
-       @kIOReturnNoResources:      @"resource shortage",
-       @kIOReturnIPCError:         @"Mach IPC failure",
-       @kIOReturnNoDevice:         @"no such device",
-       @kIOReturnNotPrivileged:    @"privilege violation",
-       @kIOReturnBadArgument:      @"invalid argument",
-       @kIOReturnLockedRead:       @"device is read locked",
-       @kIOReturnLockedWrite:      @"device is write locked",
-       @kIOReturnExclusiveAccess:  @"device is exclusive access",
-       @kIOReturnBadMessageID:     @"bad IPC message ID",
-       @kIOReturnUnsupported:      @"unsupported function",
-       @kIOReturnVMError:          @"virtual memory error",
-       @kIOReturnInternalError:    @"internal driver error",
-       @kIOReturnIOError:          @"I/O error",
-       @kIOReturnCannotLock:       @"cannot acquire lock",
-       @kIOReturnNotOpen:          @"device is not open",
-       @kIOReturnNotReadable:      @"device is not readable",
-       @kIOReturnNotWritable:      @"device is not writeable",
-       @kIOReturnNotAligned:       @"alignment error",
-       @kIOReturnBadMedia:         @"media error",
-       @kIOReturnStillOpen:        @"device is still open",
-       @kIOReturnRLDError:         @"rld failure",
-       @kIOReturnDMAError:         @"DMA failure",
-       @kIOReturnBusy:             @"device is busy",
-       @kIOReturnTimeout:          @"I/O timeout",
-       @kIOReturnOffline:          @"device is offline",
-       @kIOReturnNotReady:         @"device is not ready",
-       @kIOReturnNotAttached:      @"device/channel is not attached",
-       @kIOReturnNoChannels:       @"no DMA channels available",
-       @kIOReturnNoSpace:          @"no space for data",
-       @kIOReturnPortExists:       @"device port already exists",
-       @kIOReturnCannotWire:       @"cannot wire physical memory",
-       @kIOReturnNoInterrupt:      @"no interrupt attached",
-       @kIOReturnNoFrames:         @"no DMA frames enqueued",
-       @kIOReturnMessageTooLarge:  @"message is too large",
-       @kIOReturnNotPermitted:     @"operation is not permitted",
-       @kIOReturnNoPower:          @"device is without power",
-       @kIOReturnNoMedia:          @"media is not present",
-       @kIOReturnUnformattedMedia: @"media is not formatted",
-       @kIOReturnUnsupportedMode:  @"unsupported mode",
-       @kIOReturnUnderrun:         @"data underrun",
-       @kIOReturnOverrun:          @"data overrun",
-       @kIOReturnDeviceError:      @"device error",
-       @kIOReturnNoCompletion:     @"no completion routine",
-       @kIOReturnAborted:          @"operation was aborted",
-       @kIOReturnNoBandwidth:      @"bus bandwidth would be exceeded",
-       @kIOReturnNotResponding:    @"device is not responding",
-       @kIOReturnInvalid:          @"unanticipated driver error",
-       @0:                         @"0"};
-
-    return [ioReturnMap objectForKey:[NSNumber numberWithInt:errorVal]];
-}
-
 -(BOOL)readSMARTData
 {
     if (updated && [updated timeIntervalSinceNow] > -60.0)
@@ -347,12 +289,12 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
     }
 
     if (result != kIOReturnSuccess)
-        NSLog(@"readSMARTData returned error '%@' for device %@", [self stringFromError:result], self.bsdName);
+        NSLog(@"readSMARTData returned error for device %@", self.bsdName);
 
     return result == kIOReturnSuccess;
 }
 
--(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8) identifier
+-(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8)identifier
 {
     for (int index = 0; index < kATASMARTVendorSpecificAttributesCount; index++)
         if (_smartData.vendorAttributes[index].attributeId == identifier)
@@ -384,13 +326,7 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
 
         if ((life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance]) ||
             (life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance2])) {
-            UInt64 value =  (UInt64)life->rawvalue[0] << 40 |
-                            (UInt64)life->rawvalue[1] << 32 |
-                            (UInt64)life->rawvalue[2] << 24 |
-                            (UInt64)life->rawvalue[3] << 16 |
-                            (UInt64)life->rawvalue[4] << 8 |
-                            (UInt64)life->rawvalue[5];
-            return [NSNumber numberWithUnsignedLong:value];
+            return [NSNumber numberWithUnsignedChar:life->current];
         }
     }
 
@@ -437,9 +373,9 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
             }
 
         case kHWMGroupSmartRemainingLife:
-            return  floatValue >= 90 ? kHWMSensorLevelExceeded :
-                    floatValue >= 80 ? kHWMSensorLevelHigh :
-                    floatValue >= 70 ? kHWMSensorLevelModerate :
+            return  floatValue < 10 ? kHWMSensorLevelExceeded :
+                    floatValue < 50 ? kHWMSensorLevelHigh :
+                    floatValue < 70 ? kHWMSensorLevelModerate :
                     kHWMSensorLevelNormal;
 
         default:

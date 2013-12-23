@@ -40,6 +40,7 @@ extern NSString * const OBMenuBarWindowDidResignKey;
 //extern CGFloat OBMenuBarWindowTitleBarHeight;
 extern const CGFloat OBMenuBarWindowArrowHeight;
 extern const CGFloat OBMenuBarWindowArrowWidth;
+extern const CGFloat OBMenuBarWindowArrowOffset;
 
 enum  {
     OBMenuBarWindowHideControlsThenAttached = 2,

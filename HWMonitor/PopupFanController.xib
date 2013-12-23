@@ -60,6 +60,5 @@
                 </box>
             </subviews>
         </customView>
-        <userDefaultsController representsSharedInstance="YES" id="dXk-Zm-QTR"/>
     </objects>
 </document>

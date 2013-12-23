@@ -7,12 +7,12 @@
 //
 
 #import "PopupAtaSmartSensorCell.h"
-#import "NSPopover+Message.h"
 #import "HWMAtaSmartSensor.h"
 #import "HWMColorTheme.h"
 #import "HWMItem.h"
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
+#import "NSPopover+Message.h"
 
 static NSMutableDictionary *smartctl_output = nil;
 static NSMutableDictionary *smartctl_updated = nil;
@@ -60,33 +60,16 @@ static NSMutableDictionary *smartctl_updated = nil;
     return output;
 }
 
-- (void)showSmartOutput:(id)sender
+- (void)updateTrackingAreas
 {
-    NSString *output = self.smartOutput;
+    [super updateTrackingAreas];
 
-    if (!_popover && output) {
-        //[self.imageView.animator setAlphaValue:0.0];
-
-        _popover = [NSPopover showRelativeToRect:self.frame
-                                          ofView:self.superview
-                                   preferredEdge:NSMinXEdge
-                                          string:output
-                                 backgroundColor:self.colorTheme.useDarkIcons.boolValue ?
-                                                    [self.colorTheme.listBackgroundColor shadowWithLevel:0.2] :
-                                                    [self.colorTheme.listBackgroundColor highlightWithLevel:0.2]
-                                 foregroundColor:self.colorTheme.itemTitleColor
-                                            font:[NSFont fontWithName:@"Monaco" size:10]
-                                        maxWidth:750];
-    }
-}
-
--(void)resetCursorRects
-{
-    if (_trackingRectTag) {
-        [self removeTrackingRect:_trackingRectTag];
+    for (NSTrackingArea *area in [self trackingAreas]) {
+		[self removeTrackingArea:area];
     }
 
-   _trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:nil assumeInside:YES];
+    NSTrackingAreaOptions options = NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways;
+    [self addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:options owner:self userInfo:nil]];
 }
 
 -(void)mouseEntered:(NSEvent *)theEvent
@@ -97,6 +80,9 @@ static NSMutableDictionary *smartctl_updated = nil;
 -(void)mouseDown:(NSEvent *)theEvent
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
+
+    [self hideSmartPopover];
+
     [super mouseDown:theEvent];
 }
 
@@ -104,12 +90,41 @@ static NSMutableDictionary *smartctl_updated = nil;
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 
-    if (_popover) {
-        [_popover performClose:self];
-        _popover = nil;
-    }
+    [self hideSmartPopover];
 
     [super mouseExited:theEvent];
+}
+
+- (void)showSmartOutput:(id)sender
+{
+    NSString *output = self.smartOutput;
+
+    if (output) {
+        [PopupSensorCell destroyGlobalPopover];
+
+        _popover = [NSPopover  showRelativeToRect:self.frame
+                                           ofView:self.superview
+                                    preferredEdge:NSMinXEdge
+                                           string:output
+                                  backgroundColor:self.colorTheme.useDarkIcons.boolValue ? [self.colorTheme.listBackgroundColor shadowWithLevel:0.2] : [self.colorTheme.listBackgroundColor highlightWithLevel:0.2]
+                                  foregroundColor:self.colorTheme.itemTitleColor
+                                             font:[NSFont fontWithName:@"Monaco" size:10]
+                                         maxWidth:750];
+
+        [PopupSensorCell setGlobalPopover:_popover];
+    }
+}
+
+- (void)hideSmartPopover
+{
+    if (_popover) {
+        if (_popover == [PopupSensorCell globalPopover]) {
+            [PopupSensorCell destroyGlobalPopover];
+        }
+
+        [_popover close];
+        _popover = nil;
+    }
 }
 
 @end

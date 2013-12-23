@@ -179,9 +179,6 @@ void NCT677xSensors::writeTachometerControl(UInt32 index, UInt8 percent)
         fanDefaultControl[index] = readByte(NUVOTON_FAN_CONTROL_MODE_REG[index]);
         fanDefaultCommand[index] = readByte(NUVOTON_FAN_PWM_COMMAND_REG[index]);
 
-        // set manual mode
-        writeByte(NUVOTON_FAN_CONTROL_MODE_REG[index], 0);
-
 //        switch (model) {
 //            case NCT6771F: {
 //                UInt8 reg = readByte(NUVOTON_FAN_PWM_MODE_OLD_REG[index]);
@@ -212,6 +209,9 @@ void NCT677xSensors::writeTachometerControl(UInt32 index, UInt8 percent)
 
         fanControlEnabled[index] = true;
     }
+
+    // set manual mode
+    writeByte(NUVOTON_FAN_CONTROL_MODE_REG[index], 0);
 
     UInt8 value = (float)(percent) * 2.55;
 
@@ -318,7 +318,7 @@ void NCT677xSensors::didPoweredOn()
             }
 
             winbond_family_exit(port);
-            
+
             break;
         }
     }

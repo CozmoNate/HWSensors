@@ -41,7 +41,7 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 //CGFloat OBMenuBarWindowTitleBarHeight = 35;
 const CGFloat OBMenuBarWindowArrowHeight = 10.0;
 const CGFloat OBMenuBarWindowArrowWidth = 20.0;
-
+const CGFloat OBMenuBarWindowArrowOffset = 6;
 @interface OBMenuBarWindow ()
 
 - (void)initialSetup;
@@ -543,17 +543,10 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
         NSPoint midPoint = NSMakePoint(NSMidX(statusItemFrame),
                                        NSMinY(statusItemFrame));
 
-        NSPoint endPoint = NSMakePoint(midPoint.x - (self.frame.size.width / 2),
-                                       midPoint.y - self.frame.size.height - 4);
+        NSRect frame = [self constrainFrameRect:self.frame toScreen:statusItemView.window.screen];
 
-
-        if (statusItemView.window.screen != self.screen)
-        {
-            endPoint = self.frame.origin;
-            endPoint.y += 30;
-        }
-
-        return endPoint;
+        return NSMakePoint(midPoint.x - (frame.size.width / 2),
+                           midPoint.y - frame.size.height - OBMenuBarWindowArrowOffset);
     }
 
     return NSZeroPoint;

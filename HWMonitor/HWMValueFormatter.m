@@ -72,10 +72,8 @@ static NSDictionary *gHWMValueFormatterStrippedFormatLocalizationCache;
             case kHWMGroupBatteryMouse:
             case kHWMGroupBatteryKeyboard:
             case kHWMGroupBatteryTrackpad:
-                return [NSString stringWithFormat:@"%1.0f%%", floatValue];
-                
             case kHWMGroupSmartRemainingLife:
-                return [NSString stringWithFormat:@"%1.0f%%", 100 - floatValue];
+                return [NSString stringWithFormat:@"%1.0f%%", floatValue];
                 
             case kHWMGroupSmartRemainingBlocks:
                 return [NSString stringWithFormat:@"%ld", value.unsignedLongValue];

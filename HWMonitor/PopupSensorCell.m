@@ -12,8 +12,50 @@
 #import "HWMEngine.h"
 #import "HWMSensor.h"
 #import "HWMSensorsGroup.h"
+#import "NSPopover+Message.h"
+
+@implementation PopupPopoverController
+
+@synthesize objectValue;
+
+-(void)awakeFromNib
+{
+    COICOPopoverView *container = (COICOPopoverView *)self.view;
+
+    [container setBackgroundColour:self.colorTheme.useDarkIcons.boolValue ?
+     [self.colorTheme.listBackgroundColor highlightWithLevel:0.35] :
+     [self.colorTheme.listBackgroundColor shadowWithLevel:0.05]];
+}
+
+@end;
+
+static NSPopover *gPopupSensorCellPopover;
 
 @implementation PopupSensorCell
+
++(NSPopover*)globalPopover
+{
+    if (!gPopupSensorCellPopover) {
+        gPopupSensorCellPopover = [[NSPopover alloc] init];
+    }
+
+    return gPopupSensorCellPopover;
+}
+
++(void)destroyGlobalPopover
+{
+    if (gPopupSensorCellPopover && gPopupSensorCellPopover.isShown) {
+        [gPopupSensorCellPopover close];
+        gPopupSensorCellPopover = nil;
+    }
+}
+
++(void)setGlobalPopover:(NSPopover *)popover
+{
+    [PopupSensorCell destroyGlobalPopover];
+
+    gPopupSensorCellPopover = popover;
+}
 
 -(void)initialize
 {
