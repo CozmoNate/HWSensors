@@ -296,7 +296,7 @@ bool NCT677xSensors::initialize()
 void NCT677xSensors::didPoweredOn()
 {
     switch (model) {
-        case NCT6771F: {
+        case NCT6791D: {
             // disable the hardware monitor i/o space lock on NCT6791D chips
             winbond_family_enter(port);
 
