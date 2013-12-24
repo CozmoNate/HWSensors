@@ -11,7 +11,7 @@
 extern NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification;
 
 typedef enum {
-    kHWMEngineNoninitialized = 0,
+    kHWMEngineNotInitialized = 0,
     kHWMEngineStateIdle,
     kHWMEngineStateActive,
 } HWMEngineState;
@@ -27,9 +27,10 @@ typedef enum {
 
 @class HWMColorTheme;
 @class HWMConfiguration;
+@class HWMSensorsGroup;
 @class HWMItem;
-
 @class HWMEngine;
+@class HWMBatterySensor;
 
 @protocol HWMEngineDelegate <NSObject>
 @optional
@@ -54,6 +55,8 @@ typedef enum {
 
     NSArray *_ataSmartSensors;
     NSTimer *_ataSmartSensorsUpdateLoopTimer;
+
+    HWMSensorsGroup* _batterySensorsGroup;
 }
 
 @property (nonatomic, strong) NSBundle * bundle;
@@ -92,6 +95,9 @@ typedef enum {
 -(void)insertItemIntoFavorites:(HWMItem*)item atIndex:(NSUInteger)index;
 -(void)moveFavoritesItemAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 -(void)removeItemFromFavoritesAtIndex:(NSUInteger)index;
+
+-(void)systemDidAddBatteryDevice:(io_registry_entry_t)device;
+-(void)systemDidRemoveBatteryDevice:(io_registry_entry_t)device;
 
 -(HWMColorTheme*)getColorThemeByName:(NSString*)name;
 -(HWMColorTheme*)getColorThemeByIndex:(NSUInteger)index;

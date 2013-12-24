@@ -453,7 +453,7 @@ void LPCSensors::willPowerOff()
     //
 }
 
-void LPCSensors::didPoweredOn()
+void LPCSensors::hasPoweredOn()
 {
     //
 }
@@ -576,7 +576,7 @@ IOReturn LPCSensors::setPowerState(unsigned long powerState, IOService *device)
             break;
 
         case 1: // Power On
-            didPoweredOn();
+            hasPoweredOn();
             timerEventSource->setTimeoutMS(1000);
             break;
 

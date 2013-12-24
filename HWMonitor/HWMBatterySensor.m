@@ -28,114 +28,121 @@
 
 #import "HWMBatterySensor.h"
 #import "HWMSensorsGroup.h"
+#import "HWMEngine.h"
+
+#import <IOKit/hid/IOHIDKeys.h>
+
+static void hid_device_appeared(void *engine, io_iterator_t iterator)
+{
+    io_object_t object;
+
+    while ((object = IOIteratorNext(iterator))) {
+
+        [(__bridge HWMEngine*)engine systemDidAddBatteryDevice:object];
+
+        //IOObjectRelease(object);
+    }
+}
+static void hid_device_disappeared(void *engine, io_iterator_t iterator)
+{
+    io_object_t object;
+
+    while ((object = IOIteratorNext(iterator))) {
+
+        [(__bridge HWMEngine*)engine systemDidRemoveBatteryDevice:object];
+
+        IOObjectRelease(object);
+    }
+}
+
+const NSString *kHWMBatterySensorMaxCapacity            = @"MaxCapacity";
+const NSString *kHWMBatterySensorCurrentCapacity        = @"CurrentCapacity";
+const NSString *kHWMBatterySensorBatteryPercent         = @"BatteryPercent";
+const NSString *kHWMBatterySensorProductName            = @kIOHIDProductKey;
+const NSString *kHWMBatterySensorDeviceName             = @"DeviceName";
+const NSString *kHWMBatterySensorSerialNumber           = @kIOHIDSerialNumberKey;
+const NSString *kHWMBatterySensorBatterySerialNumber    = @"BatterySerialNumber";
+
+static IONotificationPortRef gHWMBatterySensorNotificationPort = MACH_PORT_NULL;
+static io_iterator_t gHWMBatteryDeviceItterator = 0;
 
 @implementation HWMBatterySensor
 
-@dynamic productName;
-@dynamic serialNumber;
-@dynamic selector;
+@synthesize deviceType;
 
-+ (NSArray*)discoverDevices
++ (void)discoverDevicesWithEngine:(HWMEngine *)engine matching:(CFDictionaryRef)matching
 {
-    NSMutableArray *devices = [[NSMutableArray alloc] init];
-    NSInteger type;
-    int count = 0;
+    // Retain matching dictionary so it will stay also while registering kIOTerminatedNotification
+    CFRetain(matching);
 
-    do {
-        CFDictionaryRef matching;
+    // Discover devices and add notification callbacks
+    io_registry_entry_t device;
 
-        switch (count++) {
-            case 0:
-                matching = IOServiceMatching("IOPMPowerSource");
-                type = kHWMGroupBatteryInternal;
-                break;
-
-            case 1:
-                matching = IOServiceMatching("BNBMouseDevice");
-                type = kHWMGroupBatteryMouse;
-                break;
-
-            case 2:
-                matching = IOServiceMatching("AppleBluetoothHIDKeyboard");
-                type = kHWMGroupBatteryKeyboard;
-                break;
-
-            case 3:
-                matching = IOServiceMatching("BNBTrackpadDevice");
-                type = kHWMGroupBatteryTrackpad;
-                break;
-
-            default:
-                matching = MACH_PORT_NULL;
-                type = 0;
-                break;
+    if (!IOServiceAddMatchingNotification(gHWMBatterySensorNotificationPort,
+                                         kIOFirstPublishNotification,
+                                         matching,
+                                         hid_device_appeared,
+                                         (__bridge void *)engine,
+                                         &gHWMBatteryDeviceItterator))
+    {
+        // Add matched devices
+        while ((device = IOIteratorNext(gHWMBatteryDeviceItterator))) {
+            [engine systemDidAddBatteryDevice:device];
         }
 
-        if (MACH_PORT_NULL != matching) {
+        if (!IOServiceAddMatchingNotification(gHWMBatterySensorNotificationPort,
+                                              kIOTerminatedNotification,
+                                              matching,
+                                              hid_device_disappeared,
+                                              (__bridge void *)engine,
+                                              &gHWMBatteryDeviceItterator)) {
 
-            io_iterator_t iterator = IO_OBJECT_NULL;
 
-            if (kIOReturnSuccess == IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator)) {
-                if (IO_OBJECT_NULL != iterator) {
-
-                    io_service_t service = MACH_PORT_NULL;
-
-                    while (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
-
-                        NSString *serialNumber;
-                        NSString *productName;
-
-                        switch (type) {
-                            case kHWMGroupBatteryInternal:
-                                productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("DeviceName"), kCFAllocatorDefault, 0);
-                                serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("BatterySerialNumber"), kCFAllocatorDefault, 0);
-
-                                if (!serialNumber)
-                                    serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0);
-                                break;
-
-                            default:
-                                productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("Product"), kCFAllocatorDefault, 0);
-                                serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(service, CFSTR("SerialNumber"), kCFAllocatorDefault, 0);
-                                break;
-                        }
-
-                        [devices addObject:@{   @"service" : [NSNumber numberWithUnsignedLongLong:service],
-                                                @"selector" : [NSNumber numberWithUnsignedLongLong:type],
-                                                @"serialNumber" : serialNumber ? serialNumber : @"",
-                                                @"productName" : productName ? productName : @""}];
-                    }
-
-                    IOObjectRelease(iterator);
-                }
-            }
+            while (IOIteratorNext(gHWMBatteryDeviceItterator)) {};
         }
-    } while (type);
+    }
+}
 
-    //TEST BATTERY
-//    [devices addObject:@{   @"service" : @1,
-//                            @"selector" : @kHWMGroupBatteryMouse,
-//                            @"serialNumber" : @"123",
-//                            @"productName" : @"test battery"}];
++(void)stopWatchingForBatteryDevices
+{
+    if (gHWMBatterySensorNotificationPort != MACH_PORT_NULL) {
+        CFRunLoopRemoveSource(CFRunLoopGetMain(), IONotificationPortGetRunLoopSource(gHWMBatterySensorNotificationPort), kCFRunLoopDefaultMode);
+        IONotificationPortDestroy(gHWMBatterySensorNotificationPort);
 
-    return devices;
+        gHWMBatterySensorNotificationPort = MACH_PORT_NULL;
+    }
+
+    IOObjectRelease(gHWMBatteryDeviceItterator);
+}
+
++ (void)discoverBatteryDevicesWithEngine:(HWMEngine *)engine
+{
+    [HWMBatterySensor stopWatchingForBatteryDevices];
+
+    // Add notification ports to runloop
+    gHWMBatterySensorNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
+
+    CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], IONotificationPortGetRunLoopSource(gHWMBatterySensorNotificationPort), kCFRunLoopDefaultMode);
+
+    [HWMBatterySensor discoverDevicesWithEngine:engine matching:IOServiceMatching("IOPMPowerSource")];
+    [HWMBatterySensor discoverDevicesWithEngine:engine matching:IOServiceMatching("IOHIDDevice")];
 }
 
 -(void)prepareForDeletion
 {
-    IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
+    self.service = @0;
+
+    IOObjectRelease((io_registry_entry_t)self.service.unsignedLongLongValue);
 }
 
 -(NSUInteger)internalUpdateAlarmLevel
 {
     float floatValue = self.value.floatValue;
 
-    switch (self.selector.unsignedIntegerValue) {
+    switch (self.deviceType) {
 
-        case kHWMGroupBatteryInternal:
-        case kHWMGroupBatteryKeyboard:
-        case kHWMGroupBatteryMouse:
-        case kHWMGroupBatteryTrackpad:
+        case kHWMBatterySensorInternal:
+        case kHWMBatterySensorHIDDevice:
             return floatValue < 5 ? kHWMSensorLevelExceeded :
                    floatValue < 10 ? kHWMSensorLevelHigh :
                    floatValue < 30 ? kHWMSensorLevelModerate :
@@ -150,13 +157,13 @@
 
 -(NSNumber *)internalUpdateValue
 {
-    io_service_t service = (io_service_t)self.service.unsignedLongLongValue;
+    io_registry_entry_t service = (io_registry_entry_t)self.service.unsignedLongLongValue;
 
     if (MACH_PORT_NULL != service) {
-        switch (self.selector.unsignedIntegerValue) {
-            case kHWMGroupBatteryInternal: {
-                NSNumber *max = (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(service, CFSTR("MaxCapacity"), kCFAllocatorDefault, 0);
-                NSNumber *current = (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(service, CFSTR("CurrentCapacity"), kCFAllocatorDefault, 0);
+        switch (self.deviceType) {
+            case kHWMBatterySensorInternal: {
+                NSNumber *max = (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(service, (__bridge CFStringRef)(kHWMBatterySensorMaxCapacity), kCFAllocatorDefault, 0);
+                NSNumber *current = (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(service, (__bridge CFStringRef)(kHWMBatterySensorCurrentCapacity), kCFAllocatorDefault, 0);
 
                 if (max && current && [max doubleValue] > 0) {
                     double percent = (([current doubleValue] / [max doubleValue]) + 0.005) * 100;
@@ -166,13 +173,13 @@
                 break;
             }
 
-            default:
-                return (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(service, CFSTR("BatteryPercent"), kCFAllocatorDefault, 0);
+            case kHWMBatterySensorHIDDevice:
+                return (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(service, (__bridge CFStringRef)(kHWMBatterySensorBatteryPercent), kCFAllocatorDefault, 0);
         }
 
     }
 
-    return @0;
+    return nil;
 }
 
 @end

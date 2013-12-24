@@ -73,10 +73,10 @@ const UInt16 NUVOTON_FAN_RPM_REG[]              = { 0x656, 0x658, 0x65A, 0x65C, 
 const UInt16 NUVOTON_FAN_STOP_REG[]             = {	0x105, 0x205, 0x305, 0x805, 0x905, 0xa05 };
 
 //const UInt16 NUVOTON_FAN_PWM_OUT_REG[]          = { 0x001, 0x003, 0x011, 0x013, 0x015, 0xa09 };
-//const UInt16 NUVOTON_FAN_PWM_MODE_REG[]         = { 0x04,  0,     0,     0,     0,     0 };
-//const UInt16 NUVOTON_PWM_MODE_MASK[]            = { 0x01,  0,     0,     0,     0,     0 };
-//const UInt16 NUVOTON_FAN_PWM_MODE_OLD_REG[]     = { 0x04,  0x04,  0x12 };
-//const UInt16 NUVOTON_PWM_MODE_MASK_OLD[]        = { 0x01,  0x02,  0x01 };
+const UInt16 NUVOTON_FAN_PWM_MODE_REG[]         = { 0x04,  0,     0,     0,     0,     0 };
+const UInt16 NUVOTON_PWM_MODE_MASK[]            = { 0x01,  0,     0,     0,     0,     0 };
+const UInt16 NUVOTON_FAN_PWM_MODE_OLD_REG[]     = { 0x04,  0x04,  0x12 };
+const UInt16 NUVOTON_PWM_MODE_MASK_OLD[]        = { 0x01,  0x02,  0x01 };
 
 const UInt16 NUVOTON_FAN_PWM_OUT_REG[]          = { 0x001, 0x003, 0x011, 0x013, 0x015, 0x017 };
 const UInt16 NUVOTON_FAN_PWM_COMMAND_REG[]      = { 0x109, 0x209, 0x309, 0x809, 0x909, 0xA09 };
@@ -116,7 +116,7 @@ private:
     virtual void			disableTachometerControl(UInt32 index);
     
 	virtual bool			initialize();
-    virtual void            didPoweredOn();
+    virtual void            hasPoweredOn();
     
 public:
 };

@@ -68,10 +68,6 @@ static NSDictionary *gHWMValueFormatterStrippedFormatLocalizationCache;
                 
             case kHWMGroupPWM:
             case kHWMGroupBattery:
-            case kHWMGroupBatteryInternal:
-            case kHWMGroupBatteryMouse:
-            case kHWMGroupBatteryKeyboard:
-            case kHWMGroupBatteryTrackpad:
             case kHWMGroupSmartRemainingLife:
                 return [NSString stringWithFormat:@"%1.0f%%", floatValue];
                 
@@ -138,14 +134,8 @@ static NSDictionary *gHWMValueFormatterStrippedFormatLocalizationCache;
                 
             case kHWMGroupPWM:
             case kHWMGroupBattery:
-            case kHWMGroupBatteryInternal:
-            case kHWMGroupBatteryMouse:
-            case kHWMGroupBatteryKeyboard:
-            case kHWMGroupBatteryTrackpad:
-                return [NSString stringWithFormat:@"%1.0f%%", floatValue];
-                
             case kHWMGroupSmartRemainingLife:
-                return [NSString stringWithFormat:@"%1.0f%%", 100 - floatValue];
+                return [NSString stringWithFormat:@"%1.0f%%", floatValue];
                 
             case kHWMGroupSmartRemainingBlocks:
                 return [NSString stringWithFormat:@"%ld", value.unsignedLongValue];

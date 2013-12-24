@@ -105,7 +105,7 @@ protected:
     
     virtual bool            initialize();
     virtual void            willPowerOff();
-    virtual void            didPoweredOn();
+    virtual void            hasPoweredOn();
 
 public:
 	virtual bool			init(OSDictionary *properties=0);

@@ -47,10 +47,6 @@
 
 #define kHWMGroupBattery                12
 
-#define kHWMGroupBatteryInternal        13
-#define kHWMGroupBatteryMouse           14
-#define kHWMGroupBatteryKeyboard        15
-#define kHWMGroupBatteryTrackpad        16
 
 @class HWMIcon, HWMSensor, HWMConfiguration;
 

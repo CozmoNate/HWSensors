@@ -6,10 +6,7 @@
         <attribute name="rotational" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="volumeNames" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="BatterySensor" representedClassName="HWMBatterySensor" parentEntity="Sensor" syncable="YES">
-        <attribute name="productName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="serialNumber" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
+    <entity name="BatterySensor" representedClassName="HWMBatterySensor" parentEntity="Sensor" syncable="YES"/>
     <entity name="ColorTheme" representedClassName="HWMColorTheme" syncable="YES">
         <attribute name="groupEndColor" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <attribute name="groupStartColor" optional="YES" transient="YES" attributeType="Transformable" syncable="YES"/>

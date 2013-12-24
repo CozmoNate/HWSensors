@@ -274,7 +274,7 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
 
             if (kIOReturnSuccess != (*wrapper.smartInterface)->SMARTReturnStatus(wrapper.smartInterface, &_exceeded)) {
                 if (kIOReturnSuccess != (*wrapper.smartInterface)->SMARTEnableDisableOperations(wrapper.smartInterface, true)) {
-                    result = (*wrapper.smartInterface)->SMARTEnableDisableAutosave(wrapper.smartInterface, true);
+                    (*wrapper.smartInterface)->SMARTEnableDisableAutosave(wrapper.smartInterface, true);
                 }
             }
 

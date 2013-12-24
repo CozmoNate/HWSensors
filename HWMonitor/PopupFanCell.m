@@ -77,7 +77,9 @@
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 
-    [self performSelector:@selector(showFanController:) withObject:self afterDelay:0.0];
+    if ([[self.objectValue engine] configuration].enableFanControl.boolValue) {
+        [self performSelector:@selector(showFanController:) withObject:self afterDelay:0.0];
+    }
 
     [super mouseDown:theEvent];
 }

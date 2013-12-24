@@ -55,7 +55,7 @@
 
 + (NSNumber*)decodeNumericValueFromBuffer:(void *)data length:(NSUInteger)length type:(const char *)type
 {
-    if (type || data) {
+    if (type && data) {
 
         size_t typeLength = strnlen(type, 4);
 

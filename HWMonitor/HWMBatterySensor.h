@@ -30,12 +30,24 @@
 #import <CoreData/CoreData.h>
 #import "HWMSensor.h"
 
+#define kHWMBatterySensorInternal   1
+#define kHWMBatterySensorHIDDevice  2
+
+@class HWMEngine, HWMSensorsGroup;
+
+const NSString *kHWMBatterySensorMaxCapacity;
+const NSString *kHWMBatterySensorCurrentCapacity;
+const NSString *kHWMBatterySensorBatteryPercent;
+const NSString *kHWMBatterySensorProductName;
+const NSString *kHWMBatterySensorDeviceName;
+const NSString *kHWMBatterySensorSerialNumber;
+const NSString *kHWMBatterySensorBatterySerialNumber;
+
 @interface HWMBatterySensor : HWMSensor
 
-@property (nonatomic, retain) NSString * productName;
-@property (nonatomic, retain) NSString * serialNumber;
-@property (nonatomic, retain) NSNumber * selector;
+@property (nonatomic, assign) NSUInteger deviceType;
 
-+(NSArray*)discoverDevices;
++(void)discoverBatteryDevicesWithEngine:(HWMEngine*)engine;
++(void)stopWatchingForBatteryDevices;
 
 @end
