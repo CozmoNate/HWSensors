@@ -38,9 +38,51 @@ static void hid_device_appeared(void *engine, io_iterator_t iterator)
 
     while ((object = IOIteratorNext(iterator))) {
 
-        [(__bridge HWMEngine*)engine systemDidAddBatteryDevice:object];
+        NSUInteger deviceType = 0;
 
-        //IOObjectRelease(object);
+        if ((__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorMaxCapacity), kCFAllocatorDefault, 0) &&
+            (__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorCurrentCapacity), kCFAllocatorDefault, 0)) {
+            deviceType = kHWMBatterySensorInternal;
+        }
+        else if (!(__bridge_transfer  NSNumber *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorBatteryPercent), kCFAllocatorDefault, 0)) {
+            deviceType = kHWMBatterySensorHIDDevice;
+        }
+
+        NSString *productName;
+        NSString *serialNumber;
+
+        switch (deviceType) {
+            case kHWMBatterySensorInternal:
+                productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorDeviceName), kCFAllocatorDefault, 0);
+                serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorBatterySerialNumber), kCFAllocatorDefault, 0);
+
+                if (!serialNumber) {
+                    serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorSerialNumber), kCFAllocatorDefault, 0);
+                }
+
+                if (!serialNumber) {
+                    serialNumber = productName;
+                }
+                break;
+
+            case kHWMBatterySensorHIDDevice:
+                productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorProductName), kCFAllocatorDefault, 0);
+                serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorSerialNumber), kCFAllocatorDefault, 0);
+
+                break;
+        }
+
+        if (!serialNumber) {
+            serialNumber = productName;
+        }
+
+        if (serialNumber && productName) {
+            [(__bridge HWMEngine*)engine systemDidAddBatteryDevice:
+                @{@"service"        : [NSNumber numberWithUnsignedLongLong:object],
+                  @"type"           : [NSNumber numberWithUnsignedLongLong:deviceType],
+                  @"serialNumber"   : serialNumber,
+                  @"productName"    : productName}];
+        }
     }
 }
 static void hid_device_disappeared(void *engine, io_iterator_t iterator)
@@ -76,8 +118,6 @@ static io_iterator_t gHWMBatteryDeviceItterator = 0;
     CFRetain(matching);
 
     // Discover devices and add notification callbacks
-    io_registry_entry_t device;
-
     if (!IOServiceAddMatchingNotification(gHWMBatterySensorNotificationPort,
                                          kIOFirstPublishNotification,
                                          matching,
@@ -86,9 +126,7 @@ static io_iterator_t gHWMBatteryDeviceItterator = 0;
                                          &gHWMBatteryDeviceItterator))
     {
         // Add matched devices
-        while ((device = IOIteratorNext(gHWMBatteryDeviceItterator))) {
-            [engine systemDidAddBatteryDevice:device];
-        }
+        hid_device_appeared((__bridge void*)engine, gHWMBatteryDeviceItterator);
 
         if (!IOServiceAddMatchingNotification(gHWMBatterySensorNotificationPort,
                                               kIOTerminatedNotification,

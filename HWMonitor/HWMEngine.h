@@ -96,8 +96,8 @@ typedef enum {
 -(void)moveFavoritesItemAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 -(void)removeItemFromFavoritesAtIndex:(NSUInteger)index;
 
--(void)systemDidAddBatteryDevice:(io_registry_entry_t)device;
--(void)systemDidRemoveBatteryDevice:(io_registry_entry_t)device;
+-(void)systemDidAddBatteryDevice:(NSDictionary*)properties;
+-(void)systemDidRemoveBatteryDevice:(io_service_t)device;
 
 -(HWMColorTheme*)getColorThemeByName:(NSString*)name;
 -(HWMColorTheme*)getColorThemeByIndex:(NSUInteger)index;

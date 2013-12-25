@@ -77,38 +77,44 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"engine.configuration.enableFanControl"]) {
-        if (!((NSNumber*)[change objectForKey:NSKeyValueChangeNewKey]).boolValue) {
-            // Disable manual fan control
-            [self writeSMCKey:@KEY_FAN_MANUAL value:@0];
+        if (!self.engine.isRunningOnMac) {
+
+            SMCVal_t info;
+
+            if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
+
+                NSNumber *value;
+
+                if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
+
+                    UInt16 manual = value.unsignedShortValue;
+
+                    bit_write(self.engine.configuration.enableFanControl.boolValue, manual, BIT(self.number.unsignedShortValue));
+
+                    [self writeSMCKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
+                }
+            }
         }
     }
-
+    
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 -(void)setSpeed:(NSNumber *)speed
 {
-    if (self.engine.configuration.enableFanControl.boolValue && self.max && self.min && self.number && self.speed && speed) {
+    if (self.engine.configuration.enableFanControl.boolValue && self.max && self.min && self.number && speed) {
 
-        SMCVal_t info;
-
-        if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
-
-            NSNumber *value;
-
-            if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
-
-                UInt16 manual = value.unsignedShortValue | (0x1 << self.number.unsignedShortValue);
-
-                [self writeSMCKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
-                [self writeSMCKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed];
-            }
+        if (self.engine.isRunningOnMac) {
+            [self writeSMCKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed];
         }
+        else {
+            [self writeSMCKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed];
+        }
+
+        [self willChangeValueForKey:@"speed"];
+        [self setPrimitiveValue:speed forKey:@"speed"];
+        [self didChangeValueForKey:@"speed"];
     }
-    
-    [self willChangeValueForKey:@"speed"];
-    [self setPrimitiveValue:speed forKey:@"speed"];
-    [self didChangeValueForKey:@"speed"];
 }
 
 @end
