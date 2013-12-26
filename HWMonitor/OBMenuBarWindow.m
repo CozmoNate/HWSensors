@@ -543,10 +543,8 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
         NSPoint midPoint = NSMakePoint(NSMidX(statusItemFrame),
                                        NSMinY(statusItemFrame));
 
-        NSRect frame = [self constrainFrameRect:self.frame toScreen:statusItemView.window.screen];
-
-        return NSMakePoint(midPoint.x - (frame.size.width / 2),
-                           midPoint.y - frame.size.height - OBMenuBarWindowArrowOffset);
+        return NSMakePoint(midPoint.x - (self.frame.size.width / 2),
+                           midPoint.y - self.frame.size.height - OBMenuBarWindowArrowOffset);
     }
 
     return NSZeroPoint;
@@ -556,7 +554,8 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
 {
     if (self.attachedToMenuBar)
     {
-        [self setFrameOrigin:[self originForAttachedState]];
+        NSPoint origin = [self originForAttachedState];
+        [self setFrameOrigin:origin];
     }
     [super makeKeyAndOrderFront:sender];
 }
