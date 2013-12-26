@@ -1722,7 +1722,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [sensor doUpdateValue];
 
     // TEST BATTERY
-    [sensor setValue:@49];
+    //[sensor setValue:@49];
 
     if (sensor.value) {
         [sensor setTitle:productName];
