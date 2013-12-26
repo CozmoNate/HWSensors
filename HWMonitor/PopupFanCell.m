@@ -30,7 +30,7 @@
     COICOPopoverView *container = (COICOPopoverView *)[self view];
 
     [container setBackgroundColour:self.colorTheme.useDarkIcons.boolValue ?
-     [self.colorTheme.listBackgroundColor highlightWithLevel:0.35] :
+     [self.colorTheme.listBackgroundColor highlightWithLevel:0.30] :
      [self.colorTheme.listBackgroundColor shadowWithLevel:0.05]];
 }
 
@@ -46,7 +46,9 @@
 
 - (void)sliderHasBeenReleased:(id)sender
 {
-    [(HWMSmcFanSensor *)self.objectValue setSpeed:[NSNumber numberWithFloat:self.textField.floatValue]];
+    NSUInteger target = (int)(self.slider.floatValue / 50.0f) * 50;
+
+    [(HWMSmcFanSensor *)self.objectValue setSpeed:[NSNumber numberWithUnsignedInteger:target]];
 }
 
 @end;

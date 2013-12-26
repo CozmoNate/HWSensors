@@ -33,6 +33,8 @@
 
 #include <IOKit/IOTimerEventSource.h>
 
+#define ABS(x) ((x) >= 0 ? (x) : -(x))
+
 #define super FakeSMCPlugin
 OSDefineMetaClassAndAbstractStructors(LPCSensors, FakeSMCPlugin)
 
@@ -60,7 +62,6 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                     control->action = kLPCSensorsFanActionNone;
                 }
 
-                timerEventSource->cancelTimeout();
                 timerEventSource->setTimeoutMS(1000);
                 
                 break;
@@ -73,8 +74,12 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                 
                 HWSensorsDebugLog("decrementing[%d] value=%d target=%d control=%d", index, (UInt32)value, (UInt32)control->target, (UInt32)percent);
 
-                if ((value > control->target ? value - control->target : control->target - value) <= kLPCSensorsMatchTheresholdRPM) {
+                if (ABS(value - control->target) <= kLPCSensorsMatchTheresholdRPM) {
                     control->action = kLPCSensorsFanActionMatched;
+                }
+                else if (value > control->target && percent > 0) {
+                    percent -= control->step;
+                    writeTachometerControl(index, percent < 0 ? 0 : percent);
                 }
                 else if (value < control->target) {
                     control->action = kLPCSensorsFanActionIncrement;
@@ -84,16 +89,7 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                         control->action = kLPCSensorsFanActionNone;
                     }
                 }
-                else if (percent > 0) {
-                    percent -= control->step;
-                    writeTachometerControl(index, percent < 0 ? 0 : percent);
-                }
-                else {
-                    control->action = kLPCSensorsFanActionProbe;
-                    control->step = kLPCSensorsInitialStep;
-                }
 
-                timerEventSource->cancelTimeout();
                 timerEventSource->setTimeoutMS(kLPCSensorsWorkloopTimeout);
                 
                 break;    
@@ -106,8 +102,12 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                 
                 HWSensorsDebugLog("incrementing[%d] value=%d target=%d control=%d", index, (UInt32)value, (UInt32)control->target, (UInt32)percent);
                 
-                if ((value > control->target ? value - control->target : control->target - value) <= kLPCSensorsMatchTheresholdRPM) {
+                if (ABS(value - control->target) <= kLPCSensorsMatchTheresholdRPM) {
                     control->action = kLPCSensorsFanActionMatched;
+                }
+                else if (value < control->target && percent < 99) {
+                    percent += control->step;
+                    writeTachometerControl(index, percent > 100 ? 100 : percent);
                 }
                 else if (value > control->target) {
                     control->action = kLPCSensorsFanActionDecrement;
@@ -117,16 +117,7 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                         control->action = kLPCSensorsFanActionNone;
                     }
                 }
-                else if (percent < 99) {
-                    percent += control->step;
-                    writeTachometerControl(index, percent > 100 ? 100 : percent);
-                }
-                else {
-                    control->action = kLPCSensorsFanActionProbe;
-                    control->step = kLPCSensorsInitialStep;
-                }
 
-                timerEventSource->cancelTimeout();
                 timerEventSource->setTimeoutMS(kLPCSensorsWorkloopTimeout);
                 
                 break;    
@@ -137,7 +128,6 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
                 control->action = kLPCSensorsFanActionNone;
                 break;
                 
-            case kLPCSensorsFanActionNone:
             default:
                 break;
         }
@@ -402,6 +392,7 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
                 for (int i = 0; i < tachometerSensorsLimit(); i++) {
                     if (0 == (((UInt16)value >> tachometerControls[sensor->getIndex()].number) & 0x1)) {
                         disableTachometerControl(i);
+                        tachometerControls[i].action = kLPCSensorsFanActionNone;
                     }
                 }
                 break;

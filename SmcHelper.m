@@ -207,4 +207,15 @@
     return NO;
 }
 
++ (void)writeKey:(NSString*)key value:(NSNumber*)value connection:(io_connect_t)connection
+{
+    SMCVal_t info;
+
+    if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
+        if ([SmcHelper encodeNumericValue:value length:info.dataSize type:info.dataType outBuffer:info.bytes]) {
+            SMCWriteKeyUnsafe(connection, &info);
+        }
+    }
+}
+
 @end

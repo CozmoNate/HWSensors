@@ -328,6 +328,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self addObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.showVolumeNames" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.useBsdDriveNames" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [self addObserver:self forKeyPath:@"configuration.enableFanControl" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)assignPlatformProfile
@@ -936,7 +937,17 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
 
         }
-        //}
+        else if ([keyPath isEqualToString:@"configuration.enableFanControl"]) {
+            if (!_configuration.enableFanControl.boolValue) {
+                [SmcHelper writeKey:@KEY_FAN_MANUAL value:@0 connection:_smcConnection];
+                [SmcHelper writeKey:@KEY_FAN_MANUAL value:@0 connection:_fakeSmcConnection];
+            }
+            else {
+                for (HWMSmcFanSensor *fan in _fanSensorsGroup.sensors) {
+                    [fan setSpeed:fan.speed];
+                }
+            }
+        }
     }
 }
 
@@ -1182,7 +1193,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self insertGroupWithSelector:kHWMGroupSmartRemainingLife name:@"SSD REMAINING LIFE" icon:[self getIconByName:kHWMonitorIconSsdLife]];
     [self insertGroupWithSelector:kHWMGroupSmartRemainingBlocks name:@"SSD REMAINING BLOCKS" icon:[self getIconByName:kHWMonitorIconSsdLife]];
     [self insertGroupWithSelector:kHWMGroupFrequency name:@"FREQUENCIES" icon:[self getIconByName:kHWMonitorIconFrequencies]];
-    [self insertGroupWithSelector:kHWMGroupTachometer name:@"FANS & PUMPS" icon:[self getIconByName:kHWMonitorIconTachometers]];
+    _fanSensorsGroup = [self insertGroupWithSelector:kHWMGroupTachometer name:@"FANS & PUMPS" icon:[self getIconByName:kHWMonitorIconTachometers]];
     [self insertGroupWithSelector:kHWMGroupVoltage name:@"VOLTAGES" icon:[self getIconByName:kHWMonitorIconVoltages]];
     [self insertGroupWithSelector:kHWMGroupCurrent name:@"CURRENTS" icon:[self getIconByName:kHWMonitorIconVoltages]];
     [self insertGroupWithSelector:kHWMGroupPower name:@"POWER CONSUMPTION" icon:[self getIconByName:kHWMonitorIconVoltages]];
@@ -1711,7 +1722,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [sensor doUpdateValue];
 
     // TEST BATTERY
-    //[sensor setValue:@49];
+    [sensor setValue:@49];
 
     if (sensor.value) {
         [sensor setTitle:productName];

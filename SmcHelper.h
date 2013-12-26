@@ -16,4 +16,6 @@
 + (NSNumber*)decodeNumericValueFromBuffer:(void*)data length:(NSUInteger)length type:(const char *)type;
 + (BOOL)encodeNumericValue:(NSNumber*)value length:(NSUInteger)length type:(const char *)type outBuffer:(void*)outBuffer;
 
++ (void)writeKey:(NSString*)key value:(NSNumber*)value connection:(io_connect_t)connection;
+
 @end

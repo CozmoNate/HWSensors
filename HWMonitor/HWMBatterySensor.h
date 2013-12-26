@@ -35,14 +35,6 @@
 
 @class HWMEngine, HWMSensorsGroup;
 
-const NSString *kHWMBatterySensorMaxCapacity;
-const NSString *kHWMBatterySensorCurrentCapacity;
-const NSString *kHWMBatterySensorBatteryPercent;
-const NSString *kHWMBatterySensorProductName;
-const NSString *kHWMBatterySensorDeviceName;
-const NSString *kHWMBatterySensorSerialNumber;
-const NSString *kHWMBatterySensorBatterySerialNumber;
-
 @interface HWMBatterySensor : HWMSensor
 
 @property (nonatomic, assign) NSUInteger deviceType;

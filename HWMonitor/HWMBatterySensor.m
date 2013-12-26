@@ -32,6 +32,17 @@
 
 #import <IOKit/hid/IOHIDKeys.h>
 
+const NSString *kHWMBatterySensorMaxCapacity            = @"MaxCapacity";
+const NSString *kHWMBatterySensorCurrentCapacity        = @"CurrentCapacity";
+const NSString *kHWMBatterySensorBatteryPercent         = @"BatteryPercent";
+const NSString *kHWMBatterySensorProductName            = @kIOHIDProductKey;
+const NSString *kHWMBatterySensorDeviceName             = @"DeviceName";
+const NSString *kHWMBatterySensorSerialNumber           = @kIOHIDSerialNumberKey;
+const NSString *kHWMBatterySensorBatterySerialNumber    = @"BatterySerialNumber";
+
+static IONotificationPortRef gHWMBatterySensorNotificationPort = MACH_PORT_NULL;
+static io_iterator_t gHWMBatteryDeviceIterator = 0;
+
 static void hid_device_appeared(void *engine, io_iterator_t iterator)
 {
     io_object_t object;
@@ -54,14 +65,12 @@ static void hid_device_appeared(void *engine, io_iterator_t iterator)
         switch (deviceType) {
             case kHWMBatterySensorInternal:
                 productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorDeviceName), kCFAllocatorDefault, 0);
+                if (!productName) {
+                    productName = @"Internal Battery";
+                }
                 serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorBatterySerialNumber), kCFAllocatorDefault, 0);
-
                 if (!serialNumber) {
                     serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorSerialNumber), kCFAllocatorDefault, 0);
-                }
-
-                if (!serialNumber) {
-                    serialNumber = productName;
                 }
                 break;
 
@@ -70,6 +79,10 @@ static void hid_device_appeared(void *engine, io_iterator_t iterator)
                 serialNumber = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorSerialNumber), kCFAllocatorDefault, 0);
 
                 break;
+        }
+
+        if (!productName) {
+            continue;
         }
 
         if (!serialNumber) {
@@ -97,17 +110,6 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
     }
 }
 
-const NSString *kHWMBatterySensorMaxCapacity            = @"MaxCapacity";
-const NSString *kHWMBatterySensorCurrentCapacity        = @"CurrentCapacity";
-const NSString *kHWMBatterySensorBatteryPercent         = @"BatteryPercent";
-const NSString *kHWMBatterySensorProductName            = @kIOHIDProductKey;
-const NSString *kHWMBatterySensorDeviceName             = @"DeviceName";
-const NSString *kHWMBatterySensorSerialNumber           = @kIOHIDSerialNumberKey;
-const NSString *kHWMBatterySensorBatterySerialNumber    = @"BatterySerialNumber";
-
-static IONotificationPortRef gHWMBatterySensorNotificationPort = MACH_PORT_NULL;
-static io_iterator_t gHWMBatteryDeviceItterator = 0;
-
 @implementation HWMBatterySensor
 
 @synthesize deviceType;
@@ -119,24 +121,24 @@ static io_iterator_t gHWMBatteryDeviceItterator = 0;
 
     // Discover devices and add notification callbacks
     if (!IOServiceAddMatchingNotification(gHWMBatterySensorNotificationPort,
-                                         kIOFirstPublishNotification,
+                                         kIOFirstMatchNotification,
                                          matching,
                                          hid_device_appeared,
                                          (__bridge void *)engine,
-                                         &gHWMBatteryDeviceItterator))
+                                         &gHWMBatteryDeviceIterator))
     {
         // Add matched devices
-        hid_device_appeared((__bridge void*)engine, gHWMBatteryDeviceItterator);
+        hid_device_appeared((__bridge void*)engine, gHWMBatteryDeviceIterator);
 
         if (!IOServiceAddMatchingNotification(gHWMBatterySensorNotificationPort,
                                               kIOTerminatedNotification,
                                               matching,
                                               hid_device_disappeared,
                                               (__bridge void *)engine,
-                                              &gHWMBatteryDeviceItterator)) {
+                                              &gHWMBatteryDeviceIterator)) {
 
 
-            while (IOIteratorNext(gHWMBatteryDeviceItterator)) {};
+            while (IOIteratorNext(gHWMBatteryDeviceIterator)) {};
         }
     }
 }
@@ -150,7 +152,7 @@ static io_iterator_t gHWMBatteryDeviceItterator = 0;
         gHWMBatterySensorNotificationPort = MACH_PORT_NULL;
     }
 
-    IOObjectRelease(gHWMBatteryDeviceItterator);
+    IOObjectRelease(gHWMBatteryDeviceIterator);
 }
 
 + (void)discoverBatteryDevicesWithEngine:(HWMEngine *)engine

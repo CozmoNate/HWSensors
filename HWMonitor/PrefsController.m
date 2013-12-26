@@ -337,13 +337,6 @@
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    if (tableView == _favoritesTableView && row > 0 && [[_monitorEngine.favoriteItems objectAtIndex:row - 1] isKindOfClass:[HWMBatterySensor class]]) {
-        return  29;
-    }
-    else if (tableView == _sensorsTableView && row > 0 && [[_monitorEngine.iconsWithSensorsAndGroups objectAtIndex:row - 1] isKindOfClass:[HWMBatterySensor class]]) {
-        return  29;
-    }
-    
     return 19;
 }
 

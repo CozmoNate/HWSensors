@@ -56,6 +56,7 @@ typedef enum {
     NSArray *_ataSmartSensors;
     NSTimer *_ataSmartSensorsUpdateLoopTimer;
 
+    HWMSensorsGroup* _fanSensorsGroup;
     HWMSensorsGroup* _batterySensorsGroup;
 }
 
