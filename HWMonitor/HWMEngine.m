@@ -1703,7 +1703,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 {
     NSString *serialNumber = [attributes objectForKey:@"serialNumber"];
     NSString *productName = [attributes objectForKey:@"productName"];
-    NSNumber *deviceType = [attributes objectForKey:@"type"];
+    NSNumber *deviceType = [attributes objectForKey:@"deviceType"];
 
     HWMBatterySensor *sensor = [self getBatterySensorByName:serialNumber fromGroup:group];
 

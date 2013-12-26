@@ -31,7 +31,7 @@
 #import "HWMSensor.h"
 
 #define kHWMBatterySensorInternal   1
-#define kHWMBatterySensorHIDDevice  2
+#define kHWMBatterySensorHID        2
 
 @class HWMEngine, HWMSensorsGroup;
 
