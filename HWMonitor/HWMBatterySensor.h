@@ -30,8 +30,6 @@
 #import <CoreData/CoreData.h>
 #import "HWMSensor.h"
 
-#define kHWMBatterySensorInternal   1
-#define kHWMBatterySensorHID        2
 
 @class HWMEngine, HWMSensorsGroup;
 
@@ -39,7 +37,7 @@
 
 @property (nonatomic, assign) NSUInteger deviceType;
 
-+(void)discoverBatteryDevicesWithEngine:(HWMEngine*)engine;
++(void)startWatchingForBatteryDevicesWithEngine:(HWMEngine*)engine;
 +(void)stopWatchingForBatteryDevices;
 
 @end

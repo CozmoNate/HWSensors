@@ -213,12 +213,12 @@ void NCT677xSensors::writeTachometerControl(UInt32 index, UInt8 percent)
 
 void NCT677xSensors::disableTachometerControl(UInt32 index)
 {
-    if (fanControlEnabled[index]) {
-
-        writeByte(NUVOTON_NCT6775_REG_FAN_MODE[index], fanDefaultMode[index]);
-
-        fanControlEnabled[index] = false;
-    }
+//    if (fanControlEnabled[index]) {
+//
+//        writeByte(NUVOTON_NCT6775_REG_FAN_MODE[index], fanDefaultMode[index]);
+//
+//        fanControlEnabled[index] = false;
+//    }
 }
 
 bool NCT677xSensors::initialize()

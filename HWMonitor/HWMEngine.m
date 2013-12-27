@@ -702,7 +702,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         [self insertSmcGpuFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
 
         // BATTERIES
-        [HWMBatterySensor discoverBatteryDevicesWithEngine:self];
+        [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
 
         // Update graphs
         [self insertGraphs];
@@ -976,6 +976,16 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         [self internalStopEngine];
     }
 
+    if (_smcConnection) {
+        SMCClose(_smcConnection);
+        _smcConnection = 0;
+    }
+
+    if (_fakeSmcConnection) {
+        SMCClose(_fakeSmcConnection);
+        _fakeSmcConnection = 0;
+    }
+
     [HWMBatterySensor stopWatchingForBatteryDevices];
 }
 
@@ -988,21 +998,25 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     }
 }
 
-- (void)systemDidAddBatteryDevice:(NSDictionary*)properties
+- (void)systemDidAddBatteryDevices:(NSArray*)devices
 {
-    [self insertBatterySensorFromDictionary:properties group:_batterySensorsGroup];
+    for (NSDictionary *properties in devices) {
+        [self insertBatterySensorFromDictionary:properties group:_batterySensorsGroup];
+    }
 
     if (self.engineState != kHWMEngineNotInitialized) {
         [self setNeedsUpdateSensorLists];
     }
 }
 
-- (void)systemDidRemoveBatteryDevice:(io_service_t)device
+- (void)systemDidRemoveBatteryDevices:(NSArray*)devices
 {
-    NSArray *sensors = [[_batterySensorsGroup.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service == %u", device]];
+    NSArray *sensors = [[_batterySensorsGroup.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service IN %@", devices]];
 
     if (sensors) {
         for (HWMBatterySensor *sensor in sensors) {
+            NSLog(@"removed battery device %@ (%@)", sensor.name, sensor.service);
+
             [sensor setService:@0];
         }
     }
@@ -1704,6 +1718,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     NSString *serialNumber = [attributes objectForKey:@"serialNumber"];
     NSString *productName = [attributes objectForKey:@"productName"];
     NSNumber *deviceType = [attributes objectForKey:@"deviceType"];
+    NSNumber *service = [attributes objectForKey:@"service"];
 
     HWMBatterySensor *sensor = [self getBatterySensorByName:serialNumber fromGroup:group];
 
@@ -1714,7 +1729,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         [sensor setGroup:group];
     }
 
-    [sensor setService:[attributes objectForKey:@"service"]];
+    [sensor setService:service];
     [sensor setSelector:group.selector];
 
     [sensor setDeviceType:deviceType.unsignedIntegerValue];
@@ -1729,6 +1744,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         [sensor setIdentifier:@"Battery"];
 
         [sensor setEngine:self];
+
+        NSLog(@"added battery device %@ (%@)", sensor.name, sensor.service);
     }
     else {
         [self.managedObjectContext deleteObject:sensor];

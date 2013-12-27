@@ -24,9 +24,13 @@
             <rect key="frame" x="0.0" y="0.0" width="125" height="51"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yHS-LZ-3MH">
+                <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yHS-LZ-3MH">
                     <rect key="frame" x="10" y="9" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="ILO-Nk-ZBq"/>
+                        <constraint firstAttribute="width" constant="32" id="glH-KK-JbS"/>
+                    </constraints>
                     <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="3000" tickMarkPosition="above" numberOfTickMarks="12" sliderType="circular" id="PGv-Wg-slZ"/>
                     <connections>
                         <action selector="sliderHasMoved:" target="-2" id="fQc-Ww-slF"/>
@@ -34,14 +38,14 @@
                         <binding destination="-2" name="minValue" keyPath="objectValue.min" previousBinding="T2y-cS-PoR" id="eFO-HX-8oS"/>
                     </connections>
                 </slider>
-                <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="bezel" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="4bb-HQ-5XS">
+                <box autoresizesSubviews="NO" title="Box" borderType="bezel" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="4bb-HQ-5XS">
                     <rect key="frame" x="47" y="7" width="70" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <view key="contentView">
                         <rect key="frame" x="3" y="3" width="64" height="29"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KLw-Cu-5s8">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KLw-Cu-5s8">
                                 <rect key="frame" x="7" y="3" width="50" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" focusRingType="none" alignment="right" title="9000" id="xLa-JB-unw">
@@ -55,10 +59,27 @@
                             </textField>
                         </subviews>
                     </view>
+                    <constraints>
+                        <constraint firstItem="KLw-Cu-5s8" firstAttribute="leading" secondItem="4bb-HQ-5XS" secondAttribute="leading" constant="9" id="VlU-hR-ELc"/>
+                        <constraint firstAttribute="bottom" secondItem="KLw-Cu-5s8" secondAttribute="bottom" constant="2" id="cub-eg-a10"/>
+                        <constraint firstAttribute="width" constant="64" id="esT-oP-1YM"/>
+                        <constraint firstItem="KLw-Cu-5s8" firstAttribute="top" secondItem="4bb-HQ-5XS" secondAttribute="top" id="hGA-JQ-KmX"/>
+                        <constraint firstAttribute="height" constant="29" id="jZ5-cE-1FR"/>
+                        <constraint firstAttribute="trailing" secondItem="KLw-Cu-5s8" secondAttribute="trailing" constant="9" id="n38-dB-DqP"/>
+                    </constraints>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" name="highlightColor" catalog="System" colorSpace="catalog"/>
                 </box>
             </subviews>
+            <constraints>
+                <constraint firstItem="4bb-HQ-5XS" firstAttribute="leading" secondItem="yHS-LZ-3MH" secondAttribute="trailing" constant="8" id="BUr-k8-zzv"/>
+                <constraint firstItem="4bb-HQ-5XS" firstAttribute="top" secondItem="1" secondAttribute="top" constant="11" id="M8n-Vm-ZAt"/>
+                <constraint firstItem="yHS-LZ-3MH" firstAttribute="top" secondItem="1" secondAttribute="top" constant="10" id="Ny4-3F-But"/>
+                <constraint firstAttribute="trailing" secondItem="4bb-HQ-5XS" secondAttribute="trailing" constant="11" id="VGa-dM-xUG"/>
+                <constraint firstAttribute="bottom" secondItem="yHS-LZ-3MH" secondAttribute="bottom" constant="9" id="aIa-da-eae"/>
+                <constraint firstAttribute="bottom" secondItem="4bb-HQ-5XS" secondAttribute="bottom" constant="11" id="guy-rY-Kuf"/>
+                <constraint firstItem="yHS-LZ-3MH" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="xFn-zq-lbu"/>
+            </constraints>
         </customView>
     </objects>
 </document>
