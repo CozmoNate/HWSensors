@@ -23,7 +23,6 @@
 
             return false;
         }
-
         ]]>
     </script>
     <choices-outline>
