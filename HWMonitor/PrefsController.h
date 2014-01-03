@@ -27,16 +27,18 @@
  */
 
 #import <Sparkle/SUUpdater.h>
+#import <Growl/Growl.h>
 
 #import "PopupController.h"
 #import "GraphsController.h"
 #import "HWMEngine.h"
 
-@interface PrefsController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, HWMEngineDelegate>
+@interface PrefsController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, HWMEngineDelegate, GrowlApplicationBridgeDelegate>
 {
     NSInteger _previousViewTag;
     BOOL _ignoreFavoritesListChanges;
     BOOL _ignoreSensorsAndGroupListChanges;
+    BOOL _forceUpdateSensors;
     NSMutableArray *_iconsAndSensorsCollectionSnapshot;
     NSMutableArray *_favoritesCollectionSnapshot;
 }

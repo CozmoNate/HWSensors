@@ -175,6 +175,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             //[self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
             _iconsWithSensorsAndGroups = [items copy];
             //[self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
+
+            _smcAndDevicesSensors = nil;
+            _ataSmartSensors = nil;
         }
     }
 
@@ -472,7 +475,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
     }
 
-    _smcAndDevicesSensorsUpdateLoopTimer = [NSTimer timerWithTimeInterval:_configuration.smcSensorsUpdateRate.floatValue target:self selector:@selector(updateSmcAndDevicesSensors) userInfo:nil repeats:YES];
+    _smcAndDevicesSensorsUpdateLoopTimer = [NSTimer timerWithTimeInterval:_configuration.smcSensorsUpdateRate.floatValue target:self selector:@selector(updateSmcAndDeviceSensors) userInfo:nil repeats:YES];
 
     [[NSRunLoop mainRunLoop] addTimer:_smcAndDevicesSensorsUpdateLoopTimer forMode:NSRunLoopCommonModes];
 }
@@ -527,7 +530,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         NSLog(@"failed to save context %@", error);
 }
 
--(void)updateSmcAndDevicesSensors
+-(void)updateSmcAndDeviceSensors
 {
     @synchronized (self) {
         if (_engineState == kHWMEngineNotInitialized)
@@ -537,7 +540,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
             __block NSMutableArray *sensors = [NSMutableArray array];
 
-            [self.sensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [self.iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 if ([obj isKindOfClass:[HWMSensor class]] && ![obj isKindOfClass:[HWMAtaSmartSensor class]]) {
                     [sensors addObject:obj];
                 }
@@ -599,7 +602,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
             __block NSMutableArray *sensors = [NSMutableArray array];
 
-            [self.sensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [self.iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
                     [sensors addObject:obj];
                 }

@@ -20,6 +20,7 @@
 
 @dynamic graphsScaleValue;
 @dynamic graphsWindowAlwaysTopmost;
+@dynamic notifyAlarmLevelChanges;
 @dynamic showVolumeNames;
 @dynamic smartSensorsUpdateRate;
 @dynamic smcSensorsUpdateRate;

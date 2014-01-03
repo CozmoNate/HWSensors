@@ -20,5 +20,8 @@ spctl -a -v --type execute ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.
 codesign -s "Developer ID Application" -f ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.framework
 spctl -a -v --type execute ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.framework
 
+codesign -s "Developer ID Application" -f ./Binaries/HWMonitor.app/Contents/Frameworks/Growl.framework
+spctl -a -v --type execute ./Binaries/HWMonitor.app/Contents/Frameworks/Growl.framework
+
 codesign -s "Developer ID Application" -f ./Binaries/HWMonitor.app
 spctl -a -v --type execute ./Binaries/HWMonitor.app

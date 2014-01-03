@@ -121,9 +121,27 @@
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
     
-    [self.monitorEngine updateSmcAndDevicesSensors];
+    [self.monitorEngine updateSmcAndDeviceSensors];
 }
 
+-(NSDictionary *)registrationDictionaryForGrowl
+{
+    NSDictionary *allNotifications = @{
+                                       NotifierSensorLevelExceededNotification:        NotifierSensorLevelExceededHumanReadableDescription,
+                                       NotifierSensorLevelHighNotification: NotifierSensorLevelHighHumanReadableDescription,
+                                       NotifierSensorLevelModerateNotification:NotifierSensorLevelModerateHumanReadableDescription
+                                       };
+
+    NSMutableDictionary *defaultNotifications = [allNotifications mutableCopy];
+
+    [defaultNotifications removeObjectForKey:NotifierSensorLevelModerateNotification];
+
+    return @{GROWL_APP_NAME : @"HWMonitor",
+             GROWL_NOTIFICATIONS_ALL: allNotifications.allKeys,
+             GROWL_NOTIFICATIONS_DEFAULT: defaultNotifications.allKeys,
+             GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES: allNotifications,
+             };
+}
 
 #pragma mark
 #pragma mark Methods:
@@ -193,7 +211,14 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [GrowlApplicationBridge setGrowlDelegate:self];
+
     [_monitorEngine startEngine];
+
+    _forceUpdateSensors = YES;
+    [_monitorEngine updateSmcAndDeviceSensors];
+    [_monitorEngine updateAtaSmartSensors];
+    _forceUpdateSensors = NO;
 
     [self performSelector:@selector(reloadFavoritesTableView:) withObject:self afterDelay:0.0];
     [self performSelector:@selector(reloadIconsAndSensorsTableView:) withObject:self afterDelay:0.0];
@@ -318,7 +343,7 @@
 
 - (HWMSensorsUpdateLoopStrategy)updateLoopStrategyForEngine:(HWMEngine*)engine
 {
-    if (self.window.isVisible || _graphsController.window.isVisible) {
+    if (_forceUpdateSensors || self.window.isVisible || _graphsController.window.isVisible) {
         return kHWMSensorsUpdateLoopForced;
     }
     else if (_popupController.window.isVisible) {
@@ -340,7 +365,7 @@
 
 - (void) popupDidOpen:(id)sender
 {
-    [self.monitorEngine updateSmcAndDevicesSensors];
+    [self.monitorEngine updateSmcAndDeviceSensors];
 }
 
 #pragma mark

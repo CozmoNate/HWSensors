@@ -97,6 +97,11 @@
 "Hide Window" = "Скрыть окно";
 "Version %@" = "Версия %@";
 "Detect sensors" = "Искать новые датчики";
+"Show notification when sensor alarm level is critical" = "Показывать уведомления когда значения датчиков достигают критического уровня";
+"Sensor alarm level changed" = "Показания сенсора изменились";
+"%@ is exceeded limit" = "%@ зашкаливает";
+"%@ alarm level is critical" = "%@, значение достигло предела";
+"%@ moderate alarm level" = "%@, значение заметно изменилось";
 
 "Mouse" = "Мышь";
 "Keyboard" = "Клавиатура";

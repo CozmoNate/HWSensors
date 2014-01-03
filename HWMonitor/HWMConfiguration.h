@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) NSNumber * graphsScaleValue;
 @property (nonatomic, retain) NSNumber * graphsWindowAlwaysTopmost;
+@property (nonatomic, retain) NSNumber * notifyAlarmLevelChanges;
 @property (nonatomic, retain) NSNumber * showVolumeNames;
 @property (nonatomic, retain) NSNumber * smartSensorsUpdateRate;
 @property (nonatomic, retain) NSNumber * smcSensorsUpdateRate;

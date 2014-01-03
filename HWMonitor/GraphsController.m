@@ -122,7 +122,7 @@
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
     
-    [self.monitorEngine updateSmcAndDevicesSensors];    
+    [self.monitorEngine updateSmcAndDeviceSensors];    
 }
 
 -(void)rebuildViews

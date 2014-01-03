@@ -28,4 +28,13 @@
 #define kHWMonitorPopupItemDataType         @"kHWMonitorPopupItemDataType"
 #define kHWMonitorGraphsItemDataType        @"kHWMonitorGraphsItemDataType"
 
+
+#define NotifierSensorLevelExceededNotification             @"Alarm Level Exceeded"
+#define NotifierSensorLevelHighNotification                 @"Alarm High Level"
+#define NotifierSensorLevelModerateNotification             @"Alarm Moderate Level"
+
+#define NotifierSensorLevelExceededHumanReadableDescription	@"Sensor alarm level exceeded limit"
+#define NotifierSensorLevelHighHumanReadableDescription		@"Sensor high alarm level"
+#define NotifierSensorLevelModerateHumanReadableDescription	@"Sensor moderate alarm level"
+
 #endif
