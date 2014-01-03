@@ -64,5 +64,6 @@
 
 - (NSNumber*)internalUpdateValue;
 - (NSUInteger)internalUpdateAlarmLevel;
+- (void)internalSendAlarmNotification;
 
 @end

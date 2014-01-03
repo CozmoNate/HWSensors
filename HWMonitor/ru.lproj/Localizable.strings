@@ -99,9 +99,18 @@
 "Detect sensors" = "Искать новые датчики";
 "Show notification when sensor alarm level is critical" = "Показывать уведомления когда значения датчиков достигают критического уровня";
 "Sensor alarm level changed" = "Показания сенсора изменились";
-"%@ is exceeded limit" = "%@ зашкаливает";
-"%@ alarm level is critical" = "%@, значение достигло предела";
-"%@ moderate alarm level" = "%@, значение заметно изменилось";
+"%@ alarm level is exceeded limit" = "%@ достигнут предел!";
+"%@ high alarm level" = "%@ высокий уровень предупреждений";
+"%@ moderate alarm level" = "%@ средний уровень предупреждений";
+"%@ completely overheated" = "%@, достигнута критическая температура!";
+"%@ is overheating" = "%@ перегревается";
+"%@ is overheating" = "%@ греется";
+"%@ is exceeded limit" = "%@ может прекратить работу в любое время!";
+"%@ is critical" = "%@ в критическом состоянии";
+"%@ lifespan is low" = "%@ на износе";
+"%@ completely discharged!" = "%@ скоро выключится!";
+"%@ needs to be recharged" = "%@ требует перезарядки";
+"%@ is low" = "%@ разряжается";
 
 "Mouse" = "Мышь";
 "Keyboard" = "Клавиатура";

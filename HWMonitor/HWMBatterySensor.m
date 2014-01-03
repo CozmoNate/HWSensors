@@ -30,7 +30,11 @@
 #import "HWMSensorsGroup.h"
 #import "HWMEngine.h"
 
+#import "HWMonitorDefinitions.h"
+#import "Localizer.h"
+
 #import <IOKit/hid/IOHIDKeys.h>
+#import <Growl/Growl.h>
 
 #define kHWMBatterySensorInternal       1
 #define kHWMBatterySensorBluetooth      2
@@ -246,6 +250,44 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
     }
 
     return nil;
+}
+
+-(void)internalSendAlarmNotification
+{
+    switch (_alarmLevel) {
+        case kHWMSensorLevelExceeded:
+            [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
+                                        description:[NSString stringWithFormat:GetLocalizedString(@"%@ completely discharged!"), self.title]
+                                   notificationName:NotifierSensorLevelExceededNotification
+                                           iconData:nil
+                                           priority:1000
+                                           isSticky:YES
+                                       clickContext:nil];
+            break;
+
+        case kHWMSensorLevelHigh:
+            [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
+                                        description:[NSString stringWithFormat:GetLocalizedString(@"%@ needs to be recharged"), self.title]
+                                   notificationName:NotifierSensorLevelHighNotification
+                                           iconData:nil
+                                           priority:500
+                                           isSticky:YES
+                                       clickContext:nil];
+            break;
+
+        case kHWMSensorLevelModerate:
+            [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
+                                        description:[NSString stringWithFormat:GetLocalizedString(@"%@ is low"), self.title]
+                                   notificationName:NotifierSensorLevelModerateNotification
+                                           iconData:nil
+                                           priority:0
+                                           isSticky:YES
+                                       clickContext:nil];
+            break;
+
+        default:
+            break;
+    }
 }
 
 @end

@@ -32,7 +32,11 @@
 #import "HWMEngine.h"
 #import "HWMSensorsGroup.h"
 
-#include <sys/mount.h>
+#import "HWMonitorDefinitions.h"
+#import "Localizer.h"
+
+#import <sys/mount.h>
+#import <Growl/Growl.h>
 
 static NSMutableDictionary * gIOCFPlugInInterfaces;
 
@@ -431,6 +435,49 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
     }
 
     return @0;
+}
+
+-(void)internalSendAlarmNotification
+{
+    if (self.selector.unsignedIntegerValue == kHWMGroupSmartRemainingLife) {
+        switch (_alarmLevel) {
+            case kHWMSensorLevelExceeded:
+                [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
+                                            description:[NSString stringWithFormat:GetLocalizedString(@"%@ is exceeded limit"), self.title]
+                                       notificationName:NotifierSensorLevelExceededNotification
+                                               iconData:nil
+                                               priority:1000
+                                               isSticky:YES
+                                           clickContext:nil];
+                break;
+
+            case kHWMSensorLevelHigh:
+                [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
+                                            description:[NSString stringWithFormat:GetLocalizedString(@"%@ is critical"), self.title]
+                                       notificationName:NotifierSensorLevelHighNotification
+                                               iconData:nil
+                                               priority:500
+                                               isSticky:YES
+                                           clickContext:nil];
+                break;
+
+            case kHWMSensorLevelModerate:
+                [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
+                                            description:[NSString stringWithFormat:GetLocalizedString(@"%@ lifespan is low"), self.title]
+                                       notificationName:NotifierSensorLevelModerateNotification
+                                               iconData:nil
+                                               priority:0
+                                               isSticky:YES
+                                           clickContext:nil];
+                break;
+
+            default:
+                break;
+        }
+    }
+    else {
+        [super internalSendAlarmNotification];
+    }
 }
 
 @end
