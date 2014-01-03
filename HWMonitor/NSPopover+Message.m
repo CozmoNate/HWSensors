@@ -14,22 +14,29 @@
 @synthesize backgroundColour;
 
 - (void)drawRect:(NSRect)aRect {
-    if (self.backgroundColour == nil) {
-        [self setBackgroundColour:[NSColor controlBackgroundColor]];
+//    if (self.backgroundColour == nil) {
+//        [self setBackgroundColour:[NSColor controlBackgroundColor]];
+//    }
+
+    if (self.backgroundColour) {
+        if (!backgroundGradient) {
+            backgroundGradient = [[NSGradient alloc] initWithStartingColor:backgroundColour
+                                                               endingColor:[backgroundColour blendedColorWithFraction:0.12 ofColor:[NSColor controlBackgroundColor] ]];
+        }
+
+
+        NSRect drawingRect = [self frame];
+        drawingRect.origin.x = 0;
+        drawingRect.origin.y = 0;
+
+        NSBezierPath *border = [NSBezierPath bezierPathWithRoundedRect:drawingRect
+                                                               xRadius:5.0
+                                                               yRadius:5.0];
+
+        [backgroundGradient drawInBezierPath:border angle:270.0];
+
     }
-    
-    NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:backgroundColour
-                                                         endingColor:[backgroundColour blendedColorWithFraction:0.2 ofColor:[NSColor controlBackgroundColor] ]];
-    
-    NSRect drawingRect = [self frame];
-    drawingRect.origin.x = 0;
-    drawingRect.origin.y = 0;
-    
-    NSBezierPath *border = [NSBezierPath bezierPathWithRoundedRect:drawingRect
-                                                           xRadius:5.0
-                                                           yRadius:5.0];
-    [gradient drawInBezierPath:border angle:270.0];
-    
+
     [super drawRect:aRect];
 }
 
@@ -122,17 +129,17 @@
     [label setAttributedStringValue:attributedString];
     [[label cell] setLineBreakMode:NSLineBreakByWordWrapping];
 
-#if __has_feature(objc_arc)
+    #if __has_feature(objc_arc)
     COICOPopoverView *container = [[COICOPopoverView alloc] initWithFrame:containerRect];
-#else
+    #else
     COICOPopoverView *container = [[[COICOPopoverView alloc] initWithFrame:containerRect] retain];
-#endif
-    
+    #endif
+
     [container setBackgroundColour:backgroundColor];
     [container addSubview:label];
     [label setBounds:NSMakeRect(padding, padding, size.width, size.height - 30)];
     [container awakeFromNib];
-    
+
 #if __has_feature(objc_arc)
     NSViewController *controller = [[NSViewController alloc] init];
 #else

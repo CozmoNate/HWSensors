@@ -349,7 +349,9 @@ IOReturn CPUSensors::woorkloopTimerEvent()
             read_cpu_energy(&index);
         }
 
-        timerEventsPending = 0;
+        if (timerEventsMomentum++ > 5) {
+            timerEventsPending = 0;
+        }
     }
         
     timerEventSource->setTimeoutMS(1000);
@@ -366,6 +368,7 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
         case kCPUSensorsPackageThermalSensor:
             if (!cpu_thermal_updated[index]) {
                 bit_set(timerEventsPending, kCPUSensorsCoreThermalSensor);
+                timerEventsMomentum = 0;
             }
             cpu_thermal_updated[index] = false;
             *outValue = tjmax[index] - cpu_thermal[index];
@@ -374,12 +377,14 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
         case kCPUSensorsCoreMultiplierSensor:
         case kCPUSensorsPackageMultiplierSensor:
             bit_set(timerEventsPending, sensor->getGroup());
+            timerEventsMomentum = 0;
             *outValue = multiplier[index];
             break;
             
         case kCPUSensorsCoreFrequencySensor:
             if (!cpu_state_updated[index]) {
                 bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
+                timerEventsMomentum = 0;
             }
             cpu_state_updated[index] = false;
             *outValue = multiplier[index] * (float)busClock;
@@ -387,6 +392,7 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 
         case kCPUSensorsPackageFrequencySensor:
             bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
+            timerEventsMomentum = 0;
             *outValue = multiplier[index] * (float)busClock;
             break;
             
@@ -395,6 +401,7 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
         case kCPUSensorsUncorePowerSensor:
         case kCPUSensorsDramPowerSensor:
             bit_set(timerEventsPending, sensor->getGroup());
+            timerEventsMomentum = 0;
             *outValue = (float)energyUnits * cpu_energy_delta[index];
             break;
 

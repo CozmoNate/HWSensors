@@ -105,6 +105,8 @@
             [self addObserver:self forKeyPath:@"monitorEngine.sensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
             
             [_statusItemView setMonitorEngine:_monitorEngine];
+
+            [self performSelector:@selector(reloadSensorsTableView:) withObject:self afterDelay:0.0];
         }];
     }
     
@@ -156,19 +158,8 @@
         [self.delegate popupWillClose:self];
     }
     
-//    if (_windowFilter) {
-//        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.0] forKey:@"inputRadius"]];
-//    }
+    [self.window orderOut:nil];
 
-//    [NSAnimationContext beginGrouping];
-//    [[NSAnimationContext currentContext] setDuration:CLOSE_DURATION];
-//    [self.window.animator setAlphaValue:0];
-//    [NSAnimationContext endGrouping];
-    
-    //dispatch_after(dispatch_walltime(NULL, NSEC_PER_SEC * CLOSE_DURATION * 2), dispatch_get_main_queue(), ^{
-        [self.window orderOut:nil];
-    //});
-    
     self.statusItemView.isHighlighted = NO;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidClose:)]) {
@@ -202,6 +193,15 @@
     if (orderFront) {
         [menubarWindow makeKeyAndOrderFront:self];
     }
+}
+
+-(void)reloadSensorsTableView:(id)sender
+{
+    _sensorsAndGroupsCollectionSnapshot = [self.monitorEngine.sensorsAndGroups mutableCopy];
+
+   [_tableView reloadData];
+
+   [self layoutContent:YES orderFront:NO];
 }
 
 #pragma mark -
@@ -252,17 +252,17 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqual:@"monitorEngine.configuration.colorTheme"]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
-            [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-            [_tableView reloadData];
-        });
+        [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
+        [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+        [_tableView setNeedsDisplay:YES];
     }
-    else if ([keyPath isEqual:@"monitorEngine.sensorsAndGroups"] && _ignoreSensorsAndGroupListChanges == NO) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_tableView reloadData];
-            [self layoutContent:YES orderFront:NO];
-        });
+    else if ([keyPath isEqual:@"monitorEngine.sensorsAndGroups"] &&
+             _ignoreSensorsAndGroupListChanges == NO) {
+        // Cancel previous waiting for reload request
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadSensorsTableView:) object:self];
+
+        // Perform reload after a while, maybe we'll recieve another async updates
+        [self performSelector:@selector(reloadSensorsTableView:) withObject:self afterDelay:0.250];
     }
 }
 
@@ -322,12 +322,12 @@
 #pragma mark NSTableView delegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return _monitorEngine.sensorsAndGroups.count;
+    return _sensorsAndGroupsCollectionSnapshot.count;
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    HWMItem *item = [_monitorEngine.sensorsAndGroups objectAtIndex:row];
+    HWMItem *item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
 
     NSUInteger height = [item isKindOfClass:[HWMSensorsGroup class]] ? 19 : 17;
 
@@ -344,12 +344,12 @@
 
 -(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    return [_monitorEngine.sensorsAndGroups objectAtIndex:row];
+    return [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    HWMItem *item = [_monitorEngine.sensorsAndGroups objectAtIndex:row];
+    HWMItem *item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
 
     id view = [tableView makeViewWithIdentifier:item.identifier owner:self];
 
@@ -373,7 +373,7 @@
         return NO;
     }
     
-    id item = [self.monitorEngine.sensorsAndGroups objectAtIndex:[rowIndexes firstIndex]];
+    id item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:[rowIndexes firstIndex]];
     
     if ([item isKindOfClass:[HWMSensor class]]) {
         NSData *indexData = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
@@ -397,11 +397,9 @@
         NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
-        id fromItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
+        id fromItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
 
         [(HWMItem*)fromItem setHidden:@YES];
-
-        [_monitorEngine setNeedsUpdateLists];
 
         NSShowAnimationEffect(NSAnimationEffectPoof, screenPoint, NSZeroSize, nil, nil, nil);
     }
@@ -419,7 +417,7 @@
     NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
-    id fromItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
+    id fromItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
 
     _currentItemDragOperation = NSDragOperationNone;
     
@@ -427,12 +425,12 @@
         
         _currentItemDragOperation = NSDragOperationMove;
 
-        if (toRow < self.monitorEngine.sensorsAndGroups.count) {
+        if (toRow < _sensorsAndGroupsCollectionSnapshot.count) {
             if (toRow == fromRow || toRow == fromRow + 1) {
                 _currentItemDragOperation = NSDragOperationNone;
             }
             else {
-                id toItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow];
+                id toItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:toRow];
 
                 if ([toItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)fromItem group] != [(HWMSensor*)toItem group]) {
                     _currentItemDragOperation = NSDragOperationNone;
@@ -440,7 +438,7 @@
             }
         }
         else {
-            id toItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow - 1];
+            id toItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:toRow - 1];
 
             if ([toItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)fromItem group] != [(HWMSensor*)toItem group]) {
                 _currentItemDragOperation = NSDragOperationNone;
@@ -462,12 +460,12 @@
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
 
-    HWMSensor *fromItem = [self.monitorEngine.sensorsAndGroups objectAtIndex:fromRow];
+    HWMSensor *fromItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
     
-    id checkItem = toRow >= self.monitorEngine.sensorsAndGroups.count ? [self.monitorEngine.sensorsAndGroups lastObject] : [self.monitorEngine.sensorsAndGroups objectAtIndex:toRow];
+    id checkItem = toRow >= _sensorsAndGroupsCollectionSnapshot.count ? [_sensorsAndGroupsCollectionSnapshot lastObject] : [_sensorsAndGroupsCollectionSnapshot objectAtIndex:toRow];
     
     HWMSensor *toItem = ![checkItem isKindOfClass:[HWMSensor class]] 
-    || toRow >= self.monitorEngine.sensorsAndGroups.count ? [fromItem.group.sensors lastObject] : checkItem;
+    || toRow >= _sensorsAndGroupsCollectionSnapshot.count ? [fromItem.group.sensors lastObject] : checkItem;
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         [tableView moveRowAtIndex:fromRow toIndex:toRow > fromRow ? toRow - 1 : toRow];

@@ -126,12 +126,12 @@ float NCT677xSensors::readVoltage(UInt32 index)
         switch (model) {
             case NCT6771F:
             case NCT6776F:    
-                value = readByte(NUVOTON_VOLTAGE_REG[index]) * (NUVOTON_VOLTAGE_SCALE[index]) * 0.001f;
+                value = readByte(NUVOTON_VOLTAGE_REG[index]) * NUVOTON_VOLTAGE_SCALE[index] * 0.001f;
                 break;
                 
             case NCT6779D:
             case NCT6791D:
-                value = readByte(NUVOTON_VOLTAGE_REG_NEW[index]) * 0.008f;
+                value = readByte(NUVOTON_VOLTAGE_REG_NEW[index]) * NUVOTON_VOLTAGE_SCALE[index] * 0.001f;
                 break;
         }
 

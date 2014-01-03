@@ -6,6 +6,7 @@
 #  Created by Kozlek on 18/07/13.
 #
 
+find ./Binaries/ -maxdepth 1 -type f -name "*.zip" -delete
 find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz" -delete
 find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz.dsa" -delete
 
@@ -43,7 +44,7 @@ echo '  <item>' >> ./Appcast/appcast.xml
 echo '      <sparkle:releaseNotesLink>http://hwsensors.com/appcast/rnotes.html</sparkle:releaseNotesLink>' >> ./Appcast/appcast.xml
 echo '      <title>Version '${full_version}'</title>' >> ./Appcast/appcast.xml
 echo '      <pubDate>'$(date +"%a, %d %b %G %T %z")'</pubDate>' >> ./Appcast/appcast.xml
-echo '      <enclosure url="http://hwsensors.com/downloads/'${tar_filename}'" sparkle:version="'${last_revision}'" sparkle:shortVersionString="'${full_version}'" sparkle:dsaSignature="'${dsa_signature}'" length="'$(stat -f %z ./Binaries/${tar_filename})'" type="application/x-compress"/>' >> ./Appcast/appcast.xml
+echo '      <enclosure url="http://hwsensors.com/appcast/hwmonitor/'${tar_filename}'" sparkle:version="'${last_revision}'" sparkle:shortVersionString="'${full_version}'" sparkle:dsaSignature="'${dsa_signature}'" length="'$(stat -f %z ./Binaries/${tar_filename})'" type="application/x-compress"/>' >> ./Appcast/appcast.xml
 echo '  </item>' >> ./Appcast/appcast.xml
 echo '</channel>' >> ./Appcast/appcast.xml
 echo '</rss>' >> ./Appcast/appcast.xml

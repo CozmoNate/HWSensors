@@ -35,7 +35,7 @@
 @interface HWMSmartPlugInInterfaceWrapper : NSObject
 
 @property (nonatomic, assign) IOCFPlugInInterface** pluginInterface;
-@property (nonatomic, assign) IOATASMARTInterface ** smartInterface;
+@property (nonatomic, assign) IOATASMARTInterface** smartInterface;
 
 +(HWMSmartPlugInInterfaceWrapper*)wrapperWithService:(io_service_t)service forBsdName:(NSString*)name;
 +(HWMSmartPlugInInterfaceWrapper*)getWrapperForBsdName:(NSString*)name;

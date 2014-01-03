@@ -107,24 +107,26 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(void)setEngineState:(HWMEngineState)engineState
 {
-    switch (engineState) {
-        case kHWMEngineStateIdle:
-            if (_engineState == kHWMEngineStateActive) {
-                [self internalStopEngine];
-            }
-            break;
+    @synchronized (self) {
+        switch (engineState) {
+            case kHWMEngineStateIdle:
+                if (_engineState == kHWMEngineStateActive) {
+                    [self internalStopEngine];
+                }
+                break;
 
-        case kHWMEngineStateActive:
-            if (_engineState == kHWMEngineStateIdle) {
-                [self internalStartEngine];
-            }
-            break;
+            case kHWMEngineStateActive:
+                if (_engineState == kHWMEngineStateIdle) {
+                    [self internalStartEngine];
+                }
+                break;
 
-        default:
-            break;
+            default:
+                break;
+        }
+
+        _engineState = engineState;
     }
-
-    _engineState = engineState;
 }
 
 -(HWMSensorsUpdateLoopStrategy)updateLoopStrategy
@@ -182,6 +184,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(NSArray *)sensorsAndGroups
 {
     if (!_sensorsAndGroups) {
+
         @synchronized (self) {
 
             NSMutableArray *items = [[NSMutableArray alloc] init];
@@ -207,6 +210,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(NSArray *)graphsAndGroups
 {
     if (!_graphsAndGroups) {
+        
         @synchronized (self) {
 
             NSMutableArray *items = [[NSMutableArray alloc] init];
@@ -324,10 +328,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
 
+    [self addObserver:self forKeyPath:@"configuration.useFahrenheit" options:NSKeyValueObservingOptionNew context:nil];
     [self addObserver:self forKeyPath:@"configuration.smcSensorsUpdateRate" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.showVolumeNames" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [self addObserver:self forKeyPath:@"configuration.useBsdDriveNames" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.enableFanControl" options:NSKeyValueObservingOptionNew context:nil];
 }
 
@@ -533,7 +537,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
             __block NSMutableArray *sensors = [NSMutableArray array];
 
-            [self.iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [self.sensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 if ([obj isKindOfClass:[HWMSensor class]] && ![obj isKindOfClass:[HWMAtaSmartSensor class]]) {
                     [sensors addObject:obj];
                 }
@@ -592,17 +596,16 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             return;
 
         if (!_ataSmartSensors) {
-            if (_iconsWithSensorsAndGroups) {
-                __block NSMutableArray *sensors = [NSMutableArray array];
 
-                [self.iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
-                        [sensors addObject:obj];
-                    }
-                }];
+            __block NSMutableArray *sensors = [NSMutableArray array];
 
-                _ataSmartSensors = [sensors copy];
-            }
+            [self.sensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
+                    [sensors addObject:obj];
+                }
+            }];
+
+            _ataSmartSensors = [sensors copy];
         }
 
         if (_ataSmartSensors) {
@@ -722,57 +725,38 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(void)setNeedsUpdateLists
 {
-    @synchronized (self) {
-        if (_engineState == kHWMEngineNotInitialized)
-            return;
-
-        [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
-        _iconsWithSensorsAndGroups = nil;
-        [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
-
-        [self willChangeValueForKey:@"sensorsAndGroups"];
-        _sensorsAndGroups = nil;
-        [self didChangeValueForKey:@"sensorsAndGroups"];
-
-        [self willChangeValueForKey:@"graphsAndGroups"];
-        _graphsAndGroups = nil;
-        [self didChangeValueForKey:@"graphsAndGroups"];
-
-        [self willChangeValueForKey:@"favoriteItems"];
-        _favoriteItems = nil;
-        [self didChangeValueForKey:@"favoriteItems"];
-    }
+    [self setNeedsUpdateSensorLists];
+    [self setNeedsUpdateGraphsList];
 }
 
 -(void)setNeedsUpdateSensorLists
 {
+    if (_engineState == kHWMEngineNotInitialized)
+        return;
+
     @synchronized (self) {
-
-        if (_engineState == kHWMEngineNotInitialized)
-            return;
-
-        [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
         _iconsWithSensorsAndGroups = nil;
+        [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
         [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
 
-        [self willChangeValueForKey:@"sensorsAndGroups"];
         _sensorsAndGroups = nil;
+        [self willChangeValueForKey:@"sensorsAndGroups"];
         [self didChangeValueForKey:@"sensorsAndGroups"];
 
-        [self willChangeValueForKey:@"favoriteItems"];
         _favoriteItems = nil;
+        [self willChangeValueForKey:@"favoriteItems"];
         [self didChangeValueForKey:@"favoriteItems"];
     }
 }
 
 -(void)setNeedsUpdateGraphsList
 {
-    @synchronized (self) {
-        if (_engineState == kHWMEngineNotInitialized)
-            return;
+    if (_engineState == kHWMEngineNotInitialized)
+        return;
 
-        [self willChangeValueForKey:@"graphsAndGroups"];
+    @synchronized (self) {
         _graphsAndGroups = nil;
+        [self willChangeValueForKey:@"graphsAndGroups"];
         [self didChangeValueForKey:@"graphsAndGroups"];
     }
 }
@@ -811,14 +795,14 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 {
     [self internalStartEngine];
 
-    _engineState = kHWMEngineStateActive;
+    self.engineState = kHWMEngineStateActive;
 }
 
 -(void)stopEngine
 {
     [self internalStopEngine];
 
-    _engineState = kHWMEngineStateIdle;
+    self.engineState = kHWMEngineStateIdle;
 }
 
 #pragma mark
@@ -894,47 +878,21 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     @synchronized (self) {
-        //if (![[change objectForKey:NSKeyValueChangeNewKey] isEqualTo:[change objectForKey:NSKeyValueChangeOldKey]]) {
-        if ([keyPath isEqual:@"configuration.smcSensorsUpdateRate"]) {
-
+        if ([keyPath isEqual:@"configuration.useFahrenheit"]) {
+            [self setNeedsRecalculateSensorValues];
+            
+        }
+        else if ([keyPath isEqual:@"configuration.smcSensorsUpdateRate"]) {
             [self performSelectorInBackground:@selector(initSmcAndDevicesTimer) withObject:nil];
 
         }
         else if ([keyPath isEqual:@"configuration.smartSensorsUpdateRate"]) {
-
             [self performSelectorInBackground:@selector(initAtaSmartTimer) withObject:nil];
 
         }
         else if ([keyPath isEqual:@"configuration.showVolumeNames"]) {
-
             [self willChangeValueForKey:@"sensorsAndGroups"];
-
-            if (_iconsWithSensorsAndGroups) {
-                [_iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
-                        [obj setLegend:_configuration.showVolumeNames.boolValue ? [obj volumeNames] : nil];
-                    }
-                }];
-            }
-
             [self didChangeValueForKey:@"sensorsAndGroups"];
-
-        }
-        else if ([keyPath isEqual:@"configuration.useBsdDriveNames"]) {
-
-            [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
-            [self willChangeValueForKey:@"sensorsAndGroups"];
-
-            if (_iconsWithSensorsAndGroups) {
-                [_iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
-                        [obj setTitle:_configuration.useBsdDriveNames.boolValue ? [obj bsdName] : [obj productName]];
-                    }
-                }];
-            }
-
-            [self didChangeValueForKey:@"sensorsAndGroups"];
-            [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
 
         }
         else if ([keyPath isEqualToString:@"configuration.enableFanControl"]) {
@@ -947,6 +905,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                     [fan setSpeed:fan.speed];
                 }
             }
+
         }
     }
 }
@@ -959,20 +918,28 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(void)workspaceDidMountOrUnmount:(id)sender
 {
-    // Update SMART sensors
-    [self insertAtaSmartSensors];
+    @synchronized (self) {
+        // Update SMART sensors
+        [self insertAtaSmartSensors];
 
-    // Update graphs
-    [self insertGraphs];
+        // Update graphs
+        [self insertGraphs];
 
-    _ataSmartSensors = nil;
+        _ataSmartSensors = nil;
+    }
 
     [self setNeedsUpdateLists];
+
+    // Force update some sensors info
+    [_configuration willChangeValueForKey:@"useBsdDriveNames"];
+    [_configuration didChangeValueForKey:@"useBsdDriveNames"];
+    [_configuration willChangeValueForKey:@"showVolumeNames"];
+    [_configuration didChangeValueForKey:@"showVolumeNames"];
 }
 
 -(void)workspaceWillSleep:(id)sender
 {
-    if (_engineState == kHWMEngineStateActive) {
+    if (self.engineState == kHWMEngineStateActive) {
         [self internalStopEngine];
     }
 
@@ -993,15 +960,17 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 {
     [self rebuildSensorsList];
 
-    if (_engineState == kHWMEngineStateActive) {
+    if (self.engineState == kHWMEngineStateActive) {
         [self internalStartEngine];
     }
 }
 
 - (void)systemDidAddBatteryDevices:(NSArray*)devices
 {
-    for (NSDictionary *properties in devices) {
-        [self insertBatterySensorFromDictionary:properties group:_batterySensorsGroup];
+    @synchronized (self) {
+        for (NSDictionary *properties in devices) {
+            [self insertBatterySensorFromDictionary:properties group:_batterySensorsGroup];
+        }
     }
 
     if (self.engineState != kHWMEngineNotInitialized) {
@@ -1011,13 +980,15 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 - (void)systemDidRemoveBatteryDevices:(NSArray*)devices
 {
-    NSArray *sensors = [[_batterySensorsGroup.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service IN %@", devices]];
+    @synchronized (self) {
+        NSArray *sensors = [[_batterySensorsGroup.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service IN %@", devices]];
 
-    if (sensors) {
-        for (HWMBatterySensor *sensor in sensors) {
-            NSLog(@"removed battery device %@ (%@)", sensor.name, sensor.service);
+        if (sensors) {
+            for (HWMBatterySensor *sensor in sensors) {
+                NSLog(@"removed battery device %@ (%@)", sensor.name, sensor.service);
 
-            [sensor setService:@0];
+                [sensor setService:@0];
+            }
         }
     }
 
@@ -1026,10 +997,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 - (void)applicationWillTerminate:(id)sender
 {
+    [self removeObserver:self forKeyPath:@"configuration.useFahrenheit"];
     [self removeObserver:self forKeyPath:@"configuration.smcSensorsUpdateRate"];
     [self removeObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate"];
     [self removeObserver:self forKeyPath:@"configuration.showVolumeNames"];
-    [self removeObserver:self forKeyPath:@"configuration.useBsdDriveNames"];
 
     [self internalStopEngine];
     [HWMBatterySensor stopWatchingForBatteryDevices];
@@ -1659,27 +1630,38 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         [sensor setGroup:group];
     }
 
-    [sensor setSelector:group.selector];
     [sensor setService:[attributes objectForKey:@"service"]];
-    [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
 
-    [sensor doUpdateValue];
-
-    if (sensor.value) {
-        [sensor setProductName:[attributes objectForKey:@"productName"]];
+    // Reuse previousely inserted sensors
+    if ([self isEqual:sensor.engine]) {
+        // Update only potentially changed props
+        [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
         [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
-        [sensor setRotational:[attributes objectForKey:@"rotational"]];
-
-        [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : sensor.productName];
-        [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
-        [sensor setIdentifier:@"Drive"];
-
-        [sensor setEngine:self];
     }
     else {
-        [self.managedObjectContext deleteObject:sensor];
-        return nil;
+        [sensor setSelector:group.selector];
+        [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
+
+        [sensor doUpdateValue];
+
+        if (sensor.value) {
+            [sensor setProductName:[attributes objectForKey:@"productName"]];
+            [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
+            [sensor setRotational:[attributes objectForKey:@"rotational"]];
+
+            [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : sensor.productName];
+            [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
+            [sensor setIdentifier:@"Drive"];
+
+            [sensor setEngine:self];
+        }
+        else {
+            [self.managedObjectContext deleteObject:sensor];
+            return nil;
+        }
     }
+
+
 
     return sensor;
 }

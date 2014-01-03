@@ -229,8 +229,12 @@ bool W836xxSensors::supportsTachometerControl()
 
 UInt8 W836xxSensors::readTachometerControl(UInt32 index)
 {
-    UInt8 control = readByte(WINBOND_FAN_PWM_OUTPUT[index]) & (model == W83687THF ? 0xf0 : 0xff);
-    
+    UInt8 control = readByte(WINBOND_FAN_PWM_OUTPUT[index]);
+
+    if (model == W83687THF) {
+        return (float)(control >> 8) / 1.27f;
+    }
+
     return (float)(control) / 2.55f;
 }
 
@@ -251,20 +255,7 @@ void W836xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
         }
         
         
-        writeByte(WINBOND_FAN_PWM_OUTPUT[index], (float)(percent) * 2.55f);
-
-//        if (voltageControlledFans)
-//        {
-//            writeByte(WINBOND_FAN_PWM_OUTPUT[index], (float)(percent) * 2.55f);
-//            
-//        }
-//        else // PWM controlled fans
-//        {
-//            UInt8 value = (float)(percent) * 0.64f;
-//            
-//            writeByte(WINBOND_FAN_PWM_OUTPUT[index], value << 2);
-//        }
-        
+        writeByte(WINBOND_FAN_PWM_OUTPUT[index], (float)(percent) * (model == W83687THF ? 1.27f : 2.55f));
         
     }
 }

@@ -48,18 +48,22 @@
 
 -(void)awakeFromFetch
 {
-    //[self setPrimitiveValue:@0 forKey:@"service"];
+    [super awakeFromFetch];
     
     [self addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)awakeFromInsert
 {
+    [super awakeFromInsert];
+
     [self addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)prepareForDeletion
 {
+    [super prepareForDeletion];
+
     [self removeObserver:self forKeyPath:@"value"];
 }
 
@@ -69,6 +73,8 @@
         _formattedValue = nil;
         _strippedValue = nil;
     }
+
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 //-(void)setValue:(NSNumber *)value

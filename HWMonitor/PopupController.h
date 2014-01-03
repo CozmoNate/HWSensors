@@ -20,9 +20,10 @@
 
 @class HWMEngine;
 
-@interface PopupController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
+@interface PopupController : NSWindowController <NSApplicationDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
     BOOL _ignoreSensorsAndGroupListChanges;
+    NSMutableArray *_sensorsAndGroupsCollectionSnapshot;
 }
 
 @property (assign) IBOutlet id <PopupControllerDelegate> delegate;

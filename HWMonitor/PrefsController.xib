@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -36,7 +36,7 @@
                             <action selector="switchView:" target="-2" id="VAi-1h-7ZT"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="3D09AD92-8D35-49E0-BA7E-A191EBC1F458" explicitItemIdentifier="Menubar" label="Menubar" paletteLabel="Menubar" tag="1" image="419-scale" selectable="YES" id="AK6-gq-KYv">
+                    <toolbarItem implicitItemIdentifier="3D09AD92-8D35-49E0-BA7E-A191EBC1F458" explicitItemIdentifier="Menubar" label="Menubar" paletteLabel="Menubar" tag="1" image="81-dashboard" selectable="YES" id="AK6-gq-KYv">
                         <connections>
                             <action selector="switchView:" target="-2" id="J34-lS-kbb"/>
                         </connections>
@@ -1579,7 +1579,7 @@
         <image name="04-eye-white" width="20" height="13"/>
         <image name="17-bar-chart" width="32" height="32"/>
         <image name="306-light-switch" width="32" height="32"/>
-        <image name="419-scale" width="32" height="32"/>
+        <image name="81-dashboard" width="16" height="16"/>
         <image name="Divider" width="1200" height="2"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSRefreshTemplate" width="10" height="12"/>

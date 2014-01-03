@@ -99,6 +99,7 @@ private:
     UInt8                   availableCoresCount;
 
     UInt16                  timerEventsPending;
+    UInt8                   timerEventsMomentum;
 
     IOReturn                woorkloopTimerEvent(void);
     void                    calculateMultiplier(UInt32 index);

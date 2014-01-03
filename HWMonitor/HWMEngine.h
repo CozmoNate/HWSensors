@@ -56,6 +56,7 @@ typedef enum {
     NSArray *_ataSmartSensors;
     NSTimer *_ataSmartSensorsUpdateLoopTimer;
 
+    HWMSensorsGroup* _ataSmartSensorsGroup;
     HWMSensorsGroup* _fanSensorsGroup;
     HWMSensorsGroup* _batterySensorsGroup;
 }
@@ -67,18 +68,17 @@ typedef enum {
 @property (nonatomic, strong) IBOutlet NSManagedObjectModel * managedObjectModel;
 @property (nonatomic, strong) IBOutlet NSPersistentStoreCoordinator * persistentStoreCoordinator;
 @property (nonatomic, strong) IBOutlet NSManagedObjectContext * managedObjectContext;
+@property (nonatomic, strong) IBOutlet HWMConfiguration * configuration;
 
 @property (nonatomic, assign) HWMEngineState engineState;
 @property (nonatomic, assign) HWMSensorsUpdateLoopStrategy updateLoopStrategy;
 
-@property (nonatomic, strong) IBOutlet HWMConfiguration * configuration;
-
 @property (readonly) BOOL isRunningOnMac;
 
-@property (readonly) IBOutlet NSArray * iconsWithSensorsAndGroups;
-@property (readonly) IBOutlet NSArray * sensorsAndGroups;
-@property (readonly) IBOutlet NSArray * graphsAndGroups;
-@property (readonly) IBOutlet NSArray * favoriteItems;
+@property (nonatomic, readonly) IBOutlet NSArray * iconsWithSensorsAndGroups;
+@property (nonatomic, readonly) IBOutlet NSArray * sensorsAndGroups;
+@property (nonatomic, readonly) IBOutlet NSArray * graphsAndGroups;
+@property (nonatomic, readonly) IBOutlet NSArray * favoriteItems;
 
 +(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
 

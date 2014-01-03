@@ -31,7 +31,7 @@
 
     [container setBackgroundColour:self.colorTheme.useDarkIcons.boolValue ?
      [self.colorTheme.listBackgroundColor highlightWithLevel:0.30] :
-     [self.colorTheme.listBackgroundColor shadowWithLevel:0.05]];
+     nil /*[self.colorTheme.listBackgroundColor shadowWithLevel:0.05]*/];
 }
 
 - (IBAction)sliderHasMoved:(id)sender
