@@ -6,6 +6,7 @@
 #  Created by Kozlek on 18/07/13.
 #
 
+find ./Binaries/ -maxdepth 1 -type f -name "*.zip" -delete
 find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz" -delete
 find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz.dsa" -delete
 
@@ -18,15 +19,18 @@ project_name=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "./version.plis
 project_version=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "./version.plist")
 last_revision=$(<"./revision.txt")
 full_version=${project_version}'.'${last_revision}
-zip_filename=${project_name}.${full_version}.tar.gz
+tar_filename=${project_name}.${full_version}.tar.gz
 
 cp ./Binaries/${project_name}.${full_version}.pkg ./Binaries/HWMonitor.pkg
-tar -zcvf ./Binaries/${zip_filename} ./Binaries/HWMonitor.pkg
+tar -zcvf ./Binaries/${tar_filename} ./Binaries/HWMonitor.pkg
 rm ./Binaries/HWMonitor.pkg
 
-dsa_signature=$(openssl dgst -sha1 -binary < ./Binaries/${zip_filename} | openssl dgst -dss1 -sign ./Appcast/dsa_priv.pem | openssl enc -base64)
+dsa_signature=$(openssl dgst -sha1 -binary < ./Binaries/${tar_filename} | openssl dgst -dss1 -sign ./Appcast/dsa_priv.pem | openssl enc -base64)
 
-echo ${dsa_signature} > ./Binaries/${zip_filename}.dsa
+echo ${dsa_signature} > ./Binaries/${tar_filename}.dsa
+
+zip_filename=${project_name}_Binaries.${full_version}.zip
+zip -9 -r -q ./Binaries/${zip_filename} ./Binaries/HWMonitor.app ./Binaries/ACPISensors.kext ./Binaries/CPUSensors.kext ./Binaries/FakeSMC.kext ./Binaries/FakeSMCKeyStore.kext ./Binaries/GPUSensors.kext ./Binaries/LPCSensors.kext
 
 # appcast.xml
 echo '<?xml version="1.0" encoding="utf-8"?>' > ./Appcast/appcast.xml
@@ -40,7 +44,7 @@ echo '  <item>' >> ./Appcast/appcast.xml
 echo '      <sparkle:releaseNotesLink>http://hwsensors.com/appcast/rnotes.html</sparkle:releaseNotesLink>' >> ./Appcast/appcast.xml
 echo '      <title>Version '${full_version}'</title>' >> ./Appcast/appcast.xml
 echo '      <pubDate>'$(date +"%a, %d %b %G %T %z")'</pubDate>' >> ./Appcast/appcast.xml
-echo '      <enclosure url="http://hwsensors.com/downloads/'${zip_filename}'" sparkle:version="'${last_revision}'" sparkle:shortVersionString="'${full_version}'" sparkle:dsaSignature="'${dsa_signature}'" length="'$(stat -f %z ./Binaries/${zip_filename})'" type="application/x-compress"/>' >> ./Appcast/appcast.xml
+echo '      <enclosure url="http://hwsensors.com/appcast/hwmonitor/'${tar_filename}'" sparkle:version="'${last_revision}'" sparkle:shortVersionString="'${full_version}'" sparkle:dsaSignature="'${dsa_signature}'" length="'$(stat -f %z ./Binaries/${tar_filename})'" type="application/x-compress"/>' >> ./Appcast/appcast.xml
 echo '  </item>' >> ./Appcast/appcast.xml
 echo '</channel>' >> ./Appcast/appcast.xml
 echo '</rss>' >> ./Appcast/appcast.xml
@@ -66,6 +70,7 @@ echo '                      <h3>New in '${project_name}' v'${full_version}'</h3>
 echo '                  </td>' >> ./Appcast/rnotes.html
 echo '              </tr>' >> ./Appcast/rnotes.html
 echo '              <tr><td><td/><tr/>' >> ./Appcast/rnotes.html
+echo '              <tr><td><a href="http://hwsensors.com/downloads/'${zip_filename}'">Download compiled binaries</a><td/><tr/>' >> ./Appcast/rnotes.html
 echo '              <tr>' >> ./Appcast/rnotes.html
 echo '                  <td valign="top">' >> ./Appcast/rnotes.html
 echo '                      <p><b>Bug Fixed/Changes/Features</b></p>' >> ./Appcast/rnotes.html

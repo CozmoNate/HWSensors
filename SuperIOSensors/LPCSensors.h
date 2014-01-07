@@ -5,6 +5,8 @@
  *  Created by kozlek on 08/10/10.
  */
 
+//  The MIT License (MIT)
+//
  //  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
  //
  //  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
@@ -31,11 +33,42 @@
 
 #include "FakeSMCPlugin.h"
 
+#define kLPCSensorsMinRPM               0000.0
+#define kLPCSensorsMaxRPM               3000.0
+#define kLPCSensorsInitialStep          5
+#define kLPCSensorsMatchTheresholdRPM   10.0
+#define kLPCSensorsWorkloopTimeout      7000
+
+#define kLPCSensorsFanTargetController  1000
+#define kLPCSensorsFanMinController     2000
+#define kLPCSensorsFanManualController  3000
+
+enum kLPCSensorsFanControlAction {
+    kLPCSensorsFanActionNone = 0,
+    kLPCSensorsFanActionIncrement,
+    kLPCSensorsFanActionDecrement,
+    kLPCSensorsFanActionMatched,
+    kLPCSensorsFanActionProbe
+};
+
+struct LPCSensorsFanControl {
+    UInt8                       number;
+    float                       target;
+    float                       step;
+    kLPCSensorsFanControlAction action;
+};
+
+#define kLPCSensorsMaxFanControls       16
+
 class LPCSensors : public FakeSMCPlugin {
 	OSDeclareAbstractStructors(LPCSensors)
 	
 private:
-
+    IOWorkLoop*             workloop;
+    IOTimerEventSource*     timerEventSource;
+    IOReturn                woorkloopTimerEvent(void);
+    
+    LPCSensorsFanControl    tachometerControls[kLPCSensorsMaxFanControls];
     
 protected:    
 	UInt16					address;
@@ -62,14 +95,22 @@ protected:
 	virtual float			readVoltage(UInt32 index);
 	virtual float			readTachometer(UInt32 index);
     
-    virtual float           getSensorValue(FakeSMCSensor *sensor);
+    virtual bool			supportsTachometerControl();
+    virtual UInt8			readTachometerControl(UInt32 index);
+    virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
+    virtual void			disableTachometerControl(UInt32 index);
+    
+    virtual bool            willReadSensorValue(FakeSMCSensor *sensor, float *outValue);
+    virtual bool            didWriteSensorValue(FakeSMCSensor *sensor, float value);
     
     virtual bool            initialize();
-		
+    virtual void            willPowerOff();
+    virtual void            hasPoweredOn();
+
 public:
 	virtual bool			init(OSDictionary *properties=0);
-	virtual IOService*		probe(IOService *provider, SInt32 *score);
     virtual bool			start(IOService *provider);
+    virtual IOReturn        setPowerState(unsigned long powerState, IOService *device);
     virtual void            stop(IOService* provider);
 };
 

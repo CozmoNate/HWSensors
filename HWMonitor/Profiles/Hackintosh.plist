@@ -114,7 +114,7 @@
 	<string>PC0G|CPU GFX</string>
 	<string>PCPC|CPU Package Cores</string>
 	<string>PCPG|CPU Package Graphics</string>
-	<string>PCPT|CPU Package Total</string>
+	<string>PCTR|CPU Package Total</string>
 	<string>PCPD|CPU Package DRAM</string>
 	<string>PC1R|CPU Rail</string>
 	<string>PC5R|CPU 1.5V S0 Rail</string>

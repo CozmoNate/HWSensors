@@ -26,7 +26,7 @@ Mozketo for LaunchAtLoginController
 PHPdev32 for an idea to using NVRAM as storage for kext configuration
 coercion for initial Haswell support
 oswaldini @ www.osx86.org.pl for Polish translation
-Marchrius @ insanelymac.com for Italian translation
+Matteo «Marchrius» Gaggiano for the enhanced about window with credits scroller and Italian translation
 k3nny @ www.insanelymac.com for German translation
 Bruce Allen for smartmontools <http://www.smartmontools.org>
 Michael Robinson for Cocoa Categories <https://github.com/faceleg/Cocoa-Categories>

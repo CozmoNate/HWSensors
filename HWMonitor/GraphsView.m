@@ -30,22 +30,42 @@
 #import "HWMonitorDefinitions.h"
 #import "Localizer.h"
 
-static NSMutableDictionary *graphs_history = nil;
+#import "HWMGraph.h"
+#import "HWMGraphsGroup.h"
+#import "HWMSensorsGroup.h"
+#import "HWMSensor.h"
+#import "HWMEngine.h"
+#import "HWMConfiguration.h"
+#import "HWMValueFormatter.h"
+
+#define LeftViewMargin      1
+#define TopViewMargin       2
+#define RightViewMargin     1
+#define BottomViewMargin    2
 
 @implementation GraphsView
 
-#define LeftViewMargin      1
-#define TopViewMargin       1
-#define RightViewMargin     1
-#define BottomViewMargin    1
+@synthesize graphsGroup = _graphsGroup;
 
--(NSMutableDictionary *)graphs
+-(void)setGraphsGroup:(HWMGraphsGroup *)group
 {
-    if (!graphs_history) {
-        graphs_history = [[NSMutableDictionary alloc] init];
+    if (group != _graphsGroup) {
+        
+        if (_graphsGroup) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:HWMGraphsGroupHistoryHasBeenChangedNotification object:_graphsGroup];
+            
+            _graphsGroup = nil;
+        }
+        
+        _graphsGroup = group;
+        
+        if (_graphsGroup) {
+            
+            [self calculateGraphBounds];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataHasBeenCapturedToHistoryNow) name:HWMGraphsGroupHistoryHasBeenChangedNotification object:_graphsGroup];
+        }
     }
-
-    return graphs_history;
 }
 
 -(id)init
@@ -58,124 +78,42 @@ static NSMutableDictionary *graphs_history = nil;
         [shadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.55]];
         [shadow setShadowOffset:CGSizeMake(0, -1.0)];
         [shadow setShadowBlurRadius:1.0];
-        
+
         _legendAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSFont systemFontOfSize:9.0], NSFontAttributeName,
                              [NSColor yellowColor], NSForegroundColorAttributeName,
                              shadow, NSShadowAttributeName,
                              nil];
-        
-        _legendFormat = @"%1.0f";
-        
-        _graphScale = 5.0;
     }
     
     return self;
 }
 
-- (NSArray*)addItemsFromList:(NSArray*)itemsList forSensorGroup:(HWSensorGroup)sensorsGroup;
+-(void)dealloc
 {
-    if (sensorsGroup & (kHWSensorGroupTemperature | kSMARTGroupTemperature)) {
-        _legendFormat = @"%1.0f°";
-    }
-    else if (sensorsGroup & kHWSensorGroupFrequency) {
-        _legendFormat = GetLocalizedString(@"%1.0f MHz");
-    }
-    else if (sensorsGroup & kHWSensorGroupTachometer) {
-        _legendFormat = GetLocalizedString(@"%1.0f rpm");
-    }
-    else if (sensorsGroup & kHWSensorGroupVoltage) {
-        _legendFormat = GetLocalizedString(@"%1.3f V");
-    }
-    else if (sensorsGroup & kHWSensorGroupCurrent) {
-        _legendFormat = GetLocalizedString(@"%1.3f A");
-    }
-    else if (sensorsGroup & kHWSensorGroupPower) {
-        _legendFormat = GetLocalizedString(@"%1.3f W");
-    }
-    else if (sensorsGroup & kBluetoothGroupBattery) {
-        _legendFormat = @"%1.0f%";
-    }
-    
-    if (!_items) {
-        _items = [[NSMutableArray alloc] init];
-    }
-    else {
-        [_items removeAllObjects];
-    }
- 
-    for (HWMonitorItem *item in itemsList) {
-        [_items addObject:item];
-        if (![self.graphs objectForKey:item.sensor.name]) {
-            [self.graphs setObject:[[NSMutableArray alloc] init] forKey:[[item sensor] name]];
-        }
-    }
-    
-    [self calculateGraphBoundsFindExtremes:YES];
-    
-    return _items;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:HWMGraphsGroupHistoryHasBeenChangedNotification object:_graphsGroup];
 }
 
-- (void)captureDataToHistoryNow;
+- (void)dataHasBeenCapturedToHistoryNow
 {
-    for (HWMonitorItem *item in _items) {
-        HWMonitorSensor *sensor = [item sensor];
-        NSMutableArray *history = [self.graphs objectForKey:[sensor name]];
-
-        if ([sensor rawValue]) {
-            [history addObject:[sensor rawValue]];
-            
-            if ([history count] > _maxPoints) {
-                //[history removeObjectAtIndex:0];
-                [history removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [history count] - _maxPoints - 1)]];
-            }
-        }
-    }
-    
-    [self calculateGraphBoundsFindExtremes:YES];
-    
+    [self calculateGraphBounds];
     [self setNeedsDisplay:YES];
 }
 
-- (void)calculateGraphBoundsFindExtremes:(BOOL)findExtremes
+- (void)calculateGraphBounds
 {
-    if (findExtremes) {
-        _maxY = 0, _minY = MAXFLOAT;
-        
-        for (HWMonitorItem *item in _items) {
-
-            if ([_graphsController checkItemIsHidden:item])
-                continue;
-            
-            HWMonitorSensor *sensor = [item sensor];
-            NSArray *points = [self.graphs objectForKey:[sensor name]];
-            
-            if (points) {
-                for (NSNumber *point in points) {
-                    if ([point doubleValue] < _minY) {
-                        _minY = [point doubleValue];
-                    }
-                    else if ([point doubleValue] > _maxY)
-                    {
-                        _maxY = [point doubleValue];
-                    }
-                }
-            }
-        }
-    }
-
-    _maxPoints = self.window.windowNumber > 0 ? self.bounds.size.width / _graphScale : 100;
+    _maxPoints = self.window.windowNumber > 0 ? self.frame.size.width / self.graphsController.monitorEngine.configuration.graphsScaleValue.doubleValue : 100;
     
-    if ((_maxY == 0 && _minY == MAXFLOAT)) {
+    if ((!_graphsGroup.maxGraphsValue && !_graphsGroup.minGraphsValue)) {
         _graphBounds = NSMakeRect(0, 0, _maxPoints, 100);
     }
-    else if (_minY >= _maxY) {
-        _graphBounds = NSMakeRect(0, _minY, _maxPoints, _minY + 100);
+    else if ([_graphsGroup.minGraphsValue isGreaterThanOrEqualTo:_graphsGroup.maxGraphsValue]) {
+        _graphBounds = NSMakeRect(0, _graphsGroup.minGraphsValue.doubleValue, _maxPoints, _graphsGroup.minGraphsValue.doubleValue + 100);
     }
     else {
 
-        double minY = _minY <= 0 ? _minY : _minY - _minY * 0.2;
-        double maxY = _maxY + _maxY * 0.1;
+        double minY = _graphsGroup.minGraphsValue.doubleValue <= 0 ? _graphsGroup.minGraphsValue.doubleValue : _graphsGroup.minGraphsValue.doubleValue - _graphsGroup.minGraphsValue.doubleValue * 0.20;
+        double maxY = _graphsGroup.maxGraphsValue.doubleValue + _graphsGroup.maxGraphsValue.doubleValue * 0.10;
         
         _graphBounds = NSMakeRect(0, minY, _maxPoints, maxY - minY);
     }
@@ -183,7 +121,7 @@ static NSMutableDictionary *graphs_history = nil;
 
 - (NSPoint)graphPointToView:(NSPoint)point
 {
-    double graphScaleX = _graphScale; //([self bounds].size.width - LeftViewMargin - RightViewMargin) / _graphBounds.size.width;
+    double graphScaleX = self.graphsController.monitorEngine.configuration.graphsScaleValue.doubleValue; //([self bounds].size.width - LeftViewMargin - RightViewMargin) / _graphBounds.size.width;
     double graphScaleY = ([self bounds].size.height - TopViewMargin - BottomViewMargin) / _graphBounds.size.height;
 
     double x = LeftViewMargin + (point.x - _graphBounds.origin.x) * graphScaleX;
@@ -194,7 +132,7 @@ static NSMutableDictionary *graphs_history = nil;
 
 - (void)drawRect:(NSRect)rect
 {
-    [self calculateGraphBoundsFindExtremes:NO];
+    [self calculateGraphBounds];
     
     NSGraphicsContext* context = [NSGraphicsContext currentContext];
     
@@ -211,17 +149,17 @@ static NSMutableDictionary *graphs_history = nil;
     // Draw marks
     [context setShouldAntialias:NO];
     
-    NSBezierPath *path = [[NSBezierPath alloc] init];
+    __block NSBezierPath *path = [[NSBezierPath alloc] init];
     
-    if (_minY < _maxY) {
+    if (_graphsGroup.minGraphsValue && _graphsGroup.maxGraphsValue && [_graphsGroup.minGraphsValue isLessThan:_graphsGroup.maxGraphsValue]) {
         // Draw extremums
         [context setShouldAntialias:NO];
         
         [path removeAllPoints];
-        [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,_maxY)]];
-        [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,_maxY)]];
-        [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,_minY)]];
-        [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,_minY)]];
+        [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,_graphsGroup.maxGraphsValue.doubleValue)]];
+        [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,_graphsGroup.maxGraphsValue.doubleValue)]];
+        [path moveToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x,_graphsGroup.minGraphsValue.doubleValue)]];
+        [path lineToPoint:[self graphPointToView:NSMakePoint(_graphBounds.origin.x + _graphBounds.size.width,_graphsGroup.minGraphsValue.doubleValue)]];
         CGFloat pattern[2] = { 4.0, 4.0 };
         [path setLineDash:pattern count:2 phase:1.0];
         [[NSColor lightGrayColor] set];
@@ -235,54 +173,58 @@ static NSMutableDictionary *graphs_history = nil;
     
     [context setShouldAntialias:YES];
     
-    for (HWMonitorItem *item in _items) {
+    for (HWMGraph *graph in _graphsGroup.graphs) {
         
-        if ([_graphsController checkItemIsHidden:item])
+        if (graph.hidden.boolValue)
             continue;
 
-        HWMonitorSensor *sensor = [item sensor];
-        NSArray *values = [self.graphs objectForKey:[sensor name]];
-        
-        if (!values || [values count] < 2)
+        if (!graph.history || graph.history.count < 2)
             continue;
         
         [path removeAllPoints];
         [path setLineJoinStyle:NSRoundLineJoinStyle];
         
-        CGFloat startOffset = /*[values count] > _maxPoints ?*/ _maxPoints - [values count] /*: _graphBounds.size.width - _maxPoints*/;
-        
-        if (_useSmoothing) {
-            NSPoint lastPoint = NSMakePoint(startOffset, [[values objectAtIndex:0] doubleValue]);
+        CGFloat startOffset = /*[values count] > _maxPoints ?*/ _maxPoints - graph.history.count /*: _graphBounds.size.width - _maxPoints*/;
+
+        __block CGFloat offset = startOffset;
+
+        if (self.graphsController.monitorEngine.configuration.useGraphSmoothing.boolValue) {
+
+            __block NSPoint lastPoint = NSMakePoint(startOffset, [[graph.history objectAtIndex:0] doubleValue]);
             
             [path moveToPoint:[self graphPointToView:lastPoint]];
-            
-            for (NSUInteger index = 1; index < [values count]; index++) {
-                NSPoint nextPoint = NSMakePoint(startOffset + index, [[values objectAtIndex:index] doubleValue]);
-                NSPoint controlPoint1 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 0.7, lastPoint.y + (nextPoint.y - lastPoint.y) * 0.35);
-                NSPoint controlPoint2 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 0.3, lastPoint.y + (nextPoint.y - lastPoint.y) * 0.65);
-                
-                [path curveToPoint:[self graphPointToView:nextPoint]
-                     controlPoint1:[self graphPointToView:controlPoint1]
-                     controlPoint2:[self graphPointToView:controlPoint2]];
-                
-                lastPoint = nextPoint;
-            }
+
+            [graph.history enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if (idx > 0) {
+                    NSPoint nextPoint = NSMakePoint(offset + idx, [obj doubleValue]);
+                    NSPoint controlPoint1 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 0.7, lastPoint.y + (nextPoint.y - lastPoint.y) * 0.35);
+                    NSPoint controlPoint2 = NSMakePoint(lastPoint.x + (nextPoint.x - lastPoint.x) * 0.3, lastPoint.y + (nextPoint.y - lastPoint.y) * 0.65);
+
+                    [path curveToPoint:[self graphPointToView:nextPoint]
+                         controlPoint1:[self graphPointToView:controlPoint1]
+                         controlPoint2:[self graphPointToView:controlPoint2]];
+
+                    lastPoint = nextPoint;
+                }
+            }];
         }
         else {
-            [path moveToPoint:[self graphPointToView:NSMakePoint(startOffset, [[values objectAtIndex:0] doubleValue])]];
+            [path moveToPoint:[self graphPointToView:NSMakePoint(startOffset, [[graph.history objectAtIndex:0] doubleValue])]];
             
-            for (NSUInteger index = 1; index < [values count]; index++) {
-                NSPoint p1 = NSMakePoint(startOffset + index, [[values objectAtIndex:index] doubleValue]);
-                [path lineToPoint:[self graphPointToView:p1]];
-            }
+            [graph.history enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if (idx > 0) {
+                    NSPoint p1 = NSMakePoint(offset + idx, [obj doubleValue]);
+                    [path lineToPoint:[self graphPointToView:p1]];
+                }
+            }];
         }
         
-        if (item == [_graphsController selectedItem]) {
-            [[[item color] highlightWithLevel:0.8] set];
+        if (graph == _graphsController.selectedItem) {
+            [[[graph color] highlightWithLevel:0.8] set];
             [path setLineWidth:3.0];
         }
         else {
-            [[item color] set];
+            [[graph color] set];
             [path setLineWidth:1.5];
         }
         
@@ -290,24 +232,24 @@ static NSMutableDictionary *graphs_history = nil;
     }
     
     // Draw extreme values
-    if (_minY < _maxY) {
+    if (_graphsGroup.minGraphsValue && _graphsGroup.maxGraphsValue && [_graphsGroup.minGraphsValue isLessThan:_graphsGroup.maxGraphsValue]) {
         [context setShouldAntialias:YES];
 
         NSAttributedString *maxExtremeTitle = [[NSAttributedString alloc]
-                                               initWithString:[NSString stringWithFormat:_legendFormat, (_sensorGroup & (kHWSensorGroupTemperature | kSMARTGroupTemperature) && _useFahrenheit ? _maxY * (9.0f / 5.0f) + 32.0f : _maxY )]
+                                               initWithString:[HWMValueFormatter formattedValue:_graphsGroup.maxGraphsValue usingRulesOfGroup:[_graphsGroup.selectors objectAtIndex:0] configuration:_graphsGroup.configuration]
                                                attributes:_legendAttributes];
 
         NSAttributedString *minExtremeTitle = [[NSAttributedString alloc]
-                                     initWithString:[NSString stringWithFormat:_legendFormat, (_sensorGroup & (kHWSensorGroupTemperature | kSMARTGroupTemperature) && _useFahrenheit ? _minY * (9.0f / 5.0f) + 32.0f : _minY )]
+                                     initWithString:[HWMValueFormatter formattedValue:_graphsGroup.minGraphsValue usingRulesOfGroup:[_graphsGroup.selectors objectAtIndex:0] configuration:_graphsGroup.configuration]
                                      attributes:_legendAttributes];
 
-        if ([self graphPointToView:NSMakePoint(0, _maxY)].y + 2 + [maxExtremeTitle size].height > [self graphPointToView:NSMakePoint(0, _graphBounds.origin.y + _graphBounds.size.height)].y || [self graphPointToView:NSMakePoint(0, _minY)].y - [minExtremeTitle size].height < [self graphPointToView:_graphBounds.origin].y) {
-            [maxExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y - [maxExtremeTitle size].height)];
-            [minExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y + 2)];
+        if ([self graphPointToView:NSMakePoint(0, _graphsGroup.maxGraphsValue.doubleValue)].y + 2 + [maxExtremeTitle size].height > [self graphPointToView:NSMakePoint(0, _graphBounds.origin.y + _graphBounds.size.height)].y || [self graphPointToView:NSMakePoint(0, _graphsGroup.minGraphsValue.doubleValue)].y - [minExtremeTitle size].height < [self graphPointToView:_graphBounds.origin].y) {
+            [maxExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _graphsGroup.maxGraphsValue.doubleValue)].y - [maxExtremeTitle size].height)];
+            [minExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _graphsGroup.minGraphsValue.doubleValue)].y + 2)];
         }
         else {
-            [maxExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _maxY)].y + 2)];
-            [minExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _minY)].y - [minExtremeTitle size].height)];
+            [maxExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _graphsGroup.maxGraphsValue.doubleValue)].y + 2)];
+            [minExtremeTitle drawAtPoint:NSMakePoint(LeftViewMargin + 2, [self graphPointToView:NSMakePoint(0, _graphsGroup.minGraphsValue.doubleValue)].y - [minExtremeTitle size].height)];
         }
     }
     

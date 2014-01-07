@@ -11,21 +11,32 @@
 
 #include "nouveau_definitions.h"
 
-struct nouveau_pm_voltage_level {
-	u32 voltage; /* microvolts */
+struct nouveau_volt {
+    
+	int (*vid_get)(struct nouveau_device *);
+	int (*get)(struct nouveau_device *);
+    
+	u8 vid_mask;
+	u8 vid_nr;
+	struct {
+		u32 uv;
+		u8 vid;
+	} vid[256];
+};
+
+struct nvbios_volt {
+	u8  vidmask;
+	u32 min;
+	u32 max;
+	u32 base;
+	s16 step;
+};
+
+struct nvbios_volt_entry {
+	u32 voltage;
 	u8  vid;
 };
 
-struct nouveau_pm_voltage {
-	bool supported;
-	u8 version;
-	u8 vid_mask;
-    
-	struct nouveau_pm_voltage_level *level;
-	int nr_level;
-};
-
-void nouveau_volt_init(struct nouveau_device *);
-int nouveau_voltage_get(struct nouveau_device *device);
+int nouveau_volt_create(struct nouveau_device *device);
 
 #endif

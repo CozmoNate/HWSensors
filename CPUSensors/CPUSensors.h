@@ -91,27 +91,28 @@ private:
     IOWorkLoop*             workloop;
     IOTimerEventSource*     timerEventSource;
     
-    UInt8                   tjmax[kCPUSensorsMaxCpus];
     OSData*                 platform;
     UInt64                  busClock;
     float                   multiplier[kCPUSensorsMaxCpus];
     float                   energyUnits;
     UInt8                   baseMultiplier;
-    
-	void                    readTjmaxFromMSR();
-    float                   readMultiplier(UInt8 cpu_index);
-    
+    UInt8                   availableCoresCount;
+
     UInt16                  timerEventsPending;
     UInt8                   timerEventsMomentum;
+
     IOReturn                woorkloopTimerEvent(void);
+    void                    calculateMultiplier(UInt32 index);
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
     
+    
 protected:
-    virtual float           getSensorValue(FakeSMCSensor *sensor);
+    virtual bool            willReadSensorValue(FakeSMCSensor *sensor, float *outValue);
     
 public:
     virtual bool			start(IOService *provider);
+    virtual IOReturn        setPowerState(unsigned long powerState, IOService *device);
     virtual void            stop(IOService* provider);
     virtual void			free(void);
 };

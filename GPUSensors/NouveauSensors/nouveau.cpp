@@ -52,7 +52,7 @@ bool nouveau_identify(struct nouveau_device *device)
     /* determine chipset and derive architecture from it */
     if ((boot0 & 0x0f000000) > 0) {
         device->chipset = (boot0 & 0xff00000) >> 20;
-        switch (device->chipset & 0xf0) {
+        switch (device->chipset & ~0xf) {
 			case 0x40:
 			case 0x60: device->card_type = NV_40; break;
 			case 0x50:
@@ -62,7 +62,8 @@ bool nouveau_identify(struct nouveau_device *device)
 			case 0xc0: device->card_type = NV_C0; break;
 			case 0xd0: device->card_type = NV_D0; break;
 			case 0xe0:
-            case 0xf0: device->card_type = NV_E0; break;
+            case 0xf0:
+            case 0x100: device->card_type = NV_E0; break;
 			default:
 				break;
         }
@@ -135,7 +136,8 @@ bool nouveau_init(struct nouveau_device *device)
         device->gpio_init(device);*/
     
 	/* parse aux tables from vbios */
-	nouveau_volt_init(device);
+	//nouveau_volt_init(device);
+    nouveau_volt_create(device);
     nouveau_therm_init(device);
     
     return true;

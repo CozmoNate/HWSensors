@@ -54,22 +54,35 @@ static void radeon_atombios_add_pplib_thermal_controller(struct radeon_device *r
 		if (controller->ucType == ATOM_PP_THERMALCONTROLLER_RV6xx) {
 			rdev->int_thermal_type = THERMAL_TYPE_RV6XX;
             radeon_info(rdev, "found RV6XX type thermal sensor\n");
-		} else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_RV770) {
+		} 
+        else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_RV770) {
 			rdev->int_thermal_type = THERMAL_TYPE_RV770;
             radeon_info(rdev, "found RV770 type thermal sensor\n");
-		} else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_EVERGREEN) {
+		} 
+        else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_EVERGREEN) {
 			rdev->int_thermal_type = THERMAL_TYPE_EVERGREEN;
             radeon_info(rdev, "found EVERGREEN type thermal sensor\n");
-		} else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_SUMO) {
+		} 
+        else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_SUMO) {
 			rdev->int_thermal_type = THERMAL_TYPE_SUMO;
             radeon_info(rdev, "found SUMO type thermal sensor\n");
-		} else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_NISLANDS) {
+		} 
+        else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_NISLANDS) {
 			rdev->int_thermal_type = THERMAL_TYPE_NI;
             radeon_info(rdev, "found NI type thermal sensor\n");
-		} else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_SISLANDS) {
+		} 
+        else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_SISLANDS) {
 			rdev->int_thermal_type = THERMAL_TYPE_SI;
             radeon_info(rdev, "found SI type thermal sensor\n");
-		}
+        } 
+        else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_CISLANDS) {
+            rdev->int_thermal_type = THERMAL_TYPE_CI;
+            radeon_info(rdev, "found CI type thermal sensor\n");
+        } 
+        else if (controller->ucType == ATOM_PP_THERMALCONTROLLER_KAVERI) {
+            rdev->int_thermal_type = THERMAL_TYPE_KV;
+            radeon_info(rdev, "found Kaveri type thermal sensor\n");
+        }
         else radeon_warn(rdev, "unknown thermal sensor type 0x%04x\n", controller->ucType);
     }
     //else radeon_warn(rdev, "thermal sensor type not specified using default configuration\n");

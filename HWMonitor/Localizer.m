@@ -83,6 +83,7 @@
         NSWindow *window = (NSWindow *)view;
         [window setTitle:GetLocalizedString(window.title)];
         [self localizeView:window.contentView];
+        [self localizeView:window.toolbar];
     }
     else if ([view isKindOfClass:[NSTextField class]]) {
         NSTextField *textField = (NSTextField*)view;
@@ -151,14 +152,24 @@
     else if ([view isKindOfClass:[NSToolbar class]]) {
         for (NSToolbarItem *item in [(NSToolbar*)view items]) {
             [item setLabel:GetLocalizedString([item label])];
-            [self localizeView:[item view]];
+            //[self localizeView:[item view]];
         }
     }
-    
+    else if ([view isKindOfClass:[NSBox class]]) {
+        NSBox *box = (NSBox*)view;
+        
+        [box setTitle:GetLocalizedString(box.title)];
+        
+        NSArray *subviews = [[view subviews] copy];
+        for (NSView *view in subviews) {
+            [self localizeView:view];
+        }
+    }
     // Must be at the end to allow other checks to pass because almost all controls are derived from NSView
-    else if ([view isKindOfClass:[NSView class]] ) {
-        for(NSView *subView in [view subviews]) {
-            [self localizeView:subView];
+    else if ([view isKindOfClass:[NSView class]] && [view subviews]) {
+        NSArray *subviews = [[view subviews] copy];
+        for (NSView *view in subviews) {
+            [self localizeView:view];
         }
     }
     else {

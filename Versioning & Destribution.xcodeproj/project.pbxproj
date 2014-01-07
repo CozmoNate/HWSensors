@@ -29,6 +29,7 @@
 		7EBA20C717ED59C6008E54C5 /* SignInstaller.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = SignInstaller.sh; sourceTree = "<group>"; };
 		7EBA20C817ED59C6008E54C5 /* TagCurrentVersion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = TagCurrentVersion.sh; sourceTree = "<group>"; };
 		7EBA20D517ED7B41008E54C5 /* GenerateAppcast.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = GenerateAppcast.sh; sourceTree = "<group>"; };
+		7EEB2D6E1847F2A2008B6D1C /* preinstall */ = {isa = PBXFileReference; lastKnownFileType = text; path = preinstall; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -44,6 +45,7 @@
 		7E86758317F57AE800438A80 /* Package */ = {
 			isa = PBXGroup;
 			children = (
+				7EEB2D6D1847F2A2008B6D1C /* Scripts */,
 				7E86758417F57AE800438A80 /* distribution.draft */,
 				7E02001417F5A69E0030A502 /* background.tiff */,
 				7E17E2F61800370E00A18141 /* HWMonitor.PackageInfo */,
@@ -90,14 +92,22 @@
 			isa = PBXGroup;
 			children = (
 				7EBA20C517ED59C6008E54C5 /* PreBuild.sh */,
-				7EBA20C217ED59C6008E54C5 /* BuildInstaller.sh */,
 				7E72E369181B94DA002165DD /* SignKexts.sh */,
 				7EBA20C617ED59C6008E54C5 /* SignApp.sh */,
 				7EBA20C717ED59C6008E54C5 /* SignInstaller.sh */,
+				7EBA20C217ED59C6008E54C5 /* BuildInstaller.sh */,
 				7EBA20D517ED7B41008E54C5 /* GenerateAppcast.sh */,
 				7EBA20C817ED59C6008E54C5 /* TagCurrentVersion.sh */,
 				7EBA20C317ED59C6008E54C5 /* BumpMajorVersion.sh */,
 				7EBA20C417ED59C6008E54C5 /* BumpMinorVersion.sh */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
+		7EEB2D6D1847F2A2008B6D1C /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				7EEB2D6E1847F2A2008B6D1C /* preinstall */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -791,15 +801,12 @@
 		7EB7E70E17834A740071B3F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		7EB7E70F17834A740071B3F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				SDKROOT = macosx;
 			};
 			name = Release;
 		};

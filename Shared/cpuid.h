@@ -32,6 +32,7 @@
 #ifndef M_CPUID_H
 #define M_CPUID_H
 
+#include <mach/machine.h>
 #include <machine/machine_routines.h>
 #include <pexpert/pexpert.h>
 #include <i386/proc_reg.h>
@@ -158,9 +159,17 @@
 #define CPUID_MODEL_HASWELL_ULT     0x45    /* Haswell ULT */
 #define CPUID_MODEL_HASWELL_ULX     0x46    /* Haswell ULX */
 
+#ifndef CPUFAMILY_INTEL_SANDYBRIDGE
 #define CPUFAMILY_INTEL_SANDYBRIDGE 0x5490b78c // From 10.7
+#endif
+
+#ifndef CPUFAMILY_INTEL_IVYBRIDGE
 #define CPUFAMILY_INTEL_IVYBRIDGE   0x1f65e835 // From 10.8
+#endif
+
+#ifndef CPUFAMILY_INTEL_HASWELL
 #define CPUFAMILY_INTEL_HASWELL     0x10B282DC // From 10.9
+#endif
                                                //#define CPUFAMILY_INTEL_HASWELL_ULT 0x10B282DC //
 
 //#include <stdint.h>

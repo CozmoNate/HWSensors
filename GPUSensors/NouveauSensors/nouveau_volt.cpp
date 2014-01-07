@@ -32,170 +32,234 @@
 
 #include "nouveau_volt.h"
 #include "nouveau.h"
+#include "nouveau_bios.h"
 
-static const u8 vidtag[] = { 0x04, 0x05, 0x06, 0x1a, 0x73 };
-static int nr_vidtag = sizeof(vidtag) / sizeof(vidtag[0]);
-
-void nouveau_volt_init(struct nouveau_device *device)
+static u16 nvbios_volt_table(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *cnt, u8 *len)
 {
-	struct dcb_gpio_func func;
-	struct bit_entry P;
-	u8 *volt = NULL, *entry;
-	int i, headerlen, recordlen, entries, vidmask, vidshift;
+	struct bit_entry bit_P;
+	u16 volt = 0x0000;
     
-	if (device->vbios.type == NVBIOS_BIT) {
-		if (nouveau_bit_table(device, 'P', &P))
-			return;
-        
-		if (P.version == 1)
-			volt = ROMPTR(device, P.data[16]);
+	if (!nouveau_bit_entry(device, 'P', &bit_P)) {
+		if (bit_P.version == 2)
+			volt = nv_ro16(device, bit_P.offset + 0x0c);
 		else
-            if (P.version == 2)
-                volt = ROMPTR(device, P.data[12]);
-            else {
-                nv_warn(device, "unknown volt for BIT P %d\n", P.version);
-            }
-	} else {
-		if (device->vbios.data[device->vbios.offset + 6] < 0x27) {
-			nv_debug(device, "BMP version too old for voltage\n");
-			return;
-		}
+            if (bit_P.version == 1)
+                volt = nv_ro16(device, bit_P.offset + 0x10);
         
-		volt = ROMPTR(device, device->vbios.data[device->vbios.offset + 0x98]);
-	}
-    
-	if (!volt) {
-		nv_debug(device, "voltage table pointer invalid\n");
-		return;
-	}
-    
-	switch (volt[0]) {
-        case 0x10:
-        case 0x11:
-        case 0x12:
-            headerlen = 5;
-            recordlen = volt[1];
-            entries   = volt[2];
-            vidshift  = 0;
-            vidmask   = volt[4];
-            break;
-        case 0x20:
-            headerlen = volt[1];
-            recordlen = volt[3];
-            entries   = volt[2];
-            vidshift  = 0; /* could be vidshift like 0x30? */
-            vidmask   = volt[5];
-            break;
-        case 0x30:
-            headerlen = volt[1];
-            recordlen = volt[2];
-            entries   = volt[3];
-            vidmask   = volt[4];
-            /* no longer certain what volt[5] is, if it's related to
-             * the vid shift then it's definitely not a function of
-             * how many bits are set.
-             *
-             * after looking at a number of nva3+ vbios images, they
-             * all seem likely to have a static shift of 2.. lets
-             * go with that for now until proven otherwise.
-             */
-            vidshift  = 2;
-            break;
-        case 0x40:
-            headerlen = volt[1];
-            recordlen = volt[2];
-            entries   = volt[3]; /* not a clue what the entries are for.. */
-            vidmask   = volt[11]; /* guess.. */
-            vidshift  = 0;
-            break;
-        default:
-            nv_debug(device, "voltage table 0x%02x unknown\n", volt[0]);
-            return;
-	}
-    
-	/* validate vid mask */
-	device->voltage.vid_mask = vidmask;
-	if (!device->voltage.vid_mask) {
-        nv_debug(device, "voltage vidmask is insane 0x%02x\n", vidmask);
-		return;
-    }
-    
-	i = 0;
-	while (vidmask) {
-		if (i > nr_vidtag) {
-			nv_debug(device, "vid bit %d unknown\n", i);
-			return;
-		}
-        
-		if (nouveau_gpio_find(device, 0, vidtag[i], 0xff, &func)) {
-			nv_debug(device, "vid bit %d has no gpio tag\n", i);
-			return;
-		}
-        
-		vidmask >>= 1;
-		i++;
-	}
-    
-	/* parse vbios entries into common format */
-	device->voltage.version = volt[0];
-	if (device->voltage.version < 0x40) {
-		device->voltage.nr_level = entries;
-		device->voltage.level = (nouveau_pm_voltage_level*)IOMalloc(device->voltage.nr_level * sizeof(nouveau_pm_voltage_level));
-		if (!device->voltage.level) {
-            nv_debug(device, "can't allocate voltage structure\n");
-			return;
-        }
-        
-		entry = volt + headerlen;
-		for (i = 0; i < entries; i++, entry += recordlen) {
-			device->voltage.level[i].voltage = entry[0] * 10000;
-			device->voltage.level[i].vid     = entry[1] >> vidshift;
-		}
-	} else {
-		u32 volt_uv = ROM32(volt[4]);
-		s16 step_uv = ROM16(volt[8]);
-		u8 vid;
-        
-		device->voltage.nr_level = device->voltage.vid_mask + 1;
-		device->voltage.level = (nouveau_pm_voltage_level*)IOMalloc(device->voltage.nr_level * sizeof(nouveau_pm_voltage_level));
-		if (!device->voltage.level) {
-            nv_debug(device, "can't allocate voltage structure\n");
-			return;
-        }
-        
-		for (vid = 0; vid <= device->voltage.vid_mask; vid++) {
-			device->voltage.level[vid].voltage = volt_uv;
-			device->voltage.level[vid].vid = vid;
-			volt_uv += step_uv;
+		if (volt) {
+			*ver = nv_ro08(device, volt + 0);
+			switch (*ver) {
+                case 0x12:
+                    *hdr = 5;
+                    *cnt = nv_ro08(device, volt + 2);
+                    *len = nv_ro08(device, volt + 1);
+                    return volt;
+                case 0x20:
+                    *hdr = nv_ro08(device, volt + 1);
+                    *cnt = nv_ro08(device, volt + 2);
+                    *len = nv_ro08(device, volt + 3);
+                    return volt;
+                case 0x30:
+                case 0x40:
+                case 0x50:
+                    *hdr = nv_ro08(device, volt + 1);
+                    *cnt = nv_ro08(device, volt + 3);
+                    *len = nv_ro08(device, volt + 2);
+                    return volt;
+			}
 		}
 	}
     
-	device->voltage.supported = true;
+	return 0x0000;
 }
 
-static int nouveau_volt_lvl_lookup(struct nouveau_device *device, int vid)
+static u16 nvbios_volt_parse(struct nouveau_device *device, u8 *ver, u8 *hdr, u8 *cnt, u8 *len,
+                  struct nvbios_volt *info)
 {
+	u16 volt = nvbios_volt_table(device, ver, hdr, cnt, len);
+	memset(info, 0x00, sizeof(*info));
+	switch (!!volt * *ver) {
+        case 0x12:
+            info->vidmask = nv_ro08(device, volt + 0x04);
+            break;
+        case 0x20:
+            info->vidmask = nv_ro08(device, volt + 0x05);
+            break;
+        case 0x30:
+            info->vidmask = nv_ro08(device, volt + 0x04);
+            break;
+        case 0x40:
+            info->base    = nv_ro32(device, volt + 0x04);
+            info->step    = nv_ro16(device, volt + 0x08);
+            info->vidmask = nv_ro08(device, volt + 0x0b);
+            /*XXX*/
+            info->min     = 0;
+            info->max     = info->base;
+            break;
+        case 0x50:
+            info->vidmask = nv_ro08(device, volt + 0x06);
+            info->min     = nv_ro32(device, volt + 0x0a);
+            info->max     = nv_ro32(device, volt + 0x0e);
+            info->base    = nv_ro32(device, volt + 0x12) & 0x00ffffff;
+            info->step    = nv_ro16(device, volt + 0x16);
+            break;
+	}
+	return volt;
+}
+
+static u16 nvbios_volt_entry(struct nouveau_device *device, int idx, u8 *ver, u8 *len)
+{
+	u8  hdr, cnt;
+	u16 volt = nvbios_volt_table(device, ver, &hdr, &cnt, len);
+	if (volt && idx < cnt) {
+		volt = volt + hdr + (idx * *len);
+		return volt;
+	}
+	return 0x0000;
+}
+
+static u16 nvbios_volt_entry_parse(struct nouveau_device *device, int idx, u8 *ver, u8 *len,
+                        struct nvbios_volt_entry *info)
+{
+	u16 volt = nvbios_volt_entry(device, idx, ver, len);
+	memset(info, 0x00, sizeof(*info));
+	switch (!!volt * *ver) {
+        case 0x12:
+        case 0x20:
+            info->voltage = nv_ro08(device, volt + 0x00) * 10000;
+            info->vid     = nv_ro08(device, volt + 0x01);
+            break;
+        case 0x30:
+            info->voltage = nv_ro08(device, volt + 0x00) * 10000;
+            info->vid     = nv_ro08(device, volt + 0x01) >> 2;
+            break;
+        case 0x40:
+        case 0x50:
+            break;
+	}
+	return volt;
+}
+
+static const u8 tags[8] = {
+	DCB_GPIO_VID0, DCB_GPIO_VID1, DCB_GPIO_VID2, DCB_GPIO_VID3,
+	DCB_GPIO_VID4, DCB_GPIO_VID5, DCB_GPIO_VID6, DCB_GPIO_VID7,
+};
+
+static int nouveau_voltgpio_get(struct nouveau_device *device)
+{
+    struct nouveau_volt *volt = &device->volt;
+
+	u8 vid = 0;
 	int i;
     
-	for (i = 0; i < device->voltage.nr_level; i++) {
-		if (device->voltage.level[i].vid == vid)
-			return device->voltage.level[i].voltage;
+	for (i = 0; i < 8; i++) {
+		if (volt->vid_mask & (1 << i)) {
+			int ret = nouveau_gpio_get(device, 0, tags[i], 0xff);
+			if (ret < 0)
+				return ret;
+			vid |= ret << i;
+		}
+	}
+    
+	return vid;
+}
+
+static int nouveau_voltgpio_init(struct nouveau_device *device)
+{
+    struct nouveau_volt *volt = &device->volt;
+	struct dcb_gpio_func func;
+	int i;
+    
+	/* check we have gpio function info for each vid bit.  on some
+	 * boards (ie. nvs295) the vid mask has more bits than there
+	 * are valid gpio functions... from traces, nvidia appear to
+	 * just touch the existing ones, so let's mask off the invalid
+	 * bits and continue with life
+	 */
+	for (i = 0; i < 8; i++) {
+		if (volt->vid_mask & (1 << i)) {
+			int ret = nouveau_gpio_find(device, 0, tags[i], 0xff, &func);
+			if (ret) {
+				if (ret != -ENOENT)
+					return ret;
+				nv_debug(device, "VID bit %d has no GPIO\n", i);
+				volt->vid_mask &= ~(1 << i);
+			}
+		}
 	}
     
 	return 0;
 }
 
-int nouveau_voltage_get(struct nouveau_device *device)
+static int nouveau_volt_get(struct nouveau_device *device)
 {
-	u8 vid = 0;
-	int i;
+    struct nouveau_volt *volt = &device->volt;
     
-	for (i = 0; i < nr_vidtag; i++) {
-		if (!(device->voltage.vid_mask & (1 << i)))
-			continue;
+	if (volt->vid_get) {
+		int ret = volt->vid_get(device), i;
+		if (ret >= 0) {
+			for (i = 0; i < volt->vid_nr; i++) {
+				if (volt->vid[i].vid == ret)
+					return volt->vid[i].uv;
+			}
+			ret = -EINVAL;
+		}
+		return ret;
+	}
+	return -ENODEV;
+}
+
+int nouveau_volt_create(struct nouveau_device *device)
+{
+	struct nouveau_volt *volt = &device->volt;
+	struct nvbios_volt_entry ivid;
+	struct nvbios_volt info;
+	u8  ver, hdr, cnt, len;
+	u16 data;
+	int ret = -EUNKNOWN, i;
+    
+	volt->get = nouveau_volt_get;
+    
+	data = nvbios_volt_parse(device, &ver, &hdr, &cnt, &len, &info);
+	if (data && info.vidmask && info.base && info.step) {
+		for (i = 0; i < info.vidmask + 1; i++) {
+			if (info.base >= info.min &&
+			    info.base <= info.max) {
+				volt->vid[volt->vid_nr].uv = info.base;
+				volt->vid[volt->vid_nr].vid = i;
+				volt->vid_nr++;
+			}
+			info.base += info.step;
+		}
+		volt->vid_mask = info.vidmask;
+	} else
+        if (data && info.vidmask) {
+            for (i = 0; i < cnt; i++) {
+                data = nvbios_volt_entry_parse(device, i, &ver, &hdr,
+                                               &ivid);
+                if (data) {
+                    volt->vid[volt->vid_nr].uv = ivid.voltage;
+                    volt->vid[volt->vid_nr].vid = ivid.vid;
+                    volt->vid_nr++;
+                }
+            }
+            volt->vid_mask = info.vidmask;
+        }
+    
+	if (volt->vid_nr) {
+		for (i = 0; i < volt->vid_nr; i++) {
+			nv_debug(device, "VID %02x: %duv\n", volt->vid[i].vid, volt->vid[i].uv);
+		}
         
-		vid |= nouveau_gpio_get(device, 0, vidtag[i], 0xff) << i;
+		/*XXX: this is an assumption.. there probably exists boards
+		 * out there with i2c-connected voltage controllers too..
+		 */
+		ret = nouveau_voltgpio_init(device);
+        
+		if (ret == 0) {
+			volt->vid_get = nouveau_voltgpio_get;
+		}
 	}
     
-	return nouveau_volt_lvl_lookup(device, vid);
+	return ret;
 }

@@ -29,7 +29,6 @@
 //
 
 #import <AppKit/AppKit.h>
-#import "ColorTheme.h"
 
 // Notifications
 extern NSString * const OBMenuBarWindowDidAttachToMenuBar;
@@ -41,6 +40,7 @@ extern NSString * const OBMenuBarWindowDidResignKey;
 //extern CGFloat OBMenuBarWindowTitleBarHeight;
 extern const CGFloat OBMenuBarWindowArrowHeight;
 extern const CGFloat OBMenuBarWindowArrowWidth;
+extern const CGFloat OBMenuBarWindowArrowOffset;
 
 enum  {
     OBMenuBarWindowHideControlsThenAttached = 2,
@@ -82,6 +82,8 @@ enum  {
  
  */
 
+@class HWMColorTheme;
+
 @interface OBMenuBarWindow : NSPanel
 {
     BOOL isDragging;
@@ -119,11 +121,13 @@ enum  {
 @property (strong) NSView *toolbarView;
 
 /** Colors for window theme. */
-@property (strong) ColorTheme *colorTheme;
+@property (strong) HWMColorTheme *colorTheme;
 
 @property (readonly) CGFloat toolbarHeight;
 
 -(IBAction)attachToMenuBar:(id)sender;
 -(IBAction)detachFromMenuBar:(id)sender;
+
+- (NSPoint)originForAttachedState;
 
 @end

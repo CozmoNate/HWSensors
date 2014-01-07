@@ -120,14 +120,18 @@
 // Power (Watts)
 #define KEY_CPU_PACKAGE_CORE_POWER              "PCPC" // SNB
 #define KEY_CPU_PACKAGE_GFX_POWER               "PCPG" // SNB
-#define KEY_CPU_PACKAGE_TOTAL_POWER             "PCPT" // SNB
+#define KEY_CPU_PACKAGE_TOTAL_POWER             "PCTR" //"PCPT" // SNB
 #define KEY_CPU_PACKAGE_DRAM_POWER              "PCPD" // ??
 
 
 // FANs
 #define KEY_FAN_NUMBER                          "FNum"
+#define KEY_FAN_MANUAL                          "FS! "
 #define KEY_FORMAT_FAN_ID                       "F%XID"
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
+#define KEY_FORMAT_FAN_MIN                      "F%XMn"
+#define KEY_FORMAT_FAN_MAX                      "F%XMx"
+#define KEY_FORMAT_FAN_TARGET                   "F%XTg"
 
 // Other
 #define KEY_FAKESMC_FORMAT_CPU_FREQUENCY		"CC%XC"
@@ -174,6 +178,9 @@
 // Services
 #define kFakeSMCService                         "FakeSMC"
 #define kFakeSMCDeviceService                   "FakeSMCDevice"
+#define kFakeSMCKeyStoreService                 "FakeSMCKeyStore"
+
+#define kFakeSMCDefaultWaitTimeout              1000000000ull * 5
 
 // I/O Registry
 #define kFakeSMCDeviceValues                    "Values"
@@ -196,12 +203,12 @@
 #define kFakeSMCSetValueCallback                "kFakeSMCSetValueCallback"
 
 // NVRAM
-#define kFakeSMCFirmwareVendor                  "fw-vendor"
+#define kFakeSMCFirmwareVendor                  "firmware-vendor"
 #define kFakeSMCKeyPropertyPrefix               "fakesmc-key"
 
-#define kHWSensorsDebug                         FALSE
+#define kHWSensorsDebug                         0
 
-#define HWSensorsDebugLog(string, args...)	do { if (kHWSensorsDebug) { IOLog ("%s: [Debug] " string "\n",getName() , ## args); } } while(0)
+#define HWSensorsDebugLog(string, args...)	do { if (kHWSensorsDebug) { IOLog ("%s: [Debug] " string "\n", getName(), ## args); } } while(0)
 #define HWSensorsWarningLog(string, args...) do { IOLog ("%s: [Warning] " string "\n",getName() , ## args); } while(0)
 #define HWSensorsErrorLog(string, args...) do { IOLog ("%s: [Error] " string "\n",getName() , ## args); } while(0)
 #define HWSensorsFatalLog(string, args...) do { IOLog ("%s: [Fatal] " string "\n",getName() , ## args); } while(0)

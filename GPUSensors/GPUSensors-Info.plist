@@ -10,20 +10,20 @@
 	<string>6.0</string>
 	<key>OSBundleLibraries</key>
 	<dict>
-		<key>com.apple.kpi.mach</key>
-		<string>10.0.0</string>
+		<key>FAKESMCKEYSTORE_BUNDLE</key>
+		<string>FAKESMCKEYSTORE_COMPATIBLE</string>
 		<key>com.apple.iokit.IOACPIFamily</key>
 		<string>1.0.0d1</string>
-		<key>com.apple.kpi.libkern</key>
-		<string>10.0.0</string>
 		<key>com.apple.iokit.IOPCIFamily</key>
 		<string>1.0.0b1</string>
+		<key>com.apple.kpi.mach</key>
+		<string>10.6</string>
+		<key>com.apple.kpi.libkern</key>
+		<string>10.6</string>
 		<key>com.apple.kpi.iokit</key>
-		<string>10.0.0</string>
-		<key>FAKESMC_BUNDLE</key>
-		<string>FAKESMC_COMPATIBLE</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.unsupported</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 	</dict>
 	<key>CFBundleVersion</key>
 	<string>HWSENSORS_REVISION</string>
@@ -51,6 +51,8 @@
 			<string>50000</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 		</dict>
 		<key>AMD Radeon Monitoring Plugin</key>
 		<dict>
@@ -68,6 +70,8 @@
 			<string>0x00001002&amp;0x0000ffff</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 		</dict>
 		<key>Intel GMA X3100 Monitoring Plugin</key>
 		<dict>
@@ -83,6 +87,8 @@
 			<string>0x2a028086&amp;0xffffffff 0x2a128086&amp;0xffffffff</string>
 			<key>IOProviderClass</key>
 			<string>IOPCIDevice</string>
+			<key>IOResourceMatch</key>
+			<string>FakeSMCKeyStore</string>
 			<key>IOProbeScore</key>
 			<string>30000</string>
 		</dict>
