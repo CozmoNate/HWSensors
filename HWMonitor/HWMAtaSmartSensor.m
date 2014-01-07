@@ -396,7 +396,7 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
 
         case kHWMGroupSmartTemperature:
             if (self.rotational.boolValue) {
-                return  floatValue >= 55 ? kHWMSensorLevelExceeded :
+                return  floatValue >= 60 ? kHWMSensorLevelExceeded :
                         floatValue >= 50 ? kHWMSensorLevelHigh :
                         floatValue >= 40 ? kHWMSensorLevelModerate :
                         kHWMSensorLevelNormal;

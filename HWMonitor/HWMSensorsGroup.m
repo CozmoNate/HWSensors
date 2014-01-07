@@ -43,10 +43,9 @@
     [[self mutableOrderedSetValueForKey:@"sensors"] addObject:value];
 }
 
--(void)exchangeSensorsObjectAtIndex:(NSUInteger)fromIndex withSensorsObjectAtIndex:(NSUInteger)toIndex;
+-(void)moveSensorsObjectAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 {
-    [[self mutableOrderedSetValueForKey:@"sensors"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] 
-                                                                 toIndex:toIndex > fromIndex && toIndex < self.sensors.count - 1 ? toIndex - 1 : toIndex];
+    [[self mutableOrderedSetValueForKey:@"sensors"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:toIndex > fromIndex ? toIndex - 1 : (toIndex < self.sensors.count ? toIndex : self.sensors.count)];
 }
 
 @end

@@ -22,7 +22,6 @@
 
 @interface PopupController : NSWindowController <NSApplicationDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
-    BOOL _ignoreSensorsAndGroupListChanges;
     NSMutableArray *_sensorsAndGroupsCollectionSnapshot;
 }
 

@@ -49,7 +49,9 @@
 
 -(void)prepareForDeletion
 {
-    [self removeObserver:self.engine forKeyPath:@"engine.configuration.colorTheme"];
+    if (self.engine) {
+        [self removeObserver:self.engine forKeyPath:@"engine.configuration.colorTheme"];
+    }
 }
 
 -(void)setEngine:(HWMEngine *)engine

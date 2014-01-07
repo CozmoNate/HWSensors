@@ -32,6 +32,9 @@
 		7E2042011730844C00C13B65 /* GraphsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042001730844C00C13B65 /* GraphsController.xib */; };
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
 		7E2042051730D04100C13B65 /* PrefsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* PrefsController.xib */; };
+		7E2319BF1879375B0020FFB5 /* HWMEngineHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2319BE1879375B0020FFB5 /* HWMEngineHelper.m */; };
+		7E2319C4187BE8D30020FFB5 /* 284-bell.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E2319C2187BE8D30020FFB5 /* 284-bell.png */; };
+		7E2319C5187BE8D30020FFB5 /* 284-bell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E2319C3187BE8D30020FFB5 /* 284-bell@2x.png */; };
 		7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E268C611837A41C004F16E3 /* HWMIcon.m */; };
 		7E2789801876FB6300B443BD /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
 		7E2789811876FB6E00B443BD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
@@ -219,6 +222,10 @@
 		7E2042001730844C00C13B65 /* GraphsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphsController.xib; sourceTree = "<group>"; };
 		7E2042021730CDA000C13B65 /* PopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupController.xib; sourceTree = "<group>"; };
 		7E2042041730D04000C13B65 /* PrefsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefsController.xib; sourceTree = "<group>"; };
+		7E2319BD1879375B0020FFB5 /* HWMEngineHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMEngineHelper.h; sourceTree = "<group>"; };
+		7E2319BE1879375B0020FFB5 /* HWMEngineHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMEngineHelper.m; sourceTree = "<group>"; };
+		7E2319C2187BE8D30020FFB5 /* 284-bell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "284-bell.png"; sourceTree = "<group>"; };
+		7E2319C3187BE8D30020FFB5 /* 284-bell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "284-bell@2x.png"; sourceTree = "<group>"; };
 		7E2678B7182523FE00B405DE /* smc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = smc.h; path = Shared/smc.h; sourceTree = "<group>"; };
 		7E268C601837A41C004F16E3 /* HWMIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMIcon.h; sourceTree = "<group>"; };
 		7E268C611837A41C004F16E3 /* HWMIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMIcon.m; sourceTree = "<group>"; };
@@ -708,6 +715,8 @@
 			children = (
 				7EFF4393183649B20094860C /* HWMEngine.h */,
 				7EFF4394183649B20094860C /* HWMEngine.m */,
+				7E2319BD1879375B0020FFB5 /* HWMEngineHelper.h */,
+				7E2319BE1879375B0020FFB5 /* HWMEngineHelper.m */,
 			);
 			name = Engine;
 			sourceTree = "<group>";
@@ -792,6 +801,8 @@
 				7EED6D7C1734F9CF00248870 /* 19-gear@2x.png */,
 				7E1458C617E2744000694A4A /* 37-circle-x.png */,
 				7E1458C717E2744000694A4A /* 37-circle-x@2x.png */,
+				7E2319C2187BE8D30020FFB5 /* 284-bell.png */,
+				7E2319C3187BE8D30020FFB5 /* 284-bell@2x.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -812,6 +823,7 @@
 			isa = PBXGroup;
 			children = (
 				7EC8E7CE183356F4006F85FE /* CoreData */,
+				7E966D1F18523E1A00313AB1 /* Engine */,
 			);
 			name = Engines;
 			sourceTree = "<group>";
@@ -847,7 +859,6 @@
 				7E19DEC71843D30E00229B0E /* Base Classes */,
 				7E19DEC61843D30200229B0E /* Sensors */,
 				7E19DEC51843D2F500229B0E /* Graphs */,
-				7E966D1F18523E1A00313AB1 /* Engine */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -1090,6 +1101,7 @@
 				7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */,
 				7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */,
 				7EA2492016D8E9C6002231B2 /* frequencies_template.png in Resources */,
+				7E2319C4187BE8D30020FFB5 /* 284-bell.png in Resources */,
 				7E1A8DB41876A15100853CB6 /* 81-dashboard@2x.png in Resources */,
 				7EA2492116D8E9C6002231B2 /* frequencies.png in Resources */,
 				7EA2492216D8E9C6002231B2 /* hddtemperatures_template.png in Resources */,
@@ -1107,6 +1119,7 @@
 				7E966D1C18523BE000313AB1 /* theme_dark.png in Resources */,
 				7EA2492B16D8E9C6002231B2 /* ssdlife_template.png in Resources */,
 				7EA2492C16D8E9C6002231B2 /* ssdlife.png in Resources */,
+				7E2319C5187BE8D30020FFB5 /* 284-bell@2x.png in Resources */,
 				7EA2492D16D8E9C6002231B2 /* tachometers_template.png in Resources */,
 				7EA2492E16D8E9C6002231B2 /* tachometers.png in Resources */,
 				7EA2492F16D8E9C6002231B2 /* temperatures_template.png in Resources */,
@@ -1221,6 +1234,7 @@
 				7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */,
 				7E9A17CD17E4529C003DB018 /* PopupAtaSmartSensorCell.m in Sources */,
 				7E9A17D017E45938003DB018 /* NSPopover+Message.m in Sources */,
+				7E2319BF1879375B0020FFB5 /* HWMEngineHelper.m in Sources */,
 				7E9A17D317E45ACA003DB018 /* NSString+Size.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

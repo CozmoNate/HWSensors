@@ -211,15 +211,17 @@
         [self didChangeValueForKey:@"value"];
         [self didChangeValueForKey:@"formattedValue"];
 
-        NSUInteger alarmLevel = [self internalUpdateAlarmLevel];
+        if (!self.hidden.boolValue) {
+            NSUInteger alarmLevel = [self internalUpdateAlarmLevel];
 
-        if (alarmLevel != _alarmLevel) {
-            [self willChangeValueForKey:@"alarmLevel"];
-            _alarmLevel = alarmLevel;
-            [self didChangeValueForKey:@"alarmLevel"];
+            if (alarmLevel != _alarmLevel) {
+                [self willChangeValueForKey:@"alarmLevel"];
+                _alarmLevel = alarmLevel;
+                [self didChangeValueForKey:@"alarmLevel"];
 
-            if (self.engine.configuration.notifyAlarmLevelChanges.boolValue) {
-                [self internalSendAlarmNotification];
+                if (self.engine.configuration.notifyAlarmLevelChanges.boolValue) {
+                    [self internalSendAlarmNotification];
+                }
             }
         }
     }

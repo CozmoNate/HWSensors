@@ -46,10 +46,10 @@
                     floatValue >= 70 ? kHWMSensorLevelModerate :
                     kHWMSensorLevelNormal;
 
-        case kHWMGroupPWM:
-            return  floatValue >= 70 ? kHWMSensorLevelHigh :
-                    floatValue >= 50 ? kHWMSensorLevelModerate :
-                    kHWMSensorLevelNormal;
+//        case kHWMGroupPWM:
+//            return  floatValue >= 70 ? kHWMSensorLevelHigh :
+//                    floatValue >= 50 ? kHWMSensorLevelModerate :
+//                    kHWMSensorLevelNormal;
 
 //        case kHWMGroupTachometer:
 //            return floatValue >= 2500 ? kHWMSensorLevelHigh :

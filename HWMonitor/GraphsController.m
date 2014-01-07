@@ -42,6 +42,7 @@
 #import "HWMGraph.h"
 #import "HWMGraphsGroup.h"
 #import "HWMConfiguration.h"
+#import "HWMEngineHelper.h"
 
 //#define GetLocalizedString(key) \
 //[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
@@ -55,8 +56,8 @@
 
 -(HWMonitorItem *)selectedItem
 {
-    if (_graphsTableView.selectedRow >= 0 && _graphsTableView.selectedRow < _monitorEngine.graphsAndGroups.count) {
-        id item = [_monitorEngine.graphsAndGroups objectAtIndex:_graphsTableView.selectedRow];
+    if (_graphsTableView.selectedRow >= 0 && _graphsTableView.selectedRow < _graphsAndGroupsCollectionSnapshot.count) {
+        id item = [_graphsAndGroupsCollectionSnapshot objectAtIndex:_graphsTableView.selectedRow];
 
         if (item != _selectedItem) {
             [self willChangeValueForKey:@"selectedItem"];
@@ -125,6 +126,35 @@
     [self.monitorEngine updateSmcAndDeviceSensors];    
 }
 
+-(void)reloadGraphsTableView:(id)sender
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        NSMutableArray *newGraphsAndGroups = [self.monitorEngine.graphsAndGroups mutableCopy];
+
+        NSIndexSet *inserted, *removed, *from, *to;
+
+        [HWMEngineHelper compareItemsList:_graphsAndGroupsCollectionSnapshot toItemsList:newGraphsAndGroups additions:&inserted deletions:&removed movedFrom:&from movedTo:&to];
+
+        _graphsAndGroupsCollectionSnapshot = newGraphsAndGroups;
+
+        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+
+            [_graphsTableView removeRowsAtIndexes:removed withAnimation:NSTableViewAnimationSlideUp];
+            [_graphsTableView insertRowsAtIndexes:inserted withAnimation:NSTableViewAnimationSlideDown];
+
+            while (from.count) {
+                [_graphsTableView moveRowAtIndex:from.firstIndex toIndex:to.firstIndex];
+                [(NSMutableIndexSet*)from removeIndex:from.firstIndex];
+                [(NSMutableIndexSet*)to removeIndex:to.firstIndex];
+            }
+
+        } completionHandler:^{
+            //[_tableView reloadData];
+        }];
+    }];
+    
+}
+
 -(void)rebuildViews
 {
     if (!_graphViews) {
@@ -163,8 +193,8 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (_monitorEngine) {
-        if ([keyPath isEqual:@"monitorEngine.graphsAndGroups"] && _ignoreGraphsAndGroupListChanges == NO) {
-            [self rebuildViews];
+        if ([keyPath isEqual:@"monitorEngine.graphsAndGroups"]) {
+            [self reloadGraphsTableView:self];
         }
         else if ([keyPath isEqual:@"monitorEngine.configuration.graphsWindowAlwaysTopmost"]) {
             [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
@@ -199,7 +229,7 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    return _monitorEngine.graphsAndGroups.count;
+    return _graphsAndGroupsCollectionSnapshot.count;
 }
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
@@ -209,7 +239,7 @@
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
-    return ![[_monitorEngine.graphsAndGroups objectAtIndex:row] isKindOfClass:[HWMGraphsGroup class]];
+    return ![[_graphsAndGroupsCollectionSnapshot objectAtIndex:row] isKindOfClass:[HWMGraphsGroup class]];
 }
 
 //-(BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
@@ -219,12 +249,12 @@
 
 -(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    return [_monitorEngine.graphsAndGroups objectAtIndex:row];
+    return [_graphsAndGroupsCollectionSnapshot objectAtIndex:row];
 }
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    id item = [_monitorEngine.graphsAndGroups objectAtIndex:row];
+    id item = [_graphsAndGroupsCollectionSnapshot objectAtIndex:row];
     id view = [tableView makeViewWithIdentifier:[item identifier] owner:self];
     return view;
 }
@@ -235,7 +265,7 @@
         return NO;
     }
     
-    id item = [self.monitorEngine.graphsAndGroups objectAtIndex:[rowIndexes firstIndex]];
+    id item = [_graphsAndGroupsCollectionSnapshot objectAtIndex:[rowIndexes firstIndex]];
     
     if ([item isKindOfClass:[HWMGraph class]]) {
         NSData *indexData = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
@@ -263,7 +293,7 @@
     NSData* rowData = [pboard dataForType:kHWMonitorGraphsItemDataType];
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
-    id fromItem = [self.monitorEngine.graphsAndGroups objectAtIndex:fromRow];
+    id fromItem = [_graphsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
     
     _currentItemDragOperation = NSDragOperationNone;
     
@@ -271,13 +301,13 @@
         
         _currentItemDragOperation = NSDragOperationMove;
         
-        if (toRow < self.monitorEngine.graphsAndGroups.count) {
+        if (toRow < _graphsAndGroupsCollectionSnapshot.count) {
             
             if (toRow == fromRow || toRow == fromRow + 1) {
                 _currentItemDragOperation = NSDragOperationNone;
             }
             else {
-                id toItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow];
+                id toItem = [_graphsAndGroupsCollectionSnapshot objectAtIndex:toRow];
                 
                 if ([toItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)fromItem group] != [(HWMGraph*)toItem group]) {
                     _currentItemDragOperation = NSDragOperationNone;
@@ -285,7 +315,7 @@
             }
         }
         else {
-            id toItem = [self.monitorEngine.graphsAndGroups objectAtIndex:toRow - 1];
+            id toItem = [_graphsAndGroupsCollectionSnapshot objectAtIndex:toRow - 1];
             
             if ([toItem isKindOfClass:[HWMGraph class]] && [(HWMGraph*)fromItem group] != [(HWMGraph*)toItem group]) {
                 _currentItemDragOperation = NSDragOperationNone;
@@ -307,22 +337,16 @@
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
     
-    HWMGraph *fromItem = [self.monitorEngine.graphsAndGroups objectAtIndex:fromRow];
+    HWMGraph *fromItem = [_graphsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
     
-    id checkItem = toRow >= self.monitorEngine.graphsAndGroups.count ? [self.monitorEngine.graphsAndGroups lastObject] : [self.monitorEngine.graphsAndGroups objectAtIndex:toRow];
+    id checkItem = toRow >= _graphsAndGroupsCollectionSnapshot.count ? [_graphsAndGroupsCollectionSnapshot lastObject] : [_graphsAndGroupsCollectionSnapshot objectAtIndex:toRow];
     
-    HWMGraph *toItem = ![checkItem isKindOfClass:[HWMGraph class]] 
-    || toRow >= self.monitorEngine.graphsAndGroups.count ? [fromItem.group.graphs lastObject] : checkItem;
+    HWMGraph *toItem = ![checkItem isKindOfClass:[HWMGraph class]] || toRow >= _graphsAndGroupsCollectionSnapshot.count ? nil : checkItem;
     
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        [tableView moveRowAtIndex:fromRow toIndex:toRow > fromRow ? toRow - 1 : toRow];
-        [fromItem.group exchangeGraphsObjectAtIndex:[fromItem.group.graphs indexOfObject:fromItem]
-                            withGraphsObjectAtIndex:[fromItem.group.graphs indexOfObject:toItem]];
-    } completionHandler:^{
-        _ignoreGraphsAndGroupListChanges = YES;
-        [self.monitorEngine setNeedsUpdateGraphsList];
-        _ignoreGraphsAndGroupListChanges = NO;
-    }];
+    [fromItem.group moveGraphsObjectAtIndex:[fromItem.group.graphs indexOfObject:fromItem]
+                                        toIndex:toItem ? [fromItem.group.graphs indexOfObject:toItem] : fromItem.group.graphs.count];
+
+    [self.monitorEngine setNeedsUpdateGraphsList];
     
     return YES;
 }

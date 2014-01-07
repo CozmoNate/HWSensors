@@ -64,7 +64,8 @@ static void hid_device_appeared(void *engine, io_iterator_t iterator)
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         io_object_t object;
-        NSMutableArray *devices = [NSMutableArray array];
+
+        __block NSMutableArray *devices = [NSMutableArray array];
 
         while ((object = IOIteratorNext(iterator))) {
 
@@ -73,6 +74,7 @@ static void hid_device_appeared(void *engine, io_iterator_t iterator)
             NSUInteger deviceType = 0;
             NSUInteger tryCount = 0;
 
+#ifndef kHWMonitorDebugBattery
             do {
                 // Internal battery check
                 if (registry_entry_read_number(object, kHWMBatterySensorMaxCapacity) &&
@@ -87,18 +89,21 @@ static void hid_device_appeared(void *engine, io_iterator_t iterator)
                 [NSThread sleepForTimeInterval:5];
 
             } while (!deviceType && tryCount++ < 5);
+#else
+            deviceType = kHWMBatterySensorBluetooth;
+#endif
 
             NSString *productName;
             NSString *serialNumber;
 
             switch (deviceType) {
-                    case kHWMBatterySensorInternal:
+                case kHWMBatterySensorInternal:
                     //productName = (__bridge_transfer NSString *)IORegistryEntryCreateCFProperty(object, (__bridge CFStringRef)(kHWMBatterySensorDeviceName), kCFAllocatorDefault, 0);
                     productName = @"Internal Battery";
                     serialNumber = registry_entry_read_string(object, kHWMBatterySensorBatterySerialNumber);
                     break;
 
-                    case kHWMBatterySensorBluetooth:
+                case kHWMBatterySensorBluetooth:
                     productName = registry_entry_read_string(object, kHWMBatterySensorProductName);
                     serialNumber = registry_entry_read_string(object, kHWMBatterySensorSerialNumber);
                     break;
@@ -126,7 +131,7 @@ static void hid_device_appeared(void *engine, io_iterator_t iterator)
 static void hid_device_disappeared(void *engine, io_iterator_t iterator)
 {
     io_object_t object;
-    NSMutableArray *devices = [NSMutableArray array];
+    __block NSMutableArray *devices = [NSMutableArray array];
 
     while ((object = IOIteratorNext(iterator))) {
         NSLog(@"battery device disappeared %u", object);
@@ -150,7 +155,7 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
 
     // Discover devices and add notification callbacks
     if (!IOServiceAddMatchingNotification(gHWMBatterySensorNotificationPort,
-                                         kIOFirstMatchNotification,
+                                         kIOPublishNotification,
                                          matching,
                                          hid_device_appeared,
                                          (__bridge void *)engine,
@@ -194,8 +199,9 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
 
     [HWMBatterySensor discoverDevicesWithEngine:engine matching:IOServiceMatching("IOPMPowerSource")];
     [HWMBatterySensor discoverDevicesWithEngine:engine matching:IOServiceMatching("IOAppleBluetoothHIDDriver")];
-    // TEST BATTERY
-    //[HWMBatterySensor discoverDevicesWithEngine:engine matching:IOServiceMatching("IOHIDDevice")];
+#ifdef kHWMonitorDebugBattery
+    [HWMBatterySensor discoverDevicesWithEngine:engine matching:IOServiceMatching("IOHIDDevice")];
+#endif
 }
 
 -(void)prepareForDeletion

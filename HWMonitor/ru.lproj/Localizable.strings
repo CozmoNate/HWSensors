@@ -97,7 +97,7 @@
 "Hide Window" = "Скрыть окно";
 "Version %@" = "Версия %@";
 "Detect sensors" = "Искать новые датчики";
-"Show notification when sensor alarm level is critical" = "Показывать уведомления когда значения датчиков достигают критического уровня";
+"Show notification when sensor alarm level is critical" = "Показывать уведомления если значения датчиков достигают критического уровня";
 "Sensor alarm level changed" = "Показания сенсора изменились";
 "%@ alarm level is exceeded limit" = "%@ достигнут предел!";
 "%@ high alarm level" = "%@ высокий уровень предупреждений";

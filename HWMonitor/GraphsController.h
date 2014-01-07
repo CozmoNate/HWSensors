@@ -34,7 +34,7 @@
 @interface GraphsController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSCollectionViewDelegate>
 {
     NSMutableArray *_graphViews;
-    BOOL _ignoreGraphsAndGroupListChanges;
+    NSMutableArray *_graphsAndGroupsCollectionSnapshot;
 }
 
 @property (nonatomic, strong) IBOutlet HWMEngine *monitorEngine;

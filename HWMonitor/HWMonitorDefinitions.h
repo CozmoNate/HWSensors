@@ -10,7 +10,7 @@
 #define HWSensors_HWMonitorDefinitions_h
 
 // Icons
-#define kHWMonitorIconDefault               @"hwmonitor"
+#define kHWMonitorIconHWMonitor             @"hwmonitor"
 #define kHWMonitorIconScale                 @"scale"
 #define kHWMonitorIconThermometer           @"thermometer"
 #define kHWMonitorIconDevice                @"pcicard"
@@ -36,5 +36,9 @@
 #define NotifierSensorLevelExceededHumanReadableDescription	@"Sensor alarm level exceeded limit"
 #define NotifierSensorLevelHighHumanReadableDescription		@"Sensor high alarm level"
 #define NotifierSensorLevelModerateHumanReadableDescription	@"Sensor moderate alarm level"
+
+
+// TEST BATTERY
+//#define kHWMonitorDebugBattery
 
 #endif

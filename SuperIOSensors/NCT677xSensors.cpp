@@ -304,4 +304,7 @@ void NCT677xSensors::hasPoweredOn()
             break;
         }
     }
+
+    // Reset fan control enabled
+    bzero(fanControlEnabled, 6);
 }
