@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <installer-gui-script minSpecVersion="2">
     <title>DISTRIBUTION_TITLE</title>
-    <options customize="allways" allow-external-scripts="false" hostArchitectures="x86_64"/>
+    <options customize="allways" hostArchitectures="x86_64"/>
     <domains enable_anywhere="true"/>
 
     <license file="license.txt"/>
@@ -9,21 +9,16 @@
     <background file="background.tiff" alignment="bottomleft" scaling="proportional"/>
 
     <script>
-        <![CDATA[
         function hackintoshCheckScript()
         {
-            var obj = system.ioregistry.matchingClass("FakeSMCDevice");
+            var candidates = system.ioregistry.matchingClass("FakeSMC");
 
-            if (obj) {
-                system.log('hackintoshCheckScript: Found FakeSMC');
+            if (candidates &amp;&amp; (candidates.length>0)) {
                 return true;
             }
 
-            system.log('hackintoshCheckScript: Running on Mac');
-
             return false;
         }
-        ]]>
     </script>
     <choices-outline>
         <line choice="hwmonitor"/>

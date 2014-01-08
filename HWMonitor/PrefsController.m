@@ -199,7 +199,9 @@
             }
 
         } completionHandler:^{
-            //[_favoritesTableView reloadData];
+            if (!inserted.count && !removed.count && !from.count && !to.count) {
+                [_favoritesTableView reloadData];
+            }
         }];
     }];
 }
@@ -240,7 +242,9 @@
             }
 
         } completionHandler:^{
-            //[_sensorsTableView reloadData];
+            if (!inserted.count && !removed.count && !from.count && !to.count) {
+                [_sensorsTableView reloadData];
+            }
         }];
     }];
 }

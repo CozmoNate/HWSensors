@@ -128,7 +128,7 @@ bool FakeSMC::start(IOService *provider)
     if (OSDictionary *matching = serviceMatching("IOACPIPlatformDevice")) {
         if (OSIterator *iterator = getMatchingServices(matching)) {
             
-            OSString *smcNameProperty = OSString::withCString("APP0001");
+            OSData *smcNameProperty = OSData::withBytes("APP0001", 7);
 
             while (IOService *service = (IOService*)iterator->getNextObject()) {
                 

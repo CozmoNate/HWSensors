@@ -1438,8 +1438,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SOURCE_ROOT)",
 					"$(SOURCE_ROOT)/Sparkle/Binaries/",
-					/Users/kozlek/Documents/HWSensors,
-					/Users/kozlek/Documents/HWSensors/HWMonitor,
+					"$(SOURCE_ROOT)/HWMonitor",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
@@ -1457,8 +1456,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SOURCE_ROOT)",
 					"$(SOURCE_ROOT)/Sparkle/Binaries/",
-					/Users/kozlek/Documents/HWSensors,
-					/Users/kozlek/Documents/HWSensors/HWMonitor,
+					"$(SOURCE_ROOT)/HWMonitor",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";

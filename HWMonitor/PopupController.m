@@ -238,7 +238,9 @@
             }
 
         } completionHandler:^{
-            //[_tableView reloadData];
+            if (!inserted.count && !removed.count && !from.count && !to.count) {
+                [_tableView reloadData];
+            }
         }];
     }];
 
