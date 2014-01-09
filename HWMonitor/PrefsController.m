@@ -183,10 +183,19 @@
         }
 
         NSIndexSet *inserted, *removed, *from, *to;
+        NSMutableIndexSet *changed = [[NSMutableIndexSet alloc] init];
 
         [HWMEngineHelper compareItemsList:_favoritesCollectionSnapshot toItemsList:newFavorites additions:&inserted deletions:&removed movedFrom:&from movedTo:&to];
 
         _favoritesCollectionSnapshot = newFavorites;
+
+        if (!inserted.count && !removed.count && !from.count && !to.count) {
+            [_favoritesCollectionSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([obj isKindOfClass:[HWMItem class]] && [obj hasUpdates]) {
+                    [changed addIndex:idx];
+                }
+            }];
+        }
 
         [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
             [_favoritesTableView removeRowsAtIndexes:removed withAnimation:NSTableViewAnimationSlideUp];
@@ -197,11 +206,11 @@
                 [(NSMutableIndexSet*)from removeIndex:from.firstIndex];
                 [(NSMutableIndexSet*)to removeIndex:to.firstIndex];
             }
+            
+            [_favoritesTableView noteHeightOfRowsWithIndexesChanged:changed];
 
         } completionHandler:^{
-            if (!inserted.count && !removed.count && !from.count && !to.count) {
-                [_favoritesTableView reloadData];
-            }
+            [_favoritesTableView reloadDataForRowIndexes:changed columnIndexes:[NSIndexSet indexSetWithIndex:0]];
         }];
     }];
 }
@@ -225,10 +234,19 @@
         }
 
         NSIndexSet *inserted, *removed, *from, *to;
+        NSMutableIndexSet *changed = [[NSMutableIndexSet alloc] init];
 
         [HWMEngineHelper compareItemsList:_iconsAndSensorsCollectionSnapshot toItemsList:newSensorsAndGroups additions:&inserted deletions:&removed movedFrom:&from movedTo:&to];
 
         _iconsAndSensorsCollectionSnapshot = newSensorsAndGroups;
+
+        if (!inserted.count && !removed.count && !from.count && !to.count) {
+            [_iconsAndSensorsCollectionSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([obj isKindOfClass:[HWMItem class]] && [obj hasUpdates]) {
+                    [changed addIndex:idx];
+                }
+            }];
+        }
 
         [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
 
@@ -240,11 +258,11 @@
                 [(NSMutableIndexSet*)from removeIndex:from.firstIndex];
                 [(NSMutableIndexSet*)to removeIndex:to.firstIndex];
             }
+            
+            [_sensorsTableView noteHeightOfRowsWithIndexesChanged:changed];
 
         } completionHandler:^{
-            if (!inserted.count && !removed.count && !from.count && !to.count) {
-                [_sensorsTableView reloadData];
-            }
+            [_sensorsTableView reloadDataForRowIndexes:changed columnIndexes:[NSIndexSet indexSetWithIndex:0]];
         }];
     }];
 }

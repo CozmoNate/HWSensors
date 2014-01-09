@@ -287,22 +287,25 @@ bool SuperIODevice::start(IOService *provider)
 	if (!super::start(provider)) return false;
 
     // Gigabyte mobos usualy use ITE
-    if (IOService *headingProvider = waitForMatchingService(serviceMatching(kFakeSMCService), kFakeSMCDefaultWaitTimeout)) {
-        if (OSString *manufacturer = OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoManufacturer))) {
-            if (manufacturer->isEqualTo("Gigabyte")) {
-                if (!detectITEFamilyChip()) {
+    if (OSDictionary *matching = serviceMatching(kFakeSMCService)) {
+        if (IOService *headingProvider = waitForMatchingService(matching, kFakeSMCDefaultWaitTimeout)) {
+            if (OSString *manufacturer = OSDynamicCast(OSString, headingProvider->getProperty(kOEMInfoManufacturer))) {
+                if (manufacturer->isEqualTo("Gigabyte")) {
+                    if (!detectITEFamilyChip()) {
 
-                    UInt16 ite_id = id;
-                    
-                    if (!detectWinbondFamilyChip()) {
-                        HWSensorsFatalLog("found unsupported chip! ITE sequence ID=0x%x, Winbond sequence ID=0x%x", ite_id, id);
-                        return false;
+                        UInt16 ite_id = id;
+
+                        if (!detectWinbondFamilyChip()) {
+                            HWSensorsFatalLog("found unsupported chip! ITE sequence ID=0x%x, Winbond sequence ID=0x%x", ite_id, id);
+                            return false;
+                        }
                     }
                 }
             }
         }
+        OSSafeRelease(matching);
     }
-    
+
     // Other vendors usualy use Winbond family chipsets
     if (model == 0) {
         if (!detectWinbondFamilyChip()) {

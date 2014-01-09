@@ -219,15 +219,25 @@
         NSMutableArray *newSensorsAndGroups = [_monitorEngine.sensorsAndGroups mutableCopy];
 
         NSIndexSet *inserted, *removed, *from, *to;
+         NSMutableIndexSet *changed = [[NSMutableIndexSet alloc] init];
 
         [HWMEngineHelper compareItemsList:_sensorsAndGroupsCollectionSnapshot toItemsList:newSensorsAndGroups additions:&inserted deletions:&removed movedFrom:&from movedTo:&to];
 
         _sensorsAndGroupsCollectionSnapshot = newSensorsAndGroups;
 
+        if (!inserted.count && !removed.count && !from.count && !to.count) {
+            [_sensorsAndGroupsCollectionSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([obj isKindOfClass:[HWMItem class]] && [obj hasUpdates]) {
+                    [changed addIndex:idx];
+                }
+            }];
+        }
+
         [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
 
             [self layoutContent:YES orderFront:NO animated:/*new.count < old.count*/YES];
 
+            [_tableView noteHeightOfRowsWithIndexesChanged:changed];
             [_tableView removeRowsAtIndexes:removed withAnimation:NSTableViewAnimationSlideUp];
             [_tableView insertRowsAtIndexes:inserted withAnimation:NSTableViewAnimationSlideDown];
 
@@ -238,9 +248,7 @@
             }
 
         } completionHandler:^{
-            if (!inserted.count && !removed.count && !from.count && !to.count) {
-                [_tableView reloadData];
-            }
+            [_tableView reloadDataForRowIndexes:changed columnIndexes:[NSIndexSet indexSetWithIndex:0]];
         }];
     }];
 
@@ -264,10 +272,10 @@
         {
             if (!menubarWindow.attachedToMenuBar) {
                 [NSApp activateIgnoringOtherApps:YES];
-                [self.window makeKeyAndOrderFront:self];
+                //[self.window makeKeyAndOrderFront:self];
             }
-            
-            [self showWindow:nil];
+
+            [self showWindow:self];
             self.statusItemView.isHighlighted = YES;
         }
     }
@@ -330,9 +338,7 @@
     [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
     [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
 
-    if (menubarWindow.isKeyWindow) {
-        [NSApp activateIgnoringOtherApps:YES];
-    }
+    [NSApp activateIgnoringOtherApps:NO];
 }
 
 - (void)windowDidBecomeKey:(id)sender

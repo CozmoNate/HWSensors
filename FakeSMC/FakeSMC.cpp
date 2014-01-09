@@ -51,30 +51,19 @@ bool FakeSMC::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
 
-    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), kFakeSMCDefaultWaitTimeout)))) {
-        HWSensorsInfoLog("still waiting for FakeSMCKeyStore...");
-        return false;
-//        HWSensorsDebugLog("creating FakeSMCKeyStore");
-//        
-//        if (!(keyStore = new FakeSMCKeyStore)) {
-//            HWSensorsInfoLog("failed to create FakeSMCKeyStore");
-//            return false;
-//        }
-//
-//        HWSensorsDebugLog("initializing FakeSMCKeyStore");
-//
-//        if (keyStore->initAndStart(this, configuration)) {
-//            keyStore->setProperty("IOUserClientClass", "FakeSMCKeyStoreUserClient");
-//        }
-//        else {
-//            keyStore->release();
-//            HWSensorsFatalLog("failed to initialize FakeSMCKeyStore device");
-//            return false;
-//        }
-    }
+    if (OSDictionary *matching = serviceMatching(kFakeSMCKeyStoreService)) {
+        
+        if (matching && !(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(matching, kFakeSMCDefaultWaitTimeout)))) {
+            HWSensorsInfoLog("still waiting for FakeSMCKeyStore...");
+            return false;
+        }
 
-//    if (IOService *resources = waitForMatchingService(serviceMatching("IOResources"), 0))
-//        this->attach(resources);
+        OSSafeRelease(matching);
+    }
+    else {
+        HWSensorsFatalLog("failed to create matching dictionary (FakeSMCKeyStore)");
+        return false;
+    }
 
     OSDictionary *configuration = OSDynamicCast(OSDictionary, getProperty("Configuration"));
 
@@ -128,14 +117,16 @@ bool FakeSMC::start(IOService *provider)
     if (OSDictionary *matching = serviceMatching("IOACPIPlatformDevice")) {
         if (OSIterator *iterator = getMatchingServices(matching)) {
             
-            OSData *smcNameProperty = OSData::withBytes("APP0001", 7);
+            OSString *name = OSString::withCString("APP0001");
 
             while (IOService *service = (IOService*)iterator->getNextObject()) {
-                
-                OSObject *serviceNameProperty = service->getProperty("name");
-                
-                if (serviceNameProperty && serviceNameProperty->isEqualTo(smcNameProperty)) {
+
+                HWSensorsDebugLog("checking %s", service->getName());
+
+                if (service->compareName(name)) {
+                    HWSensorsDebugLog("matched!");
                     smcDeviceFound = true;
+                    break;
                 }
             }
             
@@ -151,15 +142,13 @@ bool FakeSMC::start(IOService *provider)
             return false;
         }
 
-        IOService *platformExpert = waitForMatchingService(serviceMatching("IOACPIPlatformExpert"), kFakeSMCDefaultWaitTimeout);
-
-        if (!smcDevice->initAndStart(platformExpert, this)) {
+        if (!smcDevice->initAndStart(provider, this)) {
             HWSensorsFatalLog("failed to initialize SMC device");
             return false;
         }
     }
     else {
-        HWSensorsInfoLog("found physical SMC device, will not create virtual one. Providing only basic plugins functionality");
+        HWSensorsInfoLog("found physical SMC device, assumes running on Mac");
     }
 
     int arg_value = 1;
@@ -171,6 +160,8 @@ bool FakeSMC::start(IOService *provider)
         else
             HWSensorsInfoLog("NVRAM will be used to store system written keys...");
     }
+
+    this->setName("FSMC");
 
   	registerService();
 

@@ -20,6 +20,8 @@
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSSet *favorites;
 
+@property (nonatomic, assign) BOOL hasUpdates;
+
 @property (nonatomic, strong) HWMEngine * engine;
 
 @end

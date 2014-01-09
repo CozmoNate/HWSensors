@@ -720,9 +720,13 @@ bool FakeSMCPlugin::start(IOService *provider)
 	if (!super::start(provider))
         return false;
 
-    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), kFakeSMCDefaultWaitTimeout)))) {
-		HWSensorsFatalLog("still waiting for FakeSMCKeyStore...");
-        return false;
+    if (OSDictionary *matching = serviceMatching(kFakeSMCKeyStoreService)) {
+        if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(matching, kFakeSMCDefaultWaitTimeout)))) {
+            HWSensorsFatalLog("still waiting for FakeSMCKeyStore...");
+            return false;
+        }
+
+        OSSafeRelease(matching);
     }
 
 	return true;

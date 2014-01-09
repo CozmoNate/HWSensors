@@ -30,7 +30,7 @@ dsa_signature=$(openssl dgst -sha1 -binary < ./Binaries/${tar_filename} | openss
 echo ${dsa_signature} > ./Binaries/${tar_filename}.dsa
 
 zip_filename=${project_name}_Binaries.${full_version}.zip
-zip -9 -r -q ./Binaries/${zip_filename} ./Binaries/HWMonitor.app ./Binaries/ACPISensors.kext ./Binaries/CPUSensors.kext ./Binaries/FakeSMC.kext ./Binaries/FakeSMCKeyStore.kext ./Binaries/GPUSensors.kext ./Binaries/LPCSensors.kext
+zip -9 -r -q ./Binaries/${zip_filename} ./Binaries/HWMonitor.app ./Binaries/ACPISensors.kext ./Binaries/CPUSensors.kext ./Binaries/FakeSMC.kext ./Binaries/GPUSensors.kext ./Binaries/LPCSensors.kext
 
 # appcast.xml
 echo '<?xml version="1.0" encoding="utf-8"?>' > ./Appcast/appcast.xml

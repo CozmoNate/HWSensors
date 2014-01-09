@@ -10,7 +10,7 @@
 
 #define HWSENSORS_LASTYEAR                  2014
 
-#define FAKESMCKEYSTORE_BUNDLE              org.hwsensors.driver.FakeSMCKeyStore
+#define FAKESMCKEYSTORE_BUNDLE              org.netkas.driver.FakeSMC
 #define FAKESMC_BUNDLE                      org.netkas.driver.FakeSMC
 #define ACPISENSORS_BUNDLE                  org.hwsensors.driver.ACPISensors
 #define CPUSENSORS_BUNDLE                   org.hwsensors.driver.CPUSensors
