@@ -30,40 +30,40 @@ full_version=${project_version}'.'${last_revision}
 
 # Hackintosh
 
-pkgbuild --component ./Binaries/HWMonitor.app \
+pkgbuild --component Binaries/HWMonitor.app \
     --info ./Package/HWMonitor.PackageInfo \
     --identifier "org.hwsensors.HWMonitor" \
     --version "${full_version}" \
     --install-location "/Applications" \
     ./Package/HWMonitor.pkg
 
-pkgbuild --component ./Binaries/FakeSMC.kext \
+pkgbuild --component Binaries/FakeSMC.kext \
     --identifier "org.hwsensors.FakeSMC" \
     --scripts ./Package/Scripts \
     --version "${full_version}" \
     --install-location "/System/Library/Extensions" \
     ./Package/FakeSMC.pkg
 
-pkgbuild --component ./Binaries/ACPISensors.kext \
+pkgbuild --component Binaries/ACPISensors.kext \
     --identifier "org.hwsensors.ACPISensors" \
     --version "${full_version}" \
     --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns" \
     ./Package/ACPISensors.pkg
 
-pkgbuild --component ./Binaries/CPUSensors.kext \
+pkgbuild --component Binaries/CPUSensors.kext \
     --identifier "org.hwsensors.CPUSensors" \
     --version "${full_version}" \
     --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns" \
     ./Package/CPUSensors.pkg
 
 
-pkgbuild --component ./Binaries/GPUSensors.kext \
+pkgbuild --component Binaries/GPUSensors.kext \
     --identifier "org.hwsensors.GPUSensors" \
     --version "${full_version}" \
     --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns" \
     ./Package/GPUSensors.pkg
 
-pkgbuild --component ./Binaries/LPCSensors.kext \
+pkgbuild --component Binaries/LPCSensors.kext \
     --identifier "org.hwsensors.LPCSensors" \
     --version "${full_version}" \
     --install-location "/System/Library/Extensions/FakeSMC.kext/Contents/PlugIns" \

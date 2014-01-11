@@ -50,6 +50,8 @@ typedef enum {
     io_connect_t _smcConnection;
     io_connect_t _fakeSmcConnection;
 
+    NSMutableArray *_groups;
+
     NSArray *_smcAndDevicesSensors;
     NSTimer *_smcAndDevicesSensorsUpdateLoopTimer;
 

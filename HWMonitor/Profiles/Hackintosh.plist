@@ -4,8 +4,8 @@
 <array>
 	<string>TA0p|Ambient</string>
 	<string>TA0P|Ambient</string>
-	<string>TC:081D|CPU Core %X</string>
-	<string>TC:081C|CPU Core %X</string>
+	<string>TC:0F1D|CPU Core %X</string>
+	<string>TC:091C|CPU Core %X</string>
 	<string>TCAD|CPU Package</string>
 	<string>TC:B32D|CPU %X Package</string>
 	<string>TC:A41C|CPU %X Core</string>

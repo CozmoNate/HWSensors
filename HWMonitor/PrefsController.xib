@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -425,14 +425,14 @@
                     <rect key="frame" x="20" y="77" width="560" height="396"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
                             <rect key="frame" x="0.0" y="0.0" width="276" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="hK2-oA-2Lv">
                                 <rect key="frame" x="1" y="1" width="274" height="394"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
+                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="18" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
                                         <rect key="frame" x="0.0" y="0.0" width="274" height="394"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>
@@ -527,7 +527,7 @@
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="I2d-Jf-Ucu">
-                                                                <rect key="frame" x="48" y="2" width="153" height="15"/>
+                                                                <rect key="frame" x="69" y="2" width="132" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Sensor" id="Jwx-vh-p97">
                                                                     <font key="font" size="12" name="Helvetica"/>
@@ -542,7 +542,7 @@
                                                                 <rect key="frame" x="205" y="2" width="63" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" priority="250" constant="59" id="NAe-y1-NjK"/>
+                                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="59" id="Ht1-zj-thO"/>
                                                                 </constraints>
                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="999.99THz" id="RWI-E0-ONL">
                                                                     <font key="font" size="12" name="Helvetica-Bold"/>
@@ -557,7 +557,7 @@
                                                                 <rect key="frame" x="3" y="0.0" width="18" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="18" id="8o5-sy-lbf"/>
+                                                                    <constraint firstAttribute="width" constant="18" id="TdT-Lu-uOu"/>
                                                                 </constraints>
                                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="XpC-CI-u48"/>
                                                                 <connections>
@@ -568,7 +568,7 @@
                                                                 <rect key="frame" x="24" y="0.0" width="18" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="18" id="3Ws-ZT-Thc"/>
+                                                                    <constraint firstAttribute="width" constant="18" id="5R7-ZG-PQg"/>
                                                                 </constraints>
                                                                 <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="hwB-AE-3C4">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -583,271 +583,347 @@
                                                                     </binding>
                                                                 </connections>
                                                             </button>
+                                                            <button toolTip="Force update sensor value" translatesAutoresizingMaskIntoConstraints="NO" id="q5e-UA-KWj">
+                                                                <rect key="frame" x="45" y="0.0" width="18" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="18" id="LWV-KC-AdX"/>
+                                                                </constraints>
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="284-bell-white" imagePosition="only" alignment="center" alternateImage="284-bell" state="on" imageScaling="proportionallyDown" inset="2" id="dEb-iB-Lh5">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="sensorHiddenFlagChanged:" target="-2" id="Bro-KN-fSb"/>
+                                                                    <binding destination="oLT-I2-lCv" name="value" keyPath="objectValue.forced" id="Ntb-Jf-Mxj"/>
+                                                                </connections>
+                                                            </button>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstItem="qIK-iV-DMn" firstAttribute="centerY" secondItem="oLT-I2-lCv" secondAttribute="centerY" id="HKO-8Q-vcQ"/>
-                                                            <constraint firstAttribute="trailing" secondItem="qIK-iV-DMn" secondAttribute="trailing" constant="6" id="KEw-CP-cRP"/>
-                                                            <constraint firstItem="ptU-dk-Uvd" firstAttribute="bottom" secondItem="gvw-KH-FTl" secondAttribute="bottom" id="LHA-Kj-FNB"/>
-                                                            <constraint firstItem="I2d-Jf-Ucu" firstAttribute="leading" secondItem="gvw-KH-FTl" secondAttribute="trailing" constant="8" symbolic="YES" id="PCZ-Fb-NaZ"/>
-                                                            <constraint firstItem="ptU-dk-Uvd" firstAttribute="top" secondItem="oLT-I2-lCv" secondAttribute="top" id="RdS-Vp-IuE"/>
-                                                            <constraint firstItem="gvw-KH-FTl" firstAttribute="centerY" secondItem="I2d-Jf-Ucu" secondAttribute="centerY" id="WIf-hY-Q2T"/>
-                                                            <constraint firstItem="gvw-KH-FTl" firstAttribute="leading" secondItem="ptU-dk-Uvd" secondAttribute="trailing" constant="3" id="Xrr-Jo-QxZ"/>
-                                                            <constraint firstItem="qIK-iV-DMn" firstAttribute="baseline" secondItem="I2d-Jf-Ucu" secondAttribute="baseline" id="gCN-VP-sAA"/>
-                                                            <constraint firstItem="ptU-dk-Uvd" firstAttribute="top" secondItem="gvw-KH-FTl" secondAttribute="top" id="mfl-AA-rBg"/>
-                                                            <constraint firstItem="ptU-dk-Uvd" firstAttribute="leading" secondItem="oLT-I2-lCv" secondAttribute="leading" constant="3" id="p8C-lD-u93"/>
-                                                            <constraint firstItem="qIK-iV-DMn" firstAttribute="leading" secondItem="I2d-Jf-Ucu" secondAttribute="trailing" constant="8" symbolic="YES" id="xWJ-yD-QZ9"/>
+                                                            <constraint firstItem="q5e-UA-KWj" firstAttribute="leading" secondItem="gvw-KH-FTl" secondAttribute="trailing" constant="3" id="A4n-zT-3eQ"/>
+                                                            <constraint firstItem="I2d-Jf-Ucu" firstAttribute="centerY" secondItem="q5e-UA-KWj" secondAttribute="centerY" id="G7d-z0-yjc"/>
+                                                            <constraint firstItem="q5e-UA-KWj" firstAttribute="top" secondItem="gvw-KH-FTl" secondAttribute="top" id="OQv-Py-VFZ"/>
+                                                            <constraint firstItem="gvw-KH-FTl" firstAttribute="bottom" secondItem="ptU-dk-Uvd" secondAttribute="bottom" id="Pdq-GW-M7t"/>
+                                                            <constraint firstItem="ptU-dk-Uvd" firstAttribute="leading" secondItem="oLT-I2-lCv" secondAttribute="leading" constant="3" id="WVc-xs-IN7"/>
+                                                            <constraint firstItem="gvw-KH-FTl" firstAttribute="top" secondItem="oLT-I2-lCv" secondAttribute="top" id="WyL-nB-8Fw"/>
+                                                            <constraint firstItem="I2d-Jf-Ucu" firstAttribute="top" secondItem="oLT-I2-lCv" secondAttribute="top" constant="1" id="bGe-Rt-hbD"/>
+                                                            <constraint firstItem="gvw-KH-FTl" firstAttribute="top" secondItem="ptU-dk-Uvd" secondAttribute="top" id="bvN-8w-V0Y"/>
+                                                            <constraint firstItem="q5e-UA-KWj" firstAttribute="bottom" secondItem="gvw-KH-FTl" secondAttribute="bottom" id="f4G-eE-Uwp"/>
+                                                            <constraint firstAttribute="trailing" secondItem="qIK-iV-DMn" secondAttribute="trailing" constant="6" id="iuJ-gI-gge"/>
+                                                            <constraint firstItem="gvw-KH-FTl" firstAttribute="leading" secondItem="ptU-dk-Uvd" secondAttribute="trailing" constant="3" id="kcD-nK-zt9"/>
+                                                            <constraint firstItem="qIK-iV-DMn" firstAttribute="baseline" secondItem="I2d-Jf-Ucu" secondAttribute="baseline" id="o08-Fh-gbQ"/>
+                                                            <constraint firstItem="I2d-Jf-Ucu" firstAttribute="leading" secondItem="q5e-UA-KWj" secondAttribute="trailing" constant="8" symbolic="YES" id="sih-8Q-e1M"/>
+                                                            <constraint firstItem="qIK-iV-DMn" firstAttribute="leading" secondItem="I2d-Jf-Ucu" secondAttribute="trailing" constant="8" symbolic="YES" id="vt6-hc-38S"/>
                                                         </constraints>
                                                         <connections>
                                                             <outlet property="checkBox" destination="gvw-KH-FTl" id="B32-Tn-0es"/>
+                                                            <outlet property="forcedCheckBox" destination="q5e-UA-KWj" id="oDz-yx-Q5g"/>
                                                             <outlet property="imageView" destination="ptU-dk-Uvd" id="q6u-69-p0x"/>
                                                             <outlet property="textField" destination="I2d-Jf-Ucu" id="A5x-9j-3MN"/>
                                                             <outlet property="valueField" destination="qIK-iV-DMn" id="Eop-l2-Ypy"/>
                                                         </connections>
                                                     </tableCellView>
-                                                    <tableCellView identifier="Drive" id="XEM-gv-c8I" customClass="PrefsCell">
+                                                    <tableCellView identifier="Drive" id="W0y-h0-rvF" customClass="PrefsCell">
                                                         <rect key="frame" x="0.0" y="61" width="272" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="hVN-ZJ-Dw4">
-                                                                <rect key="frame" x="48" y="2" width="153" height="15"/>
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="MJV-cd-RXs">
+                                                                <rect key="frame" x="69" y="2" width="132" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Drive" id="Pg3-3f-NQr">
+                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Drive" id="DhX-gH-hYp">
                                                                     <font key="font" size="12" name="Helvetica"/>
                                                                     <color key="textColor" white="0.24883097630000001" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
                                                                 <connections>
-                                                                    <binding destination="XEM-gv-c8I" name="value" keyPath="objectValue.title" id="lLA-0t-EN9"/>
+                                                                    <binding destination="W0y-h0-rvF" name="value" keyPath="objectValue.title" id="ro9-vc-oGH"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vu9-HS-wie">
+                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ghc-B1-mZ6">
                                                                 <rect key="frame" x="205" y="2" width="63" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" priority="250" constant="59" id="f2A-10-lpR"/>
+                                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="59" id="cYI-yO-pd0"/>
                                                                 </constraints>
-                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="999.99THz" id="EFN-au-A5k">
+                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="999.99THz" id="9V0-4D-Ekm">
                                                                     <font key="font" size="12" name="Helvetica-Bold"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
                                                                 <connections>
-                                                                    <binding destination="XEM-gv-c8I" name="value" keyPath="objectValue.formattedValue" id="Iuo-MA-5Kb"/>
+                                                                    <binding destination="W0y-h0-rvF" name="value" keyPath="objectValue.formattedValue" id="TMI-7I-n2i"/>
                                                                 </connections>
                                                             </textField>
-                                                            <imageView translatesAutoresizingMaskIntoConstraints="NO" id="fq6-mV-QBY">
+                                                            <imageView translatesAutoresizingMaskIntoConstraints="NO" id="mKl-w0-fpI">
                                                                 <rect key="frame" x="3" y="0.0" width="18" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="18" id="Bq6-Nc-5ut"/>
+                                                                    <constraint firstAttribute="width" constant="18" id="k5v-YV-Hq6"/>
                                                                 </constraints>
-                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="rdb-mS-VsX"/>
+                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="iDt-pD-tKZ"/>
                                                                 <connections>
-                                                                    <binding destination="XEM-gv-c8I" name="value" keyPath="objectValue.group.icon.regular" id="DsZ-sT-c9F"/>
+                                                                    <binding destination="W0y-h0-rvF" name="value" keyPath="objectValue.group.icon.regular" id="uTH-OM-WVt"/>
                                                                 </connections>
                                                             </imageView>
-                                                            <button toolTip="Show sensor in popup menu" translatesAutoresizingMaskIntoConstraints="NO" id="abd-O3-qM3">
+                                                            <button toolTip="Show sensor in popup menu" translatesAutoresizingMaskIntoConstraints="NO" id="PSH-s8-j4u">
                                                                 <rect key="frame" x="24" y="0.0" width="18" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="18" id="TWJ-zf-9Ws"/>
+                                                                    <constraint firstAttribute="width" constant="18" id="KO7-PI-5GL"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="rn9-4r-hko">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="GpC-p8-ybq">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <action selector="sensorHiddenFlagChanged:" target="-2" id="Iv9-D6-sti"/>
-                                                                    <binding destination="XEM-gv-c8I" name="value" keyPath="objectValue.hidden" id="0Gl-4K-l9A">
+                                                                    <action selector="sensorHiddenFlagChanged:" target="-2" id="Cvr-jT-Ooc"/>
+                                                                    <binding destination="W0y-h0-rvF" name="value" keyPath="objectValue.hidden" id="prM-WJ-G5q">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                         </dictionary>
                                                                     </binding>
                                                                 </connections>
                                                             </button>
+                                                            <button toolTip="Force update sensor value" translatesAutoresizingMaskIntoConstraints="NO" id="2nW-dE-M4C">
+                                                                <rect key="frame" x="45" y="0.0" width="18" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="18" id="thg-Z7-w8c"/>
+                                                                </constraints>
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="284-bell-white" imagePosition="only" alignment="center" alternateImage="284-bell" state="on" imageScaling="proportionallyDown" inset="2" id="4o8-3h-60D">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="sensorHiddenFlagChanged:" target="-2" id="QOE-s5-7OW"/>
+                                                                    <binding destination="W0y-h0-rvF" name="value" keyPath="objectValue.forced" id="xAT-U3-Itb"/>
+                                                                </connections>
+                                                            </button>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstItem="fq6-mV-QBY" firstAttribute="leading" secondItem="XEM-gv-c8I" secondAttribute="leading" constant="3" id="5Tx-Ow-rz7"/>
-                                                            <constraint firstItem="Vu9-HS-wie" firstAttribute="leading" secondItem="hVN-ZJ-Dw4" secondAttribute="trailing" constant="8" symbolic="YES" id="69A-co-iUS"/>
-                                                            <constraint firstItem="abd-O3-qM3" firstAttribute="bottom" secondItem="fq6-mV-QBY" secondAttribute="bottom" id="8Nw-FC-Hxk"/>
-                                                            <constraint firstAttribute="trailing" secondItem="Vu9-HS-wie" secondAttribute="trailing" constant="6" id="ApV-tb-j0U"/>
-                                                            <constraint firstItem="abd-O3-qM3" firstAttribute="centerY" secondItem="hVN-ZJ-Dw4" secondAttribute="centerY" id="G2i-Bg-X6f"/>
-                                                            <constraint firstItem="Vu9-HS-wie" firstAttribute="baseline" secondItem="hVN-ZJ-Dw4" secondAttribute="baseline" id="LpL-r8-tJx"/>
-                                                            <constraint firstItem="hVN-ZJ-Dw4" firstAttribute="leading" secondItem="abd-O3-qM3" secondAttribute="trailing" constant="8" symbolic="YES" id="Q1K-Z7-piE"/>
-                                                            <constraint firstItem="abd-O3-qM3" firstAttribute="leading" secondItem="fq6-mV-QBY" secondAttribute="trailing" constant="3" id="Uga-Qd-t8n"/>
-                                                            <constraint firstItem="abd-O3-qM3" firstAttribute="top" secondItem="XEM-gv-c8I" secondAttribute="top" id="fk4-WQ-ruc"/>
-                                                            <constraint firstItem="fq6-mV-QBY" firstAttribute="centerY" secondItem="XEM-gv-c8I" secondAttribute="centerY" id="ix2-45-3GH"/>
-                                                            <constraint firstItem="fq6-mV-QBY" firstAttribute="top" secondItem="abd-O3-qM3" secondAttribute="top" id="sho-rl-tXZ"/>
+                                                            <constraint firstItem="ghc-B1-mZ6" firstAttribute="leading" secondItem="MJV-cd-RXs" secondAttribute="trailing" constant="8" symbolic="YES" id="GGZ-74-MVU"/>
+                                                            <constraint firstItem="MJV-cd-RXs" firstAttribute="centerY" secondItem="2nW-dE-M4C" secondAttribute="centerY" id="PgH-3q-bgn"/>
+                                                            <constraint firstItem="PSH-s8-j4u" firstAttribute="bottom" secondItem="mKl-w0-fpI" secondAttribute="bottom" id="PhM-tJ-4oW"/>
+                                                            <constraint firstItem="PSH-s8-j4u" firstAttribute="top" secondItem="mKl-w0-fpI" secondAttribute="top" id="RLG-bS-Rub"/>
+                                                            <constraint firstItem="MJV-cd-RXs" firstAttribute="top" secondItem="W0y-h0-rvF" secondAttribute="top" constant="1" id="bP4-AK-ko6"/>
+                                                            <constraint firstItem="MJV-cd-RXs" firstAttribute="leading" secondItem="2nW-dE-M4C" secondAttribute="trailing" constant="8" symbolic="YES" id="bTQ-cn-DU4"/>
+                                                            <constraint firstItem="mKl-w0-fpI" firstAttribute="leading" secondItem="W0y-h0-rvF" secondAttribute="leading" constant="3" id="fvP-T0-AeZ"/>
+                                                            <constraint firstItem="2nW-dE-M4C" firstAttribute="top" secondItem="PSH-s8-j4u" secondAttribute="top" id="lkg-5j-8RL"/>
+                                                            <constraint firstItem="PSH-s8-j4u" firstAttribute="top" secondItem="W0y-h0-rvF" secondAttribute="top" id="n9J-Jf-5H6"/>
+                                                            <constraint firstItem="PSH-s8-j4u" firstAttribute="leading" secondItem="mKl-w0-fpI" secondAttribute="trailing" constant="3" id="o7E-AU-pdU"/>
+                                                            <constraint firstAttribute="trailing" secondItem="ghc-B1-mZ6" secondAttribute="trailing" constant="6" id="s3x-vU-ehd"/>
+                                                            <constraint firstItem="ghc-B1-mZ6" firstAttribute="baseline" secondItem="MJV-cd-RXs" secondAttribute="baseline" id="vUE-8L-gxi"/>
+                                                            <constraint firstItem="2nW-dE-M4C" firstAttribute="bottom" secondItem="PSH-s8-j4u" secondAttribute="bottom" id="wRT-Mx-SWr"/>
+                                                            <constraint firstItem="2nW-dE-M4C" firstAttribute="leading" secondItem="PSH-s8-j4u" secondAttribute="trailing" constant="3" id="zY0-cF-0lB"/>
                                                         </constraints>
                                                         <connections>
-                                                            <outlet property="checkBox" destination="abd-O3-qM3" id="7aS-np-jjm"/>
-                                                            <outlet property="imageView" destination="fq6-mV-QBY" id="HfN-d8-IVU"/>
-                                                            <outlet property="textField" destination="hVN-ZJ-Dw4" id="qwz-LF-FIr"/>
-                                                            <outlet property="valueField" destination="Vu9-HS-wie" id="0zL-Sj-HCb"/>
+                                                            <outlet property="checkBox" destination="PSH-s8-j4u" id="wLv-jz-fbZ"/>
+                                                            <outlet property="forcedCheckBox" destination="2nW-dE-M4C" id="0Y7-Nh-W0m"/>
+                                                            <outlet property="imageView" destination="mKl-w0-fpI" id="V5B-OO-AUG"/>
+                                                            <outlet property="textField" destination="MJV-cd-RXs" id="HB0-DL-WY1"/>
+                                                            <outlet property="valueField" destination="ghc-B1-mZ6" id="er4-Fm-suI"/>
                                                         </connections>
                                                     </tableCellView>
-                                                    <tableCellView identifier="Fan" id="Xvx-dJ-uof" customClass="PrefsCell">
+                                                    <tableCellView identifier="Fan" id="m7E-gw-aVV" customClass="PrefsCell">
                                                         <rect key="frame" x="0.0" y="81" width="272" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="gek-q3-Bio">
-                                                                <rect key="frame" x="48" y="2" width="153" height="15"/>
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6q8-H8-vMh">
+                                                                <rect key="frame" x="69" y="2" width="132" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Fan" id="ncW-g8-QMU">
+                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Fan" id="XjZ-Mt-TZW">
                                                                     <font key="font" size="12" name="Helvetica"/>
                                                                     <color key="textColor" white="0.24883097630000001" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
                                                                 <connections>
-                                                                    <binding destination="Xvx-dJ-uof" name="value" keyPath="objectValue.title" id="feG-A7-RYV"/>
+                                                                    <binding destination="m7E-gw-aVV" name="value" keyPath="objectValue.title" id="M0q-Jd-jqj"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="97I-CB-1hO">
+                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QSY-Yu-eFT">
                                                                 <rect key="frame" x="205" y="2" width="63" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" priority="250" constant="59" id="c5q-dR-Gcx"/>
+                                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="59" id="4mf-Je-Y1K"/>
                                                                 </constraints>
-                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="999.99THz" id="gT5-hd-CBa">
+                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="999.99THz" id="4id-J8-EV3">
                                                                     <font key="font" size="12" name="Helvetica-Bold"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
                                                                 <connections>
-                                                                    <binding destination="Xvx-dJ-uof" name="value" keyPath="objectValue.formattedValue" id="hDz-UJ-hhN"/>
+                                                                    <binding destination="m7E-gw-aVV" name="value" keyPath="objectValue.formattedValue" id="7Wd-7b-tKi"/>
                                                                 </connections>
                                                             </textField>
-                                                            <imageView translatesAutoresizingMaskIntoConstraints="NO" id="Xjd-B3-t6B">
+                                                            <imageView translatesAutoresizingMaskIntoConstraints="NO" id="xpu-wN-f14">
                                                                 <rect key="frame" x="3" y="0.0" width="18" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="18" id="Y8z-C1-dgr"/>
+                                                                    <constraint firstAttribute="width" constant="18" id="LeU-dn-JGm"/>
                                                                 </constraints>
-                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="hmY-Vp-uH6"/>
+                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="5fz-2j-d1x"/>
                                                                 <connections>
-                                                                    <binding destination="Xvx-dJ-uof" name="value" keyPath="objectValue.group.icon.regular" id="W6H-pk-Cor"/>
+                                                                    <binding destination="m7E-gw-aVV" name="value" keyPath="objectValue.group.icon.regular" id="ROV-c4-gQF"/>
                                                                 </connections>
                                                             </imageView>
-                                                            <button toolTip="Show sensor in popup menu" translatesAutoresizingMaskIntoConstraints="NO" id="I8m-0C-vKu">
+                                                            <button toolTip="Show sensor in popup menu" translatesAutoresizingMaskIntoConstraints="NO" id="Saf-0A-2VA">
                                                                 <rect key="frame" x="24" y="0.0" width="18" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="18" id="BBf-no-H1F"/>
+                                                                    <constraint firstAttribute="width" constant="18" id="w86-HX-ga1"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="Ayx-wC-Fwr">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="Wcl-lZ-L6K">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <action selector="sensorHiddenFlagChanged:" target="-2" id="jzY-Bu-0cU"/>
-                                                                    <binding destination="Xvx-dJ-uof" name="value" keyPath="objectValue.hidden" id="33n-TW-a7g">
+                                                                    <action selector="sensorHiddenFlagChanged:" target="-2" id="FP6-3z-Slx"/>
+                                                                    <binding destination="m7E-gw-aVV" name="value" keyPath="objectValue.hidden" id="21z-Rl-7mm">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                         </dictionary>
                                                                     </binding>
                                                                 </connections>
                                                             </button>
+                                                            <button toolTip="Force update sensor value" translatesAutoresizingMaskIntoConstraints="NO" id="hIV-BI-erD">
+                                                                <rect key="frame" x="45" y="0.0" width="18" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="18" id="oGD-qg-D5T"/>
+                                                                </constraints>
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="284-bell-white" imagePosition="only" alignment="center" alternateImage="284-bell" state="on" imageScaling="proportionallyDown" inset="2" id="G3c-IN-9nY">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="sensorHiddenFlagChanged:" target="-2" id="CjF-8D-X7S"/>
+                                                                    <binding destination="m7E-gw-aVV" name="value" keyPath="objectValue.forced" id="jDy-5t-XNw"/>
+                                                                </connections>
+                                                            </button>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstItem="Xjd-B3-t6B" firstAttribute="centerY" secondItem="Xvx-dJ-uof" secondAttribute="centerY" id="2Sa-ZH-vv8"/>
-                                                            <constraint firstItem="I8m-0C-vKu" firstAttribute="top" secondItem="Xvx-dJ-uof" secondAttribute="top" id="67f-jO-XUj"/>
-                                                            <constraint firstItem="Xjd-B3-t6B" firstAttribute="leading" secondItem="Xvx-dJ-uof" secondAttribute="leading" constant="3" id="CA9-HM-2cD"/>
-                                                            <constraint firstAttribute="trailing" secondItem="97I-CB-1hO" secondAttribute="trailing" constant="6" id="Qge-7N-MzX"/>
-                                                            <constraint firstItem="I8m-0C-vKu" firstAttribute="centerY" secondItem="gek-q3-Bio" secondAttribute="centerY" id="XVF-6o-g1h"/>
-                                                            <constraint firstItem="I8m-0C-vKu" firstAttribute="bottom" secondItem="Xjd-B3-t6B" secondAttribute="bottom" id="YgL-fi-55W"/>
-                                                            <constraint firstItem="97I-CB-1hO" firstAttribute="leading" secondItem="gek-q3-Bio" secondAttribute="trailing" constant="8" symbolic="YES" id="ngk-Ls-X8z"/>
-                                                            <constraint firstItem="97I-CB-1hO" firstAttribute="baseline" secondItem="gek-q3-Bio" secondAttribute="baseline" id="qWi-ZC-Mub"/>
-                                                            <constraint firstItem="gek-q3-Bio" firstAttribute="leading" secondItem="I8m-0C-vKu" secondAttribute="trailing" constant="8" symbolic="YES" id="sUw-UY-qfX"/>
-                                                            <constraint firstItem="I8m-0C-vKu" firstAttribute="leading" secondItem="Xjd-B3-t6B" secondAttribute="trailing" constant="3" id="vCP-yz-46l"/>
-                                                            <constraint firstItem="Xjd-B3-t6B" firstAttribute="top" secondItem="I8m-0C-vKu" secondAttribute="top" id="yl1-I6-UmU"/>
+                                                            <constraint firstItem="hIV-BI-erD" firstAttribute="top" secondItem="Saf-0A-2VA" secondAttribute="top" id="0ch-gv-rVc"/>
+                                                            <constraint firstItem="hIV-BI-erD" firstAttribute="bottom" secondItem="Saf-0A-2VA" secondAttribute="bottom" id="3JC-6v-Wks"/>
+                                                            <constraint firstItem="6q8-H8-vMh" firstAttribute="top" secondItem="m7E-gw-aVV" secondAttribute="top" constant="1" id="79z-0X-heZ"/>
+                                                            <constraint firstAttribute="trailing" secondItem="QSY-Yu-eFT" secondAttribute="trailing" constant="6" id="7LZ-BT-XVa"/>
+                                                            <constraint firstItem="Saf-0A-2VA" firstAttribute="top" secondItem="xpu-wN-f14" secondAttribute="top" id="Cfz-j9-LGc"/>
+                                                            <constraint firstItem="QSY-Yu-eFT" firstAttribute="leading" secondItem="6q8-H8-vMh" secondAttribute="trailing" constant="8" symbolic="YES" id="JuL-LP-xXR"/>
+                                                            <constraint firstItem="Saf-0A-2VA" firstAttribute="leading" secondItem="xpu-wN-f14" secondAttribute="trailing" constant="3" id="LoX-Sa-ZzF"/>
+                                                            <constraint firstItem="Saf-0A-2VA" firstAttribute="top" secondItem="m7E-gw-aVV" secondAttribute="top" id="Oge-po-JDE"/>
+                                                            <constraint firstItem="xpu-wN-f14" firstAttribute="leading" secondItem="m7E-gw-aVV" secondAttribute="leading" constant="3" id="R4a-f5-o8h"/>
+                                                            <constraint firstItem="6q8-H8-vMh" firstAttribute="leading" secondItem="hIV-BI-erD" secondAttribute="trailing" constant="8" symbolic="YES" id="W9f-Hm-F2J"/>
+                                                            <constraint firstItem="6q8-H8-vMh" firstAttribute="centerY" secondItem="hIV-BI-erD" secondAttribute="centerY" id="cnp-5l-wa1"/>
+                                                            <constraint firstItem="QSY-Yu-eFT" firstAttribute="baseline" secondItem="6q8-H8-vMh" secondAttribute="baseline" id="flp-XL-DCd"/>
+                                                            <constraint firstItem="Saf-0A-2VA" firstAttribute="bottom" secondItem="xpu-wN-f14" secondAttribute="bottom" id="t8I-2B-9DS"/>
+                                                            <constraint firstItem="hIV-BI-erD" firstAttribute="leading" secondItem="Saf-0A-2VA" secondAttribute="trailing" constant="3" id="v5p-jO-jkF"/>
                                                         </constraints>
                                                         <connections>
-                                                            <outlet property="checkBox" destination="I8m-0C-vKu" id="msN-gp-rAC"/>
-                                                            <outlet property="imageView" destination="Xjd-B3-t6B" id="Mf3-Es-Ioy"/>
-                                                            <outlet property="textField" destination="gek-q3-Bio" id="GGG-96-2NP"/>
-                                                            <outlet property="valueField" destination="97I-CB-1hO" id="r1t-F9-wrA"/>
+                                                            <outlet property="checkBox" destination="Saf-0A-2VA" id="1aO-R8-RWj"/>
+                                                            <outlet property="forcedCheckBox" destination="hIV-BI-erD" id="VTP-SP-oOF"/>
+                                                            <outlet property="imageView" destination="xpu-wN-f14" id="vwA-BI-SM8"/>
+                                                            <outlet property="textField" destination="6q8-H8-vMh" id="N0L-Ze-PX0"/>
+                                                            <outlet property="valueField" destination="QSY-Yu-eFT" id="kyU-sT-jXY"/>
                                                         </connections>
                                                     </tableCellView>
-                                                    <tableCellView identifier="Battery" id="v2d-fb-j18" customClass="PrefsCell">
+                                                    <tableCellView identifier="Battery" id="2Ru-1r-cdN" customClass="PrefsCell">
                                                         <rect key="frame" x="0.0" y="101" width="272" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="BmU-a3-DWf">
-                                                                <rect key="frame" x="48" y="2" width="153" height="15"/>
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="yf0-qN-88g">
+                                                                <rect key="frame" x="69" y="2" width="132" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Battery" id="ptg-A9-mNU">
+                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Battery" id="ODr-lC-jrm">
                                                                     <font key="font" size="12" name="Helvetica"/>
                                                                     <color key="textColor" white="0.24883097630000001" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
                                                                 <connections>
-                                                                    <binding destination="v2d-fb-j18" name="value" keyPath="objectValue.title" id="qpA-Z0-JEG"/>
+                                                                    <binding destination="2Ru-1r-cdN" name="value" keyPath="objectValue.title" id="ojl-19-N4E"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="smy-Vx-d1x">
+                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7CV-KJ-Ieb">
                                                                 <rect key="frame" x="205" y="2" width="63" height="15"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" priority="250" constant="59" id="aJO-iE-DVE"/>
+                                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="59" id="TWA-7q-fik"/>
                                                                 </constraints>
-                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="999.99THz" id="aUa-Fz-nD0">
+                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="999.99THz" id="Nfh-7Q-aO2">
                                                                     <font key="font" size="12" name="Helvetica-Bold"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
                                                                 <connections>
-                                                                    <binding destination="v2d-fb-j18" name="value" keyPath="objectValue.formattedValue" id="HjD-7Z-Pgw"/>
+                                                                    <binding destination="2Ru-1r-cdN" name="value" keyPath="objectValue.formattedValue" id="No7-5q-cK0"/>
                                                                 </connections>
                                                             </textField>
-                                                            <imageView translatesAutoresizingMaskIntoConstraints="NO" id="bfH-5u-kUE">
+                                                            <imageView translatesAutoresizingMaskIntoConstraints="NO" id="kP8-Z2-cTC">
                                                                 <rect key="frame" x="3" y="0.0" width="18" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="18" id="Mxm-2c-4vG"/>
+                                                                    <constraint firstAttribute="width" constant="18" id="OKY-2S-6EK"/>
                                                                 </constraints>
-                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="51e-73-RAx"/>
+                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="erR-71-mJ4"/>
                                                                 <connections>
-                                                                    <binding destination="v2d-fb-j18" name="value" keyPath="objectValue.group.icon.regular" id="7C3-I2-7rv"/>
+                                                                    <binding destination="2Ru-1r-cdN" name="value" keyPath="objectValue.group.icon.regular" id="0tK-SN-7Dn"/>
                                                                 </connections>
                                                             </imageView>
-                                                            <button toolTip="Show sensor in popup menu" translatesAutoresizingMaskIntoConstraints="NO" id="lvU-w7-xyl">
+                                                            <button toolTip="Show sensor in popup menu" translatesAutoresizingMaskIntoConstraints="NO" id="O25-mR-d52">
                                                                 <rect key="frame" x="24" y="0.0" width="18" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="18" id="1mu-nG-Fh7"/>
+                                                                    <constraint firstAttribute="width" constant="18" id="kDc-Xn-toh"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="cfF-A0-UvK">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="5Kg-hy-vVd">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
                                                                 <connections>
-                                                                    <action selector="sensorHiddenFlagChanged:" target="-2" id="zkL-oo-Y8F"/>
-                                                                    <binding destination="v2d-fb-j18" name="value" keyPath="objectValue.hidden" id="fSO-An-qgL">
+                                                                    <action selector="sensorHiddenFlagChanged:" target="-2" id="NTF-ka-Ose"/>
+                                                                    <binding destination="2Ru-1r-cdN" name="value" keyPath="objectValue.hidden" id="eLO-lb-Vj2">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                         </dictionary>
                                                                     </binding>
                                                                 </connections>
                                                             </button>
+                                                            <button toolTip="Force update sensor value" translatesAutoresizingMaskIntoConstraints="NO" id="6BV-5v-gta">
+                                                                <rect key="frame" x="45" y="0.0" width="18" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="18" id="aEi-Pb-y45"/>
+                                                                </constraints>
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="284-bell-white" imagePosition="only" alignment="center" alternateImage="284-bell" state="on" imageScaling="proportionallyDown" inset="2" id="i3l-Ow-qCU">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="sensorHiddenFlagChanged:" target="-2" id="eXL-et-T4j"/>
+                                                                    <binding destination="2Ru-1r-cdN" name="value" keyPath="objectValue.forced" id="MRb-S7-JNu"/>
+                                                                </connections>
+                                                            </button>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstItem="lvU-w7-xyl" firstAttribute="top" secondItem="v2d-fb-j18" secondAttribute="top" id="7GV-Af-y6Q"/>
-                                                            <constraint firstItem="lvU-w7-xyl" firstAttribute="centerY" secondItem="BmU-a3-DWf" secondAttribute="centerY" id="LyQ-Nb-FE2"/>
-                                                            <constraint firstItem="bfH-5u-kUE" firstAttribute="leading" secondItem="v2d-fb-j18" secondAttribute="leading" constant="3" id="Nn0-rS-WDx"/>
-                                                            <constraint firstItem="lvU-w7-xyl" firstAttribute="leading" secondItem="bfH-5u-kUE" secondAttribute="trailing" constant="3" id="ONd-uc-FHI"/>
-                                                            <constraint firstItem="bfH-5u-kUE" firstAttribute="top" secondItem="lvU-w7-xyl" secondAttribute="top" id="VGL-3g-PtB"/>
-                                                            <constraint firstItem="lvU-w7-xyl" firstAttribute="bottom" secondItem="bfH-5u-kUE" secondAttribute="bottom" id="hpI-I1-Efz"/>
-                                                            <constraint firstItem="BmU-a3-DWf" firstAttribute="leading" secondItem="lvU-w7-xyl" secondAttribute="trailing" constant="8" symbolic="YES" id="ioa-52-S9D"/>
-                                                            <constraint firstItem="smy-Vx-d1x" firstAttribute="baseline" secondItem="BmU-a3-DWf" secondAttribute="baseline" id="kok-fU-tA1"/>
-                                                            <constraint firstAttribute="trailing" secondItem="smy-Vx-d1x" secondAttribute="trailing" constant="6" id="uv5-aa-Vh3"/>
-                                                            <constraint firstItem="smy-Vx-d1x" firstAttribute="leading" secondItem="BmU-a3-DWf" secondAttribute="trailing" constant="8" symbolic="YES" id="vSX-ZO-maI"/>
-                                                            <constraint firstItem="bfH-5u-kUE" firstAttribute="centerY" secondItem="v2d-fb-j18" secondAttribute="centerY" id="xs6-jM-dsn"/>
+                                                            <constraint firstItem="6BV-5v-gta" firstAttribute="bottom" secondItem="O25-mR-d52" secondAttribute="bottom" id="0Nf-ai-x6B"/>
+                                                            <constraint firstItem="yf0-qN-88g" firstAttribute="top" secondItem="2Ru-1r-cdN" secondAttribute="top" constant="1" id="2Vd-iS-Qwy"/>
+                                                            <constraint firstItem="7CV-KJ-Ieb" firstAttribute="leading" secondItem="yf0-qN-88g" secondAttribute="trailing" constant="8" symbolic="YES" id="9K7-1E-ZfL"/>
+                                                            <constraint firstAttribute="trailing" secondItem="7CV-KJ-Ieb" secondAttribute="trailing" constant="6" id="A7O-Il-oyq"/>
+                                                            <constraint firstItem="yf0-qN-88g" firstAttribute="centerY" secondItem="6BV-5v-gta" secondAttribute="centerY" id="AGz-pO-nFW"/>
+                                                            <constraint firstItem="O25-mR-d52" firstAttribute="top" secondItem="2Ru-1r-cdN" secondAttribute="top" id="CoP-pm-iJ1"/>
+                                                            <constraint firstItem="O25-mR-d52" firstAttribute="top" secondItem="kP8-Z2-cTC" secondAttribute="top" id="Ivr-ho-zAc"/>
+                                                            <constraint firstItem="kP8-Z2-cTC" firstAttribute="leading" secondItem="2Ru-1r-cdN" secondAttribute="leading" constant="3" id="OmL-Nv-Ghk"/>
+                                                            <constraint firstItem="7CV-KJ-Ieb" firstAttribute="baseline" secondItem="yf0-qN-88g" secondAttribute="baseline" id="Tud-Gd-7h7"/>
+                                                            <constraint firstItem="O25-mR-d52" firstAttribute="leading" secondItem="kP8-Z2-cTC" secondAttribute="trailing" constant="3" id="Zt3-QE-Vdt"/>
+                                                            <constraint firstItem="6BV-5v-gta" firstAttribute="top" secondItem="O25-mR-d52" secondAttribute="top" id="ea5-DQ-wZt"/>
+                                                            <constraint firstItem="6BV-5v-gta" firstAttribute="leading" secondItem="O25-mR-d52" secondAttribute="trailing" constant="3" id="gL7-qG-B4b"/>
+                                                            <constraint firstItem="O25-mR-d52" firstAttribute="bottom" secondItem="kP8-Z2-cTC" secondAttribute="bottom" id="rDw-fK-jgI"/>
+                                                            <constraint firstItem="yf0-qN-88g" firstAttribute="leading" secondItem="6BV-5v-gta" secondAttribute="trailing" constant="8" symbolic="YES" id="wvo-qT-zm3"/>
                                                         </constraints>
                                                         <connections>
-                                                            <outlet property="checkBox" destination="lvU-w7-xyl" id="gij-s7-32W"/>
-                                                            <outlet property="imageView" destination="bfH-5u-kUE" id="oDG-nK-Rf6"/>
-                                                            <outlet property="textField" destination="BmU-a3-DWf" id="LZ9-UF-ekd"/>
-                                                            <outlet property="valueField" destination="smy-Vx-d1x" id="opD-WF-suV"/>
+                                                            <outlet property="checkBox" destination="O25-mR-d52" id="baN-fj-qhl"/>
+                                                            <outlet property="forcedCheckBox" destination="6BV-5v-gta" id="bgG-tp-eCf"/>
+                                                            <outlet property="imageView" destination="kP8-Z2-cTC" id="p0s-Fd-X8Y"/>
+                                                            <outlet property="textField" destination="yf0-qN-88g" id="KBd-92-Xeh"/>
+                                                            <outlet property="valueField" destination="7CV-KJ-Ieb" id="kpR-nZ-fcf"/>
                                                         </connections>
                                                     </tableCellView>
                                                 </prototypeCellViews>
@@ -1615,6 +1691,8 @@
         <image name="04-eye" width="20" height="13"/>
         <image name="04-eye-white" width="20" height="13"/>
         <image name="17-bar-chart" width="32" height="32"/>
+        <image name="284-bell" width="20" height="24"/>
+        <image name="284-bell-white" width="20" height="24"/>
         <image name="306-light-switch" width="32" height="32"/>
         <image name="81-dashboard" width="16" height="16"/>
         <image name="Divider" width="1200" height="2"/>

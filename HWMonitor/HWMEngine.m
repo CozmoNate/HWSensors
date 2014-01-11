@@ -559,11 +559,13 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
             __block NSMutableArray *sensors = [NSMutableArray array];
 
-            [self.iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if ([obj isKindOfClass:[HWMSensor class]] && ![obj isKindOfClass:[HWMAtaSmartSensor class]]) {
-                    [sensors addObject:obj];
+            for (HWMSensorsGroup *group in _groups) {
+                for (HWMSensor *sensor in group.sensors) {
+                    if (![sensor isKindOfClass:[HWMAtaSmartSensor class]] && [sensor isActive]) {
+                        [sensors addObject:sensor];
+                    }
                 }
-            }];
+            }
 
             _smcAndDevicesSensors = [sensors copy];
         }
@@ -571,7 +573,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         for (HWMSensor *sensor in _smcAndDevicesSensors) {
             BOOL doUpdate = NO;
 
-            if (_configuration.updateSensorsInBackground.boolValue) {
+            if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue) {
                 doUpdate = YES;
             }
             else {
@@ -621,11 +623,13 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
             __block NSMutableArray *sensors = [NSMutableArray array];
 
-            [self.iconsWithSensorsAndGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if ([obj isKindOfClass:[HWMAtaSmartSensor class]]) {
-                    [sensors addObject:obj];
+            for (HWMSensorsGroup *group in _groups) {
+                for (HWMSensor *sensor in group.sensors) {
+                    if ([sensor isKindOfClass:[HWMAtaSmartSensor class]] && [sensor isActive]) {
+                        [sensors addObject:sensor];
+                    }
                 }
-            }];
+            }
 
             _ataSmartSensors = [sensors copy];
         }
@@ -634,7 +638,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
                 BOOL doUpdate = NO;
 
-                if (_configuration.updateSensorsInBackground.boolValue) {
+                if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue) {
                     doUpdate = YES;
                 }
                 else {
@@ -1161,6 +1165,12 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [group setIdentifier:@"Group"];
 
     [group setEngine:self];
+
+    if (!_groups) {
+        _groups = [NSMutableArray array];
+    }
+
+    [_groups addObject:group];
 
     return group;
 }

@@ -18,37 +18,50 @@
 
 @synthesize objectValue;
 
+#define ROUND_50(x) (((int)x / 50) * 50)
+
 -(void)awakeFromNib
 {
-    [_slider setFloatValue:[[(HWMSmcFanSensor *)self.objectValue speed] floatValue]];
-    [_textField setFloatValue:[[(HWMSmcFanSensor *)self.objectValue speed] floatValue]];
-    [_textField setFont:[NSFont fontWithName:@"Let's go Digital Regular" size:20]];
-    [_textField setTextColor:self.colorTheme.useDarkIcons.boolValue ?
-     self.colorTheme.itemValueTitleColor :
-     [self.colorTheme.itemValueTitleColor highlightWithLevel:0.35]];
+    float min = [[self.objectValue valueForKey:@"min"] floatValue];
+    float max = [[self.objectValue valueForKey:@"max"] floatValue];
+    float speed = [[self.objectValue valueForKey:@"speed"] floatValue];
+
+    NSInteger rounded = ROUND_50(speed);
+
+    [_targetSlider setMinValue:min];
+    [_targetSlider setMaxValue:max];
+    [_targetSlider setIntegerValue:rounded];
+
+    [_targetTextField setIntegerValue:rounded];
+    [_targetTextField setFont:[NSFont fontWithName:@"Let's go Digital Regular" size:20]];
 
     COICOPopoverView *container = (COICOPopoverView *)[self view];
 
     [container setBackgroundColour:self.colorTheme.useDarkIcons.boolValue ?
      [self.colorTheme.listBackgroundColor highlightWithLevel:0.30] :
      nil /*[self.colorTheme.listBackgroundColor shadowWithLevel:0.05]*/];
+
+    NSColor *textColor = self.colorTheme.useDarkIcons.boolValue ?
+    self.colorTheme.itemValueTitleColor :
+    [self.colorTheme.itemValueTitleColor highlightWithLevel:0.35];
+
+    [_targetTextField setTextColor:textColor];
 }
 
-- (IBAction)sliderHasMoved:(id)sender
+- (void)sliderHasMoved:(id)sender
 {
-    [_textField setFloatValue:_slider.floatValue];
+    [_targetTextField setIntegerValue:ROUND_50(_targetSlider.integerValue)];
      
     SEL sel = @selector(sliderHasBeenReleased:);
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:sel object:sender];
+    
     [self performSelector:sel withObject:sender afterDelay:0.0];
 }
 
 - (void)sliderHasBeenReleased:(id)sender
 {
-    NSUInteger target = (int)(self.slider.floatValue / 50.0f) * 50;
-
-    [(HWMSmcFanSensor *)self.objectValue setSpeed:[NSNumber numberWithUnsignedInteger:target]];
+    [(HWMSmcFanSensor *)self.objectValue setSpeed:[NSNumber numberWithInteger:ROUND_50(_targetSlider.integerValue)]];
 }
 
 @end;

@@ -20,7 +20,7 @@
 #ifndef __SMC_H__
 #define __SMC_H__
 
-#define VERSION               "0.01"
+#define VERSION               "1.0"
 
 #define OP_NONE               0
 #define OP_LIST               1 

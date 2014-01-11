@@ -39,11 +39,11 @@
 
 void usage(char* prog)
 {
-    printf("Apple System Management Control (SMC) tool %s\n", VERSION);
+    printf("smcutil v%s\n", VERSION);
     printf("Usage:\n");
     printf("%s [options]\n", prog);
-    printf("    -l         : list all keys and values\n");
-    printf("    -r <key>   : read key value\n");
+    printf("    -l         : list of all keys\n");
+    printf("    -r <key>   : show key value\n");
     printf("    -h         : help\n");
     printf("\n");
 }
@@ -105,8 +105,10 @@ int main(int argc, const char * argv[])
         int c, option;
         char key[5];
         SMCVal_t val;
+
+        option = OPTION_HELP;
         
-        while ((c = getopt(argc, argv, "fhk:lrw:v")) != -1)
+        while ((c = getopt(argc, argv, "lr")) != -1)
         {
             switch(c)
             {
@@ -165,6 +167,10 @@ int main(int argc, const char * argv[])
                     if (kIOReturnSuccess == SMCReadKey(connection, key, &val)) {
                         printKeyValue(val);
                     }
+                    break;
+
+                case OPTION_HELP:
+                    usage(argv[0]);
                     break;
             }
             

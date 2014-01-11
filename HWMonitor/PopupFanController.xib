@@ -7,8 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PopupFanController">
             <connections>
-                <outlet property="slider" destination="yHS-LZ-3MH" id="qPQ-CO-S8L"/>
-                <outlet property="textField" destination="KLw-Cu-5s8" id="88S-YT-9wD"/>
+                <outlet property="targetSlider" destination="yHS-LZ-3MH" id="V1e-Iw-ngg"/>
+                <outlet property="targetTextField" destination="KLw-Cu-5s8" id="R2p-Mv-7OG"/>
                 <outlet property="view" destination="1" id="zTn-7b-oeG"/>
             </connections>
         </customObject>

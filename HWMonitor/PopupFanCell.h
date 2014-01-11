@@ -15,8 +15,8 @@
     NSDate *_lastUpdated;
 }
 
-@property (assign) IBOutlet NSSlider *slider;
-@property (assign) IBOutlet NSTextField *textField;
+@property (assign) IBOutlet NSSlider *targetSlider;
+@property (assign) IBOutlet NSTextField *targetTextField;
 
 - (IBAction)sliderHasMoved:(id)sender;
 

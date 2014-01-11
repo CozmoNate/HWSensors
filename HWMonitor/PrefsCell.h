@@ -10,6 +10,7 @@
 
 @property (assign) IBOutlet NSTextField *valueField;
 @property (assign) IBOutlet NSButton *checkBox;
+@property (assign) IBOutlet NSButton *forcedCheckBox;
 @property (assign) IBOutlet NSColorWell *colorWeel;
 
 @end

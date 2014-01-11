@@ -6,9 +6,10 @@
 #  Created by Kozlek on 18/07/13.
 #
 
-find ./Binaries/ -maxdepth 1 -type f -name "*.zip" -delete
+find ./Binaries/ -maxdepth 1 -type f -name "*.dmg" -delete
 find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz" -delete
 find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz.dsa" -delete
+find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz.sha1" -delete
 
 if [ "$1" == "clean" ]
 then
@@ -19,18 +20,34 @@ project_name=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "./version.plis
 project_version=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "./version.plist")
 last_revision=$(<"./revision.txt")
 full_version=${project_version}'.'${last_revision}
-tar_filename=${project_name}.${full_version}.tar.gz
 
-cp ./Binaries/${project_name}.${full_version}.pkg ./Binaries/HWMonitor.pkg
-tar -zcvf ./Binaries/${tar_filename} ./Binaries/HWMonitor.pkg
-rm ./Binaries/HWMonitor.pkg
+# binaries
+bin_filename=${project_name}.${full_version}.Binaries.dmg
+bin_volumename=${project_name}" Binaries v"${full_version}
+hdiutil create -megabytes 10 -fs HFS+ -volname "${bin_volumename}" ./Binaries/TEMP.${bin_filename}
+hdiutil attach ./Binaries/TEMP.${bin_filename} -readwrite -mount required
 
-dsa_signature=$(openssl dgst -sha1 -binary < ./Binaries/${tar_filename} | openssl dgst -dss1 -sign ./Appcast/dsa_priv.pem | openssl enc -base64)
+find ./Binaries/ -maxdepth 1 -type d -name "*.app" -exec cp -R {} /Volumes/"${bin_volumename}" \;
+find ./Binaries/ -maxdepth 1 -type d -name "*.kext" -exec cp -R {} /Volumes/"${bin_volumename}" \;
 
-echo ${dsa_signature} > ./Binaries/${tar_filename}.dsa
+hdiutil detach "/Volumes/${bin_volumename}"
+hdiutil convert ./Binaries/TEMP.${bin_filename} -format UDZO -imagekey zlib-level=9 -o ./Binaries/${bin_filename}
+rm ./Binaries/TEMP.${bin_filename}
 
-zip_filename=${project_name}_Binaries.${full_version}.zip
-zip -9 -r -q ./Binaries/${zip_filename} ./Binaries/HWMonitor.app ./Binaries/ACPISensors.kext ./Binaries/CPUSensors.kext ./Binaries/FakeSMC.kext ./Binaries/GPUSensors.kext ./Binaries/LPCSensors.kext
+# compressed update
+dmg_filename=${project_name}.${full_version}.dmg
+dmg_volumename=${project_name}" v"${full_version}
+hdiutil create -megabytes 10 -fs HFS+ -volname "${dmg_volumename}" ./Binaries/TEMP.${dmg_filename}
+hdiutil attach ./Binaries/TEMP.${dmg_filename} -readwrite -mount required
+
+cp ./Binaries/${project_name}.${full_version}.pkg "/Volumes/${dmg_volumename}/HWMonitor.pkg"
+
+hdiutil detach "/Volumes/${dmg_volumename}"
+hdiutil convert ./Binaries/TEMP.${dmg_filename} -format UDZO -imagekey zlib-level=9 -o ./Binaries/${dmg_filename}
+rm ./Binaries/TEMP.${dmg_filename}
+openssl="/usr/bin/openssl"
+dsa_signature=$(${openssl} dgst -sha1 -binary < ./Binaries/${dmg_filename} | ${openssl} dgst -dss1 -sign ./Appcast/dsa_priv.pem | ${openssl} enc -base64)
+echo ${dsa_signature} > ./Binaries/${dmg_filename}.sha1
 
 # appcast.xml
 echo '<?xml version="1.0" encoding="utf-8"?>' > ./Appcast/appcast.xml
@@ -44,7 +61,7 @@ echo '  <item>' >> ./Appcast/appcast.xml
 echo '      <sparkle:releaseNotesLink>http://hwsensors.com/appcast/rnotes.html</sparkle:releaseNotesLink>' >> ./Appcast/appcast.xml
 echo '      <title>Version '${full_version}'</title>' >> ./Appcast/appcast.xml
 echo '      <pubDate>'$(date +"%a, %d %b %G %T %z")'</pubDate>' >> ./Appcast/appcast.xml
-echo '      <enclosure url="http://hwsensors.com/appcast/hwmonitor/'${tar_filename}'" sparkle:version="'${last_revision}'" sparkle:shortVersionString="'${full_version}'" sparkle:dsaSignature="'${dsa_signature}'" length="'$(stat -f %z ./Binaries/${tar_filename})'" type="application/x-compress"/>' >> ./Appcast/appcast.xml
+echo '      <enclosure url="http://hwsensors.com/appcast/hwmonitor/'${dmg_filename}'" sparkle:version="'${last_revision}'" sparkle:shortVersionString="'${full_version}'" sparkle:dsaSignature="'${dsa_signature}'" length="'$(stat -f %z ./Binaries/${dmg_filename})'" type="application/x-compress"/>' >> ./Appcast/appcast.xml
 echo '  </item>' >> ./Appcast/appcast.xml
 echo '</channel>' >> ./Appcast/appcast.xml
 echo '</rss>' >> ./Appcast/appcast.xml
@@ -70,7 +87,7 @@ echo '                      <h3>New in '${project_name}' v'${full_version}'</h3>
 echo '                  </td>' >> ./Appcast/rnotes.html
 echo '              </tr>' >> ./Appcast/rnotes.html
 echo '              <tr><td><td/><tr/>' >> ./Appcast/rnotes.html
-echo '              <tr><td><a href="http://hwsensors.com/downloads/'${zip_filename}'">Download compiled binaries</a><td/><tr/>' >> ./Appcast/rnotes.html
+echo '              <tr><td><a href="http://hwsensors.com/downloads/'${bin_filename}'">Download compiled binaries</a><td/><tr/>' >> ./Appcast/rnotes.html
 echo '              <tr>' >> ./Appcast/rnotes.html
 echo '                  <td valign="top">' >> ./Appcast/rnotes.html
 echo '                      <p><b>Bug Fixed/Changes/Features</b></p>' >> ./Appcast/rnotes.html

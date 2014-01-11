@@ -61,6 +61,7 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
 @property (readonly) NSImage *noiseImage;
 @property (readonly) NSImage *activeImage;
 @property (readonly) NSImage *inactiveImage;
+@property (atomic, assign) NSUInteger scheduledRefreshCount;
 
 @end
 
@@ -142,9 +143,8 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
 -(void)setColorTheme:(HWMColorTheme*)newColorTheme
 {
     if (colorTheme != newColorTheme) {
-        [self resetContentImages];
+        [self resetContentImagesScheduleRefresh:YES];
         colorTheme = newColorTheme;
-        [self refreshContentImages];
         // Redraw the theme frame
         [[self.contentView superview] setNeedsDisplayInRect:[self titleBarRect]];
     }
@@ -316,8 +316,6 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
 {
     if (isAttached != attachedToMenuBar)
     {
-        [self resetContentImages];
-
         attachedToMenuBar = isAttached;
 
         if (isAttached)
@@ -422,8 +420,6 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
         //[[self.contentView superview] setNeedsDisplayInRect:[self titleBarRect]];
         [[self.contentView superview] setNeedsDisplay:YES];
         [self invalidateShadow];
-
-        [self refreshContentImages];
     }
 }
 
@@ -626,13 +622,10 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
 - (void)windowDidResize:(NSNotification *)aNotification
 {
     [self layoutContent];
-    [self refreshContentImages];
 }
 
 - (void)windowWillStartLiveResize:(NSNotification *)aNotification
 {
-    [self resetContentImages];
-
     resizeStartFrame = self.frame;
     resizeStartLocation = [self convertBaseToScreen:[self mouseLocationOutsideOfEventStream]];
     resizeRight = ([self mouseLocationOutsideOfEventStream].x > self.frame.size.width / 2.0);
@@ -672,38 +665,45 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
 
 - (void)setFrame:(NSRect)frameRect display:(BOOL)flag
 {
-    if ([self inLiveResize] && self.attachedToMenuBar)
-    {
-        NSPoint mouseLocation = [self convertBaseToScreen:[self mouseLocationOutsideOfEventStream]];
-        NSRect newFrame = resizeStartFrame;
-        if (frameRect.size.width != resizeStartFrame.size.width)
+    if ([self inLiveResize]) {
+        if (self.attachedToMenuBar)
         {
-            CGFloat deltaWidth = (resizeRight ? mouseLocation.x - resizeStartLocation.x : resizeStartLocation.x - mouseLocation.x);
-            newFrame.origin.x -= deltaWidth;
-            newFrame.size.width += deltaWidth * 2;
-            if (newFrame.size.width < self.minSize.width)
+            NSPoint mouseLocation = [self convertBaseToScreen:[self mouseLocationOutsideOfEventStream]];
+            NSRect newFrame = resizeStartFrame;
+            if (frameRect.size.width != resizeStartFrame.size.width)
             {
-                newFrame.size.width = self.minSize.width;
-                newFrame.origin.x = NSMidX(resizeStartFrame) - (self.minSize.width) / 2.0;
+                CGFloat deltaWidth = (resizeRight ? mouseLocation.x - resizeStartLocation.x : resizeStartLocation.x - mouseLocation.x);
+                newFrame.origin.x -= deltaWidth;
+                newFrame.size.width += deltaWidth * 2;
+                if (newFrame.size.width < self.minSize.width)
+                {
+                    newFrame.size.width = self.minSize.width;
+                    newFrame.origin.x = NSMidX(resizeStartFrame) - (self.minSize.width) / 2.0;
+                }
+                if (newFrame.size.width > self.maxSize.width)
+                {
+                    newFrame.size.width = self.maxSize.width;
+                    newFrame.origin.x = NSMidX(resizeStartFrame) - (self.maxSize.width) / 2.0;
+                }
             }
-            if (newFrame.size.width > self.maxSize.width)
+
+            // Don't allow resizing upwards when attached to menu bar
+            if (frameRect.origin.y != resizeStartFrame.origin.y)
             {
-                newFrame.size.width = self.maxSize.width;
-                newFrame.origin.x = NSMidX(resizeStartFrame) - (self.maxSize.width) / 2.0;
+                newFrame.origin.y = frameRect.origin.y;
+                newFrame.size.height = frameRect.size.height;
             }
-        }
 
-        // Don't allow resizing upwards when attached to menu bar
-        if (frameRect.origin.y != resizeStartFrame.origin.y)
-        {
-            newFrame.origin.y = frameRect.origin.y;
-            newFrame.size.height = frameRect.size.height;
+            [self resetContentImagesScheduleRefresh:NO];
+            [super setFrame:newFrame display:YES];
         }
-
-        [super setFrame:newFrame display:YES];
+        else {
+            [self resetContentImagesScheduleRefresh:NO];
+            [super setFrame:frameRect display:flag];
+        }
     }
-    else
-    {
+    else {
+        [self resetContentImagesScheduleRefresh:YES];
         [super setFrame:frameRect display:flag];
     }
 }
@@ -961,20 +961,38 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
     }
 }
 
-- (void)resetContentImages
+- (void)resetContentImagesScheduleRefresh:(BOOL)scheduleRefresh
 {
-    _activeImage = nil;
-    _inactiveImage = nil;
-    //NSLog(@"reset");
+    if (_activeImage || _inactiveImage) {
+        _activeImage = nil;
+        _inactiveImage = nil;
+
+        //NSLog(@"reset");
+    }
+
+    if (scheduleRefresh) {
+
+        self.scheduledRefreshCount++;
+
+        [self performSelector:@selector(refreshContentImages) withObject:nil afterDelay:0.5];
+    }
 }
 
 - (void)refreshContentImages
 {
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshContentImageForKeyWindow:) object:nil];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(refreshContentImageForKeyWindow:) object:self];
+    if (--self.scheduledRefreshCount) {
+        return;
+    }
+    
+    if (!_activeImage) {
+        [self refreshContentImageForKeyWindow:YES];
+        //NSLog(@"active image refreshed");
+    }
 
-    [self performSelector:@selector(refreshContentImageForKeyWindow:) withObject:self afterDelay:0.5f];
-    [self performSelector:@selector(refreshContentImageForKeyWindow:) withObject:nil afterDelay:0.5f];
+    if (!_inactiveImage) {
+        [self refreshContentImageForKeyWindow:NO];
+        //NSLog(@"inactive image refreshed");
+    }
 }
 
 - (void)drawRectOriginal:(NSRect)dirtyRect

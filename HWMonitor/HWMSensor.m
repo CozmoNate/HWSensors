@@ -39,6 +39,7 @@
 
 @implementation HWMSensor
 
+@dynamic forced;
 @dynamic service;
 @dynamic selector;
 @dynamic type;
@@ -196,6 +197,11 @@
                 break;
         }
     }
+}
+
+- (BOOL)isActive
+{
+    return self.service.unsignedLongLongValue > 0;
 }
 
 - (void)doUpdateValue

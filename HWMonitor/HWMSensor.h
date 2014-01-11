@@ -47,6 +47,7 @@
     NSString *_strippedValue;
 }
 
+@property (nonatomic, retain) NSNumber * forced;
 @property (nonatomic, retain) NSNumber * service;
 @property (nonatomic, retain) NSNumber * selector;
 @property (nonatomic, retain) NSString * type;
@@ -59,6 +60,8 @@
 @property (readonly) NSUInteger alarmLevel;
 @property (readonly) NSString * formattedValue;
 @property (readonly) NSString * strippedValue;
+
+- (BOOL)isActive;
 
 - (void)doUpdateValue;
 

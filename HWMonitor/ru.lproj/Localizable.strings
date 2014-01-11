@@ -111,6 +111,7 @@
 "%@ completely discharged!" = "%@ скоро выключится!";
 "%@ needs to be recharged" = "%@ требует перезарядки";
 "%@ is low" = "%@ разряжается";
+"Force update sensor value" = "Принудительно обновлять датчик";
 
 "Mouse" = "Мышь";
 "Keyboard" = "Клавиатура";
