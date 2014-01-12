@@ -42,7 +42,8 @@
 #import "HWMGraph.h"
 #import "HWMGraphsGroup.h"
 #import "HWMConfiguration.h"
-#import "HWMEngineHelper.h"
+
+#import "NSTableView+HWMEngineHelper.h"
 
 //#define GetLocalizedString(key) \
 //[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
@@ -123,36 +124,19 @@
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
     
-    [self.monitorEngine updateSmcAndDeviceSensors];    
+    [self.monitorEngine updateSmcAndDeviceSensors];
+    [_graphsScrollView layoutSubtreeIfNeeded];
 }
 
 -(void)reloadGraphsTableView:(id)sender
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        NSMutableArray *newGraphsAndGroups = [self.monitorEngine.graphsAndGroups mutableCopy];
+        
+        NSArray *oldGraphsAndGroups = [_graphsAndGroupsCollectionSnapshot copy];
+        _graphsAndGroupsCollectionSnapshot = [self.monitorEngine.graphsAndGroups copy];
 
-        NSIndexSet *inserted, *removed, *from, *to;
-
-        [HWMEngineHelper compareItemsList:_graphsAndGroupsCollectionSnapshot toItemsList:newGraphsAndGroups additions:&inserted deletions:&removed movedFrom:&from movedTo:&to];
-
-        _graphsAndGroupsCollectionSnapshot = newGraphsAndGroups;
-
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-
-            [_graphsTableView removeRowsAtIndexes:removed withAnimation:NSTableViewAnimationSlideUp];
-            [_graphsTableView insertRowsAtIndexes:inserted withAnimation:NSTableViewAnimationSlideDown];
-
-            while (from.count) {
-                [_graphsTableView moveRowAtIndex:from.firstIndex toIndex:to.firstIndex];
-                [(NSMutableIndexSet*)from removeIndex:from.firstIndex];
-                [(NSMutableIndexSet*)to removeIndex:to.firstIndex];
-            }
-
-        } completionHandler:^{
-            //[_tableView reloadData];
-        }];
+        [_graphsTableView updateWithObjectValues:_graphsAndGroupsCollectionSnapshot previousObjectValues:oldGraphsAndGroups];
     }];
-    
 }
 
 -(void)rebuildViews
@@ -183,8 +167,6 @@
     [[_graphsCollectionView content] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [[_graphsCollectionView itemAtIndex:idx] setView:obj];
     }];
-    
-    [_graphsTableView reloadData];
 }
 
 #pragma mark
@@ -200,10 +182,10 @@
             [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
         }
         else if ([keyPath isEqual:@"monitorEngine.configuration.useGraphSmoothing"]) {
-            [self graphsNeedDisplay:self];
+            [self setNeedDisplayGraphs:self];
         }
         else if ([keyPath isEqual:@"monitorEngine.configuration.graphsScaleValue"]) {
-            [self graphsNeedDisplay:self];
+            [self setNeedDisplayGraphs:self];
         }
     }
 }
@@ -217,7 +199,7 @@
 //    }
 //}
 
--(IBAction)graphsNeedDisplay:(id)sender
+-(IBAction)setNeedDisplayGraphs:(id)sender
 {
     for (id graphView in _graphViews) {
         [graphView setNeedsDisplay:YES];

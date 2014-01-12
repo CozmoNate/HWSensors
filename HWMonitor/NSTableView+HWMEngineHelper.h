@@ -10,4 +10,6 @@
 
 @interface NSTableView (HWMEngineHelper)
 
+-(void)updateWithObjectValues:(NSArray*)oldObjects previousObjectValues:(NSArray*)newObjects;
+
 @end

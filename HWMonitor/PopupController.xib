@@ -113,7 +113,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="222" height="301"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="JLNFadingScrollView">
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="JLNFadingScrollView">
                         <rect key="frame" x="0.0" y="0.0" width="222" height="301"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Ii9-fX-Ldk">
@@ -437,7 +437,7 @@
                                                                 <constraint firstAttribute="width" constant="6" id="6Ir-Zc-PaD"/>
                                                                 <constraint firstAttribute="height" constant="13" id="veG-0d-DyJ"/>
                                                             </constraints>
-                                                            <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="battery" id="89"/>
+                                                            <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSInfo" id="89"/>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="82">
                                                             <rect key="frame" x="10" y="0.0" width="201" height="11"/>
@@ -536,16 +536,16 @@
                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="53" customClass="RFOverlayScroller">
-                            <rect key="frame" x="0.0" y="285" width="222" height="15"/>
+                            <rect key="frame" x="-100" y="-100" width="211" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" arrowsPosition="none" controlSize="mini" horizontal="NO" id="54" customClass="RFOverlayScroller">
-                            <rect key="frame" x="211" y="0.0" width="11" height="285"/>
+                            <rect key="frame" x="-100" y="-100" width="11" height="301"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="fadeHeight">
-                                <integer key="value" value="12"/>
+                                <integer key="value" value="30"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </scrollView>
@@ -650,6 +650,6 @@
         <image name="19-gear" width="15" height="15"/>
         <image name="37-circle-x" width="15" height="15"/>
         <image name="NSActionTemplate" width="14" height="14"/>
-        <image name="battery" width="9" height="13"/>
+        <image name="NSInfo" width="32" height="32"/>
     </resources>
 </document>

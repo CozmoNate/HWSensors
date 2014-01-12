@@ -40,7 +40,8 @@
 #import "HWMIcon.h"
 #import "HWMSensor.h"
 #import "HWMBatterySensor.h"
-#import "HWMEngineHelper.h"
+
+#import "NSTableView+HWMEngineHelper.h"
 
 @implementation PrefsController
 
@@ -171,47 +172,21 @@
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-        NSMutableArray *newFavorites = [[self.monitorEngine.configuration.favorites array] mutableCopy];
+        NSArray *oldFavorites = [_favoritesCollectionSnapshot copy];
+        _favoritesCollectionSnapshot = [[self.monitorEngine.configuration.favorites array] mutableCopy];
 
-        if (_favoritesCollectionSnapshot) {
-            [newFavorites insertObject:[_favoritesCollectionSnapshot objectAtIndex:0] atIndex:0];
+        if (oldFavorites) {
+            [_favoritesCollectionSnapshot insertObject:[oldFavorites objectAtIndex:0] atIndex:0];
         }
         else {
-            NSDictionary *item = @{@"title" : [GetLocalizedString(@"Menubar items") uppercaseString],
-                                   @"identifier" : @"Group"};
-            [newFavorites insertObject:@{@"item" : item} atIndex:0];
+            NSDictionary *item = @{ @"title" : [GetLocalizedString(@"Menubar items") uppercaseString],
+                                    @"identifier" : @"Group" };
+
+            [_favoritesCollectionSnapshot insertObject:@{ @"item" : item } atIndex:0];
         }
 
-        NSIndexSet *inserted, *removed, *from, *to;
-        NSMutableIndexSet *changed = [[NSMutableIndexSet alloc] init];
+        [_favoritesTableView updateWithObjectValues:_favoritesCollectionSnapshot previousObjectValues:oldFavorites];
 
-        [HWMEngineHelper compareItemsList:_favoritesCollectionSnapshot toItemsList:newFavorites additions:&inserted deletions:&removed movedFrom:&from movedTo:&to];
-
-        _favoritesCollectionSnapshot = newFavorites;
-
-        if (!inserted.count && !removed.count && !from.count && !to.count) {
-            [_favoritesCollectionSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if ([obj isKindOfClass:[HWMItem class]] && [obj hasUpdates]) {
-                    [changed addIndex:idx];
-                }
-            }];
-        }
-
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-            [_favoritesTableView removeRowsAtIndexes:removed withAnimation:NSTableViewAnimationSlideUp];
-            [_favoritesTableView insertRowsAtIndexes:inserted withAnimation:NSTableViewAnimationSlideDown];
-
-            while (from.count) {
-                [_favoritesTableView moveRowAtIndex:from.firstIndex toIndex:to.firstIndex];
-                [(NSMutableIndexSet*)from removeIndex:from.firstIndex];
-                [(NSMutableIndexSet*)to removeIndex:to.firstIndex];
-            }
-            
-            [_favoritesTableView noteHeightOfRowsWithIndexesChanged:changed];
-
-        } completionHandler:^{
-            [_favoritesTableView reloadDataForRowIndexes:changed columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-        }];
     }];
 }
 
@@ -219,51 +194,21 @@
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-        NSMutableArray *newSensorsAndGroups = [self.monitorEngine.iconsWithSensorsAndGroups mutableCopy];
+        NSArray *oldSensorsAndGroups = [_sensorsAndGroupsCollectionSnapshot copy];
+        _sensorsAndGroupsCollectionSnapshot = [self.monitorEngine.iconsWithSensorsAndGroups mutableCopy];
 
-        if (_iconsAndSensorsCollectionSnapshot) {
-            [newSensorsAndGroups insertObject:[_iconsAndSensorsCollectionSnapshot objectAtIndex:0]
-                                      atIndex:0];
+        if (oldSensorsAndGroups) {
+            [_sensorsAndGroupsCollectionSnapshot insertObject:[oldSensorsAndGroups objectAtIndex:0] atIndex:0];
         }
         else {
-            [newSensorsAndGroups insertObject:@{@"title" :
-                                                    [GetLocalizedString(@"Icons") uppercaseString],
-                                                @"identifier" :
-                                                    @"Group"}
-                                      atIndex:0];
+            NSDictionary *item = @{ @"title" : [GetLocalizedString(@"Icons") uppercaseString],
+                                    @"identifier" : @"Group"};
+
+            [_sensorsAndGroupsCollectionSnapshot insertObject:item atIndex:0];
         }
 
-        NSIndexSet *inserted, *removed, *from, *to;
-        NSMutableIndexSet *changed = [[NSMutableIndexSet alloc] init];
+        [_sensorsTableView updateWithObjectValues:_sensorsAndGroupsCollectionSnapshot previousObjectValues:oldSensorsAndGroups];
 
-        [HWMEngineHelper compareItemsList:_iconsAndSensorsCollectionSnapshot toItemsList:newSensorsAndGroups additions:&inserted deletions:&removed movedFrom:&from movedTo:&to];
-
-        _iconsAndSensorsCollectionSnapshot = newSensorsAndGroups;
-
-        if (!inserted.count && !removed.count && !from.count && !to.count) {
-            [_iconsAndSensorsCollectionSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if ([obj isKindOfClass:[HWMItem class]] && [obj hasUpdates]) {
-                    [changed addIndex:idx];
-                }
-            }];
-        }
-
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-
-            [_sensorsTableView removeRowsAtIndexes:removed withAnimation:NSTableViewAnimationSlideUp];
-            [_sensorsTableView insertRowsAtIndexes:inserted withAnimation:NSTableViewAnimationSlideDown];
-
-            while (from.count) {
-                [_sensorsTableView moveRowAtIndex:from.firstIndex toIndex:to.firstIndex];
-                [(NSMutableIndexSet*)from removeIndex:from.firstIndex];
-                [(NSMutableIndexSet*)to removeIndex:to.firstIndex];
-            }
-            
-            [_sensorsTableView noteHeightOfRowsWithIndexesChanged:changed];
-
-        } completionHandler:^{
-            [_sensorsTableView reloadDataForRowIndexes:changed columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-        }];
     }];
 }
 
@@ -448,7 +393,7 @@
         return _favoritesCollectionSnapshot.count;
     }
     else if (tableView == _sensorsTableView) {
-        return _iconsAndSensorsCollectionSnapshot.count;
+        return _sensorsAndGroupsCollectionSnapshot.count;
     }
     
     return 0;
@@ -465,7 +410,7 @@
         return row == 0 ? YES : NO;
     }
     else if (tableView == _sensorsTableView) {
-        return row == 0 || [[_iconsAndSensorsCollectionSnapshot objectAtIndex:row] isKindOfClass:[HWMSensorsGroup class]];
+        return row == 0 || [[_sensorsAndGroupsCollectionSnapshot objectAtIndex:row] isKindOfClass:[HWMSensorsGroup class]];
     }
     
     return NO;
@@ -477,7 +422,7 @@
         return [[_favoritesCollectionSnapshot objectAtIndex:row] valueForKey:@"item"];
     }
     else if (tableView == _sensorsTableView) {
-        return [_iconsAndSensorsCollectionSnapshot objectAtIndex:row];
+        return [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
     }
 
     return nil;
@@ -492,7 +437,7 @@
         view = [tableView makeViewWithIdentifier:[item valueForKey:@"identifier"] owner:self];
     }
     else if (tableView == _sensorsTableView) {
-            id item = [_iconsAndSensorsCollectionSnapshot objectAtIndex:row];
+            id item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
         view = [tableView makeViewWithIdentifier:[item valueForKey:@"identifier"] owner:self];
     }
     
@@ -527,7 +472,7 @@
             return NO;
         }
         
-        id item = [_iconsAndSensorsCollectionSnapshot objectAtIndex:[rowIndexes firstIndex]];
+        id item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:[rowIndexes firstIndex]];
         
         if ([item isKindOfClass:[HWMSensorsGroup class]]) {
             return NO;
@@ -561,7 +506,7 @@
             _currentItemDragOperation = toRow < 1 || toRow == fromRow || toRow == fromRow + 1 ? NSDragOperationNone : NSDragOperationMove;
         }
         else if ([info draggingSource] == _sensorsTableView) {
-            id item = [_iconsAndSensorsCollectionSnapshot objectAtIndex:fromRow];
+            id item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
             
             if ([item isKindOfClass:[HWMSensor class]]) {
                 _currentItemDragOperation = [[(HWMSensor*)item favorites] count] ? NSDragOperationPrivate : toRow > 0  ? NSDragOperationCopy : NSDragOperationNone;
@@ -578,7 +523,7 @@
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
 
-        id fromItem = [_iconsAndSensorsCollectionSnapshot objectAtIndex:fromRow];
+        id fromItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
         
         _currentItemDragOperation = NSDragOperationNone;
         
@@ -586,13 +531,13 @@
             
             _currentItemDragOperation = NSDragOperationMove;
             
-            if (toRow < _iconsAndSensorsCollectionSnapshot.count) {
+            if (toRow < _sensorsAndGroupsCollectionSnapshot.count) {
                 
                 if (toRow == fromRow || toRow == fromRow + 1) {
                     _currentItemDragOperation = NSDragOperationNone;
                 }
                 else {
-                    id toItem = [_iconsAndSensorsCollectionSnapshot objectAtIndex:toRow];
+                    id toItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:toRow];
                     
                     if ([toItem isKindOfClass:[HWMIcon class]] || 
                         ([toItem isKindOfClass:[HWMSensorsGroup class]] && fromRow > toRow) ||
@@ -602,7 +547,7 @@
                 }
             }
             else {
-                id toItem = [_iconsAndSensorsCollectionSnapshot lastObject];
+                id toItem = [_sensorsAndGroupsCollectionSnapshot lastObject];
                 
                 if ([toItem isKindOfClass:[HWMIcon class]] || 
                     ([toItem isKindOfClass:[HWMSensorsGroup class]] && fromRow > toRow) || 
@@ -646,7 +591,7 @@
             [_monitorEngine moveFavoritesItemAtIndex:listFromRow toIndex:listToRow];
         }
         else  if ([info draggingSource] == _sensorsTableView) {
-            HWMItem *item = [_iconsAndSensorsCollectionSnapshot objectAtIndex:fromRow];
+            HWMItem *item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
             [_monitorEngine insertItemIntoFavorites:item atIndex:listToRow];
         }
     }
@@ -657,12 +602,12 @@
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
 
-        HWMSensor *fromItem = [_iconsAndSensorsCollectionSnapshot objectAtIndex:fromRow];
+        HWMSensor *fromItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
         
-        id checkItem = toRow >= _iconsAndSensorsCollectionSnapshot.count ? nil : [_iconsAndSensorsCollectionSnapshot objectAtIndex:toRow];
+        id checkItem = toRow >= _sensorsAndGroupsCollectionSnapshot.count ? nil : [_sensorsAndGroupsCollectionSnapshot objectAtIndex:toRow];
         
         HWMSensor *toItem = ![checkItem isKindOfClass:[HWMSensor class]] 
-        || toRow >= _iconsAndSensorsCollectionSnapshot.count ? nil : checkItem;
+        || toRow >= _sensorsAndGroupsCollectionSnapshot.count ? nil : checkItem;
 
         [fromItem.group moveSensorsObjectAtIndex:[fromItem.group.sensors indexOfObject:fromItem] toIndex:toItem ? [fromItem.group.sensors indexOfObject:toItem] : fromItem.group.sensors.count];
         [_monitorEngine setNeedsUpdateSensorLists];

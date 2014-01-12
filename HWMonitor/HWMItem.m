@@ -18,19 +18,7 @@
 @dynamic title;
 @dynamic favorites;
 
-@synthesize hasUpdates = _changed;
 @synthesize engine;
-
--(BOOL)hasUpdates
-{
-    if (_changed) {
-        _changed = NO;
-        
-        return YES;
-    }
-    
-    return NO;
-}
 
 -(void)awakeFromFetch
 {

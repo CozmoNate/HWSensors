@@ -24,7 +24,7 @@
 #import "HWMSensorsGroup.h"
 #import "HWMSensor.h"
 
-#import "HWMEngineHelper.h"
+#import "NSTableView+HWMEngineHelper.h"
 
 @implementation PopupController
 
@@ -91,9 +91,7 @@
                     [menuItem setAttributedTitle:attributedTitle];
                 }
             }
-            
-            [self layoutContent:YES orderFront:NO animated:NO];
-            
+
             [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
             [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
             
@@ -216,40 +214,12 @@
 -(void)reloadSensorsTableView:(id)sender
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        NSMutableArray *newSensorsAndGroups = [_monitorEngine.sensorsAndGroups mutableCopy];
+        NSArray *oldSensorsAndGroups = [_sensorsAndGroupsCollectionSnapshot copy];
+        _sensorsAndGroupsCollectionSnapshot = [_monitorEngine.sensorsAndGroups copy];
 
-        NSIndexSet *inserted, *removed, *from, *to;
-         NSMutableIndexSet *changed = [[NSMutableIndexSet alloc] init];
+        [self layoutContent:YES orderFront:NO animated:YES];
 
-        [HWMEngineHelper compareItemsList:_sensorsAndGroupsCollectionSnapshot toItemsList:newSensorsAndGroups additions:&inserted deletions:&removed movedFrom:&from movedTo:&to];
-
-        _sensorsAndGroupsCollectionSnapshot = newSensorsAndGroups;
-
-        if (!inserted.count && !removed.count && !from.count && !to.count) {
-            [_sensorsAndGroupsCollectionSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if ([obj isKindOfClass:[HWMItem class]] && [obj hasUpdates]) {
-                    [changed addIndex:idx];
-                }
-            }];
-        }
-
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-
-            [self layoutContent:YES orderFront:NO animated:/*new.count < old.count*/YES];
-
-            [_tableView noteHeightOfRowsWithIndexesChanged:changed];
-            [_tableView removeRowsAtIndexes:removed withAnimation:NSTableViewAnimationSlideUp];
-            [_tableView insertRowsAtIndexes:inserted withAnimation:NSTableViewAnimationSlideDown];
-
-            while (from.count) {
-                [_tableView moveRowAtIndex:from.firstIndex toIndex:to.firstIndex];
-                [(NSMutableIndexSet*)from removeIndex:from.firstIndex];
-                [(NSMutableIndexSet*)to removeIndex:to.firstIndex];
-            }
-
-        } completionHandler:^{
-            [_tableView reloadDataForRowIndexes:changed columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-        }];
+        [_tableView updateWithObjectValues:_sensorsAndGroupsCollectionSnapshot previousObjectValues:oldSensorsAndGroups];
     }];
 
 }

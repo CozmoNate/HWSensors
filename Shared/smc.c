@@ -50,7 +50,7 @@ void _ultostr(char *str, UInt32 val)
              (unsigned int) val);
 }
 
-kern_return_t SMCOpen(io_connect_t *conn, const char *serviceName)
+kern_return_t SMCOpen(const char *serviceName, io_connect_t *conn)
 {
     kern_return_t result;
     mach_port_t   masterPort;

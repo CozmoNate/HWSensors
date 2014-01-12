@@ -128,7 +128,7 @@ int main(int argc, const char * argv[])
         
         io_connect_t connection;
         
-        if (kIOReturnSuccess == SMCOpen(&connection, "AppleSMC")) {
+        if (kIOReturnSuccess == SMCOpen("AppleSMC", &connection)) {
             
             switch (option) {
                 case OPTION_LIST: {

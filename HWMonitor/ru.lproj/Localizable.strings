@@ -227,7 +227,7 @@
 "MCH Heatsink" = "Контроллер памяти, Радиатор";
 "MCP Internal Die" = "Контроллер памяти, Подложка";
 "PCH Die" = "Системный контроллер";
-"PCH Proximity" = "Системный контроллер, Датчик";
+"PCH Proximity" = "Контроллер, Датчик";
 "Mainboard Proximity" = "Материнская плата";
 "LCD Proximity" = "Датчик LCD";
 "Airport Proximity" = "Датчик Airport";
@@ -287,7 +287,7 @@
 "Mainboard S0 Rail" = "Шина питания S0";
 "Mainboard S3 Rail" = "Шина питания S3";
 "Mainboard S5 Rail" = "Шина питания S5";
-"Main Power Supply" = "Основной источник питания";
+"Main Power Supply" = "Основной ИП";
 
 "CMOS Battery" = "Батарея CMOS";
 

@@ -18,7 +18,7 @@
 {
     if (self.isEnabled) {
         [NSAnimationContext beginGrouping];
-        [[NSAnimationContext currentContext] setDuration:0.05];
+        [[NSAnimationContext currentContext] setDuration:0.01];
         [[self animator] setAlphaValue:_hoverOpacity];
         [NSAnimationContext endGrouping];
     }

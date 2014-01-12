@@ -36,7 +36,7 @@
 @interface PrefsController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, HWMEngineDelegate, GrowlApplicationBridgeDelegate>
 {
     NSInteger _previousViewTag;
-    NSMutableArray *_iconsAndSensorsCollectionSnapshot;
+    NSMutableArray *_sensorsAndGroupsCollectionSnapshot;
     NSMutableArray *_favoritesCollectionSnapshot;
     BOOL _forceUpdateSensors;
 }

@@ -283,11 +283,9 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
 {
     if ([keyPath isEqualToString:@"self.engine.configuration.useBsdDriveNames"]) {
         [self setTitle:self.engine.configuration.useBsdDriveNames.boolValue ? self.bsdName : self.productName];
-        [self setHasUpdates:YES];
     }
     else if ([keyPath isEqualToString:@"self.engine.configuration.showVolumeNames"]) {
         [self setLegend:self.engine.configuration.showVolumeNames.boolValue ? self.volumeNames : nil];
-        [self setHasUpdates:YES];
     }
 
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];

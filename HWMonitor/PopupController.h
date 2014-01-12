@@ -22,7 +22,7 @@
 
 @interface PopupController : NSWindowController <NSApplicationDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
-    NSMutableArray *_sensorsAndGroupsCollectionSnapshot;
+    NSArray *_sensorsAndGroupsCollectionSnapshot;
 }
 
 @property (assign) IBOutlet id <PopupControllerDelegate> delegate;

@@ -34,7 +34,7 @@
 @interface GraphsController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSCollectionViewDelegate>
 {
     NSMutableArray *_graphViews;
-    NSMutableArray *_graphsAndGroupsCollectionSnapshot;
+    NSArray *_graphsAndGroupsCollectionSnapshot;
 }
 
 @property (nonatomic, strong) IBOutlet HWMEngine *monitorEngine;
@@ -47,6 +47,6 @@
 
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
 
--(IBAction)graphsNeedDisplay:(id)sender;
+-(IBAction)setNeedDisplayGraphs:(id)sender;
 
 @end

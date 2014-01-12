@@ -8,8 +8,8 @@
 
 find ./Binaries/ -maxdepth 1 -type f -name "*.dmg" -delete
 find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz" -delete
-find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz.dsa" -delete
-find ./Binaries/ -maxdepth 1 -type f -name "*.tar.gz.sha1" -delete
+find ./Binaries/ -maxdepth 1 -type f -name "*.dsa" -delete
+find ./Binaries/ -maxdepth 1 -type f -name "*.sha1" -delete
 
 if [ "$1" == "clean" ]
 then
@@ -35,7 +35,7 @@ hdiutil convert ./Binaries/TEMP.${bin_filename} -format UDZO -imagekey zlib-leve
 rm ./Binaries/TEMP.${bin_filename}
 
 # compressed update
-dmg_filename=${project_name}.${full_version}.dmg
+dmg_filename=${project_name}.${full_version}.Update.dmg
 dmg_volumename=${project_name}" v"${full_version}
 hdiutil create -megabytes 10 -fs HFS+ -volname "${dmg_volumename}" ./Binaries/TEMP.${dmg_filename}
 hdiutil attach ./Binaries/TEMP.${dmg_filename} -readwrite -mount required

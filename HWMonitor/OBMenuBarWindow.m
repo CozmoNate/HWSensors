@@ -721,7 +721,17 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
     {
         size_t dimension = 100;
         size_t bytes = dimension * dimension * 4;
-        CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+
+        //CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+
+        // Fix rainbow noise when selected device-independent monitor profile
+        // Values got from: http://stackoverflow.com/questions/501199/disabling-color-correction-in-quartz-2d
+        const CGFloat whitePoint[] = {0.95047, 1.0, 1.08883};
+        const CGFloat blackPoint[] = {0, 0, 0};
+        const CGFloat gamma[] = {1, 1, 1};
+        const CGFloat matrix[] = {0.449695, 0.244634, 0.0251829, 0.316251, 0.672034, 0.141184, 0.18452, 0.0833318, 0.922602 };
+        CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateCalibratedRGB(whitePoint, blackPoint, gamma, matrix);
+
         unsigned char *data = malloc(bytes);
         unsigned char grey;
         for (NSUInteger i = 0; i < bytes; i += 4)

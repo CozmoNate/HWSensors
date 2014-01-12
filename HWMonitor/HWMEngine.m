@@ -706,11 +706,11 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         // SMC
 
         // FakeSMCKeyStore is prioritized key source
-        SMCOpen(&_fakeSmcConnection, "FakeSMCKeyStore");
+        SMCOpen("FakeSMCKeyStore", &_fakeSmcConnection);
         NSArray *fakeSmcKeys = [self getSmcKeysFromConnection:_fakeSmcConnection excludedList:nil];
         if (!fakeSmcKeys || !fakeSmcKeys.count) SMCClose(_fakeSmcConnection);
 
-        SMCOpen(&_smcConnection, "AppleSMC");
+        SMCOpen("AppleSMC", &_smcConnection);
         NSArray *smcKeys = [self getSmcKeysFromConnection:_smcConnection excludedList:fakeSmcKeys];
         if (!smcKeys || !smcKeys.count) SMCClose(_smcConnection);
 
@@ -1100,7 +1100,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                listBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.95]
                    listStrokeColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.35]
                    toolbarEndColor:[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.95]
-                toolbarShadowColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.3]
+                toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.95] highlightWithLevel:0.63]
                  toolbarStartColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.95] highlightWithLevel:0.6]
                 toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.35]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
@@ -1116,7 +1116,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                listBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.95]
                    listStrokeColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.35]
                    toolbarEndColor:[NSColor colorWithCalibratedWhite:0.23 alpha:0.95]
-                toolbarShadowColor:[NSColor colorWithCalibratedWhite:0.7 alpha:0.3]
+                toolbarShadowColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.95] highlightWithLevel:0.58]
                  toolbarStartColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.95] highlightWithLevel:0.55]
                 toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.7]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
@@ -1132,7 +1132,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                listBackgroundColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.95]
                    listStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.55]
                    toolbarEndColor:[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.98]
-                toolbarShadowColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.3]
+                toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.98] highlightWithLevel:0.58]
                  toolbarStartColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.98] highlightWithLevel:0.55]
                 toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.35]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
