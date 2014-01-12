@@ -103,6 +103,7 @@
 		7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED3004E1802895E0020D818 /* JLNFadingScrollView.m */; };
 		7ED40C29184A6D0F0068EBC9 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED40C28184A6D0F0068EBC9 /* WebKit.framework */; };
 		7ED6AE0518833B840005B30C /* NSTableView+HWMEngineHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED6AE0418833B840005B30C /* NSTableView+HWMEngineHelper.m */; };
+		7ED6AE08188347FD0005B30C /* PrefsToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED6AE07188347FD0005B30C /* PrefsToolbarItem.m */; };
 		7EDA1A6D16D901100012A0DC /* PopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A6C16D901100012A0DC /* PopupController.m */; };
 		7EDA1A7816D903740012A0DC /* PopupGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A7416D903740012A0DC /* PopupGroupCell.m */; };
 		7EDA1A7916D903740012A0DC /* PopupSensorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1A7616D903740012A0DC /* PopupSensorCell.m */; };
@@ -326,6 +327,8 @@
 		7ED40C28184A6D0F0068EBC9 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		7ED6AE0318833B840005B30C /* NSTableView+HWMEngineHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+HWMEngineHelper.h"; sourceTree = "<group>"; };
 		7ED6AE0418833B840005B30C /* NSTableView+HWMEngineHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+HWMEngineHelper.m"; sourceTree = "<group>"; };
+		7ED6AE06188347FD0005B30C /* PrefsToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsToolbarItem.h; sourceTree = "<group>"; };
+		7ED6AE07188347FD0005B30C /* PrefsToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsToolbarItem.m; sourceTree = "<group>"; };
 		7EDA1A6B16D901100012A0DC /* PopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupController.h; sourceTree = "<group>"; };
 		7EDA1A6C16D901100012A0DC /* PopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupController.m; sourceTree = "<group>"; };
 		7EDA1A7316D903740012A0DC /* PopupGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupGroupCell.h; sourceTree = "<group>"; };
@@ -922,6 +925,8 @@
 			isa = PBXGroup;
 			children = (
 				7E19DECD1843E45F00229B0E /* Cells */,
+				7ED6AE06188347FD0005B30C /* PrefsToolbarItem.h */,
+				7ED6AE07188347FD0005B30C /* PrefsToolbarItem.m */,
 				7EA248FD16D8E93A002231B2 /* PrefsController.h */,
 				7EA248FE16D8E93A002231B2 /* PrefsController.m */,
 				7E2042041730D04000C13B65 /* PrefsController.xib */,
@@ -1189,6 +1194,7 @@
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
+				7ED6AE08188347FD0005B30C /* PrefsToolbarItem.m in Sources */,
 				7E031C641835E76D00A2D097 /* HWMImageTransformer.m in Sources */,
 				7EF1B12C185342890094C1DB /* HWMConfiguration.m in Sources */,
 				7EFE61AE183581090009BD0D /* HWMBatterySensor.m in Sources */,

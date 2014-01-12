@@ -31,6 +31,7 @@
 
 #import "PopupGroupCell.h"
 #import "PrefsCell.h"
+#import "PrefsToolbarItem.h"
 
 #import "Localizer.h"
 
@@ -94,19 +95,20 @@
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             
             [Localizer localizeView:self.window];
-            [Localizer localizeView:_generalPrefsView];
-            [Localizer localizeView:_menubarPrefsView];
-            [Localizer localizeView:_popupPrefsView];
-            [Localizer localizeView:_graphsPrefsView];
+
+            [self.window.toolbar.items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([obj isKindOfClass:[PrefsToolbarItem class]]) {
+                    [Localizer localizeView:[(PrefsToolbarItem*)obj linkedView]];
+                }
+            }];
             
             [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPrefsItemDataType]];
             [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
             [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPrefsItemDataType]];
             [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
-            
-            _previousViewTag = -1;
-            [self switchView:0];
+
             [self.window.toolbar setSelectedItemIdentifier:@"General"];
+            [self switchView:self.window.toolbar];
             
             [[self.window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
 
@@ -278,70 +280,45 @@
     return frame;
 }
 
-- (NSView *)viewForTag:(NSInteger)tag {
-    
-    NSView *view = nil;
-    
-    switch (tag) {
-        case 0:
-            view = _generalPrefsView;
-            break;
-        case 1:
-            view = _menubarPrefsView;
-            break;
-        case 2:
-            view = _popupPrefsView;
-            break;
-        case 3: 
-            view = _graphsPrefsView; 
-            break;
-            
-        default:
-            view = nil;
-            break;
-    }
-    
-    return  view;
-}
+- (IBAction)switchView:(id)sender
+{
+    __block NSView *view = nil;
 
-- (IBAction)switchView:(id)sender {
-    
-    NSInteger tag = [sender tag];
-    
-    if (_previousViewTag == tag) {
+    for (NSToolbarItem* item in self.window.toolbar.items)
+	{
+		if ([item isKindOfClass:[PrefsToolbarItem class]] &&
+            [[item itemIdentifier] isEqual:self.window.toolbar.selectedItemIdentifier])
+			view = [(PrefsToolbarItem*)item linkedView];
+	}
+
+    if (!view || [_previousView isEqual:view]) {
         return;
     }
-    
-    __block NSView *view = [self viewForTag:tag];
-    NSView *previousView = [self viewForTag:_previousViewTag];
-    
-    _previousViewTag = tag;
-    
-    //[view layoutSubtreeIfNeeded];
-    
+
     NSRect newFrame = [self newFrameForNewContentView:view];
     
-    if (previousView) {
+    if (_previousView) {
         
         newFrame.origin.x += ([[self window] frame].size.width - newFrame.size.width) / 2.0f;
         
-        [previousView setAlphaValue:0.0];
+        [_previousView setAlphaValue:0.0];
         
-        if (previousView.superview) {
-            [previousView removeFromSuperview];
+        if (_previousView.superview) {
+            [_previousView removeFromSuperview];
         }
     }
+
+    _previousView = view;
     
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         [context setDuration:[[NSApp currentEvent] modifierFlags] & NSShiftKeyMask ? 1.0 : 0.2];
         [[[self window] animator] setFrame:newFrame display:YES];
     } completionHandler:^{
-        if (view == _menubarPrefsView /*|| 
-                                       view == _popupPrefsView*/) {
-                                           //[[self.window standardWindowButton:NSWindowZoomButton] setEnabled:YES];
-                                           [self.window setMinSize:NSZeroSize];
-                                           [self.window setMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
-                                       }
+        if ([self.window.toolbar.selectedItemIdentifier isEqualTo:@"Menubar"]) { // Menubar view
+           //[[self.window standardWindowButton:NSWindowZoomButton] setEnabled:YES];
+           [self.window setMinSize:NSZeroSize];
+           [self.window setMaxSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
+       }
         else {
             //[[self.window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
             [self.window setMinSize:newFrame.size];

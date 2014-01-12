@@ -8,10 +8,6 @@
         <customObject id="-2" userLabel="File's Owner" customClass="PrefsController">
             <connections>
                 <outlet property="favoritesTableView" destination="eYG-oD-xEa" id="CkM-vZ-3V2"/>
-                <outlet property="generalPrefsView" destination="2wX-b3-awf" id="fKb-H4-m80"/>
-                <outlet property="graphsPrefsView" destination="0i6-hZ-Q6v" id="f5Q-cq-jbq"/>
-                <outlet property="menubarPrefsView" destination="DpL-kB-CmT" id="Tqz-zc-nGZ"/>
-                <outlet property="popupPrefsView" destination="Pdy-qL-0kX" id="OBy-FF-jQ8"/>
                 <outlet property="sensorsTableView" destination="SCh-vL-Yku" id="iDT-be-cqz"/>
                 <outlet property="window" destination="264" id="534"/>
             </connections>
@@ -31,24 +27,28 @@
             </view>
             <toolbar key="toolbar" implicitIdentifier="0F6AF83C-F5AE-4650-A7D5-54CBF746754D" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="Hrq-hK-rUN">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="588BC26A-DF4F-4A0C-B6BD-BA8F3BCEEB12" explicitItemIdentifier="General" label="General" paletteLabel="General" image="306-light-switch" selectable="YES" id="nTT-sg-XV5">
+                    <toolbarItem implicitItemIdentifier="588BC26A-DF4F-4A0C-B6BD-BA8F3BCEEB12" explicitItemIdentifier="General" label="General" paletteLabel="General" image="306-light-switch" selectable="YES" id="nTT-sg-XV5" customClass="PrefsToolbarItem">
                         <connections>
                             <action selector="switchView:" target="-2" id="VAi-1h-7ZT"/>
+                            <outlet property="linkedView" destination="2wX-b3-awf" id="gNC-Lf-P37"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="3D09AD92-8D35-49E0-BA7E-A191EBC1F458" explicitItemIdentifier="Menubar" label="Menubar" paletteLabel="Menubar" tag="1" image="81-dashboard" selectable="YES" id="AK6-gq-KYv">
+                    <toolbarItem implicitItemIdentifier="3D09AD92-8D35-49E0-BA7E-A191EBC1F458" explicitItemIdentifier="Menubar" label="Menubar" paletteLabel="Menubar" tag="1" image="81-dashboard" selectable="YES" id="AK6-gq-KYv" customClass="PrefsToolbarItem">
                         <connections>
                             <action selector="switchView:" target="-2" id="J34-lS-kbb"/>
+                            <outlet property="linkedView" destination="DpL-kB-CmT" id="4hG-lu-t2A"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="5E23909A-8FAF-4F33-AAE2-DCEF90552E09" explicitItemIdentifier="Popup" label="Popup" paletteLabel="Popup" tag="2" image="hwm-menu" selectable="YES" id="xAg-EI-of8">
+                    <toolbarItem implicitItemIdentifier="5E23909A-8FAF-4F33-AAE2-DCEF90552E09" explicitItemIdentifier="Popup" label="Popup" paletteLabel="Popup" tag="2" image="hwm-menu" selectable="YES" id="xAg-EI-of8" customClass="PrefsToolbarItem">
                         <connections>
                             <action selector="switchView:" target="-2" id="eTE-f9-nhV"/>
+                            <outlet property="linkedView" destination="Pdy-qL-0kX" id="yOc-Bh-UYk"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="8C415010-7DCC-4F53-BEB5-C4EDE50FFE0A" explicitItemIdentifier="Graphs" label="Graphs" paletteLabel="Graphs" tag="3" image="17-bar-chart" selectable="YES" id="rGo-hj-uD9">
+                    <toolbarItem implicitItemIdentifier="8C415010-7DCC-4F53-BEB5-C4EDE50FFE0A" explicitItemIdentifier="Graphs" label="Graphs" paletteLabel="Graphs" tag="3" image="17-bar-chart" selectable="YES" id="rGo-hj-uD9" customClass="PrefsToolbarItem">
                         <connections>
                             <action selector="switchView:" target="-2" id="8P7-pe-KJL"/>
+                            <outlet property="linkedView" destination="0i6-hZ-Q6v" id="0Gi-FO-G38"/>
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Lzi-jy-uiw"/>
@@ -425,14 +425,14 @@
                     <rect key="frame" x="20" y="77" width="560" height="396"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
                             <rect key="frame" x="0.0" y="0.0" width="276" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="hK2-oA-2Lv">
                                 <rect key="frame" x="1" y="1" width="274" height="394"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="19" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
+                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
                                         <rect key="frame" x="0.0" y="0.0" width="274" height="394"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>
@@ -970,14 +970,14 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </scrollView>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
                             <rect key="frame" x="285" y="0.0" width="275" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="i8f-2e-Hgn">
                                 <rect key="frame" x="1" y="1" width="273" height="394"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="19" rowSizeStyle="automatic" viewBased="YES" id="eYG-oD-xEa" customClass="SensorsTableView">
+                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="eYG-oD-xEa" customClass="SensorsTableView">
                                         <rect key="frame" x="0.0" y="0.0" width="273" height="394"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>
