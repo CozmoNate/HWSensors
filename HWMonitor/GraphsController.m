@@ -125,7 +125,6 @@
     [super showWindow:sender];
     
     [self.monitorEngine updateSmcAndDeviceSensors];
-    [_graphsScrollView layoutSubtreeIfNeeded];
 }
 
 -(void)reloadGraphsTableView:(id)sender

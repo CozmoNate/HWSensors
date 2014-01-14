@@ -425,7 +425,7 @@
                     <rect key="frame" x="20" y="77" width="560" height="396"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
                             <rect key="frame" x="0.0" y="0.0" width="276" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="hK2-oA-2Lv">
@@ -953,11 +953,11 @@
                             <constraints>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="251" id="zc0-CW-SeO"/>
                             </constraints>
-                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="lBr-2q-UJ8" customClass="RFOverlayScroller">
+                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="lBr-2q-UJ8" customClass="RFOverlayScroller">
                                 <rect key="frame" x="-100" y="-100" width="263" height="11"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
-                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="cYw-KN-ID9" customClass="RFOverlayScroller">
+                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="NO" id="cYw-KN-ID9" customClass="RFOverlayScroller">
                                 <rect key="frame" x="264" y="1" width="11" height="394"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
@@ -970,7 +970,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </scrollView>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
                             <rect key="frame" x="285" y="0.0" width="275" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="i8f-2e-Hgn">
@@ -1317,11 +1317,11 @@
                             <constraints>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="250" id="aJR-o9-vmc"/>
                             </constraints>
-                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="ioU-Xn-atj" customClass="RFOverlayScroller">
+                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="ioU-Xn-atj" customClass="RFOverlayScroller">
                                 <rect key="frame" x="-100" y="-100" width="223" height="11"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
-                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="1YZ-QB-VJg" customClass="RFOverlayScroller">
+                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="NO" id="1YZ-QB-VJg" customClass="RFOverlayScroller">
                                 <rect key="frame" x="263" y="1" width="11" height="394"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>

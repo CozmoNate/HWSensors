@@ -67,11 +67,11 @@
     [self addCursorRect:self.frame cursor:[NSCursor pointingHandCursor]];
 }
 
-- (void)drawRect:(NSRect)dirtyRect
-{
-    // Only draw the know. drawRect: should only be invoked when overlay scrollers are not used
-    [self drawKnob];
-}
+//- (void)drawRect:(NSRect)dirtyRect
+//{
+//    // Only draw the knob. drawRect: should only be invoked when overlay scrollers are not used
+//    [self drawKnob];
+//}
 
 - (void)drawKnobSlotInRect:(NSRect)slotRect highlight:(BOOL)flag
 {
@@ -103,20 +103,24 @@
 {
     [super mouseExited:theEvent];
 
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:0.15];
-    [self.animator setAlphaValue:NORMAL_OPACITY];
-    [NSAnimationContext endGrouping];
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [[NSAnimationContext currentContext] setDuration:0.15];
+        [self.animator setAlphaValue:NORMAL_OPACITY];
+    } completionHandler:^{
+
+    }];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent
 {
     [super mouseEntered:theEvent];
 
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:0.1];
-    [self.animator setAlphaValue:HIGHLLIGHTED_OPACITY];
-    [NSAnimationContext endGrouping];
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [[NSAnimationContext currentContext] setDuration:0.1];
+        [self.animator setAlphaValue:HIGHLLIGHTED_OPACITY];
+    } completionHandler:^{
+
+    }];
 }
 
 - (void)updateTrackingAreas
