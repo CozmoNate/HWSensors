@@ -25,6 +25,7 @@
 #import "HWMSensor.h"
 
 #import "NSTableView+HWMEngineHelper.h"
+#import "NSImage+HighResolutionLoading.h"
 
 @implementation PopupController
 
@@ -52,9 +53,9 @@
         _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
         
         _statusItemView = [[StatusItemView alloc] initWithFrame:NSMakeRect(0, 0, 22, 22) statusItem:_statusItem];
-        
-        _statusItemView.image = [NSImage imageNamed:@"thermometer"];
-        _statusItemView.alternateImage = [NSImage imageNamed:@"thermometer_template"];
+
+        _statusItemView.image = [NSImage loadImageNamed:@"thermometer" ofType:@"png"];
+        _statusItemView.alternateImage = [NSImage loadImageNamed:@"thermometer-white" ofType:@"png"];
         
         [_statusItemView setAction:@selector(togglePanel:)];
         [_statusItemView setTarget:self];
@@ -342,7 +343,7 @@
 {
     HWMItem *item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
 
-    NSUInteger height = [item isKindOfClass:[HWMSensorsGroup class]] ? 19 : 17;
+    NSUInteger height = [item isKindOfClass:[HWMSensorsGroup class]] ? 20 : 17;
 
     if (item.legend)
         height += 10;

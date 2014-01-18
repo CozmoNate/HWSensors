@@ -50,7 +50,7 @@
 -(void)prepareForDeletion
 {
     if (self.engine) {
-        [self removeObserver:self.engine forKeyPath:@"engine.configuration.colorTheme"];
+        //[self removeObserver:self.engine forKeyPath:@"engine.configuration.colorTheme"];
     }
 }
 

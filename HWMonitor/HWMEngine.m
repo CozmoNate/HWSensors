@@ -27,6 +27,10 @@
 
 #import "SmcHelper.h"
 
+#import "NSImage+HighResolutionLoading.h"
+
+#import <QuartzCore/QuartzCore.h>
+
 NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
 @implementation HWMEngine
@@ -302,7 +306,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self insertColorThemes];
 
     // Load icons
-    [self loadIconNamed:kHWMonitorIconHWMonitor];
+    [self loadIconNamed:kHWMonitorIconHWMonitor asTemplate:NO];
     [self loadIconNamed:kHWMonitorIconThermometer];
     [self loadIconNamed:kHWMonitorIconScale];
     [self loadIconNamed:kHWMonitorIconDevice];
@@ -453,20 +457,30 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(HWMIcon*)loadIconNamed:(NSString*)name
 {
+    return [self loadIconNamed:name asTemplate:YES];
+}
+
+-(HWMIcon*)loadIconNamed:(NSString*)name asTemplate:(BOOL)template
+{
     HWMIcon *icon = [self getIconByName:name];
 
     if (!icon) {
         icon = [NSEntityDescription insertNewObjectForEntityForName:@"Icon" inManagedObjectContext:self.managedObjectContext];
     }
 
-    NSImage *image = [[NSImage alloc] initWithContentsOfFile:[self.bundle pathForResource:name ofType:@"png"]];
-    NSImage *alternate = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[name stringByAppendingString:@"_template"] ofType:@"png"]];
+    NSImage *image = [NSImage loadImageNamed:name ofType:@"png"];
 
-    if (image)
-        [image setTemplate:YES];
+    if (image) {
+        [image setMatchesOnlyOnBestFittingAxis:YES];
+        [image setTemplate:template];
+    }
 
-    if (alternate)
-        [alternate setTemplate:YES];
+    NSImage *alternate = [NSImage loadImageNamed:[name stringByAppendingString:@"-white"] ofType:@"png"];
+
+    if (alternate) {
+        [alternate setMatchesOnlyOnBestFittingAxis:YES];
+        [alternate setTemplate:template];
+    }
 
     [icon setName:name];
     [icon setRegular:image];

@@ -155,15 +155,15 @@
 
                 [[NSGraphicsContext currentContext] saveGraphicsState];
 
-                if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
-                    [_shadow set];
-
                 HWMIcon *icon = (HWMIcon*)object;
 
                 if (icon) {
                     NSImage *image = /*_isHighlighted ? [icon alternateImage] :*/ icon.regular;
 
                     if (image) {
+
+                        if (image.isTemplate && _monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
+                            [_shadow set];
 
                         [image drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
 

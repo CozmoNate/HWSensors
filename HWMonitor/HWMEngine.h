@@ -72,8 +72,8 @@ typedef enum {
 @property (nonatomic, strong) IBOutlet NSManagedObjectContext * managedObjectContext;
 @property (nonatomic, strong) IBOutlet HWMConfiguration * configuration;
 
-@property (assign) HWMEngineState engineState;
-@property (assign) HWMSensorsUpdateLoopStrategy updateLoopStrategy;
+@property (nonatomic, assign) HWMEngineState engineState;
+@property (nonatomic, assign) HWMSensorsUpdateLoopStrategy updateLoopStrategy;
 
 @property (readonly) BOOL isRunningOnMac;
 

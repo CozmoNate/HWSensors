@@ -367,10 +367,10 @@ void FakeSMCSensor::encodeNumericValue(float value, void *outBuffer)
 
 #include "OEMInfo.h"
 
-static IORecursiveLock *gPluginSyncLock = 0;
+static IORecursiveLock *gFakeSMCPluginLock = 0;
 
-#define SYNCLOCK        if (!gPluginSyncLock) gPluginSyncLock = IORecursiveLockAlloc(); IORecursiveLockLock(gPluginSyncLock)
-#define SYNCUNLOCK      IORecursiveLockUnlock(gPluginSyncLock)
+#define PLOCK   IORecursiveLockLock(gFakeSMCPluginLock)
+#define PUNLOCK IORecursiveLockUnlock(gFakeSMCPluginLock)
 
 #define super FakeSMCKeyHandler
 OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, FakeSMCKeyHandler)
@@ -390,53 +390,53 @@ OSString *FakeSMCPlugin::getPlatformProduct(void)
 
 void FakeSMCPlugin::enableExclusiveAccessMode(void)
 {
-    SYNCLOCK;
+    PLOCK;
 }
 
 void FakeSMCPlugin::disableExclusiveAccessMode(void)
 {
-    SYNCUNLOCK;
+    PUNLOCK;
 }
 
 bool FakeSMCPlugin::isKeyExists(const char *key)
 {
-    SYNCLOCK;
+    PLOCK;
 
     bool keyExists = keyStore->getKey(key);
 
-    SYNCUNLOCK;
+    PUNLOCK;
 
     return keyExists;
 }
 
 bool FakeSMCPlugin::isKeyHandled(const char *key)
 {
-    SYNCLOCK;
+    PLOCK;
 
     bool keyHandled = false;
 
     if (FakeSMCKey *smcKey = keyStore->getKey(key))
         keyHandled = smcKey->getHandler();
 
-    SYNCUNLOCK;
+    PUNLOCK;
 
     return keyHandled;
 }
 
 bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, void *value)
 {
-    SYNCLOCK;
+    PLOCK;
 
     bool added = keyStore->addKeyWithValue(key, type, size, value);
 
-    SYNCUNLOCK;
+    PUNLOCK;
 
     return added;
 }
 
 bool FakeSMCPlugin::getKeyValue(const char *key, void *value)
 {
-    SYNCLOCK;
+    PLOCK;
 
     FakeSMCKey *smcKey = keyStore->getKey(key);
 
@@ -444,31 +444,31 @@ bool FakeSMCPlugin::getKeyValue(const char *key, void *value)
         memcpy(value, smcKey->getValue(), smcKey->getSize());
     }
 
-    SYNCUNLOCK;
+    PUNLOCK;
 
     return smcKey != NULL;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
-    SYNCLOCK;
+    PLOCK;
 
     if (FakeSMCSensor *sensor = FakeSMCSensor::withOwner(this, key, type, size, group, index, reference, gain, offset)) {
         if (addSensor(sensor)) {
-            SYNCUNLOCK;
+            PUNLOCK;
             return sensor;
         }
         else OSSafeRelease(sensor);
     }
 
-    SYNCUNLOCK;
+    PUNLOCK;
 
 	return NULL;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbreviation, kFakeSMCCategory category, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
-    SYNCLOCK;
+    PLOCK;
 
     FakeSMCSensor *sensor = NULL;
 
@@ -497,14 +497,14 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbreviation, kFakeSMCCatego
         }
     }
 
-    SYNCUNLOCK;
+    PUNLOCK;
 
     return sensor;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addSensor(OSObject *node, kFakeSMCCategory category, UInt32 group, UInt32 index)
 {
-    SYNCLOCK;
+    PLOCK;
 
     FakeSMCSensor *sensor = NULL;
 
@@ -524,13 +524,13 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(OSObject *node, kFakeSMCCategory categor
             sensor = addSensor(abbreviation->getCStringNoCopy(), category, group, index, reference, gain, offset);
     }
 
-    SYNCUNLOCK;
+    PUNLOCK;
     return sensor;
 }
 
 bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
 {
-    SYNCLOCK;
+    PLOCK;
 
     bool added = keyStore->addKeyWithHandler(sensor->getKey(), sensor->getType(), sensor->getSize(), this);
 
@@ -538,14 +538,14 @@ bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
         sensors->setObject(sensor->getKey(), sensor);
     }
 
-    SYNCUNLOCK;
+    PUNLOCK;
 
     return added;
 }
 
 FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanType type, UInt8 zone, FanLocationType location, SInt8 *fanIndex)
 {
-    SYNCLOCK;
+    PLOCK;
 
     SInt8 vacantFanIndex = keyStore->takeVacantFanIndex();
 
@@ -574,7 +574,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanT
 
             if (fanIndex) *fanIndex = vacantFanIndex;
 
-            SYNCUNLOCK;
+            PUNLOCK;
 
             return sensor;
         }
@@ -582,7 +582,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanT
     }
     else HWSensorsErrorLog("failed to take vacant Fan index");
 
-    SYNCUNLOCK;
+    PUNLOCK;
 
 	return 0;
 }
@@ -604,53 +604,53 @@ bool FakeSMCPlugin::didWriteSensorValue(FakeSMCSensor *sensor, float value)
 
 SInt8 FakeSMCPlugin::takeVacantGPUIndex(void)
 {
-    SYNCLOCK;
+    PLOCK;
 
     SInt8 index = keyStore->takeVacantGPUIndex();
 
-    SYNCUNLOCK;
+    PUNLOCK;
 
     return index;
 }
 
 bool FakeSMCPlugin::takeGPUIndex(UInt8 index)
 {
-    SYNCLOCK;
+    PLOCK;
 
     bool taken = keyStore->takeGPUIndex(index);
 
-    SYNCUNLOCK;
+    PUNLOCK;
 
     return taken;
 }
 
 void FakeSMCPlugin::releaseGPUIndex(UInt8 index)
 {
-    SYNCLOCK;
+    PLOCK;
 
     keyStore->releaseGPUIndex(index);
 
-    SYNCUNLOCK;
+    PUNLOCK;
 }
 
 SInt8 FakeSMCPlugin::takeVacantFanIndex(void)
 {
-    SYNCLOCK;
+    PLOCK;
 
     SInt8 index = keyStore->takeVacantFanIndex();
 
-    SYNCUNLOCK;
+    PUNLOCK;
 
     return index;
 }
 
 void FakeSMCPlugin::releaseFanIndex(UInt8 index)
 {
-    SYNCLOCK;
+    PLOCK;
 
     keyStore->releaseFanIndex(index);
 
-    SYNCUNLOCK;
+    PUNLOCK;
 }
 
 OSDictionary *FakeSMCPlugin::getConfigurationNode(OSDictionary *root, OSString *name)
@@ -704,6 +704,9 @@ OSDictionary *FakeSMCPlugin::getConfigurationNode(OSString *model)
 
 bool FakeSMCPlugin::init(OSDictionary *properties)
 {
+    if (!gFakeSMCPluginLock)
+        gFakeSMCPluginLock = IORecursiveLockAlloc();
+
     if (!super::init(properties))
         return false;
 
