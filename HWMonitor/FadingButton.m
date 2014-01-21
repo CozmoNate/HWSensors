@@ -119,7 +119,7 @@
         
         NSEvent *event = [NSEvent
                           mouseEventWithType:NSRightMouseDown
-                          location: NSMakePoint(frame.origin.x - self.bounds.size.width / 2, frame.origin.y - self.bounds.size.height / 2)
+                          location: NSMakePoint(frame.origin.x + self.bounds.size.width / 2, frame.origin.y - self.bounds.size.height / 2)
                           modifierFlags: theEvent.modifierFlags
                           timestamp: theEvent.timestamp
                           windowNumber:theEvent.windowNumber

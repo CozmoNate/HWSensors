@@ -912,8 +912,12 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             [SmcHelper writeKey:@KEY_FAN_MANUAL value:@0 connection:_fakeSmcConnection];
         }
         else {
-            for (HWMSmcFanSensor *fan in _fanSensorsGroup.sensors) {
-                [fan setSpeed:fan.speed];
+            HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupTachometer];
+
+            if (group) {
+                for (HWMSmcFanSensor *fan in group.sensors) {
+                    [fan setSpeed:fan.speed];
+                }
             }
         }
 
@@ -979,11 +983,16 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-        for (NSDictionary *properties in devices) {
-            [self insertBatterySensorFromDictionary:properties group:_batterySensorsGroup];
-        }
+        HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupBattery];
 
-        [self setNeedsUpdateSensorLists];
+        if (group) {
+
+            for (NSDictionary *properties in devices) {
+                [self insertBatterySensorFromDictionary:properties group:group];
+            }
+
+            [self setNeedsUpdateSensorLists];
+        }
     }];
 }
 
@@ -991,19 +1000,24 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-        NSArray *sensors = [[_batterySensorsGroup.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service IN %@", devices]];
+        HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupBattery];
 
-        if (sensors) {
-            for (HWMBatterySensor *sensor in sensors) {
-                
-                NSLog(@"removed battery device %@ (%@)", sensor.name, sensor.service);
+        if (group) {
 
-                [sensor setService:@0];
+            NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service IN %@", devices]];
+
+            if (sensors) {
+                for (HWMBatterySensor *sensor in sensors) {
+                    
+                    NSLog(@"removed battery device %@ (%@)", sensor.name, sensor.service);
+
+                    [sensor setService:@0];
+                }
             }
+
+
+            [self setNeedsUpdateSensorLists];
         }
-
-
-        [self setNeedsUpdateSensorLists];
     }];
 }
 
@@ -1196,11 +1210,11 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self insertGroupWithSelector:kHWMGroupSmartRemainingLife name:@"SSD REMAINING LIFE" icon:[self getIconByName:kHWMonitorIconSsdLife]];
     [self insertGroupWithSelector:kHWMGroupSmartRemainingBlocks name:@"SSD REMAINING BLOCKS" icon:[self getIconByName:kHWMonitorIconSsdLife]];
     [self insertGroupWithSelector:kHWMGroupFrequency name:@"FREQUENCIES" icon:[self getIconByName:kHWMonitorIconFrequencies]];
-    _fanSensorsGroup = [self insertGroupWithSelector:kHWMGroupTachometer name:@"FANS & PUMPS" icon:[self getIconByName:kHWMonitorIconTachometers]];
+    [self insertGroupWithSelector:kHWMGroupTachometer name:@"FANS & PUMPS" icon:[self getIconByName:kHWMonitorIconTachometers]];
     [self insertGroupWithSelector:kHWMGroupVoltage name:@"VOLTAGES" icon:[self getIconByName:kHWMonitorIconVoltages]];
     [self insertGroupWithSelector:kHWMGroupCurrent name:@"CURRENTS" icon:[self getIconByName:kHWMonitorIconVoltages]];
     [self insertGroupWithSelector:kHWMGroupPower name:@"POWER CONSUMPTION" icon:[self getIconByName:kHWMonitorIconVoltages]];
-    _batterySensorsGroup = [self insertGroupWithSelector:kHWMGroupBattery name:@"BATTERIES" icon:[self getIconByName:kHWMonitorIconBattery]];
+    [self insertGroupWithSelector:kHWMGroupBattery name:@"BATTERIES" icon:[self getIconByName:kHWMonitorIconBattery]];
 }
 
 #pragma mark

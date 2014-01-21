@@ -58,7 +58,7 @@ echo '  <link>http://hwsensors.com/appcast/appcast.xml</link>' >> ./Appcast/appc
 echo '  <description>Most recent changes with links to updates.</description>' >> ./Appcast/appcast.xml
 echo '  <language>en</language>' >> ./Appcast/appcast.xml
 echo '  <item>' >> ./Appcast/appcast.xml
-echo '      <sparkle:releaseNotesLink>http://hwsensors.com/appcast/rnotes.html</sparkle:releaseNotesLink>' >> ./Appcast/appcast.xml
+echo '      <sparkle:releaseNotesLink>http://hwsensors.com/release-notes</sparkle:releaseNotesLink>' >> ./Appcast/appcast.xml
 echo '      <title>Version '${full_version}'</title>' >> ./Appcast/appcast.xml
 echo '      <pubDate>'$(date +"%a, %d %b %G %T %z")'</pubDate>' >> ./Appcast/appcast.xml
 echo '      <enclosure url="http://hwsensors.com/appcast/hwmonitor/'${dmg_filename}'" sparkle:version="'${last_revision}'" sparkle:shortVersionString="'${full_version}'" sparkle:dsaSignature="'${dsa_signature}'" length="'$(stat -f %z ./Binaries/${dmg_filename})'" type="application/x-compress"/>' >> ./Appcast/appcast.xml

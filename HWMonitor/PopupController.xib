@@ -51,10 +51,10 @@
                                     <action selector="detachFromMenuBar:" target="3" id="1445"/>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1727" id="2641">
                                         <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="0"/>
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
@@ -113,14 +113,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="222" height="301"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="27" horizontalPageScroll="10" verticalLineScroll="27" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" findBarPosition="aboveHorizontalRuler" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="JLNFadingScrollView">
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" findBarPosition="aboveHorizontalRuler" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="JLNFadingScrollView">
                         <rect key="frame" x="0.0" y="0.0" width="222" height="301"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Ii9-fX-Ldk">
                             <rect key="frame" x="0.0" y="0.0" width="222" height="301"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="27" rowSizeStyle="automatic" viewBased="YES" id="52" customClass="SensorsTableView">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="52" customClass="SensorsTableView">
                                     <rect key="frame" x="0.0" y="0.0" width="222" height="301"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -566,11 +566,11 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button toolTip="Hide Window" translatesAutoresizingMaskIntoConstraints="NO" id="1138" userLabel="Hide Popup Button" customClass="FadingButton">
-                    <rect key="frame" x="10" y="9" width="15" height="15"/>
+                    <rect key="frame" x="10" y="10" width="15" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="15" id="i2E-Ya-CkS"/>
-                        <constraint firstAttribute="height" constant="15" id="lL5-BK-214"/>
+                        <constraint firstAttribute="width" constant="15" id="OYB-vc-kF1"/>
+                        <constraint firstAttribute="height" constant="15" id="f5k-id-7Qg"/>
                     </constraints>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="37-circle-x" imagePosition="only" alignment="left" alternateImage="37-circle-x" imageScaling="proportionallyUpOrDown" inset="2" id="1139">
                         <behavior key="behavior" lightByContents="YES"/>
@@ -582,10 +582,10 @@
                         <action selector="orderOut:" target="3" id="1151"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2507">
                             <dictionary key="options">
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>
@@ -600,28 +600,28 @@
                     </connections>
                 </button>
                 <button toolTip="Preferences" translatesAutoresizingMaskIntoConstraints="NO" id="25" userLabel="Preferences Button" customClass="FadingButton">
-                    <rect key="frame" x="199" y="9" width="15" height="15"/>
+                    <rect key="frame" x="193" y="10" width="25" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="15" id="buy-Xu-FBR"/>
-                        <constraint firstAttribute="width" constant="15" id="t4o-to-1dy"/>
+                        <constraint firstAttribute="width" constant="25" id="2zO-2X-BI1"/>
+                        <constraint firstAttribute="height" constant="15" id="rzV-nZ-xdI"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="19-gear" imagePosition="only" alignment="left" alternateImage="19-gear" imageScaling="proportionallyUpOrDown" inset="2" id="45">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="19-gear" imagePosition="only" alignment="left" alternateImage="19-gear" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="45">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                         <string key="keyEquivalent">p</string>
                         <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                     </buttonCell>
                     <connections>
-                        <outlet property="menu" destination="1556" id="1756"/>
+                        <outlet property="menu" destination="1556" id="OC9-6M-tk1"/>
                     </connections>
                 </button>
                 <button toolTip="History Graphs" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="26" userLabel="Graphs Button" customClass="FadingButton">
-                    <rect key="frame" x="179" y="9" width="15" height="15"/>
+                    <rect key="frame" x="173" y="10" width="15" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="15" id="LFk-SK-OZF"/>
-                        <constraint firstAttribute="width" constant="15" id="OBO-3X-Lfb"/>
+                        <constraint firstAttribute="width" constant="15" id="8lk-go-VNb"/>
+                        <constraint firstAttribute="height" constant="15" id="c9n-1Z-TPf"/>
                     </constraints>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="16-line-chart" imagePosition="only" alignment="left" alternateImage="16-line-chart" imageScaling="proportionallyUpOrDown" inset="2" id="43">
                         <behavior key="behavior" lightByContents="YES"/>
@@ -635,19 +635,19 @@
                 </button>
             </subviews>
             <constraints>
-                <constraint firstItem="1138" firstAttribute="leading" secondItem="14" secondAttribute="leading" constant="10" id="7Iw-go-mN7"/>
-                <constraint firstItem="26" firstAttribute="top" secondItem="14" secondAttribute="top" constant="10" id="PYO-Y0-xZ9"/>
-                <constraint firstAttribute="trailing" secondItem="25" secondAttribute="trailing" constant="10" id="cZX-DP-HgM"/>
-                <constraint firstItem="25" firstAttribute="leading" secondItem="26" secondAttribute="trailing" constant="5" id="guv-DT-BPo"/>
-                <constraint firstItem="25" firstAttribute="top" secondItem="14" secondAttribute="top" constant="10" id="ogg-GT-Bhc"/>
-                <constraint firstItem="1138" firstAttribute="top" secondItem="14" secondAttribute="top" constant="10" id="vnm-pl-Tps"/>
+                <constraint firstItem="1138" firstAttribute="leading" secondItem="14" secondAttribute="leading" constant="10" id="OOY-Zc-l8q"/>
+                <constraint firstAttribute="trailing" secondItem="25" secondAttribute="trailing" constant="6" id="Yw9-jC-RN7"/>
+                <constraint firstItem="25" firstAttribute="leading" secondItem="26" secondAttribute="trailing" constant="5" id="dtN-Hz-fEO"/>
+                <constraint firstItem="1138" firstAttribute="centerY" secondItem="14" secondAttribute="centerY" id="oP7-kE-BtZ"/>
+                <constraint firstItem="25" firstAttribute="bottom" secondItem="1138" secondAttribute="bottom" id="vVI-rG-d83"/>
+                <constraint firstItem="26" firstAttribute="bottom" secondItem="25" secondAttribute="bottom" id="xwB-Wq-okv"/>
             </constraints>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="1200"/>
     </objects>
     <resources>
         <image name="16-line-chart" width="15" height="15"/>
-        <image name="19-gear" width="15" height="15"/>
+        <image name="19-gear" width="25" height="15"/>
         <image name="37-circle-x" width="15" height="15"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSInfo" width="32" height="32"/>

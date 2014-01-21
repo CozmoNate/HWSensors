@@ -775,7 +775,7 @@ void FakeSMCPlugin::free()
 	super::free();
 }
 
-IOReturn FakeSMCPlugin::readKeyValueCallback(const char *key, const char *type, const UInt8 size, void *buffer)
+IOReturn FakeSMCPlugin::readKeyCallback(const char *key, const char *type, const UInt8 size, void *buffer)
 {
     if (key && buffer) {
         if (FakeSMCSensor *sensor = getSensor(key)) {
@@ -796,7 +796,7 @@ IOReturn FakeSMCPlugin::readKeyValueCallback(const char *key, const char *type, 
     return kIOReturnBadArgument;
 }
 
-IOReturn FakeSMCPlugin::writeKeyValueCallback(const char *key, const char *type, const UInt8 size, const void *buffer)
+IOReturn FakeSMCPlugin::writeKeyCallback(const char *key, const char *type, const UInt8 size, const void *buffer)
 {       
     if (key && type && buffer) {
         if (FakeSMCSensor *sensor = getSensor(key)) {
