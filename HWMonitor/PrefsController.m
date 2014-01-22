@@ -112,7 +112,7 @@
             
             [[self.window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
 
-            [self addObserver:self forKeyPath:@"monitorEngine.favoriteItems" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"monitorEngine.favorites" options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
@@ -219,7 +219,7 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqual:@"monitorEngine.favoriteItems"]) {
+    if ([keyPath isEqual:@"monitorEngine.favorites"]) {
         [self reloadFavoritesTableView:self];
     }
     else if ([keyPath isEqual:@"monitorEngine.iconsWithSensorsAndGroups"]) {
@@ -251,7 +251,7 @@
 {
     [_monitorEngine stopEngine];
     
-    [self removeObserver:self forKeyPath:@"monitorEngine.favoriteItems"];
+    [self removeObserver:self forKeyPath:@"monitorEngine.favorites"];
     [self removeObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups"];
 }
 
