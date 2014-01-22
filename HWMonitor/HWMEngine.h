@@ -77,6 +77,7 @@ typedef enum {
 @property (readonly) IBOutlet NSArray * sensorsAndGroups;
 @property (readonly) IBOutlet NSArray * graphsAndGroups;
 @property (readonly) IBOutlet NSArray * favoriteItems;
+@property (readonly) IBOutlet NSArray * favorites;
 
 +(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
 

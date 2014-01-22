@@ -33,6 +33,7 @@
 #import "HWMEngine.h"
 #import "HWMIcon.h"
 #import "HWMSensor.h"
+#import "HWMFavorite.h"
 
 @implementation StatusItemView
 
@@ -146,8 +147,15 @@
         __block int lastWidth = 0;
         __block int index = 0;
 
-        [_monitorEngine.favoriteItems enumerateObjectsUsingBlock:^(id object, NSUInteger i, BOOL *stop) {
-            if ([object isKindOfClass:[HWMIcon class]]) {
+        [_monitorEngine.favorites enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            HWMFavorite *favorite = (HWMFavorite *)obj;
+            HWMFavorite *next = idx + 1 < _monitorEngine.favorites.count ? [_monitorEngine.favorites objectAtIndex:idx + 1] : nil;
+
+            HWMItem *item = favorite.item;
+
+            if ([item isKindOfClass:[HWMIcon class]]) {
+
+                HWMIcon *icon = (HWMIcon*)item;
 
                 if (_monitorEngine.favoriteItems.count == 1) {
                     offset += 3;
@@ -155,22 +163,18 @@
 
                 [[NSGraphicsContext currentContext] saveGraphicsState];
 
-                HWMIcon *icon = (HWMIcon*)object;
+                NSImage *image = /*_isHighlighted ? [icon alternateImage] :*/ icon.regular;
 
-                if (icon) {
-                    NSImage *image = /*_isHighlighted ? [icon alternateImage] :*/ icon.regular;
+                if (image) {
 
-                    if (image) {
+                    if (image.isTemplate && _monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
+                        [_shadow set];
 
-                        if (image.isTemplate && _monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
-                            [_shadow set];
+                    [image drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
 
-                        [image drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
+                    offset = offset + [image size].width + (next && [next.item isKindOfClass:[HWMSensor class]] ? 2 : idx + 1 == _monitorEngine.favoriteItems.count ? 0 : [spacer size].width);
 
-                        offset = offset + [image size].width + (i + 1 < _monitorEngine.favoriteItems.count && [[_monitorEngine.favoriteItems objectAtIndex:i + 1] isKindOfClass:[HWMSensor class]] ? 2 : i + 1 == _monitorEngine.favoriteItems.count ? 0 : [spacer size].width);
-
-                        index = 0;
-                    }
+                    index = 0;
                 }
 
                 [[NSGraphicsContext currentContext] restoreGraphicsState];
@@ -179,21 +183,15 @@
                     offset += 3;
                 }
             }
-            else if ([object isKindOfClass:[HWMSensor class]]) {
+            else if ([item isKindOfClass:[HWMSensor class]]) {
 
-                HWMSensor *sensor = (HWMSensor*)object;
+                HWMSensor *sensor = (HWMSensor*)item;
 
                 NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:sensor.strippedValue];
 
                 NSColor *valueColor;
 
                 switch (sensor.alarmLevel) {
-                        /*case kHWSensorLevelDisabled:
-                         break;
-
-                         case kHWSensorLevelNormal:
-                         break;*/
-
                     case kHWMSensorLevelModerate:
                         valueColor = [NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f];
                         break;
@@ -215,12 +213,14 @@
                 if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
                     [_shadow set];
 
-                if (_monitorEngine.configuration.useBigFontInMenubar.boolValue) {
+                if (favorite.large.boolValue || _monitorEngine.configuration.useBigFontInMenubar.boolValue) {
 
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
                     [title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];
 
-                    offset = offset + [title size].width + (i + 1 < _monitorEngine.favoriteItems.count ? [spacer size].width : 0);
+                    offset = offset + [title size].width  + (idx + 1 < _monitorEngine.favoriteItems.count ? [spacer size].width : 0);
+
+                    index = 0;
                 }
                 else {
                     int row = index % 2;
@@ -231,25 +231,26 @@
                     int width = [title size].width;
 
                     if (row == 0) {
-                        if (i + 1 == _monitorEngine.favoriteItems.count) {
+                        if (idx + 1 == _monitorEngine.favoriteItems.count) {
                             offset += width;
                         }
-                        else if (i + 1 < _monitorEngine.favoriteItems.count && ![[_monitorEngine.favoriteItems objectAtIndex:i + 1] isKindOfClass:[HWMSensor class]]) {
+                        else if (next && [next.item isKindOfClass:[HWMSensor class]] && next.large.boolValue) {
                             offset = offset + width + [spacer size].width;
                         }
                     }
                     else if (row == 1) {
                         width = width > lastWidth ? width : lastWidth;
-                        offset = offset + width + (i + 1 < _monitorEngine.favoriteItems.count ? [spacer size].width : 0);
+                        offset = offset + width + (idx + 1 < _monitorEngine.favoriteItems.count ? [spacer size].width : 0);
                     }
-
+                    
                     lastWidth = width;
+                    
+                    index++;
                 }
-
+                
                 [[NSGraphicsContext currentContext] restoreGraphicsState];
-
-                index++;
             }
+
         }];
     }
 

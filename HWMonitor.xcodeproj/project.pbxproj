@@ -31,6 +31,10 @@
 		7E2042011730844C00C13B65 /* GraphsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042001730844C00C13B65 /* GraphsController.xib */; };
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
 		7E2042051730D04100C13B65 /* PrefsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* PrefsController.xib */; };
+		7E24ABED188FAFA500810B9D /* 338-enter-fullscreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24ABEC188FAFA500810B9D /* 338-enter-fullscreen@2x.png */; };
+		7E24ABEF188FB01200810B9D /* 338-enter-fullscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24ABEE188FB01200810B9D /* 338-enter-fullscreen.png */; };
+		7E24ABF2188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24ABF0188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png */; };
+		7E24ABF3188FB4D000810B9D /* 338-enter-fullscreen-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24ABF1188FB4D000810B9D /* 338-enter-fullscreen-white.png */; };
 		7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E268C611837A41C004F16E3 /* HWMIcon.m */; };
 		7E2789801876FB6300B443BD /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
 		7E2789811876FB6E00B443BD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
@@ -245,6 +249,11 @@
 		7E2042001730844C00C13B65 /* GraphsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphsController.xib; sourceTree = "<group>"; };
 		7E2042021730CDA000C13B65 /* PopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupController.xib; sourceTree = "<group>"; };
 		7E2042041730D04000C13B65 /* PrefsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefsController.xib; sourceTree = "<group>"; };
+		7E24ABEB188FACF700810B9D /* HWMEngine 1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HWMEngine 1.4.xcdatamodel"; sourceTree = "<group>"; };
+		7E24ABEC188FAFA500810B9D /* 338-enter-fullscreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "338-enter-fullscreen@2x.png"; sourceTree = "<group>"; };
+		7E24ABEE188FB01200810B9D /* 338-enter-fullscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "338-enter-fullscreen.png"; sourceTree = "<group>"; };
+		7E24ABF0188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "338-enter-fullscreen-white@2x.png"; sourceTree = "<group>"; };
+		7E24ABF1188FB4D000810B9D /* 338-enter-fullscreen-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "338-enter-fullscreen-white.png"; sourceTree = "<group>"; };
 		7E2678B7182523FE00B405DE /* smc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = smc.h; path = Shared/smc.h; sourceTree = "<group>"; };
 		7E268C601837A41C004F16E3 /* HWMIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMIcon.h; sourceTree = "<group>"; };
 		7E268C611837A41C004F16E3 /* HWMIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMIcon.m; sourceTree = "<group>"; };
@@ -863,6 +872,10 @@
 				7ED2A5041881775100DAA19D /* 310-alarm-clock@2x.png */,
 				7ED2A5091881778A00DAA19D /* 310-alarm-clock-white.png */,
 				7ED2A5081881778A00DAA19D /* 310-alarm-clock-white@2x.png */,
+				7E24ABEE188FB01200810B9D /* 338-enter-fullscreen.png */,
+				7E24ABEC188FAFA500810B9D /* 338-enter-fullscreen@2x.png */,
+				7E24ABF0188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png */,
+				7E24ABF1188FB4D000810B9D /* 338-enter-fullscreen-white.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -1162,6 +1175,7 @@
 				7E0345DB185283C4002DB143 /* 306-light-switch@2x.png in Resources */,
 				7E36E57A188AB15500BD9744 /* ssdlife@2x.png in Resources */,
 				7EFD75B8185C763500C01C2B /* PopupFanController.xib in Resources */,
+				7E24ABF3188FB4D000810B9D /* 338-enter-fullscreen-white.png in Resources */,
 				7E966D1D18523BE000313AB1 /* theme_default.png in Resources */,
 				7E36E581188AB15500BD9744 /* scale-white.png in Resources */,
 				7ED2A50B1881778A00DAA19D /* 310-alarm-clock-white.png in Resources */,
@@ -1198,6 +1212,7 @@
 				7ECDDE3716DDE5DA00085FFF /* 04-eye-white@2x.png in Resources */,
 				7EF6817D18510E8A0077E785 /* 17-bar-chart.png in Resources */,
 				7E36E593188AB15500BD9744 /* frequencies-white.png in Resources */,
+				7E24ABF2188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png in Resources */,
 				7E0648F116DF3B7D00ACB851 /* README.md in Resources */,
 				7EFDE527185CA0020022FD66 /* Let's go Digital Regular.ttf in Resources */,
 				7E36E576188AB15500BD9744 /* tachometers@2x.png in Resources */,
@@ -1209,9 +1224,11 @@
 				7E36E586188AB15500BD9744 /* multipliers@2x.png in Resources */,
 				7E36E56A188AB15500BD9744 /* voltages@2x.png in Resources */,
 				7E36E584188AB15500BD9744 /* pcicard-white@2x.png in Resources */,
+				7E24ABEF188FB01200810B9D /* 338-enter-fullscreen.png in Resources */,
 				7EF2A10017303EA600D8641C /* AboutController.xib in Resources */,
 				7E36E56E188AB15500BD9744 /* thermometer@2x.png in Resources */,
 				7E2042011730844C00C13B65 /* GraphsController.xib in Resources */,
+				7E24ABED188FAFA500810B9D /* 338-enter-fullscreen@2x.png in Resources */,
 				7E2042031730CDA000C13B65 /* PopupController.xib in Resources */,
 				7E2042051730D04100C13B65 /* PrefsController.xib in Resources */,
 				7ED2A5071881775E00DAA19D /* 310-alarm-clock.png in Resources */,
@@ -1581,12 +1598,13 @@
 		7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7E24ABEB188FACF700810B9D /* HWMEngine 1.4.xcdatamodel */,
 				7E4408F218639CD3002B2960 /* HWMEngine 1.1.xcdatamodel */,
 				7E1A8DB91876D1C400853CB6 /* HWMEngine 1.2.xcdatamodel */,
 				7ED3178A18814C3E00A7FDF5 /* HWMEngine 1.3.xcdatamodel */,
 				7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */,
 			);
-			currentVersion = 7ED3178A18814C3E00A7FDF5 /* HWMEngine 1.3.xcdatamodel */;
+			currentVersion = 7E24ABEB188FACF700810B9D /* HWMEngine 1.4.xcdatamodel */;
 			path = HWMEngine.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -396,7 +396,7 @@
 -(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     if (tableView == _favoritesTableView) {
-        return [[_favoritesCollectionSnapshot objectAtIndex:row] valueForKey:@"item"];
+        return [_favoritesCollectionSnapshot objectAtIndex:row];
     }
     else if (tableView == _sensorsTableView) {
         return [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];

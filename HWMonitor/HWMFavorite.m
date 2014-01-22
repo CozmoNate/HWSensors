@@ -13,6 +13,8 @@
 
 @implementation HWMFavorite
 
+@dynamic large;
+
 @dynamic configuration;
 @dynamic item;
 
