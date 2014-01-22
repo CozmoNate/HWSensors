@@ -14,6 +14,7 @@
 		7E0345DB185283C4002DB143 /* 306-light-switch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E0345D9185283C4002DB143 /* 306-light-switch@2x.png */; };
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E0648F116DF3B7D00ACB851 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7E0648EF16DF3B7D00ACB851 /* README.md */; };
+		7E111513188F3EA4006E15A0 /* default.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 7E111512188F3EA4006E15A0 /* default.iconset */; };
 		7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C617E2744000694A4A /* 37-circle-x.png */; };
 		7E1458CB17E2744000694A4A /* 37-circle-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C717E2744000694A4A /* 37-circle-x@2x.png */; };
 		7E16FD8A1706BB3000FB253E /* TransparentSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16FD891706BB3000FB253E /* TransparentSplitView.m */; };
@@ -65,8 +66,6 @@
 		7E36E587188AB15500BD9744 /* multipliers.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E559188AB15500BD9744 /* multipliers.png */; };
 		7E36E588188AB15500BD9744 /* multipliers-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E55A188AB15500BD9744 /* multipliers-white@2x.png */; };
 		7E36E589188AB15500BD9744 /* multipliers-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E55B188AB15500BD9744 /* multipliers-white.png */; };
-		7E36E58A188AB15500BD9744 /* hwmonitor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E55C188AB15500BD9744 /* hwmonitor@2x.png */; };
-		7E36E58B188AB15500BD9744 /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E55D188AB15500BD9744 /* hwmonitor.png */; };
 		7E36E58C188AB15500BD9744 /* hddtemperatures@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E55E188AB15500BD9744 /* hddtemperatures@2x.png */; };
 		7E36E58D188AB15500BD9744 /* hddtemperatures.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E55F188AB15500BD9744 /* hddtemperatures.png */; };
 		7E36E58E188AB15500BD9744 /* hddtemperatures-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E560188AB15500BD9744 /* hddtemperatures-white@2x.png */; };
@@ -107,7 +106,6 @@
 		7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248F416D8E93A002231B2 /* InfoPlist.strings */; };
 		7EA248F816D8E93A002231B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248F716D8E93A002231B2 /* main.m */; };
 		7EA248FF16D8E93A002231B2 /* PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248FE16D8E93A002231B2 /* PrefsController.m */; };
-		7EA2493616D8E9CE002231B2 /* default.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7EA2493516D8E9CE002231B2 /* default.icns */; };
 		7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2494C16D8EB2D002231B2 /* StatusItemView.m */; };
 		7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
@@ -220,6 +218,7 @@
 		7E0648ED16DF3B7D00ACB851 /* LaunchAtLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchAtLoginController.h; sourceTree = "<group>"; };
 		7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchAtLoginController.m; sourceTree = "<group>"; };
 		7E0648EF16DF3B7D00ACB851 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		7E111512188F3EA4006E15A0 /* default.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = default.iconset; sourceTree = "<group>"; };
 		7E1261D316E0094A00622F92 /* FakeSMCDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCDefinitions.h; path = Shared/FakeSMCDefinitions.h; sourceTree = "<group>"; };
 		7E1458C617E2744000694A4A /* 37-circle-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x.png"; sourceTree = "<group>"; };
 		7E1458C717E2744000694A4A /* 37-circle-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37-circle-x@2x.png"; sourceTree = "<group>"; };
@@ -283,8 +282,6 @@
 		7E36E559188AB15500BD9744 /* multipliers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = multipliers.png; sourceTree = "<group>"; };
 		7E36E55A188AB15500BD9744 /* multipliers-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "multipliers-white@2x.png"; sourceTree = "<group>"; };
 		7E36E55B188AB15500BD9744 /* multipliers-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "multipliers-white.png"; sourceTree = "<group>"; };
-		7E36E55C188AB15500BD9744 /* hwmonitor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hwmonitor@2x.png"; sourceTree = "<group>"; };
-		7E36E55D188AB15500BD9744 /* hwmonitor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor.png; sourceTree = "<group>"; };
 		7E36E55E188AB15500BD9744 /* hddtemperatures@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hddtemperatures@2x.png"; sourceTree = "<group>"; };
 		7E36E55F188AB15500BD9744 /* hddtemperatures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hddtemperatures.png; sourceTree = "<group>"; };
 		7E36E560188AB15500BD9744 /* hddtemperatures-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hddtemperatures-white@2x.png"; sourceTree = "<group>"; };
@@ -345,7 +342,6 @@
 		7EA248F916D8E93A002231B2 /* HWMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HWMonitor-Prefix.pch"; sourceTree = "<group>"; };
 		7EA248FD16D8E93A002231B2 /* PrefsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefsController.h; sourceTree = "<group>"; };
 		7EA248FE16D8E93A002231B2 /* PrefsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrefsController.m; sourceTree = "<group>"; };
-		7EA2493516D8E9CE002231B2 /* default.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = default.icns; sourceTree = "<group>"; };
 		7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
 		7EA2494B16D8EB2D002231B2 /* StatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemView.h; sourceTree = "<group>"; };
 		7EA2494C16D8EB2D002231B2 /* StatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusItemView.m; sourceTree = "<group>"; };
@@ -543,8 +539,6 @@
 				7E36E559188AB15500BD9744 /* multipliers.png */,
 				7E36E55A188AB15500BD9744 /* multipliers-white@2x.png */,
 				7E36E55B188AB15500BD9744 /* multipliers-white.png */,
-				7E36E55C188AB15500BD9744 /* hwmonitor@2x.png */,
-				7E36E55D188AB15500BD9744 /* hwmonitor.png */,
 				7E36E55E188AB15500BD9744 /* hddtemperatures@2x.png */,
 				7E36E55F188AB15500BD9744 /* hddtemperatures.png */,
 				7E36E560188AB15500BD9744 /* hddtemperatures-white@2x.png */,
@@ -854,7 +848,7 @@
 				7E01AA821851B94A00DA163B /* Theme Preview */,
 				7EFFADB01851FDDD00D427EA /* Prefs Toolbar */,
 				7E1ABD8E185E2CA200412B75 /* Divider.tif */,
-				7EA2493516D8E9CE002231B2 /* default.icns */,
+				7E111512188F3EA4006E15A0 /* default.iconset */,
 				7ECDDE3016DD680E00085FFF /* 04-eye.png */,
 				7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */,
 				7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */,
@@ -1174,12 +1168,11 @@
 				7E36E56C188AB15500BD9744 /* voltages-white@2x.png in Resources */,
 				7E966D1C18523BE000313AB1 /* theme_dark.png in Resources */,
 				7E36E585188AB15500BD9744 /* pcicard-white.png in Resources */,
-				7E36E58A188AB15500BD9744 /* hwmonitor@2x.png in Resources */,
 				7E0345DA185283C4002DB143 /* 306-light-switch.png in Resources */,
-				7E36E58B188AB15500BD9744 /* hwmonitor.png in Resources */,
 				7E36E592188AB15500BD9744 /* frequencies-white@2x.png in Resources */,
 				7E36E57F188AB15500BD9744 /* scale.png in Resources */,
 				7E966D1E18523BE000313AB1 /* theme_gray.png in Resources */,
+				7E111513188F3EA4006E15A0 /* default.iconset in Resources */,
 				7E36E594188AB15500BD9744 /* battery@2x.png in Resources */,
 				7E36E56F188AB15500BD9744 /* thermometer-white@2x.png in Resources */,
 				7E36E577188AB15500BD9744 /* tachometers.png in Resources */,
@@ -1192,7 +1185,6 @@
 				7E420FAD1820E2D800331D2B /* Profiles in Resources */,
 				7E36E573188AB15500BD9744 /* temperatures.png in Resources */,
 				7E36E595188AB15500BD9744 /* battery.png in Resources */,
-				7EA2493616D8E9CE002231B2 /* default.icns in Resources */,
 				7E36E597188AB15500BD9744 /* battery-white.png in Resources */,
 				7EDA1AA916D936410012A0DC /* Localizable.strings in Resources */,
 				7E36E590188AB15500BD9744 /* frequencies@2x.png in Resources */,

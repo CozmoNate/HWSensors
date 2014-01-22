@@ -306,7 +306,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self insertColorThemes];
 
     // Load icons
-    [self loadIconNamed:kHWMonitorIconHWMonitor asTemplate:NO];
+    //[self loadIconNamed:kHWMonitorIconHWMonitor asTemplate:NO];
     [self loadIconNamed:kHWMonitorIconThermometer];
     [self loadIconNamed:kHWMonitorIconScale];
     [self loadIconNamed:kHWMonitorIconDevice];
