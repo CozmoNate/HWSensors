@@ -14,7 +14,7 @@
 
 @property (readonly) HWMColorTheme *colorTheme;
 
-- (void)colorThemeHasChanged:(HWMColorTheme*)newColorTheme;
+- (void)colorThemeChanged:(HWMColorTheme*)newColorTheme;
 - (void)initialize;
 - (void)deallocate;
 

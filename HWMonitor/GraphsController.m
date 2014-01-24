@@ -215,7 +215,7 @@
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    return 19;
+    return [[_graphsAndGroupsCollectionSnapshot objectAtIndex:row] isKindOfClass:[HWMGraph class]] ? 19 : 21;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row

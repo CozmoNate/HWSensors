@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C39" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C44" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -74,11 +74,11 @@
             </metadata>
         </numberFormatter>
         <view id="2wX-b3-awf" userLabel="General View">
-            <rect key="frame" x="0.0" y="0.0" width="550" height="471"/>
+            <rect key="frame" x="0.0" y="0.0" width="550" height="466"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OHd-tF-mXw">
-                    <rect key="frame" x="24" y="424" width="132" height="17"/>
+                    <rect key="frame" x="24" y="419" width="132" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="750" constant="128" id="oRu-7s-Lsu"/>
@@ -90,7 +90,7 @@
                     </textFieldCell>
                 </textField>
                 <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eN7-c7-Y6I">
-                    <rect key="frame" x="162" y="401" width="362" height="40"/>
+                    <rect key="frame" x="162" y="396" width="362" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="729" constant="97" id="aAE-gS-s9F"/>
@@ -126,7 +126,7 @@
                     </cells>
                 </matrix>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="67I-pQ-71H">
-                    <rect key="frame" x="18" y="320" width="514" height="26"/>
+                    <rect key="frame" x="18" y="315" width="514" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="2Bz-bK-yL6"/>
@@ -138,7 +138,7 @@
                     </connections>
                 </slider>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vqt-Qp-d9a">
-                    <rect key="frame" x="24" y="354" width="427" height="17"/>
+                    <rect key="frame" x="24" y="349" width="427" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="729" constant="423" id="Vj0-ew-1q5"/>
@@ -150,7 +150,7 @@
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gn4-5s-Zdl">
-                    <rect key="frame" x="497" y="354" width="29" height="17"/>
+                    <rect key="frame" x="497" y="349" width="29" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="25" id="rDn-hN-3JG"/>
@@ -162,7 +162,7 @@
                     </textFieldCell>
                 </textField>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oV0-8W-hgL">
-                    <rect key="frame" x="18" y="241" width="514" height="26"/>
+                    <rect key="frame" x="18" y="236" width="514" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="510" id="VJs-ws-K2X"/>
@@ -174,7 +174,7 @@
                     </connections>
                 </slider>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gfd-1u-QhR">
-                    <rect key="frame" x="24" y="275" width="423" height="17"/>
+                    <rect key="frame" x="24" y="270" width="423" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="729" constant="419" id="OFL-Mi-pei"/>
@@ -186,7 +186,7 @@
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6RB-rI-Ik7">
-                    <rect key="frame" x="493" y="275" width="33" height="17"/>
+                    <rect key="frame" x="493" y="270" width="33" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="29" id="145-rW-X6v"/>
@@ -243,7 +243,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dIQ-rm-6cs">
-                    <rect key="frame" x="455" y="354" width="38" height="17"/>
+                    <rect key="frame" x="455" y="349" width="38" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="34" id="zJZ-zu-uX7"/>
@@ -258,7 +258,7 @@
                     </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eWb-eM-oNW">
-                    <rect key="frame" x="451" y="275" width="38" height="17"/>
+                    <rect key="frame" x="451" y="270" width="38" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="34" id="ij5-oy-uKi"/>
@@ -273,7 +273,7 @@
                     </connections>
                 </textField>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="rjP-lo-ecp">
-                    <rect key="frame" x="24" y="121" width="502" height="18"/>
+                    <rect key="frame" x="24" y="118" width="502" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="730" constant="14" id="PDG-po-Q4c"/>
@@ -288,16 +288,16 @@
                     </connections>
                 </button>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JrX-gr-dLb">
-                    <rect key="frame" x="18" y="93" width="514" height="4"/>
+                    <rect key="frame" x="18" y="93" width="514" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="514" id="C2t-Mp-sKp"/>
-                        <constraint firstAttribute="height" constant="4" id="lUN-Qs-cFP"/>
+                        <constraint firstAttribute="height" constant="1" id="lUN-Qs-cFP"/>
                     </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="Divider" id="bd7-4m-uAN"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="Divider" id="bd7-4m-uAN"/>
                 </imageView>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="kBG-ob-KSv">
-                    <rect key="frame" x="24" y="191" width="502" height="18"/>
+                    <rect key="frame" x="24" y="186" width="502" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="346" id="7F3-9l-vpf"/>
@@ -312,13 +312,13 @@
                     </connections>
                 </button>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6S5-5F-k5u">
-                    <rect key="frame" x="18" y="163" width="514" height="4"/>
+                    <rect key="frame" x="18" y="160" width="514" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="514" id="Qlp-Pw-HTW"/>
-                        <constraint firstAttribute="height" constant="4" id="p05-7Y-yOM"/>
+                        <constraint firstAttribute="height" constant="2" id="p05-7Y-yOM"/>
                     </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="Divider" id="RrS-yU-3IQ"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="Divider" id="RrS-yU-3IQ"/>
                 </imageView>
             </subviews>
             <constraints>
@@ -425,14 +425,14 @@
                     <rect key="frame" x="20" y="77" width="560" height="396"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
                             <rect key="frame" x="0.0" y="0.0" width="276" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="hK2-oA-2Lv">
                                 <rect key="frame" x="1" y="1" width="274" height="394"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="19" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
+                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
                                         <rect key="frame" x="0.0" y="0.0" width="274" height="394"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>
@@ -459,6 +459,9 @@
                                                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2KP-UC-hsa">
                                                                 <rect key="frame" x="1" y="2" width="271" height="14"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="14" id="8yp-aq-Ukb"/>
+                                                                </constraints>
                                                                 <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Group" id="O2j-UK-Qy5">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
@@ -973,14 +976,14 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </scrollView>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
                             <rect key="frame" x="285" y="0.0" width="275" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="i8f-2e-Hgn">
                                 <rect key="frame" x="1" y="1" width="273" height="394"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="19" rowSizeStyle="automatic" viewBased="YES" id="eYG-oD-xEa" customClass="SensorsTableView">
+                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="eYG-oD-xEa" customClass="SensorsTableView">
                                         <rect key="frame" x="0.0" y="0.0" width="273" height="394"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>

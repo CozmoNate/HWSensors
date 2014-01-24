@@ -17,8 +17,8 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     if (!_gradient) {
-        _gradient = [[NSGradient alloc] initWithStartingColor:[(HWMSensorsGroup*)self.objectValue engine].configuration.colorTheme.groupStartColor
-                                                  endingColor:[(HWMSensorsGroup*)self.objectValue engine].configuration.colorTheme.groupEndColor];
+        _gradient = [[NSGradient alloc] initWithStartingColor:self.colorTheme.groupStartColor
+                                                  endingColor:self.colorTheme.groupEndColor];
     }
     
     NSRect contentRect = [self bounds];
@@ -26,9 +26,10 @@
     [_gradient drawInRect:NSMakeRect(contentRect.origin.x + 1.0, contentRect.origin.y, contentRect.size.width - 2.0, contentRect.size.height) angle:270];
 }
 
--(void)colorThemeHasChanged:(HWMColorTheme *)newColorTheme
+-(void)colorThemeChanged:(HWMColorTheme *)newColorTheme
 {
     _gradient = nil;
+    [self setNeedsDisplay:YES];
 }
 
 @end

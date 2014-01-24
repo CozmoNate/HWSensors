@@ -116,6 +116,8 @@
 "Mouse" = "Мышь";
 "Keyboard" = "Клавиатура";
 "Trackpad" = "Трекпад";
+"Battery" = "Аккумулятор";
+"Battery %X" = "Аккумулятор %X";
 "Built-in Battery" = "Встроенный аккумулятор";
 "Internal Battery" = "Внутренний аккумулятор";
 
@@ -235,7 +237,11 @@
 "Powerboard Proximity" = "Источник питания";
 
 "Memory Bank %X" = "Слот памяти %X";
+"Memory Module" = "Модуль памяти";
 "Memory Module %X" = "Модуль памяти %X";
+"Memory Module, Proximity" = "Модуль памяти, Датчик";
+"Memory Module %X, Proximity" = "Модуль памяти %X, Датчик";
+"Memory Rail" = "Шина памяти";
 
 "Optical Drive" = "Оптический привод";
 "HDD Bay %X" = "Лоток диска %X";
@@ -291,5 +297,7 @@
 
 "CMOS Battery" = "Батарея CMOS";
 
+"VRM Supply" = "Регулятор напряжения";
 "VRM Supply %X" = "Регулятор напряжения %X";
+"Power Supply" = "Источник питания";
 "Power Supply %X" = "Источник питания %X";

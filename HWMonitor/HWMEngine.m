@@ -1122,7 +1122,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self insertColorThemeWithName:@"Default"
                      groupEndColor:[NSColor colorWithCalibratedWhite:0.85 alpha:0.5]
                    groupStartColor:[NSColor colorWithCalibratedWhite:0.95 alpha:0.5]
-                   groupTitleColor:[NSColor colorWithCalibratedWhite:0.6 alpha:1.0]
+                   groupTitleColor:[NSColor colorWithCalibratedWhite:0.2 alpha:1.0]
                  itemSubTitleColor:[NSColor colorWithCalibratedWhite:0.45 alpha:1.0]
                     itemTitleColor:[NSColor colorWithCalibratedWhite:0.25 alpha:1.0]
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
@@ -1138,7 +1138,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self insertColorThemeWithName:@"Gray"
                      groupEndColor:[NSColor colorWithCalibratedWhite:0.85 alpha:0.5]
                    groupStartColor:[NSColor colorWithCalibratedWhite:0.95 alpha:0.5]
-                   groupTitleColor:[NSColor colorWithCalibratedWhite:0.6 alpha:1.0]
+                   groupTitleColor:[NSColor colorWithCalibratedWhite:0.2 alpha:1.0]
                  itemSubTitleColor:[NSColor colorWithCalibratedWhite:0.45 alpha:1.0]
                     itemTitleColor:[NSColor colorWithCalibratedWhite:0.25 alpha:1.0]
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
@@ -1154,7 +1154,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self insertColorThemeWithName:@"Dark"
                      groupEndColor:[NSColor colorWithCalibratedWhite:0.14 alpha:0.5]
                    groupStartColor:[NSColor colorWithCalibratedWhite:0.2 alpha:0.5]
-                   groupTitleColor:[NSColor colorWithCalibratedWhite:0.45 alpha:1.0]
+                   groupTitleColor:[NSColor colorWithCalibratedWhite:0.85 alpha:1.0]
                  itemSubTitleColor:[NSColor colorWithCalibratedWhite:0.65 alpha:1.0]
                     itemTitleColor:[NSColor colorWithCalibratedWhite:0.85 alpha:1.0]
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.95 alpha:1.0]

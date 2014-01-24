@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C39" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C44" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -140,48 +140,52 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="Group" id="60" customClass="PopupGroupCell">
-                                                    <rect key="frame" x="0.0" y="0.0" width="222" height="20"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="222" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="66">
-                                                            <rect key="frame" x="26" y="4" width="171" height="13"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="GROUP" id="67">
-                                                                <font key="font" size="10" name="Helvetica"/>
-                                                                <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                            <connections>
-                                                                <binding destination="60" name="value" keyPath="objectValue.title" id="sTe-gN-HFd"/>
-                                                            </connections>
-                                                        </textField>
                                                         <imageView alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="65">
-                                                            <rect key="frame" x="9" y="2" width="16" height="16"/>
+                                                            <rect key="frame" x="6" y="1" width="18" height="18"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="16" id="Vz2-ay-gGb"/>
-                                                                <constraint firstAttribute="width" constant="16" id="chr-tt-O1x"/>
+                                                                <constraint firstAttribute="height" constant="18" id="Vz2-ay-gGb"/>
+                                                                <constraint firstAttribute="width" constant="18" id="chr-tt-O1x"/>
                                                             </constraints>
-                                                            <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" imageScaling="proportionallyDown" image="NSUser" id="71"/>
+                                                            <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSUser" id="71"/>
                                                             <connections>
                                                                 <binding destination="60" name="value" keyPath="objectValue.icon.image" id="EUt-zI-L4C"/>
                                                             </connections>
                                                         </imageView>
+                                                        <textField verticalHuggingPriority="750" alphaValue="0.50000000000000011" translatesAutoresizingMaskIntoConstraints="NO" id="gc6-vA-Eep">
+                                                            <rect key="frame" x="23" y="3" width="189" height="14"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="14" id="wNw-GU-Y6E"/>
+                                                            </constraints>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" sendsActionOnEndEditing="YES" alignment="center" title="GROUP" id="czb-lE-tf5">
+                                                                <font key="font" size="11" name="Helvetica"/>
+                                                                <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="60" name="value" keyPath="objectValue.title" id="Aag-Ka-2uK"/>
+                                                                <binding destination="60" name="textColor" keyPath="objectValue.engine.configuration.colorTheme.groupTitleColor" id="IbO-eG-AhU"/>
+                                                            </connections>
+                                                        </textField>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="66" firstAttribute="top" secondItem="60" secondAttribute="top" constant="3" id="2v5-9P-QmZ"/>
                                                         <constraint firstItem="65" firstAttribute="top" secondItem="60" secondAttribute="top" constant="2" id="3ky-N7-NJa"/>
-                                                        <constraint firstItem="66" firstAttribute="leading" secondItem="60" secondAttribute="leading" constant="28" id="dPy-Ya-vhk"/>
-                                                        <constraint firstItem="65" firstAttribute="leading" secondItem="60" secondAttribute="leading" constant="9" id="hOp-Aa-iFz"/>
-                                                        <constraint firstAttribute="trailing" secondItem="66" secondAttribute="trailing" constant="27" id="t87-Mx-Mud"/>
+                                                        <constraint firstItem="gc6-vA-Eep" firstAttribute="leading" secondItem="65" secondAttribute="trailing" constant="1" id="DtS-hn-j8b"/>
+                                                        <constraint firstAttribute="trailing" secondItem="gc6-vA-Eep" secondAttribute="trailing" constant="12" id="bSh-fr-Kwd"/>
+                                                        <constraint firstItem="gc6-vA-Eep" firstAttribute="top" secondItem="60" secondAttribute="top" constant="4" id="cea-Ox-Nkd"/>
+                                                        <constraint firstItem="65" firstAttribute="leading" secondItem="60" secondAttribute="leading" constant="6" id="hOp-Aa-iFz"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="imageView" destination="65" id="122"/>
-                                                        <outlet property="textField" destination="66" id="121"/>
+                                                        <outlet property="textField" destination="gc6-vA-Eep" id="4uI-62-Ro6"/>
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Sensor" id="57" customClass="PopupSensorCell">
-                                                    <rect key="frame" x="0.0" y="20" width="222" height="27"/>
+                                                    <rect key="frame" x="0.0" y="21" width="222" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="107">
@@ -258,7 +262,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Drive" id="K10-8U-L2z" customClass="PopupAtaSmartSensorCell">
-                                                    <rect key="frame" x="0.0" y="47" width="222" height="27"/>
+                                                    <rect key="frame" x="0.0" y="48" width="222" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GSb-uB-rFu">
@@ -335,7 +339,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Fan" id="cnm-wp-39Z" customClass="PopupFanCell">
-                                                    <rect key="frame" x="0.0" y="74" width="222" height="27"/>
+                                                    <rect key="frame" x="0.0" y="75" width="222" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dgF-OZ-Krc">
@@ -412,7 +416,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Battery" id="59" customClass="PopupBatteryCell">
-                                                    <rect key="frame" x="0.0" y="101" width="222" height="27"/>
+                                                    <rect key="frame" x="0.0" y="102" width="222" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField identifier="Name" horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="84">
@@ -503,7 +507,7 @@
                                                     </connections>
                                                 </tableCellView>
                                                 <tableCellView identifier="Dummy" id="58" customClass="PopupSensorCell">
-                                                    <rect key="frame" x="0.0" y="128" width="222" height="17"/>
+                                                    <rect key="frame" x="0.0" y="129" width="222" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="93">

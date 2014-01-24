@@ -71,7 +71,7 @@ static NSPopover *gPopupSensorCellPopover;
     [self removeObserver:self forKeyPath:@"objectValue.alarmLevel"];
 }
 
--(void)colorThemeHasChanged:(HWMColorTheme *)newColorTheme
+-(void)colorThemeChanged:(HWMColorTheme *)newColorTheme
 {
     if ([self.objectValue alarmLevel] != kHWMSensorLevelExceeded) {
         [self.textField setTextColor:newColorTheme.itemTitleColor];

@@ -57,11 +57,11 @@
 {
     if ([keyPath isEqualToString:@"objectValue.engine.configuration.colorTheme"]) {
         _colorTheme = [(HWMItem*)self.objectValue engine].configuration.colorTheme;
-        [self colorThemeHasChanged:_colorTheme];
+        [self colorThemeChanged:_colorTheme];
     }
 }
 
-- (void)colorThemeHasChanged:(HWMColorTheme*)newColorTheme
+- (void)colorThemeChanged:(HWMColorTheme*)newColorTheme
 {
 
 }

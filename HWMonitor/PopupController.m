@@ -343,7 +343,7 @@
 {
     HWMItem *item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
 
-    NSUInteger height = [item isKindOfClass:[HWMSensorsGroup class]] ? 20 : 17;
+    NSUInteger height = [item isKindOfClass:[HWMSensorsGroup class]] ? 21 : 17;
 
     if (item.legend)
         height += 10;
