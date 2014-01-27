@@ -30,7 +30,7 @@
 	<string>CG:132M|GPU %X Memory</string>
 	<string>CG:132S|GPU %X Shaders</string>
 	<string>CG:132R|GPU %X ROPs</string>
-	<string>VC0C|CPU Core</string>
+	<string>VC0C|CPU VRM</string>
 	<string>VC0G|GPU Core</string>
 	<string>IC0C|CPU Core</string>
 	<string>IC0R|CPU Rail</string>

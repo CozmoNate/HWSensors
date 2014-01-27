@@ -1756,7 +1756,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 #endif
 
     if (sensor.value) {
-        [sensor setTitle:productName];
+        [sensor setTitle:GetLocalizedString(productName)];
         [sensor setIdentifier:@"Battery"];
 
         [sensor setEngine:self];

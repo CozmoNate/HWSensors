@@ -51,10 +51,10 @@
                                     <action selector="detachFromMenuBar:" target="3" id="1445"/>
                                     <binding destination="-2" name="hidden" keyPath="self.window.attachedToMenuBar" previousBinding="1727" id="2641">
                                         <dictionary key="options">
-                                            <integer key="NSNullPlaceholder" value="0"/>
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                             <integer key="NSNotApplicablePlaceholder" value="0"/>
                                             <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
                                     </binding>
@@ -156,7 +156,7 @@
                                                             </connections>
                                                         </imageView>
                                                         <textField verticalHuggingPriority="750" alphaValue="0.50000000000000011" translatesAutoresizingMaskIntoConstraints="NO" id="gc6-vA-Eep">
-                                                            <rect key="frame" x="23" y="3" width="189" height="14"/>
+                                                            <rect key="frame" x="23" y="3" width="182" height="14"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="14" id="wNw-GU-Y6E"/>
@@ -167,15 +167,15 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
-                                                                <binding destination="60" name="value" keyPath="objectValue.title" id="Aag-Ka-2uK"/>
                                                                 <binding destination="60" name="textColor" keyPath="objectValue.engine.configuration.colorTheme.groupTitleColor" id="IbO-eG-AhU"/>
+                                                                <binding destination="60" name="value" keyPath="objectValue.title" id="Aag-Ka-2uK"/>
                                                             </connections>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="65" firstAttribute="top" secondItem="60" secondAttribute="top" constant="2" id="3ky-N7-NJa"/>
                                                         <constraint firstItem="gc6-vA-Eep" firstAttribute="leading" secondItem="65" secondAttribute="trailing" constant="1" id="DtS-hn-j8b"/>
-                                                        <constraint firstAttribute="trailing" secondItem="gc6-vA-Eep" secondAttribute="trailing" constant="12" id="bSh-fr-Kwd"/>
+                                                        <constraint firstAttribute="trailing" secondItem="gc6-vA-Eep" secondAttribute="trailing" constant="19" id="bSh-fr-Kwd"/>
                                                         <constraint firstItem="gc6-vA-Eep" firstAttribute="top" secondItem="60" secondAttribute="top" constant="4" id="cea-Ox-Nkd"/>
                                                         <constraint firstItem="65" firstAttribute="leading" secondItem="60" secondAttribute="leading" constant="6" id="hOp-Aa-iFz"/>
                                                     </constraints>
@@ -587,10 +587,10 @@
                         <action selector="orderOut:" target="3" id="1151"/>
                         <binding destination="-2" name="enabled" keyPath="self.window.attachedToMenuBar" id="2507">
                             <dictionary key="options">
-                                <integer key="NSNullPlaceholder" value="0"/>
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <integer key="NSNotApplicablePlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                             </dictionary>
                         </binding>

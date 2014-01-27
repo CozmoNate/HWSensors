@@ -289,6 +289,7 @@
 "GPU %X Rail" = "Видеокарта, Шина %X";
 "CPU VRM" = "Процессор, Регулятор";
 "CPU VRM %X" = "Процессор, Регулятор %X";
+"CPU Rail" = "Процессор, Питание";
 
 "Mainboard S0 Rail" = "Шина питания S0";
 "Mainboard S3 Rail" = "Шина питания S3";
@@ -296,8 +297,15 @@
 "Main Power Supply" = "Основной ИП";
 
 "CMOS Battery" = "Батарея CMOS";
+"Battery Rail" = "Аккумулятор";
 
 "VRM Supply" = "Регулятор напряжения";
 "VRM Supply %X" = "Регулятор напряжения %X";
 "Power Supply" = "Источник питания";
 "Power Supply %X" = "Источник питания %X";
+
+"System Total" = "Общая";
+"Heatpipe" = "Тепловая трубка";
+"Heatpipe %X" = "Тепловая трубка %X";
+"Heatpipe Incoming Air" = "Радиатор, Забор воздуха";
+"Heatpipe Outgoing Air" = "Радиатор, Выброс воздуха";
