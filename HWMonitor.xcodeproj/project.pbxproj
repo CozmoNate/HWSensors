@@ -83,6 +83,8 @@
 		7E36E596188AB15500BD9744 /* battery-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E568188AB15500BD9744 /* battery-white@2x.png */; };
 		7E36E597188AB15500BD9744 /* battery-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E569188AB15500BD9744 /* battery-white.png */; };
 		7E36E59A188AB25A00BD9744 /* NSImage+HighResolutionLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E36E599188AB25A00BD9744 /* NSImage+HighResolutionLoading.m */; };
+		7E37BCD518997EBD0046F59A /* hwmonitor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E37BCD318997EBD0046F59A /* hwmonitor@2x.png */; };
+		7E37BCD618997EBD0046F59A /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E37BCD418997EBD0046F59A /* hwmonitor.png */; };
 		7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */; };
 		7E420FA31820E04900331D2B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E420FA11820E04900331D2B /* InfoPlist.strings */; };
 		7E420FA51820E04900331D2B /* HWMonitor_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E420FA41820E04900331D2B /* HWMonitor_Tests.m */; };
@@ -249,7 +251,7 @@
 		7E2042001730844C00C13B65 /* GraphsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphsController.xib; sourceTree = "<group>"; };
 		7E2042021730CDA000C13B65 /* PopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupController.xib; sourceTree = "<group>"; };
 		7E2042041730D04000C13B65 /* PrefsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefsController.xib; sourceTree = "<group>"; };
-		7E24ABEB188FACF700810B9D /* HWMEngine 1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HWMEngine 1.4.xcdatamodel"; sourceTree = "<group>"; };
+		7E24ABEB188FACF700810B9D /* HWMEngine 1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.4.xcdatamodel"; sourceTree = "<group>"; };
 		7E24ABEC188FAFA500810B9D /* 338-enter-fullscreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "338-enter-fullscreen@2x.png"; sourceTree = "<group>"; };
 		7E24ABEE188FB01200810B9D /* 338-enter-fullscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "338-enter-fullscreen.png"; sourceTree = "<group>"; };
 		7E24ABF0188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "338-enter-fullscreen-white@2x.png"; sourceTree = "<group>"; };
@@ -305,6 +307,8 @@
 		7E36E569188AB15500BD9744 /* battery-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battery-white.png"; sourceTree = "<group>"; };
 		7E36E598188AB25A00BD9744 /* NSImage+HighResolutionLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+HighResolutionLoading.h"; sourceTree = "<group>"; };
 		7E36E599188AB25A00BD9744 /* NSImage+HighResolutionLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+HighResolutionLoading.m"; sourceTree = "<group>"; };
+		7E37BCD318997EBD0046F59A /* hwmonitor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hwmonitor@2x.png"; sourceTree = "<group>"; };
+		7E37BCD418997EBD0046F59A /* hwmonitor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor.png; sourceTree = "<group>"; };
 		7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HWMEngine.xcdatamodel; sourceTree = "<group>"; };
 		7E420F9B1820E04900331D2B /* HWMonitor Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HWMonitor Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E420FA01820E04900331D2B /* HWMonitor Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HWMonitor Tests-Info.plist"; sourceTree = "<group>"; };
@@ -552,6 +556,8 @@
 				7E36E55F188AB15500BD9744 /* hddtemperatures.png */,
 				7E36E560188AB15500BD9744 /* hddtemperatures-white@2x.png */,
 				7E36E561188AB15500BD9744 /* hddtemperatures-white.png */,
+				7E37BCD318997EBD0046F59A /* hwmonitor@2x.png */,
+				7E37BCD418997EBD0046F59A /* hwmonitor.png */,
 				7E36E562188AB15500BD9744 /* frequencies@2x.png */,
 				7E36E563188AB15500BD9744 /* frequencies.png */,
 				7E36E564188AB15500BD9744 /* frequencies-white@2x.png */,
@@ -1162,6 +1168,7 @@
 				7E36E57D188AB15500BD9744 /* ssdlife-white.png in Resources */,
 				7ED2A50A1881778A00DAA19D /* 310-alarm-clock-white@2x.png in Resources */,
 				7E36E57B188AB15500BD9744 /* ssdlife.png in Resources */,
+				7E37BCD618997EBD0046F59A /* hwmonitor.png in Resources */,
 				7E36E570188AB15500BD9744 /* thermometer-white.png in Resources */,
 				7E36E588188AB15500BD9744 /* multipliers-white@2x.png in Resources */,
 				7E36E580188AB15500BD9744 /* scale-white@2x.png in Resources */,
@@ -1186,6 +1193,7 @@
 				7E36E592188AB15500BD9744 /* frequencies-white@2x.png in Resources */,
 				7E36E57F188AB15500BD9744 /* scale.png in Resources */,
 				7E966D1E18523BE000313AB1 /* theme_gray.png in Resources */,
+				7E37BCD518997EBD0046F59A /* hwmonitor@2x.png in Resources */,
 				7E111513188F3EA4006E15A0 /* default.iconset in Resources */,
 				7E36E594188AB15500BD9744 /* battery@2x.png in Resources */,
 				7E36E56F188AB15500BD9744 /* thermometer-white@2x.png in Resources */,

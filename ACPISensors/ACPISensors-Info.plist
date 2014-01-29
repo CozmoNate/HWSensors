@@ -43,7 +43,7 @@
 			<string>IOACPIPlatformDevice</string>
 			<key>IOResourceMatch</key>
 			<string>FakeSMCKeyStore</string>
-			<key>Platform Profile - DISABLED</key>
+			<key>Platform Profile</key>
 			<dict>
 				<key>Default</key>
 				<dict>

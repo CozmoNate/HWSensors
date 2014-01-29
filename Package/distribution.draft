@@ -22,12 +22,11 @@
     </script>
     <choices-outline>
         <line choice="hwmonitor"/>
-        <line choice="fakesmc">
-            <line choice="acpisensors"/>
-            <line choice="cpusensors"/>
-            <line choice="gpusensors"/>
-            <line choice="lpcsensors"/>
-        </line>
+        <line choice="fakesmc"/>
+        <line choice="acpisensors"/>
+        <line choice="cpusensors"/>
+        <line choice="gpusensors"/>
+        <line choice="lpcsensors"/>
     </choices-outline>
 
     <choice
@@ -50,7 +49,7 @@
         id="acpisensors"
         title="ACPISensors"
         description="ACPISENSORS_DESCRIPTION"
-        enabled="choices['fakesmc'].enabled"
+        enabled="choices['fakesmc'].enabled &amp;&amp; choices['fakesmc'].selected"
         start_selected="choices['fakesmc'].selected">
         <pkg-ref id="org.hwsensors.ACPISensors"/>
     </choice>
@@ -59,7 +58,7 @@
         id="cpusensors"
         title="CPUSensors"
         description="CPUSENSORS_DESCRIPTION"
-        enabled="choices['fakesmc'].enabled"
+        enabled="choices['fakesmc'].enabled &amp;&amp; choices['fakesmc'].selected"
         start_selected="choices['fakesmc'].selected">
         <pkg-ref id="org.hwsensors.CPUSensors"/>
     </choice>
@@ -68,7 +67,7 @@
         id="gpusensors"
         title="GPUSensors"
         description="GPUSENSORS_DESCRIPTION"
-        enabled="choices['fakesmc'].enabled"
+        enabled="choices['fakesmc'].enabled &amp;&amp; choices['fakesmc'].selected"
         start_selected="choices['fakesmc'].selected">
         <pkg-ref id="org.hwsensors.GPUSensors"/>
     </choice>
@@ -77,7 +76,7 @@
         id="lpcsensors"
         title="LPCSensors"
         description="LPCSENSORS_DESCRIPTION"
-        enabled="choices['fakesmc'].enabled &amp;&amp; hackintoshCheckScript()"
+        enabled="choices['fakesmc'].enabled &amp;&amp; choices['fakesmc'].selected &amp;&amp; hackintoshCheckScript()"
         start_selected="choices['fakesmc'].selected &amp;&amp; hackintoshCheckScript()">
         <pkg-ref id="org.hwsensors.LPCSensors"/>
     </choice>
