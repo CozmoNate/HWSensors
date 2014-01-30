@@ -513,11 +513,9 @@ bool LPCSensors::start(IOService *provider)
 
 	if (OSDictionary *configuration = getConfigurationNode(modelString))
     {
-        enableExclusiveAccessMode();
         addTemperatureSensors(configuration);
         addVoltageSensors(configuration);
         addTachometerSensors(configuration);
-        disableExclusiveAccessMode();
     }
     else HWSensorsWarningLog("no platform profile provided");
     

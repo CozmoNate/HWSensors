@@ -331,9 +331,7 @@ bool RadeonSensors::managedStart(IOService *provider)
     }
     
     char key[5];
-    
-    enableExclusiveAccessMode();
-    
+
     if (card.get_core_temp) {
         snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
         if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
@@ -344,8 +342,6 @@ bool RadeonSensors::managedStart(IOService *provider)
             return false;
         }
     }
-    
-    disableExclusiveAccessMode();
     
     registerService();
     

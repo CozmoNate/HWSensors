@@ -194,9 +194,7 @@ bool ACPISensors::start(IOService * provider)
         ACPISensorsFatalLog("ACPI device not ready");
         return false;
     }
-    
-    enableExclusiveAccessMode();
-    
+
     methods = OSArray::withCapacity(0);
     
     // Try to load configuration provided by ACPI device
@@ -239,8 +237,10 @@ bool ACPISensors::start(IOService * provider)
     }
     else ACPISensorsDebugLog("tachometer description table (TACH) not found");
 
+    OSDictionary *configuration = NULL;
+
     // If nothing was found on ACPI device try to load configuration from info.plist
-    if (object == NULL && OSDictionary *configuration = getConfigurationNode())
+    if (object == NULL && (configuration = getConfigurationNode()))
     {
         if (OSDictionary *temperatures = OSDynamicCast(OSDictionary, configuration->getObject("Temperatures"))) {
 
@@ -259,9 +259,7 @@ bool ACPISensors::start(IOService * provider)
     
     if (methods->getCount())
         ACPISensorsInfoLog("%d sensor%s added", methods->getCount(), methods->getCount() > 1 ? "s" : "");
-    
-    disableExclusiveAccessMode();
-    
+
 	registerService();
     
     ACPISensorsInfoLog("started");

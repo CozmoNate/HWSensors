@@ -209,9 +209,7 @@ bool GeforceSensors::managedStart(IOService *provider)
     
     // Register sensors
     char key[5];
-    
-    enableExclusiveAccessMode();
-    
+
     if (card.core_temp_get || card.board_temp_get) {
         nv_debug(device, "registering i2c temperature sensors...\n");
         
@@ -283,8 +281,6 @@ bool GeforceSensors::managedStart(IOService *provider)
         snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, card.card_index);
         addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0);
     }
-    
-    disableExclusiveAccessMode();
     
     registerService();
     

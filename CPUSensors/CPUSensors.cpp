@@ -668,9 +668,7 @@ bool CPUSensors::start(IOService *provider)
 //            HWSensorsInfoLog("CPU[%d] lapic=0x%llx value = 0x%llx", count, cpu_lapic[count], cpu_check_value[count]);
 //        }        
 //    }
-    
-    enableExclusiveAccessMode();
-    
+
     // platform keys
     if (platform) {
         HWSensorsInfoLog("setting platform keys to [%-8s]", (const char*)platform->getBytesNoCopy());
@@ -800,8 +798,6 @@ bool CPUSensors::start(IOService *provider)
             
     }
     
-    disableExclusiveAccessMode();
-
     // two power states - off and on
 	static const IOPMPowerState powerStates[2] = {
         { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
