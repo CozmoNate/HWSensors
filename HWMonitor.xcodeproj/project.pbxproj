@@ -13,7 +13,6 @@
 		7E0345DA185283C4002DB143 /* 306-light-switch.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E0345D8185283C4002DB143 /* 306-light-switch.png */; };
 		7E0345DB185283C4002DB143 /* 306-light-switch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E0345D9185283C4002DB143 /* 306-light-switch@2x.png */; };
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		7E0648F116DF3B7D00ACB851 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7E0648EF16DF3B7D00ACB851 /* README.md */; };
 		7E111513188F3EA4006E15A0 /* default.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 7E111512188F3EA4006E15A0 /* default.iconset */; };
 		7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C617E2744000694A4A /* 37-circle-x.png */; };
 		7E1458CB17E2744000694A4A /* 37-circle-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C717E2744000694A4A /* 37-circle-x@2x.png */; };
@@ -1221,7 +1220,6 @@
 				7EF6817D18510E8A0077E785 /* 17-bar-chart.png in Resources */,
 				7E36E593188AB15500BD9744 /* frequencies-white.png in Resources */,
 				7E24ABF2188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png in Resources */,
-				7E0648F116DF3B7D00ACB851 /* README.md in Resources */,
 				7EFDE527185CA0020022FD66 /* Let's go Digital Regular.ttf in Resources */,
 				7E36E576188AB15500BD9744 /* tachometers@2x.png in Resources */,
 				7ED2A5051881775100DAA19D /* 310-alarm-clock@2x.png in Resources */,

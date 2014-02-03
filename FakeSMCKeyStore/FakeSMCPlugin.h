@@ -228,8 +228,8 @@ protected:
     OSString                *getPlatformManufacturer(void);
     OSString                *getPlatformProduct(void);
     
-    void                    enableExclusiveAccessMode(void);
-    void                    disableExclusiveAccessMode(void);
+    void                    lockAccessForOtherPlugins(void);
+    void                    unlockAccessForOtherPlugins(void);
     
     bool                    isKeyExists(const char *key);
     bool                    isKeyHandled(const char *key);
