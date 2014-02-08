@@ -10,19 +10,7 @@
 
 @class HWMSmcFanSensor, HWMColorTheme;
 
-@interface PopupFanController : PopupPopoverController
-{
-    NSDate *_lastUpdated;
-}
-
-@property (assign) IBOutlet NSSlider *targetSlider;
-@property (assign) IBOutlet NSTextField *targetTextField;
-
-- (IBAction)sliderHasMoved:(id)sender;
-
-@end;
-
-@interface PopupFanCell : PopupSensorCell <NSPopoverDelegate>
+@interface PopupFanCell : PopupSensorCell
 {
     NSPopover *_popover;
 }

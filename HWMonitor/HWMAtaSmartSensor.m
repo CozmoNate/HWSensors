@@ -123,12 +123,11 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
 
 @end
 
-const UInt8 kATASMARTAttributeTemperature           = 0xC2;
-const UInt8 kATASMARTAttributeTemperature2          = 0xE7;
-const UInt8 kATASMARTAttributeTemperature3          = 0xBE;
-const UInt8 kATASMARTAttributeEndurance             = 0xE7;
-const UInt8 kATASMARTAttributeEndurance2            = 0xE9;
-const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
+#define kATASMARTAttributeTemperature1          0xC2
+#define kATASMARTAttributeTemperature2          0xBE
+#define kATASMARTAttributeEndurance1            0xE7
+#define kATASMARTAttributeEndurance2            0xE9
+#define kATASMARTAttributeUnusedReservedBloks   0xB4
 
 @implementation HWMAtaSmartSensor
 
@@ -138,6 +137,252 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
 @dynamic rotational;
 
 @synthesize exceeded = _exceeded;
+@synthesize attributes = _attributes;
+
+#define RAW_TO_LONG(attribute)  (UInt64)attribute->rawvalue[0] | \
+(UInt64)attribute->rawvalue[1] << 8 | \
+(UInt64)attribute->rawvalue[2] << 16 | \
+(UInt64)attribute->rawvalue[3] << 24 | \
+(UInt64)attribute->rawvalue[4] << 32 | \
+(UInt64)attribute->rawvalue[5] << 40
+
+// Attribute names shouldn't be longer than 23 chars, otherwise they break the
+// output of smartctl.
++(NSString *)getDefaultAttributeNameByIdentifier:(NSUInteger)identifier isRotational:(BOOL)hdd
+{
+    BOOL ssd = !hdd;
+    NSString * Unknown_HDD_Attribute = @"Unknown_HDD_Attribute";
+    NSString * Unknown_SSD_Attribute = @"Unknown_SSD_Attribute";
+
+    switch (identifier) {
+        case 1:
+            return @"Raw_Read_Error_Rate";
+        case 2:
+            return @"Throughput_Performance";
+        case 3:
+            return @"Spin_Up_Time";
+        case 4:
+            return @"Start_Stop_Count";
+        case 5:
+            return @"Reallocated_Sector_Ct";
+        case 6:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Read_Channel_Margin";
+        case 7:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Seek_Error_Rate";
+        case 8:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Seek_Time_Performance";
+        case 9:
+            return @"Power_On_Hours";
+        case 10:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Spin_Retry_Count";
+        case 11:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Calibration_Retry_Count";
+        case 12:
+            return @"Power_Cycle_Count";
+        case 13:
+            return @"Read_Soft_Error_Rate";
+        case 170:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Available_Reservd_Space";
+        case 171:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Program_Fail_Count";
+        case 172:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Erase_Fail_Count";
+        case 174:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Unexpect_Power_Loss_Ct";
+        case 175:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Program_Fail_Count_Chip";
+        case 176:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Erase_Fail_Count_Chip";
+        case 177:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Wear_Leveling_Count";
+        case 178:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Used_Rsvd_Blk_Cnt_Chip";
+        case 179:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Used_Rsvd_Blk_Cnt_Tot";
+        case 180:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Unused_Rsvd_Blk_Cnt_Tot";
+        case 181:
+            return @"Program_Fail_Cnt_Total";
+        case 182:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Erase_Fail_Count_Total";
+        case 183:
+            return @"Runtime_Bad_Block";
+        case 184:
+            return @"End-to-End_Error";
+        case 187:
+            return @"Reported_Uncorrect";
+        case 188:
+            return @"Command_Timeout";
+        case 189:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"High_Fly_Writes";
+        case 190:
+            // Western Digital uses this for temperature.
+            // It's identical to Attribute 194 except that it
+            // has a failure threshold set to correspond to the
+            // max allowed operating temperature of the drive, which
+            // is typically 55C.  So if this attribute has failed
+            // in the past, it indicates that the drive temp exceeded
+            // 55C sometime in the past.
+            return @"Airflow_Temperature_Cel";
+        case 191:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"G-Sense_Error_Rate";
+        case 192:
+            return @"Power-Off_Retract_Count";
+        case 193:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Load_Cycle_Count";
+        case 194:
+            return @"Temperature_Celsius";
+        case 195:
+            // Fujitsu: "ECC_On_The_Fly_Count";
+            return @"Hardware_ECC_Recovered";
+        case 196:
+            return @"Reallocated_Event_Count";
+        case 197:
+            return @"Current_Pending_Sector";
+        case 198:
+            return @"Offline_Uncorrectable";
+        case 199:
+            return @"UDMA_CRC_Error_Count";
+        case 200:
+            if (ssd) return Unknown_SSD_Attribute;
+            // Western Digital
+            return @"Multi_Zone_Error_Rate";
+        case 201:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Soft_Read_Error_Rate";
+        case 202:
+            if (ssd) return Unknown_SSD_Attribute;
+            // Fujitsu: "TA_Increase_Count"
+            return @"Data_Address_Mark_Errs";
+        case 203:
+            // Fujitsu
+            return @"Run_Out_Cancel";
+            // Maxtor: ECC Errors
+        case 204:
+            // Fujitsu: "Shock_Count_Write_Opern"
+            return @"Soft_ECC_Correction";
+        case 205:
+            // Fujitsu: "Shock_Rate_Write_Opern"
+            return @"Thermal_Asperity_Rate";
+        case 206:
+            // Fujitsu
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Flying_Height";
+        case 207:
+            // Maxtor
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Spin_High_Current";
+        case 208:
+            // Maxtor
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Spin_Buzz";
+        case 209:
+            // Maxtor
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Offline_Seek_Performnce";
+        case 220:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Disk_Shift";
+        case 221:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"G-Sense_Error_Rate";
+        case 222:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Loaded_Hours";
+        case 223:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Load_Retry_Count";
+        case 224:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Load_Friction";
+        case 225:
+            if (ssd) return @"Host_Writes_32MiB";
+            return @"Load_Cycle_Count";
+        case 226:
+            if (ssd) return @"Workld_Media_Wear_Indic";
+            return @"Load-in_Time";
+        case 227:
+            if (ssd) return @"Workld_Host_Reads_Perc";
+            return @"Torq-amp_Count";
+        case 228:
+            return @"Power-off_Retract_Count";
+        case 230:
+            // seen in IBM DTPA-353750
+            if (ssd) return @"Life_Curve_Status";
+            return @"Head_Amplitude";
+        case 231:
+            if (ssd) return @"SSD_Life_Left";
+            return @"Temperature_Celsius";
+        case 232:
+            // seen in Intel X25-E SSD
+            return @"Available_Reservd_Space";
+        case 233:
+            // seen in Intel X25-E SSD
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Media_Wearout_Indicator";
+        case 240:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Head_Flying_Hours";
+        case 241:
+            return @"Total_LBAs_Written";
+        case 242:
+            return @"Total_LBAs_Read";
+        case 250:
+            return @"Read_Error_Retry_Rate";
+        case 254:
+            if (ssd) return Unknown_SSD_Attribute;
+            return @"Free_Fall_Sensor";
+        default:
+            return @"Unknown_Attribute";
+    }
+}
+
+-(NSArray *)attributes
+{
+    if (!_attributes) {
+        NSMutableArray * attributes = [[NSMutableArray alloc] init];
+
+        for (int index = 0; index < kATASMARTAttributesCount; index++) {
+            if (_smartData.vendorAttributes[index].attributeId) {
+
+                ATASMARTAttribute *attribute = &_smartData.vendorAttributes[index];
+                ATASmartThresholdAttribute *threshold = &_smartDataThresholds.ThresholdEntries[index];
+
+                [attributes addObject:@{@"id": [NSNumber numberWithUnsignedChar:attribute->attributeId],
+                                        @"name": [HWMAtaSmartSensor getDefaultAttributeNameByIdentifier: attribute->attributeId isRotational:self.rotational.boolValue],
+                                        @"critical": ATTRIBUTE_FLAGS_PREFAILURE(attribute->flag) ? @"Pre-Failure" : @"Old Age",
+                                        @"value": [NSNumber numberWithUnsignedChar:attribute->current],
+                                        @"worst": [NSNumber numberWithUnsignedChar:attribute->worst],
+                                        @"threshold": (threshold ? [NSNumber numberWithUnsignedChar:threshold->ThresholdValue] : @0),
+                                        @"raw": [NSString stringWithFormat:@"0x%1$llX (%1$llu)", RAW_TO_LONG(attribute)]}];
+            }
+        }
+
+        _attributes = [attributes copy];
+    }
+
+    return _attributes;
+}
+
 
 +(NSArray*)discoverDrives
 {
@@ -227,7 +472,7 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
                                                           @"bsdName" :bsdName,
                                                           @"volumesNames" : (volumes ? volumes : bsdName) ,
                                                           @"serialNumber" : serial,
-                                                          @"rotational" : [NSNumber numberWithBool:medium ? [medium isEqualToString:@"Solid State"] : TRUE]}
+                                                          @"rotational" : [NSNumber numberWithBool:medium ? ![medium isEqualToString:@"Solid State"] : TRUE]}
                                          ];
                                     }
                                 }
@@ -294,7 +539,7 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
 -(BOOL)readSMARTData
 {
     if (updated && [updated timeIntervalSinceNow] > -60.0)
-        return YES;
+        return NO;
 
     IOReturn result = kIOReturnError;
 
@@ -302,26 +547,39 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
 
     if (wrapper) {
 
-            ATASMARTData smartData;
+        ATASMARTData smartData;
+        ATASMARTDataThresholds smartDataThresholds;
 
-            bzero(&smartData, sizeof(smartData));
+        bzero(&smartData, sizeof(smartData));
+        bzero(&smartDataThresholds, sizeof(smartDataThresholds));
 
-            _exceeded = false;
+        _exceeded = false;
 
-            if (kIOReturnSuccess != (*wrapper.smartInterface)->SMARTReturnStatus(wrapper.smartInterface, &_exceeded)) {
-                if (kIOReturnSuccess != (*wrapper.smartInterface)->SMARTEnableDisableOperations(wrapper.smartInterface, true)) {
-                    (*wrapper.smartInterface)->SMARTEnableDisableAutosave(wrapper.smartInterface, true);
-                }
+        if (kIOReturnSuccess != (*wrapper.smartInterface)->SMARTReturnStatus(wrapper.smartInterface, &_exceeded)) {
+            if (kIOReturnSuccess != (*wrapper.smartInterface)->SMARTEnableDisableOperations(wrapper.smartInterface, true)) {
+                (*wrapper.smartInterface)->SMARTEnableDisableAutosave(wrapper.smartInterface, true);
             }
+        }
 
-            if (kIOReturnSuccess == (result = (*wrapper.smartInterface)->SMARTReturnStatus(wrapper.smartInterface, &_exceeded))) {
-                if (kIOReturnSuccess == (result = (*wrapper.smartInterface)->SMARTReadData(wrapper.smartInterface, &smartData))) {
-                    if (kIOReturnSuccess == (result = (*wrapper.smartInterface)->SMARTValidateReadData(wrapper.smartInterface, &smartData))) {
-                        bcopy(&smartData.vendorSpecific1, &_smartData, sizeof(_smartData));
-                        updated = [NSDate date];
+        if (kIOReturnSuccess == (result = (*wrapper.smartInterface)->SMARTReturnStatus(wrapper.smartInterface, &_exceeded))) {
+            if (kIOReturnSuccess == (result = (*wrapper.smartInterface)->SMARTReadData(wrapper.smartInterface, &smartData))) {
+                if (kIOReturnSuccess == (result = (*wrapper.smartInterface)->SMARTValidateReadData(wrapper.smartInterface, &smartData))) {
+                    bcopy(&smartData.vendorSpecific1, &_smartData, sizeof(_smartData));
+
+                    if (kIOReturnSuccess == (result = (*wrapper.smartInterface)->SMARTReadDataThresholds(wrapper.smartInterface, &smartDataThresholds))) {
+                        bcopy(&smartDataThresholds.vendorSpecific1, &_smartDataThresholds, sizeof(_smartDataThresholds));
                     }
+                    else {
+                        NSLog(@"Failed to read S.M.A.R.T. thresholds");
+                    }
+
+                    // Release old attributes dictionary forcing it to rebuild with new data
+                    _attributes = nil;
+
+                    updated = [NSDate date];
                 }
             }
+        }
     }
 
     if (result != kIOReturnSuccess)
@@ -332,60 +590,78 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
 
 -(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8)identifier
 {
-    for (int index = 0; index < kATASMARTVendorSpecificAttributesCount; index++)
-        if (_smartData.vendorAttributes[index].attributeId == identifier)
-            return &_smartData.vendorAttributes[index];
+    if ([self readSMARTData]) {
+        for (int index = 0; index < kATASMARTAttributesCount; index++)
+            if (_smartData.vendorAttributes[index].attributeId == identifier)
+                return &_smartData.vendorAttributes[index];
+    }
 
     return nil;
+}
+
+-(NSUInteger)indexOfAttributeByIdentifier:(UInt8)identifier
+{
+    for (NSUInteger index = 0; index < kATASMARTAttributesCount; index++)
+        if (_smartData.vendorAttributes[index].attributeId == identifier)
+            return index;
+
+    return 0;
 }
 
 -(NSNumber*)getTemperature
 {
-    if ([self readSMARTData]) {
+    if ([self readSMARTData] && !_temperatureAttributeIndex) {
+        NSUInteger index = 0;
 
-        ATASMARTAttribute * temperature = nil;
-
-        if ((temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature]) ||
-            (temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature2]) ||
-            (temperature = [self getAttributeByIdentifier:kATASMARTAttributeTemperature3]))
-            return [NSNumber numberWithUnsignedChar:temperature->rawvalue[0]];
+        if ((index = [self indexOfAttributeByIdentifier:kATASMARTAttributeTemperature1]) ||
+            (index = [self indexOfAttributeByIdentifier:kATASMARTAttributeTemperature2]) ) {
+            _temperatureAttributeIndex = index;
+        }
+        else {
+            return nil;
+        }
     }
 
-    return nil;
+    ATASMARTAttribute *temperature = &_smartData.vendorAttributes[_temperatureAttributeIndex];
+
+    return [NSNumber numberWithUnsignedChar:temperature->rawvalue[0] ? temperature->rawvalue[0] : temperature->current];
 }
 
 -(NSNumber*)getRemainingLife
 {
-    if ([self readSMARTData]) {
+    if ([self readSMARTData] && !_remainingLifeAttributeIndex) {
+        NSUInteger index = 0;
 
-        ATASMARTAttribute * life = nil;
-
-        if ((life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance]) ||
-            (life = [self getAttributeByIdentifier:kATASMARTAttributeEndurance2])) {
-            return [NSNumber numberWithUnsignedChar:life->current];
+        if ((index = [self indexOfAttributeByIdentifier:kATASMARTAttributeEndurance1]) ||
+            (index = [self indexOfAttributeByIdentifier:kATASMARTAttributeEndurance2]) ) {
+            _remainingLifeAttributeIndex = index;
+        }
+        else {
+            return nil;
         }
     }
 
-    return nil;
+    ATASMARTAttribute *life = &_smartData.vendorAttributes[_remainingLifeAttributeIndex];
+
+    return [NSNumber numberWithUnsignedChar:life->current];
 }
 
 -(NSNumber*)getRemainingBlocks
 {
-    if ([self readSMARTData]) {
-        ATASMARTAttribute * life = nil;
+    if ([self readSMARTData] && !_unusedBlocksAttributeIndex) {
+        NSUInteger index = 0;
 
-        if ((life = [self getAttributeByIdentifier:kATASMARTAttributeUnusedReservedBloks])) {
-            UInt64 value =  (UInt64)life->rawvalue[0] << 40 |
-                            (UInt64)life->rawvalue[1] << 32 |
-                            (UInt64)life->rawvalue[2] << 24 |
-                            (UInt64)life->rawvalue[3] << 16 |
-                            (UInt64)life->rawvalue[4] << 8 |
-                            (UInt64)life->rawvalue[5];
-            return [NSNumber numberWithUnsignedLong:value];
+        if ((index = [self indexOfAttributeByIdentifier:kATASMARTAttributeUnusedReservedBloks]) ) {
+            _unusedBlocksAttributeIndex = index;
+        }
+        else {
+            return nil;
         }
     }
 
-    return nil;
+    ATASMARTAttribute *blocks = &_smartData.vendorAttributes[_unusedBlocksAttributeIndex];
+
+    return [NSNumber numberWithUnsignedChar:RAW_TO_LONG(blocks)];
 }
 
 -(NSUInteger)internalUpdateAlarmLevel
@@ -397,22 +673,22 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
         case kHWMGroupSmartTemperature:
             if (self.rotational.boolValue) {
                 return  floatValue >= 60 ? kHWMSensorLevelExceeded :
-                        floatValue >= 50 ? kHWMSensorLevelHigh :
-                        floatValue >= 40 ? kHWMSensorLevelModerate :
-                        kHWMSensorLevelNormal;
+                floatValue >= 50 ? kHWMSensorLevelHigh :
+                floatValue >= 40 ? kHWMSensorLevelModerate :
+                kHWMSensorLevelNormal;
             }
             else {
                 return  floatValue >= 100 ? kHWMSensorLevelExceeded :
-                        floatValue >= 85 ? kHWMSensorLevelHigh :
-                        floatValue >= 70 ? kHWMSensorLevelModerate :
-                        kHWMSensorLevelNormal;
+                floatValue >= 85 ? kHWMSensorLevelHigh :
+                floatValue >= 70 ? kHWMSensorLevelModerate :
+                kHWMSensorLevelNormal;
             }
 
         case kHWMGroupSmartRemainingLife:
             return  floatValue < 10 ? kHWMSensorLevelExceeded :
-                    floatValue < 50 ? kHWMSensorLevelHigh :
-                    floatValue < 70 ? kHWMSensorLevelModerate :
-                    kHWMSensorLevelNormal;
+            floatValue < 50 ? kHWMSensorLevelHigh :
+            floatValue < 70 ? kHWMSensorLevelModerate :
+            kHWMSensorLevelNormal;
 
         default:
             break;
@@ -470,7 +746,7 @@ const UInt8 kATASMARTAttributeUnusedReservedBloks   = 0xB4;
                                                isSticky:YES
                                            clickContext:nil];
                 break;
-
+                
             default:
                 break;
         }

@@ -43,7 +43,7 @@
 
 @end
 
-#define kATASMARTVendorSpecificAttributesCount     30
+#define kATASMARTAttributesCount     30
 
 typedef struct {
     UInt8 			attributeId;
@@ -54,15 +54,70 @@ typedef struct {
     UInt8 			reserv;
 }  __attribute__ ((packed)) ATASMARTAttribute;
 
+// 0: Prefailure bit
+
+// From SFF 8035i Revision 2 page 19: Bit 0 (pre-failure/advisory bit)
+// - If the value of this bit equals zero, an attribute value less
+// than or equal to its corresponding attribute threshold indicates an
+// advisory condition where the usage or age of the device has
+// exceeded its intended design life period. If the value of this bit
+// equals one, an attribute value less than or equal to its
+// corresponding attribute threshold indicates a prefailure condition
+// where imminent loss of data is being predicted.
+#define ATTRIBUTE_FLAGS_PREFAILURE(x) (x & 0x01)
+
+// 1: Online bit
+
+//  From SFF 8035i Revision 2 page 19: Bit 1 (on-line data collection
+// bit) - If the value of this bit equals zero, then the attribute
+// value is updated only during off-line data collection
+// activities. If the value of this bit equals one, then the attribute
+// value is updated during normal operation of the device or during
+// both normal operation and off-line testing.
+#define ATTRIBUTE_FLAGS_ONLINE(x) (x & 0x02)
+
+
+// The following are (probably) IBM's, Maxtors and  Quantum's definitions for the
+// vendor-specific bits:
+// 2: Performance type bit
+#define ATTRIBUTE_FLAGS_PERFORMANCE(x) (x & 0x04)
+
+// 3: Errorrate type bit
+#define ATTRIBUTE_FLAGS_ERRORRATE(x) (x & 0x08)
+
+// 4: Eventcount bit
+#define ATTRIBUTE_FLAGS_EVENTCOUNT(x) (x & 0x10)
+
+// 5: Selfpereserving bit
+#define ATTRIBUTE_FLAGS_SELFPRESERVING(x) (x & 0x20)
+
+// 6-15: Reserved for future use
+#define ATTRIBUTE_FLAGS_OTHER(x) ((x) & 0xffc0)
+
 typedef struct {
     UInt16 					revisonNumber;
-    ATASMARTAttribute		vendorAttributes [kATASMARTVendorSpecificAttributesCount];
+    ATASMARTAttribute		vendorAttributes [kATASMARTAttributesCount];
 } __attribute__ ((packed)) ATASmartVendorSpecificData;
+
+typedef struct {
+    UInt8             attributeId;
+    UInt8             ThresholdValue;
+    UInt8             Reserved[10];
+} __attribute__ ((packed)) ATASmartThresholdAttribute;
+
+typedef struct {
+    UInt16                          revisonNumber;
+    ATASmartThresholdAttribute      ThresholdEntries [kATASMARTAttributesCount];
+} __attribute__ ((packed)) ATASmartVendorSpecificDataThresholds;
 
 @interface HWMAtaSmartSensor : HWMSensor
 {
     NSDate * updated;
     ATASmartVendorSpecificData _smartData;
+    ATASmartVendorSpecificDataThresholds _smartDataThresholds;
+    UInt8 _temperatureAttributeIndex;
+    UInt8 _remainingLifeAttributeIndex;
+    UInt8 _unusedBlocksAttributeIndex;
 }
 
 @property (nonatomic, retain) NSString * productName;
@@ -71,6 +126,7 @@ typedef struct {
 @property (nonatomic, retain) NSNumber * rotational;
 
 @property (readonly) Boolean exceeded;
+@property (readonly) NSArray * attributes;
 
 +(NSArray*)discoverDrives;
 

@@ -8,13 +8,6 @@
 
 #import "PopupBasicCell.h"
 
-@interface PopupPopoverController : NSViewController
-
-@property (nonatomic, strong) id objectValue;
-@property (nonatomic, strong) HWMColorTheme* colorTheme;
-
-@end;
-
 @interface PopupSensorCell : PopupBasicCell
 
 +(NSPopover*)globalPopover;

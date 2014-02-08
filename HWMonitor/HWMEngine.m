@@ -1673,28 +1673,25 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     }
     else {
         [sensor setSelector:group.selector];
+
         [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
+        [sensor setProductName:[attributes objectForKey:@"productName"]];
+        [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
+        [sensor setRotational:[attributes objectForKey:@"rotational"]];
+
+        [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : [sensor.productName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+        [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
+        [sensor setIdentifier:@"Drive"];
+
+        [sensor setEngine:self];
 
         [sensor doUpdateValue];
 
-        if (sensor.value) {
-            [sensor setProductName:[attributes objectForKey:@"productName"]];
-            [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
-            [sensor setRotational:[attributes objectForKey:@"rotational"]];
-
-            [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : sensor.productName];
-            [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
-            [sensor setIdentifier:@"Drive"];
-
-            [sensor setEngine:self];
-        }
-        else {
+        if (!sensor.value) {
             [self.managedObjectContext deleteObject:sensor];
             return nil;
         }
     }
-
-
 
     return sensor;
 }

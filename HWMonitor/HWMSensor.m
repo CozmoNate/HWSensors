@@ -218,9 +218,10 @@
         [self didChangeValueForKey:@"formattedValue"];
 
         if (!self.hidden.boolValue) {
+
             NSUInteger alarmLevel = [self internalUpdateAlarmLevel];
 
-            if (alarmLevel != _alarmLevel) {
+            if (alarmLevel != _alarmLevel || _alarmLevel == 0) {
                 [self willChangeValueForKey:@"alarmLevel"];
                 _alarmLevel = alarmLevel;
                 [self didChangeValueForKey:@"alarmLevel"];

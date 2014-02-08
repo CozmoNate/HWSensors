@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C48" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -34,8 +34,8 @@
                     <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="3000" tickMarkPosition="above" numberOfTickMarks="12" sliderType="circular" id="PGv-Wg-slZ"/>
                     <connections>
                         <action selector="sliderHasMoved:" target="-2" id="fQc-Ww-slF"/>
-                        <binding destination="-2" name="maxValue" keyPath="objectValue.max" id="T2y-cS-PoR"/>
-                        <binding destination="-2" name="minValue" keyPath="objectValue.min" previousBinding="T2y-cS-PoR" id="eFO-HX-8oS"/>
+                        <binding destination="-2" name="maxValue" keyPath="sensor.max" id="DpA-Ue-3Gk"/>
+                        <binding destination="-2" name="minValue" keyPath="sensor.min" previousBinding="DpA-Ue-3Gk" id="e8s-xg-8b4"/>
                     </connections>
                 </slider>
                 <box autoresizesSubviews="NO" title="Box" borderType="bezel" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="4bb-HQ-5XS">
