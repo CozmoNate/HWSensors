@@ -354,17 +354,6 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
     }
 }
 
-+(NSDictionary*)getAttributeOverridesDatabase
-{
-    if (!gAttributeOverridesDatabase) {
-        if (!(gAttributeOverridesDatabase = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"smart-overrides" withExtension:@"plist"]])) {
-            gAttributeOverridesDatabase = [NSDictionary dictionary]; // Empty dictionary
-        }
-    }
-
-    return gAttributeOverridesDatabase;
-}
-
 +(NSDictionary*)getAttributeOverridesForProduct:(NSString*)product firmware:(NSString*)firmware
 {
     if (!product)
@@ -377,6 +366,7 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
     }
 
     for (NSDictionary *group in gAttributeOverridesDatabase.allValues) {
+
         NSArray *productMatch = group[@"NameMatch"];
 
         if (productMatch) {
@@ -536,6 +526,10 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
 
         if (!_overrides) {
             _overrides = [HWMAtaSmartSensor getAttributeOverridesForProduct:self.productName firmware:self.name];
+
+            if (!_overrides) {
+                _overrides = [NSDictionary dictionary];
+            }
         }
 
         NSMutableArray * attributes = [[NSMutableArray alloc] init];
@@ -682,7 +676,6 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
 
         if ((index = [self indexOfAttributeByName:@"Temperature_Celsius"]) ||
             (index = [self indexOfAttributeByName:@"Airflow_Temperature_Cel"]) ||
-            (index = [self indexOfAttributeByName:@"Temperature_Internal"]) ||
             (index = [self indexOfAttributeByName:@"Temperature_Case"])
             ) {
             _temperatureAttributeIndex = index;
@@ -694,7 +687,7 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
 
     ATASMARTAttribute *temperature = &_smartData.vendorAttributes[_temperatureAttributeIndex];
 
-    NSUInteger value = temperature->rawvalue[0] ? temperature->rawvalue[0] : temperature->current < 100 ? temperature->current : 0;
+    NSUInteger value = temperature->rawvalue[0] && temperature->rawvalue[0] < 100 ? temperature->rawvalue[0] : temperature->current < 100 ? temperature->current : 0;
 
     return value ? [NSNumber numberWithUnsignedInteger:value] : nil;
 }
