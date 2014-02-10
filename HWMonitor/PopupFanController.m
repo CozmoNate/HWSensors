@@ -53,7 +53,7 @@
     COICOPopoverView *container = (COICOPopoverView *)[self view];
 
     [container setBackgroundColour:_colorTheme.useDarkIcons.boolValue ?
-     [_colorTheme.listBackgroundColor highlightWithLevel:0.30] :
+     [_colorTheme.listBackgroundColor colorWithAlphaComponent:0.5]:
      nil /*[self.colorTheme.listBackgroundColor shadowWithLevel:0.05]*/];
 
     NSColor *textColor = _colorTheme.useDarkIcons.boolValue ?

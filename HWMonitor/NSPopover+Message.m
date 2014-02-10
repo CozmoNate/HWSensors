@@ -19,21 +19,24 @@
 //    }
 
     if (self.backgroundColour) {
-        if (!backgroundGradient) {
+        /*if (!backgroundGradient) {
             backgroundGradient = [[NSGradient alloc] initWithStartingColor:backgroundColour
-                                                               endingColor:[backgroundColour blendedColorWithFraction:0.12 ofColor:[NSColor controlBackgroundColor] ]];
-        }
+                                                               endingColor:[backgroundColour highlightWithLevel:0.1]];
+        }*/
 
 
         NSRect drawingRect = [self frame];
         drawingRect.origin.x = 0;
         drawingRect.origin.y = 0;
 
+        [backgroundColour setFill];
+
         NSBezierPath *border = [NSBezierPath bezierPathWithRoundedRect:drawingRect
                                                                xRadius:5.0
                                                                yRadius:5.0];
 
-        [backgroundGradient drawInBezierPath:border angle:270.0];
+        [border fill];
+        //[backgroundGradient drawInBezierPath:border angle:270.0];
 
     }
 

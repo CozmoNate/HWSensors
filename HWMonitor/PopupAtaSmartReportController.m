@@ -28,7 +28,7 @@
     COICOPopoverView *container = (COICOPopoverView *)[self view];
 
     [container setBackgroundColour:self.sensor.engine.configuration.colorTheme.useDarkIcons.boolValue ?
-     self.sensor.engine.configuration.colorTheme.listBackgroundColor :
+     [self.sensor.engine.configuration.colorTheme.listBackgroundColor colorWithAlphaComponent:0.85] :
      nil /*[self.colorTheme.listBackgroundColor shadowWithLevel:0.05]*/];
 
 }

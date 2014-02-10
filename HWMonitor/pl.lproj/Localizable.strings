@@ -299,3 +299,11 @@
 "Unknown_Attribute" = "Unknown Attribute";
 "Factory_Bad_Block_Ct" = "Factory Bad Block Count";
 "Perc_Rated_Life_Used" = "Percentage Of The Rated Lifetime Used";
+"SATA_Downshift_Count" = "SATA Downshift Count";
+"ECC_Uncorr_Error_Count" = "ECC Uncorrectable Error Count";
+"Wear_Range_Delta" = "Wear Range Delta";
+"Unc_Soft_Read_Err_Rate" = "Uncorrectable Soft Read Error Rate";
+"Soft_ECC_Correct_Rate" = "Soft ECC Correction Rate";
+"Lifetime_Writes_GiB" = "Lifetime Writes (GiB)";
+"Lifetime_Reads_GiB" = "Lifetime Reads (GiB)";
+"Host_Reads_32MiB" = "Host Reads (32MiB)";
