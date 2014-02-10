@@ -534,7 +534,9 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
 {
     if (!_attributes) {
 
-        NSDictionary *overrides = [HWMAtaSmartSensor getAttributeOverridesForProduct:self.productName firmware:self.name];
+        if (!_overrides) {
+            _overrides = [HWMAtaSmartSensor getAttributeOverridesForProduct:self.productName firmware:self.name];
+        }
 
         NSMutableArray * attributes = [[NSMutableArray alloc] init];
 
@@ -544,9 +546,9 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
                 ATASMARTAttribute *attribute = &_smartData.vendorAttributes[index];
                 ATASmartThresholdAttribute *threshold = &_smartDataThresholds.ThresholdEntries[index];
 
-                NSString *overridden = overrides ? overrides[[NSString stringWithFormat:@"%d",_smartData.vendorAttributes[index].attributeId]] : nil;
+                NSString *overridden = _overrides ? [_overrides objectForKey:[NSString stringWithFormat:@"%d",_smartData.vendorAttributes[index].attributeId]] : nil;
 
-                NSString *name = overridden ? overridden :[HWMAtaSmartSensor getDefaultAttributeNameByIdentifier: attribute->attributeId isRotational:self.rotational.boolValue];
+                NSString *name = overridden ? overridden : [HWMAtaSmartSensor getDefaultAttributeNameByIdentifier:attribute->attributeId isRotational:self.rotational.boolValue];
 
                 [attributes addObject:@{@"id": [NSNumber numberWithUnsignedChar:attribute->attributeId],
                                         @"name": name,
@@ -555,7 +557,7 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
                                         @"value": [NSNumber numberWithUnsignedChar:attribute->current],
                                         @"worst": [NSNumber numberWithUnsignedChar:attribute->worst],
                                         @"threshold": (threshold ? [NSNumber numberWithUnsignedChar:threshold->ThresholdValue] : @0),
-                                        @"raw": [NSString stringWithFormat:@"0x%1$llX (%1$llu)", RAW_TO_LONG(attribute)]}];
+                                        @"raw": [NSString stringWithFormat:@"(%1$llu)", RAW_TO_LONG(attribute)]}];
             }
         }
 

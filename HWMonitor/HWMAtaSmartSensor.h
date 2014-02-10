@@ -118,6 +118,7 @@ typedef struct {
     UInt8 _temperatureAttributeIndex;
     UInt8 _remainingLifeAttributeIndex;
     UInt8 _unusedBlocksAttributeIndex;
+    NSDictionary *_overrides;
 }
 
 @property (nonatomic, retain) NSString * bsdName;
