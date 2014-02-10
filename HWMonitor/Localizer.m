@@ -165,6 +165,20 @@
             [self localizeView:view];
         }
     }
+    else if ([view isKindOfClass:[NSTableView class]]) {
+
+        NSTableView *tableView = (NSTableView*)view;
+
+        for (NSTableColumn *column in tableView.tableColumns) {
+            if (column.headerCell) {
+                NSTableHeaderCell *cell = column.headerCell;
+
+                NSString * title = GetLocalizedString(cell.title);
+
+                [cell setTitle:title];
+            }
+        }
+    }
     // Must be at the end to allow other checks to pass because almost all controls are derived from NSView
     else if ([view isKindOfClass:[NSView class]] && [view subviews]) {
         NSArray *subviews = [[view subviews] copy];

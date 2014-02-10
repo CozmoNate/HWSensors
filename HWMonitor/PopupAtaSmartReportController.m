@@ -13,6 +13,8 @@
 #import "HWMConfiguration.h"
 #import "HWMColorTheme.h"
 
+#import "Localizer.h"
+
 @interface PopupAtaSmartReportController ()
 
 @end
@@ -34,12 +36,17 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
     if (self) {
 
-
-
     }
+
     return self;
+}
+
+-(void)awakeFromNib
+{
+    [Localizer localizeView:_tableView];
 }
 
 - (void)copy:(id)sender;

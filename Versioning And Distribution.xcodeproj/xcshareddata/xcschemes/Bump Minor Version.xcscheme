@@ -17,7 +17,7 @@
                BlueprintIdentifier = "7E2ACD9D1791B6090061C677"
                BuildableName = "Bump Minor Version"
                BlueprintName = "Bump Minor Version"
-               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
+               ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

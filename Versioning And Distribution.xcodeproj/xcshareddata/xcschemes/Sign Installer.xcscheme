@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E72E36A181B94F5002165DD"
-               BuildableName = "Sign Kexts"
-               BlueprintName = "Sign Kexts"
-               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
+               BlueprintIdentifier = "7E43CE09179742DB001E3636"
+               BuildableName = "Sign Installer"
+               BlueprintName = "Sign Installer"
+               ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

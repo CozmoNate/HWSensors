@@ -123,17 +123,12 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
 
 @end
 
-#define kATASMARTAttributeTemperature1          0xC2
-#define kATASMARTAttributeTemperature2          0xBE
-#define kATASMARTAttributeEndurance1            0xE7
-#define kATASMARTAttributeEndurance2            0xE9
-#define kATASMARTAttributeUnusedReservedBloks   0xB4
-
 @implementation HWMAtaSmartSensor
 
-@dynamic productName;
 @dynamic bsdName;
+@dynamic productName;
 @dynamic volumeNames;
+@dynamic serialNumber;
 @dynamic rotational;
 
 @synthesize exceeded = _exceeded;
@@ -146,8 +141,8 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
 (UInt64)attribute->rawvalue[4] << 32 | \
 (UInt64)attribute->rawvalue[5] << 40
 
-// Attribute names shouldn't be longer than 23 chars, otherwise they break the
-// output of smartctl.
+static NSDictionary * gAttributeOverridesDatabase = nil;
+
 +(NSString *)getDefaultAttributeNameByIdentifier:(NSUInteger)identifier isRotational:(BOOL)hdd
 {
     BOOL ssd = !hdd;
@@ -192,6 +187,9 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
         case 171:
             if (hdd) return Unknown_HDD_Attribute;
             return @"Program_Fail_Count";
+        case 173:
+            if (hdd) return Unknown_HDD_Attribute;
+            return @"Wear_Leveling_Count";
         case 172:
             if (hdd) return Unknown_HDD_Attribute;
             return @"Erase_Fail_Count";
@@ -230,7 +228,7 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
         case 188:
             return @"Command_Timeout";
         case 189:
-            if (ssd) return Unknown_SSD_Attribute;
+            if (ssd) return @"Factory_Bad_Block_Ct";
             return @"High_Fly_Writes";
         case 190:
             // Western Digital uses this for temperature.
@@ -270,7 +268,7 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
             if (ssd) return Unknown_SSD_Attribute;
             return @"Soft_Read_Error_Rate";
         case 202:
-            if (ssd) return Unknown_SSD_Attribute;
+            if (ssd) return @"Perc_Rated_Life_Used";
             // Fujitsu: "TA_Increase_Count"
             return @"Data_Address_Mark_Errs";
         case 203:
@@ -356,33 +354,67 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
     }
 }
 
--(NSArray *)attributes
++(NSDictionary*)getAttributeOverridesDatabase
 {
-    if (!_attributes) {
-        NSMutableArray * attributes = [[NSMutableArray alloc] init];
-
-        for (int index = 0; index < kATASMARTAttributesCount; index++) {
-            if (_smartData.vendorAttributes[index].attributeId) {
-
-                ATASMARTAttribute *attribute = &_smartData.vendorAttributes[index];
-                ATASmartThresholdAttribute *threshold = &_smartDataThresholds.ThresholdEntries[index];
-
-                [attributes addObject:@{@"id": [NSNumber numberWithUnsignedChar:attribute->attributeId],
-                                        @"name": [HWMAtaSmartSensor getDefaultAttributeNameByIdentifier: attribute->attributeId isRotational:self.rotational.boolValue],
-                                        @"critical": ATTRIBUTE_FLAGS_PREFAILURE(attribute->flag) ? @"Pre-Failure" : @"Old Age",
-                                        @"value": [NSNumber numberWithUnsignedChar:attribute->current],
-                                        @"worst": [NSNumber numberWithUnsignedChar:attribute->worst],
-                                        @"threshold": (threshold ? [NSNumber numberWithUnsignedChar:threshold->ThresholdValue] : @0),
-                                        @"raw": [NSString stringWithFormat:@"0x%1$llX (%1$llu)", RAW_TO_LONG(attribute)]}];
-            }
+    if (!gAttributeOverridesDatabase) {
+        if (!(gAttributeOverridesDatabase = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"smart-overrides" withExtension:@"plist"]])) {
+            gAttributeOverridesDatabase = [NSDictionary dictionary]; // Empty dictionary
         }
-
-        _attributes = [attributes copy];
     }
 
-    return _attributes;
+    return gAttributeOverridesDatabase;
 }
 
++(NSDictionary*)getAttributeOverridesForProduct:(NSString*)product firmware:(NSString*)firmware
+{
+    if (!product)
+        return nil;
+
+    if (!gAttributeOverridesDatabase) {
+        if (!(gAttributeOverridesDatabase = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"smart-overrides" withExtension:@"plist"]])) {
+            gAttributeOverridesDatabase = [NSDictionary dictionary]; // Empty dictionary
+        }
+    }
+
+    for (NSDictionary *group in gAttributeOverridesDatabase.allValues) {
+        NSArray *productMatch = group[@"NameMatch"];
+
+        if (productMatch) {
+
+            for (NSString *pattern in productMatch) {
+
+                NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+
+                if ([expression numberOfMatchesInString:product options:NSMatchingReportCompletion range:NSMakeRange(0, product.length)]) {
+
+                    NSArray *firmwareMatch = group[@"FirmwareMatch"];
+
+                    if (firmware && firmwareMatch) {
+
+                        BOOL supported = NO;
+
+                        for (pattern in productMatch) {
+                            expression = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+
+                            if ([expression numberOfMatchesInString:product options:NSMatchingReportCompletion range:NSMakeRange(0, product.length)]) {
+                                supported = YES;
+                                break;
+                            }
+                        }
+
+                        if (!supported) {
+                            return nil;
+                        }
+                    }
+
+                    return group[@"Attributes"];
+                }
+            }
+        }
+    }
+
+    return nil;
+}
 
 +(NSArray*)discoverDrives
 {
@@ -479,23 +511,58 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
                             }
                         }
                     }
-
+                    
                     CFRelease(capable);
                 }
             }
-
+            
             IOObjectRelease(iterator);
         }
     }
-
+    
     [list sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         NSString *name1 = [(NSDictionary*)obj1 objectForKey:@"bsdName"];
         NSString *name2 = [(NSDictionary*)obj2 objectForKey:@"bsdName"];
-
+        
         return [name1 compare:name2];
     }];
-
+    
     return list;
+}
+
+-(NSArray *)attributes
+{
+    if (!_attributes) {
+
+        NSDictionary *overrides = [HWMAtaSmartSensor getAttributeOverridesForProduct:self.productName firmware:self.name];
+
+        NSMutableArray * attributes = [[NSMutableArray alloc] init];
+
+        for (int index = 0; index < kATASMARTAttributesCount; index++) {
+            if (_smartData.vendorAttributes[index].attributeId) {
+
+                ATASMARTAttribute *attribute = &_smartData.vendorAttributes[index];
+                ATASmartThresholdAttribute *threshold = &_smartDataThresholds.ThresholdEntries[index];
+
+                NSString *overridden = overrides ? overrides[[NSString stringWithFormat:@"%d",_smartData.vendorAttributes[index].attributeId]] : nil;
+
+                NSString *name = overridden ? overridden :[HWMAtaSmartSensor getDefaultAttributeNameByIdentifier: attribute->attributeId isRotational:self.rotational.boolValue];
+
+                [attributes addObject:@{@"id": [NSNumber numberWithUnsignedChar:attribute->attributeId],
+                                        @"name": name,
+                                        @"title": GetLocalizedString(name),
+                                        @"critical": GetLocalizedString(ATTRIBUTE_FLAGS_PREFAILURE(attribute->flag) ? @"Pre-Failure" : @"Life-Span"),
+                                        @"value": [NSNumber numberWithUnsignedChar:attribute->current],
+                                        @"worst": [NSNumber numberWithUnsignedChar:attribute->worst],
+                                        @"threshold": (threshold ? [NSNumber numberWithUnsignedChar:threshold->ThresholdValue] : @0),
+                                        @"raw": [NSString stringWithFormat:@"0x%1$llX (%1$llu)", RAW_TO_LONG(attribute)]}];
+            }
+        }
+
+        _attributes = [attributes copy];
+    }
+
+    return _attributes;
 }
 
 -(void)awakeFromFetch
@@ -588,17 +655,6 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
     return result == kIOReturnSuccess;
 }
 
--(ATASMARTAttribute*)getAttributeByIdentifier:(UInt8)identifier
-{
-    if ([self readSMARTData]) {
-        for (int index = 0; index < kATASMARTAttributesCount; index++)
-            if (_smartData.vendorAttributes[index].attributeId == identifier)
-                return &_smartData.vendorAttributes[index];
-    }
-
-    return nil;
-}
-
 -(NSUInteger)indexOfAttributeByIdentifier:(UInt8)identifier
 {
     for (NSUInteger index = 0; index < kATASMARTAttributesCount; index++)
@@ -608,13 +664,25 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
     return 0;
 }
 
+-(NSUInteger)indexOfAttributeByName:(NSString*)name
+{
+    NSArray *results = [self.attributes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
+
+    NSString *identifier = results && results.count ? [(NSDictionary*)[results objectAtIndex:0] objectForKey:@"id"] : nil;
+
+    return identifier ? [self indexOfAttributeByIdentifier:identifier.integerValue] : 0;
+}
+
 -(NSNumber*)getTemperature
 {
     if ([self readSMARTData] && !_temperatureAttributeIndex) {
         NSUInteger index = 0;
 
-        if ((index = [self indexOfAttributeByIdentifier:kATASMARTAttributeTemperature1]) ||
-            (index = [self indexOfAttributeByIdentifier:kATASMARTAttributeTemperature2]) ) {
+        if ((index = [self indexOfAttributeByName:@"Temperature_Celsius"]) ||
+            (index = [self indexOfAttributeByName:@"Airflow_Temperature_Cel"]) ||
+            (index = [self indexOfAttributeByName:@"Temperature_Internal"]) ||
+            (index = [self indexOfAttributeByName:@"Temperature_Case"])
+            ) {
             _temperatureAttributeIndex = index;
         }
         else {
@@ -624,7 +692,9 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
 
     ATASMARTAttribute *temperature = &_smartData.vendorAttributes[_temperatureAttributeIndex];
 
-    return [NSNumber numberWithUnsignedChar:temperature->rawvalue[0] ? temperature->rawvalue[0] : temperature->current];
+    NSUInteger value = temperature->rawvalue[0] ? temperature->rawvalue[0] : temperature->current < 100 ? temperature->current : 0;
+
+    return value ? [NSNumber numberWithUnsignedInteger:value] : nil;
 }
 
 -(NSNumber*)getRemainingLife
@@ -632,8 +702,13 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
     if ([self readSMARTData] && !_remainingLifeAttributeIndex) {
         NSUInteger index = 0;
 
-        if ((index = [self indexOfAttributeByIdentifier:kATASMARTAttributeEndurance1]) ||
-            (index = [self indexOfAttributeByIdentifier:kATASMARTAttributeEndurance2]) ) {
+        if ((index = [self indexOfAttributeByName:@"SSD_Life_Left"]) ||
+            (index = [self indexOfAttributeByName:@"Remaining_Lifetime_Perc"]) ||
+            (index = [self indexOfAttributeByName:@"Media_Wearout_Indicator"]) ||
+            (index = [self indexOfAttributeByName:@"Perc_Rated_Life_Used"]) ||
+            (index = [self indexOfAttributeByName:@"Wear_Leveling_Count"]) ||
+            (index = [self indexOfAttributeByName:@"Available_Reservd_Space"])
+            ) {
             _remainingLifeAttributeIndex = index;
         }
         else {
@@ -651,7 +726,7 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
     if ([self readSMARTData] && !_unusedBlocksAttributeIndex) {
         NSUInteger index = 0;
 
-        if ((index = [self indexOfAttributeByIdentifier:kATASMARTAttributeUnusedReservedBloks]) ) {
+        if ((index = [self indexOfAttributeByName:@"Unused_Rsvd_Blk_Cnt_Tot"]) ) {
             _unusedBlocksAttributeIndex = index;
         }
         else {
@@ -669,10 +744,10 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
     float floatValue = self.value.floatValue;
 
     switch (self.selector.unsignedIntegerValue) {
-
+        case kHWMGroupTemperature:
         case kHWMGroupSmartTemperature:
             if (self.rotational.boolValue) {
-                return  floatValue >= 60 ? kHWMSensorLevelExceeded :
+                return  floatValue >= 55 ? kHWMSensorLevelExceeded :
                 floatValue >= 50 ? kHWMSensorLevelHigh :
                 floatValue >= 40 ? kHWMSensorLevelModerate :
                 kHWMSensorLevelNormal;
@@ -700,6 +775,7 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
 -(NSNumber *)internalUpdateValue
 {
     switch (self.selector.unsignedIntegerValue) {
+        case kHWMGroupTemperature:
         case kHWMGroupSmartTemperature:
             return [self getTemperature];
 

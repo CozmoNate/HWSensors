@@ -17,7 +17,7 @@
                BlueprintIdentifier = "7E2ACD8B1791B4510061C677"
                BuildableName = "Pre-Build"
                BlueprintName = "Pre-Build"
-               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
+               ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -115,7 +115,7 @@
                BlueprintIdentifier = "7E72E36A181B94F5002165DD"
                BuildableName = "Sign Kexts"
                BlueprintName = "Sign Kexts"
-               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
+               ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -143,7 +143,7 @@
                BlueprintIdentifier = "7E43CE05179742D3001E3636"
                BuildableName = "Sign Apps"
                BlueprintName = "Sign Apps"
-               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
+               ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -157,7 +157,7 @@
                BlueprintIdentifier = "7E2ACD911791B54B0061C677"
                BuildableName = "Build Installer"
                BlueprintName = "Build Installer"
-               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
+               ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -171,7 +171,7 @@
                BlueprintIdentifier = "7E43CE09179742DB001E3636"
                BuildableName = "Sign Installer"
                BlueprintName = "Sign Installer"
-               ReferencedContainer = "container:Versioning &amp; Destribution.xcodeproj">
+               ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

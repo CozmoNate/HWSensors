@@ -120,9 +120,10 @@ typedef struct {
     UInt8 _unusedBlocksAttributeIndex;
 }
 
-@property (nonatomic, retain) NSString * productName;
 @property (nonatomic, retain) NSString * bsdName;
+@property (nonatomic, retain) NSString * productName;
 @property (nonatomic, retain) NSString * volumeNames;
+@property (nonatomic, retain) NSString * serialNumber;
 @property (nonatomic, retain) NSNumber * rotational;
 
 @property (readonly) Boolean exceeded;

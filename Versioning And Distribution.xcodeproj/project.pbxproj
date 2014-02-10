@@ -249,7 +249,7 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 			};
-			buildConfigurationList = 7EB7E70D17834A740071B3F0 /* Build configuration list for PBXProject "Versioning & Destribution" */;
+			buildConfigurationList = 7EB7E70D17834A740071B3F0 /* Build configuration list for PBXProject "Versioning And Distribution" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -262,9 +262,9 @@
 			projectRoot = "";
 			targets = (
 				7E2ACD8B1791B4510061C677 /* Pre-Build */,
-				7E2ACD911791B54B0061C677 /* Build Installer */,
-				7E72E36A181B94F5002165DD /* Sign Kexts */,
 				7E43CE05179742D3001E3636 /* Sign Apps */,
+				7E72E36A181B94F5002165DD /* Sign Kexts */,
+				7E2ACD911791B54B0061C677 /* Build Installer */,
 				7E43CE09179742DB001E3636 /* Sign Installer */,
 				7EBA20D617ED7D1C008E54C5 /* Generate Appcast */,
 				7E2ACD991791B5DA0061C677 /* Tag Current Version */,
@@ -958,7 +958,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7EB7E70D17834A740071B3F0 /* Build configuration list for PBXProject "Versioning & Destribution" */ = {
+		7EB7E70D17834A740071B3F0 /* Build configuration list for PBXProject "Versioning And Distribution" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7EB7E70E17834A740071B3F0 /* Debug */,
