@@ -16,6 +16,7 @@
 @property (nonatomic, strong) HWMSmcFanSensor * sensor;
 @property (nonatomic, strong) HWMColorTheme * colorTheme;
 
+@property (assign) IBOutlet NSButton *controlledCheck;
 @property (assign) IBOutlet NSSlider *targetSlider;
 @property (assign) IBOutlet NSTextField *targetTextField;
 

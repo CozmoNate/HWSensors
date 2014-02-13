@@ -27,7 +27,6 @@
     </entity>
     <entity name="Configuration" representedClassName="HWMConfiguration" syncable="YES">
         <attribute name="colorThemeIndex" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="enableFanControl" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="graphsScaleValue" attributeType="Float" minValueString="1" maxValueString="10" defaultValueString="4" syncable="YES"/>
         <attribute name="graphsWindowAlwaysTopmost" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="notifyAlarmLevelChanges" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
@@ -92,6 +91,7 @@
         <relationship name="sensors" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Sensor" inverseName="group" inverseEntity="Sensor" syncable="YES"/>
     </entity>
     <entity name="SmcFanSensor" representedClassName="HWMSmcFanSensor" parentEntity="SmcSensor" syncable="YES">
+        <attribute name="controlled" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="descriptor" attributeType="String" indexed="YES" elementID="unique" syncable="YES"/>
         <attribute name="max" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>
         <attribute name="min" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>

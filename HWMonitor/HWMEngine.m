@@ -907,22 +907,6 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         [self didChangeValueForKey:@"sensorsAndGroups"];
 
     }
-    else if ([keyPath isEqualToString:@"configuration.enableFanControl"]) {
-        if (!_configuration.enableFanControl.boolValue) {
-            [SmcHelper writeKey:@KEY_FAN_MANUAL value:@0 connection:_smcConnection];
-            [SmcHelper writeKey:@KEY_FAN_MANUAL value:@0 connection:_fakeSmcConnection];
-        }
-        else {
-            HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupTachometer];
-
-            if (group) {
-                for (HWMSmcFanSensor *fan in group.sensors) {
-                    [fan setSpeed:fan.speed];
-                }
-            }
-        }
-
-    }
 }
 
 -(void)awakeFromNib
@@ -1488,7 +1472,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             }
         }
 
-        if (_configuration.enableFanControl.boolValue) {
+        if (fan.controlled.boolValue) {
             // Force SMC fan speed to previousely saved speed
             [fan setSpeed:fan.speed];
         }

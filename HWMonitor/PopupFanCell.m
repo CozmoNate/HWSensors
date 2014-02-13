@@ -15,6 +15,12 @@
 
 @implementation PopupFanCell
 
+- (void)colorThemeChanged:(HWMColorTheme*)newColorTheme
+{
+    [super colorThemeChanged:newColorTheme];
+    [PopupSensorCell destroyGlobalPopover];
+}
+
 - (void)updateTrackingAreas
 {
     [super updateTrackingAreas];
@@ -30,9 +36,7 @@
 
 -(void)mouseEntered:(NSEvent *)theEvent
 {
-    if ([[self.objectValue engine] configuration].enableFanControl.boolValue) {
-        [self performSelector:@selector(showFanController:) withObject:self afterDelay:0.5];
-    }
+    [self performSelector:@selector(showFanController:) withObject:self afterDelay:0.5];
 
     [super mouseEntered:theEvent];
 }
@@ -82,6 +86,8 @@
 
         [controller setColorTheme:self.colorTheme];
         [controller setSensor:self.objectValue];
+
+        _popover.delegate = nil;
 
         _popover.animates = YES;
         _popover.behavior = NSPopoverBehaviorTransient;

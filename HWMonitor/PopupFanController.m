@@ -79,13 +79,4 @@
     [_sensor setSpeed:[NSNumber numberWithInteger:ROUND_50(_targetSlider.integerValue)]];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Initialization code here.
-    }
-    return self;
-}
-
 @end

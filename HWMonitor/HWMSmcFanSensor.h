@@ -33,6 +33,7 @@
 
 @interface HWMSmcFanSensor : HWMSmcSensor
 
+@property (nonatomic, retain) NSNumber * controlled;
 @property (nonatomic, retain) NSString * descriptor;
 @property (nonatomic, retain) NSNumber * number;
 @property (nonatomic, retain) NSNumber * max;

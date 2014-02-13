@@ -18,6 +18,12 @@
 
 @implementation PopupAtaSmartSensorCell
 
+- (void)colorThemeChanged:(HWMColorTheme*)newColorTheme
+{
+    [super colorThemeChanged:newColorTheme];
+    [PopupSensorCell destroyGlobalPopover];
+}
+
 - (void)updateTrackingAreas
 {
     [super updateTrackingAreas];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C48" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C53" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -74,11 +74,11 @@
             </metadata>
         </numberFormatter>
         <view id="2wX-b3-awf" userLabel="General View">
-            <rect key="frame" x="0.0" y="0.0" width="550" height="466"/>
+            <rect key="frame" x="0.0" y="0.0" width="550" height="393"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OHd-tF-mXw">
-                    <rect key="frame" x="24" y="419" width="132" height="17"/>
+                    <rect key="frame" x="24" y="346" width="132" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="750" constant="128" id="oRu-7s-Lsu"/>
@@ -90,10 +90,10 @@
                     </textFieldCell>
                 </textField>
                 <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eN7-c7-Y6I">
-                    <rect key="frame" x="162" y="396" width="362" height="40"/>
+                    <rect key="frame" x="162" y="323" width="362" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" priority="729" constant="97" id="aAE-gS-s9F"/>
+                        <constraint firstAttribute="width" priority="729" constant="362" id="aAE-gS-s9F"/>
                     </constraints>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     <size key="cellSize" width="89" height="18"/>
@@ -126,7 +126,7 @@
                     </cells>
                 </matrix>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="67I-pQ-71H">
-                    <rect key="frame" x="18" y="315" width="514" height="26"/>
+                    <rect key="frame" x="18" y="242" width="514" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="2Bz-bK-yL6"/>
@@ -138,7 +138,7 @@
                     </connections>
                 </slider>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vqt-Qp-d9a">
-                    <rect key="frame" x="24" y="349" width="427" height="17"/>
+                    <rect key="frame" x="24" y="276" width="427" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="729" constant="423" id="Vj0-ew-1q5"/>
@@ -150,7 +150,7 @@
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gn4-5s-Zdl">
-                    <rect key="frame" x="497" y="349" width="29" height="17"/>
+                    <rect key="frame" x="497" y="276" width="29" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="25" id="rDn-hN-3JG"/>
@@ -162,7 +162,7 @@
                     </textFieldCell>
                 </textField>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oV0-8W-hgL">
-                    <rect key="frame" x="18" y="236" width="514" height="26"/>
+                    <rect key="frame" x="18" y="163" width="514" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="510" id="VJs-ws-K2X"/>
@@ -174,7 +174,7 @@
                     </connections>
                 </slider>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gfd-1u-QhR">
-                    <rect key="frame" x="24" y="270" width="423" height="17"/>
+                    <rect key="frame" x="24" y="197" width="423" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="729" constant="419" id="OFL-Mi-pei"/>
@@ -186,7 +186,7 @@
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6RB-rI-Ik7">
-                    <rect key="frame" x="493" y="270" width="33" height="17"/>
+                    <rect key="frame" x="493" y="197" width="33" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="29" id="145-rW-X6v"/>
@@ -198,11 +198,11 @@
                     </textFieldCell>
                 </textField>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="mRl-Hy-jkT">
-                    <rect key="frame" x="24" y="26" width="510" height="18"/>
+                    <rect key="frame" x="24" y="18" width="510" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="9fa-B8-CKz"/>
-                        <constraint firstAttribute="width" priority="750" constant="174" id="n2v-2c-2md"/>
+                        <constraint firstAttribute="width" priority="750" constant="506" id="n2v-2c-2md"/>
                     </constraints>
                     <buttonCell key="cell" type="check" title="Start HWMonitor at login" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="KZa-m2-COX">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -220,10 +220,10 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="eDP-T5-3N4">
-                    <rect key="frame" x="24" y="51" width="510" height="18"/>
+                    <rect key="frame" x="24" y="43" width="510" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" priority="750" constant="133" id="mbC-dM-YfN"/>
+                        <constraint firstAttribute="width" priority="750" constant="506" id="mbC-dM-YfN"/>
                         <constraint firstAttribute="height" constant="14" id="oVi-fr-Qgh"/>
                     </constraints>
                     <buttonCell key="cell" type="check" title="Check for updates" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ZMn-Zm-T3E">
@@ -243,7 +243,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dIQ-rm-6cs">
-                    <rect key="frame" x="455" y="349" width="38" height="17"/>
+                    <rect key="frame" x="455" y="276" width="38" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="34" id="zJZ-zu-uX7"/>
@@ -258,7 +258,7 @@
                     </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eWb-eM-oNW">
-                    <rect key="frame" x="451" y="270" width="38" height="17"/>
+                    <rect key="frame" x="451" y="197" width="38" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="34" id="ij5-oy-uKi"/>
@@ -272,35 +272,11 @@
                         <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.smartSensorsUpdateRate" id="VJ2-gy-R7p"/>
                     </connections>
                 </textField>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="rjP-lo-ecp">
-                    <rect key="frame" x="24" y="118" width="502" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" priority="730" constant="14" id="PDG-po-Q4c"/>
-                        <constraint firstAttribute="width" priority="730" constant="233" id="vwb-fi-b2G"/>
-                    </constraints>
-                    <buttonCell key="cell" type="check" title="Activate manual fan speed control" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="oCi-6m-pdw">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.enableFanControl" id="2KC-Xy-mU2"/>
-                    </connections>
-                </button>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JrX-gr-dLb">
-                    <rect key="frame" x="18" y="93" width="514" height="1"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" priority="730" constant="514" id="C2t-Mp-sKp"/>
-                        <constraint firstAttribute="height" constant="1" id="lUN-Qs-cFP"/>
-                    </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="Divider" id="bd7-4m-uAN"/>
-                </imageView>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="kBG-ob-KSv">
-                    <rect key="frame" x="24" y="186" width="502" height="18"/>
+                    <rect key="frame" x="24" y="113" width="502" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" priority="730" constant="346" id="7F3-9l-vpf"/>
+                        <constraint firstAttribute="width" priority="730" constant="498" id="7F3-9l-vpf"/>
                         <constraint firstAttribute="height" priority="730" constant="14" id="82e-hI-Vzj"/>
                     </constraints>
                     <buttonCell key="cell" type="check" title="Show notification when sensor alarm level is critical" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fvb-he-nR9">
@@ -312,7 +288,7 @@
                     </connections>
                 </button>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6S5-5F-k5u">
-                    <rect key="frame" x="18" y="160" width="514" height="2"/>
+                    <rect key="frame" x="18" y="87" width="514" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="514" id="Qlp-Pw-HTW"/>
@@ -326,30 +302,23 @@
                 <constraint firstItem="6S5-5F-k5u" firstAttribute="leading" secondItem="2wX-b3-awf" secondAttribute="leading" constant="18" id="1cB-t7-fj0"/>
                 <constraint firstItem="Vqt-Qp-d9a" firstAttribute="leading" secondItem="2wX-b3-awf" secondAttribute="leading" constant="26" id="2Pc-vt-Ug2"/>
                 <constraint firstItem="gfd-1u-QhR" firstAttribute="leading" secondItem="2wX-b3-awf" secondAttribute="leading" constant="26" id="3Cr-w3-4iI"/>
-                <constraint firstItem="eDP-T5-3N4" firstAttribute="top" secondItem="JrX-gr-dLb" secondAttribute="bottom" constant="26" id="4PS-jg-zcN"/>
                 <constraint firstAttribute="trailing" secondItem="67I-pQ-71H" secondAttribute="trailing" constant="20" id="5yg-Cz-sQF"/>
-                <constraint firstAttribute="trailing" secondItem="rjP-lo-ecp" secondAttribute="trailing" constant="26" id="6gq-1V-J5M"/>
                 <constraint firstItem="mRl-Hy-jkT" firstAttribute="top" secondItem="eDP-T5-3N4" secondAttribute="bottom" constant="11" id="7u8-90-KHz"/>
                 <constraint firstItem="kBG-ob-KSv" firstAttribute="leading" secondItem="2wX-b3-awf" secondAttribute="leading" constant="26" id="7yy-9E-3jN"/>
                 <constraint firstAttribute="trailing" secondItem="6RB-rI-Ik7" secondAttribute="trailing" constant="26" id="8FI-3q-1gQ"/>
                 <constraint firstItem="67I-pQ-71H" firstAttribute="top" secondItem="dIQ-rm-6cs" secondAttribute="bottom" constant="8" id="AH1-h1-Z38"/>
                 <constraint firstItem="OHd-tF-mXw" firstAttribute="leading" secondItem="2wX-b3-awf" secondAttribute="leading" constant="26" id="ANk-zC-h3q"/>
-                <constraint firstItem="rjP-lo-ecp" firstAttribute="leading" secondItem="2wX-b3-awf" secondAttribute="leading" constant="26" id="Aft-Z4-s65"/>
-                <constraint firstItem="rjP-lo-ecp" firstAttribute="top" secondItem="6S5-5F-k5u" secondAttribute="bottom" constant="26" id="B7n-Me-l0U"/>
                 <constraint firstItem="gfd-1u-QhR" firstAttribute="top" secondItem="67I-pQ-71H" secondAttribute="bottom" constant="30" id="D4J-Kv-egP"/>
                 <constraint firstItem="6S5-5F-k5u" firstAttribute="top" secondItem="kBG-ob-KSv" secondAttribute="bottom" constant="26" id="DXs-e2-gzQ"/>
-                <constraint firstItem="JrX-gr-dLb" firstAttribute="top" secondItem="rjP-lo-ecp" secondAttribute="bottom" constant="26" id="EvG-3O-SEX"/>
                 <constraint firstAttribute="trailing" secondItem="6S5-5F-k5u" secondAttribute="trailing" constant="18" id="Fd3-sM-syk"/>
-                <constraint firstAttribute="trailing" secondItem="JrX-gr-dLb" secondAttribute="trailing" constant="18" id="GuA-Pq-X1N"/>
                 <constraint firstItem="eN7-c7-Y6I" firstAttribute="leading" secondItem="OHd-tF-mXw" secondAttribute="trailing" constant="8" symbolic="YES" id="HNx-KM-Lf6"/>
                 <constraint firstItem="oV0-8W-hgL" firstAttribute="top" secondItem="eWb-eM-oNW" secondAttribute="bottom" constant="8" id="I4i-jD-Vbh"/>
                 <constraint firstItem="OHd-tF-mXw" firstAttribute="top" secondItem="2wX-b3-awf" secondAttribute="top" constant="30" id="Idk-Tt-Wt1"/>
                 <constraint firstItem="dIQ-rm-6cs" firstAttribute="leading" secondItem="Vqt-Qp-d9a" secondAttribute="trailing" constant="8" id="Kc4-CW-Sa2"/>
                 <constraint firstAttribute="trailing" secondItem="eDP-T5-3N4" secondAttribute="trailing" constant="18" id="Lte-kO-K1Y"/>
-                <constraint firstItem="JrX-gr-dLb" firstAttribute="leading" secondItem="2wX-b3-awf" secondAttribute="leading" constant="18" id="MAY-0B-Ejq"/>
                 <constraint firstItem="eN7-c7-Y6I" firstAttribute="top" secondItem="2wX-b3-awf" secondAttribute="top" constant="30" id="NEy-Qf-3yc"/>
                 <constraint firstItem="eWb-eM-oNW" firstAttribute="leading" secondItem="gfd-1u-QhR" secondAttribute="trailing" constant="8" id="OiM-b6-8S9"/>
-                <constraint firstAttribute="bottom" secondItem="mRl-Hy-jkT" secondAttribute="bottom" constant="28" id="QDZ-RG-aQP"/>
+                <constraint firstAttribute="bottom" secondItem="mRl-Hy-jkT" secondAttribute="bottom" constant="20" id="QDZ-RG-aQP"/>
                 <constraint firstItem="oV0-8W-hgL" firstAttribute="leading" secondItem="2wX-b3-awf" secondAttribute="leading" constant="20" id="W03-fI-jfk"/>
                 <constraint firstAttribute="trailing" secondItem="kBG-ob-KSv" secondAttribute="trailing" constant="26" id="YDK-Jy-PO5"/>
                 <constraint firstItem="eDP-T5-3N4" firstAttribute="leading" secondItem="2wX-b3-awf" secondAttribute="leading" constant="26" id="d5F-ys-oOY"/>

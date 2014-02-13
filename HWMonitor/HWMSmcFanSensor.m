@@ -36,15 +36,17 @@
 
 @implementation HWMSmcFanSensor
 
+@dynamic controlled;
 @dynamic descriptor;
 @dynamic number;
 @dynamic max;
 @dynamic min;
 @dynamic speed;
 
--(void)setSpeed:(NSNumber *)speed
+
+-(void)setControlled:(NSNumber *)controlled
 {
-    if (self.engine.configuration.enableFanControl.boolValue && self.max && self.min && self.number && speed) {
+    if (controlled) {
 
         SMCVal_t info;
 
@@ -57,13 +59,29 @@
                 UInt16 manual = value.unsignedShortValue;
 
                 if (!bit_get(manual, BIT(self.number.unsignedShortValue))) {
-                    bit_write(self.engine.configuration.enableFanControl.boolValue, manual, BIT(self.number.unsignedShortValue));
+                    bit_write(self.controlled.boolValue, manual, BIT(self.number.unsignedShortValue));
                     [SmcHelper writeKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual] connection:(io_connect_t)self.service.unsignedLongLongValue];
                 }
             }
         }
 
-        [SmcHelper writeKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed connection:(io_connect_t)self.service.unsignedLongLongValue];
+        [self willChangeValueForKey:@"controlled"];
+        [self setPrimitiveValue:controlled forKey:@"controlled"];
+        [self didChangeValueForKey:@"controlled"];
+    }
+}
+
+-(void)setSpeed:(NSNumber *)speed
+{
+    if (self.controlled && self.controlled.boolValue && self.max && self.min && self.number && speed) {
+
+        if (self.engine.isRunningOnMac) {
+            [SmcHelper writeKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, self.number.unsignedCharValue] value:speed connection:(io_connect_t)self.service.unsignedLongLongValue];
+
+        }
+        else {
+            [SmcHelper writeKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed connection:(io_connect_t)self.service.unsignedLongLongValue];
+        }
 
         [self willChangeValueForKey:@"speed"];
         [self setPrimitiveValue:speed forKey:@"speed"];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C48" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C53" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -21,16 +21,12 @@
             </metadata>
         </numberFormatter>
         <customView id="1" customClass="COICOPopoverView">
-            <rect key="frame" x="0.0" y="0.0" width="125" height="51"/>
+            <rect key="frame" x="0.0" y="0.0" width="125" height="91"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yHS-LZ-3MH">
-                    <rect key="frame" x="10" y="9" width="32" height="32"/>
+                <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yHS-LZ-3MH">
+                    <rect key="frame" x="11" y="8" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="32" id="ILO-Nk-ZBq"/>
-                        <constraint firstAttribute="width" constant="32" id="glH-KK-JbS"/>
-                    </constraints>
                     <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="3000" tickMarkPosition="above" numberOfTickMarks="12" sliderType="circular" id="PGv-Wg-slZ"/>
                     <connections>
                         <action selector="sliderHasMoved:" target="-2" id="fQc-Ww-slF"/>
@@ -38,18 +34,18 @@
                         <binding destination="-2" name="minValue" keyPath="sensor.min" previousBinding="DpA-Ue-3Gk" id="e8s-xg-8b4"/>
                     </connections>
                 </slider>
-                <box autoresizesSubviews="NO" title="Box" borderType="bezel" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="4bb-HQ-5XS">
-                    <rect key="frame" x="47" y="7" width="70" height="35"/>
+                <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="bezel" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="4bb-HQ-5XS">
+                    <rect key="frame" x="48" y="6" width="69" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <view key="contentView">
-                        <rect key="frame" x="3" y="3" width="64" height="29"/>
+                        <rect key="frame" x="3" y="3" width="63" height="29"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KLw-Cu-5s8">
-                                <rect key="frame" x="7" y="3" width="50" height="27"/>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KLw-Cu-5s8">
+                                <rect key="frame" x="7" y="3" width="49" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" focusRingType="none" alignment="right" title="9000" id="xLa-JB-unw">
-                                    <font key="font" metaFont="fixedUser" size="11"/>
+                                    <font key="font" metaFont="menuBar"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -59,27 +55,32 @@
                             </textField>
                         </subviews>
                     </view>
-                    <constraints>
-                        <constraint firstItem="KLw-Cu-5s8" firstAttribute="leading" secondItem="4bb-HQ-5XS" secondAttribute="leading" constant="9" id="VlU-hR-ELc"/>
-                        <constraint firstAttribute="bottom" secondItem="KLw-Cu-5s8" secondAttribute="bottom" constant="2" id="cub-eg-a10"/>
-                        <constraint firstAttribute="width" constant="64" id="esT-oP-1YM"/>
-                        <constraint firstItem="KLw-Cu-5s8" firstAttribute="top" secondItem="4bb-HQ-5XS" secondAttribute="top" id="hGA-JQ-KmX"/>
-                        <constraint firstAttribute="height" constant="29" id="jZ5-cE-1FR"/>
-                        <constraint firstAttribute="trailing" secondItem="KLw-Cu-5s8" secondAttribute="trailing" constant="9" id="n38-dB-DqP"/>
-                    </constraints>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" name="highlightColor" catalog="System" colorSpace="catalog"/>
                 </box>
+                <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NkE-ZG-n4w">
+                    <rect key="frame" x="11" y="57" width="103" height="23"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <segmentedCell key="cell" alignment="left" style="capsule" trackingMode="selectOne" id="of5-4g-EL7">
+                        <font key="font" size="10" name="Helvetica"/>
+                        <segments>
+                            <segment label="Off" width="48"/>
+                            <segment label="On" width="48"/>
+                        </segments>
+                    </segmentedCell>
+                    <connections>
+                        <binding destination="-2" name="selectedIndex" keyPath="sensor.controlled" id="HTj-Sn-gOo"/>
+                    </connections>
+                </segmentedControl>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gvx-Yt-trf">
+                    <rect key="frame" x="11" y="48" width="103" height="2"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="Divider" id="ThD-1c-kow"/>
+                </imageView>
             </subviews>
-            <constraints>
-                <constraint firstItem="4bb-HQ-5XS" firstAttribute="leading" secondItem="yHS-LZ-3MH" secondAttribute="trailing" constant="8" id="BUr-k8-zzv"/>
-                <constraint firstItem="4bb-HQ-5XS" firstAttribute="top" secondItem="1" secondAttribute="top" constant="11" id="M8n-Vm-ZAt"/>
-                <constraint firstItem="yHS-LZ-3MH" firstAttribute="top" secondItem="1" secondAttribute="top" constant="10" id="Ny4-3F-But"/>
-                <constraint firstAttribute="trailing" secondItem="4bb-HQ-5XS" secondAttribute="trailing" constant="11" id="VGa-dM-xUG"/>
-                <constraint firstAttribute="bottom" secondItem="yHS-LZ-3MH" secondAttribute="bottom" constant="9" id="aIa-da-eae"/>
-                <constraint firstAttribute="bottom" secondItem="4bb-HQ-5XS" secondAttribute="bottom" constant="11" id="guy-rY-Kuf"/>
-                <constraint firstItem="yHS-LZ-3MH" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="xFn-zq-lbu"/>
-            </constraints>
         </customView>
     </objects>
+    <resources>
+        <image name="Divider" width="1200" height="2"/>
+    </resources>
 </document>

@@ -24,7 +24,6 @@
 @dynamic showVolumeNames;
 @dynamic smartSensorsUpdateRate;
 @dynamic smcSensorsUpdateRate;
-@dynamic enableFanControl;
 @dynamic updateSensorsInBackground;
 @dynamic useBigFontInMenubar;
 @dynamic useBsdDriveNames;

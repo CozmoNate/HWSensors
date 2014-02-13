@@ -310,6 +310,9 @@
 "Heatpipe Incoming Air" = "Радиатор, Забор воздуха";
 "Heatpipe Outgoing Air" = "Радиатор, Выброс воздуха";
 
+"On" = "Вкл";
+"Off" = "Выкл";
+
 "Id" = "№";
 "Description" = "Описание";
 "Type" = "Тип";
@@ -403,3 +406,6 @@
 "Lifetime_Writes_GiB" = "Lifetime Writes (GiB)";
 "Lifetime_Reads_GiB" = "Lifetime Reads (GiB)";
 "Host_Reads_32MiB" = "Host Reads (32MiB)";
+"Reserve_Block_Count" = "Reserved Block Count";
+"Workload_Minutes" = "Workload Minutes";
+"CRC_Error_Count" = "CRC Error Count";

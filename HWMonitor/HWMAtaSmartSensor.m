@@ -501,22 +501,22 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
                             }
                         }
                     }
-                    
+
                     CFRelease(capable);
                 }
             }
-            
+
             IOObjectRelease(iterator);
         }
     }
-    
+
     [list sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         NSString *name1 = [(NSDictionary*)obj1 objectForKey:@"bsdName"];
         NSString *name2 = [(NSDictionary*)obj2 objectForKey:@"bsdName"];
-        
+
         return [name1 compare:name2];
     }];
-    
+
     return list;
 }
 
@@ -543,11 +543,44 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
                 NSString *overridden = _overrides ? [_overrides objectForKey:[NSString stringWithFormat:@"%d",_smartData.vendorAttributes[index].attributeId]] : nil;
 
                 NSString *name = overridden ? overridden : [HWMAtaSmartSensor getDefaultAttributeNameByIdentifier:attribute->attributeId isRotational:self.rotational.boolValue];
+                NSString *title = GetLocalizedString(name);
+
+                BOOL critical = ATTRIBUTE_FLAGS_PREFAILURE(attribute->flag);
+
+                NSUInteger level = kHWMSensorLevelNormal;
+
+                if (threshold)
+                {
+                    if (critical && attribute->current <= threshold->ThresholdValue) {
+                        level = kHWMSensorLevelExceeded;
+                    }
+                }
+
+                NSColor *titleColor = nil;
+
+                switch (level) {
+                    case kHWMSensorLevelExceeded:
+
+                        titleColor = [NSColor redColor];
+
+                        [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
+                                                    description:[NSString stringWithFormat:GetLocalizedString(@"%@ S.M.A.R.T. attribute is critical: '%@'. Drive failure predicted!"), self.title, title]
+                                               notificationName:NotifierSensorLevelExceededNotification
+                                                       iconData:nil
+                                                       priority:0
+                                                       isSticky:YES
+                                                   clickContext:nil];
+                        break;
+                }
+
+                if (level == kHWMSensorLevelExceeded) {
+
+                }
 
                 [attributes addObject:@{@"id": [NSNumber numberWithUnsignedChar:attribute->attributeId],
                                         @"name": name,
-                                        @"title": GetLocalizedString(name),
-                                        @"critical": GetLocalizedString(ATTRIBUTE_FLAGS_PREFAILURE(attribute->flag) ? @"Pre-Failure" : @"Life-Span"),
+                                        @"title":titleColor ? [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:titleColor}] : title,
+                                        @"critical": GetLocalizedString(critical ? @"Pre-Failure" : @"Life-Span"),
                                         @"value": [NSNumber numberWithUnsignedChar:attribute->current],
                                         @"worst": [NSNumber numberWithUnsignedChar:attribute->worst],
                                         @"threshold": (threshold ? [NSNumber numberWithUnsignedChar:threshold->ThresholdValue] : @0),

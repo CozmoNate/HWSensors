@@ -28,8 +28,10 @@ static NSPopover *gPopupSensorCellPopover;
 
 +(void)destroyGlobalPopover
 {
-    if (gPopupSensorCellPopover && gPopupSensorCellPopover.isShown) {
-        [gPopupSensorCellPopover close];
+    if (gPopupSensorCellPopover) {
+        if (gPopupSensorCellPopover.isShown) {
+            [gPopupSensorCellPopover close];
+        }
         gPopupSensorCellPopover = nil;
     }
 }
