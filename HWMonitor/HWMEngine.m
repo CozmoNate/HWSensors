@@ -1519,6 +1519,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         if (fan.controlled.boolValue) {
             // Force SMC fan speed to previousely saved speed
+            [fan setControlled:fan.controlled];
             [fan setSpeed:fan.speed];
         }
     }
