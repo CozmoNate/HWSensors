@@ -54,34 +54,35 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
     if (!wrapper) {
         IOCFPlugInInterface ** pluginInterface = NULL;
         SInt32 score = 0;
+        int tryCount = 4;
 
-        wrapper = [[HWMSmartPlugInInterfaceWrapper alloc] init];
+        do {
 
-        if (S_OK == IOCreatePlugInInterfaceForService(service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
+            if (S_OK == IOCreatePlugInInterfaceForService(service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
 
-            (*pluginInterface)->AddRef(pluginInterface);
-            [wrapper setPluginInterface:pluginInterface];
+                (*pluginInterface)->AddRef(pluginInterface);
 
-            IOATASMARTInterface ** smartInterface = NULL;
+                IOATASMARTInterface ** smartInterface = NULL;
 
-            if (S_OK == (*wrapper.pluginInterface)->QueryInterface(wrapper.pluginInterface, CFUUIDGetUUIDBytes(kIOATASMARTInterfaceID), (LPVOID)&smartInterface)) {
+                if (S_OK == (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIOATASMARTInterfaceID), (LPVOID)&smartInterface)) {
 
-                [wrapper setSmartInterface:smartInterface];
+                    (*smartInterface)->AddRef(smartInterface);
 
-                [gIOCFPlugInInterfaces setObject:wrapper forKey:name];
-            }
-            else {
-                if (smartInterface) {
+                    wrapper = [[HWMSmartPlugInInterfaceWrapper alloc] initWithPluginInterface:pluginInterface smartInterface:smartInterface];
+
+                    [gIOCFPlugInInterfaces setObject:wrapper forKey:name];
+                }
+                else if (smartInterface) {
                     (*pluginInterface)->Release(pluginInterface);
                     (*smartInterface)->Release(smartInterface);
                     IODestroyPlugInInterface(pluginInterface);
-                    wrapper = nil;
+
+                    [NSThread sleepForTimeInterval:0.25];
                 }
             }
-        }
-        else {
-            wrapper = nil;
-        }
+
+        } while (--tryCount);
+
     }
 
     return wrapper;
@@ -106,6 +107,18 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
         [gIOCFPlugInInterfaces removeAllObjects];
         gIOCFPlugInInterfaces = nil;
     }
+}
+
+-(HWMSmartPlugInInterfaceWrapper*)initWithPluginInterface:(IOCFPlugInInterface**)pluginInterface smartInterface:(IOATASMARTInterface**)smartInterface
+{
+    self = [super init];
+
+    if (self) {
+        _pluginInterface = pluginInterface;
+        _smartInterface = smartInterface;
+    }
+
+    return self;
 }
 
 -(void)destroy

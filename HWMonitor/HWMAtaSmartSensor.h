@@ -41,6 +41,8 @@
 +(HWMSmartPlugInInterfaceWrapper*)getWrapperForBsdName:(NSString*)name;
 +(void)destroyAllWrappers;
 
+-(HWMSmartPlugInInterfaceWrapper*)initWithPluginInterface:(IOCFPlugInInterface**)pluginInterface smartInterface:(IOATASMARTInterface**)smartInterface;
+
 @end
 
 #define kATASMARTAttributesCount     30
