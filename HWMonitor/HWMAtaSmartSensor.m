@@ -123,11 +123,15 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
 
 @end
 
+static void block_device_appeared(void *engine, io_iterator_t iterator);
+static void block_device_disappeared(void *engine, io_iterator_t iterator);
+
 @implementation HWMAtaSmartSensor
 
 @dynamic bsdName;
 @dynamic productName;
 @dynamic volumeNames;
+@dynamic revision;
 @dynamic serialNumber;
 @dynamic rotational;
 
@@ -142,6 +146,7 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
 (UInt64)attribute->rawvalue[5] << 40
 
 static NSDictionary * gAttributeOverridesDatabase = nil;
+static NSDictionary * gAvailableMountedPartitions = nil;
 
 +(NSString *)getDefaultAttributeNameByIdentifier:(NSUInteger)identifier isRotational:(BOOL)hdd
 {
@@ -406,11 +411,67 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
     return nil;
 }
 
-+(NSArray*)discoverDrives
+static IONotificationPortRef gHWMAtaSmartSensorNotificationPort = MACH_PORT_NULL;
+static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
+
++(void)stopWatchingForBlockStorageDevices
+{
+    if (gHWMAtaSmartSensorNotificationPort != MACH_PORT_NULL) {
+        CFRunLoopRemoveSource(CFRunLoopGetMain(), IONotificationPortGetRunLoopSource(gHWMAtaSmartSensorNotificationPort), kCFRunLoopDefaultMode);
+
+        IONotificationPortDestroy(gHWMAtaSmartSensorNotificationPort);
+
+        gHWMAtaSmartSensorNotificationPort = MACH_PORT_NULL;
+    }
+
+    IOObjectRelease(gHWMAtaSmartDeviceIterator);
+}
+
++ (void)startWatchingForBlockStorageDevicesWithEngine:(HWMEngine *)engine
+{
+    [HWMAtaSmartSensor stopWatchingForBlockStorageDevices];
+
+    // Add notification ports to runloop
+    gHWMAtaSmartSensorNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
+
+    CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], IONotificationPortGetRunLoopSource(gHWMAtaSmartSensorNotificationPort), kCFRunLoopDefaultMode);
+
+    [HWMAtaSmartSensor discoverDevicesWithEngine:engine matching:IOServiceMatching("IOBlockStorageDevice")];
+}
+
++ (void)discoverDevicesWithEngine:(HWMEngine *)engine matching:(CFDictionaryRef)matching
+{
+    // Retain matching dictionary so it will stay also while registering kIOTerminatedNotification
+    CFRetain(matching);
+
+    // Discover devices and add notification callbacks
+    if (!IOServiceAddMatchingNotification(gHWMAtaSmartSensorNotificationPort,
+                                          kIOMatchedNotification,
+                                          matching,
+                                          block_device_appeared,
+                                          (__bridge void *)engine,
+                                          &gHWMAtaSmartDeviceIterator))
+    {
+        // Add matched devices
+        block_device_appeared((__bridge void*)engine, gHWMAtaSmartDeviceIterator);
+
+        if (!IOServiceAddMatchingNotification(gHWMAtaSmartSensorNotificationPort,
+                                              kIOTerminatedNotification,
+                                              matching,
+                                              block_device_disappeared,
+                                              (__bridge void *)engine,
+                                              &gHWMAtaSmartDeviceIterator)) {
+
+            while (IOIteratorNext(gHWMAtaSmartDeviceIterator)) {};
+        }
+    }
+}
+
++(void)updatePartitionsList
 {
     NSMutableDictionary *partitions = [[NSMutableDictionary alloc] init];
 
-	BOOL first = YES;
+    BOOL first = YES;
 
     NSArray *mountedVolumeURLs = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:[NSArray array] options:NSVolumeEnumerationSkipHiddenVolumes];
 
@@ -420,105 +481,120 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
 
         if (statfs([path fileSystemRepresentation],&buffer) == 0)
         {
-			NSRange start = [path rangeOfString:@"/Volumes/"];
+            NSRange start = [path rangeOfString:@"/Volumes/"];
 
-			if (first == NO && start.length == 0)
+            if (first == NO && start.length == 0)
             {
-				continue;
-			}
-
-			if (first)
-				first = NO;
-
-			NSString *name = [[NSString stringWithFormat:@"%s",buffer.f_mntfromname] lastPathComponent];
-
-			if ([name hasPrefix:@"disk"] && [name length] > 4)
-            {
-				NSString *newName = [name substringFromIndex:4];
-				NSRange paritionLocation = [newName rangeOfString:@"s"];
-
-				if(paritionLocation.length != 0)
-					name = [NSString stringWithFormat:@"disk%@",[newName substringToIndex: paritionLocation.location]];
-			}
-
-			if( [partitions objectForKey:name] )
-				[[partitions objectForKey:name] addObject:[[NSFileManager defaultManager] displayNameAtPath:path]];
-            else
-				[partitions setObject:[[NSMutableArray alloc] initWithObjects:[[NSFileManager defaultManager] displayNameAtPath:path], nil] forKey:name];
-		}
-    }
-
-    NSMutableArray * list = [[NSMutableArray alloc] init];
-
-    CFDictionaryRef matching = IOServiceMatching("IOBlockStorageDevice");
-    io_iterator_t iterator = IO_OBJECT_NULL;
-
-    if (kIOReturnSuccess == IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator)) {
-        if (IO_OBJECT_NULL != iterator) {
-
-            io_service_t service = MACH_PORT_NULL;
-
-            while (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
-
-                CFBooleanRef capable = (CFBooleanRef)IORegistryEntryCreateCFProperty(service, CFSTR(kIOPropertySMARTCapableKey), kCFAllocatorDefault, 0);
-
-                if (capable != IO_OBJECT_NULL) {
-                    if (CFBooleanGetValue(capable)) {
-
-                        NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
-
-                        if (characteristics) {
-                            NSString *name = [characteristics objectForKey:@"Product Name"];
-                            NSString *serial = [characteristics objectForKey:@"Serial Number"];
-                            NSString *medium = [characteristics objectForKey:@"Medium Type"];
-                            //                            NSString *revision = [characteristics objectForKey:@"Product Revision Level"];
-
-                            if (name && serial) {
-                                NSString *volumes;
-                                NSString *bsdName;
-
-                                CFStringRef bsdNameRef = IORegistryEntrySearchCFProperty(service, kIOServicePlane, CFSTR("BSD Name"), kCFAllocatorDefault, kIORegistryIterateRecursively);
-
-                                if (MACH_PORT_NULL != bsdNameRef) {
-                                    volumes = [[partitions objectForKey:(__bridge id)(bsdNameRef)] componentsJoinedByString:@", "];
-                                    bsdName = [(__bridge NSString*)bsdNameRef copy];
-                                    CFRelease(bsdNameRef);
-                                }
-
-                                if (bsdName) {
-
-                                    if ([HWMSmartPlugInInterfaceWrapper wrapperWithService:service forBsdName:bsdName]) {
-
-                                        [list addObject:@{@"service" : [NSNumber numberWithUnsignedLongLong:service],
-                                                          @"productName": name,
-                                                          @"bsdName" :bsdName,
-                                                          @"volumesNames" : (volumes ? volumes : bsdName) ,
-                                                          @"serialNumber" : serial,
-                                                          @"rotational" : [NSNumber numberWithBool:medium ? ![medium isEqualToString:@"Solid State"] : TRUE]}
-                                         ];
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    CFRelease(capable);
-                }
+                continue;
             }
 
-            IOObjectRelease(iterator);
+            if (first)
+                first = NO;
+
+            NSString *name = [[NSString stringWithFormat:@"%s",buffer.f_mntfromname] lastPathComponent];
+
+            if ([name hasPrefix:@"disk"] && [name length] > 4)
+            {
+                NSString *newName = [name substringFromIndex:4];
+                NSRange paritionLocation = [newName rangeOfString:@"s"];
+
+                if(paritionLocation.length != 0)
+                    name = [NSString stringWithFormat:@"disk%@",[newName substringToIndex: paritionLocation.location]];
+            }
+
+            if( [partitions objectForKey:name] )
+                [[partitions objectForKey:name] addObject:[[NSFileManager defaultManager] displayNameAtPath:path]];
+            else
+                [partitions setObject:[[NSMutableArray alloc] initWithObjects:[[NSFileManager defaultManager] displayNameAtPath:path], nil] forKey:name];
         }
     }
 
-    [list sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        NSString *name1 = [(NSDictionary*)obj1 objectForKey:@"bsdName"];
-        NSString *name2 = [(NSDictionary*)obj2 objectForKey:@"bsdName"];
-
-        return [name1 compare:name2];
-    }];
-
-    return list;
+    gAvailableMountedPartitions = [partitions copy];
 }
+
++(NSDictionary*)partitions
+{
+    if (!gAvailableMountedPartitions) {
+        [HWMAtaSmartSensor updatePartitionsList];
+    }
+
+    return gAvailableMountedPartitions;
+}
+
+//+(NSArray*)discoverDrives
+//{
+//    NSMutableArray * list = [[NSMutableArray alloc] init];
+//
+//    CFDictionaryRef matching = IOServiceMatching("IOBlockStorageDevice");
+//    io_iterator_t iterator = IO_OBJECT_NULL;
+//
+//    if (kIOReturnSuccess == IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator)) {
+//        if (IO_OBJECT_NULL != iterator) {
+//
+//            io_service_t service = MACH_PORT_NULL;
+//
+//            while (MACH_PORT_NULL != (service = IOIteratorNext(iterator))) {
+//
+//                CFBooleanRef capable = (CFBooleanRef)IORegistryEntryCreateCFProperty(service, CFSTR(kIOPropertySMARTCapableKey), kCFAllocatorDefault, 0);
+//
+//                if (capable != IO_OBJECT_NULL) {
+//                    if (CFBooleanGetValue(capable)) {
+//
+//                        NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(service, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
+//
+//                        if (characteristics) {
+//                            NSString *name = [characteristics objectForKey:@"Product Name"];
+//                            NSString *serial = [characteristics objectForKey:@"Serial Number"];
+//                            NSString *medium = [characteristics objectForKey:@"Medium Type"];
+//                            NSString *revision = [characteristics objectForKey:@"Product Revision Level"];
+//
+//                            if (name && serial && revision) {
+//                                NSString *volumes;
+//                                NSString *bsdName;
+//
+//                                CFStringRef bsdNameRef = IORegistryEntrySearchCFProperty(service, kIOServicePlane, CFSTR("BSD Name"), kCFAllocatorDefault, kIORegistryIterateRecursively);
+//
+//                                if (MACH_PORT_NULL != bsdNameRef) {
+//                                    volumes = [[partitions objectForKey:(__bridge id)(bsdNameRef)] componentsJoinedByString:@", "];
+//                                    bsdName = [(__bridge NSString*)bsdNameRef copy];
+//                                    CFRelease(bsdNameRef);
+//                                }
+//
+//                                if (bsdName) {
+//
+//                                    if ([HWMSmartPlugInInterfaceWrapper wrapperWithService:service forBsdName:bsdName]) {
+//
+//                                        [list addObject:@{@"service" : [NSNumber numberWithUnsignedLongLong:service],
+//                                                          @"productName": name,
+//                                                          @"bsdName" :bsdName,
+//                                                          @"volumesNames" : (volumes ? volumes : bsdName) ,
+//                                                          @"serialNumber" : serial,
+//                                                          @"revision" : revision,
+//                                                          @"rotational" : [NSNumber numberWithBool:medium ? ![medium isEqualToString:@"Solid State"] : TRUE]}
+//                                         ];
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    CFRelease(capable);
+//                }
+//            }
+//
+//            IOObjectRelease(iterator);
+//        }
+//    }
+//
+//    [list sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//        NSString *name1 = [(NSDictionary*)obj1 objectForKey:@"bsdName"];
+//        NSString *name2 = [(NSDictionary*)obj2 objectForKey:@"bsdName"];
+//
+//        return [name1 compare:name2];
+//    }];
+//
+//    return list;
+//}
 
 -(NSArray *)attributes
 {
@@ -641,6 +717,10 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
 
     HWMSmartPlugInInterfaceWrapper *wrapper = [HWMSmartPlugInInterfaceWrapper getWrapperForBsdName:self.bsdName];
 
+    if (!wrapper) {
+        wrapper = [HWMSmartPlugInInterfaceWrapper wrapperWithService:self.service.unsignedIntValue forBsdName:self.bsdName];
+    }
+
     if (wrapper) {
 
         ATASMARTData smartData;
@@ -700,6 +780,13 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
     NSString *identifier = results && results.count ? [(NSDictionary*)[results objectAtIndex:0] objectForKey:@"id"] : nil;
 
     return identifier ? [self indexOfAttributeByIdentifier:identifier.integerValue] : 0;
+}
+
+-(void)updateVolumeNames
+{
+    NSString *volumes = [[[HWMAtaSmartSensor partitions] objectForKey:self.bsdName] componentsJoinedByString:@", "];
+    
+    [self setPrimitiveValue:volumes ? volumes : self.bsdName forKey:@"volumeNames"];
 }
 
 -(NSNumber*)getTemperature
@@ -772,7 +859,7 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
     float floatValue = self.value.floatValue;
 
     switch (self.selector.unsignedIntegerValue) {
-        case kHWMGroupTemperature:
+
         case kHWMGroupSmartTemperature:
             if (self.rotational.boolValue) {
                 return  floatValue >= 55 ? kHWMSensorLevelExceeded :
@@ -810,8 +897,6 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
         case kHWMGroupSmartRemainingLife:
             return [self getRemainingLife];
 
-        case kHWMGroupSmartRemainingBlocks:
-            return [self getRemainingBlocks];
     }
 
     return @0;
@@ -861,3 +946,81 @@ static NSDictionary * gAttributeOverridesDatabase = nil;
 }
 
 @end
+
+static void block_device_appeared(void *engine, io_iterator_t iterator)
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+
+        io_object_t object;
+
+        __block NSMutableArray *devices = [NSMutableArray array];
+
+        while ((object = IOIteratorNext(iterator))) {
+
+            NSLog(@"ATA block storage device appeared %u", object);
+
+            CFBooleanRef capable = (CFBooleanRef)IORegistryEntryCreateCFProperty(object, CFSTR(kIOPropertySMARTCapableKey), kCFAllocatorDefault, 0);
+
+            if (capable != IO_OBJECT_NULL) {
+                if (CFBooleanGetValue(capable)) {
+
+                    NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(object, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
+
+                    if (characteristics) {
+                        NSString *name = [characteristics objectForKey:@"Product Name"];
+                        NSString *serial = [characteristics objectForKey:@"Serial Number"];
+                        NSString *medium = [characteristics objectForKey:@"Medium Type"];
+                        NSString *revision = [characteristics objectForKey:@"Product Revision Level"];
+
+                        if (name && serial && revision) {
+                            NSString *volumes;
+                            NSString *bsdName;
+
+                            CFStringRef bsdNameRef = IORegistryEntrySearchCFProperty(object, kIOServicePlane, CFSTR("BSD Name"), kCFAllocatorDefault, kIORegistryIterateRecursively);
+
+                            if (MACH_PORT_NULL != bsdNameRef) {
+                                volumes = [[[HWMAtaSmartSensor partitions] objectForKey:(__bridge id)(bsdNameRef)] componentsJoinedByString:@", "];
+                                bsdName = [(__bridge NSString*)bsdNameRef copy];
+                                CFRelease(bsdNameRef);
+                            }
+
+                            if (bsdName) {
+
+                                if ([HWMSmartPlugInInterfaceWrapper wrapperWithService:object forBsdName:bsdName]) {
+
+                                    [devices addObject:@{@"service" : [NSNumber numberWithUnsignedLongLong:object],
+                                                         @"productName": name,
+                                                         @"bsdName" :bsdName,
+                                                         @"volumesNames" : (volumes ? volumes : bsdName) ,
+                                                         @"serialNumber" : serial,
+                                                         @"revision" : revision,
+                                                         @"rotational" : [NSNumber numberWithBool:medium ? ![medium isEqualToString:@"Solid State"] : TRUE]}
+                                     ];
+                                }
+                            }
+                        }
+                    }
+                }
+
+                CFRelease(capable);
+            }
+        }
+
+        [(__bridge HWMEngine*)engine systemDidAddBlockStorageDevices:devices];
+    });
+}
+static void block_device_disappeared(void *engine, io_iterator_t iterator)
+{
+    io_object_t object;
+    __block NSMutableArray *devices = [NSMutableArray array];
+
+    while ((object = IOIteratorNext(iterator))) {
+        NSLog(@"battery device disappeared %u", object);
+        
+        [devices addObject:[NSNumber numberWithUnsignedLongLong:object]];
+        
+        IOObjectRelease(object);
+    }
+    
+    [(__bridge HWMEngine*)engine systemDidRemoveBlockStorageDevices:devices];
+}

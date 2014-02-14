@@ -95,6 +95,9 @@ typedef enum {
 -(void)moveFavoritesItemAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 -(void)removeItemFromFavoritesAtIndex:(NSUInteger)index;
 
+- (void)systemDidAddBlockStorageDevices:(NSArray*)devices;
+- (void)systemDidRemoveBlockStorageDevices:(NSArray*)devices;
+
 -(void)systemDidAddBatteryDevices:(NSArray*)devices;
 -(void)systemDidRemoveBatteryDevices:(NSArray*)devices;
 

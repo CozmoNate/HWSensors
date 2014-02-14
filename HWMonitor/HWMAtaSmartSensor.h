@@ -124,12 +124,18 @@ typedef struct {
 @property (nonatomic, retain) NSString * bsdName;
 @property (nonatomic, retain) NSString * productName;
 @property (nonatomic, retain) NSString * volumeNames;
+@property (nonatomic, retain) NSString * revision;
 @property (nonatomic, retain) NSString * serialNumber;
 @property (nonatomic, retain) NSNumber * rotational;
 
 @property (readonly) Boolean exceeded;
 @property (readonly) NSArray * attributes;
 
-+(NSArray*)discoverDrives;
++(void)updatePartitionsList;
+
++(void)startWatchingForBlockStorageDevicesWithEngine:(HWMEngine*)engine;
++(void)stopWatchingForBlockStorageDevices;
+
+-(void)updateVolumeNames;
 
 @end

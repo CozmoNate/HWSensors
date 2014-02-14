@@ -41,10 +41,14 @@
 
     switch (self.selector.unsignedIntegerValue) {
         case kHWMGroupTemperature:
-            return  floatValue >= 100 ? kHWMSensorLevelExceeded :
-                    floatValue >= 85 ? kHWMSensorLevelHigh :
-                    floatValue >= 70 ? kHWMSensorLevelModerate :
-                    kHWMSensorLevelNormal;
+            if (floatValue > -127 && floatValue < 127) {
+                return  floatValue >= 100 ? kHWMSensorLevelExceeded :
+                        floatValue >= 85 ? kHWMSensorLevelHigh :
+                        floatValue >= 70 ? kHWMSensorLevelModerate :
+                        kHWMSensorLevelNormal;
+            }
+
+            break;
 
 //        case kHWMGroupPWM:
 //            return  floatValue >= 70 ? kHWMSensorLevelHigh :

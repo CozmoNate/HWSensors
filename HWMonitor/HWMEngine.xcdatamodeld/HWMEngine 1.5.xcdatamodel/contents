@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="Version 1.2" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13C53" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="Version 1.5" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13C53" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AtaSmartSensor" representedClassName="HWMAtaSmartSensor" parentEntity="Sensor" syncable="YES">
         <attribute name="bsdName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="productName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="revision" optional="YES" transient="YES" syncable="YES"/>
         <attribute name="rotational" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="serialNumber" optional="YES" transient="YES" syncable="YES"/>
         <attribute name="volumeNames" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="BatterySensor" representedClassName="HWMBatterySensor" parentEntity="Sensor" syncable="YES"/>
