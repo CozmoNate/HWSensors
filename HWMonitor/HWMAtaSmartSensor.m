@@ -446,7 +446,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
     // Discover devices and add notification callbacks
     if (!IOServiceAddMatchingNotification(gHWMAtaSmartSensorNotificationPort,
-                                          kIOMatchedNotification,
+                                          kIOPublishNotification,
                                           matching,
                                           block_device_appeared,
                                           (__bridge void *)engine,
@@ -791,7 +791,10 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
 -(NSNumber*)getTemperature
 {
-    if ([self readSMARTData] && !_temperatureAttributeIndex) {
+    [self readSMARTData];
+
+    if (!_temperatureAttributeIndex) {
+
         NSUInteger index = 0;
 
         if ((index = [self indexOfAttributeByName:@"Temperature_Celsius"]) ||
@@ -808,13 +811,15 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     ATASMARTAttribute *temperature = &_smartData.vendorAttributes[_temperatureAttributeIndex];
 
     NSUInteger value = temperature->rawvalue[0] && temperature->rawvalue[0] < 100 ? temperature->rawvalue[0] : temperature->current < 100 ? temperature->current : 0;
-
+    
     return value ? [NSNumber numberWithUnsignedInteger:value] : nil;
 }
 
 -(NSNumber*)getRemainingLife
 {
-    if ([self readSMARTData] && !_remainingLifeAttributeIndex) {
+    [self readSMARTData];
+
+    if (!_remainingLifeAttributeIndex) {
         NSUInteger index = 0;
 
         if ((index = [self indexOfAttributeByName:@"SSD_Life_Left"]) ||
@@ -832,26 +837,8 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     }
 
     ATASMARTAttribute *life = &_smartData.vendorAttributes[_remainingLifeAttributeIndex];
-
+    
     return [NSNumber numberWithUnsignedChar:life->current];
-}
-
--(NSNumber*)getRemainingBlocks
-{
-    if ([self readSMARTData] && !_unusedBlocksAttributeIndex) {
-        NSUInteger index = 0;
-
-        if ((index = [self indexOfAttributeByName:@"Unused_Rsvd_Blk_Cnt_Tot"]) ) {
-            _unusedBlocksAttributeIndex = index;
-        }
-        else {
-            return nil;
-        }
-    }
-
-    ATASMARTAttribute *blocks = &_smartData.vendorAttributes[_unusedBlocksAttributeIndex];
-
-    return [NSNumber numberWithUnsignedChar:RAW_TO_LONG(blocks)];
 }
 
 -(NSUInteger)internalUpdateAlarmLevel

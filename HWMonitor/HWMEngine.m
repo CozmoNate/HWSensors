@@ -666,18 +666,13 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                             doUpdate = sensor.favorites.count;
                             break;
 
-                        case kHWMSensorsUpdateLoopRegular:
                         default:
                             doUpdate = !sensor.hidden.boolValue || sensor.favorites.count;
                             break;
                     }
                 }
 
-                if (doUpdate) {
-                    if ([HWMSmartPlugInInterfaceWrapper wrapperWithService:(io_service_t)[sensor service].unsignedLongLongValue forBsdName:[sensor bsdName]]) {
-                        [sensor doUpdateValue];
-                    }
-                }
+                if (doUpdate) [sensor doUpdateValue];
 
             }
 
@@ -1707,13 +1702,13 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     [sensor setService:[attributes objectForKey:@"service"]];
 
-    // Reuse previousely inserted sensors
-    if ([self isEqual:sensor.engine]) {
-        // Update only potentially changed props
-        [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
-        [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
-    }
-    else {
+//    // Reuse previousely inserted sensors
+//    if ([self isEqual:sensor.engine]) {
+//        // Update only potentially changed props
+//        [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
+//        [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
+//    }
+//    else {
         [sensor setSelector:group.selector];
         [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
         [sensor setProductName:[attributes objectForKey:@"productName"]];
@@ -1735,29 +1730,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             [sensor setService:@0];
             return nil;
         }
-    }
+//    }
 
     return sensor;
 }
-
-//-(void)insertAtaSmartSensors
-//{
-//    HWMSensorsGroup *smartTemperatures = [self getGroupBySelector:kHWMGroupSmartTemperature];
-//    HWMSensorsGroup *smartLife = [self getGroupBySelector:kHWMGroupSmartRemainingLife];
-//    HWMSensorsGroup *smartBlocks = [self getGroupBySelector:kHWMGroupSmartRemainingBlocks];
-//
-//    __block NSArray *drives;
-//
-//    drives = [HWMAtaSmartSensor discoverDrives];
-//
-//    for (id drive in drives) {
-//        [self insertAtaSmartSensorFromDictionary:drive group:smartTemperatures];
-//        [self insertAtaSmartSensorFromDictionary:drive group:smartLife];
-//        [self insertAtaSmartSensorFromDictionary:drive group:smartBlocks];
-//    }
-//
-//    [HWMSmartPlugInInterfaceWrapper destroyAllWrappers];
-//}
 
 #pragma mark
 #pragma mark Battery Sensors
