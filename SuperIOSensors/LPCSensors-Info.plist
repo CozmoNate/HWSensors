@@ -3169,6 +3169,67 @@
 				</dict>
 				<key>ASUS</key>
 				<dict>
+					<key>H81M-A</key>
+					<dict>
+					<key>FANIN0</key>
+					<string></string>
+					<key>FANIN1</key>
+					<string></string>
+					<key>FANIN2</key>
+					<string>CPUFan</string>
+					<key>FANIN3</key>
+					<string></string>
+					<key>FANIN4</key>
+					<string></string>
+					<key>TEMPIN0</key>
+					<string>CPU Heatsink</string>
+					<key>TEMPIN1</key>
+					<string></string>
+					<key>TEMPIN2</key>
+					<string>Ambient</string>
+					<key>TEMPIN3</key>
+					<string>Mainboard</string>
+					<key>VIN0</key>
+					<dict>
+					<key>gain</key>
+					<integer>13092</integer>
+					<key>name</key>
+					<string>Main 12V</string>
+					<key>offset</key>
+					<integer>0</integer>
+					<key>reference</key>
+					<integer>0</integer>
+					</dict>
+					<key>VIN1</key>
+					<dict>
+					<key>gain</key>
+					<integer>4000</integer>
+					<key>name</key>
+					<string>Main 5V</string>
+					<key>offset</key>
+					<integer>0</integer>
+					<key>reference</key>
+					<integer>0</integer>
+					</dict>
+					<key>VIN2</key>
+					<string>Main 3V</string>
+					<key>VIN3</key>
+					<string></string>
+					<key>VIN4</key>
+					<string></string>
+					<key>VIN5</key>
+					<string>GPU</string>
+					<key>VIN6</key>
+					<string>CPU Core</string>
+					<key>VIN7</key>
+					<string>Auxiliary 3V</string>
+					<key>VIN8</key>
+					<string>CMOS Battery</string>
+					</dict>
+					<key>H81M-E</key>
+					<string>H81M-A</string>
+					<key>H87M-E</key>
+					<string>H81M-A</string>
 					<key>P8H67-M PRO</key>
 					<dict>
 						<key>FANIN0</key>
