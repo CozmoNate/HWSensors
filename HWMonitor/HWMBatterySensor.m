@@ -155,7 +155,7 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
 
     // Discover devices and add notification callbacks
     if (!IOServiceAddMatchingNotification(gHWMBatterySensorNotificationPort,
-                                         kIOPublishNotification,
+                                         kIOMatchedNotification,
                                          matching,
                                          hid_device_appeared,
                                          (__bridge void *)engine,

@@ -631,6 +631,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)updateAtaSmartSensors
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
         if (_engineState == kHWMEngineNotInitialized)
             return;
 
@@ -657,23 +658,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                     doUpdate = YES;
                 }
                 else {
-                    switch (self.updateLoopStrategy) {
-                        case kHWMSensorsUpdateLoopForced:
-                            doUpdate = YES;
-                            break;
-
-                        case kHWMSensorsUpdateLoopOnlyFavorites:
-                            doUpdate = sensor.favorites.count;
-                            break;
-
-                        default:
-                            doUpdate = !sensor.hidden.boolValue || sensor.favorites.count;
-                            break;
-                    }
+                    doUpdate = !sensor.hidden.boolValue || sensor.favorites.count;
                 }
 
                 if (doUpdate) [sensor doUpdateValue];
-
             }
 
             [HWMSmartPlugInInterfaceWrapper destroyAllWrappers];

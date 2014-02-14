@@ -446,7 +446,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
     // Discover devices and add notification callbacks
     if (!IOServiceAddMatchingNotification(gHWMAtaSmartSensorNotificationPort,
-                                          kIOPublishNotification,
+                                          kIOMatchedNotification,
                                           matching,
                                           block_device_appeared,
                                           (__bridge void *)engine,
