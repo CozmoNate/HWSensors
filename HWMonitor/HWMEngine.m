@@ -7,6 +7,7 @@
 //
 
 #import "HWMEngine.h"
+#import "HWMConfiguration.h"
 #import "HWMIcon.h"
 #import "HWMSensorsGroup.h"
 #import "HWMSmcSensor.h"
@@ -658,13 +659,29 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                     doUpdate = YES;
                 }
                 else {
-                    doUpdate = !sensor.hidden.boolValue || sensor.favorites.count;
+                    switch (self.updateLoopStrategy) {
+                        case kHWMSensorsUpdateLoopForced:
+                            [sensor setLastUpdated:nil];
+                            doUpdate = YES;
+                            break;
+
+                        case kHWMSensorsUpdateLoopOnlyFavorites:
+                            doUpdate = sensor.favorites.count;
+                            break;
+
+                        case kHWMSensorsUpdateLoopRegular:
+                        default:
+                            doUpdate = !sensor.hidden.boolValue || sensor.favorites.count;
+                            break;
+                    }
                 }
 
-                if (doUpdate) [sensor doUpdateValue];
+                if (doUpdate && (!sensor.lastUpdated || [sensor.lastUpdated timeIntervalSinceNow] < _configuration.smartSensorsUpdateRate.floatValue * 60 * -0.9)) {
+                    [sensor doUpdateValue];
+                }
             }
 
-            [HWMSmartPlugInInterfaceWrapper destroyAllWrappers];
+            [HWMSmartPluginInterfaceWrapper destroyAllWrappers];
 
             if (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesToGaphsHistoryWithLimit:)]) {
 
@@ -970,7 +987,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             [self insertAtaSmartSensorFromDictionary:properties group:smartRemainingLife];
         }
 
-        [HWMSmartPlugInInterfaceWrapper destroyAllWrappers];
+        [HWMSmartPluginInterfaceWrapper destroyAllWrappers];
 
         [self setNeedsUpdateSensorLists];
     }];

@@ -32,19 +32,6 @@
 
 #include <IOKit/storage/ata/ATASMARTLib.h>
 
-@interface HWMSmartPlugInInterfaceWrapper : NSObject
-
-@property (nonatomic, assign) IOCFPlugInInterface** pluginInterface;
-@property (nonatomic, assign) IOATASMARTInterface** smartInterface;
-
-+(HWMSmartPlugInInterfaceWrapper*)wrapperWithService:(io_service_t)service forBsdName:(NSString*)name;
-+(HWMSmartPlugInInterfaceWrapper*)getWrapperForBsdName:(NSString*)name;
-+(void)destroyAllWrappers;
-
--(HWMSmartPlugInInterfaceWrapper*)initWithPluginInterface:(IOCFPlugInInterface**)pluginInterface smartInterface:(IOATASMARTInterface**)smartInterface;
-
-@end
-
 #define kATASMARTAttributesCount     30
 
 typedef struct {
@@ -112,15 +99,38 @@ typedef struct {
     ATASmartThresholdAttribute      ThresholdEntries [kATASMARTAttributesCount];
 } __attribute__ ((packed)) ATASmartVendorSpecificDataThresholds;
 
+@interface HWMSmartPluginInterfaceWrapper : NSObject
+{
+    ATASmartVendorSpecificData _vendorSpecificData;
+    ATASmartVendorSpecificDataThresholds _vendorSpecificThresholds;
+
+    NSArray *_attributes;
+
+    NSDictionary *_overrides;
+
+    NSString *_product;
+    NSString *_firmware;
+    NSString *_bsdName;
+    BOOL _rotational;
+}
+
+@property (nonatomic, assign) IOCFPlugInInterface** pluginInterface;
+@property (nonatomic, assign) IOATASMARTInterface** smartInterface;
+
+@property (readonly) NSArray * attributes;
+
++(HWMSmartPluginInterfaceWrapper*)wrapperWithService:(io_service_t)service productName:(NSString*)productName firmware:(NSString*)firmware bsdName:(NSString*)bsdName isRotational:(BOOL)rotational;
++(HWMSmartPluginInterfaceWrapper*)getWrapperForBsdName:(NSString*)name;
++(void)destroyAllWrappers;
+
+-(HWMSmartPluginInterfaceWrapper*)initWithPluginInterface:(IOCFPlugInInterface**)pluginInterface smartInterface:(IOATASMARTInterface**)smartInterface productName:(NSString*)productName firmware:(NSString*)firmware bsdName:(NSString*)bsdName isRotational:(BOOL)rotational;
+
+@end
+
 @interface HWMAtaSmartSensor : HWMSensor
 {
-    NSDate * updated;
-    ATASmartVendorSpecificData _smartData;
-    ATASmartVendorSpecificDataThresholds _smartDataThresholds;
-    UInt8 _temperatureAttributeIndex;
-    UInt8 _remainingLifeAttributeIndex;
-    UInt8 _unusedBlocksAttributeIndex;
-    NSDictionary *_overrides;
+    NSInteger _temperatureAttributeIndex;
+    NSInteger _remainingLifeAttributeIndex;
 }
 
 @property (nonatomic, retain) NSString * bsdName;
@@ -130,8 +140,8 @@ typedef struct {
 @property (nonatomic, retain) NSString * serialNumber;
 @property (nonatomic, retain) NSNumber * rotational;
 
-@property (readonly) Boolean exceeded;
-@property (readonly) NSArray * attributes;
+@property (readonly) NSArray *attributes;
+@property (nonatomic, strong) NSDate * lastUpdated;
 
 +(void)updatePartitionsList;
 

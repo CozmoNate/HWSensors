@@ -359,6 +359,7 @@
 - (void) popupDidOpen:(id)sender
 {
     [self.monitorEngine updateSmcAndDeviceSensors];
+    [self.monitorEngine updateAtaSmartSensors];
 }
 
 #pragma mark
