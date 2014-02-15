@@ -71,6 +71,8 @@ static NSMutableDictionary * gIOCFPlugInInterfaces;
                     wrapper = [[HWMSmartPlugInInterfaceWrapper alloc] initWithPluginInterface:pluginInterface smartInterface:smartInterface];
 
                     [gIOCFPlugInInterfaces setObject:wrapper forKey:name];
+
+                    break;
                 }
                 else if (smartInterface) {
                     (*pluginInterface)->Release(pluginInterface);
@@ -1015,7 +1017,7 @@ static void block_device_disappeared(void *engine, io_iterator_t iterator)
     __block NSMutableArray *devices = [NSMutableArray array];
 
     while ((object = IOIteratorNext(iterator))) {
-        NSLog(@"battery device disappeared %u", object);
+        NSLog(@"ATA block storage device disappeared %u", object);
         
         [devices addObject:[NSNumber numberWithUnsignedLongLong:object]];
         

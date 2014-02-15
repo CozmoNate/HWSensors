@@ -364,7 +364,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     _platformName = nil;
     _isRunningOnMac = YES;
 
-    if (MACH_PORT_NULL != (matching = IOServiceMatching("FakeSMC"))) {
+    if (MACH_PORT_NULL != (matching = IOServiceMatching("FakeSMCDevice"))) {
         io_iterator_t iterator = IO_OBJECT_NULL;
 
         if (kIOReturnSuccess == IOServiceGetMatchingServices(kIOMasterPortDefault, matching, &iterator)) {

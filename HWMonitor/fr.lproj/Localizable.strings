@@ -294,3 +294,5 @@
 "Reserve_Block_Count" = "Reserved Block Count";
 "Workload_Minutes" = "Workload Minutes";
 "CRC_Error_Count" = "CRC Error Count";
+"Retired_Block_Count" = "Retired Block Count";
+"Power_On_Hours_and_Msec" = "Power-On Hours & Msec";

@@ -76,7 +76,7 @@
 "Use data smoothing" = "Использовать сглаживание данных";
 "General" = "Основные";
 "Menubar" = "Значки меню";
-"Popup" = "Главное окно";
+"Popup" = "Окно датчиков";
 "Menubar icons:" = "Значки в строке меню:";
 "Temperature Sensors" = "Температурные датчики";
 "Frequency Sensors" = "Датчики частоты";
@@ -323,6 +323,7 @@
 //"Pre-Failure" = "Авария";
 //"Life-Span" = "Ресурс";
 
+# S.M.A.R.T.
 "Unknown_HDD_Attribute" = "Unknown HDD Attribute";
 "Unknown_SSD_Attribute" = "Unknown SSD Attribute";
 "Raw_Read_Error_Rate" = "Raw Read Error Rate";
@@ -409,3 +410,5 @@
 "Reserve_Block_Count" = "Reserved Block Count";
 "Workload_Minutes" = "Workload Minutes";
 "CRC_Error_Count" = "CRC Error Count";
+"Retired_Block_Count" = "Retired Block Count";
+"Power_On_Hours_and_Msec" = "Power-On Hours & Msec";
