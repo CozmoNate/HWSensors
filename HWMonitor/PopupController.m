@@ -254,17 +254,23 @@
 
 - (void)showAboutPanel:(id)sender
 {
-    [_aboutController showWindow:sender];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_aboutController showWindow:sender];
+    }];
 }
 
 - (void)openPreferences:(id)sender
 {
-    [_appController showWindow:sender];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_appController showWindow:sender];
+    }];
 }
 
 - (void)showGraphsWindow:(id)sender
 {
-    [_graphsController showWindow:sender];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_graphsController showWindow:sender];
+    }];
 }
 
 #pragma mark -

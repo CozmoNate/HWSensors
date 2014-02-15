@@ -125,8 +125,7 @@
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
     
-    [self.monitorEngine updateSmcAndDeviceSensors];
-    [self.monitorEngine updateAtaSmartSensors];
+    //[self.monitorEngine updateSmcAndDeviceSensors];
 }
 
 -(void)reloadGraphsTableView:(id)sender
