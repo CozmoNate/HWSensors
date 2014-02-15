@@ -38,9 +38,9 @@
 #import <sys/mount.h>
 #import <Growl/Growl.h>
 
-static NSMutableDictionary * gIOCFPlugInInterfaces = nil;
-static NSDictionary * gSmartAttributeOverridesDatabase = nil;
-static NSMutableDictionary * gSmartAttributeOverrides = nil;
+static NSMutableDictionary * gIOCFPluginInterfaceCache = nil;
+static NSDictionary * gSmartAttributeOverrideDatabase = nil;
+static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
 #define RAW_TO_LONG(attribute)  (UInt64)attribute->rawvalue[0] | \
 (UInt64)attribute->rawvalue[1] << 8 | \
@@ -61,11 +61,11 @@ static NSMutableDictionary * gSmartAttributeOverrides = nil;
 +(HWMSmartPluginInterfaceWrapper*)wrapperWithService:(io_service_t)service productName:(NSString*)productName firmware:(NSString*)firmware bsdName:(NSString*)bsdName isRotational:(BOOL)rotational
 {
 
-    if (!gIOCFPlugInInterfaces) {
-        gIOCFPlugInInterfaces = [[NSMutableDictionary alloc] init];
+    if (!gIOCFPluginInterfaceCache) {
+        gIOCFPluginInterfaceCache = [[NSMutableDictionary alloc] init];
     }
 
-    HWMSmartPluginInterfaceWrapper *wrapper = [gIOCFPlugInInterfaces objectForKey:bsdName];
+    HWMSmartPluginInterfaceWrapper *wrapper = [gIOCFPluginInterfaceCache objectForKey:bsdName];
 
     if (!wrapper) {
         IOCFPlugInInterface ** pluginInterface = NULL;
@@ -86,7 +86,7 @@ static NSMutableDictionary * gSmartAttributeOverrides = nil;
 
                     wrapper = [[HWMSmartPluginInterfaceWrapper alloc] initWithPluginInterface:pluginInterface smartInterface:smartInterface productName:productName firmware:firmware bsdName:bsdName isRotational:rotational];
 
-                    [gIOCFPlugInInterfaces setObject:wrapper forKey:bsdName];
+                    [gIOCFPluginInterfaceCache setObject:wrapper forKey:bsdName];
 
                     break;
                 }
@@ -108,8 +108,8 @@ static NSMutableDictionary * gSmartAttributeOverrides = nil;
 
 +(HWMSmartPluginInterfaceWrapper*)getWrapperForBsdName:(NSString*)name
 {
-    if (name && gIOCFPlugInInterfaces) {
-        return [gIOCFPlugInInterfaces objectForKey:name];
+    if (name && gIOCFPluginInterfaceCache) {
+        return [gIOCFPluginInterfaceCache objectForKey:name];
     }
 
     return nil;
@@ -117,13 +117,13 @@ static NSMutableDictionary * gSmartAttributeOverrides = nil;
 
 +(void)destroyAllWrappers
 {
-    if (gIOCFPlugInInterfaces) {
-        [gIOCFPlugInInterfaces enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+    if (gIOCFPluginInterfaceCache) {
+        [gIOCFPluginInterfaceCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             [obj destroy];
         }];
 
-        [gIOCFPlugInInterfaces removeAllObjects];
-        gIOCFPlugInInterfaces = nil;
+        [gIOCFPluginInterfaceCache removeAllObjects];
+        gIOCFPluginInterfaceCache = nil;
     }
 }
 
@@ -338,30 +338,28 @@ static NSMutableDictionary * gSmartAttributeOverrides = nil;
     }
 }
 
-+(NSDictionary*)getAttributeOverridesForProduct:(NSString*)product firmware:(NSString*)firmware
++(NSDictionary*)getAttributeOverrideForProduct:(NSString*)product firmware:(NSString*)firmware
 {
     if (!product)
         return nil;
 
-
-    if (!gSmartAttributeOverrides) {
-        gSmartAttributeOverrides = [[NSMutableDictionary alloc] init];
-
-        if (!gSmartAttributeOverridesDatabase) {
-            if (!(gSmartAttributeOverridesDatabase = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"smart-overrides" withExtension:@"plist"]])) {
-                gSmartAttributeOverridesDatabase = [NSDictionary dictionary]; // Empty dictionary
-            }
+    if (!gSmartAttributeOverrideDatabase) {
+        if (!(gSmartAttributeOverrideDatabase = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"smart-overrides" withExtension:@"plist"]])) {
+            gSmartAttributeOverrideDatabase = [NSDictionary dictionary]; // Empty dictionary
         }
+    }
 
+    if (!gSmartAttributeOverrideCache) {
+        gSmartAttributeOverrideCache = [[NSMutableDictionary alloc] init];
     }
 
     NSString *key = [NSString stringWithFormat:@"%@%@", product, firmware];
 
-    NSDictionary *overrides = [gSmartAttributeOverrides objectForKey:key];
+    NSDictionary *overrides = [gSmartAttributeOverrideCache objectForKey:key];
 
     if (!overrides) {
 
-        for (NSDictionary *group in gSmartAttributeOverridesDatabase.allValues) {
+        for (NSDictionary *group in gSmartAttributeOverrideDatabase.allValues) {
 
             NSArray *productMatch = group[@"NameMatch"];
 
@@ -393,9 +391,9 @@ static NSMutableDictionary * gSmartAttributeOverrides = nil;
                             }
                         }
 
-                        overrides = [group[@"Attributes"] copy];
+                        overrides = group[@"Attributes"];
 
-                        [gSmartAttributeOverrides setObject:overrides forKey:key];
+                        [gSmartAttributeOverrideCache setObject:overrides forKey:key];
                     }
                 }
             }
@@ -439,11 +437,11 @@ static NSMutableDictionary * gSmartAttributeOverrides = nil;
                 }
 
                 // Prepare SMART attributes list
-                if (!gSmartAttributeOverrides) {
-                    gSmartAttributeOverrides = [[NSMutableDictionary alloc] init];
+                if (!gSmartAttributeOverrideCache) {
+                    gSmartAttributeOverrideCache = [[NSMutableDictionary alloc] init];
                 }
 
-                _overrides = [HWMSmartPluginInterfaceWrapper getAttributeOverridesForProduct:_product firmware:_firmware];
+                _overrides = [HWMSmartPluginInterfaceWrapper getAttributeOverrideForProduct:_product firmware:_firmware];
 
                 NSMutableArray * attributes = [[NSMutableArray alloc] init];
 
@@ -696,10 +694,8 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     return _attributes;
 }
 
--(void)awakeFromFetch
+-(void)initialize
 {
-    [super awakeFromFetch];
-
     _temperatureAttributeIndex = -1;
     _remainingLifeAttributeIndex = -1;
 
@@ -707,15 +703,16 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     [self addObserver:self forKeyPath:@"self.engine.configuration.showVolumeNames" options:NSKeyValueObservingOptionNew context:nil];
 }
 
+-(void)awakeFromFetch
+{
+    [super awakeFromFetch];
+    [self initialize];
+}
+
 -(void)awakeFromInsert
 {
     [super awakeFromInsert];
-
-    _temperatureAttributeIndex = -1;
-    _remainingLifeAttributeIndex = -1;
-
-    [self addObserver:self forKeyPath:@"self.engine.configuration.useBsdDriveNames" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"self.engine.configuration.showVolumeNames" options:NSKeyValueObservingOptionNew context:nil];
+    [self initialize];
 }
 
 -(void)prepareForDeletion
@@ -945,6 +942,7 @@ static void block_device_appeared(void *engine, io_iterator_t iterator)
         [(__bridge HWMEngine*)engine systemDidAddBlockStorageDevices:devices];
     });
 }
+
 static void block_device_disappeared(void *engine, io_iterator_t iterator)
 {
     io_object_t object;
