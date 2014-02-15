@@ -87,6 +87,7 @@
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [Localizer localizeView:self.window];
             [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
+
             [self rebuildViews];
 
 //            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:_monitorEngine];
@@ -125,6 +126,7 @@
     [super showWindow:sender];
     
     [self.monitorEngine updateSmcAndDeviceSensors];
+    [self.monitorEngine updateAtaSmartSensors];
 }
 
 -(void)reloadGraphsTableView:(id)sender
@@ -140,31 +142,33 @@
 
 -(void)rebuildViews
 {
-    if (!_graphViews) {
-        _graphViews = [[NSMutableArray alloc] init];
-    }
-    else {
-        [_graphViews removeAllObjects];
-    }
-
-    for (HWMGraphsGroup *group in _monitorEngine.configuration.graphGroups) {
-        if (group.graphs && group.graphs.count) {
-            GraphsView *graphView = [[GraphsView alloc] init];
-
-            [graphView setGraphsController:self];
-            [graphView setGraphsGroup:group];
-
-            [_graphViews addObject:graphView];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (!_graphViews) {
+            _graphViews = [[NSMutableArray alloc] init];
         }
-    }
+        else {
+            [_graphViews removeAllObjects];
+        }
 
-    [_graphsCollectionView setContent:_graphViews];
-    
-    [_graphsCollectionView setMinItemSize:NSMakeSize(0, 80)];
-    [_graphsCollectionView setMaxItemSize:NSMakeSize(0, 0)];
-    
-    [[_graphsCollectionView content] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [[_graphsCollectionView itemAtIndex:idx] setView:obj];
+        for (HWMGraphsGroup *group in _monitorEngine.configuration.graphGroups) {
+            if (group.graphs && group.graphs.count) {
+                GraphsView *graphView = [[GraphsView alloc] init];
+
+                [graphView setGraphsController:self];
+                [graphView setGraphsGroup:group];
+
+                [_graphViews addObject:graphView];
+            }
+        }
+
+        [_graphsCollectionView setContent:_graphViews];
+
+        [_graphsCollectionView setMinItemSize:NSMakeSize(0, 80)];
+        [_graphsCollectionView setMaxItemSize:NSMakeSize(0, 0)];
+
+        [[_graphsCollectionView content] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [[_graphsCollectionView itemAtIndex:idx] setView:obj];
+        }];
     }];
 }
 
@@ -176,6 +180,7 @@
     if (_monitorEngine) {
         if ([keyPath isEqual:@"monitorEngine.graphsAndGroups"]) {
             [self reloadGraphsTableView:self];
+            [self rebuildViews];
         }
         else if ([keyPath isEqual:@"monitorEngine.configuration.graphsWindowAlwaysTopmost"]) {
             [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];

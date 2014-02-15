@@ -989,7 +989,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         [HWMSmartPluginInterfaceWrapper destroyAllWrappers];
 
-        [self setNeedsUpdateSensorLists];
+        // Update graphs
+        [self insertGraphs];
+
+        [self setNeedsUpdateLists];
     }];
 }
 
@@ -1013,8 +1016,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             }
         }
 
+        // Update graphs
+        [self insertGraphs];
         
-        [self setNeedsUpdateSensorLists];
+        [self setNeedsUpdateLists];
     }];
 }
 
@@ -1030,7 +1035,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 [self insertBatterySensorFromDictionary:properties group:group];
             }
 
-            [self setNeedsUpdateSensorLists];
+            [self setNeedsUpdateLists];
         }
     }];
 }
@@ -1055,7 +1060,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             }
 
 
-            [self setNeedsUpdateSensorLists];
+            [self setNeedsUpdateLists];
         }
     }];
 }
