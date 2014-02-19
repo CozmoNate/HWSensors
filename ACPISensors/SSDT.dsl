@@ -92,6 +92,8 @@ DefinitionBlock ("SSDT.aml", "SSDT", 1, "APPLE ", "DefMon", 0x00003000)
            "FRST"
         })
 
+        Name (ACTV, "Automatic") // startup active profile
+
         Method (FRST, 0, NotSerialized) // Test method, defined in "Automatic" profile
         {
             Store (0x18894, Local0)

@@ -232,6 +232,7 @@ bool ACPIProbe::start(IOService * provider)
                     }
                 }
             }
+
         }
         else {
             ACPISensorsErrorLog("profile definition table (LIST) not found");
@@ -253,7 +254,11 @@ bool ACPIProbe::start(IOService * provider)
 
     if (this->profiles->getCount()) {
 
-        activeProfile = (ACPIProbeProfile *)profileList->getObject(0);
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("ACTV", &object) && object) {
+            if (OSString *profile = OSDynamicCast(OSString, object)) {
+                activeProfile = (ACPIProbeProfile *)profiles->getObject(profile);
+            }
+        }
 
         // woorkloop
         if (!(workloop = getWorkLoop())) {
