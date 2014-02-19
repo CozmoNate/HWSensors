@@ -56,8 +56,8 @@ bool ACPIProbeProfile::init(OSString *aName, OSArray *aMethods, OSNumber *aInter
 
     this->methods = OSArray::withArray(aMethods);
 
-    this->interval = aInterval->unsigned64BitValue();
-    this->timeout = aTimeout ? aTimeout->unsigned64BitValue() : 0;
+    this->interval = aInterval->unsigned32BitValue();
+    this->timeout = aTimeout ? (double)aTimeout->unsigned64BitValue() / 1000.0 : 0;
     this->verbose = aVerbose ? aVerbose->getValue() : false;
 
     return true;
@@ -128,7 +128,11 @@ IOReturn ACPIProbe::activateProfile(const char *name)
 
         if (ACPIProbeProfile *profile = (ACPIProbeProfile *)profiles->getObject(name)) {
             activeProfile = profile;
-            activeProfile->startedAt = ptimer_read_seconds();
+            activeProfile->startedAt = 0;
+
+            timerEventSource->cancelTimeout();
+            timerEventSource->setTimeoutMS(100);
+
             ACPISensorsInfoLog("'%s' profile activated", name);
             return kIOReturnSuccess;
         }
@@ -142,11 +146,11 @@ IOReturn ACPIProbe::activateProfile(const char *name)
 
 IOReturn ACPIProbe::woorkloopTimerEvent(void)
 {
-//    if (activeProfile->timeout > 0 && activeProfile->startedAt == 0) {
-//        activeProfile->startedAt = ptimer_read_seconds();
-//    }
+    if (activeProfile->timeout > 0 && activeProfile->startedAt == 0) {
+        activeProfile->startedAt = ptimer_read_seconds();
+    }
 
-    if (activeProfile && (activeProfile->timeout == 0 || (ptimer_read_seconds() - activeProfile->startedAt < activeProfile->timeout * 1000))) {
+    if (activeProfile && (activeProfile->timeout == 0 || (ptimer_read_seconds() - activeProfile->startedAt < activeProfile->timeout))) {
         
         OSDictionary *values = OSDictionary::withCapacity(0);
         
@@ -173,10 +177,7 @@ IOReturn ACPIProbe::woorkloopTimerEvent(void)
         
         setProperty("Values", values);
         
-        timerEventSource->setTimeoutMS((UInt32)(activeProfile->interval * 1000.0));
-    }
-    else {
-        timerEventSource->setTimeoutMS(5000); // check for changes every 5 seconds
+        timerEventSource->setTimeoutMS(activeProfile->interval);
     }
     
     return kIOReturnSuccess;

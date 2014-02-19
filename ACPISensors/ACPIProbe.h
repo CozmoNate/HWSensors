@@ -37,8 +37,8 @@ class ACPIProbeProfile : public OSObject
 
 public:
     char            name[32];
-    UInt64          timeout;
-    UInt64          interval;
+    double          timeout;
+    UInt32          interval;
     bool            verbose;
 
     OSArray         *methods;
