@@ -146,11 +146,13 @@ IOReturn ACPIProbe::activateProfile(const char *name)
 
 IOReturn ACPIProbe::woorkloopTimerEvent(void)
 {
+    double time = ptimer_read_seconds();
+
     if (activeProfile->timeout > 0 && activeProfile->startedAt == 0) {
-        activeProfile->startedAt = ptimer_read_seconds();
+        activeProfile->startedAt = time;
     }
 
-    if (activeProfile && (activeProfile->timeout == 0 || (ptimer_read_seconds() - activeProfile->startedAt < activeProfile->timeout))) {
+    if (activeProfile && (activeProfile->timeout == 0 || (time - activeProfile->startedAt < activeProfile->timeout))) {
         
         OSDictionary *values = OSDictionary::withCapacity(0);
         
