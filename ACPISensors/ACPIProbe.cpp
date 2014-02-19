@@ -256,7 +256,9 @@ bool ACPIProbe::start(IOService * provider)
 
         if (kIOReturnSuccess == acpiDevice->evaluateObject("ACTV", &object) && object) {
             if (OSString *profile = OSDynamicCast(OSString, object)) {
-                activeProfile = (ACPIProbeProfile *)profiles->getObject(profile);
+                if (!(activeProfile = (ACPIProbeProfile *)profiles->getObject(profile))) {
+                    activeProfile = (ACPIProbeProfile *)profileList->getObject(0);
+                }
             }
         }
 
