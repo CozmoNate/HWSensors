@@ -58,13 +58,13 @@
                         </subviews>
                     </view>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                    <color key="fillColor" name="highlightColor" catalog="System" colorSpace="catalog"/>
+                    <color key="fillColor" name="textColor" catalog="System" colorSpace="catalog"/>
                 </box>
                 <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NkE-ZG-n4w">
-                    <rect key="frame" x="11" y="57" width="103" height="23"/>
+                    <rect key="frame" x="13" y="56" width="99" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <segmentedCell key="cell" alignment="left" style="capsule" trackingMode="selectOne" id="of5-4g-EL7">
-                        <font key="font" size="10" name="Helvetica"/>
+                    <segmentedCell key="cell" alignment="left" style="texturedSquare" trackingMode="selectOne" id="of5-4g-EL7">
+                        <font key="font" metaFont="smallSystem"/>
                         <segments>
                             <segment label="Off" width="48"/>
                             <segment label="On" width="48"/>

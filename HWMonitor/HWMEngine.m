@@ -568,6 +568,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)updateSmcAndDeviceSensors
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
         if (_engineState == kHWMEngineNotInitialized)
             return;
 
@@ -588,6 +589,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         for (HWMSensor *sensor in _smcAndDevicesSensors) {
             BOOL doUpdate = NO;
+
+            if (sensor.lastUpdated && [sensor.lastUpdated timeIntervalSinceNow] > _configuration.smcSensorsUpdateRate.floatValue * -0.9) {
+                continue;
+            }
 
             if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue) {
                 doUpdate = YES;
@@ -655,13 +660,16 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
                 BOOL doUpdate = NO;
 
+                if (sensor.lastUpdated && [sensor.lastUpdated timeIntervalSinceNow] > _configuration.smartSensorsUpdateRate.floatValue * 60 * -0.9) {
+                    continue;
+                }
+
                 if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue) {
                     doUpdate = YES;
                 }
                 else {
                     switch (self.updateLoopStrategy) {
                         case kHWMSensorsUpdateLoopForced:
-                            [sensor setLastUpdated:nil];
                             doUpdate = YES;
                             break;
 
@@ -676,9 +684,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                     }
                 }
 
-                if (doUpdate && (!sensor.lastUpdated || [sensor.lastUpdated timeIntervalSinceNow] < _configuration.smartSensorsUpdateRate.floatValue * 60 * -0.9)) {
+                if (doUpdate)
                     [sensor doUpdateValue];
-                }
             }
 
             [HWMSmartPluginInterfaceWrapper destroyAllWrappers];
@@ -1736,7 +1743,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         [sensor doUpdateValue];
 
-        if (!sensor.value) {
+        if (!sensor.value && !sensor.hidden.boolValue) {
             //[self.managedObjectContext deleteObject:sensor];
             [sensor setService:@0];
             return nil;

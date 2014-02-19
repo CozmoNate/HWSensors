@@ -65,10 +65,14 @@
             }
         }
 
-        [self willChangeValueForKey:@"controlled"];
-        [self setPrimitiveValue:controlled forKey:@"controlled"];
-        [self didChangeValueForKey:@"controlled"];
+        if (controlled.boolValue) {
+            [self setSpeed:self.speed];
+        }
     }
+
+    [self willChangeValueForKey:@"controlled"];
+    [self setPrimitiveValue:controlled forKey:@"controlled"];
+    [self didChangeValueForKey:@"controlled"];
 }
 
 -(void)setSpeed:(NSNumber *)speed
@@ -82,11 +86,11 @@
         else {
             [SmcHelper writeKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed connection:(io_connect_t)self.service.unsignedLongLongValue];
         }
-
-        [self willChangeValueForKey:@"speed"];
-        [self setPrimitiveValue:speed forKey:@"speed"];
-        [self didChangeValueForKey:@"speed"];
     }
+
+    [self willChangeValueForKey:@"speed"];
+    [self setPrimitiveValue:speed forKey:@"speed"];
+    [self didChangeValueForKey:@"speed"];
 }
 
 @end

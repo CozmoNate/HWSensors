@@ -141,7 +141,6 @@ typedef struct {
 @property (nonatomic, retain) NSNumber * rotational;
 
 @property (readonly) NSArray *attributes;
-@property (nonatomic, strong) NSDate * lastUpdated;
 
 +(void)updatePartitionsList;
 

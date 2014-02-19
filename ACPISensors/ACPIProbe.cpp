@@ -29,8 +29,77 @@
 
 #include "timer.h"
 
+OSDefineMetaClassAndStructors(ACPIProbeProfile, OSObject)
+
+ACPIProbeProfile * ACPIProbeProfile::withParameters(OSString *name, OSArray *methods, OSNumber *interval, OSNumber *timeout, OSBoolean *verbose)
+{
+    if (!methods || !methods->getCount() || !interval || !interval->unsigned64BitValue()) {
+        return NULL;
+    }
+
+    ACPIProbeProfile *profile = new ACPIProbeProfile;
+
+    if (!profile || !profile->init(name, methods, interval, timeout, verbose)) {
+        OSSafeRelease(profile);
+    }
+
+    return profile;
+}
+
+bool ACPIProbeProfile::init(OSString *aName, OSArray *aMethods, OSNumber *aInterval, OSNumber *aTimeout, OSBoolean *aVerbose)
+{
+    if (!OSObject::init() || !aName || !aName->getLength() || !aInterval || !aInterval->unsigned64BitValue()) {
+        return false;
+    }
+
+    snprintf(this->name, 32, "%s", aName->getCStringNoCopy());
+
+    this->methods = OSArray::withArray(aMethods);
+
+    this->interval = aInterval->unsigned64BitValue();
+    this->timeout = aTimeout ? aTimeout->unsigned64BitValue() : 0;
+    this->verbose = aVerbose ? aVerbose->getValue() : false;
+
+    return true;
+}
+
+void ACPIProbeProfile::free()
+{
+    OSSafeRelease(this->methods);
+    OSObject::free();
+}
+
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(ACPIProbe, FakeSMCPlugin)
+
+void ACPIProbe::addProfile(OSString *name, OSArray *methods, OSNumber *interval, OSNumber *timeout, OSBoolean *verbose)
+{
+    if (ACPIProbeProfile *profile = ACPIProbeProfile::withParameters(name, methods, interval, timeout, verbose)) {
+        profiles->setObject(name, profile);
+        profileList->setObject(profile);
+        ACPISensorsInfoLog("'%s' profile loaded", name->getCStringNoCopy());
+    }
+}
+
+ACPIProbeProfile* ACPIProbe::getProfile(OSString *name)
+{
+    return (ACPIProbeProfile*)profiles->getObject(name);
+}
+
+ACPIProbeProfile* ACPIProbe::getProfile(const char *name)
+{
+    return (ACPIProbeProfile*)profiles->getObject(name);
+}
+
+ACPIProbeProfile* ACPIProbe::getProfile(unsigned int index)
+{
+    return (ACPIProbeProfile*)profileList->getObject(index);
+}
+
+unsigned int ACPIProbe::getProfileCount()
+{
+    return profileList->getCount();
+}
 
 void ACPIProbe::logValue(const char* method, OSObject *value)
 {
@@ -48,36 +117,66 @@ void ACPIProbe::logValue(const char* method, OSObject *value)
     }
 }
 
+ACPIProbeProfile* ACPIProbe::getActiveProfile()
+{
+    return activeProfile;
+}
+
+IOReturn ACPIProbe::activateProfile(const char *name)
+{
+    if (profiles && profiles->getCount()) {
+
+        if (ACPIProbeProfile *profile = (ACPIProbeProfile *)profiles->getObject(name)) {
+            activeProfile = profile;
+            activeProfile->startedAt = ptimer_read_seconds();
+            ACPISensorsInfoLog("'%s' profile activated", name);
+            return kIOReturnSuccess;
+        }
+        else {
+            return kIOReturnBadArgument;
+        }
+    }
+
+    return kIOReturnAborted;
+}
+
 IOReturn ACPIProbe::woorkloopTimerEvent(void)
 {
-    if (pollingTimeout > 0 && !startTime)
-        startTime = ptimer_read_seconds();
-    
-    double time = ptimer_read_seconds();
-    
-    if (pollingTimeout == 0 || (time - startTime < pollingTimeout)) {
+//    if (activeProfile->timeout > 0 && activeProfile->startedAt == 0) {
+//        activeProfile->startedAt = ptimer_read_seconds();
+//    }
+
+    if (activeProfile && (activeProfile->timeout == 0 || (ptimer_read_seconds() - activeProfile->startedAt < activeProfile->timeout * 1000))) {
         
         OSDictionary *values = OSDictionary::withCapacity(0);
         
-        for (unsigned int i = 0; i < methods->getCount(); i++) {
-            if (OSString *method = (OSString*)methods->getObject(i)) {
+        for (unsigned int i = 0; i < activeProfile->methods->getCount(); i++) {
+
+            if (OSString *method = (OSString*)activeProfile->methods->getObject(i)) {
                 
                 OSObject *object = NULL;
+
                 IOReturn result = acpiDevice->evaluateObject(method->getCStringNoCopy(), &object);
                 
                 if (kIOReturnSuccess == result && object) {
+
                     values->setObject(method->getCStringNoCopy(), object);
                     
-                    if (loggingEnabled)
+                    if (activeProfile->verbose)
                         logValue(method->getCStringNoCopy(), object);
                 }
-                else ACPISensorsErrorLog("failed to evaluate method \"%s\", return %d", method->getCStringNoCopy(), result);
+                else {
+                    ACPISensorsErrorLog("failed to evaluate method \"%s\", return %d", method->getCStringNoCopy(), result);
+                }
             }
         }
         
         setProperty("Values", values);
         
-        timerEventSource->setTimeoutMS((UInt32)(pollingInterval * 1000.0));
+        timerEventSource->setTimeoutMS((UInt32)(activeProfile->interval * 1000.0));
+    }
+    else {
+        timerEventSource->setTimeoutMS(5000); // check for changes every 5 seconds
     }
     
     return kIOReturnSuccess;
@@ -94,76 +193,65 @@ bool ACPIProbe::start(IOService * provider)
         ACPISensorsFatalLog("ACPI device not ready");
         return false;
     }
-    
-    methods = OSArray::withCapacity(0);
-    OSNumber *interval = NULL;
-    OSNumber *timeout = NULL;
-    OSBoolean *logging = NULL;
-    OSArray *list = NULL;
-    
-    
-    // Try to load configuration from info.plist first
-    if (OSDictionary *configuration = getConfigurationNode())
-    {
-        interval = OSDynamicCast(OSNumber, configuration->getObject("PollingInterval"));
-        timeout = OSDynamicCast(OSNumber, configuration->getObject("PollingTimeout"));
-        logging = OSDynamicCast(OSBoolean, configuration->getObject("LoggingEnabled"));
-        list = OSDynamicCast(OSArray, configuration->getObject("Methods"));
-    }
+
+    profiles = OSDictionary::withCapacity(0);
+    profileList = OSArray::withCapacity(0);
+
+    OSObject *object = NULL;
+
+
     // Try to load configuration provided by ACPI device
-    else {
-        OSObject *object = NULL;
-        
-        if (kIOReturnSuccess == acpiDevice->evaluateObject("INVL", &object) && object)
-            interval = OSDynamicCast(OSNumber, object);
-        
-        if (kIOReturnSuccess == acpiDevice->evaluateObject("TOUT", &object) && object)
-            timeout = OSDynamicCast(OSNumber, object);
-        
-        if (kIOReturnSuccess == acpiDevice->evaluateObject("LOGG", &object) && object) {
-            if (OSNumber *number = OSDynamicCast(OSNumber, object)) {
-                logging = OSBoolean::withBoolean(number->unsigned8BitValue() == 1);
-            }
-        }
-        
-        if (kIOReturnSuccess == acpiDevice->evaluateObject("LIST", &object) && object)
-            list = OSDynamicCast(OSArray, object);
-        else
-            ACPISensorsErrorLog("polling methods table (LIST) not found");
-    }
-    
-    if (interval) {
-        pollingInterval = (double)interval->unsigned64BitValue() / (double)1000.0;
-        ACPISensorsInfoLog("polling interval %lld ms", interval->unsigned64BitValue());
-        
-        if (pollingInterval) {
-            
-            if (timeout) {
-                pollingTimeout = (double)timeout->unsigned64BitValue() / 1000.0;
-                ACPISensorsInfoLog("polling timeout %lld ms", timeout->unsigned64BitValue());
-            }
-            
-            if (logging) {
-                loggingEnabled = logging->isTrue();
-                ACPISensorsInfoLog("logging %s", loggingEnabled ? "enabled" : "disabled");
-            }
-            
-            if (list) {
+
+        if (kIOReturnSuccess == acpiDevice->evaluateObject("LIST", &object) && object) {
+            if (OSArray *list = OSDynamicCast(OSArray, object)) {
                 for (unsigned int i = 0; i < list->getCount(); i++) {
                     if (OSString *method = OSDynamicCast(OSString, list->getObject(i))) {
-                        if (method->getLength() && kIOReturnSuccess == acpiDevice->validateObject(method->getCStringNoCopy())) {
-                            methods->setObject(method);
-                            ACPISensorsInfoLog("method \"%s\" registered", method->getCStringNoCopy());
+                        if (kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy(), &object) && object) {
+                            if (OSArray *config = OSDynamicCast(OSArray, object)) {
+                                if (config->getCount() > 4) {
+                                    OSString *pName = OSDynamicCast(OSString, config->getObject(0));
+                                    OSNumber *pInterval = OSDynamicCast(OSNumber, config->getObject(1));
+                                    OSNumber *pTimeout = OSDynamicCast(OSNumber, config->getObject(2));
+                                    OSBoolean *pVerbose = OSDynamicCast(OSBoolean, config->getObject(3));
+
+                                    OSArray *pMethods = OSArray::withCapacity(config->getCount() - 4);
+
+                                    for (unsigned int offset = 4; offset < config->getCount(); offset++) {
+                                        if (OSString *methodName = OSDynamicCast(OSString, config->getObject(offset))) {
+                                            pMethods->setObject(methodName);
+                                        }
+                                    }
+
+                                    addProfile(pName, pMethods, pInterval, pTimeout, pVerbose);
+                                }
+                            }
                         }
-                        else ACPISensorsErrorLog("unable to register method \"%s\"", method->getCStringNoCopy());
                     }
                 }
             }
         }
-        else ACPISensorsWarningLog("polling interval is set to zero, driver will be disabled");
+        else {
+            ACPISensorsErrorLog("profile definition table (LIST) not found");
+        }
+
+    // Try to load configuration from info.plist
+    if (profiles->getCount() == 0) {
+        if (OSDictionary *configuration = getConfigurationNode())
+        {
+            OSString *pName = OSDynamicCast(OSString, configuration->getObject("ProfileName"));
+            OSNumber *pInterval = OSDynamicCast(OSNumber, configuration->getObject("PollingInterval"));
+            OSNumber *pTimeout = OSDynamicCast(OSNumber, configuration->getObject("PollingTimeout"));
+            OSBoolean *pVerbose = OSDynamicCast(OSBoolean, configuration->getObject("VerboseLog"));
+            OSArray *pMethods = OSDynamicCast(OSArray, configuration->getObject("MethodsToPoll"));
+
+            addProfile(pName, pMethods, pInterval, pTimeout, pVerbose);
+        }
     }
-    
-    if (methods->getCount()) {
+
+    if (this->profiles->getCount()) {
+
+        activeProfile = (ACPIProbeProfile *)profileList->getObject(0);
+
         // woorkloop
         if (!(workloop = getWorkLoop())) {
             HWSensorsFatalLog("Failed to obtain workloop");
@@ -199,4 +287,10 @@ void ACPIProbe::stop(IOService *provider)
     workloop->removeEventSource(timerEventSource);
     
     super::stop(provider);
+}
+
+void ACPIProbe::free()
+{
+    OSSafeRelease(profiles);
+    super::free();
 }

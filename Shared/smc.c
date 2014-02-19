@@ -20,6 +20,8 @@
 cc ./smc.c  -o smcutil -framework IOKit -framework CoreFoundation -Wno-four-char-constants -Wall -g -arch i386 
  */
 
+#include <stdio.h>
+
 #include <IOKit/IOKitLib.h>
 #include <Kernel/string.h>
 

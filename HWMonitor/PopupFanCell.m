@@ -11,6 +11,7 @@
 #import "Localizer.h"
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
+#import "HWMColorTheme.h"
 #import "PopupFanController.h"
 
 @implementation PopupFanCell
@@ -91,6 +92,7 @@
 
         _popover.animates = YES;
         _popover.behavior = NSPopoverBehaviorTransient;
+        _popover.appearance = fan.engine.configuration.colorTheme.useDarkIcons ? NSPopoverAppearanceMinimal : NSPopoverAppearanceHUD;
 
         [_popover showRelativeToRect:self.frame ofView:self preferredEdge:NSMinXEdge];
     }

@@ -10,8 +10,12 @@
 		7E0200B118035D3700520CF7 /* RFOverlayScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0200AE18035D3700520CF7 /* RFOverlayScroller.m */; };
 		7E0200B218035D3700520CF7 /* RFOverlayScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0200B018035D3700520CF7 /* RFOverlayScrollView.m */; };
 		7E031C641835E76D00A2D097 /* HWMImageTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E031C631835E76D00A2D097 /* HWMImageTransformer.m */; };
-		7E0345DA185283C4002DB143 /* 306-light-switch.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E0345D8185283C4002DB143 /* 306-light-switch.png */; };
-		7E0345DB185283C4002DB143 /* 306-light-switch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E0345D9185283C4002DB143 /* 306-light-switch@2x.png */; };
+		7E04D7B218B33DB600B40ADA /* ProbeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E04D7B118B33DB600B40ADA /* ProbeController.xib */; };
+		7E04D7B518B33E5600B40ADA /* ProbeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E04D7B418B33E5600B40ADA /* ProbeController.m */; };
+		7E04D7BD18B3423600B40ADA /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E04D7BC18B3423600B40ADA /* logo.png */; };
+		7E04D7C818B356F100B40ADA /* ACPIProbeClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E04D7C718B356F100B40ADA /* ACPIProbeClient.m */; };
+		7E04D7D118B4133F00B40ADA /* 17-bar-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E04D7CE18B4133F00B40ADA /* 17-bar-chart.png */; };
+		7E04D7D218B4133F00B40ADA /* 17-bar-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E04D7CF18B4133F00B40ADA /* 17-bar-chart@2x.png */; };
 		7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E111513188F3EA4006E15A0 /* default.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 7E111512188F3EA4006E15A0 /* default.iconset */; };
 		7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1458C617E2744000694A4A /* 37-circle-x.png */; };
@@ -24,8 +28,6 @@
 		7E1900B0184279CD00C6A0E8 /* HWMGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1900AF184279CD00C6A0E8 /* HWMGraph.m */; };
 		7E19DEBE1843CDC400229B0E /* HWMSensorsGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E19DEBD1843CDC400229B0E /* HWMSensorsGroup.m */; };
 		7E19DED61843EDA300229B0E /* PopupBasicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E19DED41843EDA300229B0E /* PopupBasicCell.m */; };
-		7E1A8DB31876A15100853CB6 /* 81-dashboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1A8DB11876A15100853CB6 /* 81-dashboard.png */; };
-		7E1A8DB41876A15100853CB6 /* 81-dashboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1A8DB21876A15100853CB6 /* 81-dashboard@2x.png */; };
 		7E1ABD8F185E2CA200412B75 /* Divider.tif in Resources */ = {isa = PBXBuildFile; fileRef = 7E1ABD8E185E2CA200412B75 /* Divider.tif */; };
 		7E2042011730844C00C13B65 /* GraphsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042001730844C00C13B65 /* GraphsController.xib */; };
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
@@ -100,6 +102,14 @@
 		7E6D90441845EEDB0045BDB3 /* HWMGraphsGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6D90431845EEDB0045BDB3 /* HWMGraphsGroup.m */; };
 		7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */; };
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
+		7E87BE3618B413910013A20E /* 40-dialpad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E87BE3418B413910013A20E /* 40-dialpad.png */; };
+		7E87BE3718B413910013A20E /* 40-dialpad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E87BE3518B413910013A20E /* 40-dialpad@2x.png */; };
+		7E87BE3A18B413BE0013A20E /* 306-light-switch.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E87BE3818B413BE0013A20E /* 306-light-switch.png */; };
+		7E87BE3B18B413BE0013A20E /* 306-light-switch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E87BE3918B413BE0013A20E /* 306-light-switch@2x.png */; };
+		7E87BE3E18B4142A0013A20E /* 425-notepad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E87BE3C18B4142A0013A20E /* 425-notepad.png */; };
+		7E87BE3F18B4142A0013A20E /* 425-notepad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E87BE3D18B4142A0013A20E /* 425-notepad@2x.png */; };
+		7E87BE4118B41B100013A20E /* switch.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E87BE4018B41B100013A20E /* switch.png */; };
+		7E87BE4318B41B2B0013A20E /* switch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E87BE4218B41B2B0013A20E /* switch@2x.png */; };
 		7E9060E51708951800BF5BBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248F016D8E93A002231B2 /* Foundation.framework */; };
 		7E9060E81708951800BF5BBF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9060E71708951800BF5BBF /* main.m */; };
 		7E9060EC1708951800BF5BBF /* smcutil.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E9060EB1708951800BF5BBF /* smcutil.1 */; };
@@ -156,8 +166,6 @@
 		7EF2A0FC17303B9100D8641C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF2A0FB17303B9100D8641C /* MainMenu.xib */; };
 		7EF2A10017303EA600D8641C /* AboutController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF2A0FD17303B9C00D8641C /* AboutController.xib */; };
 		7EF393C2185C8D990033F1AB /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7EF393C1185C8D990033F1AB /* smc.c */; };
-		7EF6817D18510E8A0077E785 /* 17-bar-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EF6817B18510E8A0077E785 /* 17-bar-chart.png */; };
-		7EF6817E18510E8A0077E785 /* 17-bar-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EF6817C18510E8A0077E785 /* 17-bar-chart@2x.png */; };
 		7EFD75B6185C73A300C01C2B /* PopupFanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD75B5185C73A300C01C2B /* PopupFanCell.m */; };
 		7EFD75B8185C763500C01C2B /* PopupFanController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EFD75B7185C763500C01C2B /* PopupFanController.xib */; };
 		7EFDE527185CA0020022FD66 /* Let's go Digital Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EFDE526185CA0020022FD66 /* Let's go Digital Regular.ttf */; };
@@ -167,8 +175,6 @@
 		7EFE61B4183581090009BD0D /* HWMSmcSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61B3183581090009BD0D /* HWMSmcSensor.m */; };
 		7EFE61B7183581090009BD0D /* HWMSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61B6183581090009BD0D /* HWMSensor.m */; };
 		7EFF4395183649B20094860C /* HWMEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF4394183649B20094860C /* HWMEngine.m */; };
-		7EFFADB31851FE0000D427EA /* hwm-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EFFADB11851FE0000D427EA /* hwm-menu.png */; };
-		7EFFADB41851FE0000D427EA /* hwm-menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EFFADB21851FE0000D427EA /* hwm-menu@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -223,8 +229,14 @@
 		7E0200B018035D3700520CF7 /* RFOverlayScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFOverlayScrollView.m; sourceTree = "<group>"; };
 		7E031C621835E76D00A2D097 /* HWMImageTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMImageTransformer.h; sourceTree = "<group>"; };
 		7E031C631835E76D00A2D097 /* HWMImageTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMImageTransformer.m; sourceTree = "<group>"; };
-		7E0345D8185283C4002DB143 /* 306-light-switch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "306-light-switch.png"; sourceTree = "<group>"; };
-		7E0345D9185283C4002DB143 /* 306-light-switch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "306-light-switch@2x.png"; sourceTree = "<group>"; };
+		7E04D7B118B33DB600B40ADA /* ProbeController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProbeController.xib; sourceTree = "<group>"; };
+		7E04D7B318B33E5600B40ADA /* ProbeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProbeController.h; sourceTree = "<group>"; };
+		7E04D7B418B33E5600B40ADA /* ProbeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProbeController.m; sourceTree = "<group>"; };
+		7E04D7BC18B3423600B40ADA /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		7E04D7C618B356F100B40ADA /* ACPIProbeClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPIProbeClient.h; sourceTree = "<group>"; };
+		7E04D7C718B356F100B40ADA /* ACPIProbeClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACPIProbeClient.m; sourceTree = "<group>"; };
+		7E04D7CE18B4133F00B40ADA /* 17-bar-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "17-bar-chart.png"; sourceTree = "<group>"; };
+		7E04D7CF18B4133F00B40ADA /* 17-bar-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "17-bar-chart@2x.png"; sourceTree = "<group>"; };
 		7E0648ED16DF3B7D00ACB851 /* LaunchAtLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchAtLoginController.h; sourceTree = "<group>"; };
 		7E0648EE16DF3B7D00ACB851 /* LaunchAtLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchAtLoginController.m; sourceTree = "<group>"; };
 		7E0648EF16DF3B7D00ACB851 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -248,8 +260,6 @@
 		7E19DED41843EDA300229B0E /* PopupBasicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupBasicCell.m; sourceTree = "<group>"; };
 		7E19DED51843EDA300229B0E /* PopupBasicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupBasicCell.h; sourceTree = "<group>"; };
 		7E19FFFF17005652008F40F1 /* SensorsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorsTableView.h; sourceTree = "<group>"; };
-		7E1A8DB11876A15100853CB6 /* 81-dashboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "81-dashboard.png"; sourceTree = "<group>"; };
-		7E1A8DB21876A15100853CB6 /* 81-dashboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "81-dashboard@2x.png"; sourceTree = "<group>"; };
 		7E1A8DB91876D1C400853CB6 /* HWMEngine 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.2.xcdatamodel"; sourceTree = "<group>"; };
 		7E1ABD8E185E2CA200412B75 /* Divider.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Divider.tif; sourceTree = "<group>"; };
 		7E2042001730844C00C13B65 /* GraphsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphsController.xib; sourceTree = "<group>"; };
@@ -314,6 +324,7 @@
 		7E37BCD318997EBD0046F59A /* hwmonitor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hwmonitor@2x.png"; sourceTree = "<group>"; };
 		7E37BCD418997EBD0046F59A /* hwmonitor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor.png; sourceTree = "<group>"; };
 		7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HWMEngine.xcdatamodel; sourceTree = "<group>"; };
+		7E3D41CC18B2B67A002F6559 /* ACPIProbeArgument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ACPIProbeArgument.h; path = Shared/ACPIProbeArgument.h; sourceTree = "<group>"; };
 		7E41500E18A8034000E6CD7F /* smart-overrides.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "smart-overrides.plist"; sourceTree = "<group>"; };
 		7E420F9B1820E04900331D2B /* HWMonitor Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HWMonitor Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E420FA01820E04900331D2B /* HWMonitor Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HWMonitor Tests-Info.plist"; sourceTree = "<group>"; };
@@ -341,6 +352,14 @@
 		7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBMenuBarWindow.m; sourceTree = "<group>"; };
 		7E7D61F91704453B00F7222F /* FadingButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadingButton.h; sourceTree = "<group>"; };
 		7E7D61FA1704453B00F7222F /* FadingButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadingButton.m; sourceTree = "<group>"; };
+		7E87BE3418B413910013A20E /* 40-dialpad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "40-dialpad.png"; sourceTree = "<group>"; };
+		7E87BE3518B413910013A20E /* 40-dialpad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "40-dialpad@2x.png"; sourceTree = "<group>"; };
+		7E87BE3818B413BE0013A20E /* 306-light-switch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "306-light-switch.png"; sourceTree = "<group>"; };
+		7E87BE3918B413BE0013A20E /* 306-light-switch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "306-light-switch@2x.png"; sourceTree = "<group>"; };
+		7E87BE3C18B4142A0013A20E /* 425-notepad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "425-notepad.png"; sourceTree = "<group>"; };
+		7E87BE3D18B4142A0013A20E /* 425-notepad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "425-notepad@2x.png"; sourceTree = "<group>"; };
+		7E87BE4018B41B100013A20E /* switch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = switch.png; sourceTree = "<group>"; };
+		7E87BE4218B41B2B0013A20E /* switch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "switch@2x.png"; sourceTree = "<group>"; };
 		7E9060E41708951800BF5BBF /* smcutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = smcutil; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E9060E71708951800BF5BBF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7E9060EA1708951800BF5BBF /* smcutil-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "smcutil-Prefix.pch"; sourceTree = "<group>"; };
@@ -430,8 +449,6 @@
 		7EF2A0FB17303B9100D8641C /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		7EF2A0FD17303B9C00D8641C /* AboutController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutController.xib; sourceTree = "<group>"; };
 		7EF393C1185C8D990033F1AB /* smc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = smc.c; path = Shared/smc.c; sourceTree = "<group>"; };
-		7EF6817B18510E8A0077E785 /* 17-bar-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "17-bar-chart.png"; sourceTree = "<group>"; };
-		7EF6817C18510E8A0077E785 /* 17-bar-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "17-bar-chart@2x.png"; sourceTree = "<group>"; };
 		7EFD75B4185C73A300C01C2B /* PopupFanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupFanCell.h; sourceTree = "<group>"; };
 		7EFD75B5185C73A300C01C2B /* PopupFanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupFanCell.m; sourceTree = "<group>"; };
 		7EFD75B7185C763500C01C2B /* PopupFanController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupFanController.xib; sourceTree = "<group>"; };
@@ -446,8 +463,6 @@
 		7EFE61B6183581090009BD0D /* HWMSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSensor.m; sourceTree = "<group>"; };
 		7EFF4393183649B20094860C /* HWMEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMEngine.h; sourceTree = "<group>"; };
 		7EFF4394183649B20094860C /* HWMEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMEngine.m; sourceTree = "<group>"; };
-		7EFFADB11851FE0000D427EA /* hwm-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hwm-menu.png"; sourceTree = "<group>"; };
-		7EFFADB21851FE0000D427EA /* hwm-menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hwm-menu@2x.png"; sourceTree = "<group>"; };
 		A32FB4F217676DF300F27ADB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -622,6 +637,18 @@
 			name = OBMenuBarWindow;
 			sourceTree = "<group>";
 		};
+		7E04D7B018B33D7D00B40ADA /* ProbeController */ = {
+			isa = PBXGroup;
+			children = (
+				7E04D7C618B356F100B40ADA /* ACPIProbeClient.h */,
+				7E04D7C718B356F100B40ADA /* ACPIProbeClient.m */,
+				7E04D7B318B33E5600B40ADA /* ProbeController.h */,
+				7E04D7B418B33E5600B40ADA /* ProbeController.m */,
+				7E04D7B118B33DB600B40ADA /* ProbeController.xib */,
+			);
+			name = ProbeController;
+			sourceTree = "<group>";
+		};
 		7E0648F216DF3B8300ACB851 /* LaunchAtLoginController */ = {
 			isa = PBXGroup;
 			children = (
@@ -744,6 +771,7 @@
 		7E2678B6182523EA00B405DE /* Kernel */ = {
 			isa = PBXGroup;
 			children = (
+				7E3D41CC18B2B67A002F6559 /* ACPIProbeArgument.h */,
 				7E2678B7182523FE00B405DE /* smc.h */,
 				7EF393C1185C8D990033F1AB /* smc.c */,
 			);
@@ -908,6 +936,7 @@
 				7EFFADB01851FDDD00D427EA /* Prefs Toolbar */,
 				7E1ABD8E185E2CA200412B75 /* Divider.tif */,
 				7E111512188F3EA4006E15A0 /* default.iconset */,
+				7E04D7BC18B3423600B40ADA /* logo.png */,
 				7ECDDE3016DD680E00085FFF /* 04-eye.png */,
 				7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */,
 				7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */,
@@ -926,6 +955,8 @@
 				7E24ABEC188FAFA500810B9D /* 338-enter-fullscreen@2x.png */,
 				7E24ABF0188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png */,
 				7E24ABF1188FB4D000810B9D /* 338-enter-fullscreen-white.png */,
+				7E87BE4018B41B100013A20E /* switch.png */,
+				7E87BE4218B41B2B0013A20E /* switch@2x.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -938,6 +969,7 @@
 				7EF2A1031730519600D8641C /* Popup Panel Controller */,
 				7EF2A1021730518A00D8641C /* Graphs Window Controller */,
 				7EF2A0FF17303C3600D8641C /* About Panel Controller */,
+				7E04D7B018B33D7D00B40ADA /* ProbeController */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1067,14 +1099,14 @@
 		7EFFADB01851FDDD00D427EA /* Prefs Toolbar */ = {
 			isa = PBXGroup;
 			children = (
-				7EF6817B18510E8A0077E785 /* 17-bar-chart.png */,
-				7EF6817C18510E8A0077E785 /* 17-bar-chart@2x.png */,
-				7E1A8DB11876A15100853CB6 /* 81-dashboard.png */,
-				7E1A8DB21876A15100853CB6 /* 81-dashboard@2x.png */,
-				7E0345D8185283C4002DB143 /* 306-light-switch.png */,
-				7E0345D9185283C4002DB143 /* 306-light-switch@2x.png */,
-				7EFFADB11851FE0000D427EA /* hwm-menu.png */,
-				7EFFADB21851FE0000D427EA /* hwm-menu@2x.png */,
+				7E04D7CE18B4133F00B40ADA /* 17-bar-chart.png */,
+				7E04D7CF18B4133F00B40ADA /* 17-bar-chart@2x.png */,
+				7E87BE3418B413910013A20E /* 40-dialpad.png */,
+				7E87BE3518B413910013A20E /* 40-dialpad@2x.png */,
+				7E87BE3818B413BE0013A20E /* 306-light-switch.png */,
+				7E87BE3918B413BE0013A20E /* 306-light-switch@2x.png */,
+				7E87BE3C18B4142A0013A20E /* 425-notepad.png */,
+				7E87BE3D18B4142A0013A20E /* 425-notepad@2x.png */,
 			);
 			name = "Prefs Toolbar";
 			sourceTree = "<group>";
@@ -1212,12 +1244,12 @@
 				7E36E580188AB15500BD9744 /* scale-white@2x.png in Resources */,
 				7E36E572188AB15500BD9744 /* temperatures@2x.png in Resources */,
 				7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */,
+				7E87BE3718B413910013A20E /* 40-dialpad@2x.png in Resources */,
 				7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */,
 				7E36E596188AB15500BD9744 /* battery-white@2x.png in Resources */,
-				7E1A8DB41876A15100853CB6 /* 81-dashboard@2x.png in Resources */,
+				7E87BE3B18B413BE0013A20E /* 306-light-switch@2x.png in Resources */,
 				7E36E579188AB15500BD9744 /* tachometers-white.png in Resources */,
 				7E36E57C188AB15500BD9744 /* ssdlife-white@2x.png in Resources */,
-				7E0345DB185283C4002DB143 /* 306-light-switch@2x.png in Resources */,
 				7E36E57A188AB15500BD9744 /* ssdlife@2x.png in Resources */,
 				7EFD75B8185C763500C01C2B /* PopupFanController.xib in Resources */,
 				7E24ABF3188FB4D000810B9D /* 338-enter-fullscreen-white.png in Resources */,
@@ -1227,11 +1259,12 @@
 				7E36E56C188AB15500BD9744 /* voltages-white@2x.png in Resources */,
 				7E966D1C18523BE000313AB1 /* theme_dark.png in Resources */,
 				7E36E585188AB15500BD9744 /* pcicard-white.png in Resources */,
-				7E0345DA185283C4002DB143 /* 306-light-switch.png in Resources */,
 				7E36E592188AB15500BD9744 /* frequencies-white@2x.png in Resources */,
+				7E87BE4318B41B2B0013A20E /* switch@2x.png in Resources */,
 				7E36E57F188AB15500BD9744 /* scale.png in Resources */,
 				7E966D1E18523BE000313AB1 /* theme_gray.png in Resources */,
 				7E37BCD518997EBD0046F59A /* hwmonitor@2x.png in Resources */,
+				7E87BE3618B413910013A20E /* 40-dialpad.png in Resources */,
 				7E111513188F3EA4006E15A0 /* default.iconset in Resources */,
 				7E36E594188AB15500BD9744 /* battery@2x.png in Resources */,
 				7E36E56F188AB15500BD9744 /* thermometer-white@2x.png in Resources */,
@@ -1239,15 +1272,15 @@
 				7E36E577188AB15500BD9744 /* tachometers.png in Resources */,
 				7EF28328184C71AA00DD8513 /* Credits.html in Resources */,
 				7E36E574188AB15500BD9744 /* temperatures-white@2x.png in Resources */,
-				7EFFADB41851FE0000D427EA /* hwm-menu@2x.png in Resources */,
 				7E36E583188AB15500BD9744 /* pcicard.png in Resources */,
-				7EFFADB31851FE0000D427EA /* hwm-menu.png in Resources */,
+				7E04D7BD18B3423600B40ADA /* logo.png in Resources */,
 				7E36E575188AB15500BD9744 /* temperatures-white.png in Resources */,
 				7E420FAD1820E2D800331D2B /* Profiles in Resources */,
 				7E36E573188AB15500BD9744 /* temperatures.png in Resources */,
 				7E36E595188AB15500BD9744 /* battery.png in Resources */,
 				7E36E597188AB15500BD9744 /* battery-white.png in Resources */,
 				7EDA1AA916D936410012A0DC /* Localizable.strings in Resources */,
+				7E87BE3A18B413BE0013A20E /* 306-light-switch.png in Resources */,
 				7E36E590188AB15500BD9744 /* frequencies@2x.png in Resources */,
 				7E36E589188AB15500BD9744 /* multipliers-white.png in Resources */,
 				7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */,
@@ -1257,9 +1290,9 @@
 				7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */,
 				7E36E58D188AB15500BD9744 /* hddtemperatures.png in Resources */,
 				7ECDDE3716DDE5DA00085FFF /* 04-eye-white@2x.png in Resources */,
-				7EF6817D18510E8A0077E785 /* 17-bar-chart.png in Resources */,
 				7E36E593188AB15500BD9744 /* frequencies-white.png in Resources */,
 				7E24ABF2188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png in Resources */,
+				7E87BE4118B41B100013A20E /* switch.png in Resources */,
 				7E6D702718AF3F1800CD8BFD /* SmartAttributes.strings in Resources */,
 				7EFDE527185CA0020022FD66 /* Let's go Digital Regular.ttf in Resources */,
 				7E36E576188AB15500BD9744 /* tachometers@2x.png in Resources */,
@@ -1272,25 +1305,28 @@
 				7E36E56A188AB15500BD9744 /* voltages@2x.png in Resources */,
 				7E36E584188AB15500BD9744 /* pcicard-white@2x.png in Resources */,
 				7E24ABEF188FB01200810B9D /* 338-enter-fullscreen.png in Resources */,
+				7E04D7D118B4133F00B40ADA /* 17-bar-chart.png in Resources */,
 				7EF2A10017303EA600D8641C /* AboutController.xib in Resources */,
 				7E36E56E188AB15500BD9744 /* thermometer@2x.png in Resources */,
 				7E2042011730844C00C13B65 /* GraphsController.xib in Resources */,
 				7E24ABED188FAFA500810B9D /* 338-enter-fullscreen@2x.png in Resources */,
+				7E04D7B218B33DB600B40ADA /* ProbeController.xib in Resources */,
 				7E2042031730CDA000C13B65 /* PopupController.xib in Resources */,
 				7E2042051730D04100C13B65 /* PrefsController.xib in Resources */,
 				7ED2A5071881775E00DAA19D /* 310-alarm-clock.png in Resources */,
 				7EED6D6F1734F8E700248870 /* 16-line-chart.png in Resources */,
 				7E36E582188AB15500BD9744 /* pcicard@2x.png in Resources */,
 				7EED6D701734F8E700248870 /* 16-line-chart@2x.png in Resources */,
+				7E87BE3F18B4142A0013A20E /* 425-notepad@2x.png in Resources */,
 				7E36E56B188AB15500BD9744 /* voltages.png in Resources */,
 				7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */,
 				7EED6D7E1734F9CF00248870 /* 19-gear@2x.png in Resources */,
+				7E04D7D218B4133F00B40ADA /* 17-bar-chart@2x.png in Resources */,
+				7E87BE3E18B4142A0013A20E /* 425-notepad.png in Resources */,
 				7E36E578188AB15500BD9744 /* tachometers-white@2x.png in Resources */,
 				7E36E58F188AB15500BD9744 /* hddtemperatures-white.png in Resources */,
 				7E1458CA17E2744000694A4A /* 37-circle-x.png in Resources */,
 				7E1458CB17E2744000694A4A /* 37-circle-x@2x.png in Resources */,
-				7EF6817E18510E8A0077E785 /* 17-bar-chart@2x.png in Resources */,
-				7E1A8DB31876A15100853CB6 /* 81-dashboard.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1345,6 +1381,7 @@
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
 				7ED6AE08188347FD0005B30C /* PrefsToolbarItem.m in Sources */,
+				7E04D7C818B356F100B40ADA /* ACPIProbeClient.m in Sources */,
 				7E031C641835E76D00A2D097 /* HWMImageTransformer.m in Sources */,
 				7EF1B12C185342890094C1DB /* HWMConfiguration.m in Sources */,
 				7EFE61AE183581090009BD0D /* HWMBatterySensor.m in Sources */,
@@ -1370,6 +1407,7 @@
 				7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */,
 				7E9A17CD17E4529C003DB018 /* PopupAtaSmartSensorCell.m in Sources */,
 				7E9A17D017E45938003DB018 /* NSPopover+Message.m in Sources */,
+				7E04D7B518B33E5600B40ADA /* ProbeController.m in Sources */,
 				7E9A17D317E45ACA003DB018 /* NSString+Size.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

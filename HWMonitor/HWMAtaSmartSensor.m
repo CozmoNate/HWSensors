@@ -559,7 +559,6 @@ static void block_device_disappeared(void *engine, io_iterator_t iterator);
 @dynamic rotational;
 
 @synthesize attributes = _attributes;
-@synthesize lastUpdated = _lastUpdated;
 
 static NSDictionary * gAvailableMountedPartitions = nil;
 
@@ -673,27 +672,6 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     return gAvailableMountedPartitions;
 }
 
--(NSArray *)attributes
-{
-    if (!_attributes) {
-        HWMSmartPluginInterfaceWrapper *wrapper = [HWMSmartPluginInterfaceWrapper getWrapperForBsdName:self.bsdName];
-
-        if (!wrapper) {
-
-            wrapper = [HWMSmartPluginInterfaceWrapper wrapperWithService:(io_service_t)self.service.unsignedLongLongValue
-                                                             productName:self.productName
-                                                                firmware:self.revision
-                                                                 bsdName:self.bsdName
-                                                            isRotational:self.rotational.boolValue];
-        }
-
-        _attributes = wrapper ? [wrapper.attributes copy] : @[];
-        _lastUpdated = [NSDate date];
-    }
-
-    return _attributes;
-}
-
 -(void)initialize
 {
     _temperatureAttributeIndex = -1;
@@ -740,7 +718,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
 -(BOOL)findIndexOfAttributeByName:(NSString*)name outIndex:(NSInteger*)index
 {
-    NSArray *results = [self.attributes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
+    NSArray *results = [_attributes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
 
     *index = results && results.count ? [[results objectAtIndex:0][@"index"] unsignedIntegerValue] : -1;
 
@@ -766,7 +744,10 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
         }
     }
 
-    NSNumber *raw = [self.attributes objectAtIndex:_temperatureAttributeIndex][@"raw"];
+    if (!_attributes && !_attributes.count)
+        return nil;
+
+    NSNumber *raw = [_attributes objectAtIndex:_temperatureAttributeIndex][@"raw"];
 
     return [NSNumber numberWithUnsignedShort:raw.unsignedShortValue];
 }
@@ -785,6 +766,9 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
             return nil;
         }
     }
+
+    if (!self.attributes && !self.attributes.count)
+        return nil;
 
     return [self.attributes objectAtIndex:_remainingLifeAttributeIndex][@"value"];
 }
@@ -824,7 +808,21 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
 -(NSNumber *)internalUpdateValue
 {
-    _attributes = nil;
+    if (self.hidden.boolValue)
+        return @MAXFLOAT;
+
+    HWMSmartPluginInterfaceWrapper *wrapper = [HWMSmartPluginInterfaceWrapper getWrapperForBsdName:self.bsdName];
+
+    if (!wrapper) {
+
+        wrapper = [HWMSmartPluginInterfaceWrapper wrapperWithService:(io_service_t)self.service.unsignedLongLongValue
+                                                         productName:self.productName
+                                                            firmware:self.revision
+                                                             bsdName:self.bsdName
+                                                        isRotational:self.rotational.boolValue];
+    }
+
+    _attributes = wrapper ? [wrapper.attributes copy] : nil;
 
     switch (self.selector.unsignedIntegerValue) {
         case kHWMGroupTemperature:
@@ -833,7 +831,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
         case kHWMGroupSmartRemainingLife:
             return [self getRemainingLife];
-
+            
     }
 
     return @0;

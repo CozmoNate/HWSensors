@@ -88,6 +88,7 @@
 
     _popover.animates = YES;
     _popover.behavior = NSPopoverBehaviorTransient;
+    _popover.appearance = sensor.engine.configuration.colorTheme.useDarkIcons ? NSPopoverAppearanceMinimal : NSPopoverAppearanceHUD;
 
     _popover.delegate = controller;
 

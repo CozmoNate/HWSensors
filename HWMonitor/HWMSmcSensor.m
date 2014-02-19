@@ -72,7 +72,6 @@
     SMCVal_t info;
 
     if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, self.name.UTF8String, &info)) {
-
         return [SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType];
     }
 

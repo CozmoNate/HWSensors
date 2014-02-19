@@ -517,6 +517,8 @@ void FakeSMCKeyStore::free()
 {
     OSSafeRelease(keys);
     OSSafeRelease(types);
+
+    super::free();
 }
 
 #pragma mark -

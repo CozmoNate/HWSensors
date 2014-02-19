@@ -49,6 +49,7 @@
 @dynamic favorite;
 
 @synthesize alarmLevel = _alarmLevel;
+@synthesize lastUpdated = _lastUpdated;
 
 -(void)awakeFromFetch
 {
@@ -215,26 +216,31 @@
 {
     NSNumber *value = [self internalUpdateValue];
 
-    if (value && (!self.value || ![value isEqualToNumber:self.value])) {
-        [self willChangeValueForKey:@"value"];
-        [self willChangeValueForKey:@"formattedValue"];
+    if (value) {
 
-        [self setPrimitiveValue:value forKey:@"value"];
+        _lastUpdated = [NSDate date];
 
-        [self didChangeValueForKey:@"value"];
-        [self didChangeValueForKey:@"formattedValue"];
+        if (value && (!self.value || ![value isEqualToNumber:self.value])) {
+            [self willChangeValueForKey:@"value"];
+            [self willChangeValueForKey:@"formattedValue"];
 
-        if (!self.hidden.boolValue) {
+            [self setPrimitiveValue:value forKey:@"value"];
 
-            NSUInteger alarmLevel = [self internalUpdateAlarmLevel];
+            [self didChangeValueForKey:@"value"];
+            [self didChangeValueForKey:@"formattedValue"];
 
-            if (alarmLevel != _alarmLevel || _alarmLevel == 0) {
-                [self willChangeValueForKey:@"alarmLevel"];
-                _alarmLevel = alarmLevel;
-                [self didChangeValueForKey:@"alarmLevel"];
+            if (!self.hidden.boolValue) {
 
-                if (self.engine.configuration.notifyAlarmLevelChanges.boolValue) {
-                    [self internalSendAlarmNotification];
+                NSUInteger alarmLevel = [self internalUpdateAlarmLevel];
+
+                if (alarmLevel != _alarmLevel || _alarmLevel == 0) {
+                    [self willChangeValueForKey:@"alarmLevel"];
+                    _alarmLevel = alarmLevel;
+                    [self didChangeValueForKey:@"alarmLevel"];
+
+                    if (self.engine.configuration.notifyAlarmLevelChanges.boolValue) {
+                        [self internalSendAlarmNotification];
+                    }
                 }
             }
         }

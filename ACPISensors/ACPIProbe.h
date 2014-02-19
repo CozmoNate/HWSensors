@@ -31,30 +31,60 @@
 #include "IOKit/acpi/IOACPIPlatformDevice.h"
 #include <IOKit/IOTimerEventSource.h>
 
+class ACPIProbeProfile : public OSObject
+{
+    OSDeclareDefaultStructors(ACPIProbeProfile)
+
+public:
+    char            name[32];
+    UInt64          timeout;
+    UInt64          interval;
+    bool            verbose;
+
+    OSArray         *methods;
+
+    double          startedAt;
+
+    static ACPIProbeProfile * withParameters(OSString *name, OSArray *methods, OSNumber *interval, OSNumber *timeout, OSBoolean *verbose );
+
+    virtual bool    init(OSString *name, OSArray *aMethods, OSNumber *aInterval, OSNumber *aTimeout, OSBoolean *aVerbose);
+    virtual void    free();
+};
+
 class ACPIProbe : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(ACPIProbe)
     
 private:
 	IOACPIPlatformDevice    *acpiDevice;
-    OSArray                 *methods;
-    IOWorkLoop*             workloop;
-    IOTimerEventSource*     timerEventSource;
+    IOWorkLoop              *workloop;
+    IOTimerEventSource      *timerEventSource;
     
-    double                  startTime;
-    double                  pollingTimeout;
-    double                  pollingInterval;
+    OSDictionary            *profiles;
+    OSArray                 *profileList;
+
+    ACPIProbeProfile        *activeProfile;
     
-    bool                    loggingEnabled;
-    
-    IOReturn                woorkloopTimerEvent(void);
+    void                    addProfile(OSString *name, OSArray *methods, OSNumber *interval, OSNumber *timeout, OSBoolean *verbose);
+
     void                    logValue(const char* method, OSObject *value);
+
+    IOReturn                woorkloopTimerEvent(void);
+
 protected:
     
     
 public:
     virtual bool			start(IOService *provider);
     virtual void            stop(IOService* provider);
+    virtual void            free();
+
+    IOReturn                activateProfile(const char *name);
+    ACPIProbeProfile*       getActiveProfile();
+    ACPIProbeProfile*       getProfile(OSString *name);
+    ACPIProbeProfile*       getProfile(const char *name);
+    ACPIProbeProfile*       getProfile(unsigned int index);
+    unsigned int            getProfileCount();
 };
 
 

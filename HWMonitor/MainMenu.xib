@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C62" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -35,6 +35,7 @@
             </connections>
         </customObject>
         <customObject id="7879" customClass="AboutController"/>
+        <customObject id="h1N-MD-zbY" customClass="ProbeController"/>
         <customObject id="LKO-lM-1Z9" customClass="SUUpdater"/>
         <customObject id="YDM-13-O3B" customClass="HWMEngine">
             <connections>
