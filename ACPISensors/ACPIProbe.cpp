@@ -319,7 +319,9 @@ IOReturn ACPIProbe::setPowerState(unsigned long powerState, IOService *device)
             break;
 
         case 1: // Power On
-            timerEventSource->setTimeoutMS(1000);
+            if (activeProfile) {
+                activeProfile(activeProfile->name);
+            }
             break;
 
         default:
