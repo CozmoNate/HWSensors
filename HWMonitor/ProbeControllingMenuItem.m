@@ -147,7 +147,7 @@
 
                     // Add separator
                     if (self.submenu.itemArray.count) {
-                        [self.submenu addItemWithTitle:@"-" action:nil keyEquivalent:@""];
+                        [self.submenu addItem:[NSMenuItem separatorItem]];
                     }
 
                     NSString *active = [self getActiveProfile:connection];
@@ -180,7 +180,15 @@
 
     _entries = [entries copy];
 
-    [self setHidden:self.submenu.itemArray.count ? NO : YES];
+
+
+    if (self.submenu.itemArray.count) {
+        [self.menu insertItem:[NSMenuItem separatorItem] atIndex:[self.menu.itemArray indexOfObject:self]];
+        [self setHidden:NO];
+    }
+    else {
+        [self setHidden:YES];
+    }
 }
 
 @end
