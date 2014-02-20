@@ -35,7 +35,6 @@
             </connections>
         </customObject>
         <customObject id="7879" customClass="AboutController"/>
-        <customObject id="h1N-MD-zbY" customClass="ProbeController"/>
         <customObject id="LKO-lM-1Z9" customClass="SUUpdater"/>
         <customObject id="YDM-13-O3B" customClass="HWMEngine">
             <connections>

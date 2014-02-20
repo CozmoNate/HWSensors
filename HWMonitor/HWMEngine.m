@@ -1720,35 +1720,26 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     [sensor setService:[attributes objectForKey:@"service"]];
 
-//    // Reuse previousely inserted sensors
-//    if ([self isEqual:sensor.engine]) {
-//        // Update only potentially changed props
-//        [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
-//        [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
-//    }
-//    else {
-        [sensor setSelector:group.selector];
-        [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
-        [sensor setProductName:[attributes objectForKey:@"productName"]];
-        [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
-        [sensor setRevision:revision];
-        [sensor setSerialNumber:serialNumber];
-        [sensor setRotational:[attributes objectForKey:@"rotational"]];
+    [sensor setSelector:group.selector];
+    [sensor setBsdName:[attributes objectForKey:@"bsdName"]];
+    [sensor setProductName:[attributes objectForKey:@"productName"]];
+    [sensor setVolumeNames:[attributes objectForKey:@"volumesNames"]];
+    [sensor setRevision:revision];
+    [sensor setSerialNumber:serialNumber];
+    [sensor setRotational:[attributes objectForKey:@"rotational"]];
 
-        [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : [sensor.productName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
-        [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
-        [sensor setIdentifier:@"Drive"];
+    [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : [sensor.productName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
+    [sensor setIdentifier:@"Drive"];
 
-        [sensor setEngine:self];
+    [sensor setEngine:self];
 
-        [sensor doUpdateValue];
+    [sensor doUpdateValue];
 
-        if (!sensor.value && !sensor.hidden.boolValue) {
-            //[self.managedObjectContext deleteObject:sensor];
-            [sensor setService:@0];
-            return nil;
-        }
-//    }
+    if (!sensor.value && !sensor.hidden.boolValue) {
+        [sensor setService:@0];
+        return nil;
+    }
 
     return sensor;
 }

@@ -809,7 +809,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 -(NSNumber *)internalUpdateValue
 {
     if (self.hidden.boolValue)
-        return @MAXFLOAT;
+        return nil;
 
     HWMSmartPluginInterfaceWrapper *wrapper = [HWMSmartPluginInterfaceWrapper getWrapperForBsdName:self.bsdName];
 

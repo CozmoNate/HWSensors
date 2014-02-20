@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ProbeController : NSObject
+@interface ProbeControllingMenuItem : NSMenuItem
 {
-    NSMutableArray *_clients;
+    NSArray *_entries;
 }
 
 @end

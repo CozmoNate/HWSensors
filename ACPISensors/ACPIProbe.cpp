@@ -254,10 +254,19 @@ bool ACPIProbe::start(IOService * provider)
 
     if (this->profiles->getCount()) {
 
+        // Parse active profile
         if (kIOReturnSuccess == acpiDevice->evaluateObject("ACTV", &object) && object) {
-            if (OSString *profile = OSDynamicCast(OSString, object)) {
-                if (!(activeProfile = (ACPIProbeProfile *)profiles->getObject(profile))) {
-                    activeProfile = (ACPIProbeProfile *)profileList->getObject(0);
+            if (OSString *method = OSDynamicCast(OSString, object)) {
+                if (kIOReturnSuccess == acpiDevice->evaluateObject(method->getCStringNoCopy(), &object) && object) {
+                    if (OSArray *config = OSDynamicCast(OSArray, object)) {
+                        if (config->getCount() > 4) {
+                            if (OSString *profile = OSDynamicCast(OSString, config->getObject(0))) {
+                                if (!(activeProfile = (ACPIProbeProfile *)profiles->getObject(profile))) {
+                                    activeProfile = (ACPIProbeProfile *)profileList->getObject(0);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -283,6 +292,17 @@ bool ACPIProbe::start(IOService * provider)
         
         //ACPISensorsInfoLog("%d method%s registered", methods->getCount(), methods->getCount() > 1 ? "s" : "");
     }
+
+    // two power states - off and on
+	static const IOPMPowerState powerStates[2] = {
+        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 1, IOPMDeviceUsable, IOPMPowerOn, IOPMPowerOn, 0, 0, 0, 0, 0, 0, 0, 0 }
+    };
+
+    // register interest in power state changes
+	PMinit();
+	provider->joinPMtree(this);
+	registerPowerDriver(this, (IOPMPowerState *)powerStates, 2);
     
 	registerService();
     
@@ -291,9 +311,28 @@ bool ACPIProbe::start(IOService * provider)
 	return true;
 }
 
+IOReturn ACPIProbe::setPowerState(unsigned long powerState, IOService *device)
+{
+	switch (powerState) {
+        case 0: // Power Off
+            timerEventSource->cancelTimeout();
+            break;
+
+        case 1: // Power On
+            timerEventSource->setTimeoutMS(1000);
+            break;
+
+        default:
+            break;
+    }
+
+	return(IOPMAckImplied);
+}
+
 void ACPIProbe::stop(IOService *provider)
 {
     timerEventSource->cancelTimeout();
+    
     workloop->removeEventSource(timerEventSource);
     
     super::stop(provider);
@@ -302,5 +341,6 @@ void ACPIProbe::stop(IOService *provider)
 void ACPIProbe::free()
 {
     OSSafeRelease(profiles);
+    OSSafeRelease(profileList);
     super::free();
 }

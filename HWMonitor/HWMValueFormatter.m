@@ -84,11 +84,9 @@ static NSDictionary *gHWMValueFormatterStrippedFormatLocalizationCache;
                 
             case kHWMGroupPWM:
             case kHWMGroupBattery:
+            case kHWMGroupSmartRemainingLife:
                 return [NSString stringWithFormat:@"%1.0f%%", floatValue];
 
-            case kHWMGroupSmartRemainingLife:
-                return floatValue < MAXFLOAT ? [NSString stringWithFormat:@"%1.0f%%", floatValue] : @"-";
-                
             default:
                 break;
         }
@@ -156,11 +154,9 @@ static NSDictionary *gHWMValueFormatterStrippedFormatLocalizationCache;
                 
             case kHWMGroupPWM:
             case kHWMGroupBattery:
+            case kHWMGroupSmartRemainingLife:
                 return [NSString stringWithFormat:@"%1.0f%%", floatValue];
 
-            case kHWMGroupSmartRemainingLife:
-                return floatValue < MAXFLOAT ? [NSString stringWithFormat:@"%1.0f%%", floatValue] : @"-";
-                
             default:
                 break;
         }

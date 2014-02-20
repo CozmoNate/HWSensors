@@ -325,3 +325,5 @@
 
 "%@ S.M.A.R.T. attribute is critical for '%@'. Drive failure predicted!" = "Аттрибут S.M.A.R.T. '%@' показывает критическое значение. %@ возможно выйдет из строя в ближайшие сутки!";
 
+"ACPIProbe Profile" = "Профили ACPIProbe";
+

@@ -54,9 +54,9 @@
         
         _statusItemView = [[StatusItemView alloc] initWithFrame:NSMakeRect(0, 0, 22, 22) statusItem:_statusItem];
 
-        _statusItemView.image = [NSImage loadImageNamed:@"scale" ofType:@"png"];
-        _statusItemView.alternateImage = [NSImage loadImageNamed:@"scale-white" ofType:@"png"];
-        
+        [_statusItemView setImage:[NSImage imageNamed:@"scale"]];
+        [_statusItemView setAlternateImage:[NSImage imageNamed:@"scale-white"]];
+
         [_statusItemView setAction:@selector(togglePanel:)];
         [_statusItemView setTarget:self];
 
@@ -79,19 +79,21 @@
             //    [Localizer localizeView:_toolbarView];
             
             // Make main menu font size smaller
-            NSFont* font = [NSFont menuFontOfSize:13];
-            NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
-            
-            for (id subItem in [_mainMenu itemArray]) {
-                if ([subItem isKindOfClass:[NSMenuItem class]]) {
-                    NSMenuItem* menuItem = subItem;
-                    NSString* title = [menuItem title];
-                    
-                    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
-                    
-                    [menuItem setAttributedTitle:attributedTitle];
-                }
-            }
+//            NSFont* font = [NSFont menuFontOfSize:13];
+//            NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+//
+//            [_mainMenu setFont:font];
+//
+//            for (id subItem in [_mainMenu itemArray]) {
+//                if ([subItem isKindOfClass:[NSMenuItem class]]) {
+//                    NSMenuItem* menuItem = subItem;
+//                    NSString* title = [menuItem title];
+//                    
+//                    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
+//                    
+//                    [menuItem setAttributedTitle:attributedTitle];
+//                }
+//            }
 
             [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
             [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
