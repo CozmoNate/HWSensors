@@ -1395,51 +1395,51 @@
 				<key>Gigabyte</key>
 				<dict>
 					<key>B75M-D3H</key>
-										<dict>
-											<key>FANIN0</key>
-											<string>CPUFan</string>
-											<key>FANIN1</key>
-											<string></string>
-											<key>TEMPIN0</key>
-											<string>Mainboard</string>
-											<key>VIN1</key>
-											<dict>
-												<key>gain</key>
-												<integer>649</integer>
-												<key>name</key>
-												<string>Main 3V</string>
-												<key>offset</key>
-												<integer>0</integer>
-												<key>reference</key>
-												<integer>0</integer>
-											</dict>
-											<key>VIN2</key>
-											<dict>
-												<key>gain</key>
-												<integer>4965</integer>
-												<key>name</key>
-												<string>Main 12V</string>
-												<key>offset</key>
-												<integer>0</integer>
-												<key>reference</key>
-												<integer>0</integer>
-											</dict>
-											<key>VIN3</key>
-											<dict>
-												<key>gain</key>
-												<integer>1460</integer>
-												<key>name</key>
-												<string>Main 5V</string>
-												<key>offset</key>
-												<integer>0</integer>
-												<key>reference</key>
-												<integer>0</integer>
-											</dict>
-											<key>VIN5</key>
-											<string>CPU Core</string>
-											<key>VIN6</key>
-											<string>Memory</string>
-										</dict>
+					<dict>
+						<key>FANIN0</key>
+						<string>CPUFan</string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>Mainboard</string>
+						<key>VIN1</key>
+						<dict>
+							<key>gain</key>
+							<integer>649</integer>
+							<key>name</key>
+							<string>Main 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN2</key>
+						<dict>
+							<key>gain</key>
+							<integer>4965</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN3</key>
+						<dict>
+							<key>gain</key>
+							<integer>1460</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN5</key>
+						<string>CPU Core</string>
+						<key>VIN6</key>
+						<string>Memory</string>
+					</dict>
 					<key>Z87X-UD3H-CF</key>
 					<dict>
 						<key>FANIN0</key>
@@ -1495,6 +1495,88 @@
 						</dict>
 						<key>VIN4</key>
 						<string>Power Supply</string>
+						<key>VIN5</key>
+						<string>CPU VRM</string>
+						<key>VIN6</key>
+						<string>Memory</string>
+						<key>VIN7</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>Auxiliary 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN8</key>
+						<dict>
+							<key>gain</key>
+							<integer>1000</integer>
+							<key>name</key>
+							<string>CMOS Battery</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+					</dict>
+					<key>H87M-D3H</key>
+					<dict>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string></string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>Mainboard</string>
+						<key>TEMPIN1</key>
+						<string></string>
+						<key>TEMPIN2</key>
+						<string>CPU Heatsink</string>
+						<key>VIN0</key>
+						<string>CPU Core</string>
+						<key>VIN1</key>
+						<dict>
+							<key>gain</key>
+							<integer>649</integer>
+							<key>name</key>
+							<string>Main 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN2</key>
+						<dict>
+							<key>gain</key>
+							<integer>1442</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN3</key>
+						<dict>
+							<key>gain</key>
+							<integer>5106</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN4</key>
+						<string>GPU</string>
 						<key>VIN5</key>
 						<string>CPU VRM</string>
 						<key>VIN6</key>
@@ -3171,60 +3253,60 @@
 				<dict>
 					<key>H81M-A</key>
 					<dict>
-					<key>FANIN0</key>
-					<string></string>
-					<key>FANIN1</key>
-					<string></string>
-					<key>FANIN2</key>
-					<string>CPUFan</string>
-					<key>FANIN3</key>
-					<string></string>
-					<key>FANIN4</key>
-					<string></string>
-					<key>TEMPIN0</key>
-					<string>CPU Heatsink</string>
-					<key>TEMPIN1</key>
-					<string></string>
-					<key>TEMPIN2</key>
-					<string>Ambient</string>
-					<key>TEMPIN3</key>
-					<string>Mainboard</string>
-					<key>VIN0</key>
-					<dict>
-					<key>gain</key>
-					<integer>13092</integer>
-					<key>name</key>
-					<string>Main 12V</string>
-					<key>offset</key>
-					<integer>0</integer>
-					<key>reference</key>
-					<integer>0</integer>
-					</dict>
-					<key>VIN1</key>
-					<dict>
-					<key>gain</key>
-					<integer>4000</integer>
-					<key>name</key>
-					<string>Main 5V</string>
-					<key>offset</key>
-					<integer>0</integer>
-					<key>reference</key>
-					<integer>0</integer>
-					</dict>
-					<key>VIN2</key>
-					<string>Main 3V</string>
-					<key>VIN3</key>
-					<string></string>
-					<key>VIN4</key>
-					<string></string>
-					<key>VIN5</key>
-					<string>GPU</string>
-					<key>VIN6</key>
-					<string>CPU Core</string>
-					<key>VIN7</key>
-					<string>Auxiliary 3V</string>
-					<key>VIN8</key>
-					<string>CMOS Battery</string>
+						<key>FANIN0</key>
+						<string></string>
+						<key>FANIN1</key>
+						<string></string>
+						<key>FANIN2</key>
+						<string>CPUFan</string>
+						<key>FANIN3</key>
+						<string></string>
+						<key>FANIN4</key>
+						<string></string>
+						<key>TEMPIN0</key>
+						<string>CPU Heatsink</string>
+						<key>TEMPIN1</key>
+						<string></string>
+						<key>TEMPIN2</key>
+						<string>Ambient</string>
+						<key>TEMPIN3</key>
+						<string>Mainboard</string>
+						<key>VIN0</key>
+						<dict>
+							<key>gain</key>
+							<integer>13092</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN1</key>
+						<dict>
+							<key>gain</key>
+							<integer>4000</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
+						<key>VIN2</key>
+						<string>Main 3V</string>
+						<key>VIN3</key>
+						<string></string>
+						<key>VIN4</key>
+						<string></string>
+						<key>VIN5</key>
+						<string>GPU</string>
+						<key>VIN6</key>
+						<string>CPU Core</string>
+						<key>VIN7</key>
+						<string>Auxiliary 3V</string>
+						<key>VIN8</key>
+						<string>CMOS Battery</string>
 					</dict>
 					<key>H81M-E</key>
 					<string>H81M-A</string>
