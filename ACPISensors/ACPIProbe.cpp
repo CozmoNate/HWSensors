@@ -320,7 +320,7 @@ IOReturn ACPIProbe::setPowerState(unsigned long powerState, IOService *device)
 
         case 1: // Power On
             if (activeProfile) {
-                activeProfile(activeProfile->name);
+                activateProfile(activeProfile->name);
             }
             break;
 
