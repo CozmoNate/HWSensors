@@ -106,6 +106,9 @@ void ACPIProbe::logValue(const char* method, OSObject *value)
     if (OSNumber *number = OSDynamicCast(OSNumber, value)) {
         ACPISensorsInfoLog("%s = %lld", method, number->unsigned64BitValue());
     }
+    else if (OSString *string = OSDynamicCast(OSString, value)) {
+        ACPISensorsInfoLog("%s = %s", method, string->getCStringNoCopy());
+    }
     else if (OSArray *array = OSDynamicCast(OSArray, value)) {
         for (unsigned int i = 0; i < array->getCount(); i++) {
             char name[64];
