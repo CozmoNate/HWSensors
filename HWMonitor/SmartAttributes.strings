@@ -35,7 +35,7 @@
 "Erase_Fail_Count_Total" = "Erase Fail Count Total";
 "Runtime_Bad_Block" = "Runtime Bad Block";
 "End-to-End_Error" = "End-to-End Error";
-"Reported_Uncorrect" = "Reported Uncorrect";
+"Reported_Uncorrect" = "Reported Uncorrectable Errors";
 "Command_Timeout" = "Command Timeout";
 "High_Fly_Writes" = "High Fly Writes";
 "Airflow_Temperature_Cel" = "Airflow Temperature (Celsius)";
@@ -94,3 +94,5 @@
 "CRC_Error_Count" = "CRC Error Count";
 "Retired_Block_Count" = "Retired Block Count";
 "Power_On_Hours_and_Msec" = "Power-On Hours and Msec";
+"Unsafe_Shutdown_Count" = "Unsafe Shutdown Count";
+"SandForce_Internal" = "SandForce Internal Attribute";
