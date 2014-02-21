@@ -122,7 +122,7 @@ ACPIProbeProfile* ACPIProbe::getActiveProfile()
     return activeProfile;
 }
 
-IOReturn ACPIProbe::activateProfile(const char *name)
+IOReturn ACPIProbe::setActiveProfile(const char *name)
 {
     if (profiles && profiles->getCount()) {
 
@@ -320,7 +320,7 @@ IOReturn ACPIProbe::setPowerState(unsigned long powerState, IOService *device)
 
         case 1: // Power On
             if (activeProfile) {
-                activateProfile(activeProfile->name);
+                setActiveProfile(activeProfile->name);
             }
             break;
 

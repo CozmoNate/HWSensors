@@ -80,12 +80,12 @@ public:
     virtual void            stop(IOService* provider);
     virtual void            free();
 
-    IOReturn                activateProfile(const char *name);
-    ACPIProbeProfile*       getActiveProfile();
+    unsigned int            getProfileCount();
     ACPIProbeProfile*       getProfile(OSString *name);
     ACPIProbeProfile*       getProfile(const char *name);
     ACPIProbeProfile*       getProfile(unsigned int index);
-    unsigned int            getProfileCount();
+    ACPIProbeProfile*       getActiveProfile();
+    IOReturn                setActiveProfile(const char *name);
 };
 
 

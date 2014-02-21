@@ -147,7 +147,7 @@ IOReturn ACPIProbeUserClient::externalMethod(uint32_t selector, IOExternalMethod
             ACPIProbeArgument *input = (ACPIProbeArgument *)arguments->structureInput;
             ACPIProbeArgument *output = (ACPIProbeArgument *)arguments->structureOutput;
 
-            output->result = acpiProbe->activateProfile(input->data_string);
+            output->result = acpiProbe->setActiveProfile(input->data_string);
 
             result = kIOReturnSuccess;
             break;
