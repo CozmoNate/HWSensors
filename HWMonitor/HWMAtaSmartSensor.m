@@ -338,6 +338,197 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
     }
 }
 
++(NSString*)getDefaultRawFormatForIdentifier:(NSUInteger)identifier
+{
+    switch (identifier) {
+        case 3:   // Spin-up time
+            return @"raw16(avg16)";
+
+        case 5:   // Reallocated sector count
+        case 196: // Reallocated event count
+            return @"raw16(raw16)";
+
+        case 9:  // Power on hours
+            return @"raw24(raw8)";
+
+        case 190: // Temperature
+        case 194:
+            return @"tempminmax";
+            
+        default:
+            return @"raw48";
+    }
+}
+
++(unsigned long long)getRawValueForAttribute:(ATASMARTAttribute*)attribute format:(NSString*)format
+{
+    NSArray *options = [format componentsSeparatedByString:@":"];
+
+    NSString *type = options.count ? options[0] : format;
+    NSString *byteorder = options.count > 1 ? options[1] : nil;
+
+    if (!byteorder) {
+
+        if ([type isEqualToString:@"raw64"] || [type isEqualToString:@"hex64"]) {
+            byteorder = @"543210wv";
+        }
+        else if ([type isEqualToString:@"raw56"] || [type isEqualToString:@"hex56"] ||
+                 [type isEqualToString:@"raw24/raw32"] || [type isEqualToString:@"msec24hour32"]) {
+            byteorder = @"r543210";
+        }
+        else {
+            byteorder = @"543210";
+        }
+    }
+
+    // Build 64-bit value from selected bytes
+    unsigned long long rawvalue = 0;
+
+    for (int i = 0; i < byteorder.length; i++) {
+
+        unsigned char b;
+
+        switch ([byteorder characterAtIndex:i]) {
+            case '0': b = attribute->rawvalue[0];  break;
+            case '1': b = attribute->rawvalue[1];  break;
+            case '2': b = attribute->rawvalue[2];  break;
+            case '3': b = attribute->rawvalue[3];  break;
+            case '4': b = attribute->rawvalue[4];  break;
+            case '5': b = attribute->rawvalue[5];  break;
+            case 'r': b = attribute->reserv;  break;
+            case 'v': b = attribute->current; break;
+            case 'w': b = attribute->worst;   break;
+            default : b = 0;            break;
+        }
+        rawvalue <<= 8; rawvalue |= b;
+    }
+    
+    return rawvalue;
+}
+
++(NSString*)getFormattedRawValueForAttribute:(ATASMARTAttribute*)attribute format:(NSString*)format
+{
+    // Get 48 bit or 64 bit raw value
+    unsigned long long rawvalue = [HWMSmartPluginInterfaceWrapper getRawValueForAttribute:attribute format:format];
+
+    // Split into bytes and words
+    unsigned char raw[6];
+    raw[0] = (unsigned char) rawvalue;
+    raw[1] = (unsigned char)(rawvalue >>  8);
+    raw[2] = (unsigned char)(rawvalue >> 16);
+    raw[3] = (unsigned char)(rawvalue >> 24);
+    raw[4] = (unsigned char)(rawvalue >> 32);
+    raw[5] = (unsigned char)(rawvalue >> 40);
+    unsigned word[3];
+    word[0] = raw[0] | (raw[1] << 8);
+    word[1] = raw[2] | (raw[3] << 8);
+    word[2] = raw[4] | (raw[5] << 8);
+
+
+    if ([format isEqualToString:@"raw8"]) {
+        return [NSString stringWithFormat:@"%d %d %d %d %d %d", raw[5], raw[4], raw[3], raw[2], raw[1], raw[0]];
+    }
+    else if ([format isEqualToString:@"raw16"]) {
+        return [NSString stringWithFormat:@"%u %u %u", word[2], word[1], word[0]];
+    }
+    else if ([format isEqualToString:@"raw48"] ||
+             [format isEqualToString:@"raw48"] || [format isEqualToString:@"raw64"]) {
+        return [NSString stringWithFormat:@"%llu", rawvalue];
+    }
+    else if ([format isEqualToString:@"hex48"]) {
+        return [NSString stringWithFormat:@"0x%012llx", rawvalue];
+    }
+    else if ([format isEqualToString:@"hex56"]) {
+        return [NSString stringWithFormat:@"0x%014llx", rawvalue];
+    }
+    else if ([format isEqualToString:@"hex64"]) {
+        return [NSString stringWithFormat:@"0x%016llx", rawvalue];
+    }
+    else if ([format isEqualToString:@"raw16(raw16)"]) {
+        NSString *s = [NSString stringWithFormat:@"%u", word[0]];
+        return word[1] || word[2] ? [s stringByAppendingString:[NSString stringWithFormat:@" (%u %u)", word[1], word[2]]] : s;
+    }
+    else if ([format isEqualToString:@"raw16(avg16)"]) {
+        NSString *s = [NSString stringWithFormat:@"%u", word[0]];
+        return word[1] ? [s stringByAppendingString:[NSString stringWithFormat:GetLocalizedAttributeName(@" (Average %u)"), word[1]]] : s;
+    }
+    else if ([format isEqualToString:@"raw24(raw8)"]) {
+        NSString *s = [NSString stringWithFormat:@"%u", (unsigned)(rawvalue & 0x00ffffffULL)];
+        return raw[3] || raw[4] || raw[5] ? [s stringByAppendingString:[NSString stringWithFormat:@" (%d %d %d)", raw[5], raw[4], raw[3]]] : s;
+    }
+    else if ([format isEqualToString:@"raw24/raw24"]) {
+        return [NSString stringWithFormat:@"%u/%u", (unsigned)(rawvalue >> 24), (unsigned)(rawvalue & 0x00ffffffULL)];
+    }
+    else if ([format isEqualToString:@"raw24/raw32"]) {
+        return [NSString stringWithFormat:@"%u/%u", (unsigned)(rawvalue >> 32), (unsigned)(rawvalue & 0xffffffffULL)];
+    }
+    else if ([format isEqualToString:@"min2hour"]) {
+        // minutes
+        unsigned long long temp = word[0]+(word[1]<<16);
+        unsigned long long tmp1 = temp/60;
+        unsigned long long tmp2 = temp%60;
+        NSString *s = [NSString stringWithFormat:@"%lluh+%02llum", tmp1, tmp2];
+        return word[2] ? [s stringByAppendingString:[NSString stringWithFormat:GetLocalizedAttributeName(@" (%u)"), word[2]]] : s;
+    }
+    else if ([format isEqualToString:@"sec2hour"]) {
+        // seconds
+        int64_t hours = rawvalue/3600;
+        int64_t minutes = (rawvalue-3600*hours)/60;
+        int64_t seconds = rawvalue%60;
+        return [NSString stringWithFormat:@"%lluh+%02llum+%0llxus", hours, minutes, seconds];
+    }
+    else if ([format isEqualToString:@"halfmin2hour"]) {
+        // 30-second counter
+        int64_t hours = rawvalue/120;
+        int64_t minutes = (rawvalue-120*hours)/2;
+        return [NSString stringWithFormat:@"%lluh+%02llum", hours, minutes];
+    }
+    else if ([format isEqualToString:@"msec24hour32"]) {
+        // hours + milliseconds
+        unsigned hours = (unsigned)(rawvalue & 0xffffffffULL);
+        unsigned milliseconds = (unsigned)(rawvalue >> 32);
+        unsigned seconds = milliseconds / 1000;
+        return [NSString stringWithFormat:@"%uh+%02um+%02u.%03us",
+                hours, seconds / 60, seconds % 60, milliseconds % 1000];
+    }
+    else if ([format isEqualToString:@"tempminmax"]) {
+        // Search for possible min/max values
+        // 00 HH 00 LL 00 TT (Hitachi/IBM)
+        // 00 00 HH LL 00 TT (Maxtor, Samsung)
+        // 00 00 00 HH LL TT (WDC)
+        unsigned char lo = 0, hi = 0;
+        int cnt = 0;
+        for (int i = 1; i < 6; i++) {
+            if (raw[i])
+                switch (cnt++) {
+                    case 0:
+                        lo = raw[i];
+                        break;
+                    case 1:
+                        if (raw[i] < lo) {
+                            hi = lo; lo = raw[i];
+                        }
+                        else
+                            hi = raw[i];
+                        break;
+                }
+        }
+
+        unsigned char t = raw[0];
+        if (cnt == 0)
+            return [NSString stringWithFormat:@"%d", t];
+        else if (cnt == 2 && 0 < lo && lo <= t && t <= hi && hi < 128)
+            return [NSString stringWithFormat:@"%d (Min/Max %d/%d)", t, lo, hi];
+        else
+            return [NSString stringWithFormat:@"%d (%d %d %d %d %d)", t, raw[5], raw[4], raw[3], raw[2], raw[1]];
+    }
+    else if ([format isEqualToString:@"temp10x"]) {
+        return [NSString stringWithFormat:@"%d.%d", word[0]/10, word[0]%10];
+    }
+
+    return @"?"; // Should not happen
+}
+
 +(NSDictionary*)getAttributeOverrideForProduct:(NSString*)product firmware:(NSString*)firmware
 {
     if (!product)
@@ -391,7 +582,15 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                             }
                         }
 
-                        overrides = group[@"Attributes"];
+                        __block NSMutableDictionary *arranged = [NSMutableDictionary dictionary];
+
+                        [group[@"Attributes"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                            NSArray *idAndFormat = [key componentsSeparatedByString:@","];
+
+                            [arranged setObject:@{@"name": obj, @"format": idAndFormat[1]} forKey:idAndFormat[0]];
+                        }];
+
+                        overrides = [arranged copy];
 
                         [gSmartAttributeOverrideCache setObject:overrides forKey:key];
                     }
@@ -455,9 +654,11 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
                         ATASmartThresholdAttribute *threshold = &_vendorSpecificThresholds.ThresholdEntries[index];
 
-                        NSString *overridden = _overrides ? [_overrides objectForKey:[NSString stringWithFormat:@"%d",attribute->attributeId]] : nil;
+                        NSString *overriddenName = _overrides ? [_overrides objectForKey:[NSString stringWithFormat:@"%d",attribute->attributeId]][@"name"] : nil;
+                        NSString *overriddenFormat = _overrides ? [_overrides objectForKey:[NSString stringWithFormat:@"%d",attribute->attributeId]][@"format"] : nil;
 
-                        NSString *name = overridden ? overridden : [HWMSmartPluginInterfaceWrapper getDefaultAttributeNameByIdentifier:attribute->attributeId isRotational:_rotational];
+                        NSString *name = overriddenName ? overriddenName : [HWMSmartPluginInterfaceWrapper getDefaultAttributeNameByIdentifier:attribute->attributeId isRotational:_rotational];
+                        NSString *format = overriddenFormat ? overriddenFormat : [HWMSmartPluginInterfaceWrapper getDefaultRawFormatForIdentifier:attribute->attributeId];
 
                         NSString *title = GetLocalizedAttributeName(name);
 
@@ -497,7 +698,8 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                                                 @"value": [NSNumber numberWithUnsignedChar:attribute->current],
                                                 @"worst": [NSNumber numberWithUnsignedChar:attribute->worst],
                                                 @"threshold": (threshold ? [NSNumber numberWithUnsignedChar:threshold->ThresholdValue] : @0),
-                                                @"raw": [NSNumber numberWithUnsignedLongLong:RAW_TO_LONG(attribute)]
+                                                @"raw": [NSNumber numberWithUnsignedLongLong:RAW_TO_LONG(attribute)],
+                                                @"rawFormatted": [HWMSmartPluginInterfaceWrapper getFormattedRawValueForAttribute:attribute format:format]
                                                }];
                     }
                 }
