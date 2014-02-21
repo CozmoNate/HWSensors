@@ -31,7 +31,7 @@
 
 OSDefineMetaClassAndStructors(ACPIProbeProfile, OSObject)
 
-ACPIProbeProfile * ACPIProbeProfile::withParameters(OSString *name, OSArray *methods, OSNumber *interval, OSNumber *timeout, OSBoolean *verbose)
+ACPIProbeProfile * ACPIProbeProfile::withParameters(OSString *name, OSArray *methods, OSNumber *interval, OSNumber *timeout, OSNumber *verbose)
 {
     if (!methods || !methods->getCount() || !interval || !interval->unsigned64BitValue()) {
         return NULL;
@@ -46,7 +46,7 @@ ACPIProbeProfile * ACPIProbeProfile::withParameters(OSString *name, OSArray *met
     return profile;
 }
 
-bool ACPIProbeProfile::init(OSString *aName, OSArray *aMethods, OSNumber *aInterval, OSNumber *aTimeout, OSBoolean *aVerbose)
+bool ACPIProbeProfile::init(OSString *aName, OSArray *aMethods, OSNumber *aInterval, OSNumber *aTimeout, OSNumber *aVerbose)
 {
     if (!OSObject::init() || !aName || !aName->getLength() || !aInterval || !aInterval->unsigned64BitValue()) {
         return false;
@@ -58,7 +58,7 @@ bool ACPIProbeProfile::init(OSString *aName, OSArray *aMethods, OSNumber *aInter
 
     this->interval = aInterval->unsigned32BitValue();
     this->timeout = aTimeout ? (double)aTimeout->unsigned64BitValue() / 1000.0 : 0;
-    this->verbose = aVerbose ? aVerbose->getValue() : false;
+    this->verbose = aVerbose && aVerbose->unsigned8BitValue() > 0 ? true : false;
 
     return true;
 }
@@ -72,7 +72,7 @@ void ACPIProbeProfile::free()
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(ACPIProbe, FakeSMCPlugin)
 
-void ACPIProbe::addProfile(OSString *name, OSArray *methods, OSNumber *interval, OSNumber *timeout, OSBoolean *verbose)
+void ACPIProbe::addProfile(OSString *name, OSArray *methods, OSNumber *interval, OSNumber *timeout, OSNumber *verbose)
 {
     if (ACPIProbeProfile *profile = ACPIProbeProfile::withParameters(name, methods, interval, timeout, verbose)) {
         profiles->setObject(name, profile);
@@ -215,7 +215,7 @@ bool ACPIProbe::start(IOService * provider)
                                     OSString *pName = OSDynamicCast(OSString, config->getObject(0));
                                     OSNumber *pInterval = OSDynamicCast(OSNumber, config->getObject(1));
                                     OSNumber *pTimeout = OSDynamicCast(OSNumber, config->getObject(2));
-                                    OSBoolean *pVerbose = OSDynamicCast(OSBoolean, config->getObject(3));
+                                    OSNumber *pVerbose = OSDynamicCast(OSNumber, config->getObject(3));
 
                                     OSArray *pMethods = OSArray::withCapacity(config->getCount() - 4);
 
@@ -228,9 +228,13 @@ bool ACPIProbe::start(IOService * provider)
                                     addProfile(pName, pMethods, pInterval, pTimeout, pVerbose);
                                 }
                             }
+
+                            OSSafeRelease(object);
                         }
                     }
                 }
+
+                OSSafeRelease(list);
             }
 
         }
@@ -245,7 +249,8 @@ bool ACPIProbe::start(IOService * provider)
             OSString *pName = OSDynamicCast(OSString, configuration->getObject("ProfileName"));
             OSNumber *pInterval = OSDynamicCast(OSNumber, configuration->getObject("PollingInterval"));
             OSNumber *pTimeout = OSDynamicCast(OSNumber, configuration->getObject("PollingTimeout"));
-            OSBoolean *pVerbose = OSDynamicCast(OSBoolean, configuration->getObject("VerboseLog"));
+            OSBoolean *pVerboseBool = OSDynamicCast(OSBoolean, configuration->getObject("VerboseLog"));
+            OSNumber *pVerbose = OSNumber::withNumber(pVerboseBool->getValue() ? 1 : 0, 8);
             OSArray *pMethods = OSDynamicCast(OSArray, configuration->getObject("MethodsToPoll"));
 
             addProfile(pName, pMethods, pInterval, pTimeout, pVerbose);
@@ -267,7 +272,11 @@ bool ACPIProbe::start(IOService * provider)
                             }
                         }
                     }
+
+                    OSSafeRelease(object);
                 }
+
+                OSSafeRelease(method);
             }
         }
 

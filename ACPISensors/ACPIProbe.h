@@ -45,9 +45,18 @@ public:
 
     double          startedAt;
 
-    static ACPIProbeProfile * withParameters(OSString *name, OSArray *methods, OSNumber *interval, OSNumber *timeout, OSBoolean *verbose );
+    static ACPIProbeProfile * withParameters(OSString *name,
+                                             OSArray *methods,
+                                             OSNumber *interval,
+                                             OSNumber *timeout,
+                                             OSNumber *verbose );
 
-    virtual bool    init(OSString *name, OSArray *aMethods, OSNumber *aInterval, OSNumber *aTimeout, OSBoolean *aVerbose);
+    virtual bool    init(OSString *name,
+                         OSArray *aMethods,
+                         OSNumber *aInterval,
+                         OSNumber *aTimeout,
+                         OSNumber *aVerbose);
+
     virtual void    free();
 };
 
@@ -65,7 +74,11 @@ private:
 
     ACPIProbeProfile        *activeProfile;
     
-    void                    addProfile(OSString *name, OSArray *methods, OSNumber *interval, OSNumber *timeout, OSBoolean *verbose);
+    void                    addProfile(OSString *name,
+                                       OSArray *methods,
+                                       OSNumber *interval,
+                                       OSNumber *timeout,
+                                       OSNumber *verbose);
 
     void                    logValue(const char* method, OSObject *value);
 

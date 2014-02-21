@@ -59,6 +59,7 @@ protected:
     
 public:
     virtual bool			start(IOService *provider);
+    virtual void            free();
 };
 
 #endif /* defined(__HWSensors__PTID__) */
