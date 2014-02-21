@@ -109,6 +109,14 @@ void ACPIProbe::logValue(const char* method, OSObject *value)
     else if (OSString *string = OSDynamicCast(OSString, value)) {
         ACPISensorsInfoLog("%s = %s", method, string->getCStringNoCopy());
     }
+    else if (OSData *data = OSDynamicCast(OSData, value)) {
+        IOLog ("%s (%s): %s = 0x", getName(), acpiDevice->getName(), method);
+        const UInt8 *buffer = (const UInt8*)data->getBytesNoCopy();
+        for (unsigned int i = 0; i < data->getLength(); i++) {
+            IOLog ("%02x", buffer[i]);
+        }
+        IOLog ("\n");
+    }
     else if (OSArray *array = OSDynamicCast(OSArray, value)) {
         for (unsigned int i = 0; i < array->getCount(); i++) {
             char name[64];
@@ -117,6 +125,9 @@ void ACPIProbe::logValue(const char* method, OSObject *value)
             
             logValue(name, array->getObject(i));
         }
+    }
+    else {
+        ACPISensorsInfoLog("call %s (data not shown)", method);
     }
 }
 

@@ -55,7 +55,7 @@ DefinitionBlock ("SSDT.aml", "SSDT", 1, "APPLE ", "DefMon", 0x00003000)
 
         /* Define settings for ACPI method polling */
        
-        Name (LIST, Package (0x03) // profiles list
+        Name (LIST, Package (0x03) // profile list
         {
            "PFL0",
            "PFL1",
