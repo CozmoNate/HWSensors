@@ -83,12 +83,12 @@
 
         NSString *key = [NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, self.number.unsignedCharValue];
 
-        //if (self.engine.isRunningOnMac) {
+        if (self.engine.isRunningOnMac) {
             [SmcHelper privilegedWriteNumericKey:key value:speed];
-        //}
-        //else {
-        //    [SmcHelper writeKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed connection:(io_connect_t)self.service.unsignedLongLongValue];
-        //}
+        }
+        else {
+            [SmcHelper writeKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed connection:(io_connect_t)self.service.unsignedLongLongValue];
+        }
     }
     
     [self willChangeValueForKey:@"speed"];
