@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 kozlek. All rights reserved.
 //
 
+// Based on code from https://github.com/atnan/SMJobBlessXPC
+
 #import "SmcHelper+HWMonitorHelper.h"
 
 #import <ServiceManagement/ServiceManagement.h>
@@ -22,29 +24,20 @@
 
 + (void)privilegedWriteNumericKey:(NSString*)key value:(NSNumber*)value
 {
-    xpc_connection_t xpc_connection = xpc_connection_create_mach_service(kSmcHelperLabel, NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
+    if (![self blessHelperWithLabel:@kSmcHelperLabel])
+        return;
 
-    if (!xpc_connection) {
-        if ([self blessHelperWithLabel:@kSmcHelperLabel]) {
-            [SmcHelper privilegedWriteNumericKey:key value:value];
-            return;
-        }
-        else {
-            return;
-        }
-    }
+    xpc_connection_t xpc_connection = xpc_connection_create_mach_service(kSmcHelperLabel, NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
 
     xpc_connection_set_event_handler(xpc_connection, ^(xpc_object_t event) {
         xpc_type_t type = xpc_get_type(event);
         if (type == XPC_TYPE_ERROR) {
             if (event == XPC_ERROR_CONNECTION_INTERRUPTED) {
                 NSLog(@"XPC connection interupted");
-                [SmcHelper privilegedWriteNumericKey:key value:value];
             }
             else if (event == XPC_ERROR_CONNECTION_INVALID) {
                 NSLog(@"XPC connection invalid, releasing");
                 xpc_release(xpc_connection);
-                [SmcHelper privilegedWriteNumericKey:key value:value];
             }
             else {
                 NSLog(@"Unexpected XPC connection error");
@@ -75,16 +68,20 @@
 {
     CFErrorRef localError = NULL;
 	BOOL result = NO;
-    BOOL helperIsAlreadyInstalled = NO;
 
     CFDictionaryRef existingJob = SMJobCopyDictionary(kSMDomainSystemLaunchd, (__bridge CFStringRef)(label));
+
     if (existingJob) {
-        helperIsAlreadyInstalled = YES;
-        CFRelease(existingJob);
+        NSDictionary *dictionary = (__bridge NSDictionary *)(existingJob);
+        if ([[NSFileManager defaultManager] fileExistsAtPath:dictionary[@"ProgramArguments"][0]]) {
+            dictionary = 0;
+            CFRelease(existingJob);
+            return true;
+        }
     }
 
 	AuthorizationItem authItems[2]  = {{ kSMRightBlessPrivilegedHelper, 0, NULL, 0 }, { kSMRightModifySystemDaemons, 0, NULL, 0 }};
-	AuthorizationRights authRights	= { (helperIsAlreadyInstalled ? 2 : 1), authItems };
+	AuthorizationRights authRights	= { 1, authItems };
 	AuthorizationFlags flags		=	kAuthorizationFlagDefaults				|
     kAuthorizationFlagInteractionAllowed	|
     kAuthorizationFlagPreAuthorize			|
@@ -99,23 +96,16 @@
         NSLog(@"AuthorizationCreate() failed with error code %d", (int)status);
         return false;
 	} else {
+        /*if (helperIsAlreadyInstalled) {
 
-        if (helperIsAlreadyInstalled) {
-
-            SMJobRemove(kSMDomainSystemLaunchd, (__bridge CFStringRef)(label), authRef, true /* wait */, &localError);
+            SMJobRemove(kSMDomainSystemLaunchd, (__bridge CFStringRef)(label), authRef, true, &localError);
 
             if (localError) {
                 NSLog(@"SMJobRemove() failed with error %@", localError);
                 CFRelease(localError);
                 return false;
             }
-        }
-
-		/* This does all the work of verifying the helper tool against the application
-		 * and vice-versa. Once verification has passed, the embedded launchd.plist
-		 * is extracted and placed in /Library/LaunchDaemons and then loaded. The
-		 * executable is placed in /Library/PrivilegedHelperTools.
-		 */
+        }*/
 
 		result = SMJobBless(kSMDomainSystemLaunchd, (__bridge CFStringRef)label, authRef, (CFErrorRef*)&localError);
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 kozlek. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+// Based on code from https://github.com/atnan/SMJobBlessXPC
 
 /*
 
@@ -53,6 +53,8 @@
 
  */
 
+#import <Foundation/Foundation.h>
+
 #import "SmcHelper.h"
 #import "smc.h"
 
@@ -84,7 +86,7 @@ static void __XPC_Peer_Event_Handler(xpc_connection_t connection, xpc_object_t e
             xpc_object_t reply = xpc_dictionary_create_reply(event);
 
             switch (xpc_dictionary_get_int64(event, "command")) {
-                // Write Number
+                // 1 - Write Number
                 case 1: {
                     const char* key = xpc_dictionary_get_string(event, "key");
                     int64_t value = xpc_dictionary_get_int64(event, "value");
