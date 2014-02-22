@@ -35,9 +35,10 @@
 #define OPTION_NONE     0
 #define OPTION_LIST     1
 #define OPTION_READ     2
+#define OPTION_WRITE    3
 #define OPTION_HELP     4
 
-void usage(char* prog)
+void usage(const char* prog)
 {
     printf("smcutil v%s\n", VERSION);
     printf("Usage:\n");
@@ -118,6 +119,9 @@ int main(int argc, const char * argv[])
                 case 'r':
                     option = OPTION_READ;
                     break;
+                case 'w':
+                    option = OPTION_WRITE;
+                    break;
                 case 'h':
                 case '?':
                 default:
@@ -163,11 +167,38 @@ int main(int argc, const char * argv[])
                 }
                     
                 case OPTION_READ:
-                    snprintf(key, 5, argv[2]);
+                    snprintf(key, 5, "%s", argv[2]);
                     if (kIOReturnSuccess == SMCReadKey(connection, key, &val)) {
                         printKeyValue(val);
                     }
                     break;
+
+                case OPTION_WRITE: {
+                    const char *optarg = argv[3];
+
+                    snprintf(key, 5, "%s", argv[2]);
+
+                    bcopy(val.key, key, 4);
+
+                    int i;
+                    char c[3];
+                    for (i = 0; i < strlen(optarg); i++)
+                    {
+                        sprintf(c, "%c%c", optarg[i * 2], optarg[(i * 2) + 1]);
+                        val.bytes[i] = (int) strtol(c, NULL, 16);
+                    }
+                    val.dataSize = i / 2;
+                    if ((val.dataSize * 2) != strlen(optarg))
+                    {
+                        printf("Error: value is not valid\n");
+                        return 1;
+                    }
+
+                    if (kIOReturnSuccess == SMCWriteKey(connection, &val)) {
+                        printKeyValue(val);
+                    }
+                    break;
+                }
 
                 case OPTION_HELP:
                     usage(argv[0]);

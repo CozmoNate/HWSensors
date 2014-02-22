@@ -629,10 +629,9 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                 bcopy(&smartData.vendorSpecific1, &_vendorSpecificData, sizeof(_vendorSpecificData));
 
                 if (kIOReturnSuccess == (result = (*_smartInterface)->SMARTReadDataThresholds(_smartInterface, &smartDataThresholds))) {
-                    bcopy(&smartDataThresholds.vendorSpecific1, &_vendorSpecificThresholds, sizeof(_vendorSpecificThresholds));
-                }
-                else {
-                    NSLog(@"Failed to read S.M.A.R.T. thresholds");
+                    if (kIOReturnSuccess == (result = (*_smartInterface)->SMARTValidateReadData(_smartInterface, (ATASMARTData*)&smartDataThresholds))) {
+                        bcopy(&smartDataThresholds.vendorSpecific1, &_vendorSpecificThresholds, sizeof(_vendorSpecificThresholds));
+                    }
                 }
 
                 // Prepare SMART attributes list

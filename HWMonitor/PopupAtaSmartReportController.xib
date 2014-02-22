@@ -200,16 +200,7 @@
                 <constraint firstItem="rKh-Ur-WiN" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="4" id="pgH-IF-2r5"/>
             </constraints>
         </customView>
-        <arrayController objectClassName="NSDictionary" editable="NO" automaticallyPreparesContent="YES" preservesSelection="NO" selectsInsertedObjects="NO" avoidsEmptySelection="NO" automaticallyRearrangesObjects="YES" id="o6v-RJ-a06">
-            <declaredKeys>
-                <string>name</string>
-                <string>critical</string>
-                <string>value</string>
-                <string>worst</string>
-                <string>threshold</string>
-                <string>raw</string>
-                <string>id</string>
-            </declaredKeys>
+        <arrayController objectClassName="NSDictionary" editable="NO" selectsInsertedObjects="NO" avoidsEmptySelection="NO" automaticallyRearrangesObjects="YES" id="o6v-RJ-a06">
             <connections>
                 <binding destination="-2" name="contentArray" keyPath="self.sensor.attributes" id="NO6-jb-wM4"/>
             </connections>

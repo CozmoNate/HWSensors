@@ -4,10 +4,6 @@
 <dict>
 	<key>Label</key>
 	<string>org.hwsensors.HWMonitorHelper</string>
-	<key>EnableTransactions</key>
-	<true/>
-	<key>ExitTimeOut</key>
-	<integer>0</integer>
 	<key>MachServices</key>
 	<dict>
 		<key>org.hwsensors.HWMonitorHelper</key>

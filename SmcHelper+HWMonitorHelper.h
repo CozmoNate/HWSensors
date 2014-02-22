@@ -10,4 +10,6 @@
 
 @interface SmcHelper (HWMonitorHelper)
 
++ (void)privilegedWriteNumericKey:(NSString*)key value:(NSNumber*)value;
+
 @end

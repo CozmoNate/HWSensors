@@ -1505,22 +1505,23 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         char key[5];
 
-        // Min
-        snprintf(key, 5, KEY_FORMAT_FAN_MIN, index);
+        if (!fan.min || !fan.max) {
+            // Min
+            snprintf(key, 5, KEY_FORMAT_FAN_MIN, index);
 
-        if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-            [fan setMin:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]];
-        }
+            if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
+                [fan setMin:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]];
+            }
 
-        // Max
-        snprintf(key, 5, KEY_FORMAT_FAN_MAX, index);
+            // Max
+            snprintf(key, 5, KEY_FORMAT_FAN_MAX, index);
 
-        if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-            [fan setMax:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]];
+            if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
+                [fan setMax:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]];
+            }
         }
 
         if (newFan) {
-
             if (self.isRunningOnMac) {
                 // Target
                 snprintf(key, 5, KEY_FORMAT_FAN_TARGET, index);
@@ -1537,7 +1538,6 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         if (fan.controlled.boolValue) {
             // Force SMC fan speed to previousely saved speed
             [fan setControlled:fan.controlled];
-            [fan setSpeed:fan.speed];
         }
     }
     else {

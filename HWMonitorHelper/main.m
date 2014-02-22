@@ -84,7 +84,8 @@ static void __XPC_Peer_Event_Handler(xpc_connection_t connection, xpc_object_t e
             xpc_object_t reply = xpc_dictionary_create_reply(event);
 
             switch (xpc_dictionary_get_int64(event, "command")) {
-                case kSmcHelperCommandWriteNumber: {
+                // Write Number
+                case 1: {
                     const char* key = xpc_dictionary_get_string(event, "key");
                     int64_t value = xpc_dictionary_get_int64(event, "value");
 
@@ -122,38 +123,35 @@ static void __XPC_Connection_Handler(xpc_connection_t connection)
 {
     NSLog(@"Configuring message event handler for helper");
 
-	xpc_connection_set_event_handler(connection, ^(xpc_object_t event)
-                                     {
-                                         __XPC_Peer_Event_Handler(connection, event);
-                                     });
+	xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
+        __XPC_Peer_Event_Handler(connection, event);
+    });
 
 	xpc_connection_resume(connection);
 }
 
-static xpc_connection_t gService;
-
 int main(int argc, const char *argv[])
 {
-    gService = xpc_connection_create_mach_service("org.hwsensors.HWMonitorHelper",
+    xpc_connection_t service = xpc_connection_create_mach_service("org.hwsensors.HWMonitorHelper",
                                                                   dispatch_get_main_queue(),
                                                                   XPC_CONNECTION_MACH_SERVICE_LISTENER);
 
-    if (!gService) {
+    if (!service) {
         NSLog(@"Failed to create service");
         exit(EXIT_FAILURE);
     }
 
     NSLog(@"Configuring connection event handler for helper");
 
-    xpc_connection_set_event_handler(gService, ^(xpc_object_t connection) {
+    xpc_connection_set_event_handler(service, ^(xpc_object_t connection) {
         __XPC_Connection_Handler(connection);
     });
     
-    xpc_connection_resume(gService);
+    xpc_connection_resume(service);
     
     dispatch_main();
 
-    xpc_release(gService);
+    xpc_release(service);
     
     return EXIT_SUCCESS;
 }
