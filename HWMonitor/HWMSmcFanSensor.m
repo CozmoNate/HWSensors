@@ -47,7 +47,6 @@
 -(void)setControlled:(NSNumber *)controlled
 {
     if (controlled) {
-
         if (!self.engine.isRunningOnMac) {
             SMCVal_t info;
 
@@ -61,7 +60,7 @@
 
                     if (!bit_get(manual, BIT(self.number.unsignedShortValue))) {
                         bit_write(self.controlled.boolValue, manual, BIT(self.number.unsignedShortValue));
-                        [SmcHelper writeKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual] connection:(io_connect_t)self.service.unsignedLongLongValue];
+                        [SmcHelper privilegedWriteNumericKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
                     }
                 }
             }
@@ -80,14 +79,11 @@
 -(void)setSpeed:(NSNumber *)speed
 {
     if (self.controlled && self.controlled.boolValue && self.max && self.min && self.number && speed) {
-
-        NSString *key = [NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, self.number.unsignedCharValue];
-
         if (self.engine.isRunningOnMac) {
-            [SmcHelper privilegedWriteNumericKey:key value:speed];
+            [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, self.number.unsignedCharValue] value:speed];
         }
         else {
-            [SmcHelper writeKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed connection:(io_connect_t)self.service.unsignedLongLongValue];
+            [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed];
         }
     }
     

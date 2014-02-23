@@ -66,22 +66,27 @@
 
 + (BOOL)blessHelperWithLabel:(NSString *)label
 {
-    CFErrorRef localError = NULL;
-	BOOL result = NO;
+ 	BOOL result = NO;
 
-    CFDictionaryRef existingJob = SMJobCopyDictionary(kSMDomainSystemLaunchd, (__bridge CFStringRef)(label));
+    NSDictionary *helperJobData = (__bridge NSDictionary*)SMJobCopyDictionary(kSMDomainSystemLaunchd, (__bridge CFStringRef)label);
 
-    if (existingJob) {
-        NSDictionary *dictionary = (__bridge NSDictionary *)(existingJob);
-        if ([[NSFileManager defaultManager] fileExistsAtPath:dictionary[@"ProgramArguments"][0]]) {
-            dictionary = 0;
-            CFRelease(existingJob);
+    if (helperJobData) {
+        NSURL *installedHelperURL = [NSURL fileURLWithPath:helperJobData[@"ProgramArguments"][0]];
+        NSDictionary *installedHelperInfoPlist = (__bridge NSDictionary*)CFBundleCopyInfoDictionaryForURL((__bridge CFURLRef)installedHelperURL);
+        NSInteger installedHelperVersion = [installedHelperInfoPlist[@"CFBundleVersion"] integerValue];
+
+        NSURL *currentHelperToolURL = [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"Contents/Library/LaunchServices/org.hwsensors.HWMonitorHelper"];
+        NSDictionary *currentHelperInfoPlist = (__bridge NSDictionary*)CFBundleCopyInfoDictionaryForURL( (__bridge CFURLRef)currentHelperToolURL);
+        NSInteger currentHelperVersion = [currentHelperInfoPlist[@"CFBundleVersion"] integerValue];
+
+        if (installedHelperVersion == currentHelperVersion) {
             return true;
         }
     }
 
-	AuthorizationItem authItems[2]  = {{ kSMRightBlessPrivilegedHelper, 0, NULL, 0 }, { kSMRightModifySystemDaemons, 0, NULL, 0 }};
-	AuthorizationRights authRights	= { 1, authItems };
+    // Install helper tool
+	AuthorizationItem authItems[2]  = {{kSMRightBlessPrivilegedHelper, 0, NULL, 0}, {kSMRightModifySystemDaemons, 0, NULL, 0}};
+	AuthorizationRights authRights	= {helperJobData ? 2 : 1, authItems};
 	AuthorizationFlags flags		=	kAuthorizationFlagDefaults				|
     kAuthorizationFlagInteractionAllowed	|
     kAuthorizationFlagPreAuthorize			|
@@ -95,24 +100,25 @@
 	if (status != errAuthorizationSuccess) {
         NSLog(@"AuthorizationCreate() failed with error code %d", (int)status);
         return false;
-	} else {
-        /*if (helperIsAlreadyInstalled) {
+	}
+    else {
+        CFErrorRef localError = NULL;
 
-            SMJobRemove(kSMDomainSystemLaunchd, (__bridge CFStringRef)(label), authRef, true, &localError);
+        if (helperJobData) {
+
+            result = SMJobRemove(kSMDomainSystemLaunchd, (__bridge CFStringRef)(label), authRef, true, &localError);
 
             if (localError) {
                 NSLog(@"SMJobRemove() failed with error %@", localError);
                 CFRelease(localError);
-                return false;
             }
-        }*/
+        }
 
 		result = SMJobBless(kSMDomainSystemLaunchd, (__bridge CFStringRef)label, authRef, (CFErrorRef*)&localError);
 
         if (localError) {
             NSLog(@"SMJobBless() failed with error %@", localError);
             CFRelease(localError);
-            return false;
         }
 	}
 
