@@ -35,30 +35,25 @@
 
 #define kLPCSensorsMinRPM               0000.0
 #define kLPCSensorsMaxRPM               3000.0
-#define kLPCSensorsInitialStep          5
-#define kLPCSensorsMatchTheresholdRPM   10.0
-#define kLPCSensorsWorkloopTimeout      7000
 
 #define kLPCSensorsFanTargetController  1000
 #define kLPCSensorsFanMinController     2000
 #define kLPCSensorsFanManualController  3000
 
-enum kLPCSensorsFanControlAction {
-    kLPCSensorsFanActionNone = 0,
-    kLPCSensorsFanActionIncrement,
-    kLPCSensorsFanActionDecrement,
-    kLPCSensorsFanActionMatched,
-    kLPCSensorsFanActionProbe
+struct LPCSensorsTachometerControl {
+    UInt8   number;
+
+    bool    active;
+
+    float   control;
+    float   target;
+    float   error;
+    float   prevError;
+    double  integral;
+    int     ticks;
 };
 
-struct LPCSensorsFanControl {
-    UInt8                       number;
-    float                       target;
-    float                       step;
-    kLPCSensorsFanControlAction action;
-};
-
-#define kLPCSensorsMaxFanControls       16
+#define kLPCSensorsMaxtachometerControls       16
 
 class LPCSensors : public FakeSMCPlugin {
 	OSDeclareAbstractStructors(LPCSensors)
@@ -66,9 +61,15 @@ class LPCSensors : public FakeSMCPlugin {
 private:
     IOWorkLoop*             workloop;
     IOTimerEventSource*     timerEventSource;
-    IOReturn                woorkloopTimerEvent(void);
+    LPCSensorsTachometerControl    tachometerControls[kLPCSensorsMaxtachometerControls];
+
+    bool                    timerActivated;
+
+    void                    tachometerControlInit(UInt8 number, float target);
+    bool                    tachometerControlSample(UInt8 number);
+    void                    tachometerControlCancel(UInt8 number);
     
-    LPCSensorsFanControl    tachometerControls[kLPCSensorsMaxFanControls];
+    IOReturn                woorkloopTimerEvent(void);
     
 protected:    
 	UInt16					address;

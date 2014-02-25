@@ -40,4 +40,6 @@
 @property (nonatomic, retain) NSNumber * min;
 @property (nonatomic, retain) NSNumber * speed;
 
+-(void)refresh;
+
 @end

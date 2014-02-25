@@ -49,7 +49,7 @@
 @dynamic favorite;
 
 @synthesize alarmLevel = _alarmLevel;
-@synthesize lastUpdated = _lastUpdated;
+//@synthesize lastUpdated = _lastUpdated;
 
 -(void)awakeFromFetch
 {
@@ -218,7 +218,7 @@
 
     if (value) {
 
-        _lastUpdated = [NSDate date];
+        //_lastUpdated = [NSDate date];
 
         if (value && (!self.value || ![value isEqualToNumber:self.value])) {
             [self willChangeValueForKey:@"value"];

@@ -572,6 +572,15 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         if (_engineState == kHWMEngineNotInitialized)
             return;
 
+        NSTimeInterval nineTenths = _configuration.smcSensorsUpdateRate.floatValue * 0.9f;
+
+        if (_smcAndDevicesSensorsLastUpdated && fabs(_smcAndDevicesSensorsLastUpdated.timeIntervalSinceNow) < nineTenths) {
+            return;
+        }
+        else {
+            _smcAndDevicesSensorsLastUpdated = [NSDate date];
+        }
+
         if (!_smcAndDevicesSensors) {
 
             __block NSMutableArray *sensors = [NSMutableArray array];
@@ -590,9 +599,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         for (HWMSensor *sensor in _smcAndDevicesSensors) {
             BOOL doUpdate = NO;
 
-            if (sensor.lastUpdated && [sensor.lastUpdated timeIntervalSinceNow] > _configuration.smcSensorsUpdateRate.floatValue * -0.9) {
-                continue;
-            }
+//            if (sensor.lastUpdated && fabs(sensor.lastUpdated.timeIntervalSinceNow) < nineTenths) {
+//                continue;
+//            }
 
             if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue) {
                 doUpdate = YES;
@@ -641,6 +650,15 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         if (_engineState == kHWMEngineNotInitialized)
             return;
 
+        NSTimeInterval nineTenths = _configuration.smartSensorsUpdateRate.floatValue * 60 * 0.9f;
+
+        if (_ataSmartSensorsLastUpdated && fabs(_ataSmartSensorsLastUpdated.timeIntervalSinceNow) < nineTenths) {
+            return;
+        }
+        else {
+            _ataSmartSensorsLastUpdated = [NSDate date];
+        }
+
         if (!_ataSmartSensors) {
 
             __block NSMutableArray *sensors = [NSMutableArray array];
@@ -660,9 +678,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
                 BOOL doUpdate = NO;
 
-                if (sensor.lastUpdated && [sensor.lastUpdated timeIntervalSinceNow] > _configuration.smartSensorsUpdateRate.floatValue * 60 * -0.9) {
-                    continue;
-                }
+//                if (sensor.lastUpdated && fabs(sensor.lastUpdated.timeIntervalSinceNow) < nineTenths) {
+//                    continue;
+//                }
 
                 if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue) {
                     doUpdate = YES;
@@ -1534,10 +1552,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 [fan setPrimitiveValue:fan.value forKey:@"speed"];
             }
         }
-
-        if (fan.controlled.boolValue) {
+        else {
             // Force SMC fan speed to previousely saved speed
-            [fan setControlled:fan.controlled];
+            [fan refresh];
         }
     }
     else {

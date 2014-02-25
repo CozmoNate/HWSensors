@@ -61,7 +61,7 @@
 @property (readonly) NSString * formattedValue;
 @property (readonly) NSString * strippedValue;
 
-@property (nonatomic, strong) NSDate * lastUpdated;
+//@property (nonatomic, strong) NSDate * lastUpdated;
 
 - (BOOL)isActive;
 

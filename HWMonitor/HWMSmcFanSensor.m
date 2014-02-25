@@ -43,6 +43,11 @@
 @dynamic min;
 @dynamic speed;
 
+-(void)refresh
+{
+    if (self.controlled)
+        [self setControlled:self.controlled];
+}
 
 -(void)setControlled:(NSNumber *)controlled
 {
@@ -64,6 +69,9 @@
                     }
                 }
             }
+        }
+        else {
+            [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, self.number.unsignedCharValue] value:self.min];
         }
     }
 
