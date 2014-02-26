@@ -64,20 +64,24 @@
             }
         }
 
-        // Get back fan min then disabling manual control on Macs
-        if (self.engine.isRunningOnMac && !controlled.boolValue && (!self.controlled || self.controlled.boolValue)) {
-            [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, self.number.unsignedCharValue] value:self.min];
-        }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            // Get back fan min then disabling manual control on Macs
+            if (self.engine.isRunningOnMac && !controlled.boolValue && (!self.controlled || self.controlled.boolValue)) {
+                [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, self.number.unsignedCharValue] value:self.min];
+            }
+        }];
     }
 
     [self willChangeValueForKey:@"controlled"];
     [self setPrimitiveValue:controlled forKey:@"controlled"];
     [self didChangeValueForKey:@"controlled"];
 
-    // If control is enabled, set stored fan speed back
-    if (controlled && controlled.boolValue) {
-        [self setSpeed:self.speed];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        // If control enabled, set stored fan speed back
+        if (self.controlled && self.controlled.boolValue) {
+            [self setSpeed:self.speed];
+        }
+    }];
 }
 
 -(void)setSpeed:(NSNumber *)speed

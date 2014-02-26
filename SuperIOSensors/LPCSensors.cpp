@@ -322,13 +322,7 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
                         active = true;
                     }
                 }
-
-                if (!active) {
-                    timerEventSource->cancelTimeout();
-                    timerScheduled = false;
-                    HWSensorsDebugLog("timer canceled");
-                }
-
+                
                 break;
             }
 
@@ -342,10 +336,10 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
 
                 getKeyValue(KEY_FAN_MANUAL, &buffer);
 
-                fakeSMCPluginDecodeIntValue(TYPE_UI16, TYPE_UI16_SIZE, &buffer, &manual);
-
-                if (0 < ((manual >> tachometerControls[sensor->getIndex()].number) & 0x1)) {
-                    tachometerControlInit(sensor->getIndex(), value);
+                if (fakeSMCPluginDecodeIntValue(TYPE_UI16, TYPE_UI16_SIZE, &buffer, &manual)) {
+                    if ((manual >> tachometerControls[sensor->getIndex()].number) & 0x1) {
+                        tachometerControlInit(sensor->getIndex(), value);
+                    }
                 }
                 break;
             }
