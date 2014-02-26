@@ -352,9 +352,9 @@ IOReturn CPUSensors::woorkloopTimerEvent()
         if (timerEventsMomentum++ > 5) {
             timerEventsPending = 0;
         }
+
+        timerEventSource->setTimeoutMS(1000);
     }
-        
-    timerEventSource->setTimeoutMS(1000);
     
     return kIOReturnSuccess;
 }
@@ -408,6 +408,10 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
         default:
             return false;
             
+    }
+
+    if (timerEventsPending) {
+        timerEventSource->setTimeoutMS(250);
     }
     
     return true;
@@ -799,41 +803,43 @@ bool CPUSensors::start(IOService *provider)
     }
     
     // two power states - off and on
-	static const IOPMPowerState powerStates[2] = {
-        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 1, IOPMDeviceUsable, IOPMPowerOn, IOPMPowerOn, 0, 0, 0, 0, 0, 0, 0, 0 }
-    };
-
-    // register interest in power state changes
-	PMinit();
-	provider->joinPMtree(this);
-	registerPowerDriver(this, (IOPMPowerState *)powerStates, 2);
+//	static const IOPMPowerState powerStates[2] = {
+//        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+//        { 1, IOPMDeviceUsable, IOPMPowerOn, IOPMPowerOn, 0, 0, 0, 0, 0, 0, 0, 0 }
+//    };
+//
+//    // register interest in power state changes
+//	PMinit();
+//	provider->joinPMtree(this);
+//	registerPowerDriver(this, (IOPMPowerState *)powerStates, 2);
 
     // Register service
     registerService();
+
+    timerEventSource->setTimeoutMS(1000);
 
     HWSensorsInfoLog("started");
 
     return true;
 }
 
-IOReturn CPUSensors::setPowerState(unsigned long powerState, IOService *device)
-{
-	switch (powerState) {
-        case 0: // Power Off
-            timerEventSource->cancelTimeout();
-            break;
-
-        case 1: // Power On
-            timerEventSource->setTimeoutMS(1000);
-            break;
-
-        default:
-            break;
-    }
-
-	return(IOPMAckImplied);
-}
+//IOReturn CPUSensors::setPowerState(unsigned long powerState, IOService *device)
+//{
+//	switch (powerState) {
+//        case 0: // Power Off
+//            timerEventSource->cancelTimeout();
+//            break;
+//
+//        case 1: // Power On
+//            timerEventSource->setTimeoutMS(1000);
+//            break;
+//
+//        default:
+//            break;
+//    }
+//
+//	return(IOPMAckImplied);
+//}
 
 void CPUSensors::stop(IOService *provider)
 {

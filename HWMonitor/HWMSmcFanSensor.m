@@ -43,34 +43,29 @@
 @dynamic min;
 @dynamic speed;
 
--(void)refresh
-{
-    if (self.controlled)
-        [self setControlled:self.controlled];
-}
-
 -(void)setControlled:(NSNumber *)controlled
 {
     if (controlled) {
-        if (!self.engine.isRunningOnMac) {
-            SMCVal_t info;
 
-            if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
+        SMCVal_t info;
 
-                NSNumber *value;
+        if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
 
-                if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
+            NSNumber *value;
 
-                    UInt16 manual = value.unsignedShortValue;
+            if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
 
-                    if (!bit_get(manual, BIT(self.number.unsignedShortValue))) {
-                        bit_write(self.controlled.boolValue, manual, BIT(self.number.unsignedShortValue));
-                        [SmcHelper privilegedWriteNumericKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
-                    }
+                UInt16 manual = value.unsignedShortValue;
+
+                if (!bit_get(manual, BIT(self.number.unsignedShortValue))) {
+                    bit_write(self.controlled.boolValue, manual, BIT(self.number.unsignedShortValue));
+                    [SmcHelper privilegedWriteNumericKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
                 }
             }
         }
-        else {
+
+        // Get back fan min then disabling manual control on Macs
+        if (self.engine.isRunningOnMac && !controlled.boolValue && (!self.controlled || self.controlled.boolValue)) {
             [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, self.number.unsignedCharValue] value:self.min];
         }
     }
@@ -79,6 +74,7 @@
     [self setPrimitiveValue:controlled forKey:@"controlled"];
     [self didChangeValueForKey:@"controlled"];
 
+    // If control is enabled, set stored fan speed back
     if (controlled && controlled.boolValue) {
         [self setSpeed:self.speed];
     }

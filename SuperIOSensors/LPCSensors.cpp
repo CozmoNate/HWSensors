@@ -37,100 +37,20 @@
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 #define SGN(x) ((x) > 0 ? 1.0 : -1.0)
 
-// PID fan control algorithm, sample article: http://www.codeproject.com/Articles/36459/PID-process-control-a-Cruise-Control-example
+// PID fan control algorithm, reference article: http://www.codeproject.com/Articles/36459/PID-process-control-a-Cruise-Control-example
 
-#define kLPCSensorsMatchTheresholdRPM       7.0
 #define kLPCSensorsWorkloopSamplingTimeout  1000
 #define kLPCSensorsInitialTicks             60
-#define kLPCSensorsKp   0.05
-#define kLPCSensorsKi   0.001
-#define kLPCSensorsKd   0.005
+#define kLPCSensorsKp   0.01000
+#define kLPCSensorsKi   0.00015
+#define kLPCSensorsKd   0.00045
 
-#define FAN_CLIP(x) (x) < 0 ? 0 : (x) > 100 ? 100 : (x)
+#define CLIP_CONTROL(x) (x) < 0 ? 0 : (x) > 100 ? 100 : (x)
+
+//#define kHWSensorsDebug 1
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndAbstractStructors(LPCSensors, FakeSMCPlugin)
-
-void LPCSensors::tachometerControlInit(UInt8 number, float target)
-{
-    float value = readTachometer(number);
-
-    tachometerControls[number].error = target - value;
-
-    HWSensorsDebugLog("fan control [%d] init with target = %d", number, (int)target);
-
-    if (ABS(tachometerControls[number].error) > kLPCSensorsMatchTheresholdRPM) {
-
-        tachometerControls[number].target = target;
-        tachometerControls[number].control = readTachometerControl(number);
-        tachometerControls[number].prevError = 0;
-        tachometerControls[number].integral = 0;
-        tachometerControls[number].ticks = kLPCSensorsInitialTicks;
-        tachometerControls[number].active = true;
-
-        if (!timerActivated) {
-            timerEventSource->setTimeoutMS(kLPCSensorsWorkloopSamplingTimeout);
-        }
-    }
-    else {
-        tachometerControls[number].active = false;
-    }
-}
-
-bool LPCSensors::tachometerControlSample(UInt8 number)
-{
-    float value = readTachometer(number);
-
-    tachometerControls[number].error = tachometerControls[number].target - value;
-    tachometerControls[number].integral += tachometerControls[number].error *
-        (kLPCSensorsWorkloopSamplingTimeout / 1000.0);
-    double  derivative = (tachometerControls[number].error - tachometerControls[number].prevError) / (kLPCSensorsWorkloopSamplingTimeout / 1000.0);
-
-    tachometerControls[number].prevError = tachometerControls[number].error;
-
-    float drive =
-                (tachometerControls[number].error * kLPCSensorsKp +
-                tachometerControls[number].integral * kLPCSensorsKi +
-                derivative * kLPCSensorsKd);
-
-    tachometerControls[number].control +=  drive;
-
-    HWSensorsDebugLog("fan control [%d] probe error = %d control = %d drive = %d", number, (int)tachometerControls[number].error, (int)tachometerControls[number].control, (int)drive);
-
-    writeTachometerControl(number, FAN_CLIP(tachometerControls[number].control));
-
-    if ((ABS(derivative) < kLPCSensorsMatchTheresholdRPM && ABS(tachometerControls[number].error) < kLPCSensorsMatchTheresholdRPM) || --tachometerControls[number].ticks <= 0) {
-        return false;
-    }
-
-    return true;
-}
-
-void LPCSensors::tachometerControlCancel(UInt8 number)
-{
-    tachometerControls[number].active = false;
-}
-
-IOReturn LPCSensors::woorkloopTimerEvent(void)
-{
-    bool active = false;
-
-    for (int index = 0; index < tachometerSensorsLimit(); index ++) {
-        if (tachometerControls[index].active && tachometerControlSample(index)) {
-            active = true;
-        }
-    }
-
-    if (active) {
-        timerEventSource->setTimeoutMS(kLPCSensorsWorkloopSamplingTimeout);
-        timerActivated = true;
-    }
-    else {
-        timerActivated = false;
-    }
-
-    return kIOReturnSuccess;
-}
 
 bool LPCSensors::checkConfigurationNode(OSObject *node, const char *name)
 {
@@ -258,7 +178,7 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
     UInt16 value = 0;
 
     // FAN manual control key
-    addSensor(KEY_FAN_MANUAL, TYPE_UI16, TYPE_UI16_SIZE, kLPCSensorsFanManualController, 0);
+    addSensor(KEY_FAN_MANUAL, TYPE_UI16, TYPE_UI16_SIZE, kLPCSensorsFanManualSwitch, 0);
 
     FanLocationType location = LEFT_LOWER_FRONT;
 
@@ -346,6 +266,14 @@ void LPCSensors::disableTachometerControl(UInt32 index)
     //
 }
 
+bool LPCSensors::initialize()
+{
+    return true;
+}
+
+#pragma mark
+#pragma mark Events
+
 bool LPCSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {
     if (sensor) {
@@ -364,7 +292,7 @@ bool LPCSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
                 *outValue = readTachometer(sensor->getIndex());
                 break;
 
-            case kLPCSensorsFanManualController:
+            case kLPCSensorsFanManualSwitch:
             case kLPCSensorsFanMinController:
             case kLPCSensorsFanTargetController:
             default:
@@ -382,13 +310,12 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
 {
     if (sensor) {
         switch (sensor->getGroup()) {
-            case kLPCSensorsFanManualController: {
+            case kLPCSensorsFanManualSwitch: {
                 bool active = false;
 
                 for (int i = 0; i < tachometerSensorsLimit(); i++) {
                     if (0 == (((UInt16)value >> tachometerControls[sensor->getIndex()].number) & 0x1)) {
                         tachometerControlCancel(i);
-                        disableTachometerControl(i);
                     }
 
                     if (tachometerControls[i].active) {
@@ -398,7 +325,8 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
 
                 if (!active) {
                     timerEventSource->cancelTimeout();
-                    timerActivated = false;
+                    timerScheduled = false;
+                    HWSensorsDebugLog("timer canceled");
                 }
 
                 break;
@@ -416,7 +344,7 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
 
                 fakeSMCPluginDecodeIntValue(TYPE_UI16, TYPE_UI16_SIZE, &buffer, &manual);
 
-                if ((manual >> tachometerControls[sensor->getIndex()].number) & 0x1) {
+                if (0 < ((manual >> tachometerControls[sensor->getIndex()].number) & 0x1)) {
                     tachometerControlInit(sensor->getIndex(), value);
                 }
                 break;
@@ -432,11 +360,6 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
     return false;
 }
 
-bool LPCSensors::initialize()
-{
-    return true;
-}
-
 void LPCSensors::willPowerOff()
 {
     //
@@ -446,6 +369,104 @@ void LPCSensors::hasPoweredOn()
 {
     //
 }
+
+#pragma mark
+#pragma mark Tachometer Controller
+
+void LPCSensors::tachometerControlInit(UInt8 number, float target)
+{
+    float value = readTachometer(number);
+
+    tachometerControls[number].error = target - value;
+
+    HWSensorsDebugLog("fan control [%d] init with target = %d", number, (int)target);
+
+    tachometerControls[number].target = target;
+    tachometerControls[number].control = readTachometerControl(number);
+    tachometerControls[number].prevError = 0;
+    tachometerControls[number].integral = 0;
+    tachometerControls[number].ticks = kLPCSensorsInitialTicks;
+    tachometerControls[number].active = true;
+
+    if (!timerScheduled) {
+        timerEventSource->setTimeoutMS(kLPCSensorsWorkloopSamplingTimeout);
+        timerScheduled = true;
+        HWSensorsDebugLog("timer scheduled");
+    }
+}
+
+bool LPCSensors::tachometerControlSample(UInt8 number)
+{
+    if (tachometerControls[number].active) {
+
+        float value = readTachometer(number);
+
+        tachometerControls[number].error = tachometerControls[number].target - value;
+        tachometerControls[number].integral += tachometerControls[number].error *
+        (kLPCSensorsWorkloopSamplingTimeout / 1000.0);
+        float difference = tachometerControls[number].error - tachometerControls[number].prevError;
+        double  derivative = difference / (kLPCSensorsWorkloopSamplingTimeout / 1000.0);
+
+        tachometerControls[number].prevError = tachometerControls[number].error;
+
+        float drive =
+        (tachometerControls[number].error * kLPCSensorsKp +
+         tachometerControls[number].integral * kLPCSensorsKi +
+         derivative * kLPCSensorsKd);
+
+        tachometerControls[number].control +=  drive;
+
+        tachometerControls[number].control = CLIP_CONTROL(tachometerControls[number].control);
+
+        HWSensorsDebugLog("fan control [%d] probe error = %d control = %d drive = %d", number, (int)tachometerControls[number].error, (int)tachometerControls[number].control, (int)drive);
+
+        writeTachometerControl(number, tachometerControls[number].control);
+
+        if (--tachometerControls[number].ticks <= 0) {
+            HWSensorsDebugLog("fan control [%d] finished", number);
+            tachometerControls[number].active = false;
+            return false;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+void LPCSensors::tachometerControlCancel(UInt8 number)
+{
+    disableTachometerControl(number);
+
+    tachometerControls[number].active = false;
+
+    HWSensorsDebugLog("fan control [%d] canceled", number);
+}
+
+IOReturn LPCSensors::woorkloopTimerEvent(void)
+{
+    bool active = false;
+
+    for (int index = 0; index < tachometerSensorsLimit(); index ++) {
+        if (tachometerControls[index].active && tachometerControlSample(index)) {
+            active = true;
+        }
+    }
+
+    if (active) {
+        timerEventSource->setTimeoutMS(kLPCSensorsWorkloopSamplingTimeout);
+        timerScheduled = true;
+        HWSensorsDebugLog("timer scheduled");
+    }
+    else {
+        timerScheduled = false;
+    }
+    
+    return kIOReturnSuccess;
+}
+
+#pragma mark
+#pragma mark Overridden Methods
 
 bool LPCSensors::init(OSDictionary *properties)
 {
@@ -558,17 +579,17 @@ IOReturn LPCSensors::setPowerState(unsigned long powerState, IOService *device)
 {
     switch (powerState) {
         case 0: // Power Off
-            if (timerActivated) {
-                timerEventSource->cancelTimeout();
-            }
+//            if (timerScheduled) {
+//                timerEventSource->cancelTimeout();
+//            }
             willPowerOff();
             break;
 
         case 1: // Power On
             hasPoweredOn();
-            if (timerActivated) {
-                timerEventSource->setTimeoutMS(250);
-            }
+//            if (timerScheduled) {
+//                timerEventSource->setTimeoutMS(250);
+//            }
             break;
 
         default:

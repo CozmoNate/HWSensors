@@ -34,6 +34,8 @@
 
 NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
+static HWMEngine* gDefaultEngine = nil;
+
 @implementation HWMEngine
 
 @synthesize iconsWithSensorsAndGroups = _iconsWithSensorsAndGroups;
@@ -46,12 +48,21 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 #pragma mark
 #pragma mark Global methods
 
++(HWMEngine*)defaultEngine
+{
+    return gDefaultEngine;
+}
+
 +(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
 {
     HWMEngine *me = [[HWMEngine alloc] init];
 
     if (me) {
         me.bundle = bundle;
+
+        if (!gDefaultEngine) {
+            gDefaultEngine = me;
+        }
     }
 
     return me;
@@ -1553,8 +1564,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             }
         }
         else {
-            // Force SMC fan speed to previousely saved speed
-            [fan refresh];
+            // Reset fan manual control and speed if needed
+            [fan setControlled:fan.controlled];
         }
     }
     else {

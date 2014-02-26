@@ -28,6 +28,7 @@
 
 #import "HWMAtaSmartSensor.h"
 
+#import "HWMEngine.h"
 #import "HWMConfiguration.h"
 #import "HWMEngine.h"
 #import "HWMSensorsGroup.h"
@@ -667,26 +668,30 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
                         if (threshold)
                         {
-                            if (critical && attribute->current <= threshold->ThresholdValue) {
+                            if (critical && attribute->current < threshold->ThresholdValue) {
                                 level = kHWMSensorLevelExceeded;
                             }
                         }
 
                         NSColor *titleColor = nil;
 
-                        switch (level) {
-                            case kHWMSensorLevelExceeded:
+                        if ([HWMEngine defaultEngine] && [HWMEngine defaultEngine].configuration.notifyAlarmLevelChanges) {
+                            switch (level) {
+                                case kHWMSensorLevelExceeded:
+                                    titleColor = [NSColor redColor];
+                                    [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
+                                                                description:[NSString stringWithFormat:GetLocalizedString(@"'%@' S.M.A.R.T. attribute is critical for %@. Drive failure predicted!"), title, _product]
+                                                           notificationName:NotifierSensorLevelExceededNotification
+                                                                   iconData:nil
+                                                                   priority:0
+                                                                   isSticky:YES
+                                                               clickContext:nil];
+                                    break;
 
-                                titleColor = [NSColor redColor];
-
-                                [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
-                                                            description:[NSString stringWithFormat:GetLocalizedString(@"'%@' S.M.A.R.T. attribute is critical for %@. Drive failure predicted!"), title, _product]
-                                                       notificationName:NotifierSensorLevelExceededNotification
-                                                               iconData:nil
-                                                               priority:0
-                                                               isSticky:YES
-                                                           clickContext:nil];
-                                break;
+                                default:
+                                    // none
+                                    break;
+                            }
                         }
 
                         [attributes addObject:@{@"index" : [NSNumber numberWithUnsignedInteger:count++],

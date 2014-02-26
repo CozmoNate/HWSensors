@@ -38,7 +38,7 @@
 
 #define kLPCSensorsFanTargetController  1000
 #define kLPCSensorsFanMinController     2000
-#define kLPCSensorsFanManualController  3000
+#define kLPCSensorsFanManualSwitch      3000
 
 struct LPCSensorsTachometerControl {
     UInt8   number;
@@ -63,7 +63,7 @@ private:
     IOTimerEventSource*     timerEventSource;
     LPCSensorsTachometerControl    tachometerControls[kLPCSensorsMaxtachometerControls];
 
-    bool                    timerActivated;
+    bool                    timerScheduled;
 
     void                    tachometerControlInit(UInt8 number, float target);
     bool                    tachometerControlSample(UInt8 number);

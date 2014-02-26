@@ -89,6 +89,10 @@
 		7E420FA31820E04900331D2B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E420FA11820E04900331D2B /* InfoPlist.strings */; };
 		7E420FA51820E04900331D2B /* HWMonitor_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E420FA41820E04900331D2B /* HWMonitor_Tests.m */; };
 		7E420FAD1820E2D800331D2B /* Profiles in Resources */ = {isa = PBXBuildFile; fileRef = 7E420FAC1820E2D800331D2B /* Profiles */; };
+		7E48B3CC18BE5A0E00B6B734 /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */; };
+		7E48B3CF18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CE18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m */; };
+		7E48B3D018BE5A1D00B6B734 /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */; };
+		7E48B3D118BE5A3300B6B734 /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */; };
 		7E4959F218A640F200E05CF7 /* PopupFanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4959F118A640F200E05CF7 /* PopupFanController.m */; };
 		7E4C76AE18A559BA0050BEFD /* PopupAtaSmartReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C76AC18A559BA0050BEFD /* PopupAtaSmartReportController.m */; };
 		7E4C76AF18A559BA0050BEFD /* PopupAtaSmartReportController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E4C76AD18A559BA0050BEFD /* PopupAtaSmartReportController.xib */; };
@@ -149,16 +153,12 @@
 		7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1ACA16D956EA0012A0DC /* GraphsView.m */; };
 		7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1AD016DA83AF0012A0DC /* GraphsController.m */; };
 		7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC87216FA5DA50072B15B /* Localizer.m */; };
-		7EEB2D6B1847E82C008B6D1C /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */; };
-		7EEB2D6C1847E8FE008B6D1C /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */; };
 		7EEC9F4418B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4218B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist */; };
 		7EEC9F4518B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4318B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist */; };
 		7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */; };
 		7EEC9F4918B8D20600BDB9D7 /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7EF393C1185C8D990033F1AB /* smc.c */; };
 		7EEC9F4A18B8D2E200BDB9D7 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7EEC9F4C18B8D73E00BDB9D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4B18B8D73E00BDB9D7 /* main.m */; };
-		7EEC9F4D18B8D75E00BDB9D7 /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */; };
-		7EEC9F5018B8E2A500BDB9D7 /* SmcHelper+HWMonitorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4F18B8E2A500BDB9D7 /* SmcHelper+HWMonitorHelper.m */; };
 		7EED6D6F1734F8E700248870 /* 16-line-chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6B1734F8E700248870 /* 16-line-chart.png */; };
 		7EED6D701734F8E700248870 /* 16-line-chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */; };
 		7EED6D7D1734F9CF00248870 /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EED6D7B1734F9CF00248870 /* 19-gear.png */; };
@@ -354,6 +354,10 @@
 		7E420FA61820E04900331D2B /* HWMonitor Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HWMonitor Tests-Prefix.pch"; sourceTree = "<group>"; };
 		7E420FAC1820E2D800331D2B /* Profiles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Profiles; sourceTree = "<group>"; };
 		7E4408F218639CD3002B2960 /* HWMEngine 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.1.xcdatamodel"; sourceTree = "<group>"; };
+		7E48B3CA18BE5A0E00B6B734 /* SmcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmcHelper.h; path = Shared/SmcHelper.h; sourceTree = "<group>"; };
+		7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmcHelper.m; path = Shared/SmcHelper.m; sourceTree = "<group>"; };
+		7E48B3CD18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SmcHelper+HWMonitorHelper.h"; path = "Shared/SmcHelper+HWMonitorHelper.h"; sourceTree = "<group>"; };
+		7E48B3CE18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SmcHelper+HWMonitorHelper.m"; path = "Shared/SmcHelper+HWMonitorHelper.m"; sourceTree = "<group>"; };
 		7E4959F018A640F200E05CF7 /* PopupFanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupFanController.h; sourceTree = "<group>"; };
 		7E4959F118A640F200E05CF7 /* PopupFanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupFanController.m; sourceTree = "<group>"; };
 		7E4C76AB18A559BA0050BEFD /* PopupAtaSmartReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupAtaSmartReportController.h; sourceTree = "<group>"; };
@@ -451,13 +455,9 @@
 		7EDA1AD016DA83AF0012A0DC /* GraphsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphsController.m; sourceTree = "<group>"; };
 		7EDDC87116FA5DA50072B15B /* Localizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localizer.h; sourceTree = "<group>"; };
 		7EDDC87216FA5DA50072B15B /* Localizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Localizer.m; sourceTree = "<group>"; };
-		7EEB2D691847E82C008B6D1C /* SmcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmcHelper.h; sourceTree = "<group>"; };
-		7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmcHelper.m; sourceTree = "<group>"; };
 		7EEC9F4218B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HWMonitorHelper-Info.plist"; sourceTree = "<group>"; };
 		7EEC9F4318B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HWMonitorHelper-Launchd.plist"; sourceTree = "<group>"; };
 		7EEC9F4B18B8D73E00BDB9D7 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7EEC9F4E18B8E2A500BDB9D7 /* SmcHelper+HWMonitorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SmcHelper+HWMonitorHelper.h"; sourceTree = "<group>"; };
-		7EEC9F4F18B8E2A500BDB9D7 /* SmcHelper+HWMonitorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SmcHelper+HWMonitorHelper.m"; sourceTree = "<group>"; };
 		7EED6D6B1734F8E700248870 /* 16-line-chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart.png"; sourceTree = "<group>"; };
 		7EED6D6C1734F8E700248870 /* 16-line-chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-line-chart@2x.png"; sourceTree = "<group>"; };
 		7EED6D7B1734F9CF00248870 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
@@ -1082,10 +1082,10 @@
 		7EEB2D681847E819008B6D1C /* Cocoa */ = {
 			isa = PBXGroup;
 			children = (
-				7EEB2D691847E82C008B6D1C /* SmcHelper.h */,
-				7EEB2D6A1847E82C008B6D1C /* SmcHelper.m */,
-				7EEC9F4E18B8E2A500BDB9D7 /* SmcHelper+HWMonitorHelper.h */,
-				7EEC9F4F18B8E2A500BDB9D7 /* SmcHelper+HWMonitorHelper.m */,
+				7E48B3CA18BE5A0E00B6B734 /* SmcHelper.h */,
+				7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */,
+				7E48B3CD18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.h */,
+				7E48B3CE18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m */,
 			);
 			name = Cocoa;
 			sourceTree = "<group>";
@@ -1407,9 +1407,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EEC9F4D18B8D75E00BDB9D7 /* SmcHelper.m in Sources */,
 				7EEC9F4918B8D20600BDB9D7 /* smc.c in Sources */,
 				7EEC9F4C18B8D73E00BDB9D7 /* main.m in Sources */,
+				7E48B3D018BE5A1D00B6B734 /* SmcHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1426,8 +1426,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E5134E7185C92050069AD93 /* smc.c in Sources */,
-				7EEB2D6C1847E8FE008B6D1C /* SmcHelper.m in Sources */,
 				7E9060E81708951800BF5BBF /* main.m in Sources */,
+				7E48B3D118BE5A3300B6B734 /* SmcHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1454,11 +1454,11 @@
 				7EF1B129185342630094C1DB /* HWMFavorite.m in Sources */,
 				7EDA1A7816D903740012A0DC /* PopupGroupCell.m in Sources */,
 				7EDA1A7916D903740012A0DC /* PopupSensorCell.m in Sources */,
-				7EEB2D6B1847E82C008B6D1C /* SmcHelper.m in Sources */,
 				7E4C76BA18A61C190050BEFD /* NSTableHeaderCell+PopupThemedHeader.m in Sources */,
+				7E48B3CC18BE5A0E00B6B734 /* SmcHelper.m in Sources */,
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
-				7EEC9F5018B8E2A500BDB9D7 /* SmcHelper+HWMonitorHelper.m in Sources */,
+				7E48B3CF18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m in Sources */,
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
 				7ED6AE08188347FD0005B30C /* PrefsToolbarItem.m in Sources */,
