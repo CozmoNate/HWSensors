@@ -1564,8 +1564,8 @@ static HWMEngine* gDefaultEngine = nil;
             }
         }
         else {
-            // Reset fan manual control and speed if needed
-            [fan setControlled:fan.controlled];
+            // Reset phusical fan speed if needed
+            [fan setSpeed:fan.speed];
         }
     }
     else {

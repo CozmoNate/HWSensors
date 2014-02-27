@@ -46,42 +46,20 @@
 -(void)setControlled:(NSNumber *)controlled
 {
     if (controlled) {
-
-        SMCVal_t info;
-
-        if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
-
-            NSNumber *value;
-
-            if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
-
-                UInt16 manual = value.unsignedShortValue;
-
-                if (!bit_get(manual, BIT(self.number.unsignedShortValue))) {
-                    bit_write(self.controlled.boolValue, manual, BIT(self.number.unsignedShortValue));
-                    [SmcHelper privilegedWriteNumericKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
-                }
-            }
+        // Set back fan min then disabling manual control on Macs
+        if (self.engine.isRunningOnMac && !controlled.boolValue && (!self.controlled || self.controlled.boolValue)) {
+            [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, self.number.unsignedCharValue] value:self.min];
         }
-
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            // Get back fan min then disabling manual control on Macs
-            if (self.engine.isRunningOnMac && !controlled.boolValue && (!self.controlled || self.controlled.boolValue)) {
-                [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, self.number.unsignedCharValue] value:self.min];
-            }
-        }];
     }
 
     [self willChangeValueForKey:@"controlled"];
     [self setPrimitiveValue:controlled forKey:@"controlled"];
     [self didChangeValueForKey:@"controlled"];
 
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        // If control enabled, set stored fan speed back
-        if (self.controlled && self.controlled.boolValue) {
-            [self setSpeed:self.speed];
-        }
-    }];
+    // If control enabled, set stored fan speed back
+    if (self.controlled && self.controlled.boolValue) {
+        [self setSpeed:self.speed];
+    }
 }
 
 -(void)setSpeed:(NSNumber *)speed
@@ -91,6 +69,25 @@
             [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, self.number.unsignedCharValue] value:speed];
         }
         else {
+            // Write manual control key
+            SMCVal_t info;
+
+            if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
+
+                NSNumber *value;
+
+                if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
+
+                    UInt16 manual = value.unsignedShortValue;
+
+                    if (!bit_get(manual, BIT(self.number.unsignedShortValue))) {
+                        bit_write(self.controlled.boolValue, manual, BIT(self.number.unsignedShortValue));
+                        [SmcHelper privilegedWriteNumericKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
+                    }
+                }
+            }
+
+            // Write target speed key
             [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed];
         }
     }

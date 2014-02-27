@@ -27,41 +27,43 @@
     if (![self blessHelperWithLabel:@kSmcHelperLabel])
         return;
 
-    xpc_connection_t xpc_connection = xpc_connection_create_mach_service(kSmcHelperLabel, NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        xpc_connection_t xpc_connection = xpc_connection_create_mach_service(kSmcHelperLabel, NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
 
-    xpc_connection_set_event_handler(xpc_connection, ^(xpc_object_t event) {
-        xpc_type_t type = xpc_get_type(event);
-        if (type == XPC_TYPE_ERROR) {
-            if (event == XPC_ERROR_CONNECTION_INTERRUPTED) {
-                NSLog(@"XPC connection interupted");
-            }
-            else if (event == XPC_ERROR_CONNECTION_INVALID) {
-                NSLog(@"XPC connection invalid, releasing");
-                xpc_release(xpc_connection);
+        xpc_connection_set_event_handler(xpc_connection, ^(xpc_object_t event) {
+            xpc_type_t type = xpc_get_type(event);
+            if (type == XPC_TYPE_ERROR) {
+                if (event == XPC_ERROR_CONNECTION_INTERRUPTED) {
+                    NSLog(@"XPC connection interupted");
+                }
+                else if (event == XPC_ERROR_CONNECTION_INVALID) {
+                    NSLog(@"XPC connection invalid, releasing");
+                    xpc_release(xpc_connection);
+                }
+                else {
+                    NSLog(@"Unexpected XPC connection error");
+                }
             }
             else {
-                NSLog(@"Unexpected XPC connection error");
+                NSLog(@"Unexpected XPC connection event");
             }
-        }
-        else {
-            NSLog(@"Unexpected XPC connection event");
-        }
-    });
+        });
 
-    xpc_connection_resume(xpc_connection);
+        xpc_connection_resume(xpc_connection);
 
-    xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
+        xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
 
-    xpc_dictionary_set_int64(message, "command", kSmcHelperCommandWriteNumber);
-    xpc_dictionary_set_string(message, "key", key.UTF8String);
-    xpc_dictionary_set_int64(message, "value", value.longLongValue);
+        xpc_dictionary_set_int64(message, "command", kSmcHelperCommandWriteNumber);
+        xpc_dictionary_set_string(message, "key", key.UTF8String);
+        xpc_dictionary_set_int64(message, "value", value.longLongValue);
 
-    NSLog(@"Sending request to helper");
+        NSLog(@"Sending request to helper");
 
-    xpc_connection_send_message_with_reply(xpc_connection, message, dispatch_get_main_queue(), ^(xpc_object_t event) {
-        IOReturn result = (IOReturn)xpc_dictionary_get_int64(event, "result");
-        NSLog(@"Received response from helper: %d", result);
-    });
+        xpc_connection_send_message_with_reply(xpc_connection, message, dispatch_get_main_queue(), ^(xpc_object_t event) {
+            IOReturn result = (IOReturn)xpc_dictionary_get_int64(event, "result");
+            NSLog(@"Received response from helper: %d", result);
+        });
+    }];
 }
 
 + (BOOL)blessHelperWithLabel:(NSString *)label
