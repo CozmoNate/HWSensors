@@ -39,8 +39,8 @@
 
 // PID fan control algorithm, reference article: http://www.codeproject.com/Articles/36459/PID-process-control-a-Cruise-Control-example
 
-#define kLPCSensorsWorkloopSampleTimeout    2000    // in milliseconds
-#define kLPCSensorsWorkloopSamplingLimit    60000
+#define kLPCSensorsControlSampleTimeout    2000    // in milliseconds
+#define kLPCSensorsControlSamplesCount     30      // maximum ticks per action
 #define kLPCSensorsKp   0.01200
 #define kLPCSensorsKi   0.00001
 #define kLPCSensorsKd   0.00600
@@ -377,13 +377,11 @@ void LPCSensors::tachometerControlInit(UInt8 number, float target)
 
     tachometerControls[number].target = target;
     tachometerControls[number].control = readTachometerControl(number);
-    tachometerControls[number].prevError = 0;
-    tachometerControls[number].integral = 0;
-    tachometerControls[number].ticks = kLPCSensorsWorkloopSamplingLimit / kLPCSensorsWorkloopSampleTimeout;
+    tachometerControls[number].samples = 0;
     tachometerControls[number].active = true;
 
     if (!timerScheduled) {
-        timerEventSource->setTimeoutMS(kLPCSensorsWorkloopSampleTimeout);
+        timerEventSource->setTimeoutMS(kLPCSensorsControlSampleTimeout);
         timerScheduled = true;
         HWSensorsDebugLog("timer scheduled");
     }
@@ -396,27 +394,33 @@ bool LPCSensors::tachometerControlSample(UInt8 number)
         float value = readTachometer(number);
 
         tachometerControls[number].error = tachometerControls[number].target - value;
-        tachometerControls[number].integral += tachometerControls[number].error *
-        (kLPCSensorsWorkloopSampleTimeout / 1000.0);
+
         float difference = tachometerControls[number].error - tachometerControls[number].prevError;
-        double  derivative = difference / (kLPCSensorsWorkloopSampleTimeout / 1000.0);
+        double derivative = difference / (kLPCSensorsControlSampleTimeout / 1000.0);
+
+        tachometerControls[number].integral += tachometerControls[number].error *
+        (kLPCSensorsControlSampleTimeout / 1000.0);
 
         tachometerControls[number].prevError = tachometerControls[number].error;
 
         float drive =
-        (tachometerControls[number].error * kLPCSensorsKp +
-         tachometerControls[number].integral * kLPCSensorsKi +
-         derivative * kLPCSensorsKd);
+            tachometerControls[number].error * kLPCSensorsKp +
+            tachometerControls[number].integral * kLPCSensorsKi +
+            derivative * kLPCSensorsKd;
 
         tachometerControls[number].control +=  drive;
 
         tachometerControls[number].control = CLIP_CONTROL(tachometerControls[number].control);
 
-        HWSensorsDebugLog("fan control [%d] probe error = %d control = %d drive = %d", number, (int)tachometerControls[number].error, (int)tachometerControls[number].control, (int)drive);
+        HWSensorsDebugLog("fan control [%d] probe error = %d control = %d drive = %d",
+                          number,
+                          (int)tachometerControls[number].error,
+                          (int)tachometerControls[number].control,
+                          (int)drive);
 
         writeTachometerControl(number, tachometerControls[number].control);
 
-        if (--tachometerControls[number].ticks <= 0) {
+        if (++tachometerControls[number].samples > kLPCSensorsControlSamplesCount) {
             HWSensorsDebugLog("fan control [%d] finished", number);
             tachometerControls[number].active = false;
             return false;
@@ -448,7 +452,7 @@ IOReturn LPCSensors::woorkloopTimerEvent(void)
     }
 
     if (active) {
-        timerEventSource->setTimeoutMS(kLPCSensorsWorkloopSampleTimeout);
+        timerEventSource->setTimeoutMS(kLPCSensorsControlSampleTimeout);
         timerScheduled = true;
         HWSensorsDebugLog("timer scheduled");
     }

@@ -50,7 +50,7 @@ struct LPCSensorsTachometerControl {
     float   error;
     float   prevError;
     double  integral;
-    int     ticks;
+    int     samples;
 };
 
 #define kLPCSensorsMaxtachometerControls       16
