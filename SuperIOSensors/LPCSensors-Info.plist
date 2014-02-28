@@ -599,9 +599,9 @@
 						<key>FANIN0</key>
 						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>Exhaust Fan</string>
+						<string>ExhaustFan</string>
 						<key>FANIN2</key>
-						<string>Intake Fan</string>
+						<string>IntakeFan</string>
 						<key>FANIN3</key>
 						<string></string>
 						<key>FANIN4</key>
@@ -708,9 +708,9 @@
 						<key>FANIN0</key>
 						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string>Exhaust Fan</string>
+						<string>ExhaustFan</string>
 						<key>FANIN2</key>
-						<string>Intake Fan</string>
+						<string>IntakeFan</string>
 						<key>FANIN3</key>
 						<string></string>
 						<key>TEMPIN0</key>
@@ -1443,15 +1443,15 @@
 					<key>Z87X-UD3H-CF</key>
 					<dict>
 						<key>FANIN0</key>
-						<string></string>
+						<string>CPUFan</string>
 						<key>FANIN1</key>
-						<string></string>
+						<string>SystemFan1</string>
 						<key>FANIN2</key>
-						<string></string>
+						<string>SystemFan2</string>
 						<key>FANIN3</key>
-						<string></string>
+						<string>PowerFan</string>
 						<key>FANIN4</key>
-						<string></string>
+						<string>AuxFan</string>
 						<key>TEMPIN0</key>
 						<string>Mainboard</string>
 						<key>TEMPIN1</key>
