@@ -77,8 +77,6 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
             if (S_OK == IOCreatePlugInInterfaceForService(service, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)) {
 
-                (*pluginInterface)->AddRef(pluginInterface);
-
                 IOATASMARTInterface ** smartInterface = NULL;
 
                 if (S_OK == (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIOATASMARTInterfaceID), (LPVOID)&smartInterface)) {
@@ -91,10 +89,14 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
                     break;
                 }
-                else if (smartInterface) {
-                    (*pluginInterface)->Release(pluginInterface);
-                    (*smartInterface)->Release(smartInterface);
-                    IODestroyPlugInInterface(pluginInterface);
+                else {
+                    if (smartInterface) {
+                        (*smartInterface)->Release(smartInterface);
+                    }
+
+                    if (pluginInterface) {
+                        IODestroyPlugInInterface(pluginInterface);
+                    }
 
                     [NSThread sleepForTimeInterval:0.25];
                 }
@@ -120,7 +122,8 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 {
     if (gIOCFPluginInterfaceCache) {
         [gIOCFPluginInterfaceCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            [obj destroy];
+
+            [(HWMSmartPluginInterfaceWrapper*)obj releaseInterface];
         }];
 
         [gIOCFPluginInterfaceCache removeAllObjects];
@@ -737,15 +740,13 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
     return self;
 }
 
--(void)destroy
+-(void)releaseInterface
 {
     if (self.smartInterface) {
         (*self.smartInterface)->Release(self.smartInterface);
     }
 
     if (self.pluginInterface) {
-        (*self.pluginInterface)->Release(self.pluginInterface);
-
         IODestroyPlugInInterface(self.pluginInterface);
     }
 }

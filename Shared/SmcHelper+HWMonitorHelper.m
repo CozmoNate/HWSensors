@@ -63,6 +63,8 @@
             IOReturn result = (IOReturn)xpc_dictionary_get_int64(event, "result");
             NSLog(@"Received response from helper: %d", result);
         });
+
+        xpc_release(message);
     }];
 }
 
@@ -70,15 +72,15 @@
 {
  	BOOL result = NO;
 
-    NSDictionary *helperJobData = (__bridge NSDictionary*)SMJobCopyDictionary(kSMDomainSystemLaunchd, (__bridge CFStringRef)label);
+    NSDictionary *helperJobData = (NSDictionary*)CFBridgingRelease(SMJobCopyDictionary(kSMDomainSystemLaunchd, (__bridge CFStringRef)label));
 
     if (helperJobData) {
         NSURL *installedHelperURL = [NSURL fileURLWithPath:helperJobData[@"ProgramArguments"][0]];
-        NSDictionary *installedHelperInfoPlist = (__bridge NSDictionary*)CFBundleCopyInfoDictionaryForURL((__bridge CFURLRef)installedHelperURL);
+        NSDictionary *installedHelperInfoPlist = (NSDictionary*)CFBridgingRelease(CFBundleCopyInfoDictionaryForURL((__bridge CFURLRef)installedHelperURL));
         NSInteger installedHelperVersion = [installedHelperInfoPlist[@"CFBundleVersion"] integerValue];
 
         NSURL *currentHelperToolURL = [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"Contents/Library/LaunchServices/org.hwsensors.HWMonitorHelper"];
-        NSDictionary *currentHelperInfoPlist = (__bridge NSDictionary*)CFBundleCopyInfoDictionaryForURL( (__bridge CFURLRef)currentHelperToolURL);
+        NSDictionary *currentHelperInfoPlist = (NSDictionary*)CFBridgingRelease(CFBundleCopyInfoDictionaryForURL( (__bridge CFURLRef)currentHelperToolURL));
         NSInteger currentHelperVersion = [currentHelperInfoPlist[@"CFBundleVersion"] integerValue];
 
         if (installedHelperVersion == currentHelperVersion) {
@@ -87,12 +89,13 @@
     }
 
     // Install helper tool
-	AuthorizationItem authItems[2]  = {{kSMRightBlessPrivilegedHelper, 0, NULL, 0}, {kSMRightModifySystemDaemons, 0, NULL, 0}};
+	AuthorizationItem authItems[2]  = {
+        {kSMRightBlessPrivilegedHelper, 0, NULL, 0},
+        {kSMRightModifySystemDaemons, 0, NULL, 0}
+    };
+
 	AuthorizationRights authRights	= {helperJobData ? 2 : 1, authItems};
-	AuthorizationFlags flags		=	kAuthorizationFlagDefaults				|
-    kAuthorizationFlagInteractionAllowed	|
-    kAuthorizationFlagPreAuthorize			|
-    kAuthorizationFlagExtendRights;
+	AuthorizationFlags flags		= kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed	|kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
 
 	AuthorizationRef authRef = NULL;
 
@@ -108,7 +111,7 @@
 
         if (helperJobData) {
 
-            result = SMJobRemove(kSMDomainSystemLaunchd, (__bridge CFStringRef)(label), authRef, true, &localError);
+            result = SMJobRemove(kSMDomainSystemLaunchd, CFBridgingRetain(label), authRef, true, &localError);
 
             if (localError) {
                 NSLog(@"SMJobRemove() failed with error %@", localError);
@@ -116,7 +119,7 @@
             }
         }
 
-		result = SMJobBless(kSMDomainSystemLaunchd, (__bridge CFStringRef)label, authRef, (CFErrorRef*)&localError);
+		result = SMJobBless(kSMDomainSystemLaunchd, CFBridgingRetain(label), authRef, (CFErrorRef*)&localError);
 
         if (localError) {
             NSLog(@"SMJobBless() failed with error %@", localError);
