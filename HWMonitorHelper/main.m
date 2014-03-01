@@ -58,7 +58,6 @@
 #import "SmcHelper.h"
 #import "smc.h"
 
-#include <syslog.h>
 #include <xpc/xpc.h>
 
 int main(int argc, const char *argv[])
@@ -67,21 +66,12 @@ int main(int argc, const char *argv[])
                                                                   dispatch_get_main_queue(),
                                                                   XPC_CONNECTION_MACH_SERVICE_LISTENER);
 
-    if (!service) {
-        NSLog(@"Failed to create service");
+    if (!service)
         exit(EXIT_FAILURE);
-    }
-
-    NSLog(@"Configuring connection event handler for helper");
 
     xpc_connection_set_event_handler(service, ^(xpc_object_t connection) {
-
-        NSLog(@"Configuring message event handler for helper");
-
         xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
-
-            NSLog(@"Received event in helper");
-
+            
             xpc_type_t type = xpc_get_type(event);
 
             if (type == XPC_TYPE_ERROR) {
@@ -95,7 +85,6 @@ int main(int argc, const char *argv[])
                 } else if (event == XPC_ERROR_TERMINATION_IMMINENT) {
                     // Handle per-connection termination cleanup.
                 }
-
             }
             else if (type == XPC_TYPE_DICTIONARY) {
                 if (xpc_dictionary_get_count(event)) {
@@ -133,9 +122,6 @@ int main(int argc, const char *argv[])
                     xpc_connection_send_message(remote, reply);
                     xpc_release(reply);
                 }
-            }
-            else {
-                
             }
         });
         

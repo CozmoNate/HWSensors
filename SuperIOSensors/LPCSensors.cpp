@@ -369,10 +369,6 @@ void LPCSensors::hasPoweredOn()
 
 void LPCSensors::tachometerControlInit(UInt8 number, float target)
 {
-    float value = readTachometer(number);
-
-    tachometerControls[number].error = target - value;
-
     HWSensorsDebugLog("fan control [%d] init with target = %d", number, (int)target);
 
     tachometerControls[number].target = target;

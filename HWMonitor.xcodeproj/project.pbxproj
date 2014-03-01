@@ -86,8 +86,6 @@
 		7E37BCD618997EBD0046F59A /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E37BCD418997EBD0046F59A /* hwmonitor.png */; };
 		7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */; };
 		7E41500F18A8034000E6CD7F /* smart-overrides.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E41500E18A8034000E6CD7F /* smart-overrides.plist */; };
-		7E420FA31820E04900331D2B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E420FA11820E04900331D2B /* InfoPlist.strings */; };
-		7E420FA51820E04900331D2B /* HWMonitor_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E420FA41820E04900331D2B /* HWMonitor_Tests.m */; };
 		7E420FAD1820E2D800331D2B /* Profiles in Resources */ = {isa = PBXBuildFile; fileRef = 7E420FAC1820E2D800331D2B /* Profiles */; };
 		7E48B3CC18BE5A0E00B6B734 /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */; };
 		7E48B3CF18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CE18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m */; };
@@ -183,13 +181,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7E420FA71820E04900331D2B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7EA248E016D8E93A002231B2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7EA248E716D8E93A002231B2;
-			remoteInfo = HWMonitor;
-		};
 		7EEC9F4718B8D0FB00BDB9D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7EA248E016D8E93A002231B2 /* Project object */;
@@ -295,6 +286,7 @@
 		7E27897F1876FB6300B443BD /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = HWMonitor/Growl.framework; sourceTree = "<group>"; };
 		7E2FE0A3178D18CA00802D38 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = org.hwsensors.HWMonitorHelper; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E34F07318C1BE190041BC84 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7E356DD418B88FB300BCC873 /* HWMEngine 1.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.6.xcdatamodel"; sourceTree = "<group>"; };
 		7E36E53C188AB15500BD9744 /* voltages@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "voltages@2x.png"; sourceTree = "<group>"; };
 		7E36E53D188AB15500BD9744 /* voltages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voltages.png; sourceTree = "<group>"; };
@@ -347,11 +339,6 @@
 		7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HWMEngine.xcdatamodel; sourceTree = "<group>"; };
 		7E3D41CC18B2B67A002F6559 /* ACPIProbeArgument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ACPIProbeArgument.h; path = Shared/ACPIProbeArgument.h; sourceTree = "<group>"; };
 		7E41500E18A8034000E6CD7F /* smart-overrides.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "smart-overrides.plist"; sourceTree = "<group>"; };
-		7E420F9B1820E04900331D2B /* HWMonitor Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HWMonitor Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7E420FA01820E04900331D2B /* HWMonitor Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HWMonitor Tests-Info.plist"; sourceTree = "<group>"; };
-		7E420FA21820E04900331D2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7E420FA41820E04900331D2B /* HWMonitor_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMonitor_Tests.m; sourceTree = "<group>"; };
-		7E420FA61820E04900331D2B /* HWMonitor Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HWMonitor Tests-Prefix.pch"; sourceTree = "<group>"; };
 		7E420FAC1820E2D800331D2B /* Profiles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Profiles; sourceTree = "<group>"; };
 		7E4408F218639CD3002B2960 /* HWMEngine 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		7E48B3CA18BE5A0E00B6B734 /* SmcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmcHelper.h; path = Shared/SmcHelper.h; sourceTree = "<group>"; };
@@ -497,13 +484,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EEC9F4A18B8D2E200BDB9D7 /* IOKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7E420F981820E04900331D2B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -830,25 +810,6 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
-		7E420F9E1820E04900331D2B /* HWMonitor Tests */ = {
-			isa = PBXGroup;
-			children = (
-				7E420FA41820E04900331D2B /* HWMonitor_Tests.m */,
-				7E420F9F1820E04900331D2B /* Supporting Files */,
-			);
-			path = "HWMonitor Tests";
-			sourceTree = "<group>";
-		};
-		7E420F9F1820E04900331D2B /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				7E420FA01820E04900331D2B /* HWMonitor Tests-Info.plist */,
-				7E420FA11820E04900331D2B /* InfoPlist.strings */,
-				7E420FA61820E04900331D2B /* HWMonitor Tests-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		7E4C76A818A555390050BEFD /* PopupAtaSmartSensorCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -926,7 +887,6 @@
 				7EA248F116D8E93A002231B2 /* HWMonitor */,
 				7E3299CE18B8D0490022FB53 /* HWMonitorHelper */,
 				7E9060E61708951800BF5BBF /* smcutil */,
-				7E420F9E1820E04900331D2B /* HWMonitor Tests */,
 				7EA248EA16D8E93A002231B2 /* Frameworks */,
 				7EA248E916D8E93A002231B2 /* Products */,
 			);
@@ -937,7 +897,6 @@
 			children = (
 				7EA248E816D8E93A002231B2 /* HWMonitor.app */,
 				7E9060E41708951800BF5BBF /* smcutil */,
-				7E420F9B1820E04900331D2B /* HWMonitor Tests.xctest */,
 				7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */,
 			);
 			name = Products;
@@ -948,6 +907,7 @@
 			children = (
 				7E4E349F18B8A6EC008EA5F9 /* Linked */,
 				7E1A8DB51876B32900853CB6 /* Other */,
+				7E34F07318C1BE190041BC84 /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1182,24 +1142,6 @@
 			productReference = 7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */;
 			productType = "com.apple.product-type.tool";
 		};
-		7E420F9A1820E04900331D2B /* HWMonitor Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7E420FAB1820E04900331D2B /* Build configuration list for PBXNativeTarget "HWMonitor Tests" */;
-			buildPhases = (
-				7E420F971820E04900331D2B /* Sources */,
-				7E420F981820E04900331D2B /* Frameworks */,
-				7E420F991820E04900331D2B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7E420FA81820E04900331D2B /* PBXTargetDependency */,
-			);
-			name = "HWMonitor Tests";
-			productName = "HWMonitor Tests";
-			productReference = 7E420F9B1820E04900331D2B /* HWMonitor Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		7E9060E31708951800BF5BBF /* smcutil */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7E9060ED1708951800BF5BBF /* Build configuration list for PBXNativeTarget "smcutil" */;
@@ -1247,9 +1189,6 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = kozlek;
 				TargetAttributes = {
-					7E420F9A1820E04900331D2B = {
-						TestTargetID = 7EA248E716D8E93A002231B2;
-					};
 					7EA248E716D8E93A002231B2 = {
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -1284,20 +1223,11 @@
 				7EA248E716D8E93A002231B2 /* HWMonitor */,
 				7E3299CC18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */,
 				7E9060E31708951800BF5BBF /* smcutil */,
-				7E420F9A1820E04900331D2B /* HWMonitor Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		7E420F991820E04900331D2B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7E420FA31820E04900331D2B /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7EA248E616D8E93A002231B2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1413,14 +1343,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7E420F971820E04900331D2B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7E420FA51820E04900331D2B /* HWMonitor_Tests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7E9060E01708951800BF5BBF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1495,11 +1417,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7E420FA81820E04900331D2B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7EA248E716D8E93A002231B2 /* HWMonitor */;
-			targetProxy = 7E420FA71820E04900331D2B /* PBXContainerItemProxy */;
-		};
 		7EEC9F4818B8D0FB00BDB9D7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7E3299CC18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */;
@@ -1508,14 +1425,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7E420FA11820E04900331D2B /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7E420FA21820E04900331D2B /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		7EA248F416D8E93A002231B2 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1601,58 +1510,6 @@
 					"HWMonitorHelper/HWMonitorHelper-Launchd.plist",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		7E420FA91820E04900331D2B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HWMonitor.app/Contents/MacOS/HWMonitor";
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "HWMonitor Tests/HWMonitor Tests-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "HWMonitor Tests/HWMonitor Tests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		7E420FAA1820E04900331D2B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HWMonitor.app/Contents/MacOS/HWMonitor";
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "HWMonitor Tests/HWMonitor Tests-Prefix.pch";
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "HWMonitor Tests/HWMonitor Tests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -1786,15 +1643,6 @@
 			buildConfigurations = (
 				7E3299D418B8D0490022FB53 /* Debug */,
 				7E3299D518B8D0490022FB53 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7E420FAB1820E04900331D2B /* Build configuration list for PBXNativeTarget "HWMonitor Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7E420FA91820E04900331D2B /* Debug */,
-				7E420FAA1820E04900331D2B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
