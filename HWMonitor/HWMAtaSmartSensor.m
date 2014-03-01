@@ -81,8 +81,6 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
                 if (S_OK == (*pluginInterface)->QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIOATASMARTInterfaceID), (LPVOID)&smartInterface)) {
 
-                    (*smartInterface)->AddRef(smartInterface);
-
                     wrapper = [[HWMSmartPluginInterfaceWrapper alloc] initWithPluginInterface:pluginInterface smartInterface:smartInterface productName:productName firmware:firmware bsdName:bsdName isRotational:rotational];
 
                     [gIOCFPluginInterfaceCache setObject:wrapper forKey:bsdName];
