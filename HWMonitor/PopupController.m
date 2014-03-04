@@ -26,6 +26,7 @@
 
 #import "NSTableView+HWMEngineHelper.h"
 #import "NSImage+HighResolutionLoading.h"
+#import "NSView+NSLayoutConstraintFilter.h"
 
 @implementation PopupController
 
@@ -178,13 +179,14 @@
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
     if (resizeToContent) {
-        __block CGFloat height = menubarWindow.toolbarHeight + 6;
+
+        __block CGFloat height = 6;
 
         [_sensorsAndGroupsCollectionSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             height += [self tableView:_tableView heightOfRow:idx];
         }];
 
-        if (height > menubarWindow.screen.visibleFrame.size.height) {
+        if (height + menubarWindow.toolbarHeight > menubarWindow.screen.visibleFrame.size.height) {
             height = menubarWindow.screen.visibleFrame.size.height - menubarWindow.toolbarHeight;
             [_scrollView setHasVerticalScroller:YES];
         }
@@ -192,19 +194,13 @@
             [_scrollView setHasVerticalScroller:NO];
         }
 
+        NSLayoutConstraint *constraint = [_tableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
+
         if (animated) {
-            [[menubarWindow animator] setFrame:NSMakeRect(menubarWindow.frame.origin.x,
-                                                          menubarWindow.frame.origin.y + (menubarWindow.frame.size.height - height),
-                                                          menubarWindow.frame.size.width,
-                                                          height)
-                                       display:YES];
+            [[constraint animator] setConstant:height];
         }
         else {
-            [menubarWindow setFrame:NSMakeRect(menubarWindow.frame.origin.x,
-                                               menubarWindow.frame.origin.y + (menubarWindow.frame.size.height - height),
-                                               menubarWindow.frame.size.width,
-                                               height)
-                            display:YES];
+            [constraint setConstant:height];
         }
     }
 

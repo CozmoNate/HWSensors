@@ -27,34 +27,34 @@
  */
 
 #import "HWMSensor.h"
+#import "HWMGraph.h"
+#import "HWMSensorController.h"
 #import "HWMSensorsGroup.h"
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
 #import "HWMValueFormatter.h"
-
-#import "Localizer.h"
 #import "HWMonitorDefinitions.h"
-
+#import "Localizer.h"
 #import <Growl/Growl.h>
 
 @implementation HWMSensor
 
 @dynamic forced;
-@dynamic service;
 @dynamic selector;
+@dynamic service;
 @dynamic type;
 @dynamic value;
-@dynamic group;
 @dynamic graph;
-@dynamic favorite;
+@dynamic group;
+@dynamic controller;
+@dynamic linked;
 
 @synthesize alarmLevel = _alarmLevel;
-//@synthesize lastUpdated = _lastUpdated;
 
 -(void)awakeFromFetch
 {
     [super awakeFromFetch];
-    
+
     [self addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
 }
 
@@ -100,7 +100,7 @@
     if (!_formattedValue) {
         _formattedValue = [HWMValueFormatter formattedValue:self.value usingRulesOfGroup:self.selector configuration:self.engine.configuration];
     }
-    
+
     return _formattedValue;
 }
 
@@ -109,7 +109,7 @@
     if (!_strippedValue) {
         _strippedValue = [HWMValueFormatter strippedValue:self.value usingRulesOfGroup:self.selector configuration:self.engine.configuration];
     }
-    
+
     return _strippedValue;
 }
 
@@ -159,7 +159,7 @@
                                                    isSticky:YES
                                                clickContext:nil];
                     break;
-                    
+
                 default:
                     break;
             }
@@ -198,7 +198,7 @@
                                                    isSticky:YES
                                                clickContext:nil];
                     break;
-                    
+
                 default:
                     break;
             }
@@ -237,7 +237,7 @@
                     [self willChangeValueForKey:@"alarmLevel"];
                     _alarmLevel = alarmLevel;
                     [self didChangeValueForKey:@"alarmLevel"];
-
+                    
                     if (self.engine.configuration.notifyAlarmLevelChanges.boolValue) {
                         [self internalSendAlarmNotification];
                     }

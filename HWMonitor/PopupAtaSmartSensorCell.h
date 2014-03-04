@@ -13,7 +13,7 @@
     NSPopover *_popover;
 }
 
-@property (nonatomic, readonly) NSString *smartOutput;
+//@property (nonatomic, readonly) NSString *smartOutput;
 
 - (IBAction)showSmartOutput:(id)sender;
 

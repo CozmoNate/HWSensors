@@ -11,7 +11,6 @@
 @interface PopupAtaSmartReportController : NSViewController <NSPopoverDelegate, NSTableViewDelegate>
 
 @property (assign) IBOutlet NSArrayController * arrayController;
-@property (assign) IBOutlet NSScrollView * scrollView;
 @property (assign) IBOutlet NSTableView * tableView;
 
 @property (nonatomic, strong) HWMAtaSmartSensor * sensor;

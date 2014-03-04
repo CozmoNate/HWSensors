@@ -12,6 +12,8 @@
 #import "HWMSensorsGroup.h"
 #import "HWMSmcSensor.h"
 #import "HWMSmcFanSensor.h"
+#import "HWMSmcFanController.h"
+#import "HWMSmcFanControlLevel.h"
 #import "HWMAtaSmartSensor.h"
 #import "HWMBatterySensor.h"
 #import "HWMConfiguration.h"
@@ -55,17 +57,7 @@ static HWMEngine* gDefaultEngine = nil;
 
 +(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
 {
-    HWMEngine *me = [[HWMEngine alloc] init];
-
-    if (me) {
-        me.bundle = bundle;
-
-        if (!gDefaultEngine) {
-            gDefaultEngine = me;
-        }
-    }
-
-    return me;
+    return [[HWMEngine alloc] initWithBundle:bundle];
 }
 
 #pragma mark
@@ -286,6 +278,25 @@ static HWMEngine* gDefaultEngine = nil;
 
     if (self) {
         _bundle = [NSBundle mainBundle];
+
+        if (!gDefaultEngine) {
+            gDefaultEngine = self;
+        }
+    }
+
+    return self;
+}
+
+-(id)initWithBundle:(NSBundle*)bundle
+{
+    self = [super init];
+
+    if (self) {
+        _bundle = bundle;
+
+        if (!gDefaultEngine) {
+            gDefaultEngine = self;
+        }
     }
 
     return self;
@@ -1530,42 +1541,51 @@ static HWMEngine* gDefaultEngine = nil;
 
         [fan setNumber:[NSNumber numberWithInt:index]];
 
-        SMCVal_t info;
+        if (newFan || !fan.controller) {
+            SMCVal_t info;
 
-        char key[5];
+            char key[5];
 
-        if (!fan.min || !fan.max) {
+            NSNumber *min, *max;
+
             // Min
             snprintf(key, 5, KEY_FORMAT_FAN_MIN, index);
 
             if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                [fan setMin:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]];
+                min = [SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType];
             }
 
             // Max
             snprintf(key, 5, KEY_FORMAT_FAN_MAX, index);
 
             if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                [fan setMax:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType]];
+                max = [SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType];
             }
-        }
 
-        if (newFan) {
-            if (self.isRunningOnMac) {
-                // Target
-                snprintf(key, 5, KEY_FORMAT_FAN_TARGET, index);
+            if (min && max && [max isGreaterThan:min]) {
+                HWMSmcFanController *controller = [NSEntityDescription insertNewObjectForEntityForName:@"SmcFanController" inManagedObjectContext:self.managedObjectContext];
 
-                if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                    [fan setPrimitiveValue:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType] forKey:@"speed"];
+                [controller setMin:min];
+                [controller setMax:max];
+
+                [fan setController:controller];
+
+                if (self.isRunningOnMac) {
+                    // Target
+                    snprintf(key, 5, KEY_FORMAT_FAN_TARGET, index);
+
+                    if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
+                        [controller addOutputLevel:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType] forInputLevel:@0];
+                    }
                 }
-            }
-            else {
-                [fan setPrimitiveValue:fan.value forKey:@"speed"];
+                else {
+                    [controller addOutputLevel:fan.value forInputLevel:@0];
+                }
             }
         }
         else {
-            // Reset phusical fan speed if needed
-            [fan setSpeed:fan.speed];
+            // Reset fan speed if needed
+            //[fan setSpeed:fan.speed];
         }
     }
     else {
