@@ -20,21 +20,6 @@
     return self.objectValue;
 }
 
-- (id)initWithFrame:(NSRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self.outputSlider setMinValue:self.level.controller.min.doubleValue];
-        [self.outputSlider setMaxValue:self.level.controller.max.doubleValue];
-
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self.inputSlider setIntegerValue:self.level.input.integerValue];
-            [self.outputSlider setIntegerValue:self.level.output.integerValue];
-        }];
-    }
-    return self;
-}
-
 - (void)sliderHasMoved:(id)sender
 {
     NSTextField *textField = nil;

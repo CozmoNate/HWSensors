@@ -41,10 +41,6 @@
 		7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1C18C467B900D97F89 /* HWMSmcFanControlLevel.m */; };
 		7E2DEA2018C467DC00D97F89 /* HWMSmcFanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1F18C467DC00D97F89 /* HWMSmcFanController.m */; };
 		7E2DEA2318C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA2218C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.m */; };
-		7E309FB818C309CC001033A1 /* 22-circle-minus-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FB418C309CC001033A1 /* 22-circle-minus-white.png */; };
-		7E309FB918C309CC001033A1 /* 22-circle-minus-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FB518C309CC001033A1 /* 22-circle-minus-white@2x.png */; };
-		7E309FBA18C309CC001033A1 /* 31-circle-plus-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FB618C309CC001033A1 /* 31-circle-plus-white.png */; };
-		7E309FBB18C309CC001033A1 /* 31-circle-plus-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FB718C309CC001033A1 /* 31-circle-plus-white@2x.png */; };
 		7E309FC818C30FB1001033A1 /* 22-circle-minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FC418C30FB1001033A1 /* 22-circle-minus.png */; };
 		7E309FC918C30FB1001033A1 /* 22-circle-minus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FC518C30FB1001033A1 /* 22-circle-minus@2x.png */; };
 		7E309FCA18C30FB1001033A1 /* 31-circle-plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FC618C30FB1001033A1 /* 31-circle-plus.png */; };
@@ -308,10 +304,6 @@
 		7E2DEA2118C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+NSLayoutConstraintFilter.h"; sourceTree = "<group>"; };
 		7E2DEA2218C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+NSLayoutConstraintFilter.m"; sourceTree = "<group>"; };
 		7E2FE0A3178D18CA00802D38 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		7E309FB418C309CC001033A1 /* 22-circle-minus-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "22-circle-minus-white.png"; sourceTree = "<group>"; };
-		7E309FB518C309CC001033A1 /* 22-circle-minus-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "22-circle-minus-white@2x.png"; sourceTree = "<group>"; };
-		7E309FB618C309CC001033A1 /* 31-circle-plus-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "31-circle-plus-white.png"; sourceTree = "<group>"; };
-		7E309FB718C309CC001033A1 /* 31-circle-plus-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "31-circle-plus-white@2x.png"; sourceTree = "<group>"; };
 		7E309FC418C30FB1001033A1 /* 22-circle-minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "22-circle-minus.png"; sourceTree = "<group>"; };
 		7E309FC518C30FB1001033A1 /* 22-circle-minus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "22-circle-minus@2x.png"; sourceTree = "<group>"; };
 		7E309FC618C30FB1001033A1 /* 31-circle-plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "31-circle-plus.png"; sourceTree = "<group>"; };
@@ -1021,10 +1013,6 @@
 				7E24ABEC188FAFA500810B9D /* 338-enter-fullscreen@2x.png */,
 				7E24ABF0188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png */,
 				7E24ABF1188FB4D000810B9D /* 338-enter-fullscreen-white.png */,
-				7E309FB418C309CC001033A1 /* 22-circle-minus-white.png */,
-				7E309FB518C309CC001033A1 /* 22-circle-minus-white@2x.png */,
-				7E309FB618C309CC001033A1 /* 31-circle-plus-white.png */,
-				7E309FB718C309CC001033A1 /* 31-circle-plus-white@2x.png */,
 				7E309FC418C30FB1001033A1 /* 22-circle-minus.png */,
 				7E309FC518C30FB1001033A1 /* 22-circle-minus@2x.png */,
 				7E309FC618C30FB1001033A1 /* 31-circle-plus.png */,
@@ -1304,7 +1292,6 @@
 				7E36E57B188AB15500BD9744 /* ssdlife.png in Resources */,
 				7E309FCB18C30FB1001033A1 /* 31-circle-plus@2x.png in Resources */,
 				7E37BCD618997EBD0046F59A /* hwmonitor.png in Resources */,
-				7E309FBB18C309CC001033A1 /* 31-circle-plus-white@2x.png in Resources */,
 				7E36E570188AB15500BD9744 /* thermometer-white.png in Resources */,
 				7E4C76AF18A559BA0050BEFD /* PopupAtaSmartReportController.xib in Resources */,
 				7E36E588188AB15500BD9744 /* multipliers-white@2x.png in Resources */,
@@ -1356,10 +1343,8 @@
 				7E36E591188AB15500BD9744 /* frequencies.png in Resources */,
 				7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */,
 				7E36E58D188AB15500BD9744 /* hddtemperatures.png in Resources */,
-				7E309FBA18C309CC001033A1 /* 31-circle-plus-white.png in Resources */,
 				7ECDDE3716DDE5DA00085FFF /* 04-eye-white@2x.png in Resources */,
 				7E36E593188AB15500BD9744 /* frequencies-white.png in Resources */,
-				7E309FB918C309CC001033A1 /* 22-circle-minus-white@2x.png in Resources */,
 				7E24ABF2188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png in Resources */,
 				7E6D702718AF3F1800CD8BFD /* SmartAttributes.strings in Resources */,
 				7EFDE527185CA0020022FD66 /* Let's go Digital Regular.ttf in Resources */,
@@ -1367,7 +1352,6 @@
 				7ED2A5051881775100DAA19D /* 310-alarm-clock@2x.png in Resources */,
 				7E36E571188AB15500BD9744 /* thermometer.png in Resources */,
 				7EF2A0FC17303B9100D8641C /* MainMenu.xib in Resources */,
-				7E309FB818C309CC001033A1 /* 22-circle-minus-white.png in Resources */,
 				7E36E587188AB15500BD9744 /* multipliers.png in Resources */,
 				7E36E56D188AB15500BD9744 /* voltages-white.png in Resources */,
 				7E36E586188AB15500BD9744 /* multipliers@2x.png in Resources */,

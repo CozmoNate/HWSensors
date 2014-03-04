@@ -15,6 +15,7 @@
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
 #import "HWMColorTheme.h"
+#import "HWMSensorsGroup.h"
 #import "NSPopover+Message.h"
 #import "Localizer.h"
 
@@ -28,6 +29,7 @@
 @implementation PopupFanController
 
 @synthesize controller = _controller;
+@synthesize inputSources = _inputSources;
 
 -(void)setController:(HWMSmcFanController *)controller
 {
@@ -35,6 +37,7 @@
     if (_controller) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [self removeObserver:self forKeyPath:@"controller.levels"];
+            [self removeObserver:self forKeyPath:@"controller.output.engine.sensorsAndGroups"];
         }];
     }
 
@@ -45,6 +48,7 @@
     if (_controller) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [self addObserver:self forKeyPath:@"controller.levels" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@"controller.output.engine.sensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
 
@@ -55,43 +59,9 @@
      [colorTheme.listBackgroundColor colorWithAlphaComponent:0.5]:
      nil /*[self.colorTheme.listBackgroundColor shadowWithLevel:0.05]*/];
 
-
     [self observeValueForKeyPath:@"controller.levels" ofObject:nil change:nil context:nil];
-
-//    float min = [[_sensor valueForKey:@"min"] floatValue];
-//    float max = [[_sensor valueForKey:@"max"] floatValue];
-//    float speed = [[_sensor valueForKey:@"speed"] floatValue];
-//
-//    __block NSInteger rounded = ROUND_50(speed);
-//
-//    [_targetSlider setMinValue:min];
-//    [_targetSlider setMaxValue:max];
-//
-//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//        [_targetSlider setFloatValue:rounded];
-//    }];
-//
-//    [_targetTextField setIntegerValue:rounded];
-//    [_targetTextField setFont:[NSFont fontWithName:@"Let's go Digital Regular" size:20]];
+    [self observeValueForKeyPath:@"controller.output.engine.sensorsAndGroups" ofObject:nil change:nil context:nil];
 }
-
-//-(void)setColorTheme:(HWMColorTheme *)colorTheme
-//{
-//    _colorTheme = colorTheme;
-//
-//    COICOPopoverView *container = (COICOPopoverView *)[self view];
-//
-//    [container setBackgroundColour:_colorTheme.useDarkIcons.boolValue ?
-//     [_colorTheme.listBackgroundColor colorWithAlphaComponent:0.5]:
-//     nil /*[self.colorTheme.listBackgroundColor shadowWithLevel:0.05]*/];
-
-//    NSColor *textColor = _colorTheme.useDarkIcons.boolValue ?
-//    _colorTheme.itemValueTitleColor :
-//    [_colorTheme.itemValueTitleColor highlightWithLevel:0.35];
-//
-//    [_targetTextField setTextColor:textColor];
-//}
-
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -100,11 +70,18 @@
         _levelsSnapshot = [self.controller.levels.array copy];
         NSLayoutConstraint *constraint = [_levelsTableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
 
-        [NSAnimationContext beginGrouping];
-        [[NSAnimationContext currentContext] setDuration:0.15];
         [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot];
         [[constraint animator] setConstant:_levelsSnapshot.count * 28];
-        [NSAnimationContext endGrouping];
+        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+
+        } completionHandler:^{
+
+        }];
+    }
+    else if ([keyPath isEqualToString:@"controller.output.engine.sensorsAndGroups"]) {
+        [self willChangeValueForKey:@"inputSources"];
+        _inputSources = [self.controller.output.engine.sensorsAndGroups filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"className != %@ AND selector == %@", @"HWMSensorsGroup", @kHWMGroupTemperature]];
+        [self didChangeValueForKey:@"inputSources"];
     }
 }
 
@@ -112,6 +89,7 @@
 {
     if (_controller) {
         [self removeObserver:self forKeyPath:@"controller.levels"];
+        [self removeObserver:self forKeyPath:@"controller.output.engine.sensorsAndGroups"];
     }
 }
 

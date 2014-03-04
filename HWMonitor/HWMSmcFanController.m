@@ -9,6 +9,7 @@
 #import "HWMSmcFanController.h"
 #import "HWMSmcFanControlLevel.h"
 #import "HWMSmcFanSensor.h"
+#import "HWMEngine.h"
 
 #import "FakeSMCDefinitions.h"
 #import "SmcHelper+HWMonitorHelper.h"
@@ -67,9 +68,44 @@
     [self didChangeValueForKey:@"enabled"];
 }
 
--(void)awakeFromFetch
+-(void)inputValueChanged
 {
-    [self updateManualControlKey];
+    if (!_currentLevel) {
+        for (HWMSmcFanControlLevel *level in self.levels) {
+            if ([self.input.value isGreaterThan:level.input]) {
+                _currentLevel = level;
+            }
+        }
+
+        if (!_currentLevel) {
+            _currentLevel = self.levels.firstObject;
+        }
+
+        [self updateFanSpeed];
+    }
+    else if (_currentLevel.previous && [self.input.value isLessThan:_currentLevel.previous.input]) {
+        _currentLevel = _currentLevel.previous;
+
+        [self updateFanSpeed];
+    }
+    else if (_currentLevel.next && [self.input.value isGreaterThan:_currentLevel.next.input]) {
+        _currentLevel = _currentLevel.next;
+
+        [self updateFanSpeed];
+    }
+    //NSLog(@"input value changed %@", self.input.title);
+}
+
+-(void)updateFanSpeed
+{
+    if (self.output.engine.isRunningOnMac) {
+        // Write into fan min key this will force SMC to set fan speed to our desired speed
+        [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
+    }
+    else {
+        // Write target speed key
+        [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
+    }
 }
 
 - (void)insertObject:(HWMSmcFanControlLevel *)value inLevelsAtIndex:(NSUInteger)idx

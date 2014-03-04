@@ -625,7 +625,7 @@ static HWMEngine* gDefaultEngine = nil;
 //                continue;
 //            }
 
-            if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue) {
+            if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue || sensor.linked.count) {
                 doUpdate = YES;
             }
             else {
@@ -704,7 +704,7 @@ static HWMEngine* gDefaultEngine = nil;
 //                    continue;
 //                }
 
-                if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue) {
+                if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue || sensor.linked.count) {
                     doUpdate = YES;
                 }
                 else {
@@ -1585,7 +1585,7 @@ static HWMEngine* gDefaultEngine = nil;
         }
         else {
             // Reset fan speed if needed
-            //[fan setSpeed:fan.speed];
+            [fan.controller inputValueChanged];
         }
     }
     else {

@@ -13,6 +13,10 @@
 @class HWMSmcFanControlLevel;
 
 @interface HWMSmcFanController : HWMSensorController
+{
+    HWMSmcFanControlLevel * _previousLevel;
+    HWMSmcFanControlLevel * _currentLevel;
+}
 
 @property (nonatomic, retain) NSNumber * max;
 @property (nonatomic, retain) NSNumber * min;

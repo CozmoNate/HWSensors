@@ -57,11 +57,11 @@
         xpc_dictionary_set_string(message, "key", key.UTF8String);
         xpc_dictionary_set_int64(message, "value", value.longLongValue);
 
-        NSLog(@"Sending request to helper");
+        //NSLog(@"Sending request to helper");
 
         xpc_connection_send_message_with_reply(xpc_connection, message, dispatch_get_main_queue(), ^(xpc_object_t event) {
             IOReturn result = (IOReturn)xpc_dictionary_get_int64(event, "result");
-            NSLog(@"Received response from helper: %d", result);
+            //NSLog(@"Received response from helper: %d", result);
         });
 
         xpc_release(message);

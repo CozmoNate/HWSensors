@@ -72,11 +72,11 @@
             </subviews>
         </customView>
         <customView id="yq9-wz-QyL" customClass="COICOPopoverView">
-            <rect key="frame" x="0.0" y="0.0" width="263" height="83"/>
+            <rect key="frame" x="0.0" y="0.0" width="263" height="80"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="28" horizontalPageScroll="10" verticalLineScroll="28" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j3Z-p4-fxj">
-                    <rect key="frame" x="10" y="9" width="243" height="28"/>
+                    <rect key="frame" x="10" y="6" width="243" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="AdW-9j-5uU">
                         <rect key="frame" x="0.0" y="0.0" width="243" height="28"/>
@@ -107,11 +107,12 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Axt-bF-Z3O" userLabel="Input Slider">
-                                                        <rect key="frame" x="120" y="3" width="22" height="22"/>
+                                                        <rect key="frame" x="121" y="4" width="18" height="20"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="100" doubleValue="34" tickMarkPosition="above" numberOfTickMarks="12" sliderType="circular" id="cFv-kF-3cG"/>
+                                                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="100" doubleValue="34" tickMarkPosition="above" sliderType="circular" id="cFv-kF-3cG"/>
                                                         <connections>
                                                             <action selector="sliderHasMoved:" target="1ke-pJ-1BQ" id="WjH-YD-hFg"/>
+                                                            <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.input" id="sNU-Ed-u86"/>
                                                         </connections>
                                                     </slider>
                                                     <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="bezel" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="a6B-rD-fYX" userLabel="Input Box">
@@ -135,29 +136,41 @@
                                                         <color key="fillColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                     </box>
                                                     <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5KY-xI-7OC" userLabel="Output Slider">
-                                                        <rect key="frame" x="216" y="3" width="22" height="22"/>
+                                                        <rect key="frame" x="217" y="4" width="18" height="20"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="3000" doubleValue="766.49567445078208" tickMarkPosition="below" numberOfTickMarks="12" sliderType="circular" id="pco-Dl-sWp"/>
+                                                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="3000" doubleValue="766.49567445078208" tickMarkPosition="below" sliderType="circular" id="pco-Dl-sWp"/>
                                                         <connections>
                                                             <action selector="sliderHasMoved:" target="1ke-pJ-1BQ" id="kur-vT-qFo"/>
+                                                            <binding destination="1ke-pJ-1BQ" name="maxValue" keyPath="objectValue.controller.max" id="gcW-H8-wq4"/>
+                                                            <binding destination="1ke-pJ-1BQ" name="minValue" keyPath="objectValue.controller.min" previousBinding="gcW-H8-wq4" id="WV6-2U-5gp"/>
+                                                            <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.output" previousBinding="WV6-2U-5gp" id="DWi-ML-JSL"/>
                                                         </connections>
                                                     </slider>
-                                                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YKi-Op-Ho3" userLabel="Remove Button - -">
+                                                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YKi-Op-Ho3" userLabel="Remove Button" customClass="FadingButton">
                                                         <rect key="frame" x="3" y="7" width="15" height="15"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="22-circle-minus" imagePosition="only" alignment="center" alternateImage="22-circle-minus" state="on" imageScaling="proportionallyDown" inset="2" id="9Jh-EQ-o68">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <behavior key="behavior" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="removeLevel:" target="1ke-pJ-1BQ" id="6HA-XB-dur"/>
+                                                            <binding destination="1ke-pJ-1BQ" name="enabled" keyPath="objectValue.previous" id="aiD-eU-zc0">
+                                                                <dictionary key="options">
+                                                                    <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                                                    <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                                                    <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                                                    <integer key="NSNullPlaceholder" value="0"/>
+                                                                    <string key="NSValueTransformerName">NSIsNotNil</string>
+                                                                </dictionary>
+                                                            </binding>
                                                         </connections>
                                                     </button>
-                                                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KyY-Mj-3d7" userLabel="Add Button">
+                                                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KyY-Mj-3d7" userLabel="Add Button" customClass="FadingButton">
                                                         <rect key="frame" x="21" y="7" width="15" height="15"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="31-circle-plus" imagePosition="overlaps" alignment="center" alternateImage="31-circle-plus" state="on" imageScaling="proportionallyDown" inset="2" id="e6S-ud-5Sz">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <behavior key="behavior" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
@@ -194,6 +207,7 @@
                                                     <outlet property="inputTextField" destination="Db2-Zh-ZK2" id="4f6-45-lAr"/>
                                                     <outlet property="outputSlider" destination="5KY-xI-7OC" id="SEe-wB-sFY"/>
                                                     <outlet property="outputTextField" destination="su4-3K-aXD" id="Ljy-Bm-hZh"/>
+                                                    <outlet property="removeButton" destination="YKi-Op-Ho3" id="xXx-1S-6Pc"/>
                                                 </connections>
                                             </tableCellView>
                                         </prototypeCellViews>
@@ -221,7 +235,7 @@
                     </scroller>
                 </scrollView>
                 <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DNb-nz-iaV">
-                    <rect key="frame" x="10" y="49" width="90" height="25"/>
+                    <rect key="frame" x="10" y="46" width="90" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="m8X-fa-5Mi"/>
@@ -238,7 +252,7 @@
                     </connections>
                 </segmentedControl>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qKo-K1-TD0">
-                    <rect key="frame" x="108" y="49" width="145" height="25"/>
+                    <rect key="frame" x="108" y="46" width="145" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="NVw-KZ-3lB"/>
@@ -253,9 +267,14 @@
                             </items>
                         </menu>
                     </popUpButtonCell>
+                    <connections>
+                        <binding destination="4dW-dJ-2FC" name="content" keyPath="arrangedObjects" id="Hy1-5G-0UE"/>
+                        <binding destination="4dW-dJ-2FC" name="contentValues" keyPath="arrangedObjects.title" previousBinding="Hy1-5G-0UE" id="LGw-Te-UED"/>
+                        <binding destination="-2" name="selectedObject" keyPath="self.controller.input" previousBinding="LGw-Te-UED" id="5QX-m2-GTs"/>
+                    </connections>
                 </popUpButton>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aV1-P0-kQS">
-                    <rect key="frame" x="10" y="41" width="243" height="2"/>
+                    <rect key="frame" x="10" y="38" width="243" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="2" id="3bt-Xx-JSM"/>
@@ -267,7 +286,7 @@
             <constraints>
                 <constraint firstItem="j3Z-p4-fxj" firstAttribute="leading" secondItem="yq9-wz-QyL" secondAttribute="leading" constant="10" id="LV3-na-yeL"/>
                 <constraint firstItem="j3Z-p4-fxj" firstAttribute="top" secondItem="aV1-P0-kQS" secondAttribute="bottom" constant="4" id="Lyk-wY-Kg1"/>
-                <constraint firstAttribute="bottom" secondItem="j3Z-p4-fxj" secondAttribute="bottom" constant="9" id="MMa-Wb-AVv"/>
+                <constraint firstAttribute="bottom" secondItem="j3Z-p4-fxj" secondAttribute="bottom" constant="6" id="MMa-Wb-AVv"/>
                 <constraint firstAttribute="trailing" secondItem="aV1-P0-kQS" secondAttribute="trailing" constant="10" id="P0v-XP-2G6"/>
                 <constraint firstItem="aV1-P0-kQS" firstAttribute="top" secondItem="qKo-K1-TD0" secondAttribute="bottom" constant="8" id="Qn6-GG-gHt"/>
                 <constraint firstAttribute="trailing" secondItem="qKo-K1-TD0" secondAttribute="trailing" constant="10" id="RTc-YV-rFD"/>
@@ -279,10 +298,15 @@
                 <constraint firstAttribute="trailing" secondItem="j3Z-p4-fxj" secondAttribute="trailing" constant="10" id="wkt-9h-aT5"/>
             </constraints>
         </customView>
+        <arrayController objectClassName="HWMSensor" editable="NO" automaticallyPreparesContent="YES" selectsInsertedObjects="NO" automaticallyRearrangesObjects="YES" id="4dW-dJ-2FC" userLabel="Input Sources Controller">
+            <connections>
+                <binding destination="-2" name="contentArray" keyPath="self.inputSources" id="2S4-m0-Kw1"/>
+            </connections>
+        </arrayController>
     </objects>
     <resources>
-        <image name="22-circle-minus" width="28" height="28"/>
-        <image name="31-circle-plus" width="28" height="28"/>
+        <image name="22-circle-minus" width="15" height="15"/>
+        <image name="31-circle-plus" width="15" height="15"/>
         <image name="Divider" width="1200" height="2"/>
     </resources>
 </document>

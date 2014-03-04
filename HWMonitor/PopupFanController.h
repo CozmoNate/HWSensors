@@ -15,6 +15,8 @@
 
 @property (nonatomic, strong) HWMSmcFanController * controller;
 
+@property (readonly) NSArray * inputSources;
+
 //@property (assign) IBOutlet NSButton *controlledCheck;
 //@property (assign) IBOutlet NSSlider *targetSlider;
 //@property (assign) IBOutlet NSTextField *targetTextField;

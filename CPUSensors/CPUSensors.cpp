@@ -457,9 +457,9 @@ bool CPUSensors::start(IOService *provider)
             tjmax[0] = number->unsigned32BitValue();
             
             if (tjmax[0] > 0) {
-                for (uint32_t i = 1; i < cpuid_info()->core_count; i++)
-                    tjmax[i] = tjmax[0];
-                
+//                for (uint32_t i = 1; i < cpuid_info()->core_count; i++)
+//                    tjmax[i] = tjmax[0];
+
                 HWSensorsInfoLog("force Tjmax value to %d", tjmax[0]);
             }
         }
