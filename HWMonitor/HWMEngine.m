@@ -1583,10 +1583,8 @@ static HWMEngine* gDefaultEngine = nil;
                 }
             }
         }
-        else {
-            // Reset fan speed if needed
-            [fan.controller inputValueChanged];
-        }
+
+        [fan.controller inputValueChanged];
     }
     else {
         //[self.managedObjectContext deleteObject:fan];

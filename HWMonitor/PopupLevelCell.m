@@ -15,6 +15,19 @@
 
 @implementation PopupLevelCell
 
+-(id)initWithFrame:(NSRect)frameRect
+{
+    self = [super initWithFrame:frameRect];
+
+    if (self) {
+        NSFont *digitalFont = [NSFont fontWithName:@"Let's go Digital Regular" size:20];
+        [_inputTextField setFont:digitalFont];
+        [_outputTextField setFont:digitalFont];
+    }
+
+    return self;
+}
+
 -(HWMSmcFanControlLevel *)level
 {
     return self.objectValue;
