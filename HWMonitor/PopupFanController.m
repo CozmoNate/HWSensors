@@ -54,10 +54,14 @@
 
     COICOPopoverView *container = (COICOPopoverView *)[self view];
     HWMColorTheme *colorTheme = [HWMEngine defaultEngine].configuration.colorTheme;
+    NSColor *textColor = colorTheme.useDarkIcons.boolValue ? colorTheme.itemValueTitleColor : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];
 
     [container setBackgroundColour:colorTheme.useDarkIcons.boolValue ?
      [colorTheme.listBackgroundColor colorWithAlphaComponent:0.5]:
      nil /*[self.colorTheme.listBackgroundColor shadowWithLevel:0.05]*/];
+
+    [_inputLabel setTextColor:textColor];
+    [_outputLabel setTextColor:textColor];
 
     [self observeValueForKeyPath:@"controller.levels" ofObject:nil change:nil context:nil];
     [self observeValueForKeyPath:@"controller.output.engine.sensorsAndGroups" ofObject:nil change:nil context:nil];

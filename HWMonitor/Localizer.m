@@ -193,9 +193,13 @@
     }
     // Must be at the end to allow other checks to pass because almost all controls are derived from NSView
     else if ([view isKindOfClass:[NSView class]] && [view subviews]) {
-        NSArray *subviews = [[view subviews] copy];
-        for (NSView *view in subviews) {
-            [self localizeView:view];
+        // Loop through children
+        if ([view subviews].count) {
+            NSArray *subviews = [[view subviews] copy];
+
+            for (NSView *view in subviews) {
+                [self localizeView:view];
+            }
         }
     }
     else {
@@ -207,13 +211,13 @@
             NSString *title = [(id)view stringValue];
             [view setStringValue:GetLocalizedString(title)];
         }
-        
+
         if ([view respondsToSelector:@selector(setAlternateTitle:)]) {
             NSString *title = [(id)view alternateTitle];
             [view setAlternateTitle:GetLocalizedString(title)];
         }
     }
-    
+
     if ([view respondsToSelector:@selector(setToolTip:)]) {
         NSString *tooltip = [view toolTip];
         [view setToolTip:GetLocalizedString(tooltip)];

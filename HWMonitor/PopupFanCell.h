@@ -10,6 +10,7 @@
 
 @class HWMSmcFanSensor, HWMColorTheme;
 
+
 @interface PopupFanCell : PopupSensorCell
 {
     NSPopover *_popover;

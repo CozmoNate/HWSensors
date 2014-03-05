@@ -327,3 +327,6 @@
 
 "ACPIProbe Profile" = "Профили ACPIProbe";
 
+"Threshold:" = "Порог:";
+"Speed:" = "Обороты:";
+
