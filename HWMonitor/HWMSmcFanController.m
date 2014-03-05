@@ -21,29 +21,6 @@
 @dynamic min;
 @dynamic levels;
 
--(void)updateManualControlKey
-{
-    SMCVal_t info;
-
-    if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.output.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
-
-        NSNumber *value;
-
-        if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
-
-            UInt16 manual = value.unsignedShortValue;
-            bool enabled = bit_get(manual, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue)) ? YES : NO;
-
-            if (enabled != self.enabled.boolValue) {
-
-                bit_write(self.enabled.boolValue, manual, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue));
-
-                [SmcHelper privilegedWriteNumericKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
-            }
-        }
-    }
-}
-
 -(HWMSmcFanControlLevel*)addOutputLevel:(NSNumber*)output forInputLevel:(NSNumber*)input
 {
     HWMSmcFanControlLevel *level = [NSEntityDescription insertNewObjectForEntityForName:@"SmcFanControlLevel" inManagedObjectContext:self.managedObjectContext];
@@ -98,6 +75,8 @@
 
 -(void)updateFanSpeed
 {
+    [self updateManualControlKey];
+    
     if (self.output.engine.isRunningOnMac) {
         // Write into fan min key this will force SMC to set fan speed to our desired speed
         [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
@@ -105,6 +84,29 @@
     else {
         // Write target speed key
         [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
+    }
+}
+
+-(void)updateManualControlKey
+{
+    SMCVal_t info;
+
+    if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.output.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
+
+        NSNumber *value;
+
+        if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
+
+            UInt16 manual = value.unsignedShortValue;
+            bool enabled = bit_get(manual, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue)) ? YES : NO;
+
+            if (enabled != self.enabled.boolValue) {
+
+                bit_write(self.enabled.boolValue, manual, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue));
+
+                [SmcHelper privilegedWriteNumericKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
+            }
+        }
     }
 }
 

@@ -21,7 +21,9 @@
     [self willChangeValueForKey:@"input"];
 
     [self removeObserver:self forKeyPath:@"input.value"];
+
     [self setPrimitiveValue:input forKey:@"input"];
+    
     [self addObserver:self forKeyPath:@"input.value" options:NSKeyValueObservingOptionNew context:nil];
 
     [self didChangeValueForKey:@"input"];
