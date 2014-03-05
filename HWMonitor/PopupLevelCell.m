@@ -15,17 +15,46 @@
 
 @implementation PopupLevelCell
 
+-(id)init
+{
+    self = [super init];
+
+    if (self) {
+        [self initialize];
+    }
+
+    return self;
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+
+    if (self) {
+        [self initialize];
+    }
+
+    return self;
+}
+
 -(id)initWithFrame:(NSRect)frameRect
 {
     self = [super initWithFrame:frameRect];
 
     if (self) {
-        NSFont *digitalFont = [NSFont fontWithName:@"Let's go Digital Regular" size:20];
-        [_inputTextField setFont:digitalFont];
-        [_outputTextField setFont:digitalFont];
+        [self initialize];
     }
 
     return self;
+}
+
+-(void)initialize
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        NSFont *digitalFont = [NSFont fontWithName:@"Let's go Digital Regular" size:20];
+        [_inputTextField setFont:digitalFont];
+        [_outputTextField setFont:digitalFont];
+    }];
 }
 
 -(HWMSmcFanControlLevel *)level
