@@ -54,6 +54,11 @@
     return self.controller.max;
 }
 
+-(NSNumber *)deletable
+{
+    return self.previous || self.next ? @YES : @NO;
+}
+
 -(void)removeThisLevel
 {
     if (self.next) {
@@ -61,7 +66,6 @@
     }
 
     [self setController:nil];
-
     [self.managedObjectContext deleteObject:self];
 }
 

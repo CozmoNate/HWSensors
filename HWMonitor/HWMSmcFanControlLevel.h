@@ -23,6 +23,7 @@
 @property (readonly) NSNumber * maxInput;
 @property (readonly) NSNumber * minOutput;
 @property (readonly) NSNumber * maxOutput;
+@property (readonly) NSNumber * deletable;
 
 -(void)removeThisLevel;
 -(HWMSmcFanControlLevel*)insertNextLevel;

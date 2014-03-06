@@ -52,7 +52,7 @@
 @property (nonatomic, retain) HWMGraph *graph;
 @property (nonatomic, retain) HWMSensorsGroup *group;
 @property (nonatomic, retain) HWMSensorController *controller;
-@property (nonatomic, retain) NSSet *linked;
+@property (nonatomic, retain) NSSet *acceptors;
 
 @property (readonly) NSUInteger alarmLevel;
 @property (readonly) NSString * formattedValue;
@@ -70,9 +70,9 @@
 
 @interface HWMSensor (CoreDataGeneratedAccessors)
 
-- (void)addLinkedObject:(HWMSensorController *)value;
-- (void)removeLinkedObject:(HWMSensorController *)value;
-- (void)addLinked:(NSSet *)values;
-- (void)removeLinked:(NSSet *)values;
+- (void)addAcceptorsObject:(HWMSensorController *)value;
+- (void)removeAcceptorsObject:(HWMSensorController *)value;
+- (void)addAcceptors:(NSSet *)values;
+- (void)removeAcceptors:(NSSet *)values;
 
 @end

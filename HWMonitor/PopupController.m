@@ -216,9 +216,9 @@
         NSArray *oldSensorsAndGroups = [_sensorsAndGroupsCollectionSnapshot copy];
         _sensorsAndGroupsCollectionSnapshot = [_monitorEngine.sensorsAndGroups copy];
 
-        [self layoutContent:YES orderFront:NO animated:YES];
-
         [_tableView updateWithObjectValues:_sensorsAndGroupsCollectionSnapshot previousObjectValues:oldSensorsAndGroups];
+
+        [self layoutContent:YES orderFront:NO animated:YES];
     }];
 
 }

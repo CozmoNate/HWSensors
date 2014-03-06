@@ -625,7 +625,7 @@ static HWMEngine* gDefaultEngine = nil;
 //                continue;
 //            }
 
-            if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue || sensor.linked.count) {
+            if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue || sensor.acceptors.count) {
                 doUpdate = YES;
             }
             else {
@@ -704,7 +704,7 @@ static HWMEngine* gDefaultEngine = nil;
 //                    continue;
 //                }
 
-                if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue || sensor.linked.count) {
+                if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue || sensor.acceptors.count) {
                     doUpdate = YES;
                 }
                 else {

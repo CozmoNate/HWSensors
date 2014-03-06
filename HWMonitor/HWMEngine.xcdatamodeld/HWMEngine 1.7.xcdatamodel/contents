@@ -83,14 +83,14 @@
         <attribute name="service" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" transient="YES" attributeType="Float" syncable="YES"/>
+        <relationship name="acceptors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SensorController" inverseName="input" inverseEntity="SensorController" syncable="YES"/>
         <relationship name="controller" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SensorController" inverseName="output" inverseEntity="SensorController" syncable="YES"/>
         <relationship name="graph" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Graph" inverseName="sensor" inverseEntity="Graph" syncable="YES"/>
         <relationship name="group" maxCount="1" deletionRule="Nullify" destinationEntity="SensorsGroup" inverseName="sensors" inverseEntity="SensorsGroup" syncable="YES"/>
-        <relationship name="linked" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SensorController" inverseName="input" inverseEntity="SensorController" syncable="YES"/>
     </entity>
     <entity name="SensorController" representedClassName="HWMSensorController" isAbstract="YES" syncable="YES">
         <attribute name="enabled" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <relationship name="input" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sensor" inverseName="linked" inverseEntity="Sensor" syncable="YES"/>
+        <relationship name="input" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sensor" inverseName="acceptors" inverseEntity="Sensor" syncable="YES"/>
         <relationship name="output" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sensor" inverseName="controller" inverseEntity="Sensor" syncable="YES"/>
     </entity>
     <entity name="SensorsGroup" representedClassName="HWMSensorsGroup" parentEntity="Item" syncable="YES">

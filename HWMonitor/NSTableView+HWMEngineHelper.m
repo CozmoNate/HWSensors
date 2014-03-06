@@ -85,7 +85,7 @@
     *movedTo = to;
 }
 
--(void)updateWithObjectValues:(NSArray*)objectValues previousObjectValues:(NSArray*)oldObjectValues
+-(void)updateWithObjectValues:(NSArray*)objectValues previousObjectValues:(NSArray*)oldObjectValues withRemoveAnimation:(NSTableViewAnimationOptions)removeAnime insertAnimation:(NSTableViewAnimationOptions)insertAnime;
 {
     NSIndexSet *inserted, *removed, *from, *to;
 
@@ -93,8 +93,8 @@
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
 
-        [self removeRowsAtIndexes:removed withAnimation:NSTableViewAnimationSlideUp];
-        [self insertRowsAtIndexes:inserted withAnimation:NSTableViewAnimationSlideDown];
+        [self removeRowsAtIndexes:removed withAnimation:removeAnime];
+        [self insertRowsAtIndexes:inserted withAnimation:insertAnime];
 
         NSUInteger fromIndex = [from firstIndex];
         NSUInteger toIndex = [to firstIndex];
@@ -105,10 +105,13 @@
         }
 
     } completionHandler:^{
-        //
+        [self noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, objectValues.count)]];
     }];
+}
 
-    [self noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, objectValues.count)]];
+-(void)updateWithObjectValues:(NSArray*)oldObjects previousObjectValues:(NSArray*)newObjects
+{
+    [self updateWithObjectValues:oldObjects previousObjectValues:newObjects withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationEffectFade];
 }
 
 @end

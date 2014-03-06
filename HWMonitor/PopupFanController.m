@@ -73,14 +73,8 @@
         NSArray *oldLevelsSnapshot = [_levelsSnapshot copy];
         _levelsSnapshot = [self.controller.levels.array copy];
         NSLayoutConstraint *constraint = [_levelsTableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
-
-        [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot];
-        [[constraint animator] setConstant:_levelsSnapshot.count * 28];
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-
-        } completionHandler:^{
-
-        }];
+        [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectNone insertAnimation:NSTableViewAnimationEffectNone];
+        [constraint setConstant:_levelsSnapshot.count * 28];
     }
     else if ([keyPath isEqualToString:@"controller.output.engine.sensorsAndGroups"]) {
         [self willChangeValueForKey:@"inputSources"];

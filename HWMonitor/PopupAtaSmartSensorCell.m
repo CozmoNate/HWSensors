@@ -94,12 +94,10 @@
 
     [controller setSensor:sensor];
 
+    //NSLayoutConstraint *constraint = [controller.tableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
+    //[[constraint animator] setConstant:(controller.tableView.rowHeight + 1) * (sensor.attributes.count + 1)];
     [_popover showRelativeToRect:self.frame ofView:self preferredEdge:NSMinXEdge];
-
-    NSLayoutConstraint *constraint = [controller.tableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
-    [constraint setConstant:(controller.tableView.rowHeight + 1) * (sensor.attributes.count + 1)];
-
-//    [_popover setContentSize:NSMakeSize(controller.view.frame.size.width, (controller.tableView.rowHeight + 1) * (sensor.attributes.count + 1) + 7)];
+    [_popover setContentSize:NSMakeSize(controller.view.frame.size.width, (controller.tableView.rowHeight + 1) * (sensor.attributes.count + 1) + 7)];
 }
 
 - (void)hideSmartPopover
