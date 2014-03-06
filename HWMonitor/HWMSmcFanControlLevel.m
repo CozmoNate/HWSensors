@@ -61,15 +61,25 @@
 
 -(void)removeThisLevel
 {
-    if (self.next) {
-        [self.next setPrevious:self.previous];
+    HWMSmcFanControlLevel *next = self.next;
+    HWMSmcFanControlLevel *prev = self.previous;
+
+    [self setPrevious:nil];
+    [self setNext:nil];
+    [self setController:nil];
+
+    if (next) {
+        [next setPrevious:prev];
+        [next willChangeValueForKey:@"deletable"];
+        [next didChangeValueForKey:@"deletable"];
     }
 
-    [self setController:nil];
-    [self.managedObjectContext deleteObject:self];
+    if (prev) {
+        [prev willChangeValueForKey:@"deletable"];
+        [prev didChangeValueForKey:@"deletable"];
+    }
 
-    [self willChangeValueForKey:@"deletable"];
-    [self didChangeValueForKey:@"deletable"];
+    [self.managedObjectContext deleteObject:self];
 }
 
 -(HWMSmcFanControlLevel*)insertNextLevel
