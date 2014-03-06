@@ -67,6 +67,9 @@
 
     [self setController:nil];
     [self.managedObjectContext deleteObject:self];
+
+    [self willChangeValueForKey:@"deletable"];
+    [self didChangeValueForKey:@"deletable"];
 }
 
 -(HWMSmcFanControlLevel*)insertNextLevel
@@ -83,6 +86,9 @@
     }
 
     [level setPrevious:self];
+
+    [self willChangeValueForKey:@"deletable"];
+    [self didChangeValueForKey:@"deletable"];
 
     return level;
 }
