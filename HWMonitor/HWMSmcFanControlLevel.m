@@ -99,6 +99,8 @@
 
     [self willChangeValueForKey:@"deletable"];
     [self didChangeValueForKey:@"deletable"];
+    [level willChangeValueForKey:@"deletable"];
+    [level didChangeValueForKey:@"deletable"];
 
     return level;
 }
