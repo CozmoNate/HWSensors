@@ -83,7 +83,7 @@
 
             _popover = [PopupSensorCell globalPopover];
 
-            controller = [[PopupFanController alloc] initWithNibName:@"PopupFanController" bundle:[NSBundle mainBundle]];
+            controller = [[PopupFanController alloc] initWithNibName:NSStringFromClass([PopupFanController class]) bundle:nil];
 
             [Localizer localizeView:controller.view];
 

@@ -80,7 +80,7 @@
         [PopupSensorCell destroyGlobalPopover];
         _popover = [PopupSensorCell globalPopover];
 
-        controller = [[PopupAtaSmartReportController alloc] initWithNibName:@"PopupAtaSmartReportController" bundle:nil];
+        controller = [[PopupAtaSmartReportController alloc] initWithNibName:NSStringFromClass([PopupAtaSmartReportController class]) bundle:nil];
 
         _popover.contentViewController = controller;
     }
