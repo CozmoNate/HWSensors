@@ -63,7 +63,7 @@
     [_inputLabel setTextColor:textColor];
     [_outputLabel setTextColor:textColor];
 
-    [self observeValueForKeyPath:@"controller.levels" ofObject:nil change:nil context:nil];
+    [self observeValueForKeyPath:@"controller.levels" ofObject:nil change:nil context:(void*)self];
     [self observeValueForKeyPath:@"controller.output.engine.sensorsAndGroups" ofObject:nil change:nil context:nil];
 }
 
@@ -73,12 +73,18 @@
         NSArray *oldLevelsSnapshot = [_levelsSnapshot copy];
         _levelsSnapshot = [self.controller.levels.array copy];
         NSLayoutConstraint *constraint = [_levelsTableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
-        [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectNone insertAnimation:NSTableViewAnimationEffectNone];
-        [constraint setConstant:_levelsSnapshot.count * 28];
+        if (context) {
+            [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectNone insertAnimation:NSTableViewAnimationEffectNone];
+            [constraint setConstant:_levelsSnapshot.count * 28];
+        }
+        else {
+            [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationSlideDown];
+            [[constraint animator] setConstant:_levelsSnapshot.count * 28];
+        }
     }
     else if ([keyPath isEqualToString:@"controller.output.engine.sensorsAndGroups"]) {
         [self willChangeValueForKey:@"inputSources"];
-        _inputSources = [self.controller.output.engine.sensorsAndGroups filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"className != %@ AND selector == %@", @"HWMSensorsGroup", @kHWMGroupTemperature]];
+        _inputSources = [self.controller.output.engine.sensorsAndGroups filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"className != %@ AND (selector == %@ OR selector == %@)", @"HWMSensorsGroup", @kHWMGroupTemperature, @kHWMGroupSmartTemperature]];
         [self didChangeValueForKey:@"inputSources"];
     }
 }

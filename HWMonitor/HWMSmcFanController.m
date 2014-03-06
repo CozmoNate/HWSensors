@@ -52,7 +52,7 @@
     [self updateManualControlKey];
 
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        if (self.enabled.boolValue) {
+        if (!self.enabled.boolValue) {
             self.input = nil;
         }
     }];
