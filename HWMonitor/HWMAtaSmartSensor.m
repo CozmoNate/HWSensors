@@ -680,7 +680,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                             }
                         }
 
-                        if ([HWMEngine defaultEngine] && [HWMEngine defaultEngine].configuration.notifyAlarmLevelChanges) {
+                        if (critical && [HWMEngine defaultEngine] && [HWMEngine defaultEngine].configuration.notifyAlarmLevelChanges) {
                             switch (level) {
                                 case kHWMSensorLevelExceeded:
                                     [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
