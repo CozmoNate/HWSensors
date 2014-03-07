@@ -453,13 +453,11 @@ bool CPUSensors::start(IOService *provider)
     if (OSDictionary *configuration = getConfigurationNode())
     {
         if (OSNumber* number = OSDynamicCast(OSNumber, configuration->getObject("Tjmax"))) {
-            // User defined Tjmax
-            tjmax[0] = number->unsigned32BitValue();
-            
-            if (tjmax[0] > 0) {
-//                for (uint32_t i = 1; i < cpuid_info()->core_count; i++)
-//                    tjmax[i] = tjmax[0];
 
+            UInt8 userTjmax = number->unsigned8BitValue();
+            
+            if (userTjmax) {
+                memset(tjmax, userTjmax, kCPUSensorsMaxCpus);
                 HWSensorsInfoLog("force Tjmax value to %d", tjmax[0]);
             }
         }
@@ -473,8 +471,9 @@ bool CPUSensors::start(IOService *provider)
             }
         }
     }
-    
-    if (tjmax[0] == 0) {
+
+    // Try to assume Tjmax value depending on platform
+    if (!tjmax[0]) {
 		// Calculating Tjmax
 		switch (cpuid_info()->cpuid_family)
 		{
@@ -617,22 +616,23 @@ bool CPUSensors::start(IOService *provider)
 				HWSensorsFatalLog("found unknown Intel processor family");
 				return false;
 		}
+
+        // Setup Tjmax
+        switch (cpuid_info()->cpuid_cpufamily) {
+            case CPUFAMILY_INTEL_NEHALEM:
+            case CPUFAMILY_INTEL_WESTMERE:
+            case CPUFAMILY_INTEL_SANDYBRIDGE:
+            case CPUFAMILY_INTEL_IVYBRIDGE:
+            case CPUFAMILY_INTEL_HASWELL:
+                break;
+
+            default: {
+                UInt8 calculatedTjmax = tjmax[0];
+                memset(tjmax, calculatedTjmax, kCPUSensorsMaxCpus);
+                break;
+            }
+        }
 	}
-	
-    // Setup Tjmax
-    switch (cpuid_info()->cpuid_cpufamily) {
-        case CPUFAMILY_INTEL_NEHALEM:
-        case CPUFAMILY_INTEL_WESTMERE:
-        case CPUFAMILY_INTEL_SANDYBRIDGE:
-        case CPUFAMILY_INTEL_IVYBRIDGE:
-        case CPUFAMILY_INTEL_HASWELL:
-            break;
-            
-        default:
-            for (uint32_t i = 1; i < cpuid_info()->core_count; i++)
-                tjmax[i] = tjmax[0];
-            break;
-    }
     
     // woorkloop
     if (!(workloop = getWorkLoop())) {
@@ -723,19 +723,15 @@ bool CPUSensors::start(IOService *provider)
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
+        case CPUFAMILY_INTEL_HASWELL:
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
                 //mp_rendezvous_no_intrs(init_cpu_turbo_counters, NULL);
                 HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
             }
-        // break; fall down adding package sensors
-            
-        case CPUFAMILY_INTEL_HASWELL:
-            //
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kCPUSensorsPackageMultiplierSensor, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsPackageFrequencySensor, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
-            
             break;
             
         case CPUFAMILY_INTEL_NEHALEM:
@@ -743,6 +739,7 @@ bool CPUSensors::start(IOService *provider)
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF))
                 HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
             // break; fall down adding multiplier sensors for each core
+
         default:
             for (uint32_t i = 0; i < availableCoresCount/*cpuid_info()->core_count*/; i++) {
                 char key[5];
@@ -773,7 +770,7 @@ bool CPUSensors::start(IOService *provider)
             UInt8 energy_units = (rapl >> 8) & 0x1f;
             UInt8 time_units = (rapl >> 16) & 0xf;
             
-            HWSensorsInfoLog("RAPL units power: 0x%x energy: 0x%x time: 0x%x", power_units, energy_units, time_units);
+            HWSensorsDebugLog("RAPL units power: 0x%x energy: 0x%x time: 0x%x", power_units, energy_units, time_units);
             
             if (energy_units && (energyUnits = 1.0f / (float)(1 << energy_units))) {
                 if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsTotalPowerSensor, 0))
