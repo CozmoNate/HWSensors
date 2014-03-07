@@ -66,8 +66,6 @@
 
     HWMAtaSmartSensor *sensor = self.objectValue;
 
-    [NSTableHeaderCell setGlobalColorTheme:sensor.engine.configuration.colorTheme];
-
     PopupAtaSmartReportController *controller = nil;
 
     _popover = [PopupSensorCell globalPopover];

@@ -57,9 +57,30 @@
 
 	[pasteboard clearContents];
 
+    NSMutableString *entry = [[NSMutableString alloc] init];
+
+    // Copy column names
+    [_tableView.tableColumns enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSCell *headerCell = [obj headerCell];
+
+        if (headerCell.title) {
+            [entry appendString:headerCell.title];
+
+            if (idx < _tableView.tableColumns.count - 1) {
+                [entry appendString:@", "];
+            }
+        }
+    }];
+
+    if (![pasteboard writeObjects:@[entry]]) {
+        NSBeep();
+        return;
+    }
+
+    // Copy attributes
 	for (NSDictionary *item in selectedObjects ) {
 
-        NSString *entry = [NSString stringWithFormat:@"%d, %@, %@, %d, %d, %d, %@",
+        entry = [NSString stringWithFormat:@"%d, %@, %@, %d, %d, %d, %@",
                            [item[@"id"] unsignedCharValue],
                            item[@"name"],
                            item[@"critical"],

@@ -665,21 +665,24 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
                         BOOL critical = ATTRIBUTE_FLAGS_PREFAILURE(attribute->flag);
 
-                        NSUInteger level = kHWMSensorLevelNormal;
+                        NSInteger level = kHWMSensorLevelDisabled;
 
-                        if (threshold)
+                        if (threshold && critical && attribute->current && threshold->ThresholdValue)
                         {
-                            if (critical && attribute->current < threshold->ThresholdValue) {
+                            if (attribute->current < threshold->ThresholdValue) {
                                 level = kHWMSensorLevelExceeded;
                             }
+                            else if ((float)threshold->ThresholdValue / (float)attribute->current >= 0.75) {
+                                level = kHWMSensorLevelHigh;
+                            }
+                            else {
+                                level = kHWMSensorLevelNormal;
+                            }
                         }
-
-                        NSColor *titleColor = nil;
 
                         if ([HWMEngine defaultEngine] && [HWMEngine defaultEngine].configuration.notifyAlarmLevelChanges) {
                             switch (level) {
                                 case kHWMSensorLevelExceeded:
-                                    titleColor = [NSColor redColor];
                                     [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
                                                                 description:[NSString stringWithFormat:GetLocalizedString(@"'%@' S.M.A.R.T. attribute is critical for %@. Drive failure predicted!"), title, _product]
                                                            notificationName:NotifierSensorLevelExceededNotification
@@ -695,16 +698,17 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                             }
                         }
 
-                        [attributes addObject:@{@"index" : [NSNumber numberWithUnsignedInteger:count++],
+                        [attributes addObject:@{@"level": [NSNumber numberWithInteger:level],
+                                                @"index" : [NSNumber numberWithUnsignedInteger:count++],
                                                 @"id": [NSNumber numberWithUnsignedChar:attribute->attributeId],
                                                 @"name": name,
-                                                @"title":titleColor ? [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:titleColor}] : title,
+                                                @"title": title,
                                                 @"critical": GetLocalizedString(critical ? @"Pre-Failure" : @"Life-Span"),
                                                 @"value": [NSNumber numberWithUnsignedChar:attribute->current],
                                                 @"worst": [NSNumber numberWithUnsignedChar:attribute->worst],
                                                 @"threshold": (threshold ? [NSNumber numberWithUnsignedChar:threshold->ThresholdValue] : @0),
                                                 @"raw": [NSNumber numberWithUnsignedLongLong:RAW_TO_LONG(attribute)],
-                                                @"rawFormatted": [HWMSmartPluginInterfaceWrapper getFormattedRawValueForAttribute:attribute format:format]
+                                                @"rawFormatted": [HWMSmartPluginInterfaceWrapper getFormattedRawValueForAttribute:attribute format:format],
                                                }];
                     }
                 }

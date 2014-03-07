@@ -10,6 +10,4 @@
 
 @interface NSTableHeaderCell (PopupThemedHeader)
 
-+(void)setGlobalColorTheme:(HWMColorTheme*)theme;
-
 @end

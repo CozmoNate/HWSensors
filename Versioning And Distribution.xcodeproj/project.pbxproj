@@ -13,7 +13,7 @@
 		7E3ABDBA1796580B00201804 /* revision.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = revision.txt; sourceTree = "<group>"; };
 		7E72E369181B94DA002165DD /* SignKexts.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = SignKexts.sh; sourceTree = "<group>"; };
 		7E86758417F57AE800438A80 /* distribution.draft */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = distribution.draft; sourceTree = "<group>"; };
-		7E86758D17F5803A00438A80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = license.txt; sourceTree = "<group>"; };
+		7E86758D17F5803A00438A80 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = en; path = license.txt; sourceTree = "<group>"; };
 		7E86758F17F5803A00438A80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		7E86759217F5804100438A80 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
 		7E86759417F5846200438A80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = readme.txt; sourceTree = "<group>"; };

@@ -166,7 +166,7 @@
                                     </tableColumn>
                                 </tableColumns>
                                 <connections>
-                                    <outlet property="dataSource" destination="-2" id="LfT-uQ-Zwz"/>
+                                    <outlet property="dataSource" destination="-2" id="Ps6-Re-ssG"/>
                                     <outlet property="delegate" destination="-2" id="YI6-zU-9Ra"/>
                                 </connections>
                             </tableView>

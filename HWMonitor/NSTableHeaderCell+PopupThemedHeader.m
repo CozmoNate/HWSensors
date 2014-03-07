@@ -8,47 +8,50 @@
 
 #import "NSTableHeaderCell+PopupThemedHeader.h"
 #import "HWMColorTheme.h"
-
-static HWMColorTheme* gPopupThemedHeaderTheme = nil;
-
+#import "HWMEngine.h"
+#import "HWMConfiguration.h"
 
 @implementation NSTableHeaderCell (PopupThemedHeader)
 
-
-+(void)setGlobalColorTheme:(HWMColorTheme*)theme
-{
-    gPopupThemedHeaderTheme = theme;
-}
-
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-    NSMutableDictionary *attibutes = [[NSMutableDictionary dictionaryWithDictionary:[[self attributedStringValue]attributesAtIndex:0 effectiveRange:NULL]] mutableCopy];
+    HWMColorTheme *colorTheme = [HWMEngine defaultEngine].configuration.colorTheme;
 
-    [attibutes setObject:gPopupThemedHeaderTheme.itemValueTitleColor forKey:NSForegroundColorAttributeName];
+    if (colorTheme) {
 
-    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        NSGradient *gradient = nil;
 
-    [paragraphStyle setLineBreakMode:NSLineBreakByClipping];
-    [paragraphStyle setAlignment:NSCenterTextAlignment];
+        if (colorTheme.useDarkIcons) {
+            gradient = [[NSGradient alloc] initWithColorsAndLocations:
+                        [colorTheme.groupStartColor shadowWithLevel:0.05], 0.1,
+                        colorTheme.groupEndColor, 0.9, nil];
+        }
+        else {
+            gradient = [[NSGradient alloc] initWithColorsAndLocations:
+                        [colorTheme.groupStartColor highlightWithLevel:0.1], 0.1,
+                        colorTheme.groupEndColor, 0.9, nil];
+        }
 
-    [attibutes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
+        [gradient drawInRect:cellFrame angle:90];
 
-    NSGradient *gradient = nil;
+        if (self.title && self.title.length) {
+            NSMutableDictionary *attibutes = [[NSMutableDictionary dictionaryWithDictionary:[[self attributedStringValue]attributesAtIndex:0 effectiveRange:NULL]] mutableCopy];
 
-    if (gPopupThemedHeaderTheme.useDarkIcons) {
-        gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                    [gPopupThemedHeaderTheme.groupStartColor shadowWithLevel:0.05], 0.1,
-                    gPopupThemedHeaderTheme.groupEndColor, 0.9, nil];
+            [attibutes setObject:colorTheme.itemValueTitleColor forKey:NSForegroundColorAttributeName];
+
+            NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+
+            [paragraphStyle setLineBreakMode:NSLineBreakByClipping];
+            [paragraphStyle setAlignment:NSCenterTextAlignment];
+
+            [attibutes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
+
+            [[self stringValue] drawInRect:cellFrame withAttributes:attibutes];
+        }
     }
     else {
-        gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                    [gPopupThemedHeaderTheme.groupStartColor highlightWithLevel:0.1], 0.1,
-                    gPopupThemedHeaderTheme.groupEndColor, 0.9, nil];
+        [super drawWithFrame:cellFrame inView:controlView];
     }
-
-    [gradient drawInRect:cellFrame angle:90];
-    
-    [[self stringValue] drawInRect:cellFrame withAttributes:attibutes];
 }
 
 @end

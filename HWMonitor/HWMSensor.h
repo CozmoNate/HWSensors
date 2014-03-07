@@ -30,6 +30,7 @@
 #import <CoreData/CoreData.h>
 #import "HWMItem.h"
 
+#define kHWMSensorLevelDisabled     -1
 #define kHWMSensorLevelNormal       0
 #define kHWMSensorLevelModerate     1
 #define kHWMSensorLevelHigh         2
