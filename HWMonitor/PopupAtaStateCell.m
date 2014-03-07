@@ -29,12 +29,15 @@
             image = [NSImage imageNamed:NSImageNameStatusUnavailable];
             break;
 
+            //case kHWMSensorLevelDisabled:
         default:
             image = [NSImage imageNamed:NSImageNameStatusAvailable];
             break;
     }
 
-    [image drawInRect:NSMakeRect(cellFrame.origin.x, cellFrame.origin.y, image.size.width, image.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+    if (image) {
+        [image drawInRect:NSMakeRect(cellFrame.origin.x, cellFrame.origin.y, image.size.width, image.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+    }
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView

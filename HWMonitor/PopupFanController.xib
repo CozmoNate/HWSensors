@@ -77,6 +77,7 @@
                                                         <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="100" doubleValue="34" tickMarkPosition="above" sliderType="circular" id="cFv-kF-3cG"/>
                                                         <connections>
                                                             <action selector="sliderHasMoved:" target="1ke-pJ-1BQ" id="WjH-YD-hFg"/>
+                                                            <binding destination="-2" name="enabled" keyPath="controller.enabled" id="xKD-Dd-xTy"/>
                                                             <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.input" id="sNU-Ed-u86"/>
                                                         </connections>
                                                     </slider>
@@ -86,6 +87,7 @@
                                                         <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="3000" doubleValue="766.49567445078208" tickMarkPosition="below" sliderType="circular" id="pco-Dl-sWp"/>
                                                         <connections>
                                                             <action selector="sliderHasMoved:" target="1ke-pJ-1BQ" id="kur-vT-qFo"/>
+                                                            <binding destination="-2" name="enabled" keyPath="controller.enabled" id="k2A-Kq-WUy"/>
                                                             <binding destination="1ke-pJ-1BQ" name="maxValue" keyPath="objectValue.controller.max" id="gcW-H8-wq4"/>
                                                             <binding destination="1ke-pJ-1BQ" name="minValue" keyPath="objectValue.controller.min" previousBinding="gcW-H8-wq4" id="WV6-2U-5gp"/>
                                                             <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.output" previousBinding="WV6-2U-5gp" id="DWi-ML-JSL"/>
@@ -100,6 +102,14 @@
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="removeLevel:" target="1ke-pJ-1BQ" id="6HA-XB-dur"/>
+                                                            <binding destination="-2" name="enabled2" keyPath="controller.enabled" previousBinding="kCQ-Si-qyq" id="pbX-tX-6Iv">
+                                                                <dictionary key="options">
+                                                                    <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                    <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                    <integer key="NSNullPlaceholder" value="-1"/>
+                                                                    <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                </dictionary>
+                                                            </binding>
                                                             <binding destination="1ke-pJ-1BQ" name="enabled" keyPath="objectValue.deletable" id="kCQ-Si-qyq">
                                                                 <dictionary key="options">
                                                                     <integer key="NSNotApplicablePlaceholder" value="0"/>
@@ -119,6 +129,7 @@
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="insertLevel:" target="1ke-pJ-1BQ" id="D05-fC-JmW"/>
+                                                            <binding destination="-2" name="enabled" keyPath="controller.enabled" id="p5Q-9T-eSJ"/>
                                                         </connections>
                                                     </button>
                                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="su4-3K-aXD" userLabel="Output Text Field - 9000">
@@ -130,6 +141,7 @@
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                         <connections>
+                                                            <binding destination="-2" name="enabled" keyPath="controller.enabled" id="Obc-Za-YA8"/>
                                                             <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.output" id="kiv-cB-Y4F"/>
                                                         </connections>
                                                     </textField>
@@ -142,6 +154,7 @@
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                         <connections>
+                                                            <binding destination="-2" name="enabled" keyPath="controller.enabled" id="Mde-OC-MtZ"/>
                                                             <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.input" id="lpr-of-XYR"/>
                                                         </connections>
                                                     </textField>
@@ -210,20 +223,20 @@
                         <constraint firstAttribute="height" constant="22" id="NVw-KZ-3lB"/>
                         <constraint firstAttribute="width" priority="730" constant="142" id="VFo-IW-zuI"/>
                     </constraints>
-                    <popUpButtonCell key="cell" type="roundTextured" title="None" bezelStyle="texturedRounded" alignment="center" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="np4-q0-IL2" id="4rW-aA-O6C">
+                    <popUpButtonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" alignment="center" controlSize="small" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" altersStateOfSelectedItem="NO" id="4rW-aA-O6C">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="smallSystem"/>
-                        <menu key="menu" title="OtherViews" id="8N2-Ta-16b">
+                        <menu key="menu" title="OtherViews" autoenablesItems="NO" id="8N2-Ta-16b">
                             <items>
-                                <menuItem title="None" state="on" id="np4-q0-IL2"/>
+                                <menuItem title="None" id="np4-q0-IL2"/>
                             </items>
                         </menu>
                     </popUpButtonCell>
                     <connections>
                         <binding destination="4dW-dJ-2FC" name="content" keyPath="arrangedObjects" id="Hy1-5G-0UE"/>
-                        <binding destination="4dW-dJ-2FC" name="contentValues" keyPath="arrangedObjects.title" previousBinding="Hy1-5G-0UE" id="LGw-Te-UED"/>
+                        <binding destination="4dW-dJ-2FC" name="contentValues" keyPath="arrangedObjects.title" previousBinding="Hy1-5G-0UE" id="PrR-wW-g0m"/>
                         <binding destination="-2" name="enabled" keyPath="controller.enabled" id="z8Z-nt-K8h"/>
-                        <binding destination="-2" name="selectedObject" keyPath="self.controller.input" previousBinding="LGw-Te-UED" id="5QX-m2-GTs"/>
+                        <binding destination="-2" name="selectedObject" keyPath="self.controller.input" id="7nR-M0-t1z"/>
                     </connections>
                 </popUpButton>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aV1-P0-kQS">

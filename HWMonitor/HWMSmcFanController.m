@@ -73,17 +73,15 @@
             if (!_currentLevel) {
                 _currentLevel = self.levels.firstObject;
             }
-
-            [self updateFanSpeed];
         }
         else if (_currentLevel.previous && [self.input.value isLessThan:_currentLevel.previous.input]) {
             _currentLevel = _currentLevel.previous;
-            [self updateFanSpeed];
         }
         else if (_currentLevel.next && [self.input.value isGreaterThan:_currentLevel.next.input]) {
             _currentLevel = _currentLevel.next;
-            [self updateFanSpeed];
         }
+
+        [self updateFanSpeed];
     }
 }
 
@@ -91,8 +89,8 @@
 {
     [self updateManualControlKey];
 
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        if (_currentLevel) {
+    if (_currentLevel) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             if (self.output.engine.isRunningOnMac) {
                 // Write into fan min key this will force SMC to set fan speed to our desired speed
                 [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
@@ -101,8 +99,8 @@
                 // Write target speed key
                 [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
             }
-        }
-    }];
+        }];
+    }
 }
 
 -(void)updateManualControlKey

@@ -18,19 +18,17 @@
 
 -(void)setInput:(HWMSensor *)input
 {
-    [self willChangeValueForKey:@"input"];
-
     if (self.input) {
         [self removeObserver:self forKeyPath:@"input.value"];
     }
 
+    [self willChangeValueForKey:@"input"];
     [self setPrimitiveValue:input forKey:@"input"];
+    [self didChangeValueForKey:@"input"];
 
     if (input) {
         [self addObserver:self forKeyPath:@"input.value" options:NSKeyValueObservingOptionNew context:nil];
     }
-
-    [self didChangeValueForKey:@"input"];
 }
 
 -(void)inputValueChanged
