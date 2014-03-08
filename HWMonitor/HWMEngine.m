@@ -1584,7 +1584,9 @@ static HWMEngine* gDefaultEngine = nil;
             }
         }
 
-        [fan.controller inputValueChanged];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [fan.controller inputValueChanged];
+        }];
     }
     else {
         //[self.managedObjectContext deleteObject:fan];

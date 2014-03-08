@@ -29,11 +29,29 @@
     if (input) {
         [self addObserver:self forKeyPath:@"input.value" options:NSKeyValueObservingOptionNew context:nil];
     }
+
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self inputValueChanged];
+    }];
+}
+
+-(void)setEnabled:(NSNumber *)enabled
+{
+    [self willChangeValueForKey:@"enabled"];
+    [self setPrimitiveValue:enabled forKey:@"enabled"];
+    [self didChangeValueForKey:@"enabled"];
+
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (!self.enabled.boolValue) {
+            self.input = nil;
+        }
+        [self inputValueChanged];
+    }];
 }
 
 -(void)inputValueChanged
 {
-
+    //
 }
 
 -(void)awakeFromFetch

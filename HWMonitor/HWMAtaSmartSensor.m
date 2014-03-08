@@ -663,8 +663,6 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
                         NSString *title = GetLocalizedAttributeName(name);
 
-                        BOOL critical = ATTRIBUTE_FLAGS_PREFAILURE(attribute->flag);
-
                         NSInteger level = kHWMSensorLevelDisabled;
 
                         if (threshold && attribute->current && threshold->ThresholdValue)
@@ -680,7 +678,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                             }
                         }
 
-                        if (critical && [HWMEngine defaultEngine] && [HWMEngine defaultEngine].configuration.notifyAlarmLevelChanges) {
+                        if (ATTRIBUTE_FLAGS_PREFAILURE(attribute->flag) && [HWMEngine defaultEngine] && [HWMEngine defaultEngine].configuration.notifyAlarmLevelChanges) {
                             switch (level) {
                                 case kHWMSensorLevelExceeded:
                                     [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
@@ -703,7 +701,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                                                 @"id": [NSNumber numberWithUnsignedChar:attribute->attributeId],
                                                 @"name": name,
                                                 @"title": title,
-                                                @"critical": GetLocalizedString(critical ? @"Pre-Failure" : @"Life-Span"),
+                                                @"critical": GetLocalizedString(ATTRIBUTE_FLAGS_PREFAILURE(attribute->flag) ? @"Pre-Failure" : @"Life-Span"),
                                                 @"value": [NSNumber numberWithUnsignedChar:attribute->current],
                                                 @"worst": [NSNumber numberWithUnsignedChar:attribute->worst],
                                                 @"threshold": (threshold ? [NSNumber numberWithUnsignedChar:threshold->ThresholdValue] : @0),
