@@ -162,6 +162,14 @@ static inline void read_cpu_state(void *index)
 }
 
 static float cpu_turbo[kCPUSensorsMaxCpus];
+static bool cpu_turbo_updated[kCPUSensorsMaxCpus];
+
+inline uint64_t rdmpc64(uint32_t counter)
+{
+    UInt32 lo,hi;
+    rdpmc(counter, lo, hi);
+    return ((UInt64)hi << 32 ) | lo;
+}
 
 static inline void read_cpu_turbo(void *index)
 {
@@ -169,25 +177,23 @@ static inline void read_cpu_turbo(void *index)
     
     if (index && *(UInt32*)index != number)
         return;
-    
+
     if (number < kCPUSensorsMaxCpus) {
-        UInt64 utc_before = rdmsr64(MSR_CPU_CLK_UNHALTED_THREAD_ADDR);
-        UInt64 urc_before = rdmsr64(MSR_CPU_CLK_UNHALTED_REF_ADDR);
-        //UInt64 tsc_before = rdmsr64(MSR_IA32_TIME_STAMP_COUNTER);
-        
-        IODelay(500);
-        
-        UInt64 utc_after = rdmsr64(MSR_CPU_CLK_UNHALTED_THREAD_ADDR);
-        UInt64 urc_after = rdmsr64(MSR_CPU_CLK_UNHALTED_REF_ADDR);
-        //UInt64 tsc_after = rdmsr64(MSR_IA32_TIME_STAMP_COUNTER);
-        
-        double utc_delta = utc_after < utc_before ? UINT64_MAX - utc_before + utc_after : utc_after - utc_before;
-        double urc_delta = urc_after < urc_before ? UINT64_MAX - urc_before + urc_after : urc_after - urc_before;
-        //double tsc_delta = tsc_after < tsc_before ? UINT64_MAX - tsc_before + tsc_after : tsc_after - tsc_before;
-        
-        if (utc_delta && urc_delta /*&& tsc_delta*/) {
-            cpu_turbo[number] = (float)(utc_delta / urc_delta) /** (float)(urc_delta / tsc_delta)*/;
-            cpu_state_updated[number] = true;
+        UInt64 utc_before = rdmpc64(0x40000001);
+        UInt64 urc_before = rdmpc64(0x40000002);
+
+        IOSleep(3);
+
+        UInt64 utc_after = rdmpc64(0x40000001);
+        UInt64 urc_after = rdmpc64(0x40000002);
+        //UInt64 tsc_after = rdtsc64();
+
+        UInt64 thread_clocks = utc_after < utc_before ? UINT64_MAX - utc_before + utc_after : utc_after - utc_before;
+        UInt64 ref_clocks = urc_after < urc_before ? UINT64_MAX - urc_before + urc_after : urc_after - urc_before;
+
+        if (ref_clocks) {
+            cpu_turbo[number] = double(thread_clocks) / double(ref_clocks);
+            cpu_turbo_updated[number] = true;
         }
     }
 }
@@ -206,7 +212,7 @@ static inline void read_cpu_ratio(void *index)
         UInt64 APERF = rdmsr64(MSR_IA32_APERF);
         
         if (APERF && MPERF) {
-            cpu_ratio[number] = (float)((double)APERF / (double)MPERF);
+            cpu_ratio[number] = double(APERF) / double(MPERF);
             cpu_state_updated[number] = true;
             
             wrmsr64(MSR_IA32_APERF, 0);
@@ -299,10 +305,7 @@ IOReturn CPUSensors::woorkloopTimerEvent()
         }
         
         if (bit_get(timerEventsPending, kCPUSensorsCoreMultiplierSensor)) {
-            
-            IOSleep(10);
-            
-            if (baseMultiplier > 0) {   
+            if (baseMultiplier > 0) {
                 mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
             }
             
@@ -315,9 +318,7 @@ IOReturn CPUSensors::woorkloopTimerEvent()
         
         if (bit_get(timerEventsPending, kCPUSensorsPackageMultiplierSensor)) {
             UInt32 index = 0;
-            
-            IOSleep(10);
-            
+
             if (baseMultiplier > 0) {
                 mp_rendezvous_no_intrs(read_cpu_ratio, &index);
             }
@@ -327,6 +328,22 @@ IOReturn CPUSensors::woorkloopTimerEvent()
             }
 
             calculateMultiplier(index);
+        }
+
+        if (bit_get(timerEventsPending, kCPUSensorsCoreFrequencySensor)) {
+
+            if (baseMultiplier > 0) {
+                mp_rendezvous_no_intrs(read_cpu_turbo, NULL);
+            }
+        }
+
+        if (bit_get(timerEventsPending, kCPUSensorsPackageFrequencySensor)) {
+
+            if (baseMultiplier > 0) {
+                UInt32 index = 0;
+                mp_rendezvous_no_intrs(read_cpu_turbo, &index);
+                //read_cpu_turbo(&index);
+            }
         }
         
         if (bit_get(timerEventsPending, kCPUSensorsTotalPowerSensor)) {
@@ -349,7 +366,7 @@ IOReturn CPUSensors::woorkloopTimerEvent()
             read_cpu_energy(&index);
         }
 
-        if (timerEventsMomentum++ > 5) {
+        if (++timerEventsMomentum > 10) {
             timerEventsPending = 0;
         }
 
@@ -382,20 +399,15 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
             break;
             
         case kCPUSensorsCoreFrequencySensor:
-            if (!cpu_state_updated[index]) {
-                bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
+        case kCPUSensorsPackageFrequencySensor:
+            if (!cpu_turbo_updated[index]) {
+                bit_set(timerEventsPending, sensor->getGroup());
                 timerEventsMomentum = 0;
             }
-            cpu_state_updated[index] = false;
-            *outValue = multiplier[index] * (float)busClock;
+            cpu_turbo_updated[index] = false;
+            *outValue = cpu_turbo[index] * (float)busClock * (float)baseMultiplier;
             break;
 
-        case kCPUSensorsPackageFrequencySensor:
-            bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
-            timerEventsMomentum = 0;
-            *outValue = multiplier[index] * (float)busClock;
-            break;
-            
         case kCPUSensorsTotalPowerSensor:
         case kCPUSensorsCoresPowerSensor:
         case kCPUSensorsUncorePowerSensor:
@@ -411,7 +423,7 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
     }
 
     if (timerEventsPending) {
-        timerEventSource->setTimeoutMS(250);
+        timerEventSource->setTimeoutMS(100);
     }
     
     return true;
@@ -442,11 +454,6 @@ bool CPUSensors::start(IOService *provider)
 	
 	if(!(cpuid_info()->cpuid_features & CPUID_FEATURE_MSR))	{
 		HWSensorsFatalLog("processor does not support Model Specific Registers (MSR)");
-		return false;
-	}
-    
-	if(cpuid_info()->core_count == 0)	{
-		HWSensorsFatalLog("CPU core count is zero");
 		return false;
 	}
         
@@ -733,7 +740,7 @@ bool CPUSensors::start(IOService *provider)
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsPackageFrequencySensor, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
             break;
-            
+
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF))
@@ -800,15 +807,15 @@ bool CPUSensors::start(IOService *provider)
     }
     
     // two power states - off and on
-//	static const IOPMPowerState powerStates[2] = {
-//        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-//        { 1, IOPMDeviceUsable, IOPMPowerOn, IOPMPowerOn, 0, 0, 0, 0, 0, 0, 0, 0 }
-//    };
-//
-//    // register interest in power state changes
-//	PMinit();
-//	provider->joinPMtree(this);
-//	registerPowerDriver(this, (IOPMPowerState *)powerStates, 2);
+	static const IOPMPowerState powerStates[2] = {
+        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 1, IOPMDeviceUsable, IOPMPowerOn, IOPMPowerOn, 0, 0, 0, 0, 0, 0, 0, 0 }
+    };
+
+    // register interest in power state changes
+	PMinit();
+	provider->joinPMtree(this);
+	registerPowerDriver(this, (IOPMPowerState *)powerStates, 2);
 
     // Register service
     registerService();
@@ -820,23 +827,28 @@ bool CPUSensors::start(IOService *provider)
     return true;
 }
 
-//IOReturn CPUSensors::setPowerState(unsigned long powerState, IOService *device)
-//{
-//	switch (powerState) {
-//        case 0: // Power Off
-//            timerEventSource->cancelTimeout();
-//            break;
-//
-//        case 1: // Power On
-//            timerEventSource->setTimeoutMS(1000);
-//            break;
-//
-//        default:
-//            break;
-//    }
-//
-//	return(IOPMAckImplied);
-//}
+IOReturn CPUSensors::setPowerState(unsigned long powerState, IOService *device)
+{
+    void *magic;
+
+	switch (powerState) {
+        case 0: // Power Off
+                //timerEventSource->cancelTimeout();
+            break;
+
+        case 1: // Power On
+                //timerEventSource->setTimeoutMS(1000);
+            if (baseMultiplier > 0) {
+                mp_rendezvous_no_intrs(init_cpu_turbo_counters, &magic);
+            }
+            break;
+
+        default:
+            break;
+    }
+
+	return(IOPMAckImplied);
+}
 
 void CPUSensors::stop(IOService *provider)
 {

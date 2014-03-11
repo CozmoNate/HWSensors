@@ -16,9 +16,9 @@
     NSImage *image = nil;
 
     switch (self.state) {
-//        case kHWMSensorLevelDisabled:
-//            image = [NSImage imageNamed:NSImageNameStatusNone];
-//            break;
+        case kHWMSensorLevelDisabled:
+            image = [NSImage imageNamed:NSImageNameStatusNone];
+            break;
 
         case kHWMSensorLevelModerate:
         case kHWMSensorLevelHigh:
