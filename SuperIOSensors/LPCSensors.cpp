@@ -34,9 +34,6 @@
 
 #include <IOKit/IOTimerEventSource.h>
 
-#define ABS(x) ((x) >= 0 ? (x) : -(x))
-#define SGN(x) ((x) > 0 ? 1.0 : -1.0)
-
 // PID fan control algorithm, reference article: http://www.codeproject.com/Articles/36459/PID-process-control-a-Cruise-Control-example
 
 #define kLPCSensorsControlSamplingInterval    2000    // in milliseconds
@@ -595,6 +592,8 @@ IOReturn LPCSensors::setPowerState(unsigned long powerState, IOService *device)
 
 void LPCSensors::stop(IOService *provider)
 {
+    PMstop();
+
     timerEventSource->cancelTimeout();
     workloop->removeEventSource(timerEventSource);
     

@@ -75,12 +75,30 @@
 extern "C" int cpu_number(void);
 extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);
 
-static UInt16 cpu_energy_msrs[] =
-{
-    MSR_PKG_ENERY_STATUS,
-    MSR_PP0_ENERY_STATUS,
-    MSR_PP1_ENERY_STATUS,
-    MSR_DRAM_ENERGY_STATUS
+struct CPUSensorsCounters {
+    UInt16  event_flags;
+    double  event_time_before;
+    double  event_time_after;
+
+    UInt8   baseMultiplier;
+
+    UInt8   thermal_status[kCPUSensorsMaxCpus];
+    UInt8   thermal_status_package;
+
+    UInt16  perf_status[kCPUSensorsMaxCpus];
+
+    UInt64  aperf_before[kCPUSensorsMaxCpus];
+    UInt64  aperf_after[kCPUSensorsMaxCpus];
+    UInt64  mperf_before[kCPUSensorsMaxCpus];
+    UInt64  mperf_after[kCPUSensorsMaxCpus];
+
+    UInt64  utc_before[kCPUSensorsMaxCpus];
+    UInt64  utc_after[kCPUSensorsMaxCpus];
+    UInt64  urc_before[kCPUSensorsMaxCpus];
+    UInt64  urc_after[kCPUSensorsMaxCpus];
+
+    UInt64  energy_before[4];
+    UInt64  energy_after[4];
 };
 
 class CPUSensors : public FakeSMCPlugin
@@ -88,21 +106,25 @@ class CPUSensors : public FakeSMCPlugin
     OSDeclareDefaultStructors(CPUSensors)    
     
 private:
-    IOWorkLoop*             workloop;
-    IOTimerEventSource*     timerEventSource;
-    
+    CPUSensorsCounters      counters;
+
     OSData*                 platform;
     UInt64                  busClock;
-    float                   multiplier[kCPUSensorsMaxCpus];
     float                   energyUnits;
-    UInt8                   baseMultiplier;
     UInt8                   availableCoresCount;
 
-    UInt16                  timerEventsPending;
-    UInt8                   timerEventsMomentum;
+    float                   multiplier[kCPUSensorsMaxCpus];
+    float                   ratio[kCPUSensorsMaxCpus];
+    float                   turbo[kCPUSensorsMaxCpus];
+    float                   energy[kCPUSensorsMaxCpus];
 
-    IOReturn                woorkloopTimerEvent(void);
+
+    IOTimerEventSource*     timerEventSource;
+    IOReturn                timerEventAction(void);
+    UInt8                   timerEventCounter;
+
     void                    calculateMultiplier(UInt32 index);
+    void                    calculateTimedCounters();
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
     

@@ -356,8 +356,9 @@ IOReturn ACPIProbe::setPowerState(unsigned long powerState, IOService *device)
 
 void ACPIProbe::stop(IOService *provider)
 {
+    PMstop();
+
     timerEventSource->cancelTimeout();
-    
     workloop->removeEventSource(timerEventSource);
     
     super::stop(provider);
