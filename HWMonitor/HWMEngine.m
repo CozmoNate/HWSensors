@@ -330,6 +330,8 @@ static HWMEngine* gDefaultEngine = nil;
     [self insertColorThemes];
 
     // Load icons
+    [self loadIconNamed:@"red-thermometer" asTemplate:NO];
+
     [self loadIconNamed:kHWMonitorIconHWMonitor asTemplate:NO];
     [self loadIconNamed:kHWMonitorIconThermometer];
     [self loadIconNamed:kHWMonitorIconScale];

@@ -44,6 +44,8 @@
 		7E309FCA18C30FB1001033A1 /* 31-circle-plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FC618C30FB1001033A1 /* 31-circle-plus.png */; };
 		7E309FCB18C30FB1001033A1 /* 31-circle-plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FC718C30FB1001033A1 /* 31-circle-plus@2x.png */; };
 		7E309FCE18C3167B001033A1 /* PopupLevelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E309FCD18C3167B001033A1 /* PopupLevelCell.m */; };
+		7E343DBF18D34B2D00AE9B7F /* red-thermometer.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E343DBD18D34B2D00AE9B7F /* red-thermometer.png */; };
+		7E343DC018D34B2D00AE9B7F /* red-thermometer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E343DBE18D34B2D00AE9B7F /* red-thermometer@2x.png */; };
 		7E343F6218D3098300795619 /* toolbar_general.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E343F5A18D3098300795619 /* toolbar_general.png */; };
 		7E343F6318D3098300795619 /* toolbar_general@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E343F5B18D3098300795619 /* toolbar_general@2x.png */; };
 		7E343F6418D3098300795619 /* toolbar_graphs.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E343F5C18D3098300795619 /* toolbar_graphs.png */; };
@@ -310,6 +312,8 @@
 		7E309FCC18C3167B001033A1 /* PopupLevelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupLevelCell.h; sourceTree = "<group>"; };
 		7E309FCD18C3167B001033A1 /* PopupLevelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupLevelCell.m; sourceTree = "<group>"; };
 		7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = org.hwsensors.HWMonitorHelper; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E343DBD18D34B2D00AE9B7F /* red-thermometer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-thermometer.png"; sourceTree = "<group>"; };
+		7E343DBE18D34B2D00AE9B7F /* red-thermometer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-thermometer@2x.png"; sourceTree = "<group>"; };
 		7E343F5A18D3098300795619 /* toolbar_general.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toolbar_general.png; sourceTree = "<group>"; };
 		7E343F5B18D3098300795619 /* toolbar_general@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar_general@2x.png"; sourceTree = "<group>"; };
 		7E343F5C18D3098300795619 /* toolbar_graphs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toolbar_graphs.png; sourceTree = "<group>"; };
@@ -616,6 +620,8 @@
 				7E36E551188AB15500BD9744 /* scale.png */,
 				7E36E552188AB15500BD9744 /* scale-white@2x.png */,
 				7E36E553188AB15500BD9744 /* scale-white.png */,
+				7E343DBD18D34B2D00AE9B7F /* red-thermometer.png */,
+				7E343DBE18D34B2D00AE9B7F /* red-thermometer@2x.png */,
 				7E36E554188AB15500BD9744 /* pcicard@2x.png */,
 				7E36E555188AB15500BD9744 /* pcicard.png */,
 				7E36E556188AB15500BD9744 /* pcicard-white@2x.png */,
@@ -1339,6 +1345,7 @@
 				7E420FAD1820E2D800331D2B /* Profiles in Resources */,
 				7E36E573188AB15500BD9744 /* temperatures.png in Resources */,
 				7E36E595188AB15500BD9744 /* battery.png in Resources */,
+				7E343DC018D34B2D00AE9B7F /* red-thermometer@2x.png in Resources */,
 				7E36E597188AB15500BD9744 /* battery-white.png in Resources */,
 				7EDA1AA916D936410012A0DC /* Localizable.strings in Resources */,
 				7E36E590188AB15500BD9744 /* frequencies@2x.png in Resources */,
@@ -1361,6 +1368,7 @@
 				7E36E587188AB15500BD9744 /* multipliers.png in Resources */,
 				7E36E56D188AB15500BD9744 /* voltages-white.png in Resources */,
 				7E36E586188AB15500BD9744 /* multipliers@2x.png in Resources */,
+				7E343DBF18D34B2D00AE9B7F /* red-thermometer.png in Resources */,
 				7E36E56A188AB15500BD9744 /* voltages@2x.png in Resources */,
 				7E343F6318D3098300795619 /* toolbar_general@2x.png in Resources */,
 				7E36E584188AB15500BD9744 /* pcicard-white@2x.png in Resources */,

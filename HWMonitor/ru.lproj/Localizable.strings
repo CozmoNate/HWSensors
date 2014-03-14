@@ -26,6 +26,7 @@
 "Fahrenheit" = "Фаренгейт";
 "Use larger font" = "Использовать большой шрифт";
 "Use shadow effect" = "Отображать с эффектом тени";
+"red-thermometer" = "Значок градусника (красный)";
 "hwmonitor" = "Значок HWMonitor";
 "thermometer" = "Значок градусника";
 "temperatures" = "Значок температуры";

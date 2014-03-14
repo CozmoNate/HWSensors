@@ -4073,6 +4073,20 @@
 					<string>Power Supply</string>
 					<key>VIN8</key>
 					<string>Power Supply</string>
+					<key>VIN9</key>
+					<string>Power Supply</string>
+					<key>VINA</key>
+					<string>Power Supply</string>
+					<key>VINB</key>
+					<string>Power Supply</string>
+					<key>VINC</key>
+					<string>Power Supply</string>
+					<key>VIND</key>
+					<string>Power Supply</string>
+					<key>VINE</key>
+					<string>Power Supply</string>
+					<key>VINF</key>
+					<string>Power Supply</string>
 				</dict>
 			</dict>
 		</dict>
