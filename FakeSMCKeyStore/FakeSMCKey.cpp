@@ -133,8 +133,9 @@ const void *FakeSMCKey::getValue()
 	if (handler) {
         
         double time = ptimer_read_seconds();
-        
-        if (time - lastValueRead >= 1.0) {
+
+        // Allows update value twice in a second
+        if (time - lastValueRead >= 0.5) {
             
             IOReturn result = handler->readKeyCallback(key, type, size, value);
             

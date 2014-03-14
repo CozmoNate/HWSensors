@@ -105,13 +105,21 @@
         }
 
     } completionHandler:^{
-        [self noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, objectValues.count)]];
+        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+            [[NSAnimationContext currentContext] setDuration:[[NSAnimationContext currentContext] duration]];
+            [self noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, objectValues.count)]];
+        } completionHandler:^{
+
+        }];
+
     }];
 }
 
 -(void)updateWithObjectValues:(NSArray*)oldObjects previousObjectValues:(NSArray*)newObjects
 {
-    [self updateWithObjectValues:oldObjects previousObjectValues:newObjects withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationEffectFade];
+    [self updateWithObjectValues:oldObjects previousObjectValues:newObjects
+             withRemoveAnimation:NSTableViewAnimationSlideUp
+                 insertAnimation:NSTableViewAnimationSlideDown];
 }
 
 @end
