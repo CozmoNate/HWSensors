@@ -77,15 +77,13 @@ extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);
 
 struct CPUSensorsCounters {
     UInt16  event_flags;
-    double  event_time_before;
-    double  event_time_after;
-
-    UInt8   baseMultiplier;
 
     UInt8   thermal_status[kCPUSensorsMaxCpus];
     UInt8   thermal_status_package;
 
     UInt16  perf_status[kCPUSensorsMaxCpus];
+
+    bool    update_perf_counters;
 
     UInt64  aperf_before[kCPUSensorsMaxCpus];
     UInt64  aperf_after[kCPUSensorsMaxCpus];
@@ -110,6 +108,7 @@ private:
 
     OSData*                 platform;
     UInt64                  busClock;
+    UInt8                   baseMultiplier;
     float                   energyUnits;
     UInt8                   availableCoresCount;
 
@@ -121,7 +120,8 @@ private:
 
     IOTimerEventSource*     timerEventSource;
     IOReturn                timerEventAction(void);
-    UInt8                   timerEventCounter;
+    //UInt8                   timerEventCounter;
+    double                  timerEventLastTime;
 
     void                    calculateMultiplier(UInt32 index);
     void                    calculateTimedCounters();
