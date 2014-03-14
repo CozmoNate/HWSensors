@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13D17" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -27,25 +27,25 @@
             </view>
             <toolbar key="toolbar" implicitIdentifier="0F6AF83C-F5AE-4650-A7D5-54CBF746754D" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="Hrq-hK-rUN">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="588BC26A-DF4F-4A0C-B6BD-BA8F3BCEEB12" explicitItemIdentifier="General" label="General" paletteLabel="General" image="306-light-switch" selectable="YES" id="nTT-sg-XV5" customClass="PrefsToolbarItem">
+                    <toolbarItem implicitItemIdentifier="588BC26A-DF4F-4A0C-B6BD-BA8F3BCEEB12" explicitItemIdentifier="General" label="General" paletteLabel="General" image="toolbar_general" selectable="YES" id="nTT-sg-XV5" customClass="PrefsToolbarItem">
                         <connections>
                             <action selector="switchView:" target="-2" id="VAi-1h-7ZT"/>
                             <outlet property="linkedView" destination="2wX-b3-awf" id="gNC-Lf-P37"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="3D09AD92-8D35-49E0-BA7E-A191EBC1F458" explicitItemIdentifier="Menubar" label="Menubar" paletteLabel="Menubar" tag="1" image="40-dialpad" selectable="YES" id="AK6-gq-KYv" customClass="PrefsToolbarItem">
+                    <toolbarItem implicitItemIdentifier="3D09AD92-8D35-49E0-BA7E-A191EBC1F458" explicitItemIdentifier="Menubar" label="Menubar" paletteLabel="Menubar" tag="1" image="toolbar_menubar" selectable="YES" id="AK6-gq-KYv" customClass="PrefsToolbarItem">
                         <connections>
                             <action selector="switchView:" target="-2" id="J34-lS-kbb"/>
                             <outlet property="linkedView" destination="DpL-kB-CmT" id="4hG-lu-t2A"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="5E23909A-8FAF-4F33-AAE2-DCEF90552E09" explicitItemIdentifier="Popup" label="Popup" paletteLabel="Popup" tag="2" image="425-notepad" selectable="YES" id="xAg-EI-of8" customClass="PrefsToolbarItem">
+                    <toolbarItem implicitItemIdentifier="5E23909A-8FAF-4F33-AAE2-DCEF90552E09" explicitItemIdentifier="Popup" label="Popup" paletteLabel="Popup" tag="2" image="toolbar_popup" selectable="YES" id="xAg-EI-of8" customClass="PrefsToolbarItem">
                         <connections>
                             <action selector="switchView:" target="-2" id="eTE-f9-nhV"/>
                             <outlet property="linkedView" destination="Pdy-qL-0kX" id="yOc-Bh-UYk"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="8C415010-7DCC-4F53-BEB5-C4EDE50FFE0A" explicitItemIdentifier="Graphs" label="Graphs" paletteLabel="Graphs" tag="3" image="17-bar-chart" selectable="YES" id="rGo-hj-uD9" customClass="PrefsToolbarItem">
+                    <toolbarItem implicitItemIdentifier="8C415010-7DCC-4F53-BEB5-C4EDE50FFE0A" explicitItemIdentifier="Graphs" label="Graphs" paletteLabel="Graphs" tag="3" image="toolbar_graphs" selectable="YES" id="rGo-hj-uD9" customClass="PrefsToolbarItem">
                         <connections>
                             <action selector="switchView:" target="-2" id="8P7-pe-KJL"/>
                             <outlet property="linkedView" destination="0i6-hZ-Q6v" id="0Gi-FO-G38"/>
@@ -1849,17 +1849,17 @@
     <resources>
         <image name="04-eye" width="20" height="13"/>
         <image name="04-eye-white" width="20" height="13"/>
-        <image name="17-bar-chart" width="32" height="32"/>
-        <image name="306-light-switch" width="32" height="32"/>
         <image name="310-alarm-clock" width="18" height="17"/>
         <image name="310-alarm-clock-white" width="18" height="17"/>
         <image name="338-enter-fullscreen" width="18" height="18"/>
         <image name="338-enter-fullscreen-white" width="18" height="18"/>
-        <image name="40-dialpad" width="32" height="32"/>
-        <image name="425-notepad" width="32" height="32"/>
         <image name="Divider" width="1200" height="2"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSRefreshTemplate" width="10" height="12"/>
         <image name="theme_default" width="130" height="80"/>
+        <image name="toolbar_general" width="128" height="128"/>
+        <image name="toolbar_graphs" width="128" height="128"/>
+        <image name="toolbar_menubar" width="128" height="128"/>
+        <image name="toolbar_popup" width="128" height="128"/>
     </resources>
 </document>
