@@ -209,9 +209,6 @@ void CPUSensors::calculateMultiplier(UInt32 index)
 
 void CPUSensors::calculateTimedCounters()
 {
-    double time = ptimer_read_seconds();
-    double deltaTime = time - timerEventLastTime;
-
     if (bit_get(counters.event_flags, kCPUSensorsMultiplierCore | kCPUSensorsMultiplierPackage)) {
         for (UInt8 index = 0; index < availableCoresCount; index++) {
             if (baseMultiplier) {
@@ -243,33 +240,32 @@ void CPUSensors::calculateTimedCounters()
         }
     }
 
-    if (deltaTime && deltaTime < 10.0f && bit_get(counters.event_flags, kCPUSensorsPowerTotal | kCPUSensorsPowerCores | kCPUSensorsPowerUncore | kCPUSensorsPowerDram)) {
+    if (timerEventDeltaTime && timerEventDeltaTime < 10.0f && bit_get(counters.event_flags, kCPUSensorsPowerTotal | kCPUSensorsPowerCores | kCPUSensorsPowerUncore | kCPUSensorsPowerDram)) {
         for (UInt8 index = 0; index < 4; index++) {
 
             UInt64 deltaEnergy = counters.energy_after[index] < counters.energy_before[index] ? UINT64_MAX - counters.energy_before[index] + counters.energy_after[index] : counters.energy_after[index] - counters.energy_before[index];
 
-            energy[index] = (double)deltaEnergy / deltaTime;
+            energy[index] = (double)deltaEnergy / timerEventDeltaTime;
         }
     }
-
-    timerEventLastTime = time;
 }
 
 IOReturn CPUSensors::timerEventAction()
 {
     if (counters.event_flags) {
 
+        double time = ptimer_read_seconds();
+
+        timerEventDeltaTime =  time - timerEventLastTime;
+        timerEventLastTime = time;
+
         mp_rendezvous_no_intrs(update_counters, &counters);
 
         calculateTimedCounters();
 
-//        if (--timerEventCounter > 0) {
-//            timerEventSource->setTimeoutMS(SAMPLE_EVENT_INTERVAL);
-//        }
-//        else {
-//            counters.event_flags = 0;
-//            timerEventCounter = 0;
-//        }
+        if (timerEventDeltaTime == 0 || timerEventDeltaTime > 10.0f) {
+            timerEventSource->setTimeoutMS(500);
+        }
     }
     
     return kIOReturnSuccess;
@@ -730,8 +726,7 @@ bool CPUSensors::start(IOService *provider)
     // Register service
     registerService();
 
-    //timerEventCounter = 1;
-    timerEventSource->setTimeoutMS(200);
+    timerEventSource->setTimeoutMS(1000);
 
     HWSensorsInfoLog("started");
 

@@ -120,8 +120,8 @@ private:
 
     IOTimerEventSource*     timerEventSource;
     IOReturn                timerEventAction(void);
-    //UInt8                   timerEventCounter;
     double                  timerEventLastTime;
+    double                  timerEventDeltaTime;
 
     void                    calculateMultiplier(UInt32 index);
     void                    calculateTimedCounters();
