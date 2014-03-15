@@ -1522,6 +1522,8 @@
 							<integer>0</integer>
 						</dict>
 					</dict>
+					<key>H87-HD3</key>
+					<string>H87M-D3H</string>
 					<key>H87M-D3H</key>
 					<dict>
 						<key>FANIN0</key>

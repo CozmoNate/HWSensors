@@ -27,14 +27,7 @@
 {
     _sensor = sensor;
 
-    COICOPopoverView *container = (COICOPopoverView *)[self view];
 
-    [container setBackgroundColour:self.sensor.engine.configuration.colorTheme.useDarkIcons.boolValue ?
-     [self.sensor.engine.configuration.colorTheme.listBackgroundColor colorWithAlphaComponent:0.8] :
-     nil /*[self.colorTheme.listBackgroundColor shadowWithLevel:0.05]*/];
-
-    if (self.sensor.engine.configuration.colorTheme.useDarkIcons.boolValue)
-        [self.view.window setBackgroundBlurRadius:3];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -51,6 +44,7 @@
 -(void)awakeFromNib
 {
     [Localizer localizeView:_tableView];
+    [_tableView setGridColor:[HWMEngine defaultEngine].configuration.colorTheme.useBrightIcons.boolValue ? [NSColor colorWithDeviceWhite:0.4 alpha:1.0] : [NSColor colorWithDeviceWhite:0.8 alpha:1.0]];
 }
 
 - (void)copy:(id)sender;

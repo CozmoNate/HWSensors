@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="Version 1.7" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13D17" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="Version 1.8" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13D17" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AtaSmartSensor" representedClassName="HWMAtaSmartSensor" parentEntity="Sensor" syncable="YES">
         <attribute name="bsdName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="productName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
@@ -24,7 +24,7 @@
         <attribute name="toolbarStartColor" optional="YES" transient="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="toolbarStrokeColor" optional="YES" transient="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="toolbarTitleColor" optional="YES" transient="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="useBrightIcons" optional="YES" transient="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="useBrightIcons" optional="YES" transient="YES" attributeType="Boolean" defaultValueString="NO" elementID="useDarkIcons" syncable="YES"/>
         <relationship name="configuration" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Configuration" inverseName="colorThemes" inverseEntity="Configuration" syncable="YES"/>
     </entity>
     <entity name="Configuration" representedClassName="HWMConfiguration" syncable="YES">

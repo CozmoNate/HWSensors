@@ -312,6 +312,7 @@
 		7E309FC718C30FB1001033A1 /* 31-circle-plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "31-circle-plus@2x.png"; sourceTree = "<group>"; };
 		7E309FCC18C3167B001033A1 /* PopupLevelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupLevelCell.h; sourceTree = "<group>"; };
 		7E309FCD18C3167B001033A1 /* PopupLevelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupLevelCell.m; sourceTree = "<group>"; };
+		7E31FB5B18D4B2DA0036F842 /* HWMEngine 1.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HWMEngine 1.8.xcdatamodel"; sourceTree = "<group>"; };
 		7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = org.hwsensors.HWMonitorHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E343DBD18D34B2D00AE9B7F /* red-thermometer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-thermometer.png"; sourceTree = "<group>"; };
 		7E343DBE18D34B2D00AE9B7F /* red-thermometer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-thermometer@2x.png"; sourceTree = "<group>"; };
@@ -1761,6 +1762,7 @@
 		7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7E31FB5B18D4B2DA0036F842 /* HWMEngine 1.8.xcdatamodel */,
 				7E063A4618C20DA20083F52F /* HWMEngine 1.7.xcdatamodel */,
 				7E24ABEB188FACF700810B9D /* HWMEngine 1.4.xcdatamodel */,
 				7E622ECA18ABFEC700F62F78 /* HWMEngine 1.5.xcdatamodel */,
@@ -1770,7 +1772,7 @@
 				7ED3178A18814C3E00A7FDF5 /* HWMEngine 1.3.xcdatamodel */,
 				7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */,
 			);
-			currentVersion = 7E063A4618C20DA20083F52F /* HWMEngine 1.7.xcdatamodel */;
+			currentVersion = 7E31FB5B18D4B2DA0036F842 /* HWMEngine 1.8.xcdatamodel */;
 			path = HWMEngine.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

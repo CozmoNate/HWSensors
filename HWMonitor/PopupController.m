@@ -136,14 +136,7 @@
 
     [self layoutContent:NO orderFront:YES animated:NO];
 
-    [self.window setBackgroundBlurRadius:3];
-    
-//    if (!_windowFilter) {
-//        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
-//    }
-//    else {
-//        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
-//    }
+    [self.window setBackgroundBlurRadius:5];
 
     self.statusItemView.isHighlighted = YES;
 

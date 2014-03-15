@@ -93,7 +93,7 @@
         _popover.delegate = nil;
 
         _popover.behavior = NSPopoverBehaviorTransient;
-        _popover.appearance = fan.engine.configuration.colorTheme.useDarkIcons ? NSPopoverAppearanceMinimal : NSPopoverAppearanceHUD;
+        _popover.appearance = fan.engine.configuration.colorTheme.useBrightIcons.boolValue ?  NSPopoverAppearanceHUD : NSPopoverAppearanceMinimal;
 
         [_popover showRelativeToRect:self.frame ofView:self preferredEdge:NSMinXEdge];
         

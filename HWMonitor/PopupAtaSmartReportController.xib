@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13D17" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="1070" defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -26,15 +26,15 @@
                         <rect key="frame" x="0.0" y="17" width="668" height="336"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" autosaveName="" rowHeight="15" headerView="oJd-jY-dL2" id="tQD-xO-pqV">
+                            <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnResizing="NO" typeSelect="NO" autosaveName="PopupAtaSmartReportTable" rowHeight="15" headerView="oJd-jY-dL2" id="tQD-xO-pqV">
                                 <rect key="frame" x="0.0" y="0.0" width="669" height="336"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="1"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <tableViewGridLines key="gridStyleMask" dashed="YES"/>
-                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                <color key="gridColor" red="0.5296475887298584" green="0.52963173389434814" blue="0.52964073419570923" alpha="1" colorSpace="calibratedRGB"/>
                                 <tableColumns>
-                                    <tableColumn width="15" minWidth="15" maxWidth="3.4028234663852886e+38" id="bxO-Mt-ydr">
+                                    <tableColumn identifier="Status" width="15" minWidth="15" maxWidth="3.4028234663852886e+38" id="bxO-Mt-ydr">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -56,7 +56,7 @@
                                             </binding>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn editable="NO" width="40" minWidth="40" maxWidth="1000" id="rVz-Um-2qw">
+                                    <tableColumn identifier="Id" editable="NO" width="40" minWidth="40" maxWidth="1000" id="rVz-Um-2qw">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Id">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -75,7 +75,7 @@
                                             <binding destination="o6v-RJ-a06" name="value" keyPath="arrangedObjects.id" id="qjT-pc-FTs"/>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn editable="NO" width="200" minWidth="200" maxWidth="1000" id="L1z-OM-yPf">
+                                    <tableColumn identifier="Description" editable="NO" width="200" minWidth="200" maxWidth="1000" id="L1z-OM-yPf">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Description">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -94,7 +94,7 @@
                                             <binding destination="o6v-RJ-a06" name="value" keyPath="arrangedObjects.title" id="s7e-3N-wEx"/>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn editable="NO" width="70" minWidth="70" maxWidth="3.4028234663852886e+38" id="U6A-Ri-yB6">
+                                    <tableColumn identifier="Type" editable="NO" width="70" minWidth="70" maxWidth="3.4028234663852886e+38" id="U6A-Ri-yB6">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Type">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -113,7 +113,7 @@
                                             <binding destination="o6v-RJ-a06" name="value" keyPath="arrangedObjects.critical" id="MMG-sg-5Ks"/>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn editable="NO" width="50" minWidth="50" maxWidth="3.4028234663852886e+38" id="Mux-cN-bHf">
+                                    <tableColumn identifier="Value" editable="NO" width="50" minWidth="50" maxWidth="3.4028234663852886e+38" id="Mux-cN-bHf">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Value">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -132,7 +132,7 @@
                                             <binding destination="o6v-RJ-a06" name="value" keyPath="arrangedObjects.value" id="9sh-be-T7z"/>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn editable="NO" width="50" minWidth="50" maxWidth="3.4028234663852886e+38" id="e5f-X9-Khj">
+                                    <tableColumn identifier="Worst" editable="NO" width="50" minWidth="50" maxWidth="3.4028234663852886e+38" id="e5f-X9-Khj">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Worst">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -151,7 +151,7 @@
                                             <binding destination="o6v-RJ-a06" name="value" keyPath="arrangedObjects.worst" id="xCk-EW-EIX"/>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn editable="NO" width="60" minWidth="60" maxWidth="3.4028234663852886e+38" id="eC8-DR-fjU">
+                                    <tableColumn identifier="Threshold" editable="NO" width="60" minWidth="60" maxWidth="3.4028234663852886e+38" id="eC8-DR-fjU">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Threshold">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -170,7 +170,7 @@
                                             <binding destination="o6v-RJ-a06" name="value" keyPath="arrangedObjects.threshold" id="WuY-kh-Ff3"/>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn editable="NO" width="160" minWidth="120" maxWidth="3.4028234663852886e+38" id="THk-X4-1Yh">
+                                    <tableColumn identifier="RawValue" editable="NO" width="160" minWidth="120" maxWidth="3.4028234663852886e+38" id="THk-X4-1Yh">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Raw Value">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -196,7 +196,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                     </clipView>
                     <constraints>
                         <constraint firstAttribute="width" constant="668" id="hPe-cL-ebU"/>

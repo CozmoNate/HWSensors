@@ -21,10 +21,10 @@
 
         NSGradient *gradient = nil;
 
-        if (colorTheme.useDarkIcons) {
+        if (colorTheme.useBrightIcons.boolValue) {
             gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                        [colorTheme.groupStartColor shadowWithLevel:0.05], 0.1,
-                        colorTheme.groupEndColor, 0.9, nil];
+                        colorTheme.groupStartColor, 0.1,
+                        [colorTheme.groupEndColor shadowWithLevel:0.15], 0.9, nil];
         }
         else {
             gradient = [[NSGradient alloc] initWithColorsAndLocations:

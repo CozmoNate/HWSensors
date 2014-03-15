@@ -41,7 +41,7 @@
 -(NSImage *)image
 {
     if (!_image) {
-        _image = self.engine.configuration.colorTheme.useDarkIcons.boolValue ? self.alternate : self.regular;
+        _image = self.engine.configuration.colorTheme.useBrightIcons.boolValue ? self.alternate : self.regular;
     }
 
     return _image;

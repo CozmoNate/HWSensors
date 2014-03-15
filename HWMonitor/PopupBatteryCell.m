@@ -63,7 +63,7 @@
             fillColor = [NSColor greenColor];
         }
 
-        fillColor = [self.objectValue engine].configuration.colorTheme.useDarkIcons ? [fillColor highlightWithLevel:0.1] : [fillColor shadowWithLevel:0.1];
+        fillColor = [self.objectValue engine].configuration.colorTheme.useBrightIcons.boolValue ? [fillColor highlightWithLevel:0.1] : [fillColor shadowWithLevel:0.1];
 
         [fillColor setFill];
         

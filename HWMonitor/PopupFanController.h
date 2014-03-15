@@ -26,6 +26,4 @@
 @property (assign) IBOutlet NSPopUpButton *inputsPopUp;
 @property (assign) IBOutlet NSTableView *levelsTableView;
 
-//- (IBAction)sliderHasMoved:(id)sender;
-
 @end
