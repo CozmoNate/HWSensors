@@ -21,9 +21,10 @@
 //@property (assign) IBOutlet NSSlider *targetSlider;
 //@property (assign) IBOutlet NSTextField *targetTextField;
 
+@property (assign) IBOutlet NSSegmentedControl *enabledSwitch;
+@property (assign) IBOutlet NSPopUpButton *inputsPopUp;
 @property (assign) IBOutlet NSTextField *inputLabel;
 @property (assign) IBOutlet NSTextField *outputLabel;
-@property (assign) IBOutlet NSPopUpButton *inputsPopUp;
 @property (assign) IBOutlet NSTableView *levelsTableView;
 
 @end

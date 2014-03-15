@@ -136,8 +136,6 @@
 
     [self layoutContent:NO orderFront:YES animated:NO];
 
-    [self.window setBackgroundBlurRadius:5];
-
     self.statusItemView.isHighlighted = YES;
 
     //if (menubarWindow.attachedToMenuBar) {
@@ -203,6 +201,7 @@
     // Order front if needed
     if (orderFront) {
         [menubarWindow makeKeyAndOrderFront:self];
+        [self.window setBackgroundBlurRadius:5];
     }
 }
 

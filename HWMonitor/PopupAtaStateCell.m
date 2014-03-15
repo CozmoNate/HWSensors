@@ -14,10 +14,12 @@
 -(void)drawStateImageInFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     NSImage *image = nil;
+    CGFloat fraction = 0.7;
 
     switch (self.state) {
         case kHWMSensorLevelDisabled:
             image = [NSImage imageNamed:NSImageNameStatusNone];
+            fraction = 0.5;
             break;
 
         case kHWMSensorLevelModerate:
@@ -36,7 +38,7 @@
     }
 
     if (image) {
-        [image drawInRect:NSMakeRect(cellFrame.origin.x, cellFrame.origin.y, image.size.width, image.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+        [image drawInRect:NSMakeRect(cellFrame.origin.x, cellFrame.origin.y, image.size.width, image.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
     }
 }
 

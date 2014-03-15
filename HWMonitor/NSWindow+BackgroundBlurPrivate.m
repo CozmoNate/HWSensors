@@ -19,10 +19,11 @@ extern OSStatus         CGSSetWindowBackgroundBlurRadius(CGSConnection connectio
 
 - (void)setBackgroundBlurRadius:(NSInteger)radius
 {
-    [self setOpaque:NO];
-
-    CGSConnection connection = CGSDefaultConnectionForThread();
-    CGSSetWindowBackgroundBlurRadius(connection, self.windowNumber, (int)radius);
+    if (self.isVisible) {
+        //[self setOpaque:NO];
+        CGSConnection connection = CGSDefaultConnectionForThread();
+        CGSSetWindowBackgroundBlurRadius(connection, self.windowNumber, (int)radius);
+    }
 }
 
 @end
