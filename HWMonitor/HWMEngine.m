@@ -1251,7 +1251,7 @@ static HWMEngine* gDefaultEngine = nil;
                  itemSubTitleColor:[NSColor colorWithDeviceWhite:0.65 alpha:1.0]
                     itemTitleColor:[NSColor colorWithDeviceWhite:0.85 alpha:1.0]
                itemValueTitleColor:[NSColor colorWithDeviceWhite:0.95 alpha:1.0]
-               listBackgroundColor:[NSColor colorWithDeviceWhite:0.15 alpha:0.90]
+               listBackgroundColor:[NSColor colorWithDeviceWhite:0.20 alpha:0.90]
                    listStrokeColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.55]
                    toolbarEndColor:[NSColor colorWithDeviceRed:0.03 green:0.33 blue:0.8 alpha:0.90]
                 toolbarShadowColor:[[NSColor colorWithDeviceRed:0.03 green:0.33 blue:0.8 alpha:0.90] highlightWithLevel:0.58]

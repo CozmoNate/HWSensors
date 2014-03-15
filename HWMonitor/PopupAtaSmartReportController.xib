@@ -26,7 +26,7 @@
                         <rect key="frame" x="0.0" y="17" width="668" height="336"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnResizing="NO" typeSelect="NO" autosaveName="PopupAtaSmartReportTable" rowHeight="15" headerView="oJd-jY-dL2" id="tQD-xO-pqV">
+                            <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnResizing="NO" autosaveColumns="NO" typeSelect="NO" autosaveName="" rowHeight="15" headerView="oJd-jY-dL2" id="tQD-xO-pqV">
                                 <rect key="frame" x="0.0" y="0.0" width="669" height="336"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="1"/>

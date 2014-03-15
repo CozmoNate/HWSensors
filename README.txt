@@ -1,6 +1,8 @@
-FakeSMC is an open source SMC device driver/emulator (FakeSMC) by netkas (http://netkas.org/) with hardware monitoring plugins ported from OpenHardwareMonitor for Windows and hwmon sensors drivers from Linux.
+HWSensors is a software bundle includes drivers and applications allow you to access information from various sensors available on your MAC or PC.
 
-NOTE: FakeSMC & Plugins starting from v915 provides additional sensors information to HWMonitor then running on Macs. By installing FakeSMC on real Mac you should consider to know what you are doing and how to recover your system back if something goes wrong.
+FakeSMC is an open source SMC device driver/emulator developed by netkas (http://netkas.org/).
+
+NOTE: FakeSMC & Plugins starting from v915 provide additional sensors information to HWMonitor then running on Macs. By installing FakeSMC on real Mac you should consider you know what you are doing and how to recover your system if something will goes wrong.
 
 All repositories:
 
@@ -9,8 +11,7 @@ BitBucket, sources & downloads: https://bitbucket.org/kozlek/hwsensors/overview
 Assembla, sources: https://www.assembla.com/code/fakesmc/git/nodes
 GitHub, sources: https://github.com/kozlek/HWSensors
 
-HWSensors Project (c) 2014 netkas, slice, usr-sse2, kozlek, navi, THe KiNG, RehabMan 
-and others. All rights reserved.
+HWSensors Project (c) 2014 netkas, slice, usr-sse2, kozlek, navi, THe KiNG, RehabMan and others. All rights reserved.
 
 With special thanks to:
 netkas for fakesmc
