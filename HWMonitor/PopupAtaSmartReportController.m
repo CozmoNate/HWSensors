@@ -15,6 +15,8 @@
 
 #import "Localizer.h"
 
+#import "NSWindow+BackgroundBlurPrivate.h"
+
 @interface PopupAtaSmartReportController ()
 
 @end
@@ -28,9 +30,11 @@
     COICOPopoverView *container = (COICOPopoverView *)[self view];
 
     [container setBackgroundColour:self.sensor.engine.configuration.colorTheme.useDarkIcons.boolValue ?
-     [self.sensor.engine.configuration.colorTheme.listBackgroundColor colorWithAlphaComponent:0.85] :
+     [self.sensor.engine.configuration.colorTheme.listBackgroundColor colorWithAlphaComponent:0.8] :
      nil /*[self.colorTheme.listBackgroundColor shadowWithLevel:0.05]*/];
 
+    if (self.sensor.engine.configuration.colorTheme.useDarkIcons.boolValue)
+        [self.view.window setBackgroundBlurRadius:3];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

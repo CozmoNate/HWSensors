@@ -1828,7 +1828,7 @@ static HWMEngine* gDefaultEngine = nil;
     [sensor doUpdateValue];
 
 #ifdef kHWMonitorDebugBattery
-    [sensor setValue:@10];
+    [sensor setValue:[NSNumber numberWithInt:arc4random() % 100]];
 #endif
 
     if (sensor.value) {

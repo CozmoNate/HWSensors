@@ -264,7 +264,10 @@ IOReturn CPUSensors::timerEventAction()
         calculateTimedCounters();
 
         if (timerEventDeltaTime == 0 || timerEventDeltaTime > 10.0f) {
-            timerEventSource->setTimeoutMS(500);
+            timerEventScheduled = timerEventSource->setTimeoutMS(500) == kIOReturnSuccess ? true : false;
+        }
+        else {
+            timerEventScheduled = false;
         }
     }
     
@@ -275,26 +278,24 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {    
     UInt32 index = sensor->getIndex();
 
+    bit_set(counters.event_flags, sensor->getGroup());
+
     switch (sensor->getGroup()) {
         case kCPUSensorsThermalCore:
-            bit_set(counters.event_flags, kCPUSensorsThermalCore);
             *outValue = tjmax[index] - counters.thermal_status[index];
             break;
 
         case kCPUSensorsThermalPackage:
-            bit_set(counters.event_flags, kCPUSensorsThermalPackage);
             *outValue = tjmax[index] - counters.thermal_status_package;
             break;
             
         case kCPUSensorsMultiplierCore:
         case kCPUSensorsMultiplierPackage:
-            bit_set(counters.event_flags, sensor->getGroup());
             *outValue = multiplier[index];
             break;
             
         case kCPUSensorsFrequencyCore:
         case kCPUSensorsFrequencyPackage:
-            bit_set(counters.event_flags, sensor->getGroup());
             if (baseMultiplier) {
                 *outValue = turbo[index] * (float)busClock * (float)baseMultiplier;
             }
@@ -307,7 +308,6 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
         case kCPUSensorsPowerCores:
         case kCPUSensorsPowerUncore:
         case kCPUSensorsPowerDram:
-            bit_set(counters.event_flags, sensor->getGroup());
             *outValue = energyUnits * energy[index];
             break;
 
@@ -316,13 +316,8 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
             
     }
 
-    if (counters.event_flags) {
-        // Rearm timer
-        //if (timerEventCounter <= 0) {
-            timerEventSource->setTimeoutMS(50);
-        //}
-
-        //timerEventCounter = 0;
+    if (!timerEventScheduled) {
+        timerEventScheduled = timerEventSource->setTimeoutMS(50) == kIOReturnSuccess ? true : false;
     }
     
     return true;

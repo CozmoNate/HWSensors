@@ -6,20 +6,20 @@
   Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 */
 
-"red-thermometer" = "Red thetmometer icon";
-"hwmonitor" = "HWMonitor icon";
-"thermometer" = "Thermometer icon";
-"temperatures" = "Temperature icon";
-"hddtemperatures" = "HDD icon";
-"ssdlife" = "SSD icon";
-"multipliers" = "Microchip icon";
-"frequencies" = "Frequency icon";
-"tachometers" = "Tachometer icon";
-"voltages" = "Voltage icon";
-"pcicard" = "Device icon";
-"video" = "Graphics card icon";
-"battery" = "Battery icon";
-"scale" = "Scale icon";
+"red-thermometer" = "Thermometer Icon (Red)";
+"hwmonitor" = "HWMonitor Icon";
+"thermometer" = "Thermometer Icon";
+"temperatures" = "Temperature Icon";
+"hddtemperatures" = "HDD Icon";
+"ssdlife" = "SSD Icon";
+"multipliers" = "Microchip Icon";
+"frequencies" = "Frequency Icon";
+"tachometers" = "Tachometer Icon";
+"voltages" = "Voltage Icon";
+"pcicard" = "Device Icon";
+"video" = "Graphics Card Icon";
+"battery" = "Battery Icon";
+"scale" = "Scale Icon";
 
 "CPUFan" = "CPU Fan";
 "CPUFan2" = "CPU Fan 2";

@@ -42,22 +42,30 @@
 
         [_gaugeImage lockFocus];
         
-        NSRectFillUsingOperation(self.imageView.bounds, NSCompositeClear);
-        
-        [[[self.objectValue engine].configuration.colorTheme.itemTitleColor highlightWithLevel:0.2] setStroke];
+        //NSRectFillUsingOperation(self.imageView.bounds, NSCompositeClear);
+        [[NSColor clearColor] set];
+        NSRectFill(self.imageView.bounds);
+
+        [[self.objectValue engine].configuration.colorTheme.itemTitleColor setStroke];
         
         [[NSBezierPath bezierPathWithRect:NSMakeRect(self.imageView.image.size.width / 2 - self.imageView.image.size.width / 4 / 2, self.imageView.image.size.height - 0.5, self.imageView.image.size.width / 4, 1)] stroke];
         [[NSBezierPath bezierPathWithRoundedRect:NSMakeRect(0.5, 1.5, self.imageView.image.size.width - 1, self.imageView.image.size.height - 3) xRadius:0.0 yRadius:0.0] stroke];
-        
+
+        NSColor *fillColor = nil;
+
         if ([_gaugeLevel integerValue] < 20) {
-            [[[NSColor redColor] shadowWithLevel:[self.objectValue engine].configuration.colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
+            fillColor = [NSColor redColor];
         }
         else if ([_gaugeLevel integerValue] < 35) {
-            [[[NSColor orangeColor] shadowWithLevel:[self.objectValue engine].configuration.colorTheme.useDarkIcons ? 0.1 : 0.2] setFill];
+            fillColor = [NSColor orangeColor];
         }
         else {
-            [[[NSColor greenColor] shadowWithLevel:[self.objectValue engine].configuration.colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
+            fillColor = [NSColor greenColor];
         }
+
+        fillColor = [self.objectValue engine].configuration.colorTheme.useDarkIcons ? [fillColor highlightWithLevel:0.1] : [fillColor shadowWithLevel:0.1];
+
+        [fillColor setFill];
         
         [[NSBezierPath bezierPathWithRect:NSMakeRect(1.75, 2.75, self.imageView.image.size.width - 3.5, (self.imageView.image.size.height - 5.5) * [_gaugeLevel doubleValue]  * 0.01)] fill];
         
@@ -65,6 +73,12 @@
         
         [self.imageView setNeedsDisplay:YES];
     }
+}
+
+-(void)colorThemeChanged:(HWMColorTheme *)newColorTheme
+{
+    [super colorThemeChanged:newColorTheme];
+    [self setGaugeLevel:self.gaugeLevel];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

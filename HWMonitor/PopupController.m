@@ -27,6 +27,7 @@
 #import "NSTableView+HWMEngineHelper.h"
 #import "NSImage+HighResolutionLoading.h"
 #import "NSView+NSLayoutConstraintFilter.h"
+#import "NSWindow+BackgroundBlurPrivate.h"
 
 @implementation PopupController
 
@@ -134,6 +135,8 @@
     }
 
     [self layoutContent:NO orderFront:YES animated:NO];
+
+    [self.window setBackgroundBlurRadius:3];
     
 //    if (!_windowFilter) {
 //        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];

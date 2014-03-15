@@ -142,6 +142,7 @@
 		7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
 		7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
 		7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */; };
+		7EC95E2218D42FCB00DD7B4D /* NSWindow+BackgroundBlurPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlurPrivate.m */; };
 		7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3016DD680E00085FFF /* 04-eye.png */; };
 		7ECDDE3316DD680E00085FFF /* 04-eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */; };
 		7ECDDE3616DDE5DA00085FFF /* 04-eye-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */; };
@@ -441,6 +442,8 @@
 		7EB7E702178340710071B3F0 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7EB7E707178341D20071B3F0 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
 		7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		7EC95E2018D42FCB00DD7B4D /* NSWindow+BackgroundBlurPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+BackgroundBlurPrivate.h"; sourceTree = "<group>"; };
+		7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlurPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+BackgroundBlurPrivate.m"; sourceTree = "<group>"; };
 		7ECDDE3016DD680E00085FFF /* 04-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye.png"; sourceTree = "<group>"; };
 		7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye@2x.png"; sourceTree = "<group>"; };
 		7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye-white.png"; sourceTree = "<group>"; };
@@ -892,6 +895,8 @@
 				7E35F97C18C1EF320047161A /* NSObject+TDBindings.m */,
 				7E2DEA2118C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.h */,
 				7E2DEA2218C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.m */,
+				7EC95E2018D42FCB00DD7B4D /* NSWindow+BackgroundBlurPrivate.h */,
+				7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlurPrivate.m */,
 			);
 			name = "Objective-C Categories";
 			sourceTree = "<group>";
@@ -1427,6 +1432,7 @@
 			files = (
 				7EFD75B6185C73A300C01C2B /* PopupFanCell.m in Sources */,
 				7EA248F816D8E93A002231B2 /* main.m in Sources */,
+				7EC95E2218D42FCB00DD7B4D /* NSWindow+BackgroundBlurPrivate.m in Sources */,
 				7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */,
 				7E1900B0184279CD00C6A0E8 /* HWMGraph.m in Sources */,
 				7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */,

@@ -21,6 +21,7 @@
 
 #import "NSTableView+HWMEngineHelper.h"
 #import "NSView+NSLayoutConstraintFilter.h"
+#import "NSWindow+BackgroundBlurPrivate.h"
 
 @interface PopupFanController ()
 
@@ -53,12 +54,16 @@
     }
 
     COICOPopoverView *container = (COICOPopoverView *)[self view];
+
     HWMColorTheme *colorTheme = [HWMEngine defaultEngine].configuration.colorTheme;
     NSColor *textColor = colorTheme.useDarkIcons.boolValue ? colorTheme.itemValueTitleColor : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];
 
     [container setBackgroundColour:colorTheme.useDarkIcons.boolValue ?
-     [colorTheme.listBackgroundColor colorWithAlphaComponent:0.5]:
+     [colorTheme.listBackgroundColor colorWithAlphaComponent:0.6]:
      nil /*[self.colorTheme.listBackgroundColor shadowWithLevel:0.05]*/];
+
+    if (colorTheme.useDarkIcons.boolValue)
+        [self.view.window setBackgroundBlurRadius:3];
 
     [_inputLabel setTextColor:textColor];
     [_outputLabel setTextColor:textColor];

@@ -96,6 +96,7 @@
         _popover.appearance = fan.engine.configuration.colorTheme.useDarkIcons ? NSPopoverAppearanceMinimal : NSPopoverAppearanceHUD;
 
         [_popover showRelativeToRect:self.frame ofView:self preferredEdge:NSMinXEdge];
+        
         [controller setController:fan.controller];
     }
 }

@@ -122,6 +122,7 @@ private:
     IOReturn                timerEventAction(void);
     double                  timerEventLastTime;
     double                  timerEventDeltaTime;
+    bool                    timerEventScheduled;
 
     void                    calculateMultiplier(UInt32 index);
     void                    calculateTimedCounters();
