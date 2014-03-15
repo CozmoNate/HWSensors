@@ -849,27 +849,27 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
         {
             bottomColor = window.colorTheme.toolbarEndColor;
             topColor = window.colorTheme.toolbarStartColor;
-            topColorTransparent = [NSColor colorWithCalibratedRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0];
+            topColorTransparent = [NSColor colorWithDeviceRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0];
         }
         else
         {
             bottomColor = [window.colorTheme.toolbarEndColor highlightWithLevel:0.2];
             topColor = [window.colorTheme.toolbarStartColor highlightWithLevel:0.2];
-            topColorTransparent = [[NSColor colorWithCalibratedRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0] highlightWithLevel:0.15];
+            topColorTransparent = [[NSColor colorWithDeviceRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0] highlightWithLevel:0.15];
         }
     }
     else {
         if (isKey || window.attachedToMenuBar)
         {
-            bottomColor = [NSColor colorWithCalibratedWhite:0.690 alpha:1.0];
-            topColor = [NSColor colorWithCalibratedWhite:0.910 alpha:1.0];
-            topColorTransparent = [NSColor colorWithCalibratedWhite:0.910 alpha:0.0];
+            bottomColor = [NSColor colorWithDeviceWhite:0.690 alpha:1.0];
+            topColor = [NSColor colorWithDeviceWhite:0.910 alpha:1.0];
+            topColorTransparent = [NSColor colorWithDeviceWhite:0.910 alpha:0.0];
         }
         else
         {
-            bottomColor = [NSColor colorWithCalibratedWhite:0.85 alpha:1.0];
-            topColor = [NSColor colorWithCalibratedWhite:0.93 alpha:1.0];
-            topColorTransparent = [NSColor colorWithCalibratedWhite:0.93 alpha:0.0];
+            bottomColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
+            topColor = [NSColor colorWithDeviceWhite:0.93 alpha:1.0];
+            topColorTransparent = [NSColor colorWithDeviceWhite:0.93 alpha:0.0];
         }
     }
 
@@ -919,7 +919,7 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
         [[window.colorTheme.toolbarShadowColor highlightWithLevel:0.5] set];
     }
     else {
-        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] set];
+        [[NSColor colorWithDeviceWhite:1.0 alpha:0.85] set];
     }
     [highlightPath setLineWidth:1.0];
     [border addClip];
@@ -929,10 +929,10 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
 
     // Draw title
     NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] init];
-    [titleAttributes setValue:[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] forKey:NSForegroundColorAttributeName];
+    [titleAttributes setValue:[NSColor colorWithDeviceWhite:1.0 alpha:0.85] forKey:NSForegroundColorAttributeName];
     [titleAttributes setValue:[NSFont fontWithName:@"Helvetica Light" size:15] forKey:NSFontAttributeName];
     NSShadow *stringShadow = [[NSShadow alloc] init];
-    [stringShadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.5]];
+    [stringShadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.5]];
     [stringShadow setShadowOffset:NSMakeSize(0, 0)];
     [stringShadow setShadowBlurRadius:6];
     [titleAttributes setValue:stringShadow forKey:NSShadowAttributeName];
@@ -946,7 +946,7 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
     [window.title drawAtPoint:centerPoint withAttributes:titleAttributes];
 
     // Draw separator line between the titlebar and the content view
-    [[NSColor colorWithCalibratedWhite:0.3 alpha:1.0] set];
+    [[NSColor colorWithDeviceWhite:0.3 alpha:1.0] set];
     NSRect separatorRect = NSMakeRect(originX, originY + height - window.toolbarView.frame.size.height - (isAttached ? OBMenuBarWindowArrowHeight : 0) - 1, width, 1);
     NSRectFill(separatorRect);
 }

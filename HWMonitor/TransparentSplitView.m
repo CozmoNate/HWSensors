@@ -11,7 +11,7 @@
 @implementation TransparentSplitView
 
 -(void) drawDividerInRect:(NSRect)aRect {
-    //[[NSColor colorWithCalibratedWhite:0.15 alpha:1.0] set];
+    //[[NSColor colorWithDeviceWhite:0.15 alpha:1.0] set];
     //NSRectFill(aRect);
 }
 

@@ -75,7 +75,7 @@
     if (self) {
         NSShadow *shadow = [[NSShadow alloc] init];
         
-        [shadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.55]];
+        [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.55]];
         [shadow setShadowOffset:CGSizeMake(0, -1.0)];
         [shadow setShadowBlurRadius:1.0];
 
@@ -142,8 +142,8 @@
     [NSBezierPath clipRect:NSMakeRect(LeftViewMargin, TopViewMargin, self.bounds.size.width - LeftViewMargin - RightViewMargin, self.bounds.size.height - TopViewMargin - BottomViewMargin)];
     
     [[[NSGradient alloc]
-      initWithStartingColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.85]
-                endingColor:[NSColor colorWithCalibratedWhite:0.25 alpha:0.85]]
+      initWithStartingColor:[NSColor colorWithDeviceWhite:0.15 alpha:0.85]
+                endingColor:[NSColor colorWithDeviceWhite:0.25 alpha:0.85]]
         drawInRect:self.bounds angle:270];
     
     // Draw marks
