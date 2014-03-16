@@ -558,9 +558,9 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
             if (productMatch) {
 
-                for (NSString *pattern in productMatch) {
+                for (NSString *productPattern in productMatch) {
 
-                    NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+                    NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:productPattern options:NSRegularExpressionCaseInsensitive error:nil];
 
                     if ([expression numberOfMatchesInString:product options:NSMatchingReportCompletion range:NSMakeRange(0, product.length)]) {
 
@@ -570,10 +570,10 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
                             BOOL supported = NO;
 
-                            for (pattern in productMatch) {
-                                expression = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+                            for (NSString *firmwarePattern in firmwareMatch) {
+                                expression = [NSRegularExpression regularExpressionWithPattern:firmwarePattern options:NSRegularExpressionCaseInsensitive error:nil];
 
-                                if ([expression numberOfMatchesInString:product options:NSMatchingReportCompletion range:NSMakeRange(0, product.length)]) {
+                                if ([expression numberOfMatchesInString:firmware options:NSMatchingReportCompletion range:NSMakeRange(0, product.length)]) {
                                     supported = YES;
                                     break;
                                 }
