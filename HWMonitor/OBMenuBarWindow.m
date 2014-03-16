@@ -42,6 +42,8 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 const CGFloat OBMenuBarWindowArrowHeight = 10.0;
 const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 const CGFloat OBMenuBarWindowArrowOffset = 6;
+const CGFloat OBMenuBarWindowCornerRadius = 6;
+
 @interface OBMenuBarWindow ()
 
 - (void)initialSetup;
@@ -768,7 +770,7 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
     CGFloat height = bounds.size.height;
     CGFloat arrowHeight = OBMenuBarWindowArrowHeight;
     CGFloat arrowWidth = OBMenuBarWindowArrowWidth;
-    CGFloat cornerRadius = 6.0;
+    CGFloat cornerRadius = OBMenuBarWindowCornerRadius;
 
     [[NSColor clearColor] set];
     NSRectFill(NSMakeRect(0, 0, width, height));
@@ -787,7 +789,8 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
     // Erase the default title bar
     CGFloat titleBarHeight = window.toolbarView.frame.size.height + (isAttached ? OBMenuBarWindowArrowHeight : 0);
     [[NSColor clearColor] set];
-    NSRectFillUsingOperation([window titleBarRect], NSCompositeClear);
+    NSRectFill(window.titleBarRect);
+    //NSRectFillUsingOperation([window titleBarRect], NSCompositeClear);
 
     // Create the window shape
     NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0,
@@ -801,36 +804,39 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
     else
     {
         arrowPointMiddle = NSMakePoint(originX + width / 2.0,
-                                       originY + height - (isAttached ? OBMenuBarWindowArrowHeight : 0));
+                                       originY + height - (isAttached ? arrowHeight : 0));
     }
     NSPoint arrowPointRight = NSMakePoint(originX + (width + arrowWidth) / 2.0,
-                                          originY + height - (isAttached ? OBMenuBarWindowArrowHeight : 0));
+                                          originY + height - (isAttached ? arrowHeight : 0));
     NSPoint topLeft = NSMakePoint(originX,
-                                  originY + height - (isAttached ? OBMenuBarWindowArrowHeight : 0));
+                                  originY + height - (isAttached ? arrowHeight : 0));
     NSPoint topRight = NSMakePoint(originX + width,
-                                   originY + height - (isAttached ? OBMenuBarWindowArrowHeight : 0));
+                                   originY + height - (isAttached ? arrowHeight : 0));
     NSPoint bottomLeft = NSMakePoint(originX,
-                                     originY + height - arrowHeight - window.toolbarView.frame.size.height);
+                                     originY + height - (isAttached ? arrowHeight : 0) - window.toolbarView.frame.size.height);
     NSPoint bottomRight = NSMakePoint(originX + width,
-                                      originY + height - arrowHeight - window.toolbarView.frame.size.height);
+                                      originY + height - (isAttached ? arrowHeight : 0) - window.toolbarView.frame.size.height);
 
-    NSBezierPath *border = [NSBezierPath bezierPath];
-    [border moveToPoint:arrowPointLeft];
-    [border lineToPoint:arrowPointMiddle];
-    [border lineToPoint:arrowPointRight];
-    [border appendBezierPathWithArcFromPoint:topRight
-                                     toPoint:bottomRight
-                                      radius:cornerRadius];
-    [border lineToPoint:bottomRight];
-    [border lineToPoint:bottomLeft];
-    [border appendBezierPathWithArcFromPoint:topLeft
-                                     toPoint:arrowPointLeft
-                                      radius:cornerRadius];
-    [border closePath];
+    // Border closed path
+    NSBezierPath *borderPath = [NSBezierPath bezierPath];
+    [borderPath moveToPoint:arrowPointLeft];
+    [borderPath lineToPoint:arrowPointMiddle];
+    [borderPath lineToPoint:arrowPointRight];
+    [borderPath appendBezierPathWithArcFromPoint:topRight
+                                         toPoint:bottomRight
+                                          radius:cornerRadius];
+    [borderPath lineToPoint:bottomRight];
+    [borderPath lineToPoint:bottomLeft];
+    [borderPath appendBezierPathWithArcFromPoint:topLeft
+                                         toPoint:arrowPointLeft
+                                          radius:cornerRadius];
+    [borderPath lineToPoint:arrowPointLeft];
+    [borderPath closePath];
 
     // Draw the title bar
     [NSGraphicsContext saveGraphicsState];
-    [border addClip];
+
+    [borderPath addClip];
 
     NSRect headingRect = NSMakeRect(originX,
                                     originY + height - titleBarHeight,
@@ -904,25 +910,25 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
 
     // Draw the title bar highlight
     NSBezierPath *highlightPath = [NSBezierPath bezierPath];
-    [highlightPath moveToPoint:arrowPointMiddle];
-    [highlightPath lineToPoint:arrowPointLeft];
-    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topLeft.x + 1.5, topLeft.y)
-                                            toPoint:NSMakePoint(bottomLeft.x, topLeft.y - cornerRadius)
+    [highlightPath moveToPoint:NSMakePoint(arrowPointMiddle.x,arrowPointMiddle.y - 0.5)];
+    [highlightPath lineToPoint:NSMakePoint(arrowPointLeft.x, arrowPointLeft.y - 0.5)];
+    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topLeft.x + 0.5, topLeft.y)
+                                            toPoint:NSMakePoint(bottomLeft.x - 0.5, topLeft.y - cornerRadius)
                                              radius:cornerRadius];
-    [highlightPath moveToPoint:arrowPointMiddle];
-    [highlightPath lineToPoint:arrowPointRight];
-    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topRight.x - 1.5, topRight.y)
-                                            toPoint:NSMakePoint(bottomRight.x, topRight.y - cornerRadius)
+    [highlightPath moveToPoint:NSMakePoint(arrowPointMiddle.x,arrowPointMiddle.y - 0.5)];
+    [highlightPath lineToPoint:NSMakePoint(arrowPointRight.x, arrowPointRight.y - 0.5)];
+    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topRight.x - 0.5, topRight.y)
+                                            toPoint:NSMakePoint(bottomRight.x + 0.5, topRight.y - cornerRadius)
                                              radius:cornerRadius];
-    //[window.colorTheme.listStrokeColor set];
+
     if (window.colorTheme) {
         [[window.colorTheme.toolbarShadowColor highlightWithLevel:0.5] set];
     }
     else {
         [[NSColor colorWithDeviceWhite:1.0 alpha:0.85] set];
     }
-    [highlightPath setLineWidth:1.0];
-    [border addClip];
+
+    [highlightPath setLineWidth:window.colorTheme.toolbarStrokeColor ? 3.0 : 1.0];
     [highlightPath stroke];
 
     [NSGraphicsContext restoreGraphicsState];
@@ -947,8 +953,37 @@ const CGFloat OBMenuBarWindowArrowOffset = 6;
 
     // Draw separator line between the titlebar and the content view
     [[NSColor colorWithDeviceWhite:0.3 alpha:1.0] set];
-    NSRect separatorRect = NSMakeRect(originX, originY + height - window.toolbarView.frame.size.height - (isAttached ? OBMenuBarWindowArrowHeight : 0) - 1, width, 1);
+    NSRect separatorRect = NSMakeRect(originX, originY + height - window.toolbarView.frame.size.height - (isAttached ? arrowHeight : 0) - 1, width, 1);
     NSRectFill(separatorRect);
+
+    // Draw stroke
+    if (window.colorTheme.toolbarStrokeColor) {
+        // Stroke open path
+        NSBezierPath *strokePath = [NSBezierPath bezierPath];
+        [strokePath moveToPoint:arrowPointLeft];
+        [strokePath lineToPoint:arrowPointMiddle];
+        [strokePath lineToPoint:arrowPointRight];
+        [strokePath appendBezierPathWithArcFromPoint:topRight
+                                             toPoint:bottomRight
+                                              radius:cornerRadius];
+        [strokePath lineToPoint:bottomRight];
+        [strokePath moveToPoint:bottomLeft];
+        [strokePath appendBezierPathWithArcFromPoint:topLeft
+                                             toPoint:arrowPointLeft
+                                              radius:cornerRadius];
+        [strokePath lineToPoint:arrowPointLeft];
+
+        if (isKey) {
+            [window.colorTheme.toolbarStrokeColor set];
+        }
+        else {
+            [[window.colorTheme.toolbarStrokeColor highlightWithLevel:0.25] set];
+        }
+
+        [borderPath addClip];
+        [strokePath setLineWidth:1.0];
+        [strokePath stroke];
+    }
 }
 
 - (void)refreshContentImageForKeyWindow:(BOOL)isKey
