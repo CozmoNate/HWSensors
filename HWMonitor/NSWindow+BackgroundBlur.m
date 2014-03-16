@@ -8,14 +8,14 @@
 
 // Original article: http://stackoverflow.com/questions/19575642/how-to-use-cifilter-on-nswindow-in-osx-10-9-mavericks
 
-#import "NSWindow+BackgroundBlurPrivate.h"
+#import "NSWindow+BackgroundBlur.h"
 
 typedef void *          CGSConnection;
 
 extern CGSConnection    CGSDefaultConnectionForThread();
 extern OSStatus         CGSSetWindowBackgroundBlurRadius(CGSConnection connection, NSInteger windowNumber, int radius);
 
-@implementation NSWindow (BackgroundBlurPrivate)
+@implementation NSWindow (BackgroundBlur)
 
 - (void)setBackgroundBlurRadius:(NSInteger)radius
 {

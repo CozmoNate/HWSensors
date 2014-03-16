@@ -21,7 +21,7 @@
 
 #import "NSTableView+HWMEngineHelper.h"
 #import "NSView+NSLayoutConstraintFilter.h"
-#import "NSWindow+BackgroundBlurPrivate.h"
+#import "NSWindow+BackgroundBlur.h"
 
 @interface PopupFanController ()
 

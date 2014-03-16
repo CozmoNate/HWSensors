@@ -42,7 +42,7 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 const CGFloat OBMenuBarWindowArrowHeight = 10.0;
 const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 const CGFloat OBMenuBarWindowArrowOffset = 6;
-const CGFloat OBMenuBarWindowCornerRadius = 6;
+const CGFloat OBMenuBarWindowCornerRadius = 7;
 
 @interface OBMenuBarWindow ()
 
@@ -855,27 +855,27 @@ const CGFloat OBMenuBarWindowCornerRadius = 6;
         {
             bottomColor = window.colorTheme.toolbarEndColor;
             topColor = window.colorTheme.toolbarStartColor;
-            topColorTransparent = [NSColor colorWithDeviceRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0];
+            topColorTransparent = [NSColor colorWithCalibratedRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0];
         }
         else
         {
             bottomColor = [window.colorTheme.toolbarEndColor highlightWithLevel:0.2];
             topColor = [window.colorTheme.toolbarStartColor highlightWithLevel:0.2];
-            topColorTransparent = [[NSColor colorWithDeviceRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0] highlightWithLevel:0.15];
+            topColorTransparent = [[NSColor colorWithCalibratedRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0] highlightWithLevel:0.15];
         }
     }
     else {
         if (isKey || window.attachedToMenuBar)
         {
-            bottomColor = [NSColor colorWithDeviceWhite:0.690 alpha:1.0];
-            topColor = [NSColor colorWithDeviceWhite:0.910 alpha:1.0];
-            topColorTransparent = [NSColor colorWithDeviceWhite:0.910 alpha:0.0];
+            bottomColor = [NSColor colorWithCalibratedWhite:0.690 alpha:1.0];
+            topColor = [NSColor colorWithCalibratedWhite:0.910 alpha:1.0];
+            topColorTransparent = [NSColor colorWithCalibratedWhite:0.910 alpha:0.0];
         }
         else
         {
-            bottomColor = [NSColor colorWithDeviceWhite:0.85 alpha:1.0];
-            topColor = [NSColor colorWithDeviceWhite:0.93 alpha:1.0];
-            topColorTransparent = [NSColor colorWithDeviceWhite:0.93 alpha:0.0];
+            bottomColor = [NSColor colorWithCalibratedWhite:0.85 alpha:1.0];
+            topColor = [NSColor colorWithCalibratedWhite:0.93 alpha:1.0];
+            topColorTransparent = [NSColor colorWithCalibratedWhite:0.93 alpha:0.0];
         }
     }
 
@@ -912,12 +912,12 @@ const CGFloat OBMenuBarWindowCornerRadius = 6;
     NSBezierPath *highlightPath = [NSBezierPath bezierPath];
     [highlightPath moveToPoint:NSMakePoint(arrowPointMiddle.x,arrowPointMiddle.y - 0.5)];
     [highlightPath lineToPoint:NSMakePoint(arrowPointLeft.x, arrowPointLeft.y - 0.5)];
-    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topLeft.x + 0.5, topLeft.y)
+    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topLeft.x + 0.5, topLeft.y - 0.5)
                                             toPoint:NSMakePoint(bottomLeft.x - 0.5, topLeft.y - cornerRadius)
                                              radius:cornerRadius];
     [highlightPath moveToPoint:NSMakePoint(arrowPointMiddle.x,arrowPointMiddle.y - 0.5)];
     [highlightPath lineToPoint:NSMakePoint(arrowPointRight.x, arrowPointRight.y - 0.5)];
-    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topRight.x - 0.5, topRight.y)
+    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topRight.x - 0.5, topRight.y - 0.5)
                                             toPoint:NSMakePoint(bottomRight.x + 0.5, topRight.y - cornerRadius)
                                              radius:cornerRadius];
 
@@ -925,7 +925,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 6;
         [[window.colorTheme.toolbarShadowColor highlightWithLevel:0.5] set];
     }
     else {
-        [[NSColor colorWithDeviceWhite:1.0 alpha:0.85] set];
+        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] set];
     }
 
     [highlightPath setLineWidth:window.colorTheme.toolbarStrokeColor ? 3.0 : 1.0];
@@ -935,10 +935,10 @@ const CGFloat OBMenuBarWindowCornerRadius = 6;
 
     // Draw title
     NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] init];
-    [titleAttributes setValue:[NSColor colorWithDeviceWhite:1.0 alpha:0.85] forKey:NSForegroundColorAttributeName];
+    [titleAttributes setValue:[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] forKey:NSForegroundColorAttributeName];
     [titleAttributes setValue:[NSFont fontWithName:@"Helvetica Light" size:15] forKey:NSFontAttributeName];
     NSShadow *stringShadow = [[NSShadow alloc] init];
-    [stringShadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.5]];
+    [stringShadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.5]];
     [stringShadow setShadowOffset:NSMakeSize(0, 0)];
     [stringShadow setShadowBlurRadius:6];
     [titleAttributes setValue:stringShadow forKey:NSShadowAttributeName];
@@ -952,7 +952,12 @@ const CGFloat OBMenuBarWindowCornerRadius = 6;
     [window.title drawAtPoint:centerPoint withAttributes:titleAttributes];
 
     // Draw separator line between the titlebar and the content view
-    [[NSColor colorWithDeviceWhite:0.3 alpha:1.0] set];
+    if (isKey) {
+        [[window.colorTheme.listBackgroundColor shadowWithLevel:0.5] set];
+    }
+    else {
+        [[window.colorTheme.listBackgroundColor shadowWithLevel:0.2] set];
+    }
     NSRect separatorRect = NSMakeRect(originX, originY + height - window.toolbarView.frame.size.height - (isAttached ? arrowHeight : 0) - 1, width, 1);
     NSRectFill(separatorRect);
 
@@ -1067,11 +1072,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 6;
         [window drawContentForKeyWindow:[window isKeyWindow]];
     }
     else {
-        // Clear background (needs for semitransparent drawings)
-        [[NSColor clearColor] set];
-        NSRectFill(dirtyRect);
-
-        [content drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeSourceOver fraction:1.0];
+        [content drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
     }
 }
 

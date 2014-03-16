@@ -14,8 +14,8 @@
 {
     if (!_gradient) {
         _gradient = [[NSGradient alloc]
-                    initWithStartingColor:[NSColor colorWithDeviceWhite:0.4 alpha:0.5]
-                    endingColor:[NSColor colorWithDeviceWhite:0.2 alpha:0.5]];
+                    initWithStartingColor:[NSColor colorWithCalibratedWhite:0.4 alpha:0.5]
+                    endingColor:[NSColor colorWithCalibratedWhite:0.2 alpha:0.5]];
     }
     
     [_gradient drawInRect:[self bounds] angle:270];

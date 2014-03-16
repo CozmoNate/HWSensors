@@ -27,7 +27,7 @@
 #import "NSTableView+HWMEngineHelper.h"
 #import "NSImage+HighResolutionLoading.h"
 #import "NSView+NSLayoutConstraintFilter.h"
-#import "NSWindow+BackgroundBlurPrivate.h"
+#import "NSWindow+BackgroundBlur.h"
 
 @implementation PopupController
 

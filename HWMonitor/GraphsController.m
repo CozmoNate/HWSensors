@@ -44,7 +44,7 @@
 #import "HWMConfiguration.h"
 
 #import "NSTableView+HWMEngineHelper.h"
-#import "NSWindow+BackgroundBlurPrivate.h"
+#import "NSWindow+BackgroundBlur.h"
 
 //#define GetLocalizedString(key) \
 //[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]

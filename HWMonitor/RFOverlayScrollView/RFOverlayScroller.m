@@ -95,7 +95,7 @@
 
     [thePath appendBezierPathWithRoundedRect:rect xRadius:3 yRadius:3];
 
-    [[NSColor colorWithDeviceWhite:0.5 alpha:1.0] setFill];
+    [[NSColor colorWithCalibratedWhite:0.5 alpha:1.0] setFill];
     [thePath fill];
 }
 

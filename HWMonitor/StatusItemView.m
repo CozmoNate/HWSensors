@@ -78,7 +78,7 @@
 
         _shadow = [[NSShadow alloc] init];
 
-        [_shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.50]];
+        [_shadow setShadowColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.50]];
         [_shadow setShadowOffset:CGSizeMake(0, -1.0)];
         [_shadow setShadowBlurRadius:1.0];
 
@@ -193,7 +193,7 @@
 
                 switch (sensor.alarmLevel) {
                     case kHWMSensorLevelModerate:
-                        valueColor = [NSColor colorWithDeviceRed:0.7f green:0.3f blue:0.03f alpha:1.0f];
+                        valueColor = [NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f];
                         break;
 
                     case kHWMSensorLevelHigh:

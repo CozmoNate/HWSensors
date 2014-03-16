@@ -80,7 +80,7 @@
                 break;
 
             case kHWMSensorLevelModerate:
-                [self.valueField setTextColor:[NSColor colorWithDeviceRed:0.7f green:0.3f blue:0.03f alpha:1.0f]];
+                [self.valueField setTextColor:[NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f]];
                 break;
 
             case kHWMSensorLevelHigh:

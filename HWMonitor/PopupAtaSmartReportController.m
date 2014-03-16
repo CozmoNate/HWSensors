@@ -15,7 +15,7 @@
 
 #import "Localizer.h"
 
-#import "NSWindow+BackgroundBlurPrivate.h"
+#import "NSWindow+BackgroundBlur.h"
 
 @interface PopupAtaSmartReportController ()
 
@@ -44,7 +44,7 @@
 -(void)awakeFromNib
 {
     [Localizer localizeView:_tableView];
-    [_tableView setGridColor:[HWMEngine defaultEngine].configuration.colorTheme.useBrightIcons.boolValue ? [NSColor colorWithDeviceWhite:0.4 alpha:1.0] : [NSColor colorWithDeviceWhite:0.8 alpha:1.0]];
+    [_tableView setGridColor:[HWMEngine defaultEngine].configuration.colorTheme.useBrightIcons.boolValue ? [NSColor colorWithCalibratedWhite:0.4 alpha:1.0] : [NSColor colorWithCalibratedWhite:0.8 alpha:1.0]];
 }
 
 - (void)copy:(id)sender;

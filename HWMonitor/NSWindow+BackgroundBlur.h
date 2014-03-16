@@ -10,7 +10,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface NSWindow (BackgroundBlurPrivate)
+@interface NSWindow (BackgroundBlur)
 
 - (void)setBackgroundBlurRadius:(NSInteger)radius;
 
