@@ -1224,7 +1224,7 @@ static HWMEngine* gDefaultEngine = nil;
                    toolbarEndColor:[NSColor colorWithDeviceRed:0.05 green:0.35 blue:0.85 alpha:0.90]
                 toolbarShadowColor:[[NSColor colorWithDeviceRed:0.05 green:0.35 blue:0.85 alpha:0.90] highlightWithLevel:0.4]
                  toolbarStartColor:[[NSColor colorWithDeviceRed:0.05 green:0.35 blue:0.85 alpha:0.90] highlightWithLevel:0.6]
-                toolbarStrokeColor:[[NSColor colorWithDeviceRed:0.05 green:0.35 blue:0.85 alpha:0.90] blendedColorWithFraction:0.5 ofColor:[NSColor colorWithDeviceWhite:0.5 alpha:0.90]]
+                toolbarStrokeColor:[[NSColor colorWithDeviceRed:0.05 green:0.35 blue:0.85 alpha:0.90] blendedColorWithFraction:0.5 ofColor:[NSColor colorWithDeviceWhite:0.6 alpha:0.90]]
                  toolbarTitleColor:[NSColor colorWithDeviceWhite:1.0 alpha:1.0]
                       useDarkIcons:NO];
 
@@ -1256,7 +1256,7 @@ static HWMEngine* gDefaultEngine = nil;
                    toolbarEndColor:[NSColor colorWithDeviceRed:0.03 green:0.33 blue:0.8 alpha:0.90]
                 toolbarShadowColor:[[NSColor colorWithDeviceRed:0.03 green:0.33 blue:0.8 alpha:0.90] highlightWithLevel:0.3]
                  toolbarStartColor:[[NSColor colorWithDeviceRed:0.03 green:0.33 blue:0.8 alpha:0.90] highlightWithLevel:0.55]
-                toolbarStrokeColor:[[NSColor colorWithDeviceRed:0.03 green:0.33 blue:0.8 alpha:0.90]  blendedColorWithFraction:0.5 ofColor:[NSColor colorWithDeviceWhite:0.5 alpha:0.90]]
+                toolbarStrokeColor:[[NSColor colorWithDeviceRed:0.03 green:0.33 blue:0.8 alpha:0.90]  blendedColorWithFraction:0.5 ofColor:[NSColor colorWithDeviceWhite:0.6 alpha:0.90]]
                  toolbarTitleColor:[NSColor colorWithDeviceWhite:1.0 alpha:1.0]
                       useDarkIcons:YES];
 }
