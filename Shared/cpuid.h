@@ -38,7 +38,7 @@
 #include <i386/proc_reg.h>
 #include <string.h>
 
-#define CPUID_DEBUG   1
+#define CPUID_DEBUG   0
 
 
 #define	CPUID_VID_INTEL		"GenuineIntel"
