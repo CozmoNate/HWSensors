@@ -1224,7 +1224,7 @@ static HWMEngine* gDefaultEngine = nil;
                    toolbarEndColor:[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.90]
                 toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.90] highlightWithLevel:0.4]
                  toolbarStartColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.90] highlightWithLevel:0.6]
-                toolbarStrokeColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.90] blendedColorWithFraction:0.8 ofColor:[NSColor colorWithCalibratedWhite:0.6 alpha:1.00]]
+                toolbarStrokeColor:nil//[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.90] blendedColorWithFraction:0.8 ofColor:[NSColor colorWithCalibratedWhite:0.6 alpha:1.00]]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:NO];
 
@@ -1240,7 +1240,7 @@ static HWMEngine* gDefaultEngine = nil;
                    toolbarEndColor:[NSColor colorWithCalibratedWhite:0.23 alpha:0.90]
                 toolbarShadowColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.90] highlightWithLevel:0.30]
                  toolbarStartColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.90] highlightWithLevel:0.55]
-                toolbarStrokeColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.95] highlightWithLevel:0.15]
+                toolbarStrokeColor:nil//[[NSColor colorWithCalibratedWhite:0.23 alpha:0.95] highlightWithLevel:0.15]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:NO];
 
@@ -1256,7 +1256,7 @@ static HWMEngine* gDefaultEngine = nil;
                    toolbarEndColor:[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.90]
                 toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.90] highlightWithLevel:0.30]
                  toolbarStartColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.90] highlightWithLevel:0.55]
-                toolbarStrokeColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.90]  blendedColorWithFraction:0.8 ofColor:[NSColor colorWithCalibratedWhite:0.5 alpha:0.90]]
+                toolbarStrokeColor:nil//[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.90]  blendedColorWithFraction:0.8 ofColor:[NSColor colorWithCalibratedWhite:0.5 alpha:0.90]]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:YES];
 }
