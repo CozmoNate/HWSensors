@@ -7,9 +7,9 @@
 	<string>MlCP|CPU Package Multiplier</string>
 	<string>MPkC|CPU Package Multiplier</string>
 	<string>CC:081C|CPU Core %X</string>
-	<string>CC:081A|CPU Core %X, Average</string>
-	<string>CCPC|CPU Package</string>
-	<string>CCPA|CPU Package, Average</string>
+	<string>CC:081A|CPU Core %X Average</string>
+	<string>CCPC|CPU Package Frequency</string>
+	<string>CCPA|CPU Package Average</string>
 	<string>CG0C|GPU Core</string>
 	<string>CG0M|GPU Memory</string>
 	<string>CG0S|GPU Shaders</string>

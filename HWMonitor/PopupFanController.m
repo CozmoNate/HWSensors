@@ -55,10 +55,8 @@
 
     HWMColorTheme *colorTheme = [HWMEngine defaultEngine].configuration.colorTheme;
 
-    NSColor *textColor = colorTheme.groupTitleColor;//colorTheme.useBrightIcons.boolValue ? colorTheme.groupTitleColor : [colorTheme.groupTitleColor highlightWithLevel:0.35];
-
-    [_inputLabel setTextColor:textColor];
-    [_outputLabel setTextColor:textColor];
+    [_inputLabel setTextColor:colorTheme.groupTitleColor];
+    [_outputLabel setTextColor:colorTheme.groupTitleColor];
 
     [_enabledSwitch setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.7 : 1.0];
     [_inputsPopUp setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.7 : 1.0];
@@ -76,11 +74,11 @@
         NSLayoutConstraint *constraint = [_levelsTableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
         if (context) {
             [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectNone insertAnimation:NSTableViewAnimationEffectNone];
-            [constraint setConstant:_levelsSnapshot.count * 28];
+            [constraint setConstant:_levelsSnapshot.count * 28 + 1];
         }
         else {
-            [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationEffectFade];
-            [[constraint animator] setConstant:_levelsSnapshot.count * 28];
+            [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationSlideDown insertAnimation:NSTableViewAnimationSlideDown];
+            [[constraint animator] setConstant:_levelsSnapshot.count * 28 + 1];
         }
     }
     else if ([keyPath isEqualToString:@"controller.output.engine.sensorsAndGroups"]) {
@@ -124,7 +122,7 @@
     [Localizer localizeView:cell];
 
     HWMColorTheme *colorTheme = [HWMEngine defaultEngine].configuration.colorTheme;
-    NSColor *textColor = colorTheme.useBrightIcons.boolValue ? colorTheme.itemValueTitleColor : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];
+    NSColor *textColor = colorTheme.useBrightIcons.boolValue ? [colorTheme.itemValueTitleColor shadowWithLevel:0.15] : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];
 
     [cell.inputTextField setTextColor:textColor];
     [cell.outputTextField setTextColor:textColor];

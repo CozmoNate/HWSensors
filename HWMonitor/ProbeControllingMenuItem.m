@@ -183,7 +183,7 @@
 
 
     if (self.submenu.itemArray.count) {
-        [self.menu insertItem:[NSMenuItem separatorItem] atIndex:[self.menu.itemArray indexOfObject:self]];
+        //[self.menu insertItem:[NSMenuItem separatorItem] atIndex:[self.menu.itemArray indexOfObject:self]];
         [self setHidden:NO];
     }
     else {

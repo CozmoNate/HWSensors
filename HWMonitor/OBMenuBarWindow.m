@@ -148,7 +148,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 7;
         [self resetContentImagesScheduleRefresh:YES];
         colorTheme = newColorTheme;
         // Redraw the theme frame
-        [[self.contentView superview] setNeedsDisplayInRect:[self titleBarRect]];
+        [[self.contentView superview] setNeedsDisplayInRect:[self.contentView superview].frame];
     }
 }
 
@@ -1034,45 +1034,43 @@ const CGFloat OBMenuBarWindowCornerRadius = 7;
         return;
     }
     
-    if (!_activeImage) {
+    //if (!_activeImage) {
         [self refreshContentImageForKeyWindow:YES];
         //NSLog(@"active image refreshed");
-    }
+        //}
 
-    if (!_inactiveImage) {
+    //if (!_inactiveImage) {
         [self refreshContentImageForKeyWindow:NO];
         //NSLog(@"inactive image refreshed");
-    }
-}
+        //}
 
-- (void)drawRectOriginal:(NSRect)dirtyRect
-{
-    // Do nothing
+    // Redraw the theme frame
+    [[self.contentView superview] setNeedsDisplay:YES];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Only draw the custom window frame for a OBMenuBarWindow object
-    if (![self respondsToSelector:@selector(window)] || ![[self window] isKindOfClass:[OBMenuBarWindow class]])
+    if ([[self window] isKindOfClass:[OBMenuBarWindow class]])
     {
-        [self drawRectOriginal:dirtyRect];
-        return;
-    }
+        OBMenuBarWindow *window = (OBMenuBarWindow *)[self window];
 
-    OBMenuBarWindow *window = (OBMenuBarWindow *)[self window];
+        if (!window.toolbarView) {
+            return;
+        }
 
-    if (!window.toolbarView) {
-        return;
-    }
-    
-    NSImage *content = [window isKeyWindow] || [window attachedToMenuBar] ? [window activeImage] : [window inactiveImage];
+        NSImage *content = [window isKeyWindow] || [window attachedToMenuBar] ? [window activeImage] : [window inactiveImage];
 
+        if (!content) {
+            [window drawContentForKeyWindow:[window isKeyWindow]];
+        }
+        else {
+            [content drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
 
-    if (!content) {
-        [window drawContentForKeyWindow:[window isKeyWindow]];
+        }
     }
     else {
-        [content drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
+        [self drawRectOriginal:dirtyRect];
     }
 }
 

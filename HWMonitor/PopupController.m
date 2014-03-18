@@ -136,7 +136,7 @@
 
     [self layoutContent:NO orderFront:YES animated:NO];
 
-    self.statusItemView.isHighlighted = YES;
+    //self.statusItemView.isHighlighted = YES;
 
     //if (menubarWindow.attachedToMenuBar) {
     //    [NSApp activateIgnoringOtherApps:YES];
@@ -158,7 +158,7 @@
     
     [self.window orderOut:nil];
 
-    self.statusItemView.isHighlighted = NO;
+    //self.statusItemView.isHighlighted = NO;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidClose:)]) {
         [self.delegate popupDidClose:self];
@@ -174,7 +174,7 @@
 
     if (resizeToContent) {
 
-        __block CGFloat height = 6;
+        __block CGFloat height = 0;
 
         [_sensorsAndGroupsCollectionSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             height += [self tableView:_tableView heightOfRow:idx];
@@ -191,7 +191,7 @@
         NSLayoutConstraint *constraint = [_tableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
 
         if (animated) {
-            [[constraint animator] setConstant:height];
+            [[constraint animator] setConstant:height + 1]; // height+1 avoid flickering artifact
         }
         else {
             [constraint setConstant:height];
@@ -274,7 +274,6 @@
     if ([keyPath isEqual:@"monitorEngine.configuration.colorTheme"]) {
         [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
         [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-        [_tableView setNeedsDisplay:YES];
     }
     else if ([keyPath isEqual:@"monitorEngine.sensorsAndGroups"]) {
         [self reloadSensorsTableView:self];

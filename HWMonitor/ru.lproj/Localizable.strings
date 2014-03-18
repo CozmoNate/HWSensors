@@ -267,8 +267,9 @@
 "CPU Core %X" = "Процессор, Ядро %X";
 "CPU Package Multiplier" = "Процессор, Множитель";
 //"CPU Package" = "Процессор, Частота";
-"CPU Core %X, Average" = "Ядро ЦП %1, Средняя";
-"CPU Package, Average" = "Блок ядер ЦП, Средняя";
+"CPU Core %X Average" = "Ядро ЦП %X, Усредненно";
+"CPU Package Average" = "Процессор, Усреднённо";
+"CPU Package Frequency" = "Процессор, Частота";
 
 "GPU Core" = "Видеокарта, Ядро";
 "GPU %X Core" = "Видеокарта %X, Ядро";

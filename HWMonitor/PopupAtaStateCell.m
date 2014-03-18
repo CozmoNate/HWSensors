@@ -14,12 +14,12 @@
 -(void)drawStateImageInFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     NSImage *image = nil;
-    CGFloat fraction = 0.7;
+    CGFloat fraction = 1.0;
 
     switch (self.state) {
         case kHWMSensorLevelDisabled:
             image = [NSImage imageNamed:NSImageNameStatusNone];
-            fraction = 0.5;
+            fraction = 0.65;
             break;
 
         case kHWMSensorLevelModerate:
