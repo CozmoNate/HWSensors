@@ -54,7 +54,6 @@
 		7E343F6718D3098300795619 /* toolbar_menubar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E343F5F18D3098300795619 /* toolbar_menubar@2x.png */; };
 		7E343F6818D3098300795619 /* toolbar_popup.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E343F6018D3098300795619 /* toolbar_popup.png */; };
 		7E343F6918D3098300795619 /* toolbar_popup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E343F6118D3098300795619 /* toolbar_popup@2x.png */; };
-		7E35F97D18C1EF320047161A /* NSObject+TDBindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E35F97C18C1EF320047161A /* NSObject+TDBindings.m */; };
 		7E36E56A188AB15500BD9744 /* voltages@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E53C188AB15500BD9744 /* voltages@2x.png */; };
 		7E36E56B188AB15500BD9744 /* voltages.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E53D188AB15500BD9744 /* voltages.png */; };
 		7E36E56C188AB15500BD9744 /* voltages-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E36E53E188AB15500BD9744 /* voltages-white@2x.png */; };
@@ -326,8 +325,6 @@
 		7E343F6118D3098300795619 /* toolbar_popup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar_popup@2x.png"; sourceTree = "<group>"; };
 		7E34F07318C1BE190041BC84 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7E356DD418B88FB300BCC873 /* HWMEngine 1.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.6.xcdatamodel"; sourceTree = "<group>"; };
-		7E35F97B18C1EF320047161A /* NSObject+TDBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TDBindings.h"; sourceTree = "<group>"; };
-		7E35F97C18C1EF320047161A /* NSObject+TDBindings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TDBindings.m"; sourceTree = "<group>"; };
 		7E36E53C188AB15500BD9744 /* voltages@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "voltages@2x.png"; sourceTree = "<group>"; };
 		7E36E53D188AB15500BD9744 /* voltages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voltages.png; sourceTree = "<group>"; };
 		7E36E53E188AB15500BD9744 /* voltages-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "voltages-white@2x.png"; sourceTree = "<group>"; };
@@ -892,8 +889,6 @@
 				7E9A17D217E45ACA003DB018 /* NSString+Size.m */,
 				7E9A17CE17E45938003DB018 /* NSPopover+Message.h */,
 				7E9A17CF17E45938003DB018 /* NSPopover+Message.m */,
-				7E35F97B18C1EF320047161A /* NSObject+TDBindings.h */,
-				7E35F97C18C1EF320047161A /* NSObject+TDBindings.m */,
 				7E2DEA2118C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.h */,
 				7E2DEA2218C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.m */,
 				7EC95E2018D42FCB00DD7B4D /* NSWindow+BackgroundBlur.h */,
@@ -1491,7 +1486,6 @@
 				7E9A17CD17E4529C003DB018 /* PopupAtaSmartSensorCell.m in Sources */,
 				7E9A17D017E45938003DB018 /* NSPopover+Message.m in Sources */,
 				7E04D7B518B33E5600B40ADA /* ProbeControllingMenuItem.m in Sources */,
-				7E35F97D18C1EF320047161A /* NSObject+TDBindings.m in Sources */,
 				7E9A17D317E45ACA003DB018 /* NSString+Size.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
