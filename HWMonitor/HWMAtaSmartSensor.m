@@ -537,7 +537,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
         return nil;
 
     if (!gSmartAttributeOverrideDatabase) {
-        if (!(gSmartAttributeOverrideDatabase = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"smart-overrides" withExtension:@"plist"]])) {
+        if (!(gSmartAttributeOverrideDatabase = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"SmartOverrides" withExtension:@"plist"]])) {
             gSmartAttributeOverrideDatabase = [NSDictionary dictionary]; // Empty dictionary
         }
     }

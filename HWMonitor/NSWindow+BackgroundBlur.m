@@ -9,6 +9,7 @@
 // Original article: http://stackoverflow.com/questions/19575642/how-to-use-cifilter-on-nswindow-in-osx-10-9-mavericks
 
 #import "NSWindow+BackgroundBlur.h"
+#import <objc/runtime.h>
 
 typedef void *          CGSConnection;
 
@@ -17,10 +18,17 @@ extern OSStatus         CGSSetWindowBackgroundBlurRadius(CGSConnection connectio
 
 @implementation NSWindow (BackgroundBlur)
 
+- (NSInteger)backgroundBlurRadius
+{
+    return [objc_getAssociatedObject(self, @selector(backgroundBlurRadius)) integerValue];
+}
+
 - (void)setBackgroundBlurRadius:(NSInteger)radius
 {
-    if (self.isVisible) {
-        //[self setOpaque:NO];
+    NSInteger oldRadius = [objc_getAssociatedObject(self, @selector(backgroundBlurRadius)) integerValue];
+    objc_setAssociatedObject(self, @selector(backgroundBlurRadius), [NSNumber numberWithInteger:radius], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+    if (oldRadius != radius && self.isVisible) {
         CGSConnection connection = CGSDefaultConnectionForThread();
         CGSSetWindowBackgroundBlurRadius(connection, self.windowNumber, (int)radius);
     }

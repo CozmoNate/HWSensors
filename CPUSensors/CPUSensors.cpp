@@ -57,20 +57,21 @@
 
 #include "timer.h"
 
-#define SAMPLE_EVENT_INTERVAL        100
-
 enum {
-    kCPUSensorsThermalCore           = BIT(0),
-    kCPUSensorsThermalPackage        = BIT(1),
-    kCPUSensorsMultiplierCore        = BIT(2),
-    kCPUSensorsMultiplierPackage     = BIT(3),
-    kCPUSensorsFrequencyCore         = BIT(4),
-    kCPUSensorsFrequencyPackage      = BIT(5),
+    kCPUSensorsThermalCore              = BIT(0),
+    kCPUSensorsThermalPackage           = BIT(1),
+    kCPUSensorsMultiplierCore           = BIT(2),
+    kCPUSensorsMultiplierPackage        = BIT(3),
+    kCPUSensorsFrequencyCore            = BIT(4),
+    kCPUSensorsFrequencyPackage         = BIT(5),
+    kCPUSensorsFrequencyCoreAverage     = BIT(6),
+    kCPUSensorsFrequencyPackageAverage  = BIT(7),
 
-    kCPUSensorsPowerTotal            = BIT(6),
-    kCPUSensorsPowerCores            = BIT(7),
-    kCPUSensorsPowerUncore           = BIT(8),
-    kCPUSensorsPowerDram             = BIT(9),
+
+    kCPUSensorsPowerTotal               = BIT(8),
+    kCPUSensorsPowerCores               = BIT(9),
+    kCPUSensorsPowerUncore              = BIT(10),
+    kCPUSensorsPowerDram                = BIT(11),
 };
 
 static UInt16 cpu_energy_msrs[] =
@@ -115,14 +116,14 @@ static inline UInt8 get_cpu_number()
     return number;
 }
 
-static UInt8  tjmax[kCPUSensorsMaxCpus];
+static UInt8  cpu_tjmax[kCPUSensorsMaxCpus];
 
 static void read_cpu_tjmax(void *magic)
 {
     UInt32 number = get_cpu_number();
 
     if (number < kCPUSensorsMaxCpus) {
-        tjmax[number] = (rdmsr64(MSR_IA32_TEMP_TARGET) >> 16) & 0xFF;
+        cpu_tjmax[number] = (rdmsr64(MSR_IA32_TEMP_TARGET) >> 16) & 0xFF;
     }
 }
 
@@ -210,7 +211,7 @@ void CPUSensors::calculateMultiplier(UInt32 index)
 void CPUSensors::calculateTimedCounters()
 {
     if (bit_get(counters.event_flags, kCPUSensorsMultiplierCore | kCPUSensorsMultiplierPackage)) {
-        for (UInt8 index = 0; index < availableCoresCount; index++) {
+        for (UInt8 index = 0; index < coreCount; index++) {
             if (baseMultiplier) {
                 UInt64 aperf = counters.aperf_after[index] - counters.aperf_before[index];
                 UInt64 mperf = counters.mperf_after[index] - counters.mperf_before[index];
@@ -225,7 +226,7 @@ void CPUSensors::calculateTimedCounters()
     }
 
     if (bit_get(counters.event_flags, kCPUSensorsFrequencyCore | kCPUSensorsFrequencyPackage)) {
-        for (UInt8 index = 0; index < availableCoresCount; index++) {
+        for (UInt8 index = 0; index < coreCount; index++) {
             if (baseMultiplier > 0) {
                 UInt64 thread_clocks = counters.utc_after[index] < counters.utc_before[index] ? UINT64_MAX - counters.utc_before[index] + counters.utc_after[index] : counters.utc_after[index] - counters.utc_before[index];
                 UInt64 ref_clocks = counters.urc_after[index] < counters.urc_before[index] ? UINT64_MAX - counters.urc_before[index] + counters.urc_after[index] : counters.urc_after[index] - counters.urc_before[index];
@@ -282,11 +283,11 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 
     switch (sensor->getGroup()) {
         case kCPUSensorsThermalCore:
-            *outValue = tjmax[index] - counters.thermal_status[index];
+            *outValue = cpu_tjmax[index] - counters.thermal_status[index];
             break;
 
         case kCPUSensorsThermalPackage:
-            *outValue = tjmax[index] - counters.thermal_status_package;
+            *outValue = cpu_tjmax[index] - counters.thermal_status_package;
             break;
             
         case kCPUSensorsMultiplierCore:
@@ -296,12 +297,25 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
             
         case kCPUSensorsFrequencyCore:
         case kCPUSensorsFrequencyPackage:
-            if (baseMultiplier) {
-                *outValue = turbo[index] * (float)busClock * (float)baseMultiplier;
+            switch (cpuid_info()->cpuid_cpufamily) {
+                case CPUFAMILY_INTEL_NEHALEM:
+                case CPUFAMILY_INTEL_WESTMERE:
+                case CPUFAMILY_INTEL_SANDYBRIDGE:
+                case CPUFAMILY_INTEL_IVYBRIDGE:
+                case CPUFAMILY_INTEL_HASWELL:
+                    *outValue = multiplier[index] * (float)busClock;
+                    break;
+
+                default: {
+                    *outValue = multiplier[index] * (float)busClock * ((counters.perf_status[index] & 0x8000) ? 0.5 : 1.0);
+                    break;
+                }
             }
-            else {
-                *outValue = multiplier[index] * (float)busClock;
-            }
+            break;
+
+        case kCPUSensorsFrequencyCoreAverage:
+        case kCPUSensorsFrequencyPackageAverage:
+            *outValue = turbo[index] * (float)busClock * (float)baseMultiplier;
             break;
 
         case kCPUSensorsPowerTotal:
@@ -381,8 +395,8 @@ bool CPUSensors::start(IOService *provider)
             UInt8 userTjmax = number->unsigned8BitValue();
             
             if (userTjmax) {
-                memset(tjmax, userTjmax, kCPUSensorsMaxCpus);
-                HWSensorsInfoLog("force Tjmax value to %d", tjmax[0]);
+                memset(cpu_tjmax, userTjmax, kCPUSensorsMaxCpus);
+                HWSensorsInfoLog("force Tjmax value to %d", cpu_tjmax[0]);
             }
         }
         
@@ -397,20 +411,20 @@ bool CPUSensors::start(IOService *provider)
     }
 
     // Estimating Tjmax value if not set
-    if (!tjmax[0]) {
+    if (!cpu_tjmax[0]) {
 		switch (cpuid_info()->cpuid_family)
 		{
 			case 0x06: 
 				switch (cpuid_info()->cpuid_model) 
                 {
                     case CPUID_MODEL_PENTIUM_M:
-                        tjmax[0] = 100;
+                        cpu_tjmax[0] = 100;
                         if (!platform) platform = OSData::withBytes("M70\0\0\0\0\0", 8);
                         break;
                             
                     case CPUID_MODEL_YONAH:
                         if (!platform) platform = OSData::withBytes("K22\0\0\0\0\0", 8);
-                        tjmax[0] = 85;
+                        cpu_tjmax[0] = 85;
                         break;
                         
                     case CPUID_MODEL_MEROM: // Intel Core (65nm)
@@ -418,35 +432,35 @@ bool CPUSensors::start(IOService *provider)
                         switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // G0
-                                tjmax[0] = 100; 
+                                cpu_tjmax[0] = 100;
                                 break;
                                 
                             case 0x06: // B2
                                 switch (cpuid_info()->core_count) 
                                 {
                                     case 2:
-                                        tjmax[0] = 80; 
+                                        cpu_tjmax[0] = 80;
                                         break;
                                     case 4:
-                                        tjmax[0] = 90; 
+                                        cpu_tjmax[0] = 90;
                                         break;
                                     default:
-                                        tjmax[0] = 85; 
+                                        cpu_tjmax[0] = 85;
                                         break;
                                 }
                                 //tjmax[0] = 80; 
                                 break;
                                 
                             case 0x0B: // G0
-                                tjmax[0] = 90; 
+                                cpu_tjmax[0] = 90;
                                 break;
                                 
                             case 0x0D: // M0
-                                tjmax[0] = 85; 
+                                cpu_tjmax[0] = 85;
                                 break;
                                 
                             default:
-                                tjmax[0] = 85; 
+                                cpu_tjmax[0] = 85;
                                 break;
                                 
                         } 
@@ -456,9 +470,9 @@ bool CPUSensors::start(IOService *provider)
                                              // Mobile CPU ?
                         if (!platform) platform = OSData::withBytes("M82\0\0\0\0\0", 8);
                         if (rdmsr64(0x17) & (1<<28))
-                            tjmax[0] = 105;
+                            cpu_tjmax[0] = 105;
                         else
-                            tjmax[0] = 100; 
+                            cpu_tjmax[0] = 100;
                         break;
                         
                     case CPUID_MODEL_ATOM: // Intel Atom (45nm)
@@ -466,13 +480,13 @@ bool CPUSensors::start(IOService *provider)
                         switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // C0
-                                tjmax[0] = 90; 
+                                cpu_tjmax[0] = 90;
                                 break;
                             case 0x0A: // A0, B0
-                                tjmax[0] = 100; 
+                                cpu_tjmax[0] = 100;
                                 break;
                             default:
-                                tjmax[0] = 90; 
+                                cpu_tjmax[0] = 90;
                                 break;
                         } 
                         break;
@@ -511,7 +525,7 @@ bool CPUSensors::start(IOService *provider)
                         
                     default:
                         HWSensorsWarningLog("found unsupported Intel processor, using default Tjmax");
-                        tjmax[0] = 100;
+                        cpu_tjmax[0] = 100;
                         break;
                 }
                 break;
@@ -525,12 +539,12 @@ bool CPUSensors::start(IOService *provider)
                     case 0x03: // Pentium 4, Celeron D (90nm)
                     case 0x04: // Pentium 4, Pentium D, Celeron D (90nm)
                     case 0x06: // Pentium 4, Pentium D, Celeron D (65nm)
-                        tjmax[0] = 100;
+                        cpu_tjmax[0] = 100;
                         break;
                         
                     default:
                         HWSensorsWarningLog("found unsupported Intel processor, using default Tjmax");
-                        tjmax[0] = 100;
+                        cpu_tjmax[0] = 100;
                         break;
                 }
                 break;
@@ -550,8 +564,8 @@ bool CPUSensors::start(IOService *provider)
                 break;
 
             default: {
-                UInt8 calculatedTjmax = tjmax[0];
-                memset(tjmax, calculatedTjmax, kCPUSensorsMaxCpus);
+                UInt8 calculatedTjmax = cpu_tjmax[0];
+                memset(cpu_tjmax, calculatedTjmax, kCPUSensorsMaxCpus);
                 break;
             }
         }
@@ -567,7 +581,7 @@ bool CPUSensors::start(IOService *provider)
     if (busClock == 0)
         busClock = (gPEClockFrequencyInfo.bus_frequency_max_hz >> 2) / 1e6;
     
-    HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0]);
+    HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, cpu_tjmax[0]);
     
 //    mp_rendezvous_no_intrs(cpu_check, NULL);
 //    
@@ -595,7 +609,7 @@ bool CPUSensors::start(IOService *provider)
     for (uint32_t i = 0; i < kCPUSensorsMaxCpus; i++) {
         if (counters.thermal_status[i]) {
             
-            availableCoresCount++;
+            coreCount++;
             
             char key[5];
             
@@ -638,6 +652,8 @@ bool CPUSensors::start(IOService *provider)
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyPackage, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY_AVERAGE, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyPackageAverage, 0))
+                HWSensorsWarningLog("failed to add package average frequency sensor");
             break;
 
         case CPUFAMILY_INTEL_NEHALEM:
@@ -649,7 +665,7 @@ bool CPUSensors::start(IOService *provider)
             // break; fall down adding multiplier sensors for each core
 
         default:
-            for (uint32_t i = 0; i < availableCoresCount/*cpuid_info()->core_count*/; i++) {
+            for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
                 char key[5];
                 
                 snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
@@ -661,6 +677,13 @@ bool CPUSensors::start(IOService *provider)
                 
                 if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyCore, i))
                     HWSensorsWarningLog("failed to add frequency sensor");
+
+                if (baseMultiplier) {
+                    snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY_AVERAGE, i);
+
+                    if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyCoreAverage, i))
+                    HWSensorsWarningLog("failed to add average frequency sensor");
+                }
                 
             }
             break;

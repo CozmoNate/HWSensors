@@ -443,9 +443,11 @@ static HWMEngine* gDefaultEngine = nil;
 
         NSLog(@"Loading profile from %@", [config lastPathComponent]);
 
-        NSArray *rawProfile = [[NSArray alloc] initWithContentsOfFile:config];
+        NSMutableArray *rawProfile = [[NSMutableArray alloc] initWithContentsOfFile:config];
 
         if (rawProfile) {
+
+            [rawProfile addObjectsFromArray:[NSArray arrayWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"FakeSMC" withExtension:@"plist" subdirectory:@"Profiles"]]];
 
             NSMutableArray *adoptedProfile = [[NSMutableArray alloc] init];
 
@@ -455,7 +457,7 @@ static HWMEngine* gDefaultEngine = nil;
                 [adoptedProfile addObject:[NSArray arrayWithObjects:[entries objectAtIndex:0], [entries objectAtIndex:entries.count - 1], nil]];
             }];
 
-            _platformProfile = [NSArray arrayWithArray:adoptedProfile];
+            _platformProfile = [adoptedProfile copy];
         }
     }
 

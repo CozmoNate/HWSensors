@@ -110,7 +110,7 @@ private:
     UInt64                  busClock;
     UInt8                   baseMultiplier;
     float                   energyUnits;
-    UInt8                   availableCoresCount;
+    UInt8                   coreCount;
 
     float                   multiplier[kCPUSensorsMaxCpus];
     float                   ratio[kCPUSensorsMaxCpus];

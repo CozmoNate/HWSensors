@@ -14,20 +14,6 @@
 	<string>Th1H|Heatpipe</string>
 	<string>Ts0P|Heatpipe Incoming Air</string>
 	<string>Ts0S|Heatpipe Outgoing Air</string>
-	<string>MlC:081|CPU Core %X</string>
-	<string>MC:081C|CPU Core %X</string>
-	<string>MlCP|CPU Package Multiplier</string>
-	<string>MPkC|CPU Package Multiplier</string>
-	<string>CC:081C|CPU Core %X</string>
-	<string>CCPC|CPU Package</string>
-	<string>CG0C|GPU Core</string>
-	<string>CG0M|GPU Memory</string>
-	<string>CG0S|GPU Shaders</string>
-	<string>CG0R|GPU ROPs</string>
-	<string>CG:132C|GPU %X Core</string>
-	<string>CG:132M|GPU %X Memory</string>
-	<string>CG:132S|GPU %X Shaders</string>
-	<string>CG:132R|GPU %X ROPs</string>
 	<string>VC0C|CPU Core</string>
 	<string>VC2C|PCH Core</string>
 	<string>VC0G|GPU Core</string>

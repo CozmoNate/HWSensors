@@ -103,7 +103,7 @@
 		7E37BCD518997EBD0046F59A /* hwmonitor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E37BCD318997EBD0046F59A /* hwmonitor@2x.png */; };
 		7E37BCD618997EBD0046F59A /* hwmonitor.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E37BCD418997EBD0046F59A /* hwmonitor.png */; };
 		7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */; };
-		7E41500F18A8034000E6CD7F /* smart-overrides.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E41500E18A8034000E6CD7F /* smart-overrides.plist */; };
+		7E41500F18A8034000E6CD7F /* SmartOverrides.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E41500E18A8034000E6CD7F /* SmartOverrides.plist */; };
 		7E420FAD1820E2D800331D2B /* Profiles in Resources */ = {isa = PBXBuildFile; fileRef = 7E420FAC1820E2D800331D2B /* Profiles */; };
 		7E48B3CC18BE5A0E00B6B734 /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */; };
 		7E48B3CF18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CE18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m */; };
@@ -378,7 +378,7 @@
 		7E37BCD418997EBD0046F59A /* hwmonitor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwmonitor.png; sourceTree = "<group>"; };
 		7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HWMEngine.xcdatamodel; sourceTree = "<group>"; };
 		7E3D41CC18B2B67A002F6559 /* ACPIProbeArgument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ACPIProbeArgument.h; path = Shared/ACPIProbeArgument.h; sourceTree = "<group>"; };
-		7E41500E18A8034000E6CD7F /* smart-overrides.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "smart-overrides.plist"; sourceTree = "<group>"; };
+		7E41500E18A8034000E6CD7F /* SmartOverrides.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SmartOverrides.plist; sourceTree = "<group>"; };
 		7E420FAC1820E2D800331D2B /* Profiles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Profiles; sourceTree = "<group>"; };
 		7E4408F218639CD3002B2960 /* HWMEngine 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		7E48B3CA18BE5A0E00B6B734 /* SmcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmcHelper.h; path = Shared/SmcHelper.h; sourceTree = "<group>"; };
@@ -994,7 +994,7 @@
 				7E420FAC1820E2D800331D2B /* Profiles */,
 				7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */,
 				7EA248F316D8E93A002231B2 /* HWMonitor-Info.plist */,
-				7E41500E18A8034000E6CD7F /* smart-overrides.plist */,
+				7E41500E18A8034000E6CD7F /* SmartOverrides.plist */,
 				7EA248F416D8E93A002231B2 /* InfoPlist.strings */,
 				7EA248F716D8E93A002231B2 /* main.m */,
 				7EA248F916D8E93A002231B2 /* HWMonitor-Prefix.pch */,
@@ -1340,7 +1340,7 @@
 				7E111513188F3EA4006E15A0 /* default.iconset in Resources */,
 				7E36E594188AB15500BD9744 /* battery@2x.png in Resources */,
 				7E36E56F188AB15500BD9744 /* thermometer-white@2x.png in Resources */,
-				7E41500F18A8034000E6CD7F /* smart-overrides.plist in Resources */,
+				7E41500F18A8034000E6CD7F /* SmartOverrides.plist in Resources */,
 				7E36E577188AB15500BD9744 /* tachometers.png in Resources */,
 				7EF28328184C71AA00DD8513 /* Credits.html in Resources */,
 				7E36E574188AB15500BD9744 /* temperatures-white@2x.png in Resources */,

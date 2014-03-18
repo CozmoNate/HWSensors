@@ -707,21 +707,29 @@ cpuid_set_info(void)
 	 * (which determines whether SMT/Hyperthreading is active).
 	 */
 	switch (info_p->cpuid_cpufamily) {
-            case CPUFAMILY_INTEL_WESTMERE: {
-                uint64_t msr = rdmsr64(MSR_CORE_THREAD_COUNT);
-                info_p->core_count   = bitfield32((uint32_t)msr, 19, 16);
-                info_p->thread_count = bitfield32((uint32_t)msr, 15,  0);
-                break;
-            }
-            case CPUFAMILY_INTEL_HASWELL:
-            case CPUFAMILY_INTEL_IVYBRIDGE:
-            case CPUFAMILY_INTEL_SANDYBRIDGE:
-            case CPUFAMILY_INTEL_NEHALEM: {
-                uint64_t msr = rdmsr64(MSR_CORE_THREAD_COUNT);
-                info_p->core_count   = bitfield32((uint32_t)msr, 31, 16);
-                info_p->thread_count = bitfield32((uint32_t)msr, 15,  0);
-                break;
-            }
+        case CPUFAMILY_INTEL_WESTMERE: {
+            uint64_t msr = rdmsr64(MSR_CORE_THREAD_COUNT);
+            info_p->core_count   = bitfield32((uint32_t)msr, 19, 16);
+            info_p->thread_count = bitfield32((uint32_t)msr, 15,  0);
+            break;
+        }
+        case CPUFAMILY_INTEL_HASWELL:
+        case CPUFAMILY_INTEL_IVYBRIDGE:
+        case CPUFAMILY_INTEL_SANDYBRIDGE:
+        case CPUFAMILY_INTEL_NEHALEM: {
+            uint64_t msr = rdmsr64(MSR_CORE_THREAD_COUNT);
+            info_p->core_count   = bitfield32((uint32_t)msr, 31, 16);
+            info_p->thread_count = bitfield32((uint32_t)msr, 15,  0);
+            break;
+        }
+        default:
+		{
+            uint32_t	reg[4];
+			cpuid_fn(1, reg);
+			info_p->core_count = (uint32_t)bitfield32(reg[1], 23, 16);
+			info_p->thread_count = info_p->cpuid_logical_per_package;
+            break;
+        }
 	}
 	if (info_p->core_count == 0) {
 		info_p->core_count   = info_p->cpuid_cores_per_package;

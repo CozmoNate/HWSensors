@@ -12,6 +12,6 @@
 
 @interface NSWindow (BackgroundBlur)
 
-- (void)setBackgroundBlurRadius:(NSInteger)radius;
+@property (nonatomic, assign) NSInteger backgroundBlurRadius;
 
 @end
