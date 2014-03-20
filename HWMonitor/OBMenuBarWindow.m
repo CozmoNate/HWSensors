@@ -787,10 +787,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 7;
     NSRectFill(bounds);
 
     // Erase the default title bar
-    CGFloat titleBarHeight = window.toolbarView.frame.size.height + (isAttached ? OBMenuBarWindowArrowHeight : 0);
-    [[NSColor clearColor] set];
-    NSRectFill(window.titleBarRect);
-    //NSRectFillUsingOperation([window titleBarRect], NSCompositeClear);
+    NSRectFillUsingOperation(window.titleBarRect, NSCompositeClear);
 
     // Create the window shape
     NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0,
@@ -838,6 +835,8 @@ const CGFloat OBMenuBarWindowCornerRadius = 7;
 
     [borderPath addClip];
 
+    CGFloat titleBarHeight = window.toolbarView.frame.size.height + (isAttached ? OBMenuBarWindowArrowHeight : 0);
+    
     NSRect headingRect = NSMakeRect(originX,
                                     originY + height - titleBarHeight,
                                     width,

@@ -19,7 +19,7 @@
     switch (self.state) {
         case kHWMSensorLevelDisabled:
             image = [NSImage imageNamed:NSImageNameStatusNone];
-            fraction = 0.65;
+            fraction = 0.75;
             break;
 
         case kHWMSensorLevelModerate:
@@ -38,7 +38,13 @@
     }
 
     if (image) {
-        [image drawInRect:NSMakeRect(cellFrame.origin.x, cellFrame.origin.y, image.size.width, image.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+        [image drawInRect:NSMakeRect(cellFrame.origin.x + (cellFrame.size.width - image.size.width) / 2,
+                                     cellFrame.origin.y + (cellFrame.size.height - image.size.height) / 2,
+                                     image.size.width,
+                                     image.size.height)
+                 fromRect:NSZeroRect
+                operation:NSCompositeSourceOver
+                 fraction:fraction];
     }
 }
 

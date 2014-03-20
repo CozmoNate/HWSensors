@@ -670,7 +670,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                             if (attribute->current < threshold->ThresholdValue) {
                                 level = kHWMSensorLevelExceeded;
                             }
-                            else if ((float)threshold->ThresholdValue / (float)attribute->current > 0.9) {
+                            else if ((float)threshold->ThresholdValue / (float)attribute->current > 0.99) {
                                 level = kHWMSensorLevelHigh;
                             }
                             else {

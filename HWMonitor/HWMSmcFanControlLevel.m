@@ -18,6 +18,24 @@
 @dynamic next;
 @dynamic previous;
 
+-(void)setInput:(NSNumber *)input
+{
+    [self willChangeValueForKey:@"input"];
+    [self setPrimitiveValue:input forKey:@"input"];
+    [self didChangeValueForKey:@"input"];
+
+    [self.controller inputValueChanged];
+}
+
+-(void)setOutput:(NSNumber *)output
+{
+    [self willChangeValueForKey:@"output"];
+    [self setPrimitiveValue:output forKey:@"output"];
+    [self didChangeValueForKey:@"output"];
+
+    [self.controller inputValueChanged];
+}
+
 -(NSNumber *)minInput
 {
     if (self.previous) {

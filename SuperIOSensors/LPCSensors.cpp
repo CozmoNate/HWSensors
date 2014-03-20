@@ -177,7 +177,7 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
     // FAN manual control key
     addSensor(KEY_FAN_MANUAL, TYPE_UI16, TYPE_UI16_SIZE, kLPCSensorsFanManualSwitch, 0);
 
-    FanLocationType location = LEFT_LOWER_FRONT;
+    int location = LEFT_LOWER_FRONT;
 
     for (int i = 0; i < tachometerSensorsLimit(); i++) {
         SInt8 fanIndex;
@@ -185,7 +185,7 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
         snprintf(key, 7, "FANIN%X", i);
 
         if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))){
-            if (addTachometer(i, name->getLength() > 0 ? name->getCStringNoCopy() : 0, FAN_RPM, 0, location++, &fanIndex)){
+            if (addTachometer(i, name->getLength() > 0 ? name->getCStringNoCopy() : 0, FAN_RPM, 0, (FanLocationType)location++, &fanIndex)){
 
                 if (supportsTachometerControl() && fanIndex > -1) {
 
