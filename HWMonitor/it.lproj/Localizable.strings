@@ -83,6 +83,7 @@
 "Version %@" = "Versione %@";
 "Graphs scale factor" = "Fattore scala grafici";
 "Credits..." = "Crediti...";
+"Show notification when sensor alarm is critical" = "Mostra una notifica quando i valori dei sensori sono critici";
 
 "Mouse" = "Mouse";
 "Keyboard" = "Tastiera";
@@ -182,11 +183,12 @@
 "ssdlife" = "Icona SSD";
 "multipliers" = "Icona Microchip";
 "frequencies" = "Icona Frequenza";
-"tachometers" = "Icona Contagiri";
+"tachometers" = "Icona Ventola";
 "voltages" = "Icona Voltaggio";
 "pcicard" = "Icona PCI";
 "video" = "Icona Scheda Grafica";
 "battery" = "Icona Batteria";
+"red-thermometer" = "Icona Termometro rosso";
 
 "CPUFan" = "Ventola CPU";
 "CPUFan2" = "Ventola CPU №2";
