@@ -573,7 +573,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                             for (NSString *firmwarePattern in firmwareMatch) {
                                 expression = [NSRegularExpression regularExpressionWithPattern:firmwarePattern options:NSRegularExpressionCaseInsensitive error:nil];
 
-                                if ([expression numberOfMatchesInString:firmware options:NSMatchingReportCompletion range:NSMakeRange(0, product.length)]) {
+                                if ([expression numberOfMatchesInString:firmware options:NSMatchingReportCompletion range:NSMakeRange(0, firmware.length)]) {
                                     supported = YES;
                                     break;
                                 }

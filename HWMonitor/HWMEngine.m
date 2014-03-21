@@ -1246,7 +1246,7 @@ static HWMEngine* gDefaultEngine = nil;
                    toolbarEndColor:[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.93]
                 toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.93] highlightWithLevel:0.4]
                  toolbarStartColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.93] highlightWithLevel:0.6]
-                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.3 alpha:1.00]
+                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.1 alpha:1.00]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:NO];
 
@@ -1262,7 +1262,7 @@ static HWMEngine* gDefaultEngine = nil;
                    toolbarEndColor:[NSColor colorWithCalibratedWhite:0.23 alpha:0.93]
                 toolbarShadowColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.93] highlightWithLevel:0.30]
                  toolbarStartColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.93] highlightWithLevel:0.55]
-                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.3 alpha:1.00]
+                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.1 alpha:1.00]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:NO];
 
@@ -1278,7 +1278,7 @@ static HWMEngine* gDefaultEngine = nil;
                    toolbarEndColor:[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.93]
                 toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.93] highlightWithLevel:0.30]
                  toolbarStartColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.93] highlightWithLevel:0.55]
-                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.25 alpha:1.0]
+                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:YES];
 }
