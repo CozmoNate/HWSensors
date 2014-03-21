@@ -98,8 +98,8 @@
 				7EBA20C217ED59C6008E54C5 /* BuildInstaller.sh */,
 				7EBA20D517ED7B41008E54C5 /* GenerateAppcast.sh */,
 				7EBA20C817ED59C6008E54C5 /* TagCurrentVersion.sh */,
-				7EBA20C317ED59C6008E54C5 /* BumpMajorVersion.sh */,
 				7EBA20C417ED59C6008E54C5 /* BumpMinorVersion.sh */,
+				7EBA20C317ED59C6008E54C5 /* BumpMajorVersion.sh */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -157,17 +157,17 @@
 			passBuildSettingsInEnvironment = 0;
 			productName = "Tag Current Version";
 		};
-		7E2ACD9D1791B6090061C677 /* Bump Minor Version */ = {
+		7E2ACD9D1791B6090061C677 /* Bump Release Version */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "./Scripts/BumpMinorVersion.sh ${ACTION}";
-			buildConfigurationList = 7E2ACD9E1791B6090061C677 /* Build configuration list for PBXLegacyTarget "Bump Minor Version" */;
+			buildConfigurationList = 7E2ACD9E1791B6090061C677 /* Build configuration list for PBXLegacyTarget "Bump Release Version" */;
 			buildPhases = (
 			);
 			buildToolPath = /bin/sh;
 			buildWorkingDirectory = "${SOURCE_ROOT}";
 			dependencies = (
 			);
-			name = "Bump Minor Version";
+			name = "Bump Release Version";
 			passBuildSettingsInEnvironment = 0;
 			productName = "Bump Minor Version";
 		};
@@ -268,7 +268,7 @@
 				7E43CE09179742DB001E3636 /* Sign Installer */,
 				7EBA20D617ED7D1C008E54C5 /* Generate Appcast */,
 				7E2ACD991791B5DA0061C677 /* Tag Current Version */,
-				7E2ACD9D1791B6090061C677 /* Bump Minor Version */,
+				7E2ACD9D1791B6090061C677 /* Bump Release Version */,
 				7E2ACDA11791B61D0061C677 /* Bump Major Version */,
 			);
 		};
@@ -913,7 +913,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E2ACD9E1791B6090061C677 /* Build configuration list for PBXLegacyTarget "Bump Minor Version" */ = {
+		7E2ACD9E1791B6090061C677 /* Build configuration list for PBXLegacyTarget "Bump Release Version" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E2ACD9F1791B6090061C677 /* Debug */,
