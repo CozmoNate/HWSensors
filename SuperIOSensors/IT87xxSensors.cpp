@@ -293,3 +293,9 @@ bool IT87xxSensors::initialize()
     
     return true;
 }
+
+void IT87xxSensors::hasPoweredOn()
+{
+    // Reset fan control enabled
+    bzero(fanControlEnabled, 6);
+}

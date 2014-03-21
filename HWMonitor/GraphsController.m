@@ -42,7 +42,9 @@
 #import "HWMGraph.h"
 #import "HWMGraphsGroup.h"
 #import "HWMConfiguration.h"
-#import "HWMEngineHelper.h"
+
+#import "NSTableView+HWMEngineHelper.h"
+#import "NSWindow+BackgroundBlur.h"
 
 //#define GetLocalizedString(key) \
 //[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
@@ -86,6 +88,7 @@
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [Localizer localizeView:self.window];
             [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
+
             [self rebuildViews];
 
 //            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:_monitorEngine];
@@ -122,69 +125,53 @@
 {
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
+
+    [self.window setBackgroundBlurRadius:5];
     
-    [self.monitorEngine updateSmcAndDeviceSensors];    
+    //[self.monitorEngine updateSmcAndDeviceSensors];
 }
 
 -(void)reloadGraphsTableView:(id)sender
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        NSMutableArray *newGraphsAndGroups = [self.monitorEngine.graphsAndGroups mutableCopy];
+        
+        NSArray *oldGraphsAndGroups = [_graphsAndGroupsCollectionSnapshot copy];
+        _graphsAndGroupsCollectionSnapshot = [self.monitorEngine.graphsAndGroups copy];
 
-        NSIndexSet *inserted, *removed, *from, *to;
-
-        [HWMEngineHelper compareItemsList:_graphsAndGroupsCollectionSnapshot toItemsList:newGraphsAndGroups additions:&inserted deletions:&removed movedFrom:&from movedTo:&to];
-
-        _graphsAndGroupsCollectionSnapshot = newGraphsAndGroups;
-
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-
-            [_graphsTableView removeRowsAtIndexes:removed withAnimation:NSTableViewAnimationSlideUp];
-            [_graphsTableView insertRowsAtIndexes:inserted withAnimation:NSTableViewAnimationSlideDown];
-
-            while (from.count) {
-                [_graphsTableView moveRowAtIndex:from.firstIndex toIndex:to.firstIndex];
-                [(NSMutableIndexSet*)from removeIndex:from.firstIndex];
-                [(NSMutableIndexSet*)to removeIndex:to.firstIndex];
-            }
-
-        } completionHandler:^{
-            //[_tableView reloadData];
-        }];
+        [_graphsTableView updateWithObjectValues:_graphsAndGroupsCollectionSnapshot previousObjectValues:oldGraphsAndGroups];
     }];
-    
 }
 
 -(void)rebuildViews
 {
-    if (!_graphViews) {
-        _graphViews = [[NSMutableArray alloc] init];
-    }
-    else {
-        [_graphViews removeAllObjects];
-    }
-
-    for (HWMGraphsGroup *group in _monitorEngine.configuration.graphGroups) {
-        if (group.graphs && group.graphs.count) {
-            GraphsView *graphView = [[GraphsView alloc] init];
-
-            [graphView setGraphsController:self];
-            [graphView setGraphsGroup:group];
-
-            [_graphViews addObject:graphView];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (!_graphViews) {
+            _graphViews = [[NSMutableArray alloc] init];
         }
-    }
+        else {
+            [_graphViews removeAllObjects];
+        }
 
-    [_graphsCollectionView setContent:_graphViews];
-    
-    [_graphsCollectionView setMinItemSize:NSMakeSize(0, 80)];
-    [_graphsCollectionView setMaxItemSize:NSMakeSize(0, 0)];
-    
-    [[_graphsCollectionView content] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [[_graphsCollectionView itemAtIndex:idx] setView:obj];
+        for (HWMGraphsGroup *group in _monitorEngine.configuration.graphGroups) {
+            if (group.graphs && group.graphs.count) {
+                GraphsView *graphView = [[GraphsView alloc] init];
+
+                [graphView setGraphsController:self];
+                [graphView setGraphsGroup:group];
+
+                [_graphViews addObject:graphView];
+            }
+        }
+
+        [_graphsCollectionView setContent:_graphViews];
+
+        [_graphsCollectionView setMinItemSize:NSMakeSize(0, 80)];
+        [_graphsCollectionView setMaxItemSize:NSMakeSize(0, 0)];
+
+        [[_graphsCollectionView content] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [[_graphsCollectionView itemAtIndex:idx] setView:obj];
+        }];
     }];
-    
-    [_graphsTableView reloadData];
 }
 
 #pragma mark
@@ -195,15 +182,16 @@
     if (_monitorEngine) {
         if ([keyPath isEqual:@"monitorEngine.graphsAndGroups"]) {
             [self reloadGraphsTableView:self];
+            [self rebuildViews];
         }
         else if ([keyPath isEqual:@"monitorEngine.configuration.graphsWindowAlwaysTopmost"]) {
             [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
         }
         else if ([keyPath isEqual:@"monitorEngine.configuration.useGraphSmoothing"]) {
-            [self graphsNeedDisplay:self];
+            [self setNeedDisplayGraphs:self];
         }
         else if ([keyPath isEqual:@"monitorEngine.configuration.graphsScaleValue"]) {
-            [self graphsNeedDisplay:self];
+            [self setNeedDisplayGraphs:self];
         }
     }
 }
@@ -217,7 +205,7 @@
 //    }
 //}
 
--(IBAction)graphsNeedDisplay:(id)sender
+-(IBAction)setNeedDisplayGraphs:(id)sender
 {
     for (id graphView in _graphViews) {
         [graphView setNeedsDisplay:YES];
@@ -234,7 +222,7 @@
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    return 19;
+    return [[_graphsAndGroupsCollectionSnapshot objectAtIndex:row] isKindOfClass:[HWMGraph class]] ? 19 : 21;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row

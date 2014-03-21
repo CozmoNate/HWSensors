@@ -18,7 +18,7 @@
 {
     if (self.isEnabled) {
         [NSAnimationContext beginGrouping];
-        [[NSAnimationContext currentContext] setDuration:0.05];
+        [[NSAnimationContext currentContext] setDuration:0.01];
         [[self animator] setAlphaValue:_hoverOpacity];
         [NSAnimationContext endGrouping];
     }
@@ -28,7 +28,7 @@
 {
     if (self.isEnabled) {
         [NSAnimationContext beginGrouping];
-        [[NSAnimationContext currentContext] setDuration:0.1];
+        [[NSAnimationContext currentContext] setDuration:0.01];
         [[self animator] setAlphaValue:_normalOpacity];
         [NSAnimationContext endGrouping];
     }
@@ -119,7 +119,7 @@
         
         NSEvent *event = [NSEvent
                           mouseEventWithType:NSRightMouseDown
-                          location: NSMakePoint(frame.origin.x - self.bounds.size.width / 2, frame.origin.y - self.bounds.size.height / 2)
+                          location: NSMakePoint(frame.origin.x + self.bounds.size.width / 2, frame.origin.y - self.bounds.size.height / 2)
                           modifierFlags: theEvent.modifierFlags
                           timestamp: theEvent.timestamp
                           windowNumber:theEvent.windowNumber

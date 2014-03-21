@@ -26,6 +26,7 @@
 "Fahrenheit" = "Фаренгейт";
 "Use larger font" = "Использовать большой шрифт";
 "Use shadow effect" = "Отображать с эффектом тени";
+"red-thermometer" = "Значок градусника (красный)";
 "hwmonitor" = "Значок HWMonitor";
 "thermometer" = "Значок градусника";
 "temperatures" = "Значок температуры";
@@ -76,7 +77,7 @@
 "Use data smoothing" = "Использовать сглаживание данных";
 "General" = "Основные";
 "Menubar" = "Значки меню";
-"Popup" = "Главное окно";
+"Popup" = "Окно датчиков";
 "Menubar icons:" = "Значки в строке меню:";
 "Temperature Sensors" = "Температурные датчики";
 "Frequency Sensors" = "Датчики частоты";
@@ -93,7 +94,7 @@
 "Graphs scale factor:" = "Масштаб отображения по времени:";
 "Check for updates" = "Проверять наличие обновлений в сети";
 "Attach to Menu Bar" = "Закрепить панель";
-"Detach from Menu Bar" = "Отсоеденить панель";
+"Detach from Menu Bar" = "Отсоединить панель";
 "Hide Window" = "Скрыть окно";
 "Version %@" = "Версия %@";
 "Detect sensors" = "Искать новые датчики";
@@ -111,10 +112,13 @@
 "%@ completely discharged!" = "%@ скоро выключится!";
 "%@ needs to be recharged" = "%@ требует перезарядки";
 "%@ is low" = "%@ разряжается";
+"Force update sensor value" = "Принудительно обновлять датчик";
 
 "Mouse" = "Мышь";
 "Keyboard" = "Клавиатура";
 "Trackpad" = "Трекпад";
+"Battery" = "Аккумулятор";
+"Battery %X" = "Аккумулятор %X";
 "Built-in Battery" = "Встроенный аккумулятор";
 "Internal Battery" = "Внутренний аккумулятор";
 
@@ -167,8 +171,8 @@
 "PowerFan" = "Вентилятор БП";
 "SystemFan1" = "Вентилятор №1";
 "SystemFan2" = "Вентилятор №2";
-"AuxFan" = "Дополнительный вентилятор";
-"AuxFan2" = "Дополнительный вентилятор №2";
+"AuxFan" = "Дополнительный";
+"AuxFan2" = "Дополнительный №2";
 "MB Fan 0" = "Вентилятор 1";
 "MB Fan 1" = "Вентилятор 2";
 "MB Fan 2" = "Вентилятор 3";
@@ -226,7 +230,7 @@
 "MCH Heatsink" = "Контроллер памяти, Радиатор";
 "MCP Internal Die" = "Контроллер памяти, Подложка";
 "PCH Die" = "Системный контроллер";
-"PCH Proximity" = "Системный контроллер, Датчик";
+"PCH Proximity" = "Контроллер, Датчик";
 "Mainboard Proximity" = "Материнская плата";
 "LCD Proximity" = "Датчик LCD";
 "Airport Proximity" = "Датчик Airport";
@@ -234,7 +238,11 @@
 "Powerboard Proximity" = "Источник питания";
 
 "Memory Bank %X" = "Слот памяти %X";
+"Memory Module" = "Модуль памяти";
 "Memory Module %X" = "Модуль памяти %X";
+"Memory Module, Proximity" = "Модуль памяти, Датчик";
+"Memory Module %X, Proximity" = "Модуль памяти %X, Датчик";
+"Memory Rail" = "Шина памяти";
 
 "Optical Drive" = "Оптический привод";
 "HDD Bay %X" = "Лоток диска %X";
@@ -259,6 +267,9 @@
 "CPU Core %X" = "Процессор, Ядро %X";
 "CPU Package Multiplier" = "Процессор, Множитель";
 //"CPU Package" = "Процессор, Частота";
+"CPU Core %X Average" = "Ядро ЦП %X, Усредненно";
+"CPU Package Average" = "Процессор, Усреднённо";
+"CPU Package Frequency" = "Процессор, Частота";
 
 "GPU Core" = "Видеокарта, Ядро";
 "GPU %X Core" = "Видеокарта %X, Ядро";
@@ -282,13 +293,44 @@
 "GPU %X Rail" = "Видеокарта, Шина %X";
 "CPU VRM" = "Процессор, Регулятор";
 "CPU VRM %X" = "Процессор, Регулятор %X";
+"CPU Rail" = "Процессор, Питание";
 
 "Mainboard S0 Rail" = "Шина питания S0";
 "Mainboard S3 Rail" = "Шина питания S3";
 "Mainboard S5 Rail" = "Шина питания S5";
-"Main Power Supply" = "Основной источник питания";
+"Main Power Supply" = "Основной ИП";
 
 "CMOS Battery" = "Батарея CMOS";
+"Battery Rail" = "Аккумулятор";
 
+"VRM Supply" = "Регулятор напряжения";
 "VRM Supply %X" = "Регулятор напряжения %X";
+"Power Supply" = "Источник питания";
 "Power Supply %X" = "Источник питания %X";
+
+"System Total" = "Общая";
+"Heatpipe" = "Тепловая трубка";
+"Heatpipe %X" = "Тепловая трубка %X";
+"Heatpipe Incoming Air" = "Радиатор, Забор воздуха";
+"Heatpipe Outgoing Air" = "Радиатор, Выброс воздуха";
+
+"On" = "Вкл";
+"Off" = "Выкл";
+
+"Id" = "№";
+"Description" = "Описание";
+"Type" = "Тип";
+"Value" = "Значение";
+"Worst" = "Худшее";
+"Threshold" = "Порог";
+"Raw Value" = "Значение (сырое)";
+//"Pre-Failure" = "Авария";
+//"Life-Span" = "Ресурс";
+
+"%@ S.M.A.R.T. attribute is critical for '%@'. Drive failure predicted!" = "Аттрибут S.M.A.R.T. '%@' показывает критическое значение. %@ возможно выйдет из строя в ближайшие сутки!";
+
+"ACPIProbe Profile" = "Профили ACPIProbe";
+
+"Threshold:" = "Порог:";
+"Speed:" = "Обороты:";
+

@@ -87,14 +87,19 @@ void FakeSMCKeyStoreUserClient::stop(IOService* provider)
 
 bool FakeSMCKeyStoreUserClient::initWithTask(task_t owningTask, void* securityID, UInt32 type, OSDictionary* properties)
 {
-	if (super::initWithTask(owningTask, securityID, type, properties)) {
-        keyStore = NULL;
-        return true;
+    if (!owningTask) {
+        return false;
+    }
+
+	if (!super::initWithTask(owningTask, securityID, type, properties)) {
+        HWSensorsFatalLog("failed to initialize with task!");
+        return false;
 	}
 
-    HWSensorsFatalLog("super failed to initialize with task!");
-	
-    return false;
+    keyStore = NULL;
+    clientHasAdminPrivilegue = clientHasPrivilege(securityID, kIOClientPrivilegeAdministrator);
+
+    return true;
 }
 
 IOReturn FakeSMCKeyStoreUserClient::clientClose(void)
@@ -169,38 +174,39 @@ IOReturn FakeSMCKeyStoreUserClient::externalMethod(uint32_t selector, IOExternal
                     break;
                 }
                     
-                case SMC_CMD_WRITE_BYTES: {
-                    char name[5];
-                    
-                    _ultostr(name, input->key);
-                
-                    IOLog("FakeSMCKeyStoreUserClient: SMC_CMD_WRITE_BYTES key=%s", name);
-                    
-                    FakeSMCKey *key = keyStore->getKey(name);
-                    
-                    if (key) {
-                        
-                        key->setValueFromBuffer(input->bytes, input->keyInfo.dataSize);
-                        
-                        result = kIOReturnSuccess;
-                    }
-                    else {
-                        char type[5];
-                        
-                        if (input->keyInfo.dataType) {
-                            _ultostr(type, input->keyInfo.dataType);
+                case SMC_CMD_WRITE_BYTES:
+                    if (clientHasAdminPrivilegue) {
+                        char name[5];
+
+                        _ultostr(name, input->key);
+
+                        FakeSMCKey *key = keyStore->getKey(name);
+
+                        if (key) {
+
+                            key->setValueFromBuffer(input->bytes, input->keyInfo.dataSize);
+
+                            result = kIOReturnSuccess;
                         }
                         else {
-                            type[0] = '\0';
+                            char type[5];
+
+                            if (input->keyInfo.dataType) {
+                                _ultostr(type, input->keyInfo.dataType);
+                            }
+                            else {
+                                type[0] = '\0';
+                            }
+
+                            keyStore->addKeyWithValue(name, type, input->keyInfo.dataSize, input->bytes);
+
+                            result = kIOReturnSuccess;
                         }
-                        
-                        keyStore->addKeyWithValue(name, type, input->keyInfo.dataSize, input->bytes);
-                        
-                        result = kIOReturnSuccess;
                     }
-                    
+                    else {
+                        result = kIOReturnNotPermitted;
+                    }
                     break;
-                }
 
                 default:
                     result = kIOReturnBadArgument;

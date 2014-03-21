@@ -6,54 +6,42 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
+/*
+ *  Copyright (c) 2013 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License
+ *  as published by the Free Software Foundation; either version 2
+ *  of the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ *  02111-1307, USA.
+ *
+ */
+
 #import "PopupFanCell.h"
 #import "HWMSmcFanSensor.h"
-#import "Localizer.h"
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
 #import "HWMColorTheme.h"
-#import "NSPopover+Message.h"
-
-@implementation PopupFanController
-
-@synthesize objectValue;
-
--(void)awakeFromNib
-{
-    [_slider setFloatValue:[[(HWMSmcFanSensor *)self.objectValue speed] floatValue]];
-    [_textField setFloatValue:[[(HWMSmcFanSensor *)self.objectValue speed] floatValue]];
-    [_textField setFont:[NSFont fontWithName:@"Let's go Digital Regular" size:20]];
-    [_textField setTextColor:self.colorTheme.useDarkIcons.boolValue ?
-     self.colorTheme.itemValueTitleColor :
-     [self.colorTheme.itemValueTitleColor highlightWithLevel:0.35]];
-
-    COICOPopoverView *container = (COICOPopoverView *)[self view];
-
-    [container setBackgroundColour:self.colorTheme.useDarkIcons.boolValue ?
-     [self.colorTheme.listBackgroundColor highlightWithLevel:0.30] :
-     nil /*[self.colorTheme.listBackgroundColor shadowWithLevel:0.05]*/];
-}
-
-- (IBAction)sliderHasMoved:(id)sender
-{
-    [_textField setFloatValue:_slider.floatValue];
-     
-    SEL sel = @selector(sliderHasBeenReleased:);
-    
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:sel object:sender];
-    [self performSelector:sel withObject:sender afterDelay:0.0];
-}
-
-- (void)sliderHasBeenReleased:(id)sender
-{
-    NSUInteger target = (int)(self.slider.floatValue / 50.0f) * 50;
-
-    [(HWMSmcFanSensor *)self.objectValue setSpeed:[NSNumber numberWithUnsignedInteger:target]];
-}
-
-@end;
+#import "HWMSmcFanController.h"
+#import "Localizer.h"
+#import "PopupFanController.h"
 
 @implementation PopupFanCell
+
+- (void)colorThemeChanged:(HWMColorTheme*)newColorTheme
+{
+    [super colorThemeChanged:newColorTheme];
+    [PopupSensorCell destroyGlobalPopover];
+}
 
 - (void)updateTrackingAreas
 {
@@ -70,18 +58,18 @@
 
 -(void)mouseEntered:(NSEvent *)theEvent
 {
-    if ([[self.objectValue engine] configuration].enableFanControl.boolValue && _popover == nil) {
+    HWMSmcFanSensor *fan = self.objectValue;
+
+    if (fan.controller) {
         [self performSelector:@selector(showFanController:) withObject:self afterDelay:0.5];
     }
+
+    [super mouseEntered:theEvent];
 }
 
 -(void)mouseDown:(NSEvent *)theEvent
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-
-//    if ([[self.objectValue engine] configuration].enableFanControl.boolValue) {
-//        [self performSelector:@selector(showFanController:) withObject:self afterDelay:0.0];
-//    }
 
     [super mouseDown:theEvent];
 }
@@ -93,33 +81,43 @@
     [super mouseExited:theEvent];
 }
 
--(void)popoverDidClose:(NSNotification *)notification
-{
-    _popover = nil;
-}
 
 -(void)showFanController:(id)sender
 {
     HWMSmcFanSensor *fan = self.objectValue;
 
-    if ([fan number] && [fan min] && [fan max] && [fan speed]) {
+    if ([fan number] && fan.controller.min && fan.controller.max) {
 
-        [PopupSensorCell destroyGlobalPopover];
+        //[PopupSensorCell destroyGlobalPopover];
 
-        PopupFanController *controller = [[PopupFanController alloc] initWithNibName:@"PopupFanController" bundle:[NSBundle mainBundle]];
-
-        [controller setObjectValue:self.objectValue];
-        [controller setColorTheme:self.colorTheme];
-
-        [Localizer localizeView:controller.view];
+        PopupFanController *controller = nil;
 
         _popover = [PopupSensorCell globalPopover];
 
-        [_popover setContentViewController:controller];
-        [_popover setAnimates:YES];
-        [_popover setBehavior:NSPopoverBehaviorTransient];
+        if (_popover && _popover.contentViewController && [_popover.contentViewController isKindOfClass:[PopupFanController class]]) {
+
+            controller = (PopupFanController *)_popover.contentViewController;
+        }
+        else {
+            [PopupSensorCell destroyGlobalPopover];
+
+            _popover = [PopupSensorCell globalPopover];
+
+            controller = [[PopupFanController alloc] initWithNibName:NSStringFromClass([PopupFanController class]) bundle:nil];
+
+            [Localizer localizeView:controller.view];
+
+            _popover.contentViewController = controller;
+        }
+
+        _popover.delegate = nil;
+
+        _popover.behavior = NSPopoverBehaviorTransient;
+        _popover.appearance = fan.engine.configuration.colorTheme.useBrightIcons.boolValue ?  NSPopoverAppearanceHUD : NSPopoverAppearanceMinimal;
+
         [_popover showRelativeToRect:self.frame ofView:self preferredEdge:NSMinXEdge];
-        [_popover setDelegate:self];
+        
+        [controller setController:fan.controller];
     }
 }
 

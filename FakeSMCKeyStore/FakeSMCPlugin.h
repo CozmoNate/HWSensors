@@ -217,6 +217,10 @@ public:
 class FakeSMCPlugin : public FakeSMCKeyHandler {
 	OSDeclareAbstractStructors(FakeSMCPlugin)
 
+private:
+    virtual IOReturn        readKeyCallback(const char *key, const char *type, const UInt8 size, void *buffer);
+    virtual IOReturn        writeKeyCallback(const char *key, const char *type, const UInt8 size, const void *buffer);
+
 protected:
     OSDictionary            *sensors;
     FakeSMCKeyStore         *keyStore;
@@ -224,8 +228,8 @@ protected:
     OSString                *getPlatformManufacturer(void);
     OSString                *getPlatformProduct(void);
     
-    void                    enableExclusiveAccessMode(void);
-    void                    disableExclusiveAccessMode(void);
+    void                    lockAccessForOtherPlugins(void);
+    void                    unlockAccessForOtherPlugins(void);
     
     bool                    isKeyExists(const char *key);
     bool                    isKeyHandled(const char *key);
@@ -258,9 +262,6 @@ public:
     virtual bool			start(IOService *provider);
 	virtual void			stop(IOService *provider);
 	virtual void			free(void);
-
-    virtual IOReturn        readKeyValueCallback(const char *key, const char *type, const UInt8 size, void *buffer);
-    virtual IOReturn        writeKeyValueCallback(const char *key, const char *type, const UInt8 size, const void *buffer);
 };
 
 #endif

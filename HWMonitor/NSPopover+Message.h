@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface COICOPopoverView : NSView {
-    NSGradient *backgroundGradient;
+    //NSGradient *backgroundGradient;
     NSColor *backgroundColour;
 }
 

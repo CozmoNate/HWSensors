@@ -6,28 +6,32 @@
 //
 //
 
+/*
+ *  Copyright (c) 2013 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License
+ *  as published by the Free Software Foundation; either version 2
+ *  of the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ *  02111-1307, USA.
+ *
+ */
+
 #import "PopupSensorCell.h"
 #import "HWMColorTheme.h"
 #import "HWMConfiguration.h"
 #import "HWMEngine.h"
 #import "HWMSensor.h"
 #import "HWMSensorsGroup.h"
-#import "NSPopover+Message.h"
-
-@implementation PopupPopoverController
-
-@synthesize objectValue;
-
--(void)awakeFromNib
-{
-    COICOPopoverView *container = (COICOPopoverView *)self.view;
-
-    [container setBackgroundColour:self.colorTheme.useDarkIcons.boolValue ?
-     [self.colorTheme.listBackgroundColor highlightWithLevel:0.35] :
-     [self.colorTheme.listBackgroundColor shadowWithLevel:0.05]];
-}
-
-@end;
 
 static NSPopover *gPopupSensorCellPopover;
 
@@ -44,8 +48,10 @@ static NSPopover *gPopupSensorCellPopover;
 
 +(void)destroyGlobalPopover
 {
-    if (gPopupSensorCellPopover && gPopupSensorCellPopover.isShown) {
-        [gPopupSensorCellPopover close];
+    if (gPopupSensorCellPopover) {
+        if (gPopupSensorCellPopover.isShown) {
+            [gPopupSensorCellPopover close];
+        }
         gPopupSensorCellPopover = nil;
     }
 }
@@ -71,7 +77,7 @@ static NSPopover *gPopupSensorCellPopover;
     [self removeObserver:self forKeyPath:@"objectValue.alarmLevel"];
 }
 
--(void)colorThemeHasChanged:(HWMColorTheme *)newColorTheme
+-(void)colorThemeChanged:(HWMColorTheme *)newColorTheme
 {
     if ([self.objectValue alarmLevel] != kHWMSensorLevelExceeded) {
         [self.textField setTextColor:newColorTheme.itemTitleColor];

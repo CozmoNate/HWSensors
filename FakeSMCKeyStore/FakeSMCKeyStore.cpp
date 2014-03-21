@@ -368,51 +368,57 @@ UInt32 FakeSMCKeyStore::loadKeysFromNVRAM()
     UInt32 count = 0;
 
     // Find driver and load keys from NVRAM
-    if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(serviceMatching("IODTNVRAM"), 1000000000ULL * 15))) {
+    if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
+        if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching, 1000000000ULL * 15))) {
 
-        useNVRAM = true;
+            useNVRAM = true;
 
-        if ((genericNVRAM = (0 == strncmp(nvram->getName(), "AppleNVRAM", sizeof("AppleNVRAM")))))
-            HWSensorsInfoLog("fallback to generic NVRAM methods");
+            if ((genericNVRAM = (0 == strncmp(nvram->getName(), "AppleNVRAM", sizeof("AppleNVRAM")))))
+                HWSensorsInfoLog("fallback to generic NVRAM methods");
 
-        OSSerialize *s = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary
+            OSSerialize *s = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary
 
-        if (nvram->serializeProperties(s)) {
-            if (OSDictionary *props = OSDynamicCast(OSDictionary, OSUnserializeXML(s->text()))) {
-                if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(props)) {
+            if (nvram->serializeProperties(s)) {
+                if (OSDictionary *props = OSDynamicCast(OSDictionary, OSUnserializeXML(s->text()))) {
+                    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(props)) {
 
-                    size_t prefix_length = strlen(kFakeSMCKeyPropertyPrefix);
+                        size_t prefix_length = strlen(kFakeSMCKeyPropertyPrefix);
 
-                    char name[5]; name[4] = 0;
-                    char type[5]; type[4] = 0;
+                        char name[5]; name[4] = 0;
+                        char type[5]; type[4] = 0;
 
-                    while (OSString *property = OSDynamicCast(OSString, iterator->getNextObject())) {
-                        const char *buffer = static_cast<const char *>(property->getCStringNoCopy());
+                        while (OSString *property = OSDynamicCast(OSString, iterator->getNextObject())) {
+                            const char *buffer = static_cast<const char *>(property->getCStringNoCopy());
 
-                        if (property->getLength() >= prefix_length + 1 + 4 + 1 + 0 && 0 == strncmp(buffer, kFakeSMCKeyPropertyPrefix, prefix_length)) {
-                            if (OSData *data = OSDynamicCast(OSData, props->getObject(property))) {
-                                strncpy(name, buffer + prefix_length + 1, 4); // fakesmc-key-???? ->
-                                strncpy(type, buffer + prefix_length + 1 + 4 + 1, 4); // fakesmc-key-xxxx-???? ->
+                            if (property->getLength() >= prefix_length + 1 + 4 + 1 + 0 && 0 == strncmp(buffer, kFakeSMCKeyPropertyPrefix, prefix_length)) {
+                                if (OSData *data = OSDynamicCast(OSData, props->getObject(property))) {
+                                    strncpy(name, buffer + prefix_length + 1, 4); // fakesmc-key-???? ->
+                                    strncpy(type, buffer + prefix_length + 1 + 4 + 1, 4); // fakesmc-key-xxxx-???? ->
 
-                                if (addKeyWithValue(name, type, data->getLength(), data->getBytesNoCopy())) {
-                                    HWSensorsDebugLog("key %s of type %s loaded from NVRAM", name, type);
-                                    count++;
+                                    if (addKeyWithValue(name, type, data->getLength(), data->getBytesNoCopy())) {
+                                        HWSensorsDebugLog("key %s of type %s loaded from NVRAM", name, type);
+                                        count++;
+                                    }
                                 }
                             }
                         }
+                        
+                        OSSafeRelease(iterator);
                     }
-
-                    OSSafeRelease(iterator);
+                    
+                    OSSafeRelease(props);
                 }
-
-                OSSafeRelease(props);
             }
+            
+            OSSafeRelease(s);
+            OSSafeRelease(nvram);
+        }
+        else {
+            HWSensorsWarningLog("NVRAM is unavailable");
         }
 
-        OSSafeRelease(s);
-        OSSafeRelease(nvram);
+        OSSafeRelease(matching);
     }
-    else HWSensorsWarningLog("NVRAM is unavailable");
     
     return count;
 }
@@ -511,6 +517,8 @@ void FakeSMCKeyStore::free()
 {
     OSSafeRelease(keys);
     OSSafeRelease(types);
+
+    super::free();
 }
 
 #pragma mark -

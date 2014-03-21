@@ -151,7 +151,7 @@ int adt7473_get_fanspeed_rpm(nouveau_device *device)
 	count = (count_hb << 8) | count_lb;
 
 	/* GT200 boards seem to use two phases instead of a single, the fan speed is twice as high */
-	if((device->chipset & 0xf0) >= 0xA0)
+	if((device->chipset & 0x1f0) >= 0xA0)
 		count *= 2;
 	
 	/* GF100 boards seem to use four phases... */

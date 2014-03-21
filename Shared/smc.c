@@ -20,6 +20,8 @@
 cc ./smc.c  -o smcutil -framework IOKit -framework CoreFoundation -Wno-four-char-constants -Wall -g -arch i386 
  */
 
+#include <stdio.h>
+
 #include <IOKit/IOKitLib.h>
 #include <Kernel/string.h>
 
@@ -50,7 +52,7 @@ void _ultostr(char *str, UInt32 val)
              (unsigned int) val);
 }
 
-kern_return_t SMCOpen(io_connect_t *conn, const char *serviceName)
+kern_return_t SMCOpen(const char *serviceName, io_connect_t *conn)
 {
     kern_return_t result;
     mach_port_t   masterPort;

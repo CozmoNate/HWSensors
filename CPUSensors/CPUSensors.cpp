@@ -58,20 +58,47 @@
 #include "timer.h"
 
 enum {
-    kCPUSensorsCoreThermalSensor           = BIT(0),
-    kCPUSensorsPackageThermalSensor        = BIT(1),
-    kCPUSensorsCoreMultiplierSensor        = BIT(2),
-    kCPUSensorsPackageMultiplierSensor     = BIT(3),
-    kCPUSensorsCoreFrequencySensor         = BIT(4),
-    kCPUSensorsPackageFrequencySensor      = BIT(5),
-    kCPUSensorsTotalPowerSensor            = BIT(6),
-    kCPUSensorsCoresPowerSensor            = BIT(7),
-    kCPUSensorsUncorePowerSensor           = BIT(8),
-    kCPUSensorsDramPowerSensor             = BIT(9),
+    kCPUSensorsThermalCore              = BIT(0),
+    kCPUSensorsThermalPackage           = BIT(1),
+    kCPUSensorsMultiplierCore           = BIT(2),
+    kCPUSensorsMultiplierPackage        = BIT(3),
+    kCPUSensorsFrequencyCore            = BIT(4),
+    kCPUSensorsFrequencyPackage         = BIT(5),
+    kCPUSensorsFrequencyCoreAverage     = BIT(6),
+    kCPUSensorsFrequencyPackageAverage  = BIT(7),
+
+
+    kCPUSensorsPowerTotal               = BIT(8),
+    kCPUSensorsPowerCores               = BIT(9),
+    kCPUSensorsPowerUncore              = BIT(10),
+    kCPUSensorsPowerDram                = BIT(11),
+};
+
+static UInt16 cpu_energy_msrs[] =
+{
+    MSR_PKG_ENERY_STATUS,
+    MSR_PP0_ENERY_STATUS,
+    MSR_PP1_ENERY_STATUS,
+    MSR_DRAM_ENERGY_STATUS
+};
+
+static UInt16 cpu_energy_flgs[] =
+{
+    kCPUSensorsPowerTotal,
+    kCPUSensorsPowerCores,
+    kCPUSensorsPowerUncore,
+    kCPUSensorsPowerDram
 };
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(CPUSensors, FakeSMCPlugin)
+
+inline uint64_t rdmpc64(uint32_t counter)
+{
+    UInt32 lo,hi;
+    rdpmc(counter, lo, hi);
+    return ((UInt64)hi << 32 ) | lo;
+}
 
 static inline UInt8 get_hex_index(char c)
 {       
@@ -89,272 +116,161 @@ static inline UInt8 get_cpu_number()
     return number;
 }
 
-static bool cpu_enabled[kCPUSensorsMaxCpus];
-static UInt64 cpu_lapic[kCPUSensorsMaxCpus];
-static UInt64 cpu_check_value[kCPUSensorsMaxCpus];
+static UInt8  cpu_tjmax[kCPUSensorsMaxCpus];
 
-static inline void cpu_check(void *magic)
+static void read_cpu_tjmax(void *magic)
 {
-    int number = cpu_number();
-    
+    UInt32 number = get_cpu_number();
+
     if (number < kCPUSensorsMaxCpus) {
-        
-        
-        cpu_enabled[number] = true;
-        
-        uint32_t cpuid_reg[4];
-        
-        do_cpuid(0x0b, cpuid_reg);
-        
-        cpu_lapic[number] = cpuid_reg[edx];
-        cpu_check_value[number] = rdmsr64(MSR_IA32_PACKAGE_THERM_STATUS);
+        cpu_tjmax[number] = (rdmsr64(MSR_IA32_TEMP_TARGET) >> 16) & 0xFF;
     }
 }
 
-static UInt8 cpu_thermal[kCPUSensorsMaxCpus];
-static UInt8 cpu_thermal_updated[kCPUSensorsMaxCpus];
-
-static inline void read_cpu_thermal(void *magic)
+static void update_counters(void *arg)
 {
+    CPUSensorsCounters *counters = (CPUSensorsCounters *)arg;
+
     UInt32 number = get_cpu_number();
-    
+
     if (number < kCPUSensorsMaxCpus) {
 
-        UInt64 msr = rdmsr64(MSR_IA32_THERM_STS);
+        UInt64 msr;
 
-        if (msr & 0x80000000) {
-            cpu_thermal[number] = (msr >> 16) & 0x7F;
-            cpu_thermal_updated[number] = true;
+        if (bit_get(counters->event_flags, kCPUSensorsThermalCore)) {
+            if ((msr = rdmsr64(MSR_IA32_THERM_STS)) & 0x80000000) {
+                counters->thermal_status[number] = (msr >> 16) & 0x7F;
+            }
+        }
+
+        if (number == 0 && bit_get(counters->event_flags, kCPUSensorsThermalPackage)) {
+            if ((msr = rdmsr64(MSR_IA32_PACKAGE_THERM_STATUS)) & 0x80000000) {
+                counters->thermal_status_package = (msr >> 16) & 0x7F;
+            }
+        }
+
+        if (bit_get(counters->event_flags, kCPUSensorsMultiplierCore) || (number == 0 && bit_get(counters->event_flags, kCPUSensorsMultiplierPackage))) {
+
+            counters->perf_status[number] =  rdmsr64(MSR_IA32_PERF_STS) & 0xFFFF;
+
+            // Performance counters
+            if (counters->update_perf_counters) {
+                counters->aperf_before[number] = counters->aperf_after[number];
+                counters->mperf_before[number] = counters->mperf_after[number];
+                counters->aperf_after[number] = rdmsr64(MSR_IA32_APERF);
+                counters->mperf_after[number] = rdmsr64(MSR_IA32_MPERF);
+            }
+        }
+
+        // Frequency counters
+        if (counters->update_perf_counters && (bit_get(counters->event_flags, kCPUSensorsFrequencyCore) || (number == 0 && bit_get(counters->event_flags, kCPUSensorsFrequencyPackage)))) {
+            counters->utc_before[number] = counters->utc_after[number];
+            counters->urc_before[number] = counters->urc_after[number];
+            counters->utc_after[number] = rdmpc64(0x40000001);
+            counters->urc_after[number] = rdmpc64(0x40000002);
+        }
+
+        // Energy counters
+        if (number == 0) {
+            for (UInt8 index = 0; index < 4; index++) {
+                if (bit_get(counters->event_flags, cpu_energy_flgs[index])) {
+                    counters->energy_before[index] = counters->energy_after[index];
+                    counters->energy_after[index] = rdmsr64(cpu_energy_msrs[index]);
+                }
+            }
         }
     }
 }
-
-static UInt8 cpu_thermal_package;
-
-static inline void read_cpu_thermal_package(void *magic)
-{
-    UInt32 number = get_cpu_number();
-
-    if (0 == number) {
-
-        UInt64 msr = rdmsr64(MSR_IA32_PACKAGE_THERM_STATUS);
-
-        if (msr & 0x80000000) {
-            cpu_thermal_package = ((msr >> 16) & 0x7F);
-        }
-    }
-}
-
-static UInt16 cpu_state[kCPUSensorsMaxCpus];
-static bool cpu_state_updated[kCPUSensorsMaxCpus];
-
-static inline void read_cpu_state(void *index)
-{
-    UInt32 number = get_cpu_number();
-    
-    if (index && *(UInt32*)index != number)
-        return;
-    
-    if (number < kCPUSensorsMaxCpus) {
-        cpu_state[number] = rdmsr64(MSR_IA32_PERF_STS) & 0xFFFF;
-        cpu_state_updated[number] = true;
-    }
-}
-
-static float cpu_turbo[kCPUSensorsMaxCpus];
-
-static inline void read_cpu_turbo(void *index)
-{
-    UInt32 number = get_cpu_number();
-    
-    if (index && *(UInt32*)index != number)
-        return;
-    
-    if (number < kCPUSensorsMaxCpus) {
-        UInt64 utc_before = rdmsr64(MSR_CPU_CLK_UNHALTED_THREAD_ADDR);
-        UInt64 urc_before = rdmsr64(MSR_CPU_CLK_UNHALTED_REF_ADDR);
-        //UInt64 tsc_before = rdmsr64(MSR_IA32_TIME_STAMP_COUNTER);
-        
-        IODelay(500);
-        
-        UInt64 utc_after = rdmsr64(MSR_CPU_CLK_UNHALTED_THREAD_ADDR);
-        UInt64 urc_after = rdmsr64(MSR_CPU_CLK_UNHALTED_REF_ADDR);
-        //UInt64 tsc_after = rdmsr64(MSR_IA32_TIME_STAMP_COUNTER);
-        
-        double utc_delta = utc_after < utc_before ? UINT64_MAX - utc_before + utc_after : utc_after - utc_before;
-        double urc_delta = urc_after < urc_before ? UINT64_MAX - urc_before + urc_after : urc_after - urc_before;
-        //double tsc_delta = tsc_after < tsc_before ? UINT64_MAX - tsc_before + tsc_after : tsc_after - tsc_before;
-        
-        if (utc_delta && urc_delta /*&& tsc_delta*/) {
-            cpu_turbo[number] = (float)(utc_delta / urc_delta) /** (float)(urc_delta / tsc_delta)*/;
-            cpu_state_updated[number] = true;
-        }
-    }
-}
-
-static float cpu_ratio[kCPUSensorsMaxCpus];
-
-static inline void read_cpu_ratio(void *index)
-{
-    UInt32 number = get_cpu_number();
-    
-    if (index && *(UInt32*)index != number)
-        return;
-    
-    if (number < kCPUSensorsMaxCpus) {
-        UInt64 MPERF = rdmsr64(MSR_IA32_MPERF);
-        UInt64 APERF = rdmsr64(MSR_IA32_APERF);
-        
-        if (APERF && MPERF) {
-            cpu_ratio[number] = (float)((double)APERF / (double)MPERF);
-            cpu_state_updated[number] = true;
-            
-            wrmsr64(MSR_IA32_APERF, 0);
-            wrmsr64(MSR_IA32_MPERF, 0);
-        }
-    }
-}
-
-static float cpu_energy_delta[4];
-static double cpu_energy_last_time[4];
-static UInt64 cpu_energy_last_value[4];
-
-inline void read_cpu_energy(void *idx)
-{
-    UInt8 *index = (UInt8*)idx;
-    
-    double time = ptimer_read_seconds();
-    UInt64 energy = rdmsr64(cpu_energy_msrs[*index]);
-    
-    if (!energy || energy < cpu_energy_last_value[*index]) {
-        cpu_energy_last_time[*index] = time;
-        cpu_energy_last_value[*index] = energy;
-        return;
-    }
-    
-    float deltaTime = float(time - cpu_energy_last_time[*index]);
-    
-    if (deltaTime < 1 || deltaTime > 30) {
-        cpu_energy_last_time[*index] = time;
-        cpu_energy_last_value[*index] = energy;
-        return;
-    }
-    
-    cpu_energy_delta[*index] = float(energy - cpu_energy_last_value[*index]) / deltaTime;
-    
-    cpu_energy_last_time[*index] = time;
-    cpu_energy_last_value[*index] = energy;
-}
-
-static UInt8  tjmax[kCPUSensorsMaxCpus];
-
-inline void read_cpu_tjmax(void *idx)
-{
-    UInt32 number = get_cpu_number();
-
-    if (number < kCPUSensorsMaxCpus) {
-        tjmax[number] = (rdmsr64(MSR_IA32_TEMP_TARGET) >> 16) & 0xFF;
-    }
-}
-
-#define ROUND(x)    ((x) + 0.5 > int(x) + 1 ? int(x) + 1 : int(x))
 
 void CPUSensors::calculateMultiplier(UInt32 index)
 {
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
-            if (baseMultiplier > 0 && cpu_ratio[index] > 1.0)
-                multiplier[index] = ROUND(cpu_ratio[index] * (float)baseMultiplier);
+            if (baseMultiplier > 0 && ratio[index] > 1.0)
+                multiplier[index] = ROUND(ratio[index] * (float)baseMultiplier);
             else
-                multiplier[index] = (float)(cpu_state[index] & 0xFF);
+                multiplier[index] = (float)(counters.perf_status[index] & 0xFF);
             break;
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
-            if (baseMultiplier > 0 && cpu_ratio[index] > 1.0)
-                multiplier[index] = ROUND(cpu_ratio[index] * (float)baseMultiplier);
+            if (baseMultiplier > 0 && ratio[index] > 1.0)
+                multiplier[index] = ROUND(ratio[index] * (float)baseMultiplier);
             else
-                multiplier[index] = (float)((cpu_state[index] >> 8) & 0xFF);
+                multiplier[index] = (float)((counters.perf_status[index] >> 8) & 0xFF);
             break;
         default: {
-            UInt8 fid = (cpu_state[index] >> 8) & 0xFF;
+            UInt8 fid = (counters.perf_status[index] >> 8) & 0xFF;
             multiplier[index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
             break;
         }
     }
 }
 
-IOReturn CPUSensors::woorkloopTimerEvent()
+void CPUSensors::calculateTimedCounters()
 {
-    if (timerEventsPending) {
+    if (bit_get(counters.event_flags, kCPUSensorsMultiplierCore | kCPUSensorsMultiplierPackage)) {
+        for (UInt8 index = 0; index < coreCount; index++) {
+            if (baseMultiplier) {
+                UInt64 aperf = counters.aperf_after[index] - counters.aperf_before[index];
+                UInt64 mperf = counters.mperf_after[index] - counters.mperf_before[index];
 
-        if (bit_get(timerEventsPending, kCPUSensorsCoreThermalSensor)) {
-            mp_rendezvous_no_intrs(read_cpu_thermal, NULL);
-        }
-        
-        if (bit_get(timerEventsPending, kCPUSensorsPackageThermalSensor)) {
-            UInt32 index = 0;
-            mp_rendezvous_no_intrs(read_cpu_thermal_package, &index);
-        }
-        
-        if (bit_get(timerEventsPending, kCPUSensorsCoreMultiplierSensor)) {
-            
-            IOSleep(10);
-            
-            if (baseMultiplier > 0) {   
-                mp_rendezvous_no_intrs(read_cpu_ratio, NULL);
-            }
-            
-            mp_rendezvous_no_intrs(read_cpu_state, NULL);
-
-            for (UInt8 index = 0; index < availableCoresCount; index++) {
-                calculateMultiplier(index);
-            }
-        }
-        
-        if (bit_get(timerEventsPending, kCPUSensorsPackageMultiplierSensor)) {
-            UInt32 index = 0;
-            
-            IOSleep(10);
-            
-            if (baseMultiplier > 0) {
-                mp_rendezvous_no_intrs(read_cpu_ratio, &index);
-            }
-
-            if (cpu_ratio[index] <= 1.0f) {
-                mp_rendezvous_no_intrs(read_cpu_state, &index);
+                if (mperf) {
+                    ratio[index] = (double)aperf / (double)mperf;
+                }
             }
 
             calculateMultiplier(index);
         }
-        
-        if (bit_get(timerEventsPending, kCPUSensorsTotalPowerSensor)) {
-            UInt8 index = 0;
-            read_cpu_energy(&index);
-        }
-        
-        if (bit_get(timerEventsPending, kCPUSensorsCoresPowerSensor)) {
-            UInt8 index = 1;
-            read_cpu_energy(&index);
-        }
-        
-        if (bit_get(timerEventsPending, kCPUSensorsUncorePowerSensor)) {
-            UInt8 index = 2;
-            read_cpu_energy(&index);
-        }
-        
-        if (bit_get(timerEventsPending, kCPUSensorsDramPowerSensor)) {
-            UInt8 index = 3;
-            read_cpu_energy(&index);
-        }
+    }
 
-        if (timerEventsMomentum++ > 5) {
-            timerEventsPending = 0;
+    if (bit_get(counters.event_flags, kCPUSensorsFrequencyCore | kCPUSensorsFrequencyPackage)) {
+        for (UInt8 index = 0; index < coreCount; index++) {
+            if (baseMultiplier > 0) {
+                UInt64 thread_clocks = counters.utc_after[index] < counters.utc_before[index] ? UINT64_MAX - counters.utc_before[index] + counters.utc_after[index] : counters.utc_after[index] - counters.utc_before[index];
+                UInt64 ref_clocks = counters.urc_after[index] < counters.urc_before[index] ? UINT64_MAX - counters.urc_before[index] + counters.urc_after[index] : counters.urc_after[index] - counters.urc_before[index];
+
+                if (ref_clocks) {
+                    turbo[index] = (double)thread_clocks / (double)ref_clocks;
+                }
+            }
+            else if (!bit_get(counters.event_flags, kCPUSensorsMultiplierCore | kCPUSensorsMultiplierPackage)) {
+                calculateMultiplier(index);
+            }
         }
     }
-        
-    timerEventSource->setTimeoutMS(1000);
+
+    if (timerEventDeltaTime && timerEventDeltaTime < 10.0f && bit_get(counters.event_flags, kCPUSensorsPowerTotal | kCPUSensorsPowerCores | kCPUSensorsPowerUncore | kCPUSensorsPowerDram)) {
+        for (UInt8 index = 0; index < 4; index++) {
+
+            UInt64 deltaEnergy = counters.energy_after[index] < counters.energy_before[index] ? UINT64_MAX - counters.energy_before[index] + counters.energy_after[index] : counters.energy_after[index] - counters.energy_before[index];
+
+            energy[index] = (double)deltaEnergy / timerEventDeltaTime;
+        }
+    }
+}
+
+IOReturn CPUSensors::timerEventAction()
+{
+    if (counters.event_flags) {
+
+        double time = ptimer_read_seconds();
+
+        timerEventDeltaTime =  time - timerEventLastTime;
+        timerEventLastTime = time;
+
+        mp_rendezvous_no_intrs(update_counters, &counters);
+
+        calculateTimedCounters();
+
+        if (timerEventDeltaTime == 0 || timerEventDeltaTime > 10.0f) {
+            timerEventScheduled = timerEventSource->setTimeoutMS(500) == kIOReturnSuccess ? true : false;
+        }
+        else {
+            timerEventScheduled = false;
+        }
+    }
     
     return kIOReturnSuccess;
 }
@@ -362,52 +278,60 @@ IOReturn CPUSensors::woorkloopTimerEvent()
 bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {    
     UInt32 index = sensor->getIndex();
-    
+
+    bit_set(counters.event_flags, sensor->getGroup());
+
     switch (sensor->getGroup()) {
-        case kCPUSensorsCoreThermalSensor:
-        case kCPUSensorsPackageThermalSensor:
-            if (!cpu_thermal_updated[index]) {
-                bit_set(timerEventsPending, kCPUSensorsCoreThermalSensor);
-                timerEventsMomentum = 0;
-            }
-            cpu_thermal_updated[index] = false;
-            *outValue = tjmax[index] - cpu_thermal[index];
+        case kCPUSensorsThermalCore:
+            *outValue = cpu_tjmax[index] - counters.thermal_status[index];
+            break;
+
+        case kCPUSensorsThermalPackage:
+            *outValue = cpu_tjmax[index] - counters.thermal_status_package;
             break;
             
-        case kCPUSensorsCoreMultiplierSensor:
-        case kCPUSensorsPackageMultiplierSensor:
-            bit_set(timerEventsPending, sensor->getGroup());
-            timerEventsMomentum = 0;
+        case kCPUSensorsMultiplierCore:
+        case kCPUSensorsMultiplierPackage:
             *outValue = multiplier[index];
             break;
             
-        case kCPUSensorsCoreFrequencySensor:
-            if (!cpu_state_updated[index]) {
-                bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
-                timerEventsMomentum = 0;
+        case kCPUSensorsFrequencyCore:
+        case kCPUSensorsFrequencyPackage:
+            switch (cpuid_info()->cpuid_cpufamily) {
+                case CPUFAMILY_INTEL_NEHALEM:
+                case CPUFAMILY_INTEL_WESTMERE:
+                case CPUFAMILY_INTEL_SANDYBRIDGE:
+                case CPUFAMILY_INTEL_IVYBRIDGE:
+                case CPUFAMILY_INTEL_HASWELL:
+                    *outValue = multiplier[index] * (float)busClock;
+                    break;
+
+                default: {
+                    *outValue = multiplier[index] * (float)busClock * ((counters.perf_status[index] & 0x8000) ? 0.5 : 1.0);
+                    break;
+                }
             }
-            cpu_state_updated[index] = false;
-            *outValue = multiplier[index] * (float)busClock;
             break;
 
-        case kCPUSensorsPackageFrequencySensor:
-            bit_set(timerEventsPending, kCPUSensorsCoreMultiplierSensor);
-            timerEventsMomentum = 0;
-            *outValue = multiplier[index] * (float)busClock;
+        case kCPUSensorsFrequencyCoreAverage:
+        case kCPUSensorsFrequencyPackageAverage:
+            *outValue = turbo[index] * (float)busClock * (float)baseMultiplier;
             break;
-            
-        case kCPUSensorsTotalPowerSensor:
-        case kCPUSensorsCoresPowerSensor:
-        case kCPUSensorsUncorePowerSensor:
-        case kCPUSensorsDramPowerSensor:
-            bit_set(timerEventsPending, sensor->getGroup());
-            timerEventsMomentum = 0;
-            *outValue = (float)energyUnits * cpu_energy_delta[index];
+
+        case kCPUSensorsPowerTotal:
+        case kCPUSensorsPowerCores:
+        case kCPUSensorsPowerUncore:
+        case kCPUSensorsPowerDram:
+            *outValue = energyUnits * energy[index];
             break;
 
         default:
             return false;
             
+    }
+
+    if (!timerEventScheduled) {
+        timerEventScheduled = timerEventSource->setTimeoutMS(50) == kIOReturnSuccess ? true : false;
     }
     
     return true;
@@ -418,7 +342,7 @@ FakeSMCSensor *CPUSensors::addSensor(const char *key, const char *type, UInt8 si
     FakeSMCSensor *result = super::addSensor(key, type, size, group, index);
     
     if (result) {
-        bit_set(timerEventsPending, group);
+        bit_set(counters.event_flags, group);
     }
     
     return result;
@@ -428,8 +352,10 @@ bool CPUSensors::start(IOService *provider)
 {
     if (!super::start(provider)) 
         return false;
+
+    // Pre-checks
     
-    cpuid_update_generic_info();
+    cpuid_set_info();
 	
 	if (strcmp(cpuid_info()->cpuid_vendor, CPUID_VID_INTEL) != 0)	{
 		HWSensorsFatalLog("no Intel processor found");
@@ -440,23 +366,37 @@ bool CPUSensors::start(IOService *provider)
 		HWSensorsFatalLog("processor does not support Model Specific Registers (MSR)");
 		return false;
 	}
-    
-	if(cpuid_info()->core_count == 0)	{
-		HWSensorsFatalLog("CPU core count is zero");
-		return false;
-	}
+
+    // Init timer
+
+    if (IOWorkLoop *workloop = getWorkLoop()) {
+        if (!(timerEventSource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &CPUSensors::timerEventAction)))) {
+            HWSensorsFatalLog("Failed to initialize timer event source");
+            return false;
+        }
+
+        if (kIOReturnSuccess != workloop->addEventSource(timerEventSource))
+        {
+            HWSensorsFatalLog("Failed to add timer event source into workloop");
+            return false;
+        }
+    }
+    else {
+        HWSensorsFatalLog("Failed to obtain current workloop");
+        return false;
+    }
+
+    // Configure
         
     if (OSDictionary *configuration = getConfigurationNode())
     {
         if (OSNumber* number = OSDynamicCast(OSNumber, configuration->getObject("Tjmax"))) {
-            // User defined Tjmax
-            tjmax[0] = number->unsigned32BitValue();
+
+            UInt8 userTjmax = number->unsigned8BitValue();
             
-            if (tjmax[0] > 0) {
-                for (uint32_t i = 1; i < cpuid_info()->core_count; i++)
-                    tjmax[i] = tjmax[0];
-                
-                HWSensorsInfoLog("force Tjmax value to %d", tjmax[0]);
+            if (userTjmax) {
+                memset(cpu_tjmax, userTjmax, kCPUSensorsMaxCpus);
+                HWSensorsInfoLog("force Tjmax value to %d", cpu_tjmax[0]);
             }
         }
         
@@ -469,22 +409,22 @@ bool CPUSensors::start(IOService *provider)
             }
         }
     }
-    
-    if (tjmax[0] == 0) {
-		// Calculating Tjmax
+
+    // Estimating Tjmax value if not set
+    if (!cpu_tjmax[0]) {
 		switch (cpuid_info()->cpuid_family)
 		{
 			case 0x06: 
 				switch (cpuid_info()->cpuid_model) 
                 {
                     case CPUID_MODEL_PENTIUM_M:
-                        tjmax[0] = 100;
+                        cpu_tjmax[0] = 100;
                         if (!platform) platform = OSData::withBytes("M70\0\0\0\0\0", 8);
                         break;
                             
                     case CPUID_MODEL_YONAH:
                         if (!platform) platform = OSData::withBytes("K22\0\0\0\0\0", 8);
-                        tjmax[0] = 85;
+                        cpu_tjmax[0] = 85;
                         break;
                         
                     case CPUID_MODEL_MEROM: // Intel Core (65nm)
@@ -492,35 +432,35 @@ bool CPUSensors::start(IOService *provider)
                         switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // G0
-                                tjmax[0] = 100; 
+                                cpu_tjmax[0] = 100;
                                 break;
                                 
                             case 0x06: // B2
                                 switch (cpuid_info()->core_count) 
                                 {
                                     case 2:
-                                        tjmax[0] = 80; 
+                                        cpu_tjmax[0] = 80;
                                         break;
                                     case 4:
-                                        tjmax[0] = 90; 
+                                        cpu_tjmax[0] = 90;
                                         break;
                                     default:
-                                        tjmax[0] = 85; 
+                                        cpu_tjmax[0] = 85;
                                         break;
                                 }
                                 //tjmax[0] = 80; 
                                 break;
                                 
                             case 0x0B: // G0
-                                tjmax[0] = 90; 
+                                cpu_tjmax[0] = 90;
                                 break;
                                 
                             case 0x0D: // M0
-                                tjmax[0] = 85; 
+                                cpu_tjmax[0] = 85;
                                 break;
                                 
                             default:
-                                tjmax[0] = 85; 
+                                cpu_tjmax[0] = 85;
                                 break;
                                 
                         } 
@@ -530,9 +470,9 @@ bool CPUSensors::start(IOService *provider)
                                              // Mobile CPU ?
                         if (!platform) platform = OSData::withBytes("M82\0\0\0\0\0", 8);
                         if (rdmsr64(0x17) & (1<<28))
-                            tjmax[0] = 105;
+                            cpu_tjmax[0] = 105;
                         else
-                            tjmax[0] = 100; 
+                            cpu_tjmax[0] = 100;
                         break;
                         
                     case CPUID_MODEL_ATOM: // Intel Atom (45nm)
@@ -540,13 +480,13 @@ bool CPUSensors::start(IOService *provider)
                         switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // C0
-                                tjmax[0] = 90; 
+                                cpu_tjmax[0] = 90;
                                 break;
                             case 0x0A: // A0, B0
-                                tjmax[0] = 100; 
+                                cpu_tjmax[0] = 100;
                                 break;
                             default:
-                                tjmax[0] = 90; 
+                                cpu_tjmax[0] = 90;
                                 break;
                         } 
                         break;
@@ -585,7 +525,7 @@ bool CPUSensors::start(IOService *provider)
                         
                     default:
                         HWSensorsWarningLog("found unsupported Intel processor, using default Tjmax");
-                        tjmax[0] = 100;
+                        cpu_tjmax[0] = 100;
                         break;
                 }
                 break;
@@ -599,12 +539,12 @@ bool CPUSensors::start(IOService *provider)
                     case 0x03: // Pentium 4, Celeron D (90nm)
                     case 0x04: // Pentium 4, Pentium D, Celeron D (90nm)
                     case 0x06: // Pentium 4, Pentium D, Celeron D (65nm)
-                        tjmax[0] = 100;
+                        cpu_tjmax[0] = 100;
                         break;
                         
                     default:
                         HWSensorsWarningLog("found unsupported Intel processor, using default Tjmax");
-                        tjmax[0] = 100;
+                        cpu_tjmax[0] = 100;
                         break;
                 }
                 break;
@@ -613,42 +553,24 @@ bool CPUSensors::start(IOService *provider)
 				HWSensorsFatalLog("found unknown Intel processor family");
 				return false;
 		}
+
+        // Setup Tjmax
+        switch (cpuid_info()->cpuid_cpufamily) {
+            case CPUFAMILY_INTEL_NEHALEM:
+            case CPUFAMILY_INTEL_WESTMERE:
+            case CPUFAMILY_INTEL_SANDYBRIDGE:
+            case CPUFAMILY_INTEL_IVYBRIDGE:
+            case CPUFAMILY_INTEL_HASWELL:
+                break;
+
+            default: {
+                UInt8 calculatedTjmax = cpu_tjmax[0];
+                memset(cpu_tjmax, calculatedTjmax, kCPUSensorsMaxCpus);
+                break;
+            }
+        }
 	}
-	
-    // Setup Tjmax
-    switch (cpuid_info()->cpuid_cpufamily) {
-        case CPUFAMILY_INTEL_NEHALEM:
-        case CPUFAMILY_INTEL_WESTMERE:
-        case CPUFAMILY_INTEL_SANDYBRIDGE:
-        case CPUFAMILY_INTEL_IVYBRIDGE:
-        case CPUFAMILY_INTEL_HASWELL:
-            break;
-            
-        default:
-            for (uint32_t i = 1; i < cpuid_info()->core_count; i++)
-                tjmax[i] = tjmax[0];
-            break;
-    }
-    
-    // woorkloop
-    if (!(workloop = getWorkLoop())) {
-        HWSensorsFatalLog("Failed to obtain workloop");
-        return false;
-    }
-    
-    if (!(timerEventSource = IOTimerEventSource::timerEventSource( this, OSMemberFunctionCast(IOTimerEventSource::Action, this, &CPUSensors::woorkloopTimerEvent)))) {
-        HWSensorsFatalLog("Failed to initialize timer event source");
-        return false;
-    }
-    
-    if (kIOReturnSuccess != workloop->addEventSource(timerEventSource))
-    {
-        HWSensorsFatalLog("Failed to add timer event source into workloop");
-        return false;
-    }
-    
-    //workloopLock = IOSimpleLockAlloc();
-    
+
     // bus clock
     busClock = 0;
     
@@ -659,7 +581,7 @@ bool CPUSensors::start(IOService *provider)
     if (busClock == 0)
         busClock = (gPEClockFrequencyInfo.bus_frequency_max_hz >> 2) / 1e6;
     
-    HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, tjmax[0]);
+    HWSensorsInfoLog("CPU family 0x%x, model 0x%x, stepping 0x%x, cores %d, threads %d, TJmax %d", cpuid_info()->cpuid_family, cpuid_info()->cpuid_model, cpuid_info()->cpuid_stepping, cpuid_info()->core_count, cpuid_info()->thread_count, cpu_tjmax[0]);
     
 //    mp_rendezvous_no_intrs(cpu_check, NULL);
 //    
@@ -668,9 +590,7 @@ bool CPUSensors::start(IOService *provider)
 //            HWSensorsInfoLog("CPU[%d] lapic=0x%llx value = 0x%llx", count, cpu_lapic[count], cpu_check_value[count]);
 //        }        
 //    }
-    
-    enableExclusiveAccessMode();
-    
+
     // platform keys
     if (platform) {
         HWSensorsInfoLog("setting platform keys to [%-8s]", (const char*)platform->getBytesNoCopy());
@@ -683,18 +603,19 @@ bool CPUSensors::start(IOService *provider)
     }
     
     // digital thermal sensor at core level
-    mp_rendezvous_no_intrs(read_cpu_thermal, NULL);
+    bit_set(counters.event_flags, kCPUSensorsThermalCore);
+    mp_rendezvous_no_intrs(update_counters, &counters);
                            
     for (uint32_t i = 0; i < kCPUSensorsMaxCpus; i++) {
-        if (cpu_thermal[i]) {
+        if (counters.thermal_status[i]) {
             
-            availableCoresCount++;
+            coreCount++;
             
             char key[5];
             
             snprintf(key, 5, KEY_FORMAT_CPU_DIE_TEMPERATURE, i);
             
-            if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsCoreThermalSensor, i))
+            if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsThermalCore, i))
                 HWSensorsWarningLog("failed to add temperature sensor");
         }
     }
@@ -709,8 +630,8 @@ bool CPUSensors::start(IOService *provider)
             
             do_cpuid(6, cpuid_reg);
             
-            if ((uint32_t)bitfield(cpuid_reg[eax], 4, 4)) {
-                if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPackageThermalSensor, 0))
+            if ((uint32_t)bitfield32(cpuid_reg[eax], 4, 4)) {
+                if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsThermalPackage, 0))
                     HWSensorsWarningLog("failed to add cpu package temperature sensor");
             }
             break;
@@ -721,39 +642,48 @@ bool CPUSensors::start(IOService *provider)
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
+        case CPUFAMILY_INTEL_HASWELL:
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
                 //mp_rendezvous_no_intrs(init_cpu_turbo_counters, NULL);
                 HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
+                counters.update_perf_counters = true;
             }
-        // break; fall down adding package sensors
-            
-        case CPUFAMILY_INTEL_HASWELL:
-            //
-            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kCPUSensorsPackageMultiplierSensor, 0))
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kCPUSensorsMultiplierPackage, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
-            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsPackageFrequencySensor, 0))
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyPackage, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
-            
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY_AVERAGE, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyPackageAverage, 0))
+                HWSensorsWarningLog("failed to add package average frequency sensor");
             break;
-            
+
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
-            if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF))
+            if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
                 HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
+                counters.update_perf_counters = true;
+            }
             // break; fall down adding multiplier sensors for each core
+
         default:
-            for (uint32_t i = 0; i < availableCoresCount/*cpuid_info()->core_count*/; i++) {
+            for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
                 char key[5];
                 
                 snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
                 
-                if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kCPUSensorsCoreMultiplierSensor, i))
+                if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kCPUSensorsMultiplierCore, i))
                     HWSensorsWarningLog("failed to add multiplier sensor");
                 
                 snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY, i);
                 
-                if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsCoreFrequencySensor, i))
+                if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyCore, i))
                     HWSensorsWarningLog("failed to add frequency sensor");
+
+                if (baseMultiplier) {
+                    snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY_AVERAGE, i);
+
+                    if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyCoreAverage, i))
+                    HWSensorsWarningLog("failed to add average frequency sensor");
+                }
                 
             }
             break;
@@ -771,18 +701,18 @@ bool CPUSensors::start(IOService *provider)
             UInt8 energy_units = (rapl >> 8) & 0x1f;
             UInt8 time_units = (rapl >> 16) & 0xf;
             
-            HWSensorsInfoLog("RAPL units power: 0x%x energy: 0x%x time: 0x%x", power_units, energy_units, time_units);
+            HWSensorsDebugLog("RAPL units power: 0x%x energy: 0x%x time: 0x%x", power_units, energy_units, time_units);
             
             if (energy_units && (energyUnits = 1.0f / (float)(1 << energy_units))) {
-                if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsTotalPowerSensor, 0))
+                if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerTotal, 0))
                     HWSensorsWarningLog("failed to add CPU package total power sensor");
                 
-                if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsCoresPowerSensor, 1))
+                if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerCores, 1))
                         HWSensorsWarningLog("failed to add CPU package cores power sensor");
                 
                 // Uncore sensor is only available on CPUs with uncore device (built-in GPU)
                 if (cpuid_info()->cpuid_model != CPUID_MODEL_JAKETOWN && cpuid_info()->cpuid_model != CPUID_MODEL_IVYBRIDGE_EP) {
-                    if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsUncorePowerSensor, 2))
+                    if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerUncore, 2))
                         HWSensorsWarningLog("failed to add CPU package uncore power sensor");
                 }
                 
@@ -790,7 +720,7 @@ bool CPUSensors::start(IOService *provider)
                     case CPUFAMILY_INTEL_HASWELL:
                         // TODO: check DRAM availability for other platforms
                         if (cpuid_info()->cpuid_cpufamily != CPUFAMILY_INTEL_SANDYBRIDGE) {
-                            if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsDramPowerSensor, 3))
+                            if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerDram, 3))
                                 HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
                         }
                 }
@@ -800,8 +730,6 @@ bool CPUSensors::start(IOService *provider)
             
     }
     
-    disableExclusiveAccessMode();
-
     // two power states - off and on
 	static const IOPMPowerState powerStates[2] = {
         { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -816,6 +744,8 @@ bool CPUSensors::start(IOService *provider)
     // Register service
     registerService();
 
+    timerEventSource->setTimeoutMS(1000);
+
     HWSensorsInfoLog("started");
 
     return true;
@@ -823,13 +753,18 @@ bool CPUSensors::start(IOService *provider)
 
 IOReturn CPUSensors::setPowerState(unsigned long powerState, IOService *device)
 {
+    void *magic;
+
 	switch (powerState) {
         case 0: // Power Off
-            timerEventSource->cancelTimeout();
+                //timerEventSource->cancelTimeout();
             break;
 
         case 1: // Power On
-            timerEventSource->setTimeoutMS(1000);
+                //timerEventSource->setTimeoutMS(1000);
+            if (baseMultiplier > 0) {
+                mp_rendezvous_no_intrs(init_cpu_turbo_counters, &magic);
+            }
             break;
 
         default:
@@ -841,8 +776,13 @@ IOReturn CPUSensors::setPowerState(unsigned long powerState, IOService *device)
 
 void CPUSensors::stop(IOService *provider)
 {
+    PMstop();
+    
     timerEventSource->cancelTimeout();
-    workloop->removeEventSource(timerEventSource);
+
+    if (IOWorkLoop *workloop = getWorkLoop()) {
+        workloop->removeEventSource(timerEventSource);
+    }
     
     super::stop(provider);
 }

@@ -28,7 +28,7 @@
 
 #import "HWMSmcFanSensor.h"
 #import "smc.h"
-#import "SmcHelper.h"
+#import "SmcHelper+HWMonitorHelper.h"
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
 
@@ -38,37 +38,6 @@
 
 @dynamic descriptor;
 @dynamic number;
-@dynamic max;
-@dynamic min;
-@dynamic speed;
-
--(void)setSpeed:(NSNumber *)speed
-{
-    if (self.engine.configuration.enableFanControl.boolValue && self.max && self.min && self.number && speed) {
-
-        SMCVal_t info;
-
-        if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
-
-            NSNumber *value;
-
-            if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
-
-                UInt16 manual = value.unsignedShortValue;
-
-                if (!bit_get(manual, BIT(self.number.unsignedShortValue))) {
-                    bit_write(self.engine.configuration.enableFanControl.boolValue, manual, BIT(self.number.unsignedShortValue));
-                    [SmcHelper writeKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual] connection:(io_connect_t)self.service.unsignedLongLongValue];
-                }
-            }
-        }
-
-        [SmcHelper writeKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, self.number.unsignedCharValue] value:speed connection:(io_connect_t)self.service.unsignedLongLongValue];
-
-        [self willChangeValueForKey:@"speed"];
-        [self setPrimitiveValue:speed forKey:@"speed"];
-        [self didChangeValueForKey:@"speed"];
-    }
-}
+@dynamic controller;
 
 @end

@@ -13,6 +13,8 @@
 
 @interface HWMFavorite : NSManagedObject
 
+@property (nonatomic, retain) NSNumber *large;
+
 @property (nonatomic, retain) HWMConfiguration *configuration;
 @property (nonatomic, retain) HWMItem *item;
 

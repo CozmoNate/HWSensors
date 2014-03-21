@@ -254,8 +254,18 @@ bool FakeSMCDevice::initAndStart(IOService *platform, IOService *provider)
 	if (!provider || !super::init(platform, 0, 0))
 		return false;
 
-    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), kFakeSMCDefaultWaitTimeout)))) {
-		HWSensorsFatalLog("still waiting for FakeSMCKeyStore...");
+    OSDictionary *matching = serviceMatching(kFakeSMCKeyStoreService);
+
+    if (matching) {
+        if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(matching, kFakeSMCDefaultWaitTimeout)))) {
+            HWSensorsFatalLog("still waiting for FakeSMCKeyStore...");
+            return false;
+        }
+
+        OSSafeRelease(matching);
+    }
+    else {
+        HWSensorsFatalLog("failed to create matching dictionary (FakeSMCKeyStore)");
         return false;
     }
     

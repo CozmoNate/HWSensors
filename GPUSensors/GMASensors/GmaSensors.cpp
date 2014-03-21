@@ -90,9 +90,7 @@ bool GmaSensors::managedStart(IOService *provider)
             return false;
         }
     }
-    
-    enableExclusiveAccessMode();
-    
+
     //Find card number
     gpuIndex = takeVacantGPUIndex();
     
@@ -111,8 +109,6 @@ bool GmaSensors::managedStart(IOService *provider)
         gpuIndex = -1;
         return false;
     }
-    
-    disableExclusiveAccessMode();
     
     registerService();
     

@@ -50,21 +50,49 @@ DefinitionBlock ("SSDT.aml", "SSDT", 1, "APPLE ", "DefMon", 0x00003000)
     
     Device (_SB.PROB) // ACPIProbe virtual device (c) TimeWalker
     {
-        Name (_HID, EisaId ("PNP0C02")) // Expose PLLD to IORegistry
-        Name (_CID, EisaId ("PROB0000")) // device compatible name allows ACPIProbe matching
+        Name (_HID, EisaId ("PRB0000")) // Expose PLLD to IORegistry
+        Name (_CID, "acpi-probe") // device compatible name allows ACPIProbe matching
 
         /* Define settings for ACPI method polling */
        
-        Name (INVL, 0x3E8)          // Set Polling interval 1 sec
-        Name (TOUT, Zero)           // Set Polling timeout  0 sec (continuous polling)
-        Name (LOGG, One)            // Enable Console logging of values returned by methods
-        Name (LIST, Package (0x02)  // Define methods to poll
+        Name (LIST, Package (0x03) // profile list
         {
-            "TST0",
-            "TST1"
+           "PFL0",
+           "PFL1",
+           "PFL2"
         })
-        
-        Method (TST0, 0, NotSerialized) // Test method returns 100500
+
+        Name (ACTV, "PFL2") // startup profile
+
+        Name (PFL0, Package () // audible
+        {
+           "Audible",
+           0x03E8, // polling interval
+           Zero,   // polling timeout
+           Zero,   // disable console logging
+           "TAVG", // method 1
+           "FAUD"  // method 2
+        })
+
+        Name (PFL1, Package () // passive
+        {
+           "Passive",
+           0x03E8,
+           Zero,
+           Zero,
+           "TAVG",
+           "FPAS"
+        })
+        Name (PFL2, Package () // automatic
+        {
+           "Automatic",
+           0x03E8,
+           0x0BB8, // reset and stop polling methods after 3 sec
+           Zero,
+           "FRST"
+        })
+
+        Method (FRST, 0, NotSerialized) // Test method, defined in "Automatic" profile
         {
             Store (0x18894, Local0)
             Return (Local0)

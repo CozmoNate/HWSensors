@@ -19,7 +19,7 @@ full_version=${project_version}'.'${last_revision}
 unsigned_pkg=${project_name}.${full_version}.unsigned.pkg
 signed_pkg=${project_name}.${full_version}.pkg
 
-productsign --sign "Developer ID Installer" ./Binaries/${unsigned_pkg} ./Binaries/${signed_pkg}
+productsign --sign "Developer ID Installer: " ./Binaries/${unsigned_pkg} ./Binaries/${signed_pkg}
 spctl -a -v --type install ./Binaries/${signed_pkg}
 
 if [ $? -eq 0 ]; then

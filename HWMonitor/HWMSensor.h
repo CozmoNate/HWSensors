@@ -28,17 +28,15 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-
 #import "HWMItem.h"
 
-
+#define kHWMSensorLevelDisabled     -1
 #define kHWMSensorLevelNormal       0
 #define kHWMSensorLevelModerate     1
 #define kHWMSensorLevelHigh         2
 #define kHWMSensorLevelExceeded     1000
 
-
-@class HWMSensorsGroup, HWMGraph;
+@class HWMGraph, HWMSensorController, HWMSensorsGroup;
 
 @interface HWMSensor : HWMItem
 {
@@ -47,23 +45,35 @@
     NSString *_strippedValue;
 }
 
-@property (nonatomic, retain) NSNumber * service;
+@property (nonatomic, retain) NSNumber * forced;
 @property (nonatomic, retain) NSNumber * selector;
+@property (nonatomic, retain) NSNumber * service;
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSNumber * value;
-@property (nonatomic, retain) HWMSensorsGroup * group;
 @property (nonatomic, retain) HWMGraph *graph;
-
-@property (nonatomic, retain) id favorite;
+@property (nonatomic, retain) HWMSensorsGroup *group;
+@property (nonatomic, retain) HWMSensorController *controller;
+@property (nonatomic, retain) NSSet *consumers;
 
 @property (readonly) NSUInteger alarmLevel;
 @property (readonly) NSString * formattedValue;
 @property (readonly) NSString * strippedValue;
+
+- (BOOL)isActive;
 
 - (void)doUpdateValue;
 
 - (NSNumber*)internalUpdateValue;
 - (NSUInteger)internalUpdateAlarmLevel;
 - (void)internalSendAlarmNotification;
+
+@end
+
+@interface HWMSensor (CoreDataGeneratedAccessors)
+
+- (void)addConsumersObject:(HWMSensorController *)value;
+- (void)removeConsumersObject:(HWMSensorController *)value;
+- (void)addConsumers:(NSSet *)values;
+- (void)removeConsumers:(NSSet *)values;
 
 @end

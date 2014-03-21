@@ -225,8 +225,8 @@ static int nve0_clock_read(struct nouveau_device *device, u8 source)
             return read_mem(device) * 2;
         case nouveau_clock_core:
             return read_clk(device, 0x00) / 2;
-        case nouveau_clock_rop:
-            return read_clk(device, 0x01) / 2;
+//        case nouveau_clock_rop:
+//            return read_clk(device, 0x01) / 2;
 //        case nv_clk_src_hubk07:
 //            return read_clk(device, 0x02);
 //        case nv_clk_src_hubk06:

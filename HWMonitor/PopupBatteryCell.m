@@ -6,6 +6,27 @@
 //  Copyright (c) 2013 kozlek. All rights reserved.
 //
 
+
+/*
+ *  Copyright (c) 2013 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License
+ *  as published by the Free Software Foundation; either version 2
+ *  of the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ *  02111-1307, USA.
+ *
+ */
+
 #import "PopupBatteryCell.h"
 #import "HWMColorTheme.h"
 #import "HWMConfiguration.h"
@@ -42,22 +63,30 @@
 
         [_gaugeImage lockFocus];
         
-        NSRectFillUsingOperation(self.imageView.bounds, NSCompositeClear);
-        
-        [[[self.objectValue engine].configuration.colorTheme.itemTitleColor highlightWithLevel:0.2] setStroke];
+        //NSRectFillUsingOperation(self.imageView.bounds, NSCompositeClear);
+        [[NSColor clearColor] set];
+        NSRectFill(self.imageView.bounds);
+
+        [[self.objectValue engine].configuration.colorTheme.itemTitleColor setStroke];
         
         [[NSBezierPath bezierPathWithRect:NSMakeRect(self.imageView.image.size.width / 2 - self.imageView.image.size.width / 4 / 2, self.imageView.image.size.height - 0.5, self.imageView.image.size.width / 4, 1)] stroke];
         [[NSBezierPath bezierPathWithRoundedRect:NSMakeRect(0.5, 1.5, self.imageView.image.size.width - 1, self.imageView.image.size.height - 3) xRadius:0.0 yRadius:0.0] stroke];
-        
+
+        NSColor *fillColor = nil;
+
         if ([_gaugeLevel integerValue] < 20) {
-            [[[NSColor redColor] shadowWithLevel:[self.objectValue engine].configuration.colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
+            fillColor = [NSColor redColor];
         }
         else if ([_gaugeLevel integerValue] < 35) {
-            [[[NSColor orangeColor] shadowWithLevel:[self.objectValue engine].configuration.colorTheme.useDarkIcons ? 0.1 : 0.2] setFill];
+            fillColor = [NSColor orangeColor];
         }
         else {
-            [[[NSColor greenColor] shadowWithLevel:[self.objectValue engine].configuration.colorTheme.useDarkIcons ? 0.0 : 0.1] setFill];
+            fillColor = [NSColor greenColor];
         }
+
+        fillColor = [self.objectValue engine].configuration.colorTheme.useBrightIcons.boolValue ? [fillColor highlightWithLevel:0.1] : [fillColor shadowWithLevel:0.1];
+
+        [fillColor setFill];
         
         [[NSBezierPath bezierPathWithRect:NSMakeRect(1.75, 2.75, self.imageView.image.size.width - 3.5, (self.imageView.image.size.height - 5.5) * [_gaugeLevel doubleValue]  * 0.01)] fill];
         
@@ -65,6 +94,12 @@
         
         [self.imageView setNeedsDisplay:YES];
     }
+}
+
+-(void)colorThemeChanged:(HWMColorTheme *)newColorTheme
+{
+    [super colorThemeChanged:newColorTheme];
+    [self setGaugeLevel:self.gaugeLevel];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

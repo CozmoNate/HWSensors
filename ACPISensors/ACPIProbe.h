@@ -31,30 +31,74 @@
 #include "IOKit/acpi/IOACPIPlatformDevice.h"
 #include <IOKit/IOTimerEventSource.h>
 
+class ACPIProbeProfile : public OSObject
+{
+    OSDeclareDefaultStructors(ACPIProbeProfile)
+
+public:
+    char            name[32];
+    double          timeout;
+    UInt32          interval;
+    bool            verbose;
+
+    OSArray         *methods;
+
+    double          startedAt;
+
+    static ACPIProbeProfile * withParameters(OSString *name,
+                                             OSArray *methods,
+                                             OSNumber *interval,
+                                             OSNumber *timeout,
+                                             OSNumber *verbose );
+
+    virtual bool    init(OSString *name,
+                         OSArray *aMethods,
+                         OSNumber *aInterval,
+                         OSNumber *aTimeout,
+                         OSNumber *aVerbose);
+
+    virtual void    free();
+};
+
 class ACPIProbe : public FakeSMCPlugin
 {
     OSDeclareDefaultStructors(ACPIProbe)
     
 private:
 	IOACPIPlatformDevice    *acpiDevice;
-    OSArray                 *methods;
-    IOWorkLoop*             workloop;
-    IOTimerEventSource*     timerEventSource;
+    IOWorkLoop              *workloop;
+    IOTimerEventSource      *timerEventSource;
     
-    double                  startTime;
-    double                  pollingTimeout;
-    double                  pollingInterval;
+    OSDictionary            *profiles;
+    OSArray                 *profileList;
+
+    ACPIProbeProfile        *activeProfile;
     
-    bool                    loggingEnabled;
-    
-    IOReturn                woorkloopTimerEvent(void);
+    void                    addProfile(OSString *name,
+                                       OSArray *methods,
+                                       OSNumber *interval,
+                                       OSNumber *timeout,
+                                       OSNumber *verbose);
+
     void                    logValue(const char* method, OSObject *value);
+
+    IOReturn                woorkloopTimerEvent(void);
+
 protected:
     
     
 public:
     virtual bool			start(IOService *provider);
+    virtual IOReturn        setPowerState(unsigned long powerState, IOService *device);
     virtual void            stop(IOService* provider);
+    virtual void            free();
+
+    unsigned int            getProfileCount();
+    ACPIProbeProfile*       getProfile(OSString *name);
+    ACPIProbeProfile*       getProfile(const char *name);
+    ACPIProbeProfile*       getProfile(unsigned int index);
+    ACPIProbeProfile*       getActiveProfile();
+    IOReturn                setActiveProfile(const char *name);
 };
 
 

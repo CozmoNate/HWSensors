@@ -43,7 +43,6 @@
 
 #define kHWMGroupSmartTemperature       9
 #define kHWMGroupSmartRemainingLife     10
-#define kHWMGroupSmartRemainingBlocks   11
 
 #define kHWMGroupBattery                12
 

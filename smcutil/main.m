@@ -35,15 +35,16 @@
 #define OPTION_NONE     0
 #define OPTION_LIST     1
 #define OPTION_READ     2
+#define OPTION_WRITE    3
 #define OPTION_HELP     4
 
-void usage(char* prog)
+void usage(const char* prog)
 {
-    printf("Apple System Management Control (SMC) tool %s\n", VERSION);
+    printf("smcutil v%s\n", VERSION);
     printf("Usage:\n");
     printf("%s [options]\n", prog);
-    printf("    -l         : list all keys and values\n");
-    printf("    -r <key>   : read key value\n");
+    printf("    -l         : list of all keys\n");
+    printf("    -r <key>   : show key value\n");
     printf("    -h         : help\n");
     printf("\n");
 }
@@ -105,8 +106,10 @@ int main(int argc, const char * argv[])
         int c, option;
         char key[5];
         SMCVal_t val;
+
+        option = OPTION_HELP;
         
-        while ((c = getopt(argc, argv, "fhk:lrw:v")) != -1)
+        while ((c = getopt(argc, argv, "lr")) != -1)
         {
             switch(c)
             {
@@ -115,6 +118,9 @@ int main(int argc, const char * argv[])
                     break;
                 case 'r':
                     option = OPTION_READ;
+                    break;
+                case 'w':
+                    option = OPTION_WRITE;
                     break;
                 case 'h':
                 case '?':
@@ -126,7 +132,7 @@ int main(int argc, const char * argv[])
         
         io_connect_t connection;
         
-        if (kIOReturnSuccess == SMCOpen(&connection, "AppleSMC")) {
+        if (kIOReturnSuccess == SMCOpen("AppleSMC", &connection)) {
             
             switch (option) {
                 case OPTION_LIST: {
@@ -161,10 +167,41 @@ int main(int argc, const char * argv[])
                 }
                     
                 case OPTION_READ:
-                    snprintf(key, 5, argv[2]);
+                    snprintf(key, 5, "%s", argv[2]);
                     if (kIOReturnSuccess == SMCReadKey(connection, key, &val)) {
                         printKeyValue(val);
                     }
+                    break;
+
+                case OPTION_WRITE: {
+                    const char *optarg = argv[3];
+
+                    snprintf(key, 5, "%s", argv[2]);
+
+                    bcopy(val.key, key, 4);
+
+                    int i;
+                    char c[3];
+                    for (i = 0; i < strlen(optarg); i++)
+                    {
+                        sprintf(c, "%c%c", optarg[i * 2], optarg[(i * 2) + 1]);
+                        val.bytes[i] = (int) strtol(c, NULL, 16);
+                    }
+                    val.dataSize = i / 2;
+                    if ((val.dataSize * 2) != strlen(optarg))
+                    {
+                        printf("Error: value is not valid\n");
+                        return 1;
+                    }
+
+                    if (kIOReturnSuccess == SMCWriteKey(connection, &val)) {
+                        printKeyValue(val);
+                    }
+                    break;
+                }
+
+                case OPTION_HELP:
+                    usage(argv[0]);
                     break;
             }
             

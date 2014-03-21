@@ -104,9 +104,9 @@ private:
     virtual bool			supportsTachometerControl();
     virtual UInt8			readTachometerControl(UInt32 index);
     virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
-    //virtual void			disableTachometerControl(UInt32 index);
     
     virtual bool            initialize();
+    virtual void            hasPoweredOn();
     
 public:
 

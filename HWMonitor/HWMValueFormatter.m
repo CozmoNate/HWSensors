@@ -16,6 +16,15 @@ static NSDictionary *gHWMValueFormatterStrippedFormatLocalizationCache;
 
 @implementation HWMValueFormatter
 
++ (BOOL)float:(float)aFloat between:(float)minValue and:(float)maxValue
+{
+    if (aFloat >= minValue && aFloat <= maxValue) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 + (NSString*)formattedValue:(NSNumber*)value usingRulesOfGroup:(NSNumber*)selector configuration:(HWMConfiguration*)configuration
 {
     if (value) {
@@ -34,10 +43,14 @@ static NSDictionary *gHWMValueFormatterStrippedFormatLocalizationCache;
         switch (selector.unsignedIntegerValue) {
             case kHWMGroupTemperature:
             case kHWMGroupSmartTemperature:
+                if (floatValue <= -127 && floatValue >= 127) {
+                    return @"-";
+                }
+
                 if (configuration.useFahrenheit.boolValue) {
                     return [NSString stringWithFormat:@"%1.0f℉", floatValue * (9.0f / 5.0f) + 32.0f];
                 }
-                
+
                 return [NSString stringWithFormat:@"%1.0f℃", floatValue];
                 
             case kHWMGroupVoltage:
@@ -64,16 +77,16 @@ static NSDictionary *gHWMValueFormatterStrippedFormatLocalizationCache;
                 return [NSString stringWithFormat:[gHWMValueFormatterFullFormatLocalizationCache objectForKey:@"%1.2f A"], floatValue];
                 
             case kHWMGroupPower:
+                if (floatValue <= 0)
+                    return @"-";
+                
                 return [NSString stringWithFormat:[gHWMValueFormatterFullFormatLocalizationCache objectForKey:@"%1.2f W"], floatValue];
                 
             case kHWMGroupPWM:
             case kHWMGroupBattery:
             case kHWMGroupSmartRemainingLife:
                 return [NSString stringWithFormat:@"%1.0f%%", floatValue];
-                
-            case kHWMGroupSmartRemainingBlocks:
-                return [NSString stringWithFormat:@"%ld", value.unsignedLongValue];
-                
+
             default:
                 break;
         }
@@ -100,6 +113,10 @@ static NSDictionary *gHWMValueFormatterStrippedFormatLocalizationCache;
         switch (selector.unsignedIntegerValue) {
             case kHWMGroupTemperature:
             case kHWMGroupSmartTemperature:
+                if (floatValue <= -127 && floatValue >= 127) {
+                    return @"-";
+                }
+
                 if (configuration.useFahrenheit.boolValue) {
                     return [NSString stringWithFormat:@"%1.0f°", floatValue * (9.0f / 5.0f) + 32.0f];
                 }
@@ -130,16 +147,16 @@ static NSDictionary *gHWMValueFormatterStrippedFormatLocalizationCache;
                 return [NSString stringWithFormat:[gHWMValueFormatterStrippedFormatLocalizationCache objectForKey:@"%1.2fA"], floatValue];
                 
             case kHWMGroupPower:
+                if (floatValue <= 0)
+                    return @"-";
+
                 return [NSString stringWithFormat:[gHWMValueFormatterStrippedFormatLocalizationCache objectForKey:@"%1.2fW"], floatValue];
                 
             case kHWMGroupPWM:
             case kHWMGroupBattery:
             case kHWMGroupSmartRemainingLife:
                 return [NSString stringWithFormat:@"%1.0f%%", floatValue];
-                
-            case kHWMGroupSmartRemainingBlocks:
-                return [NSString stringWithFormat:@"%ld", value.unsignedLongValue];
-                
+
             default:
                 break;
         }

@@ -16,8 +16,6 @@
 		6A2B4E48152179700093A217 /* W836xxSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A2B4E3C152179700093A217 /* W836xxSensors.cpp */; };
 		6AA172CB150B415200A77CF2 /* FakeSMCDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA172C4150B415200A77CF2 /* FakeSMCDevice.cpp */; };
 		6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA2D0D2150B4B99004757C5 /* FakeSMC.cpp */; };
-		7E003635182D078900847C4E /* FakeSMCKeyStore.kext in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EFF9525182AD5C200C637C8 /* FakeSMCKeyStore.kext */; };
-		7E012DAC182D064500D5CD21 /* FakeSMCPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E012DAA182D064500D5CD21 /* FakeSMCPlugin.cpp */; };
 		7E0EB891169A9A9A000DF2B1 /* evergreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */; };
 		7E0EB897169A9D3C000DF2B1 /* r600.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB895169A9D3C000DF2B1 /* r600.cpp */; };
 		7E0EB89B169A9DBE000DF2B1 /* rv770.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB899169A9DBE000DF2B1 /* rv770.cpp */; };
@@ -26,7 +24,14 @@
 		7E0F901A169AC0EA008CE657 /* evergreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */; };
 		7E148DDA16F7B5E800A3F28E /* nv84.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E148DD816F7B5E800A3F28E /* nv84.cpp */; };
 		7E17E171169C532100E40FC7 /* si.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E17E16F169C532000E40FC7 /* si.cpp */; };
+		7E198709187F480B00BADEA4 /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */; };
+		7E19870A187F480B00BADEA4 /* FakeSMCKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9513182AD44700C637C8 /* FakeSMCKey.cpp */; };
+		7E19870B187F480B00BADEA4 /* FakeSMCKeyHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9515182AD44700C637C8 /* FakeSMCKeyHandler.cpp */; };
+		7E19870C187F480B00BADEA4 /* FakeSMCKeyStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9517182AD44700C637C8 /* FakeSMCKeyStore.cpp */; };
+		7E19870D187F480B00BADEA4 /* FakeSMCKeyStoreUserClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9519182AD44700C637C8 /* FakeSMCKeyStoreUserClient.cpp */; };
+		7E19870E187F480B00BADEA4 /* FakeSMCPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E012DAA182D064500D5CD21 /* FakeSMCPlugin.cpp */; };
 		7E20CCDF17D6DAD400CE769C /* ACPIProbe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E20CCDD17D6DAD400CE769C /* ACPIProbe.cpp */; };
+		7E30C3E218B2B2CD00B5C317 /* ACPIProbeUserClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E30C3E018B2B2CD00B5C317 /* ACPIProbeUserClient.cpp */; };
 		7E5CFA2516988EBE00F0E9AD /* i2c_algo_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */; };
 		7E5CFA2716988EBE00F0E9AD /* i2c_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */; };
 		7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEC2A115E78B7B00537027 /* PTIDSensors.cpp */; };
@@ -62,11 +67,6 @@
 		7EB1366C169C2CE800B42023 /* atom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB1366A169C2CE700B42023 /* atom.cpp */; };
 		7EBEB1DB17B1754D00C114B5 /* GPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEB1D917B1754D00C114B5 /* GPUSensors.cpp */; };
 		7ECCB63E18537A7000D95FB4 /* cik.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCB63D18537A7000D95FB4 /* cik.cpp */; };
-		7EF759931835E39D00FB6CCD /* OEMInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */; };
-		7EFF9534182AD69D00C637C8 /* FakeSMCKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9513182AD44700C637C8 /* FakeSMCKey.cpp */; };
-		7EFF9535182AD69D00C637C8 /* FakeSMCKeyHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9515182AD44700C637C8 /* FakeSMCKeyHandler.cpp */; };
-		7EFF9536182AD69D00C637C8 /* FakeSMCKeyStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9517182AD44700C637C8 /* FakeSMCKeyStore.cpp */; };
-		7EFF9537182AD69D00C637C8 /* FakeSMCKeyStoreUserClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFF9519182AD44700C637C8 /* FakeSMCKeyStoreUserClient.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -76,7 +76,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				7E003635182D078900847C4E /* FakeSMCKeyStore.kext in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +133,9 @@
 		7E20CCDE17D6DAD400CE769C /* ACPIProbe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPIProbe.h; sourceTree = "<group>"; };
 		7E24AF81169CBB9700040AF4 /* atom-names.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "atom-names.h"; sourceTree = "<group>"; };
 		7E2678B5182523CE00B405DE /* smc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smc.h; sourceTree = "<group>"; };
+		7E30C3E018B2B2CD00B5C317 /* ACPIProbeUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ACPIProbeUserClient.cpp; sourceTree = "<group>"; };
+		7E30C3E118B2B2CD00B5C317 /* ACPIProbeUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPIProbeUserClient.h; sourceTree = "<group>"; };
+		7E3D41CB18B2B667002F6559 /* ACPIProbeArgument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACPIProbeArgument.h; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E43FB4D17CC04C800A6AAAA /* IntelDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntelDefinitions.h; sourceTree = "<group>"; };
 		7E5CFA1D16988E9C00F0E9AD /* linux_definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = linux_definitions.h; sourceTree = "<group>"; };
@@ -212,8 +214,8 @@
 		7EB13666169C288000B42023 /* radeon_atombios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radeon_atombios.h; sourceTree = "<group>"; };
 		7EB1366A169C2CE700B42023 /* atom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atom.cpp; sourceTree = "<group>"; };
 		7EB1366B169C2CE700B42023 /* atom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atom.h; sourceTree = "<group>"; };
-		7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OEMInfo.cpp; sourceTree = "<group>"; };
-		7EB73CF91791BCBC007D93D4 /* OEMInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMInfo.h; sourceTree = "<group>"; };
+		7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OEMInfo.cpp; path = ../Shared/OEMInfo.cpp; sourceTree = "<group>"; };
+		7EB73CF91791BCBC007D93D4 /* OEMInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEMInfo.h; path = ../Shared/OEMInfo.h; sourceTree = "<group>"; };
 		7EB7E70017833A290071B3F0 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWSensorsVersion.pch; sourceTree = "<group>"; };
 		7EB7E70117833ACE0071B3F0 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		7EBCF8791615A84C00E16D3B /* timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
@@ -232,10 +234,7 @@
 		7EFF9518182AD44700C637C8 /* FakeSMCKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCKeyStore.h; path = FakeSMCKeyStore/FakeSMCKeyStore.h; sourceTree = SOURCE_ROOT; };
 		7EFF9519182AD44700C637C8 /* FakeSMCKeyStoreUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FakeSMCKeyStoreUserClient.cpp; path = FakeSMCKeyStore/FakeSMCKeyStoreUserClient.cpp; sourceTree = SOURCE_ROOT; };
 		7EFF951A182AD44700C637C8 /* FakeSMCKeyStoreUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCKeyStoreUserClient.h; path = FakeSMCKeyStore/FakeSMCKeyStoreUserClient.h; sourceTree = SOURCE_ROOT; };
-		7EFF9525182AD5C200C637C8 /* FakeSMCKeyStore.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeSMCKeyStore.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EFF9527182AD5C200C637C8 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
-		7EFF952A182AD5C200C637C8 /* FakeSMCKeyStore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FakeSMCKeyStore-Info.plist"; sourceTree = "<group>"; };
-		7EFF9530182AD5C200C637C8 /* FakeSMCKeyStore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FakeSMCKeyStore-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,13 +273,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7EFF9520182AD5C200C637C8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -288,7 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				6A9955BD14EFAD360052C702 /* Shared */,
-				7E1121D11828426400EFB948 /* FakeSMCKeyStore */,
+				7E19870F187F488B00BADEA4 /* FakeSMCKeyStore */,
 				1D05ABE913ED0DAD00EADBF6 /* FakeSMC */,
 				1D6FE3EF13FEBFF200376E64 /* ACPISensors */,
 				7E79B81B15BA99350079AAE8 /* CPUSensors */,
@@ -307,7 +299,6 @@
 				6A4E4739152178A00038C5DE /* LPCSensors.kext */,
 				7E79B81A15BA99350079AAE8 /* CPUSensors.kext */,
 				7EADE20715E5602E00FD117C /* GPUSensors.kext */,
-				7EFF9525182AD5C200C637C8 /* FakeSMCKeyStore.kext */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -499,27 +490,6 @@
 			name = nouveau;
 			sourceTree = "<group>";
 		};
-		7E1121D11828426400EFB948 /* FakeSMCKeyStore */ = {
-			isa = PBXGroup;
-			children = (
-				7EB73CF91791BCBC007D93D4 /* OEMInfo.h */,
-				7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */,
-				7EFF9514182AD44700C637C8 /* FakeSMCKey.h */,
-				7EFF9513182AD44700C637C8 /* FakeSMCKey.cpp */,
-				7EFF9516182AD44700C637C8 /* FakeSMCKeyHandler.h */,
-				7EFF9515182AD44700C637C8 /* FakeSMCKeyHandler.cpp */,
-				7EFF9518182AD44700C637C8 /* FakeSMCKeyStore.h */,
-				7EFF9517182AD44700C637C8 /* FakeSMCKeyStore.cpp */,
-				7EFF951A182AD44700C637C8 /* FakeSMCKeyStoreUserClient.h */,
-				7EFF9519182AD44700C637C8 /* FakeSMCKeyStoreUserClient.cpp */,
-				7E012DAB182D064500D5CD21 /* FakeSMCPlugin.h */,
-				7E012DAA182D064500D5CD21 /* FakeSMCPlugin.cpp */,
-				7EFF9529182AD5C200C637C8 /* Supporting Files */,
-			);
-			name = FakeSMCKeyStore;
-			path = Shared;
-			sourceTree = "<group>";
-		};
 		7E138D88169A909F007BE068 /* radeon */ = {
 			isa = PBXGroup;
 			children = (
@@ -549,11 +519,33 @@
 			name = radeon;
 			sourceTree = "<group>";
 		};
+		7E19870F187F488B00BADEA4 /* FakeSMCKeyStore */ = {
+			isa = PBXGroup;
+			children = (
+				7EB73CF91791BCBC007D93D4 /* OEMInfo.h */,
+				7EB73CF81791BCBC007D93D4 /* OEMInfo.cpp */,
+				7EFF9514182AD44700C637C8 /* FakeSMCKey.h */,
+				7EFF9513182AD44700C637C8 /* FakeSMCKey.cpp */,
+				7EFF9516182AD44700C637C8 /* FakeSMCKeyHandler.h */,
+				7EFF9515182AD44700C637C8 /* FakeSMCKeyHandler.cpp */,
+				7EFF9518182AD44700C637C8 /* FakeSMCKeyStore.h */,
+				7EFF9517182AD44700C637C8 /* FakeSMCKeyStore.cpp */,
+				7EFF951A182AD44700C637C8 /* FakeSMCKeyStoreUserClient.h */,
+				7EFF9519182AD44700C637C8 /* FakeSMCKeyStoreUserClient.cpp */,
+				7E012DAB182D064500D5CD21 /* FakeSMCPlugin.h */,
+				7E012DAA182D064500D5CD21 /* FakeSMCPlugin.cpp */,
+			);
+			name = FakeSMCKeyStore;
+			path = FakeSMC;
+			sourceTree = "<group>";
+		};
 		7E20CCDC17D6DABE00CE769C /* ACPIProbe */ = {
 			isa = PBXGroup;
 			children = (
 				7E20CCDE17D6DAD400CE769C /* ACPIProbe.h */,
 				7E20CCDD17D6DAD400CE769C /* ACPIProbe.cpp */,
+				7E30C3E118B2B2CD00B5C317 /* ACPIProbeUserClient.h */,
+				7E30C3E018B2B2CD00B5C317 /* ACPIProbeUserClient.cpp */,
 				7E18E3EB17DD19DF0069FF52 /* Readme.rtf */,
 			);
 			name = ACPIProbe;
@@ -718,6 +710,7 @@
 		7EF31BB716207C6B00E9B055 /* Kernel */ = {
 			isa = PBXGroup;
 			children = (
+				7E3D41CB18B2B667002F6559 /* ACPIProbeArgument.h */,
 				7E2678B5182523CE00B405DE /* smc.h */,
 				6A9955C214EFAEE50052C702 /* cpuid.h */,
 				7EBCF8791615A84C00E16D3B /* timer.h */,
@@ -731,16 +724,6 @@
 				7EFF9527182AD5C200C637C8 /* Kernel.framework */,
 			);
 			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
-		7EFF9529182AD5C200C637C8 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				7EFF952A182AD5C200C637C8 /* FakeSMCKeyStore-Info.plist */,
-				7EFF9530182AD5C200C637C8 /* FakeSMCKeyStore-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			path = ../FakeSMCKeyStore;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -832,23 +815,6 @@
 			productReference = 7EADE20715E5602E00FD117C /* GPUSensors.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
-		7EFF9524182AD5C200C637C8 /* FakeSMCKeyStore */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7EFF9531182AD5C200C637C8 /* Build configuration list for PBXNativeTarget "FakeSMCKeyStore" */;
-			buildPhases = (
-				7EFF951F182AD5C200C637C8 /* Sources */,
-				7EFF9520182AD5C200C637C8 /* Frameworks */,
-				7EFF9522182AD5C200C637C8 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = FakeSMCKeyStore;
-			productName = FakeSMCKeyStore;
-			productReference = 7EFF9525182AD5C200C637C8 /* FakeSMCKeyStore.kext */;
-			productType = "com.apple.product-type.kernel-extension";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -874,7 +840,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7EFF9524182AD5C200C637C8 /* FakeSMCKeyStore */,
 				1D05ABE313ED0DAD00EADBF6 /* FakeSMC */,
 				1D6FE3ED13FEBFF200376E64 /* ACPISensors */,
 				7E79B81915BA99350079AAE8 /* CPUSensors */,
@@ -920,13 +885,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7EFF9522182AD5C200C637C8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -935,7 +893,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AA172CB150B415200A77CF2 /* FakeSMCDevice.cpp in Sources */,
+				7E19870B187F480B00BADEA4 /* FakeSMCKeyHandler.cpp in Sources */,
+				7E19870C187F480B00BADEA4 /* FakeSMCKeyStore.cpp in Sources */,
+				7E19870E187F480B00BADEA4 /* FakeSMCPlugin.cpp in Sources */,
+				7E198709187F480B00BADEA4 /* OEMInfo.cpp in Sources */,
+				7E19870A187F480B00BADEA4 /* FakeSMCKey.cpp in Sources */,
 				6AA2D0D4150B4B99004757C5 /* FakeSMC.cpp in Sources */,
+				7E19870D187F480B00BADEA4 /* FakeSMCKeyStoreUserClient.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -946,6 +910,7 @@
 				1D6FE3FF13FEC03100376E64 /* ACPISensors.cpp in Sources */,
 				7E78CD4815EC03BC00D57BC4 /* PTIDSensors.cpp in Sources */,
 				7E20CCDF17D6DAD400CE769C /* ACPIProbe.cpp in Sources */,
+				7E30C3E218B2B2CD00B5C317 /* ACPIProbeUserClient.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1018,26 +983,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7EFF951F182AD5C200C637C8 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7EFF9534182AD69D00C637C8 /* FakeSMCKey.cpp in Sources */,
-				7EF759931835E39D00FB6CCD /* OEMInfo.cpp in Sources */,
-				7EFF9535182AD69D00C637C8 /* FakeSMCKeyHandler.cpp in Sources */,
-				7EFF9536182AD69D00C637C8 /* FakeSMCKeyStore.cpp in Sources */,
-				7EFF9537182AD69D00C637C8 /* FakeSMCKeyStoreUserClient.cpp in Sources */,
-				7E012DAC182D064500D5CD21 /* FakeSMCPlugin.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
 		1D05ABB413ED0D7000EADBF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1078,7 +1030,7 @@
 		1D05ABB513ED0D7000EADBF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1337,66 +1289,6 @@
 			};
 			name = Release;
 		};
-		7EFF9532182AD5C200C637C8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FakeSMCKeyStore/FakeSMCKeyStore-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				INFOPLIST_FILE = "FakeSMCKeyStore/FakeSMCKeyStore-Info.plist";
-				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/";
-				MODULE_NAME = org.hwsensors.FakeSMCKeyStore;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = kext;
-			};
-			name = Debug;
-		};
-		7EFF9533182AD5C200C637C8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FakeSMCKeyStore/FakeSMCKeyStore-Prefix.pch";
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				INFOPLIST_FILE = "FakeSMCKeyStore/FakeSMCKeyStore-Info.plist";
-				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/";
-				MODULE_NAME = org.hwsensors.FakeSMCKeyStore;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = kext;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1450,15 +1342,6 @@
 			buildConfigurations = (
 				7EADE21215E5602F00FD117C /* Debug */,
 				7EADE21315E5602F00FD117C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7EFF9531182AD5C200C637C8 /* Build configuration list for PBXNativeTarget "FakeSMCKeyStore" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7EFF9532182AD5C200C637C8 /* Debug */,
-				7EFF9533182AD5C200C637C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -4,8 +4,8 @@
 <array>
 	<string>TA0p|Ambient</string>
 	<string>TA0P|Ambient</string>
-	<string>TC:081D|CPU Core %X</string>
-	<string>TC:081C|CPU Core %X</string>
+	<string>TC:0F1D|CPU Core %X</string>
+	<string>TC:091C|CPU Core %X</string>
 	<string>TCAD|CPU Package</string>
 	<string>TC:B32D|CPU %X Package</string>
 	<string>TC:A41C|CPU %X Core</string>
@@ -50,20 +50,6 @@
 	<string>TG:132p|GPU %X Proximity</string>
 	<string>TG:132M|GPU %X Memory</string>
 	<string>TZ:0F1C|Thermal Zone %X</string>
-	<string>MlC:081|CPU Core %X</string>
-	<string>MC:081C|CPU Core %X</string>
-	<string>MlCP|CPU Package Multiplier</string>
-	<string>MPkC|CPU Package Multiplier</string>
-	<string>CC:081C|CPU Core %X</string>
-	<string>CCPC|CPU Package</string>
-	<string>CG0C|GPU Core</string>
-	<string>CG0M|GPU Memory</string>
-	<string>CG0S|GPU Shaders</string>
-	<string>CG0R|GPU ROPs</string>
-	<string>CG:132C|GPU %X Core</string>
-	<string>CG:132M|GPU %X Memory</string>
-	<string>CG:132S|GPU %X Shaders</string>
-	<string>CG:132R|GPU %X ROPs</string>
 	<string>VC0C|CPU Core</string>
 	<string>VC:A4AC|CPU %X</string>
 	<string>VV1R|CPU VTT</string>
@@ -115,6 +101,7 @@
 	<string>PCPC|CPU Package Cores</string>
 	<string>PCPG|CPU Package Graphics</string>
 	<string>PCTR|CPU Package Total</string>
+	<string>PCPT|CPU Package Total</string>
 	<string>PCPD|CPU Package DRAM</string>
 	<string>PC1R|CPU Rail</string>
 	<string>PC5R|CPU 1.5V S0 Rail</string>

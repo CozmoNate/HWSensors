@@ -38,6 +38,7 @@ class FakeSMCKeyStoreUserClient : public IOUserClient
 
 private:
 	FakeSMCKeyStore *keyStore;
+    bool clientHasAdminPrivilegue;
 
 public:
 	/* IOService overrides */

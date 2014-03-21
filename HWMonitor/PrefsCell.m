@@ -19,6 +19,10 @@
     if (_checkBox) {
         [self addCursorRect:_checkBox.frame cursor:[NSCursor pointingHandCursor]];
     }
+
+    if (_forcedCheckBox) {
+        [self addCursorRect:_forcedCheckBox.frame cursor:[NSCursor pointingHandCursor]];
+    }
 }
 
 @end

@@ -3,7 +3,27 @@
 //  HWMonitor
 //
 //  Created by kozlek on 23.02.13.
-// 
+//
+
+/*
+ *  Copyright (c) 2013 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License
+ *  as published by the Free Software Foundation; either version 2
+ *  of the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ *  02111-1307, USA.
+ *
+ */
 
 #import "PopupController.h"
 
@@ -24,7 +44,10 @@
 #import "HWMSensorsGroup.h"
 #import "HWMSensor.h"
 
-#import "HWMEngineHelper.h"
+#import "NSTableView+HWMEngineHelper.h"
+#import "NSImage+HighResolutionLoading.h"
+#import "NSView+NSLayoutConstraintFilter.h"
+#import "NSWindow+BackgroundBlur.h"
 
 @implementation PopupController
 
@@ -52,10 +75,10 @@
         _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
         
         _statusItemView = [[StatusItemView alloc] initWithFrame:NSMakeRect(0, 0, 22, 22) statusItem:_statusItem];
-        
-        _statusItemView.image = [NSImage imageNamed:@"thermometer"];
-        _statusItemView.alternateImage = [NSImage imageNamed:@"thermometer_template"];
-        
+
+        [_statusItemView setImage:[NSImage imageNamed:@"scale"]];
+        [_statusItemView setAlternateImage:[NSImage imageNamed:@"scale-white"]];
+
         [_statusItemView setAction:@selector(togglePanel:)];
         [_statusItemView setTarget:self];
 
@@ -78,22 +101,22 @@
             //    [Localizer localizeView:_toolbarView];
             
             // Make main menu font size smaller
-            NSFont* font = [NSFont menuFontOfSize:13];
-            NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
-            
-            for (id subItem in [_mainMenu itemArray]) {
-                if ([subItem isKindOfClass:[NSMenuItem class]]) {
-                    NSMenuItem* menuItem = subItem;
-                    NSString* title = [menuItem title];
-                    
-                    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
-                    
-                    [menuItem setAttributedTitle:attributedTitle];
-                }
-            }
-            
-            [self layoutContent:YES orderFront:NO animated:NO];
-            
+//            NSFont* font = [NSFont menuFontOfSize:13];
+//            NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+//
+//            [_mainMenu setFont:font];
+//
+//            for (id subItem in [_mainMenu itemArray]) {
+//                if ([subItem isKindOfClass:[NSMenuItem class]]) {
+//                    NSMenuItem* menuItem = subItem;
+//                    NSString* title = [menuItem title];
+//                    
+//                    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
+//                    
+//                    [menuItem setAttributedTitle:attributedTitle];
+//                }
+//            }
+
             [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
             [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
             
@@ -132,15 +155,8 @@
     }
 
     [self layoutContent:NO orderFront:YES animated:NO];
-    
-//    if (!_windowFilter) {
-//        _windowFilter = [[WindowFilter alloc] initWithWindow:self.window name:@"CIGaussianBlur" andOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
-//    }
-//    else {
-//        [_windowFilter setFilterOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.5] forKey:@"inputRadius"]];
-//    }
 
-    self.statusItemView.isHighlighted = YES;
+    //self.statusItemView.isHighlighted = YES;
 
     //if (menubarWindow.attachedToMenuBar) {
     //    [NSApp activateIgnoringOtherApps:YES];
@@ -162,7 +178,7 @@
     
     [self.window orderOut:nil];
 
-    self.statusItemView.isHighlighted = NO;
+    //self.statusItemView.isHighlighted = NO;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidClose:)]) {
         [self.delegate popupDidClose:self];
@@ -177,13 +193,14 @@
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
     if (resizeToContent) {
-        __block CGFloat height = menubarWindow.toolbarHeight + 6;
+
+        __block CGFloat height = 0;
 
         [_sensorsAndGroupsCollectionSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             height += [self tableView:_tableView heightOfRow:idx];
         }];
 
-        if (height > menubarWindow.screen.visibleFrame.size.height) {
+        if (height + menubarWindow.toolbarHeight > menubarWindow.screen.visibleFrame.size.height) {
             height = menubarWindow.screen.visibleFrame.size.height - menubarWindow.toolbarHeight;
             [_scrollView setHasVerticalScroller:YES];
         }
@@ -191,55 +208,32 @@
             [_scrollView setHasVerticalScroller:NO];
         }
 
+        NSLayoutConstraint *constraint = [_tableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
+
         if (animated) {
-            [[menubarWindow animator] setFrame:NSMakeRect(menubarWindow.frame.origin.x,
-                                                          menubarWindow.frame.origin.y + (menubarWindow.frame.size.height - height),
-                                                          menubarWindow.frame.size.width,
-                                                          height)
-                                       display:YES];
+            [[constraint animator] setConstant:height + 1]; // height+1 avoid flickering artifact
         }
         else {
-            [menubarWindow setFrame:NSMakeRect(menubarWindow.frame.origin.x,
-                                               menubarWindow.frame.origin.y + (menubarWindow.frame.size.height - height),
-                                               menubarWindow.frame.size.width,
-                                               height)
-                            display:YES];
+            [constraint setConstant:height];
         }
     }
 
     // Order front if needed
     if (orderFront) {
         [menubarWindow makeKeyAndOrderFront:self];
+        [self.window setBackgroundBlurRadius:5];
     }
 }
 
 -(void)reloadSensorsTableView:(id)sender
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        NSMutableArray *newSensorsAndGroups = [_monitorEngine.sensorsAndGroups mutableCopy];
+        NSArray *oldSensorsAndGroups = [_sensorsAndGroupsCollectionSnapshot copy];
+        _sensorsAndGroupsCollectionSnapshot = [_monitorEngine.sensorsAndGroups copy];
 
-        NSIndexSet *inserted, *removed, *from, *to;
+        [_tableView updateWithObjectValues:_sensorsAndGroupsCollectionSnapshot previousObjectValues:oldSensorsAndGroups];
 
-        [HWMEngineHelper compareItemsList:_sensorsAndGroupsCollectionSnapshot toItemsList:newSensorsAndGroups additions:&inserted deletions:&removed movedFrom:&from movedTo:&to];
-
-        _sensorsAndGroupsCollectionSnapshot = newSensorsAndGroups;
-
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-
-            [self layoutContent:YES orderFront:NO animated:/*new.count < old.count*/YES];
-
-            [_tableView removeRowsAtIndexes:removed withAnimation:NSTableViewAnimationSlideUp];
-            [_tableView insertRowsAtIndexes:inserted withAnimation:NSTableViewAnimationSlideDown];
-
-            while (from.count) {
-                [_tableView moveRowAtIndex:from.firstIndex toIndex:to.firstIndex];
-                [(NSMutableIndexSet*)from removeIndex:from.firstIndex];
-                [(NSMutableIndexSet*)to removeIndex:to.firstIndex];
-            }
-
-        } completionHandler:^{
-            //[_tableView reloadData];
-        }];
+        [self layoutContent:YES orderFront:NO animated:YES];
     }];
 
 }
@@ -262,10 +256,10 @@
         {
             if (!menubarWindow.attachedToMenuBar) {
                 [NSApp activateIgnoringOtherApps:YES];
-                [self.window makeKeyAndOrderFront:self];
+                //[self.window makeKeyAndOrderFront:self];
             }
-            
-            [self showWindow:nil];
+
+            [self showWindow:self];
             self.statusItemView.isHighlighted = YES;
         }
     }
@@ -273,17 +267,23 @@
 
 - (void)showAboutPanel:(id)sender
 {
-    [_aboutController showWindow:sender];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_aboutController showWindow:sender];
+    }];
 }
 
 - (void)openPreferences:(id)sender
 {
-    [_appController showWindow:sender];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_appController showWindow:sender];
+    }];
 }
 
 - (void)showGraphsWindow:(id)sender
 {
-    [_graphsController showWindow:sender];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_graphsController showWindow:sender];
+    }];
 }
 
 #pragma mark -
@@ -294,7 +294,6 @@
     if ([keyPath isEqual:@"monitorEngine.configuration.colorTheme"]) {
         [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
         [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-        [_tableView setNeedsDisplay:YES];
     }
     else if ([keyPath isEqual:@"monitorEngine.sensorsAndGroups"]) {
         [self reloadSensorsTableView:self];
@@ -328,9 +327,7 @@
     [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
     [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
 
-    if (menubarWindow.isKeyWindow) {
-        [NSApp activateIgnoringOtherApps:YES];
-    }
+    [NSApp activateIgnoringOtherApps:NO];
 }
 
 - (void)windowDidBecomeKey:(id)sender
@@ -364,7 +361,7 @@
 {
     HWMItem *item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
 
-    NSUInteger height = [item isKindOfClass:[HWMSensorsGroup class]] ? 19 : 17;
+    NSUInteger height = [item isKindOfClass:[HWMSensorsGroup class]] ? 21 : 17;
 
     if (item.legend)
         height += 10;

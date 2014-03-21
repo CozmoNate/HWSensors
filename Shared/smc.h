@@ -20,7 +20,7 @@
 #ifndef __SMC_H__
 #define __SMC_H__
 
-#define VERSION               "0.01"
+#define VERSION               "1.0"
 
 #define OP_NONE               0
 #define OP_LIST               1 
@@ -86,7 +86,7 @@ typedef struct {
 UInt32 _strtoul(const char *str, int size, int base);
 void _ultostr(char *str, UInt32 val);
 
-kern_return_t SMCOpen(io_connect_t *conn, const char *serviceName);
+kern_return_t SMCOpen(const char *serviceName, io_connect_t *conn);
 kern_return_t SMCClose(io_connect_t conn);
 kern_return_t SMCCall(io_connect_t conn, int index, SMCKeyData_t *inputStructure, SMCKeyData_t *outputStructure);
 kern_return_t SMCReadKey(io_connect_t conn, const UInt32Char_t key, SMCVal_t *val);

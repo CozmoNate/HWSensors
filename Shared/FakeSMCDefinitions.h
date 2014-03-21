@@ -137,6 +137,9 @@
 #define KEY_FAKESMC_FORMAT_CPU_FREQUENCY		"CC%XC"
 #define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY       "CCPC"
 
+#define KEY_FAKESMC_FORMAT_CPU_FREQUENCY_AVERAGE		"CC%XA"
+#define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY_AVERAGE       "CCPA"
+
 #define KEY_FAKESMC_GPU_FREQUENCY               "CG0C"
 #define KEY_FAKESMC_FORMAT_GPU_FREQUENCY        "CG%XC"
 #define KEY_FAKESMC_GPU_MEMORY_FREQUENCY        "CG0M"
@@ -223,6 +226,10 @@
 #define bit_write(c,p,m) (c ? bit_set(p,m) : bit_clear(p,m))
 #define BIT(x)	(0x01 << (x))
 #define LONGBIT(x) ((unsigned long)0x00000001 << (x))
+
+//#define ABS(x) ((x) >= 0 ? (x) : -(x))
+#define SGN(x) ((x) > 0 ? 1.0 : -1.0)
+#define ROUND(x) ((x) + 0.5 > int(x) + 1 ? int(x) + 1 : int(x))
 
 typedef enum {
     LEFT_LOWER_FRONT, CENTER_LOWER_FRONT, RIGHT_LOWER_FRONT,

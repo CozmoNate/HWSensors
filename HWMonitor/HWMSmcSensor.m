@@ -41,10 +41,14 @@
 
     switch (self.selector.unsignedIntegerValue) {
         case kHWMGroupTemperature:
-            return  floatValue >= 100 ? kHWMSensorLevelExceeded :
-                    floatValue >= 85 ? kHWMSensorLevelHigh :
-                    floatValue >= 70 ? kHWMSensorLevelModerate :
-                    kHWMSensorLevelNormal;
+            if (floatValue > -127 && floatValue < 127) {
+                return  floatValue >= 100 ? kHWMSensorLevelExceeded :
+                        floatValue >= 85 ? kHWMSensorLevelHigh :
+                        floatValue >= 70 ? kHWMSensorLevelModerate :
+                        kHWMSensorLevelNormal;
+            }
+
+            break;
 
 //        case kHWMGroupPWM:
 //            return  floatValue >= 70 ? kHWMSensorLevelHigh :
@@ -68,7 +72,6 @@
     SMCVal_t info;
 
     if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, self.name.UTF8String, &info)) {
-
         return [SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType];
     }
 

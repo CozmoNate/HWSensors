@@ -30,15 +30,19 @@
 
 #include <IOKit/IOService.h>
 
-class FakeSMCKeyHandler : public IOService {
+#include "FakeSMCKey.h"
 
+class FakeSMCKeyHandler : public IOService {
 	OSDeclareAbstractStructors(FakeSMCKeyHandler)
 
+    friend class FakeSMCKey;
+
+private:
+    virtual IOReturn    readKeyCallback(const char *key, const char *type, const UInt8 size, void *buffer);
+    virtual IOReturn    writeKeyCallback(const char *key, const char *type, const UInt8 size, const void *value);
+    
 public:
     UInt32              getProbeScore();
-    virtual IOReturn    readKeyValueCallback(const char *key, const char *type, const UInt8 size, void *buffer);
-    virtual IOReturn    writeKeyValueCallback(const char *key, const char *type, const UInt8 size, const void *value);
-
 };
 
 #endif /* defined(__HWSensors__FakeSMCKeyHandler__) */
