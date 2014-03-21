@@ -42,7 +42,7 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 const CGFloat OBMenuBarWindowArrowHeight = 10.0;
 const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 const CGFloat OBMenuBarWindowArrowOffset = 6;
-const CGFloat OBMenuBarWindowCornerRadius = 7;
+const CGFloat OBMenuBarWindowCornerRadius = 6;
 
 @interface OBMenuBarWindow ()
 
@@ -511,7 +511,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 7;
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification
 {
-    [[self.contentView superview] setNeedsDisplayInRect:[self titleBarRect]];
+    [[self.contentView superview] setNeedsDisplay:YES];
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(windowDidBecomeKey:)]) {
         [self.delegate performSelector:@selector(windowDidBecomeKey:)
                             withObject:self];
@@ -777,20 +777,11 @@ const CGFloat OBMenuBarWindowCornerRadius = 7;
 
     BOOL isAttached = window.attachedToMenuBar;
 
-    // Draw the window background
-    if (window.colorTheme) {
-        [window.colorTheme.listBackgroundColor set];
-    }
-    else {
-        [[NSColor windowBackgroundColor] set];
-    }
-    NSRectFill(bounds);
-
     // Erase the default title bar
     NSRectFillUsingOperation(window.titleBarRect, NSCompositeClear);
 
     // Create the window shape
-    NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0,
+    NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0 + 0.5,
                                          originY + height - (isAttached ? OBMenuBarWindowArrowHeight : 0));
     NSPoint arrowPointMiddle;
     if (window.attachedToMenuBar)
@@ -803,7 +794,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 7;
         arrowPointMiddle = NSMakePoint(originX + width / 2.0,
                                        originY + height - (isAttached ? arrowHeight : 0));
     }
-    NSPoint arrowPointRight = NSMakePoint(originX + (width + arrowWidth) / 2.0,
+    NSPoint arrowPointRight = NSMakePoint(originX + (width + arrowWidth) / 2.0 - 0.5,
                                           originY + height - (isAttached ? arrowHeight : 0));
     NSPoint topLeft = NSMakePoint(originX,
                                   originY + height - (isAttached ? arrowHeight : 0));
@@ -960,7 +951,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 7;
     NSRect separatorRect = NSMakeRect(originX, originY + height - window.toolbarView.frame.size.height - (isAttached ? arrowHeight : 0) - 1, width, 1);
     NSRectFill(separatorRect);
 
-    // Draw stroke
+    // Draw toolbar stroke
     if (window.colorTheme.toolbarStrokeColor) {
         // Stroke open path
         NSBezierPath *strokePath = [NSBezierPath bezierPath];
@@ -984,9 +975,41 @@ const CGFloat OBMenuBarWindowCornerRadius = 7;
             [[window.colorTheme.toolbarStrokeColor highlightWithLevel:0.25] set];
         }
 
+        [NSGraphicsContext saveGraphicsState];
         [borderPath addClip];
         [strokePath setLineWidth:1.0];
         [strokePath stroke];
+        [NSGraphicsContext restoreGraphicsState];
+    }
+
+    // Draw list
+
+    NSPoint listBottomRight = NSMakePoint(originX + width, originY + 0.5);
+    NSPoint listBottomLeft = NSMakePoint(originX, originY + 0.5);
+
+    NSBezierPath *listPath = [NSBezierPath bezierPath];
+
+    [listPath moveToPoint:bottomRight];
+    [listPath lineToPoint:NSMakePoint(listBottomRight.x, listBottomRight.y + cornerRadius)];
+
+    [listPath appendBezierPathWithArcFromPoint:listBottomRight
+                                       toPoint:NSMakePoint(listBottomLeft.x + cornerRadius, listBottomRight.y)
+                                        radius:cornerRadius];
+
+    [listPath appendBezierPathWithArcFromPoint:listBottomLeft
+                                       toPoint:bottomLeft
+                                        radius:cornerRadius];
+    [listPath lineToPoint:bottomLeft];
+
+    // Draw the window background
+
+    [listPath addClip];
+    [window.colorTheme.listBackgroundColor setFill];
+    [listPath fill];
+
+    if (window.colorTheme.listStrokeColor) {
+        [window.colorTheme.listStrokeColor setStroke];
+        [listPath stroke];
     }
 }
 

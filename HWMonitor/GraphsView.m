@@ -142,8 +142,8 @@
     [NSBezierPath clipRect:NSMakeRect(LeftViewMargin, TopViewMargin, self.bounds.size.width - LeftViewMargin - RightViewMargin, self.bounds.size.height - TopViewMargin - BottomViewMargin)];
     
     [[[NSGradient alloc]
-      initWithStartingColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.85]
-                endingColor:[NSColor colorWithCalibratedWhite:0.25 alpha:0.85]]
+      initWithStartingColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.25]
+                endingColor:[NSColor colorWithCalibratedWhite:0.35 alpha:0.25]]
         drawInRect:self.bounds angle:270];
     
     // Draw marks
