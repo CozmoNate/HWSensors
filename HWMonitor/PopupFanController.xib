@@ -81,10 +81,10 @@
                                                             <binding destination="-2" name="enabled" keyPath="controller.enabled" id="xKD-Dd-xTy"/>
                                                             <binding destination="-2" name="enabled2" keyPath="controller.input" previousBinding="xKD-Dd-xTy" id="ME1-gd-kcn">
                                                                 <dictionary key="options">
-                                                                    <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                                                    <integer key="NSNullPlaceholder" value="0"/>
                                                                     <integer key="NSNotApplicablePlaceholder" value="0"/>
                                                                     <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                                                    <integer key="NSNullPlaceholder" value="0"/>
+                                                                    <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                                                     <string key="NSValueTransformerName">NSIsNotNil</string>
                                                                 </dictionary>
                                                             </binding>
@@ -142,10 +142,10 @@
                                                             <binding destination="-2" name="enabled" keyPath="controller.enabled" id="p5Q-9T-eSJ"/>
                                                             <binding destination="-2" name="enabled2" keyPath="controller.input" previousBinding="p5Q-9T-eSJ" id="4Na-P7-2ep">
                                                                 <dictionary key="options">
-                                                                    <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                                                    <integer key="NSNullPlaceholder" value="0"/>
                                                                     <integer key="NSNotApplicablePlaceholder" value="0"/>
                                                                     <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                                                    <integer key="NSNullPlaceholder" value="0"/>
+                                                                    <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                                                     <string key="NSValueTransformerName">NSIsNotNil</string>
                                                                 </dictionary>
                                                             </binding>
@@ -176,10 +176,10 @@
                                                             <binding destination="-2" name="enabled" keyPath="controller.enabled" id="Mde-OC-MtZ"/>
                                                             <binding destination="-2" name="enabled2" keyPath="controller.input" previousBinding="Mde-OC-MtZ" id="Wxp-Lx-JPD">
                                                                 <dictionary key="options">
-                                                                    <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                                                    <integer key="NSNullPlaceholder" value="0"/>
                                                                     <integer key="NSNotApplicablePlaceholder" value="0"/>
                                                                     <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                                                    <integer key="NSNullPlaceholder" value="0"/>
+                                                                    <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                                                     <string key="NSValueTransformerName">NSIsNotNil</string>
                                                                 </dictionary>
                                                             </binding>

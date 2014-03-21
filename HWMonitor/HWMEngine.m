@@ -1278,7 +1278,7 @@ static HWMEngine* gDefaultEngine = nil;
                    toolbarEndColor:[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.93]
                 toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.93] highlightWithLevel:0.30]
                  toolbarStartColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.93] highlightWithLevel:0.55]
-                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.15 alpha:1.0]
+                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.25 alpha:1.0]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:YES];
 }

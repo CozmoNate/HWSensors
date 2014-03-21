@@ -771,14 +771,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 6;
     CGFloat arrowHeight = OBMenuBarWindowArrowHeight;
     CGFloat arrowWidth = OBMenuBarWindowArrowWidth;
     CGFloat cornerRadius = OBMenuBarWindowCornerRadius;
-
-    [[NSColor clearColor] set];
-    NSRectFill(NSMakeRect(0, 0, width, height));
-
     BOOL isAttached = window.attachedToMenuBar;
-
-    // Erase the default title bar
-    NSRectFillUsingOperation(window.titleBarRect, NSCompositeClear);
 
     // Create the window shape
     NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0 + 0.5,
@@ -805,7 +798,43 @@ const CGFloat OBMenuBarWindowCornerRadius = 6;
     NSPoint bottomRight = NSMakePoint(originX + width,
                                       originY + height - (isAttached ? arrowHeight : 0) - window.toolbarView.frame.size.height);
 
-    // Border closed path
+    // Erase the window content
+    NSRectFillUsingOperation(NSMakeRect(originX, originY, width, height), NSCompositeClear);
+
+    // Draw the window background
+
+    NSPoint listBottomRight = NSMakePoint(originX + width, originY + 0.5);
+    NSPoint listBottomLeft = NSMakePoint(originX, originY + 0.5);
+
+    NSBezierPath *listPath = [NSBezierPath bezierPath];
+
+    [listPath moveToPoint:bottomRight];
+    [listPath lineToPoint:NSMakePoint(listBottomRight.x, listBottomRight.y + cornerRadius * 1.5)];
+
+    [listPath appendBezierPathWithArcFromPoint:listBottomRight
+                                       toPoint:NSMakePoint(listBottomLeft.x + cornerRadius, listBottomRight.y)
+                                        radius:cornerRadius];
+
+    [listPath appendBezierPathWithArcFromPoint:listBottomLeft
+                                       toPoint:bottomLeft
+                                        radius:cornerRadius];
+    [listPath lineToPoint:bottomLeft];
+
+
+
+    [NSGraphicsContext saveGraphicsState];
+    [listPath addClip];
+    [window.colorTheme.listBackgroundColor setFill];
+    [listPath fill];
+
+    if (window.colorTheme.listStrokeColor) {
+        [window.colorTheme.listStrokeColor setStroke];
+        [listPath setLineWidth:0.5];
+        [listPath stroke];
+    }
+    [NSGraphicsContext restoreGraphicsState];
+
+    // Toolbar border closed path
     NSBezierPath *borderPath = [NSBezierPath bezierPath];
     [borderPath moveToPoint:arrowPointLeft];
     [borderPath lineToPoint:arrowPointMiddle];
@@ -872,7 +901,6 @@ const CGFloat OBMenuBarWindowCornerRadius = 6;
     [bottomColor set];
     NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
 
-
     // Draw some subtle noise to the titlebar if the window is the key window
     if (isKey || attachedToMenuBar)
     {
@@ -910,15 +938,8 @@ const CGFloat OBMenuBarWindowCornerRadius = 6;
     [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topRight.x - 0.5, topRight.y - 0.5)
                                             toPoint:NSMakePoint(bottomRight.x + 0.5, topRight.y - cornerRadius)
                                              radius:cornerRadius];
-
-    if (window.colorTheme) {
-        [[window.colorTheme.toolbarShadowColor highlightWithLevel:0.5] set];
-    }
-    else {
-        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] set];
-    }
-
-    [highlightPath setLineWidth:window.colorTheme.toolbarStrokeColor ? 3.0 : 1.0];
+    [[window.colorTheme.toolbarShadowColor highlightWithLevel:0.5] set];
+    [highlightPath setLineWidth:window.colorTheme.toolbarStrokeColor ? 2.0 : 1.0];
     [highlightPath stroke];
 
     [NSGraphicsContext restoreGraphicsState];
@@ -975,41 +996,9 @@ const CGFloat OBMenuBarWindowCornerRadius = 6;
             [[window.colorTheme.toolbarStrokeColor highlightWithLevel:0.25] set];
         }
 
-        [NSGraphicsContext saveGraphicsState];
         [borderPath addClip];
-        [strokePath setLineWidth:1.0];
+        [strokePath setLineWidth:0.5];
         [strokePath stroke];
-        [NSGraphicsContext restoreGraphicsState];
-    }
-
-    // Draw list
-
-    NSPoint listBottomRight = NSMakePoint(originX + width, originY + 0.5);
-    NSPoint listBottomLeft = NSMakePoint(originX, originY + 0.5);
-
-    NSBezierPath *listPath = [NSBezierPath bezierPath];
-
-    [listPath moveToPoint:bottomRight];
-    [listPath lineToPoint:NSMakePoint(listBottomRight.x, listBottomRight.y + cornerRadius)];
-
-    [listPath appendBezierPathWithArcFromPoint:listBottomRight
-                                       toPoint:NSMakePoint(listBottomLeft.x + cornerRadius, listBottomRight.y)
-                                        radius:cornerRadius];
-
-    [listPath appendBezierPathWithArcFromPoint:listBottomLeft
-                                       toPoint:bottomLeft
-                                        radius:cornerRadius];
-    [listPath lineToPoint:bottomLeft];
-
-    // Draw the window background
-
-    [listPath addClip];
-    [window.colorTheme.listBackgroundColor setFill];
-    [listPath fill];
-
-    if (window.colorTheme.listStrokeColor) {
-        [window.colorTheme.listStrokeColor setStroke];
-        [listPath stroke];
     }
 }
 
