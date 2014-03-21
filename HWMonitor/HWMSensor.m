@@ -47,7 +47,7 @@
 @dynamic graph;
 @dynamic group;
 @dynamic controller;
-@dynamic acceptors;
+@dynamic consumers;
 
 @synthesize alarmLevel = _alarmLevel;
 

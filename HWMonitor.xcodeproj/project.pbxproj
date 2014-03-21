@@ -496,6 +496,7 @@
 		7EF2A0FB17303B9100D8641C /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		7EF2A0FD17303B9C00D8641C /* AboutController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutController.xib; sourceTree = "<group>"; };
 		7EF393C1185C8D990033F1AB /* smc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = smc.c; path = Shared/smc.c; sourceTree = "<group>"; };
+		7EF9BDEC18DC165B0017DB91 /* HWMEngine 1.9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HWMEngine 1.9.xcdatamodel"; sourceTree = "<group>"; };
 		7EFD75B4185C73A300C01C2B /* PopupFanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupFanCell.h; sourceTree = "<group>"; };
 		7EFD75B5185C73A300C01C2B /* PopupFanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupFanCell.m; sourceTree = "<group>"; };
 		7EFD75B7185C763500C01C2B /* PopupFanController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupFanController.xib; sourceTree = "<group>"; };
@@ -1756,6 +1757,7 @@
 		7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7EF9BDEC18DC165B0017DB91 /* HWMEngine 1.9.xcdatamodel */,
 				7E31FB5B18D4B2DA0036F842 /* HWMEngine 1.8.xcdatamodel */,
 				7E063A4618C20DA20083F52F /* HWMEngine 1.7.xcdatamodel */,
 				7E24ABEB188FACF700810B9D /* HWMEngine 1.4.xcdatamodel */,
@@ -1766,7 +1768,7 @@
 				7ED3178A18814C3E00A7FDF5 /* HWMEngine 1.3.xcdatamodel */,
 				7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */,
 			);
-			currentVersion = 7E31FB5B18D4B2DA0036F842 /* HWMEngine 1.8.xcdatamodel */;
+			currentVersion = 7EF9BDEC18DC165B0017DB91 /* HWMEngine 1.9.xcdatamodel */;
 			path = HWMEngine.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
