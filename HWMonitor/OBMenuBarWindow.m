@@ -803,8 +803,8 @@ const CGFloat OBMenuBarWindowCornerRadius = 5;
 
     // Draw the window background
 
-    NSPoint listBottomRight = NSMakePoint(originX + width, originY + 0.5);
-    NSPoint listBottomLeft = NSMakePoint(originX, originY + 0.5);
+    NSPoint listBottomRight = NSMakePoint(originX + width, originY);
+    NSPoint listBottomLeft = NSMakePoint(originX, originY);
 
     NSBezierPath *listPath = [NSBezierPath bezierPath];
 
