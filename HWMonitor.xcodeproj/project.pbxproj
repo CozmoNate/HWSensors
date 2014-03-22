@@ -236,6 +236,13 @@
 			remoteGlobalIDString = 7E3299CC18B8D0490022FB53;
 			remoteInfo = org.hwsensors.HWMonitorHelper;
 		};
+		7EF29D7B18DDAF9E005484A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = Sparkle;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1292,6 +1299,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				7EF29D7C18DDAF9E005484A0 /* PBXTargetDependency */,
 				7EEC9F4818B8D0FB00BDB9D7 /* PBXTargetDependency */,
 			);
 			name = HWMonitor;
@@ -1597,6 +1605,11 @@
 			isa = PBXTargetDependency;
 			target = 7E3299CC18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */;
 			targetProxy = 7EEC9F4718B8D0FB00BDB9D7 /* PBXContainerItemProxy */;
+		};
+		7EF29D7C18DDAF9E005484A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Sparkle;
+			targetProxy = 7EF29D7B18DDAF9E005484A0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

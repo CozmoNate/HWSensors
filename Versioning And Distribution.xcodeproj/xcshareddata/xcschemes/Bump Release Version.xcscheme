@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7E2ACD9D1791B6090061C677"
-               BuildableName = "Bump Minor Version"
+               BuildableName = "Bump Release Version"
                BlueprintName = "Bump Release Version"
                ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
             </BuildableReference>
