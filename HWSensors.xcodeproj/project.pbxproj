@@ -233,7 +233,6 @@
 		7EFF9518182AD44700C637C8 /* FakeSMCKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCKeyStore.h; path = FakeSMCKeyStore/FakeSMCKeyStore.h; sourceTree = SOURCE_ROOT; };
 		7EFF9519182AD44700C637C8 /* FakeSMCKeyStoreUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FakeSMCKeyStoreUserClient.cpp; path = FakeSMCKeyStore/FakeSMCKeyStoreUserClient.cpp; sourceTree = SOURCE_ROOT; };
 		7EFF951A182AD44700C637C8 /* FakeSMCKeyStoreUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCKeyStoreUserClient.h; path = FakeSMCKeyStore/FakeSMCKeyStoreUserClient.h; sourceTree = SOURCE_ROOT; };
-		7EFF9527182AD5C200C637C8 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,7 +308,6 @@
 				6A10C18F1506B2A4005E0897 /* IOKit.framework */,
 				7E40054E1585031B009AECED /* CoreData.framework */,
 				7E9060D41708950500BF5BBF /* Foundation.framework */,
-				7EFF9526182AD5C200C637C8 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -714,14 +712,6 @@
 				7EBCF8791615A84C00E16D3B /* timer.h */,
 			);
 			name = Kernel;
-			sourceTree = "<group>";
-		};
-		7EFF9526182AD5C200C637C8 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				7EFF9527182AD5C200C637C8 /* Kernel.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
