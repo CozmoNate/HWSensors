@@ -992,13 +992,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		7E966D1F18523E1A00313AB1 /* Engine */ = {
+		7E966D1F18523E1A00313AB1 /* HWMEngine */ = {
 			isa = PBXGroup;
 			children = (
 				7EFF4393183649B20094860C /* HWMEngine.h */,
 				7EFF4394183649B20094860C /* HWMEngine.m */,
 			);
-			name = Engine;
+			name = HWMEngine;
 			sourceTree = "<group>";
 		};
 		7EA248DF16D8E93A002231B2 = {
@@ -1112,7 +1112,7 @@
 			isa = PBXGroup;
 			children = (
 				7EC8E7CE183356F4006F85FE /* CoreData */,
-				7E966D1F18523E1A00313AB1 /* Engine */,
+				7E966D1F18523E1A00313AB1 /* HWMEngine */,
 			);
 			name = Engines;
 			sourceTree = "<group>";

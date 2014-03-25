@@ -132,6 +132,8 @@
 
 - (void)drawRect:(NSRect)rect
 {
+    [self calculateGraphBounds];
+
     NSGraphicsContext* context = [NSGraphicsContext currentContext];
     
     [context saveGraphicsState];
