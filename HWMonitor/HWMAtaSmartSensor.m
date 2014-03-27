@@ -1110,10 +1110,10 @@ static void block_device_appeared(void *engine, io_iterator_t iterator)
                     NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(object, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
 
                     if (characteristics) {
-                        NSString *name = [characteristics objectForKey:@"Product Name"];
-                        NSString *serial = [characteristics objectForKey:@"Serial Number"];
+                        NSString *name = [(NSString*)[characteristics objectForKey:@"Product Name"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                        NSString *serial = [(NSString*)[characteristics objectForKey:@"Serial Number"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                         NSString *medium = [characteristics objectForKey:@"Medium Type"];
-                        NSString *revision = [characteristics objectForKey:@"Product Revision Level"];
+                        NSString *revision = [(NSString*)[characteristics objectForKey:@"Product Revision Level"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
                         if (name && serial && revision) {
                             NSString *volumes;

@@ -29,6 +29,7 @@
 #import "HWMSmcFanControlLevel.h"
 #import "HWMSmcFanController.h"
 
+#import "FakeSMCDefinitions.h"
 
 @implementation HWMSmcFanControlLevel
 
@@ -50,7 +51,7 @@
 -(void)setOutput:(NSNumber *)output
 {
     [self willChangeValueForKey:@"output"];
-    [self setPrimitiveValue:output forKey:@"output"];
+    [self setPrimitiveValue:[NSNumber numberWithFloat:ROUND50(output.floatValue)] forKey:@"output"];
     [self didChangeValueForKey:@"output"];
 
     [self.controller inputValueChanged];

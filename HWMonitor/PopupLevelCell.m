@@ -30,7 +30,8 @@
 #import "HWMSmcFanController.h"
 #import "HWMSmcFanControlLevel.h"
 
-#define ROUND50(x) (((int)x / 50) * 50)
+#import "FakeSMCDefinitions.h"
+
 #define CLIP(x) (x) < 0 ? 0 : (x) > 100 ? 100 : (x)
 
 @implementation PopupLevelCell

@@ -43,42 +43,46 @@
 
 -(HWMSmcFanControlLevel*)addOutputLevel:(NSNumber*)output forInputLevel:(NSNumber*)input
 {
-    HWMSmcFanControlLevel *level = [NSEntityDescription insertNewObjectForEntityForName:@"SmcFanControlLevel" inManagedObjectContext:self.managedObjectContext];
+    @synchronized (self) {
+        HWMSmcFanControlLevel *level = [NSEntityDescription insertNewObjectForEntityForName:@"SmcFanControlLevel" inManagedObjectContext:self.managedObjectContext];
 
-    [level setInput:input];
-    [level setOutput:output];
+        [level setInput:input];
+        [level setOutput:output];
 
-    if (self.levels.count) {
-        [level setPrevious:self.levels.lastObject];
+        if (self.levels.count) {
+            [level setPrevious:self.levels.lastObject];
+        }
+
+        [level setController:self];
+
+        return level;
     }
-
-    [level setController:self];
-
-    return level;
 }
 
 -(void)inputValueChanged
 {
-    if (self.enabled.boolValue) {
-        if (!_currentLevel) {
-            for (HWMSmcFanControlLevel *level in self.levels) {
-                if ([self.input.value isGreaterThan:level.input]) {
-                    _currentLevel = level;
+    @synchronized (self) {
+        if (self.enabled.boolValue) {
+            if (!_currentLevel) {
+                for (HWMSmcFanControlLevel *level in self.levels) {
+                    if (!self.input || [self.input.value isGreaterThan:level.input]) {
+                        _currentLevel = level;
+                    }
+                }
+
+                if (!_currentLevel) {
+                    _currentLevel = self.levels.firstObject;
                 }
             }
-
-            if (!_currentLevel) {
-                _currentLevel = self.levels.firstObject;
+            else if (_currentLevel.previous && [self.input.value isLessThan:_currentLevel.previous.input]) {
+                _currentLevel = _currentLevel.previous;
             }
-        }
-        else if (_currentLevel.previous && [self.input.value isLessThan:_currentLevel.previous.input]) {
-            _currentLevel = _currentLevel.previous;
-        }
-        else if (_currentLevel.next && [self.input.value isGreaterThan:_currentLevel.next.input]) {
-            _currentLevel = _currentLevel.next;
-        }
+            else if (_currentLevel.next && [self.input.value isGreaterThan:_currentLevel.next.input]) {
+                _currentLevel = _currentLevel.next;
+            }
 
-        [self updateFanSpeed];
+            [self updateFanSpeed];
+        }
     }
 }
 

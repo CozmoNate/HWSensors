@@ -42,7 +42,7 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 const CGFloat OBMenuBarWindowArrowHeight = 10.0;
 const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 const CGFloat OBMenuBarWindowArrowOffset = 6;
-const CGFloat OBMenuBarWindowCornerRadius = 5;
+const CGFloat OBMenuBarWindowCornerRadius = 7;
 
 @interface OBMenuBarWindow ()
 
@@ -755,7 +755,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5;
     return noiseImage;
 }
 
-- (void)drawContentForKeyWindow:(BOOL)isKey
+- (void)renderContentForKeyWindow:(BOOL)isKey
 {
     OBMenuBarWindow *window = (OBMenuBarWindow *)[self window];
 
@@ -1008,7 +1008,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5;
 
     [contentImage lockFocus];
 
-    [self drawContentForKeyWindow:isKey];
+    [self renderContentForKeyWindow:isKey];
 
     [contentImage unlockFocus];
 
@@ -1073,7 +1073,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5;
         NSImage *content = [window isKeyWindow] || [window attachedToMenuBar] ? [window activeImage] : [window inactiveImage];
 
         if (!content) {
-            [window drawContentForKeyWindow:[window isKeyWindow]];
+            [window renderContentForKeyWindow:[window isKeyWindow]];
         }
         else {
             [content drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];

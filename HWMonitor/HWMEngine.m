@@ -1599,11 +1599,11 @@ static HWMEngine* gDefaultEngine = nil;
                     snprintf(key, 5, KEY_FORMAT_FAN_TARGET, index);
 
                     if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                        [controller addOutputLevel:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType] forInputLevel:@0];
+                        [controller addOutputLevel:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType] forInputLevel:@30];
                     }
                 }
                 else {
-                    [controller addOutputLevel:fan.value forInputLevel:@0];
+                    [controller addOutputLevel:fan.value forInputLevel:@30];
                 }
             }
         }
