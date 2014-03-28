@@ -44,20 +44,25 @@
     self = [super initWithWindowNibName:@"AboutController"];
     
     if (self) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            _creditsUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"html"]];
 
-            NSError *error;
-
-            NSMutableString *html = [[[NSString alloc] initWithContentsOfURL:_creditsUrl encoding:NSUTF8StringEncoding error:&error] mutableCopy];
-
-            [html replaceOccurrencesOfString:@"%version_placeholder" withString:[NSString stringWithFormat:@"Version %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] options:NSCaseInsensitiveSearch range:NSMakeRange(0, html.length)];
-
-            _creditsHtml = [html copy];
-        }];
     }
     
     return self;
+}
+
+-(void)windowDidLoad
+{
+    [super windowDidLoad];
+
+    _creditsUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"html"]];
+
+    NSError *error;
+
+    NSMutableString *html = [[[NSString alloc] initWithContentsOfURL:_creditsUrl encoding:NSUTF8StringEncoding error:&error] mutableCopy];
+
+    [html replaceOccurrencesOfString:@"%version_placeholder" withString:[NSString stringWithFormat:@"Version %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] options:NSCaseInsensitiveSearch range:NSMakeRange(0, html.length)];
+
+    _creditsHtml = [html copy];
 }
 
 -(void)showWindow:(id)sender

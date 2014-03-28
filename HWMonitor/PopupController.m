@@ -81,58 +81,6 @@
 
         [_statusItemView setAction:@selector(togglePanel:)];
         [_statusItemView setTarget:self];
-
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            //[[_titleField cell] setBackgroundStyle:NSBackgroundStyleRaised];
-            
-            // Install status item into the menu bar
-            OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
-            
-            menubarWindow.statusItemView = _statusItemView;
-            menubarWindow.statusItem = _statusItem;
-            menubarWindow.attachedToMenuBar = YES;
-            menubarWindow.hideWindowControls = YES;
-            
-            menubarWindow.toolbarView = _toolbarView;
-            
-            [menubarWindow setWorksWhenModal:YES];
-            
-            //    [Localizer localizeView:menubarWindow];
-            //    [Localizer localizeView:_toolbarView];
-            
-            // Make main menu font size smaller
-//            NSFont* font = [NSFont menuFontOfSize:13];
-//            NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
-//
-//            [_mainMenu setFont:font];
-//
-//            for (id subItem in [_mainMenu itemArray]) {
-//                if ([subItem isKindOfClass:[NSMenuItem class]]) {
-//                    NSMenuItem* menuItem = subItem;
-//                    NSString* title = [menuItem title];
-//                    
-//                    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
-//                    
-//                    [menuItem setAttributedTitle:attributedTitle];
-//                }
-//            }
-
-            [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
-            [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-            
-            [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
-            [_tableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
-            
-            [Localizer localizeView:self.window];
-            [Localizer localizeView:_toolbarView];
-            
-            [self addObserver:self forKeyPath:@"monitorEngine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"monitorEngine.sensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
-
-            [_statusItemView setMonitorEngine:_monitorEngine];
-
-            [self performSelector:@selector(reloadSensorsTableView:) withObject:self afterDelay:0.0];
-        }];
     }
     
     return self;
@@ -141,6 +89,61 @@
 - (void)dealloc
 {
     [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
+}
+
+-(void)windowDidLoad
+{
+    [super windowDidLoad];
+
+    //[[_titleField cell] setBackgroundStyle:NSBackgroundStyleRaised];
+
+    // Install status item into the menu bar
+    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+
+    menubarWindow.statusItemView = _statusItemView;
+    menubarWindow.statusItem = _statusItem;
+    menubarWindow.attachedToMenuBar = YES;
+    menubarWindow.hideWindowControls = YES;
+
+    menubarWindow.toolbarView = _toolbarView;
+
+    [menubarWindow setWorksWhenModal:YES];
+
+    //    [Localizer localizeView:menubarWindow];
+    //    [Localizer localizeView:_toolbarView];
+
+    // Make main menu font size smaller
+    //            NSFont* font = [NSFont menuFontOfSize:13];
+    //            NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+    //
+    //            [_mainMenu setFont:font];
+    //
+    //            for (id subItem in [_mainMenu itemArray]) {
+    //                if ([subItem isKindOfClass:[NSMenuItem class]]) {
+    //                    NSMenuItem* menuItem = subItem;
+    //                    NSString* title = [menuItem title];
+    //
+    //                    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
+    //
+    //                    [menuItem setAttributedTitle:attributedTitle];
+    //                }
+    //            }
+
+    [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
+    [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+
+    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
+    [_tableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
+
+    [Localizer localizeView:self.window];
+    [Localizer localizeView:_toolbarView];
+
+    [self addObserver:self forKeyPath:@"monitorEngine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"monitorEngine.sensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
+
+    [_statusItemView setMonitorEngine:_monitorEngine];
+
+    [self performSelector:@selector(reloadSensorsTableView:) withObject:self afterDelay:0.0];
 }
 
 -(void)showWindow:(id)sender
