@@ -1800,7 +1800,7 @@ static HWMEngine* gDefaultEngine = nil;
     [sensor setSerialNumber:serialNumber];
     [sensor setRotational:[attributes objectForKey:@"rotational"]];
 
-    [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : [sensor.productName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : sensor.productName];
     [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
     [sensor setIdentifier:@"Drive"];
 

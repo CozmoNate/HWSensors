@@ -28,7 +28,7 @@
 		7E1ABD8F185E2CA200412B75 /* Divider.tif in Resources */ = {isa = PBXBuildFile; fileRef = 7E1ABD8E185E2CA200412B75 /* Divider.tif */; };
 		7E2042011730844C00C13B65 /* GraphsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042001730844C00C13B65 /* GraphsController.xib */; };
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
-		7E2042051730D04100C13B65 /* PrefsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* PrefsController.xib */; };
+		7E2042051730D04100C13B65 /* AppController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* AppController.xib */; };
 		7E24ABED188FAFA500810B9D /* 338-enter-fullscreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24ABEC188FAFA500810B9D /* 338-enter-fullscreen@2x.png */; };
 		7E24ABEF188FB01200810B9D /* 338-enter-fullscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24ABEE188FB01200810B9D /* 338-enter-fullscreen.png */; };
 		7E24ABF2188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24ABF0188FB4D000810B9D /* 338-enter-fullscreen-white@2x.png */; };
@@ -135,7 +135,7 @@
 		7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248EB16D8E93A002231B2 /* Cocoa.framework */; };
 		7EA248F616D8E93A002231B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA248F416D8E93A002231B2 /* InfoPlist.strings */; };
 		7EA248F816D8E93A002231B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248F716D8E93A002231B2 /* main.m */; };
-		7EA248FF16D8E93A002231B2 /* PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248FE16D8E93A002231B2 /* PrefsController.m */; };
+		7EA248FF16D8E93A002231B2 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248FE16D8E93A002231B2 /* AppController.m */; };
 		7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2494C16D8EB2D002231B2 /* StatusItemView.m */; };
 		7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
@@ -330,7 +330,7 @@
 		7E1ABD8E185E2CA200412B75 /* Divider.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Divider.tif; sourceTree = "<group>"; };
 		7E2042001730844C00C13B65 /* GraphsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphsController.xib; sourceTree = "<group>"; };
 		7E2042021730CDA000C13B65 /* PopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupController.xib; sourceTree = "<group>"; };
-		7E2042041730D04000C13B65 /* PrefsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefsController.xib; sourceTree = "<group>"; };
+		7E2042041730D04000C13B65 /* AppController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppController.xib; sourceTree = "<group>"; };
 		7E24ABEB188FACF700810B9D /* HWMEngine 1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.4.xcdatamodel"; sourceTree = "<group>"; };
 		7E24ABEC188FAFA500810B9D /* 338-enter-fullscreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "338-enter-fullscreen@2x.png"; sourceTree = "<group>"; };
 		7E24ABEE188FB01200810B9D /* 338-enter-fullscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "338-enter-fullscreen.png"; sourceTree = "<group>"; };
@@ -470,8 +470,8 @@
 		7EA248F516D8E93A002231B2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EA248F716D8E93A002231B2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7EA248F916D8E93A002231B2 /* HWMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HWMonitor-Prefix.pch"; sourceTree = "<group>"; };
-		7EA248FD16D8E93A002231B2 /* PrefsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefsController.h; sourceTree = "<group>"; };
-		7EA248FE16D8E93A002231B2 /* PrefsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrefsController.m; sourceTree = "<group>"; };
+		7EA248FD16D8E93A002231B2 /* AppController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		7EA248FE16D8E93A002231B2 /* AppController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorDefinitions.h; sourceTree = "<group>"; };
 		7EA2494B16D8EB2D002231B2 /* StatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemView.h; sourceTree = "<group>"; };
 		7EA2494C16D8EB2D002231B2 /* StatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusItemView.m; sourceTree = "<group>"; };
@@ -941,7 +941,7 @@
 			name = PopupAtaSmartSensorCell;
 			sourceTree = "<group>";
 		};
-		7E4C76B418A574F20050BEFD /* Objective-C Categories */ = {
+		7E4C76B418A574F20050BEFD /* Categories */ = {
 			isa = PBXGroup;
 			children = (
 				7ED6AE0318833B840005B30C /* NSTableView+HWMEngineHelper.h */,
@@ -957,7 +957,7 @@
 				7EC95E2018D42FCB00DD7B4D /* NSWindow+BackgroundBlur.h */,
 				7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m */,
 			);
-			name = "Objective-C Categories";
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		7E4E349F18B8A6EC008EA5F9 /* Linked */ = {
@@ -990,15 +990,6 @@
 				7E9060EA1708951800BF5BBF /* smcutil-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7E966D1F18523E1A00313AB1 /* HWMEngine */ = {
-			isa = PBXGroup;
-			children = (
-				7EFF4393183649B20094860C /* HWMEngine.h */,
-				7EFF4394183649B20094860C /* HWMEngine.m */,
-			);
-			name = HWMEngine;
 			sourceTree = "<group>";
 		};
 		7EA248DF16D8E93A002231B2 = {
@@ -1037,8 +1028,8 @@
 			isa = PBXGroup;
 			children = (
 				7EA2493A16D8EA95002231B2 /* HWMonitorDefinitions.h */,
-				7E4C76B418A574F20050BEFD /* Objective-C Categories */,
-				7EA2490A16D8E9B0002231B2 /* Engines */,
+				7E4C76B418A574F20050BEFD /* Categories */,
+				7EA2490A16D8E9B0002231B2 /* HWMEngine */,
 				7EA2490916D8E9A7002231B2 /* Controllers */,
 				7ECDDE3E16DDF19A00085FFF /* User Interface */,
 				7EA248F216D8E93A002231B2 /* Supporting Files */,
@@ -1099,8 +1090,9 @@
 		7EA2490916D8E9A7002231B2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7EF2A0FB17303B9100D8641C /* MainMenu.xib */,
 				7E0648F216DF3B8300ACB851 /* LaunchAtLoginController */,
-				7EF2A1041730532D00D8641C /* Prefs Window Controller */,
+				7EF2A1041730532D00D8641C /* App and Prefs Window Controller */,
 				7EF2A1031730519600D8641C /* Popup Panel Controller */,
 				7EF2A1021730518A00D8641C /* Graphs Window Controller */,
 				7EF2A0FF17303C3600D8641C /* About Panel Controller */,
@@ -1108,13 +1100,18 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		7EA2490A16D8E9B0002231B2 /* Engines */ = {
+		7EA2490A16D8E9B0002231B2 /* HWMEngine */ = {
 			isa = PBXGroup;
 			children = (
-				7EC8E7CE183356F4006F85FE /* CoreData */,
-				7E966D1F18523E1A00313AB1 /* HWMEngine */,
+				7E19DEC71843D30E00229B0E /* Base Classes */,
+				7E19DEC61843D30200229B0E /* Sensors */,
+				7E063A5018C227100083F52F /* Controllers */,
+				7E19DEC51843D2F500229B0E /* Graphs */,
+				7EFF4393183649B20094860C /* HWMEngine.h */,
+				7EFF4394183649B20094860C /* HWMEngine.m */,
+				7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */,
 			);
-			name = Engines;
+			name = HWMEngine;
 			sourceTree = "<group>";
 		};
 		7EA2494A16D8EB0B002231B2 /* Views & Controls */ = {
@@ -1137,18 +1134,6 @@
 			name = Versioning;
 			sourceTree = "<group>";
 		};
-		7EC8E7CE183356F4006F85FE /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */,
-				7E19DEC71843D30E00229B0E /* Base Classes */,
-				7E19DEC61843D30200229B0E /* Sensors */,
-				7E063A5018C227100083F52F /* Controllers */,
-				7E19DEC51843D2F500229B0E /* Graphs */,
-			);
-			name = CoreData;
-			sourceTree = "<group>";
-		};
 		7ECDDE3E16DDF19A00085FFF /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
@@ -1156,7 +1141,6 @@
 				7EA2494A16D8EB0B002231B2 /* Views & Controls */,
 				7EA2490816D8E942002231B2 /* Icons */,
 				7EFDE525185C9FF00022FD66 /* Fonts */,
-				7EF2A0FB17303B9100D8641C /* MainMenu.xib */,
 				7EDDC87116FA5DA50072B15B /* Localizer.h */,
 				7EDDC87216FA5DA50072B15B /* Localizer.m */,
 				7EDA1AAB16D936410012A0DC /* Localizable.strings */,
@@ -1213,17 +1197,17 @@
 			name = "Popup Panel Controller";
 			sourceTree = "<group>";
 		};
-		7EF2A1041730532D00D8641C /* Prefs Window Controller */ = {
+		7EF2A1041730532D00D8641C /* App and Prefs Window Controller */ = {
 			isa = PBXGroup;
 			children = (
 				7E19DECD1843E45F00229B0E /* Cells */,
 				7ED6AE06188347FD0005B30C /* PrefsToolbarItem.h */,
 				7ED6AE07188347FD0005B30C /* PrefsToolbarItem.m */,
-				7EA248FD16D8E93A002231B2 /* PrefsController.h */,
-				7EA248FE16D8E93A002231B2 /* PrefsController.m */,
-				7E2042041730D04000C13B65 /* PrefsController.xib */,
+				7EA248FD16D8E93A002231B2 /* AppController.h */,
+				7EA248FE16D8E93A002231B2 /* AppController.m */,
+				7E2042041730D04000C13B65 /* AppController.xib */,
 			);
-			name = "Prefs Window Controller";
+			name = "App and Prefs Window Controller";
 			sourceTree = "<group>";
 		};
 		7EFDE525185C9FF00022FD66 /* Fonts */ = {
@@ -1489,7 +1473,7 @@
 				7E2042011730844C00C13B65 /* GraphsController.xib in Resources */,
 				7E24ABED188FAFA500810B9D /* 338-enter-fullscreen@2x.png in Resources */,
 				7E2042031730CDA000C13B65 /* PopupController.xib in Resources */,
-				7E2042051730D04100C13B65 /* PrefsController.xib in Resources */,
+				7E2042051730D04100C13B65 /* AppController.xib in Resources */,
 				7EEC9F4418B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist in Resources */,
 				7EED6D6F1734F8E700248870 /* 16-line-chart.png in Resources */,
 				7E309FCA18C30FB1001033A1 /* 31-circle-plus.png in Resources */,
@@ -1540,7 +1524,7 @@
 				7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */,
 				7E1900B0184279CD00C6A0E8 /* HWMGraph.m in Sources */,
 				7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */,
-				7EA248FF16D8E93A002231B2 /* PrefsController.m in Sources */,
+				7EA248FF16D8E93A002231B2 /* AppController.m in Sources */,
 				7EFE61B7183581090009BD0D /* HWMSensor.m in Sources */,
 				7E2DEA2018C467DC00D97F89 /* HWMSmcFanController.m in Sources */,
 				7EF034F0185F73B3003CDEFB /* HWMValueFormatter.m in Sources */,

@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PrefsController">
+        <customObject id="-2" userLabel="File's Owner" customClass="AppController">
             <connections>
                 <outlet property="favoritesTableView" destination="eYG-oD-xEa" id="CkM-vZ-3V2"/>
                 <outlet property="sensorsTableView" destination="SCh-vL-Yku" id="iDT-be-cqz"/>
@@ -1851,8 +1851,8 @@
         <image name="04-eye-white" width="20" height="13"/>
         <image name="338-enter-fullscreen" width="18" height="18"/>
         <image name="338-enter-fullscreen-white" width="18" height="18"/>
-        <image name="411-roundabout" width="28" height="22"/>
-        <image name="411-roundabout-white" width="28" height="22"/>
+        <image name="411-roundabout" width="18" height="14"/>
+        <image name="411-roundabout-white" width="18" height="14"/>
         <image name="Divider" width="1200" height="2"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSRefreshTemplate" width="10" height="12"/>

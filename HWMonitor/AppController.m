@@ -26,7 +26,7 @@
  *
  */
 
-#import "PrefsController.h"
+#import "AppController.h"
 #import "HWMonitorDefinitions.h"
 
 #import "PopupGroupCell.h"
@@ -44,7 +44,7 @@
 
 #import "NSTableView+HWMEngineHelper.h"
 
-@implementation PrefsController
+@implementation AppController
 
 #pragma mark
 #pragma mark Properties:
@@ -88,43 +88,50 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"PrefsController"];
+    self = [super initWithWindowNibName:@"AppController"];
     
     if (self != nil)
     {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             
-            [Localizer localizeView:self.window];
 
-            [self.window.toolbar.items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if ([obj isKindOfClass:[PrefsToolbarItem class]]) {
-                    [Localizer localizeView:[(PrefsToolbarItem*)obj linkedView]];
-                }
-            }];
-            
-            [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPrefsItemDataType]];
-            [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
-            [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPrefsItemDataType]];
-            [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
-
-            [self.window.toolbar setSelectedItemIdentifier:@"General"];
-            [self switchView:self.window.toolbar];
-            
-            [[self.window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
-
-            [self addObserver:self forKeyPath:@"monitorEngine.favorites" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
     
     return self;
 }
 
+- (void)windowDidLoad
+{
+    [super windowDidLoad];
+
+    [Localizer localizeView:self.window];
+
+    [self.window.toolbar.items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:[PrefsToolbarItem class]]) {
+            [Localizer localizeView:[(PrefsToolbarItem*)obj linkedView]];
+        }
+    }];
+
+    [_favoritesTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPrefsItemDataType]];
+    [_favoritesTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
+    [_sensorsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPrefsItemDataType]];
+    [_sensorsTableView setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
+
+    [self.window.toolbar setSelectedItemIdentifier:@"General"];
+    [self switchView:self.window.toolbar];
+
+    [[self.window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
+
+    [self addObserver:self forKeyPath:@"monitorEngine.favorites" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
+}
+
 -(void)showWindow:(id)sender
 {
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
-    
+
     [self.monitorEngine updateSmcAndDeviceSensors];
 }
 
