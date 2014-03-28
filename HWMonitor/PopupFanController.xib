@@ -194,7 +194,7 @@
                                                                     <string key="NSValueTransformerName">NSIsNotNil</string>
                                                                 </dictionary>
                                                             </binding>
-                                                            <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.input" id="lpr-of-XYR"/>
+                                                            <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.input" id="d0w-dw-LsJ"/>
                                                         </connections>
                                                     </textField>
                                                     <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.84999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="Axt-bF-Z3O" userLabel="Input Slider">
@@ -208,7 +208,7 @@
                                                                 </configuration>
                                                             </ciFilter>
                                                         </contentFilters>
-                                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="13.412956403187209" tickMarkPosition="above" sliderType="circular" id="cFv-kF-3cG"/>
+                                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="13.412956403187209" tickMarkPosition="left" sliderType="circular" id="cFv-kF-3cG"/>
                                                         <connections>
                                                             <action selector="sliderHasMoved:" target="1ke-pJ-1BQ" id="WjH-YD-hFg"/>
                                                             <binding destination="-2" name="enabled" keyPath="controller.enabled" id="xKD-Dd-xTy"/>
@@ -240,7 +240,7 @@
                                                                 </configuration>
                                                             </ciFilter>
                                                         </contentFilters>
-                                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="3000" doubleValue="1553.5429853127134" tickMarkPosition="below" sliderType="circular" id="pco-Dl-sWp"/>
+                                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="3000" doubleValue="1553.5429853127134" tickMarkPosition="right" sliderType="circular" id="pco-Dl-sWp"/>
                                                         <connections>
                                                             <action selector="sliderHasMoved:" target="1ke-pJ-1BQ" id="kur-vT-qFo"/>
                                                             <binding destination="-2" name="hidden" keyPath="controller.enabled" previousBinding="k2A-Kq-WUy" id="EIs-2i-43R">
