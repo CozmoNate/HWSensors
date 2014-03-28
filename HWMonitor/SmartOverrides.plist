@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>Samsung based SSDs</key>
+<array>
 	<dict>
+		<key>Description</key>
+		<string>Samsung based SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>SAMSUNG SSD PM800 .*GB</string>
@@ -29,8 +30,9 @@
 			<string>POR_Recovery_Count</string>
 		</dict>
 	</dict>
-	<key>JMicron based SSDs - 2</key>
 	<dict>
+		<key>Description</key>
+		<string>JMicron based SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>ADATA S596 Turbo</string>
@@ -67,8 +69,9 @@
 			<string>Unknown_Attribute</string>
 		</dict>
 	</dict>
-	<key>JMicron based SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>JMicron based SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>Kingston SSDNow V Series [0-9]*GB</string>
@@ -89,8 +92,39 @@
 			<string>Good/Sys_Block_Count</string>
 		</dict>
 	</dict>
-	<key>Kingston branded X25-V SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Kingston branded X25-V SSD</string>
+		<key>NameMatch</key>
+		<array>
+			<string>KINGSTON SSDNow 40GB</string>
+		</array>
+		<key>FirmwareMatch</key>
+		<array>
+			<string>2CV102(J[89A-Z]|[K-Z].)</string>
+		</array>
+		<key>Attributes</key>
+		<dict>
+			<key>192,raw48</key>
+			<string>Unsafe_Shutdown_Count</string>
+			<key>225,raw48</key>
+			<string>Host_Writes_32MiB</string>
+			<key>226,raw48</key>
+			<string>Workld_Media_Wear_Indic</string>
+			<key>227,raw48</key>
+			<string>Workld_Host_Reads_Perc</string>
+			<key>228,raw48</key>
+			<string>Workload_Minutes</string>
+		</dict>
+	</dict>
+	<dict>
+		<key>Description</key>
+		<string>Kingston branded X25-V SSD</string>
+		<key>Warning</key>
+		<string>This drive may require a firmware update to
+fix possible drive hangs when reading SMART self-test log.
+To update Kingston branded drives, a modified Intel update
+tool must be used. Search for &quot;kingston 40gb firmware&quot;</string>
 		<key>NameMatch</key>
 		<array>
 			<string>KINGSTON SSDNow 40GB</string>
@@ -109,8 +143,9 @@
 			<string>Workload_Minutes</string>
 		</dict>
 	</dict>
-	<key>Intel DC S3700 Series SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel DC S3700 Series SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDSC(1N|2B)A(100|200|400|800)G3</string>
@@ -153,8 +188,9 @@
 			<string>Host_Reads_32MiB</string>
 		</dict>
 	</dict>
-	<key>Intel DC S3500 Series SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel DC S3500 Series SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDSC(1N|2B)B(080|120|160|240|300|400|480|600|800)G.</string>
@@ -197,8 +233,9 @@
 			<string>Host_Reads_32MiB</string>
 		</dict>
 	</dict>
-	<key>Intel 330/335 Series SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel 330/335 Series SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDSC2CT(060|120|180|240)A[34]</string>
@@ -217,8 +254,9 @@
 			<string>NAND_Writes_1GiB</string>
 		</dict>
 	</dict>
-	<key>Intel 530 Series SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel 530 Series SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDSC2BW(080|120|180|240|360|480)A4</string>
@@ -255,8 +293,9 @@
 			<string>NAND_Writes_1GiB</string>
 		</dict>
 	</dict>
-	<key>Intel 525 Series SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel 525 Series SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDMCEAC(030|060|090|120|180|240)B3</string>
@@ -293,8 +332,9 @@
 			<string>NAND_Writes_1GiB</string>
 		</dict>
 	</dict>
-	<key>Intel 520 Series SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel 520 Series SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDSC2[BC]W(060|120|180|240|480)A3F?</string>
@@ -329,8 +369,9 @@
 			<string>NAND_Writes_1GiB</string>
 		</dict>
 	</dict>
-	<key>Intel 510 Series SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel 510 Series SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDSC2MH(120|250)A2</string>
@@ -343,8 +384,9 @@
 			<string>Host_Writes_32MiB</string>
 		</dict>
 	</dict>
-	<key>Intel 710 Series SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel 710 Series SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDSA2BZ(100|200|300)G3</string>
@@ -377,8 +419,9 @@
 			<string>Host_Reads_32MiB</string>
 		</dict>
 	</dict>
-	<key>Intel 320 Series SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel 320 Series SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDSA[12][BC][WT](040|080|120|160|300|600)G3A?</string>
@@ -411,8 +454,9 @@
 			<string>Host_Reads_32MiB</string>
 		</dict>
 	</dict>
-	<key>Intel 313 Series SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel 313 Series SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDSA2VP(020|024)G3</string>
@@ -443,8 +487,9 @@
 			<string>Host_Reads_32MiB</string>
 		</dict>
 	</dict>
-	<key>Intel X18-M/X25-M/X25-V G2 SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel X18-M/X25-M/X25-V G2 SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDSA[12]M(040|080|120|160)G2.*</string>
@@ -463,8 +508,9 @@
 			<string>Workload_Minutes</string>
 		</dict>
 	</dict>
-	<key>Intel X18-M/X25-M G1 SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel X18-M/X25-M G1 SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>INTEL SSDSA[12]MH(080|160)G1.*</string>
@@ -483,8 +529,9 @@
 			<string>Intel_Internal</string>
 		</dict>
 	</dict>
-	<key>Intel X25-E SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Intel X25-E SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>SSDSA2SH(032|064)G1.* INTEL</string>
@@ -503,8 +550,9 @@
 			<string>Intel_Internal</string>
 		</dict>
 	</dict>
-	<key>Indilinx Barefoot 3 based SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Indilinx Barefoot 3 based SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>OCZ-VECTOR</string>
@@ -539,8 +587,9 @@
 			<string>Total_NAND_Prog_Ct_GiB</string>
 		</dict>
 	</dict>
-	<key>Indilinx Barefoot_2/Everest/Martini based SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Indilinx Barefoot_2/Everest/Martini based SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>OCZ VERTEX[ -]PLUS</string>
@@ -555,8 +604,9 @@
 			<string>Lifetime_Writes</string>
 		</dict>
 	</dict>
-	<key>Indilinx Barefoot based SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>Indilinx Barefoot based SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>Corsair CSSD-V(32|60|64|128|256)GB2</string>
@@ -613,8 +663,52 @@
 			<string>Indilinx_Internal</string>
 		</dict>
 	</dict>
-	<key>Crucial/Micron RealSSD m4/C400</key>
 	<dict>
+		<key>Description</key>
+		<string>Crucial/Micron RealSSD m4/C400/P400</string>
+		<key>NameMatch</key>
+		<array>
+			<string>C400-MTFDDA[ACK](064|128|256|512)MAM</string>
+			<string>M4-CT(064|128|256|512)M4SSD[123]</string>
+			<string>MTFDDAK(064|128|256|512|050|100|200|400)MA[RN]-1[JKS]1AA.*</string>
+		</array>
+		<key>FirmwareMatch</key>
+		<array>
+			<string>030[9-Z]|03[1-Z].|0[4-Z]..|[1-Z]....*</string>
+		</array>
+		<key>Attributes</key>
+		<dict>
+			<key>170,raw48</key>
+			<string>Grown_Failing_Block_Ct</string>
+			<key>171,raw48</key>
+			<string>Program_Fail_Count</string>
+			<key>172,raw48</key>
+			<string>Erase_Fail_Count</string>
+			<key>173,raw48</key>
+			<string>Wear_Leveling_Count</string>
+			<key>174,raw48</key>
+			<string>Unexpect_Power_Loss_Ct</string>
+			<key>181,raw48</key>
+			<string>Non4k_Aligned_Access</string>
+			<key>183,raw48</key>
+			<string>SATA_Iface_Downshift</string>
+			<key>189,raw48</key>
+			<string>Factory_Bad_Block_Ct</string>
+			<key>202,raw48</key>
+			<string>Perc_Rated_Life_Used</string>
+			<key>206,raw48</key>
+			<string>Write_Error_Rate</string>
+		</dict>
+	</dict>
+	<dict>
+		<key>Description</key>
+		<string>Crucial/Micron RealSSD m4/C400</string>
+		<key>Warning</key>
+		<string>This drive may hang after 5184 hours of power-on time:
+http://www.tomshardware.com/news/Crucial-m4-Firmware-BSOD,14544.html
+See the following web pages for firmware updates:
+http://www.crucial.com/support/firmware.aspx
+http://www.micron.com/products/solid-state-storage/client-ssd#software</string>
 		<key>NameMatch</key>
 		<array>
 			<string>C400-MTFDDA[ACK](064|128|256|512)MAM</string>
@@ -644,8 +738,9 @@
 			<string>Write_Error_Rate</string>
 		</dict>
 	</dict>
-	<key>Crucial/Micron RealSSD C300/M500</key>
 	<dict>
+		<key>Description</key>
+		<string>Crucial/Micron RealSSD C300/M500</string>
 		<key>NameMatch</key>
 		<array>
 			<string>C300-CTFDDA[AC](064|128|256)MAG</string>
@@ -675,8 +770,9 @@
 			<string>Write_Error_Rate</string>
 		</dict>
 	</dict>
-	<key>Apacer SDM4</key>
 	<dict>
+		<key>Description</key>
+		<string>Apacer SDM4</string>
 		<key>NameMatch</key>
 		<array>
 			<string>GB SATA Flash Drive</string>
@@ -698,8 +794,9 @@
 			<string>Average_Erase_Count</string>
 		</dict>
 	</dict>
-	<key>SandForce Driven SSDs</key>
 	<dict>
+		<key>Description</key>
+		<string>SandForce Driven SSD</string>
 		<key>NameMatch</key>
 		<array>
 			<string>SandForce 1st Ed\\.</string>
@@ -795,41 +892,5 @@
 			<string>Lifetime_Reads_GiB</string>
 		</dict>
 	</dict>
-	<key>Crucial/Micron RealSSD m4/C400/P400</key>
-	<dict>
-		<key>NameMatch</key>
-		<array>
-			<string>C400-MTFDDA[ACK](064|128|256|512)MAM</string>
-			<string>M4-CT(064|128|256|512)M4SSD[123]</string>
-			<string>MTFDDAK(064|128|256|512|050|100|200|400)MA[RN]-1[JKS]1AA.*</string>
-		</array>
-		<key>FirmwareMatch</key>
-		<array>
-			<string>030[9-Z]|03[1-Z].|0[4-Z]..|[1-Z]....*</string>
-		</array>
-		<key>Attributes</key>
-		<dict>
-			<key>170,raw48</key>
-			<string>Grown_Failing_Block_Ct</string>
-			<key>171,raw48</key>
-			<string>Program_Fail_Count</string>
-			<key>172,raw48</key>
-			<string>Erase_Fail_Count</string>
-			<key>173,raw48</key>
-			<string>Wear_Leveling_Count</string>
-			<key>174,raw48</key>
-			<string>Unexpect_Power_Loss_Ct</string>
-			<key>181,raw48</key>
-			<string>Non4k_Aligned_Access</string>
-			<key>183,raw48</key>
-			<string>SATA_Iface_Downshift</string>
-			<key>189,raw48</key>
-			<string>Factory_Bad_Block_Ct</string>
-			<key>202,raw48</key>
-			<string>Perc_Rated_Life_Used</string>
-			<key>206,raw48</key>
-			<string>Write_Error_Rate</string>
-		</dict>
-	</dict>
-</dict>
+</array>
 </plist>

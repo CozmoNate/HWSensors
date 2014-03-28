@@ -78,8 +78,8 @@
     [_inputLabel setTextColor:colorTheme.groupTitleColor];
     [_outputLabel setTextColor:colorTheme.groupTitleColor];
 
-    [_enabledSwitch setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.7 : 1.0];
-    [_inputsPopUp setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.7 : 1.0];
+    [_enabledSwitch setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.80 : 1.0];
+    [_inputsPopUp setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.80 : 1.0];
     [_inputsPopUp setButtonType:colorTheme.useBrightIcons.boolValue ? NSOnOffButton : NSMomentaryChangeButton];
 
     [self observeValueForKeyPath:@"controller.levels" ofObject:nil change:nil context:(void*)self];

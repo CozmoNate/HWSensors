@@ -52,57 +52,52 @@
                                                 <rect key="frame" x="1" y="0.0" width="257" height="28"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
+                                                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="1Ts-lp-rDr">
+                                                        <rect key="frame" x="123" y="-4" width="32" height="32"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="round" bezelStyle="circular" imagePosition="above" alignment="left" controlSize="small" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" id="eKK-gp-reV">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <binding destination="-2" name="hidden" keyPath="controller.input" id="nIR-6q-YtJ">
+                                                                <dictionary key="options">
+                                                                    <string key="NSValueTransformerName">NSIsNotNil</string>
+                                                                </dictionary>
+                                                            </binding>
+                                                        </connections>
+                                                    </button>
+                                                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="7qd-OV-lB0">
+                                                        <rect key="frame" x="219" y="-4" width="32" height="32"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="round" bezelStyle="circular" imagePosition="above" alignment="left" controlSize="small" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" id="vxD-p9-0ZF">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <binding destination="-2" name="hidden" keyPath="controller.enabled" id="WBR-wm-vJ1"/>
+                                                        </connections>
+                                                    </button>
                                                     <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Hce-yB-TPa" userLabel="Output Box">
-                                                        <rect key="frame" x="155" y="-3" width="91" height="30"/>
+                                                        <rect key="frame" x="155" y="-3" width="68" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <view key="contentView">
-                                                            <rect key="frame" x="2" y="2" width="87" height="26"/>
+                                                            <rect key="frame" x="2" y="2" width="64" height="26"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </view>
                                                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                                         <color key="fillColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                     </box>
                                                     <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="a6B-rD-fYX" userLabel="Input Box">
-                                                        <rect key="frame" x="59" y="-3" width="91" height="30"/>
+                                                        <rect key="frame" x="59" y="-3" width="68" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <view key="contentView">
-                                                            <rect key="frame" x="2" y="2" width="87" height="26"/>
+                                                            <rect key="frame" x="2" y="2" width="64" height="26"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </view>
                                                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                                         <color key="fillColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                     </box>
-                                                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="Axt-bF-Z3O" userLabel="Input Slider">
-                                                        <rect key="frame" x="126" y="3" width="18" height="20"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="100" doubleValue="34" tickMarkPosition="above" sliderType="circular" id="cFv-kF-3cG"/>
-                                                        <connections>
-                                                            <action selector="sliderHasMoved:" target="1ke-pJ-1BQ" id="WjH-YD-hFg"/>
-                                                            <binding destination="-2" name="enabled" keyPath="controller.enabled" id="xKD-Dd-xTy"/>
-                                                            <binding destination="-2" name="enabled2" keyPath="controller.input" previousBinding="xKD-Dd-xTy" id="ME1-gd-kcn">
-                                                                <dictionary key="options">
-                                                                    <integer key="NSNullPlaceholder" value="0"/>
-                                                                    <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                                                    <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                                                    <integer key="NSMultipleValuesPlaceholder" value="0"/>
-                                                                    <string key="NSValueTransformerName">NSIsNotNil</string>
-                                                                </dictionary>
-                                                            </binding>
-                                                            <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.input" id="sNU-Ed-u86"/>
-                                                        </connections>
-                                                    </slider>
-                                                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="5KY-xI-7OC" userLabel="Output Slider">
-                                                        <rect key="frame" x="222" y="3" width="18" height="20"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="3000" doubleValue="766.49567445078208" tickMarkPosition="below" sliderType="circular" id="pco-Dl-sWp"/>
-                                                        <connections>
-                                                            <action selector="sliderHasMoved:" target="1ke-pJ-1BQ" id="kur-vT-qFo"/>
-                                                            <binding destination="-2" name="enabled" keyPath="controller.enabled" id="k2A-Kq-WUy"/>
-                                                            <binding destination="1ke-pJ-1BQ" name="maxValue" keyPath="objectValue.controller.max" id="gcW-H8-wq4"/>
-                                                            <binding destination="1ke-pJ-1BQ" name="minValue" keyPath="objectValue.controller.min" previousBinding="gcW-H8-wq4" id="WV6-2U-5gp"/>
-                                                            <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.output" previousBinding="WV6-2U-5gp" id="DWi-ML-JSL"/>
-                                                        </connections>
-                                                    </slider>
                                                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YKi-Op-Ho3" userLabel="Remove Button" customClass="FadingButton">
                                                         <rect key="frame" x="14" y="6" width="15" height="15"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -186,6 +181,47 @@
                                                             <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.input" id="lpr-of-XYR"/>
                                                         </connections>
                                                     </textField>
+                                                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.84999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="Axt-bF-Z3O" userLabel="Input Slider">
+                                                        <rect key="frame" x="130" y="3" width="18" height="20"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="13.412956403187209" tickMarkPosition="above" sliderType="circular" id="cFv-kF-3cG"/>
+                                                        <connections>
+                                                            <action selector="sliderHasMoved:" target="1ke-pJ-1BQ" id="WjH-YD-hFg"/>
+                                                            <binding destination="-2" name="enabled" keyPath="controller.enabled" id="xKD-Dd-xTy"/>
+                                                            <binding destination="-2" name="enabled2" keyPath="controller.input" previousBinding="xKD-Dd-xTy" id="ME1-gd-kcn">
+                                                                <dictionary key="options">
+                                                                    <integer key="NSNullPlaceholder" value="0"/>
+                                                                    <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                                                    <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                                                    <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                                                    <string key="NSValueTransformerName">NSIsNotNil</string>
+                                                                </dictionary>
+                                                            </binding>
+                                                            <binding destination="-2" name="hidden" keyPath="controller.input" previousBinding="ME1-gd-kcn" id="QNj-S1-Tbn">
+                                                                <dictionary key="options">
+                                                                    <string key="NSValueTransformerName">NSIsNil</string>
+                                                                </dictionary>
+                                                            </binding>
+                                                            <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.input" id="sNU-Ed-u86"/>
+                                                        </connections>
+                                                    </slider>
+                                                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.84999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="5KY-xI-7OC" userLabel="Output Slider">
+                                                        <rect key="frame" x="226" y="3" width="18" height="20"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="3000" doubleValue="1553.5429853127134" tickMarkPosition="below" sliderType="circular" id="pco-Dl-sWp"/>
+                                                        <connections>
+                                                            <action selector="sliderHasMoved:" target="1ke-pJ-1BQ" id="kur-vT-qFo"/>
+                                                            <binding destination="-2" name="hidden" keyPath="controller.enabled" previousBinding="k2A-Kq-WUy" id="EIs-2i-43R">
+                                                                <dictionary key="options">
+                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                </dictionary>
+                                                            </binding>
+                                                            <binding destination="-2" name="enabled" keyPath="controller.enabled" id="k2A-Kq-WUy"/>
+                                                            <binding destination="1ke-pJ-1BQ" name="maxValue" keyPath="objectValue.controller.max" id="gcW-H8-wq4"/>
+                                                            <binding destination="1ke-pJ-1BQ" name="minValue" keyPath="objectValue.controller.min" previousBinding="gcW-H8-wq4" id="WV6-2U-5gp"/>
+                                                            <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.output" previousBinding="WV6-2U-5gp" id="DWi-ML-JSL"/>
+                                                        </connections>
+                                                    </slider>
                                                 </subviews>
                                                 <connections>
                                                     <outlet property="inputSlider" destination="Axt-bF-Z3O" id="1UQ-Xx-qGR"/>
@@ -251,10 +287,10 @@
                         <constraint firstAttribute="height" constant="22" id="NVw-KZ-3lB"/>
                         <constraint firstAttribute="width" priority="730" constant="142" id="VFo-IW-zuI"/>
                     </constraints>
-                    <popUpButtonCell key="cell" type="squareTextured" title="None" bezelStyle="texturedSquare" alignment="center" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="np4-q0-IL2" id="4rW-aA-O6C">
+                    <popUpButtonCell key="cell" type="squareTextured" title="None" bezelStyle="texturedSquare" alignment="center" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="np4-q0-IL2" id="4rW-aA-O6C">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="smallSystem"/>
-                        <menu key="menu" title="OtherViews" id="8N2-Ta-16b">
+                        <menu key="menu" title="OtherViews" autoenablesItems="NO" id="8N2-Ta-16b">
                             <items>
                                 <menuItem title="None" state="on" id="np4-q0-IL2"/>
                             </items>

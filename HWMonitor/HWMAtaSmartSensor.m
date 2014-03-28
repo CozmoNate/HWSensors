@@ -40,7 +40,7 @@
 #import <Growl/Growl.h>
 
 static NSMutableDictionary * gIOCFPluginInterfaceCache = nil;
-static NSDictionary * gSmartAttributeOverrideDatabase = nil;
+static NSArray * gSmartAttributeOverrideDatabase = nil;
 static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
 #define RAW_TO_LONG(attribute)  (UInt64)attribute->rawvalue[0] | \
@@ -537,8 +537,8 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
         return nil;
 
     if (!gSmartAttributeOverrideDatabase) {
-        if (!(gSmartAttributeOverrideDatabase = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"SmartOverrides" withExtension:@"plist"]])) {
-            gSmartAttributeOverrideDatabase = [NSDictionary dictionary]; // Empty dictionary
+        if (!(gSmartAttributeOverrideDatabase = [NSArray arrayWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"SmartOverrides" withExtension:@"plist"]])) {
+            gSmartAttributeOverrideDatabase = [NSArray array]; // Empty dictionary
         }
     }
 
@@ -552,7 +552,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
     if (!overrides) {
 
-        for (NSDictionary *group in gSmartAttributeOverrideDatabase.allValues) {
+        for (NSDictionary *group in gSmartAttributeOverrideDatabase) {
 
             NSArray *productMatch = group[@"NameMatch"];
 

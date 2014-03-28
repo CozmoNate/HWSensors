@@ -1186,10 +1186,10 @@
 		7EF2A1031730519600D8641C /* Popup Panel Controller */ = {
 			isa = PBXGroup;
 			children = (
-				7E19DECC1843E43A00229B0E /* Cells */,
 				7E0254661805D2E400B4F099 /* OBMenuBarWindow */,
 				7E019BA8182625FF002F8217 /* StatusItemView */,
 				7E2B178C18B5D85800740302 /* ProbeControllingMenuItem */,
+				7E19DECC1843E43A00229B0E /* Cells */,
 				7EDA1A6B16D901100012A0DC /* PopupController.h */,
 				7EDA1A6C16D901100012A0DC /* PopupController.m */,
 				7E2042021730CDA000C13B65 /* PopupController.xib */,
