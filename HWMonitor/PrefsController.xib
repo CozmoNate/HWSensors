@@ -624,7 +624,7 @@
                                                                     <constraint firstAttribute="width" constant="18" id="ixL-xK-a4Q"/>
                                                                     <constraint firstAttribute="height" constant="18" id="r0F-qe-U70"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="overlaps" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="hwB-AE-3C4">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="hwB-AE-3C4">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -644,7 +644,7 @@
                                                                     <constraint firstAttribute="width" constant="18" id="4AX-8b-QG7"/>
                                                                     <constraint firstAttribute="height" constant="18" id="Vg6-oR-0M1"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="310-alarm-clock-white" imagePosition="above" alignment="center" alternateImage="310-alarm-clock" state="on" imageScaling="proportionallyDown" inset="2" id="dEb-iB-Lh5">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="411-roundabout-white" imagePosition="only" alignment="center" alternateImage="411-roundabout" state="on" imageScaling="proportionallyDown" inset="2" id="dEb-iB-Lh5">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -729,7 +729,7 @@
                                                                     <constraint firstAttribute="height" constant="18" id="fbh-0Y-7OK"/>
                                                                     <constraint firstAttribute="width" constant="18" id="xkI-A8-p8d"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="overlaps" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="SBL-5P-x3V">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="SBL-5P-x3V">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -749,7 +749,7 @@
                                                                     <constraint firstAttribute="height" constant="18" id="AmV-8Z-pCF"/>
                                                                     <constraint firstAttribute="width" constant="18" id="eTG-Kc-K2J"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="310-alarm-clock-white" imagePosition="above" alignment="center" alternateImage="310-alarm-clock" state="on" imageScaling="proportionallyDown" inset="2" id="R9y-Hz-3MC">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="411-roundabout-white" imagePosition="only" alignment="center" alternateImage="411-roundabout" state="on" imageScaling="proportionallyDown" inset="2" id="R9y-Hz-3MC">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -834,7 +834,7 @@
                                                                     <constraint firstAttribute="height" constant="18" id="4de-yB-Zwg"/>
                                                                     <constraint firstAttribute="width" constant="18" id="aFq-Wf-o3H"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="overlaps" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="QNJ-An-NtV">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="QNJ-An-NtV">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -854,7 +854,7 @@
                                                                     <constraint firstAttribute="width" constant="18" id="jxT-46-xsJ"/>
                                                                     <constraint firstAttribute="height" constant="18" id="pyE-LD-axF"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="310-alarm-clock-white" imagePosition="above" alignment="center" alternateImage="310-alarm-clock" state="on" imageScaling="proportionallyDown" inset="2" id="IFH-EZ-Dhe">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="411-roundabout-white" imagePosition="only" alignment="center" alternateImage="411-roundabout" state="on" imageScaling="proportionallyDown" inset="2" id="IFH-EZ-Dhe">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -939,7 +939,7 @@
                                                                     <constraint firstAttribute="width" constant="18" id="Geu-gs-SiE"/>
                                                                     <constraint firstAttribute="height" constant="18" id="tC6-Ip-lBm"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="overlaps" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="i9b-TM-I3E">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="i9b-TM-I3E">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -959,7 +959,7 @@
                                                                     <constraint firstAttribute="height" constant="18" id="1VK-Ew-LqS"/>
                                                                     <constraint firstAttribute="width" constant="18" id="JRU-Jo-y3V"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="310-alarm-clock-white" imagePosition="above" alignment="center" alternateImage="310-alarm-clock" state="on" imageScaling="proportionallyDown" inset="2" id="8xC-5W-6u9">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="411-roundabout-white" imagePosition="only" alignment="center" alternateImage="411-roundabout" state="on" imageScaling="proportionallyDown" inset="2" id="8xC-5W-6u9">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -1849,10 +1849,10 @@
     <resources>
         <image name="04-eye" width="20" height="13"/>
         <image name="04-eye-white" width="20" height="13"/>
-        <image name="310-alarm-clock" width="18" height="17"/>
-        <image name="310-alarm-clock-white" width="18" height="17"/>
         <image name="338-enter-fullscreen" width="18" height="18"/>
         <image name="338-enter-fullscreen-white" width="18" height="18"/>
+        <image name="411-roundabout" width="28" height="22"/>
+        <image name="411-roundabout-white" width="28" height="22"/>
         <image name="Divider" width="1200" height="2"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSRefreshTemplate" width="10" height="12"/>
