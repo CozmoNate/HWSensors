@@ -98,13 +98,13 @@ int main(int argc, const char *argv[])
                             const char* key = xpc_dictionary_get_string(event, "key");
                             int64_t value = xpc_dictionary_get_int64(event, "value");
 
-                            io_connect_t connection;
+                            io_connect_t smc_connection;
 
-                            if (kIOReturnSuccess == SMCOpen("AppleSMC", &connection)) {
+                            if (kIOReturnSuccess == SMCOpen("AppleSMC", &smc_connection)) {
                                 [SmcHelper writeKey:[NSString stringWithFormat:@"%s", key]
                                               value:[NSNumber numberWithLongLong:value]
-                                         connection:connection];
-                                SMCClose(connection);
+                                         connection:smc_connection];
+                                SMCClose(smc_connection);
                                 xpc_dictionary_set_int64(reply, "result", kIOReturnSuccess);
                             }
                             else {

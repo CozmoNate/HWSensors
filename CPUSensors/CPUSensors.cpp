@@ -100,10 +100,10 @@ inline uint64_t rdmpc64(uint32_t counter)
     return ((UInt64)hi << 32 ) | lo;
 }
 
-static inline UInt8 get_hex_index(char c)
-{       
-	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
-};
+//static inline UInt8 get_hex_index(char c)
+//{       
+//	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
+//};
 
 static inline UInt8 get_cpu_number()
 {

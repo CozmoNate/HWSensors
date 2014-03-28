@@ -1481,9 +1481,9 @@ static HWMEngine* gDefaultEngine = nil;
 
                 NSString *keyFormat = [NSString stringWithFormat:@"%@%%X%@", [key substringToIndex:formater.location], [key substringFromIndex:formater.location + formater.length + 3]];
 
-                for (NSUInteger index = 0; index < count; index++) {
+                for (NSUInteger offset = 0; offset < count; offset++) {
 
-                    NSString *formattedKey = [NSString stringWithFormat:keyFormat, start + index];
+                    NSString *formattedKey = [NSString stringWithFormat:keyFormat, start + offset];
 
                     if ([keys indexOfObject:formattedKey] != NSNotFound /*&& [excludedKeys indexOfObject:formattedKey] == NSNotFound*/) {
 
@@ -1491,7 +1491,7 @@ static HWMEngine* gDefaultEngine = nil;
 
                         if (kIOReturnSuccess == SMCReadKey(connection, [formattedKey cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
 
-                            [self insertSmcSensorWithConnection:connection name:formattedKey type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:[NSString stringWithFormat:GetLocalizedString(title), shift + index] selector:selector group:group];
+                            [self insertSmcSensorWithConnection:connection name:formattedKey type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:[NSString stringWithFormat:GetLocalizedString(title), shift + offset] selector:selector group:group];
 
                         }
                     }
@@ -1534,7 +1534,7 @@ static HWMEngine* gDefaultEngine = nil;
 
 -(HWMSmcSensor*)insertSmcFanWithConnection:(io_connect_t)connection descriptor:(NSString*)descriptor name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMSensorsGroup*)group
 {
-    HWMSmcFanSensor *fan = [self getSmcFanSensorByDescriptor:descriptor fromGroup:group];
+    __block HWMSmcFanSensor *fan = [self getSmcFanSensorByDescriptor:descriptor fromGroup:group];
 
     BOOL newFan = NO;
 
@@ -1609,16 +1609,19 @@ static HWMEngine* gDefaultEngine = nil;
         }
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [fan.controller inputValueChanged];
+            if (fan.controller) {
+                [fan.controller updateControlLevel];
+            }
         }];
+
+        return fan;
     }
     else {
         //[self.managedObjectContext deleteObject:fan];
         [fan setService:@0];
-        return nil;
     }
 
-    return fan;
+    return nil;
 }
 
 - (void)insertSmcFansWithConnection:(io_connect_t)connection keys:(NSArray*)keys

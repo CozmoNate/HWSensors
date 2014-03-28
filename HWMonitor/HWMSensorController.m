@@ -51,7 +51,7 @@
     }
 
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self inputValueChanged];
+        [self updateControlLevel];
     }];
 }
 
@@ -65,11 +65,11 @@
         if (!self.enabled.boolValue) {
             self.input = nil;
         }
-        [self inputValueChanged];
+        [self updateControlLevel];
     }];
 }
 
--(void)inputValueChanged
+-(void)updateControlLevel
 {
     //
 }
@@ -105,7 +105,7 @@
 {
     if ([keyPath isEqualToString:@"input.value"]) {
         if (self.enabled.boolValue) {
-            [self inputValueChanged];
+            [self updateControlLevel];
         }
     }
 }

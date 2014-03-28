@@ -59,28 +59,36 @@
     }
 }
 
--(void)inputValueChanged
+-(void)updateControlLevel
 {
-    @synchronized (self) {
-        if (self.enabled.boolValue) {
-            if (!_currentLevel) {
-                for (HWMSmcFanControlLevel *level in self.levels) {
-                    if (!self.input || [self.input.value isGreaterThan:level.input]) {
-                        _currentLevel = level;
-                    }
-                }
+    if (self.enabled.boolValue) {
 
-                if (!_currentLevel) {
-                    _currentLevel = self.levels.firstObject;
-                }
-            }
-            else if (_currentLevel.previous && [self.input.value isLessThan:_currentLevel.previous.input]) {
-                _currentLevel = _currentLevel.previous;
-            }
-            else if (_currentLevel.next && [self.input.value isGreaterThan:_currentLevel.next.input]) {
-                _currentLevel = _currentLevel.next;
-            }
+        HWMSmcFanControlLevel *currentLevel = _currentLevel;
 
+        if (!currentLevel) {
+            currentLevel = self.levels.firstObject;
+        }
+
+        NSNumber *inputValue = self.input.value;
+
+        if (inputValue) {
+            while (currentLevel) {
+
+                if (currentLevel.previous && [inputValue isLessThan:currentLevel.previous.input]) {
+                    currentLevel = currentLevel.previous;
+                }
+                else if (currentLevel.next && [inputValue isGreaterThan:currentLevel.next.input]) {
+                    currentLevel = currentLevel.next;
+                }
+                else {
+                    break;
+                }
+                
+            }
+        }
+
+        if (currentLevel) {
+            _currentLevel = currentLevel;
             [self updateFanSpeed];
         }
     }

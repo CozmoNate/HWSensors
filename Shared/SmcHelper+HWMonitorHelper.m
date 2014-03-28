@@ -111,7 +111,7 @@
 
         if (helperJobData) {
 
-            result = SMJobRemove(kSMDomainSystemLaunchd, CFBridgingRetain(label), authRef, true, &localError);
+            SMJobRemove(kSMDomainSystemLaunchd, CFBridgingRetain(label), authRef, true, &localError);
 
             if (localError) {
                 NSLog(@"SMJobRemove() failed with error %@", localError);
@@ -119,7 +119,7 @@
             }
         }
 
-		result = SMJobBless(kSMDomainSystemLaunchd, CFBridgingRetain(label), authRef, (CFErrorRef*)&localError);
+		SMJobBless(kSMDomainSystemLaunchd, (__bridge CFStringRef)(label), authRef, (CFErrorRef*)&localError);
 
         if (localError) {
             NSLog(@"SMJobBless() failed with error %@", localError);

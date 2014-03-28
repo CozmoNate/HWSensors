@@ -45,7 +45,7 @@
     [self setPrimitiveValue:input forKey:@"input"];
     [self didChangeValueForKey:@"input"];
 
-    [self.controller inputValueChanged];
+    [self.controller updateControlLevel];
 }
 
 -(void)setOutput:(NSNumber *)output
@@ -54,7 +54,7 @@
     [self setPrimitiveValue:[NSNumber numberWithFloat:ROUND50(output.floatValue)] forKey:@"output"];
     [self didChangeValueForKey:@"output"];
 
-    [self.controller inputValueChanged];
+    [self.controller updateControlLevel];
 }
 
 -(NSNumber *)minInput

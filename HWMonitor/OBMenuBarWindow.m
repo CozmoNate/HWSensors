@@ -1059,6 +1059,11 @@ const CGFloat OBMenuBarWindowCornerRadius = 7;
     [[self.contentView superview] setNeedsDisplay:YES];
 }
 
+-(void)drawRectOriginal:(NSRect)dirtyRect
+{
+    // Do nothing
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Only draw the custom window frame for a OBMenuBarWindow object

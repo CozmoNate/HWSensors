@@ -94,7 +94,7 @@ float NCT677xSensors::readTemperature(UInt32 index)
 {
     if (index < tempLimit) {
         
-        int value; 
+        int value = 0;
         
         switch (model) {
             case NCT6771F:
@@ -121,7 +121,7 @@ float NCT677xSensors::readVoltage(UInt32 index)
 {
     if (index < voltLimit) {
         
-        float value;
+        float value = 0;
         
         switch (model) {
             case NCT6771F:

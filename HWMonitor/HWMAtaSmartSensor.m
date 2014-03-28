@@ -546,9 +546,9 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
         gSmartAttributeOverrideCache = [[NSMutableDictionary alloc] init];
     }
 
-    NSString *key = [NSString stringWithFormat:@"%@%@", product, firmware];
+    NSString *identifier = [NSString stringWithFormat:@"%@%@", product, firmware];
 
-    NSDictionary *overrides = [gSmartAttributeOverrideCache objectForKey:key];
+    NSDictionary *overrides = [gSmartAttributeOverrideCache objectForKey:identifier];
 
     if (!overrides) {
 
@@ -594,7 +594,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
                         overrides = [arranged copy];
 
-                        [gSmartAttributeOverrideCache setObject:overrides forKey:key];
+                        [gSmartAttributeOverrideCache setObject:overrides forKey:identifier];
                     }
                 }
             }

@@ -800,7 +800,7 @@ IOReturn FakeSMCPlugin::writeKeyCallback(const char *key, const char *type, cons
     if (key && type && buffer) {
         if (FakeSMCSensor *sensor = getSensor(key)) {
             if (size == sensor->getSize()) {
-                float value;
+                float value = 0;
                 
                 fakeSMCPluginDecodeFloatValue(type, size, buffer, &value);
                 

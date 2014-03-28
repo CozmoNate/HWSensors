@@ -197,7 +197,7 @@
 		7EB7E70A17834A740071B3F0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = 7EB7E70D17834A740071B3F0 /* Build configuration list for PBXProject "Versioning And Distribution" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -565,6 +565,7 @@
 		7EB7E70E17834A740071B3F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};

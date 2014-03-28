@@ -355,7 +355,7 @@
 
 -(BOOL)engine:(HWMEngine *)engine shouldCaptureSensorValuesToGaphsHistoryWithLimit:(NSUInteger *)limit
 {
-    *limit = (NSUInteger)_graphsController.graphsCollectionView.frame.size.width / _monitorEngine.configuration.graphsScaleValue.floatValue;
+    *limit = (float)_graphsController.graphsCollectionView.frame.size.width / _monitorEngine.configuration.graphsScaleValue.floatValue;
     
     return _graphsController.window.isVisible || _monitorEngine.configuration.updateSensorsInBackground.boolValue;
 }
