@@ -45,7 +45,9 @@
     [self setPrimitiveValue:input forKey:@"input"];
     [self didChangeValueForKey:@"input"];
 
-    [self.controller updateControlLevel];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self.controller selector:@selector(updateCurrentLevel) object:nil];
+
+    [self.controller performSelector:@selector(updateCurrentLevel) withObject:nil afterDelay:0.5];
 }
 
 -(void)setOutput:(NSNumber *)output
@@ -54,7 +56,9 @@
     [self setPrimitiveValue:[NSNumber numberWithFloat:ROUND50(output.floatValue)] forKey:@"output"];
     [self didChangeValueForKey:@"output"];
 
-    [self.controller updateControlLevel];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self.controller selector:@selector(forceCurrentLevel) object:nil];
+
+    [self.controller performSelector:@selector(forceCurrentLevel) withObject:nil afterDelay:0.5];
 }
 
 -(NSNumber *)minInput

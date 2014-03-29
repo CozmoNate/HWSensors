@@ -139,14 +139,13 @@
 {
     PopupLevelCell *cell = [tableView makeViewWithIdentifier:@"level" owner:self];
 
-    [Localizer localizeView:cell];
-
     HWMColorTheme *colorTheme = [HWMEngine defaultEngine].configuration.colorTheme;
+    
     NSColor *textColor = colorTheme.useBrightIcons.boolValue ? [colorTheme.itemValueTitleColor shadowWithLevel:0.15] : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];
 
     [cell.inputTextField setTextColor:textColor];
     [cell.outputTextField setTextColor:textColor];
-
+    
     return cell;
 }
 

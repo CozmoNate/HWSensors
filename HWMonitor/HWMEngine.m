@@ -1610,7 +1610,7 @@ static HWMEngine* gDefaultEngine = nil;
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             if (fan.controller) {
-                [fan.controller updateControlLevel];
+                [fan.controller updateCurrentLevel];
             }
         }];
 

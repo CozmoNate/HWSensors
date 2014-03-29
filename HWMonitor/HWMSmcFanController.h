@@ -44,7 +44,6 @@
 
 -(HWMSmcFanControlLevel*)addOutputLevel:(NSNumber*)output forInputLevel:(NSNumber*)input;
 
-
 @end
 
 @interface HWMSmcFanController (CoreDataGeneratedAccessors)

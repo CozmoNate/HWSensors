@@ -59,7 +59,7 @@
     }
 }
 
--(void)updateControlLevel
+-(void)updateCurrentLevel
 {
     if (self.enabled.boolValue) {
 
@@ -69,7 +69,7 @@
             currentLevel = self.levels.firstObject;
         }
 
-        NSNumber *inputValue = self.input.value;
+        NSNumber *inputValue = self.input ? self.input.value : nil;
 
         if (inputValue) {
             while (currentLevel) {
@@ -87,37 +87,40 @@
             }
         }
 
-        if (currentLevel) {
+        if (currentLevel != _currentLevel) {
             _currentLevel = currentLevel;
             [self updateFanSpeed];
         }
     }
 }
 
+-(void)forceCurrentLevel
+{
+    [self updateFanSpeed];
+}
+
 -(void)updateFanSpeed
 {
     [self updateManualControlKey];
 
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        if (_currentLevel) {
-            if (self.output.engine.isRunningOnMac) {
-                // Write fan min key this will force SMC to set fan speed to our desired speed
-                [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
-            }
-            else {
-                // Write target speed key
-                [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
-            }
-
-            // Check fan speed every 5 minutes to be sure it's not run off
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(300 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void){
-                // +/- 25 rpm
-                if (ABS(self.output.value.integerValue - _currentLevel.output.integerValue) > 25) {
-                    [self updateFanSpeed];
-                }
-            });
+    if (_currentLevel) {
+        if (self.output.engine.isRunningOnMac) {
+            // Write fan min key this will force SMC to set fan speed to our desired speed
+            [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
         }
-    }];
+        else {
+            // Write target speed key
+            [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
+        }
+
+        // Check fan speed every 5 minutes to be sure it's not run off
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(300 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void){
+            // +/- 25 rpm
+            if (ABS(self.output.value.integerValue - _currentLevel.output.integerValue) > 25) {
+                [self updateFanSpeed];
+            }
+        });
+    }
 }
 
 -(void)updateManualControlKey
