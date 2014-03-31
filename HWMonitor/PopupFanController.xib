@@ -335,7 +335,7 @@
                         <constraint firstAttribute="width" constant="87" id="azE-n1-AaY"/>
                         <constraint firstAttribute="height" constant="14" id="gwg-3b-0w7"/>
                     </constraints>
-                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Threshold:" id="pEi-Sx-tmW">
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Threshold:" id="pEi-Sx-tmW">
                         <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -348,7 +348,7 @@
                         <constraint firstAttribute="width" constant="87" id="6dK-OE-qxJ"/>
                         <constraint firstAttribute="height" constant="14" id="ZlO-JV-Lzy"/>
                     </constraints>
-                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Speed:" id="wMy-gb-rHe">
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Speed:" id="wMy-gb-rHe">
                         <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

@@ -257,7 +257,10 @@ protected:
     virtual bool            willReadSensorValue(FakeSMCSensor *sensor, float *outValue);
     virtual bool            didWriteSensorValue(FakeSMCSensor *sensor, float value);
     
-public:    
+public:
+    bool                    decodeFloatValueForKey(const char *name, float *outValue);
+    bool                    decodeIntValueForKey(const char *name, int *outValue);
+
 	virtual bool			init(OSDictionary *properties=0);
     virtual bool			start(IOService *provider);
 	virtual void			stop(IOService *provider);

@@ -717,6 +717,46 @@ bool FakeSMCPlugin::init(OSDictionary *properties)
 	return true;
 }
 
+bool FakeSMCPlugin::decodeFloatValueForKey(const char *name, float *outValue)
+{
+    if (FakeSMCKey *key = keyStore->getKey(name)) {
+        if (fakeSMCPluginDecodeFloatValue(key->getType(), key->getSize(), key->getValue(), outValue)) {
+            return true;
+        }
+        else {
+            
+            int intValue = 0;
+
+            if (fakeSMCPluginDecodeIntValue(key->getType(), key->getSize(), key->getValue(), &intValue)) {
+                *outValue = intValue;
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool FakeSMCPlugin::decodeIntValueForKey(const char *name, int *outValue)
+{
+    if (FakeSMCKey *key = keyStore->getKey(name)) {
+        if (fakeSMCPluginDecodeIntValue(key->getType(), key->getSize(), key->getValue(), outValue)) {
+            return true;
+        }
+        else {
+
+            float floatValue = 0;
+
+            if (fakeSMCPluginDecodeFloatValue(key->getType(), key->getSize(), key->getValue(), &floatValue)) {
+                *outValue = floatValue;
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 bool FakeSMCPlugin::start(IOService *provider)
 {
 	if (!super::start(provider))
@@ -800,13 +840,14 @@ IOReturn FakeSMCPlugin::writeKeyCallback(const char *key, const char *type, cons
     if (key && type && buffer) {
         if (FakeSMCSensor *sensor = getSensor(key)) {
             if (size == sensor->getSize()) {
-                float value = 0;
-                
-                fakeSMCPluginDecodeFloatValue(type, size, buffer, &value);
-                
-                if (didWriteSensorValue(sensor, value))
-                {
-                    //
+                float floatValue = 0;
+                int intValue = 0;
+
+                if (fakeSMCPluginDecodeFloatValue(type, size, buffer, &floatValue)) {
+                    didWriteSensorValue(sensor, floatValue);
+                }
+                else if (fakeSMCPluginDecodeIntValue(type, size, buffer, &intValue)) {
+                    didWriteSensorValue(sensor, intValue);
                 }
                 
                 return kIOReturnSuccess;

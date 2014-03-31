@@ -42,7 +42,7 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 const CGFloat OBMenuBarWindowArrowHeight = 10.0;
 const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 const CGFloat OBMenuBarWindowArrowOffset = 6;
-const CGFloat OBMenuBarWindowCornerRadius = 7;
+const CGFloat OBMenuBarWindowCornerRadius = 5.5;
 
 @interface OBMenuBarWindow ()
 

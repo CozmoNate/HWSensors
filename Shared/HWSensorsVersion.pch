@@ -17,5 +17,5 @@
 #define LPCSENSORS_BUNDLE                   org.hwsensors.driver.LPCSensors
 #define GPUSENSORS_BUNDLE                   org.hwsensors.driver.GPUSensors
 
-#define FAKESMCKEYSTORE_COMPATIBLE          1065
-#define LPCSENSORS_COMPATIBLE               1065
+#define FAKESMCKEYSTORE_COMPATIBLE          1212
+#define LPCSENSORS_COMPATIBLE               1212

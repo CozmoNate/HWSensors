@@ -44,7 +44,7 @@
 
 #define CLIP_CONTROL(x) (x) < 0 ? 0 : (x) > 100 ? 100 : (x)
 
-//#define kHWSensorsDebug 1
+#define kHWSensorsDebug 1
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndAbstractStructors(LPCSensors, FakeSMCPlugin)
@@ -190,7 +190,8 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
                 if (supportsTachometerControl() && fanIndex > -1) {
 
                     tachometerControls[i].number = fanIndex;
-                    tachometerControls[i].target = 0;
+                    tachometerControls[i].target = -1;
+                    tachometerControls[i].minimum = -1;
 
                     // Minimum RPM and fan control sensor
                     snprintf(key, 5, KEY_FORMAT_FAN_MIN, fanIndex);
@@ -307,42 +308,31 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
 {
     if (sensor) {
         switch (sensor->getGroup()) {
-            case kLPCSensorsFanManualSwitch: {
-                bool active = false;
-
-                for (int i = 0; i < tachometerSensorsLimit(); i++) {
-                    if (0 == (((UInt16)value >> tachometerControls[sensor->getIndex()].number) & 0x1)) {
-                        tachometerControlCancel(i);
-                    }
-
-                    if (tachometerControls[i].active) {
-                        active = true;
+                
+            case kLPCSensorsFanManualSwitch:
+                for (int index = 0; index < tachometerSensorsLimit(); index++) {
+                    if (!bit_get((UInt16)value, BIT(tachometerControls[index].number))) {
+                        tachometerControlCancel(index);
+                        tachometerControls[index].target = -1.0;
                     }
                 }
-                
                 break;
-            }
 
             case kLPCSensorsFanMinController:
-                tachometerControlInit(sensor->getIndex(), value);
+                tachometerControls[sensor->getIndex()].minimum = value;
+                tachometerControlInit(sensor->getIndex(), value > tachometerControls[sensor->getIndex()].target ? value : tachometerControls[sensor->getIndex()].target);
                 break;
 
             case kLPCSensorsFanTargetController: {
-                UInt16 buffer;
-                int manual;
-
-                getKeyValue(KEY_FAN_MANUAL, &buffer);
-
-                if (fakeSMCPluginDecodeIntValue(TYPE_UI16, TYPE_UI16_SIZE, &buffer, &manual)) {
-                    if ((manual >> tachometerControls[sensor->getIndex()].number) & 0x1) {
-                        tachometerControlInit(sensor->getIndex(), value);
-                    }
+                int manual = 0;
+                if (decodeIntValueForKey(KEY_FAN_MANUAL, &manual) && bit_get(manual, BIT(tachometerControls[sensor->getIndex()].number)) > 0 && value > tachometerControls[sensor->getIndex()].minimum) {
+                    tachometerControlInit(sensor->getIndex(), value);
                 }
                 break;
             }
 
-            default:
-                return false;
+            default: return false;
+                
         }
 
         return true;
@@ -569,18 +559,22 @@ bool LPCSensors::start(IOService *provider)
 IOReturn LPCSensors::setPowerState(unsigned long powerState, IOService *device)
 {
     switch (powerState) {
-        case 0: // Power Off
-//            if (timerScheduled) {
-//                timerEventSource->cancelTimeout();
-//            }
+        // Power Off
+        case 0:
             willPowerOff();
             break;
 
-        case 1: // Power On
+        // Power On
+        case 1:
+            // Restore fan speed after wake from sleep if it was set before
+            for (int index = 0; index < tachometerSensorsLimit(); index ++) {
+                if (tachometerControls[index].target >= 0) {
+                    tachometerControlInit(index, tachometerControls[index].target);
+                }
+            }
+
             hasPoweredOn();
-//            if (timerScheduled) {
-//                timerEventSource->setTimeoutMS(250);
-//            }
+
             break;
 
         default:

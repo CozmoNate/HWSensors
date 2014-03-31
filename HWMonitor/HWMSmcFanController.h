@@ -34,8 +34,7 @@
 
 @interface HWMSmcFanController : HWMSensorController
 {
-    HWMSmcFanControlLevel * _previousLevel;
-    HWMSmcFanControlLevel * _currentLevel;
+     HWMSmcFanControlLevel * _currentLevel;
 }
 
 @property (nonatomic, retain) NSNumber * max;

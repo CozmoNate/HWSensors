@@ -44,13 +44,14 @@ struct LPCSensorsTachometerControl {
     UInt8   number;
 
     bool    active;
-
     float   control;
     float   target;
     float   error;
     float   prevError;
     double  integral;
     int     samples;
+
+    float   minimum;
 };
 
 #define kLPCSensorsMaxtachometerControls       16

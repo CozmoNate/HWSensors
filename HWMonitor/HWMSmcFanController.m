@@ -59,9 +59,17 @@
     }
 }
 
+-(void)setEnabled:(NSNumber *)enabled
+{
+    [super setEnabled:enabled];
+    [self updateManualControlKey];
+}
+
 -(void)updateCurrentLevel
 {
     if (self.enabled.boolValue) {
+
+        //NSLog(@"Will update control level for '%@'", self.output.name);
 
         HWMSmcFanControlLevel *currentLevel = _currentLevel;
 
@@ -83,40 +91,55 @@
                 else {
                     break;
                 }
-                
+
             }
         }
 
-        if (currentLevel != _currentLevel) {
+        if (!_currentLevel || _currentLevel != currentLevel) {
             _currentLevel = currentLevel;
-            [self updateFanSpeed];
+            [self forceCurrentLevel];
         }
+    }
+    else {
+        _currentLevel = nil;
     }
 }
 
 -(void)forceCurrentLevel
 {
-    [self updateFanSpeed];
+    //NSLog(@"Will force control level for '%@'", self.output.name);
+
+    if (!_currentLevel) {
+        [self updateCurrentLevel];
+    }
+    else {
+        [self updateFanSpeed];
+    }
 }
 
 -(void)updateFanSpeed
 {
-    [self updateManualControlKey];
+    if (self.enabled.boolValue) {
 
-    if (_currentLevel) {
-        if (self.output.engine.isRunningOnMac) {
-            // Write fan min key this will force SMC to set fan speed to our desired speed
-            [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
-        }
-        else {
-            // Write target speed key
-            [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
+        //NSLog(@"Will update fan speed for '%@'", self.output.name);
+
+        [self updateManualControlKey];
+
+        if (_currentLevel) {
+            if (self.output.engine.isRunningOnMac) {
+                // Write fan min key this will force SMC to set fan speed to our desired speed
+                [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
+            }
+            else {
+                // Write target speed key
+                [SmcHelper privilegedWriteNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, ((HWMSmcFanSensor*)self.output).number.unsignedCharValue] value:_currentLevel.output];
+            }
         }
 
-        // Check fan speed every 5 minutes to be sure it's not run off
+        // Check fan speed every 5 minutes to be sure it isn't run off
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(300 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void){
             // +/- 25 rpm
-            if (ABS(self.output.value.integerValue - _currentLevel.output.integerValue) > 25) {
+            if (!self.isDeleted && self.enabled.boolValue && _currentLevel && ABS(self.output.value.integerValue - _currentLevel.output.integerValue) > 25) {
                 [self updateFanSpeed];
             }
         });
@@ -125,32 +148,38 @@
 
 -(void)updateManualControlKey
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        SMCVal_t info;
+    SMCVal_t info;
 
-        if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.output.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
+    if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.output.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
 
-            NSNumber *value;
+        NSNumber *value;
 
-            if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
+        if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
 
-                UInt16 manual = value.unsignedShortValue;
-                bool enabled = bit_get(manual, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue)) ? YES : NO;
+            UInt16 manual = value.unsignedShortValue;
+            bool enabled = bit_get(manual, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue)) ? YES : NO;
 
-                if (enabled != self.enabled.boolValue) {
+            if (enabled != self.enabled.boolValue) {
 
-                    bit_write(self.enabled.boolValue, manual, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue));
+                bit_write(self.enabled.boolValue, manual, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue));
 
-                    [SmcHelper privilegedWriteNumericKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
-                }
+                [SmcHelper privilegedWriteNumericKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
             }
         }
-    }];
+    }
 }
 
 - (void)insertObject:(HWMSmcFanControlLevel *)value inLevelsAtIndex:(NSUInteger)idx
 {
     [[self mutableOrderedSetValueForKey:@"levels"] insertObject:value atIndex:idx];
+}
+
+
+-(void)prepareForDeletion
+{
+    [super prepareForDeletion];
+
+    _currentLevel = nil;
 }
 
 @end
