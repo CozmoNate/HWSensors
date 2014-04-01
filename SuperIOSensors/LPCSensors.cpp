@@ -44,7 +44,7 @@
 
 #define CLIP_CONTROL(x) (x) < 0 ? 0 : (x) > 100 ? 100 : (x)
 
-#define kHWSensorsDebug 1
+//#define kHWSensorsDebug 1
 
 #define super FakeSMCPlugin
 OSDefineMetaClassAndAbstractStructors(LPCSensors, FakeSMCPlugin)

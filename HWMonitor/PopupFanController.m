@@ -97,7 +97,7 @@
             [constraint setConstant:_levelsSnapshot.count * 28 + 1];
         }
         else {
-            [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationSlideDown];
+            [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectNone insertAnimation:NSTableViewAnimationEffectNone];
             [[constraint animator] setConstant:_levelsSnapshot.count * 28 + 1];
         }
     }
