@@ -31,7 +31,6 @@
 @interface PopupFanController : NSViewController <NSTableViewDataSource, NSTableViewDelegate>
 {
     NSArray *_levelsSnapshot;
-    CGFloat _initialRangeConstraintHeight;
 }
 
 @property (nonatomic, strong) HWMSmcFanController * controller;

@@ -193,7 +193,7 @@
                                 <outlet property="formatter" destination="dvJ-cr-HBJ" id="Bux-DF-mcP"/>
                             </connections>
                         </slider>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xwq-92-XLg">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xwq-92-XLg" customClass="HWMThemedTextField">
                             <rect key="frame" x="3" y="11" width="45" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <constraints>

@@ -93,16 +93,14 @@
     [self observeValueForKeyPath:@"controller.levels" ofObject:nil change:nil context:(void*)self];
     [self observeValueForKeyPath:@"controller.output.engine.sensorsAndGroups" ofObject:nil change:nil context:nil];
 
-    _initialRangeConstraintHeight = _rangeHeightConstraint.constant;
-
     [self rangeSwitchChanged:nil];
 }
 
 -(void)rangeSwitchChanged:(id)sender
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [[_rangeHeightConstraint animator] setConstant:_rangeSwitch.state ? _initialRangeConstraintHeight : 0];
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[_rangeHeightConstraint animator] setConstant:_rangeSwitch.state ? 50 : 0];
+    });
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -169,12 +167,12 @@
     PopupLevelCell *cell = [tableView makeViewWithIdentifier:@"level" owner:self];
 
     HWMColorTheme *colorTheme = [HWMEngine sharedEngine].configuration.colorTheme;
-    
+
     NSColor *textColor = colorTheme.useBrightIcons.boolValue ? [colorTheme.itemValueTitleColor shadowWithLevel:0.15] : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];
 
     [cell.inputTextField setTextColor:textColor];
     [cell.outputTextField setTextColor:textColor];
-    
+
     return cell;
 }
 
