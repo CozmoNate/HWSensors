@@ -46,7 +46,6 @@
 
 #import "NSTableView+HWMEngineHelper.h"
 #import "NSImage+HighResolutionLoading.h"
-#import "NSView+NSLayoutConstraintFilter.h"
 #import "NSWindow+BackgroundBlur.h"
 
 @implementation PopupController
@@ -211,13 +210,11 @@
             [_scrollView setHasVerticalScroller:NO];
         }
 
-        NSLayoutConstraint *constraint = [_tableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
-
         if (animated) {
-            [[constraint animator] setConstant:height + 1]; // height+1 avoid flickering artifact
+            [[_tableHeightConstraint animator] setConstant:height + 1]; // height+1 avoid flickering artifact
         }
         else {
-            [constraint setConstant:height];
+            [_tableHeightConstraint setConstant:height];
         }
     }
 

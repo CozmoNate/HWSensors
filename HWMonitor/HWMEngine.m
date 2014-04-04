@@ -1587,6 +1587,10 @@ static HWMEngine * gSharedEngine;
             }
         }
 
+        if (fan.controller) {
+            [fan.controller updateCurrentLevel];
+        }
+
         return fan;
     }
     else {

@@ -40,7 +40,6 @@
 #import "Localizer.h"
 
 #import "NSTableView+HWMEngineHelper.h"
-#import "NSView+NSLayoutConstraintFilter.h"
 #import "NSWindow+BackgroundBlur.h"
 
 @interface PopupFanController ()
@@ -93,21 +92,31 @@
 
     [self observeValueForKeyPath:@"controller.levels" ofObject:nil change:nil context:(void*)self];
     [self observeValueForKeyPath:@"controller.output.engine.sensorsAndGroups" ofObject:nil change:nil context:nil];
+
+    _initialRangeConstraintHeight = _rangeHeightConstraint.constant;
+
+    [self rangeSwitchChanged:nil];
+}
+
+-(void)rangeSwitchChanged:(id)sender
+{
+    [[_rangeHeightConstraint animator] setConstant:_rangeSwitch.state ? _initialRangeConstraintHeight : 0];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"controller.levels"]) {
+
         NSArray *oldLevelsSnapshot = [_levelsSnapshot copy];
         _levelsSnapshot = [self.controller.levels.array copy];
-        NSLayoutConstraint *constraint = [_levelsTableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
+
         if (context) {
             [_levelsTableView updateWithObjectValues:_levelsSnapshot
                                 previousObjectValues:oldLevelsSnapshot
                                updateHeightOfTheRows:NO
                                  withRemoveAnimation:NSTableViewAnimationEffectNone
                                      insertAnimation:NSTableViewAnimationEffectNone];
-            [constraint setConstant:_levelsSnapshot.count * 28 + 1];
+            [_levelsHeightConstraint setConstant:_levelsSnapshot.count * 28 + 1];
         }
         else {
             [_levelsTableView updateWithObjectValues:_levelsSnapshot
@@ -116,7 +125,7 @@
                                  withRemoveAnimation:NSTableViewAnimationSlideDown
                                      insertAnimation:NSTableViewAnimationSlideDown];
 
-            [[constraint animator] setConstant:_levelsSnapshot.count * 28 + 1];
+            [[_levelsHeightConstraint animator] setConstant:_levelsSnapshot.count * 28 + 1];
         }
     }
     else if ([keyPath isEqualToString:@"controller.output.engine.sensorsAndGroups"]) {

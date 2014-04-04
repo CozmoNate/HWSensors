@@ -31,6 +31,7 @@
 @interface PopupFanController : NSViewController <NSTableViewDataSource, NSTableViewDelegate>
 {
     NSArray *_levelsSnapshot;
+    CGFloat _initialRangeConstraintHeight;
 }
 
 @property (nonatomic, strong) HWMSmcFanController * controller;
@@ -50,5 +51,11 @@
 @property (assign) IBOutlet NSSlider *maxSlider;
 @property (assign) IBOutlet NSTextField *minLabel;
 @property (assign) IBOutlet NSTextField *maxLabel;
+@property (assign) IBOutlet NSButton *rangeSwitch;
+
+@property (assign) IBOutlet NSLayoutConstraint *rangeHeightConstraint;
+@property (assign) IBOutlet NSLayoutConstraint *levelsHeightConstraint;
+
+-(IBAction)rangeSwitchChanged:(id)sender;
 
 @end

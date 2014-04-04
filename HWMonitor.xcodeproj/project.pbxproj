@@ -38,7 +38,6 @@
 		7E2789811876FB6E00B443BD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
 		7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1C18C467B900D97F89 /* HWMSmcFanControlLevel.m */; };
 		7E2DEA2018C467DC00D97F89 /* HWMSmcFanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1F18C467DC00D97F89 /* HWMSmcFanController.m */; };
-		7E2DEA2318C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA2218C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.m */; };
 		7E309FC818C30FB1001033A1 /* 22-circle-minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FC418C30FB1001033A1 /* 22-circle-minus.png */; };
 		7E309FC918C30FB1001033A1 /* 22-circle-minus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FC518C30FB1001033A1 /* 22-circle-minus@2x.png */; };
 		7E309FCA18C30FB1001033A1 /* 31-circle-plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FC618C30FB1001033A1 /* 31-circle-plus.png */; };
@@ -348,8 +347,6 @@
 		7E2DEA1C18C467B900D97F89 /* HWMSmcFanControlLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSmcFanControlLevel.m; sourceTree = "<group>"; };
 		7E2DEA1E18C467DC00D97F89 /* HWMSmcFanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMSmcFanController.h; sourceTree = "<group>"; };
 		7E2DEA1F18C467DC00D97F89 /* HWMSmcFanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSmcFanController.m; sourceTree = "<group>"; };
-		7E2DEA2118C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+NSLayoutConstraintFilter.h"; sourceTree = "<group>"; };
-		7E2DEA2218C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+NSLayoutConstraintFilter.m"; sourceTree = "<group>"; };
 		7E2FE0A3178D18CA00802D38 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = Sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		7E309FC418C30FB1001033A1 /* 22-circle-minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "22-circle-minus.png"; sourceTree = "<group>"; };
@@ -966,8 +963,6 @@
 				7E9A17D217E45ACA003DB018 /* NSString+Size.m */,
 				7E9A17CE17E45938003DB018 /* NSPopover+Message.h */,
 				7E9A17CF17E45938003DB018 /* NSPopover+Message.m */,
-				7E2DEA2118C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.h */,
-				7E2DEA2218C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.m */,
 				7EC95E2018D42FCB00DD7B4D /* NSWindow+BackgroundBlur.h */,
 				7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m */,
 			);
@@ -1583,7 +1578,6 @@
 				7EFE61AE183581090009BD0D /* HWMBatterySensor.m in Sources */,
 				7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */,
 				7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */,
-				7E2DEA2318C53DC600D97F89 /* NSView+NSLayoutConstraintFilter.m in Sources */,
 				7E19DEBE1843CDC400229B0E /* HWMSensorsGroup.m in Sources */,
 				7E17953616EE705B00145082 /* PopupBatteryCell.m in Sources */,
 				7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */,

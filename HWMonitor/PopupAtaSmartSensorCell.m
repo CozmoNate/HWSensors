@@ -35,7 +35,6 @@
 #import "NSPopover+Message.h"
 #import "PopupAtaSmartReportController.h"
 #import "NSTableHeaderCell+PopupThemedHeader.h"
-#import "NSView+NSLayoutConstraintFilter.h"
 
 @implementation PopupAtaSmartSensorCell
 
