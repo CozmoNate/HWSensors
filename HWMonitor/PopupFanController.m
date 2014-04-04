@@ -73,14 +73,23 @@
         }];
     }
 
-    HWMColorTheme *colorTheme = [HWMEngine defaultEngine].configuration.colorTheme;
+    HWMEngine *engine = [HWMEngine sharedEngine];
+    HWMColorTheme *colorTheme = engine.configuration.colorTheme;
 
-    [_inputLabel setTextColor:colorTheme.groupTitleColor];
-    [_outputLabel setTextColor:colorTheme.groupTitleColor];
+    //[_inputLabel setTextColor:colorTheme.groupTitleColor];
+    //[_outputLabel setTextColor:colorTheme.groupTitleColor];
 
     [_enabledSwitch setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.80 : 1.0];
     [_inputsPopUp setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.80 : 1.0];
     [_inputsPopUp setButtonType:colorTheme.useBrightIcons.boolValue ? NSOnOffButton : NSMomentaryChangeButton];
+
+    NSFont *digitalFont = [NSFont fontWithName:@"Let's go Digital Regular" size:20];
+    NSColor *valueTextColor = colorTheme.useBrightIcons.boolValue ? [colorTheme.itemValueTitleColor shadowWithLevel:0.15] : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];
+
+    [_minLabel setFont:digitalFont];
+    [_minLabel setTextColor:valueTextColor];
+    [_maxLabel setFont:digitalFont];
+    [_maxLabel setTextColor:valueTextColor];
 
     [self observeValueForKeyPath:@"controller.levels" ofObject:nil change:nil context:(void*)self];
     [self observeValueForKeyPath:@"controller.output.engine.sensorsAndGroups" ofObject:nil change:nil context:nil];
@@ -93,11 +102,20 @@
         _levelsSnapshot = [self.controller.levels.array copy];
         NSLayoutConstraint *constraint = [_levelsTableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
         if (context) {
-            [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectNone insertAnimation:NSTableViewAnimationEffectNone];
+            [_levelsTableView updateWithObjectValues:_levelsSnapshot
+                                previousObjectValues:oldLevelsSnapshot
+                               updateHeightOfTheRows:NO
+                                 withRemoveAnimation:NSTableViewAnimationEffectNone
+                                     insertAnimation:NSTableViewAnimationEffectNone];
             [constraint setConstant:_levelsSnapshot.count * 28 + 1];
         }
         else {
-            [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectNone insertAnimation:NSTableViewAnimationEffectNone];
+            [_levelsTableView updateWithObjectValues:_levelsSnapshot
+                                previousObjectValues:oldLevelsSnapshot
+                               updateHeightOfTheRows:NO
+                                 withRemoveAnimation:NSTableViewAnimationSlideDown
+                                     insertAnimation:NSTableViewAnimationSlideDown];
+
             [[constraint animator] setConstant:_levelsSnapshot.count * 28 + 1];
         }
     }
@@ -139,7 +157,7 @@
 {
     PopupLevelCell *cell = [tableView makeViewWithIdentifier:@"level" owner:self];
 
-    HWMColorTheme *colorTheme = [HWMEngine defaultEngine].configuration.colorTheme;
+    HWMColorTheme *colorTheme = [HWMEngine sharedEngine].configuration.colorTheme;
     
     NSColor *textColor = colorTheme.useBrightIcons.boolValue ? [colorTheme.itemValueTitleColor shadowWithLevel:0.15] : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];
 

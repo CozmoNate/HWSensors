@@ -41,7 +41,11 @@
 @property (nonatomic, retain) NSNumber * min;
 @property (nonatomic, retain) NSOrderedSet *levels;
 
+@property (nonatomic, strong) NSNumber * rangedMax;
+@property (nonatomic, strong) NSNumber * rangedMin;
+
 -(HWMSmcFanControlLevel*)addOutputLevel:(NSNumber*)output forInputLevel:(NSNumber*)input;
+-(void)calculateOutputRange;
 
 @end
 

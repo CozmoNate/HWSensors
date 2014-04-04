@@ -55,86 +55,33 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SmcHelper.h"
-#import "smc.h"
+#import <launch.h>
+#import <syslog.h>
 
-#include <xpc/xpc.h>
+#import "HWMonitorHelper.h"
 
 int main(int argc, const char *argv[])
 {
-    xpc_connection_t service = xpc_connection_create_mach_service("org.hwsensors.HWMonitorHelper",
-                                                                  dispatch_get_main_queue(),
-                                                                  XPC_CONNECTION_MACH_SERVICE_LISTENER);
+    syslog(LOG_NOTICE, "HWMonitorHelper launched");
 
-    if (!service)
-        exit(EXIT_FAILURE);
-
-    xpc_connection_set_event_handler(service, ^(xpc_object_t connection) {
-        xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
-            
-            xpc_type_t type = xpc_get_type(event);
-
-            if (type == XPC_TYPE_ERROR) {
-                if (event == XPC_ERROR_CONNECTION_INVALID) {
-                    // The client process on the other end of the connection has either
-                    // crashed or cancelled the connection. After receiving this error,
-                    // the connection is in an invalid state, and you do not need to
-                    // call xpc_connection_cancel(). Just tear down any associated state
-                    // here.
-
-                } else if (event == XPC_ERROR_TERMINATION_IMMINENT) {
-                    // Handle per-connection termination cleanup.
-                }
-            }
-            else if (type == XPC_TYPE_DICTIONARY) {
-                if (xpc_dictionary_get_count(event)) {
-
-                    xpc_connection_t remote = xpc_dictionary_get_remote_connection(event);
-                    xpc_object_t reply = xpc_dictionary_create_reply(event);
-
-                    switch (xpc_dictionary_get_int64(event, "command")) {
-                            // 1 - Write Number
-                        case 1: {
-                            const char* key = xpc_dictionary_get_string(event, "key");
-                            int64_t value = xpc_dictionary_get_int64(event, "value");
-
-                            io_connect_t smc_connection;
-
-                            if (kIOReturnSuccess == SMCOpen("AppleSMC", &smc_connection)) {
-                                [SmcHelper writeKey:[NSString stringWithFormat:@"%s", key]
-                                              value:[NSNumber numberWithLongLong:value]
-                                         connection:smc_connection];
-                                SMCClose(smc_connection);
-                                xpc_dictionary_set_int64(reply, "result", kIOReturnSuccess);
-                            }
-                            else {
-                                xpc_dictionary_set_int64(reply, "result", kIOReturnError);
-                            }
-
-                            break;
-                        }
-
-                        default:
-                            xpc_dictionary_set_int64(reply, "result", kIOReturnBadArgument);
-                            break;
-                    }
-                    
-                    xpc_connection_send_message(remote, reply);
-                    xpc_release(reply);
-                }
-            }
-        });
-        
-        xpc_connection_resume(connection);
-
-    });
+    launch_data_t checkinRequest = launch_data_new_string(LAUNCH_KEY_CHECKIN);
+    launch_data_t checkinResponse = launch_msg(checkinRequest);
     
-    xpc_connection_resume(service);
-    
-    dispatch_main();
+    launch_data_t machServicesDict = launch_data_dict_lookup(checkinResponse, LAUNCH_JOBKEY_MACHSERVICES);
+    launch_data_t machPort = launch_data_dict_lookup(machServicesDict, kHWMonitorHelperServiceName);
 
-    xpc_release(service);
-    
-    return EXIT_SUCCESS;
+    mach_port_t mp = launch_data_get_machport(machPort);
+
+    launch_data_free(checkinResponse);
+    launch_data_free(checkinRequest);
+
+    NSMachPort *port = [[NSMachPort alloc] initWithMachPort:mp];
+    NSConnection *connection = [NSConnection connectionWithReceivePort:port sendPort:nil];
+
+    [connection setRootObject:[HWMonitorHelper new]];
+
+    [[NSRunLoop currentRunLoop] run];
+
+    return EXIT_FAILURE;
 }
 

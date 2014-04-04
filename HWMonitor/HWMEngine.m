@@ -42,7 +42,6 @@
 #import "HWMGraphsGroup.h"
 #import "HWMFavorite.h"
 
-#import "smc.h"
 #import "Localizer.h"
 
 #import "HWMonitorDefinitions.h"
@@ -56,7 +55,7 @@
 
 NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
-static HWMEngine* gDefaultEngine = nil;
+static HWMEngine * gSharedEngine;
 
 @implementation HWMEngine
 
@@ -70,14 +69,9 @@ static HWMEngine* gDefaultEngine = nil;
 #pragma mark
 #pragma mark Global methods
 
-+(HWMEngine*)defaultEngine
++(HWMEngine*)sharedEngine
 {
-    return gDefaultEngine;
-}
-
-+(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
-{
-    return [[HWMEngine alloc] initWithBundle:bundle];
+    return gSharedEngine;
 }
 
 #pragma mark
@@ -299,8 +293,11 @@ static HWMEngine* gDefaultEngine = nil;
     if (self) {
         _bundle = [NSBundle mainBundle];
 
-        if (!gDefaultEngine) {
-            gDefaultEngine = self;
+        if (gSharedEngine) {
+            self = gSharedEngine;
+        }
+        else {
+            gSharedEngine = self;
         }
     }
 
@@ -314,8 +311,11 @@ static HWMEngine* gDefaultEngine = nil;
     if (self) {
         _bundle = bundle;
 
-        if (!gDefaultEngine) {
-            gDefaultEngine = self;
+        if (gSharedEngine) {
+            self = gSharedEngine;
+        }
+        else {
+            gSharedEngine = self;
         }
     }
 
@@ -1350,18 +1350,15 @@ static HWMEngine* gDefaultEngine = nil;
     if (!connection)
         return nil;
 
-    SMCVal_t val;
-
-    SMCReadKey(connection, "#KEY", &val);
-
-    UInt32 count = [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType].unsignedIntValue;
-
     NSMutableArray *array = [[NSMutableArray alloc] init];
+
+    UInt32 count = [SmcHelper readNumericKey:@"#KEY" connection:connection].unsignedIntValue;
 
     for (UInt32 index = 0; index < count; index++) {
         SMCKeyData_t  inputStructure;
         SMCKeyData_t  outputStructure;
-
+        SMCVal_t val;
+        
         memset(&inputStructure, 0, sizeof(SMCKeyData_t));
         memset(&outputStructure, 0, sizeof(SMCKeyData_t));
         memset(&val, 0, sizeof(SMCVal_t));
@@ -1566,25 +1563,9 @@ static HWMEngine* gDefaultEngine = nil;
         [fan setNumber:[NSNumber numberWithInt:index]];
 
         if (newFan || !fan.controller) {
-            SMCVal_t info;
 
-            char key[5];
-
-            NSNumber *min, *max;
-
-            // Min
-            snprintf(key, 5, KEY_FORMAT_FAN_MIN, index);
-
-            if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                min = [SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType];
-            }
-
-            // Max
-            snprintf(key, 5, KEY_FORMAT_FAN_MAX, index);
-
-            if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                max = [SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType];
-            }
+            NSNumber *min = [SmcHelper readNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, index] connection:connection];
+            NSNumber *max = [SmcHelper readNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MAX, index] connection:connection];
 
             if (min && max && [max isGreaterThan:min]) {
                 HWMSmcFanController *controller = [NSEntityDescription insertNewObjectForEntityForName:@"SmcFanController" inManagedObjectContext:self.managedObjectContext];
@@ -1595,21 +1576,15 @@ static HWMEngine* gDefaultEngine = nil;
                 [fan setController:controller];
 
                 if (self.isRunningOnMac) {
-                    // Target
-                    snprintf(key, 5, KEY_FORMAT_FAN_TARGET, index);
 
-                    if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                        [controller addOutputLevel:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType] forInputLevel:@30];
-                    }
+                    NSNumber *target = [SmcHelper readNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, index] connection:connection];
+
+                    [controller addOutputLevel:target forInputLevel:@30];
                 }
                 else {
                     [controller addOutputLevel:fan.value forInputLevel:@30];
                 }
             }
-        }
-
-        if (fan.controller) {
-            [fan.controller updateCurrentLevel];
         }
 
         return fan;

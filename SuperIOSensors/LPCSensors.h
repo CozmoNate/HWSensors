@@ -34,7 +34,7 @@
 #include "FakeSMCPlugin.h"
 
 #define kLPCSensorsMinRPM               0000.0
-#define kLPCSensorsMaxRPM               3000.0
+#define kLPCSensorsMaxRPM               6000.0
 
 #define kLPCSensorsFanTargetController  1000
 #define kLPCSensorsFanMinController     2000

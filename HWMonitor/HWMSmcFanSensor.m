@@ -27,12 +27,6 @@
  */
 
 #import "HWMSmcFanSensor.h"
-#import "smc.h"
-#import "SmcHelper+HWMonitorHelper.h"
-#import "HWMEngine.h"
-#import "HWMConfiguration.h"
-
-#import "FakeSMCDefinitions.h"
 
 @implementation HWMSmcFanSensor
 

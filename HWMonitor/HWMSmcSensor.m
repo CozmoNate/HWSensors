@@ -31,7 +31,6 @@
 
 #import "FakeSMCDefinitions.h"
 #import "SmcHelper.h"
-#import "smc.h"
 
 @implementation HWMSmcSensor
 
@@ -69,13 +68,7 @@
 
 -(NSNumber *)internalUpdateValue
 {
-    SMCVal_t info;
-
-    if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.service.unsignedLongValue, self.name.UTF8String, &info)) {
-        return [SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType];
-    }
-
-    return @0;
+    return [SmcHelper readNumericKey:self.name connection:(io_connect_t)self.service.unsignedLongValue];
 }
 
 @end

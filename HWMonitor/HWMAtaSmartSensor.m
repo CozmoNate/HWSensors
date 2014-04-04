@@ -559,42 +559,41 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
             if (productMatch) {
 
                 for (NSString *productPattern in productMatch) {
-
-                    NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:productPattern options:NSRegularExpressionCaseInsensitive error:nil];
-
-                    if ([expression numberOfMatchesInString:product options:NSMatchingReportCompletion range:NSMakeRange(0, product.length)]) {
+                    if ([[NSRegularExpression regularExpressionWithPattern:productPattern options:NSRegularExpressionCaseInsensitive error:nil] numberOfMatchesInString:product options:NSMatchingReportCompletion range:NSMakeRange(0, product.length)]) {
 
                         NSArray *firmwareMatch = group[@"FirmwareMatch"];
+
+                        BOOL firmwareSupported = YES;
 
                         if (firmware && firmwareMatch) {
 
                             BOOL supported = NO;
 
                             for (NSString *firmwarePattern in firmwareMatch) {
-                                expression = [NSRegularExpression regularExpressionWithPattern:firmwarePattern options:NSRegularExpressionCaseInsensitive error:nil];
-
-                                if ([expression numberOfMatchesInString:firmware options:NSMatchingReportCompletion range:NSMakeRange(0, firmware.length)]) {
+                                if ([[NSRegularExpression regularExpressionWithPattern:firmwarePattern options:NSRegularExpressionCaseInsensitive error:nil] numberOfMatchesInString:firmware options:NSMatchingReportCompletion range:NSMakeRange(0, firmware.length)]) {
                                     supported = YES;
                                     break;
                                 }
                             }
-                            
-                            if (!supported) {
-                                return nil;
-                            }
+
+                            firmwareSupported = supported;
                         }
 
-                        __block NSMutableDictionary *arranged = [NSMutableDictionary dictionary];
+                        if (firmwareSupported) {
+                            __block NSMutableDictionary *arranged = [NSMutableDictionary dictionary];
 
-                        [group[@"Attributes"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                            NSArray *idAndFormat = [key componentsSeparatedByString:@","];
+                            [group[@"Attributes"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                                NSArray *idAndFormat = [key componentsSeparatedByString:@","];
 
-                            [arranged setObject:@{@"name": obj, @"format": idAndFormat[1]} forKey:idAndFormat[0]];
-                        }];
+                                [arranged setObject:@{@"name": obj, @"format": idAndFormat[1]} forKey:idAndFormat[0]];
+                            }];
 
-                        overrides = [arranged copy];
+                            overrides = [arranged copy];
 
-                        [gSmartAttributeOverrideCache setObject:overrides forKey:identifier];
+                            [gSmartAttributeOverrideCache setObject:overrides forKey:identifier];
+                            
+                            break;
+                        }
                     }
                 }
             }
@@ -678,7 +677,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                             }
                         }
 
-                        if (ATTRIBUTE_FLAGS_PREFAILURE(attribute->flag) && [HWMEngine defaultEngine] && [HWMEngine defaultEngine].configuration.notifyAlarmLevelChanges) {
+                        if (ATTRIBUTE_FLAGS_PREFAILURE(attribute->flag) && [HWMEngine sharedEngine] && [HWMEngine sharedEngine].configuration.notifyAlarmLevelChanges) {
                             switch (level) {
                                 case kHWMSensorLevelExceeded:
                                     [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")

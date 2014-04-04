@@ -33,13 +33,15 @@
 
 #import "FakeSMCDefinitions.h"
 #import "SmcHelper+HWMonitorHelper.h"
-#import "smc.h"
+
 
 @implementation HWMSmcFanController
 
 @dynamic max;
 @dynamic min;
 @dynamic levels;
+@synthesize rangedMax;
+@synthesize rangedMin;
 
 -(HWMSmcFanControlLevel*)addOutputLevel:(NSNumber*)output forInputLevel:(NSNumber*)input
 {
@@ -59,9 +61,27 @@
     }
 }
 
+-(void)calculateOutputRange
+{
+    NSNumber *min, *max;
+
+    for (HWMSmcFanControlLevel *level in self.levels) {
+        if (!min || [min isGreaterThan:level.output]) {
+            min = level.output;
+        }
+        else if (!max || [max isLessThan:level.output]) {
+            max = level.output;
+        }
+    }
+
+    self.rangedMin = min;
+    self.rangedMax = max;
+}
+
 -(void)setEnabled:(NSNumber *)enabled
 {
     [super setEnabled:enabled];
+
     [self updateManualControlKey];
 }
 
@@ -146,26 +166,21 @@
     }
 }
 
+static UInt32 gManualControlKeyValue = 0x80000000;
+
 -(void)updateManualControlKey
 {
-    SMCVal_t info;
+    if (gManualControlKeyValue == 0x80000000) {
+        gManualControlKeyValue = [SmcHelper readNumericKey:@KEY_FAN_MANUAL connection:(io_connect_t)self.output.service.unsignedLongValue].unsignedIntValue;
+    }
 
-    if (kIOReturnSuccess == SMCReadKey((io_connect_t)self.output.service.unsignedLongValue, KEY_FAN_MANUAL, &info)) {
+    bool enabled = bit_get(gManualControlKeyValue, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue)) ? YES : NO;
 
-        NSNumber *value;
+    if (enabled != self.enabled.boolValue) {
 
-        if ((value = [SmcHelper decodeNumericValueFromBuffer:&info.bytes length:info.dataSize type:info.dataType])) {
+        bit_write(self.enabled.boolValue, gManualControlKeyValue, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue));
 
-            UInt16 manual = value.unsignedShortValue;
-            bool enabled = bit_get(manual, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue)) ? YES : NO;
-
-            if (enabled != self.enabled.boolValue) {
-
-                bit_write(self.enabled.boolValue, manual, BIT(((HWMSmcFanSensor*)self.output).number.unsignedShortValue));
-
-                [SmcHelper privilegedWriteNumericKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:manual]];
-            }
-        }
+        [SmcHelper privilegedWriteNumericKey:@KEY_FAN_MANUAL value:[NSNumber numberWithUnsignedShort:gManualControlKeyValue]];
     }
 }
 
@@ -174,6 +189,21 @@
     [[self mutableOrderedSetValueForKey:@"levels"] insertObject:value atIndex:idx];
 }
 
+-(void)awakeFromFetch
+{
+    [super awakeFromFetch];
+
+    [self calculateOutputRange];
+    [self updateCurrentLevel];
+}
+
+-(void)awakeFromInsert
+{
+    [super awakeFromInsert];
+
+    [self calculateOutputRange];
+    [self updateCurrentLevel];
+}
 
 -(void)prepareForDeletion
 {

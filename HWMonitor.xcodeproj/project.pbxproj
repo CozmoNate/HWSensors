@@ -105,9 +105,12 @@
 		7E41500F18A8034000E6CD7F /* SmartOverrides.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E41500E18A8034000E6CD7F /* SmartOverrides.plist */; };
 		7E420FAD1820E2D800331D2B /* Profiles in Resources */ = {isa = PBXBuildFile; fileRef = 7E420FAC1820E2D800331D2B /* Profiles */; };
 		7E48B3CC18BE5A0E00B6B734 /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */; };
-		7E48B3CF18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CE18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m */; };
 		7E48B3D018BE5A1D00B6B734 /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */; };
 		7E48B3D118BE5A3300B6B734 /* SmcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */; };
+		7E48BC5A18EE8FAE00A6CA19 /* HWMonitorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48BC5918EE8FAE00A6CA19 /* HWMonitorHelper.m */; };
+		7E48BC6018EE918900A6CA19 /* NSString+IOReturnDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48BC5F18EE918900A6CA19 /* NSString+IOReturnDescription.m */; };
+		7E48BC6118EE918900A6CA19 /* NSString+IOReturnDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48BC5F18EE918900A6CA19 /* NSString+IOReturnDescription.m */; };
+		7E48BC6518EE977500A6CA19 /* SmcHelper+HWMonitorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48BC6418EE977500A6CA19 /* SmcHelper+HWMonitorHelper.m */; };
 		7E4959F218A640F200E05CF7 /* PopupFanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4959F118A640F200E05CF7 /* PopupFanController.m */; };
 		7E4C76AE18A559BA0050BEFD /* PopupAtaSmartReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C76AC18A559BA0050BEFD /* PopupAtaSmartReportController.m */; };
 		7E4C76AF18A559BA0050BEFD /* PopupAtaSmartReportController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E4C76AD18A559BA0050BEFD /* PopupAtaSmartReportController.xib */; };
@@ -120,6 +123,7 @@
 		7E6D90441845EEDB0045BDB3 /* HWMGraphsGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6D90431845EEDB0045BDB3 /* HWMGraphsGroup.m */; };
 		7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */; };
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
+		7E8A337518EEEC510059DA16 /* HWMThemedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A337418EEEC510059DA16 /* HWMThemedTextField.m */; };
 		7E9060E51708951800BF5BBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248F016D8E93A002231B2 /* Foundation.framework */; };
 		7E9060E81708951800BF5BBF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9060E71708951800BF5BBF /* main.m */; };
 		7E9060EC1708951800BF5BBF /* smcutil.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E9060EB1708951800BF5BBF /* smcutil.1 */; };
@@ -422,8 +426,12 @@
 		7E4408F218639CD3002B2960 /* HWMEngine 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		7E48B3CA18BE5A0E00B6B734 /* SmcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmcHelper.h; path = Shared/SmcHelper.h; sourceTree = "<group>"; };
 		7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmcHelper.m; path = Shared/SmcHelper.m; sourceTree = "<group>"; };
-		7E48B3CD18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SmcHelper+HWMonitorHelper.h"; path = "Shared/SmcHelper+HWMonitorHelper.h"; sourceTree = "<group>"; };
-		7E48B3CE18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SmcHelper+HWMonitorHelper.m"; path = "Shared/SmcHelper+HWMonitorHelper.m"; sourceTree = "<group>"; };
+		7E48BC5918EE8FAE00A6CA19 /* HWMonitorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMonitorHelper.m; sourceTree = "<group>"; };
+		7E48BC5E18EE918900A6CA19 /* NSString+IOReturnDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+IOReturnDescription.h"; sourceTree = "<group>"; };
+		7E48BC5F18EE918900A6CA19 /* NSString+IOReturnDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+IOReturnDescription.m"; sourceTree = "<group>"; };
+		7E48BC6218EE971400A6CA19 /* HWMonitorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMonitorHelper.h; sourceTree = "<group>"; };
+		7E48BC6318EE977500A6CA19 /* SmcHelper+HWMonitorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SmcHelper+HWMonitorHelper.h"; sourceTree = "<group>"; };
+		7E48BC6418EE977500A6CA19 /* SmcHelper+HWMonitorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SmcHelper+HWMonitorHelper.m"; sourceTree = "<group>"; };
 		7E4959F018A640F200E05CF7 /* PopupFanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupFanController.h; sourceTree = "<group>"; };
 		7E4959F118A640F200E05CF7 /* PopupFanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupFanController.m; sourceTree = "<group>"; };
 		7E4C76AB18A559BA0050BEFD /* PopupAtaSmartReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupAtaSmartReportController.h; sourceTree = "<group>"; };
@@ -445,6 +453,8 @@
 		7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBMenuBarWindow.m; sourceTree = "<group>"; };
 		7E7D61F91704453B00F7222F /* FadingButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadingButton.h; sourceTree = "<group>"; };
 		7E7D61FA1704453B00F7222F /* FadingButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadingButton.m; sourceTree = "<group>"; };
+		7E8A337318EEEC510059DA16 /* HWMThemedTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMThemedTextField.h; sourceTree = "<group>"; };
+		7E8A337418EEEC510059DA16 /* HWMThemedTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMThemedTextField.m; sourceTree = "<group>"; };
 		7E9060E41708951800BF5BBF /* smcutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = smcutil; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E9060E71708951800BF5BBF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7E9060EA1708951800BF5BBF /* smcutil-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "smcutil-Prefix.pch"; sourceTree = "<group>"; };
@@ -812,6 +822,8 @@
 		7E19DEC71843D30E00229B0E /* Base Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7E48BC6318EE977500A6CA19 /* SmcHelper+HWMonitorHelper.h */,
+				7E48BC6418EE977500A6CA19 /* SmcHelper+HWMonitorHelper.m */,
 				7EF034EE185F73B3003CDEFB /* HWMValueFormatter.h */,
 				7EF034EF185F73B3003CDEFB /* HWMValueFormatter.m */,
 				7E031C621835E76D00A2D097 /* HWMImageTransformer.h */,
@@ -908,6 +920,8 @@
 			isa = PBXGroup;
 			children = (
 				7EEC9F4B18B8D73E00BDB9D7 /* main.m */,
+				7E48BC6218EE971400A6CA19 /* HWMonitorHelper.h */,
+				7E48BC5918EE8FAE00A6CA19 /* HWMonitorHelper.m */,
 				7EEC9F4218B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist */,
 				7EEC9F4318B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist */,
 			);
@@ -972,6 +986,15 @@
 				7ED40C28184A6D0F0068EBC9 /* WebKit.framework */,
 			);
 			name = Linked;
+			sourceTree = "<group>";
+		};
+		7E8A337618EEEC5A0059DA16 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				7E8A337318EEEC510059DA16 /* HWMThemedTextField.h */,
+				7E8A337418EEEC510059DA16 /* HWMThemedTextField.m */,
+			);
+			name = Controls;
 			sourceTree = "<group>";
 		};
 		7E9060E61708951800BF5BBF /* smcutil */ = {
@@ -1044,6 +1067,8 @@
 				7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */,
 				7EA248F316D8E93A002231B2 /* HWMonitor-Info.plist */,
 				7E41500E18A8034000E6CD7F /* SmartOverrides.plist */,
+				7EDA1AAB16D936410012A0DC /* Localizable.strings */,
+				7E6D702618AF3F1800CD8BFD /* SmartAttributes.strings */,
 				7EA248F416D8E93A002231B2 /* InfoPlist.strings */,
 				7EA248F716D8E93A002231B2 /* main.m */,
 				7EA248F916D8E93A002231B2 /* HWMonitor-Prefix.pch */,
@@ -1106,6 +1131,7 @@
 				7E19DEC71843D30E00229B0E /* Base Classes */,
 				7E19DEC61843D30200229B0E /* Sensors */,
 				7E063A5018C227100083F52F /* Controllers */,
+				7E8A337618EEEC5A0059DA16 /* Controls */,
 				7E19DEC51843D2F500229B0E /* Graphs */,
 				7EFF4393183649B20094860C /* HWMEngine.h */,
 				7EFF4394183649B20094860C /* HWMEngine.m */,
@@ -1143,8 +1169,6 @@
 				7EFDE525185C9FF00022FD66 /* Fonts */,
 				7EDDC87116FA5DA50072B15B /* Localizer.h */,
 				7EDDC87216FA5DA50072B15B /* Localizer.m */,
-				7EDA1AAB16D936410012A0DC /* Localizable.strings */,
-				7E6D702618AF3F1800CD8BFD /* SmartAttributes.strings */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";
@@ -1154,8 +1178,8 @@
 			children = (
 				7E48B3CA18BE5A0E00B6B734 /* SmcHelper.h */,
 				7E48B3CB18BE5A0E00B6B734 /* SmcHelper.m */,
-				7E48B3CD18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.h */,
-				7E48B3CE18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m */,
+				7E48BC5E18EE918900A6CA19 /* NSString+IOReturnDescription.h */,
+				7E48BC5F18EE918900A6CA19 /* NSString+IOReturnDescription.m */,
 			);
 			name = Cocoa;
 			sourceTree = "<group>";
@@ -1501,6 +1525,8 @@
 				7EEC9F4918B8D20600BDB9D7 /* smc.c in Sources */,
 				7EEC9F4C18B8D73E00BDB9D7 /* main.m in Sources */,
 				7E48B3D018BE5A1D00B6B734 /* SmcHelper.m in Sources */,
+				7E48BC6118EE918900A6CA19 /* NSString+IOReturnDescription.m in Sources */,
+				7E48BC5A18EE8FAE00A6CA19 /* HWMonitorHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1541,16 +1567,18 @@
 				7EF1B129185342630094C1DB /* HWMFavorite.m in Sources */,
 				7EDA1A7816D903740012A0DC /* PopupGroupCell.m in Sources */,
 				7EDA1A7916D903740012A0DC /* PopupSensorCell.m in Sources */,
+				7E48BC6518EE977500A6CA19 /* SmcHelper+HWMonitorHelper.m in Sources */,
 				7E4C76BA18A61C190050BEFD /* NSTableHeaderCell+PopupThemedHeader.m in Sources */,
+				7E8A337518EEEC510059DA16 /* HWMThemedTextField.m in Sources */,
 				7E48B3CC18BE5A0E00B6B734 /* SmcHelper.m in Sources */,
 				7E063A4F18C226EB0083F52F /* HWMSensorController.m in Sources */,
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
-				7E48B3CF18BE5A1700B6B734 /* SmcHelper+HWMonitorHelper.m in Sources */,
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
 				7ED6AE08188347FD0005B30C /* PrefsToolbarItem.m in Sources */,
 				7E031C641835E76D00A2D097 /* HWMImageTransformer.m in Sources */,
+				7E48BC6018EE918900A6CA19 /* NSString+IOReturnDescription.m in Sources */,
 				7EF1B12C185342890094C1DB /* HWMConfiguration.m in Sources */,
 				7EFE61AE183581090009BD0D /* HWMBatterySensor.m in Sources */,
 				7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */,
