@@ -100,7 +100,9 @@
 
 -(void)rangeSwitchChanged:(id)sender
 {
-    [[_rangeHeightConstraint animator] setConstant:_rangeSwitch.state ? _initialRangeConstraintHeight : 0];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [[_rangeHeightConstraint animator] setConstant:_rangeSwitch.state ? _initialRangeConstraintHeight : 0];
+    }];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
