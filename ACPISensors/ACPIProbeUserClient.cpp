@@ -83,11 +83,11 @@ IOReturn ACPIProbeUserClient::externalMethod(uint32_t selector, IOExternalMethod
 	IOReturn result = kIOReturnError;
 
 	if (acpiProbe == NULL || isInactive()) {
-		result = kIOReturnNotAttached;
+		return kIOReturnNotAttached;
 	}
-	else if (!acpiProbe->isOpen(this)) {
-		result = kIOReturnNotOpen;
-	}
+//	else if (!acpiProbe->isOpen(this)) {
+//		return kIOReturnNotOpen;
+//	}
 
     SYNCLOCK;
 

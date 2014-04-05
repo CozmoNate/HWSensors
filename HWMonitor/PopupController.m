@@ -214,7 +214,7 @@
             [[_tableHeightConstraint animator] setConstant:height + 1]; // height+1 avoid flickering artifact
         }
         else {
-            [_tableHeightConstraint setConstant:height];
+            [_tableHeightConstraint setConstant:height + 1];
         }
     }
 

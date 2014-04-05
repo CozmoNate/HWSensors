@@ -1679,6 +1679,7 @@ static HWMEngine * gSharedEngine;
 
     // GPU Fans
     for (int i=0; i < 0xf; i++) {
+        
         NSString *key = [NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i];
 
         if ([keys indexOfObject:key] != NSNotFound) {

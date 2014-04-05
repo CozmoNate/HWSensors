@@ -115,11 +115,11 @@ IOReturn FakeSMCKeyStoreUserClient::externalMethod(uint32_t selector, IOExternal
 	IOReturn result = kIOReturnError;
 
 	if (keyStore == NULL || isInactive()) {
-		result = kIOReturnNotAttached;
+		return kIOReturnNotAttached;
 	}
-	else if (!keyStore->isOpen(this)) {
-		result = kIOReturnNotOpen;
-	}
+//	else if (!keyStore->isOpen(this)) {
+//		return kIOReturnNotOpen;
+//	}
 
     SYNCLOCK;
 
