@@ -121,11 +121,16 @@ bool LPCSensors::addTemperatureSensors(OSDictionary *configuration)
 
         if (OSObject* node = configuration->getObject(key)) {
             if (!addSensor(node, kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, i)) {
-                if (gpuIndex < 0)
-                    gpuIndex = takeVacantGPUIndex();
 
-                if (gpuIndex >= 0 && checkConfigurationNode(configuration, "GPU Die")) {
+                if (checkConfigurationNode(configuration, "GPU Die")) {
+
+                    if (gpuIndex < 0)
+                        gpuIndex = takeVacantGPUIndex();
+                    else
+                        continue;
+
                     snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, gpuIndex);
+
                     if (!addSensorFromConfigurationNode(node, key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i)) {
                         releaseGPUIndex(gpuIndex);
                         gpuIndex = -1;
@@ -150,11 +155,16 @@ bool LPCSensors::addVoltageSensors(OSDictionary *configuration)
 
         if (OSObject* node = configuration->getObject(key)) {
             if (!addSensor(node, kFakeSMCCategoryVoltage, kFakeSMCVoltageSensor, i)) {
-                if (gpuIndex < 0)
-                    gpuIndex = takeVacantGPUIndex();
+                
+                if (checkConfigurationNode(configuration, "GPU Core")) {
 
-                if (gpuIndex >= 0 && checkConfigurationNode(configuration, "GPU Core")) {
+                    if (gpuIndex < 0)
+                        gpuIndex = takeVacantGPUIndex();
+                    else
+                        continue;
+
                     snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, gpuIndex);
+
                     if (!addSensorFromConfigurationNode(node, key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, i)) {
                         releaseGPUIndex(gpuIndex);
                         gpuIndex = -1;
