@@ -705,7 +705,7 @@ FakeSMCSensor *FakeSMCPlugin::getSensor(const char* key)
 /**
  *  Callback method invoked before key value will be read. Can be used by plugin to provide custom key value that can be calculated or obtained in the moment of key read action. Blocks key reading thread until returned
  *
- *  @param sensor   FakeSMCSensor object representing specific SMC key
+ *  @param sensor   FakeSMCSensor object representing specific SMC key will be read
  *  @param outValue floating point key value will be exposed to SMC
  *
  *  @return if True is returned outValue will be used as a value for sensor handled SMC key. if False is returned SMC key value will not be changed
@@ -716,18 +716,23 @@ bool FakeSMCPlugin::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 }
 
 /**
- *  Callback method invoked after the new value has been written to specific key. Can be used by plugin to handle key writes. Blocks key reading thread until returned
+ *  Callback method invoked after the new value has been written to specific key. Can be used by plugin to handle key writes. Blocks key writing thread until returned
  *
- *  @param sensor FakeSMCSensor object representing specific SMC key
+ *  @param sensor FakeSMCSensor object representing specific SMC key has been written
  *  @param value  floating point value written to SMC key
  *
- *  @return will not be used
+ *  @return not used
  */
 bool FakeSMCPlugin::didWriteSensorValue(FakeSMCSensor *sensor, float value)
 {
     return false;
 }
 
+/**
+ *  Synchronized method that tries to take vacant GPU index available from internal list
+ *
+ *  @return Index taken (starting from 0) or -1 on failure
+ */
 SInt8 FakeSMCPlugin::takeVacantGPUIndex(void)
 {
     LOCK;
@@ -739,6 +744,13 @@ SInt8 FakeSMCPlugin::takeVacantGPUIndex(void)
     return index;
 }
 
+/**
+ *  Synchronized method that tries to take specific GPU index available from internal list
+ *
+ *  @param index GPU index to take
+ *
+ *  @return True if the index was taken successfully False otherwise
+ */
 bool FakeSMCPlugin::takeGPUIndex(UInt8 index)
 {
     LOCK;
@@ -750,6 +762,11 @@ bool FakeSMCPlugin::takeGPUIndex(UInt8 index)
     return taken;
 }
 
+/**
+ *  Synchronized method that releases previousely taken GPU index by this or another plugin
+ *
+ *  @param index Index to release
+ */
 void FakeSMCPlugin::releaseGPUIndex(UInt8 index)
 {
     LOCK;
@@ -759,6 +776,11 @@ void FakeSMCPlugin::releaseGPUIndex(UInt8 index)
     UNLOCK;
 }
 
+/**
+ *  Synchronized method that takes vacant Fan index available from internal list. Will update fan counter key on success
+ *
+ *  @return Index taken (starting from 0) or -1 on failure
+ */
 SInt8 FakeSMCPlugin::takeVacantFanIndex(void)
 {
     LOCK;
@@ -770,6 +792,11 @@ SInt8 FakeSMCPlugin::takeVacantFanIndex(void)
     return index;
 }
 
+/**
+ *  Synchronized method that releases previousely taken Fan index by this or another plugin. Will update fan counter key on success
+ *
+ *  @param index Index to release
+ */
 void FakeSMCPlugin::releaseFanIndex(UInt8 index)
 {
     LOCK;
@@ -777,6 +804,68 @@ void FakeSMCPlugin::releaseFanIndex(UInt8 index)
     keyStore->releaseFanIndex(index);
 
     UNLOCK;
+}
+
+/**
+ *  Will try to decode floating point value first, will fallback to decode integer value
+ *
+ *  @param name     Key name
+ *  @param outValue Decoded value will be returned os success
+ *
+ *  @return True on success False otherwise
+ */
+bool FakeSMCPlugin::decodeFloatValueForKey(const char *name, float *outValue)
+{
+    if (!outValue)
+        return false;
+
+    if (FakeSMCKey *key = keyStore->getKey(name)) {
+        if (fakeSMCPluginDecodeFloatValue(key->getType(), key->getSize(), key->getValue(), outValue)) {
+            return true;
+        }
+        else {
+
+            int intValue = 0;
+
+            if (fakeSMCPluginDecodeIntValue(key->getType(), key->getSize(), key->getValue(), &intValue)) {
+                *outValue = (float)intValue;
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+/**
+ *  Will try to decode integer value first, will fallback to decode floating point value
+ *
+ *  @param name     Key name
+ *  @param outValue Decoded value will be returned os success
+ *
+ *  @return True on success False otherwise
+ */
+bool FakeSMCPlugin::decodeIntValueForKey(const char *name, int *outValue)
+{
+    if (!outValue)
+        return false;
+
+    if (FakeSMCKey *key = keyStore->getKey(name)) {
+        if (fakeSMCPluginDecodeIntValue(key->getType(), key->getSize(), key->getValue(), outValue)) {
+            return true;
+        }
+        else {
+
+            float floatValue = 0;
+
+            if (fakeSMCPluginDecodeFloatValue(key->getType(), key->getSize(), key->getValue(), &floatValue)) {
+                *outValue = (int)floatValue;
+                return true;
+            }
+        }
+    }
+    
+    return false;
 }
 
 OSDictionary *FakeSMCPlugin::getConfigurationNode(OSDictionary *root, OSString *name)
@@ -809,6 +898,13 @@ OSDictionary *FakeSMCPlugin::getConfigurationNode(OSDictionary *root, const char
     return configuration;
 }
 
+/**
+ *  Look for configuration node for specific model in plugin properties. Will search manufacturer and product configuration nodes. Will return "Default" configuration node from product node if the model was not found or "Default" node from manufacturer node if product was not found
+ *
+ *  @param model Model to load configuration for
+ *
+ *  @return OSDictionary object containg configuration node found or NULL otherwise
+ */
 OSDictionary *FakeSMCPlugin::getConfigurationNode(OSString *model)
 {
     OSDictionary *configuration = NULL;
@@ -828,6 +924,10 @@ OSDictionary *FakeSMCPlugin::getConfigurationNode(OSString *model)
     return configuration;
 }
 
+/**
+ *  For internal use, do not override
+ *
+ */
 bool FakeSMCPlugin::init(OSDictionary *properties)
 {
     if (!gFakeSMCPluginLock)
@@ -844,46 +944,10 @@ bool FakeSMCPlugin::init(OSDictionary *properties)
 	return true;
 }
 
-bool FakeSMCPlugin::decodeFloatValueForKey(const char *name, float *outValue)
-{
-    if (FakeSMCKey *key = keyStore->getKey(name)) {
-        if (fakeSMCPluginDecodeFloatValue(key->getType(), key->getSize(), key->getValue(), outValue)) {
-            return true;
-        }
-        else {
-            
-            int intValue = 0;
-
-            if (fakeSMCPluginDecodeIntValue(key->getType(), key->getSize(), key->getValue(), &intValue)) {
-                *outValue = intValue;
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-bool FakeSMCPlugin::decodeIntValueForKey(const char *name, int *outValue)
-{
-    if (FakeSMCKey *key = keyStore->getKey(name)) {
-        if (fakeSMCPluginDecodeIntValue(key->getType(), key->getSize(), key->getValue(), outValue)) {
-            return true;
-        }
-        else {
-
-            float floatValue = 0;
-
-            if (fakeSMCPluginDecodeFloatValue(key->getType(), key->getSize(), key->getValue(), &floatValue)) {
-                *outValue = floatValue;
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
+/**
+ *  For internal use, do not override
+ *
+ */
 bool FakeSMCPlugin::start(IOService *provider)
 {
 	if (!super::start(provider))
@@ -906,6 +970,10 @@ inline UInt8 index_of_hex_char(char c)
 	return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
 }
 
+/**
+ *  For internal use, do not override
+ *
+ */
 void FakeSMCPlugin::stop(IOService* provider)
 {
     HWSensorsDebugLog("removing handler");
@@ -934,6 +1002,10 @@ void FakeSMCPlugin::stop(IOService* provider)
 	super::stop(provider);
 }
 
+/**
+ *  For internal use, do not override
+ *
+ */
 void FakeSMCPlugin::free()
 {
     HWSensorsDebugLog("freenig sensors collection");
@@ -941,6 +1013,10 @@ void FakeSMCPlugin::free()
 	super::free();
 }
 
+/**
+ *  For internal use, do not override
+ *
+ */
 IOReturn FakeSMCPlugin::readKeyCallback(const char *key, const char *type, const UInt8 size, void *buffer)
 {
     if (key && buffer) {
@@ -962,6 +1038,10 @@ IOReturn FakeSMCPlugin::readKeyCallback(const char *key, const char *type, const
     return kIOReturnBadArgument;
 }
 
+/**
+ *  For internal use, do not override
+ *
+ */
 IOReturn FakeSMCPlugin::writeKeyCallback(const char *key, const char *type, const UInt8 size, const void *buffer)
 {       
     if (key && type && buffer) {
