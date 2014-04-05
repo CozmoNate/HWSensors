@@ -377,26 +377,49 @@ OSDefineMetaClassAndAbstractStructors(FakeSMCPlugin, FakeSMCKeyHandler)
 #pragma mark -
 #pragma mark FakeSMCPlugin::methods
 
+/**
+ *  Method to get platform (matherboard) manufacturer name provided by FakeSMCKeyStore
+ *
+ *  @return OSString containg platform manufacturer name
+ */
 OSString *FakeSMCPlugin::getPlatformManufacturer(void)
 {
     return OSDynamicCast(OSString, keyStore->getProperty(kOEMInfoManufacturer));
 }
 
+/**
+ *  Method to get platform (matherboard) product name provided by FakeSMCKeyStore
+ *
+ *  @return OSString containg platform product name
+ */
 OSString *FakeSMCPlugin::getPlatformProduct(void)
 {
     return OSDynamicCast(OSString, keyStore->getProperty(kOEMInfoProduct));
 }
 
+/**
+ *  Engage global FakeSMCPlugin access lock
+ */
 void FakeSMCPlugin::lockAccessForOtherPlugins(void)
 {
     IORecursiveLockLock(gFakeSMCPluginLock);
 }
 
+/**
+ *  Disengage global FakeSMCPlugin access lock
+ */
 void FakeSMCPlugin::unlockAccessForOtherPlugins(void)
 {
     IORecursiveLockUnlock(gFakeSMCPluginLock);
 }
 
+/**
+ *  Synchronized method to check key availability
+ *
+ *  @param key Key name
+ *
+ *  @return True if the key exists False otherwise
+ */
 bool FakeSMCPlugin::isKeyExists(const char *key)
 {
     LOCK;
@@ -408,6 +431,13 @@ bool FakeSMCPlugin::isKeyExists(const char *key)
     return keyExists;
 }
 
+/**
+ *  Synchronized method to check if specified key value is provided by handler service
+ *
+ *  @param key Key name
+ *
+ *  @return True if the key is handled False otherwise
+ */
 bool FakeSMCPlugin::isKeyHandled(const char *key)
 {
     LOCK;
@@ -422,6 +452,16 @@ bool FakeSMCPlugin::isKeyHandled(const char *key)
     return keyHandled;
 }
 
+/**
+ *  Synchronized method to set a value for specified key. If the key is handled by other service value will be set and didWriteSensorValue callback will be invoked for handler service
+ *
+ *  @param key   Key name for wich we want to set value
+ *  @param type  Key type can be changed in realtime but not recomended
+ *  @param size  Value size in bytes
+ *  @param value Pointer to buffer containg new value for specified key. Value should be already encoded regarding key type
+ *
+ *  @return True on successfull action False otherwise
+ */
 bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, void *value)
 {
     LOCK;
@@ -433,6 +473,14 @@ bool FakeSMCPlugin::setKeyValue(const char *key, const char *type, UInt8 size, v
     return added;
 }
 
+/**
+ *  Synchronized method to copy sensor value to specified buffer
+ *
+ *  @param key   Key name
+ *  @param value Buffer to copy value to. Buffer should be already allocated with proper size to fit key value
+ *
+ *  @return True on success False otherwise
+ */
 bool FakeSMCPlugin::getKeyValue(const char *key, void *value)
 {
     LOCK;
@@ -448,6 +496,20 @@ bool FakeSMCPlugin::getKeyValue(const char *key, void *value)
     return smcKey != NULL;
 }
 
+/**
+ *  Synchronized method to add a new key to FakeSMCKeyStore
+ *
+ *  @param key       Key name
+ *  @param type      Key type
+ *  @param size      Key value size
+ *  @param group     Key group, this parameter can be used by plugin in any way
+ *  @param index     Key index not related to key position in FakeSMCKeyStore key list, this parameter can be used by plugin in any way
+ *  @param reference Reference modifier value, this parameter can be used by plugin in any way
+ *  @param gain      Gain modifier value, this parameter can be used by plugin in any way
+ *  @param offset    Offset modifier value, this parameter can be used by plugin in any way
+ *
+ *  @return new FakeSMCSensor object or NULL otherwise
+ */
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
     LOCK;
@@ -465,6 +527,19 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8
 	return NULL;
 }
 
+/**
+ *  Synchronized method to add a new key to FakeSMCKeyStore
+ *
+ *  @param abbreviation Human readable key abbreviation used in config file
+ *  @param category     Category (enum kFakeSMCCategory) key belongs to so abbreviation can be checked against the list from specified category only
+ *  @param group        Key group, this parameter can be used by plugin in any way
+ *  @param index        Key index not related to key position in FakeSMCKeyStore key list, this parameter can be used by plugin in any way
+ *  @param reference Reference modifier value, this parameter can be used by plugin in any way
+ *  @param gain         Gain modifier value, this parameter can be used by plugin in any way
+ *  @param offset       Offset modifier value, this parameter can be used by plugin in any way
+ *
+ *  @return new FakeSMCSensor object or NULL otherwise
+ */
 FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbreviation, kFakeSMCCategory category, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
     LOCK;
@@ -501,6 +576,16 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbreviation, kFakeSMCCatego
     return sensor;
 }
 
+/**
+ *  Synchronized method to add a new key from configuration node, will read also modifiers: reference, gain and offset
+ *
+ *  @param node     OSDictionary configuration node contains key configuration
+ *  @param category Category (enum kFakeSMCCategory) key belongs to so abbreviation can be checked against the list from specified category only
+ *  @param group    Key group, this parameter can be used by plugin in any way
+ *  @param index    Key index not related to key position in FakeSMCKeyStore key list, this parameter can be used by plugin in any way
+ *
+ *  @return new FakeSMCSensor object or NULL otherwise
+ */
 FakeSMCSensor *FakeSMCPlugin::addSensor(OSObject *node, kFakeSMCCategory category, UInt32 group, UInt32 index)
 {
     LOCK;
@@ -527,6 +612,13 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(OSObject *node, kFakeSMCCategory categor
     return sensor;
 }
 
+/**
+ *  Synchronized method to add previously allocated and configured sensor into FakeSMCKeyStore
+ *
+ *  @param sensor Sensor object
+ *
+ *  @return True on success False otherwise
+ */
 bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
 {
     LOCK;
@@ -542,6 +634,18 @@ bool FakeSMCPlugin::addSensor(FakeSMCSensor *sensor)
     return added;
 }
 
+/**
+ *  Synchronized method to add tachometer sensor type into FakeSMCKeyStore. This will update fan counter key.
+ *
+ *  @param index    Key index not related to key position in FakeSMCKeyStore key list, this parameter can be used by plugin in any way
+ *  @param name     SMC fan name string up to 12 bytes long
+ *  @param type     SMC fan type
+ *  @param zone     SMC fan zone
+ *  @param location SMC fan location
+ *  @param fanIndex SMC fan index is returned on success
+ *
+ *  @return new FakeSMCSensor object or NULL otherwise
+ */
 FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanType type, UInt8 zone, FanLocationType location, SInt8 *fanIndex)
 {
     LOCK;
@@ -586,16 +690,39 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanT
 	return 0;
 }
 
+/**
+ *  Method to get a key by name
+ *
+ *  @param key Key name
+ *
+ *  @return FakeSMCSensor object or NULL if the key not found
+ */
 FakeSMCSensor *FakeSMCPlugin::getSensor(const char* key)
 {
 	return OSDynamicCast(FakeSMCSensor, sensors->getObject(key));
 }
 
+/**
+ *  Callback method invoked before key value will be read. Can be used by plugin to provide custom key value that can be calculated or obtained in the moment of key read action. Blocks key reading thread until returned
+ *
+ *  @param sensor   FakeSMCSensor object representing specific SMC key
+ *  @param outValue floating point key value will be exposed to SMC
+ *
+ *  @return if True is returned outValue will be used as a value for sensor handled SMC key. if False is returned SMC key value will not be changed
+ */
 bool FakeSMCPlugin::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {
     return false;
 }
 
+/**
+ *  Callback method invoked after the new value has been written to specific key. Can be used by plugin to handle key writes. Blocks key reading thread until returned
+ *
+ *  @param sensor FakeSMCSensor object representing specific SMC key
+ *  @param value  floating point value written to SMC key
+ *
+ *  @return will not be used
+ */
 bool FakeSMCPlugin::didWriteSensorValue(FakeSMCSensor *sensor, float value)
 {
     return false;
