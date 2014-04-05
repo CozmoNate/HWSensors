@@ -69,7 +69,7 @@
         if (!min || [min isGreaterThan:level.output]) {
             min = level.output;
         }
-        else if (!max || [max isLessThan:level.output]) {
+        if (!max || [max isLessThan:level.output]) {
             max = level.output;
         }
     }
