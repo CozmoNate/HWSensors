@@ -51,7 +51,7 @@
 
             NSMutableString *html = [[[NSString alloc] initWithContentsOfURL:_creditsUrl encoding:NSUTF8StringEncoding error:&error] mutableCopy];
 
-            [html replaceOccurrencesOfString:@"%version_placeholder" withString:[NSString stringWithFormat:@"Version %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] options:NSCaseInsensitiveSearch range:NSMakeRange(0, html.length)];
+            [html replaceOccurrencesOfString:@"%version_placeholder" withString:[NSString stringWithFormat:NSLocalizedString(@"Version %@", nil), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] options:NSCaseInsensitiveSearch range:NSMakeRange(0, html.length)];
 
             _creditsHtml = [html copy];
         }];
