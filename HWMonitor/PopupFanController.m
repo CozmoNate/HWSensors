@@ -98,9 +98,9 @@
 
 -(void)rangeSwitchChanged:(id)sender
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[_rangeHeightConstraint animator] setConstant:_rangeSwitch.state ? 50 : 0];
-    });
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_rangeHeightConstraint setConstant:_rangeSwitch.state ? 50 : 0];
+    }];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
