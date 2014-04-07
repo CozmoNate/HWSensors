@@ -63,6 +63,8 @@
 @property (assign) IBOutlet NSWindowController *graphsController;
 @property (assign) IBOutlet NSWindowController *aboutController;
 
+@property (assign) IBOutlet NSLayoutConstraint *tableHeightConstraint;
+
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
 @property (readonly) BOOL hasDraggedFavoriteItem;
 

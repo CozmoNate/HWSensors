@@ -15,7 +15,7 @@
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-    HWMColorTheme *colorTheme = [HWMEngine defaultEngine].configuration.colorTheme;
+    HWMColorTheme *colorTheme = [HWMEngine sharedEngine].configuration.colorTheme;
 
     if (colorTheme) {
 

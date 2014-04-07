@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "NO"
+      parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E2ACDA11791B61D0061C677"
-               BuildableName = "Bump Major Version"
-               BlueprintName = "Bump Major Version"
-               ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
+               BlueprintIdentifier = "55C14BB6136EEF1500649790"
+               BuildableName = "Sparkle Updater.app"
+               BlueprintName = "Sparkle Updater"
+               ReferencedContainer = "container:Sparkle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,6 +29,15 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "55C14BB6136EEF1500649790"
+            BuildableName = "Sparkle Updater.app"
+            BlueprintName = "Sparkle Updater"
+            ReferencedContainer = "container:Sparkle.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -39,6 +48,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "55C14BB6136EEF1500649790"
+            BuildableName = "Sparkle Updater.app"
+            BlueprintName = "Sparkle Updater"
+            ReferencedContainer = "container:Sparkle.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -48,6 +66,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "55C14BB6136EEF1500649790"
+            BuildableName = "Sparkle Updater.app"
+            BlueprintName = "Sparkle Updater"
+            ReferencedContainer = "container:Sparkle.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -42,7 +42,6 @@
 #import "HWMGraphsGroup.h"
 #import "HWMFavorite.h"
 
-#import "smc.h"
 #import "Localizer.h"
 
 #import "HWMonitorDefinitions.h"
@@ -56,7 +55,7 @@
 
 NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
-static HWMEngine* gDefaultEngine = nil;
+static HWMEngine * gSharedEngine;
 
 @implementation HWMEngine
 
@@ -70,14 +69,9 @@ static HWMEngine* gDefaultEngine = nil;
 #pragma mark
 #pragma mark Global methods
 
-+(HWMEngine*)defaultEngine
++(HWMEngine*)sharedEngine
 {
-    return gDefaultEngine;
-}
-
-+(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
-{
-    return [[HWMEngine alloc] initWithBundle:bundle];
+    return gSharedEngine;
 }
 
 #pragma mark
@@ -299,8 +293,11 @@ static HWMEngine* gDefaultEngine = nil;
     if (self) {
         _bundle = [NSBundle mainBundle];
 
-        if (!gDefaultEngine) {
-            gDefaultEngine = self;
+        if (gSharedEngine) {
+            self = gSharedEngine;
+        }
+        else {
+            gSharedEngine = self;
         }
     }
 
@@ -314,8 +311,11 @@ static HWMEngine* gDefaultEngine = nil;
     if (self) {
         _bundle = bundle;
 
-        if (!gDefaultEngine) {
-            gDefaultEngine = self;
+        if (gSharedEngine) {
+            self = gSharedEngine;
+        }
+        else {
+            gSharedEngine = self;
         }
     }
 
@@ -1242,11 +1242,11 @@ static HWMEngine* gDefaultEngine = nil;
                     itemTitleColor:[NSColor colorWithCalibratedWhite:0.25 alpha:1.0]
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
                listBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.93]
-                   listStrokeColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
+                   listStrokeColor:nil//[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                    toolbarEndColor:[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.93]
                 toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.93] highlightWithLevel:0.4]
                  toolbarStartColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.93] highlightWithLevel:0.6]
-                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.3 alpha:1.00]
+                toolbarStrokeColor:nil//[NSColor colorWithCalibratedWhite:0.1 alpha:1.00]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:NO];
 
@@ -1258,11 +1258,11 @@ static HWMEngine* gDefaultEngine = nil;
                     itemTitleColor:[NSColor colorWithCalibratedWhite:0.25 alpha:1.0]
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
                listBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.93]
-                   listStrokeColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
+                   listStrokeColor:nil//[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                    toolbarEndColor:[NSColor colorWithCalibratedWhite:0.23 alpha:0.93]
                 toolbarShadowColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.93] highlightWithLevel:0.30]
                  toolbarStartColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.93] highlightWithLevel:0.55]
-                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.3 alpha:1.00]
+                toolbarStrokeColor:nil//[NSColor colorWithCalibratedWhite:0.1 alpha:1.00]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:NO];
 
@@ -1274,11 +1274,11 @@ static HWMEngine* gDefaultEngine = nil;
                     itemTitleColor:[NSColor colorWithCalibratedWhite:0.85 alpha:1.0]
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.95 alpha:1.0]
                listBackgroundColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.93]
-                   listStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
+                   listStrokeColor:nil//[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
                    toolbarEndColor:[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.93]
                 toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.93] highlightWithLevel:0.30]
                  toolbarStartColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.93] highlightWithLevel:0.55]
-                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.25 alpha:1.0]
+                toolbarStrokeColor:nil//[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:YES];
 }
@@ -1350,18 +1350,15 @@ static HWMEngine* gDefaultEngine = nil;
     if (!connection)
         return nil;
 
-    SMCVal_t val;
-
-    SMCReadKey(connection, "#KEY", &val);
-
-    UInt32 count = [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType].unsignedIntValue;
-
     NSMutableArray *array = [[NSMutableArray alloc] init];
+
+    UInt32 count = [SmcHelper readNumericKey:@"#KEY" connection:connection].unsignedIntValue;
 
     for (UInt32 index = 0; index < count; index++) {
         SMCKeyData_t  inputStructure;
         SMCKeyData_t  outputStructure;
-
+        SMCVal_t val;
+        
         memset(&inputStructure, 0, sizeof(SMCKeyData_t));
         memset(&outputStructure, 0, sizeof(SMCKeyData_t));
         memset(&val, 0, sizeof(SMCVal_t));
@@ -1481,9 +1478,9 @@ static HWMEngine* gDefaultEngine = nil;
 
                 NSString *keyFormat = [NSString stringWithFormat:@"%@%%X%@", [key substringToIndex:formater.location], [key substringFromIndex:formater.location + formater.length + 3]];
 
-                for (NSUInteger index = 0; index < count; index++) {
+                for (NSUInteger offset = 0; offset < count; offset++) {
 
-                    NSString *formattedKey = [NSString stringWithFormat:keyFormat, start + index];
+                    NSString *formattedKey = [NSString stringWithFormat:keyFormat, start + offset];
 
                     if ([keys indexOfObject:formattedKey] != NSNotFound /*&& [excludedKeys indexOfObject:formattedKey] == NSNotFound*/) {
 
@@ -1491,7 +1488,7 @@ static HWMEngine* gDefaultEngine = nil;
 
                         if (kIOReturnSuccess == SMCReadKey(connection, [formattedKey cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
 
-                            [self insertSmcSensorWithConnection:connection name:formattedKey type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:[NSString stringWithFormat:GetLocalizedString(title), shift + index] selector:selector group:group];
+                            [self insertSmcSensorWithConnection:connection name:formattedKey type:[NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding] title:[NSString stringWithFormat:GetLocalizedString(title), shift + offset] selector:selector group:group];
 
                         }
                     }
@@ -1534,7 +1531,7 @@ static HWMEngine* gDefaultEngine = nil;
 
 -(HWMSmcSensor*)insertSmcFanWithConnection:(io_connect_t)connection descriptor:(NSString*)descriptor name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMSensorsGroup*)group
 {
-    HWMSmcFanSensor *fan = [self getSmcFanSensorByDescriptor:descriptor fromGroup:group];
+    __block HWMSmcFanSensor *fan = [self getSmcFanSensorByDescriptor:descriptor fromGroup:group];
 
     BOOL newFan = NO;
 
@@ -1566,25 +1563,9 @@ static HWMEngine* gDefaultEngine = nil;
         [fan setNumber:[NSNumber numberWithInt:index]];
 
         if (newFan || !fan.controller) {
-            SMCVal_t info;
 
-            char key[5];
-
-            NSNumber *min, *max;
-
-            // Min
-            snprintf(key, 5, KEY_FORMAT_FAN_MIN, index);
-
-            if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                min = [SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType];
-            }
-
-            // Max
-            snprintf(key, 5, KEY_FORMAT_FAN_MAX, index);
-
-            if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                max = [SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType];
-            }
+            NSNumber *min = [SmcHelper readNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, index] connection:connection];
+            NSNumber *max = [SmcHelper readNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MAX, index] connection:connection];
 
             if (min && max && [max isGreaterThan:min]) {
                 HWMSmcFanController *controller = [NSEntityDescription insertNewObjectForEntityForName:@"SmcFanController" inManagedObjectContext:self.managedObjectContext];
@@ -1595,30 +1576,29 @@ static HWMEngine* gDefaultEngine = nil;
                 [fan setController:controller];
 
                 if (self.isRunningOnMac) {
-                    // Target
-                    snprintf(key, 5, KEY_FORMAT_FAN_TARGET, index);
 
-                    if (kIOReturnSuccess == SMCReadKey(connection, key, &info)) {
-                        [controller addOutputLevel:[SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType] forInputLevel:@0];
-                    }
+                    NSNumber *target = [SmcHelper readNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_TARGET, index] connection:connection];
+
+                    [controller addOutputLevel:target forInputLevel:@30];
                 }
                 else {
-                    [controller addOutputLevel:fan.value forInputLevel:@0];
+                    [controller addOutputLevel:fan.value forInputLevel:@30];
                 }
             }
         }
 
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [fan.controller inputValueChanged];
-        }];
+        if (fan.controller) {
+            [fan.controller updateCurrentLevel];
+        }
+
+        return fan;
     }
     else {
         //[self.managedObjectContext deleteObject:fan];
         [fan setService:@0];
-        return nil;
     }
 
-    return fan;
+    return nil;
 }
 
 - (void)insertSmcFansWithConnection:(io_connect_t)connection keys:(NSArray*)keys
@@ -1699,6 +1679,7 @@ static HWMEngine* gDefaultEngine = nil;
 
     // GPU Fans
     for (int i=0; i < 0xf; i++) {
+        
         NSString *key = [NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i];
 
         if ([keys indexOfObject:key] != NSNotFound) {
@@ -1800,7 +1781,7 @@ static HWMEngine* gDefaultEngine = nil;
     [sensor setSerialNumber:serialNumber];
     [sensor setRotational:[attributes objectForKey:@"rotational"]];
 
-    [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : [sensor.productName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : sensor.productName];
     [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
     [sensor setIdentifier:@"Drive"];
 

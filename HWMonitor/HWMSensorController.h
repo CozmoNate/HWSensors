@@ -38,6 +38,7 @@
 @property (nonatomic, retain) HWMSensor *output;
 @property (nonatomic, retain) HWMSensor *input;
 
--(void)inputValueChanged;
+-(void)updateCurrentLevel;
+-(void)forceCurrentLevel;
 
 @end

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D33" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PrefsController">
+        <customObject id="-2" userLabel="File's Owner" customClass="AppController">
             <connections>
                 <outlet property="favoritesTableView" destination="eYG-oD-xEa" id="CkM-vZ-3V2"/>
                 <outlet property="sensorsTableView" destination="SCh-vL-Yku" id="iDT-be-cqz"/>
@@ -15,7 +15,7 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
         <userDefaultsController representsSharedInstance="YES" id="263"/>
-        <window title="HWMonitor Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="documentWindow" appearanceType="lightContent" frameAutosaveName="PreferencesWindow" id="264">
+        <window title="HWMonitor Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="documentWindow" frameAutosaveName="PreferencesWindow" id="264">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" participatesInCycle="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -67,12 +67,7 @@
             </connections>
         </window>
         <customObject id="265" customClass="LaunchAtLoginController"/>
-        <numberFormatter formatterBehavior="custom10_4" positiveFormat="#,##0.0##" negativeFormat="#,##0.0##" numberStyle="decimal" secondaryGroupingSize="1" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="1" maximumFractionDigits="3" positivePrefix="x " negativePrefix="x -" id="620" userLabel="Graphs Scale Formatter">
-            <real key="roundingIncrement" value="0.0"/>
-            <metadata>
-                <bool key="localizesFormat" value="YES"/>
-            </metadata>
-        </numberFormatter>
+        <numberFormatter formatterBehavior="custom10_4" positiveFormat="#,##0.0##" negativeFormat="#,##0.0##" numberStyle="decimal" paddingCharacter="*" secondaryGroupingSize="1" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="1" maximumFractionDigits="3" decimalSeparator="." groupingSeparator="," currencyDecimalSeparator="." plusSign="+" minusSign="-" notANumberSymbol="NaN" perMillSymbol="‰" percentSymbol="%" exponentSymbol="E" positivePrefix="x " positiveSuffix="" negativePrefix="x -" negativeSuffix="" id="620" userLabel="Graphs Scale Formatter"/>
         <view id="2wX-b3-awf" userLabel="General View">
             <rect key="frame" x="0.0" y="0.0" width="550" height="421"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -207,10 +202,10 @@
                     <connections>
                         <binding destination="265" name="value" keyPath="self.launchAtLogin" id="B6a-Sq-CmU">
                             <dictionary key="options">
-                                <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                             </dictionary>
                         </binding>
                     </connections>
@@ -230,10 +225,10 @@
                         <action selector="checkForUpdates:" target="-2" id="uaC-Bd-1zJ"/>
                         <binding destination="263" name="value" keyPath="values.SUEnableAutomaticChecks" id="OrE-Kp-hbk">
                             <dictionary key="options">
-                                <integer key="NSNotApplicablePlaceholder" value="1"/>
-                                <integer key="NSNoSelectionPlaceholder" value="1"/>
-                                <integer key="NSNullPlaceholder" value="1"/>
                                 <integer key="NSMultipleValuesPlaceholder" value="1"/>
+                                <integer key="NSNoSelectionPlaceholder" value="1"/>
+                                <integer key="NSNotApplicablePlaceholder" value="1"/>
+                                <integer key="NSNullPlaceholder" value="1"/>
                             </dictionary>
                         </binding>
                     </connections>
@@ -436,10 +431,10 @@
                     <connections>
                         <binding destination="-2" name="value" keyPath="monitorEngine.configuration.useBigFontInMenubar" id="rl9-6A-Dyd">
                             <dictionary key="options">
-                                <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                             </dictionary>
                         </binding>
                     </connections>
@@ -458,10 +453,10 @@
                     <connections>
                         <binding destination="-2" name="value" keyPath="monitorEngine.configuration.useShadowEffectsInMenubar" id="TZx-4A-aPo">
                             <dictionary key="options">
-                                <integer key="NSNotApplicablePlaceholder" value="1"/>
-                                <integer key="NSNoSelectionPlaceholder" value="1"/>
-                                <integer key="NSNullPlaceholder" value="1"/>
                                 <integer key="NSMultipleValuesPlaceholder" value="1"/>
+                                <integer key="NSNoSelectionPlaceholder" value="1"/>
+                                <integer key="NSNotApplicablePlaceholder" value="1"/>
+                                <integer key="NSNullPlaceholder" value="1"/>
                             </dictionary>
                         </binding>
                     </connections>
@@ -470,14 +465,14 @@
                     <rect key="frame" x="20" y="77" width="560" height="396"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
                             <rect key="frame" x="0.0" y="0.0" width="276" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="hK2-oA-2Lv">
                                 <rect key="frame" x="1" y="1" width="274" height="394"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
+                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="19" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
                                         <rect key="frame" x="0.0" y="0.0" width="274" height="394"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>
@@ -624,7 +619,7 @@
                                                                     <constraint firstAttribute="width" constant="18" id="ixL-xK-a4Q"/>
                                                                     <constraint firstAttribute="height" constant="18" id="r0F-qe-U70"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="overlaps" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="hwB-AE-3C4">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="hwB-AE-3C4">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -644,7 +639,7 @@
                                                                     <constraint firstAttribute="width" constant="18" id="4AX-8b-QG7"/>
                                                                     <constraint firstAttribute="height" constant="18" id="Vg6-oR-0M1"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="310-alarm-clock-white" imagePosition="above" alignment="center" alternateImage="310-alarm-clock" state="on" imageScaling="proportionallyDown" inset="2" id="dEb-iB-Lh5">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="411-roundabout-white" imagePosition="only" alignment="center" alternateImage="411-roundabout" state="on" imageScaling="proportionallyDown" inset="2" id="dEb-iB-Lh5">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -729,7 +724,7 @@
                                                                     <constraint firstAttribute="height" constant="18" id="fbh-0Y-7OK"/>
                                                                     <constraint firstAttribute="width" constant="18" id="xkI-A8-p8d"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="overlaps" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="SBL-5P-x3V">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="SBL-5P-x3V">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -749,7 +744,7 @@
                                                                     <constraint firstAttribute="height" constant="18" id="AmV-8Z-pCF"/>
                                                                     <constraint firstAttribute="width" constant="18" id="eTG-Kc-K2J"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="310-alarm-clock-white" imagePosition="above" alignment="center" alternateImage="310-alarm-clock" state="on" imageScaling="proportionallyDown" inset="2" id="R9y-Hz-3MC">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="411-roundabout-white" imagePosition="only" alignment="center" alternateImage="411-roundabout" state="on" imageScaling="proportionallyDown" inset="2" id="R9y-Hz-3MC">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -834,7 +829,7 @@
                                                                     <constraint firstAttribute="height" constant="18" id="4de-yB-Zwg"/>
                                                                     <constraint firstAttribute="width" constant="18" id="aFq-Wf-o3H"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="overlaps" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="QNJ-An-NtV">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="QNJ-An-NtV">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -854,7 +849,7 @@
                                                                     <constraint firstAttribute="width" constant="18" id="jxT-46-xsJ"/>
                                                                     <constraint firstAttribute="height" constant="18" id="pyE-LD-axF"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="310-alarm-clock-white" imagePosition="above" alignment="center" alternateImage="310-alarm-clock" state="on" imageScaling="proportionallyDown" inset="2" id="IFH-EZ-Dhe">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="411-roundabout-white" imagePosition="only" alignment="center" alternateImage="411-roundabout" state="on" imageScaling="proportionallyDown" inset="2" id="IFH-EZ-Dhe">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -939,7 +934,7 @@
                                                                     <constraint firstAttribute="width" constant="18" id="Geu-gs-SiE"/>
                                                                     <constraint firstAttribute="height" constant="18" id="tC6-Ip-lBm"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="overlaps" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="i9b-TM-I3E">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="04-eye-white" imagePosition="only" alignment="center" alternateImage="04-eye" state="on" imageScaling="proportionallyDown" inset="2" id="i9b-TM-I3E">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -959,7 +954,7 @@
                                                                     <constraint firstAttribute="height" constant="18" id="1VK-Ew-LqS"/>
                                                                     <constraint firstAttribute="width" constant="18" id="JRU-Jo-y3V"/>
                                                                 </constraints>
-                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="310-alarm-clock-white" imagePosition="above" alignment="center" alternateImage="310-alarm-clock" state="on" imageScaling="proportionallyDown" inset="2" id="8xC-5W-6u9">
+                                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="411-roundabout-white" imagePosition="only" alignment="center" alternateImage="411-roundabout" state="on" imageScaling="proportionallyDown" inset="2" id="8xC-5W-6u9">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
                                                                 </buttonCell>
@@ -1021,14 +1016,14 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </scrollView>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
                             <rect key="frame" x="285" y="0.0" width="275" height="396"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="i8f-2e-Hgn">
                                 <rect key="frame" x="1" y="1" width="273" height="394"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="eYG-oD-xEa" customClass="SensorsTableView">
+                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="19" rowSizeStyle="automatic" viewBased="YES" id="eYG-oD-xEa" customClass="SensorsTableView">
                                         <rect key="frame" x="0.0" y="0.0" width="273" height="394"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>
@@ -1538,10 +1533,10 @@
                     <connections>
                         <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.useBsdDriveNames" id="svV-74-rKU">
                             <dictionary key="options">
-                                <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                             </dictionary>
                         </binding>
                     </connections>
@@ -1559,22 +1554,22 @@
                     <connections>
                         <binding destination="-2" name="value" keyPath="monitorEngine.configuration.showVolumeNames" id="Nrf-GQ-avw">
                             <dictionary key="options">
-                                <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                             </dictionary>
                         </binding>
                     </connections>
                 </button>
-                <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgF-QA-inm">
+                <scrollView autohidesScrollers="YES" horizontalLineScroll="101" horizontalPageScroll="10" verticalLineScroll="101" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgF-QA-inm">
                     <rect key="frame" x="20" y="21" width="250" height="305"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <clipView key="contentView" id="xfO-Xf-kO2">
                         <rect key="frame" x="1" y="1" width="248" height="303"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="J1M-XJ-log" userLabel="Theme Table View">
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="97" rowSizeStyle="automatic" viewBased="YES" id="J1M-XJ-log" userLabel="Theme Table View">
                                 <rect key="frame" x="0.0" y="0.0" width="248" height="303"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="4" height="4"/>
@@ -1713,10 +1708,10 @@
                     <connections>
                         <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.useGraphSmoothing" id="z50-AK-FdP">
                             <dictionary key="options">
-                                <integer key="NSNotApplicablePlaceholder" value="1"/>
-                                <integer key="NSNoSelectionPlaceholder" value="1"/>
-                                <integer key="NSNullPlaceholder" value="1"/>
                                 <integer key="NSMultipleValuesPlaceholder" value="1"/>
+                                <integer key="NSNoSelectionPlaceholder" value="1"/>
+                                <integer key="NSNotApplicablePlaceholder" value="1"/>
+                                <integer key="NSNullPlaceholder" value="1"/>
                             </dictionary>
                         </binding>
                     </connections>
@@ -1735,10 +1730,10 @@
                     <connections>
                         <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.updateSensorsInBackground" id="8xi-nH-Jhs">
                             <dictionary key="options">
-                                <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
                                 <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
                             </dictionary>
                         </binding>
                     </connections>
@@ -1757,10 +1752,10 @@
                     <connections>
                         <binding destination="-2" name="value" keyPath="monitorEngine.configuration.graphsWindowAlwaysTopmost" id="R2M-dR-FCP">
                             <dictionary key="options">
-                                <integer key="NSNotApplicablePlaceholder" value="1"/>
-                                <integer key="NSNoSelectionPlaceholder" value="1"/>
-                                <integer key="NSNullPlaceholder" value="1"/>
                                 <integer key="NSMultipleValuesPlaceholder" value="1"/>
+                                <integer key="NSNoSelectionPlaceholder" value="1"/>
+                                <integer key="NSNotApplicablePlaceholder" value="1"/>
+                                <integer key="NSNullPlaceholder" value="1"/>
                             </dictionary>
                         </binding>
                     </connections>
@@ -1787,10 +1782,10 @@
                     <connections>
                         <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.graphsScaleValue" id="osl-3V-jDL">
                             <dictionary key="options">
-                                <integer key="NSNotApplicablePlaceholder" value="4"/>
-                                <integer key="NSNoSelectionPlaceholder" value="4"/>
-                                <integer key="NSNullPlaceholder" value="4"/>
                                 <integer key="NSMultipleValuesPlaceholder" value="4"/>
+                                <integer key="NSNoSelectionPlaceholder" value="4"/>
+                                <integer key="NSNotApplicablePlaceholder" value="4"/>
+                                <integer key="NSNullPlaceholder" value="4"/>
                             </dictionary>
                         </binding>
                     </connections>
@@ -1809,10 +1804,10 @@
                     <connections>
                         <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.graphsScaleValue" id="iOg-jV-oLa">
                             <dictionary key="options">
-                                <string key="NSNotApplicablePlaceholder">4.0</string>
-                                <string key="NSNoSelectionPlaceholder">4.0</string>
-                                <string key="NSNullPlaceholder">4.0</string>
                                 <string key="NSMultipleValuesPlaceholder">4.0</string>
+                                <string key="NSNoSelectionPlaceholder">4.0</string>
+                                <string key="NSNotApplicablePlaceholder">4.0</string>
+                                <string key="NSNullPlaceholder">4.0</string>
                             </dictionary>
                         </binding>
                         <outlet property="formatter" destination="620" id="28e-tL-KH5"/>
@@ -1849,10 +1844,10 @@
     <resources>
         <image name="04-eye" width="20" height="13"/>
         <image name="04-eye-white" width="20" height="13"/>
-        <image name="310-alarm-clock" width="18" height="17"/>
-        <image name="310-alarm-clock-white" width="18" height="17"/>
         <image name="338-enter-fullscreen" width="18" height="18"/>
         <image name="338-enter-fullscreen-white" width="18" height="18"/>
+        <image name="411-roundabout" width="18" height="14"/>
+        <image name="411-roundabout-white" width="18" height="14"/>
         <image name="Divider" width="1200" height="2"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSRefreshTemplate" width="10" height="12"/>

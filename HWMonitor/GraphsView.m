@@ -133,18 +133,22 @@
 - (void)drawRect:(NSRect)rect
 {
     [self calculateGraphBounds];
-    
+
     NSGraphicsContext* context = [NSGraphicsContext currentContext];
     
     [context saveGraphicsState];
-    
+
     // Clipping rect
-    [NSBezierPath clipRect:NSMakeRect(LeftViewMargin, TopViewMargin, self.bounds.size.width - LeftViewMargin - RightViewMargin, self.bounds.size.height - TopViewMargin - BottomViewMargin)];
-    
+    NSBezierPath *surrounding = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect(LeftViewMargin, TopViewMargin, self.bounds.size.width - LeftViewMargin - RightViewMargin, self.bounds.size.height - TopViewMargin - BottomViewMargin) xRadius:3 yRadius:3];
+
+    [surrounding addClip];
+
     [[[NSGradient alloc]
-      initWithStartingColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.25]
-                endingColor:[NSColor colorWithCalibratedWhite:0.35 alpha:0.25]]
-        drawInRect:self.bounds angle:270];
+     initWithStartingColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.25]
+      endingColor:[NSColor colorWithCalibratedWhite:0.35 alpha:0.25]] drawInBezierPath:surrounding angle:90];
+
+    [[NSColor colorWithCalibratedWhite:0.5 alpha:0.25] setStroke];
+    [surrounding stroke];
     
     // Draw marks
     [context setShouldAntialias:NO];

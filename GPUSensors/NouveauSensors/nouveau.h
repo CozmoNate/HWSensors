@@ -42,13 +42,14 @@ struct nouveau_pm_temp_sensor_constants {
 };
 
 enum nouveau_card_type {
-    NV_NA    = 0x00,
-    NV_04    = 0x04,
-    NV_40    = 0x40,
-    NV_50    = 0x50,
-    NV_C0    = 0xc0,
-    NV_D0    = 0xd0,
-    NV_E0    = 0xe0,
+    NV_NA    = 0x000,
+    NV_04    = 0x004,
+    NV_40    = 0x040,
+    NV_50    = 0x050,
+    NV_C0    = 0x0c0,
+    NV_D0    = 0x0d0,
+    NV_E0    = 0x0e0,
+    GM100    = 0x110,
 };
 
 typedef struct _I2CDevRec *I2CDevPtr;

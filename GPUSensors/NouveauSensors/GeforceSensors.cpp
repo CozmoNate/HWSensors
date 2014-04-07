@@ -269,10 +269,10 @@ bool GeforceSensors::managedStart(IOService *provider)
         char title[DIAG_FUNCTION_STR_LEN];
         snprintf (title, DIAG_FUNCTION_STR_LEN, "GPU %X", card.card_index + 1);
         
-        if (card.fan_rpm_get && card.fan_rpm_get(device) >= 0)
+        if (card.fan_rpm_get)
             addTachometer(nouveau_fan_rpm, title, GPU_FAN_RPM, card.card_index);
         
-        if (card.fan_pwm_get && card.fan_pwm_get(device) >= 0)
+        if (card.fan_pwm_get)
             addTachometer(nouveau_fan_pwm, title, GPU_FAN_PWM_CYCLE, card.card_index);
     }
     

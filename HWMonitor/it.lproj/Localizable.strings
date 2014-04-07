@@ -178,6 +178,7 @@
 // From English Strings.
 "hwmonitor" = "Icona HWMonitor";
 "thermometer" = "Icona Termometro";
+"red-thermometer" = "Icona Termometro rosso";
 "temperatures" = "Icona Temperatura";
 "hddtemperatures" = "Icona HDD";
 "ssdlife" = "Icona SSD";

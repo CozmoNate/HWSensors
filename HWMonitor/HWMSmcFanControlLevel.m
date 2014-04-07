@@ -29,6 +29,7 @@
 #import "HWMSmcFanControlLevel.h"
 #import "HWMSmcFanController.h"
 
+#import "FakeSMCDefinitions.h"
 
 @implementation HWMSmcFanControlLevel
 
@@ -44,16 +45,22 @@
     [self setPrimitiveValue:input forKey:@"input"];
     [self didChangeValueForKey:@"input"];
 
-    [self.controller inputValueChanged];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self.controller selector:@selector(updateCurrentLevel) object:nil];
+
+    [self.controller performSelector:@selector(updateCurrentLevel) withObject:nil afterDelay:0.5];
 }
 
 -(void)setOutput:(NSNumber *)output
 {
     [self willChangeValueForKey:@"output"];
-    [self setPrimitiveValue:output forKey:@"output"];
+    [self setPrimitiveValue:[NSNumber numberWithFloat:ROUND50(output.floatValue)] forKey:@"output"];
     [self didChangeValueForKey:@"output"];
 
-    [self.controller inputValueChanged];
+    [self.controller calculateOutputRange];
+
+    [NSObject cancelPreviousPerformRequestsWithTarget:self.controller selector:@selector(forceCurrentLevel) object:nil];
+
+    [self.controller performSelector:@selector(forceCurrentLevel) withObject:nil afterDelay:0.5];
 }
 
 -(NSNumber *)minInput
@@ -142,5 +149,6 @@
 
     return level;
 }
+
 
 @end

@@ -44,7 +44,7 @@
 -(void)awakeFromNib
 {
     [Localizer localizeView:_tableView];
-    [_tableView setGridColor:[HWMEngine defaultEngine].configuration.colorTheme.useBrightIcons.boolValue ? [NSColor colorWithCalibratedWhite:0.4 alpha:1.0] : [NSColor colorWithCalibratedWhite:0.8 alpha:1.0]];
+    [_tableView setGridColor:[HWMEngine sharedEngine].configuration.colorTheme.useBrightIcons.boolValue ? [NSColor colorWithCalibratedWhite:0.4 alpha:1.0] : [NSColor colorWithCalibratedWhite:0.8 alpha:1.0]];
 }
 
 - (void)copy:(id)sender;

@@ -100,8 +100,7 @@ typedef enum {
 @property (readonly) IBOutlet NSArray * graphsAndGroups;
 @property (readonly) IBOutlet NSArray * favorites;
 
-+(HWMEngine*)defaultEngine;
-+(HWMEngine*)engineWithBundle:(NSBundle*)bundle;
++(HWMEngine*)sharedEngine;
 
 -(void)rebuildSensorsList;
 -(void)startEngine;

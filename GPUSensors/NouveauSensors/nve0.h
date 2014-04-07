@@ -12,4 +12,6 @@
 bool nve0_identify(struct nouveau_device *device);
 void nve0_init(struct nouveau_device *device);
 
+int nve0_clock_read(struct nouveau_device *device, u8 source);
+
 #endif

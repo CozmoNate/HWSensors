@@ -2,14 +2,16 @@
 //  SmcHelper+HWMonitorHelper.h
 //  HWMonitor
 //
-//  Created by Kozlek on 22/02/14.
+//  Created by Kozlek on 04.04.14.
 //  Copyright (c) 2014 kozlek. All rights reserved.
 //
 
 #import "SmcHelper.h"
 
+#import "HWMonitorHelper.h"
+
 @interface SmcHelper (HWMonitorHelper)
 
-+ (void)privilegedWriteNumericKey:(NSString*)key value:(NSNumber*)value;
++ (BOOL)privilegedWriteNumericKey:(NSString*)key value:(NSNumber*)value;
 
 @end

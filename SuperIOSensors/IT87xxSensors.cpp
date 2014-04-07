@@ -175,7 +175,7 @@ void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
             }
             
             /* Manual mode */
-            UInt8 pwmControl = features & FEATURE_NEWER_AUTOPWM ? pwmTempMap : pwmDuty;
+            UInt8 pwmControl = features & FEATURE_NEWER_AUTOPWM ? pwmTempMap : fanPWMControl[index] & 0x80 ? pwmTempMap : pwmDuty;
 
             writeByte(ITE_SMARTGUARDIAN_PWM(index), pwmControl);
 

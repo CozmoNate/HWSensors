@@ -20,14 +20,10 @@
 		7EB73CEF1791BC0E007D93D4 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
 		7EB73CF01791BC0E007D93D4 /* HWSensorsVersion.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWSensorsVersion.pch; path = Shared/HWSensorsVersion.pch; sourceTree = "<group>"; };
 		7EB73CF11791BC30007D93D4 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
-		7EB7E71C17834BF10071B3F0 /* version.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
 		7EBA20C217ED59C6008E54C5 /* BuildInstaller.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = BuildInstaller.sh; sourceTree = "<group>"; };
-		7EBA20C317ED59C6008E54C5 /* BumpMajorVersion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = BumpMajorVersion.sh; sourceTree = "<group>"; };
-		7EBA20C417ED59C6008E54C5 /* BumpMinorVersion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = BumpMinorVersion.sh; sourceTree = "<group>"; };
 		7EBA20C517ED59C6008E54C5 /* PreBuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = PreBuild.sh; sourceTree = "<group>"; };
 		7EBA20C617ED59C6008E54C5 /* SignApp.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = SignApp.sh; sourceTree = "<group>"; };
 		7EBA20C717ED59C6008E54C5 /* SignInstaller.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = SignInstaller.sh; sourceTree = "<group>"; };
-		7EBA20C817ED59C6008E54C5 /* TagCurrentVersion.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = TagCurrentVersion.sh; sourceTree = "<group>"; };
 		7EBA20D517ED7B41008E54C5 /* GenerateAppcast.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = GenerateAppcast.sh; sourceTree = "<group>"; };
 		7EEB2D6E1847F2A2008B6D1C /* preinstall */ = {isa = PBXFileReference; lastKnownFileType = text; path = preinstall; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,7 +76,6 @@
 			children = (
 				7EB73CF01791BC0E007D93D4 /* HWSensorsVersion.pch */,
 				7EB73CEF1791BC0E007D93D4 /* HWMonitorVersion.pch */,
-				7EB7E71C17834BF10071B3F0 /* version.plist */,
 				7EB73CF11791BC30007D93D4 /* README.txt */,
 				7EBA20C117ED59C6008E54C5 /* Scripts */,
 				7E86758317F57AE800438A80 /* Package */,
@@ -97,9 +92,6 @@
 				7EBA20C717ED59C6008E54C5 /* SignInstaller.sh */,
 				7EBA20C217ED59C6008E54C5 /* BuildInstaller.sh */,
 				7EBA20D517ED7B41008E54C5 /* GenerateAppcast.sh */,
-				7EBA20C817ED59C6008E54C5 /* TagCurrentVersion.sh */,
-				7EBA20C317ED59C6008E54C5 /* BumpMajorVersion.sh */,
-				7EBA20C417ED59C6008E54C5 /* BumpMinorVersion.sh */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -126,7 +118,7 @@
 			dependencies = (
 			);
 			name = "Pre-Build";
-			passBuildSettingsInEnvironment = 0;
+			passBuildSettingsInEnvironment = 1;
 			productName = PreBuild;
 		};
 		7E2ACD911791B54B0061C677 /* Build Installer */ = {
@@ -142,48 +134,6 @@
 			name = "Build Installer";
 			passBuildSettingsInEnvironment = 0;
 			productName = PostBuild;
-		};
-		7E2ACD991791B5DA0061C677 /* Tag Current Version */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "./Scripts/TagCurrentVersion.sh ${ACTION}";
-			buildConfigurationList = 7E2ACD9A1791B5DA0061C677 /* Build configuration list for PBXLegacyTarget "Tag Current Version" */;
-			buildPhases = (
-			);
-			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "${SOURCE_ROOT}";
-			dependencies = (
-			);
-			name = "Tag Current Version";
-			passBuildSettingsInEnvironment = 0;
-			productName = "Tag Current Version";
-		};
-		7E2ACD9D1791B6090061C677 /* Bump Minor Version */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "./Scripts/BumpMinorVersion.sh ${ACTION}";
-			buildConfigurationList = 7E2ACD9E1791B6090061C677 /* Build configuration list for PBXLegacyTarget "Bump Minor Version" */;
-			buildPhases = (
-			);
-			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "${SOURCE_ROOT}";
-			dependencies = (
-			);
-			name = "Bump Minor Version";
-			passBuildSettingsInEnvironment = 0;
-			productName = "Bump Minor Version";
-		};
-		7E2ACDA11791B61D0061C677 /* Bump Major Version */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "./Scripts/BumpMajorVersion.sh ${ACTION}";
-			buildConfigurationList = 7E2ACDA21791B61D0061C677 /* Build configuration list for PBXLegacyTarget "Bump Major Version" */;
-			buildPhases = (
-			);
-			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "${SOURCE_ROOT}";
-			dependencies = (
-			);
-			name = "Bump Major Version";
-			passBuildSettingsInEnvironment = 0;
-			productName = "Bump Major Version";
 		};
 		7E43CE05179742D3001E3636 /* Sign Apps */ = {
 			isa = PBXLegacyTarget;
@@ -247,7 +197,7 @@
 		7EB7E70A17834A740071B3F0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = 7EB7E70D17834A740071B3F0 /* Build configuration list for PBXProject "Versioning And Distribution" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -267,9 +217,6 @@
 				7E2ACD911791B54B0061C677 /* Build Installer */,
 				7E43CE09179742DB001E3636 /* Sign Installer */,
 				7EBA20D617ED7D1C008E54C5 /* Generate Appcast */,
-				7E2ACD991791B5DA0061C677 /* Tag Current Version */,
-				7E2ACD9D1791B6090061C677 /* Bump Minor Version */,
-				7E2ACDA11791B61D0061C677 /* Bump Major Version */,
 			);
 		};
 /* End PBXProject section */
@@ -407,189 +354,6 @@
 			name = Debug;
 		};
 		7E2ACD941791B54B0061C677 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		7E2ACD9B1791B5DA0061C677 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUGGING_SYMBOLS = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		7E2ACD9C1791B5DA0061C677 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		7E2ACD9F1791B6090061C677 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUGGING_SYMBOLS = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		7E2ACDA01791B6090061C677 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		7E2ACDA31791B61D0061C677 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUGGING_SYMBOLS = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		7E2ACDA41791B61D0061C677 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -801,6 +565,7 @@
 		7EB7E70E17834A740071B3F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -900,33 +665,6 @@
 			buildConfigurations = (
 				7E2ACD931791B54B0061C677 /* Debug */,
 				7E2ACD941791B54B0061C677 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7E2ACD9A1791B5DA0061C677 /* Build configuration list for PBXLegacyTarget "Tag Current Version" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7E2ACD9B1791B5DA0061C677 /* Debug */,
-				7E2ACD9C1791B5DA0061C677 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7E2ACD9E1791B6090061C677 /* Build configuration list for PBXLegacyTarget "Bump Minor Version" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7E2ACD9F1791B6090061C677 /* Debug */,
-				7E2ACDA01791B6090061C677 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7E2ACDA21791B61D0061C677 /* Build configuration list for PBXLegacyTarget "Bump Major Version" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7E2ACDA31791B61D0061C677 /* Debug */,
-				7E2ACDA41791B61D0061C677 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

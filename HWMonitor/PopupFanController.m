@@ -40,7 +40,6 @@
 #import "Localizer.h"
 
 #import "NSTableView+HWMEngineHelper.h"
-#import "NSView+NSLayoutConstraintFilter.h"
 #import "NSWindow+BackgroundBlur.h"
 
 @interface PopupFanController ()
@@ -73,32 +72,60 @@
         }];
     }
 
-    HWMColorTheme *colorTheme = [HWMEngine defaultEngine].configuration.colorTheme;
+    HWMEngine *engine = [HWMEngine sharedEngine];
+    HWMColorTheme *colorTheme = engine.configuration.colorTheme;
 
-    [_inputLabel setTextColor:colorTheme.groupTitleColor];
-    [_outputLabel setTextColor:colorTheme.groupTitleColor];
+    //[_inputLabel setTextColor:colorTheme.groupTitleColor];
+    //[_outputLabel setTextColor:colorTheme.groupTitleColor];
 
-    [_enabledSwitch setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.7 : 1.0];
-    [_inputsPopUp setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.7 : 1.0];
+    [_enabledSwitch setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.80 : 1.0];
+    [_inputsPopUp setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.80 : 1.0];
     [_inputsPopUp setButtonType:colorTheme.useBrightIcons.boolValue ? NSOnOffButton : NSMomentaryChangeButton];
+
+    NSFont *digitalFont = [NSFont fontWithName:@"Let's go Digital Regular" size:20];
+    NSColor *valueTextColor = colorTheme.useBrightIcons.boolValue ? [colorTheme.itemValueTitleColor shadowWithLevel:0.15] : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];
+
+    [_minLabel setFont:digitalFont];
+    [_minLabel setTextColor:valueTextColor];
+    [_maxLabel setFont:digitalFont];
+    [_maxLabel setTextColor:valueTextColor];
 
     [self observeValueForKeyPath:@"controller.levels" ofObject:nil change:nil context:(void*)self];
     [self observeValueForKeyPath:@"controller.output.engine.sensorsAndGroups" ofObject:nil change:nil context:nil];
+
+    [self rangeSwitchChanged:nil];
+}
+
+-(void)rangeSwitchChanged:(id)sender
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [_rangeHeightConstraint setConstant:_rangeSwitch.state ? 50 : 0];
+    }];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"controller.levels"]) {
+
         NSArray *oldLevelsSnapshot = [_levelsSnapshot copy];
         _levelsSnapshot = [self.controller.levels.array copy];
-        NSLayoutConstraint *constraint = [_levelsTableView.enclosingScrollView constraintForAttribute:NSLayoutAttributeHeight];
+
         if (context) {
-            [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectNone insertAnimation:NSTableViewAnimationEffectNone];
-            [constraint setConstant:_levelsSnapshot.count * 28 + 1];
+            [_levelsTableView updateWithObjectValues:_levelsSnapshot
+                                previousObjectValues:oldLevelsSnapshot
+                               updateHeightOfTheRows:NO
+                                 withRemoveAnimation:NSTableViewAnimationEffectNone
+                                     insertAnimation:NSTableViewAnimationEffectNone];
+            [_levelsHeightConstraint setConstant:_levelsSnapshot.count * 28 + 1];
         }
         else {
-            [_levelsTableView updateWithObjectValues:_levelsSnapshot previousObjectValues:oldLevelsSnapshot withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationSlideDown];
-            [[constraint animator] setConstant:_levelsSnapshot.count * 28 + 1];
+            [_levelsTableView updateWithObjectValues:_levelsSnapshot
+                                previousObjectValues:oldLevelsSnapshot
+                               updateHeightOfTheRows:NO
+                                 withRemoveAnimation:NSTableViewAnimationSlideDown
+                                     insertAnimation:NSTableViewAnimationSlideDown];
+
+            [[_levelsHeightConstraint animator] setConstant:_levelsSnapshot.count * 28 + 1];
         }
     }
     else if ([keyPath isEqualToString:@"controller.output.engine.sensorsAndGroups"]) {
@@ -139,9 +166,8 @@
 {
     PopupLevelCell *cell = [tableView makeViewWithIdentifier:@"level" owner:self];
 
-    [Localizer localizeView:cell];
+    HWMColorTheme *colorTheme = [HWMEngine sharedEngine].configuration.colorTheme;
 
-    HWMColorTheme *colorTheme = [HWMEngine defaultEngine].configuration.colorTheme;
     NSColor *textColor = colorTheme.useBrightIcons.boolValue ? [colorTheme.itemValueTitleColor shadowWithLevel:0.15] : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];
 
     [cell.inputTextField setTextColor:textColor];

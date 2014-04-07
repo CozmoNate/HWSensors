@@ -2,70 +2,32 @@
 //  SmcHelper+HWMonitorHelper.m
 //  HWMonitor
 //
-//  Created by Kozlek on 22/02/14.
+//  Created by Kozlek on 04.04.14.
 //  Copyright (c) 2014 kozlek. All rights reserved.
 //
-
-// Based on code from https://github.com/atnan/SMJobBlessXPC
 
 #import "SmcHelper+HWMonitorHelper.h"
 
 #import <ServiceManagement/ServiceManagement.h>
 #import <Security/Authorization.h>
 
-#import "SmcHelper.h"
-#import "smc.h"
 #import "FakeSMCDefinitions.h"
+#import "SmcHelper.h"
 
-#define kSmcHelperLabel "org.hwsensors.HWMonitorHelper"
-#define kSmcHelperCommandWriteNumber 1
+#import "NSString+IOReturnDescription.h"
 
 @implementation SmcHelper (HWMonitorHelper)
 
-+ (void)privilegedWriteNumericKey:(NSString*)key value:(NSNumber*)value
++ (BOOL)privilegedWriteNumericKey:(NSString*)key value:(NSNumber*)value
 {
-    if (![self blessHelperWithLabel:@kSmcHelperLabel])
-        return;
+    if (![self blessHelperWithLabel:@kHWMonitorHelperServiceName])
+        return FALSE;
 
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        xpc_connection_t xpc_connection = xpc_connection_create_mach_service(kSmcHelperLabel, NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
+    NSConnection *connection = [NSConnection connectionWithRegisteredName:@kHWMonitorHelperServiceName host:nil];
 
-        xpc_connection_set_event_handler(xpc_connection, ^(xpc_object_t event) {
-            xpc_type_t type = xpc_get_type(event);
-            if (type == XPC_TYPE_ERROR) {
-                if (event == XPC_ERROR_CONNECTION_INTERRUPTED) {
-                    NSLog(@"XPC connection interupted");
-                }
-                else if (event == XPC_ERROR_CONNECTION_INVALID) {
-                    NSLog(@"XPC connection invalid, releasing");
-                    xpc_release(xpc_connection);
-                }
-                else {
-                    NSLog(@"Unexpected XPC connection error");
-                }
-            }
-            else {
-                NSLog(@"Unexpected XPC connection event");
-            }
-        });
+    HWMonitorHelper *proxy = (HWMonitorHelper *)[connection rootProxy];
 
-        xpc_connection_resume(xpc_connection);
-
-        xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
-
-        xpc_dictionary_set_int64(message, "command", kSmcHelperCommandWriteNumber);
-        xpc_dictionary_set_string(message, "key", key.UTF8String);
-        xpc_dictionary_set_int64(message, "value", value.longLongValue);
-
-        //NSLog(@"Sending request to helper");
-
-        xpc_connection_send_message_with_reply(xpc_connection, message, dispatch_get_main_queue(), ^(xpc_object_t event) {
-            IOReturn result = (IOReturn)xpc_dictionary_get_int64(event, "result");
-            //NSLog(@"Received response from helper: %d", result);
-        });
-
-        xpc_release(message);
-    }];
+    return [proxy writeNumericKey:key value:value];
 }
 
 + (BOOL)blessHelperWithLabel:(NSString *)label
@@ -111,7 +73,7 @@
 
         if (helperJobData) {
 
-            result = SMJobRemove(kSMDomainSystemLaunchd, CFBridgingRetain(label), authRef, true, &localError);
+            SMJobRemove(kSMDomainSystemLaunchd, (__bridge CFStringRef)(label), authRef, true, &localError);
 
             if (localError) {
                 NSLog(@"SMJobRemove() failed with error %@", localError);
@@ -119,14 +81,14 @@
             }
         }
 
-		result = SMJobBless(kSMDomainSystemLaunchd, CFBridgingRetain(label), authRef, (CFErrorRef*)&localError);
+		SMJobBless(kSMDomainSystemLaunchd, (__bridge CFStringRef)(label), authRef, (CFErrorRef*)&localError);
 
         if (localError) {
             NSLog(@"SMJobBless() failed with error %@", localError);
             CFRelease(localError);
         }
 	}
-
+    
 	return result;
 }
 

@@ -161,8 +161,8 @@
         [box setTitle:GetLocalizedString(box.title)];
         
         NSArray *subviews = [[view subviews] copy];
-        for (NSView *view in subviews) {
-            [self localizeView:view];
+        for (NSView *subView in subviews) {
+            [self localizeView:subView];
         }
     }
     else if ([view isKindOfClass:[NSTableView class]]) {
@@ -197,8 +197,8 @@
         if ([view subviews].count) {
             NSArray *subviews = [[view subviews] copy];
 
-            for (NSView *view in subviews) {
-                [self localizeView:view];
+            for (NSView *subView in subviews) {
+                [self localizeView:subView];
             }
         }
     }

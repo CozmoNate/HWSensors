@@ -33,7 +33,7 @@
 #import "GraphsController.h"
 #import "HWMEngine.h"
 
-@interface PrefsController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, HWMEngineDelegate, GrowlApplicationBridgeDelegate>
+@interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, HWMEngineDelegate, GrowlApplicationBridgeDelegate>
 {
     NSView *_previousView;
     NSMutableArray *_sensorsAndGroupsCollectionSnapshot;

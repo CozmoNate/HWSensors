@@ -85,7 +85,7 @@
     *movedTo = to;
 }
 
--(void)updateWithObjectValues:(NSArray*)objectValues previousObjectValues:(NSArray*)oldObjectValues withRemoveAnimation:(NSTableViewAnimationOptions)removeAnime insertAnimation:(NSTableViewAnimationOptions)insertAnime;
+-(void)updateWithObjectValues:(NSArray*)objectValues previousObjectValues:(NSArray*)oldObjectValues updateHeightOfTheRows:(BOOL)updateHeights withRemoveAnimation:(NSTableViewAnimationOptions)removeAnime insertAnimation:(NSTableViewAnimationOptions)insertAnime;
 {
     NSIndexSet *inserted, *removed, *from, *to;
 
@@ -105,12 +105,15 @@
         }
 
     } completionHandler:^{
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-            [[NSAnimationContext currentContext] setDuration:[[NSAnimationContext currentContext] duration]];
-            [self noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, objectValues.count)]];
-        } completionHandler:^{
 
-        }];
+        if (updateHeights) {
+            [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+                [[NSAnimationContext currentContext] setDuration:[[NSAnimationContext currentContext] duration]];
+                [self noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, objectValues.count)]];
+            } completionHandler:^{
+                
+            }];
+        }
 
     }];
 }
@@ -118,6 +121,7 @@
 -(void)updateWithObjectValues:(NSArray*)oldObjects previousObjectValues:(NSArray*)newObjects
 {
     [self updateWithObjectValues:oldObjects previousObjectValues:newObjects
+           updateHeightOfTheRows:YES
              withRemoveAnimation:NSTableViewAnimationSlideUp
                  insertAnimation:NSTableViewAnimationSlideDown];
 }

@@ -46,5 +46,15 @@
 @property (assign) IBOutlet NSTextField *inputLabel;
 @property (assign) IBOutlet NSTextField *outputLabel;
 @property (assign) IBOutlet NSTableView *levelsTableView;
+@property (assign) IBOutlet NSSlider *minSlider;
+@property (assign) IBOutlet NSSlider *maxSlider;
+@property (assign) IBOutlet NSTextField *minLabel;
+@property (assign) IBOutlet NSTextField *maxLabel;
+@property (assign) IBOutlet NSButton *rangeSwitch;
+
+@property (assign) IBOutlet NSLayoutConstraint *rangeHeightConstraint;
+@property (assign) IBOutlet NSLayoutConstraint *levelsHeightConstraint;
+
+-(IBAction)rangeSwitchChanged:(id)sender;
 
 @end

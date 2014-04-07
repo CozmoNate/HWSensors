@@ -27,8 +27,8 @@
 
 #import <Foundation/Foundation.h>
 #import <stdio.h>
+
 #import "SmcHelper.h"
-#import "smc.h"
 
 #define NSStr(x) [NSString stringWithCString:(x) encoding:NSASCIIStringEncoding]
 
@@ -51,10 +51,7 @@ void usage(const char* prog)
 
 UInt32 SMCReadIndexCount(io_connect_t connection)
 {
-    SMCVal_t val;
-    
-    SMCReadKey(connection, "#KEY", &val);
-    return [SmcHelper decodeNumericValueFromBuffer:val.bytes length:val.dataSize type:val.dataType].unsignedIntValue;
+    return [SmcHelper readNumericKey:@"#KEY" connection:connection];
 }
 
 bool printKeyValue(SMCVal_t val)

@@ -31,9 +31,9 @@
 
 @interface GraphsView : NSView
 {
-    NSRect          _graphBounds;
-    double          _maxPoints;
-    NSDictionary *  _legendAttributes;
+    NSRect _graphBounds;
+    double _maxPoints;
+    NSDictionary *_legendAttributes;
 }
 
 @property (assign) IBOutlet GraphsController *graphsController;

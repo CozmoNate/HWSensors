@@ -7,7 +7,6 @@
 //
 
 #import "SmcHelper.h"
-#import "smc.h"
 #import "FakeSMCDefinitions.h"
 
 @implementation SmcHelper
@@ -24,16 +23,16 @@
 
             switch ([type characterAtIndex:2]) {
                 case '8':
-                    return YES;
+                    return TRUE;
                 case '1':
-                    return [type characterAtIndex:3] == '6' ? YES : NO;
+                    return [type characterAtIndex:3] == '6' ? TRUE : FALSE;
                 case '3':
-                    return [type characterAtIndex:3] == '2' ? YES : NO;
+                    return [type characterAtIndex:3] == '2' ? TRUE : FALSE;
             }
         }
     }
 
-    return NO;
+    return FALSE;
 }
 
 + (BOOL)isValidFloatingSmcType:(NSString *)type
@@ -44,13 +43,13 @@
             UInt8 f = [SmcHelper getIndexFromHexChar:[type characterAtIndex:3]];
 
             if (i + f != ([type characterAtIndex:0] == 's' ? 15 : 16))
-                return NO;
+                return FALSE;
 
-            return YES;
+            return TRUE;
         }
     }
 
-    return NO;
+    return FALSE;
 }
 
 + (NSNumber*)decodeNumericValueFromBuffer:(void *)data length:(NSUInteger)length type:(const char *)type
@@ -163,7 +162,7 @@
                             UInt8 encoded = (UInt8)intValue;
                             if (signd) bit_write(signd && minus, encoded, BIT(7));
                             bcopy(&encoded, outBuffer, 1);
-                            return YES;
+                            return TRUE;
                         }
                         break;
                         
@@ -172,7 +171,7 @@
                             UInt16 encoded = (UInt16)intValue;
                             if (signd) bit_write(signd && minus, encoded, BIT(15));
                             OSWriteBigInt16(outBuffer, 0, encoded);
-                            return YES;
+                            return TRUE;
                         }
                         break;
                         
@@ -181,7 +180,7 @@
                             UInt32 encoded = (UInt32)intValue;
                             if (signd) bit_write(signd && minus, encoded, BIT(31));
                             OSWriteBigInt32(outBuffer, 0, encoded);
-                            return YES;
+                            return TRUE;
                         }
                         break;
                 }
@@ -198,24 +197,39 @@
                     UInt16 encoded = floatValue * (float)BIT(f);
                     if (signd) bit_write(minus, encoded, BIT(15));
                     OSWriteBigInt16(outBuffer, 0, encoded);
-                    return YES;
+                    return TRUE;
                 }
             }
         }
     }
     
-    return NO;
+    return FALSE;
 }
 
-+ (void)writeKey:(NSString*)key value:(NSNumber*)value connection:(io_connect_t)connection
++ (NSNumber*)readNumericKey:(NSString*)key connection:(io_connect_t)connection
+{
+    SMCVal_t info;
+
+    NSNumber *value;
+
+    if (kIOReturnSuccess == SMCReadKey(connection, key.UTF8String, &info)) {
+        value = [SmcHelper decodeNumericValueFromBuffer:info.bytes length:info.dataSize type:info.dataType];
+    }
+
+    return value;
+}
+
++ (BOOL)writeNumericKey:(NSString*)key value:(NSNumber*)value connection:(io_connect_t)connection
 {
     SMCVal_t info;
 
     if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
         if ([SmcHelper encodeNumericValue:value length:info.dataSize type:info.dataType outBuffer:info.bytes]) {
-            SMCWriteKeyUnsafe(connection, &info);
+            return kIOReturnSuccess == SMCWriteKeyUnsafe(connection, &info) ? TRUE : FALSE;
         }
     }
+
+    return FALSE;
 }
 
 @end

@@ -119,20 +119,18 @@
 {
     NSMenuItem *menuItem = (NSMenuItem *)sender;
 
-    NSDictionary *params = [sender representedObject];
+    NSDictionary *parameters = [sender representedObject];
 
-    NSString *profile = params[@"profile"];
-    NSNumber *connection = params[@"connection"];
+    NSString *profile = parameters[@"profile"];
+    NSNumber *connection = parameters[@"connection"];
 
     if ([self setActiveProfile:profile connection:(io_connect_t)connection.unsignedLongLongValue])
     {
         NSArray *previousItems = [_entries filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"connection == %d", connection.unsignedLongLongValue]];
 
         [previousItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            NSDictionary *params = (NSDictionary*)obj;
-
-            NSMenuItem *item = params[@"item"];
-
+            NSDictionary *itemParams = (NSDictionary*)obj;
+            NSMenuItem *item = itemParams[@"item"];
             [item setState:NSOffState];
         }];
 

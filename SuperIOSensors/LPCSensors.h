@@ -34,7 +34,7 @@
 #include "FakeSMCPlugin.h"
 
 #define kLPCSensorsMinRPM               0000.0
-#define kLPCSensorsMaxRPM               3000.0
+#define kLPCSensorsMaxRPM               6000.0
 
 #define kLPCSensorsFanTargetController  1000
 #define kLPCSensorsFanMinController     2000
@@ -44,13 +44,14 @@ struct LPCSensorsTachometerControl {
     UInt8   number;
 
     bool    active;
-
     float   control;
     float   target;
     float   error;
     float   prevError;
     double  integral;
     int     samples;
+
+    float   minimum;
 };
 
 #define kLPCSensorsMaxtachometerControls       16

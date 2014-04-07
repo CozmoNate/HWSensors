@@ -37,7 +37,6 @@
 
 @property (readonly) HWMSmcFanControlLevel * level;
 
--(IBAction)sliderHasMoved:(id)sender;
 -(IBAction)insertLevel:(id)sender;
 -(IBAction)removeLevel:(id)sender;
 
