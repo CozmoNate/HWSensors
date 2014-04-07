@@ -43,26 +43,17 @@
 	<string>TG0D|GPU Die</string>
 	<string>TG0H|GPU Heatsink</string>
 	<string>TG0p|GPU Proximity</string>
+	<string>TG0P|GPU Proximity</string>
 	<string>TG:041M|GPU Memory</string>
 	<string>TG:132D|GPU %X Die</string>
 	<string>TG:132H|GPU %X Heatsink</string>
 	<string>TG:132p|GPU %X Proximity</string>
+	<string>TG:132P|GPU %X Proximity</string>
 	<string>TG:132M|GPU %X Memory</string>
+	<string>Th:041H|Heatpipe %X</string>
+	<string>Ts0P|Heatpipe Incoming Air</string>
+	<string>Ts0S|Heatpipe Outgoing Air</string>
 	<string>TZ:0F1C|Thermal Zone %X</string>
-	<string>MlC:081|CPU Core %X</string>
-	<string>MC:081C|CPU Core %X</string>
-	<string>MlCP|CPU Package Multiplier</string>
-	<string>MPkC|CPU Package Multiplier</string>
-	<string>CC:081C|CPU Core %X</string>
-	<string>CCPC|CPU Package</string>
-	<string>CG0C|GPU Core</string>
-	<string>CG0M|GPU Memory</string>
-	<string>CG0S|GPU Shaders</string>
-	<string>CG0R|GPU ROPs</string>
-	<string>CG:132C|GPU %X Core</string>
-	<string>CG:132M|GPU %X Memory</string>
-	<string>CG:132S|GPU %X Shaders</string>
-	<string>CG:132R|GPU %X ROPs</string>
 	<string>VC0C|CPU Core</string>
 	<string>VC:A4AC|CPU %X</string>
 	<string>VV1R|CPU VTT</string>
@@ -118,6 +109,7 @@
 	<string>PC1R|CPU Rail</string>
 	<string>PC5R|CPU 1.5V S0 Rail</string>
 	<string>PM0R|Memory Rail</string>
+	<string>PM:041C|Memory Module %X</string>
 	<string>PM:A4AS|Memory Bank %X</string>
 	<string>Pe:041S|PCIe Slot %X</string>
 	<string>Pe:A4AS|PCIe Booster %X</string>
@@ -128,7 +120,7 @@
 	<string>PD0R|Mainboard S0 Rail</string>
 	<string>PD5R|Mainboard S5 Rail</string>
 	<string>Pp0C|Power Supply 12V</string>
-	<string>PDTR|System Total</string>
+	<string>PTHC|System Total</string>
 	<string>PZ:041G|Zone %X Average</string>
 </array>
 </plist>

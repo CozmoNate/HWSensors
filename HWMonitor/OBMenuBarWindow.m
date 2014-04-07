@@ -30,6 +30,7 @@
 
 #import "OBMenuBarWindow.h"
 #import <objc/runtime.h>
+#import "HWMColorTheme.h"
 
 NSString * const OBMenuBarWindowDidAttachToMenuBar = @"OBMenuBarWindowDidAttachToMenuBar";
 NSString * const OBMenuBarWindowDidDetachFromMenuBar = @"OBMenuBarWindowDidDetachFromMenuBar";
@@ -40,6 +41,8 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 //CGFloat OBMenuBarWindowTitleBarHeight = 35;
 const CGFloat OBMenuBarWindowArrowHeight = 10.0;
 const CGFloat OBMenuBarWindowArrowWidth = 20.0;
+const CGFloat OBMenuBarWindowArrowOffset = 6;
+const CGFloat OBMenuBarWindowCornerRadius = 5.5;
 
 @interface OBMenuBarWindow ()
 
@@ -55,12 +58,12 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 - (void)windowDidMove:(NSNotification *)aNotification;
 - (void)statusItemViewDidMove:(NSNotification *)aNotification;
 - (NSWindow *)window;
-- (NSImage *)noiseImage;
 - (void)drawRectOriginal:(NSRect)dirtyRect;
 
 @property (readonly) NSImage *noiseImage;
 @property (readonly) NSImage *activeImage;
 @property (readonly) NSImage *inactiveImage;
+@property (atomic, assign) NSUInteger scheduledRefreshCount;
 
 @end
 
@@ -74,8 +77,8 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 @synthesize toolbarView;
 @synthesize colorTheme;
 @synthesize noiseImage;
-@synthesize activeImage;
-@synthesize inactiveImage;
+@synthesize activeImage = _activeImage;
+@synthesize inactiveImage = _inactiveImage;
 
 -(CGFloat)toolbarHeight
 {
@@ -84,7 +87,11 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
 -(void)setStatusItemView:(NSView *)newStatusItemView
 {
-    if (newStatusItemView)
+    if (statusItemView == newStatusItemView) {
+        return;
+    }
+    
+    if (newStatusItemView && statusItemView != newStatusItemView)
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusItemViewDidMove:) name:NSWindowDidMoveNotification object:newStatusItemView.window];
     }
@@ -135,17 +142,17 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     return toolbarView;
 }
 
--(void)setColorTheme:(ColorTheme*)newColorTheme
+-(void)setColorTheme:(HWMColorTheme*)newColorTheme
 {
     if (colorTheme != newColorTheme) {
-        activeImage = nil;
-        inactiveImage = nil;
+        [self resetContentImagesScheduleRefresh:YES];
         colorTheme = newColorTheme;
-        [self layoutContent];
+        // Redraw the theme frame
+        [[self.contentView superview] setNeedsDisplayInRect:[self.contentView superview].frame];
     }
 }
 
--(ColorTheme *)colorTheme
+-(HWMColorTheme *)colorTheme
 {
     return colorTheme;
 }
@@ -391,7 +398,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
             }
         }
 
-        [self setLevel:(isAttached ? NSPopUpMenuWindowLevel : NSNormalWindowLevel)];
+        [self setLevel:(isAttached ? NSFloatingWindowLevel : NSNormalWindowLevel)];
 
         if (isAttached)
         {
@@ -504,7 +511,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification
 {
-    [[self.contentView superview] setNeedsDisplayInRect:[self titleBarRect]];
+    [[self.contentView superview] setNeedsDisplay:YES];
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(windowDidBecomeKey:)]) {
         [self.delegate performSelector:@selector(windowDidBecomeKey:)
                             withObject:self];
@@ -532,25 +539,25 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
 - (NSPoint)originForAttachedState
 {
-    if (statusItemView)
-    {
-        NSRect statusItemFrame = [[statusItemView window] frame];
+    if (statusItemView) {
+        NSRect statusItemFrame = statusItemView.window.frame;
+
         NSPoint midPoint = NSMakePoint(NSMidX(statusItemFrame),
                                        NSMinY(statusItemFrame));
+
         return NSMakePoint(midPoint.x - (self.frame.size.width / 2),
-                           midPoint.y - self.frame.size.height - 4);
+                           midPoint.y - self.frame.size.height - OBMenuBarWindowArrowOffset);
     }
-    else
-    {
-        return NSZeroPoint;
-    }
+
+    return NSZeroPoint;
 }
 
 - (void)makeKeyAndOrderFront:(id)sender
 {
     if (self.attachedToMenuBar)
     {
-        [self setFrameOrigin:[self originForAttachedState]];
+        NSPoint origin = [self originForAttachedState];
+        [self setFrameOrigin:origin];
     }
     [super makeKeyAndOrderFront:sender];
 }
@@ -616,8 +623,6 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
 - (void)windowDidResize:(NSNotification *)aNotification
 {
-    activeImage = nil;
-    inactiveImage = nil;
     [self layoutContent];
 }
 
@@ -662,38 +667,45 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
 - (void)setFrame:(NSRect)frameRect display:(BOOL)flag
 {
-    if ([self inLiveResize] && self.attachedToMenuBar)
-    {
-        NSPoint mouseLocation = [self convertBaseToScreen:[self mouseLocationOutsideOfEventStream]];
-        NSRect newFrame = resizeStartFrame;
-        if (frameRect.size.width != resizeStartFrame.size.width)
+    if ([self inLiveResize]) {
+        if (self.attachedToMenuBar)
         {
-            CGFloat deltaWidth = (resizeRight ? mouseLocation.x - resizeStartLocation.x : resizeStartLocation.x - mouseLocation.x);
-            newFrame.origin.x -= deltaWidth;
-            newFrame.size.width += deltaWidth * 2;
-            if (newFrame.size.width < self.minSize.width)
+            NSPoint mouseLocation = [self convertBaseToScreen:[self mouseLocationOutsideOfEventStream]];
+            NSRect newFrame = resizeStartFrame;
+            if (frameRect.size.width != resizeStartFrame.size.width)
             {
-                newFrame.size.width = self.minSize.width;
-                newFrame.origin.x = NSMidX(resizeStartFrame) - (self.minSize.width) / 2.0;
+                CGFloat deltaWidth = (resizeRight ? mouseLocation.x - resizeStartLocation.x : resizeStartLocation.x - mouseLocation.x);
+                newFrame.origin.x -= deltaWidth;
+                newFrame.size.width += deltaWidth * 2;
+                if (newFrame.size.width < self.minSize.width)
+                {
+                    newFrame.size.width = self.minSize.width;
+                    newFrame.origin.x = NSMidX(resizeStartFrame) - (self.minSize.width) / 2.0;
+                }
+                if (newFrame.size.width > self.maxSize.width)
+                {
+                    newFrame.size.width = self.maxSize.width;
+                    newFrame.origin.x = NSMidX(resizeStartFrame) - (self.maxSize.width) / 2.0;
+                }
             }
-            if (newFrame.size.width > self.maxSize.width)
+
+            // Don't allow resizing upwards when attached to menu bar
+            if (frameRect.origin.y != resizeStartFrame.origin.y)
             {
-                newFrame.size.width = self.maxSize.width;
-                newFrame.origin.x = NSMidX(resizeStartFrame) - (self.maxSize.width) / 2.0;
+                newFrame.origin.y = frameRect.origin.y;
+                newFrame.size.height = frameRect.size.height;
             }
-        }
 
-        // Don't allow resizing upwards when attached to menu bar
-        if (frameRect.origin.y != resizeStartFrame.origin.y)
-        {
-            newFrame.origin.y = frameRect.origin.y;
-            newFrame.size.height = frameRect.size.height;
+            [self resetContentImagesScheduleRefresh:NO];
+            [super setFrame:newFrame display:YES];
         }
-
-        [super setFrame:newFrame display:YES];
+        else {
+            [self resetContentImagesScheduleRefresh:NO];
+            [super setFrame:frameRect display:flag];
+        }
     }
-    else
-    {
+    else {
+        [self resetContentImagesScheduleRefresh:YES];
         [super setFrame:frameRect display:flag];
     }
 }
@@ -711,7 +723,17 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     {
         size_t dimension = 100;
         size_t bytes = dimension * dimension * 4;
-        CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+
+        //CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+
+        // Fix rainbow noise when selected device-independent monitor profile
+        // Values got from: http://stackoverflow.com/questions/501199/disabling-color-correction-in-quartz-2d
+        const CGFloat whitePoint[] = {0.95047, 1.0, 1.08883};
+        const CGFloat blackPoint[] = {0, 0, 0};
+        const CGFloat gamma[] = {1, 1, 1};
+        const CGFloat matrix[] = {0.449695, 0.244634, 0.0251829, 0.316251, 0.672034, 0.141184, 0.18452, 0.0833318, 0.922602 };
+        CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateCalibratedRGB(whitePoint, blackPoint, gamma, matrix);
+
         unsigned char *data = malloc(bytes);
         unsigned char grey;
         for (NSUInteger i = 0; i < bytes; i += 4)
@@ -722,7 +744,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
             data[i + 2] = grey;
             data[i + 3] = 6;
         }
-        CGContextRef contextRef = CGBitmapContextCreate(data, dimension, dimension, 8, dimension * 4, colorSpaceRef, kCGImageAlphaPremultipliedLast);
+        CGContextRef contextRef = CGBitmapContextCreate(data, dimension, dimension, 8, dimension * 4, colorSpaceRef,(CGBitmapInfo)kCGImageAlphaPremultipliedLast);
         CGImageRef imageRef = CGBitmapContextCreateImage(contextRef);
         noiseImage = [[NSImage alloc] initWithCGImage:imageRef size:NSMakeSize(dimension, dimension)];
         CGImageRelease(imageRef);
@@ -733,12 +755,12 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     return noiseImage;
 }
 
-- (NSImage *)contentImageWhenTheWindowIsKey:(BOOL)isKey
+- (void)renderContentForKeyWindow:(BOOL)isKey
 {
     OBMenuBarWindow *window = (OBMenuBarWindow *)[self window];
 
     if (!window.toolbarView) {
-        return NULL;
+        return;
     }
 
     NSRect bounds = [window.contentView superview].bounds;
@@ -748,30 +770,11 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     CGFloat height = bounds.size.height;
     CGFloat arrowHeight = OBMenuBarWindowArrowHeight;
     CGFloat arrowWidth = OBMenuBarWindowArrowWidth;
-    CGFloat cornerRadius = 6.0;
-
-    NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
-
-    [image lockFocus];
-
+    CGFloat cornerRadius = OBMenuBarWindowCornerRadius;
     BOOL isAttached = window.attachedToMenuBar;
 
-    // Draw the window background
-    if (window.colorTheme) {
-        [window.colorTheme.listBackgroundColor set];
-    }
-    else {
-        [[NSColor windowBackgroundColor] set];
-    }
-    NSRectFill(bounds);
-
-    // Erase the default title bar
-    CGFloat titleBarHeight = window.toolbarView.frame.size.height + (isAttached ? OBMenuBarWindowArrowHeight : 0);
-    [[NSColor clearColor] set];
-    NSRectFillUsingOperation([window titleBarRect], NSCompositeClear);
-
     // Create the window shape
-    NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0,
+    NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0 + 0.5,
                                          originY + height - (isAttached ? OBMenuBarWindowArrowHeight : 0));
     NSPoint arrowPointMiddle;
     if (window.attachedToMenuBar)
@@ -782,37 +785,78 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     else
     {
         arrowPointMiddle = NSMakePoint(originX + width / 2.0,
-                                       originY + height - (isAttached ? OBMenuBarWindowArrowHeight : 0));
+                                       originY + height - (isAttached ? arrowHeight : 0));
     }
-    NSPoint arrowPointRight = NSMakePoint(originX + (width + arrowWidth) / 2.0,
-                                          originY + height - (isAttached ? OBMenuBarWindowArrowHeight : 0));
+    NSPoint arrowPointRight = NSMakePoint(originX + (width + arrowWidth) / 2.0 - 0.5,
+                                          originY + height - (isAttached ? arrowHeight : 0));
     NSPoint topLeft = NSMakePoint(originX,
-                                  originY + height - (isAttached ? OBMenuBarWindowArrowHeight : 0));
+                                  originY + height - (isAttached ? arrowHeight : 0));
     NSPoint topRight = NSMakePoint(originX + width,
-                                   originY + height - (isAttached ? OBMenuBarWindowArrowHeight : 0));
+                                   originY + height - (isAttached ? arrowHeight : 0));
     NSPoint bottomLeft = NSMakePoint(originX,
-                                     originY + height - arrowHeight - window.toolbarView.frame.size.height);
+                                     originY + height - (isAttached ? arrowHeight : 0) - window.toolbarView.frame.size.height);
     NSPoint bottomRight = NSMakePoint(originX + width,
-                                      originY + height - arrowHeight - window.toolbarView.frame.size.height);
+                                      originY + height - (isAttached ? arrowHeight : 0) - window.toolbarView.frame.size.height);
 
-    NSBezierPath *border = [NSBezierPath bezierPath];
-    [border moveToPoint:arrowPointLeft];
-    [border lineToPoint:arrowPointMiddle];
-    [border lineToPoint:arrowPointRight];
-    [border appendBezierPathWithArcFromPoint:topRight
-                                     toPoint:bottomRight
-                                      radius:cornerRadius];
-    [border lineToPoint:bottomRight];
-    [border lineToPoint:bottomLeft];
-    [border appendBezierPathWithArcFromPoint:topLeft
-                                     toPoint:arrowPointLeft
-                                      radius:cornerRadius];
-    [border closePath];
+    // Erase the window content
+    NSRectFillUsingOperation(NSMakeRect(originX, originY, width, height), NSCompositeClear);
+
+    // Draw the window background
+
+    NSPoint listBottomRight = NSMakePoint(originX + width, originY);
+    NSPoint listBottomLeft = NSMakePoint(originX, originY);
+
+    NSBezierPath *listPath = [NSBezierPath bezierPath];
+
+    [listPath moveToPoint:bottomRight];
+    [listPath lineToPoint:NSMakePoint(listBottomRight.x, listBottomRight.y + cornerRadius * 1.5)];
+
+    [listPath appendBezierPathWithArcFromPoint:listBottomRight
+                                       toPoint:NSMakePoint(listBottomLeft.x + cornerRadius, listBottomRight.y)
+                                        radius:cornerRadius];
+
+    [listPath appendBezierPathWithArcFromPoint:listBottomLeft
+                                       toPoint:bottomLeft
+                                        radius:cornerRadius];
+    [listPath lineToPoint:bottomLeft];
+
+
+
+    [NSGraphicsContext saveGraphicsState];
+    [listPath addClip];
+    [window.colorTheme.listBackgroundColor setFill];
+    [listPath fill];
+
+    if (window.colorTheme.listStrokeColor) {
+        [window.colorTheme.listStrokeColor setStroke];
+        [listPath setLineWidth:0.5];
+        [listPath stroke];
+    }
+    [NSGraphicsContext restoreGraphicsState];
+
+    // Toolbar border closed path
+    NSBezierPath *borderPath = [NSBezierPath bezierPath];
+    [borderPath moveToPoint:arrowPointLeft];
+    [borderPath lineToPoint:arrowPointMiddle];
+    [borderPath lineToPoint:arrowPointRight];
+    [borderPath appendBezierPathWithArcFromPoint:topRight
+                                         toPoint:bottomRight
+                                          radius:cornerRadius];
+    [borderPath lineToPoint:bottomRight];
+    [borderPath lineToPoint:bottomLeft];
+    [borderPath appendBezierPathWithArcFromPoint:topLeft
+                                         toPoint:arrowPointLeft
+                                          radius:cornerRadius];
+    [borderPath lineToPoint:arrowPointLeft];
+    [borderPath closePath];
 
     // Draw the title bar
     [NSGraphicsContext saveGraphicsState];
-    [border addClip];
 
+    [borderPath addClip];
+
+    CGFloat titleBarHeight = window.toolbarView.frame.size.height + (isAttached ? OBMenuBarWindowArrowHeight : 0);
+    
     NSRect headingRect = NSMakeRect(originX,
                                     originY + height - titleBarHeight,
                                     width,
@@ -857,7 +901,6 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     [bottomColor set];
     NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
 
-
     // Draw some subtle noise to the titlebar if the window is the key window
     if (isKey || attachedToMenuBar)
     {
@@ -885,25 +928,18 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 
     // Draw the title bar highlight
     NSBezierPath *highlightPath = [NSBezierPath bezierPath];
-    [highlightPath moveToPoint:arrowPointMiddle];
-    [highlightPath lineToPoint:arrowPointLeft];
-    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topLeft.x + 1.5, topLeft.y)
-                                            toPoint:NSMakePoint(bottomLeft.x, topLeft.y - cornerRadius)
+    [highlightPath moveToPoint:NSMakePoint(arrowPointMiddle.x,arrowPointMiddle.y - 0.5)];
+    [highlightPath lineToPoint:NSMakePoint(arrowPointLeft.x, arrowPointLeft.y - 0.5)];
+    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topLeft.x + 0.5, topLeft.y - 0.5)
+                                            toPoint:NSMakePoint(bottomLeft.x - 0.5, topLeft.y - cornerRadius)
                                              radius:cornerRadius];
-    [highlightPath moveToPoint:arrowPointMiddle];
-    [highlightPath lineToPoint:arrowPointRight];
-    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topRight.x - 1.5, topRight.y)
-                                            toPoint:NSMakePoint(bottomRight.x, topRight.y - cornerRadius)
+    [highlightPath moveToPoint:NSMakePoint(arrowPointMiddle.x,arrowPointMiddle.y - 0.5)];
+    [highlightPath lineToPoint:NSMakePoint(arrowPointRight.x, arrowPointRight.y - 0.5)];
+    [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topRight.x - 0.5, topRight.y - 0.5)
+                                            toPoint:NSMakePoint(bottomRight.x + 0.5, topRight.y - cornerRadius)
                                              radius:cornerRadius];
-    //[window.colorTheme.listStrokeColor set];
-    if (window.colorTheme) {
-        [[window.colorTheme.toolbarShadowColor highlightWithLevel:0.5] set];
-    }
-    else {
-        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] set];
-    }
-    [highlightPath setLineWidth:1.0];
-    [border addClip];
+    [[window.colorTheme.toolbarShadowColor highlightWithLevel:0.5] set];
+    [highlightPath setLineWidth:window.colorTheme.toolbarStrokeColor ? 2.0 : 1.0];
     [highlightPath stroke];
 
     [NSGraphicsContext restoreGraphicsState];
@@ -927,33 +963,103 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
     [window.title drawAtPoint:centerPoint withAttributes:titleAttributes];
 
     // Draw separator line between the titlebar and the content view
-    [[NSColor colorWithCalibratedWhite:0.3 alpha:1.0] set];
-    NSRect separatorRect = NSMakeRect(originX, originY + height - window.toolbarView.frame.size.height - (isAttached ? OBMenuBarWindowArrowHeight : 0) - 1, width, 1);
+    if (isKey) {
+        [[window.colorTheme.listBackgroundColor shadowWithLevel:0.5] set];
+    }
+    else {
+        [[window.colorTheme.listBackgroundColor shadowWithLevel:0.2] set];
+    }
+    NSRect separatorRect = NSMakeRect(originX, originY + height - window.toolbarView.frame.size.height - (isAttached ? arrowHeight : 0) - 1, width, 1);
     NSRectFill(separatorRect);
 
-    [image unlockFocus];
+    // Draw toolbar stroke
+    if (window.colorTheme.toolbarStrokeColor) {
+        // Stroke open path
+        NSBezierPath *strokePath = [NSBezierPath bezierPath];
+        [strokePath moveToPoint:arrowPointLeft];
+        [strokePath lineToPoint:arrowPointMiddle];
+        [strokePath lineToPoint:arrowPointRight];
+        [strokePath appendBezierPathWithArcFromPoint:topRight
+                                             toPoint:bottomRight
+                                              radius:cornerRadius];
+        [strokePath lineToPoint:bottomRight];
+        [strokePath moveToPoint:bottomLeft];
+        [strokePath appendBezierPathWithArcFromPoint:topLeft
+                                             toPoint:arrowPointLeft
+                                              radius:cornerRadius];
+        [strokePath lineToPoint:arrowPointLeft];
 
-    return image;
+        if (isKey) {
+            [window.colorTheme.toolbarStrokeColor set];
+        }
+        else {
+            [[window.colorTheme.toolbarStrokeColor highlightWithLevel:0.25] set];
+        }
+
+        [borderPath addClip];
+        [strokePath setLineWidth:0.5];
+        [strokePath stroke];
+    }
 }
 
-- (NSImage *)activeImage
+- (void)refreshContentImageForKeyWindow:(BOOL)isKey
 {
-    if (activeImage == nil)
-        activeImage = [self contentImageWhenTheWindowIsKey:YES];
+    NSImage *contentImage = [[NSImage alloc] initWithSize:NSMakeSize([self.contentView superview].bounds.size.width, [self.contentView superview].bounds.size.height)];
 
-    return activeImage;
+    [contentImage lockFocus];
+
+    [self renderContentForKeyWindow:isKey];
+
+    [contentImage unlockFocus];
+
+    if (isKey) {
+        _activeImage = contentImage;
+        //NSLog(@"Active image refreshed");
+    }
+    else {
+        _inactiveImage = contentImage;
+        //NSLog(@"Inactive image refreshed");
+    }
 }
 
-- (NSImage *)inactiveImage
+- (void)resetContentImagesScheduleRefresh:(BOOL)scheduleRefresh
 {
-    if (inactiveImage == nil)
-    inactiveImage = [self contentImageWhenTheWindowIsKey:NO];
+    if (_activeImage || _inactiveImage) {
+        _activeImage = nil;
+        _inactiveImage = nil;
 
-    return inactiveImage;
+        //NSLog(@"reset");
+    }
+
+    if (scheduleRefresh) {
+
+        self.scheduledRefreshCount++;
+
+        [self performSelector:@selector(refreshContentImages) withObject:nil afterDelay:0.5];
+    }
 }
 
+- (void)refreshContentImages
+{
+    if (--self.scheduledRefreshCount) {
+        return;
+    }
+    
+    //if (!_activeImage) {
+        [self refreshContentImageForKeyWindow:YES];
+        //NSLog(@"active image refreshed");
+        //}
 
-- (void)drawRectOriginal:(NSRect)dirtyRect
+    //if (!_inactiveImage) {
+        [self refreshContentImageForKeyWindow:NO];
+        //NSLog(@"inactive image refreshed");
+        //}
+
+    // Redraw the theme frame
+    [[self.contentView superview] setNeedsDisplay:YES];
+}
+
+-(void)drawRectOriginal:(NSRect)dirtyRect
 {
     // Do nothing
 }
@@ -961,31 +1067,27 @@ const CGFloat OBMenuBarWindowArrowWidth = 20.0;
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Only draw the custom window frame for a OBMenuBarWindow object
-    if (![self respondsToSelector:@selector(window)] || ![[self window] isKindOfClass:[OBMenuBarWindow class]])
+    if ([[self window] isKindOfClass:[OBMenuBarWindow class]])
     {
+        OBMenuBarWindow *window = (OBMenuBarWindow *)[self window];
+
+        if (!window.toolbarView) {
+            return;
+        }
+
+        NSImage *content = [window isKeyWindow] || [window attachedToMenuBar] ? [window activeImage] : [window inactiveImage];
+
+        if (!content) {
+            [window renderContentForKeyWindow:[window isKeyWindow]];
+        }
+        else {
+            [content drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
+
+        }
+    }
+    else {
         [self drawRectOriginal:dirtyRect];
-        return;
     }
-
-    OBMenuBarWindow *window = (OBMenuBarWindow *)[self window];
-
-    if (!window.toolbarView) {
-        return;
-    }
-    
-    
-    NSImage *content = [window isKeyWindow] || [window attachedToMenuBar] ? [window activeImage] : [window inactiveImage];
-    
-    if (!content) {
-        return;
-    }
-    
-    // Draw the window background
-    
-    [[NSColor clearColor] set];
-    NSRectFill(dirtyRect);
-
-    [content drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeSourceOver fraction:1.0];
 }
 
 @end

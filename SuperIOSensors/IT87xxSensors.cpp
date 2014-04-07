@@ -48,7 +48,16 @@
 
 #include "IT87xxSensors.h"
 #include "FakeSMCDefinitions.h"
-#include "SuperIO.h"
+#include "SuperIODevice.h"
+#include "FakeSMCKey.h"
+
+#define FEATURE_12MV_ADC		(1 << 0)
+#define FEATURE_NEWER_AUTOPWM	(1 << 1)
+#define FEATURE_OLD_AUTOPWM     (1 << 2)
+#define FEATURE_16BIT_FANS		(1 << 3)
+#define FEATURE_TEMP_OFFSET     (1 << 4)
+#define FEATURE_TEMP_PECI		(1 << 5)
+#define FEATURE_TEMP_OLD_PECI	(1 << 6)
 
 #define super LPCSensors
 OSDefineMetaClassAndStructors(IT87xxSensors, LPCSensors)
@@ -94,14 +103,14 @@ float IT87xxSensors::readTemperature(UInt32 index)
 float IT87xxSensors::readVoltage(UInt32 index)
 {
     UInt8 v = readByte(ITE_VOLTAGE_BASE_REG + index);
-    return (float)v * voltageGain;
+    return (float)v * (features & FEATURE_12MV_ADC ? 0.012f : 0.016f);
 }
 
 float IT87xxSensors::readTachometer(UInt32 index)
 {
     UInt32 value;
     
-    if (has16bitFanCounter)
+    if (features & FEATURE_16BIT_FANS)
     {
         value = readByte(ITE_FAN_TACHOMETER_REG[index]);
         
@@ -122,6 +131,93 @@ float IT87xxSensors::readTachometer(UInt32 index)
     }
 }
 
+bool IT87xxSensors::supportsTachometerControl()
+{
+    return true;
+}
+
+UInt8 IT87xxSensors::readTachometerControl(UInt32 index)
+{
+    if (index >= tachometerSensorsLimit())
+        return 0;
+    
+    UInt8 control;
+    
+    if (features & FEATURE_NEWER_AUTOPWM) {
+        control =  readByte(ITE_SMARTGUARDIAN_PWM_DUTY(index));
+    }
+    else {
+        control = (readByte(ITE_SMARTGUARDIAN_PWM(index)) & 0x7f) << 1;
+        control = (control & 0x7f) << 1;
+    }
+    
+    return (float)(control) / 2.55f;
+}
+
+void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
+{
+    if (index < tachometerSensorsLimit()) {
+        
+        if (!fanControlEnabled[index]) {
+            /* Read PWM controller */
+            fanPWMControl[index] = readByte(ITE_SMARTGUARDIAN_PWM_CONTROL[index]);
+            
+            UInt8 pwmTempMap, pwmDuty;
+            
+            if (features & FEATURE_NEWER_AUTOPWM) {
+                pwmTempMap = fanPWMControl[index] & 0x03;
+                pwmDuty = readByte(ITE_SMARTGUARDIAN_PWM_DUTY(index));
+            } else {
+                if (fanPWMControl[index] & 0x80)	/* Automatic mode */
+                    pwmTempMap = fanPWMControl[index] & 0x03;
+                else				/* Manual mode */
+                    pwmDuty = fanPWMControl[index] & 0x7f;
+            }
+            
+            /* Manual mode */
+            UInt8 pwmControl = features & FEATURE_NEWER_AUTOPWM ? pwmTempMap : fanPWMControl[index] & 0x80 ? pwmTempMap : pwmDuty;
+
+            writeByte(ITE_SMARTGUARDIAN_PWM(index), pwmControl);
+
+            fanSmartGuardian[index] = readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) & (1 << index);
+
+            /* set SmartGuardian mode */
+            writeByte(ITE_SMARTGUARDIAN_MAIN_CONTROL, readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) | (1 << index));
+            
+            fanControlEnabled[index] = true;
+        }
+        
+        UInt8 control = (float)(percent) * 2.55;
+        
+        if (features & FEATURE_NEWER_AUTOPWM) {
+            writeByte(ITE_SMARTGUARDIAN_PWM_DUTY(index), control);
+        } else {
+            /*
+             * If we are in manual mode, write the duty cycle immediately;
+             */
+            if (!(readByte(ITE_SMARTGUARDIAN_PWM_CONTROL[index]) & 0x80)) {
+                writeByte(ITE_SMARTGUARDIAN_PWM(index), control >> 1);
+            }
+        }
+    }
+}
+
+//void IT87xxSensors::disableTachometerControl(UInt32 index)
+//{
+//    if (index >= tachometerSensorsLimit())
+//        return;
+//
+//    if (fanControlEnabled[index]) {
+//
+//        writeByte(ITE_SMARTGUARDIAN_PWM(index), fanPWMControl[index]);
+//
+//        /* Set back SmartGuardian mode */
+//        writeByte(ITE_SMARTGUARDIAN_MAIN_CONTROL, readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) & ~(fanSmartGuardian[index] << index));
+//
+//        fanControlEnabled[index] = false;
+//    }
+//}
+
 bool IT87xxSensors::initialize()
 {
     UInt8 vendor = readByte(ITE_VENDOR_ID_REGISTER);
@@ -137,23 +233,69 @@ bool IT87xxSensors::initialize()
         model = 0;
  		return false;
     }
-	
+    
     switch (model) {
+        case IT8512F:
+            features = FEATURE_OLD_AUTOPWM;
+            break;
+        case IT8705F:
+            features = FEATURE_OLD_AUTOPWM;
+            break;
+        case IT8712F:
+            features = FEATURE_OLD_AUTOPWM;
+            break;
+        case IT8716F:
+            features = FEATURE_16BIT_FANS | FEATURE_TEMP_OFFSET;
+            break;
+        case IT8718F:
+            features = FEATURE_16BIT_FANS | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI;
+            break;
+        case IT8720F:
+            features = FEATURE_16BIT_FANS | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI;
+            break;
         case IT8721F:
+           features = FEATURE_NEWER_AUTOPWM | FEATURE_12MV_ADC | FEATURE_16BIT_FANS
+            | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI | FEATURE_TEMP_PECI;
+            break;
+        case IT8726F:
         case IT8728F:
+        case IT8752F:
         case IT8771E:
         case IT8772E:
-            voltageGain = 0.012f;
+            features = FEATURE_NEWER_AUTOPWM | FEATURE_12MV_ADC | FEATURE_16BIT_FANS
+            | FEATURE_TEMP_OFFSET | FEATURE_TEMP_PECI;
             break;
             
+            //case IT8782E:
+            //features = FEATURE_16BIT_FANS | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI;
+            
         default:
-            voltageGain = 0.016f;
             break;
     }
+	
+//    switch (model) {
+//        case IT8705F:
+//        case IT8721F:
+//        case IT8728F:
+//        case IT8771E:
+//        case IT8772E:
+//            voltageGain = 0.012f;
+//            break;
+//            
+//        default:
+//            voltageGain = 0.016f;
+//            break;
+//    }
     
-    UInt8 version = readByte(ITE_VERSION_REGISTER) & 0x0F;
-    
-    has16bitFanCounter = !((model == IT8705F && version < 3) || (model == IT8712F && version < 8));
+//    UInt8 version = readByte(ITE_VERSION_REGISTER) & 0x0F;
+//    
+//    has16bitFanCounter = !((model == IT8705F && version < 3) || (model == IT8712F && version < 8));
     
     return true;
+}
+
+void IT87xxSensors::hasPoweredOn()
+{
+    // Reset fan control enabled
+    bzero(fanControlEnabled, 6);
 }

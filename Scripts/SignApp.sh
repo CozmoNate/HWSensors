@@ -12,13 +12,15 @@ then
     exit 0
 fi
 
+authority="Developer ID Application: "
+
 /usr/libexec/PlistBuddy -c "Add :SUFeedURL string http://hwsensors.com/appcast/appcast.xml" "./Binaries/HWMonitor.app/Contents/info.plist"
 
-codesign -s "Developer ID Application" -f ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/Sparkle\ Updater.app
-spctl -a -v --type execute ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/Sparkle\ Updater.app
+#codesign --verbose --force --sign "Developer ID Application" ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/Sparkle\ Updater.app
+codesign --verbose --force --sign "${authority}" ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.framework/Versions/A
+codesign --verbose --force --sign "${authority}" ./Binaries/HWMonitor.app/Contents/Frameworks/Growl.framework/Versions/A
+codesign --verbose --force --sign "${authority}" ./Binaries/HWMonitor.app/Contents/Library/LaunchServices/org.hwsensors.HWMonitorHelper
 
-codesign -s "Developer ID Application" -f ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.framework
-spctl -a -v --type execute ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.framework
+codesign --verbose --force --sign "${authority}" ./Binaries/HWMonitor.app
 
-codesign -s "Developer ID Application" -f ./Binaries/HWMonitor.app
-spctl -a -v --type execute ./Binaries/HWMonitor.app
+codesign --display --verbose=4 ./Binaries/HWMonitor.app

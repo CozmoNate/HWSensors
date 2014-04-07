@@ -25,33 +25,21 @@
  *
  */
 
-#import "HWMonitorGroup.h"
 #import "GraphsController.h"
-#import "HWMonitorSensor.h"
+
+@class HWMGraphsGroup;
 
 @interface GraphsView : NSView
 {
-    NSMutableArray *_items;
-    
     NSRect _graphBounds;
-    double _minY;
-    double _maxY;
     double _maxPoints;
-    
     NSDictionary *_legendAttributes;
-    NSString *_legendFormat;
 }
 
 @property (assign) IBOutlet GraphsController *graphsController;
 
-@property (nonatomic, assign) BOOL useFahrenheit;
-@property (nonatomic, assign) BOOL useSmoothing;
-@property (nonatomic, assign) float graphScale;
-@property (nonatomic, assign) HWSensorGroup sensorGroup;
-@property (readonly) NSMutableDictionary *graphs;
+@property (nonatomic, strong) HWMGraphsGroup *graphsGroup;
 
-- (NSArray*)addItemsFromList:(NSArray*)itemsList forSensorGroup:(HWSensorGroup)sensorsGroup;
-- (void)calculateGraphBoundsFindExtremes:(BOOL)findExtremes;
-- (void)captureDataToHistoryNow;
+- (void)calculateGraphBounds;
 
 @end

@@ -292,6 +292,8 @@ typedef struct _ATOM_PPLIB_THERMALCONTROLLER
 #define ATOM_PP_THERMALCONTROLLER_NISLANDS  15
 #define ATOM_PP_THERMALCONTROLLER_SISLANDS  16
 #define ATOM_PP_THERMALCONTROLLER_LM96163   17
+#define ATOM_PP_THERMALCONTROLLER_CISLANDS  18
+#define ATOM_PP_THERMALCONTROLLER_KAVERI    19
 
 // Thermal controller 'combo type' to use an external controller for Fan control and an internal controller for thermal.
 // We probably should reserve the bit 0x80 for this use.

@@ -86,7 +86,7 @@ void FakeSMCDevice::applesmc_fill_info(struct AppleSMCStatus *s)
 		s->key_info[5] = 0;
         
 		const char* typ = key->getType();
-		UInt64 len = strlen(typ);
+		UInt64 len = strnlen(typ, 4);
         
 		for (UInt8 i=0; i<4; i++)
 		{
@@ -254,8 +254,18 @@ bool FakeSMCDevice::initAndStart(IOService *platform, IOService *provider)
 	if (!provider || !super::init(platform, 0, 0))
 		return false;
 
-    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), kFakeSMCDefaultWaitTimeout)))) {
-		HWSensorsFatalLog("failed to locate FakeSMCKeyStore service!");
+    OSDictionary *matching = serviceMatching(kFakeSMCKeyStoreService);
+
+    if (matching) {
+        if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(matching, kFakeSMCDefaultWaitTimeout)))) {
+            HWSensorsFatalLog("still waiting for FakeSMCKeyStore...");
+            return false;
+        }
+
+        OSSafeRelease(matching);
+    }
+    else {
+        HWSensorsFatalLog("failed to create matching dictionary (FakeSMCKeyStore)");
         return false;
     }
     

@@ -3,9 +3,27 @@
  *  FakeSMC
  *
  *  Created by kozlek on 03/10/10.
- *  Copyright 2010 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
  *
  */
+
+//  The MIT License (MIT)
+//
+//  Copyright (c) 2013 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+//  and associated documentation files (the "Software"), to deal in the Software without restriction,
+//  including without limitation the rights to use, copy, modify, merge, publish, distribute,
+//  sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all copies or
+//  substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+//  NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <IOKit/IOLib.h>
 
@@ -43,7 +61,7 @@ bool FakeSMCKey::init(const char * aKey, const char * aType, const unsigned char
     if (!super::init())
         return false;
 
-	if (!aKey || strlen(aKey) == 0 || !(key = (char *)IOMalloc(5))) 
+	if (!aKey || strnlen(aKey, 4) == 0 || !(key = (char *)IOMalloc(5)))
 		return false;
 	
 	copySymbol(aKey, key);
@@ -53,7 +71,7 @@ bool FakeSMCKey::init(const char * aKey, const char * aType, const unsigned char
 	if (!(type = (char *)IOMalloc(5)))
 		return false;
     
-	if (!aType || strlen(aType) == 0) {
+	if (!aType || strnlen(aType, 4) == 0) {
 		switch (size) 
 		{
 			case 1:
@@ -108,20 +126,24 @@ const char *FakeSMCKey::getKey() { return key; };
 
 const char *FakeSMCKey::getType() { return type; };
 
-UInt8 FakeSMCKey::getSize() const { return size; };
+const UInt8 FakeSMCKey::getSize() const { return size; };
 
-void *FakeSMCKey::getValue() 
+const void *FakeSMCKey::getValue() 
 { 
 	if (handler) {
         
         double time = ptimer_read_seconds();
-        
-        if (time - lastUpdated >= 1.0) {
-            if (kIOReturnSuccess == handler->getValueCallback(key, type, size, value)) {
-                lastUpdated = time;
+
+        // Allows update value twice in a second
+        if (time - lastValueReadTime >= 0.5) {
+            
+            IOReturn result = handler->readKeyCallback(key, type, size, value);
+            
+            if (kIOReturnSuccess == result) {
+                lastValueReadTime = time;
             }
             else {
-                HWSensorsWarningLog("value update request callback returned error for key %s", key);
+                HWSensorsWarningLog("value update request callback returned error for key %s (%s)", key, handler->stringFromReturn(result));
             }
         }
 	}
@@ -166,8 +188,25 @@ bool FakeSMCKey::setValueFromBuffer(const void *aBuffer, UInt8 aSize)
 	bcopy(aBuffer, value, size);
 
 	if (handler) {
-        if (kIOReturnSuccess != handler->setValueForKey(key, type, size, value)) {
-            HWSensorsWarningLog("value changed event callback returned error for key %s", key);
+        
+        /*double time = ptimer_read_seconds();
+        
+        if (time - lastValueWrote >= 0.5) {
+            
+            IOReturn result = handler->writeKeyCallback(key, type, size, value);
+            
+            if (kIOReturnSuccess == result) {
+                lastValueWrote = time;
+            }
+            else {
+                HWSensorsWarningLog("value changed event callback returned error for key %s (%s)", key, handler->stringFromReturn(result));
+            }
+        }*/
+
+        IOReturn result = handler->writeKeyCallback(key, type, size, value);
+
+        if (kIOReturnSuccess != result) {
+            HWSensorsWarningLog("value changed event callback returned error for key %s (%s)", key, handler->stringFromReturn(result));
         }
     }
 	

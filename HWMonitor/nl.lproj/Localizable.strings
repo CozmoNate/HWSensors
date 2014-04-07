@@ -48,7 +48,7 @@
 "Temperature units:" = "Temperature eenheid:";
 "Menu sensors:" = "Menu sensoren:";
 "Miscellaneous:" = "Overige:";
-"About HWMonitor" = "Over HWMonitor";
+"About HWMonitor..." = "Over HWMonitor";
 "Preferences..." = "Voorkeuren...";
 "Services" = "Services";
 "Hide HWMonitor" = "Verberg HWMonitor";
@@ -63,7 +63,7 @@
 "HWMonitor Help" = "HWMonitor Help";
 "Preferences" = "Voorkeuren";
 "Graphs" = "Grafieken";
-"Show partitions names" = "Laat partitie-namen zien";
+"Show partition name" = "Laat partitie-namen zien";
 "System menu bar:" = "Systeem menubalk:";
 "Preferences" = "Voorkeuren";
 "Menubar Items" = "Menubalk Items";
@@ -83,12 +83,11 @@
 "Voltage Sensors" = "Voltage Sensoren";
 "Close HWMonitor" = "Sluit HWMonitor";
 "Start HWMonitor at login" = "Start HWMonitor bij inloggen";
-"Menu color theme:" = "Menu kleur thema:";
+"Color theme:" = "Menu kleur thema:";
 "Default" = "Standaard";
 "Gray" = "Grijs";
 "Dark" = "Donker";
-"Continue monitor sensors in background" = "Sensoren blijven bewaken in
-achtergrond";
+"Continue to monitor sensors in background" = "Sensoren blijven bewaken in achtergrond";
 "Graphs window always topmost" = "Grafieken venster altijd bovenste";
 "Check for updates" = "Controleer op updates";
 "Attach to Menu Bar" = "Hechten aan menubalk";
@@ -101,20 +100,16 @@ achtergrond";
 "Built-in Battery" = "Ingebouwde Batterij";
 
 "HWSensors Updater" = "HWSensors Update-programma";
-"New HWSensors version %@ is available to download. You have %@. Download
-newer version?" = "Nieuwe HWSensors versie %@ is beschikbaar om te
-downloaden. Je hebt %@. Download nieuwe versie?";
+"New HWSensors version %@ is available to download. You have %@. Download newer version?" = "Nieuwe HWSensors versie %@ is beschikbaar om te downloaden. Je hebt %@. Download nieuwe versie?";
 "Update" = "Update";
 "Download" = "Download";
 "Next time" = "Volgende keer";
 "Skip this version" = "Versie overslaan";
 
 "Check for Updates..." = "Controleer op updates...";
-"No new versions of HWSensors are available at this time!" = "Geen nieuwe
-versies van HWSensors op dit moment beschikbaar!";
+"No new versions of HWSensors are available at this time!" = "Geen nieuwe versies van HWSensors op dit moment beschikbaar!";
 "Close" = "Sluit";
-"An error occured while trying to download HWSensors installer!" = "Een
-fout heeft zich voorgedaan tijdens het downloaden van HWSensors installer!";
+"An error occured while trying to download HWSensors installer!" = "Een fout heeft zich voorgedaan tijdens het downloaden van HWSensors installer!";
 
 "%1.0f MHz" = "%1.0f MHz";
 "%1.0f rpm" = "%1.0f rpm";
@@ -243,3 +238,4 @@ fout heeft zich voorgedaan tijdens het downloaden van HWSensors installer!";
 
 "VRM Supply %X" = "VRM Levering %X";
 "Power Supply %X" = "Stroomlevering %X";
+

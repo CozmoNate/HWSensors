@@ -6,6 +6,25 @@
 //
 //
 
+//  The MIT License (MIT)
+//
+//  Copyright (c) 2013 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+//  and associated documentation files (the "Software"), to deal in the Software without restriction,
+//  including without limitation the rights to use, copy, modify, merge, publish, distribute,
+//  sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all copies or
+//  substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+//  NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+//  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 #include "FakeSMCKeyStore.h"
 
 #include "FakeSMCDefinitions.h"
@@ -13,6 +32,8 @@
 #include "FakeSMCKey.h"
 #include "FakeSMCKeyHandler.h"
 #include "FakeSMCKeyStoreUserClient.h"
+
+#include "OEMInfo.h"
 
 #include <IOKit/IONVRAM.h>
 #include <IOKit/IOLib.h>
@@ -59,12 +80,11 @@ FakeSMCKey *FakeSMCKeyStore::addKeyWithValue(const char *name, const char *type,
 {
     if (FakeSMCKey *key = getKey(name)) {
 
-        if (type && strncmp(type, key->getType(), 4) == 0) {
-            key->setType(type);
-        }
+//        if (type && strncmp(type, key->getType(), 4) != 0) {
+//            key->setType(type);
+//        }
 
         if (value) {
-            key->setSize(size);
             key->setValueFromBuffer(value, size);
         }
 
@@ -116,7 +136,7 @@ FakeSMCKey *FakeSMCKeyStore::addKeyWithValue(const char *name, const char *type,
             }
         }
 
-		HWSensorsDebugLog("value updated for key %s, type: %s, size: %d", name, type, size);
+		HWSensorsDebugLog("value updated for key %s, type: %s, size: %d", key->getKey(), key->getType(), key->getSize());
 
 		return key;
 	}
@@ -348,51 +368,57 @@ UInt32 FakeSMCKeyStore::loadKeysFromNVRAM()
     UInt32 count = 0;
 
     // Find driver and load keys from NVRAM
-    if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(serviceMatching("IODTNVRAM"), 1000000000ULL * 15))) {
+    if (OSDictionary *matching = serviceMatching("IODTNVRAM")) {
+        if (IODTNVRAM *nvram = OSDynamicCast(IODTNVRAM, waitForMatchingService(matching, 1000000000ULL * 15))) {
 
-        useNVRAM = true;
+            useNVRAM = true;
 
-        if ((genericNVRAM = (0 == strncmp(nvram->getName(), "AppleNVRAM", sizeof("AppleNVRAM")))))
-            HWSensorsInfoLog("fallback to generic NVRAM methods");
+            if ((genericNVRAM = (0 == strncmp(nvram->getName(), "AppleNVRAM", sizeof("AppleNVRAM")))))
+                HWSensorsInfoLog("fallback to generic NVRAM methods");
 
-        OSSerialize *s = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary
+            OSSerialize *s = OSSerialize::withCapacity(0); // Workaround for IODTNVRAM->getPropertyTable returns IOKitPersonalities instead of NVRAM properties dictionary
 
-        if (nvram->serializeProperties(s)) {
-            if (OSDictionary *props = OSDynamicCast(OSDictionary, OSUnserializeXML(s->text()))) {
-                if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(props)) {
+            if (nvram->serializeProperties(s)) {
+                if (OSDictionary *props = OSDynamicCast(OSDictionary, OSUnserializeXML(s->text()))) {
+                    if (OSCollectionIterator *iterator = OSCollectionIterator::withCollection(props)) {
 
-                    size_t prefix_length = strlen(kFakeSMCKeyPropertyPrefix);
+                        size_t prefix_length = strlen(kFakeSMCKeyPropertyPrefix);
 
-                    char name[5]; name[4] = 0;
-                    char type[5]; type[4] = 0;
+                        char name[5]; name[4] = 0;
+                        char type[5]; type[4] = 0;
 
-                    while (OSString *property = OSDynamicCast(OSString, iterator->getNextObject())) {
-                        const char *buffer = static_cast<const char *>(property->getCStringNoCopy());
+                        while (OSString *property = OSDynamicCast(OSString, iterator->getNextObject())) {
+                            const char *buffer = static_cast<const char *>(property->getCStringNoCopy());
 
-                        if (property->getLength() >= prefix_length + 1 + 4 + 1 + 0 && 0 == strncmp(buffer, kFakeSMCKeyPropertyPrefix, prefix_length)) {
-                            if (OSData *data = OSDynamicCast(OSData, props->getObject(property))) {
-                                strncpy(name, buffer + prefix_length + 1, 4); // fakesmc-key-???? ->
-                                strncpy(type, buffer + prefix_length + 1 + 4 + 1, 4); // fakesmc-key-xxxx-???? ->
+                            if (property->getLength() >= prefix_length + 1 + 4 + 1 + 0 && 0 == strncmp(buffer, kFakeSMCKeyPropertyPrefix, prefix_length)) {
+                                if (OSData *data = OSDynamicCast(OSData, props->getObject(property))) {
+                                    strncpy(name, buffer + prefix_length + 1, 4); // fakesmc-key-???? ->
+                                    strncpy(type, buffer + prefix_length + 1 + 4 + 1, 4); // fakesmc-key-xxxx-???? ->
 
-                                if (addKeyWithValue(name, type, data->getLength(), data->getBytesNoCopy())) {
-                                    HWSensorsDebugLog("key %s of type %s loaded from NVRAM", name, type);
-                                    count++;
+                                    if (addKeyWithValue(name, type, data->getLength(), data->getBytesNoCopy())) {
+                                        HWSensorsDebugLog("key %s of type %s loaded from NVRAM", name, type);
+                                        count++;
+                                    }
                                 }
                             }
                         }
+                        
+                        OSSafeRelease(iterator);
                     }
-
-                    OSSafeRelease(iterator);
+                    
+                    OSSafeRelease(props);
                 }
-
-                OSSafeRelease(props);
             }
+            
+            OSSafeRelease(s);
+            OSSafeRelease(nvram);
+        }
+        else {
+            HWSensorsWarningLog("NVRAM is unavailable");
         }
 
-        OSSafeRelease(s);
-        OSSafeRelease(nvram);
+        OSSafeRelease(matching);
     }
-    else HWSensorsWarningLog("NVRAM is unavailable");
     
     return count;
 }
@@ -437,9 +463,52 @@ bool FakeSMCKeyStore::start(IOService *provider)
 	if (!super::start(provider))
         return false;
 
+    setOemProperties(this);
+
+    if (!getProperty(kOEMInfoProduct) || !getProperty(kOEMInfoManufacturer)) {
+
+        //HWSensorsErrorLog("failed to obtain OEM vendor & product information from DMI");
+
+        // Try to obtain OEM info from Clover EFI
+        if (IORegistryEntry* platformNode = fromPath("/efi/platform", gIODTPlane)) {
+
+            if (OSData *data = OSDynamicCast(OSData, platformNode->getProperty("OEMVendor"))) {
+                if (OSString *vendor = OSString::withCString((char*)data->getBytesNoCopy())) {
+                    if (OSString *manufacturer = getManufacturerNameFromOEMName(vendor)) {
+                        this->setProperty(kOEMInfoManufacturer, manufacturer);
+                        OSSafeReleaseNULL(manufacturer);
+                    }
+                    //OSSafeReleaseNULL(vendor);
+                }
+                //OSSafeReleaseNULL(data);
+            }
+
+            if (OSData *data = OSDynamicCast(OSData, platformNode->getProperty("OEMBoard"))) {
+                if (OSString *product = OSString::withCString((char*)data->getBytesNoCopy())) {
+                    this->setProperty(kOEMInfoProduct, product);
+                    //OSSafeReleaseNULL(product);
+                }
+                //OSSafeReleaseNULL(data);
+            }
+        }
+        else {
+            HWSensorsErrorLog("failed to get OEM info from Chameleon/Chimera or Clover EFI, specific platform profiles will be unavailable");
+        }
+    }
+
+    if (OSString *manufacturer = OSDynamicCast(OSString, getProperty(kOEMInfoManufacturer)) ) {
+        this->addKeyWithValue("HWS0", TYPE_CH8, manufacturer->getLength(), manufacturer->getCStringNoCopy());
+    }
+
+    if (OSString *product = OSDynamicCast(OSString, getProperty(kOEMInfoProduct)) ) {
+        this->addKeyWithValue("HWS1", TYPE_CH8, product->getLength(), product->getCStringNoCopy());
+    }
+
     IOService::publishResource(kFakeSMCKeyStoreService, this);
 
     registerService();
+
+    HWSensorsInfoLog("started");
 
 	return true;
 }
@@ -448,6 +517,8 @@ void FakeSMCKeyStore::free()
 {
     OSSafeRelease(keys);
     OSSafeRelease(types);
+
+    super::free();
 }
 
 #pragma mark -

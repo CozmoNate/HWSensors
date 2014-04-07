@@ -36,6 +36,7 @@
 #include "nva3.h"
 #include "nvc0.h"
 #include "nve0.h"
+#include "gm100.h"
 #include "nouveau_therm.h"
 #include "nouveau_volt.h"
 
@@ -50,19 +51,21 @@ bool nouveau_identify(struct nouveau_device *device)
     UInt32 strap = nv_rd32(device, 0x101000);
     
     /* determine chipset and derive architecture from it */
-    if ((boot0 & 0x0f000000) > 0) {
-        device->chipset = (boot0 & 0xff00000) >> 20;
-        switch (device->chipset & 0xf0) {
-			case 0x40:
-			case 0x60: device->card_type = NV_40; break;
-			case 0x50:
-			case 0x80:
-			case 0x90:
-			case 0xa0: device->card_type = NV_50; break;
-			case 0xc0: device->card_type = NV_C0; break;
-			case 0xd0: device->card_type = NV_D0; break;
-			case 0xe0:
-            case 0xf0: device->card_type = NV_E0; break;
+    if ((boot0 & 0x1f000000) > 0) {
+        device->chipset = (boot0 & 0x1ff00000) >> 20;
+        switch (device->chipset & 0x1f0) {
+			case 0x040:
+			case 0x060: device->card_type = NV_40; break;
+			case 0x050:
+			case 0x080:
+			case 0x090:
+			case 0x0a0: device->card_type = NV_50; break;
+			case 0x0c0: device->card_type = NV_C0; break;
+			case 0x0d0: device->card_type = NV_D0; break;
+			case 0x0e0:
+            case 0x0f0:
+            case 0x100: device->card_type = NV_E0; break;
+            case 0x110: device->card_type = GM100; break;
 			default:
 				break;
         }
@@ -76,11 +79,12 @@ bool nouveau_identify(struct nouveau_device *device)
 		case NV_C0:
 		case NV_D0: ret = nvc0_identify(device); break;
 		case NV_E0: ret = nve0_identify(device); break;
+        case GM100: ret = gm100_identify(device); break;
         default: break;
     }
     
     if (!ret) {
-        nv_error(device, "unknown chipset, 0x%08x\n", boot0);
+        nv_fatal(device, "unknown chipset, 0x%08x\n", boot0);
         return false;
     }
     
@@ -118,6 +122,7 @@ bool nouveau_init(struct nouveau_device *device)
 		case NV_C0:
 		case NV_D0: nvc0_init(device); break;
 		case NV_E0: nve0_init(device); break;
+        case GM100: gm100_init(device); break;
         default: break;
     }
     
@@ -135,7 +140,8 @@ bool nouveau_init(struct nouveau_device *device)
         device->gpio_init(device);*/
     
 	/* parse aux tables from vbios */
-	nouveau_volt_init(device);
+	//nouveau_volt_init(device);
+    nouveau_volt_create(device);
     nouveau_therm_init(device);
     
     return true;

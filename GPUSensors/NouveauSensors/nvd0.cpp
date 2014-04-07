@@ -59,6 +59,7 @@ static int pwm_info(struct nouveau_device *device, int line)
         case 0x00000000: /* normal mode, possibly pwm forced off by us */
         case 0x00000040: /* nvio special */
             switch (gpio & 0x0000001f) {
+                case 0x00: return 2;
                 case 0x19: return 1;
                 case 0x1c: return 0;
                 default:
@@ -77,12 +78,19 @@ int nvd0_fan_pwm_get(struct nouveau_device *device, int line, u32 *divs, u32 *du
 {
 	int indx = pwm_info(device, line);
     
-	if (indx < 0)
+	if (indx < 0) {
 		return indx;
-    
-	if (nv_rd32(device, 0x00d610 + (line * 0x04)) & 0x00000040) {
-		*divs = nv_rd32(device, 0x00e114 + (indx * 8));
-		*duty = nv_rd32(device, 0x00e118 + (indx * 8));
+    }
+    else if (indx < 2) {
+		if (nv_rd32(device, 0x00d610 + (line * 0x04)) & 0x00000040) {
+			*divs = nv_rd32(device, 0x00e114 + (indx * 8));
+			*duty = nv_rd32(device, 0x00e118 + (indx * 8));
+			return 0;
+		}
+	}
+    else if (indx == 2) {
+		*divs = nv_rd32(device, 0x0200d8) & 0x1fff;
+		*duty = nv_rd32(device, 0x0200dc) & 0x1fff;
 		return 0;
 	}
     

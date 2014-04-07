@@ -31,11 +31,11 @@ private:
     OSArray                 *methods;
     bool                    useKelvins;
     
-    void                    addSensorsFromDictionary(OSDictionary *dictionary, kFakeSMCCategory category);
-    void                    addSensorsFromArray(OSArray *array, kFakeSMCCategory category);
+    void                    addSensorsFromDictionary(OSDictionary *dictionary, FakeSMCSensorCategory category);
+    void                    addSensorsFromArray(OSArray *array, FakeSMCSensorCategory category);
     
 protected:
-    virtual float           getSensorValue(FakeSMCSensor *sensor);
+    virtual bool           willReadSensorValue(FakeSMCSensor *sensor, float *outValue);
     
 public:
     virtual bool			start(IOService *provider);

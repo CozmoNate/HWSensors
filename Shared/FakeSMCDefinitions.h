@@ -120,18 +120,25 @@
 // Power (Watts)
 #define KEY_CPU_PACKAGE_CORE_POWER              "PCPC" // SNB
 #define KEY_CPU_PACKAGE_GFX_POWER               "PCPG" // SNB
-#define KEY_CPU_PACKAGE_TOTAL_POWER             "PCPT" // SNB
+#define KEY_CPU_PACKAGE_TOTAL_POWER             "PCTR" //"PCPT" // SNB
 #define KEY_CPU_PACKAGE_DRAM_POWER              "PCPD" // ??
 
 
 // FANs
 #define KEY_FAN_NUMBER                          "FNum"
+#define KEY_FAN_MANUAL                          "FS! "
 #define KEY_FORMAT_FAN_ID                       "F%XID"
 #define KEY_FORMAT_FAN_SPEED                    "F%XAc"
+#define KEY_FORMAT_FAN_MIN                      "F%XMn"
+#define KEY_FORMAT_FAN_MAX                      "F%XMx"
+#define KEY_FORMAT_FAN_TARGET                   "F%XTg"
 
 // Other
 #define KEY_FAKESMC_FORMAT_CPU_FREQUENCY		"CC%XC"
 #define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY       "CCPC"
+
+#define KEY_FAKESMC_FORMAT_CPU_FREQUENCY_AVERAGE		"CC%XA"
+#define KEY_FAKESMC_CPU_PACKAGE_FREQUENCY_AVERAGE       "CCPA"
 
 #define KEY_FAKESMC_GPU_FREQUENCY               "CG0C"
 #define KEY_FAKESMC_FORMAT_GPU_FREQUENCY        "CG%XC"
@@ -199,7 +206,7 @@
 #define kFakeSMCSetValueCallback                "kFakeSMCSetValueCallback"
 
 // NVRAM
-#define kFakeSMCFirmwareVendor                  "fw-vendor"
+#define kFakeSMCFirmwareVendor                  "firmware-vendor"
 #define kFakeSMCKeyPropertyPrefix               "fakesmc-key"
 
 #define kHWSensorsDebug                         0
@@ -219,6 +226,11 @@
 #define bit_write(c,p,m) (c ? bit_set(p,m) : bit_clear(p,m))
 #define BIT(x)	(0x01 << (x))
 #define LONGBIT(x) ((unsigned long)0x00000001 << (x))
+
+//#define ABS(x) ((x) >= 0 ? (x) : -(x))
+#define SGN(x) ((x) > 0 ? 1.0 : -1.0)
+#define ROUND(x) ((x) + 0.5 > int(x) + 1 ? int(x) + 1 : int(x))
+#define ROUND50(x) (((int)((x) + 25) / 50) * 50)
 
 typedef enum {
     LEFT_LOWER_FRONT, CENTER_LOWER_FRONT, RIGHT_LOWER_FRONT,

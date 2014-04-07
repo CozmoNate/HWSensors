@@ -17,25 +17,28 @@
 #include "r600.h"
 #include "rv770.h"
 #include "si.h"
+#include "cik.h"
 #include "evergreen.h"
 
 #define super GPUSensors
 OSDefineMetaClassAndStructors(RadeonSensors, GPUSensors)
 
-float RadeonSensors::getSensorValue(FakeSMCSensor *sensor)
+bool RadeonSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
-            return card.get_core_temp(&card);
+            *outValue = card.get_core_temp(&card);
+            break;
             
         case kFakeSMCFrequencySensor:
             //
             // to do
             //
-            break;
+        default:
+            return false;
     }
     
-    return 0;
+    return true;
 }
 
 bool RadeonSensors::shouldWaitForAccelerator()
@@ -271,13 +274,19 @@ bool RadeonSensors::managedStart(IOService *provider)
             case CHIP_FAMILY_PITCAIRN:
             case CHIP_FAMILY_VERDE:
             case CHIP_FAMILY_OLAND:
-            case CHIP_FAMILY_HAINAN:    
+            case CHIP_FAMILY_HAINAN: 
                 card.int_thermal_type = THERMAL_TYPE_SI;
                 break;
                 
-                //             default:
-                //                 radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);
-                //                 return false;
+            case CHIP_FAMILY_BONAIRE:
+            case CHIP_FAMILY_HAWAII:
+                card.int_thermal_type = THERMAL_TYPE_CI;
+                break;
+                
+            case CHIP_FAMILY_KAVERI:
+            case CHIP_FAMILY_KABINI:
+                card.int_thermal_type = THERMAL_TYPE_KV;
+                break;
         }
     }
     
@@ -305,6 +314,14 @@ bool RadeonSensors::managedStart(IOService *provider)
                 card.get_core_temp = si_get_temp;
                 radeon_info(&card, "adding Southern Islands thermal sensor\n");
                 break;
+            case THERMAL_TYPE_CI:
+                card.get_core_temp = ci_get_temp;
+                radeon_info(&card, "adding Sea Islands (CI) thermal sensor\n");
+                break;
+            case THERMAL_TYPE_KV:
+                card.get_core_temp = kv_get_temp;
+                radeon_info(&card, "adding Sea Islands (Kaveri) thermal sensor\n");
+                break;
             default:
                 radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);
                 releaseGPUIndex(card.card_index);
@@ -314,9 +331,7 @@ bool RadeonSensors::managedStart(IOService *provider)
     }
     
     char key[5];
-    
-    enableExclusiveAccessMode();
-    
+
     if (card.get_core_temp) {
         snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
         if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
@@ -327,8 +342,6 @@ bool RadeonSensors::managedStart(IOService *provider)
             return false;
         }
     }
-    
-    disableExclusiveAccessMode();
     
     registerService();
     

@@ -38,7 +38,7 @@ int nva3_therm_fan_sense(struct nouveau_device *device)
 	u32 tach = nv_rd32(device, 0x00e728) & 0x0000ffff;
 	u32 ctrl = nv_rd32(device, 0x00e720);
 	if (ctrl & 0x00000001)
-		return tach * (device->card_type == NV_C0 || device->card_type == NV_E0 ? 30 : 60);
+		return tach * (device->card_type >= NV_C0 ? 30 : 60);
 	return -ENODEV;
 }
 

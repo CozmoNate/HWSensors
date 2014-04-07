@@ -51,42 +51,58 @@ enum nouveau_fan_source {
 #define super GPUSensors
 OSDefineMetaClassAndStructors(GeforceSensors, GPUSensors)
 
-float GeforceSensors::getSensorValue(FakeSMCSensor *sensor)
+bool GeforceSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {
     switch (sensor->getGroup()) {
         case kFakeSMCTemperatureSensor: {
             switch (sensor->getIndex()) {
                 case nouveau_temp_core:
-                    return card.core_temp_get(&card);
-                    
+                    *outValue = card.core_temp_get(&card);
+                    break;
+
                 case nouveau_temp_board:
-                    return card.board_temp_get(&card);
+                    *outValue = card.board_temp_get(&card);
+                    break;
                     
                 case nouveau_temp_diode:
-                    return card.temp_get(&card);
+                    *outValue = card.temp_get(&card);
+                    break;
+
+                default:
+                    return false;
             }
             break;
         }
             
         case kFakeSMCFrequencySensor:
-            return card.clocks_get(&card, sensor->getIndex()) / 1000.0f;
+            *outValue = (float)card.clocks_get(&card, sensor->getIndex()) / 1000.0f;
+            break;
 
         case kFakeSMCTachometerSensor:{
             switch (sensor->getIndex()) {
                 case nouveau_fan_rpm:
-                    return card.fan_rpm_get(&card);
+                    *outValue = card.fan_rpm_get(&card);
+                    break;
                     
                 case nouveau_fan_pwm:
-                    return card.fan_pwm_get(&card);
+                    *outValue = card.fan_pwm_get(&card);
+                    break;
+
+                default:
+                    return false;
             }
             break;
         }
         
         case kFakeSMCVoltageSensor:
-            return (float)card.voltage_get(&card) / 1000000.0f;
+            *outValue = (float)card.volt.get(&card) / 1000000.0f;
+            break;
+
+        default:
+            return false;
     }
-    
-    return 0;
+
+    return true;
 }
 
 bool GeforceSensors::shouldWaitForAccelerator()
@@ -193,9 +209,7 @@ bool GeforceSensors::managedStart(IOService *provider)
     
     // Register sensors
     char key[5];
-    
-    enableExclusiveAccessMode();
-    
+
     if (card.core_temp_get || card.board_temp_get) {
         nv_debug(device, "registering i2c temperature sensors...\n");
         
@@ -255,20 +269,18 @@ bool GeforceSensors::managedStart(IOService *provider)
         char title[DIAG_FUNCTION_STR_LEN];
         snprintf (title, DIAG_FUNCTION_STR_LEN, "GPU %X", card.card_index + 1);
         
-        if (card.fan_rpm_get && card.fan_rpm_get(device) >= 0)
+        if (card.fan_rpm_get)
             addTachometer(nouveau_fan_rpm, title, GPU_FAN_RPM, card.card_index);
         
-        if (card.fan_pwm_get && card.fan_pwm_get(device) >= 0)
+        if (card.fan_pwm_get)
             addTachometer(nouveau_fan_pwm, title, GPU_FAN_PWM_CYCLE, card.card_index);
     }
     
-    if (card.voltage_get && card.voltage.supported) {
+    if (card.volt.get && card.volt.get(&card) > 0/*card.voltage_get && card.voltage.supported*/) {
         nv_debug(device, "registering voltage sensors...\n");
         snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, card.card_index);
         addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0);
     }
-    
-    disableExclusiveAccessMode();
     
     registerService();
     

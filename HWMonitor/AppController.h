@@ -27,36 +27,28 @@
  */
 
 #import <Sparkle/SUUpdater.h>
+#import <Growl/Growl.h>
 
 #import "PopupController.h"
 #import "GraphsController.h"
+#import "HWMEngine.h"
 
-#import "HWMonitorIcon.h"
-#import "HWMonitorEngine.h"
-
-@interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, NSTokenFieldDelegate>
+@interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, HWMEngineDelegate, GrowlApplicationBridgeDelegate>
 {
-    HWMonitorEngine *_engine;
-    NSMutableDictionary *_icons;
-    NSMutableArray* _favorites;
-    NSMutableArray *_groups;
-    NSMutableDictionary *_items;
-    NSMutableArray *_ordering;
-
-    NSTimer *_smcSensorsLoopTimer;
-    NSDate *_smcSensorsLastUdated;
-    NSTimer *_smartSensorsloopTimer;
-    NSDate *_smartSensorsLastUdated;
-
-    NSArray *_colorThemes;
+    NSView *_previousView;
+    NSMutableArray *_sensorsAndGroupsCollectionSnapshot;
+    NSMutableArray *_favoritesCollectionSnapshot;
+    BOOL _forceUpdateSensors;
 }
+
+@property (assign) IBOutlet HWMEngine *monitorEngine;
+
+@property (nonatomic, strong) IBOutlet NSMutableArray *themes;
+@property (nonatomic, strong) IBOutlet NSMutableIndexSet *themeSelectionIndexes;
 
 @property (assign) IBOutlet PopupController *popupController;
 @property (assign) IBOutlet GraphsController *graphsController;
 @property (assign) IBOutlet SUUpdater *sharedUpdater;
-
-@property (assign) IBOutlet NSTextField *smcUpdateRateTextField;
-@property (assign) IBOutlet NSTextField *smartUpdateRateTextField;
 
 @property (assign) IBOutlet NSTableView *favoritesTableView;
 @property (assign) IBOutlet NSTableView *sensorsTableView;
@@ -65,19 +57,6 @@
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
 
 - (IBAction)checkForUpdates:(id)sender;
-
-- (IBAction)favoritesChanged:(id)sender;
-- (IBAction)useFahrenheitChanged:(id)sender;
-- (IBAction)colorThemeChanged:(id)sender;
-- (IBAction)updateRateChanged:(id)sender;
-- (IBAction)toggleSensorVisibility:(id)sender;
-- (IBAction)useBigFontChanged:(id)sender;
-- (IBAction)useShadowEffectChanged:(id)sender;
-- (IBAction)useBSDNamesChanged:(id)sender;
-- (IBAction)showVolumeNamesChanged:(id)sender;
-- (IBAction)toggleGraphSmoothing:(id)sender;
-- (IBAction)graphsBackgroundMonitorChanged:(id)sender;
-- (IBAction)graphsWindowTopmostChanged:(id)sender;
-- (IBAction)graphsScaleChanged:(id)sender;
+- (IBAction)rebuildSensorsList:(id)sender;
 
 @end

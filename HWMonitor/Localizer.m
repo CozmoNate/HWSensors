@@ -83,6 +83,7 @@
         NSWindow *window = (NSWindow *)view;
         [window setTitle:GetLocalizedString(window.title)];
         [self localizeView:window.contentView];
+        [self localizeView:window.toolbar];
     }
     else if ([view isKindOfClass:[NSTextField class]]) {
         NSTextField *textField = (NSTextField*)view;
@@ -151,14 +152,54 @@
     else if ([view isKindOfClass:[NSToolbar class]]) {
         for (NSToolbarItem *item in [(NSToolbar*)view items]) {
             [item setLabel:GetLocalizedString([item label])];
-            [self localizeView:[item view]];
+            //[self localizeView:[item view]];
         }
     }
-    
-    // Must be at the end to allow other checks to pass because almost all controls are derived from NSView
-    else if ([view isKindOfClass:[NSView class]] ) {
-        for(NSView *subView in [view subviews]) {
+    else if ([view isKindOfClass:[NSBox class]]) {
+        NSBox *box = (NSBox*)view;
+        
+        [box setTitle:GetLocalizedString(box.title)];
+        
+        NSArray *subviews = [[view subviews] copy];
+        for (NSView *subView in subviews) {
             [self localizeView:subView];
+        }
+    }
+    else if ([view isKindOfClass:[NSTableView class]]) {
+
+        NSTableView *tableView = (NSTableView*)view;
+
+        for (NSTableColumn *column in tableView.tableColumns) {
+            if (column.headerCell) {
+                NSTableHeaderCell *cell = column.headerCell;
+
+                NSString * title = GetLocalizedString(cell.title);
+
+                [cell setTitle:title];
+            }
+        }
+    }
+    else if ([view isKindOfClass:[NSSegmentedControl class]]) {
+
+        NSSegmentedControl *control = (NSSegmentedControl*)view;
+
+        for (int i = 0; i < control.segmentCount; i++) {
+
+            NSString * title = GetLocalizedString([control labelForSegment:i]);
+
+            [control setLabel:title forSegment:i];
+
+        }
+    }
+    // Must be at the end to allow other checks to pass because almost all controls are derived from NSView
+    else if ([view isKindOfClass:[NSView class]] && [view subviews]) {
+        // Loop through children
+        if ([view subviews].count) {
+            NSArray *subviews = [[view subviews] copy];
+
+            for (NSView *subView in subviews) {
+                [self localizeView:subView];
+            }
         }
     }
     else {
@@ -170,13 +211,13 @@
             NSString *title = [(id)view stringValue];
             [view setStringValue:GetLocalizedString(title)];
         }
-        
+
         if ([view respondsToSelector:@selector(setAlternateTitle:)]) {
             NSString *title = [(id)view alternateTitle];
             [view setAlternateTitle:GetLocalizedString(title)];
         }
     }
-    
+
     if ([view respondsToSelector:@selector(setToolTip:)]) {
         NSString *tooltip = [view toolTip];
         [view setToolTip:GetLocalizedString(tooltip)];

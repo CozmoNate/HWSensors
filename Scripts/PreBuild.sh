@@ -16,9 +16,9 @@ then
     exit 0
 fi
 
-project_name=$(/usr/libexec/PlistBuddy -c "Print 'Project Name'" "./version.plist")
+project_name="HWSensors"
 uppercased_name=$(echo $project_name | tr [[:lower:]] [[:upper:]])
-project_version=$(/usr/libexec/PlistBuddy -c "Print 'Project Version'" "./version.plist")
+project_version=$(git describe --tags)
 
 if [ -f $revision_file ]
 then

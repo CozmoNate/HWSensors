@@ -76,14 +76,19 @@ const UInt8 ITE_SMARTGUARDIAN_START_PWM[5]				= { 0x63, 0x6b, 0x73, 0x93, 0x9b }
 const UInt8 ITE_SMARTGUARDIAN_CONTROL[5]				= { 0x64, 0x6c, 0x74, 0x94, 0x9c };
 //const UInt8 ITE_SMARTGUARDIAN_TEMPERATURE_FULL_OFF[5]	= { 0x65, 0x6d, 0x75, 0x95, 0x9d };
 
+#define ITE_SMARTGUARDIAN_PWM(nr)                       (0x15 + (nr))
+#define ITE_SMARTGUARDIAN_PWM_DUTY(nr)                  (0x63 + (nr) * 8)
+
 class IT87xxSensors : public LPCSensors
 {
     OSDeclareDefaultStructors(IT87xxSensors)
 	
 private:
-    float                   voltageGain;
-    
-    bool                    has16bitFanCounter;
+    bool                    fanControlEnabled[5];
+    UInt8                   fanPWMControl[5];
+    bool                    fanSmartGuardian[5];
+
+    UInt8                   features;
     
 	UInt8					readByte(UInt8 reg);
 	void					writeByte(UInt8 reg, UInt8 value);
@@ -96,8 +101,13 @@ private:
 	virtual float			readVoltage(UInt32 index);
 	virtual float			readTachometer(UInt32 index);
     
+    virtual bool			supportsTachometerControl();
+    virtual UInt8			readTachometerControl(UInt32 index);
+    virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
+    
     virtual bool            initialize();
+    virtual void            hasPoweredOn();
     
 public:
-	
+
 };

@@ -1,7 +1,7 @@
 /*
  Localizable.strings
  HWSensors
- 
+
  Created by kozlek on 24/02/12.
  Copyright (c) 2012 oswaldini @ www.osx86.org.pl. All rights reserved.
 
@@ -15,7 +15,9 @@
 "FREQUENCIES" = "CZĘSTOTLIWOŚCI";
 "VOLTAGES" = "NAPIĘCIA";
 "CURRENTS" = "AKTUALNE";
-"POWER CONSUMPTION" = "ZASILANIE";
+"POWERS" = "ZASILANIE";
+"POWER CONSUMPTION" = "ZUŻYCIE ENERGII";
+"FANS" = "WENTYLATORY";
 "FANS & PUMPS" = "WENTYLATORY";
 "BATTERIES" = "BATERIA";
 "Quit HWMonitor" = "Wyłącz HWMonitor";
@@ -23,8 +25,8 @@
 "Preferences..." = "Preferencje...";
 "Show hidden sensors" = "Pokaż ukryte sensory";
 "Use BSD drives names" = "Użyj nazw BSD dysków";
-"Celsius" = "Stopnie Celsjusza";
-"Fahrenheit" = "Stopnie Fahrenheita";
+"Celsius" = "Celsjusza";
+"Fahrenheit" = "Fahrenheita";
 "Use larger font" = "Użyj większej czcionki";
 "Use shadow effect" = "Użyj efektu cienia";
 "hwmonitor" = "HWMonitor";
@@ -32,6 +34,7 @@
 "temperatures" = "Temperatury";
 "hddtemperatures" = "Temperatury dysków";
 "ssdlife" = "Żywotność SSD";
+"scale" = "Podziałka";
 "multipliers" = "Mnożniki";
 "frequencies" = "Częstotliwości";
 "tachometers" = "Prędkości";
@@ -45,10 +48,10 @@
 "HWMonitor Preferences" = "Preferencje HWMonitor";
 "Install menu bar extension" = "Zainstaluj rozszerzenie paska narzędzi";
 "Remove menu bar extension" = "Odinstaluj rozszerzenie paska narzędzi";
-"Temperature units:" = "Jednostki temperatury :";
+"Temperature units:" = "Stopnie :";
 "Menu sensors:" = "Menu sensorów :";
 "Miscellaneous:" = "Napędy :";
-"About HWMonitor" = "O HWMonitor";
+"About HWMonitor..." = "O HWMonitor";
 "Services" = "Usługi";
 "Hide HWMonitor" = "Ukryj HWMonitor";
 "Hide Others" = "Ukryj pozostałe";
@@ -62,15 +65,16 @@
 "HWMonitor Help" = "Pomoc HWMonitor";
 "Preferences" = "Preferencje";
 "Graphs" = "Wykres";
-"Show partitions names" = "Pokaż nazwy partycji";
+"Show partition name" = "Pokaż nazwy partycji";
 "System menu bar:" = "Systemowy pasek menu :";
 "Preferences" = "Preferencje";
 "Menubar Items" = "Elementy paska menu";
 "History Graphs" = "Historia wykresu";
 "Sensors update rate:" = "Częstotliwość odświeżania danych :";
 "S.M.A.R.T. update rate:" = "Częstotliwość odświeżania S.M.A.R.T. :";
-"sec" = "sek.";
-"min" = "min.";
+"Activate manual fan speed control" = "Manualna regulacja wentylatorów";
+"sec." = "sek.";
+"min." = "min.";
 "Graphs:" = "Wykres :";
 "Use data smoothing" = "Użyj wygładzania wykresu";
 "General" = "Ogólne";
@@ -86,8 +90,11 @@
 "Default" = "Domyślny";
 "Gray" = "Szary";
 "Dark" = "Ciemny";
-"Continue monitor sensors in background" = "Kontynuuj monitorowanie czujników w tle ";
-"Check for updates" = "Sprawdzaj uaktualnienia";
+"Continue to monitor sensors in background" = "Kontynuuj monitorowanie czujników w tle ";
+"Check for Updates..." = "Sprawdź aktualizacje";
+"Check for updates" = "Sprawdzaj czy są dostępne aktualizacje";
+"Attach to Menu Bar" = "Przyczep do paska menu";
+"Detach from Menu Bar" = "Odczep od paska menu";
 
 "Mouse" = "Mysz";
 "Keyboard" = "Klawiatura";
@@ -95,8 +102,10 @@
 
 "HWMonitor %@ is available - you have %@. Would you like to download?" = "HWMonitor w wersji %@ jest dostępny. Aktualnie posiadasz wersję %@. Czy chcesz pobrać nową wersję ?";
 "Update" = "Aktualizuj";
-"Next time" = "Następnym razem";
+"Next time" = "Później";
 "Skip" = "Pomiń";
+"Skip this version" = "Pomiń";
+"Download" = "Pobierz";
 
 "CPUFan" = "Wentylator procesora";
 "CPUFan2" = "Wentylator procesora 2";
@@ -129,6 +138,7 @@
 "Ambient" = "Otoczenie";
 
 "CPU Die %X" = "Procesor, rdzeń %X";
+"CPU Die" = "Procesor";
 
 "CPU %X" = "Procesor %X";
 "CPU Heatsink" = "Radiator procesora";
@@ -136,7 +146,7 @@
 "CPU Proximity" = "Okolice procesora";
 "CPU %X Proximity" = "Okolice procesora %X";
 
-"CPU Package" = "Prędkość procesora";
+"CPU Package" = "Procesor";
 
 "PECI CPU" = "PECI CPU";
 "PECI SA" = "PECI SA";
@@ -158,7 +168,7 @@
 "Powerboard Proximity" = "Zasilacz";
 
 "Memory Bank %X" = "Slot pamięci RAM %X";
-"Memory Module %X" = "Moduł pamięci RAM %X";
+"Memory Module %X" = "Pamięć RAM %X";
 
 "Optical Drive" = "Napęd optyzny";
 "HDD Bay %X" = "Zatoka dysku twardego %X";
@@ -180,14 +190,14 @@
 "CPU Core %X" = "Procesor %X";
 "CPU Package Multiplier" = "Mnożnik procesora";
 
-"GPU Core" = "Prędkość rdzenia grafiki";
-"GPU %X Core" = "Prędkość rdzenia grafiki %X";
+"GPU Core" = "Rdzeń grafiki";
+"GPU %X Core" = "Rdzeń grafiki %X";
 "GPU Shader" = "Jednostki cieniujące grafiki";
 "GPU %X Shader" = "Jednostki cieniujące grafiki %X";
 "GPU ROP" = "Jednostki renderujące grafiki";
 "GPU %X ROP" = "Jednostki renderujące grafiki %X";
 
-"Memory Modules" = "Moduł pamięci RAM";
+"Memory Modules" = "Pamięć RAM";
 "MCP Core" = "Kontroler pamięci";
 "Main 3.3V" = "Napięcie +3.3 V";
 "Main 5V" = "Napięcie +5 V";
@@ -207,3 +217,10 @@
 "Power Supply %X" = "Zasilacz %X";
 
 "Graphs window always topmost" = "Wykres zawsze na wierzchu";
+
+"CPU Package Cores" = "CPU Układ Rdzeni";
+"CPU Package Graphics" = "CPU Układ Grafiki";
+"CPU Package Total" = "CPU Całkowity pobór";
+"CPU Package DRAM" = "CPU Kontroler RAM";
+"Graphs scale factor:" = "Skala wykresu";
+

@@ -48,7 +48,7 @@
 "Temperature units:" = "Temperatureinheit:";
 "Menu sensors:" = "Sensoren in der Menüleiste:";
 "Miscellaneous:" = "Sonstiges:";
-"About HWMonitor" = "Über HWMonitor";
+"About HWMonitor..." = "Über HWMonitor";
 "Services" = "Dienste";
 "Hide HWMonitor" = "Verstecke HWMonitor";
 "Hide Others" = "Verstecke andere";
@@ -62,7 +62,7 @@
 "HWMonitor Help" = "Hilfe zum HWMonitor";
 "Preferences" = "Einstellungen";
 "Graphs" = "Diagramme";
-"Show partitions names" = "Zeige Partitionsnamen";
+"Show partition name" = "Zeige Partitionsnamen";
 "System menu bar:" = "System-Menüleiste:";
 "Preferences" = "Einstellungen";
 "Menubar Items" = "Menüeinträge";
@@ -82,11 +82,11 @@
 "Voltage Sensors" = "Spannungssensoren";
 "Close HWMonitor" = "Beende HWMonitor";
 "Start HWMonitor at login" = "HWMonitor automatisch beim Login starten";
-"Menu color theme:" = "Farbschema der Menüleiste:";
+"Color theme:" = "Farbschema der Menüleiste:";
 "Default" = "Standard";
 "Gray" = "Grau";
 "Dark" = "Dunkel";
-"Continue monitor sensors in background" = "Fortlaufende Aktualisierung der Sensoren im Hintergrund";
+"Continue to monitor sensors in background" = "Fortlaufende Aktualisierung der Sensoren im Hintergrund";
 "Check for updates" = "Auf Updates überprüfen"; // this is for the settings, first tab, bottom left
 "Check for Updates..." = "Auf Updates überprüfen"; // this is for the menu
 "No new versions of HWSensors are available at this time!" = "Keine neuere Version zur Zeit verfügbar!";
@@ -213,3 +213,4 @@
 "Power Supply %X" = "Netzteil %X";
 
 "Graphs window always topmost" = "Diagramm-Fenster im Vordergrund halten";
+

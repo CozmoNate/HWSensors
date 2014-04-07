@@ -20,8 +20,25 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>HWSENSORS_REVISION</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © HWSENSORS_LASTYEAR netkas. All rights reserved.</string>
 	<key>IOKitPersonalities</key>
 	<dict>
+		<key>FakeSMCKeyStore</key>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>FAKESMCKEYSTORE_BUNDLE</string>
+			<key>IOClass</key>
+			<string>FakeSMCKeyStore</string>
+			<key>IOMatchCategory</key>
+			<string>FakeSMCKeyStore</string>
+			<key>IOProviderClass</key>
+			<string>IOResources</string>
+			<key>IOUserClientClass</key>
+			<string>FakeSMCKeyStoreUserClient</string>
+			<key>IOResourceMatch</key>
+			<string>IOKit</string>
+		</dict>
 		<key>FakeSMC</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
@@ -58,6 +75,11 @@
 				</dict>
 				<key>Keys</key>
 				<dict>
+					<key>NATJ</key>
+					<array>
+						<string>ui8</string>
+						<data>AA==</data>
+					</array>
 					<key>$Adr</key>
 					<array>
 						<string>ui32</string>
@@ -67,16 +89,6 @@
 					<array>
 						<string>ui8</string>
 						<data>AQ==</data>
-					</array>
-					<key>ACID</key>
-					<array>
-						<string>ch8*</string>
-						<data>ur48RcADEEM=</data>
-					</array>
-					<key>DPLM</key>
-					<array>
-						<string>{lim</string>
-						<data>AAAA</data>
 					</array>
 					<key>FNum</key>
 					<array>
@@ -107,6 +119,16 @@
 					<array>
 						<string>{rev</string>
 						<data>ATAPAAAD</data>
+					</array>
+					<key>LsNM</key>
+					<array>
+						<string>ui8</string>
+						<data>AQ==</data>
+					</array>
+					<key>LsbV</key>
+					<array>
+						<string>{rev</string>
+						<data>AQQKAAY=</data>
 					</array>
 					<key>MSSD</key>
 					<array>
@@ -154,31 +176,29 @@
 			<key>IOClass</key>
 			<string>FakeSMC</string>
 			<key>IOMatchCategory</key>
-			<string>IOACPIPlatformDevice</string>
+			<string>FakeSMC</string>
 			<key>IOProviderClass</key>
 			<string>AppleACPIPlatformExpert</string>
 			<key>IOResourceMatch</key>
-			<string>ACPI</string>
+			<string>FakeSMCKeyStore</string>
 		</dict>
 	</dict>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © HWSENSORS_LASTYEAR netkas. All rights reserved.</string>
 	<key>OSBundleCompatibleVersion</key>
-	<string>FAKESMC_COMPATIBLE</string>
+	<string>FAKESMCKEYSTORE_COMPATIBLE</string>
 	<key>OSBundleLibraries</key>
 	<dict>
 		<key>com.apple.iokit.IOACPIFamily</key>
 		<string>1.0.0d1</string>
 		<key>com.apple.kpi.bsd</key>
-		<string>9.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.iokit</key>
-		<string>9.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.libkern</key>
-		<string>9.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.mach</key>
-		<string>9.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.unsupported</key>
-		<string>9.0.0</string>
+		<string>10.6</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

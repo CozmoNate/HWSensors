@@ -28,37 +28,25 @@
 
 @class GraphsView;
 @class HWMonitorItem;
-@class WindowFilter;
 
-@interface GraphsController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
+@class HWMEngine;
+
+@interface GraphsController : NSWindowController <NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSCollectionViewDelegate>
 {
-    NSMutableArray *_colorsList;
-    NSMutableArray *_items;
-    NSMutableArray *_hiddenItems;
     NSMutableArray *_graphViews;
-    WindowFilter *_windowFilter;
-    NSLock  *_itemsLock;
+    NSArray *_graphsAndGroupsCollectionSnapshot;
 }
 
-@property (nonatomic, assign) BOOL useFahrenheit;
-@property (nonatomic, assign) BOOL useSmoothing;
-@property (nonatomic, assign) BOOL backgroundMonitoring;
-@property (nonatomic, assign) BOOL isTopmost;
-@property (nonatomic, assign) float graphsScale;
+@property (nonatomic, strong) IBOutlet HWMEngine *monitorEngine;
 
-@property (readonly) NSArray *colorsList;
-
-@property (readonly) HWMonitorItem *selectedItem;
+@property (readonly) id selectedItem;
 
 @property (assign) IBOutlet NSScrollView *graphsScrollView;
 @property (assign) IBOutlet NSTableView *graphsTableView;
 @property (assign) IBOutlet NSCollectionView *graphsCollectionView;
 
-- (void) setupWithGroups:(NSArray*)groups;
-- (void) captureDataToHistoryNow;
-- (BOOL) checkItemIsHidden:(HWMonitorItem*)item;
+@property (atomic, assign) NSDragOperation currentItemDragOperation;
 
--(IBAction)graphsTableViewClicked:(id)sender;
--(IBAction)graphsCheckButtonClicked:(id)sender;
+-(IBAction)setNeedDisplayGraphs:(id)sender;
 
 @end

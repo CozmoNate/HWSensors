@@ -16,18 +16,22 @@
 
 - (void)fadeIn:(id)sender
 {
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:0.05];
-    [[self animator] setAlphaValue:_hoverOpacity];
-    [NSAnimationContext endGrouping];
+    if (self.isEnabled) {
+        [NSAnimationContext beginGrouping];
+        [[NSAnimationContext currentContext] setDuration:0.01];
+        [[self animator] setAlphaValue:_hoverOpacity];
+        [NSAnimationContext endGrouping];
+    }
 }
 
 - (void)fadeOut:(id)sender
 {
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:0.1];
-    [[self animator] setAlphaValue:_normalOpacity];
-    [NSAnimationContext endGrouping];
+    if (self.isEnabled) {
+        [NSAnimationContext beginGrouping];
+        [[NSAnimationContext currentContext] setDuration:0.01];
+        [[self animator] setAlphaValue:_normalOpacity];
+        [NSAnimationContext endGrouping];
+    }
 }
 
 - (void)initialize
@@ -86,7 +90,7 @@
 		[self removeTrackingArea:area];
     }
     
-    NSTrackingAreaOptions options = NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow;
+    NSTrackingAreaOptions options = NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways;
     [self addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:options owner:self userInfo:nil]];
 }
 
@@ -115,7 +119,7 @@
         
         NSEvent *event = [NSEvent
                           mouseEventWithType:NSRightMouseDown
-                          location: NSMakePoint(frame.origin.x - self.bounds.size.width / 2, frame.origin.y - self.bounds.size.height / 2)
+                          location: NSMakePoint(frame.origin.x + self.bounds.size.width / 2, frame.origin.y - self.bounds.size.height / 2)
                           modifierFlags: theEvent.modifierFlags
                           timestamp: theEvent.timestamp
                           windowNumber:theEvent.windowNumber

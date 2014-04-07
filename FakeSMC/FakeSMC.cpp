@@ -7,8 +7,6 @@
 #include "FakeSMCDevice.h"
 #include "FakeSMCDefinitions.h"
 
-#include "OEMInfo.h"
-
 #include <IOKit/IODeviceTreeSupport.h>
 
 #define super IOService
@@ -53,29 +51,21 @@ bool FakeSMC::start(IOService *provider)
 	if (!super::start(provider)) 
         return false;
 
-    if (IOService *resources = waitForMatchingService(serviceMatching("IOResources"), 0)) {
-        attach(resources);
+    if (OSDictionary *matching = serviceMatching(kFakeSMCKeyStoreService)) {
+        
+        if (matching && !(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(matching, kFakeSMCDefaultWaitTimeout)))) {
+            HWSensorsInfoLog("still waiting for FakeSMCKeyStore...");
+            return false;
+        }
+
+        OSSafeRelease(matching);
+    }
+    else {
+        HWSensorsFatalLog("failed to create matching dictionary (FakeSMCKeyStore)");
+        return false;
     }
 
     OSDictionary *configuration = OSDynamicCast(OSDictionary, getProperty("Configuration"));
-
-    if (!(keyStore = OSDynamicCast(FakeSMCKeyStore, waitForMatchingService(serviceMatching(kFakeSMCKeyStoreService), 0)))) {
-
-        HWSensorsDebugLog("creating FakeSMCKeyStore");
-        
-        if (!(keyStore = new FakeSMCKeyStore)) {
-            HWSensorsInfoLog("failed to create FakeSMCKeyStore");
-            return false;
-        }
-
-        HWSensorsDebugLog("initializing FakeSMCKeyStore");
-
-        if (!keyStore->initAndStart(this, configuration)) {
-            keyStore->release();
-            HWSensorsFatalLog("failed to initialize FakeSMCKeyStore device");
-            return false;
-        }
-    }
 
     // Load preconfigured keys
     HWSensorsDebugLog("loading keys...");
@@ -121,59 +111,22 @@ bool FakeSMC::start(IOService *provider)
             HWSensorsInfoLog("%d key%s exported by Clover EFI", count, count == 1 ? "" : "s");
     }
 
-    if (!setOemProperties(this)) {
-        // Another try after 200 ms spin
-        IOSleep(200);
-        setOemProperties(this);
-    }
-
-    if (!getProperty(kOEMInfoProduct) || !getProperty(kOEMInfoManufacturer)) {
-
-        //HWSensorsErrorLog("failed to obtain OEM vendor & product information from DMI");
-
-        // Try to obtain OEM info from Clover EFI
-        if (IORegistryEntry* platformNode = fromPath("/efi/platform", gIODTPlane)) {
-
-            if (OSData *data = OSDynamicCast(OSData, platformNode->getProperty("OEMVendor"))) {
-                if (OSString *vendor = OSString::withCString((char*)data->getBytesNoCopy())) {
-                    if (OSString *manufacturer = getManufacturerNameFromOEMName(vendor)) {
-                        this->setProperty(kOEMInfoManufacturer, manufacturer);
-                        //OSSafeReleaseNULL(manufacturer);
-                    }
-                    //OSSafeReleaseNULL(vendor);
-                }
-                //OSSafeReleaseNULL(data);
-            }
-
-            if (OSData *data = OSDynamicCast(OSData, platformNode->getProperty("OEMBoard"))) {
-                if (OSString *product = OSString::withCString((char*)data->getBytesNoCopy())) {
-                    this->setProperty(kOEMInfoProduct, product);
-                    //OSSafeReleaseNULL(product);
-                }
-                //OSSafeReleaseNULL(data);
-            }
-        }
-        else {
-            HWSensorsErrorLog("failed to get OEM info from DMI or Clover EFI, specific platform profiles will be unavailable");
-        }
-    }
-    
-    int arg_value = 1;
-    
     // Check if we have SMC already
     bool smcDeviceFound = false;
 
     if (OSDictionary *matching = serviceMatching("IOACPIPlatformDevice")) {
         if (OSIterator *iterator = getMatchingServices(matching)) {
             
-            OSString *smcNameProperty = OSString::withCString("APP0001");
+            OSString *name = OSString::withCString("APP0001");
 
             while (IOService *service = (IOService*)iterator->getNextObject()) {
-                
-                OSObject *serviceNameProperty = service->getProperty("name");
-                
-                if (serviceNameProperty && serviceNameProperty->isEqualTo(smcNameProperty)) {
+
+                HWSensorsDebugLog("checking %s", service->getName());
+
+                if (service->compareName(name)) {
+                    HWSensorsDebugLog("matched!");
                     smcDeviceFound = true;
+                    break;
                 }
             }
             
@@ -195,9 +148,11 @@ bool FakeSMC::start(IOService *provider)
         }
     }
     else {
-        HWSensorsInfoLog("found physical SMC device, will not create virtual one. Providing only basic plugins functionality");
+        HWSensorsInfoLog("found physical SMC device, assumes running on Mac");
     }
-    
+
+    int arg_value = 1;
+
     // Load keys from NVRAM
     if (PE_parse_boot_argn("-fakesmc-use-nvram", &arg_value, sizeof(arg_value))) {
         if (UInt32 count = keyStore->loadKeysFromNVRAM())
@@ -205,6 +160,8 @@ bool FakeSMC::start(IOService *provider)
         else
             HWSensorsInfoLog("NVRAM will be used to store system written keys...");
     }
+
+    this->setName("FSMC");
 
   	registerService();
 

@@ -70,17 +70,33 @@
 
 #define MSR_IA32_TIME_STAMP_COUNTER         0x10
 
-#define kCPUSensorsMaxCpus                  24
+#define kCPUSensorsMaxCpus                  32
 
 extern "C" int cpu_number(void);
 extern "C" void mp_rendezvous_no_intrs(void (*action_func)(void *), void * arg);
 
-static UInt16 cpu_energy_msrs[] =
-{
-    MSR_PKG_ENERY_STATUS,
-    MSR_PP0_ENERY_STATUS,
-    MSR_PP1_ENERY_STATUS,
-    MSR_DRAM_ENERGY_STATUS
+struct CPUSensorsCounters {
+    UInt16  event_flags;
+
+    UInt8   thermal_status[kCPUSensorsMaxCpus];
+    UInt8   thermal_status_package;
+
+    UInt16  perf_status[kCPUSensorsMaxCpus];
+
+    bool    update_perf_counters;
+
+    UInt64  aperf_before[kCPUSensorsMaxCpus];
+    UInt64  aperf_after[kCPUSensorsMaxCpus];
+    UInt64  mperf_before[kCPUSensorsMaxCpus];
+    UInt64  mperf_after[kCPUSensorsMaxCpus];
+
+    UInt64  utc_before[kCPUSensorsMaxCpus];
+    UInt64  utc_after[kCPUSensorsMaxCpus];
+    UInt64  urc_before[kCPUSensorsMaxCpus];
+    UInt64  urc_after[kCPUSensorsMaxCpus];
+
+    UInt64  energy_before[4];
+    UInt64  energy_after[4];
 };
 
 class CPUSensors : public FakeSMCPlugin
@@ -88,30 +104,38 @@ class CPUSensors : public FakeSMCPlugin
     OSDeclareDefaultStructors(CPUSensors)    
     
 private:
-    IOWorkLoop*             workloop;
-    IOTimerEventSource*     timerEventSource;
-    
-    UInt8                   tjmax[kCPUSensorsMaxCpus];
+    CPUSensorsCounters      counters;
+
     OSData*                 platform;
     UInt64                  busClock;
-    float                   multiplier[kCPUSensorsMaxCpus];
-    float                   energyUnits;
     UInt8                   baseMultiplier;
-    
-	void                    readTjmaxFromMSR();
-    float                   readMultiplier(UInt8 cpu_index);
-    
-    UInt16                  timerEventsPending;
-    UInt8                   timerEventsMomentum;
-    IOReturn                woorkloopTimerEvent(void);
+    float                   energyUnits;
+    UInt8                   coreCount;
+
+    float                   multiplier[kCPUSensorsMaxCpus];
+    float                   ratio[kCPUSensorsMaxCpus];
+    float                   turbo[kCPUSensorsMaxCpus];
+    float                   energy[kCPUSensorsMaxCpus];
+
+
+    IOTimerEventSource*     timerEventSource;
+    IOReturn                timerEventAction(void);
+    double                  timerEventLastTime;
+    double                  timerEventDeltaTime;
+    bool                    timerEventScheduled;
+
+    void                    calculateMultiplier(UInt32 index);
+    void                    calculateTimedCounters();
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
     
+    
 protected:
-    virtual float           getSensorValue(FakeSMCSensor *sensor);
+    virtual bool            willReadSensorValue(FakeSMCSensor *sensor, float *outValue);
     
 public:
     virtual bool			start(IOService *provider);
+    virtual IOReturn        setPowerState(unsigned long powerState, IOService *device);
     virtual void            stop(IOService* provider);
     virtual void			free(void);
 };

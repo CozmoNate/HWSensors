@@ -55,10 +55,11 @@ private:
     void                    parseTachometerName(OSString *name, OSString *title, UInt32 index);
     
 protected:
-    virtual float           getSensorValue(FakeSMCSensor *sensor);
+    virtual bool           willReadSensorValue(FakeSMCSensor *sensor, float *outValue);
     
 public:
     virtual bool			start(IOService *provider);
+    virtual void            free();
 };
 
 #endif /* defined(__HWSensors__PTID__) */

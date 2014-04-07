@@ -23,6 +23,8 @@
 #include "OemInfo.h"
 #include "SMBIOS.h"
 
+#include <IOKit/IODeviceTreeSupport.h>
+
 #define SIGNATURE_16(A,B)             ((A) | (B<<8))
 #define SIGNATURE_32(A,B,C,D)         (SIGNATURE_16(A,B)     | (SIGNATURE_16(C,D)     << 16))
 #define SIGNATURE_64(A,B,C,D,E,F,G,H) (SIGNATURE_32(A,B,C,D) | ((UINT64)(SIGNATURE_32(E,F,G,H)) << 32))
@@ -148,16 +150,16 @@ void SMBPackedStrings::setStringProperty( IORegistryEntry * entry,
 
 //---------------------------------------------------------------------------
 
-static UInt8 checksum8( void * start, UInt length )
-{
-    UInt8   csum = 0;
-    UInt8 * cp = (UInt8 *) start;
-    
-    for (UInt i = 0; i < length; i++)
-        csum += *cp++;
-    
-    return csum;
-}
+//static UInt8 checksum8( void * start, UInt length )
+//{
+//    UInt8   csum = 0;
+//    UInt8 * cp = (UInt8 *) start;
+//    
+//    for (UInt i = 0; i < length; i++)
+//        csum += *cp++;
+//    
+//    return csum;
+//}
 
 OSString* getManufacturerNameFromOEMName(OSString *name)
 {
@@ -273,17 +275,17 @@ static void decodeSMBIOSStructure(IOService *provider, const SMBStructHeader *st
     }
 }
 
-static void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16 tableLength, UInt16 structureCount)
+static void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16 tableLength)
 {
     const SMBStructHeader * header;
     const UInt8 *           next = (const UInt8 *) tableData;
     const UInt8 *           end  = next + tableLength;
     
-    while ( structureCount-- && (end > next + sizeof(SMBStructHeader)) )
+    while (end > next + sizeof(SMBStructHeader))
     {
         header = (const SMBStructHeader *) next;
-        if (header->length > end - next) break;
-        
+        if (!header->length || header->length > end - next) break;
+
         decodeSMBIOSStructure(provider, header, end );
         
         // Skip the formatted area of the structure.
@@ -305,80 +307,96 @@ static void decodeSMBIOSTable(IOService *provider, const void *tableData, UInt16
 
 bool setOemProperties(IOService *provider)
 {
-    SMBEntryPoint* eps = 0;
-	IOMemoryDescriptor* dmiMemory = 0;
-	IOItemCount dmiStructureCount = 0;
-    
-  	UInt8* biosAddress = NULL;	
-    
-    IOMemoryDescriptor * biosMemory = 0;
-    IOMemoryMap * biosMap = 0;
-    
-    biosMemory = IOMemoryDescriptor::withPhysicalAddress( 0xf0000,0xfffff-0xf0000+1,kIODirectionOutIn);
-    
-    if(biosMemory)
-    {
-        biosMap = biosMemory->map();
-        
-        if(biosMap)
-        {
-            biosAddress = (UInt8 *) biosMap->getVirtualAddress();
-        }
-    }
-    
-    
-	// Search 0x0f0000 - 0x0fffff for SMBIOS Ptr
-	if(biosAddress) {
-        for (UInt32 Address = 0; Address < biosMap->getLength(); Address += 0x10) {
-            if (*(UInt32 *)(biosAddress + Address) == SMBIOS_PTR) {
-                eps = (SMBEntryPoint *)(biosAddress + Address);
-                continue;
+//    SMBEntryPoint* eps = 0;
+//	IOMemoryDescriptor* dmiMemory = 0;
+//	IOItemCount dmiStructureCount = 0;
+//    
+//  	UInt8* biosAddress = NULL;	
+//    
+//    IOMemoryDescriptor * biosMemory = 0;
+//    IOMemoryMap * biosMap = 0;
+//    
+//    biosMemory = IOMemoryDescriptor::withPhysicalAddress( 0xf0000,0xfffff-0xf0000+1,kIODirectionOutIn);
+//    
+//    if(biosMemory)
+//    {
+//        biosMap = biosMemory->map();
+//        
+//        if(biosMap)
+//        {
+//            biosAddress = (UInt8 *) biosMap->getVirtualAddress();
+//        }
+//    }
+//    
+//    
+//	// Search 0x0f0000 - 0x0fffff for SMBIOS Ptr
+//	if(biosAddress) {
+//        for (UInt32 Address = 0; Address < biosMap->getLength(); Address += 0x10) {
+//            if (*(UInt32 *)(biosAddress + Address) == SMBIOS_PTR) {
+//                eps = (SMBEntryPoint *)(biosAddress + Address);
+//                continue;
+//            }
+//        }
+//    }
+//    
+//    if(eps) {
+//        if (memcmp(eps->anchor, "_SM_", 4) == 0) {
+//            UInt8 csum;
+//            
+//            csum = checksum8(eps, sizeof(SMBEntryPoint));
+//            
+//            /*HWSensorsDebugLog("DMI checksum       = 0x%x", csum);
+//             HWSensorsDebugLog("DMI tableLength    = %d",
+//             eps->dmi.tableLength);
+//             HWSensorsDebugLog("DMI tableAddress   = 0x%x",
+//             (uint32_t) eps->dmi.tableAddress);
+//             HWSensorsDebugLog("DMI structureCount = %d",
+//             eps->dmi.structureCount);
+//             HWSensorsDebugLog("DMI bcdRevision    = %x",
+//             eps->dmi.bcdRevision);*/
+//            
+//            if (csum == 0 && eps->dmi.tableLength && eps->dmi.structureCount) {
+//                dmiStructureCount = eps->dmi.structureCount;
+//                dmiMemory = IOMemoryDescriptor::withPhysicalAddress(eps->dmi.tableAddress, eps->dmi.tableLength,kIODirectionOutIn );
+//            }
+//            /*else
+//             {
+//             HWSensorsDebugLog("no DMI structure found");
+//             }*/
+//        }
+//    }
+//    
+//    if (biosMap)
+//        OSSafeReleaseNULL(biosMap);
+//    
+//    if(biosMemory)
+//        OSSafeReleaseNULL(biosMemory);
+//    
+//    if ( dmiMemory ) {
+//        if (IOMemoryMap *fDMIMemoryMap = dmiMemory->map())        {
+//            decodeSMBIOSTable(provider, (void *) fDMIMemoryMap->getVirtualAddress(), fDMIMemoryMap->getLength(), dmiStructureCount );
+//        
+//            OSSafeReleaseNULL(fDMIMemoryMap);
+//        }
+//        
+//        OSSafeReleaseNULL(dmiMemory);
+//    }
+
+    // Kernel backtrace fix by RehabMan.
+    // REVIEW by kozlek: So we have Chameleon/Chimera and Clover most used bootloaders. Clover provides OEM properties in ODeviceTree:/efi/platform. Chameleon/Chimera injects original SMBIOS to ODeviceTree:/efi/platform/SMBIOS. Clover properties will be imported later in FakeSMC:start() if no ODeviceTree:/efi/platform/SMBIOS provided. No need to read DMI data to obtain OEM onfo.
+    if (!provider->getProperty(kOEMInfoProduct) || !provider->getProperty(kOEMInfoManufacturer)) {
+        // Try to obtain OEM info from Chameleon EFI
+        if (IORegistryEntry* platformNode = IORegistryEntry::fromPath("/efi/platform", gIODTPlane)) {
+            OSData *data = OSDynamicCast(OSData, platformNode->getProperty("SMBIOS"));
+            if (!data && (data = OSDynamicCast(OSData, platformNode->getProperty("SMBIOS-ORIG")))) {
+                if (const void *smbios = data->getBytesNoCopy()) {
+                    decodeSMBIOSTable(provider, smbios, data->getLength());
+                }
+                //OSSafeReleaseNULL(data);
             }
+            OSSafeRelease(platformNode);
         }
     }
-    
-    if(eps) {
-        if (memcmp(eps->anchor, "_SM_", 4) == 0) {
-            UInt8 csum;
-            
-            csum = checksum8(eps, sizeof(SMBEntryPoint));
-            
-            /*HWSensorsDebugLog("DMI checksum       = 0x%x", csum);
-             HWSensorsDebugLog("DMI tableLength    = %d",
-             eps->dmi.tableLength);
-             HWSensorsDebugLog("DMI tableAddress   = 0x%x",
-             (uint32_t) eps->dmi.tableAddress);
-             HWSensorsDebugLog("DMI structureCount = %d",
-             eps->dmi.structureCount);
-             HWSensorsDebugLog("DMI bcdRevision    = %x",
-             eps->dmi.bcdRevision);*/
-            
-            if (csum == 0 && eps->dmi.tableLength && eps->dmi.structureCount) {
-                dmiStructureCount = eps->dmi.structureCount;
-                dmiMemory = IOMemoryDescriptor::withPhysicalAddress(eps->dmi.tableAddress, eps->dmi.tableLength,kIODirectionOutIn );
-            }
-            /*else
-             {
-             HWSensorsDebugLog("no DMI structure found");
-             }*/
-        }
-    }
-    
-    if (biosMap)
-        OSSafeReleaseNULL(biosMap);
-    
-    if(biosMemory)
-        OSSafeReleaseNULL(biosMemory);
-    
-    if ( dmiMemory ) {
-        if (IOMemoryMap *fDMIMemoryMap = dmiMemory->map())        {
-            decodeSMBIOSTable(provider, (void *) fDMIMemoryMap->getVirtualAddress(), fDMIMemoryMap->getLength(), dmiStructureCount );
-        
-            OSSafeReleaseNULL(fDMIMemoryMap);
-        }
-        
-        OSSafeReleaseNULL(dmiMemory);
-    }
-    
+
     return true;
 }

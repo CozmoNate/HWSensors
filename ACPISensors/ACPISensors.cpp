@@ -12,7 +12,7 @@
 #define super FakeSMCPlugin
 OSDefineMetaClassAndStructors(ACPISensors, FakeSMCPlugin)
 
-void ACPISensors::addSensorsFromDictionary(OSDictionary *dictionary, kFakeSMCCategory category)
+void ACPISensors::addSensorsFromDictionary(OSDictionary *dictionary, FakeSMCSensorCategory category)
 {
     if (dictionary) {
         
@@ -81,7 +81,7 @@ void ACPISensors::addSensorsFromDictionary(OSDictionary *dictionary, kFakeSMCCat
     }
 }
 
-void ACPISensors::addSensorsFromArray(OSArray *array, kFakeSMCCategory category)
+void ACPISensors::addSensorsFromArray(OSArray *array, FakeSMCSensorCategory category)
 {
     if (array) {
         
@@ -147,7 +147,7 @@ void ACPISensors::addSensorsFromArray(OSArray *array, kFakeSMCCategory category)
     }
 }
 
-float ACPISensors::getSensorValue(FakeSMCSensor *sensor)
+bool ACPISensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {
     UInt32 value = 0;
     OSString *method = NULL;
@@ -158,25 +158,29 @@ float ACPISensors::getSensorValue(FakeSMCSensor *sensor)
                 case kFakeSMCTemperatureSensor:                    
                     // all temperatures returned from ACPI should be in Kelvins?
                     if (useKelvins)
-                        return ((float)value - (float)0xAAC) / (float)0xA;
-                    
-                    return (float)value;
+                        *outValue = ((float)value - (float)0xAAC) / (float)0xA;
+                    else
+                        *outValue = (float)value;
+                    break;
                     
                 case kFakeSMCVoltageSensor:
                 case kFakeSMCCurrentSensor:
                 case kFakeSMCPowerSensor:
-                    // all voltage values returned from ACPI should be in millivolts?
-                    return (float)value * 0.001f;
+                    // all voltages returned from ACPI should be in millivolts?
+                    *outValue = (float)value * 0.001f;
+                    break;
             
                 case kFakeSMCTachometerSensor:
                 default:
-                    return (float)value;
-                
+                    *outValue = (float)value;
+                    break;
             }
         }
+        else return false;
     }
+    else return false;
     
-    return 0;
+    return true;
 }
 
 bool ACPISensors::start(IOService * provider)
@@ -190,77 +194,79 @@ bool ACPISensors::start(IOService * provider)
         ACPISensorsFatalLog("ACPI device not ready");
         return false;
     }
-    
-    enableExclusiveAccessMode();
-    
+
     methods = OSArray::withCapacity(0);
     
-    // Try to load configuration from info.plist first
-    if (OSDictionary *configuration = getConfigurationNode())
+    // Try to load configuration provided by ACPI device
+    OSObject *object = NULL;
+        
+    // Use Kelvins?
+    if (kIOReturnSuccess == acpiDevice->evaluateObject("KLVN", &object) && object) {
+        if (OSNumber *kelvins = OSDynamicCast(OSNumber, object)) {
+            useKelvins = kelvins->unsigned8BitValue() == 1;
+        }
+
+        OSSafeRelease(object);
+    }
+    
+    // Parse temperature table
+    if (kIOReturnSuccess == acpiDevice->evaluateObject("TEMP", &object) && object) {
+        addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryTemperature);
+        OSSafeRelease(object);
+    }
+    else ACPISensorsDebugLog("temprerature description table (TEMP) not found");
+    
+    // Parse voltage table
+    if (kIOReturnSuccess == acpiDevice->evaluateObject("VOLT", &object) && object) {
+        addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryVoltage);
+        OSSafeRelease(object);
+    }
+    else ACPISensorsDebugLog("voltage description table (VOLT) not found");
+    
+    // Parse amperage table
+    if (kIOReturnSuccess == acpiDevice->evaluateObject("AMPR", &object) && object) {
+        addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryCurrent);
+        OSSafeRelease(object);
+    }
+    else ACPISensorsDebugLog("amperage description table (AMPR) not found");
+    
+    // Parse power table
+    if (kIOReturnSuccess == acpiDevice->evaluateObject("POWR", &object) && object) {
+        addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryPower);
+        OSSafeRelease(object);
+    }
+    else ACPISensorsDebugLog("power description table (POWR) not found");
+    
+    // Parse tachometer table
+    if (kIOReturnSuccess == acpiDevice->evaluateObject("TACH", &object) && object) {
+        addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryFan);
+        OSSafeRelease(object);
+    }
+    else ACPISensorsDebugLog("tachometer description table (TACH) not found");
+
+    OSDictionary *configuration = NULL;
+
+    // If nothing was found on ACPI device try to load configuration from info.plist
+    if (object == NULL && (configuration = getConfigurationNode()))
     {
         if (OSDictionary *temperatures = OSDynamicCast(OSDictionary, configuration->getObject("Temperatures"))) {
-            
+
             if (OSBoolean *kelvins = OSDynamicCast(OSBoolean, temperatures->getObject("UseKelvins"))) {
                 useKelvins = kelvins->isTrue();
             }
-            
+
             addSensorsFromDictionary(OSDynamicCast(OSDictionary, temperatures), kFakeSMCCategoryTemperature);
         }
-        
+
         addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Voltages")), kFakeSMCCategoryVoltage);
         addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Currents")), kFakeSMCCategoryCurrent);
         addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Powers")), kFakeSMCCategoryPower);
         addSensorsFromDictionary(OSDynamicCast(OSDictionary, configuration->getObject("Tachometers")), kFakeSMCCategoryFan);
     }
-    // Try to load configuration provided by ACPI device
-    else {
-        OSObject *object = NULL;
-        
-        // Use Kelvins?
-        if (kIOReturnSuccess == acpiDevice->evaluateObject("KLVN", &object) && object) {
-            if (OSNumber *kelvins = OSDynamicCast(OSNumber, object)) {
-                useKelvins = kelvins->unsigned8BitValue() == 1;
-            }
-        }
-        
-        // Parse temperature table
-        if (kIOReturnSuccess == acpiDevice->evaluateObject("TEMP", &object) && object) {
-            addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryTemperature);
-        }
-        else ACPISensorsDebugLog("temprerature description table (TEMP) not found");
-        
-        // Parse voltage table
-        if (kIOReturnSuccess == acpiDevice->evaluateObject("VOLT", &object) && object) {
-            addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryVoltage);
-        }
-        else ACPISensorsDebugLog("voltage description table (VOLT) not found");
-        
-        // Parse amperage table
-        if (kIOReturnSuccess == acpiDevice->evaluateObject("AMPR", &object) && object) {
-            addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryCurrent);
-        }
-        else ACPISensorsDebugLog("amperage description table (AMPR) not found");
-        
-        // Parse power table
-        if (kIOReturnSuccess == acpiDevice->evaluateObject("POWR", &object) && object) {
-            addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryPower);
-        }
-        else ACPISensorsDebugLog("power description table (POWR) not found");
-        
-        // Parse tachometer table
-        if (kIOReturnSuccess == acpiDevice->evaluateObject("TACH", &object) && object) {
-            addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryFan);
-        }
-        else ACPISensorsDebugLog("tachometer description table (TACH) not found");
-    }
-    //else ACPISensorsErrorLog("no valid configuration provided");
-    
     
     if (methods->getCount())
         ACPISensorsInfoLog("%d sensor%s added", methods->getCount(), methods->getCount() > 1 ? "s" : "");
-    
-    disableExclusiveAccessMode();
-    
+
 	registerService();
     
     ACPISensorsInfoLog("started");

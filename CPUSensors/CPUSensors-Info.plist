@@ -38,7 +38,7 @@
 			<key>IOProviderClass</key>
 			<string>IOACPIPlatformDevice</string>
 			<key>IOResourceMatch</key>
-			<string>FakeSMCKeyStore</string>
+			<string>ACPI</string>
 			<key>Platform Profile</key>
 			<dict>
 				<key>Default</key>
@@ -55,16 +55,16 @@
 	<string>Copyright © HWSENSORS_LASTYEAR Natan Zalkin &lt;natan.zalkin@me.com&gt;. All rights reserved.</string>
 	<key>OSBundleLibraries</key>
 	<dict>
-		<key>FAKESMC_BUNDLE</key>
-		<string>FAKESMC_COMPATIBLE</string>
+		<key>FAKESMCKEYSTORE_BUNDLE</key>
+		<string>FAKESMCKEYSTORE_COMPATIBLE</string>
 		<key>com.apple.kpi.iokit</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.libkern</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.mach</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 		<key>com.apple.kpi.unsupported</key>
-		<string>10.0.0</string>
+		<string>10.6</string>
 	</dict>
 	<key>OSBundleRequired</key>
 	<string>Root</string>

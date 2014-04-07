@@ -4,6 +4,8 @@
 //
 //  Created by kozlek on 24.08.12.
 //
+//  The MIT License (MIT)
+//
 //  Copyright (c) 2012 Natan Zalkin <natan.zalkin@me.com>. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
@@ -37,8 +39,8 @@ bool PTIDSensors::updateTemperatures()
     OSObject *object;
     
     if (kIOReturnSuccess == acpiDevice->evaluateObject("TSDD", &object) && object) {
+
         OSSafeRelease(temperatures);
-        
         temperatures = OSDynamicCast(OSArray, object);
         
         //setProperty("temperatures", temperatures);
@@ -56,8 +58,8 @@ bool PTIDSensors::updateTachometers()
     OSObject *object;
     
     if (kIOReturnSuccess == acpiDevice->evaluateObject("OSDD", &object) && object) {
+
         OSSafeRelease(tachometers);
-        
         tachometers = OSDynamicCast(OSArray, object);
         
         //setProperty("tachometers", tachometers);
@@ -108,16 +110,22 @@ float PTIDSensors::readTachometer(UInt32 index)
     return 0;
 }
 
-float PTIDSensors::getSensorValue(FakeSMCSensor *sensor)
+bool PTIDSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 {
     switch(sensor->getGroup()) {
         case kFakeSMCTemperatureSensor:
-            return readTemperature(sensor->getIndex());
+            *outValue = readTemperature(sensor->getIndex());
+            break;
+
         case kFakeSMCTachometerSensor:
-            return readTachometer(sensor->getIndex());
+            *outValue = readTachometer(sensor->getIndex());
+            break;
+
+        default:
+            return false;
     }
     
-    return 0;
+    return true;
 }
 
 void PTIDSensors::parseTemperatureName(OSString *name, UInt32 index)
@@ -205,9 +213,7 @@ bool PTIDSensors::start(IOService * provider)
     }
     
     setProperty("version", version, 64);
-    
-    enableExclusiveAccessMode();
-    
+
     // Parse sensors
     switch (version) {
         case 0x30000: {
@@ -276,11 +282,17 @@ bool PTIDSensors::start(IOService * provider)
             break;
     }
     
-    disableExclusiveAccessMode();
-    
     registerService();
     
     HWSensorsInfoLog("started");
     
 	return true;
+}
+
+void PTIDSensors::free()
+{
+    OSSafeRelease(temperatures);
+    OSSafeRelease(tachometers);
+
+    super::free();
 }
