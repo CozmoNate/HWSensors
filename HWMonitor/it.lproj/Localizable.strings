@@ -189,6 +189,7 @@
 "pcicard" = "Icona PCI";
 "video" = "Icona Scheda Grafica";
 "battery" = "Icona Batteria";
+"red-thermometer" = "Icona Termometro rosso";
 
 "CPUFan" = "Ventola CPU";
 "CPUFan2" = "Ventola CPU №2";
