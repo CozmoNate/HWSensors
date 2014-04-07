@@ -580,7 +580,7 @@ bool FakeSMCPlugin::getKeyValue(const char *key, void *value)
 }
 
 /**
- *  Synchronized method to add a new key to FakeSMCKeyStore
+ *  Synchronized method to add a new key to FakeSMCKeyStore and set its handler to the plugin
  *
  *  @param key       Key name
  *  @param type      Key type
@@ -611,7 +611,7 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8
 }
 
 /**
- *  Synchronized method to add a new key to FakeSMCKeyStore
+ *  Synchronized method to add a new key to FakeSMCKeyStore and set its handler to the plugin
  *
  *  @param abbreviation Human readable key abbreviation used in config file
  *  @param category     Category (enum kFakeSMCCategory) key belongs to so abbreviation can be checked against the list from specified category only
@@ -660,7 +660,7 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbreviation, FakeSMCSensorC
 }
 
 /**
- *  Synchronized method to add a new key from configuration node, will read also modifiers: reference, gain and offset
+ *  Synchronized method to add a new key from configuration node, set handler to this plugin, set also modifiers: reference, gain and offset read from config if present
  *
  *  @param node     OSDictionary configuration node contains key configuration
  *  @param category Category (enum kFakeSMCCategory) key belongs to so abbreviation can be checked against the list from specified category only
@@ -696,7 +696,7 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(OSObject *node, FakeSMCSensorCategory ca
 }
 
 /**
- *  Synchronized method to add previously allocated and configured sensor into FakeSMCKeyStore
+ *  Synchronized method to add previously allocated and configured sensor into FakeSMCKeyStore, set represented key handler to this plugin
  *
  *  @param sensor Sensor object
  *

@@ -797,38 +797,43 @@ static HWMEngine * gSharedEngine;
         if (!fakeSmcKeys || !fakeSmcKeys.count) SMCClose(_fakeSmcConnection);
 
         SMCOpen("AppleSMC", &_smcConnection);
-        NSArray *smcKeys = [self getSmcKeysFromConnection:_smcConnection excludedList:fakeSmcKeys];
-        if (!smcKeys || !smcKeys.count) SMCClose(_smcConnection);
+        NSArray *physicalSmcKeys = [self getSmcKeysFromConnection:_smcConnection excludedList:fakeSmcKeys];
+        if (!physicalSmcKeys || !physicalSmcKeys.count) SMCClose(_smcConnection);
 
         [self insertSmcSensorsWithKeys:fakeSmcKeys connection:_fakeSmcConnection];
-        [self insertSmcSensorsWithKeys:smcKeys connection:_smcConnection];
-
-        // SMART
-        [HWMAtaSmartSensor startWatchingForBlockStorageDevicesWithEngine:self];
+        [self insertSmcSensorsWithKeys:physicalSmcKeys connection:_smcConnection];
 
         // FANS
-        [self insertSmcFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
-        [self insertSmcFansWithConnection:_smcConnection keys:smcKeys];
+        [self insertSmcFansWithConnection:_fakeSmcConnection keyList:@[fakeSmcKeys]];
+        // FakeSMC and original SMC fans workaround: will add fan keys excluded by FakeSMCKeyStore. It could be GPU fans not present in SMC but taken the first fan indexes. If fan key doesn't exists sensor will not be added, so it's safe to merge FakeSMC key list and physical SMC key list
+        [self insertSmcFansWithConnection:_smcConnection keyList:@[physicalSmcKeys, fakeSmcKeys]];
 
         // Insert additional GPU fans from FakeSMCKeyStore
         [self insertSmcGpuFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
 
-        // BATTERIES
-        [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
-
         // Update graphs
         [self insertGraphs];
 
-        // Save context
-        if (![self.managedObjectContext save:&error])
-            NSLog(@"saving context on rebuildSensorsList error %@", error);
+        // SMART
+        [HWMAtaSmartSensor startWatchingForBlockStorageDevicesWithEngine:self];
 
-        [self setNeedsUpdateLists];
+        // BATTERIES
+        [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
 
-        if (_engineState == kHWMEngineStateActive) {
-            [self internalStartEngine];
-        }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
+            NSError *err;
+
+            // Save context
+            if (![self.managedObjectContext save:&err])
+                NSLog(@"saving context on rebuildSensorsList error %@", err);
+
+            [self setNeedsUpdateLists];
+
+            if (_engineState == kHWMEngineStateActive) {
+                [self internalStartEngine];
+            }
+        }];
     }];
 }
 
@@ -1601,14 +1606,25 @@ static HWMEngine * gSharedEngine;
     return nil;
 }
 
-- (void)insertSmcFansWithConnection:(io_connect_t)connection keys:(NSArray*)keys
+
+- (void)insertSmcFansWithConnection:(io_connect_t)connection keyList:(NSArray*)keyList
 {
     HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupTachometer];
 
     for (int i=0; i<0xf; i++) {
+
         NSString *key = [NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i];
 
-        if ([keys indexOfObject:key] != NSNotFound) {
+        BOOL keyFound = NO;
+
+        for (NSObject *entry in keyList) {
+            if ([entry isKindOfClass:[NSArray class]] && [(NSArray*)entry indexOfObject:key] != NSNotFound) {
+                keyFound = YES;
+                break;
+            }
+        }
+
+        if (keyFound == YES) {
 
             SMCVal_t info;
 
