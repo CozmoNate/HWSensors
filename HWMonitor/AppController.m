@@ -244,14 +244,6 @@
     [_monitorEngine updateSmcAndDeviceSensors];
     [_monitorEngine updateAtaSmartSensors];
     _forceUpdateSensors = NO;
-
-    [self performSelector:@selector(reloadFavoritesTableView:) withObject:self afterDelay:0.0];
-    [self performSelector:@selector(reloadIconsAndSensorsTableView:) withObject:self afterDelay:0.0];
-}
-
--(void)awakeFromNib
-{
-    
 }
 
 -(void)applicationWillTerminate:(NSNotification *)notification
@@ -319,7 +311,7 @@
     
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         [context setDuration:[[NSApp currentEvent] modifierFlags] & NSShiftKeyMask ? 1.0 : 0.2];
-        [[[self window] animator] setFrame:newFrame display:YES];
+        [[self.window animator] setFrame:newFrame display:YES];
     } completionHandler:^{
         if ([self.window.toolbar.selectedItemIdentifier isEqualTo:@"Menubar"]) { // Menubar view
            //[[self.window standardWindowButton:NSWindowZoomButton] setEnabled:YES];
@@ -331,12 +323,13 @@
             [self.window setMinSize:newFrame.size];
             [self.window setMaxSize:newFrame.size];
         }
-        
-        [[[self window] contentView] addSubview:view];
-        [NSAnimationContext beginGrouping];
-        [[view animator] setAlphaValue:1.0];
-        [NSAnimationContext endGrouping];
-    }];    
+
+        [self.window.contentView addSubview:view];
+
+        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+            [[view animator] setAlphaValue:1.0];
+        } completionHandler:nil];
+    }];
 }
 #pragma mark
 #pragma mark HWMEngineDelegate:
