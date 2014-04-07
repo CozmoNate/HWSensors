@@ -491,6 +491,7 @@
 		7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		7EC95E2018D42FCB00DD7B4D /* NSWindow+BackgroundBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+BackgroundBlur.h"; sourceTree = "<group>"; };
 		7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+BackgroundBlur.m"; sourceTree = "<group>"; };
+		7ECA19E518F31730007F5CBD /* it */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = it; path = it.lproj/Credits.html; sourceTree = "<group>"; };
 		7ECDDE3016DD680E00085FFF /* 04-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye.png"; sourceTree = "<group>"; };
 		7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye@2x.png"; sourceTree = "<group>"; };
 		7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "04-eye-white.png"; sourceTree = "<group>"; };
@@ -1648,6 +1649,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				7EF28327184C71AA00DD8513 /* en */,
+				7ECA19E518F31730007F5CBD /* it */,
 			);
 			name = Credits.html;
 			sourceTree = "<group>";
