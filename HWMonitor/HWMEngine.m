@@ -804,9 +804,9 @@ static HWMEngine * gSharedEngine;
         [self insertSmcSensorsWithKeys:physicalSmcKeys connection:_smcConnection];
 
         // FANS
-        [self insertSmcFansWithConnection:_fakeSmcConnection keyList:@[fakeSmcKeys]];
+        [self insertSmcFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
         // FakeSMC and original SMC fans workaround: will add fan keys excluded by FakeSMCKeyStore. It could be GPU fans not present in SMC but taken the first fan indexes. If fan key doesn't exists sensor will not be added, so it's safe to merge FakeSMC key list and physical SMC key list
-        [self insertSmcFansWithConnection:_smcConnection keyList:@[physicalSmcKeys, fakeSmcKeys]];
+        [self insertSmcFansWithConnection:_smcConnection keys:[physicalSmcKeys arrayByAddingObjectsFromArray:fakeSmcKeys]];
 
         // Insert additional GPU fans from FakeSMCKeyStore
         [self insertSmcGpuFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
@@ -1607,7 +1607,7 @@ static HWMEngine * gSharedEngine;
 }
 
 
-- (void)insertSmcFansWithConnection:(io_connect_t)connection keyList:(NSArray*)keyList
+- (void)insertSmcFansWithConnection:(io_connect_t)connection keys:(NSArray*)keys
 {
     HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupTachometer];
 
@@ -1615,16 +1615,7 @@ static HWMEngine * gSharedEngine;
 
         NSString *key = [NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i];
 
-        BOOL keyFound = NO;
-
-        for (NSObject *entry in keyList) {
-            if ([entry isKindOfClass:[NSArray class]] && [(NSArray*)entry indexOfObject:key] != NSNotFound) {
-                keyFound = YES;
-                break;
-            }
-        }
-
-        if (keyFound == YES) {
+        if ([keys indexOfObject:key] != NSNotFound) {
 
             SMCVal_t info;
 
