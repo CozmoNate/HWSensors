@@ -619,9 +619,9 @@ static HWMEngine * gSharedEngine;
                 sensor.service = @0;
             }
         }
-        if (_physicalSmcConnection) {
-            SMCClose(_physicalSmcConnection);
-            _physicalSmcConnection = 0;
+        if (_appleSmcConnection) {
+            SMCClose(_appleSmcConnection);
+            _appleSmcConnection = 0;
         }
 
         if (_fakeSmcConnection) {
@@ -817,13 +817,20 @@ static HWMEngine * gSharedEngine;
         _fakeSmcConnection = [self insertSmcSensorsWithServiceName:"FakeSMCKeyStore" excludingKeys:nil];
 
         NSFetchRequest *sensorsFetch = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
-        NSPredicate *activeSensorsPredicate = [NSPredicate predicateWithFormat:@"service != 0"];
 
         // Keys has been added from FakeSMCKeyStore
-        NSArray *excludedKeys = [[[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:activeSensorsPredicate] valueForKey:@"name"];
+        NSArray *excludedKeys = [[[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0"]] valueForKey:@"name"];
 
         // Add keys from AppleSMC
-        _physicalSmcConnection = [self insertSmcSensorsWithServiceName:"AppleSMC" excludingKeys:[NSSet setWithArray:excludedKeys]];
+        _appleSmcConnection = [self insertSmcSensorsWithServiceName:"AppleSMC" excludingKeys:[NSSet setWithArray:excludedKeys]];
+
+        // Close AppleSMC connection if no keys obtained from it
+        NSArray *appleSmcKeys = [[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service == %d", _appleSmcConnection]];
+
+        if (appleSmcKeys.count == 0) {
+            SMCClose(_appleSmcConnection);
+            _appleSmcConnection = 0;
+        }
 
         // Update graphs
         [self insertGraphs];
