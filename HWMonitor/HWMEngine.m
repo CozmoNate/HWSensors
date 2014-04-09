@@ -792,7 +792,7 @@ static HWMEngine * gSharedEngine;
 
         // SMC SENSORS
 
-        // Add FakeSMCKeyStore keys first. Will not add keys from AppleSMC with the same name added previousely from FakeSMCKeyStore. Fans will be added anyway. On Mac FakeSMCKeyStore provides additional fans. On hackintosh side effect is that fans will be updated via AppleSMC
+        // Add FakeSMCKeyStore keys first. Will not add keys from AppleSMC with the same name added previousely from FakeSMCKeyStore, excluding fans because they could share the same name
         _fakeSmcConnection = [self insertSmcSensorsWithServiceName:"FakeSMCKeyStore" excludingKeys:nil];
 
         // Keys has been added from FakeSMCKeyStore
