@@ -792,7 +792,7 @@ static HWMEngine * gSharedEngine;
 
         // SMC SENSORS
 
-        // Add FakeSMCKeyStore keys first. Will not add keys from AppleSMC with the same name added previousely from FakeSMCKeyStore, excluding fans because they could share the same name
+        // Add FakeSMCKeyStore keys first. Will not add keys from AppleSMC with the same name added previousely from FakeSMCKeyStore, excluding fans because they could share the same key names but has different descriptors (aka caption)
         _fakeSmcConnection = [self insertSmcSensorsWithServiceName:"FakeSMCKeyStore" excludingKeys:nil];
 
         // Keys has been added from FakeSMCKeyStore
