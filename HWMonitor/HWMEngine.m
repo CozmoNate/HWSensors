@@ -130,24 +130,26 @@ static HWMEngine * gSharedEngine;
 
 -(void)setEngineState:(HWMEngineState)engineState
 {
-    switch (engineState) {
-        case kHWMEngineStateIdle:
-            if (_engineState == kHWMEngineStateActive) {
-                [self internalStopEngine];
-            }
-            break;
+    if (_engineState != kHWMEngineNotInitialized) {
+        switch (engineState) {
+            case kHWMEngineStateIdle:
+                if (_engineState == kHWMEngineStateActive) {
+                    [self internalStopEngine];
+                }
+                break;
 
-        case kHWMEngineStateActive:
-            if (_engineState == kHWMEngineStateIdle) {
-                [self internalStartEngine];
-            }
-            break;
+            case kHWMEngineStateActive:
+                if (_engineState == kHWMEngineStateIdle) {
+                    [self internalStartEngine];
+                }
+                break;
 
-        default:
-            break;
+            default:
+                break;
+        }
+        
+        _engineState = engineState;
     }
-
-    _engineState = engineState;
 }
 
 -(HWMSensorsUpdateLoopStrategy)updateLoopStrategy
@@ -576,28 +578,57 @@ static HWMEngine * gSharedEngine;
     }];
 }
 
+/**
+ *  Start initialized engine. This method doesn't check and change engine state
+ */
 -(void)internalStartEngine
 {
-    if (!_smcAndDevicesSensorsUpdateLoopTimer || ![_smcAndDevicesSensorsUpdateLoopTimer isValid]) {
-        [self initSmcAndDevicesTimer];
-    }
+    //if (_engineState == kHWMEngineStateIdle) {
+        if (!_smcAndDevicesSensorsUpdateLoopTimer || ![_smcAndDevicesSensorsUpdateLoopTimer isValid]) {
+            [self initSmcAndDevicesTimer];
+        }
 
-    if (!_ataSmartSensorsUpdateLoopTimer || ![_ataSmartSensorsUpdateLoopTimer isValid]) {
-        [self initAtaSmartTimer];
-    }
+        if (!_ataSmartSensorsUpdateLoopTimer || ![_ataSmartSensorsUpdateLoopTimer isValid]) {
+            [self initAtaSmartTimer];
+        }
+    //}
 }
 
+/**
+ *  Stop active engine; stop timers, close connections and device watchers. Doesn't check and change engine state
+ */
 -(void)internalStopEngine
 {
-    if (_smcAndDevicesSensorsUpdateLoopTimer) {
-        [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
-        _smcAndDevicesSensorsUpdateLoopTimer = 0;
-    }
+    //if (_engineState == kHWMEngineStateActive) {
+        if (_smcAndDevicesSensorsUpdateLoopTimer) {
+            [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
+            _smcAndDevicesSensorsUpdateLoopTimer = 0;
+        }
 
-    if (_ataSmartSensorsUpdateLoopTimer) {
-        [_ataSmartSensorsUpdateLoopTimer invalidate];
-        _ataSmartSensorsUpdateLoopTimer = 0;
-    }
+        if (_ataSmartSensorsUpdateLoopTimer) {
+            [_ataSmartSensorsUpdateLoopTimer invalidate];
+            _ataSmartSensorsUpdateLoopTimer = 0;
+        }
+
+        [HWMAtaSmartSensor stopWatchingForBlockStorageDevices];
+        [HWMBatterySensor stopWatchingForBatteryDevices];
+
+        for (HWMSensor *sensor in _smcAndDevicesSensors) {
+            if (sensor.service && sensor.service.unsignedLongLongValue) {
+                IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
+                sensor.service = @0;
+            }
+        }
+        if (_physicalSmcConnection) {
+            SMCClose(_physicalSmcConnection);
+            _physicalSmcConnection = 0;
+        }
+
+        if (_fakeSmcConnection) {
+            SMCClose(_fakeSmcConnection);
+            _fakeSmcConnection = 0;
+        }
+    //}
 }
 
 #pragma mark
@@ -780,20 +811,13 @@ static HWMEngine * gSharedEngine;
 
         NSError *error;
 
-        // Nulify "service" attribute for all sensors
-        NSFetchRequest *sensorsFetch = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
-        NSPredicate *activeSensorsPredicate = [NSPredicate predicateWithFormat:@"service != 0"];
-
-        NSArray *sensors = [[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:activeSensorsPredicate];
-
-        for (HWMSmcSensor *sensor in sensors) {
-            [sensor setService:@0];
-        }
-
         // SMC SENSORS
 
         // Add FakeSMCKeyStore keys first. Will not add keys from AppleSMC with the same name added previousely from FakeSMCKeyStore, excluding fans because they could share the same key names but has different descriptors (aka caption)
         _fakeSmcConnection = [self insertSmcSensorsWithServiceName:"FakeSMCKeyStore" excludingKeys:nil];
+
+        NSFetchRequest *sensorsFetch = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+        NSPredicate *activeSensorsPredicate = [NSPredicate predicateWithFormat:@"service != 0"];
 
         // Keys has been added from FakeSMCKeyStore
         NSArray *excludedKeys = [[[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:activeSensorsPredicate] valueForKey:@"name"];
@@ -810,20 +834,15 @@ static HWMEngine * gSharedEngine;
         // BATTERIES
         [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
 
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        // Save context
+        if (![self.managedObjectContext save:&error])
+            NSLog(@"saving context on rebuildSensorsList error %@", error);
 
-            NSError *err;
+        [self setNeedsUpdateLists];
 
-            // Save context
-            if (![self.managedObjectContext save:&err])
-                NSLog(@"saving context on rebuildSensorsList error %@", err);
-
-            [self setNeedsUpdateLists];
-
-            if (_engineState == kHWMEngineStateActive) {
-                [self internalStartEngine];
-            }
-        }];
+        if (_engineState == kHWMEngineStateActive) {
+            [self internalStartEngine];
+        }
     }];
 }
 
@@ -888,18 +907,14 @@ static HWMEngine * gSharedEngine;
     }];
 }
 
--(void)startEngine
-{
-    [self internalStartEngine];
-
-    self.engineState = kHWMEngineStateActive;
-}
-
 -(void)stopEngine
 {
-    [self internalStopEngine];
+    [self setEngineState:kHWMEngineStateIdle];
+}
 
-    self.engineState = kHWMEngineStateIdle;
+-(void)startEngine
+{
+    [self setEngineState:kHWMEngineStateActive];
 }
 
 #pragma mark
@@ -1014,29 +1029,16 @@ static HWMEngine * gSharedEngine;
 {
     [self saveContext];
 
-    if (self.engineState == kHWMEngineStateActive) {
+    if (_engineState == kHWMEngineStateActive) {
         [self internalStopEngine];
     }
-
-    if (_physicalSmcConnection) {
-        SMCClose(_physicalSmcConnection);
-        _physicalSmcConnection = 0;
-    }
-
-    if (_fakeSmcConnection) {
-        SMCClose(_fakeSmcConnection);
-        _fakeSmcConnection = 0;
-    }
-
-    [HWMAtaSmartSensor stopWatchingForBlockStorageDevices];
-    [HWMBatterySensor stopWatchingForBatteryDevices];
 }
 
 -(void)workspaceDidWake:(id)sender
 {
     [self rebuildSensorsList];
 
-    if (self.engineState == kHWMEngineStateActive) {
+    if (_engineState == kHWMEngineStateActive) {
         [self internalStartEngine];
     }
 }
@@ -1138,22 +1140,11 @@ static HWMEngine * gSharedEngine;
     [self removeObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate"];
     [self removeObserver:self forKeyPath:@"configuration.showVolumeNames"];
 
-    [self internalStopEngine];
-    [HWMAtaSmartSensor stopWatchingForBlockStorageDevices];
-    [HWMBatterySensor stopWatchingForBatteryDevices];
+    if (self.engineState == kHWMEngineStateActive) {
+        [self internalStopEngine];
+    }
 
     [self saveContext];
-
-    for (HWMSensor *sensor in _smcAndDevicesSensors) {
-        if (sensor.service && sensor.service.unsignedLongLongValue) {
-            IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
-        }
-    }
-    if (_physicalSmcConnection)
-        SMCClose(_physicalSmcConnection);
-
-    if (_fakeSmcConnection)
-        SMCClose(_fakeSmcConnection);
 }
 
 #pragma mark
@@ -1586,8 +1577,7 @@ static HWMEngine * gSharedEngine;
 
         newFan = YES;
     }
-    else if ([fan.descriptor isEqualToString:descriptor] && [fan.service isNotEqualTo:@0])
-    {
+    else if (fan.service.unsignedLongLongValue != 0) {
         return fan;
     }
 

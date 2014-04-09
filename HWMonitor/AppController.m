@@ -248,8 +248,6 @@
 
 -(void)applicationWillTerminate:(NSNotification *)notification
 {
-    [_monitorEngine stopEngine];
-    
     [self removeObserver:self forKeyPath:@"monitorEngine.favorites"];
     [self removeObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups"];
 }
