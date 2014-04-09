@@ -105,7 +105,7 @@ typedef enum {
 -(void)rebuildSensorsList;
 -(void)startEngine;
 -(void)stopEngine;
--(void)saveContext;
+-(void)saveConfiguration;
 -(void)updateSmcAndDeviceSensors;
 -(void)updateAtaSmartSensors;
 -(void)setNeedsRecalculateSensorValues;

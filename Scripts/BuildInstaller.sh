@@ -32,6 +32,7 @@ full_version=${project_version}'.'${last_revision}
 
 pkgbuild --component Binaries/HWMonitor.app \
     --info ./Package/HWMonitor.PackageInfo \
+    --ownership preserve \
     --identifier "org.hwsensors.HWMonitor" \
     --version "${full_version}" \
     --install-location "/Applications" \

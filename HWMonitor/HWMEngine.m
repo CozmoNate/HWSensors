@@ -634,7 +634,7 @@ static HWMEngine * gSharedEngine;
 #pragma mark
 #pragma mark Public Methods
 
--(void)saveContext
+-(void)saveConfiguration
 {
     NSError *error;
 
@@ -813,18 +813,18 @@ static HWMEngine * gSharedEngine;
 
         // SMC SENSORS
 
-        // Add FakeSMCKeyStore keys first. Will not add keys from AppleSMC with the same name added previousely from FakeSMCKeyStore, excluding fans because they could share the same key names but has different descriptors (aka caption)
+        // Add FakeSMCKeyStore keys first
         _fakeSmcConnection = [self insertSmcSensorsWithServiceName:"FakeSMCKeyStore" excludingKeys:nil];
 
         NSFetchRequest *sensorsFetch = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
 
-        // Keys has been added from FakeSMCKeyStore
+        // Keys added from FakeSMCKeyStore
         NSArray *excludedKeys = [[[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0"]] valueForKey:@"name"];
 
         // Add keys from AppleSMC
         _appleSmcConnection = [self insertSmcSensorsWithServiceName:"AppleSMC" excludingKeys:[NSSet setWithArray:excludedKeys]];
 
-        // Close AppleSMC connection if no keys obtained from it
+        // Close AppleSMC connection if no keys where obtained from it
         NSArray *appleSmcKeys = [[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service == %d", _appleSmcConnection]];
 
         if (appleSmcKeys.count == 0) {
@@ -1034,7 +1034,7 @@ static HWMEngine * gSharedEngine;
 
 -(void)workspaceWillSleep:(id)sender
 {
-    [self saveContext];
+    [self saveConfiguration];
 
     if (_engineState == kHWMEngineStateActive) {
         [self internalStopEngine];
@@ -1151,7 +1151,7 @@ static HWMEngine * gSharedEngine;
         [self internalStopEngine];
     }
 
-    [self saveContext];
+    [self saveConfiguration];
 }
 
 #pragma mark
