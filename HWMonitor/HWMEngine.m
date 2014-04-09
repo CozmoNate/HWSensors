@@ -770,53 +770,6 @@ static HWMEngine * gSharedEngine;
     }];
 }
 
--(io_connect_t)insertSmcSensorsWithServiceName:(const char*)service excludingKeys:(NSSet*)excludedKeys
-{
-    io_connect_t connection;
-
-    if (kIOReturnSuccess == SMCOpen(service, &connection)) {
-
-        NSMutableSet *keys = [[NSMutableSet alloc] init];
-
-        UInt32 count = [SmcHelper readNumericKey:@"#KEY" connection:connection].unsignedIntValue;
-
-        for (UInt32 index = 0; index < count; index++) {
-            SMCKeyData_t  inputStructure;
-            SMCKeyData_t  outputStructure;
-            SMCVal_t val;
-
-            memset(&inputStructure, 0, sizeof(SMCKeyData_t));
-            memset(&outputStructure, 0, sizeof(SMCKeyData_t));
-            memset(&val, 0, sizeof(SMCVal_t));
-
-            inputStructure.data8 = SMC_CMD_READ_INDEX;
-            inputStructure.data32 = index;
-
-            if (kIOReturnSuccess == SMCCall(connection, KERNEL_INDEX_SMC, &inputStructure, &outputStructure)) {
-                [keys addObject:[NSString stringWithFormat:@"%c%c%c%c",
-                                 (unsigned int) outputStructure.key >> 24,
-                                 (unsigned int) outputStructure.key >> 16,
-                                 (unsigned int) outputStructure.key >> 8,
-                                 (unsigned int) outputStructure.key]];
-            }
-        }
-
-        NSMutableSet *strippedKeys = keys.mutableCopy;
-
-        [strippedKeys minusSet:excludedKeys];
-
-        if (keys.count) {
-            [self insertSmcSensorsWithKeys:strippedKeys connection:connection];
-            [self insertSmcFansWithConnection:connection keys:keys];
-            [self insertSmcGpuFansWithConnection:connection keys:keys];
-        }
-
-        return connection;
-    }
-
-    return 0;
-}
-
 -(void)rebuildSensorsList
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -1560,6 +1513,53 @@ static HWMEngine * gSharedEngine;
     [self insertSmcSensorsWithKeys:keys connection:connection selector:kHWMGroupPower];
 }
 
+-(io_connect_t)insertSmcSensorsWithServiceName:(const char*)service excludingKeys:(NSSet*)excludedKeys
+{
+    io_connect_t connection;
+
+    if (kIOReturnSuccess == SMCOpen(service, &connection)) {
+
+        NSMutableSet *keys = [[NSMutableSet alloc] init];
+
+        UInt32 count = [SmcHelper readNumericKey:@"#KEY" connection:connection].unsignedIntValue;
+
+        for (UInt32 index = 0; index < count; index++) {
+            SMCKeyData_t  inputStructure;
+            SMCKeyData_t  outputStructure;
+            SMCVal_t val;
+
+            memset(&inputStructure, 0, sizeof(SMCKeyData_t));
+            memset(&outputStructure, 0, sizeof(SMCKeyData_t));
+            memset(&val, 0, sizeof(SMCVal_t));
+
+            inputStructure.data8 = SMC_CMD_READ_INDEX;
+            inputStructure.data32 = index;
+
+            if (kIOReturnSuccess == SMCCall(connection, KERNEL_INDEX_SMC, &inputStructure, &outputStructure)) {
+                [keys addObject:[NSString stringWithFormat:@"%c%c%c%c",
+                                 (unsigned int) outputStructure.key >> 24,
+                                 (unsigned int) outputStructure.key >> 16,
+                                 (unsigned int) outputStructure.key >> 8,
+                                 (unsigned int) outputStructure.key]];
+            }
+        }
+
+        NSMutableSet *strippedKeys = keys.mutableCopy;
+
+        [strippedKeys minusSet:excludedKeys];
+
+        if (keys.count) {
+            [self insertSmcSensorsWithKeys:strippedKeys connection:connection];
+            [self insertSmcFansWithConnection:connection keys:keys];
+            [self insertSmcGpuFansWithConnection:connection keys:keys];
+        }
+        
+        return connection;
+    }
+    
+    return 0;
+}
+
 #pragma mark
 #pragma mark SMC Fan Sensors
 
@@ -1573,8 +1573,6 @@ static HWMEngine * gSharedEngine;
 
 -(HWMSmcSensor*)insertSmcFanWithConnection:(io_connect_t)connection descriptor:(NSString*)descriptor name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMSensorsGroup*)group
 {
-    NSNumber *service = [NSNumber numberWithUnsignedLongLong:connection];
-
     __block HWMSmcFanSensor *fan = [self getSmcFanSensorByDescriptor:descriptor fromGroup:group];
 
     BOOL newFan = NO;
@@ -1588,7 +1586,7 @@ static HWMEngine * gSharedEngine;
 
         newFan = YES;
     }
-    else if ([fan.service isEqualToNumber:service])
+    else if ([fan.descriptor isEqualToString:descriptor] && [fan.service isNotEqualTo:@0])
     {
         return fan;
     }
