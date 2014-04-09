@@ -770,6 +770,53 @@ static HWMEngine * gSharedEngine;
     }];
 }
 
+-(io_connect_t)insertSmcSensorsWithServiceName:(const char*)service excludingKeys:(NSSet*)excludedKeys
+{
+    io_connect_t connection;
+
+    if (kIOReturnSuccess == SMCOpen(service, &connection)) {
+
+        NSMutableSet *keys = [[NSMutableSet alloc] init];
+
+        UInt32 count = [SmcHelper readNumericKey:@"#KEY" connection:connection].unsignedIntValue;
+
+        for (UInt32 index = 0; index < count; index++) {
+            SMCKeyData_t  inputStructure;
+            SMCKeyData_t  outputStructure;
+            SMCVal_t val;
+
+            memset(&inputStructure, 0, sizeof(SMCKeyData_t));
+            memset(&outputStructure, 0, sizeof(SMCKeyData_t));
+            memset(&val, 0, sizeof(SMCVal_t));
+
+            inputStructure.data8 = SMC_CMD_READ_INDEX;
+            inputStructure.data32 = index;
+
+            if (kIOReturnSuccess == SMCCall(connection, KERNEL_INDEX_SMC, &inputStructure, &outputStructure)) {
+                [keys addObject:[NSString stringWithFormat:@"%c%c%c%c",
+                                 (unsigned int) outputStructure.key >> 24,
+                                 (unsigned int) outputStructure.key >> 16,
+                                 (unsigned int) outputStructure.key >> 8,
+                                 (unsigned int) outputStructure.key]];
+            }
+        }
+
+        NSMutableSet *strippedKeys = keys.mutableCopy;
+
+        [strippedKeys minusSet:excludedKeys];
+
+        if (keys.count) {
+            [self insertSmcSensorsWithKeys:strippedKeys connection:connection];
+            [self insertSmcFansWithConnection:connection keys:keys];
+            [self insertSmcGpuFansWithConnection:connection keys:keys];
+        }
+
+        return connection;
+    }
+
+    return 0;
+}
+
 -(void)rebuildSensorsList
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -781,35 +828,25 @@ static HWMEngine * gSharedEngine;
         NSError *error;
 
         // Nulify "service" attribute for all sensors
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+        NSFetchRequest *sensorsFetch = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+        NSPredicate *activeSensorsPredicate = [NSPredicate predicateWithFormat:@"service != 0"];
 
-        NSArray *objects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *sensors = [[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:activeSensorsPredicate];
 
-        for (HWMSmcSensor *sensor in objects) {
+        for (HWMSmcSensor *sensor in sensors) {
             [sensor setService:@0];
         }
 
-        // SMC
+        // SMC SENSORS
 
-        // FakeSMCKeyStore is prioritized key source
-        SMCOpen("FakeSMCKeyStore", &_fakeSmcConnection);
-        NSArray *fakeSmcKeys = [self getSmcKeysFromConnection:_fakeSmcConnection excludedList:nil];
-        if (!fakeSmcKeys || !fakeSmcKeys.count) SMCClose(_fakeSmcConnection);
+        // Add FakeSMCKeyStore keys first. Will not add keys from AppleSMC with the same name added previousely from FakeSMCKeyStore. Fans will be added anyway. On Mac FakeSMCKeyStore provides additional fans. On hackintosh side effect is that fans will be updated via AppleSMC
+        _fakeSmcConnection = [self insertSmcSensorsWithServiceName:"FakeSMCKeyStore" excludingKeys:nil];
 
-        SMCOpen("AppleSMC", &_smcConnection);
-        NSArray *physicalSmcKeys = [self getSmcKeysFromConnection:_smcConnection excludedList:fakeSmcKeys];
-        if (!physicalSmcKeys || !physicalSmcKeys.count) SMCClose(_smcConnection);
+        // Keys has been added from FakeSMCKeyStore
+        NSArray *excludedKeys = [[[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:activeSensorsPredicate] valueForKey:@"name"];
 
-        [self insertSmcSensorsWithKeys:fakeSmcKeys connection:_fakeSmcConnection];
-        [self insertSmcSensorsWithKeys:physicalSmcKeys connection:_smcConnection];
-
-        // FANS
-        [self insertSmcFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
-        // FakeSMC and original SMC fans workaround: will add fan keys excluded by FakeSMCKeyStore. It could be GPU fans not present in SMC but taken the first fan indexes. If fan key doesn't exists sensor will not be added, so it's safe to merge FakeSMC key list and physical SMC key list
-        [self insertSmcFansWithConnection:_smcConnection keys:[physicalSmcKeys arrayByAddingObjectsFromArray:fakeSmcKeys]];
-
-        // Insert additional GPU fans from FakeSMCKeyStore
-        [self insertSmcGpuFansWithConnection:_fakeSmcConnection keys:fakeSmcKeys];
+        // Add keys from AppleSMC
+        _physicalSmcConnection = [self insertSmcSensorsWithServiceName:"AppleSMC" excludingKeys:[NSSet setWithArray:excludedKeys]];
 
         // Update graphs
         [self insertGraphs];
@@ -1028,9 +1065,9 @@ static HWMEngine * gSharedEngine;
         [self internalStopEngine];
     }
 
-    if (_smcConnection) {
-        SMCClose(_smcConnection);
-        _smcConnection = 0;
+    if (_physicalSmcConnection) {
+        SMCClose(_physicalSmcConnection);
+        _physicalSmcConnection = 0;
     }
 
     if (_fakeSmcConnection) {
@@ -1159,8 +1196,8 @@ static HWMEngine * gSharedEngine;
             IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
         }
     }
-    if (_smcConnection)
-        SMCClose(_smcConnection);
+    if (_physicalSmcConnection)
+        SMCClose(_physicalSmcConnection);
 
     if (_fakeSmcConnection)
         SMCClose(_fakeSmcConnection);
@@ -1420,7 +1457,7 @@ static HWMEngine * gSharedEngine;
     return sensor;
 }
 
--(void)insertSmcSensorsWithKeys:(NSArray*)keys connection:(io_connect_t)connection selector:(NSUInteger)selector
+-(void)insertSmcSensorsWithKeys:(NSSet*)keys connection:(io_connect_t)connection selector:(NSUInteger)selector
 {
     if (!connection || !selector)
         return;
@@ -1487,7 +1524,7 @@ static HWMEngine * gSharedEngine;
 
                     NSString *formattedKey = [NSString stringWithFormat:keyFormat, start + offset];
 
-                    if ([keys indexOfObject:formattedKey] != NSNotFound /*&& [excludedKeys indexOfObject:formattedKey] == NSNotFound*/) {
+                    if ([keys containsObject:formattedKey]) {
 
                         SMCVal_t info;
 
@@ -1499,7 +1536,7 @@ static HWMEngine * gSharedEngine;
                     }
                 }
             }
-            else if ([keys indexOfObject:key] != NSNotFound /*&& [excludedKeys indexOfObject:key] == NSNotFound*/) {
+            else if ([keys containsObject:key]) {
 
                 SMCVal_t info;
 
@@ -1513,7 +1550,7 @@ static HWMEngine * gSharedEngine;
     }];
 }
 
--(void)insertSmcSensorsWithKeys:(NSArray*)keys connection:(io_connect_t)connection
+-(void)insertSmcSensorsWithKeys:(NSSet*)keys connection:(io_connect_t)connection
 {
     [self insertSmcSensorsWithKeys:keys connection:connection selector:kHWMGroupTemperature];
     [self insertSmcSensorsWithKeys:keys connection:connection selector:kHWMGroupMultiplier];
@@ -1536,6 +1573,8 @@ static HWMEngine * gSharedEngine;
 
 -(HWMSmcSensor*)insertSmcFanWithConnection:(io_connect_t)connection descriptor:(NSString*)descriptor name:(NSString*)name type:(NSString*)type title:(NSString*)title selector:(NSUInteger)selector group:(HWMSensorsGroup*)group
 {
+    NSNumber *service = [NSNumber numberWithUnsignedLongLong:connection];
+
     __block HWMSmcFanSensor *fan = [self getSmcFanSensorByDescriptor:descriptor fromGroup:group];
 
     BOOL newFan = NO;
@@ -1548,6 +1587,10 @@ static HWMEngine * gSharedEngine;
         [fan setGroup:group];
 
         newFan = YES;
+    }
+    else if ([fan.service isEqualToNumber:service])
+    {
+        return fan;
     }
 
     [fan setTitle:title];
@@ -1607,7 +1650,7 @@ static HWMEngine * gSharedEngine;
 }
 
 
-- (void)insertSmcFansWithConnection:(io_connect_t)connection keys:(NSArray*)keys
+- (void)insertSmcFansWithConnection:(io_connect_t)connection keys:(NSSet*)keys
 {
     HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupTachometer];
 
@@ -1615,7 +1658,7 @@ static HWMEngine * gSharedEngine;
 
         NSString *key = [NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i];
 
-        if ([keys indexOfObject:key] != NSNotFound) {
+        if ([keys containsObject:key]) {
 
             SMCVal_t info;
 
@@ -1680,7 +1723,7 @@ static HWMEngine * gSharedEngine;
 
 }
 
-- (void)insertSmcGpuFansWithConnection:(io_connect_t)connection keys:(NSArray*)keys
+- (void)insertSmcGpuFansWithConnection:(io_connect_t)connection keys:(NSSet*)keys
 {
     HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupTachometer];
 
@@ -1689,7 +1732,7 @@ static HWMEngine * gSharedEngine;
         
         NSString *key = [NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i];
 
-        if ([keys indexOfObject:key] != NSNotFound) {
+        if ([keys containsObject:key]) {
             SMCVal_t info;
 
             if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {

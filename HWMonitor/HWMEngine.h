@@ -67,7 +67,7 @@ typedef enum {
     NSString *_platformName;
     NSArray *_platformProfile;
 
-    io_connect_t _smcConnection;
+    io_connect_t _physicalSmcConnection;
     io_connect_t _fakeSmcConnection;
 
     NSMutableArray *_groups;
