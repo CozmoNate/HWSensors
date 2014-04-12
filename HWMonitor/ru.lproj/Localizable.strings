@@ -336,3 +336,9 @@
 "Maximum:" = "Максимум:";
 "Minimum:" = "Минимум:";
 "Range:" = "Предел:";
+
+"Show drive name as:" = "Формат имени диска:";
+"Product name" = "Имя продукта";
+"Partition names" = "Имена разделов";
+"BSD name" = "Имя BSD";
+"Show additional info in subtitle" = "Показывать информацию в подписи";

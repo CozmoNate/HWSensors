@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="Version 1.2" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13C32" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="Version 1.2" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D38" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AtaSmartSensor" representedClassName="HWMAtaSmartSensor" parentEntity="Sensor" syncable="YES">
         <attribute name="bsdName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="productName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
@@ -98,18 +98,18 @@
     </entity>
     <entity name="SmcSensor" representedClassName="HWMSmcSensor" parentEntity="Sensor" syncable="YES"/>
     <elements>
-        <element name="AtaSmartSensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="BatterySensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="ColorTheme" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Configuration" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Favorite" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Graph" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="GraphsGroup" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Icon" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Item" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Sensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SensorsGroup" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SmcFanSensor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SmcSensor" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="AtaSmartSensor" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="BatterySensor" positionX="0" positionY="0" width="128" height="45"/>
+        <element name="ColorTheme" positionX="0" positionY="0" width="128" height="285"/>
+        <element name="Configuration" positionX="0" positionY="0" width="128" height="315"/>
+        <element name="Favorite" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="Graph" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="GraphsGroup" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="Icon" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="Item" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="Sensor" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="SensorsGroup" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="SmcFanSensor" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="SmcSensor" positionX="0" positionY="0" width="128" height="45"/>
     </elements>
 </model>

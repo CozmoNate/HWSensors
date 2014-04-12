@@ -400,7 +400,7 @@ static HWMEngine * gSharedEngine;
     [self addObserver:self forKeyPath:@"configuration.useFahrenheit" options:NSKeyValueObservingOptionNew context:nil];
     [self addObserver:self forKeyPath:@"configuration.smcSensorsUpdateRate" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [self addObserver:self forKeyPath:@"configuration.showVolumeNames" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [self addObserver:self forKeyPath:@"configuration.showSubtitlesInPopup" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"configuration.enableFanControl" options:NSKeyValueObservingOptionNew context:nil];
 }
 
@@ -990,7 +990,7 @@ static HWMEngine * gSharedEngine;
         [self performSelectorInBackground:@selector(initAtaSmartTimer) withObject:nil];
 
     }
-    else if ([keyPath isEqual:@"configuration.showVolumeNames"]) {
+    else if ([keyPath isEqual:@"configuration.showSubtitlesInPopup"]) {
         [self willChangeValueForKey:@"sensorsAndGroups"];
         [self didChangeValueForKey:@"sensorsAndGroups"];
 
@@ -1023,10 +1023,10 @@ static HWMEngine * gSharedEngine;
         }
 
         // Force update some sensors info
-        [_configuration willChangeValueForKey:@"useBsdDriveNames"];
-        [_configuration didChangeValueForKey:@"useBsdDriveNames"];
-        [_configuration willChangeValueForKey:@"showVolumeNames"];
-        [_configuration didChangeValueForKey:@"showVolumeNames"];
+        [_configuration willChangeValueForKey:@"driveNameSelector"];
+        [_configuration didChangeValueForKey:@"driveNameSelector"];
+        [_configuration willChangeValueForKey:@"showSubtitlesInPopup"];
+        [_configuration didChangeValueForKey:@"showSubtitlesInPopup"];
 
         [self setNeedsUpdateLists];
     }
@@ -1145,7 +1145,7 @@ static HWMEngine * gSharedEngine;
     [self removeObserver:self forKeyPath:@"configuration.useFahrenheit"];
     [self removeObserver:self forKeyPath:@"configuration.smcSensorsUpdateRate"];
     [self removeObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate"];
-    [self removeObserver:self forKeyPath:@"configuration.showVolumeNames"];
+    [self removeObserver:self forKeyPath:@"configuration.showSubtitlesInPopup"];
 
     if (self.engineState == kHWMEngineStateActive) {
         [self internalStopEngine];
@@ -1826,8 +1826,7 @@ static HWMEngine * gSharedEngine;
     [sensor setSerialNumber:serialNumber];
     [sensor setRotational:[attributes objectForKey:@"rotational"]];
 
-    [sensor setTitle:_configuration.useBsdDriveNames.boolValue ? sensor.bsdName : sensor.productName];
-    [sensor setLegend:_configuration.showVolumeNames.boolValue ? sensor.volumeNames : nil];
+    [sensor setLegend:_configuration.showSubtitlesInPopup.boolValue ? sensor.volumeNames : nil];
     [sensor setIdentifier:@"Drive"];
 
     [sensor setEngine:self];

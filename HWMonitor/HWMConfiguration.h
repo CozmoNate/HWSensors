@@ -16,15 +16,16 @@
 @property (nonatomic, retain) NSNumber * graphsScaleValue;
 @property (nonatomic, retain) NSNumber * graphsWindowAlwaysTopmost;
 @property (nonatomic, retain) NSNumber * notifyAlarmLevelChanges;
-@property (nonatomic, retain) NSNumber * showVolumeNames;
+@property (nonatomic, retain) NSNumber * showSubtitlesInPopup;
 @property (nonatomic, retain) NSNumber * smartSensorsUpdateRate;
 @property (nonatomic, retain) NSNumber * smcSensorsUpdateRate;
 @property (nonatomic, retain) NSNumber * updateSensorsInBackground;
 @property (nonatomic, retain) NSNumber * useBigFontInMenubar;
-@property (nonatomic, retain) NSNumber * useBsdDriveNames;
+//@property (nonatomic, retain) NSNumber * useBsdDriveNames;
 @property (nonatomic, retain) NSNumber * useFahrenheit;
 @property (nonatomic, retain) NSNumber * useGraphSmoothing;
 @property (nonatomic, retain) NSNumber * useShadowEffectsInMenubar;
+@property (nonatomic, retain) NSNumber * driveNameSelector;
 @property (nonatomic, retain) NSNumber * colorThemeIndex;
 @property (nonatomic, retain) NSOrderedSet *colorThemes;
 @property (nonatomic, retain) NSOrderedSet *favorites;

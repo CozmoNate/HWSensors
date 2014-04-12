@@ -20,15 +20,15 @@
 @dynamic graphsScaleValue;
 @dynamic graphsWindowAlwaysTopmost;
 @dynamic notifyAlarmLevelChanges;
-@dynamic showVolumeNames;
+@dynamic showSubtitlesInPopup;
 @dynamic smartSensorsUpdateRate;
 @dynamic smcSensorsUpdateRate;
 @dynamic updateSensorsInBackground;
 @dynamic useBigFontInMenubar;
-@dynamic useBsdDriveNames;
 @dynamic useFahrenheit;
 @dynamic useGraphSmoothing;
 @dynamic useShadowEffectsInMenubar;
+@dynamic driveNameSelector;
 @dynamic colorThemeIndex;
 @dynamic colorThemes;
 @dynamic favorites;

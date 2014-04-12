@@ -52,8 +52,6 @@
 @property (readonly) NSStatusItem *statusItem;
 @property (readonly) StatusItemView *statusItemView;
 
-@property (nonatomic, assign) BOOL showVolumeNames;
-
 @property (assign) IBOutlet NSMenu *mainMenu;
 @property (assign) IBOutlet NSView *toolbarView;
 @property (assign) IBOutlet NSScrollView *scrollView;

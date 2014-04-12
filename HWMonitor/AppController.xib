@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13D33" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D38" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AppController">
@@ -1517,53 +1517,11 @@
             </userDefinedRuntimeAttributes>
         </view>
         <view id="Pdy-qL-0kX" userLabel="Popup View">
-            <rect key="frame" x="0.0" y="0.0" width="462" height="371"/>
+            <rect key="frame" x="0.0" y="0.0" width="526" height="370"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="tqc-Xa-Jnh">
-                    <rect key="frame" x="285" y="310" width="159" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" priority="730" constant="155" id="pT9-Db-EnY"/>
-                    </constraints>
-                    <buttonCell key="cell" type="check" title="Use BSD drives names" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Ofp-FQ-kxZ">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.useBsdDriveNames" id="svV-74-rKU">
-                            <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
-                                <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
-                            </dictionary>
-                        </binding>
-                    </connections>
-                </button>
-                <button tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="huO-TT-Loq">
-                    <rect key="frame" x="285" y="285" width="159" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" priority="730" constant="148" id="9bq-Xg-1ZK"/>
-                    </constraints>
-                    <buttonCell key="cell" type="check" title="Show partition name" bezelStyle="regularSquare" imagePosition="left" inset="2" id="KPG-YK-YV7">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <binding destination="-2" name="value" keyPath="monitorEngine.configuration.showVolumeNames" id="Nrf-GQ-avw">
-                            <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
-                                <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
-                            </dictionary>
-                        </binding>
-                    </connections>
-                </button>
                 <scrollView autohidesScrollers="YES" horizontalLineScroll="101" horizontalPageScroll="10" verticalLineScroll="101" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgF-QA-inm">
-                    <rect key="frame" x="20" y="21" width="250" height="305"/>
+                    <rect key="frame" x="20" y="20" width="250" height="305"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <clipView key="contentView" id="xfO-Xf-kO2">
                         <rect key="frame" x="1" y="1" width="248" height="303"/>
@@ -1645,8 +1603,8 @@
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </clipView>
                     <constraints>
-                        <constraint firstAttribute="width" constant="250" id="E7p-T5-2jG"/>
-                        <constraint firstAttribute="height" constant="305" id="VFc-83-IeM"/>
+                        <constraint firstAttribute="width" constant="250" id="CJa-dx-b90"/>
+                        <constraint firstAttribute="height" constant="305" id="nSa-Az-bkf"/>
                     </constraints>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="ZpK-b9-Ijl">
                         <rect key="frame" x="1" y="-14" width="0.0" height="15"/>
@@ -1658,10 +1616,11 @@
                     </scroller>
                 </scrollView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VtL-Hp-Gjx">
-                    <rect key="frame" x="20" y="334" width="424" height="17"/>
+                    <rect key="frame" x="20" y="333" width="252" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" priority="730" constant="82" id="xp6-Hm-BbG"/>
+                        <constraint firstAttribute="width" constant="248" id="JbA-SZ-gEE"/>
+                        <constraint firstAttribute="height" constant="17" id="rm2-Il-CDX"/>
                     </constraints>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Color theme:" id="c95-e7-sJx">
                         <font key="font" metaFont="system"/>
@@ -1669,20 +1628,98 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="7tX-J5-4BR">
+                    <rect key="frame" x="288" y="222" width="218" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="14" id="aDF-hk-odc"/>
+                        <constraint firstAttribute="width" priority="730" constant="214" id="vph-TR-cWS"/>
+                    </constraints>
+                    <buttonCell key="cell" type="check" title="Show additional info in subtitle" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bwe-G3-dfI">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="-2" name="value" keyPath="monitorEngine.configuration.showSubtitlesInPopup" id="OY8-1v-6bQ">
+                            <dictionary key="options">
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </button>
+                <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bl-ND-jKA">
+                    <rect key="frame" x="302" y="260" width="202" height="65"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" priority="730" constant="122" id="lnM-Os-C9J"/>
+                        <constraint firstAttribute="height" constant="65" id="mEF-eW-suz"/>
+                    </constraints>
+                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    <size key="cellSize" width="202" height="19"/>
+                    <size key="intercellSpacing" width="4" height="4"/>
+                    <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="lQh-t8-mo5">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <cells>
+                        <column>
+                            <buttonCell type="radio" title="Product name" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="Q1E-Sq-Fw2">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <buttonCell type="radio" title="Partition names" imagePosition="left" alignment="left" inset="2" id="Zw2-wa-Fzx">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <buttonCell type="radio" title="BSD name" imagePosition="left" alignment="left" inset="2" id="byA-oW-Yjt">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </column>
+                    </cells>
+                    <connections>
+                        <binding destination="-2" name="selectedIndex" keyPath="monitorEngine.configuration.driveNameSelector" id="D1r-3B-54W">
+                            <dictionary key="options">
+                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                <integer key="NSNullPlaceholder" value="0"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </matrix>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="55s-9M-Nsg">
+                    <rect key="frame" x="288" y="333" width="218" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="17" id="HHg-fg-tYr"/>
+                        <constraint firstAttribute="width" priority="730" constant="129" id="KT2-PQ-PVF"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Show drive name as:" id="cAV-Vq-SBq">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="tqc-Xa-Jnh" secondAttribute="trailing" constant="20" symbolic="YES" id="18v-S1-5gH"/>
-                <constraint firstAttribute="trailing" secondItem="VtL-Hp-Gjx" secondAttribute="trailing" constant="20" symbolic="YES" id="GPQ-c3-xFL"/>
-                <constraint firstAttribute="bottom" secondItem="rgF-QA-inm" secondAttribute="bottom" constant="21" id="SOQ-ZW-ePL"/>
-                <constraint firstItem="tqc-Xa-Jnh" firstAttribute="leading" secondItem="huO-TT-Loq" secondAttribute="leading" id="c2z-YY-Sc2"/>
-                <constraint firstItem="rgF-QA-inm" firstAttribute="top" secondItem="VtL-Hp-Gjx" secondAttribute="bottom" constant="8" symbolic="YES" id="cOL-R4-0mg"/>
-                <constraint firstItem="VtL-Hp-Gjx" firstAttribute="top" secondItem="Pdy-qL-0kX" secondAttribute="top" constant="20" symbolic="YES" id="eGd-pX-tEi"/>
-                <constraint firstAttribute="trailing" secondItem="huO-TT-Loq" secondAttribute="trailing" constant="20" symbolic="YES" id="fFo-YM-daP"/>
-                <constraint firstItem="huO-TT-Loq" firstAttribute="leading" secondItem="rgF-QA-inm" secondAttribute="trailing" constant="17" id="fO8-0n-06z"/>
-                <constraint firstItem="rgF-QA-inm" firstAttribute="top" secondItem="tqc-Xa-Jnh" secondAttribute="top" id="i8N-y2-mPi"/>
-                <constraint firstItem="VtL-Hp-Gjx" firstAttribute="leading" secondItem="Pdy-qL-0kX" secondAttribute="leading" constant="22" id="mSK-uz-nIz"/>
-                <constraint firstItem="rgF-QA-inm" firstAttribute="leading" secondItem="Pdy-qL-0kX" secondAttribute="leading" constant="20" symbolic="YES" id="vzf-Vz-Acm"/>
-                <constraint firstItem="huO-TT-Loq" firstAttribute="top" secondItem="tqc-Xa-Jnh" secondAttribute="bottom" constant="11" id="wLs-cQ-fvi"/>
+                <constraint firstAttribute="bottom" secondItem="rgF-QA-inm" secondAttribute="bottom" constant="20" id="40Q-Q7-CHx"/>
+                <constraint firstItem="55s-9M-Nsg" firstAttribute="leading" secondItem="VtL-Hp-Gjx" secondAttribute="trailing" constant="20" id="5cm-lp-UBm"/>
+                <constraint firstItem="rgF-QA-inm" firstAttribute="top" secondItem="VtL-Hp-Gjx" secondAttribute="bottom" constant="8" id="IUR-LT-9Ky"/>
+                <constraint firstItem="rgF-QA-inm" firstAttribute="leading" secondItem="Pdy-qL-0kX" secondAttribute="leading" constant="20" id="InD-tz-na7"/>
+                <constraint firstAttribute="trailing" secondItem="55s-9M-Nsg" secondAttribute="trailing" constant="22" id="KnB-f9-qTc"/>
+                <constraint firstItem="7tX-J5-4BR" firstAttribute="leading" secondItem="rgF-QA-inm" secondAttribute="trailing" constant="20" id="VzL-pO-Lpp"/>
+                <constraint firstItem="7tX-J5-4BR" firstAttribute="top" secondItem="7Bl-ND-jKA" secondAttribute="bottom" constant="22" id="aZN-U8-YWp"/>
+                <constraint firstItem="VtL-Hp-Gjx" firstAttribute="top" secondItem="Pdy-qL-0kX" secondAttribute="top" constant="20" id="avf-pD-leO"/>
+                <constraint firstAttribute="trailing" secondItem="7Bl-ND-jKA" secondAttribute="trailing" constant="22" id="e3A-KZ-iBY"/>
+                <constraint firstItem="7Bl-ND-jKA" firstAttribute="leading" secondItem="rgF-QA-inm" secondAttribute="trailing" constant="32" id="fOe-S4-COY"/>
+                <constraint firstItem="7Bl-ND-jKA" firstAttribute="top" secondItem="55s-9M-Nsg" secondAttribute="bottom" constant="8" id="if2-nv-Mxk"/>
+                <constraint firstAttribute="trailing" secondItem="7tX-J5-4BR" secondAttribute="trailing" constant="22" id="l8B-u9-pEU"/>
+                <constraint firstItem="VtL-Hp-Gjx" firstAttribute="leading" secondItem="Pdy-qL-0kX" secondAttribute="leading" constant="22" id="nA2-6Q-wyh"/>
+                <constraint firstItem="55s-9M-Nsg" firstAttribute="top" secondItem="Pdy-qL-0kX" secondAttribute="top" constant="20" id="wRM-c7-42A"/>
             </constraints>
             <userDefinedRuntimeAttributes>
                 <userDefinedRuntimeAttribute type="number" keyPath="alphaValue">
