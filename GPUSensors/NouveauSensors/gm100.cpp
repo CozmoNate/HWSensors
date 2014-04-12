@@ -31,6 +31,8 @@
  * Authors: Ben Skeggs
  */
 
+#include "gm100.h"
+
 #include "nouveau.h"
 #include "nv50.h"
 #include "nva3.h"

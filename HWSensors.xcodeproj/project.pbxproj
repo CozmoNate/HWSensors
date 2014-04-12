@@ -612,7 +612,7 @@
 			path = RadeonSensors;
 			sourceTree = "<group>";
 		};
-		7E9F5456167C71D9006E907B /* GeForceSensors */ = {
+		7E9F5456167C71D9006E907B /* GeforceSensors */ = {
 			isa = PBXGroup;
 			children = (
 				7E0A2BA3167C731D0060C153 /* nouveau */,
@@ -620,7 +620,7 @@
 				7E9F545B167C71D9006E907B /* GeforceSensors.h */,
 				7E9F545A167C71D9006E907B /* GeforceSensors.cpp */,
 			);
-			name = GeForceSensors;
+			name = GeforceSensors;
 			path = NouveauSensors;
 			sourceTree = "<group>";
 		};
@@ -656,7 +656,7 @@
 			children = (
 				7EBEB1D817B1753E00C114B5 /* GPUSensors */,
 				7E9F54BF167C71DF006E907B /* GMASensors */,
-				7E9F5456167C71D9006E907B /* GeForceSensors */,
+				7E9F5456167C71D9006E907B /* GeforceSensors */,
 				7E9F544B167C71D1006E907B /* RadeonSensors */,
 				7EADE20915E5602F00FD117C /* Supporting Files */,
 			);
