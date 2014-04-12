@@ -137,8 +137,8 @@
     [Localizer localizeView:self.window];
     [Localizer localizeView:_toolbarView];
 
-    [self addObserver:self forKeyPath:@"monitorEngine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"monitorEngine.sensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.sensorsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
 
     [_statusItemView setMonitorEngine:_monitorEngine];
 
@@ -291,11 +291,11 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqual:@"monitorEngine.configuration.colorTheme"]) {
+    if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.colorTheme)]) {
         [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
         [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
     }
-    else if ([keyPath isEqual:@"monitorEngine.sensorsAndGroups"]) {
+    else if ([keyPath isEqual:@keypath(self, monitorEngine.sensorsAndGroups)]) {
         [self reloadSensorsTableView:self];
     }
 }

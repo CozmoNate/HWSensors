@@ -57,19 +57,19 @@
 -(void)setEngine:(HWMEngine *)engine
 {
     if (self.engine) {
-        [self removeObserver:self.engine forKeyPath:@"engine.configuration.colorTheme"];
+        [self removeObserver:self.engine forKeyPath:@keypath(self, engine.configuration.colorTheme)];
     }
 
     [super setEngine:engine];
 
     if (self.engine) {
-        [self addObserver:self forKeyPath:@"engine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
+        [self addObserver:self forKeyPath:@keypath(self, engine.configuration.colorTheme) options:NSKeyValueObservingOptionNew context:nil];
     }
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqual:@"engine.configuration.colorTheme"]) {
+    if ([keyPath isEqual:@keypath(self, engine.configuration.colorTheme)]) {
         [self willChangeValueForKey:@"image"];
         _image = nil;
         [self didChangeValueForKey:@"image"];

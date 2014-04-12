@@ -24,26 +24,26 @@
 {
     [super awakeFromFetch];
 
-    [self addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, hidden) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)awakeFromInsert
 {
     [super awakeFromInsert];
 
-    [self addObserver:self forKeyPath:@"hidden" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, hidden) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)prepareForDeletion
 {
     [super prepareForDeletion];
 
-    [self removeObserver:self forKeyPath:@"hidden"];
+    [self removeObserver:self forKeyPath:@keypath(self, hidden)];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"hidden"]) {
+    if ([keyPath isEqualToString:@keypath(self, hidden)]) {
         [self.engine setNeedsUpdateSensorLists];
     }
 }

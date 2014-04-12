@@ -85,10 +85,10 @@
         [_statusItem setView:self];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self addObserver:self forKeyPath:@"monitorEngine.favorites" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.favorites) options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useBigFontInMenubar) options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar) options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
 
@@ -97,10 +97,10 @@
 
 -(void)dealloc
 {
-    [self removeObserver:self forKeyPath:@"monitorEngine.favorites"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useBigFontInMenubar"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useShadowEffectsInMenubar"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useFahrenheit"];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.favorites)];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useBigFontInMenubar)];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar)];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit)];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -286,10 +286,10 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"monitorEngine.favorites"] ||
-        [keyPath isEqualToString:@"monitorEngine.configuration.useBigFontInMenubar"] ||
-        [keyPath isEqualToString:@"monitorEngine.configuration.useShadowEffectsInMenubar"] ||
-        [keyPath isEqualToString:@"monitorEngine.configuration.useFahrenheit"]) {
+    if ([keyPath isEqualToString:@keypath(self, monitorEngine.favorites)] ||
+        [keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useBigFontInMenubar)] ||
+        [keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar)] ||
+        [keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useFahrenheit)]) {
 
         [self refresh];
 

@@ -56,8 +56,8 @@
 
     if (_controller) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self removeObserver:self forKeyPath:@"controller.levels"];
-            [self removeObserver:self forKeyPath:@"controller.output.engine.sensorsAndGroups"];
+            [self removeObserver:self forKeyPath:@keypath(self, controller.levels)];
+            [self removeObserver:self forKeyPath:@keypath(self, controller.output.engine.sensorsAndGroups)];
         }];
     }
 
@@ -67,8 +67,8 @@
 
     if (_controller) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self addObserver:self forKeyPath:@"controller.levels" options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@"controller.output.engine.sensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@keypath(self, controller.levels) options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@keypath(self, controller.output.engine.sensorsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
         }];
     }
 
@@ -90,8 +90,8 @@
     [_maxLabel setFont:digitalFont];
     [_maxLabel setTextColor:valueTextColor];
 
-    [self observeValueForKeyPath:@"controller.levels" ofObject:nil change:nil context:(void*)self];
-    [self observeValueForKeyPath:@"controller.output.engine.sensorsAndGroups" ofObject:nil change:nil context:nil];
+    [self observeValueForKeyPath:@keypath(self, controller.levels) ofObject:nil change:nil context:(void*)self];
+    [self observeValueForKeyPath:@keypath(self, controller.output.engine.sensorsAndGroups) ofObject:nil change:nil context:nil];
 
     [self rangeSwitchChanged:nil];
 }
@@ -105,7 +105,7 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"controller.levels"]) {
+    if ([keyPath isEqualToString:@keypath(self, controller.levels)]) {
 
         NSArray *oldLevelsSnapshot = [_levelsSnapshot copy];
         _levelsSnapshot = [self.controller.levels.array copy];
@@ -128,18 +128,18 @@
             [[_levelsHeightConstraint animator] setConstant:_levelsSnapshot.count * 28 + 1];
         }
     }
-    else if ([keyPath isEqualToString:@"controller.output.engine.sensorsAndGroups"]) {
-        [self willChangeValueForKey:@"inputSources"];
+    else if ([keyPath isEqualToString:@keypath(self, controller.output.engine.sensorsAndGroups)]) {
+        [self willChangeValueForKey:@keypath(self, inputSources)];
         _inputSources = [self.controller.output.engine.sensorsAndGroups filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"className != %@ AND (selector == %@ OR selector == %@)", @"HWMSensorsGroup", @kHWMGroupTemperature, @kHWMGroupSmartTemperature]];
-        [self didChangeValueForKey:@"inputSources"];
+        [self didChangeValueForKey:@keypath(self, inputSources)];
     }
 }
 
 -(void)dealloc
 {
     if (_controller) {
-        [self removeObserver:self forKeyPath:@"controller.levels"];
-        [self removeObserver:self forKeyPath:@"controller.output.engine.sensorsAndGroups"];
+        [self removeObserver:self forKeyPath:@keypath(self, controller.levels)];
+        [self removeObserver:self forKeyPath:@keypath(self, controller.output.engine.sensorsAndGroups)];
     }
 }
 

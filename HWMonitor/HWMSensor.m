@@ -55,26 +55,26 @@
 {
     [super awakeFromFetch];
 
-    [self addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, value) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)awakeFromInsert
 {
     [super awakeFromInsert];
 
-    [self addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, value) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)prepareForDeletion
 {
     [super prepareForDeletion];
 
-    [self removeObserver:self forKeyPath:@"value"];
+    [self removeObserver:self forKeyPath:@keypath(self, value)];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"value"]) {
+    if ([keyPath isEqualToString:@keypath(self, value)]) {
         _formattedValue = nil;
         _strippedValue = nil;
     }

@@ -904,8 +904,8 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     _temperatureAttributeIndex = -1;
     _remainingLifeAttributeIndex = -1;
 
-    [self addObserver:self forKeyPath:@"self.engine.configuration.driveNameSelector" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"self.engine.configuration.showSubtitlesInPopup" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, engine.configuration.driveNameSelector) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, engine.configuration.showSubtitlesInPopup) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)awakeFromFetch
@@ -924,23 +924,23 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 {
     [super prepareForDeletion];
 
-    [self removeObserver:self forKeyPath:@"self.engine.configuration.driveNameSelector"];
-    [self removeObserver:self forKeyPath:@"self.engine.configuration.showSubtitlesInPopup"];
+    [self removeObserver:self forKeyPath:@keypath(self, engine.configuration.driveNameSelector)];
+    [self removeObserver:self forKeyPath:@keypath(self, engine.configuration.showSubtitlesInPopup)];
 
     IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"self.engine.configuration.driveNameSelector"]) {
-        [self willChangeValueForKey:@"title"];
-        [self didChangeValueForKey:@"title"];
-        [self willChangeValueForKey:@"legend"];
-        [self didChangeValueForKey:@"legend"];
+    if ([keyPath isEqualToString:@keypath(self, engine.configuration.driveNameSelector)]) {
+        [self willChangeValueForKey:@keypath(self, title)];
+        [self didChangeValueForKey:@keypath(self, title)];
+        [self willChangeValueForKey:@keypath(self, legend)];
+        [self didChangeValueForKey:@keypath(self, legend)];
     }
-    else if ([keyPath isEqualToString:@"self.engine.configuration.showSubtitlesInPopup"]) {
-        [self willChangeValueForKey:@"legend"];
-        [self didChangeValueForKey:@"legend"];
+    else if ([keyPath isEqualToString:@keypath(self, engine.configuration.showSubtitlesInPopup)]) {
+        [self willChangeValueForKey:@keypath(self, legend)];
+        [self didChangeValueForKey:@keypath(self, legend)];
     }
 
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];

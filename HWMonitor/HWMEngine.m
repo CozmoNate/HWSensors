@@ -397,11 +397,10 @@ static HWMEngine * gSharedEngine;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
 
-    [self addObserver:self forKeyPath:@"configuration.useFahrenheit" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"configuration.smcSensorsUpdateRate" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [self addObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [self addObserver:self forKeyPath:@"configuration.showSubtitlesInPopup" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [self addObserver:self forKeyPath:@"configuration.enableFanControl" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.showSubtitlesInPopup) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 }
 
 - (void)assignPlatformProfile
@@ -1142,10 +1141,10 @@ static HWMEngine * gSharedEngine;
 
 - (void)applicationWillTerminate:(id)sender
 {
-    [self removeObserver:self forKeyPath:@"configuration.useFahrenheit"];
-    [self removeObserver:self forKeyPath:@"configuration.smcSensorsUpdateRate"];
-    [self removeObserver:self forKeyPath:@"configuration.smartSensorsUpdateRate"];
-    [self removeObserver:self forKeyPath:@"configuration.showSubtitlesInPopup"];
+    [self removeObserver:self forKeyPath:@keypath(self, configuration.useFahrenheit)];
+    [self removeObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate)];
+    [self removeObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate)];
+    [self removeObserver:self forKeyPath:@keypath(self, configuration.showSubtitlesInPopup)];
 
     if (self.engineState == kHWMEngineStateActive) {
         [self internalStopEngine];

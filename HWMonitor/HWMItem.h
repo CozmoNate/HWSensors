@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+#import "EXTKeyPathCoding.h"
+
 @class HWMEngine, HWMFavorite;
 
 @interface HWMItem : NSManagedObject

@@ -39,15 +39,15 @@
 -(void)setInput:(HWMSensor *)input
 {
     if (self.input) {
-        [self removeObserver:self forKeyPath:@"input.value"];
+        [self removeObserver:self forKeyPath:@keypath(self, input.value)];
     }
 
-    [self willChangeValueForKey:@"input"];
-    [self setPrimitiveValue:input forKey:@"input"];
-    [self didChangeValueForKey:@"input"];
+    [self willChangeValueForKey:@keypath(self, input)];
+    [self setPrimitiveValue:input forKey:@keypath(self, input)];
+    [self didChangeValueForKey:@keypath(self, input)];
 
     if (input) {
-        [self addObserver:self forKeyPath:@"input.value" options:NSKeyValueObservingOptionNew context:nil];
+        [self addObserver:self forKeyPath:@keypath(self, input.value) options:NSKeyValueObservingOptionNew context:nil];
     }
 
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -57,9 +57,9 @@
 
 -(void)setEnabled:(NSNumber *)enabled
 {
-    [self willChangeValueForKey:@"enabled"];
-    [self setPrimitiveValue:enabled forKey:@"enabled"];
-    [self didChangeValueForKey:@"enabled"];
+    [self willChangeValueForKey:@keypath(self, enabled)];
+    [self setPrimitiveValue:enabled forKey:@keypath(self, enabled)];
+    [self didChangeValueForKey:@keypath(self, enabled)];
 
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         if (!self.enabled.boolValue) {
@@ -84,7 +84,7 @@
     [super awakeFromFetch];
 
     if (self.input) {
-        [self addObserver:self forKeyPath:@"input.value" options:NSKeyValueObservingOptionNew context:nil];
+        [self addObserver:self forKeyPath:@keypath(self, input.value) options:NSKeyValueObservingOptionNew context:nil];
     }
 }
 
@@ -93,7 +93,7 @@
     [super awakeFromInsert];
 
     if (self.input) {
-        [self addObserver:self forKeyPath:@"input.value" options:NSKeyValueObservingOptionNew context:nil];
+        [self addObserver:self forKeyPath:@keypath(self, input.value) options:NSKeyValueObservingOptionNew context:nil];
     }
 }
 
@@ -102,13 +102,13 @@
     [super prepareForDeletion];
 
     if (self.input) {
-        [self removeObserver:self forKeyPath:@"input.value"];
+        [self removeObserver:self forKeyPath:@keypath(self, input.value)];
     }
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"input.value"]) {
+    if ([keyPath isEqualToString:@keypath(self, input.value)]) {
         if (self.enabled.boolValue) {
             [self updateCurrentLevel];
         }

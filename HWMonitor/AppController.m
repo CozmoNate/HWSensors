@@ -123,8 +123,8 @@
 
     [[self.window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
 
-    [self addObserver:self forKeyPath:@"monitorEngine.favorites" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.favorites) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.iconsWithSensorsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)showWindow:(id)sender
@@ -248,8 +248,8 @@
 
 -(void)applicationWillTerminate:(NSNotification *)notification
 {
-    [self removeObserver:self forKeyPath:@"monitorEngine.favorites"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.iconsWithSensorsAndGroups"];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.favorites)];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.iconsWithSensorsAndGroups)];
 }
 
 - (IBAction)sensorHiddenFlagChanged:(id)sender

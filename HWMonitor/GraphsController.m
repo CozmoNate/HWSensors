@@ -81,7 +81,7 @@
 
 -(id)init
 {
-    self = [super initWithWindowNibName:@"GraphsController"];
+    self = [super initWithWindowNibName:NSStringFromClass([GraphsController class])];
     
     if (self) {
 
@@ -92,10 +92,10 @@
 
 -(void)dealloc
 {
-    [self removeObserver:self forKeyPath:@"monitorEngine.graphsAndGroups"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.graphsWindowAlwaysTopmost"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.useGraphSmoothing"];
-    [self removeObserver:self forKeyPath:@"monitorEngine.configuration.graphsScaleValue"];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.graphsAndGroups)];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost)];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useGraphSmoothing)];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsScaleValue)];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -113,10 +113,10 @@
     [_graphsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorGraphsItemDataType]];
     [_graphsTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
 
-    [self addObserver:self forKeyPath:@"monitorEngine.graphsAndGroups" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"monitorEngine.configuration.graphsWindowAlwaysTopmost" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"monitorEngine.configuration.useGraphSmoothing" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"monitorEngine.configuration.graphsScaleValue" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.graphsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useGraphSmoothing) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsScaleValue) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)showWindow:(id)sender
@@ -178,17 +178,17 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (_monitorEngine) {
-        if ([keyPath isEqual:@"monitorEngine.graphsAndGroups"]) {
+        if ([keyPath isEqual:@keypath(self, monitorEngine.graphsAndGroups)]) {
             [self reloadGraphsTableView:self];
             [self rebuildViews];
         }
-        else if ([keyPath isEqual:@"monitorEngine.configuration.graphsWindowAlwaysTopmost"]) {
+        else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost)]) {
             [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
         }
-        else if ([keyPath isEqual:@"monitorEngine.configuration.useGraphSmoothing"]) {
+        else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.useGraphSmoothing)]) {
             [self setNeedDisplayGraphs:self];
         }
-        else if ([keyPath isEqual:@"monitorEngine.configuration.graphsScaleValue"]) {
+        else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.graphsScaleValue)]) {
             [self setNeedDisplayGraphs:self];
         }
     }
