@@ -213,14 +213,7 @@ bool GeforceSensors::managedStart(IOService *provider)
     if (card.core_temp_get || card.board_temp_get) {
         nv_debug(device, "registering i2c temperature sensors...\n");
         
-        if (card.core_temp_get && card.board_temp_get) {
-            snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
-            addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, nouveau_temp_core);
-            
-            snprintf(key, 5, KEY_FORMAT_GPU_HEATSINK_TEMPERATURE, card.card_index);
-            addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, nouveau_temp_board);
-        }
-        else if (card.core_temp_get) {
+        if (card.core_temp_get) {
             snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
             addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, nouveau_temp_core);
         }
@@ -242,7 +235,7 @@ bool GeforceSensors::managedStart(IOService *provider)
     if (card.clocks_get && !PE_parse_boot_argn("-gpusensors-no-clocks", &arg_value, sizeof(arg_value))) {
         nv_debug(device, "registering clocks sensors...\n");
         
-        if (card.clocks_get(&card, nouveau_clock_core) > 0) {
+        if (card.clocks_get(&card, nouveau_clock_core) >= 0) {
             snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_FREQUENCY, card.card_index);
             addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_core);
         }
@@ -252,12 +245,12 @@ bool GeforceSensors::managedStart(IOService *provider)
         //            addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_shader);
         //        }
         
-        if (card.clocks_get(&card, nouveau_clock_rop) > 0) {
+        if (card.clocks_get(&card, nouveau_clock_rop) >= 0) {
             snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY, card.card_index);
             addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_rop);
         }
         
-        if (card.clocks_get(&card, nouveau_clock_memory) > 0) {
+        if (card.clocks_get(&card, nouveau_clock_memory) >= 0) {
             snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY, card.card_index);
             addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_memory);
         }
@@ -269,14 +262,14 @@ bool GeforceSensors::managedStart(IOService *provider)
         char title[DIAG_FUNCTION_STR_LEN];
         snprintf (title, DIAG_FUNCTION_STR_LEN, "GPU %X", card.card_index + 1);
         
-        if (card.fan_rpm_get)
+        if (card.fan_rpm_get && card.fan_rpm_get(&card) >= 0)
             addTachometer(nouveau_fan_rpm, title, GPU_FAN_RPM, card.card_index);
         
-        if (card.fan_pwm_get)
+        if (card.fan_pwm_get && card.fan_pwm_get(&card) >= 0)
             addTachometer(nouveau_fan_pwm, title, GPU_FAN_PWM_CYCLE, card.card_index);
     }
     
-    if (card.volt.get && card.volt.get(&card) > 0/*card.voltage_get && card.voltage.supported*/) {
+    if (card.volt.get && card.volt.get(&card) >= 0/*card.voltage_get && card.voltage.supported*/) {
         nv_debug(device, "registering voltage sensors...\n");
         snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, card.card_index);
         addSensor(key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, 0);

@@ -556,47 +556,51 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
             NSArray *productMatch = group[@"NameMatch"];
 
-            if (productMatch) {
+            for (NSString *productPattern in productMatch) {
 
-                for (NSString *productPattern in productMatch) {
-                    if ([[NSRegularExpression regularExpressionWithPattern:productPattern options:NSRegularExpressionCaseInsensitive error:nil] numberOfMatchesInString:product options:NSMatchingReportCompletion range:NSMakeRange(0, product.length)]) {
+                NSRegularExpression *productExpression = [NSRegularExpression regularExpressionWithPattern:productPattern options:NSRegularExpressionDotMatchesLineSeparators error:nil];
 
-                        NSArray *firmwareMatch = group[@"FirmwareMatch"];
+                if ([productExpression numberOfMatchesInString:product options:NSMatchingReportCompletion range:NSMakeRange(0, product.length)]) {
 
-                        BOOL firmwareSupported = YES;
+                    BOOL firmwareSupported = YES;
 
-                        if (firmware && firmwareMatch) {
+                    NSArray *firmwareMatch = group[@"FirmwareMatch"];
 
-                            BOOL supported = NO;
+                    if (firmware && firmwareMatch) {
 
-                            for (NSString *firmwarePattern in firmwareMatch) {
-                                if ([[NSRegularExpression regularExpressionWithPattern:firmwarePattern options:NSRegularExpressionCaseInsensitive error:nil] numberOfMatchesInString:firmware options:NSMatchingReportCompletion range:NSMakeRange(0, firmware.length)]) {
-                                    supported = YES;
-                                    break;
-                                }
+                        BOOL supported = NO;
+
+                        for (NSString *firmwarePattern in firmwareMatch) {
+
+                            NSRegularExpression *firmwareExpression = [NSRegularExpression regularExpressionWithPattern:firmwarePattern options:NSRegularExpressionDotMatchesLineSeparators error:nil];
+
+                            if ([firmwareExpression numberOfMatchesInString:firmware options:NSMatchingReportCompletion range:NSMakeRange(0, firmware.length)]) {
+                                supported = YES;
+                                break;
                             }
-
-                            firmwareSupported = supported;
                         }
 
-                        if (firmwareSupported) {
-                            __block NSMutableDictionary *arranged = [NSMutableDictionary dictionary];
+                        firmwareSupported = supported;
+                    }
 
-                            [group[@"Attributes"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                                NSArray *idAndFormat = [key componentsSeparatedByString:@","];
+                    if (firmwareSupported) {
+                        __block NSMutableDictionary *arranged = [NSMutableDictionary dictionary];
 
-                                [arranged setObject:@{@"name": obj, @"format": idAndFormat[1]} forKey:idAndFormat[0]];
-                            }];
+                        [group[@"Attributes"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                            NSArray *idAndFormat = [key componentsSeparatedByString:@","];
 
-                            overrides = [arranged copy];
+                            [arranged setObject:@{@"name": obj, @"format": idAndFormat[1]} forKey:idAndFormat[0]];
+                        }];
 
-                            [gSmartAttributeOverrideCache setObject:overrides forKey:identifier];
-                            
-                            break;
-                        }
+                        overrides = [arranged copy];
+
+                        [gSmartAttributeOverrideCache setObject:overrides forKey:identifier];
+                        
+                        break;
                     }
                 }
             }
+
         }
     }
 
@@ -836,7 +840,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
         NSString *path = url.path;
         struct statfs buffer;
 
-        if (statfs([path fileSystemRepresentation],&buffer) == 0)
+        if (statfs([path fileSystemRepresentation], &buffer) == 0)
         {
             NSRange start = [path rangeOfString:@"/Volumes/"];
 
@@ -990,7 +994,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
         if (![self findIndexOfAttributeByName:@"SSD_Life_Left" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Remaining_Lifetime_Perc" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Perc_Rated_Life_Used" outIndex:&_remainingLifeAttributeIndex] &&
-            ![self findIndexOfAttributeByName:@"Wear_Leveling_Count" outIndex:&_remainingLifeAttributeIndex] &&
+            /*![self findIndexOfAttributeByName:@"Wear_Leveling_Count" outIndex:&_remainingLifeAttributeIndex] &&*/
             ![self findIndexOfAttributeByName:@"Bad_Block_Count" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Media_Wearout_Indicator" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Available_Reservd_Space" outIndex:&_remainingLifeAttributeIndex])

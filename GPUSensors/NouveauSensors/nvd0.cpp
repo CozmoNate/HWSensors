@@ -80,15 +80,13 @@ int nvd0_fan_pwm_get(struct nouveau_device *device, int line, u32 *divs, u32 *du
     
 	if (indx < 0) {
 		return indx;
-    }
-    else if (indx < 2) {
+    } else if (indx < 2) {
 		if (nv_rd32(device, 0x00d610 + (line * 0x04)) & 0x00000040) {
 			*divs = nv_rd32(device, 0x00e114 + (indx * 8));
 			*duty = nv_rd32(device, 0x00e118 + (indx * 8));
 			return 0;
 		}
-	}
-    else if (indx == 2) {
+	} else if (indx == 2) {
 		*divs = nv_rd32(device, 0x0200d8) & 0x1fff;
 		*duty = nv_rd32(device, 0x0200dc) & 0x1fff;
 		return 0;

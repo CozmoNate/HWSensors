@@ -41,6 +41,7 @@
 #import "HWMGraph.h"
 #import "HWMGraphsGroup.h"
 #import "HWMFavorite.h"
+#import "HWMSmcFanController.h"
 
 #import "Localizer.h"
 
