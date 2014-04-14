@@ -43,8 +43,11 @@
 
 @property (assign) IBOutlet HWMEngine *monitorEngine;
 
-@property (nonatomic, strong) IBOutlet NSMutableArray *themes;
+@property (nonatomic, strong) IBOutlet NSMutableArray *themePreview;
 @property (nonatomic, strong) IBOutlet NSMutableIndexSet *themeSelectionIndexes;
+
+@property (nonatomic, strong) IBOutlet NSMutableArray *drivePreview;
+@property (nonatomic, strong) IBOutlet NSMutableIndexSet *driveSelectionIndexes;
 
 @property (assign) IBOutlet PopupController *popupController;
 @property (assign) IBOutlet GraphsController *graphsController;

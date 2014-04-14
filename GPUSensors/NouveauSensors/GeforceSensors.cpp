@@ -112,35 +112,35 @@ bool GeforceSensors::shouldWaitForAccelerator()
 
 bool GeforceSensors::acceleratorLoadedCheck()
 {
-    OSData *kernelLoaded = OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
+//    OSData *kernelLoaded = OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
+//
+//    if (kernelLoaded && kernelLoaded->getLength()) {
+//        UInt8 flag;
+//
+//        memcpy(&flag, kernelLoaded->getBytesNoCopy(0, 1), 1);
+//
+//        return flag;
+//    }
 
-    if (kernelLoaded && kernelLoaded->getLength()) {
-        UInt8 flag;
-
-        memcpy(&flag, kernelLoaded->getBytesNoCopy(0, 1), 1);
-
-        return flag;
-    }
-
-    return false;
+    return NULL != OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
 }
 
-bool GeforceSensors::managedStart(IOService *provider)
+bool GeforceSensors::startupCheck(IOService *provider)
 {
-    HWSensorsDebugLog("Starting...");
+    HWSensorsDebugLog("Initializing...");
 
     struct nouveau_device *device = &card;
-    
+
     if ((card.card_index = takeVacantGPUIndex()) < 0) {
         nv_fatal(device, "failed to take vacant GPU index\n");
         return false;
     }
-    
+
     // map device memory
     if ((device->pcidev = pciDevice)) {
-        
+
         device->pcidev->setMemoryEnable(true);
-        
+
         if ((device->mmio = device->pcidev->mapDeviceMemoryWithIndex(0))) {
             nv_debug(device, "memory mapped successfully\n");
         }
@@ -153,19 +153,19 @@ bool GeforceSensors::managedStart(IOService *provider)
         HWSensorsFatalLog("failed to assign PCI device");
         return false;
     }
-    
+
     // identify chipset
     if (!nouveau_identify(device)) {
         return false;
     }
-    
+
     //try to load bios from registry first from "vbios" property created by Chameleon boolloader
     if (OSData *vbios = OSDynamicCast(OSData, provider->getProperty("vbios"))) {
         device->bios.size = vbios->getLength();
         device->bios.data = (u8*)IOMalloc(card.bios.size);
         memcpy(device->bios.data, vbios->getBytesNoCopy(), device->bios.size);
     }
-    
+
     if (!device->bios.data || !device->bios.size || nouveau_bios_score(device, true) < 1) {
         if (nouveau_bios_shadow(device)) {
             //nv_info(device, "early shadow VBIOS succeeded\n");
@@ -176,16 +176,25 @@ bool GeforceSensors::managedStart(IOService *provider)
                 device->bios.data = NULL;
                 device->bios.size = 0;
             }
-            
+
             nv_fatal(device, "unable to shadow VBIOS\n");
-            
+
             releaseGPUIndex(card.card_index);
             card.card_index = -1;
-            
+
             return false;
         }
     }
-    
+
+    return true;
+}
+
+bool GeforceSensors::managedStart(IOService *provider)
+{
+    HWSensorsDebugLog("Starting...");
+
+    struct nouveau_device *device = &card;
+
     nouveau_vbios_init(device);
     nouveau_bios_parse(device);
     
@@ -235,7 +244,7 @@ bool GeforceSensors::managedStart(IOService *provider)
     if (card.clocks_get && !PE_parse_boot_argn("-gpusensors-no-clocks", &arg_value, sizeof(arg_value))) {
         nv_debug(device, "registering clocks sensors...\n");
         
-        if (card.clocks_get(&card, nouveau_clock_core) >= 0) {
+        if (card.clocks_get(&card, nouveau_clock_core) > 0) {
             snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_FREQUENCY, card.card_index);
             addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_core);
         }
@@ -245,12 +254,12 @@ bool GeforceSensors::managedStart(IOService *provider)
         //            addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_shader);
         //        }
         
-        if (card.clocks_get(&card, nouveau_clock_rop) >= 0) {
+        if (card.clocks_get(&card, nouveau_clock_rop) > 0) {
             snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_ROP_FREQUENCY, card.card_index);
             addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_rop);
         }
         
-        if (card.clocks_get(&card, nouveau_clock_memory) >= 0) {
+        if (card.clocks_get(&card, nouveau_clock_memory) > 0) {
             snprintf(key, 5, KEY_FAKESMC_FORMAT_GPU_MEMORY_FREQUENCY, card.card_index);
             addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCFrequencySensor, nouveau_clock_memory);
         }

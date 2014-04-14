@@ -337,8 +337,9 @@
 "Minimum:" = "Минимум:";
 "Range:" = "Предел:";
 
-"Show drive name as:" = "Формат имени диска:";
+"Show drive name as:" = "Формат имени дисков:";
+"Show drive subtitle as:" = "Формат подписи дисков:";
 "Product name" = "Имя продукта";
 "Partition names" = "Имена разделов";
 "BSD name" = "Имя BSD";
-"Show additional info in subtitle" = "Показывать информацию в подписи";
+"Show sensor subtitles" = "Показывать подписи";

@@ -1517,7 +1517,7 @@
             </userDefinedRuntimeAttributes>
         </view>
         <view id="Pdy-qL-0kX" userLabel="Popup View">
-            <rect key="frame" x="0.0" y="0.0" width="526" height="370"/>
+            <rect key="frame" x="0.0" y="0.0" width="490" height="370"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView autohidesScrollers="YES" horizontalLineScroll="101" horizontalPageScroll="10" verticalLineScroll="101" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgF-QA-inm">
@@ -1595,8 +1595,8 @@
                                     </tableColumn>
                                 </tableColumns>
                                 <connections>
-                                    <binding destination="-2" name="selectionIndexes" keyPath="self.themeSelectionIndexes" previousBinding="TWz-zP-4hz" id="smT-ME-qaT"/>
-                                    <binding destination="-2" name="content" keyPath="self.themes" id="TWz-zP-4hz"/>
+                                    <binding destination="-2" name="content" keyPath="self.themePreview" id="6UB-7U-6PA"/>
+                                    <binding destination="-2" name="selectionIndexes" keyPath="self.themeSelectionIndexes" previousBinding="6UB-7U-6PA" id="sgc-Km-my6"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -1629,18 +1629,18 @@
                     </textFieldCell>
                 </textField>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="7tX-J5-4BR">
-                    <rect key="frame" x="288" y="222" width="218" height="18"/>
+                    <rect key="frame" x="288" y="18" width="184" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="14" id="aDF-hk-odc"/>
-                        <constraint firstAttribute="width" priority="730" constant="214" id="vph-TR-cWS"/>
+                        <constraint firstAttribute="height" constant="14" id="Iet-IS-Z9g"/>
+                        <constraint firstAttribute="width" priority="730" constant="153" id="wHp-bZ-4Fl"/>
                     </constraints>
-                    <buttonCell key="cell" type="check" title="Show additional info in subtitle" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bwe-G3-dfI">
+                    <buttonCell key="cell" type="check" title="Show sensor subtitles" bezelStyle="regularSquare" imagePosition="left" inset="2" id="bwe-G3-dfI">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <binding destination="-2" name="value" keyPath="monitorEngine.configuration.showSubtitlesInPopup" id="OY8-1v-6bQ">
+                        <binding destination="-2" name="value" keyPath="monitorEngine.configuration.showSensorLegendsInPopup" id="D6w-DI-Cgb">
                             <dictionary key="options">
                                 <integer key="NSMultipleValuesPlaceholder" value="0"/>
                                 <integer key="NSNoSelectionPlaceholder" value="0"/>
@@ -1651,14 +1651,14 @@
                     </connections>
                 </button>
                 <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bl-ND-jKA">
-                    <rect key="frame" x="302" y="260" width="202" height="65"/>
+                    <rect key="frame" x="302" y="263" width="168" height="62"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" priority="730" constant="122" id="lnM-Os-C9J"/>
-                        <constraint firstAttribute="height" constant="65" id="mEF-eW-suz"/>
+                        <constraint firstAttribute="height" constant="62" id="ezN-1i-TQX"/>
+                        <constraint firstAttribute="width" priority="730" constant="120" id="jnZ-Q0-3Mi"/>
                     </constraints>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    <size key="cellSize" width="202" height="19"/>
+                    <size key="cellSize" width="168" height="18"/>
                     <size key="intercellSpacing" width="4" height="4"/>
                     <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="lQh-t8-mo5">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1692,11 +1692,11 @@
                     </connections>
                 </matrix>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="55s-9M-Nsg">
-                    <rect key="frame" x="288" y="333" width="218" height="17"/>
+                    <rect key="frame" x="288" y="333" width="184" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="17" id="HHg-fg-tYr"/>
-                        <constraint firstAttribute="width" priority="730" constant="129" id="KT2-PQ-PVF"/>
+                        <constraint firstAttribute="height" constant="17" id="otJ-Zk-e4A"/>
+                        <constraint firstAttribute="width" priority="730" constant="129" id="qmx-GA-XS3"/>
                     </constraints>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Show drive name as:" id="cAV-Vq-SBq">
                         <font key="font" metaFont="system"/>
@@ -1704,22 +1704,82 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6jX-rv-NJE">
+                    <rect key="frame" x="288" y="225" width="184" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="17" id="W6q-RU-Nbi"/>
+                        <constraint firstAttribute="width" priority="730" constant="140" id="pQT-Am-LMH"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Show drive subtitle as:" id="ndD-EE-g0d">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s3g-4E-Hjy">
+                    <rect key="frame" x="302" y="155" width="168" height="62"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="62" id="PNi-rA-S5u"/>
+                        <constraint firstAttribute="width" priority="730" constant="120" id="o3l-as-eAn"/>
+                    </constraints>
+                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    <size key="cellSize" width="168" height="18"/>
+                    <size key="intercellSpacing" width="4" height="4"/>
+                    <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="gzl-FT-e0x">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <cells>
+                        <column>
+                            <buttonCell type="radio" title="Product name" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="DHG-MP-Iml">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <buttonCell type="radio" title="Partition names" imagePosition="left" alignment="left" inset="2" id="rZQ-sz-XzN">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <buttonCell type="radio" title="BSD name" imagePosition="left" alignment="left" inset="2" id="7HM-KX-Eoe">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </column>
+                    </cells>
+                    <connections>
+                        <binding destination="-2" name="selectedIndex" keyPath="monitorEngine.configuration.driveLegendSelector" id="fph-V0-cVU">
+                            <dictionary key="options">
+                                <integer key="NSMultipleValuesPlaceholder" value="1"/>
+                                <integer key="NSNoSelectionPlaceholder" value="1"/>
+                                <integer key="NSNotApplicablePlaceholder" value="1"/>
+                                <integer key="NSNullPlaceholder" value="1"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </matrix>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="rgF-QA-inm" secondAttribute="bottom" constant="20" id="40Q-Q7-CHx"/>
-                <constraint firstItem="55s-9M-Nsg" firstAttribute="leading" secondItem="VtL-Hp-Gjx" secondAttribute="trailing" constant="20" id="5cm-lp-UBm"/>
+                <constraint firstItem="s3g-4E-Hjy" firstAttribute="top" secondItem="6jX-rv-NJE" secondAttribute="bottom" constant="8" id="1cY-JI-HEv"/>
+                <constraint firstAttribute="bottom" secondItem="7tX-J5-4BR" secondAttribute="bottom" constant="20" id="4hY-eE-KoT"/>
+                <constraint firstAttribute="trailing" secondItem="7tX-J5-4BR" secondAttribute="trailing" constant="20" id="6FW-xU-fol"/>
+                <constraint firstItem="55s-9M-Nsg" firstAttribute="top" secondItem="Pdy-qL-0kX" secondAttribute="top" constant="20" id="BOn-9I-LYE"/>
+                <constraint firstAttribute="trailing" secondItem="7Bl-ND-jKA" secondAttribute="trailing" constant="20" id="D7m-Rl-R9V"/>
+                <constraint firstItem="s3g-4E-Hjy" firstAttribute="leading" secondItem="rgF-QA-inm" secondAttribute="trailing" constant="32" id="D8f-9K-ke0"/>
+                <constraint firstItem="7Bl-ND-jKA" firstAttribute="leading" secondItem="rgF-QA-inm" secondAttribute="trailing" constant="32" id="Ecv-KH-CKd"/>
                 <constraint firstItem="rgF-QA-inm" firstAttribute="top" secondItem="VtL-Hp-Gjx" secondAttribute="bottom" constant="8" id="IUR-LT-9Ky"/>
                 <constraint firstItem="rgF-QA-inm" firstAttribute="leading" secondItem="Pdy-qL-0kX" secondAttribute="leading" constant="20" id="InD-tz-na7"/>
-                <constraint firstAttribute="trailing" secondItem="55s-9M-Nsg" secondAttribute="trailing" constant="22" id="KnB-f9-qTc"/>
-                <constraint firstItem="7tX-J5-4BR" firstAttribute="leading" secondItem="rgF-QA-inm" secondAttribute="trailing" constant="20" id="VzL-pO-Lpp"/>
-                <constraint firstItem="7tX-J5-4BR" firstAttribute="top" secondItem="7Bl-ND-jKA" secondAttribute="bottom" constant="22" id="aZN-U8-YWp"/>
+                <constraint firstAttribute="trailing" secondItem="s3g-4E-Hjy" secondAttribute="trailing" constant="20" id="SLE-Wi-bDA"/>
+                <constraint firstAttribute="trailing" secondItem="6jX-rv-NJE" secondAttribute="trailing" constant="20" id="Sgz-Fy-l9j"/>
+                <constraint firstAttribute="bottom" secondItem="rgF-QA-inm" secondAttribute="bottom" constant="20" id="V6j-61-BCY"/>
                 <constraint firstItem="VtL-Hp-Gjx" firstAttribute="top" secondItem="Pdy-qL-0kX" secondAttribute="top" constant="20" id="avf-pD-leO"/>
-                <constraint firstAttribute="trailing" secondItem="7Bl-ND-jKA" secondAttribute="trailing" constant="22" id="e3A-KZ-iBY"/>
-                <constraint firstItem="7Bl-ND-jKA" firstAttribute="leading" secondItem="rgF-QA-inm" secondAttribute="trailing" constant="32" id="fOe-S4-COY"/>
-                <constraint firstItem="7Bl-ND-jKA" firstAttribute="top" secondItem="55s-9M-Nsg" secondAttribute="bottom" constant="8" id="if2-nv-Mxk"/>
-                <constraint firstAttribute="trailing" secondItem="7tX-J5-4BR" secondAttribute="trailing" constant="22" id="l8B-u9-pEU"/>
+                <constraint firstAttribute="trailing" secondItem="55s-9M-Nsg" secondAttribute="trailing" constant="20" id="ddk-b9-c7c"/>
+                <constraint firstItem="55s-9M-Nsg" firstAttribute="leading" secondItem="VtL-Hp-Gjx" secondAttribute="trailing" constant="20" id="hGB-ss-sNk"/>
+                <constraint firstItem="6jX-rv-NJE" firstAttribute="top" secondItem="7Bl-ND-jKA" secondAttribute="bottom" constant="21" id="isQ-WF-dGU"/>
+                <constraint firstItem="6jX-rv-NJE" firstAttribute="leading" secondItem="rgF-QA-inm" secondAttribute="trailing" constant="20" id="ixu-O6-c8B"/>
                 <constraint firstItem="VtL-Hp-Gjx" firstAttribute="leading" secondItem="Pdy-qL-0kX" secondAttribute="leading" constant="22" id="nA2-6Q-wyh"/>
-                <constraint firstItem="55s-9M-Nsg" firstAttribute="top" secondItem="Pdy-qL-0kX" secondAttribute="top" constant="20" id="wRM-c7-42A"/>
+                <constraint firstItem="7tX-J5-4BR" firstAttribute="leading" secondItem="rgF-QA-inm" secondAttribute="trailing" constant="20" id="rS9-OS-MMb"/>
+                <constraint firstItem="7Bl-ND-jKA" firstAttribute="top" secondItem="55s-9M-Nsg" secondAttribute="bottom" constant="8" id="vWZ-Rg-fyu"/>
             </constraints>
             <userDefinedRuntimeAttributes>
                 <userDefinedRuntimeAttribute type="number" keyPath="alphaValue">

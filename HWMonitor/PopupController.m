@@ -141,8 +141,6 @@
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.sensorsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
 
     [_statusItemView setMonitorEngine:_monitorEngine];
-
-    [self performSelector:@selector(reloadSensorsTableView:) withObject:self afterDelay:0.0];
 }
 
 -(void)showWindow:(id)sender

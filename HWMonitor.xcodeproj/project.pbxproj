@@ -433,6 +433,7 @@
 		7E48BC6418EE977500A6CA19 /* SmcHelper+HWMonitorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SmcHelper+HWMonitorHelper.m"; sourceTree = "<group>"; };
 		7E4959F018A640F200E05CF7 /* PopupFanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupFanController.h; sourceTree = "<group>"; };
 		7E4959F118A640F200E05CF7 /* PopupFanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupFanController.m; sourceTree = "<group>"; };
+		7E4A45CB18FC1C8100F89042 /* HWMEngine 1.11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.11.xcdatamodel"; sourceTree = "<group>"; };
 		7E4C76AB18A559BA0050BEFD /* PopupAtaSmartReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupAtaSmartReportController.h; sourceTree = "<group>"; };
 		7E4C76AC18A559BA0050BEFD /* PopupAtaSmartReportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupAtaSmartReportController.m; sourceTree = "<group>"; };
 		7E4C76AD18A559BA0050BEFD /* PopupAtaSmartReportController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupAtaSmartReportController.xib; sourceTree = "<group>"; };
@@ -1902,6 +1903,7 @@
 			children = (
 				7EF9BDEC18DC165B0017DB91 /* HWMEngine 1.9.xcdatamodel */,
 				7E44CE6318F8D80B00EDAAC6 /* HWMEngine 1.10.xcdatamodel */,
+				7E4A45CB18FC1C8100F89042 /* HWMEngine 1.11.xcdatamodel */,
 				7E31FB5B18D4B2DA0036F842 /* HWMEngine 1.8.xcdatamodel */,
 				7E063A4618C20DA20083F52F /* HWMEngine 1.7.xcdatamodel */,
 				7E24ABEB188FACF700810B9D /* HWMEngine 1.4.xcdatamodel */,
@@ -1912,7 +1914,7 @@
 				7ED3178A18814C3E00A7FDF5 /* HWMEngine 1.3.xcdatamodel */,
 				7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */,
 			);
-			currentVersion = 7E44CE6318F8D80B00EDAAC6 /* HWMEngine 1.10.xcdatamodel */;
+			currentVersion = 7E4A45CB18FC1C8100F89042 /* HWMEngine 1.11.xcdatamodel */;
 			path = HWMEngine.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

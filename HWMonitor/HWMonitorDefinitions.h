@@ -39,8 +39,4 @@
 #define NotifierSensorLevelHighHumanReadableDescription		@"Sensor high alarm level"
 #define NotifierSensorLevelModerateHumanReadableDescription	@"Sensor moderate alarm level"
 
-
-// TEST BATTERY
-//#define kHWMonitorDebugBattery
-
 #endif

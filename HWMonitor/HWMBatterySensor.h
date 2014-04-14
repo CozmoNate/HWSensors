@@ -30,6 +30,8 @@
 #import <CoreData/CoreData.h>
 #import "HWMSensor.h"
 
+// TEST BATTERY
+//#define kHWMonitorDebugBattery
 
 @class HWMEngine, HWMSensorsGroup;
 

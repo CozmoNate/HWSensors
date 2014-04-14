@@ -401,7 +401,7 @@ static HWMEngine * gSharedEngine;
     [self addObserver:self forKeyPath:@keypath(self, configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
     [self addObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, configuration.showSubtitlesInPopup) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.showSensorLegendsInPopup) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 }
 
 - (void)assignPlatformProfile
@@ -612,22 +612,6 @@ static HWMEngine * gSharedEngine;
 
         [HWMAtaSmartSensor stopWatchingForBlockStorageDevices];
         [HWMBatterySensor stopWatchingForBatteryDevices];
-
-        for (HWMSensor *sensor in _smcAndDevicesSensors) {
-            if (sensor.service && sensor.service.unsignedLongLongValue) {
-                IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
-                sensor.service = @0;
-            }
-        }
-        if (_appleSmcConnection) {
-            SMCClose(_appleSmcConnection);
-            _appleSmcConnection = 0;
-        }
-
-        if (_fakeSmcConnection) {
-            SMCClose(_fakeSmcConnection);
-            _fakeSmcConnection = 0;
-        }
     //}
 }
 
@@ -638,8 +622,9 @@ static HWMEngine * gSharedEngine;
 {
     NSError *error;
 
-    if (![self.managedObjectContext save:&error])
+    if (![self.managedObjectContext save:&error]) {
         NSLog(@"failed to save context %@", error);
+    }
 }
 
 -(void)updateSmcAndDeviceSensors
@@ -842,8 +827,7 @@ static HWMEngine * gSharedEngine;
         [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
 
         // Save context
-        if (![self.managedObjectContext save:&error])
-            NSLog(@"saving context on rebuildSensorsList error %@", error);
+        [self saveConfiguration];
 
         [self setNeedsUpdateLists];
 
@@ -924,6 +908,30 @@ static HWMEngine * gSharedEngine;
     [self setEngineState:kHWMEngineStateActive];
 }
 
+
+-(void)closeEngine
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+        for (HWMSensor *sensor in _smcAndDevicesSensors) {
+            if (sensor.service && sensor.service.unsignedLongLongValue) {
+                IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
+                sensor.service = @0;
+            }
+        }
+
+        if (_appleSmcConnection) {
+            SMCClose(_appleSmcConnection);
+            _appleSmcConnection = 0;
+        }
+
+        if (_fakeSmcConnection) {
+            SMCClose(_fakeSmcConnection);
+            _fakeSmcConnection = 0;
+        }
+    }];
+}
+
 #pragma mark
 #pragma mark Favorites
 
@@ -978,19 +986,19 @@ static HWMEngine * gSharedEngine;
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqual:@"configuration.useFahrenheit"]) {
+    if ([keyPath isEqual:@keypath(self, configuration.useFahrenheit)]) {
         [self setNeedsRecalculateSensorValues];
         
     }
-    else if ([keyPath isEqual:@"configuration.smcSensorsUpdateRate"]) {
+    else if ([keyPath isEqual:@keypath(self, configuration.smcSensorsUpdateRate)]) {
         [self performSelectorInBackground:@selector(initSmcAndDevicesTimer) withObject:nil];
 
     }
-    else if ([keyPath isEqual:@"configuration.smartSensorsUpdateRate"]) {
+    else if ([keyPath isEqual:@keypath(self, configuration.smartSensorsUpdateRate)]) {
         [self performSelectorInBackground:@selector(initAtaSmartTimer) withObject:nil];
 
     }
-    else if ([keyPath isEqual:@"configuration.showSubtitlesInPopup"]) {
+    else if ([keyPath isEqual:@keypath(self, configuration.showSensorLegendsInPopup)]) {
         [self willChangeValueForKey:@"sensorsAndGroups"];
         [self didChangeValueForKey:@"sensorsAndGroups"];
 
@@ -1025,8 +1033,8 @@ static HWMEngine * gSharedEngine;
         // Force update some sensors info
         [_configuration willChangeValueForKey:@"driveNameSelector"];
         [_configuration didChangeValueForKey:@"driveNameSelector"];
-        [_configuration willChangeValueForKey:@"showSubtitlesInPopup"];
-        [_configuration didChangeValueForKey:@"showSubtitlesInPopup"];
+        [_configuration willChangeValueForKey:@"showSensorLegendsInPopup"];
+        [_configuration didChangeValueForKey:@"showSensorLegendsInPopup"];
 
         [self setNeedsUpdateLists];
     }
@@ -1145,13 +1153,15 @@ static HWMEngine * gSharedEngine;
     [self removeObserver:self forKeyPath:@keypath(self, configuration.useFahrenheit)];
     [self removeObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate)];
     [self removeObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate)];
-    [self removeObserver:self forKeyPath:@keypath(self, configuration.showSubtitlesInPopup)];
+    [self removeObserver:self forKeyPath:@keypath(self, configuration.showSensorLegendsInPopup)];
 
     if (self.engineState == kHWMEngineStateActive) {
         [self internalStopEngine];
     }
 
     [self saveConfiguration];
+
+    [self closeEngine];
 }
 
 #pragma mark
@@ -1826,7 +1836,7 @@ static HWMEngine * gSharedEngine;
     [sensor setSerialNumber:serialNumber];
     [sensor setRotational:[attributes objectForKey:@"rotational"]];
 
-    [sensor setLegend:_configuration.showSubtitlesInPopup.boolValue ? sensor.volumeNames : nil];
+    [sensor setLegend:_configuration.showSensorLegendsInPopup.boolValue ? sensor.volumeNames : nil];
     [sensor setIdentifier:@"Drive"];
 
     [sensor setEngine:self];

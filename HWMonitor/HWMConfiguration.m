@@ -20,7 +20,7 @@
 @dynamic graphsScaleValue;
 @dynamic graphsWindowAlwaysTopmost;
 @dynamic notifyAlarmLevelChanges;
-@dynamic showSubtitlesInPopup;
+@dynamic showSensorLegendsInPopup;
 @dynamic smartSensorsUpdateRate;
 @dynamic smcSensorsUpdateRate;
 @dynamic updateSensorsInBackground;
@@ -28,6 +28,7 @@
 @dynamic useFahrenheit;
 @dynamic useGraphSmoothing;
 @dynamic useShadowEffectsInMenubar;
+@dynamic driveLegendSelector;
 @dynamic driveNameSelector;
 @dynamic colorThemeIndex;
 @dynamic colorThemes;

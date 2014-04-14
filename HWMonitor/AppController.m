@@ -49,22 +49,22 @@
 #pragma mark
 #pragma mark Properties:
 
--(NSMutableArray *)themes
+-(NSMutableArray *)themePreview
 {
-    if (!_themes) {
+    if (!_themePreview) {
         
-        _themes = [[NSMutableArray alloc] init];
+        _themePreview = [[NSMutableArray alloc] init];
         
         [self.monitorEngine.configuration.colorThemes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             NSString *path = [NSString stringWithFormat:@"theme_%@", [obj name]];
             NSImage *preview = [NSImage imageNamed:[path lowercaseString]];
             
-            [_themes addObject:@{@"name"    : GetLocalizedString([obj name]),
+            [_themePreview addObject:@{@"name"    : GetLocalizedString([obj name]),
                                  @"preview" : preview}];
         }];
     }
     
-    return _themes;
+    return _themePreview;
 }
 
 -(NSMutableIndexSet *)themeSelectionIndexes
@@ -182,6 +182,7 @@
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
         NSArray *oldFavorites = [_favoritesCollectionSnapshot copy];
+
         _favoritesCollectionSnapshot = [[self.monitorEngine.configuration.favorites array] mutableCopy];
 
         if (oldFavorites) {
@@ -194,7 +195,7 @@
             [_favoritesCollectionSnapshot insertObject:@{ @"item" : item } atIndex:0];
         }
 
-        [_favoritesTableView updateWithObjectValues:_favoritesCollectionSnapshot previousObjectValues:oldFavorites];
+        [_favoritesTableView updateWithObjectValues:_favoritesCollectionSnapshot previousObjectValues:oldFavorites updateHeightOfTheRows:NO withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationEffectFade];
 
     }];
 }
@@ -216,7 +217,7 @@
             [_sensorsAndGroupsCollectionSnapshot insertObject:item atIndex:0];
         }
 
-        [_sensorsTableView updateWithObjectValues:_sensorsAndGroupsCollectionSnapshot previousObjectValues:oldSensorsAndGroups];
+        [_sensorsTableView updateWithObjectValues:_sensorsAndGroupsCollectionSnapshot previousObjectValues:oldSensorsAndGroups updateHeightOfTheRows:NO withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationEffectFade];
 
     }];
 }
@@ -226,10 +227,10 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqual:@"monitorEngine.favorites"]) {
+    if ([keyPath isEqual:@keypath(self, monitorEngine.favorites)]) {
         [self reloadFavoritesTableView:self];
     }
-    else if ([keyPath isEqual:@"monitorEngine.iconsWithSensorsAndGroups"]) {
+    else if ([keyPath isEqual:@keypath(self, monitorEngine.iconsWithSensorsAndGroups)]) {
         [self reloadIconsAndSensorsTableView:self];
     }
 }
@@ -324,9 +325,9 @@
 
         [self.window.contentView addSubview:view];
 
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        //[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
             [[view animator] setAlphaValue:1.0];
-        } completionHandler:nil];
+        //} completionHandler:nil];
     }];
 }
 #pragma mark

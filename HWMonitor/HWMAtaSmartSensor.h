@@ -129,7 +129,7 @@ typedef struct {
 
 typedef enum : NSUInteger {
     kHWMDriveNameProduct,
-    kHWMDriveNamePartitions,
+    kHWMDriveNameVolumes,
     kHWMDriveNameBSD,
 } HWMDriveNameSelector;
 

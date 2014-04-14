@@ -295,12 +295,12 @@ void nouveau_vbios_init(struct nouveau_device *device)
 
 bool nouveau_bios_shadow(struct nouveau_device *device)
 {
-    nv_debug(device, "trying to shadow bios\n");
+    nv_info(device, "trying to shadow VBIOS...\n");
     
     nouveau_bios_shadow_pramin(device);
     
     if (device->bios.data && nouveau_bios_score(device, true) > 1) {
-        nv_debug(device, "VBIOS successfully read from PRAMIN\n");
+        nv_info(device, "VBIOS successfully read from PRAMIN\n");
         nouveau_vbios_init(device);
         return true;
     }
@@ -308,7 +308,7 @@ bool nouveau_bios_shadow(struct nouveau_device *device)
     nouveau_bios_shadow_prom(device);
     
     if (device->bios.data && nouveau_bios_score(device, false) > 1) {
-        nv_debug(device, "VBIOS successfully read from PROM\n");
+        nv_info(device, "VBIOS successfully read from PROM\n");
         nouveau_vbios_init(device);
         return true;
     }

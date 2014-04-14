@@ -885,11 +885,15 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 -(NSString *)title
 {
     switch (self.engine.configuration.driveNameSelector.unsignedIntegerValue) {
-        case kHWMDriveNamePartitions:
+        case kHWMDriveNameVolumes:
             return self.volumeNames;
 
         case kHWMDriveNameBSD:
             return self.bsdName;
+
+        case kHWMDriveNameProduct:
+        default:
+            break;
     }
 
     return self.productName;
@@ -897,10 +901,22 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
 -(NSString *)legend
 {
-    if (!self.engine.configuration.showSubtitlesInPopup.boolValue)
+    if (!self.engine.configuration.showSensorLegendsInPopup.boolValue)
         return nil;
 
-    return self.engine.configuration.driveNameSelector.unsignedIntegerValue == kHWMDriveNamePartitions ? self.productName : self.volumeNames;
+    switch (self.engine.configuration.driveLegendSelector.unsignedIntegerValue) {
+        case kHWMDriveNameProduct:
+            return self.productName;
+
+        case kHWMDriveNameBSD:
+            return self.bsdName;
+
+        case kHWMDriveNameVolumes:
+        default:
+            break;
+    }
+
+    return self.volumeNames;
 }
 
 -(void)initialize
@@ -909,7 +925,8 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     _remainingLifeAttributeIndex = -1;
 
     [self addObserver:self forKeyPath:@keypath(self, engine.configuration.driveNameSelector) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, engine.configuration.showSubtitlesInPopup) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, engine.configuration.driveLegendSelector) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, engine.configuration.showSensorLegendsInPopup) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)awakeFromFetch
@@ -929,7 +946,8 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     [super prepareForDeletion];
 
     [self removeObserver:self forKeyPath:@keypath(self, engine.configuration.driveNameSelector)];
-    [self removeObserver:self forKeyPath:@keypath(self, engine.configuration.showSubtitlesInPopup)];
+    [self removeObserver:self forKeyPath:@keypath(self, engine.configuration.driveLegendSelector)];
+    [self removeObserver:self forKeyPath:@keypath(self, engine.configuration.showSensorLegendsInPopup)];
 
     IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
 }
@@ -939,10 +957,12 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     if ([keyPath isEqualToString:@keypath(self, engine.configuration.driveNameSelector)]) {
         [self willChangeValueForKey:@keypath(self, title)];
         [self didChangeValueForKey:@keypath(self, title)];
+    }
+    else if ([keyPath isEqualToString:@keypath(self, engine.configuration.driveLegendSelector)]) {
         [self willChangeValueForKey:@keypath(self, legend)];
         [self didChangeValueForKey:@keypath(self, legend)];
     }
-    else if ([keyPath isEqualToString:@keypath(self, engine.configuration.showSubtitlesInPopup)]) {
+    else if ([keyPath isEqualToString:@keypath(self, engine.configuration.showSensorLegendsInPopup)]) {
         [self willChangeValueForKey:@keypath(self, legend)];
         [self didChangeValueForKey:@keypath(self, legend)];
     }
