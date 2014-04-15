@@ -56,7 +56,7 @@ bool GPUSensors::acceleratorLoadedCheck()
 
 bool GPUSensors::startupCheck(IOService *provider)
 {
-    // 
+    return true;
 }
 
 bool GPUSensors::managedStart(IOService *provider)
