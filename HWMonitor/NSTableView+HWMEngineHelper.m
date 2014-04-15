@@ -95,7 +95,7 @@
 
         [self removeRowsAtIndexes:removed withAnimation:removeAnime];
         [self insertRowsAtIndexes:inserted withAnimation:insertAnime];
-
+        
         NSUInteger fromIndex = [from firstIndex];
         NSUInteger toIndex = [to firstIndex];
         while (fromIndex != NSNotFound && toIndex != NSNotFound) {

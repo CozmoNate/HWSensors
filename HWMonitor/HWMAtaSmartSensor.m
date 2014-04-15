@@ -1159,29 +1159,43 @@ static void block_device_appeared(void *engine, io_iterator_t iterator)
 
             NSLog(@"ATA block storage device appeared %u", object);
 
-            CFBooleanRef capable = (CFBooleanRef)IORegistryEntryCreateCFProperty(object, CFSTR(kIOPropertySMARTCapableKey), kCFAllocatorDefault, 0);
+            CFMutableDictionaryRef propertiesRef;
 
-            if (capable != IO_OBJECT_NULL) {
-                if (CFBooleanGetValue(capable)) {
+            if (KERN_SUCCESS == IORegistryEntryCreateCFProperties(object, &propertiesRef, kCFAllocatorDefault, 0)) {
 
-                    NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(object, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
+                NSDictionary *properties = CFBridgingRelease(propertiesRef);
+
+                NSNumber *capable = properties[@kIOPropertySMARTCapableKey];
+
+                if (capable && capable.boolValue) {
+
+                    NSDictionary * characteristics = properties[@"Device Characteristics"];
 
                     if (characteristics) {
                         NSString *name = [(NSString*)characteristics[@"Product Name"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                        NSString *serial = [(NSString*)characteristics[@"Serial Number"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                         NSString *medium = characteristics[@"Medium Type"];
                         NSString *revision = [(NSString*)characteristics[@"Product Revision Level"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
+                        NSString *serial = [(NSString*)characteristics[@"Serial Number"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+                        // Try to obtain serial number from device nub
+                        if (!serial) {
+                            CFStringRef serialRef = IORegistryEntrySearchCFProperty(object, kIOServicePlane, CFSTR("device serial"), kCFAllocatorDefault, kIORegistryIterateParents | kIORegistryIterateRecursively);
+
+                            if (MACH_PORT_NULL != serialRef) {
+                                serial = CFBridgingRelease(serialRef);
+                            }
+                        }
+
                         if (name && revision) {
-                            NSString *volumes;
                             NSString *bsdName;
+                            NSString *volumes;
 
                             CFStringRef bsdNameRef = IORegistryEntrySearchCFProperty(object, kIOServicePlane, CFSTR("BSD Name"), kCFAllocatorDefault, kIORegistryIterateRecursively);
 
                             if (MACH_PORT_NULL != bsdNameRef) {
-                                volumes = [[[HWMAtaSmartSensor partitions] objectForKey:(__bridge id)(bsdNameRef)] componentsJoinedByString:@", "];
-                                bsdName = [(__bridge NSString*)bsdNameRef copy];
-                                CFRelease(bsdNameRef);
+                                bsdName = CFBridgingRelease(bsdNameRef);
+                                volumes = [[[HWMAtaSmartSensor partitions] objectForKey:bsdName] componentsJoinedByString:@", "];
                             }
 
                             if (bsdName) {
@@ -1197,8 +1211,6 @@ static void block_device_appeared(void *engine, io_iterator_t iterator)
                         }
                     }
                 }
-
-                CFRelease(capable);
             }
         }
 
