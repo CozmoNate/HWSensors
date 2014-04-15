@@ -10,6 +10,6 @@
 
 @interface NSString (returnCodeDescription)
 
-+(NSString*)stringFromReturnCode:(IOReturn)code;
++(NSString*)stringFromReturn:(IOReturn)code;
 
 @end

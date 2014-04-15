@@ -629,7 +629,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
     if (kIOReturnSuccess != (*_smartInterface)->SMARTReturnStatus(_smartInterface, &exceeded)) {
         if (kIOReturnSuccess != (*_smartInterface)->SMARTEnableDisableOperations(_smartInterface, true)) {
             if (kIOReturnSuccess != (*_smartInterface)->SMARTEnableDisableAutosave(_smartInterface, true)) {
-                NSLog(@"SMARTEnableDisableAutosave returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
+                NSLog(@"SMARTEnableDisableAutosave returned error for: %@ code: %@", _product, [NSString stringFromReturn:result]);
             }
         }
     }
@@ -644,9 +644,9 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                     if (kIOReturnSuccess == (result = (*_smartInterface)->SMARTValidateReadData(_smartInterface, (ATASMARTData*)&smartDataThresholds))) {
                         bcopy(&smartDataThresholds.vendorSpecific1, &_vendorSpecificThresholds, sizeof(_vendorSpecificThresholds));
                     }
-                    else NSLog(@"SMARTValidateReadData after SMARTReadDataThresholds returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
+                    else NSLog(@"SMARTValidateReadData after SMARTReadDataThresholds returned error for: %@ code: %@", _product, [NSString stringFromReturn:result]);
                 }
-                else NSLog(@"SMARTReadDataThresholds returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
+                else NSLog(@"SMARTReadDataThresholds returned error for: %@ code: %@", _product, [NSString stringFromReturn:result]);
 
                 // Prepare SMART attributes list
                 if (!gSmartAttributeOverrideCache) {
@@ -725,11 +725,11 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
                 _attributes = [attributes copy];
             }
-            else NSLog(@"SMARTValidateReadData after SMARTReadData returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
+            else NSLog(@"SMARTValidateReadData after SMARTReadData returned error for: %@ code: %@", _product, [NSString stringFromReturn:result]);
         }
-        else NSLog(@"SMARTReadData returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
+        else NSLog(@"SMARTReadData returned error for: %@ code: %@", _product, [NSString stringFromReturn:result]);
     }
-    else NSLog(@"SMARTReturnStatus returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
+    else NSLog(@"SMARTReturnStatus returned error for: %@ code: %@", _product, [NSString stringFromReturn:result]);
 
     return result == kIOReturnSuccess;
 }
@@ -1172,7 +1172,7 @@ static void block_device_appeared(void *engine, io_iterator_t iterator)
                         NSString *medium = characteristics[@"Medium Type"];
                         NSString *revision = [(NSString*)characteristics[@"Product Revision Level"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-                        if (name && serial && revision) {
+                        if (name && revision) {
                             NSString *volumes;
                             NSString *bsdName;
 
@@ -1189,7 +1189,7 @@ static void block_device_appeared(void *engine, io_iterator_t iterator)
                                                      @"productName": name,
                                                      @"bsdName" :bsdName,
                                                      @"volumesNames" : (volumes ? volumes : bsdName) ,
-                                                     @"serialNumber" : serial,
+                                                     @"serialNumber" : serial ? serial : revision,
                                                      @"revision" : revision,
                                                      @"rotational" : [NSNumber numberWithBool:medium ? ![medium isEqualToString:@"Solid State"] : TRUE]}
                                  ];

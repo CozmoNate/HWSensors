@@ -12,7 +12,7 @@
 
 @implementation NSString (returnCodeDescription)
 
-+(NSString *)stringFromReturnCode:(IOReturn)code
++(NSString *)stringFromReturn:(IOReturn)code
 {
     static dispatch_once_t onceToken;
     static NSDictionary *descriptionMap;
