@@ -70,9 +70,9 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqual:@keypath(self, engine.configuration.colorTheme)]) {
-        [self willChangeValueForKey:@"image"];
+        [self willChangeValueForKey:@keypath(self, image)];
         _image = nil;
-        [self didChangeValueForKey:@"image"];
+        [self didChangeValueForKey:@keypath(self, image)];
     }
 }
 

@@ -221,22 +221,21 @@
         //_lastUpdated = [NSDate date];
 
         if (value && (!self.value || ![value isEqualToNumber:self.value])) {
-            [self willChangeValueForKey:@"value"];
-            [self willChangeValueForKey:@"formattedValue"];
+            [self willChangeValueForKey:@keypath(self, value)];
+            [self setPrimitiveValue:value forKey:@keypath(self, value)];
+            [self didChangeValueForKey:@keypath(self, value)];
 
-            [self setPrimitiveValue:value forKey:@"value"];
-
-            [self didChangeValueForKey:@"value"];
-            [self didChangeValueForKey:@"formattedValue"];
+            [self willChangeValueForKey:@keypath(self, formattedValue)];
+            [self didChangeValueForKey:@keypath(self, formattedValue)];
 
             if (!self.hidden.boolValue) {
 
                 NSUInteger alarmLevel = [self internalUpdateAlarmLevel];
 
                 if (alarmLevel != _alarmLevel || _alarmLevel == 0) {
-                    [self willChangeValueForKey:@"alarmLevel"];
+                    [self willChangeValueForKey:@keypath(self, alarmLevel)];
                     _alarmLevel = alarmLevel;
-                    [self didChangeValueForKey:@"alarmLevel"];
+                    [self didChangeValueForKey:@keypath(self, alarmLevel)];
                     
                     if (self.engine.configuration.notifyAlarmLevelChanges.boolValue) {
                         [self internalSendAlarmNotification];

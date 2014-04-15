@@ -41,13 +41,13 @@
 -(void)setColorThemeIndex:(NSNumber *)colorThemeIndex
 {
     if (![self.colorThemeIndex isEqualToNumber:colorThemeIndex]) {
-        [self willChangeValueForKey:@"colorThemeIndex"];
-        [self setPrimitiveValue:colorThemeIndex forKey:@"colorThemeIndex"];
-        [self didChangeValueForKey:@"colorThemeIndex"];
+        [self willChangeValueForKey:@keypath(self, colorThemeIndex)];
+        [self setPrimitiveValue:colorThemeIndex forKey:@keypath(self, colorThemeIndex)];
+        [self didChangeValueForKey:@keypath(self, colorThemeIndex)];
         
-        [self willChangeValueForKey:@"colorTheme"];
+        [self willChangeValueForKey:@keypath(self, colorTheme)];
         _colorTheme = nil;
-        [self didChangeValueForKey:@"colorTheme"];
+        [self didChangeValueForKey:@keypath(self, colorTheme)];
     }
 }
 

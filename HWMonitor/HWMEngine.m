@@ -295,6 +295,7 @@ static HWMEngine * gSharedEngine;
 
     if (self) {
         _bundle = [NSBundle mainBundle];
+        _engineState = kHWMEngineNotInitialized;
 
         if (gSharedEngine) {
             self = gSharedEngine;
@@ -313,6 +314,7 @@ static HWMEngine * gSharedEngine;
 
     if (self) {
         _bundle = bundle;
+        _engineState = kHWMEngineNotInitialized;
 
         if (gSharedEngine) {
             self = gSharedEngine;
@@ -615,6 +617,20 @@ static HWMEngine * gSharedEngine;
     //}
 }
 
+-(void)internalCaptureSensorValuesToGraphs
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesToGaphsHistoryWithLimit:)]) {
+
+        NSUInteger limit;
+
+        if ([self.delegate engine:self shouldCaptureSensorValuesToGaphsHistoryWithLimit:&limit] || self.configuration.updateSensorsInBackground.boolValue) {
+            for (HWMGraphsGroup *graphsGroup in self.configuration.graphGroups) {
+                [graphsGroup captureSensorValuesToGraphsHistorySetLimit:limit];
+            }
+        }
+    }
+}
+
 #pragma mark
 #pragma mark Public Methods
 
@@ -658,17 +674,15 @@ static HWMEngine * gSharedEngine;
             _smcAndDevicesSensors = [sensors copy];
         }
 
-        for (HWMSensor *sensor in _smcAndDevicesSensors) {
-            BOOL doUpdate = NO;
+        for (__block HWMSensor *sensor in _smcAndDevicesSensors) {
+
+            BOOL doUpdate = sensor.forced.boolValue || sensor.consumers.count || sensor.controller || self.configuration.updateSensorsInBackground.boolValue;
 
 //            if (sensor.lastUpdated && fabs(sensor.lastUpdated.timeIntervalSinceNow) < nineTenths) {
 //                continue;
 //            }
 
-            if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue || sensor.consumers.count || sensor.controller) {
-                doUpdate = YES;
-            }
-            else {
+            if (!doUpdate) {
                 switch (self.updateLoopStrategy) {
                     case kHWMSensorsUpdateLoopForced:
                         doUpdate = YES;
@@ -690,16 +704,7 @@ static HWMEngine * gSharedEngine;
             }
         }
 
-        if (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesToGaphsHistoryWithLimit:)]) {
-
-            NSUInteger limit;
-
-            if ([self.delegate engine:self shouldCaptureSensorValuesToGaphsHistoryWithLimit:&limit]) {
-                for (HWMGraphsGroup *graphsGroup in self.configuration.graphGroups) {
-                    [graphsGroup captureSensorValuesToGraphsHistorySetLimit:limit];
-                }
-            }
-        }
+        [self internalCaptureSensorValuesToGraphs];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorValuesHasBeenUpdatedNotification object:self];
     }];
@@ -738,16 +743,14 @@ static HWMEngine * gSharedEngine;
 
         if (_ataSmartSensors) {
             for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
-                BOOL doUpdate = NO;
+
+                BOOL doUpdate = sensor.forced.boolValue || sensor.consumers.count || sensor.controller || self.configuration.updateSensorsInBackground.boolValue;
 
 //                if (sensor.lastUpdated && fabs(sensor.lastUpdated.timeIntervalSinceNow) < nineTenths) {
 //                    continue;
 //                }
 
-                if (_configuration.updateSensorsInBackground.boolValue || sensor.forced.boolValue || sensor.consumers.count || sensor.controller) {
-                    doUpdate = YES;
-                }
-                else {
+                if (!doUpdate) {
                     switch (self.updateLoopStrategy) {
                         case kHWMSensorsUpdateLoopForced:
                             doUpdate = YES;
@@ -764,22 +767,14 @@ static HWMEngine * gSharedEngine;
                     }
                 }
 
-                if (doUpdate)
+                if (doUpdate) {
                     [sensor doUpdateValue];
+                }
             }
 
             [HWMSmartPluginInterfaceWrapper destroyAllWrappers];
 
-            if (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesToGaphsHistoryWithLimit:)]) {
-
-                NSUInteger limit;
-
-                if ([self.delegate engine:self shouldCaptureSensorValuesToGaphsHistoryWithLimit:&limit]) {
-                    for (HWMGraphsGroup *graphsGroup in self.configuration.graphGroups) {
-                        [graphsGroup captureSensorValuesToGraphsHistorySetLimit:limit];
-                    }
-                }
-            }
+            [self internalCaptureSensorValuesToGraphs];
 
             [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorValuesHasBeenUpdatedNotification object:self];
         }
@@ -789,7 +784,6 @@ static HWMEngine * gSharedEngine;
 -(void)rebuildSensorsList
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-
         if (_engineState == kHWMEngineStateActive) {
             [self internalStopEngine];
         }
@@ -846,29 +840,29 @@ static HWMEngine * gSharedEngine;
 -(void)setNeedsUpdateSensorLists
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self willChangeValueForKey:@"iconsWithSensorsAndGroups"];
-        _iconsWithSensorsAndGroups = nil;
-        [self didChangeValueForKey:@"iconsWithSensorsAndGroups"];
-
-        [self willChangeValueForKey:@"sensorsAndGroups"];
-        _sensorsAndGroups = nil;
-        [self didChangeValueForKey:@"sensorsAndGroups"];
-
-        [self willChangeValueForKey:@"favorites"];
-        _favorites = nil;
-        [self didChangeValueForKey:@"favorites"];
-
         _smcAndDevicesSensors = nil;
         _ataSmartSensors = nil;
+
+        [self willChangeValueForKey:@keypath(self, iconsWithSensorsAndGroups)];
+        _iconsWithSensorsAndGroups = nil;
+        [self didChangeValueForKey:@keypath(self, iconsWithSensorsAndGroups)];
+
+        [self willChangeValueForKey:@keypath(self, sensorsAndGroups)];
+        _sensorsAndGroups = nil;
+        [self didChangeValueForKey:@keypath(self, sensorsAndGroups)];
+
+        [self willChangeValueForKey:@keypath(self, favorites)];
+        _favorites = nil;
+        [self didChangeValueForKey:@keypath(self, favorites)];
     }];
 }
 
 -(void)setNeedsUpdateGraphsList
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self willChangeValueForKey:@"graphsAndGroups"];
+        [self willChangeValueForKey:@keypath(self, graphsAndGroups)];
         _graphsAndGroups = nil;
-        [self didChangeValueForKey:@"graphsAndGroups"];
+        [self didChangeValueForKey:@keypath(self, graphsAndGroups)];
     }];
 }
 
@@ -887,8 +881,8 @@ static HWMEngine * gSharedEngine;
 
         if (sensors) {
             [sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [obj willChangeValueForKey:@"value"];
-                [obj didChangeValueForKey:@"value"];
+                [obj willChangeValueForKey:@keypath(self, value)];
+                [obj didChangeValueForKey:@keypath(self, value)];
                 [obj willChangeValueForKey:@"formattedValue"];
                 [obj didChangeValueForKey:@"formattedValue"];
                 [obj willChangeValueForKey:@"strippedValue"];
@@ -947,22 +941,22 @@ static HWMEngine * gSharedEngine;
 
             [favorite setItem:item];
 
-            [[_configuration mutableOrderedSetValueForKey:@"favorites"] insertObject:favorite atIndex:index];
+            [[_configuration mutableOrderedSetValueForKey:@keypath(self, favorites)] insertObject:favorite atIndex:index];
 
-            [self willChangeValueForKey:@"favorites"];
+            [self willChangeValueForKey:@keypath(self, favorites)];
             _favorites = nil;
-            [self didChangeValueForKey:@"favorites"];
+            [self didChangeValueForKey:@keypath(self, favorites)];
 
     }
 }
 
 -(void)moveFavoritesItemAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex
 {
-    [[_configuration mutableOrderedSetValueForKey:@"favorites"] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:toIndex > fromIndex ? toIndex - 1 : toIndex < _configuration.favorites.count ? toIndex : _configuration.favorites.count];
+    [[_configuration mutableOrderedSetValueForKey:@keypath(self, favorites)] moveObjectsAtIndexes:[NSIndexSet indexSetWithIndex:fromIndex] toIndex:toIndex > fromIndex ? toIndex - 1 : toIndex < _configuration.favorites.count ? toIndex : _configuration.favorites.count];
 
-    [self willChangeValueForKey:@"favorites"];
+    [self willChangeValueForKey:@keypath(self, favorites)];
     _favorites = nil;
-    [self didChangeValueForKey:@"favorites"];
+    [self didChangeValueForKey:@keypath(self, favorites)];
 }
 
 -(void)removeItemFromFavoritesAtIndex:(NSUInteger)index
@@ -1031,10 +1025,10 @@ static HWMEngine * gSharedEngine;
         }
 
         // Force update some sensors info
-        [_configuration willChangeValueForKey:@"driveNameSelector"];
-        [_configuration didChangeValueForKey:@"driveNameSelector"];
-        [_configuration willChangeValueForKey:@"showSensorLegendsInPopup"];
-        [_configuration didChangeValueForKey:@"showSensorLegendsInPopup"];
+        [_configuration willChangeValueForKey:@keypath(_configuration, driveNameSelector)];
+        [_configuration didChangeValueForKey:@keypath(_configuration, driveNameSelector)];
+        [_configuration willChangeValueForKey:@keypath(_configuration, showSensorLegendsInPopup)];
+        [_configuration didChangeValueForKey:@keypath(_configuration, showSensorLegendsInPopup)];
 
         [self setNeedsUpdateLists];
     }
@@ -1052,10 +1046,6 @@ static HWMEngine * gSharedEngine;
 -(void)workspaceDidWake:(id)sender
 {
     [self rebuildSensorsList];
-
-    if (_engineState == kHWMEngineStateActive) {
-        [self internalStartEngine];
-    }
 }
 
 - (void)systemDidAddBlockStorageDevices:(NSArray*)devices

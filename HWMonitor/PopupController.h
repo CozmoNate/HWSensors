@@ -42,7 +42,7 @@
 
 @interface PopupController : NSWindowController <NSApplicationDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
 {
-    NSArray *_sensorsAndGroupsCollectionSnapshot;
+ 
 }
 
 @property (assign) IBOutlet id <PopupControllerDelegate> delegate;
@@ -65,6 +65,8 @@
 
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
 @property (readonly) BOOL hasDraggedFavoriteItem;
+
+@property (readonly) NSArray *sensorsAndGroupsCollectionSnapshot;
 
 - (IBAction)togglePanel:(id)sender;
 - (IBAction)showAboutPanel:(id)sender;

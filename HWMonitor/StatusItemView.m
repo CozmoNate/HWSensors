@@ -37,6 +37,8 @@
 
 @implementation StatusItemView
 
+@synthesize favoritesSnapshot = _favoritesSnapshot;
+
 #pragma mark -
 #pragma mark Properties
 
@@ -61,6 +63,15 @@
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:_monitorEngine];
         }
     }
+}
+
+-(NSArray *)favoritesSnapshot
+{
+    if (!_favoritesSnapshot) {
+        _favoritesSnapshot = [_monitorEngine.favorites copy];
+    }
+
+    return _favoritesSnapshot;
 }
 
 #pragma mark -
@@ -117,7 +128,7 @@
 
     if (_monitorEngine) {
 
-        if (!_monitorEngine.favorites || !_monitorEngine.favorites.count) {
+        if (!self.favoritesSnapshot.count) {
 
             [[NSGraphicsContext currentContext] saveGraphicsState];
 
@@ -147,9 +158,9 @@
         __block int lastWidth = 0;
         __block int index = 0;
 
-        [_monitorEngine.favorites enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [self.favoritesSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             HWMFavorite *favorite = (HWMFavorite *)obj;
-            HWMFavorite *next = idx + 1 < _monitorEngine.favorites.count ? [_monitorEngine.favorites objectAtIndex:idx + 1] : nil;
+            HWMFavorite *next = idx + 1 < self.favoritesSnapshot.count ? [self.favoritesSnapshot objectAtIndex:idx + 1] : nil;
 
             HWMItem *item = favorite.item;
 
@@ -157,7 +168,7 @@
 
                 HWMIcon *icon = (HWMIcon*)item;
 
-                if (_monitorEngine.favorites.count == 1) {
+                if (self.favoritesSnapshot.count == 1) {
                     offset += 3;
                 }
 
@@ -172,14 +183,14 @@
 
                     [image drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
 
-                    offset = offset + [image size].width + (next && [next.item isKindOfClass:[HWMSensor class]] ? 2 : idx + 1 == _monitorEngine.favorites.count ? 0 : [spacer size].width);
+                    offset = offset + [image size].width + (next && [next.item isKindOfClass:[HWMSensor class]] ? 2 : idx + 1 == self.favoritesSnapshot.count ? 0 : [spacer size].width);
 
                     index = 0;
                 }
 
                 [[NSGraphicsContext currentContext] restoreGraphicsState];
 
-                if (_monitorEngine.favorites.count == 1) {
+                if (self.favoritesSnapshot.count == 1) {
                     offset += 3;
                 }
             }
@@ -218,7 +229,7 @@
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
                     [title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];
 
-                    offset += [title size].width  + (idx + 1 < _monitorEngine.favorites.count ? [spacer size].width : 0);
+                    offset += [title size].width  + (idx + 1 < self.favoritesSnapshot.count ? [spacer size].width : 0);
 
                     index = 0;
                 }
@@ -226,12 +237,12 @@
                     int row = index % 2;
 
                     [title addAttribute:NSFontAttributeName value:_smallFont range:NSMakeRange(0, [title length])];
-                    [title drawAtPoint:NSMakePoint(offset, _monitorEngine.favorites.count == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1 : lround([self frame].size.height / 2) - [title size].height + 2)];
+                    [title drawAtPoint:NSMakePoint(offset, self.favoritesSnapshot.count == 1 ? lround(([self frame].size.height - [title size].height) / 2) + 1 : row == 0 ? lround([self frame].size.height / 2) - 1 : lround([self frame].size.height / 2) - [title size].height + 2)];
 
                     int width = [title size].width;
 
                     if (row == 0) {
-                        if (idx + 1 == _monitorEngine.favorites.count) {
+                        if (idx + 1 == self.favoritesSnapshot.count) {
                             offset += width;
                         }
                         else if (next && !([next.item isKindOfClass:[HWMSensor class]] && !next.large.boolValue)) {
@@ -240,7 +251,7 @@
                     }
                     else if (row == 1) {
                         width = width > lastWidth ? width : lastWidth;
-                        offset += width + (idx + 1 < _monitorEngine.favorites.count ? [spacer size].width : 0);
+                        offset += width + (idx + 1 < self.favoritesSnapshot.count ? [spacer size].width : 0);
                     }
                     
                     lastWidth = width;
@@ -273,12 +284,12 @@
 
 -(void)refresh
 {
-    [self performSelectorOnMainThread:@selector(setNeedsDisplay:) withObject:@YES waitUntilDone:NO];
+    [self setNeedsDisplay:YES];
 }
 
 -(NSRect)screenRect
 {
-    return [self.window convertRectToScreen:self.frame];;
+    return [self.window convertRectToScreen:self.frame];
 }
 
 #pragma mark -
@@ -286,14 +297,19 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@keypath(self, monitorEngine.favorites)] ||
-        [keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useBigFontInMenubar)] ||
-        [keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar)] ||
-        [keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useFahrenheit)]) {
+    if ([keyPath isEqualToString:@keypath(self, monitorEngine.favorites)]) {
+
+        _favoritesSnapshot = nil;
 
         [self refresh];
 
     }
+    else if ([keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useBigFontInMenubar)] || [keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar)] || [keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useFahrenheit)]) {
+
+        [self refresh];
+
+    }
+
     //[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 

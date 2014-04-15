@@ -50,6 +50,8 @@
 @property (nonatomic) SEL action;
 @property (nonatomic, unsafe_unretained) id target;
 
+@property (readonly) NSArray *favoritesSnapshot;
+
 -(id)initWithFrame:(NSRect)rect statusItem:(NSStatusItem *)statusItem;
 
 @end

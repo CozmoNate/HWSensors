@@ -62,15 +62,15 @@
         id item = [_graphsAndGroupsCollectionSnapshot objectAtIndex:_graphsTableView.selectedRow];
 
         if (item != _selectedItem) {
-            [self willChangeValueForKey:@"selectedItem"];
+            [self willChangeValueForKey:@keypath(self, selectedItem)];
             _selectedItem = item;
-            [self didChangeValueForKey:@"selectedItem"];
+            [self didChangeValueForKey:@keypath(self, selectedItem)];
         }
     }
     else {
-        [self willChangeValueForKey:@"selectedItem"];
+        [self willChangeValueForKey:@keypath(self, selectedItem)];
         _selectedItem = nil;
-        [self didChangeValueForKey:@"selectedItem"];
+        [self didChangeValueForKey:@keypath(self, selectedItem)];
     }
     
     return _selectedItem;

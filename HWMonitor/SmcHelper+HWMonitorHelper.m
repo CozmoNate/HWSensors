@@ -14,7 +14,6 @@
 #import "FakeSMCDefinitions.h"
 #import "SmcHelper.h"
 
-#import "NSString+IOReturnDescription.h"
 
 @implementation SmcHelper (HWMonitorHelper)
 

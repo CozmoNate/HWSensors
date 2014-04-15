@@ -30,6 +30,7 @@
 #import "HWMSmcFanController.h"
 
 #import "FakeSMCDefinitions.h"
+#import "HWMonitorDefinitions.h"
 
 @implementation HWMSmcFanControlLevel
 
@@ -41,9 +42,9 @@
 
 -(void)setInput:(NSNumber *)input
 {
-    [self willChangeValueForKey:@"input"];
-    [self setPrimitiveValue:input forKey:@"input"];
-    [self didChangeValueForKey:@"input"];
+    [self willChangeValueForKey:@keypath(self, input)];
+    [self setPrimitiveValue:input forKey:@keypath(self, input)];
+    [self didChangeValueForKey:@keypath(self, input)];
 
     [NSObject cancelPreviousPerformRequestsWithTarget:self.controller selector:@selector(updateCurrentLevel) object:nil];
 
@@ -52,9 +53,9 @@
 
 -(void)setOutput:(NSNumber *)output
 {
-    [self willChangeValueForKey:@"output"];
-    [self setPrimitiveValue:[NSNumber numberWithFloat:ROUND50(output.floatValue)] forKey:@"output"];
-    [self didChangeValueForKey:@"output"];
+    [self willChangeValueForKey:@keypath(self, output)];
+    [self setPrimitiveValue:[NSNumber numberWithFloat:ROUND50(output.floatValue)] forKey:@keypath(self, output)];
+    [self didChangeValueForKey:@keypath(self, output)];
 
     [self.controller calculateOutputRange];
 
@@ -115,13 +116,13 @@
 
     if (next) {
         [next setPrevious:prev];
-        [next willChangeValueForKey:@"deletable"];
-        [next didChangeValueForKey:@"deletable"];
+        [next willChangeValueForKey:@keypath(self, deletable)];
+        [next didChangeValueForKey:@keypath(self, deletable)];
     }
 
     if (prev) {
-        [prev willChangeValueForKey:@"deletable"];
-        [prev didChangeValueForKey:@"deletable"];
+        [prev willChangeValueForKey:@keypath(self, deletable)];
+        [prev didChangeValueForKey:@keypath(self, deletable)];
     }
 
     [self.managedObjectContext deleteObject:self];
@@ -142,10 +143,10 @@
 
     [level setPrevious:self];
 
-    [self willChangeValueForKey:@"deletable"];
-    [self didChangeValueForKey:@"deletable"];
-    [level willChangeValueForKey:@"deletable"];
-    [level didChangeValueForKey:@"deletable"];
+    [self willChangeValueForKey:@keypath(self, deletable)];
+    [self didChangeValueForKey:@keypath(self, deletable)];
+    [level willChangeValueForKey:@keypath(self, deletable)];
+    [level didChangeValueForKey:@keypath(self, deletable)];
 
     return level;
 }

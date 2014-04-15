@@ -61,7 +61,7 @@
                 }
                 else {
                     // Object relocated
-                    if (oldIndex <= newIndex) {
+                    if (oldIndex < newIndex) {
                         [from addIndex:oldCounter.firstIndex];
                         [to addIndex:newIndex];
                     }

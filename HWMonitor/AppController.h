@@ -36,8 +36,6 @@
 @interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, HWMEngineDelegate, GrowlApplicationBridgeDelegate>
 {
     NSView *_previousView;
-    NSMutableArray *_sensorsAndGroupsCollectionSnapshot;
-    NSMutableArray *_favoritesCollectionSnapshot;
     BOOL _forceUpdateSensors;
 }
 
@@ -58,6 +56,9 @@
 
 @property (readonly) BOOL hasDraggedFavoriteItem;
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
+
+@property (readonly) NSArray *sensorsAndGroupsCollectionSnapshot;
+@property (readonly) NSArray *favoritesCollectionSnapshot;
 
 - (IBAction)checkForUpdates:(id)sender;
 - (IBAction)rebuildSensorsList:(id)sender;

@@ -329,22 +329,22 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" nonactivatingPanel="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" participatesInCycle="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1240" y="753" width="222" height="300"/>
+            <rect key="contentRect" x="1240" y="753" width="222" height="50"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
             <value key="minSize" type="size" width="220" height="19"/>
             <view key="contentView" id="4">
-                <rect key="frame" x="0.0" y="0.0" width="222" height="300"/>
+                <rect key="frame" x="0.0" y="0.0" width="222" height="50"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="27" horizontalPageScroll="10" verticalLineScroll="27" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" findBarPosition="aboveHorizontalRuler" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="JLNFadingScrollView">
-                        <rect key="frame" x="0.0" y="0.0" width="222" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="222" height="50"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Ii9-fX-Ldk">
-                            <rect key="frame" x="0.0" y="0.0" width="222" height="300"/>
+                            <rect key="frame" x="0.0" y="0.0" width="222" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="27" rowSizeStyle="automatic" viewBased="YES" id="52" customClass="SensorsTableView">
-                                    <rect key="frame" x="0.0" y="0.0" width="222" height="300"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="222" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -765,7 +765,7 @@
                         </clipView>
                         <constraints>
                             <constraint firstAttribute="width" priority="730" constant="222" id="Tc6-dF-SAK"/>
-                            <constraint firstAttribute="height" constant="300" id="YnQ-Ep-f64"/>
+                            <constraint firstAttribute="height" constant="50" id="YnQ-Ep-f64"/>
                         </constraints>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="mini" horizontal="YES" id="53" customClass="RFOverlayScroller">
                             <rect key="frame" x="-100" y="-100" width="211" height="11"/>

@@ -50,9 +50,11 @@
 
 @implementation PopupController
 
+@synthesize monitorEngine = _monitorEngine;
 @synthesize statusItem = _statusItem;
 @synthesize statusItemView = _statusItemView;
 @synthesize toolbarView = _toolbarView;
+@synthesize sensorsAndGroupsCollectionSnapshot = _sensorsAndGroupsCollectionSnapshot;
 
 #pragma mark -
 #pragma mark Properties
@@ -62,12 +64,36 @@
     return YES;
 }
 
+-(NSArray *)sensorsAndGroupsCollectionSnapshot
+{
+    if (!_sensorsAndGroupsCollectionSnapshot) {
+        _sensorsAndGroupsCollectionSnapshot = [_monitorEngine.sensorsAndGroups copy];
+    }
+
+    return _sensorsAndGroupsCollectionSnapshot;
+}
+
+-(HWMEngine *)monitorEngine
+{
+    return _monitorEngine;
+}
+
+-(void)setMonitorEngine:(HWMEngine *)monitorEngine
+{
+    if (monitorEngine != _monitorEngine) {
+
+        _monitorEngine = monitorEngine;
+
+        [_statusItemView setMonitorEngine:_monitorEngine];
+    }
+}
+
 #pragma mark -
 #pragma mark Overridden Methods
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"PopupController"];
+    self = [super initWithWindowNibName:NSStringFromClass([PopupController class])];
     
     if (self != nil)
     {
@@ -75,8 +101,8 @@
         
         _statusItemView = [[StatusItemView alloc] initWithFrame:NSMakeRect(0, 0, 22, 22) statusItem:_statusItem];
 
-        [_statusItemView setImage:[NSImage imageNamed:@"scale"]];
-        [_statusItemView setAlternateImage:[NSImage imageNamed:@"scale-white"]];
+        [_statusItemView setImage:[NSImage loadImageNamed:@"scale" ofType:@"png"]];
+        [_statusItemView setAlternateImage:[NSImage loadImageNamed:@"scale-white" ofType:@"png"]];
 
         [_statusItemView setAction:@selector(togglePanel:)];
         [_statusItemView setTarget:self];
@@ -154,7 +180,7 @@
         [self.delegate popupWillOpen:self];
     }
 
-    [self layoutContent:NO orderFront:YES animated:NO];
+    [self layoutContent:NO orderFront:YES animated:YES];
 
     //self.statusItemView.isHighlighted = YES;
 
@@ -199,7 +225,7 @@
 
         __block CGFloat height = 0;
 
-        [_sensorsAndGroupsCollectionSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [self.sensorsAndGroupsCollectionSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             height += [self tableView:_tableView heightOfRow:idx];
         }];
 
@@ -209,7 +235,7 @@
         CGFloat screenHeight = menubarWindow.screen.visibleFrame.size.height;
 
         if (fullHeight > screenHeight) {
-            height = screenHeight - menubarWindow.toolbarHeight * 2 - BOTTOM_SPACE;
+            height = screenHeight - menubarWindow.toolbarView.frame.size.height * 2 - BOTTOM_SPACE;
             [_scrollView setHasVerticalScroller:YES];
         }
         else {
@@ -234,10 +260,12 @@
 -(void)reloadSensorsTableView:(id)sender
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        NSArray *oldSensorsAndGroups = [_sensorsAndGroupsCollectionSnapshot copy];
-        _sensorsAndGroupsCollectionSnapshot = [_monitorEngine.sensorsAndGroups copy];
 
-        [_tableView updateWithObjectValues:_sensorsAndGroupsCollectionSnapshot previousObjectValues:oldSensorsAndGroups];
+        NSArray *oldSensorsAndGroups = [_sensorsAndGroupsCollectionSnapshot copy];
+
+        _sensorsAndGroupsCollectionSnapshot = nil;
+
+        [_tableView updateWithObjectValues:self.sensorsAndGroupsCollectionSnapshot previousObjectValues:oldSensorsAndGroups];
 
         [self layoutContent:YES orderFront:NO animated:YES];
     }];
@@ -323,8 +351,8 @@
 //    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
 //    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + BOTTOM_SPACE)];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC / 5)), dispatch_get_main_queue(), ^{
-        [self layoutContent:YES orderFront:NO animated:NO];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC / 7)), dispatch_get_main_queue(), ^{
+        [self layoutContent:YES orderFront:NO animated:YES];
     });
 }
 
@@ -335,9 +363,9 @@
 //    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
 //    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + BOTTOM_SPACE)];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC / 5)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC / 7)), dispatch_get_main_queue(), ^{
         [NSApp activateIgnoringOtherApps:NO];
-        [self layoutContent:YES orderFront:YES animated:NO];
+        [self layoutContent:YES orderFront:YES animated:YES];
     });
 }
 
@@ -365,12 +393,12 @@
 #pragma mark NSTableView delegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return _sensorsAndGroupsCollectionSnapshot.count;
+    return self.sensorsAndGroupsCollectionSnapshot.count;
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    HWMItem *item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
+    HWMItem *item = [self.sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
 
     NSUInteger height = [item isKindOfClass:[HWMSensorsGroup class]] ? 21 : 17;
 
@@ -387,12 +415,12 @@
 
 -(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    return [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
+    return [self.sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    HWMItem *item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
+    HWMItem *item = [self.sensorsAndGroupsCollectionSnapshot objectAtIndex:row];
 
     id view = [tableView makeViewWithIdentifier:item.identifier owner:self];
 
@@ -416,7 +444,7 @@
         return NO;
     }
     
-    id item = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:[rowIndexes firstIndex]];
+    id item = [self.sensorsAndGroupsCollectionSnapshot objectAtIndex:[rowIndexes firstIndex]];
     
     if ([item isKindOfClass:[HWMSensor class]]) {
         NSData *indexData = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
@@ -440,7 +468,7 @@
         NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
         NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
         NSInteger fromRow = [rowIndexes firstIndex];
-        id fromItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
+        id fromItem = [self.sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
 
         [(HWMItem*)fromItem setHidden:@YES];
 
@@ -460,7 +488,7 @@
     NSData* rowData = [pboard dataForType:kHWMonitorPopupItemDataType];
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
-    id fromItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
+    id fromItem = [self.sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
 
     _currentItemDragOperation = NSDragOperationNone;
     
@@ -468,12 +496,12 @@
         
         _currentItemDragOperation = NSDragOperationMove;
 
-        if (toRow < _sensorsAndGroupsCollectionSnapshot.count) {
+        if (toRow < self.sensorsAndGroupsCollectionSnapshot.count) {
             if (toRow == fromRow || toRow == fromRow + 1) {
                 _currentItemDragOperation = NSDragOperationNone;
             }
             else {
-                id toItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:toRow];
+                id toItem = [self.sensorsAndGroupsCollectionSnapshot objectAtIndex:toRow];
 
                 if ([toItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)fromItem group] != [(HWMSensor*)toItem group]) {
                     _currentItemDragOperation = NSDragOperationNone;
@@ -481,7 +509,7 @@
             }
         }
         else {
-            id toItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:toRow - 1];
+            id toItem = [self.sensorsAndGroupsCollectionSnapshot objectAtIndex:toRow - 1];
 
             if ([toItem isKindOfClass:[HWMSensor class]] && [(HWMSensor*)fromItem group] != [(HWMSensor*)toItem group]) {
                 _currentItemDragOperation = NSDragOperationNone;
@@ -503,12 +531,12 @@
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
     NSInteger fromRow = [rowIndexes firstIndex];
 
-    HWMSensor *fromItem = [_sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
+    HWMSensor *fromItem = [self.sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
     
-    id checkItem = toRow >= _sensorsAndGroupsCollectionSnapshot.count ? [_sensorsAndGroupsCollectionSnapshot lastObject] : [_sensorsAndGroupsCollectionSnapshot objectAtIndex:toRow];
+    id checkItem = toRow >= self.sensorsAndGroupsCollectionSnapshot.count ? [self.sensorsAndGroupsCollectionSnapshot lastObject] : [self.sensorsAndGroupsCollectionSnapshot objectAtIndex:toRow];
     
     HWMSensor *toItem = ![checkItem isKindOfClass:[HWMSensor class]] 
-    || toRow >= _sensorsAndGroupsCollectionSnapshot.count ? nil : checkItem;
+    || toRow >= self.sensorsAndGroupsCollectionSnapshot.count ? nil : checkItem;
 
     [fromItem.group moveSensorsObjectAtIndex:[fromItem.group.sensors indexOfObject:fromItem] toIndex: toItem ? [fromItem.group.sensors indexOfObject:toItem] : fromItem.group.sensors.count];
 
