@@ -39,6 +39,8 @@
 #import <sys/mount.h>
 #import <Growl/Growl.h>
 
+#import "NSString+returnCodeDescription.h"
+
 static NSMutableDictionary * gIOCFPluginInterfaceCache = nil;
 static NSArray * gSmartAttributeOverrideDatabase = nil;
 static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
@@ -626,7 +628,9 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
     if (kIOReturnSuccess != (*_smartInterface)->SMARTReturnStatus(_smartInterface, &exceeded)) {
         if (kIOReturnSuccess != (*_smartInterface)->SMARTEnableDisableOperations(_smartInterface, true)) {
-            (*_smartInterface)->SMARTEnableDisableAutosave(_smartInterface, true);
+            if (kIOReturnSuccess != (*_smartInterface)->SMARTEnableDisableAutosave(_smartInterface, true)) {
+                NSLog(@"SMARTEnableDisableAutosave returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
+            }
         }
     }
 
@@ -640,7 +644,9 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
                     if (kIOReturnSuccess == (result = (*_smartInterface)->SMARTValidateReadData(_smartInterface, (ATASMARTData*)&smartDataThresholds))) {
                         bcopy(&smartDataThresholds.vendorSpecific1, &_vendorSpecificThresholds, sizeof(_vendorSpecificThresholds));
                     }
+                    else NSLog(@"SMARTValidateReadData after SMARTReadDataThresholds returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
                 }
+                else NSLog(@"SMARTReadDataThresholds returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
 
                 // Prepare SMART attributes list
                 if (!gSmartAttributeOverrideCache) {
@@ -719,12 +725,12 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
                 _attributes = [attributes copy];
             }
+            else NSLog(@"SMARTValidateReadData after SMARTReadData returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
         }
+        else NSLog(@"SMARTReadData returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
     }
+    else NSLog(@"SMARTReturnStatus returned error for: %@ code: %@", _product, [NSString stringFromReturnCode:result]);
 
-    if (result != kIOReturnSuccess)
-        NSLog(@"readSMARTData returned error for BSD device: %@", _bsdName);
-    
     return result == kIOReturnSuccess;
 }
 

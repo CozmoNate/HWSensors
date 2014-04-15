@@ -119,6 +119,7 @@
 		7E6AEF6E18C9A4E800AD0CBC /* PopupAtaStateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6AEF6D18C9A4E800AD0CBC /* PopupAtaStateCell.m */; };
 		7E6D702718AF3F1800CD8BFD /* SmartAttributes.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E6D702618AF3F1800CD8BFD /* SmartAttributes.strings */; };
 		7E6D90441845EEDB0045BDB3 /* HWMGraphsGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6D90431845EEDB0045BDB3 /* HWMGraphsGroup.m */; };
+		7E713BF218FD1B2D009E6EA5 /* NSString+returnCodeDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E713BF118FD1B2D009E6EA5 /* NSString+returnCodeDescription.m */; };
 		7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */; };
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
 		7E8A337518EEEC510059DA16 /* HWMThemedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A337418EEEC510059DA16 /* HWMThemedTextField.m */; };
@@ -448,6 +449,8 @@
 		7E6D702618AF3F1800CD8BFD /* SmartAttributes.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SmartAttributes.strings; sourceTree = "<group>"; };
 		7E6D90421845EEDB0045BDB3 /* HWMGraphsGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMGraphsGroup.h; sourceTree = "<group>"; };
 		7E6D90431845EEDB0045BDB3 /* HWMGraphsGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMGraphsGroup.m; sourceTree = "<group>"; };
+		7E713BF018FD1B2D009E6EA5 /* NSString+returnCodeDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+returnCodeDescription.h"; sourceTree = "<group>"; };
+		7E713BF118FD1B2D009E6EA5 /* NSString+returnCodeDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+returnCodeDescription.m"; sourceTree = "<group>"; };
 		7E7705A51734222100EBDB23 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E7B9B3D1786A732003ACB61 /* OBMenuBarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBMenuBarWindow.h; sourceTree = "<group>"; };
 		7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBMenuBarWindow.m; sourceTree = "<group>"; };
@@ -974,6 +977,8 @@
 				7E36E599188AB25A00BD9744 /* NSImage+HighResolutionLoading.m */,
 				7E9A17D117E45ACA003DB018 /* NSString+Size.h */,
 				7E9A17D217E45ACA003DB018 /* NSString+Size.m */,
+				7E713BF018FD1B2D009E6EA5 /* NSString+returnCodeDescription.h */,
+				7E713BF118FD1B2D009E6EA5 /* NSString+returnCodeDescription.m */,
 				7E9A17CE17E45938003DB018 /* NSPopover+Message.h */,
 				7E9A17CF17E45938003DB018 /* NSPopover+Message.m */,
 				7EC95E2018D42FCB00DD7B4D /* NSWindow+BackgroundBlur.h */,
@@ -1557,6 +1562,7 @@
 				7EC95E2218D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m in Sources */,
 				7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */,
 				7E1900B0184279CD00C6A0E8 /* HWMGraph.m in Sources */,
+				7E713BF218FD1B2D009E6EA5 /* NSString+returnCodeDescription.m in Sources */,
 				7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */,
 				7EA248FF16D8E93A002231B2 /* AppController.m in Sources */,
 				7EFE61B7183581090009BD0D /* HWMSensor.m in Sources */,
