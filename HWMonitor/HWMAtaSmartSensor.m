@@ -119,12 +119,15 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 +(void)destroyAllWrappers
 {
     if (gIOCFPluginInterfaceCache) {
-        [gIOCFPluginInterfaceCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 
-            [(HWMSmartPluginInterfaceWrapper*)obj releaseInterface];
-        }];
+        NSArray *wrappers = gIOCFPluginInterfaceCache.allValues.copy;
+
+        for (HWMSmartPluginInterfaceWrapper* wrapper in wrappers) {
+            [wrapper releaseInterface];
+        }
 
         [gIOCFPluginInterfaceCache removeAllObjects];
+
         gIOCFPluginInterfaceCache = nil;
     }
 }
@@ -548,7 +551,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
     NSString *identifier = [NSString stringWithFormat:@"%@%@", product, firmware];
 
-    NSDictionary *overrides = [gSmartAttributeOverrideCache objectForKey:identifier];
+    NSDictionary *overrides = gSmartAttributeOverrideCache[identifier];
 
     if (!overrides) {
 
@@ -1140,7 +1143,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
 static void block_device_appeared(void *engine, io_iterator_t iterator)
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
 
         io_object_t object;
 
@@ -1158,10 +1161,10 @@ static void block_device_appeared(void *engine, io_iterator_t iterator)
                     NSDictionary * characteristics = (__bridge_transfer NSDictionary*)IORegistryEntryCreateCFProperty(object, CFSTR("Device Characteristics"), kCFAllocatorDefault, 0);
 
                     if (characteristics) {
-                        NSString *name = [(NSString*)[characteristics objectForKey:@"Product Name"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                        NSString *serial = [(NSString*)[characteristics objectForKey:@"Serial Number"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                        NSString *medium = [characteristics objectForKey:@"Medium Type"];
-                        NSString *revision = [(NSString*)[characteristics objectForKey:@"Product Revision Level"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                        NSString *name = [(NSString*)characteristics[@"Product Name"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                        NSString *serial = [(NSString*)characteristics[@"Serial Number"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                        NSString *medium = characteristics[@"Medium Type"];
+                        NSString *revision = [(NSString*)characteristics[@"Product Revision Level"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
                         if (name && serial && revision) {
                             NSString *volumes;

@@ -62,7 +62,7 @@ static NSString* registry_entry_read_string(io_registry_entry_t entry, const NSS
 
 static void hid_device_appeared(void *engine, io_iterator_t iterator)
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         io_object_t object;
 
         __block NSMutableArray *devices = [NSMutableArray array];

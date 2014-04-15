@@ -188,6 +188,9 @@
 #pragma mark -
 #pragma mark Methods
 
+// Space betweeen last sensor cell and bottom side of a window
+#define BOTTOM_SPACE  5
+
 - (void)layoutContent:(BOOL)resizeToContent orderFront:(BOOL)orderFront animated:(BOOL)animated
 {
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
@@ -200,8 +203,13 @@
             height += [self tableView:_tableView heightOfRow:idx];
         }];
 
-        if (height + menubarWindow.toolbarHeight > menubarWindow.screen.visibleFrame.size.height) {
-            height = menubarWindow.screen.visibleFrame.size.height - menubarWindow.toolbarHeight;
+        height += BOTTOM_SPACE;
+
+        CGFloat fullHeight = height + menubarWindow.toolbarHeight * 2;
+        CGFloat screenHeight = menubarWindow.screen.visibleFrame.size.height;
+
+        if (fullHeight > screenHeight) {
+            height = screenHeight - menubarWindow.toolbarHeight * 2 - BOTTOM_SPACE;
             [_scrollView setHasVerticalScroller:YES];
         }
         else {
@@ -209,13 +217,13 @@
         }
 
         if (animated) {
-            [[_tableHeightConstraint animator] setConstant:height + 1]; // height+1 avoid flickering artifact
+            [[_tableHeightConstraint animator] setConstant:height];
         }
         else {
-            [_tableHeightConstraint setConstant:height + 1];
+            [_tableHeightConstraint setConstant:height];
         }
     }
-
+    
     // Order front if needed
     if (orderFront) {
         [menubarWindow makeKeyAndOrderFront:self];
@@ -310,22 +318,26 @@
 
 - (void)windowDidAttachToStatusBar:(id)sender
 {
-    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+//    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+//
+//    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
+//    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + BOTTOM_SPACE)];
 
-    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
-    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
-
-    //[NSApp deactivate];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC / 5)), dispatch_get_main_queue(), ^{
+        [self layoutContent:YES orderFront:NO animated:NO];
+    });
 }
 
 - (void)windowDidDetachFromStatusBar:(id)sender
 {
-    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+//    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+//
+//    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
+//    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + BOTTOM_SPACE)];
 
-    [menubarWindow setMaxSize:NSMakeSize(menubarWindow.maxSize.width, menubarWindow.frame.size.height)];
-    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + 6)];
-
-    [NSApp activateIgnoringOtherApps:NO];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC / 5)), dispatch_get_main_queue(), ^{
+        [self layoutContent:YES orderFront:YES animated:NO];
+    });
 }
 
 - (void)windowDidBecomeKey:(id)sender

@@ -475,7 +475,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
     CGFloat titlebarHeight = toolbarView.frame.size.height;
 
     return NSMakeRect(0,
-                      self.frame.size.height - titlebarHeight - (self.attachedToMenuBar ? OBMenuBarWindowArrowHeight : 0),
+                      self.frame.size.height - titlebarHeight,
                       self.frame.size.width,
                       titlebarHeight + (self.attachedToMenuBar ? OBMenuBarWindowArrowHeight : 0));
 }

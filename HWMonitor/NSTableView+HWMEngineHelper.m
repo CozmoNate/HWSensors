@@ -105,16 +105,14 @@
         }
 
     } completionHandler:^{
-
         if (updateHeights) {
-            [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-                [[NSAnimationContext currentContext] setDuration:[[NSAnimationContext currentContext] duration]];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [NSAnimationContext beginGrouping];
+                //[[NSAnimationContext currentContext] setDuration:[[NSAnimationContext currentContext] duration]];
                 [self noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, objectValues.count)]];
-            } completionHandler:^{
-                
+                [NSAnimationContext endGrouping];
             }];
         }
-
     }];
 }
 
