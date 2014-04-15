@@ -334,16 +334,6 @@
     }
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-
-}
-
--(void)awakeFromNib
-{
-
-}
-
 - (void)windowDidAttachToStatusBar:(id)sender
 {
 //    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
