@@ -47,7 +47,7 @@
 
 @property (assign) IBOutlet id <PopupControllerDelegate> delegate;
 
-@property (assign) IBOutlet HWMEngine *monitorEngine;
+@property (readonly) IBOutlet HWMEngine *monitorEngine;
 
 @property (readonly) NSStatusItem *statusItem;
 @property (readonly) StatusItemView *statusItemView;

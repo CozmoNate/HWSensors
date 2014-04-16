@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D43" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -15,7 +15,6 @@
         <customObject id="494" customClass="AppController">
             <connections>
                 <outlet property="graphsController" destination="909" id="988"/>
-                <outlet property="monitorEngine" destination="YDM-13-O3B" id="OPY-dI-LRV"/>
                 <outlet property="popupController" destination="540" id="601"/>
                 <outlet property="sharedUpdater" destination="LKO-lM-1Z9" id="Ije-zl-WXw"/>
             </connections>
@@ -26,20 +25,10 @@
                 <outlet property="appController" destination="494" id="6873"/>
                 <outlet property="delegate" destination="494" id="1177"/>
                 <outlet property="graphsController" destination="909" id="6874"/>
-                <outlet property="monitorEngine" destination="YDM-13-O3B" id="Uur-Wt-DqM"/>
             </connections>
         </customObject>
-        <customObject id="909" customClass="GraphsController">
-            <connections>
-                <outlet property="monitorEngine" destination="YDM-13-O3B" id="KDK-dA-aVb"/>
-            </connections>
-        </customObject>
+        <customObject id="909" customClass="GraphsController"/>
         <customObject id="7879" customClass="AboutController"/>
         <customObject id="LKO-lM-1Z9" customClass="SUUpdater"/>
-        <customObject id="YDM-13-O3B" customClass="HWMEngine">
-            <connections>
-                <outlet property="delegate" destination="494" id="6Fw-gj-pX2"/>
-            </connections>
-        </customObject>
     </objects>
 </document>

@@ -39,7 +39,7 @@
     BOOL _forceUpdateSensors;
 }
 
-@property (assign) IBOutlet HWMEngine *monitorEngine;
+@property (readonly) IBOutlet HWMEngine *monitorEngine;
 
 @property (nonatomic, strong) IBOutlet NSMutableArray *themePreview;
 @property (nonatomic, strong) IBOutlet NSMutableIndexSet *themeSelectionIndexes;

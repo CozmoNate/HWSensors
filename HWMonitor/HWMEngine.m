@@ -56,8 +56,6 @@
 
 NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
-static HWMEngine * gSharedEngine;
-
 @implementation HWMEngine
 
 @synthesize iconsWithSensorsAndGroups = _iconsWithSensorsAndGroups;
@@ -72,7 +70,14 @@ static HWMEngine * gSharedEngine;
 
 +(HWMEngine*)sharedEngine
 {
-    return gSharedEngine;
+    static dispatch_once_t onceToken;
+    static HWMEngine *sharedEngine;
+
+    dispatch_once(&onceToken, ^{
+        sharedEngine = [[HWMEngine alloc] init];
+    });
+
+    return sharedEngine;
 }
 
 #pragma mark
@@ -295,14 +300,6 @@ static HWMEngine * gSharedEngine;
 
     if (self) {
         _bundle = [NSBundle mainBundle];
-        _engineState = kHWMEngineNotInitialized;
-
-        if (gSharedEngine) {
-            self = gSharedEngine;
-        }
-        else {
-            gSharedEngine = self;
-        }
     }
 
     return self;
@@ -314,14 +311,6 @@ static HWMEngine * gSharedEngine;
 
     if (self) {
         _bundle = bundle;
-        _engineState = kHWMEngineNotInitialized;
-
-        if (gSharedEngine) {
-            self = gSharedEngine;
-        }
-        else {
-            gSharedEngine = self;
-        }
     }
 
     return self;
@@ -329,82 +318,6 @@ static HWMEngine * gSharedEngine;
 
 #pragma mark
 #pragma mark Private Methods
-
-- (void)initialize
-{
-    [self assignPlatformProfile];
-
-    // Create or load configuration entity
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Configuration"];
-
-    NSError *error;
-
-    _configuration = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
-
-    if (error) {
-        NSLog(@"failed to retrieve configuration %@", error);
-    }
-
-    if (!_configuration) {
-        _configuration = [NSEntityDescription insertNewObjectForEntityForName:@"Configuration" inManagedObjectContext:self.managedObjectContext];
-
-        _configuration.colorThemeIndex = @0;
-    }
-
-    // Create color themes
-    [self insertColorThemes];
-
-    // Load icons
-    [self loadIconNamed:@"red-thermometer" asTemplate:NO];
-
-    [self loadIconNamed:kHWMonitorIconHWMonitor asTemplate:NO];
-    [self loadIconNamed:kHWMonitorIconThermometer];
-    [self loadIconNamed:kHWMonitorIconScale];
-    [self loadIconNamed:kHWMonitorIconDevice];
-    [self loadIconNamed:kHWMonitorIconTemperatures];
-    [self loadIconNamed:kHWMonitorIconHddTemperatures];
-    [self loadIconNamed:kHWMonitorIconSsdLife];
-    [self loadIconNamed:kHWMonitorIconMultipliers];
-    [self loadIconNamed:kHWMonitorIconFrequencies];
-    [self loadIconNamed:kHWMonitorIconTachometers];
-    [self loadIconNamed:kHWMonitorIconVoltages];
-    [self loadIconNamed:kHWMonitorIconBattery];
-
-    // Cleanup icons
-    fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Icon"];
-
-    NSArray *icons = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-    [icons enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        HWMIcon *icon = (HWMIcon*)obj;
-
-        if (!icon.regular && !icon.alternate) {
-            [self.managedObjectContext deleteObject:obj];
-        }
-    }];
-
-    // Update groups
-    [self insertGroups];
-
-    // Detect sensors
-    [self rebuildSensorsList];
-
-    _engineState = kHWMEngineStateIdle;
-
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidMountNotification object:nil];
-	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidRenameVolumeNotification object:nil];
-
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceWillSleep:) name:NSWorkspaceWillSleepNotification object:nil];
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
-
-    [self addObserver:self forKeyPath:@keypath(self, configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, configuration.showSensorLegendsInPopup) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-}
 
 - (void)assignPlatformProfile
 {
@@ -619,7 +532,7 @@ static HWMEngine * gSharedEngine;
 
 -(void)internalCaptureSensorValuesToGraphs
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesToGaphsHistoryWithLimit:)]) {
+    if (!self.delegate || (self.delegate && [self.delegate respondsToSelector:@selector(engine:shouldCaptureSensorValuesToGaphsHistoryWithLimit:)])) {
 
         NSUInteger limit;
 
@@ -633,6 +546,132 @@ static HWMEngine * gSharedEngine;
 
 #pragma mark
 #pragma mark Public Methods
+
+- (void)open
+{
+    [self assignPlatformProfile];
+
+    // Create or load configuration entity
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Configuration"];
+
+    NSError *error;
+
+    _configuration = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] lastObject];
+
+    if (error) {
+        NSLog(@"failed to retrieve configuration %@", error);
+    }
+
+    if (!_configuration) {
+        _configuration = [NSEntityDescription insertNewObjectForEntityForName:@"Configuration" inManagedObjectContext:self.managedObjectContext];
+
+        _configuration.colorThemeIndex = @0;
+    }
+
+    // Create color themes
+    [self insertColorThemes];
+
+    // Load icons
+    [self loadIconNamed:@"red-thermometer" asTemplate:NO];
+
+    [self loadIconNamed:kHWMonitorIconHWMonitor asTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconThermometer];
+    [self loadIconNamed:kHWMonitorIconScale];
+    [self loadIconNamed:kHWMonitorIconDevice];
+    [self loadIconNamed:kHWMonitorIconTemperatures];
+    [self loadIconNamed:kHWMonitorIconHddTemperatures];
+    [self loadIconNamed:kHWMonitorIconSsdLife];
+    [self loadIconNamed:kHWMonitorIconMultipliers];
+    [self loadIconNamed:kHWMonitorIconFrequencies];
+    [self loadIconNamed:kHWMonitorIconTachometers];
+    [self loadIconNamed:kHWMonitorIconVoltages];
+    [self loadIconNamed:kHWMonitorIconBattery];
+
+    // Cleanup icons
+    fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Icon"];
+
+    NSArray *icons = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+    [icons enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        HWMIcon *icon = (HWMIcon*)obj;
+
+        if (!icon.regular && !icon.alternate) {
+            [self.managedObjectContext deleteObject:obj];
+        }
+    }];
+
+    // Update groups
+    [self insertGroups];
+
+    // Detect sensors
+    [self detectSensors];
+
+    _engineState = kHWMEngineStateIdle;
+
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidMountNotification object:nil];
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidRenameVolumeNotification object:nil];
+
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceWillSleep:) name:NSWorkspaceWillSleepNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
+
+    [self addObserver:self forKeyPath:@keypath(self, configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.showSensorLegendsInPopup) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+}
+
+-(void)detectSensors
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (_engineState == kHWMEngineStateActive) {
+            [self internalStopEngine];
+        }
+
+        NSError *error;
+
+        // SMC SENSORS
+
+        // Add FakeSMCKeyStore keys first
+        _fakeSmcConnection = [self insertSmcSensorsWithServiceName:"FakeSMCKeyStore" excludingKeys:nil];
+
+        NSFetchRequest *sensorsFetch = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+
+        // Keys added from FakeSMCKeyStore
+        NSArray *excludedKeys = [[[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0"]] valueForKey:@"name"];
+
+        // Add keys from AppleSMC
+        _appleSmcConnection = [self insertSmcSensorsWithServiceName:"AppleSMC" excludingKeys:[NSSet setWithArray:excludedKeys]];
+
+        // Close AppleSMC connection if no keys where obtained from it
+        NSArray *appleSmcKeys = [[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service == %d", _appleSmcConnection]];
+
+        if (appleSmcKeys.count == 0) {
+            SMCClose(_appleSmcConnection);
+            _appleSmcConnection = 0;
+        }
+
+        // Update graphs
+        [self insertGraphs];
+
+        // SMART
+        [HWMAtaSmartSensor startWatchingForBlockStorageDevicesWithEngine:self];
+
+        // BATTERIES
+        [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
+
+        // Save context
+        [self saveConfiguration];
+
+        [self setNeedsUpdateLists];
+
+        if (_engineState == kHWMEngineStateActive) {
+            [self internalStartEngine];
+        }
+    }];
+}
 
 -(void)saveConfiguration
 {
@@ -781,56 +820,6 @@ static HWMEngine * gSharedEngine;
     }];
 }
 
--(void)rebuildSensorsList
-{
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        if (_engineState == kHWMEngineStateActive) {
-            [self internalStopEngine];
-        }
-
-        NSError *error;
-
-        // SMC SENSORS
-
-        // Add FakeSMCKeyStore keys first
-        _fakeSmcConnection = [self insertSmcSensorsWithServiceName:"FakeSMCKeyStore" excludingKeys:nil];
-
-        NSFetchRequest *sensorsFetch = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
-
-        // Keys added from FakeSMCKeyStore
-        NSArray *excludedKeys = [[[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0"]] valueForKey:@"name"];
-
-        // Add keys from AppleSMC
-        _appleSmcConnection = [self insertSmcSensorsWithServiceName:"AppleSMC" excludingKeys:[NSSet setWithArray:excludedKeys]];
-
-        // Close AppleSMC connection if no keys where obtained from it
-        NSArray *appleSmcKeys = [[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service == %d", _appleSmcConnection]];
-
-        if (appleSmcKeys.count == 0) {
-            SMCClose(_appleSmcConnection);
-            _appleSmcConnection = 0;
-        }
-
-        // Update graphs
-        [self insertGraphs];
-
-        // SMART
-        [HWMAtaSmartSensor startWatchingForBlockStorageDevicesWithEngine:self];
-
-        // BATTERIES
-        [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
-
-        // Save context
-        [self saveConfiguration];
-
-        [self setNeedsUpdateLists];
-
-        if (_engineState == kHWMEngineStateActive) {
-            [self internalStartEngine];
-        }
-    }];
-}
-
 -(void)setNeedsUpdateLists
 {
     [self setNeedsUpdateSensorLists];
@@ -892,18 +881,17 @@ static HWMEngine * gSharedEngine;
     }];
 }
 
--(void)stopEngine
-{
-    [self setEngineState:kHWMEngineStateIdle];
-}
-
--(void)startEngine
+-(void)start
 {
     [self setEngineState:kHWMEngineStateActive];
 }
 
+-(void)stop
+{
+    [self setEngineState:kHWMEngineStateIdle];
+}
 
--(void)closeEngine
+-(void)close
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
@@ -999,12 +987,6 @@ static HWMEngine * gSharedEngine;
     }
 }
 
--(void)awakeFromNib
-{
-    [self initialize];
-    //[self startEngine];
-}
-
 -(void)workspaceDidMountOrUnmount:(id)sender
 {
 //    // Update SMART sensors
@@ -1045,7 +1027,7 @@ static HWMEngine * gSharedEngine;
 
 -(void)workspaceDidWake:(id)sender
 {
-    [self rebuildSensorsList];
+    [self detectSensors];
 }
 
 - (void)systemDidAddBlockStorageDevices:(NSArray*)devices
@@ -1151,7 +1133,7 @@ static HWMEngine * gSharedEngine;
 
     [self saveConfiguration];
 
-    [self closeEngine];
+    [self close];
 }
 
 #pragma mark

@@ -57,6 +57,11 @@
 #pragma mark
 #pragma mark Properties
 
+-(HWMEngine *)monitorEngine
+{
+    return [HWMEngine sharedEngine];
+}
+
 -(HWMonitorItem *)selectedItem
 {
     if (_graphsTableView.selectedRow >= 0 && _graphsTableView.selectedRow < self.graphsAndGroupsCollectionSnapshot.count) {
@@ -80,7 +85,7 @@
 -(NSArray *)graphsAndGroupsCollectionSnapshot
 {
     if (!_graphsAndGroupsCollectionSnapshot) {
-        _graphsAndGroupsCollectionSnapshot = [_monitorEngine.graphsAndGroups copy];
+        _graphsAndGroupsCollectionSnapshot = [self.monitorEngine.graphsAndGroups copy];
     }
 
     return _graphsAndGroupsCollectionSnapshot;
@@ -114,8 +119,9 @@
     [super windowDidLoad];
 
     [Localizer localizeView:self.window];
-    [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
+    [self.window setLevel:self.monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
 
+    [self reloadGraphsTableView:self];
     [self rebuildViews];
 
     //            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:_monitorEngine];
@@ -162,7 +168,7 @@
             [_graphViews removeAllObjects];
         }
 
-        for (HWMGraphsGroup *group in _monitorEngine.configuration.graphGroups) {
+        for (HWMGraphsGroup *group in self.monitorEngine.configuration.graphGroups) {
             if (group.graphs && group.graphs.count) {
                 GraphsView *graphView = [[GraphsView alloc] init];
 
@@ -189,13 +195,13 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (_monitorEngine) {
+    if (self.monitorEngine) {
         if ([keyPath isEqual:@keypath(self, monitorEngine.graphsAndGroups)]) {
             [self reloadGraphsTableView:self];
             [self rebuildViews];
         }
         else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost)]) {
-            [self.window setLevel:_monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
+            [self.window setLevel:self.monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
         }
         else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.useGraphSmoothing)]) {
             [self setNeedDisplayGraphs:self];

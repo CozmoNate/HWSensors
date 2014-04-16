@@ -39,7 +39,7 @@
     NSShadow *_shadow;
 }
 
-@property (nonatomic, strong) HWMEngine *monitorEngine;
+@property (readonly) HWMEngine *monitorEngine;
 
 @property (nonatomic, strong) NSImage *image;
 @property (nonatomic, strong) NSImage *alternateImage;

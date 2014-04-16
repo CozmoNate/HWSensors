@@ -49,26 +49,31 @@
     }
 }
 
--(void)setMonitorEngine:(HWMEngine *)monitorEngine
+-(HWMEngine *)monitorEngine
 {
-    if (_monitorEngine != monitorEngine) {
-
-        if (_monitorEngine) {
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:HWMEngineSensorValuesHasBeenUpdatedNotification object:_monitorEngine];
-        }
-
-        _monitorEngine = monitorEngine;
-
-        if (_monitorEngine) {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:_monitorEngine];
-        }
-    }
+    return [HWMEngine sharedEngine];
 }
+
+//-(void)setMonitorEngine:(HWMEngine *)monitorEngine
+//{
+//    if (self.monitorEngine != monitorEngine) {
+//
+//        if (self.monitorEngine) {
+//            [[NSNotificationCenter defaultCenter] removeObserver:self name:HWMEngineSensorValuesHasBeenUpdatedNotification object:self.monitorEngine];
+//        }
+//
+//        self.monitorEngine = monitorEngine;
+//
+//        if (self.monitorEngine) {
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:self.monitorEngine];
+//        }
+//    }
+//}
 
 -(NSArray *)favoritesSnapshot
 {
     if (!_favoritesSnapshot) {
-        _favoritesSnapshot = [_monitorEngine.favorites copy];
+        _favoritesSnapshot = [self.monitorEngine.favorites copy];
     }
 
     return _favoritesSnapshot;
@@ -100,6 +105,8 @@
             [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useBigFontInMenubar) options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar) options:NSKeyValueObservingOptionNew context:nil];
             [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
+
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:self.monitorEngine];
         }];
     }
 
@@ -122,17 +129,17 @@
 
     CGContextRef cgContext = [[NSGraphicsContext currentContext] graphicsPort];
 
-    CGContextSetShouldSmoothFonts(cgContext, !_monitorEngine.configuration.useBigFontInMenubar.boolValue);
+    CGContextSetShouldSmoothFonts(cgContext, !self.monitorEngine.configuration.useBigFontInMenubar.boolValue);
 
     __block int offset = 3;
 
-    if (_monitorEngine) {
+    if (self.monitorEngine) {
 
         if (!self.favoritesSnapshot.count) {
 
             [[NSGraphicsContext currentContext] saveGraphicsState];
 
-            if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
+            if (/*!_isHighlighted &&*/ self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
                 [_shadow set];
 
             NSImage *image = /*_isHighlighted ? _alternateImage :*/ _image;
@@ -153,7 +160,7 @@
             return;
         }
 
-        NSAttributedString *spacer = [[NSAttributedString alloc] initWithString:_monitorEngine.configuration.useBigFontInMenubar.boolValue ? @" " : @"  " attributes:[NSDictionary dictionaryWithObjectsAndKeys:_monitorEngine.configuration.useBigFontInMenubar.boolValue ? _bigFont : _smallFont, NSFontAttributeName, nil]];
+        NSAttributedString *spacer = [[NSAttributedString alloc] initWithString:self.monitorEngine.configuration.useBigFontInMenubar.boolValue ? @" " : @"  " attributes:[NSDictionary dictionaryWithObjectsAndKeys:self.monitorEngine.configuration.useBigFontInMenubar.boolValue ? _bigFont : _smallFont, NSFontAttributeName, nil]];
 
         __block int lastWidth = 0;
         __block int index = 0;
@@ -178,7 +185,7 @@
 
                 if (image) {
 
-                    if (image.isTemplate && _monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
+                    if (image.isTemplate && self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
                         [_shadow set];
 
                     [image drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [image size].height) / 2)) fromRect:NSMakeRect(0, 0, [image size].width, [image size].height) operation:NSCompositeSourceOver fraction:1.0];
@@ -221,10 +228,10 @@
 
                 [[NSGraphicsContext currentContext] saveGraphicsState];
 
-                if (/*!_isHighlighted &&*/ _monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
+                if (/*!_isHighlighted &&*/ self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
                     [_shadow set];
 
-                if (favorite.large.boolValue || _monitorEngine.configuration.useBigFontInMenubar.boolValue) {
+                if (favorite.large.boolValue || self.monitorEngine.configuration.useBigFontInMenubar.boolValue) {
 
                     [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, [title length])];
                     [title drawAtPoint:NSMakePoint(offset, lround(([self frame].size.height - [title size].height) / 2))];

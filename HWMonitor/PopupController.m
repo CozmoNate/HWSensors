@@ -50,7 +50,6 @@
 
 @implementation PopupController
 
-@synthesize monitorEngine = _monitorEngine;
 @synthesize statusItem = _statusItem;
 @synthesize statusItemView = _statusItemView;
 @synthesize toolbarView = _toolbarView;
@@ -67,7 +66,7 @@
 -(NSArray *)sensorsAndGroupsCollectionSnapshot
 {
     if (!_sensorsAndGroupsCollectionSnapshot) {
-        _sensorsAndGroupsCollectionSnapshot = [_monitorEngine.sensorsAndGroups copy];
+        _sensorsAndGroupsCollectionSnapshot = [self.monitorEngine.sensorsAndGroups copy];
     }
 
     return _sensorsAndGroupsCollectionSnapshot;
@@ -75,18 +74,18 @@
 
 -(HWMEngine *)monitorEngine
 {
-    return _monitorEngine;
+    return [HWMEngine sharedEngine];
 }
 
--(void)setMonitorEngine:(HWMEngine *)monitorEngine
-{
-    if (monitorEngine != _monitorEngine) {
-
-        _monitorEngine = monitorEngine;
-
-        [_statusItemView setMonitorEngine:_monitorEngine];
-    }
-}
+//-(void)setMonitorEngine:(HWMEngine *)monitorEngine
+//{
+//    if (monitorEngine != _monitorEngine) {
+//
+//        _monitorEngine = monitorEngine;
+//
+//        [_statusItemView setMonitorEngine:_monitorEngine];
+//    }
+//}
 
 #pragma mark -
 #pragma mark Overridden Methods
@@ -165,8 +164,6 @@
 
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme) options:NSKeyValueObservingOptionNew context:nil];
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.sensorsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
-
-    [_statusItemView setMonitorEngine:_monitorEngine];
 }
 
 -(void)showWindow:(id)sender
@@ -530,7 +527,7 @@
 
     [fromItem.group moveSensorsObjectAtIndex:[fromItem.group.sensors indexOfObject:fromItem] toIndex: toItem ? [fromItem.group.sensors indexOfObject:toItem] : fromItem.group.sensors.count];
 
-    [_monitorEngine setNeedsUpdateSensorLists];
+    [self.monitorEngine setNeedsUpdateSensorLists];
 
     return YES;
 }

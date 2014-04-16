@@ -102,10 +102,8 @@ typedef enum {
 
 +(HWMEngine*)sharedEngine;
 
--(void)rebuildSensorsList;
--(void)startEngine;
--(void)stopEngine;
--(void)closeEngine;
+-(void)open;
+-(void)detectSensors;
 -(void)saveConfiguration;
 -(void)updateSmcAndDeviceSensors;
 -(void)updateAtaSmartSensors;
@@ -113,6 +111,9 @@ typedef enum {
 -(void)setNeedsUpdateLists;
 -(void)setNeedsUpdateSensorLists;
 -(void)setNeedsUpdateGraphsList;
+-(void)start;
+-(void)stop;
+-(void)close;
 
 -(void)insertItemIntoFavorites:(HWMItem*)item atIndex:(NSUInteger)index;
 -(void)moveFavoritesItemAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;

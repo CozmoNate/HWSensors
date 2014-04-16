@@ -52,6 +52,11 @@
 #pragma mark
 #pragma mark Properties:
 
+-(HWMEngine *)monitorEngine
+{
+    return [HWMEngine sharedEngine];
+}
+
 -(NSMutableArray *)themePreview
 {
     if (!_themePreview) {
@@ -205,7 +210,7 @@
 
 -(void)rebuildSensorsList:(id)sender
 {
-    [_monitorEngine rebuildSensorsList];
+    [self.monitorEngine detectSensors];
 }
 
 -(void)reloadFavoritesTableView:(id)sender
@@ -251,11 +256,14 @@
 {
     [GrowlApplicationBridge setGrowlDelegate:self];
 
-    [_monitorEngine startEngine];
+    [self.monitorEngine setDelegate:self];
+
+    [self.monitorEngine open];
+    [self.monitorEngine start];
 
     _forceUpdateSensors = YES;
-    [_monitorEngine updateSmcAndDeviceSensors];
-    [_monitorEngine updateAtaSmartSensors];
+    [self.monitorEngine updateSmcAndDeviceSensors];
+    [self.monitorEngine updateAtaSmartSensors];
     _forceUpdateSensors = NO;
 }
 
@@ -359,7 +367,7 @@
 
 -(BOOL)engine:(HWMEngine *)engine shouldCaptureSensorValuesToGaphsHistoryWithLimit:(NSUInteger *)limit
 {
-    *limit = (float)_graphsController.graphsCollectionView.frame.size.width / _monitorEngine.configuration.graphsScaleValue.floatValue;
+    *limit = (float)_graphsController.graphsCollectionView.frame.size.width / self.monitorEngine.configuration.graphsScaleValue.floatValue;
     
     return _graphsController.window.isVisible;
 }
@@ -558,7 +566,7 @@
         NSData* rowData = [pboard dataForType:kHWMonitorPrefsItemDataType];
         __block NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
 
-        [_monitorEngine removeItemFromFavoritesAtIndex:[rowIndexes firstIndex] - 1];
+        [self.monitorEngine removeItemFromFavoritesAtIndex:[rowIndexes firstIndex] - 1];
 
         NSShowAnimationEffect(NSAnimationEffectPoof, screenPoint, NSZeroSize, nil, nil, nil);
     }
@@ -577,11 +585,11 @@
         NSInteger listToRow = toRow - 1;
 
         if ([info draggingSource] == _favoritesTableView) {
-            [_monitorEngine moveFavoritesItemAtIndex:listFromRow toIndex:listToRow];
+            [self.monitorEngine moveFavoritesItemAtIndex:listFromRow toIndex:listToRow];
         }
         else  if ([info draggingSource] == _sensorsTableView) {
             HWMItem *item = [self.sensorsAndGroupsCollectionSnapshot objectAtIndex:fromRow];
-            [_monitorEngine insertItemIntoFavorites:item atIndex:listToRow];
+            [self.monitorEngine insertItemIntoFavorites:item atIndex:listToRow];
         }
     }
     else if (tableView == _sensorsTableView && [info draggingSource] == _sensorsTableView) {
@@ -599,7 +607,7 @@
         || toRow >= self.sensorsAndGroupsCollectionSnapshot.count ? nil : checkItem;
 
         [fromItem.group moveSensorsObjectAtIndex:[fromItem.group.sensors indexOfObject:fromItem] toIndex:toItem ? [fromItem.group.sensors indexOfObject:toItem] : fromItem.group.sensors.count];
-        [_monitorEngine setNeedsUpdateSensorLists];
+        [self.monitorEngine setNeedsUpdateSensorLists];
     }
     
     return YES;

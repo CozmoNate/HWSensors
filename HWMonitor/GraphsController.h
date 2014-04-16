@@ -36,7 +36,7 @@
     NSMutableArray *_graphViews;
 }
 
-@property (nonatomic, strong) IBOutlet HWMEngine *monitorEngine;
+@property (readonly) IBOutlet HWMEngine *monitorEngine;
 
 @property (readonly) id selectedItem;
 
