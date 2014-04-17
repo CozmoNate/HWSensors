@@ -51,6 +51,7 @@
 	<string>TG:132M|GPU %X Memory</string>
 	<string>TZ:0F1C|Thermal Zone %X</string>
 	<string>VC0C|CPU Core</string>
+	<string>VC0G|CPU GFX</string>
 	<string>VC:A4AC|CPU %X</string>
 	<string>VV1R|CPU VTT</string>
 	<string>VN1R|PCH Core</string>

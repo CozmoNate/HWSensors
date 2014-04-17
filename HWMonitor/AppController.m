@@ -210,7 +210,7 @@
 
 -(void)rebuildSensorsList:(id)sender
 {
-    [self.monitorEngine detectSensors];
+    [self.monitorEngine forceDetectSensors];
 }
 
 -(void)reloadFavoritesTableView:(id)sender

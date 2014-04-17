@@ -54,6 +54,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+//#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define DLog(...)
+
 NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
 @implementation HWMEngine
@@ -458,6 +461,59 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     return icon;
 }
 
+-(void)detectSensors
+{
+    //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+    DLog(@"");
+
+    if (_engineState == kHWMEngineStateActive) {
+        [self internalStopEngine];
+    }
+
+    NSError *error;
+
+    // SMC SENSORS
+
+    // Add FakeSMCKeyStore keys first
+    _fakeSmcConnection = [self insertSmcSensorsWithServiceName:"FakeSMCKeyStore" excludingKeys:nil];
+
+    NSFetchRequest *sensorsFetch = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
+
+    // Keys added from FakeSMCKeyStore
+    NSArray *excludedKeys = [[[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0"]] valueForKey:@"name"];
+
+    // Add keys from AppleSMC
+    _appleSmcConnection = [self insertSmcSensorsWithServiceName:"AppleSMC" excludingKeys:[NSSet setWithArray:excludedKeys]];
+
+    // Close AppleSMC connection if no keys where obtained from it
+    NSArray *appleSmcKeys = [[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service == %d", _appleSmcConnection]];
+
+    if (appleSmcKeys.count == 0) {
+        SMCClose(_appleSmcConnection);
+        _appleSmcConnection = 0;
+    }
+
+    // Update graphs
+    [self insertGraphs];
+
+    // SMART
+    [HWMAtaSmartSensor startWatchingForBlockStorageDevicesWithEngine:self];
+
+    // BATTERIES
+    [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
+
+    // Save context
+    [self saveConfiguration];
+
+    [self setNeedsUpdateLists];
+
+    if (_engineState == kHWMEngineStateActive) {
+        [self internalStartEngine];
+    }
+    //}];
+}
+
 - (void)initSmcAndDevicesTimer
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -549,6 +605,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 - (void)open
 {
+    DLog(@"");
+
     [self assignPlatformProfile];
 
     // Create or load configuration entity
@@ -623,58 +681,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self addObserver:self forKeyPath:@keypath(self, configuration.showSensorLegendsInPopup) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 }
 
--(void)detectSensors
-{
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        if (_engineState == kHWMEngineStateActive) {
-            [self internalStopEngine];
-        }
-
-        NSError *error;
-
-        // SMC SENSORS
-
-        // Add FakeSMCKeyStore keys first
-        _fakeSmcConnection = [self insertSmcSensorsWithServiceName:"FakeSMCKeyStore" excludingKeys:nil];
-
-        NSFetchRequest *sensorsFetch = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
-
-        // Keys added from FakeSMCKeyStore
-        NSArray *excludedKeys = [[[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service != 0"]] valueForKey:@"name"];
-
-        // Add keys from AppleSMC
-        _appleSmcConnection = [self insertSmcSensorsWithServiceName:"AppleSMC" excludingKeys:[NSSet setWithArray:excludedKeys]];
-
-        // Close AppleSMC connection if no keys where obtained from it
-        NSArray *appleSmcKeys = [[self.managedObjectContext executeFetchRequest:sensorsFetch error:&error] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service == %d", _appleSmcConnection]];
-
-        if (appleSmcKeys.count == 0) {
-            SMCClose(_appleSmcConnection);
-            _appleSmcConnection = 0;
-        }
-
-        // Update graphs
-        [self insertGraphs];
-
-        // SMART
-        [HWMAtaSmartSensor startWatchingForBlockStorageDevicesWithEngine:self];
-
-        // BATTERIES
-        [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
-
-        // Save context
-        [self saveConfiguration];
-
-        [self setNeedsUpdateLists];
-
-        if (_engineState == kHWMEngineStateActive) {
-            [self internalStartEngine];
-        }
-    }];
-}
-
 -(void)saveConfiguration
 {
+    DLog(@"");
+
     NSError *error;
 
     if (![self.managedObjectContext save:&error]) {
@@ -685,6 +695,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)updateSmcAndDeviceSensors
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+        DLog(@"");
 
         if (_engineState == kHWMEngineNotInitialized)
             return;
@@ -752,6 +764,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)updateAtaSmartSensors
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+        DLog(@"");
 
         if (_engineState == kHWMEngineNotInitialized)
             return;
@@ -822,13 +836,20 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(void)setNeedsUpdateLists
 {
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    DLog(@"");
+
     [self setNeedsUpdateSensorLists];
     [self setNeedsUpdateGraphsList];
+    }];
 }
 
 -(void)setNeedsUpdateSensorLists
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+        DLog(@"");
+
         _smcAndDevicesSensors = nil;
         _ataSmartSensors = nil;
 
@@ -849,6 +870,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)setNeedsUpdateGraphsList
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+        DLog(@"");
+
         [self willChangeValueForKey:@keypath(self, graphsAndGroups)];
         _graphsAndGroups = nil;
         [self didChangeValueForKey:@keypath(self, graphsAndGroups)];
@@ -858,6 +882,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)setNeedsRecalculateSensorValues
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+        DLog(@"");
+
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
 
         NSError *error;
@@ -870,24 +897,36 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         if (sensors) {
             [sensors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [obj willChangeValueForKey:@keypath(self, value)];
-                [obj didChangeValueForKey:@keypath(self, value)];
-                [obj willChangeValueForKey:@"formattedValue"];
-                [obj didChangeValueForKey:@"formattedValue"];
-                [obj willChangeValueForKey:@"strippedValue"];
-                [obj didChangeValueForKey:@"strippedValue"];
+                HWMSensor *sensor = obj;
+
+                [obj willChangeValueForKey:@keypath(sensor, value)];
+                [obj didChangeValueForKey:@keypath(sensor, value)];
+                [obj willChangeValueForKey:@keypath(sensor, formattedValue)];
+                [obj didChangeValueForKey:@keypath(sensor, formattedValue)];
+                [obj willChangeValueForKey:@keypath(sensor, strippedValue)];
+                [obj didChangeValueForKey:@keypath(sensor, strippedValue)];
             }];
         }
     }];
 }
 
+-(void)forceDetectSensors
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        DLog(@"");
+        [self detectSensors];
+    }];
+}
+
 -(void)start
 {
+    DLog(@"");
     [self setEngineState:kHWMEngineStateActive];
 }
 
 -(void)stop
 {
+    DLog(@"");
     [self setEngineState:kHWMEngineStateIdle];
 }
 
@@ -895,6 +934,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
+        DLog(@"");
+        
         for (HWMSensor *sensor in _smcAndDevicesSensors) {
             if (sensor.service && sensor.service.unsignedLongLongValue) {
                 IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
@@ -1027,7 +1068,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(void)workspaceDidWake:(id)sender
 {
-    [self detectSensors];
+    [self forceDetectSensors];
 }
 
 - (void)systemDidAddBlockStorageDevices:(NSArray*)devices

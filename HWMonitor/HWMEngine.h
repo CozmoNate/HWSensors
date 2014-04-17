@@ -103,7 +103,6 @@ typedef enum {
 +(HWMEngine*)sharedEngine;
 
 -(void)open;
--(void)detectSensors;
 -(void)saveConfiguration;
 -(void)updateSmcAndDeviceSensors;
 -(void)updateAtaSmartSensors;
@@ -111,6 +110,7 @@ typedef enum {
 -(void)setNeedsUpdateLists;
 -(void)setNeedsUpdateSensorLists;
 -(void)setNeedsUpdateGraphsList;
+-(void)forceDetectSensors;
 -(void)start;
 -(void)stop;
 -(void)close;

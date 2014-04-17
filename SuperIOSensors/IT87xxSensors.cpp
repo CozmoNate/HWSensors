@@ -251,7 +251,7 @@ bool IT87xxSensors::initialize()
             features = FEATURE_16BIT_FANS | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI;
             break;
         case IT8720F:
-            features = FEATURE_16BIT_FANS | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI;
+            features = FEATURE_NEWER_AUTOPWM | FEATURE_16BIT_FANS | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI;
             break;
         case IT8721F:
            features = FEATURE_NEWER_AUTOPWM | FEATURE_12MV_ADC | FEATURE_16BIT_FANS

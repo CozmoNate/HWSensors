@@ -535,7 +535,7 @@
 						<key>VIN1</key>
 						<string>CPU Core</string>
 						<key>VIN2</key>
-						<string>Power Supply</string>
+						<string>CPU GFX</string>
 						<key>VIN3</key>
 						<dict>
 							<key>gain</key>
@@ -1494,7 +1494,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN4</key>
-						<string>Power Supply</string>
+						<string>CPU GFX</string>
 						<key>VIN5</key>
 						<string>CPU VRM</string>
 						<key>VIN6</key>
@@ -1578,7 +1578,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN4</key>
-						<string>Power Supply</string>
+						<string>CPU GFX</string>
 						<key>VIN5</key>
 						<string>CPU VRM</string>
 						<key>VIN6</key>
@@ -1939,7 +1939,7 @@
 						<key>VIN3</key>
 						<string>Power Supply</string>
 						<key>VIN4</key>
-						<string>Power Supply</string>
+						<string>CPU GFX</string>
 						<key>VIN5</key>
 						<string>CPU VRM</string>
 						<key>VIN6</key>
@@ -1996,7 +1996,7 @@
 						<key>VIN3</key>
 						<string>Power Supply</string>
 						<key>VIN4</key>
-						<string>Power Supply</string>
+						<string>CPU GFX</string>
 						<key>VIN5</key>
 						<string>CPU Core</string>
 						<key>VIN6</key>
@@ -2717,7 +2717,7 @@
 							<integer>0</integer>
 						</dict>
 						<key>VIN4</key>
-						<string>Power Supply</string>
+						<string>CPU GFX</string>
 						<key>VIN5</key>
 						<string>CPU Core</string>
 						<key>VIN6</key>
@@ -3387,7 +3387,7 @@
 						<key>VIN4</key>
 						<string></string>
 						<key>VIN5</key>
-						<string>Power Supply</string>
+						<string>CPU GFX</string>
 						<key>VIN6</key>
 						<string>CPU Core</string>
 						<key>VIN7</key>

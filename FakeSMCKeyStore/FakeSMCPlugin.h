@@ -103,6 +103,7 @@ const struct FakeSMCSensorDefinitionEntry FakeSMCSensorDefinitions[] =
     
     // Voltages
     {"CPU Core",                "VC0C", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
+    {"CPU GFX",                 "VC%XG", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0xF},
     {"CPU VTT",                 "VV1R", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
     {"PCH",                     "VN1R", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
     {"Memory",                  "VM0R", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
@@ -122,7 +123,7 @@ const struct FakeSMCSensorDefinitionEntry FakeSMCSensorDefinitions[] =
     {"CMOS Battery",            "Vb0R", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
     {"Battery",                 "VBAT", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0},
     {"CPU VRM",                 "VS%XC", "fp4c", 2, kFakeSMCCategoryVoltage, 0, 0xF},
-    
+
     /*{"GPU Core",                "VC%XG", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 4},*/
     
     // Currents
