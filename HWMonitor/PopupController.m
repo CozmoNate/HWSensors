@@ -170,9 +170,6 @@
 {
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
-    if (menubarWindow.isVisible)
-        return;
-
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillOpen:)]) {
         [self.delegate popupWillOpen:self];
     }
@@ -183,7 +180,7 @@
     
     [self layoutContent:NO orderFront:YES animated:YES];
 
-    //self.statusItemView.isHighlighted = YES;
+    self.statusItemView.isHighlighted = YES;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidOpen:)]) {
         [self.delegate popupDidOpen:self];
@@ -192,16 +189,13 @@
 
 -(void)close
 {
-    if (!self.window.isVisible)
-        return;
-    
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillClose:)]) {
         [self.delegate popupWillClose:self];
     }
     
     [self.window orderOut:nil];
 
-    //self.statusItemView.isHighlighted = NO;
+    self.statusItemView.isHighlighted = NO;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidClose:)]) {
         [self.delegate popupDidClose:self];
@@ -281,17 +275,10 @@
         if (menubarWindow.isVisible && (menubarWindow.isKeyWindow || menubarWindow.attachedToMenuBar))
         {
             [self close];
-            self.statusItemView.isHighlighted = NO;
         }
         else
         {
-            if (!menubarWindow.attachedToMenuBar) {
-                [NSApp activateIgnoringOtherApps:YES];
-                //[self.window makeKeyAndOrderFront:self];
-            }
-
             [self showWindow:self];
-            self.statusItemView.isHighlighted = YES;
         }
     }
 }
