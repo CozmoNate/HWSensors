@@ -177,13 +177,13 @@
         [self.delegate popupWillOpen:self];
     }
 
+    if (!menubarWindow.attachedToMenuBar) {
+        [NSApp activateIgnoringOtherApps:YES];
+    }
+    
     [self layoutContent:NO orderFront:YES animated:YES];
 
     //self.statusItemView.isHighlighted = YES;
-
-    //if (menubarWindow.attachedToMenuBar) {
-    //    [NSApp activateIgnoringOtherApps:YES];
-    //}
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidOpen:)]) {
         [self.delegate popupDidOpen:self];
