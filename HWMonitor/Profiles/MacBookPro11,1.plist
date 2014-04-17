@@ -17,7 +17,7 @@
 	<string>Th1H|Heatpipe</string>
 	<string>Ts0P|Heatpipe Incoming Air</string>
 	<string>VC0C|CPU VRM</string>
-	<string>VC0G|GPU Core</string>
+	<string>VC0G|CPU GFX</string>
 	<string>IC0C|CPU Core</string>
 	<string>IC0R|CPU Rail</string>
 	<string>IG0C|GPU</string>

@@ -52,7 +52,7 @@
 	<string>TZ:0F1C|Thermal Zone %X</string>
 	<string>VC0C|CPU Core</string>
 	<string>VC0G|CPU GFX</string>
-	<string>VC:0F1G|CPU GFX %X</string>
+	<string>VC:132G|CPU GFX %X</string>
 	<string>VC:A4AC|CPU %X</string>
 	<string>VV1R|CPU VTT</string>
 	<string>VN1R|PCH Core</string>
@@ -73,8 +73,6 @@
 	<string>VBAT|Battery</string>
 	<string>VS0C|CPU VRM</string>
 	<string>VS:1E2C|CPU VRM %X</string>
-	<string>VC0G|GPU Core</string>
-	<string>VC:132G|GPU %X Core</string>
 	<string>VG0C|GPU Core</string>
 	<string>VG:132C|GPU %X Core</string>
 	<string>VC0R|GPU Rail</string>

@@ -85,8 +85,10 @@
 #define KEY_CPU_VTT_VOLTAGE                     "VV1R" //
 
 // GPU
-#define KEY_GPU_VOLTAGE                         "VC0G" // GPU 0 Core
-#define KEY_FORMAT_GPU_VOLTAGE                  "VC%XG" // GPU X Core
+#define KEY_IGPU_VOLTAGE                        "VC0G" // GPU 0 Core
+#define KEY_FORMAT_IGPU_VOLTAGE                 "VC%XG" // GPU X Core
+#define KEY_GPU_VOLTAGE                         "VG0C" // GPU 0 Core
+#define KEY_FORMAT_GPU_VOLTAGE                  "VG%XC" // GPU X Core
 
 // Others
 #define KEY_NORTHBRIDGE_VOLTAGE                 "VN0R"  

@@ -16,7 +16,7 @@
 	<string>Ts0S|Heatpipe Outgoing Air</string>
 	<string>VC0C|CPU Core</string>
 	<string>VC2C|PCH Core</string>
-	<string>VC0G|GPU Core</string>
+	<string>VC0G|CPU GFX</string>
 	<string>VD0R|Power Supply</string>
 	<string>IC0C|CPU Core</string>
 	<string>IC0R|CPU Rail</string>
