@@ -351,7 +351,7 @@
 //    [menubarWindow setMinSize:NSMakeSize(menubarWindow.minSize.width, menubarWindow.toolbarHeight + BOTTOM_SPACE)];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC / 7)), dispatch_get_main_queue(), ^{
-        [NSApp activateIgnoringOtherApps:NO];
+        [NSApp activateIgnoringOtherApps:YES];
         [self layoutContent:YES orderFront:YES animated:YES];
     });
 }
