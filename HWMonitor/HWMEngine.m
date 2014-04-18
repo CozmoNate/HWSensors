@@ -137,30 +137,6 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     return _managedObjectContext;
 }
 
--(void)setEngineState:(HWMEngineState)engineState
-{
-    if (_engineState != kHWMEngineNotInitialized) {
-        switch (engineState) {
-            case kHWMEngineStateIdle:
-                if (_engineState == kHWMEngineStateActive) {
-                    [self internalStopEngine];
-                }
-                break;
-
-            case kHWMEngineStateActive:
-                if (_engineState == kHWMEngineStateIdle) {
-                    [self internalStartEngine];
-                }
-                break;
-
-            default:
-                break;
-        }
-        
-        _engineState = engineState;
-    }
-}
-
 -(HWMSensorsUpdateLoopStrategy)updateLoopStrategy
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(updateLoopStrategyForEngine:)]) {
@@ -516,7 +492,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 - (void)initSmcAndDevicesTimer
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
         if (_smcAndDevicesSensorsUpdateLoopTimer && _smcAndDevicesSensorsUpdateLoopTimer.timeInterval == _configuration.smcSensorsUpdateRate.floatValue) {
             return;
         }
@@ -528,12 +504,12 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         _smcAndDevicesSensorsUpdateLoopTimer = [NSTimer timerWithTimeInterval:_configuration.smcSensorsUpdateRate.floatValue target:self selector:@selector(updateSmcAndDeviceSensors) userInfo:nil repeats:YES];
 
         [[NSRunLoop mainRunLoop] addTimer:_smcAndDevicesSensorsUpdateLoopTimer forMode:NSRunLoopCommonModes];
-    }];
+    //}];
 }
 
 - (void)initAtaSmartTimer
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
         if (_ataSmartSensorsUpdateLoopTimer && _ataSmartSensorsUpdateLoopTimer.timeInterval == _configuration.smartSensorsUpdateRate.floatValue * 60.0f) {
             return;
         }
@@ -546,7 +522,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         [[NSRunLoop mainRunLoop] addTimer:_ataSmartSensorsUpdateLoopTimer forMode:NSRunLoopCommonModes];
 
-    }];
+    //}];
 }
 
 /**
@@ -607,6 +583,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 {
     DLog(@"");
 
+    if (_engineState > kHWMEngineStateClosed) {
+        return;
+    }
+
     [self assignPlatformProfile];
 
     // Create or load configuration entity
@@ -664,7 +644,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     // Detect sensors
     [self detectSensors];
 
-    _engineState = kHWMEngineStateIdle;
+    _engineState = kHWMEngineStatePaused;
 
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidMountNotification object:nil];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self selector: @selector(workspaceDidMountOrUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
@@ -681,9 +661,64 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self addObserver:self forKeyPath:@keypath(self, configuration.showSensorLegendsInPopup) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 }
 
+-(void)start
+{
+    DLog(@"");
+    if (_engineState == kHWMEngineStatePaused) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            _engineState = kHWMEngineStateActive;
+            [self internalStartEngine];
+        }];
+    }
+}
+
+-(void)stop
+{
+    DLog(@"");
+    if (_engineState == kHWMEngineStateActive) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            _engineState = kHWMEngineStatePaused;
+            [self internalStopEngine];
+        }];
+    }
+}
+
+-(void)close
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+        DLog(@"");
+
+        if (_engineState < kHWMEngineStatePaused) {
+            return;
+        }
+
+        for (HWMSensor *sensor in _smcAndDevicesSensors) {
+            if (sensor.service && sensor.service.unsignedLongLongValue) {
+                IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
+                sensor.service = @0;
+            }
+        }
+
+        if (_appleSmcConnection) {
+            SMCClose(_appleSmcConnection);
+            _appleSmcConnection = 0;
+        }
+
+        if (_fakeSmcConnection) {
+            SMCClose(_fakeSmcConnection);
+            _fakeSmcConnection = 0;
+        }
+    }];
+}
+
 -(void)saveConfiguration
 {
     DLog(@"");
+
+    if (_engineState < kHWMEngineStatePaused) {
+        return;
+    }
 
     NSError *error;
 
@@ -692,14 +727,28 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     }
 }
 
+-(void)forceDetectSensors
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        DLog(@"");
+
+        if (_engineState < kHWMEngineStatePaused) {
+            return;
+        }
+
+        [self detectSensors];
+    }];
+}
+
 -(void)updateSmcAndDeviceSensors
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
         DLog(@"");
 
-        if (_engineState == kHWMEngineNotInitialized)
+        if (_engineState < kHWMEngineStatePaused) {
             return;
+        }
 
         NSTimeInterval nineTenths = _configuration.smcSensorsUpdateRate.floatValue * 0.9f;
 
@@ -767,8 +816,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         DLog(@"");
 
-        if (_engineState == kHWMEngineNotInitialized)
+        if (_engineState < kHWMEngineStatePaused) {
             return;
+        }
 
         NSTimeInterval nineTenths = _configuration.smartSensorsUpdateRate.floatValue * 60 * 0.9f;
 
@@ -850,6 +900,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         DLog(@"");
 
+        if (_engineState < kHWMEngineStatePaused) {
+            return;
+        }
+
         _smcAndDevicesSensors = nil;
         _ataSmartSensors = nil;
 
@@ -873,6 +927,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         DLog(@"");
 
+        if (_engineState < kHWMEngineStatePaused) {
+            return;
+        }
+
         [self willChangeValueForKey:@keypath(self, graphsAndGroups)];
         _graphsAndGroups = nil;
         [self didChangeValueForKey:@keypath(self, graphsAndGroups)];
@@ -884,6 +942,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
         DLog(@"");
+
+        if (_engineState < kHWMEngineStatePaused) {
+            return;
+        }
 
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Sensor"];
 
@@ -906,51 +968,6 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 [obj willChangeValueForKey:@keypath(sensor, strippedValue)];
                 [obj didChangeValueForKey:@keypath(sensor, strippedValue)];
             }];
-        }
-    }];
-}
-
--(void)forceDetectSensors
-{
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        DLog(@"");
-        [self detectSensors];
-    }];
-}
-
--(void)start
-{
-    DLog(@"");
-    [self setEngineState:kHWMEngineStateActive];
-}
-
--(void)stop
-{
-    DLog(@"");
-    [self setEngineState:kHWMEngineStateIdle];
-}
-
--(void)close
-{
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-
-        DLog(@"");
-        
-        for (HWMSensor *sensor in _smcAndDevicesSensors) {
-            if (sensor.service && sensor.service.unsignedLongLongValue) {
-                IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
-                sensor.service = @0;
-            }
-        }
-
-        if (_appleSmcConnection) {
-            SMCClose(_appleSmcConnection);
-            _appleSmcConnection = 0;
-        }
-
-        if (_fakeSmcConnection) {
-            SMCClose(_fakeSmcConnection);
-            _fakeSmcConnection = 0;
         }
     }];
 }
@@ -1014,12 +1031,14 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         
     }
     else if ([keyPath isEqual:@keypath(self, configuration.smcSensorsUpdateRate)]) {
-        [self performSelectorInBackground:@selector(initSmcAndDevicesTimer) withObject:nil];
-
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self initSmcAndDevicesTimer];
+        }];
     }
     else if ([keyPath isEqual:@keypath(self, configuration.smartSensorsUpdateRate)]) {
-        [self performSelectorInBackground:@selector(initAtaSmartTimer) withObject:nil];
-
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self initAtaSmartTimer];
+        }];
     }
     else if ([keyPath isEqual:@keypath(self, configuration.showSensorLegendsInPopup)]) {
         [self willChangeValueForKey:@"sensorsAndGroups"];

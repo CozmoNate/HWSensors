@@ -30,20 +30,18 @@
 
 extern NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification;
 
-typedef enum {
-    kHWMEngineNotInitialized = 0,
-    kHWMEngineStateIdle,
-    kHWMEngineStateActive,
-} HWMEngineState;
+typedef NS_ENUM(NSUInteger, HWMEngineState) {
+    kHWMEngineStateClosed       = 0,
+    kHWMEngineStatePaused       = 2,
+    kHWMEngineStateActive       = 3,
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, HWMSensorsUpdateLoopStrategy) {
     kHWMSensorsUpdateLoopRegular = 0,
     kHWMSensorsUpdateLoopForced,
     kHWMSensorsUpdateLoopOnlyFavorites,
-    
     kHWMSensorsUpdateLoopStrategiesCount
-    
-} HWMSensorsUpdateLoopStrategy;
+};
 
 @class HWMColorTheme;
 @class HWMConfiguration;
@@ -90,9 +88,9 @@ typedef enum {
 @property (nonatomic, strong) IBOutlet NSManagedObjectContext * managedObjectContext;
 @property (nonatomic, strong) IBOutlet HWMConfiguration * configuration;
 
-@property (nonatomic, assign) HWMEngineState engineState;
 @property (nonatomic, assign) HWMSensorsUpdateLoopStrategy updateLoopStrategy;
 
+@property (readonly) HWMEngineState engineState;
 @property (readonly) BOOL isRunningOnMac;
 
 @property (readonly) IBOutlet NSArray * iconsWithSensorsAndGroups;

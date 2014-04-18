@@ -1082,7 +1082,6 @@
 				7EA248F416D8E93A002231B2 /* InfoPlist.strings */,
 				7EA248F716D8E93A002231B2 /* main.m */,
 				7EA248F916D8E93A002231B2 /* HWMonitor-Prefix.pch */,
-				7EF28326184C71AA00DD8513 /* Credits.html */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1095,7 +1094,6 @@
 				7EFFADB01851FDDD00D427EA /* Prefs Toolbar */,
 				7E1ABD8E185E2CA200412B75 /* Divider.tif */,
 				7E111512188F3EA4006E15A0 /* default.iconset */,
-				7E04D7BC18B3423600B40ADA /* logo.png */,
 				7ECDDE3016DD680E00085FFF /* 04-eye.png */,
 				7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */,
 				7ECDDE3416DDE5DA00085FFF /* 04-eye-white.png */,
@@ -1173,12 +1171,12 @@
 		7ECDDE3E16DDF19A00085FFF /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
-				7ED2A50C188193C700DAA19D /* Artwork */,
+				7EDDC87116FA5DA50072B15B /* Localizer.h */,
+				7EDDC87216FA5DA50072B15B /* Localizer.m */,
 				7EA2494A16D8EB0B002231B2 /* Views & Controls */,
 				7EA2490816D8E942002231B2 /* Icons */,
 				7EFDE525185C9FF00022FD66 /* Fonts */,
-				7EDDC87116FA5DA50072B15B /* Localizer.h */,
-				7EDDC87216FA5DA50072B15B /* Localizer.m */,
+				7ED2A50C188193C700DAA19D /* Artwork */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";
@@ -1196,6 +1194,8 @@
 		7EF2A0FF17303C3600D8641C /* About Panel Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7E04D7BC18B3423600B40ADA /* logo.png */,
+				7EF28326184C71AA00DD8513 /* Credits.html */,
 				7EF2A0F31730379C00D8641C /* AboutController.h */,
 				7EF2A0F41730379C00D8641C /* AboutController.m */,
 				7EF2A0FD17303B9C00D8641C /* AboutController.xib */,

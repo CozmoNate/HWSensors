@@ -47,10 +47,9 @@
 @property (nonatomic, setter = setHighlighted:) BOOL isHighlighted;
 
 @property (nonatomic, readonly) NSRect screenRect;
+
 @property (nonatomic) SEL action;
 @property (nonatomic, unsafe_unretained) id target;
-
-@property (readonly) NSArray *favoritesSnapshot;
 
 -(id)initWithFrame:(NSRect)rect statusItem:(NSStatusItem *)statusItem;
 
