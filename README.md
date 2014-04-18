@@ -13,7 +13,6 @@ FakeSMC is an open source SMC device driver/emulator developed by [netkas](http:
 [Assembla](https://www.assembla.com/code/fakesmc/git/nodes),
 [GitHub](https://github.com/kozlek/HWSensors)
 
-====
 ## Special thanks to:
 netkas for fakesmc
 slice for plugins and help in developing the project
