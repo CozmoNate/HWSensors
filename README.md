@@ -1,5 +1,5 @@
 # HWSensors
-====
+
 HWSensors is a software bundle includes drivers and applications allow you to access information from hardware sensors available on your MAC.
 
 FakeSMC is an open source SMC device driver/emulator developed by netkas (http://netkas.org/).
