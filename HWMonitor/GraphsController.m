@@ -39,6 +39,7 @@
 #import "Localizer.h"
 
 #import "HWMEngine.h"
+#import "HWMSensor.h"
 #import "HWMGraph.h"
 #import "HWMGraphsGroup.h"
 #import "HWMConfiguration.h"
@@ -111,6 +112,7 @@
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost)];
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useGraphSmoothing)];
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsScaleValue)];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup)];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -133,6 +135,7 @@
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost) options:NSKeyValueObservingOptionNew context:nil];
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useGraphSmoothing) options:NSKeyValueObservingOptionNew context:nil];
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsScaleValue) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)showWindow:(id)sender
@@ -195,7 +198,8 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (self.monitorEngine) {
-        if ([keyPath isEqual:@keypath(self, monitorEngine.graphsAndGroups)]) {
+        if ([keyPath isEqual:@keypath(self, monitorEngine.graphsAndGroups)] ||
+            [keyPath isEqual:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup)]) {
             [self reloadGraphsTableView:self];
             [self rebuildViews];
         }
@@ -237,7 +241,16 @@
 
 -(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    return [[self.graphsAndGroupsCollectionSnapshot objectAtIndex:row] isKindOfClass:[HWMGraph class]] ? 19 : 21;
+    NSObject *item = [self.graphsAndGroupsCollectionSnapshot objectAtIndex:row];
+
+    if ([item isKindOfClass:[HWMGraph class]]) {
+        HWMGraph *graph = (HWMGraph*)item;
+
+        return graph.sensor.legend ? 32 : 19;
+    }
+
+    // Group
+    return 21;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
