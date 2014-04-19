@@ -438,6 +438,7 @@
 		7E4C76B818A61C190050BEFD /* NSTableHeaderCell+PopupThemedHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableHeaderCell+PopupThemedHeader.h"; sourceTree = "<group>"; };
 		7E4C76B918A61C190050BEFD /* NSTableHeaderCell+PopupThemedHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableHeaderCell+PopupThemedHeader.m"; sourceTree = "<group>"; };
 		7E4CD74B1737574C002586D2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7E5048DC19026494006FE6FC /* HWMEngine 1.12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.12.xcdatamodel"; sourceTree = "<group>"; };
 		7E56D2F9183FD96600D53B97 /* HWMSmcFanSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMSmcFanSensor.h; sourceTree = "<group>"; };
 		7E56D2FA183FD96600D53B97 /* HWMSmcFanSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSmcFanSensor.m; sourceTree = "<group>"; };
 		7E622ECA18ABFEC700F62F78 /* HWMEngine 1.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.5.xcdatamodel"; sourceTree = "<group>"; };
@@ -1901,6 +1902,7 @@
 		7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7E5048DC19026494006FE6FC /* HWMEngine 1.12.xcdatamodel */,
 				7EF9BDEC18DC165B0017DB91 /* HWMEngine 1.9.xcdatamodel */,
 				7E44CE6318F8D80B00EDAAC6 /* HWMEngine 1.10.xcdatamodel */,
 				7E4A45CB18FC1C8100F89042 /* HWMEngine 1.11.xcdatamodel */,
@@ -1914,7 +1916,7 @@
 				7ED3178A18814C3E00A7FDF5 /* HWMEngine 1.3.xcdatamodel */,
 				7E3A93111848A8A70097F83E /* HWMEngine.xcdatamodel */,
 			);
-			currentVersion = 7E4A45CB18FC1C8100F89042 /* HWMEngine 1.11.xcdatamodel */;
+			currentVersion = 7E5048DC19026494006FE6FC /* HWMEngine 1.12.xcdatamodel */;
 			path = HWMEngine.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

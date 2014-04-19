@@ -340,8 +340,8 @@
 "Range:" = "Предел:";
 
 "Show drive title as:" = "Формат имени дисков:";
-"Show drive subtitle as:" = "Формат подписи дисков:";
+"Show drive legend as:" = "Формат подписи дисков:";
 "Product name" = "Имя продукта";
 "Partition names" = "Имена разделов";
 "BSD name" = "Имя BSD";
-"Show sensor subtitles" = "Показывать подписи";
+"Show sensor legends" = "Показывать подписи";

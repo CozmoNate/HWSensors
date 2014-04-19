@@ -41,9 +41,6 @@
 @class HWMEngine;
 
 @interface PopupController : NSWindowController <NSApplicationDelegate, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource>
-{
- 
-}
 
 @property (assign) IBOutlet id <PopupControllerDelegate> delegate;
 

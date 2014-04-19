@@ -110,9 +110,10 @@
 {
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.graphsAndGroups)];
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost)];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit)];
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useGraphSmoothing)];
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsScaleValue)];
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup)];
+    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInGraphs)];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -133,9 +134,10 @@
 
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.graphsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useGraphSmoothing) options:NSKeyValueObservingOptionNew context:nil];
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsScaleValue) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInGraphs) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)showWindow:(id)sender
@@ -198,18 +200,19 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (self.monitorEngine) {
-        if ([keyPath isEqual:@keypath(self, monitorEngine.graphsAndGroups)] ||
-            [keyPath isEqual:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup)]) {
+        if ([keyPath isEqual:@keypath(self, monitorEngine.graphsAndGroups)]) {
             [self reloadGraphsTableView:self];
             [self rebuildViews];
+        }
+        else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.showSensorLegendsInGraphs)]) {
+            [self reloadGraphsTableView:self];
         }
         else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost)]) {
             [self.window setLevel:self.monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
         }
-        else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.useGraphSmoothing)]) {
-            [self setNeedDisplayGraphs:self];
-        }
-        else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.graphsScaleValue)]) {
+        else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.useFahrenheit)] ||
+                 [keyPath isEqual:@keypath(self, monitorEngine.configuration.useGraphSmoothing)] ||
+                 [keyPath isEqual:@keypath(self, monitorEngine.configuration.graphsScaleValue)]) {
             [self setNeedDisplayGraphs:self];
         }
     }
@@ -246,7 +249,7 @@
     if ([item isKindOfClass:[HWMGraph class]]) {
         HWMGraph *graph = (HWMGraph*)item;
 
-        return graph.sensor.legend ? 32 : 19;
+        return graph.sensor.legend && self.monitorEngine.configuration.showSensorLegendsInGraphs.boolValue ? 32 : 19;
     }
 
     // Group
