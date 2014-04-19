@@ -156,3 +156,5 @@ typedef enum : NSUInteger {
 -(void)updateVolumeNames;
 
 @end
+
+NSString* bsdname_from_service(io_registry_entry_t object);

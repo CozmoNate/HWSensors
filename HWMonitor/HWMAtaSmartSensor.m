@@ -992,7 +992,12 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 -(void)updateVolumeNames
 {
     NSString *volumes = [[[HWMAtaSmartSensor partitions] objectForKey:self.bsdName] componentsJoinedByString:@", "];
-    
+
+    if (!volumes) {
+        NSString *bsdUnit = bsdname_from_service((io_registry_entry_t)self.service.unsignedLongLongValue);
+        volumes = [[[HWMAtaSmartSensor partitions] objectForKey:bsdUnit] componentsJoinedByString:@", "];
+    }
+
     [self setPrimitiveValue:volumes ? volumes : self.bsdName forKey:@"volumeNames"];
 }
 
@@ -1147,6 +1152,53 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
 @end
 
+NSString* bsdname_from_service(io_registry_entry_t object)
+{
+    CFMutableDictionaryRef propertiesRef;
+
+    if (KERN_SUCCESS == IORegistryEntryCreateCFProperties(object, &propertiesRef, kCFAllocatorDefault, 0)) {
+
+        NSDictionary *properties = CFBridgingRelease(propertiesRef);
+
+        NSString *bsdName = [properties[@"BSD Name"] copy];
+        NSNumber *open = properties[@"Open"];
+        NSNumber *leaf = properties[@"Leaf"];
+        NSNumber *whole = properties[@"Whole"];
+
+        if (bsdName &&
+            open && open.boolValue &&
+            leaf && leaf.boolValue &&
+            whole && whole.boolValue) {
+            return bsdName;
+        }
+    }
+
+    io_iterator_t childIterator;
+
+    if (KERN_SUCCESS == IORegistryEntryGetChildIterator(object, kIOServicePlane, &childIterator)) {
+
+        io_registry_entry_t child;
+        NSString *bsdName = nil;
+
+        while ((child = IOIteratorNext(childIterator))) {
+
+            bsdName = bsdname_from_service(child);
+
+            IOObjectRelease(child);
+
+            if (bsdName) {
+                break;
+            }
+        }
+
+        IOObjectRelease(childIterator);
+
+        return bsdName;
+    }
+
+    return nil;
+}
+
 static void block_device_appeared(void *engine, io_iterator_t iterator)
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -1196,17 +1248,22 @@ static void block_device_appeared(void *engine, io_iterator_t iterator)
                             if (MACH_PORT_NULL != bsdNameRef) {
                                 bsdName = CFBridgingRelease(bsdNameRef);
                                 volumes = [[[HWMAtaSmartSensor partitions] objectForKey:bsdName] componentsJoinedByString:@", "];
-                            }
 
-                            if (bsdName) {
-                                [devices addObject:@{@"service" : [NSNumber numberWithUnsignedLongLong:object],
-                                                     @"productName": name,
-                                                     @"bsdName" :bsdName,
-                                                     @"volumesNames" : (volumes ? volumes : bsdName) ,
-                                                     @"serialNumber" : serial ? serial : revision,
-                                                     @"revision" : revision,
-                                                     @"rotational" : [NSNumber numberWithBool:medium ? ![medium isEqualToString:@"Solid State"] : TRUE]}
-                                 ];
+                                if (!volumes) {
+                                    NSString *bsdUnit = bsdname_from_service(object);
+                                    volumes = [[[HWMAtaSmartSensor partitions] objectForKey:bsdUnit] componentsJoinedByString:@", "];
+                                }
+
+                                if (bsdName) {
+                                    [devices addObject:@{@"service" : [NSNumber numberWithUnsignedLongLong:object],
+                                                         @"productName": name,
+                                                         @"bsdName" :bsdName,
+                                                         @"volumesNames" : (volumes ? volumes : bsdName) ,
+                                                         @"serialNumber" : serial ? serial : revision,
+                                                         @"revision" : revision,
+                                                         @"rotational" : [NSNumber numberWithBool:medium ? ![medium isEqualToString:@"Solid State"] : TRUE]}
+                                     ];
+                                }
                             }
                         }
                     }
