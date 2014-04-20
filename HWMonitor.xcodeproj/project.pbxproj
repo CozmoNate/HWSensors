@@ -35,7 +35,7 @@
 		7E24ABF3188FB4D000810B9D /* 338-enter-fullscreen-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24ABF1188FB4D000810B9D /* 338-enter-fullscreen-white.png */; };
 		7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E268C611837A41C004F16E3 /* HWMIcon.m */; };
 		7E2789801876FB6300B443BD /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
-		7E2789811876FB6E00B443BD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
+		7E2789811876FB6E00B443BD /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
 		7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1C18C467B900D97F89 /* HWMSmcFanControlLevel.m */; };
 		7E2DEA2018C467DC00D97F89 /* HWMSmcFanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1F18C467DC00D97F89 /* HWMSmcFanController.m */; };
 		7E309FC818C30FB1001033A1 /* 22-circle-minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FC418C30FB1001033A1 /* 22-circle-minus.png */; };
@@ -119,6 +119,7 @@
 		7E6D702718AF3F1800CD8BFD /* SmartAttributes.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E6D702618AF3F1800CD8BFD /* SmartAttributes.strings */; };
 		7E6D90441845EEDB0045BDB3 /* HWMGraphsGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6D90431845EEDB0045BDB3 /* HWMGraphsGroup.m */; };
 		7E713BF218FD1B2D009E6EA5 /* NSString+returnCodeDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E713BF118FD1B2D009E6EA5 /* NSString+returnCodeDescription.m */; };
+		7E74FE50190455F30051706F /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E74FE4F190455F30051706F /* Sparkle.framework */; };
 		7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */; };
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
 		7E8A337518EEEC510059DA16 /* HWMThemedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A337418EEEC510059DA16 /* HWMThemedTextField.m */; };
@@ -140,9 +141,9 @@
 		7EA248FF16D8E93A002231B2 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248FE16D8E93A002231B2 /* AppController.m */; };
 		7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2494C16D8EB2D002231B2 /* StatusItemView.m */; };
 		7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
-		7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
-		7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
 		7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */; };
+		7EBD9F4619044D2800BE9790 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E4D102419044CD700BF6D3B /* Sparkle.framework */; };
+		7EBD9F6019044D9100BE9790 /* libReactiveCocoa-Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBD9F5E19044D5D00BE9790 /* libReactiveCocoa-Mac.a */; };
 		7EC95E2218D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m */; };
 		7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3016DD680E00085FFF /* 04-eye.png */; };
 		7ECDDE3316DD680E00085FFF /* 04-eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3116DD680E00085FFF /* 04-eye@2x.png */; };
@@ -164,7 +165,7 @@
 		7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC87216FA5DA50072B15B /* Localizer.m */; };
 		7EEC9F4418B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4218B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist */; };
 		7EEC9F4518B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4318B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist */; };
-		7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */; };
+		7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in Copy Helper Tool */ = {isa = PBXBuildFile; fileRef = 7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */; };
 		7EEC9F4918B8D20600BDB9D7 /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7EF393C1185C8D990033F1AB /* smc.c */; };
 		7EEC9F4A18B8D2E200BDB9D7 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7EEC9F4C18B8D73E00BDB9D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4B18B8D73E00BDB9D7 /* main.m */; };
@@ -183,7 +184,7 @@
 		7EFD75B6185C73A300C01C2B /* PopupFanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD75B5185C73A300C01C2B /* PopupFanCell.m */; };
 		7EFD75B8185C763500C01C2B /* PopupFanController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EFD75B7185C763500C01C2B /* PopupFanController.xib */; };
 		7EFDE527185CA0020022FD66 /* Let's go Digital Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EFDE526185CA0020022FD66 /* Let's go Digital Regular.ttf */; };
-		7EFDE52A185CA0CF0022FD66 /* Let's go Digital Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EFDE526185CA0020022FD66 /* Let's go Digital Regular.ttf */; };
+		7EFDE52A185CA0CF0022FD66 /* Let's go Digital Regular.ttf in Copy Fonts */ = {isa = PBXBuildFile; fileRef = 7EFDE526185CA0020022FD66 /* Let's go Digital Regular.ttf */; };
 		7EFE61AE183581090009BD0D /* HWMBatterySensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61AD183581090009BD0D /* HWMBatterySensor.m */; };
 		7EFE61B1183581090009BD0D /* HWMAtaSmartSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61B0183581090009BD0D /* HWMAtaSmartSensor.m */; };
 		7EFE61B4183581090009BD0D /* HWMSmcSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61B3183581090009BD0D /* HWMSmcSensor.m */; };
@@ -196,40 +197,103 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7E2FE40E18DCBA5400EAD6DB /* PBXContainerItemProxy */ = {
+		7E4D102319044CD700BF6D3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
+			containerPortal = 7E4D101B19044CD700BF6D3B /* Sparkle.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = Sparkle;
 		};
-		7E2FE41018DCBA5400EAD6DB /* PBXContainerItemProxy */ = {
+		7E4D102519044CD700BF6D3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
+			containerPortal = 7E4D101B19044CD700BF6D3B /* Sparkle.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 61B5F90209C4CEE200B25A18;
 			remoteInfo = "Sparkle Test App";
 		};
-		7E2FE41218DCBA5400EAD6DB /* PBXContainerItemProxy */ = {
+		7E4D102719044CD700BF6D3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
+			containerPortal = 7E4D101B19044CD700BF6D3B /* Sparkle.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 612279D90DB5470200AB99EA;
 			remoteInfo = "Sparkle Unit Tests";
 		};
-		7E2FE41418DCBA5400EAD6DB /* PBXContainerItemProxy */ = {
+		7E4D102919044CD700BF6D3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
+			containerPortal = 7E4D101B19044CD700BF6D3B /* Sparkle.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 5D06E8D00FD68C7C005AE3F6;
 			remoteInfo = BinaryDelta;
 		};
-		7E2FE41618DCBA5400EAD6DB /* PBXContainerItemProxy */ = {
+		7E4D102B19044CD700BF6D3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
+			containerPortal = 7E4D101B19044CD700BF6D3B /* Sparkle.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 55C14BB7136EEF1500649790;
 			remoteInfo = "Sparkle Updater";
+		};
+		7E4D102D19044CE000BF6D3B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E4D101B19044CD700BF6D3B /* Sparkle.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = Sparkle;
+		};
+		7E74FE36190451150051706F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EBD9F4719044D5C00BE9790 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 88037F8215056328001A5B19;
+			remoteInfo = ReactiveCocoa;
+		};
+		7EBD9F5119044D5D00BE9790 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EBD9F4719044D5C00BE9790 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 88037F8315056328001A5B19;
+			remoteInfo = ReactiveCocoa;
+		};
+		7EBD9F5319044D5D00BE9790 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EBD9F4719044D5C00BE9790 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 88F440AB153DAC820097B4C3;
+			remoteInfo = "ReactiveCocoa-iOS";
+		};
+		7EBD9F5519044D5D00BE9790 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EBD9F4719044D5C00BE9790 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 88CDF7DC15000FCF00163A9F;
+			remoteInfo = ReactiveCocoaTests;
+		};
+		7EBD9F5719044D5D00BE9790 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EBD9F4719044D5C00BE9790 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5FAF5223174D4C2000CAC810;
+			remoteInfo = "ReactiveCocoaTests-iOS";
+		};
+		7EBD9F5919044D5D00BE9790 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EBD9F4719044D5C00BE9790 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1860F412177C91B500C7B3C9;
+			remoteInfo = "ReactiveCocoa-iOS-UIKitTestHost";
+		};
+		7EBD9F5B19044D5D00BE9790 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EBD9F4719044D5C00BE9790 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1860F430177C91B500C7B3C9;
+			remoteInfo = "ReactiveCocoa-iOS-UIKitTestHostTests";
+		};
+		7EBD9F5D19044D5D00BE9790 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7EBD9F4719044D5C00BE9790 /* ReactiveCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D05AD39417F2D56F0080895B;
+			remoteInfo = "ReactiveCocoa-Mac";
 		};
 		7EEC9F4718B8D0FB00BDB9D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -237,13 +301,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7E3299CC18B8D0490022FB53;
 			remoteInfo = org.hwsensors.HWMonitorHelper;
-		};
-		7EF29D7B18DDAF9E005484A0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = Sparkle;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -258,35 +315,38 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		7EBA20D117ED6193008E54C5 /* CopyFiles */ = {
+		7EBA20D117ED6193008E54C5 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7E2789811876FB6E00B443BD /* Growl.framework in CopyFiles */,
-				7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */,
+				7EBD9F4619044D2800BE9790 /* Sparkle.framework in Copy Frameworks */,
+				7E2789811876FB6E00B443BD /* Growl.framework in Copy Frameworks */,
 			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7ECEDD2F18B897A90015AA8C /* CopyFiles */ = {
+		7ECEDD2F18B897A90015AA8C /* Copy Helper Tool */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = Contents/Library/LaunchServices;
 			dstSubfolderSpec = 1;
 			files = (
-				7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in CopyFiles */,
+				7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in Copy Helper Tool */,
 			);
+			name = "Copy Helper Tool";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7EFDE529185CA0C20022FD66 /* CopyFiles */ = {
+		7EFDE529185CA0C20022FD66 /* Copy Fonts */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = Fonts;
 			dstSubfolderSpec = 7;
 			files = (
-				7EFDE52A185CA0CF0022FD66 /* Let's go Digital Regular.ttf in CopyFiles */,
+				7EFDE52A185CA0CF0022FD66 /* Let's go Digital Regular.ttf in Copy Fonts */,
 			);
+			name = "Copy Fonts";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -347,7 +407,6 @@
 		7E2DEA1E18C467DC00D97F89 /* HWMSmcFanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMSmcFanController.h; sourceTree = "<group>"; };
 		7E2DEA1F18C467DC00D97F89 /* HWMSmcFanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSmcFanController.m; sourceTree = "<group>"; };
 		7E2FE0A3178D18CA00802D38 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = Sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		7E309FC418C30FB1001033A1 /* 22-circle-minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "22-circle-minus.png"; sourceTree = "<group>"; };
 		7E309FC518C30FB1001033A1 /* 22-circle-minus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "22-circle-minus@2x.png"; sourceTree = "<group>"; };
 		7E309FC618C30FB1001033A1 /* 31-circle-plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "31-circle-plus.png"; sourceTree = "<group>"; };
@@ -438,6 +497,7 @@
 		7E4C76B818A61C190050BEFD /* NSTableHeaderCell+PopupThemedHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableHeaderCell+PopupThemedHeader.h"; sourceTree = "<group>"; };
 		7E4C76B918A61C190050BEFD /* NSTableHeaderCell+PopupThemedHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableHeaderCell+PopupThemedHeader.m"; sourceTree = "<group>"; };
 		7E4CD74B1737574C002586D2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7E4D101B19044CD700BF6D3B /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = Sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		7E5048DC19026494006FE6FC /* HWMEngine 1.12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.12.xcdatamodel"; sourceTree = "<group>"; };
 		7E56D2F9183FD96600D53B97 /* HWMSmcFanSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMSmcFanSensor.h; sourceTree = "<group>"; };
 		7E56D2FA183FD96600D53B97 /* HWMSmcFanSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSmcFanSensor.m; sourceTree = "<group>"; };
@@ -449,6 +509,7 @@
 		7E6D90431845EEDB0045BDB3 /* HWMGraphsGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMGraphsGroup.m; sourceTree = "<group>"; };
 		7E713BF018FD1B2D009E6EA5 /* NSString+returnCodeDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+returnCodeDescription.h"; sourceTree = "<group>"; };
 		7E713BF118FD1B2D009E6EA5 /* NSString+returnCodeDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+returnCodeDescription.m"; sourceTree = "<group>"; };
+		7E74FE4F190455F30051706F /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/Binaries/Sparkle.framework; sourceTree = "<group>"; };
 		7E7705A51734222100EBDB23 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E7B9B3D1786A732003ACB61 /* OBMenuBarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBMenuBarWindow.h; sourceTree = "<group>"; };
 		7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBMenuBarWindow.m; sourceTree = "<group>"; };
@@ -487,12 +548,12 @@
 		7EA2494B16D8EB2D002231B2 /* StatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemView.h; sourceTree = "<group>"; };
 		7EA2494C16D8EB2D002231B2 /* StatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusItemView.m; sourceTree = "<group>"; };
 		7EA2494E16D8EBC0002231B2 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		7EA50F0417F3771D00FDA3AA /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/Binaries/Sparkle.framework; sourceTree = "<group>"; };
 		7EA68B8917341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7EA68B8A17341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EB7E702178340710071B3F0 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7EB7E707178341D20071B3F0 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
 		7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		7EBD9F4719044D5C00BE9790 /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		7EC95E2018D42FCB00DD7B4D /* NSWindow+BackgroundBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+BackgroundBlur.h"; sourceTree = "<group>"; };
 		7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+BackgroundBlur.m"; sourceTree = "<group>"; };
 		7ECA19E518F31730007F5CBD /* it */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = it; path = it.lproj/Credits.html; sourceTree = "<group>"; };
@@ -590,14 +651,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EBD9F6019044D9100BE9790 /* libReactiveCocoa-Mac.a in Frameworks */,
 				7EA248EC16D8E93A002231B2 /* Cocoa.framework in Frameworks */,
 				7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */,
 				7ECEDD3218B897C50015AA8C /* Security.framework in Frameworks */,
+				7E74FE50190455F30051706F /* Sparkle.framework in Frameworks */,
 				7ECEDD3418B898070015AA8C /* ServiceManagement.framework in Frameworks */,
 				7E5134E6185C919F0069AD93 /* CoreData.framework in Frameworks */,
 				7ED40C29184A6D0F0068EBC9 /* WebKit.framework in Frameworks */,
 				7E2789801876FB6300B443BD /* Growl.framework in Frameworks */,
-				7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -873,8 +935,8 @@
 		7E1A8DB51876B32900853CB6 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				7E74FE4F190455F30051706F /* Sparkle.framework */,
 				7E27897F1876FB6300B443BD /* Growl.framework */,
-				7EA50F0417F3771D00FDA3AA /* Sparkle.framework */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -896,26 +958,6 @@
 				7E04D7B418B33E5600B40ADA /* ProbeControllingMenuItem.m */,
 			);
 			name = ProbeControllingMenuItem;
-			sourceTree = "<group>";
-		};
-		7E2FE40618DCB6F600EAD6DB /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */,
-			);
-			name = Sources;
-			sourceTree = "<group>";
-		};
-		7E2FE40718DCBA5000EAD6DB /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7E2FE40F18DCBA5400EAD6DB /* Sparkle.framework */,
-				7E2FE41118DCBA5400EAD6DB /* Sparkle Test App.app */,
-				7E2FE41318DCBA5400EAD6DB /* Sparkle Unit Tests.octest */,
-				7E2FE41518DCBA5400EAD6DB /* BinaryDelta */,
-				7E2FE41718DCBA5400EAD6DB /* Sparkle Updater.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		7E3299CE18B8D0490022FB53 /* HWMonitorHelper */ = {
@@ -985,6 +1027,18 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
+		7E4D101C19044CD700BF6D3B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7E4D102419044CD700BF6D3B /* Sparkle.framework */,
+				7E4D102619044CD700BF6D3B /* Sparkle Test App.app */,
+				7E4D102819044CD700BF6D3B /* Sparkle Unit Tests.octest */,
+				7E4D102A19044CD700BF6D3B /* BinaryDelta */,
+				7E4D102C19044CD700BF6D3B /* Sparkle Updater.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		7E4E349F18B8A6EC008EA5F9 /* Linked */ = {
 			isa = PBXGroup;
 			children = (
@@ -1051,7 +1105,8 @@
 		7EA248EA16D8E93A002231B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7E2FE40618DCB6F600EAD6DB /* Sources */,
+				7EBD9F4719044D5C00BE9790 /* ReactiveCocoa.xcodeproj */,
+				7E4D101B19044CD700BF6D3B /* Sparkle.xcodeproj */,
 				7E4E349F18B8A6EC008EA5F9 /* Linked */,
 				7E1A8DB51876B32900853CB6 /* Other */,
 			);
@@ -1167,6 +1222,20 @@
 				7EB7E702178340710071B3F0 /* version.h */,
 			);
 			name = Versioning;
+			sourceTree = "<group>";
+		};
+		7EBD9F4819044D5C00BE9790 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7EBD9F5219044D5D00BE9790 /* ReactiveCocoa.framework */,
+				7EBD9F5419044D5D00BE9790 /* libReactiveCocoa-iOS.a */,
+				7EBD9F5619044D5D00BE9790 /* ReactiveCocoaTests.octest */,
+				7EBD9F5819044D5D00BE9790 /* ReactiveCocoaTests-iOS.octest */,
+				7EBD9F5A19044D5D00BE9790 /* ReactiveCocoa-iOS-UIKitTestHost.app */,
+				7EBD9F5C19044D5D00BE9790 /* ReactiveCocoa-iOS-UIKitTestHostTests.octest */,
+				7EBD9F5E19044D5D00BE9790 /* libReactiveCocoa-Mac.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		7ECDDE3E16DDF19A00085FFF /* User Interface */ = {
@@ -1310,14 +1379,15 @@
 				7EA248E416D8E93A002231B2 /* Sources */,
 				7EA248E516D8E93A002231B2 /* Frameworks */,
 				7EA248E616D8E93A002231B2 /* Resources */,
-				7EBA20D117ED6193008E54C5 /* CopyFiles */,
-				7EFDE529185CA0C20022FD66 /* CopyFiles */,
-				7ECEDD2F18B897A90015AA8C /* CopyFiles */,
+				7EBA20D117ED6193008E54C5 /* Copy Frameworks */,
+				7EFDE529185CA0C20022FD66 /* Copy Fonts */,
+				7ECEDD2F18B897A90015AA8C /* Copy Helper Tool */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7EF29D7C18DDAF9E005484A0 /* PBXTargetDependency */,
+				7E74FE37190451150051706F /* PBXTargetDependency */,
+				7E4D102E19044CE000BF6D3B /* PBXTargetDependency */,
 				7EEC9F4818B8D0FB00BDB9D7 /* PBXTargetDependency */,
 			);
 			name = HWMonitor;
@@ -1365,8 +1435,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 7E2FE40718DCBA5000EAD6DB /* Products */;
-					ProjectRef = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
+					ProductGroup = 7EBD9F4819044D5C00BE9790 /* Products */;
+					ProjectRef = 7EBD9F4719044D5C00BE9790 /* ReactiveCocoa.xcodeproj */;
+				},
+				{
+					ProductGroup = 7E4D101C19044CD700BF6D3B /* Products */;
+					ProjectRef = 7E4D101B19044CD700BF6D3B /* Sparkle.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1379,39 +1453,88 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		7E2FE40F18DCBA5400EAD6DB /* Sparkle.framework */ = {
+		7E4D102419044CD700BF6D3B /* Sparkle.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Sparkle.framework;
-			remoteRef = 7E2FE40E18DCBA5400EAD6DB /* PBXContainerItemProxy */;
+			remoteRef = 7E4D102319044CD700BF6D3B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7E2FE41118DCBA5400EAD6DB /* Sparkle Test App.app */ = {
+		7E4D102619044CD700BF6D3B /* Sparkle Test App.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = "Sparkle Test App.app";
-			remoteRef = 7E2FE41018DCBA5400EAD6DB /* PBXContainerItemProxy */;
+			remoteRef = 7E4D102519044CD700BF6D3B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7E2FE41318DCBA5400EAD6DB /* Sparkle Unit Tests.octest */ = {
+		7E4D102819044CD700BF6D3B /* Sparkle Unit Tests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "Sparkle Unit Tests.octest";
-			remoteRef = 7E2FE41218DCBA5400EAD6DB /* PBXContainerItemProxy */;
+			remoteRef = 7E4D102719044CD700BF6D3B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7E2FE41518DCBA5400EAD6DB /* BinaryDelta */ = {
+		7E4D102A19044CD700BF6D3B /* BinaryDelta */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = BinaryDelta;
-			remoteRef = 7E2FE41418DCBA5400EAD6DB /* PBXContainerItemProxy */;
+			remoteRef = 7E4D102919044CD700BF6D3B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7E2FE41718DCBA5400EAD6DB /* Sparkle Updater.app */ = {
+		7E4D102C19044CD700BF6D3B /* Sparkle Updater.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = "Sparkle Updater.app";
-			remoteRef = 7E2FE41618DCBA5400EAD6DB /* PBXContainerItemProxy */;
+			remoteRef = 7E4D102B19044CD700BF6D3B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7EBD9F5219044D5D00BE9790 /* ReactiveCocoa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ReactiveCocoa.framework;
+			remoteRef = 7EBD9F5119044D5D00BE9790 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7EBD9F5419044D5D00BE9790 /* libReactiveCocoa-iOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libReactiveCocoa-iOS.a";
+			remoteRef = 7EBD9F5319044D5D00BE9790 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7EBD9F5619044D5D00BE9790 /* ReactiveCocoaTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ReactiveCocoaTests.octest;
+			remoteRef = 7EBD9F5519044D5D00BE9790 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7EBD9F5819044D5D00BE9790 /* ReactiveCocoaTests-iOS.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "ReactiveCocoaTests-iOS.octest";
+			remoteRef = 7EBD9F5719044D5D00BE9790 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7EBD9F5A19044D5D00BE9790 /* ReactiveCocoa-iOS-UIKitTestHost.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "ReactiveCocoa-iOS-UIKitTestHost.app";
+			remoteRef = 7EBD9F5919044D5D00BE9790 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7EBD9F5C19044D5D00BE9790 /* ReactiveCocoa-iOS-UIKitTestHostTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "ReactiveCocoa-iOS-UIKitTestHostTests.octest";
+			remoteRef = 7EBD9F5B19044D5D00BE9790 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7EBD9F5E19044D5D00BE9790 /* libReactiveCocoa-Mac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libReactiveCocoa-Mac.a";
+			remoteRef = 7EBD9F5D19044D5D00BE9790 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1621,15 +1744,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7E4D102E19044CE000BF6D3B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Sparkle;
+			targetProxy = 7E4D102D19044CE000BF6D3B /* PBXContainerItemProxy */;
+		};
+		7E74FE37190451150051706F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ReactiveCocoa;
+			targetProxy = 7E74FE36190451150051706F /* PBXContainerItemProxy */;
+		};
 		7EEC9F4818B8D0FB00BDB9D7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7E3299CC18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */;
 			targetProxy = 7EEC9F4718B8D0FB00BDB9D7 /* PBXContainerItemProxy */;
-		};
-		7EF29D7C18DDAF9E005484A0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Sparkle;
-			targetProxy = 7EF29D7B18DDAF9E005484A0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1827,12 +1955,21 @@
 				COMBINE_HIDPI_IMAGES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SOURCE_ROOT)",
-					"$(SOURCE_ROOT)/Sparkle/Binaries/",
+					"$(SOURCE_ROOT)/Sparkle",
+					"$(SOURCE_ROOT)/ReactiveCocoa/ReactiveCocoaFramework",
 					"$(SOURCE_ROOT)/HWMonitor",
+					"$(PROJECT_DIR)/Sparkle/Binaries",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SOURCE_ROOT)/ReactiveCocoa/ReactiveCocoaFramework",
+					"$(SOURCE_ROOT)/Sparkle",
+				);
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;
@@ -1845,12 +1982,21 @@
 				COMBINE_HIDPI_IMAGES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SOURCE_ROOT)",
-					"$(SOURCE_ROOT)/Sparkle/Binaries/",
+					"$(SOURCE_ROOT)/Sparkle",
+					"$(SOURCE_ROOT)/ReactiveCocoa/ReactiveCocoaFramework",
 					"$(SOURCE_ROOT)/HWMonitor",
+					"$(PROJECT_DIR)/Sparkle/Binaries",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SOURCE_ROOT)/ReactiveCocoa/ReactiveCocoaFramework",
+					"$(SOURCE_ROOT)/Sparkle",
+				);
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;

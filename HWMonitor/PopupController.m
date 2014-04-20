@@ -48,6 +48,8 @@
 #import "NSImage+HighResolutionLoading.h"
 #import "NSWindow+BackgroundBlur.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @implementation PopupController
 
 @synthesize statusItem = _statusItem;
@@ -57,6 +59,11 @@
 
 #pragma mark -
 #pragma mark Properties
+
+-(HWMEngine *)monitorEngine
+{
+    return [HWMEngine sharedEngine];
+}
 
 -(BOOL)hasDraggedFavoriteItem
 {
@@ -70,11 +77,6 @@
     }
 
     return _sensorsAndGroupsCollectionSnapshot;
-}
-
--(HWMEngine *)monitorEngine
-{
-    return [HWMEngine sharedEngine];
 }
 
 //-(void)setMonitorEngine:(HWMEngine *)monitorEngine
@@ -105,6 +107,20 @@
 
         [_statusItemView setAction:@selector(togglePanel:)];
         [_statusItemView setTarget:self];
+
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [RACObserve(self, monitorEngine.configuration.colorTheme)
+             subscribeNext:^(HWMColorTheme *newColorTheme) {
+                 [(OBMenuBarWindow*)self.window setColorTheme:newColorTheme];
+                 [(JLNFadingScrollView *)_scrollView setFadeColor:newColorTheme.listBackgroundColor];
+             }];
+
+            [[RACSignal combineLatest:@[RACObserve(self, monitorEngine.sensorsAndGroups),
+                                        RACObserve(self, monitorEngine.configuration.showSensorLegendsInPopup)]]
+             subscribeNext:^(id x) {
+                 [self reloadSensorsTableView:self];
+             }];
+        }];
     }
     
     return self;
@@ -119,8 +135,6 @@
 {
     [super windowDidLoad];
 
-    //[[_titleField cell] setBackgroundStyle:NSBackgroundStyleRaised];
-
     // Install status item into the menu bar
     OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
@@ -133,38 +147,11 @@
 
     [menubarWindow setWorksWhenModal:YES];
 
-    //    [Localizer localizeView:menubarWindow];
-    //    [Localizer localizeView:_toolbarView];
-
-    // Make main menu font size smaller
-    //            NSFont* font = [NSFont menuFontOfSize:13];
-    //            NSDictionary* fontAttribute = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
-    //
-    //            [_mainMenu setFont:font];
-    //
-    //            for (id subItem in [_mainMenu itemArray]) {
-    //                if ([subItem isKindOfClass:[NSMenuItem class]]) {
-    //                    NSMenuItem* menuItem = subItem;
-    //                    NSString* title = [menuItem title];
-    //
-    //                    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:title attributes:fontAttribute];
-    //
-    //                    [menuItem setAttributedTitle:attributedTitle];
-    //                }
-    //            }
-
-    [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
-    [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorPopupItemDataType]];
     [_tableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
 
     [Localizer localizeView:self.window];
     [Localizer localizeView:_toolbarView];
-
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.sensorsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)showWindow:(id)sender
@@ -307,22 +294,6 @@
 
 #pragma mark -
 #pragma mark Events
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.colorTheme)]) {
-
-        [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
-        [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-
-    }
-    else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup)] ||
-             [keyPath isEqual:@keypath(self, monitorEngine.sensorsAndGroups)]) {
-
-        [self reloadSensorsTableView:self];
-
-    }
-}
 
 - (void)windowDidAttachToStatusBar:(id)sender
 {

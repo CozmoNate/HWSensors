@@ -47,6 +47,8 @@
 #import "NSTableView+HWMEngineHelper.h"
 #import "NSWindow+BackgroundBlur.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 //#define GetLocalizedString(key) \
 //[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
 
@@ -100,21 +102,34 @@
     self = [super initWithWindowNibName:NSStringFromClass([GraphsController class])];
     
     if (self) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
+            [RACObserve(self, monitorEngine.graphsAndGroups)
+             subscribeNext:^(id x) {
+                 [self reloadGraphsTableView:self];
+                 [self rebuildViews];
+             }];
+            
+            [RACObserve(self, monitorEngine.configuration.graphsWindowAlwaysTopmost)
+             subscribeNext:^(id x) {
+                 [self.window setLevel:self.monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
+             }];
+
+            [RACObserve(self, monitorEngine.configuration.showSensorLegendsInGraphs)
+             subscribeNext:^(id x) {
+                 [self reloadGraphsTableView:self];
+             }];
+
+            [[RACSignal combineLatest:@[RACObserve(self, monitorEngine.configuration.useFahrenheit),
+                                        RACObserve(self, monitorEngine.configuration.useGraphSmoothing),
+                                        RACObserve(self, monitorEngine.configuration.graphsScaleValue)]]
+             subscribeNext:^(id x) {
+                 [self setNeedDisplayGraphs:self];
+             }];
+        }];
     }
     
     return self;
-}
-
--(void)dealloc
-{
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.graphsAndGroups)];
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost)];
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit)];
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useGraphSmoothing)];
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsScaleValue)];
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInGraphs)];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)windowDidLoad
@@ -122,22 +137,9 @@
     [super windowDidLoad];
 
     [Localizer localizeView:self.window];
-    [self.window setLevel:self.monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
-
-    [self reloadGraphsTableView:self];
-    [self rebuildViews];
-
-    //            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorValuesHasBeenUpdated) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:_monitorEngine];
 
     [_graphsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorGraphsItemDataType]];
     [_graphsTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
-
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.graphsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useGraphSmoothing) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsScaleValue) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInGraphs) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)showWindow:(id)sender
@@ -146,7 +148,6 @@
     
     [self.window makeKeyAndOrderFront:self];
     [self.window setBackgroundBlurRadius:4];
-    //[self.monitorEngine updateSmcAndDeviceSensors];
 }
 
 -(void)reloadGraphsTableView:(id)sender
@@ -196,36 +197,6 @@
 
 #pragma mark
 #pragma mark Events
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if (self.monitorEngine) {
-        if ([keyPath isEqual:@keypath(self, monitorEngine.graphsAndGroups)]) {
-            [self reloadGraphsTableView:self];
-            [self rebuildViews];
-        }
-        else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.showSensorLegendsInGraphs)]) {
-            [self reloadGraphsTableView:self];
-        }
-        else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost)]) {
-            [self.window setLevel:self.monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
-        }
-        else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.useFahrenheit)] ||
-                 [keyPath isEqual:@keypath(self, monitorEngine.configuration.useGraphSmoothing)] ||
-                 [keyPath isEqual:@keypath(self, monitorEngine.configuration.graphsScaleValue)]) {
-            [self setNeedDisplayGraphs:self];
-        }
-    }
-}
-
-//-(void)sensorValuesHasBeenUpdated
-//{
-//    if ([self.window isVisible] || _monitorEngine.configuration.updateSensorsInBackground.boolValue) {
-//        for (GraphsView *view in _graphViews) {
-//            [view captureDataToHistoryNow];
-//        }
-//    }
-//}
 
 -(IBAction)setNeedDisplayGraphs:(id)sender
 {
