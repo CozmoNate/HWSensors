@@ -1,0 +1,3 @@
+[submodule "ReactiveCocoa"]
+	path = ReactiveCocoa
+	url = https://github.com/ReactiveCocoa/ReactiveCocoa.git
