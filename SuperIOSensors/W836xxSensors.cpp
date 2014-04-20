@@ -222,7 +222,7 @@ float W836xxSensors::readTachometer(UInt32 index)
 	return fanValue[index];
 }
 
-bool W836xxSensors::supportsTachometerControl()
+bool W836xxSensors::isTachometerControlable()
 {
     return true;
 }

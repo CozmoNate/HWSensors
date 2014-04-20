@@ -1656,11 +1656,11 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         [fan setNumber:[NSNumber numberWithInt:index]];
 
+        NSNumber *min = [SmcHelper readNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, index] connection:connection];
+
+        NSNumber *max = [SmcHelper readNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MAX, index] connection:connection];
+
         if (newFan || !fan.controller) {
-
-            NSNumber *min = [SmcHelper readNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MIN, index] connection:connection];
-            NSNumber *max = [SmcHelper readNumericKey:[NSString stringWithFormat:@KEY_FORMAT_FAN_MAX, index] connection:connection];
-
             if (min && max && [max isGreaterThan:min]) {
                 HWMSmcFanController *controller = [NSEntityDescription insertNewObjectForEntityForName:@"SmcFanController" inManagedObjectContext:self.managedObjectContext];
 
@@ -1682,7 +1682,14 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         }
 
         if (fan.controller) {
-            [fan.controller updateCurrentLevel];
+            if (!min || !max || [max isLessThan:min]) {
+                NSManagedObject *controller = fan.controller;
+                [fan setController:nil];
+                [self.managedObjectContext deleteObject:controller];
+            }
+            else {
+                [fan.controller updateCurrentLevel];
+            }
         }
 
         return fan;

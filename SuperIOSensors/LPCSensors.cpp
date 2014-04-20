@@ -197,7 +197,7 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
         if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))){
             if (addTachometer(i, name->getLength() > 0 ? name->getCStringNoCopy() : 0, FAN_RPM, 0, (FanLocationType)location++, &fanIndex)){
 
-                if (supportsTachometerControl() && fanIndex > -1) {
+                if (isTachometerControlable(i) && fanIndex > -1) {
 
                     tachometerControls[i].number = fanIndex;
                     tachometerControls[i].target = -1;
@@ -226,17 +226,17 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
 
 UInt8 LPCSensors::temperatureSensorsLimit()
 {
-    return 3;
+    return 0;
 }
 
 UInt8 LPCSensors::voltageSensorsLimit()
 {
-    return 9;
+    return 0;
 }
 
 UInt8 LPCSensors::tachometerSensorsLimit()
 {
-    return 5;
+    return 0;
 }
 
 float LPCSensors::readTemperature(UInt32 index)
@@ -254,7 +254,7 @@ float LPCSensors::readTachometer(UInt32 index)
 	return 0;
 }
 
-bool LPCSensors::supportsTachometerControl()
+bool LPCSensors::isTachometerControlable(UInt32 index)
 {
     return false;
 }
@@ -321,7 +321,7 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
                 
             case kLPCSensorsFanManualSwitch:
                 for (int index = 0; index < tachometerSensorsLimit(); index++) {
-                    if (!bit_get((UInt16)value, BIT(tachometerControls[index].number))) {
+                    if (isTachometerControlable(index) && !bit_get((UInt16)value, BIT(tachometerControls[index].number))) {
                         tachometerControlCancel(index);
                         tachometerControls[index].target = -1.0;
                     }
@@ -329,17 +329,20 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
                 break;
 
             case kLPCSensorsFanMinController:
-                tachometerControls[sensor->getIndex()].minimum = value;
-                tachometerControlInit(sensor->getIndex(), value > tachometerControls[sensor->getIndex()].target ? value : tachometerControls[sensor->getIndex()].target);
-                break;
-
-            case kLPCSensorsFanTargetController: {
-                int manual = 0;
-                if (decodeIntValueForKey(KEY_FAN_MANUAL, &manual) && bit_get(manual, BIT(tachometerControls[sensor->getIndex()].number)) > 0 && value > tachometerControls[sensor->getIndex()].minimum) {
-                    tachometerControlInit(sensor->getIndex(), value);
+                if (isTachometerControlable(sensor->getIndex())) {
+                    tachometerControls[sensor->getIndex()].minimum = value;
+                    tachometerControlInit(sensor->getIndex(), value > tachometerControls[sensor->getIndex()].target ? value : tachometerControls[sensor->getIndex()].target);
                 }
                 break;
-            }
+
+            case kLPCSensorsFanTargetController:
+                if (isTachometerControlable(sensor->getIndex())) {
+                    int manual = 0;
+                    if (decodeIntValueForKey(KEY_FAN_MANUAL, &manual) && bit_get(manual, BIT(tachometerControls[sensor->getIndex()].number)) > 0 && value > tachometerControls[sensor->getIndex()].minimum) {
+                        tachometerControlInit(sensor->getIndex(), value);
+                    }
+                }
+                break;
 
             default: return false;
                 

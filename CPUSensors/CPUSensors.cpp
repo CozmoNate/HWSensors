@@ -72,6 +72,9 @@ enum {
     kCPUSensorsPowerCores               = BIT(9),
     kCPUSensorsPowerUncore              = BIT(10),
     kCPUSensorsPowerDram                = BIT(11),
+
+    kCPUSensorsVoltageCore              = BIT(12),
+    kCPUSensorsVoltagePackage           = BIT(13),
 };
 
 static UInt16 cpu_energy_msrs[] =
@@ -208,6 +211,32 @@ void CPUSensors::calculateMultiplier(UInt32 index)
     }
 }
 
+void CPUSensors::calculateVoltage(UInt32 index)
+{
+    UInt8 vid = counters.perf_status[index] & 0xFF;
+
+    switch (cpuid_info()->cpuid_model) {
+        case CPUID_MODEL_PENTIUM_M:
+            voltage[index] = 700 + ((vid & 0x3F) << 4);
+            break;
+        case CPUID_MODEL_YONAH:
+            voltage[index] =   (1425 + ((vid & 0x3F) * 25)) >> 1;
+            break;
+        case CPUID_MODEL_MEROM: //Conroe?!
+            voltage[index] =  (1650 + ((vid & 0x3F) * 25)) >> 1;
+            break;
+        case CPUID_MODEL_PENRYN:
+        case CPUID_MODEL_ATOM:
+            voltage[index] =   (1500 - (((~vid & 0x3F) * 25) >> 1));
+            break;
+
+        default:
+            return;
+    }
+
+    voltage[index] = voltage[index] / 1000.0f;
+}
+
 void CPUSensors::calculateTimedCounters()
 {
     if (bit_get(counters.event_flags, kCPUSensorsMultiplierCore | kCPUSensorsMultiplierPackage)) {
@@ -222,6 +251,31 @@ void CPUSensors::calculateTimedCounters()
             }
 
             calculateMultiplier(index);
+        }
+    }
+
+    if (bit_get(counters.event_flags, kCPUSensorsVoltageCore | kCPUSensorsVoltagePackage)) {
+        for (UInt8 index = 0; index < coreCount; index++) {
+
+            UInt8 vid = counters.perf_status[index] & 0xFF;
+
+            switch (cpuid_info()->cpuid_model) {
+                case CPUID_MODEL_PENTIUM_M:
+                    voltage[index] = (float)(700 + ((vid & 0x3F) << 4)) / 1000.0f;
+                    break;
+                case CPUID_MODEL_YONAH:
+                    voltage[index] = (float)((1425 + ((vid & 0x3F) * 25)) >> 1) / 1000.0f;
+                    break;
+                case CPUID_MODEL_MEROM: //Conroe?!
+                    voltage[index] = (float)((1650 + ((vid & 0x3F) * 25)) >> 1) / 1000.0f;
+                    break;
+                case CPUID_MODEL_PENRYN:
+                case CPUID_MODEL_ATOM:
+                    voltage[index] = (float)(1500 - (((~vid & 0x3F) * 25) >> 1)) / 1000.0f;
+                    break;
+                    
+                default: break;
+            }
         }
     }
 
@@ -293,6 +347,11 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
         case kCPUSensorsMultiplierCore:
         case kCPUSensorsMultiplierPackage:
             *outValue = multiplier[index];
+            break;
+
+        case kCPUSensorsVoltageCore:
+        case kCPUSensorsVoltagePackage:
+            *outValue = voltage[index];
             break;
             
         case kCPUSensorsFrequencyCore:
@@ -682,15 +741,27 @@ bool CPUSensors::start(IOService *provider)
                     snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY_AVERAGE, i);
 
                     if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyCoreAverage, i))
-                    HWSensorsWarningLog("failed to add average frequency sensor");
+                        HWSensorsWarningLog("failed to add average frequency sensor");
                 }
                 
             }
             break;
     }
-    
+
+    //voltage
+    switch (cpuid_info()->cpuid_model) {
+        case CPUID_MODEL_PENTIUM_M:
+        case CPUID_MODEL_YONAH:
+        case CPUID_MODEL_MEROM: //Conroe?!
+        case CPUID_MODEL_PENRYN:
+        case CPUID_MODEL_ATOM:
+            if (!addSensor(KEY_CPU_VOLTAGE, "sp3c", TYPE_SPXX_SIZE, kCPUSensorsVoltagePackage, 0))
+                HWSensorsWarningLog("failed to add voltage sensor");
+            break;
+    }
+
     // energy consumption
-    switch (cpuid_info()->cpuid_cpufamily) {            
+    switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:

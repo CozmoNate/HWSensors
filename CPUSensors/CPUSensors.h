@@ -113,6 +113,7 @@ private:
     UInt8                   coreCount;
 
     float                   multiplier[kCPUSensorsMaxCpus];
+    float                   voltage[kCPUSensorsMaxCpus];
     float                   ratio[kCPUSensorsMaxCpus];
     float                   turbo[kCPUSensorsMaxCpus];
     float                   energy[kCPUSensorsMaxCpus];
@@ -125,6 +126,7 @@ private:
     bool                    timerEventScheduled;
 
     void                    calculateMultiplier(UInt32 index);
+    void                    calculateVoltage(UInt32 index);
     void                    calculateTimedCounters();
     
     virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);

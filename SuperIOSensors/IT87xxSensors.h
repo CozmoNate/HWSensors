@@ -68,7 +68,8 @@ const UInt8 ITE_FAN_TACHOMETER_EXT_REG[5]				= { 0x18, 0x19, 0x1a, 0x81, 0x83 };
 const UInt8 ITE_VOLTAGE_BASE_REG						= 0x20;
 
 const UInt8 ITE_SMARTGUARDIAN_MAIN_CONTROL				= 0x13;
-const UInt8 ITE_SMARTGUARDIAN_PWM_CONTROL[5]			= { 0x15, 0x16, 0x17, 0x88, 0x89 };
+//const UInt8 ITE_SMARTGUARDIAN_PWM_CONTROL[3]			= { 0x15, 0x16, 0x17};
+
 const UInt8 ITE_SMARTGUARDIAN_TEMPERATURE_STOP[5]		= { 0x60, 0x68, 0x70, 0x90, 0x98 };
 const UInt8 ITE_SMARTGUARDIAN_TEMPERATURE_START[5]		= { 0x61, 0x69, 0x71, 0x91, 0x99 };
 //const UInt8 ITE_SMARTGUARDIAN_TEMPERATURE_FULL_ON[5]	= { 0x62, 0x6a, 0x72, 0x92, 0x9a };
@@ -76,7 +77,7 @@ const UInt8 ITE_SMARTGUARDIAN_START_PWM[5]				= { 0x63, 0x6b, 0x73, 0x93, 0x9b }
 const UInt8 ITE_SMARTGUARDIAN_CONTROL[5]				= { 0x64, 0x6c, 0x74, 0x94, 0x9c };
 //const UInt8 ITE_SMARTGUARDIAN_TEMPERATURE_FULL_OFF[5]	= { 0x65, 0x6d, 0x75, 0x95, 0x9d };
 
-#define ITE_SMARTGUARDIAN_PWM(nr)                       (0x15 + (nr))
+#define ITE_SMARTGUARDIAN_PWM_CONTROL(nr)               (0x15 + (nr))
 #define ITE_SMARTGUARDIAN_PWM_DUTY(nr)                  (0x63 + (nr) * 8)
 
 class IT87xxSensors : public LPCSensors
@@ -85,8 +86,7 @@ class IT87xxSensors : public LPCSensors
 	
 private:
     bool                    fanControlEnabled[5];
-    UInt8                   fanPWMControl[5];
-    bool                    fanSmartGuardian[5];
+    UInt8                   fanControl[5];
 
     UInt8                   features;
     
@@ -101,7 +101,7 @@ private:
 	virtual float			readVoltage(UInt32 index);
 	virtual float			readTachometer(UInt32 index);
     
-    virtual bool			supportsTachometerControl();
+    virtual bool			isTachometerControlable(UInt32 index);
     virtual UInt8			readTachometerControl(UInt32 index);
     virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
     

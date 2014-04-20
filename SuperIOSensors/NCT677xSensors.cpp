@@ -162,9 +162,9 @@ float NCT677xSensors::readTachometer(UInt32 index)
     return 0;
 }
 
-bool NCT677xSensors::supportsTachometerControl()
+bool NCT677xSensors::isTachometerControlable(UInt32 index)
 {
-    return true;
+    return index < tachometerSensorsLimit();
 }
 
 UInt8 NCT677xSensors::readTachometerControl(UInt32 index)

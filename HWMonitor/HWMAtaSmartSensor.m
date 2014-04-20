@@ -1004,7 +1004,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
         }
     }
 
-    if (!_attributes && !_attributes.count)
+    if (!_attributes || _temperatureAttributeIndex >= _attributes.count)
         return nil;
 
     NSNumber *raw = [_attributes objectAtIndex:_temperatureAttributeIndex][@"raw"];
@@ -1020,15 +1020,16 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
             ![self findIndexOfAttributeByName:@"Remaining_Lifetime_Perc" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Perc_Rated_Life_Used" outIndex:&_remainingLifeAttributeIndex] &&
             /*![self findIndexOfAttributeByName:@"Wear_Leveling_Count" outIndex:&_remainingLifeAttributeIndex] &&*/
-            ![self findIndexOfAttributeByName:@"Bad_Block_Count" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Media_Wearout_Indicator" outIndex:&_remainingLifeAttributeIndex] &&
-            ![self findIndexOfAttributeByName:@"Available_Reservd_Space" outIndex:&_remainingLifeAttributeIndex])
+            ![self findIndexOfAttributeByName:@"Available_Reservd_Space" outIndex:&_remainingLifeAttributeIndex] &&
+            ![self findIndexOfAttributeByName:@"Reserve_Block_Count" outIndex:&_remainingLifeAttributeIndex] &&
+            ![self findIndexOfAttributeByName:@"Bad_Block_Count" outIndex:&_remainingLifeAttributeIndex])
         {
             return nil;
         }
     }
 
-    if (!self.attributes && !self.attributes.count)
+    if (!self.attributes || _remainingLifeAttributeIndex >= self.attributes.count)
         return nil;
 
     return [self.attributes objectAtIndex:_remainingLifeAttributeIndex][@"value"];
