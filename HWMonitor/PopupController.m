@@ -109,17 +109,21 @@
         [_statusItemView setTarget:self];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [RACObserve(self.monitorEngine.configuration, colorTheme)
-             subscribeNext:^(HWMColorTheme *newColorTheme) {
-                 [(OBMenuBarWindow*)self.window setColorTheme:newColorTheme];
-                 [(JLNFadingScrollView *)_scrollView setFadeColor:newColorTheme.listBackgroundColor];
-             }];
+            [[RACObserve(self, monitorEngine) filter:^BOOL(id value) {
+                return value != nil;
+            }] subscribeNext:^(HWMEngine *engine) {
+                [RACObserve(engine.configuration, colorTheme)
+                 subscribeNext:^(HWMColorTheme *newColorTheme) {
+                     [(OBMenuBarWindow*)self.window setColorTheme:newColorTheme];
+                     [(JLNFadingScrollView *)_scrollView setFadeColor:newColorTheme.listBackgroundColor];
+                 }];
 
-            [[RACSignal combineLatest:@[RACObserve(self.monitorEngine, sensorsAndGroups),
-                                        RACObserve(self.monitorEngine.configuration, showSensorLegendsInPopup)]]
-             subscribeNext:^(id x) {
-                 [self reloadSensorsTableView:self];
-             }];
+                [[RACSignal combineLatest:@[RACObserve(engine, sensorsAndGroups),
+                                            RACObserve(engine.configuration, showSensorLegendsInPopup)]]
+                 subscribeNext:^(id x) {
+                     [self reloadSensorsTableView:self];
+                 }];
+            }];
         }];
     }
     

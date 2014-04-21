@@ -1157,6 +1157,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 [obj willChangeValueForKey:@keypath(sensor, strippedValue)];
                 [obj didChangeValueForKey:@keypath(sensor, strippedValue)];
             }];
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorValuesHasBeenUpdatedNotification object:self];
         }
     }];
 }

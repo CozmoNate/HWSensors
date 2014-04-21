@@ -112,17 +112,17 @@ bool GeforceSensors::shouldWaitForAccelerator()
 
 bool GeforceSensors::acceleratorLoadedCheck()
 {
-//    OSData *kernelLoaded = OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
-//
-//    if (kernelLoaded && kernelLoaded->getLength()) {
-//        UInt8 flag;
-//
-//        memcpy(&flag, kernelLoaded->getBytesNoCopy(0, 1), 1);
-//
-//        return flag;
-//    }
+    OSData *kernelLoaded = OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
 
-    return NULL != OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
+    if (kernelLoaded && kernelLoaded->getLength()) {
+        UInt8 flag;
+
+        memcpy(&flag, kernelLoaded->getBytesNoCopy(0, 1), 1);
+
+        return flag;
+    }
+
+    return false;
 }
 
 bool GeforceSensors::loadVBios()
@@ -145,9 +145,6 @@ bool GeforceSensors::loadVBios()
                 device->bios.data = NULL;
                 device->bios.size = 0;
             }
-
-            releaseGPUIndex(card.card_index);
-            card.card_index = -1;
 
             return false;
         }
@@ -206,18 +203,23 @@ bool GeforceSensors::managedStart(IOService *provider)
     if (!device->bios.data || !device->bios.size) {
         if (!loadVBios()) {
             nv_fatal(device, "unable to shadow VBIOS\n");
+
+            releaseGPUIndex(card.card_index);
+            card.card_index = -1;
+
             return false;
         }
     }
 
-    nouveau_vbios_init(device);
     nouveau_bios_parse(device);
     
     // initialize funcs and variables
     if (!nouveau_init(device)) {
         nv_error(device, "unable to initialize monitoring driver\n");
+
         releaseGPUIndex(card.card_index);
         card.card_index = -1;
+
         return false;
     }
     

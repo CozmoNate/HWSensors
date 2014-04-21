@@ -103,29 +103,32 @@
     
     if (self) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [[RACObserve(self, monitorEngine) filter:^BOOL(id value) {
+                return value != nil;
+            }] subscribeNext:^(HWMEngine *engine) {
+                [RACObserve(engine, graphsAndGroups)
+                 subscribeNext:^(id x) {
+                     [self reloadGraphsTableView:self];
+                     [self rebuildViews];
+                 }];
 
-            [[RACObserve(self.monitorEngine, graphsAndGroups) distinctUntilChanged]
-             subscribeNext:^(id x) {
-                 [self reloadGraphsTableView:self];
-                 [self rebuildViews];
-             }];
-            
-            [RACObserve(self.monitorEngine.configuration, graphsWindowAlwaysTopmost)
-             subscribeNext:^(id x) {
-                 [self.window setLevel:self.monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
-             }];
+                [RACObserve(engine.configuration, graphsWindowAlwaysTopmost)
+                 subscribeNext:^(id x) {
+                     [self.window setLevel:self.monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
+                 }];
 
-            [RACObserve(self.monitorEngine.configuration, showSensorLegendsInGraphs)
-             subscribeNext:^(id x) {
-                 [self reloadGraphsTableView:self];
-             }];
+                [RACObserve(engine.configuration, showSensorLegendsInGraphs)
+                 subscribeNext:^(id x) {
+                     [self reloadGraphsTableView:self];
+                 }];
 
-            [[RACSignal combineLatest:@[RACObserve(self.monitorEngine.configuration, useFahrenheit),
-                                        RACObserve(self.monitorEngine.configuration, useGraphSmoothing),
-                                        RACObserve(self.monitorEngine.configuration, graphsScaleValue)]]
-             subscribeNext:^(id x) {
-                 [self setNeedDisplayGraphs:self];
-             }];
+                [[RACSignal combineLatest:@[RACObserve(engine.configuration, useFahrenheit),
+                                            RACObserve(engine.configuration, useGraphSmoothing),
+                                            RACObserve(engine.configuration, graphsScaleValue)]]
+                 subscribeNext:^(id x) {
+                     [self setNeedDisplayGraphs:self];
+                 }];
+            }];
         }];
     }
     

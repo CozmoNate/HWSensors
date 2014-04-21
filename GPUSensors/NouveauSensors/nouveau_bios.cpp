@@ -259,6 +259,7 @@ static void nouveau_bios_shadow_prom(struct nouveau_device *device)
 	do {
 		if (nv_rd08(device, 0x300000) == 0x55)
 			break;
+        IOSleep(1);
 	} while (i--);
     
 	if (!i || nv_rd08(device, 0x300001) != 0xaa)

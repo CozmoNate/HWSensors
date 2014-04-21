@@ -143,17 +143,19 @@
     if (self != nil)
     {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [[RACObserve(self, monitorEngine) filter:^BOOL(id value) {
+                return value != nil;
+            }] subscribeNext:^(HWMEngine *engine) {
+                [RACObserve(engine, favorites)
+                 subscribeNext:^(id x) {
+                     [self reloadFavoritesTableView:self];
+                 }];
 
-            [RACObserve(self.monitorEngine, favorites)
-             subscribeNext:^(id x) {
-                 [self reloadFavoritesTableView:self];
-             }];
-
-            [[RACObserve(self.monitorEngine, iconsWithSensorsAndGroups) distinctUntilChanged]
-             subscribeNext:^(id x) {
-                 [self reloadIconsAndSensorsTableView:self];
-             }];
-
+                [[RACObserve(engine, iconsWithSensorsAndGroups) distinctUntilChanged]
+                 subscribeNext:^(id x) {
+                     [self reloadIconsAndSensorsTableView:self];
+                 }];
+            }];
         }];
     }
     

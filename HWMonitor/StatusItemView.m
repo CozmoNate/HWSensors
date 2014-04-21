@@ -104,28 +104,38 @@
         [_statusItem setView:self];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [[RACObserve(self, monitorEngine) filter:^BOOL(id value) {
+                return value != nil;
+            }] subscribeNext:^(HWMEngine *engine) {
 
-            RACSignal *favoritesChangedSignal = RACObserve(self.monitorEngine, favorites);
+                RACSignal *favoritesChangedSignal = [RACObserve(engine, favorites) distinctUntilChanged];
 
-            [favoritesChangedSignal subscribeNext:^(id x) {
-                _favoritesSnapshot = nil;
+                [favoritesChangedSignal subscribeNext:^(id x) {
+                    _favoritesSnapshot = nil;
+                }];
+
+                RACSignal *bigFontChangedSignal = RACObserve(engine.configuration, useBigFontInMenubar);
+
+                [bigFontChangedSignal subscribeNext:^(id x) {
+                    _spacer = nil;
+                }];
+
+                [[RACSignal combineLatest:@[favoritesChangedSignal,
+                                            bigFontChangedSignal,
+                                            RACObserve(engine.configuration, useShadowEffectsInMenubar),
+                                            RACObserve(engine.configuration, useFahrenheit)]]
+                 subscribeNext:^(id x) {
+                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                         [self setNeedsDisplay:YES];
+                     }];
+                 }];
             }];
 
-            RACSignal *bigFontChangedSignal = RACObserve(self.monitorEngine.configuration, useBigFontInMenubar);
-
-            [bigFontChangedSignal subscribeNext:^(id x) {
-                _spacer = nil;
+            [[[NSNotificationCenter defaultCenter] rac_addObserverForName:HWMEngineSensorValuesHasBeenUpdatedNotification object:nil] subscribeNext:^(id x) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self setNeedsDisplay:YES];
+                }];
             }];
-
-            [[RACSignal combineLatest:@[favoritesChangedSignal,
-                                        bigFontChangedSignal,
-                                        RACObserve(self.monitorEngine.configuration, useShadowEffectsInMenubar),
-                                        RACObserve(self.monitorEngine.configuration, useFahrenheit),
-                                        [[NSNotificationCenter defaultCenter] rac_addObserverForName:HWMEngineSensorValuesHasBeenUpdatedNotification object:nil]]]
-             subscribeNext:^(id x) {
-                 [self setNeedsDisplay:YES];
-             }];
-
         }];
     }
 
