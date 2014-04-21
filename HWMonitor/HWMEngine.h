@@ -54,10 +54,11 @@ typedef NS_ENUM(NSUInteger, HWMSensorsUpdateLoopStrategy) {
 @optional
 
 - (HWMSensorsUpdateLoopStrategy)updateLoopStrategyForEngine:(HWMEngine*)engine;
-
 - (BOOL)engine:(HWMEngine*)engine shouldCaptureSensorValuesToGaphsHistoryWithLimit:(NSUInteger *)limit;
 
 @end
+
+@class RACSignal;
 
 @interface HWMEngine : NSObject
 {
@@ -77,6 +78,8 @@ typedef NS_ENUM(NSUInteger, HWMSensorsUpdateLoopStrategy) {
     NSArray *_ataSmartSensors;
     NSTimer *_ataSmartSensorsUpdateLoopTimer;
     NSDate *_ataSmartSensorsLastUpdated;
+
+    RACSignal *_closeSignal;
 }
 
 @property (nonatomic, strong) NSBundle * bundle;
@@ -90,7 +93,8 @@ typedef NS_ENUM(NSUInteger, HWMSensorsUpdateLoopStrategy) {
 
 @property (nonatomic, assign) HWMSensorsUpdateLoopStrategy updateLoopStrategy;
 
-@property (readonly) HWMEngineState engineState;
+@property (assign) HWMEngineState engineState;
+
 @property (readonly) BOOL isRunningOnMac;
 
 @property (readonly) IBOutlet NSArray * iconsWithSensorsAndGroups;
@@ -101,6 +105,9 @@ typedef NS_ENUM(NSUInteger, HWMSensorsUpdateLoopStrategy) {
 +(HWMEngine*)sharedEngine;
 
 -(void)open;
+-(void)start;
+-(void)stop;
+-(void)close;
 -(void)saveConfiguration;
 -(void)updateSmcAndDeviceSensors;
 -(void)updateAtaSmartSensors;
@@ -109,19 +116,10 @@ typedef NS_ENUM(NSUInteger, HWMSensorsUpdateLoopStrategy) {
 -(void)setNeedsUpdateSensorLists;
 -(void)setNeedsUpdateGraphsList;
 -(void)forceDetectSensors;
--(void)start;
--(void)stop;
--(void)close;
 
 -(void)insertItemIntoFavorites:(HWMItem*)item atIndex:(NSUInteger)index;
 -(void)moveFavoritesItemAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 -(void)removeItemFromFavoritesAtIndex:(NSUInteger)index;
-
-- (void)systemDidAddBlockStorageDevices:(NSArray*)devices;
-- (void)systemDidRemoveBlockStorageDevices:(NSArray*)devices;
-
--(void)systemDidAddBatteryDevices:(NSArray*)devices;
--(void)systemDidRemoveBatteryDevices:(NSArray*)devices;
 
 -(HWMColorTheme*)getColorThemeByName:(NSString*)name;
 -(HWMColorTheme*)getColorThemeByIndex:(NSUInteger)index;

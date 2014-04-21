@@ -9,6 +9,8 @@
 #import "HWMItem.h"
 #import "HWMEngine.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @implementation HWMItem
 
 @dynamic hidden;
@@ -20,32 +22,40 @@
 
 @synthesize engine;
 
+-(RACSignal *)hasBeenDeletedSignal
+{
+    static dispatch_once_t onceToken;
+    static RACSignal *deletedSignal;
+
+    dispatch_once(&onceToken, ^{
+        deletedSignal = [RACObserve(self, isDeleted)
+                         filter:^BOOL(id x) {
+                             return self.isDeleted;
+                         }];
+    });
+
+    return deletedSignal;
+}
+
 -(void)awakeFromFetch
 {
     [super awakeFromFetch];
-
-    [self addObserver:self forKeyPath:@keypath(self, hidden) options:NSKeyValueObservingOptionNew context:nil];
+    [self initialize];
 }
 
 -(void)awakeFromInsert
 {
     [super awakeFromInsert];
-
-    [self addObserver:self forKeyPath:@keypath(self, hidden) options:NSKeyValueObservingOptionNew context:nil];
+    [self initialize];
 }
 
--(void)prepareForDeletion
+-(void)initialize
 {
-    [super prepareForDeletion];
-
-    [self removeObserver:self forKeyPath:@keypath(self, hidden)];
-}
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@keypath(self, hidden)]) {
-        [self.engine setNeedsUpdateSensorLists];
-    }
+    [[RACObserve(self, hidden)
+      takeUntil:self.hasBeenDeletedSignal]
+     subscribeNext:^(id x) {
+         [self.engine setNeedsUpdateSensorLists];
+     }];
 }
 
 @end

@@ -34,6 +34,7 @@
 #import "FakeSMCDefinitions.h"
 #import "SmcHelper+HWMonitorHelper.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation HWMSmcFanController
 
@@ -76,13 +77,6 @@
 
     self.rangedMin = min;
     self.rangedMax = max;
-}
-
--(void)setEnabled:(NSNumber *)enabled
-{
-    [super setEnabled:enabled];
-
-    [self updateManualControlKey];
 }
 
 -(void)updateCurrentLevel
@@ -189,27 +183,18 @@ static UInt32 gManualControlKeyValue = 0x80000000;
     [[self mutableOrderedSetValueForKey:@"levels"] insertObject:value atIndex:idx];
 }
 
--(void)awakeFromFetch
+-(void)initialize
 {
-    [super awakeFromFetch];
+    [super initialize];
 
-    [self calculateOutputRange];
-    [self updateCurrentLevel];
-}
+    [self.hasBeenDeletedSignal subscribeNext:^(id x) {
+        _currentLevel = nil;
+    }];
 
--(void)awakeFromInsert
-{
-    [super awakeFromInsert];
-
-    [self calculateOutputRange];
-    [self updateCurrentLevel];
-}
-
--(void)prepareForDeletion
-{
-    [super prepareForDeletion];
-
-    _currentLevel = nil;
+    [[RACObserve(self, enabled) takeUntil:self.hasBeenDeletedSignal] subscribeNext:^(id x) {
+        _currentLevel = nil;
+        [self updateManualControlKey];
+    }];
 }
 
 @end

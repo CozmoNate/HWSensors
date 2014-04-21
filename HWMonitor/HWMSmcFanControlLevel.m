@@ -151,5 +151,21 @@
     return level;
 }
 
+-(void)initialize
+{
+    
+}
+
+-(void)awakeFromFetch
+{
+    [super awakeFromFetch];
+    [self initialize];
+}
+
+-(void)awakeFromInsert
+{
+    [super awakeFromInsert];
+    [self initialize];
+}
 
 @end

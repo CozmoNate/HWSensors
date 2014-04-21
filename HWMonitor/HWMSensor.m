@@ -35,7 +35,9 @@
 #import "HWMValueFormatter.h"
 #import "HWMonitorDefinitions.h"
 #import "Localizer.h"
+
 #import <Growl/Growl.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation HWMSensor
 
@@ -51,49 +53,17 @@
 
 @synthesize alarmLevel = _alarmLevel;
 
--(void)awakeFromFetch
+-(void)initialize
 {
-    [super awakeFromFetch];
+    [super initialize];
 
-    [self addObserver:self forKeyPath:@keypath(self, value) options:NSKeyValueObservingOptionNew context:nil];
+    [[RACObserve(self, value)
+      takeUntil:self.hasBeenDeletedSignal]
+     subscribeNext:^(id x) {
+         _formattedValue = nil;
+         _strippedValue = nil;
+     }];
 }
-
--(void)awakeFromInsert
-{
-    [super awakeFromInsert];
-
-    [self addObserver:self forKeyPath:@keypath(self, value) options:NSKeyValueObservingOptionNew context:nil];
-}
-
--(void)prepareForDeletion
-{
-    [super prepareForDeletion];
-
-    [self removeObserver:self forKeyPath:@keypath(self, value)];
-}
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@keypath(self, value)]) {
-        _formattedValue = nil;
-        _strippedValue = nil;
-    }
-
-    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-}
-
-//-(void)setValue:(NSNumber *)value
-//{
-//    if ([self.value isNotEqualTo:value]) {
-//
-//        _formattedValue = nil;
-//        _strippedValue = nil;
-//
-//        [self willChangeValueForKey:@"value"];
-//        [self setPrimitiveValue:value forKey:@"value"];
-//        [self didChangeValueForKey:@"value"];
-//    }
-//}
 
 -(NSString *)formattedValue
 {

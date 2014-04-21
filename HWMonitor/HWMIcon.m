@@ -31,6 +31,8 @@
 #import "HWMColorTheme.h"
 #import "HWMEngine.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @implementation HWMIcon
 
 @dynamic alternate;

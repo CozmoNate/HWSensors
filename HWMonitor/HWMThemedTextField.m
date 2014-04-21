@@ -12,15 +12,17 @@
 #import "HWMConfiguration.h"
 #import "HWMColorTheme.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @implementation HWMThemedTextField
 
 -(void)awakeFromNib
 {
-    HWMColorTheme *colorTheme = [HWMEngine sharedEngine].configuration.colorTheme;
-
-    if (colorTheme) {
-        [self setTextColor:colorTheme.itemTitleColor];
-    }
+    [RACObserve([HWMEngine sharedEngine], configuration.colorTheme) subscribeNext:^(id x) {
+        if ([HWMEngine sharedEngine].configuration.colorTheme) {
+            [self setTextColor:[HWMEngine sharedEngine].configuration.colorTheme.itemTitleColor];
+        }
+    }];
 }
 
 @end

@@ -38,8 +38,12 @@
 
 #import <sys/mount.h>
 #import <Growl/Growl.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 #import "NSString+returnCodeDescription.h"
+
+NSString * const HWMAtaSmartSensorDidAddBlockStorageDevices = @"HWMAtaSmartSensorDidAddBlockStorageDevices";
+NSString * const HWMAtaSmartSensorDidRemoveBlockStorageDevices = @"HWMAtaSmartSensorDidRemoveBlockStorageDevices";
 
 static NSMutableDictionary * gIOCFPluginInterfaceCache = nil;
 static NSArray * gSmartAttributeOverrideDatabase = nil;
@@ -927,49 +931,30 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
 -(void)initialize
 {
+    [super initialize];
+
     _temperatureAttributeIndex = -1;
     _remainingLifeAttributeIndex = -1;
 
-    [self addObserver:self forKeyPath:@keypath(self, engine.configuration.driveNameSelector) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, engine.configuration.driveLegendSelector) options:NSKeyValueObservingOptionNew context:nil];
+    [[RACObserve(self, engine.configuration.driveNameSelector)
+      takeUntil:self.hasBeenDeletedSignal]
+     subscribeNext:^(id x) {
+         [self willChangeValueForKey:@keypath(self, title)];
+         [self didChangeValueForKey:@keypath(self, title)];
+     }];
+
+    [[RACObserve(self, engine.configuration.driveLegendSelector)
+      takeUntil:self.hasBeenDeletedSignal]
+     subscribeNext:^(id x) {
+         [self willChangeValueForKey:@keypath(self, legend)];
+         [self didChangeValueForKey:@keypath(self, legend)];
+     }];
+
+    [self.hasBeenDeletedSignal subscribeNext:^(id x) {
+        IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
+        self.service = @0;
+    }];
 }
-
--(void)awakeFromFetch
-{
-    [super awakeFromFetch];
-    [self initialize];
-}
-
--(void)awakeFromInsert
-{
-    [super awakeFromInsert];
-    [self initialize];
-}
-
--(void)prepareForDeletion
-{
-    [super prepareForDeletion];
-
-    [self removeObserver:self forKeyPath:@keypath(self, engine.configuration.driveNameSelector)];
-    [self removeObserver:self forKeyPath:@keypath(self, engine.configuration.driveLegendSelector)];
-
-    IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
-}
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@keypath(self, engine.configuration.driveNameSelector)]) {
-        [self willChangeValueForKey:@keypath(self, title)];
-        [self didChangeValueForKey:@keypath(self, title)];
-    }
-    else if ([keyPath isEqualToString:@keypath(self, engine.configuration.driveLegendSelector)]) {
-        [self willChangeValueForKey:@keypath(self, legend)];
-        [self didChangeValueForKey:@keypath(self, legend)];
-    }
-
-    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-}
-
 
 -(BOOL)findIndexOfAttributeByName:(NSString*)name outIndex:(NSInteger*)index
 {
@@ -1263,7 +1248,7 @@ static void block_device_appeared(void *engine, io_iterator_t iterator)
             }
         }
 
-        [(__bridge HWMEngine*)engine systemDidAddBlockStorageDevices:devices];
+        [[NSNotificationCenter defaultCenter] postNotificationName:HWMAtaSmartSensorDidAddBlockStorageDevices object:(__bridge HWMEngine*)(engine) userInfo:@{@"addedDevices": devices}];
     });
 }
 
@@ -1279,6 +1264,6 @@ static void block_device_disappeared(void *engine, io_iterator_t iterator)
         
         IOObjectRelease(object);
     }
-    
-    [(__bridge HWMEngine*)engine systemDidRemoveBlockStorageDevices:devices];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:HWMAtaSmartSensorDidAddBlockStorageDevices object:(__bridge HWMEngine*)(engine) userInfo:@{@"removedDevices": devices}];
 }

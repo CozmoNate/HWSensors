@@ -29,6 +29,7 @@
 #import "HWMSensorController.h"
 #import "HWMSensor.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation HWMSensorController
 
@@ -36,36 +37,31 @@
 @dynamic output;
 @dynamic input;
 
--(void)setInput:(HWMSensor *)input
+@synthesize hasBeenDeletedSignal;
+
+-(void)initialize
 {
-    if (self.input) {
-        [self removeObserver:self forKeyPath:@keypath(self, input.value)];
-    }
-
-    [self willChangeValueForKey:@keypath(self, input)];
-    [self setPrimitiveValue:input forKey:@keypath(self, input)];
-    [self didChangeValueForKey:@keypath(self, input)];
-
-    if (input) {
-        [self addObserver:self forKeyPath:@keypath(self, input.value) options:NSKeyValueObservingOptionNew context:nil];
-    }
-
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self updateCurrentLevel];
+    [[RACObserve(self, enabled) takeUntil:self.hasBeenDeletedSignal] subscribeNext:^(id x) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (!self.enabled.boolValue) {
+                self.input = nil;
+            }
+            [self updateCurrentLevel];
+        }];
     }];
-}
 
--(void)setEnabled:(NSNumber *)enabled
-{
-    [self willChangeValueForKey:@keypath(self, enabled)];
-    [self setPrimitiveValue:enabled forKey:@keypath(self, enabled)];
-    [self didChangeValueForKey:@keypath(self, enabled)];
+    [[RACObserve(self, input) takeUntil:self.hasBeenDeletedSignal] subscribeNext:^(id x) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self updateCurrentLevel];
+        }];
+    }];
 
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        if (!self.enabled.boolValue) {
-            self.input = nil;
-        }
-        [self updateCurrentLevel];
+    [[RACObserve(self, input.value) takeUntil:self.hasBeenDeletedSignal] subscribeNext:^(id x) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (self.enabled.boolValue) {
+                [self updateCurrentLevel];
+            }
+        }];
     }];
 }
 
@@ -82,37 +78,13 @@
 -(void)awakeFromFetch
 {
     [super awakeFromFetch];
-
-    if (self.input) {
-        [self addObserver:self forKeyPath:@keypath(self, input.value) options:NSKeyValueObservingOptionNew context:nil];
-    }
+    [self initialize];
 }
 
 -(void)awakeFromInsert
 {
     [super awakeFromInsert];
-
-    if (self.input) {
-        [self addObserver:self forKeyPath:@keypath(self, input.value) options:NSKeyValueObservingOptionNew context:nil];
-    }
-}
-
--(void)prepareForDeletion
-{
-    [super prepareForDeletion];
-
-    if (self.input) {
-        [self removeObserver:self forKeyPath:@keypath(self, input.value)];
-    }
-}
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@keypath(self, input.value)]) {
-        if (self.enabled.boolValue) {
-            [self updateCurrentLevel];
-        }
-    }
+    [self initialize];
 }
 
 @end

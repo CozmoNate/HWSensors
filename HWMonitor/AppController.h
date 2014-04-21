@@ -40,6 +40,7 @@
 }
 
 @property (readonly) IBOutlet HWMEngine *monitorEngine;
+@property (readonly) IBOutlet SUUpdater *sharedUpdater;
 
 @property (nonatomic, strong) IBOutlet NSMutableArray *themePreview;
 @property (nonatomic, strong) IBOutlet NSMutableIndexSet *themeSelectionIndexes;
@@ -49,7 +50,6 @@
 
 @property (assign) IBOutlet PopupController *popupController;
 @property (assign) IBOutlet GraphsController *graphsController;
-@property (assign) IBOutlet SUUpdater *sharedUpdater;
 
 @property (assign) IBOutlet NSTableView *favoritesTableView;
 @property (assign) IBOutlet NSTableView *sensorsTableView;

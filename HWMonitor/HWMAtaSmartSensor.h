@@ -32,6 +32,10 @@
 
 #include <IOKit/storage/ata/ATASMARTLib.h>
 
+// Notifications
+extern NSString * const HWMAtaSmartSensorDidAddBlockStorageDevices;
+extern NSString * const HWMAtaSmartSensorDidRemoveBlockStorageDevices;
+
 #define kATASMARTAttributesCount     30
 
 typedef struct {

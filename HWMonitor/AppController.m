@@ -44,6 +44,8 @@
 
 #import "NSTableView+HWMEngineHelper.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @implementation AppController
 
 @synthesize sensorsAndGroupsCollectionSnapshot = _sensorsAndGroupsCollectionSnapshot;
@@ -55,6 +57,18 @@
 -(HWMEngine *)monitorEngine
 {
     return [HWMEngine sharedEngine];
+}
+
+-(SUUpdater *)sharedUpdater
+{
+    static dispatch_once_t onceToken;
+    static SUUpdater *sharedUpdater;
+
+    dispatch_once(&onceToken, ^{
+        sharedUpdater = [SUUpdater updaterForBundle:[NSBundle mainBundle]];
+    });
+
+    return sharedUpdater;
 }
 
 -(NSMutableArray *)themePreview
@@ -129,7 +143,16 @@
     if (self != nil)
     {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            
+
+            [RACObserve(self, monitorEngine.favorites)
+             subscribeNext:^(id x) {
+                 [self reloadFavoritesTableView:self];
+             }];
+
+            [RACObserve(self, monitorEngine.iconsWithSensorsAndGroups)
+             subscribeNext:^(id x) {
+                 [self reloadIconsAndSensorsTableView:self];
+             }];
 
         }];
     }
@@ -158,9 +181,6 @@
     [self switchView:self.window.toolbar];
 
     [[self.window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
-
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.favorites) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.iconsWithSensorsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)showWindow:(id)sender
@@ -197,14 +217,15 @@
 {
     if ([sender isKindOfClass:[NSButton class]]) {
         NSButton *button = (NSButton*)sender;
-        
-        if ([button state]) {
-            _sharedUpdater.automaticallyChecksForUpdates = YES;
-            [_sharedUpdater checkForUpdatesInBackground];
+
+        self.sharedUpdater.automaticallyChecksForUpdates = button.state ? YES : NO;
+
+        if (self.sharedUpdater.automaticallyChecksForUpdates) {
+            [self.sharedUpdater checkForUpdatesInBackground];
         }
     }
     else {
-        [_sharedUpdater checkForUpdates:sender];
+        [self.sharedUpdater checkForUpdates:sender];
     }
 }
 
@@ -242,16 +263,6 @@
 #pragma mark
 #pragma mark Events:
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqual:@keypath(self, monitorEngine.favorites)]) {
-        [self reloadFavoritesTableView:self];
-    }
-    else if ([keyPath isEqual:@keypath(self, monitorEngine.iconsWithSensorsAndGroups)]) {
-        [self reloadIconsAndSensorsTableView:self];
-    }
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [GrowlApplicationBridge setGrowlDelegate:self];
@@ -265,12 +276,6 @@
     [self.monitorEngine updateSmcAndDeviceSensors];
     [self.monitorEngine updateAtaSmartSensors];
     _forceUpdateSensors = NO;
-}
-
--(void)applicationWillTerminate:(NSNotification *)notification
-{
-    //[self removeObserver:self forKeyPath:@keypath(self, monitorEngine.favorites)];
-    //[self removeObserver:self forKeyPath:@keypath(self, monitorEngine.iconsWithSensorsAndGroups)];
 }
 
 - (IBAction)sensorHiddenFlagChanged:(id)sender
@@ -375,7 +380,7 @@
 #pragma mark
 #pragma mark PopupControllerDelegate:
 
-- (void) popupDidOpen:(id)sender
+- (void) popupWillOpen:(id)sender
 {
     [self.monitorEngine updateSmcAndDeviceSensors];
     [self.monitorEngine updateAtaSmartSensors];

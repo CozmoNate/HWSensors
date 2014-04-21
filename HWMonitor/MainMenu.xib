@@ -16,7 +16,6 @@
             <connections>
                 <outlet property="graphsController" destination="909" id="988"/>
                 <outlet property="popupController" destination="540" id="601"/>
-                <outlet property="sharedUpdater" destination="LKO-lM-1Z9" id="Ije-zl-WXw"/>
             </connections>
         </customObject>
         <customObject id="540" customClass="PopupController">
@@ -29,6 +28,5 @@
         </customObject>
         <customObject id="909" customClass="GraphsController"/>
         <customObject id="7879" customClass="AboutController"/>
-        <customObject id="LKO-lM-1Z9" customClass="SUUpdater"/>
     </objects>
 </document>

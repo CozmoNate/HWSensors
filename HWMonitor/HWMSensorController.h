@@ -30,7 +30,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class HWMSensor;
+@class HWMSensor, RACSignal;
 
 @interface HWMSensorController : NSManagedObject
 
@@ -38,6 +38,9 @@
 @property (nonatomic, retain) HWMSensor *output;
 @property (nonatomic, retain) HWMSensor *input;
 
+@property (readonly) RACSignal *hasBeenDeletedSignal;
+
+-(void)initialize;
 -(void)updateCurrentLevel;
 -(void)forceCurrentLevel;
 

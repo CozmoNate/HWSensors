@@ -45,6 +45,7 @@
 @property (readonly) NSNumber * maxOutput;
 @property (readonly) NSNumber * deletable;
 
+-(void)initialize;
 -(void)removeThisLevel;
 -(HWMSmcFanControlLevel*)insertNextLevel;
 

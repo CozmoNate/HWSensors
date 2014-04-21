@@ -33,6 +33,10 @@
 // TEST BATTERY
 //#define kHWMonitorDebugBattery
 
+// Notifications
+extern NSString * const HWMBatterySensorDidAddBatteryDevices;
+extern NSString * const HWMBatterySensorDidRemoveBatteryDevices;
+
 @class HWMEngine, HWMSensorsGroup;
 
 @interface HWMBatterySensor : HWMSensor

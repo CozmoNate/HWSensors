@@ -15,6 +15,8 @@
 #import "SmcHelper.h"
 #import "FakeSMCDefinitions.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @implementation HWMConfiguration
 
 @dynamic graphsScaleValue;

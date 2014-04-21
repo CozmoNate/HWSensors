@@ -9,9 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-#import "EXTKeyPathCoding.h"
-
-@class HWMEngine, HWMFavorite;
+@class HWMEngine, HWMFavorite, RACSignal;
 
 @interface HWMItem : NSManagedObject
 
@@ -23,6 +21,10 @@
 @property (nonatomic, retain) NSSet *favorites;
 
 @property (nonatomic, strong) HWMEngine * engine;
+
+@property (readonly) RACSignal *hasBeenDeletedSignal;
+
+-(void)initialize;
 
 @end
 

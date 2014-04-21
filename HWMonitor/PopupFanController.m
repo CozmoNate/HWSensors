@@ -42,6 +42,8 @@
 #import "NSTableView+HWMEngineHelper.h"
 #import "NSWindow+BackgroundBlur.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @interface PopupFanController ()
 
 @end

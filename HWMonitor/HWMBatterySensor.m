@@ -35,6 +35,10 @@
 
 #import <IOKit/hid/IOHIDKeys.h>
 #import <Growl/Growl.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
+NSString * const HWMBatterySensorDidAddBatteryDevices = @"HWMBatterySensorDidAddBatteryDevices";
+NSString * const HWMBatterySensorDidRemoveBatteryDevices = @"HWMBatterySensorDidRemoveBatteryDevices";
 
 #define kHWMBatterySensorInternal       1
 #define kHWMBatterySensorBluetooth      2
@@ -124,8 +128,8 @@ static void hid_device_appeared(void *engine, io_iterator_t iterator)
             
             [devices addObject:properties];
         }
-        
-        [(__bridge HWMEngine*)engine systemDidAddBatteryDevices:devices];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:HWMBatterySensorDidAddBatteryDevices object:(__bridge HWMEngine*)(engine) userInfo:@{@"addedDevices": devices}];
     });
 }
 static void hid_device_disappeared(void *engine, io_iterator_t iterator)
@@ -141,7 +145,7 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
         IOObjectRelease(object);
     }
 
-    [(__bridge HWMEngine*)engine systemDidRemoveBatteryDevices:devices];
+    [[NSNotificationCenter defaultCenter] postNotificationName:HWMBatterySensorDidRemoveBatteryDevices object:(__bridge HWMEngine*)(engine) userInfo:@{@"removedDevices": devices}];
 }
 
 @implementation HWMBatterySensor
@@ -204,11 +208,14 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
 #endif
 }
 
--(void)prepareForDeletion
+-(void)initialize
 {
-    self.service = @0;
+    [super initialize];
 
-    IOObjectRelease((io_registry_entry_t)self.service.unsignedLongLongValue);
+    [self.hasBeenDeletedSignal subscribeNext:^(id x) {
+        IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
+        self.service = @0;
+    }];
 }
 
 -(NSUInteger)internalUpdateAlarmLevel
