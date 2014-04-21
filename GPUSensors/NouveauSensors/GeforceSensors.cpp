@@ -125,6 +125,36 @@ bool GeforceSensors::acceleratorLoadedCheck()
     return false;
 }
 
+bool GeforceSensors::mapMemory()
+{
+    struct nouveau_device *device = &card;
+
+    // map device memory
+    if ((device->pcidev = pciDevice)) {
+
+        device->pcidev->setMemoryEnable(true);
+
+        if ((device->mmio = device->pcidev->mapDeviceMemoryWithIndex(0))) {
+            nv_debug(device, "memory mapped successfully\n");
+        }
+        else {
+            HWSensorsFatalLog("(pci%d): [Fatal] failed to map memory", pciDevice->getBusNumber());
+            return false;
+        }
+    }
+    else {
+        HWSensorsFatalLog("(pci%d): [Fatal] failed to assign PCI device", pciDevice->getBusNumber());
+        return false;
+    }
+
+    // identify chipset
+    if (!nouveau_identify(device)) {
+        return false;
+    }
+
+    return true;
+}
+
 bool GeforceSensors::loadVBios()
 {
     struct nouveau_device *device = &card;
@@ -164,31 +194,19 @@ bool GeforceSensors::startupCheck(IOService *provider)
         return false;
     }
 
-    // map device memory
-    if ((device->pcidev = pciDevice)) {
+    int arg_value = 1;
 
-        device->pcidev->setMemoryEnable(true);
+    // Load keys from NVRAM
+    if (PE_parse_boot_argn("-geforcesensors-early-shadow", &arg_value, sizeof(arg_value))) {
+        shouldPerformEarlyCheck = true;
 
-        if ((device->mmio = device->pcidev->mapDeviceMemoryWithIndex(0))) {
-            nv_debug(device, "memory mapped successfully\n");
-        }
-        else {
-            HWSensorsFatalLog("(pci%d): [Fatal] failed to map memory", pciDevice->getBusNumber());
+        if (!mapMemory()) {
             return false;
         }
-    }
-    else {
-        HWSensorsFatalLog("(pci%d): [Fatal] failed to assign PCI device", pciDevice->getBusNumber());
-        return false;
-    }
 
-    // identify chipset
-    if (!nouveau_identify(device)) {
-        return false;
-    }
-
-    if (!loadVBios()) {
-        nv_error(device, "early VBIOS shadow failed, will try after accelerator started\n");
+        if (!loadVBios()) {
+            nv_error(device, "early VBIOS shadow failed, will try after accelerator started\n");
+        }
     }
 
     return true;
@@ -199,6 +217,12 @@ bool GeforceSensors::managedStart(IOService *provider)
     HWSensorsDebugLog("Starting...");
 
     struct nouveau_device *device = &card;
+
+    if (!shouldPerformEarlyCheck) {
+        if (!mapMemory()) {
+            return false;
+        }
+    }
 
     if (!device->bios.data || !device->bios.size) {
         if (!loadVBios()) {

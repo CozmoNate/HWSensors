@@ -50,6 +50,9 @@ private:
     float               i2c_get_fanspeed_pwm(I2CDevPtr dev);
     int                 i2c_get_fanspeed_mode(I2CDevPtr dev);
 
+    bool                shouldPerformEarlyCheck;
+
+    bool                mapMemory();
     bool                loadVBios();
     
 protected:
