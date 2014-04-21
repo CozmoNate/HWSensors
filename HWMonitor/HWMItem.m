@@ -22,21 +22,6 @@
 
 @synthesize engine;
 
--(RACSignal *)hasBeenDeletedSignal
-{
-    static dispatch_once_t onceToken;
-    static RACSignal *deletedSignal;
-
-    dispatch_once(&onceToken, ^{
-        deletedSignal = [RACObserve(self, isDeleted)
-                         filter:^BOOL(id x) {
-                             return self.isDeleted;
-                         }];
-    });
-
-    return deletedSignal;
-}
-
 -(void)awakeFromFetch
 {
     [super awakeFromFetch];
@@ -51,11 +36,9 @@
 
 -(void)initialize
 {
-    [[RACObserve(self, hidden)
-      takeUntil:self.hasBeenDeletedSignal]
-     subscribeNext:^(id x) {
-         [self.engine setNeedsUpdateSensorLists];
-     }];
+    [RACObserve(self, hidden) subscribeNext:^(id x) {
+        [self.engine setNeedsUpdateSensorLists];
+    }];
 }
 
 @end

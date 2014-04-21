@@ -31,9 +31,16 @@
 #import "HWMItem.h"
 #import "HWMConfiguration.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @implementation PopupBasicCell
 
-@synthesize colorTheme = _colorTheme;
+@synthesize colorTheme;
+
+-(HWMColorTheme *)colorTheme
+{
+    return [HWMEngine sharedEngine].configuration.colorTheme;
+}
 
 -(id)init
 {
@@ -68,31 +75,22 @@
     return self;
 }
 
--(void)dealloc
+- (void)initialize
 {
-    [self deallocate];
-}
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"objectValue.engine.configuration.colorTheme"]) {
-        _colorTheme = [(HWMItem*)self.objectValue engine].configuration.colorTheme;
-        [self colorThemeChanged:_colorTheme];
-    }
+    [[RACObserve(self, objectValue)
+      filter:^BOOL(id value) {
+          return value != nil;
+      }]
+     subscribeNext:^(HWMItem *item) {
+         [RACObserve(item.engine.configuration, colorTheme) subscribeNext:^(HWMColorTheme *theme) {
+             [self colorThemeChanged:theme];
+         }];
+     }];
 }
 
 - (void)colorThemeChanged:(HWMColorTheme*)newColorTheme
 {
-
-}
-- (void)initialize
-{
-    [self addObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
-}
-
-- (void)deallocate
-{
-    [self removeObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme"];
+    //
 }
 
 @end

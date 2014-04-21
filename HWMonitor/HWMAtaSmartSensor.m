@@ -929,6 +929,17 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     return self.volumeNames;
 }
 
+-(void)setService:(NSNumber *)service
+{
+    if (self.service && self.service.unsignedLongLongValue > 0) {
+        IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
+    }
+
+    [self willChangeValueForKey:@keypath(self, service)];
+    [self setPrimitiveValue:service forKey:@keypath(self, service)];
+    [self didChangeValueForKey:@keypath(self, service)];
+}
+
 -(void)initialize
 {
     [super initialize];
@@ -936,24 +947,26 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     _temperatureAttributeIndex = -1;
     _remainingLifeAttributeIndex = -1;
 
-    [[RACObserve(self, engine.configuration.driveNameSelector)
-      takeUntil:self.hasBeenDeletedSignal]
-     subscribeNext:^(id x) {
-         [self willChangeValueForKey:@keypath(self, title)];
-         [self didChangeValueForKey:@keypath(self, title)];
-     }];
+    [[RACObserve(self, engine)
+      filter:^BOOL(HWMEngine *engine) {
+           return engine != nil;
+       }]
+     subscribeNext:^(HWMEngine *engine) {
 
-    [[RACObserve(self, engine.configuration.driveLegendSelector)
-      takeUntil:self.hasBeenDeletedSignal]
-     subscribeNext:^(id x) {
-         [self willChangeValueForKey:@keypath(self, legend)];
-         [self didChangeValueForKey:@keypath(self, legend)];
-     }];
+         [[RACObserve(engine.configuration, driveNameSelector) filter:^BOOL(id value) {
+             return value != nil;
+         }] subscribeNext:^(id x) {
+             [self willChangeValueForKey:@keypath(self, title)];
+             [self didChangeValueForKey:@keypath(self, title)];
+         }];
 
-    [self.hasBeenDeletedSignal subscribeNext:^(id x) {
-        IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
-        self.service = @0;
-    }];
+         [[RACObserve(engine.configuration, driveLegendSelector) filter:^BOOL(id value) {
+             return value != nil;
+         }] subscribeNext:^(id x) {
+             [self willChangeValueForKey:@keypath(self, legend)];
+             [self didChangeValueForKey:@keypath(self, legend)];
+         }];
+     }];
 }
 
 -(BOOL)findIndexOfAttributeByName:(NSString*)name outIndex:(NSInteger*)index

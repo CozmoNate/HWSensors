@@ -109,14 +109,14 @@
         [_statusItemView setTarget:self];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [RACObserve(self, monitorEngine.configuration.colorTheme)
+            [RACObserve(self.monitorEngine.configuration, colorTheme)
              subscribeNext:^(HWMColorTheme *newColorTheme) {
                  [(OBMenuBarWindow*)self.window setColorTheme:newColorTheme];
                  [(JLNFadingScrollView *)_scrollView setFadeColor:newColorTheme.listBackgroundColor];
              }];
 
-            [[RACSignal combineLatest:@[RACObserve(self, monitorEngine.sensorsAndGroups),
-                                        RACObserve(self, monitorEngine.configuration.showSensorLegendsInPopup)]]
+            [[RACSignal combineLatest:@[RACObserve(self.monitorEngine, sensorsAndGroups),
+                                        RACObserve(self.monitorEngine.configuration, showSensorLegendsInPopup)]]
              subscribeNext:^(id x) {
                  [self reloadSensorsTableView:self];
              }];

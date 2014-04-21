@@ -57,12 +57,10 @@
 {
     [super initialize];
 
-    [[RACObserve(self, value)
-      takeUntil:self.hasBeenDeletedSignal]
-     subscribeNext:^(id x) {
-         _formattedValue = nil;
-         _strippedValue = nil;
-     }];
+    [RACObserve(self, value) subscribeNext:^(id x) {
+        _formattedValue = nil;
+        _strippedValue = nil;
+    }];
 }
 
 -(NSString *)formattedValue
@@ -197,6 +195,9 @@
 
             [self willChangeValueForKey:@keypath(self, formattedValue)];
             [self didChangeValueForKey:@keypath(self, formattedValue)];
+
+            [self willChangeValueForKey:@keypath(self, strippedValue)];
+            [self didChangeValueForKey:@keypath(self, strippedValue)];
 
             if (!self.hidden.boolValue) {
 

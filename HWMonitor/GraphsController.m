@@ -104,25 +104,25 @@
     if (self) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-            [RACObserve(self, monitorEngine.graphsAndGroups)
+            [[RACObserve(self.monitorEngine, graphsAndGroups) distinctUntilChanged]
              subscribeNext:^(id x) {
                  [self reloadGraphsTableView:self];
                  [self rebuildViews];
              }];
             
-            [RACObserve(self, monitorEngine.configuration.graphsWindowAlwaysTopmost)
+            [RACObserve(self.monitorEngine.configuration, graphsWindowAlwaysTopmost)
              subscribeNext:^(id x) {
                  [self.window setLevel:self.monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
              }];
 
-            [RACObserve(self, monitorEngine.configuration.showSensorLegendsInGraphs)
+            [RACObserve(self.monitorEngine.configuration, showSensorLegendsInGraphs)
              subscribeNext:^(id x) {
                  [self reloadGraphsTableView:self];
              }];
 
-            [[RACSignal combineLatest:@[RACObserve(self, monitorEngine.configuration.useFahrenheit),
-                                        RACObserve(self, monitorEngine.configuration.useGraphSmoothing),
-                                        RACObserve(self, monitorEngine.configuration.graphsScaleValue)]]
+            [[RACSignal combineLatest:@[RACObserve(self.monitorEngine.configuration, useFahrenheit),
+                                        RACObserve(self.monitorEngine.configuration, useGraphSmoothing),
+                                        RACObserve(self.monitorEngine.configuration, graphsScaleValue)]]
              subscribeNext:^(id x) {
                  [self setNeedDisplayGraphs:self];
              }];

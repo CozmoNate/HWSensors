@@ -34,6 +34,8 @@
 #import "HWMGraph.h"
 #import "HWMSensor.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @implementation GraphsSensorCell
 
 -(id)init
@@ -69,14 +71,35 @@
     return self;
 }
 
--(void)dealloc
-{
-    [self removeObserver:self forKeyPath:@"objectValue.sensor.alarmLevel"];
-}
-
 -(void)initialize
 {
-    [self addObserver:self forKeyPath:@"objectValue.sensor.alarmLevel" options:NSKeyValueObservingOptionNew context:nil];
+    [[RACObserve(self, objectValue)
+      filter:^BOOL(id value) {
+        return value != nil;
+      }]
+      subscribeNext:^(HWMGraph *graph) {
+          [RACObserve(graph.sensor, alarmLevel)
+           subscribeNext:^(NSNumber *level) {
+               switch (level.integerValue) {
+                    case kHWMSensorLevelNormal:
+                       [self.valueField setTextColor:[NSColor whiteColor]];
+                       break;
+
+                    case kHWMSensorLevelModerate:
+                       [self.valueField setTextColor:[NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f]];
+                       break;
+
+                    case kHWMSensorLevelHigh:
+                       [self.valueField setTextColor:[NSColor redColor]];
+                       break;
+
+                    case kHWMSensorLevelExceeded:
+                       [self.textField setTextColor:[NSColor redColor]];
+                       [self.valueField setTextColor:[NSColor redColor]];
+                       break;
+               }
+           }];
+      }];
 }
 
 -(void)resetCursorRects
@@ -87,32 +110,6 @@
 
     if (_checkBox) {
         [self addCursorRect:_checkBox.frame cursor:[NSCursor pointingHandCursor]];
-    }
-}
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"objectValue.sensor.alarmLevel"]) {
-
-        switch ([self.objectValue sensor].alarmLevel) {
-            case kHWMSensorLevelNormal:
-                [self.valueField setTextColor:[NSColor whiteColor]];
-                break;
-
-            case kHWMSensorLevelModerate:
-                [self.valueField setTextColor:[NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f]];
-                break;
-
-            case kHWMSensorLevelHigh:
-                [self.valueField setTextColor:[NSColor redColor]];
-                break;
-
-            case kHWMSensorLevelExceeded:
-                [self.textField setTextColor:[NSColor redColor]];
-                [self.valueField setTextColor:[NSColor redColor]];
-                break;
-        }
-
     }
 }
 

@@ -187,11 +187,13 @@ static UInt32 gManualControlKeyValue = 0x80000000;
 {
     [super initialize];
 
-    [self.hasBeenDeletedSignal subscribeNext:^(id x) {
+    [[RACObserve(self, isDeleted) skipUntilBlock:^BOOL(id x) {
+        return self.isDeleted;
+    }] subscribeCompleted:^{
         _currentLevel = nil;
     }];
 
-    [[RACObserve(self, enabled) takeUntil:self.hasBeenDeletedSignal] subscribeNext:^(id x) {
+    [RACObserve(self, enabled) subscribeNext:^(id x) {
         _currentLevel = nil;
         [self updateManualControlKey];
     }];

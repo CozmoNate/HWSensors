@@ -35,6 +35,8 @@
 #import "HWMSensor.h"
 #import "HWMFavorite.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @interface StatusItemView ()
 
 @property (readonly) NSAttributedString *spacer;
@@ -102,26 +104,32 @@
         [_statusItem setView:self];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.favorites) options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useBigFontInMenubar) options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar) options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
 
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redraw) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:self.monitorEngine];
+            RACSignal *favoritesChangedSignal = RACObserve(self.monitorEngine, favorites);
+
+            [favoritesChangedSignal subscribeNext:^(id x) {
+                _favoritesSnapshot = nil;
+            }];
+
+            RACSignal *bigFontChangedSignal = RACObserve(self.monitorEngine.configuration, useBigFontInMenubar);
+
+            [bigFontChangedSignal subscribeNext:^(id x) {
+                _spacer = nil;
+            }];
+
+            [[RACSignal combineLatest:@[favoritesChangedSignal,
+                                        bigFontChangedSignal,
+                                        RACObserve(self.monitorEngine.configuration, useShadowEffectsInMenubar),
+                                        RACObserve(self.monitorEngine.configuration, useFahrenheit),
+                                        [[NSNotificationCenter defaultCenter] rac_addObserverForName:HWMEngineSensorValuesHasBeenUpdatedNotification object:nil]]]
+             subscribeNext:^(id x) {
+                 [self setNeedsDisplay:YES];
+             }];
+
         }];
     }
 
     return self;
-}
-
--(void)dealloc
-{
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.favorites)];
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useBigFontInMenubar)];
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar)];
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit)];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)drawRect:(NSRect)rect
@@ -292,38 +300,9 @@
 #pragma mark -
 #pragma mark Methods
 
--(void)redraw
-{
-    [self setNeedsDisplay:YES];
-}
-
 -(NSRect)screenRect
 {
     return [self.window convertRectToScreen:self.frame];
-}
-
-#pragma mark -
-#pragma mark Events
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@keypath(self, monitorEngine.favorites)]) {
-        _favoritesSnapshot = nil;
-    }
-    else if ([keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useBigFontInMenubar)]) {
-        _spacer = nil;
-    }
-    else if ([keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar)] ||
-             [keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useFahrenheit)]) {
-        // Do nothing, only redraw
-    }
-    else {
-        return;
-    }
-
-    [self redraw];
-
-    //[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 @end

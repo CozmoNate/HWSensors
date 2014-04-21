@@ -144,12 +144,12 @@
     {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-            [RACObserve(self, monitorEngine.favorites)
+            [RACObserve(self.monitorEngine, favorites)
              subscribeNext:^(id x) {
                  [self reloadFavoritesTableView:self];
              }];
 
-            [RACObserve(self, monitorEngine.iconsWithSensorsAndGroups)
+            [[RACObserve(self.monitorEngine, iconsWithSensorsAndGroups) distinctUntilChanged]
              subscribeNext:^(id x) {
                  [self reloadIconsAndSensorsTableView:self];
              }];
@@ -215,17 +215,13 @@
 
 -(void)checkForUpdates:(id)sender
 {
-    if ([sender isKindOfClass:[NSButton class]]) {
-        NSButton *button = (NSButton*)sender;
-
-        self.sharedUpdater.automaticallyChecksForUpdates = button.state ? YES : NO;
-
+    if (sender == self) {
         if (self.sharedUpdater.automaticallyChecksForUpdates) {
             [self.sharedUpdater checkForUpdatesInBackground];
         }
     }
     else {
-        [self.sharedUpdater checkForUpdates:sender];
+        [self.sharedUpdater checkForUpdates:self];
     }
 }
 
@@ -242,7 +238,7 @@
 
         _favoritesCollectionSnapshot = nil;
 
-        [_favoritesTableView updateWithObjectValues:self.favoritesCollectionSnapshot previousObjectValues:oldFavorites updateHeightOfTheRows:NO withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationEffectFade];
+        [_favoritesTableView updateWithObjectValues:self.favoritesCollectionSnapshot previousObjectValues:oldFavorites updateHeightOfTheRows:NO withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationSlideDown];
 
     }];
 }
@@ -272,10 +268,16 @@
     [self.monitorEngine open];
     [self.monitorEngine start];
 
-    _forceUpdateSensors = YES;
     [self.monitorEngine updateSmcAndDeviceSensors];
     [self.monitorEngine updateAtaSmartSensors];
-    _forceUpdateSensors = NO;
+
+    [self checkForUpdates:self];
+}
+
+-(void)applicationWillTerminate:(NSNotification *)notification
+{
+    [self.monitorEngine stop];
+    [self.monitorEngine close];
 }
 
 - (IBAction)sensorHiddenFlagChanged:(id)sender
@@ -360,7 +362,7 @@
 
 - (HWMSensorsUpdateLoopStrategy)updateLoopStrategyForEngine:(HWMEngine*)engine
 {
-    if (_forceUpdateSensors || self.window.isVisible || _graphsController.window.isVisible) {
+    if (self.window.isVisible || _graphsController.window.isVisible) {
         return kHWMSensorsUpdateLoopForced;
     }
     else if (_popupController.window.isVisible) {

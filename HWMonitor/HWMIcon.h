@@ -36,6 +36,6 @@
 @property (nonatomic, retain) NSImage * alternate;
 @property (nonatomic, retain) NSImage * regular;
 
-@property (readonly) NSImage * image;
+@property (readonly) NSImage * themedImage;
 
 @end

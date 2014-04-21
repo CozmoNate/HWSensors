@@ -34,20 +34,19 @@
 #import "HWMItem.h"
 #import "HWMSensor.h"
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 @implementation PopupBatteryCell
 
 -(void)initialize
 {
     [super initialize];
 
-    [self addObserver:self forKeyPath:@"objectValue.value" options:NSKeyValueObservingOptionNew context:nil];
-}
+    HWMSensor *sensor = (HWMSensor*)self.objectValue;
 
--(void)deallocate
-{
-    [super deallocate];
-
-    [self removeObserver:self forKeyPath:@"objectValue.value"];
+    [RACObserve(sensor, value) subscribeNext:^(NSNumber *value) {
+        [self setGaugeLevel:value];
+    }];
 }
 
 - (void)setGaugeLevel:(NSNumber *)gaugeLevel
@@ -100,16 +99,6 @@
 {
     [super colorThemeChanged:newColorTheme];
     [self setGaugeLevel:self.gaugeLevel];
-}
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqual:@"objectValue.value"])
-    {
-        [self setGaugeLevel:[(HWMSensor*)self.objectValue value]];
-    }
-
-    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 @end

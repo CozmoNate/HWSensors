@@ -208,14 +208,15 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
 #endif
 }
 
--(void)initialize
+-(void)setService:(NSNumber *)service
 {
-    [super initialize];
-
-    [self.hasBeenDeletedSignal subscribeNext:^(id x) {
+    if (self.service && self.service.unsignedLongLongValue > 0) {
         IOObjectRelease((io_service_t)self.service.unsignedLongLongValue);
-        self.service = @0;
-    }];
+    }
+
+    [self willChangeValueForKey:@keypath(self, service)];
+    [self setPrimitiveValue:service forKey:@keypath(self, service)];
+    [self didChangeValueForKey:@keypath(self, service)];
 }
 
 -(NSUInteger)internalUpdateAlarmLevel

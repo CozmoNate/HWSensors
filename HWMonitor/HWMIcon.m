@@ -38,44 +38,29 @@
 @dynamic alternate;
 @dynamic regular;
 
-@synthesize image = _image;
+@synthesize themedImage;
 
--(NSImage *)image
+-(NSImage *)themedImage
 {
-    if (!_image) {
-        _image = self.engine.configuration.colorTheme.useBrightIcons.boolValue ? self.alternate : self.regular;
-    }
-
-    return _image;
+    return self.engine.configuration.colorTheme.useBrightIcons.boolValue ? self.alternate : self.regular;
 }
 
--(void)prepareForDeletion
+-(void)initialize
 {
-    if (self.engine) {
-        //[self removeObserver:self.engine forKeyPath:@"engine.configuration.colorTheme"];
-    }
-}
+    [super initialize];
 
--(void)setEngine:(HWMEngine *)engine
-{
-    if (self.engine) {
-        [self removeObserver:self.engine forKeyPath:@keypath(self, engine.configuration.colorTheme)];
-    }
-
-    [super setEngine:engine];
-
-    if (self.engine) {
-        [self addObserver:self forKeyPath:@keypath(self, engine.configuration.colorTheme) options:NSKeyValueObservingOptionNew context:nil];
-    }
-}
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqual:@keypath(self, engine.configuration.colorTheme)]) {
-        [self willChangeValueForKey:@keypath(self, image)];
-        _image = nil;
-        [self didChangeValueForKey:@keypath(self, image)];
-    }
+    [[RACObserve(self, engine)
+       filter:^BOOL(HWMEngine *engine) {
+           return engine != nil;
+       }]
+     subscribeNext:^(HWMEngine *engine) {
+         [[RACObserve(engine.configuration, colorTheme) filter:^BOOL(id value) {
+             return value != nil;
+         }] subscribeNext:^(HWMColorTheme *theme) {
+             [self willChangeValueForKey:@keypath(self, themedImage)];
+             [self didChangeValueForKey:@keypath(self, themedImage)];
+         }];
+     }];
 }
 
 @end

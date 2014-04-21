@@ -22,8 +22,6 @@
 
 @property (nonatomic, strong) HWMEngine * engine;
 
-@property (readonly) RACSignal *hasBeenDeletedSignal;
-
 -(void)initialize;
 
 @end

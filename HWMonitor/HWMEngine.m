@@ -327,10 +327,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(void)initialize
 {
-    _closeSignal = [RACObserve(self, engineState)
-                    filter:^BOOL(id value) {
-                        return _engineState == kHWMEngineStateClosed;
-                    }];
+    _closeSignal = [RACObserve(self, engineState) filter:^BOOL(id value) {
+        return _engineState == kHWMEngineStateClosed;
+    }];
 }
 
 - (void)assignPlatformProfile
@@ -825,19 +824,19 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
      }];
 
     // Options
-    [[RACObserve(self, configuration.useFahrenheit)
+    [[RACObserve(self.configuration, useFahrenheit)
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
         [self setNeedsRecalculateSensorValues];
      }];
 
-    [[RACObserve(self, configuration.smcSensorsUpdateRate)
+    [[RACObserve(self.configuration, smcSensorsUpdateRate)
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
         [self initSmcAndDevicesTimer];
      }];
 
-    [[RACObserve(self, configuration.smartSensorsUpdateRate)
+    [[RACObserve(self.configuration, smartSensorsUpdateRate)
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
         [self initAtaSmartTimer];
@@ -858,50 +857,48 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)stop
 {
     DLog(@"");
+
     if (_engineState == kHWMEngineStateActive) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.engineState = kHWMEngineStatePaused;
-            [self internalStopEngine];
-        }];
+
+        [self internalStopEngine];
+
+        self.engineState = kHWMEngineStatePaused;
     }
 }
 
 -(void)close
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    DLog(@"");
 
-        DLog(@"");
+    if (_engineState < kHWMEngineStatePaused) {
+        return;
+    }
 
-        if (_engineState < kHWMEngineStatePaused) {
-            return;
+    [self saveConfiguration];
+
+    self.engineState = kHWMEngineStateClosed;
+
+    for (HWMSensor *sensor in _smcAndDevicesSensors) {
+        if (sensor.service && sensor.service.unsignedLongLongValue) {
+            IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
+            sensor.service = @0;
         }
+    }
 
-        [self saveConfiguration];
+    if (_appleSmcConnection) {
+        SMCClose(_appleSmcConnection);
+        _appleSmcConnection = 0;
+    }
 
-        self.engineState = kHWMEngineStateClosed;
+    if (_fakeSmcConnection) {
+        SMCClose(_fakeSmcConnection);
+        _fakeSmcConnection = 0;
+    }
 
-        for (HWMSensor *sensor in _smcAndDevicesSensors) {
-            if (sensor.service && sensor.service.unsignedLongLongValue) {
-                IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
-                sensor.service = @0;
-            }
-        }
-
-        if (_appleSmcConnection) {
-            SMCClose(_appleSmcConnection);
-            _appleSmcConnection = 0;
-        }
-
-        if (_fakeSmcConnection) {
-            SMCClose(_fakeSmcConnection);
-            _fakeSmcConnection = 0;
-        }
-
-        _configuration = nil;
-        _managedObjectContext = nil;
-        _managedObjectModel = nil;
-        _persistentStoreCoordinator = nil;
-    }];
+    self.configuration = nil;
+    self.managedObjectContext = nil;
+    self.managedObjectModel = nil;
+    self.persistentStoreCoordinator = nil;
 }
 
 -(void)saveConfiguration
@@ -1215,16 +1212,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 #pragma mark
 #pragma mark Events
 
-- (void)applicationWillTerminate:(id)sender
-{
-    if (self.engineState == kHWMEngineStateActive) {
-        [self internalStopEngine];
-    }
 
-    [self saveConfiguration];
-
-    [self close];
-}
 
 #pragma mark
 #pragma mark Color Themes

@@ -37,11 +37,9 @@
 @dynamic output;
 @dynamic input;
 
-@synthesize hasBeenDeletedSignal;
-
 -(void)initialize
 {
-    [[RACObserve(self, enabled) takeUntil:self.hasBeenDeletedSignal] subscribeNext:^(id x) {
+    [RACObserve(self, enabled) subscribeNext:^(id x) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             if (!self.enabled.boolValue) {
                 self.input = nil;
@@ -50,19 +48,16 @@
         }];
     }];
 
-    [[RACObserve(self, input) takeUntil:self.hasBeenDeletedSignal] subscribeNext:^(id x) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self updateCurrentLevel];
+    [RACObserve(self, input) subscribeNext:^(NSNumber *input) {
+        [RACObserve(self.input, value) subscribeNext:^(NSNumber *value) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                if (self.enabled.boolValue) {
+                    [self updateCurrentLevel];
+                }
+            }];
         }];
     }];
 
-    [[RACObserve(self, input.value) takeUntil:self.hasBeenDeletedSignal] subscribeNext:^(id x) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if (self.enabled.boolValue) {
-                [self updateCurrentLevel];
-            }
-        }];
-    }];
 }
 
 -(void)updateCurrentLevel

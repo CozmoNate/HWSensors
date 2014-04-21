@@ -18,9 +18,9 @@
 
 -(void)awakeFromNib
 {
-    [RACObserve([HWMEngine sharedEngine], configuration.colorTheme) subscribeNext:^(id x) {
-        if ([HWMEngine sharedEngine].configuration.colorTheme) {
-            [self setTextColor:[HWMEngine sharedEngine].configuration.colorTheme.itemTitleColor];
+    [RACObserve([HWMEngine sharedEngine].configuration, colorTheme) subscribeNext:^(HWMColorTheme *theme) {
+        if (theme) {
+            [self setTextColor:theme.itemTitleColor];
         }
     }];
 }

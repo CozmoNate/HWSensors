@@ -38,8 +38,6 @@
 @property (nonatomic, retain) HWMSensor *output;
 @property (nonatomic, retain) HWMSensor *input;
 
-@property (readonly) RACSignal *hasBeenDeletedSignal;
-
 -(void)initialize;
 -(void)updateCurrentLevel;
 -(void)forceCurrentLevel;
