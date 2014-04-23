@@ -42,6 +42,7 @@
 #import "HWMGraphsGroup.h"
 #import "HWMFavorite.h"
 #import "HWMSmcFanController.h"
+#import "HWMATASmartPluginWrapper.h"
 
 #import "Localizer.h"
 
@@ -681,7 +682,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                  [self insertAtaSmartSensorFromDictionary:properties group:smartRemainingLife];
              }
 
-             [HWMSmartPluginInterfaceWrapper destroyAllWrappers];
+             [HWMATASmartInterfaceWrapper destroyAllWrappers];
 
              // Update graphs
              [self insertGraphs];
@@ -824,19 +825,19 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
      }];
 
     // Options
-    [[RACObserve(self.configuration, useFahrenheit)
+    [[RACObserve(self, configuration.useFahrenheit)
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
         [self setNeedsRecalculateSensorValues];
      }];
 
-    [[RACObserve(self.configuration, smcSensorsUpdateRate)
+    [[RACObserve(self, configuration.smcSensorsUpdateRate)
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
         [self initSmcAndDevicesTimer];
      }];
 
-    [[RACObserve(self.configuration, smartSensorsUpdateRate)
+    [[RACObserve(self, configuration.smartSensorsUpdateRate)
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
         [self initAtaSmartTimer];
@@ -880,7 +881,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     for (HWMSensor *sensor in _smcAndDevicesSensors) {
         if (sensor.service && sensor.service.unsignedLongLongValue) {
-            IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
+            //IOObjectRelease((io_object_t)sensor.service.unsignedLongLongValue);
             sensor.service = @0;
         }
     }
@@ -1020,7 +1021,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
         if (!_ataSmartSensors) {
 
-            __block NSMutableArray *sensors = [NSMutableArray array];
+            NSMutableArray *sensors = [NSMutableArray array];
 
             for (HWMSensorsGroup *group in _groups) {
                 for (HWMSensor *sensor in group.sensors) {
@@ -1030,7 +1031,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 }
             }
 
-            _ataSmartSensors = [sensors copy];
+            _ataSmartSensors = sensors;
         }
 
         if (_ataSmartSensors) {
@@ -1064,7 +1065,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 }
             }
 
-            [HWMSmartPluginInterfaceWrapper destroyAllWrappers];
+            [HWMATASmartInterfaceWrapper destroyAllWrappers];
 
             [self internalCaptureSensorValuesToGraphs];
 

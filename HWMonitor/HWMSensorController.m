@@ -49,7 +49,7 @@
     }];
 
     [RACObserve(self, input) subscribeNext:^(NSNumber *input) {
-        [RACObserve(self.input, value) subscribeNext:^(NSNumber *value) {
+        [RACObserve(self, input.value) subscribeNext:^(NSNumber *value) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 if (self.enabled.boolValue) {
                     [self updateCurrentLevel];

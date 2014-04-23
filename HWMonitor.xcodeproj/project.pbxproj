@@ -143,6 +143,7 @@
 		7EA248FF16D8E93A002231B2 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248FE16D8E93A002231B2 /* AppController.m */; };
 		7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2494C16D8EB2D002231B2 /* StatusItemView.m */; };
 		7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
+		7EB7668C19085499000161E8 /* HWMATASmartPluginWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB7668B19085499000161E8 /* HWMATASmartPluginWrapper.m */; };
 		7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */; };
 		7EBD9F6019044D9100BE9790 /* libReactiveCocoa-Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBD9F5E19044D5D00BE9790 /* libReactiveCocoa-Mac.a */; };
 		7EC95E2218D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m */; };
@@ -550,6 +551,8 @@
 		7EA2494E16D8EBC0002231B2 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		7EA68B8917341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7EA68B8A17341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7EB7668A19085499000161E8 /* HWMATASmartPluginWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMATASmartPluginWrapper.h; sourceTree = "<group>"; };
+		7EB7668B19085499000161E8 /* HWMATASmartPluginWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMATASmartPluginWrapper.m; sourceTree = "<group>"; };
 		7EB7E702178340710071B3F0 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7EB7E707178341D20071B3F0 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
 		7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
@@ -892,6 +895,8 @@
 				7EF034EF185F73B3003CDEFB /* HWMValueFormatter.m */,
 				7E031C621835E76D00A2D097 /* HWMImageTransformer.h */,
 				7E031C631835E76D00A2D097 /* HWMImageTransformer.m */,
+				7EB7668A19085499000161E8 /* HWMATASmartPluginWrapper.h */,
+				7EB7668B19085499000161E8 /* HWMATASmartPluginWrapper.m */,
 				7EF1B12A185342890094C1DB /* HWMConfiguration.h */,
 				7EF1B12B185342890094C1DB /* HWMConfiguration.m */,
 				7E93E29C183E832600957EDF /* HWMColorTheme.h */,
@@ -1720,6 +1725,7 @@
 				7E93E29E183E832600957EDF /* HWMColorTheme.m in Sources */,
 				7E36E59A188AB25A00BD9744 /* NSImage+HighResolutionLoading.m in Sources */,
 				7E4959F218A640F200E05CF7 /* PopupFanController.m in Sources */,
+				7EB7668C19085499000161E8 /* HWMATASmartPluginWrapper.m in Sources */,
 				7EFE61B1183581090009BD0D /* HWMAtaSmartSensor.m in Sources */,
 				7EF2A0F61730379C00D8641C /* AboutController.m in Sources */,
 				7E9FF2CA185330BC009DAD0D /* HWMItem.m in Sources */,

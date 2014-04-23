@@ -270,7 +270,7 @@
 "CPU Package Multiplier" = "Процессор, Множитель";
 //"CPU Package" = "Процессор, Частота";
 "CPU Core %X Average" = "Ядро ЦП %X, Усредненно";
-"CPU Package Average" = "Процессор, Усреднённо";
+"CPU Package Average" = "Процессор, Усредненно";
 "CPU Package Frequency" = "Процессор, Частота";
 
 "GPU Core" = "Видеокарта, Ядро";

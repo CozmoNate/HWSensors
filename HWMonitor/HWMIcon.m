@@ -54,7 +54,7 @@
            return engine != nil;
        }]
      subscribeNext:^(HWMEngine *engine) {
-         [[RACObserve(engine.configuration, colorTheme) filter:^BOOL(id value) {
+         [[RACObserve(engine, configuration.colorTheme) filter:^BOOL(id value) {
              return value != nil;
          }] subscribeNext:^(HWMColorTheme *theme) {
              [self willChangeValueForKey:@keypath(self, themedImage)];

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13D17" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D45a" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="1070" defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PopupAtaSmartReportController">
@@ -48,10 +48,10 @@
                                         <connections>
                                             <binding destination="o6v-RJ-a06" name="value" keyPath="arrangedObjects.level" id="lVB-sW-oeP">
                                                 <dictionary key="options">
-                                                    <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                                    <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                                    <integer key="NSNullPlaceholder" value="0"/>
                                                     <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                                    <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                                    <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                                    <integer key="NSNullPlaceholder" value="0"/>
                                                 </dictionary>
                                             </binding>
                                         </connections>
@@ -224,7 +224,7 @@
         </customView>
         <arrayController objectClassName="NSDictionary" editable="NO" selectsInsertedObjects="NO" avoidsEmptySelection="NO" automaticallyRearrangesObjects="YES" id="o6v-RJ-a06">
             <connections>
-                <binding destination="-2" name="contentArray" keyPath="self.sensor.attributes" id="NO6-jb-wM4"/>
+                <binding destination="-2" name="contentArray" keyPath="self.sensor.attributes" id="B39-F1-52l"/>
             </connections>
         </arrayController>
     </objects>

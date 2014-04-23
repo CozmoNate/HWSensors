@@ -78,7 +78,7 @@
         return value != nil;
       }]
       subscribeNext:^(HWMGraph *graph) {
-          [RACObserve(graph.sensor, alarmLevel)
+          [RACObserve(graph, sensor.alarmLevel)
            subscribeNext:^(NSNumber *level) {
                switch (level.integerValue) {
                     case kHWMSensorLevelNormal:

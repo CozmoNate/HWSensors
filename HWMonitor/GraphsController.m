@@ -112,19 +112,19 @@
                      [self rebuildViews];
                  }];
 
-                [RACObserve(engine.configuration, graphsWindowAlwaysTopmost)
+                [RACObserve(engine, configuration.graphsWindowAlwaysTopmost)
                  subscribeNext:^(id x) {
                      [self.window setLevel:self.monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
                  }];
 
-                [RACObserve(engine.configuration, showSensorLegendsInGraphs)
+                [RACObserve(engine, configuration.showSensorLegendsInGraphs)
                  subscribeNext:^(id x) {
                      [self reloadGraphsTableView:self];
                  }];
 
-                [[RACSignal combineLatest:@[RACObserve(engine.configuration, useFahrenheit),
-                                            RACObserve(engine.configuration, useGraphSmoothing),
-                                            RACObserve(engine.configuration, graphsScaleValue)]]
+                [[RACSignal combineLatest:@[RACObserve(engine, configuration.useFahrenheit),
+                                            RACObserve(engine, configuration.useGraphSmoothing),
+                                            RACObserve(engine, configuration.graphsScaleValue)]]
                  subscribeNext:^(id x) {
                      [self setNeedDisplayGraphs:self];
                  }];

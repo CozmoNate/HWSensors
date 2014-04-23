@@ -82,7 +82,7 @@
           return value != nil;
       }]
      subscribeNext:^(HWMItem *item) {
-         [RACObserve(item.engine.configuration, colorTheme) subscribeNext:^(HWMColorTheme *theme) {
+         [RACObserve(item, engine.configuration.colorTheme) subscribeNext:^(HWMColorTheme *theme) {
              [self colorThemeChanged:theme];
          }];
      }];

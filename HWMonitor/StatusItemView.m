@@ -108,13 +108,13 @@
                 return value != nil;
             }] subscribeNext:^(HWMEngine *engine) {
 
-                RACSignal *favoritesChangedSignal = [RACObserve(engine, favorites) distinctUntilChanged];
+                RACSignal *favoritesChangedSignal = RACObserve(engine, favorites);
 
                 [favoritesChangedSignal subscribeNext:^(id x) {
                     _favoritesSnapshot = nil;
                 }];
 
-                RACSignal *bigFontChangedSignal = RACObserve(engine.configuration, useBigFontInMenubar);
+                RACSignal *bigFontChangedSignal = RACObserve(engine, configuration.useBigFontInMenubar);
 
                 [bigFontChangedSignal subscribeNext:^(id x) {
                     _spacer = nil;
@@ -122,8 +122,8 @@
 
                 [[RACSignal combineLatest:@[favoritesChangedSignal,
                                             bigFontChangedSignal,
-                                            RACObserve(engine.configuration, useShadowEffectsInMenubar),
-                                            RACObserve(engine.configuration, useFahrenheit)]]
+                                            RACObserve(engine, configuration.useShadowEffectsInMenubar),
+                                            RACObserve(engine, configuration.useFahrenheit)]]
                  subscribeNext:^(id x) {
                      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                          [self setNeedsDisplay:YES];

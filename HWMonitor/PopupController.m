@@ -112,14 +112,14 @@
             [[RACObserve(self, monitorEngine) filter:^BOOL(id value) {
                 return value != nil;
             }] subscribeNext:^(HWMEngine *engine) {
-                [RACObserve(engine.configuration, colorTheme)
+                [RACObserve(engine, configuration.colorTheme)
                  subscribeNext:^(HWMColorTheme *newColorTheme) {
                      [(OBMenuBarWindow*)self.window setColorTheme:newColorTheme];
                      [(JLNFadingScrollView *)_scrollView setFadeColor:newColorTheme.listBackgroundColor];
                  }];
 
                 [[RACSignal combineLatest:@[RACObserve(engine, sensorsAndGroups),
-                                            RACObserve(engine.configuration, showSensorLegendsInPopup)]]
+                                            RACObserve(engine, configuration.showSensorLegendsInPopup)]]
                  subscribeNext:^(id x) {
                      [self reloadSensorsTableView:self];
                  }];
