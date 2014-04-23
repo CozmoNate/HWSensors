@@ -205,7 +205,7 @@ void CPUSensors::calculateMultiplier(UInt32 index)
             break;
         default: {
             UInt8 fid = (counters.perf_status[index] >> 8) & 0xFF;
-            multiplier[index] = float((float)((fid & 0x1f)) * (fid & 0x80 ? 0.5 : 1.0) + 0.5f * (float)((fid >> 6) & 1));
+            multiplier[index] = float((float)((fid & 0x1f)) + 0.5f * (float)((fid >> 6) & 1));
             break;
         }
     }

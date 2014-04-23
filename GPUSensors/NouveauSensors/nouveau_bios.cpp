@@ -194,23 +194,14 @@ static void nouveau_bios_shadow_pramin(struct nouveau_device *device)
     nv_debug(device, "shadowing bios from PRAMIN");
     
 	if (device->card_type >= NV_50) {
-		u64 addr = nv_rd32(device, 0x619f04);
-		if (!(addr & 0x00000008)) {
-			nv_debug(device, "... not enabled\n");
-			return;
-		}
-		if ( (addr & 0x00000003) != 1) {
-			nv_debug(device, "... not in vram\n");
-			return;
-		}
 
-		addr = (u64)(addr >> 8) << 8;
+		u64 addr = (u64)(nv_rd32(device, 0x619f04) & 0xffffff00) << 8;
 
 		if (!addr) {
 			addr  = (u64)nv_rd32(device, 0x001700) << 16;
 			addr += 0xf0000;
 		}
-        
+
 		bar0 = nv_mask(device, 0x001700, 0xffffffff, (u32)(addr >> 16));
 	}
     
