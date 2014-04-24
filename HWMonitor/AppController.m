@@ -221,7 +221,7 @@
 
         _favoritesCollectionSnapshot = nil;
 
-        [_favoritesTableView updateWithObjectValues:self.favoritesCollectionSnapshot previousObjectValues:oldFavorites updateHeightOfTheRows:NO withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationEffectFade];
+        [_favoritesTableView updateWithObjectValues:self.favoritesCollectionSnapshot previousObjectValues:oldFavorites updateHeightOfTheRows:NO withRemoveAnimation:NSTableViewAnimationEffectFade insertAnimation:NSTableViewAnimationSlideDown];
 
     }];
 }

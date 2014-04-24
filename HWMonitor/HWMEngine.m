@@ -665,8 +665,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
 
     [self addObserver:self forKeyPath:@keypath(self, configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)start
@@ -702,6 +702,12 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         }
 
         [self saveConfiguration];
+
+        [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        [self removeObserver:self forKeyPath:@keypath(self, configuration.useFahrenheit)];
+        [self removeObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate)];
+        [self removeObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate)];
 
         for (HWMSensor *sensor in _smcAndDevicesSensors) {
             if (sensor.service && sensor.service.unsignedLongLongValue) {
@@ -1042,8 +1048,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqual:@keypath(self, configuration.useFahrenheit)]) {
-        [self setNeedsRecalculateSensorValues];
-        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self setNeedsRecalculateSensorValues];
+        }];
     }
     else if ([keyPath isEqual:@keypath(self, configuration.smcSensorsUpdateRate)]) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
