@@ -582,18 +582,20 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)internalStopEngine
 {
     //if (_engineState == kHWMEngineStateActive) {
-        if (_smcAndDevicesSensorsUpdateLoopTimer) {
-            [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
-            _smcAndDevicesSensorsUpdateLoopTimer = 0;
-        }
+    if (_smcAndDevicesSensorsUpdateLoopTimer) {
+        [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
+        _smcAndDevicesSensorsUpdateLoopTimer = 0;
+    }
 
-        if (_ataSmartSensorsUpdateLoopTimer) {
-            [_ataSmartSensorsUpdateLoopTimer invalidate];
-            _ataSmartSensorsUpdateLoopTimer = 0;
-        }
+    if (_ataSmartSensorsUpdateLoopTimer) {
+        [_ataSmartSensorsUpdateLoopTimer invalidate];
+        _ataSmartSensorsUpdateLoopTimer = 0;
+    }
 
-        [HWMAtaSmartSensor stopWatchingForBlockStorageDevices];
-        [HWMBatterySensor stopWatchingForBatteryDevices];
+    [HWMAtaSmartSensor stopWatchingForBlockStorageDevices];
+    [HWMBatterySensor stopWatchingForBatteryDevices];
+
+    [HWMATASmartInterfaceWrapper destroyAllWrappers];
     //}
 }
 
@@ -670,7 +672,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [[[[[NSNotificationCenter defaultCenter] rac_addObserverForName:HWMAtaSmartSensorDidAddBlockStorageDevices object:nil]
        takeUntil:_closeSignal]
       map:^id(NSNotification *notification) {
-         return notification.userInfo[@"addedDevices"];
+          return notification.userInfo[@"addedDevices"];
       }]
      subscribeNext:^(NSArray *devices) {
          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -682,11 +684,13 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                  [self insertAtaSmartSensorFromDictionary:properties group:smartRemainingLife];
              }
 
-             [HWMATASmartInterfaceWrapper destroyAllWrappers];
+             _ataSmartSensorsLastUpdated = [NSDate date];
+
+             [HWMATASmartInterfaceWrapper releaseAllInterfaces];
 
              // Update graphs
              [self insertGraphs];
-
+             
              [self setNeedsUpdateLists];
          }];
      }];
@@ -1019,6 +1023,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             _ataSmartSensorsLastUpdated = [NSDate date];
         }
 
+        [HWMATASmartInterfaceWrapper destroyAllWrappers];
+
         if (!_ataSmartSensors) {
 
             NSMutableArray *sensors = [NSMutableArray array];
@@ -1065,7 +1071,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 }
             }
 
-            [HWMATASmartInterfaceWrapper destroyAllWrappers];
+            [HWMATASmartInterfaceWrapper releaseAllInterfaces];
 
             [self internalCaptureSensorValuesToGraphs];
 
@@ -1076,12 +1082,11 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(void)setNeedsUpdateLists
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
     DLog(@"");
 
     [self setNeedsUpdateSensorLists];
     [self setNeedsUpdateGraphsList];
-    }];
+
 }
 
 -(void)setNeedsUpdateSensorLists

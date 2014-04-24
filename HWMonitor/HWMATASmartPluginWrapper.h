@@ -144,6 +144,7 @@ typedef struct {
 
 +(HWMATASmartInterfaceWrapper*)wrapperWithService:(io_service_t)service bsdName:(NSString*)bsdName productName:(NSString*)productName firmware:(NSString*)firmware isRotational:(BOOL)rotational;
 +(HWMATASmartInterfaceWrapper*)getWrapperForBsdName:(NSString*)name;
++(void)releaseAllInterfaces;
 +(void)destroyAllWrappers;
 
 -(HWMATASmartInterfaceWrapper*)initWithService:(io_service_t)service bsdName:(NSString*)bsdName productName:(NSString*)productName firmware:(NSString*)firmware isRotational:(BOOL)rotational;

@@ -107,18 +107,20 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
     return [gIOCFPluginInterfaceCache objectForKey:name];
 }
 
-+(void)destroyAllWrappers
++(void)releaseAllInterfaces
 {
     if (gIOCFPluginInterfaceCache) {
+        NSArray *wrappers = gIOCFPluginInterfaceCache.allValues;
 
-        NSArray *wrappers = gIOCFPluginInterfaceCache.allValues.copy;
-
-        for (HWMATASmartInterfaceWrapper* wrapper in wrappers) {
-            [wrapper releaseInterface];
-        }
-
-        gIOCFPluginInterfaceCache = nil;
+        [wrappers enumerateObjectsUsingBlock:^(HWMATASmartInterfaceWrapper * wrpr, NSUInteger idx, BOOL *stop) {
+            [wrpr releaseInterface];
+        }];
     }
+}
+
++(void)destroyAllWrappers
+{
+    gIOCFPluginInterfaceCache = nil;
 }
 
 +(NSString *)getDefaultAttributeNameByIdentifier:(NSUInteger)identifier isRotational:(BOOL)hdd
@@ -671,8 +673,7 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
 
     IOReturn result = kIOReturnError;
 
-
-    //@synchronize(self) {
+    [self willChangeValueForKey:@keypath(self, attributes)];
 
     NSLog(@"reading SMART data for %@", _product);
 
@@ -790,7 +791,9 @@ static NSMutableDictionary * gSmartAttributeOverrideCache = nil;
     else NSLog(@"SMARTReturnStatus returned error for: %@ code: %@", _product, [NSString stringFromReturn:result]);
     
     //}
-    
+
+    [self didChangeValueForKey:@keypath(self, attributes)];
+
     return result == kIOReturnSuccess;
 }
 

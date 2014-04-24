@@ -53,7 +53,7 @@ static void block_device_disappeared(void *engine, io_iterator_t iterator);
 @dynamic serialNumber;
 @dynamic rotational;
 
-@synthesize attributes = _attributes;
+@synthesize attributes;
 
 static NSDictionary * gAvailableMountedPartitions = nil;
 
@@ -169,23 +169,21 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
 -(NSArray *)attributes
 {
-    if (!_attributes) {
-        HWMATASmartInterfaceWrapper *wrapper = [HWMATASmartInterfaceWrapper getWrapperForBsdName:self.bsdName];
+    HWMATASmartInterfaceWrapper *wrapper = [HWMATASmartInterfaceWrapper getWrapperForBsdName:self.bsdName];
 
-        if (!wrapper) {
-            wrapper = [HWMATASmartInterfaceWrapper wrapperWithService:(io_service_t)self.service.unsignedLongLongValue
-                                                              bsdName:self.bsdName
-                                                          productName:self.productName
-                                                             firmware:self.revision
-                                                         isRotational:self.rotational.boolValue];
-        }
-
-        if (wrapper) {
-            _attributes = wrapper.attributes;
-        }
+    if (!wrapper) {
+        wrapper = [HWMATASmartInterfaceWrapper wrapperWithService:(io_service_t)self.service.unsignedLongLongValue
+                                                          bsdName:self.bsdName
+                                                      productName:self.productName
+                                                         firmware:self.revision
+                                                     isRotational:self.rotational.boolValue];
     }
 
-    return _attributes;
+    if (wrapper) {
+        return wrapper.attributes;
+    }
+
+    return @[];
 }
 
 -(NSString *)title
@@ -364,23 +362,24 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     if (self.hidden.boolValue)
         return nil;
 
-    if (![HWMATASmartInterfaceWrapper getWrapperForBsdName:self.bsdName]) {
-        [self willChangeValueForKey:@keypath(self, attributes)];
-        _attributes = nil;
-        [self didChangeValueForKey:@keypath(self, attributes)];
-    }
+    [self willChangeValueForKey:@keypath(self, attributes)];
+
+    NSNumber *value = nil;
 
     switch (self.selector.unsignedIntegerValue) {
         case kHWMGroupTemperature:
         case kHWMGroupSmartTemperature:
-            return [self getTemperature];
+            value = [self getTemperature];
+            break;
 
         case kHWMGroupSmartRemainingLife:
-            return [self getRemainingLife];
-            
+            value = [self getRemainingLife];
+            break;
     }
 
-    return @0;
+    [self didChangeValueForKey:@keypath(self, attributes)];
+
+    return value;
 }
 
 -(void)internalSendAlarmNotification
