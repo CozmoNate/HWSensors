@@ -74,6 +74,7 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
     HWMATASmartInterfaceWrapper *wrapper = [gATASmartInterfaceWrapperCache objectForKey:bsdName];
 
     if (!wrapper) {
+        
         IOCFPlugInInterface ** pluginInterface = NULL;
         IOATASMARTInterface ** smartInterface = NULL;
         SInt32 score = 0;
@@ -104,11 +105,11 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
                     }
                 }
                 else {
-                    NSLog(@"pluginInterface->QueryInterface error: %d", hresult);
+                    NSLog(@"pluginInterface->QueryInterface error: %d for %@", hresult, productName);
                 }
             }
             else {
-                NSLog(@"IOCreatePlugInInterfaceForService error: %@", [NSString stringFromReturn:result]);
+                NSLog(@"IOCreatePlugInInterfaceForService error: %@ for %@", [NSString stringFromReturn:result], productName);
             }
 
             if (smartInterface) {

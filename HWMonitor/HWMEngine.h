@@ -71,11 +71,9 @@ typedef NS_ENUM(NSUInteger, HWMSensorsUpdateLoopStrategy) {
     NSMutableArray *_groups;
 
     NSArray *_smcAndDevicesSensors;
-    NSTimer *_smcAndDevicesSensorsUpdateLoopTimer;
     NSDate *_smcAndDevicesSensorsLastUpdated;
 
     NSArray *_ataSmartSensors;
-    NSTimer *_ataSmartSensorsUpdateLoopTimer;
     NSDate *_ataSmartSensorsLastUpdated;
 }
 

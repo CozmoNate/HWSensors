@@ -176,6 +176,7 @@
 		7EF1B129185342630094C1DB /* HWMFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1B128185342630094C1DB /* HWMFavorite.m */; };
 		7EF1B12C185342890094C1DB /* HWMConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1B12B185342890094C1DB /* HWMConfiguration.m */; };
 		7EF28328184C71AA00DD8513 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 7EF28326184C71AA00DD8513 /* Credits.html */; };
+		7EF29A25190B92B2003538ED /* HWMTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF29A24190B92B2003538ED /* HWMTimer.m */; };
 		7EF2A0F61730379C00D8641C /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2A0F41730379C00D8641C /* AboutController.m */; };
 		7EF2A0FC17303B9100D8641C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF2A0FB17303B9100D8641C /* MainMenu.xib */; };
 		7EF2A10017303EA600D8641C /* AboutController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF2A0FD17303B9C00D8641C /* AboutController.xib */; };
@@ -541,6 +542,8 @@
 		7EF1B12A185342890094C1DB /* HWMConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMConfiguration.h; sourceTree = "<group>"; };
 		7EF1B12B185342890094C1DB /* HWMConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMConfiguration.m; sourceTree = "<group>"; };
 		7EF28327184C71AA00DD8513 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
+		7EF29A23190B92B2003538ED /* HWMTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMTimer.h; sourceTree = "<group>"; };
+		7EF29A24190B92B2003538ED /* HWMTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMTimer.m; sourceTree = "<group>"; };
 		7EF2A0F31730379C00D8641C /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
 		7EF2A0F41730379C00D8641C /* AboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutController.m; sourceTree = "<group>"; };
 		7EF2A0FB17303B9100D8641C /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
@@ -826,6 +829,8 @@
 			children = (
 				7E48BC6318EE977500A6CA19 /* SmcHelper+HWMonitorHelper.h */,
 				7E48BC6418EE977500A6CA19 /* SmcHelper+HWMonitorHelper.m */,
+				7EF29A23190B92B2003538ED /* HWMTimer.h */,
+				7EF29A24190B92B2003538ED /* HWMTimer.m */,
 				7EF034EE185F73B3003CDEFB /* HWMValueFormatter.h */,
 				7EF034EF185F73B3003CDEFB /* HWMValueFormatter.m */,
 				7E031C621835E76D00A2D097 /* HWMImageTransformer.h */,
@@ -1583,6 +1588,7 @@
 				7E48B3CC18BE5A0E00B6B734 /* SmcHelper.m in Sources */,
 				7E063A4F18C226EB0083F52F /* HWMSensorController.m in Sources */,
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
+				7EF29A25190B92B2003538ED /* HWMTimer.m in Sources */,
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,

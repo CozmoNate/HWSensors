@@ -42,6 +42,7 @@
 #import "HWMGraphsGroup.h"
 #import "HWMFavorite.h"
 #import "HWMSmcFanController.h"
+#import "HWMTimer.h"
 
 #import "Localizer.h"
 
@@ -59,6 +60,13 @@
 
 NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSensorsHasBenUpdatedNotification";
 
+@interface HWMEngine ()
+
+@property (readonly) HWMTimer * smcAndDevicesSensorsUpdateLoopTimer;
+@property (readonly) HWMTimer * ataSmartSensorsUpdateLoopTimer;
+
+@end
+
 @implementation HWMEngine
 
 @synthesize iconsWithSensorsAndGroups = _iconsWithSensorsAndGroups;
@@ -67,6 +75,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 @synthesize favorites = _favorites;
 
 @synthesize isRunningOnMac = _isRunningOnMac;
+
+@synthesize smcAndDevicesSensorsUpdateLoopTimer = _smcAndDevicesSensorsUpdateLoopTimer;
+@synthesize ataSmartSensorsUpdateLoopTimer = _ataSmartSensorsUpdateLoopTimer;
 
 #pragma mark
 #pragma mark Global methods
@@ -294,6 +305,29 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     return _favorites;
 }
 
+-(HWMTimer *)smcAndDevicesSensorsUpdateLoopTimer
+{
+    if (!_smcAndDevicesSensorsUpdateLoopTimer) {
+        _smcAndDevicesSensorsUpdateLoopTimer = [HWMTimer timerWithInterval:self.configuration.smcSensorsUpdateRate.floatValue block:^{
+            [self updateSmcAndDeviceSensors];
+        }];
+    }
+
+
+    return _smcAndDevicesSensorsUpdateLoopTimer;
+}
+
+-(HWMTimer *)ataSmartSensorsUpdateLoopTimer
+{
+    if (!_ataSmartSensorsUpdateLoopTimer) {
+        _ataSmartSensorsUpdateLoopTimer = [HWMTimer timerWithInterval:self.configuration.smartSensorsUpdateRate.floatValue * 60.0f block:^{
+            [self updateAtaSmartSensors];
+        }];
+    }
+
+    return _ataSmartSensorsUpdateLoopTimer;
+}
+
 #pragma mark
 #pragma mark Overriden Methods
 
@@ -509,40 +543,6 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     //}];
 }
 
-- (void)initSmcAndDevicesTimer
-{
-    //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        if (_smcAndDevicesSensorsUpdateLoopTimer && _smcAndDevicesSensorsUpdateLoopTimer.timeInterval == self.configuration.smcSensorsUpdateRate.floatValue) {
-            return;
-        }
-
-        if (_smcAndDevicesSensorsUpdateLoopTimer && _smcAndDevicesSensorsUpdateLoopTimer.isValid) {
-            [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
-        }
-
-        _smcAndDevicesSensorsUpdateLoopTimer = [NSTimer timerWithTimeInterval:self.configuration.smcSensorsUpdateRate.floatValue target:self selector:@selector(updateSmcAndDeviceSensors) userInfo:nil repeats:YES];
-
-        [[NSRunLoop mainRunLoop] addTimer:_smcAndDevicesSensorsUpdateLoopTimer forMode:NSRunLoopCommonModes];
-    //}];
-}
-
-- (void)initAtaSmartTimer
-{
-    //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        if (_ataSmartSensorsUpdateLoopTimer && _ataSmartSensorsUpdateLoopTimer.timeInterval == self.configuration.smartSensorsUpdateRate.floatValue * 60.0f) {
-            return;
-        }
-
-        if (_ataSmartSensorsUpdateLoopTimer && _ataSmartSensorsUpdateLoopTimer.isValid) {
-            [_ataSmartSensorsUpdateLoopTimer invalidate];
-        }
-
-        _ataSmartSensorsUpdateLoopTimer = [NSTimer timerWithTimeInterval:self.configuration.smartSensorsUpdateRate.floatValue * 60.0f target:self selector:@selector(updateAtaSmartSensors) userInfo:nil repeats:YES];
-
-        [[NSRunLoop mainRunLoop] addTimer:_ataSmartSensorsUpdateLoopTimer forMode:NSRunLoopCommonModes];
-
-    //}];
-}
 
 /**
  *  Start initialized engine. This method doesn't check and change engine state
@@ -550,19 +550,14 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)internalStartEngine
 {
     //if (_engineState == kHWMEngineStateIdle) {
-    if (!_smcAndDevicesSensorsUpdateLoopTimer || ![_smcAndDevicesSensorsUpdateLoopTimer isValid]) {
-        [self initSmcAndDevicesTimer];
-    }
-
-    if (!_ataSmartSensorsUpdateLoopTimer || ![_ataSmartSensorsUpdateLoopTimer isValid]) {
-        [self initAtaSmartTimer];
-    }
-
     [HWMAtaSmartSensor startWatchingForBlockStorageDevicesWithEngine:self];
     [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
 
     [self updateSmcAndDeviceSensors];
     [self updateAtaSmartSensors];
+
+    [self.smcAndDevicesSensorsUpdateLoopTimer resume];
+    [self.ataSmartSensorsUpdateLoopTimer resume];
     //}
 }
 
@@ -572,15 +567,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)internalStopEngine
 {
     //if (_engineState == kHWMEngineStateActive) {
-    if (_smcAndDevicesSensorsUpdateLoopTimer) {
-        [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
-        _smcAndDevicesSensorsUpdateLoopTimer = 0;
-    }
-
-    if (_ataSmartSensorsUpdateLoopTimer) {
-        [_ataSmartSensorsUpdateLoopTimer invalidate];
-        _ataSmartSensorsUpdateLoopTimer = 0;
-    }
+    [self.smcAndDevicesSensorsUpdateLoopTimer suspend];
+    [self.ataSmartSensorsUpdateLoopTimer suspend];
 
     [HWMAtaSmartSensor stopWatchingForBlockStorageDevices];
     [HWMBatterySensor stopWatchingForBatteryDevices];
@@ -1055,12 +1043,12 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     }
     else if ([keyPath isEqual:@keypath(self, configuration.smcSensorsUpdateRate)]) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self initSmcAndDevicesTimer];
+            [self.smcAndDevicesSensorsUpdateLoopTimer setInterval:self.configuration.smcSensorsUpdateRate.floatValue];
         }];
     }
     else if ([keyPath isEqual:@keypath(self, configuration.smartSensorsUpdateRate)]) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self initAtaSmartTimer];
+            [self.ataSmartSensorsUpdateLoopTimer setInterval:self.configuration.smartSensorsUpdateRate.floatValue * 60.0f];
         }];
     }
 }
