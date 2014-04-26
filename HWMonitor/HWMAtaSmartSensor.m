@@ -53,7 +53,7 @@ static void block_device_disappeared(void *engine, io_iterator_t iterator);
 @dynamic serialNumber;
 @dynamic rotational;
 
-@synthesize attributes;
+@synthesize attributes = _attributes;
 
 static NSDictionary * gAvailableMountedPartitions = nil;
 
@@ -169,21 +169,23 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
 -(NSArray *)attributes
 {
-    HWMATASmartInterfaceWrapper *wrapper = [HWMATASmartInterfaceWrapper getWrapperForBsdName:self.bsdName];
+    if (!_attributes) {
+        HWMATASmartInterfaceWrapper *wrapper = [HWMATASmartInterfaceWrapper getWrapperForBsdName:self.bsdName];
 
-    if (!wrapper) {
-        wrapper = [HWMATASmartInterfaceWrapper wrapperWithService:(io_service_t)self.service.unsignedLongLongValue
-                                                          bsdName:self.bsdName
-                                                      productName:self.productName
-                                                         firmware:self.revision
-                                                     isRotational:self.rotational.boolValue];
+        if (!wrapper) {
+            wrapper = [HWMATASmartInterfaceWrapper wrapperWithService:(io_service_t)self.service.unsignedLongLongValue
+                                                              bsdName:self.bsdName
+                                                          productName:self.productName
+                                                             firmware:self.revision
+                                                         isRotational:self.rotational.boolValue];
+        }
+
+        if (wrapper) {
+            _attributes = wrapper.attributes;
+        }
     }
 
-    if (wrapper) {
-        return wrapper.attributes;
-    }
-
-    return @[];
+    return _attributes;
 }
 
 -(NSString *)title
@@ -365,6 +367,8 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     [self willChangeValueForKey:@keypath(self, attributes)];
 
     NSNumber *value = nil;
+
+    _attributes = nil;
 
     switch (self.selector.unsignedIntegerValue) {
         case kHWMGroupTemperature:

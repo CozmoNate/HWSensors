@@ -270,9 +270,6 @@
     [self.monitorEngine open];
     [self.monitorEngine start];
 
-    [self.monitorEngine updateSmcAndDeviceSensors];
-    [self.monitorEngine updateAtaSmartSensors];
-
     [self checkForUpdates:self];
 }
 

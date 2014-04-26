@@ -130,23 +130,19 @@ typedef struct {
     ATASmartVendorSpecificDataThresholds _vendorSpecificThresholds;
 
     NSDictionary *_overrides;
-
-    io_service_t _service;
-    NSString *_product;
-    NSString *_firmware;
-    NSString *_bsdName;
-    BOOL _rotational;
 }
 
 @property (readonly) IOCFPlugInInterface** pluginInterface;
 @property (readonly) IOATASMARTInterface** smartInterface;
+@property (nonatomic, strong) NSString* bsdName;
+@property (nonatomic, strong) NSString* productName;
+@property (nonatomic, strong) NSString* firmwareString;
+@property (assign) BOOL isRotational;
+
 @property (readonly) NSArray * attributes;
 
 +(HWMATASmartInterfaceWrapper*)wrapperWithService:(io_service_t)service bsdName:(NSString*)bsdName productName:(NSString*)productName firmware:(NSString*)firmware isRotational:(BOOL)rotational;
 +(HWMATASmartInterfaceWrapper*)getWrapperForBsdName:(NSString*)name;
-+(void)releaseAllInterfaces;
 +(void)destroyAllWrappers;
-
--(HWMATASmartInterfaceWrapper*)initWithService:(io_service_t)service bsdName:(NSString*)bsdName productName:(NSString*)productName firmware:(NSString*)firmware isRotational:(BOOL)rotational;
 
 @end

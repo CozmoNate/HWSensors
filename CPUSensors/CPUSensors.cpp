@@ -491,6 +491,7 @@ bool CPUSensors::start(IOService *provider)
                         switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // G0
+                            case 0x0A:
                                 cpu_tjmax[0] = 100;
                                 break;
                                 
@@ -699,8 +700,6 @@ bool CPUSensors::start(IOService *provider)
     
     // multiplier
     switch (cpuid_info()->cpuid_cpufamily) {
-        case CPUFAMILY_INTEL_SANDYBRIDGE:
-        case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
                 //mp_rendezvous_no_intrs(init_cpu_turbo_counters, NULL);
@@ -717,9 +716,16 @@ bool CPUSensors::start(IOService *provider)
 
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
+        case CPUFAMILY_INTEL_SANDYBRIDGE:
+        case CPUFAMILY_INTEL_IVYBRIDGE:
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
+
                 HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
+                
                 counters.update_perf_counters = true;
+
+                if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY_AVERAGE, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyPackageAverage, 0))
+                    HWSensorsWarningLog("failed to add package average frequency sensor");
             }
             // break; fall down adding multiplier sensors for each core
 
@@ -736,14 +742,6 @@ bool CPUSensors::start(IOService *provider)
                 
                 if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyCore, i))
                     HWSensorsWarningLog("failed to add frequency sensor");
-
-                if (baseMultiplier) {
-                    snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY_AVERAGE, i);
-
-                    if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyCoreAverage, i))
-                        HWSensorsWarningLog("failed to add average frequency sensor");
-                }
-                
             }
             break;
     }

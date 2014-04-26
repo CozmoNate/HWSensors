@@ -1440,6 +1440,8 @@
 						<key>VIN6</key>
 						<string>Memory</string>
 					</dict>
+					<key>GA-Z87N-WIFI</key>
+					<string>Z87X-UD3H-CF</string>
 					<key>Z87X-UD3H-CF</key>
 					<dict>
 						<key>FANIN0</key>
@@ -1523,6 +1525,8 @@
 						</dict>
 					</dict>
 					<key>H87-HD3</key>
+					<string>H87M-D3H</string>
+					<key>GA-H87N-WIFI</key>
 					<string>H87M-D3H</string>
 					<key>H87M-D3H</key>
 					<dict>

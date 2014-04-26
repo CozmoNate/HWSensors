@@ -55,6 +55,7 @@
 
 //#import <QuartzCore/QuartzCore.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import <ReactiveCocoa/extobjc/EXTScope.h>
 
 //#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define DLog(...)
@@ -668,6 +669,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     self.engineState = kHWMEngineStatePaused;
 
+    @weakify(self);
+
     // Block storage devices added
     [[[[[NSNotificationCenter defaultCenter] rac_addObserverForName:HWMAtaSmartSensorDidAddBlockStorageDevices object:nil]
        takeUntil:_closeSignal]
@@ -676,6 +679,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
       }]
      subscribeNext:^(NSArray *devices) {
          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+             @strongify(self);
+
              HWMSensorsGroup *smartTemperatures = [self getGroupBySelector:kHWMGroupSmartTemperature];
              HWMSensorsGroup *smartRemainingLife = [self getGroupBySelector:kHWMGroupSmartRemainingLife];
 
@@ -686,11 +692,11 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
              _ataSmartSensorsLastUpdated = [NSDate date];
 
-             [HWMATASmartInterfaceWrapper releaseAllInterfaces];
+             [HWMATASmartInterfaceWrapper destroyAllWrappers];
 
              // Update graphs
              [self insertGraphs];
-             
+
              [self setNeedsUpdateLists];
          }];
      }];
@@ -698,11 +704,13 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     // Block storage devices removed
     [[[[[NSNotificationCenter defaultCenter] rac_addObserverForName:HWMAtaSmartSensorDidRemoveBlockStorageDevices object:nil]
        takeUntil:_closeSignal]
-     map:^id(NSNotification *notification) {
-         return notification.userInfo[@"removedDevices"];
-     }]
+      map:^id(NSNotification *notification) {
+          return notification.userInfo[@"removedDevices"];
+      }]
      doNext:^(NSArray *devices) {
          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+             @strongify(self);
 
              HWMSensorsGroup *smartTemperatures = [self getGroupBySelector:kHWMGroupSmartTemperature];
              HWMSensorsGroup *smartRemainingLife = [self getGroupBySelector:kHWMGroupSmartRemainingLife];
@@ -719,24 +727,26 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                      [sensor setService:@0];
                  }
              }
-             
+
              // Update graphs
              [self insertGraphs];
-             
+
              [self setNeedsUpdateLists];
          }];
      }];
 
     // Workspace did mount, unmount or rename
     [[[RACSignal merge:@[[[NSWorkspace sharedWorkspace].notificationCenter
-                               rac_addObserverForName:NSWorkspaceDidMountNotification object:nil],
-                        [[NSWorkspace sharedWorkspace].notificationCenter
-                               rac_addObserverForName:NSWorkspaceDidUnmountNotification object:nil],
-                        [[NSWorkspace sharedWorkspace].notificationCenter
-                               rac_addObserverForName:NSWorkspaceDidRenameVolumeNotification object:nil]]]
+                          rac_addObserverForName:NSWorkspaceDidMountNotification object:nil],
+                         [[NSWorkspace sharedWorkspace].notificationCenter
+                          rac_addObserverForName:NSWorkspaceDidUnmountNotification object:nil],
+                         [[NSWorkspace sharedWorkspace].notificationCenter
+                          rac_addObserverForName:NSWorkspaceDidRenameVolumeNotification object:nil]]]
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+             @strongify(self);
 
              NSArray *sensors = [self.managedObjectContext executeFetchRequest:[[NSFetchRequest alloc] initWithEntityName:@"AtaSmartSensor"] error:nil];
 
@@ -753,7 +763,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                  [self.configuration didChangeValueForKey:@keypath(self.configuration, driveNameSelector)];
                  [self.configuration willChangeValueForKey:@keypath(self.configuration, driveLegendSelector)];
                  [self.configuration didChangeValueForKey:@keypath(self.configuration, driveLegendSelector)];
-                 
+
                  [self setNeedsUpdateLists];
              }
          }];
@@ -763,6 +773,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [[[[NSWorkspace sharedWorkspace].notificationCenter rac_addObserverForName:NSWorkspaceWillSleepNotification object:nil]
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
+
+         @strongify(self);
+
          [self saveConfiguration];
          if (_engineState == kHWMEngineStateActive) {
              [self internalStopEngine];
@@ -773,6 +786,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [[[[NSWorkspace sharedWorkspace].notificationCenter rac_addObserverForName:NSWorkspaceDidWakeNotification object:nil]
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
+
+         @strongify(self);
+
          [self forceDetectSensors];
      }];
 
@@ -783,19 +799,21 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
           return notification.userInfo[@"addedDevices"];
       }]
      subscribeNext:^(NSArray *devices) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-            HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupBattery];
+             @strongify(self);
 
-            if (group) {
+             HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupBattery];
 
-                for (NSDictionary *properties in devices) {
-                    [self insertBatterySensorFromDictionary:properties group:group];
-                }
+             if (group) {
 
-                [self setNeedsUpdateLists];
-            }
-        }];
+                 for (NSDictionary *properties in devices) {
+                     [self insertBatterySensorFromDictionary:properties group:group];
+                 }
+
+                 [self setNeedsUpdateLists];
+             }
+         }];
      }];
 
     // Workspace did remove battery devices
@@ -805,46 +823,57 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
           return notification.userInfo[@"removedDevices"];
       }]
      doNext:^(NSArray *devices) {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-            HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupBattery];
+             @strongify(self);
 
-            if (group) {
+             HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupBattery];
 
-                NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service IN %@", devices]];
+             if (group) {
 
-                if (sensors) {
-                    for (HWMBatterySensor *sensor in sensors) {
+                 NSArray *sensors = [[group.sensors array] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"service IN %@", devices]];
 
-                        NSLog(@"removed battery device %@ (%@)", sensor.name, sensor.service);
-                        
-                        [sensor setService:@0];
-                    }
-                }
-                
-                
-                [self setNeedsUpdateLists];
-            }
-        }];
+                 if (sensors) {
+                     for (HWMBatterySensor *sensor in sensors) {
+
+                         NSLog(@"removed battery device %@ (%@)", sensor.name, sensor.service);
+
+                         [sensor setService:@0];
+                     }
+                 }
+
+
+                 [self setNeedsUpdateLists];
+             }
+         }];
      }];
 
     // Options
     [[RACObserve(self, configuration.useFahrenheit)
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
-        [self setNeedsRecalculateSensorValues];
+         
+         @strongify(self);
+         
+         [self setNeedsRecalculateSensorValues];
      }];
-
+    
     [[RACObserve(self, configuration.smcSensorsUpdateRate)
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
-        [self initSmcAndDevicesTimer];
+         
+         @strongify(self);
+         
+         [self initSmcAndDevicesTimer];
      }];
-
+    
     [[RACObserve(self, configuration.smartSensorsUpdateRate)
       takeUntil:_closeSignal]
      subscribeNext:^(id x) {
-        [self initAtaSmartTimer];
+         
+         @strongify(self);
+         
+         [self initAtaSmartTimer];
      }];
 }
 
@@ -1071,7 +1100,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 }
             }
 
-            [HWMATASmartInterfaceWrapper releaseAllInterfaces];
+            [HWMATASmartInterfaceWrapper destroyAllWrappers];
 
             [self internalCaptureSensorValuesToGraphs];
 
