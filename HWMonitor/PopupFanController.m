@@ -67,8 +67,8 @@
 
     if (_controller) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self addObserver:self forKeyPath:@keypath(self, controller.levels) options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@keypath(self, controller.output.engine.sensorsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@keypath(self, controller.levels) options:0 context:nil];
+            [self addObserver:self forKeyPath:@keypath(self, controller.output.engine.sensorsAndGroups) options:0 context:nil];
         }];
     }
 

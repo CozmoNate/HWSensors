@@ -497,12 +497,6 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     // Update graphs
     [self insertGraphs];
 
-    // SMART
-    [HWMAtaSmartSensor startWatchingForBlockStorageDevicesWithEngine:self];
-
-    // BATTERIES
-    [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
-
     // Save context
     [self saveConfiguration];
 
@@ -511,6 +505,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     if (_engineState == kHWMEngineStateActive) {
         [self internalStartEngine];
     }
+
     //}];
 }
 
@@ -555,13 +550,19 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)internalStartEngine
 {
     //if (_engineState == kHWMEngineStateIdle) {
-        if (!_smcAndDevicesSensorsUpdateLoopTimer || ![_smcAndDevicesSensorsUpdateLoopTimer isValid]) {
-            [self initSmcAndDevicesTimer];
-        }
+    if (!_smcAndDevicesSensorsUpdateLoopTimer || ![_smcAndDevicesSensorsUpdateLoopTimer isValid]) {
+        [self initSmcAndDevicesTimer];
+    }
 
-        if (!_ataSmartSensorsUpdateLoopTimer || ![_ataSmartSensorsUpdateLoopTimer isValid]) {
-            [self initAtaSmartTimer];
-        }
+    if (!_ataSmartSensorsUpdateLoopTimer || ![_ataSmartSensorsUpdateLoopTimer isValid]) {
+        [self initAtaSmartTimer];
+    }
+
+    [HWMAtaSmartSensor startWatchingForBlockStorageDevicesWithEngine:self];
+    [HWMBatterySensor startWatchingForBatteryDevicesWithEngine:self];
+
+    [self updateSmcAndDeviceSensors];
+    [self updateAtaSmartSensors];
     //}
 }
 
@@ -571,18 +572,18 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)internalStopEngine
 {
     //if (_engineState == kHWMEngineStateActive) {
-        if (_smcAndDevicesSensorsUpdateLoopTimer) {
-            [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
-            _smcAndDevicesSensorsUpdateLoopTimer = 0;
-        }
+    if (_smcAndDevicesSensorsUpdateLoopTimer) {
+        [_smcAndDevicesSensorsUpdateLoopTimer invalidate];
+        _smcAndDevicesSensorsUpdateLoopTimer = 0;
+    }
 
-        if (_ataSmartSensorsUpdateLoopTimer) {
-            [_ataSmartSensorsUpdateLoopTimer invalidate];
-            _ataSmartSensorsUpdateLoopTimer = 0;
-        }
+    if (_ataSmartSensorsUpdateLoopTimer) {
+        [_ataSmartSensorsUpdateLoopTimer invalidate];
+        _ataSmartSensorsUpdateLoopTimer = 0;
+    }
 
-        [HWMAtaSmartSensor stopWatchingForBlockStorageDevices];
-        [HWMBatterySensor stopWatchingForBatteryDevices];
+    [HWMAtaSmartSensor stopWatchingForBlockStorageDevices];
+    [HWMBatterySensor stopWatchingForBatteryDevices];
     //}
 }
 
@@ -664,9 +665,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
 
-    [self addObserver:self forKeyPath:@keypath(self, configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.useFahrenheit) options:0 context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate) options:0 context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate) options:0 context:nil];
 }
 
 -(void)start
@@ -896,7 +897,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 }
             }
 
-            [HWMSmartPluginInterfaceWrapper destroyAllWrappers];
+            [HWMATASmartInterfaceWrapper destroyAllWrappers];
 
             [self internalCaptureSensorValuesToGraphs];
 
@@ -907,12 +908,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(void)setNeedsUpdateLists
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
     DLog(@"");
 
     [self setNeedsUpdateSensorLists];
     [self setNeedsUpdateGraphsList];
-    }];
 }
 
 -(void)setNeedsUpdateSensorLists
@@ -990,6 +989,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 [obj didChangeValueForKey:@keypath(sensor, strippedValue)];
             }];
         }
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorValuesHasBeenUpdatedNotification object:self];
     }];
 }
 
@@ -1119,7 +1120,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             [self insertAtaSmartSensorFromDictionary:properties group:smartRemainingLife];
         }
 
-        [HWMSmartPluginInterfaceWrapper destroyAllWrappers];
+        [HWMATASmartInterfaceWrapper destroyAllWrappers];
 
         // Update graphs
         [self insertGraphs];

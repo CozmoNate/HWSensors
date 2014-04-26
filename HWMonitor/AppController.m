@@ -124,14 +124,10 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"AppController"];
+    self = [super initWithWindowNibName:NSStringFromClass([AppController class])];
     
     if (self != nil)
     {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            
-
-        }];
     }
     
     return self;
@@ -159,8 +155,8 @@
 
     [[self.window standardWindowButton:NSWindowZoomButton] setEnabled:NO];
 
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.favorites) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.iconsWithSensorsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.favorites) options:0 context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.iconsWithSensorsAndGroups) options:0 context:nil];
 }
 
 -(void)showWindow:(id)sender
@@ -260,11 +256,6 @@
 
     [self.monitorEngine open];
     [self.monitorEngine start];
-
-    _forceUpdateSensors = YES;
-    [self.monitorEngine updateSmcAndDeviceSensors];
-    [self.monitorEngine updateAtaSmartSensors];
-    _forceUpdateSensors = NO;
 }
 
 -(void)applicationWillTerminate:(NSNotification *)notification
@@ -355,7 +346,7 @@
 
 - (HWMSensorsUpdateLoopStrategy)updateLoopStrategyForEngine:(HWMEngine*)engine
 {
-    if (_forceUpdateSensors || self.window.isVisible || _graphsController.window.isVisible) {
+    if (self.window.isVisible || _graphsController.window.isVisible) {
         return kHWMSensorsUpdateLoopForced;
     }
     else if (_popupController.window.isVisible) {

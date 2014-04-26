@@ -161,10 +161,10 @@
 
     [Localizer localizeView:self.window];
     [Localizer localizeView:_toolbarView];
-
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.sensorsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
+@weakify
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme) options:0 context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup) options:0 context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.sensorsAndGroups) options:0 context:nil];
 }
 
 -(void)showWindow:(id)sender

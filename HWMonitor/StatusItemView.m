@@ -102,10 +102,9 @@
         [_statusItem setView:self];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.favorites) options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useBigFontInMenubar) options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar) options:NSKeyValueObservingOptionNew context:nil];
-            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
+            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.favorites) options:0 context:nil];
+            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useBigFontInMenubar) options:0 context:nil];
+            [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar) options:0 context:nil];
 
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redraw) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:self.monitorEngine];
         }];
@@ -119,7 +118,6 @@
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.favorites)];
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useBigFontInMenubar)];
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar)];
-    [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit)];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -134,147 +132,143 @@
 
     __block int offset = 3;
 
-    if (self.monitorEngine) {
+    if (!self.monitorEngine || !self.favoritesSnapshot.count) {
 
-        if (!self.favoritesSnapshot.count) {
+        [[NSGraphicsContext currentContext] saveGraphicsState];
+
+        if (/*!_isHighlighted &&*/ self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
+        [_shadow set];
+
+        NSImage *image = /*_isHighlighted ? _alternateImage :*/ _image;
+
+        if (image) {
+            NSUInteger width = image.size.width + 12;
+
+            [image drawAtPoint:NSMakePoint(lround((width - image.size.width) / 2), lround((self.frame.size.height - image.size.height) / 2)) fromRect:NSMakeRect(0, 0, width, image.size.height) operation:NSCompositeSourceOver fraction:1.0];
+
+            [self setFrameSize:NSMakeSize(width, self.frame.size.height)];
+        }
+
+        [[NSGraphicsContext currentContext] restoreGraphicsState];
+
+        //snow leopard icon & text problem
+        [_statusItem setLength:(self.frame.size.width)];
+
+        return;
+    }
+
+    __block int lastWidth = 0;
+    __block int index = 0;
+
+    [self.favoritesSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+        HWMFavorite *favorite = (HWMFavorite *)obj;
+
+        HWMFavorite *next = idx + 1 < self.favoritesSnapshot.count ? [self.favoritesSnapshot objectAtIndex:idx + 1] : nil;
+
+        HWMItem *item = favorite.item;
+
+        if ([item isKindOfClass:[HWMIcon class]]) {
+
+            HWMIcon *icon = (HWMIcon*)item;
+
+            if (self.favoritesSnapshot.count == 1) {
+                offset += 3;
+            }
 
             [[NSGraphicsContext currentContext] saveGraphicsState];
 
-            if (/*!_isHighlighted &&*/ self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
-                [_shadow set];
-
-            NSImage *image = /*_isHighlighted ? _alternateImage :*/ _image;
+            NSImage *image = /*_isHighlighted ? [icon alternateImage] :*/ icon.regular;
 
             if (image) {
-                NSUInteger width = image.size.width + 12;
 
-                [image drawAtPoint:NSMakePoint(lround((width - image.size.width) / 2), lround((self.frame.size.height - image.size.height) / 2)) fromRect:NSMakeRect(0, 0, width, image.size.height) operation:NSCompositeSourceOver fraction:1.0];
+                if (image.isTemplate && self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
+                [_shadow set];
 
-                [self setFrameSize:NSMakeSize(width, self.frame.size.height)];
+                [image drawAtPoint:NSMakePoint(offset, lround((self.frame.size.height - image.size.height) / 2)) fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeSourceOver fraction:1.0];
+
+                offset = offset + image.size.width + (next && [next.item isKindOfClass:[HWMSensor class]] ? 2 : idx + 1 == self.favoritesSnapshot.count ? 0 : self.spacer.size.width);
+
+                index = 0;
             }
 
             [[NSGraphicsContext currentContext] restoreGraphicsState];
 
-            //snow leopard icon & text problem
-            [_statusItem setLength:(self.frame.size.width)];
-
-            return;
-        }
-
-        __block int lastWidth = 0;
-        __block int index = 0;
-
-        [self.favoritesSnapshot enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-
-            HWMFavorite *favorite = (HWMFavorite *)obj;
-
-            HWMFavorite *next = idx + 1 < self.favoritesSnapshot.count ? [self.favoritesSnapshot objectAtIndex:idx + 1] : nil;
-
-            HWMItem *item = favorite.item;
-
-            if ([item isKindOfClass:[HWMIcon class]]) {
-
-                HWMIcon *icon = (HWMIcon*)item;
-
-                if (self.favoritesSnapshot.count == 1) {
-                    offset += 3;
-                }
-
-                [[NSGraphicsContext currentContext] saveGraphicsState];
-
-                NSImage *image = /*_isHighlighted ? [icon alternateImage] :*/ icon.regular;
-
-                if (image) {
-
-                    if (image.isTemplate && self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
-                        [_shadow set];
-
-                    [image drawAtPoint:NSMakePoint(offset, lround((self.frame.size.height - image.size.height) / 2)) fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeSourceOver fraction:1.0];
-
-                    offset = offset + image.size.width + (next && [next.item isKindOfClass:[HWMSensor class]] ? 2 : idx + 1 == self.favoritesSnapshot.count ? 0 : self.spacer.size.width);
-
-                    index = 0;
-                }
-
-                [[NSGraphicsContext currentContext] restoreGraphicsState];
-
-                if (self.favoritesSnapshot.count == 1) {
-                    offset += 3;
-                }
+            if (self.favoritesSnapshot.count == 1) {
+                offset += 3;
             }
-            else if ([item isKindOfClass:[HWMSensor class]]) {
+        }
+        else if ([item isKindOfClass:[HWMSensor class]]) {
 
-                HWMSensor *sensor = (HWMSensor*)item;
+            HWMSensor *sensor = (HWMSensor*)item;
 
-                NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:sensor.strippedValue];
+            NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:sensor.strippedValue];
 
-                NSColor *valueColor;
+            NSColor *valueColor;
 
-                switch (sensor.alarmLevel) {
+            switch (sensor.alarmLevel) {
                     case kHWMSensorLevelModerate:
-                        valueColor = [NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f];
-                        break;
+                    valueColor = [NSColor colorWithCalibratedRed:0.7f green:0.3f blue:0.03f alpha:1.0f];
+                    break;
 
                     case kHWMSensorLevelHigh:
                     case kHWMSensorLevelExceeded:
-                        valueColor = [NSColor redColor];
-                        break;
+                    valueColor = [NSColor redColor];
+                    break;
 
-                    default:
-                        valueColor = [NSColor blackColor];
-                        break;
-                }
-
-                [title addAttribute:NSForegroundColorAttributeName value:(/*_isHighlighted ? [NSColor whiteColor] :*/ valueColor) range:NSMakeRange(0,title.length)];
-
-                [[NSGraphicsContext currentContext] saveGraphicsState];
-
-                if (/*!_isHighlighted &&*/ self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
-                    [_shadow set];
-
-                if (favorite.large.boolValue || self.monitorEngine.configuration.useBigFontInMenubar.boolValue) {
-
-                    [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, title.length)];
-
-                    [title drawAtPoint:NSMakePoint(offset, lround((self.frame.size.height - title.size.height) / 2))];
-
-                    offset += title.size.width  + (idx + 1 < self.favoritesSnapshot.count ? self.spacer.size.width : 0);
-
-                    index = 0;
-                }
-                else {
-                    int row = index % 2;
-
-                    [title addAttribute:NSFontAttributeName value:_smallFont range:NSMakeRange(0, title.length)];
-
-                    [title drawAtPoint:NSMakePoint(offset, self.favoritesSnapshot.count == 1 ? lround((self.frame.size.height - title.size.height) / 2) + 1 : row == 0 ? lround(self.frame.size.height / 2) - 1 : lround(self.frame.size.height / 2) - title.size.height + 2)];
-
-                    int width = title.size.width;
-
-                    if (row == 0) {
-                        if (idx + 1 == self.favoritesSnapshot.count) {
-                            offset += width;
-                        }
-                        else if (next && !([next.item isKindOfClass:[HWMSensor class]] && !next.large.boolValue)) {
-                            offset += width + self.spacer.size.width;
-                        }
-                    }
-                    else if (row == 1) {
-                        width = width > lastWidth ? width : lastWidth;
-                        offset += width + (idx + 1 < self.favoritesSnapshot.count ? self.spacer.size.width : 0);
-                    }
-                    
-                    lastWidth = width;
-                    
-                    index++;
-                }
-                
-                [[NSGraphicsContext currentContext] restoreGraphicsState];
+                default:
+                    valueColor = [NSColor blackColor];
+                    break;
             }
 
-        }];
-    }
+            [title addAttribute:NSForegroundColorAttributeName value:(/*_isHighlighted ? [NSColor whiteColor] :*/ valueColor) range:NSMakeRange(0,title.length)];
 
+            [[NSGraphicsContext currentContext] saveGraphicsState];
+
+            if (/*!_isHighlighted &&*/ self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
+            [_shadow set];
+
+            if (favorite.large.boolValue || self.monitorEngine.configuration.useBigFontInMenubar.boolValue) {
+
+                [title addAttribute:NSFontAttributeName value:_bigFont range:NSMakeRange(0, title.length)];
+
+                [title drawAtPoint:NSMakePoint(offset, lround((self.frame.size.height - title.size.height) / 2))];
+
+                offset += title.size.width  + (idx + 1 < self.favoritesSnapshot.count ? self.spacer.size.width : 0);
+
+                index = 0;
+            }
+            else {
+                int row = index % 2;
+
+                [title addAttribute:NSFontAttributeName value:_smallFont range:NSMakeRange(0, title.length)];
+
+                [title drawAtPoint:NSMakePoint(offset, self.favoritesSnapshot.count == 1 ? lround((self.frame.size.height - title.size.height) / 2) + 1 : row == 0 ? lround(self.frame.size.height / 2) - 1 : lround(self.frame.size.height / 2) - title.size.height + 2)];
+
+                int width = title.size.width;
+
+                if (row == 0) {
+                    if (idx + 1 == self.favoritesSnapshot.count) {
+                        offset += width;
+                    }
+                    else if (next && !([next.item isKindOfClass:[HWMSensor class]] && !next.large.boolValue)) {
+                        offset += width + self.spacer.size.width;
+                    }
+                }
+                else if (row == 1) {
+                    width = width > lastWidth ? width : lastWidth;
+                    offset += width + (idx + 1 < self.favoritesSnapshot.count ? self.spacer.size.width : 0);
+                }
+
+                lastWidth = width;
+                
+                index++;
+            }
+            
+            [[NSGraphicsContext currentContext] restoreGraphicsState];
+        }
+        
+    }];
 
     offset += 3;
 
@@ -294,6 +288,10 @@
 
 -(void)redraw
 {
+    if (!self.monitorEngine || !self.favoritesSnapshot.count) {
+        return;
+    }
+
     [self setNeedsDisplay:YES];
 }
 
@@ -313,8 +311,7 @@
     else if ([keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useBigFontInMenubar)]) {
         _spacer = nil;
     }
-    else if ([keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar)] ||
-             [keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useFahrenheit)]) {
+    else if ([keyPath isEqualToString:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar)]) {
         // Do nothing, only redraw
     }
     else {

@@ -67,7 +67,7 @@ static NSPopover *gPopupSensorCellPopover;
 {
     [super initialize];
 
-    [self addObserver:self forKeyPath:@"objectValue.alarmLevel" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"objectValue.alarmLevel" options:0 context:nil];
 }
 
 -(void)deallocate

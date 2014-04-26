@@ -63,7 +63,7 @@
     [super setEngine:engine];
 
     if (self.engine) {
-        [self addObserver:self forKeyPath:@keypath(self, engine.configuration.colorTheme) options:NSKeyValueObservingOptionNew context:nil];
+        [self addObserver:self forKeyPath:@keypath(self, engine.configuration.colorTheme) options:0 context:nil];
     }
 }
 

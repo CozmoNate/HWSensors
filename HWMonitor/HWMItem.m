@@ -24,14 +24,14 @@
 {
     [super awakeFromFetch];
 
-    [self addObserver:self forKeyPath:@keypath(self, hidden) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, hidden) options:0 context:nil];
 }
 
 -(void)awakeFromInsert
 {
     [super awakeFromInsert];
 
-    [self addObserver:self forKeyPath:@keypath(self, hidden) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, hidden) options:0 context:nil];
 }
 
 -(void)prepareForDeletion

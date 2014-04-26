@@ -491,6 +491,7 @@ bool CPUSensors::start(IOService *provider)
                         switch (cpuid_info()->cpuid_stepping)
                         {
                             case 0x02: // G0
+                            case 0x0A:
                                 cpu_tjmax[0] = 100;
                                 break;
                                 
@@ -509,7 +510,7 @@ bool CPUSensors::start(IOService *provider)
                                 }
                                 //tjmax[0] = 80; 
                                 break;
-                                
+
                             case 0x0B: // G0
                                 cpu_tjmax[0] = 90;
                                 break;
@@ -697,10 +698,8 @@ bool CPUSensors::start(IOService *provider)
         }
     }
     
-    // multiplier
+    // multiplier & frequency
     switch (cpuid_info()->cpuid_cpufamily) {
-        case CPUFAMILY_INTEL_SANDYBRIDGE:
-        case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
                 //mp_rendezvous_no_intrs(init_cpu_turbo_counters, NULL);
@@ -711,12 +710,13 @@ bool CPUSensors::start(IOService *provider)
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyPackage, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
-            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY_AVERAGE, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyPackageAverage, 0))
-                HWSensorsWarningLog("failed to add package average frequency sensor");
+
             break;
 
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
+        case CPUFAMILY_INTEL_SANDYBRIDGE:
+        case CPUFAMILY_INTEL_IVYBRIDGE:
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
                 HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
                 counters.update_perf_counters = true;
@@ -737,15 +737,14 @@ bool CPUSensors::start(IOService *provider)
                 if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyCore, i))
                     HWSensorsWarningLog("failed to add frequency sensor");
 
-                if (baseMultiplier) {
-                    snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY_AVERAGE, i);
-
-                    if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyCoreAverage, i))
-                        HWSensorsWarningLog("failed to add average frequency sensor");
-                }
-                
             }
             break;
+    }
+
+    // average frequency
+    if (baseMultiplier) {
+        if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY_AVERAGE, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyPackageAverage, 0))
+        HWSensorsWarningLog("failed to add package average frequency sensor");
     }
 
     //voltage
@@ -779,21 +778,26 @@ bool CPUSensors::start(IOService *provider)
                     HWSensorsWarningLog("failed to add CPU package total power sensor");
                 
                 if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerCores, 1))
-                        HWSensorsWarningLog("failed to add CPU package cores power sensor");
+                    HWSensorsWarningLog("failed to add CPU package cores power sensor");
                 
                 // Uncore sensor is only available on CPUs with uncore device (built-in GPU)
-                if (cpuid_info()->cpuid_model != CPUID_MODEL_JAKETOWN && cpuid_info()->cpuid_model != CPUID_MODEL_IVYBRIDGE_EP) {
-                    if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerUncore, 2))
-                        HWSensorsWarningLog("failed to add CPU package uncore power sensor");
+                switch (cpuid_info()->cpuid_model) {
+                    case CPUID_MODEL_JAKETOWN:
+                    case CPUID_MODEL_IVYBRIDGE_EP:
+                        // Do not add uncore sensor
+                        break;
+
+                    default:
+                        if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerUncore, 2))
+                            HWSensorsWarningLog("failed to add CPU package uncore power sensor");
+                        break;
                 }
-                
+
                 switch (cpuid_info()->cpuid_cpufamily) {
                     case CPUFAMILY_INTEL_HASWELL:
                         // TODO: check DRAM availability for other platforms
-                        if (cpuid_info()->cpuid_cpufamily != CPUFAMILY_INTEL_SANDYBRIDGE) {
-                            if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerDram, 3))
-                                HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
-                        }
+                        if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerDram, 3))
+                            HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
                 }
             }
             break;

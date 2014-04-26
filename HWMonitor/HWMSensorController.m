@@ -47,7 +47,7 @@
     [self didChangeValueForKey:@keypath(self, input)];
 
     if (input) {
-        [self addObserver:self forKeyPath:@keypath(self, input.value) options:NSKeyValueObservingOptionNew context:nil];
+        [self addObserver:self forKeyPath:@keypath(self, input.value) options:0 context:nil];
     }
 
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -84,7 +84,7 @@
     [super awakeFromFetch];
 
     if (self.input) {
-        [self addObserver:self forKeyPath:@keypath(self, input.value) options:NSKeyValueObservingOptionNew context:nil];
+        [self addObserver:self forKeyPath:@keypath(self, input.value) options:0 context:nil];
     }
 }
 
@@ -93,7 +93,7 @@
     [super awakeFromInsert];
 
     if (self.input) {
-        [self addObserver:self forKeyPath:@keypath(self, input.value) options:NSKeyValueObservingOptionNew context:nil];
+        [self addObserver:self forKeyPath:@keypath(self, input.value) options:0 context:nil];
     }
 }
 

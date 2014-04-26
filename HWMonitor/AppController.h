@@ -36,7 +36,6 @@
 @interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, HWMEngineDelegate, GrowlApplicationBridgeDelegate>
 {
     NSView *_previousView;
-    BOOL _forceUpdateSensors;
 }
 
 @property (readonly) IBOutlet HWMEngine *monitorEngine;

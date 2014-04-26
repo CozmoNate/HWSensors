@@ -87,7 +87,7 @@
 }
 - (void)initialize
 {
-    [self addObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"objectValue.engine.configuration.colorTheme" options:0 context:nil];
 }
 
 - (void)deallocate

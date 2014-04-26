@@ -40,7 +40,7 @@
 {
     [super initialize];
 
-    [self addObserver:self forKeyPath:@"objectValue.value" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"objectValue.value" options:0 context:nil];
 }
 
 -(void)deallocate

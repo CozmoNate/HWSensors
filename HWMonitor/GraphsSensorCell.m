@@ -76,7 +76,7 @@
 
 -(void)initialize
 {
-    [self addObserver:self forKeyPath:@"objectValue.sensor.alarmLevel" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"objectValue.sensor.alarmLevel" options:0 context:nil];
 }
 
 -(void)resetCursorRects

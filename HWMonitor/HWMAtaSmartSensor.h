@@ -99,7 +99,7 @@ typedef struct {
     ATASmartThresholdAttribute      ThresholdEntries [kATASMARTAttributesCount];
 } __attribute__ ((packed)) ATASmartVendorSpecificDataThresholds;
 
-@interface HWMSmartPluginInterfaceWrapper : NSObject
+@interface HWMATASmartInterfaceWrapper : NSObject
 {
     ATASmartVendorSpecificData _vendorSpecificData;
     ATASmartVendorSpecificDataThresholds _vendorSpecificThresholds;
@@ -116,14 +116,16 @@ typedef struct {
 
 @property (nonatomic, assign) IOCFPlugInInterface** pluginInterface;
 @property (nonatomic, assign) IOATASMARTInterface** smartInterface;
+@property (nonatomic, strong) NSString * bsdName;
+@property (nonatomic, strong) NSString * product;
+@property (nonatomic, strong) NSString * firmware;
+@property (assign) BOOL isRotational;
 
 @property (readonly) NSArray * attributes;
 
-+(HWMSmartPluginInterfaceWrapper*)wrapperWithService:(io_service_t)service productName:(NSString*)productName firmware:(NSString*)firmware bsdName:(NSString*)bsdName isRotational:(BOOL)rotational;
-+(HWMSmartPluginInterfaceWrapper*)getWrapperForBsdName:(NSString*)name;
++(HWMATASmartInterfaceWrapper*)wrapperWithService:(io_service_t)service productName:(NSString*)productName firmware:(NSString*)firmware bsdName:(NSString*)bsdName isRotational:(BOOL)rotational;
++(HWMATASmartInterfaceWrapper*)getWrapperForBsdName:(NSString*)name;
 +(void)destroyAllWrappers;
-
--(HWMSmartPluginInterfaceWrapper*)initWithPluginInterface:(IOCFPlugInInterface**)pluginInterface smartInterface:(IOATASMARTInterface**)smartInterface productName:(NSString*)productName firmware:(NSString*)firmware bsdName:(NSString*)bsdName isRotational:(BOOL)rotational;
 
 @end
 

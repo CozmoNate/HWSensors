@@ -132,12 +132,12 @@
     [_graphsTableView registerForDraggedTypes:[NSArray arrayWithObject:kHWMonitorGraphsItemDataType]];
     [_graphsTableView setDraggingSourceOperationMask:NSDragOperationMove | NSDragOperationDelete forLocal:YES];
 
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.graphsAndGroups) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useGraphSmoothing) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsScaleValue) options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInGraphs) options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.graphsAndGroups) options:0 context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsWindowAlwaysTopmost) options:0 context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useFahrenheit) options:0 context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useGraphSmoothing) options:0 context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsScaleValue) options:0 context:nil];
+    [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInGraphs) options:0 context:nil];
 }
 
 -(void)showWindow:(id)sender
