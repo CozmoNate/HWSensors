@@ -1018,11 +1018,13 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
         if (![self findIndexOfAttributeByName:@"SSD_Life_Left" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Remaining_Lifetime_Perc" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Perc_Rated_Life_Used" outIndex:&_remainingLifeAttributeIndex] &&
-            /*![self findIndexOfAttributeByName:@"Wear_Leveling_Count" outIndex:&_remainingLifeAttributeIndex] &&*/
             ![self findIndexOfAttributeByName:@"Media_Wearout_Indicator" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Available_Reservd_Space" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Reserve_Block_Count" outIndex:&_remainingLifeAttributeIndex] &&
-            ![self findIndexOfAttributeByName:@"Bad_Block_Count" outIndex:&_remainingLifeAttributeIndex])
+            ![self findIndexOfAttributeByName:@"Bad_Block_Count" outIndex:&_remainingLifeAttributeIndex] &&
+            ![self findIndexOfAttributeByName:@"Reallocated_Sector_Ct" outIndex:&_remainingLifeAttributeIndex]
+            /*![self findIndexOfAttributeByName:@"Wear_Leveling_Count" outIndex:&_remainingLifeAttributeIndex]*/)
+
         {
             return nil;
         }
