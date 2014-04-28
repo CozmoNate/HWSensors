@@ -1022,8 +1022,8 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
             ![self findIndexOfAttributeByName:@"Available_Reservd_Space" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Reserve_Block_Count" outIndex:&_remainingLifeAttributeIndex] &&
             ![self findIndexOfAttributeByName:@"Bad_Block_Count" outIndex:&_remainingLifeAttributeIndex] &&
-            ![self findIndexOfAttributeByName:@"Reallocated_Sector_Ct" outIndex:&_remainingLifeAttributeIndex]
-            /*![self findIndexOfAttributeByName:@"Wear_Leveling_Count" outIndex:&_remainingLifeAttributeIndex]*/)
+            /*![self findIndexOfAttributeByName:@"Reallocated_Sector_Ct" outIndex:&_remainingLifeAttributeIndex]*/
+            ![self findIndexOfAttributeByName:@"Wear_Leveling_Count" outIndex:&_remainingLifeAttributeIndex])
 
         {
             return nil;

@@ -7,6 +7,7 @@
 
  */
 
+"red-thermometer" = "Czerwony termometr";
 "TEMPERATURES" = "TEMPERATURY";
 "DRIVE TEMPERATURES" = "TEMPERATURY DYSKÓW";
 "SSD REMAINING LIFE" = "ŻYWOTNOŚĆ SSD";
@@ -123,6 +124,7 @@
 "GPU Fan 1" = "Wentylator grafiki 2";
 "GPU Fan 2" = "Wentylator grafiki 3";
 "GPU Fan 3" = "Wentylator grafiki 4";
+"GPU PWM" = "Wentylator grafiki";
 "CPU_MEM" = "Procesor/Pamięć";
 "IO" = "Gniazda rozszerzeń";
 "PCI" = "Gniazda PCI";
@@ -189,6 +191,8 @@
 "CPU Core" = "Procesor";
 "CPU Core %X" = "Procesor %X";
 "CPU Package Multiplier" = "Mnożnik procesora";
+"CPU Package Frequency" = "Prędkość procesora";
+"CPU Package Average" = "Średnia prędkość procesora";
 
 "GPU Core" = "Rdzeń grafiki";
 "GPU %X Core" = "Rdzeń grafiki %X";
@@ -223,4 +227,15 @@
 "CPU Package Total" = "CPU Całkowity pobór";
 "CPU Package DRAM" = "CPU Kontroler RAM";
 "Graphs scale factor:" = "Skala wykresu";
+
+"Show notification when sensor alarm level is critical" = "Pokaż powiadomienie kiedy odczyt jest krytyczny";
+
+"Color theme:" = "Motyw graficzny:";
+"Show drive title as:" = "Pokaż nazwę dysku jako:";
+"Show drive subtitle as:" = "Pokaż podtytuł dysku jako:";
+"Product name" = "Nazwa produktu";
+"Partition names" = "Nazwa partycji";
+"BSD name" = "Nazwa BSD";
+"Show sensor subtitles" = "Pokaż nazwy czujnika";
+
 
