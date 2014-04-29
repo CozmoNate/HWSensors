@@ -103,7 +103,7 @@ bool GmaSensors::managedStart(IOService *provider)
     
     snprintf(key, 5, KEY_FORMAT_GPU_PROXIMITY_TEMPERATURE, gpuIndex);
     
-    if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
+    if (!addSensorForKey(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
         HWSensorsFatalLog("failed to register temperature sensor");
         releaseGPUIndex(gpuIndex);
         gpuIndex = -1;

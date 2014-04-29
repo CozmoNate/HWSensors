@@ -300,7 +300,7 @@ bool W836xxSensors::addTemperatureSensors(OSDictionary *configuration)
         snprintf(key, 8, "TEMPIN%X", index++);
         
         if (OSObject *node = configuration->getObject(key))
-            if (addSensor(node, kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, i))
+            if (addSensorFromNode(node, kFakeSMCCategoryTemperature, kFakeSMCTemperatureSensor, i))
                 break;
     }
     
