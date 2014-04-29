@@ -67,7 +67,7 @@ void ACPISensors::addSensorsFromDictionary(OSDictionary *dictionary, FakeSMCSens
                     sensor = addTachometer(methods->getCount(), key->getCStringNoCopy());
                 }
                 else {
-                    sensor = addSensor(key, category, group, methods->getCount());
+                    sensor = addSensorFromNode(key, category, group, methods->getCount());
                 }
                 
                 if (sensor) {
@@ -132,7 +132,7 @@ void ACPISensors::addSensorsFromArray(OSArray *array, FakeSMCSensorCategory cate
                         sensor = addTachometer(methods->getCount(), key->getCStringNoCopy());
                     }
                     else {
-                        sensor = addSensor(key, category, group, methods->getCount());
+                        sensor = addSensorFromNode(key, category, group, methods->getCount());
                     }
                     
                     if (sensor) {

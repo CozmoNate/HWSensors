@@ -57,6 +57,8 @@
 
 #include "timer.h"
 
+#define kHWSensorsDebug                         1
+
 enum {
     kCPUSensorsThermalCore              = BIT(0),
     kCPUSensorsThermalPackage           = BIT(1),
@@ -127,6 +129,17 @@ static void read_cpu_tjmax(void *magic)
 
     if (number < kCPUSensorsMaxCpus) {
         cpu_tjmax[number] = (rdmsr64(MSR_IA32_TEMP_TARGET) >> 16) & 0xFF;
+    }
+}
+
+static UInt64 cpu_rapl;
+
+static void read_cpu_rapl(void *magic)
+{
+    UInt32 number = get_cpu_number();
+
+    if (number == 0) {
+        cpu_rapl = rdmsr64(MSR_RAPL_POWER_UNIT);
     }
 }
 
@@ -398,7 +411,7 @@ bool CPUSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 
 FakeSMCSensor *CPUSensors::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
-    FakeSMCSensor *result = super::addSensor(key, type, size, group, index);
+    FakeSMCSensor *result = super::addSensorForKey(key, type, size, group, index);
     
     if (result) {
         bit_set(counters.event_flags, group);
@@ -662,7 +675,8 @@ bool CPUSensors::start(IOService *provider)
             HWSensorsWarningLog("failed to set platform key RBr");
     }
     
-    // digital thermal sensor at core level
+    HWSensorsDebugLog("adding digital thermal sensors at core level");
+
     bit_set(counters.event_flags, kCPUSensorsThermalCore);
     mp_rendezvous_no_intrs(update_counters, &counters);
                            
@@ -680,7 +694,8 @@ bool CPUSensors::start(IOService *provider)
         }
     }
     
-    // digital thermal sensor at package level
+    HWSensorsDebugLog("adding digital thermal sensor at package level");
+
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
@@ -697,8 +712,9 @@ bool CPUSensors::start(IOService *provider)
             break;
         }
     }
-    
-    // multiplier & frequency
+
+    HWSensorsDebugLog("adding multiplier & frequency sensors");
+
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_HASWELL:
             if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
@@ -741,13 +757,15 @@ bool CPUSensors::start(IOService *provider)
             break;
     }
 
-    // average frequency
+    HWSensorsDebugLog("adding average frequency sensor");
+
     if (baseMultiplier) {
         if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY_AVERAGE, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyPackageAverage, 0))
         HWSensorsWarningLog("failed to add package average frequency sensor");
     }
 
-    //voltage
+    HWSensorsDebugLog("adding voltage sensor");
+
     switch (cpuid_info()->cpuid_model) {
         case CPUID_MODEL_PENTIUM_M:
         case CPUID_MODEL_YONAH:
@@ -757,19 +775,23 @@ bool CPUSensors::start(IOService *provider)
             if (!addSensor(KEY_CPU_VOLTAGE, "sp3c", TYPE_SPXX_SIZE, kCPUSensorsVoltagePackage, 0))
                 HWSensorsWarningLog("failed to add voltage sensor");
             break;
+
+        default:
+            break;
     }
 
-    // energy consumption
+    HWSensorsDebugLog("adding energy consumption sensors");
+
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
         case CPUFAMILY_INTEL_HASWELL:
         {
-            UInt64 rapl = rdmsr64(MSR_RAPL_POWER_UNIT);
-            
-            UInt8 power_units = rapl & 0xf;
-            UInt8 energy_units = (rapl >> 8) & 0x1f;
-            UInt8 time_units = (rapl >> 16) & 0xf;
+            mp_rendezvous_no_intrs(read_cpu_rapl, NULL);
+
+            UInt8 power_units = cpu_rapl & 0xf;
+            UInt8 energy_units = (cpu_rapl >> 8) & 0x1f;
+            UInt8 time_units = (cpu_rapl >> 16) & 0xf;
             
             HWSensorsDebugLog("RAPL units power: 0x%x energy: 0x%x time: 0x%x", power_units, energy_units, time_units);
             
@@ -798,6 +820,10 @@ bool CPUSensors::start(IOService *provider)
                         // TODO: check DRAM availability for other platforms
                         if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerDram, 3))
                             HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
+                        break;
+
+                    default:
+                        break;
                 }
             }
             break;

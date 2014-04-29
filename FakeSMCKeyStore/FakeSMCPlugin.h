@@ -247,11 +247,11 @@ protected:
     bool                    setKeyValue(const char *key, const char *type, UInt8 size, void *value);
     bool                    getKeyValue(const char *key, void *value);
     
-    virtual FakeSMCSensor   *addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
-    virtual FakeSMCSensor   *addSensor(const char *abbreviation, FakeSMCSensorCategory category, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
-    virtual FakeSMCSensor   *addSensor(OSObject *node, FakeSMCSensorCategory category, UInt32 group, UInt32 index);
+    virtual FakeSMCSensor   *addSensorForKey(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
+    virtual FakeSMCSensor   *addSensorUsingAbbreviation(const char *abbreviation, FakeSMCSensorCategory category, UInt32 group, UInt32 index, float reference = 0.0f, float gain = 0.0f, float offset = 0.0f);
+    virtual FakeSMCSensor   *addSensorFromNode(OSObject *node, FakeSMCSensorCategory category, UInt32 group, UInt32 index);
+    	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0, FanType type = FAN_RPM, UInt8 zone = 0, FanLocationType location = CENTER_MID_FRONT, SInt8 *fanIndex = 0);
     virtual bool            addSensor(FakeSMCSensor *sensor);
-	virtual FakeSMCSensor   *addTachometer(UInt32 index, const char *name = 0, FanType type = FAN_RPM, UInt8 zone = 0, FanLocationType location = CENTER_MID_FRONT, SInt8 *fanIndex = 0);
 	virtual FakeSMCSensor   *getSensor(const char *key);
     
     OSDictionary            *getConfigurationNode(OSDictionary *root, OSString *name);

@@ -593,7 +593,7 @@ bool FakeSMCPlugin::getKeyValue(const char *key, void *value)
  *
  *  @return new FakeSMCSensor object or NULL otherwise
  */
-FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
+FakeSMCSensor *FakeSMCPlugin::addSensorForKey(const char *key, const char *type, UInt8 size, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
     LOCK;
 
@@ -623,7 +623,7 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *key, const char *type, UInt8
  *
  *  @return new FakeSMCSensor object or NULL otherwise
  */
-FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbreviation, FakeSMCSensorCategory category, UInt32 group, UInt32 index, float reference, float gain, float offset)
+FakeSMCSensor *FakeSMCPlugin::addSensorUsingAbbreviation(const char *abbreviation, FakeSMCSensorCategory category, UInt32 group, UInt32 index, float reference, float gain, float offset)
 {
     LOCK;
 
@@ -642,13 +642,13 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbreviation, FakeSMCSensorC
                         snprintf(key, 5, entry.key, entry.shift + counter);
 
                         if (!isKeyExists(key)) {
-                            sensor = addSensor(key, entry.type, entry.size, group, index, reference, gain, offset);
+                            sensor = addSensorForKey(key, entry.type, entry.size, group, index, reference, gain, offset);
                             break;
                         }
                     }
                 }
                 else {
-                    sensor = addSensor(entry.key, entry.type, entry.size, group, index, reference, gain, offset);
+                    sensor = addSensorForKey(entry.key, entry.type, entry.size, group, index, reference, gain, offset);
                 }
             }
         }
@@ -669,7 +669,7 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(const char *abbreviation, FakeSMCSensorC
  *
  *  @return new FakeSMCSensor object or NULL otherwise
  */
-FakeSMCSensor *FakeSMCPlugin::addSensor(OSObject *node, FakeSMCSensorCategory category, UInt32 group, UInt32 index)
+FakeSMCSensor *FakeSMCPlugin::addSensorFromNode(OSObject *node, FakeSMCSensorCategory category, UInt32 group, UInt32 index)
 {
     LOCK;
 
@@ -688,7 +688,7 @@ FakeSMCSensor *FakeSMCPlugin::addSensor(OSObject *node, FakeSMCSensorCategory ca
         else abbreviation = OSDynamicCast(OSString, node);
 
         if (abbreviation)
-            sensor = addSensor(abbreviation->getCStringNoCopy(), category, group, index, reference, gain, offset);
+            sensor = addSensorUsingAbbreviation(abbreviation->getCStringNoCopy(), category, group, index, reference, gain, offset);
     }
 
     UNLOCK;
@@ -739,7 +739,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanT
         char key[5];
         snprintf(key, 5, KEY_FORMAT_FAN_SPEED, vacantFanIndex);
 
-        if (FakeSMCSensor *sensor = addSensor(key, TYPE_FPE2, TYPE_FPXX_SIZE, kFakeSMCTachometerSensor, index)) {
+        if (FakeSMCSensor *sensor = addSensorForKey(key, TYPE_FPE2, TYPE_FPXX_SIZE, kFakeSMCTachometerSensor, index)) {
             FanTypeDescStruct fds;
 
             bzero(&fds, sizeof(fds));

@@ -334,7 +334,7 @@ bool RadeonSensors::managedStart(IOService *provider)
 
     if (card.get_core_temp) {
         snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, card.card_index);
-        if (!addSensor(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
+        if (!addSensorForKey(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
             //radeon_error(&card, "failed to register temperature sensor for key %s\n", key);
             radeon_fatal(&card, "failed to register temperature sensor for key %s\n", key);
             releaseGPUIndex(card.card_index);
