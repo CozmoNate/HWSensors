@@ -406,7 +406,8 @@ bool setOemProperties(IOService *provider)
                 }
                 //OSSafeReleaseNULL(data);
             }
-            else if (!setOemPropertiesFromDMI(provider)) {
+
+            if (!data && !setOemPropertiesFromDMI(provider)) {
                 return false;
             }
 
