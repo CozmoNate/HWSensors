@@ -162,43 +162,34 @@ void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
     if (index < tachometerSensorsLimit()) {
         
         if (!fanControlEnabled[index]) {
-            /* Read PWM controller */
-            fanControl[index] = readByte(ITE_SMARTGUARDIAN_PWM_CONTROL(index));
-            
-            UInt8 pwmControl;
-            
-            if (features & FEATURE_NEWER_AUTOPWM) {
-                //pwmTempMap = fanControl[index] & 0x03;
-                //pwmDuty = readByte(ITE_SMARTGUARDIAN_PWM_DUTY(index));
-                pwmControl = fanControl[index] & 0x03;
-            } else {
-//                if (fanControl[index] & 0x80)	/* Automatic mode */
-//                    pwmTempMap = fanControl[index] & 0x03;
-//                else				/* Manual mode */
-//                    pwmDuty = fanControl[index] & 0x7f;
-                pwmControl = fanControl[index] & 0x7f;
-            }
-            
-            /* Manual mode */
-            writeByte(ITE_SMARTGUARDIAN_PWM_CONTROL(index), pwmControl);
 
-            /* set SmartGuardian mode */
-            writeByte(ITE_SMARTGUARDIAN_MAIN_CONTROL, readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) | (1 << index));
+            //if (!bit_get(features, FEATURE_NEWER_AUTOPWM)) {
+            
+                /* Read PWM controller */
+                fanControl[index] = readByte(ITE_SMARTGUARDIAN_PWM_CONTROL(index));
+
+                UInt8 pwmControl;
+
+                if (bit_get(features, FEATURE_NEWER_AUTOPWM)) {
+                    pwmControl = fanControl[index] & 0x03;
+                } else {
+                    pwmControl = fanControl[index] & 0x7f;
+                }
+
+                /* Manual mode */
+                writeByte(ITE_SMARTGUARDIAN_PWM_CONTROL(index), pwmControl);
+
+                /* set SmartGuardian mode */
+                writeByte(ITE_SMARTGUARDIAN_MAIN_CONTROL, readByte(ITE_SMARTGUARDIAN_MAIN_CONTROL) | (1 << index));
+            //}
             
             fanControlEnabled[index] = true;
         }
-        
-        UInt8 control = (float)(percent) * 2.55;
-        
+
         if (features & FEATURE_NEWER_AUTOPWM) {
-            writeByte(ITE_SMARTGUARDIAN_PWM_DUTY(index), control);
+            writeByte(ITE_SMARTGUARDIAN_PWM_DUTY(index), (float)(percent) * 2.55);
         } else {
-            /*
-             * If we are in manual mode, write the duty cycle immediately;
-             */
-            if (!(readByte(ITE_SMARTGUARDIAN_PWM_CONTROL(index)) & 0x80)) {
-                writeByte(ITE_SMARTGUARDIAN_PWM_CONTROL(index), control >> 1);
-            }
+            writeByte(ITE_SMARTGUARDIAN_PWM_CONTROL(index), (float)(percent) * 1.27);
         }
     }
 }
@@ -252,7 +243,7 @@ bool IT87xxSensors::initialize()
             features = FEATURE_16BIT_FANS | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI;
             break;
         case IT8720F:
-            features =/* FEATURE_NEWER_AUTOPWM |*/ FEATURE_16BIT_FANS | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI;
+            features = FEATURE_16BIT_FANS | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI;
             break;
         case IT8721F:
            features = FEATURE_NEWER_AUTOPWM | FEATURE_12MV_ADC | FEATURE_16BIT_FANS
