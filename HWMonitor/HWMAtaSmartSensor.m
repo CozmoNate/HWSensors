@@ -1013,6 +1013,11 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
 -(NSNumber*)getRemainingLife
 {
+    // Disable "remaining life" sensors for HDD
+    if (self.rotational.boolValue) {
+        return nil;
+    }
+
     if (_remainingLifeAttributeIndex < 0) {
 
         if (![self findIndexOfAttributeByName:@"SSD_Life_Left" outIndex:&_remainingLifeAttributeIndex] &&
