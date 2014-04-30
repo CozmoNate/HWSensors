@@ -82,10 +82,10 @@
 {
     [super setEnabled:enabled];
 
-    [self updateManualControlKey];
+    [self setManualControlKey];
 }
 
--(void)updateCurrentLevel
+-(void)calculateCurrentLevel
 {
     if (self.enabled.boolValue) {
 
@@ -117,7 +117,7 @@
 
         if (!_currentLevel || _currentLevel != currentLevel) {
             _currentLevel = currentLevel;
-            [self forceCurrentLevel];
+            [self setFanSpeed];
         }
     }
     else {
@@ -130,20 +130,20 @@
     //NSLog(@"Will force control level for '%@'", self.output.name);
 
     if (!_currentLevel) {
-        [self updateCurrentLevel];
+        [self calculateCurrentLevel];
     }
     else {
-        [self updateFanSpeed];
+        [self setFanSpeed];
     }
 }
 
--(void)updateFanSpeed
+-(void)setFanSpeed
 {
     if (self.enabled.boolValue) {
 
         //NSLog(@"Will update fan speed for '%@'", self.output.name);
 
-        [self updateManualControlKey];
+        [self setManualControlKey];
 
         if (_currentLevel) {
             if (self.output.engine.isRunningOnMac) {
@@ -157,18 +157,21 @@
         }
 
         // Check fan speed every 5 minutes to be sure it isn't run off
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(300 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void){
-            // +/- 25 rpm
-            if (!self.isDeleted && self.enabled.boolValue && _currentLevel && ABS(self.output.value.integerValue - _currentLevel.output.integerValue) > 25) {
-                [self updateFanSpeed];
-            }
-        });
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(checkFanSpeed) object:nil];
+        [self performSelector:@selector(checkFanSpeed) withObject:self afterDelay:300 inModes:@[NSRunLoopCommonModes]];
+    }
+}
+
+-(void)checkFanSpeed
+{
+    if (!self.isDeleted && self.enabled.boolValue && _currentLevel && ABS(self.output.value.integerValue - _currentLevel.output.integerValue) > 25) {
+        [self setFanSpeed];
     }
 }
 
 static UInt32 gManualControlKeyValue = 0x80000000;
 
--(void)updateManualControlKey
+-(void)setManualControlKey
 {
     if (gManualControlKeyValue == 0x80000000) {
         gManualControlKeyValue = [SmcHelper readNumericKey:@KEY_FAN_MANUAL connection:(io_connect_t)self.output.service.unsignedLongValue].unsignedIntValue;
@@ -194,7 +197,7 @@ static UInt32 gManualControlKeyValue = 0x80000000;
     [super awakeFromFetch];
 
     [self calculateOutputRange];
-    [self updateCurrentLevel];
+    [self calculateCurrentLevel];
 }
 
 -(void)awakeFromInsert
@@ -202,12 +205,14 @@ static UInt32 gManualControlKeyValue = 0x80000000;
     [super awakeFromInsert];
 
     [self calculateOutputRange];
-    [self updateCurrentLevel];
+    [self calculateCurrentLevel];
 }
 
 -(void)prepareForDeletion
 {
     [super prepareForDeletion];
+
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
 
     _currentLevel = nil;
 }

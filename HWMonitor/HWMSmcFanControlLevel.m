@@ -46,9 +46,9 @@
     [self setPrimitiveValue:input forKey:@keypath(self, input)];
     [self didChangeValueForKey:@keypath(self, input)];
 
-    [NSObject cancelPreviousPerformRequestsWithTarget:self.controller selector:@selector(updateCurrentLevel) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self.controller selector:@selector(calculateCurrentLevel) object:nil];
 
-    [self.controller performSelector:@selector(updateCurrentLevel) withObject:nil afterDelay:0.5];
+    [self.controller performSelector:@selector(calculateCurrentLevel) withObject:nil afterDelay:0.5];
 }
 
 -(void)setOutput:(NSNumber *)output

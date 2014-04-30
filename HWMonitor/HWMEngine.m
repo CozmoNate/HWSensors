@@ -1684,7 +1684,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 [self.managedObjectContext deleteObject:controller];
             }
             else {
-                [fan.controller updateCurrentLevel];
+                [fan.controller calculateCurrentLevel];
             }
         }
 

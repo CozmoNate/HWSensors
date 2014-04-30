@@ -46,6 +46,7 @@
 
 -(HWMSmcFanControlLevel*)addOutputLevel:(NSNumber*)output forInputLevel:(NSNumber*)input;
 -(void)calculateOutputRange;
+-(void)calculateCurrentLevel;
 
 @end
 
