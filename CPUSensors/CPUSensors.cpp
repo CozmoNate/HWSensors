@@ -57,8 +57,6 @@
 
 #include "timer.h"
 
-#define kHWSensorsDebug                         1
-
 enum {
     kCPUSensorsThermalCore              = BIT(0),
     kCPUSensorsThermalPackage           = BIT(1),
