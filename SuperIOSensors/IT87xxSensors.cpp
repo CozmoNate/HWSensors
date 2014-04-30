@@ -163,7 +163,7 @@ void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
         
         if (!fanControlEnabled[index]) {
 
-            //if (!bit_get(features, FEATURE_NEWER_AUTOPWM)) {
+            //if (bit_get(features, FEATURE_NEWER_AUTOPWM)) {
             
                 /* Read PWM controller */
                 fanControl[index] = readByte(ITE_SMARTGUARDIAN_PWM_CONTROL(index));
@@ -187,9 +187,11 @@ void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
         }
 
         if (features & FEATURE_NEWER_AUTOPWM) {
-            writeByte(ITE_SMARTGUARDIAN_PWM_DUTY(index), (float)(percent) * 2.55);
+            Uint8 control = (float)(percent) * 2.55;
+            writeByte(ITE_SMARTGUARDIAN_PWM_DUTY(index), control);
         } else {
-            writeByte(ITE_SMARTGUARDIAN_PWM_CONTROL(index), (float)(percent) * 1.27);
+            UInt8 control = (float)(percent) * 1.27;
+            writeByte(ITE_SMARTGUARDIAN_PWM_CONTROL(index), control & 0x7f); // BIT(7) = 0 forcing software control
         }
     }
 }
