@@ -92,6 +92,8 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
 
                     wrapper = [[HWMATASmartInterfaceWrapper alloc] init];
 
+                    (*pluginInterface)->AddRef(pluginInterface);
+
                     wrapper.pluginInterface = pluginInterface;
                     wrapper.smartInterface  = smartInterface;
                     wrapper.bsdName = bsdName;
@@ -101,7 +103,7 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
 
                     if ([wrapper readSMARTDataAndThresholds]) {
                         [gATASmartInterfaceWrapperCache setObject:wrapper forKey:bsdName];
-                        break;
+                        return wrapper;
                     }
                 }
                 else {
@@ -679,7 +681,7 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
                         NSString *overriddenName = _overrides ? [_overrides objectForKey:[NSString stringWithFormat:@"%d",attribute->attributeId]][@"name"] : nil;
                         NSString *overriddenFormat = _overrides ? [_overrides objectForKey:[NSString stringWithFormat:@"%d",attribute->attributeId]][@"format"] : nil;
 
-                        NSString *name = overriddenName ? overriddenName : [HWMATASmartInterfaceWrapper getDefaultAttributeNameByIdentifier:attribute->attributeId isRotational:_rotational];
+                        NSString *name = overriddenName ? overriddenName : [HWMATASmartInterfaceWrapper getDefaultAttributeNameByIdentifier:attribute->attributeId isRotational:_isRotational];
                         NSString *format = overriddenFormat ? overriddenFormat : [HWMATASmartInterfaceWrapper getDefaultRawFormatForIdentifier:attribute->attributeId];
 
                         NSString *title = GetLocalizedAttributeName(name);
@@ -745,12 +747,12 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
 
 -(void)releaseInterface
 {
-    if (self.smartInterface) {
-        (*self.smartInterface)->Release(self.smartInterface);
+    if (_smartInterface) {
+        (*_smartInterface)->Release(_smartInterface);
     }
 
-    if (self.pluginInterface) {
-        IODestroyPlugInInterface(self.pluginInterface);
+    if (_pluginInterface) {
+        IODestroyPlugInInterface(_pluginInterface);
     }
 }
 
