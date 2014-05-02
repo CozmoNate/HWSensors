@@ -159,6 +159,8 @@ void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
     if (!isTachometerControlable(index))
         return;
 
+    bool hasNewerAutopwm = bit_get(features, FEATURE_NEWER_AUTOPWM);
+
     if (index < tachometerSensorsLimit()) {
         
         if (!fanControlEnabled[index]) {
@@ -170,7 +172,7 @@ void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
 
                 UInt8 pwmControl;
 
-                if (bit_get(features, FEATURE_NEWER_AUTOPWM)) {
+                if (hasNewerAutopwm) {
                     pwmControl = fanControl[index] & 0x03;
                 } else {
                     pwmControl = fanControl[index] & 0x7f;
@@ -186,8 +188,8 @@ void IT87xxSensors::writeTachometerControl(UInt32 index, UInt8 percent)
             fanControlEnabled[index] = true;
         }
 
-        if (features & FEATURE_NEWER_AUTOPWM) {
-            Uint8 control = (float)(percent) * 2.55;
+        if (hasNewerAutopwm) {
+            UInt8 control = (float)(percent) * 2.55;
             writeByte(ITE_SMARTGUARDIAN_PWM_DUTY(index), control);
         } else {
             UInt8 control = (float)(percent) * 1.27;

@@ -49,6 +49,8 @@ private:
     int                 i2c_get_fanspeed_rpm(I2CDevPtr dev);
     float               i2c_get_fanspeed_pwm(I2CDevPtr dev);
     int                 i2c_get_fanspeed_mode(I2CDevPtr dev);
+
+    bool                shadowBios();
     
 protected:
     virtual bool        willReadSensorValue(FakeSMCSensor *sensor, float* value);
