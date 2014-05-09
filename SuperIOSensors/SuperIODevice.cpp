@@ -231,6 +231,7 @@ bool SuperIODevice::detectITEFamilyChip()
         case IT8720F:
         case IT8721F:
         case IT8726F:
+        case IT8620E:
         case IT8728F:
         case IT8752F:
         case IT8771E:

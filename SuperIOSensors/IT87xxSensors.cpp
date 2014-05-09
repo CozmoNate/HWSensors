@@ -254,6 +254,7 @@ bool IT87xxSensors::initialize()
             | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI | FEATURE_TEMP_PECI;
             break;
         case IT8726F:
+        case IT8620E:
         case IT8728F:
         case IT8752F:
         case IT8771E:
