@@ -142,6 +142,8 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
 
 +(void)destroyAllWrappers
 {
+    [gATASmartInterfaceWrapperCache removeAllObjects];
+    
     gATASmartInterfaceWrapperCache = nil;
 }
 
@@ -758,6 +760,7 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
 
 -(void)dealloc
 {
+    //NSLog(@"Wrapper deallocated for %@", _bsdName);
     [self releaseInterface];
 }
 
@@ -1081,7 +1084,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     if (self.hidden.boolValue)
         return nil;
 
-    HWMATASmartInterfaceWrapper *wrapper = [HWMATASmartInterfaceWrapper getWrapperForBsdName:self.bsdName];
+    __weak HWMATASmartInterfaceWrapper *wrapper = [HWMATASmartInterfaceWrapper getWrapperForBsdName:self.bsdName];
 
     if (!wrapper) {
 

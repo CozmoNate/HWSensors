@@ -47,7 +47,7 @@
 
 +(instancetype)timerWithInterval:(NSTimeInterval)interval block:(dispatch_block_t)block
 {
-    return [[HWMTimer alloc] initWithInterval:interval queue:dispatch_get_main_queue() block:block];
+    return [[HWMTimer alloc] initWithInterval:interval queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0) block:block];
 }
 
 -(instancetype)initWithInterval:(NSTimeInterval)interval queue:(dispatch_queue_t)queue block:(dispatch_block_t)block
@@ -59,9 +59,9 @@
             return nil;
         }
 
-        [self setInterval:interval];
-
         dispatch_source_set_event_handler(_dispatchSource, block);
+
+        [self setInterval:interval];
     }
 
     return self;
