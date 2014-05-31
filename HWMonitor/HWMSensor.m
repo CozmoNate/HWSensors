@@ -95,6 +95,11 @@
 //    }
 //}
 
+-(NSTimeInterval)timeIntervalSinceLastUpdate
+{
+    return _lastUpdated ? -(_lastUpdated.timeIntervalSinceNow) : NSTimeIntervalSince1970;
+}
+
 -(NSString *)formattedValue
 {
     if (!_formattedValue) {
@@ -218,9 +223,9 @@
 
     if (value) {
 
-        //_lastUpdated = [NSDate date];
+        _lastUpdated = [NSDate date];
 
-        if (value && (!self.value || ![value isEqualToNumber:self.value])) {
+        if (!self.value || ![value isEqualToNumber:self.value]) {
             [self willChangeValueForKey:@keypath(self, value)];
             [self setPrimitiveValue:value forKey:@keypath(self, value)];
             [self didChangeValueForKey:@keypath(self, value)];

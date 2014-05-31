@@ -43,6 +43,7 @@
     NSUInteger _alarmLevel;
     NSString *_formattedValue;
     NSString *_strippedValue;
+    NSDate * _lastUpdated;
 }
 
 @property (nonatomic, retain) NSNumber * forced;
@@ -58,6 +59,8 @@
 @property (readonly) NSUInteger alarmLevel;
 @property (readonly) NSString * formattedValue;
 @property (readonly) NSString * strippedValue;
+
+@property (readonly) NSTimeInterval timeIntervalSinceLastUpdate;
 
 - (BOOL)isActive;
 

@@ -656,9 +656,6 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self addObserver:self forKeyPath:@keypath(self, configuration.useFahrenheit) options:0 context:nil];
     [self addObserver:self forKeyPath:@keypath(self, configuration.smcSensorsUpdateRate) options:0 context:nil];
     [self addObserver:self forKeyPath:@keypath(self, configuration.smartSensorsUpdateRate) options:0 context:nil];
-
-    _smcAndDevicesSensorsLastUpdated = [NSDate date];
-    _ataSmartSensorsLastUpdated = [NSDate date];
 }
 
 -(void)start
@@ -763,12 +760,6 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             return;
         }
 
-        NSTimeInterval nineTenths = - self.configuration.smcSensorsUpdateRate.floatValue * 0.9f;
-
-        if (_smcAndDevicesSensorsLastUpdated && _smcAndDevicesSensorsLastUpdated.timeIntervalSinceNow > nineTenths) {
-            return;
-        }
-
         if (!_smcAndDevicesSensors) {
 
             __block NSMutableArray *sensors = [NSMutableArray array];
@@ -785,14 +776,15 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         }
 
         NSUInteger updatedCount = 0;
+        NSTimeInterval nineTenths = self.configuration.smcSensorsUpdateRate.floatValue * 0.9f;
 
         for (HWMSensor *sensor in _smcAndDevicesSensors) {
 
-            BOOL doUpdate = sensor.forced.boolValue || sensor.consumers.count || sensor.controller || self.configuration.updateSensorsInBackground.boolValue;
+            if (sensor.timeIntervalSinceLastUpdate < nineTenths) {
+                continue;
+            }
 
-//            if (sensor.lastUpdated && fabs(sensor.lastUpdated.timeIntervalSinceNow) < nineTenths) {
-//                continue;
-//            }
+            BOOL doUpdate = sensor.forced.boolValue || sensor.consumers.count || sensor.controller || self.configuration.updateSensorsInBackground.boolValue;
 
             if (!doUpdate) {
                 switch (self.updateLoopStrategy) {
@@ -818,10 +810,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         }
 
         if (updatedCount) {
-            _smcAndDevicesSensorsLastUpdated = [NSDate date];
-
             [self internalCaptureSensorValuesToGraphs];
-
             [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorValuesHasBeenUpdatedNotification object:self];
         }
     }];
@@ -834,12 +823,6 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         DLog(@"");
 
         if (_engineState < kHWMEngineStatePaused) {
-            return;
-        }
-
-        NSTimeInterval nineTenths = - self.configuration.smartSensorsUpdateRate.floatValue * 60 * 0.9f;
-
-        if (_ataSmartSensorsLastUpdated && _ataSmartSensorsLastUpdated.timeIntervalSinceNow > nineTenths) {
             return;
         }
 
@@ -861,14 +844,15 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
         if (_ataSmartSensors) {
 
             NSUInteger updatedCount = 0;
+            NSTimeInterval nineTenths = self.configuration.smartSensorsUpdateRate.floatValue * 60 * 0.9f;
 
             for (HWMAtaSmartSensor *sensor in _ataSmartSensors) {
 
-                BOOL doUpdate = sensor.forced.boolValue || sensor.consumers.count || sensor.controller || self.configuration.updateSensorsInBackground.boolValue;
+                if (sensor.timeIntervalSinceLastUpdate < nineTenths) {
+                    continue;
+                }
 
-//                if (sensor.lastUpdated && fabs(sensor.lastUpdated.timeIntervalSinceNow) < nineTenths) {
-//                    continue;
-//                }
+                BOOL doUpdate = sensor.forced.boolValue || sensor.consumers.count || sensor.controller || self.configuration.updateSensorsInBackground.boolValue;
 
                 if (!doUpdate) {
                     switch (self.updateLoopStrategy) {
@@ -894,12 +878,8 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             }
 
             if (updatedCount) {
-                _ataSmartSensorsLastUpdated = [NSDate date];
-
                 [HWMATASmartInterfaceWrapper destroyAllWrappers];
-
                 [self internalCaptureSensorValuesToGraphs];
-
                 [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorValuesHasBeenUpdatedNotification object:self];
             }
         }

@@ -1084,7 +1084,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     if (self.hidden.boolValue)
         return nil;
 
-    __weak HWMATASmartInterfaceWrapper *wrapper = [HWMATASmartInterfaceWrapper getWrapperForBsdName:self.bsdName];
+    HWMATASmartInterfaceWrapper *wrapper = [HWMATASmartInterfaceWrapper getWrapperForBsdName:self.bsdName];
 
     if (!wrapper) {
 
