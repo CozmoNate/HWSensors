@@ -247,7 +247,7 @@
     // Order front if needed
     if (orderFront) {
         [menubarWindow makeKeyAndOrderFront:self];
-        [self.window setBackgroundBlurRadius:4];
+        [self.window setBackgroundBlurRadius:32];
     }
 }
 

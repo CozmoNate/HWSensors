@@ -92,6 +92,7 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
 
                     wrapper = [[HWMATASmartInterfaceWrapper alloc] init];
 
+                    (*smartInterface)->AddRef(smartInterface);
                     (*pluginInterface)->AddRef(pluginInterface);
 
                     wrapper.pluginInterface = pluginInterface;
