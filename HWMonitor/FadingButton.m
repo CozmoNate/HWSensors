@@ -8,10 +8,6 @@
 
 #import "FadingButton.h"
 
-#define NORMAL_OPACITY  0.8
-#define HOVER_OPACITY   0.95
-#define DOWN_OPACITY    0.6
-
 @implementation FadingButton
 
 - (void)fadeIn:(id)sender
@@ -40,7 +36,9 @@
     _hoverOpacity = 0.95;
     _downOpacity = 0.6;
 
-    [self setAlphaValue:_normalOpacity];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self setAlphaValue:_normalOpacity];
+    }];
 }
 
 - (id)init

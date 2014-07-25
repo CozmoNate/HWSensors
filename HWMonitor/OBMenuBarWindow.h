@@ -118,7 +118,7 @@ enum  {
 
 /** The view containing the window's toolbar items. You can access this view to
  add additional controls to the titlebar. */
-@property (strong) NSView *toolbarView;
+@property (strong) IBOutlet NSView *toolbarView;
 
 /** Colors for window theme. */
 @property (strong) HWMColorTheme *colorTheme;

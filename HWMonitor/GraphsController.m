@@ -143,8 +143,8 @@
 -(void)showWindow:(id)sender
 {
     [NSApp activateIgnoringOtherApps:YES];
-    
-    [self.window makeKeyAndOrderFront:self];
+    [super showWindow:sender];
+
     [self.window setBackgroundBlurRadius:4];
     //[self.monitorEngine updateSmcAndDeviceSensors];
 }

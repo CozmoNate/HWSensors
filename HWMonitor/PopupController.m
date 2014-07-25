@@ -317,6 +317,8 @@
         [(OBMenuBarWindow*)self.window setColorTheme:self.monitorEngine.configuration.colorTheme];
         [(JLNFadingScrollView *)_scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
 
+        //self.window.
+
     }
     else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup)] ||
              [keyPath isEqual:@keypath(self, monitorEngine.sensorsAndGroups)]) {
@@ -371,8 +373,37 @@
     }
 }
 
-#pragma mark -
-#pragma mark NSTableView delegate
+#pragma mark - NSPopoverDelegate
+
+-(void)popoverWillShow:(NSNotification *)notification
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillOpen:)]) {
+        [self.delegate popupWillOpen:self];
+    }
+}
+
+-(void)popoverDidShow:(NSNotification *)notification
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidOpen:)]) {
+        [self.delegate popupDidOpen:self];
+    }
+}
+
+-(void)popoverWillClose:(NSNotification *)notification
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillClose:)]) {
+        [self.delegate popupWillClose:self];
+    }
+}
+
+-(void)popoverDidClose:(NSNotification *)notification
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidClose:)]) {
+        [self.delegate popupDidClose:self];
+    }
+}
+
+#pragma mark - NSTableViewDelegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     return self.sensorsAndGroupsCollectionSnapshot.count;

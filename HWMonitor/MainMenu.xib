@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D43" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
@@ -15,16 +15,15 @@
         <customObject id="494" customClass="AppController">
             <connections>
                 <outlet property="graphsController" destination="909" id="988"/>
-                <outlet property="popupController" destination="540" id="601"/>
+                <outlet property="popoverController" destination="sk2-Bt-DXF" id="8iz-0w-qAj"/>
                 <outlet property="sharedUpdater" destination="LKO-lM-1Z9" id="Ije-zl-WXw"/>
             </connections>
         </customObject>
-        <customObject id="540" customClass="PopupController">
+        <customObject id="sk2-Bt-DXF" customClass="PopoverController">
             <connections>
-                <outlet property="aboutController" destination="7879" id="7880"/>
-                <outlet property="appController" destination="494" id="6873"/>
-                <outlet property="delegate" destination="494" id="1177"/>
-                <outlet property="graphsController" destination="909" id="6874"/>
+                <outlet property="aboutController" destination="7879" id="Jc8-m4-gXI"/>
+                <outlet property="appController" destination="494" id="Wu0-EG-1WA"/>
+                <outlet property="graphsController" destination="909" id="Khe-NY-a1i"/>
             </connections>
         </customObject>
         <customObject id="909" customClass="GraphsController"/>

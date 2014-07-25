@@ -151,6 +151,10 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
 
 - (void)tile
 {
+
+    if (self.frame.size.height == 0 || self.frame.size.width == 0)
+        return;
+
     // Fake zero scroller width so the contentView gets drawn to the edge
     method_exchangeImplementations(class_getClassMethod([RFOverlayScroller class], @selector(scrollerWidthForControlSize:scrollerStyle:)),
                                    class_getClassMethod([RFOverlayScroller class], @selector(zeroWidth)));

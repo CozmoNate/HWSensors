@@ -337,8 +337,6 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
 
         // Set whether the window is opaque (this affects the shadow)
         [self setOpaque:/*!isAttached*/NO];
-        [[self window] setHasShadow:NO];
-        [[self window] setHasShadow:YES];
 
         // Reposition the content
         [self layoutContent];

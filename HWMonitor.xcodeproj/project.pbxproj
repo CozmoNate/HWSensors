@@ -25,6 +25,12 @@
 		7E1900B0184279CD00C6A0E8 /* HWMGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1900AF184279CD00C6A0E8 /* HWMGraph.m */; };
 		7E19DEBE1843CDC400229B0E /* HWMSensorsGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E19DEBD1843CDC400229B0E /* HWMSensorsGroup.m */; };
 		7E19DED61843EDA300229B0E /* PopupBasicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E19DED41843EDA300229B0E /* PopupBasicCell.m */; };
+		7E1A0313197F6B4A0001210A /* PopoverController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E1A0312197F6B4A0001210A /* PopoverController.xib */; };
+		7E1A031C197F6F560001210A /* PopoverWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1A031A197F6F560001210A /* PopoverWindowController.m */; };
+		7E1A031D197F6F560001210A /* PopoverWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E1A031B197F6F560001210A /* PopoverWindowController.xib */; };
+		7E1A0321197F73D10001210A /* SensorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1A031F197F73D10001210A /* SensorsViewController.m */; };
+		7E1A0322197F73D10001210A /* SensorsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E1A0320197F73D10001210A /* SensorsViewController.xib */; };
+		7E1A0325198053890001210A /* ViewWithToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1A0324198053890001210A /* ViewWithToolbar.m */; };
 		7E1ABD8F185E2CA200412B75 /* Divider.tif in Resources */ = {isa = PBXBuildFile; fileRef = 7E1ABD8E185E2CA200412B75 /* Divider.tif */; };
 		7E2042011730844C00C13B65 /* GraphsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042001730844C00C13B65 /* GraphsController.xib */; };
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
@@ -36,6 +42,7 @@
 		7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E268C611837A41C004F16E3 /* HWMIcon.m */; };
 		7E2789801876FB6300B443BD /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
 		7E2789811876FB6E00B443BD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
+		7E28ED5F1979CBDC00788C40 /* PopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E28ED5E1979CBDC00788C40 /* PopoverController.m */; };
 		7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1C18C467B900D97F89 /* HWMSmcFanControlLevel.m */; };
 		7E2DEA2018C467DC00D97F89 /* HWMSmcFanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1F18C467DC00D97F89 /* HWMSmcFanController.m */; };
 		7E309FC818C30FB1001033A1 /* 22-circle-minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E309FC418C30FB1001033A1 /* 22-circle-minus.png */; };
@@ -120,6 +127,9 @@
 		7E6D90441845EEDB0045BDB3 /* HWMGraphsGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6D90431845EEDB0045BDB3 /* HWMGraphsGroup.m */; };
 		7E713BF218FD1B2D009E6EA5 /* NSString+returnCodeDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E713BF118FD1B2D009E6EA5 /* NSString+returnCodeDescription.m */; };
 		7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */; };
+		7E7C149F1982395300BF3046 /* 22-circle-minus-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7C149D1982395300BF3046 /* 22-circle-minus-white.png */; };
+		7E7C14A01982395300BF3046 /* 22-circle-minus-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7C149E1982395300BF3046 /* 22-circle-minus-white@2x.png */; };
+		7E7C14A71982432300BF3046 /* PopoverWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C14A61982432300BF3046 /* PopoverWindow.m */; };
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
 		7E8A337518EEEC510059DA16 /* HWMThemedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A337418EEEC510059DA16 /* HWMThemedTextField.m */; };
 		7E9060E51708951800BF5BBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248F016D8E93A002231B2 /* Foundation.framework */; };
@@ -330,6 +340,15 @@
 		7E19DED41843EDA300229B0E /* PopupBasicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupBasicCell.m; sourceTree = "<group>"; };
 		7E19DED51843EDA300229B0E /* PopupBasicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupBasicCell.h; sourceTree = "<group>"; };
 		7E19FFFF17005652008F40F1 /* SensorsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorsTableView.h; sourceTree = "<group>"; };
+		7E1A0312197F6B4A0001210A /* PopoverController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopoverController.xib; sourceTree = "<group>"; };
+		7E1A0319197F6F560001210A /* PopoverWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverWindowController.h; sourceTree = "<group>"; };
+		7E1A031A197F6F560001210A /* PopoverWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverWindowController.m; sourceTree = "<group>"; };
+		7E1A031B197F6F560001210A /* PopoverWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopoverWindowController.xib; sourceTree = "<group>"; };
+		7E1A031E197F73D10001210A /* SensorsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorsViewController.h; sourceTree = "<group>"; };
+		7E1A031F197F73D10001210A /* SensorsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorsViewController.m; sourceTree = "<group>"; };
+		7E1A0320197F73D10001210A /* SensorsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SensorsViewController.xib; sourceTree = "<group>"; };
+		7E1A0323198053890001210A /* ViewWithToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewWithToolbar.h; sourceTree = "<group>"; };
+		7E1A0324198053890001210A /* ViewWithToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewWithToolbar.m; sourceTree = "<group>"; };
 		7E1A8DB91876D1C400853CB6 /* HWMEngine 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.2.xcdatamodel"; sourceTree = "<group>"; };
 		7E1ABD8E185E2CA200412B75 /* Divider.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Divider.tif; sourceTree = "<group>"; };
 		7E2042001730844C00C13B65 /* GraphsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphsController.xib; sourceTree = "<group>"; };
@@ -344,6 +363,8 @@
 		7E268C601837A41C004F16E3 /* HWMIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMIcon.h; sourceTree = "<group>"; };
 		7E268C611837A41C004F16E3 /* HWMIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMIcon.m; sourceTree = "<group>"; };
 		7E27897F1876FB6300B443BD /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = HWMonitor/Growl.framework; sourceTree = "<group>"; };
+		7E28ED5D1979CBDC00788C40 /* PopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverController.h; sourceTree = "<group>"; };
+		7E28ED5E1979CBDC00788C40 /* PopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverController.m; sourceTree = "<group>"; };
 		7E2DEA1B18C467B900D97F89 /* HWMSmcFanControlLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMSmcFanControlLevel.h; sourceTree = "<group>"; };
 		7E2DEA1C18C467B900D97F89 /* HWMSmcFanControlLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSmcFanControlLevel.m; sourceTree = "<group>"; };
 		7E2DEA1E18C467DC00D97F89 /* HWMSmcFanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMSmcFanController.h; sourceTree = "<group>"; };
@@ -454,6 +475,10 @@
 		7E7705A51734222100EBDB23 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E7B9B3D1786A732003ACB61 /* OBMenuBarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBMenuBarWindow.h; sourceTree = "<group>"; };
 		7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBMenuBarWindow.m; sourceTree = "<group>"; };
+		7E7C149D1982395300BF3046 /* 22-circle-minus-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "22-circle-minus-white.png"; sourceTree = "<group>"; };
+		7E7C149E1982395300BF3046 /* 22-circle-minus-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "22-circle-minus-white@2x.png"; sourceTree = "<group>"; };
+		7E7C14A51982432300BF3046 /* PopoverWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverWindow.h; sourceTree = "<group>"; };
+		7E7C14A61982432300BF3046 /* PopoverWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverWindow.m; sourceTree = "<group>"; };
 		7E7D61F91704453B00F7222F /* FadingButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadingButton.h; sourceTree = "<group>"; };
 		7E7D61FA1704453B00F7222F /* FadingButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadingButton.m; sourceTree = "<group>"; };
 		7E8A337318EEEC510059DA16 /* HWMThemedTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMThemedTextField.h; sourceTree = "<group>"; };
@@ -622,6 +647,9 @@
 			children = (
 				7E19FFFF17005652008F40F1 /* SensorsTableView.h */,
 				7E19000017005652008F40F1 /* SensorsTableView.m */,
+				7E1A031E197F73D10001210A /* SensorsViewController.h */,
+				7E1A031F197F73D10001210A /* SensorsViewController.m */,
+				7E1A0320197F73D10001210A /* SensorsViewController.xib */,
 			);
 			name = SensorsTableView;
 			sourceTree = "<group>";
@@ -1121,6 +1149,8 @@
 				7EFE71F618E53CF900FF4DE3 /* 411-roundabout-white@2x.png */,
 				7E309FC418C30FB1001033A1 /* 22-circle-minus.png */,
 				7E309FC518C30FB1001033A1 /* 22-circle-minus@2x.png */,
+				7E7C149D1982395300BF3046 /* 22-circle-minus-white.png */,
+				7E7C149E1982395300BF3046 /* 22-circle-minus-white@2x.png */,
 				7E309FC618C30FB1001033A1 /* 31-circle-plus.png */,
 				7E309FC718C30FB1001033A1 /* 31-circle-plus@2x.png */,
 			);
@@ -1233,6 +1263,16 @@
 				7EDA1A6B16D901100012A0DC /* PopupController.h */,
 				7EDA1A6C16D901100012A0DC /* PopupController.m */,
 				7E2042021730CDA000C13B65 /* PopupController.xib */,
+				7E1A0323198053890001210A /* ViewWithToolbar.h */,
+				7E1A0324198053890001210A /* ViewWithToolbar.m */,
+				7E28ED5D1979CBDC00788C40 /* PopoverController.h */,
+				7E28ED5E1979CBDC00788C40 /* PopoverController.m */,
+				7E1A0312197F6B4A0001210A /* PopoverController.xib */,
+				7E7C14A51982432300BF3046 /* PopoverWindow.h */,
+				7E7C14A61982432300BF3046 /* PopoverWindow.m */,
+				7E1A0319197F6F560001210A /* PopoverWindowController.h */,
+				7E1A031A197F6F560001210A /* PopoverWindowController.m */,
+				7E1A031B197F6F560001210A /* PopoverWindowController.xib */,
 			);
 			name = "Popup Panel Controller";
 			sourceTree = "<group>";
@@ -1435,6 +1475,7 @@
 				7EFE71F718E53CF900FF4DE3 /* 411-roundabout-white@2x.png in Resources */,
 				7E36E58E188AB15500BD9744 /* hddtemperatures-white@2x.png in Resources */,
 				7E343F6718D3098300795619 /* toolbar_menubar@2x.png in Resources */,
+				7E7C149F1982395300BF3046 /* 22-circle-minus-white.png in Resources */,
 				7E36E57D188AB15500BD9744 /* ssdlife-white.png in Resources */,
 				7E343F6818D3098300795619 /* toolbar_popup.png in Resources */,
 				7E36E57B188AB15500BD9744 /* ssdlife.png in Resources */,
@@ -1442,6 +1483,7 @@
 				7E37BCD618997EBD0046F59A /* hwmonitor.png in Resources */,
 				7E36E570188AB15500BD9744 /* thermometer-white.png in Resources */,
 				7E4C76AF18A559BA0050BEFD /* PopupAtaSmartReportController.xib in Resources */,
+				7E1A0313197F6B4A0001210A /* PopoverController.xib in Resources */,
 				7E36E588188AB15500BD9744 /* multipliers-white@2x.png in Resources */,
 				7E36E580188AB15500BD9744 /* scale-white@2x.png in Resources */,
 				7E36E572188AB15500BD9744 /* temperatures@2x.png in Resources */,
@@ -1452,6 +1494,7 @@
 				7E36E579188AB15500BD9744 /* tachometers-white.png in Resources */,
 				7E36E57C188AB15500BD9744 /* ssdlife-white@2x.png in Resources */,
 				7E343F6918D3098300795619 /* toolbar_popup@2x.png in Resources */,
+				7E1A031D197F6F560001210A /* PopoverWindowController.xib in Resources */,
 				7E36E57A188AB15500BD9744 /* ssdlife@2x.png in Resources */,
 				7EFD75B8185C763500C01C2B /* PopupFanController.xib in Resources */,
 				7E24ABF3188FB4D000810B9D /* 338-enter-fullscreen-white.png in Resources */,
@@ -1466,6 +1509,7 @@
 				7E966D1E18523BE000313AB1 /* theme_gray.png in Resources */,
 				7E37BCD518997EBD0046F59A /* hwmonitor@2x.png in Resources */,
 				7E111513188F3EA4006E15A0 /* default.iconset in Resources */,
+				7E7C14A01982395300BF3046 /* 22-circle-minus-white@2x.png in Resources */,
 				7E36E594188AB15500BD9744 /* battery@2x.png in Resources */,
 				7E36E56F188AB15500BD9744 /* thermometer-white@2x.png in Resources */,
 				7E41500F18A8034000E6CD7F /* SmartOverrides.plist in Resources */,
@@ -1501,6 +1545,7 @@
 				7EF2A0FC17303B9100D8641C /* MainMenu.xib in Resources */,
 				7E36E587188AB15500BD9744 /* multipliers.png in Resources */,
 				7E36E56D188AB15500BD9744 /* voltages-white.png in Resources */,
+				7E1A0322197F73D10001210A /* SensorsViewController.xib in Resources */,
 				7E36E586188AB15500BD9744 /* multipliers@2x.png in Resources */,
 				7E343DBF18D34B2D00AE9B7F /* red-thermometer.png in Resources */,
 				7E36E56A188AB15500BD9744 /* voltages@2x.png in Resources */,
@@ -1563,6 +1608,7 @@
 				7EFD75B6185C73A300C01C2B /* PopupFanCell.m in Sources */,
 				7EA248F816D8E93A002231B2 /* main.m in Sources */,
 				7EC95E2218D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m in Sources */,
+				7E1A0325198053890001210A /* ViewWithToolbar.m in Sources */,
 				7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */,
 				7E1900B0184279CD00C6A0E8 /* HWMGraph.m in Sources */,
 				7E713BF218FD1B2D009E6EA5 /* NSString+returnCodeDescription.m in Sources */,
@@ -1583,11 +1629,13 @@
 				7EF393C2185C8D990033F1AB /* smc.c in Sources */,
 				7EF1B129185342630094C1DB /* HWMFavorite.m in Sources */,
 				7EDA1A7816D903740012A0DC /* PopupGroupCell.m in Sources */,
+				7E1A031C197F6F560001210A /* PopoverWindowController.m in Sources */,
 				7EDA1A7916D903740012A0DC /* PopupSensorCell.m in Sources */,
 				7E48BC6518EE977500A6CA19 /* SmcHelper+HWMonitorHelper.m in Sources */,
 				7E4C76BA18A61C190050BEFD /* NSTableHeaderCell+PopupThemedHeader.m in Sources */,
 				7E8A337518EEEC510059DA16 /* HWMThemedTextField.m in Sources */,
 				7E48B3CC18BE5A0E00B6B734 /* SmcHelper.m in Sources */,
+				7E28ED5F1979CBDC00788C40 /* PopoverController.m in Sources */,
 				7E063A4F18C226EB0083F52F /* HWMSensorController.m in Sources */,
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
 				7EF29A25190B92B2003538ED /* HWMTimer.m in Sources */,
@@ -1603,6 +1651,7 @@
 				7E19DEBE1843CDC400229B0E /* HWMSensorsGroup.m in Sources */,
 				7E17953616EE705B00145082 /* PopupBatteryCell.m in Sources */,
 				7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */,
+				7E1A0321197F73D10001210A /* SensorsViewController.m in Sources */,
 				7E19000117005652008F40F1 /* SensorsTableView.m in Sources */,
 				7E309FCE18C3167B001033A1 /* PopupLevelCell.m in Sources */,
 				7E19000717006727008F40F1 /* PrefsCell.m in Sources */,
@@ -1613,6 +1662,7 @@
 				7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */,
 				7E16FD8A1706BB3000FB253E /* TransparentSplitView.m in Sources */,
 				7E93E29E183E832600957EDF /* HWMColorTheme.m in Sources */,
+				7E7C14A71982432300BF3046 /* PopoverWindow.m in Sources */,
 				7E36E59A188AB25A00BD9744 /* NSImage+HighResolutionLoading.m in Sources */,
 				7E4959F218A640F200E05CF7 /* PopupFanController.m in Sources */,
 				7EFE61B1183581090009BD0D /* HWMAtaSmartSensor.m in Sources */,
@@ -1790,7 +1840,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1826,7 +1876,7 @@
 				INFOPLIST_PREFIX_HEADER = Shared/HWMonitorVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

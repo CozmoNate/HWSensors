@@ -609,17 +609,17 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     [self loadIconNamed:@"red-thermometer" asTemplate:NO];
 
     [self loadIconNamed:kHWMonitorIconHWMonitor asTemplate:NO];
-    [self loadIconNamed:kHWMonitorIconThermometer];
-    [self loadIconNamed:kHWMonitorIconScale];
-    [self loadIconNamed:kHWMonitorIconDevice];
-    [self loadIconNamed:kHWMonitorIconTemperatures];
-    [self loadIconNamed:kHWMonitorIconHddTemperatures];
-    [self loadIconNamed:kHWMonitorIconSsdLife];
-    [self loadIconNamed:kHWMonitorIconMultipliers];
-    [self loadIconNamed:kHWMonitorIconFrequencies];
-    [self loadIconNamed:kHWMonitorIconTachometers];
-    [self loadIconNamed:kHWMonitorIconVoltages];
-    [self loadIconNamed:kHWMonitorIconBattery];
+    [self loadIconNamed:kHWMonitorIconThermometer asTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconScale asTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconDevice asTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconTemperatures asTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconHddTemperatures asTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconSsdLife asTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconMultipliers asTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconFrequencies asTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconTachometers asTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconVoltages asTemplate:NO];
+    [self loadIconNamed:kHWMonitorIconBattery asTemplate:NO];
 
     NSError *error;
 

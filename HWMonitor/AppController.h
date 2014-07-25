@@ -30,6 +30,7 @@
 #import <Growl/Growl.h>
 
 #import "PopupController.h"
+#import "PopoverController.h"
 #import "GraphsController.h"
 #import "HWMEngine.h"
 
@@ -47,6 +48,7 @@
 @property (nonatomic, strong) IBOutlet NSMutableIndexSet *driveSelectionIndexes;
 
 @property (assign) IBOutlet PopupController *popupController;
+@property (assign) IBOutlet PopoverController *popoverController;
 @property (assign) IBOutlet GraphsController *graphsController;
 @property (assign) IBOutlet SUUpdater *sharedUpdater;
 

@@ -349,7 +349,7 @@
     if (self.window.isVisible || _graphsController.window.isVisible) {
         return kHWMSensorsUpdateLoopForced;
     }
-    else if (_popupController.window.isVisible) {
+    else if (_popupController.window.isVisible || _popoverController.isShown) {
         return kHWMSensorsUpdateLoopRegular;
     }
     

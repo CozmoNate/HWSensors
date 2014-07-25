@@ -26,32 +26,32 @@
 {
     //[super draggingSession:session movedToPoint:screenPoint];
     
-    id appController = self.delegate;
+    id viewController = self.delegate;
     
-    if (!appController || ![appController respondsToSelector:@selector(currentItemDragOperation)])
+    if (!viewController || ![viewController respondsToSelector:@selector(currentItemDragOperation)])
         return;
     
     NSPoint windowPoint = [self.window mouseLocationOutsideOfEventStream];
     NSPoint localPoint = [self convertPoint:windowPoint fromView:nil];
     
-    if ([appController respondsToSelector:@selector(hasDraggedFavoriteItem)]) {
-        if ([appController currentItemDragOperation] != NSDragOperationDelete && [appController hasDraggedFavoriteItem] && [self mouse:localPoint inRect:NSInsetRect([self visibleRect], -35, -35)] == NO) {
-            [appController setCurrentItemDragOperation:NSDragOperationDelete];
+    if ([viewController respondsToSelector:@selector(hasDraggedFavoriteItem)]) {
+        if ([viewController currentItemDragOperation] != NSDragOperationDelete && [viewController hasDraggedFavoriteItem] && [self mouse:localPoint inRect:NSInsetRect([self visibleRect], -35, -35)] == NO) {
+            [viewController setCurrentItemDragOperation:NSDragOperationDelete];
         }
-        else if ([appController currentItemDragOperation] == NSDragOperationDelete && [appController hasDraggedFavoriteItem] && [self mouse:localPoint inRect:NSInsetRect([self visibleRect], -35, -35)] == YES) {
-            [appController setCurrentItemDragOperation:NSDragOperationNone];
+        else if ([viewController currentItemDragOperation] == NSDragOperationDelete && [viewController hasDraggedFavoriteItem] && [self mouse:localPoint inRect:NSInsetRect([self visibleRect], -35, -35)] == YES) {
+            [viewController setCurrentItemDragOperation:NSDragOperationNone];
         }
     }
     
-    if ([appController currentItemDragOperation] == NSDragOperationDelete /*&& [NSCursor currentCursor] != [NSCursor disappearingItemCursor]*/) {
+    if ([viewController currentItemDragOperation] == NSDragOperationDelete /*&& [NSCursor currentCursor] != [NSCursor disappearingItemCursor]*/) {
         [[NSCursor disappearingItemCursor] set];
         [session setAnimatesToStartingPositionsOnCancelOrFail:NO];
     }
-    else if ([appController currentItemDragOperation] == NSDragOperationPrivate /*&& [NSCursor currentCursor] != [NSCursor operationNotAllowedCursor]*/) {
+    else if ([viewController currentItemDragOperation] == NSDragOperationPrivate /*&& [NSCursor currentCursor] != [NSCursor operationNotAllowedCursor]*/) {
         [[NSCursor operationNotAllowedCursor] set];
         [session setAnimatesToStartingPositionsOnCancelOrFail:YES];
     }
-    else if ([appController currentItemDragOperation] == NSDragOperationCopy /*&& [NSCursor currentCursor] != [NSCursor dragCopyCursor]*/) {
+    else if ([viewController currentItemDragOperation] == NSDragOperationCopy /*&& [NSCursor currentCursor] != [NSCursor dragCopyCursor]*/) {
         [[NSCursor dragCopyCursor] set];
         [session setAnimatesToStartingPositionsOnCancelOrFail:NO];
     }

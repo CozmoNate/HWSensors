@@ -41,6 +41,7 @@ static NSPopover *gPopupSensorCellPopover;
 {
     if (!gPopupSensorCellPopover) {
         gPopupSensorCellPopover = [[NSPopover alloc] init];
+        [gPopupSensorCellPopover setBehavior:NSPopoverBehaviorTransient];
     }
 
     return gPopupSensorCellPopover;

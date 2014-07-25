@@ -1369,7 +1369,7 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COMBINE_HIDPI_IMAGES = YES;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1379,7 +1379,7 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COMBINE_HIDPI_IMAGES = YES;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1390,7 +1390,7 @@
 				CONFIGURATION_BUILD_DIR = Binaries;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1400,7 +1400,7 @@
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CONFIGURATION_BUILD_DIR = Binaries;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1425,7 +1425,7 @@
 					"-framework",
 					AppKit,
 				);
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1449,7 +1449,7 @@
 					"-framework",
 					AppKit,
 				);
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1472,7 +1472,7 @@
 					"-framework",
 					AppKit,
 				);
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = "Release (GC dual-mode; 10.5+)";
 		};
@@ -1481,7 +1481,7 @@
 			baseConfigurationReference = 5D06E8F20FD68D21005AE3F6 /* ConfigBinaryDeltaDebug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1490,7 +1490,7 @@
 			baseConfigurationReference = 5D06E8F30FD68D21005AE3F6 /* ConfigBinaryDeltaRelease.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1499,7 +1499,7 @@
 			baseConfigurationReference = 5D06E8F30FD68D21005AE3F6 /* ConfigBinaryDeltaRelease.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = "Release (GC dual-mode; 10.5+)";
 		};
@@ -1509,7 +1509,7 @@
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CONFIGURATION_BUILD_DIR = Binaries;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = "Release (GC dual-mode; 10.5+)";
 		};
@@ -1520,7 +1520,7 @@
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = "Release (GC dual-mode; 10.5+)";
 		};
