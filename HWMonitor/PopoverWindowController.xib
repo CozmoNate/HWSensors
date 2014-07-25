@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6185.11" systemVersion="14A298i" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6185.11"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PopoverWindowController">
@@ -12,34 +12,35 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="HWMonitor" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="none" frameAutosaveName="PopupWindow" id="cOt-uA-rsj" customClass="PopoverWindow">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" unifiedTitleAndToolbar="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" nonactivatingPanel="YES" texturedBackground="YES" unifiedTitleAndToolbar="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" participatesInCycle="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1240" y="753" width="222" height="150"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
+            <rect key="contentRect" x="1240" y="753" width="222" height="257"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <value key="minSize" type="size" width="220" height="19"/>
             <view key="contentView" id="11G-Zt-a3e">
-                <rect key="frame" x="0.0" y="0.0" width="222" height="150"/>
+                <rect key="frame" x="0.0" y="0.0" width="222" height="257"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="SxU-uJ-4QD"/>
                 <outlet property="toolbarView" destination="OK3-Df-mJd" id="Cw0-Dz-3Ub"/>
             </connections>
+            <point key="canvasLocation" x="458" y="294.5"/>
         </window>
         <customView id="OK3-Df-mJd" userLabel="Toolbar View">
             <rect key="frame" x="0.0" y="0.0" width="223" height="34"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button toolTip="Hide Window" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="dE0-6T-vtA" userLabel="Hide Popup Button" customClass="FadingButton">
-                    <rect key="frame" x="10" y="10" width="15" height="15"/>
+                    <rect key="frame" x="9" y="10" width="15" height="15"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="15" id="hZk-nC-Cgu"/>
                         <constraint firstAttribute="height" constant="15" id="nhM-Z3-DCd"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="2CD28C3C-10A6-4BDC-A494-C6DDC3B63191" imagePosition="only" alignment="left" alternateImage="2CD28C3C-10A6-4BDC-A494-C6DDC3B63191" imageScaling="proportionallyUpOrDown" inset="2" id="ZwL-XR-kUa">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="A7590E5D-B4F6-46BB-A305-8A95D9A09218" imagePosition="only" alignment="left" alternateImage="A7590E5D-B4F6-46BB-A305-8A95D9A09218" imageScaling="proportionallyUpOrDown" inset="2" id="ZwL-XR-kUa">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                         <string key="keyEquivalent">g</string>
@@ -50,12 +51,12 @@
                     </connections>
                 </button>
                 <button toolTip="Preferences" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="Z27-D7-DH9" userLabel="Preferences Button" customClass="FadingButton">
-                    <rect key="frame" x="198" y="10" width="15" height="15"/>
+                    <rect key="frame" x="199" y="10" width="15" height="15"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="15" id="BP5-Ss-BwP"/>
                         <constraint firstAttribute="height" constant="15" id="dbt-4n-6Mv"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="89523B7C-5564-45D2-AB52-772B16FF4FDF" imagePosition="only" alignment="left" alternateImage="89523B7C-5564-45D2-AB52-772B16FF4FDF" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="Jpa-uz-hSY">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="F340F76E-ADDE-4B61-8769-8669C706A555" imagePosition="only" alignment="left" alternateImage="F340F76E-ADDE-4B61-8769-8669C706A555" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="Jpa-uz-hSY">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                         <string key="keyEquivalent">p</string>
@@ -66,12 +67,12 @@
                     </connections>
                 </button>
                 <button toolTip="History Graphs" alphaValue="0.80000000000000004" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YPt-Z5-WE6" userLabel="Graphs Button" customClass="FadingButton">
-                    <rect key="frame" x="178" y="10" width="15" height="15"/>
+                    <rect key="frame" x="179" y="10" width="15" height="15"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="15" id="Jkl-8h-6iE"/>
                         <constraint firstAttribute="width" constant="15" id="hAC-HH-4JB"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="04FC0911-E8A9-4741-99A4-F0317846A8F0" imagePosition="only" alignment="left" alternateImage="04FC0911-E8A9-4741-99A4-F0317846A8F0" imageScaling="proportionallyUpOrDown" inset="2" id="DCn-6e-Ifh">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BA3ED6D8-5104-4B46-B533-11219A342BD5" imagePosition="only" alignment="left" alternateImage="BA3ED6D8-5104-4B46-B533-11219A342BD5" imageScaling="proportionallyUpOrDown" inset="2" id="DCn-6e-Ifh">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                         <string key="keyEquivalent">g</string>
@@ -84,9 +85,9 @@
             </subviews>
             <constraints>
                 <constraint firstItem="dE0-6T-vtA" firstAttribute="centerY" secondItem="OK3-Df-mJd" secondAttribute="centerY" id="7Sd-d0-2Rb"/>
-                <constraint firstAttribute="trailing" secondItem="Z27-D7-DH9" secondAttribute="trailing" constant="10" id="Rsz-j3-eg7"/>
+                <constraint firstAttribute="trailing" secondItem="Z27-D7-DH9" secondAttribute="trailing" constant="9" id="Rsz-j3-eg7"/>
                 <constraint firstItem="YPt-Z5-WE6" firstAttribute="bottom" secondItem="Z27-D7-DH9" secondAttribute="bottom" id="VxM-YU-N0w"/>
-                <constraint firstItem="dE0-6T-vtA" firstAttribute="leading" secondItem="OK3-Df-mJd" secondAttribute="leading" constant="10" id="b6K-RL-X2e"/>
+                <constraint firstItem="dE0-6T-vtA" firstAttribute="leading" secondItem="OK3-Df-mJd" secondAttribute="leading" constant="9" id="b6K-RL-X2e"/>
                 <constraint firstItem="Z27-D7-DH9" firstAttribute="bottom" secondItem="dE0-6T-vtA" secondAttribute="bottom" id="j0s-Qp-QOq"/>
                 <constraint firstItem="Z27-D7-DH9" firstAttribute="leading" secondItem="YPt-Z5-WE6" secondAttribute="trailing" constant="5" id="odc-ba-lrP"/>
             </constraints>
@@ -249,62 +250,7 @@
         </menu>
     </objects>
     <resources>
-        <image name="04FC0911-E8A9-4741-99A4-F0317846A8F0" width="15" height="15">
-            <mutableData key="keyedArchiveRepresentation">
-YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
-GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
-DBIAwAAAgAKACtISCRMVWk5TLm9iamVjdHOhFIADgAnSEgkXGqIYGYAEgAWACBAA0h0JHh9fEBROU1RJ
-RkZSZXByZXNlbnRhdGlvboAGgAdPEQl6TU0AKgAAA4z////Y////rP7+/rT///+y////sv///7L///+y
-////sv///7L///+0////sv///7P///+v////pf///9n///+Y////I/r6+jf///8z////M////zP///8z
-////M////zX///8r////NP///y3///9T////R////5L///+g////Nf///0b///9D////Q////0P///9D
-////RP///zz///9r////R////zb///+5////8v///7D///+e////Mv///0P///9B////QP///0D///9C
-////Mf///43/////////b////zz////6////yf///5z///+f////Mf///0X/+/88////QP///0L///84
-////j///////////////0P///4r/////////ff///5D///+e////M////z////9V////Q////zf///9q
-/////////+r////D//////////v////0////Qf///5v///+h////Kf///2H////t////YP///y3///+4
-/////////27///87////5P////////+5////Jv///6H///+b////Mv///9z/////////rf///z7////8
-////zv///zj///82////ev////////90////J////6H///+b////rf/////////7////7////6v/////
-////h////zT///9E////Pv///6H///9P////L////5////+b////zf///9j///94///////////////t
-////TP///z3///9B////QP///zz///9D////Mv///57///+X////Sf///2D///8v////yv////////+v
-////NP///0P///9A////QP///0H///9E////Mv39/Z////+g////Lf///0H///83////bv////////9s
-////Nv///0L///9A////QP///0D///9D////Mv///57///+g////Nv///0j///9D////Qv///6T///9M
-////Qf///0P///9D////Q////0P///9G////Nf///6D///+Y////I////zb///8z////M////zD///8z
-////M////zP///8z////M////zP///83////I////5j////Y////rP///7T///+y////s////7P///+y
-////sv///7L///+y////sv///7L///+0////rP///9gADgEAAAMAAAABAA8AAAEBAAMAAAABAA8AAAEC
-AAMAAAAEAAAEOgEDAAMAAAABAAEAAAEGAAMAAAABAAIAAAERAAQAAAABAAAACAESAAMAAAABAAEAAAEV
-AAMAAAABAAQAAAEWAAMAAAABAA8AAAEXAAQAAAABAAADhAEcAAMAAAABAAEAAAFSAAMAAAABAAIAAAFT
-AAMAAAAEAAAEQodzAAcAAAUwAAAESgAAAAAACAAIAAgACAABAAEAAQABAAAFMGFwcGwCIAAAbW50clJH
-QiBYWVogB9kAAgAZAAsAGgALYWNzcEFQUEwAAAAAYXBwbAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA
-0y1hcHBsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALZHNjbQAA
-AQgAAALyZGVzYwAAA/wAAABvZ1hZWgAABGwAAAAUd3RwdAAABIAAAAAUclhZWgAABJQAAAAUYlhZWgAA
-BKgAAAAUclRSQwAABLwAAAAOY3BydAAABMwAAAA4Y2hhZAAABQQAAAAsZ1RSQwAABLwAAAAOYlRSQwAA
-BLwAAAAObWx1YwAAAAAAAAARAAAADGVuVVMAAAAmAAACfmVzRVMAAAAmAAABgmRhREsAAAAuAAAB6mRl
-REUAAAAsAAABqGZpRkkAAAAoAAAA3GZyRlUAAAAoAAABKml0SVQAAAAoAAACVm5sTkwAAAAoAAACGG5i
-Tk8AAAAmAAABBHB0QlIAAAAmAAABgnN2U0UAAAAmAAABBGphSlAAAAAaAAABUmtvS1IAAAAWAAACQHpo
-VFcAAAAWAAABbHpoQ04AAAAWAAAB1HJ1UlUAAAAiAAACpHBsUEwAAAAsAAACxgBZAGwAZQBpAG4AZQBu
-ACAAUgBHAEIALQBwAHIAbwBmAGkAaQBsAGkARwBlAG4AZQByAGkAcwBrACAAUgBHAEIALQBwAHIAbwBm
-AGkAbABQAHIAbwBmAGkAbAAgAEcA6QBuAOkAcgBpAHEAdQBlACAAUgBWAEJOAIIsACAAUgBHAEIAIDDX
-MO0w1TChMKQw65AadSgAIABSAEcAQgAggnJfaWPPj/AAUABlAHIAZgBpAGwAIABSAEcAQgAgAEcAZQBu
-AOkAcgBpAGMAbwBBAGwAbABnAGUAbQBlAGkAbgBlAHMAIABSAEcAQgAtAFAAcgBvAGYAaQBsZm6QGgAg
-AFIARwBCACBjz4/wZYdO9gBHAGUAbgBlAHIAZQBsACAAUgBHAEIALQBiAGUAcwBrAHIAaQB2AGUAbABz
-AGUAQQBsAGcAZQBtAGUAZQBuACAAUgBHAEIALQBwAHIAbwBmAGkAZQBsx3y8GAAgAFIARwBCACDVBLhc
-0wzHfABQAHIAbwBmAGkAbABvACAAUgBHAEIAIABHAGUAbgBlAHIAaQBjAG8ARwBlAG4AZQByAGkAYwAg
-AFIARwBCACAAUAByAG8AZgBpAGwAZQQeBDEESQQ4BDkAIAQ/BEAEPgREBDgEOwRMACAAUgBHAEIAVQBu
-AGkAdwBlAHIAcwBhAGwAbgB5ACAAcAByAG8AZgBpAGwAIABSAEcAQgAAZGVzYwAAAAAAAAAUR2VuZXJp
-YyBSR0IgUHJvZmlsZQAAAAAAAAAAAAAAFEdlbmVyaWMgUkdCIFByb2ZpbGUAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABadQAArHMAABc0WFlaIAAA
-AAAAAPNSAAEAAAABFs9YWVogAAAAAAAAdE0AAD3uAAAD0FhZWiAAAAAAAAAoGgAAFZ8AALg2Y3VydgAA
-AAAAAAABAc0AAHRleHQAAAAAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNl
-cnZlZC4Ac2YzMgAAAAAAAQxCAAAF3v//8yYAAAeSAAD9kf//+6L///2jAAAD3AAAwGzSIiMkJVokY2xh
-c3NuYW1lWCRjbGFzc2VzXxAQTlNCaXRtYXBJbWFnZVJlcKMmJyhfEBBOU0JpdG1hcEltYWdlUmVwWk5T
-SW1hZ2VSZXBYTlNPYmplY3TSIiMqK1dOU0FycmF5oioo0iIjLS5eTlNNdXRhYmxlQXJyYXmjLSoo0zAx
-CTIzNFdOU1doaXRlXE5TQ29sb3JTcGFjZUQwIDAAEAOAC9IiIzY3V05TQ29sb3KiNijSIiM5OldOU0lt
-YWdlojkoXxAPTlNLZXllZEFyY2hpdmVy0T0+VHJvb3SAAQAIABEAGgAjAC0AMgA3AEUASwBUAFsAaABv
-AHcAeQB+AIAAggCHAJIAlACWAJgAnQCgAKIApACmAKgArQDEAMYAyApGCksKVgpfCnIKdgqJCpQKnQqi
-CqoKrQqyCsEKxQrMCtQK4QrmCugK6grvCvcK+gr/CwcLCgscCx8LJAAAAAAAAAIBAAAAAAAAAD8AAAAA
-AAAAAAAAAAAAAAsmA
-</mutableData>
-        </image>
-        <image name="2CD28C3C-10A6-4BDC-A494-C6DDC3B63191" width="15" height="15">
+        <image name="A7590E5D-B4F6-46BB-A305-8A95D9A09218" width="15" height="15">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -369,7 +315,62 @@ AKYAqACtAMQAxgDIDL4MwwzODNcM6gzuDQENDA0VDRoNIg0lDSoNOQ09DUQNTA1ZDV4NYA1iDWcNbw1y
 DXcNfw2CDZQNlw2cAAAAAAAAAgEAAAAAAAAAPwAAAAAAAAAAAAAAAAAADZ4
 </mutableData>
         </image>
-        <image name="89523B7C-5564-45D2-AB52-772B16FF4FDF" width="15" height="15">
+        <image name="BA3ED6D8-5104-4B46-B533-11219A342BD5" width="15" height="15">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
+GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
+DBIAwAAAgAKACtISCRMVWk5TLm9iamVjdHOhFIADgAnSEgkXGqIYGYAEgAWACBAA0h0JHh9fEBROU1RJ
+RkZSZXByZXNlbnRhdGlvboAGgAdPEQl6TU0AKgAAA4z////Y////rP7+/rT///+y////sv///7L///+y
+////sv///7L///+0////sv///7P///+v////pf///9n///+Y////I/r6+jf///8z////M////zP///8z
+////M////zX///8r////NP///y3///9T////R////5L///+g////Nf///0b///9D////Q////0P///9D
+////RP///zz///9r////R////zb///+5////8v///7D///+e////Mv///0P///9B////QP///0D///9C
+////Mf///43/////////b////zz////6////yf///5z///+f////Mf///0X/+/88////QP///0L///84
+////j///////////////0P///4r/////////ff///5D///+e////M////z////9V////Q////zf///9q
+/////////+r////D//////////v////0////Qf///5v///+h////Kf///2H////t////YP///y3///+4
+/////////27///87////5P////////+5////Jv///6H///+b////Mv///9z/////////rf///z7////8
+////zv///zj///82////ev////////90////J////6H///+b////rf/////////7////7////6v/////
+////h////zT///9E////Pv///6H///9P////L////5////+b////zf///9j///94///////////////t
+////TP///z3///9B////QP///zz///9D////Mv///57///+X////Sf///2D///8v////yv////////+v
+////NP///0P///9A////QP///0H///9E////Mv39/Z////+g////Lf///0H///83////bv////////9s
+////Nv///0L///9A////QP///0D///9D////Mv///57///+g////Nv///0j///9D////Qv///6T///9M
+////Qf///0P///9D////Q////0P///9G////Nf///6D///+Y////I////zb///8z////M////zD///8z
+////M////zP///8z////M////zP///83////I////5j////Y////rP///7T///+y////s////7P///+y
+////sv///7L///+y////sv///7L///+0////rP///9gADgEAAAMAAAABAA8AAAEBAAMAAAABAA8AAAEC
+AAMAAAAEAAAEOgEDAAMAAAABAAEAAAEGAAMAAAABAAIAAAERAAQAAAABAAAACAESAAMAAAABAAEAAAEV
+AAMAAAABAAQAAAEWAAMAAAABAA8AAAEXAAQAAAABAAADhAEcAAMAAAABAAEAAAFSAAMAAAABAAIAAAFT
+AAMAAAAEAAAEQodzAAcAAAUwAAAESgAAAAAACAAIAAgACAABAAEAAQABAAAFMGFwcGwCIAAAbW50clJH
+QiBYWVogB9kAAgAZAAsAGgALYWNzcEFQUEwAAAAAYXBwbAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA
+0y1hcHBsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALZHNjbQAA
+AQgAAALyZGVzYwAAA/wAAABvZ1hZWgAABGwAAAAUd3RwdAAABIAAAAAUclhZWgAABJQAAAAUYlhZWgAA
+BKgAAAAUclRSQwAABLwAAAAOY3BydAAABMwAAAA4Y2hhZAAABQQAAAAsZ1RSQwAABLwAAAAOYlRSQwAA
+BLwAAAAObWx1YwAAAAAAAAARAAAADGVuVVMAAAAmAAACfmVzRVMAAAAmAAABgmRhREsAAAAuAAAB6mRl
+REUAAAAsAAABqGZpRkkAAAAoAAAA3GZyRlUAAAAoAAABKml0SVQAAAAoAAACVm5sTkwAAAAoAAACGG5i
+Tk8AAAAmAAABBHB0QlIAAAAmAAABgnN2U0UAAAAmAAABBGphSlAAAAAaAAABUmtvS1IAAAAWAAACQHpo
+VFcAAAAWAAABbHpoQ04AAAAWAAAB1HJ1UlUAAAAiAAACpHBsUEwAAAAsAAACxgBZAGwAZQBpAG4AZQBu
+ACAAUgBHAEIALQBwAHIAbwBmAGkAaQBsAGkARwBlAG4AZQByAGkAcwBrACAAUgBHAEIALQBwAHIAbwBm
+AGkAbABQAHIAbwBmAGkAbAAgAEcA6QBuAOkAcgBpAHEAdQBlACAAUgBWAEJOAIIsACAAUgBHAEIAIDDX
+MO0w1TChMKQw65AadSgAIABSAEcAQgAggnJfaWPPj/AAUABlAHIAZgBpAGwAIABSAEcAQgAgAEcAZQBu
+AOkAcgBpAGMAbwBBAGwAbABnAGUAbQBlAGkAbgBlAHMAIABSAEcAQgAtAFAAcgBvAGYAaQBsZm6QGgAg
+AFIARwBCACBjz4/wZYdO9gBHAGUAbgBlAHIAZQBsACAAUgBHAEIALQBiAGUAcwBrAHIAaQB2AGUAbABz
+AGUAQQBsAGcAZQBtAGUAZQBuACAAUgBHAEIALQBwAHIAbwBmAGkAZQBsx3y8GAAgAFIARwBCACDVBLhc
+0wzHfABQAHIAbwBmAGkAbABvACAAUgBHAEIAIABHAGUAbgBlAHIAaQBjAG8ARwBlAG4AZQByAGkAYwAg
+AFIARwBCACAAUAByAG8AZgBpAGwAZQQeBDEESQQ4BDkAIAQ/BEAEPgREBDgEOwRMACAAUgBHAEIAVQBu
+AGkAdwBlAHIAcwBhAGwAbgB5ACAAcAByAG8AZgBpAGwAIABSAEcAQgAAZGVzYwAAAAAAAAAUR2VuZXJp
+YyBSR0IgUHJvZmlsZQAAAAAAAAAAAAAAFEdlbmVyaWMgUkdCIFByb2ZpbGUAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABadQAArHMAABc0WFlaIAAA
+AAAAAPNSAAEAAAABFs9YWVogAAAAAAAAdE0AAD3uAAAD0FhZWiAAAAAAAAAoGgAAFZ8AALg2Y3VydgAA
+AAAAAAABAc0AAHRleHQAAAAAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNl
+cnZlZC4Ac2YzMgAAAAAAAQxCAAAF3v//8yYAAAeSAAD9kf//+6L///2jAAAD3AAAwGzSIiMkJVokY2xh
+c3NuYW1lWCRjbGFzc2VzXxAQTlNCaXRtYXBJbWFnZVJlcKMmJyhfEBBOU0JpdG1hcEltYWdlUmVwWk5T
+SW1hZ2VSZXBYTlNPYmplY3TSIiMqK1dOU0FycmF5oioo0iIjLS5eTlNNdXRhYmxlQXJyYXmjLSoo0zAx
+CTIzNFdOU1doaXRlXE5TQ29sb3JTcGFjZUQwIDAAEAOAC9IiIzY3V05TQ29sb3KiNijSIiM5OldOU0lt
+YWdlojkoXxAPTlNLZXllZEFyY2hpdmVy0T0+VHJvb3SAAQAIABEAGgAjAC0AMgA3AEUASwBUAFsAaABv
+AHcAeQB+AIAAggCHAJIAlACWAJgAnQCgAKIApACmAKgArQDEAMYAyApGCksKVgpfCnIKdgqJCpQKnQqi
+CqoKrQqyCsEKxQrMCtQK4QrmCugK6grvCvcK+gr/CwcLCgscCx8LJAAAAAAAAAIBAAAAAAAAAD8AAAAA
+AAAAAAAAAAAAAAsmA
+</mutableData>
+        </image>
+        <image name="F340F76E-ADDE-4B61-8769-8669C706A555" width="15" height="15">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

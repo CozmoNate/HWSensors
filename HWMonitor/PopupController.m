@@ -98,6 +98,8 @@
     {
         _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
         
+        [_statusItem setHighlightMode:NO];
+        
         _statusItemView = [[StatusItemView alloc] initWithFrame:NSMakeRect(0, 0, 22, 22) statusItem:_statusItem];
 
         [_statusItemView setImage:[NSImage loadImageNamed:@"scale" ofType:@"png"]];
@@ -177,13 +179,13 @@
         [self.delegate popupWillOpen:self];
     }
 
-    if (!menubarWindow.attachedToMenuBar) {
+    //if (!menubarWindow.attachedToMenuBar) {
         [NSApp activateIgnoringOtherApps:YES];
-    }
+    //}
     
     [self layoutContent:NO orderFront:YES animated:YES];
 
-    self.statusItemView.isHighlighted = YES;
+    //self.statusItemView.isHighlighted = YES;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidOpen:)]) {
         [self.delegate popupDidOpen:self];
@@ -198,7 +200,7 @@
     
     [self.window orderOut:nil];
 
-    self.statusItemView.isHighlighted = NO;
+    //self.statusItemView.isHighlighted = NO;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupDidClose:)]) {
         [self.delegate popupDidClose:self];

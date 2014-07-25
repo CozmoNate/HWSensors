@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SensorsViewController;
+@class SensorsViewController, HWMColorTheme;
 
 @protocol SensorsViewControllerDelegate <NSObject>
 
@@ -26,7 +26,7 @@
 @property (atomic, assign) NSDragOperation currentItemDragOperation;
 @property (readonly) BOOL hasDraggedFavoriteItem;
 
-@property (readonly) IBOutlet NSScrollView *scrollView;
+@property (assign) IBOutlet NSScrollView *scrollView;
 @property (assign) IBOutlet NSTableView *tableView;
 
 @property (readonly) CGFloat contentHeight;

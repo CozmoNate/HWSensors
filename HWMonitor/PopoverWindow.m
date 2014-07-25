@@ -164,7 +164,7 @@
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-            [self setBackgroundColor:[NSColor clearColor]];
+            //[self setBackgroundColor:[NSColor clearColor]];
             [self setOpaque:NO];
 
             [self layoutContent];
@@ -206,6 +206,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+   
     // Only draw the custom window frame for a OBMenuBarWindow object
     if ([[self window] isKindOfClass:[PopoverWindow class]])
     {

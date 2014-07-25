@@ -36,7 +36,9 @@
 #import "HWMFavorite.h"
 
 @interface StatusItemView ()
-
+{
+    BOOL _darkThemeColors;
+}
 @property (readonly) NSAttributedString *spacer;
 @property (readonly) NSArray *favoritesSnapshot;
 
@@ -46,6 +48,7 @@
 
 @synthesize spacer = _spacer;
 @synthesize favoritesSnapshot = _favoritesSnapshot;
+//@synthesize isHighlighted = _isHighlighted;
 
 #pragma mark -
 #pragma mark Properties
@@ -73,12 +76,21 @@
     return [HWMEngine sharedEngine];
 }
 
-- (void)setHighlighted:(BOOL)isHighlighted
-{
-    if (_isHighlighted != isHighlighted) {
-        _isHighlighted = isHighlighted;
-    }
-}
+//-(void)setHighlighted:(BOOL)highlighted
+//{
+//    if (_isHighlighted != highlighted) {
+//        
+//        _isHighlighted = highlighted;
+//        
+//        [_shadow setShadowColor:[NSColor colorWithCalibratedWhite:_isHighlighted ? 0.0 : 1.0 alpha:0.50]];
+//        [self redraw];
+//    }
+//}
+//
+//-(BOOL)isHighlighted
+//{
+//    return _isHighlighted;
+//}
 
 #pragma mark -
 #pragma mark Override
@@ -95,7 +107,6 @@
 
         _shadow = [[NSShadow alloc] init];
 
-        [_shadow setShadowColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.50]];
         [_shadow setShadowOffset:CGSizeMake(0, -1.0)];
         [_shadow setShadowBlurRadius:1.0];
 
@@ -107,6 +118,10 @@
             [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar) options:0 context:nil];
 
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redraw) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:self.monitorEngine];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChangeNotification:) name:NSUserDefaultsDidChangeNotification object:nil];
+            
+            [self userDefaultsDidChangeNotification:nil];
         }];
     }
 
@@ -120,6 +135,13 @@
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useShadowEffectsInMenubar)];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)userDefaultsDidChangeNotification:(NSNotification*)notification
+{
+    _darkThemeColors = [[NSUserDefaults standardUserDefaults] boolForKey:@"MenubarUsesInvertedColors"];
+    [_shadow setShadowColor:[NSColor colorWithCalibratedWhite:_darkThemeColors ? 0.0 : 1.0 alpha:0.50]];
+    [self redraw];
 }
 
 - (void)drawRect:(NSRect)rect
@@ -136,10 +158,11 @@
 
         [[NSGraphicsContext currentContext] saveGraphicsState];
 
-        if (/*!_isHighlighted &&*/ self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
-        [_shadow set];
+        if (/*!_isHighlighted &&*/ self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue) {
+            [_shadow set];
+        }
 
-        NSImage *image = /*_isHighlighted ? _alternateImage :*/ _image;
+        NSImage *image = _darkThemeColors ? _alternateImage : _image;
 
         if (image) {
             NSUInteger width = image.size.width + 12;
@@ -178,7 +201,8 @@
 
             [[NSGraphicsContext currentContext] saveGraphicsState];
 
-            NSImage *image = /*_isHighlighted ? [icon alternateImage] :*/ icon.regular;
+            
+            NSImage *image = _darkThemeColors ? icon.alternate : icon.regular;
 
             if (image) {
 
@@ -217,16 +241,17 @@
                     break;
 
                 default:
-                    valueColor = [NSColor blackColor];
+                    valueColor = _darkThemeColors ? [NSColor whiteColor] : [NSColor blackColor];
                     break;
             }
 
-            [title addAttribute:NSForegroundColorAttributeName value:(/*_isHighlighted ? [NSColor whiteColor] :*/ valueColor) range:NSMakeRange(0,title.length)];
+            [title addAttribute:NSForegroundColorAttributeName value:valueColor range:NSMakeRange(0,title.length)];
 
             [[NSGraphicsContext currentContext] saveGraphicsState];
 
-            if (/*!_isHighlighted &&*/ self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue)
-            [_shadow set];
+            if (/*!_isHighlighted &&*/ self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue) {
+                [_shadow set];
+            }
 
             if (favorite.large.boolValue || self.monitorEngine.configuration.useBigFontInMenubar.boolValue) {
 

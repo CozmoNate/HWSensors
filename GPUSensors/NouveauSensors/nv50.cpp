@@ -418,7 +418,7 @@ static u32 read_clk(struct nouveau_device *device, enum clk_src src)
 
 int nv50_clocks_get(struct nouveau_device *device, u8 source)
 {
-	if (device->chipset == 0xaa ||
+	if (/*device->chipset == 0xaa ||*/
 	    device->chipset == 0xac)
 		return 0;
     

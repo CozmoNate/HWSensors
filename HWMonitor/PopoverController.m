@@ -16,13 +16,13 @@
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
 #import "HWMColorTheme.h"
+#import "HWMIcon.h"
 
 #import "ViewWithToolbar.h"
 
 #import "Localizer.h"
 
 @interface PopoverController ()
-
 {
     PopoverWindowController * _popoverWindowController;
 }
@@ -70,13 +70,21 @@
 
         _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
 
-        _statusItemView = [[StatusItemView alloc] initWithFrame:NSMakeRect(0, 0, 22, 22) statusItem:_statusItem];
+//        if ([_statusItem respondsToSelector:@selector(button)]) {
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redrawStatusItem) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:self.monitorEngine];
+//
+//            [[_statusItem button] setAction:@selector(toggle:)];
+//            [[_statusItem button] setTarget:self];
+//        }
+//        else {
+            _statusItemView = [[StatusItemView alloc] initWithFrame:NSMakeRect(0, 0, 22, 22) statusItem:_statusItem];
 
-        [_statusItemView setImage:[NSImage loadImageNamed:@"scale" ofType:@"png"]];
-        [_statusItemView setAlternateImage:[NSImage loadImageNamed:@"scale-white" ofType:@"png"]];
+            [_statusItemView setImage:[NSImage loadImageNamed:@"scale" ofType:@"png"]];
+            [_statusItemView setAlternateImage:[NSImage loadImageNamed:@"scale-white" ofType:@"png"]];
 
-        [_statusItemView setAction:@selector(toggle:)];
-        [_statusItemView setTarget:self];
+            [_statusItemView setAction:@selector(toggle:)];
+            [_statusItemView setTarget:self];
+//        }
 
         _sensorsViewController = [SensorsViewController new];
 
@@ -90,7 +98,7 @@
         [self.view addSubview:_sensorsViewController.view];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSApplicationDidResignActiveNotification object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSApplicationDidResignActiveNotification object:self.view.window];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSWindowDidResignKeyNotification object:self.view.window];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSWindowDidResignMainNotification object:self.view.window];
 
@@ -113,6 +121,8 @@
 
 -(IBAction)open:(id)sender
 {
+    NSLog(@"open:%@", sender);
+    
     [NSApp activateIgnoringOtherApps:YES];
 
     if (_popoverWindowController) {
@@ -133,6 +143,8 @@
 
 -(IBAction)close:(id)sender
 {
+    NSLog(@"close:%@", sender);
+    
     if (_popoverWindowController) {
         if (sender != self && ![sender isKindOfClass:[NSNotification class]]) {
             [_popoverWindowController close];
@@ -141,7 +153,7 @@
         return;
     }
 
-    if (_popover) {
+    if (_popover && sender == self && _popover.isShown) {
         [_popover performClose:sender];
     }
 }
@@ -199,6 +211,18 @@
 }
 
 #pragma mark - Methods
+
+-(void)redrawStatusItem
+{
+    //NSArray * favorites = [self.monitorEngine.favorites copy];
+
+    //if (!favorites.count) {
+    //    [_statusItem.button setImage:[NSImage imageNamed:@"scale"]];
+    //}
+    //else {
+
+    //}
+}
 
 -(void)makePopover
 {

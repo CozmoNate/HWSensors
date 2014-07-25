@@ -163,7 +163,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
                     defer:(BOOL)flag
 {
     self = [super initWithContentRect:contentRect
-                            styleMask:aStyle
+                            styleMask:NSBorderlessWindowMask//
                               backing:bufferingType
                                 defer:flag];
     if (self)
@@ -183,8 +183,9 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
 - (void)initialSetup
 {
     // Set up the window drawing
+    [self setOpaque:NO];
     [self setBackgroundColor:[NSColor clearColor]];
-    [self setOpaque:YES];
+
     [self setMovable:NO];
 
     // Observe window and application state notifications
@@ -336,7 +337,8 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
         }
 
         // Set whether the window is opaque (this affects the shadow)
-        [self setOpaque:/*!isAttached*/NO];
+        //[self setOpaque:!isAttached];
+        //[self setOpaque:NO];
 
         // Reposition the content
         [self layoutContent];
@@ -418,9 +420,12 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
             [[NSNotificationCenter defaultCenter] postNotificationName:OBMenuBarWindowDidDetachFromMenuBar
                                                                 object:self];
         }
-        [self layoutContent];
+        
+        //[self layoutContent];
         //[[self.contentView superview] setNeedsDisplayInRect:[self titleBarRect]];
         [[self.contentView superview] setNeedsDisplay:YES];
+        
+        //[self setHasShadow:NO];
         [self invalidateShadow];
     }
 }
@@ -941,6 +946,9 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
     [NSGraphicsContext restoreGraphicsState];
 
     // Draw title
+    
+    [NSGraphicsContext saveGraphicsState];
+    
     NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] init];
     [titleAttributes setValue:[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] forKey:NSForegroundColorAttributeName];
     [titleAttributes setValue:[NSFont fontWithName:@"Helvetica Light" size:15] forKey:NSFontAttributeName];
@@ -996,6 +1004,9 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
         [strokePath setLineWidth:0.5];
         [strokePath stroke];
     }
+
+    [NSGraphicsContext restoreGraphicsState];
+
 }
 
 - (void)refreshContentImageForKeyWindow:(BOOL)isKey
@@ -1005,7 +1016,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
     [contentImage lockFocus];
 
     [self renderContentForKeyWindow:isKey];
-
+    
     [contentImage unlockFocus];
 
     if (isKey) {
@@ -1078,7 +1089,6 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
         }
         else {
             [content drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
-
         }
     }
     else {

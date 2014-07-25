@@ -44,7 +44,7 @@
 @property (nonatomic, strong) NSImage *image;
 @property (nonatomic, strong) NSImage *alternateImage;
 
-@property (nonatomic, setter = setHighlighted:) BOOL isHighlighted;
+//@property (nonatomic, setter=setHighlighted:) BOOL isHighlighted;
 
 @property (nonatomic, readonly) NSRect screenRect;
 
