@@ -78,14 +78,14 @@
     // Copy attributes
 	for (NSDictionary *item in selectedObjects ) {
 
-        entry = [NSString stringWithFormat:@"%d, %@, %@, %d, %d, %d, %@",
+        entry = [[NSString stringWithFormat:@"%d, %@, %@, %d, %d, %d, %@",
                            [item[@"id"] unsignedCharValue],
                            item[@"name"],
                            item[@"critical"],
                            [item[@"value"] unsignedShortValue],
                            [item[@"worst"] unsignedShortValue],
                            [item[@"threshold"] unsignedShortValue],
-                           item[@"raw"]];
+                           item[@"raw"]] mutableCopy];
 
 		if (![pasteboard writeObjects:@[entry]]) {
             NSBeep();

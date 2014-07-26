@@ -39,10 +39,10 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 
 // You can alter these constants to change the appearance of the window
 //CGFloat OBMenuBarWindowTitleBarHeight = 35;
-const CGFloat OBMenuBarWindowArrowHeight = 10.0;
-const CGFloat OBMenuBarWindowArrowWidth = 20.0;
-const CGFloat OBMenuBarWindowArrowOffset = 6;
-const CGFloat OBMenuBarWindowCornerRadius = 5.5;
+const CGFloat OBMenuBarWindowArrowHeight = 9.0f;
+const CGFloat OBMenuBarWindowArrowWidth = 21.0f;
+const CGFloat OBMenuBarWindowArrowOffset = 1.0f;
+const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
 @interface OBMenuBarWindow ()
 
@@ -630,7 +630,9 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
 - (void)windowWillStartLiveResize:(NSNotification *)aNotification
 {
     resizeStartFrame = self.frame;
-    resizeStartLocation = [self convertBaseToScreen:[self mouseLocationOutsideOfEventStream]];
+    NSPoint point = [self mouseLocationOutsideOfEventStream];
+    resizeStartLocation = [self convertRectToScreen:NSMakeRect(point.x, point.y, 1, 1)].origin;
+     //resizeStartLocation = [self convertBaseToScreen:[self mouseLocationOutsideOfEventStream]];
     resizeRight = ([self mouseLocationOutsideOfEventStream].x > self.frame.size.width / 2.0);
 }
 
@@ -671,7 +673,10 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
     if ([self inLiveResize]) {
         if (self.attachedToMenuBar)
         {
-            NSPoint mouseLocation = [self convertBaseToScreen:[self mouseLocationOutsideOfEventStream]];
+            //NSPoint mouseLocation = [self convertBaseToScreen:[self mouseLocationOutsideOfEventStream]];
+            NSPoint point = [self mouseLocationOutsideOfEventStream];
+            NSPoint mouseLocation = [self convertRectToScreen:NSMakeRect(point.x, point.y, 1, 1)].origin;
+
             NSRect newFrame = resizeStartFrame;
             if (frameRect.size.width != resizeStartFrame.size.width)
             {
@@ -837,9 +842,24 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
 
     // Toolbar border closed path
     NSBezierPath *borderPath = [NSBezierPath bezierPath];
-    [borderPath moveToPoint:arrowPointLeft];
+
+    [borderPath setLineWidth:0.5f];
+    [borderPath setLineJoinStyle:NSBevelLineJoinStyle];
+    //[borderPath setFlatness:0.1];
+
+    [borderPath moveToPoint:topLeft];
+    //[borderPath lineToPoint:arrowPointMiddle];
+    //[borderPath lineToPoint:arrowPointRight];
+    [borderPath appendBezierPathWithArcFromPoint:arrowPointLeft
+                                         toPoint:arrowPointMiddle
+                                          radius:cornerRadius];
+    [borderPath appendBezierPathWithArcFromPoint:arrowPointMiddle
+                                         toPoint:arrowPointRight
+                                          radius:cornerRadius];
     [borderPath lineToPoint:arrowPointMiddle];
-    [borderPath lineToPoint:arrowPointRight];
+    [borderPath appendBezierPathWithArcFromPoint:arrowPointRight
+                                         toPoint:topRight
+                                          radius:cornerRadius];
     [borderPath appendBezierPathWithArcFromPoint:topRight
                                          toPoint:bottomRight
                                           radius:cornerRadius];
@@ -928,12 +948,13 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
     }
 
     // Draw the title bar highlight
-    NSBezierPath *highlightPath = [NSBezierPath bezierPath];
+    /*NSBezierPath *highlightPath = [NSBezierPath bezierPath];
     [highlightPath moveToPoint:NSMakePoint(arrowPointMiddle.x,arrowPointMiddle.y - 0.5)];
     [highlightPath lineToPoint:NSMakePoint(arrowPointLeft.x, arrowPointLeft.y - 0.5)];
     [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topLeft.x + 0.5, topLeft.y - 0.5)
                                             toPoint:NSMakePoint(bottomLeft.x - 0.5, topLeft.y - cornerRadius)
                                              radius:cornerRadius];
+
     [highlightPath moveToPoint:NSMakePoint(arrowPointMiddle.x,arrowPointMiddle.y - 0.5)];
     [highlightPath lineToPoint:NSMakePoint(arrowPointRight.x, arrowPointRight.y - 0.5)];
     [highlightPath appendBezierPathWithArcFromPoint:NSMakePoint(topRight.x - 0.5, topRight.y - 0.5)
@@ -941,7 +962,10 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
                                              radius:cornerRadius];
     [[window.colorTheme.toolbarShadowColor highlightWithLevel:0.5] set];
     [highlightPath setLineWidth:window.colorTheme.toolbarStrokeColor ? 2.0 : 1.0];
-    [highlightPath stroke];
+    [highlightPath stroke];*/
+
+//    [[NSColor colorWithCalibratedWhite:0.5 alpha:0.5] set];
+//    [borderPath stroke];
 
     [NSGraphicsContext restoreGraphicsState];
 
@@ -1082,10 +1106,10 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5;
             return;
         }
 
-        NSImage *content = [window isKeyWindow] || [window attachedToMenuBar] ? [window activeImage] : [window inactiveImage];
+        NSImage *content = window.isKeyWindow || window.attachedToMenuBar ? window.activeImage : window.inactiveImage;
 
         if (!content) {
-            [window renderContentForKeyWindow:[window isKeyWindow]];
+            [window renderContentForKeyWindow:window.isKeyWindow];
         }
         else {
             [content drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];

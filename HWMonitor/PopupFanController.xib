@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6185.11" systemVersion="14A298i" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6185.11"/>
     </dependencies>
     <objects>
@@ -75,8 +74,8 @@
                     </constraints>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="Divider" id="RCz-SH-ua0"/>
                 </imageView>
-                <button horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IsK-EQ-HqQ">
-                    <rect key="frame" x="8" y="108" width="13" height="13"/>
+                <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IsK-EQ-HqQ">
+                    <rect key="frame" x="8" y="110" width="13" height="13"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="13" id="QWQ-Su-Zm4"/>
                         <constraint firstAttribute="height" constant="13" id="RDK-iH-6aR"/>

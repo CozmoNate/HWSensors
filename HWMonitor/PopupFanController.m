@@ -78,9 +78,9 @@
     //[_inputLabel setTextColor:colorTheme.groupTitleColor];
     //[_outputLabel setTextColor:colorTheme.groupTitleColor];
 
-    [_enabledSwitch setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.80 : 1.0];
-    [_inputsPopUp setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.80 : 1.0];
-    [_inputsPopUp setButtonType:colorTheme.useBrightIcons.boolValue ? NSOnOffButton : NSMomentaryChangeButton];
+    //[_enabledSwitch setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.80 : 1.0];
+    //[_inputsPopUp setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.80 : 1.0];
+    //[_inputsPopUp setButtonType:colorTheme.useBrightIcons.boolValue ? NSOnOffButton : NSMomentaryChangeButton];
 
     //NSFont *digitalFont = [NSFont fontWithName:@"Let's go Digital Regular" size:20];
     NSColor *valueTextColor = colorTheme.useBrightIcons.boolValue ? [colorTheme.itemValueTitleColor shadowWithLevel:0.15] : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];

@@ -72,9 +72,9 @@
 -(void)initialize
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        //NSFont *digitalFont = [NSFont fontWithName:@"Let's go Digital Regular" size:20];
-        //[_inputTextField setFont:digitalFont];
-        //[_outputTextField setFont:digitalFont];
+        NSFont *digitalFont = [NSFont fontWithName:@"Let's go Digital Regular" size:20];
+        [_inputTextField setFont:digitalFont];
+        [_outputTextField setFont:digitalFont];
     }];
 }
 
