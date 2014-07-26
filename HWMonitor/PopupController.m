@@ -173,7 +173,7 @@
 
 -(void)showWindow:(id)sender
 {
-    OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
+    //OBMenuBarWindow *menubarWindow = (OBMenuBarWindow *)self.window;
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(popupWillOpen:)]) {
         [self.delegate popupWillOpen:self];

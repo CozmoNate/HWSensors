@@ -19,17 +19,22 @@
 
     if (colorTheme) {
 
+        [colorTheme.listBackgroundColor set];
+        NSRectFill(cellFrame);
+        
         NSGradient *gradient = nil;
 
         if (colorTheme.useBrightIcons.boolValue) {
             gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                        colorTheme.groupStartColor, 0.1,
-                        [colorTheme.groupEndColor shadowWithLevel:0.15], 0.9, nil];
+                        colorTheme.groupStartColor,     0.1,
+                        colorTheme.groupEndColor,       0.9,
+                        nil];
         }
         else {
             gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                        [colorTheme.groupStartColor highlightWithLevel:0.1], 0.1,
-                        colorTheme.groupEndColor, 0.9, nil];
+                        colorTheme.groupStartColor,     0.1,
+                        colorTheme.groupEndColor,       0.9,
+                        nil];
         }
 
         [gradient drawInRect:cellFrame angle:90];
