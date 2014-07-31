@@ -19,30 +19,30 @@
 
     if (colorTheme) {
 
-        [colorTheme.listBackgroundColor set];
+        [[NSColor clearColor] set];
         NSRectFill(cellFrame);
         
         NSGradient *gradient = nil;
 
-        if (colorTheme.useBrightIcons.boolValue) {
+//        if (colorTheme.useBrightIcons.boolValue) {
+//            gradient = nil;/*[[NSGradient alloc] initWithColorsAndLocations:
+//                        colorTheme.groupStartColor,     0.1,
+//                        colorTheme.groupEndColor,       0.9,
+//                        nil];*/
+//        }
+//        else {
             gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                        colorTheme.groupStartColor,     0.1,
-                        colorTheme.groupEndColor,       0.9,
+                        colorTheme.groupStartColor,     0.1f,
+                        colorTheme.groupEndColor,       0.9f,
                         nil];
-        }
-        else {
-            gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                        colorTheme.groupStartColor,     0.1,
-                        colorTheme.groupEndColor,       0.9,
-                        nil];
-        }
+//        }
 
         [gradient drawInRect:cellFrame angle:90];
 
         if (self.title && self.title.length) {
             NSMutableDictionary *attibutes = [[NSMutableDictionary dictionaryWithDictionary:[[self attributedStringValue]attributesAtIndex:0 effectiveRange:NULL]] mutableCopy];
 
-            [attibutes setObject:colorTheme.itemValueTitleColor forKey:NSForegroundColorAttributeName];
+            [attibutes setObject:colorTheme.groupTitleColor forKey:NSForegroundColorAttributeName];
 
             NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 

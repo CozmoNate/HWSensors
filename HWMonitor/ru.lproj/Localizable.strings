@@ -345,3 +345,5 @@
 "Partition names" = "Имена разделов";
 "BSD name" = "Имя BSD";
 "Show sensor legends" = "Показывать подписи";
+
+"Use inverted colors" = "Инвертировать цвет";
