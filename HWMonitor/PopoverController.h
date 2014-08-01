@@ -20,4 +20,10 @@
 
 @property (readonly) BOOL isShown;
 
+-(IBAction)open:(id)sender;
+-(IBAction)close:(id)sender;
+-(IBAction)toggle:(id)sender;
+
+-(IBAction)detachWindow:(id)sender;
+
 @end

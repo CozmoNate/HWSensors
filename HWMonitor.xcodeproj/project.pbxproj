@@ -904,6 +904,40 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		7E1A363E198B5C5D0052B673 /* PopupController */ = {
+			isa = PBXGroup;
+			children = (
+				7EDA1A6B16D901100012A0DC /* PopupController.h */,
+				7EDA1A6C16D901100012A0DC /* PopupController.m */,
+				7E2042021730CDA000C13B65 /* PopupController.xib */,
+			);
+			name = PopupController;
+			sourceTree = "<group>";
+		};
+		7E1A3643198B5C670052B673 /* PopoverController */ = {
+			isa = PBXGroup;
+			children = (
+				7E1A0323198053890001210A /* ViewWithToolbar.h */,
+				7E1A0324198053890001210A /* ViewWithToolbar.m */,
+				7E28ED5D1979CBDC00788C40 /* PopoverController.h */,
+				7E28ED5E1979CBDC00788C40 /* PopoverController.m */,
+				7E1A0312197F6B4A0001210A /* PopoverController.xib */,
+			);
+			name = PopoverController;
+			sourceTree = "<group>";
+		};
+		7E1A3644198B5C750052B673 /* PopoverWindowController */ = {
+			isa = PBXGroup;
+			children = (
+				7E7C14A51982432300BF3046 /* PopoverWindow.h */,
+				7E7C14A61982432300BF3046 /* PopoverWindow.m */,
+				7E1A0319197F6F560001210A /* PopoverWindowController.h */,
+				7E1A031A197F6F560001210A /* PopoverWindowController.m */,
+				7E1A031B197F6F560001210A /* PopoverWindowController.xib */,
+			);
+			name = PopoverWindowController;
+			sourceTree = "<group>";
+		};
 		7E1A8DB51876B32900853CB6 /* Other */ = {
 			isa = PBXGroup;
 			children = (
@@ -1260,19 +1294,9 @@
 				7E019BA8182625FF002F8217 /* StatusItemView */,
 				7E2B178C18B5D85800740302 /* ProbeControllingMenuItem */,
 				7E19DECC1843E43A00229B0E /* Cells */,
-				7EDA1A6B16D901100012A0DC /* PopupController.h */,
-				7EDA1A6C16D901100012A0DC /* PopupController.m */,
-				7E2042021730CDA000C13B65 /* PopupController.xib */,
-				7E1A0323198053890001210A /* ViewWithToolbar.h */,
-				7E1A0324198053890001210A /* ViewWithToolbar.m */,
-				7E28ED5D1979CBDC00788C40 /* PopoverController.h */,
-				7E28ED5E1979CBDC00788C40 /* PopoverController.m */,
-				7E1A0312197F6B4A0001210A /* PopoverController.xib */,
-				7E7C14A51982432300BF3046 /* PopoverWindow.h */,
-				7E7C14A61982432300BF3046 /* PopoverWindow.m */,
-				7E1A0319197F6F560001210A /* PopoverWindowController.h */,
-				7E1A031A197F6F560001210A /* PopoverWindowController.m */,
-				7E1A031B197F6F560001210A /* PopoverWindowController.xib */,
+				7E1A363E198B5C5D0052B673 /* PopupController */,
+				7E1A3643198B5C670052B673 /* PopoverController */,
+				7E1A3644198B5C750052B673 /* PopoverWindowController */,
 			);
 			name = "Popup Panel Controller";
 			sourceTree = "<group>";

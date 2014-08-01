@@ -82,12 +82,12 @@
     //[_inputsPopUp setAlphaValue:colorTheme.useBrightIcons.boolValue ? 0.80 : 1.0];
     //[_inputsPopUp setButtonType:colorTheme.useBrightIcons.boolValue ? NSOnOffButton : NSMomentaryChangeButton];
 
-    //NSFont *digitalFont = [NSFont fontWithName:@"Let's go Digital Regular" size:20];
+    NSFont *digitalFont = [NSFont fontWithName:@"Let's go Digital Regular" size:20];
     NSColor *valueTextColor = colorTheme.useBrightIcons.boolValue ? [colorTheme.itemValueTitleColor shadowWithLevel:0.15] : [colorTheme.itemValueTitleColor highlightWithLevel:0.35];
 
-    //[_minLabel setFont:digitalFont];
+    [_minLabel setFont:digitalFont];
     [_minLabel setTextColor:valueTextColor];
-    //[_maxLabel setFont:digitalFont];
+    [_maxLabel setFont:digitalFont];
     [_maxLabel setTextColor:valueTextColor];
 
     [self observeValueForKeyPath:@keypath(self, controller.levels) ofObject:nil change:nil context:(void*)self];

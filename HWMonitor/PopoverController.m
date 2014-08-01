@@ -39,7 +39,7 @@
 -(IBAction)close:(id)sender;
 -(IBAction)toggle:(id)sender;
 
--(IBAction)detachWindow:(id)sender;
+-(IBAction)detach:(id)sender;
 -(IBAction)showPreferencesWindow:(id)sender;
 -(IBAction)showGraphsWindow:(id)sender;
 -(IBAction)showAboutWindow:(id)sender;
@@ -121,7 +121,7 @@
 
 -(IBAction)open:(id)sender
 {
-    NSLog(@"open:%@", sender);
+    //NSLog(@"open:%@", sender);
     
     [NSApp activateIgnoringOtherApps:YES];
 
@@ -143,7 +143,7 @@
 
 -(IBAction)close:(id)sender
 {
-    NSLog(@"close:%@", sender);
+    //NSLog(@"close:%@", sender);
     
     if (_popoverWindowController) {
         if (sender != self && ![sender isKindOfClass:[NSNotification class]]) {
@@ -168,7 +168,7 @@
     }
 }
 
--(IBAction)detachWindow:(id)sender
+-(IBAction)detach:(id)sender
 {
     [self close:self];
 
@@ -306,14 +306,18 @@
     }
 }
 
-//-(NSWindow *)detachableWindowForPopover:(NSPopover *)popover
-//{
-//    if (!_windowController) {
-//        _windowController = [PopoverWindowController new];
-//    }
-//
-//    return _windowController.window;
-//}
+-(NSWindow *)detachableWindowForPopover:(NSPopover *)popover
+{
+    if (!_popoverWindowController) {
+        _popoverWindowController = [PopoverWindowController new];
+        [_popoverWindowController setPopoverController:self];
+        [_popoverWindowController setAppController:_appController];
+        [_popoverWindowController setGraphsController:_graphsController];
+        [_popoverWindowController setAboutController:_aboutController];
+    }
+
+    return _popoverWindowController.window;
+}
 
 #pragma mark - SensorsViewControllerDelegate
 

@@ -13,6 +13,7 @@
 #import "HWMColorTheme.h"
 #import "EXTKeyPathCoding.h"
 #import "Localizer.h"
+#import "NSWindow+BackgroundBlur.h"
 
 @interface PopoverWindow ()
 
@@ -164,7 +165,7 @@
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-            //[self setBackgroundColor:[NSColor clearColor]];
+            [self setBackgroundColor:[NSColor clearColor]];
             [self setOpaque:NO];
 
             [self layoutContent];
@@ -192,6 +193,13 @@
     if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.colorTheme)]) {
         [[[self contentView] superview] setNeedsDisplay:YES];
     }
+}
+
+-(void)orderFront:(id)sender
+{
+    [super orderFront:sender];
+
+    [self setBackgroundBlurRadius:32];
 }
 
 -(void)redraw

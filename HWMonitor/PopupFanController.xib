@@ -159,7 +159,7 @@
                                 <outlet property="formatter" destination="dvJ-cr-HBJ" id="7FU-rf-kYd"/>
                             </connections>
                         </textField>
-                        <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.84999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="1vb-sw-dQW">
+                        <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="1vb-sw-dQW">
                             <rect key="frame" x="128" y="8" width="18" height="20"/>
                             <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="6000" tickMarkPosition="above" sliderType="circular" id="rEc-cj-ib4"/>
                             <connections>
@@ -169,7 +169,7 @@
                                 <outlet property="formatter" destination="dvJ-cr-HBJ" id="pbP-lC-1ik"/>
                             </connections>
                         </slider>
-                        <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.84999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="IZ4-EQ-rgg">
+                        <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="IZ4-EQ-rgg">
                             <rect key="frame" x="223" y="8" width="18" height="20"/>
                             <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="6000" doubleValue="3000" tickMarkPosition="above" sliderType="circular" id="Ziv-aG-F7W"/>
                             <connections>
@@ -238,6 +238,15 @@
                                                 <rect key="frame" x="1" y="0.0" width="257" height="28"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
+                                                    <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="bws-n3-w9F" userLabel="Output Box">
+                                                        <rect key="frame" x="155" y="-3" width="92" height="30"/>
+                                                        <view key="contentView">
+                                                            <rect key="frame" x="1" y="1" width="90" height="28"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        </view>
+                                                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                                                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </box>
                                                     <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="2rS-vp-haA" userLabel="Input Box">
                                                         <rect key="frame" x="59" y="-3" width="92" height="30"/>
                                                         <view key="contentView">
@@ -268,7 +277,7 @@
                                                             <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.input" id="wo1-l8-IfM"/>
                                                         </connections>
                                                     </textField>
-                                                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.84999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="Axt-bF-Z3O" userLabel="Input Slider">
+                                                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="Axt-bF-Z3O" userLabel="Input Slider">
                                                         <rect key="frame" x="126" y="3" width="18" height="20"/>
                                                         <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="13.412956403187209" tickMarkPosition="above" sliderType="circular" id="cFv-kF-3cG"/>
                                                         <connections>
@@ -298,7 +307,7 @@
                                                             <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.output" id="4q2-0a-NfO"/>
                                                         </connections>
                                                     </textField>
-                                                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.84999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="5KY-xI-7OC" userLabel="Output Slider">
+                                                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="5KY-xI-7OC" userLabel="Output Slider">
                                                         <rect key="frame" x="223" y="3" width="18" height="20"/>
                                                         <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="3000" doubleValue="1553.5429853127134" tickMarkPosition="below" sliderType="circular" id="pco-Dl-sWp"/>
                                                         <connections>
@@ -309,15 +318,6 @@
                                                             <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.output" previousBinding="WV6-2U-5gp" id="lM8-f1-3Dk"/>
                                                         </connections>
                                                     </slider>
-                                                    <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="bws-n3-w9F" userLabel="Output Box">
-                                                        <rect key="frame" x="155" y="-3" width="92" height="30"/>
-                                                        <view key="contentView">
-                                                            <rect key="frame" x="1" y="1" width="90" height="28"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        </view>
-                                                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </box>
                                                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YKi-Op-Ho3" userLabel="Remove Button" customClass="FadingButton">
                                                         <rect key="frame" x="14" y="6" width="15" height="15"/>
                                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="22-circle-minus" imagePosition="only" alignment="center" alternateImage="22-circle-minus" state="on" imageScaling="proportionallyDown" inset="2" id="9Jh-EQ-o68">

@@ -13,6 +13,7 @@
 #import "HWMColorTheme.h"
 #import "NSWindow+BackgroundBlur.h"
 #import "Localizer.h"
+#import "PopoverController.h"
 
 @interface PopoverWindowController ()
 
@@ -21,6 +22,7 @@
 @property (assign) IBOutlet NSView *toolbarView;
 @property (nonatomic, strong) SensorsViewController *sensorsViewController;
 
+-(IBAction)attachToMenubar:(id)sender;
 -(IBAction)showPreferencesWindow:(id)sender;
 -(IBAction)showGraphsWindow:(id)sender;
 
@@ -73,6 +75,14 @@
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self.appController showWindow:self];
+    }];
+}
+
+-(IBAction)attachToMenubar:(id)sender
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self close];
+        [_popoverController open:self];
     }];
 }
 
