@@ -28,7 +28,6 @@ extern OSStatus         CGSSetWindowBackgroundBlurRadius(CGSConnection connectio
     NSInteger oldRadius = [objc_getAssociatedObject(self, @selector(backgroundBlurRadius)) integerValue];
 
     if (oldRadius != radius) {
-        NSLog(@"Blur set");
 
         CGSConnection connection = CGSDefaultConnectionForThread();
 
@@ -36,6 +35,16 @@ extern OSStatus         CGSSetWindowBackgroundBlurRadius(CGSConnection connectio
             objc_setAssociatedObject(self, @selector(backgroundBlurRadius), [NSNumber numberWithInteger:radius], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
     }
+}
+
+- (void)setStrongBackgroundBlur
+{
+    [self setBackgroundBlurRadius:64];
+}
+
+- (void)setLightBackgroundBlur
+{
+    [self setBackgroundBlurRadius:16];
 }
 
 @end

@@ -51,7 +51,7 @@
 {
     [super showWindow:sender];
 
-    [self.window setBackgroundBlurRadius:32];
+    [self.window setStrongBackgroundBlur];
 }
 
 - (void)windowDidLoad

@@ -306,5 +306,7 @@ void NCT677xSensors::hasPoweredOn()
     }
 
     // Reset fan control enabled
-    bzero(fanControlEnabled, 6);
+    for (int i = 0; i < 6; i++) {
+        fanControlEnabled[i] = false;
+    }
 }

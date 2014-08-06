@@ -24,6 +24,4 @@
 -(IBAction)close:(id)sender;
 -(IBAction)toggle:(id)sender;
 
--(IBAction)detachWindow:(id)sender;
-
 @end

@@ -818,7 +818,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(void)updateAtaSmartSensors
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
         DLog(@"");
 
@@ -883,7 +883,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 [[NSNotificationCenter defaultCenter] postNotificationName:HWMEngineSensorValuesHasBeenUpdatedNotification object:self];
             }
         }
-    }];
+    });
 }
 
 -(void)setNeedsUpdateLists
@@ -1267,49 +1267,49 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 -(void)insertColorThemes
 {
     [self insertColorThemeWithName:@"Default"
-                     groupEndColor:[NSColor colorWithCalibratedWhite:0.85 alpha:0.5]
-                   groupStartColor:[NSColor colorWithCalibratedWhite:0.95 alpha:0.5]
+                     groupEndColor:[NSColor colorWithCalibratedWhite:0.85 alpha:0.35]
+                   groupStartColor:[NSColor colorWithCalibratedWhite:0.95 alpha:0.35]
                    groupTitleColor:[NSColor colorWithCalibratedWhite:0.2 alpha:1.0]
                  itemSubTitleColor:[NSColor colorWithCalibratedWhite:0.45 alpha:1.0]
                     itemTitleColor:[NSColor colorWithCalibratedWhite:0.25 alpha:1.0]
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
-               listBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.77]
+               listBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.7]
                    listStrokeColor:nil//[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
-                   toolbarEndColor:[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.77]
-                toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.77] highlightWithLevel:0.4]
-                 toolbarStartColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.77] highlightWithLevel:0.6]
+                   toolbarEndColor:[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.7]
+                toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.7] highlightWithLevel:0.4]
+                 toolbarStartColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:0.7] highlightWithLevel:0.6]
                 toolbarStrokeColor:nil//[NSColor colorWithCalibratedWhite:0.1 alpha:1.00]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:NO];
 
     [self insertColorThemeWithName:@"Gray"
-                     groupEndColor:[NSColor colorWithCalibratedWhite:0.85 alpha:0.5]
-                   groupStartColor:[NSColor colorWithCalibratedWhite:0.95 alpha:0.5]
+                     groupEndColor:[NSColor colorWithCalibratedWhite:0.85 alpha:0.35]
+                   groupStartColor:[NSColor colorWithCalibratedWhite:0.95 alpha:0.35]
                    groupTitleColor:[NSColor colorWithCalibratedWhite:0.2 alpha:1.0]
                  itemSubTitleColor:[NSColor colorWithCalibratedWhite:0.45 alpha:1.0]
                     itemTitleColor:[NSColor colorWithCalibratedWhite:0.25 alpha:1.0]
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
-               listBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.77]
+               listBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.7]
                    listStrokeColor:nil//[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
-                   toolbarEndColor:[NSColor colorWithCalibratedWhite:0.23 alpha:0.77]
-                toolbarShadowColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.77] highlightWithLevel:0.30]
-                 toolbarStartColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.77] highlightWithLevel:0.55]
+                   toolbarEndColor:[NSColor colorWithCalibratedWhite:0.23 alpha:0.7]
+                toolbarShadowColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.7] highlightWithLevel:0.30]
+                 toolbarStartColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:0.7] highlightWithLevel:0.55]
                 toolbarStrokeColor:nil//[NSColor colorWithCalibratedWhite:0.1 alpha:1.00]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:NO];
 
     [self insertColorThemeWithName:@"Dark"
-                     groupEndColor:[NSColor colorWithCalibratedWhite:0.14 alpha:0.5]
-                   groupStartColor:[NSColor colorWithCalibratedWhite:0.2 alpha:0.5]
+                     groupEndColor:[NSColor colorWithCalibratedWhite:0.14 alpha:0.35]
+                   groupStartColor:[NSColor colorWithCalibratedWhite:0.2 alpha:0.35]
                    groupTitleColor:[NSColor colorWithCalibratedWhite:0.85 alpha:1.0]
                  itemSubTitleColor:[NSColor colorWithCalibratedWhite:0.65 alpha:1.0]
                     itemTitleColor:[NSColor colorWithCalibratedWhite:0.85 alpha:1.0]
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.95 alpha:1.0]
-               listBackgroundColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.77]
+               listBackgroundColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.65]
                    listStrokeColor:nil//[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
-                   toolbarEndColor:[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.77]
-                toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.77] highlightWithLevel:0.30]
-                 toolbarStartColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.77] highlightWithLevel:0.55]
+                   toolbarEndColor:[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.65]
+                toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.65] highlightWithLevel:0.30]
+                 toolbarStartColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:0.65] highlightWithLevel:0.55]
                 toolbarStrokeColor:nil//[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:YES];

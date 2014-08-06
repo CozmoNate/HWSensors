@@ -1105,7 +1105,7 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
         case kHWMGroupSmartRemainingLife:
             return [self getRemainingLife];
-            
+
     }
 
     return @0;

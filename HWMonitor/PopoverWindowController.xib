@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6185.11" systemVersion="14A298i" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6205" systemVersion="14A314h" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6185.11"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6205"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PopoverWindowController">
@@ -40,7 +40,7 @@
                         <constraint firstAttribute="width" constant="15" id="Bbm-Dw-ba3"/>
                         <constraint firstAttribute="height" constant="15" id="wfr-dn-pP5"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="C4E5D94F-E98C-4266-BEB9-328943D383BE" imagePosition="only" alignment="left" alternateImage="C4E5D94F-E98C-4266-BEB9-328943D383BE" imageScaling="proportionallyUpOrDown" inset="2" id="ZwL-XR-kUa">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="DFE5ECC6-5498-451D-B101-75B94E7D02AF" imagePosition="only" alignment="left" alternateImage="DFE5ECC6-5498-451D-B101-75B94E7D02AF" imageScaling="proportionallyUpOrDown" inset="2" id="ZwL-XR-kUa">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                         <string key="keyEquivalent">g</string>
@@ -56,7 +56,7 @@
                         <constraint firstAttribute="width" constant="15" id="WJD-ms-LDS"/>
                         <constraint firstAttribute="height" constant="15" id="edn-zs-22w"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="7B81E508-74B0-4431-930B-C98803FB7D01" imagePosition="only" alignment="left" alternateImage="7B81E508-74B0-4431-930B-C98803FB7D01" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="Jpa-uz-hSY">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="429E11D7-F62F-4A66-8673-BCB0992B9DCB" imagePosition="only" alignment="left" alternateImage="429E11D7-F62F-4A66-8673-BCB0992B9DCB" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="Jpa-uz-hSY">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                         <string key="keyEquivalent">p</string>
@@ -72,7 +72,7 @@
                         <constraint firstAttribute="height" constant="15" id="KpE-YK-6tR"/>
                         <constraint firstAttribute="width" constant="15" id="k48-cA-VOz"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="CDA1F224-A993-4E53-91B3-55D18D6EFD7F" imagePosition="only" alignment="left" alternateImage="CDA1F224-A993-4E53-91B3-55D18D6EFD7F" imageScaling="proportionallyUpOrDown" inset="2" id="DCn-6e-Ifh">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="A7CA00D2-4C4C-4FB4-9B2B-5F13AC099A11" imagePosition="only" alignment="left" alternateImage="A7CA00D2-4C4C-4FB4-9B2B-5F13AC099A11" imageScaling="proportionallyUpOrDown" inset="2" id="DCn-6e-Ifh">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                         <string key="keyEquivalent">g</string>
@@ -257,7 +257,7 @@
         </menu>
     </objects>
     <resources>
-        <image name="7B81E508-74B0-4431-930B-C98803FB7D01" width="15" height="15">
+        <image name="429E11D7-F62F-4A66-8673-BCB0992B9DCB" width="15" height="15">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -312,7 +312,62 @@ CqoKrQqyCsEKxQrMCtQK4QrmCugK6grvCvcK+gr/CwcLCgscCx8LJAAAAAAAAAIBAAAAAAAAAD8AAAAA
 AAAAAAAAAAAAAAsmA
 </mutableData>
         </image>
-        <image name="C4E5D94F-E98C-4266-BEB9-328943D383BE" width="15" height="15">
+        <image name="A7CA00D2-4C4C-4FB4-9B2B-5F13AC099A11" width="15" height="15">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
+GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
+DBIAwAAAgAKACtISCRMVWk5TLm9iamVjdHOhFIADgAnSEgkXGqIYGYAEgAWACBAA0h0JHh9fEBROU1RJ
+RkZSZXByZXNlbnRhdGlvboAGgAdPEQl6TU0AKgAAA4z////Y////rP7+/rT///+y////sv///7L///+y
+////sv///7L///+0////sv///7P///+v////pf///9n///+Y////I/r6+jf///8z////M////zP///8z
+////M////zX///8r////NP///y3///9T////R////5L///+g////Nf///0b///9D////Q////0P///9D
+////RP///zz///9r////R////zb///+5////8v///7D///+e////Mv///0P///9B////QP///0D///9C
+////Mf///43/////////b////zz////6////yf///5z///+f////Mf///0X/+/88////QP///0L///84
+////j///////////////0P///4r/////////ff///5D///+e////M////z////9V////Q////zf///9q
+/////////+r////D//////////v////0////Qf///5v///+h////Kf///2H////t////YP///y3///+4
+/////////27///87////5P////////+5////Jv///6H///+b////Mv///9z/////////rf///z7////8
+////zv///zj///82////ev////////90////J////6H///+b////rf/////////7////7////6v/////
+////h////zT///9E////Pv///6H///9P////L////5////+b////zf///9j///94///////////////t
+////TP///z3///9B////QP///zz///9D////Mv///57///+X////Sf///2D///8v////yv////////+v
+////NP///0P///9A////QP///0H///9E////Mv39/Z////+g////Lf///0H///83////bv////////9s
+////Nv///0L///9A////QP///0D///9D////Mv///57///+g////Nv///0j///9D////Qv///6T///9M
+////Qf///0P///9D////Q////0P///9G////Nf///6D///+Y////I////zb///8z////M////zD///8z
+////M////zP///8z////M////zP///83////I////5j////Y////rP///7T///+y////s////7P///+y
+////sv///7L///+y////sv///7L///+0////rP///9gADgEAAAMAAAABAA8AAAEBAAMAAAABAA8AAAEC
+AAMAAAAEAAAEOgEDAAMAAAABAAEAAAEGAAMAAAABAAIAAAERAAQAAAABAAAACAESAAMAAAABAAEAAAEV
+AAMAAAABAAQAAAEWAAMAAAABAA8AAAEXAAQAAAABAAADhAEcAAMAAAABAAEAAAFSAAMAAAABAAIAAAFT
+AAMAAAAEAAAEQodzAAcAAAUwAAAESgAAAAAACAAIAAgACAABAAEAAQABAAAFMGFwcGwCIAAAbW50clJH
+QiBYWVogB9kAAgAZAAsAGgALYWNzcEFQUEwAAAAAYXBwbAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA
+0y1hcHBsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALZHNjbQAA
+AQgAAALyZGVzYwAAA/wAAABvZ1hZWgAABGwAAAAUd3RwdAAABIAAAAAUclhZWgAABJQAAAAUYlhZWgAA
+BKgAAAAUclRSQwAABLwAAAAOY3BydAAABMwAAAA4Y2hhZAAABQQAAAAsZ1RSQwAABLwAAAAOYlRSQwAA
+BLwAAAAObWx1YwAAAAAAAAARAAAADGVuVVMAAAAmAAACfmVzRVMAAAAmAAABgmRhREsAAAAuAAAB6mRl
+REUAAAAsAAABqGZpRkkAAAAoAAAA3GZyRlUAAAAoAAABKml0SVQAAAAoAAACVm5sTkwAAAAoAAACGG5i
+Tk8AAAAmAAABBHB0QlIAAAAmAAABgnN2U0UAAAAmAAABBGphSlAAAAAaAAABUmtvS1IAAAAWAAACQHpo
+VFcAAAAWAAABbHpoQ04AAAAWAAAB1HJ1UlUAAAAiAAACpHBsUEwAAAAsAAACxgBZAGwAZQBpAG4AZQBu
+ACAAUgBHAEIALQBwAHIAbwBmAGkAaQBsAGkARwBlAG4AZQByAGkAcwBrACAAUgBHAEIALQBwAHIAbwBm
+AGkAbABQAHIAbwBmAGkAbAAgAEcA6QBuAOkAcgBpAHEAdQBlACAAUgBWAEJOAIIsACAAUgBHAEIAIDDX
+MO0w1TChMKQw65AadSgAIABSAEcAQgAggnJfaWPPj/AAUABlAHIAZgBpAGwAIABSAEcAQgAgAEcAZQBu
+AOkAcgBpAGMAbwBBAGwAbABnAGUAbQBlAGkAbgBlAHMAIABSAEcAQgAtAFAAcgBvAGYAaQBsZm6QGgAg
+AFIARwBCACBjz4/wZYdO9gBHAGUAbgBlAHIAZQBsACAAUgBHAEIALQBiAGUAcwBrAHIAaQB2AGUAbABz
+AGUAQQBsAGcAZQBtAGUAZQBuACAAUgBHAEIALQBwAHIAbwBmAGkAZQBsx3y8GAAgAFIARwBCACDVBLhc
+0wzHfABQAHIAbwBmAGkAbABvACAAUgBHAEIAIABHAGUAbgBlAHIAaQBjAG8ARwBlAG4AZQByAGkAYwAg
+AFIARwBCACAAUAByAG8AZgBpAGwAZQQeBDEESQQ4BDkAIAQ/BEAEPgREBDgEOwRMACAAUgBHAEIAVQBu
+AGkAdwBlAHIAcwBhAGwAbgB5ACAAcAByAG8AZgBpAGwAIABSAEcAQgAAZGVzYwAAAAAAAAAUR2VuZXJp
+YyBSR0IgUHJvZmlsZQAAAAAAAAAAAAAAFEdlbmVyaWMgUkdCIFByb2ZpbGUAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABadQAArHMAABc0WFlaIAAA
+AAAAAPNSAAEAAAABFs9YWVogAAAAAAAAdE0AAD3uAAAD0FhZWiAAAAAAAAAoGgAAFZ8AALg2Y3VydgAA
+AAAAAAABAc0AAHRleHQAAAAAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNl
+cnZlZC4Ac2YzMgAAAAAAAQxCAAAF3v//8yYAAAeSAAD9kf//+6L///2jAAAD3AAAwGzSIiMkJVokY2xh
+c3NuYW1lWCRjbGFzc2VzXxAQTlNCaXRtYXBJbWFnZVJlcKMmJyhfEBBOU0JpdG1hcEltYWdlUmVwWk5T
+SW1hZ2VSZXBYTlNPYmplY3TSIiMqK1dOU0FycmF5oioo0iIjLS5eTlNNdXRhYmxlQXJyYXmjLSoo0zAx
+CTIzNFdOU1doaXRlXE5TQ29sb3JTcGFjZUQwIDAAEAOAC9IiIzY3V05TQ29sb3KiNijSIiM5OldOU0lt
+YWdlojkoXxAPTlNLZXllZEFyY2hpdmVy0T0+VHJvb3SAAQAIABEAGgAjAC0AMgA3AEUASwBUAFsAaABv
+AHcAeQB+AIAAggCHAJIAlACWAJgAnQCgAKIApACmAKgArQDEAMYAyApGCksKVgpfCnIKdgqJCpQKnQqi
+CqoKrQqyCsEKxQrMCtQK4QrmCugK6grvCvcK+gr/CwcLCgscCx8LJAAAAAAAAAIBAAAAAAAAAD8AAAAA
+AAAAAAAAAAAAAAsmA
+</mutableData>
+        </image>
+        <image name="DFE5ECC6-5498-451D-B101-75B94E7D02AF" width="15" height="15">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -375,61 +430,6 @@ MAAQA4AL0iIjNjdXTlNDb2xvcqI2KNIiIzk6V05TSW1hZ2WiOShfEA9OU0tleWVkQXJjaGl2ZXLRPT5U
 cm9vdIABAAgAEQAaACMALQAyADcARQBLAFQAWwBoAG8AdwB5AH4AgACCAIcAkgCUAJYAmACdAKAAogCk
 AKYAqACtAMQAxgDIDL4MwwzODNcM6gzuDQENDA0VDRoNIg0lDSoNOQ09DUQNTA1ZDV4NYA1iDWcNbw1y
 DXcNfw2CDZQNlw2cAAAAAAAAAgEAAAAAAAAAPwAAAAAAAAAAAAAAAAAADZ4
-</mutableData>
-        </image>
-        <image name="CDA1F224-A993-4E53-91B3-55D18D6EFD7F" width="15" height="15">
-            <mutableData key="keyedArchiveRepresentation">
-YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
-GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
-DBIAwAAAgAKACtISCRMVWk5TLm9iamVjdHOhFIADgAnSEgkXGqIYGYAEgAWACBAA0h0JHh9fEBROU1RJ
-RkZSZXByZXNlbnRhdGlvboAGgAdPEQl6TU0AKgAAA4z////Y////rP7+/rT///+y////sv///7L///+y
-////sv///7L///+0////sv///7P///+v////pf///9n///+Y////I/r6+jf///8z////M////zP///8z
-////M////zX///8r////NP///y3///9T////R////5L///+g////Nf///0b///9D////Q////0P///9D
-////RP///zz///9r////R////zb///+5////8v///7D///+e////Mv///0P///9B////QP///0D///9C
-////Mf///43/////////b////zz////6////yf///5z///+f////Mf///0X/+/88////QP///0L///84
-////j///////////////0P///4r/////////ff///5D///+e////M////z////9V////Q////zf///9q
-/////////+r////D//////////v////0////Qf///5v///+h////Kf///2H////t////YP///y3///+4
-/////////27///87////5P////////+5////Jv///6H///+b////Mv///9z/////////rf///z7////8
-////zv///zj///82////ev////////90////J////6H///+b////rf/////////7////7////6v/////
-////h////zT///9E////Pv///6H///9P////L////5////+b////zf///9j///94///////////////t
-////TP///z3///9B////QP///zz///9D////Mv///57///+X////Sf///2D///8v////yv////////+v
-////NP///0P///9A////QP///0H///9E////Mv39/Z////+g////Lf///0H///83////bv////////9s
-////Nv///0L///9A////QP///0D///9D////Mv///57///+g////Nv///0j///9D////Qv///6T///9M
-////Qf///0P///9D////Q////0P///9G////Nf///6D///+Y////I////zb///8z////M////zD///8z
-////M////zP///8z////M////zP///83////I////5j////Y////rP///7T///+y////s////7P///+y
-////sv///7L///+y////sv///7L///+0////rP///9gADgEAAAMAAAABAA8AAAEBAAMAAAABAA8AAAEC
-AAMAAAAEAAAEOgEDAAMAAAABAAEAAAEGAAMAAAABAAIAAAERAAQAAAABAAAACAESAAMAAAABAAEAAAEV
-AAMAAAABAAQAAAEWAAMAAAABAA8AAAEXAAQAAAABAAADhAEcAAMAAAABAAEAAAFSAAMAAAABAAIAAAFT
-AAMAAAAEAAAEQodzAAcAAAUwAAAESgAAAAAACAAIAAgACAABAAEAAQABAAAFMGFwcGwCIAAAbW50clJH
-QiBYWVogB9kAAgAZAAsAGgALYWNzcEFQUEwAAAAAYXBwbAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA
-0y1hcHBsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALZHNjbQAA
-AQgAAALyZGVzYwAAA/wAAABvZ1hZWgAABGwAAAAUd3RwdAAABIAAAAAUclhZWgAABJQAAAAUYlhZWgAA
-BKgAAAAUclRSQwAABLwAAAAOY3BydAAABMwAAAA4Y2hhZAAABQQAAAAsZ1RSQwAABLwAAAAOYlRSQwAA
-BLwAAAAObWx1YwAAAAAAAAARAAAADGVuVVMAAAAmAAACfmVzRVMAAAAmAAABgmRhREsAAAAuAAAB6mRl
-REUAAAAsAAABqGZpRkkAAAAoAAAA3GZyRlUAAAAoAAABKml0SVQAAAAoAAACVm5sTkwAAAAoAAACGG5i
-Tk8AAAAmAAABBHB0QlIAAAAmAAABgnN2U0UAAAAmAAABBGphSlAAAAAaAAABUmtvS1IAAAAWAAACQHpo
-VFcAAAAWAAABbHpoQ04AAAAWAAAB1HJ1UlUAAAAiAAACpHBsUEwAAAAsAAACxgBZAGwAZQBpAG4AZQBu
-ACAAUgBHAEIALQBwAHIAbwBmAGkAaQBsAGkARwBlAG4AZQByAGkAcwBrACAAUgBHAEIALQBwAHIAbwBm
-AGkAbABQAHIAbwBmAGkAbAAgAEcA6QBuAOkAcgBpAHEAdQBlACAAUgBWAEJOAIIsACAAUgBHAEIAIDDX
-MO0w1TChMKQw65AadSgAIABSAEcAQgAggnJfaWPPj/AAUABlAHIAZgBpAGwAIABSAEcAQgAgAEcAZQBu
-AOkAcgBpAGMAbwBBAGwAbABnAGUAbQBlAGkAbgBlAHMAIABSAEcAQgAtAFAAcgBvAGYAaQBsZm6QGgAg
-AFIARwBCACBjz4/wZYdO9gBHAGUAbgBlAHIAZQBsACAAUgBHAEIALQBiAGUAcwBrAHIAaQB2AGUAbABz
-AGUAQQBsAGcAZQBtAGUAZQBuACAAUgBHAEIALQBwAHIAbwBmAGkAZQBsx3y8GAAgAFIARwBCACDVBLhc
-0wzHfABQAHIAbwBmAGkAbABvACAAUgBHAEIAIABHAGUAbgBlAHIAaQBjAG8ARwBlAG4AZQByAGkAYwAg
-AFIARwBCACAAUAByAG8AZgBpAGwAZQQeBDEESQQ4BDkAIAQ/BEAEPgREBDgEOwRMACAAUgBHAEIAVQBu
-AGkAdwBlAHIAcwBhAGwAbgB5ACAAcAByAG8AZgBpAGwAIABSAEcAQgAAZGVzYwAAAAAAAAAUR2VuZXJp
-YyBSR0IgUHJvZmlsZQAAAAAAAAAAAAAAFEdlbmVyaWMgUkdCIFByb2ZpbGUAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABadQAArHMAABc0WFlaIAAA
-AAAAAPNSAAEAAAABFs9YWVogAAAAAAAAdE0AAD3uAAAD0FhZWiAAAAAAAAAoGgAAFZ8AALg2Y3VydgAA
-AAAAAAABAc0AAHRleHQAAAAAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNl
-cnZlZC4Ac2YzMgAAAAAAAQxCAAAF3v//8yYAAAeSAAD9kf//+6L///2jAAAD3AAAwGzSIiMkJVokY2xh
-c3NuYW1lWCRjbGFzc2VzXxAQTlNCaXRtYXBJbWFnZVJlcKMmJyhfEBBOU0JpdG1hcEltYWdlUmVwWk5T
-SW1hZ2VSZXBYTlNPYmplY3TSIiMqK1dOU0FycmF5oioo0iIjLS5eTlNNdXRhYmxlQXJyYXmjLSoo0zAx
-CTIzNFdOU1doaXRlXE5TQ29sb3JTcGFjZUQwIDAAEAOAC9IiIzY3V05TQ29sb3KiNijSIiM5OldOU0lt
-YWdlojkoXxAPTlNLZXllZEFyY2hpdmVy0T0+VHJvb3SAAQAIABEAGgAjAC0AMgA3AEUASwBUAFsAaABv
-AHcAeQB+AIAAggCHAJIAlACWAJgAnQCgAKIApACmAKgArQDEAMYAyApGCksKVgpfCnIKdgqJCpQKnQqi
-CqoKrQqyCsEKxQrMCtQK4QrmCugK6grvCvcK+gr/CwcLCgscCx8LJAAAAAAAAAIBAAAAAAAAAD8AAAAA
-AAAAAAAAAAAAAAsmA
 </mutableData>
         </image>
     </resources>

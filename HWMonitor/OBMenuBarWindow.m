@@ -39,9 +39,9 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 
 // You can alter these constants to change the appearance of the window
 //CGFloat OBMenuBarWindowTitleBarHeight = 35;
-const CGFloat OBMenuBarWindowArrowHeight = 9.0f;
-const CGFloat OBMenuBarWindowArrowWidth = 21.0f;
-const CGFloat OBMenuBarWindowArrowOffset = 1.0f;
+const CGFloat OBMenuBarWindowArrowHeight = 10.0f;
+const CGFloat OBMenuBarWindowArrowWidth = 20.0f;
+const CGFloat OBMenuBarWindowArrowOffset = 3.0f;
 const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
 @interface OBMenuBarWindow ()
@@ -781,18 +781,9 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
     // Create the window shape
     NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0 + 0.5,
-                                         originY + height - (isAttached ? OBMenuBarWindowArrowHeight : 0));
-    NSPoint arrowPointMiddle;
-    if (window.attachedToMenuBar)
-    {
-        arrowPointMiddle = NSMakePoint(originX + width / 2.0,
+                                         originY + height - (isAttached ? arrowHeight : 0));
+    NSPoint arrowPointMiddle = NSMakePoint(originX + width / 2.0,
                                        originY + height);
-    }
-    else
-    {
-        arrowPointMiddle = NSMakePoint(originX + width / 2.0,
-                                       originY + height - (isAttached ? arrowHeight : 0));
-    }
     NSPoint arrowPointRight = NSMakePoint(originX + (width + arrowWidth) / 2.0 - 0.5,
                                           originY + height - (isAttached ? arrowHeight : 0));
     NSPoint topLeft = NSMakePoint(originX,
@@ -840,41 +831,79 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     }
     [NSGraphicsContext restoreGraphicsState];
 
-    // Toolbar border closed path
-    NSBezierPath *borderPath = [NSBezierPath bezierPath];
+    NSBezierPath *toolbarPath = [NSBezierPath bezierPath];
 
-    [borderPath setLineWidth:0.5f];
-    [borderPath setLineJoinStyle:NSBevelLineJoinStyle];
-    //[borderPath setFlatness:0.1];
+// Toolbar rounded full
+//    [toolbarPath moveToPoint:topLeft];
+//    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointLeft
+//                                         toPoint:arrowPointMiddle
+//                                          radius:cornerRadius];
+//    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointMiddle
+//                                         toPoint:arrowPointRight
+//                                          radius:cornerRadius];
+//    [toolbarPath lineToPoint:arrowPointMiddle];
+//
+//    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointRight
+//                                          toPoint:topRight
+//                                           radius:cornerRadius];
+//    [toolbarPath appendBezierPathWithArcFromPoint:topRight
+//                                          toPoint:bottomRight
+//                                           radius:cornerRadius];
+//    [toolbarPath lineToPoint:bottomRight];
+//    [toolbarPath lineToPoint:bottomLeft];
+//    [toolbarPath appendBezierPathWithArcFromPoint:topLeft
+//                                          toPoint:arrowPointLeft
+//                                           radius:cornerRadius];
+//    [toolbarPath closePath];
 
-    [borderPath moveToPoint:topLeft];
-    //[borderPath lineToPoint:arrowPointMiddle];
-    //[borderPath lineToPoint:arrowPointRight];
-    [borderPath appendBezierPathWithArcFromPoint:arrowPointLeft
-                                         toPoint:arrowPointMiddle
-                                          radius:cornerRadius];
-    [borderPath appendBezierPathWithArcFromPoint:arrowPointMiddle
+//  Toolbar rounded
+    [toolbarPath moveToPoint:arrowPointMiddle];
+    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointMiddle
                                          toPoint:arrowPointRight
                                           radius:cornerRadius];
-    [borderPath lineToPoint:arrowPointMiddle];
-    [borderPath appendBezierPathWithArcFromPoint:arrowPointRight
-                                         toPoint:topRight
-                                          radius:cornerRadius];
-    [borderPath appendBezierPathWithArcFromPoint:topRight
-                                         toPoint:bottomRight
-                                          radius:cornerRadius];
-    [borderPath lineToPoint:bottomRight];
-    [borderPath lineToPoint:bottomLeft];
-    [borderPath appendBezierPathWithArcFromPoint:topLeft
-                                         toPoint:arrowPointLeft
-                                          radius:cornerRadius];
-    [borderPath lineToPoint:arrowPointLeft];
-    [borderPath closePath];
+    [toolbarPath lineToPoint:arrowPointMiddle];
+
+    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointRight
+                                          toPoint:topRight
+                                           radius:cornerRadius];
+    [toolbarPath appendBezierPathWithArcFromPoint:topRight
+                                          toPoint:bottomRight
+                                           radius:cornerRadius];
+    [toolbarPath lineToPoint:bottomRight];
+    [toolbarPath lineToPoint:bottomLeft];
+    [toolbarPath appendBezierPathWithArcFromPoint:topLeft
+                                          toPoint:arrowPointLeft
+                                           radius:cornerRadius];
+
+    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointLeft
+                                          toPoint:arrowPointMiddle
+                                           radius:cornerRadius];
+    
+    [toolbarPath closePath];
+
+    // Arrow Pin
+//    [toolbarPath moveToPoint:arrowPointLeft];
+//    [toolbarPath lineToPoint:arrowPointMiddle];
+//    [toolbarPath lineToPoint:arrowPointRight];
+//
+//    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointRight
+//                                         toPoint:topRight
+//                                          radius:cornerRadius];
+//    [toolbarPath appendBezierPathWithArcFromPoint:topRight
+//                                         toPoint:bottomRight
+//                                          radius:cornerRadius];
+//    [toolbarPath lineToPoint:bottomRight];
+//    [toolbarPath lineToPoint:bottomLeft];
+//    [toolbarPath appendBezierPathWithArcFromPoint:topLeft
+//                                         toPoint:arrowPointLeft
+//                                          radius:cornerRadius];
+
+    [toolbarPath closePath];
 
     // Draw the title bar
     [NSGraphicsContext saveGraphicsState];
 
-    [borderPath addClip];
+    [toolbarPath addClip];
 
     CGFloat titleBarHeight = window.toolbarView.frame.size.height + (isAttached ? OBMenuBarWindowArrowHeight : 0);
     
@@ -920,7 +949,8 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     }
 
     [bottomColor set];
-    NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
+    //NSRectFill(window.attachedToMenuBar ? titleBarRect : headingRect);
+    [toolbarPath fill];
 
     // Draw some subtle noise to the titlebar if the window is the key window
     if (isKey || attachedToMenuBar)
@@ -1024,7 +1054,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
             [[window.colorTheme.toolbarStrokeColor highlightWithLevel:0.25] set];
         }
 
-        [borderPath addClip];
+        [toolbarPath addClip];
         [strokePath setLineWidth:0.5];
         [strokePath stroke];
     }

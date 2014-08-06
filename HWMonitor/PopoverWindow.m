@@ -199,7 +199,7 @@
 {
     [super orderFront:sender];
 
-    [self setBackgroundBlurRadius:32];
+    [self setStrongBackgroundBlur];
 }
 
 -(void)redraw

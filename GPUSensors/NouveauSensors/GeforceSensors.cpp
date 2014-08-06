@@ -107,7 +107,14 @@ bool GeforceSensors::willReadSensorValue(FakeSMCSensor *sensor, float *outValue)
 
 bool GeforceSensors::shouldWaitForAccelerator()
 {
-    return true;
+    int arg_value = 1;
+
+    // Load keys from NVRAM
+    if (PE_parse_boot_argn("-geforcesensors-wait", &arg_value, sizeof(arg_value))) {
+        return true;
+    }
+
+    return card.card_type < NV_C0 ? true : false; // wait for accelerator to start and only after that prob i2c devices
 }
 
 bool GeforceSensors::acceleratorLoadedCheck()

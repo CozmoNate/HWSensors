@@ -145,7 +145,7 @@
     [NSApp activateIgnoringOtherApps:YES];
     [super showWindow:sender];
 
-    [self.window setBackgroundBlurRadius:32];
+    [self.window setLightBackgroundBlur];
     //[self.monitorEngine updateSmcAndDeviceSensors];
 }
 

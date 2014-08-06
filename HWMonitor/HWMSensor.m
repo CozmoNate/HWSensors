@@ -226,27 +226,29 @@
         _lastUpdated = [NSDate date];
 
         if (!self.value || ![value isEqualToNumber:self.value]) {
-            [self willChangeValueForKey:@keypath(self, value)];
-            [self setPrimitiveValue:value forKey:@keypath(self, value)];
-            [self didChangeValueForKey:@keypath(self, value)];
+            //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self willChangeValueForKey:@keypath(self, value)];
+                [self setPrimitiveValue:value forKey:@keypath(self, value)];
+                [self didChangeValueForKey:@keypath(self, value)];
 
-            [self willChangeValueForKey:@keypath(self, formattedValue)];
-            [self didChangeValueForKey:@keypath(self, formattedValue)];
+                [self willChangeValueForKey:@keypath(self, formattedValue)];
+                [self didChangeValueForKey:@keypath(self, formattedValue)];
 
-            if (!self.hidden.boolValue) {
+                if (!self.hidden.boolValue) {
 
-                NSUInteger alarmLevel = [self internalUpdateAlarmLevel];
+                    NSUInteger alarmLevel = [self internalUpdateAlarmLevel];
 
-                if (alarmLevel != _alarmLevel || _alarmLevel == 0) {
-                    [self willChangeValueForKey:@keypath(self, alarmLevel)];
-                    _alarmLevel = alarmLevel;
-                    [self didChangeValueForKey:@keypath(self, alarmLevel)];
-                    
-                    if (self.engine.configuration.notifyAlarmLevelChanges.boolValue) {
-                        [self internalSendAlarmNotification];
+                    if (alarmLevel != _alarmLevel || _alarmLevel == 0) {
+                        [self willChangeValueForKey:@keypath(self, alarmLevel)];
+                        _alarmLevel = alarmLevel;
+                        [self didChangeValueForKey:@keypath(self, alarmLevel)];
+
+                        if (self.engine.configuration.notifyAlarmLevelChanges.boolValue) {
+                            [self internalSendAlarmNotification];
+                        }
                     }
                 }
-            }
+            // }];
         }
     }
 }
