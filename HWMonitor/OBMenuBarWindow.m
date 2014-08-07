@@ -42,7 +42,7 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 const CGFloat OBMenuBarWindowArrowHeight = 10.0f;
 const CGFloat OBMenuBarWindowArrowWidth = 20.0f;
 const CGFloat OBMenuBarWindowArrowOffset = 3.0f;
-const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
+const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
 
 @interface OBMenuBarWindow ()
 
@@ -833,70 +833,23 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
     NSBezierPath *toolbarPath = [NSBezierPath bezierPath];
 
-// Toolbar rounded full
-//    [toolbarPath moveToPoint:topLeft];
-//    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointLeft
-//                                         toPoint:arrowPointMiddle
-//                                          radius:cornerRadius];
-//    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointMiddle
-//                                         toPoint:arrowPointRight
-//                                          radius:cornerRadius];
-//    [toolbarPath lineToPoint:arrowPointMiddle];
-//
-//    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointRight
-//                                          toPoint:topRight
-//                                           radius:cornerRadius];
-//    [toolbarPath appendBezierPathWithArcFromPoint:topRight
-//                                          toPoint:bottomRight
-//                                           radius:cornerRadius];
-//    [toolbarPath lineToPoint:bottomRight];
-//    [toolbarPath lineToPoint:bottomLeft];
-//    [toolbarPath appendBezierPathWithArcFromPoint:topLeft
-//                                          toPoint:arrowPointLeft
-//                                           radius:cornerRadius];
-//    [toolbarPath closePath];
 
-//  Toolbar rounded
-    [toolbarPath moveToPoint:arrowPointMiddle];
-    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointMiddle
-                                         toPoint:arrowPointRight
-                                          radius:cornerRadius];
+    // Arrow Pin
+    [toolbarPath moveToPoint:arrowPointLeft];
     [toolbarPath lineToPoint:arrowPointMiddle];
+    [toolbarPath lineToPoint:arrowPointRight];
 
     [toolbarPath appendBezierPathWithArcFromPoint:arrowPointRight
-                                          toPoint:topRight
-                                           radius:cornerRadius];
+                                         toPoint:topRight
+                                          radius:cornerRadius];
     [toolbarPath appendBezierPathWithArcFromPoint:topRight
-                                          toPoint:bottomRight
-                                           radius:cornerRadius];
+                                         toPoint:bottomRight
+                                          radius:cornerRadius];
     [toolbarPath lineToPoint:bottomRight];
     [toolbarPath lineToPoint:bottomLeft];
     [toolbarPath appendBezierPathWithArcFromPoint:topLeft
-                                          toPoint:arrowPointLeft
-                                           radius:cornerRadius];
-
-    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointLeft
-                                          toPoint:arrowPointMiddle
-                                           radius:cornerRadius];
-    
-    [toolbarPath closePath];
-
-    // Arrow Pin
-//    [toolbarPath moveToPoint:arrowPointLeft];
-//    [toolbarPath lineToPoint:arrowPointMiddle];
-//    [toolbarPath lineToPoint:arrowPointRight];
-//
-//    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointRight
-//                                         toPoint:topRight
-//                                          radius:cornerRadius];
-//    [toolbarPath appendBezierPathWithArcFromPoint:topRight
-//                                         toPoint:bottomRight
-//                                          radius:cornerRadius];
-//    [toolbarPath lineToPoint:bottomRight];
-//    [toolbarPath lineToPoint:bottomLeft];
-//    [toolbarPath appendBezierPathWithArcFromPoint:topLeft
-//                                         toPoint:arrowPointLeft
-//                                          radius:cornerRadius];
+                                         toPoint:arrowPointLeft
+                                          radius:cornerRadius];
 
     [toolbarPath closePath];
 
