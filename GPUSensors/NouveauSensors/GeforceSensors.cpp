@@ -109,9 +109,8 @@ bool GeforceSensors::shouldWaitForAccelerator()
 {
     int arg_value = 1;
 
-    // Load keys from NVRAM
-    if (PE_parse_boot_argn("-geforcesensors-wait", &arg_value, sizeof(arg_value))) {
-        return true;
+    if (PE_parse_boot_argn("-geforcesensors-no-wait", &arg_value, sizeof(arg_value))) {
+        return false;
     }
 
     return card.card_type < NV_C0 ? true : false; // wait for accelerator to start and only after that prob i2c devices
@@ -119,17 +118,26 @@ bool GeforceSensors::shouldWaitForAccelerator()
 
 bool GeforceSensors::acceleratorLoadedCheck()
 {
-//    OSData *kernelLoaded = OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
-//
-//    if (kernelLoaded && kernelLoaded->getLength()) {
-//        UInt8 flag;
-//
-//        memcpy(&flag, kernelLoaded->getBytesNoCopy(0, 1), 1);
-//
-//        return flag;
-//    }
+    bool acceleratorFound = NULL != OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
 
-    return NULL != OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
+    if (!acceleratorFound) {
+        if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
+            if (OSIterator *iterator = getMatchingServices(matching)) {
+                while (IOService *service = (IOService*)iterator->getNextObject()) {
+                    if (pciDevice == service->getParentEntry(gIOServicePlane)) {
+                        acceleratorFound = true;
+                        break;
+                    }
+                }
+
+                OSSafeRelease(iterator);
+            }
+            
+            OSSafeRelease(matching);
+        }
+    }
+
+    return acceleratorFound;
 }
 
 bool GeforceSensors::shadowBios()
