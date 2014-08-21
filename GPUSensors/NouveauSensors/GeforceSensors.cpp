@@ -113,7 +113,8 @@ bool GeforceSensors::shouldWaitForAccelerator()
         return false;
     }
 
-    return card.card_type < NV_C0 ? true : false; // wait for accelerator to start and only after that prob i2c devices
+    return true;
+    //return card.card_type < NV_C0 ? true : false; // wait for accelerator to start and only after that prob i2c devices
 }
 
 bool GeforceSensors::acceleratorLoadedCheck()
