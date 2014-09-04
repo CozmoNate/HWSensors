@@ -236,23 +236,31 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
     io_registry_entry_t service = (io_registry_entry_t)self.service.unsignedLongLongValue;
 
     if (MACH_PORT_NULL != service) {
+
+        float value = 0;
+
         switch (self.deviceType) {
             case kHWMBatterySensorInternal: {
                 NSNumber *max = registry_entry_read_number(service, kHWMBatterySensorMaxCapacity);
                 NSNumber *current = registry_entry_read_number(service, kHWMBatterySensorCurrentCapacity);
 
                 if (max && current && [max doubleValue] > 0) {
-                    double percent = (([current doubleValue] / [max doubleValue]) + 0.005) * 100;
-                    return [NSNumber numberWithFloat:percent];
+                    value = (([current doubleValue] / [max doubleValue]) + 0.005) * 100;
                 }
 
                 break;
             }
 
             case kHWMBatterySensorBluetooth:
-                return registry_entry_read_number(service, kHWMBatterySensorBatteryPercent);
+                value = registry_entry_read_number(service, kHWMBatterySensorBatteryPercent);
+                break;
         }
 
+        if (!_previousAlaramLevelValue || ![_previousAlaramLevelValue isEqualToNumber:self.value]) {
+            _previousAlaramLevelValue = [self.value copy];
+        }
+
+        return [NSNumber numberWithFloat:value];
     }
 
     return nil;
@@ -261,7 +269,7 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
 -(void)internalSendAlarmNotification
 {
     // Draining
-    if (!_previousAlaramLevelValue || [self.value isLessThan:_previousAlaramLevelValue]) {
+    if (_previousAlaramLevelValue && [self.value isLessThan:_previousAlaramLevelValue]) {
         switch (_alarmLevel) {
             case kHWMSensorLevelExceeded:
                 [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
@@ -297,8 +305,6 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
                 break;
         }
     }
-
-    _previousAlaramLevelValue = [self.value copy];
 }
 
 @end
