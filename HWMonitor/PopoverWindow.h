@@ -11,6 +11,8 @@
 @interface PopoverWindow : NSPanel
 
 @property (nonatomic, strong) IBOutlet NSView * toolbarView;
-@property (assign) CGFloat toolbarHeight;
+@property (readonly) CGFloat toolbarHeight;
+
+-(void)layoutContent;
 
 @end

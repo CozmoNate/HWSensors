@@ -55,9 +55,29 @@
     return [HWMEngine sharedEngine];
 }
 
+-(NSPopover*)popover
+{
+    if (!_popover) {
+        _popover = [NSPopover new];
+
+        [_popover setDelegate:self];
+
+        [_popover setAnimates:NO];
+        [_popover setBehavior:NSPopoverBehaviorTransient];
+
+        [self colorThemeChanged];
+
+        [_popover setContentViewController:self];
+
+        [self sizePopoverToFitContent];
+    }
+
+    return _popover;
+}
+
 -(BOOL)isShown
 {
-    return (_popover && _popover.isShown) || (_popoverWindowController && _popoverWindowController.window.isVisible);
+    return (self.popover && self.popover.isShown) || (_popoverWindowController && _popoverWindowController.window.isVisible);
 }
 
 #pragma mark - Overridden
@@ -98,13 +118,14 @@
         [self.view addSubview:_sensorsViewController.view];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSApplicationDidResignActiveNotification object:self.view.window];
+
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSApplicationDidResignActiveNotification object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSApplicationDidHideNotification object:nil];
+
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSWindowDidResignKeyNotification object:self.view.window];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSWindowDidResignMainNotification object:self.view.window];
 
             [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme) options:0 context:nil];
-
-            [self makePopover];
 
             [Localizer localizeView:self.view];
         }];
@@ -224,29 +245,27 @@
     //}
 }
 
--(void)makePopover
-{
-    if (!_popover) {
-        _popover = [NSPopover new];
-
-        [_popover setDelegate:self];
-
-        [_popover setAnimates:NO];
-        [_popover setBehavior:NSPopoverBehaviorTransient];
-
-        [self colorThemeChanged];
-
-        [_popover setContentViewController:self];
-    }
-
-    [self sizePopoverToFitContent];
-}
+//-(void)makePopover
+//{
+//    if (!_popover) {
+//        _popover = [NSPopover new];
+//
+//        [_popover setDelegate:self];
+//
+//        [_popover setAnimates:NO];
+//        [_popover setBehavior:NSPopoverBehaviorTransient];
+//
+//        [self colorThemeChanged];
+//
+//        [_popover setContentViewController:self];
+//    }
+//
+//    [self sizePopoverToFitContent];
+//}
 
 -(void)colorThemeChanged
 {
-    if (_popover && _popover.isShown) {
-        [_popover setAppearance:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSPopoverAppearanceHUD : NSPopoverAppearanceMinimal];
-    }
+    [self.popover setAppearance:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSPopoverAppearanceHUD : NSPopoverAppearanceMinimal];
 }
 
 -(void)sizePopoverToFitContent
@@ -272,6 +291,7 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.colorTheme)]) {
+        _popover = nil;
         [self colorThemeChanged];
     }
 }
@@ -308,13 +328,13 @@
 
 -(NSWindow *)detachableWindowForPopover:(NSPopover *)popover
 {
-    if (!_popoverWindowController) {
+    //if (!_popoverWindowController) {
         _popoverWindowController = [PopoverWindowController new];
         [_popoverWindowController setPopoverController:self];
         [_popoverWindowController setAppController:_appController];
         [_popoverWindowController setGraphsController:_graphsController];
         [_popoverWindowController setAboutController:_aboutController];
-    }
+    //}
 
     return _popoverWindowController.window;
 }

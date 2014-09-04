@@ -81,7 +81,6 @@
     }
 
     _toolbarView = newToolbarView;
-    _toolbarHeight = _toolbarView.bounds.size.height;
 
     [Localizer localizeView:_toolbarView];
 
@@ -94,6 +93,11 @@
 -(NSView *)toolbarView
 {
     return _toolbarView;
+}
+
+-(CGFloat)toolbarHeight
+{
+    return self.toolbarView.frame.size.height;
 }
 
 -(NSRect)bounds
@@ -120,14 +124,13 @@
     [[self.contentView superview] viewDidEndLiveResize];
 
     // Position the toolbar view
-    NSRect toolbarRect = NSMakeRect(0, self.frame.size.height - _toolbarHeight, self.frame.size.width, _toolbarHeight);
+    NSRect toolbarRect = NSMakeRect(0, self.frame.size.height - self.toolbarHeight, self.frame.size.width, self.toolbarHeight);
     [self.toolbarView setFrame:toolbarRect];
 
     // Position the content view
     NSRect contentViewFrame = [self.contentView frame];
     CGFloat currentTopMargin = NSHeight(self.frame) - NSHeight(contentViewFrame);
-    CGFloat titleBarHeight = self.toolbarView.frame.size.height + 1;
-    CGFloat delta = titleBarHeight - currentTopMargin;
+    CGFloat delta = self.toolbarHeight - currentTopMargin;
     contentViewFrame.size.height -= delta;
     [self.contentView setFrame:contentViewFrame];
 
@@ -135,13 +138,16 @@
     [[self.contentView superview] setNeedsDisplayInRect:toolbarRect];
 }
 
+- (void)windowDidChangedNotification:(NSNotification *)aNotification
+{
+    //[self layoutContent];
+}
+
 -(id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
     self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag];
 
     if (self) {
-
-        _toolbarHeight = 34;
 
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
@@ -177,6 +183,9 @@
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redraw) name:NSWindowDidResizeNotification object:self];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redraw) name:NSWindowDidBecomeKeyNotification object:self];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redraw) name:NSWindowDidResignKeyNotification object:self];
+
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidChangedNotification:) name:NSWindowDidResizeNotification object:self];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidChangedNotification:) name:NSWindowDidMoveNotification object:self];
         }];
     }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6205" systemVersion="14A314h" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="14A329f" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6205"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PopoverWindowController">
@@ -28,19 +28,18 @@
                 <outlet property="delegate" destination="-2" id="SxU-uJ-4QD"/>
                 <outlet property="toolbarView" destination="OK3-Df-mJd" id="Cw0-Dz-3Ub"/>
             </connections>
-            <point key="canvasLocation" x="458" y="294.5"/>
         </window>
         <customView id="OK3-Df-mJd" userLabel="Toolbar View">
-            <rect key="frame" x="0.0" y="0.0" width="223" height="22"/>
+            <rect key="frame" x="0.0" y="0.0" width="223" height="34"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <button toolTip="Hide Window" misplaced="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="dE0-6T-vtA" userLabel="Hide Popup Button" customClass="FadingButton">
-                    <rect key="frame" x="5" y="3" width="15" height="15"/>
+                <button toolTip="Hide Window" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="dE0-6T-vtA" userLabel="Hide Popup Button" customClass="FadingButton">
+                    <rect key="frame" x="9" y="10" width="15" height="15"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="15" id="Bbm-Dw-ba3"/>
                         <constraint firstAttribute="height" constant="15" id="wfr-dn-pP5"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="DFE5ECC6-5498-451D-B101-75B94E7D02AF" imagePosition="only" alignment="left" alternateImage="DFE5ECC6-5498-451D-B101-75B94E7D02AF" imageScaling="proportionallyUpOrDown" inset="2" id="ZwL-XR-kUa">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="E36529DB-8AEF-4DFB-BAE9-4E1CA9355D63" imagePosition="only" alignment="left" alternateImage="E36529DB-8AEF-4DFB-BAE9-4E1CA9355D63" imageScaling="proportionallyUpOrDown" inset="2" id="ZwL-XR-kUa">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                         <string key="keyEquivalent">g</string>
@@ -51,12 +50,12 @@
                     </connections>
                 </button>
                 <button toolTip="Preferences" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="Z27-D7-DH9" userLabel="Preferences Button" customClass="FadingButton">
-                    <rect key="frame" x="203" y="4" width="15" height="15"/>
+                    <rect key="frame" x="199" y="10" width="15" height="15"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="15" id="WJD-ms-LDS"/>
                         <constraint firstAttribute="height" constant="15" id="edn-zs-22w"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="429E11D7-F62F-4A66-8673-BCB0992B9DCB" imagePosition="only" alignment="left" alternateImage="429E11D7-F62F-4A66-8673-BCB0992B9DCB" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="Jpa-uz-hSY">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="34A4DC26-3A97-4E6D-86E3-94738CA69CE1" imagePosition="only" alignment="left" alternateImage="34A4DC26-3A97-4E6D-86E3-94738CA69CE1" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="Jpa-uz-hSY">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                         <string key="keyEquivalent">p</string>
@@ -67,12 +66,12 @@
                     </connections>
                 </button>
                 <button toolTip="History Graphs" alphaValue="0.80000000000000004" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YPt-Z5-WE6" userLabel="Graphs Button" customClass="FadingButton">
-                    <rect key="frame" x="183" y="4" width="15" height="15"/>
+                    <rect key="frame" x="179" y="10" width="15" height="15"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="15" id="KpE-YK-6tR"/>
                         <constraint firstAttribute="width" constant="15" id="k48-cA-VOz"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="A7CA00D2-4C4C-4FB4-9B2B-5F13AC099A11" imagePosition="only" alignment="left" alternateImage="A7CA00D2-4C4C-4FB4-9B2B-5F13AC099A11" imageScaling="proportionallyUpOrDown" inset="2" id="DCn-6e-Ifh">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="63523378-8CF5-4667-B690-0B466B6984B5" imagePosition="only" alignment="left" alternateImage="63523378-8CF5-4667-B690-0B466B6984B5" imageScaling="proportionallyUpOrDown" inset="2" id="DCn-6e-Ifh">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                         <string key="keyEquivalent">g</string>
@@ -84,14 +83,13 @@
                 </button>
             </subviews>
             <constraints>
-                <constraint firstItem="Z27-D7-DH9" firstAttribute="top" secondItem="OK3-Df-mJd" secondAttribute="top" constant="3" id="4Zs-zH-3Oc"/>
-                <constraint firstItem="dE0-6T-vtA" firstAttribute="leading" secondItem="OK3-Df-mJd" secondAttribute="leading" constant="5" id="6X0-TX-Fc5"/>
-                <constraint firstAttribute="trailing" secondItem="Z27-D7-DH9" secondAttribute="trailing" constant="5" id="OhH-tE-YYG"/>
-                <constraint firstItem="dE0-6T-vtA" firstAttribute="top" secondItem="OK3-Df-mJd" secondAttribute="top" constant="3" id="Rtj-kv-ZLW"/>
-                <constraint firstItem="YPt-Z5-WE6" firstAttribute="top" secondItem="OK3-Df-mJd" secondAttribute="top" constant="3" id="y5R-Vl-UU4"/>
+                <constraint firstItem="dE0-6T-vtA" firstAttribute="leading" secondItem="OK3-Df-mJd" secondAttribute="leading" constant="9" id="6X0-TX-Fc5"/>
+                <constraint firstAttribute="trailing" secondItem="Z27-D7-DH9" secondAttribute="trailing" constant="9" id="OhH-tE-YYG"/>
+                <constraint firstAttribute="centerY" secondItem="YPt-Z5-WE6" secondAttribute="centerY" id="ixg-n7-JSN"/>
+                <constraint firstAttribute="centerY" secondItem="Z27-D7-DH9" secondAttribute="centerY" id="oxe-N6-YLe"/>
+                <constraint firstAttribute="centerY" secondItem="dE0-6T-vtA" secondAttribute="centerY" id="xb1-mu-sXB"/>
                 <constraint firstItem="Z27-D7-DH9" firstAttribute="leading" secondItem="YPt-Z5-WE6" secondAttribute="trailing" constant="5" id="zga-Q9-4vi"/>
             </constraints>
-            <point key="canvasLocation" x="217.5" y="361"/>
         </customView>
         <menu title="Main Menu" systemMenu="main" id="AW2-xw-K3s">
             <items>
@@ -257,10 +255,10 @@
         </menu>
     </objects>
     <resources>
-        <image name="429E11D7-F62F-4A66-8673-BCB0992B9DCB" width="15" height="15">
+        <image name="34A4DC26-3A97-4E6D-86E3-94738CA69CE1" width="15" height="15">
             <mutableData key="keyedArchiveRepresentation">
-YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
-GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
+YnBsaXN0MDDUAQIDBAUGP0BYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
+GxwgISktMTc7VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
 DBIAwAAAgAKACtISCRMVWk5TLm9iamVjdHOhFIADgAnSEgkXGqIYGYAEgAWACBAA0h0JHh9fEBROU1RJ
 RkZSZXByZXNlbnRhdGlvboAGgAdPEQl6TU0AKgAAA4z///8A////Av///wD///8A////B////wD///+a
 /////////5r///8A////B////wD///8A////Av///wD///8C////AP///zr///88////AP///w3////J
@@ -304,18 +302,18 @@ AAAAAPNSAAEAAAABFs9YWVogAAAAAAAAdE0AAD3uAAAD0FhZWiAAAAAAAAAoGgAAFZ8AALg2Y3VydgAA
 AAAAAAABAc0AAHRleHQAAAAAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNl
 cnZlZC4Ac2YzMgAAAAAAAQxCAAAF3v//8yYAAAeSAAD9kf//+6L///2jAAAD3AAAwGzSIiMkJVokY2xh
 c3NuYW1lWCRjbGFzc2VzXxAQTlNCaXRtYXBJbWFnZVJlcKMmJyhfEBBOU0JpdG1hcEltYWdlUmVwWk5T
-SW1hZ2VSZXBYTlNPYmplY3TSIiMqK1dOU0FycmF5oioo0iIjLS5eTlNNdXRhYmxlQXJyYXmjLSoo0zAx
-CTIzNFdOU1doaXRlXE5TQ29sb3JTcGFjZUQwIDAAEAOAC9IiIzY3V05TQ29sb3KiNijSIiM5OldOU0lt
-YWdlojkoXxAPTlNLZXllZEFyY2hpdmVy0T0+VHJvb3SAAQAIABEAGgAjAC0AMgA3AEUASwBUAFsAaABv
-AHcAeQB+AIAAggCHAJIAlACWAJgAnQCgAKIApACmAKgArQDEAMYAyApGCksKVgpfCnIKdgqJCpQKnQqi
-CqoKrQqyCsEKxQrMCtQK4QrmCugK6grvCvcK+gr/CwcLCgscCx8LJAAAAAAAAAIBAAAAAAAAAD8AAAAA
-AAAAAAAAAAAAAAsmA
+SW1hZ2VSZXBYTlNPYmplY3TSIiMqK1dOU0FycmF5oiwoV05TQXJyYXnSIiMuL15OU011dGFibGVBcnJh
+eaMuMChXTlNBcnJhedMyMwk0NTZXTlNXaGl0ZVxOU0NvbG9yU3BhY2VEMCAwABADgAvSIiM4OVdOU0Nv
+bG9yojooV05TQ29sb3LSIiM8PVdOU0ltYWdloj4oV05TSW1hZ2VfEA9OU0tleWVkQXJjaGl2ZXLRQUJU
+cm9vdIABAAgAEQAaACMALQAyADcARQBLAFQAWwBoAG8AdwB5AH4AgACCAIcAkgCUAJYAmACdAKAAogCk
+AKYAqACtAMQAxgDICkYKSwpWCl8Kcgp2CokKlAqdCqIKqgqtCrUKugrJCs0K1QrcCuQK8Qr2CvgK+gr/
+CwcLCgsSCxcLHwsiCyoLPAs/C0QAAAAAAAACAQAAAAAAAABDAAAAAAAAAAAAAAAAAAALRg
 </mutableData>
         </image>
-        <image name="A7CA00D2-4C4C-4FB4-9B2B-5F13AC099A11" width="15" height="15">
+        <image name="63523378-8CF5-4667-B690-0B466B6984B5" width="15" height="15">
             <mutableData key="keyedArchiveRepresentation">
-YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
-GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
+YnBsaXN0MDDUAQIDBAUGP0BYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
+GxwgISktMTc7VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
 DBIAwAAAgAKACtISCRMVWk5TLm9iamVjdHOhFIADgAnSEgkXGqIYGYAEgAWACBAA0h0JHh9fEBROU1RJ
 RkZSZXByZXNlbnRhdGlvboAGgAdPEQl6TU0AKgAAA4z////Y////rP7+/rT///+y////sv///7L///+y
 ////sv///7L///+0////sv///7P///+v////pf///9n///+Y////I/r6+jf///8z////M////zP///8z
@@ -359,18 +357,18 @@ AAAAAPNSAAEAAAABFs9YWVogAAAAAAAAdE0AAD3uAAAD0FhZWiAAAAAAAAAoGgAAFZ8AALg2Y3VydgAA
 AAAAAAABAc0AAHRleHQAAAAAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNl
 cnZlZC4Ac2YzMgAAAAAAAQxCAAAF3v//8yYAAAeSAAD9kf//+6L///2jAAAD3AAAwGzSIiMkJVokY2xh
 c3NuYW1lWCRjbGFzc2VzXxAQTlNCaXRtYXBJbWFnZVJlcKMmJyhfEBBOU0JpdG1hcEltYWdlUmVwWk5T
-SW1hZ2VSZXBYTlNPYmplY3TSIiMqK1dOU0FycmF5oioo0iIjLS5eTlNNdXRhYmxlQXJyYXmjLSoo0zAx
-CTIzNFdOU1doaXRlXE5TQ29sb3JTcGFjZUQwIDAAEAOAC9IiIzY3V05TQ29sb3KiNijSIiM5OldOU0lt
-YWdlojkoXxAPTlNLZXllZEFyY2hpdmVy0T0+VHJvb3SAAQAIABEAGgAjAC0AMgA3AEUASwBUAFsAaABv
-AHcAeQB+AIAAggCHAJIAlACWAJgAnQCgAKIApACmAKgArQDEAMYAyApGCksKVgpfCnIKdgqJCpQKnQqi
-CqoKrQqyCsEKxQrMCtQK4QrmCugK6grvCvcK+gr/CwcLCgscCx8LJAAAAAAAAAIBAAAAAAAAAD8AAAAA
-AAAAAAAAAAAAAAsmA
+SW1hZ2VSZXBYTlNPYmplY3TSIiMqK1dOU0FycmF5oiwoV05TQXJyYXnSIiMuL15OU011dGFibGVBcnJh
+eaMuMChXTlNBcnJhedMyMwk0NTZXTlNXaGl0ZVxOU0NvbG9yU3BhY2VEMCAwABADgAvSIiM4OVdOU0Nv
+bG9yojooV05TQ29sb3LSIiM8PVdOU0ltYWdloj4oV05TSW1hZ2VfEA9OU0tleWVkQXJjaGl2ZXLRQUJU
+cm9vdIABAAgAEQAaACMALQAyADcARQBLAFQAWwBoAG8AdwB5AH4AgACCAIcAkgCUAJYAmACdAKAAogCk
+AKYAqACtAMQAxgDICkYKSwpWCl8Kcgp2CokKlAqdCqIKqgqtCrUKugrJCs0K1QrcCuQK8Qr2CvgK+gr/
+CwcLCgsSCxcLHwsiCyoLPAs/C0QAAAAAAAACAQAAAAAAAABDAAAAAAAAAAAAAAAAAAALRg
 </mutableData>
         </image>
-        <image name="DFE5ECC6-5498-451D-B101-75B94E7D02AF" width="15" height="15">
+        <image name="E36529DB-8AEF-4DFB-BAE9-4E1CA9355D63" width="15" height="15">
             <mutableData key="keyedArchiveRepresentation">
-YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
-GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
+YnBsaXN0MDDUAQIDBAUGP0BYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
+GxwgISktMTc7VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
 DBIAwAAAgAKACtISCRMVWk5TLm9iamVjdHOhFIADgAnSEgkXGqIYGYAEgAWACBAA0h0JHh9fEBROU1RJ
 RkZSZXByZXNlbnRhdGlvboAGgAdPEQvyTU0AKgAAA4z///8A////Av///wD///8A////Pf39/Zr////U
 ////5f///9T9/f2a////Pf///wD///8A////Av///wD///8C////AP///wf///+c/v7+////////////
@@ -425,11 +423,12 @@ LgBYWVogAAAAAAAA81IAAQAAAAEWz1hZWiAAAAAAAAB0TQAAPe4AAAPQWFlaIAAAAAAAAFp1AACscwAA
 FzRYWVogAAAAAAAAKBoAABWfAAC4NmN1cnYAAAAAAAAAAQHNAABzZjMyAAAAAAABDEIAAAXe///zJgAA
 B5IAAP2R///7ov///aMAAAPcAADAbNIiIyQlWiRjbGFzc25hbWVYJGNsYXNzZXNfEBBOU0JpdG1hcElt
 YWdlUmVwoyYnKF8QEE5TQml0bWFwSW1hZ2VSZXBaTlNJbWFnZVJlcFhOU09iamVjdNIiIyorV05TQXJy
-YXmiKijSIiMtLl5OU011dGFibGVBcnJheaMtKijTMDEJMjM0V05TV2hpdGVcTlNDb2xvclNwYWNlRDAg
-MAAQA4AL0iIjNjdXTlNDb2xvcqI2KNIiIzk6V05TSW1hZ2WiOShfEA9OU0tleWVkQXJjaGl2ZXLRPT5U
-cm9vdIABAAgAEQAaACMALQAyADcARQBLAFQAWwBoAG8AdwB5AH4AgACCAIcAkgCUAJYAmACdAKAAogCk
-AKYAqACtAMQAxgDIDL4MwwzODNcM6gzuDQENDA0VDRoNIg0lDSoNOQ09DUQNTA1ZDV4NYA1iDWcNbw1y
-DXcNfw2CDZQNlw2cAAAAAAAAAgEAAAAAAAAAPwAAAAAAAAAAAAAAAAAADZ4
+YXmiLChXTlNBcnJhedIiIy4vXk5TTXV0YWJsZUFycmF5oy4wKFdOU0FycmF50zIzCTQ1NldOU1doaXRl
+XE5TQ29sb3JTcGFjZUQwIDAAEAOAC9IiIzg5V05TQ29sb3KiOihXTlNDb2xvctIiIzw9V05TSW1hZ2Wi
+PihXTlNJbWFnZV8QD05TS2V5ZWRBcmNoaXZlctFBQlRyb290gAEACAARABoAIwAtADIANwBFAEsAVABb
+AGgAbwB3AHkAfgCAAIIAhwCSAJQAlgCYAJ0AoACiAKQApgCoAK0AxADGAMgMvgzDDM4M1wzqDO4NAQ0M
+DRUNGg0iDSUNLQ0yDUENRQ1NDVQNXA1pDW4NcA1yDXcNfw2CDYoNjw2XDZoNog20DbcNvAAAAAAAAAIB
+AAAAAAAAAEMAAAAAAAAAAAAAAAAAAA2+A
 </mutableData>
         </image>
     </resources>

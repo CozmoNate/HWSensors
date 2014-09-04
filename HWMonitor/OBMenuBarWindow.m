@@ -656,8 +656,8 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
         {
             self.attachedToMenuBar = NO;
         }
+            [self layoutContent];
     }
-    [self layoutContent];
 }
 
 - (void)statusItemViewDidMove:(NSNotification *)aNotification

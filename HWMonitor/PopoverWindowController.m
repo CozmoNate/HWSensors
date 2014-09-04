@@ -60,15 +60,45 @@
     
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 
-    _sensorsViewController = [SensorsViewController new];
+        _sensorsViewController = [SensorsViewController new];
 
-    [self.sensorsViewController.view setFrame:[self.window.contentView bounds]];
-    [self.sensorsViewController.view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    [self.window.contentView addSubview:self.sensorsViewController.view];
+    [self.sensorsViewController setDelegate:self];
 
-    [Localizer localizeView:self.window];
+        [self.sensorsViewController.view setFrame:[self.window.contentView bounds]];
+    [NSLayoutConstraint constraintWithItem:self.sensorsViewController.view
+                                 attribute:NSLayoutAttributeLeft
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.window.contentView
+                                 attribute:NSLayoutAttributeLeft
+                                multiplier:1.0
+                                  constant:0];
+    [NSLayoutConstraint constraintWithItem:self.sensorsViewController.view
+                                 attribute:NSLayoutAttributeRight
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.window.contentView
+                                 attribute:NSLayoutAttributeRight
+                                multiplier:1.0
+                                  constant:0];
+    [NSLayoutConstraint constraintWithItem:self.sensorsViewController.view
+                                 attribute:NSLayoutAttributeTop
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.window.contentView
+                                 attribute:NSLayoutAttributeTop
+                                multiplier:1.0
+                                  constant:0];
+    [NSLayoutConstraint constraintWithItem:self.sensorsViewController.view
+                                 attribute:NSLayoutAttributeBottom
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.window.contentView
+                                 attribute:NSLayoutAttributeBottom
+                                multiplier:1.0
+                                  constant:0];
+        [self.sensorsViewController.view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [self.window.contentView addSubview:self.sensorsViewController.view];
 
-    [self sizeToFitContent];
+        [Localizer localizeView:self.window];
+
+        [self sizeToFitContent];
 }
 
 -(IBAction)showPreferencesWindow:(id)sender
@@ -82,7 +112,7 @@
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self close];
-        [_popoverController open:self];
+        [self.popoverController open:self];
     }];
 }
 

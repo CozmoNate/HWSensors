@@ -373,6 +373,15 @@
 }
 
 #pragma mark
+#pragma mark PopoverControllerDelegate:
+
+-(void)popoverDidShow:(NSNotification *)notification
+{
+    [self.monitorEngine updateSmcAndDeviceSensors];
+    [self.monitorEngine updateAtaSmartSensors];
+}
+
+#pragma mark
 #pragma mark  NSTableViewDelegate:
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView

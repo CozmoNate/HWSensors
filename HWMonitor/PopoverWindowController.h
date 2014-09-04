@@ -14,7 +14,8 @@
 
 @interface PopoverWindowController : NSWindowController <SensorsViewControllerDelegate>
 
-@property (nonatomic, weak) IBOutlet PopoverController *popoverController;
+@property (assign) IBOutlet PopoverController *popoverController;
+
 @property (assign) IBOutlet NSWindowController *appController;
 @property (assign) IBOutlet NSWindowController *graphsController;
 @property (assign) IBOutlet NSWindowController *aboutController;

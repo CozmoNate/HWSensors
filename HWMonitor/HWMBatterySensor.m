@@ -221,7 +221,7 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
         case kHWMBatterySensorBluetooth:
             return floatValue < 5 ? kHWMSensorLevelExceeded :
                    floatValue < 10 ? kHWMSensorLevelHigh :
-                   floatValue < 30 ? kHWMSensorLevelModerate :
+                   floatValue < 20 ? kHWMSensorLevelModerate :
                    kHWMSensorLevelNormal;
 
         default:
@@ -260,40 +260,45 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
 
 -(void)internalSendAlarmNotification
 {
-    switch (_alarmLevel) {
-        case kHWMSensorLevelExceeded:
-            [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
-                                        description:[NSString stringWithFormat:GetLocalizedString(@"%@ completely discharged!"), self.title]
-                                   notificationName:NotifierSensorLevelExceededNotification
-                                           iconData:nil
-                                           priority:1000
-                                           isSticky:YES
-                                       clickContext:nil];
-            break;
+    // Draining
+    if ([self.value isLessThan:_previousAlaramLevelValue]) {
+        switch (_alarmLevel) {
+            case kHWMSensorLevelExceeded:
+                [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
+                                            description:[NSString stringWithFormat:GetLocalizedString(@"%@ completely discharged!"), self.title]
+                                       notificationName:NotifierSensorLevelExceededNotification
+                                               iconData:nil
+                                               priority:1000
+                                               isSticky:YES
+                                           clickContext:nil];
+                break;
 
-        case kHWMSensorLevelHigh:
-            [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
-                                        description:[NSString stringWithFormat:GetLocalizedString(@"%@ needs to be recharged"), self.title]
-                                   notificationName:NotifierSensorLevelHighNotification
-                                           iconData:nil
-                                           priority:500
-                                           isSticky:YES
-                                       clickContext:nil];
-            break;
+            case kHWMSensorLevelHigh:
+                [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
+                                            description:[NSString stringWithFormat:GetLocalizedString(@"%@ needs to be recharged"), self.title]
+                                       notificationName:NotifierSensorLevelHighNotification
+                                               iconData:nil
+                                               priority:500
+                                               isSticky:YES
+                                           clickContext:nil];
+                break;
 
-        case kHWMSensorLevelModerate:
-            [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
-                                        description:[NSString stringWithFormat:GetLocalizedString(@"%@ is low"), self.title]
-                                   notificationName:NotifierSensorLevelModerateNotification
-                                           iconData:nil
-                                           priority:0
-                                           isSticky:YES
-                                       clickContext:nil];
-            break;
-
-        default:
-            break;
+            case kHWMSensorLevelModerate:
+                [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
+                                            description:[NSString stringWithFormat:GetLocalizedString(@"%@ is low"), self.title]
+                                       notificationName:NotifierSensorLevelModerateNotification
+                                               iconData:nil
+                                               priority:0
+                                               isSticky:YES
+                                           clickContext:nil];
+                break;
+                
+            default:
+                break;
+        }
     }
+
+    _previousAlaramLevelValue = [self.value copy];
 }
 
 @end

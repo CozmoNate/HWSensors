@@ -36,6 +36,9 @@
 @class HWMEngine, HWMSensorsGroup;
 
 @interface HWMBatterySensor : HWMSensor
+{
+    NSNumber * _previousAlaramLevelValue;
+}
 
 @property (nonatomic, assign) NSUInteger deviceType;
 

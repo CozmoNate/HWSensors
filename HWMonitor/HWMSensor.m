@@ -227,6 +227,7 @@
 
         if (!self.value || ![value isEqualToNumber:self.value]) {
             //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
                 [self willChangeValueForKey:@keypath(self, value)];
                 [self setPrimitiveValue:value forKey:@keypath(self, value)];
                 [self didChangeValueForKey:@keypath(self, value)];
