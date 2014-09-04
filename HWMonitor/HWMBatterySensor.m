@@ -261,7 +261,7 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
 -(void)internalSendAlarmNotification
 {
     // Draining
-    if ([self.value isLessThan:_previousAlaramLevelValue]) {
+    if (!_previousAlaramLevelValue || [self.value isLessThan:_previousAlaramLevelValue]) {
         switch (_alarmLevel) {
             case kHWMSensorLevelExceeded:
                 [GrowlApplicationBridge notifyWithTitle:GetLocalizedString(@"Sensor alarm level changed")
