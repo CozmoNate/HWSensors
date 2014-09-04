@@ -237,7 +237,7 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
 
     if (MACH_PORT_NULL != service) {
 
-        float value = 0;
+        NSNumber * value = nil;
 
         switch (self.deviceType) {
             case kHWMBatterySensorInternal: {
@@ -245,7 +245,7 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
                 NSNumber *current = registry_entry_read_number(service, kHWMBatterySensorCurrentCapacity);
 
                 if (max && current && [max doubleValue] > 0) {
-                    value = (([current doubleValue] / [max doubleValue]) + 0.005) * 100;
+                    value = [NSNumber numberWithDouble:(([current doubleValue] / [max doubleValue]) + 0.005) * 100];
                 }
 
                 break;
@@ -256,11 +256,11 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
                 break;
         }
 
-        if (!_previousAlaramLevelValue || ![_previousAlaramLevelValue isEqualToNumber:self.value]) {
-            _previousAlaramLevelValue = [self.value copy];
+        if (!_previousAlaramLevelValue || ![_previousAlaramLevelValue isEqualToNumber:value]) {
+            _previousAlaramLevelValue = [value copy];
         }
 
-        return [NSNumber numberWithFloat:value];
+        return value;
     }
 
     return nil;
