@@ -121,7 +121,6 @@
     [zoomButton setHidden:YES];
 
     [[self.contentView superview] viewWillStartLiveResize];
-    [[self.contentView superview] viewDidEndLiveResize];
 
     // Position the toolbar view
     NSRect toolbarRect = NSMakeRect(0, self.frame.size.height - self.toolbarHeight, self.frame.size.width, self.toolbarHeight);
@@ -134,13 +133,17 @@
     contentViewFrame.size.height -= delta;
     [self.contentView setFrame:contentViewFrame];
 
+    [[self.contentView superview] viewDidEndLiveResize];
+
     // Redraw the theme frame
     [[self.contentView superview] setNeedsDisplayInRect:toolbarRect];
 }
 
-- (void)windowDidChangedNotification:(NSNotification *)aNotification
+
+- (void)windowDidResizeNotification:(NSNotification *)aNotification
 {
-    //[self layoutContent];
+    [self layoutIfNeeded];
+    [self layoutContent];
 }
 
 -(id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
@@ -184,8 +187,7 @@
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redraw) name:NSWindowDidBecomeKeyNotification object:self];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redraw) name:NSWindowDidResignKeyNotification object:self];
 
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidChangedNotification:) name:NSWindowDidResizeNotification object:self];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidChangedNotification:) name:NSWindowDidMoveNotification object:self];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResizeNotification:) name:NSWindowDidResizeNotification object:self];
         }];
     }
 
@@ -207,7 +209,6 @@
 -(void)orderFront:(id)sender
 {
     [super orderFront:sender];
-
     [self setStrongBackgroundBlur];
 }
 

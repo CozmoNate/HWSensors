@@ -113,14 +113,15 @@
 
             _sensorsAndGroupsCollectionSnapshot = nil;
 
-            [_tableView updateWithObjectValues:self.sensorsAndGroupsCollectionSnapshot previousObjectValues:oldSensorsAndGroups];
+        if ([_tableView updateWithObjectValues:self.sensorsAndGroupsCollectionSnapshot previousObjectValues:oldSensorsAndGroups]) {
 
             _contentHeight = 0;
 
             if (self.delegate && [self.delegate respondsToSelector:@selector(sensorsViewControllerDidReloadData:)]) {
                 [self.delegate sensorsViewControllerDidReloadData:self];
             }
-            
+        }
+
         //NSLog(@"ended reloading data");
         //});
     }];
@@ -133,7 +134,8 @@
     if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.colorTheme)]) {
         [(JLNFadingScrollView *)self.scrollView setFadeColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
     }
-    else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup)] || [keyPath isEqual:@keypath(self, monitorEngine.sensorsAndGroups)]) {
+    else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup)] ||
+             [keyPath isEqual:@keypath(self, monitorEngine.sensorsAndGroups)]) {
         [self reloadData];
     }
 }

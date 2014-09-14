@@ -281,6 +281,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
     [closeButton setFrame:NSMakeRect(7, buttonOriginY, buttonWidth, buttonHeight)];
     [minimiseButton setFrame:NSMakeRect(27, buttonOriginY, buttonWidth, buttonHeight)];
     [zoomButton setFrame:NSMakeRect(47, buttonOriginY, buttonWidth, buttonHeight)];
+
     [[self.contentView superview] viewWillStartLiveResize];
     [[self.contentView superview] viewDidEndLiveResize];
 
@@ -656,8 +657,9 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
         {
             self.attachedToMenuBar = NO;
         }
-            [self layoutContent];
     }
+
+    [self layoutContent];
 }
 
 - (void)statusItemViewDidMove:(NSNotification *)aNotification

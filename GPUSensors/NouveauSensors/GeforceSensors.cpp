@@ -119,23 +119,21 @@ bool GeforceSensors::shouldWaitForAccelerator()
 
 bool GeforceSensors::acceleratorLoadedCheck()
 {
-    bool acceleratorFound = NULL != OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
+    bool acceleratorFound = false; //NULL != OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"));
 
-    if (!acceleratorFound) {
-        if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
-            if (OSIterator *iterator = getMatchingServices(matching)) {
-                while (IOService *service = (IOService*)iterator->getNextObject()) {
-                    if (pciDevice == service->getParentEntry(gIOServicePlane)) {
-                        acceleratorFound = true;
-                        break;
-                    }
+    if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
+        if (OSIterator *iterator = getMatchingServices(matching)) {
+            while (IOService *service = (IOService*)iterator->getNextObject()) {
+                if (pciDevice == service->getParentEntry(gIOServicePlane)) {
+                    acceleratorFound = true;
+                    break;
                 }
-
-                OSSafeRelease(iterator);
             }
-            
-            OSSafeRelease(matching);
+
+            OSSafeRelease(iterator);
         }
+        
+        OSSafeRelease(matching);
     }
 
     return acceleratorFound;
@@ -169,10 +167,8 @@ bool GeforceSensors::shadowBios()
     return true;
 }
 
-bool GeforceSensors::startupCheck(IOService *provider)
+bool GeforceSensors::mapMemory(IOService *provider)
 {
-    HWSensorsDebugLog("Initializing...");
-
     struct nouveau_device *device = &card;
 
     if ((card.card_index = takeVacantGPUIndex()) < 0) {
@@ -203,8 +199,22 @@ bool GeforceSensors::startupCheck(IOService *provider)
         return false;
     }
 
-    if (!shadowBios()) {
-        nv_error(device, "early VBIOS shadow failed, will try after accelerator started\n");
+    shadowBios();
+
+    return true;
+    /*if (!shadowBios()) {
+     nv_error(device, "early VBIOS shadow failed, will try after accelerator started\n");
+     }*/
+}
+
+bool GeforceSensors::startupCheck(IOService *provider)
+{
+    HWSensorsDebugLog("Initializing...");
+
+    struct nouveau_device *device = &card;
+
+    if (device->card_type >= NV_C0) {
+        return mapMemory(provider);
     }
 
     return true;
@@ -215,6 +225,10 @@ bool GeforceSensors::managedStart(IOService *provider)
     HWSensorsDebugLog("Starting...");
 
     struct nouveau_device *device = &card;
+
+    if (device->card_type < NV_C0 && !mapMemory(provider)) {
+        return false;
+    }
 
     if (!device->bios.data || !device->bios.size) {
         if (!shadowBios()) {

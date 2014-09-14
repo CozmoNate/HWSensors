@@ -63,7 +63,7 @@
         [_popover setDelegate:self];
 
         [_popover setAnimates:NO];
-        [_popover setBehavior:NSPopoverBehaviorTransient];
+        [_popover setBehavior:NSPopoverBehaviorApplicationDefined];
 
         [self colorThemeChanged];
 
@@ -174,14 +174,14 @@
         return;
     }
 
-    if (_popover && sender == self && _popover.isShown) {
+    if (_popover && _popover.isShown) {
         [_popover performClose:sender];
     }
 }
 
 -(IBAction)toggle:(id)sender
 {
-    if ((_popover && [_popover isShown]) /*|| (_popoverWindowController && _popoverWindowController.window.isVisible)*/) {
+    if ((_popover && _popover.isShown) /*|| (_popoverWindowController && _popoverWindowController.window.isVisible)*/) {
         [self close:self];
     }
     else {

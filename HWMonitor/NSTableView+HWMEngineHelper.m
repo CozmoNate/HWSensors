@@ -85,11 +85,13 @@
     *movedTo = to;
 }
 
--(void)updateWithObjectValues:(NSArray*)objectValues previousObjectValues:(NSArray*)oldObjectValues updateHeightOfTheRows:(BOOL)updateHeights withRemoveAnimation:(NSTableViewAnimationOptions)removeAnime insertAnimation:(NSTableViewAnimationOptions)insertAnime;
+-(BOOL)updateWithObjectValues:(NSArray*)objectValues previousObjectValues:(NSArray*)oldObjectValues updateHeightOfTheRows:(BOOL)updateHeights withRemoveAnimation:(NSTableViewAnimationOptions)removeAnime insertAnimation:(NSTableViewAnimationOptions)insertAnime;
 {
     NSIndexSet *inserted, *removed, *from, *to;
 
     [NSTableView compareItemsList:oldObjectValues toItemsList:objectValues additions:&inserted deletions:&removed movedFrom:&from movedTo:&to];
+
+    BOOL updated = inserted.count + removed.count + from.count + to.count;
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
 
@@ -114,14 +116,16 @@
             }];
         }
     }];
+
+    return updated;
 }
 
--(void)updateWithObjectValues:(NSArray*)oldObjects previousObjectValues:(NSArray*)newObjects
+-(BOOL)updateWithObjectValues:(NSArray*)oldObjects previousObjectValues:(NSArray*)newObjects
 {
-    [self updateWithObjectValues:oldObjects previousObjectValues:newObjects
-           updateHeightOfTheRows:YES
-             withRemoveAnimation:NSTableViewAnimationSlideUp
-                 insertAnimation:NSTableViewAnimationSlideDown];
+    return [self updateWithObjectValues:oldObjects previousObjectValues:newObjects
+                  updateHeightOfTheRows:YES
+                    withRemoveAnimation:NSTableViewAnimationSlideUp
+                        insertAnimation:NSTableViewAnimationSlideDown];
 }
 
 @end
