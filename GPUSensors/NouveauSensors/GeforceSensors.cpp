@@ -143,6 +143,10 @@ bool GeforceSensors::shadowBios()
 {
     struct nouveau_device *device = &card;
 
+    if (device->bios.data || device->bios.size)
+        return true; // BIOS present already
+
+
     //try to load bios from registry first from "vbios" property created by Chameleon boolloader
     if (OSData *vbios = OSDynamicCast(OSData, pciDevice->getProperty("vbios"))) {
         device->bios.size = vbios->getLength();
@@ -199,8 +203,6 @@ bool GeforceSensors::mapMemory(IOService *provider)
         return false;
     }
 
-    shadowBios();
-
     return true;
     /*if (!shadowBios()) {
      nv_error(device, "early VBIOS shadow failed, will try after accelerator started\n");
@@ -214,7 +216,12 @@ bool GeforceSensors::startupCheck(IOService *provider)
     struct nouveau_device *device = &card;
 
     if (device->card_type >= NV_C0) {
-        return mapMemory(provider);
+        if (mapMemory(provider)) {
+            shadowBios(); // Early shadow vBIOS for newer cards
+        }
+        else {
+            return false;
+        }
     }
 
     return true;
@@ -230,13 +237,12 @@ bool GeforceSensors::managedStart(IOService *provider)
         return false;
     }
 
-    if (!device->bios.data || !device->bios.size) {
-        if (!shadowBios()) {
-            nv_fatal(device, "unable to shadow VBIOS\n");
-            releaseGPUIndex(card.card_index);
-            card.card_index = -1;
-            return false;
-        }
+    // If vBIOS was not shadowed before give it second chance
+    if (!shadowBios()) {
+        nv_fatal(device, "unable to shadow VBIOS\n");
+        releaseGPUIndex(card.card_index);
+        card.card_index = -1;
+        return false;
     }
 
     nouveau_vbios_init(device);
