@@ -183,6 +183,7 @@ int nouveau_bios_score(struct nouveau_device *device, const bool writeable)
 	}
     
 	nv_debug(device, "VBIOS appears to be valid\n");
+
 	return 3;
 }
 
