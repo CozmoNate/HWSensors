@@ -22,14 +22,15 @@ private:
     int                     probeCounter;
     
     IOReturn                probeEvent();
+    IOReturn                delayedStartEvent();
     
 protected:
     IOPCIDevice*            pciDevice;
     
     
     virtual bool            shouldWaitForAccelerator();
-    virtual bool            acceleratorLoadedCheck();
-    virtual bool            startupCheck(IOService *provider);
+    virtual bool            probIsAcceleratorAlreadyLoaded();
+    virtual bool            onStartUp(IOService *provider);
     virtual void            onAcceleratorFound(IOService *provider);
     virtual void            onTimeoutExceeded(IOService *provider);
     virtual bool            managedStart(IOService *provider);

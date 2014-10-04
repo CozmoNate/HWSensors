@@ -249,7 +249,7 @@
     // Order front if needed
     if (orderFront) {
         [menubarWindow makeKeyAndOrderFront:self];
-        [self.window setStrongBackgroundBlur];
+        [self.window setHeavyBackgroundBlur];
     }
 }
 

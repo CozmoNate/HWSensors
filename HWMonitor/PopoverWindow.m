@@ -209,7 +209,7 @@
 -(void)orderFront:(id)sender
 {
     [super orderFront:sender];
-    [self setStrongBackgroundBlur];
+    [self setHeavyBackgroundBlur];
 }
 
 -(void)redraw

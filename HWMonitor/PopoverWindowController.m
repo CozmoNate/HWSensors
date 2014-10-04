@@ -51,7 +51,7 @@
 {
     [super showWindow:sender];
 
-    [self.window setStrongBackgroundBlur];
+    [self.window setHeavyBackgroundBlur];
 }
 
 - (void)windowDidLoad

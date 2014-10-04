@@ -84,8 +84,13 @@ bool GeforceSensors::mapMemory(IOService *provider)
 {
     struct nouveau_device *device = &card;
 
+    if (device->mmio && card.card_index >= 0) {
+        // Already mapped
+        return true;
+    }
+
     if ((card.card_index = takeVacantGPUIndex()) < 0) {
-        nv_fatal(device, "failed to take vacant GPU index\n");
+        nv_error(device, "failed to take vacant GPU index\n");
         return false;
     }
 
@@ -98,12 +103,12 @@ bool GeforceSensors::mapMemory(IOService *provider)
             nv_debug(device, "memory mapped successfully\n");
         }
         else {
-            nv_fatal(device, "failed to map memory\n");
+            nv_error(device, "failed to map memory\n");
             return false;
         }
     }
     else {
-        HWSensorsFatalLog("(pci%d): [Fatal] failed to assign PCI device", pciDevice->getBusNumber());
+        HWSensorsErrorLog("(pci%d): [Fatal] failed to assign PCI device", pciDevice->getBusNumber());
         return false;
     }
 
@@ -180,14 +185,24 @@ bool GeforceSensors::shouldWaitForAccelerator()
         return false;
     }
 
-    return true;
-    //return card.card_type < NV_C0 ? true : false; // wait for accelerator to start and only after that prob i2c devices
+    return card.card_type < NV_C0 ? true : false; // wait for accelerator to start and only after that prob i2c devices
 }
 
-bool GeforceSensors::acceleratorLoadedCheck()
+bool GeforceSensors::probIsAcceleratorAlreadyLoaded()
 {
-    bool acceleratorFound = (NULL != OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"))) || // Pre 10.10
-                            (NULL != OSDynamicCast(OSData, pciDevice->getProperty("nvAcceleratorLoaded"))); // 10.10
+    OSData * value = OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded")) ?: OSDynamicCast(OSData, pciDevice->getProperty("nvAcceleratorLoaded"));
+
+    if (value) {
+        const UInt32 * bytes = (const UInt32 *)value->getBytesNoCopy();
+
+        if (*bytes) {
+            return true;
+        }
+    }
+
+
+//    bool acceleratorFound = (NULL != OSDynamicCast(OSData, pciDevice->getProperty("NVKernelLoaded"))) || // Pre 10.10
+//                            (NULL != OSDynamicCast(OSData, pciDevice->getProperty("nvAcceleratorLoaded"))); // 10.10
 
 //    if (OSDictionary *matching = serviceMatching("IOAccelerator")) {
 //        if (OSIterator *iterator = getMatchingServices(matching)) {
@@ -204,34 +219,36 @@ bool GeforceSensors::acceleratorLoadedCheck()
 //        OSSafeRelease(matching);
 //    }
 
-    return acceleratorFound;
+    return false;
 }
 
-bool GeforceSensors::startupCheck(IOService *provider)
+bool GeforceSensors::onStartUp(IOService *provider)
 {
     HWSensorsDebugLog("Initializing...");
 
     struct nouveau_device *device = &card;
 
-//    if (device->card_type >= NV_C0) {
-//        if (mapMemory(provider)) {
-//            shadowBios(); // Early shadow vBIOS for newer cards
-//        }
-//        else {
-//            return false;
-//        }
-//    }
+    if (mapMemory(provider)) {
+        if (device->card_type >= NV_C0) {
+            HWSensorsInfoLog("starting early shadow VBIOS...");
+            shadowBios(); // Early shadow vBIOS for newer cards
+        }
+    }
+    else {
+        return false;
+    }
 
     return true;
 }
 
 bool GeforceSensors::managedStart(IOService *provider)
 {
-    HWSensorsDebugLog("Starting...");
+    HWSensorsDebugLog("Managed start...");
 
     struct nouveau_device *device = &card;
 
-    if (/*device->card_type < NV_C0 &&*/!mapMemory(provider)) {
+    if (!mapMemory(provider)) {
+        HWSensorsFatalLog("failed to map device memory");
         return false;
     }
 

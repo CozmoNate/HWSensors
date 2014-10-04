@@ -978,11 +978,12 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
 
 -(BOOL)findIndexOfAttributeByName:(NSString*)name outIndex:(NSInteger*)index
 {
-    NSArray *results = [_attributes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"name = %@", name];
+    *index = [_attributes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        return [predicate evaluateWithObject:obj];
+    }];
 
-    *index = results && results.count ? [[results objectAtIndex:0][@"index"] unsignedIntegerValue] : -1;
-
-    return *index > -1;
+    return *index != NSNotFound;
 }
 
 -(void)updateVolumeNames

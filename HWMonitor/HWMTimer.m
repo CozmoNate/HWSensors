@@ -74,7 +74,7 @@
 
 -(void)setInterval:(NSTimeInterval)interval
 {
-    if (_interval != interval) {
+    //if (_interval != interval) {
 
         _interval = interval;
 
@@ -83,7 +83,7 @@
             // leeway 10% of interval
             dispatch_source_set_timer(_dispatchSource, dispatch_time(DISPATCH_TIME_NOW, nsecs), nsecs, nsecs / 10);
         }
-    }
+    //}
 }
 
 -(void)resume

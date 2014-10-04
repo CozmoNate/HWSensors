@@ -21,7 +21,7 @@ private:
 protected:	
     virtual bool        willReadSensorValue(FakeSMCSensor *sensor, float* value);
     virtual bool        shouldWaitForAccelerator();
-    virtual bool        acceleratorLoadedCheck();
+    virtual bool        probIsAcceleratorAlreadyLoaded();
 	virtual bool        managedStart(IOService *provider);
     
 public:

@@ -118,7 +118,7 @@ const NSArray * gHWMGraphsGroupColors;
         NSArray *objectsToRemove = [_history objectsAtIndexes:range];
 
         NSArray *removedMaximums = [objectsToRemove filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"floatValue == %f", _historyMaxValue.floatValue]];
-        NSArray *removedMinmums = [objectsToRemove filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"floatValue == %f", _historyMinValue.floatValue]];
+        NSArray *removedMinimums = [objectsToRemove filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"floatValue == %f", _historyMinValue.floatValue]];
 
         [_history removeObjectsAtIndexes:range];
 
@@ -126,15 +126,27 @@ const NSArray * gHWMGraphsGroupColors;
 
         if (_historyMaxCount == 0) {
             _historyMaxValue = [_history valueForKeyPath:@"@max.floatValue"];
-            _historyMaxCount = [_history filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"floatValue == %f", _historyMaxValue.floatValue]].count;
+            _historyMaxCount = 0;
+            NSPredicate * predicate = [NSPredicate predicateWithFormat:@"floatValue == %f", _historyMaxValue.floatValue];
+            [_history enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([predicate evaluateWithObject:obj]) {
+                    _historyMaxCount++;
+                }
+            }];
             //NSLog(@"%@ max updated!", self.sensor.name);
         }
 
-        _historyMinCount -= removedMinmums.count;
+        _historyMinCount -= removedMinimums.count;
 
         if (_historyMinCount == 0) {
             _historyMinValue = [_history valueForKeyPath:@"@min.floatValue"];
-            _historyMinCount = [_history filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"floatValue == %f", _historyMinValue.floatValue]].count;
+            _historyMinCount = 0;
+            NSPredicate * predicate = [NSPredicate predicateWithFormat:@"floatValue == %f", _historyMinValue.floatValue];
+            [_history enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([predicate evaluateWithObject:obj]) {
+                    _historyMinCount++;
+                }
+            }];
             //NSLog(@"%@ min updated!", self.sensor.name);
         }
     }

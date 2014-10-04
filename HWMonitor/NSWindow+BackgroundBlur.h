@@ -15,7 +15,7 @@
 @property (nonatomic, assign) NSInteger backgroundBlurRadius;
 
 - (void)setBackgroundBlurRadius:(NSInteger)radius;
-- (void)setStrongBackgroundBlur;
+- (void)setHeavyBackgroundBlur;
 - (void)setLightBackgroundBlur;
 
 @end

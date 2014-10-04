@@ -46,7 +46,7 @@ bool RadeonSensors::shouldWaitForAccelerator()
     return true;
 }
 
-bool RadeonSensors::acceleratorLoadedCheck()
+bool RadeonSensors::probIsAcceleratorAlreadyLoaded()
 {
     bool acceleratorFound = false;
 

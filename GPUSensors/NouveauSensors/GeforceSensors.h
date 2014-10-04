@@ -50,14 +50,13 @@ private:
     float               i2c_get_fanspeed_pwm(I2CDevPtr dev);
     int                 i2c_get_fanspeed_mode(I2CDevPtr dev);
 
+    bool                mapMemory(IOService *provider);
     bool                shadowBios();
-    
 protected:
     virtual bool        willReadSensorValue(FakeSMCSensor *sensor, float* value);
     virtual bool        shouldWaitForAccelerator();
-    virtual bool        acceleratorLoadedCheck();
-    virtual bool        mapMemory(IOService *provider);
-    virtual bool        startupCheck(IOService *provider);
+    virtual bool        probIsAcceleratorAlreadyLoaded();
+    virtual bool        onStartUp(IOService *provider);
     virtual bool        managedStart(IOService *provider);
     
 public:
