@@ -34,6 +34,7 @@
 #import "HWMSensorsGroup.h"
 
 static NSPopover *gPopupSensorCellPopover;
+static __weak id<NSPopoverDelegate> gPopoverDelegate;
 
 @implementation PopupSensorCell
 
@@ -42,6 +43,8 @@ static NSPopover *gPopupSensorCellPopover;
     if (!gPopupSensorCellPopover) {
         gPopupSensorCellPopover = [[NSPopover alloc] init];
         [gPopupSensorCellPopover setBehavior:NSPopoverBehaviorTransient];
+
+        gPopupSensorCellPopover.delegate = gPopoverDelegate;
     }
 
     return gPopupSensorCellPopover;
@@ -62,6 +65,13 @@ static NSPopover *gPopupSensorCellPopover;
     [PopupSensorCell destroyGlobalPopover];
 
     gPopupSensorCellPopover = popover;
+    gPopupSensorCellPopover.delegate = gPopoverDelegate;
+}
+
++(void)setGlobalPopoverDelegate:(id<NSPopoverDelegate>)popoverDelegate
+{
+    gPopoverDelegate = popoverDelegate;
+    gPopupSensorCellPopover.delegate = popoverDelegate;
 }
 
 -(void)initialize

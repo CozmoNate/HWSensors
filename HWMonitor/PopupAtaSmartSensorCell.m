@@ -102,12 +102,10 @@
         _popover.contentViewController = controller;
     }
 
-    _popover.delegate = nil;
-
     _popover.behavior = NSPopoverBehaviorTransient;
     _popover.appearance = sensor.engine.configuration.colorTheme.useBrightIcons.boolValue ? NSPopoverAppearanceHUD : NSPopoverAppearanceMinimal;
 
-    _popover.delegate = controller;
+    //_popover.delegate = controller;
 
     [controller setSensor:sensor];
 

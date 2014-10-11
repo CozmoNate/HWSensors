@@ -30,6 +30,7 @@
 #import "HWMonitorDefinitions.h"
 
 #import "PopupGroupCell.h"
+#import "PopupSensorCell.h"
 #import "PrefsCell.h"
 #import "PrefsToolbarItem.h"
 
@@ -43,6 +44,7 @@
 #import "HWMBatterySensor.h"
 
 #import "NSTableView+HWMEngineHelper.h"
+
 
 @implementation AppController
 
@@ -157,6 +159,8 @@
 
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.favorites) options:0 context:nil];
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.iconsWithSensorsAndGroups) options:0 context:nil];
+
+    [PopupSensorCell setGlobalPopoverDelegate:self];
 }
 
 -(void)showWindow:(id)sender
@@ -379,6 +383,14 @@
 {
     [self.monitorEngine updateSmcAndDeviceSensors];
     [self.monitorEngine updateAtaSmartSensors];
+}
+
+-(void)popoverDidClose:(NSNotification *)notification
+{
+    // If it was sub-popover closed, close also main one if app is not active
+    if (![NSApp isActive] && self.popoverController.isShown && !self.popoverController.isDetached) {
+        [self.popoverController close:self];
+    }
 }
 
 #pragma mark

@@ -33,6 +33,7 @@
 +(NSPopover*)globalPopover;
 +(void)destroyGlobalPopover;
 +(void)setGlobalPopover:(NSPopover*)popover;
++(void)setGlobalPopoverDelegate:(id<NSPopoverDelegate>)popoverDelegate;
 
 @property (assign) IBOutlet NSTextField *subtitleField;
 @property (assign) IBOutlet NSTextField *valueField;

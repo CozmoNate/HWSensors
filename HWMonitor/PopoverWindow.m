@@ -153,6 +153,7 @@
     if (self) {
 
         static dispatch_once_t onceToken;
+
         dispatch_once(&onceToken, ^{
             // Get window's frame view class
             id class = [[[self contentView] superview] class];
@@ -179,6 +180,7 @@
 
             [self layoutContent];
             [self invalidateShadow];
+            
             [self redraw];
 
             [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme) options:0 context:nil];

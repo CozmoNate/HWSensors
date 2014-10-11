@@ -19,6 +19,7 @@
 @property (assign) IBOutlet NSWindowController *aboutController;
 
 @property (readonly) BOOL isShown;
+@property (readonly) BOOL isDetached;
 
 -(IBAction)open:(id)sender;
 -(IBAction)close:(id)sender;

@@ -4,6 +4,23 @@
 <array>
 	<dict>
 		<key>Description</key>
+		<string>Apple SD/SM/TS...E/F SSDs</string>
+		<key>NameMatch</key>
+		<array>
+			<string>APPLE SSD (S[DM]|TS)0?(128|256|512|768)[EF]</string>
+		</array>
+		<key>Attributes</key>
+		<dict>
+			<key>173,raw48</key>
+			<string>Wear_Leveling_Count</string>
+			<key>174,raw48</key>
+			<string>Host_Reads_MiB</string>
+			<key>175,raw48</key>
+			<string>Host_Writes_MiB</string>
+		</dict>
+	</dict>
+	<dict>
+		<key>Description</key>
 		<string>Samsung based SSD</string>
 		<key>NameMatch</key>
 		<array>
@@ -36,7 +53,7 @@
 		<key>NameMatch</key>
 		<array>
 			<string>ADATA S596 Turbo</string>
-			<string>APPLE SSD TS.*</string>
+			<string>APPLE SSD TS(064|128|256|512)C</string>
 			<string>KINGSTON SNV425S2(64|128)GB</string>
 			<string>KINGSTON SSDNOW 30GB</string>
 			<string>KINGSTON SS100S2(8|16)G</string>

@@ -20,6 +20,7 @@
 @interface SensorsViewController : NSViewController <NSTableViewDataSource, NSTableViewDelegate>
 
 @property (assign) IBOutlet id <SensorsViewControllerDelegate> delegate;
+@property (assign) IBOutlet id <NSPopoverDelegate> popoverDelegate;
 
 @property (readonly) NSArray *sensorsAndGroupsCollectionSnapshot;
 

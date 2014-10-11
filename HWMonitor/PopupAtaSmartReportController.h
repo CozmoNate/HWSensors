@@ -8,7 +8,7 @@
 
 #import "HWMAtaSmartSensor.h"
 
-@interface PopupAtaSmartReportController : NSViewController <NSPopoverDelegate, NSTableViewDelegate>
+@interface PopupAtaSmartReportController : NSViewController <NSTableViewDelegate>
 
 @property (assign) IBOutlet NSArrayController * arrayController;
 @property (assign) IBOutlet NSTableView * tableView;

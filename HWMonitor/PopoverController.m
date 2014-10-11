@@ -80,6 +80,11 @@
     return (self.popover && self.popover.isShown) || (_popoverWindowController && _popoverWindowController.window.isVisible);
 }
 
+-(BOOL)isDetached
+{
+    return _popoverWindowController != nil;
+}
+
 #pragma mark - Overridden
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -119,11 +124,12 @@
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSApplicationDidResignActiveNotification object:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSApplicationDidHideNotification object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSApplicationDidResignActiveNotification object:[NSApplication sharedApplication]];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSApplicationDidHideNotification object:[NSApplication sharedApplication]];
 
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSWindowDidResignKeyNotification object:self.view.window];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSWindowDidResignMainNotification object:self.view.window];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSWindowDidResignKeyNotification object:self];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSWindowDidResignMainNotification object:self];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSWindowDidBecomeKeyNotification object:nil];
 
             [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme) options:0 context:nil];
 
@@ -150,6 +156,10 @@
         if (!_popoverWindowController.window.isVisible) {
             _popoverWindowController = nil;
         }
+        else if (!_popoverWindowController.window.isKeyWindow) {
+            [_popoverWindowController.window makeKeyAndOrderFront:self];
+            return;
+        }
         else {
             return;
         }
@@ -165,16 +175,26 @@
 -(IBAction)close:(id)sender
 {
     //NSLog(@"close:%@", sender);
-    
+
     if (_popoverWindowController) {
-        if (sender != self && ![sender isKindOfClass:[NSNotification class]]) {
-            [_popoverWindowController close];
-            _popoverWindowController = nil;
-        }
+
+//        if (sender != self && ![sender isKindOfClass:[NSNotification class]]) {
+//            [_popoverWindowController close];
+//            _popoverWindowController = nil;
+//        }
+
         return;
     }
 
-    if (_popover && _popover.isShown) {
+    if ([sender isKindOfClass:[NSNotification class]]) {
+        NSNotification * note = (NSNotification*)sender;
+
+        if (note.name == NSWindowDidBecomeKeyNotification && note.object == self.view.window) {
+            return;
+        }
+    }
+
+    if ( _popover && _popover.isShown) {
         [_popover performClose:sender];
     }
 }
@@ -326,18 +346,19 @@
     }
 }
 
--(NSWindow *)detachableWindowForPopover:(NSPopover *)popover
-{
-    //if (!_popoverWindowController) {
-        _popoverWindowController = [PopoverWindowController new];
-        [_popoverWindowController setPopoverController:self];
-        [_popoverWindowController setAppController:_appController];
-        [_popoverWindowController setGraphsController:_graphsController];
-        [_popoverWindowController setAboutController:_aboutController];
-    //}
-
-    return _popoverWindowController.window;
-}
+//-(NSWindow *)detachableWindowForPopover:(NSPopover *)popover
+//{
+//    //if (!_popoverWindowController) {
+//        _popoverWindowController = [PopoverWindowController new];
+//    
+//        [_popoverWindowController setPopoverController:self];
+//        [_popoverWindowController setAppController:_appController];
+//        [_popoverWindowController setGraphsController:_graphsController];
+//        [_popoverWindowController setAboutController:_aboutController];
+//    //}
+//
+//    return _popoverWindowController.window;
+//}
 
 #pragma mark - SensorsViewControllerDelegate
 
