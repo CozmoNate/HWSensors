@@ -15,16 +15,16 @@
         <customObject id="494" customClass="AppController">
             <connections>
                 <outlet property="graphsController" destination="909" id="988"/>
-                <outlet property="popoverController" destination="B49-97-fU5" id="W5V-fI-ItB"/>
+                <outlet property="popupController" destination="n08-vm-zCd" id="RXG-hC-H5Y"/>
                 <outlet property="sharedUpdater" destination="LKO-lM-1Z9" id="Ije-zl-WXw"/>
             </connections>
         </customObject>
-        <customObject id="B49-97-fU5" customClass="PopoverController">
+        <customObject id="n08-vm-zCd" customClass="PopupController">
             <connections>
-                <outlet property="aboutController" destination="7879" id="eM4-2e-ZjQ"/>
-                <outlet property="appController" destination="494" id="7ZN-Ny-wSN"/>
-                <outlet property="graphsController" destination="909" id="lh7-0a-8Ab"/>
-                <outlet property="popoverDelegate" destination="494" id="iyK-wg-bTE"/>
+                <outlet property="aboutController" destination="7879" id="Kde-SD-TxF"/>
+                <outlet property="appController" destination="494" id="b88-Dg-7Ll"/>
+                <outlet property="delegate" destination="494" id="gg6-fY-9O1"/>
+                <outlet property="graphsController" destination="909" id="jow-3f-Ory"/>
             </connections>
         </customObject>
         <customObject id="909" customClass="GraphsController"/>
