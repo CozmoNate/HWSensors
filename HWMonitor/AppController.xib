@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6206.8" systemVersion="14A343f" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6206.8"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AppController">
@@ -396,7 +396,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="flb-gF-gPW">
-                    <rect key="frame" x="18" y="68" width="536" height="18"/>
+                    <rect key="frame" x="18" y="43" width="536" height="18"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="730" constant="112" id="0OR-jH-JFe"/>
                         <constraint firstAttribute="height" constant="14" id="DFl-sC-nPy"/>
@@ -417,7 +417,7 @@
                     </connections>
                 </button>
                 <button tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="8TH-fK-LNe">
-                    <rect key="frame" x="18" y="43" width="536" height="18"/>
+                    <rect key="frame" x="18" y="18" width="536" height="18"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="730" constant="132" id="bwo-vV-jBO"/>
                         <constraint firstAttribute="height" constant="14" id="enr-ZU-VO0"/>
@@ -438,10 +438,10 @@
                     </connections>
                 </button>
                 <splitView vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T7L-vL-3Go">
-                    <rect key="frame" x="20" y="102" width="560" height="402"/>
+                    <rect key="frame" x="20" y="77" width="560" height="427"/>
                     <subviews>
                         <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
-                            <rect key="frame" x="0.0" y="0.0" width="276" height="402"/>
+                            <rect key="frame" x="0.0" y="0.0" width="276" height="427"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="hK2-oA-2Lv">
                                 <rect key="frame" x="1" y="1" width="274" height="394"/>
@@ -968,7 +968,7 @@
                             </userDefinedRuntimeAttributes>
                         </scrollView>
                         <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
-                            <rect key="frame" x="285" y="0.0" width="275" height="402"/>
+                            <rect key="frame" x="285" y="0.0" width="275" height="427"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="i8f-2e-Hgn">
                                 <rect key="frame" x="1" y="1" width="273" height="394"/>
@@ -1416,7 +1416,7 @@
                     </holdingPriorities>
                 </splitView>
                 <button hidden="YES" toolTip="Detect sensors" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Hj-Zc-5kr">
-                    <rect key="frame" x="554" y="38" width="32" height="32"/>
+                    <rect key="frame" x="554" y="13" width="32" height="32"/>
                     <buttonCell key="cell" type="round" bezelStyle="circular" image="NSRefreshTemplate" imagePosition="only" alignment="left" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" id="ioG-z0-Sr6">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="smallSystem"/>
@@ -1425,33 +1425,10 @@
                         <action selector="rebuildSensorsList:" target="-2" id="LAh-hh-xzc"/>
                     </connections>
                 </button>
-                <button tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="Zdq-B5-bSj">
-                    <rect key="frame" x="18" y="18" width="536" height="18"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="14" id="6A7-sZ-Na2"/>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="730" constant="133" id="qeb-EU-Xvc"/>
-                    </constraints>
-                    <buttonCell key="cell" type="check" title="Use inverted colors" bezelStyle="regularSquare" imagePosition="left" inset="2" id="7q1-wr-KTQ">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <binding destination="263" name="value" keyPath="values.MenubarUsesInvertedColors" id="Oep-SU-hMB">
-                            <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="0"/>
-                                <integer key="NSNoSelectionPlaceholder" value="0"/>
-                                <integer key="NSNotApplicablePlaceholder" value="0"/>
-                                <integer key="NSNullPlaceholder" value="0"/>
-                            </dictionary>
-                        </binding>
-                    </connections>
-                </button>
             </subviews>
             <constraints>
-                <constraint firstItem="Zdq-B5-bSj" firstAttribute="leading" secondItem="DpL-kB-CmT" secondAttribute="leading" constant="20" id="1o5-vB-Hbs"/>
                 <constraint firstItem="8TH-fK-LNe" firstAttribute="leading" secondItem="DpL-kB-CmT" secondAttribute="leading" constant="20" id="3df-lR-Fh5"/>
-                <constraint firstItem="Zdq-B5-bSj" firstAttribute="top" secondItem="8TH-fK-LNe" secondAttribute="bottom" constant="11" id="DgK-LB-LWM"/>
-                <constraint firstAttribute="bottom" secondItem="Zdq-B5-bSj" secondAttribute="bottom" constant="20" id="G0A-eQ-ScB"/>
+                <constraint firstAttribute="bottom" secondItem="8TH-fK-LNe" secondAttribute="bottom" constant="20" id="Ldc-ED-n22"/>
                 <constraint firstItem="8TH-fK-LNe" firstAttribute="top" secondItem="flb-gF-gPW" secondAttribute="bottom" constant="11" id="MdK-s8-ynf"/>
                 <constraint firstItem="T7L-vL-3Go" firstAttribute="top" secondItem="DpL-kB-CmT" secondAttribute="top" constant="20" id="bjg-rd-Si4"/>
                 <constraint firstItem="flb-gF-gPW" firstAttribute="leading" secondItem="DpL-kB-CmT" secondAttribute="leading" constant="20" id="dCD-ab-ehO"/>
@@ -1459,7 +1436,6 @@
                 <constraint firstItem="5Hj-Zc-5kr" firstAttribute="bottom" secondItem="8TH-fK-LNe" secondAttribute="bottom" id="egS-v7-K15"/>
                 <constraint firstAttribute="trailing" secondItem="8TH-fK-LNe" secondAttribute="trailing" constant="48" id="gkV-xB-5fX"/>
                 <constraint firstItem="T7L-vL-3Go" firstAttribute="leading" secondItem="DpL-kB-CmT" secondAttribute="leading" constant="20" id="iGP-j3-0E0"/>
-                <constraint firstAttribute="trailing" secondItem="Zdq-B5-bSj" secondAttribute="trailing" constant="48" id="lap-Ae-xrx"/>
                 <constraint firstAttribute="trailing" secondItem="flb-gF-gPW" secondAttribute="trailing" constant="48" id="swm-2i-wFk"/>
                 <constraint firstAttribute="trailing" secondItem="T7L-vL-3Go" secondAttribute="trailing" constant="20" id="ums-9d-1sz"/>
                 <constraint firstItem="flb-gF-gPW" firstAttribute="top" secondItem="T7L-vL-3Go" secondAttribute="bottom" constant="18" id="uzl-tw-Tsa"/>

@@ -34,8 +34,6 @@
 
 #import "HWMonitorDefinitions.h"
 
-#import "JLNFadingScrollView.h"
-
 #import "Localizer.h"
 
 #import "HWMEngine.h"
@@ -46,6 +44,8 @@
 
 #import "NSTableView+HWMEngineHelper.h"
 #import "NSWindow+BackgroundBlur.h"
+
+#import <QuartzCore/QuartzCore.h>
 
 //#define GetLocalizedString(key) \
 //[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
@@ -121,7 +121,6 @@
 {
     [super windowDidLoad];
 
-    [Localizer localizeView:self.window];
     [self.window setLevel:self.monitorEngine.configuration.graphsWindowAlwaysTopmost.boolValue ? NSFloatingWindowLevel : NSNormalWindowLevel];
 
     [self reloadGraphsTableView:self];
@@ -138,6 +137,10 @@
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.useGraphSmoothing) options:0 context:nil];
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.graphsScaleValue) options:0 context:nil];
     [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.showSensorLegendsInGraphs) options:0 context:nil];
+
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [Localizer localizeView:self.window];
+    }];
 }
 
 -(void)showWindow:(id)sender

@@ -41,6 +41,7 @@
 }
 @property (readonly) NSAttributedString *spacer;
 @property (readonly) NSArray *favoritesSnapshot;
+@property (readonly) BOOL isDrawsOnDarkBackground;
 
 @end
 
@@ -119,9 +120,7 @@
 
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(redraw) name:HWMEngineSensorValuesHasBeenUpdatedNotification object:self.monitorEngine];
             
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChangeNotification:) name:NSUserDefaultsDidChangeNotification object:nil];
-            
-            [self userDefaultsDidChangeNotification:nil];
+            [self currentAppearanceChanged];
         }];
     }
 
@@ -137,16 +136,22 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)userDefaultsDidChangeNotification:(NSNotification*)notification
+
+-(void)currentAppearanceChanged
 {
-    _darkThemeColors = [[NSUserDefaults standardUserDefaults] boolForKey:@"MenubarUsesInvertedColors"];
     [_shadow setShadowColor:[NSColor colorWithCalibratedWhite:_darkThemeColors ? 0.0 : 1.0 alpha:0.50]];
-    [self redraw];
 }
 
 - (void)drawRect:(NSRect)rect
 {
     //[_statusItem drawStatusBarBackgroundInRect:rect withHighlight:_isHighlighted];
+
+    BOOL darkThemeColors = [NSAppearance class] && [[NSAppearance currentAppearance] respondsToSelector:@selector(name)] && [[[NSAppearance currentAppearance] name] isEqualToString:NSAppearanceNameVibrantDark];
+
+    if (darkThemeColors != _darkThemeColors) {
+        _darkThemeColors = darkThemeColors;
+        [self currentAppearanceChanged];
+    }
 
     CGContextRef cgContext = [[NSGraphicsContext currentContext] graphicsPort];
 

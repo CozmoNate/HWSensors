@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6185.11" systemVersion="14A298i" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6185.11"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PopupController">
@@ -324,8 +325,8 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="HWMonitor" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="none" frameAutosaveName="PopupWindow" id="3" customClass="OBMenuBarWindow">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" texturedBackground="YES"/>
+        <window title="HWMonitor" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="none" frameAutosaveName="PopupWindow" id="3" customClass="OBMenuBarWindow">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" nonactivatingPanel="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" participatesInCycle="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="1240" y="753" width="222" height="150"/>
@@ -359,7 +360,7 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
-                                                <tableCellView identifier="Group" wantsLayer="YES" id="60" customClass="PopupGroupCell">
+                                                <tableCellView identifier="Group" id="60" customClass="PopupGroupCell">
                                                     <rect key="frame" x="0.0" y="0.0" width="222" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
@@ -374,15 +375,15 @@
                                                                 <binding destination="60" name="value" keyPath="objectValue.icon.image" id="EUt-zI-L4C"/>
                                                             </connections>
                                                         </imageView>
-                                                        <textField verticalHuggingPriority="750" alphaValue="0.50000000000000011" translatesAutoresizingMaskIntoConstraints="NO" id="gc6-vA-Eep">
-                                                            <rect key="frame" x="23" y="3" width="182" height="14"/>
+                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gc6-vA-Eep">
+                                                            <rect key="frame" x="25" y="3" width="178" height="14"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="14" id="wNw-GU-Y6E"/>
                                                             </constraints>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" sendsActionOnEndEditing="YES" alignment="center" title="GROUP" id="czb-lE-tf5">
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" sendsActionOnEndEditing="YES" alignment="center" title="GROUP" drawsBackground="YES" id="czb-lE-tf5">
                                                                 <font key="font" size="11" name="Helvetica"/>
                                                                 <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                             </textFieldCell>
                                                             <connections>
                                                                 <binding destination="60" name="textColor" keyPath="objectValue.engine.configuration.colorTheme.groupTitleColor" id="IbO-eG-AhU"/>
@@ -414,7 +415,7 @@
                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" title="9999 об/мин" id="110">
                                                                 <font key="font" size="12" name="Helvetica-Bold"/>
                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                             </textFieldCell>
                                                             <connections>
                                                                 <binding destination="57" name="value" keyPath="objectValue.formattedValue" id="qaV-K4-AWn">
@@ -427,12 +428,12 @@
                                                                 </binding>
                                                             </connections>
                                                         </textField>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="106">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="106">
                                                             <rect key="frame" x="10" y="-3" width="202" height="14"/>
                                                             <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Subtitle" id="112">
                                                                 <font key="font" metaFont="miniSystem"/>
                                                                 <color key="textColor" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                             </textFieldCell>
                                                             <connections>
                                                                 <binding destination="57" name="value" keyPath="objectValue.legend" id="Bjg-5U-fL2">
@@ -453,7 +454,7 @@
                                                             <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Sensor" id="109">
                                                                 <font key="font" size="12" name="Helvetica"/>
                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                             </textFieldCell>
                                                             <connections>
                                                                 <binding destination="57" name="value" keyPath="objectValue.title" id="f47-uc-NDU"/>
@@ -501,7 +502,7 @@
                                                                 </binding>
                                                             </connections>
                                                         </textField>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="XNI-l8-ksn">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XNI-l8-ksn">
                                                             <rect key="frame" x="10" y="-3" width="202" height="14"/>
                                                             <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Subtitle" id="cJS-Gq-JCj">
                                                                 <font key="font" metaFont="miniSystem"/>
@@ -575,7 +576,7 @@
                                                                 </binding>
                                                             </connections>
                                                         </textField>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="khn-Bp-tT2">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="khn-Bp-tT2">
                                                             <rect key="frame" x="10" y="-3" width="202" height="14"/>
                                                             <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Subtitle" id="2cM-sq-IgE">
                                                                 <font key="font" metaFont="miniSystem"/>
@@ -651,7 +652,7 @@
                                                             </constraints>
                                                             <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSInfo" id="89"/>
                                                         </imageView>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="82">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="82">
                                                             <rect key="frame" x="10" y="-3" width="202" height="14"/>
                                                             <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Subtitle" id="92">
                                                                 <font key="font" metaFont="miniSystem"/>

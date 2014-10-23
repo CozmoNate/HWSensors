@@ -1082,6 +1082,7 @@
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/";
 				MODULE_NAME = "org.netkas.${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				TARGET_DIR = FakeSMC;
 				WRAPPER_EXTENSION = kext;
 			};
@@ -1102,6 +1103,7 @@
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/";
 				MODULE_NAME = "org.netkas.${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				TARGET_DIR = FakeSMC;
 				WRAPPER_EXTENSION = kext;
 			};

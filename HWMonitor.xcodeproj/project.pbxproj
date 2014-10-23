@@ -1917,6 +1917,7 @@
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1935,6 +1936,7 @@
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;
 			};
