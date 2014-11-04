@@ -44,6 +44,8 @@
 #import "HWMSmcFanController.h"
 #import "HWMTimer.h"
 
+#include <sys/sysctl.h>
+
 #import "Localizer.h"
 
 #import "HWMonitorDefinitions.h"
@@ -405,7 +407,21 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     NSString *config;
 
-    if (_platformName) {
+	if ([_platformName hasPrefix:@"MacPro5,1"] == YES)
+	{
+		int cpuCount;
+		size_t count_len;
+		sysctlbyname("hw.packages", &cpuCount, &count_len, NULL, 0);
+
+		NSLog(@"found %lu cpus, switching to patched plist", (unsigned long)cpuCount);
+
+		if (cpuCount == 1)
+			_platformName = @"MacPro5,1_single";
+		else if (cpuCount == 2)
+			_platformName = @"MacPro5,1_dual";
+	}
+
+	if (_platformName) {
         config = [[NSBundle mainBundle] pathForResource:_platformName ofType:@"plist" inDirectory:@"Profiles"];
     }
 
