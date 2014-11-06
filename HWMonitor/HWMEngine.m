@@ -407,7 +407,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
     NSString *config;
 
-	if ([_platformName hasPrefix:@"MacPro5,1"] == YES)
+	if ([_platformName hasPrefix:@"MacPro5,1"] == YES || [_platformName hasPrefix:@"MacPro4,1"] == YES)
 	{
 		int cpuCount;
 		size_t count_len;
