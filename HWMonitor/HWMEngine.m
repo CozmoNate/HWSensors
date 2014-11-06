@@ -1711,13 +1711,23 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 {
     HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupTachometer];
 
-    for (int i=0; i<0xf; i++) {
+	SMCVal_t info;
+
+	UInt32Char_t fnum = "FNum";
+	int totalFans = 15;	// use old value if we can't find number of fans in SMC
+
+	if (kIOReturnSuccess == SMCReadKey(connection, fnum, &info)) {
+
+		totalFans = _strtoul((const char*)info.bytes, info.dataSize, 10);
+
+		NSLog(@"number of fans: %d", totalFans);
+	}
+
+	for (int i=0; i<totalFans; i++) {
 
         NSString *key = [NSString stringWithFormat:@KEY_FORMAT_FAN_ID,i];
 
-        if ([keys containsObject:key]) {
-
-            SMCVal_t info;
+		if ([keys containsObject:key]) {
 
             if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
 
