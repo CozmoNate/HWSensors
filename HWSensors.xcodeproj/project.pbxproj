@@ -1015,7 +1015,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "i386 x86_64";
 			};
@@ -1055,7 +1055,7 @@
 				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "i386 x86_64";
 			};
@@ -1082,7 +1082,6 @@
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/";
 				MODULE_NAME = "org.netkas.${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				TARGET_DIR = FakeSMC;
 				WRAPPER_EXTENSION = kext;
 			};
@@ -1103,7 +1102,6 @@
 				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Extensions/";
 				MODULE_NAME = "org.netkas.${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				TARGET_DIR = FakeSMC;
 				WRAPPER_EXTENSION = kext;
 			};
