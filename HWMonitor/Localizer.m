@@ -51,7 +51,7 @@
     [localizer localizeView:view];
 }
 
--(id)init
+-(instancetype)init
 {
     self = [super init];
     

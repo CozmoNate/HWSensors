@@ -20,7 +20,7 @@
 
 + (NSString *)systemVersionString;
 
-- (id)initWithBundle:(NSBundle *)aBundle;
+- (instancetype)initWithBundle:(NSBundle *)aBundle;
 - (NSBundle *)bundle;
 - (NSString *)bundlePath;
 - (NSString *)appSupportPath;

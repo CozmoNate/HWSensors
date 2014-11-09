@@ -117,7 +117,7 @@
     [self setResult:[[self task] terminationStatus]];
 }
 
-- (id)init;
+- (instancetype)init;
 {
     self = [super init];
 	if (self)

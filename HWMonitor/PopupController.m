@@ -90,7 +90,7 @@
 #pragma mark -
 #pragma mark Overridden Methods
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithWindowNibName:NSStringFromClass([PopupController class])];
     

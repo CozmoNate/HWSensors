@@ -17,7 +17,7 @@
 
 @implementation SUStatusController
 
-- (id)initWithHost:(SUHost *)aHost
+- (instancetype)initWithHost:(SUHost *)aHost
 {
 	self = [super initWithHost:aHost windowNibName:@"SUStatus"];
 	if (self)

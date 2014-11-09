@@ -35,7 +35,7 @@
     return [HWMEngine sharedEngine];
 }
 
--(id)init
+-(instancetype)init
 {
     self = [self initWithWindowNibName:NSStringFromClass([PopoverWindowController class])];
 
