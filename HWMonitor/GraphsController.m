@@ -95,7 +95,7 @@
 #pragma mark
 #pragma mark Methods
 
--(id)init
+-(instancetype)init
 {
     self = [super initWithWindowNibName:NSStringFromClass([GraphsController class])];
     

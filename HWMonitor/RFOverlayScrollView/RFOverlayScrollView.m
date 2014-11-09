@@ -33,7 +33,7 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
     return NSOrderedSame;
 }
 
-//- (id)initWithFrame:(NSRect)frameRect
+//- (instancetype)initWithFrame:(NSRect)frameRect
 //{
 //    self = [super initWithFrame:frameRect];
 //    if (self) {

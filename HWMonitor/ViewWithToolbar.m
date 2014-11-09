@@ -76,7 +76,7 @@
 
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
@@ -85,7 +85,7 @@
     return self;
 }
 
--(id)initWithFrame:(NSRect)frameRect
+-(instancetype)initWithFrame:(NSRect)frameRect
 {
     self = [super initWithFrame:frameRect];
     if (self) {

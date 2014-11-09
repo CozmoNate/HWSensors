@@ -12,7 +12,7 @@
 
 @implementation SUAutomaticUpdateAlert
 
-- (id)initWithAppcastItem:(SUAppcastItem *)item host:(SUHost *)aHost delegate:del;
+- (instancetype)initWithAppcastItem:(SUAppcastItem *)item host:(SUHost *)aHost delegate:del;
 {
 	self = [super initWithHost:aHost windowNibName:@"SUAutomaticUpdateAlert"];
 	if (self)

@@ -39,7 +39,7 @@
 
 @implementation AboutController
 
--(id)init
+-(instancetype)init
 {
     self = [super initWithWindowNibName:@"AboutController"];
     

@@ -44,7 +44,7 @@ void sharedFileListDidChange(LSSharedFileListRef inList, void *context)
 
 #pragma mark Initialization
 
-- (id) init
+- (instancetype) init
 {
     self = [super init];
     

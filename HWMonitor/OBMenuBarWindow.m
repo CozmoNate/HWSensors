@@ -157,7 +157,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
     return colorTheme;
 }
 
-- (id)initWithContentRect:(NSRect)contentRect
+- (instancetype)initWithContentRect:(NSRect)contentRect
                 styleMask:(NSUInteger)aStyle
                   backing:(NSBackingStoreType)bufferingType
                     defer:(BOOL)flag

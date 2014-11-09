@@ -23,7 +23,7 @@
 
 @implementation RFOverlayScroller
 
--(id)init
+-(instancetype)init
 {
     self = [super init];
 
@@ -34,7 +34,7 @@
     return self;
 }
 
-- (id)initWithFrame:(NSRect)frame
+-(instancetype)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
 
@@ -45,7 +45,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
+-(instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
 
