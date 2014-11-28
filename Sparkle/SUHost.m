@@ -15,7 +15,7 @@
 
 @implementation SUHost
 
-- (id)initWithBundle:(NSBundle *)aBundle
+- (instancetype)initWithBundle:(NSBundle *)aBundle
 {
 	if ((self = [super init]))
 	{

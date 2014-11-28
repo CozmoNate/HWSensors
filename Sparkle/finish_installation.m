@@ -38,7 +38,7 @@
 
 @implementation TerminationListener
 
-- (id) initWithHostPath:(const char *)inhostpath executablePath:(const char *)execpath parentProcessId:(pid_t)ppid folderPath: (const char*)infolderpath shouldRelaunch:(BOOL)relaunch
+- (instancetype) initWithHostPath:(const char *)inhostpath executablePath:(const char *)execpath parentProcessId:(pid_t)ppid folderPath: (const char*)infolderpath shouldRelaunch:(BOOL)relaunch
 		selfPath: (NSString*)inSelfPath
 {
 	if( !(self = [super init]) )

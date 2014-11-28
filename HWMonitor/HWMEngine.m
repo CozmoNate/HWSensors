@@ -333,7 +333,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 #pragma mark
 #pragma mark Overriden Methods
 
-- (id)init;
+-(instancetype)init;
 {
     self = [super init];
 
@@ -344,7 +344,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     return self;
 }
 
--(id)initWithBundle:(NSBundle*)bundle
+-(instancetype)initWithBundle:(NSBundle*)bundle
 {
     self = [super init];
 

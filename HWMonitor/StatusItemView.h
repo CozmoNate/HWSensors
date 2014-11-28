@@ -51,6 +51,6 @@
 @property (nonatomic) SEL action;
 @property (nonatomic, unsafe_unretained) id target;
 
--(id)initWithFrame:(NSRect)rect statusItem:(NSStatusItem *)statusItem;
+-(instancetype)initWithFrame:(NSRect)rect statusItem:(NSStatusItem *)statusItem;
 
 @end

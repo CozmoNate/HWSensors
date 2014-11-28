@@ -124,7 +124,7 @@
 #pragma mark
 #pragma mark Overrides:
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithWindowNibName:NSStringFromClass([AppController class])];
     

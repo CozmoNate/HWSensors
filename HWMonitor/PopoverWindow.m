@@ -139,14 +139,13 @@
     [[self.contentView superview] setNeedsDisplayInRect:toolbarRect];
 }
 
-
 - (void)windowDidResizeNotification:(NSNotification *)aNotification
 {
     [self layoutIfNeeded];
     [self layoutContent];
 }
 
--(id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
+-(instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
     self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag];
 

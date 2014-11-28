@@ -27,7 +27,7 @@
 
 @implementation SUUpdateAlert
 
-- (id)initWithAppcastItem:(SUAppcastItem *)item host:(SUHost *)aHost
+- (instancetype)initWithAppcastItem:(SUAppcastItem *)item host:(SUHost *)aHost
 {
 	self = [super initWithHost:host windowNibName:@"SUUpdateAlert"];
 	if (self)

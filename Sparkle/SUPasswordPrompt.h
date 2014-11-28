@@ -19,7 +19,7 @@
 	NSImage *mIcon;
 }
 
-- (id)initWithHost:(SUHost *)aHost;
+- (instancetype)initWithHost:(SUHost *)aHost;
 - (NSInteger)run;
 - (NSString *)password;
 

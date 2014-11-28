@@ -31,7 +31,7 @@ extern int bsdiff(int argc, const char **argv);
     NSString *_toPath;
     NSString *_resultPath;
 }
-- (id)initWithRelativePath:(NSString *)relativePath oldTree:(NSString *)oldTree newTree:(NSString *)newTree;
+- (instancetype)initWithRelativePath:(NSString *)relativePath oldTree:(NSString *)oldTree newTree:(NSString *)newTree;
 
 - (NSString *)relativePath;
 - (NSString *)resultPath;
@@ -39,7 +39,7 @@ extern int bsdiff(int argc, const char **argv);
 
 @implementation CreateBinaryDeltaOperation
 
-- (id)initWithRelativePath:(NSString *)relativePath oldTree:(NSString *)oldTree newTree:(NSString *)newTree
+- (instancetype)initWithRelativePath:(NSString *)relativePath oldTree:(NSString *)oldTree newTree:(NSString *)newTree
 {
     if ((self = [super init])) {
         _relativePath = [relativePath copy];

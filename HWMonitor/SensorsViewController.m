@@ -71,7 +71,7 @@
 
 #pragma mark - Overridden Methods
 
--(id)init
+-(instancetype)init
 {
     self = [self initWithNibName:NSStringFromClass([SensorsViewController class]) bundle:[NSBundle mainBundle]];
 

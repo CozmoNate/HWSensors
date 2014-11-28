@@ -37,7 +37,7 @@ typedef enum
 	BOOL webViewFinishedLoading;
 }
 
-- (id)initWithAppcastItem:(SUAppcastItem *)item host:(SUHost *)host;
+- (instancetype)initWithAppcastItem:(SUAppcastItem *)item host:(SUHost *)host;
 - (void)setDelegate:delegate;
 
 - (IBAction)installUpdate:sender;

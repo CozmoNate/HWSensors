@@ -22,7 +22,7 @@
 
 
 @interface SUUpdater (Private)
-- (id)initForBundle:(NSBundle *)bundle;
+- (instancetype)initForBundle:(NSBundle *)bundle;
 - (void)startUpdateCycle;
 - (void)checkForUpdatesWithDriver:(SUUpdateDriver *)updateDriver;
 - (BOOL)automaticallyDownloadsUpdates;
@@ -60,7 +60,7 @@ static NSString * const SUUpdaterDefaultsObservationContext = @"SUUpdaterDefault
 }
 
 // This is the designated initializer for SUUpdater, important for subclasses
-- (id)initForBundle:(NSBundle *)bundle
+- (instancetype)initForBundle:(NSBundle *)bundle
 {
 	self = [super init];
     if (bundle == nil) bundle = [NSBundle mainBundle];

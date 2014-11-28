@@ -96,7 +96,7 @@
 #pragma mark -
 #pragma mark Override
 
--(id)initWithFrame:(NSRect)rect statusItem:(NSStatusItem *)statusItem;
+-(instancetype)initWithFrame:(NSRect)rect statusItem:(NSStatusItem *)statusItem;
 {
     self = [super initWithFrame:rect];
 

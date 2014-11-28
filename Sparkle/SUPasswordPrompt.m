@@ -11,7 +11,7 @@
 
 @implementation SUPasswordPrompt
 
-- (id)initWithHost:(SUHost *)aHost
+- (instancetype)initWithHost:(SUHost *)aHost
 {
 	self = [super initWithHost:aHost windowNibName:@"SUPasswordPrompt"];
 	if (self)
