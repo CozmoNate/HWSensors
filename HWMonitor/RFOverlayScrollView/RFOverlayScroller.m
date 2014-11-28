@@ -150,7 +150,7 @@
 
 + (BOOL)isCompatibleWithOverlayScrollers
 {
-    return self == [RFOverlayScroller class];
+    return self != [RFOverlayScroller class];
 }
 
 + (CGFloat)zeroWidth

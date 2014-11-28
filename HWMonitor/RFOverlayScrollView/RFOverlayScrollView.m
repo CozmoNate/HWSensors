@@ -6,16 +6,6 @@
 //  Copyright (c) 2012 Rheinfabrik. All rights reserved.
 //
 
-/*
- * Copyright (c) 2012 Rheinfabrik
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 #import <objc/objc-class.h>
 #import "RFOverlayScrollView.h"
 #import "RFOverlayScroller.h"
@@ -33,19 +23,21 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
     return NSOrderedSame;
 }
 
-//- (id)initWithFrame:(NSRect)frameRect
-//{
-//    self = [super initWithFrame:frameRect];
-//    if (self) {
+- (id)initWithFrame:(NSRect)frameRect
+{
+    self = [super initWithFrame:frameRect];
+    if (self) {
 //        self.wantsLayer = YES;
-//    }
-//    return self;
-//}
+        _headerOffset = [self tableHeaderOffsetFromSuperview];
+    }
+    return self;
+}
 
-//- (void)awakeFromNib
-//{
+- (void)awakeFromNib
+{
 //    self.wantsLayer = YES;
-//}
+    _headerOffset = [self tableHeaderOffsetFromSuperview];
+}
 
 - (void)tile
 {
@@ -62,14 +54,30 @@ static NSComparisonResult scrollerAboveSiblingViewsComparator(NSView *view1, NSV
                                                          scrollerStyle:self.verticalScroller.scrollerStyle];
 	[self.verticalScroller setFrame:(NSRect){
         self.bounds.size.width - width,
-        0.0f,
+        self.headerOffset,
         width,
-        self.bounds.size.height
+        self.bounds.size.height - self.headerOffset
     }];
     
     // Move scroller to front
     [self sortSubviewsUsingFunction:scrollerAboveSiblingViewsComparator
                             context:NULL];
+}
+
+- (NSInteger)tableHeaderOffsetFromSuperview
+{
+    for (NSView *subView in [self subviews])
+    {
+        if ([subView isKindOfClass:[NSClipView class]])
+        {   for (NSView *subView2 in [subView subviews])
+            {   if ([subView2 isKindOfClass:[NSTableView class]])
+                {
+                    return [(NSTableView *)subView2 headerView].frame.size.height;
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 @end
