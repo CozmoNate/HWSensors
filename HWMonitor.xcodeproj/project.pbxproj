@@ -41,7 +41,7 @@
 		7E24ABF3188FB4D000810B9D /* 338-enter-fullscreen-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24ABF1188FB4D000810B9D /* 338-enter-fullscreen-white.png */; };
 		7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E268C611837A41C004F16E3 /* HWMIcon.m */; };
 		7E2789801876FB6300B443BD /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
-		7E2789811876FB6E00B443BD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
+		7E2789811876FB6E00B443BD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7E28ED5F1979CBDC00788C40 /* PopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E28ED5E1979CBDC00788C40 /* PopoverController.m */; };
 		7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1C18C467B900D97F89 /* HWMSmcFanControlLevel.m */; };
 		7E2DEA2018C467DC00D97F89 /* HWMSmcFanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1F18C467DC00D97F89 /* HWMSmcFanController.m */; };
@@ -151,7 +151,7 @@
 		7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2494C16D8EB2D002231B2 /* StatusItemView.m */; };
 		7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
-		7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
+		7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */; };
 		7EC95E2218D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m */; };
 		7ECDDE3216DD680E00085FFF /* 04-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ECDDE3016DD680E00085FFF /* 04-eye.png */; };
@@ -174,7 +174,7 @@
 		7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC87216FA5DA50072B15B /* Localizer.m */; };
 		7EEC9F4418B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4218B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist */; };
 		7EEC9F4518B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4318B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist */; };
-		7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */; };
+		7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7EEC9F4918B8D20600BDB9D7 /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7EF393C1185C8D990033F1AB /* smc.c */; };
 		7EEC9F4A18B8D2E200BDB9D7 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7EEC9F4C18B8D73E00BDB9D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4B18B8D73E00BDB9D7 /* main.m */; };
@@ -1401,7 +1401,7 @@
 		7EA248E016D8E93A002231B2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = kozlek;
 				TargetAttributes = {
 					7EA248E716D8E93A002231B2 = {
@@ -1828,7 +1828,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1864,7 +1863,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1872,7 +1871,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1900,14 +1898,14 @@
 				INFOPLIST_PREFIX_HEADER = Shared/HWMonitorVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
 		7EA2490616D8E93A002231B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SOURCE_ROOT)",
 					"$(SOURCE_ROOT)/Sparkle/Binaries/",
@@ -1926,7 +1924,7 @@
 		7EA2490716D8E93A002231B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SOURCE_ROOT)",
 					"$(SOURCE_ROOT)/Sparkle/Binaries/",

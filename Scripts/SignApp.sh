@@ -12,7 +12,7 @@ then
     exit 0
 fi
 
-authority="Developer ID Application: "
+authority="Developer ID Application:"
 
 /usr/libexec/PlistBuddy -c "Add :SUFeedURL string http://hwsensors.com/appcast/appcast.xml" "./Binaries/HWMonitor.app/Contents/info.plist"
 
