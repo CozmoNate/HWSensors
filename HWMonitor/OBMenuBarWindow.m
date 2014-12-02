@@ -227,7 +227,6 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
                    name:NSApplicationDidResignActiveNotification
                  object:nil];
 
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         // Get window's frame view class
         id class = [[[self contentView] superview] class];
 
@@ -239,7 +238,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
         Method m1 = class_getInstanceMethod(class, @selector(drawRect:));
         Method m2 = class_getInstanceMethod(class, @selector(drawRectOriginal:));
         method_exchangeImplementations(m1, m2);
-    }];
+
 
     // Create the toolbar view
     NSRect toolbarRect = [self toolbarRect];
