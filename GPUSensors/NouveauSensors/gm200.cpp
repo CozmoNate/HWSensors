@@ -18,17 +18,17 @@
 
 bool gm200_identify(struct nouveau_device *device)
 {
-//    switch (device->chipset) {
-//        case 0x124:
-//            device->cname = "GK204";
-//            break;
-//
-//        default:
-//            nv_fatal(device, "unknown Maxwell chipset 0x%x\n", device->chipset);
-//            return false;
-//    }
-//
-//    return true;
+    switch (device->chipset) {
+        case 0x124:
+            device->cname = "GK204";
+            break;
+
+        default:
+            nv_fatal(device, "unknown Maxwell chipset 0x%x\n", device->chipset);
+            return false;
+    }
+
+    nv_fatal(device, "%s not supported yet...\n", device->cname);
 
     return false;
 }

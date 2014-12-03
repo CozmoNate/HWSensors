@@ -37,6 +37,7 @@
 #include "nvc0.h"
 #include "nve0.h"
 #include "gm100.h"
+#include "gm200.h"
 #include "nouveau_therm.h"
 #include "nouveau_volt.h"
 
@@ -66,6 +67,7 @@ bool nouveau_identify(struct nouveau_device *device)
             case 0x0f0:
             case 0x100: device->card_type = NV_E0; break;
             case 0x110: device->card_type = GM100; break;
+            case 0x120: device->card_type = GM200; break;
 			default:
 				break;
         }
@@ -80,6 +82,7 @@ bool nouveau_identify(struct nouveau_device *device)
 		case NV_D0: ret = nvc0_identify(device); break;
 		case NV_E0: ret = nve0_identify(device); break;
         case GM100: ret = gm100_identify(device); break;
+        case GM200: ret = gm200_identify(device); break;
         default: break;
     }
     
