@@ -11,8 +11,8 @@
 
 #include "linux_definitions.h"
 
-#define NV_DEBUG_ENABLED 1
-#define NV_TRACE_ENABLED 1
+#define NV_DEBUG_ENABLED 0
+#define NV_TRACE_ENABLED 0
 #define NV_SPAM_ENABLED 0
 
 #define nv_prefix "GeForceSensors"
