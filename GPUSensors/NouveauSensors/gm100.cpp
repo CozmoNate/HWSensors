@@ -127,6 +127,8 @@ bool gm100_identify(struct nouveau_device *device)
             //            device->oclass[NVDEV_ENGINE_VP     ] = &nve0_vp_oclass;
             //            device->oclass[NVDEV_ENGINE_PPP    ] = &nvc0_ppp_oclass;
             //#endif
+            nv_fatal(device, "GM204 not supported yet\n");
+            return false;
 
         default:
             nv_fatal(device, "unknown Maxwell chipset 0x%x\n", device->chipset);
