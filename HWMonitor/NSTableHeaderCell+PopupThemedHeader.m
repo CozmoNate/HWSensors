@@ -24,18 +24,10 @@
         
         NSGradient *gradient = nil;
 
-//        if (colorTheme.useBrightIcons.boolValue) {
-//            gradient = nil;/*[[NSGradient alloc] initWithColorsAndLocations:
-//                        colorTheme.groupStartColor,     0.1,
-//                        colorTheme.groupEndColor,       0.9,
-//                        nil];*/
-//        }
-//        else {
-            gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                        colorTheme.groupStartColor,     0.1f,
-                        colorTheme.groupEndColor,       0.9f,
-                        nil];
-//        }
+        gradient = [[NSGradient alloc] initWithColorsAndLocations:
+                    [colorTheme.groupStartColor colorWithAlphaComponent:1.0],     0.1f,
+                    [colorTheme.groupEndColor colorWithAlphaComponent:1.0],       0.9f,
+                    nil];
 
         [gradient drawInRect:cellFrame angle:90];
 

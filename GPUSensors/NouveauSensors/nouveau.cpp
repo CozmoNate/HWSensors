@@ -87,7 +87,7 @@ bool nouveau_identify(struct nouveau_device *device)
     }
     
     if (!ret) {
-        nv_fatal(device, "unknown chipset, 0x%08x\n", boot0);
+        nv_fatal(device, "unsupported chipset, 0x%08x\n", boot0);
         return false;
     }
     

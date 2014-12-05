@@ -32,7 +32,6 @@
 		7E19870E187F480B00BADEA4 /* FakeSMCPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E012DAA182D064500D5CD21 /* FakeSMCPlugin.cpp */; };
 		7E20CCDF17D6DAD400CE769C /* ACPIProbe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E20CCDD17D6DAD400CE769C /* ACPIProbe.cpp */; };
 		7E30C3E218B2B2CD00B5C317 /* ACPIProbeUserClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E30C3E018B2B2CD00B5C317 /* ACPIProbeUserClient.cpp */; };
-		7E4BBF3C1A2F83020036CA51 /* gm200.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E4BBF3A1A2F83020036CA51 /* gm200.cpp */; };
 		7E5643C218F0154A00E01864 /* gm100.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5643C118F0154A00E01864 /* gm100.cpp */; };
 		7E5CFA2516988EBE00F0E9AD /* i2c_algo_bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2116988EBE00F0E9AD /* i2c_algo_bit.cpp */; };
 		7E5CFA2716988EBE00F0E9AD /* i2c_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5CFA2316988EBE00F0E9AD /* i2c_base.cpp */; };
@@ -140,8 +139,6 @@
 		7E3D41CB18B2B667002F6559 /* ACPIProbeArgument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACPIProbeArgument.h; sourceTree = "<group>"; };
 		7E40054E1585031B009AECED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7E43FB4D17CC04C800A6AAAA /* IntelDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntelDefinitions.h; sourceTree = "<group>"; };
-		7E4BBF3A1A2F83020036CA51 /* gm200.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gm200.cpp; sourceTree = "<group>"; };
-		7E4BBF3B1A2F83020036CA51 /* gm200.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gm200.h; sourceTree = "<group>"; };
 		7E5643C118F0154A00E01864 /* gm100.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gm100.cpp; sourceTree = "<group>"; };
 		7E5643C318F0155500E01864 /* gm100.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gm100.h; sourceTree = "<group>"; };
 		7E5CFA1D16988E9C00F0E9AD /* linux_definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = linux_definitions.h; sourceTree = "<group>"; };
@@ -490,8 +487,6 @@
 				7E9F5482167C71D9006E907B /* nve0.cpp */,
 				7E5643C318F0155500E01864 /* gm100.h */,
 				7E5643C118F0154A00E01864 /* gm100.cpp */,
-				7E4BBF3B1A2F83020036CA51 /* gm200.h */,
-				7E4BBF3A1A2F83020036CA51 /* gm200.cpp */,
 			);
 			name = nouveau;
 			sourceTree = "<group>";
@@ -964,7 +959,6 @@
 				7E9F54AE167C71DA006E907B /* nva3.cpp in Sources */,
 				7E9F54B0167C71DA006E907B /* nvc0.cpp in Sources */,
 				7E9F54B2167C71DA006E907B /* nvclock_i2c.cpp in Sources */,
-				7E4BBF3C1A2F83020036CA51 /* gm200.cpp in Sources */,
 				7ECCB63E18537A7000D95FB4 /* cik.cpp in Sources */,
 				7E9F54B4167C71DA006E907B /* nvd0.cpp in Sources */,
 				7E9F54B6167C71DA006E907B /* nve0.cpp in Sources */,
