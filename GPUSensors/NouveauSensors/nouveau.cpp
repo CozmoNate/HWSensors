@@ -65,7 +65,8 @@ bool nouveau_identify(struct nouveau_device *device)
 			case 0x0e0:
             case 0x0f0:
             case 0x100: device->card_type = NV_E0; break;
-            case 0x110: device->card_type = GM100; break;
+            case 0x110:
+            case 0x120: device->card_type = GM100; break;
 			default:
 				break;
         }
@@ -84,7 +85,7 @@ bool nouveau_identify(struct nouveau_device *device)
     }
     
     if (!ret) {
-        nv_fatal(device, "unknown chipset, 0x%08x\n", boot0);
+        nv_fatal(device, "unsupported chipset, 0x%08x\n", boot0);
         return false;
     }
     

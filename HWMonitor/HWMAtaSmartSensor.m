@@ -1045,7 +1045,11 @@ static io_iterator_t gHWMAtaSmartDeviceIterator = 0;
     if (!self.attributes || _remainingLifeAttributeIndex >= self.attributes.count)
         return nil;
 
-    return [self.attributes objectAtIndex:_remainingLifeAttributeIndex][@"value"];
+    NSDictionary * attributeInfo = [self.attributes objectAtIndex:_remainingLifeAttributeIndex];
+    NSNumber * thresold = attributeInfo[@"threshold"];
+    NSNumber * value = attributeInfo[@"value"];
+
+    return thresold.integerValue == 100 && value.integerValue >= 100 ? @(value.integerValue - 100) : value;
 }
 
 -(NSUInteger)internalUpdateAlarmLevel

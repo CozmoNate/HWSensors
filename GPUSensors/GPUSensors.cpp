@@ -102,6 +102,12 @@ void GPUSensors::onTimeoutExceeded(IOService *provider)
 bool GPUSensors::start(IOService *provider)
 {
     HWSensorsDebugLog("Starting...");
+
+    int arg_value = 1;
+
+    if (PE_parse_boot_argn("-gpusensors-disable", &arg_value, sizeof(arg_value))) {
+        return false;
+    }
     
     if (!provider || !super::start(provider))
         return false;
