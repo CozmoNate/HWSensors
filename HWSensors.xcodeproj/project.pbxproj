@@ -1015,7 +1015,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.9;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "i386 x86_64";
 			};
@@ -1055,7 +1055,7 @@
 				INFOPLIST_PREFIX_HEADER = Shared/HWSensorsVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.9;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "i386 x86_64";
 			};

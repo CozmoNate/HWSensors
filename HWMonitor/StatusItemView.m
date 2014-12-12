@@ -146,7 +146,12 @@
 {
     //[_statusItem drawStatusBarBackgroundInRect:rect withHighlight:_isHighlighted];
 
-    BOOL darkThemeColors = [NSAppearance class] && [[NSAppearance currentAppearance] respondsToSelector:@selector(name)] && [[[NSAppearance currentAppearance] name] isEqualToString:NSAppearanceNameVibrantDark];
+    BOOL darkThemeColors = NO;
+
+    if ([NSAppearance class]) {
+        id appearance = [NSAppearance currentAppearance];
+        darkThemeColors = [appearance respondsToSelector:@selector(name)] && [[appearance valueForKey:@"name"] isEqualToString:@"NSAppearanceNameVibrantDark"];
+    }
 
     if (darkThemeColors != _darkThemeColors) {
         _darkThemeColors = darkThemeColors;

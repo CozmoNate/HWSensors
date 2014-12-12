@@ -45,7 +45,6 @@
 
 #import "NSTableView+HWMEngineHelper.h"
 
-
 @implementation AppController
 
 @synthesize sensorsAndGroupsCollectionSnapshot = _sensorsAndGroupsCollectionSnapshot;
@@ -252,22 +251,6 @@
     }
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-    [GrowlApplicationBridge setGrowlDelegate:self];
-
-    [self.monitorEngine setDelegate:self];
-
-    [self.monitorEngine open];
-    [self.monitorEngine start];
-}
-
--(void)applicationWillTerminate:(NSNotification *)notification
-{
-    //[self removeObserver:self forKeyPath:@keypath(self, monitorEngine.favorites)];
-    //[self removeObserver:self forKeyPath:@keypath(self, monitorEngine.iconsWithSensorsAndGroups)];
-}
-
 - (IBAction)sensorHiddenFlagChanged:(id)sender
 {
     [self.monitorEngine setNeedsUpdateLists];
@@ -345,6 +328,27 @@
         //} completionHandler:nil];
     }];
 }
+#pragma mark
+#pragma mark NSApplicationDelegate
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+    // Growl
+    [GrowlApplicationBridge setGrowlDelegate:self];
+
+    // HWmonitorEngine
+    [self.monitorEngine setDelegate:self];
+
+    [self.monitorEngine open];
+    [self.monitorEngine start];
+}
+
+-(void)applicationWillTerminate:(NSNotification *)notification
+{
+    //[self removeObserver:self forKeyPath:@keypath(self, monitorEngine.favorites)];
+    //[self removeObserver:self forKeyPath:@keypath(self, monitorEngine.iconsWithSensorsAndGroups)];
+}
+
 #pragma mark
 #pragma mark HWMEngineDelegate:
 
