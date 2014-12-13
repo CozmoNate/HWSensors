@@ -103,9 +103,6 @@
     if (self && statusItem) {
         _statusItem = statusItem;
 
-        _smallFont = [NSFont fontWithName:@"Lucida Grande Bold" size:9.0];
-        _bigFont = [NSFont fontWithName:@"Lucida Grande" size:13.9];
-
         _shadow = [[NSShadow alloc] init];
 
         [_shadow setShadowOffset:CGSizeMake(0, -1.0)];
@@ -139,6 +136,10 @@
 
 -(void)currentAppearanceChanged
 {
+//    _smallFont = [NSFont fontWithName:_darkThemeColors ? @"HelveticaNeue-Light" : @"HelveticaNeue" size:9.0];
+//    _bigFont = [NSFont fontWithName:_darkThemeColors ? @"HelveticaNeue" : @"HelveticaNeue-Medium" size:13.9];
+    _smallFont = _darkThemeColors ? [NSFont systemFontOfSize:9.0] : [NSFont boldSystemFontOfSize:9.0];
+    _bigFont = _darkThemeColors ? [NSFont systemFontOfSize:14.9] : [NSFont systemFontOfSize:14.9];
     [_shadow setShadowColor:[NSColor colorWithCalibratedWhite:_darkThemeColors ? 0.0 : 1.0 alpha:0.50]];
 }
 
@@ -210,7 +211,7 @@
             }
 
             [[NSGraphicsContext currentContext] saveGraphicsState];
-
+            CGContextSetShouldAntialias([[NSGraphicsContext currentContext] graphicsPort], YES);
             
             NSImage *image = _darkThemeColors ? icon.alternate : icon.regular;
 
@@ -258,6 +259,7 @@
             [title addAttribute:NSForegroundColorAttributeName value:valueColor range:NSMakeRange(0,title.length)];
 
             [[NSGraphicsContext currentContext] saveGraphicsState];
+            CGContextSetShouldSmoothFonts([[NSGraphicsContext currentContext] graphicsPort], YES);
 
             if (/*!_isHighlighted &&*/ self.monitorEngine.configuration.useShadowEffectsInMenubar.boolValue) {
                 [_shadow set];
