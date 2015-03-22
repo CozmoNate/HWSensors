@@ -225,6 +225,7 @@ float W836xxSensors::readTachometer(UInt32 index)
 bool W836xxSensors::isTachometerControlable(UInt32 index)
 {
     if (index < 5) return true;
+    return false;
 }
 
 UInt8 W836xxSensors::readTachometerControl(UInt32 index)
