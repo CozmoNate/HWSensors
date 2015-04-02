@@ -111,7 +111,7 @@ private:
     void					updateTachometers();
 	virtual float			readTachometer(UInt32 index);
     
-    virtual bool			isTachometerControlable();
+    virtual bool			isTachometerControlable(UInt32 index);
     virtual UInt8			readTachometerControl(UInt32 index);
     virtual void			writeTachometerControl(UInt32 index, UInt8 percent);
     
