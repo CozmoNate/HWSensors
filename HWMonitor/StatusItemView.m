@@ -325,9 +325,9 @@
 
 -(void)redraw
 {
-    if (!self.monitorEngine || !self.favoritesSnapshot.count) {
-        return;
-    }
+//    if (!self.monitorEngine || !self.favoritesSnapshot.count) {
+//        return;
+//    }
 
     [self setNeedsDisplay:YES];
 }
