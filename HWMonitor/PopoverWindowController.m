@@ -22,6 +22,7 @@
 @property (assign) IBOutlet NSView *toolbarView;
 @property (nonatomic, strong) SensorsViewController *sensorsViewController;
 
+-(IBAction)closeWindow:(id)sender;
 -(IBAction)attachToMenubar:(id)sender;
 -(IBAction)showPreferencesWindow:(id)sender;
 -(IBAction)showGraphsWindow:(id)sender;
@@ -50,56 +51,32 @@
 -(void)showWindow:(id)sender
 {
     [super showWindow:sender];
-
     [self.window setHeavyBackgroundBlur];
+}
+
+-(void)closeWindow:(id)sender
+{
+    [self close];
 }
 
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    
+
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+
     _sensorsViewController = [SensorsViewController new];
 
     [self.sensorsViewController setDelegate:self];
 
+    [self.sensorsViewController.view setTranslatesAutoresizingMaskIntoConstraints:YES];
+    [self.sensorsViewController.view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [self.sensorsViewController.view setFrame:[self.window.contentView bounds]];
 
-    //    [NSLayoutConstraint constraintWithItem:self.sensorsViewController.view
-    //                                 attribute:NSLayoutAttributeLeft
-    //                                 relatedBy:NSLayoutRelationEqual
-    //                                    toItem:self.window.contentView
-    //                                 attribute:NSLayoutAttributeLeft
-    //                                multiplier:1.0
-    //                                  constant:0];
-    //    [NSLayoutConstraint constraintWithItem:self.sensorsViewController.view
-    //                                 attribute:NSLayoutAttributeRight
-    //                                 relatedBy:NSLayoutRelationEqual
-    //                                    toItem:self.window.contentView
-    //                                 attribute:NSLayoutAttributeRight
-    //                                multiplier:1.0
-    //                                  constant:0];
-    //    [NSLayoutConstraint constraintWithItem:self.sensorsViewController.view
-    //                                 attribute:NSLayoutAttributeTop
-    //                                 relatedBy:NSLayoutRelationEqual
-    //                                    toItem:self.window.contentView
-    //                                 attribute:NSLayoutAttributeTop
-    //                                multiplier:1.0
-    //                                  constant:0];
-    //    [NSLayoutConstraint constraintWithItem:self.sensorsViewController.view
-    //                                 attribute:NSLayoutAttributeBottom
-    //                                 relatedBy:NSLayoutRelationEqual
-    //                                    toItem:self.window.contentView
-    //                                 attribute:NSLayoutAttributeBottom
-    //                                multiplier:1.0
-    //                                  constant:0];
-
-    [self.sensorsViewController.view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable | NSViewMinXMargin | NSViewMaxXMargin | NSViewMinYMargin | NSViewMaxYMargin];
-    
     [self.window.contentView addSubview:self.sensorsViewController.view];
 
     [Localizer localizeView:self.window];
-
+    
     [self sizeToFitContent];
 }
 

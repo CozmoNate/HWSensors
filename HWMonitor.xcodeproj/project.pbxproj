@@ -80,6 +80,9 @@
 		7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
 		7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		7EB139FA1B33641E00FBAA04 /* MMScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB139F71B33641E00FBAA04 /* MMScroller.m */; };
+		7EB139FB1B33641E00FBAA04 /* MMScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB139F91B33641E00FBAA04 /* MMScrollView.m */; };
+		7EB139FE1B33646400FBAA04 /* MMDrawingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB139FD1B33646400FBAA04 /* MMDrawingUtils.m */; };
 		7EBA20DB17ED9C98008E54C5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */; };
 		7EC95E2218D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m */; };
 		7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECDDE4016DEB5F600085FFF /* GraphsGroupCell.m */; };
@@ -361,6 +364,12 @@
 		7EA50F0417F3771D00FDA3AA /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/Binaries/Sparkle.framework; sourceTree = "<group>"; };
 		7EA68B8917341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7EA68B8A17341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7EB139F61B33641E00FBAA04 /* MMScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMScroller.h; sourceTree = "<group>"; };
+		7EB139F71B33641E00FBAA04 /* MMScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMScroller.m; sourceTree = "<group>"; };
+		7EB139F81B33641E00FBAA04 /* MMScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMScrollView.h; sourceTree = "<group>"; };
+		7EB139F91B33641E00FBAA04 /* MMScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMScrollView.m; sourceTree = "<group>"; };
+		7EB139FC1B33646400FBAA04 /* MMDrawingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawingUtils.h; sourceTree = "<group>"; };
+		7EB139FD1B33646400FBAA04 /* MMDrawingUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawingUtils.m; sourceTree = "<group>"; };
 		7EB7E702178340710071B3F0 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = Shared/version.h; sourceTree = "<group>"; };
 		7EB7E707178341D20071B3F0 /* HWMonitorVersion.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HWMonitorVersion.pch; path = Shared/HWMonitorVersion.pch; sourceTree = "<group>"; };
 		7EBA20DA17ED9C98008E54C5 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
@@ -963,12 +972,26 @@
 		7EA2494A16D8EB0B002231B2 /* Views & Controls */ = {
 			isa = PBXGroup;
 			children = (
+				7EB139EF1B3363EB00FBAA04 /* MMScrollView */,
 				7E0200AC18035D3700520CF7 /* RFOverlayScrollView */,
 				7E0254651805D2D200B4F099 /* JLNFadingScrollView */,
 				7E019BA7182625F8002F8217 /* FadingButton */,
 				7E019BA6182625EC002F8217 /* SensorsTableView */,
 			);
 			name = "Views & Controls";
+			sourceTree = "<group>";
+		};
+		7EB139EF1B3363EB00FBAA04 /* MMScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				7EB139FC1B33646400FBAA04 /* MMDrawingUtils.h */,
+				7EB139FD1B33646400FBAA04 /* MMDrawingUtils.m */,
+				7EB139F61B33641E00FBAA04 /* MMScroller.h */,
+				7EB139F71B33641E00FBAA04 /* MMScroller.m */,
+				7EB139F81B33641E00FBAA04 /* MMScrollView.h */,
+				7EB139F91B33641E00FBAA04 /* MMScrollView.m */,
+			);
+			name = MMScrollView;
 			sourceTree = "<group>";
 		};
 		7EB7E708178341D80071B3F0 /* Versioning */ = {
@@ -1296,6 +1319,7 @@
 				7E1A031C197F6F560001210A /* PopoverWindowController.m in Sources */,
 				7EDA1A7916D903740012A0DC /* PopupSensorCell.m in Sources */,
 				7E48BC6518EE977500A6CA19 /* SmcHelper+HWMonitorHelper.m in Sources */,
+				7EB139FB1B33641E00FBAA04 /* MMScrollView.m in Sources */,
 				7E4C76BA18A61C190050BEFD /* NSTableHeaderCell+PopupThemedHeader.m in Sources */,
 				7E8A337518EEEC510059DA16 /* HWMThemedTextField.m in Sources */,
 				7E48B3CC18BE5A0E00B6B734 /* SmcHelper.m in Sources */,
@@ -1307,6 +1331,7 @@
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
 				7ECDDE4116DEB5F600085FFF /* GraphsGroupCell.m in Sources */,
 				7ED6AE08188347FD0005B30C /* PrefsToolbarItem.m in Sources */,
+				7EB139FA1B33641E00FBAA04 /* MMScroller.m in Sources */,
 				7E031C641835E76D00A2D097 /* HWMImageTransformer.m in Sources */,
 				7EF1B12C185342890094C1DB /* HWMConfiguration.m in Sources */,
 				7EFE61AE183581090009BD0D /* HWMBatterySensor.m in Sources */,
@@ -1336,6 +1361,7 @@
 				7E9A17CD17E4529C003DB018 /* PopupAtaSmartSensorCell.m in Sources */,
 				7E9A17D017E45938003DB018 /* NSPopover+Message.m in Sources */,
 				7E04D7B518B33E5600B40ADA /* ProbeControllingMenuItem.m in Sources */,
+				7EB139FE1B33646400FBAA04 /* MMDrawingUtils.m in Sources */,
 				7E9A17D317E45ACA003DB018 /* NSString+Size.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

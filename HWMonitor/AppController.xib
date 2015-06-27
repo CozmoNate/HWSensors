@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AppController">
@@ -448,9 +448,10 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="19" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
+                                        <rect key="frame" x="0.0" y="0.0" width="274" height="0.0"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                         <tableColumns>
                                             <tableColumn width="273" minWidth="40" maxWidth="1000" id="MsE-UD-elT">
@@ -975,9 +976,10 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="19" rowSizeStyle="automatic" viewBased="YES" id="eYG-oD-xEa" customClass="SensorsTableView">
+                                        <rect key="frame" x="0.0" y="0.0" width="273" height="0.0"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                         <tableColumns>
                                             <tableColumn width="272" minWidth="40" maxWidth="1000" id="Din-7T-Alo">
@@ -1458,9 +1460,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="97" rowSizeStyle="automatic" viewBased="YES" id="J1M-XJ-log" userLabel="Theme Table View">
+                                <rect key="frame" x="0.0" y="0.0" width="248" height="0.0"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="4" height="4"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <tableViewGridLines key="gridStyleMask" dashed="YES"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
@@ -1706,11 +1709,11 @@
                 </userDefinedRuntimeAttribute>
             </userDefinedRuntimeAttributes>
         </view>
-        <view id="0i6-hZ-Q6v" userLabel="Graphs View">
+        <view misplaced="YES" id="0i6-hZ-Q6v" userLabel="Graphs View">
             <rect key="frame" x="0.0" y="0.0" width="500" height="236"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="bua-sr-zup">
+                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bua-sr-zup">
                     <rect key="frame" x="25" y="182" width="448" height="18"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="P1K-9I-OHe"/>
@@ -1731,7 +1734,7 @@
                         </binding>
                     </connections>
                 </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="RWJ-wR-9pf">
+                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RWJ-wR-9pf">
                     <rect key="frame" x="25" y="157" width="448" height="18"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="293" id="VPU-Y8-hzR"/>
@@ -1752,7 +1755,7 @@
                         </binding>
                     </connections>
                 </button>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="Lvv-Gq-7DT">
+                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lvv-Gq-7DT">
                     <rect key="frame" x="25" y="132" width="448" height="18"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="6ny-oR-Oa0"/>
@@ -1773,7 +1776,7 @@
                         </binding>
                     </connections>
                 </button>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rfX-Mg-n1n">
+                <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rfX-Mg-n1n">
                     <rect key="frame" x="27" y="61" width="404" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="400" id="L1k-d1-cs7"/>
@@ -1785,7 +1788,7 @@
                     </textFieldCell>
                 </textField>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3vW-CP-GIC">
-                    <rect key="frame" x="25" y="27" width="450" height="26"/>
+                    <rect key="frame" x="25" y="27" width="450" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="446" id="Awh-UA-ZVa"/>
                     </constraints>
@@ -1801,7 +1804,7 @@
                         </binding>
                     </connections>
                 </slider>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rfb-w2-8ol">
+                <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rfb-w2-8ol">
                     <rect key="frame" x="435" y="61" width="38" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="34" id="7v0-3W-bhM"/>
@@ -1823,7 +1826,7 @@
                         <outlet property="formatter" destination="620" id="28e-tL-KH5"/>
                     </connections>
                 </textField>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="027-Ai-eda">
+                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="027-Ai-eda">
                     <rect key="frame" x="25" y="107" width="448" height="18"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="XQY-fV-vXw"/>

@@ -19,14 +19,15 @@
 
     if (colorTheme) {
 
-        [[NSColor clearColor] set];
-        NSRectFill(cellFrame);
+//        [[NSColor clearColor] set];
+//        NSRectFill(cellFrame);
+        NSRectFillUsingOperation(cellFrame, NSCompositeClear);
         
         NSGradient *gradient = nil;
 
         gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                    [colorTheme.groupStartColor colorWithAlphaComponent:1.0],     0.1f,
-                    [colorTheme.groupEndColor colorWithAlphaComponent:1.0],       0.9f,
+                    [colorTheme.groupStartColor colorWithAlphaComponent:0.15],     0.1f,
+                    [colorTheme.groupEndColor colorWithAlphaComponent:0.15],       0.9f,
                     nil];
 
         [gradient drawInRect:cellFrame angle:90];

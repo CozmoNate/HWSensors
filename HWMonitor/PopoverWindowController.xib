@@ -14,7 +14,7 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="HWMonitor" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="none" frameAutosaveName="PopupWindow" id="cOt-uA-rsj" customClass="PopoverWindow">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" nonactivatingPanel="YES" unifiedTitleAndToolbar="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" nonactivatingPanel="YES" unifiedTitleAndToolbar="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" participatesInCycle="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="1240" y="753" width="222" height="257"/>
@@ -28,6 +28,7 @@
                 <outlet property="delegate" destination="-2" id="SxU-uJ-4QD"/>
                 <outlet property="toolbarView" destination="OK3-Df-mJd" id="Cw0-Dz-3Ub"/>
             </connections>
+            <point key="canvasLocation" x="370" y="540.5"/>
         </window>
         <customView id="OK3-Df-mJd" userLabel="Toolbar View">
             <rect key="frame" x="0.0" y="0.0" width="223" height="34"/>
@@ -46,7 +47,7 @@
                         <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                     </buttonCell>
                     <connections>
-                        <action selector="orderOut:" target="cOt-uA-rsj" id="bZk-si-sE2"/>
+                        <action selector="closeWindow:" target="-2" id="g3L-RL-eWQ"/>
                     </connections>
                 </button>
                 <button toolTip="Preferences" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="Z27-D7-DH9" userLabel="Preferences Button" customClass="FadingButton">
@@ -97,11 +98,10 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="HWMonitor" systemMenu="apple" id="Mxa-91-wNV">
                         <items>
-                            <menuItem title="About HWMonitor..." id="Jk1-6L-NhI">
+                            <menuItem title="Attach to Menu Bar" keyEquivalent="a" id="UBQ-Qa-WRk">
                                 <attributedString key="attributedTitle"/>
-                                <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="showAboutWindow:" target="-2" id="vCo-Cb-aG9"/>
+                                    <action selector="attachToMenubar:" target="-2" id="jXT-6Q-47d"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="8Pr-sf-t7V"/>
@@ -111,6 +111,14 @@
                                     <action selector="showPreferencesWindow:" target="-2" id="LNi-1P-AL2"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="About HWMonitor..." id="Jk1-6L-NhI">
+                                <attributedString key="attributedTitle"/>
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showAboutWindow:" target="-2" id="vCo-Cb-aG9"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Nj4-VZ-L2q"/>
                             <menuItem title="Check for Updates..." id="iRx-hp-Joz">
                                 <attributedString key="attributedTitle"/>
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -119,12 +127,6 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="RC6-Ck-JN1"/>
-                            <menuItem title="Attach to Menu Bar" keyEquivalent="a" id="UBQ-Qa-WRk">
-                                <attributedString key="attributedTitle"/>
-                                <connections>
-                                    <action selector="attachToMenubar:" target="-2" id="jXT-6Q-47d"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="ACPIProbe Profile" id="sh3-yk-rHp" customClass="ProbeControllingMenuItem">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>

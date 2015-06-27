@@ -21,6 +21,7 @@
 #import "ViewWithToolbar.h"
 
 #import "Localizer.h"
+#import "PopupSensorCell.h"
 
 @interface PopoverController ()
 {
@@ -50,6 +51,8 @@
 
 #pragma mark - Properties
 
+@synthesize popover = _popover;
+
 -(HWMEngine *)monitorEngine
 {
     return [HWMEngine sharedEngine];
@@ -62,17 +65,27 @@
 
         [_popover setDelegate:self];
 
-        [_popover setAnimates:NO];
-        [_popover setBehavior:NSPopoverBehaviorApplicationDefined];
+//        [_popover setAnimates:NO];
+        [_popover setBehavior:NSPopoverBehaviorTransient];
 
         [self colorThemeChanged];
 
         [_popover setContentViewController:self];
 
         [self sizePopoverToFitContent];
+//        [_popover setAnimates:YES];
     }
 
     return _popover;
+}
+
+-(void)setPopover:(NSPopover *)popover
+{
+    if (_popover) {
+        [_popover close];
+    }
+
+    _popover = popover;
 }
 
 -(BOOL)isShown
@@ -82,7 +95,7 @@
 
 -(BOOL)isDetached
 {
-    return _popoverWindowController != nil;
+    return _popoverWindowController.window.isVisible;
 }
 
 #pragma mark - Overridden
@@ -112,6 +125,7 @@
 //        }
 
         _sensorsViewController = [SensorsViewController new];
+        _sensorsViewController.delegate = self;
 
         ViewWithToolbar * toolbar = (ViewWithToolbar *)self.view;
 
@@ -121,6 +135,8 @@
         [_sensorsViewController.view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
         [self.view addSubview:_sensorsViewController.view];
+
+        [PopupSensorCell setGlobalPopoverDelegate:self];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
@@ -148,15 +164,12 @@
 
 -(IBAction)open:(id)sender
 {
-    //NSLog(@"open:%@", sender);
-    
+//    NSLog(@"open:%@", sender);
+
     [NSApp activateIgnoringOtherApps:YES];
 
-    if (_popoverWindowController) {
-        if (!_popoverWindowController.window.isVisible) {
-            _popoverWindowController = nil;
-        }
-        else if (!_popoverWindowController.window.isKeyWindow) {
+    if (_popoverWindowController && _popoverWindowController.window.isVisible) {
+        if (!_popoverWindowController.window.isKeyWindow) {
             [_popoverWindowController.window makeKeyAndOrderFront:self];
             return;
         }
@@ -165,18 +178,21 @@
         }
     }
     
-    [_popover setAnimates:NO];
-    [_popover showRelativeToRect:_statusItemView.frame ofView:_statusItemView preferredEdge:CGRectMinYEdge];
+//    [_popover setAnimates:NO];
+
+    [_popover showRelativeToRect:_statusItemView.frame ofView:_statusItemView preferredEdge:NSMinYEdge];
     [self colorThemeChanged];
     [self sizePopoverToFitContent];
-    [_popover setAnimates:YES];
+
+//    [_popover setAnimates:YES];
+
 }
 
 -(IBAction)close:(id)sender
 {
-    //NSLog(@"close:%@", sender);
+//    NSLog(@"close:%@", sender);
 
-    if (_popoverWindowController) {
+    if (_popoverWindowController.window.isVisible) {
 
 //        if (sender != self && ![sender isKindOfClass:[NSNotification class]]) {
 //            [_popoverWindowController close];
@@ -194,9 +210,7 @@
         }
     }
 
-    if ( _popover && _popover.isShown) {
-        [_popover performClose:sender];
-    }
+    [self closePopover:sender];
 }
 
 -(IBAction)toggle:(id)sender
@@ -216,12 +230,23 @@
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         if (!_popoverWindowController) {
             _popoverWindowController = [PopoverWindowController new];
+            [_popoverWindowController setPopoverController:self];
             [_popoverWindowController setAppController:_appController];
             [_popoverWindowController setGraphsController:_graphsController];
             [_popoverWindowController setAboutController:_aboutController];
-            [_popoverWindowController showWindow:sender];
         }
+
+        [_popoverWindowController showWindow:sender];
     }];
+}
+
+-(IBAction)closePopover:(id)sender
+{
+    if ( _popover && _popover.isShown) {
+        //[_popover setAnimates:NO];
+        [_popover performClose:sender];
+        //[_popover setAnimates:YES];
+    }
 }
 
 -(IBAction)showPreferencesWindow:(id)sender
@@ -230,7 +255,7 @@
         [self.appController showWindow:sender];
     }];
 
-   [self close:self];
+   [self closePopover:self];
 }
 
 -(IBAction)showGraphsWindow:(id)sender
@@ -239,7 +264,7 @@
         [self.graphsController showWindow:sender];
     }];
 
-    [self close:self];
+    [self closePopover:self];
 }
 
 - (void)showAboutWindow:(id)sender
@@ -248,7 +273,7 @@
         [_aboutController showWindow:sender];
     }];
 
-    [self close:self];
+    [self closePopover:self];
 }
 
 #pragma mark - Methods
@@ -285,6 +310,7 @@
 
 -(void)colorThemeChanged
 {
+    [self.popover.contentViewController.view.window setAppearance:[NSAppearance appearanceNamed:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? @"NSAppearanceNameVibrantDark" : NSAppearanceNameAqua]];
     [self.popover setAppearance:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSPopoverAppearanceHUD : NSPopoverAppearanceMinimal];
 }
 
@@ -311,7 +337,7 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.colorTheme)]) {
-        _popover = nil;
+        self.popover = nil;
         [self colorThemeChanged];
     }
 }
@@ -320,6 +346,12 @@
 
 -(void)popoverWillShow:(NSNotification *)notification
 {
+    if (notification.object != _popover) {
+        [self.monitorEngine updateSmcAndDeviceSensors];
+        [self.monitorEngine updateAtaSmartSensors];
+        return;
+    }
+
     if (self.popoverDelegate && [self.popoverDelegate respondsToSelector:@selector(popoverWillShow:)]) {
         [self.popoverDelegate popoverWillShow:notification];
     }
@@ -327,6 +359,10 @@
 
 -(void)popoverDidShow:(NSNotification *)notification
 {
+    if (notification.object != _popover) {
+        return;
+    }
+
     if (self.popoverDelegate && [self.popoverDelegate respondsToSelector:@selector(popoverDidShow:)]) {
         [self.popoverDelegate popoverDidShow:notification];
     }
@@ -334,6 +370,10 @@
 
 -(void)popoverWillClose:(NSNotification *)notification
 {
+    if (notification.object != _popover) {
+        return;
+    }
+
     if (self.popoverDelegate && [self.popoverDelegate respondsToSelector:@selector(popoverWillClose:)]) {
         [self.popoverDelegate popoverWillClose:notification];
     }
@@ -341,6 +381,14 @@
 
 -(void)popoverDidClose:(NSNotification *)notification
 {
+    if (notification.object != _popover) {
+        if (![NSApp isActive] || self.isDetached /*||
+            self.aboutController.window.isVisible || self.appController.window.isVisible || self.graphsController.window.isVisible*/) {
+            [self closePopover:self];
+        }
+        return;
+    }
+    
     if (self.popoverDelegate && [self.popoverDelegate respondsToSelector:@selector(popoverDidClose:)]) {
         [self.popoverDelegate popoverDidClose:notification];
     }
@@ -348,14 +396,14 @@
 
 //-(NSWindow *)detachableWindowForPopover:(NSPopover *)popover
 //{
-//    //if (!_popoverWindowController) {
+//    if (!_popoverWindowController) {
 //        _popoverWindowController = [PopoverWindowController new];
 //    
 //        [_popoverWindowController setPopoverController:self];
 //        [_popoverWindowController setAppController:_appController];
 //        [_popoverWindowController setGraphsController:_graphsController];
 //        [_popoverWindowController setAboutController:_aboutController];
-//    //}
+//    }
 //
 //    return _popoverWindowController.window;
 //}

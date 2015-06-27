@@ -39,10 +39,11 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 
 // You can alter these constants to change the appearance of the window
 //CGFloat OBMenuBarWindowTitleBarHeight = 35;
-const CGFloat OBMenuBarWindowArrowHeight = 10.0f;
-const CGFloat OBMenuBarWindowArrowWidth = 20.0f;
-const CGFloat OBMenuBarWindowArrowOffset = 3.0f;
-const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
+const CGFloat OBMenuBarWindowArrowHeight = 11.0f;
+const CGFloat OBMenuBarWindowArrowWidth = 22.0f;
+const CGFloat OBMenuBarWindowArrowOffset = 2.0f;
+const CGFloat OBMenuBarWindowArrorRadius = 2.0f;
+const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
 @interface OBMenuBarWindow ()
 
@@ -182,6 +183,18 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
 
 - (void)initialSetup
 {
+    // Get window's frame view class
+    id class = [[[self contentView] superview] class];
+
+    // Add the new drawRect: to the frame class
+    Method m0 = class_getInstanceMethod([self class], @selector(drawRect:));
+    class_addMethod(class, @selector(drawRectOriginal:), method_getImplementation(m0), method_getTypeEncoding(m0));
+
+    // Exchange methods
+    Method m1 = class_getInstanceMethod(class, @selector(drawRect:));
+    Method m2 = class_getInstanceMethod(class, @selector(drawRectOriginal:));
+    method_exchangeImplementations(m1, m2);
+
     // Set up the window drawing
     [self setOpaque:NO];
     [self setBackgroundColor:[NSColor clearColor]];
@@ -226,19 +239,6 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
                selector:@selector(applicationDidChangeActiveStatus:)
                    name:NSApplicationDidResignActiveNotification
                  object:nil];
-
-        // Get window's frame view class
-        id class = [[[self contentView] superview] class];
-
-        // Add the new drawRect: to the frame class
-        Method m0 = class_getInstanceMethod([self class], @selector(drawRect:));
-        class_addMethod(class, @selector(drawRectOriginal:), method_getImplementation(m0), method_getTypeEncoding(m0));
-
-        // Exchange methods
-        Method m1 = class_getInstanceMethod(class, @selector(drawRect:));
-        Method m2 = class_getInstanceMethod(class, @selector(drawRectOriginal:));
-        method_exchangeImplementations(m1, m2);
-
 
     // Create the toolbar view
     NSRect toolbarRect = [self toolbarRect];
@@ -836,23 +836,52 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
 
     NSBezierPath *toolbarPath = [NSBezierPath bezierPath];
 
+    BOOL drawRoundedArrow = YES;
 
     // Arrow Pin
-    [toolbarPath moveToPoint:arrowPointLeft];
-    [toolbarPath lineToPoint:arrowPointMiddle];
-    [toolbarPath lineToPoint:arrowPointRight];
+    if (drawRoundedArrow) {
 
-    [toolbarPath appendBezierPathWithArcFromPoint:arrowPointRight
-                                         toPoint:topRight
-                                          radius:cornerRadius];
-    [toolbarPath appendBezierPathWithArcFromPoint:topRight
-                                         toPoint:bottomRight
-                                          radius:cornerRadius];
-    [toolbarPath lineToPoint:bottomRight];
-    [toolbarPath lineToPoint:bottomLeft];
-    [toolbarPath appendBezierPathWithArcFromPoint:topLeft
-                                         toPoint:arrowPointLeft
-                                          radius:cornerRadius];
+        [toolbarPath moveToPoint:bottomLeft];
+
+        [toolbarPath appendBezierPathWithArcFromPoint:bottomLeft
+                                              toPoint:topLeft
+                                               radius:cornerRadius];
+        [toolbarPath appendBezierPathWithArcFromPoint:topLeft
+                                              toPoint:arrowPointLeft
+                                               radius:cornerRadius];
+
+        [toolbarPath appendBezierPathWithArcFromPoint:arrowPointLeft
+                                              toPoint:arrowPointMiddle
+                                               radius:cornerRadius * 2];
+        [toolbarPath appendBezierPathWithArcFromPoint:arrowPointMiddle
+                                              toPoint:arrowPointRight
+                                               radius:OBMenuBarWindowArrorRadius];
+
+        [toolbarPath appendBezierPathWithArcFromPoint:arrowPointRight
+                                              toPoint:topRight
+                                               radius:cornerRadius * 2];
+        [toolbarPath appendBezierPathWithArcFromPoint:topRight
+                                              toPoint:bottomRight
+                                               radius:cornerRadius];
+        [toolbarPath lineToPoint:bottomRight];
+    }
+    else {
+        [toolbarPath moveToPoint:arrowPointLeft];
+        [toolbarPath lineToPoint:arrowPointMiddle];
+        [toolbarPath lineToPoint:arrowPointRight];
+
+        [toolbarPath appendBezierPathWithArcFromPoint:arrowPointRight
+                                             toPoint:topRight
+                                              radius:cornerRadius];
+        [toolbarPath appendBezierPathWithArcFromPoint:topRight
+                                             toPoint:bottomRight
+                                              radius:cornerRadius];
+        [toolbarPath lineToPoint:bottomRight];
+        [toolbarPath lineToPoint:bottomLeft];
+        [toolbarPath appendBezierPathWithArcFromPoint:topLeft
+                                             toPoint:arrowPointLeft
+                                              radius:cornerRadius];
+    }
 
     [toolbarPath closePath];
 
@@ -920,15 +949,15 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
                                                                 endingColor:topColor];
     [headingGradient drawInRect:headingRect angle:90.0];
 
-    // Highlight the tip, too
+    // Highlight the pin, too
     if (isAttached)
     {
         NSColor *tipColor = [topColor highlightWithLevel:0.15];
         NSGradient *tipGradient = [[NSGradient alloc] initWithStartingColor:topColor
                                                                 endingColor:tipColor];
-        NSRect tipRect = NSMakeRect(arrowPointLeft.x,
+        NSRect tipRect = NSMakeRect(arrowPointLeft.x - OBMenuBarWindowArrowWidth / 2,
                                     arrowPointLeft.y,
-                                    OBMenuBarWindowArrowWidth,
+                                    OBMenuBarWindowArrowWidth * 2,
                                     OBMenuBarWindowArrowHeight);
         [tipGradient drawInRect:tipRect angle:90.0];
     }
@@ -990,18 +1019,47 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
     if (window.colorTheme.toolbarStrokeColor) {
         // Stroke open path
         NSBezierPath *strokePath = [NSBezierPath bezierPath];
-        [strokePath moveToPoint:arrowPointLeft];
-        [strokePath lineToPoint:arrowPointMiddle];
-        [strokePath lineToPoint:arrowPointRight];
-        [strokePath appendBezierPathWithArcFromPoint:topRight
-                                             toPoint:bottomRight
-                                              radius:cornerRadius];
-        [strokePath lineToPoint:bottomRight];
-        [strokePath moveToPoint:bottomLeft];
-        [strokePath appendBezierPathWithArcFromPoint:topLeft
-                                             toPoint:arrowPointLeft
-                                              radius:cornerRadius];
-        [strokePath lineToPoint:arrowPointLeft];
+
+        if (drawRoundedArrow) {
+
+            [strokePath moveToPoint:bottomLeft];
+
+            [strokePath appendBezierPathWithArcFromPoint:bottomLeft
+                                                  toPoint:topLeft
+                                                   radius:cornerRadius];
+            [strokePath appendBezierPathWithArcFromPoint:topLeft
+                                                  toPoint:arrowPointLeft
+                                                   radius:cornerRadius];
+
+            [strokePath appendBezierPathWithArcFromPoint:arrowPointLeft
+                                                  toPoint:arrowPointMiddle
+                                                   radius:cornerRadius * 2];
+            [strokePath appendBezierPathWithArcFromPoint:arrowPointMiddle
+                                                  toPoint:arrowPointRight
+                                                   radius:OBMenuBarWindowArrorRadius];
+
+            [strokePath appendBezierPathWithArcFromPoint:arrowPointRight
+                                                  toPoint:topRight
+                                                   radius:cornerRadius * 2];
+            [strokePath appendBezierPathWithArcFromPoint:topRight
+                                                  toPoint:bottomRight
+                                                   radius:cornerRadius];
+            [strokePath lineToPoint:bottomRight];
+        }
+        else {
+            [strokePath moveToPoint:arrowPointLeft];
+            [strokePath lineToPoint:arrowPointMiddle];
+            [strokePath lineToPoint:arrowPointRight];
+            [strokePath appendBezierPathWithArcFromPoint:topRight
+                                                 toPoint:bottomRight
+                                                  radius:cornerRadius];
+            [strokePath lineToPoint:bottomRight];
+            [strokePath moveToPoint:bottomLeft];
+            [strokePath appendBezierPathWithArcFromPoint:topLeft
+                                                 toPoint:arrowPointLeft
+                                                  radius:cornerRadius];
+            [strokePath lineToPoint:arrowPointLeft];
+        }
 
         if (isKey) {
             [window.colorTheme.toolbarStrokeColor set];
@@ -1011,7 +1069,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
         }
 
         [toolbarPath addClip];
-        [strokePath setLineWidth:0.5];
+        [strokePath setLineWidth:1.0];
         [strokePath stroke];
     }
 

@@ -34,7 +34,7 @@
 #import "GraphsController.h"
 #import "HWMEngine.h"
 
-@interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, HWMEngineDelegate, GrowlApplicationBridgeDelegate, NSPopoverDelegate>
+@interface AppController : NSWindowController <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, PopupControllerDelegate, HWMEngineDelegate, GrowlApplicationBridgeDelegate>
 {
     NSView *_previousView;
 }

@@ -14,13 +14,17 @@
 #import "EXTKeyPathCoding.h"
 #import "Localizer.h"
 #import "NSWindow+BackgroundBlur.h"
+#import "SensorsTableView.h"
+
+@interface NSView (AppKitDetails)
+- (void)_addKnownSubview:(NSView *)subview;
+@end
 
 @interface PopoverWindow ()
 
-@property (readonly) HWMEngine *monitorEngine;
 @property (readonly) NSImage *noiseImage;
+@property (readonly) SensorsTableView *sensorsTableView;
 
-- (NSWindow *)window;
 - (void)drawRectOriginal:(NSRect)dirtyRect;
 
 @end
@@ -28,8 +32,29 @@
 @implementation PopoverWindow
 
 @synthesize toolbarView = _toolbarView;
-
 @synthesize noiseImage = _noiseImage;
+
++(void)load
+{
+    //[[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
+
+    [self swizzleDrawRectForClass:NSClassFromString(@"NSThemeFrame")];
+    [self swizzleDrawRectForClass:NSClassFromString(@"NSGrayFrame")];
+}
+
++(void)swizzleDrawRectForClass:(id)frameClass
+{
+    // Get window's frame view class
+
+    // Add the new drawRect: to the frame class
+    Method m0 = class_getInstanceMethod([PopoverWindow class], @selector(drawRect:));
+    class_addMethod(frameClass, @selector(drawRectOriginal:), method_getImplementation(m0), method_getTypeEncoding(m0));
+
+    // Exchange methods
+    Method m1 = class_getInstanceMethod(frameClass, @selector(drawRect:));
+    Method m2 = class_getInstanceMethod(frameClass, @selector(drawRectOriginal:));
+    method_exchangeImplementations(m1, m2);
+}
 
 -(HWMEngine *)monitorEngine
 {
@@ -85,7 +110,13 @@
     [Localizer localizeView:_toolbarView];
 
     if (_toolbarView) {
-        [[self.contentView superview] addSubview:_toolbarView];
+        NSView * themeFrameView = [self.contentView superview];
+        if ([themeFrameView respondsToSelector:@selector(_addKnownSubview:)]) {
+            [themeFrameView _addKnownSubview:_toolbarView];
+        }
+        else {
+            [themeFrameView addSubview:_toolbarView];
+        }
         [self layoutContent];
     }
 }
@@ -97,17 +128,12 @@
 
 -(CGFloat)toolbarHeight
 {
-    return self.toolbarView.frame.size.height;
+    return _toolbarView.frame.size.height;
 }
 
 -(NSRect)bounds
 {
     return [self.contentView bounds];
-}
-
-- (NSWindow*)window
-{
-    return self;
 }
 
 -(void)layoutContent
@@ -130,13 +156,15 @@
     NSRect contentViewFrame = [self.contentView frame];
     CGFloat currentTopMargin = NSHeight(self.frame) - NSHeight(contentViewFrame);
     CGFloat delta = self.toolbarHeight - currentTopMargin;
+
     contentViewFrame.size.height -= delta;
     [self.contentView setFrame:contentViewFrame];
 
     [[self.contentView superview] viewDidEndLiveResize];
 
-    // Redraw the theme frame
+    //Redraw the theme frame
     [[self.contentView superview] setNeedsDisplayInRect:toolbarRect];
+    [self invalidateShadow];
 }
 
 - (void)windowDidResizeNotification:(NSNotification *)aNotification
@@ -151,35 +179,13 @@
 
     if (self) {
 
-        static dispatch_once_t onceToken;
-
-        dispatch_once(&onceToken, ^{
-            // Get window's frame view class
-            id class = [[[self contentView] superview] class];
-
-            // Add the new drawRect: to the frame class
-            Method m0 = class_getInstanceMethod([self class], @selector(drawRect:));
-            class_addMethod(class, @selector(drawRectOriginal:), method_getImplementation(m0), method_getTypeEncoding(m0));
-
-            // Exchange methods
-            Method m1 = class_getInstanceMethod(class, @selector(drawRect:));
-            Method m2 = class_getInstanceMethod(class, @selector(drawRectOriginal:));
-            method_exchangeImplementations(m1, m2);
-        });
-
-        // Create the toolbar view
-        //NSView *themeFrame = [self.contentView superview];
-        //[self.toolbarView setAutoresizingMask:(NSViewWidthSizable | NSViewMinYMargin)];
-        //[themeFrame addSubview:self.toolbarView];
+        //[self setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+        [self setBackgroundColor:[NSColor clearColor]];
+        [self setOpaque:NO];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
-            [self setBackgroundColor:[NSColor clearColor]];
-            [self setOpaque:NO];
-
             [self layoutContent];
-            [self invalidateShadow];
-            
             [self redraw];
 
             [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme) options:0 context:nil];
@@ -203,7 +209,13 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.colorTheme)]) {
+//        [self.sensorsTableView setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+        //[self setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
         [[[self contentView] superview] setNeedsDisplay:YES];
+    }
+    else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup)] ||
+             [keyPath isEqual:@keypath(self, monitorEngine.sensorsAndGroups)]) {
+        [self layoutContent];
     }
 }
 
@@ -223,11 +235,19 @@
     // Do nothing
 }
 
+- (NSWindow*)window
+{
+    return self;
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
    
     // Only draw the custom window frame for a OBMenuBarWindow object
-    if ([[self window] isKindOfClass:[PopoverWindow class]])
+//    id class = [[self window] class];
+//    NSLog(@"Self: %@, Window class: %@", [self class], class);
+
+    if ([self.window isKindOfClass:[PopoverWindow class]])
     {
         PopoverWindow *window = (PopoverWindow *)[self window];
 
