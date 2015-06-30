@@ -780,6 +780,8 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     CGFloat arrowHeight = OBMenuBarWindowArrowHeight;
     CGFloat arrowWidth = OBMenuBarWindowArrowWidth;
     CGFloat cornerRadius = OBMenuBarWindowCornerRadius;
+    CGFloat hairlineWidth = 1 / [NSScreen mainScreen].backingScaleFactor;
+
     BOOL isAttached = window.attachedToMenuBar;
 
     // Create the window shape
@@ -829,7 +831,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
     if (window.colorTheme.listStrokeColor) {
         [window.colorTheme.listStrokeColor setStroke];
-        [listPath setLineWidth:0.5];
+        [listPath setLineWidth:hairlineWidth];
         [listPath stroke];
     }
     [NSGraphicsContext restoreGraphicsState];
@@ -1012,7 +1014,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     else {
         [[window.colorTheme.listBackgroundColor shadowWithLevel:0.2] set];
     }
-    NSRect separatorRect = NSMakeRect(originX, originY + height - window.toolbarView.frame.size.height - (isAttached ? arrowHeight : 0) - 1, width, 1);
+    NSRect separatorRect = NSMakeRect(originX, originY + height - window.toolbarView.frame.size.height - (isAttached ? arrowHeight : 0) - hairlineWidth, width, hairlineWidth);
     NSRectFill(separatorRect);
 
     // Draw toolbar stroke
@@ -1069,7 +1071,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
         }
 
         [toolbarPath addClip];
-        [strokePath setLineWidth:1.0];
+        [strokePath setLineWidth:hairlineWidth];
         [strokePath stroke];
     }
 
