@@ -780,7 +780,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     CGFloat arrowHeight = OBMenuBarWindowArrowHeight;
     CGFloat arrowWidth = OBMenuBarWindowArrowWidth;
     CGFloat cornerRadius = OBMenuBarWindowCornerRadius;
-    CGFloat hairlineWidth = 1 / [NSScreen mainScreen].backingScaleFactor;
+    CGFloat hairlineWidth = 1 / window.screen.backingScaleFactor;
 
     BOOL isAttached = window.attachedToMenuBar;
 
