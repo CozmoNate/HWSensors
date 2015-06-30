@@ -42,7 +42,7 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 const CGFloat OBMenuBarWindowArrowHeight = 11.0f;
 const CGFloat OBMenuBarWindowArrowWidth = 22.0f;
 const CGFloat OBMenuBarWindowArrowOffset = 2.0f;
-const CGFloat OBMenuBarWindowArrorRadius = 2.0f;
+const CGFloat OBMenuBarWindowArrowRadius = 2.0f;
 const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
 @interface OBMenuBarWindow ()
@@ -781,7 +781,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     CGFloat arrowWidth = OBMenuBarWindowArrowWidth;
     CGFloat cornerRadius = OBMenuBarWindowCornerRadius;
     CGFloat hairlineWidth = 1 / window.screen.backingScaleFactor;
-
+    CGFloat strokeWidth = hairlineWidth * 2;
     BOOL isAttached = window.attachedToMenuBar;
 
     // Create the window shape
@@ -831,7 +831,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
     if (window.colorTheme.listStrokeColor) {
         [window.colorTheme.listStrokeColor setStroke];
-        [listPath setLineWidth:hairlineWidth];
+        [listPath setLineWidth:strokeWidth];
         [listPath stroke];
     }
     [NSGraphicsContext restoreGraphicsState];
@@ -857,7 +857,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
                                                radius:cornerRadius * 2];
         [toolbarPath appendBezierPathWithArcFromPoint:arrowPointMiddle
                                               toPoint:arrowPointRight
-                                               radius:OBMenuBarWindowArrorRadius];
+                                               radius:OBMenuBarWindowArrowRadius];
 
         [toolbarPath appendBezierPathWithArcFromPoint:arrowPointRight
                                               toPoint:topRight
@@ -1038,7 +1038,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
                                                    radius:cornerRadius * 2];
             [strokePath appendBezierPathWithArcFromPoint:arrowPointMiddle
                                                   toPoint:arrowPointRight
-                                                   radius:OBMenuBarWindowArrorRadius];
+                                                   radius:OBMenuBarWindowArrowRadius];
 
             [strokePath appendBezierPathWithArcFromPoint:arrowPointRight
                                                   toPoint:topRight
@@ -1071,7 +1071,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
         }
 
         [toolbarPath addClip];
-        [strokePath setLineWidth:hairlineWidth];
+        [strokePath setLineWidth:strokeWidth];
         [strokePath stroke];
     }
 
