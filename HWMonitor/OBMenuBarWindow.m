@@ -785,11 +785,11 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     BOOL isAttached = window.attachedToMenuBar;
 
     // Create the window shape
-    NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0 + 0.5,
+    NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0 + hairlineWidth / 2,
                                          originY + height - (isAttached ? arrowHeight : 0));
     NSPoint arrowPointMiddle = NSMakePoint(originX + width / 2.0,
                                        originY + height);
-    NSPoint arrowPointRight = NSMakePoint(originX + (width + arrowWidth) / 2.0 - 0.5,
+    NSPoint arrowPointRight = NSMakePoint(originX + (width + arrowWidth) / 2.0 - hairlineWidth / 2,
                                           originY + height - (isAttached ? arrowHeight : 0));
     NSPoint topLeft = NSMakePoint(originX,
                                   originY + height - (isAttached ? arrowHeight : 0));
