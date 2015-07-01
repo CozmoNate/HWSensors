@@ -43,7 +43,7 @@ const CGFloat OBMenuBarWindowArrowHeight = 11.0f;
 const CGFloat OBMenuBarWindowArrowWidth = 22.0f;
 const CGFloat OBMenuBarWindowArrowOffset = 2.0f;
 const CGFloat OBMenuBarWindowArrowRadius = 2.5f;
-const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
+const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
 @interface OBMenuBarWindow ()
 
