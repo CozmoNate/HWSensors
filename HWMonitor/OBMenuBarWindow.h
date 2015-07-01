@@ -129,5 +129,6 @@ enum  {
 -(IBAction)detachFromMenuBar:(id)sender;
 
 - (NSPoint)originForAttachedState;
+- (void)drawRect:(NSRect)dirtyRect;
 
 @end

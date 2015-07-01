@@ -62,13 +62,13 @@
 		7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */; };
 		7E7C14A71982432300BF3046 /* PopoverWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C14A61982432300BF3046 /* PopoverWindow.m */; };
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
+		7E7D86EA1B4454AE008AE77B /* OBMenuBarWindowFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D86E91B4454AE008AE77B /* OBMenuBarWindowFrameView.m */; };
 		7E8A337518EEEC510059DA16 /* HWMThemedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A337418EEEC510059DA16 /* HWMThemedTextField.m */; };
 		7E9060E51708951800BF5BBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248F016D8E93A002231B2 /* Foundation.framework */; };
 		7E9060E81708951800BF5BBF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9060E71708951800BF5BBF /* main.m */; };
 		7E9060EC1708951800BF5BBF /* smcutil.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E9060EB1708951800BF5BBF /* smcutil.1 */; };
 		7E9060F917089C0B00BF5BBF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7E93E29E183E832600957EDF /* HWMColorTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E93E29D183E832600957EDF /* HWMColorTheme.m */; };
-		7E989C731B41CDC200F75033 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E989C721B41CDC200F75033 /* JRSwizzle.m */; };
 		7E9A17CD17E4529C003DB018 /* PopupAtaSmartSensorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A17CC17E4529C003DB018 /* PopupAtaSmartSensorCell.m */; };
 		7E9A17D017E45938003DB018 /* NSPopover+Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A17CF17E45938003DB018 /* NSPopover+Message.m */; };
 		7E9A17D317E45ACA003DB018 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A17D217E45ACA003DB018 /* NSString+Size.m */; };
@@ -332,6 +332,8 @@
 		7E7C14A61982432300BF3046 /* PopoverWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverWindow.m; sourceTree = "<group>"; };
 		7E7D61F91704453B00F7222F /* FadingButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadingButton.h; sourceTree = "<group>"; };
 		7E7D61FA1704453B00F7222F /* FadingButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadingButton.m; sourceTree = "<group>"; };
+		7E7D86E81B4454AE008AE77B /* OBMenuBarWindowFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBMenuBarWindowFrameView.h; sourceTree = "<group>"; };
+		7E7D86E91B4454AE008AE77B /* OBMenuBarWindowFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBMenuBarWindowFrameView.m; sourceTree = "<group>"; };
 		7E8A337318EEEC510059DA16 /* HWMThemedTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMThemedTextField.h; sourceTree = "<group>"; };
 		7E8A337418EEEC510059DA16 /* HWMThemedTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMThemedTextField.m; sourceTree = "<group>"; };
 		7E9060E41708951800BF5BBF /* smcutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = smcutil; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -340,8 +342,6 @@
 		7E9060EB1708951800BF5BBF /* smcutil.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = smcutil.1; sourceTree = "<group>"; };
 		7E93E29C183E832600957EDF /* HWMColorTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMColorTheme.h; sourceTree = "<group>"; };
 		7E93E29D183E832600957EDF /* HWMColorTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMColorTheme.m; sourceTree = "<group>"; };
-		7E989C711B41CDC200F75033 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
-		7E989C721B41CDC200F75033 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
 		7E9A17CB17E4529C003DB018 /* PopupAtaSmartSensorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupAtaSmartSensorCell.h; sourceTree = "<group>"; };
 		7E9A17CC17E4529C003DB018 /* PopupAtaSmartSensorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupAtaSmartSensorCell.m; sourceTree = "<group>"; };
 		7E9A17CE17E45938003DB018 /* NSPopover+Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSPopover+Message.h"; sourceTree = "<group>"; };
@@ -548,6 +548,8 @@
 		7E0254661805D2E400B4F099 /* OBMenuBarWindow */ = {
 			isa = PBXGroup;
 			children = (
+				7E7D86E81B4454AE008AE77B /* OBMenuBarWindowFrameView.h */,
+				7E7D86E91B4454AE008AE77B /* OBMenuBarWindowFrameView.m */,
 				7E7B9B3D1786A732003ACB61 /* OBMenuBarWindow.h */,
 				7E7B9B3E1786A732003ACB61 /* OBMenuBarWindow.m */,
 			);
@@ -878,8 +880,6 @@
 			children = (
 				7EDDC87116FA5DA50072B15B /* Localizer.h */,
 				7EDDC87216FA5DA50072B15B /* Localizer.m */,
-				7E989C711B41CDC200F75033 /* JRSwizzle.h */,
-				7E989C721B41CDC200F75033 /* JRSwizzle.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1339,7 +1339,6 @@
 				7E28ED5F1979CBDC00788C40 /* PopoverController.m in Sources */,
 				7E063A4F18C226EB0083F52F /* HWMSensorController.m in Sources */,
 				7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */,
-				7E989C731B41CDC200F75033 /* JRSwizzle.m in Sources */,
 				7EF29A25190B92B2003538ED /* HWMTimer.m in Sources */,
 				7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */,
 				7ED3004F1802895E0020D818 /* JLNFadingScrollView.m in Sources */,
@@ -1352,6 +1351,7 @@
 				7E0648F016DF3B7D00ACB851 /* LaunchAtLoginController.m in Sources */,
 				7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */,
 				7E19DEBE1843CDC400229B0E /* HWMSensorsGroup.m in Sources */,
+				7E7D86EA1B4454AE008AE77B /* OBMenuBarWindowFrameView.m in Sources */,
 				7E17953616EE705B00145082 /* PopupBatteryCell.m in Sources */,
 				7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */,
 				7E1A0321197F73D10001210A /* SensorsViewController.m in Sources */,
@@ -1543,7 +1543,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1578,7 +1578,7 @@
 				INFOPLIST_PREFIX_HEADER = Shared/HWMonitorVersion.pch;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

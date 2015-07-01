@@ -29,7 +29,7 @@
 //
 
 #import "OBMenuBarWindow.h"
-#import <objc/runtime.h>
+#import "OBMenuBarWindowFrameView.h"
 #import "HWMColorTheme.h"
 
 NSString * const OBMenuBarWindowDidAttachToMenuBar = @"OBMenuBarWindowDidAttachToMenuBar";
@@ -42,8 +42,8 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 const CGFloat OBMenuBarWindowArrowHeight = 11.0f;
 const CGFloat OBMenuBarWindowArrowWidth = 22.0f;
 const CGFloat OBMenuBarWindowArrowOffset = 2.0f;
-const CGFloat OBMenuBarWindowArrowRadius = 2.0f;
-const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
+const CGFloat OBMenuBarWindowArrowRadius = 2.5f;
+const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
 
 @interface OBMenuBarWindow ()
 
@@ -65,6 +65,8 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 @property (readonly) NSImage *activeImage;
 @property (readonly) NSImage *inactiveImage;
 @property (atomic, assign) NSUInteger scheduledRefreshCount;
+@property (atomic, assign) CGFloat cachedContentScale;
+@property (nonatomic, strong) NSView * customContentView;
 
 @end
 
@@ -143,6 +145,40 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     return toolbarView;
 }
 
+- (void)setContentView:(NSView *)aView
+{
+    if ([self.customContentView isEqualTo:aView])
+    {
+        return;
+    }
+
+    NSRect bounds = [self frame];
+    bounds.origin = NSZeroPoint;
+
+    OBMenuBarWindowFrameView *frameView = [super contentView];
+    if (!frameView)
+    {
+        frameView = [[OBMenuBarWindowFrameView alloc] initWithFrame:bounds];
+        [super setContentView:frameView];
+    }
+
+    if (self.customContentView)
+    {
+        [self.customContentView removeFromSuperview];
+    }
+
+    self.customContentView = aView;
+    [self.customContentView setFrame:[self contentRectForFrameRect:bounds]];
+//    [self.customContentView setTranslatesAutoresizingMaskIntoConstraints:YES];
+//    [self.customContentView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [frameView addSubview:self.customContentView];
+}
+
+- (NSView *)contentView
+{
+    return self.customContentView;
+}
+
 -(void)setColorTheme:(HWMColorTheme*)newColorTheme
 {
     if (colorTheme != newColorTheme) {
@@ -183,8 +219,15 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
 - (void)initialSetup
 {
+
+
+
+//    if (![[[self contentView] superview] respondsToSelector:@selector(drawRectOriginal:)]) {
+//        [[self class] swizzleDrawRectForClass:[[[self contentView] superview] class]];
+//        [[[self contentView] superview] setWantsLayer:NO];
+//    }
     // Get window's frame view class
-    id class = [[[self contentView] superview] class];
+    /*id class = NSClassFromString(@"NSNextStepFrame");//[[[self contentView] superview] class];
 
     // Add the new drawRect: to the frame class
     Method m0 = class_getInstanceMethod([self class], @selector(drawRect:));
@@ -193,7 +236,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     // Exchange methods
     Method m1 = class_getInstanceMethod(class, @selector(drawRect:));
     Method m2 = class_getInstanceMethod(class, @selector(drawRectOriginal:));
-    method_exchangeImplementations(m1, m2);
+    method_exchangeImplementations(m1, m2);*/
 
     // Set up the window drawing
     [self setOpaque:NO];
@@ -476,6 +519,21 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 }
 
 #pragma mark - Rects
+
+//- (void)setContentSize:(NSSize)newSize
+//{
+//    NSSize sizeDelta = newSize;
+//    NSSize childBoundsSize = [self.customContentView bounds].size;
+//    sizeDelta.width -= childBoundsSize.width;
+//    sizeDelta.height -= childBoundsSize.height;
+//
+//    OBMenuBarWindowFrameView *frameView = [super contentView];
+//    NSSize newFrameSize = [frameView bounds].size;
+//    newFrameSize.width += sizeDelta.width;
+//    newFrameSize.height += sizeDelta.height;
+//
+//    [super setContentSize:newFrameSize];
+//}
 
 - (NSRect)titleBarRect
 {
@@ -771,6 +829,8 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     if (!window.toolbarView) {
         return;
     }
+    
+    self.cachedContentScale = window.screen.backingScaleFactor;
 
     NSRect bounds = [window.contentView superview].bounds;
     CGFloat originX = bounds.origin.x;
@@ -780,16 +840,16 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     CGFloat arrowHeight = OBMenuBarWindowArrowHeight;
     CGFloat arrowWidth = OBMenuBarWindowArrowWidth;
     CGFloat cornerRadius = OBMenuBarWindowCornerRadius;
-    CGFloat hairlineWidth = 1 / window.screen.backingScaleFactor;
-    CGFloat strokeWidth = hairlineWidth * 2;
+    CGFloat hairlineWidth = 1 / self.cachedContentScale;
+    CGFloat strokeWidth = self.cachedContentScale == 1 ? 1 : hairlineWidth * 1.5;
     BOOL isAttached = window.attachedToMenuBar;
 
     // Create the window shape
-    NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0 + hairlineWidth / 2,
+    NSPoint arrowPointLeft = NSMakePoint(originX + (width - arrowWidth) / 2.0 /*- (isAttached ? hairlineWidth / 2 : 0)*/,
                                          originY + height - (isAttached ? arrowHeight : 0));
     NSPoint arrowPointMiddle = NSMakePoint(originX + width / 2.0,
-                                       originY + height);
-    NSPoint arrowPointRight = NSMakePoint(originX + (width + arrowWidth) / 2.0 - hairlineWidth / 2,
+                                           originY + height /*+ (isAttached ? hairlineWidth / 2 : 0)*/);
+    NSPoint arrowPointRight = NSMakePoint(originX + (width + arrowWidth) / 2.0 /*+ (isAttached ? hairlineWidth / 2 : 0)*/,
                                           originY + height - (isAttached ? arrowHeight : 0));
     NSPoint topLeft = NSMakePoint(originX,
                                   originY + height - (isAttached ? arrowHeight : 0));
@@ -825,7 +885,10 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
 
     [NSGraphicsContext saveGraphicsState];
-    [listPath addClip];
+
+//    [listPath setLineWidth:hairlineWidth];
+//    [listPath addClip];
+
     [window.colorTheme.listBackgroundColor setFill];
     [listPath fill];
 
@@ -834,6 +897,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
         [listPath setLineWidth:strokeWidth];
         [listPath stroke];
     }
+    
     [NSGraphicsContext restoreGraphicsState];
 
     NSBezierPath *toolbarPath = [NSBezierPath bezierPath];
@@ -1019,6 +1083,7 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
 
     // Draw toolbar stroke
     if (window.colorTheme.toolbarStrokeColor) {
+        
         // Stroke open path
         NSBezierPath *strokePath = [NSBezierPath bezierPath];
 
@@ -1070,7 +1135,9 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
             [[window.colorTheme.toolbarStrokeColor highlightWithLevel:0.25] set];
         }
 
-        [toolbarPath addClip];
+//        [toolbarPath setLineWidth:hairlineWidth];
+//        [toolbarPath addClip];
+
         [strokePath setLineWidth:strokeWidth];
         [strokePath stroke];
     }
@@ -1136,11 +1203,6 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
     [[self.contentView superview] setNeedsDisplay:YES];
 }
 
--(void)drawRectOriginal:(NSRect)dirtyRect
-{
-    // Do nothing
-}
-
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Only draw the custom window frame for a OBMenuBarWindow object
@@ -1152,6 +1214,10 @@ const CGFloat OBMenuBarWindowCornerRadius = 5.0f;
             return;
         }
 
+        if (window.cachedContentScale != window.screen.backingScaleFactor) {
+            [window resetContentImagesScheduleRefresh:YES];
+        }
+        
         NSImage *content = window.isKeyWindow || window.attachedToMenuBar ? window.activeImage : window.inactiveImage;
 
         if (!content) {
