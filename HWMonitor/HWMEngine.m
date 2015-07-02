@@ -1296,10 +1296,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
                listBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:defaultOpacity]
                    listStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.15]
-                   toolbarEndColor:[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:defaultOpacity]
-                toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:defaultOpacity] highlightWithLevel:0.4]
-                 toolbarStartColor:[[NSColor colorWithCalibratedRed:0.05 green:0.25 blue:0.85 alpha:defaultOpacity] highlightWithLevel:0.6]
-                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]
+                   toolbarEndColor:[NSColor colorWithCalibratedRed:0.07 green:0.25 blue:0.85 alpha:defaultOpacity]
+                toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.07 green:0.25 blue:0.85 alpha:defaultOpacity] highlightWithLevel:0.30]
+                 toolbarStartColor:[[NSColor colorWithCalibratedRed:0.07 green:0.25 blue:0.85 alpha:defaultOpacity] highlightWithLevel:0.47]
+                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.15]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:NO];
 
@@ -1312,10 +1312,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]
                listBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:defaultOpacity]
                    listStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.15]
-                   toolbarEndColor:[NSColor colorWithCalibratedWhite:0.23 alpha:defaultOpacity]
-                toolbarShadowColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:defaultOpacity] highlightWithLevel:0.30]
-                 toolbarStartColor:[[NSColor colorWithCalibratedWhite:0.23 alpha:defaultOpacity] highlightWithLevel:0.55]
-                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]
+                   toolbarEndColor:[NSColor colorWithCalibratedWhite:0.25 alpha:defaultOpacity]
+                toolbarShadowColor:[[NSColor colorWithCalibratedWhite:0.25 alpha:defaultOpacity] highlightWithLevel:0.30]
+                 toolbarStartColor:[[NSColor colorWithCalibratedWhite:0.25 alpha:defaultOpacity] highlightWithLevel:0.37]
+                toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.15]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:NO];
 
@@ -1328,9 +1328,9 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                itemValueTitleColor:[NSColor colorWithCalibratedWhite:0.95 alpha:1.0]
                listBackgroundColor:[NSColor colorWithCalibratedWhite:0.15 alpha:darkVibrantOpacity]
                    listStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.15]
-                   toolbarEndColor:[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:darkVibrantOpacity]
-                toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:darkVibrantOpacity] highlightWithLevel:0.30]
-                 toolbarStartColor:[[NSColor colorWithCalibratedRed:0.03 green:0.23 blue:0.8 alpha:darkVibrantOpacity] highlightWithLevel:0.55]
+                   toolbarEndColor:[NSColor colorWithCalibratedRed:0.03 green:0.13 blue:0.8 alpha:darkVibrantOpacity]
+                toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.03 green:0.13 blue:0.8 alpha:darkVibrantOpacity] highlightWithLevel:0.30]
+                 toolbarStartColor:[[NSColor colorWithCalibratedRed:0.03 green:0.13 blue:0.8 alpha:darkVibrantOpacity] highlightWithLevel:0.55]
                 toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.15]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:YES];
