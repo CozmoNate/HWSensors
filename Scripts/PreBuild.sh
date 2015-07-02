@@ -18,7 +18,6 @@ fi
 
 project_name="HWSensors"
 uppercased_name=$(echo $project_name | tr [[:lower:]] [[:upper:]])
-project_version=$(git describe --tags)
 
 if [ -f $revision_file ]
 then
@@ -31,12 +30,15 @@ echo Last project revision: ${last_revision}
 
 cd .
 
-sc_revision=$(svnversion)
+sc_revision=$(svn info 2>/dev/null | grep ^Revision: | tr -Cd '[:digit:]')
+project_version=$(svn info 2>/dev/null | grep ^URL: | awk -F\/ '{ print $NF }')
 
 # Fallback to git commits count
-if [ "$sc_revision" == "exported" ] || [ "$sc_revision" == "Unversioned directory" ]
+svn info >/dev/null 2>&1
+if [ $? != 0 ]
 then
     sc_revision=$(git rev-list --count HEAD)
+    project_version=$(git describe --tags)
 fi
 
 if [ "$last_revision" != "$sc_revision" ]
