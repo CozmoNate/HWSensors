@@ -85,29 +85,30 @@
 -(void)showFanController:(id)sender
 {
     HWMSmcFanSensor *fan = self.objectValue;
+    HWMSmcFanController * fanController = (HWMSmcFanController*)fan.controller;
 
-    if ([fan number] && fan.controller.min && fan.controller.max) {
+    if ([fan number] && fanController.min && fanController.max) {
 
         //[PopupSensorCell destroyGlobalPopover];
 
-        PopupFanController *controller = nil;
+        PopupFanController *popupFanController = nil;
 
         _popover = [PopupSensorCell globalPopover];
 
         if (_popover && _popover.contentViewController && [_popover.contentViewController isKindOfClass:[PopupFanController class]]) {
 
-            controller = (PopupFanController *)_popover.contentViewController;
+            popupFanController = (PopupFanController *)_popover.contentViewController;
         }
         else {
             [PopupSensorCell destroyGlobalPopover];
 
             _popover = [PopupSensorCell globalPopover];
 
-            controller = [[PopupFanController alloc] initWithNibName:NSStringFromClass([PopupFanController class]) bundle:nil];
+            popupFanController = [[PopupFanController alloc] initWithNibName:NSStringFromClass([PopupFanController class]) bundle:nil];
 
-            [Localizer localizeView:controller.view];
+            [Localizer localizeView:popupFanController.view];
 
-            _popover.contentViewController = controller;
+            _popover.contentViewController = popupFanController;
         }
 
         _popover.behavior = NSPopoverBehaviorTransient;
@@ -115,7 +116,7 @@
 
         [_popover showRelativeToRect:self.frame ofView:self preferredEdge:NSMinXEdge];
         
-        [controller setController:fan.controller];
+        [popupFanController setController:fanController];
     }
 }
 

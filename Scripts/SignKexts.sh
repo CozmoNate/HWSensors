@@ -21,8 +21,8 @@ authority="Developer ID Application"
 codesign -v -f -s "${authority}" --deep ./Binaries/FakeSMC.kext
 spctl -a -v --type execute ./Binaries/FakeSMC.kext
 
-codesign -v -f -s "${authority}" ./Binaries/FakeSMCKeyStore.kext
-spctl -a -v --type execute ./Binaries/FakeSMCKeyStore.kext
+#codesign -v -f -s "${authority}" ./Binaries/FakeSMCKeyStore.kext
+#spctl -a -v --type execute ./Binaries/FakeSMCKeyStore.kext
 
 codesign -v -f -s "${authority}" ./Binaries/ACPISensors.kext
 spctl -a -v --type execute ./Binaries/ACPISensors.kext

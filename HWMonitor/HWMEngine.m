@@ -489,16 +489,16 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
     NSImage *image = [NSImage loadImageNamed:name ofType:@"png"];
 
     if (image) {
-        [image setMatchesOnMultipleResolution:YES];
-        [image setMatchesOnlyOnBestFittingAxis:YES];
+//        [image setMatchesOnMultipleResolution:NO];
+//        [image setMatchesOnlyOnBestFittingAxis:YES];
         [image setTemplate:template];
     }
 
     NSImage *alternate = [NSImage loadImageNamed:[name stringByAppendingString:@"-white"] ofType:@"png"];
 
     if (alternate) {
-        [alternate setMatchesOnMultipleResolution:YES];
-        [alternate setMatchesOnlyOnBestFittingAxis:NO];
+//        [alternate setMatchesOnMultipleResolution:NO];
+//        [alternate setMatchesOnlyOnBestFittingAxis:NO];
         [alternate setTemplate:template];
     }
 

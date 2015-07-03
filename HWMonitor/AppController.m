@@ -42,7 +42,7 @@
 #import "HWMIcon.h"
 #import "HWMSensor.h"
 #import "HWMBatterySensor.h"
-
+#import "NSImage+HighResolutionLoading.h"
 #import "NSTableView+HWMEngineHelper.h"
 
 @implementation AppController
@@ -66,7 +66,7 @@
         
         [self.monitorEngine.configuration.colorThemes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             NSString *path = [NSString stringWithFormat:@"theme_%@", [obj name]];
-            NSImage *preview = [NSImage imageNamed:[path lowercaseString]];
+            NSImage *preview = [NSImage loadImageNamed:[path lowercaseString] ofType:@"png"];
             
             [_themePreview addObject:@{@"name"    : GetLocalizedString([obj name]),
                                  @"preview" : preview}];

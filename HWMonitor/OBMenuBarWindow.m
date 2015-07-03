@@ -40,11 +40,11 @@ NSString * const OBMenuBarWindowDidResignKey = @"OBMenuBarWindowDidResignKey";
 // You can alter these constants to change the appearance of the window
 //CGFloat OBMenuBarWindowTitleBarHeight = 35;
 const CGFloat OBMenuBarWindowArrowHeight = 11.0f;
-const CGFloat OBMenuBarWindowArrowWidth = 23.0f;
-const CGFloat OBMenuBarWindowArrowOffset = 2.5f;
-const CGFloat OBMenuBarWindowArrowPinRadius = 2.0f;
-const CGFloat OBMenuBarWindowArrowBaseRadius = 11.5f;
-const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
+const CGFloat OBMenuBarWindowArrowWidth = 22.0f;
+const CGFloat OBMenuBarWindowArrowOffset = 2.0f;
+const CGFloat OBMenuBarWindowArrowPinRadius = 2.5f;
+const CGFloat OBMenuBarWindowArrowBaseRadius = 11.0f;
+const CGFloat OBMenuBarWindowCornerRadius = 6.0f;
 const CGFloat OBMenuBarWindowSnapOffset = 30.0f;
 
 @interface OBMenuBarWindow ()
@@ -844,6 +844,7 @@ const CGFloat OBMenuBarWindowSnapOffset = 30.0f;
     CGFloat cornerRadius = OBMenuBarWindowCornerRadius;
     CGFloat hairlineWidth = 1 / self.cachedContentScale;
     CGFloat strokeWidth = self.cachedContentScale == 1 ? 0.5 : hairlineWidth;
+    CGFloat arrowPinRadius = self.cachedContentScale == 1 ? 4 : OBMenuBarWindowArrowPinRadius;
     BOOL isAttached = window.attachedToMenuBar;
 
     // Create the window shape
@@ -923,7 +924,7 @@ const CGFloat OBMenuBarWindowSnapOffset = 30.0f;
                                                radius:OBMenuBarWindowArrowBaseRadius];
         [toolbarPath appendBezierPathWithArcFromPoint:arrowPointMiddle
                                               toPoint:arrowPointRight
-                                               radius:OBMenuBarWindowArrowPinRadius];
+                                               radius:arrowPinRadius];
 
         [toolbarPath appendBezierPathWithArcFromPoint:arrowPointRight
                                               toPoint:topRight
@@ -1105,7 +1106,7 @@ const CGFloat OBMenuBarWindowSnapOffset = 30.0f;
                                                    radius:OBMenuBarWindowArrowBaseRadius];
             [strokePath appendBezierPathWithArcFromPoint:arrowPointMiddle
                                                   toPoint:arrowPointRight
-                                                   radius:OBMenuBarWindowArrowPinRadius];
+                                                   radius:arrowPinRadius];
 
             [strokePath appendBezierPathWithArcFromPoint:arrowPointRight
                                                   toPoint:topRight

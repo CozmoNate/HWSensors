@@ -36,15 +36,9 @@
 @dynamic alternate;
 @dynamic regular;
 
-@synthesize image = _image;
-
 -(NSImage *)image
 {
-    if (!_image) {
-        _image = self.engine.configuration.colorTheme.useBrightIcons.boolValue ? self.alternate : self.regular;
-    }
-
-    return _image;
+    return self.engine.configuration.colorTheme.useBrightIcons.boolValue ? self.alternate : self.regular;
 }
 
 -(void)prepareForDeletion
@@ -71,7 +65,6 @@
 {
     if ([keyPath isEqual:@keypath(self, engine.configuration.colorTheme)]) {
         [self willChangeValueForKey:@keypath(self, image)];
-        _image = nil;
         [self didChangeValueForKey:@keypath(self, image)];
     }
 }

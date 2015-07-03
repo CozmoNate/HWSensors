@@ -30,13 +30,10 @@
 #import <CoreData/CoreData.h>
 #import "HWMSmcSensor.h"
 
-
-@class HWMSmcFanController;
-
 @interface HWMSmcFanSensor : HWMSmcSensor
 
 @property (nonatomic, retain) NSString * descriptor;
 @property (nonatomic, retain) NSNumber * number;
-@property (nonatomic, retain) HWMSmcFanController * controller;
+@property (nonatomic, retain) HWMSensorController * controller;
 
 @end

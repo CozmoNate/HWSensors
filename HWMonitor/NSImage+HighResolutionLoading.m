@@ -17,7 +17,8 @@
 
 +(NSImage*)loadImageNamed:(NSString*)name ofType:(NSString*)type useHighResolutionArtwork:(BOOL)useHighResolution
 {
-    return [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@%@", name, useHighResolution ? @"@2x" : @""] ofType:type]];
+    return [[NSBundle mainBundle] imageForResource:name];
+    //return [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@%@", name, useHighResolution ? @"@2x" : @""] ofType:type]];
 }
 
 @end
