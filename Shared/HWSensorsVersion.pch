@@ -8,7 +8,7 @@
 
 #include "version.h"
 
-#define HWSENSORS_LASTYEAR                  2014
+#define HWSENSORS_LASTYEAR                  2015
 
 #define FAKESMCKEYSTORE_BUNDLE              org.netkas.driver.FakeSMC
 #define FAKESMC_BUNDLE                      org.netkas.driver.FakeSMC
