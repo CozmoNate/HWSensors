@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
@@ -48,7 +48,7 @@
                         <action selector="showGraphsWindow:" target="-2" id="ESD-dE-Szl"/>
                     </connections>
                 </button>
-                <button toolTip="History Graphs" alphaValue="0.80000000000000004" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qvW-4L-DYw" userLabel="Graphs Button" customClass="FadingButton">
+                <button hidden="YES" toolTip="History Graphs" alphaValue="0.80000000000000004" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qvW-4L-DYw" userLabel="Graphs Button" customClass="FadingButton">
                     <rect key="frame" x="9" y="276" width="15" height="15"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="15" id="2GQ-7l-2wp"/>

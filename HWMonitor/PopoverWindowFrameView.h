@@ -24,6 +24,4 @@
 
 @interface PopoverWindowFrameView : NSView
 
-@property (nonatomic, copy) dispatch_block_t onDoubleClickBlock;
-
 @end

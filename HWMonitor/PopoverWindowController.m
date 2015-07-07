@@ -7,6 +7,7 @@
 //
 
 #import "PopoverWindowController.h"
+#import "PopoverWindow.h"
 #import "EXTKeyPathCoding.h"
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
@@ -14,8 +15,9 @@
 #import "NSWindow+BackgroundBlur.h"
 #import "Localizer.h"
 #import "PopoverController.h"
+#import "SensorsViewController.h"
 
-@interface PopoverWindowController ()
+@interface PopoverWindowController () <SensorsViewControllerDelegate, PopoverWindowDelegate>
 
 @property (readonly) HWMEngine *monitorEngine;
 
@@ -127,6 +129,13 @@
 -(void)sensorsViewControllerDidReloadData:(SensorsViewController *)controller
 {
     [self sizeToFitContent];
+}
+
+#pragma mark - PopoverWindowDelegate
+
+-(void)popoverWindowDidDoubleClick:(PopoverWindow *)window
+{
+    [self attachToMenubar:window];
 }
 
 @end

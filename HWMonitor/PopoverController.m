@@ -36,11 +36,6 @@
 @property (nonatomic, strong) NSPopover *popover;
 @property (nonatomic, strong) SensorsViewController *sensorsViewController;
 
--(IBAction)open:(id)sender;
--(IBAction)close:(id)sender;
--(IBAction)toggle:(id)sender;
-
--(IBAction)detach:(id)sender;
 -(IBAction)showPreferencesWindow:(id)sender;
 -(IBAction)showGraphsWindow:(id)sender;
 -(IBAction)showAboutWindow:(id)sender;
@@ -152,6 +147,13 @@
         }];
     }
     return self;
+}
+
+-(void)mouseUp:(NSEvent *)theEvent
+{
+    if (theEvent.clickCount == 2) {
+        [self detach:self];
+    }
 }
 
 -(void)dealloc

@@ -26,6 +26,7 @@
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="SxU-uJ-4QD"/>
+                <outlet property="popoverWindowDelegate" destination="-2" id="MhV-iR-lOX"/>
                 <outlet property="toolbarView" destination="OK3-Df-mJd" id="Cw0-Dz-3Ub"/>
             </connections>
             <point key="canvasLocation" x="370" y="540.5"/>

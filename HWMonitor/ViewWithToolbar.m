@@ -220,7 +220,7 @@
 
         NSPoint centerPoint;
 
-        centerPoint.x = /*isAttached ? 10 :*/ (width / 2) - (titleSize.width / 2);
+        centerPoint.x = 9;///*isAttached ? 10 :*/ (width / 2) - (titleSize.width / 2);
         centerPoint.y = topLeft.y - (_toolbarHeight / 2) /*- (window.attachedToMenuBar ? OBMenuBarWindowArrowHeight / 2 : 0)*/ - (titleSize.height / 2);
 
         [_toolbarTitle drawAtPoint:centerPoint withAttributes:titleAttributes];

@@ -24,5 +24,6 @@
 -(IBAction)open:(id)sender;
 -(IBAction)close:(id)sender;
 -(IBAction)toggle:(id)sender;
+-(IBAction)detach:(id)sender;
 
 @end

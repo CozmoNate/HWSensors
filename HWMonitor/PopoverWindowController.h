@@ -8,11 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "SensorsViewController.h"
-
 @class PopoverController;
 
-@interface PopoverWindowController : NSWindowController <SensorsViewControllerDelegate>
+@interface PopoverWindowController : NSWindowController
 
 @property (assign) IBOutlet PopoverController *popoverController;
 
