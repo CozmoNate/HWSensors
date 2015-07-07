@@ -116,34 +116,34 @@
     CGFloat width = self.bounds.size.width;
     CGFloat height = self.bounds.size.height;
     NSRect toolbarBounds = NSMakeRect(originX, toolbarOriginY, width, _toolbarHeight);
-    NSRect bounds = NSMakeRect(originX, originY, width, height);
+//    NSRect bounds = NSMakeRect(originX, originY, width, height);
 
-    CGFloat cornerRadius = 5;
-
-
+//    CGFloat cornerRadius = 5;
+//
+//
     NSPoint topLeft = NSMakePoint(originX, originY + height);
-    NSPoint topMiddle = NSMakePoint(originX + width / 2.0, originY + height);
-    NSPoint topRight = NSMakePoint(originX + width, originY + height);
-    NSPoint bottomLeft = NSMakePoint(originX, originY);
-    NSPoint bottomRight = NSMakePoint(originX + width, originY);
-    NSPoint toolbarBottomLeft = NSMakePoint(originX, toolbarOriginY);
-    NSPoint toolbarBottomRight = NSMakePoint(originX + width, toolbarOriginY);
-
-    NSBezierPath *toolbarPath = [NSBezierPath bezierPath];
-
-    [toolbarPath moveToPoint:topMiddle];
-    [toolbarPath appendBezierPathWithArcFromPoint:topRight
-                                         toPoint:toolbarBottomRight
-                                          radius:cornerRadius];
-    [toolbarPath lineToPoint:bottomRight];
-
-    [toolbarPath moveToPoint:topMiddle];
-    [toolbarPath appendBezierPathWithArcFromPoint:topLeft
-                                         toPoint:toolbarBottomLeft
-                                          radius:cornerRadius];
-    [toolbarPath lineToPoint:bottomLeft];
-    [toolbarPath lineToPoint:bottomRight];
-    [toolbarPath closePath];
+//    NSPoint topMiddle = NSMakePoint(originX + width / 2.0, originY + height);
+//    NSPoint topRight = NSMakePoint(originX + width, originY + height);
+//    NSPoint bottomLeft = NSMakePoint(originX, originY);
+//    NSPoint bottomRight = NSMakePoint(originX + width, originY);
+//    NSPoint toolbarBottomLeft = NSMakePoint(originX, toolbarOriginY);
+//    NSPoint toolbarBottomRight = NSMakePoint(originX + width, toolbarOriginY);
+//
+//    NSBezierPath *toolbarPath = [NSBezierPath bezierPath];
+//
+//    [toolbarPath moveToPoint:topMiddle];
+//    [toolbarPath appendBezierPathWithArcFromPoint:topRight
+//                                         toPoint:toolbarBottomRight
+//                                          radius:cornerRadius];
+//    [toolbarPath lineToPoint:bottomRight];
+//
+//    [toolbarPath moveToPoint:topMiddle];
+//    [toolbarPath appendBezierPathWithArcFromPoint:topLeft
+//                                         toPoint:toolbarBottomLeft
+//                                          radius:cornerRadius];
+//    [toolbarPath lineToPoint:bottomLeft];
+//    [toolbarPath lineToPoint:bottomRight];
+//    [toolbarPath closePath];
 
     NSColor *bottomColor, *topColor, *topColorTransparent;
 
@@ -160,35 +160,35 @@
         topColorTransparent = [[NSColor colorWithCalibratedRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0] highlightWithLevel:0.15];
     }*/
 
-    NSBezierPath *borderPath = [NSBezierPath bezierPath];
+//    NSBezierPath *borderPath = [NSBezierPath bezierPath];
+//
+//    [borderPath moveToPoint:topMiddle];
+//    [borderPath appendBezierPathWithArcFromPoint:topRight
+//                                          toPoint:bottomRight
+//                                           radius:cornerRadius];
+//    [borderPath lineToPoint:bottomRight];
+//
+//    [borderPath moveToPoint:topMiddle];
+//    [borderPath appendBezierPathWithArcFromPoint:topLeft
+//                                          toPoint:bottomLeft
+//                                           radius:cornerRadius];
+//    [borderPath lineToPoint:bottomLeft];
+//    [borderPath lineToPoint:bottomRight];
+//    [borderPath closePath];
+//
+//    [NSGraphicsContext saveGraphicsState];
+//
+//    [borderPath addClip];
+//
+//    [[self.monitorEngine.configuration.colorTheme.listBackgroundColor colorWithAlphaComponent:0.5] set];
+//    NSRectFill(bounds);
 
-    [borderPath moveToPoint:topMiddle];
-    [borderPath appendBezierPathWithArcFromPoint:topRight
-                                          toPoint:bottomRight
-                                           radius:cornerRadius];
-    [borderPath lineToPoint:bottomRight];
+//    [NSGraphicsContext restoreGraphicsState];
 
-    [borderPath moveToPoint:topMiddle];
-    [borderPath appendBezierPathWithArcFromPoint:topLeft
-                                          toPoint:bottomLeft
-                                           radius:cornerRadius];
-    [borderPath lineToPoint:bottomLeft];
-    [borderPath lineToPoint:bottomRight];
-    [borderPath closePath];
+//    [NSGraphicsContext saveGraphicsState];
 
-    [NSGraphicsContext saveGraphicsState];
+//    [toolbarPath addClip];
 
-    [borderPath addClip];
-
-    //[self.monitorEngine.configuration.colorTheme.listBackgroundColor set];
-    //NSRectFill(bounds);
-
-    [NSGraphicsContext restoreGraphicsState];
-
-    [NSGraphicsContext saveGraphicsState];
-
-    [toolbarPath addClip];
-    
     [bottomColor set];
 
     NSRectFill(toolbarBounds);
@@ -204,7 +204,7 @@
         NSRectFillUsingOperation(toolbarBounds, NSCompositeSourceOver);
     /*}*/
 
-    [NSGraphicsContext restoreGraphicsState];
+//    [NSGraphicsContext restoreGraphicsState];
 
     if (_toolbarTitle) {
         // Draw title

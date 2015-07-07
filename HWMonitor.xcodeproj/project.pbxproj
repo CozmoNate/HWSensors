@@ -64,6 +64,7 @@
 		7E7D61FB1704453B00F7222F /* FadingButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D61FA1704453B00F7222F /* FadingButton.m */; };
 		7E7D86EA1B4454AE008AE77B /* OBMenuBarWindowFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D86E91B4454AE008AE77B /* OBMenuBarWindowFrameView.m */; };
 		7E8A337518EEEC510059DA16 /* HWMThemedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A337418EEEC510059DA16 /* HWMThemedTextField.m */; };
+		7E8B050C1B4AEE6500861A5E /* PopoverWindowFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8B050B1B4AEE6500861A5E /* PopoverWindowFrameView.m */; };
 		7E9060E51708951800BF5BBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA248F016D8E93A002231B2 /* Foundation.framework */; };
 		7E9060E81708951800BF5BBF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9060E71708951800BF5BBF /* main.m */; };
 		7E9060EC1708951800BF5BBF /* smcutil.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E9060EB1708951800BF5BBF /* smcutil.1 */; };
@@ -336,6 +337,8 @@
 		7E7D86E91B4454AE008AE77B /* OBMenuBarWindowFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBMenuBarWindowFrameView.m; sourceTree = "<group>"; };
 		7E8A337318EEEC510059DA16 /* HWMThemedTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMThemedTextField.h; sourceTree = "<group>"; };
 		7E8A337418EEEC510059DA16 /* HWMThemedTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMThemedTextField.m; sourceTree = "<group>"; };
+		7E8B050A1B4AEE6500861A5E /* PopoverWindowFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverWindowFrameView.h; sourceTree = "<group>"; };
+		7E8B050B1B4AEE6500861A5E /* PopoverWindowFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverWindowFrameView.m; sourceTree = "<group>"; };
 		7E9060E41708951800BF5BBF /* smcutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = smcutil; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E9060E71708951800BF5BBF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7E9060EA1708951800BF5BBF /* smcutil-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "smcutil-Prefix.pch"; sourceTree = "<group>"; };
@@ -710,6 +713,8 @@
 		7E1A3644198B5C750052B673 /* PopoverWindowController */ = {
 			isa = PBXGroup;
 			children = (
+				7E8B050A1B4AEE6500861A5E /* PopoverWindowFrameView.h */,
+				7E8B050B1B4AEE6500861A5E /* PopoverWindowFrameView.m */,
 				7E7C14A51982432300BF3046 /* PopoverWindow.h */,
 				7E7C14A61982432300BF3046 /* PopoverWindow.m */,
 				7E1A0319197F6F560001210A /* PopoverWindowController.h */,
@@ -1161,7 +1166,7 @@
 		7EA248E016D8E93A002231B2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = kozlek;
 				TargetAttributes = {
 					7EA248E716D8E93A002231B2 = {
@@ -1373,6 +1378,7 @@
 				7E9FF2CA185330BC009DAD0D /* HWMItem.m in Sources */,
 				7E7B9B3F1786A732003ACB61 /* OBMenuBarWindow.m in Sources */,
 				7E9A17CD17E4529C003DB018 /* PopupAtaSmartSensorCell.m in Sources */,
+				7E8B050C1B4AEE6500861A5E /* PopoverWindowFrameView.m in Sources */,
 				7E9A17D017E45938003DB018 /* NSPopover+Message.m in Sources */,
 				7E04D7B518B33E5600B40ADA /* ProbeControllingMenuItem.m in Sources */,
 				7EB139FE1B33646400FBAA04 /* MMDrawingUtils.m in Sources */,
@@ -1585,6 +1591,7 @@
 		7EA2490616D8E93A002231B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SOURCE_ROOT)",
 					"$(SOURCE_ROOT)/Sparkle/Binaries/",
@@ -1604,6 +1611,7 @@
 		7EA2490716D8E93A002231B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SOURCE_ROOT)",
 					"$(SOURCE_ROOT)/Sparkle/Binaries/",

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
@@ -14,13 +14,13 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="HWMonitor" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="none" frameAutosaveName="PopupWindow" id="cOt-uA-rsj" customClass="PopoverWindow">
-            <windowStyleMask key="styleMask" titled="YES" nonactivatingPanel="YES" unifiedTitleAndToolbar="YES"/>
+            <windowStyleMask key="styleMask" titled="YES"/>
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" participatesInCycle="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="1240" y="753" width="222" height="257"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
-            <value key="minSize" type="size" width="220" height="19"/>
-            <view key="contentView" id="11G-Zt-a3e">
+            <value key="minSize" type="size" width="222" height="19"/>
+            <view key="contentView" wantsLayer="YES" id="11G-Zt-a3e">
                 <rect key="frame" x="0.0" y="0.0" width="222" height="257"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             </view>
@@ -31,7 +31,7 @@
             <point key="canvasLocation" x="370" y="540.5"/>
         </window>
         <customView id="OK3-Df-mJd" userLabel="Toolbar View">
-            <rect key="frame" x="0.0" y="0.0" width="223" height="34"/>
+            <rect key="frame" x="0.0" y="0.0" width="222" height="34"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button toolTip="Hide Window" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="dE0-6T-vtA" userLabel="Hide Popup Button" customClass="FadingButton">
@@ -51,7 +51,7 @@
                     </connections>
                 </button>
                 <button toolTip="Preferences" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="Z27-D7-DH9" userLabel="Preferences Button" customClass="FadingButton">
-                    <rect key="frame" x="199" y="10" width="15" height="15"/>
+                    <rect key="frame" x="198" y="10" width="15" height="15"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="15" id="WJD-ms-LDS"/>
                         <constraint firstAttribute="height" constant="15" id="edn-zs-22w"/>
@@ -67,7 +67,7 @@
                     </connections>
                 </button>
                 <button toolTip="History Graphs" alphaValue="0.80000000000000004" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YPt-Z5-WE6" userLabel="Graphs Button" customClass="FadingButton">
-                    <rect key="frame" x="179" y="10" width="15" height="15"/>
+                    <rect key="frame" x="178" y="10" width="15" height="15"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="15" id="KpE-YK-6tR"/>
                         <constraint firstAttribute="width" constant="15" id="k48-cA-VOz"/>

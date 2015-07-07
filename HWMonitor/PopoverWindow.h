@@ -15,7 +15,7 @@
 
 @property (readonly) HWMEngine *monitorEngine;
 
--(NSWindow *)window;
 -(void)layoutContent;
+-(void)drawRect:(NSRect)dirtyRect;
 
 @end

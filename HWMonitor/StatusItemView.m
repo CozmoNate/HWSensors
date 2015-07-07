@@ -150,8 +150,7 @@
     BOOL darkThemeColors = NO;
 
     if ([NSAppearance class]) {
-        id appearance = [NSAppearance currentAppearance];
-        darkThemeColors = [appearance respondsToSelector:@selector(name)] && [[appearance valueForKey:@"name"] isEqualToString:@"NSAppearanceNameVibrantDark"];
+        darkThemeColors = [NSAppearance currentAppearance].name == NSAppearanceNameVibrantDark;
     }
 
     if (darkThemeColors != _darkThemeColors) {

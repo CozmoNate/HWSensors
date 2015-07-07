@@ -124,12 +124,11 @@
             [_statusItemView setTarget:self];
 //        }
 
+        ViewWithToolbar * toolbar = (ViewWithToolbar *)self.view;
+        [toolbar setToolbarTitle:@"HWMonitor"];
+
         _sensorsViewController = [SensorsViewController new];
         _sensorsViewController.delegate = self;
-
-        ViewWithToolbar * toolbar = (ViewWithToolbar *)self.view;
-
-        [toolbar setToolbarTitle:@"HWMonitor"];
 
         [_sensorsViewController.view setFrame:NSMakeRect(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - toolbar.toolbarHeight)];
         [_sensorsViewController.view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -158,6 +157,7 @@
 -(void)dealloc
 {
     [self removeObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme)];
+    [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
 }
 
 #pragma mark - Actions
@@ -310,7 +310,11 @@
 
 -(void)colorThemeChanged
 {
-    [self.popover.contentViewController.view.window setAppearance:[NSAppearance appearanceNamed:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? @"NSAppearanceNameVibrantDark" : NSAppearanceNameAqua]];
+    if ([NSAppearance class]) {
+        [self.popover.contentViewController.view.window setAppearance:[NSAppearance appearanceNamed:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSAppearanceNameVibrantDark : NSAppearanceNameAqua]];
+//        [self.popover setAppearance:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSAppearanceNameVibrantDark : NSAppearanceNameAqua];
+    }
+
     [self.popover setAppearance:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSPopoverAppearanceHUD : NSPopoverAppearanceMinimal];
 }
 
@@ -394,19 +398,25 @@
     }
 }
 
-//-(NSWindow *)detachableWindowForPopover:(NSPopover *)popover
-//{
-//    if (!_popoverWindowController) {
-//        _popoverWindowController = [PopoverWindowController new];
-//    
-//        [_popoverWindowController setPopoverController:self];
-//        [_popoverWindowController setAppController:_appController];
-//        [_popoverWindowController setGraphsController:_graphsController];
-//        [_popoverWindowController setAboutController:_aboutController];
-//    }
-//
-//    return _popoverWindowController.window;
-//}
+-(BOOL)popoverShouldDetach:(NSPopover *)popover
+{
+    return YES;
+}
+
+-(NSWindow *)detachableWindowForPopover:(NSPopover *)popover
+{
+
+    if (!_popoverWindowController) {
+        _popoverWindowController = [PopoverWindowController new];
+    
+        [_popoverWindowController setPopoverController:self];
+        [_popoverWindowController setAppController:_appController];
+        [_popoverWindowController setGraphsController:_graphsController];
+        [_popoverWindowController setAboutController:_aboutController];
+    }
+
+    return _popoverWindowController.window;
+}
 
 #pragma mark - SensorsViewControllerDelegate
 

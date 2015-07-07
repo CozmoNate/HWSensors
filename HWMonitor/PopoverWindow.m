@@ -14,7 +14,8 @@
 #import "EXTKeyPathCoding.h"
 #import "Localizer.h"
 #import "NSWindow+BackgroundBlur.h"
-#import "SensorsTableView.h"
+//#import "SensorsTableView.h"
+#import "PopoverWindowFrameView.h"
 
 @interface NSView (AppKitDetails)
 - (void)_addKnownSubview:(NSView *)subview;
@@ -23,9 +24,8 @@
 @interface PopoverWindow ()
 
 @property (readonly) NSImage *noiseImage;
-@property (readonly) SensorsTableView *sensorsTableView;
-
-- (void)drawRectOriginal:(NSRect)dirtyRect;
+//@property (readonly) SensorsTableView *sensorsTableView;
+@property (nonatomic, strong) NSView * customContentView;
 
 @end
 
@@ -33,28 +33,6 @@
 
 @synthesize toolbarView = _toolbarView;
 @synthesize noiseImage = _noiseImage;
-
-+(void)load
-{
-    //[[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
-
-    [self swizzleDrawRectForClass:NSClassFromString(@"NSThemeFrame")];
-    [self swizzleDrawRectForClass:NSClassFromString(@"NSGrayFrame")];
-}
-
-+(void)swizzleDrawRectForClass:(id)frameClass
-{
-    // Get window's frame view class
-
-    // Add the new drawRect: to the frame class
-    Method m0 = class_getInstanceMethod([PopoverWindow class], @selector(drawRect:));
-    class_addMethod(frameClass, @selector(drawRectOriginal:), method_getImplementation(m0), method_getTypeEncoding(m0));
-
-    // Exchange methods
-    Method m1 = class_getInstanceMethod(frameClass, @selector(drawRect:));
-    Method m2 = class_getInstanceMethod(frameClass, @selector(drawRectOriginal:));
-    method_exchangeImplementations(m1, m2);
-}
 
 -(HWMEngine *)monitorEngine
 {
@@ -131,9 +109,55 @@
     return _toolbarView.frame.size.height;
 }
 
--(NSRect)bounds
+- (void)setContentView:(NSView *)aView
 {
-    return [self.contentView bounds];
+    if ([self.customContentView isEqualTo:aView])
+    {
+        return;
+    }
+
+    NSRect bounds = [self frame];
+    bounds.origin = NSZeroPoint;
+
+    PopoverWindowFrameView *frameView = [super contentView];
+    if (!frameView)
+    {
+        frameView = [[PopoverWindowFrameView alloc] initWithFrame:bounds];
+        [super setContentView:frameView];
+    }
+
+    if (self.customContentView)
+    {
+        [self.customContentView removeFromSuperview];
+    }
+    self.customContentView = aView;
+    [self.customContentView setFrame:bounds];
+    [frameView addSubview:self.customContentView];
+}
+
+- (NSView *)contentView
+{
+    return self.customContentView;
+}
+
+-(NSColor *)backgroundColor
+{
+    return [NSColor clearColor];
+}
+
+-(BOOL)isOpaque
+{
+    return NO;
+}
+
+-(BOOL)canBecomeKeyWindow
+{
+    return YES;
+}
+
+-(BOOL)canBecomeMainWindow
+{
+    return YES;
 }
 
 -(void)layoutContent
@@ -158,7 +182,9 @@
     CGFloat delta = self.toolbarHeight - currentTopMargin;
 
     contentViewFrame.size.height -= delta;
+
     [self.contentView setFrame:contentViewFrame];
+    [self.customContentView setFrame:[self.contentView bounds]];
 
     [[self.contentView superview] viewDidEndLiveResize];
 
@@ -169,20 +195,17 @@
 
 - (void)windowDidResizeNotification:(NSNotification *)aNotification
 {
-    [self layoutIfNeeded];
     [self layoutContent];
 }
 
 -(instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
-    self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag];
+    self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:bufferingType defer:flag];
 
     if (self) {
 
         //[self setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-        [self setBackgroundColor:[NSColor clearColor]];
-        [self setOpaque:NO];
-
+        
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
             [self layoutContent];
@@ -209,7 +232,7 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.colorTheme)]) {
-//        [self.sensorsTableView setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+        //        [self.sensorsTableView setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
         //[self setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
         [[[self contentView] superview] setNeedsDisplay:YES];
     }
@@ -230,148 +253,131 @@
     [[self.contentView superview] setNeedsDisplay:YES];
 }
 
--(void)drawRectOriginal:(NSRect)dirtyRect
-{
-    // Do nothing
-}
-
-- (NSWindow*)window
-{
-    return self;
-}
-
 - (void)drawRect:(NSRect)dirtyRect
 {
-   
-    // Only draw the custom window frame for a OBMenuBarWindow object
-//    id class = [[self window] class];
-//    NSLog(@"Self: %@, Window class: %@", [self class], class);
+    NSRect bounds = [self.contentView superview].bounds;
 
-    if ([self.window isKindOfClass:[PopoverWindow class]])
+    // Erase the window content
+    NSRectFillUsingOperation(bounds, NSCompositeClear);
+
+    CGFloat originX = bounds.origin.x;
+    CGFloat originY = bounds.origin.y;
+    CGFloat width = bounds.size.width;
+    CGFloat height = bounds.size.height;
+
+    CGFloat toolbarOriginY = bounds.origin.y + bounds.size.height - self.toolbarHeight;
+    NSRect toolbarBounds = NSMakeRect(originX, toolbarOriginY, width, self.toolbarHeight);
+
+    CGFloat cornerRadius = 5;
+
+    NSPoint topLeft = NSMakePoint(originX, originY + height);
+    NSPoint topMiddle = NSMakePoint(originX + width / 2.0, originY + height);
+    NSPoint topRight = NSMakePoint(originX + width, originY + height);
+    NSPoint bottomLeft = NSMakePoint(originX, originY);
+    NSPoint bottomMiddle = NSMakePoint(originX + width / 2.0, originY);
+    NSPoint bottomRight = NSMakePoint(originX + width, originY);
+
+    NSPoint toolbarBottomLeft = NSMakePoint(originX, toolbarOriginY);
+    NSPoint toolbarBottomRight = NSMakePoint(originX + width, toolbarOriginY);
+
+    NSBezierPath *toolbarPath = [NSBezierPath bezierPath];
+
+    [toolbarPath moveToPoint:toolbarBottomLeft];
+
+    [toolbarPath appendBezierPathWithArcFromPoint:topLeft
+                                          toPoint:topMiddle
+                                           radius:cornerRadius];
+    [toolbarPath appendBezierPathWithArcFromPoint:topRight
+                                          toPoint:toolbarBottomRight
+                                           radius:cornerRadius];
+//    [toolbarPath lineToPoint:toolbarBottomLeft];
+//    [toolbarPath lineToPoint:bottomRight];
+    [toolbarPath closePath];
+
+    NSColor *bottomColor, *topColor, *topColorTransparent;
+
+    if (self && self.isKeyWindow)
     {
-        PopoverWindow *window = (PopoverWindow *)[self window];
-
-        NSRect bounds = [window.contentView superview].bounds;
-
-        NSRectFillUsingOperation(bounds, NSCompositeClear);
-
-        CGFloat originX = bounds.origin.x;
-        CGFloat originY = bounds.origin.y;
-        CGFloat toolbarOriginY = bounds.origin.y + bounds.size.height - window.toolbarHeight;
-        CGFloat width = bounds.size.width;
-        CGFloat height = bounds.size.height;
-        NSRect toolbarBounds = NSMakeRect(originX, toolbarOriginY, width, window.toolbarHeight);
-        CGFloat cornerRadius = 5;
-
-
-        NSPoint topLeft = NSMakePoint(originX, originY + height);
-        NSPoint topMiddle = NSMakePoint(originX + width / 2.0, originY + height);
-        NSPoint topRight = NSMakePoint(originX + width, originY + height);
-        NSPoint bottomLeft = NSMakePoint(originX, originY);
-        NSPoint bottomRight = NSMakePoint(originX + width, originY);
-        NSPoint toolbarBottomLeft = NSMakePoint(originX, toolbarOriginY);
-        NSPoint toolbarBottomRight = NSMakePoint(originX + width, toolbarOriginY);
-
-        NSBezierPath *toolbarPath = [NSBezierPath bezierPath];
-
-        [toolbarPath moveToPoint:topMiddle];
-        [toolbarPath appendBezierPathWithArcFromPoint:topRight
-                                              toPoint:toolbarBottomRight
-                                               radius:cornerRadius];
-        [toolbarPath lineToPoint:bottomRight];
-
-        [toolbarPath moveToPoint:topMiddle];
-        [toolbarPath appendBezierPathWithArcFromPoint:topLeft
-                                              toPoint:toolbarBottomLeft
-                                               radius:cornerRadius];
-        [toolbarPath lineToPoint:bottomLeft];
-        [toolbarPath lineToPoint:bottomRight];
-        [toolbarPath closePath];
-
-        NSColor *bottomColor, *topColor, *topColorTransparent;
-
-        if (window && window.isKeyWindow)
-         {
-            bottomColor = window.monitorEngine.configuration.colorTheme.toolbarEndColor;
-            topColor = window.monitorEngine.configuration.colorTheme.toolbarStartColor;
-            topColorTransparent = [NSColor colorWithCalibratedRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0];
-        }
-        else
-        {
-             bottomColor = [window.monitorEngine.configuration.colorTheme.toolbarEndColor highlightWithLevel:0.2];
-             topColor = [window.monitorEngine.configuration.colorTheme.toolbarStartColor highlightWithLevel:0.2];
-             topColorTransparent = [[NSColor colorWithCalibratedRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0] highlightWithLevel:0.15];
-        }
-
-        NSBezierPath *borderPath = [NSBezierPath bezierPath];
-
-        [borderPath moveToPoint:topMiddle];
-        [borderPath appendBezierPathWithArcFromPoint:topRight
-                                             toPoint:bottomRight
-                                              radius:cornerRadius];
-        [borderPath lineToPoint:bottomRight];
-
-        [borderPath moveToPoint:topMiddle];
-        [borderPath appendBezierPathWithArcFromPoint:topLeft
-                                             toPoint:bottomLeft
-                                              radius:cornerRadius];
-        [borderPath lineToPoint:bottomLeft];
-        [borderPath lineToPoint:bottomRight];
-        [borderPath closePath];
-
-        [NSGraphicsContext saveGraphicsState];
-
-        [borderPath addClip];
-
-        [window.monitorEngine.configuration.colorTheme.listBackgroundColor set];
-        NSRectFill(bounds);
-
-        //[NSGraphicsContext restoreGraphicsState];
-
-        //[NSGraphicsContext saveGraphicsState];
-
-        //[toolbarPath addClip];
-
-        [bottomColor set];
-
-        NSRectFill(toolbarBounds);
-
-        NSGradient *headingGradient = [[NSGradient alloc] initWithStartingColor:topColorTransparent
-                                                                    endingColor:topColor];
-        [headingGradient drawInRect:toolbarBounds angle:90.0];
-
-        // Draw some subtle noise to the titlebar if the window is the key window
-        if (window.isKeyWindow)
-        {
-            [[NSColor colorWithPatternImage:window.noiseImage] set];
-            NSRectFillUsingOperation(toolbarBounds, NSCompositeSourceOver);
-        }
-
-        [NSGraphicsContext restoreGraphicsState];
-
-        if (window.title) {
-            // Draw title
-            NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] init];
-            [titleAttributes setValue:[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] forKey:NSForegroundColorAttributeName];
-            [titleAttributes setValue:[NSFont fontWithName:@"Helvetica Light" size:15] forKey:NSFontAttributeName];
-            NSShadow *stringShadow = [[NSShadow alloc] init];
-            [stringShadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.5]];
-            [stringShadow setShadowOffset:NSMakeSize(0, 0)];
-            [stringShadow setShadowBlurRadius:6];
-            [titleAttributes setValue:stringShadow forKey:NSShadowAttributeName];
-            NSSize titleSize = [window.title sizeWithAttributes:titleAttributes];
-            
-            NSPoint centerPoint;
-            
-            centerPoint.x = /*isAttached ? 10 :*/ (width / 2) - (titleSize.width / 2);
-            centerPoint.y = topLeft.y - (window.toolbarHeight / 2) /*- (window.attachedToMenuBar ? OBMenuBarWindowArrowHeight / 2 : 0)*/ - (titleSize.height / 2);
-            
-            [window.title drawAtPoint:centerPoint withAttributes:titleAttributes];
-        }
-
+        bottomColor = self.monitorEngine.configuration.colorTheme.toolbarEndColor;
+        topColor = self.monitorEngine.configuration.colorTheme.toolbarStartColor;
+        topColorTransparent = [NSColor colorWithCalibratedRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0];
     }
-    else {
-        [self drawRectOriginal:dirtyRect];
+    else
+    {
+        bottomColor = [self.monitorEngine.configuration.colorTheme.toolbarEndColor highlightWithLevel:0.2];
+        topColor = [self.monitorEngine.configuration.colorTheme.toolbarStartColor highlightWithLevel:0.2];
+        topColorTransparent = [[NSColor colorWithCalibratedRed:topColor.redComponent green:topColor.greenComponent blue:topColor.blueComponent alpha:0.0] highlightWithLevel:0.15];
+    }
+
+    NSBezierPath *borderPath = [NSBezierPath bezierPath];
+
+    [borderPath moveToPoint:topMiddle];
+    [borderPath appendBezierPathWithArcFromPoint:topRight
+                                         toPoint:toolbarBottomRight
+                                          radius:cornerRadius];
+
+    [borderPath appendBezierPathWithArcFromPoint:bottomRight
+                                         toPoint:bottomMiddle
+                                          radius:cornerRadius];
+
+    [borderPath appendBezierPathWithArcFromPoint:bottomLeft
+                                         toPoint:toolbarBottomLeft
+                                          radius:cornerRadius];
+
+    [borderPath appendBezierPathWithArcFromPoint:topLeft
+                                         toPoint:topMiddle
+                                          radius:cornerRadius];
+
+    [borderPath closePath];
+
+    [NSGraphicsContext saveGraphicsState];
+
+    [borderPath addClip];
+
+    [self.monitorEngine.configuration.colorTheme.listBackgroundColor set];
+    NSRectFill(bounds);
+
+    //[NSGraphicsContext restoreGraphicsState];
+
+    //[NSGraphicsContext saveGraphicsState];
+
+    //[toolbarPath addClip];
+
+    [bottomColor set];
+
+    NSRectFill(toolbarBounds);
+
+    NSGradient *headingGradient = [[NSGradient alloc] initWithStartingColor:topColorTransparent
+                                                                endingColor:topColor];
+    [headingGradient drawInRect:toolbarBounds angle:90.0];
+
+    // Draw some subtle noise to the titlebar if the window is the key window
+    if (self.isKeyWindow)
+    {
+        [[NSColor colorWithPatternImage:self.noiseImage] set];
+        NSRectFillUsingOperation(toolbarBounds, NSCompositeSourceOver);
+    }
+
+    [NSGraphicsContext restoreGraphicsState];
+
+    if (self.title) {
+        // Draw title
+        NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] init];
+        [titleAttributes setValue:[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] forKey:NSForegroundColorAttributeName];
+        [titleAttributes setValue:[NSFont fontWithName:@"Helvetica Light" size:15] forKey:NSFontAttributeName];
+        NSShadow *stringShadow = [[NSShadow alloc] init];
+        [stringShadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.5]];
+        [stringShadow setShadowOffset:NSMakeSize(0, 0)];
+        [stringShadow setShadowBlurRadius:6];
+        [titleAttributes setValue:stringShadow forKey:NSShadowAttributeName];
+        NSSize titleSize = [self.title sizeWithAttributes:titleAttributes];
+
+        NSPoint centerPoint;
+
+        centerPoint.x = /*isAttached ? 10 :*/ (width / 2) - (titleSize.width / 2);
+        centerPoint.y = topLeft.y - (self.toolbarHeight / 2) /*- (window.attachedToMenuBar ? OBMenuBarWindowArrowHeight / 2 : 0)*/ - (titleSize.height / 2);
+
+        [self.title drawAtPoint:centerPoint withAttributes:titleAttributes];
     }
 }
 

@@ -66,13 +66,10 @@
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 
     _sensorsViewController = [SensorsViewController new];
-
     [self.sensorsViewController setDelegate:self];
-
     [self.sensorsViewController.view setTranslatesAutoresizingMaskIntoConstraints:YES];
-    [self.sensorsViewController.view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [self.sensorsViewController.view setAutoresizingMask:NSViewHeightSizable];
     [self.sensorsViewController.view setFrame:[self.window.contentView bounds]];
-
     [self.window.contentView addSubview:self.sensorsViewController.view];
 
     [Localizer localizeView:self.window];

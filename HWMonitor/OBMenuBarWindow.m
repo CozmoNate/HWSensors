@@ -44,7 +44,7 @@ const CGFloat OBMenuBarWindowArrowWidth = 22.0f;
 const CGFloat OBMenuBarWindowArrowOffset = 2.0f;
 const CGFloat OBMenuBarWindowArrowPinRadius = 2.5f;
 const CGFloat OBMenuBarWindowArrowBaseRadius = 11.0f;
-const CGFloat OBMenuBarWindowCornerRadius = 6.0f;
+const CGFloat OBMenuBarWindowCornerRadius = 5.5f;
 const CGFloat OBMenuBarWindowSnapOffset = 30.0f;
 
 @interface OBMenuBarWindow ()
@@ -61,7 +61,6 @@ const CGFloat OBMenuBarWindowSnapOffset = 30.0f;
 - (void)windowDidMove:(NSNotification *)aNotification;
 - (void)statusItemViewDidMove:(NSNotification *)aNotification;
 - (NSWindow *)window;
-- (void)drawRectOriginal:(NSRect)dirtyRect;
 
 @property (readonly) NSImage *noiseImage;
 @property (readonly) NSImage *activeImage;
@@ -1149,6 +1148,37 @@ const CGFloat OBMenuBarWindowSnapOffset = 30.0f;
 
     [NSGraphicsContext restoreGraphicsState];
 
+    //[self setHasShadow:NO];
+
+    /*CGMutablePathRef shadowPath = CGPathCreateMutable();
+
+    CGPathMoveToPoint(shadowPath, NULL, bottomLeft.x, bottomLeft.y);
+    CGPathAddArcToPoint(shadowPath, NULL, bottomLeft.x, bottomLeft.y, topLeft.x, topLeft.y, cornerRadius);
+    CGPathAddArcToPoint(shadowPath, NULL, topLeft.x, topLeft.y, topLeft.x, topLeft.y, cornerRadius);
+    CGPathAddArcToPoint(shadowPath, NULL, arrowPointLeft.x, arrowPointLeft.y, arrowPointMiddle.x, arrowPointMiddle.y, OBMenuBarWindowArrowBaseRadius);
+    CGPathAddArcToPoint(shadowPath, NULL, arrowPointMiddle.x, arrowPointMiddle.y, arrowPointRight.x, arrowPointRight.y, arrowPinRadius);
+    CGPathAddArcToPoint(shadowPath, NULL, arrowPointRight.x, arrowPointRight.y, topRight.x, topRight.y, OBMenuBarWindowArrowBaseRadius);
+    CGPathAddArcToPoint(shadowPath, NULL, topRight.x, topRight.y, bottomRight.x, bottomRight.y, cornerRadius);
+    CGPathAddLineToPoint(shadowPath, NULL, bottomRight.x, bottomRight.y);
+    CGPathAddLineToPoint(shadowPath, NULL, listBottomRight.x, listBottomRight.y + cornerRadius);
+    CGPathAddArcToPoint(shadowPath, NULL, listBottomRight.x, listBottomRight.y, listBottomLeft.x + cornerRadius, listBottomRight.y, cornerRadius);
+    CGPathAddArcToPoint(shadowPath, NULL, listBottomLeft.x, listBottomLeft.y, bottomLeft.x, bottomLeft.y, cornerRadius);
+    CGPathAddLineToPoint(shadowPath, NULL, bottomLeft.x, bottomLeft.y);
+    CGPathCloseSubpath(shadowPath);
+
+    NSView * shadowView = [super contentView];
+
+    shadowView.wantsLayer = NO;
+    shadowView.layer.s
+    shadowView.layer.shadowColor = [NSColor blackColor].CGColor;
+    shadowView.layer.shadowOpacity = 0.35f;
+    shadowView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+    shadowView.layer.shadowRadius = 3.0f;
+    shadowView.layer.masksToBounds = NO;
+    shadowView.layer.shadowPath = shadowPath;
+
+    CGPathRelease(shadowPath);*/
+
 }
 
 - (void)refreshContentImageForKeyWindow:(BOOL)isKey
@@ -1210,30 +1240,21 @@ const CGFloat OBMenuBarWindowSnapOffset = 30.0f;
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    // Only draw the custom window frame for a OBMenuBarWindow object
-    if ([[self window] isKindOfClass:[OBMenuBarWindow class]])
-    {
-        OBMenuBarWindow *window = (OBMenuBarWindow *)[self window];
+    if (!self.toolbarView) {
+        return;
+    }
 
-        if (!window.toolbarView) {
-            return;
-        }
+    if (self.cachedContentScale != self.screen.backingScaleFactor) {
+        [self resetContentImagesScheduleRefresh:YES];
+    }
+    
+    NSImage *content = self.isKeyWindow || self.attachedToMenuBar ? self.activeImage : self.inactiveImage;
 
-        if (window.cachedContentScale != window.screen.backingScaleFactor) {
-            [window resetContentImagesScheduleRefresh:YES];
-        }
-        
-        NSImage *content = window.isKeyWindow || window.attachedToMenuBar ? window.activeImage : window.inactiveImage;
-
-        if (!content) {
-            [window renderContentForKeyWindow:window.isKeyWindow];
-        }
-        else {
-            [content drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
-        }
+    if (!content) {
+        [self renderContentForKeyWindow:self.isKeyWindow];
     }
     else {
-        [self drawRectOriginal:dirtyRect];
+        [content drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
     }
 }
 

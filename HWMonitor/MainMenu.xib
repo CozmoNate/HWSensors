@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6245" systemVersion="14A388a" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6245"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -15,16 +15,16 @@
         <customObject id="494" customClass="AppController">
             <connections>
                 <outlet property="graphsController" destination="909" id="988"/>
-                <outlet property="popupController" destination="n08-vm-zCd" id="RXG-hC-H5Y"/>
+                <outlet property="popoverController" destination="n08-vm-zCd" id="Njg-Qx-Byk"/>
                 <outlet property="sharedUpdater" destination="LKO-lM-1Z9" id="Ije-zl-WXw"/>
             </connections>
         </customObject>
-        <customObject id="n08-vm-zCd" customClass="PopupController">
+        <customObject id="n08-vm-zCd" customClass="PopoverController">
             <connections>
                 <outlet property="aboutController" destination="7879" id="Kde-SD-TxF"/>
                 <outlet property="appController" destination="494" id="b88-Dg-7Ll"/>
-                <outlet property="delegate" destination="494" id="gg6-fY-9O1"/>
                 <outlet property="graphsController" destination="909" id="jow-3f-Ory"/>
+                <outlet property="popoverDelegate" destination="494" id="u4G-p0-7df"/>
             </connections>
         </customObject>
         <customObject id="909" customClass="GraphsController"/>
