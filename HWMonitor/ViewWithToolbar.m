@@ -211,11 +211,11 @@
         NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] init];
         [titleAttributes setValue:[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] forKey:NSForegroundColorAttributeName];
         [titleAttributes setValue:[NSFont fontWithName:@"Helvetica Light" size:15] forKey:NSFontAttributeName];
-        NSShadow *stringShadow = [[NSShadow alloc] init];
-        [stringShadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.5]];
-        [stringShadow setShadowOffset:NSMakeSize(0, 0)];
-        [stringShadow setShadowBlurRadius:6];
-        [titleAttributes setValue:stringShadow forKey:NSShadowAttributeName];
+//        NSShadow *stringShadow = [[NSShadow alloc] init];
+//        [stringShadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.5]];
+//        [stringShadow setShadowOffset:NSMakeSize(0, 0)];
+//        [stringShadow setShadowBlurRadius:6];
+//        [titleAttributes setValue:stringShadow forKey:NSShadowAttributeName];
         NSSize titleSize = [_toolbarTitle sizeWithAttributes:titleAttributes];
 
         NSPoint centerPoint;
