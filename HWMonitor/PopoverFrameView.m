@@ -6,20 +6,20 @@
 //  Copyright (c) 2014 kozlek. All rights reserved.
 //
 
-#import "ViewWithToolbar.h"
+#import "PopoverFrameView.h"
 #import "EXTKeyPathCoding.h"
 #import "HWMEngine.h"
 #import "HWMConfiguration.h"
 #import "HWMColorTheme.h"
 
-@interface ViewWithToolbar ()
+@interface PopoverFrameView ()
 
 @property (readonly) HWMEngine *monitorEngine;
 @property (readonly) NSImage *noiseImage;
 
 @end
 
-@implementation ViewWithToolbar
+@implementation PopoverFrameView
 
 @synthesize noiseImage = _noiseImage;
 
@@ -190,8 +190,8 @@
 //    [toolbarPath addClip];
 
     [bottomColor set];
-
-    NSRectFill(toolbarBounds);
+//    NSRectFill(toolbarBounds);
+    NSRectFillUsingOperation(toolbarBounds, NSCompositeSourceOver);
 
     NSGradient *headingGradient = [[NSGradient alloc] initWithStartingColor:topColorTransparent
                                                                 endingColor:topColor];

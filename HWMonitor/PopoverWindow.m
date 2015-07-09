@@ -394,8 +394,8 @@
     //[toolbarPath addClip];
 
     [bottomColor set];
-
-    NSRectFill(toolbarBounds);
+//    NSRectFill(toolbarBounds);
+    NSRectFillUsingOperation(toolbarBounds, NSCompositeSourceOver);
 
     NSGradient *headingGradient = [[NSGradient alloc] initWithStartingColor:topColorTransparent
                                                                 endingColor:topColor];

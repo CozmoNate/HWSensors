@@ -27,7 +27,7 @@
 		7E1A031D197F6F560001210A /* PopoverWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E1A031B197F6F560001210A /* PopoverWindowController.xib */; };
 		7E1A0321197F73D10001210A /* SensorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1A031F197F73D10001210A /* SensorsViewController.m */; };
 		7E1A0322197F73D10001210A /* SensorsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E1A0320197F73D10001210A /* SensorsViewController.xib */; };
-		7E1A0325198053890001210A /* ViewWithToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1A0324198053890001210A /* ViewWithToolbar.m */; };
+		7E1A0325198053890001210A /* PopoverFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1A0324198053890001210A /* PopoverFrameView.m */; };
 		7E1ABD8F185E2CA200412B75 /* Divider.tif in Resources */ = {isa = PBXBuildFile; fileRef = 7E1ABD8E185E2CA200412B75 /* Divider.tif */; };
 		7E2042011730844C00C13B65 /* GraphsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042001730844C00C13B65 /* GraphsController.xib */; };
 		7E2042031730CDA000C13B65 /* PopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042021730CDA000C13B65 /* PopupController.xib */; };
@@ -265,8 +265,8 @@
 		7E1A031E197F73D10001210A /* SensorsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorsViewController.h; sourceTree = "<group>"; };
 		7E1A031F197F73D10001210A /* SensorsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorsViewController.m; sourceTree = "<group>"; };
 		7E1A0320197F73D10001210A /* SensorsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SensorsViewController.xib; sourceTree = "<group>"; };
-		7E1A0323198053890001210A /* ViewWithToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewWithToolbar.h; sourceTree = "<group>"; };
-		7E1A0324198053890001210A /* ViewWithToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewWithToolbar.m; sourceTree = "<group>"; };
+		7E1A0323198053890001210A /* PopoverFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverFrameView.h; sourceTree = "<group>"; };
+		7E1A0324198053890001210A /* PopoverFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverFrameView.m; sourceTree = "<group>"; };
 		7E1A8DB91876D1C400853CB6 /* HWMEngine 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HWMEngine 1.2.xcdatamodel"; sourceTree = "<group>"; };
 		7E1ABD8E185E2CA200412B75 /* Divider.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Divider.tif; sourceTree = "<group>"; };
 		7E2042001730844C00C13B65 /* GraphsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphsController.xib; sourceTree = "<group>"; };
@@ -701,8 +701,8 @@
 		7E1A3643198B5C670052B673 /* PopoverController */ = {
 			isa = PBXGroup;
 			children = (
-				7E1A0323198053890001210A /* ViewWithToolbar.h */,
-				7E1A0324198053890001210A /* ViewWithToolbar.m */,
+				7E1A0323198053890001210A /* PopoverFrameView.h */,
+				7E1A0324198053890001210A /* PopoverFrameView.m */,
 				7E28ED5D1979CBDC00788C40 /* PopoverController.h */,
 				7E28ED5E1979CBDC00788C40 /* PopoverController.m */,
 				7E1A0312197F6B4A0001210A /* PopoverController.xib */,
@@ -1313,7 +1313,7 @@
 				7EFD75B6185C73A300C01C2B /* PopupFanCell.m in Sources */,
 				7EA248F816D8E93A002231B2 /* main.m in Sources */,
 				7EC95E2218D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m in Sources */,
-				7E1A0325198053890001210A /* ViewWithToolbar.m in Sources */,
+				7E1A0325198053890001210A /* PopoverFrameView.m in Sources */,
 				7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */,
 				7E1900B0184279CD00C6A0E8 /* HWMGraph.m in Sources */,
 				7E713BF218FD1B2D009E6EA5 /* NSString+returnCodeDescription.m in Sources */,

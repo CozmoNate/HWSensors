@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ViewWithToolbar : NSView
+@interface PopoverFrameView : NSView
 
 @property (assign) CGFloat toolbarHeight;
 @property (nonatomic, strong) NSString * toolbarTitle;

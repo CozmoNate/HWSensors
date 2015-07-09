@@ -18,7 +18,7 @@
 #import "HWMColorTheme.h"
 #import "HWMIcon.h"
 
-#import "ViewWithToolbar.h"
+#import "PopoverFrameView.h"
 
 #import "Localizer.h"
 #import "PopupSensorCell.h"
@@ -119,7 +119,7 @@
             [_statusItemView setTarget:self];
 //        }
 
-        ViewWithToolbar * toolbar = (ViewWithToolbar *)self.view;
+        PopoverFrameView * toolbar = (PopoverFrameView *)self.view;
         [toolbar setToolbarTitle:@"HWMonitor"];
 
         _sensorsViewController = [SensorsViewController new];
@@ -323,7 +323,7 @@
 -(void)sizePopoverToFitContent
 {
     if (_popover && _popover.isShown) {
-        CGFloat contentHeight = _sensorsViewController.contentHeight + [(ViewWithToolbar*)self.view toolbarHeight] + 5;
+        CGFloat contentHeight = _sensorsViewController.contentHeight + [(PopoverFrameView*)self.view toolbarHeight] + 5;
         CGFloat screenHeight = NSScreen.mainScreen.visibleFrame.size.height - 20;
 
         if (contentHeight > screenHeight) {
