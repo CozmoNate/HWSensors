@@ -408,7 +408,7 @@
         NSRectFillUsingOperation(toolbarBounds, NSCompositeSourceOver);
     }
 
-    [NSGraphicsContext restoreGraphicsState];
+    CGContextSetShouldSmoothFonts([NSGraphicsContext currentContext].CGContext, true);
 
     if (self.title) {
         // Draw title
@@ -429,6 +429,8 @@
 
         [self.title drawAtPoint:centerPoint withAttributes:titleAttributes];
     }
+    
+    [NSGraphicsContext restoreGraphicsState];
 }
 
 @end
