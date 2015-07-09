@@ -206,6 +206,10 @@
 
 //    [NSGraphicsContext restoreGraphicsState];
 
+    [NSGraphicsContext saveGraphicsState];
+
+    CGContextSetShouldSmoothFonts([NSGraphicsContext currentContext].CGContext, true);
+    
     if (_toolbarTitle) {
         // Draw title
         NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] init];
@@ -225,6 +229,8 @@
 
         [_toolbarTitle drawAtPoint:centerPoint withAttributes:titleAttributes];
     }
+    
+    [NSGraphicsContext restoreGraphicsState];
 }
 
 @end
