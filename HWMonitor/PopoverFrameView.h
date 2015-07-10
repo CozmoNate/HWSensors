@@ -10,7 +10,7 @@
 
 @interface PopoverFrameView : NSView
 
-@property (assign) CGFloat toolbarHeight;
-@property (nonatomic, strong) NSString * toolbarTitle;
+@property (nonatomic, assign) IBInspectable CGFloat toolbarHeight;
+@property (nonatomic, strong) IBInspectable NSString * toolbarTitle;
 
 @end

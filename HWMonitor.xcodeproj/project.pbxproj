@@ -38,6 +38,7 @@
 		7E28ED5F1979CBDC00788C40 /* PopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E28ED5E1979CBDC00788C40 /* PopoverController.m */; };
 		7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1C18C467B900D97F89 /* HWMSmcFanControlLevel.m */; };
 		7E2DEA2018C467DC00D97F89 /* HWMSmcFanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1F18C467DC00D97F89 /* HWMSmcFanController.m */; };
+		7E2EFB3F1B4F25C8004ABDC2 /* NSWindow+ULIZoomEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2EFB3E1B4F25C8004ABDC2 /* NSWindow+ULIZoomEffect.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7E309FCE18C3167B001033A1 /* PopupLevelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E309FCD18C3167B001033A1 /* PopupLevelCell.m */; };
 		7E36E59A188AB25A00BD9744 /* NSImage+HighResolutionLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E36E599188AB25A00BD9744 /* NSImage+HighResolutionLoading.m */; };
 		7E3A93121848A8A70097F83E /* HWMEngine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A93101848A8A70097F83E /* HWMEngine.xcdatamodeld */; };
@@ -283,6 +284,8 @@
 		7E2DEA1C18C467B900D97F89 /* HWMSmcFanControlLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSmcFanControlLevel.m; sourceTree = "<group>"; };
 		7E2DEA1E18C467DC00D97F89 /* HWMSmcFanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMSmcFanController.h; sourceTree = "<group>"; };
 		7E2DEA1F18C467DC00D97F89 /* HWMSmcFanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSmcFanController.m; sourceTree = "<group>"; };
+		7E2EFB3D1B4F25C2004ABDC2 /* NSWindow+ULIZoomEffect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSWindow+ULIZoomEffect.h"; sourceTree = "<group>"; };
+		7E2EFB3E1B4F25C8004ABDC2 /* NSWindow+ULIZoomEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+ULIZoomEffect.m"; sourceTree = "<group>"; };
 		7E2FE0A3178D18CA00802D38 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = Sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		7E309FCC18C3167B001033A1 /* PopupLevelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupLevelCell.h; sourceTree = "<group>"; };
@@ -835,6 +838,8 @@
 				7E9A17CF17E45938003DB018 /* NSPopover+Message.m */,
 				7EC95E2018D42FCB00DD7B4D /* NSWindow+BackgroundBlur.h */,
 				7EC95E2118D42FCB00DD7B4D /* NSWindow+BackgroundBlur.m */,
+				7E2EFB3D1B4F25C2004ABDC2 /* NSWindow+ULIZoomEffect.h */,
+				7E2EFB3E1B4F25C8004ABDC2 /* NSWindow+ULIZoomEffect.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1329,6 +1334,7 @@
 				7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */,
 				7E6AEF6E18C9A4E800AD0CBC /* PopupAtaStateCell.m in Sources */,
 				7EFE61B4183581090009BD0D /* HWMSmcSensor.m in Sources */,
+				7E2EFB3F1B4F25C8004ABDC2 /* NSWindow+ULIZoomEffect.m in Sources */,
 				7EFF4395183649B20094860C /* HWMEngine.m in Sources */,
 				7EDA1A6D16D901100012A0DC /* PopupController.m in Sources */,
 				7EF393C2185C8D990033F1AB /* smc.c in Sources */,

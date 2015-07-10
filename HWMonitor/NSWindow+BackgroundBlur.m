@@ -39,7 +39,7 @@ extern OSStatus         CGSSetWindowBackgroundBlurRadius(CGSConnection connectio
 
 - (void)setHeavyBackgroundBlur
 {
-    [self setBackgroundBlurRadius:80];
+    [self setBackgroundBlurRadius:64];
 }
 
 - (void)setLightBackgroundBlur

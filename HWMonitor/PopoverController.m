@@ -9,7 +9,6 @@
 #import "PopoverController.h"
 #import "PopoverWindowController.h"
 
-#import "StatusItemView.h"
 #import "NSImage+HighResolutionLoading.h"
 
 #import "EXTKeyPathCoding.h"
@@ -29,9 +28,6 @@
 }
 
 @property (readonly) HWMEngine *monitorEngine;
-
-@property (readonly) NSStatusItem *statusItem;
-@property (readonly) StatusItemView *statusItemView;
 
 @property (nonatomic, strong) NSPopover *popover;
 @property (nonatomic, strong) SensorsViewController *sensorsViewController;
@@ -186,8 +182,7 @@
     [self colorThemeChanged];
     [self sizePopoverToFitContent];
 
-//    [_popover setAnimates:YES];
-
+//        [_popover setAnimates:YES];
 }
 
 -(IBAction)close:(id)sender
@@ -313,11 +308,11 @@
 -(void)colorThemeChanged
 {
     if ([NSAppearance class]) {
-        [self.popover.contentViewController.view.window setAppearance:[NSAppearance appearanceNamed:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSAppearanceNameVibrantDark : NSAppearanceNameAqua]];
-//        [self.popover setAppearance:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSAppearanceNameVibrantDark : NSAppearanceNameAqua];
+        [self.popover.contentViewController.view.window setAppearance:[NSAppearance appearanceNamed:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSAppearanceNameVibrantDark : NSAppearanceNameVibrantLight]];
     }
-
-    [self.popover setAppearance:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSPopoverAppearanceHUD : NSPopoverAppearanceMinimal];
+    else {
+        [self.popover setAppearance:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSPopoverAppearanceHUD : NSPopoverAppearanceMinimal];
+    }
 }
 
 -(void)sizePopoverToFitContent

@@ -242,6 +242,11 @@
     }
 }
 
+- (NSTimeInterval)animationResizeTime:(NSRect)newFrame
+{
+    return 0.25;
+}
+
 -(void)orderFront:(id)sender
 {
     [super orderFront:sender];

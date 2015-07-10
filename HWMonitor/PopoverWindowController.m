@@ -16,6 +16,7 @@
 #import "Localizer.h"
 #import "PopoverController.h"
 #import "SensorsViewController.h"
+#import "NSWindow+ULIZoomEffect.h"
 
 @interface PopoverWindowController () <SensorsViewControllerDelegate, PopoverWindowDelegate>
 
@@ -52,20 +53,31 @@
 
 -(void)showWindow:(id)sender
 {
-    [super showWindow:sender];
-    [self.window setHeavyBackgroundBlur];
+    NSRect statusItemFrame = self.popoverController.statusItemView.window.frame;
+
+    [self.window makeKeyAndOrderFrontWithZoomEffectFromRect:statusItemFrame];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC / 3)), dispatch_get_main_queue(), ^{
+        [self.window setHeavyBackgroundBlur];
+    });
 }
 
 -(void)closeWindow:(id)sender
 {
-    [self close];
+    NSRect statusItemFrame = self.popoverController.statusItemView.window.frame;
+
+    [self.window orderOutWithZoomEffectToRect:statusItemFrame];
+
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC / 3)), dispatch_get_main_queue(), ^{
+    ////        [self close];
+    //    });
 }
 
 - (void)windowDidLoad
 {
     [super windowDidLoad];
 
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+    [Localizer localizeView:self.window];
 
     _sensorsViewController = [SensorsViewController new];
     [self.sensorsViewController setDelegate:self];
@@ -74,8 +86,6 @@
     [self.sensorsViewController.view setFrame:[self.window.contentView bounds]];
     [self.window.contentView addSubview:self.sensorsViewController.view];
 
-    [Localizer localizeView:self.window];
-    
     [self sizeToFitContent];
 }
 
@@ -89,8 +99,7 @@
 -(IBAction)attachToMenubar:(id)sender
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self close];
-        [self.popoverController open:self];
+        [self closeWindow:sender];
     }];
 }
 
@@ -121,7 +130,19 @@
         [_sensorsViewController.scrollView setHasVerticalScroller:NO];
     }
 
-    [self.window setFrame:NSMakeRect(self.window.frame.origin.x, self.window.frame.origin.y, self.window.frame.size.width, contentHeight) display:YES animate:YES];
+    if (self.window.isVisible) {
+
+        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+
+            [self.window.animator setFrame:NSMakeRect(self.window.frame.origin.x, self.window.frame.origin.y, self.window.frame.size.width, contentHeight) display:YES];
+
+        } completionHandler:^{
+            [self.window setContentSize:NSMakeSize(self.window.frame.size.width, contentHeight)];
+        }];
+    }
+    else {
+        [self.window setContentSize:NSMakeSize(self.window.frame.size.width, contentHeight)];
+    }
 }
 
 #pragma mark - SensorsViewControllerDelegate

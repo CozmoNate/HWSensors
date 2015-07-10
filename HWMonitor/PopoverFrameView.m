@@ -68,12 +68,9 @@
 
 -(void)initialize
 {
-    _toolbarHeight = 34;
-
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme) options:0 context:nil];
     }];
-
 }
 
 - (instancetype)init
@@ -210,7 +207,7 @@
 
     CGContextSetShouldSmoothFonts([NSGraphicsContext currentContext].CGContext, true);
     
-    if (_toolbarTitle) {
+    if (_toolbarTitle.length) {
         // Draw title
         NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] init];
         [titleAttributes setValue:[NSColor colorWithCalibratedWhite:1.0 alpha:0.85] forKey:NSForegroundColorAttributeName];
