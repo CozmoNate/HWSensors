@@ -58,6 +58,11 @@
 
 -(void)mouseEntered:(NSEvent *)theEvent
 {
+    // Don't control fans on Macs
+    if ([[HWMEngine sharedEngine] isRunningOnMac]) {
+        return;
+    }
+
     HWMSmcFanSensor *fan = self.objectValue;
 
     if (fan.controller) {
