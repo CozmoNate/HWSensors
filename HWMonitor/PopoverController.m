@@ -118,14 +118,6 @@
         PopoverFrameView * toolbar = (PopoverFrameView *)self.view;
         [toolbar setToolbarTitle:@"HWMonitor"];
 
-        _sensorsViewController = [SensorsViewController new];
-        _sensorsViewController.delegate = self;
-
-        [_sensorsViewController.view setFrame:NSMakeRect(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - toolbar.toolbarHeight)];
-        [_sensorsViewController.view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-
-        [self.view addSubview:_sensorsViewController.view];
-
         [PopupSensorCell setGlobalPopoverDelegate:self];
 
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -138,6 +130,16 @@
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close:) name:NSWindowDidBecomeKeyNotification object:nil];
 
             [self addObserver:self forKeyPath:@keypath(self, monitorEngine.configuration.colorTheme) options:0 context:nil];
+
+            // Add sensors controller
+            _sensorsViewController = [SensorsViewController new];
+            _sensorsViewController.delegate = self;
+
+            [_sensorsViewController.view setFrame:NSMakeRect(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - toolbar.toolbarHeight)];
+            [_sensorsViewController.view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+
+            [self addChildViewController:_sensorsViewController];
+            [self.view addSubview:_sensorsViewController.view];
 
             [Localizer localizeView:self.view];
         }];

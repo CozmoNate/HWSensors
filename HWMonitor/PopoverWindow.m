@@ -193,6 +193,16 @@
     [self invalidateShadow];
 }
 
+-(void)colorThemeChanged
+{
+//    [self.sensorsTableView setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+//    [self setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
+    if ([NSAppearance class]) {
+        [self setAppearance:[NSAppearance appearanceNamed:self.monitorEngine.configuration.colorTheme.useBrightIcons.boolValue ? NSAppearanceNameVibrantDark : NSAppearanceNameVibrantLight]];
+    }
+    [[[self contentView] superview] setNeedsDisplay:YES];
+}
+
 - (void)windowDidResizeNotification:(NSNotification *)aNotification
 {
     [self layoutContent];
@@ -207,6 +217,10 @@
         //[self setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+
+            if ([NSAppearance class]) {
+                [self setAppearance:[NSAppearance appearanceNamed:self.monitorEngine.configuration.colorTheme.useBrightIcons ? NSAppearanceNameVibrantDark : NSAppearanceNameVibrantLight]];
+            }
 
             [self layoutContent];
             [self redraw];
@@ -232,9 +246,7 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.colorTheme)]) {
-        //        [self.sensorsTableView setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-        //[self setBackgroundColor:self.monitorEngine.configuration.colorTheme.listBackgroundColor];
-        [[[self contentView] superview] setNeedsDisplay:YES];
+        [self colorThemeChanged];
     }
     else if ([keyPath isEqual:@keypath(self, monitorEngine.configuration.showSensorLegendsInPopup)] ||
              [keyPath isEqual:@keypath(self, monitorEngine.sensorsAndGroups)]) {
@@ -251,6 +263,7 @@
 {
     [super orderFront:sender];
     [self setHeavyBackgroundBlur];
+    [self colorThemeChanged];
 }
 
 - (void)mouseDown:(NSEvent *)event

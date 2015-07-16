@@ -45,7 +45,6 @@
 
     if (self) {
         // Initialization code here.
-
     }
 
     return self;
@@ -77,14 +76,16 @@
 {
     [super windowDidLoad];
 
-    [Localizer localizeView:self.window];
+    [Localizer localizeView:self.window.contentView];
 
     _sensorsViewController = [SensorsViewController new];
-    [self.sensorsViewController setDelegate:self];
-    [self.sensorsViewController.view setTranslatesAutoresizingMaskIntoConstraints:YES];
-    [self.sensorsViewController.view setAutoresizingMask:NSViewHeightSizable];
-    [self.sensorsViewController.view setFrame:[self.window.contentView bounds]];
-    [self.window.contentView addSubview:self.sensorsViewController.view];
+    [_sensorsViewController setDelegate:self];
+    [_sensorsViewController.view setTranslatesAutoresizingMaskIntoConstraints:YES];
+    [_sensorsViewController.view setAutoresizingMask:NSViewHeightSizable];
+    [_sensorsViewController.view setFrame:[self.window.contentView bounds]];
+
+    [self.contentViewController addChildViewController:_sensorsViewController];
+    [self.window.contentView addSubview:_sensorsViewController.view];
 
     [self sizeToFitContent];
 }
