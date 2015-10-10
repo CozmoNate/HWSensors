@@ -1284,7 +1284,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 -(void)insertColorThemes
 {
-    CGFloat defaultOpacity = 0.8;
+    CGFloat defaultOpacity = 0.85;
     CGFloat darkVibrantOpacity = 0.5;
 
     [self insertColorThemeWithName:@"Default"

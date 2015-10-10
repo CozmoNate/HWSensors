@@ -34,7 +34,7 @@
 		7E2042051730D04100C13B65 /* AppController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2042041730D04000C13B65 /* AppController.xib */; };
 		7E268C621837A41C004F16E3 /* HWMIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E268C611837A41C004F16E3 /* HWMIcon.m */; };
 		7E2789801876FB6300B443BD /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
-		7E2789811876FB6E00B443BD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		7E2789811876FB6E00B443BD /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E27897F1876FB6300B443BD /* Growl.framework */; };
 		7E28ED5F1979CBDC00788C40 /* PopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E28ED5E1979CBDC00788C40 /* PopoverController.m */; };
 		7E2DEA1D18C467B900D97F89 /* HWMSmcFanControlLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1C18C467B900D97F89 /* HWMSmcFanControlLevel.m */; };
 		7E2DEA2018C467DC00D97F89 /* HWMSmcFanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEA1F18C467DC00D97F89 /* HWMSmcFanController.m */; };
@@ -82,7 +82,6 @@
 		7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2494C16D8EB2D002231B2 /* StatusItemView.m */; };
 		7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
-		7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7EB139FA1B33641E00FBAA04 /* MMScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB139F71B33641E00FBAA04 /* MMScroller.m */; };
 		7EB139FB1B33641E00FBAA04 /* MMScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB139F91B33641E00FBAA04 /* MMScrollView.m */; };
 		7EB139FE1B33646400FBAA04 /* MMDrawingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB139FD1B33646400FBAA04 /* MMDrawingUtils.m */; };
@@ -102,9 +101,10 @@
 		7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1ACA16D956EA0012A0DC /* GraphsView.m */; };
 		7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1AD016DA83AF0012A0DC /* GraphsController.m */; };
 		7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC87216FA5DA50072B15B /* Localizer.m */; };
+		7EE5AFE61BC90D0000AB0EC1 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7EEC9F4418B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4218B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist */; };
 		7EEC9F4518B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4318B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist */; };
-		7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in Copy Helper Binary */ = {isa = PBXBuildFile; fileRef = 7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7EEC9F4918B8D20600BDB9D7 /* smc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7EF393C1185C8D990033F1AB /* smc.c */; };
 		7EEC9F4A18B8D2E200BDB9D7 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
 		7EEC9F4C18B8D73E00BDB9D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4B18B8D73E00BDB9D7 /* main.m */; };
@@ -120,7 +120,7 @@
 		7EFD75B6185C73A300C01C2B /* PopupFanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD75B5185C73A300C01C2B /* PopupFanCell.m */; };
 		7EFD75B8185C763500C01C2B /* PopupFanController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EFD75B7185C763500C01C2B /* PopupFanController.xib */; };
 		7EFDE527185CA0020022FD66 /* Let's go Digital Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EFDE526185CA0020022FD66 /* Let's go Digital Regular.ttf */; };
-		7EFDE52A185CA0CF0022FD66 /* Let's go Digital Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7EFDE526185CA0020022FD66 /* Let's go Digital Regular.ttf */; };
+		7EFDE52A185CA0CF0022FD66 /* Let's go Digital Regular.ttf in Copy Custom Fonts */ = {isa = PBXBuildFile; fileRef = 7EFDE526185CA0020022FD66 /* Let's go Digital Regular.ttf */; };
 		7EFE61AE183581090009BD0D /* HWMBatterySensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61AD183581090009BD0D /* HWMBatterySensor.m */; };
 		7EFE61B1183581090009BD0D /* HWMAtaSmartSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61B0183581090009BD0D /* HWMAtaSmartSensor.m */; };
 		7EFE61B4183581090009BD0D /* HWMSmcSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE61B3183581090009BD0D /* HWMSmcSensor.m */; };
@@ -191,35 +191,38 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		7EBA20D117ED6193008E54C5 /* CopyFiles */ = {
+		7EBA20D117ED6193008E54C5 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7E2789811876FB6E00B443BD /* Growl.framework in CopyFiles */,
-				7EA50F0617F3772500FDA3AA /* Sparkle.framework in CopyFiles */,
+				7EE5AFE61BC90D0000AB0EC1 /* Sparkle.framework in Copy Frameworks */,
+				7E2789811876FB6E00B443BD /* Growl.framework in Copy Frameworks */,
 			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7ECEDD2F18B897A90015AA8C /* CopyFiles */ = {
+		7ECEDD2F18B897A90015AA8C /* Copy Helper Binary */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = Contents/Library/LaunchServices;
 			dstSubfolderSpec = 1;
 			files = (
-				7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in CopyFiles */,
+				7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in Copy Helper Binary */,
 			);
+			name = "Copy Helper Binary";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7EFDE529185CA0C20022FD66 /* CopyFiles */ = {
+		7EFDE529185CA0C20022FD66 /* Copy Custom Fonts */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = Fonts;
 			dstSubfolderSpec = 7;
 			files = (
-				7EFDE52A185CA0CF0022FD66 /* Let's go Digital Regular.ttf in CopyFiles */,
+				7EFDE52A185CA0CF0022FD66 /* Let's go Digital Regular.ttf in Copy Custom Fonts */,
 			);
+			name = "Copy Custom Fonts";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -768,9 +771,9 @@
 			children = (
 				7E2FE40F18DCBA5400EAD6DB /* Sparkle.framework */,
 				7E2FE41118DCBA5400EAD6DB /* Sparkle Test App.app */,
-				7E2FE41318DCBA5400EAD6DB /* Sparkle Unit Tests.octest */,
+				7E2FE41318DCBA5400EAD6DB /* Sparkle Unit Tests.xctest */,
 				7E2FE41518DCBA5400EAD6DB /* BinaryDelta */,
-				7E2FE41718DCBA5400EAD6DB /* Sparkle Updater.app */,
+				7E2FE41718DCBA5400EAD6DB /* Autoupdate.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1150,9 +1153,10 @@
 				7EA248E416D8E93A002231B2 /* Sources */,
 				7EA248E516D8E93A002231B2 /* Frameworks */,
 				7EA248E616D8E93A002231B2 /* Resources */,
-				7EBA20D117ED6193008E54C5 /* CopyFiles */,
-				7EFDE529185CA0C20022FD66 /* CopyFiles */,
-				7ECEDD2F18B897A90015AA8C /* CopyFiles */,
+				7EBA20D117ED6193008E54C5 /* Copy Frameworks */,
+				7EFDE529185CA0C20022FD66 /* Copy Custom Fonts */,
+				7ECEDD2F18B897A90015AA8C /* Copy Helper Binary */,
+				7EE5AFE71BC90FB400AB0EC1 /* Add Sparkle Updater URL */,
 			);
 			buildRules = (
 			);
@@ -1234,10 +1238,10 @@
 			remoteRef = 7E2FE41018DCBA5400EAD6DB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7E2FE41318DCBA5400EAD6DB /* Sparkle Unit Tests.octest */ = {
+		7E2FE41318DCBA5400EAD6DB /* Sparkle Unit Tests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "Sparkle Unit Tests.octest";
+			path = "Sparkle Unit Tests.xctest";
 			remoteRef = 7E2FE41218DCBA5400EAD6DB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1248,10 +1252,10 @@
 			remoteRef = 7E2FE41418DCBA5400EAD6DB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7E2FE41718DCBA5400EAD6DB /* Sparkle Updater.app */ = {
+		7E2FE41718DCBA5400EAD6DB /* Autoupdate.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = "Sparkle Updater.app";
+			path = Autoupdate.app;
 			remoteRef = 7E2FE41618DCBA5400EAD6DB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1288,6 +1292,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7EE5AFE71BC90FB400AB0EC1 /* Add Sparkle Updater URL */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Add Sparkle Updater URL";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Add :SUFeedURL string http://hwsensors.com/appcast/appcast.xml\" \"./Binaries/HWMonitor.app/Contents/info.plist\"\nexit 0";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7E3299C918B8D0490022FB53 /* Sources */ = {
@@ -1608,6 +1629,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;
@@ -1628,6 +1651,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitor;
 				WRAPPER_EXTENSION = app;
