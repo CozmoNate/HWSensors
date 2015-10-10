@@ -29,7 +29,7 @@
 		1420DF51196247F900203BB0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1420DF4F196247F900203BB0 /* Images.xcassets */; };
 		142E0E0019A6954400E4312B /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		142E0E0219A6A14700E4312B /* Sparkle.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		142E0E0419A6A26F00E4312B /* Autoupdate.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 55C14BB7136EEF1500649790 /* Autoupdate.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		142E0E0419A6A26F00E4312B /* HWMonitor Updater.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 55C14BB7136EEF1500649790 /* HWMonitor Updater.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		142E0E0919A83AAC00E4312B /* SUBinaryDeltaTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 142E0E0819A83AAC00E4312B /* SUBinaryDeltaTest.m */; };
 		14652F7C19A9725300959E44 /* SUBinaryDeltaCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D06E8E20FD68CC7005AE3F6 /* SUBinaryDeltaCommon.m */; };
 		14652F7D19A9726700959E44 /* SUBinaryDeltaApply.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D06E8E00FD68CC7005AE3F6 /* SUBinaryDeltaApply.m */; };
@@ -307,7 +307,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 12;
 			files = (
-				142E0E0419A6A26F00E4312B /* Autoupdate.app in CopyFiles */,
+				142E0E0419A6A26F00E4312B /* HWMonitor Updater.app in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,7 +371,7 @@
 		555CF29B196C523E0000B31E /* el */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = el; path = el.lproj/SUAutomaticUpdateAlert.xib; sourceTree = "<group>"; };
 		555CF29C196C52460000B31E /* el */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = el; path = el.lproj/SUUpdateAlert.xib; sourceTree = "<group>"; };
 		555CF29D196C524C0000B31E /* el */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = el; path = el.lproj/SUUpdatePermissionPrompt.xib; sourceTree = "<group>"; };
-		55C14BB7136EEF1500649790 /* Autoupdate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Autoupdate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		55C14BB7136EEF1500649790 /* HWMonitor Updater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HWMonitor Updater.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55C14BB9136EEF1500649790 /* Autoupdate-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Autoupdate-Info.plist"; sourceTree = "<group>"; };
 		55C14BD3136EEFCE00649790 /* Autoupdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Autoupdate.m; sourceTree = "<group>"; };
 		55C14BD8136EF00C00649790 /* SUStatus.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SUStatus.xib; sourceTree = "<group>"; };
@@ -681,7 +681,7 @@
 			isa = PBXGroup;
 			children = (
 				5D06E8D00FD68C7C005AE3F6 /* BinaryDelta */,
-				55C14BB7136EEF1500649790 /* Autoupdate.app */,
+				55C14BB7136EEF1500649790 /* HWMonitor Updater.app */,
 				61B5F90209C4CEE200B25A18 /* Sparkle Test App.app */,
 				612279D90DB5470200AB99EA /* Sparkle Unit Tests.xctest */,
 				8DC2EF5B0486A6940098B216 /* Sparkle.framework */,
@@ -1146,9 +1146,9 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
-		55C14BB6136EEF1500649790 /* Autoupdate */ = {
+		55C14BB6136EEF1500649790 /* HWMonitor Updater */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 55C14BBE136EEF1500649790 /* Build configuration list for PBXNativeTarget "Autoupdate" */;
+			buildConfigurationList = 55C14BBE136EEF1500649790 /* Build configuration list for PBXNativeTarget "HWMonitor Updater" */;
 			buildPhases = (
 				55C14BB3136EEF1500649790 /* Resources */,
 				55C14BB4136EEF1500649790 /* Sources */,
@@ -1159,9 +1159,9 @@
 			);
 			dependencies = (
 			);
-			name = Autoupdate;
+			name = "HWMonitor Updater";
 			productName = Autoupdate;
-			productReference = 55C14BB7136EEF1500649790 /* Autoupdate.app */;
+			productReference = 55C14BB7136EEF1500649790 /* HWMonitor Updater.app */;
 			productType = "com.apple.product-type.application";
 		};
 		5D06E8CF0FD68C7C005AE3F6 /* BinaryDelta */ = {
@@ -1315,7 +1315,7 @@
 				61B5F90109C4CEE200B25A18 /* Sparkle Test App */,
 				612279D80DB5470200AB99EA /* Sparkle Unit Tests */,
 				5D06E8CF0FD68C7C005AE3F6 /* BinaryDelta */,
-				55C14BB6136EEF1500649790 /* Autoupdate */,
+				55C14BB6136EEF1500649790 /* HWMonitor Updater */,
 				14732BC51960F69300593899 /* Distribution */,
 				1420DF491962329200203BB0 /* Documentation */,
 				1495005F195FB89400BC5B5B /* All */,
@@ -1599,12 +1599,12 @@
 		};
 		1495006C195FB8A600BC5B5B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 55C14BB6136EEF1500649790 /* Autoupdate */;
+			target = 55C14BB6136EEF1500649790 /* HWMonitor Updater */;
 			targetProxy = 1495006B195FB8A600BC5B5B /* PBXContainerItemProxy */;
 		};
 		55C14F97136F044100649790 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 55C14BB6136EEF1500649790 /* Autoupdate */;
+			target = 55C14BB6136EEF1500649790 /* HWMonitor Updater */;
 			targetProxy = 55C14F96136F044100649790 /* PBXContainerItemProxy */;
 		};
 		5D06E8D60FD68C86005AE3F6 /* PBXTargetDependency */ = {
@@ -1825,6 +1825,7 @@
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = Binaries;
 				SDKROOT = macosx;
+				SPARKLE_RELAUNCH_TOOL_NAME = HWMonitor;
 			};
 			name = Coverage;
 		};
@@ -1832,7 +1833,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FA1941CA0D94A70100DD942E /* ConfigFrameworkDebug.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = "-Wl,-U,_NSURLQuarantinePropertiesKey,-rpath,@loader_path/../Frameworks";
+				OTHER_LDFLAGS = "-Wl,-U,_NSURLQuarantinePropertiesKey";
 			};
 			name = Coverage;
 		};
@@ -1861,6 +1862,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FA1941D30D94A70100DD942E /* ConfigRelaunchDebug.xcconfig */;
 			buildSettings = {
+				SPARKLE_RELAUNCH_TOOL_NAME = "HWMonitor Updater";
 			};
 			name = Coverage;
 		};
@@ -1886,7 +1888,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FA1941CA0D94A70100DD942E /* ConfigFrameworkDebug.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = "-Wl,-U,_NSURLQuarantinePropertiesKey,-rpath,@loader_path/../Frameworks";
+				OTHER_LDFLAGS = "-Wl,-U,_NSURLQuarantinePropertiesKey";
 			};
 			name = Debug;
 		};
@@ -1894,7 +1896,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FA1941D50D94A70100DD942E /* ConfigFrameworkRelease.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = "-Wl,-U,_NSURLQuarantinePropertiesKey,-rpath,@loader_path/../Frameworks";
+				OTHER_LDFLAGS = "-Wl,-U,_NSURLQuarantinePropertiesKey";
 			};
 			name = Release;
 		};
@@ -1904,6 +1906,7 @@
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = Binaries;
 				SDKROOT = macosx;
+				SPARKLE_RELAUNCH_TOOL_NAME = HWMonitor;
 			};
 			name = Debug;
 		};
@@ -1913,6 +1916,7 @@
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = Binaries;
 				SDKROOT = macosx;
+				SPARKLE_RELAUNCH_TOOL_NAME = HWMonitor;
 			};
 			name = Release;
 		};
@@ -1920,6 +1924,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FA1941D30D94A70100DD942E /* ConfigRelaunchDebug.xcconfig */;
 			buildSettings = {
+				SPARKLE_RELAUNCH_TOOL_NAME = "HWMonitor Updater";
 			};
 			name = Debug;
 		};
@@ -1927,6 +1932,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FA1941D40D94A70100DD942E /* ConfigRelaunchRelease.xcconfig */;
 			buildSettings = {
+				SPARKLE_RELAUNCH_TOOL_NAME = "HWMonitor Updater";
 			};
 			name = Release;
 		};
@@ -2025,7 +2031,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		55C14BBE136EEF1500649790 /* Build configuration list for PBXNativeTarget "Autoupdate" */ = {
+		55C14BBE136EEF1500649790 /* Build configuration list for PBXNativeTarget "HWMonitor Updater" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				55C14BBB136EEF1500649790 /* Debug */,
