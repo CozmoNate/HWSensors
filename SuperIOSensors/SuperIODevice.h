@@ -39,6 +39,7 @@ enum SuperIOModel
     IT8721F     = 0x8721,
     IT8726F     = 0x8726,
     IT8620E     = 0x8620,
+    IT8628E     = 0x8628,
 	IT8728F     = 0x8728,
 	IT8752F     = 0x8752,
     IT8771E     = 0x8771,
@@ -139,6 +140,7 @@ inline const char* superio_get_model_name(UInt16 model)
         case IT8721F:       return "IT8721F";
         case IT8726F:       return "IT8726F";
         case IT8620E:       return "IT8620E"; // monitoring device of IT8620E is compatible with IT8728F
+        case IT8628E:       return "IT8628E";
         case IT8728F:       return "IT8728F";
         case IT8752F:       return "IT8752F";
         case IT8771E:       return "IT8771E";

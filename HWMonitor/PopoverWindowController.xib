@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PopoverWindowController">
@@ -18,18 +18,19 @@
             <windowCollectionBehavior key="collectionBehavior" moveToActiveSpace="YES" participatesInCycle="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="1240" y="753" width="222" height="257"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <value key="minSize" type="size" width="222" height="19"/>
             <view key="contentView" wantsLayer="YES" id="11G-Zt-a3e">
                 <rect key="frame" x="0.0" y="0.0" width="222" height="257"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <animations/>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="SxU-uJ-4QD"/>
                 <outlet property="popoverWindowDelegate" destination="-2" id="MhV-iR-lOX"/>
                 <outlet property="toolbarView" destination="OK3-Df-mJd" id="Cw0-Dz-3Ub"/>
             </connections>
-            <point key="canvasLocation" x="370" y="540.5"/>
+            <point key="canvasLocation" x="329" y="380.5"/>
         </window>
         <customView id="OK3-Df-mJd" userLabel="Toolbar View">
             <rect key="frame" x="0.0" y="0.0" width="222" height="35"/>
@@ -41,6 +42,7 @@
                         <constraint firstAttribute="width" constant="15" id="Bbm-Dw-ba3"/>
                         <constraint firstAttribute="height" constant="15" id="wfr-dn-pP5"/>
                     </constraints>
+                    <animations/>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="37-circle-x" imagePosition="only" alignment="left" alternateImage="37-circle-x" imageScaling="proportionallyUpOrDown" inset="2" id="ZwL-XR-kUa">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -57,6 +59,7 @@
                         <constraint firstAttribute="width" constant="15" id="WJD-ms-LDS"/>
                         <constraint firstAttribute="height" constant="15" id="edn-zs-22w"/>
                     </constraints>
+                    <animations/>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="19-gear" imagePosition="only" alignment="left" alternateImage="19-gear" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="Jpa-uz-hSY">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -73,6 +76,7 @@
                         <constraint firstAttribute="height" constant="15" id="KpE-YK-6tR"/>
                         <constraint firstAttribute="width" constant="15" id="k48-cA-VOz"/>
                     </constraints>
+                    <animations/>
                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="16-line-chart" imagePosition="only" alignment="left" alternateImage="16-line-chart" imageScaling="proportionallyUpOrDown" inset="2" id="DCn-6e-Ifh">
                         <behavior key="behavior" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -92,6 +96,8 @@
                 <constraint firstAttribute="centerY" secondItem="dE0-6T-vtA" secondAttribute="centerY" id="xb1-mu-sXB"/>
                 <constraint firstItem="Z27-D7-DH9" firstAttribute="leading" secondItem="YPt-Z5-WE6" secondAttribute="trailing" constant="5" id="zga-Q9-4vi"/>
             </constraints>
+            <animations/>
+            <point key="canvasLocation" x="329" y="139.5"/>
         </customView>
         <menu title="Main Menu" systemMenu="main" id="AW2-xw-K3s">
             <items>
@@ -106,6 +112,10 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="8Pr-sf-t7V"/>
+                            <menuItem title="ACPIProbe Profile" id="sh3-yk-rHp" customClass="ProbeControllingMenuItem">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Nj4-VZ-L2q"/>
                             <menuItem title="Preferences..." keyEquivalent="," id="LQm-5P-PLw">
                                 <attributedString key="attributedTitle"/>
                                 <connections>
@@ -119,17 +129,13 @@
                                     <action selector="showAboutWindow:" target="-2" id="vCo-Cb-aG9"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="Nj4-VZ-L2q"/>
+                            <menuItem isSeparatorItem="YES" id="RC6-Ck-JN1"/>
                             <menuItem title="Check for Updates..." id="iRx-hp-Joz">
                                 <attributedString key="attributedTitle"/>
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="checkForUpdates:" target="-1" id="bpS-f9-tjn"/>
                                 </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="RC6-Ck-JN1"/>
-                            <menuItem title="ACPIProbe Profile" id="sh3-yk-rHp" customClass="ProbeControllingMenuItem">
-                                <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="1bZ-6a-XJc"/>
                             <menuItem title="Quit HWMonitor" keyEquivalent="q" id="xXo-Un-yZs">

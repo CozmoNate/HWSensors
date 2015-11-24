@@ -832,6 +832,7 @@
 				<string>ITE,IT8721F</string>
 				<string>ITE,IT8726F</string>
 				<string>ITE,IT8620E</string>
+				<string>ITE,IT8628E</string>
 				<string>ITE,IT8728F</string>
 				<string>ITE,IT8752F</string>
 				<string>ITE,IT8771E</string>
@@ -1331,6 +1332,8 @@
 					<key>IT8721F</key>
 					<string>IT8772E</string>
 					<key>IT8620E</key>
+					<string>IT8772E</string>
+					<key>IT8628E</key>
 					<string>IT8772E</string>
 					<key>IT8728F</key>
 					<string>IT8772E</string>
@@ -1920,6 +1923,8 @@
 					<key>IT8726F</key>
 					<string>IT8772E</string>
 					<key>IT8620E</key>
+					<string>IT8728F</string>
+					<key>IT8628E</key>
 					<string>IT8728F</string>
 					<key>IT8728F</key>
 					<dict>
