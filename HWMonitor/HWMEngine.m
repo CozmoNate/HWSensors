@@ -1330,7 +1330,7 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                    listStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.15]
                    toolbarEndColor:[NSColor colorWithCalibratedRed:0.03 green:0.13 blue:0.8 alpha:darkVibrantOpacity]
                 toolbarShadowColor:[[NSColor colorWithCalibratedRed:0.03 green:0.13 blue:0.8 alpha:darkVibrantOpacity] highlightWithLevel:0.30]
-                 toolbarStartColor:[[NSColor colorWithCalibratedRed:0.03 green:0.13 blue:0.8 alpha:darkVibrantOpacity] highlightWithLevel:0.55]
+                 toolbarStartColor:[[NSColor colorWithCalibratedRed:0.03 green:0.13 blue:0.8 alpha:darkVibrantOpacity] highlightWithLevel:0.35]
                 toolbarStrokeColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.15]
                  toolbarTitleColor:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]
                       useDarkIcons:YES];

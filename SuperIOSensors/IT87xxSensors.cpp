@@ -255,19 +255,18 @@ bool IT87xxSensors::initialize()
             break;
         case IT8726F:
         case IT8620E:
+        case IT8628E:
         case IT8728F:
         case IT8752F:
         case IT8771E:
         case IT8772E:
+        default: // Default case is for all newer chips
             features = FEATURE_NEWER_AUTOPWM | FEATURE_12MV_ADC | FEATURE_16BIT_FANS
             | FEATURE_TEMP_OFFSET | FEATURE_TEMP_PECI;
             break;
             
             //case IT8782E:
             //features = FEATURE_16BIT_FANS | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI;
-            
-        default:
-            break;
     }
 	
 //    switch (model) {
