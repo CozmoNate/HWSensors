@@ -4,10 +4,10 @@
 <array>
 	<dict>
 		<key>Description</key>
-		<string>Apple SD/SM/TS...E/F SSDs</string>
+		<string>Apple SD/SM/TS...E/F/G SSDs</string>
 		<key>NameMatch</key>
 		<array>
-			<string>APPLE SSD (S[DM]|TS)0?(128|256|512|768)[EF]</string>
+			<string>APPLE SSD (S[DM]|TS)0?(128|256|512|768)[EFG]</string>
 		</array>
 		<key>Attributes</key>
 		<dict>
