@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PopoverController">
@@ -69,11 +69,11 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="HWMonitor" systemMenu="apple" id="7GJ-Qy-cFG">
                         <items>
-                            <menuItem isSeparatorItem="YES" id="VzW-bN-7z4"/>
-                            <menuItem title="Detach from Menu Bar" keyEquivalent="d" id="f02-0v-27t">
+                            <menuItem title="About HWMonitor..." id="0OM-rC-bNn">
                                 <attributedString key="attributedTitle"/>
+                                <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="detach:" target="-2" id="GnK-Jh-qtw"/>
+                                    <action selector="showAboutWindow:" target="-2" id="dYp-EF-nOD"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="ZY7-jU-v1J"/>
@@ -83,24 +83,22 @@
                                     <action selector="showPreferencesWindow:" target="-2" id="NlK-dQ-2s8"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="About HWMonitor..." id="0OM-rC-bNn">
-                                <attributedString key="attributedTitle"/>
+                            <menuItem title="ACPIProbe Profile" id="AKe-g2-QKd" customClass="ProbeControllingMenuItem">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="Detach from Menu Bar" keyEquivalent="d" id="f02-0v-27t">
+                                <attributedString key="attributedTitle"/>
                                 <connections>
-                                    <action selector="showAboutWindow:" target="-2" id="dYp-EF-nOD"/>
+                                    <action selector="detach:" target="-2" id="GnK-Jh-qtw"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="h6w-px-KBN"/>
+                            <menuItem isSeparatorItem="YES" id="ZnW-Ch-yz8"/>
                             <menuItem title="Check for Updates..." id="g3K-XR-P1p">
                                 <attributedString key="attributedTitle"/>
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="checkForUpdates:" target="-1" id="VKf-do-ezD"/>
                                 </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="9jP-T1-R8y"/>
-                            <menuItem title="ACPIProbe Profile" id="AKe-g2-QKd" customClass="ProbeControllingMenuItem">
-                                <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="n9N-Ce-ZAi"/>
                             <menuItem title="Quit HWMonitor" keyEquivalent="q" id="jjp-Xo-DKq">
