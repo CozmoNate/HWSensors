@@ -117,7 +117,7 @@
                             <menuItem title="ACPIProbe Profile" id="sh3-yk-rHp" customClass="ProbeControllingMenuItem">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
-                            <menuItem title="Detach from Menu Bar" keyEquivalent="a" id="UBQ-Qa-WRk" userLabel="Detach from Menu Bar">
+                            <menuItem title="Attach to Menu Bar" keyEquivalent="a" id="UBQ-Qa-WRk" userLabel="Detach from Menu Bar">
                                 <attributedString key="attributedTitle"/>
                                 <connections>
                                     <action selector="attachToMenubar:" target="-2" id="jXT-6Q-47d"/>
