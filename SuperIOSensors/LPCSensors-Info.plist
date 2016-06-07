@@ -1947,11 +1947,38 @@
 						<key>VIN0</key>
 						<string>CPU Core</string>
 						<key>VIN1</key>
-						<string>Power Supply</string>
+						<dict>
+							<key>gain</key>
+							<integer>650</integer>
+							<key>name</key>
+							<string>Main 3V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
 						<key>VIN2</key>
-						<string>Power Supply</string>
+						<dict>
+							<key>gain</key>
+							<integer>5000</integer>
+							<key>name</key>
+							<string>Main 12V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
 						<key>VIN3</key>
-						<string>Power Supply</string>
+						<dict>
+							<key>gain</key>
+							<integer>1500</integer>
+							<key>name</key>
+							<string>Main 5V</string>
+							<key>offset</key>
+							<integer>0</integer>
+							<key>reference</key>
+							<integer>0</integer>
+						</dict>
 						<key>VIN4</key>
 						<string>CPU GFX</string>
 						<key>VIN5</key>
