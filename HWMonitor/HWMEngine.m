@@ -1714,6 +1714,15 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
 
 - (void)insertSmcFansWithConnection:(io_connect_t)connection keys:(NSSet*)keys
 {
+    static dispatch_once_t onceToken;
+    static NSMutableCharacterSet * illegalCharacters;
+    dispatch_once(&onceToken, ^{
+        illegalCharacters = [NSMutableCharacterSet new];
+        [illegalCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
+        [illegalCharacters formUnionWithCharacterSet:[NSCharacterSet alphanumericCharacterSet]];
+        [illegalCharacters invert];
+    });
+
     HWMSensorsGroup *group = [self getGroupBySelector:kHWMGroupTachometer];
 
 	SMCVal_t info;
@@ -1737,11 +1746,10 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
             if (kIOReturnSuccess == SMCReadKey(connection, [key cStringUsingEncoding:NSASCIIStringEncoding], &info)) {
 
                 NSString *type = [NSString stringWithCString:info.dataType encoding:NSASCIIStringEncoding];
-                NSData *value = [NSData dataWithBytes:info.bytes length:info.dataSize];
 
                 if ([type isEqualToString:@TYPE_CH8]) {
 
-                    NSString * caption = [[NSString alloc] initWithData:value encoding: NSUTF8StringEncoding];
+                    NSString * caption = [[NSString alloc] initWithBytes:info.bytes length:info.dataSize encoding:NSUTF8StringEncoding];
 
                     if ([caption length] == 0)
                         caption = [[NSString alloc] initWithFormat:@"Fan %X", i + 1];
@@ -1760,11 +1768,11 @@ NSString * const HWMEngineSensorValuesHasBeenUpdatedNotification = @"HWMEngineSe
                 }
                 else if ([type isEqualToString:@TYPE_FDS]) {
 
-                    FanTypeDescStruct *fds = (FanTypeDescStruct*)[value bytes];
+                    FanTypeDescStruct *fds = (FanTypeDescStruct*)info.bytes;
 
                     if (fds) {
 
-                        NSString *caption = [[NSString stringWithCString:fds->strFunction encoding:NSASCIIStringEncoding] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                        NSString *caption = [[[NSString alloc] initWithBytes:fds->strFunction length:DIAG_FUNCTION_STR_LEN encoding:NSASCIIStringEncoding] stringByTrimmingCharactersInSet:illegalCharacters];
 
                         if ([caption length] == 0)
                             caption = [[NSString alloc] initWithFormat:@"Fan %X", i + 1];
