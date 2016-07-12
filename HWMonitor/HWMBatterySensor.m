@@ -39,6 +39,8 @@
 #define kHWMBatterySensorInternal       1
 #define kHWMBatterySensorBluetooth      2
 
+//#define kHWMonitorDebugBattery
+
 const NSString *kHWMBatterySensorMaxCapacity            = @"MaxCapacity";
 const NSString *kHWMBatterySensorCurrentCapacity        = @"CurrentCapacity";
 const NSString *kHWMBatterySensorBatteryPercent         = @"BatteryPercent";
@@ -62,7 +64,7 @@ static NSString* registry_entry_read_string(io_registry_entry_t entry, const NSS
 
 static void hid_device_appeared(void *engine, io_iterator_t iterator)
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         io_object_t object;
 
         __block NSMutableArray *devices = [NSMutableArray array];
@@ -199,6 +201,8 @@ static void hid_device_disappeared(void *engine, io_iterator_t iterator)
 
     [HWMBatterySensor discoverDevicesWithEngine:engine matching:IOServiceMatching("IOPMPowerSource")];
     [HWMBatterySensor discoverDevicesWithEngine:engine matching:IOServiceMatching("IOAppleBluetoothHIDDriver")];
+    [HWMBatterySensor discoverDevicesWithEngine:engine matching:IOServiceMatching("AppleDeviceManagementHIDEventService")];
+
 #ifdef kHWMonitorDebugBattery
     [HWMBatterySensor discoverDevicesWithEngine:engine matching:IOServiceMatching("IOHIDDevice")];
 #endif

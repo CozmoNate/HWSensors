@@ -1210,7 +1210,7 @@ NSString* bsdname_from_service(io_registry_entry_t object)
 
 static void block_device_appeared(void *engine, io_iterator_t iterator)
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
         io_object_t object;
 
