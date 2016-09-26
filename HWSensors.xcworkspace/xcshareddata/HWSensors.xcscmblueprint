@@ -11,11 +11,11 @@
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "0F6AD956-6F34-4644-975D-2450A73538EE",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "51B210D0D41486D3ADD6940D57E4480BBD4DE4C5" : "HWSensors\/ReactiveCocoa",
-    "D8AE50E8694776D3CD06B4B7BCCD3C02ED78BFD4" : "HWSensors",
+    "D8AE50E8694776D3CD06B4B7BCCD3C02ED78BFD4" : "HWSensors\/",
     "E084C86B03F81D63323C9E7510697EA528A758C7" : "HWSensors\/ReactiveCocoa\/external\/xcconfigs"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "HWSensors",
-  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "HWSensors.xcworkspace",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
