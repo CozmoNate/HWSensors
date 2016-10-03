@@ -165,7 +165,10 @@
 #define CPUID_MODEL_BROADWELL_DT    0x47
 #define CPUID_MODEL_BROADWELL_ULV   0x3D
 #define CPUID_MODEL_BROADWELL_MB    0x4f
-#define CPUID_MODEL_SKYLAKE         0x5E
+#define CPUID_MODEL_SKYLAKE         0x4E
+#define CPUID_MODEL_SKYLAKE_ULT		0x4E
+#define CPUID_MODEL_SKYLAKE_ULX		0x4E
+#define CPUID_MODEL_SKYLAKE_DT		0x5E
 
 #ifndef CPUFAMILY_INTEL_SANDYBRIDGE
 #define CPUFAMILY_INTEL_SANDYBRIDGE 0x5490b78c // From 10.7
@@ -690,6 +693,9 @@ cpuid_set_cpufamily(i386_cpu_info_t *info_p)
                         cpufamily = CPUFAMILY_INTEL_BROADWELL;
                         break;
                     case CPUID_MODEL_SKYLAKE:
+                    case CPUID_MODEL_SKYLAKE_DT:
+                    case CPUID_MODEL_SKYLAKE_ULT:
+                    case CPUID_MODEL_SKYLAKE_ULX:
                         cpufamily = CPUFAMILY_INTEL_SKYLAKE;
             }
             break;
