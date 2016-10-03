@@ -597,7 +597,8 @@ bool CPUSensors::start(IOService *provider)
                     case CPUID_MODEL_BROADWELL_DT:
                     case CPUID_MODEL_BROADWELL_MB:
                     case CPUID_MODEL_BROADWELL_ULV:
-                    case CPUID_MODEL_SKYLAKE:
+                    case CPUID_MODEL_SKYLAKE_LT:
+                    case CPUID_MODEL_SKYLAKE_DT:
                         if (!platform) platform = OSData::withBytes("j43\0\0\0\0\0", 8); // TODO: got from macbookair6,2 need to check for other platforms
                         mp_rendezvous_no_intrs(read_cpu_tjmax, NULL);
                         break;
