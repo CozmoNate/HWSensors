@@ -213,10 +213,10 @@ bool GeforceSensors::probIsAcceleratorAlreadyLoaded()
 //                }
 //            }
 //
-//            OSSafeRelease(iterator);
+//            OSSafeReleaseNULL(iterator);
 //        }
 //        
-//        OSSafeRelease(matching);
+//        OSSafeReleaseNULL(matching);
 //    }
 
     return false;
@@ -359,7 +359,7 @@ bool GeforceSensors::managedStart(IOService *provider)
 void GeforceSensors::stop(IOService * provider)
 {
     if (card.mmio)
-        OSSafeRelease(card.mmio);
+        OSSafeReleaseNULL(card.mmio);
     
     if (card.bios.data) {
         IOFree(card.bios.data, card.bios.size);

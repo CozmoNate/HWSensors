@@ -59,10 +59,10 @@ bool RadeonSensors::probIsAcceleratorAlreadyLoaded()
                 }
             }
 
-            OSSafeRelease(iterator);
+            OSSafeReleaseNULL(iterator);
         }
         
-        OSSafeRelease(matching);
+        OSSafeReleaseNULL(matching);
     }
 
     return acceleratorFound;
@@ -353,7 +353,7 @@ bool RadeonSensors::managedStart(IOService *provider)
 void RadeonSensors::stop(IOService *provider)
 {
     if (card.mmio)
-        OSSafeRelease(card.mmio);
+        OSSafeReleaseNULL(card.mmio);
     
     if (card.bios && card.bios_size > 0) {
         IOFree(card.bios, card.bios_size);

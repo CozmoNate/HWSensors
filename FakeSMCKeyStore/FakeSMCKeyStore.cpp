@@ -211,16 +211,16 @@ FakeSMCKey *FakeSMCKeyStore::getKey(const char *name)
             UInt32 key1 = HWSensorsKeyToInt(&validKeyNameBuffer);
 			UInt32 key2 = HWSensorsKeyToInt(key->getKey());
 			if (key1 == key2) {
-				OSSafeRelease(iterator);
-                OSSafeRelease(snapshotKeys);
+				OSSafeReleaseNULL(iterator);
+                OSSafeReleaseNULL(snapshotKeys);
 				return key;
 			}
 		}
 
-        OSSafeRelease(iterator);
+        OSSafeReleaseNULL(iterator);
 	}
 
-    OSSafeRelease(snapshotKeys);
+    OSSafeReleaseNULL(snapshotKeys);
 
  	HWSensorsDebugLog("key %s not found", name);
 
@@ -261,13 +261,13 @@ UInt32 FakeSMCKeyStore::addKeysFromDictionary(OSDictionary* dictionary)
                             keysAdded++;
                         }
 
-                        OSSafeRelease(aiterator);
+                        OSSafeReleaseNULL(aiterator);
                     }
                 }
                 key = 0;
             }
             
-            OSSafeRelease(iterator);
+            OSSafeReleaseNULL(iterator);
         }
     }
 
@@ -285,7 +285,7 @@ UInt32 FakeSMCKeyStore::addWellKnownTypesFromDictionary(OSDictionary* dictionary
                 typesCount++;
             }
         }
-        OSSafeRelease(iterator);
+        OSSafeReleaseNULL(iterator);
     }
 
     return typesCount;
@@ -358,8 +358,8 @@ void FakeSMCKeyStore::saveKeyToNVRAM(FakeSMCKey *key)
         else
             nvram->setProperty(tempName, OSData::withBytes(key->getValue(), key->getSize()));
 
-        OSSafeRelease(tempName);
-        OSSafeRelease(nvram);
+        OSSafeReleaseNULL(tempName);
+        OSSafeReleaseNULL(nvram);
     }
 }
 
@@ -403,21 +403,21 @@ UInt32 FakeSMCKeyStore::loadKeysFromNVRAM()
                             }
                         }
                         
-                        OSSafeRelease(iterator);
+                        OSSafeReleaseNULL(iterator);
                     }
                     
-                    OSSafeRelease(props);
+                    OSSafeReleaseNULL(props);
                 }
             }
             
-            OSSafeRelease(s);
-            OSSafeRelease(nvram);
+            OSSafeReleaseNULL(s);
+            OSSafeReleaseNULL(nvram);
         }
         else {
             HWSensorsWarningLog("NVRAM is unavailable");
         }
 
-        OSSafeRelease(matching);
+        OSSafeReleaseNULL(matching);
     }
     
     return count;
@@ -510,8 +510,8 @@ bool FakeSMCKeyStore::start(IOService *provider)
 
 void FakeSMCKeyStore::free()
 {
-    OSSafeRelease(keys);
-    OSSafeRelease(types);
+    OSSafeReleaseNULL(keys);
+    OSSafeReleaseNULL(types);
 
     super::free();
 }
@@ -608,7 +608,7 @@ IOReturn FakeSMCKeyStore::newUserClient(task_t owningTask, void *security_id, UI
                         key->setHandler(NULL);
                 }
                 result = kIOReturnSuccess;
-                OSSafeRelease(iterator);
+                OSSafeReleaseNULL(iterator);
             }
         }
     }

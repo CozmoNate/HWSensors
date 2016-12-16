@@ -364,7 +364,7 @@ FakeSMCSensor *FakeSMCSensor::withOwner(FakeSMCPlugin *aOwner, const char *aKey,
 	FakeSMCSensor *me = new FakeSMCSensor;
 
     if (me && !me->initWithOwner(aOwner, aKey, aType, aSize, aGroup, aIndex, aReference, aGain, aOffset))
-        OSSafeRelease(me);
+        OSSafeReleaseNULL(me);
 
     return me;
 }
@@ -602,7 +602,7 @@ FakeSMCSensor *FakeSMCPlugin::addSensorForKey(const char *key, const char *type,
             UNLOCK;
             return sensor;
         }
-        else OSSafeRelease(sensor);
+        else OSSafeReleaseNULL(sensor);
     }
 
     UNLOCK;
@@ -1042,7 +1042,7 @@ bool FakeSMCPlugin::start(IOService *provider)
             return false;
         }
 
-        OSSafeRelease(matching);
+        OSSafeReleaseNULL(matching);
     }
 
 	return true;
@@ -1075,7 +1075,7 @@ void FakeSMCPlugin::stop(IOService* provider)
                 key->setHandler(NULL);
             }
         }
-        OSSafeRelease(iterator);
+        OSSafeReleaseNULL(iterator);
     }
 
     HWSensorsDebugLog("releasing sensors collection");
@@ -1092,7 +1092,7 @@ void FakeSMCPlugin::stop(IOService* provider)
 void FakeSMCPlugin::free()
 {
     HWSensorsDebugLog("freenig sensors collection");
-    OSSafeRelease(sensors);
+    OSSafeReleaseNULL(sensors);
 	super::free();
 }
 

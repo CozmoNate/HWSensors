@@ -35,12 +35,12 @@ bool FakeSMC::init(OSDictionary *properties)
             
             setProperty(kFakeSMCFirmwareVendor, name);
             
-            //OSSafeRelease(vendor);
-            //OSSafeRelease(name);
-            OSSafeRelease(buffer);
+            //OSSafeReleaseNULL(vendor);
+            //OSSafeReleaseNULL(name);
+            OSSafeReleaseNULL(buffer);
         }
         
-        OSSafeRelease(efi);
+        OSSafeReleaseNULL(efi);
     }
 		
 	return true;
@@ -58,7 +58,7 @@ bool FakeSMC::start(IOService *provider)
             return false;
         }
 
-        OSSafeRelease(matching);
+        OSSafeReleaseNULL(matching);
     }
     else {
         HWSensorsFatalLog("failed to create matching dictionary (FakeSMCKeyStore)");
@@ -103,7 +103,7 @@ bool FakeSMC::start(IOService *provider)
                         }
                     }
                 }
-                OSSafeRelease(iterator);
+                OSSafeReleaseNULL(iterator);
             }
         }
 
@@ -130,10 +130,10 @@ bool FakeSMC::start(IOService *provider)
                 }
             }
             
-            OSSafeRelease(iterator);
+            OSSafeReleaseNULL(iterator);
         }
         
-        OSSafeRelease(matching);
+        OSSafeReleaseNULL(matching);
     }
 
     if (!smcDeviceFound) {

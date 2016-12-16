@@ -206,41 +206,41 @@ bool ACPISensors::start(IOService * provider)
             useKelvins = kelvins->unsigned8BitValue() == 1;
         }
 
-        OSSafeRelease(object);
+        OSSafeReleaseNULL(object);
     }
     
     // Parse temperature table
     if (kIOReturnSuccess == acpiDevice->evaluateObject("TEMP", &object) && object) {
         addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryTemperature);
-        OSSafeRelease(object);
+        OSSafeReleaseNULL(object);
     }
     else ACPISensorsDebugLog("temprerature description table (TEMP) not found");
     
     // Parse voltage table
     if (kIOReturnSuccess == acpiDevice->evaluateObject("VOLT", &object) && object) {
         addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryVoltage);
-        OSSafeRelease(object);
+        OSSafeReleaseNULL(object);
     }
     else ACPISensorsDebugLog("voltage description table (VOLT) not found");
     
     // Parse amperage table
     if (kIOReturnSuccess == acpiDevice->evaluateObject("AMPR", &object) && object) {
         addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryCurrent);
-        OSSafeRelease(object);
+        OSSafeReleaseNULL(object);
     }
     else ACPISensorsDebugLog("amperage description table (AMPR) not found");
     
     // Parse power table
     if (kIOReturnSuccess == acpiDevice->evaluateObject("POWR", &object) && object) {
         addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryPower);
-        OSSafeRelease(object);
+        OSSafeReleaseNULL(object);
     }
     else ACPISensorsDebugLog("power description table (POWR) not found");
     
     // Parse tachometer table
     if (kIOReturnSuccess == acpiDevice->evaluateObject("TACH", &object) && object) {
         addSensorsFromArray(OSDynamicCast(OSArray, object), kFakeSMCCategoryFan);
-        OSSafeRelease(object);
+        OSSafeReleaseNULL(object);
     }
     else ACPISensorsDebugLog("tachometer description table (TACH) not found");
 

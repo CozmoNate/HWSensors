@@ -41,7 +41,7 @@ FakeSMCKey *FakeSMCKey::withValue(const char *aKey, const char *aType, unsigned 
     FakeSMCKey *me = new FakeSMCKey;
 	
     if (me && !me->init(aKey, aType, aSize, aValue))
-        OSSafeRelease(me);
+        OSSafeReleaseNULL(me);
 	
     return me;
 }
@@ -51,7 +51,7 @@ FakeSMCKey *FakeSMCKey::withHandler(const char *aKey, const char *aType, const u
     FakeSMCKey *me = new FakeSMCKey;
 	
     if (me && !me->init(aKey, aType, aSize, 0, aHandler))
-        OSSafeRelease(me);
+        OSSafeReleaseNULL(me);
 	
     return me;
 }

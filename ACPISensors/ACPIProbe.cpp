@@ -40,7 +40,7 @@ ACPIProbeProfile * ACPIProbeProfile::withParameters(OSString *name, OSArray *met
     ACPIProbeProfile *profile = new ACPIProbeProfile;
 
     if (!profile || !profile->init(name, methods, interval, timeout, verbose)) {
-        OSSafeRelease(profile);
+        OSSafeReleaseNULL(profile);
     }
 
     return profile;
@@ -65,7 +65,7 @@ bool ACPIProbeProfile::init(OSString *aName, OSArray *aMethods, OSNumber *aInter
 
 void ACPIProbeProfile::free()
 {
-    OSSafeRelease(this->methods);
+    OSSafeReleaseNULL(this->methods);
     OSObject::free();
 }
 
@@ -243,12 +243,12 @@ bool ACPIProbe::start(IOService * provider)
                                 }
                             }
 
-                            OSSafeRelease(object);
+                            OSSafeReleaseNULL(object);
                         }
                     }
                 }
 
-                OSSafeRelease(list);
+                OSSafeReleaseNULL(list);
             }
 
         }
@@ -287,10 +287,10 @@ bool ACPIProbe::start(IOService * provider)
                         }
                     }
 
-                    OSSafeRelease(object);
+                    OSSafeReleaseNULL(object);
                 }
 
-                OSSafeRelease(method);
+                OSSafeReleaseNULL(method);
             }
         }
 
@@ -366,7 +366,7 @@ void ACPIProbe::stop(IOService *provider)
 
 void ACPIProbe::free()
 {
-    OSSafeRelease(profiles);
-    OSSafeRelease(profileList);
+    OSSafeReleaseNULL(profiles);
+    OSSafeReleaseNULL(profileList);
     super::free();
 }

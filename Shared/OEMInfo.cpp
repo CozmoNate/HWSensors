@@ -125,7 +125,7 @@ void SMBPackedStrings::setDataProperty( IORegistryEntry * entry,
             data->appendBytes(string, length);
             data->appendByte('\0', 1);
             entry->setProperty(key, data);
-            OSSafeRelease(data);
+            OSSafeReleaseNULL(data);
         }
     }
 }
@@ -143,7 +143,7 @@ void SMBPackedStrings::setStringProperty( IORegistryEntry * entry,
         if (strObj)
         {
             entry->setProperty(key, strObj);
-            OSSafeRelease(strObj);
+            OSSafeReleaseNULL(strObj);
         }
     }
 }
@@ -206,12 +206,12 @@ static void processSMBIOSStructureType2(IOService *provider, const SMBBaseBoard 
     
     if (OSString *name = OSString::withCString(strings->stringAtIndex(baseBoard->manufacturer))) {
         manufacturer = getManufacturerNameFromOEMName(name);
-        OSSafeRelease(name);
+        OSSafeReleaseNULL(name);
     }
     
     if (manufacturer) {
         provider->setProperty(kOEMInfoManufacturer, manufacturer);
-        OSSafeRelease(manufacturer);
+        OSSafeReleaseNULL(manufacturer);
     }
     else strings->setStringProperty(provider, kOEMInfoManufacturer,  baseBoard->manufacturer);
     
@@ -411,7 +411,7 @@ bool setOemProperties(IOService *provider)
                 return false;
             }
 
-            OSSafeRelease(platformNode);
+            OSSafeReleaseNULL(platformNode);
         }
     }
 

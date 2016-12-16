@@ -136,10 +136,16 @@
 
 -(void)currentAppearanceChanged
 {
-//    _smallFont = [NSFont fontWithName:_darkThemeColors ? @"HelveticaNeue-Light" : @"HelveticaNeue" size:9.0];
-//    _bigFont = [NSFont fontWithName:_darkThemeColors ? @"HelveticaNeue" : @"HelveticaNeue-Medium" size:13.9];
-    _smallFont = _darkThemeColors ? [NSFont systemFontOfSize:9.0] : [NSFont boldSystemFontOfSize:9.0];
-    _bigFont = _darkThemeColors ? [NSFont systemFontOfSize:14.9] : [NSFont systemFontOfSize:14.9];
+    //    _smallFont = [NSFont fontWithName:_darkThemeColors ? @"HelveticaNeue-Light" : @"HelveticaNeue" size:9.0];
+    //    _bigFont = [NSFont fontWithName:_darkThemeColors ? @"HelveticaNeue" : @"HelveticaNeue-Medium" size:13.9];
+    if ([[NSFont class] respondsToSelector:@selector(monospacedDigitSystemFontOfSize:weight:)]) {
+        _smallFont = [NSFont monospacedDigitSystemFontOfSize:9.0 weight:_darkThemeColors ? NSFontWeightLight : NSFontWeightMedium];
+        _bigFont = [NSFont monospacedDigitSystemFontOfSize:14.0 weight:NSFontWeightRegular];
+    }
+    else {
+        _smallFont = _darkThemeColors ? [NSFont systemFontOfSize:9.0] : [NSFont boldSystemFontOfSize:9.0];
+        _bigFont = _darkThemeColors ? [NSFont systemFontOfSize:14.9] : [NSFont systemFontOfSize:14.9];
+    }
     [_shadow setShadowColor:[NSColor colorWithCalibratedWhite:_darkThemeColors ? 0.0 : 1.0 alpha:0.50]];
 }
 

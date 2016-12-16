@@ -314,7 +314,7 @@ bool SuperIODevice::start(IOService *provider)
                 }
             }
         }
-        OSSafeRelease(matching);
+        OSSafeReleaseNULL(matching);
     }
 
     // Other vendors usualy use Winbond family chipsets
