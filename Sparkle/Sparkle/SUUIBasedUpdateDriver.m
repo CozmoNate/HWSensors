@@ -11,6 +11,7 @@
 #import "SUUpdateAlert.h"
 #import "SUUpdater_Private.h"
 #import "SUHost.h"
+#import "SUOperatingSystem.h"
 #import "SUStatusController.h"
 #import "SUConstants.h"
 
@@ -96,9 +97,10 @@
         alert.messageText = SULocalizedString(@"You're up-to-date!", "Status message shown when the user checks for updates but is already current or the feed doesn't contain any updates.");
         alert.informativeText = [NSString stringWithFormat:SULocalizedString(@"%@ %@ is currently the newest version available.", nil), [self.host name], [self.host displayVersion]];
         [alert addButtonWithTitle:SULocalizedString(@"OK", nil)];
-        [self showModalAlert:alert];
-        [self abortUpdate];
+        [self showAlert:alert];
     }
+    
+    [self abortUpdate];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)__unused aNotification
@@ -113,10 +115,6 @@
     [self.host setObject:nil forUserDefaultsKey:SUSkippedVersionKey];
     switch (choice) {
         case SUInstallUpdateChoice:
-            self.statusController = [[SUStatusController alloc] initWithHost:self.host];
-            [self.statusController beginActionWithTitle:SULocalizedString(@"Downloading update...", @"Take care not to overflow the status window.") maxProgressValue:0.0 statusText:nil];
-            [self.statusController setButtonTitle:SULocalizedString(@"Cancel", nil) target:self action:@selector(cancelDownload:) isDefault:NO];
-            [self.statusController showWindow:self];
             [self downloadUpdate];
             break;
 
@@ -136,6 +134,25 @@
     }
 }
 
+- (void)downloadUpdate
+{
+    BOOL createdStatusController = NO;
+    if (self.statusController == nil) {
+        self.statusController = [[SUStatusController alloc] initWithHost:self.host];
+        createdStatusController = YES;
+    }
+    
+    [self.statusController beginActionWithTitle:SULocalizedString(@"Downloading update...", @"Take care not to overflow the status window.") maxProgressValue:0.0 statusText:nil];
+    [self.statusController setButtonTitle:SULocalizedString(@"Cancel", nil) target:self action:@selector(cancelDownload:) isDefault:NO];
+    [self.statusController setButtonEnabled:YES];
+    
+    if (createdStatusController) {
+        [self.statusController showWindow:self];
+    }
+    
+    [super downloadUpdate];
+}
+
 - (void)download:(NSURLDownload *)__unused download didReceiveResponse:(NSURLResponse *)response
 {
     [self.statusController setMaxProgressValue:[response expectedContentLength]];
@@ -143,7 +160,7 @@
 
 - (NSString *)localizedStringFromByteCount:(long long)value
 {
-    if (![SUHost isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){10, 8, 0}]) {
+    if (![SUOperatingSystem isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){10, 8, 0}]) {
         if (value < 1000) {
             return [NSString stringWithFormat:@"%.0lf %@", value / 1.0,
                     SULocalizedString(@"B", @"the unit for bytes")];
@@ -163,8 +180,12 @@
                 SULocalizedString(@"GB", @"the unit for gigabytes")];
     }
 
-    return [NSByteCountFormatter stringFromByteCount:value
-                                          countStyle:NSByteCountFormatterCountStyleFile];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+    NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
+    [formatter setZeroPadsFractionDigits:YES];
+    return [formatter stringFromByteCount:value];
+#pragma clang diagnostic pop
 }
 
 - (void)download:(NSURLDownload *)__unused download didReceiveDataOfLength:(NSUInteger)length
@@ -252,7 +273,7 @@
     alert.messageText = SULocalizedString(@"Update Error!", nil);
     alert.informativeText = [NSString stringWithFormat:@"%@", [error localizedDescription]];
     [alert addButtonWithTitle:SULocalizedString(@"Cancel Update", nil)];
-    [self showModalAlert:alert];
+    [self showAlert:alert];
     [super abortUpdateWithError:error];
 }
 
@@ -266,7 +287,7 @@
     [super abortUpdate];
 }
 
-- (void)showModalAlert:(NSAlert *)alert
+- (void)showAlert:(NSAlert *)alert
 {
     if ([[self.updater delegate] respondsToSelector:@selector(updaterWillShowModalAlert:)]) {
         [[self.updater delegate] updaterWillShowModalAlert:self.updater];

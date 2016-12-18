@@ -11,6 +11,7 @@
 #import "SUSystemProfiler.h"
 #include <sys/mount.h> // For statfs for isRunningOnReadOnlyVolume
 #import "SULog.h"
+#import "SUFileManager.h"
 
 #if __MAC_OS_X_VERSION_MAX_ALLOWED < 101000
 @interface NSProcessInfo ()
@@ -71,29 +72,37 @@
     }
     
     // Can we automatically update in the background without bugging the user (e.g, with a administrator password prompt)?
-    return [[NSFileManager defaultManager] isWritableFileAtPath:self.bundlePath];
-}
-
-- (NSString *)appCachePath
-{
-    NSArray *cachePaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *cachePath = nil;
-    if ([cachePaths count]) {
-        cachePath = cachePaths[0];
+    // Note it's very well possible to have the bundle be writable but not be able to write into the parent directory
+    // And if the bundle isn't writable, but we can write into the parent directory, we will still need to authorize to replace it
+    NSString *bundlePath = [self bundlePath];
+    if (![[NSFileManager defaultManager] isWritableFileAtPath:bundlePath.stringByDeletingLastPathComponent] || ![[NSFileManager defaultManager] isWritableFileAtPath:bundlePath]) {
+        return NO;
     }
-    if (!cachePath) {
-        SULog(@"Failed to find user's cache directory! Using system default");
-        cachePath = NSTemporaryDirectory();
+    
+    // Just because we have writability access does not mean we can set the correct owner/group silently
+    // Test if we can set the owner/group on a temporarily created file
+    // If we can, then we can probably perform an update without authorization
+    // One place where this matters is if you copy and run an app from /tmp/
+    
+    NSString *tempFilename = @"permission_test" ;
+    
+    SUFileManager *suFileManager = [SUFileManager defaultManager];
+    NSURL *tempDirectoryURL = [suFileManager makeTemporaryDirectoryWithPreferredName:tempFilename appropriateForDirectoryURL:[NSURL fileURLWithPath:NSTemporaryDirectory()] error:NULL];
+    
+    if (tempDirectoryURL == nil) {
+        // I don't imagine this ever happening but in case it does, requesting authorization may be the better option
+        return NO;
     }
-
-    NSString *name = [self.bundle bundleIdentifier];
-    if (!name) {
-        name = [self name];
-    }
-
-    cachePath = [cachePath stringByAppendingPathComponent:name];
-    cachePath = [cachePath stringByAppendingPathComponent:@"Sparkle"];
-    return cachePath;
+    
+    NSURL *tempFileURL = [tempDirectoryURL URLByAppendingPathComponent:tempFilename];
+    
+    BOOL changeOwnerAndGroupSuccess =
+    [[NSData data] writeToURL:tempFileURL atomically:NO] &&
+    [suFileManager changeOwnerAndGroupOfItemAtRootURL:tempFileURL toMatchURL:self.bundle.bundleURL error:NULL];
+    
+    [suFileManager removeItemAtURL:tempDirectoryURL error:NULL];
+    
+    return changeOwnerAndGroupSuccess;
 }
 
 - (NSString *)installationPath
@@ -147,11 +156,11 @@
 {
     // Cache the application icon.
     NSString *iconPath = [self.bundle pathForResource:[self.bundle objectForInfoDictionaryKey:@"CFBundleIconFile"] ofType:@"icns"];
-    // According to the OS X docs, "CFBundleIconFile - This key identifies the file containing
+    // According to the macOS docs, "CFBundleIconFile - This key identifies the file containing
     // the icon for the bundle. The filename you specify does not need to include the .icns
     // extension, although it may."
     //
-    // However, if it *does* include the '.icns' the above method fails (tested on OS X 10.3.9) so we'll also try:
+    // However, if it *does* include the '.icns' the above method fails (tested on macOS 10.3.9) so we'll also try:
     if (!iconPath) {
         iconPath = [self.bundle pathForResource:[self.bundle objectForInfoDictionaryKey:@"CFBundleIconFile"] ofType:nil];
     }
@@ -187,7 +196,7 @@
     }
 
     // More likely, we've got a reference to a Resources file by filename:
-    NSString *keyFilename = [self objectForInfoDictionaryKey:SUPublicDSAKeyFileKey];
+    NSString *keyFilename = [self publicDSAKeyFileKey];
 	if (!keyFilename) {
         return nil;
     }
@@ -197,6 +206,11 @@
         return nil;
     }
     return [NSString stringWithContentsOfFile:keyPath encoding:NSASCIIStringEncoding error:nil];
+}
+
+- (NSString * __nullable)publicDSAKeyFileKey
+{
+    return [self objectForInfoDictionaryKey:SUPublicDSAKeyFileKey];
 }
 
 - (NSArray *)systemProfile
@@ -282,45 +296,6 @@
 
 - (BOOL)boolForKey:(NSString *)key {
     return [self objectForUserDefaultsKey:key] ? [self boolForUserDefaultsKey:key] : [self boolForInfoDictionaryKey:key];
-}
-
-+ (NSOperatingSystemVersion)operatingSystemVersion
-{
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < 101000
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wselector"
-    // Xcode 5.1.1: operatingSystemVersion is clearly declared, must warn due to a compiler bug?
-    if (![NSProcessInfo instancesRespondToSelector:@selector(operatingSystemVersion)])
-#pragma clang diagnostic pop
-    {
-        NSOperatingSystemVersion version = { 0, 0, 0 };
-        NSURL *coreServices = [[NSFileManager defaultManager] URLForDirectory:NSCoreServiceDirectory inDomain:NSSystemDomainMask appropriateForURL:nil create:NO error:nil];
-        NSArray *components = [[NSDictionary dictionaryWithContentsOfURL:[coreServices URLByAppendingPathComponent:@"SystemVersion.plist"]][@"ProductVersion"] componentsSeparatedByString:@"."];
-        version.majorVersion = components.count > 0 ? [components[0] integerValue] : 0;
-        version.minorVersion = components.count > 1 ? [components[1] integerValue] : 0;
-        version.patchVersion = components.count > 2 ? [components[2] integerValue] : 0;
-        return version;
-    }
-#endif
-    return [[NSProcessInfo processInfo] operatingSystemVersion];
-}
-
-+ (BOOL)isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion)version
-{
-    const NSOperatingSystemVersion systemVersion = self.operatingSystemVersion;
-    if (systemVersion.majorVersion == version.majorVersion) {
-        if (systemVersion.minorVersion == version.minorVersion) {
-            return systemVersion.patchVersion >= version.patchVersion;
-        }
-        return systemVersion.minorVersion >= version.minorVersion;
-    }
-    return systemVersion.majorVersion >= version.majorVersion;
-}
-
-+ (NSString *)systemVersionString
-{
-    NSOperatingSystemVersion version = self.operatingSystemVersion;
-    return [NSString stringWithFormat:@"%ld.%ld.%ld", (long)version.majorVersion, (long)version.minorVersion, (long)version.patchVersion];
 }
 
 @end

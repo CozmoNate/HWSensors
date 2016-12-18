@@ -59,6 +59,10 @@ bool gm100_identify(struct nouveau_device *device)
         case 0x126:
             device->cname = "GM206"; // GTX 960
             break;
+            
+//        case 0x12b:
+//            device->cname = "GM20B"; // GTX 980 Ti?
+//            break;
 
         default:
             nv_fatal(device, "unknown Maxwell chipset 0x%x\n", device->chipset);

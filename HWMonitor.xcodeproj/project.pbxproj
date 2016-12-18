@@ -50,6 +50,8 @@
 		7E48BC5A18EE8FAE00A6CA19 /* HWMonitorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48BC5918EE8FAE00A6CA19 /* HWMonitorHelper.m */; };
 		7E48BC6518EE977500A6CA19 /* SmcHelper+HWMonitorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E48BC6418EE977500A6CA19 /* SmcHelper+HWMonitorHelper.m */; };
 		7E4959F218A640F200E05CF7 /* PopupFanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4959F118A640F200E05CF7 /* PopupFanController.m */; };
+		7E4A3C281E07038300A01B02 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E2FE40F18DCBA5400EAD6DB /* Sparkle.framework */; };
+		7E4A3C291E07038300A01B02 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E2FE40F18DCBA5400EAD6DB /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7E4C76AE18A559BA0050BEFD /* PopupAtaSmartReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C76AC18A559BA0050BEFD /* PopupAtaSmartReportController.m */; };
 		7E4C76AF18A559BA0050BEFD /* PopupAtaSmartReportController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E4C76AD18A559BA0050BEFD /* PopupAtaSmartReportController.xib */; };
 		7E4C76BA18A61C190050BEFD /* NSTableHeaderCell+PopupThemedHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C76B918A61C190050BEFD /* NSTableHeaderCell+PopupThemedHeader.m */; };
@@ -81,7 +83,6 @@
 		7EA248FF16D8E93A002231B2 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA248FE16D8E93A002231B2 /* AppController.m */; };
 		7EA2494D16D8EB2D002231B2 /* StatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2494C16D8EB2D002231B2 /* StatusItemView.m */; };
 		7EA2494F16D8EBC1002231B2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA2494E16D8EBC0002231B2 /* IOKit.framework */; };
-		7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; };
 		7EB139FA1B33641E00FBAA04 /* MMScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB139F71B33641E00FBAA04 /* MMScroller.m */; };
 		7EB139FB1B33641E00FBAA04 /* MMScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB139F91B33641E00FBAA04 /* MMScrollView.m */; };
 		7EB139FE1B33646400FBAA04 /* MMDrawingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB139FD1B33646400FBAA04 /* MMDrawingUtils.m */; };
@@ -101,7 +102,6 @@
 		7EDA1ACB16D956EA0012A0DC /* GraphsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1ACA16D956EA0012A0DC /* GraphsView.m */; };
 		7EDA1AD116DA83AF0012A0DC /* GraphsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA1AD016DA83AF0012A0DC /* GraphsController.m */; };
 		7EDDC87316FA5DA50072B15B /* Localizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDC87216FA5DA50072B15B /* Localizer.m */; };
-		7EE5AFE61BC90D0000AB0EC1 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA50F0417F3771D00FDA3AA /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7EEC9F4418B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4218B8D08A00BDB9D7 /* HWMonitorHelper-Info.plist */; };
 		7EEC9F4518B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EEC9F4318B8D08A00BDB9D7 /* HWMonitorHelper-Launchd.plist */; };
 		7EEC9F4618B8D0F700BDB9D7 /* org.hwsensors.HWMonitorHelper in Copy Helper Binary */ = {isa = PBXBuildFile; fileRef = 7E3299CD18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -164,19 +164,40 @@
 			remoteGlobalIDString = 55C14BB7136EEF1500649790;
 			remoteInfo = "Sparkle Updater";
 		};
+		7E4A3C261E0702D600A01B02 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = Sparkle;
+		};
+		7E4A3C2A1E07038300A01B02 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = Sparkle;
+		};
+		7EC27DC01E0700E6000503C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 726B2B5D1C645FC900388755;
+			remoteInfo = "UI Tests";
+		};
+		7EC27DC21E0700E6000503C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 722954B41D04ADAF00ECF9CA;
+			remoteInfo = fileop;
+		};
 		7EEC9F4718B8D0FB00BDB9D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7EA248E016D8E93A002231B2 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 7E3299CC18B8D0490022FB53;
 			remoteInfo = org.hwsensors.HWMonitorHelper;
-		};
-		7EF29D7B18DDAF9E005484A0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7E2FE40518DCB69600EAD6DB /* Sparkle.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = Sparkle;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -197,8 +218,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7EE5AFE61BC90D0000AB0EC1 /* Sparkle.framework in Copy Frameworks */,
 				7E2789811876FB6E00B443BD /* Growl.framework in Copy Frameworks */,
+				7E4A3C291E07038300A01B02 /* Sparkle.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,7 +394,6 @@
 		7EA2494B16D8EB2D002231B2 /* StatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemView.h; sourceTree = "<group>"; };
 		7EA2494C16D8EB2D002231B2 /* StatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusItemView.m; sourceTree = "<group>"; };
 		7EA2494E16D8EBC0002231B2 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		7EA50F0417F3771D00FDA3AA /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/Binaries/Sparkle.framework; sourceTree = "<group>"; };
 		7EA68B8917341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7EA68B8A17341ECD00B5B998 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EB139F61B33641E00FBAA04 /* MMScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMScroller.h; sourceTree = "<group>"; };
@@ -479,7 +499,7 @@
 				7E5134E6185C919F0069AD93 /* CoreData.framework in Frameworks */,
 				7ED40C29184A6D0F0068EBC9 /* WebKit.framework in Frameworks */,
 				7E2789801876FB6300B443BD /* Growl.framework in Frameworks */,
-				7EA50F0517F3771D00FDA3AA /* Sparkle.framework in Frameworks */,
+				7E4A3C281E07038300A01B02 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -734,7 +754,6 @@
 			isa = PBXGroup;
 			children = (
 				7E27897F1876FB6300B443BD /* Growl.framework */,
-				7EA50F0417F3771D00FDA3AA /* Sparkle.framework */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -774,6 +793,8 @@
 				7E2FE41318DCBA5400EAD6DB /* Sparkle Unit Tests.xctest */,
 				7E2FE41518DCBA5400EAD6DB /* BinaryDelta */,
 				7E2FE41718DCBA5400EAD6DB /* Autoupdate.app */,
+				7EC27DC11E0700E6000503C9 /* UI Tests.xctest */,
+				7EC27DC31E0700E6000503C9 /* fileop */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1161,8 +1182,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				7EF29D7C18DDAF9E005484A0 /* PBXTargetDependency */,
 				7EEC9F4818B8D0FB00BDB9D7 /* PBXTargetDependency */,
+				7E4A3C271E0702D600A01B02 /* PBXTargetDependency */,
+				7E4A3C2B1E07038300A01B02 /* PBXTargetDependency */,
 			);
 			name = HWMonitor;
 			productName = HWMonitor;
@@ -1257,6 +1279,20 @@
 			fileType = wrapper.application;
 			path = Autoupdate.app;
 			remoteRef = 7E2FE41618DCBA5400EAD6DB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7EC27DC11E0700E6000503C9 /* UI Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "UI Tests.xctest";
+			remoteRef = 7EC27DC01E0700E6000503C9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7EC27DC31E0700E6000503C9 /* fileop */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = fileop;
+			remoteRef = 7EC27DC21E0700E6000503C9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1416,15 +1452,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7E4A3C271E0702D600A01B02 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Sparkle;
+			targetProxy = 7E4A3C261E0702D600A01B02 /* PBXContainerItemProxy */;
+		};
+		7E4A3C2B1E07038300A01B02 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Sparkle;
+			targetProxy = 7E4A3C2A1E07038300A01B02 /* PBXContainerItemProxy */;
+		};
 		7EEC9F4818B8D0FB00BDB9D7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7E3299CC18B8D0490022FB53 /* org.hwsensors.HWMonitorHelper */;
 			targetProxy = 7EEC9F4718B8D0FB00BDB9D7 /* PBXContainerItemProxy */;
-		};
-		7EF29D7C18DDAF9E005484A0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Sparkle;
-			targetProxy = 7EF29D7B18DDAF9E005484A0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1625,11 +1666,12 @@
 					"$(SOURCE_ROOT)/HWMonitor",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Parse",
+					"$(PROJECT_DIR)/Sparkle/Binaries",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @executable_path/../Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitor;
@@ -1647,11 +1689,12 @@
 					"$(SOURCE_ROOT)/HWMonitor",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Parse",
+					"$(PROJECT_DIR)/Sparkle/Binaries",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HWMonitor/HWMonitor-Prefix.pch";
 				INFOPLIST_FILE = "HWMonitor/HWMonitor-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @executable_path/../Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGET_DIR = HWMonitor;

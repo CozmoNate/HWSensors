@@ -50,6 +50,7 @@ enum nouveau_card_type {
     NV_D0    = 0x0d0,
     NV_E0    = 0x0e0,
     GM100    = 0x110,
+    GP100    = 0x130,
 };
 
 typedef struct _I2CDevRec *I2CDevPtr;

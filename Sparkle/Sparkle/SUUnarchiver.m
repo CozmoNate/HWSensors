@@ -20,13 +20,13 @@
 @synthesize archivePath;
 @synthesize updateHostBundlePath;
 @synthesize delegate;
+@synthesize decryptionPassword;
 
-+ (SUUnarchiver *)unarchiverForPath:(NSString *)path updatingHostBundlePath:(NSString *)hostPath
++ (SUUnarchiver *)unarchiverForPath:(NSString *)path updatingHostBundlePath:(NSString *)hostPath withPassword:(NSString *)decryptionPassword
 {
-	for (id current in [self unarchiverImplementations])
-	{
+    for (id current in [self unarchiverImplementations]) {
         if ([current canUnarchivePath:path]) {
-            return [[current alloc] initWithPath:path hostBundlePath:hostPath];
+            return [[current alloc] initWithPath:path hostBundlePath:hostPath password:decryptionPassword];
         }
     }
     return nil;
@@ -39,17 +39,23 @@
     // No-op
 }
 
-- (instancetype)initWithPath:(NSString *)path hostBundlePath:(NSString *)hostPath
+- (instancetype)initWithPath:(NSString *)path hostBundlePath:(NSString *)hostPath password:(NSString *)password
 {
     if ((self = [super init]))
     {
         archivePath = [path copy];
         updateHostBundlePath = hostPath;
+        decryptionPassword = password;
     }
     return self;
 }
 
 + (BOOL)canUnarchivePath:(NSString *)__unused path
+{
+    return NO;
+}
+
++ (BOOL)unsafeIfArchiveIsNotValidated
 {
     return NO;
 }
