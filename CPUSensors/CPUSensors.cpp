@@ -820,15 +820,22 @@ bool CPUSensors::start(IOService *provider)
                 
                 // Uncore sensor is only available on CPUs with uncore device (built-in GPU)
                 switch (cpuid_info()->cpuid_model) {
-                    case CPUID_MODEL_JAKETOWN:
-                    case CPUID_MODEL_IVYBRIDGE_EP:
-                    case CPUID_MODEL_HASWELL_MB:
-                        // Do not add uncore sensor
+                    case CPUID_MODEL_SANDYBRIDGE:
+                    case CPUID_MODEL_NEHALEM_EX:
+                    case CPUID_MODEL_IVYBRIDGE:
+                    case CPUID_MODEL_HASWELL_DT:
+                    case CPUID_MODEL_HASWELL_ULT:
+                    case CPUID_MODEL_HASWELL_ULX:
+                    case CPUID_MODEL_BROADWELL_DT:
+                    case CPUID_MODEL_BROADWELL_ULV:
+                    case CPUID_MODEL_SKYLAKE_LT:
+                    case CPUID_MODEL_SKYLAKE_DT:
+                        if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerUncore, 2))
+                            HWSensorsWarningLog("failed to add CPU package uncore power sensor");
                         break;
 
                     default:
-                        if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerUncore, 2))
-                            HWSensorsWarningLog("failed to add CPU package uncore power sensor");
+                        // Do not add uncore sensor
                         break;
                 }
 
