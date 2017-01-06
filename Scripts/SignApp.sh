@@ -14,7 +14,7 @@ fi
 
 authority="Developer ID Application:"
 
-#/usr/libexec/PlistBuddy -c "Add :SUFeedURL string http://hwsensors.com/appcast/appcast.xml" "./Binaries/HWMonitor.app/Contents/info.plist"
+#/usr/libexec/PlistBuddy -c "Add :SUFeedURL string http://hwsensors.com/appcast/appcast.xml" "./Binaries/HWMonitor.app/Contents/Info.plist"
 
 #codesign --verbose --force --sign "${authority}" ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/Autoupdate.app
 codesign --verbose --force --sign "${authority}" ./Binaries/HWMonitor.app/Contents/Library/LaunchServices/org.hwsensors.HWMonitorHelper

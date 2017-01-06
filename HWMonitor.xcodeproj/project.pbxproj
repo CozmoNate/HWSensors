@@ -1342,7 +1342,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Add :SUFeedURL string http://hwsensors.com/appcast/appcast.xml\" \"./Binaries/HWMonitor.app/Contents/info.plist\"\nexit 0";
+			shellScript = "/usr/libexec/PlistBuddy -c \"Add :SUFeedURL string http://hwsensors.com/appcast/appcast.xml\" \"./Binaries/HWMonitor.app/Contents/Info.plist\"\nexit 0";
 		};
 /* End PBXShellScriptBuildPhase section */
 
