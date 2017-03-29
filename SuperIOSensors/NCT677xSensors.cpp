@@ -280,6 +280,8 @@ bool NCT677xSensors::initialize()
 
 void NCT677xSensors::hasPoweredOn()
 {
+    LPCSensors::hasPoweredOn();
+    
     switch (model) {
         case NCT6791D:
         case NCT6792D: {

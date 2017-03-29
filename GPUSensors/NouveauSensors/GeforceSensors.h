@@ -58,7 +58,7 @@ protected:
     virtual bool        probIsAcceleratorAlreadyLoaded();
     virtual bool        onStartUp(IOService *provider);
     virtual bool        managedStart(IOService *provider);
-    
+    virtual void        hasPoweredOn();
 public:
     virtual void        stop(IOService * provider);
 };

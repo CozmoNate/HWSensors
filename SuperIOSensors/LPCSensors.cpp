@@ -354,14 +354,16 @@ bool LPCSensors::didWriteSensorValue(FakeSMCSensor *sensor, float value)
     return false;
 }
 
-void LPCSensors::willPowerOff()
-{
-    //
-}
-
 void LPCSensors::hasPoweredOn()
 {
-    //
+    // Restore fan speed after wake from sleep if it was set before
+    for (int index = 0; index < tachometerSensorsLimit(); index ++) {
+        if (tachometerControls[index].target >= 0) {
+            tachometerControlInit(index, tachometerControls[index].target);
+        }
+    }
+    
+    // Override, but call super
 }
 
 #pragma mark
@@ -567,34 +569,6 @@ bool LPCSensors::start(IOService *provider)
     HWSensorsInfoLog("started");
 
 	return true;
-}
-
-IOReturn LPCSensors::setPowerState(unsigned long powerState, IOService *device)
-{
-    switch (powerState) {
-        // Power Off
-        case 0:
-            willPowerOff();
-            break;
-
-        // Power On
-        case 1:
-            // Restore fan speed after wake from sleep if it was set before
-            for (int index = 0; index < tachometerSensorsLimit(); index ++) {
-                if (tachometerControls[index].target >= 0) {
-                    tachometerControlInit(index, tachometerControls[index].target);
-                }
-            }
-
-            hasPoweredOn();
-
-            break;
-
-        default:
-            break;
-    }
-    
-	return(IOPMAckImplied);
 }
 
 void LPCSensors::stop(IOService *provider)

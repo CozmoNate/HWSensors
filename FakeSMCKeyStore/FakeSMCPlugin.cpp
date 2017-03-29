@@ -1008,6 +1008,22 @@ OSDictionary *FakeSMCPlugin::getConfigurationNode(OSString *model)
 }
 
 /**
+ Get called when the system is going to sleep. Base implementation do nothing
+ */
+void FakeSMCPlugin::willPowerOff()
+{
+    // Override
+}
+
+/**
+ Get called when the system is powered on. Base implementation do nothing
+ */
+void FakeSMCPlugin::hasPoweredOn()
+{
+    // Override
+}
+
+/**
  *  For internal use, do not override
  *
  */
@@ -1027,6 +1043,26 @@ bool FakeSMCPlugin::init(OSDictionary *properties)
 	return true;
 }
 
+IOReturn FakeSMCPlugin::setPowerState(unsigned long powerState, IOService *device)
+{
+    switch (powerState) {
+            // Power Off
+        case 0:
+            willPowerOff();
+            break;
+            
+            // Power On
+        case 1:
+            hasPoweredOn();
+            
+            break;
+            
+        default:
+            break;
+    }
+    
+    return(IOPMAckImplied);
+}
 /**
  *  For internal use, do not override
  *

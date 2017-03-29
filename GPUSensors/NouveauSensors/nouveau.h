@@ -92,6 +92,7 @@ struct nouveau_device {
 	int (*core_temp_get)(struct nouveau_device *);
     int (*board_temp_get)(struct nouveau_device *);
     //int (*fan_sense)(struct nouveau_device *);
+    int (*fan_init)(struct nouveau_device *);
     int (*fan_pwm_get)(struct nouveau_device *);
     int (*fan_rpm_get)(struct nouveau_device *);
 };

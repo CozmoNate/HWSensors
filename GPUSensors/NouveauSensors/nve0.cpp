@@ -80,6 +80,7 @@ void nve0_init(struct nouveau_device *device)
 //    device->voltage_get = nouveau_voltage_get;
     device->pwm_get = nvd0_fan_pwm_get;
     device->fan_pwm_get = nouveau_therm_fan_pwm_get;
+    device->fan_init = nva3_therm_init;
     device->fan_rpm_get = nva3_therm_fan_sense;
 }
 

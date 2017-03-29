@@ -330,6 +330,10 @@ bool GeforceSensors::managedStart(IOService *provider)
         }
     }
     
+    if (card.fan_init) {
+        card.fan_init(&card);
+    }
+    
     if (card.fan_pwm_get || card.fan_rpm_get) {
         nv_debug(device, "registering PWM sensors...\n");
         
@@ -354,6 +358,15 @@ bool GeforceSensors::managedStart(IOService *provider)
     nv_info(device, "started\n");
     
     return true;
+}
+
+void GeforceSensors::hasPoweredOn()
+{
+    GPUSensors::hasPoweredOn();
+    
+    if (card.fan_init) {
+        card.fan_init(&card);
+    }
 }
 
 void GeforceSensors::stop(IOService * provider)

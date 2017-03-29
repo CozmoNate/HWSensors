@@ -292,6 +292,8 @@ bool IT87xxSensors::initialize()
 
 void IT87xxSensors::hasPoweredOn()
 {
+    LPCSensors::hasPoweredOn();
+    
     // Reset fan control enabled
     bzero(fanControlEnabled, 6);
 }

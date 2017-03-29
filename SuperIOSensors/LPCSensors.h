@@ -106,13 +106,11 @@ protected:
     virtual bool            didWriteSensorValue(FakeSMCSensor *sensor, float value);
     
     virtual bool            initialize();
-    virtual void            willPowerOff();
     virtual void            hasPoweredOn();
 
 public:
 	virtual bool			init(OSDictionary *properties=0);
     virtual bool			start(IOService *provider);
-    virtual IOReturn        setPowerState(unsigned long powerState, IOService *device);
     virtual void            stop(IOService* provider);
 };
 
