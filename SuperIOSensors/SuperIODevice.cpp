@@ -176,6 +176,15 @@ bool SuperIODevice::detectWinbondFamilyChip()
                                 vendor = "Nuvoton";
                                 break;
                         } break;
+                        
+                    case 0xD1:
+                        switch (id & 0xff) {
+                            case 0x21:
+                                model = NCT6793D;
+                                ldn = kWinbondHardwareMonitorLDN;
+                                vendor = "Nuvoton";
+                                break;
+                        } break;
 
                 } break;
         }

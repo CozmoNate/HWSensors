@@ -388,6 +388,10 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
 +(NSString*)getDefaultRawFormatForIdentifier:(NSUInteger)identifier
 {
     switch (identifier) {
+        case 1:   // Raw Read Error Rate
+        case 7:   // Seek Error Rate
+            return @"raw24/raw32";
+            
         case 3:   // Spin-up time
             return @"raw16(avg16)";
 
@@ -478,8 +482,7 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
     else if ([format isEqualToString:@"raw16"]) {
         return [NSString stringWithFormat:@"%u %u %u", word[2], word[1], word[0]];
     }
-    else if ([format isEqualToString:@"raw48"] ||
-             [format isEqualToString:@"raw48"] || [format isEqualToString:@"raw64"]) {
+    else if ([format isEqualToString:@"raw48"] || [format isEqualToString:@"raw64"]) {
         return [NSString stringWithFormat:@"%llu", rawvalue];
     }
     else if ([format isEqualToString:@"hex48"]) {
@@ -498,6 +501,9 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
     else if ([format isEqualToString:@"raw16(avg16)"]) {
         NSString *s = [NSString stringWithFormat:@"%u", word[0]];
         return word[1] ? [s stringByAppendingString:[NSString stringWithFormat:GetLocalizedAttributeName(@" (Average %u)"), word[1]]] : s;
+    }
+    else if ([format isEqualToString:@"raw32(err16)"]) {
+        return [NSString stringWithFormat:@"%u (Error %u)", (unsigned)(rawvalue & 0xffffffffULL), (unsigned)(rawvalue >> 32)];
     }
     else if ([format isEqualToString:@"raw24(raw8)"]) {
         NSString *s = [NSString stringWithFormat:@"%u", (unsigned)(rawvalue & 0x00ffffffULL)];

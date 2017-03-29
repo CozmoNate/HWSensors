@@ -29,6 +29,7 @@
 			<string>SAMSUNG 470 Series SSD</string>
 			<string>SAMSUNG SSD 830 Series</string>
 			<string>Samsung SSD 840 (PRO )?Series</string>
+			<string>Samsung SSD ... EVO .*.B</string>
 			<string>SAMSUNG MZ7WD((120|240)HAFV|480HAGM|960HAGP)-00003</string>
 		</array>
 		<key>Attributes</key>
@@ -907,6 +908,21 @@ http://www.micron.com/products/solid-state-storage/client-ssd#software</string>
 			<string>Lifetime_Writes_GiB</string>
 			<key>242,raw48</key>
 			<string>Lifetime_Reads_GiB</string>
+		</dict>
+	</dict>
+	<dict>
+		<key>Description</key>
+		<string>Some Seagate HDDs</string>
+		<key>NameMatch</key>
+		<array>
+			<string>ST(2000|4000).....-......</string>
+		</array>
+		<key>Attributes</key>
+		<dict>
+			<key>1,raw32(err16)</key>
+			<string>Raw_Read_Error_Rate</string>
+			<key>7,raw32(err16)</key>
+			<string>Seek_Error_Rate</string>
 		</dict>
 	</dict>
 </array>
