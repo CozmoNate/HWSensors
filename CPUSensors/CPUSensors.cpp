@@ -591,17 +591,22 @@ bool CPUSensors::start(IOService *provider)
                         mp_rendezvous_no_intrs(read_cpu_tjmax, NULL);
                         break;
                     
-                    case CPUID_MODEL_HASWELL_DT:
                     case CPUID_MODEL_HASWELL_MB:
-                        // TODO: platform value for desktop Haswells
                     case CPUID_MODEL_HASWELL_ULT:
                     case CPUID_MODEL_HASWELL_ULX:
-                    case CPUID_MODEL_BROADWELL_DT:
                     case CPUID_MODEL_BROADWELL_MB:
                     case CPUID_MODEL_BROADWELL_ULV:
                     case CPUID_MODEL_SKYLAKE_LT:
-                    case CPUID_MODEL_SKYLAKE_DT:
+                    case CPUID_MODEL_KABYLAKE_U:
                         if (!platform) platform = OSData::withBytes("j43\0\0\0\0\0", 8); // TODO: got from macbookair6,2 need to check for other platforms
+                        mp_rendezvous_no_intrs(read_cpu_tjmax, NULL);
+                        break;
+
+                    case CPUID_MODEL_HASWELL_DT:
+                    case CPUID_MODEL_BROADWELL_DT:
+                    case CPUID_MODEL_SKYLAKE_DT:
+                    case CPUID_MODEL_KABYLAKE_S:
+                        if (!platform) platform = OSData::withBytes("j45\0\0\0\0\0", 8); // TODO: got from macbookpro11,2 need to check for other platforms
                         mp_rendezvous_no_intrs(read_cpu_tjmax, NULL);
                         break;
                         
