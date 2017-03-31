@@ -388,9 +388,9 @@ static NSArray *                gATASmartAttributeOverrideDatabase = nil;
 +(NSString*)getDefaultRawFormatForIdentifier:(NSUInteger)identifier
 {
     switch (identifier) {
-        case 1:   // Raw Read Error Rate
-        case 7:   // Seek Error Rate
-            return @"raw24/raw32";
+//        case 1:   // Raw Read Error Rate
+//        case 7:   // Seek Error Rate
+//            return @"raw24/raw32";
             
         case 3:   // Spin-up time
             return @"raw16(avg16)";
