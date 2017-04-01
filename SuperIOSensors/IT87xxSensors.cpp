@@ -253,14 +253,18 @@ bool IT87xxSensors::initialize()
            features = FEATURE_NEWER_AUTOPWM | FEATURE_12MV_ADC | FEATURE_16BIT_FANS
             | FEATURE_TEMP_OFFSET | FEATURE_TEMP_OLD_PECI | FEATURE_TEMP_PECI;
             break;
+            
+        // Default case is for all newer chips
         case IT8726F:
         case IT8620E:
         case IT8628E:
+        case IT8686E:
         case IT8728F:
         case IT8752F:
         case IT8771E:
         case IT8772E:
-        default: // Default case is for all newer chips
+        case IT8792E:
+        default:
             features = FEATURE_NEWER_AUTOPWM | FEATURE_12MV_ADC | FEATURE_16BIT_FANS
             | FEATURE_TEMP_OFFSET | FEATURE_TEMP_PECI;
             break;
