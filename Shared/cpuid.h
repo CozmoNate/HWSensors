@@ -699,6 +699,7 @@ cpuid_set_cpufamily(i386_cpu_info_t *info_p)
                 case CPUID_MODEL_SKYLAKE_LT:
                 case CPUID_MODEL_SKYLAKE_DT:
                     cpufamily = CPUFAMILY_INTEL_SKYLAKE;
+                    break;
                     
                 case CPUID_MODEL_KABYLAKE_U:
                 case CPUID_MODEL_KABYLAKE_S:
