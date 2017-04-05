@@ -175,17 +175,17 @@
 			passBuildSettingsInEnvironment = 0;
 			productName = "Sign Application";
 		};
-		7EBA20D617ED7D1C008E54C5 /* Generate Appcast */ = {
+		7EBA20D617ED7D1C008E54C5 /* Make Release */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "./Scripts/GenerateAppcast.sh ${ACTION}";
-			buildConfigurationList = 7EBA20D717ED7D1C008E54C5 /* Build configuration list for PBXLegacyTarget "Generate Appcast" */;
+			buildConfigurationList = 7EBA20D717ED7D1C008E54C5 /* Build configuration list for PBXLegacyTarget "Make Release" */;
 			buildPhases = (
 			);
 			buildToolPath = /bin/sh;
 			buildWorkingDirectory = "${SOURCE_ROOT}";
 			dependencies = (
 			);
-			name = "Generate Appcast";
+			name = "Make Release";
 			passBuildSettingsInEnvironment = 0;
 			productName = "Generate Appcast & Archive";
 		};
@@ -214,7 +214,7 @@
 				7E72E36A181B94F5002165DD /* Sign Kexts */,
 				7E2ACD911791B54B0061C677 /* Build Installer */,
 				7E43CE09179742DB001E3636 /* Sign Installer */,
-				7EBA20D617ED7D1C008E54C5 /* Generate Appcast */,
+				7EBA20D617ED7D1C008E54C5 /* Make Release */,
 			);
 		};
 /* End PBXProject section */
@@ -742,7 +742,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7EBA20D717ED7D1C008E54C5 /* Build configuration list for PBXLegacyTarget "Generate Appcast" */ = {
+		7EBA20D717ED7D1C008E54C5 /* Build configuration list for PBXLegacyTarget "Make Release" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7EBA20D817ED7D1C008E54C5 /* Debug */,

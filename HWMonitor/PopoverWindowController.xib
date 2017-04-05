@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PopoverWindowController">
@@ -100,35 +101,35 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="HWMonitor" systemMenu="apple" id="Mxa-91-wNV">
                         <items>
-                            <menuItem title="About HWMonitor..." id="Jk1-6L-NhI">
+                            <menuItem title="About HWMonitor" id="Jk1-6L-NhI">
                                 <attributedString key="attributedTitle"/>
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showAboutWindow:" target="-2" id="vCo-Cb-aG9"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="Nj4-VZ-L2q"/>
-                            <menuItem title="Preferences..." keyEquivalent="," id="LQm-5P-PLw">
+                            <menuItem title="Check for Updates" id="iRx-hp-Joz">
                                 <attributedString key="attributedTitle"/>
+                                <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="showPreferencesWindow:" target="-2" id="LNi-1P-AL2"/>
+                                    <action selector="checkForUpdates:" target="-1" id="bpS-f9-tjn"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="ACPIProbe Profile" id="sh3-yk-rHp" customClass="ProbeControllingMenuItem">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Nj4-VZ-L2q"/>
                             <menuItem title="Attach to Menu Bar" keyEquivalent="a" id="UBQ-Qa-WRk" userLabel="Detach from Menu Bar">
                                 <attributedString key="attributedTitle"/>
                                 <connections>
                                     <action selector="attachToMenubar:" target="-2" id="jXT-6Q-47d"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="RC6-Ck-JN1"/>
-                            <menuItem title="Check for Updates..." id="iRx-hp-Joz">
-                                <attributedString key="attributedTitle"/>
+                            <menuItem title="ACPIProbe Profile" id="sh3-yk-rHp" customClass="ProbeControllingMenuItem">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="RC6-Ck-JN1"/>
+                            <menuItem title="Preferences..." keyEquivalent="," id="LQm-5P-PLw">
+                                <attributedString key="attributedTitle"/>
                                 <connections>
-                                    <action selector="checkForUpdates:" target="-1" id="bpS-f9-tjn"/>
+                                    <action selector="showPreferencesWindow:" target="-2" id="LNi-1P-AL2"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="1bZ-6a-XJc"/>

@@ -21,7 +21,7 @@
 "%1.3fW" = "%1.3fW";
 "+12V Rail" = "+12V电源";
 "12V Vcc" = "12V Vcc";
-"About HWMonitor..." = "关于HWMonitor";
+"About HWMonitor" = "关于HWMonitor";
 "Airport Proximity" = "排气口";
 "Airport Rail" = "排气口供电";
 "Ambient" = "环境";
@@ -79,7 +79,7 @@
 "CPU_MEM" = "CPU/内存 风扇";
 "CURRENTS" = "电流";
 "Celsius" = "摄氏度";
-"Check for Updates..." = "检查更新";
+"Check for Updates" = "检查更新";
 "Check for updates" = "自动检查更新";
 "Close HWMonitor" = "关闭HWMonitor";
 "Close" = "关闭";

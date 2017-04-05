@@ -48,7 +48,7 @@
 "Temperature units:" = "Temperature eenheid:";
 "Menu sensors:" = "Menu sensoren:";
 "Miscellaneous:" = "Overige:";
-"About HWMonitor..." = "Over HWMonitor";
+"About HWMonitor" = "Over HWMonitor";
 "Preferences..." = "Voorkeuren...";
 "Services" = "Services";
 "Hide HWMonitor" = "Verberg HWMonitor";
@@ -106,7 +106,7 @@
 "Next time" = "Volgende keer";
 "Skip this version" = "Versie overslaan";
 
-"Check for Updates..." = "Controleer op updates...";
+"Check for Updates" = "Controleer op updates";
 "No new versions of HWSensors are available at this time!" = "Geen nieuwe versies van HWSensors op dit moment beschikbaar!";
 "Close" = "Sluit";
 "An error occured while trying to download HWSensors installer!" = "Een fout heeft zich voorgedaan tijdens het downloaden van HWSensors installer!";

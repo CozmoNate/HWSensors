@@ -38,7 +38,7 @@
 "Temperature units:" = "Unità temperature:";
 "Menu sensors:" = "Menu sensori:";
 "Miscellaneous:" = "Drive:";
-"About HWMonitor..." = "Info su HWMonitor";
+"About HWMonitor" = "Info su HWMonitor";
 "Services" = "Servizi";
 "Hide HWMonitor" = "Nascondi HWMonitor";
 "Hide Others" = "Mostra altri";
@@ -76,7 +76,7 @@
 "Dark" = "Scuro";
 "Continue to monitor sensors in background" = "Continua il monitoraggio in background";
 "Check for updates" = "Controlla aggiornamenti";
-"Check for Updates..." = "Controlla aggiornamenti...";
+"Check for Updates" = "Controlla aggiornamenti";
 "Internal Battery" = "Batteria interna";
 "Detach from Menu Bar" = "Disancora dalla Barra dei Menu";
 "Attach to Menu Bar" = "Ancora alla Barra dei Menu";

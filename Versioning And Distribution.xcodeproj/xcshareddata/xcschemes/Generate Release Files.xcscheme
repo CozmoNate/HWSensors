@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7EBA20D617ED7D1C008E54C5"
-               BuildableName = "Generate Appcast"
-               BlueprintName = "Generate Appcast"
+               BuildableName = "Make Release"
+               BlueprintName = "Make Release"
                ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

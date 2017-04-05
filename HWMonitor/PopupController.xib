@@ -25,6 +25,21 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="HWMonitor" systemMenu="apple" id="1556">
                         <items>
+                            <menuItem title="About HWMonitor" id="221">
+                                <attributedString key="attributedTitle"/>
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showAboutPanel:" target="-2" id="225"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Check for Updates" id="680">
+                                <attributedString key="attributedTitle"/>
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="checkForUpdates:" target="-1" id="I1d-rY-GYT"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="bAc-fH-Wzu"/>
                             <menuItem title="Attach to Menu Bar" keyEquivalent="a" id="1447">
                                 <attributedString key="attributedTitle"/>
                                 <connections>
@@ -70,31 +85,15 @@
                                     </binding>
                                 </connections>
                             </menuItem>
+                            <menuItem title="ACPIProbe Profile" id="xMS-QT-iOu" customClass="ProbeControllingMenuItem">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="2783"/>
                             <menuItem title="Preferences..." keyEquivalent="," id="220">
                                 <attributedString key="attributedTitle"/>
                                 <connections>
                                     <action selector="openPreferences:" target="-2" id="227"/>
                                 </connections>
-                            </menuItem>
-                            <menuItem title="Check for Updates..." id="680">
-                                <attributedString key="attributedTitle"/>
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="checkForUpdates:" target="-1" id="I1d-rY-GYT"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="PAf-PD-dRe"/>
-                            <menuItem title="About HWMonitor..." id="221">
-                                <attributedString key="attributedTitle"/>
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="showAboutPanel:" target="-2" id="225"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="bAc-fH-Wzu"/>
-                            <menuItem title="ACPIProbe Profile" id="xMS-QT-iOu" customClass="ProbeControllingMenuItem">
-                                <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="228"/>
                             <menuItem title="Quit HWMonitor" keyEquivalent="q" id="222">

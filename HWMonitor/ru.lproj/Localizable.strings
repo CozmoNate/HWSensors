@@ -49,7 +49,7 @@
 "Temperature units:" = "Система температур:";
 "Menu sensors:" = "Датчики в меню:";
 "Miscellaneous:" = "Разное:";
-"About HWMonitor..." = "О программе HWMonitor";
+"About HWMonitor" = "О программе HWMonitor";
 "Preferences..." = "Настройки...";
 "Services" = "Службы";
 "Hide HWMonitor" = "Скрыть HWMonitor";
@@ -131,7 +131,7 @@
 "Next time" = "В другой раз";
 "Skip this version" = "Пропустить эту версию";
 
-"Check for Updates..." = "Проверить обновления...";
+"Check for Updates" = "Проверить обновления";
 "No new versions of HWSensors are available at this time!" = "Нет доступных новых версий HWSensors! Попробуйте проверить в другой раз.";
 "Close" = "Закрыть";
 "An error occured while trying to download HWSensors installer!" = "Возникла ошибка при попытке загрузить установщик HWSensors";

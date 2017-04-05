@@ -52,7 +52,7 @@
 "Temperature units:" = "Stopnie :";
 "Menu sensors:" = "Menu sensorów :";
 "Miscellaneous:" = "Napędy :";
-"About HWMonitor..." = "O HWMonitor";
+"About HWMonitor" = "O HWMonitor";
 "Services" = "Usługi";
 "Hide HWMonitor" = "Ukryj HWMonitor";
 "Hide Others" = "Ukryj pozostałe";
@@ -92,7 +92,7 @@
 "Gray" = "Szary";
 "Dark" = "Ciemny";
 "Continue to monitor sensors in background" = "Kontynuuj monitorowanie czujników w tle ";
-"Check for Updates..." = "Sprawdź aktualizacje";
+"Check for Updates" = "Sprawdź aktualizacje";
 "Check for updates" = "Sprawdzaj czy są dostępne aktualizacje";
 "Attach to Menu Bar" = "Przyczep do paska menu";
 "Detach from Menu Bar" = "Odczep od paska menu";
