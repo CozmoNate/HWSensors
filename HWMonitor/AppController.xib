@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AppController">
@@ -72,7 +73,7 @@
             <rect key="frame" x="0.0" y="0.0" width="550" height="421"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OHd-tF-mXw">
+                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OHd-tF-mXw">
                     <rect key="frame" x="24" y="374" width="124" height="17"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="17" id="YMB-Vw-Bar"/>
@@ -130,7 +131,7 @@
                         <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.smcSensorsUpdateRate" id="LOL-4o-P7j"/>
                     </connections>
                 </slider>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vqt-Qp-d9a">
+                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vqt-Qp-d9a">
                     <rect key="frame" x="24" y="304" width="133" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="129" id="35c-AL-P0q"/>
@@ -142,7 +143,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gn4-5s-Zdl">
+                <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gn4-5s-Zdl">
                     <rect key="frame" x="198" y="304" width="29" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="sec." id="itJ-Z7-64e">
                         <font key="font" metaFont="system"/>
@@ -160,7 +161,7 @@
                         <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.smartSensorsUpdateRate" id="oxp-13-Kcj"/>
                     </connections>
                 </slider>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gfd-1u-QhR">
+                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfd-1u-QhR">
                     <rect key="frame" x="24" y="207" width="148" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="144" id="Jn6-Vn-TwT"/>
@@ -172,7 +173,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6RB-rI-Ik7">
+                <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6RB-rI-Ik7">
                     <rect key="frame" x="214" y="207" width="33" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="min." id="lhL-CF-V9k">
                         <font key="font" metaFont="system"/>
@@ -223,8 +224,8 @@
                         </binding>
                     </connections>
                 </button>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dIQ-rm-6cs">
-                    <rect key="frame" x="160" y="304" width="38" height="17"/>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dIQ-rm-6cs">
+                    <rect key="frame" x="160" y="304" width="37" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="jRA-9e-Iea">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -234,8 +235,8 @@
                         <binding destination="-2" name="value" keyPath="self.monitorEngine.configuration.smcSensorsUpdateRate" id="VhG-Pw-c54"/>
                     </connections>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eWb-eM-oNW">
-                    <rect key="frame" x="176" y="207" width="38" height="17"/>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eWb-eM-oNW">
+                    <rect key="frame" x="176" y="207" width="37" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="SMU-br-EzO">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -267,15 +268,15 @@
                     </constraints>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="Divider" id="RrS-yU-3IQ"/>
                 </imageView>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ry2-cZ-qcA">
-                    <rect key="frame" x="36" y="250" width="11" height="14"/>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ry2-cZ-qcA">
+                    <rect key="frame" x="36" y="250" width="10" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1" id="QRV-QA-mJD">
                         <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="abo-cd-var">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abo-cd-var">
                     <rect key="frame" x="46" y="250" width="25" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="sec." id="C6F-Ca-Oo6">
                         <font key="font" metaFont="smallSystem"/>
@@ -283,7 +284,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G0T-sM-YyE">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G0T-sM-YyE">
                     <rect key="frame" x="491" y="250" width="25" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="sec." id="bqA-QY-6Dl">
                         <font key="font" metaFont="smallSystem"/>
@@ -291,7 +292,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RtV-Nu-ZvL">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RtV-Nu-ZvL">
                     <rect key="frame" x="474" y="250" width="18" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="10" id="TKC-f2-7OS">
                         <font key="font" metaFont="smallSystem"/>
@@ -299,7 +300,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fvp-a0-Rc8">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fvp-a0-Rc8">
                     <rect key="frame" x="38" y="153" width="11" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="5" id="nyo-Kn-WeX">
                         <font key="font" metaFont="smallSystem"/>
@@ -307,7 +308,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ang-W6-bzc">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ang-W6-bzc">
                     <rect key="frame" x="48" y="153" width="28" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="min." id="KUj-JM-Gpl">
                         <font key="font" metaFont="smallSystem"/>
@@ -315,7 +316,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uFr-pA-9Nd">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uFr-pA-9Nd">
                     <rect key="frame" x="488" y="153" width="28" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="min." id="swa-rD-xD7">
                         <font key="font" metaFont="smallSystem"/>
@@ -323,7 +324,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xbI-Na-Amc">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xbI-Na-Amc">
                     <rect key="frame" x="471" y="153" width="18" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="30" id="BJ7-rk-11W">
                         <font key="font" metaFont="smallSystem"/>
@@ -440,15 +441,15 @@
                 <splitView vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T7L-vL-3Go">
                     <rect key="frame" x="20" y="77" width="560" height="427"/>
                     <subviews>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="MIw-Be-MBZ" userLabel="Sensors Scroll View - Sensors Table View">
                             <rect key="frame" x="0.0" y="0.0" width="276" height="427"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="hK2-oA-2Lv">
-                                <rect key="frame" x="1" y="1" width="274" height="394"/>
+                                <rect key="frame" x="1" y="1" width="274" height="425"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="19" rowSizeStyle="automatic" viewBased="YES" id="SCh-vL-Yku" customClass="SensorsTableView">
-                                        <rect key="frame" x="0.0" y="0.0" width="274" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="274" height="425"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>
                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -471,7 +472,7 @@
                                                         <rect key="frame" x="0.0" y="1" width="273" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2KP-UC-hsa">
+                                                            <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2KP-UC-hsa">
                                                                 <rect key="frame" x="1" y="2" width="271" height="14"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="14" id="8yp-aq-Ukb"/>
@@ -510,7 +511,7 @@
                                                                     <binding destination="vQA-Qc-QUK" name="value" keyPath="objectValue.regular" id="tcG-AJ-kpJ"/>
                                                                 </connections>
                                                             </imageView>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="NvJ-Zr-afP">
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NvJ-Zr-afP">
                                                                 <rect key="frame" x="27" y="2" width="245" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="yda-EQ-ykf"/>
@@ -541,7 +542,7 @@
                                                         <rect key="frame" x="0.0" y="43" width="273" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="I2d-Jf-Ucu">
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I2d-Jf-Ucu">
                                                                 <rect key="frame" x="72" y="2" width="125" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="Wpd-8J-MwG"/>
@@ -555,7 +556,7 @@
                                                                     <binding destination="oLT-I2-lCv" name="value" keyPath="objectValue.title" id="rFS-b0-Byk"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qIK-iV-DMn">
+                                                            <textField identifier="Value" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qIK-iV-DMn">
                                                                 <rect key="frame" x="201" y="2" width="66" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="62" id="Els-qR-NBL"/>
@@ -641,7 +642,7 @@
                                                         <rect key="frame" x="0.0" y="64" width="273" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="SXc-ft-hKz">
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SXc-ft-hKz">
                                                                 <rect key="frame" x="72" y="2" width="108" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="BGi-kb-W1O"/>
@@ -655,7 +656,7 @@
                                                                     <binding destination="nDX-tM-CFZ" name="value" keyPath="objectValue.title" id="Gdn-tD-WfM"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pp5-me-vzt">
+                                                            <textField identifier="Value" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pp5-me-vzt">
                                                                 <rect key="frame" x="184" y="2" width="83" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="3ke-aq-yyV"/>
@@ -741,7 +742,7 @@
                                                         <rect key="frame" x="0.0" y="85" width="273" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="mXe-zF-A90">
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mXe-zF-A90">
                                                                 <rect key="frame" x="72" y="2" width="125" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="cQC-9R-ibP"/>
@@ -755,7 +756,7 @@
                                                                     <binding destination="uQ8-u8-mhl" name="value" keyPath="objectValue.title" id="Dhr-1p-yVs"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p27-fg-wtY">
+                                                            <textField identifier="Value" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p27-fg-wtY">
                                                                 <rect key="frame" x="201" y="2" width="66" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="nX7-No-D2A"/>
@@ -841,7 +842,7 @@
                                                         <rect key="frame" x="0.0" y="106" width="273" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="u8r-os-OeX">
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u8r-os-OeX">
                                                                 <rect key="frame" x="72" y="2" width="125" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="6QI-vC-kDH"/>
@@ -855,7 +856,7 @@
                                                                     <binding destination="fZ9-fJ-czq" name="value" keyPath="objectValue.title" id="Z0G-aD-hWn"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oIx-kL-p5X">
+                                                            <textField identifier="Value" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oIx-kL-p5X">
                                                                 <rect key="frame" x="201" y="2" width="66" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="62" id="P8l-Uz-ReW"/>
@@ -946,37 +947,28 @@
                                         </connections>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </clipView>
                             <constraints>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="251" id="zc0-CW-SeO"/>
                             </constraints>
-                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="lBr-2q-UJ8" customClass="RFOverlayScroller">
+                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="lBr-2q-UJ8">
                                 <rect key="frame" x="-100" y="-100" width="263" height="11"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
-                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="NO" id="cYw-KN-ID9" customClass="RFOverlayScroller">
+                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="NO" id="cYw-KN-ID9">
                                 <rect key="frame" x="264" y="1" width="11" height="394"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="fadeHeight">
-                                    <integer key="value" value="19"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="color" keyPath="fadeColor">
-                                    <color key="value" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                         </scrollView>
-                        <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View" customClass="JLNFadingScrollView">
+                        <scrollView autohidesScrollers="YES" horizontalLineScroll="21" horizontalPageScroll="10" verticalLineScroll="21" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" id="6Ws-pH-qVq" userLabel="Favorites Scroll View - Sensors Table View">
                             <rect key="frame" x="285" y="0.0" width="275" height="427"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <clipView key="contentView" copiesOnScroll="NO" id="i8f-2e-Hgn">
-                                <rect key="frame" x="1" y="1" width="273" height="394"/>
+                                <rect key="frame" x="1" y="1" width="273" height="425"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="19" rowSizeStyle="automatic" viewBased="YES" id="eYG-oD-xEa" customClass="SensorsTableView">
-                                        <rect key="frame" x="0.0" y="0.0" width="273" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="273" height="425"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <size key="intercellSpacing" width="1" height="2"/>
                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -999,7 +991,7 @@
                                                         <rect key="frame" x="0.0" y="1" width="272" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7gj-JZ-oVT">
+                                                            <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gj-JZ-oVT">
                                                                 <rect key="frame" x="0.0" y="0.0" width="272" height="16"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="16" id="2bY-Qs-kry"/>
@@ -1027,7 +1019,7 @@
                                                         <rect key="frame" x="0.0" y="22" width="272" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Yeu-hh-HhR">
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yeu-hh-HhR">
                                                                 <rect key="frame" x="27" y="2" width="244" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="bIW-lJ-X60"/>
@@ -1069,7 +1061,7 @@
                                                         <rect key="frame" x="0.0" y="43" width="272" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="8In-SL-dYv">
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8In-SL-dYv">
                                                                 <rect key="frame" x="49" y="2" width="150" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="8gU-Ft-zqU"/>
@@ -1083,7 +1075,7 @@
                                                                     <binding destination="MbI-cI-Lr6" name="value" keyPath="objectValue.item.title" id="nww-Hy-aqB"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MIo-Ue-Ril">
+                                                            <textField identifier="Value" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MIo-Ue-Ril">
                                                                 <rect key="frame" x="203" y="2" width="63" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="59" id="6HF-kQ-X4N"/>
@@ -1147,7 +1139,7 @@
                                                         <rect key="frame" x="0.0" y="64" width="272" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Iqq-Uv-S3o">
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iqq-Uv-S3o">
                                                                 <rect key="frame" x="49" y="2" width="150" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="Rc0-IJ-eGp"/>
@@ -1161,7 +1153,7 @@
                                                                     <binding destination="GZC-hD-hPY" name="value" keyPath="objectValue.item.title" id="nNA-cL-CIx"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X7l-hf-Bep">
+                                                            <textField identifier="Value" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7l-hf-Bep">
                                                                 <rect key="frame" x="203" y="2" width="63" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="59" id="Mxn-dd-dvc"/>
@@ -1225,7 +1217,7 @@
                                                         <rect key="frame" x="0.0" y="85" width="272" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="tkK-I4-i3G">
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkK-I4-i3G">
                                                                 <rect key="frame" x="49" y="2" width="150" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="AKM-2K-SLW"/>
@@ -1239,7 +1231,7 @@
                                                                     <binding destination="C4b-5U-git" name="value" keyPath="objectValue.item.title" id="DHA-Pd-Csz"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nCl-BY-dpn">
+                                                            <textField identifier="Value" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nCl-BY-dpn">
                                                                 <rect key="frame" x="203" y="2" width="63" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="m7L-JG-Vxj"/>
@@ -1303,7 +1295,7 @@
                                                         <rect key="frame" x="0.0" y="106" width="272" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="eNN-S8-jIW">
+                                                            <textField identifier="Name" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eNN-S8-jIW">
                                                                 <rect key="frame" x="49" y="2" width="150" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="UlH-Ph-qrx"/>
@@ -1317,7 +1309,7 @@
                                                                     <binding destination="Y6G-Km-HBq" name="value" keyPath="objectValue.item.title" id="8bq-sS-uym"/>
                                                                 </connections>
                                                             </textField>
-                                                            <textField identifier="Value" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2aZ-I7-IDf">
+                                                            <textField identifier="Value" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2aZ-I7-IDf">
                                                                 <rect key="frame" x="203" y="2" width="63" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="Wku-XY-GzR"/>
@@ -1386,27 +1378,18 @@
                                         </connections>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </clipView>
                             <constraints>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="250" id="aJR-o9-vmc"/>
                             </constraints>
-                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="ioU-Xn-atj" customClass="RFOverlayScroller">
+                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="ioU-Xn-atj">
                                 <rect key="frame" x="-100" y="-100" width="223" height="11"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
-                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="NO" id="1YZ-QB-VJg" customClass="RFOverlayScroller">
+                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="NO" id="1YZ-QB-VJg">
                                 <rect key="frame" x="263" y="1" width="11" height="394"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="fadeHeight">
-                                    <integer key="value" value="19"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="color" keyPath="fadeColor">
-                                    <color key="value" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                         </scrollView>
                     </subviews>
                     <constraints>
@@ -1460,7 +1443,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="97" rowSizeStyle="automatic" viewBased="YES" id="J1M-XJ-log" userLabel="Theme Table View">
-                                <rect key="frame" x="0.0" y="0.0" width="248" height="0.0"/>
+                                <rect key="frame" x="0.0" y="0.0" width="248" height="303"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="4" height="4"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1484,7 +1467,7 @@
                                                 <rect key="frame" x="2" y="2" width="244" height="97"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="OuI-bb-o4M">
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" preferredMaxLayoutWidth="90" translatesAutoresizingMaskIntoConstraints="NO" id="OuI-bb-o4M">
                                                         <rect key="frame" x="149" y="40" width="94" height="17"/>
                                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="GcC-Pr-8cd">
                                                             <font key="font" metaFont="system"/>
@@ -1530,7 +1513,6 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </clipView>
                     <constraints>
                         <constraint firstAttribute="width" constant="250" id="CJa-dx-b90"/>
@@ -1543,7 +1525,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VtL-Hp-Gjx">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VtL-Hp-Gjx">
                     <rect key="frame" x="20" y="333" width="252" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="248" id="JbA-SZ-gEE"/>
@@ -1616,7 +1598,7 @@
                         </binding>
                     </connections>
                 </matrix>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="55s-9M-Nsg">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="55s-9M-Nsg">
                     <rect key="frame" x="288" y="333" width="184" height="17"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="17" id="otJ-Zk-e4A"/>
@@ -1628,7 +1610,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6jX-rv-NJE">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6jX-rv-NJE">
                     <rect key="frame" x="288" y="225" width="184" height="17"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="17" id="W6q-RU-Nbi"/>
@@ -1776,7 +1758,7 @@
                         </binding>
                     </connections>
                 </button>
-                <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rfX-Mg-n1n">
+                <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rfX-Mg-n1n">
                     <rect key="frame" x="27" y="61" width="404" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="400" id="L1k-d1-cs7"/>
@@ -1788,7 +1770,7 @@
                     </textFieldCell>
                 </textField>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3vW-CP-GIC">
-                    <rect key="frame" x="25" y="27" width="450" height="25"/>
+                    <rect key="frame" x="25" y="27" width="450" height="24"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="446" id="Awh-UA-ZVa"/>
                     </constraints>
@@ -1804,7 +1786,7 @@
                         </binding>
                     </connections>
                 </slider>
-                <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rfb-w2-8ol">
+                <textField verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rfb-w2-8ol">
                     <rect key="frame" x="435" y="61" width="38" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" priority="730" constant="34" id="7v0-3W-bhM"/>
