@@ -2896,7 +2896,7 @@
 						<key>TEMPIN1</key>
 						<string>Memory</string>
 						<key>VIN0</key>
-						<string>CPU</string>
+						<string>CPU Core</string>
 						<key>VIN1</key>
 						<dict>
 							<key>gain</key>
