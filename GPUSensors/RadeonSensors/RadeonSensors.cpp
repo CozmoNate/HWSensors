@@ -75,7 +75,7 @@ bool RadeonSensors::managedStart(IOService *provider)
         return false;
     }
     
-    if ((card.card_index = takeVacantGPUIndex()) < 0) {
+    if ((card.card_index = takeVacantGPUIndex()) == UINT8_MAX) {
         radeon_info(&card, "failed to take GPU index\n");
         return false;
     }
@@ -325,7 +325,7 @@ bool RadeonSensors::managedStart(IOService *provider)
             default:
                 radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);
                 releaseGPUIndex(card.card_index);
-                card.card_index = -1;
+                card.card_index = UINT8_MAX;
                 return false;
         }
     }
@@ -338,7 +338,7 @@ bool RadeonSensors::managedStart(IOService *provider)
             //radeon_error(&card, "failed to register temperature sensor for key %s\n", key);
             radeon_fatal(&card, "failed to register temperature sensor for key %s\n", key);
             releaseGPUIndex(card.card_index);
-            card.card_index = -1;
+            card.card_index = UINT8_MAX;
             return false;
         }
     }
@@ -360,7 +360,7 @@ void RadeonSensors::stop(IOService *provider)
         card.bios = 0;
     }
     
-    if (card.card_index >= 0)
+    if (card.card_index < UINT8_MAX)
         releaseGPUIndex(card.card_index);
     
     super::stop(provider);

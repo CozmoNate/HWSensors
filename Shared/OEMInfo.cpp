@@ -20,7 +20,7 @@
  * @APPLE_LICENSE_HEADER_END@
  */
 
-#include "OemInfo.h"
+#include "OEMInfo.h"
 #include "SMBIOS.h"
 
 #include <IOKit/IODeviceTreeSupport.h>

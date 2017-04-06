@@ -190,14 +190,15 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
     int location = LEFT_LOWER_FRONT;
 
     for (int i = 0; i < tachometerSensorsLimit(); i++) {
-        SInt8 fanIndex;
+        
+        UInt8 fanIndex;
 
         snprintf(key, 7, "FANIN%X", i);
 
         if (OSString* name = OSDynamicCast(OSString, configuration->getObject(key))){
             if (addTachometer(i, name->getLength() > 0 ? name->getCStringNoCopy() : 0, FAN_RPM, 0, (FanLocationType)location++, &fanIndex)){
 
-                if (isTachometerControlable(i) && fanIndex > -1) {
+                if (isTachometerControlable(i) && fanIndex < UINT8_MAX) {
 
                     tachometerControls[i].number = fanIndex;
                     tachometerControls[i].target = -1;
@@ -209,7 +210,7 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
 
                     // Maximum RPM
                     snprintf(key, 5, KEY_FORMAT_FAN_MAX, fanIndex);
-                    fakeSMCPluginEncodeFloatValue(kLPCSensorsMaxRPM, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
+                    FakeSMCKey::encodeFloatValue(kLPCSensorsMaxRPM, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
                     setKeyValue(key, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
 
                     // Target RPM and fan control sensor
@@ -476,7 +477,7 @@ bool LPCSensors::init(OSDictionary *properties)
     modelName = "unknown";
     vendorName = "unknown";
 
-    gpuIndex = -1;
+    gpuIndex = UINT8_MAX;
 
 	return true;
 }

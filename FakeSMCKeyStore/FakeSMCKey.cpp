@@ -36,6 +36,290 @@
 #define super OSObject
 OSDefineMetaClassAndStructors(FakeSMCKey, OSObject)
 
+/**
+ Get numeric representation from char containing number
+
+ @param c Char
+ @return Numeric value or 0 if char contains letter
+ */
+UInt8 FakeSMCKey::getIndexFromChar(char c)
+{
+    return c > 96 && c < 103 ? c - 87 : c > 47 && c < 58 ? c - 48 : 0;
+}
+
+/**
+ *  Encode floating point value to SMC float format
+ *
+ *  @param value     Floating point value to be encoded
+ *  @param type      Floating point SMC type name ("fp2e", "fpe2", "sp78" are correct float SMC types)
+ *  @param size      Buffer size for encoded bytes, for every floating SMC type should be 2 bytes
+ *  @param outBuffer Buffer where encoded bytes will be copied to, should be already allocated with correct size
+ *
+ *  @return True on success False otherwise
+ */
+bool FakeSMCKey::encodeFloatValue(float value, const char *type, const UInt8 size, void *outBuffer)
+{
+    if (type && outBuffer) {
+        
+        size_t typeLength = strnlen(type, 4);
+        
+        if (typeLength >= 3 && (type[0] == 'f' || type[0] == 's') && type[1] == 'p') {
+            bool minus = value < 0;
+            bool signd = type[0] == 's';
+            UInt8 i = getIndexFromChar(type[2]);
+            UInt8 f = getIndexFromChar(type[3]);
+            
+            if (i + f == (signd ? 15 : 16)) {
+                if (minus) value = -value;
+                UInt16 encoded = value * (float)BIT(f);
+                if (signd) bit_write(minus, encoded, BIT(15));
+                OSWriteBigInt16(outBuffer, 0, encoded);
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+/**
+ *  Encode integer value to SMC integer format
+ *
+ *  @param value     Integer value to be encoded
+ *  @param type      Integer SMC type ("ui8 ", "ui16", "ui32", "si8 ")
+ *  @param size      Buffer size for encoded bytes, one byte for ui8, 2 bytes for ui16 etc.
+ *  @param outBuffer Buffer where encoded bytes will be copied to, should be already allocated with correct size
+ *
+ *  @return True on success False otherwise
+ */
+bool FakeSMCKey::encodeIntValue(int value, const char *type, const UInt8 size, void *outBuffer)
+{
+    if (type && outBuffer) {
+        
+        size_t typeLength = strnlen(type, 4);
+        
+        if (typeLength >= 3 && (type[0] == 'u' || type[0] == 's') && type[1] == 'i') {
+            
+            bool minus = value < 0;
+            bool signd = type[0] == 's';
+            
+            if (minus) value = -value;
+            
+            switch (type[2]) {
+                case '8':
+                    if (type[3] == '\0' && size == 1) {
+                        UInt8 encoded = (UInt8)value;
+                        if (signd) bit_write(signd && minus, encoded, BIT(7));
+                        bcopy(&encoded, outBuffer, 1);
+                        return true;
+                    }
+                    break;
+                    
+                case '1':
+                    if (type[3] == '6' && size == 2) {
+                        UInt16 encoded = (UInt16)value;
+                        if (signd) bit_write(signd && minus, encoded, BIT(15));
+                        OSWriteBigInt16(outBuffer, 0, encoded);
+                        return true;
+                    }
+                    break;
+                    
+                case '3':
+                    if (type[3] == '2' && size == 4) {
+                        UInt32 encoded = (UInt32)value;
+                        if (signd) bit_write(signd && minus, encoded, BIT(31));
+                        OSWriteBigInt32(outBuffer, 0, encoded);
+                        return true;
+                    }
+                    break;
+            }
+        }
+    }
+    return false;
+}
+
+/**
+ *  Cheks if a type name is correct integer SMC type name
+ *
+ *  @param type Type name to check
+ *
+ *  @return True is returned when the type name is correct False otherwise
+ */
+bool FakeSMCKey::isValidIntegerType(const char *type)
+{
+    if (type) {
+        size_t typeLength = strnlen(type, 4);
+        
+        if (typeLength >= 3) {
+            if ((type[0] == 'u' || type[0] == 's') && type[1] == 'i') {
+                
+                switch (type[2]) {
+                    case '8':
+                        return true;
+                    case '1':
+                        return type[3] == '6' ? true : false;
+                    case '3':
+                        return type[3] == '2'? true : false;
+                }
+            }
+        }
+    }
+    
+    return false;
+}
+
+/**
+ *  Cheks if a type name is a correct floating point SMC type name
+ *
+ *  @param type Type name to check
+ *
+ *  @return True is returned when the type name is correct False otherwise
+ */
+bool FakeSMCKey::isValidFloatType(const char *type)
+{
+    if (type) {
+        
+        size_t typeLength = strnlen(type, 4);
+        
+        if (typeLength >= 3) {
+            if ((type[0] == 'f' || type[0] == 's') && type[1] == 'p') {
+                UInt8 i = getIndexFromChar(type[2]);
+                UInt8 f = getIndexFromChar(type[3]);
+                
+                if (i + f == (type[0] == 's' ? 15 : 16))
+                    return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+/**
+ *  Decode buffer considering it's a floating point encoded value of an SMC key
+ *
+ *  @param type     SMC type name will be used to determine decoding rules
+ *  @param size     Encoded value buffer size
+ *  @param data     Pointer to a encoded value buffer
+ *  @param outValue Decoded float value will be returned
+ *
+ *  @return True on success False otherwise
+ */
+bool FakeSMCKey::decodeFloatValue(const char *type, const UInt8 size, const void *data, float *outValue)
+{
+    if (type && data && outValue) {
+        
+        size_t typeLength = strnlen(type, 4);
+        
+        if (typeLength >= 3 && (type[0] == 'f' || type[0] == 's') && type[1] == 'p' && size == 2) {
+            UInt16 encoded = 0;
+            
+            bcopy(data, &encoded, 2);
+            
+            UInt8 i = getIndexFromChar(type[2]);
+            UInt8 f = getIndexFromChar(type[3]);
+            
+            if (i + f != (type[0] == 's' ? 15 : 16) )
+                return false;
+            
+            UInt16 swapped = OSSwapBigToHostInt16(encoded);
+            
+            bool signd = type[0] == 's';
+            bool minus = bit_get(swapped, BIT(15));
+            
+            if (signd && minus) bit_clear(swapped, BIT(15));
+            
+            *outValue = ((float)swapped / (float)BIT(f)) * (signd && minus ? -1 : 1);
+            
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+/**
+ *  Decode buffer considering it's an integer encoded value of an SMC key
+ *
+ *  @param type     SMC type name will be used to determine decoding rules
+ *  @param size     Size of encoded value buffer
+ *  @param data     Pointer to encoded value buffer
+ *  @param outValue Decoded integer value will be returned
+ *
+ *  @return True on success False otherwise
+ */
+bool FakeSMCKey::decodeIntValue(const char *type, const UInt8 size, const void *data, int *outValue)
+{
+    if (type && data && outValue) {
+        
+        size_t typeLength = strnlen(type, 4);
+        
+        if (typeLength >= 3 && (type[0] == 'u' || type[0] == 's') && type[1] == 'i') {
+            
+            bool signd = type[0] == 's';
+            
+            switch (type[2]) {
+                case '8':
+                    if (size == 1) {
+                        UInt8 encoded = 0;
+                        
+                        bcopy(data, &encoded, 1);
+                        
+                        if (signd && bit_get(encoded, BIT(7))) {
+                            bit_clear(encoded, BIT(7));
+                            *outValue = -encoded;
+                        }
+                        
+                        *outValue = encoded;
+                        
+                        return true;
+                    }
+                    break;
+                    
+                case '1':
+                    if (type[3] == '6' && size == 2) {
+                        UInt16 encoded = 0;
+                        
+                        bcopy(data, &encoded, 2);
+                        
+                        encoded = OSSwapBigToHostInt16(encoded);
+                        
+                        if (signd && bit_get(encoded, BIT(15))) {
+                            bit_clear(encoded, BIT(15));
+                            *outValue = -encoded;
+                        }
+                        
+                        *outValue = encoded;
+                        
+                        return true;
+                    }
+                    break;
+                    
+                case '3':
+                    if (type[3] == '2' && size == 4) {
+                        UInt32 encoded = 0;
+                        
+                        bcopy(data, &encoded, 4);
+                        
+                        encoded = OSSwapBigToHostInt32(encoded);
+                        
+                        if (signd && bit_get(encoded, BIT(31))) {
+                            bit_clear(encoded, BIT(31));
+                            *outValue = -encoded;
+                        }
+                        
+                        *outValue = encoded;
+                        
+                        return true;
+                    }
+                    break;
+            }
+        }
+    }
+    
+    return false;
+}
+
 FakeSMCKey *FakeSMCKey::withValue(const char *aKey, const char *aType, unsigned char aSize, const void *aValue)
 {
     FakeSMCKey *me = new FakeSMCKey;

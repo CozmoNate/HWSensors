@@ -21,7 +21,7 @@ private:
 	OSDictionary *		sensors;
 	volatile UInt8*     mmio_base;
 	IOMemoryMap *		mmio;
-    SInt8               gpuIndex;
+    UInt8               gpuIndex;
 	
 protected:	
     virtual bool        willReadSensorValue(FakeSMCSensor *sensor, float* result);

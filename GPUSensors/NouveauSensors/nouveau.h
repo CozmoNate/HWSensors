@@ -63,7 +63,7 @@ struct nouveau_device {
 	const char *cname;
     
 	nouveau_card_type card_type;
-    s8 card_index;
+    u8 card_index;
     
 	u32 chipset;
 	u32 crystal;

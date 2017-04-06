@@ -8,14 +8,16 @@
 
 #include "version.h"
 
-#define HWSENSORS_LASTYEAR                  2015
+#define HWSENSORS_LASTYEAR                  2017
 
+// FakeSMC and FakeSMCKeyStore should be the same bundle now because they are in the same kext
 #define FAKESMCKEYSTORE_BUNDLE              org.netkas.driver.FakeSMC
 #define FAKESMC_BUNDLE                      org.netkas.driver.FakeSMC
+
 #define ACPISENSORS_BUNDLE                  org.hwsensors.driver.ACPISensors
 #define CPUSENSORS_BUNDLE                   org.hwsensors.driver.CPUSensors
 #define LPCSENSORS_BUNDLE                   org.hwsensors.driver.LPCSensors
 #define GPUSENSORS_BUNDLE                   org.hwsensors.driver.GPUSensors
 
-#define FAKESMCKEYSTORE_COMPATIBLE          1212
-#define LPCSENSORS_COMPATIBLE               1212
+#define FAKESMCKEYSTORE_COMPATIBLE          1429
+#define LPCSENSORS_COMPATIBLE               1429

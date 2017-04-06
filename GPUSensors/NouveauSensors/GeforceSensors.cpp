@@ -84,12 +84,12 @@ bool GeforceSensors::mapMemory(IOService *provider)
 {
     struct nouveau_device *device = &card;
 
-    if (device->mmio && card.card_index >= 0) {
+    if (device->mmio && card.card_index < UINT8_MAX) {
         // Already mapped
         return true;
     }
 
-    if ((card.card_index = takeVacantGPUIndex()) < 0) {
+    if ((card.card_index = takeVacantGPUIndex()) == UINT8_MAX) {
         nv_error(device, "failed to take vacant GPU index\n");
         return false;
     }
@@ -256,7 +256,7 @@ bool GeforceSensors::managedStart(IOService *provider)
     if (!shadowBios()) {
         nv_fatal(device, "unable to shadow VBIOS\n");
         releaseGPUIndex(card.card_index);
-        card.card_index = -1;
+        card.card_index = UINT8_MAX;
         return false;
     }
 
@@ -267,7 +267,7 @@ bool GeforceSensors::managedStart(IOService *provider)
     if (!nouveau_init(device)) {
         nv_error(device, "unable to initialize monitoring driver\n");
         releaseGPUIndex(card.card_index);
-        card.card_index = -1;
+        card.card_index = UINT8_MAX;
         return false;
     }
     
@@ -379,7 +379,7 @@ void GeforceSensors::stop(IOService * provider)
         card.bios.data = 0;
     }
     
-    if (card.card_index >= 0)
+    if (card.card_index < UINT8_MAX)
         releaseGPUIndex(card.card_index);
     
     super::stop(provider);

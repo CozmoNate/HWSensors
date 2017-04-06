@@ -54,6 +54,14 @@ private:
     //double              lastValueWroteTime;
 	
 public:
+    static UInt8        getIndexFromChar(char c);
+    static bool         isValidIntegerType(const char *type);
+    static bool         isValidFloatType(const char *type);
+    static bool         encodeFloatValue(float value, const char *type, const UInt8 size, void *outBuffer);
+    static bool         encodeIntValue(int value, const char *type, const UInt8 size, void *outBuffer);
+    static bool         decodeFloatValue(const char *type, const UInt8 size, const void *data, float *outValue);
+    static bool         decodeIntValue(const char *type, const UInt8 size, const void *data, int *outValue);
+    
 	static FakeSMCKey   *withValue(const char *aKey, const char *aType, const unsigned char aSize, const void *aValue);
 	static FakeSMCKey   *withHandler(const char *aKey, const char *aType, const unsigned char aSize, FakeSMCKeyHandler *aHandler);
     

@@ -106,7 +106,7 @@ bool GmaSensors::managedStart(IOService *provider)
     if (!addSensorForKey(key, TYPE_SP78, 2, kFakeSMCTemperatureSensor, 0)) {
         HWSensorsFatalLog("failed to register temperature sensor");
         releaseGPUIndex(gpuIndex);
-        gpuIndex = -1;
+        gpuIndex = UINT8_MAX;
         return false;
     }
     
@@ -117,7 +117,7 @@ bool GmaSensors::managedStart(IOService *provider)
 
 void GmaSensors::stop(IOService* provider)
 {
-    if (gpuIndex >= 0)
+    if (gpuIndex < UINT8_MAX)
         releaseGPUIndex(gpuIndex);
     
     super::stop(provider);

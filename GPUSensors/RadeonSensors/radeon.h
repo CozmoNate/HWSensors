@@ -63,7 +63,7 @@ struct radeon_device {
     UInt32              chip_id;
 	UInt16              family;
 	RADEONCardInfo      info;
-	SInt8               card_index;
+	UInt8               card_index;
     
     radeon_int_thermal_type int_thermal_type;
     

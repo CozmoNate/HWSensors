@@ -789,10 +789,10 @@
 			isa = PBXGroup;
 			children = (
 				7E2FE40F18DCBA5400EAD6DB /* Sparkle.framework */,
+				7E2FE41718DCBA5400EAD6DB /* Autoupdate.app */,
 				7E2FE41118DCBA5400EAD6DB /* Sparkle Test App.app */,
 				7E2FE41318DCBA5400EAD6DB /* Sparkle Unit Tests.xctest */,
 				7E2FE41518DCBA5400EAD6DB /* BinaryDelta */,
-				7E2FE41718DCBA5400EAD6DB /* Autoupdate.app */,
 				7EC27DC11E0700E6000503C9 /* UI Tests.xctest */,
 				7EC27DC31E0700E6000503C9 /* fileop */,
 			);
