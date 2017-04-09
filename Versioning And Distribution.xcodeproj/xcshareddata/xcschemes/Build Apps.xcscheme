@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0810"
+   LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "NO"
@@ -63,6 +63,16 @@
                BlueprintIdentifier = "7E420F9A1820E04900331D2B"
                BuildableName = "HWMonitor Tests.xctest"
                BlueprintName = "HWMonitor Tests"
+               ReferencedContainer = "container:HWMonitor.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7E4C67861E994D2200CFAB2A"
+               BuildableName = "HWMonitorTests.xctest"
+               BlueprintName = "HWMonitorTests"
                ReferencedContainer = "container:HWMonitor.xcodeproj">
             </BuildableReference>
          </TestableReference>

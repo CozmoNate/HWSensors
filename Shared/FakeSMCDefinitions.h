@@ -154,32 +154,6 @@
 #define KEY_FAKESMC_FORMAT_CPU_MULTIPLIER		"MlC%X"
 #define KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER      "MlCP"
 
-// Types
-#define TYPE_FPE2                               "fpe2"
-#define TYPE_FP2E                               "fp2e"
-#define TYPE_FP4C                               "fp4c"
-#define TYPE_CH8                                "ch8*"
-#define TYPE_SP78                               "sp78"
-#define TYPE_SP4B                               "sp4b"
-#define TYPE_FP5B                               "fp5b"
-#define TYPE_FP88                               "fp88"
-#define TYPE_UI8                                "ui8"
-#define TYPE_UI16                               "ui16"
-#define TYPE_UI32                               "ui32"
-#define TYPE_SI16                               "si16"
-#define TYPE_FLAG                               "flag"
-#define TYPE_FDS                                "{fds"
-
-#define TYPE_FPXX_SIZE                          2
-#define TYPE_SPXX_SIZE                          2
-#define TYPE_UI8_SIZE                           1
-#define TYPE_UI16_SIZE                          2
-#define TYPE_UI32_SIZE                          4
-#define TYPE_SI8_SIZE                           1
-#define TYPE_SI16_SIZE                          2
-#define TYPE_SI32_SIZE                          4
-#define TYPE_FLAG_SIZE                          1
-
 // Services
 #define kFakeSMCService                         "FakeSMC"
 #define kFakeSMCDeviceService                   "FakeSMCDevice"

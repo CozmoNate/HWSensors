@@ -35,42 +35,42 @@
 
 const struct FakeSMCSensorDefinitionEntry gDefaultSensorDefinitions[] =
 {
-    {"Ambient",                 "TA0P", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
-    {"CPU Die",                 "TC%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
-    {"CPU Package",             "TC%XC", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0xA, 0x6},
-    //{"CPU Core",                "TC%XC", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
-    {"CPU GFX",                 "TC%XG", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
-    {"CPU Heatsink",            "TC%XH", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-    {"CPU Proximity",           "TC%XP", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-    {"Northbridge Die",         "TN%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-    {"Northbridge Proximity",   "TN%XP", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-    {"MCH Die",                 "TN%XC", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-    {"MCH Heatsink",            "TN%XH", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-    {"PCH Die",                 "TP%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-    {"PCH Proximity",           "TP%XP", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-    {"Memory Module",           "TM%XS", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
-    {"Memory Proximity",        "TM%XP", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
-    {"LCD",                     "TL0P", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
-    {"Airport",                 "TW0P", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
-    {"Battery",                 "TB%XP", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-    {"Mainboard",               "Tm0P", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
-    /*{"GPU Die",                 "TG%XD", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-     {"GPU Heatsink",            "TG%XH", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-     {"GPU Proximity",           "TG%Xp", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
-     {"GPU Memory",              "TG%XM", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},*/
-    {"Thermal Zone",            "TZ%XC", TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"Ambient",                 "TA0P", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
+    {"CPU Die",                 "TC%XD", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"CPU Package",             "TC%XC", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0xA, 0x6},
+    //{"CPU Core",                "TC%XC", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"CPU GFX",                 "TC%XG", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"CPU Heatsink",            "TC%XH", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"CPU Proximity",           "TC%XP", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"Northbridge Die",         "TN%XD", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"Northbridge Proximity",   "TN%XP", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"MCH Die",                 "TN%XC", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"MCH Heatsink",            "TN%XH", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"PCH Die",                 "TP%XD", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"PCH Proximity",           "TP%XP", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"Memory Module",           "TM%XS", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"Memory Proximity",        "TM%XP", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
+    {"LCD",                     "TL0P", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
+    {"Airport",                 "TW0P", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
+    {"Battery",                 "TB%XP", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+    {"Mainboard",               "Tm0P", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0},
+    /*{"GPU Die",                 "TG%XD", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+     {"GPU Heatsink",            "TG%XH", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+     {"GPU Proximity",           "TG%Xp", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},
+     {"GPU Memory",              "TG%XM", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 4},*/
+    {"Thermal Zone",            "TZ%XC", SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCCategoryTemperature, 0, 0xF},
     
     // Multipliers
-    {"CPU Core",                "MlC%X", TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCCategoryMultiplier, 0, 0xF},
-    {"CPU Package",             "MlCP", TYPE_FP88, TYPE_FPXX_SIZE, kFakeSMCCategoryMultiplier, 0, 0},
+    {"CPU Core",                "MlC%X", SMC_TYPE_FP88, SMC_TYPE_FPXX_SIZE, kFakeSMCCategoryMultiplier, 0, 0xF},
+    {"CPU Package",             "MlCP", SMC_TYPE_FP88, SMC_TYPE_FPXX_SIZE, kFakeSMCCategoryMultiplier, 0, 0},
     
     // Clocks
-    {"CPU Core",                "CC%XC", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 0xF},
-    {"CPU Package",             "CCPC", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 0},
-    /*{"GPU Core",                "CG%XC", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},
-     {"GPU Memory",              "CG%XM", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},
-     {"GPU Shaders",             "CG%XS", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},
-     {"GPU ROPs",                "CG%XR", TYPE_UI32, TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},*/
+    {"CPU Core",                "CC%XC", SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 0xF},
+    {"CPU Package",             "CCPC", SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 0},
+    /*{"GPU Core",                "CG%XC", SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},
+     {"GPU Memory",              "CG%XM", SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},
+     {"GPU Shaders",             "CG%XS", SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},
+     {"GPU ROPs",                "CG%XR", SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kFakeSMCCategoryFrequency, 0, 4},*/
     
     // Voltages
     {"CPU Core",                "VC0C", "fp2e", 2, kFakeSMCCategoryVoltage, 0, 0},
@@ -436,7 +436,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanT
         char key[5];
         snprintf(key, 5, KEY_FORMAT_FAN_SPEED, vacantFanIndex);
 
-        if (FakeSMCSensor *sensor = addSensorForKey(key, TYPE_FPE2, TYPE_FPXX_SIZE, kFakeSMCTachometerSensor, index)) {
+        if (FakeSMCSensor *sensor = addSensorForKey(key, SMC_TYPE_FPE2, SMC_TYPE_FPXX_SIZE, kFakeSMCTachometerSensor, index)) {
             FanTypeDescStruct fds;
 
             bzero(&fds, sizeof(fds));
@@ -452,7 +452,7 @@ FakeSMCSensor *FakeSMCPlugin::addTachometer(UInt32 index, const char *name, FanT
 
             snprintf(key, 5, KEY_FORMAT_FAN_ID, vacantFanIndex);
 
-            if (!setKeyValue(key, TYPE_FDS, sizeof(fds), &fds))
+            if (!setKeyValue(key, SMC_TYPE_FDS, sizeof(fds), &fds))
                 HWSensorsWarningLog("failed to add tachometer name for key %s", key);
 
             if (fanIndex) *fanIndex = vacantFanIndex;

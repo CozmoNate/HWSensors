@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0810"
+   LastUpgradeVersion = "0830"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "NO"
@@ -178,7 +178,26 @@
                ReferencedContainer = "container:HWMonitor.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7E4C67861E994D2200CFAB2A"
+               BuildableName = "HWMonitorTests.xctest"
+               BlueprintName = "HWMonitorTests"
+               ReferencedContainer = "container:HWMonitor.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7E2ACD8B1791B4510061C677"
+            BuildableName = "Pre-Build"
+            BlueprintName = "Pre-Build"
+            ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -211,6 +230,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7E2ACD8B1791B4510061C677"
+            BuildableName = "Pre-Build"
+            BlueprintName = "Pre-Build"
+            ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

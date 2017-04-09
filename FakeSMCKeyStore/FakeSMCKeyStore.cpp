@@ -502,9 +502,9 @@ bool FakeSMCKeyStore::init(OSDictionary *properties)
 	keys = OSArray::withCapacity(2);
     types = OSDictionary::withCapacity(0);
 
-    keyCounterKey = FakeSMCKey::withValue(KEY_COUNTER, TYPE_UI32, TYPE_UI32_SIZE, "\0\0\0\1");
+    keyCounterKey = FakeSMCKey::withValue(KEY_COUNTER, SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, "\0\0\0\1");
     keys->setObject(keyCounterKey);
-    fanCounterKey = FakeSMCKey::withValue(KEY_FAN_NUMBER, TYPE_UI8, TYPE_UI8_SIZE, "\0");
+    fanCounterKey = FakeSMCKey::withValue(KEY_FAN_NUMBER, SMC_TYPE_UI8, SMC_TYPE_UI8_SIZE, "\0");
     keys->setObject(fanCounterKey);
 
 	return true;
@@ -544,11 +544,11 @@ bool FakeSMCKeyStore::start(IOService *provider)
     }
 
     if (OSString *manufacturer = OSDynamicCast(OSString, getProperty(kOEMInfoManufacturer)) ) {
-        this->addKeyWithValue("HWS0", TYPE_CH8, manufacturer->getLength(), manufacturer->getCStringNoCopy());
+        this->addKeyWithValue("HWS0", SMC_TYPE_CH8, manufacturer->getLength(), manufacturer->getCStringNoCopy());
     }
 
     if (OSString *product = OSDynamicCast(OSString, getProperty(kOEMInfoProduct)) ) {
-        this->addKeyWithValue("HWS1", TYPE_CH8, product->getLength(), product->getCStringNoCopy());
+        this->addKeyWithValue("HWS1", SMC_TYPE_CH8, product->getLength(), product->getCStringNoCopy());
     }
 
     IOService::publishResource(kFakeSMCKeyStoreService, this);

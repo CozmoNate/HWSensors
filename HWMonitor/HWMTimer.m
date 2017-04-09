@@ -30,10 +30,10 @@
 
 @interface HWMTimer ()
 
-#if __MAC_OS_X_VERSION_MIN_ALLOWED < 100800
-@property (nonatomic, assign) dispatch_source_t dispatchSource;
-#else
+#if OS_OBJECT_USE_OBJC
 @property (nonatomic, strong) dispatch_source_t dispatchSource;
+#else
+@property (nonatomic, assign) dispatch_source_t dispatchSource;
 #endif
 @property (assign) BOOL active;
 
@@ -109,10 +109,12 @@
 -(void)dealloc
 {
     if (_dispatchSource) {
-#if __MAC_OS_X_VERSION_MIN_ALLOWED < 100800
+#if OS_OBJECT_USE_OBJC
+        _dispatchSource = 0;
+#else
         dispatch_release(_dispatchSource);
 #endif
-        _dispatchSource = 0;
+        
     }
 }
 

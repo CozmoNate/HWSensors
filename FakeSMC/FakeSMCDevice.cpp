@@ -43,7 +43,7 @@ void FakeSMCDevice::applesmc_io_cmd_writeb(void *opaque, uint32_t addr, uint32_t
 		case APPLESMC_GET_KEY_BY_INDEX_CMD:
 			s->status = 0x0c;
 			break;
-		case APPLESMC_GET_KEY_TYPE_CMD:
+		case APPLESMC_GET_KEY_CMC_TYPE_CMD:
 			s->status = 0x0c;
 			break;
     }
@@ -172,7 +172,7 @@ void FakeSMCDevice::applesmc_io_data_writeb(void *opaque, uint32_t addr, uint32_
 			}
             
 			break;
-		case APPLESMC_GET_KEY_TYPE_CMD:
+		case APPLESMC_GET_KEY_CMC_TYPE_CMD:
             //			IOLog("FakeSMC: System Tried to write GETKEYTYPE = %x (%c) at pos %x\n",val , val, s->read_pos);
 			if(s->read_pos < 4) {
                 s->key[s->read_pos] = val;
@@ -221,7 +221,7 @@ uint32_t FakeSMCDevice::applesmc_io_data_readb(void *opaque, uint32_t addr1)
             if (s->data_pos == 4)
                 s->status = 0x00;
             break;
-        case APPLESMC_GET_KEY_TYPE_CMD:
+        case APPLESMC_GET_KEY_CMC_TYPE_CMD:
             //				IOLog("FakeSMC:System Tried to read GETKEYTYPE = %x , at pos %d\n", s->key_info[s->data_pos], s->data_pos);
             if(s->data_pos < s->data_len) {
                 retval = s->key_info[s->data_pos];

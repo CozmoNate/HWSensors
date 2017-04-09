@@ -11,7 +11,7 @@
 	<key>CFBundleIconFile</key>
 	<string>Default</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.hwsensors.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -30,21 +30,6 @@
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSUIElement</key>
 	<true/>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © HWSENSORS_LASTYEAR Natan Zalkin. All rights reserved.</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-	<key>NSSupportsAutomaticGraphicsSwitching</key>
-	<true/>
-	<key>SMPrivilegedExecutables</key>
-	<dict>
-		<key>org.hwsensors.HWMonitorHelper</key>
-		<string>anchor apple generic and identifier &quot;org.hwsensors.HWMonitorHelper&quot; and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = R3YQC22TX8)</string>
-	</dict>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -60,5 +45,20 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © HWSENSORS_LASTYEAR Natan Zalkin. All rights reserved.</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
+	<key>SMPrivilegedExecutables</key>
+	<dict>
+		<key>org.hwsensors.HWMonitorHelper</key>
+		<string>anchor apple generic and identifier "org.hwsensors.HWMonitorHelper" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = R3YQC22TX8)</string>
+	</dict>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 </dict>
 </plist>

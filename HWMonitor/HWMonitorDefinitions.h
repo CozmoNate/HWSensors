@@ -9,8 +9,6 @@
 #ifndef HWSensors_HWMonitorDefinitions_h
 #define HWSensors_HWMonitorDefinitions_h
 
-#import "EXTKeyPathCoding.h"
-
 // Icons
 #define kHWMonitorIconHWMonitor             @"hwmonitor"
 #define kHWMonitorIconScale                 @"scale"

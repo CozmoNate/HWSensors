@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14C68k" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PopupFanController">
@@ -29,12 +31,12 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <segmentedControl focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DNb-nz-iaV">
-                    <rect key="frame" x="10" y="129" width="90" height="23"/>
+                    <rect key="frame" x="10" y="128" width="94" height="25"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="90" id="Hh0-kB-3fd"/>
+                        <constraint firstAttribute="width" constant="94" id="Dnb-Le-NoT"/>
                         <constraint firstAttribute="height" constant="22" id="Re3-fu-N72"/>
                     </constraints>
-                    <segmentedCell key="cell" controlSize="small" borderStyle="border" focusRingType="none" alignment="left" style="texturedRounded" trackingMode="selectOne" id="m04-vc-PpX">
+                    <segmentedCell key="cell" controlSize="small" borderStyle="border" focusRingType="none" alignment="left" style="capsule" trackingMode="selectOne" id="m04-vc-PpX">
                         <font key="font" metaFont="smallSystem"/>
                         <segments>
                             <segment label="Off" width="44" selected="YES"/>
@@ -46,9 +48,8 @@
                     </connections>
                 </segmentedControl>
                 <popUpButton focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qKo-K1-TD0">
-                    <rect key="frame" x="108" y="129" width="142" height="23"/>
+                    <rect key="frame" x="112" y="129" width="138" height="23"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="142" id="Jqn-Ue-t8I"/>
                         <constraint firstAttribute="height" constant="22" id="znN-Jp-nFW"/>
                     </constraints>
                     <popUpButtonCell key="cell" type="roundTextured" title="None" bezelStyle="texturedRounded" alignment="center" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" focusRingType="none" inset="2" autoenablesItems="NO" selectedItem="np4-q0-IL2" id="4rW-aA-O6C">
@@ -100,42 +101,43 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="P7L-50-Ghx" userLabel="Range Box">
                     <rect key="frame" x="0.0" y="57" width="260" height="50"/>
                     <subviews>
-                        <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="dRX-u9-rwW" userLabel="Min Box">
+                        <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="dRX-u9-rwW" userLabel="Min Box">
                             <rect key="frame" x="61" y="2" width="92" height="30"/>
-                            <view key="contentView">
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <view key="contentView" id="vb3-dS-Kvd">
                                 <rect key="frame" x="1" y="1" width="90" height="28"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </box>
-                        <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="7AN-gp-suY" userLabel="Max Box">
+                        <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="7AN-gp-suY" userLabel="Max Box">
                             <rect key="frame" x="156" y="2" width="92" height="30"/>
-                            <view key="contentView">
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <view key="contentView" id="Va0-6t-LpD">
                                 <rect key="frame" x="1" y="1" width="90" height="28"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </box>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hXL-dN-Jgo" customClass="HWMThemedTextField">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXL-dN-Jgo" customClass="HWMThemedTextField">
                             <rect key="frame" x="62" y="36" width="90" height="14"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Minimum:" id="sue-Lv-S42">
                                 <font key="font" metaFont="smallSystem"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MDT-xD-Ji0" customClass="HWMThemedTextField">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MDT-xD-Ji0" customClass="HWMThemedTextField">
                             <rect key="frame" x="157" y="36" width="90" height="14"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Maximum:" id="YFP-Q5-NLf">
                                 <font key="font" metaFont="smallSystem"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l7f-QD-LPK">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l7f-QD-LPK">
                             <rect key="frame" x="72" y="8" width="50" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" alignment="center" title="0" usesSingleLineMode="YES" id="asb-Tz-UMk">
                                 <font key="font" size="16" name="Monaco"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -147,8 +149,9 @@
                                 <outlet property="formatter" destination="dvJ-cr-HBJ" id="0Q4-nh-thK"/>
                             </connections>
                         </textField>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C7a-kG-ni9">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C7a-kG-ni9">
                             <rect key="frame" x="167" y="8" width="50" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" alignment="center" title="6000" usesSingleLineMode="YES" id="y2O-DV-R5G">
                                 <font key="font" size="16" name="Monaco"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -162,7 +165,8 @@
                         </textField>
                         <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="1vb-sw-dQW">
                             <rect key="frame" x="128" y="8" width="18" height="20"/>
-                            <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="6000" tickMarkPosition="above" sliderType="circular" id="rEc-cj-ib4"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="6000" sliderType="circular" id="rEc-cj-ib4"/>
                             <connections>
                                 <binding destination="-2" name="enabled" keyPath="controller.enabled" id="2Tv-48-Pcm"/>
                                 <binding destination="-2" name="value" keyPath="controller.min" previousBinding="qGh-D5-NlS" id="hdE-49-ZIy"/>
@@ -172,7 +176,8 @@
                         </slider>
                         <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="IZ4-EQ-rgg">
                             <rect key="frame" x="223" y="8" width="18" height="20"/>
-                            <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="6000" doubleValue="3000" tickMarkPosition="above" sliderType="circular" id="Ziv-aG-F7W"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="6000" doubleValue="3000" sliderType="circular" id="Ziv-aG-F7W"/>
                             <connections>
                                 <binding destination="-2" name="enabled" keyPath="controller.enabled" id="n0R-Kd-3rH"/>
                                 <binding destination="-2" name="value" keyPath="controller.max" previousBinding="twa-cr-xC2" id="SI4-O8-fP2"/>
@@ -186,7 +191,7 @@
                         <constraint firstAttribute="width" constant="260" id="XzQ-Jd-5Qd"/>
                     </constraints>
                 </customView>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kTG-hs-zjT" customClass="HWMThemedTextField">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTG-hs-zjT" customClass="HWMThemedTextField">
                     <rect key="frame" x="59" y="43" width="92" height="14"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="Uh1-KZ-C56"/>
@@ -198,7 +203,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GJj-h1-Pbv" customClass="HWMThemedTextField">
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GJj-h1-Pbv" customClass="HWMThemedTextField">
                     <rect key="frame" x="156" y="43" width="92" height="14"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="hmz-YF-fVD"/>
@@ -217,6 +222,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" rowSizeStyle="automatic" viewBased="YES" id="sH6-yC-PYK">
+                                <rect key="frame" x="0.0" y="0.0" width="260" height="28"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="0.0"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -239,26 +245,25 @@
                                                 <rect key="frame" x="1" y="0.0" width="257" height="28"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="bws-n3-w9F" userLabel="Output Box">
+                                                    <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="bws-n3-w9F" userLabel="Output Box">
                                                         <rect key="frame" x="155" y="-3" width="92" height="30"/>
-                                                        <view key="contentView">
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <view key="contentView" id="gEt-a8-CW7">
                                                             <rect key="frame" x="1" y="1" width="90" height="28"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </view>
-                                                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </box>
-                                                    <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="2rS-vp-haA" userLabel="Input Box">
+                                                    <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="2rS-vp-haA" userLabel="Input Box">
                                                         <rect key="frame" x="59" y="-3" width="92" height="30"/>
-                                                        <view key="contentView">
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <view key="contentView" id="Cpo-TS-Oib">
                                                             <rect key="frame" x="1" y="1" width="90" height="28"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </view>
-                                                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </box>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Db2-Zh-ZK2" userLabel="Input Text Field - 34">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Db2-Zh-ZK2" userLabel="Input Text Field - 34">
                                                         <rect key="frame" x="67" y="1" width="54" height="20"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" alignment="center" title="34" usesSingleLineMode="YES" id="To2-8b-5q7">
                                                             <font key="font" size="16" name="Monaco"/>
                                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -280,7 +285,8 @@
                                                     </textField>
                                                     <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="Axt-bF-Z3O" userLabel="Input Slider">
                                                         <rect key="frame" x="126" y="3" width="18" height="20"/>
-                                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="13.412956403187209" tickMarkPosition="above" sliderType="circular" id="cFv-kF-3cG"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="13.412956403187209" sliderType="circular" id="cFv-kF-3cG"/>
                                                         <connections>
                                                             <binding destination="-2" name="enabled" keyPath="controller.enabled" id="xKD-Dd-xTy"/>
                                                             <binding destination="-2" name="enabled2" keyPath="controller.input" previousBinding="xKD-Dd-xTy" id="ME1-gd-kcn">
@@ -295,8 +301,9 @@
                                                             <binding destination="1ke-pJ-1BQ" name="value" keyPath="objectValue.input" id="5Q8-Im-Ms3"/>
                                                         </connections>
                                                     </slider>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="su4-3K-aXD" userLabel="Output Text Field - 9000">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="su4-3K-aXD" userLabel="Output Text Field - 9000">
                                                         <rect key="frame" x="165" y="1" width="54" height="20"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" alignment="center" title="9000" usesSingleLineMode="YES" id="uif-DF-UFp">
                                                             <font key="font" size="16" name="Monaco"/>
                                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -309,7 +316,8 @@
                                                     </textField>
                                                     <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" alphaValue="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="5KY-xI-7OC" userLabel="Output Slider">
                                                         <rect key="frame" x="223" y="3" width="18" height="20"/>
-                                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="3000" doubleValue="1553.5429853127134" tickMarkPosition="below" sliderType="circular" id="pco-Dl-sWp"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="3000" doubleValue="1553.5429853127134" sliderType="circular" id="pco-Dl-sWp"/>
                                                         <connections>
                                                             <binding destination="-2" name="enabled" keyPath="controller.enabled" id="k2A-Kq-WUy"/>
                                                             <binding destination="1ke-pJ-1BQ" name="maxValue" keyPath="objectValue.controller.max" id="gcW-H8-wq4"/>
@@ -319,6 +327,7 @@
                                                     </slider>
                                                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YKi-Op-Ho3" userLabel="Remove Button" customClass="FadingButton">
                                                         <rect key="frame" x="14" y="6" width="15" height="15"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="22-circle-minus" imagePosition="only" alignment="center" alternateImage="22-circle-minus" state="on" imageScaling="proportionallyDown" inset="2" id="9Jh-EQ-o68">
                                                             <behavior key="behavior" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -345,6 +354,7 @@
                                                     </button>
                                                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KyY-Mj-3d7" userLabel="Add Button" customClass="FadingButton">
                                                         <rect key="frame" x="32" y="6" width="15" height="15"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="31-circle-plus" imagePosition="overlaps" alignment="center" alternateImage="31-circle-plus" state="on" imageScaling="proportionallyDown" inset="2" id="e6S-ud-5Sz">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>

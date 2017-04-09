@@ -195,10 +195,7 @@ const CGFloat OBMenuBarWindowSnapOffset = 30.0f;
     return colorTheme;
 }
 
-- (instancetype)initWithContentRect:(NSRect)contentRect
-                styleMask:(NSUInteger)aStyle
-                  backing:(NSBackingStoreType)bufferingType
-                    defer:(BOOL)flag
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
     self = [super initWithContentRect:contentRect
                             styleMask:NSBorderlessWindowMask//

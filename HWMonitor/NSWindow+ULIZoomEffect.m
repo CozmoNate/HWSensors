@@ -86,9 +86,9 @@ typedef NSInteger	NSWindowAnimationBehavior;
 
 @synthesize animationResizeTime = mAnimationResizeTime;
 
--(id)	initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag screen:(NSScreen *)screen
+-(id)	initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag screen:(nullable NSScreen *)screen
 {
-	if(( self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag screen: screen] ))
+	if(( self = [super initWithContentRect:contentRect styleMask:style backing:bufferingType defer:flag screen: screen] ))
 	{
 		mAnimationResizeTime = 0.2;
 	}
@@ -97,9 +97,9 @@ typedef NSInteger	NSWindowAnimationBehavior;
 }
 
 
--(id)	initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
+-(id)	initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
-	if(( self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag] ))
+	if(( self = [super initWithContentRect:contentRect styleMask:style backing:bufferingType defer:flag] ))
 	{
 		mAnimationResizeTime = 0.2;
 	}

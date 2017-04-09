@@ -685,10 +685,10 @@ bool CPUSensors::start(IOService *provider)
     if (platform) {
         HWSensorsInfoLog("setting platform keys to [%-8s]", (const char*)platform->getBytesNoCopy());
         
-        if (/*!isKeyExists("RPlt") &&*/ !setKeyValue("RPlt", TYPE_CH8, platform->getLength(), (void*)platform->getBytesNoCopy()))
+        if (/*!isKeyExists("RPlt") &&*/ !setKeyValue("RPlt", SMC_TYPE_CH8, platform->getLength(), (void*)platform->getBytesNoCopy()))
             HWSensorsWarningLog("failed to set platform key RPlt");
         
-        if (/*!isKeyExists("RBr") &&*/ !setKeyValue("RBr", TYPE_CH8, platform->getLength(), (void*)platform->getBytesNoCopy()))
+        if (/*!isKeyExists("RBr") &&*/ !setKeyValue("RBr", SMC_TYPE_CH8, platform->getLength(), (void*)platform->getBytesNoCopy()))
             HWSensorsWarningLog("failed to set platform key RBr");
     }
     
@@ -706,7 +706,7 @@ bool CPUSensors::start(IOService *provider)
             
             snprintf(key, 5, KEY_FORMAT_CPU_DIE_TEMPERATURE, i);
             
-            if (!addSensor(key, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsThermalCore, i)) {
+            if (!addSensor(key, SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kCPUSensorsThermalCore, i)) {
                 HWSensorsWarningLog("failed to add temperature sensor");
             }
         }
@@ -727,7 +727,7 @@ bool CPUSensors::start(IOService *provider)
             do_cpuid(6, cpuid_reg);
             
             if ((uint32_t)bitfield32(cpuid_reg[eax], 4, 4)) {
-                if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsThermalPackage, 0))
+                if (!addSensor(KEY_CPU_PACKAGE_TEMPERATURE, SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kCPUSensorsThermalPackage, 0))
                     HWSensorsWarningLog("failed to add cpu package temperature sensor");
             }
             break;
@@ -746,9 +746,9 @@ bool CPUSensors::start(IOService *provider)
                 HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
                 counters.update_perf_counters = true;
             }
-            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, TYPE_FP88, TYPE_FPXX_SIZE, kCPUSensorsMultiplierPackage, 0))
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, SMC_TYPE_FP88, SMC_TYPE_FPXX_SIZE, kCPUSensorsMultiplierPackage, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
-            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyPackage, 0))
+            if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kCPUSensorsFrequencyPackage, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
 
             break;
@@ -769,12 +769,12 @@ bool CPUSensors::start(IOService *provider)
                 
                 snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
                 
-                if (!addSensor(key, TYPE_FP88, TYPE_FPXX_SIZE, kCPUSensorsMultiplierCore, i))
+                if (!addSensor(key, SMC_TYPE_FP88, SMC_TYPE_FPXX_SIZE, kCPUSensorsMultiplierCore, i))
                     HWSensorsWarningLog("failed to add multiplier sensor");
                 
                 snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY, i);
                 
-                if (!addSensor(key, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyCore, i))
+                if (!addSensor(key, SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kCPUSensorsFrequencyCore, i))
                     HWSensorsWarningLog("failed to add frequency sensor");
 
             }
@@ -784,7 +784,7 @@ bool CPUSensors::start(IOService *provider)
     HWSensorsDebugLog("adding average frequency sensor");
 
     if (baseMultiplier) {
-        if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY_AVERAGE, TYPE_UI32, TYPE_UI32_SIZE, kCPUSensorsFrequencyPackageAverage, 0))
+        if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY_AVERAGE, SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kCPUSensorsFrequencyPackageAverage, 0))
         HWSensorsWarningLog("failed to add package average frequency sensor");
     }
 
@@ -796,7 +796,7 @@ bool CPUSensors::start(IOService *provider)
         case CPUID_MODEL_MEROM: //Conroe?!
         case CPUID_MODEL_PENRYN:
         case CPUID_MODEL_ATOM:
-            if (!addSensor(KEY_CPU_VOLTAGE, "sp3c", TYPE_SPXX_SIZE, kCPUSensorsVoltagePackage, 0))
+            if (!addSensor(KEY_CPU_VOLTAGE, "sp3c", SMC_TYPE_SPXX_SIZE, kCPUSensorsVoltagePackage, 0))
                 HWSensorsWarningLog("failed to add voltage sensor");
             break;
 
@@ -823,10 +823,10 @@ bool CPUSensors::start(IOService *provider)
             HWSensorsDebugLog("RAPL units power: 0x%x energy: 0x%x time: 0x%x", power_units, energy_units, time_units);
             
             if (energy_units && (energyUnits = 1.0f / (float)(1 << energy_units))) {
-                if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerTotal, 0))
+                if (!addSensor(KEY_CPU_PACKAGE_TOTAL_POWER, SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kCPUSensorsPowerTotal, 0))
                     HWSensorsWarningLog("failed to add CPU package total power sensor");
                 
-                if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerCores, 1))
+                if (!addSensor(KEY_CPU_PACKAGE_CORE_POWER, SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kCPUSensorsPowerCores, 1))
                     HWSensorsWarningLog("failed to add CPU package cores power sensor");
                 
                 // Uncore sensor is only available on CPUs with uncore device (built-in GPU)
@@ -841,7 +841,7 @@ bool CPUSensors::start(IOService *provider)
                     case CPUID_MODEL_BROADWELL_ULV:
                     case CPUID_MODEL_SKYLAKE_LT:
                     case CPUID_MODEL_SKYLAKE_DT:
-                        if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerUncore, 2))
+                        if (!addSensor(KEY_CPU_PACKAGE_GFX_POWER, SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kCPUSensorsPowerUncore, 2))
                             HWSensorsWarningLog("failed to add CPU package uncore power sensor");
                         break;
 
@@ -856,7 +856,7 @@ bool CPUSensors::start(IOService *provider)
                     case CPUFAMILY_INTEL_SKYLAKE:
                     case CPUFAMILY_INTEL_KABYLAKE:
                         // TODO: check DRAM availability for other platforms
-                        if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, TYPE_SP78, TYPE_SPXX_SIZE, kCPUSensorsPowerDram, 3))
+                        if (!addSensor(KEY_CPU_PACKAGE_DRAM_POWER, SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kCPUSensorsPowerDram, 3))
                             HWSensorsWarningLog("failed to add CPU package DRAM power sensor");
                         break;
 

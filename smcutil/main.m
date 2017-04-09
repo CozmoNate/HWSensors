@@ -51,7 +51,7 @@ void usage(const char* prog)
 
 UInt32 SMCReadIndexCount(io_connect_t connection)
 {
-    return [SmcHelper readNumericKey:@"#KEY" connection:connection];
+    return [[SmcHelper readNumericKey:@"#KEY" connection:connection] intValue];
 }
 
 bool printKeyValue(SMCVal_t val)
@@ -171,21 +171,21 @@ int main(int argc, const char * argv[])
                     break;
 
                 case OPTION_WRITE: {
-                    const char *optarg = argv[3];
+                    const char *args = argv[3];
 
                     snprintf(key, 5, "%s", argv[2]);
 
                     bcopy(val.key, key, 4);
 
                     int i;
-                    char c[3];
-                    for (i = 0; i < strlen(optarg); i++)
+                    char chr[3];
+                    for (i = 0; i < strlen(args); i++)
                     {
-                        sprintf(c, "%c%c", optarg[i * 2], optarg[(i * 2) + 1]);
-                        val.bytes[i] = (int) strtol(c, NULL, 16);
+                        sprintf(chr, "%c%c", args[i * 2], args[(i * 2) + 1]);
+                        val.bytes[i] = (int) strtol(chr, NULL, 16);
                     }
                     val.dataSize = i / 2;
-                    if ((val.dataSize * 2) != strlen(optarg))
+                    if ((val.dataSize * 2) != strlen(args))
                     {
                         printf("Error: value is not valid\n");
                         return 1;

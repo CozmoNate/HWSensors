@@ -22,7 +22,7 @@
 #define APPLESMC_READ_CMD				0x10
 #define APPLESMC_WRITE_CMD				0x11
 #define APPLESMC_GET_KEY_BY_INDEX_CMD	0x12
-#define APPLESMC_GET_KEY_TYPE_CMD		0x13
+#define APPLESMC_GET_KEY_CMC_TYPE_CMD		0x13
 
 struct AppleSMCStatus {
 	uint8_t cmd;

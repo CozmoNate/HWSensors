@@ -23,7 +23,7 @@
 
             switch ([type characterAtIndex:2]) {
                 case '8':
-                    return TRUE;
+                    return type.length < 4 || [type characterAtIndex:3] == ' ';
                 case '1':
                     return [type characterAtIndex:3] == '6' ? TRUE : FALSE;
                 case '3':

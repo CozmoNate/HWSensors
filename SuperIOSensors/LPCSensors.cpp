@@ -131,7 +131,7 @@ bool LPCSensors::addTemperatureSensors(OSDictionary *configuration)
 
                     snprintf(key, 5, KEY_FORMAT_GPU_DIODE_TEMPERATURE, gpuIndex);
 
-                    if (!addSensorFromConfigurationNode(node, key, TYPE_SP78, TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i)) {
+                    if (!addSensorFromConfigurationNode(node, key, SMC_TYPE_SP78, SMC_TYPE_SPXX_SIZE, kFakeSMCTemperatureSensor, i)) {
                         releaseGPUIndex(gpuIndex);
                         gpuIndex = -1;
                     }
@@ -165,7 +165,7 @@ bool LPCSensors::addVoltageSensors(OSDictionary *configuration)
 
                     snprintf(key, 5, KEY_FORMAT_GPU_VOLTAGE, gpuIndex);
 
-                    if (!addSensorFromConfigurationNode(node, key, TYPE_FP2E, TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, i)) {
+                    if (!addSensorFromConfigurationNode(node, key, SMC_TYPE_FP2E, SMC_TYPE_FPXX_SIZE, kFakeSMCVoltageSensor, i)) {
                         releaseGPUIndex(gpuIndex);
                         gpuIndex = -1;
                     }
@@ -185,7 +185,7 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
     UInt16 value = 0;
 
     // FAN manual control key
-    addSensorForKey(KEY_FAN_MANUAL, TYPE_UI16, TYPE_UI16_SIZE, kLPCSensorsFanManualSwitch, 0);
+    addSensorForKey(KEY_FAN_MANUAL, SMC_TYPE_UI16, SMC_TYPE_UI16_SIZE, kLPCSensorsFanManualSwitch, 0);
 
     int location = LEFT_LOWER_FRONT;
 
@@ -206,16 +206,16 @@ bool LPCSensors::addTachometerSensors(OSDictionary *configuration)
 
                     // Minimum RPM and fan control sensor
                     snprintf(key, 5, KEY_FORMAT_FAN_MIN, fanIndex);
-                    addSensorForKey(key, TYPE_FPE2, TYPE_FPXX_SIZE, kLPCSensorsFanMinController, i);
+                    addSensorForKey(key, SMC_TYPE_FPE2, SMC_TYPE_FPXX_SIZE, kLPCSensorsFanMinController, i);
 
                     // Maximum RPM
                     snprintf(key, 5, KEY_FORMAT_FAN_MAX, fanIndex);
-                    FakeSMCKey::encodeFloatValue(kLPCSensorsMaxRPM, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
-                    setKeyValue(key, TYPE_FPE2, TYPE_FPXX_SIZE, &value);
+                    FakeSMCKey::encodeFloatValue(kLPCSensorsMaxRPM, SMC_TYPE_FPE2, SMC_TYPE_FPXX_SIZE, &value);
+                    setKeyValue(key, SMC_TYPE_FPE2, SMC_TYPE_FPXX_SIZE, &value);
 
                     // Target RPM and fan control sensor
                     snprintf(key, 5, KEY_FORMAT_FAN_TARGET, fanIndex);
-                    addSensorForKey(key, TYPE_FPE2, TYPE_FPXX_SIZE, kLPCSensorsFanTargetController, i);
+                    addSensorForKey(key, SMC_TYPE_FPE2, SMC_TYPE_FPXX_SIZE, kLPCSensorsFanTargetController, i);
                 }
             }
             else HWSensorsWarningLog("failed to add tachometer sensor %d", i);

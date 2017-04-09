@@ -12,3 +12,4 @@ Package/*.pkg
 
 
 *.xccheckout
+xcbaselines
