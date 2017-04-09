@@ -9,7 +9,6 @@
  */
 
 #include "RadeonSensors.h"
-#include "FakeSMCDefinitions.h"
 
 #include "radeon_chipinfo_gen.h"
 #include "radeon_definitions.h"
@@ -19,6 +18,8 @@
 #include "si.h"
 #include "cik.h"
 #include "evergreen.h"
+
+#include "smc.h"
 
 #define super GPUSensors
 OSDefineMetaClassAndStructors(RadeonSensors, GPUSensors)

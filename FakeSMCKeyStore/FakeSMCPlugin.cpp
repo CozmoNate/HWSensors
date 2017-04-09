@@ -28,6 +28,8 @@
 #include "FakeSMCKey.h"
 #include "FakeSMCKeyStore.h"
 
+#include "smc.h"
+
 #include <IOKit/IOLib.h>
 
 #pragma mark

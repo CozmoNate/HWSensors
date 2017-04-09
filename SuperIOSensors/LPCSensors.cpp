@@ -26,11 +26,11 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-#include "FakeSMCDefinitions.h"
 #include "LPCSensors.h"
 #include "SuperIODevice.h"
-//#include "OEMInfo.h"
+
 #include "timer.h"
+#include "smc.h"
 
 #include <IOKit/IOTimerEventSource.h>
 

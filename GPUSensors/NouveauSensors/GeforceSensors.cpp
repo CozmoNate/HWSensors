@@ -32,10 +32,10 @@
 
 #include "GeforceSensors.h"
 
-#include "FakeSMCDefinitions.h"
-
 #include "nouveau.h"
 #include "nvclock_i2c.h"
+
+#include "smc.h"
 
 enum nouveau_temp_source {
     nouveau_temp_core       = 1,

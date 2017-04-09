@@ -8,7 +8,7 @@
  */
 
 #include "GmaSensors.h"
-#include "FakeSMCDefinitions.h"
+#include "smc.h"
 
 /*#define kGenericPCIDevice "IOPCIDevice"
  #define kTimeoutMSecs 1000

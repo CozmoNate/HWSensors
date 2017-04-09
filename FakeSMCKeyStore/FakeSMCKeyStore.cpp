@@ -34,6 +34,7 @@
 #include "FakeSMCKeyStoreUserClient.h"
 
 #include "OEMInfo.h"
+#include "smc.h"
 
 #include <IOKit/IONVRAM.h>
 #include <IOKit/IOLib.h>

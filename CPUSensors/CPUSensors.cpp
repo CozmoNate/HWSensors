@@ -49,13 +49,13 @@
  */
 
 #include "CPUSensors.h"
-#include "FakeSMCDefinitions.h"
 #include "IntelDefinitions.h"
+
+#include "timer.h"
+#include "smc.h"
 
 #include <IOKit/IODeviceTreeSupport.h>
 #include <IOKit/IORegistryEntry.h>
-
-#include "timer.h"
 
 enum {
     kCPUSensorsThermalCore              = BIT(0),
