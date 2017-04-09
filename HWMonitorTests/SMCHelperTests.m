@@ -113,7 +113,7 @@
         
         for (int i = 0; i < 1e7; i++) {
             
-            int testValue = arc4random_uniform(BIT(32));
+            int testValue = arc4random_uniform(BIT(31));
             
             XCTAssertTrue([SmcHelper encodeNumericValue:@(testValue) length:size type:type outBuffer:&buffer]);
             XCTAssertEqual([SmcHelper decodeNumericValueFromBuffer:buffer length:size type:type].intValue, testValue);
