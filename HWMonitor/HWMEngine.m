@@ -43,6 +43,7 @@
 #import "HWMFavorite.h"
 #import "HWMSmcFanController.h"
 #import "HWMTimer.h"
+#import "HWMATASmartInterfaceWrapper.h"
 
 #include <sys/sysctl.h>
 

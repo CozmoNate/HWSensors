@@ -94,7 +94,6 @@
 		<array>
 			<string>Kingston SSDNow V Series [0-9]*GB</string>
 			<string>TS(2|4|8|16|32|64|128|192)GSSD25S?-(M|S)</string>
-			<string>[BV].*</string>
 		</array>
 		<key>Attributes</key>
 		<dict>
@@ -923,6 +922,19 @@ http://www.micron.com/products/solid-state-storage/client-ssd#software</string>
 			<string>Raw_Read_Error_Rate</string>
 			<key>7,raw32(err16)</key>
 			<string>Seek_Error_Rate</string>
+		</dict>
+	</dict>
+	<dict>
+		<key>Description</key>
+		<string>Seagate Archive HDDs</string>
+		<key>NameMatch</key>
+		<array>
+			<string>ST(8|6|5)...AS....</string>
+		</array>
+		<key>Attributes</key>
+		<dict>
+			<key>TcaseMax</key>
+			<integer>60</integer>
 		</dict>
 	</dict>
 </array>

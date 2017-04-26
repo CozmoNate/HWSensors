@@ -52,6 +52,7 @@
     XCTAssertFalse([SmcHelper isValidIntegerSmcType:@SMC_TYPE_SP4B]);
     XCTAssertFalse([SmcHelper isValidIntegerSmcType:@SMC_TYPE_SP78]);
     
+    
     XCTAssertFalse([SmcHelper isValidIntegerSmcType:@SMC_TYPE_FDS]);
     XCTAssertFalse([SmcHelper isValidIntegerSmcType:@SMC_TYPE_CH8]);
     XCTAssertFalse([SmcHelper isValidIntegerSmcType:@SMC_TYPE_FLAG]);
@@ -75,6 +76,11 @@
     XCTAssertFalse([SmcHelper isValidFloatingSmcType:@SMC_TYPE_SI8]);
     XCTAssertFalse([SmcHelper isValidFloatingSmcType:@SMC_TYPE_SI16]);
     XCTAssertFalse([SmcHelper isValidFloatingSmcType:@SMC_TYPE_SI32]);
+    
+    XCTAssertFalse([SmcHelper isValidIntegerSmcType:@"FP2F"]);
+    XCTAssertFalse([SmcHelper isValidIntegerSmcType:@"FP6C"]);
+    XCTAssertFalse([SmcHelper isValidIntegerSmcType:@"SP7B"]);
+    XCTAssertFalse([SmcHelper isValidIntegerSmcType:@"SP4A"]);
     
     XCTAssertFalse([SmcHelper isValidFloatingSmcType:@SMC_TYPE_FDS]);
     XCTAssertFalse([SmcHelper isValidFloatingSmcType:@SMC_TYPE_CH8]);
