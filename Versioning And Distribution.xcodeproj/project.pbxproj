@@ -23,6 +23,7 @@
 		7EBA20C517ED59C6008E54C5 /* PreBuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = PreBuild.sh; sourceTree = "<group>"; };
 		7EBA20C617ED59C6008E54C5 /* SignApp.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = SignApp.sh; sourceTree = "<group>"; };
 		7EBA20C717ED59C6008E54C5 /* SignInstaller.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = SignInstaller.sh; sourceTree = "<group>"; };
+		7EE1EBBD1F5179F2004108A6 /* BuildImage.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = BuildImage.sh; sourceTree = "<group>"; };
 		7EEB2D6E1847F2A2008B6D1C /* preinstall */ = {isa = PBXFileReference; lastKnownFileType = text; path = preinstall; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,8 +87,9 @@
 				7EBA20C517ED59C6008E54C5 /* PreBuild.sh */,
 				7E72E369181B94DA002165DD /* SignKexts.sh */,
 				7EBA20C617ED59C6008E54C5 /* SignApp.sh */,
-				7EBA20C717ED59C6008E54C5 /* SignInstaller.sh */,
+				7EE1EBBD1F5179F2004108A6 /* BuildImage.sh */,
 				7EBA20C217ED59C6008E54C5 /* BuildInstaller.sh */,
+				7EBA20C717ED59C6008E54C5 /* SignInstaller.sh */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -173,6 +175,20 @@
 			passBuildSettingsInEnvironment = 0;
 			productName = "Sign Application";
 		};
+		7EE1EBBE1F517A51004108A6 /* Build Image */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "./Scripts/BuildImage.sh ${ACTION}";
+			buildConfigurationList = 7EE1EBBF1F517A51004108A6 /* Build configuration list for PBXLegacyTarget "Build Image" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/sh;
+			buildWorkingDirectory = "${SOURCE_ROOT}";
+			dependencies = (
+			);
+			name = "Build Image";
+			passBuildSettingsInEnvironment = 0;
+			productName = "Build Image";
+		};
 /* End PBXLegacyTarget section */
 
 /* Begin PBXProject section */
@@ -180,6 +196,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0810;
+				TargetAttributes = {
+					7EE1EBBE1F517A51004108A6 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = R3YQC22TX8;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 7EB7E70D17834A740071B3F0 /* Build configuration list for PBXProject "Versioning And Distribution" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -196,6 +219,7 @@
 				7E2ACD8B1791B4510061C677 /* Pre-Build */,
 				7E43CE05179742D3001E3636 /* Sign Apps */,
 				7E72E36A181B94F5002165DD /* Sign Kexts */,
+				7EE1EBBE1F517A51004108A6 /* Build Image */,
 				7E2ACD911791B54B0061C677 /* Build Installer */,
 				7E43CE09179742DB001E3636 /* Sign Installer */,
 			);
@@ -595,6 +619,67 @@
 			};
 			name = Release;
 		};
+		7EE1EBC01F517A51004108A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = R3YQC22TX8;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7EE1EBC11F517A51004108A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = R3YQC22TX8;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -651,6 +736,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		7EE1EBBF1F517A51004108A6 /* Build configuration list for PBXLegacyTarget "Build Image" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EE1EBC01F517A51004108A6 /* Debug */,
+				7EE1EBC11F517A51004108A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
