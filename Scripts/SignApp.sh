@@ -18,7 +18,6 @@ authority="Developer ID Application:"
 
 #codesign --verbose --force --sign "${authority}" ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/Autoupdate.app
 codesign --verbose --force --sign "${authority}" ./Binaries/HWMonitor.app/Contents/Library/LaunchServices/org.hwsensors.HWMonitorHelper
-codesign --verbose --force --sign "${authority}" ./Binaries/HWMonitor.app/Contents/Frameworks/Sparkle.framework/Versions/A
 codesign --verbose --force --sign "${authority}" ./Binaries/HWMonitor.app/Contents/Frameworks/Growl.framework/Versions/A
 
 codesign --verbose --force --sign "${authority}" ./Binaries/HWMonitor.app

@@ -26,7 +26,6 @@
  *
  */
 
-#import <Sparkle/SUUpdater.h>
 #import <Growl/Growl.h>
 
 #import "PopupController.h"
@@ -50,7 +49,6 @@
 @property (assign) IBOutlet PopupController *popupController;
 @property (assign) IBOutlet PopoverController *popoverController;
 @property (assign) IBOutlet GraphsController *graphsController;
-@property (assign) IBOutlet SUUpdater *sharedUpdater;
 
 @property (assign) IBOutlet NSTableView *favoritesTableView;
 @property (assign) IBOutlet NSTableView *sensorsTableView;

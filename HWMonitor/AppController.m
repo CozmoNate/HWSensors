@@ -192,17 +192,17 @@
 
 -(void)checkForUpdates:(id)sender
 {
-    if ([sender isKindOfClass:[NSButton class]]) {
-        NSButton *button = (NSButton*)sender;
-        
-        if ([button state]) {
-            _sharedUpdater.automaticallyChecksForUpdates = YES;
-            [_sharedUpdater checkForUpdatesInBackground];
-        }
-    }
-    else {
-        [_sharedUpdater checkForUpdates:sender];
-    }
+//    if ([sender isKindOfClass:[NSButton class]]) {
+//        NSButton *button = (NSButton*)sender;
+//        
+//        if ([button state]) {
+//            _sharedUpdater.automaticallyChecksForUpdates = YES;
+//            [_sharedUpdater checkForUpdatesInBackground];
+//        }
+//    }
+//    else {
+//        [_sharedUpdater checkForUpdates:sender];
+//    }
 }
 
 -(void)rebuildSensorsList:(id)sender

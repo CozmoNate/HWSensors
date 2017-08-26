@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -70,6 +70,13 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="HWMonitor" systemMenu="apple" id="7GJ-Qy-cFG">
                         <items>
+                            <menuItem title="Detach from Menu Bar" keyEquivalent="d" id="f02-0v-27t">
+                                <attributedString key="attributedTitle"/>
+                                <connections>
+                                    <action selector="detach:" target="-2" id="GnK-Jh-qtw"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="ZnW-Ch-yz8"/>
                             <menuItem title="About HWMonitor" id="0OM-rC-bNn">
                                 <attributedString key="attributedTitle"/>
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -77,24 +84,9 @@
                                     <action selector="showAboutWindow:" target="-2" id="dYp-EF-nOD"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Check for Updates" id="g3K-XR-P1p">
-                                <attributedString key="attributedTitle"/>
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="checkForUpdates:" target="-1" id="VKf-do-ezD"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="ZY7-jU-v1J"/>
-                            <menuItem title="Detach from Menu Bar" keyEquivalent="d" id="f02-0v-27t">
-                                <attributedString key="attributedTitle"/>
-                                <connections>
-                                    <action selector="detach:" target="-2" id="GnK-Jh-qtw"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="ACPIProbe Profile" id="AKe-g2-QKd" customClass="ProbeControllingMenuItem">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="ZnW-Ch-yz8"/>
                             <menuItem title="Preferences..." keyEquivalent="," id="3fa-tZ-B4L">
                                 <attributedString key="attributedTitle"/>
                                 <connections>

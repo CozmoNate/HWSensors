@@ -3,7 +3,7 @@
    LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "YES"
+      parallelizeBuildables = "NO"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7E72E36A181B94F5002165DD"
-               BuildableName = "Sign Kexts"
-               BlueprintName = "Sign Kexts"
+               BlueprintIdentifier = "7E43CE05179742D3001E3636"
+               BuildableName = "Sign Apps"
+               BlueprintName = "Sign Apps"
                ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7E72E36A181B94F5002165DD"
-            BuildableName = "Sign Kexts"
-            BlueprintName = "Sign Kexts"
+            BlueprintIdentifier = "7E43CE05179742D3001E3636"
+            BuildableName = "Sign Apps"
+            BlueprintName = "Sign Apps"
             ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -54,9 +54,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7E72E36A181B94F5002165DD"
-            BuildableName = "Sign Kexts"
-            BlueprintName = "Sign Kexts"
+            BlueprintIdentifier = "7E43CE05179742D3001E3636"
+            BuildableName = "Sign Apps"
+            BlueprintName = "Sign Apps"
             ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -72,9 +72,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7E72E36A181B94F5002165DD"
-            BuildableName = "Sign Kexts"
-            BlueprintName = "Sign Kexts"
+            BlueprintIdentifier = "7E43CE05179742D3001E3636"
+            BuildableName = "Sign Apps"
+            BlueprintName = "Sign Apps"
             ReferencedContainer = "container:Versioning And Distribution.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
