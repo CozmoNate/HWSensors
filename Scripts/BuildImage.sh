@@ -34,18 +34,4 @@ hdiutil detach "/Volumes/${bin_volumename}"
 hdiutil convert ./Binaries/TEMP.${bin_filename} -format UDZO -imagekey zlib-level=9 -o ./Binaries/${bin_filename}
 rm ./Binaries/TEMP.${bin_filename}
 
-# compressed update
-dmg_filename=${project_name}.${full_version}.Update.dmg
-dmg_volumename=${project_name}" v"${full_version}
-hdiutil create -megabytes 10 -fs HFS+ -volname "${dmg_volumename}" ./Binaries/TEMP.${dmg_filename}
-hdiutil attach ./Binaries/TEMP.${dmg_filename} -readwrite -mount required
-
-cp ./Binaries/${project_name}.${full_version}.pkg "/Volumes/${dmg_volumename}/HWMonitor.pkg"
-
-hdiutil detach "/Volumes/${dmg_volumename}"
-hdiutil convert ./Binaries/TEMP.${dmg_filename} -format UDZO -imagekey zlib-level=9 -o ./Binaries/${dmg_filename}
-rm ./Binaries/TEMP.${dmg_filename}
-openssl="/usr/bin/openssl"
-dsa_signature=$(${openssl} dgst -sha1 -binary < ./Binaries/${dmg_filename} | ${openssl} dgst -dss1 -sign ./Appcast/dsa_priv.pem | ${openssl} enc -base64)
-echo ${dsa_signature} > ./Binaries/${dmg_filename}.sha1
 
