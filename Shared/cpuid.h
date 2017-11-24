@@ -166,6 +166,7 @@
 #define CPUID_MODEL_BROADWELL_ULV   0x3D
 #define CPUID_MODEL_BROADWELL_MB    0x4f
 #define CPUID_MODEL_SKYLAKE_LT      0x4E
+#define CPUID_MODEL_SKYLAKE_X       0x55  /* Intel® Core™ X-series Processors */
 #define CPUID_MODEL_SKYLAKE_DT		0x5E
 #define CPUID_MODEL_KABYLAKE_U		0x8E
 #define CPUID_MODEL_KABYLAKE_S		0x9E
@@ -697,6 +698,7 @@ cpuid_set_cpufamily(i386_cpu_info_t *info_p)
                     cpufamily = CPUFAMILY_INTEL_BROADWELL;
                     break;
                 case CPUID_MODEL_SKYLAKE_LT:
+                case CPUID_MODEL_SKYLAKE_X:
                 case CPUID_MODEL_SKYLAKE_DT:
                     cpufamily = CPUFAMILY_INTEL_SKYLAKE;
                     break;
