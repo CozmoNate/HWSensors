@@ -604,6 +604,7 @@ bool CPUSensors::start(IOService *provider)
 
                     case CPUID_MODEL_HASWELL_DT:
                     case CPUID_MODEL_BROADWELL_DT:
+                    case CPUID_MODEL_SKYLAKE_X:
                     case CPUID_MODEL_SKYLAKE_DT:
                     case CPUID_MODEL_KABYLAKE_S:
                         if (!platform) platform = OSData::withBytes("j45\0\0\0\0\0", 8); // TODO: got from macbookpro11,2 need to check for other platforms
@@ -736,33 +737,26 @@ bool CPUSensors::start(IOService *provider)
 
     HWSensorsDebugLog("adding multiplier & frequency sensors");
 
+    if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
+        //mp_rendezvous_no_intrs(init_cpu_turbo_counters, NULL);
+        HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
+        counters.update_perf_counters = true;
+    }
+
     switch (cpuid_info()->cpuid_cpufamily) {
         case CPUFAMILY_INTEL_HASWELL:
         case CPUFAMILY_INTEL_BROADWELL:
         case CPUFAMILY_INTEL_SKYLAKE:
         case CPUFAMILY_INTEL_KABYLAKE:
-            if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
-                //mp_rendezvous_no_intrs(init_cpu_turbo_counters, NULL);
-                HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
-                counters.update_perf_counters = true;
-            }
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_MULTIPLIER, SMC_TYPE_FP88, SMC_TYPE_FPXX_SIZE, kCPUSensorsMultiplierPackage, 0))
                 HWSensorsWarningLog("failed to add package multiplier sensor");
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kCPUSensorsFrequencyPackage, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
 
-            break;
-
         case CPUFAMILY_INTEL_NEHALEM:
         case CPUFAMILY_INTEL_WESTMERE:
         case CPUFAMILY_INTEL_SANDYBRIDGE:
         case CPUFAMILY_INTEL_IVYBRIDGE:
-            if ((baseMultiplier = (rdmsr64(MSR_PLATFORM_INFO) >> 8) & 0xFF)) {
-                HWSensorsInfoLog("base CPU multiplier is %d", baseMultiplier);
-                counters.update_perf_counters = true;
-            }
-            // break; fall down adding multiplier sensors for each core
-
         default:
             for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
                 char key[5];
