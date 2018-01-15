@@ -183,6 +183,7 @@ inline const char* superio_get_model_name(UInt16 model)
         case NCT6791D:      return "NCT6791D";
         case NCT6792D:      return "NCT6792D";
         case NCT6793D:      return "NCT6793D";
+        case NCT6795D:      return "NCT6795D";
     }
     
     return "unknown";
