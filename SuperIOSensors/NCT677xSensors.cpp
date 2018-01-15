@@ -106,6 +106,7 @@ float NCT677xSensors::readTemperature(UInt32 index)
             case NCT6791D:
             case NCT6792D:
             case NCT6793D:
+            case NCT6795D:
                 value = readByte(NUVOTON_TEMPERATURE_REG_NEW[index]) << 1;
                 break;
         }
