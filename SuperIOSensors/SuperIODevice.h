@@ -80,7 +80,8 @@ enum SuperIOModel
     NCT6779D    = 0xC560,
     NCT6791D    = 0xC803,
     NCT6792D    = 0xC911,
-    NCT6793D    = 0xD121
+    NCT6793D    = 0xD121,
+    NCT6795D    = 0xD352
 };
 
 inline UInt8 superio_listen_port_byte(i386_ioport_t port, UInt8 reg)
