@@ -106,6 +106,7 @@ float NCT677xSensors::readTemperature(UInt32 index)
             case NCT6791D:
             case NCT6792D:
             case NCT6793D:
+            case NCT6795D:
                 value = readByte(NUVOTON_TEMPERATURE_REG_NEW[index]) << 1;
                 break;
         }
@@ -135,6 +136,7 @@ float NCT677xSensors::readVoltage(UInt32 index)
             case NCT6791D:
             case NCT6792D:
             case NCT6793D:
+            case NCT6795D:
                 value = readByte(NUVOTON_VOLTAGE_REG_NEW[index]) * NUVOTON_VOLTAGE_SCALE[index] * 0.001f;
                 break;
         }
@@ -266,6 +268,7 @@ bool NCT677xSensors::initialize()
         case NCT6791D:
         case NCT6792D:
         case NCT6793D:
+        case NCT6795D:
             fanLimit = 6;
             tempLimit = 7;
             voltLimit = 15;
@@ -288,7 +291,8 @@ void NCT677xSensors::hasPoweredOn()
     switch (model) {
         case NCT6791D:
         case NCT6792D:
-        case NCT6793D: {
+        case NCT6793D:
+        case NCT6795D: {
             // disable the hardware monitor i/o space lock on NCT679xD chips
             winbond_family_enter(port);
 
