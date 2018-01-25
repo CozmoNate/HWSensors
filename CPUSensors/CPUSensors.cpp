@@ -604,6 +604,7 @@ bool CPUSensors::start(IOService *provider)
 
                     case CPUID_MODEL_HASWELL_DT:
                     case CPUID_MODEL_BROADWELL_DT:
+                    case CPUID_MODEL_SKYLAKE_X:
                     case CPUID_MODEL_SKYLAKE_DT:
                     case CPUID_MODEL_KABYLAKE_S:
                         if (!platform) platform = OSData::withBytes("j45\0\0\0\0\0", 8); // TODO: got from macbookpro11,2 need to check for other platforms
