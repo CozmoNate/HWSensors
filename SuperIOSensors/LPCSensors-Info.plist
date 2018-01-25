@@ -2979,6 +2979,7 @@
 				<string>Nuvoton,NCT6792D</string>
 				<string>Nuvoton,NCT6793D</string>
 				<string>Nuvoton,NCT6795D</string>
+				<string>Nuvoton,NCT6796D</string>
 			</array>
 			<key>IOProviderClass</key>
 			<string>SuperIODevice</string>
