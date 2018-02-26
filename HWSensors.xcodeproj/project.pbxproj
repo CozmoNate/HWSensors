@@ -70,6 +70,7 @@
 		7EBEB1DB17B1754D00C114B5 /* GPUSensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EBEB1D917B1754D00C114B5 /* GPUSensors.cpp */; };
 		7ECCB63E18537A7000D95FB4 /* cik.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECCB63D18537A7000D95FB4 /* cik.cpp */; };
 		7EDFC7581E05A9F3005A6F96 /* gp100.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EDFC7561E05A9F3005A6F96 /* gp100.cpp */; };
+		F6D276032023D87B00D392E1 /* vega.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F6D276022023D87B00D392E1 /* vega.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -242,6 +243,8 @@
 		7EFF9518182AD44700C637C8 /* FakeSMCKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCKeyStore.h; path = FakeSMCKeyStore/FakeSMCKeyStore.h; sourceTree = SOURCE_ROOT; };
 		7EFF9519182AD44700C637C8 /* FakeSMCKeyStoreUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FakeSMCKeyStoreUserClient.cpp; path = FakeSMCKeyStore/FakeSMCKeyStoreUserClient.cpp; sourceTree = SOURCE_ROOT; };
 		7EFF951A182AD44700C637C8 /* FakeSMCKeyStoreUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeSMCKeyStoreUserClient.h; path = FakeSMCKeyStore/FakeSMCKeyStoreUserClient.h; sourceTree = SOURCE_ROOT; };
+		F6D276012023D76700D392E1 /* vega.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vega.h; sourceTree = "<group>"; };
+		F6D276022023D87B00D392E1 /* vega.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = vega.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -524,6 +527,8 @@
 				7E138D89169A90D3007BE068 /* evergreend.h */,
 				7E0EB893169A9C4D000DF2B1 /* evergreen.h */,
 				7E0EB890169A9A9A000DF2B1 /* evergreen.cpp */,
+				F6D276012023D76700D392E1 /* vega.h */,
+				F6D276022023D87B00D392E1 /* vega.cpp */,
 			);
 			name = radeon;
 			sourceTree = "<group>";
@@ -973,6 +978,7 @@
 				7ECCB63E18537A7000D95FB4 /* cik.cpp in Sources */,
 				7E9F54B4167C71DA006E907B /* nvd0.cpp in Sources */,
 				7E9F54B6167C71DA006E907B /* nve0.cpp in Sources */,
+				F6D276032023D87B00D392E1 /* vega.cpp in Sources */,
 				7E9F54B8167C71DA006E907B /* vga.cpp in Sources */,
 				7E9F54BA167C71DA006E907B /* w83781d.cpp in Sources */,
 				7E9F54BB167C71DA006E907B /* w83l785r.cpp in Sources */,
