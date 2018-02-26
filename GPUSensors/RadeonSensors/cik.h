@@ -40,8 +40,11 @@
 #include "radeon.h"
 
 #define     RREG32_SMC(reg)             tn_smc_rreg(rdev, (reg))
+#define     RREG32_IND(reg)             mm_smc_rreg(rdev, (reg))
 #define     TN_SMC_IND_INDEX_0          0x200
 #define     TN_SMC_IND_DATA_0           0x204
+#define     MM_SMC_IND_INDEX_11          (0x1AC * 4)
+#define     MM_SMC_IND_DATA_11           (0x1AD * 4)
 
 static inline u32 tn_smc_rreg(struct radeon_device *rdev, u32 reg)
 {
@@ -56,8 +59,22 @@ static inline u32 tn_smc_rreg(struct radeon_device *rdev, u32 reg)
 	return r;
 }
 
+static inline u32 mm_smc_rreg(struct radeon_device *rdev, u32 reg)
+{
+	//unsigned long flags;
+	u32 r;
+
+	//spin_lock_irqsave(&rdev->smc_idx_lock, flags);
+	WREG32(MM_SMC_IND_INDEX_11, (reg));
+	r = RREG32(MM_SMC_IND_DATA_11);
+
+	//spin_unlock_irqrestore(&rdev->smc_idx_lock, flags);
+	return r;
+}
+
 
 int ci_get_temp(struct radeon_device *rdev);
+int pl_get_temp(struct radeon_device *rdev);
 int kv_get_temp(struct radeon_device *rdev);
 
 #endif

@@ -224,6 +224,9 @@ bool RadeonSensors::managedStart(IOService *provider)
                  !strncasecmp("HAINAN", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_SI;
         }
+        else if (!strncasecmp("POLARIS", card.bios_name, 64)) {
+            card.int_thermal_type = THERMAL_TYPE_PL;
+        }
         else if (!strncasecmp("VEGA10", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_VEGA;
         }
@@ -288,6 +291,10 @@ bool RadeonSensors::managedStart(IOService *provider)
                 card.int_thermal_type = THERMAL_TYPE_CI;
                 break;
                 
+            case CHIP_FAMILY_POLARIS:
+                card.int_thermal_type = THERMAL_TYPE_PL;
+                break;
+
             case CHIP_FAMILY_KAVERI:
             case CHIP_FAMILY_KABINI:
                 card.int_thermal_type = THERMAL_TYPE_KV;
@@ -322,6 +329,10 @@ bool RadeonSensors::managedStart(IOService *provider)
             case THERMAL_TYPE_CI:
                 card.get_core_temp = ci_get_temp;
                 radeon_info(&card, "adding Sea Islands (CI) thermal sensor\n");
+                break;
+            case THERMAL_TYPE_PL:
+                card.get_core_temp = pl_get_temp;
+                radeon_info(&card, "adding Arctic Islands (Polaris) thermal sensor\n");
                 break;
             case THERMAL_TYPE_KV:
                 card.get_core_temp = kv_get_temp;
