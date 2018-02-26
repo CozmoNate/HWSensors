@@ -39,6 +39,7 @@
 "pcicard" = "PCI-Karten";
 "video" = "Grafikkarten";
 "battery" = "Batterie";
+"scale" = "Skala";
 "Menubar items" = "Menüeinträge";
 "Icons" = "SYMBOLE";
 "Sensors" = "Sensoren";
@@ -87,22 +88,64 @@
 "Gray" = "Grau";
 "Dark" = "Dunkel";
 "Continue to monitor sensors in background" = "Fortlaufende Aktualisierung der Sensoren im Hintergrund";
+"Graphs window always topmost" = "Diagramm-Fenster im Vordergrund halten";
+"Graphs scale factor:" = "Diagramm-Skalierungsfaktor:";
 "Check for updates" = "Auf Updates überprüfen"; // this is for the settings, first tab, bottom left
+"Attach to Menu Bar" = "In Menüleiste einhängen";
+"Detach from Menu Bar" = "Aus Menüleiste entfernen";
+"Hide Window" = "Verstecke Fenster";
+"Version %@" = "Version %@";
+"Detect sensors" = "Sensoren suchen";
+"Show notification when sensor alarm level is critical" = "Hinweis anzeigen, wenn kritische Sensor-Alarmstufe erreicht wird";
+"Sensor alarm level changed" = "Sensor-Alarmstufe geändert";
+"%@ alarm level is exceeded limit" = "%@ Alarmstufe überschritten!";
+"%@ high alarm level" = "%@ hohe Alarmstufe";
+"%@ moderate alarm level" = "%@ moderate Alarmstufe";
+"%@ completely overheated" = "%@ ist völlig überhitzt";
+"%@ is overheating" = "%@ überhitzt";
+"%@ is exceeded limit" = "%@ hat Limit überschritten";
+"%@ is critical" = "%@ ist kritisch";
+"%@ lifespan is low" = "%@ Lebensdauer ist niedrig";
+"%@ completely discharged!" = "%@ vollständig entladen!";
+"%@ needs to be recharged" = "%@ muß aufgeladen werden";
+"%@ is low" = "%@ ist niedrig";
+"Force update sensor in background" = "Sensor-Aktualisierung im Hintergrund erzwingen";
+
+"Mouse" = "Maus";
+"Keyboard" = "Tastatur";
+"Trackpad" = "Trackpad";
+"Battery" = "Batterie";
+"Battery %X" = "Batterie %X";
+"Built-in Battery" = "Eingebaute Batterie";
+"Internal Battery" = "Interne Batterie";
+
+"Show sensor in popup menu" = "Sensor im Popup-Menü anzeigen";
+
+"HWSensors Updater" = "HWSensors-Aktualisierer";
+"New HWSensors version %@ is available to download. You have %@. Download newer version?" = "Neue HWSensors Version %@ steht zum Herunterladen bereit. Installierte Version: %@. Aktualisierung durchführen?";
+"HWMonitor %@ is available - you have %@. Would you like to download?" = "Neueste HWMonitor-Version: %@ - Installierte Version: %@. Aktualisierung durchführen?";
+"Update" = "Aktualisierung";
+"Download" = "Herunterladen";
+"Next time" = "Nächstes Mal";
+"Skip this version" = "Überspringen";
+
 "Check for Updates" = "Auf Updates überprüfen"; // this is for the menu
 "No new versions of HWSensors are available at this time!" = "Keine neuere Version zur Zeit verfügbar!";
 "Close" = "Schließen";
 "An error occured while trying to download HWSensors installer!" = "Beim Herunterladen ist ein Fehler aufgetreten!";
 
-"Mouse" = "Maus";
-"Keyboard" = "Tastatur";
-"Trackpad" = "Trackpad";
+"%1.0f rpm" = "%1.0f U/min";
+"%1.0frpm" = "%1.0U/min";
 
-"HWMonitor %@ is available - you have %@. Would you like to download?" = "Neuste HWMonitor-Version: %@ - Installierte Version: %@. Update durchführen?";
-"Update" = "Aktualisierung";
-"Next time" = "Nächstes Mal";
-"Skip this version" = "Überspringen";
+"Downloading %@" = "Lade %@ herunter";
+"%1.2f Mbytes" = "%1.2f MBytes";
+
+"rpm" = "U/min";
+
+"Activate manual fan speed control" = "Manuelle Lüftersteuerung aktivieren";
 
 "CPUFan" = "Prozessor-Lüfter";
+"CPU Fan" = "Prozessor-Lüfter";
 "CPUFan2" = "Prozessor-Lüfter 2";
 "PowerFan" = "Netzteil-Lüfter";
 "SystemFan1" = "System-Lüfter 1";
@@ -141,6 +184,14 @@
 "CPU %X Proximity" = "Prozessor-Umgebung %X";
 
 "CPU Package" = "Prozessor";
+"CPU %X Package" = "Prozessor %X";
+"CPU %X Core" = "Prozessor %X Kern";
+"CPU %X Graphics" = "Prozessor %X Grafik";
+"CPU %X Heatsink" = "Prozessor %X Kühler";
+"CPU Package Total" = "Prozessor Gesamt";
+"CPU Package Cores" = "Prozessor Kerne";
+"CPU Package Graphics" = "Prozessor Grafik";
+"CPU Package DRAM" = "Prozessor Speicher";
 
 "PECI CPU" = "PECI CPU";
 "PECI SA" = "PECI SA";
@@ -181,8 +232,13 @@
 "Thermal Zone %X" = "Thermal-Zone %X";
 
 "CPU Core" = "Prozessor";
-"CPU Core %X" = "CPU Kern %X";
-"CPU Package Multiplier" = "Prozessor-Multiplikator";
+"CPU Core %X" = "Prozessor-Kern %X";
+"CPU GFX" = "Prozessor Grafikeinheit";
+"CPU GFX %X" = "Prozessor Grafikeinheit %X";
+"CPU Package Multiplier" = "Prozessor Multiplikator";
+"CPU Core %X Average" = "Prozessor-Kern %X, Durchschnitt";
+"CPU Package Average" = "Prozessor Durchschnitt";
+"CPU Package Frequency" = "Prozessor Frequenz";
 
 "GPU Core" = "Grafikkarte Core-Frequenz";
 "GPU %X Core" = "Grafikkarte Core-Frequenz %X";
@@ -204,13 +260,52 @@
 //"DC In S5 Rail" = "";
 "GPU Rail" = "Grafikkarten-Leitung";
 "GPU %X Rail" = "Grafikkarten-Leitung %X";
+"CPU VRM" = "Prozessor VRM";
+"CPU VRM %X" = "Prozessor VRM %X";
 "CPU VTT" = "Prozessor-VTT";
 "PCH Core" = "Chipsatz-Spannung";
 
 "CMOS Battery" = "CMOS-Batterie";
+"Battery Rail" = "Batterie-Schiene";
 
+"VRM Supply" = "Spannungsregler";
 "VRM Supply %X" = "Spannungsregler %X";
+"Power Supply" = "Netzteil";
 "Power Supply %X" = "Netzteil %X";
 
-"Graphs window always topmost" = "Diagramm-Fenster im Vordergrund halten";
+"System Total" = "System (Gesamt)";
+"Heatpipe" = "Heatpipe";
+"Heatpipe %X" = "Heatpipe %X";
+"Heatpipe Incoming Air" = "Heatpipe (Lufteinlass)";
+"Heatpipe Outgoing Air" = "Heatpipe (Luftauslass)";
 
+"On" = "An";
+"Off" = "Aus";
+
+"Id" = "ID";
+"Description" = "Beschreibung";
+"Type" = "Typ";
+"Value" = "Wert";
+"Worst" = "Schlechtester";
+"Threshold" = "Grenzwert";
+"Raw Value" = "Rohwert";
+
+"%@ S.M.A.R.T. attribute is critical for '%@'. Drive failure predicted!" = "S.M.A.R.T. Attribut '%@' ist kritisch seit '%@'. Laufwerksausfall steht bevor!";
+
+"ACPIProbe Profile" = "ACPIProbe Profil";
+
+"Threshold:" = "Grenzwert:";
+"Speed:" = "Geschwindigkeit:";
+"Maximum:" = "Maximum:";
+"Minimum:" = "Minimum:";
+"Range:" = "Bereich:";
+
+"Show drive title as:" = "Laufwerksname anzeigen als:";
+"Show drive legend as:" = "Laufwerkslegende anzeigen als:";
+"Product name" = "Produktname";
+"Partition names" = "Partitionsname";
+"BSD name" = "BSD Name";
+
+"Show sensor legends" = "Sensor Legende anzeigen";
+"Use inverted colors" = "Invertierte Farben verwenden";
+"red-thermometer" = "Thermometer (Rot)";
