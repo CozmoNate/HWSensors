@@ -45,6 +45,7 @@ enum radeon_int_thermal_type {
 	THERMAL_TYPE_CI,
 	THERMAL_TYPE_PL,
 	THERMAL_TYPE_KV,
+    THERMAL_TYPE_VEGA,
 };
 
 typedef struct {

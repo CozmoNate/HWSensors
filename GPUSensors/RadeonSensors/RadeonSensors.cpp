@@ -18,6 +18,7 @@
 #include "si.h"
 #include "cik.h"
 #include "evergreen.h"
+#include "vega.h"
 
 #include "smc.h"
 
@@ -226,6 +227,9 @@ bool RadeonSensors::managedStart(IOService *provider)
         else if (!strncasecmp("POLARIS", card.bios_name, 64)) {
             card.int_thermal_type = THERMAL_TYPE_PL;
         }
+        else if (!strncasecmp("VEGA10", card.bios_name, 64)) {
+            card.int_thermal_type = THERMAL_TYPE_VEGA;
+        }
     }
     
     // Use driver's configuration to resolve temperature sensor type
@@ -333,6 +337,10 @@ bool RadeonSensors::managedStart(IOService *provider)
             case THERMAL_TYPE_KV:
                 card.get_core_temp = kv_get_temp;
                 radeon_info(&card, "adding Sea Islands (Kaveri) thermal sensor\n");
+                break;
+            case THERMAL_TYPE_VEGA:
+                card.get_core_temp = vega_get_temp;                
+                radeon_info(&card, "adding Vega thermal sensor\n");
                 break;
             default:
                 radeon_fatal(&card, "card 0x%04x is unsupported\n", card.chip_id & 0xffff);

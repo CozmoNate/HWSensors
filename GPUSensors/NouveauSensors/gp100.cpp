@@ -38,6 +38,7 @@ bool gp100_identify(struct nouveau_device *device)
             device->cname = "GP107";
             break;
             
+        case 0x138:
         case 0x13b:
             device->cname = "GP108";
             break;
