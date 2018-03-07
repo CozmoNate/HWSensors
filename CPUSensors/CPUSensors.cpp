@@ -751,6 +751,22 @@ bool CPUSensors::start(IOService *provider)
             if (!addSensor(KEY_FAKESMC_CPU_PACKAGE_FREQUENCY, SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kCPUSensorsFrequencyPackage, 0))
                 HWSensorsWarningLog("failed to add package frequency sensor");
 
+            // add multipler and frequency sensors for all cores
+            for (uint32_t i = 0; i < cpuid_info()->core_count; i++) {
+                char key[5];
+                
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_MULTIPLIER, i);
+                
+                if (!addSensor(key, SMC_TYPE_FP88, SMC_TYPE_FPXX_SIZE, kCPUSensorsMultiplierCore, i))
+                    HWSensorsWarningLog("failed to add multiplier sensor");
+                
+                snprintf(key, 5, KEY_FAKESMC_FORMAT_CPU_FREQUENCY, i);
+                
+                if (!addSensor(key, SMC_TYPE_UI32, SMC_TYPE_UI32_SIZE, kCPUSensorsFrequencyCore, i))
+                    HWSensorsWarningLog("failed to add frequency sensor");
+
+            }
+
             break;
 
         case CPUFAMILY_INTEL_NEHALEM:
