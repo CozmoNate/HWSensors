@@ -103,6 +103,14 @@ bool RadeonSensors::managedStart(IOService *provider)
 //        }
 //    }
     
+    IOMemoryMap * mmio5 = NULL;
+    IOMemoryDescriptor * theDescriptor;
+    IOPhysicalAddress bar = (IOPhysicalAddress)((card.pdev->configRead32(kIOPCIConfigBaseAddress5)) & ~0x3f);
+    theDescriptor = IOMemoryDescriptor::withPhysicalAddress (bar, 0x80000, kIODirectionOutIn);
+    if(theDescriptor != NULL)
+    {
+        mmio5 = theDescriptor->map();
+    }
     card.mmio = card.pdev->mapDeviceMemoryWithIndex(1);
     
     if (!card.mmio || 0 == card.mmio->getPhysicalAddress()) {
@@ -110,6 +118,14 @@ bool RadeonSensors::managedStart(IOService *provider)
         return false;
     }
     
+	if (card.mmio)	{
+		card.mmio_base = (volatile UInt8 *)card.mmio->getVirtualAddress();
+		HWSensorsInfoLog("mmio_base=0x%llx\n", card.mmio->getPhysicalAddress());
+	}
+	else {
+		HWSensorsInfoLog(" have no mmio\n ");
+		return false;
+	}
     card.family = CHIP_FAMILY_UNKNOW;
     card.int_thermal_type = THERMAL_TYPE_NONE;
     
@@ -350,6 +366,14 @@ bool RadeonSensors::managedStart(IOService *provider)
         }
     }
     
+  if (!card.mmio_base || card.family >= CHIP_FAMILY_HAWAII) {
+    if (mmio5 && mmio5->getPhysicalAddress() != 0) {
+      card.mmio = mmio5;
+      card.mmio_base = (volatile UInt8 *)card.mmio->getVirtualAddress();
+    }
+    HWSensorsInfoLog(" use mmio5 at 0x%llx\n", (unsigned long long)card.mmio_base);
+  }
+
     char key[5];
 
     if (card.get_core_temp) {
