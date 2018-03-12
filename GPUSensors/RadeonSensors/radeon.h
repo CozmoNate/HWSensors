@@ -62,6 +62,7 @@ typedef struct {
 struct radeon_device {
     IOPCIDevice         *pdev;
     IOMemoryMap         *mmio;
+    volatile UInt8      *mmio_base;
     UInt32              chip_id;
 	UInt16              family;
 	RADEONCardInfo      info;
